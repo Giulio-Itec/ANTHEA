@@ -1,12 +1,20 @@
 using System.Globalization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Anthea.Serialization;
 using Anthea.Calculations;
 using Microsoft.VisualBasic.FileIO;
 namespace Anthea.Application.BridgeDesign;
 
 public sealed record PriceEntry(string Code, string Description, string Unit, decimal? Price, string[] Includes);
-public sealed record PriceCatalogue(string Name, string Edition, string Currency, PriceEntry[] Entries);
+/// <summary>Price list. General expenses and profit (percent) are the defaults of its analyses; catalogues without analyses do not write
+/// them, so their serialization and revision are unchanged.</summary>
+public sealed record PriceCatalogue(string Name, string Edition, string Currency, PriceEntry[] Entries)
+{
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public decimal? GeneralExpensesPercent { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public decimal? ProfitPercent { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public PriceAnalysisEntry[]? Analyses { get; init; }
+}
 public sealed record WorkPriceMapping(string WorkCode, string EntryCode, decimal? Override, string Reason);
 
 /// <summary>Catalogue interchange only. Units are resolved by the calculation adapter.</summary>
@@ -76,6 +84,17 @@ public static class PriceCatalogueImport
             if (string.IsNullOrWhiteSpace(e.Code) || string.IsNullOrWhiteSpace(e.Description) || !codes.Add(e.Code) || e.Price is < 0 || e.Includes is null) throw new ArgumentException("Codice/descrizione assenti, codice duplicato o prezzo negativo: " + e.Code);
             BridgePricing.ConvertPrice(0, e.Unit, e.Unit);
         }
+        _ = ResolveAnalyses(catalogue);
+    }
+    /// <summary>Resolved analyses of the catalogue (empty without analyses). With analyses the catalogue states general expenses and profit.</summary>
+    public static IReadOnlyDictionary<string, PriceAnalysisResult> ResolveAnalyses(PriceCatalogue catalogue)
+    {
+        if (catalogue.Analyses is not { Length: > 0 } analyses) return new Dictionary<string, PriceAnalysisResult>();
+        if (catalogue.GeneralExpensesPercent is not decimal general || catalogue.ProfitPercent is not decimal profit)
+            throw new ArgumentException("Analisi composte: indicare spese generali e utile d'impresa del prezzario.");
+        foreach (var a in analyses)
+            if (string.IsNullOrWhiteSpace(a.Description)) throw new ArgumentException("Analisi " + a.Code + ": descrizione assente.");
+        return BridgePricing.ResolveAnalyses(catalogue.Entries.Select(e => (e.Code, e.Unit, e.Price)), analyses, general, profit);
     }
     public static string Template() => string.Join(";", Headers) + "\r\n" + string.Join("\r\n", BridgeDesignModel.Rates.Select(r => r.Key + ";" + r.Label + ";" + r.Unit[2..] + ";;"));
 }

@@ -33,9 +33,16 @@ internal static class BridgePricesView
         entries.Columns.Add(new DataGridComboBoxColumn { Header = "Unità", ItemsSource = vm.Units,
             SelectedItemBinding = new Binding("Unit") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }, Width = 75 });
         Column(entries, "Price", "Prezzo unitario"); Column(entries, "Includes", "Lavorazioni comprese (codici separati da |)", false, 330);
+        var analyses = Table(vm.Analyses); analyses.SetBinding(DataGrid.SelectedItemProperty, new Binding(nameof(vm.SelectedAnalysis)) { Mode = BindingMode.TwoWay });
+        Column(analyses, "Code", "Codice"); Column(analyses, "Description", "Descrizione", false, 240);
+        analyses.Columns.Add(new DataGridComboBoxColumn { Header = "Unità", ItemsSource = vm.Units,
+            SelectedItemBinding = new Binding("Unit") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }, Width = 75 });
+        Column(analyses, "Components", "Componenti (codice = quantità; …)", false, 360); Column(analyses, "GeneralExpenses", "Spese generali % (vuoto = prezzario)", false, 150);
+        Column(analyses, "Profit", "Utile % (vuoto = prezzario)", false, 130); Column(analyses, "UnitPrice", "Prezzo unitario", true, 130);
+        var breakdown = Ui.Text("", 12); breakdown.TextWrapping = TextWrapping.Wrap; breakdown.SetBinding(TextBlock.TextProperty, nameof(vm.AnalysisBreakdown));
         var preview = Ui.Text("", 16, true); preview.SetBinding(TextBlock.TextProperty, nameof(vm.CostPreview));
         var status = Ui.Text("", 12); status.TextWrapping = TextWrapping.Wrap; status.SetBinding(TextBlock.TextProperty, nameof(vm.Status));
-        void Commit() { foreach (var g in new[] { mapping, entries }) { g.CommitEdit(DataGridEditingUnit.Cell, true); g.CommitEdit(DataGridEditingUnit.Row, true); } }
+        void Commit() { foreach (var g in new[] { mapping, entries, analyses }) { g.CommitEdit(DataGridEditingUnit.Cell, true); g.CommitEdit(DataGridEditingUnit.Row, true); } }
         void Run(Action action)
         { try { Commit(); action(); } catch (Exception e) when (e is ArgumentException or IOException or InvalidDataException or UnauthorizedAccessException or System.Text.Json.JsonException) { vm.Status = e.Message; } }
         void Import()
@@ -57,6 +64,11 @@ internal static class BridgePricesView
         Ui.Tab(tabs, "Associazioni e anteprima", Ui.Dock(mapping, top: Ui.Text("I prezzi personalizzati sono espressi nell'unità della lavorazione. Lasciare vuoto per usare il catalogo; zero è un prezzo esplicito.", 12), bottom: preview));
         Ui.Tab(tabs, "Voci del prezzario", Ui.Dock(entries, top: Ui.Bar(Command("+ Voce", vm.AddEntryCommand), Command("Elimina voce", vm.RemoveEntryCommand)),
             bottom: Ui.Text("Inclusioni: usare i codici delle lavorazioni, per esempio rebar sul prezzo del palo. Si applicano solo alle quantità figlie del relativo palo, mai a tutte le armature.", 12)));
+        Ui.Tab(tabs, "Analisi composte", Ui.Dock(analyses,
+            top: Ui.Stack(Ui.Bar(Ui.Text("Spese generali %", 12), Editor(nameof(vm.GeneralExpensesPercent)), Ui.Text("Utile d'impresa %", 12), Editor(nameof(vm.ProfitPercent)),
+                    Command("+ Analisi", vm.AddAnalysisCommand), Command("Elimina analisi", vm.RemoveAnalysisCommand)),
+                Ui.Text("Prezzo = componenti + spese generali sui componenti + utile su componenti e spese generali. Le quantità sono nell'unità del componente (per esempio ore di manodopera per m³); un componente può essere un'altra analisi. Il codice di un'analisi si associa alle lavorazioni come una voce.", 12)),
+            bottom: breakdown));
         var revisions = new ListBox { ItemsSource = vm.History, DisplayMemberPath = "Caption", MinHeight = 200 };
         revisions.SetBinding(ListBox.SelectedItemProperty, new Binding(nameof(vm.SelectedRevision)) { Mode = BindingMode.TwoWay });
         Ui.Tab(tabs, "Revisioni", Ui.Dock(revisions, bottom: Ui.Stack(Ui.Text("Il ripristino prepara una nuova anteprima; la cronologia rimane conservata.", 12), Command("Prepara ripristino", vm.RestoreRevisionCommand))));

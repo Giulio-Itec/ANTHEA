@@ -83,6 +83,7 @@ try
     checks += SectionActionInputsChecks.Run();
     checks += SectionActionsEditorChecks.Run();
     checks += BridgePricesChecks.Run();
+    checks += BridgePriceAnalysesChecks.Run();
     checks += BridgeTrafficChecks.Run();
     checks += await ModuleServiceChecks.Run();
     checks += await ElasticPileSessionChecks.Run(root);
@@ -111,6 +112,7 @@ try
     checks += F4StandardInputChecks.Run(root);
     checks += PileDurabilityTextChecks.Run();
     checks += MaterialDefaultsChecks.Run();
+    checks += DetailingCompressionChecks.Run();
     checks += await PileSegmentOperationChecks.Run(root);
     checks += await ProjectReportServiceChecks.Run(output);
     checks += await ConcreteReportCurvatureChecks.Run(root, output);

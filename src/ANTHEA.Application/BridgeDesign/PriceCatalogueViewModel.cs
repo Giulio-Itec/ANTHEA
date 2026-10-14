@@ -31,6 +31,28 @@ public sealed partial class WorkPriceRow : ObservableObject
     [ObservableProperty] private string status = "";
     internal WorkPriceMapping Value() => new(WorkCode, EntryCode.Trim(), PriceCatalogueImport.Number(OverridePrice), Reason.Trim());
 }
+/// <summary>Editable price analysis. Components: "codice = quantità" separated by ";", quantity in the unit of the component.
+/// Empty percentages take the defaults of the price list.</summary>
+public sealed partial class PriceAnalysisRow : ObservableObject
+{
+    [ObservableProperty] private string code = "";
+    [ObservableProperty] private string description = "";
+    [ObservableProperty] private string unit = "m³";
+    [ObservableProperty] private string components = "";
+    [ObservableProperty] private string generalExpenses = "";
+    [ObservableProperty] private string profit = "";
+    [ObservableProperty] private string unitPrice = "—";
+    internal PriceAnalysisEntry Value() => new(Code.Trim(), Description.Trim(), Unit.Trim(), Parse(Components),
+        PriceCatalogueImport.Number(GeneralExpenses), PriceCatalogueImport.Number(Profit));
+    internal static string Format(PriceAnalysisComponent[] parts) => string.Join("; ", parts.Select(p => p.Code + " = " + p.Quantity.ToString("0.######", CultureInfo.GetCultureInfo("it-IT"))));
+    static PriceAnalysisComponent[] Parse(string text) => text.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(part =>
+    {
+        var pieces = part.Split('=', StringSplitOptions.TrimEntries);
+        if (pieces.Length != 2 || pieces[0].Length == 0 || PriceCatalogueImport.Number(pieces[1]) is not decimal quantity)
+            throw new ArgumentException("Componenti dell'analisi: scrivere «codice = quantità» separati da punto e virgola.");
+        return new PriceAnalysisComponent(pieces[0], quantity);
+    }).ToArray();
+}
 public sealed record PriceRevisionItem(string Caption, JsonObject Document);
 
 /// <summary>Transactional MVVM editor: changes are drafts; applying creates an owned snapshot and an audit entry.</summary>
@@ -45,8 +67,14 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject
     public ObservableCollection<PriceEntryRow> Entries { get; } = [];
     public ObservableCollection<WorkPriceRow> Mappings { get; } = [];
     public ObservableCollection<PriceRevisionItem> History { get; } = [];
-    public string[] Units { get; } = ["m", "m²", "m³", "kg", "t", "cad"];
+    public ObservableCollection<PriceAnalysisRow> Analyses { get; } = [];
+    public string[] Units { get; } = ["m", "m²", "m³", "kg", "t", "cad", "h"];
     [ObservableProperty] private PriceEntryRow? selectedEntry;
+    [ObservableProperty] private PriceAnalysisRow? selectedAnalysis;
+    [ObservableProperty] private string generalExpensesPercent = "";
+    [ObservableProperty] private string profitPercent = "";
+    [ObservableProperty] private string analysisBreakdown = "";
+    private IReadOnlyDictionary<string, PriceAnalysisResult> resolvedAnalyses = new Dictionary<string, PriceAnalysisResult>();
     [ObservableProperty] private PriceRevisionItem? selectedRevision;
     [ObservableProperty] private string catalogueName = "";
     [ObservableProperty] private string edition = "";
@@ -78,21 +106,34 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject
         if (source["pricing"]?["history"] is JsonArray history)
             foreach (var item in history.OfType<JsonObject>()) History.Add(new(item.S("date") + " · " + item["catalogue"].S("Name") + " / " + item["catalogue"].S("Edition"), (JsonObject)item.DeepClone()));
         Entries.CollectionChanged += (_, _) => Preview();
+        Analyses.CollectionChanged += (_, _) => Preview();
         initializing = false; Preview();
     }
+    partial void OnGeneralExpensesPercentChanged(string value) => Preview();
+    partial void OnProfitPercentChanged(string value) => Preview();
+    partial void OnSelectedAnalysisChanged(PriceAnalysisRow? value) => ShowBreakdown();
     partial void OnCatalogueNameChanged(string value) => Preview();
     partial void OnEditionChanged(string value) => Preview();
     partial void OnRepricePinnedAlternativeChanged(bool value) => Preview();
     private void LoadEntries(PriceCatalogue catalogue)
     {
-        PriceCatalogueImport.Validate(catalogue);
+        // Kept analyses may refer to codes of the previous list: the preview reports them instead of refusing the import
+        PriceCatalogueImport.Validate(catalogue with { Analyses = null });
         CatalogueName = catalogue.Name; Edition = catalogue.Edition; Entries.Clear();
         foreach (var e in catalogue.Entries)
         {
             var row = new PriceEntryRow { Code = e.Code, Description = e.Description, Unit = e.Unit, Price = Format(e.Price), Includes = string.Join('|', e.Includes) };
             row.PropertyChanged += (_, _) => Preview(); Entries.Add(row);
         }
+        GeneralExpensesPercent = Format(catalogue.GeneralExpensesPercent); ProfitPercent = Format(catalogue.ProfitPercent); Analyses.Clear();
+        foreach (var a in catalogue.Analyses ?? [])
+        {
+            var row = new PriceAnalysisRow { Code = a.Code, Description = a.Description, Unit = a.Unit, Components = PriceAnalysisRow.Format(a.Components ?? []),
+                GeneralExpenses = Format(a.GeneralExpensesPercent), Profit = Format(a.ProfitPercent) };
+            Watch(row); Analyses.Add(row);
+        }
     }
+    private void Watch(PriceAnalysisRow row) => row.PropertyChanged += (_, e) => { if (e.PropertyName != nameof(PriceAnalysisRow.UnitPrice)) Preview(); };
     public void Import(byte[] bytes, string fileName)
     {
         string extension = Path.GetExtension(fileName).ToLowerInvariant();
@@ -103,7 +144,12 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject
             ".json" => JsonSerializer.Deserialize<PriceCatalogue>(bytes) ?? throw new ArgumentException("Catalogo JSON vuoto."),
             _ => throw new ArgumentException("Usare CSV, XLSX oppure un catalogo JSON ANTHEA.")
         };
-        PriceCatalogueImport.Validate(catalogue);
+        // CSV and Excel carry priced entries only: the analyses and their percentages of the editor are kept (a missing component then
+        // shows in the preview); a JSON catalogue replaces them too
+        if (extension != ".json" && Analyses.Count > 0)
+            catalogue = catalogue with { GeneralExpensesPercent = PriceCatalogueImport.Number(GeneralExpensesPercent), ProfitPercent = PriceCatalogueImport.Number(ProfitPercent),
+                Analyses = Analyses.Select(a => a.Value()).ToArray() };
+        else PriceCatalogueImport.Validate(catalogue);
         initializing = true;
         try
         {
@@ -116,8 +162,37 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject
     public byte[] ExportCatalogue() => JsonSerializer.SerializeToUtf8Bytes(Catalogue(), new JsonSerializerOptions { WriteIndented = true });
     private PriceCatalogue Catalogue()
     {
-        var c = new PriceCatalogue(CatalogueName.Trim(), Edition.Trim(), "EUR", Entries.Select(e => e.Value()).ToArray());
+        var analyses = Analyses.Select(a => a.Value()).ToArray();
+        var c = new PriceCatalogue(CatalogueName.Trim(), Edition.Trim(), "EUR", Entries.Select(e => e.Value()).ToArray())
+        {
+            GeneralExpensesPercent = PriceCatalogueImport.Number(GeneralExpensesPercent), ProfitPercent = PriceCatalogueImport.Number(ProfitPercent),
+            Analyses = analyses.Length > 0 ? analyses : null
+        };
         PriceCatalogueImport.Validate(c); return c;
+    }
+    [RelayCommand]
+    private void AddAnalysis()
+    {
+        // The first analysis makes the defaults of the price list explicit (user decision of 14/10/2026): editable, never implicit
+        if (GeneralExpensesPercent.Trim().Length == 0) GeneralExpensesPercent = "15";
+        if (ProfitPercent.Trim().Length == 0) ProfitPercent = "10";
+        var row = new PriceAnalysisRow { Code = "AN-" + Guid.NewGuid().ToString("N")[..6], Description = "Nuova analisi" };
+        Watch(row); Analyses.Add(row); SelectedAnalysis = row;
+    }
+    [RelayCommand]
+    private void RemoveAnalysis() { if (SelectedAnalysis is not null) Analyses.Remove(SelectedAnalysis); }
+    private void ShowBreakdown()
+    {
+        var it = CultureInfo.GetCultureInfo("it-IT");
+        string Money(decimal v) => v.ToString("N2", it) + " €";
+        if (SelectedAnalysis is null || !resolvedAnalyses.TryGetValue(SelectedAnalysis.Code.Trim(), out var r)) { AnalysisBreakdown = SelectedAnalysis is null ? "" : "Analisi non risolta: vedere l'esito in basso."; return; }
+        var b = new System.Text.StringBuilder($"{r.Code} · {SelectedAnalysis.Description} · prezzo per {r.Unit}\n");
+        foreach (var l in r.Lines) b.AppendLine($"{l.Code}: {l.Quantity.ToString("0.######", it)} {l.Unit} × {Money(l.UnitPrice)}/{l.Unit} = {Money(l.Amount)}");
+        b.AppendLine($"Totale componenti: {Money(r.Subtotal)}");
+        b.AppendLine($"Spese generali {r.GeneralExpensesPercent.ToString("0.##", it)} %{(r.GeneralExpensesOverridden ? " (valore dell'analisi)" : "")}: {Money(r.GeneralExpenses)}");
+        b.AppendLine($"Utile d'impresa {r.ProfitPercent.ToString("0.##", it)} % su componenti e spese generali{(r.ProfitOverridden ? " (valore dell'analisi)" : "")}: {Money(r.Profit)}");
+        b.Append($"Prezzo unitario: {Money(r.UnitPrice)}/{r.Unit}");
+        AnalysisBreakdown = b.ToString();
     }
     [RelayCommand]
     private void AddEntry()
@@ -153,7 +228,14 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject
         CanApply = false; Estimate = null; proposed = null;
         try
         {
+            resolvedAnalyses = new Dictionary<string, PriceAnalysisResult>(); foreach (var row in Analyses) row.UnitPrice = "—";
             var c = Catalogue(); var entries = c.Entries.ToDictionary(e => e.Code, StringComparer.Ordinal); var rates = new List<BridgePriceRate>();
+            // Analyses price like entries: their unit price includes general expenses and profit
+            resolvedAnalyses = PriceCatalogueImport.ResolveAnalyses(c);
+            foreach (var a in c.Analyses ?? []) entries[a.Code] = new PriceEntry(a.Code, a.Description, a.Unit, resolvedAnalyses[a.Code].UnitPrice, []);
+            foreach (var row in Analyses)
+                if (resolvedAnalyses.TryGetValue(row.Code.Trim(), out var resolved)) row.UnitPrice = resolved.UnitPrice.ToString("N2", CultureInfo.GetCultureInfo("it-IT")) + " €/" + resolved.Unit;
+            ShowBreakdown();
             var mapping = Mappings.Select(m => m.Value()).ToArray();
             foreach (var row in Mappings)
             {
@@ -169,7 +251,7 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject
                 {
                     decimal? normalized = value.HasValue ? BridgePricing.ConvertPrice(value.Value, unit, row.Unit) : null;
                     row.ResolvedPrice = Format(normalized);
-                    row.Status = normalized.HasValue ? m.Override.HasValue ? "Personalizzato · " + m.Reason : "Da catalogo" : "Prezzo mancante";
+                    row.Status = normalized.HasValue ? m.Override.HasValue ? "Personalizzato · " + m.Reason : resolvedAnalyses.ContainsKey(m.EntryCode) ? "Da analisi" : "Da catalogo" : "Prezzo mancante";
                     rates.Add(new(row.WorkCode, unit, value, c.Name + "/" + c.Edition + "/" + (m.Override.HasValue ? "override:" + m.Reason : e!.Code), e?.Includes ?? []));
                 }
                 catch (ArgumentException) { row.Status = "Unità incompatibile: " + unit + " → " + row.Unit; }
@@ -189,7 +271,7 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject
             }
         }
         catch (Exception e) when (e is ArgumentException or InvalidOperationException or OverflowException or JsonException)
-        { CanApply = false; Status = e.Message; CostPreview = "Anteprima non disponibile"; }
+        { CanApply = false; Status = e.Message; CostPreview = "Anteprima non disponibile"; ShowBreakdown(); }
         ApplyCommand.NotifyCanExecuteChanged(); OnPropertyChanged(nameof(Estimate));
     }
     [RelayCommand(CanExecute = nameof(CanApply))]
