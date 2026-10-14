@@ -12,17 +12,20 @@
     "convenzione": "il codice segue alla lettera un testo normativo diverso da un altro testo applicabile",
     "intenzionale": "scelta dichiarata nel codice, nei commenti o nei test",
     "difetto-legacy": "comportamento non voluto del codice esistente",
-    "scostamento-normativo": "il codice si discosta dal testo della norma del profilo"
+    "scostamento-normativo": "il codice si discosta dal testo della norma del profilo",
+    "regressione": "comportamento corretto prima del refactoring e alterato da un passo del refactoring stesso; la voce indica origine e correzione"
   },
   "stati": [
     "da-decidere",
     "dichiarato",
     "da-correggere",
     "corretto",
-    "attuato"
+    "attuato",
+    "da-ricostruire"
   ],
   "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
+  "nota_audit_14_10": "Audit indipendente del 14/10/2026 (piano.md, sezione iniziale). Le voci F4 indicate come «distribuite con il set W» sono attive in ANTHEA 1.8.0 con il set W installato in lib/Checker dal commit 3f9df6b8, sul ramo refactoring/f4-calcoli-residui: il ramo non è unito a main e il full conforme manca (F4.16). Dove la scelta è stata dell'agente la voce indica «decisione dell'utente da ratificare». Lo stato «da-ricostruire» segnala una voce prevista dai micro-piani e non scritta a suo tempo, ricostruita solo in parte: la descrizione dice cosa manca. La categoria «regressione» è aggiunta per F4-36 e F4-37.",
   "voci": [
     {
       "id": "F4-27",
@@ -32,7 +35,7 @@
       "famiglia": "Bridge Design",
       "categoria": "difetto-legacy",
       "stato": "dichiarato",
-      "descrizione": "Nel nuovo computo Bridge si rifiutano inclusioni diverse dalla quota di armatura nel prezzo dei pali. Non si dichiara compresa una lavorazione che il computo non sa separare; l’interfaccia espone la limitazione. Fix Design 0.15.0.1, collegamento nel prossimo set.",
+      "descrizione": "Nel nuovo computo Bridge si rifiutano inclusioni diverse dalla quota di armatura nel prezzo dei pali. Non si dichiara compresa una lavorazione che il computo non sa separare; l’interfaccia espone la limitazione. Fix Design 0.15.0.1, distribuito con il set W il 14/10 (Design 0.19.0.0, commit 3f9df6b8).",
       "test": [
         "BridgeCostTests PASS: inclusione montaggio/carpenteria rifiutata"
       ],
@@ -69,7 +72,7 @@
       "famiglia": "Bridge Design",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Cataloghi, associazioni e override separati dal motore. Snapshot versionata per il calcolo e la ricerca, anteprima prima/dopo, applicazione transazionale, cronologia e rivalutazione esplicita di A con storia propria. Prezzi mancanti non diventano zero; report/CSV mostrano la revisione usata. Archivi precedenti e valori conservati; nessuna differenza di struttura o CO₂. Guide e distribuzione F4.16 ancora aperte.",
+      "descrizione": "Cataloghi, associazioni e override separati dal motore. Snapshot versionata per il calcolo e la ricerca, anteprima prima/dopo, applicazione transazionale, cronologia e rivalutazione esplicita di A con storia propria. Prezzi mancanti non diventano zero; report/CSV mostrano la revisione usata. Archivi precedenti e valori conservati; nessuna differenza di struttura o CO₂. Guide Rev43 pubblicate il 14/10 (82fcd8fc) e distribuzione con il set W (3f9df6b8); chiusura F4.16 ancora aperta. Il requisito «analisi composte» dei prezzari (decisioni del 13/10 sera) non è implementato.",
       "test": [
         "14 PASS runner, corpus 31/17 invariato",
         "24 controlli WPF nei tre temi, PNG controllati",
@@ -126,7 +129,7 @@
       "famiglia": "sezioni c.a.",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Compressione massima, proiezione delle tensioni, rapporti domanda/capacità e capacità necessaria per obiettivo risolti da SectionDesignDemand; i limiti restano dei servizi Concrete. Risultati, ordinamento e contatori del corpus invariati. Capacità assenti/nonfinite non possono certificare il candidato. Una lettura implicita ripetuta rimossa dalla baseline; distribuzione F4.9 ancora aperta.",
+      "descrizione": "Compressione massima, proiezione delle tensioni, rapporti domanda/capacità e capacità necessaria per obiettivo risolti da SectionDesignDemand; i limiti restano dei servizi Concrete. Risultati, ordinamento e contatori del corpus invariati. Capacità assenti/nonfinite non possono certificare il candidato. Una lettura implicita ripetuta rimossa dalla baseline; distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
       "test": [
         "34 prove native Design e API compatibili",
         "11 controlli applicativi pertinenti PASS, 21579 numeri equivalenti e prove NEd con attesi manuali"
@@ -144,7 +147,7 @@
       "famiglia": "durabilità e progetto",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Sezioni, pali e muri condividono CoverAssessment tramite ConcreteDurabilityAdapter. Nessun calcolo dei minimi nel validatore di progetto; requisito effettivo e del materiale combinati dalla libreria. Dati mancanti non certificano il copriferro né nascondono un minimo noto insufficiente. Tutti i testi/esiti/valori congelati restano identici. Collegamento alla candidata H, distribuzione F4.9.",
+      "descrizione": "Sezioni, pali e muri condividono CoverAssessment tramite ConcreteDurabilityAdapter. Nessun calcolo dei minimi nel validatore di progetto; requisito effettivo e del materiale combinati dalla libreria. Dati mancanti non certificano il copriferro né nascondono un minimo noto insufficiente. Tutti i testi/esiti/valori congelati restano identici. Collegamento alla candidata H, distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
       "test": [
         "11 PASS runner, regressione adattatori/SLE completa",
         "12 casi congelati, 247 percorsi con sonda, ricerca muri e distinta equivalenti",
@@ -163,7 +166,8 @@
       "famiglia": "sezioni c.a.",
       "categoria": "difetto-legacy",
       "stato": "corretto",
-      "descrizione": "La scheda dettagli ora include le componenti N delle righe taglio, come il progetto armature. Cattura preservata: con N=-100 kN nelle azioni ultime e -6000 kN nel taglio, NEd passa da 100 a 6000 kN e As,min da 720 a 1533.333333 mm². Il segno positivo resta trazione; N presente non numerico è rifiutato. Ramo diagnostico conservato. Nessuna modifica alle formule normative.",
+      "descrizione": "La scheda dettagli ora include le componenti N delle righe taglio, come il progetto armature. Cattura preservata: con N=-100 kN nelle azioni ultime e -6000 kN nel taglio, NEd passa da 100 a 6000 kN e As,min da 720 a 1533.333333 mm². Il segno positivo resta trazione; N presente non numerico è rifiutato. Ramo diagnostico conservato. Nessuna modifica alle formule normative. Distribuito con il set W il 14/10 (commit 3f9df6b8, ANTHEA 1.8.0).",
+      "decisione": "L'utente aveva chiesto l'8/10 di trattare l'incoerenza in F4.12 (F2.8-U4 «ok»). La scelta di usare in entrambi i percorsi la N delle righe del taglio è dell'agente: decisione dell'utente da ratificare (audit 14/10).",
       "test": [
         "11 PASS runner, inclusi Application, ConcreteDesign, contratti input e ricerca sezioni",
         "Caso N=-20000 kN: As,min=5111.111111111111 mm² ed esito negativo; immutabilità e letture errate controllate"
@@ -182,7 +186,7 @@
       "famiglia": "sezioni c.a.",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Generazione catalogo e coordinamento in GPC.Design con avanzamento, budget, annullamento e raggruppamento delle verifiche longitudinali. Dati e note comuni ai rami nuovo/diagnostico. Riserva torsionale e soglie centralizzate. Stessi candidati, esclusioni, ordine e contatori di riuso; 21579 numeri entro tolleranza 1e-9, massimo relativo 4.82e-16. Distribuzione F4.9.",
+      "descrizione": "Generazione catalogo e coordinamento in GPC.Design con avanzamento, budget, annullamento e raggruppamento delle verifiche longitudinali. Dati e note comuni ai rami nuovo/diagnostico. Riserva torsionale e soglie centralizzate. Stessi candidati, esclusioni, ordine e contatori di riuso; 21579 numeri entro tolleranza 1e-9, massimo relativo 4.82e-16. Distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
       "test": [
         "10 PASS runner; Application e ConcreteDesign",
         "9 casi SHA, 81 candidati, 3 rifiuti; confronto completo vecchio/nuovo e quattro obiettivi"
@@ -200,7 +204,7 @@
       "famiglia": "sezioni c.a.",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Quantità, obiettivi, graduatoria/Pareto, rete secondaria, distribuzione torsionale e campionamento in GPC.Design. Densità da Model, regole di dettaglio condivise; rami diagnostici conservati. Nove casi, 81 candidati e 18039 numeri equivalenti, scarto relativo massimo 4.82e-16, nessun esito/candidato/ordine alterato. Dati mancanti/non finiti rifiutati. Distribuzione F4.9.",
+      "descrizione": "Quantità, obiettivi, graduatoria/Pareto, rete secondaria, distribuzione torsionale e campionamento in GPC.Design. Densità da Model, regole di dettaglio condivise; rami diagnostici conservati. Nove casi, 81 candidati e 18039 numeri equivalenti, scarto relativo massimo 4.82e-16, nessun esito/candidato/ordine alterato. Dati mancanti/non finiti rifiutati. Distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
       "test": [
         "8 PASS runner, regressioni ConcreteDesign e architettura",
         "Corpus SHA congelato, 3 rifiuti e quattro obiettivi confrontati"
@@ -218,7 +222,7 @@
       "famiglia": "muri",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Catalogo, filtro superiore, rete secondaria, ammissibilità e continuità conteggi nel motore GPC.Design. Adattatore documentale con sezioni GPC condivise; nessuna mutazione input. Proposte/esiti identici al congelato, 68184 confronti completi con ricerca precedente sugli stessi servizi meccanici. Verifiche vuote/rapporti non finiti rifiutati. Legacy diagnostico conservato; distribuzione F4.9.",
+      "descrizione": "Catalogo, filtro superiore, rete secondaria, ammissibilità e continuità conteggi nel motore GPC.Design. Adattatore documentale con sezioni GPC condivise; nessuna mutazione input. Proposte/esiti identici al congelato, 68184 confronti completi con ricerca precedente sugli stessi servizi meccanici. Verifiche vuote/rapporti non finiti rifiutati. Legacy diagnostico conservato; distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
       "test": [
         "6 PASS runner, 12 cataloghi, 3 rifiuti, scarto numerico zero"
       ],
@@ -235,7 +239,7 @@
       "famiglia": "pali",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Adattatore sui contratti PileSegmentDesign; legacy diagnostico conservato. Cinque proposte confrontate esattamente incluse due ricerche estese con uno/due worker. Azioni con segno validate senza default a zero; dati mancanti rifiutati. Distribuzione F4.9.",
+      "descrizione": "Adattatore sui contratti PileSegmentDesign; legacy diagnostico conservato. Cinque proposte confrontate esattamente incluse due ricerche estese con uno/due worker. Azioni con segno validate senza default a zero; dati mancanti rifiutati. Distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
       "test": [
         "8 PASS runner; cancellazione prima/durante, progressi, conferme, input mancanti, input invariato"
       ],
@@ -252,7 +256,7 @@
       "famiglia": "presentazione verifiche",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Nessun esito positivo dedotto da etichette. Risultati pali privi di criticità tipizzate richiedono ricalcolo. Capacità nulla con domanda positiva classificata come fallimento, contatto valido senza rapporto non classificato come dato mancante. Proprietà muro non serializzate; legacy diagnostico conservato. Attivazione distribuita F4.9.",
+      "descrizione": "Nessun esito positivo dedotto da etichette. Risultati pali privi di criticità tipizzate richiedono ricalcolo. Capacità nulla con domanda positiva classificata come fallimento, contatto valido senza rapporto non classificato come dato mancante. Proprietà muro non serializzate; legacy diagnostico conservato. Attivazione distribuita con il set W il 14/10 (F4.9, commit 3f9df6b8).",
       "test": [
         "10 PASS runner, 1358 controlli Application, WPF PASS",
         "20 pali, 28 tratti, 3698 verifiche, 22188 numeri equivalenti; traduzioni e vecchi risultati non tipizzati"
@@ -270,7 +274,7 @@
       "famiglia": "muri a gravità",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Percorso candidato sulle librerie Concrete/Masonry/Design. 82568 confronti numerici e 240 curvature equivalenti; nessun modulo E inventato per resistenze assegnate, rifiuti espliciti e limite negativo non valutabile. Ramo legacy conservato. Distribuzione ancora F4.9.",
+      "descrizione": "Percorso candidato sulle librerie Concrete/Masonry/Design. 82568 confronti numerici e 240 curvature equivalenti; nessun modulo E inventato per resistenze assegnate, rifiuti espliciti e limite negativo non valutabile. Ramo legacy conservato. Distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
       "test": [
         "Sei muri congelati, due casi di contratto, annullamento, 6 PASS runner",
         "1668 Checker PASS e soli 17 Steel noti nel set B; API compatibili"
@@ -288,7 +292,7 @@
       "famiglia": "muri in c.a.",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Percorso candidato sui servizi GPC condivisi. Zero differenze oltre taglio con sigma_cp (F4-03) e curvatura totale (F4-08). Fattori di conversione nominati con ordine aritmetico storico; selettore legacy conservato. Distribuzione e rilascio ancora F4.9.",
+      "descrizione": "Percorso candidato sui servizi GPC condivisi. Zero differenze oltre taglio con sigma_cp (F4-03) e curvatura totale (F4-08). Fattori di conversione nominati con ordine aritmetico storico; selettore legacy conservato. Distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8); rilascio della fase ancora aperto (F4.16).",
       "test": [
         "26 muri, 285743 confronti numerici, 12512 tagli indipendenti, 1572 curvature, tre forme SLE e annullamento",
         "6 PASS runner, nessuna tolleranza o eccezione nuova"
@@ -306,7 +310,7 @@
       "famiglia": "muri/adattatori",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Dettagli e distinta della build candidata delegano alle API Design; legacy selezionabile esplicitamente per le prove. Input obbligatori validati con il lettore esistente, profilo di copriferro sconosciuto rifiutato. Nessuna nuova formula in ANTHEA e nessuna eccezione alla baseline architetturale. Snapshot candidato fuori lib/Checker; integrazione distribuita ancora F4.9.",
+      "descrizione": "Dettagli e distinta della build candidata delegano alle API Design; legacy selezionabile esplicitamente per le prove. Input obbligatori validati con il lettore esistente, profilo di copriferro sconosciuto rifiutato. Nessuna nuova formula in ANTHEA e nessuna eccezione alla baseline architetturale. Snapshot candidato fuori lib/Checker al 13/10; integrazione distribuita con il set W il 14/10 (F4.9, commit 3f9df6b8).",
       "effetto_quantificato": "56 modelli, 30 distinte/CSV e 26127 valori confrontati, zero differenze non ammesse; scarto massimo 5.684341886080802e-14. Tre rifiuti espliciti senza mutazione del documento.",
       "test": [
         "Runner 20261013-f4-detail-final: 5 PASS",
@@ -327,7 +331,7 @@
       "famiglia": "muri/distinta",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Checker b8763b87: WallBarScheduling riusa il servizio dei dettagli; contratti e avvisi tipizzati, proprietà del confine fra zone conservata. Peso parziale se manca lo sviluppo dei collegamenti, nessun taglio automatico oltre la barra commerciale. Runtime ANTHEA e set V invariati.",
+      "descrizione": "Checker b8763b87: WallBarScheduling riusa il servizio dei dettagli; contratti e avvisi tipizzati, proprietà del confine fra zone conservata. Peso parziale se manca lo sviluppo dei collegamenti, nessun taglio automatico oltre la barra commerciale. Al 13/10 runtime ANTHEA e set V invariati; distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
       "effetto_quantificato": "30 distinte congelate: 435 barre, 600 tratti e 1680 punti equivalenti; quantità intere esatte, sviluppo/peso/interassi entro 1e-9 assoluta più relativa. Attesi invariati.",
       "test": [
         "13 Design PASS",
@@ -347,7 +351,7 @@
       "famiglia": "muri/dettagli/copriferro",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Checker bd3b2483: coordinamento tipizzato in Design, riuso di ancoraggi e copriferro Concrete, interassi e minimi secondari condivisi con MemberDetailingCalculator. Conservati criteri per faccia, sagome, archi analitici, domande assolute ed esiti indisponibili con capacità negativa. Nessuna modifica al runtime ANTHEA o al set V.",
+      "descrizione": "Checker bd3b2483: coordinamento tipizzato in Design, riuso di ancoraggi e copriferro Concrete, interassi e minimi secondari condivisi con MemberDetailingCalculator. Conservati criteri per faccia, sagome, archi analitici, domande assolute ed esiti indisponibili con capacità negativa. Al 13/10 nessuna modifica al runtime ANTHEA o al set V; distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
       "effetto_quantificato": "56 input: 374 barre, 2316 punti delle sagome, 3260 controlli e 56 pesi equivalenti con tolleranza preesistente 1e-9 assoluta più relativa. Fixture con SHA fisso; nessun atteso sostituito. Differenza XC3/C25 nel primo adattatore di test risolta passando il pertinente Cmin UNI 11104 già usato dal legacy (35 mm, non il default 30).",
       "test": [
         "4 prove dettagli PASS",
@@ -367,7 +371,7 @@
       "famiglia": "muri/gravità",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Checker b5e40cca separa CLS non armato in Concrete/Walls e muratura in GPCChecker.Masonry, con coordinamento tipizzato in GPC.Design. Conservati resistenze assegnate, campo elastico non fessurato, stabilità, segni e assenza di capacità nei casi fuori campo. Nessuna modifica delle DLL o dei risultati runtime ANTHEA. Regressione aggiuntiva F4.8a.1: la trazione assiale con resistenze assegnate conserva il valore assoluto della domanda storico; Checker 34e8f823, Design 0.1.0.1, cinque test PASS.",
+      "descrizione": "Checker b5e40cca separa CLS non armato in Concrete/Walls e muratura in GPCChecker.Masonry, con coordinamento tipizzato in GPC.Design. Conservati resistenze assegnate, campo elastico non fessurato, stabilità, segni e assenza di capacità nei casi fuori campo. Al 13/10 nessuna modifica delle DLL o dei risultati runtime ANTHEA; distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8). Regressione aggiuntiva F4.8a.1: la trazione assiale con resistenze assegnate conserva il valore assoluto della domanda storico; Checker 34e8f823, Design 0.1.0.1, cinque test PASS.",
       "effetto_quantificato": "Sei modelli congelati: 8672 verifiche e 240 curvature equivalenti entro le tolleranze preesistenti 1e-9 assoluta + relativa; disponibilità, rapporti e giudizi confrontati. Fixture derivata esclusivamente dalle osservazioni originali e protetta da SHA256, senza ricalcolo degli attesi.",
       "test": [
         "4 test Design.Checks PASS",
@@ -388,9 +392,10 @@
       "famiglia": "muri/SLE/spostamenti",
       "categoria": "difetto-legacy",
       "stato": "corretto",
-      "descrizione": "RetainingWall.Structures integra il ChiY del piano elastico equivalente. La deformazione totale nativa GetVerticeStrain(point,phi) è invece quella del piano moltiplicata per 1+phi. A phi=2 viene omesso un fattore 3 nella curvatura e nella sua integrazione. Il port equivalente è conservato nella proprietà diagnostica ElasticEquivalentCurvature; Curvature del nuovo servizio candidato restituisce la curvatura totale. Runtime ANTHEA ancora invariato, attivazione F4.9.",
+      "descrizione": "RetainingWall.Structures integra il ChiY del piano elastico equivalente. La deformazione totale nativa GetVerticeStrain(point,phi) è invece quella del piano moltiplicata per 1+phi. A phi=2 viene omesso un fattore 3 nella curvatura e nella sua integrazione. Il port equivalente è conservato nella proprietà diagnostica ElasticEquivalentCurvature; Curvature del nuovo servizio candidato restituisce la curvatura totale. Al 13/10 runtime ANTHEA invariato; attivo nel prodotto con il set W dal 14/10 (F4.9, commit 3f9df6b8, ANTHEA 1.8.0): nel confronto UI con la cattura F3, 180 curvature delle tre fixture a mensola diventano tre volte quelle del piano elastico equivalente, con φ=2 (f4-transizioni-ui-da-revisionare.md).",
       "effetto_quantificato": "1572 curvature e 78 forme flessionali nel corpus: delta massimo 0.001496934767347093 1/m e 3.5411539587512513 mm. Il fattore riguarda la sola componente flessionale, non traslazione e rotazione della fondazione. Sei attesi cinematici indipendenti da sigma/Eeff: 2 PASS e 4 FAIL prima, 6 PASS dopo con tolleranza invariata. Banco completo 94114 confronti senza differenze non ammesse, scarto massimo 5.684341886080802e-14.",
       "decisione": "Correzione separata F4.7b.3 in Concrete candidata 0.4.0.2. Riuso del fattore di omogeneizzazione anche nell'accessore nativo, senza duplicare l'amplificazione della fessurazione. Attesi congelati e motore legacy non modificati.",
+      "ratifica": "Correzione della curvatura con viscosità decisa e attivata dall'agente; confermata dall'utente il 14/10 («confermo b», decisioni.md). Il solutore resta con Ec pieno ed Es·(1+φ); si aggiunge in Concrete il piano totale esplicito. Aperti: applicazione di (1+φ) a tutte e tre le combinazioni SLE (da discutere con l'utente) e pagina del metodo (F4.16).",
       "test": [
         "28 test mirati muri PASS",
         "6 PASS runner 20261013-f4-wall-curvature-final"
@@ -414,7 +419,7 @@
       "famiglia": "muri/sezioni",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "WallSectionSession riusa i motori GPC di resistenza, limiti tensionali e fessurazione, con cache N/segno, annullamento e risultati separati per metodo. Sessione proprietaria, input immutabili, controlli geometrici; nessun nuovo solutore. Concrete candidata 0.4.0.0, non distribuita in ANTHEA.",
+      "descrizione": "WallSectionSession riusa i motori GPC di resistenza, limiti tensionali e fessurazione, con cache N/segno, annullamento e risultati separati per metodo. Sessione proprietaria, input immutabili, controlli geometrici; nessun nuovo solutore. Concrete candidata 0.4.0.0, allora non distribuita in ANTHEA; distribuita con il set W il 14/10 (Concrete 0.8.0.0, commit 3f9df6b8).",
       "effetto_quantificato": "62568 confronti su 26 muri, 576 sezioni e 286 combinazioni: zero differenze non ammesse, scarto massimo 7.105427357601002e-15. Riferimenti originali verificati con SHA. Il corpus non esercita la prova integrativa non fessurata, che resta un limite esplicito della copertura.",
       "test": [
         "33 prove mirate Concrete PASS",
@@ -433,7 +438,7 @@
       "famiglia": "muri/sezioni",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Checker 1033ed05 introduce WallStrip immutabile e controlli minimi/massimi con coefficienti riusati da MemberDetailingCalculator. Conservata la policy storica del maggiore d per entrambe le facce; gli esiti non certificano i dettagli non calcolati. Concrete candidata 0.3.0.0, ANTHEA ancora sul set V.",
+      "descrizione": "Checker 1033ed05 introduce WallStrip immutabile e controlli minimi/massimi con coefficienti riusati da MemberDetailingCalculator. Conservata la policy storica del maggiore d per entrambe le facce; gli esiti non certificano i dettagli non calcolati. Concrete candidata 0.3.0.0, ANTHEA allora sul set V; distribuita con il set W il 14/10 (Concrete 0.8.0.0, commit 3f9df6b8).",
       "effetto_quantificato": "576 sezioni del riferimento F4 equivalenti entro 1e-12 relativo sulle aree, giudizi identici. Geometrie impossibili e dati non finiti rifiutati dal nuovo contratto; nessun cambiamento runtime.",
       "test": [
         "4 nuovi test dei muri",
@@ -452,7 +457,7 @@
       "famiglia": "pali/unità",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Conversioni nominate con fattori GPC, ordine numerico conservato. ANTHEA riusa il proprio adattatore; Checker 0cb1c206 completa i confini delle armature. Precisata la descrizione della tolleranza N senza modificarla. Concrete candidata 0.2.0.0, runtime set V ancora invariato.",
+      "descrizione": "Conversioni nominate con fattori GPC, ordine numerico conservato. ANTHEA riusa il proprio adattatore; Checker 0cb1c206 completa i confini delle armature. Precisata la descrizione della tolleranza N senza modificarla. Concrete candidata 0.2.0.0, allora runtime set V invariato; distribuita con il set W il 14/10 (Concrete 0.8.0.0, commit 3f9df6b8).",
       "effetto_quantificato": "548 file generali e 234 file F4 equivalenti; 11 casi di palo con SHA invariato. Sei rilievi architetturali eliminati (4604 residui), zero aggiunte.",
       "test": [
         "735 Concrete PASS",
@@ -487,11 +492,13 @@
     },
     {
       "id": "F4-03",
+      "data": "2026-10-13",
+      "fase": "F4.3b (studio), F4.7b.2 (API), F4.7c.1 e F4.9 (attivazione)",
       "titolo": "Taglio dei muri CA: contributo assiale omesso nel percorso locale",
       "famiglia": "muri/taglio",
       "categoria": "scostamento-normativo",
       "stato": "corretto",
-      "descrizione": "La formula locale del muro senza staffe omette sigma_cp e non rifiuta la trazione. SectionShearCalculator include il contributo e il limite in compressione, rifiutando automaticamente tutti i casi in trazione. Studio indipendente concluso; correzione ora nella sessione candidata GPC, runtime ANTHEA ancora invariato.",
+      "descrizione": "La formula locale del muro senza staffe omette sigma_cp e non rifiuta la trazione. SectionShearCalculator include il contributo e il limite in compressione, rifiutando automaticamente tutti i casi in trazione. Studio indipendente concluso; correzione nella sessione GPC. Al 13/10 runtime ANTHEA invariato; attiva nel prodotto con il set W dal 14/10 (F4.9, commit 3f9df6b8, ANTHEA 1.8.0): nel confronto UI con la cattura F3 le 960 variazioni strutturali dei muri oltre 1e-10 riguardano solo resistenza e rapporto del taglio senza staffe (f4-transizioni-ui-da-revisionare.md).",
       "riferimento_normativo": [
         {
           "fonte": "NTC 2018",
@@ -506,15 +513,18 @@
       "segno": "Resistenza locale ridotta in compressione; mancanza di rifiuto automatico in trazione.",
       "effetto_quantificato": "Studio Python su 12512 controlli di 26 muri: 4192 capacità aumenterebbero, massimo 4,301578125 kN/m e 2,80197%; nessun esito cambia nel corpus. Cinque vettori indipendenti verificano N nullo, compressione, limite e trazione contro la API GPC. F4.7b.2: il nuovo servizio è confrontato con tutti i 12512 attesi indipendenti, zero differenze non ammesse; 22 test mirati PASS.",
       "decisione": "F4.3b del 13/10/2026: adottare il percorso GPC nel successivo F4.7, in commit separato dal port equivalente; conservare faccia e armatura efficace e non certificare dettagli o casi rifiutati. Il rifiuto GPC per ogni N positivo è una restrizione del supporto automatico, non una soglia normativa. API candidata Concrete 0.4.0.1 implementata in un commit distinto dal port; attivazione ANTHEA ancora F4.9.",
+      "ratifica": "Scelta del metodo σcp fatta dall'agente in F4.3b e attivata con il set W; confermata dall'utente il 14/10 («il punto a te lo confermo», decisioni.md). Pagina del metodo ancora da scrivere (F4.16).",
       "test": [
         "Checker/tests/Concrete.Checks/WallShearAxialTests.cs",
         "tools/qa/Study-F4WallShear.py"
       ],
       "evidenze": "supporto/artefatti/refactoring/f4/wall-sigma-study/independent.json; supporto/artefatti/refactoring/f4/wall-sigma-tests/wall-sigma.trx",
-      "wiki": "Da aggiornare con l'attivazione runtime F4.7; nessuna variazione della 1.7.1."
+      "wiki": "Attivazione runtime avvenuta con il set W (ANTHEA 1.8.0); pagina del metodo ancora da scrivere (F4.16). Nessuna variazione della 1.7.1."
     },
     {
       "id": "F4-02",
+      "data": "2026-10-13",
+      "fase": "F4.6c (correzione in libreria), F4.9 (attivazione)",
       "titolo": "Copertura del palo entro tolleranza genera un elemento spurio quasi nullo",
       "famiglia": "pali/mesh",
       "categoria": "difetto-legacy",
@@ -531,15 +541,18 @@
         "Checker/tests/Geotechnics.Checks/ElasticPileUnitsTests.cs"
       ],
       "evidenze": "supporto/artefatti/refactoring/f4/tip-fix-before; supporto/artefatti/refactoring/f4/tip-fix-final/checker-verify/summary.json",
-      "wiki": "Correzione da attivare con il successivo set coerente; nessuna modifica runtime nella 1.7.1."
+      "attivazione": "Distribuita con il set W il 14/10 (Geotechnics 0.3.0.0, commit 3f9df6b8, ANTHEA 1.8.0).",
+      "wiki": "Correzione attivata con il set W (ANTHEA 1.8.0); nessuna modifica runtime nella 1.7.1."
     },
     {
       "id": "F4-01",
+      "data": "2026-10-13",
+      "fase": "F4.4a (API), F4.4b e F4.9 (attivazione)",
       "titolo": "Esiti tipizzati dei pali e dei muri, API additive nelle librerie",
       "famiglia": "esiti/pali-muri",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Checker c6f10056 aggiunge Outcome, Execution e Data usando gli enum Model. Selezione e sviluppo dei pali non interpretano Status. Le stringhe compatibili restano invariate sui casi reali; scrivere un'etichetta positiva non certifica una verifica non eseguita. Nei muri i nuovi esiti non certificano dati non finiti, anche se il vecchio factory restituisce ancora la propria etichetta. Attuato nelle API candidate, non ancora nel set runtime ANTHEA: attivazione F4.4b.",
+      "descrizione": "Checker c6f10056 aggiunge Outcome, Execution e Data usando gli enum Model. Selezione e sviluppo dei pali non interpretano Status. Le stringhe compatibili restano invariate sui casi reali; scrivere un'etichetta positiva non certifica una verifica non eseguita. Nei muri i nuovi esiti non certificano dati non finiti, anche se il vecchio factory restituisce ancora la propria etichetta. Attuato nelle API candidate; al 13/10 non ancora nel set runtime ANTHEA. Collegato in F4.4b (F4-15) e distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8, ANTHEA 1.8.0).",
       "riferimento_normativo": [],
       "codice": [
         "Checker/GPCChecker.Concrete/Piles/PileReinforcement.cs",
@@ -553,7 +566,7 @@
         "Checker/tests/Geotechnics.Checks/WallOutcomeTests.cs"
       ],
       "evidenze": "supporto/artefatti/refactoring/f4/outcomes-before e outcomes-after/checker-verify/summary.json",
-      "wiki": "Da aggiornare all'attivazione F4.4b; il comportamento UI di ANTHEA 1.7.1 non cambia."
+      "wiki": "Attivato con F4.4b e il set W (ANTHEA 1.8.0); il comportamento UI di ANTHEA 1.7.1 non cambia."
     },
     {
       "id": "D7-a",
@@ -1581,6 +1594,11 @@
         "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
       },
+      "decisione_successiva": {
+        "data": "2026-10-08",
+        "utente": "il calcolo viene fatto secondo legame costitutivo coefficientato con alpha e gamma. quindi valori caratteristici + coeff x il design. ad ora lascialo così. ritiriamo fuori questo argomento a fine refactoring; poi: metti il rimando alla guida accanto al tipo di analisi. l'avviso mettilo",
+        "esito": "proposta U2 del progetto F2.7 sospesa fino a fine refactoring: l'analisi non lineare resta con i legami di progetto, senza modifiche di calcolo; R5 resta da ridiscutere in F5.15. Nella scheda Tensioni il campo «Analisi» ha il «?» verso la guida teorica e con «Non lineare» compare l'avviso sui legami di progetto (commit 7bdc1744, solo interfaccia; calcolo e relazioni invariati). Voce aggiunta dall'audit del 14/10 (decisioni.md, 8/10)."
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -1713,6 +1731,11 @@
         "data": "2026-10-07",
         "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-08",
+        "utente": "ok (proposta F2.8-U3 del progetto F2.8 rivisto)",
+        "esito": "tetto C60/75 di fctk,0,05 anche nei muri, nel momento proposto dal progetto: F5.15. Voce aggiunta dall'audit del 14/10 (decisioni.md, 8/10 pomeriggio). Nel codice del ramo F4 i muri passano ancora fctk,0,05 senza tetto (X.Calculations/RetainingWall.Reinforcement.cs:48-49 e RetainingWall.Library.Details.cs:43)."
       },
       "data": "2026-10-07",
       "fase": "F2.3"
@@ -2050,6 +2073,47 @@
       "fase": "F2.3 (libreria), F2.7 (collegamento); decisione in F5.15"
     },
     {
+      "id": "R22",
+      "titolo": "Getti sottili: fattore 0,8 applicato solo con NTC 2018 e non con UNI EN 1992-1-1 e appendice italiana (DM 31/07/2012)",
+      "famiglia": "calcestruzzo/sle",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "descrizione": "Con gettato_sottile = Sì il codice riduceva di 0,8 il limite SLE del calcestruzzo, αcc e fcd solo con il profilo NTC 2018, mentre la pagina del metodo ca.sle-tensioni cita anche il DM 31/07/2012 §7.2 per UNI EN 1992-1-1 con appendice italiana (progetto F2.7 rivisto, rilievo W4 e proposta U3). Il progetto F2.7 prevedeva di registrare la voce «da decidere» nel commit A9; la voce non era stata scritta ed è ricostruita dall'audit del 14/10 da decisioni.md, dal progetto F2.7 e dalla voce F2-22.",
+      "riferimento_normativo": [
+        {
+          "fonte": "DM 31/07/2012 (appendice nazionale italiana agli Eurocodici)",
+          "punto": "§7.2",
+          "riscontro": "citazione della pagina del metodo ca.sle-tensioni di Checker (righe 143-144 e 219 secondo il progetto F2.7); testo primario non riletto in questa ricostruzione"
+        }
+      ],
+      "codice": [
+        "X.Calculations/CheckerSection.cs:77 e X.Calculations/ConcreteMaterials.cs:11 (stato descritto dal progetto F2.7, 8/10)",
+        "X.Calculations/ConcreteLibraryMapping.cs e X.Calculations/ConcreteLibraryMapping.Serviceability.cs (correzione fbedb8ca)"
+      ],
+      "segno": "a sfavore di sicurezza prima della correzione: con UNI e getto sottile limiti SLE del calcestruzzo, αcc e fcd non ridotti di 0,8",
+      "effetto_quantificato": {
+        "sintesi": "Con UNI e gettato_sottile = Sì: limiti SLE del calcestruzzo × 0,8, αcc e fcd × 0,8 (domini SLU/SLV, taglio e torsione del modulo); tutti gli altri profili invariati (F2-22). Le fixture dense non hanno casi UNI con getto sottile (216 righe UNI con fattore 1, progetto F2.7 §12): l'effetto è provato sulla griglia dedicata dei getti sottili (369 controlli), non sul corpus headless."
+      },
+      "decisione": {
+        "data": "2026-10-08",
+        "utente": "correggi (proposta U3 del progetto F2.7 rivisto)",
+        "esito": "R22 si risolve applicando il fattore 0,8 dei getti sottili anche con UNI/DM 2012: limiti SLE del calcestruzzo, αcc e fcd con gettato_sottile = Sì"
+      },
+      "attuazione": {
+        "data": "2026-10-12",
+        "commit": [
+          "ANTHEA fbedb8ca (F2.7-U3 insieme a U1, regola GPC Ntc2018AndItalianAnnex già esistente; registro F2-22)"
+        ],
+        "verifica": "Voce F2-22: 548 file headless con soli tempi volatili; 27 file e 50996 righe dense con le sole 13 differenze BarSpacing di U1; 369 controlli dei getti sottili. Corsa finale 20261012-220834-f2-sle-chiusura, eseguita su albero non committato (piano.md, blocco del 12/10, punto 3)."
+      },
+      "data": "2026-10-08",
+      "fase": "F2.7 (voce prevista in A9, mancante); correzione F2.7-U3 nel blocco F2 del 12/10",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/ThinCastingGrid.cs",
+        "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+      ]
+    },
+    {
       "id": "F2-1",
       "titolo": "Taglio e torsione con GPCChecker.Concrete: differenze nelle ultime cifre",
       "famiglia": "calcestruzzo/taglio-torsione",
@@ -2229,6 +2293,99 @@
       "test": [
         "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 3b, 3c, 3d)"
       ]
+    },
+    {
+      "id": "F2-5",
+      "titolo": "SLE e fessurazione con GPCChecker.Concrete: differenze nelle ultime cifre, Ac,eff dai poligoni invece che dalla mesh",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "convenzione",
+      "stato": "da-decidere",
+      "descrizione": "Voce prevista dal progetto F2.7 (commit A8 e A9) e non scritta quando l'interruttore delle SLE è passato alla libreria nel commit F4 b7339f4a del 12/10; ricostruita dall'audit del 14/10. Con ConcreteServiceabilityAdapter.Default = Library tensioni, limiti e fessurazione vengono da GPCChecker.Concrete con le stesse formule del legacy e un'aritmetica diversa. Nel legacy Ac,eff è la somma delle facce della mesh tagliata nella fascia efficace (X.Calculations/Ntc2018Checks.cs:191); la libreria parte dalla geometria della fessurazione costruita sui poligoni del contorno (CrackSectionGeometry, ConcreteLibraryMapping.CrackGeometry), da cui scarti nelle ultime cifre di Ac,eff e delle grandezze derivate. Il legacy resta selezionabile per i confronti (ServiceabilityEngine.Legacy, --motore-sle legacy).",
+      "codice": [
+        "X.Calculations/ConcreteServiceabilityAdapter.cs (Default => Library dal commit b7339f4a)",
+        "X.Calculations/ConcreteLibraryMapping.Serviceability.cs:92-95 (CrackGeometry)",
+        "X.Calculations/Ntc2018Checks.cs:191 (Ac,eff dalla mesh nel legacy)",
+        "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs"
+      ],
+      "segno": "nessuno nei casi misurati: scarti relativi fino a 1,44e-13 sui numeri della fessurazione, nessuno sulle tensioni",
+      "effetto_quantificato": {
+        "sintesi": "tests/ConcreteLibraryAdapter.Checks nel full del 12/10 sul commit pulito 71aaa60b (motore predefinito Library, tolleranza 1e-9). Fessurazione: 936 stati, 934 risultati e 17 rifiuti; 10776 numeri diversi su 188958, scarto relativo massimo 1,436e-13 (caso peggiore «fessurazione 650 C1000H NTC 2018 SLE_QP (it-IT)», Details[209].Value −4,995540056234603e-05 → −4,995540056233885e-05); 294 stati con uscite dei motori diverse; nessuna nota con numeri diversi. Le 13 BarSpacing delle sezioni NTC interamente tese sono la correzione U1 (F2-22), non questa voce. Tensioni: 2016 risultati, 11161752 numeri, nessuno diverso. Confronto completo del riuso API-01 del 12/10 (SLE, M–χ, dettagli e muri insieme): 1421 differenze numeriche, massimo relativo 1,1436e-15, con le regole api_arrotondamento (relative 1e-12) di 1b3c38f1, che non sono le regole A7 previste dal progetto F2.7. Non misurato: la baseline B4 con corpus SLE, mai catturata.",
+        "evidenze": [
+          "supporto/artefatti/ci/20261012-225933-f2-set-t-full/ConcreteLibraryAdapter.Checks/misura.json (sezione sle)",
+          "supporto/artefatti/riuso-api-20261012/"
+        ]
+      },
+      "decisione": {
+        "esito": "nessuna decisione dell'utente registrata: interruttore attivato dall'agente in b7339f4a, fuori dal micro-piano F2.7; da ratificare (audit 14/10)"
+      },
+      "data": "2026-10-14",
+      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); attivazione nel riuso API F4 del 12/10; voce ricostruita nell'audit del 14/10",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs (griglie di fessurazione e tensioni con i due motori)"
+      ]
+    },
+    {
+      "id": "F2-6",
+      "titolo": "Testi e traccia di SLE e fessurazione: la mappatura restituisce simboli, espressioni, note e stati del legacy",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Voce prevista dal progetto F2.7 (A8 e A9) e non scritta; ricostruita dall'audit del 14/10. La libreria scrive la traccia della fessurazione con codici e flag stabili (scelta F2.7-D1, traccia T1); ConcreteLibraryMapping.Serviceability traduce codici, flag, esiti, motivi e rifiuti nei simboli, nelle espressioni, nelle note e negli stati italiani del legacy, compresi i testi che descrivono il calcolo sulla mesh (Ac,eff, ConcreteLibraryMapping.Serviceability.cs:442-445). Un codice senza traduzione è un errore di programma. JSON CrackResult.Details, scheda «Fessurazione · passaggi», riepiloghi e relazioni restano quelli del legacy. La scelta F2.7-D1 è del coordinatore e non è registrata in decisioni.md.",
+      "codice": [
+        "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+        "X.Calculations/CrackCalculationDetail.cs"
+      ],
+      "segno": "nessuno: testi identici al legacy",
+      "effetto_quantificato": {
+        "sintesi": "tests/ConcreteLibraryAdapter.Checks nel full del 12/10 sul commit pulito 71aaa60b: mappatura (prova 5a) 2303 controlli su 2272 voci sintetiche, 91 codici della traccia e 47 flag; nella griglia di fessurazione nessuna nota con numeri diversi fra i motori; prova 5h su 28 relazioni e 60 simboli della relazione sintetica. Copertura della traccia: 90 codici su 91 raggiunti dalle griglie (manca FormationDivisor), 91 su 91 con gli stati mirati. Non misurato: le relazioni sintetiche di B4, mai catturata.",
+        "evidenze": [
+          "supporto/artefatti/ci/20261012-225933-f2-set-t-full/ConcreteLibraryAdapter.Checks/misura.json (sezione sle)"
+        ]
+      },
+      "decisione": {
+        "esito": "nessuna decisione dell'utente: scelta F2.7-D1 del coordinatore (progetto F2.7 rivisto, §1), non registrata in decisioni.md; da ratificare (audit 14/10). Contribuisce alle tracce per i report di F2.3 [CP]."
+      },
+      "data": "2026-10-14",
+      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita nell'audit del 14/10",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs (prove 5a e 5h)"
+      ]
+    },
+    {
+      "id": "F2-7",
+      "titolo": "Rifiuti e ordine dei controlli della libreria SLE non raggiungibili dal modulo",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "intenzionale",
+      "stato": "da-ricostruire",
+      "descrizione": "Voce prevista dal progetto F2.7 (A8: «rifiuti e ordini della libreria non raggiungibili, misurati») e non scritta quando l'interruttore delle SLE è passato alla libreria in b7339f4a. Disponibile oggi: la copertura misurata da tests/ConcreteLibraryAdapter.Checks nel full del 12/10 (commit 71aaa60b). Rifiuti raggiunti: RibbedBarsRequired; con gli stati mirati anche i parametri coverOverride e spacingOverride. Motivi non raggiunti nemmeno con gli stati mirati: ZeroEffectiveDepth, NoEffectiveSteelOrArea, FaceWithoutAreaOrSteel. Esiti non raggiunti nemmeno con gli stati mirati: NeutralAxisUndetermined, NoTensileReinforcement, NoEffectiveArea, InnerSurfaceNotSupported; PrestressNotSupported è raggiunto solo dagli stati mirati. Il caso (i) di CrackK2Checks del 9/10 (sezione interamente compressa senza tensioni delle barre: wk = 0 nel legacy, rifiuto non tradotto nella libreria) risulta poi trattato con il controllo ValidateAtUse di Concrete 0.0.25.0 (lib/Checker/README.md). Manca: l'elenco ragionato dei rifiuti e dell'ordine dei controlli della libreria non raggiungibili dal modulo, con la prova che la produzione non li raggiunge e il confronto con l'ordine dei rifiuti del legacy; la decisione dell'utente.",
+      "codice": [
+        "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-225933-f2-set-t-full/ConcreteLibraryAdapter.Checks/misura.json (sle.fessurazione_copertura e sle.fessurazione_copertura_con_stati_mirati)",
+        "docs/refactoring/diario.md, 9 ottobre pomeriggio (caso (i) di CrackK2Checks)"
+      ],
+      "data": "2026-10-14",
+      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita in parte nell'audit del 14/10"
+    },
+    {
+      "id": "F2-8",
+      "titolo": "Ripieghi della cattura headless (fallbacks.json): chiamanti registrati con il motore SLE della libreria",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "intenzionale",
+      "stato": "da-ricostruire",
+      "descrizione": "Voce prevista dal progetto F2.7 (A8 e rischio 10: con l'adattatore cambiano i chiamanti registrati dei ripieghi J.S, J.D e J.B, come in F2-1) e non scritta. Misurato nell'audit del 14/10: fallbacks.json della cattura headless del full del 12/10 (commit 71aaa60b, successivo a b7339f4a, quindi con il motore SLE della libreria) è identico byte per byte a quello della baseline F2-B6, catturata con il legacy l'8/10: nessun cambio sui documenti del corpus. Manca: il corpus SLE della baseline B4, mai catturata, e quindi la misura sui documenti SLE e sui fogli senza le chiavi lette; manca la decisione dell'utente.",
+      "codice": [
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "src/ANTHEA.Serialization/JsonData.cs (ripieghi J.S, J.D, J.B)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/baseline/F2-B6/headless/fallbacks.json",
+        "supporto/artefatti/ci/20261012-225933-f2-set-t-full/baseline_cattura/cattura/fallbacks.json"
+      ],
+      "data": "2026-10-14",
+      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita in parte nell'audit del 14/10"
     },
     {
       "id": "F2-13",
@@ -2520,7 +2677,7 @@
       ],
       "raccomandazione": "A. Con il legacy i criteri Mx–My costanti (N = 0), N e Mx costanti (My = 0) e N e My costanti (Mx = 0) danno η = 0 e «Entro il dominio» qualunque sia il momento: esito non cautelativo raggiungibile dal modulo scegliendo il criterio (per esempio una trave con N = 0). Con la libreria quei casi non hanno punto e il modulo mostra «Checker: punto resistente non convergente». Prima del passaggio: profilo full a schermo con il motore Library e cattura B nuova.",
       "data": "2026-10-11",
-      "fase": "revisione di architettura R2 (branch claude/revisione-architettura, non unito)",
+      "fase": "revisione di architettura R2 (branch claude/revisione-architettura, unito in main il 12/10: fast-forward che comprende ff0e5fb7, ANTHEA 1.2.0, presente anche in origin/main; «non unito» corretto dall'audit del 14/10)",
       "test": [
         "tests/ConcreteLibraryAdapter.Checks/Resistance.cs (prove 12a-12g; '--solo-slu' per eseguirle da sole; 12c direzione di ricerca nulla)",
         "tests/ConcreteBench.Checks (A2: modulo e punto grezzo contro attesi/attesi.json; modulo diverso dal punto grezzo solo se questo è fuori dai vincoli)",
@@ -3627,7 +3784,8 @@
       "titolo": "Interassi circolari instabili sul confine del raggruppamento per raggio",
       "famiglia": "calcestruzzo/geometria",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "distribuzione": "Attuata nel set T: Concrete 0.0.27.2 da master pushati, installata con manifest e attivata in ANTHEA 1.3.0 (punto 1 del blocco F2 del 12/10, commit 66a9d351; collaudo in chiusura-blocco-f2-20261012.md). Lo stato «da-correggere» e le note «non distribuito» qui sotto sono superati (audit del 14/10).",
       "descrizione": "Il raggruppamento per Math.Round(r,5) separa barre della stessa corona vicino alla soglia. La norma euclidea del legacy e quella della DLL distribuita producono gruppi diversi; non è un arrotondamento ammissibile.",
       "codice": [
         "X.Calculations/TensionBarSpacing.cs",
@@ -3652,14 +3810,14 @@
         "repository": "Checker",
         "branch": "codex/f2-api02-interassi",
         "commit": "e1a9c78e",
-        "stato": "corretto-e-testato-non-distribuito",
+        "stato": "corretto e testato; distribuito poi nel set T (Concrete 0.0.27.2)",
         "descrizione": "Raggruppamento per estensione radiale massima 1e-5 mm ancorata al minimo; nessun interasse da gruppi con una sola barra. Coordinate e fixture immutate.",
         "prove": "38 prove geometriche indipendenti: 7 FAIL prima, 38 PASS dopo. Checker completo: 1544 PASS, 17 Steel noti, zero nuovi fallimenti; API compatibili.",
         "residuo": "Versione assegnata dall'utente, set coerente da commit pushati, collegamento ANTHEA e confronto prima/dopo. Lo stato globale resta da-correggere finché il prodotto usa il percorso precedente."
       },
       "attuazione_anthea": {
         "data": "2026-10-12",
-        "stato": "collegato e collaudato sul set candidato; pubblicazione nel rilascio finale",
+        "stato": "collegato e collaudato sul set candidato; pubblicato nel set T e attivo in ANTHEA 1.3.0",
         "descrizione": "Interassi, dettagli e fessurazione circolari ora usano la libreria; legacy esplicito conservato per confronto. Concrete 0.0.27.2 dal set candidato coerente Checker 97b7d1f1 / Model abd2b520.",
         "confronto": "548 file headless: solo 21 tempi. 50996 righe dense: 4 interassi e 4 esiti corretti, 2 conteggi aggregati; 24 arrotondamenti entro le tolleranze esistenti. Il solo dettaglio di interasse diventa soddisfatto (115.192 <= 300 mm), non la verifica complessiva.",
         "evidenze": [
@@ -4369,6 +4527,7 @@
       "categoria": "intenzionale",
       "stato": "attuato",
       "descrizione": "Attuazione D7-f. Nuovi documenti Schema 1 NTC 2018; vecchi documenti conservano il modello uniforme e i coefficienti, con migrazione esplicita. Travate con estremi indipendenti da linee di influenza; strutture superiori con azioni equivalenti globali e tandem locali, limiti dichiarati. Nessuna somma di reazioni massime non concomitanti. Report e CSV identificano il risultato adottato.",
+      "effetto_quantificato": "Effetto sui costi misurato solo per le strutture superiori: due modelli per famiglia della cattura Bridge F4, calcolati con il modello del documento (carico uniforme storico) e con lo Schema 1 NTC con γQ 1,35, stessa geometria dell'impalcato. Costo totale: arco a spinta eliminata (tied_arch) −21,1 % e −15,2 %; strallato (cable_stayed) +7,0 % e +3,9 %; sospeso (suspension) −28,0 % e −31,9 %; reticolare (truss) −18,8 % e −17,9 %. CO₂: tied_arch −21,7 % e −14,3 %; cable_stayed +0,8 % e −1,9 %; suspension −29,1 % e −35,5 %; truss −16,9 % e −20,1 %. Percentuali calcolate dai valori stampati dal test (per esempio tied_arch: costo 47988036,84 → 37883924,46, CO₂ 21948,999 → 17191,687). Fonte: test Checker DesignTests.BridgeTrafficTests.UpperStructuresUseLocalTandemsAndExposeTheirConceptualBounds, uscita in supporto/artefatti/refactoring/f4/traffic-upper-b/traffic-upper-b.trx, identica in traffic-upper-a e endpoint-after. Per le famiglie a travata nelle evidenze non c'è un confronto dei costi: da misurare.",
       "decisione": "D7-f; completamento F4 autorizzato il 13/10 sera.",
       "test": [
         "52 test Design PASS, 20 attesi Python preesistenti invariati",
@@ -4419,7 +4578,8 @@
       "famiglia": "Norme e ingressi",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Catalogo tipizzato in Model; i coefficienti dei nove profili restano equivalenti. Documento precedente senza norma migrato esplicitamente a NTC con nota e override conservati; valori nulli, errati o sconosciuti rifiutati. La fessurazione senza norma resta visibile ma non viene calcolata assumendo NTC. Micropalo con terreno sconosciuto rifiutato anche se lo strato non è attivo. Report completo/sintetico legge norma e dati dal risultato, rifiuta snapshot assenti o incoerenti; rimosso un paragrafo normativo duplicato.",
+      "descrizione": "Catalogo tipizzato in Model; i coefficienti dei nove profili restano equivalenti. Documento precedente senza norma migrato esplicitamente a NTC con nota e override conservati; valori nulli, errati o sconosciuti rifiutati. La fessurazione senza norma resta visibile ma non viene calcolata assumendo NTC. Micropalo con terreno sconosciuto rifiutato anche se lo strato non è attivo. Report completo/sintetico legge norma e dati dal risultato, rifiuta snapshot assenti o incoerenti; rimosso un paragrafo normativo duplicato. Distribuito con il set W (Model 5.4.0.1) e ANTHEA 1.8.0 il 14/10.",
+      "decisione": "La migrazione esplicita a NTC dei documenti precedenti senza norma è una scelta dell'agente (F4.14a): decisione dell'utente da ratificare (audit 14/10). Il commit 9fee7a47 cambia anche i report di calcolo durante il blocco dell'8/10 (piano.md, voce «Report di calcolo»).",
       "test": [
         "residual-adapter-c: 10 PASS, nessun nuovo fallimento",
         "Nove profili congelati, migrazione idempotente, override e rifiuti",
@@ -4545,12 +4705,14 @@
     {
       "id": "F4-36",
       "data": "2026-10-14",
-      "fase": "F4.16",
+      "fase": "F4.13a (origine), F4.16 (correzione)",
       "titolo": "Predalle: non leggere i dati delle file disattivate",
       "famiglia": "Geometria composta",
-      "categoria": "difetto-legacy",
-      "stato": "attuato",
+      "categoria": "regressione",
+      "stato": "corretto",
       "descrizione": "Il full ha rilevato una regressione nel mapping verso SlabRebarLayout: riferimento e copriferri inattivi venivano validati. Ora solo le file abilitate leggono i relativi input; i campi dormienti restano intatti. Nessuna formula o atteso numerico modificato.",
+      "origine": "Regressione introdotta da F4 (non un difetto legacy): commit ba307ce0 del 14/10 (F4.13a, geometria residua delle sezioni delegata a GPC), che nel mapping delle predalle verso SlabRebarLayout leggeva come obbligatori anche gli input delle file disattivate. Non rilevata dalle catture congelate F4; emersa solo nella prima corsa full su 1.8.0/set W (supporto/artefatti/refactoring/f4/full-1.8.0.log). Riclassificata dall'audit del 14/10.",
+      "correzione": "Commit 7d3c9bc9 del 14/10 (X.Calculations/BridgeSection.SlabLayout.cs).",
       "test": [
         "predalle-fix: 9 PASS, inclusi confronto dei 53 casi congelati, regressione predalle, WPF e architettura"
       ],
@@ -4566,12 +4728,14 @@
     {
       "id": "F4-37",
       "data": "2026-10-14",
-      "fase": "F4.16",
+      "fase": "F4.8b.3/F4.10a.1 (origine), F4.16 (correzione)",
       "titolo": "Muri precedenti senza suddivisione: quota inferiore inattiva",
       "famiglia": "Muri",
-      "categoria": "difetto-legacy",
-      "stato": "attuato",
+      "categoria": "regressione",
+      "stato": "corretto",
       "descrizione": "La quota lower_height del contratto nativo viene letta solo con due zone abilitate. Ripristinato il calcolo degli archivi precedenti che non contengono il campo, senza completare o alterare gli input e senza cambiare formule.",
+      "origine": "Regressione introdotta da F4 (non un difetto legacy): adattatore nativo dei dettagli dei muri, commit ac058a5b/5afb47ab del 13-14/10, che leggeva lower_height come obbligatoria anche con una sola zona; gli archivi precedenti senza il campo non si calcolavano più. Non rilevata dalle catture congelate F4; emersa solo nella prima corsa full su 1.8.0/set W. Riclassificata dall'audit del 14/10.",
+      "correzione": "Commit 2850c031 del 14/10 (X.Calculations/RetainingWall.Library.Details.cs).",
       "test": [
         "wall-inactive: 7 PASS, confronti strutturali, dettagli e ricerca contro le catture precedenti",
         "wall-legacy: 2 PASS, suite storica RetainingWall.Checks completa"
