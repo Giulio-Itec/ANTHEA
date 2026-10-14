@@ -167,7 +167,7 @@
       "categoria": "difetto-legacy",
       "stato": "corretto",
       "descrizione": "La scheda dettagli ora include le componenti N delle righe taglio, come il progetto armature. Cattura preservata: con N=-100 kN nelle azioni ultime e -6000 kN nel taglio, NEd passa da 100 a 6000 kN e As,min da 720 a 1533.333333 mm². Il segno positivo resta trazione; N presente non numerico è rifiutato. Ramo diagnostico conservato. Nessuna modifica alle formule normative. Distribuito con il set W il 14/10 (commit 3f9df6b8, ANTHEA 1.8.0).",
-      "decisione": "L'utente aveva chiesto l'8/10 di trattare l'incoerenza in F4.12 (F2.8-U4 «ok»). La scelta di usare in entrambi i percorsi la N delle righe del taglio è dell'agente: decisione dell'utente da ratificare (audit 14/10).",
+      "decisione": "L'utente aveva chiesto l'8/10 di trattare l'incoerenza in F4.12 (F2.8-U4 «ok»). La scelta di usare in entrambi i percorsi la N delle righe del taglio è dell'agente: decisione dell'utente da ratificare (audit 14/10). Decisa dall'utente il 14/10 (decisioni.md, punto 2d): NEd è la compressione più gravosa di tutte le combinazioni, SLE comprese, uguale nei due percorsi (F4-44).",
       "test": [
         "11 PASS runner, inclusi Application, ConcreteDesign, contratti input e ricerca sezioni",
         "Caso N=-20000 kN: As,min=5111.111111111111 mm² ed esito negativo; immutabilità e letture errate controllate"
@@ -4610,7 +4610,7 @@
       "categoria": "intenzionale",
       "stato": "attuato",
       "descrizione": "Catalogo tipizzato in Model; i coefficienti dei nove profili restano equivalenti. Documento precedente senza norma migrato esplicitamente a NTC con nota e override conservati; valori nulli, errati o sconosciuti rifiutati. La fessurazione senza norma resta visibile ma non viene calcolata assumendo NTC. Micropalo con terreno sconosciuto rifiutato anche se lo strato non è attivo. Report completo/sintetico legge norma e dati dal risultato, rifiuta snapshot assenti o incoerenti; rimosso un paragrafo normativo duplicato. Distribuito con il set W (Model 5.4.0.1) e ANTHEA 1.8.0 il 14/10.",
-      "decisione": "La migrazione esplicita a NTC dei documenti precedenti senza norma è una scelta dell'agente (F4.14a): decisione dell'utente da ratificare (audit 14/10). Il commit 9fee7a47 cambia anche i report di calcolo durante il blocco dell'8/10 (piano.md, voce «Report di calcolo»).",
+      "decisione": "La migrazione esplicita a NTC dei documenti precedenti senza norma è una scelta dell'agente (F4.14a): decisione dell'utente da ratificare (audit 14/10). Decisa dall'utente il 14/10 (decisioni.md, punto 2c): NTC solo per i file del formato precedente al selettore della norma, un file del formato attuale senza norma si rifiuta, nota di migrazione tolta (F4-40); ratifica di F4.14 al punto 4b. Il commit 9fee7a47 cambia anche i report di calcolo durante il blocco dell'8/10 (piano.md, voce «Report di calcolo»).",
       "test": [
         "residual-adapter-c: 10 PASS, nessun nuovo fallimento",
         "Nove profili congelati, migrazione idempotente, override e rifiuti",
