@@ -16,6 +16,13 @@ public static class ConcreteStandards
             throw new ArgumentException("Selezionare esplicitamente la normativa; preparare prima i documenti precedenti.");
         return ConcreteStandardCatalog.Name(ConcreteStandardCatalog.Parse(name));
     }
+    public static string ResultName(JsonObject workspace)
+    {
+        string name = RequiredName(workspace);
+        if (!workspace.ContainsKey("normativa_custom")) return name;
+        string label = workspace.S("normativa_custom");
+        return string.IsNullOrWhiteSpace(label) ? throw new ArgumentException("Descrizione della normativa personalizzata assente.") : label;
+    }
     public static readonly (string Key, string Label)[] Coefficients =
     [
         ("AlphaCC", "αcc · compressione"), ("AlphaCT", "αct · trazione"), ("GammaC", "γc · CLS"), ("GammaS", "γs · armature"),

@@ -50,6 +50,18 @@ internal static class F4StandardInputChecks
             micro["stratigrafie"]![0]![0]!["terreno"]="Sconosciuto";micro["stratigrafie"]![0]![0]!["laterale_attiva"]=active;
             Check(Calcolo.Calcola(micro,true).S("errore").Length>0,"Unknown micropile soil replaced by gravel");
         }
+        foreach (bool unitary in new[] { false, true })
+        {
+            var pile = ConcreteStandards.PileWorkspace(new JsonObject { ["coefficienti_unitari"] = unitary });
+            Check(ConcreteStandards.ResultName(pile) == (unitary ? pile.S("normativa_custom") : pile.S("normativa")), "Pile result label diverges from actual profile");
+        }
+        Reject(() => ConcreteStandards.ResultName(new JsonObject()));
+        var phases = BridgeSection.Defaults(); phases["pioli"] = true;
+        Check(!Anthea.Application.Presentation.BridgeSheetPresentation.PhaseHomogenizationNeeded(phases, "Soletta esclusa"), "NTC phase visibility changed");
+        phases["normativa"] = "EN 1994-2:2005";
+        Check(Anthea.Application.Presentation.BridgeSheetPresentation.PhaseHomogenizationNeeded(phases, "Soletta esclusa"), "EC phase visibility changed");
+        phases["normativa"] = "NTC typo";
+        Reject(() => Anthea.Application.Presentation.BridgeSheetPresentation.PhaseHomogenizationNeeded(phases, "Soletta esclusa"));
         return checks;
     }
 }

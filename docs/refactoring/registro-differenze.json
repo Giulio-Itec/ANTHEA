@@ -4489,6 +4489,31 @@
         "supporto/artefatti/refactoring/f4/last-adapters-b.log",
         "tests/fixtures/f4/last-adapters-reference.json"
       ]
+    },
+    {
+      "id": "F4-34",
+      "data": "2026-10-14",
+      "fase": "F4.14c",
+      "titolo": "Norma dei risultati e filtro di fase senza inferenze dal testo",
+      "famiglia": "Norme e presentazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Risultati dei pali con etichetta derivata dal profilo validato o dalla descrizione esplicita dei coefficienti unitari. La vista segnala una norma assente, senza inventare NTC. Omogeneizzazione della fase composta governata dal profilo tipizzato, non dal prefisso NTC. Restano solo due ripieghi R3 nei motori diagnostici conservati.",
+      "test": [
+        "standard-labels-a: 7 PASS, nessun nuovo fallimento",
+        "20 pali/28 tratti/3698 verifiche/22188 numeri congelati equivalenti",
+        "Profili personalizzati, assenti e refusi; visibilità NTC/EC verificata"
+      ],
+      "codice": [
+        "X.Calculations/ConcreteStandards.cs",
+        "X.Calculations/HorizontalConcreteSection.cs",
+        "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
+        "src/ANTHEA.Application/Presentation/BridgeSheetPresentation.cs",
+        "X.Desktop/Wpf/HorizontalWorkspace.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/standard-labels-a.log"
+      ]
     }
   ]
 }

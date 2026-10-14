@@ -4133,14 +4133,6 @@
     },
     {
       "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "ElasticHorizontalPile.CalculateReinforcementCore",
-      "Fingerprint": "DDA53B202BB52B542E99AC0D0B3AD78F169C6FF3DA59C32895607370320BDE9F",
-      "Count": 1,
-      "Example": "workspace . S ( \"normativa_custom\" , \"NTC 2018\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
       "Rule": "R4-implicit-number",
       "Owner": "ElasticHorizontalPile.CalculateReinforcementCore",
       "Fingerprint": "11AD16FD38722C280E2690DC4AC3B0A5F93F2E770CFACCC08117F113FD661678",
@@ -4402,14 +4394,6 @@
       "Fingerprint": "DE5628023CE8BCAF3F18B7B2CCA3E9397C6C742D09C99AE01DDCB098B40499E9",
       "Count": 1,
       "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/HorizontalConcreteSection.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "HorizontalConcreteSection.Calculate",
-      "Fingerprint": "A5923B8FA14082AF6273F2D09BE95243D5E81A9C4B15638693C47790477B10F5",
-      "Count": 1,
-      "Example": "workspace . S ( \"normativa_custom\" , \"NTC 2018\" )"
     },
     {
       "File": "X.Calculations/HorizontalConcreteSection.cs",
@@ -15749,14 +15733,6 @@
     },
     {
       "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "HorizontalWorkspace.DisplayMoment",
-      "Fingerprint": "7F3F72DC9FE26D48CF2DB53EEFB3E0571E01258E64C1FB2BA5086E73152FFB89",
-      "Count": 1,
-      "Example": "result . S ( \"normativa\" , \"NTC 2018\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
       "Rule": "R4-implicit-number",
       "Owner": "HorizontalWorkspace.CalculateScheduledAsync",
       "Fingerprint": "117FC80768E97D5CDF0CB67648D29F66AD4F97706577B800791D0F34367EE5FA",
@@ -20210,14 +20186,6 @@
       "Fingerprint": "C914802701D86D395D86E85435DF1710F2F6AAFA11E72DCA54117C5798DB1015",
       "Count": 2,
       "Example": "1000"
-    },
-    {
-      "File": "src/ANTHEA.Application/Presentation/BridgeSheetPresentation.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "BridgeSheetPresentation.PhaseHomogenizationNeeded",
-      "Fingerprint": "A119021043ABCCF5C785F7DE6FCB0FA2938856954A31AE06BD30D11AFEDB74C4",
-      "Count": 1,
-      "Example": "data . S ( \"normativa\" ) . StartsWith ( \"NTC\" )"
     },
     {
       "File": "src/ANTHEA.Application/Presentation/BridgeSheetPresentation.cs",

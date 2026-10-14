@@ -86,7 +86,7 @@ public static partial class ElasticHorizontalPile
                 record["contorno_sezione"]=J.Node(cache.Engine.Geometry.Outline);
                 record["durabilita"]=PileDurability(input,details);record["comportamento_dettagli"]=details.S("elemento");
                 progress?.Report(new($"Tratto {s.Id}: controlli N–M–V, dettagli e distinta"));
-                record["normativa"]=workspace.S("normativa_custom","NTC 2018");
+                record["normativa"]=ConcreteStandards.ResultName(workspace);
                 var construction=cache.Service.ConstructionChecks(checks.Max(c=>c.Action.N));record["controlli_costruttivi"]=JsonSerializer.SerializeToNode(construction);
                 if(construction.Any(c=>c.Passed==false)){record["stato"]="Non soddisfatto: dettaglio della sezione";satisfiedSegments.Remove(s.Id);}
                 else if(construction.Any(c=>c.Passed==null)&&satisfiedSegments.Remove(s.Id))record["stato"]="Parziale: dettagli da completare";

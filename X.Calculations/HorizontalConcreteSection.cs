@@ -31,7 +31,7 @@ public static class HorizontalConcreteSection
             ("tolleranza_n_kn", SectionMomentResistance.AxialToleranceKn(engine, -axial)),
             ("fcd_mpa", material.Fcd), ("fyd_mpa", material.Fyd), ("area_acciaio_mm2", engine.Geometry.AreaSteel),
             ("outline", engine.Geometry.Outline), ("bars", engine.Geometry.Bars.Select(b => new[] { b.X, b.Y, b.Area, b.Diametro })),
-            ("normativa", workspace.S("normativa_custom", "NTC 2018")), ("coefficienti_unitari",input.B("coefficienti_unitari")), ("motore", "GPCChecker.Concrete"), ("direzioni", directions), ("lati_contorno", engine.Geometry.CircularSides),
+            ("normativa", ConcreteStandards.ResultName(workspace)), ("coefficienti_unitari",input.B("coefficienti_unitari")), ("motore", "GPCChecker.Concrete"), ("direzioni", directions), ("lati_contorno", engine.Geometry.CircularSides),
             ("modello", "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."));
     }
 }
