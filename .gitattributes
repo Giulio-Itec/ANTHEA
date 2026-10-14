@@ -1,5 +1,7 @@
 # The repository stores text with LF; checkouts follow core.autocrlf, except the files below.
 * text=auto
+# Preserve the archived Rev42 bytes and their recorded SHA-256 values.
+supporto/SUPERATI/f4-rev43-20261014/** -text
 
 *.sln text eol=crlf
 *.cmd text eol=crlf
