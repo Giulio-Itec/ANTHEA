@@ -527,6 +527,15 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
     ANTHEA.
   - Come vuole AGENTS.md, interfaccia, guide e report non contengono testi, figure né rimandi al sito.
   - Si progetta con un piano dedicato e con le decisioni dell'utente.
+- [ ] Dopo la fine del refactoring (decisione dell'utente del 14/10, punto 2c dell'audit): Eurocodici con una norma di
+  progetto, non per modulo, scritta in ogni documento; annesso nazionale come dato del profilo; profili tipizzati per
+  disciplina nelle librerie (combinazioni EN 1990, geotecnica EN 1997 con DA1/DA2/DA3, sisma EN 1998, traffico EN
+  1991-2, copriferri e durabilità; il calcestruzzo ha già i profili EC2); i moduli che non supportano la norma scelta
+  rifiutano il calcolo; rimandi normativi dei report dal profilo; attesi indipendenti per ogni modulo e norma. Oggi solo
+  sezioni c.a. e Bridge hanno una scelta della norma, gli altri moduli sono fissi su NTC (`CalculationCoefficients.cs`).
+- [ ] Eventuale, fuori da questo refactoring (decisione dell'utente del 14/10): spostamenti SLE dei muri per
+  sovrapposizione, quasi permanente con viscosità più incremento dei carichi variabili senza viscosità. Fino ad allora
+  (1+φ) vale in tutte e tre le combinazioni SLE.
 
 ## Bozza del modulo Modelli — 9 ottobre 2026
 

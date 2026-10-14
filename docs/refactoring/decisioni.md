@@ -1074,3 +1074,62 @@ Decisioni dell'utente, una per punto:
      Approvata anche la correzione del modulo sezioni: equazione del piano e diagramma delle deformazioni SLE con φ > 0
      mostrano il piano equivalente, (1+φ) volte più piccolo delle deformazioni di barre e vertici nella stessa vista.
      Solo visualizzazione; nuova voce del registro, cattura prima e confronto dopo.
+   - (c) F4-31, documenti c.a. senza norma: l'utente precisa che non esistono file salvati senza norma e che la norma
+     è effettivamente NTC. Deciso («sì a entrambe»): calcoli rigorosi senza ripiego su NTC; nota di migrazione tolta
+     (era anche contraddittoria se poi si sceglie un'altra norma); NTC assegnata solo ai file del formato precedente al
+     selettore, un file del formato attuale senza norma si rifiuta. In coda, dopo il refactoring: Eurocodici con una
+     norma di progetto (non per modulo), annesso nazionale come dato del profilo, profili tipizzati per disciplina nelle
+     librerie (combinazioni EN 1990, geotecnica EN 1997, sisma EN 1998, traffico EN 1991-2, copriferri), rifiuto
+     esplicito dei moduli che non supportano la norma scelta, attesi indipendenti per ogni modulo e norma.
+   - (d) F4-20, NEd dell'armatura longitudinale minima: «compressione massima tra tutte le combo. slu, slv e taglio
+     (eventualmente sle se le altre sono nulle)»; precisato: «se dovessero mancare considera gli sle. in generale, usa
+     le N più gravose di tutte le combo». Regola: NEd = compressione massima fra tutte le combinazioni (SLU, SLV, righe
+     del taglio, SLE rara, frequente e quasi permanente), uguale in scheda dettagli e progetto armature; il risultato
+     indica la combinazione che governa e segnala quando è di esercizio. Oggi entrano SLU, SLV e taglio: si aggiungono
+     le SLE. La regola va nella libreria (GPC.Design, `SectionDesignDemand`), non in ANTHEA.
+   - Seguito di (b), viscosità nelle combinazioni SLE dei muri: «confermo la 1. ad ora teniamo quella». Resta (1+φ)
+     in tutte e tre le combinazioni SLE, come per le tensioni (stesso n): a favore di sicurezza, sovrastima modesta
+     perché la spinta è quasi tutta permanente. φ solo nella quasi permanente è escluso (perderebbe la viscosità dei
+     permanenti). La sovrapposizione (quasi permanente con viscosità più incremento variabile senza) «in un futuro
+     eventuale, ma non in questo refactoring».
+3. **Legacy sostituito in b7339f4a** (12/10): «ratifico entrambe».
+   - (3a) Aderenza/ancoraggi, dettagli non circolari, M–χ e interassi non circolari restano sulla libreria, senza
+     interruttore; il codice precedente si recupera da git. Equivalenza: 548 file e 50 996 righe, scarto massimo
+     1,1e-15 relativo. Superata per queste famiglie la condizione di F2.11 («il legacy resta finché l'utente non
+     decide»); la revisione delle pagine dei metodi (F2.8-U1) resta in coda come documentazione.
+   - (3b) Tensioni e fessurazione SLE: libreria come motore predefinito (A8), legacy selezionabile fino alla revisione
+     delle pagine dei metodi, poi rimozione con l'ok dell'utente. Il coordinatore completa le evidenze mancanti
+     (cattura B4 del corpus SLE con i due motori, voci F2-7 e F2-8).
+4. **Ratifiche a posteriori**: «ratifico entrambe».
+   - (4a) Push dei master di Model e Checker del 14/10 alle 04:04 (set W); merge e push di EXCEL-SOL su main (1.7.0,
+     13/10; il verbale dichiarava un'autorizzazione non registrata); merge e push di F3 del 13/10 alle 13:45, dopo la
+     scadenza del mandato notturno.
+   - (4b) [CP] F1.4, F1.6, F2.2 (la rilettura dei contenuti delle pagine dei metodi resta in coda), F2.9-D1…D14,
+     F2.7-D1, F3.1, F3.4, F3.6 limitatamente al ricalcolo ritardato del ponte (450 ms), F3.7, F4.3 e F4.14.
+   - Restano aperti (4c): «report short senza Word» di F3.6 e proposte F2.9-U1…U6.
+   - (4c-1) Report sintetico senza Word: «predisponilo ora in questo refactoring. fai che faccia entrambi i file: docx
+     e pdf. export in pdf aggiungilo anche agli altri report. per ora però prendi i report per come sono. li dovremo
+     rivedere appena finito il refactoring». Il PDF si genera in ANTHEA.Reports dallo stesso modello in memoria del
+     DOCX, con una libreria MIT e senza Word; il report sintetico scrive sempre DOCX e PDF e il controllo delle due
+     pagine lo fa ANTHEA; l'esportazione PDF si aggiunge a tutti gli altri report. Contenuti e impaginazione dei DOCX
+     restano quelli attuali (cattura prima e confronto dopo: DOCX invariati); la revisione dei report è in coda dopo la
+     fine del refactoring. Dipendenza: «va bene aggiungere un nuget» (PDFsharp/MigraDoc, MIT, da nuget.org; DLL e nota
+     di licenza anche nell'installer).
+   - (4c-2…7) Proposte F2.9: U1 «non ho la norma. resta sulla 2016» (scritto «2026», refuso): classi minime e
+     composizione restano UNI 11104:2016 prospetto 5, la 2025 non si adotta senza il testo primario; U2, che segue U1:
+     l'etichetta della libreria diventa «UNI 11104:2016 prospetto 5»; U3 «correggi»: si traducono i testi inglesi del
+     palo elastico (riferimento e messaggi di `PileDurability`, 7 righe di relazione); U4 «ok»: i valori predefiniti
+     della scheda Materiali si scrivono nel documento e si mostrano, nessun numero cambia; U5 «ok»: descrizioni, esempi e
+     note riprese da ATECAP 2020 si riscrivono con testi nostri, citando solo le norme; U6 «ok»: la pagina del metodo
+     `ca.durabilita-copriferri` resta in coda con le altre.
+5. **Autorizzazioni operative**: «autorizzo tutte le 5 che hai mandato». Eseguite il 14/10:
+   - (5a) junction `supporto/artefatti/verifiche_ca_auto/template/node_modules` (dal 18/09, verso il runtime Codex)
+     tolta con `cmd /c rmdir`; destinazione intatta;
+   - (5b) `supporto/tmp/f2-libs` (1,34 GB): quattro worktree di Checker, Geometry, Model e Utilities, puliti e su commit
+     già in origin/master, rimossi con `git worktree remove`; cancellata la copia di Gmsh.Net (il repository resta);
+   - (5c) Temp: `gpc-rev` (2,27 GB, revisione delle librerie chiusa il 12/10), `anthea-uitests-a5` e 38 cartelle vuote
+     (AntheaShort-*, ANTHEA-InstallerTest-*, ANTHEA-GuideTest-*, ANTHEA-GuideCheck-*, anthea-midas-*, d7d-harness-*);
+     controllato prima che non contenessero collegamenti; `anthea-guides` del 28/09 non toccata;
+   - (5d) tag annotati delle versioni sul commit da cui è costruito l'installer, dove registrato (1.2.0 fc632464, 1.6.0
+     8b0da2a2, 1.7.0 68330851, 1.7.1 2c06ab46, 1.8.0 d66379ac), altrimenti sul commit che porta la versione (1.3.0
+     71aaa60b, 1.4.0 22f6a1aa, 1.5.0 bce1e337); push dei tag e del ramo `refactoring/f4-correzioni-audit`.
