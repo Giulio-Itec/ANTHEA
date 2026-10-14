@@ -3,23 +3,32 @@
 Preparato il 14/10/2026 sera, in sola lettura. Non cambia gli stati di [piano.md](piano.md) e del
 [registro](registro-differenze.json).
 
-**Stato.** Ramo `refactoring/f4-correzioni-audit` a `429dcb1d` (14/10 22:52; su origin è a `08588fec`). Contiene
-`refactoring/f4-calcoli-residui` (`7569f6fc`) ed è 96 commit avanti a `main` locale (`46b4c918`, 1.7.1), che non
-ha commit propri. Versione 1.8.0; in `lib/Checker` il set X (`137acd4b`).
+**Stato.** Ramo `refactoring/f4-correzioni-audit`, ultimo commit della notte del 14/10 dopo `5ba83f1f`; su origin è a
+`08588fec`, i commit successivi non sono pubblicati. Contiene `refactoring/f4-calcoli-residui` (`7569f6fc`) ed è
+circa 100 commit avanti a `main` locale (`46b4c918`, 1.7.1), che non ha commit propri. Versione 1.8.0; in
+`lib/Checker` il set X (`137acd4b`).
 
 **Già deciso il 14/10, non riproposto** ([decisioni.md](decisioni.md), punti 1–9): σcp e curvatura dei muri,
 norma c.a. (F4-40), NEd (F4-44), report sbloccati, legacy di `b7339f4a`, ratifiche 4a/4b, proposte F2.9, PDF dei
 report, analisi composte, pagine dei metodi F4 pubblicate, F2-7 punti 1–2. Registro: nessuna voce F4
 «da-decidere» o «da-correggere»; F2-7 «dichiarato», punto 3 in coda.
 
-## Condizione comune: il full del 15/10
+## Condizione comune: il full
 
-La chiusura dipende dal full del runner sul ramo (avvio verso le 04:30 del 15/10) e dalla classificazione delle
-sue differenze rispetto al riferimento F3.
+La chiusura dipende dal full del runner sul ramo e dalla classificazione delle sue differenze rispetto al
+riferimento F3.
 
-> **Esito del full del 15/10: da inserire** (commit, cartella, PASS / KNOWN / NEW-FAIL).
+> **Esito del full.** Avviato il 14/10 alle 23:06 invece delle 06:00 del 15/10, su indicazione dell'utente («appena
+> finite parti pure con il full»). Commit `fd28f353`, cartella `20261014-230601-f4-full-20261015`, albero pulito,
+> stadi build, fast, regression, wiki, baseline e ui. **136 PASS, 0 KNOWN, 2 NEW-FAIL**:
+> - `ui/f3-equivalence`, per costruzione;
+> - `ui/smoke-bridge-prices`: la prova non era aggiornata alla scheda delle analisi composte di F4-45. Corretta in
+>   `5ba83f1f`, rieseguita da sola: PASS.
 >
-> **Differenze del confronto UI F3 nel full: da inserire** (numero, file, confronto con le 6805).
+> **Differenze del confronto UI F3 nel full.** 7214 in 88 file. 6337 sono identiche alla cattura di `82fcd8fc`; le
+> altre coincidono file per file con la previsione scritta prima della corsa
+> ([f4-full-20261015-attese.md](f4-full-20261015-attese.md)): F4-40, F4-47, versione di Geotechnics, Wiki e ricerca
+> (F4-48). Nessuna differenza non spiegata, nessun numero di calcolo cambiato.
 
 - `ui/f3-equivalence` darà NEW-FAIL per costruzione: confronto esatto
   (`tests/ANTHEA.Desktop.Equivalence/F3EquivalenceCapture.cs`, riga 96), attesi `tests/fixtures/f3/expected`
@@ -29,8 +38,8 @@ sue differenze rispetto al riferimento F3.
   `20261014-173627-audit-x-standard` (`3b8f00dd`) 65 PASS, 1 NEW-FAIL e 1 BLOCKED da A12, corretti in
   `46fc35b5`; `20261014-220447-audit-baseline` (`2a23ba48`) 19 PASS, 1 NEW-FAIL, corretto in `52e4b8aa`. Le
   verifiche di queste correzioni e le corse successive (quick 47 PASS, installer 2 PASS, F2-7 2 PASS) sono su
-  albero modificato; nessuna corsa con lo stadio `ui`. Il full del 15/10 è la prima corsa completa su albero
-  pulito dopo l'audit.
+  albero modificato; nessuna corsa con lo stadio `ui` fino al full del 14/10 sera, che è la prima corsa completa su
+  albero pulito dopo l'audit.
 
 ## D1. Le 6805 differenze del confronto UI F3 (F4.16g)
 
@@ -58,8 +67,8 @@ I gruppi 1–3 (694) vengono da versioni già in `main`. «Stili spostati» e st
 confronto per posizione: un elemento in più o in meno sposta i successivi.
 
 Punti dubbi (V1–V7) al 14/10 sera:
-- **V1**: i commit dopo la cattura non sono misurati (`7d3c9bc9` F4-36, `2850c031` F4-37, `660b4c71` F4-38,
-  `d66379ac` F4-39, che cambia di sicuro un articolo Wiki). Li misura il full del 15/10.
+- **V1**: i commit dopo la cattura non erano misurati (`7d3c9bc9` F4-36, `2850c031` F4-37, `660b4c71` F4-38,
+  `d66379ac` F4-39, che cambia di sicuro un articolo Wiki). Misurati nel full del 14/10 sera: vedi sotto.
 - **V2** (tolleranze): aperto, vedi D2. **V5** (voci di registro per Rev41–Rev44): voce F4-48 aggiunta la sera
   del 14/10; il manifest F3 ha `editorial_updates` solo per Rev40, quindi l'ammissione resta in D2.
 - **V3, V4** (F4-03, F4-08): scelte confermate il 14/10 (2a, 2b); resta solo l'ammissione.
@@ -69,9 +78,16 @@ Punti dubbi (V1–V7) al 14/10 sera:
 Le due regressioni vere di F4 (F4-36, F4-37) erano fuori da questo confronto, sono emerse nel primo full e sono
 corrette in `7d3c9bc9` e `2850c031`.
 
-Nel full del 15/10 (atteso da commit e registro, non misurato): spariscono le 24 differenze della nota F4-31
-(F4-40); cambia la versione di Geotechnics (set X); possono comparire differenze da F4-39 e Rev44 (Wiki), F4-47
-(testi della durabilità), F4-42 (fogli Materiali), F4-44 (combinazione che governa NEd), F4-43 e `13a49893`.
+Misurato nel full del 14/10 sera (V1 chiuso). F4-40 non fa solo sparire le 24 differenze della nota F4-31:
+- spariscono 18 chiavi `str_palo` e una del progetto;
+- la nota tolta sposta gli stili successivi: +130, +130 e +117 nelle tre schede, mentre nel report di progetto le
+  differenze di stile scendono da 728 a 623.
+
+Per il resto:
+- la versione di Geotechnics diventa 0.3.0.1 (set X);
+- F4-47 cambia due celle dei report dei materiali e del progetto;
+- la Wiki e la ricerca cambiano per F4-39 e Rev44;
+- F4-42, F4-43, F4-44, F4-45, F4-46 e `13a49893` non danno differenze nel confronto.
 
 **Proposta.** Approvare i 17 gruppi come transizioni attese e lasciare V6 com'è (non cambia risultati né costi).
 Le differenze nuove del full le classifico con lo stesso metodo e le porto all'utente solo se non spiegate o se
@@ -89,7 +105,7 @@ F4-40 (`6e22b9a6`) due input F3 (`tests/fixtures/f3/inputs/str_palo--legacy-calc
 **Proposta.** Risultati e report: elenco versionato delle transizioni per file e percorso, con valore prima e
 dopo e voce di registro; ogni altra differenza fallisce; prove negative del prospetto; nessuna tolleranza nuova.
 Wiki e ricerca: come F3-06, con impronte prima/dopo in `editorial_updates` e voci di registro per Rev41–Rev44.
-Poi una nuova corsa completa sul commit finale: il full del 15/10 non può essere quello conforme.
+Poi una nuova corsa completa sul commit finale: il full del 14/10 sera non può essere quello conforme.
 
 **Domanda.** Approvi questo modo di ammissione, la corsa completa successiva e la modifica dei due input F3?
 

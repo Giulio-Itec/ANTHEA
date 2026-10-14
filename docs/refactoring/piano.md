@@ -421,6 +421,17 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] F4.16e (14/10) — confronto capitoli: Inizializzata una sola volta la data della revisione ambientale, prima delle copie indipendenti della fixture. Il confronto esatto scheda/capitolo progetto resta attivo e passa per tutti i moduli; nessun campo escluso, nessun atteso aggiornato. wiki-chapters: ui/f3-report-chapters PASS.
   - [x] F4.16f (14/10) — provenienza dell’archivio guide: Disabilitata la normalizzazione Git del solo archivio Rev42: tre Markdown conservano ora i byte CRLF originali anche nei checkout futuri. Verificati i 16 SHA sia nei file sia nell’indice; manifest e contenuti originali invariati.
   - [ ] F4.16g (14/10) — confronto UI storico da revisionare: Prima corsa full: 114 PASS e cinque fallimenti. Predalle, muri, Wiki e capitoli corretti e ricollaudati; resta il confronto esatto F3 con le variazioni F4. [Prospetto delle 6805 differenze](f4-transizioni-ui-da-revisionare.md), riferimento F3 e tolleranze invariati. La revisione automatica ha respinto una classificazione per interi file; proposta rimossa. Chiusura e merge finali subordinati alla revisione puntuale e al full conforme.
+    Full del 14/10 sera (`20261014-230601-f4-full-20261015`, commit `fd28f353`, albero pulito, stadi build, fast, regression, wiki, baseline e ui): 136 PASS, 2 NEW-FAIL.
+    - `ui/f3-equivalence`: 7214 differenze, tutte nella previsione scritta prima della corsa ([f4-full-20261015-attese.md](f4-full-20261015-attese.md)), nessun numero di calcolo cambiato.
+    - `ui/smoke-bridge-prices`: prova non aggiornata a F4-45, corretta in `5ba83f1f`.
+
+    Restano le decisioni D1–D5 di [f4-chiusura-decisioni.md](f4-chiusura-decisioni.md) e la corsa conforme dopo D2.
+  - [x] 14/10 notte — attesi indipendenti e preparazione della chiusura:
+    - TEST-02: gli ultimi 32 attesi di `casi_confronto.json` rigenerati dal codice sono ricalcolati con `tools/attesi` (30 sezioni a T, 2 pali).
+    - F2-7: due stati mirati con armature libere.
+    - Runner: nuovi tentativi su `summary.txt`.
+    - Registro: voce F4-48 per le guide Rev41–Rev44.
+    - Riepilogo delle decisioni per chiudere F4.
   - [x] F4.16h (14/10) — banco installer isolato: Le fixture modificabili del catalogo e l'installazione di prova delle guide sono ora in una cartella temporanea univoca esterna al checkout; log e percorso della fixture restano in supporto/artefatti. La stessa disinstallazione, interrotta sotto Documents/Repository, completa il percorso in Temp. Tutti i 30 controlli originari rimangono attivi e passano, inclusi rimozione dei PDF/collegamenti e conservazione dei file personali. Evidenza: installer-180-e, installer/guides PASS. Nessuna esclusione o tolleranza introdotta.
   - [x] F4.16i (14/10) — installer 1.8.0: pulizia e blocco applicazione: Richiesta esplicita: eliminare tutto il contenuto della destinazione prima della copia e impedire l'installazione se ANTHEA è in uso. Controllo dei processi all'avvio e prima delle operazioni; nessuna chiusura forzata. Percorso locale canonico, cartelle protette e collegamenti controllati prima della precedente disinstallazione e della pulizia. File bloccati o pulizia incompleta impediscono la copia. Codici silenziosi 10 (programma in uso/controllo non disponibile), 11 (destinazione), 12 (pulizia). Disinstallazione ordinaria ancora limitata al catalogo originale.
 
