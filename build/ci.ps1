@@ -174,7 +174,7 @@ foreach ($name in 'BridgeDesign.Checks', 'BridgeDesign.IndependentChecks', 'Glob
 Add-Suite @{ Name = 'wiki/indice'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\scripts\wiki\build-wiki-index.py'; Args = @('--check') }
 Add-Suite @{ Name = 'wiki/manuale'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\test\wiki-handbook-checks.py'; Args = @() }
 
-if ($F4LastAdaptersCapture -or $F4LastAdapters) {
+if ($true) { # F4 comparisons always run in the baseline stage (audit of 14/10/2026); only the captures are opt-in
     Add-Suite @{ Name = 'baseline/f4-last-adapters'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @($(if ($F4LastAdaptersCapture) { '--f4-last-adapters-capture' } else { '--f4-last-adapters' }), '{root}', '{out}'); Timeout = 180 }
 }
@@ -182,11 +182,11 @@ if ($F4ResidualCapture) {
     Add-Suite @{ Name = 'baseline/f4-residual-capture'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-residual-capture', '{root}', '{out}'); Timeout = 180 }
 }
-if ($F4Residual) {
+if (!$F4ResidualCapture) {
     Add-Suite @{ Name = 'baseline/f4-residual'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-residual', '{root}', '{out}'); Timeout = 180 }
 }
-if ($F4Bridge) {
+if (!$F4BridgeCapture) {
     Add-Suite @{ Name = 'baseline/f4-bridge'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-bridge', '{root}', '{out}'); Timeout = 180 }
 }
@@ -194,7 +194,7 @@ if ($F4BridgeCapture) {
     Add-Suite @{ Name = 'baseline/f4-bridge-capture'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-bridge-capture', '{root}', '{out}'); Timeout = 180 }
 }
-if ($F4InputContracts) {
+if (!$F4InputContractCapture) {
     Add-Suite @{ Name = 'baseline/f4-input-contracts'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-input-contracts', '{root}', '{out}'); Timeout = 180 }
 }
@@ -202,31 +202,31 @@ if ($F4InputContractCapture) {
     Add-Suite @{ Name = 'baseline/f4-input-contract-capture'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-input-contract-capture', '{root}', '{out}'); Timeout = 120 }
 }
-if ($F4SectionDesign) {
+if ($true) {
     Add-Suite @{ Name = 'baseline/f4-section-design'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-section-design', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 900 }
 }
-if ($F4WallDesign) {
+if ($true) {
     Add-Suite @{ Name = 'baseline/f4-wall-design'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-wall-design', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 900 }
 }
-if ($F4PileDesign) {
+if ($true) {
     Add-Suite @{ Name = 'baseline/f4-pile-design'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-pile-design', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 600 }
 }
-if ($F4PileOutcomes) {
+if ($true) {
     Add-Suite @{ Name = 'baseline/f4-pile-outcomes'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-pile-outcomes', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 600 }
 }
-if ($F4GravityAdapter) {
+if (!$F4GravityCapture) {
     Add-Suite @{ Name = 'baseline/f4-gravity-adapter'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-gravity-adapter', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 600 }
 }
-if ($F4StructuralAdapter) {
+if ($true) {
     Add-Suite @{ Name = 'baseline/f4-structural-adapter'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-structures', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 600 }
 }
-if ($F4DetailAdapter) {
+if (!$F4DetailCapture) {
     Add-Suite @{ Name = 'baseline/f4-detail-adapter'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-details', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 120 }
 }
@@ -238,6 +238,8 @@ if ($F4GravityCapture) {
     Add-Suite @{ Name = 'baseline/f4-gravity-reference'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-gravity-capture', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 120 }
 }
+# The observed reference of the F4 comparisons is unversioned (37 MB): its files must match the versioned SHA-256 list.
+Add-Suite @{ Name = 'baseline/f4-reference'; Stage = 'baseline'; Kind = 'powershell'; Script = 'tools\qa\Test-F4Reference.ps1'; Args = @('-Output', '{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # Optional diagnostic candidate: no production snapshot replacement.
 if ($F4CandidateConcrete) {
     Add-Suite @{ Name = 'baseline/f4-wall-port'; Stage = 'baseline'; Kind = 'powershell'; Script = 'tools\qa\Invoke-F4WallPort.ps1'
