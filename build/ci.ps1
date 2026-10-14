@@ -393,7 +393,16 @@ $commit = if ($Git) { (& $Git -C $Root rev-parse HEAD).Trim() } else { '' }
 $manifest = if ($GpcLibDir) { Join-Path $GpcLibDir 'manifest.json' } else { Join-Path $Root 'lib\Checker\manifest.json' }
 $started = Get-Date
 
-function Say([string] $text) { Write-Host $text; Add-Content -LiteralPath (Join-Path $Output 'summary.txt') -Value $text -Encoding UTF8 }
+function Say([string] $text)
+{
+    Write-Host $text
+    # summary.txt is the record of the run: a file held for an instant by another process ("Flusso illeggibile", 14/10)
+    # must neither lose the line nor fail the run. Bounded retries, then the original error.
+    for ($attempt = 1; ; $attempt++) {
+        try { Add-Content -LiteralPath (Join-Path $Output 'summary.txt') -Value $text -Encoding UTF8 -ErrorAction Stop; return }
+        catch { if ($attempt -ge 10) { throw }; Start-Sleep -Milliseconds (50 * $attempt) }
+    }
+}
 Say ("ANTHEA ci  profilo {0}  stadi {1}  tag {2}" -f $Profile, ($Stage -join ','), $Tag)
 Say ("commit {0}  output {1}" -f $commit, $Output)
 
