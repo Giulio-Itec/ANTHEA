@@ -4603,6 +4603,33 @@
       "evidenze": [
         "supporto/artefatti/refactoring/f4/wiki-chapters.log"
       ]
+    },
+    {
+      "id": "F4-39",
+      "data": "2026-10-14",
+      "fase": "F4.16",
+      "titolo": "Installazione pulita e blocco con ANTHEA in uso",
+      "famiglia": "Installer",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Su richiesta esplicita, il setup 1.8.0 rimuove tutti i contenuti della destinazione prima della copia, anche file non elencati dalla versione precedente. Blocca ANTHEA in esecuzione anche da altra cartella prima della disinstallazione. Verifica percorso locale canonico e assenza di cartelle protette/collegamenti; una pulizia incompleta arresta la copia. Disinstallazione ordinaria invariata. Nessuna modifica a calcoli o attesi.",
+      "test": [
+        "installer-180-e: 26 controlli di sicurezza e pulizia, 30 controlli delle guide, 2 suite PASS",
+        "installer-180-b: 7 PASS di build, architettura, Wiki e indici; suite installer riprese con esito completo in e",
+        "Guida pratica 81 pagine e README 3 pagine renderizzati e controllati"
+      ],
+      "codice": [
+        "supporto/installer/ANTHEA.nsi",
+        "supporto/installer/InstallSafety.nsh",
+        "tests/Installer/Test-Safety.ps1",
+        "tests/Installer/SafetyHarness.nsi",
+        "build/ci.ps1"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261014-installer-180-e/summary.json",
+        "supporto/artefatti/ci/20261014-installer-180-b/summary.json",
+        "supporto/artefatti/installer-safety/pdf-qa/qa.json"
+      ]
     }
   ]
 }

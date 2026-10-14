@@ -27,6 +27,7 @@ compiles X.Desktop with -c UiTests and the ui stage runs X.Desktop\bin\UiTests\n
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
 Exit code 0 only without NEW-FAIL and without tracked files modified by the suites.
 Outputs: supporto/artefatti/ci/<yyyyMMdd-HHmmss>-<Tag>/ (summary.json, summary.txt, one folder and log per suite).
+With -Installer the fast stage also runs isolated NSIS installation/cleanup checks (requires NSIS 3).
 #>
 [CmdletBinding()]
 param(
@@ -35,6 +36,7 @@ param(
     [string] $Tag = 'run',
     [string] $Output,
     [switch] $NoBuild,
+    [switch] $Installer,
     [string] $GpcLibDir,
     [string] $CompareTo,
     [string] $Only,
@@ -120,6 +122,10 @@ foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'p
 }
 Add-Suite @{ Name = 'verifiche/micropalo'; Stage = 'fast'; Kind = 'run'; Project = $Verifiche; Args = @('--micropalo', '{cases}') }
 Add-Suite @{ Name = 'CalculationLibrary.Checks'; Stage = 'fast'; Kind = 'run'; Project = (TestProject 'CalculationLibrary.Checks'); Args = @() }
+if ($Installer) {
+    Add-Suite @{ Name = 'installer/safety'; Stage = 'fast'; Kind = 'powershell'; Script = 'tests\Installer\Test-Safety.ps1'; Args = @('-Output', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+    Add-Suite @{ Name = 'installer/guides'; Stage = 'fast'; Kind = 'powershell'; Script = 'supporto\test\installer\Test-Guide.ps1'; Args = @(); Timeout = 180 }
+}
 Add-Suite @{ Name = 'ModelWorkspace.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelWorkspace.Checks\ModelWorkspace.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ModelViewer.CombinationBench.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelViewer.CombinationBench.Checks\ModelViewer.CombinationBench.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Architecture.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}') + $(if ($GpcLibDir) { @('--gpc-snapshot', [IO.Path]::GetFullPath($GpcLibDir)) }); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' }; Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }

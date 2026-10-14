@@ -649,3 +649,11 @@ Prima corsa full: 114 PASS e cinque fallimenti. Predalle, muri, Wiki e capitoli 
 ### 14/10 — F4.16h banco installer isolato
 
 Le fixture modificabili del catalogo e l'installazione di prova delle guide sono ora in una cartella temporanea univoca esterna al checkout; log e percorso della fixture restano in supporto/artefatti. La stessa disinstallazione, interrotta sotto Documents/Repository, completa il percorso in Temp. Tutti i 30 controlli originari rimangono attivi e passano, inclusi rimozione dei PDF/collegamenti e conservazione dei file personali. Evidenza: installer-180-e, installer/guides PASS. Nessuna esclusione o tolleranza introdotta.
+
+### 14/10 — F4.16i installer 1.8.0: pulizia e blocco applicazione
+
+Richiesta esplicita: eliminare tutto il contenuto della destinazione prima della copia e impedire l'installazione se ANTHEA è in uso. Controllo dei processi all'avvio e prima delle operazioni; nessuna chiusura forzata. Percorso locale canonico, cartelle protette e collegamenti controllati prima della precedente disinstallazione e della pulizia. File bloccati o pulizia incompleta impediscono la copia. Codici silenziosi 10 (programma in uso/controllo non disponibile), 11 (destinazione), 12 (pulizia). Disinstallazione ordinaria ancora limitata al catalogo originale.
+
+Runner installer-180-e: 2 PASS, 56 controlli (26 sicurezza/pulizia + 30 guide), nessuna esclusione. Build Release, Architecture, Wiki e indici: 7 PASS in installer-180-b; i due errori di avvio delle suite PowerShell sono risolti nella corsa e eseguendo il runner da Windows PowerShell come previsto. Guida pratica Rev43 aggiornata (81 pagine, 941 frammenti verificati, 26 parti ITEC identiche), PDF/Word e Wiki coerenti; README installer e PDF aggiornati. Resa delle 84 pagine interessate controllata, nessuno sforamento. Registro F4-39. Versione applicazione 1.8.0 già assegnata per le funzionalità F4.
+
+Il secondo full avviato in precedenza non ha prodotto un esito finale ed è da considerare interrotto, non superato. La richiesta di commit, installer e push procede sul ramo F4; chiusura e merge della fase restano subordinati alla revisione puntuale del confronto UI F3 già documentata. F5 non avviata.

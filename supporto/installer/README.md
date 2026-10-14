@@ -40,8 +40,9 @@ Il setup sostituisce anche una versione installata più recente, senza conferma.
 
 - **Per tutti gli utenti** in `C:\Program Files\ANTHEA` (richiede l'amministratore) oppure **solo per l'utente corrente** in `%LOCALAPPDATA%\Programs\ANTHEA`, senza diritti di amministratore. Un utente senza diritti installa direttamente per sé.
 - Componenti obbligatori: programma e documentazione completa in PDF con collegamenti nel menu Start. Componenti selezionabili: collegamento sul desktop, apertura dei file `.anthea` e `.programma` con doppio clic. Un'eventuale associazione precedente viene salvata e ripristinata alla disinstallazione.
-- Se ANTHEA è aperto, chiede di chiuderlo prima di sostituire i file.
-- Aggiornamento: una versione già installata viene rimossa con il suo disinstallatore, quindi non restano file delle versioni precedenti.
+- Se ANTHEA è aperta, anche da un'altra cartella, il setup si blocca prima di disinstallare o cancellare file. Chiudere tutte le finestre e riavviare il setup. Il blocco vale anche in modalità silenziosa (codice 10); il setup non chiude forzatamente l'applicazione.
+- Aggiornamento: una versione già installata viene rimossa con il suo disinstallatore; prima della copia, viene poi eliminato **tutto il contenuto della cartella di destinazione**, comprese vecchie DLL, sottocartelle e file aggiunti dall'utente. Conservare progetti, modelli e report fuori dalla cartella del programma.
+- La destinazione deve essere una cartella locale dedicata di nome ANTHEA, una cartella nuova oppure un'installazione precedente riconosciuta. Il setup rifiuta percorsi di sistema o profilo e collegamenti nelle cartelle da attraversare o pulire (codice 11). Una pulizia incompleta blocca la copia dei nuovi file (codice 12).
 - Se un file non può essere scritto, l'installazione si interrompe con un errore (codice 2) invece di risultare riuscita.
 - La disinstallazione, da «App installate» o `Uninstall.exe`, elimina soltanto i file installati, i collegamenti e le chiavi di registro scritte dal setup. Altri file salvati dall'utente nella cartella del programma non vengono eliminati.
 
@@ -65,6 +66,11 @@ la selezione delle revisioni, i PDF mancanti e l'installazione/disinstallazione 
 in una cartella di prova, senza modificare l'installazione di ANTHEA.
 `-SkipUninstall` limita la prova a catalogo, elenchi, installazione e collegamenti,
 segnalando esplicitamente che la disinstallazione non è stata eseguita.
+
+Il runner `powershell -File build/ci.ps1 -Stage fast -Only '^installer/' -Installer`
+esegue anche le prove di pulizia e blocco in `tests/Installer/Test-Safety.ps1`.
+Usa cartelle temporanee e un proprio processo di prova, senza modificare
+l'installazione reale, il registro o i collegamenti dell'utente. Richiede NSIS 3.
 
 ## Installazione da riga di comando
 

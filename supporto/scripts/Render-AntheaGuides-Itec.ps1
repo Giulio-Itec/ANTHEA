@@ -1,4 +1,4 @@
-﻿param([switch]$VerifyFinal, [string]$Revision = '43')
+﻿param([switch]$VerifyFinal, [string]$Revision = '43', [ValidateSet('pratica', 'teorica')] [string[]]$Kinds = @('pratica', 'teorica'))
 $ErrorActionPreference = 'Stop'
 $repoPath = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $wordForGuides = $null
@@ -8,7 +8,7 @@ try {
     $wordForGuides.Visible = $false
     $wordForGuides.DisplayAlerts = 0
     $wordForGuides.AutomationSecurity = 3
-    foreach ($kind in @('pratica', 'teorica')) {
+    foreach ($kind in $Kinds) {
         $sourcePath = Join-Path $repoPath "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_${kind}_ITEC_Rev${Revision}.docx"
         $artifactFolder = if ($Revision -eq '02') { 'guide_anthea_itec' } else { "guide_anthea_itec_rev${Revision}" }
         $artifactPath = Join-Path $repoPath "supporto/artefatti/$artifactFolder/$kind"
