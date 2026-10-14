@@ -60,8 +60,8 @@ confronto per posizione: un elemento in più o in meno sposta i successivi.
 Punti dubbi (V1–V7) al 14/10 sera:
 - **V1**: i commit dopo la cattura non sono misurati (`7d3c9bc9` F4-36, `2850c031` F4-37, `660b4c71` F4-38,
   `d66379ac` F4-39, che cambia di sicuro un articolo Wiki). Li misura il full del 15/10.
-- **V2** (tolleranze) e **V5** (voci di registro per Rev41–Rev44 mancanti; il manifest F3 ha
-  `editorial_updates` solo per Rev40): aperti, vedi D2.
+- **V2** (tolleranze): aperto, vedi D2. **V5** (voci di registro per Rev41–Rev44): voce F4-48 aggiunta la sera
+  del 14/10; il manifest F3 ha `editorial_updates` solo per Rev40, quindi l'ammissione resta in D2.
 - **V3, V4** (F4-03, F4-08): scelte confermate il 14/10 (2a, 2b); resta solo l'ammissione.
 - **V6**: delle due stazioni Bridge doppie resta quella con V = 9,1e-13 invece di V = 0. Solo estetico.
 - **V7**: osservazione, nessuna differenza.

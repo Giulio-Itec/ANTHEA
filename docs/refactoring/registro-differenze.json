@@ -5012,6 +5012,31 @@
         "src/ANTHEA.Application/Materials/MaterialSheetPresentation.cs",
         "tests/ANTHEA.Application.Tests/MaterialPresentationChecks.cs"
       ]
+    },
+    {
+      "id": "F4-48",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto V5 della classificazione UI",
+      "titolo": "Guide Rev41–Rev44 nella Wiki e nella ricerca: differenze editoriali rispetto al riferimento F3",
+      "famiglia": "documentazione e ricerca",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Il riferimento F3 della Wiki (tests/fixtures/f3) è aggiornato fino alla Rev40 (F3-06, editorial_updates del manifest). Le revisioni successive delle due guide globali entrano negli articoli e nella ricerca della Wiki e producono differenze editoriali nel confronto ui/f3-equivalence. Rev41 (b6fac621, ANTHEA 1.7.0, EXCEL-SOL): azioni unificate della sezione c.a. e profili del calcestruzzo, 51 differenze nella cattura di 82fcd8fc (gruppo 3). Rev42 (4a3044cb, 1.7.1, F3.4-U5): M–χ nel report di progetto, 3 differenze (gruppo 2). Rev43 (82fcd8fc e d66379ac, F4-39): prezzari e traffico del ponte, portanza sismica dei muri, installer; 88 differenze negli articoli e 44 di spostamento nella ricerca (gruppi 16-17), più quelle di d66379ac non ancora misurate. Rev44 (2a23ba48): fonti normative al posto dei riferimenti di terzi (punto 7), durabilità con UNI 11104:2016 (U1, U5), report Word e PDF (F4-46), norma esplicita (F4-31/F4-40), NEd (F4-44), piano delle deformazioni totali (F4-43), analisi composte (F4-45); riferimenti Wiki: sette tolti, due nuovi (timoshenko-stability, en1992-1-1-fessurazione). Differenze di Rev44 da misurare nel full del 15/10. Nessun input o atteso ingegneristico cambia. L'ammissione nel riferimento F3 (impronte prima/dopo come in F3-06) è la decisione D2 di f4-chiusura-decisioni.md.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "src/ANTHEA.Wiki/Content/references.json",
+        "src/ANTHEA.Wiki/Content/editorial.json",
+        "src/ANTHEA.Wiki/Content/sources.props"
+      ],
+      "test": [
+        "Classificazione puntuale della cattura di 82fcd8fc (f4-transizioni-ui-classificazione.md, gruppi 2, 3, 16, 17): nessuna differenza non spiegata",
+        "wiki/manuale e wiki-handbook-checks (12 prove) PASS sulle guide Rev44; quick 47 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/classificazione-ui/classificazione.tsv",
+        "supporto/artefatti/guide_anthea_itec_rev44"
+      ]
     }
   ]
 }
