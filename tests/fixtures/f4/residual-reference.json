@@ -1,0 +1,12 @@
+{
+  "sourceCommit": "b499f35c4a033726d7508ab1a9f8e60e4d6cd784",
+  "file": "supporto/artefatti/refactoring/f4/residual-before.json",
+  "sha256": "ca5700c5e25399b0f69b693e9f48de7b32d380678fd113114999b90a26fc2921",
+  "cases": {
+    "section": 18,
+    "slab": 20,
+    "standard": 9,
+    "micropile": 6
+  },
+  "note": "Immutable pre-port capture; residual-capture-b 2 PASS. First capture runner corrected JsonNode ownership before freezing. No engineering methods changed before capture."
+}

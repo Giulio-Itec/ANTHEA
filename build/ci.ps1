@@ -53,6 +53,7 @@ param(
     [switch] $F4SectionDesign,
     [switch] $F4InputContractCapture,
     [switch] $F4InputContracts,
+    [switch] $F4ResidualCapture,
     [switch] $F4BridgeCapture,
     [switch] $F4Bridge,
     [switch] $CaptureConcreteFigures,
@@ -164,6 +165,10 @@ foreach ($name in 'BridgeDesign.Checks', 'BridgeDesign.IndependentChecks', 'Glob
 Add-Suite @{ Name = 'wiki/indice'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\scripts\wiki\build-wiki-index.py'; Args = @('--check') }
 Add-Suite @{ Name = 'wiki/manuale'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\test\wiki-handbook-checks.py'; Args = @() }
 
+if ($F4ResidualCapture) {
+    Add-Suite @{ Name = 'baseline/f4-residual-capture'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-residual-capture', '{root}', '{out}'); Timeout = 180 }
+}
 if ($F4Bridge) {
     Add-Suite @{ Name = 'baseline/f4-bridge'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-bridge', '{root}', '{out}'); Timeout = 180 }
