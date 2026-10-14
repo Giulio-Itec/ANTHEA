@@ -621,3 +621,7 @@ Model d5e328db e Checker 949b4527 integrati e pushati su master; Release-Set com
 ### 14/10 — F4.16a guide Rev43 e versione
 
 Guide globali pratiche e teoriche aggiornate per prezzari/revisioni/inclusioni, traffico Schema 1, input normativi e calcoli condivisi; esempio storico Bridge conservato con ipotesi esplicite. Word/PDF finali: 80 + 145 pagine, 337 formule e parti ITEC conservate, rendering e controllo grafico completati. Wiki: 71 capitoli/6736 termini; indici aggiornati. Rev42 e indici precedenti archiviati con SHA e origine. ANTHEA 1.8.0 per le nuove funzionalita F4 (secondo componente), commit 0eaebd3e. Restano il full con il set W e la chiusura del rilascio.
+
+### 14/10 — F4.16b regressione predalle
+
+F4-36: mapping dei soli dati delle file attive, campi dormienti conservati. predalle-fix: 9 PASS; 53 casi congelati equivalenti, geometria/report/progetto e prova WPF superati. Nessun atteso o tolleranza modificato.

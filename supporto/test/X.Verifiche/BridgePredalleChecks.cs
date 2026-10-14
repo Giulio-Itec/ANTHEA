@@ -63,8 +63,11 @@ internal static class BridgePredalleChecks
         foreach (bool top in new[] { true, false }) foreach (bool bottom in new[] { true, false })
         {
             var optional = Copy(data); optional["rebars_top"] = top; optional["rebars_bottom"] = bottom;
-            if (!bottom) { optional["cover_bottom"] = "dormiente"; optional["rif_ferri_inf"] = "dormiente"; }
+            if (!top) { optional["cover_top"] = "dormiente"; optional["d_top"] = "dormiente"; }
+            if (!bottom) { optional["cover_bottom"] = "dormiente"; optional["d_bottom"] = "dormiente"; optional["rif_ferri_inf"] = "dormiente"; }
+            string unchanged = optional.ToJsonString();
             Check(BridgeSection.Geometry(optional).Bars.Length == (top ? 20 : 0) + (bottom ? 20 : 0), "file assenti non rispettate");
+            Check(optional.ToJsonString() == unchanged, "campi dormienti riscritti");
         }
         var dormant = Copy(data); dormant["predalle"] = false; dormant["h_predalle"] = "dormiente"; dormant["rif_ferri_inf"] = "dormiente";
         Near(BridgeSection.Geometry(dormant).Bars.Min(b => b.Y), 45, "opzione disattiva legge campi dormienti");

@@ -4541,6 +4541,27 @@
         "supporto/artefatti/refactoring/f4/release-w-provenance.log",
         "tests/fixtures/f4/library-release.json"
       ]
+    },
+    {
+      "id": "F4-36",
+      "data": "2026-10-14",
+      "fase": "F4.16",
+      "titolo": "Predalle: non leggere i dati delle file disattivate",
+      "famiglia": "Geometria composta",
+      "categoria": "difetto-legacy",
+      "stato": "attuato",
+      "descrizione": "Il full ha rilevato una regressione nel mapping verso SlabRebarLayout: riferimento e copriferri inattivi venivano validati. Ora solo le file abilitate leggono i relativi input; i campi dormienti restano intatti. Nessuna formula o atteso numerico modificato.",
+      "test": [
+        "predalle-fix: 9 PASS, inclusi confronto dei 53 casi congelati, regressione predalle, WPF e architettura"
+      ],
+      "codice": [
+        "X.Calculations/BridgeSection.SlabLayout.cs",
+        "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/full-1.8.0.log",
+        "supporto/artefatti/refactoring/f4/predalle-fix.log"
+      ]
     }
   ]
 }
