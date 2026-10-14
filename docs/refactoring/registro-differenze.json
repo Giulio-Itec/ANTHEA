@@ -4955,7 +4955,30 @@
         "X.Desktop/Wpf/RetainingWallWorkspace.GlobalStability.cs",
         "X.Desktop/Wpf/ProjectReport.cs",
         "X.Desktop/Wpf/MainWindow.cs",
-        "tests/ANTHEA.Reports.Tests/PdfChecks.cs"
+        "tests/ANTHEA.Reports.Tests/PdfChecks.cs",
+        "supporto/test/ConcreteShort.Checks/Program.cs"
+      ]
+    },
+    {
+      "id": "F4-47",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto 4c (F2.9-U5, con U1)",
+      "titolo": "Testi della durabilità con i soli rimandi normativi",
+      "famiglia": "Materiali",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Descrizioni ed esempi delle classi di esposizione riscritti con testi di ANTHEA, con il rimando a UNI EN 206 prospetto 1 (prima riprendevano il vademecum ATECAP 2020, p. 7). Nella scheda Materiali e nel report: nota della classe dei cloruri con rimando a UNI EN 206; riferimento della composizione «UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata» al posto del rimando ATECAP e del confronto con la UNI 11104:2025 tratto da un estratto (decisione U1); nota della vita utile di 100 anni e classi di consistenza senza rimandi di pagina; S5 «≥ 220 mm» invece di «> 220 mm», come la classe di abbassamento al cono di UNI EN 206. Valori di calcolo invariati. I nomi interni (AtecapMix) e i commenti sull'origine dei valori restano.",
+      "decisione": "Utente, 14/10, punto 4c: «U1: non ho la norma. resta sulla 2016 [scritto 2026]»; «U5: ok» (riscrivere i testi ATECAP con parole proprie, citando solo le norme).",
+      "test": [
+        "Application.Tests PASS: MaterialPresentationChecks confronta ancora il report congelato pre-refactoring; i due testi cambiati sono una tabella esplicita (vecchio testo che deve esistere nel riferimento, nuovo testo del programma), tutte le altre voci invariate",
+        "Prove WPF dei Materiali (UiTests): descrizioni ed esempi letti dagli stessi dizionari; nota dei 100 anni presente",
+        "Confronto UI F3 del profilo full: le differenze del report di progetto e dei report della scheda vanno classificate su questa voce"
+      ],
+      "codice": [
+        "X.Desktop/Wpf/Materials/ExposureSelector.cs",
+        "X.Desktop/Wpf/Materials/MixAutomation.cs",
+        "src/ANTHEA.Application/Materials/MaterialSheetPresentation.cs",
+        "tests/ANTHEA.Application.Tests/MaterialPresentationChecks.cs"
       ]
     }
   ]
