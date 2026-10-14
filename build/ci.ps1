@@ -8,7 +8,7 @@ Single runner for the ANTHEA verifications (refactoring, phase F0).
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Tag B1 -BaselineRef supporto\artefatti\baseline\F0-B0\headless
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Only '^baseline/banco' -DenseRef <F2-pre-m4-v2>\a\tutte
 
-Stages: build, fast, regression, wiki, baseline, ui, word (word needs Microsoft Word, never in a profile).
+Stages: build, fast, regression, wiki, baseline, ui. The stage word was removed on 14/10/2026: reports are written without Word.
 Profiles: quick = build fast wiki; standard = quick + regression; baseline = standard + baseline; full = standard + ui.
 Stage baseline: headless capture of the corpus with tests\ANTHEA.Testing (results, engines, report text, archives, fallbacks);
 with -BaselineRef <capture folder> also its comparison with that reference capture (tests\ANTHEA.Testing\tolerances.json).
@@ -32,7 +32,7 @@ With -Installer the fast stage also runs isolated NSIS installation/cleanup chec
 [CmdletBinding()]
 param(
     [ValidateSet('quick', 'standard', 'baseline', 'full')] [string] $Profile = 'quick',
-    [ValidateSet('build', 'fast', 'regression', 'wiki', 'baseline', 'ui', 'word')] [string[]] $Stage,
+    [ValidateSet('build', 'fast', 'regression', 'wiki', 'baseline', 'ui')] [string[]] $Stage,
     [string] $Tag = 'run',
     [string] $Output,
     [switch] $NoBuild,
@@ -327,7 +327,8 @@ Add-Suite @{ Name = 'ElasticPile.UiChecks/nota-stress-block'; Stage = 'ui'; Kind
 Add-Suite @{ Name = 'ui/check-concrete-design'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-design', '{out}'); Timeout = 900
     Before = @{ Project = (TestProject 'ConcreteDesign.Checks'); Args = @('{out}') }; Builds = @(@{ Project = (TestProject 'ConcreteDesign.Checks'); Configuration = 'Release' })
     Proof = @{ File = '{out}\ui-pass.txt'; Pattern = '^PASS' } }
-Add-Suite @{ Name = 'ConcreteShort.Checks'; Stage = 'word'; Kind = 'run'; Project = (TestProject 'ConcreteShort.Checks'); Args = @('{out}'); Timeout = 900 }
+# Short report selection and its DOCX + PDF without Word (F4-46): moved from the former stage word.
+Add-Suite @{ Name = 'ConcreteShort.Checks'; Stage = 'regression'; Kind = 'run'; Project = (TestProject 'ConcreteShort.Checks'); Args = @('{out}'); Timeout = 900; Proof = @{ File = '{out}\test-results.txt'; Pattern = '^PASS \d+ assertions' } }
 
 # Projects of supporto\test that the runner does not execute. The external comparisons and one-off tools (MAX, web
 # site, stress diagnosis, validation of 25/9) were moved to supporto\SUPERATI\test in F1.6.

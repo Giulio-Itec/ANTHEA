@@ -3,7 +3,8 @@
 Tabella del passo F1.6 [CP]. Rilevazione del 6 ottobre 2026 sul ramo `refactoring/f1-test-fuori-exe`; destinazioni
 decise il 7 ottobre 2026 dal coordinatore su delega dell'utente, da ratificare ([decisioni.md](decisioni.md));
 archiviazioni eseguite sul ramo `refactoring/f1-6-archivio` e corrette sul ramo `refactoring/integrazione-2`.
-Le voci "Nel runner" si riferiscono a `build/ci.ps1` (stadi `fast`, `regression`, `wiki`, `ui`, `word`);
+Le voci "Nel runner" si riferiscono a `build/ci.ps1` (stadi `fast`, `regression`, `wiki`, `ui`; lo stadio `word` è
+stato tolto il 14/10/2026, quando il report short ha smesso di usare Word);
 "Compila" è l'esito di `dotnet build -c Release` nel worktree di F1.
 
 ## Prove WPF dopo F1: configurazione UiTests
@@ -50,7 +51,7 @@ riscrittura MVVM del suo modulo; a fine F5 la configurazione UiTests e `supporto
 | BridgeDesign.SiteComparison | Confronto con un sito web esterno (acquisizioni CUA) | `README.md` del progetto | No (sito esterno) | Sì | Archiviato in supporto/SUPERATI/test (F1.6) | Dipende da un servizio esterno; riferimenti esterni in uscita con W0.5 |
 | BridgeValidationCurrent | Test MSTest di `GPCChecker.Test.CompositeBridge` compilati dal repository Checker accanto ad ANTHEA | `dotnet test` con Checker in `../Checker` | No | Sì, ma senza Checker accanto compila un progetto vuoto | Spostare nei test di libreria (INF.10) | Sono test di Checker |
 | CheckerMigration.Capture | Cattura congelata delle uscite legacy prima della migrazione a Checker (M2) | `dotnet run ... -- <cartella> <commit>` | No (eseguita nella baseline) | Sì | Tenere fino a F4, poi archiviare | Riferimento per le prove di equivalenza |
-| ConcreteShort.Checks | Report short c.a. in Word; ricompila `X.Desktop/Wpf/ShortReportExport.cs` | `dotnet run ... -- <cartella>` (serve Microsoft Word) | Sì, stadio `word` (fuori dai profili) | Sì | Spostare nei test di ANTHEA.Reports (F3.4) | Togliere il collegamento a un sorgente di X.Desktop |
+| ConcreteShort.Checks | Report short c.a.: selezione delle verifiche, DOCX e PDF senza Word (`ReportFiles.Write`, F4-46) | `dotnet run ... -- <cartella>` | Sì, stadio `regression` dal 14/10/2026 | Sì | Spostare nei test di ANTHEA.Reports (F3.4) | Collegamento al sorgente di X.Desktop tolto il 14/10/2026 |
 | ConcreteShort.UiChecks | Pulsante "Report short" della barra di MainWindow, per riflessione | `dotnet run ... -- <cartella>` | Sì, `ui` | Sì; da F1.2 contro X.Desktop UiTests (usa `FinishSmoke`) | Archiviare dopo F5 | La vista viene riscritta in F5 |
 | ConcreteStressDiagnosis | Diagnosi delle tensioni di un file del 2 ottobre | `dotnet run ... -- <file.anthea> [--original]` | No (strumento) | Sì | Archiviato in supporto/SUPERATI/test (F1.6) | Strumento una tantum |
 | ElasticPile.Checks | Palo elastico in GPCChecker.Geotechnics: soluzioni esatte, Viggiani, armature, sisma | `dotnet run` con Checker in `../Checker` | No | Solo con il repository Checker accanto (nel worktree di F1: no) | Spostare nei test di libreria (INF.10) | Compila i progetti di Checker |
@@ -88,8 +89,8 @@ riscrittura MVVM del suo modulo; a fine F5 la configurazione UiTests e `supporto
 ElasticPile.Performance, archiviato con gli altri in 4ff5026, è tornato in `supporto/test` (cb9b750): resta la
 destinazione della tabella, "Archiviare dopo F5, o spostare in `tools/`".
 
-Nessun progetto del repository ricompila più l'intero X.Desktop. Resta il collegamento di un solo sorgente
-(`ShortReportExport.cs`) in ConcreteShort.Checks, da togliere con F3.4.
+Nessun progetto del repository ricompila più l'intero X.Desktop. L'ultimo collegamento a un suo sorgente
+(`ShortReportExport.cs` in ConcreteShort.Checks) è stato tolto il 14/10/2026 con il report short senza Word (F4-46).
 
 I progetti archiviati e lo script conservano i percorsi interni della posizione originale:
 

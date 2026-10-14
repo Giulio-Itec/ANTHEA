@@ -49,7 +49,7 @@ if (args.Length > 2 && args[2] == "pali") { PilesCapture.Run(output, commit, sha
 if (args.Length > 2 && args[2] == "mesh") { MeshCapture.Run(output, commit, sha); Finish(); return; }
 
 var cases = new List<ConcreteCodeChecks.ShearInput>();
-string[] standards = ConcreteStandards.OrdinaryNames;
+var standards = ConcreteStandards.OrdinaryNames;
 foreach (var s in standards)
 {
     // A. Without shear reinforcement: axial force, shear, depth (DIN vmin interpolation) and strength.

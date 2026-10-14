@@ -4,7 +4,6 @@ using System.IO.Compression;
 using System.Xml.Linq;
 using Anthea.Calculations;
 using X.Core;
-using X.Desktop;
 
 string folder=Path.GetFullPath(args[0]);Directory.CreateDirectory(folder);
 // SLE engine (refactoring F2.7, commit A5): '--motore-sle legacy|libreria', otherwise the default engine of ConcreteServiceabilityAdapter.
@@ -68,13 +67,15 @@ using(var zip=new ZipArchive(new MemoryStream(bytes)))
     Check(xml.Descendants(w+"tbl").Count()==2,"Short report should have two tables");
     Check(xml.Descendants(w+"br").Count(b=>b.Attribute(w+"type")?.Value=="page")==1,"Expected one deliberate page break");
 }
-await ShortReportExport.WriteAsync(Path.Combine(folder,"Relazione_short.docx"),bytes);
-Check(File.Exists(Path.Combine(folder,"Relazione_short.pdf")),"Companion PDF missing");
+// DOCX and PDF without Word (F4-46): the same writer as the Report short button.
+const string title="Sezione di prova con tutte le verifiche";
+var pdf=Anthea.Reports.ReportFiles.Write(Path.Combine(folder,"Relazione_short.docx"),bytes,title,Anthea.Reports.ReportFiles.ShortReportPages);
+Check(File.Exists(Path.Combine(folder,"Relazione_short.pdf")) && pdf.Pages<=Anthea.Reports.ReportFiles.ShortReportPages,"Companion PDF missing or longer than two pages");
 var oversize=ReportConcreteShort.Create(string.Join("\n",Enumerable.Repeat("Titolo di prova volutamente lungo",150)),data,result);
 bool rejected=false;
-try{await ShortReportExport.WriteAsync(Path.Combine(folder,"oversize.docx"),oversize);}
+try{Anthea.Reports.ReportFiles.Write(Path.Combine(folder,"oversize.docx"),oversize,title,Anthea.Reports.ReportFiles.ShortReportPages);}
 catch(InvalidOperationException ex) when(ex.Message.Contains("pagine")){rejected=true;}
 Check(rejected && !File.Exists(Path.Combine(folder,"oversize.docx")) && !File.Exists(Path.Combine(folder,"oversize.pdf")),"More than two pages exported");
 File.WriteAllText(Path.Combine(folder,"source.json"),data.ToJsonString());File.WriteAllText(Path.Combine(folder,"results.json"),result.ToJsonString());
-File.WriteAllText(Path.Combine(folder,"test-results.txt"),$"PASS {assertions} assertions (SLE engine {sle??ConcreteServiceabilityAdapter.Default}); Word pagination accepted (at most two pages), PDF exported.");
+File.WriteAllText(Path.Combine(folder,"test-results.txt"),$"PASS {assertions} assertions (SLE engine {sle??ConcreteServiceabilityAdapter.Default}); PDF of {pdf.Pages} pages without Word (at most two), oversize refused.");
 Console.WriteLine($"PASS {assertions} assertions");

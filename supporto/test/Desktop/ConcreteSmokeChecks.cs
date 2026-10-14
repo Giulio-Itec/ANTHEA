@@ -75,7 +75,7 @@ internal sealed partial class ConcreteWorkspace
         tabs.SelectedIndex=3;
         foreach(var key in SectionWorkspace.Sets.Skip(2))
         {
-            var panel=stressPanels[key]; sleTabs.SelectedIndex=Array.IndexOf(SectionWorkspace.Sets,key)-2; panel.Grid.SelectedItem=actions[key][0];
+            var panel=stressPanels[key]; sleTabs.SelectedIndex=SectionWorkspace.Sets.IndexOf(key)-2; panel.Grid.SelectedItem=actions[key][0];
             panel.Options.Set("esposizione","XC1"); panel.Options.Set("spaziatura_fessure","150");
             await RunAnalysis(t=>CalculateStress(key,t));
             var check=stressResults[key].Values.First();
@@ -180,7 +180,7 @@ internal sealed partial class ConcreteWorkspace
         // extended summary with the cracking is the one of the quasi permanent combination (the rare tab is selected again: the quasi
         // permanent one must be hidden at the import below)
         Assert(rare.Detail.Text.Contains("TENSIONI") && !rare.Detail.Text.Contains("\n\nFESSURAZIONE"), "Riepilogo SLE rara senza fessurazione non richiesta");
-        sleTabs.SelectedIndex = Array.IndexOf(SectionWorkspace.Sets, "SLE_QP") - 2; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
+        sleTabs.SelectedIndex = SectionWorkspace.Sets.IndexOf("SLE_QP") - 2; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         var quasiPermanent = stressPanels["SLE_QP"]; quasiPermanent.Grid.SelectedItem = actions["SLE_QP"][0]; UpdateStressSelection("SLE_QP");
         Assert(quasiPermanent.Detail.Text.Contains("FESSURAZIONE") && quasiPermanent.Detail.Text.Contains("As,eff"), "Riepilogo SLE quasi permanente esteso");
         sleTabs.SelectedIndex = 0; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
