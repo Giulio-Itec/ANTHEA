@@ -39,7 +39,21 @@ internal static class BridgePricesChecks
             string xml = reader.ReadToEnd(); Check(xml.Contains("Secondo prezzario") && xml.Contains(r.PriceRevision!), "Report price provenance missing");
         }
         Check(changed.Result!["snapshot"]!.S("Revision") != vm.Result!["snapshot"]!.S("Revision"), "Price revision not changed");
-        Check(changed.Result.S("environmentRevision") == vm.Result.S("environmentRevision"), "Price change changed carbon revision");
+        Check(Anthea.Serialization.BridgeEnvironmentData.Revision(next) == Anthea.Serialization.BridgeEnvironmentData.Revision(source), "Price change changed carbon revision");
+        Anthea.Serialization.BridgeEnvironmentData.Synchronize(next);
+        string environmentalRevision = next["environment"]!.S("revision");
+        var environmentalBefore = BridgeConcept.Calculate(next);
+        next["assumptions"]!["co2_concrete"] = 400;
+        // Actual inputs, rather than stale metadata, identify the result even before the editor synchronizes.
+        var environmentalAfter = BridgeConcept.Calculate(next);
+        Check(environmentalAfter.EnvironmentRevision != environmentalRevision && environmentalBefore.EnvironmentRevision == environmentalRevision, "Environmental revision became stale");
+        Check(environmentalAfter.TotalCost == environmentalBefore.TotalCost && environmentalAfter.Carbon != environmentalBefore.Carbon, "Environmental change contaminated prices");
+        Anthea.Serialization.BridgeEnvironmentData.Synchronize(next);
+        Check(next["environment"]!["history"]!.AsArray().Count == 1 && next["environment"]!["history"]![0]!.S("revision") == environmentalRevision, "Previous environmental factors were not archived");
+        Anthea.Serialization.BridgeEnvironmentData.Synchronize(next);
+        Check(next["environment"]!["history"]!.AsArray().Count == 1, "Unchanged factors create spurious revisions");
+        Check(next["pricing"]!["snapshot"]!.S("Revision") == changed.Result!["snapshot"]!.S("Revision"), "CO2 edit changed price revision");
+        Check(BridgeConceptExport.Csv(environmentalAfter).Contains(environmentalAfter.EnvironmentRevision!), "CSV misses environmental revision");
         var roundtrip = new PriceCatalogueViewModel(JsonNode.Parse(next.ToJsonString())!.AsObject());
         Check(roundtrip.CanApply && roundtrip.History.Count == 2, "Price archive round trip failed");
         roundtrip.SelectedRevision = roundtrip.History[0]; roundtrip.RestoreRevisionCommand.Execute(null);

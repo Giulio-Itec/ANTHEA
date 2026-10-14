@@ -219,6 +219,7 @@ public static partial class BridgeDesignModel
         public double DirectCost { get; }
         public double TotalCost { get; }
         public string? PriceRevision { get; }
+        public string? EnvironmentRevision { get; }
         public double CostLow { get; }
         public double CostHigh { get; }
         public double Carbon { get; }
@@ -257,6 +258,7 @@ public static partial class BridgeDesignModel
             DirectCost = source.DirectCost;
             TotalCost = source.TotalCost;
             PriceRevision = source.PriceRevision;
+            EnvironmentRevision = source.EnvironmentRevision;
             CostLow = source.CostLow;
             CostHigh = source.CostHigh;
             Carbon = source.Carbon;

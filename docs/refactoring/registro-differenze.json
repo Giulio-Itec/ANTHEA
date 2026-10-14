@@ -4338,6 +4338,27 @@
         "supporto/artefatti/refactoring/f3-u5/closure-summary.json",
         "supporto/artefatti/refactoring/f3-u5/qa/pages.json"
       ]
+    },
+    {
+      "id": "F4-28",
+      "data": "2026-10-14",
+      "fase": "F4.11c.3",
+      "titolo": "Revisione indipendente dei fattori ambientali",
+      "famiglia": "Bridge Design documenti",
+      "categoria": "contratto-documentale",
+      "stato": "collaudato-candidato",
+      "descrizione": "Fattori espliciti e copie storiche nel documento, impronta dei dati effettivi nel risultato, report e CSV. Cambiare listino non cambia CO2; cambiare CO2 non cambia prezzi. Nessuna formula modificata.",
+      "test": [
+        "environment-a: 8 PASS",
+        "Application: dati cambiati, metadati vecchi, cronologia, indipendenza prezzi/CO2",
+        "Corpus Bridge 161550 numeri entro tolleranza originale"
+      ],
+      "codice": [
+        "src/ANTHEA.Serialization/BridgeEnvironmentData.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/environment-a.log"
+      ]
     }
   ]
 }

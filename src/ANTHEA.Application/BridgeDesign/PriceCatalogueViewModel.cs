@@ -201,11 +201,9 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject
         { var entry = (JsonObject)old.DeepClone(); entry.Remove("history"); entry["date"] = DateTimeOffset.UtcNow.ToString("O"); history.Add(entry); }
         else history.Add(new JsonObject { ["date"] = DateTimeOffset.UtcNow.ToString("O"), ["catalogue"] = JsonSerializer.SerializeToNode(LegacyCatalogue(source)),
             ["mappings"] = JsonSerializer.SerializeToNode(BridgeDesignModel.Rates.Select(r => new WorkPriceMapping(r.Key, r.Key, null, ""))), ["snapshot"] = JsonSerializer.SerializeToNode(previous) });
-        var environment = new JsonObject();
-        foreach (var pair in source["assumptions"]!.AsObject().Where(p => p.Key.StartsWith("co2_", StringComparison.Ordinal) || p.Key is "low_carbon_factor" or "recycled_factor")) environment[pair.Key] = pair.Value?.DeepClone();
         Result = new JsonObject { ["schema"] = 1, ["catalogue"] = JsonSerializer.SerializeToNode(Catalogue()),
             ["mappings"] = JsonSerializer.SerializeToNode(Mappings.Select(m => m.Value())), ["snapshot"] = JsonSerializer.SerializeToNode(proposed),
-            ["environmentRevision"] = Fingerprint(environment), ["history"] = history };
+            ["history"] = history };
         Applied?.Invoke();
     }
     public void CommitTo(JsonObject target)

@@ -303,7 +303,9 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
     }
     private async Task CalculateScheduledAsync(TimeSpan delay)
     {
-        if(disposed)return;var snapshot=Clone(Data);
+        if(disposed)return;
+        try { Anthea.Serialization.BridgeEnvironmentData.Synchronize(Data); } catch (ArgumentException) { /* The calculation validates unfinished inputs. */ }
+        var snapshot=Clone(Data);
         var completed=await recalculation.ScheduleAsync(async token=>
         {
             Busy=true;status.Text="Aggiornamento del ponte e delle alternative…";

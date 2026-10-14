@@ -7,7 +7,9 @@ namespace Anthea.Calculations;
 // Archive/UI boundary only. Engineering rules, search and numerical validation belong to GPC.Design.
 public static partial class BridgeConcept
 {
-    public static Result Calculate(JsonObject data, bool legacy = false) => legacy ? LegacyCalculate(data) : FromNative(NativeBridge.Calculate(NativeInput(data)));
+    public static Result Calculate(JsonObject data, bool legacy = false) => legacy ? LegacyCalculate(data) : WithEnvironment(FromNative(NativeBridge.Calculate(NativeInput(data))), data);
+    private static Result WithEnvironment(Result result, JsonObject data) => data["environment"] is null ? result
+        : result with { EnvironmentRevision = Anthea.Serialization.BridgeEnvironmentData.Revision(WithAdvancedDefaults(data)) };
     public static (double[] Reactions, Station[] Stations) Analyze(double[] spans, double q, double ei, bool continuous)
     { var r = NativeBridge.Analyze(spans, q, ei, continuous); return (r.Reactions, r.Stations.Select(FromNative).ToArray()); }
     public static TechnicalItem[] TechnicalSchedule(JsonObject data, Result result) => NativeBridge.TechnicalSchedule(NativeInput(data), ToNative(result)).Select(FromNative).ToArray();
@@ -25,10 +27,10 @@ public static partial class BridgeConcept
         var trials = new Dictionary<NativeBridge.OptimizationTrial, OptimizationTrial>(ReferenceEqualityComparer.Instance);
         OptimizationTrial Trial(NativeBridge.OptimizationTrial value)
         { if (!trials.TryGetValue(value, out var mapped)) trials.Add(value, mapped = FromNative(value)); return mapped; }
-        OptimizationCandidate Candidate(NativeBridge.OptimizationCandidate c) => new(ArchiveInput(c.Data, template), FromNative(c.Result), c.Score, c.Pareto, c.Changes);
+        OptimizationCandidate Candidate(NativeBridge.OptimizationCandidate c) => new(ArchiveInput(c.Data, template), WithEnvironment(FromNative(c.Result), template), c.Score, c.Pareto, c.Changes);
         var r = NativeBridge.Optimize(NativeInput(template), ToNative(options), cancellation,
             progress is null ? null : new BridgeProgress(p => progress.Report(new(p.Evaluated, p.Planned, p.Admissible, p.NewTrials.Select(Trial).ToArray(), p.Best is null ? null : Candidate(p.Best)))));
-        return new(FromNative(r.Baseline), r.Candidates.Select(Candidate).ToArray(), r.Evaluated, r.Admissible,
+        return new(WithEnvironment(FromNative(r.Baseline), template), r.Candidates.Select(Candidate).ToArray(), r.Evaluated, r.Admissible,
             new Dictionary<string, int>(r.Excluded), r.BaselineExclusions.ToArray(), options)
         { Trials = r.Trials.Select(Trial).ToArray(), Solutions = r.Solutions.Select(s => new OptimizationSolution(s.Rank, Trial(s.Trial), ArchiveInput(s.Data, template), s.Score, s.Pareto)).ToArray() };
     }

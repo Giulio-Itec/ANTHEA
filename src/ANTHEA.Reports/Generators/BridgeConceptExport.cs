@@ -18,6 +18,7 @@ public static class BridgeConceptExport
         rows.Add(["Totali", "Costo diretto", "", "", "", F(r.DirectCost, "G17"), ""]);
         rows.Add(["Totali", "Costo con oneri e imprevisti, IVA esclusa", "", "", "", F(r.TotalCost, "G17"), ""]);
         rows.Add(["Totali", "CO2 materiali + maggiorazione cantiere", "", "", "", "", F(r.Carbon, "G17")]);
+        if (r.EnvironmentRevision is not null) rows.Add(["Provenienza", "Revisione fattori CO₂: " + r.EnvironmentRevision, "", "", "", "", ""]);
         if (r.PriceRevision is not null) rows.Add(["Provenienza", "Revisione prezzario: " + r.PriceRevision, "", "", "", "", ""]);
         rows.Add(["Ambito", BridgeConcept.Scope, "", "", "", "", ""]);
         return string.Join("\r\n", rows.Select(row => string.Join(";", row.Select(Cell)))) + "\r\n";
@@ -82,6 +83,7 @@ public static class BridgeConceptExport
         P("Ambito e limiti", "Heading1"); P(BridgeConcept.Scope);
         P("Modello parametrico ANTHEA v1 di predimensionamento con regole proprie esplicitate; non costituisce verifica normativa.");
         P("Esclusi: inviluppi di traffico mobile, fasi costruttive, sisma, vento, urti, fatica, instabilità, precompressione nelle deformazioni, viscosità, fessurazione, collegamenti e verifiche geotecniche complete.");
+        if (result.EnvironmentRevision is not null) P("Revisione fattori CO₂ del calcolo: " + result.EnvironmentRevision);
         P("Riepilogo", "Heading1");
         Table(["Indicatore", "Valore"], [
             ["Tipologia", result.Family.Name], ["Lunghezza / larghezza", F(result.Length) + " / " + F(result.Width) + " m"],
