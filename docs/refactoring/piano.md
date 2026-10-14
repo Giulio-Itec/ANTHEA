@@ -407,7 +407,7 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [ ] Audit 14/10 — cosa manca davvero per chiudere F4.16:
     - un full conforme con il set W: il primo ha 114 PASS e 5 NEW-FAIL, il secondo è interrotto;
     - la revisione puntuale delle 6805 differenze del confronto UI con la cattura F3 ([prospetto](f4-transizioni-ui-da-revisionare.md)), distinguendo la parte che deriva già dalla 1.7.1: fatta il 14/10 ([classificazione](f4-transizioni-ui-classificazione.md), nessuna differenza non spiegata), da rifare sul commit finale con il full;
-    - le pagine dei metodi per σcp nel taglio dei muri (F4-03), per la curvatura con viscosità (F4-08), per il traffico Schema 1 (F4-29) e per GPC.Design: scritte il 14/10 in Checker `docs/metodi` (ramo `claude/f4-method-pages`, commit 26cef01a, esempi verificati con la libreria), push da autorizzare;
+    - le pagine dei metodi per σcp nel taglio dei muri (F4-03), per la curvatura con viscosità (F4-08), per il traffico Schema 1 (F4-29) e per GPC.Design: scritte il 14/10 in Checker `docs/metodi` (commit 26cef01a, esempi verificati con la libreria), su master del Checker e pubblicate il 14/10 su autorizzazione dell'utente;
     - l'elenco del legacy da rimuovere con i chiamanti rimasti, da preparare prima di chiedere l'accordo dell'utente;
     - il requisito «analisi composte» dei prezzari (decisioni del 13/10 sera): attuato il 14/10 dopo l'audit (registro F4-45,
       GPC.Design 0.20.0.0 nel set X);
