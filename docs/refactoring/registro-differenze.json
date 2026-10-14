@@ -3889,6 +3889,30 @@
       ]
     },
     {
+      "id": "TEST-02",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, seguito notturno",
+      "titolo": "Attesi delle 30 sezioni a T ricalcolati in modo indipendente",
+      "famiglia": "infrastruttura/test",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Il 26/09, prima della regola sugli attesi indipendenti, gli attesi dei 30 casi a T di supporto/test/casi_confronto.json (12 sezione, 12 elastica, 2 resistenza_elastica, 4 dominio) erano stati rigenerati dal C# dopo lo spostamento voluto delle barre laterali nell'ala (campo fonte_atteso). Il programma Python originale non è più disponibile. tools/attesi/sezione_ca.py lo ricostruisce senza dipendere da ANTHEA. È uguale bit per bit ai 90 casi di sezione del programma originale: rettangolari e circolari del file attuale e del commit 51e1c114 e le stesse 30 sezioni a T con la regola precedente delle barre, 52 173 numeri, controlli compresi, scarto 0. Con la regola attuale, ricavata a mano dagli angoli della staffa d'anima, rifà i 30 attesi: numeri identici bit per bit a quelli del C# del 26/09. Nel file restano i suoi valori; cambiano solo i testi non confrontati dei controlli (formato del programma originale) e la provenienza in fonte_atteso. Restano rigenerati dal C# gli attesi di due casi di palo (palo_storico_0 e palo_storico_3, 27/09: c′ nullo negli strati granulari), da ricalcolare in modo indipendente.",
+      "codice": [
+        "tools/attesi/sezione_ca.py",
+        "supporto/test/casi_confronto.json",
+        "supporto/README.md"
+      ],
+      "segno": "Numeri degli attesi invariati; provenienza indipendente al posto di quella del codice per le 30 sezioni a T.",
+      "test": [
+        "tools/attesi/sezione_ca.py --valida (file attuale e 51e1c114 con --barre-laterali originale): 90 casi, scarto 0",
+        "tools/attesi/sezione_ca.py --confronta: 30 casi a T, 16 006 numeri, scarto 0",
+        "verifiche/regressione PASS: 464 casi, 942 254 numeri, scarto massimo 5,5e-12; verifiche/software PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci (tag t30-attesi)"
+      ]
+    },
+    {
       "id": "F2-18",
       "data": "2026-10-12",
       "fase": "F2.7-A11",

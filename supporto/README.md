@@ -47,9 +47,12 @@ tranne le prove WPF) e ne restituisce l'esito; i risultati sono in `artefatti/ci
 
 I valori attesi provengono dal programma Python originale e sono indipendenti dal codice: non si rigenerano mai dai
 risultati del C#. Quando ANTHEA se ne discosta per scelta, gli attesi nuovi si calcolano in modo indipendente (Python, a
-mano o da esempi pubblicati) e la differenza va nel registro di `docs/refactoring`. Il campo `fonte_atteso` marca i 30
-casi delle sezioni a T rigenerati dal C# il 26 settembre 2026, prima di questa regola: l'ultima coppia di barre laterali è
-agli angoli superiori della staffa d'anima, nell'ala. Lo script usato allora è archiviato in
+mano o da esempi pubblicati) e la differenza va nel registro di `docs/refactoring`. Il campo `fonte_atteso` indica la provenienza dei casi che non
+vengono direttamente dal programma originale. I 30 casi delle sezioni a T, rigenerati dal C# il 26 settembre 2026 prima di
+questa regola (l'ultima coppia di barre laterali è agli angoli superiori della staffa d'anima, nell'ala), sono stati
+ricalcolati il 14/10/2026 con `tools/attesi/sezione_ca.py`, ricostruzione Python del programma originale validata sui suoi
+casi (registro TEST-02). Restano rigenerati dal C# il 27/09 due casi di palo (`palo_storico_0` e `palo_storico_3`: c′
+nullo negli strati granulari), da ricalcolare in modo indipendente. Lo script usato allora è archiviato in
 `SUPERATI/scripts/aggiorna_attesi.py` (registro `SUPERATI/registro-20261014-script.json`); l'opzione `--attesi` di
 `test/X.Verifiche` resta solo per diagnosi.
 I nuovi output di test vanno salvati in `supporto/artefatti/` per mantenere pulita la radice.
