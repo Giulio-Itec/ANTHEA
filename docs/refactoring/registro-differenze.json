@@ -25,6 +25,63 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-27",
+      "data": "2026-10-14",
+      "fase": "F4.11b.4",
+      "titolo": "Rifiuto di inclusioni senza quantità associate",
+      "famiglia": "Bridge Design",
+      "categoria": "difetto-legacy",
+      "stato": "dichiarato",
+      "descrizione": "Nel nuovo computo Bridge si rifiutano inclusioni diverse dalla quota di armatura nel prezzo dei pali. Non si dichiara compresa una lavorazione che il computo non sa separare; l’interfaccia espone la limitazione. Fix Design 0.15.0.1, collegamento nel prossimo set.",
+      "test": [
+        "BridgeCostTests PASS: inclusione montaggio/carpenteria rifiutata"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4",
+        "../Checker/docs/refactoring/f4-cost-contract.md",
+        "../Model/docs/refactoring/f4-material-properties.md"
+      ]
+    },
+    {
+      "id": "F4-26",
+      "data": "2026-10-14",
+      "fase": "F4.11a.3",
+      "titolo": "Riuso Ecm e densità senza scarti numerici",
+      "famiglia": "Bridge Design",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Model centralizza la formula con valutazione esplicita MPa/GPa e densità da 7850 kg/m³; Bridge riusa Fcm del materiale e i nuovi servizi. I due ordini aritmetici storici sono conservati bit per bit. Nessun allargamento della tolleranza, nessuna rigenerazione degli attesi.",
+      "test": [
+        "141 resistenze catturate prima: SHA e bit identici",
+        "1236 test Model PASS e API/audit; 45 test Design PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4",
+        "../Checker/docs/refactoring/f4-cost-contract.md",
+        "../Model/docs/refactoring/f4-material-properties.md"
+      ]
+    },
+    {
+      "id": "F4-25",
+      "data": "2026-10-14",
+      "fase": "F4.11c.2",
+      "titolo": "Prezzari sostituibili e anteprima MVVM",
+      "famiglia": "Bridge Design",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Cataloghi, associazioni e override separati dal motore. Snapshot versionata per il calcolo e la ricerca, anteprima prima/dopo, applicazione transazionale, cronologia e rivalutazione esplicita di A con storia propria. Prezzi mancanti non diventano zero; report/CSV mostrano la revisione usata. Archivi precedenti e valori conservati; nessuna differenza di struttura o CO₂. Guide e distribuzione F4.16 ancora aperte.",
+      "test": [
+        "14 PASS runner, corpus 31/17 invariato",
+        "24 controlli WPF nei tre temi, PNG controllati",
+        "pricing-e 5 PASS su invalidità e contratti dei documenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4",
+        "../Checker/docs/refactoring/f4-cost-contract.md",
+        "../Model/docs/refactoring/f4-material-properties.md"
+      ]
+    },
+    {
       "id": "F4-24",
       "data": "2026-10-14",
       "fase": "F4.11c.1",

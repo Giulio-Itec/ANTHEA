@@ -218,6 +218,7 @@ public static partial class BridgeDesignModel
         public double Inertia { get; }
         public double DirectCost { get; }
         public double TotalCost { get; }
+        public string? PriceRevision { get; }
         public double CostLow { get; }
         public double CostHigh { get; }
         public double Carbon { get; }
@@ -255,6 +256,7 @@ public static partial class BridgeDesignModel
             Inertia = source.Inertia;
             DirectCost = source.DirectCost;
             TotalCost = source.TotalCost;
+            PriceRevision = source.PriceRevision;
             CostLow = source.CostLow;
             CostHigh = source.CostHigh;
             Carbon = source.Carbon;

@@ -81,6 +81,7 @@ try
     Check(imported.FormulaCells == 0, "Export a valori contiene formule");
     checks += SectionActionInputsChecks.Run();
     checks += SectionActionsEditorChecks.Run();
+    checks += BridgePricesChecks.Run();
     checks += await ModuleServiceChecks.Run();
     checks += await ElasticPileSessionChecks.Run(root);
     checks += MaterialPresentationChecks.Run(root);

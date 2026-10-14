@@ -71,6 +71,8 @@ public static partial class BridgeConcept
         double CostLow, double CostHigh, double Carbon, double Duration, Quantity[] Quantities, Detail[] Details, Station[] Stations, string[] Warnings)
     {
         public AdvancedGeometry? Advanced { get; init; }
+        [System.Text.Json.Serialization.JsonIgnore]
+        public string? PriceRevision { get; init; }
         public double Length => Spans.Sum();
         public double Area => Width * Length;
         public JsonObject Json() => J.Obj(("errore", ""), ("ambito", Scope), ("versione_motore", 1), ("avvisi", Warnings), ("bridge_design", this));

@@ -31,7 +31,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
     private readonly TextBlock status = Ui.Text("", 12), configuration = Ui.Text("", 12, color: Ui.Muted);
     private readonly TextBlock[] values = Enumerable.Range(0, 4).Select(_ => Ui.Text("—", 26, true)).ToArray();
     private readonly TextBlock[] captions = Enumerable.Range(0, 4).Select(_ => Ui.Text("", 11, color: Ui.Muted)).ToArray();
-    private readonly ContentControl quantities = new(), detail = new(), comparison = new(), advice = new();
+    private readonly ContentControl quantities = new(), detail = new(), comparison = new(), advice = new(), prices = new();
     private StackPanel sectionPanel = new();
     private readonly Stack<JsonObject> history = new();
     private JsonObject previous;
@@ -82,7 +82,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         Ui.Tab(Outputs, "Quantità e costi", quantities);
         Ui.Tab(Outputs, "Dettagli del predimensionamento", detail);
         Ui.Tab(Outputs, "Confronto A / B", comparison);
-        Ui.Tab(Outputs, "Prezzi unitari", Scroll(ParameterPanel("rates", BridgeDesignModel.Rates), 365));
+        prices.Content = BuildPricesPanel(); Ui.Tab(Outputs, "Prezzario", prices);
         Ui.Tab(Outputs, "Ipotesi e coefficienti", Scroll(ParameterPanel("assumptions", BridgeDesignModel.Assumptions.Concat(BridgeDesignModel.AdvancedAssumptions)), 365));
         Ui.Tab(Outputs, "Sezioni e quote", technical);
         Outputs.MinHeight = 330;
@@ -186,6 +186,26 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         }
         sectionPanel.Children.Add(Ui.Button("Sezione automatica", AutoSize));
     }
+    private UIElement BuildPricesPanel()
+    {
+        void Open()
+        {
+            try
+            {
+                var vm = new PriceCatalogueViewModel(Data); BridgePricesView.Create(this, vm).ShowDialog();
+                if (vm.Result is not null) Mutate(() => vm.CommitTo(Data), true);
+            }
+            catch (ArgumentException e) { status.Text = e.Message; }
+        }
+        var controls = Ui.Stack(Ui.Button("Gestisci prezzario…", Open, inspection: true));
+        if (Data["pricing"] is JsonObject pricing)
+        {
+            controls.Children.Add(Ui.Text(pricing["catalogue"].S("Name") + " · " + pricing["catalogue"].S("Edition"), 15, true));
+            controls.Children.Add(Ui.Text("Listino e personalizzazioni sono conservati nel documento. Apri la gestione per cambiare catalogo, controllare le differenze o ripristinare una revisione.", 12));
+        }
+        else controls.Children.Add(Scroll(ParameterPanel("rates", BridgeDesignModel.Rates), 330));
+        return controls;
+    }
     private StackPanel ParameterPanel(string group, IEnumerable<BridgeDesignModel.Parameter> parameters, bool sliders = false)
     {
         var panel = new StackPanel { Margin = new Thickness(4) };
@@ -260,6 +280,8 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         try
         {
             BuildInputs(); Inputs.SelectedIndex = Math.Max(0, selected);
+            foreach (string key in Editors.Keys.Where(k => k.StartsWith("rates/", StringComparison.Ordinal)).ToArray()) Editors.Remove(key);
+            prices.Content = BuildPricesPanel();
             foreach (var (key, editor) in Editors) { var parts = key.Split('/'); editor.Text = Data[parts[0]]!.S(parts[1]); }
         }
         finally { refreshing = false; }

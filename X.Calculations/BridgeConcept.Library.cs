@@ -34,7 +34,7 @@ public static partial class BridgeConcept
     }
     private sealed class BridgeProgress(Action<NativeBridge.OptimizationProgress> report) : IProgress<NativeBridge.OptimizationProgress>
     { public void Report(NativeBridge.OptimizationProgress value) => report(value); }
-    private static BridgeModel NativeInput(JsonObject source)
+    internal static BridgeModel NativeInput(JsonObject source)
     {
         var data = WithAdvancedDefaults(source); ValidateShape(data);
         double Number(string group, string key) => J.Number(data[group]?[key]) is double n && double.IsFinite(n) ? n : throw new ArgumentException($"Dato numerico richiesto: {group}.{key}.");
@@ -150,7 +150,7 @@ public static partial class BridgeConcept
             SpecialConnections = Number("assumptions", "special_connections"),
             Co2Cable = Number("assumptions", "co2_cable"),
         };
-        return new(input, rates, assumptions);
+        return new(input, rates, assumptions) { Prices = BridgePricing.Read(data) };
     }
     private static JsonObject ArchiveInput(BridgeModel model, JsonObject source)
     {
@@ -270,7 +270,7 @@ public static partial class BridgeConcept
     private static NativeBridge.Station ToNative(Station v) => new(v.Span, v.X, v.Moment, v.Shear, v.DeflectionMm);
     private static Support FromNative(NativeBridge.Support v) => new(v.Index, v.X, v.Type, v.Reaction, v.PierHeight, v.PierSize, v.Columns, v.FootingSize, v.FootingWidth, v.Piles);
     private static NativeBridge.Support ToNative(Support v) => new(v.Index, v.X, v.Type, v.Reaction, v.PierHeight, v.PierSize, v.Columns, v.FootingSize, v.FootingWidth, v.Piles);
-    private static Result FromNative(NativeBridge.Result v) => new(FromNative(v.Family), v.Width, v.Depth, v.PierDepth, v.Slab, v.Spacing, v.Girders, v.Web, v.Bottom, v.Spans.ToArray(), v.Supports.Select(FromNative).ToArray(), v.Foundation, v.PileDiameter, v.PileLength, v.Concrete, v.Steel, v.Rebar, v.Prestress, v.Inertia, v.DirectCost, v.TotalCost, v.CostLow, v.CostHigh, v.Carbon, v.Duration, v.Quantities.Select(FromNative).ToArray(), v.Details.Select(FromNative).ToArray(), v.Stations.Select(FromNative).ToArray(), v.Warnings.ToArray()) { Advanced = v.Advanced is null ? null : FromNative(v.Advanced) };
+    private static Result FromNative(NativeBridge.Result v) => new(FromNative(v.Family), v.Width, v.Depth, v.PierDepth, v.Slab, v.Spacing, v.Girders, v.Web, v.Bottom, v.Spans.ToArray(), v.Supports.Select(FromNative).ToArray(), v.Foundation, v.PileDiameter, v.PileLength, v.Concrete, v.Steel, v.Rebar, v.Prestress, v.Inertia, v.DirectCost, v.TotalCost, v.CostLow, v.CostHigh, v.Carbon, v.Duration, v.Quantities.Select(FromNative).ToArray(), v.Details.Select(FromNative).ToArray(), v.Stations.Select(FromNative).ToArray(), v.Warnings.ToArray()) { Advanced = v.Advanced is null ? null : FromNative(v.Advanced), PriceRevision = v.PriceRevision };
     private static NativeBridge.Result ToNative(Result v) => new(ToNative(v.Family), v.Width, v.Depth, v.PierDepth, v.Slab, v.Spacing, v.Girders, v.Web, v.Bottom, v.Spans.ToArray(), v.Supports.Select(ToNative).ToArray(), v.Foundation, v.PileDiameter, v.PileLength, v.Concrete, v.Steel, v.Rebar, v.Prestress, v.Inertia, v.DirectCost, v.TotalCost, v.CostLow, v.CostHigh, v.Carbon, v.Duration, v.Quantities.Select(ToNative).ToArray(), v.Details.Select(ToNative).ToArray(), v.Stations.Select(ToNative).ToArray(), v.Warnings.ToArray()) { Advanced = v.Advanced is null ? null : ToNative(v.Advanced) };
     private static TechnicalItem FromNative(NativeBridge.TechnicalItem v) => new(v.Component, v.Symbol, v.Value, v.Unit, v.Origin, v.Note);
     private static NativeBridge.TechnicalItem ToNative(TechnicalItem v) => new(v.Component, v.Symbol, v.Value, v.Unit, v.Origin, v.Note);

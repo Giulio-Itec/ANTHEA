@@ -18,6 +18,7 @@ public static class BridgeConceptExport
         rows.Add(["Totali", "Costo diretto", "", "", "", F(r.DirectCost, "G17"), ""]);
         rows.Add(["Totali", "Costo con oneri e imprevisti, IVA esclusa", "", "", "", F(r.TotalCost, "G17"), ""]);
         rows.Add(["Totali", "CO2 materiali + maggiorazione cantiere", "", "", "", "", F(r.Carbon, "G17")]);
+        if (r.PriceRevision is not null) rows.Add(["Provenienza", "Revisione prezzario: " + r.PriceRevision, "", "", "", "", ""]);
         rows.Add(["Ambito", BridgeConcept.Scope, "", "", "", "", ""]);
         return string.Join("\r\n", rows.Select(row => string.Join(";", row.Select(Cell)))) + "\r\n";
     }
@@ -102,7 +103,13 @@ public static class BridgeConceptExport
             s.Number + " · " + s.Type + (s.Type == "Spalla" ? " equivalente" : s.Type.StartsWith("Antenna") ? " · " + s.Columns + "×(" + F(s.Size) + "×" + F(s.Size) + ") m" : s.WallWidth > 0 ? " · " + F(s.Size) + "×" + F(s.WallWidth) + " m" : " · " + s.Columns + "×Ø" + F(s.Size) + " m"), F(s.Height),
             s.CapLength == 0 ? "—" : F(s.CapLength) + "×" + F(s.CapWidth) + "×" + F(s.CapThickness), F(s.FootingLength) + "×" + F(s.FootingWidth) + "×" + F(s.FootingThickness),
             s.Piles == 0 ? "Diretta" : s.Piles + "×Ø" + F(s.PileDiameter) + "×" + F(s.PileLength) }), [2500, 800, 1900, 2160, 2000]);
-        P("Quantità e prezzi", "Heading1"); P(BridgeConcept.PriceBasis);
+        P("Quantità e prezzi", "Heading1");
+        if (data["pricing"] is JsonObject priceDocument)
+        {
+            P("Prezzario: " + priceDocument["catalogue"].S("Name") + " · " + priceDocument["catalogue"].S("Edition") + ". Valuta EUR, IVA esclusa.");
+            P("Revisione prezzi del calcolo: " + result.PriceRevision);
+        }
+        else P(BridgeConcept.PriceBasis);
         foreach (var group in result.Quantities.GroupBy(q => q.Group))
         {
             P(group.Key, "Heading2"); Table(["Voce", "Quantità", "Unità", "Prezzo €", "Importo €"], group.Select(q => new[] { q.Item, F(q.Amount, "N1"), q.Unit, F(q.Rate, "N1"), F(q.Cost, "N0") }), [3500, 1300, 800, 1500, 2260]);
@@ -117,7 +124,12 @@ public static class BridgeConceptExport
         foreach (var (group, label, fields) in new[] {
             ("input", "Geometria e materiali (incluse opzioni delle altre famiglie)", BridgeConcept.Site.Concat(BridgeConcept.Layout).Concat(BridgeConcept.Section).Concat(BridgeConcept.AdvancedSection).Concat(BridgeConcept.Substructure)),
             ("rates", "Listino unitario EUR", BridgeConcept.Rates.AsEnumerable()), ("assumptions", "Ipotesi e coefficienti", BridgeConcept.Assumptions.Concat(BridgeConcept.AdvancedAssumptions)) })
-        { P(label, "Heading2"); Table(["Parametro", "Valore", "Unità"], fields.Select(p => new[] { p.Label, data[group]!.S(p.Key), p.Unit }), [5900, 1860, 1600]); }
+        {
+            P(label, "Heading2");
+            if (group == "rates" && data["pricing"]?["snapshot"]?["Rates"] is JsonArray resolved)
+                Table(["Lavorazione", "Prezzo", "Unità", "Riferimento"], resolved.OfType<JsonObject>().Select(p => new[] { p.S("WorkCode"), p.S("Price", "—"), p.S("Unit"), p.S("Reference") }), [2000, 1360, 800, 5200]);
+            else Table(["Parametro", "Valore", "Unità"], fields.Select(p => new[] { p.Label, data[group]!.S(p.Key), p.Unit }), [5900, 1860, 1600]);
+        }
         Table(["Scelta", "Valore"], new[] { ("obstacle", "Ostacolo"), ("soil", "Terreno"), ("deck_type", "Piano carrabile richiesto (applicato alle strutture superiori)"), ("pier", "Pila richiesta (antenne a portale per i ponti a cavi)"), ("foundation", "Fondazione richiesta"), ("continuous", "Continuità"), ("start_pier", "Inizio su pila"), ("end_pier", "Fine su pila"), ("low_carbon", "Cls ridotta CO₂"), ("recycled", "Acciaio riciclato") }.Select(p => new[] { p.Item2, data["input"]!.S(p.Item1) }));
         if (data["alternative_a"] is JsonObject baseline)
         {
