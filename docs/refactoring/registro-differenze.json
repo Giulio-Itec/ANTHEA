@@ -4583,6 +4583,26 @@
         "supporto/artefatti/refactoring/f4/wall-inactive.log",
         "supporto/artefatti/refactoring/f4/wall-legacy.log"
       ]
+    },
+    {
+      "id": "F4-38",
+      "data": "2026-10-14",
+      "fase": "F4.16",
+      "titolo": "Esempio Wiki CA nel contratto a sei componenti",
+      "famiglia": "Wiki",
+      "categoria": "difetto-legacy",
+      "stato": "attuato",
+      "descrizione": "L’esempio della trave conservava tre componenti dopo EXCEL-SOL. Esplicitati N,Vx,Vy,T,Mx,My e versione; invariati N=0 e Mx=200 kNm, nessun nuovo calcolo o atteso indipendente modificato.",
+      "test": [
+        "wiki-chapters: check-wiki-offscreen PASS; controllo del momento alla quinta componente"
+      ],
+      "codice": [
+        "src/ANTHEA.Wiki/Content/Examples/beam-ca.json",
+        "supporto/test/Desktop/WikiChecks.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/wiki-chapters.log"
+      ]
     }
   ]
 }

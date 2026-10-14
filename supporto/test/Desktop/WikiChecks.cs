@@ -99,7 +99,7 @@ internal static class WikiChecks
         Check(WikiCatalog.Search("LTB").Any(a => a.Key == "euler"), "Ricerca acronimo LTB e distinzione da Euler");
         Check(WikiCatalog.Search("pressoflessione").Any(a => a.Key == "guida-sezione-ca"), "Ricerca glossario dominio M-N");
         var data = MainWindow.WikiExamples.Create("str_palo", "beam-ca"); ModuleCatalog.ValidateData("str_palo", data);
-        Check(data["combinazioni"]?["SLU"]?[0]?["azioni"]?[1]?.ToString() == "200", "Momento numerico dell'esempio: 25 × 8² / 8 = 200 kNm");
+        Check(data["combinazioni"]?["SLU"]?[0]?["azioni"]?[4]?.ToString() == "200", "Momento numerico dell'esempio: 25 × 8² / 8 = 200 kNm");
         Check(SectionWorkspace.Sets.Skip(1).All(s => data["combinazioni"]![s]!.AsArray().Count == 0), "Nessuna combinazione di fabbrica residua nell'esempio");
         var other = MainWindow.WikiExamples.Create("str_palo", "beam-ca"); data["input"]!["height_mm"] = "700";
         Check(other["input"]!["height_mm"]!.ToString() == "800", "Esempi e default indipendenti");
