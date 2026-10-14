@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 42
+Edizione 6 aggiornata il 14 ottobre 2026 — revisione documentale 43
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -791,7 +791,7 @@ Il modello costruisce e confronta alternative parametriche. La graduatoria rigua
 
 ### Ambito del motore e significato di ottimizzazione
 
-Bridge Design usa il motore parametrico BridgeConcept di ANTHEA. I moduli Sezione in c.a. e Sezione composta da ponte impiegano invece le librerie indicate nell’interfaccia come GPC Engine. L’ottimizzazione di Bridge Design non richiama automaticamente quelle verifiche di sezione. La presenza delle librerie GPC non trasforma il predimensionamento in una verifica strutturale completa.
+Bridge Design usa il motore parametrico BridgeConcept della libreria GPC.Design. ANTHEA gestisce documenti, cataloghi, revisione dei prezzi e comandi di ricerca; GPC calcola quantità, azioni, costi e graduatoria sui dati ricevuti. I moduli Sezione in c.a. e Sezione composta da ponte impiegano invece le librerie indicate nell’interfaccia come GPC Engine. L’ottimizzazione di Bridge Design non richiama automaticamente quelle verifiche di sezione. La presenza delle librerie GPC non trasforma il predimensionamento in una verifica strutturale completa.
 
 L’ottimizzatore è una ricerca discreta deterministica: genera combinazioni, calcola ciascuna, applica filtri e ordina quelle rimaste. Non usa apprendimento automatico, un algoritmo genetico o una ricerca continua per gradiente. A parità di dati, opzioni e versione del motore produce gli stessi risultati. Non promette di trovare una soluzione compresa fra due valori della griglia o appartenente a una tipologia non modellata.
 
@@ -799,7 +799,7 @@ La soluzione ammissibile è una soluzione che supera i filtri interni elencati n
 
 ### Dati esterni e loro ingresso nel calcolo
 
-I dati esterni entrano attraverso i campi del progetto e il listino. Durante la ricerca non vengono interrogati servizi esterni, come prezzari, servizi geologici o banche dati di ponti. I valori iniziali sono contenuti nel codice e restano modificabili; un archivio riaperto conserva i propri prezzi e coefficienti. L’utente deve aggiornare consapevolmente le ipotesi quando cambia sito, anno economico, fornitore o prestazione richiesta.
+I dati esterni entrano attraverso i campi del progetto e il listino. I cataloghi possono essere importati da CSV, XLSX e JSON ANTHEA. Durante la ricerca non vengono interrogati servizi esterni, come prezzari, servizi geologici o banche dati di ponti. I valori iniziali sono contenuti nel codice e restano modificabili; un archivio riaperto conserva i propri prezzi e coefficienti. L’utente deve aggiornare consapevolmente le ipotesi quando cambia sito, anno economico, fornitore o prestazione richiesta.
 
 | Dato | Origine prevista | Effetto nel modello |
 | --- | --- | --- |
@@ -912,7 +912,7 @@ Il volume di calcestruzzo dell’impalcato è l’area della sezione per la lung
 
 Le armature sono stimate per incidenza: 140 kg/m³ per impalcati in c.a., 110 per c.a.p., 120 per soletta mista e famiglie estese; 150 per sottostrutture e 120 per fondazioni. La precompressione vale inizialmente 30 kg/m³ di impalcato precompresso. I parametri editabili sono riportati nell’interfaccia; l’incidenza 120 delle solette miste è una convenzione del motore. Non vengono ricavati numero, tracciato, tesatura o perdite dei cavi di precompressione.
 
-Indicando con ma la massa totale di carpenteria dell’impalcato in t, con g2 il carico permanente portato in kN/m² e con nb il numero convenzionale di barriere, i carichi sull’intera larghezza sono:
+Nel modello Uniforme equivalente (legacy), indicando con ma la massa totale di carpenteria dell’impalcato in t, con g2 il carico permanente portato in kN/m² e con nb il numero convenzionale di barriere, i carichi sull’intera larghezza sono:
 
 ```math
 G = 25A_c+\frac{9{,}81m_a}{L}+g_2 W+8n_b
@@ -921,11 +921,21 @@ q_s = G+Q
 q_d = \gamma_G G+\gamma_Q Q
 ```
 
-I valori iniziali sono g2 = 2,5 kN/m², qtraffico = 9 kN/m², γG = 1,35 e γQ = 1,50. nb vale 2, oppure 3 in presenza di spartitraffico. Il traffico è uniforme e contemporaneo su tutte le campate: non è un inviluppo di assi mobili né un modello di corsie caricate alternativamente. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza.
+I valori storici del modello uniforme sono g2 = 2,5 kN/m², qtraffico = 9 kN/m², γG = 1,35 e γQ = 1,50. nb vale 2, oppure 3 in presenza di spartitraffico. In questo modello il traffico è uniforme e contemporaneo su tutte le campate. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza. I nuovi progetti adottano invece Schema 1 e γQ = 1,35, descritti nel seguito.
+
+### Traffico mobile Schema 1
+
+Il modello adotta le corsie convenzionali dello Schema 1 delle NTC 2018 §5.1.3.3, Tabelle 5.1.I e 5.1.II. Ogni tandem ha due assi a distanza 1,20 m; il carico per asse è 300, 200 e 100 kN per le prime tre corsie. Il carico distribuito è 9 kN/m² sulla prima corsia e 2,5 kN/m² sulle successive e sulla parte rimanente, per quest’ultima secondo EN 1991-2, Tabella 4.2. La numerazione sfavorevole è comune alle carreggiate separate; le corsie convenzionali non coincidono necessariamente con quelle tracciate a terra.
+
+Per la trave longitudinale equivalente si costruiscono linee di influenza cubiche di momento, taglio, spostamento e reazione. Si cercano le posizioni sfavorevoli dei tandem e le porzioni favorevoli o sfavorevoli del carico distribuito. La ricerca longitudinale degli estremi avviene sui tratti polinomiali; le 41 sezioni per campata sono punti di restituzione del diagramma, non il passo di avanzamento del veicolo. Restano le ipotesi di elasticità lineare e EI costante della trave equivalente.
+
+Ogni grandezza conserva minimo e massimo. Gli estremi sono indipendenti e non costituiscono una combinazione concomitante; in particolare non si sommano massimi di reazione come se avvenissero insieme. Il predimensionamento degli appoggi usa l’estremo del singolo appoggio, mentre una reazione minima negativa segnala un possibile sollevamento. Il coefficiente γQ è un unico dato assegnato, con valore iniziale sfavorevole 1,35; la traccia riporta i coefficienti usati.
+
+Nelle famiglie con struttura superiore il servizio conserva un modello concettuale: ricava azioni globali equivalenti dagli inviluppi e applica i tandem ai membri locali secondo lo schema adottato. Non ricostruisce le linee di influenza spaziali di cavi, pendini o aste del ponte reale, né la non linearità geometrica. Questi limiti restano distinti dall’analisi longitudinale delle travate ordinarie.
 
 ### Analisi della trave equivalente
 
-Per le famiglie senza struttura superiore, ANTHEA risolve una trave di Euler Bernoulli con EI costante, appoggi verticali e rotazioni libere alle estremità. Nella continuità i momenti sugli appoggi interni sono ottenuti con il teorema dei tre momenti. Per due campate adiacenti a e b, con momenti Ml, Mi e Mr e carico uniforme q:
+Per le famiglie senza struttura superiore, il servizio GPC risolve una trave di Euler Bernoulli con EI costante, appoggi verticali e rotazioni libere alle estremità. Nella continuità i momenti sugli appoggi interni sono ottenuti con il teorema dei tre momenti. Per due campate adiacenti a e b, con momenti Ml, Mi e Mr e carico uniforme q:
 
 ```math
 M_l a+2M_i(a+b)+M_r b = -\frac{q(a^3+b^3)}{4}
@@ -1030,6 +1040,10 @@ I valori correnti sono stati confrontati con ANAS NC MP 2026 Rev 1 [R1] e con Em
 | Carpenteria ortotropa | 5.000 €/t | Aggregato non singola voce ANAS |
 | Cavi e pendini | 16.000 €/t | Sistema installato da preventivare |
 | Montaggio speciale | 1.000 €/t | Aggiunta per complessità speciale |
+
+Il computo separa quantità fisiche e prezzi risolti. Ogni risultato conserva la revisione del catalogo, le associazioni, le unità e gli eventuali prezzi personalizzati con motivazione. Una rivalutazione economica mantiene geometria e quantità; una nuova ricerca valuta invece tutti i candidati con la stessa copia del prezzario. I costi sono sommati dopo la conversione coerente delle unità, ad esempio €/kg e €/t. Un prezzo mancante rende il computo incompleto per le quantità che lo richiedono; zero resta un prezzo esplicito.
+
+Le inclusioni agiscono solo sulle quantità figlie rappresentate dal computo. La relazione disponibile è l’armatura compresa nella tariffa del relativo palo: non sopprime l’armatura delle altre parti. Una dichiarazione di inclusione non supportata viene rifiutata. Catalogo economico e fattori ambientali hanno revisioni indipendenti; il cambio di uno non modifica l’altro. I prezzi iniziali riportati restano riferimenti convenzionali da sostituire o confermare nel progetto, non un aggiornamento automatico dei prezzari citati.
 
 Il cls dei pali è incluso nella tariffa al metro e non viene nuovamente addebitato a volume; il volume resta conteggiato per l’impronta ambientale e per l’armatura. Gli appoggi ANAS sono articolati per forza e movimento, mentre qui si usa un importo medio a dispositivo. Le casseforme sono equivalenti; scavi, rinterri, drenaggi, impermeabilizzazione, protezioni, accessi, centine alte e sicurezza specifica non sono computati analiticamente. Per la carpenteria ortotropa la maggiorazione ANAS riguarda la lamiera interessata, mentre ANTHEA adotta un prezzo aggregato del sistema.
 
@@ -1219,7 +1233,7 @@ Si integra s=∫Δσz/M dz con tensioni Boussinesq di una striscia infinita e pr
 
 È un cedimento finale con moduli costanti assegnati: non ricostruisce tempi di consolidazione, OCR, scarico e ricarico, variazione di M con le tensioni o degrado ciclico. La rotazione θ=(smonte−svalle)/B deriva dal profilo libero; non è una soluzione accoppiata della fondazione rigida.
 
-Per Calcola spostamenti in testa servono anche la rigidezza orizzontale di fondazione K per metro di muro, in kN/m², e il limite scelto. Il fusto in c.a. usa curvature delle sezioni fessurate GPC con viscosità assegnata. La doppia integrazione fornisce u del fusto con base fissa; la stima disaccoppiata totale è utesta=ufusto+H/K−θHmuro. Il termine di rotazione conserva il segno. Le curvature mancanti impediscono il risultato. La gravità usa il modello elastico del materiale nel campo senza trazione.
+Per Calcola spostamenti in testa servono anche la rigidezza orizzontale di fondazione K per metro di muro, in kN/m², e il limite scelto. Il fusto in c.a. usa curvature totali delle sezioni fessurate GPC con viscosità assegnata. Per l’analisi lineare si usa la curvatura totale comprensiva dell’effetto viscoso, mantenendo la convenzione del solutore e senza moltiplicarla nuovamente per 1 + φ. La doppia integrazione fornisce u del fusto con base fissa; la stima disaccoppiata totale è utesta=ufusto+H/K−θHmuro. Il termine di rotazione conserva il segno. Le curvature mancanti impediscono il risultato. La gravità usa il modello elastico del materiale nel campo senza trazione.
 
 ### Spostamenti permanenti Newmark
 
@@ -1228,6 +1242,12 @@ Il blocco rigido scorre in una sola direzione. L’integrazione dei tratti linea
 ### Armature e comando Calcola armature
 
 Il predimensionamento usa ancoraggi a fyd e nessuna riduzione favorevole dei coefficienti di forma o confinamento. fbd deriva dalle proprietà GPC e dalle condizioni di aderenza. Le giunzioni sono alla stessa quota, quindi lo schema richiede il 100% delle barre giuntate e numeri compatibili nelle due zone. Si controllano lunghezza comune, interferro tra coppie, ingombro, area e passo dei collegamenti. Il mandrino considera anche la pressione nel calcestruzzo all’interno della piega.
+
+### Taglio senza staffe e stato delle verifiche del muro
+
+La verifica a taglio senza staffe riusa il servizio delle sezioni in c.a. e comprende il contributo della compressione assiale σcp entro i limiti del profilo normativo. La striscia strutturale è larga 1 m; l’adattatore converte una sola volta le azioni e il segno della compressione. I dati che escono dal campo supportato, compresi i casi di trazione rifiutati dal servizio, producono una diagnosi e non una resistenza favorevole fittizia.
+
+Esecuzione, disponibilità dei dati ed esito ingegneristico sono distinti. Un controllo non eseguito, incompleto o non convergente non diventa soddisfatto; una violazione accertata resta evidenziata anche se un altro controllo è incompleto. Questo criterio vale anche per le verifiche dei pali e per l’ammissione dei candidati nelle ricerche.
 
 ### Materiali del muro e condivisione nel progetto
 

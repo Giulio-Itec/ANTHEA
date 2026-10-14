@@ -29,8 +29,8 @@ Opzioni: `-SkipPublish` riusa la pubblicazione già presente, aggiornando comunq
 ## Versione
 
 La versione è `<Version>` in `X.Desktop/X.Desktop.csproj`, formato `maggiore.minore.patch`
-(oggi `1.2.0`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
-«App installate». ANTHEA.exe riporta versione file `1.2.0.0` e prodotto `1.2.0+<commit>`.
+(oggi `1.8.0`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
+«App installate». ANTHEA.exe riporta versione file `1.8.0.0` e prodotto `1.8.0+<commit>`.
 
 A parità di versione il setup viene sovrascritto. Prima della distribuzione aumentare
 `patch` per correzioni, `minore` per funzioni, `maggiore` per cambi di formato degli archivi.
@@ -53,7 +53,7 @@ La cartella `Guide` accanto ad `ANTHEA.exe` contiene tre PDF:
 - `Guida pratica ANTHEA.pdf`: uso e UI di tutti i moduli;
 - `Guida teorica ANTHEA.pdf`: teoria, formule, ipotesi e limiti di tutti i moduli.
 
-Tutti gli approfondimenti sono incorporati nelle due guide globali Rev15. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
+Tutti gli approfondimenti sono incorporati nelle due guide globali Rev43. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
 
 Per i nuovi argomenti aggiornare i due volumi, i PDF corrispondenti e l’indice. Per casi particolari chiedere all’utente prima di creare un documento autonomo. `Guide.json` contiene soltanto l’indice; i due manuali sono selezionati automaticamente alla revisione più recente.
 
@@ -71,8 +71,8 @@ segnalando esplicitamente che la disinstallazione non è stata eseguita.
 Riga di comando (installazioni silenziose o distribuite):
 
 ```bat
-ANTHEA-1.2.0-Setup-x64.exe /S /AllUsers
-ANTHEA-1.2.0-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
+ANTHEA-1.8.0-Setup-x64.exe /S /AllUsers
+ANTHEA-1.8.0-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
 "C:\Program Files\ANTHEA\Uninstall.exe" /S /AllUsers
 ```
 
