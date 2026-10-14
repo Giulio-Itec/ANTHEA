@@ -18,7 +18,7 @@ Le prime catture coprono cinque ambiti; Bridge Design rimane separato da cattura
 
 Avanzamento e collaudi della finestra autorizzata:
 [riepilogo della sessione del 13 ottobre](f4-sessione-20261013.md).
-Implementazioni e collegamenti F4.1–F4.15 completati nei sorgenti. [Audit finale dei percorsi e dei residui conservati](f4-audit-finale.md). Set W installato; restano collaudo full, verifica grafica delle guide e chiusura F4.16. Le liste storiche sotto descrivono le tappe iniziali, non lo stato corrente.
+Implementazioni e collegamenti F4.1–F4.15 completati nei sorgenti. [Audit finale dei percorsi e dei residui conservati](f4-audit-finale.md). Set W installato, guide Rev43 e verifica grafica concluse. Primo full completato, quattro regressioni corrette; resta la [revisione puntuale del confronto UI storico](f4-transizioni-ui-da-revisionare.md) e il collaudo finale F4.16. Le liste storiche sotto descrivono le tappe iniziali, non lo stato corrente.
 
 ## Obiettivo e confini
 
