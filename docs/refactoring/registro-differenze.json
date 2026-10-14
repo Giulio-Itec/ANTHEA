@@ -4953,14 +4953,16 @@
       "decisione": "Utente, 14/10: prezzo da componenti più spese generali e utile «che siano chiare voci presenti nel totale», percentuali nel prezzario modificabili per analisi, annidamento con rifiuto dei cicli.",
       "test": [
         "Design.Checks: PriceAnalysesTests (attesi a mano 187,8525 e 482,1006575 €/m³, rifiuti, ore)",
-        "Application.Tests PASS: BridgePriceAnalysesChecks (dettaglio, associazione, applicazione al computo, JSON, CSV, ciclo, percentuali mancanti)"
+        "Application.Tests PASS: BridgePriceAnalysesChecks (dettaglio, associazione, applicazione al computo, JSON, CSV, ciclo, percentuali mancanti)",
+        "ui/smoke-bridge-prices: NEW-FAIL nel full del 14/10 sera (20261014-230601-f4-full-20261015), perché la prova attendeva 3 schede dell'editor e F4-45 ha aggiunto «Analisi composte»; lo stadio ui non era stato eseguito dopo a105e011. Prova aggiornata a 4 schede, con aggiunta e rimozione di un'analisi, percentuali 15 e 10 rese esplicite e anteprima di nuovo applicabile: PASS, 30 controlli WPF nei tre aspetti (20261014-233816-prezzi-intestazioni). Nella stessa occasione le intestazioni «Spese generali %» e «Utile %» della tabella, tagliate, vanno su due righe."
       ],
       "codice": [
         "X.Calculations/BridgePricing.cs",
         "src/ANTHEA.Application/BridgeDesign/PriceCatalogue.cs",
         "src/ANTHEA.Application/BridgeDesign/PriceCatalogueViewModel.cs",
         "X.Desktop/Wpf/BridgePricesView.cs",
-        "tests/ANTHEA.Application.Tests/BridgePriceAnalysesChecks.cs"
+        "tests/ANTHEA.Application.Tests/BridgePriceAnalysesChecks.cs",
+        "tests/Desktop/BridgePricesSmokeChecks.cs"
       ]
     },
     {

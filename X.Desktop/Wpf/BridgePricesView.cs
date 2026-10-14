@@ -37,8 +37,8 @@ internal static class BridgePricesView
         Column(analyses, "Code", "Codice"); Column(analyses, "Description", "Descrizione", false, 240);
         analyses.Columns.Add(new DataGridComboBoxColumn { Header = "Unità", ItemsSource = vm.Units,
             SelectedItemBinding = new Binding("Unit") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }, Width = 75 });
-        Column(analyses, "Components", "Componenti (codice = quantità; …)", false, 360); Column(analyses, "GeneralExpenses", "Spese generali % (vuoto = prezzario)", false, 150);
-        Column(analyses, "Profit", "Utile % (vuoto = prezzario)", false, 130); Column(analyses, "UnitPrice", "Prezzo unitario", true, 130);
+        Column(analyses, "Components", "Componenti (codice = quantità; …)", false, 360); Column(analyses, "GeneralExpenses", "Spese generali %\n(vuoto = prezzario)", false, 150);
+        Column(analyses, "Profit", "Utile %\n(vuoto = prezzario)", false, 130); Column(analyses, "UnitPrice", "Prezzo unitario", true, 130);
         var breakdown = Ui.Text("", 12); breakdown.TextWrapping = TextWrapping.Wrap; breakdown.SetBinding(TextBlock.TextProperty, nameof(vm.AnalysisBreakdown));
         var preview = Ui.Text("", 16, true); preview.SetBinding(TextBlock.TextProperty, nameof(vm.CostPreview));
         var status = Ui.Text("", 12); status.TextWrapping = TextWrapping.Wrap; status.SetBinding(TextBlock.TextProperty, nameof(vm.Status));

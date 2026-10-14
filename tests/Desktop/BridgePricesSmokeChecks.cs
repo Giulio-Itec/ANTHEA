@@ -20,7 +20,8 @@ public sealed partial class MainWindow
                 {
                     dialog.Show(); await Dispatcher.InvokeAsync(() => dialog.UpdateLayout(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
                     var tabs = Ui.Descendants<TabControl>(dialog).Single();
-                    Check(tabs.Items.Count == 3 && vm.CanApply, "Price editor tabs/preview unavailable");
+                    // Mappings, catalogue entries, composite analyses (F4-45) and revisions.
+                    Check(tabs.Items.Count == 4 && vm.CanApply, "Price editor tabs/preview unavailable");
                     var grid = Ui.Descendants<DataGrid>(dialog).Single(); Check(grid.Items.Count == 16, "Work mappings not bound");
                     var codeColumn = (DataGridTextColumn)grid.Columns[2]; Check(codeColumn.Binding is System.Windows.Data.Binding { Mode: System.Windows.Data.BindingMode.TwoWay }, "Editable work code not bound");
                     vm.Mappings.Single(m => m.WorkCode == "concrete_deck").EntryCode = "MISSING";
@@ -33,6 +34,14 @@ public sealed partial class MainWindow
                     vm.AddEntryCommand.Execute(null); dialog.UpdateLayout(); Check(entries.Items.Count == count + 1, "Add catalogue entry not bound");
                     vm.RemoveEntryCommand.Execute(null); Check(entries.Items.Count == count, "Remove catalogue entry not bound");
                     File.WriteAllBytes(Path.Combine(directory, "catalogue-" + mode + ".png"), Ui.Snapshot(dialog));
+                    // Composite analyses (F4-45): table bound to the view model; the first analysis makes the price-list percentages explicit.
+                    tabs.SelectedIndex = 2; dialog.UpdateLayout();
+                    var analyses = Ui.Descendants<DataGrid>(dialog).Single(); int analysisCount = analyses.Items.Count;
+                    vm.AddAnalysisCommand.Execute(null); dialog.UpdateLayout();
+                    Check(analyses.Items.Count == analysisCount + 1 && vm.GeneralExpensesPercent == "15" && vm.ProfitPercent == "10", "Add composite analysis not bound");
+                    File.WriteAllBytes(Path.Combine(directory, "analyses-" + mode + ".png"), Ui.Snapshot(dialog));
+                    vm.RemoveAnalysisCommand.Execute(null); dialog.UpdateLayout();
+                    Check(analyses.Items.Count == analysisCount && vm.CanApply, "Remove composite analysis not bound");
                     vm.ApplyCommand.Execute(null); Check(vm.Result is not null && !dialog.IsVisible, "Apply did not close owned draft");
                 }
                 finally { dialog.Close(); }
