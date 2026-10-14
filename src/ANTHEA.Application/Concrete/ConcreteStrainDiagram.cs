@@ -9,7 +9,8 @@ public sealed record ConcreteStrainDiagram(double Width, double Height, double S
 {
     public static ConcreteStrainDiagram Read(ConcreteResults.StressState state, ConcreteGeometry geometry)
     {
-        var plane = state.Source.Native.StrainPlane;
+        // Total plane: in the linear analysis with creep the solver plane is 1 + φ times smaller than the strains of the bars (F4-43)
+        var plane = state.Source.Native.TotalStrainPlane;
         StrainVertex Sample(double[] p) => new(p[0], p[1], plane.GetStrain(p[0], p[1]));
         return new(geometry.Width, geometry.Height, plane.StrainReferencePoint, plane.ChiX, plane.ChiY,
             geometry.Outline.Select(Sample).ToArray(), geometry.Holes.Select(h => (IReadOnlyList<StrainVertex>)h.Select(Sample).ToArray()).ToArray());

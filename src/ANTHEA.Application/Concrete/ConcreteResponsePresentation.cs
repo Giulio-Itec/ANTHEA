@@ -5,7 +5,7 @@ public static class ConcreteResponsePresentation
 {
     public static string InspectionText(ConcreteResults.StressState state, ConcreteResults.Action force, string title, ConcreteGeometry section)
     {
-        var p = state.Source.Native.StrainPlane;
+        var p = state.Source.Native.TotalStrainPlane; // same strains as the bars and vertices listed below (F4-43)
         var b = new StringBuilder(title);
         b.AppendLine($"\nN = {force.N:G8} kN · Mx = {force.Mx:G8} kNm · My = {force.My:G8} kNm");
         b.AppendLine($"\nPIANO DI DEFORMAZIONE · coordinate geometriche in mm\nε(x,y) = ε0 + gx (x − x0) + gy (y − y0)\nε0 = {p.StrainReferencePoint:G9}\nx0 = {p.ReferencePoint.X:G9} mm · y0 = {p.ReferencePoint.Y:G9} mm\ngx = {p.ChiX:G9} mm⁻¹ · gy = {p.ChiY:G9} mm⁻¹\nAsse neutro: ε(x,y) = 0. Deformazioni positive a trazione.");
