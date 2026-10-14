@@ -45,12 +45,13 @@ suite. Casi, riferimenti analitici e limiti sono descritti in
 tranne le prove WPF) e ne restituisce l'esito; i risultati sono in `artefatti/ci/<data>-verifica/`
 (`summary.txt`, `summary.json` e il confronto numerico in `verifiche_regressione/confronto_numerico.json`).
 
-I valori attesi provengono dal programma Python originale. Quando ANTHEA se ne discosta per scelta, i casi interessati si
-rigenerano dal C# e restano marcati dal campo `fonte_atteso`:
-`dotnet run --project test/X.Verifiche -c Release -- --attesi test/casi_confronto.json "<filtro sul nome>" <risultati.json>`,
-poi `python scripts/aggiorna_attesi.py test/casi_confronto.json <risultati.json> "<motivazione>"` (conserva la struttura e il
-formato del file; gli altri casi restano identici). Così sono stati rigenerati il 26 settembre 2026 i 30 casi delle sezioni
-a T: l'ultima coppia di barre laterali è agli angoli superiori della staffa d'anima, nell'ala.
+I valori attesi provengono dal programma Python originale e sono indipendenti dal codice: non si rigenerano mai dai
+risultati del C#. Quando ANTHEA se ne discosta per scelta, gli attesi nuovi si calcolano in modo indipendente (Python, a
+mano o da esempi pubblicati) e la differenza va nel registro di `docs/refactoring`. Il campo `fonte_atteso` marca i 30
+casi delle sezioni a T rigenerati dal C# il 26 settembre 2026, prima di questa regola: l'ultima coppia di barre laterali è
+agli angoli superiori della staffa d'anima, nell'ala. Lo script usato allora è archiviato in
+`SUPERATI/scripts/aggiorna_attesi.py` (registro `SUPERATI/registro-20261014-script.json`); l'opzione `--attesi` di
+`test/X.Verifiche` resta solo per diagnosi.
 I nuovi output di test vanno salvati in `supporto/artefatti/` per mantenere pulita la radice.
 Le immagini utilizzate dall'applicazione rimangono in `X.Desktop/Assets`.
 
