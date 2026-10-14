@@ -24,7 +24,9 @@ internal static class F4InputContractChecks
                 expected["ui"]=expected["design"]!.DeepClone();
                 var data=(JsonObject)row["input"]!.DeepClone();var settings=SectionWorkspace.Prepare(data);
                 var actions=row["actions"]!.AsArray().OfType<JsonObject>().ToArray();
-                Compare(row["expected"]!["ui"],JsonSerializer.SerializeToNode(ConcreteDetailingAnalysis.Calculate(data["input"]!.AsObject(),settings,actions,legacyActions:true)),"retained-legacy-input");
+                // F4-44 adds the governing combination to the result; rows without "stato" are ultimate.
+                var retained=JsonSerializer.SerializeToNode(ConcreteDetailingAnalysis.Calculate(data["input"]!.AsObject(),settings,actions,legacyActions:true));
+                Compare(row["expected"]!["ui"],Governing(retained,"SLU · SLU","retained-legacy-input"),"retained-legacy-input");
                 settings["taglio"]!["azioni"]![0]!["N"]="-20000";
                 var significant=ConcreteDetailingAnalysis.Calculate(data["input"]!.AsObject(),settings,actions);
                 var minimum=significant.Checks.Single(c=>c.Name=="Armatura longitudinale minima");
@@ -36,12 +38,28 @@ internal static class F4InputContractChecks
                 try{ConcreteDetailingAnalysis.Calculate(data["input"]!.AsObject(),settings,actions);errors.Add("Invalid axial force silently ignored.");}catch(ArgumentException){}
             }
             else covers++;
-            Compare(expected,F4InputContractsCapture.Evaluate(row),row.S("id"));
+            var actual=F4InputContractsCapture.Evaluate(row);
+            if(row.S("kind")=="ned")
+            {
+                // Equal compressions (-6000 N): design families win, then the first row. The UI sees the shear row; the design call
+                // also passes it among the actions without "stato", so the ultimate copy comes first.
+                actual!["ui"]=Governing(actual["ui"],"Taglio con compressione massima · taglio",row.S("id")+".ui");
+                actual["design"]=Governing(actual["design"],"Taglio con compressione massima · SLU",row.S("id")+".design");
+            }
+            Compare(expected,actual,row.S("id"));
             if(row.ToJsonString()!=before)errors.Add(row.S("id")+": source mutated");
         }
         if(covers!=12||ned!=1)errors.Add("Incomplete contract corpus.");
         Directory.CreateDirectory(output);File.WriteAllText(Path.Combine(output,"comparison.json"),JsonSerializer.Serialize(new{covers,ned,numbers=stats.Numbers,errors},new JsonSerializerOptions{WriteIndented=true}));
         Console.WriteLine(stats.Line());foreach(string error in errors.Take(20))Console.Error.WriteLine(error);return errors.Count==0?0:1;
         void Compare(JsonNode? a,JsonNode? b,string name)=>Json.Compare(Json.Sort(a),Json.Sort(b),name,stats,errors,1e-9);
+        // Fields added by F4-44 after the capture: checked against the expected combination, then removed for the frozen comparison.
+        JsonNode Governing(JsonNode? result,string source,string name)
+        {
+            var copy=result!.DeepClone().AsObject();
+            if(copy["CompressionSource"]?.GetValue<string>()!=source||copy["CompressionFromServiceability"]?.GetValue<bool>()!=false)
+                errors.Add($"{name}: NEd from '{copy["CompressionSource"]}', expected '{source}' (not serviceability).");
+            copy.Remove("CompressionSource");copy.Remove("CompressionFromServiceability");return copy;
+        }
     }
 }

@@ -4894,7 +4894,8 @@
       "decisione": "Utente, 14/10: «compressione massima tra tutte le combo. slu, slv e taglio (eventualmente sle se le altre sono nulle)» e «in generale, usa le N più gravose di tutte le combo».",
       "test": [
         "Design.Checks: DetailingCompressionTakesTheMostSevereRowOfAllFamilies",
-        "Application.Tests PASS: DetailingCompressionChecks (SLE che governa, SLV che governa, testo, righe storiche)"
+        "Application.Tests PASS: DetailingCompressionChecks (SLE che governa, SLV che governa, testo, righe storiche)",
+        "baseline/f4-input-contracts PASS (14/10, dopo correzione della prova): i campi nuovi CompressionSource e CompressionFromServiceability sono controllati con la combinazione attesa dal contratto di DetailingCompression (parità: famiglie di progetto, poi prima riga) e tolti prima del confronto con la cattura congelata, che è rimasta invariata"
       ],
       "codice": [
         "X.Calculations/ConcreteDetailingAnalysis.cs",
