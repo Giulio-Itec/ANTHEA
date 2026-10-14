@@ -83,7 +83,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         Ui.Tab(Outputs, "Dettagli del predimensionamento", detail);
         Ui.Tab(Outputs, "Confronto A / B", comparison);
         prices.Content = BuildPricesPanel(); Ui.Tab(Outputs, "Prezzario", prices);
-        Ui.Tab(Outputs, "Ipotesi e coefficienti", Scroll(ParameterPanel("assumptions", BridgeDesignModel.Assumptions.Concat(BridgeDesignModel.AdvancedAssumptions)), 365));
+        Ui.Tab(Outputs, "Ipotesi e coefficienti", Scroll(ParameterPanel("assumptions", BridgeDesignModel.Assumptions.Concat(BridgeDesignModel.AdvancedAssumptions).Where(p => p.Key is not "gamma_q" and not "traffic_load")), 365));
         Ui.Tab(Outputs, "Sezioni e quote", technical);
         Outputs.MinHeight = 330;
         var bottom = Ui.Stack(Ui.Paper(Outputs, 12), advice);
@@ -131,6 +131,17 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         foreach (var p in BridgeDesignModel.Substructure) sub.Children.Add(Number("input", p, true));
         sub.Children.Add(Ui.Text("0 mantiene il dimensionamento automatico. Le classi di terreno sono parametri convenzionali modificabili nelle ipotesi.", 11, color: Ui.Muted));
         Ui.Tab(Inputs, "4 · Pile", Scroll(sub, 490));
+        var traffic = new StackPanel();
+        Choice(traffic, "traffic_model", "Modello di traffico", BridgeDesignModel.TrafficModels);
+        traffic.Children.Add(Ui.Text(Input.S("traffic_model") == BridgeDesignModel.Schema1
+            ? "Schema 1: tandem e distribuito sulle zone sfavorevoli. Lo spartitraffico positivo è assunto con barriera fissa; carreggiate simmetriche. Le barriere sono escluse dalla larghezza carrabile."
+            : "Archivio compatibile: uniforme su tutte le campate, senza tandem. Il passaggio allo Schema 1 conserva il coefficiente impostato finché non applichi quello consigliato.", 12, color: Ui.Muted));
+        traffic.Children.Add(Number("assumptions", BridgeDesignModel.Assumptions.Single(p => p.Key == "gamma_q"), false));
+        if (Input.S("traffic_model") == BridgeDesignModel.UniformLegacy)
+            traffic.Children.Add(Number("assumptions", BridgeDesignModel.Assumptions.Single(p => p.Key == "traffic_load"), false));
+        else traffic.Children.Add(Ui.Button("Applica γQ NTC consigliato", () => Mutate(() => BridgeDesignModel.ApplyRecommendedTrafficFactor(Data), true)));
+        traffic.Children.Add(Ui.Text("Il coefficiente adottato è registrato nel risultato. Le strutture superiori usano azioni globali equivalenti e tandem locali: restano modelli di predimensionamento.", 11, color: Ui.Muted));
+        Ui.Tab(Inputs, "5 · Traffico", Scroll(traffic, 490));
     }
     private void BuildSection()
     {
@@ -255,7 +266,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
     {
         var combo = Ui.Choice(choices, Input.S(key)); combo.SetValue(AutomationProperties.NameProperty, label);
         var box = Ui.Stack(Ui.Text(label, 12), combo); box.Margin = new Thickness(4, 8, 4, 3); panel.Children.Add(box);
-        combo.SelectionChanged += (_, _) => { if (!refreshing && combo.SelectedItem is string s) Mutate(() => Input[key] = s, key == "deck_type"); };
+        combo.SelectionChanged += (_, _) => { if (!refreshing && combo.SelectedItem is string s) Mutate(() => Input[key] = s, key is "deck_type" or "traffic_model"); };
     }
     private void Toggle(Panel panel, string key, string label)
     {
@@ -363,7 +374,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
     }
     private void ShowDetails(BridgeDesignModel.Result r)
     {
-        var panel = Ui.Stack(Ui.Text(BridgeDesignModel.Scope, 12, true), Ui.Text(r.Stations.Length == 0 ? "Struttura superiore: equilibrio ideale e quantità. Non viene prodotto un diagramma globale da trave per archi, cavi o reticolari." : "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico.", 12, color: Ui.Muted), new BridgeConceptMomentPlot { Result = r, Height = 180 });
+        var panel = Ui.Stack(Ui.Text(BridgeDesignModel.Scope, 12, true), Ui.Text(r.Traffic is { } traffic ? traffic.Scope : r.Stations.Length == 0 ? "Struttura superiore: equilibrio ideale e quantità. Non viene prodotto un diagramma globale da trave per archi, cavi o reticolari." : "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico.", 12, color: Ui.Muted), new BridgeConceptMomentPlot { Result = r, Height = 180 });
         panel.Children.Add(Table(["Grandezza", "Valore", "Unità", "Regola / ipotesi"], r.Details.Select(d => new[] { d.Name, F(d.Value, "N3"), d.Unit, d.Rule }), 600));
         panel.Children.Add(Table(["Appoggio", "x [m]", "Tipo", "R G+Q [kN]", "H [m]", "Plinto B×W [m]", "Pali"], r.Supports.Select(s => new[] { (s.Index + 1).ToString(), F(s.X), s.Type, F(s.Reaction), F(s.PierHeight), F(s.FootingSize) + "×" + F(s.FootingWidth), s.Piles.ToString() }), 500));
         foreach (string warning in r.Warnings) panel.Children.Add(Ui.Text("• " + warning, 12, color: Ui.Brush("#895C17")));
@@ -416,7 +427,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         var f = BridgeDesignModel.Families[random.Next(BridgeDesignModel.Families.Length)];
         Mutate(() =>
         {
-            var defaults = BridgeDesignModel.Defaults()["input"]!.AsObject(); Data["input"] = defaults.DeepClone();
+            var defaults = BridgeDesignModel.Defaults()["input"]!.AsObject(); defaults["traffic_model"] = Input["traffic_model"]?.DeepClone(); Data["input"] = defaults.DeepClone();
             Input["family"] = f.Id; int spans = random.Next(2, 7); Input["spans"] = spans;
             Input["length"] = Math.Round((f.MinSpan + (f.MaxSpan - f.MinSpan) * (.2 + random.NextDouble() * .45)) * (spans - .4));
             Input["height"] = Math.Max(random.Next(8, 31), Math.Ceiling(Input.D("length") / (spans - .4) / 18 + 5)); Input["lanes"] = random.Next(2, 7); Input["obstacle"] = BridgeDesignModel.Obstacles[random.Next(3)];

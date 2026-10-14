@@ -11,7 +11,7 @@ namespace X.Desktop;
 // Protocol unchanged: errore.txt and exit code 1 on failure, esito-smoke-completo.txt at the end of every --smoke*.
 public partial class App
 {
-    private static readonly string[] SmokeFlags = ["--smoke-bridge-prices", "--smoke-section-actions", "--smoke", "--smoke-neutral-axis", "--smoke-horizontal", "--smoke-display", "--smoke-ca-features",
+    private static readonly string[] SmokeFlags = ["--smoke-bridge-traffic", "--smoke-bridge-prices", "--smoke-section-actions", "--smoke", "--smoke-neutral-axis", "--smoke-horizontal", "--smoke-display", "--smoke-ca-features",
         "--smoke-ca-extensions", "--smoke-projects", "--smoke-materials", "--smoke-bridge", "--smoke-bridge-predalle", "--smoke-bridge-curves",
         "--smoke-material-report", "--smoke-project-workspace", "--smoke-project-report", "--smoke-hierarchy", "--smoke-steel", "--smoke-sharing",
         "--smoke-bridge-design", "--smoke-retaining-wall", "--smoke-global-stability"];
@@ -184,6 +184,7 @@ public partial class App
                     else if (e.Args[0] == "--smoke-sharing") await window.SmokeSharing(e.Args[1]);
                     else if (e.Args[0] == "--smoke-materials") await window.SmokeMaterials(e.Args[1]);
                     else if (e.Args[0] == "--smoke-projects") await window.SmokeProjects(e.Args[1]);
+                    else if (e.Args[0] == "--smoke-bridge-traffic") await window.SmokeBridgeTraffic(e.Args[1]);
                     else if (e.Args[0] == "--smoke-bridge-prices") await window.SmokeBridgePrices(e.Args[1]);
                     else if (e.Args[0] == "--smoke-section-actions") await window.SmokeSectionActions(e.Args[1]);
                     else if (e.Args[0] == "--smoke-ca-features") await window.SmokeConcreteFeatures(e.Args[1]);

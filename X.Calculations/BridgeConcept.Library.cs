@@ -7,7 +7,11 @@ namespace Anthea.Calculations;
 // Archive/UI boundary only. Engineering rules, search and numerical validation belong to GPC.Design.
 public static partial class BridgeConcept
 {
-    public static Result Calculate(JsonObject data, bool legacy = false) => legacy ? LegacyCalculate(data) : WithEnvironment(FromNative(NativeBridge.Calculate(NativeInput(data))), data);
+    public static Result Calculate(JsonObject data, bool legacy = false)
+    {
+        if (legacy && ReadTrafficModel(data) != TrafficModel.LegacyUniform) throw new ArgumentException("Il motore diagnostico precedente non supporta Schema 1.");
+        return legacy ? LegacyCalculate(data) : WithEnvironment(FromNative(NativeBridge.Calculate(NativeInput(data))), data);
+    }
     private static Result WithEnvironment(Result result, JsonObject data) => data["environment"] is null ? result
         : result with { EnvironmentRevision = Anthea.Serialization.BridgeEnvironmentData.Revision(WithAdvancedDefaults(data)) };
     public static (double[] Reactions, Station[] Stations) Analyze(double[] spans, double q, double ei, bool continuous)
@@ -21,7 +25,11 @@ public static partial class BridgeConcept
     public static OptimizationResult Optimize(JsonObject source, OptimizationOptions options, CancellationToken cancellation = default,
         IProgress<OptimizationProgress>? progress = null, bool legacy = false)
     {
-        if (legacy) return LegacyOptimize(source, options, cancellation, progress);
+        if (legacy)
+        {
+            if (ReadTrafficModel(source) != TrafficModel.LegacyUniform) throw new ArgumentException("Il motore diagnostico precedente non supporta Schema 1.");
+            return LegacyOptimize(source, options, cancellation, progress);
+        }
         var template = (JsonObject)source.DeepClone(); template.Remove("alternative_a");
         // A trial published in progress is the same presentation object in the completed trace.
         var trials = new Dictionary<NativeBridge.OptimizationTrial, OptimizationTrial>(ReferenceEqualityComparer.Instance);
@@ -44,6 +52,7 @@ public static partial class BridgeConcept
         bool Flag(string key) => data["input"]?[key] is JsonValue v && v.TryGetValue<bool>(out var b) ? b : throw new ArgumentException("Opzione non valida: " + key);
         var input = new BridgeInput
         {
+            TrafficModel = ReadTrafficModel(data),
             Length = Number("input", "length"),
             Height = Number("input", "height"),
             ObstacleWidth = Number("input", "obstacle_width"),
@@ -206,6 +215,8 @@ public static partial class BridgeConcept
         result["input"]!["pier"] = model.Input.Pier;
         result["input"]!["foundation"] = model.Input.Foundation;
         result["input"]!["continuous"] = model.Input.Continuous;
+        if (result["input"]!.AsObject().ContainsKey("traffic_model") || model.Input.TrafficModel != TrafficModel.LegacyUniform)
+            result["input"]!["traffic_model"] = model.Input.TrafficModel == TrafficModel.Ntc2018Schema1 ? Schema1 : UniformLegacy;
         result["input"]!["start_pier"] = model.Input.StartPier;
         result["input"]!["end_pier"] = model.Input.EndPier;
         result["input"]!["low_carbon"] = model.Input.LowCarbon;
@@ -268,11 +279,11 @@ public static partial class BridgeConcept
     private static NativeBridge.Quantity ToNative(Quantity v) => new(v.Group, v.Item, v.Amount, v.Unit, v.Rate, v.Cost, v.Carbon);
     private static Detail FromNative(NativeBridge.Detail v) => new(v.Name, v.Value, v.Unit, v.Rule);
     private static NativeBridge.Detail ToNative(Detail v) => new(v.Name, v.Value, v.Unit, v.Rule);
-    private static Station FromNative(NativeBridge.Station v) => new(v.Span, v.X, v.Moment, v.Shear, v.DeflectionMm);
-    private static NativeBridge.Station ToNative(Station v) => new(v.Span, v.X, v.Moment, v.Shear, v.DeflectionMm);
-    private static Support FromNative(NativeBridge.Support v) => new(v.Index, v.X, v.Type, v.Reaction, v.PierHeight, v.PierSize, v.Columns, v.FootingSize, v.FootingWidth, v.Piles);
-    private static NativeBridge.Support ToNative(Support v) => new(v.Index, v.X, v.Type, v.Reaction, v.PierHeight, v.PierSize, v.Columns, v.FootingSize, v.FootingWidth, v.Piles);
-    private static Result FromNative(NativeBridge.Result v) => new(FromNative(v.Family), v.Width, v.Depth, v.PierDepth, v.Slab, v.Spacing, v.Girders, v.Web, v.Bottom, v.Spans.ToArray(), v.Supports.Select(FromNative).ToArray(), v.Foundation, v.PileDiameter, v.PileLength, v.Concrete, v.Steel, v.Rebar, v.Prestress, v.Inertia, v.DirectCost, v.TotalCost, v.CostLow, v.CostHigh, v.Carbon, v.Duration, v.Quantities.Select(FromNative).ToArray(), v.Details.Select(FromNative).ToArray(), v.Stations.Select(FromNative).ToArray(), v.Warnings.ToArray()) { Advanced = v.Advanced is null ? null : FromNative(v.Advanced), PriceRevision = v.PriceRevision };
+    private static Station FromNative(NativeBridge.Station v) => new(v.Span, v.X, v.Moment, v.Shear, v.DeflectionMm) { MomentMinimum = v.MomentMinimum, ShearMinimum = v.ShearMinimum, DeflectionMinimumMm = v.DeflectionMinimumMm };
+    private static NativeBridge.Station ToNative(Station v) => new(v.Span, v.X, v.Moment, v.Shear, v.DeflectionMm) { MomentMinimum = v.MomentMinimum, ShearMinimum = v.ShearMinimum, DeflectionMinimumMm = v.DeflectionMinimumMm };
+    private static Support FromNative(NativeBridge.Support v) => new(v.Index, v.X, v.Type, v.Reaction, v.PierHeight, v.PierSize, v.Columns, v.FootingSize, v.FootingWidth, v.Piles) { MinimumReaction = v.MinimumReaction };
+    private static NativeBridge.Support ToNative(Support v) => new(v.Index, v.X, v.Type, v.Reaction, v.PierHeight, v.PierSize, v.Columns, v.FootingSize, v.FootingWidth, v.Piles) { MinimumReaction = v.MinimumReaction };
+    private static Result FromNative(NativeBridge.Result v) => new(FromNative(v.Family), v.Width, v.Depth, v.PierDepth, v.Slab, v.Spacing, v.Girders, v.Web, v.Bottom, v.Spans.ToArray(), v.Supports.Select(FromNative).ToArray(), v.Foundation, v.PileDiameter, v.PileLength, v.Concrete, v.Steel, v.Rebar, v.Prestress, v.Inertia, v.DirectCost, v.TotalCost, v.CostLow, v.CostHigh, v.Carbon, v.Duration, v.Quantities.Select(FromNative).ToArray(), v.Details.Select(FromNative).ToArray(), v.Stations.Select(FromNative).ToArray(), v.Warnings.ToArray()) { Advanced = v.Advanced is null ? null : FromNative(v.Advanced), PriceRevision = v.PriceRevision, Traffic = FromTraffic(v.Traffic) };
     private static NativeBridge.Result ToNative(Result v) => new(ToNative(v.Family), v.Width, v.Depth, v.PierDepth, v.Slab, v.Spacing, v.Girders, v.Web, v.Bottom, v.Spans.ToArray(), v.Supports.Select(ToNative).ToArray(), v.Foundation, v.PileDiameter, v.PileLength, v.Concrete, v.Steel, v.Rebar, v.Prestress, v.Inertia, v.DirectCost, v.TotalCost, v.CostLow, v.CostHigh, v.Carbon, v.Duration, v.Quantities.Select(ToNative).ToArray(), v.Details.Select(ToNative).ToArray(), v.Stations.Select(ToNative).ToArray(), v.Warnings.ToArray()) { Advanced = v.Advanced is null ? null : ToNative(v.Advanced) };
     private static TechnicalItem FromNative(NativeBridge.TechnicalItem v) => new(v.Component, v.Symbol, v.Value, v.Unit, v.Origin, v.Note);
     private static NativeBridge.TechnicalItem ToNative(TechnicalItem v) => new(v.Component, v.Symbol, v.Value, v.Unit, v.Origin, v.Note);

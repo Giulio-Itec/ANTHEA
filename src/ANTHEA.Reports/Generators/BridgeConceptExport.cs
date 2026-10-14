@@ -20,6 +20,7 @@ public static class BridgeConceptExport
         rows.Add(["Totali", "CO2 materiali + maggiorazione cantiere", "", "", "", "", F(r.Carbon, "G17")]);
         if (r.EnvironmentRevision is not null) rows.Add(["Provenienza", "Revisione fattori CO₂: " + r.EnvironmentRevision, "", "", "", "", ""]);
         if (r.PriceRevision is not null) rows.Add(["Provenienza", "Revisione prezzario: " + r.PriceRevision, "", "", "", "", ""]);
+        if (r.Traffic is { } traffic) rows.Add(["Provenienza", traffic.Model + "; " + traffic.Reference + "; γG=" + F(traffic.GammaG, "G17") + "; γQ=" + F(traffic.GammaQ, "G17"), "", "", "", "", ""]);
         rows.Add(["Ambito", BridgeConcept.Scope, "", "", "", "", ""]);
         return string.Join("\r\n", rows.Select(row => string.Join(";", row.Select(Cell)))) + "\r\n";
     }
@@ -82,7 +83,13 @@ public static class BridgeConceptExport
         P("ANTHEA · " + title, "Title"); P("Bridge Design · " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"), "Subtitle");
         P("Ambito e limiti", "Heading1"); P(BridgeConcept.Scope);
         P("Modello parametrico ANTHEA v1 di predimensionamento con regole proprie esplicitate; non costituisce verifica normativa.");
-        P("Esclusi: inviluppi di traffico mobile, fasi costruttive, sisma, vento, urti, fatica, instabilità, precompressione nelle deformazioni, viscosità, fessurazione, collegamenti e verifiche geotecniche complete.");
+        if (result.Traffic is { } traffic)
+        {
+            P(traffic.Model + ". " + traffic.Reference); P(traffic.Scope);
+            P($"Corsie convenzionali: {traffic.Lanes}; distribuito {F(traffic.UniformKnPerMetre)} kN/m; tandem {F(traffic.TandemKn)} kN; γG {F(traffic.GammaG)}, γQ {F(traffic.GammaQ)}.");
+            P("Esclusi: analisi trasversale, Schemi 2/6, frenatura, fatica, fasi costruttive, sisma, vento, instabilità e verifiche geotecniche complete.");
+        }
+        else P("Esclusi: inviluppi di traffico mobile, fasi costruttive, sisma, vento, urti, fatica, instabilità, precompressione nelle deformazioni, viscosità, fessurazione, collegamenti e verifiche geotecniche complete.");
         if (result.EnvironmentRevision is not null) P("Revisione fattori CO₂ del calcolo: " + result.EnvironmentRevision);
         P("Riepilogo", "Heading1");
         Table(["Indicatore", "Valore"], [
@@ -121,6 +128,8 @@ public static class BridgeConceptExport
         Table(["Grandezza", "Valore", "Regola"], result.Details.Select(d => new[] { d.Name, F(d.Value) + " " + d.Unit, d.Rule }), [2800, 1700, 4860]);
         P("Appoggi e reazioni", "Heading1"); P("Reazioni G+Q non fattorizzate sull'intero impalcato. Le fondazioni sono dimensionate con carico assiale centrato e valori convenzionali.");
         Table(["Appoggio / tipo", "x [m]", "R [kN]", "H [m]", "Pali [n.]"], result.Supports.Select(s => new[] { (s.Index + 1) + " · " + s.Type, F(s.X), F(s.Reaction), F(s.PierHeight), s.Piles.ToString() }));
+        if (result.Traffic is not null)
+            Table(["Appoggio", "R min G+Q [kN]", "R max G+Q [kN]"], result.Supports.Select(s => new[] { (s.Index + 1).ToString(), F(s.MinimumReaction!.Value), F(s.Reaction) }));
         P("Avvisi del modello", "Heading1"); foreach (string warning in result.Warnings) P(warning);
         P("Input e coefficienti conservati", "Heading1");
         foreach (var (group, label, fields) in new[] {
@@ -130,7 +139,9 @@ public static class BridgeConceptExport
             P(label, "Heading2");
             if (group == "rates" && data["pricing"]?["snapshot"]?["Rates"] is JsonArray resolved)
                 Table(["Lavorazione", "Prezzo", "Unità", "Riferimento"], resolved.OfType<JsonObject>().Select(p => new[] { p.S("WorkCode"), p.S("Price", "—"), p.S("Unit"), p.S("Reference") }), [2000, 1360, 800, 5200]);
-            else Table(["Parametro", "Valore", "Unità"], fields.Select(p => new[] { p.Label, data[group]!.S(p.Key), p.Unit }), [5900, 1860, 1600]);
+            else Table(["Parametro", "Valore", "Unità"], fields.Select(p => new[] { p.Label,
+                group == "assumptions" && result.Traffic is { } adopted && p.Key is "gamma_g" or "gamma_q"
+                    ? F(p.Key == "gamma_g" ? adopted.GammaG : adopted.GammaQ) : data[group]!.S(p.Key), p.Unit }), [5900, 1860, 1600]);
         }
         Table(["Scelta", "Valore"], new[] { ("obstacle", "Ostacolo"), ("soil", "Terreno"), ("deck_type", "Piano carrabile richiesto (applicato alle strutture superiori)"), ("pier", "Pila richiesta (antenne a portale per i ponti a cavi)"), ("foundation", "Fondazione richiesta"), ("continuous", "Continuità"), ("start_pier", "Inizio su pila"), ("end_pier", "Fine su pila"), ("low_carbon", "Cls ridotta CO₂"), ("recycled", "Acciaio riciclato") }.Select(p => new[] { p.Item2, data["input"]!.S(p.Item1) }));
         if (data["alternative_a"] is JsonObject baseline)

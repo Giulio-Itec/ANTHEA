@@ -51,7 +51,13 @@ public sealed partial class MainWindow
             button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             workspace.Editors["input/length"].Text = (BridgeConcept.HasTowers(family.Id) ? 2 * Math.Min(450, (family.MinSpan + family.MaxSpan) / 2) : (family.MinSpan + family.MaxSpan) / 2 * 4.6).ToString(System.Globalization.CultureInfo.InvariantCulture);
             workspace.Editors["input/height"].Text = "40";
-            await Settle(); Check(workspace.Calculation?.Family.Id == family.Id, "Cambio famiglia fallito: " + family.Id);
+            await Settle();
+            if (workspace.Calculation is null)
+            {
+                File.WriteAllText(Path.Combine(directory, "failed-family-input.json"), workspace.Data.ToJsonString());
+                _ = Anthea.Calculations.CalculationService.Calculate(BridgeConcept.Module, workspace.Data);
+            }
+            Check(workspace.Calculation?.Family.Id == family.Id, "Cambio famiglia fallito: " + family.Id);
             File.WriteAllBytes(Path.Combine(directory, family.Id + "_prospetto.png"), workspace.Drawing.Png(false));
             File.WriteAllBytes(Path.Combine(directory, family.Id + "_sezione.png"), workspace.Drawing.Png(true));
         }

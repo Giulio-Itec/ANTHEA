@@ -254,7 +254,7 @@ internal sealed class BridgeConceptMomentPlot : FrameworkElement
         // (in Light it lies on the white card, which stays the only background).
         if (Appearance.GetDark(this)) dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, ActualWidth, ActualHeight));
         if (r.Stations.Length == 0) { BridgeDesignDrawing.Text(dc, "Diagrammi globali non disponibili per questa tipologia.", 12, 50, 12, Ui.Muted); BridgeDesignDrawing.Text(dc, "Consultare equilibrio, forze e quantità nei dettagli del modello.", 12, 75, 12, Ui.Muted); return; }
-        double max = r.Stations.Max(s => Math.Abs(s.Moment)); if (max == 0) max = 1;
+        double max = r.Stations.Max(s => Math.Max(Math.Abs(s.Moment), Math.Abs(s.MomentMinimum ?? s.Moment))); if (max == 0) max = 1;
         double xs = (ActualWidth - 100) / r.Length, ys = 55 / max, axis = 80;
         dc.DrawLine(new Pen(Ui.Muted, 1), new Point(50, axis), new Point(ActualWidth - 50, axis));
         foreach (var span in r.Stations.GroupBy(s => s.Span))
@@ -262,8 +262,13 @@ internal sealed class BridgeConceptMomentPlot : FrameworkElement
             var pts = span.Select(s => new Point(50 + s.X * xs, axis + s.Moment * ys)).ToArray();
             BridgeDesignDrawing.Poly(dc, new[] { new Point(pts[0].X, axis) }.Concat(pts).Append(new Point(pts[^1].X, axis)), Ui.Brush("#DDECF7"));
             for (int k = 1; k < pts.Length; k++) dc.DrawLine(new Pen(Ui.Blue, 1.8), pts[k - 1], pts[k]);
+            if (r.Traffic is not null)
+            {
+                var low = span.Select((s, k) => new Point(pts[k].X, axis + (s.MomentMinimum ?? s.Moment) * ys)).ToArray();
+                for (int k = 1; k < low.Length; k++) dc.DrawLine(new Pen(Brushes.DarkOrange, 1.8), low[k - 1], low[k]);
+            }
         }
-        BridgeDesignDrawing.Text(dc, "M · γG G + γQ Q · intero impalcato [kNm]", 12, 8, 12, Ui.Navy, true);
-        BridgeDesignDrawing.Text(dc, $"M+ {BridgeDesignWorkspace.F(r.Stations.Max(s => s.Moment), "N0")}   /   M− {BridgeDesignWorkspace.F(r.Stations.Min(s => s.Moment), "N0")}", 12, 155, 12, Ui.Muted);
+        BridgeDesignDrawing.Text(dc, r.Traffic is null ? "M · γG G + γQ Q · intero impalcato [kNm]" : "M max blu / min arancio · Schema 1 · estremi non concomitanti [kNm]", 12, 8, 12, Ui.Navy, true);
+        BridgeDesignDrawing.Text(dc, $"M+ {BridgeDesignWorkspace.F(r.Stations.Max(s => s.Moment), "N0")}   /   M− {BridgeDesignWorkspace.F(r.Stations.Min(s => s.MomentMinimum ?? s.Moment), "N0")}", 12, 155, 12, Ui.Muted);
     }
 }

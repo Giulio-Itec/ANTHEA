@@ -581,3 +581,7 @@ Punto 5.2: implementato in `ANTHEA.DesignTools.Presentation` senza WPF e vista c
 Checker Design 0.16.0.0: Schema 1 NTC, corsie, tandem e inviluppi da linee di influenza cubiche. Quarantotto test Design PASS inclusi 20 attesi Python preesistenti e controlli esatti di travi appoggiate/continue. Tre campate, 123 sezioni: 3.776 ms. Nessun cambiamento ancora in BridgeConcept o negli archivi; integrazione e prestazioni della ricerca nel passo seguente. Dettagli e SHA nel documento Checker docs/refactoring/f4-bridge-traffic.md.
 
 - F4.11d.2: motore travate Schema 1 e ricerche collaudato, 50 PASS; strutture superiori e adattatore UI ancora in corso.
+
+### 14/10 — F4.11d.3 traffico, interfaccia e provenienza
+
+Set N da Checker e3d8c273, Design 0.18.0.1, completo. Nuovi documenti Schema 1, precedenti conservati con migrazione esplicita; scelta dedicata e gamma Q unico, modifica volontaria al valore consigliato. Min/max dei diagrammi e delle reazioni, metodi e coefficienti dal risultato in report/CSV. Strutture superiori con ambito parametrico dichiarato. traffic-ui-c: 11 PASS, WPF nei tre temi e tutte le famiglie; 161550 numeri precedenti invariati entro la soglia originale. Fix di un ULP al bordo campata riprodotto prima e verificato dopo (52 Design PASS); nessuna tolleranza modificata. F4-29. Distribuzione e guide restano F4.9/F4.16.

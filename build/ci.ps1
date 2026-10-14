@@ -274,7 +274,7 @@ if ($DenseRef -and $DenseSet -eq 'input-validation') {
         Args = @('{out}', '--catalog', $(if ([IO.Path]::IsPathRooted($DenseRef)) { $DenseRef } else { Join-Path $Root $DenseRef }), '{out}\..\baseline_banco-denso\cattura') }
 }
 
-$smokes = 'smoke-bridge-prices', 'smoke-section-actions', 'smoke', 'smoke-bridge', 'smoke-bridge-curves', 'smoke-bridge-design', 'smoke-bridge-predalle', 'smoke-ca-extensions', 'smoke-ca-features',
+$smokes = 'smoke-bridge-traffic', 'smoke-bridge-prices', 'smoke-section-actions', 'smoke', 'smoke-bridge', 'smoke-bridge-curves', 'smoke-bridge-design', 'smoke-bridge-predalle', 'smoke-ca-extensions', 'smoke-ca-features',
     'smoke-display', 'smoke-global-stability', 'smoke-hierarchy', 'smoke-horizontal', 'smoke-material-report', 'smoke-materials', 'smoke-neutral-axis',
     'smoke-project-report', 'smoke-projects', 'smoke-project-workspace', 'smoke-retaining-wall', 'smoke-sharing', 'smoke-steel'
 foreach ($s in $smokes) {

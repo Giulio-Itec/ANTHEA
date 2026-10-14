@@ -158,6 +158,9 @@ public static partial class BridgeDesignModel
         public double Moment { get; }
         public double Shear { get; }
         public double DeflectionMm { get; }
+        public double? MomentMinimum { get; }
+        public double? ShearMinimum { get; }
+        public double? DeflectionMinimumMm { get; }
         internal Station(Native.Station source)
         {
             Span = source.Span;
@@ -165,6 +168,7 @@ public static partial class BridgeDesignModel
             Moment = source.Moment;
             Shear = source.Shear;
             DeflectionMm = source.DeflectionMm;
+            MomentMinimum = source.MomentMinimum; ShearMinimum = source.ShearMinimum; DeflectionMinimumMm = source.DeflectionMinimumMm;
         }
     }
 
@@ -174,6 +178,7 @@ public static partial class BridgeDesignModel
         public double X { get; }
         public string Type { get; }
         public double Reaction { get; }
+        public double? MinimumReaction { get; }
         public double PierHeight { get; }
         public double PierSize { get; }
         public int Columns { get; }
@@ -185,7 +190,7 @@ public static partial class BridgeDesignModel
             Index = source.Index;
             X = source.X;
             Type = source.Type;
-            Reaction = source.Reaction;
+            Reaction = source.Reaction; MinimumReaction = source.MinimumReaction;
             PierHeight = source.PierHeight;
             PierSize = source.PierSize;
             Columns = source.Columns;
@@ -195,8 +200,14 @@ public static partial class BridgeDesignModel
         }
     }
 
+    public sealed record TrafficInfo(string Model, string Reference, int Lanes, double UniformKnPerMetre, double TandemKn,
+        double GammaG, double GammaQ, string Scope)
+    {
+        internal TrafficInfo(Native.TrafficInfo t) : this(t.Model, t.Reference, t.Lanes, t.UniformKnPerMetre, t.TandemKn, t.GammaG, t.GammaQ, t.Scope) { }
+    }
     public sealed class Result
     {
+        public TrafficInfo? Traffic { get; }
         public Family Family { get; }
         public double Width { get; }
         public double Depth { get; }
@@ -235,7 +246,7 @@ public static partial class BridgeDesignModel
         public JsonObject Json() => Source.Json();
         internal Result(Native.Result source)
         {
-            Source = source;
+            Source = source; Traffic = source.Traffic is { } traffic ? new TrafficInfo(traffic) : null;
             Family = new Family(source.Family);
             Width = source.Width;
             Depth = source.Depth;

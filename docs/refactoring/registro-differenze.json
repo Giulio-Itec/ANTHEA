@@ -4359,6 +4359,32 @@
       "evidenze": [
         "supporto/artefatti/refactoring/f4/environment-a.log"
       ]
+    },
+    {
+      "id": "F4-29",
+      "data": "2026-10-14",
+      "fase": "F4.11d",
+      "titolo": "Traffico mobile e tandem con provenienza",
+      "famiglia": "Bridge Design",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Attuazione D7-f. Nuovi documenti Schema 1 NTC 2018; vecchi documenti conservano il modello uniforme e i coefficienti, con migrazione esplicita. Travate con estremi indipendenti da linee di influenza; strutture superiori con azioni equivalenti globali e tandem locali, limiti dichiarati. Nessuna somma di reazioni massime non concomitanti. Report e CSV identificano il risultato adottato.",
+      "decisione": "D7-f; completamento F4 autorizzato il 13/10 sera.",
+      "test": [
+        "52 test Design PASS, 20 attesi Python preesistenti invariati",
+        "traffic-ui-c: 11 PASS, WPF nei tre temi e tutte le famiglie",
+        "31 modelli/17 ricerche/161550 numeri legacy equivalenti",
+        "648 candidati Schema 1 circa 201 ms; sette candidati 21 ms freddo e 2 ms caldo"
+      ],
+      "codice": [
+        "X.Calculations/BridgeConcept.Traffic.cs",
+        "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
+        "src/ANTHEA.Reports/Generators/BridgeConceptExport.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/traffic-ui-c.log",
+        "../Checker/docs/refactoring/f4-bridge-traffic.md"
+      ]
     }
   ]
 }

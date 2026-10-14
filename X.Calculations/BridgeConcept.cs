@@ -63,13 +63,22 @@ public static partial class BridgeConcept
     }
     public sealed record Quantity(string Group, string Item, double Amount, string Unit, double Rate, double Cost, double Carbon);
     public sealed record Detail(string Name, double Value, string Unit, string Rule);
-    public sealed record Station(int Span, double X, double Moment, double Shear, double DeflectionMm);
-    public sealed record Support(int Index, double X, string Type, double Reaction, double PierHeight, double PierSize, int Columns, double FootingSize, double FootingWidth, int Piles);
+    public sealed record Station(int Span, double X, double Moment, double Shear, double DeflectionMm)
+    {
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)] public double? MomentMinimum { get; init; }
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)] public double? ShearMinimum { get; init; }
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)] public double? DeflectionMinimumMm { get; init; }
+    }
+    public sealed record Support(int Index, double X, string Type, double Reaction, double PierHeight, double PierSize, int Columns, double FootingSize, double FootingWidth, int Piles)
+    {
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)] public double? MinimumReaction { get; init; }
+    }
     public sealed record Result(Family Family, double Width, double Depth, double PierDepth, double Slab, double Spacing, int Girders,
         double Web, double Bottom, double[] Spans, Support[] Supports, string Foundation, double PileDiameter, double PileLength,
         double Concrete, double Steel, double Rebar, double Prestress, double Inertia, double DirectCost, double TotalCost,
         double CostLow, double CostHigh, double Carbon, double Duration, Quantity[] Quantities, Detail[] Details, Station[] Stations, string[] Warnings)
     {
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)] public TrafficInfo? Traffic { get; init; }
         public AdvancedGeometry? Advanced { get; init; }
         [System.Text.Json.Serialization.JsonIgnore]
         public string? PriceRevision { get; init; }
