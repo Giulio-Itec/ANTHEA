@@ -162,8 +162,12 @@ public static partial class ElasticHorizontalPile
             if(details.B("copriferro_override")){result["cmin_dur"]=details.Required("cmin_dur");result["origine"]="cmin,dur assegnato esplicitamente dall'utente";return result;}
             var exposure=input.S("esposizione");
             if(string.IsNullOrWhiteSpace(exposure))throw new ArgumentException("Classe di esposizione non assegnata.");
-            var value=CoverRequirements.Calculate(DurabilityProfile.Ntc2018,new CoverInput([exposure],input.Required("fck_mpa"),(int)input.D("vita_durabilita",50),false,false,false,input.Required("longitudinal_bar_diameter_mm"),details.Required("aggregato"),details.Required("delta_c"),ntcQualityReduction:input.B("qualita_copriferro"),pertinentCmin:ExposureClasses.Uni11104MinimumStrength([exposure])));
-            result["cmin_dur"]=value.Durability;result["fonte"]=value.Reference;result["vita_anni"]=input.D("vita_durabilita",50);result["qualita"]=input.B("qualita_copriferro");
+            double fck=input.Required("fck_mpa"),bar=input.Required("longitudinal_bar_diameter_mm"),aggregate=details.Required("aggregato"),deviation=details.Required("delta_c");
+            // Library texts reach result and report in Italian through the durability mapping (F2.9-U3, 14/10/2026)
+            CoverResult value;
+            try{value=CoverRequirements.Calculate(DurabilityProfile.Ntc2018,new CoverInput([exposure],fck,(int)input.D("vita_durabilita",50),false,false,false,bar,aggregate,deviation,ntcQualityReduction:input.B("qualita_copriferro"),pertinentCmin:ExposureClasses.Uni11104MinimumStrength([exposure])));}
+            catch(ArgumentException ex){throw ConcreteLibraryMapping.DurabilityError(ex,ConcreteLibraryMapping.DurabilityUnknownExposureMessage);}
+            result["cmin_dur"]=value.Durability;result["fonte"]=ConcreteLibraryMapping.DurabilityReference(value.Profile);result["vita_anni"]=input.D("vita_durabilita",50);result["qualita"]=input.B("qualita_copriferro");
         }
         catch(ArgumentException ex){result["errore"]="Copriferro non verificato: completare esposizione/durabilità nella sezione principale. "+ex.Message;}
         return result;

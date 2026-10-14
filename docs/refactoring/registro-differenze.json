@@ -4794,6 +4794,49 @@
         "supporto/artefatti/ci/20261014-installer-180-b/summary.json",
         "supporto/artefatti/installer-safety/pdf-qa/qa.json"
       ]
+    },
+    {
+      "id": "F4-40",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto 2c",
+      "titolo": "Norma della sezione c.a.: niente nota di migrazione, rifiuto del foglio con area di lavoro senza normativa",
+      "famiglia": "Norme e ingressi",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Seguito di F4-31 deciso dall'utente. Un foglio Sezione CA senza area di lavoro (formato anteriore al 18/09/2026, quando l'unica norma era NTC) riceve NTC 2018 senza nota; un foglio con area di lavoro ma senza normativa si rifiuta all'apertura, perché ANTHEA la scrive sempre da quella data e non esistono file salvati in quello stato. La nota «Documento precedente senza normativa…» non si scrive più, si toglie dai documenti salvati con la 1.8.0 e sparisce da editor e report completo (era contraddittoria se poi si sceglieva un'altra norma). Calcoli invariati: la norma resta obbligatoria e senza ripieghi. Le due fixture sintetiche F3 str_palo legacy-calculation-settings e legacy-workspace-segni e l'esempio Wiki beam-ca ricevono la normativa NTC 2018 che il programma avrebbe scritto; il manifest F3 registra le nuove impronte (input_updates). Rispetto alla cattura F3 le differenze F4-31 della nota (chiave migrazione_normativa e paragrafo del report) scompaiono.",
+      "decisione": "Utente, 14/10: «considera non ci sono ancora file salvati con quelli. la norma è effettivamente NTC» e «sì a entrambe» (calcoli rigorosi, nota tolta, NTC solo per il formato precedente).",
+      "test": [
+        "Application.Tests PASS: F4StandardInputChecks con rifiuto, migrazione senza nota, idempotenza, coefficienti conservati e nota 1.8.0 eliminata"
+      ],
+      "codice": [
+        "X.Calculations/SectionWorkspace.cs",
+        "X.Desktop/Wpf/ConcreteWorkspace.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcrete.cs",
+        "tests/ANTHEA.Testing/Capture/F3Fixtures.cs",
+        "tests/fixtures/f3/inputs/str_palo--legacy-calculation-settings.json",
+        "tests/fixtures/f3/inputs/str_palo--legacy-workspace-segni.json",
+        "tests/fixtures/f3/manifest.json",
+        "src/ANTHEA.Wiki/Content/Examples/beam-ca.json"
+      ]
+    },
+    {
+      "id": "F4-41",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, proposta F2.9-U3",
+      "titolo": "Palo elastico: riferimento del copriferro e rifiuti della durabilità in italiano",
+      "famiglia": "Durabilità",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "PileDurability mostrava nel risultato (durabilita.fonte) e nella relazione il testo inglese della libreria, «NTC 2018 §4.1.6.1.3 and Circolare 2019 Tab. C4.1.IV», e i suoi messaggi di rifiuto in inglese. Ora il riferimento passa dalla mappatura della durabilità per profilo («NTC 2018 §4.1.6.1.3 e Circolare 2019 Tab. C4.1.IV») e i rifiuti della libreria dalla stessa traduzione di F2.9 (testo senza traduzione = errore di programma); gli errori dei dati di ANTHEA restano invariati. Valori di cmin,dur invariati. Nessuna fixture F3 contiene il testo (zero occorrenze di «and Circolare» nel repository prima della modifica).",
+      "decisione": "Utente, 14/10: «U3: correggi».",
+      "test": [
+        "Application.Tests PASS: PileDurabilityTextChecks (riferimento tradotto, XC2 C30 cmin,dur 25 mm, esposizione sconosciuta tradotta)"
+      ],
+      "codice": [
+        "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
+        "X.Calculations/ConcreteLibraryMapping.Durability.cs",
+        "tests/ANTHEA.Application.Tests/PileDurabilityTextChecks.cs"
+      ]
     }
   ]
 }
