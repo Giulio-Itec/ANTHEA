@@ -1198,3 +1198,5 @@ F3 con 7214 differenze tutte nella previsione).
 - **D5** «D5 ok»: merge senza avanzamento rapido in `main`, tag `refactoring/post-f4`, ANTHEA 1.9.0 con installer e
   suite dell'installer, tag `v1.9.0`, push di `main` (che pubblica anche il merge 1.7.1) e dei tag, cancellazione dei
   rami F4 uniti anche su origin.
+  **Guide per la 1.9.0** («Rev45, frase senza versione», 15/10): la guida pratica Rev44 diceva «Per installare ANTHEA
+  1.8.0…»; la Rev45 toglie il numero dalla frase, così non va cambiata a ogni versione (registro F4-50).

@@ -3982,6 +3982,36 @@
       ]
     },
     {
+      "id": "F4-50",
+      "data": "2026-10-15",
+      "fase": "chiusura F4, rilascio 1.9.0",
+      "titolo": "Guide Rev45: installazione senza numero di versione",
+      "famiglia": "documentazione",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Per il rilascio di ANTHEA 1.9.0 la guida pratica non cita più un numero di versione nella frase d'installazione («Per installare ANTHEA eseguire il setup…»), così non va cambiata a ogni versione. Entrambe le guide passano a Rev45 come da convenzione (un solo numero per i due volumi, controllato dall'installer); la teorica cambia solo nella copertina. Word e PDF rigenerati: 82 + 145 pagine, 345 formule OMML identiche alla Rev44, 26 parti ITEC per volume, 227 pagine rasterizzate senza sforamenti né glifi sostitutivi. Rev44 archiviata in supporto/SUPERATI/installazione-rev45-20261015 con 16 SHA-256. Wiki: cambia solo l'articolo «Avvio e scelta del modulo» e gli offset successivi dell'indice. Riferimento F3: due file della Wiki sostituiti secondo la regola editoriale F3-06 (editorial_updates_rev45, impronte LF); transitions-f4.json invariato.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "supporto/documentazione/Guide_ANTHEA/",
+        "supporto/SUPERATI/installazione-rev45-20261015/",
+        "src/ANTHEA.Wiki/Content/index.json",
+        "src/ANTHEA.Wiki/Content/sources.props",
+        "tests/fixtures/f3/manifest.json",
+        "tests/fixtures/f3/expected/wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+        "tests/fixtures/f3/expected/wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt"
+      ],
+      "decisione": "Utente, 15/10: «Rev45, frase senza versione».",
+      "test": [
+        "Runner guide-rev45 (20261015-103113): wiki/indice, wiki/manuale, Wiki.Tests 240, installer/guides 30, Architecture.Tests 366, qa/no-test-code, ui/check-wiki-offscreen 3363, ui/f3-equivalence (0 differenze non ammesse, 6878 transizioni): PASS 12, NEW-FAIL 0"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261015-103113-guide-rev45",
+        "supporto/artefatti/ci/20261015-102736-guide-rev45-f3-cattura",
+        "supporto/artefatti/guide_anthea_itec_rev45"
+      ]
+    },
+    {
       "id": "F2-18",
       "data": "2026-10-12",
       "fase": "F2.7-A11",

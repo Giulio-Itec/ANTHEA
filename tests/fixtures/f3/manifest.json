@@ -345,6 +345,7 @@
   },
   "editorial_updates_rev45": {
     "revision": 45,
+    "record": "F4-50",
     "capture": "supporto/artefatti/ci/20261015-102736-guide-rev45-f3-cattura/ui_f3-equivalence/cattura",
     "reason": "Guida pratica Rev45: frase d'installazione senza numero di versione (decisione dell'utente del 15/10/2026 per il rilascio di ANTHEA 1.9.0); Wiki aggiornata secondo la regola editoriale F3-06. Nessun atteso ingegneristico modificato.",
     "files": [
