@@ -1,11 +1,11 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-15",
+  "aggiornato": "2026-10-16",
   "riferimenti_codice": {
-    "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce",
-    "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10",
-    "Model": "c85b70a6 (master) per le voci D7; d6631635 (master, locale) per le voci R1-R14; 5ad56681 (master, pushato) per le voci R16-R21; percorsi con prefisso Model/; allineamento del 15/10 su Model master 2650cf73: Model/Model/Standards è diventato Model/Model/Design/Standards con la revisione di architettura (de920294, contenuto invariato) e ModelChecker.Tests è passato in Checker (81060a28)",
+    "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
+    "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
+    "Model": "c85b70a6 (master) per le voci D7; d6631635 (master, locale) per le voci R1-R14; 5ad56681 (master, pushato) per le voci R16-R21; percorsi con prefisso Model/; allineamento del 15/10 su Model master 2650cf73: Model/Model/Standards è diventato Model/Model/Design/Standards con la revisione di architettura (de920294, contenuto invariato) e ModelChecker.Tests è passato in Checker (81060a28); voci BUG-* sul ramo di integrazione bugint-model (12ac64d3) e sul ramo bug/model (8ee12ef6), da unire in bugint-model prima del rilascio Z",
     "lib/Checker": "manifest del 2026-10-06: GPCChecker.Concrete 0.0.14.0, GPCChecker.Geotechnics 0.1.0.0, GPCChecker.CompositeBridge 1.4.0.2, GPCModel 1.6.0.0"
   },
   "categorie": {
@@ -26,6 +26,7 @@
   "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "nota_audit_14_10": "Audit indipendente del 14/10/2026 (piano.md, sezione iniziale). Le voci F4 indicate come «distribuite con il set W» sono attive in ANTHEA 1.8.0 con il set W installato in lib/Checker dal commit 3f9df6b8, sul ramo refactoring/f4-calcoli-residui: il ramo non è unito a main e il full conforme manca (F4.16). Dove la scelta è stata dell'agente la voce indica «decisione dell'utente da ratificare». Lo stato «da-ricostruire» segnala una voce prevista dai micro-piani e non scritta a suo tempo, ricostruita solo in parte: la descrizione dice cosa manca. La categoria «regressione» è aggiunta per F4-36 e F4-37.",
+  "nota_analisi_bug_15_10": "Analisi dei bug del 15/10/2026 (docs/refactoring/analisi-bug-20261015.md, sezione «Esito delle correzioni»). Una voce BUG-<codice> per ogni codice dell'analisi, salvo SLU-2 (rettifica e correzione nella voce F2-17) e FES-1 (testo della voce F2-25). BUG-<codice>b e c: punti aperti dello stesso codice. BUG-N1…N7: difetti nuovi trovati durante le correzioni (decisione dell'utente «Correggili tutti»). BUG-TS-1 e BUG-TS-2: tension stiffening opzionale nelle analisi di risposta. TEST-05 e TEST-06: decisioni E3 ed E6 dei residui di F2. Le correzioni delle librerie sono sui rami di integrazione (Checker anthea-bug-1015; Model bugint-model con bug/model) e si distribuiscono con il rilascio Z: GPCModel 5.5.0.0, GPCModelData 0.0.2.14, GPCChecker.Concrete 0.11.0.0, GPCChecker.Steel 2.0.4.8, GPCChecker.CompositeBridge 1.7.0.0, GPCChecker.Geotechnics 0.4.0.0, GPCModelChecker 2.1.0.8, GPC.Design 0.21.0.0, GPCChecker.Masonry 0.1.0.3. Le parti di ANTHEA sono sui rami refactoring/bug-1015 e refactoring/bug-1015-geo, uniti in refactoring/integrazione-1016. Stato «corretto» anche per le correzioni non ancora distribuite; hash del set, profilo full e transizioni del confronto UI F3 sono da completare al rilascio Z. Il campo voci_collegate lega le voci nei due versi.",
   "voci": [
     {
       "id": "STRAT-4",
@@ -1552,8 +1553,13 @@
           "tests/ConcreteLibraryAdapter.Checks, prova 5n: regole del prodotto contro le regole precedenti della libreria sugli stessi stati (936 della griglia e stati mirati): MC2010 31 stati cambiati, DIN breve durata 4, zona tesa senza armatura 35, 866 invariati; 5c (equivalenza con il motore storico) con le regole precedenti, PASS",
           "cattura headless del corpus invariata con le regole nuove: corsa 20261015-151550-f2res-regole (librerie candidate) contro la cattura 20261015-124031-f2res-b4, solo tempi volatili e manifest; il corpus non ha stati MC2010, DIN a breve durata o zone tese senza armatura. Banco c.a. contro le fixture di Checker con --regole-fessurazione precedenti: PASS (corsa 20261015-f2res-banco)"
         ],
-        "da_completare": "rilascio di lib/Checker con le correzioni dell'analisi dei bug, guida teorica e pagina del metodo ca.fessurazione, full"
-      }
+        "da_completare": "guida teorica e pagina del metodo ca.fessurazione, profilo full con il rilascio Z (la release Y con l'opzione è installata in lib/Checker da ANTHEA 2257e991)"
+      },
+      "seguito_16_10": "Dopo FES-1 e FES-2 dell'analisi dei bug (voci F2-25 e BUG-FES-2), la prova 5n conta ancora i 31 stati MC2010 cambiati dalla regola di questa voce: le correzioni della fessurazione non la toccano.",
+      "voci_collegate": [
+        "F2-25",
+        "BUG-FES-2"
+      ]
     },
     {
       "id": "R2",
@@ -1603,8 +1609,13 @@
           "tests/ConcreteLibraryAdapter.Checks, prova 5n: regole del prodotto contro le regole precedenti della libreria sugli stessi stati (936 della griglia e stati mirati): MC2010 31 stati cambiati, DIN breve durata 4, zona tesa senza armatura 35, 866 invariati; 5c (equivalenza con il motore storico) con le regole precedenti, PASS",
           "cattura headless del corpus invariata con le regole nuove: corsa 20261015-151550-f2res-regole (librerie candidate) contro la cattura 20261015-124031-f2res-b4, solo tempi volatili e manifest; il corpus non ha stati MC2010, DIN a breve durata o zone tese senza armatura. Banco c.a. contro le fixture di Checker con --regole-fessurazione precedenti: PASS (corsa 20261015-f2res-banco)"
         ],
-        "da_completare": "rilascio di lib/Checker con le correzioni dell'analisi dei bug, guida teorica e pagina del metodo ca.fessurazione, full"
-      }
+        "da_completare": "guida teorica e pagina del metodo ca.fessurazione, profilo full con il rilascio Z (la release Y con l'opzione è installata in lib/Checker da ANTHEA 2257e991)"
+      },
+      "seguito_16_10": "Dopo FES-1 e FES-2 dell'analisi dei bug (voci F2-25 e BUG-FES-2), la prova 5n conta ancora i 4 stati DIN a breve durata cambiati dalla regola di questa voce: le correzioni della fessurazione non la toccano.",
+      "voci_collegate": [
+        "F2-25",
+        "BUG-FES-2"
+      ]
     },
     {
       "id": "R3",
@@ -1774,7 +1785,11 @@
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
       },
       "data": "2026-10-07",
-      "fase": "F2.2 (pagine), W1.2 (riquadri)"
+      "fase": "F2.2 (pagine), W1.2 (riquadri)",
+      "nota_16_10": "La componente dichiarata «wk = 0 con asse neutro nel copriferro» è precisata da FES-1 dell'analisi dei bug del 15/10 (voce F2-25): wk = 0 solo con l'asse neutro nel copriferro di una barra del lembo teso; altrimenti la verifica non è soddisfatta.",
+      "voci_collegate": [
+        "F2-25"
+      ]
     },
     {
       "id": "R8",
@@ -1907,7 +1922,11 @@
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
       },
       "data": "2026-10-07",
-      "fase": "F2.3"
+      "fase": "F2.3",
+      "nota_16_10": "DET-1 dell'analisi dei bug del 15/10 (BUG-DET-1, Checker 8f95242c) misura l'interasse di solette e pareti solo lungo gli strati; la regola dei pilastri (coppie attraverso il nucleo) non cambia, perché richiede i due passaggi: questa voce resta da decidere.",
+      "voci_collegate": [
+        "BUG-DET-1"
+      ]
     },
     {
       "id": "R13",
@@ -2587,6 +2606,11 @@
       "test": [
         "tests/ANTHEA.ApiReuse.Checks (266 casi congelati, chiamate reali alla DLL)",
         "tests/ConcreteLibraryAdapter.Checks"
+      ],
+      "seguito_16_10": "Gli attesi indipendenti mancanti delle pagine dei metodi (ancoraggi AN-01/02 e SO-01/02, dettagli, M–χ) sono nella sezione 13 di tests/ConcreteLibraryAdapter.Checks dal 15/10 (ae8f429f): voce TEST-05.",
+      "voci_collegate": [
+        "TEST-05",
+        "API-01"
       ]
     },
     {
@@ -2721,6 +2745,11 @@
       ],
       "evidenze": [
         "supporto/artefatti/refactoring/f2.1-soglie/S1-progetto.md"
+      ],
+      "seguito_16_10": "L'analisi dei bug del 15/10 ha trovato due residui della stessa regola: il punto limite del M–χ (SLU-3, ANTHEA dd8bac4e: tolleranza max(valore dell'utente; regola della libreria)) e il dominio del palo elastico in PileReinforcement (PO-3, Checker c35a0a5e: DomainPointAxialTolerance.Calculate). Voci BUG-SLU-3 e BUG-PO-3.",
+      "voci_collegate": [
+        "BUG-SLU-3",
+        "BUG-PO-3"
       ]
     },
     {
@@ -2893,7 +2922,12 @@
         "oggetto": "opzione B: «con N costante ed eccentricità costante la libreria trova sempre un punto convergente»",
         "fonte": "analisi dei bug del 15/10 (docs/refactoring/analisi-bug-20261015.md), voce SLU-2",
         "esito": "Falso. Con il criterio «N costante», il predefinito, la porta della libreria non dà il punto per una domanda a momento nullo (direzione di ricerca nulla) né con N fuori da [NRd,c; NRd,t]: una sezione schiacciata dallo sforzo normale (η reale 1,24) risultava «DA COMPLETARE» con il testo «punto non convergente» e una combinazione solo assiale interna al campo restava senza esito. Per M = 0 è una regressione di R2. La decisione dell'11/10 (opzione A, solo la libreria) non cambia.",
-        "correzione": "Libreria: esiti tipizzati della resistenza a N assegnato, N fuori dal campo (η > 1, AxialForceOutsideDomain) e momento nullo (η = 0, ZeroMomentDemand), Checker 2b0304e7 e mappatura di ModelChecker de1857f4 sul ramo di integrazione anthea-bug-1015, in GPCChecker.Concrete 0.11.0.0, distribuita con la prossima release. ANTHEA adotta gli esiti con la stessa release (proposta dell'analisi: «Fuori dominio (|NEd| > |NRd,c|)» ed estensione della prova 12c)."
+        "correzione": "Libreria: esiti tipizzati della resistenza a N assegnato, N fuori dal campo (η > 1, AxialForceOutsideDomain) e momento nullo (η = 0, ZeroMomentDemand), Checker 2b0304e7, e mappatura di ModelChecker de1857f4 (fuori campo: NotSatisfied con avviso; momento nullo: Satisfied con informazione), sul ramo di integrazione anthea-bug-1015, in GPCChecker.Concrete 0.11.0.0 e GPCModelChecker 2.1.0.8, rilascio Z. ANTHEA adotta gli esiti con 9a9d46d6 (ramo refactoring/bug-1015, unito in refactoring/integrazione-1016): «Fuori dominio (N fuori dal campo [NRd,c; NRd,t])» con η 1,237 a N −3000 kN (forma chiusa 1,2354) ed «Entro il dominio (momento nullo)» con η 0; resistenza a N assegnato e M–χ riportano il campo [−2428,31; 314,71] kN (300×500 C25/30 4Ø16, NTC 2018); SectionMomentResistance controlla prima l'esito fuori campo. Prova 4c di tests/ConcreteLibraryAdapter.Checks (CorrezioniCa20261015.cs). Il sotto-caso «N e Mx costanti» / «N e My costanti» con N fuori dal campo, accettato in via provvisoria, è la voce BUG-SLU-2b. Hash del set e profilo full: da completare al rilascio Z.",
+        "decisione": {
+          "data": "2026-10-15",
+          "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+          "esito": "esiti tipizzati in libreria e in ANTHEA, come proposto nell'analisi"
+        }
       },
       "data": "2026-10-11",
       "fase": "revisione di architettura R2 (branch claude/revisione-architettura, unito in main il 12/10: fast-forward che comprende ff0e5fb7, ANTHEA 1.2.0, presente anche in origin/main; «non unito» corretto dall'audit del 14/10)",
@@ -2902,6 +2936,9 @@
         "tests/ConcreteBench.Checks (A2: modulo e punto grezzo contro attesi/attesi.json; modulo diverso dal punto grezzo solo se questo è fuori dai vincoli)",
         "tests/ANTHEA.Testing capture e compare",
         "Checker/GPCChecker.Test.Calculation/DetachedCalculationTests.cs (RawDomainPointEntriesAreObsoleteAndUnchanged)"
+      ],
+      "voci_collegate": [
+        "BUG-SLU-2b"
       ]
     },
     {
@@ -4452,7 +4489,7 @@
       "famiglia": "calcestruzzo/sle-fessurazione",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Prima la libreria e il legacy fermavano la verifica senza esito («Nessuna armatura tesa», «⟨faccia⟩: area o armatura efficace assente», «superficie del foro tesa senza armatura efficace»). Ora, con SectionCrackOptions.UnreinforcedTensileZoneFails attivo nel prodotto, la verifica è non soddisfatta (Passed = false, stesso esito, nessuna ampiezza) e lo stato aggiunge «non soddisfatta: zona tesa senza armatura, apertura delle fessure non controllata». Tre casi: nessuna barra tesa e la barra più vicina al lembo teso oltre h/2; faccia di una sezione interamente tesa con calcestruzzo ma senza barre nella sua fascia; superficie interna di una sezione cava tesa senza armatura efficace. Il calcestruzzo teso non entra: nessuna prova di sezione non fessurata. Resta wk = 0 con l'asse neutro nel copriferro di una faccia armata (barra più vicina entro h/2).",
+      "descrizione": "Prima la libreria e il legacy fermavano la verifica senza esito («Nessuna armatura tesa», «⟨faccia⟩: area o armatura efficace assente», «superficie del foro tesa senza armatura efficace»). Ora, con SectionCrackOptions.UnreinforcedTensileZoneFails attivo nel prodotto, la verifica è non soddisfatta (Passed = false, stesso esito, nessuna ampiezza) e lo stato aggiunge «non soddisfatta: zona tesa senza armatura, apertura delle fessure non controllata». Tre casi: nessuna barra tesa e asse neutro non nel copriferro di una barra del lembo teso (Qmax − Q > a(c + Ø/2), FES-1 del 15/10/2026; prima la barra più vicina oltre h/2); faccia di una sezione interamente tesa con calcestruzzo ma senza barre nella sua fascia; superficie interna di una sezione cava tesa senza armatura efficace. Il calcestruzzo teso non entra: nessuna prova di sezione non fessurata. Resta wk = 0 con l'asse neutro nel copriferro di una barra del lembo teso; la traccia riporta a,c.",
       "decisione": {
         "data": "2026-10-15",
         "utente": "«Non soddisfatta», sull'esempio della R300x500 armata solo in basso con N = 500 kN di compressione ed e = 160 mm (zona tesa di circa 20 cm senza barre); prima: «se asse neutro nel copriferro e non ci sono armature tese e l'area che dovrebbe creare la zona fessurata è zero la sezione non fessura»; alla proposta con fctm/1,2: «dovrebbe reagire a trazione il cls???»",
@@ -4474,7 +4511,34 @@
         "tests/ConcreteLibraryAdapter.Checks, prova 5n: regole del prodotto contro le regole precedenti della libreria sugli stessi stati (936 della griglia e stati mirati): MC2010 31 stati cambiati, DIN breve durata 4, zona tesa senza armatura 35, 866 invariati; 5c (equivalenza con il motore storico) con le regole precedenti, PASS (35 stati: i due stati mirati F2-7 e 33 stati di sezioni cave con le pareti interne tese senza barre)",
         "cattura headless del corpus invariata con le regole nuove: corsa 20261015-151550-f2res-regole (librerie candidate) contro la cattura 20261015-124031-f2res-b4, solo tempi volatili e manifest; il corpus non ha stati MC2010, DIN a breve durata o zone tese senza armatura. Banco c.a. contro le fixture di Checker con --regole-fessurazione precedenti: PASS (corsa 20261015-f2res-banco)"
       ],
-      "muri": "Decisi il 15/10 (E1-D4, scelta dell'utente: la proposta): la faccia tesa del fusto o della fondazione senza barre dà la verifica non soddisfatta, come nelle sezioni, senza la prova di sezione non fessurata con fctk,0,05 di WallSectionSession. Si attua nella release delle correzioni dei bug (Checker 8d547829 sul ramo di integrazione anthea-bug-1015, parte ANTHEA sul ramo refactoring/bug-1015-geo). Prima: regola dei muri σt,el ≤ fctk,0,05 e verifica senza esito."
+      "muri": "Decisi il 15/10 (E1-D4, scelta dell'utente: la proposta): la faccia tesa del fusto o della fondazione senza barre dà la verifica non soddisfatta, come nelle sezioni, senza la prova di sezione non fessurata con fctk,0,05 di WallSectionSession. Attuata il 15/10 nei rami delle correzioni dei bug: Checker 8d547829 sul ramo di integrazione anthea-bug-1015 (WallSectionSession, WallStrip: ProvenUncracked sempre falso) e ANTHEA e58a112f sul ramo refactoring/bug-1015-geo (X.Calculations/RetainingWall.Library.Structures.cs: testo «Nessuna armatura tesa · non soddisfatta: …», domanda «—»); il corpus dei muri non cambia. Distribuita con il rilascio Z. Prima: regola dei muri σt,el ≤ fctk,0,05 e verifica senza esito.",
+      "fes_1": {
+        "data": "2026-10-15",
+        "fonte": "analisi dei bug del 15/10 (docs/refactoring/analisi-bug-20261015.md), voce FES-1: la soglia h/2 dava wk = 0 con zone tese senza armatura profonde fino a 0,35–0,45 h, e il verdetto si ribaltava spostando le barre di 2 mm",
+        "regola": "regola F.14a sotto UnreinforcedTensileZoneFails (K0 invariato): wk = 0 solo se l'asse neutro cade nel copriferro di una barra del lembo teso, h − x ≤ a(c + Ø/2) con a dalla proiezione del contorno (freccia dell'anello nelle sezioni circolari) e una barra vicina al contorno teso; altrimenti zona tesa senza armatura, non soddisfatta. Più larga della regola proposta dal verificatore: quella alla lettera avrebbe cambiato 16 stati su 56 delle sezioni circolari e 14 su 62 delle sezioni a T con le disposizioni automatiche; la regola attuata cambia solo 8 stati su 62 delle T, all'estremità delle ali",
+        "codice": [
+          "Checker, ramo di integrazione anthea-bug-1015 (07966b4d), GPCChecker.Concrete 0.11.0.0, rilascio Z (non ancora in lib/Checker)",
+          "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs",
+          "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs",
+          "ANTHEA 73f2bdff (ramo refactoring/bug-1015, unito in refactoring/integrazione-1016): X.Calculations/ConcreteLibraryMapping.Serviceability.cs (a,c nella traccia)"
+        ],
+        "decisione": {
+          "data": "2026-10-15",
+          "utente": "«Confermo le regole dell'agente» (risposta della notte fra il 15 e il 16/10)",
+          "esito": "regola dell'agente confermata"
+        },
+        "prove": [
+          "tests/ConcreteLibraryAdapter.Checks, prova 5n (936 stati della griglia): 651 invariati, FES-2 193, FES-1 con a,c 21, FES-1 con c assegnato non soddisfatto 1 (stato 480, BUG-FES-1c), MC2010 R1 31, DIN R2 4, F2-7 35",
+          "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs (Concrete 771/771, K0 invariato)"
+        ],
+        "aperti": "barre libere più profonde del copriferro nominale (BUG-FES-1b); copriferro assegnato minore di quello reale (BUG-FES-1c)"
+      },
+      "voci_collegate": [
+        "BUG-FES-2",
+        "BUG-FES-1b",
+        "BUG-FES-1c",
+        "R7"
+      ]
     },
     {
       "id": "STG-01",
@@ -5022,6 +5086,10 @@
         "tests/fixtures/f4/last-adapters-reference.json",
         "supporto/artefatti/refactoring/f4/last-adapters-a.log",
         "supporto/artefatti/refactoring/f4/last-adapters-b.log"
+      ],
+      "nota_16_10": "TAG-3 dell'analisi dei bug del 15/10: con questo passo i rifiuti del braccio del taglio (ShearLeverArm) comparivano con i testi inglesi della libreria; regressione corretta il 15/10 in 2033b019 (voce BUG-TAG-3).",
+      "voci_collegate": [
+        "BUG-TAG-3"
       ]
     },
     {
@@ -5431,6 +5499,1763 @@
       ],
       "evidenze": [
         "supporto/artefatti/ci/20261015-225547-stratigrafia-scambio-finale"
+      ]
+    },
+    {
+      "id": "BUG-SLU-1",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Dominio 2D N–M con θ ≠ 0°: punto resistente ricostruito ruotato, η fino a 200 volte più basso",
+      "famiglia": "calcestruzzo/flessione-slu",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "FailureDomain2d.GetDomainPoint trovava l'intersezione nel piano (N, M) ma ricostruiva il punto 3D con ToGlobal, ruotato attorno a Z: N·cosα − M·sinα, Mx = N·sinα + M·cosα, My = 0. ANTHEA calcolava η e Rd proprio su quel punto, giusti solo a θ = 0° (a 180° Rd con il segno opposto). A θ multiplo di 90° in assi locali ANTHEA usava il meridiano dell'asse neutro fisso (Rd sovrastimato di circa il 5 % nelle sezioni non simmetriche) e il dominio elastico (SLV) obliquo non si costruiva («sezione del dominio assente»). Ora la libreria ricostruisce il punto per interpolazione fra i vertici del meridiano (NRd, MxRd, MyRd), con il segno dalla proiezione sulla direzione del meridiano e la nuova FailureDomain2d.MomentAxis; le scale di FailureDomainForce2d.CalculateWorkingRatio(ConstantMxMy) sono corrette; il dominio elastico della direzione del momento non ha più punti nulli e ha il suo polo di trazione (390cab43). ANTHEA usa sempre il meridiano della direzione del momento (CalculateDomainConstantMomentsRatio), per ogni θ e sistema di assi, SLU e SLV. Difetto ereditato dal legacy e dal CheckerUI. Il piano dichiarato dei punti è corretto a parte (BUG-N1).",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (1bebb0b6, 390cab43, d7c25e05), GPCChecker.Concrete 0.11.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Concrete/Results/FailureDomain2d.cs",
+        "Checker/GPCChecker.Concrete/Results/FailureDomain.cs",
+        "Checker/GPCChecker.Concrete/Results/ResultType/FailureDomainResult.cs",
+        "Checker/GPCChecker.Concrete/Results/ResultType/FailureDomainResult2d.cs",
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): e9f2af27",
+        "X.Calculations/CheckerSection.cs"
+      ],
+      "segno": "cautelativo: prima, con θ ≠ 0°, «Entro il dominio» anche per sezioni fuori dominio (η fino a circa 200 volte più basso)",
+      "effetto_quantificato": {
+        "sintesi": "300×500 C25/30 4Ø16, θ 90°, N −1000 kN, My 200 kNm: prima η 0,0127 «Entro il dominio» con Rd N = 80 604 kN; ora η 2,492 «Fuori dominio» con Rd (−401 kN; My 80,3 kNm) (verifica 3D 2,476, Python indipendente 2,478). θ multiplo di 90° in assi locali, 2Ø16/3Ø20: η 1,863 → 1,978. SLV obliquo: prima «sezione del dominio assente», ora calcolato."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correzione diretta in libreria (errore di calcolo senza alternativa normativa) e meridiano della direzione del momento in ANTHEA"
+      },
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks, prova 4c (CorrezioniCa20261015.cs, attesi indipendenti in attesi/correzioni_ca_20261015.py)",
+        "Checker/GPCChecker.Test.Concrete/FailureDomain2dNMTests.cs (θ 0/30/45/90/180/270 contro la verifica 3D; dominio elastico della direzione del momento entro l'1 %)",
+        "Concrete 776/778 sul ramo della correzione (i 2 fallimenti erano le catture del M–χ, BUG-SLU-4), K0 invariato",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full, con le transizioni del confronto UI F3 (tests/fixtures/f3/transitions-f4.json)"
+      ],
+      "voci_collegate": [
+        "BUG-N1",
+        "BUG-N2"
+      ]
+    },
+    {
+      "id": "BUG-MUR-1",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Muri: sovraccarico variabile sulla mensola di monte contato come stabilizzante (1,5·q o ψ2·q)",
+      "famiglia": "geotecnica/muri",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "riferimento_normativo": [
+        {
+          "fonte": "NTC 2018",
+          "punto": "§2.6.1, Tab. 2.6.I (γQ = 0 per le variabili favorevoli); §2.5.3"
+        },
+        {
+          "fonte": "EN 1997-1",
+          "punto": "2.4.2"
+        }
+      ],
+      "descrizione": "Lo stesso fattore moltiplicava q nella spinta, dove è sfavorevole, e nel carico q·b sulla mensola di monte, dove è favorevole a scorrimento e ribaltamento; mancava la disposizione con q solo oltre il tallone, e nemmeno una matrice personalizzata la poteva esprimere. Ora WallCombination ha il flag VariableSurchargeOnHeel e ogni riga SLU con un sovraccarico uniforme variabile ha la gemella «b» (SLU nb) con la stessa spinta e senza il sovraccarico sulla mensola; dopo la risposta della notte anche le righe sismiche ed eccezionali, dove né ψ2·q né l'inerzia kh·ψ2·q·b stabilizzano. Le gemelle entrano nelle verifiche GEO e nel progetto della mensola; la portanza resta coperta dalle due righe. ANTHEA mostra le gemelle e conserva il flag nelle righe del documento e nella versione 1 delle combinazioni. Prima: 1,5·q (o ψ2·q) sulla mensola stabilizzava; le gemelle della libreria perdevano il flag e coincidevano con le principali.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (cec70517, edc6ac35), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Walls/WallCombinations.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallModels.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/RetainingWallAnalysis.cs",
+        "ANTHEA, ramo refactoring/bug-1015-geo unito in refactoring/integrazione-1016 (94acc474): 774d5a9b, 1d1d003b, f365af44, 6ae86532",
+        "X.Calculations/RetainingWall.Library.cs",
+        "X.Calculations/RetainingWall.Equilibrium.cs",
+        "X.Calculations/RetainingWall.Actions.cs",
+        "src/ANTHEA.Application/Walls/WallModel.cs",
+        "src/ANTHEA.Reports/Generators/ReportRetainingWall.cs",
+        "X.Desktop/Wpf/RetainingWallWorkspace.Results.cs"
+      ],
+      "segno": "cautelativo: prima scorrimento e ribaltamento sottostimati (esito «soddisfatta» non spettante)",
+      "effetto_quantificato": {
+        "sintesi": "Muro H 4 m, b 2 m, q 20 kPa: scorrimento 0,870 «soddisfatta» → 1,103 nella SLU 8b (atteso dell'analisi 1,10, non soddisfatta). Confronti congelati F4, categoria MUR-1: 104 gemelle in f4-structural-adapter e 24 in f4-gravity-adapter (2860 e 660 campi nuovi, 104 e 24 testi). Libreria: 1168 gemelle SLU, 54 sismiche e 2 eccezionali nel corpus delle combinazioni; nessun valore delle catture congelate cambia (le gemelle sono confrontate a parte)."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "gemella con q assente sulla mensola, invece di togliere q solo da scorrimento e ribaltamento"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«Sì, estendi» (gemelle anche nelle combinazioni sismiche ed eccezionali, con ψ2·q) (risposta della notte fra il 15 e il 16/10)",
+        "esito": "attuata: Checker edc6ac35, ANTHEA 1d1d003b"
+      },
+      "decisione_combinazioni": {
+        "data": "2026-10-15",
+        "utente": "alla domanda se le combinazioni si fanno con il generatore di Model (no: i muri usano WallCombinations, porta del legacy): «sì, mettilo in coda dopo il rilascio. vorrei però che le combo venissero fatte tutte in model.» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "in coda dopo il rilascio Z: censimento dei moduli che generano le combinazioni da sé, prima i muri, e passaggio al generatore di Model (StandardEN1990.CreateCombinations, StandardGeotechnical.Combinations); scritto in docs/refactoring/piano.md (a4c56f31)"
+      },
+      "test": [
+        "supporto/test/RetainingWall.Checks (ActionsChecks, LibraryAdapterChecks, SeismicSoilChecks)",
+        "tests/ConcreteLibraryAdapter.Checks/F4WallFixCategories.cs (categoria MUR-1 nei confronti congelati)",
+        "Checker/GPCChecker.Test.Geotechnics/WallEdgeCaseTests.cs e WallExamplesTests; LegacyCombinationsAreReproduced con le gemelle confrontate a parte",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full, con le transizioni del confronto UI F3 (tests/fixtures/f3/transitions-f4.json)"
+      ],
+      "voci_collegate": [
+        "BUG-MUR-2",
+        "BUG-MUR-2b"
+      ]
+    },
+    {
+      "id": "BUG-PON-1",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Ponte, SLE: tensioni delle barre della soletta fessurata senza tension stiffening (Δσs)",
+      "famiglia": "ponti/sezione-composta",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "riferimento_normativo": [
+        {
+          "fonte": "EN 1994-2",
+          "punto": "§7.2.1"
+        },
+        {
+          "fonte": "EN 1994-1-1",
+          "punto": "§7.4.3(3): σs = σs,0 + 0,4 fctm/(αst ρs)"
+        }
+      ],
+      "descrizione": "Nelle fasi «Soletta esclusa» la tensione delle barre era σs = σa·Es/Ea, senza il tension stiffening richiesto da EN 1994-2 §7.2.1 tramite EN 1994-1-1 §7.4.3(3); mancava sia nel metodo cumulativo sia negli storici e non era dichiarato come semplificazione. Ora negli SLE rara e quasi permanente con contributi «Soletta esclusa» le barre tese della soletta sommano Δσs (BridgeTensionStiffening, BridgeStressPoint.GetTensionStiffening()): la tensione totale supera la somma dei contributi delle fasi, che sommano σs,0. ANTHEA riporta σs,0, Δσs, αst, ρs e fctm nella vista, nel report e in Info modello.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (29f115fa), GPCChecker.CompositeBridge 1.7.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.CompositeBridge/HSections/HBridgeSection.Analysis.cs",
+        "Checker/GPCChecker.CompositeBridge/Models/BridgeResults.cs",
+        "Checker/GPCChecker.CompositeBridge/History/HBridgeHistoryResults.cs",
+        "ANTHEA, ramo refactoring/bug-1015-geo unito in refactoring/integrazione-1016 (94acc474): b9c88f02, 0fc907fd",
+        "src/ANTHEA.Application/Bridge/BridgePresentationData.cs",
+        "src/ANTHEA.Reports/Generators/ReportBridge.cs",
+        "X.Desktop/Wpf/BridgeWorkspace.cs",
+        "X.Desktop/Wpf/BridgeInformation.cs"
+      ],
+      "segno": "cautelativo: prima σs delle barre sottostimata (verifica 0,8 fyk «Entro limite» non spettante)",
+      "effetto_quantificato": {
+        "sintesi": "Dati di default, SLE rara, momento negativo: σs 297,08 → 379,65 MPa, η 0,825 «Entro limite» → 1,055, non soddisfatta (limite 0,8 fyk = 360 MPa)."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "Δσs secondo EN 1994-1-1 7.4.3(3), non un semplice avviso"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+        "tests/ANTHEA.Application.Tests/BridgeContractChecks.cs",
+        "Checker/GPCChecker.Test.CompositeBridge/TensionStiffeningTests.cs",
+        "BridgeAudit (8 baseline congelate di Checker) non compila contro l'ANTHEA attuale: in correzione sul ramo bug/bridge-audit. Da completare al rilascio Z: hash del set in lib/Checker e profilo full"
+      ]
+    },
+    {
+      "id": "BUG-FES-2",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Fessurazione: copriferro c della formula dal valore nominale anche con le armature libere",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "ConcreteServiceabilityAdapter passava sempre come copriferro della formula cover_mm + Ø della staffa, mentre la sezione interamente tesa usava il copriferro geometrico e l'interfaccia mostrava il campo vuoto come «auto». Ora, senza c assegnato, c è il minimo copriferro libero delle barre efficaci verso la faccia tesa, misurato sulle barre: opzione SectionCrackOptions.CoverFromBarGeometry della libreria, spenta per default (con l'opzione cambierebbero testi e ultime cifre del contratto K0), attivata da ANTHEA. La traccia ha CrackTraceFlags.BarGeometry con il suo testo; etichetta «c barra (vuoto: auto)» e frase del report sintetico aggiornate. La regola (copriferro verso la faccia tesa, non il minimo BarCover di tutte le barre) è dell'agente, confermata dall'utente.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (02234ce7), GPCChecker.Concrete 0.11.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackOptions.cs",
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs",
+        "Checker/GPCChecker.Concrete/Cracking/CrackTrace.cs",
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 73f2bdff",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+        "X.Desktop/Wpf/ConcreteStress.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcreteShort.cs"
+      ],
+      "segno": "cautelativo: prima wk sottostimata con barre libere più interne del copriferro nominale",
+      "effetto_quantificato": {
+        "sintesi": "300×500 con 3Ø20 libere a 70 mm dal lembo (copriferro reale 60 mm): wk 0,2831 mm soddisfatta → c 60 mm, wk 0,3613 mm, non soddisfatta (atteso dell'analisi 0,361). Disposizioni automatiche: 193 stati della prova 5n nella categoria FES-2, uguali entro 1e-9. Cattura headless: 9 report sintetici cambiano per la frase del copriferro."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "c = copriferro delle barre efficaci senza c assegnato, con l'override calcolato dalla libreria"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«Confermo le regole dell'agente» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "confermata la regola del copriferro verso la faccia tesa"
+      },
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks, prove 4c e 5n",
+        "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs (Concrete 771/771, K0 invariato)",
+        "Da completare al rilascio Z: transizioni del confronto UI F3 per la frase del report sintetico in 4 fixture str_palo short.txt, hash del set e profilo full"
+      ],
+      "voci_collegate": [
+        "F2-25",
+        "BUG-FES-1b",
+        "BUG-FES-1c"
+      ]
+    },
+    {
+      "id": "BUG-FES-1b",
+      "data": "2026-10-16",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Fessurazione, FES-1: barre libere più profonde del copriferro nominale",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Con la regola di FES-1 (F2-25) wk = 0 vale solo se l'asse neutro cade nel copriferro di una barra del lembo teso, h − x ≤ a(c + Ø/2) con c del copriferro della formula. L'agente della libreria segnala il caso delle armature libere poste più in profondità del copriferro nominale: serve una regola, oppure l'utente assegna il copriferro della formula (CoverOverride). Punto non risposto nella notte: non si assume nulla e la regola resta quella confermata.",
+      "codice": [
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs"
+      ],
+      "segno": "da stabilire",
+      "decisione": {
+        "data": "2026-10-16",
+        "utente": "nessuna risposta (punto lasciato aperto: non si assume nulla)",
+        "esito": "da decidere"
+      },
+      "voci_collegate": [
+        "F2-25",
+        "BUG-FES-2",
+        "BUG-FES-1c"
+      ]
+    },
+    {
+      "id": "BUG-FES-1c",
+      "data": "2026-10-16",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Fessurazione, FES-1: copriferro assegnato minore di quello reale (stato 480 della griglia)",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Con il campo «c barra» assegnato, la soglia di FES-1 usa il copriferro della formula anche quando è minore del copriferro reale delle barre: lo stato 480 della griglia della prova 5n passa a «non soddisfatta». Comportamento attuale, cautelativo, tenuto in attesa della decisione dell'utente richiesta dall'agente.",
+      "codice": [
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs"
+      ],
+      "segno": "cautelativo (una verifica soddisfatta diventa non soddisfatta)",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks, prova 5n: 1 stato con c assegnato non soddisfatto"
+      ],
+      "decisione": {
+        "data": "2026-10-16",
+        "utente": "punto per l'utente segnalato dall'agente, senza risposta",
+        "esito": "da decidere"
+      },
+      "voci_collegate": [
+        "F2-25",
+        "BUG-FES-1b"
+      ]
+    },
+    {
+      "id": "BUG-TAG-1",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Taglio MC2010, εx: verso di Δe invertito nell'aiuto di ANTHEA e valori negativi rifiutati",
+      "famiglia": "calcestruzzo/taglio-torsione",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Δe di Model Code 2010 è positiva verso il lembo teso (corda tesa a flessione); il campo accetta il segno. Prima l'aiuto diceva «positiva verso il lembo compresso» e i valori negativi erano rifiutati («non inferiore a 0»): seguendo l'aiuto, VRd,c risultava fino al 33 % a sfavore con N di compressione (difetto ereditato dal legacy). Ora aiuto e report sono coerenti con N(1/2 + Δe/z); la libreria dichiara il verso (SectionShearContracts, pagina ca.taglio). I numeri della libreria non cambiano.",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 24452d68",
+        "X.Calculations/ConcreteShearAnalysis.cs",
+        "src/ANTHEA.Application/Presentation/CalculationHelp.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcrete.cs",
+        "Checker, ramo di integrazione anthea-bug-1015 (5fcbe78d, documentazione e prova), GPCChecker.Concrete 0.11.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Concrete/Shear/SectionShearContracts.cs",
+        "Checker/docs/metodi/ca.taglio.md"
+      ],
+      "segno": "cautelativo: prima, seguendo l'aiuto, VRd,c fino al 33 % a sfavore con N di compressione",
+      "effetto_quantificato": {
+        "sintesi": "N −500 kN, Δe 50 mm come diceva l'aiuto: VRd,c 157,7 kN invece di 118,6 kN; ora Δe −50 è accettato e dà VRd,c 118,611 kN."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correggere l'aiuto (verso il lembo teso) e accettare i valori negativi, senza invertire il segno passato alla libreria"
+      },
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks, prova 4b (attesi dalla statica delle corde in attesi/correzioni_20261015.py)",
+        "Checker/GPCChecker.Test.Concrete/ShearAxialEccentricityTests.cs",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full, con le transizioni del confronto UI F3 (tests/fixtures/f3/transitions-f4.json)"
+      ]
+    },
+    {
+      "id": "BUG-DET-2",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Ancoraggi: barre lisce verificate con l'aderenza delle barre nervate",
+      "famiglia": "calcestruzzo/dettagli",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Il dato «Barre: Liscia» (sle_comuni.aderenza) arrivava alla fessurazione ma non all'ancoraggio: ANTHEA non passava ribbedBars, vero per default, e aggirava il rifiuto della libreria. Ora gli ancoraggi usano il tipo di barra della sezione: con barre lisce l'ancoraggio resta da completare, anche nella ricerca delle armature. Le barre nervate sono invariate.",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): ddb25f89",
+        "X.Calculations/ConcreteDetailing.cs",
+        "X.Calculations/ConcreteDetailingAnalysis.cs",
+        "X.Calculations/ConcreteReinforcementDesign.Checks.cs"
+      ],
+      "segno": "cautelativo: prima ancoraggi di barre lisce dichiarati soddisfatti",
+      "effetto_quantificato": {
+        "sintesi": "Ø16 C25/30 con barre lisce: prima fbd 2,69 MPa come per le nervate, lbd 581 ≤ 600 mm soddisfatto; ora ancoraggio da completare (caso tipico: edifici esistenti con FeB22k o FeB32k)."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "ribbedBars dal dato della sezione; rifiuto della libreria tradotto in «da completare»"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/ConcreteModuleChecks.cs (--ca-module: fbd 2,6932 MPa e lb,rqd 581,17 mm calcolati a mano)",
+        "supporto/test/ConcreteDesign.Checks/Program.cs"
+      ]
+    },
+    {
+      "id": "BUG-ARM-1",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Ricerca delle armature: parametri del taglio «Manuali» scartati senza avviso",
+      "famiglia": "calcestruzzo/progetto-armature",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "La ricerca delle armature forzava «Automatici da sezione» con bw lordo per le forme non circolari e «Applica» cancellava i valori manuali del foglio; nel cerchio d restava quello della disposizione iniziale. Ora bw, d e Asl valgono min(manuale; proposta), per asse; i parametri manuali sono conservati e dichiarati in una nota; Applica li conserva e lo segnala. È uno scostamento intenzionale dal legacy, solo per i fogli con parametri manuali.",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 4742a018",
+        "X.Calculations/ConcreteReinforcementDesign.Library.Search.cs",
+        "X.Calculations/ConcreteReinforcementDesign.Library.cs",
+        "X.Calculations/ConcreteCalculationSettings.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteEditor.cs",
+        "X.Desktop/Wpf/ConcreteDesign.cs"
+      ],
+      "segno": "cautelativo: prima proposte accettate dalla ricerca e non verificate dal foglio (VRd con bw lordo, +35 % nell'esempio dell'analisi)",
+      "effetto_quantificato": {
+        "sintesi": "Prima 8 proposte passavano con η 0,857 contro 1,153 del foglio. Ora, NTC [4.1.27]-[4.1.29]: Vy 600 kN → 0 proposte; Vy 500 kN → Ø10/100 con η 0,961024; cerchio d 464,344 mm con η 0,560590."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "con «Manuali» bw, d e Asl = min(manuale; candidato), con una nota"
+      },
+      "test": [
+        "supporto/test/ConcreteDesign.Checks/Program.cs (attesi NTC [4.1.27]-[4.1.29] in tests/ConcreteLibraryAdapter.Checks/attesi/correzioni_20261015.py)"
+      ]
+    },
+    {
+      "id": "BUG-PV-1",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Pali verticali: una sola opzione di sottospinta per tutte le verifiche",
+      "famiglia": "geotecnica/pali-verticali",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Un solo flag di sottospinta governava tutte le verifiche: in trazione, con il flag spento (predefinito), il peso del palo non era ridotto della sottospinta; nella compressione non drenata lorda, con il flag acceso, la pressione dell'acqua alla punta era tolta due volte. Ora le azioni sono per condizione e verso (AxialCapacityResult.Actions): trazione sempre con W′ e la falda; compressione non drenata lorda con W pieno; il flag resta solo per la compressione drenata. ANTHEA usa le azioni per condizione nel risultato, nel confronto dell'editor, nei grafici e nel report.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (a9b36481), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Piles/AxialPileCapacity.cs",
+        "Checker/GPCChecker.Geotechnics/Piles/AxialPileModels.cs",
+        "ANTHEA, ramo refactoring/bug-1015-geo unito in refactoring/integrazione-1016 (94acc474): 4aed55b9, dd1167b9",
+        "X.Calculations/Calcolo.cs",
+        "X.Desktop/Wpf/GeoEditor.cs",
+        "src/ANTHEA.Application/Presentation/VerticalPileCharts.cs",
+        "src/ANTHEA.Reports/Generators/ReportWord.cs",
+        "src/ANTHEA.Reports/Generators/Tabelle.cs"
+      ],
+      "segno": "cautelativo in trazione (prima Ed,t −15 % con esito soddisfatto non spettante); nella compressione non drenata lorda prima l'azione era sottostimata del 14 %",
+      "effetto_quantificato": {
+        "sintesi": "Ed,t 807,3 → 946,0 kN; Ed,c non drenata 1210,2 → 1410,5 kN. Confronto congelato f4-residual, categoria PV-1: 6 voci. Cattura congelata di Checker (piles-vertical.jsonl): azioni di trazione sotto falda di 8 documenti (769 valori) aumentate di γG,fav γw A (z − zf), rigenerata in d40bcc04."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "azioni per condizione e verso: trazione con W′, compressione non drenata lorda con W pieno, flag solo per la drenata"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«Rigenera tutte» (catture congelate cambiate dalle correzioni approvate) (risposta della notte fra il 15 e il 16/10)",
+        "esito": "cattura dei pali verticali rigenerata in Checker d40bcc04, valore per valore"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/PileActionChecks.cs",
+        "tests/ConcreteLibraryAdapter.Checks/F4ResidualChecks.cs (categoria PV-1, 6 voci)",
+        "Checker/GPCChecker.Test.Geotechnics/PileEdgeCaseTests.cs; LegacyAxialCapacitiesAreReproduced con la cattura rigenerata",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full"
+      ]
+    },
+    {
+      "id": "BUG-PO-1",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Pali orizzontali: Broms con testa impedita ignorava il tratto libero",
+      "famiglia": "geotecnica/pali-orizzontali",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "PaloOrizzontale non leggeva generali.tratto_libero con la testa impedita: il vincolo veniva posto al piano campagna. Ora Broms e stratificato con testa impedita e tratto libero > 0 sono rifiutati, con rinvio alla risposta elastica. La testa libera è invariata.",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): f5b2a9ed",
+        "X.Calculations/PaloOrizzontale.cs",
+        "src/ANTHEA.Application/Presentation/CalculationHelp.cs"
+      ],
+      "segno": "cautelativo: prima capacità circa doppia di quella attesa",
+      "effetto_quantificato": {
+        "sintesi": "D 1 m, L 15 m, tratto libero 3 m: Hu 900 kN come con tratto libero nullo, contro circa 439 kN attesi (fattore 2,05 non cautelativo); ora rifiuto esplicito."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "rifiuto esplicito di Broms con testa impedita e tratto libero > 0"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/HorizontalChecks.cs (--horizontal)"
+      ]
+    },
+    {
+      "id": "BUG-PO-2",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Pali orizzontali: efficienza Reese–Van Impe del foglio con i fattori anteriore e posteriore scambiati",
+      "famiglia": "geotecnica/pali-orizzontali",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "LateralPileModels scambiava i fattori leading e trailing, diversamente da LateralPileGroup della stessa libreria e dalla guida teorica. Ora con il vicino davanti (nel verso di H) il palo è nella sua scia, min[1; 0,48(s/D)^0,38]; con il vicino dietro è capofila, min[1; 0,70(s/D)^0,26]; le diagonali seguono. ANTHEA aggiorna foglio e report; la frase della guida teorica è in carico all'aggiornamento delle guide.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (07e620a7), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Piles/LateralPileModels.cs",
+        "ANTHEA, ramo refactoring/bug-1015-geo unito in refactoring/integrazione-1016 (94acc474): dd83ce9a",
+        "X.Calculations/PaloOrizzontale.cs",
+        "src/ANTHEA.Application/Presentation/HorizontalSheetPresentation.cs",
+        "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
+        "X.Desktop/Wpf/HorizontalWorkspace.cs"
+      ],
+      "segno": "cautelativo: prima Rd del palo in scia sovrastimato (+28 % nell'esempio)",
+      "effetto_quantificato": {
+        "sintesi": "Palo arretrato, interasse 3 m: η 0,931 → 0,729. Cattura «due sondaggi» (piles-lateral.jsonl): fattore anteriore 0,98707 → 0,79318, posteriore 0,72870 → 0,93143, η 0,447370 → 0,445327, Rd −0,4565 %, tutti «Verifica non soddisfatta» prima e dopo; cattura rigenerata in Checker d40bcc04."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "scambiare i fattori, correzione diretta in libreria"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«Rigenera tutte» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "cattura dei pali orizzontali rigenerata in Checker d40bcc04"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/HorizontalChecks.cs",
+        "Checker/GPCChecker.Test.Geotechnics/PileEdgeCaseTests.cs e PileExamplesTests; LegacyLateralCapacitiesAreReproduced con la cattura rigenerata",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full"
+      ]
+    },
+    {
+      "id": "BUG-MUR-2",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Muri: passiva a valle senza γR,e e mobilitabile al 100 %, sottratta alla spinta nello scorrimento",
+      "famiglia": "geotecnica/muri",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "riferimento_normativo": [
+        {
+          "fonte": "NTC 2018",
+          "punto": "§6.5.3.1.1 (aliquota della passiva ≤ 50 %), Tab. 6.5.I (γR = 1,4)"
+        }
+      ],
+      "descrizione": "Lo scorrimento era H − η·Pp ≤ N·tanδ/1,1, con η fino a 1 e senza γR,e = 1,4: con Pp ≥ spinta la domanda risultava nulla. Si attivava solo con la casella «Considera la resistenza passiva». Ora la passiva a valle è una resistenza: Ed è la spinta motrice con le azioni orizzontali e l'inerzia, mai ridotta dalla passiva; la resistenza è N tanδ/γR + ηp·Pp/γR,e con γR,e = 1,4 nelle righe SLU (WallCombination.PassiveFactor); ηp > 0,5 è rifiutato (anche nei documenti salvati); nuove grandezze SlidingDemand e OverturningDemand. L'estensione al ribaltamento (momento della passiva diviso per 1,4 fra le resistenze) è una scelta dell'agente lasciata aperta dall'utente: BUG-MUR-2b.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (2836af62), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Walls/RetainingWallAnalysis.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallCombinations.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallResults.cs",
+        "ANTHEA, ramo refactoring/bug-1015-geo unito in refactoring/integrazione-1016 (94acc474): 2ade15d8",
+        "X.Calculations/RetainingWall.cs",
+        "X.Calculations/RetainingWall.Equilibrium.cs",
+        "X.Calculations/RetainingWall.Soils.cs",
+        "src/ANTHEA.Application/Presentation/WallParameterTable.cs",
+        "X.Desktop/Wpf/RetainingWallWorkspace.Parameters.cs",
+        "src/ANTHEA.Reports/Generators/ReportRetainingWall.cs"
+      ],
+      "segno": "cautelativo: prima scorrimento con domanda ridotta o nulla grazie alla passiva non fattorizzata",
+      "effetto_quantificato": {
+        "sintesi": "Cattura congelata dei muri, rigenerata in Checker d40bcc04: i 3 documenti con passiva ed η = 1 sono ora rifiutati (LegacyWallsAreReproduced 88 → 85 muri, 14 → 17 rifiutati); nel documento con η = 0,5, 16 verifiche di scorrimento e 16 di ribaltamento cambiano domanda e resistenza, nessun esito cambia. Confronti congelati F4: categoria MUR-2."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "γR,e = 1,4 e ηp ≤ 0,5, con rifiuto"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«Rigenera tutte» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "catture dei muri rigenerate in Checker d40bcc04"
+      },
+      "test": [
+        "supporto/test/RetainingWall.Checks/DualSoilChecks.cs (Pp = 0,4·0,5·18·3·Dv²) e LibraryAdapterChecks.cs",
+        "Checker/GPCChecker.Test.Geotechnics/WallEdgeCaseTests.cs; LegacyWallsAreReproduced e LegacyCombinationsAreReproduced con le catture rigenerate",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full, con le transizioni del confronto UI F3 (tests/fixtures/f3/transitions-f4.json)"
+      ],
+      "voci_collegate": [
+        "BUG-MUR-2b",
+        "BUG-MUR-1"
+      ]
+    },
+    {
+      "id": "BUG-MUR-2b",
+      "data": "2026-10-16",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Muri: passiva a valle nella resistenza al ribaltamento con γR,e = 1,4",
+      "famiglia": "geotecnica/muri",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Con MUR-2 l'agente ha esteso la regola al ribaltamento: la resistenza è Mstab/γR più il momento di ηp·Pp/γR,e rispetto al piede (OverturningResistance = stabilizzante/OverturningFactor + passiveResistingMoment). È attivo nel codice dei rami di integrazione; in ANTHEA il testo dipende da RetainingWall.PassiveResistsOverturning. Per toglierlo servono le due modifiche, in libreria e in ANTHEA. L'utente non ha deciso.",
+      "codice": [
+        "Checker/GPCChecker.Geotechnics/Walls/RetainingWallAnalysis.cs",
+        "X.Calculations/RetainingWall.cs"
+      ],
+      "segno": "da stabilire: con l'estensione il momento di ηp·Pp entra fra le resistenze diviso per γR,e = 1,4 (prima riduceva il momento ribaltante senza coefficiente); senza l'estensione la passiva non conterebbe nel ribaltamento",
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«non lo so. devo vederlo. lascia momentaneamente aperto» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "aperto: il codice resta come l'ha scritto l'agente fino alla decisione"
+      },
+      "voci_collegate": [
+        "BUG-MUR-2"
+      ]
+    },
+    {
+      "id": "BUG-MUR-3",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Muri: terreno di valle sul paramento inclinato contato da x = a nei tagli del fusto",
+      "famiglia": "geotecnica/muri",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "RetainingWallAnalysis sommava al corpo libero del fusto la striscia di terreno di valle sotto il taglio. Ora il cuneo di valle sul fusto conta solo sopra il taglio: left = a + pendenza·(max(t, yc) − t).",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (a8cf2722), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Walls/RetainingWallAnalysis.cs",
+        "ANTHEA, ramo refactoring/bug-1015-geo unito in refactoring/integrazione-1016 (94acc474): 84ce57d8",
+        "X.Calculations/RetainingWall.Equilibrium.cs"
+      ],
+      "segno": "in tutti e due i versi (M del taglio con il segno invertito nell'esempio)",
+      "effetto_quantificato": {
+        "sintesi": "Muro a gravità, taglio a z 2,25 m: N 74,85 → 68,91 kN/m, M +6,07 → −0,46 kNm/m. Cattura congelata dei muri (rigenerata in Checker d40bcc04): 57 tagli del fusto in ciascuno dei 2 documenti con terreno di valle sopra la soletta, ΔN da −0,0405 a −0,08775 kN/m, V invariato."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correzione diretta in libreria"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«Rigenera tutte» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "cattura dei muri rigenerata in Checker d40bcc04"
+      },
+      "test": [
+        "supporto/test/RetainingWall.Checks/DualSoilChecks.cs",
+        "Checker/GPCChecker.Test.Geotechnics/WallEdgeCaseTests.cs",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full"
+      ]
+    },
+    {
+      "id": "BUG-SLU-2b",
+      "data": "2026-10-16",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Resistenza a N assegnato, criteri «N e Mx costanti» e «N e My costanti» con N fuori dal campo",
+      "famiglia": "calcestruzzo/flessione-slu",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Con la correzione di SLU-2 (F2-17, rettifica) i criteri «N e Mx costanti» e «N e My costanti», con NEd fuori dal campo [NRd,c; NRd,t], danno «Fuori dominio (N fuori dal campo [NRd,c; NRd,t])» invece di «punto resistente non convergente» (sotto-caso dell'opzione A di F2-17, che per quei criteri lasciava i casi senza punto). Con momento nullo restano senza esito, come nell'opzione A. Accettato in via provvisoria come parte di SLU-2, reversibile.",
+      "codice": [
+        "X.Calculations/ConcreteResistanceAdapter.cs",
+        "X.Calculations/ConcreteLibraryMapping.Resistance.cs",
+        "Checker/GPCChecker.Concrete/Analysis/LegacySectionCalculation.cs"
+      ],
+      "segno": "cautelativo (un caso senza esito diventa non soddisfatto)",
+      "decisione": {
+        "data": "2026-10-16",
+        "utente": "punto per l'utente segnalato dall'agente, senza risposta",
+        "esito": "accettato in via provvisoria come parte di SLU-2, reversibile; da decidere"
+      },
+      "voci_collegate": [
+        "F2-17"
+      ]
+    },
+    {
+      "id": "BUG-PO-3",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Palo elastico: verifica N–M non eseguita da D 1,6 m (tolleranza su N di 1 kN, residuo di F2-15)",
+      "famiglia": "pali/armatura",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "PileReinforcement accettava il punto del dominio a N assegnato solo con |NRd + N| ≤ max(1 kN; 1e-6 |N|), la regola che F2-15 aveva sostituito in SectionMomentResistance: sui pali grandi la ricerca si ferma a 1,1–2,0 kN da N, quindi da D 1,6 m MRd mancava a tutte le quote («Non verificabile») e la ricerca dichiarava insufficiente ogni catalogo. Ora la tolleranza è DomainPointAxialTolerance.Calculate: max(1 kN; 1e-6 |N|; 0,5e-4 b h fck), con lo stress block almeno 1e-3 NRd,c. Cambia solo l'accettazione, mai il punto.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (c35a0a5e), GPCChecker.Concrete 0.11.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Concrete/Piles/PileReinforcement.cs",
+        "Checker/docs/metodi/README.md"
+      ],
+      "segno": "solo più punti accettati: nessun valore cambia, i pali grandi tornano verificabili",
+      "effetto_quantificato": {
+        "sintesi": "24Ø26 C35/45, D 1,6 e 2,0 m, N 0/500/2000 kN: MRd 3293,8/3581,1/4367,2 e 4307,9/4691,5/5804,1 kNm entro lo 0,2 % da un'integrazione a fibre indipendente; D 1,6 m, N 2000 kN, M 1079 kNm: 20Ø20 alla prima proposta. Invariati i pali sotto D 0,75 m circa in C35/45."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "stessa regola di F2-15, correzione diretta in libreria"
+      },
+      "test": [
+        "Checker/tests/Concrete.Checks/PileOutcomeTests.cs (LargePilesGetTheirResistanceAtEveryAxialForce)",
+        "Checker/tests/Design.Checks/PileSegmentDesignTests.cs (LargePileSegmentFindsTheFirstLayout)",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full"
+      ],
+      "voci_collegate": [
+        "F2-15",
+        "BUG-SLU-3"
+      ]
+    },
+    {
+      "id": "BUG-DET-1",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Solette e pareti: interasse massimo misurato anche attraverso lo spessore",
+      "famiglia": "calcestruzzo/dettagli",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "MemberDetailingCalculator (MainSpacing delle solette, WallVerticalSpacing delle pareti) passava tutte le barre a CrackSectionGeometry.MaximumSpacing, che raggruppa anche per x uguale: la coppia superiore/inferiore allineata contava come adiacente e l'interasse diventava max(interasse nello strato; h − 2c − Ø). Ora l'interasse si misura solo lungo gli strati (MaximumSpacingAlong); l'opzione nominata MemberDetailingOptions.LegacyPlateSpacingAcrossLayers riproduce la misura precedente. La regola dei pilastri (R12, coppie attraverso il nucleo) non cambia. ANTHEA: categoria DET-1 nel confronto del riuso delle API.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (8f95242c; cattura a0c36656), GPCChecker.Concrete 0.11.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs",
+        "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs",
+        "Checker/docs/metodi/ca.dettagli.md",
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 15365c39",
+        "tests/ANTHEA.ApiReuse.Checks/Program.cs"
+      ],
+      "segno": "a favore di sicurezza prima: esiti non soddisfatti spuri oltre circa 480 mm di spessore (solette critiche oltre circa 330 mm), anche nella ricerca automatica",
+      "effetto_quantificato": {
+        "sintesi": "Striscia 1000×500, c 30, 6Ø16 per faccia: 424 mm «non soddisfatto» → 184,8 mm; pareti 600×800 in ANTHEA: interasse verticale 424 → 208 mm, soddisfatta. Cattura congelata detailing-plate-legacy.csv rigenerata con le opzioni predefinite (Checker a0c36656): 60 righe su 282 cambiano un valore (S1000x200D 102 → 69,38 mm, W1000x200D 92 → 68,62 mm, W250x1200N 164 → 159,14 mm), limiti e verdetti invariati; l'opzione legacy riproduce i valori precedenti."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correzione diretta in libreria"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«Rigenera tutte» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "cattura delle solette e delle pareti rigenerata con le opzioni predefinite (Checker a0c36656); opzione legacy conservata"
+      },
+      "test": [
+        "Checker/GPCChecker.Test.Concrete/DetailingMigrationTests.cs (SlabAndWallSpacingIsMeasuredAlongTheLayers, LegacyPlateDetailingIsReproduced)",
+        "tests/ANTHEA.ApiReuse.Checks (categoria DET-1)",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full"
+      ],
+      "voci_collegate": [
+        "R12"
+      ]
+    },
+    {
+      "id": "BUG-ARM-2",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Fogli con azioni unificate: ogni riga SLU/SLV verificata due volte a N–Mx–My, la seconda in assi locali",
+      "famiglia": "calcestruzzo/progetto-armature",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Nei fogli con azioni unificate la ricerca aggiungeva una seconda verifica «Taglio · nome» in assi locali, che escludeva proposte valide con assi principali o personalizzati e creava un controllo governante fittizio. Ora ogni riga SLU/SLV è verificata a N–Mx–My una sola volta, negli assi di dominio3d; le righe N–M ricavate dal taglio si usano solo nel contratto storico.",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 5e0642a6",
+        "X.Calculations/ConcreteReinforcementDesign.Library.cs"
+      ],
+      "segno": "a favore di sicurezza prima: proposte valide escluse (+50 % di peso nell'esempio)",
+      "effetto_quantificato": {
+        "sintesi": "Nell'esempio 4Ø16/3Ø16 è accettata con η 0,908; MRd a fibre NTC 4.1.2.3.4 = 165,124 kNm."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "righe di taglio in rows[\"SLU\"] solo nel contratto storico"
+      },
+      "test": [
+        "tests/ANTHEA.Application.Tests/DesignActionChecks.cs"
+      ]
+    },
+    {
+      "id": "BUG-PON-2",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Ponte: storico non lineare e curve M–κ interrotti alla fessurazione della soletta",
+      "famiglia": "ponti/sezione-composta",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "riferimento_normativo": [
+        {
+          "fonte": "EN 1992-1-1",
+          "punto": "6.1(2)P (resistenza a trazione del calcestruzzo trascurata)"
+        }
+      ],
+      "descrizione": "Il calcestruzzo teso oltre εcr era trattato come «fuori dominio»: il metodo non lineare si fermava alla fessurazione della soletta, cioè con un momento negativo ordinario, e il messaggio parlava di capacità. Ora lo storico H non lineare trascura la trazione del calcestruzzo (la legge d'inviluppo dà σ = 0 oltre il ramo teso; scelta dell'agente: nessuna trazione anche prima della fessurazione, più cautelativa, con la legge precedente ancora disponibile in HBridgeHistoryOptions.ConcreteLaw). Su richiesta dell'utente c'è l'opzione HBridgeHistoryOptions.ConcreteTension (HistoryConcreteTension: Neglected predefinito, TensionStiffening con la legge di Collins e Mitchell, presa da Model in b06a58bd). ANTHEA: campo «CLS teso (non lineare)», «Trascurato» / «Tension stiffening», salvato nell'archivio con «Trascurato» predefinito, aiuto e Info modello.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (520be2f1, f89826ba, b06a58bd), GPCChecker.CompositeBridge 1.7.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.CompositeBridge/History/HBridgeHistoryAnalysis.cs",
+        "Checker/GPCChecker.CompositeBridge/History/HistoryMaterials.cs",
+        "Checker/GPCChecker.CompositeBridge/History/BridgeHistoryAnalysis.cs",
+        "ANTHEA, ramo refactoring/bug-1015-geo unito in refactoring/integrazione-1016 (94acc474): 8df78f81, 0fc907fd",
+        "X.Calculations/BridgeSection.Analysis.cs",
+        "src/ANTHEA.Application/Bridge/BridgeEditor.cs",
+        "src/ANTHEA.Application/Presentation/CalculationHelp.cs",
+        "src/ANTHEA.Reports/Generators/ReportBridge.History.cs",
+        "X.Desktop/Wpf/BridgeHistory.cs",
+        "X.Desktop/Wpf/BridgeResponse.cs"
+      ],
+      "segno": "esito prima mancante (storico interrotto); senza trazione anche prima della fessurazione le tensioni dell'acciaio crescono (×0,5: acciaio superiore 30,2 → 76,6 MPa)",
+      "effetto_quantificato": {
+        "sintesi": "Il caso ×0,6 ora completa; M–κ fino a −18152 kNm. L'opzione Tension stiffening converge in tutti i casi provati e non altera il salto a εcr."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "σ = 0 nel calcestruzzo oltre la fessurazione"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«si può tenere l'opzione del cls reagente a trazione nello storico non lineare?» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "opzione «Tension stiffening» dello storico e delle curve, «Trascurato» predefinito; legge unica di Model per tutti i calcestruzzi (BUG-TS-1)"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+        "tests/ANTHEA.Application.Tests/BridgeContractChecks.cs",
+        "Checker/GPCChecker.Test.CompositeBridge/NonlinearCrackedSlabTests.cs (CompositeBridge 284/284)",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full, con le transizioni del confronto UI F3 (tests/fixtures/f3/transitions-f4.json)"
+      ],
+      "voci_collegate": [
+        "BUG-TS-1"
+      ]
+    },
+    {
+      "id": "BUG-SLU-3",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "M–χ: tolleranza su N del punto limite fissa a 1 kN invece della regola della libreria (residuo di F2-15)",
+      "famiglia": "calcestruzzo/momento-curvatura",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "La curva M–χ rifiutava il punto limite se |NRd − N| superava la «tolleranza_n» dell'utente, 1 kN per default, mentre la resistenza a N assegnato della stessa sezione lo accettava con la regola della libreria (F2-15). Ora la tolleranza è max(valore dell'utente; regola della libreria) e lo stato riporta la tolleranza effettiva. Le curve già accettate non cambiano.",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): dd8bac4e",
+        "X.Calculations/ConcreteCurvatureAnalysis.cs",
+        "X.Calculations/MomentCurvature.cs",
+        "src/ANTHEA.Application/Presentation/CalculationHelp.cs"
+      ],
+      "segno": "nessun numero sbagliato prima: rifiuto esplicito al posto della curva",
+      "effetto_quantificato": {
+        "sintesi": "D 1600 C35/45 16Ø24, N 0: prima rifiutata («Residuo N … tolleranza 1 kN», −1,29 kN); ora curva con MRd ≈ 1963,98 kNm."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "max(tolleranza dell'utente; regola della libreria)"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/ConcreteModuleChecks.cs (--ca-module: MRd entro lo 0,2 % di 1963,407 kNm e χu entro lo 0,5 % di 0,018034, calcolo a fibre)"
+      ],
+      "voci_collegate": [
+        "F2-15",
+        "BUG-PO-3"
+      ]
+    },
+    {
+      "id": "BUG-TAG-2",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Foglio c.a. del palo con coefficienti unitari: taglio e torsione con γc e fyd dell'input",
+      "famiglia": "calcestruzzo/taglio-torsione",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "I coefficienti unitari del foglio c.a. del palo valgono anche per taglio e torsione. Prima il taglio usava γc 1,5 dell'input e la torsione fyd = fyk/γs, quindi taglio e torsione della stessa riga lavoravano su fyd diversi mentre la flessione usava γ = 1. Ora γc e fyd vengono dalla norma effettiva. Il caso ordinario è invariato bit per bit. La stessa incoerenza in ancoraggi e dettagli è BUG-N6.",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 6741333a",
+        "X.Calculations/ConcreteShearAnalysis.cs"
+      ],
+      "segno": "cautelativo prima (VRd sottostimato con i coefficienti unitari)",
+      "effetto_quantificato": {
+        "sintesi": "Prima VRd 236,53 kN, η 1,268; TRsd 118,13 e TRld 64,78 kNm. Ora VRd 321,61 kN, η 0,933; TRsd 135,85 e TRld 74,49 kNm."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "γ e fyd dalla norma effettiva"
+      },
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks, prova 4b (NTC [4.1.23] e [4.1.41]-[4.1.42])"
+      ],
+      "voci_collegate": [
+        "BUG-N6"
+      ]
+    },
+    {
+      "id": "BUG-PO-4",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Palo elastico: «sezione critica» sempre in testa (x = 0, M ≈ 0)",
+      "famiglia": "geotecnica/pali-orizzontali",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "La sezione critica del palo elastico era sempre la prima quota senza sviluppo (x = 0, M ≈ 0): report, riepilogo UI e foglio c.a. di approfondimento ricevevano un'azione nulla. Ora la critica è quella con il rapporto massimo; il foglio c.a. riceve la critica e il |M| massimo.",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 564bf02a",
+        "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
+        "X.Calculations/ElasticHorizontalPile.ConcreteSheet.cs"
+      ],
+      "segno": "cautelativo: prima il foglio c.a. di approfondimento riceveva M ≈ 0",
+      "effetto_quantificato": {
+        "sintesi": "Caso predefinito: x 3,969 m, M 242,17 kNm; il foglio c.a. riceve anche x 4,017 m, M 242,20 kNm."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "critica per rapporto; lo sviluppo come segnalazione separata (PO-5)"
+      },
+      "test": [
+        "tests/ANTHEA.Application.Tests/PileCriticalChecks.cs",
+        "Da completare al rilascio Z: tests/fixtures/f3/expected/sheets/geo_palo_orizzontale/single-soil-elastic/result.json cambia (PO-4, PO-5); transizioni del confronto UI F3 dopo il full"
+      ]
+    },
+    {
+      "id": "BUG-PO-5",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Palo elastico: sviluppo delle barre registrato come «NON SODDISFATTO» anche dove M = 0",
+      "famiglia": "pali/armatura",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "PileReinforcement.ApplyDevelopment marcava «sviluppo non disponibile» ogni quota entro lbd + a_l dalle estremità delle barre, anche con momento numericamente nullo (testa libera, punta), e non usava gli ancoraggi esterni (HeadAnchorage, ToeAnchorage): nessun palo poteva risultare soddisfatto e ANTHEA mostrava «NON VERIFICATO» in rosso. Ora lo sviluppo è richiesto solo dove la domanda richiede barre tese (|M|/MRd > 1e-6 oppure N < 0) e gli ancoraggi in testa e al piede contano nello sviluppo; ANTHEA classifica lo sviluppo insufficiente come punto da completare: «VERIFICA INCOMPLETA» in ambra. Le verifiche non soddisfatte restano «NON VERIFICATO». La regola dello sviluppo parziale al piede è aperta: BUG-PO-5b.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (9b8a48ba), GPCChecker.Concrete 0.11.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Concrete/Piles/PileReinforcement.cs",
+        "Checker/GPCChecker.Concrete/Piles/PileReinforcement.Transitions.cs",
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 47ee9517",
+        "X.Calculations/ElasticHorizontalPile.Reinforcement.cs"
+      ],
+      "segno": "a favore di sicurezza prima: esito «NON VERIFICATO» spurio",
+      "effetto_quantificato": {
+        "sintesi": "Prima ogni palo elastico in c.a. risultava «NON VERIFICATO», anche con tutti i rapporti ≤ 0,19. Caso del verificatore (D 1,2 m, N 2000 kN, L 15 m): quote segnalate 131 → 129; con ancoraggio in testa 2,0 m (> lbd + a_l = 1,78 m) 65, la sola zona del piede. Confronto congelato f4-pile-outcomes: categoria PO-5, 28/28 tratti."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "sviluppo come «da completare», solo dove la domanda richiede l'armatura tesa"
+      },
+      "test": [
+        "Checker/tests/Concrete.Checks/PileOutcomeTests.cs (DevelopmentIsRequiredOnlyWhereTheDemandNeedsTensileBars)",
+        "tests/ANTHEA.Application.Tests/PileCriticalChecks.cs",
+        "tests/ConcreteLibraryAdapter.Checks/F4PileOutcomeChecks.cs (categoria PO-5)",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full, con le transizioni del confronto UI F3 (tests/fixtures/f3/transitions-f4.json)"
+      ],
+      "voci_collegate": [
+        "BUG-PO-5b",
+        "BUG-PO-4"
+      ]
+    },
+    {
+      "id": "BUG-PO-5b",
+      "data": "2026-10-16",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Palo elastico: sviluppo parziale delle barre nella zona del piede",
+      "famiglia": "pali/armatura",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Dopo PO-5 lo sviluppo resta richiesto al piede, dove M è piccolo ma non nullo: le quote entro lbd + a_l dalla fine delle barre restano «da completare» (65 quote nel caso del verificatore con ancoraggio in testa di 2,0 m). Una regola di sviluppo parziale (resistenza delle barre ridotta in base alla lunghezza sviluppata) è una scelta dell'utente. Punto non risposto nella notte: non si assume nulla.",
+      "codice": [
+        "Checker/GPCChecker.Concrete/Piles/PileReinforcement.cs"
+      ],
+      "segno": "da stabilire",
+      "decisione": {
+        "data": "2026-10-16",
+        "utente": "nessuna risposta (punto lasciato aperto: non si assume nulla)",
+        "esito": "da decidere"
+      },
+      "voci_collegate": [
+        "BUG-PO-5"
+      ]
+    },
+    {
+      "id": "BUG-DET-3",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Acciai B450A e B500A con εuk = 3 % invece di 2,5 %",
+      "famiglia": "materiali/armature",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "riferimento_normativo": [
+        {
+          "fonte": "NTC 2018",
+          "punto": "Tab. 11.3.Ic (B450A, (Agt)k ≥ 2,5 %)"
+        },
+        {
+          "fonte": "EN 1992-1-1",
+          "punto": "Appendice C, Prospetto C.1 (classe A)"
+        }
+      ],
+      "descrizione": "Il catalogo degli acciai EN 1992-1-1 di GPCModelData dava εuk = 3 % a B450A e B500A: εud = 0,9 εuk passa da 27 ‰ a 22,5 ‰. Gli altri acciai erano già corretti (B450C e B500C 7,5 %, B500B 5 %). ANTHEA: preset B450A/B500A con εu 25 ‰; le schede salvate con 30 ‰ non sono riscritte e non sono più riconosciute come preset; la differenza è dichiarata nella scheda e nei fogli: «Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo.» (RebarMaterial.CatalogueDifference).",
+      "codice": [
+        "Model, ramo di integrazione bugint-model (1b6738b0), GPCModelData 0.0.2.14, rilascio Z (non ancora in lib/Checker)",
+        "Model/ModelData/SteelMaterialEN1992Data.cs",
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): cbdc2c43",
+        "X.Calculations/RebarMaterial.cs",
+        "src/ANTHEA.Application/Materials/MaterialInputCatalog.cs",
+        "src/ANTHEA.Application/Materials/RebarEditor.cs",
+        "X.Desktop/Wpf/RebarMaterialView.cs",
+        "X.Desktop/Wpf/ConcreteMaterials.cs"
+      ],
+      "segno": "non cautelativo prima sulla duttilità; MRd quasi invariato",
+      "effetto_quantificato": {
+        "sintesi": "Striscia di soletta 1000×200, 5Ø8/m, C25/30: χu circa −16 %, MRd −0,2 %."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "εuk = 2,5 % nel Model (GPCModelData); i fogli salvati con il preset conservano i valori e lo dichiarano"
+      },
+      "test": [
+        "Model/UnitTest/ControlTests.cs (RebarCatalogUltimateStrainsFollowTheDuctilityClasses)",
+        "tests/ConcreteLibraryAdapter.Checks, prova 4c",
+        "Nota DET-3 nella scheda dei materiali dei muri: in corso sul ramo refactoring/seguiti-1016. Da completare al rilascio Z: hash del set in lib/Checker e profilo full, con le transizioni del confronto UI F3 (tests/fixtures/f3/transitions-f4.json)"
+      ]
+    },
+    {
+      "id": "BUG-GEO-1",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Portanza, Meyerhof non drenato: manca iq sul termine del sovraccarico con carico inclinato",
+      "famiglia": "geotecnica/portanza",
+      "categoria": "convenzione",
+      "stato": "corretto",
+      "riferimento_normativo": [
+        {
+          "fonte": "Meyerhof (1963); USACE EM 1110-1-1905",
+          "punto": "Tab. 4-3: ic = iq = (1 − θ/90°)² anche con φ = 0"
+        },
+        {
+          "fonte": "manuale Califfo",
+          "punto": "(3.16), «+ q»: riferimento seguito alla lettera fino al 15/10"
+        }
+      ],
+      "descrizione": "Nel ramo non drenato il termine del sovraccarico era q per ogni metodo; Meyerhof (1963) e USACE danno iq = ic = (1 − θ/90°)² per ogni φ, come il ramo drenato dello stesso motore: il risultato era discontinuo con il ramo drenato a φ′ → 0 e sovrastimava qlim di q(1 − iq). Ora solo Meyerhof applica cu Nc sc dc ic + q iq; EC7, Vesić, Hansen e Terzaghi sommano q. Il riferimento Califfo resta come convenzione dichiarata: califfo_reference.py conserva il valore letterale del manuale con la relazione «le» e califfo-reference.json è rigenerato dallo script.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (7f77486c), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Foundations/ShallowFoundationBearing.cs",
+        "Checker/docs/metodi/fondazioni-superficiali.md"
+      ],
+      "segno": "cautelativo: prima qlim sovrastimato del 4–10 % con carico inclinato",
+      "effetto_quantificato": {
+        "sintesi": "Striscia B 2 m, D 3 m, q 54 kPa, cu 75 kPa, N 300, H 150 kN/m: qult 303,04 → 275,87 kPa. Riferimento Califfo: cambiano solo i casi 387, 389, 391 (Meyerhof non drenato, Hx 40/150/200 kN), per esempio 389: 228,73 → 219,67 kPa."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "Meyerhof/USACE con iq anche con φ = 0, invece del manuale Califfo"
+      },
+      "test": [
+        "Checker/tests/ShallowFoundation.Tests/BearingTests.cs (MeyerhofUndrainedAppliesIqToTheSurcharge; ShallowFoundation 28/28)",
+        "Frase della guida teorica: in carico all'aggiornamento delle guide. Da completare al rilascio Z: hash del set in lib/Checker e profilo full"
+      ]
+    },
+    {
+      "id": "BUG-SLU-4",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "M–χ: ε0 della riga limite riferita al vertice pivot invece che al baricentro",
+      "famiglia": "calcestruzzo/momento-curvatura",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Il punto limite del M–χ viene dal dominio, il cui piano ha come riferimento il vertice più compresso (pivot, ε = −εcu), mentre le altre righe sono riferite all'origine degli assi locali: la stessa colonna «ε0» riportava due grandezze diverse. Ora ε0 della riga limite è nell'origine degli assi locali, come le altre righe (libreria e MomentCurvature.Strains() di ANTHEA). χ e il momento non cambiano.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (e752c86f; catture b3e53fbd), GPCChecker.Concrete 0.11.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Concrete/Response/MomentCurvatureAnalysis.cs",
+        "Checker/docs/metodi/ca.momento-curvatura.md",
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 298be57e",
+        "X.Calculations/MomentCurvature.cs",
+        "X.Calculations/CheckerSection.cs",
+        "tests/ANTHEA.Testing/f2-classificazione.json"
+      ],
+      "segno": "solo etichetta: nessun esito cambia",
+      "effetto_quantificato": {
+        "sintesi": "300×500 C25/30 4Ø16, N −1000 kN: ε0 del punto limite −3,5 ‰ (vertice pivot) → −0,5075 ‰ (fibre −0,5032). Catture congelate di Checker rigenerate (b3e53fbd): curvature-contract-0.0.17.csv, 5 righe su 774 cambiano la sola colonna ReferenceStrain del punto limite (−0,0035 → +0,00506, +0,01559, −0,00056, +0,00089, +0,01020); curvature-legacy.csv, gli stessi 5 valori in ‰. Banco c.a.: categoria SLU-4 (5 righe) in f2-classificazione.json."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "ε0 nell'origine degli assi in ogni riga"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«Rigenera tutte» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "catture del M–χ rigenerate in Checker b3e53fbd; la categoria SLU-4 del banco si toglie se il banco confronta con le fixture rigenerate"
+      },
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks, prova 4c",
+        "Checker/GPCChecker.Test.Concrete/MomentCurvatureReferenceStrainTests.cs",
+        "Da completare al rilascio Z: togliere la categoria SLU-4 da tests/ANTHEA.Testing/f2-classificazione.json se il banco confronta con le fixture di Checker; hash del set e profilo full"
+      ]
+    },
+    {
+      "id": "BUG-SLU-5",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Legame «Non lineare» (EN 1992-1-1 3.1.5): εc1 ed εcu1 calcolati con fcm all'età di «fck giorni»",
+      "famiglia": "materiali/calcestruzzo",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "riferimento_normativo": [
+        {
+          "fonte": "EN 1992-1-1",
+          "punto": "Prospetto 3.1: εc1 = 0,7 fcm^0,31 ≤ 2,8 ‰; εcu1 = 2,8 + 27[(98 − fcm)/100]^4 ‰ con fcm a 28 giorni"
+        }
+      ],
+      "descrizione": "GetStrainYCompression e GetStrainUCompression del diagramma «NonLinear» chiamavano GetFcm(|fck|), l'overload dell'età: fck era preso come numero di giorni, fcm diventava fcm·βcc(fck giorni), con classe di cemento R perché il tipo di cemento era assegnato dopo le deformazioni (BUG-N5). Ora εc1 ed εcu1 usano fcm = fck + 8 a 28 giorni (GetFcm()). La tabella del legame, il picco (pivot della compressione centrata) e il limite εcu1 del dominio e del M–χ seguono. I materiali letti da un archivio conservano le deformazioni salvate. Nessuna opzione legacy.",
+      "codice": [
+        "Model, ramo di integrazione bugint-model (3bdcfc19), GPCModel 5.5.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Model/Model/Materials/Concrete/ConcreteMaterialEuropeanCommon.cs"
+      ],
+      "segno": "in tutti e due i versi: più rigido sotto C28, più deformabile sopra; εcu1 ridotto per fck > 50",
+      "effetto_quantificato": {
+        "sintesi": "C12/15 εc1 1,715 → 1,772 ‰; C20/25 1,944 → 1,967 ‰; C45/55 2,428 → 2,397 ‰; C60/75 εc1 2,641 → 2,589 ‰ ed εcu1 2,915 → 3,019 ‰; C70/85 εc1 2,764 → 2,702 ‰ ed εcu1 2,811 → 2,843 ‰. Contratto dei punti del dominio rigenerato (Checker 372d8a6d): cambiano tutti i 256 punti NonLinear su 1024, nessuno degli altri legami; MRd mediana 0,046 %, massimo −7,57 % vicino alla compressione centrata (R3, N −2000 kN, 7,41 → 6,85 kNm); nessun verdetto su N, eccezione o campo di rottura cambia. K0 invariato."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "fcm a 28 giorni nel legame non lineare, senza opzione legacy"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«Rigenera tutte» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "contratto domain-point-contract.json rigenerato in Checker 372d8a6d"
+      },
+      "test": [
+        "Model/UnitTest/MaterialTest.cs (NonLinearDiagramUsesTheMeanStrengthAt28Days, NonLinearDiagramMatchesTheTableValues; Model UnitTest 1238)",
+        "Checker/GPCChecker.Test.Concrete/DomainPointContractTests.cs con il contratto rigenerato",
+        "Riscontro delle catture ANTHEA con il legame «Non lineare»: Da completare al rilascio Z: hash del set in lib/Checker e profilo full"
+      ]
+    },
+    {
+      "id": "BUG-SLU-6",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Trefoli: tensione di progetto del resoconto con il segno della sola deformazione meccanica",
+      "famiglia": "materiali/acciaio",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "SteelMaterial.CalculateDesignStressCommon (overload con deformazione e predeformazione di Model Code 2010, EN 1993-1-1 e AISC 360) prendeva il segno della correzione plastica e il controllo della deformazione ultima da ε e non da ε + εp. Il solutore passa la deformazione totale; il resoconto del piano di Checker (σP min/max) passa ε ed εp separati, quindi oltre lo snervamento di progetto con ε ≤ 0 i due non coincidevano. Ora l'overload dà la tensione della deformazione totale; con εp = 0 il risultato è invariato bit per bit. Gli overload a quattro argomenti con lo stesso difetto sono BUG-N3.",
+      "codice": [
+        "Model, ramo di integrazione bugint-model (60960461), GPCModel 5.5.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Model/Model/Materials/Steel/SteelMaterial.cs"
+      ],
+      "segno": "solo resoconto: la tensione riportata poteva superare fpd",
+      "effetto_quantificato": {
+        "sintesi": "fp(0,1)k 1670, fpk 1860, Ep 195000, εuk 3,5 %, σp0 1500 MPa (εp 7,692 ‰): ε −0,1 ‰ 1480,5 → 1453,2 MPa; ε 0 1500,0 → 1453,9 MPa; ε 28 ‰ (ε + εp > εuk) 1642,2 → 0 MPa, come il solutore."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "tensione sulla deformazione totale"
+      },
+      "test": [
+        "Model/UnitTest/CalculationFixesTest.cs (TendonDesignStressUsesTheTotalStrain)"
+      ],
+      "voci_collegate": [
+        "BUG-N3",
+        "BUG-N4"
+      ]
+    },
+    {
+      "id": "BUG-TAG-3",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Rifiuti del braccio del taglio z/d in inglese (regressione di F4.13b)",
+      "famiglia": "calcestruzzo/taglio-torsione",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "I rifiuti del braccio del taglio di ShearLeverArm comparivano con i testi inglesi della libreria. Ora la mappatura dà il messaggio storico dei dati non validi oppure testi italiani dedicati; un testo sconosciuto è un errore di programma.",
+      "origine": "Regressione introdotta da F4.13b (voce F4-32: braccio del taglio nella API Concrete), non un difetto legacy.",
+      "correzione": "Commit 2033b019 del 15/10 (ramo refactoring/bug-1015).",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 2033b019",
+        "X.Calculations/ConcreteLibraryMapping.cs",
+        "X.Calculations/ConcreteShearTorsionAdapter.cs"
+      ],
+      "segno": "solo testo",
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "testi della mappatura"
+      },
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks, sezioni 1 e 4b, con entrambi i motori (Correzioni20261015.cs)"
+      ],
+      "voci_collegate": [
+        "F4-32"
+      ]
+    },
+    {
+      "id": "BUG-ARM-3",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Sezione a T: peso delle staffe calcolato con la larghezza dell'ala",
+      "famiglia": "calcestruzzo/progetto-armature",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Le quantità della ricerca delle armature misuravano le staffe chiuse della sezione a T sulla larghezza dell'ala. Ora GPC.Design usa SectionDesignGeometry.LinkWidth e ANTHEA passa web_width_mm per la forma «A T». Nessun numero delle verifiche cambia. Resta segnalato che ApproximateScore usa ancora la larghezza dell'ala.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (9d50956c), GPC.Design 0.21.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/src/GPC.Design/Sections/SectionDesignQuantities.cs",
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): deb24776",
+        "X.Calculations/ConcreteReinforcementDesign.Library.cs"
+      ],
+      "segno": "quantità: peso delle staffe circa doppio prima",
+      "effetto_quantificato": {
+        "sintesi": "bf 1200, bw 300, h 700, Ø8/150: staffe 9,491 → 4,756 kg/m."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "larghezza dell'anima"
+      },
+      "test": [
+        "Checker/tests/Design.Checks/SectionDesignQuantitiesTests.cs (Design 62/62)",
+        "tests/ConcreteLibraryAdapter.Checks, prova 4c"
+      ]
+    },
+    {
+      "id": "BUG-ARM-4",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Ricerca delle armature: nomi «plastica/elastica» delle verifiche N–Mx–My diversi dal criterio usato",
+      "famiglia": "calcestruzzo/progetto-armature",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Le verifiche N–Mx–My della ricerca si chiamavano «Resistenza plastica/elastica N–Mx–My» anche quando modello_resistente indicava l'altro criterio. Ora prendono il nome dallo stato limite («N–Mx–My · SLU/SLV») e il criterio resistente va nel dettaglio («Dominio plastico|elastico (criterio resistente)»). Nessun numero cambia.",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): e8f5903d",
+        "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
+        "X.Calculations/ConcreteReinforcementDesign.Options.cs"
+      ],
+      "segno": "solo testo",
+      "effetto_quantificato": {
+        "sintesi": "Confronto congelato f4-section-design: categoria ARM-4, 166 voci."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "nome dallo stato limite, criterio nel dettaglio"
+      },
+      "test": [
+        "tests/ANTHEA.Application.Tests/DesignActionChecks.cs",
+        "tests/ConcreteLibraryAdapter.Checks/F4SectionDesignChecks.cs (categoria ARM-4)",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full, con le transizioni del confronto UI F3 (tests/fixtures/f3/transitions-f4.json)"
+      ]
+    },
+    {
+      "id": "BUG-PV-2",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Pali: Cu richiesta anche negli strati coesivi interamente sotto la punta",
+      "famiglia": "geotecnica/pali-verticali",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Uno strato coesivo sotto la punta con Cu 0 o vuota dava «Cu deve essere positiva…». Ora Cu è richiesta solo negli strati coesivi attraversati dal palo (cielo < L) e sotto falda, in libreria (anche cu > 0 delle curve) e in ANTHEA; il calcolo è identico a quello senza lo strato sotto la punta, che non viene passato alla libreria.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (e42f2a1e), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Piles/AxialPileCapacity.cs",
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 719fef9a",
+        "X.Calculations/Calcolo.cs"
+      ],
+      "segno": "rifiuto spurio prima",
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correzione a costo minimo"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/CohesionChecks.cs (--coesione)",
+        "Checker/GPCChecker.Test.Geotechnics/PileEdgeCaseTests.cs (CuIsRequiredOnlyInTheLayersCrossedByThePile)"
+      ]
+    },
+    {
+      "id": "BUG-PV-3",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Pali: avviso z/D di Nq sempre presente, senza distinguere la punta non cautelativa",
+      "famiglia": "geotecnica/pali-verticali",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Le quote partono da z = max/100, dove z/D è sempre sotto il limite inferiore delle curve di Nq: lo stesso «ATTENZIONE Nq» compariva in ogni calcolo e non isolava il caso pericoloso, la punta oltre il limite superiore (z/D > 50, o 32 per D > 0,80 m), dove la curva di bordo sovrastima Nq. Ora un solo messaggio con il contenuto per caso: oltre il limite superiore «ATTENZIONE Nq: … valore non cautelativo»; solo nel tratto superficiale una nota «a favore di sicurezza» senza ATTENZIONE. Nessun numero cambia.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (36e2639d), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Piles/AxialPileCapacity.cs",
+        "ANTHEA, ramo refactoring/bug-1015-geo unito in refactoring/integrazione-1016 (94acc474): 94bdbba2",
+        "supporto/test/X.Verifiche/Program.cs"
+      ],
+      "segno": "solo testo",
+      "effetto_quantificato": {
+        "sintesi": "D 0,3 m, L 20 m: Nq(50; 32°) = 25,02 alla punta, segnalato come non cautelativo. Regressione X.Verifiche: categoria PV-3, 51 casi con il testo nuovo, nessun numero cambiato."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correzione a costo minimo"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/Program.cs (verifiche/regressione, categoria PV-3)",
+        "Checker/GPCChecker.Test.Geotechnics/PileEdgeCaseTests.cs (NqSlendernessWarningSeparatesTheTipFromTheHead)"
+      ]
+    },
+    {
+      "id": "BUG-PV-4",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Micropalo: α richiesto anche fuori dalla zona iniettata, messaggio in inglese",
+      "famiglia": "geotecnica/pali-verticali",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "MicropileDepthLayer rifiutava α ≤ 0 o mancante per ogni strato attivo, anche sopra l'inizio dell'iniezione o sotto la punta («Positive finite alpha required for an active layer.»). Ora la libreria controlla α solo negli strati attivi che intersecano [sb, L], con un messaggio che nomina verticale, strato e tratto iniettato; ANTHEA rifiuta in italiano un α nullo nella zona iniettata, con stratigrafia e strato. Il calcolo è invariato.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (eb7a8d87), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Piles/BustamanteDoix.cs",
+        "Checker/GPCChecker.Geotechnics/Piles/MicropileDepthSurvey.cs",
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 6d89c5f6",
+        "X.Calculations/Calcolo.cs"
+      ],
+      "segno": "rifiuto spurio prima",
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correzione a costo minimo"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/MicropileChecks.cs (--micropalo)",
+        "Checker/GPCChecker.Test.Geotechnics/PileEdgeCaseTests.cs (AlphaIsRequiredOnlyInTheGroutedLength)"
+      ]
+    },
+    {
+      "id": "BUG-PO-6",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Broms: peso unitario dell'acqua sempre 9,81 kN/m³ invece di gamma_acqua del foglio",
+      "famiglia": "geotecnica/pali-orizzontali",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Broms usava sempre 9,81 kN/m³. Ora usa il peso unitario dell'acqua del foglio (gamma_acqua), anche nel controllo γsat > γw.",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 319b6c5f",
+        "X.Calculations/PaloOrizzontale.cs"
+      ],
+      "segno": "+2,4 % sulla capacità con γw 10,5",
+      "effetto_quantificato": {
+        "sintesi": "γw 10,5 kN/m³: Hu 469,02 → 458,18 kN."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correzione a costo minimo"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/HorizontalChecks.cs (--horizontal, forma chiusa)"
+      ]
+    },
+    {
+      "id": "BUG-MUR-4",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Muri: spostamento in testa con θ·H invece di θ·(H + t)",
+      "famiglia": "geotecnica/muri",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "La rotazione rigida della fondazione attorno alla base ha come braccio l'intera altezza sopra la base: u_testa = u_fusto + H/K − θ(H_muro + t). Prima il braccio era H.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (0077375a), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Walls/WallServiceability.cs",
+        "ANTHEA, ramo refactoring/bug-1015-geo unito in refactoring/integrazione-1016 (94acc474): 1a2e0958",
+        "src/ANTHEA.Reports/Generators/ReportRetainingWall.Advanced.cs",
+        "X.Desktop/Wpf/RetainingWallWorkspace.Advanced.cs"
+      ],
+      "segno": "qualche mm",
+      "effetto_quantificato": {
+        "sintesi": "Per esempio 1,638 → 1,742 mm. Cattura congelata dei muri (rigenerata in Checker d40bcc04): 5 casi di esercizio, per esempio SLE 1 1,6385 → 1,7421 mm, esattamente −θ t; esiti invariati."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correzione diretta in libreria"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«Rigenera tutte» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "cattura dei muri rigenerata in Checker d40bcc04"
+      },
+      "test": [
+        "supporto/test/RetainingWall.Checks/AdvancedChecks.cs",
+        "Checker/GPCChecker.Test.Geotechnics/WallServiceGlobalEdgeTests.cs",
+        "Formula della guida teorica: in carico all'aggiornamento delle guide. Da completare al rilascio Z: hash del set in lib/Checker e profilo full"
+      ]
+    },
+    {
+      "id": "BUG-MUR-5",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Muri, sisma da sito: rifiuti con messaggi fuorvianti e campo di Mononobe-Okabe non controllato",
+      "famiglia": "geotecnica/muri",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Con il sisma da parametri del sito il kh ricavato era validato come coefficiente assegnato («Coefficiente orizzontale assegnato: inserire un valore fra 0 e 0.4»); la libreria controllava θ < φ′ solo con kh e kv generali, mentre le combinazioni di ribaltamento usano kh,rib = min(1; 1,5 βm) amax/g, e fermava il calcolo più avanti con il messaggio generico di Coulomb. Ora ANTHEA dichiara il kh del sito («Sisma da parametri del sito: kh = βm × amax/g = 0,411 e |kv| = 0,206 ricavati dal sito superano il campo del motore…»), la libreria controlla le due coppie di coefficienti e, dopo la risposta della notte («Correggili tutti»), ogni riga sismica Mononobe-Okabe con φd, δd e θ della riga (prima con φ′ caratteristico e δ = 0). I kh assegnati sono invariati.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (7c9327cc, a8f00e92), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Walls/RetainingWallAnalysis.cs",
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): 44cd51a9",
+        "X.Calculations/RetainingWall.cs"
+      ],
+      "segno": "solo testo e momento del rifiuto",
+      "effetto_quantificato": {
+        "sintesi": "Sito ag 0,35 g, C, F0 2,5 (amax 0,41125 g), φ′ 14°: θ 9,62° generale (passa), 14,87° di ribaltamento (rifiutato con il nome della combinazione); φ′ 20°, γM 1,25: φd 16,2343°, kh 0,3 rifiutato con il nome della riga, kh 0,25 calcolato."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "messaggi corretti per il sisma da sito"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-15",
+        "utente": "«Correggili tutti» (difetti nuovi trovati durante le correzioni) (risposta della notte fra il 15 e il 16/10)",
+        "esito": "controllo per riga con φd e δd di progetto (Checker a8f00e92)"
+      },
+      "test": [
+        "supporto/test/RetainingWall.Checks/SeismicSoilChecks.cs (kh 0,41125 da NTC Tab. 3.2.IV)",
+        "Checker/GPCChecker.Test.Geotechnics/WallEdgeCaseTests.cs (MononobeOkabeIsCheckedWithTheOverturningCoefficientsOfTheSite, MononobeOkabeIsCheckedWithTheValuesOfEachSeismicRow)"
+      ]
+    },
+    {
+      "id": "BUG-GEO-2",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Pendii: SlopeLoad.Horizontal documentato verso +X ma calcolato verso valle",
+      "famiglia": "geotecnica/pendii",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "La documentazione XML di SlopeLoad diceva «orizzontale positivo verso +X», mentre il calcolo somma H(yc − y)/R al momento motore orario: con la valle a sinistra un H positivo agisce verso −X, cioè verso valle. Un chiamante che seguisse la documentazione avrebbe inserito una forza verso valle come negativa, ottenendola stabilizzante. Ora il contratto è documentato come calcolato: SlopeLoad.Horizontal e SlopeFactors.Kh positivi verso valle (−X). Il calcolo non cambia; ANTHEA (WallGlobalStability) passava già le forze positive verso valle.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (288bc983), GPCChecker.Geotechnics 0.4.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Geotechnics/Slopes/SlopeModels.cs"
+      ],
+      "segno": "contratto API, nessun numero cambia",
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "documentazione e prova del segno"
+      },
+      "test": [
+        "Checker/GPCChecker.Test.Geotechnics/SlopeEdgeCaseTests.cs (HorizontalLoadsAndKhArePositiveTowardsTheValley)"
+      ]
+    },
+    {
+      "id": "BUG-PON-3",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Cassoncino in classe 4: sbalzi del fondo ridotti nel calcolo ma mostrati efficaci",
+      "famiglia": "ponti/sezione-composta",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Il risultato della classe 4 non riportava gli sbalzi del fondo del cassoncino, ridotti nel calcolo: risultato, report e disegno li mostravano pienamente efficaci (ρ 1). Ora la libreria riporta BottomOutstand nelle diagnostiche di classe 4 e ANTHEA aggiunge alla tabella la riga «Fondo · sbalzi» accanto a «Fondo · lamiera interna».",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (360ac43b), GPCChecker.CompositeBridge 1.7.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.CompositeBridge/HSections/HBridgeSection.Analysis.cs",
+        "ANTHEA, ramo refactoring/bug-1015-geo unito in refactoring/integrazione-1016 (94acc474): 016e702f",
+        "src/ANTHEA.Reports/Generators/ReportBridge.cs",
+        "X.Desktop/Wpf/BridgeWorkspace.cs"
+      ],
+      "segno": "report e disegno",
+      "effetto_quantificato": {
+        "sintesi": "Sbalzi del fondo: ρ 1 → 0,30947, larghezza efficace 198,97 mm."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correzione a costo minimo"
+      },
+      "test": [
+        "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+        "Checker/GPCChecker.Test.CompositeBridge/SectionTypeTests.cs"
+      ]
+    },
+    {
+      "id": "BUG-PON-4",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Pioli: un piolo per fila e passo trasversale vuoto bloccavano il calcolo (0·NaN)",
+      "famiglia": "ponti/sezione-composta",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "CalculateShear richiede il passo trasversale dei pioli solo con più di un piolo per fila, ma le superfici b–b della soletta usavano il dato grezzo: (n − 1)·passo = 0·NaN, SlabSurface rifiutava la lunghezza e la sezione non si calcolava. Ora a CheckSlabAndFatigue arriva il passo validato.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (8c56a876), GPCChecker.CompositeBridge 1.7.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.CompositeBridge/HSections/HBridgeSection.Details.cs",
+        "Checker/GPCChecker.CompositeBridge/HSections/HBridgeSection.Shear.cs"
+      ],
+      "segno": "blocco del calcolo prima",
+      "effetto_quantificato": {
+        "sintesi": "Dati di default con 1 piolo per fila e passo trasversale vuoto, V 500 kN: prima eccezione, ora superficie b–b 2h + d_testa = 335 mm (EN 1994-1-1 Fig. 6.15)."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correzione a costo minimo"
+      },
+      "test": [
+        "Checker/GPCChecker.Test.CompositeBridge/CompositeBridgeApiTests.cs (SlabSurfaceBbUsesTheValidatedTransversePitch)"
+      ]
+    },
+    {
+      "id": "BUG-PON-5",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Cumulativo: ammessa una fase «Solo acciaio» dopo il «Ritiro»",
+      "famiglia": "ponti/sezione-composta",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "La regola del cumulativo «le fasi di solo acciaio precedono le composte» considerava solo «Composta» e «Soletta esclusa»: una fase «Solo acciaio» dopo un «Ritiro» (soletta gettata e collegata) era accettata e calcolata sull'acciaio nudo, mentre gli storici la rifiutano. Ora ogni fase diversa da «Solo acciaio» conta, come negli storici, con lo stesso messaggio: «Le fasi di solo acciaio devono precedere il getto.»",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (ca12971d), GPCChecker.CompositeBridge 1.7.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.CompositeBridge/HSections/HBridgeSection.Analysis.cs"
+      ],
+      "segno": "incoerenza con gli storici: sequenza ora rifiutata",
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«il piano va bene» (piano delle correzioni in tre lotti, proposto dopo l'analisi dei bug)",
+        "esito": "correzione a costo minimo"
+      },
+      "test": [
+        "Checker/GPCChecker.Test.CompositeBridge/CompositeBridgeApiTests.cs (SteelOnlyAfterCastingIsRejectedAsInTheHistories)"
+      ]
+    },
+    {
+      "id": "BUG-TS-1",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Tension stiffening opzionale del calcestruzzo teso nelle analisi di risposta",
+      "famiglia": "calcestruzzo/analisi-non-lineari",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Richiesta dell'utente di un ramo decrescente del calcestruzzo teso, per la convergenza. Attuata come diagramma opzionale di Model per le sole analisi di risposta, mai nelle verifiche SLU: ConcreteTensionStiffening (Collins e Mitchell 1991: lineare con Ec fino a fct, poi σ = fct/(1 + √(500 ε)); valori medi senza coefficienti parziali, fctm per i calcestruzzi europei e 0,33 √f'c per ACI 318) e il selettore ConcreteMaterial.TensionResponseDiagrams {Default, TensionStiffening}, opzione dell'analisi e non proprietà del materiale (non salvato nell'archivio). In Checker: SectionOptions.StressAnalysisConcreteTension per le analisi tensionali non lineari e le risposte del M–χ (punto limite dal dominio, invariato) e la legge dello storico non lineare del ponte presa da Model (stessi numeri bit per bit). Domini, SolveResistance, punti del dominio, progetto delle armature e analisi lineari sono invariati bit per bit. ANTHEA: opzione del ponte esposta (BUG-PON-2); il campo del M–χ «CLS teso nelle risposte» («Trascurato» predefinito, anche per i fogli vecchi, oppure «Tension stiffening») si espone con le DLL candidate del rilascio Z; non nelle SLE (BUG-TS-2).",
+      "codice": [
+        "Model, ramo bug/model (da unire in bugint-model) (79fca5ea), GPCModel 5.5.0.0 (12ac64d3), rilascio Z (non ancora in lib/Checker)",
+        "Model/Model/Materials/Concrete/ConcreteTensionStiffening.cs",
+        "Model/Model/Materials/Concrete/ConcreteMaterial.cs",
+        "Model/Model/Core/Values/ModelDataContracts.cs",
+        "Checker, ramo di integrazione anthea-bug-1015 (f22ddd5d, d31da989, b06a58bd), GPCChecker.Concrete 0.11.0.0 e GPCChecker.CompositeBridge 1.7.0.0",
+        "Checker/GPCChecker.Concrete/Checkers/SectionChecker.cs",
+        "Checker/GPCChecker.Concrete/SectionSolvers/SectionSolver.cs",
+        "Checker/GPCChecker.Concrete/Response/MomentCurvatureAnalysis.cs",
+        "Checker/GPCChecker.CompositeBridge/History/HistoryMaterials.cs",
+        "Checker/docs/metodi/ca.sle-tensioni.md",
+        "Checker/docs/metodi/ca.momento-curvatura.md"
+      ],
+      "segno": "nessuno con l'opzione spenta (predefinita); con l'opzione la risposta delle sezioni poco armate è molto più rigida",
+      "effetto_quantificato": {
+        "sintesi": "Sonda del 16/10 (4 sezioni, N da +150 a −2000 kN, θ 0° e 30°, 12000 analisi fino a MRd): con l'opzione nessun mancato calcolo e 4,8–6,3 iterazioni medie; con il diagramma del materiale (ConsiderTensileConcrete) 172/3600 mancati in flessione deviata, 10/4800 e 8/3600 in flessione retta, 5,7–9,9 iterazioni. 300×500 C25/30 4Ø16, N 0, M 45 kNm: σs 37,4 MPa con l'opzione invece di 269,2 MPa."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«ramo decrescente su tutti i calcestruzzi?? aiuta la convergenza sempre» (risposta della notte fra il 15 e il 16/10)",
+        "esito": "diagramma opzionale di Model, una sola legge per tutti i calcestruzzi, solo nelle analisi di risposta (M–χ, analisi tensionali non lineari, storico del ponte), mai nei domini e nelle verifiche SLU"
+      },
+      "test": [
+        "Model/UnitTest/ConcreteTensionStiffeningTest.cs (valori e tangenti da Python indipendente)",
+        "Checker/GPCChecker.Test.Concrete/StressAnalysisTensionStiffeningTests.cs",
+        "Checker/GPCChecker.Test.CompositeBridge/NonlinearCrackedSlabTests.cs (TensionStiffeningLawIsTheOneOfModel)",
+        "Da completare al rilascio Z: campo «CLS teso nelle risposte» del M–χ in ANTHEA e voce nei parametri del M–χ del report, hash del set e profilo full"
+      ],
+      "voci_collegate": [
+        "BUG-TS-2",
+        "BUG-PON-2"
+      ]
+    },
+    {
+      "id": "BUG-TS-2",
+      "data": "2026-10-16",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Tension stiffening: domande aperte (zona tesa, SLE, valori medi, FRC, ModelChecker, ponte, stress block, convergenza)",
+      "famiglia": "calcestruzzo/analisi-non-lineari",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Domande dell'agente all'utente sull'opzione BUG-TS-1: 1) legge applicata a tutta la zona tesa, senza area efficace né controllo della fessura: le sezioni poco armate risultano molto più rigide e lo snervamento arriva tardi; 2) esposizione nelle verifiche SLE (oggi no); 3) fcr di ACI e uso dei valori medi; 4) calcestruzzi fibrorinforzati; 5) collegamento in ModelChecker; 6) enum del ponte (HistoryConcreteTension) accanto al selettore di Model; 7) stress block nel M–χ (i mancati calcoli D800 con N −1500 kN non dipendono dalla trazione: con lo stress block nessun piano in compressione centrata dà N fra 1,01 e 10,8 MN); 8) regola di accettazione della convergenza (residuo minimo entro la tolleranza più due volte il salto della legge a εcr fra i punti di Gauss). Le principali sono la 1 e la 2.",
+      "codice": [
+        "Model/Model/Materials/Concrete/ConcreteTensionStiffening.cs",
+        "Checker/GPCChecker.Concrete/SectionSolvers/SectionSolver.cs"
+      ],
+      "segno": "da stabilire",
+      "decisione": {
+        "data": "2026-10-16",
+        "utente": "domande dell'agente per l'utente, senza risposta",
+        "esito": "da decidere"
+      },
+      "voci_collegate": [
+        "BUG-TS-1"
+      ]
+    },
+    {
+      "id": "BUG-N1",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Piano di deformazione dei punti interpolati a N costante e fra campi di rottura diversi",
+      "famiglia": "calcestruzzo/flessione-slu",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Difetto nuovo trovato correggendo SLU-1. CalculateDomainConstantAxialForce e il ramo a N costante di FailureDomain2d.GetDomainPoint interpolavano le forze con il parametro t ma pesavano θ e immersione del piano con t per l'estremo A e 1 − t per B: il piano era quello dell'altro estremo (8a4a27e9). SectionSolver.GetImmersione esprimeva l'immersione di un punto di un campo successivo nel campo precedente solo per immersione 0, quindi i piani interpolati fra estremi in campi diversi erano sbagliati; ora il piano dichiarato di un punto su un lato è quello del punto del dominio cercato nella sua direzione, quando la direzione è entro 5e-3 rad, altrimenti il piano interpolato (6a4de7db). Le forze dei punti non cambiano: cambia il piano dichiarato (LimitState e Describe del dominio 2D Mx–My in ANTHEA). Fixture e contratti congelati invariati.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (8a4a27e9, 6a4de7db), GPCChecker.Concrete 0.11.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Concrete/Results/FailureDomain2d.cs",
+        "Checker/GPCChecker.Concrete/Results/ResultType/FailureDomainResult.cs",
+        "Checker/GPCChecker.Concrete/SectionSolvers/SectionSolver.cs",
+        "Checker/GPCChecker.Concrete/SectionSolvers/DomainPointStrategyIntersection.cs"
+      ],
+      "segno": "solo il piano dichiarato: forze ed esiti invariati",
+      "effetto_quantificato": {
+        "sintesi": "300×500 C25/30 4Ø16, dominio Mx–My a N −1000 kN, 350,6°: risultante del piano dichiarato N −971,9 kN → entro 1 kN. Meridiani N–M della direzione del momento: risultanti fino a 1019 kN lontane dal punto → direzione entro 5e-3 rad e modulo 0,96–1,10 volte quello del punto."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«Correggili tutti» (difetti nuovi trovati durante le correzioni) (risposta della notte fra il 15 e il 16/10)",
+        "esito": "corretto in libreria"
+      },
+      "test": [
+        "Checker/GPCChecker.Test.Concrete/ConstantAxialForcePlaneTests.cs",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full"
+      ],
+      "voci_collegate": [
+        "BUG-SLU-1"
+      ]
+    },
+    {
+      "id": "BUG-N2",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Ricerca a eccentricità costante: per la trazione pura nel dominio elastico restituiva il polo di compressione",
+      "famiglia": "calcestruzzo/flessione-slu",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Difetto nuovo trovato correggendo SLU-1. La strategia iterativa a eccentricità costante segue tutta la retta della domanda passante per l'origine e si ferma quando la distanza dalla retta è entro la tolleranza, senza controllare il verso: nel dominio elastico (SLV) una trazione pura si fermava al polo di compressione nei punti grezzi (CalculateDomainPoint, CalculateFailureDomainPoint, CalculateForce) e nei poli del dominio elastico N–M. SolveResistance scartava quel punto e ripiegava sull'intersezione. Ora DomainPointStrategyIterative rifiuta il punto dalla parte opposta della domanda e i ripieghi del solutore lo cercano di nuovo. Punti plastici e di compressione invariati, contratto dei punti del dominio invariato.",
+      "codice": [
+        "Checker, ramo di integrazione anthea-bug-1015 (73efb4ac), GPCChecker.Concrete 0.11.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Checker/GPCChecker.Concrete/SectionSolvers/DomainPointStrategyIterative.cs"
+      ],
+      "segno": "punti grezzi corretti; nessun cambio negli esiti di SolveResistance",
+      "effetto_quantificato": {
+        "sintesi": "300×500 C25/30 4Ø16, dominio elastico, N +100 kN: NRd −2422,6 kN → +314,71 kN (As fyd, forma chiusa entro lo 0,1 %)."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«Correggili tutti» (difetti nuovi trovati durante le correzioni) (risposta della notte fra il 15 e il 16/10)",
+        "esito": "corretto in libreria"
+      },
+      "test": [
+        "Checker/GPCChecker.Test.Concrete/ElasticTensionPoleTests.cs",
+        "Da completare al rilascio Z: hash del set in lib/Checker e profilo full"
+      ],
+      "voci_collegate": [
+        "BUG-SLU-1"
+      ]
+    },
+    {
+      "id": "BUG-N3",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Acciai: overload a quattro argomenti della tensione di progetto (ramo, compressione elastica, legge oltre lo snervamento)",
+      "famiglia": "materiali/acciaio",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Difetto nuovo segnalato con SLU-6. Gli overload SteelMaterial.CalculateDesignStress(standard, tensione, deformazione, εp) di Model Code 2010, EN 1993-1-1 e AISC 360: sceglievano ramo e controllo della deformazione ultima da ε invece che da ε + εp (b9d7cea3); in compressione confrontavano |ε + εp| con la deformazione di snervamento di progetto negativa, quindi ogni compressione risultava snervata (5d9def76); oltre lo snervamento di progetto davano σk − (fy − fyd), sotto fyd fino a εyk (cb7d5f8b). Ora un solo metodo privato dà la legge di progetto sul ramo di ε + εp, uguale bit per bit all'overload senza la tensione. Gli overload non sono usati da Checker né da ANTHEA: nessun risultato cambia. Resta segnalato all'utente che gli overload a due argomenti usano in compressione le proprietà di trazione.",
+      "codice": [
+        "Model, ramo bug/model (da unire in bugint-model) (b9d7cea3, 5d9def76, cb7d5f8b), GPCModel 5.5.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Model/Model/Materials/Steel/SteelMaterial.cs"
+      ],
+      "segno": "nessun effetto sui programmi (overload senza chiamanti in Checker e ANTHEA)",
+      "effetto_quantificato": {
+        "sintesi": "B450C, εp 0: ε −0,5 ‰ −41,30 → −100 MPa; ε ±2,1 ‰ ±361,30 → ±391,30 MPa (fyd). S355 EN 1993-1-1 γM0 1,05: ε −1 ‰ −193,10 → −210 MPa. Trefolo di SLU-6, ε −0,1 ‰: 1698,33 → 1453,22 MPa."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«Correggili tutti» (difetti nuovi trovati durante le correzioni) (risposta della notte fra il 15 e il 16/10)",
+        "esito": "corretto in Model"
+      },
+      "test": [
+        "Model/UnitTest/CalculationFixesTest.cs (attesi indipendenti Python; Model UnitTest 1249 + 2 ignorate)"
+      ],
+      "voci_collegate": [
+        "BUG-SLU-6",
+        "BUG-N4"
+      ]
+    },
+    {
+      "id": "BUG-N4",
+      "data": "2026-10-16",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "FRP: tensione di progetto con il difetto di SLU-6 e degli overload a quattro argomenti",
+      "famiglia": "materiali/FRP",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Difetto nuovo segnalato con SLU-6. FRP.CalculateDesignStressCommon prendeva segno della correzione plastica e controllo della deformazione ultima da ε invece che da ε + εp (ebcb3d59); gli overload a quattro argomenti avevano i tre difetti corretti negli acciai (8ee12ef6). Ora la classe segue la legge dichiarata «come SteelMaterial» sulla deformazione totale. La classe FRP non è usata da Checker né da ANTHEA. Che la legge non segua CNR-DT 200 né ACI 440 è il punto aperto BUG-N7.",
+      "codice": [
+        "Model, ramo bug/model (da unire in bugint-model) (ebcb3d59, 8ee12ef6), GPCModel 5.5.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Model/Model/Materials/FRP/FRP.cs"
+      ],
+      "segno": "nessun effetto sui programmi (classe senza utilizzatori)",
+      "effetto_quantificato": {
+        "sintesi": "FRP bilineare E 200000, fyk 1000, fu 1200, εu 2 %, εp 5 ‰ (MC2010 γs 1,15): ε −0,2 ‰ 960 → 875,59 MPa; ε 16 ‰ (ε + εp > εu) 1069,57 → 0."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«Correggili tutti» (difetti nuovi trovati durante le correzioni) (risposta della notte fra il 15 e il 16/10)",
+        "esito": "corretto in Model"
+      },
+      "test": [
+        "Model/UnitTest/CalculationFixesTest.cs (FrpDesignStressUsesTheTotalStrain, FrpDesignStressFromTheCharacteristicStress)"
+      ],
+      "voci_collegate": [
+        "BUG-N3",
+        "BUG-N7"
+      ]
+    },
+    {
+      "id": "BUG-N5",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Calcestruzzi europei: classe del cemento assegnata dopo le proprietà meccaniche",
+      "famiglia": "materiali/calcestruzzo",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Difetto nuovo segnalato con SLU-5. I costruttori di ConcreteMaterialEuropeanCommon (semplice, fibrorinforzato, tabelle generiche) e SetProperties assegnavano la classe del cemento dopo aver calcolato proprietà e tabelle, che prendevano la classe R predefinita: così le vecchie εc1 ed εcu1 dipendevano dal percorso di costruzione. Ora la classe si assegna per prima. Nessun valore cambia: dopo SLU-5 nulla di ciò che si calcola alla costruzione dipende dalla classe.",
+      "codice": [
+        "Model, ramo bug/model (da unire in bugint-model) (d078a016), GPCModel 5.5.0.0, rilascio Z (non ancora in lib/Checker)",
+        "Model/Model/Materials/Concrete/ConcreteMaterialEuropeanCommon.cs"
+      ],
+      "segno": "nessuno: 1344 materiali identici bit per bit",
+      "effetto_quantificato": {
+        "sintesi": "Controllo bit per bit di ogni proprietà a 28 giorni e delle due tabelle per EN 1992, MC2010 semplice e fibrorinforzato, SetProperties e tabelle generiche, C12–C90, quattro diagrammi, classi R, N e S: 1344 materiali uguali all'ordine precedente."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«Correggili tutti» (difetti nuovi trovati durante le correzioni) (risposta della notte fra il 15 e il 16/10)",
+        "esito": "corretto in Model"
+      },
+      "test": [
+        "Model/UnitTest/MaterialTest.cs (CementTypeIsAssignedBeforeTheMechanicalProperties)"
+      ],
+      "voci_collegate": [
+        "BUG-SLU-5"
+      ]
+    },
+    {
+      "id": "BUG-N6",
+      "data": "2026-10-15",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Foglio c.a. del palo con coefficienti unitari: ancoraggi e dettagli con γc e fyd dell'input",
+      "famiglia": "calcestruzzo/dettagli",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Difetto nuovo segnalato con TAG-2: con i coefficienti unitari del foglio c.a. del palo, ancoraggi (input.gamma_c, SezioneCA.Fyd) e dettagli (s.Fyd) usavano ancora i γ dell'input. Ora anche ancoraggi e dettagli usano γc = 1 e fyd = fyk; invariato senza coefficienti unitari. fallbacks.json della cattura riceve coefficienti_unitari, letto con il suo default in ConcreteDetailingAnalysis.Calculate. Resta da correggere lo stesso difetto nella deformazione di snervamento del M–χ (in corso sul ramo refactoring/seguiti-1016).",
+      "codice": [
+        "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): ea9d9b57",
+        "X.Calculations/ConcreteDetailing.cs",
+        "X.Calculations/ConcreteDetailingAnalysis.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteDetailingPresentation.cs"
+      ],
+      "segno": "a favore di sicurezza prima (lunghezze e aree minime maggiori)",
+      "effetto_quantificato": {
+        "sintesi": "Prima γc 1,5 e fyd 391,30 MPa: lb,rqd 696,59 mm, As,min 2555,56 mm²; ora γc 1 e fyd 450 MPa: 534,05 mm, 2222,22 mm²."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«Correggili tutti» (difetti nuovi trovati durante le correzioni) (risposta della notte fra il 15 e il 16/10)",
+        "esito": "corretto in ANTHEA"
+      },
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks, prova 4c (attesi/correzioni_ca_20261015.py)"
+      ],
+      "voci_collegate": [
+        "BUG-TAG-2"
+      ]
+    },
+    {
+      "id": "BUG-N7",
+      "data": "2026-10-16",
+      "fase": "analisi dei bug del 15/10",
+      "titolo": "Classe FRP di Model modellata come un acciaio, senza CNR-DT 200 né ACI 440",
+      "famiglia": "materiali/FRP",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "La classe FRP di Model dichiara la legge di progetto «come SteelMaterial» e non cita norme sui compositi: CNR-DT 200 R1/2013 e ACI 440.2R usano una legge lineare fino alla deformazione di rottura di progetto. La classe non è usata da Checker né da ANTHEA. Da decidere se allinearla a una norma, dichiararla o lasciarla com'è.",
+      "codice": [
+        "Model/Model/Materials/FRP/FRP.cs"
+      ],
+      "segno": "nessun effetto sui programmi (classe senza utilizzatori)",
+      "decisione": {
+        "data": "2026-10-16",
+        "utente": "punto per l'utente segnalato dall'agente, senza risposta",
+        "esito": "da decidere"
+      },
+      "voci_collegate": [
+        "BUG-N4"
+      ]
+    },
+    {
+      "id": "TEST-05",
+      "data": "2026-10-15",
+      "fase": "residui di F2, decisione E3 (F2.8)",
+      "titolo": "Attesi indipendenti delle pagine dei metodi nelle suite di ANTHEA (ancoraggi, dettagli, M–χ)",
+      "famiglia": "infrastruttura/test",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Attesi indipendenti delle pagine dei metodi nelle suite di ANTHEA: sezione 13 di ConcreteLibraryAdapter.Checks (MethodPages.cs), eseguita anche nello stadio fast (--rapido). Gli attesi sono in tests/ConcreteLibraryAdapter.Checks/attesi/pagine-metodi.json, scritti da pagine_metodi.py con le formule della norma e con i numeri della pagina ricontrollati; la suite fast ConcreteLibraryAdapter.Checks/attesi li rigenera e li confronta. Coprono: ca.ancoraggi §10, casi A–G nel ramo NTC, e i casi AN-01/02 e SO-01/02 della campagna del 25/9, sia dall'adattatore sia dal punto d'ingresso, con il rifiuto di σsd > fyd; ca.dettagli §10, trave 300 × 500 e pilastro 400 × 400 (anche in giunzione), profilo NTC; ca.momento-curvatura §10, R300x500 con N = 0 nei due versi. 352 controlli superati, nessun disaccordo fra pagine e codice. Limiti: dopo l'ingresso di SLU-4 in lib/Checker ε0 del punto limite del M–χ (circa +9,3 ‰) non è controllato; i valori solo EN (lb,min, l0 EN) non sono controllati da ANTHEA.",
+      "codice": [
+        "tests/ConcreteLibraryAdapter.Checks/MethodPages.cs",
+        "tests/ConcreteLibraryAdapter.Checks/attesi/pagine_metodi.py",
+        "tests/ConcreteLibraryAdapter.Checks/attesi/pagine-metodi.json",
+        "build/ci.ps1"
+      ],
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2, E3)",
+        "esito": "attesi indipendenti mancanti delle pagine dei metodi aggiunti alle suite di ANTHEA (commit ae8f429f, ramo refactoring/f2-chiusura unito in refactoring/integrazione-1016 con 7e4d1982)"
+      },
+      "test": [
+        "CI standard sul ramo refactoring/f2-chiusura: prima 67 PASS (2257e991), dopo 70 PASS (8be5f0a4); NEW-FAIL solo wiki/indice e wiki/manuale (ambiente)"
+      ],
+      "voci_collegate": [
+        "F2-9",
+        "TEST-06"
+      ]
+    },
+    {
+      "id": "TEST-06",
+      "data": "2026-10-15",
+      "fase": "residui di F2, decisione E6 (F2.12)",
+      "titolo": "Oracolo Python delle sezioni c.a. nello stadio fast del runner",
+      "famiglia": "infrastruttura/test",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "tools/attesi/sezione_ca.py --valida e --confronta nello stadio fast del runner: suite attesi/sezione_ca-valida (60 casi rettangolari e circolari, 36167 numeri) e attesi/sezione_ca-confronta (30 casi a T con fonte_atteso, 16006 numeri), scarto massimo 0. Il confronto dei 90 casi fra libreria e Python resta dopo il refactoring (E6).",
+      "codice": [
+        "tools/attesi/sezione_ca.py",
+        "tools/attesi/README.md",
+        "build/ci.ps1"
+      ],
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (decisioni.md, residui di F2, E6)",
+        "esito": "attuata con il commit 8be5f0a4 (ramo refactoring/f2-chiusura unito in refactoring/integrazione-1016 con 7e4d1982)"
+      },
+      "test": [
+        "CI standard: prima 67 PASS (2257e991), dopo 70 PASS (8be5f0a4); NEW-FAIL solo wiki/indice e wiki/manuale (ambiente)",
+        "Corsa standard sul ramo di integrazione prima dei rami delle correzioni: attesi/sezione_ca-valida e attesi/sezione_ca-confronta PASS (70 PASS)"
+      ],
+      "voci_collegate": [
+        "TEST-02",
+        "TEST-05",
+        "F4-49"
       ]
     }
   ]
