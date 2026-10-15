@@ -5568,7 +5568,8 @@
       ],
       "voci_collegate": [
         "BUG-N1",
-        "BUG-N2"
+        "BUG-N2",
+        "BUG-N9"
       ]
     },
     {
@@ -6424,7 +6425,7 @@
           "punto": "Appendice C, Prospetto C.1 (classe A)"
         }
       ],
-      "descrizione": "Il catalogo degli acciai EN 1992-1-1 di GPCModelData dava εuk = 3 % a B450A e B500A: εud = 0,9 εuk passa da 27 ‰ a 22,5 ‰. Gli altri acciai erano già corretti (B450C e B500C 7,5 %, B500B 5 %). ANTHEA: preset B450A/B500A con εu 25 ‰; le schede salvate con 30 ‰ non sono riscritte e non sono più riconosciute come preset; la differenza è dichiarata nella scheda e nei fogli: «Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo.» (RebarMaterial.CatalogueDifference).",
+      "descrizione": "Il catalogo degli acciai EN 1992-1-1 di GPCModelData dava εuk = 3 % a B450A e B500A: εud = 0,9 εuk passa da 27 ‰ a 22,5 ‰. Gli altri acciai erano già corretti (B450C e B500C 7,5 %, B500B 5 %). ANTHEA: preset B450A/B500A con εu 25 ‰; le schede salvate con 30 ‰ non sono riscritte e non sono più riconosciute come preset; la differenza è dichiarata nella scheda e nei fogli: «Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo.» (RebarMaterial.CatalogueDifference). Seguito del 16/10 (52f17393): anche la scheda Materiali del muro segnala l'acciaio salvato con il nome del catalogo ma con valori diversi, con lo stesso testo («Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo.»); nessun valore riscritto.",
       "codice": [
         "Model, ramo di integrazione bugint-model (1b6738b0), GPCModelData 0.0.2.14, rilascio Z (non ancora in lib/Checker)",
         "Model/ModelData/SteelMaterialEN1992Data.cs",
@@ -6447,7 +6448,8 @@
       "test": [
         "Model/UnitTest/ControlTests.cs (RebarCatalogUltimateStrainsFollowTheDuctilityClasses)",
         "tests/ConcreteLibraryAdapter.Checks, prova 4c",
-        "Nota DET-3 nella scheda dei materiali dei muri: in corso sul ramo refactoring/seguiti-1016. Da completare al rilascio Z: hash del set in lib/Checker e profilo full, con le transizioni del confronto UI F3 (tests/fixtures/f3/transitions-f4.json)"
+        "Nota DET-3 nella scheda dei materiali dei muri: in corso sul ramo refactoring/seguiti-1016. Da completare al rilascio Z: hash del set in lib/Checker e profilo full, con le transizioni del confronto UI F3 (tests/fixtures/f3/transitions-f4.json)",
+        "Seguito muri: prova 4c e --check-wall-materials-offscreen (52f17393)"
       ]
     },
     {
@@ -7188,7 +7190,7 @@
       "famiglia": "calcestruzzo/dettagli",
       "categoria": "difetto-legacy",
       "stato": "corretto",
-      "descrizione": "Difetto nuovo segnalato con TAG-2: con i coefficienti unitari del foglio c.a. del palo, ancoraggi (input.gamma_c, SezioneCA.Fyd) e dettagli (s.Fyd) usavano ancora i γ dell'input. Ora anche ancoraggi e dettagli usano γc = 1 e fyd = fyk; invariato senza coefficienti unitari. fallbacks.json della cattura riceve coefficienti_unitari, letto con il suo default in ConcreteDetailingAnalysis.Calculate. Resta da correggere lo stesso difetto nella deformazione di snervamento del M–χ (in corso sul ramo refactoring/seguiti-1016).",
+      "descrizione": "Difetto nuovo segnalato con TAG-2: con i coefficienti unitari del foglio c.a. del palo, ancoraggi (input.gamma_c, SezioneCA.Fyd) e dettagli (s.Fyd) usavano ancora i γ dell'input. Ora anche ancoraggi e dettagli usano γc = 1 e fyd = fyk; invariato senza coefficienti unitari. fallbacks.json della cattura riceve coefficienti_unitari, letto con il suo default in ConcreteDetailingAnalysis.Calculate. Lo stesso difetto nella deformazione di snervamento del M–χ è corretto in BUG-N8.",
       "codice": [
         "ANTHEA, ramo refactoring/bug-1015 unito in refactoring/integrazione-1016 (8c073dc4): ea9d9b57",
         "X.Calculations/ConcreteDetailing.cs",
@@ -7208,8 +7210,10 @@
         "tests/ConcreteLibraryAdapter.Checks, prova 4c (attesi/correzioni_ca_20261015.py)"
       ],
       "voci_collegate": [
+        "BUG-N8",
         "BUG-TAG-2"
-      ]
+      ],
+      "effetto_ripieghi": "Registro dei ripieghi della cattura headless, non un risultato: da ea9d9b57 ConcreteDetailingAnalysis.Calculate legge J.B(\"coefficienti_unitari\"); nei fogli della sezione c.a., senza la chiave, il ripiego False compare con questo chiamante nell'ambito dettagli_durabilita (un gruppo nuovo, 3 voci: casi S1-S3 di B6). Ripiego legittimo: la chiave esiste solo nella sezione del palo orizzontale e nel suo foglio c.a.; False è il ripiego già registrato da ConcreteStandards.Effective e il comportamento precedente (commento nel codice, 5d98cee6). Nessun risultato cambia. Dichiarare la chiave in S1-S3 toglierebbe il gruppo ma cambierebbe l'input dei tre casi: proposta, ratificare così. I seguiti del 16/10 lasciano fallbacks.json identico byte per byte."
     },
     {
       "id": "BUG-N7",
@@ -7231,6 +7235,68 @@
       },
       "voci_collegate": [
         "BUG-N4"
+      ]
+    },
+    {
+      "id": "BUG-N8",
+      "data": "2026-10-16",
+      "fase": "analisi dei bug del 15/10 (seguiti del 16/10)",
+      "titolo": "Foglio c.a. del palo con coefficienti unitari: primo snervamento del M–χ con fyd dell'input",
+      "famiglia": "calcestruzzo/M–χ",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Con i coefficienti unitari il primo snervamento del M–χ usa εyd = fyd/Es con fyd della norma effettiva (fyk), come la legge dell'acciaio della curva, taglio e torsione (BUG-TAG-2), ancoraggi e dettagli (BUG-N6). Prima: εyd = (fyk/γs dell'input)/Es = 1,9565 ‰ anche con i coefficienti unitari, righe snervate con la barra elastica. Fogli ordinari invariati bit per bit.",
+      "codice": [
+        "ANTHEA, ramo refactoring/seguiti-1016 unito in refactoring/integrazione-1016: 2e412670",
+        "X.Calculations/ConcreteCurvatureAnalysis.cs"
+      ],
+      "segno": "prima: primo snervamento anticipato (My e χy minori)",
+      "effetto_quantificato": {
+        "sintesi": "300×500 C25/30 4Ø16, N = 0: εs 1,9566 → 2,2500 ‰, My 66,489 → 76,421 kNm, χy 5,346·10⁻³ → 6,155·10⁻³ 1/m (modello a strisce indipendente 76,419 kNm e 6,148·10⁻³)."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«Correggili tutti» (difetti nuovi trovati durante le correzioni) (risposta della notte fra il 15 e il 16/10)",
+        "esito": "corretto in ANTHEA"
+      },
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks, prova 4c (attesi/correzioni_ca_20261015.py); cattura headless invariata"
+      ],
+      "voci_collegate": [
+        "BUG-N6",
+        "BUG-TAG-2"
+      ]
+    },
+    {
+      "id": "BUG-N9",
+      "data": "2026-10-16",
+      "fase": "analisi dei bug del 15/10 (seguiti del 16/10)",
+      "titolo": "Grafico N–M con «Proietta azioni sul piano»: azione fuori piano disegnata in sign·√(Mx² + My²)",
+      "famiglia": "calcestruzzo/dominio",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Con «Proietta azioni sul piano» il grafico 2D N–M (scheda e figure del report) disegna l'azione fuori piano nel punto verificato, Mθ = Mx cos θ + My sin θ con N invariato, preso dalla verifica (DomainCheck.ProjectedAction, escluso dal JSON). Prima: Ed in sign(Mx)·√(Mx² + My²), punto non verificato e non allineato con origine e Rd. Verifica, η, Rd e azioni nel piano invariati. Resta, senza proiezione, il disegno in sign·√(Mx² + My²) delle azioni fuori piano escluse (stato «Fuori dal piano selezionato», senza η): preesistente, coerente con la nota del grafico.",
+      "codice": [
+        "ANTHEA, ramo refactoring/seguiti-1016: ec85155a, 02f011b2",
+        "X.Calculations/CheckerSection.cs",
+        "X.Calculations/SectionWorkspace.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteDomainChart.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteResults.Domains.cs"
+      ],
+      "segno": "solo grafico",
+      "effetto_quantificato": {
+        "sintesi": "θ 30°, (N; Mx; My) = (−500; −30; 120): Ed disegnato (−123,69; −500) → (34,02; −500), punto verificato con η 0,319; θ 90° (−800; 40; 60): Mθ 72,111 → 60; θ 0° (−500; −20; 90): −92,195 → −20; θ 45° (−600; 80; 10): 80,623 → 63,640."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«Correggili tutti» (difetti nuovi trovati durante le correzioni) (risposta della notte fra il 15 e il 16/10)",
+        "esito": "corretto in ANTHEA"
+      },
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks, prova 4c, attesi a mano (Ed = η·Rd entro 1e-9); cattura e figure f3 invariate"
+      ],
+      "voci_collegate": [
+        "BUG-SLU-1"
       ]
     },
     {

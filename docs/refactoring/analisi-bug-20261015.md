@@ -371,26 +371,27 @@ profilo full e transizioni del confronto UI F3 si completano al rilascio Z.
 | BUG-N5 | classe del cemento assegnata dopo le proprietà meccaniche (Model) | corretto, nessun valore cambia |
 | BUG-N6 | coefficienti unitari del palo in ancoraggi e dettagli (ANTHEA) | corretto |
 | BUG-N7 | classe FRP modellata come un acciaio, senza CNR-DT 200 né ACI 440 (non usata) | da decidere |
+| BUG-N8 | coefficienti unitari del palo nel primo snervamento del M–χ (ANTHEA, seguito del 16/10) | corretto |
+| BUG-N9 | grafico N–M con «Proietta azioni sul piano»: punto disegnato diverso da quello verificato (ANTHEA, seguito del 16/10) | corretto |
 | BUG-TS-1 | tension stiffening opzionale nelle analisi di risposta, su richiesta dell'utente | attuato in libreria; campo del M–χ in ANTHEA al rilascio Z |
 | BUG-TS-2 | domande 1–8 sul tension stiffening | da decidere |
 
 Fanno parte delle voci dei codici: la mappatura degli esiti di SLU-2 in ModelChecker (F2-17), Mononobe-Okabe per riga
 sismica (BUG-MUR-5) e le gemelle sismiche ed eccezionali (BUG-MUR-1).
 
-**Ancora da fare**, non nel registro:
-- seguiti di ANTHEA, sul ramo `refactoring/seguiti-1016`:
-  - deformazione di snervamento del M–χ con i coefficienti unitari del palo;
-  - grafico N–M «proietta», che disegna sign·hypot mentre la verifica usa la proiezione;
-  - nota DET-3 nella scheda dei materiali dei muri;
-  - esposizione del campo «CLS teso nelle risposte» con le DLL candidate;
-- frasi delle guide teorica e pratica, sul ramo `refactoring/guide-1016`;
-- documenti di Checker:
-  - regola della tolleranza su N in ca.momento-curvatura §7;
-  - righe citate di `CalculateDesignStressCommon`;
-  - conteggi del README degli storici del ponte;
-  - istantanee delle API in `build/api`;
-- BridgeAudit non compila contro l'ANTHEA attuale (ramo `bug/bridge-audit`). Il confronto denso con F2-pre-m4-v2 non è
-  stato eseguito.
+**Stato dei seguiti al 16/10, ore 1:30** (prima «Ancora da fare»):
+- seguiti di ANTHEA (`refactoring/seguiti-1016`, unito): snervamento del M–χ con i coefficienti unitari (BUG-N8), grafico
+  «proietta» (BUG-N9), nota DET-3 nei muri (BUG-DET-3); il campo «CLS teso nelle risposte» è sul ramo
+  `refactoring/cls-teso-1016`;
+- frasi delle guide: Rev47 (`refactoring/guide-1016`, unito; voce F4-51);
+- documenti di Checker (`6b83dfff`): regola di tolN in ca.momento-curvatura, righe di `CalculateDesignStressCommon`,
+  conteggi del README degli storici del ponte;
+- BridgeAudit di nuovo compilabile (Checker `bug/bridge-audit`, unito in master `bce7aaae`): 302/302, otto baseline
+  identiche;
+- catture congelate del Checker rigenerate (`b3e53fbd`, `372d8a6d`, `a0c36656`, `d40bcc04`), con l'ok dell'utente;
+- rilascio Z delle librerie installato (ANTHEA `89545655`);
+- da fare: istantanee delle API in `build/api` di Checker se richieste, confronto denso con F2-pre-m4-v2, profilo full
+  con le transizioni del confronto UI F3.
 
 **Segnalati e non corretti**, da valutare:
 - `ApproximateScore` della ricerca usa ancora la larghezza dell'ala;
