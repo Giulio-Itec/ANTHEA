@@ -4252,14 +4252,6 @@
       "Example": "1e-9"
     },
     {
-      "File": "X.Calculations/ElasticHorizontalPile.ReinforcementPresentation.cs",
-      "Rule": "R5-text-outcome",
-      "Owner": "ElasticHorizontalPile.ReinforcementSummary",
-      "Fingerprint": "AA570E218BD9734CE14C2F2F57FA89D80FB970A51C26D6D2794E2BCBF5B2E5AA",
-      "Count": 1,
-      "Example": "issue . StartsWith ( \"NON SODDISFATTO:\" )"
-    },
-    {
       "File": "X.Calculations/ElasticHorizontalPile.Shared.cs",
       "Rule": "R4-implicit-number",
       "Owner": "ElasticHorizontalPile.CalculateResponse",

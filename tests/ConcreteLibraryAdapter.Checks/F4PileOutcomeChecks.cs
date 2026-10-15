@@ -30,7 +30,7 @@ internal static class F4PileOutcomeChecks
                 segments++;var a=old[i]!;var b=current[i]!.AsObject();
                 foreach(string field in new[]{"stato","da_completare","riepilogo"})
                     if(!JsonNode.DeepEquals(a[field],b[field]))errors.Add(id+"/"+i+"/"+field);
-                if(!JsonNode.DeepEquals(ElasticHorizontalPile.ReinforcementSummary(b,legacy:true),b["riepilogo"]))errors.Add(id+": legacy summary differs");
+                if(!JsonNode.DeepEquals(LegacyElasticHorizontalPile.ReinforcementSummary(b),b["riepilogo"]))errors.Add(id+": legacy summary differs");
                 var originalChecks=a["verifiche"]!.AsArray();var actualChecks=b["verifiche"]!.AsArray();
                 if(originalChecks.Count!=actualChecks.Count){errors.Add(id+": section check count");continue;}
                 for(int j=0;j<originalChecks.Count;j++)
