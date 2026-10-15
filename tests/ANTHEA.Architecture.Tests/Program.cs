@@ -50,9 +50,11 @@ try
     Check(desktopProject.Descendants("GpcRuntimeOnly").Any(e => e.Value == "true" && e.Attribute("Condition")?.Value == "'$(Configuration)' != 'UiTests'"), "Desktop deve distribuire GPC senza riferimenti diretti di compilazione");
     Check(!desktopProject.Descendants("ProjectReference").Any(e => (e.Attribute("Include")?.Value ?? "").Contains("X.Calculations")), "Riferimento di progetto Desktop al motore legacy");
     // Decisione D3 del 15/10/2026: i motori storici conservati stanno in tests/ANTHEA.Legacy, mai nel prodotto né nella pubblicazione.
+    // Ammesso solo nel gruppo della configurazione UiTests di X.Desktop (prove WPF), come ANTHEA.Testing.
+    static bool UiTestsOnly(XElement reference) => reference.Parent?.Attribute("Condition")?.Value.Replace(" ", "") == "'$(Configuration)'=='UiTests'";
     foreach (string project in Directory.EnumerateDirectories(root, "X.*").Concat(Directory.EnumerateDirectories(Path.Combine(root, "src")))
         .SelectMany(d => Directory.EnumerateFiles(d, "*.csproj")))
-        Check(!XDocument.Load(project).Descendants("ProjectReference").Any(e => (e.Attribute("Include")?.Value ?? "").Contains("ANTHEA.Legacy", StringComparison.Ordinal)),
+        Check(!XDocument.Load(project).Descendants("ProjectReference").Any(e => (e.Attribute("Include")?.Value ?? "").Contains("ANTHEA.Legacy", StringComparison.Ordinal) && !UiTestsOnly(e)),
             "Riferimento di progetto del prodotto al codice legacy conservato: " + Path.GetFileName(project));
     Check(!File.Exists(Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows/ANTHEA.Legacy.dll")), "Codice legacy conservato nella build Release del prodotto");
     int gpcArgument = Array.IndexOf(args, "--gpc-snapshot");
