@@ -3477,22 +3477,6 @@
     },
     {
       "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
-      "Rule": "R1-math",
-      "Owner": "ConcreteReinforcementDesign.CheckTorsionDistribution",
-      "Fingerprint": "8C5D401599C4982D2E47A526FAD8614C5ACD42BCA34DCB3ECD02952AC5A9815C",
-      "Count": 1,
-      "Example": "Math . Atan2 ( b . Y , b . X )"
-    },
-    {
-      "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ConcreteReinforcementDesign.AddRatio",
-      "Fingerprint": "3A8B6E11507CB7739B262DE290DC65E88072D88E3AE797846F28FE6060FD11FC",
-      "Count": 1,
-      "Example": "1e-10"
-    },
-    {
-      "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "ConcreteReinforcementDesign.Metrics",
       "Fingerprint": "301C40958CCE21C73C6F676BA0091E6920703BA84D3AA11A02157F85A0F8144B",
@@ -3522,38 +3506,6 @@
       "Fingerprint": "DAAE15F964DD2543351C1C908D7E6E06A9F5B248869219DE5C5BBEEFD0DBCA8A",
       "Count": 1,
       "Example": "2000"
-    },
-    {
-      "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ConcreteReinforcementDesign.SelectSecondary",
-      "Fingerprint": "51E602F2A8A604BF4BD192280668ED6E48D3B88EC50A0ADD28CAAC7BA9399951",
-      "Count": 2,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ConcreteReinforcementDesign.SelectSecondary",
-      "Fingerprint": "651C410F2DF19BA0FDE4E825B0CF9838DE5121EC29CE4755D42E6C26291D00C3",
-      "Count": 1,
-      "Example": ".4"
-    },
-    {
-      "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ConcreteReinforcementDesign.SelectSecondary",
-      "Fingerprint": "8D2AD68148F7FB22D5F6C7B33C05FFB34B496FA6816FCC4B5399D02E983E51E9",
-      "Count": 1,
-      "Example": "4"
-    },
-    {
-      "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ConcreteReinforcementDesign.SelectSecondary",
-      "Fingerprint": "A0F9EBAA70ADC31547CBD0B80A1EE39A34A2A9A44D7C324D9614E3803332EF21",
-      "Count": 2,
-      "Example": "5"
     },
     {
       "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
@@ -3629,41 +3581,9 @@
     },
     {
       "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteReinforcementDesign.SelectSecondary",
-      "Fingerprint": "1569AD9FE31B50F11BE32B839FEF7BF0C46441CD6EA06AC5CD498ABD2F284F2E",
-      "Count": 2,
-      "Example": "detailing . D ( \"aggregato\" )"
-    },
-    {
-      "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteReinforcementDesign.SelectSecondary",
-      "Fingerprint": "8823D2046605279EFF7B9688A7B2956FAAEACB827E817761982304756480F0CA",
-      "Count": 1,
-      "Example": "section . Input . D ( \"transverse_bar_diameter_mm\" )"
-    },
-    {
-      "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteReinforcementDesign.SelectSecondary",
-      "Fingerprint": "F16F58DD4C706EA44546BB09FDFC8C001631B17E7718EC8363AB30AE95EDA2E0",
-      "Count": 1,
-      "Example": "section . Input . D ( \"cover_mm\" )"
-    },
-    {
-      "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
       "Rule": "R6-unit-factor",
       "Owner": "ConcreteReinforcementDesign.Metrics",
       "Fingerprint": "301C40958CCE21C73C6F676BA0091E6920703BA84D3AA11A02157F85A0F8144B",
-      "Count": 2,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "ConcreteReinforcementDesign.SelectSecondary",
-      "Fingerprint": "51E602F2A8A604BF4BD192280668ED6E48D3B88EC50A0ADD28CAAC7BA9399951",
       "Count": 2,
       "Example": "1000"
     },

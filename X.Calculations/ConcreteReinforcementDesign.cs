@@ -176,12 +176,9 @@ public static partial class ConcreteReinforcementDesign
     }
 
     /// <summary>In a limited run, sample across the entire sorted grid instead of exhausting the lightest prefix.</summary>
-    private static IEnumerable<int> SearchIndices(int planned, int budget, bool legacy = false)
+    private static IEnumerable<int> SearchIndices(int planned, int budget)
     {
-        if (!legacy) { foreach (int index in GPC.Design.Sections.SectionDesignSelection.SampleIndices(planned, budget)) yield return index; yield break; }
-        int count = Math.Min(planned, budget);
-        if (count == 1) { yield return planned - 1; yield break; }
-        for (int i = 0; i < count; i++) yield return (int)((long)i * (planned - 1) / (count - 1));
+        foreach (int index in GPC.Design.Sections.SectionDesignSelection.SampleIndices(planned, budget)) yield return index;
     }
 
     private static void ValidateScope(JsonObject data, JsonObject workspace)
