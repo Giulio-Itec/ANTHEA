@@ -26,7 +26,7 @@ internal static class F4PileDesignChecks
         foreach(var catalog in new[]{(counts:new[]{8,12,16},diameters:new[]{16d,24d},links:new[]{8d,10d},spacings:new[]{150d,200d}),
             (counts:new[]{4,8,16},diameters:new[]{24d,40d},links:new[]{10d},spacings:new[]{100d,150d})})
         {
-            var legacy=ElasticHorizontalPile.DesignSegment(input,response,0,catalog.counts,catalog.diameters,catalog.links,catalog.spacings,legacy:true);
+            var legacy=LegacyElasticHorizontalPile.DesignSegment(input,response,0,catalog.counts,catalog.diameters,catalog.links,catalog.spacings);
             foreach(int workers in new[]{1,2})
             {
                 var progress=new Sink();var actual=ElasticHorizontalPile.DesignSegment(input,response,0,catalog.counts,catalog.diameters,catalog.links,catalog.spacings,progress:progress,maximumParallelism:workers);

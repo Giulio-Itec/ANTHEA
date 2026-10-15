@@ -161,7 +161,7 @@ internal static class HorizontalStratifiedChecks
         thin["stratigrafie"]![0]![1]!["spessore"] = 100;
         Near(Calc(thin).D("capacita_kn"), thinResult.D("capacita_kn"), "Troncamento al piede");
         var helperInput = (JsonObject)thin.DeepClone(); helperInput["generali"]!.AsObject().Remove("metodo_calcolo");
-        string original = helperInput.ToJsonString(); var helperResult = PaloOrizzontale.CalculateStratified(helperInput);
+        string original = helperInput.ToJsonString(); var helperResult = LegacyPaloOrizzontale.CalculateStratified(helperInput);
         Check(helperResult.S("errore") == "" && helperInput.ToJsonString() == original, "API diretta immutabile");
         Check(PaloOrizzontale.Calculate(helperInput).S("errore").Contains("Sequenze miste"), "Broms storico non cambia implicitamente modello");
         var legacyInput = (JsonObject)helperInput.DeepClone(); legacyInput["generali"]!["metodo_calcolo"] = "Stratificato (PileChecker)";
