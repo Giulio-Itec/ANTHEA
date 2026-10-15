@@ -770,9 +770,10 @@ internal static class DurabilityChecks
 
     static JsonObject StaticState(Action<bool, string> check)
     {
-        // Dalla decisione D3 del 15/10/2026 anche il motore legacy agganciabile di tests/ANTHEA.Legacy.
+        // Dalla decisione D3 del 15/10/2026 anche il motore legacy agganciabile e le parti spostate delle facciate, in tests/ANTHEA.Legacy
+        // con il nucleo legacy.
         var types = new List<Type> { typeof(Durability), typeof(NtcCover), typeof(MinimumConcrete), typeof(AtecapMix), typeof(MaterialCover), typeof(DurabilityLegacy), typeof(ConcreteDurabilityAdapter),
-            typeof(LegacyDurabilityEngine) };
+            typeof(LegacyDurabilityEngine), typeof(LegacyDurability), typeof(LegacyNtcCover) };
         types.AddRange(typeof(DurabilityLegacy).GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic).Where(t => !t.IsDefined(typeof(CompilerGeneratedAttribute))));
         int checkedMembers = 0; var declaredSeen = new HashSet<string>();
         void Field(Type type, FieldInfo field)
@@ -912,7 +913,8 @@ internal static class DurabilityChecks
     {
         [AdapterFile] = ["libreria-durabilita", "aggancio"],
         ["X.Calculations/ConcreteLibraryMapping.Durability.cs"] = ["libreria-durabilita"],
-        ["X.Calculations/Materials/DurabilityLegacy.cs"] = ["legacy"]
+        // Spostato con la decisione D3 del 15/10/2026 da X.Calculations/Materials/DurabilityLegacy.cs.
+        ["tests/ANTHEA.Legacy/Durability/DurabilityLegacy.cs"] = ["legacy"]
     }.ToImmutableDictionary();
 
     // Tipi propri di GPC.Checkers.Concrete.Durability (CoverInput, CoverLine e CoverResult sono omonimi dei record di Materiali: contano solo

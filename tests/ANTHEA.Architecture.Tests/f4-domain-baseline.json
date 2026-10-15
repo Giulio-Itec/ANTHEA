@@ -4756,54 +4756,6 @@
       "Example": "workspace . S ( \"normativa\" , \"NTC 2018\" )"
     },
     {
-      "File": "X.Calculations/Materials/DurabilityLegacy.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "DurabilityLegacy.Durability.StructuralClass",
-      "Fingerprint": "5390AC739410A3F59440BFBD59B5B07E983F31E6B90D113E2B3E2809F47DDCEF",
-      "Count": 1,
-      "Example": "4"
-    },
-    {
-      "File": "X.Calculations/Materials/DurabilityLegacy.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "DurabilityLegacy.NtcCover.Calculate",
-      "Fingerprint": "5B84A416C8E8B660B7C37C531117160E507A7C99067EB321B9564AEDDEB7F70F",
-      "Count": 1,
-      "Example": "5"
-    },
-    {
-      "File": "X.Calculations/Materials/DurabilityLegacy.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "DurabilityLegacy.NtcCover.Calculate",
-      "Fingerprint": "A5DF5DAF8775CE249378685EDD6869551DE3EDD929B8C4DD67D592634EDF3A50",
-      "Count": 1,
-      "Example": "35"
-    },
-    {
-      "File": "X.Calculations/Materials/DurabilityLegacy.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "DurabilityLegacy.NtcCover.Calculate",
-      "Fingerprint": "B52348612F6F513DBCF3965196A2A12A46F6E6831CB95422FB03C3A5F7797D76",
-      "Count": 1,
-      "Example": "10"
-    },
-    {
-      "File": "X.Calculations/Materials/DurabilityLegacy.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "DurabilityLegacy.NtcCover.DefaultCmin",
-      "Fingerprint": "44F17BB0B170A5F19F4B10EA910529B9DA3972C19A335676D257DCE27EE646E7",
-      "Count": 1,
-      "Example": "5"
-    },
-    {
-      "File": "X.Calculations/Materials/DurabilityLegacy.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "DurabilityLegacy.NtcCover.DefaultCmin",
-      "Fingerprint": "A5DEE56D94711322CDB936A3DB57900C4B4C03DA66FC84BBFDC1496559ABBFD1",
-      "Count": 1,
-      "Example": "25"
-    },
-    {
       "File": "X.Calculations/Micropali.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "BustamanteDoix.Json",

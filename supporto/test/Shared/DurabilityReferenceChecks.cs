@@ -10,6 +10,7 @@ namespace Materiali;
 /// Refactoring F2.9 (E3): the checks go through the facades with the given durability engine of ConcreteDurabilityAdapter (null = the
 /// default engine); the expected values (by hand) are unchanged. Decisione D3 del 15/10/2026: il motore si aggancia per tutto il
 /// controllo con LegacyDurabilityEngine.Use (tests/ANTHEA.Legacy) al posto del parametro di ogni facciata; null è la libreria, come prima.
+/// EffectiveWater, senza chiamanti di produzione, si chiama nella parte spostata della facciata (LegacyDurability, tests/ANTHEA.Legacy).
 /// </summary>
 internal static class DurabilityReferenceChecks
 {
@@ -31,9 +32,9 @@ internal static class DurabilityReferenceChecks
         Equal(Durability.StructuralClass(E("XD2"),40,p with{StrengthReduction=true}),3);
         Equal(Durability.StructuralClass(E("XS2"),40,p with{StrengthReduction=true}),4);
         Equal(Durability.StructuralClass(E("XC1"),30,p with{StrengthReduction=true,Slab=true,Quality=true}),1);
-        Equal(Durability.EffectiveWater(190,10)/360,.5);
+        Equal(LegacyDurability.EffectiveWater(190,10)/360,.5);
         Reject(()=>Durability.Cover([E("XF4")],30,p)); Reject(()=>Durability.Cover([E("X0"),E("XC1")],30,p));
-        Reject(()=>Durability.Cover([],30,p)); Reject(()=>Durability.EffectiveWater(10,20)); Reject(()=>Durability.EffectiveWater(double.NaN,0));
+        Reject(()=>Durability.Cover([],30,p)); Reject(()=>LegacyDurability.EffectiveWater(10,20)); Reject(()=>LegacyDurability.EffectiveWater(double.NaN,0));
         Reject(()=>Durability.Cover([E("XC1")],30,p with{Diameter=-1}));
         Equal(ConcreteDurabilityAdapter.Exposures().Length,18); Equal(E("XS3").MinCement,340); Equal(E("XD2").MaxRatio!.Value,.55); Equal(E("XA3").MinCement,360);
     }

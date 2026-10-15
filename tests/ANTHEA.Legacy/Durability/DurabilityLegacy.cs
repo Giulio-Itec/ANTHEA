@@ -1,3 +1,5 @@
+// Spostato da X.Calculations/Materials/DurabilityLegacy.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: il nucleo legacy della
+// durabilità non è più usato dal prodotto. Codice storico conservato per le prove, fuori dall'installer.
 using System.Collections.Immutable;
 
 namespace Materiali;
