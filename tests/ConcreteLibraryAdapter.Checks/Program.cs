@@ -574,8 +574,9 @@ try
 
     if (quick)
     {
-        // Interruttore SLE già controllato nella sezione 2; qui quello della durabilità (11b nella corsa completa).
-        Check(ConcreteDurabilityAdapter.Default == DurabilityChecks.ExpectedDefault, $"motore della durabilità predefinito {ConcreteDurabilityAdapter.Default}, atteso {DurabilityChecks.ExpectedDefault}");
+        // Interruttore SLE già controllato nella sezione 2; qui il selettore della durabilità (11b nella corsa completa): dalla decisione D3
+        // del 15/10/2026 senza aggancio la libreria, con LegacyDurabilityEngine.Use il motore legacy (prima ConcreteDurabilityAdapter.Default).
+        DurabilityChecks.EngineSwitch("motore della durabilità", Check);
         ResistanceChecks.CheckEngine(Check);
         Console.WriteLine($"PASS · {count} controlli (rapido: sezioni 1-4 e interruttori della durabilità, delle SLE e dello SLU; griglie 11, 12 e SLE nello stadio regression), "
             + $"{staticChecks} della 5l e {thinCastingChecks} della 7a.");

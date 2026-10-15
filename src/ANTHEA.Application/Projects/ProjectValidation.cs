@@ -5,15 +5,14 @@ namespace X.Core;
 /// <summary>Project consistency checks shared by the overview, live status and report.</summary>
 public static class ProjectValidation
 {
-    // Refactoring F2.9-D2: the optional durability engine reaches every cover minimum (ConcreteCoverAnalysis, MaterialCover); default the adapter's.
-    public static string[] Warnings(JsonObject section) => Warnings(section, null);
-    public static string[] Warnings(JsonObject section, DurabilityEngine? engine = null) => ProjectSharedData.Limitations(section)
-        .Concat(CoverChecks(section, null, engine).Where(c => c.Passed != true).Select(c => c.Text)).Distinct().ToArray();
+    // Refactoring F2.9-D2: il motore facoltativo della durabilità è uscito dal prodotto con la decisione D3 del 15/10/2026; le prove
+    // agganciano il legacy da tests/ANTHEA.Legacy per tutta la chiamata (ConcreteCoverAnalysis, MaterialCover).
+    public static string[] Warnings(JsonObject section) => ProjectSharedData.Limitations(section)
+        .Concat(CoverChecks(section, null).Where(c => c.Passed != true).Select(c => c.Text)).Distinct().ToArray();
     public sealed record CoverStatus(string Text, bool? Passed);
 
-    public static List<CoverStatus> CoverChecks(JsonObject section) => CoverChecks(section, null, null);
-    public static List<CoverStatus> CoverChecks(JsonObject section, JsonObject? only) => CoverChecks(section, only, null);
-    public static List<CoverStatus> CoverChecks(JsonObject section, JsonObject? only = null, DurabilityEngine? engine = null)
+    public static List<CoverStatus> CoverChecks(JsonObject section) => CoverChecks(section, null);
+    public static List<CoverStatus> CoverChecks(JsonObject section, JsonObject? only)
     {
         var sheets = ProjectSharedData.SubtreeSheets(section).ToArray();
         var result = new List<CoverStatus>();
@@ -48,9 +47,9 @@ public static class ProjectValidation
                     {
                         var wallData = (JsonObject)sheet["dati"]!.DeepClone(); RetainingWall.Upgrade(wallData);
                         check = ConcreteCoverAnalysis.CalculateForBars(input.Required("cover_mm"), state, fck,
-                            RetainingWall.MaximumBarDiameter(wallData), engine);
+                            RetainingWall.MaximumBarDiameter(wallData));
                     }
-                    else check = ConcreteCoverAnalysis.Calculate(input, state, fck, engine);
+                    else check = ConcreteCoverAnalysis.Calculate(input, state, fck);
                     double materialRequired = check.MaterialMinimum, adopted = check.Adopted;
                     string barDetail = check.MaximumBarDiameter is double diameter ? $", Ø massimo effettivo delle barre {diameter:0.##} mm" : "";
                     if (check.Required > check.MaterialMinimum) barDetail += $", minimo per le barre effettive {check.Required:0.##} mm";

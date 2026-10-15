@@ -17,25 +17,31 @@ using ProbeEntry = Anthea.Calculations.DurabilityProbe.Entry;
 /// I due motori danno gli stessi numeri bit per bit: la prova che li distingue è la sonda dell'adattatore (operazione e motore di ogni
 /// chiamata) con la scansione dei sorgenti, non le uscite. Ogni messaggio comincia con il numero della prova (11a…11i), così una prova
 /// negativa dice quale prova fallisce. Nessuna tolleranza: numeri confrontati sulla forma "R" (bit per bit), testi identici.
+/// Decisione D3 del 15/10/2026 (modo b): il selettore DurabilityEngine, il parametro del motore e i rami legacy sono usciti dal prodotto;
+/// le prove agganciano il motore legacy all'adattatore per la durata di un ambito (LegacyDurabilityEngine.Use, tests/ANTHEA.Legacy) e
+/// senza aggancio l'adattatore usa la libreria (prima il motore predefinito).
 /// 11a. Mappatura: nessun letterale numerico nei file della mappatura e dell'adattatore; ogni rifiuto della libreria raggiungibile dalle
 ///      facciate è provocato e ha la traduzione del legacy; un testo inventato dà InvalidOperationException.
-/// 11b. Interruttore atteso; il motore Legacy dell'adattatore è il nucleo legacy diretto, bit per bit (griglia della cattura densa,
-///      griglia degli errori anche combinati, catalogo e funzioni per codice).
-/// 11c. Libreria contro legacy attraverso le facciate con il motore esplicito, sugli stessi insiemi, in it-IT e nella cultura invariante:
-///      stessi numeri, stesso tipo di eccezione e stesso messaggio; a ogni chiamata la sonda registra il motore richiesto.
+/// 11b. Selettore atteso (senza aggancio la libreria, ambiti annidati); il legacy tramite aggancio è il nucleo legacy diretto, bit per
+///      bit, e la sonda registra solo Legacy (griglia della cattura densa, griglia degli errori anche combinati, catalogo e funzioni per codice).
+/// 11c. Libreria contro legacy attraverso le facciate nell'ambito di ciascun motore, sugli stessi insiemi, in it-IT e nella cultura
+///      invariante: stessi numeri, stesso tipo di eccezione e stesso messaggio; a ogni chiamata la sonda registra il motore richiesto.
 /// 11d. Catalogo e funzioni per codice uguali con i due motori; etichette delle classi minime (F2.9-D13); sonda del catalogo.
-/// 11e. Sonda sui percorsi headless con il motore predefinito: ogni percorso ha voci, tutte con il predefinito.
-/// 11f. Punti d'ingresso con il parametro del motore (F2.9-D2): testi e numeri identici con i due motori, sonda del motore richiesto.
+/// 11e. Sonda sui percorsi headless senza aggancio: ogni percorso ha voci, tutte con il motore atteso (la libreria).
+/// 11f. Punti d'ingresso (prima con il parametro del motore, F2.9-D2) nell'ambito di ciascun motore: testi e numeri identici con i due
+///      motori, sonda del motore richiesto.
 /// 11g. Stato statico: nessun campo o proprietà statica scrivibile, nessuna collezione statica modificabile.
 /// 11h. Attesi indipendenti (valori a mano), con entrambi i motori.
 /// 11i. Scansione dei sorgenti con l'elenco ammesso legacy-allowlist-durabilita.json. I tipi della libreria contano come nomi semplici o
 ///      qualificati dal loro spazio dei nomi, mai come membri di altri tipi (per esempio CrackRequirements.ExposureClasses di F2.7).
-///      Anche adattatore, mappatura e nucleo legacy sono scansionati, ognuno senza le sole regole che lo riguardano; nell'adattatore il
-///      nucleo legacy e il motore Legacy compaiono solo nei rami "if (UseLegacy(engine))" che registrano Legacy nella sonda.
+///      Anche adattatore, mappatura e nucleo legacy sono scansionati, ognuno senza le sole regole che lo riguardano; nel prodotto non
+///      compaiono né il nucleo legacy né il selettore DurabilityEngine, e nell'adattatore l'aggancio compare solo nei rami
+///      "if (Hook(nameof(Op)) is { } legacy)" che delegano la stessa operazione con gli stessi argomenti (Hook registra il motore nella sonda).
 /// </summary>
 internal static class DurabilityChecks
 {
-    /// <summary>Motore predefinito atteso: Legacy fino all'interruttore (passi E2-E4), Library dal passo E5.</summary>
+    /// <summary>Motore predefinito atteso: Legacy fino all'interruttore (passi E2-E4), Library dal passo E5; dalla decisione D3 del 15/10/2026
+    /// è il motore usato senza aggancio.</summary>
     public const DurabilityEngine ExpectedDefault = DurabilityEngine.Library;
     const string Adapter = nameof(ConcreteDurabilityAdapter);
     static readonly CultureInfo Invariant = CultureInfo.InvariantCulture;
@@ -46,7 +52,7 @@ internal static class DurabilityChecks
     /// prova che la rileva.</summary>
     public static JsonObject Run(string root, Action<bool, string> check)
     {
-        var report = new JsonObject { ["motore_predefinito"] = ConcreteDurabilityAdapter.Default.ToString() };
+        var report = new JsonObject { ["motore_predefinito"] = UnhookedEngine() };
         var failures = new List<string>();
         foreach (var (key, test) in new (string, Func<JsonObject>)[]
         {
@@ -109,6 +115,41 @@ internal static class DurabilityChecks
         return list.Count == 0 ? "nessuna voce" : string.Join(", ", list.Take(6).Select(e => e.Adapter + "." + e.Operation + "/" + e.Engine)) + (list.Count > 6 ? $" … ({list.Count})" : "");
     }
 
+    /// <summary>Esegue la chiamata con il motore richiesto agganciato all'adattatore per la sua durata (decisione D3 del 15/10/2026, modo b;
+    /// prima il parametro del motore di adattatore e facciate): Legacy il nucleo legacy, Library o null la libreria.</summary>
+    static T With<T>(DurabilityEngine? engine, Func<T> call)
+    {
+        using (LegacyDurabilityEngine.Use(engine)) return call();
+    }
+
+    /// <summary>Motore usato dall'adattatore senza aggancio, letto dalla sonda (prima l'interruttore ConcreteDurabilityAdapter.Default).</summary>
+    static string UnhookedEngine() => string.Join(",", Probed(() => ConcreteDurabilityAdapter.Severity("XC1")).Entries.Select(e => e.Engine));
+
+    /// <summary>Selettore del motore (prima l'interruttore ConcreteDurabilityAdapter.Default, uscito dal prodotto con la decisione D3): senza
+    /// aggancio la sonda registra il motore atteso <see cref="ExpectedDefault"/>; nell'ambito del legacy Legacy, negli ambiti annidati della
+    /// libreria e senza motore Library, e alla fine di ogni ambito torna il motore di prima.</summary>
+    internal static void EngineSwitch(string test, Action<bool, string> check)
+    {
+        var probe = DurabilityProbe.Start();
+        try
+        {
+            ConcreteDurabilityAdapter.Severity("XC1");
+            using (LegacyDurabilityEngine.Use(DurabilityEngine.Legacy))
+            {
+                ConcreteDurabilityAdapter.Severity("XC1");
+                using (LegacyDurabilityEngine.Use(DurabilityEngine.Library)) ConcreteDurabilityAdapter.Severity("XC1");
+                using (LegacyDurabilityEngine.Use(null)) ConcreteDurabilityAdapter.Severity("XC1");
+                ConcreteDurabilityAdapter.Severity("XC1");
+            }
+            ConcreteDurabilityAdapter.Severity("XC1");
+            var entries = probe.Entries;
+            var expected = new[] { ExpectedDefault, DurabilityEngine.Legacy, DurabilityEngine.Library, DurabilityEngine.Library, DurabilityEngine.Legacy, ExpectedDefault };
+            check(entries.All(e => e.Adapter == Adapter && e.Operation == "Severity") && entries.Select(e => e.Engine).SequenceEqual(expected),
+                $"{test}: selettore del motore: voci della sonda {Describe(entries)}, motori attesi {string.Join(", ", expected)}");
+        }
+        finally { DurabilityProbe.Stop(); }
+    }
+
     /// <summary>Autoverifica della sonda prima di ogni prova che la usa: chiamate note con i due motori, anche da attività parallele;
     /// una sonda che non riceve nulla fa fallire la prova invece di farla passare.</summary>
     static void ProbeSelfCheck(string test, Action<bool, string> check)
@@ -116,31 +157,31 @@ internal static class DurabilityChecks
         var probe = DurabilityProbe.Start();
         try
         {
-            ConcreteDurabilityAdapter.Severity("XC1", DurabilityEngine.Legacy);
-            ConcreteDurabilityAdapter.Severity("XC1", DurabilityEngine.Library);
-            Parallel.For(0, 4, new ParallelOptions { MaxDegreeOfParallelism = 2 }, _ => ConcreteDurabilityAdapter.Severity("XC1", DurabilityEngine.Library));
+            With(DurabilityEngine.Legacy, () => ConcreteDurabilityAdapter.Severity("XC1"));
+            With(DurabilityEngine.Library, () => ConcreteDurabilityAdapter.Severity("XC1"));
+            Parallel.For(0, 4, new ParallelOptions { MaxDegreeOfParallelism = 2 }, _ => With(DurabilityEngine.Library, () => ConcreteDurabilityAdapter.Severity("XC1")));
             var e = probe.Entries;
             check(e.Count == 6 && e[0] == new ProbeEntry(Adapter, "Severity", DurabilityEngine.Legacy) && e.Skip(1).All(x => x == new ProbeEntry(Adapter, "Severity", DurabilityEngine.Library)),
                 test + ": autoverifica della sonda fallita: " + Describe(e));
         }
         finally { DurabilityProbe.Stop(); }
         var after = DurabilityProbe.Start(); DurabilityProbe.Stop();
-        ConcreteDurabilityAdapter.Severity("XC1", DurabilityEngine.Library);
+        With(DurabilityEngine.Library, () => ConcreteDurabilityAdapter.Severity("XC1"));
         check(after.Entries.Count == 0, test + ": la sonda registra dopo l'arresto");
     }
 
-    /// <summary>Confronto dei due motori attraverso una chiamata con il motore esplicito: stesso esito e, a ogni chiamata, solo voci della
-    /// sonda con il motore richiesto (almeno <paramref name="minimumEntries"/>).</summary>
+    /// <summary>Confronto dei due motori attraverso una chiamata nell'ambito di ciascun motore (prima il motore esplicito): stesso esito e, a
+    /// ogni chiamata, solo voci della sonda con il motore richiesto (almeno <paramref name="minimumEntries"/>).</summary>
     sealed class Comparison(string test, Action<bool, string> check)
     {
         public int Results, Rejections, Calls;
-        public void Same(string id, Func<DurabilityEngine, object?> call, int minimumEntries = 1)
+        public void Same(string id, Func<object?> call, int minimumEntries = 1)
         {
             var outcomes = new string[Engines.Length];
             for (int i = 0; i < Engines.Length; i++)
             {
                 var engine = Engines[i];
-                var (outcome, entries) = Probed(() => call(engine));
+                var (outcome, entries) = Probed(() => With(engine, call));
                 check(entries.Count >= minimumEntries && entries.All(e => e.Adapter == Adapter && e.Engine == engine),
                     $"{test}: {id}: la sonda non registra solo il motore {engine} richiesto ({Describe(entries)})");
                 check(!outcome.Contains("senza traduzione"), $"{test}: {id}: testo senza traduzione «{outcome}»");
@@ -154,7 +195,7 @@ internal static class DurabilityChecks
 
     static Exposure[] Set(params string[] codes)
     {
-        var catalog = ConcreteDurabilityAdapter.Exposures(DurabilityEngine.Legacy);
+        var catalog = With(DurabilityEngine.Legacy, ConcreteDurabilityAdapter.Exposures);
         return codes.Select(code => catalog.Single(e => e.Code == code)).ToArray();
     }
 
@@ -164,7 +205,7 @@ internal static class DurabilityChecks
     /// 6 opzioni, gli stessi della fixture durability-legacy.csv di Checker.</summary>
     static List<(string Id, Exposure[] Set, double Fck, CoverInput P, int V)> CaptureGrid()
     {
-        var exposures = ConcreteDurabilityAdapter.Exposures(DurabilityEngine.Legacy);
+        var exposures = With(DurabilityEngine.Legacy, ConcreteDurabilityAdapter.Exposures);
         var sets = CaptureSets();
         var cases = new List<(string, Exposure[], double, CoverInput, int)>();
         int n = 0;
@@ -182,7 +223,7 @@ internal static class DurabilityChecks
 
     static Exposure[][] CaptureSets()
     {
-        var exposures = ConcreteDurabilityAdapter.Exposures(DurabilityEngine.Legacy);
+        var exposures = With(DurabilityEngine.Legacy, ConcreteDurabilityAdapter.Exposures);
         return exposures.Select(e => new[] { e }).Concat(new[] { new[] { "XC4", "XF2" }, new[] { "XC4", "XS3", "XF4" }, new[] { "XD1", "XA2" }, new[] { "XF1", "XF3" }, new[] { "X0", "XC1" }, new[] { "XF4" } }
             .Select(c => Set(c))).ToArray();
     }
@@ -221,35 +262,35 @@ internal static class DurabilityChecks
         }
         // Ogni rifiuto della libreria raggiungibile dalle facciate (progetto, §6.4), provocato con i due motori: testo del legacy.
         var unknown = Set("XC1")[0] with { Code = "XZ9" };
-        var sites = new (string Site, Func<DurabilityEngine, object?> Call, string Expected)[]
+        var sites = new (string Site, Func<object?> Call, string Expected)[]
         {
-            ("ExposureClasses.cs:84 esposizioni vuote, Cover", e => Durability.Cover([], 30, Basic, e), "Selezionare almeno una classe di esposizione."),
-            ("ExposureClasses.cs:84 esposizioni vuote, NtcCover", e => NtcCover.Calculate([], 30, Basic, false, false, null, e), "Selezionare almeno una classe di esposizione."),
-            ("ExposureClasses.cs:84 esposizioni vuote, ValidateExposure", e => { Durability.ValidateExposure([], e); return null; }, "Selezionare almeno una classe di esposizione."),
-            ("ExposureClasses.cs:84 esposizioni vuote, MinimumConcrete.Required", e => MinimumConcrete.Required([], e), "Selezionare almeno una classe di esposizione."),
-            ("ExposureClasses.cs:84 esposizioni vuote, AtecapMix.Required", e => AtecapMix.Required([], e), "Selezionare almeno una classe di esposizione."),
-            ("ExposureClasses.cs:84 esposizioni vuote, AtecapMix.Air", e => AtecapMix.Air([], 16, e), "Selezionare almeno una classe di esposizione."),
-            ("ExposureClasses.cs:85 X0 combinata, Cover", e => Durability.Cover(Set("X0", "XC1"), 30, Basic, e), "X0 non è combinabile con altre esposizioni."),
-            ("ExposureClasses.cs:85 X0 combinata, NtcCover", e => NtcCover.Calculate(Set("X0", "XC1"), 30, Basic, false, false, null, e), "X0 non è combinabile con altre esposizioni."),
-            ("ExposureClasses.cs:85 X0 combinata, AtecapMix.Required", e => AtecapMix.Required(Set("XC1", "X0"), e), "X0 non è combinabile con altre esposizioni."),
-            ("ExposureClasses.cs:78 codice sconosciuto, NtcCover.Severity", e => NtcCover.Severity("XZ9", e), ConcreteLibraryMapping.DurabilityUnknownExposureMessage),
-            ("ExposureClasses.cs:78 codice sconosciuto, AtecapMix.Limits", e => AtecapMix.Limits("XZ9", e), ConcreteLibraryMapping.DurabilityUnknownExposureMessage),
-            ("ExposureClasses.cs:78 codice sconosciuto, MinimumConcrete.Fck", e => MinimumConcrete.Fck("XZ9", e), ConcreteLibraryMapping.DurabilityUnknownClassMessage),
-            ("ExposureClasses.cs:78 codice sconosciuto, MinimumConcrete.Required", e => MinimumConcrete.Required([unknown], e), ConcreteLibraryMapping.DurabilityUnknownClassMessage),
-            ("ExposureClasses.cs:78 codice sconosciuto, AtecapMix.Required", e => AtecapMix.Required([unknown], e), ConcreteLibraryMapping.DurabilityUnknownExposureMessage),
-            ("ExposureClasses.cs:78 codice sconosciuto, NtcCover", e => NtcCover.Calculate([unknown], 30, Basic, false, false, null, e), ConcreteLibraryMapping.DurabilityUnknownExposureMessage),
-            ("CoverRequirements.cs:145 fck, Cover", e => Durability.Cover(Set("XC1"), 5, Basic, e), "Resistenza del calcestruzzo non valida."),
-            ("CoverRequirements.cs:145 fck, NtcCover", e => NtcCover.Calculate(Set("XC1"), 95, Basic, false, false, null, e), "Resistenza del calcestruzzo non valida."),
-            ("CoverRequirements.cs:146-148 dati, Cover", e => Durability.Cover(Set("XC1"), 30, Basic with { Diameter = -1 }, e), "Controllare diametro, Dmax, tolleranza e condizioni di getto."),
-            ("CoverRequirements.cs:146-148 dati, NtcCover", e => NtcCover.Calculate(Set("XC1"), 30, Basic with { Ground = 30 }, false, false, null, e), "Controllare diametro, Dmax, tolleranza e condizioni di getto."),
-            ("CoverRequirements.cs:156 Cmin pertinente", e => NtcCover.Calculate(Set("XC1"), 30, Basic, false, false, 50, e), "Cmin pertinente: indicare fck tra 12 MPa e C0 = 35 MPa."),
-            ("CoverRequirements.cs:175 esposizione alla corrosione", e => Durability.Cover(Set("XF2"), 30, Basic, e), "Per il copriferro aggiungere l'esposizione alla corrosione (XC, XD o XS); XF/XA da sole non definiscono cmin,dur."),
-            ("ExposureClasses.cs:132 Dmax", e => AtecapMix.Air(Set("XF2"), 0, e), "Dmax non valido."),
-            ("F2.9-D13 etichetta di una classe minima sconosciuta", e => MinimumConcrete.Label(28, e), ConcreteLibraryMapping.DurabilityLabelMessage)
+            ("ExposureClasses.cs:84 esposizioni vuote, Cover", () => Durability.Cover([], 30, Basic), "Selezionare almeno una classe di esposizione."),
+            ("ExposureClasses.cs:84 esposizioni vuote, NtcCover", () => NtcCover.Calculate([], 30, Basic, false, false, null), "Selezionare almeno una classe di esposizione."),
+            ("ExposureClasses.cs:84 esposizioni vuote, ValidateExposure", () => { Durability.ValidateExposure([]); return null; }, "Selezionare almeno una classe di esposizione."),
+            ("ExposureClasses.cs:84 esposizioni vuote, MinimumConcrete.Required", () => MinimumConcrete.Required([]), "Selezionare almeno una classe di esposizione."),
+            ("ExposureClasses.cs:84 esposizioni vuote, AtecapMix.Required", () => AtecapMix.Required([]), "Selezionare almeno una classe di esposizione."),
+            ("ExposureClasses.cs:84 esposizioni vuote, AtecapMix.Air", () => AtecapMix.Air([], 16), "Selezionare almeno una classe di esposizione."),
+            ("ExposureClasses.cs:85 X0 combinata, Cover", () => Durability.Cover(Set("X0", "XC1"), 30, Basic), "X0 non è combinabile con altre esposizioni."),
+            ("ExposureClasses.cs:85 X0 combinata, NtcCover", () => NtcCover.Calculate(Set("X0", "XC1"), 30, Basic, false, false, null), "X0 non è combinabile con altre esposizioni."),
+            ("ExposureClasses.cs:85 X0 combinata, AtecapMix.Required", () => AtecapMix.Required(Set("XC1", "X0")), "X0 non è combinabile con altre esposizioni."),
+            ("ExposureClasses.cs:78 codice sconosciuto, NtcCover.Severity", () => NtcCover.Severity("XZ9"), ConcreteLibraryMapping.DurabilityUnknownExposureMessage),
+            ("ExposureClasses.cs:78 codice sconosciuto, AtecapMix.Limits", () => AtecapMix.Limits("XZ9"), ConcreteLibraryMapping.DurabilityUnknownExposureMessage),
+            ("ExposureClasses.cs:78 codice sconosciuto, MinimumConcrete.Fck", () => MinimumConcrete.Fck("XZ9"), ConcreteLibraryMapping.DurabilityUnknownClassMessage),
+            ("ExposureClasses.cs:78 codice sconosciuto, MinimumConcrete.Required", () => MinimumConcrete.Required([unknown]), ConcreteLibraryMapping.DurabilityUnknownClassMessage),
+            ("ExposureClasses.cs:78 codice sconosciuto, AtecapMix.Required", () => AtecapMix.Required([unknown]), ConcreteLibraryMapping.DurabilityUnknownExposureMessage),
+            ("ExposureClasses.cs:78 codice sconosciuto, NtcCover", () => NtcCover.Calculate([unknown], 30, Basic, false, false, null), ConcreteLibraryMapping.DurabilityUnknownExposureMessage),
+            ("CoverRequirements.cs:145 fck, Cover", () => Durability.Cover(Set("XC1"), 5, Basic), "Resistenza del calcestruzzo non valida."),
+            ("CoverRequirements.cs:145 fck, NtcCover", () => NtcCover.Calculate(Set("XC1"), 95, Basic, false, false, null), "Resistenza del calcestruzzo non valida."),
+            ("CoverRequirements.cs:146-148 dati, Cover", () => Durability.Cover(Set("XC1"), 30, Basic with { Diameter = -1 }), "Controllare diametro, Dmax, tolleranza e condizioni di getto."),
+            ("CoverRequirements.cs:146-148 dati, NtcCover", () => NtcCover.Calculate(Set("XC1"), 30, Basic with { Ground = 30 }, false, false, null), "Controllare diametro, Dmax, tolleranza e condizioni di getto."),
+            ("CoverRequirements.cs:156 Cmin pertinente", () => NtcCover.Calculate(Set("XC1"), 30, Basic, false, false, 50), "Cmin pertinente: indicare fck tra 12 MPa e C0 = 35 MPa."),
+            ("CoverRequirements.cs:175 esposizione alla corrosione", () => Durability.Cover(Set("XF2"), 30, Basic), "Per il copriferro aggiungere l'esposizione alla corrosione (XC, XD o XS); XF/XA da sole non definiscono cmin,dur."),
+            ("ExposureClasses.cs:132 Dmax", () => AtecapMix.Air(Set("XF2"), 0), "Dmax non valido."),
+            ("F2.9-D13 etichetta di una classe minima sconosciuta", () => MinimumConcrete.Label(28), ConcreteLibraryMapping.DurabilityLabelMessage)
         };
         foreach (var (site, call, expected) in sites)
         {
-            string legacy = Outcome(() => call(DurabilityEngine.Legacy)), library = Outcome(() => call(DurabilityEngine.Library));
+            string legacy = Outcome(() => With(DurabilityEngine.Legacy, call)), library = Outcome(() => With(DurabilityEngine.Library, call));
             check(library == "error:ArgumentException " + expected, $"11a: {site}: con la libreria «{library}», atteso il rifiuto «{expected}»");
             check(legacy == library, $"11a: {site}: legacy «{legacy}», libreria «{library}»");
         }
@@ -271,66 +312,71 @@ internal static class DurabilityChecks
         return Regex.Matches(code, @"(?<![\w.])(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][-+]?\d+)?[dDfFmM]?(?![\w.])").Select(m => m.Value).Distinct().ToArray();
     }
 
-    // ================================================================ 11b. interruttore e motore legacy
+    // ================================================================ 11b. selettore e motore legacy tramite aggancio
+    // Decisione D3 del 15/10/2026: prima «interruttore atteso e motore Legacy dell'adattatore = nucleo diretto»; il ramo legacy non è più
+    // nell'adattatore, quindi la prova confronta il legacy agganciato con LegacyDurabilityEngine.Use con il nucleo diretto e controlla con la
+    // sonda che ogni chiamata agganciata passi davvero dal motore Legacy (con uscite identiche fra i motori, solo la sonda li distingue).
     static JsonObject LegacyEngine(Action<bool, string> check)
     {
-        check(ConcreteDurabilityAdapter.Default == ExpectedDefault, $"11b: motore predefinito {ConcreteDurabilityAdapter.Default}, atteso {ExpectedDefault}");
+        EngineSwitch("11b", check);
         int identical = 0;
-        void Identical(string id, Func<object?> direct, Func<object?> adapter)
+        void Identical(string id, Func<object?> direct, Func<object?> hooked)
         {
-            string a = Outcome(direct), b = Outcome(adapter);
-            check(a == b, $"11b: {id}: legacy diretto «{a}», motore Legacy dell'adattatore «{b}»");
+            string a = Outcome(direct);
+            var (b, entries) = Probed(() => With(DurabilityEngine.Legacy, hooked));
+            check(a == b, $"11b: {id}: legacy diretto «{a}», legacy tramite aggancio «{b}»");
+            check(entries.Count > 0 && entries.All(e => e.Adapter == Adapter && e.Engine == DurabilityEngine.Legacy),
+                $"11b: {id}: la sonda non registra solo il motore Legacy agganciato ({Describe(entries)})");
             identical++;
         }
-        const DurabilityEngine L = DurabilityEngine.Legacy;
         foreach (var (id, set, fck, p, v) in CaptureGrid())
         {
-            Identical("EC2 " + id, () => DurabilityLegacy.Durability.Cover(set, fck, p), () => ConcreteDurabilityAdapter.Cover(set, fck, p, L));
+            Identical("EC2 " + id, () => DurabilityLegacy.Durability.Cover(set, fck, p), () => ConcreteDurabilityAdapter.Cover(set, fck, p));
             foreach (bool plate in new[] { false, true })
             {
                 bool quality = v % 2 == 1;
                 Identical($"NTC {id} piastra {plate}",
                     () => { int? pertinent = v % 5 == 3 ? DurabilityLegacy.MinimumConcrete.Required(set) : null; return DurabilityLegacy.NtcCover.Calculate(set, fck, p, plate, quality, pertinent); },
-                    () => { int? pertinent = v % 5 == 3 ? ConcreteDurabilityAdapter.MinimumStrength(set, L) : null; return ConcreteDurabilityAdapter.NtcCover(set, fck, p, plate, quality, pertinent, L); });
+                    () => { int? pertinent = v % 5 == 3 ? ConcreteDurabilityAdapter.MinimumStrength(set) : null; return ConcreteDurabilityAdapter.NtcCover(set, fck, p, plate, quality, pertinent); });
             }
         }
         foreach (var (id, set, fck, p, cmin) in ErrorGrid())
         {
-            if (cmin is null) Identical("errori EC2 " + id, () => DurabilityLegacy.Durability.Cover(set, fck, p), () => ConcreteDurabilityAdapter.Cover(set, fck, p, L));
+            if (cmin is null) Identical("errori EC2 " + id, () => DurabilityLegacy.Durability.Cover(set, fck, p), () => ConcreteDurabilityAdapter.Cover(set, fck, p));
             foreach (bool plate in new[] { false, true })
-                Identical($"errori NTC {id} piastra {plate}", () => DurabilityLegacy.NtcCover.Calculate(set, fck, p, plate, false, cmin), () => ConcreteDurabilityAdapter.NtcCover(set, fck, p, plate, false, cmin, L));
+                Identical($"errori NTC {id} piastra {plate}", () => DurabilityLegacy.NtcCover.Calculate(set, fck, p, plate, false, cmin), () => ConcreteDurabilityAdapter.NtcCover(set, fck, p, plate, false, cmin));
         }
         var sets = CaptureSets().Append([]).ToArray();
         foreach (var set in sets)
         {
             string id = string.Join("+", set.Select(e => e.Code));
-            Identical("validazione " + id, () => { DurabilityLegacy.Durability.ValidateExposure(set); return null; }, () => { ConcreteDurabilityAdapter.Validate(set, L); return null; });
-            Identical("classe minima " + id, () => DurabilityLegacy.MinimumConcrete.Required(set), () => ConcreteDurabilityAdapter.MinimumStrength(set, L));
-            Identical("composizione " + id, () => DurabilityLegacy.AtecapMix.Required(set), () => ConcreteDurabilityAdapter.Mix(set, L));
-            foreach (double dmax in AirAggregates) Identical($"aria {id} Dmax {dmax}", () => DurabilityLegacy.AtecapMix.Air(set, dmax), () => ConcreteDurabilityAdapter.Air(set, dmax, L));
+            Identical("validazione " + id, () => { DurabilityLegacy.Durability.ValidateExposure(set); return null; }, () => { ConcreteDurabilityAdapter.Validate(set); return null; });
+            Identical("classe minima " + id, () => DurabilityLegacy.MinimumConcrete.Required(set), () => ConcreteDurabilityAdapter.MinimumStrength(set));
+            Identical("composizione " + id, () => DurabilityLegacy.AtecapMix.Required(set), () => ConcreteDurabilityAdapter.Mix(set));
+            foreach (double dmax in AirAggregates) Identical($"aria {id} Dmax {dmax}", () => DurabilityLegacy.AtecapMix.Air(set, dmax), () => ConcreteDurabilityAdapter.Air(set, dmax));
         }
-        Identical("catalogo", () => DurabilityLegacy.Durability.Exposures, () => ConcreteDurabilityAdapter.Exposures(L));
+        Identical("catalogo", () => DurabilityLegacy.Durability.Exposures, () => ConcreteDurabilityAdapter.Exposures());
         foreach (string? code in Codes())
         {
-            Identical("gruppo NTC " + code, () => DurabilityLegacy.NtcCover.Severity(code!), () => ConcreteDurabilityAdapter.Severity(code!, L));
-            Identical("classe minima " + code, () => DurabilityLegacy.MinimumConcrete.Fck(code!), () => ConcreteDurabilityAdapter.MinimumFck(code!, L));
-            Identical("limiti " + code, () => DurabilityLegacy.AtecapMix.Limits(code!), () => ConcreteDurabilityAdapter.MixLimits(code!, L));
+            Identical("gruppo NTC " + code, () => DurabilityLegacy.NtcCover.Severity(code!), () => ConcreteDurabilityAdapter.Severity(code!));
+            Identical("classe minima " + code, () => DurabilityLegacy.MinimumConcrete.Fck(code!), () => ConcreteDurabilityAdapter.MinimumFck(code!));
+            Identical("limiti " + code, () => DurabilityLegacy.AtecapMix.Limits(code!), () => ConcreteDurabilityAdapter.MixLimits(code!));
         }
-        foreach (int fck in Labels()) Identical("etichetta " + fck, () => DurabilityLegacy.MinimumConcrete.Label(fck), () => ConcreteDurabilityAdapter.Label(fck, L));
+        foreach (int fck in Labels()) Identical("etichetta " + fck, () => DurabilityLegacy.MinimumConcrete.Label(fck), () => ConcreteDurabilityAdapter.Label(fck));
         foreach (var (id, e, fck, p) in StructuralClassCases())
-            Identical("classe strutturale " + id, () => DurabilityLegacy.Durability.StructuralClass(e, fck, p), () => ConcreteDurabilityAdapter.StructuralClass(e, fck, p, L));
+            Identical("classe strutturale " + id, () => DurabilityLegacy.Durability.StructuralClass(e, fck, p), () => ConcreteDurabilityAdapter.StructuralClass(e, fck, p));
         return new JsonObject { ["motore_predefinito_atteso"] = ExpectedDefault.ToString(), ["chiamate_identiche_al_legacy_diretto"] = identical };
     }
 
     /// <summary>I 18 codici del catalogo, un codice sconosciuto, un codice vuoto, uno in minuscolo e null.</summary>
-    static IEnumerable<string?> Codes() => ConcreteDurabilityAdapter.Exposures(DurabilityEngine.Legacy).Select(e => (string?)e.Code).Concat(new string?[] { "XZ9", "", "xc1", null });
+    static IEnumerable<string?> Codes() => With(DurabilityEngine.Legacy, ConcreteDurabilityAdapter.Exposures).Select(e => (string?)e.Code).Concat(new string?[] { "XZ9", "", "xc1", null });
 
     /// <summary>Valori di fck per le etichette: le classi minime del catalogo e alcuni valori che non lo sono.</summary>
     static IEnumerable<int> Labels() => new[] { 0, -1, 12, 16, 20, 25, 28, 30, 32, 35, 40, 45, 90 };
 
     static IEnumerable<(string Id, Exposure E, double Fck, CoverInput P)> StructuralClassCases()
     {
-        foreach (var e in ConcreteDurabilityAdapter.Exposures(DurabilityEngine.Legacy))
+        foreach (var e in With(DurabilityEngine.Legacy, ConcreteDurabilityAdapter.Exposures))
             foreach (double fck in new[] { 20.0, 30, 35, 40, 45, 50 })
                 for (int k = 0; k < 16; k++)
                     yield return ($"{e.Code} fck {fck} opzioni {k}", e, fck, Basic with { Life = (k & 1) == 0 ? 50 : 100, StrengthReduction = (k & 2) != 0, Slab = (k & 4) != 0, Quality = (k & 8) != 0 });
@@ -343,22 +389,22 @@ internal static class DurabilityChecks
         var grid = new Comparison("11c", check);
         foreach (var (id, set, fck, p, v) in CaptureGrid())
         {
-            grid.Same("EC2 " + id, e => Durability.Cover(set, fck, p, e));
+            grid.Same("EC2 " + id, () => Durability.Cover(set, fck, p));
             foreach (bool plate in new[] { false, true })
             {
                 bool quality = v % 2 == 1;
-                grid.Same($"NTC {id} piastra {plate}", e => { int? pertinent = v % 5 == 3 ? MinimumConcrete.Required(set, e) : null; return NtcCover.Calculate(set, fck, p, plate, quality, pertinent, e); });
+                grid.Same($"NTC {id} piastra {plate}", () => { int? pertinent = v % 5 == 3 ? MinimumConcrete.Required(set) : null; return NtcCover.Calculate(set, fck, p, plate, quality, pertinent); });
             }
         }
         foreach (var set in CaptureSets().Append([]))
         {
             string id = string.Join("+", set.Select(e => e.Code));
-            grid.Same("validazione " + id, e => { Durability.ValidateExposure(set, e); return null; });
-            grid.Same("classe minima " + id, e => MinimumConcrete.Required(set, e));
-            grid.Same("composizione " + id, e => AtecapMix.Required(set, e));
-            foreach (double dmax in AirAggregates) grid.Same($"aria {id} Dmax {dmax}", e => AtecapMix.Air(set, dmax, e));
+            grid.Same("validazione " + id, () => { Durability.ValidateExposure(set); return null; });
+            grid.Same("classe minima " + id, () => MinimumConcrete.Required(set));
+            grid.Same("composizione " + id, () => AtecapMix.Required(set));
+            foreach (double dmax in AirAggregates) grid.Same($"aria {id} Dmax {dmax}", () => AtecapMix.Air(set, dmax));
         }
-        foreach (var (id, e, fck, p) in StructuralClassCases()) grid.Same("classe strutturale " + id, engine => Durability.StructuralClass(e, fck, p, engine));
+        foreach (var (id, e, fck, p) in StructuralClassCases()) grid.Same("classe strutturale " + id, () => Durability.StructuralClass(e, fck, p));
         // Errori anche combinati, nella cultura dell'applicazione e in quella invariante (C0 è formattato nel messaggio di Cmin).
         var errors = new Comparison("11c", check);
         foreach (var culture in new[] { Italian, Invariant })
@@ -366,9 +412,9 @@ internal static class DurabilityChecks
             CultureInfo.CurrentCulture = culture;
             foreach (var (id, set, fck, p, cmin) in ErrorGrid())
             {
-                if (cmin is null) errors.Same($"errori EC2 {id} ({culture.Name})", e => Durability.Cover(set, fck, p, e));
+                if (cmin is null) errors.Same($"errori EC2 {id} ({culture.Name})", () => Durability.Cover(set, fck, p));
                 foreach (bool plate in new[] { false, true })
-                    errors.Same($"errori NTC {id} piastra {plate} ({culture.Name})", e => NtcCover.Calculate(set, fck, p, plate, false, cmin, e));
+                    errors.Same($"errori NTC {id} piastra {plate} ({culture.Name})", () => NtcCover.Calculate(set, fck, p, plate, false, cmin));
             }
         }
         CultureInfo.CurrentCulture = Italian;
@@ -381,8 +427,8 @@ internal static class DurabilityChecks
     static JsonObject Catalog(Action<bool, string> check)
     {
         ProbeSelfCheck("11d", check);
-        var legacy = ConcreteDurabilityAdapter.Exposures(DurabilityEngine.Legacy);
-        var library = ConcreteDurabilityAdapter.Exposures(DurabilityEngine.Library);
+        var legacy = With(DurabilityEngine.Legacy, ConcreteDurabilityAdapter.Exposures);
+        var library = With(DurabilityEngine.Library, ConcreteDurabilityAdapter.Exposures);
         check(legacy.Length == 18 && library.Length == legacy.Length, $"11d: catalogo di {legacy.Length} e {library.Length} esposizioni");
         for (int i = 0; i < Math.Min(legacy.Length, library.Length); i++)
             check(legacy[i] == library[i], $"11d: esposizione {i}: legacy {Show(legacy[i])}, libreria {Show(library[i])}");
@@ -392,17 +438,17 @@ internal static class DurabilityChecks
         var codes = new Comparison("11d", check);
         foreach (string? code in Codes())
         {
-            codes.Same("gruppo NTC " + code, e => NtcCover.Severity(code!, e));
-            codes.Same("classe minima " + code, e => MinimumConcrete.Fck(code!, e));
-            codes.Same("limiti " + code, e => AtecapMix.Limits(code!, e));
+            codes.Same("gruppo NTC " + code, () => NtcCover.Severity(code!));
+            codes.Same("classe minima " + code, () => MinimumConcrete.Fck(code!));
+            codes.Same("limiti " + code, () => AtecapMix.Limits(code!));
         }
-        foreach (int fck in Labels()) codes.Same("etichetta " + fck, e => MinimumConcrete.Label(fck, e));
+        foreach (int fck in Labels()) codes.Same("etichetta " + fck, () => MinimumConcrete.Label(fck));
         // F2.9-D13: la libreria può restituire solo le classi minime del catalogo; per le altre lo stesso rifiuto di prima.
-        var minimum = legacy.Select(e => MinimumConcrete.Fck(e.Code, DurabilityEngine.Library)).Distinct().OrderBy(x => x).ToArray();
+        var minimum = legacy.Select(e => With(DurabilityEngine.Library, () => MinimumConcrete.Fck(e.Code))).Distinct().OrderBy(x => x).ToArray();
         check(minimum.SequenceEqual(new[] { 12, 25, 30, 32, 35 }), "11d: classi minime del catalogo " + string.Join(", ", minimum));
         foreach (var engine in Engines)
             foreach (int fck in new[] { 28, 0, 90 })
-                check(Outcome(() => MinimumConcrete.Label(fck, engine)) == "error:ArgumentException " + ConcreteLibraryMapping.DurabilityLabelMessage, $"11d: etichetta di {fck} accettata con il motore {engine}");
+                check(Outcome(() => With(engine, () => MinimumConcrete.Label(fck))) == "error:ArgumentException " + ConcreteLibraryMapping.DurabilityLabelMessage, $"11d: etichetta di {fck} accettata con il motore {engine}");
         return new JsonObject { ["esposizioni"] = legacy.Length, ["funzioni_per_codice_ed_etichette"] = codes.Json() };
     }
 
@@ -477,7 +523,7 @@ internal static class DurabilityChecks
         catch (Exception e) { return "error:" + e.GetType().Name + " " + e.Message; }
     }
 
-    // ================================================================ 11f. punti d'ingresso con il motore esplicito
+    // ================================================================ 11f. punti d'ingresso nell'ambito di ciascun motore (prima il motore esplicito)
     static JsonObject EntryPoints(string root, Action<bool, string> check)
     {
         ProbeSelfCheck("11f", check);
@@ -486,26 +532,26 @@ internal static class DurabilityChecks
             foreach (double fck in new[] { 20.0, 30, 45 })
             {
                 int entries = name.Contains("diametro") ? 0 : 1;
-                material.Same($"MaterialCover.Required {name} fck {fck}", e => MaterialCover.Required(state, fck, e), entries);
-                material.Same($"MaterialCover.Required {name} fck {fck} Ø 25", e => MaterialCover.Required(state, fck, 25, e));
+                material.Same($"MaterialCover.Required {name} fck {fck}", () => MaterialCover.Required(state, fck), entries);
+                material.Same($"MaterialCover.Required {name} fck {fck} Ø 25", () => MaterialCover.Required(state, fck, 25));
             }
         foreach (var (name, wall) in Walls(root))
         {
             var data = (JsonObject)wall.DeepClone(); RetainingWall.Upgrade(data);
             var state = RetainingWall.CoverMaterialState(data);
-            material.Same("MaterialCover.Required muro " + name, e => MaterialCover.Required(state, data["materials"].D("fck"), RetainingWall.MaximumBarDiameter(data), e));
+            material.Same("MaterialCover.Required muro " + name, () => MaterialCover.Required(state, data["materials"].D("fck"), RetainingWall.MaximumBarDiameter(data)));
         }
         var cover = new Comparison("11f", check);
         foreach (var (name, state) in MaterialStates(root).Where(s => !s.Name.Contains("diametro")))
             foreach (var (label, input) in SectionInputs())
-                cover.Same($"ConcreteCoverAnalysis {name} {label}", e => ConcreteCoverAnalysis.Calculate(input, state, 30, e));
+                cover.Same($"ConcreteCoverAnalysis {name} {label}", () => ConcreteCoverAnalysis.Calculate(input, state, 30));
         var project = new Comparison("11f", check);
         var texts = new JsonObject();
         foreach (var (name, section, durability) in ProjectScenarios())
         {
             int entries = durability ? 1 : 0;
-            project.Same("ProjectValidation.CoverChecks " + name, e => ProjectValidation.CoverChecks(section, null, e).Select(c => c.Text + " · " + Show(c.Passed)).ToArray(), entries);
-            project.Same("ProjectValidation.Warnings " + name, e => ProjectValidation.Warnings(section, e), entries);
+            project.Same("ProjectValidation.CoverChecks " + name, () => ProjectValidation.CoverChecks(section, null).Select(c => c.Text + " · " + Show(c.Passed)).ToArray(), entries);
+            project.Same("ProjectValidation.Warnings " + name, () => ProjectValidation.Warnings(section), entries);
             texts[name] = new JsonArray(ProjectValidation.CoverChecks(section).Select(c => (JsonNode)(c.Text + " · " + Show(c.Passed))).ToArray());
         }
         check(project.Results >= 20, "11f: scenari di progetto: " + project.Results);
@@ -555,7 +601,7 @@ internal static class DurabilityChecks
     {
         foreach (var (id, _, data) in CorpusDocuments(root).Where(d => d.Module == "mat_calcestruzzo")) yield return ("corpus " + id, data);
         yield return ("default", ModuleCatalog.CreateData("mat_calcestruzzo"));
-        foreach (var e in ConcreteDurabilityAdapter.Exposures(DurabilityEngine.Legacy))
+        foreach (var e in With(DurabilityEngine.Legacy, ConcreteDurabilityAdapter.Exposures))
         {
             yield return ("NTC " + e.Code, MaterialState("C30/37", e.Code, Ntc));
             yield return ("EC2 " + e.Code, MaterialState("C30/37", e.Code, Ec2));
@@ -724,7 +770,9 @@ internal static class DurabilityChecks
 
     static JsonObject StaticState(Action<bool, string> check)
     {
-        var types = new List<Type> { typeof(Durability), typeof(NtcCover), typeof(MinimumConcrete), typeof(AtecapMix), typeof(MaterialCover), typeof(DurabilityLegacy), typeof(ConcreteDurabilityAdapter) };
+        // Dalla decisione D3 del 15/10/2026 anche il motore legacy agganciabile di tests/ANTHEA.Legacy.
+        var types = new List<Type> { typeof(Durability), typeof(NtcCover), typeof(MinimumConcrete), typeof(AtecapMix), typeof(MaterialCover), typeof(DurabilityLegacy), typeof(ConcreteDurabilityAdapter),
+            typeof(LegacyDurabilityEngine) };
         types.AddRange(typeof(DurabilityLegacy).GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic).Where(t => !t.IsDefined(typeof(CompilerGeneratedAttribute))));
         int checkedMembers = 0; var declaredSeen = new HashSet<string>();
         void Field(Type type, FieldInfo field)
@@ -780,42 +828,48 @@ internal static class DurabilityChecks
         int count = 0;
         foreach (var engine in Engines)
         {
+            // Decisione D3 del 15/10/2026: il motore si aggancia per tutto il corpo (prima il parametro di ogni facciata); la sonda lo conferma.
+            using var scope = LegacyDurabilityEngine.Use(engine);
+            var probe = DurabilityProbe.Start();
             void Hand(double actual, double expected, string what) { check(actual == expected, $"11h: {what} ({engine}): {Show(actual)} invece di {Show(expected)} (valore a mano)"); count++; }
-            Exposure[] E(params string[] codes) => codes.Select(c => ConcreteDurabilityAdapter.Exposures(engine).Single(e => e.Code == c)).ToArray();
+            Exposure[] E(params string[] codes) => codes.Select(c => ConcreteDurabilityAdapter.Exposures().Single(e => e.Code == c)).ToArray();
             // Pagina del metodo ca.durabilita-copriferri di Checker, §10, esempio 1: NTC 2018, trave in XC3, C28/35, 50 anni, staffe Ø8,
             // dg = 20 mm, Δcdev = 10 mm, elemento non a piastra, senza controllo di qualità.
             var p1 = new CoverInput(50, false, false, false, 8, 20, 10, false, 0, 0);
             foreach (var (cmin, dur, nominal) in new (double?, double, double)[] { (30, 30, 40), (28, 25, 35), (null, 25, 35) })
             {
-                var r = NtcCover.Calculate(E("XC3"), 28, p1, false, false, cmin, engine);
+                var r = NtcCover.Calculate(E("XC3"), 28, p1, false, false, cmin);
                 string row = "esempio 1, Cmin " + Show(cmin);
                 Hand(r.Severity, 0, row + ": gruppo"); Hand(r.C0, 35, row + ": C0"); Hand(r.TableCover, 25, row + ": tabella");
                 Hand(r.Cover.Durability, dur, row + ": cmin,dur"); Hand(r.Cover.Minimum, dur, row + ": cmin"); Hand(r.Cover.Nominal, nominal, row + ": cnom");
             }
-            Hand(MinimumConcrete.Required(E("XC3"), engine), 30, "esempio 1, classe minima NTC (UNI 11104)");
-            check(MinimumConcrete.Label(30, engine) == "C30/37", $"11h: esempio 1, etichetta della classe minima ({engine})"); count++;
+            Hand(MinimumConcrete.Required(E("XC3")), 30, "esempio 1, classe minima NTC (UNI 11104)");
+            check(MinimumConcrete.Label(30) == "C30/37", $"11h: esempio 1, etichetta della classe minima ({engine})"); count++;
             Hand(E("XC3").Max(e => e.MinStrength), 30, "esempio 1, EN 206 F.1: classe");
             Hand(E("XC3")[0].MaxRatio!.Value, .55, "esempio 1, EN 206 F.1: a/c"); Hand(E("XC3")[0].MinCement, 280, "esempio 1, EN 206 F.1: cemento");
-            var mix = AtecapMix.Required(E("XC3"), engine);
+            var mix = AtecapMix.Required(E("XC3"));
             Hand(mix.Ratio!.Value, .55, "esempio 1, UNI 11104:2016: a/c"); Hand(mix.Cement!.Value, 320, "esempio 1, UNI 11104:2016: cemento");
             // Esempio 2: XC4 + XD1, C40/50, staffe Ø12, dg = 20 mm, Δcdev = 10 mm.
             var p2 = new CoverInput(50, true, false, false, 12, 20, 10, false, 0, 0);
             foreach (var (label, p, cls, xc4, xd1, nominal) in new[] { ("EN con riduzione", p2, 3, 25.0, 30.0, 40.0), ("EN senza riduzione", p2 with { StrengthReduction = false }, 4, 30.0, 35.0, 45.0),
                 ("EN 100 anni con riduzione", p2 with { Life = 100 }, 5, 35.0, 40.0, 50.0) })
             {
-                var c = Durability.Cover(E("XC4", "XD1"), 40, p, engine);
+                var c = Durability.Cover(E("XC4", "XD1"), 40, p);
                 string row = "esempio 2, " + label;
                 check(c.Lines.Length == 2 && c.Lines[0].Exposure == "XC4" && c.Lines[1].Exposure == "XD1", $"11h: {row}: righe ({engine})"); count++;
                 Hand(c.Lines[0].StructuralClass, cls, row + ": classe strutturale XC4"); Hand(c.Lines[1].StructuralClass, cls, row + ": classe strutturale XD1");
                 Hand(c.Lines[0].Durability, xc4, row + ": XC4"); Hand(c.Lines[1].Durability, xd1, row + ": XD1");
                 Hand(c.Durability, xd1, row + ": cmin,dur"); Hand(c.Minimum, xd1, row + ": cmin"); Hand(c.Nominal, nominal, row + ": cnom");
             }
-            int pertinent = MinimumConcrete.Required(E("XC4", "XD1"), engine);
+            int pertinent = MinimumConcrete.Required(E("XC4", "XD1"));
             Hand(pertinent, 32, "esempio 2, classe minima NTC (UNI 11104 XC4)");
-            var n = NtcCover.Calculate(E("XC4", "XD1"), 40, p2, false, false, pertinent, engine);
+            var n = NtcCover.Calculate(E("XC4", "XD1"), 40, p2, false, false, pertinent);
             Hand(n.Severity, 1, "esempio 2, NTC: gruppo"); Hand(n.C0, 40, "esempio 2, NTC: C0"); Hand(n.Cmin, 32, "esempio 2, NTC: Cmin"); Hand(n.TableCover, 30, "esempio 2, NTC: tabella");
             Hand(n.Cover.Durability, 30, "esempio 2, NTC: cmin,dur"); Hand(n.Cover.Minimum, 30, "esempio 2, NTC: cmin"); Hand(n.Cover.Nominal, 40, "esempio 2, NTC: cnom");
             Hand(E("XC4", "XD1").Max(e => e.MinStrength), 30, "esempio 2, EN 206 F.1: classe");
+            var hooked = probe.Entries; DurabilityProbe.Stop();
+            check(hooked.Count > 0 && hooked.All(e => e.Adapter == Adapter && e.Engine == engine),
+                $"11h: attesi della pagina del metodo con il motore {engine}: voci della sonda {Describe(hooked.Where(e => e.Engine != engine))}");
         }
         // Controlli di riferimento di supporto/test/Shared/DurabilityReferenceChecks.cs (valori a mano, prima Durability.Check e
         // NtcCover.Check), con ciascun motore: la sonda conferma che tutte le chiamate usano il motore richiesto.
@@ -833,7 +887,7 @@ internal static class DurabilityChecks
         var sheet = CalculationService.Calculate("mat_calcestruzzo", (JsonObject)m1.DeepClone());
         check(sheet.D("fck_mpa") == 28 && sheet.D("copriferro_nominale_mm") == 40, $"11h: documento M1 di B6: fck {sheet.D("fck_mpa")}, cnom {sheet.D("copriferro_nominale_mm")} invece di 28 e 40 mm (valore a mano)");
         foreach (var engine in Engines)
-            check(MaterialCover.Required(m1, 28, engine) == 40, $"11h: documento M1 di B6 con il motore {engine}: cnom {MaterialCover.Required(m1, 28, engine)} invece di 40 mm (valore a mano)");
+            check(With(engine, () => MaterialCover.Required(m1, 28)) == 40, $"11h: documento M1 di B6 con il motore {engine}: cnom {With(engine, () => MaterialCover.Required(m1, 28))} invece di 40 mm (valore a mano)");
         return new JsonObject
         {
             ["documento_M1_di_B6"] = "cnom 40 mm (esempio 1)",
@@ -849,12 +903,14 @@ internal static class DurabilityChecks
     static readonly ImmutableArray<string> TestFolders = ["supporto/test", "tests"];
     const string AdapterFile = "X.Calculations/ConcreteDurabilityAdapter.cs";
 
-    /// <summary>File propri della durabilità → regole che non si applicano a quel file. L'adattatore usa per costruzione la libreria, il nucleo
-    /// legacy e il motore Legacy: al posto delle regole ha il controllo dei rami legacy (<see cref="AdapterBranches"/>). La mappatura usa la
-    /// libreria ma mai il legacy; il nucleo legacy non usa mai la libreria.</summary>
+    /// <summary>File propri della durabilità → regole che non si applicano a quel file. L'adattatore usa per costruzione la libreria e
+    /// l'aggancio del motore legacy: al posto di queste due regole ha il controllo dei rami dell'aggancio (<see cref="AdapterBranches"/>).
+    /// Dalla decisione D3 del 15/10/2026 il nucleo legacy e il selettore DurabilityEngine non sono più nel prodotto: anche l'adattatore è
+    /// scansionato con le regole 'legacy' e 'motore-legacy', senza voci ammesse. La mappatura usa la libreria ma mai il legacy; il nucleo
+    /// legacy non usa mai la libreria.</summary>
     static readonly ImmutableDictionary<string, ImmutableHashSet<string>> OwnFiles = new Dictionary<string, ImmutableHashSet<string>>
     {
-        [AdapterFile] = ["legacy", "motore-legacy", "libreria-durabilita"],
+        [AdapterFile] = ["libreria-durabilita", "aggancio"],
         ["X.Calculations/ConcreteLibraryMapping.Durability.cs"] = ["libreria-durabilita"],
         ["X.Calculations/Materials/DurabilityLegacy.cs"] = ["legacy"]
     }.ToImmutableDictionary();
@@ -868,7 +924,10 @@ internal static class DurabilityChecks
     static readonly (string Name, Regex Pattern, bool ProductionOnly)[] ScanRules =
     [
         ("legacy", new(@"\bDurabilityLegacy\b", RegexOptions.CultureInvariant), false),
-        ("motore-legacy", new(@"\bDurabilityEngine\s*\.\s*Legacy\b", RegexOptions.CultureInvariant), true),
+        // Dalla decisione D3 del 15/10/2026 il selettore è solo in tests/ANTHEA.Legacy: nel prodotto nessun uso (prima il solo DurabilityEngine.Legacy).
+        ("motore-legacy", new(@"\bDurabilityEngine\b", RegexOptions.CultureInvariant), true),
+        // L'interfaccia dell'aggancio (decisione D3, modo b) compare nel prodotto solo nell'adattatore, che la dichiara.
+        ("aggancio", new(@"\bILegacyDurability\b", RegexOptions.CultureInvariant), true),
         ("libreria-durabilita", new(@"\bGPC\s*\.\s*Checkers\s*\.\s*Concrete\s*\.\s*Durability\b|(?<!\.\s*)\b" + LibraryTypes + @"|\bDurability\s*\.\s*" + LibraryTypes,
             RegexOptions.CultureInvariant), false),
         ("classe-minima-per-profilo", new(@"(?<!\.\s*)\bExposureClasses\s*\.\s*MinimumStrength\b|\bDurability\s*\.\s*ExposureClasses\s*\.\s*MinimumStrength\b", RegexOptions.CultureInvariant), false)
@@ -885,15 +944,41 @@ internal static class DurabilityChecks
              "var c = input?.ExposureClass;", "var d = row\n    .ExposureClasses;", "Materiali.CoverInput p = Basic; CoverResult r = Durability.Cover(e, 30, p);", "var e = Durability.Exposures;"]),
         ("classe-minima-per-profilo",
             ["var m = ExposureClasses.MinimumStrength(profile, codes);", "var n = C.Durability.ExposureClasses.MinimumStrength(profile, codes);"],
-            ["var k = CrackRequirements.ExposureClasses.MinimumStrength;", "var u = ExposureClasses.Uni11104MinimumStrength(codes);"])
+            ["var k = CrackRequirements.ExposureClasses.MinimumStrength;", "var u = ExposureClasses.Uni11104MinimumStrength(codes);"]),
+        ("motore-legacy",
+            ["public static int Severity(string code, DurabilityEngine? engine = null)", "var e = Anthea.Calculations.DurabilityEngine.Legacy;", "if (engine == DurabilityEngine . Library) return;"],
+            ["using (LegacyDurabilityEngine.Use(engine)) return call();", "var durabilityEngine = Library;", "ShearTorsionEngine e = default;"]),
+        ("aggancio",
+            ["static ILegacyDurability? Hook(string operation)", "var h = EngineHook.Get<Anthea.Calculations.ILegacyDurability>();"],
+            ["public sealed class LegacyDurabilityEngine", "var s = EngineHook.Get<ILegacyServiceability>();"])
     ];
 
-    // Ramo legacy di un'operazione dell'adattatore: dietro UseLegacy(engine), con la voce Legacy della sonda e una sola chiamata al nucleo legacy.
-    static readonly Regex LegacyBranch = new(@"^\s*if \(UseLegacy\(engine\)\) \{ Record\(nameof\((?<op>\w+)\), DurabilityEngine\.Legacy\); (?:return )?DurabilityLegacy(?:\.\w+)+(?:\([\w, ]*\))?; (?:return; )?\}\s*$",
+    // Ramo dell'aggancio di un'operazione dell'adattatore (decisione D3 del 15/10/2026, modo b; prima il ramo "if (UseLegacy(engine))" con il
+    // nucleo legacy): Hook con il nome dell'operazione, che registra il motore nella sonda; con un motore agganciato la stessa operazione,
+    // una sola chiamata, poi l'uscita dal metodo.
+    static readonly Regex HookBranch = new(@"^\s*if \(Hook\(nameof\((?<op>\w+)\)\) is \{ \} legacy\) (?:return legacy\.(?<call>\w+)\((?<args>[\w, ]*)\);|\{ legacy\.(?<call>\w+)\((?<args>[\w, ]*)\); return; \})\s*$",
         RegexOptions.CultureInvariant);
-    static readonly Regex LibraryRecord = new(@"\bRecord\(nameof\((?<op>\w+)\), DurabilityEngine\.Library\);", RegexOptions.CultureInvariant);
-    static readonly Regex EngineSwitch = new(@"^\s*static bool UseLegacy\(DurabilityEngine\? engine\) => \(engine \?\? Default\) == DurabilityEngine\.Legacy;\s*$", RegexOptions.CultureInvariant);
-    static readonly Regex PublicOperation = new(@"^\s*public static .*\bDurabilityEngine\? engine = null\)\s*$", RegexOptions.CultureInvariant);
+    // Definizione di Hook, riga per riga: legge l'aggancio e registra adattatore, operazione e motore che la esegue («Legacy» con l'aggancio,
+    // altrimenti «Library»), prima di qualunque calcolo.
+    static readonly ImmutableArray<Regex> HookDefinition =
+    [
+        new(@"^\s*static ILegacyDurability\? Hook\(string operation\)\s*$", RegexOptions.CultureInvariant),
+        new(@"^\s*\{\s*$", RegexOptions.CultureInvariant),
+        new(@"^\s*var legacy = EngineHook\.Get<ILegacyDurability>\(\);\s*$", RegexOptions.CultureInvariant),
+        new(@"^\s*EngineHook\.Record\(nameof\(ConcreteDurabilityAdapter\), operation, EngineHook\.EngineName\(legacy\)\);\s*$", RegexOptions.CultureInvariant),
+        new(@"^\s*return legacy;\s*$", RegexOptions.CultureInvariant),
+        new(@"^\s*\}\s*$", RegexOptions.CultureInvariant)
+    ];
+    static readonly Regex HookInterface = new(@"^\s*internal interface ILegacyDurability\s*$", RegexOptions.CultureInvariant);
+    // Righe che toccano l'aggancio, il nucleo legacy o il selettore: ammesse solo nei rami, nella definizione di Hook e nella dichiarazione.
+    static readonly Regex HookWords = new(@"\b(?:Hook|legacy|ILegacyDurability|EngineHook|DurabilityLegacy|DurabilityEngine|UseLegacy)\b", RegexOptions.CultureInvariant);
+    static readonly Regex PublicOperation = new(@"^\s*public static [^=]*?\b(?<name>\w+)\((?<params>.*)\)\s*$", RegexOptions.CultureInvariant);
+    /// <summary>Operazioni pubbliche dell'adattatore senza motore già prima della decisione D3 (esito comune dei requisiti già risolti).</summary>
+    static readonly ImmutableHashSet<string> EngineIndependent = ["AssessCover"];
+
+    /// <summary>Operazione e argomenti di un ramo dell'aggancio ben formato (la stessa operazione nel nome e nella chiamata), altrimenti null.</summary>
+    static (string Op, string Args)? BranchOf(string line)
+        => HookBranch.Match(line) is { Success: true } m && m.Groups["op"].Value == m.Groups["call"].Value ? (m.Groups["op"].Value, m.Groups["args"].Value) : null;
 
     static JsonObject Scan(string root, Action<bool, string> check)
     {
@@ -905,10 +990,14 @@ internal static class DurabilityChecks
             foreach (string line in hit) { check(CodeOnly(line).Split('\n').Any(pattern.IsMatch), $"11i: autoverifica: la regola {rule} non riconosce «{line}»"); samples++; }
             foreach (string line in miss) { check(!CodeOnly(line).Split('\n').Any(pattern.IsMatch), $"11i: autoverifica: la regola {rule} riconosce «{line}»"); samples++; }
         }
-        check(LegacyBranch.IsMatch("        if (UseLegacy(engine)) { Record(nameof(Cover), DurabilityEngine.Legacy); return DurabilityLegacy.Durability.Cover(values, fck, p); }")
-            && !LegacyBranch.IsMatch("        Record(nameof(NtcCover), DurabilityEngine.Library); if (values != null) return DurabilityLegacy.NtcCover.Calculate(values, fck, p, plate, coverQuality, pertinentCmin);")
-            && !LegacyBranch.IsMatch("        if (UseLegacy(engine)) { Record(nameof(Cover), DurabilityEngine.Library); return DurabilityLegacy.Durability.Cover(values, fck, p); }"),
-            "11i: autoverifica del ramo legacy dell'adattatore");
+        check(BranchOf("        if (Hook(nameof(Cover)) is { } legacy) return legacy.Cover(values, fck, p);") == ("Cover", "values, fck, p")
+            && BranchOf("        if (Hook(nameof(Validate)) is { } legacy) { legacy.Validate(values); return; }") == ("Validate", "values")
+            && BranchOf("        if (Hook(nameof(Cover)) is { } legacy) return legacy.NtcCover(values, fck, p, false, false, null);") is null
+            && BranchOf("        Hook(nameof(NtcCover)); if (values != null) return legacy.NtcCover(values, fck, p, plate, coverQuality, pertinentCmin);") is null
+            && BranchOf("        if (Hook(nameof(Validate)) is { } legacy) { legacy.Validate(values); }") is null
+            && BranchOf("        if (Hook(nameof(Cover)) is { } legacy) return legacy.Cover(values, fck, p) ?? Library(values);") is null
+            && BranchOf("        if (UseLegacy(engine)) { Record(nameof(Cover), DurabilityEngine.Legacy); return DurabilityLegacy.Durability.Cover(values, fck, p); }") is null,
+            "11i: autoverifica del ramo dell'aggancio dell'adattatore");
         var allowlist = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests", "ConcreteLibraryAdapter.Checks", "legacy-allowlist-durabilita.json")))!["voci"]!.AsArray()
             .Select(v => (File: v!["file"]!.GetValue<string>(), Rule: v["regola"]!.GetValue<string>(), Lines: v["righe"]?.GetValue<int>(), WholeFile: v["tutto_il_file"]?.GetValue<bool>() == true,
                 Texts: v["testo"]?.AsArray().Select(t => t!.GetValue<string>()).ToArray() ?? [])).ToList();
@@ -952,29 +1041,57 @@ internal static class DurabilityChecks
         };
     }
 
-    /// <summary>Rami legacy dell'adattatore (rilievo della revisione di F2.9): con uscite identiche fra i motori, solo la struttura del
-    /// sorgente rivela un ramo della libreria che calcola con il nucleo legacy e registra Library. Ogni riga con DurabilityLegacy o con il
-    /// motore Legacy è un ramo "if (UseLegacy(engine)) { Record(nameof(Op), DurabilityEngine.Legacy); … DurabilityLegacy…; }" oppure la
-    /// definizione di UseLegacy; ogni operazione pubblica con il motore ha un ramo legacy e una voce Library della sonda, una sola volta.</summary>
+    /// <summary>Rami dell'aggancio dell'adattatore (rilievo della revisione di F2.9, riscritto con la decisione D3 del 15/10/2026): con uscite
+    /// identiche fra i motori, solo la struttura del sorgente rivela un'operazione che non registra il motore, che usa il motore agganciato per
+    /// un'altra operazione o con altri argomenti, o che dopo il motore agganciato prosegue con la libreria. Ogni riga che tocca l'aggancio, il
+    /// nucleo legacy o il selettore è un ramo "if (Hook(nameof(Op)) is { } legacy) … legacy.Op(argomenti dell'operazione) …" subito in testa
+    /// all'operazione Op, la definizione di Hook (una sola, che registra nella sonda) o la dichiarazione di ILegacyDurability. Ogni operazione
+    /// pubblica (salvo quelle senza motore) ha un solo ramo, e le operazioni coincidono con quelle dell'interfaccia: nomi, parametri e tipi.</summary>
     static int AdapterBranches(string root, Action<bool, string> check)
     {
-        var legacy = new List<string>(); var library = new List<string>();
-        int switches = 0, operations = 0;
-        Regex core = ScanRules.Single(r => r.Name == "legacy").Pattern, engine = ScanRules.Single(r => r.Name == "motore-legacy").Pattern;
-        foreach (string line in CodeOnly(File.ReadAllText(Path.Combine(root, AdapterFile))).Split('\n'))
+        var lines = CodeOnly(File.ReadAllText(Path.Combine(root, AdapterFile))).Split('\n');
+        var adapter = typeof(ConcreteDurabilityAdapter);
+        var hook = adapter.Assembly.GetType("Anthea.Calculations.ILegacyDurability");
+        check(hook is { IsInterface: true, IsPublic: false }, $"11i: {AdapterFile}: interfaccia internal ILegacyDurability non trovata");
+        var hookMethods = hook?.GetMethods() ?? Array.Empty<MethodInfo>();
+        var operations = adapter.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).Where(m => !EngineIndependent.Contains(m.Name)).ToArray();
+        check(operations.Length >= 12 && operations.Select(m => m.Name).Distinct().Count() == operations.Length, $"11i: {AdapterFile}: {operations.Length} operazioni pubbliche con l'aggancio");
+        check(hookMethods.Length == operations.Length && operations.All(m => hookMethods.Any(h => h.Name == m.Name && h.ReturnType == m.ReturnType
+                && h.GetParameters().Select(p => (p.ParameterType, p.Name)).SequenceEqual(m.GetParameters().Select(p => (p.ParameterType, p.Name))))),
+            $"11i: {AdapterFile}: operazioni dell'adattatore [{string.Join(", ", operations.Select(m => m.Name))}] e dell'aggancio [{string.Join(", ", hookMethods.Select(m => m.Name))}] diverse");
+        var branches = new List<string>();
+        int definitions = 0, interfaces = 0;
+        string? method = null; int methodLine = -1;
+        for (int i = 0; i < lines.Length; i++)
         {
-            if (PublicOperation.IsMatch(line)) operations++;
-            if (LibraryRecord.Match(line) is { Success: true } record) library.Add(record.Groups["op"].Value);
-            if (!core.IsMatch(line) && !engine.IsMatch(line)) continue;
-            if (LegacyBranch.Match(line) is { Success: true } branch) { legacy.Add(branch.Groups["op"].Value); continue; }
-            if (EngineSwitch.IsMatch(line)) { switches++; continue; }
-            check(false, $"11i: {AdapterFile}: nucleo legacy o motore Legacy fuori da un ramo 'if (UseLegacy(engine)) {{ Record(…, DurabilityEngine.Legacy); … }}': {line.Trim()}");
+            string line = lines[i];
+            if (PublicOperation.Match(line) is { Success: true } signature) { method = signature.Groups["name"].Value; methodLine = i; }
+            if (HookDefinition[0].IsMatch(line))
+            {
+                bool whole = i + HookDefinition.Length <= lines.Length && HookDefinition.Select((pattern, k) => pattern.IsMatch(lines[i + k])).All(x => x);
+                check(whole, $"11i: {AdapterFile}: definizione di Hook diversa da quella attesa (lettura dell'aggancio e voce della sonda): {line.Trim()}");
+                definitions++;
+                if (whole) { i += HookDefinition.Length - 1; continue; }
+            }
+            if (!HookWords.IsMatch(line)) continue;
+            if (HookInterface.IsMatch(line)) { interfaces++; continue; }
+            if (BranchOf(line) is { } branch)
+            {
+                var operation = operations.FirstOrDefault(m => m.Name == branch.Op);
+                check(operation is not null && method == branch.Op && i == methodLine + 2 && lines[i - 1].Trim() == "{",
+                    $"11i: {AdapterFile}: ramo dell'aggancio di {branch.Op} fuori dalla testa dell'operazione {method}: {line.Trim()}");
+                check(operation is not null && branch.Args == string.Join(", ", operation.GetParameters().Select(p => p.Name)),
+                    $"11i: {AdapterFile}: il ramo dell'aggancio di {branch.Op} non passa gli argomenti dell'operazione: {line.Trim()}");
+                branches.Add(branch.Op);
+                continue;
+            }
+            check(false, $"11i: {AdapterFile}: aggancio, nucleo legacy o selettore fuori da un ramo 'if (Hook(nameof(Op)) is {{ }} legacy) … legacy.Op(…)': {line.Trim()}");
         }
-        check(switches == 1, $"11i: {AdapterFile}: {switches} definizioni di UseLegacy invece di una");
-        check(operations >= 12 && legacy.Count == operations, $"11i: {AdapterFile}: {operations} operazioni pubbliche con il motore, {legacy.Count} rami legacy");
-        check(legacy.Distinct().Count() == legacy.Count && legacy.Order().SequenceEqual(library.Order()),
-            $"11i: {AdapterFile}: operazioni dei rami legacy [{string.Join(", ", legacy)}] e voci Library della sonda [{string.Join(", ", library)}] diverse");
-        return legacy.Count;
+        check(definitions == 1, $"11i: {AdapterFile}: {definitions} definizioni di Hook invece di una");
+        check(interfaces == 1, $"11i: {AdapterFile}: {interfaces} dichiarazioni di ILegacyDurability invece di una");
+        check(branches.Distinct().Count() == branches.Count && branches.Order().SequenceEqual(operations.Select(m => m.Name).Order()),
+            $"11i: {AdapterFile}: operazioni dei rami dell'aggancio [{string.Join(", ", branches)}] e operazioni pubbliche [{string.Join(", ", operations.Select(m => m.Name))}] diverse");
+        return branches.Count;
     }
 
     /// <summary>Codice senza commenti, stringhe e caratteri, con le stesse righe (anche per la 5k delle SLE).</summary>
