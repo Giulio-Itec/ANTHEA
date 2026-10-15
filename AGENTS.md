@@ -2,7 +2,7 @@
 
 - ANTHEA è solo interfaccia. Calcoli, formule e coefficienti normativi stanno nelle librerie GPC (Utilities, Geometry, Model, Checker e GPC.Design). Il codice non grafico specifico di ANTHEA (documenti, migrazioni, progetti, adattatori, report) va nelle librerie senza WPF del repository. Non aggiungere calcoli nuovi a X.Desktop, X.Core o X.Calculations.
 - Il refactoring segue `docs/refactoring/piano.md`; le decisioni sono in `docs/refactoring/decisioni.md`. Aggiornare lo stato del piano a ogni passo concluso.
-- Il codice esistente si sposta solo con cattura prima, modifica e confronto dopo. Ogni differenza va registrata e classificata nel registro delle differenze di `docs/refactoring`. Il motore legacy si elimina solo a equivalenza provata e con l'accordo dell'utente.
+- Il codice esistente si sposta solo con cattura prima, modifica e confronto dopo. Ogni differenza va registrata e classificata nel registro delle differenze di `docs/refactoring`. Il motore legacy non si elimina: si sposta in `tests/ANTHEA.Legacy`, dove resta come riferimento delle prove di equivalenza.
 - Gli attesi indipendenti (calcoli Python, calcoli a mano, esempi pubblicati) non si sovrascrivono mai con risultati del codice.
 
 # Struttura del repository
