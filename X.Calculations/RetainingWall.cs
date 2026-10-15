@@ -107,7 +107,19 @@ public static partial class RetainingWall
         }
         if (d["seismic"].B("enabled"))
         {
-            Fields("seismic", SeismicFields);
+            // Con i coefficienti ricavati dal sito kh e kv non sono dati dell'utente (MUR-5): il campo del motore si controlla sul valore
+            // ricavato, con un messaggio che ne indica l'origine; quelli del ribaltamento li controlla la libreria (WallCombinations).
+            if (d["seismic"].S("source", SeismicManual) == SeismicSite)
+            {
+                var (kh, kv) = (SeismicFields[0], SeismicFields[1]);
+                double derivedKh = J.Number(d["seismic"]?["kh"]) ?? double.NaN, derivedKv = Math.Abs(J.Number(d["seismic"]?["kv"]) ?? double.NaN);
+                if (!(derivedKh >= kh.Min && derivedKh <= kh.Max && derivedKv <= kv.Max))
+                {
+                    var it = System.Globalization.CultureInfo.GetCultureInfo("it-IT");
+                    throw new ArgumentException($"Sisma da parametri del sito: kh = βm × amax/g = {derivedKh.ToString("0.###", it)} e |kv| = {derivedKv.ToString("0.###", it)} ricavati dal sito superano il campo del motore (kh ≤ {kh.Max.ToString("0.###", it)}; |kv| ≤ {kv.Max.ToString("0.###", it)}). I coefficienti non vengono troncati: controllare ag/g, F₀, categoria di sottosuolo e topografia dello SLV.");
+                }
+            }
+            else Fields("seismic", SeismicFields);
             var layers = d.Array("layers"); var first = layers[0]!;
             if (d["water"].B("enabled") || layers.Any(l => l.D("phi") != first.D("phi") || l.D("gamma") != first.D("gamma")))
                 throw new ArgumentException("Pseudostatica: questa versione richiede terreno omogeneo asciutto; disattivare il sisma per il caso con falda o strati differenti.");
