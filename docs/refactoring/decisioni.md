@@ -1180,6 +1180,12 @@ F3 con 7214 differenze tutte nella previsione).
   regole del refactoring): tag git sul commit precedente alla rimozione, per ritrovare il codice; dove una prova
   confronta la libreria con il legacy, prima si congelano le uscite del legacy sui corpus esistenti (fixture con
   SHA-256) e la prova confronta poi la libreria con la cattura congelata; gli attesi indipendenti restano.
+  **Decisione finale**, dopo la spiegazione di come si replicherebbero le prove: «allora optiamo per tenere tutto il
+  codice e spostarlo dentro dei file che non finiscono nell'installer. non vorrei cancellarlo dal progetto, per quanto
+  versionato». Quindi nessuna cancellazione: il codice legacy non usato dal prodotto e il codice che serve solo alle
+  prove escono dagli assembly distribuiti e vanno in un progetto del repository che l'installer non contiene, usato
+  dalle prove; i confronti vivi fra libreria e legacy restano. Superate le due formulazioni precedenti (progetto
+  parallelo come proposta e poi eliminazione).
 - **D4** «ok, finito questa correzione chiusura F4»: chiusura dei punti di F4 e dei [CP] F4.9 e F4.16 dopo D3 e il
   full conforme, con verbale.
 - **D5** «D5 ok»: merge senza avanzamento rapido in `main`, tag `refactoring/post-f4`, ANTHEA 1.9.0 con installer e
