@@ -277,17 +277,28 @@ public static partial class ConcreteLibraryMapping
         string governing = IsInnerSurface(r.GoverningRegion) ? RegionName(r.GoverningRegion!) : outer;
         var missing = r.RegionOutcomes.Where(o => (IsInnerSurface(o.Key) || o.Key == InnerSurfacesKey) && o.Outcome != CrackOutcome.Evaluated)
             .Select(o => RegionName(o.Key) + (InnerMissing.TryGetValue(o.Outcome, out var text) ? text : throw Unmapped("esito della superficie interna", o.Outcome.ToString()))).ToArray();
-        return missing.Any() ? governing + " · " + string.Join("; ", missing) : governing + " · controllate superfici esterne e interne";
+        // Superficie interna tesa senza armatura con la verifica non soddisfatta per questo motivo (F2-7 punto 3), non per l'ampiezza.
+        bool unreinforced = r.Passed == false && r.Width <= limit
+            && r.RegionOutcomes.Any(o => IsInnerSurface(o.Key) && o.Outcome == CrackOutcome.InnerSurfaceUnreinforced);
+        return missing.Any() ? governing + " · " + string.Join("; ", missing) + (unreinforced ? UnreinforcedTensileZoneFailure : "")
+            : governing + " · controllate superfici esterne e interne";
     }
+
+    /// <summary>
+    /// Zona tesa senza armatura (decisione dell'utente del 15/10/2026, F2-7 punto 3): la libreria dà la verifica non soddisfatta, senza ampiezza; lo
+    /// stato del legacy prosegue con il motivo.
+    /// </summary>
+    internal const string UnreinforcedTensileZoneFailure = " · non soddisfatta: zona tesa senza armatura, apertura delle fessure non controllata";
 
     /// <summary>Stato del legacy di una verifica fermata senza ampiezza (sezione, faccia o sistema grossolano).</summary>
     static string StopStatus(SectionCrackResult r)
     {
-        if (OuterStops.TryGetValue(r.Outcome, out var text)) return text;
+        string failure = r.Passed == false ? UnreinforcedTensileZoneFailure : "";
+        if (OuterStops.TryGetValue(r.Outcome, out var text)) return text + failure;
         if (r.Outcome == CrackOutcome.NoEffectiveArea)
         {
             if (!NoEffectiveAreaStops.TryGetValue(r.Reason, out var reason)) throw Unmapped("motivo della fessurazione", r.Reason.ToString());
-            return r.Reason == CrackReason.FaceWithoutAreaOrSteel ? RegionName(LastRegion(r, CrackOutcome.NoEffectiveArea)) + reason : reason;
+            return (r.Reason == CrackReason.FaceWithoutAreaOrSteel ? RegionName(LastRegion(r, CrackOutcome.NoEffectiveArea)) + reason : reason) + failure;
         }
         if (r.Outcome == CrackOutcome.SpacingUndetermined)
         {
@@ -337,7 +348,7 @@ public static partial class ConcreteLibraryMapping
         CrackTraceFlags.Assigned, CrackTraceFlags.Nominal, CrackTraceFlags.Automatic, CrackTraceFlags.Manual, CrackTraceFlags.ShortTerm, CrackTraceFlags.LongTerm,
         CrackTraceFlags.Ribbed, CrackTraceFlags.Plain, CrackTraceFlags.ComputedGoverns, CrackTraceFlags.MinimumGoverns, CrackTraceFlags.CloseBars,
         CrackTraceFlags.SparseBars, CrackTraceFlags.NearGoverns, CrackTraceFlags.FarGoverns, CrackTraceFlags.DsCoarseHalf, CrackTraceFlags.Envelope,
-        CrackTraceFlags.Uniform, CrackTraceFlags.BoundedByHeight, CrackTraceFlags.Local
+        CrackTraceFlags.Uniform, CrackTraceFlags.BoundedByHeight, CrackTraceFlags.Local, CrackTraceFlags.SingleCrackStage, CrackTraceFlags.StabilizedCrackStage
     }.ToFrozenSet(StringComparer.Ordinal);
 
     /// <summary>Argomenti della traccia letti dalla mappatura (prova 5a).</summary>
@@ -452,14 +463,16 @@ public static partial class ConcreteLibraryMapping
         [CrackTraceCodes.EffectiveTensileStrength] = (_, _) => ("fct,eff = fctm", "Resistenza media a trazione del materiale", "Nel codice attuale non è applicata una riduzione per l'età di fessurazione."),
         [CrackTraceCodes.Rho] = (_, _) => ("ρp,eff", "As,eff / Ac,eff", ""),
         [CrackTraceCodes.AlphaE] = (_, profile) => NtcTexts(profile) ? ("αe", "Es / Ecm", "Non coincide necessariamente con n dell'analisi con viscosità.") : ("αe", "Es/Ecm", ""),
-        [CrackTraceCodes.Kt] = (e, profile) => ("kt", NtcTexts(profile)
-            ? Pick(e, (CrackTraceFlags.ShortTerm, "Breve durata → 0,60"), (CrackTraceFlags.LongTerm, "Lunga durata → 0,40")) : "Coefficiente della durata / normativa", ""),
+        [CrackTraceCodes.Kt] = (e, profile) => Stage(e) is { } stage ? ("β", "Coefficiente β di fib MC2010 Tab. 7.6-2, " + stage, "")
+            : ("kt", NtcTexts(profile)
+                ? Pick(e, (CrackTraceFlags.ShortTerm, "Breve durata → 0,60"), (CrackTraceFlags.LongTerm, "Lunga durata → 0,40")) : "Coefficiente della durata / normativa", ""),
         [CrackTraceCodes.K1] = (e, _) => ("k₁", Pick(e, (CrackTraceFlags.Ribbed, "Aderenza migliorata → 0,80"), (CrackTraceFlags.Plain, "Barre lisce → 1,60")), ""),
         [CrackTraceCodes.K2] = (e, profile) => ("k₂", NtcTexts(profile) ? "Coefficiente della distribuzione delle deformazioni passato dal chiamante"
             : e.HasFlag(CrackTraceFlags.NotInWidthFormula) ? "Distribuzione delle deformazioni; non entra in sr,max di " + ProfileName(profile) : "Distribuzione delle deformazioni", ""),
         [CrackTraceCodes.K3] = (_, _) => ("k₃", "Coefficiente del termine di copriferro", ""),
         [CrackTraceCodes.K4] = (_, _) => ("k₄", "Coefficiente del termine Øeq / ρp,eff", ""),
-        [CrackTraceCodes.BetaMinimum] = (e, profile) => ("β minimo deformazione", e.HasFlag(CrackTraceFlags.UpperBound) ? profile == CrackProfile.ModelCode2010 ? "1 − kt" : "0,6"
+        [CrackTraceCodes.BetaMinimum] = (e, profile) => ("β minimo deformazione", Stage(e) is { } stage ? "1 − β, " + stage
+            : e.HasFlag(CrackTraceFlags.UpperBound) ? profile == CrackProfile.ModelCode2010 ? "1 − kt" : "0,6"
             : NtcTexts(profile) ? "Limite inferiore = 0,60·σs/Es" : "Limite inferiore", ""),
         [CrackTraceCodes.BetaWidth] = (_, _) => ("β apertura", "wk = 1,70·Δsm·(εsm − εcm)", ""),
         [CrackTraceCodes.FarRegionCoefficient] = (_, _) => ("Coefficiente regione distante", "Δsm,distante = 0,75·(h − x)", ""),
@@ -475,10 +488,17 @@ public static partial class ConcreteLibraryMapping
             $"({Argument(e, CrackTraceArguments.SteelStress):G10} − {Argument(e, CrackTraceArguments.TensionStiffening):G10}) / {Argument(e, CrackTraceArguments.Es):G10}"),
         [CrackTraceCodes.MinimumStrainDifference] = (e, _) => ("Δε minima", "0,60·σs / Es",
             $"0,60 × {Argument(e, CrackTraceArguments.SteelStress):G10} / {Argument(e, CrackTraceArguments.Es):G10}"),
-        [CrackTraceCodes.MeanStrainDifference] = (e, _) => e.HasFlag(CrackTraceFlags.UpperBound) ? ("εsm − εcm", "βmin σs/Es (ρp,eff → 0)", "")
+        [CrackTraceCodes.MeanStrainDifference] = (e, _) => e.HasFlag(CrackTraceFlags.UpperBound)
+                ? ("εsm − εcm", "βmin σs/Es (ρp,eff → 0)" + (Stage(e) is { } bound ? ", " + bound : ""), "")
+            : e.HasFlag(CrackTraceFlags.StabilizedCrackStage) ? ("εsm − εcm", "(σs − β·σsr)/Es, " + Stage(e), "Stadio scelto perché σs ≥ σsr; ritiro non considerato.")
+            : e.HasFlag(CrackTraceFlags.SingleCrackStage) ? ("εsm − εcm", "(1 − β)·σs/Es, " + Stage(e), "Stadio scelto perché σs < σsr; ritiro non considerato.")
             : e.HasFlag(CrackTraceFlags.ComputedGoverns) || e.HasFlag(CrackTraceFlags.MinimumGoverns)
                 ? ("εsm − εcm", "max(Δε calcolata; Δε minima)", Pick(e, (CrackTraceFlags.ComputedGoverns, "Governa il valore calcolato."), (CrackTraceFlags.MinimumGoverns, "Governa il minimo 0,60·σs/Es.")))
             : ("εsm − εcm", "max[(σs−kt fctm/ρeff (1+αe ρeff))/Es; βmin σs/Es]", ""),
+        [CrackTraceCodes.CrackingSteelStress] = (e, _) => ("σsr", "fctm/ρp,eff·(1 + αe·ρp,eff), tensione dell'acciaio alla formazione della fessura",
+            "Sceglie lo stadio di fib MC2010 Tab. 7.6-2: " + (Stage(e) ?? throw Unmapped("stadio di fib MC2010", e.Code)) + "."),
+        [CrackTraceCodes.BondStressRatio] = (e, _) => ("τbms/fctm", "Tensione media di aderenza di fib MC2010 Tab. 7.6-2, "
+            + (Stage(e) ?? throw Unmapped("stadio di fib MC2010", e.Code)), ""),
         [CrackTraceCodes.CoverTerm] = (_, _) => ("Termine copriferro", "k₃·c", ""),
         [CrackTraceCodes.ReinforcementTerm] = (_, _) => ("Termine armatura", "k₁·k₂·k₄·Øeq / ρp,eff", ""),
         [CrackTraceCodes.NearSpacing] = (_, _) => ("Δsm,vicino", "(k₃·c + k₁·k₂·k₄·Øeq/ρp,eff) / 1,70", "Il divisore 1,70 converte questo termine in distanza media nel percorso di calcolo attuale."),
@@ -542,6 +562,10 @@ public static partial class ConcreteLibraryMapping
     }
 
     /// <summary>Testo del primo flag presente fra quelli della variante; nessuno è un errore di programma.</summary>
+    /// <summary>Stadio di fib MC2010 Tab. 7.6-2 di una voce (regola del 15/10/2026, R1); null senza il flag dello stadio.</summary>
+    static string? Stage(CrackTraceEntry e)
+        => e.HasFlag(CrackTraceFlags.StabilizedCrackStage) ? "fessurazione stabilizzata" : e.HasFlag(CrackTraceFlags.SingleCrackStage) ? "formazione della singola fessura" : null;
+
     static string Pick(CrackTraceEntry e, params (string Flag, string Text)[] variants)
     {
         foreach (var (flag, text) in variants) if (e.HasFlag(flag)) return text;

@@ -41,6 +41,13 @@ var serviceabilityEngine = args.SkipWhile(a => a != "--motore-sle").Skip(1).Firs
     null => ServiceabilityEngines.Default, "legacy" => ServiceabilityEngine.Legacy, "libreria" => ServiceabilityEngine.Library,
     var other => throw new ArgumentException("--motore-sle: legacy o libreria, non " + other)
 };
+// Crack rules decided by the user on 15/10/2026 (R1, R2, F2-7 point 3): '--regole-fessurazione precedenti' captures with the library rules of before,
+// for the comparison with the historical captures and the Checker fixtures (concrete benches of the runner); without the option the product rules.
+using var crackRules = args.SkipWhile(a => a != "--regole-fessurazione").Skip(1).FirstOrDefault() switch
+{
+    null or "prodotto" => (IDisposable?)null, "precedenti" => PreviousCrackRules.Use(),
+    var other => throw new ArgumentException("--regole-fessurazione: precedenti o prodotto, non " + other)
+};
 // Optional third argument "muri": only the retaining walls.
 if (args.Length > 2 && args[2] == "muri") { WallCapture.Run(output, commit, sha, serviceabilityEngine); Finish(); return; }
 // Optional third argument "pali": only piles and micropiles.

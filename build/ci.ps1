@@ -277,8 +277,9 @@ if (-not $CheckerFixtures) {
 }
 if ($CheckerFixtures) {
     $CheckerFixtures = [IO.Path]::GetFullPath($CheckerFixtures)
+    # The Checker fixtures follow the crack rules before 15/10/2026 (R1, R2, F2-7 point 3): the capture uses them too; ConcreteLibraryAdapter.Checks 5n measures the new ones.
     Add-Suite @{ Name = 'baseline/banco-ca'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 1800
-        Before = @{ Project = $Dense; Args = @('{out}\cattura', '{commit}', 'tutte', '--manifest') }; Builds = @(@{ Project = $Dense; Configuration = 'Release' })
+        Before = @{ Project = $Dense; Args = @('{out}\cattura', '{commit}', 'tutte', '--manifest', '--regole-fessurazione', 'precedenti') }; Builds = @(@{ Project = $Dense; Configuration = 'Release' })
         Args = @('compare-dense', $CheckerFixtures, '{out}\cattura', '--confronto', 'fixture-checker', '--report', '{out}\confronto-fixture-checker.json')
         Proof = @{ File = '{out}\confronto-fixture-checker.json'; Pattern = '"esito": "differenze tutte ammesse o classificate"' } }
 } else {
@@ -286,7 +287,7 @@ if ($CheckerFixtures) {
 }
 if ($DenseRef) {
     Add-Suite @{ Name = 'baseline/banco-denso'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 1800
-        Before = @{ Project = $Dense; Args = @('{out}\cattura', '{commit}', 'tutte', '--manifest') }; Builds = @(@{ Project = $Dense; Configuration = 'Release' })
+        Before = @{ Project = $Dense; Args = @('{out}\cattura', '{commit}', 'tutte', '--manifest', '--regole-fessurazione', 'precedenti') }; Builds = @(@{ Project = $Dense; Configuration = 'Release' })
         Args = @('compare-dense', $(if ([IO.Path]::IsPathRooted($DenseRef)) { $DenseRef } else { Join-Path $Root $DenseRef }), '{out}\cattura', '--confronto', $DenseSet, '--report', '{out}\confronto-denso.json')
         Proof = @{ File = '{out}\confronto-denso.json'; Pattern = '"esito": "differenze tutte ammesse o classificate"' } }
 }

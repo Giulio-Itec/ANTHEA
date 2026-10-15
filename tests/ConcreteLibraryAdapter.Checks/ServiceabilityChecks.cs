@@ -42,7 +42,8 @@ sealed partial class ServiceabilityChecks
         var checks = new ServiceabilityChecks(root, only);
         var saved = CultureInfo.CurrentCulture;
         CultureInfo.CurrentCulture = Italian;
-        try { checks.All(); }
+        // Le prove di equivalenza con il motore storico usano le regole della libreria prima del 15/10/2026; la 5n misura quelle del prodotto.
+        try { using (PreviousCrackRules.Use()) checks.All(); }
         finally { CultureInfo.CurrentCulture = saved; }
         checks.Report["controlli"] = checks.Checks;
         return checks;
@@ -178,15 +179,18 @@ sealed partial class ServiceabilityChecks
             CrackTraceCodes.EffectiveArea or CrackTraceCodes.EffectiveSteel => [[], [CrackTraceFlags.EntirelyTensile], [CrackTraceFlags.InnerBand], [CrackTraceFlags.Summary]],
             CrackTraceCodes.BarStrain => [[CrackTraceFlags.Included], [CrackTraceFlags.Excluded]],
             CrackTraceCodes.EquivalentDiameter or CrackTraceCodes.SteelStress => [[CrackTraceFlags.TensileBars], [CrackTraceFlags.EffectiveBars], [CrackTraceFlags.Formula]],
-            CrackTraceCodes.MeanStrainDifference => [[CrackTraceFlags.ComputedGoverns], [CrackTraceFlags.MinimumGoverns], [], [CrackTraceFlags.UpperBound]],
-            CrackTraceCodes.BetaMinimum => [[], [CrackTraceFlags.UpperBound]],
+            CrackTraceCodes.MeanStrainDifference => [[CrackTraceFlags.ComputedGoverns], [CrackTraceFlags.MinimumGoverns], [], [CrackTraceFlags.UpperBound],
+                [CrackTraceFlags.StabilizedCrackStage], [CrackTraceFlags.SingleCrackStage], [CrackTraceFlags.UpperBound, CrackTraceFlags.SingleCrackStage]],
+            CrackTraceCodes.BetaMinimum => [[], [CrackTraceFlags.UpperBound], [CrackTraceFlags.StabilizedCrackStage], [CrackTraceFlags.UpperBound, CrackTraceFlags.SingleCrackStage]],
+            CrackTraceCodes.CrackingSteelStress or CrackTraceCodes.BondStressRatio => [[CrackTraceFlags.StabilizedCrackStage], [CrackTraceFlags.SingleCrackStage]],
             CrackTraceCodes.MaximumCrackSpacing => [[CrackTraceFlags.FormulaStandard], [CrackTraceFlags.FormulaModelCode2010], [CrackTraceFlags.FormulaDin], [CrackTraceFlags.FormulaSparseBars],
                 [CrackTraceFlags.UpperBound, CrackTraceFlags.UpperBoundNtc], [CrackTraceFlags.UpperBound, CrackTraceFlags.UpperBoundEurocode], [CrackTraceFlags.UpperBound, CrackTraceFlags.UpperBoundDin]],
             CrackTraceCodes.Width => [[], [CrackTraceFlags.UpperBound], [CrackTraceFlags.DsCoarseHalf], [CrackTraceFlags.Envelope]],
             CrackTraceCodes.WidthRatio => [[], [CrackTraceFlags.Envelope]],
             CrackTraceCodes.Cover => [[CrackTraceFlags.Assigned], [CrackTraceFlags.Nominal], [CrackTraceFlags.Formula]],
             CrackTraceCodes.Spacing => [[CrackTraceFlags.Automatic], [CrackTraceFlags.Manual], [CrackTraceFlags.Formula]],
-            CrackTraceCodes.Kt => [[CrackTraceFlags.ShortTerm], [CrackTraceFlags.LongTerm]],
+            CrackTraceCodes.Kt => [[CrackTraceFlags.ShortTerm], [CrackTraceFlags.LongTerm], [CrackTraceFlags.LongTerm, CrackTraceFlags.StabilizedCrackStage],
+                [CrackTraceFlags.ShortTerm, CrackTraceFlags.SingleCrackStage]],
             CrackTraceCodes.K1 => [[CrackTraceFlags.Ribbed], [CrackTraceFlags.Plain]],
             CrackTraceCodes.K2 => [[], [CrackTraceFlags.NotInWidthFormula]],
             CrackTraceCodes.SpacingExcess or CrackTraceCodes.FarSpacing => [[CrackTraceFlags.CloseBars], [CrackTraceFlags.SparseBars]],
@@ -349,6 +353,7 @@ sealed partial class ServiceabilityChecks
         var outcomes = new Dictionary<string, int>(StringComparer.Ordinal);
         var coverage = new LibraryCoverage(); var withTargeted = new LibraryCoverage();
         var targeted = TargetedCrackStates().ToArray(); var reachedBranches = new List<string>();
+        var rules = new Dictionary<string, int>(StringComparer.Ordinal);
         foreach (var s in CrackStates().Concat(targeted.Select(t => t.State)))
         {
             bool grid = s.Id < TargetedFirstId;
@@ -373,10 +378,16 @@ sealed partial class ServiceabilityChecks
                 using (legacyProbe = ServiceabilityProbe.Start())
                     legacy = Try(() => ServiceabilityEngines.Cracking(legacySection.Value, legacyState.Value, s.Action, s.Input, s.Settings, s.Options, s.Set, ServiceabilityEngine.Legacy));
                 // Risultati della libreria prima della mappatura, dalla sonda: copertura della 5c e requisito di ogni ramo (ciclo di prototipo, giro 1).
+                // Il confronto con il legacy (5c) usa le regole della libreria prima del 15/10/2026; le regole decise quel giorno si misurano a parte (5n).
                 ServiceabilityProbe probe;
                 (string Outcome, string Message, Ntc2018Checks.CrackResult? Value, Exception? Error) library;
                 using (probe = ServiceabilityProbe.Start())
+                using (PreviousCrackRules.Use())
                     library = Try(() => ServiceabilityEngines.Cracking(librarySection.Value!, libraryState.Value!, s.Action, s.Input, s.Settings, s.Options, s.Set, ServiceabilityEngine.Library));
+                (string Outcome, string Message, Ntc2018Checks.CrackResult? Value, Exception? Error) current;
+                using (PreviousCrackRules.Off())
+                    current = Try(() => ServiceabilityEngines.Cracking(librarySection.Value!, libraryState.Value!, s.Action, s.Input, s.Settings, s.Options, s.Set, ServiceabilityEngine.Library));
+                CompareRules(tag, s, library, current, culture == Italian ? rules : null);
                 if (culture == Italian && library.Value is not null) libraryValues++;
                 if (culture == Italian && !grid)
                 {
@@ -440,10 +451,53 @@ sealed partial class ServiceabilityChecks
         Report["fessurazione_griglia"]!["note_con_numeri_diversi"] = notesDifferent;
         Report["fessurazione_griglia"]!["ntc_interamente_tese_barspacing_corretto"] = ntcEntirelyTensileCorrectedSpacing;
         Report["fessurazione_griglia"]!["stati_per_esito"] = new JsonObject(outcomes.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => KeyValuePair.Create(p.Key, (JsonNode?)p.Value)));
+        // 5n: ogni regola del 15/10/2026 cambia almeno uno stato, gli altri stati restano identici.
+        foreach (var rule in new[] { RuleModelCode, RuleDin, RuleUnreinforced })
+            Check(rules.GetValueOrDefault(rule) > 0, $"5n: nessuno stato cambiato dalla regola «{rule}»");
+        Report["fessurazione_regole_15_10"] = new JsonObject(rules.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => KeyValuePair.Create(p.Key, (JsonNode?)p.Value)));
+        Lines.Add("5n regole del 15/10/2026 (R1, R2, F2-7 punto 3) contro le regole precedenti della libreria: "
+            + string.Join(", ", rules.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => $"{p.Key} {p.Value}")));
         Lines.Add(stats.Line() + $"; {states} stati, {discriminating} con uscite dei due motori diverse, {notesDifferent} note con numeri diversi entro 1e-9, "
             + $"BarSpacing corretto in {ntcEntirelyTensileCorrectedSpacing} righe NTC interamente tese (correzione U1); {Checks - checksBefore} controlli (5b, 5c; it-IT e invariante)");
         Lines.Add("griglia · " + coverage.Line() + $"; {compressed} sezioni interamente compresse dal motivo della libreria");
         Lines.Add($"griglia e {targeted.Length} stati mirati ({string.Join("; ", reachedBranches)}) · " + withTargeted.Line());
+    }
+
+    const string RuleModelCode = "MC2010, stadi della Tab. 7.6-2 (R1)", RuleDin = "DIN breve durata (R2)", RuleUnreinforced = "zona tesa senza armatura (F2-7 punto 3)",
+        RuleSame = "stati invariati";
+    const string UnreinforcedFailure = " · non soddisfatta: zona tesa senza armatura, apertura delle fessure non controllata";
+
+    /// <summary>
+    /// 5n (decisione dell'utente del 15/10/2026): la fessurazione della libreria con le regole del prodotto contro le stesse regole di prima, sullo stesso
+    /// stato. Stessi rifiuti; testi tutti tradotti. Uguali bit per bit, salvo: fib MC2010 (stadi di Tab. 7.6-2, R1: wk cambia a lunga durata, a breve
+    /// durata solo la traccia con σsr e τbms) e DIN a breve durata (kt = 0,6, R2), dove wk non cresce (a meno di 1e-12 mm di arrotondamento) e una verifica
+    /// soddisfatta resta tale; zona tesa senza armatura (F2-7 punto 3), dove la verifica senza esito
+    /// diventa non soddisfatta con il motivo e il resto del risultato non cambia. Le note dei numeri seguono la cultura.
+    /// </summary>
+    void CompareRules(string tag, CrackState s, (string Outcome, string Message, Ntc2018Checks.CrackResult? Value, Exception? Error) previous,
+        (string Outcome, string Message, Ntc2018Checks.CrackResult? Value, Exception? Error) current, Dictionary<string, int>? counts)
+    {
+        Check(previous.Outcome == current.Outcome && previous.Message == current.Message, $"{tag}: 5n rifiuto «{previous.Message}» prima, «{current.Message}» con le regole del 15/10");
+        if (previous.Value is not { } p || current.Value is not { } c) return;
+        Check(!Text(c).Contains(UnmappedText), tag + ": 5n testo non tradotto");
+        bool shortTerm = (string?)s.Options["durata"] == "Breve";
+        bool widthRule = s.Standard == "Model Code 2010" || s.Standard == "DIN EN 1992-1-1" && shortTerm;
+        string rule;
+        if (p.Passed is null && c.Passed == false)
+        {
+            rule = RuleUnreinforced;
+            Check(c.Status == p.Status + UnreinforcedFailure, $"{tag}: 5n stato «{c.Status}» invece di «{p.Status}{UnreinforcedFailure}»");
+            if (!widthRule) Check(Text(c with { Passed = null, Status = p.Status }) == Text(p), tag + ": 5n zona tesa senza armatura con altre differenze");
+        }
+        else if (Text(p) == Text(c)) rule = RuleSame;
+        else if (widthRule)
+        {
+            rule = s.Standard == "Model Code 2010" ? RuleModelCode : RuleDin;
+            Check(p.Width is null == c.Width is null && (c.Width is null || c.Width <= p.Width + 1e-12), $"{tag}: 5n wk {c.Width} con le regole del 15/10, {p.Width} prima");
+            Check(p.Passed != true || c.Passed == true, $"{tag}: 5n verifica soddisfatta prima e non ora");
+        }
+        else { Check(false, $"{tag}: 5n differenza fuori dalle regole del 15/10: «{p.Status}» → «{c.Status}»"); return; }
+        if (counts is not null) counts[rule] = counts.GetValueOrDefault(rule) + 1;
     }
 
     /// <summary>

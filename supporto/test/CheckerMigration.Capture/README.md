@@ -13,7 +13,7 @@ Dalla radice del repository:
 
 ```powershell
 dotnet build supporto\test\CheckerMigration.Capture\CheckerMigration.Capture.csproj -c Release -nologo
-dotnet supporto\test\CheckerMigration.Capture\bin\Release\net8.0\CheckerMigration.Capture.dll <cartella> <commit> [modalità] [--manifest] [--motore legacy|libreria] [--motore-sle legacy|libreria] [--motore-durabilita legacy|libreria]
+dotnet supporto\test\CheckerMigration.Capture\bin\Release\net8.0\CheckerMigration.Capture.dll <cartella> <commit> [modalità] [--manifest] [--motore legacy|libreria] [--motore-sle legacy|libreria] [--motore-durabilita legacy|libreria] [--regole-fessurazione precedenti|prodotto]
 ```
 
 Con un altro insieme di DLL si compila con `-p:GpcLibDir=<cartella>\` (vedi `Directory.Build.props`).
@@ -54,6 +54,13 @@ cattura con `LegacyDurabilityEngine.Use` di `tests/ANTHEA.Legacy` (decisione D3 
 più nel prodotto); con `libreria` GPCChecker.Concrete attraverso lo strato di mappatura (testi del legacy); senza
 l'opzione la libreria. Il motore usato è scritto nella riga `#` del file. I due motori danno uscite identiche
 (registro F2-13).
+
+`--regole-fessurazione precedenti`, dopo la modalità (decisione dell'utente del 15/10/2026): la fessurazione
+dell'adattatore usa le regole della libreria di prima (τbms per durata nel fib MC2010, kt = 0,4 della DIN, zona tesa
+senza armatura senza esito; `PreviousCrackRules` di `tests/ANTHEA.Legacy`). Il runner la passa al banco c.a. e al
+banco denso, che confrontano la cattura con le fixture di Checker e con le catture storiche. Senza l'opzione, o con
+`prodotto`, le regole del prodotto (registro R1, R2 e F2-25; la differenza la misura la prova 5n di
+`tests/ConcreteLibraryAdapter.Checks`).
 
 ## Cattura estesa di dettagli, aderenza e M-χ (F2.8-A0)
 

@@ -109,10 +109,14 @@ public static class ConcreteServiceabilityAdapter
     }
 
     /// <summary>Opzioni della verifica: validazione al punto d'uso, traccia e, per il profilo la cui hc,eff legge il copriferro (DIN,
-    /// <see cref="CrackProfiles.EffectiveDepthReadsCover"/>), il copriferro della condizione.</summary>
+    /// <see cref="CrackProfiles.EffectiveDepthReadsCover"/>), il copriferro della condizione. Regole decise dall'utente il 15/10/2026: stadi di
+    /// fib MC2010 Tab. 7.6-2 (R1), kt della DIN secondo la durata (R2), zona tesa senza armatura non soddisfatta (F2-7 punto 3); le prove le
+    /// tolgono con <see cref="IPreviousCrackRules"/> per confrontare la libreria con il motore storico a regole uguali.</summary>
     static SectionCrackOptions Options(CrackProfile profile, double? effectiveDepthCover)
     {
         var options = SectionCrackOptions.Default.WithValidateAtUse(true).WithTrace(true);
+        if (EngineHook.Get<IPreviousCrackRules>() is null)
+            options = options.WithModelCode2010BondStages(true).WithDinKtByDuration(true).WithUnreinforcedTensileZoneFails(true);
         return CrackProfiles.EffectiveDepthReadsCover(profile) ? options.WithEffectiveDepthCover(effectiveDepthCover) : options;
     }
 
@@ -226,3 +230,10 @@ internal interface ILegacyServiceability
     Ntc2018Checks.CrackResult Cracking(CheckerSection section, CheckerStressState state, ActionPoint force, JsonObject input, JsonObject workspace,
         JsonObject options, string set);
 }
+
+/// <summary>
+/// Aggancio delle prove (<see cref="EngineHook"/>): con un'implementazione agganciata la fessurazione della libreria usa le regole di
+/// GPCChecker.Concrete prima del 15/10/2026 (τbms per durata nel fib MC2010, kt = 0,4 della DIN, zona tesa senza armatura senza esito),
+/// per confrontarla con il motore storico. Nullo in produzione. Nessuna formula.
+/// </summary>
+internal interface IPreviousCrackRules { }
