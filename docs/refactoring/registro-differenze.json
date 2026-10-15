@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-14",
+  "aggiornato": "2026-10-15",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
@@ -3985,6 +3985,33 @@
       "evidenze": [
         "supporto/artefatti/ci/20261014-230601-f4-full-20261015/ui_f3-equivalence/cattura/confronto.json",
         "supporto/artefatti/ci/20261015-074208-d2-f3-equivalence"
+      ]
+    },
+    {
+      "id": "TEST-04",
+      "data": "2026-10-15",
+      "fase": "dopo la chiusura di F4, punto aperto di chiusura-f4-20261015.md",
+      "titolo": "Application.Tests: conteggio dei controlli «Contratti CA» indipendente dal carico della macchina",
+      "famiglia": "infrastruttura/test",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "La ricerca automatica delle armature (Checker/src/GPC.Design/Sections/SectionDesignSearch.cs, Report) notifica l'avanzamento all'inizio di ogni fase, alla fine e al massimo ogni 300 ms negli intervalli: il numero di notifiche dipende dalla durata della ricerca, quindi dal carico della macchina. ConcreteAuxiliaryContractChecks confrontava ogni notifica col motore e contava un controllo per notifica: Application.Tests dava da 1495 a 1503 controlli a parità di codice (corse del 15/10 su a46e91fb). Ora ogni notifica è confrontata esattamente col motore in un confronto a parte (stessa OwnedProjectionComparison, bit per bit) e l'insieme vale un controllo («Avanzamenti della ricerca non confrontati»); la riga «Contratti CA» riporta a parte notifiche e valori degli avanzamenti. Nessun controllo escluso, nessuna tolleranza, nessun atteso cambiato; prodotto e libreria invariati (la cadenza di 300 ms è voluta per la UI). Il fallimento intermittente per file bloccato dell'audit del 14/10 (UnauthorizedAccessException da File.Move in DocumentFile.Write, Program.cs:31) è una causa diversa, già corretta su main con i tentativi ripetuti di DocumentFile e provata da DocumentFileChecks.",
+      "codice": [
+        "tests/ANTHEA.Application.Tests/ConcreteAuxiliaryContractChecks.cs"
+      ],
+      "segno": "Totale di Application.Tests da 1495–1503 (variabile) a 1486 (stabile): 1485 controlli fissi più uno per l'insieme degli avanzamenti, invece di uno per notifica (11 notifiche a macchina scarica). Valori del motore e attesi invariati.",
+      "test": [
+        "Prima, DLL compilata da main 7cb08295: 1496 in 2 corse a macchina scarica; 1503, 1497, 1497, 1501 in 4 corse con la CPU occupata da un ciclo vuoto per processore logico; ogni controllo in più è una notifica in più (123 valori confrontati ciascuna)",
+        "Dopo (5f3ebb7b): 1486 in 6 corse su 6 (2 a macchina scarica, 4 sotto carico) con 11–14 notifiche, tutte confrontate esattamente"
+      ],
+      "evidenze": [
+        "supporto/artefatti/app-count/riepilogo-v2-prima.txt",
+        "supporto/artefatti/app-count/build.txt",
+        "supporto/artefatti/app-count/riepilogo-v3-dopo.txt",
+        "supporto/artefatti/ci/20261015-152124-app-count-v2-prima-1",
+        "supporto/artefatti/ci/20261015-152222-app-count-v2-prima-carico-1",
+        "supporto/artefatti/ci/20261015-153007-app-count-v3-dopo-1",
+        "supporto/artefatti/ci/20261015-153103-app-count-v3-dopo-carico-1"
       ]
     },
     {
