@@ -232,7 +232,7 @@ public static class ReportConcrete
             if (settings.S("normativa") is "Model Code 2010" or "NS EN 1992-1-1")
                 Parameters("Granulometria comune ai dettagli", settings["dettagli_costruttivi"] as JsonObject ?? new(), [("aggregato", "dg [mm]")]);
             if (settings.S("normativa") == "Model Code 2010")
-                Parameters("Eccentricità della risultante MC2010", shear, [("eccentricita_mc_x", "Δe per Vx [mm]"), ("eccentricita_mc_y", "Δe per Vy [mm]")]);
+                Parameters("Eccentricità della risultante MC2010 (Δe positiva verso il lembo teso)", shear, [("eccentricita_mc_x", "Δe per Vx [mm]"), ("eccentricita_mc_y", "Δe per Vy [mm]")]);
             Parameters("Modello a taglio", shear, [("modello", "Modello"), ("bw_x", "bw,x [mm]"), ("d_x", "dx [mm]"), ("asl_x", "Asl,x [mm²]"), ("alpha_x", "αx [°]"), ("cot_x", "cot θx"), ("bw_y", "bw,y [mm]"), ("d_y", "dy [mm]"), ("asl_y", "Asl,y [mm²]"), ("alpha_y", "αy [°]"), ("cot_y", "cot θy")]);
             var rows = new List<string[]>();
             foreach (var action in shear.Array("azioni")) foreach (var (axis, index) in new[] { ("x", 0), ("y", 1) })

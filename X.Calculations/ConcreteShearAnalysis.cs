@@ -53,7 +53,8 @@ public static class ConcreteShearAnalysis
                 input.Required("fck_mpa"), fcd, materials.Fyd, input.Required("gamma_c"), geometry.Es,
                 stirrups ? legs * ReinforcementGeometry.Area(phi) : 0, spacing, stirrups ? Value("alpha") : 90, cot, lever,
                 code == "Model Code 2010" || code.StartsWith("NS") ? settings["dettagli_costruttivi"]!.AsObject().Required("aggregato") : 20,
-                code == "Model Code 2010" ? options.Required("eccentricita_mc_" + axis) : 0));
+                // Δe con segno (TAG-1): positiva verso il lembo teso, come il "+" della formula della libreria; negativa verso il compresso.
+                code == "Model Code 2010" ? SectionWorkspace.Number(options.S("eccentricita_mc_" + axis), "Δe MC2010 " + axis) : 0));
             results.Add(check);
         }
 

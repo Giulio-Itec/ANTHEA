@@ -572,6 +572,9 @@ try
     }
     Check(independent > 200, "attesi indipendenti: " + independent);
 
+    // ---------------------------------------------------------------- 4b. correzioni dell'analisi dei bug del 15/10/2026 (Correzioni20261015.cs)
+    Check(Correzioni20261015.Run(Check) > 0, "4b: nessun controllo delle correzioni del 15/10");
+
     if (quick)
     {
         // Interruttore SLE già controllato nella sezione 2; qui il selettore della durabilità (11b nella corsa completa): dalla decisione D3
