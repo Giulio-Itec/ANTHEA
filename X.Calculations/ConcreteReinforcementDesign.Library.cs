@@ -63,13 +63,20 @@ public static partial class ConcreteReinforcementDesign
         detailing["as_secondaria"]=result.Reinforcement.AreaPerMetre;
     }
 
-    internal sealed record DesignDocument(JsonObject Data,JsonObject Workspace,JsonObject Input,Dictionary<string,JsonObject[]> Rows,JsonObject[] ShearRows,bool Torsion);
+    internal sealed record DesignDocument(JsonObject Data,JsonObject Workspace,JsonObject Input,Dictionary<string,JsonObject[]> Rows,JsonObject[] ShearRows,bool Torsion)
+    {
+        /// <summary>Parametri del taglio manuali del foglio (ARM-1).</summary>
+        public bool ManualShear { get; init; }
+    }
     internal static DesignDocument PrepareDesignInput(JsonObject source,ConcreteDesignOptions options,CancellationToken token)
     {
         options.Validate(); token.ThrowIfCancellationRequested();
         var data = (JsonObject)source.DeepClone(); var workspace = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();
         ValidateScope(data, workspace);
         ConcreteCalculationSettings.ValidateStirrups(input, workspace["taglio"]!.AsObject());
+        bool manualShear = ConcreteCalculationSettings.ManualShear(workspace["taglio"]!.AsObject());
+        // Valori manuali completi prima della ricerca: un dato mancante è un rifiuto della ricerca, non l'esclusione di ogni proposta.
+        if (manualShear) foreach (string key in new[] { "bw_x", "d_x", "asl_x", "bw_y", "d_y", "asl_y" }) _ = SectionWorkspace.Number(workspace["taglio"].S(key), key);
         var rows = SectionWorkspace.Sets.ToDictionary(k => k, k => data["combinazioni"]!.Array(k).OfType<JsonObject>()
             .Select(r => J.Obj(("nome", r.S("nome")), ("N", r["azioni"]?[0]), ("Mx", r["azioni"]?[1]), ("My", r["azioni"]?[2]))).ToArray());
         foreach (var row in rows.Values.SelectMany(r => r)) _ = SectionWorkspace.ReadAction(row);
@@ -80,8 +87,22 @@ public static partial class ConcreteReinforcementDesign
         foreach (var row in rows["SLU"]) _ = SectionWorkspace.ReadAction(row);
         bool torsion = shearRows.Any(r => SectionWorkspace.Number(r.S("T", "0"), "T") != 0);
         if (torsion && !options.TorsionLayoutConfirmed) throw new ArgumentException("Torsione: confermare nella ricerca lo schema periferico con staffe chiuse e barre di spigolo.");
-        return new(data,workspace,input,rows,shearRows,torsion);
+        return new(data,workspace,input,rows,shearRows,torsion){ManualShear=manualShear};
     }
+    /// <summary>
+    /// Campi del taglio che «Applica» copia dalla proposta nel foglio (ARM-1): con parametri manuali «parametri», bw, d e Asl restano quelli
+    /// dell'utente e l'avviso lo dichiara; altrimenti tutti i campi della proposta salvo le azioni.
+    /// </summary>
+    public static (string[] Keys, string Notice) AppliedShearFields(JsonObject sheet,JsonObject candidate)
+    {
+        bool manual=ConcreteCalculationSettings.ManualShear(sheet);
+        string[] kept=manual?["parametri","bw_x","d_x","asl_x","bw_y","d_y","asl_y"]:[];
+        return (candidate.Select(p=>p.Key).Where(k=>k!="azioni"&&!kept.Contains(k)).ToArray(),
+            manual?"Parametri del taglio «Manuali» conservati: la ricerca ha usato per ogni asse il minimo fra bw, d e Asl del foglio e quelli della disposizione proposta; controllarli sulla nuova disposizione.":"");
+    }
+    /// <summary>Nota della regola dei parametri manuali del taglio (ARM-1), presente solo con parametri «Manuali».</summary>
+    public const string ManualShearNote="Taglio con parametri «Manuali»: per ogni proposta e per asse bw, d e Asl sono il minimo fra il valore manuale del foglio e quello ricavato dalla disposizione proposta; i parametri restano manuali e «Applica» conserva i valori del foglio.";
+    internal static string[] DesignNotes(bool torsion,bool manualShear)=>[ .. DesignNotes(torsion), .. manualShear?new[]{ManualShearNote}:[] ];
     internal static string[] DesignNotes(bool torsion)=>[ "Migliore tra le configurazioni calcolate; ricerca discreta, nessuna garanzia di minimo fuori dagli elenchi assegnati.",
           "Geometria, materiali, copriferro e sollecitazioni mantenuti. Barre su una fila per faccia / un anello; barre laterali con il diametro inferiore. Le armature manuali e i secondi strati vengono sostituiti solo con Applica.",
           "Peso per metro: acciaio 7850 kg/m³, staffe con sviluppo geometrico e maggiorazione ganci impostata; escluse sovrapposizioni, ancoraggi longitudinali, sfridi e armature locali.",

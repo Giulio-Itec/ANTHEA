@@ -39,3 +39,27 @@ A, um = 416.0 * 616.0, 2 * (416.0 + 616.0)
 for fyd in (450.0, 450 / 1.15):
     trsd = 2 * A * math.pi * 10 ** 2 / 4 / 200 * fyd * 1.5 / 1e6; trld = 2 * A * 1000 / um * fyd / 1.5 / 1e6
     print(f"TAG-2 fyd = {fyd:.6f} MPa: TRsd = {trsd:.12f} kNm, TRld = {trld:.12f} kNm")
+
+# ---------------------------------------------------------------- ARM-1 (supporto/test/ConcreteDesign.Checks)
+# NTC 2018 §4.1.2.3.5.2 [4.1.27]-[4.1.29], staffe a 90° a due bracci, N = 0 (αc = 1), f'cd = 0,5 fcd, 1 ≤ cot θ ≤ 2,5 con cot θ
+# all'eguaglianza VRsd = VRcd. C35/45 (fcd = 0,85 · 35/1,5), B450C (fyd = 450/1,15). z = 0,9 d (rettangolo) o z/d assegnato (cerchio).
+fcd, fyd = 0.85 * 35 / 1.5, 450 / 1.15
+def vrd_staffe(bw, d, phi_st, s, lever=0.9, legs=2):
+    z = lever * d
+    ks = z * legs * math.pi * phi_st ** 2 / 4 / s * fyd / 1e3       # VRsd = ks cot θ
+    kc = z * bw * 0.5 * fcd / 1e3                                     # VRcd = kc cot θ/(1 + cot² θ)
+    cot = min(max(math.sqrt(max(kc / ks - 1, 0)), 1.0), 2.5)
+    return min(ks * cot, kc * cot / (1 + cot * cot))
+# Rettangolo 400×600, parametri manuali bw = 250, d = 540; d delle proposte (600 − 40 − Øst − Øl/2) ≥ 540, quindi min = 540.
+for phi in (8, 10):
+    for s in (100, 150):
+        v = vrd_staffe(250, 540, phi, s)
+        print(f"ARM-1 rettangolo bw 250 d 540 staffe Ø{phi}/{s}: VRd = {v:.12f} kN (Vy = 500: η = {500 / v:.12f}; Vy = 600: η = {600 / v:.12f})")
+# Cerchio D = 600, copriferro 40: d = R + r · media(|sin θ|) delle barre del semicerchio teso, r = R − c − Øst − Øl/2, barre a θ = 2πk/n.
+def d_circle(n, phi_l, phi_st, D=600.0, c=40.0):
+    R = D / 2; r = R - c - phi_st - phi_l / 2
+    low = [-math.sin(2 * math.pi * k / n) for k in range(n) if math.sin(2 * math.pi * k / n) < -1e-9]
+    return R + r * sum(low) / len(low)
+d0, d1 = d_circle(16, 24, 8), d_circle(24, 24, 10)
+v = vrd_staffe(600, d1, 10, 100, lever=0.75)
+print(f"ARM-1 cerchio: d(16Ø24, Ø8) = {d0:.12f} mm (manuale); d(24Ø24, Ø10) = {d1:.12f} mm; VRd(z = 0,75 d, Ø10/100) = {v:.12f} kN; η(300) = {300 / v:.12f}")

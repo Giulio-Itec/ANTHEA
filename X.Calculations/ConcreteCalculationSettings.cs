@@ -90,4 +90,28 @@ public static class ConcreteCalculationSettings
         if (changed) options["ancoraggio"] = "Da verificare";
         return geometry;
     }
+
+    /// <summary>Parametri del taglio diversi da «Automatici da sezione» (manuali).</summary>
+    public static bool ManualShear(JsonObject options) => options.S("parametri", "Automatici da sezione") != "Automatici da sezione";
+
+    /// <summary>
+    /// Parametri manuali del taglio applicati a una disposizione diversa da quella del foglio (ricerca delle armature, analisi dei bug del
+    /// 15/10/2026, ARM-1): per ogni asse bw, d e Asl = min(valore manuale; valore ricavato dalla disposizione, come
+    /// <see cref="UpdateAutomaticShear"/>), per ogni forma; «parametri» resta manuale. Il minimo non supera mai la scelta dell'utente e
+    /// segue la nuova disposizione quando le barre o le staffe riducono d o Asl.
+    /// </summary>
+    public static SezioneCA LimitManualShear(JsonObject input, JsonObject options)
+    {
+        var geometry = new SezioneCA(input);
+        foreach (string axis in new[] { "x", "y" })
+        {
+            var values = SectionShearGeometry.Derive(geometry, axis == "x");
+            foreach (var (field, value) in new[] { ("bw_", values.Bw), ("d_", values.Depth), ("asl_", values.SteelArea) })
+            {
+                double manual = SectionWorkspace.Number(options.S(field + axis), field + axis);
+                options[field + axis] = Math.Min(manual, value).ToString("G17", System.Globalization.CultureInfo.InvariantCulture);
+            }
+        }
+        return geometry;
+    }
 }

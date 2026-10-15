@@ -27,8 +27,8 @@ public static partial class ConcreteReinforcementDesign
             var plan=new Layout(layout.Top,layout.Bottom,layout.Side,layout.TopPhi,layout.BottomPhi,layout.SidePhi,layout.Stirrups,layout.StirrupPhi,layout.Spacing);
             var ci=CandidateInput(input,plan);var cw=(JsonObject)workspace.DeepClone();var so=cw["taglio"]!.AsObject();var details=cw["dettagli_costruttivi"]!.AsObject();
             details["barre_trattenute"]="Da confermare";details["ancoraggio_appoggi"]="Da confermare";so["modello"]=plan.Stirrups?"Con staffe":"Senza staffe";
-            if(ci.S("shape")!="Circolare")so["parametri"]="Automatici da sezione";
-            var section=timers.Measure(0,()=>ConcreteCalculationSettings.UpdateAutomaticShear(ci,so));
+            // Parametri del taglio manuali conservati (ARM-1): bw, d e Asl = min(manuale; ricavato dalla proposta); automatici ricavati dalla proposta.
+            var section=timers.Measure(0,()=>context.ManualShear?ConcreteCalculationSettings.LimitManualShear(ci,so):ConcreteCalculationSettings.UpdateAutomaticShear(ci,so));
             so["ancoraggio"]=options.AnchorageConfirmed?"Confermato":"Da verificare";so["chiusura_torsione"]=options.TorsionLayoutConfirmed?"Confermato":"Da confermare";
             if(torsion)so["as_torsione"]=SectionDesignQuantities.ReservedArea(section.AreaSteel,options.TorsionReservePercent);
             var dc=timers.Measure(1,()=>ConcreteDetailingAnalysis.Calculate(ci,cw,ConcreteDetailingAnalysis.AllRows(rows)));
@@ -67,7 +67,7 @@ public static partial class ConcreteReinforcementDesign
         }
         var search=SectionDesignSearch.Run(plans,options.MaxEvaluations,options.Workers,objective,Prepare,Longitudinal,token,
             progress==null?null:new NativeSectionProgress(progress));
-        return new(search.Candidates.Select(DisplayCandidate).ToArray(),search.Evaluated,search.Planned,search.Completed,search.Exclusions,baseline,DesignNotes(torsion))
+        return new(search.Candidates.Select(DisplayCandidate).ToArray(),search.Evaluated,search.Planned,search.Completed,search.Exclusions,baseline,DesignNotes(torsion,context.ManualShear))
         {ExclusionExamples=search.ExclusionExamples.ToDictionary(p=>p.Key,p=>DisplayCheck(p.Value)),
             Performance=new(search.Seconds,search.FirstSolutionSeconds,options.Workers,search.LongitudinalCalculations,search.LongitudinalReuses,search.ProbeSections,timers.Results())};
     }
