@@ -316,8 +316,20 @@ public static class Calcolo
             {
                 var injection=BustamanteDoix.Injection(g.S("tipo_iniezione"));
                 BustamanteDoixSoil Bd(JsonNode v) => BustamanteDoix.Soil(v.S("terreno"));
-                var surveys=rowsList.Select(rows=>new MicropileDepthSurvey(rows.Select(v=>new MicropileDepthLayer(
-                    v.Required("spessore",strict:true)*M,Bd(v!),J.Number(v!["alpha"])??double.NaN,v.B("laterale_attiva",true))))).ToArray();
+                // Fuori dalla zona iniettata [sb, L] (lungo l'asse) α non ha significato: lo strato è passato senza laterale, come per
+                // BustamanteDoix.Tratti, che controlla α (con il messaggio del foglio) solo negli strati attivi che la intersecano (PV-4).
+                MicropileDepthSurvey Survey(JsonArray rows)
+                {
+                    double top=0;var layers=new List<MicropileDepthLayer>();
+                    foreach(var v in rows)
+                    {
+                        double thickness=v.Required("spessore",strict:true),bottom=top+thickness;
+                        bool grouted=Math.Min(bottom/cos,l)>Math.Max(top/cos,sb);
+                        layers.Add(new MicropileDepthLayer(thickness*M,Bd(v!),J.Number(v!["alpha"])??double.NaN,v.B("laterale_attiva",true)&&grouted));top=bottom;
+                    }
+                    return new MicropileDepthSurvey(layers);
+                }
+                var surveys=rowsList.Select(Survey).ToArray();
                 var pile=new Micropile(d*M,l*M,(J.Number(g["inclinazione"])??0)*Deg,injection,pi,sb*M,g.B("considera_punta")?pct:null,Chs.Sezione(g.S("profilo_chs")),Chs.Acciaio,
                     g.D("peso_specifico_palo",25)*KN3,compression,tension);
                 var r=AxialPileCapacity.CalculateFromDepths(pile,surveys,factors,gruppo.Efficienza);
