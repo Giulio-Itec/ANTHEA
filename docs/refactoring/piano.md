@@ -427,6 +427,14 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
 
     Restano le decisioni D1–D5 di [f4-chiusura-decisioni.md](f4-chiusura-decisioni.md) e la corsa conforme dopo D2.
     15/10: D1–D5 decise dall'utente ([decisioni](decisioni.md)). D2 fatta (registro TEST-03): `ui/f3-equivalence` PASS con le 6878 transizioni elencate e la Wiki aggiornata; restano D3 (codice legacy e di prova fuori dagli assembly distribuiti) e il full conforme.
+    15/10: D3 fatta (registro F4-49), modo (b) confermato dall'utente:
+    - **Spostamento.** Codice legacy e di sola prova in `tests/ANTHEA.Legacy` e nei progetti di prova, senza cancellazioni; nel prodotto resta solo l'aggancio `EngineHook`.
+    - **Esecuzione.** Otto famiglie, sette lavorate in parallelo su rami propri e unite in `98e1535c`.
+    - **Confronto delle catture.** Prima (`4144fe9e`) e dopo: uguali in tutte le famiglie.
+    - **Baseline F4.** Da 2909 a 2211 voci.
+    - **Installer.** `Assert-NoTestCode.ps1` esteso a 12 assembly e ai nomi spostati.
+
+    Resta il full conforme.
   - [x] 14/10 notte — attesi indipendenti e preparazione della chiusura:
     - TEST-02: gli ultimi 32 attesi di `casi_confronto.json` rigenerati dal codice sono ricalcolati con `tools/attesi` (30 sezioni a T, 2 pali).
     - F2-7: due stati mirati con armature libere.

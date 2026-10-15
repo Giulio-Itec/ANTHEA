@@ -19,4 +19,26 @@ Codice di `X.Calculations` che il prodotto non usa più, conservato per le prove
   `ServiceabilityProbe` (con la vista `DurabilityProbe`) si aggancia allo stesso modo e registra adattatore, operazione e
   motore di ogni chiamata.
 - **Riferimenti**: lo usano soltanto i progetti di prova. Le prove WPF lo ricevono tramite `ANTHEA.Testing`, nella sola
-  configurazione `UiTests`.
+  configurazione `UiTests`. `tools/qa/Assert-NoTestCode.ps1` blocca l'installer se `ANTHEA.Legacy.dll` o uno dei nomi
+  spostati compare nella cartella pubblicata.
+
+## Cartelle
+
+| Cartella | Contenuto | Aggancio |
+| --- | --- | --- |
+| `Serviceability/` | `LegacyNtc2018Checks` (con le parti `TensionCracking` e `InnerCracking`), `LegacyConcreteCodeChecks`, `LegacyServiceability`; enum `ServiceabilityEngine` | `ServiceabilityEngines.Use`, `ForModule`, firme di prima con il motore come ultimo argomento |
+| `ShearTorsion/` | `ConcreteTorsionCalculator`; enum `ShearTorsionEngine` | `ShearTorsionEngines.Use` e firme di prima |
+| `Durability/` | `DurabilityLegacy`, `LegacyDurability`, `LegacyNtcCover`; enum `DurabilityEngine` | `LegacyDurabilityEngine.Use` |
+| `Walls/` | `LegacyRetainingWall` (verifiche strutturali, dettagli, distinta, gravità, ricerca delle armature precedente), `RetainingWallFunctions` | `LegacyRetainingWall.Use`, `Calculate` e `DesignReinforcement` con la semantica di prima |
+| `Section/` | `SezioneElastica`, `LegacySezioneCA` (motore storico di `SezioneCA`) | chiamate dirette |
+| `SectionDesign/` | `LegacyConcreteReinforcementDesign` (ricerca precedente e rami mai raggiungibili) | chiamate dirette |
+| `Piles/` | `LegacyElasticHorizontalPile`, `LegacyPaloOrizzontale`, `LegacyElasticPileVerificationCache` | chiamate dirette |
+| `Detailing/` | `LegacyCircularDetailingCalculator`, `LegacyCircularSpacing` (codice senza chiamanti) | — |
+| `Bridge/` | `LegacyBridgeConcept` (motore precedente, ricerca, schede tecniche), `BridgeLibraryAccess` (involucri GPC usati solo dalle prove) | chiamate dirette |
+| `Geometry/` | `LegacySectionShearGeometry`, `LegacyBridgeSection` (codice senza chiamanti) | — |
+| radice | `EngineScope`, `ServiceabilityProbe`, `DurabilityProbe`, `MappingCoverage` (viste delle tabelle della mappatura per la prova 5a) | — |
+
+Altro codice di sola prova uscito dagli assembly distribuiti sta nei progetti che lo usano: la traccia dei ripieghi del JSON
+in `tests/ANTHEA.Testing/Capture/JsonFallbackTrace.cs`, il modello Excel storico delle azioni in `tests/Shared/`, il testo
+dei PDF in `tests/ANTHEA.Reports.Tests/DocxPdfText.cs`, i membri delle finestre usati dalle prove WPF in parti `partial`
+sotto `supporto/test/Desktop/` (compilate solo in `UiTests`).

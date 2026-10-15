@@ -2,7 +2,8 @@ namespace Anthea.Calculations;
 
 /// <summary>
 /// Ambito di un aggancio dei motori storici o della sonda (<see cref="EngineHook"/>, decisione D3 del 15/10/2026): alla fine rimette gli
-/// agganci che c'erano prima. Uso: <c>using (DurabilityLegacy.Use(DurabilityEngine.Legacy)) { … }</c>; ogni famiglia espone il proprio Use.
+/// agganci che c'erano prima. Uso: <c>using (ServiceabilityEngines.Use(ServiceabilityEngine.Legacy)) { … }</c>; ogni famiglia espone il proprio Use
+/// (ServiceabilityEngines, ShearTorsionEngines, LegacyDurabilityEngine, LegacyRetainingWall).
 /// </summary>
 public sealed class EngineScope : IDisposable
 {

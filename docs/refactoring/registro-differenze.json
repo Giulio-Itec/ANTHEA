@@ -3946,6 +3946,42 @@
       ]
     },
     {
+      "id": "F4-49",
+      "data": "2026-10-15",
+      "fase": "chiusura F4, decisione D3 del 15/10",
+      "titolo": "Codice legacy e codice di sola prova fuori dagli assembly distribuiti (tests/ANTHEA.Legacy)",
+      "famiglia": "infrastruttura/test",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Decisione D3: il codice che il prodotto non usa più e il codice che serve solo alle prove escono dagli assembly dell'installer, senza cancellazioni. Nuovo progetto non distribuito tests/ANTHEA.Legacy (namespace Anthea.Calculations, InternalsVisibleTo da ANTHEA.Calculations), vietato al prodotto dalla prova di architettura e da Assert-NoTestCode. Modo (b): dove una prova fa girare un modulo intero col motore vecchio, nel prodotto resta solo un aggancio interno senza formule (EngineHook, AsyncLocal nullo in produzione; ILegacyServiceability, ILegacyShearTorsion, ILegacyDurability, ILegacyWalls). Spostati: SLE (LegacyNtc2018Checks, LegacyConcreteCodeChecks, LegacyServiceability), taglio e torsione (ConcreteTorsionCalculator), durabilità (DurabilityLegacy e funzioni di facciata senza chiamanti), sezione storica (SezioneElastica, motore di SezioneCA), muri (verifiche strutturali, dettagli, distinta, gravità, ricerca precedente), pali (ricerca dei tratti e riepilogo precedenti, CalculateStratified, conteggi della cache), dettagli e interassi circolari, progetto armature (ricerca precedente e rami mai raggiungibili), Bridge Design (motore, ricerca e schede precedenti), geometrie senza chiamanti; codice di sola prova: sonde degli adattatori, tabelle della mappatura (MappingCoverage), funzioni dei muri e involucri GPC del Bridge usati solo dalle prove, traccia dei ripieghi JSON (resta l'osservatore JsonFallbackHook senza logica; il prodotto non legge più ANTHEA_TRACE_FALLBACKS), modello Excel storico delle azioni, Archivio.Leggi/Scrivi (inoltri di una riga, le prove chiamano DocumentService), SameCommonSoilData, DocxPdf.Lines, membri delle finestre letti solo dalle prove WPF (parti partial compilate solo in UiTests). Restano nel prodotto le migrazioni dei documenti vecchi, LegacyNumerics, i DTO usati dalla libreria e la costante LegacyEntirelyTensileNtcBarSpacing (U1, nessun effetto). Firme pubbliche tolte senza chiamanti di produzione: parametri del motore SLE, del taglio, della durabilità e dei muri, parametro legacy di BridgeConcept, ElasticHorizontalPile, ConcreteReinforcementDesign e RetainingWall, sovraccarico legacyActions di ConcreteDetailingAnalysis. Prove: firme di prima con il motore come ultimo argomento in ServiceabilityEngines e ShearTorsionEngines; marcatori del motore dei risultati sostituiti dalla sonda; 5k, 11g, 11i e gli elenchi ammessi riscritti sui file nuovi. Baseline F4 da 2909 a 2211 voci, nessuna aggiunta. Inventario: d3-inventario-legacy.md (21 blocchi da spostare, 6 già senza chiamanti).",
+      "codice": [
+        "tests/ANTHEA.Legacy/",
+        "X.Calculations/EngineHook.cs",
+        "X.Calculations/X.Calculations.csproj",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "X.Calculations/ConcreteShearTorsionAdapter.cs",
+        "X.Calculations/ConcreteDurabilityAdapter.cs",
+        "X.Calculations/RetainingWall.Structures.cs",
+        "src/ANTHEA.Serialization/JsonData.cs",
+        "tests/ANTHEA.Architecture.Tests/Program.cs",
+        "tests/ANTHEA.Architecture.Tests/f4-domain-baseline.json",
+        "tools/qa/Assert-NoTestCode.ps1",
+        "tools/qa/f4_baseline_riduci.py"
+      ],
+      "decisione": "Utente, 15/10: «allora optiamo per tenere tutto il codice e spostarlo dentro dei file che non finiscono nell'installer. non vorrei cancellarlo dal progetto, per quanto versionato»; modo per le prove di modulo: «confermo la scelta b».",
+      "test": [
+        "Cattura prima (4144fe9e) e dopo (98e1535c) con d3-cattura.ps1: ANTHEA.Testing con e senza --motore-sle legacy, CheckerMigration.Capture tutte con i motori della libreria e con --motore legacy --motore-sle legacy --motore-durabilita legacy, muri con e senza --motore-sle legacy, pali, mesh; confronto esatto con d3-confronta.py (normalizzati solo intestazioni con commit e impronta, GUID casuali, tempi_ms e la classe dei chiamanti spostati in fallbacks.json)",
+        "Ogni famiglia verificata sul proprio ramo con il runner e con lo stesso confronto (8 catture uguali); runner d3-nucleo PASS 58",
+        "Assert-NoTestCode: Release PASS su 12 assembly ANTHEA (6 prima non letti); UiTests FAIL come controprova (ANTHEA.Legacy.dll, ANTHEA.Testing.dll, 541 marcatori)",
+        "Architecture.Tests PASS: nessun progetto di X.* o src/ referenzia ANTHEA.Legacy, assente dalla build Release"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/d3/prima",
+        "supporto/artefatti/refactoring/d3/dopo",
+        "supporto/artefatti/ci/20261015-094438-d3-nucleo"
+      ]
+    },
+    {
       "id": "F2-18",
       "data": "2026-10-12",
       "fase": "F2.7-A11",
