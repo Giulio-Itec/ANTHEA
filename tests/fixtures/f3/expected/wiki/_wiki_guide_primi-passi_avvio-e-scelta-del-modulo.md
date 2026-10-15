@@ -2,7 +2,7 @@
 
 ### Avviare la versione aggiornata
 
-Per installare ANTHEA 1.8.0 eseguire il setup e scegliere l'installazione per l'utente corrente oppure per tutti gli utenti. Il runtime .NET 8 è incluso. Se ANTHEA è aperta, anche da un'altra cartella, il setup si blocca prima di rimuovere la versione precedente: chiudere tutte le finestre e riavviare il setup.
+Per installare ANTHEA eseguire il setup e scegliere l'installazione per l'utente corrente oppure per tutti gli utenti. Il runtime .NET 8 è incluso. Se ANTHEA è aperta, anche da un'altra cartella, il setup si blocca prima di rimuovere la versione precedente: chiudere tutte le finestre e riavviare il setup.
 
 Prima di copiare la nuova versione il setup elimina tutto il contenuto della cartella di installazione, incluse vecchie DLL, sottocartelle ed eventuali file aggiunti dall'utente. Salvare quindi progetti, modelli e report in una cartella esterna. Usare una destinazione dedicata di nome ANTHEA oppure la cartella riconosciuta di una precedente installazione. Percorsi di sistema, collegamenti a cartelle e file che impediscono la pulizia arrestano l'installazione prima della copia dei nuovi file.
 
