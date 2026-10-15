@@ -12,7 +12,11 @@ public sealed record ConcreteDetailingResult(double MaximumCompression, NtcCover
     /// <summary>NEd comes from a serviceability combination (the most severe compression is a service value).</summary>
     public bool CompressionFromServiceability { get; init; }
 }
-public sealed record ConcreteAnchorageResult(double Diameter, double Stress, double Fctk05, AnchorageResult Check);
+public sealed record ConcreteAnchorageResult(double Diameter, double Stress, double Fctk05, AnchorageResult Check)
+{
+    /// <summary>γc usato in fbd: quello della norma effettiva con i coefficienti unitari del foglio del palo, altrimenti gamma_c dell'input.</summary>
+    public double GammaC { get; init; }
+}
 
 /// <summary>Same section, durability and anchorage adapters for interactive and nonvisual calculations.</summary>
 public static class ConcreteDetailingAnalysis
@@ -60,7 +64,11 @@ public static class ConcreteDetailingAnalysis
             input.D("transverse_bar_diameter_mm"), input.D("transverse_spacing_mm"), legs,
             Value("aggregato"), durability?.Cover.Durability ?? double.NaN, Value("delta_c"), o.S("zona_sovrapposizione") == "Sì",
             plate ? Value("as_secondaria") : 0, plate ? Value("passo_secondaria") : 0, o.S("zona_critica") == "Sì",
-            o.S("barre_trattenute") == "Confermato", o.S("ancoraggio_appoggi") == "Confermato");
+            o.S("barre_trattenute") == "Confermato", o.S("ancoraggio_appoggi") == "Confermato")
+        {
+            // Coefficienti unitari del foglio c.a. del palo: fyd = fyk della norma effettiva (come TAG-2); senza, SezioneCA.Fyd come prima.
+            DesignYieldStrength = input.B("coefficienti_unitari") ? ConcreteMaterials.DesignValues(input, settings).Fyd : null
+        };
         return new(n, durability, durabilityError, new ConcreteDetailingCalculator().Calculate(request))
         {
             CompressionSource = governing.Source is { } s ? s.Name + " · " + FamilyLabel(s.Family) : "",
@@ -94,17 +102,22 @@ public static class ConcreteDetailingAnalysis
             throw new ArgumentException("Ancoraggi disponibili per NTC 2018 con integrazioni EC2.");
         var section = new SezioneCA(input); var a = settings["ancoraggi"]!;
         double Number(string key) => SectionWorkspace.Number(a.S(key), key);
+        // Coefficienti unitari del foglio c.a. del palo (come TAG-2 per taglio e torsione): fyd e γc della norma effettiva, cioè fyk e 1; senza,
+        // fyk/γs e gamma_c dell'input come prima, bit per bit e con gli stessi rifiuti.
+        bool unit = input.B("coefficienti_unitari");
+        double fyd = unit ? ConcreteMaterials.DesignValues(input, settings).Fyd : section.Fyd;
+        double gammaC = unit ? ConcreteStandards.Effective(input, settings).GammaC : input.D("gamma_c");
         double phi = a.S("diametro").Trim() == "" ? section.Bars.Max(v => v.Diametro) : Number("diametro");
-        double sigma = a.S("sigma").Trim() == "" ? section.Fyd : Number("sigma");
-        if (sigma > section.Fyd) throw new ArgumentException("La tensione di ancoraggio non può superare fyd.");
+        double sigma = a.S("sigma").Trim() == "" ? fyd : Number("sigma");
+        if (sigma > fyd) throw new ArgumentException("La tensione di ancoraggio non può superare fyd.");
         if (a.S("lunghezza").Trim() == "") throw new ArgumentException("Inserire la lunghezza disponibile per eseguire la verifica.");
         _ = ConcreteMaterials.Concrete(input); // Preserve material/diagram validation; the bond cap belongs to Checker.
         double fct = GPC.Checkers.Concrete.Detailing.AnchorageCalculator.BondFctk05(input.D("fck_mpa"));
         bool lap = a.S("tipo").StartsWith("Sovrapposizione");
         // Tipo di barra dalla sezione (Barre: Migliorata/Liscia delle SLE), con la stessa lettura e lo stesso predefinito della fessurazione (DET-2).
         bool ribbed = settings["sle_comuni"].S("aderenza", "Migliorata") == "Migliorata";
-        var result = new ConcreteAnchorageCalculator().Calculate(new(phi, sigma, fct, input.D("gamma_c"),
+        var result = new ConcreteAnchorageCalculator().Calculate(new(phi, sigma, fct, gammaC,
             a.S("aderenza") == "Buona", Number("lunghezza"), lap, lap ? Number("percentuale") : 100, lap ? Number("interferro") : 0, ribbed));
-        return new(phi, sigma, fct, result);
+        return new(phi, sigma, fct, result) { GammaC = gammaC };
     }
 }

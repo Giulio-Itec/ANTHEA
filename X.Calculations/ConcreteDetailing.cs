@@ -52,7 +52,12 @@ public sealed record ConcreteDetailingInput(ConcreteMemberKind Kind, SezioneCA S
     bool HasStirrups, double StirrupDiameter, double StirrupSpacing, int StirrupLegs,
     double Aggregate, double MinimumDurabilityCover, double CoverDeviation, bool LapZone,
     double SecondarySteelPerMetre, double SecondarySpacing, bool CriticalSlabRegion,
-    bool CompressionBarsRestrained, bool EndSupportAnchorageConfirmed);
+    bool CompressionBarsRestrained, bool EndSupportAnchorageConfirmed)
+{
+    /// <summary>fyd delle regole dei dettagli quando differisce da fyk/γs dell'input della sezione: quello della norma effettiva con i coefficienti
+    /// unitari del foglio c.a. del palo (fyd = fyk). Null: SezioneCA.Fyd, come prima.</summary>
+    public double? DesignYieldStrength { get; init; }
+}
 public interface IConcreteDetailingCalculator { IReadOnlyList<DetailingCheck> Calculate(ConcreteDetailingInput input); }
 public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
 {
@@ -72,7 +77,7 @@ public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
             _ => NativeDetailing.MemberDetailingKind.Wall
         };
         var input = new NativeDetailing.MemberDetailingInput(kind, ConcreteLibraryMapping.CrackGeometry(s),
-            s.AreaCls, fck, ConcreteMaterialCatalog.Material(fck).Fctm, fyk, s.Fyd,
+            s.AreaCls, fck, ConcreteMaterialCatalog.Material(fck).Fctm, fyk, p.DesignYieldStrength ?? s.Fyd,
             s.Shape == "A T" ? s.Input.D("flange_width_mm") : s.Width,
             s.Shape == "A T" ? s.Input.D("web_width_mm") : s.Width,
             s.Shape == "A T" ? s.Input.D("web_width_mm") : s.Width,

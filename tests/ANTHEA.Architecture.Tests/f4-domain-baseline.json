@@ -14276,14 +14276,6 @@
       "Example": "3"
     },
     {
-      "File": "src/ANTHEA.Application/Concrete/ConcreteDetailingPresentation.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteDetailingPresentation.Calculate",
-      "Fingerprint": "7387C23197FCBA2AB523CA8C58DB0008D95CF7A3B905864E49745A0678396B6E",
-      "Count": 1,
-      "Example": "Input . D ( \"gamma_c\" )"
-    },
-    {
       "File": "src/ANTHEA.Application/Concrete/ConcreteDomainChart.cs",
       "Rule": "R1-math",
       "Owner": "ConcreteDomainChart.Project",

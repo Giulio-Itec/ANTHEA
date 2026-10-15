@@ -156,6 +156,17 @@ dev = 2 * ((300 - 88) + (700 - 88)) + 20 * 8
 print(f"ARM-3 sviluppo {dev:.0f} mm, staffe {math.pi * 8 ** 2 / 4 * 1e-6 * dev / 1000 * (1000 / 150) * 7850:.6f} kg/m (con l'ala: "
       f"{math.pi * 8 ** 2 / 4 * 1e-6 * (2 * ((1200 - 88) + (700 - 88)) + 160) / 1000 * (1000 / 150) * 7850:.6f} kg/m)")
 
+# ---------------------------------------------------------------- foglio c.a. del palo con coefficienti unitari: ancoraggi e dettagli
+# NTC 2018 §4.1.2.1.1.4 / EC2 8.4: fbd = 2,25 η1 η2 fctk,0,05/γc, fctk,0,05 = 0,7·0,30·fck^(2/3) (C35/45), η1 = η2 = 1 (aderenza buona,
+# Ø ≤ 32); lb,rqd = Ø σsd/(4 fbd) con σsd = fyd. Unitari: γc = 1, fyd = fyk = 450; ordinari: γc = 1,5, fyd = 450/1,15. Ø24.
+fctk = 0.7 * 0.30 * 35 ** (2 / 3)
+for lab, gc, fy in (("unitari", 1.0, 450.0), ("ordinari", 1.5, 450 / 1.15)):
+    fbd = 2.25 * fctk / gc
+    print(f"ancoraggi {lab}: fbd = {fbd:.6f} MPa, σsd = {fy:.6f} MPa, lb,rqd = {24 * fy / (4 * fbd):.6f} mm")
+# Pilastro, NTC 2018 [4.1.43]: As,min = max(0,10 NEd/fyd; 0,003 Ac) con NEd = 10 000 kN, Ac = 600·800.
+for lab, fy in (("unitari", 450.0), ("ordinari", 450 / 1.15)):
+    print(f"dettagli {lab}: 0,10 NEd/fyd = {0.10 * 1e7 / fy:.6f} mm², 0,003 Ac = {0.003 * 600 * 800:.1f} mm²")
+
 # ---------------------------------------------------------------- DET-3: B450A
 # NTC 2018 Tab. 11.3.Ic ed EN 1992-1-1 Tab. C.1 classe A: (Agt)k = εuk ≥ 2,5 %, cioè 25 ‰; B450C ≥ 7,5 % (75 ‰).
 print("DET-3 εuk B450A = 25 ‰, B450C = 75 ‰")

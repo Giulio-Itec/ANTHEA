@@ -198,11 +198,47 @@ internal static class CorrezioniCa20261015
                 "DET-3 differenza: «" + difference + "»");
             Is(RebarMaterial.Evaluate(saved).EpsilonU == 30 && saved.D("steel_eps_u") == 30, "DET-3 valore salvato usato e non riscritto");
         }
+
+        // ------------------------------------------------------------ foglio c.a. del palo con coefficienti unitari: ancoraggi e dettagli
+        // Stessa classe di TAG-2: γc e fyd della norma effettiva (γc = 1, fyd = fyk). Attesi (correzioni_ca_20261015.py): NTC 2018 §4.1.2.1.1.4,
+        // fbd = 2,25 fctk,0,05/γc, lb,rqd = Ø fyd/(4 fbd) con Ø24; §4.1.6.1.2, As,min = max(0,10 NEd/fyd; 0,003 Ac) con NEd = 10 000 kN.
+        foreach (bool unit in new[] { true, false })
+        {
+            var (input, settings) = PileSheet(unit);
+            string tag = unit ? "foglio del palo, coefficienti unitari" : "foglio del palo, coefficienti ordinari";
+            var a = settings["ancoraggi"]!.AsObject();
+            a["tipo"] = "Ancoraggio rettilineo"; a["diametro"] = "24"; a["sigma"] = ""; a["aderenza"] = "Buona"; a["lunghezza"] = "600";
+            var anchorage = ConcreteDetailingAnalysis.Anchorage(input, settings);
+            Near(anchorage.Stress, unit ? 450 : 391.304347826087, 1e-12, tag + ": σsd = fyd");
+            Near(anchorage.GammaC, unit ? 1 : 1.5, 0, tag + ": γc");
+            Near(anchorage.Check.Fbd, unit ? 5.055691 : 3.370461, 1e-6, tag + ": fbd");
+            Near(anchorage.Check.BasicLength, unit ? 534.051642 : 696.589099, 1e-6, tag + ": lb,rqd");
+            settings["dettagli_costruttivi"]!["elemento"] = "Pilastro";
+            var details = ConcreteDetailingAnalysis.Calculate(input, settings, [J.Obj(("nome", "C1"), ("stato", "SLU"), ("N", "-10000"))]);
+            Near(details.Checks.Single(c => c.Name == "Armatura longitudinale minima").Limit, unit ? 2222.222222 : 2555.555556, 1e-9, tag + ": As,min = 0,10 NEd/fyd");
+        }
         return count;
     }
 
     static JsonObject Curvature(double axial) => J.Obj(("N", axial.ToString(Invariant)), ("theta", "0"), ("passi", "10"), ("frazione", "1"), ("campionamento", "Lineare"),
         ("trazione_cls", "No"), ("angoli", "64"), ("tolleranza_n", "1"), ("raffina_snervamento", "12"));
+
+    /// <summary>Foglio c.a. di approfondimento del palo come lo crea ElasticHorizontalPile.CreateConcreteSheet: sezione predefinita 600×800 C35/45,
+    /// NTC 2018; con i coefficienti unitari la normativa_custom di ConcreteStandards.PileWorkspace (tutti i γ e αcc = 1).</summary>
+    static (JsonObject Input, JsonObject Settings) PileSheet(bool unit)
+    {
+        var data = SezioneCA.DefaultData(); var input = data["input"]!.AsObject(); var settings = SectionWorkspace.Prepare(data);
+        settings["normativa"] = "NTC 2018"; settings["coefficienti"] = ConcreteStandards.Defaults("NTC 2018");
+        foreach (var (k, v) in ConcreteCalculationSettings.CommonCoefficients) input[k] = settings["coefficienti"]![v]!.DeepClone();
+        ConcreteCalculationSettings.Prepare(input, settings);
+        input["coefficienti_unitari"] = unit;
+        if (unit)
+        {
+            var custom = ConcreteStandards.PileWorkspace(input);
+            settings["coefficienti"] = custom["coefficienti"]!.DeepClone(); settings["normativa_custom"] = custom["normativa_custom"]!.DeepClone();
+        }
+        return (input, settings);
+    }
 
     /// <summary>
     /// FES-2 (copriferro della formula dalle barre efficaci) e FES-1 (asse neutro nel copriferro di una barra del lembo teso) sul percorso del
