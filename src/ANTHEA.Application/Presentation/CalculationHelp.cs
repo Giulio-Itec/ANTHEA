@@ -39,6 +39,7 @@ public static class CalculationHelp
         "tratto_libero" => "Quota della testa sopra il piano campagna, in m, nel modello elastico (lunghezza totale = infissa + libera). Broms e Stratificato pongono il vincolo della testa impedita al piano campagna: con testa impedita richiedono tratto libero nullo, altrimenti usare la risposta elastica.",
         "gamma_acqua" => "Peso unitario dell’acqua γw, in kN/m³ (9,81 se assente). Sotto falda Broms, Stratificato e modello elastico usano γ′ = γsat − γw con questo valore; γsat deve superarlo.",
         "mobilization" => RetainingWall.MobilizationHelp,
+        "cls_teso_nl" => BridgeSection.ConcreteTensionHelp,
         "origine_momento" => "La scelta automatica usa la sezione e i materiali inseriti. Con momento manuale indicare valore e provenienza: la verifica geotecnica non lo ricava dalla geometria della sezione.",
         _ => null
     };

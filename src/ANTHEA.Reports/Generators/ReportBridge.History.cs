@@ -22,7 +22,8 @@ public static partial class ReportBridge
             doc.Table(["Opzione numerica", "Valore"], new[] {
                 new[] { "Strisce anima / flange / CLS", result.Input.S("fibre_anima", "160") + " / " + result.Input.S("fibre_flange", "8") + " / " + result.Input.S("fibre_cls", "64") },
                 new[] { "Punti di integrazione", "2 per striscia" }, new[] { "Sottopassi per fase", result.Input.S("sottopassi", "8") },
-                new[] { "Viscosità non lineare", result.Input.S("viscosita_nl", BridgeSection.NonlinearCreepModes[0]) } }, [2, 3]);
+                new[] { "Viscosità non lineare", result.Input.S("viscosita_nl", BridgeSection.NonlinearCreepModes[0]) },
+                new[] { "CLS teso (non lineare)", result.Input.S("cls_teso_nl", BridgeSection.ConcreteTensionModes[0]) } }, [2, 3]);
         }
         if (options.Contains("materiali"))
         {

@@ -56,6 +56,13 @@ internal static class BridgeContractChecks
             Check(pairs.Count(p => p.First.GetTensionStiffening() is not null) == 2 && pairs.All(p => (p.First.GetTensionStiffening() is null) == (p.Second.GetTensionStiffening() is null)), "PON-1: tension stiffening delle barre tese nella vista");
             foreach (var (a, b) in pairs) Compare(a.GetTensionStiffening(), b.GetTensionStiffening(), "Tension stiffening " + a.Name);
         }
+        {
+            // PON-2: «CLS teso (non lineare)» saved with the sheet, «Trascurato» for the sheets saved before (no key) and for the new ones.
+            var old = BridgeSection.Defaults(); old.Remove("cls_teso_nl"); Anthea.Application.Presentation.BridgeSheetPresentation.PrepareCalculationOptions(old);
+            Check(old.S("cls_teso_nl") == "Trascurato" && BridgeEditor.ConcreteTensionModes.SequenceEqual(new[] { "Trascurato", "Tension stiffening" }), "PON-2: CLS teso predefinito «Trascurato»");
+            var chosen = BridgeSection.Defaults(); chosen["cls_teso_nl"] = "Tension stiffening"; Anthea.Application.Presentation.BridgeSheetPresentation.PrepareCalculationOptions(chosen);
+            Check(chosen.S("cls_teso_nl") == "Tension stiffening", "PON-2: scelta del foglio conservata");
+        }
         var responseInput = BridgeSection.Defaults(); var request = BridgeSection.ResponseDefaults(); request["punti"] = 5;
         var response = StructuralQueries.BridgeResponse(responseInput, request);
         var reference = BridgeSection.CalculateResponse(responseInput, request);

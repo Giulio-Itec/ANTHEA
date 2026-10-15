@@ -8,6 +8,7 @@ public static class BridgeSheetPresentation
     {
         data["metodo_analisi"] ??= BridgeSection.CalculationMethods[0];
         data["viscosita_nl"] ??= BridgeSection.NonlinearCreepModes[0];
+        data["cls_teso_nl"] ??= BridgeSection.ConcreteTensionModes[0]; // PON-2: the sheets saved before have «Trascurato»
         data["fibre_anima"] ??= 160; data["fibre_flange"] ??= 8; data["fibre_cls"] ??= 64; data["sottopassi"] ??= 8;
     }
     public static void PreparePhase(JsonObject phase)
