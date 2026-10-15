@@ -155,6 +155,18 @@ Confronto numerico per fase sul ponte reale e sezione variabile per fase: oggi M
 vuote, quindi non dipendono dal refactoring. **Proposta:** spostarli nella traccia del modulo Modelli, da riprendere
 quando ci sarà un modello MIDAS con i risultati per fase.
 
+## Risposte del 15/10
+
+L'utente ha approvato tutte le proposte così come sono scritte: «E1–E8 come nel foglio». Due risposte a parte:
+
+- **E1-D4, muri**: la proposta. La faccia tesa del fusto o della fondazione senza barre dà la verifica «non
+  soddisfatta», come nelle sezioni, senza la prova con fctk,0,05. Si attua nella release delle correzioni dei bug.
+- **Superfici interne delle sezioni cave** (estensione di F2-25, 33 stati della griglia): restano «non soddisfatta».
+
+Le decisioni sono trascritte in [decisioni.md](decisioni.md), sezione del 15 ottobre; piano e registro sono allineati.
+L'analisi dei bug dello stesso giorno (SLU-2) ha portato anche la rettifica di F2-17: con N costante la libreria non
+trova sempre un punto convergente.
+
 ## Dopo le risposte
 
 Documenti e registro (E1–E8), poi F2.11c (E5) e gli attesi di E3 con il profilo standard, la libreria (R1, R2, punto
