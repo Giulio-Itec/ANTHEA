@@ -1200,3 +1200,5 @@ F3 con 7214 differenze tutte nella previsione).
   rami F4 uniti anche su origin.
   **Guide per la 1.9.0** («Rev45, frase senza versione», 15/10): la guida pratica Rev44 diceva «Per installare ANTHEA
   1.8.0…»; la Rev45 toglie il numero dalla frase, così non va cambiata a ogni versione (registro F4-50).
+- **Attuazione di D4 e D5** (15/10): full conforme `20261015-105444-f4-full-190` (140 PASS, 0 NEW-FAIL), installer
+  1.9.0 da `a46e91fb`, F4 chiusa con il [verbale](chiusura-f4-20261015.md); merge, tag e push come da D5.

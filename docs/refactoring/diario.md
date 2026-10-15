@@ -794,3 +794,43 @@ Problemi trovati:
 
 Correzioni documentali sul ramo `refactoring/f4-correzioni-audit` (piano, registro e questo diario); decisioni dell'utente
 punto per punto in `decisioni.md`. Nessuna fase è dichiarata chiusa con queste correzioni.
+
+## 14 ottobre 2026, pomeriggio e notte: correzioni dell'audit
+
+Ramo `refactoring/f4-correzioni-audit`.
+- **Pomeriggio:**
+  - classificazione puntuale delle 6805 differenze UI (372d38cf);
+  - correzioni F4-40, F4-41 e F4-42;
+  - cataloghi A12 (3f8e358c);
+  - set X in `lib/Checker` (137acd4b);
+  - F4-43…F4-46 (01523e9a–6bd55f6b), con le analisi composte dei prezzari e i report senza Word.
+- **Sera:**
+  - guide Rev44 (2a23ba48);
+  - testi della durabilità (99fd0ad6);
+  - pagine dei metodi pubblicate su master del Checker (08588fec);
+  - attesi indipendenti TEST-02 (429dcb1d, fd28f353);
+  - voce F4-48 (a96d2d35).
+- **Full delle 23:05** (`20261014-230601-f4-full-20261015`): 136 PASS e 2 NEW-FAIL.
+  - Le 7214 differenze UI erano tutte nella previsione scritta prima della corsa.
+  - La prova dei prezzari non era aggiornata a F4-45 ed è stata corretta in 5ba83f1f.
+- Decisioni per la chiusura proposte all'utente: D1–D5.
+
+## 15 ottobre 2026: D1–D5 e chiusura di F4
+
+- **07:33–07:45:** decisioni D1–D5 dell'utente (a80fe13e, 505227a1).
+  - D2 attuata: 6878 transizioni ammesse una per una in `ui/f3-equivalence`, registro TEST-03 (4144fe9e).
+- **D3, modo (b)** («confermo la scelta b»):
+  - catture prima a `4144fe9e`;
+  - progetto `tests/ANTHEA.Legacy` con l'aggancio `EngineHook` (6ac048b1);
+  - SLE, taglio e torsione e muri (da7c204a);
+  - sette famiglie lavorate in parallelo su rami `refactoring/d3-*` e unite in 98e1535c.
+  - Catture dopo uguali alle catture prima, otto su otto. Baseline F4 da 2909 a 2211; registro F4-49 (a1830bf3).
+- **Primo full** `20261015-101226-f4-full-d3`: 136 PASS e un NEW-FAIL di build.
+  - `ConcreteShort.UiChecks` non vedeva `ANTHEA.Legacy`. Riferimento esplicito nel gruppo UiTests (ea4b1de5).
+- **Guide e versione:**
+  - guide Rev45 senza numero di versione nella frase d'installazione (5025d9c5);
+  - ANTHEA 1.9.0 e voce F4-50 (a46e91fb).
+- **Full conforme** `20261015-105444-f4-full-190` su a46e91fb, con le suite dell'installer: 140 PASS, 0 KNOWN, 0 NEW-FAIL,
+  0 BLOCKED.
+- **Setup 1.9.0:** 62836719 byte, SHA-256 D6C46DE0…86CD34, contenuto verificato.
+- F4 chiusa con il [verbale](chiusura-f4-20261015.md); merge in `main`, tag e push come da D5.
