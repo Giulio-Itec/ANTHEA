@@ -3,9 +3,9 @@
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
   "aggiornato": "2026-10-15",
   "riferimenti_codice": {
-    "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
-    "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
-    "Model": "c85b70a6 (master) per le voci D7; d6631635 (master, locale) per le voci R1-R14; 5ad56681 (master, pushato) per le voci R16-R21; percorsi con prefisso Model/",
+    "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce",
+    "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10",
+    "Model": "c85b70a6 (master) per le voci D7; d6631635 (master, locale) per le voci R1-R14; 5ad56681 (master, pushato) per le voci R16-R21; percorsi con prefisso Model/; allineamento del 15/10 su Model master 2650cf73: Model/Model/Standards è diventato Model/Model/Design/Standards con la revisione di architettura (de920294, contenuto invariato) e ModelChecker.Tests è passato in Checker (81060a28)",
     "lib/Checker": "manifest del 2026-10-06: GPCChecker.Concrete 0.0.14.0, GPCChecker.Geotechnics 0.1.0.0, GPCChecker.CompositeBridge 1.4.0.2, GPCModel 1.6.0.0"
   },
   "categorie": {
@@ -591,8 +591,8 @@
         "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:58-62",
         "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:108",
         "Checker/GPCChecker.Concrete/Cracking/CrackProfiles.cs:57",
-        "X.Calculations/Ntc2018Checks.cs:217-222",
-        "X.Calculations/ConcreteCodeChecks.cs:224"
+        "tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.cs:255-260 (prima X.Calculations/Ntc2018Checks.cs:217-222, D3)",
+        "tests/ANTHEA.Legacy/Serviceability/LegacyConcreteCodeChecks.cs:220 (prima X.Calculations/ConcreteCodeChecks.cs:224, D3)"
       ],
       "segno": "rispetto alla Circolare nessuno; rispetto alla EN 1992-1-1 (7.14) non cautelativo (−1,92 % su wk) dove governa la zona distante e cautelativo dove il termine vicino supera 1,3 (h − x)",
       "effetto_quantificato": {
@@ -703,9 +703,9 @@
         "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:163",
         "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:173-174",
         "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:116-122",
-        "X.Calculations/Ntc2018Checks.cs:30-36",
-        "X.Calculations/Ntc2018Checks.cs:77",
-        "X.Calculations/Ntc2018Checks.cs:92-96"
+        "tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.cs:32-37 (CrackK2, regola precedente; prima X.Calculations/Ntc2018Checks.cs:30-36, D3); interruttore NtcK2FromCompressedBars in X.Calculations/Ntc2018Checks.cs:30",
+        "tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.cs:90-93 (prima X.Calculations/Ntc2018Checks.cs:77, D3)",
+        "tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.cs:118-134 (prima X.Calculations/Ntc2018Checks.cs:92-96, D3)"
       ],
       "segno": "cautelativo",
       "effetto_quantificato": {
@@ -912,8 +912,8 @@
       "codice": [
         "X.Calculations/Calcolo.cs:221-223",
         "X.Calculations/CalculationDefaults.cs:7",
-        "Model/Model/Standards/StandardNTC2018Geotechnics.cs:49-50",
-        "Model/Model/Standards/StandardNTC2018Geotechnics.cs:68-70",
+        "Model/Model/Design/Standards/StandardNTC2018Geotechnics.cs:49-50",
+        "Model/Model/Design/Standards/StandardNTC2018Geotechnics.cs:68-70",
         "Checker/GPCChecker.Geotechnics/Piles/PileModels.cs:61-73",
         "Checker/GPCChecker.Geotechnics/Piles/AxialPileModels.cs:8"
       ],
@@ -1035,7 +1035,7 @@
       "titolo": "Classe minima C30/37 per XC3, XD1, XF4 e XA1 (UNI 11104:2025 in vigore) contro C28/35 attribuito all'edizione 2004",
       "famiglia": "calcestruzzo/durabilita",
       "categoria": "intenzionale",
-      "stato": "dichiarato",
+      "stato": "attuato",
       "descrizione": "La classe minima per esposizione del profilo NTC vale C30/37 per XC3, XD1, XF4 e XA1, come il prospetto 6 della UNI 11104:2025 in vigore (secondo l'estratto del 28/07/2025), il prospetto 5 della UNI 11104:2016 (riportato in ATECAP 2020) e il prospetto F.1 della EN 206; C28/35 per le stesse classi è il valore attribuito all'edizione 2004. Il codice tiene C30/37 (decisione del 7/10) e le citazioni di ANTHEA indicano ora edizione e prospetto. Secondo un estratto pubblicato il 28/07/2025 (fonte secondaria) il prospetto 6 della 2025 differisce dal codice per una sola classe, XF1 (C30/37 contro C32/40 del codice e della 2016), e per i limiti di composizione: voce seguito, con l'opzione e4 da attuare in F2.9 dopo il riscontro del prospetto 6 su una copia con licenza della norma. La classe minima regola l'avviso della scheda Materiali e la maggiorazione di 5 mm del copriferro NTC.",
       "riferimento_normativo": [
         {
@@ -1084,14 +1084,14 @@
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:107",
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:121",
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:128",
-        "X.Calculations/Materials/MinimumConcrete.cs:5-16",
-        "X.Calculations/Materials/MinimumConcrete.cs:21",
-        "X.Calculations/Materials/MixAutomation.cs:5-17",
-        "X.Calculations/Materials/NtcCover.cs:24",
-        "X.Calculations/Materials/NtcCover.cs:27",
-        "X.Materiali/MinimumConcrete.cs:15-16",
-        "X.Materiali/MixAutomation.cs:7-8",
-        "X.Materiali/MixAutomation.cs:46"
+        "tests/ANTHEA.Legacy/Durability/DurabilityLegacy.cs:112-123 (MinimumConcrete; prima X.Calculations/Materials/MinimumConcrete.cs:5-16, D3)",
+        "tests/ANTHEA.Legacy/Durability/DurabilityLegacy.cs:128 (prima X.Calculations/Materials/MinimumConcrete.cs:21, D3)",
+        "tests/ANTHEA.Legacy/Durability/DurabilityLegacy.cs:133-145 (AtecapMix; prima X.Calculations/Materials/MixAutomation.cs:5-17, D3)",
+        "tests/ANTHEA.Legacy/Durability/DurabilityLegacy.cs:98 (NtcCover; prima X.Calculations/Materials/NtcCover.cs:24, D3)",
+        "tests/ANTHEA.Legacy/Durability/DurabilityLegacy.cs:101 (prima X.Calculations/Materials/NtcCover.cs:27, D3)",
+        "src/ANTHEA.Application/Materials/MaterialSheetPresentation.cs:80-81 (prima X.Materiali/MinimumConcrete.cs:15-16, F3)",
+        "X.Desktop/Wpf/Materials/MixAutomation.cs:7-8 (prima X.Materiali/MixAutomation.cs:7-8, F3)",
+        "src/ANTHEA.Application/Materials/MaterialSheetPresentation.cs:17, :134 (prima X.Materiali/MixAutomation.cs:46, F3)"
       ],
       "segno": "cautelativo",
       "effetto_quantificato": {
@@ -1162,7 +1162,7 @@
         "verifica": "profilo quick (tag d7e): PASS 18, KNOWN 0, NEW-FAIL 0 (comprende CalculationLibrary.Checks con i controlli di durabilità e copriferro NTC, wiki/indice e wiki/manuale); banco c.a. (-Profile baseline -Only '^baseline/banco-ca'): PASS, durability-legacy.csv 3048 righe identiche alle fixture di Checker, 27 698 righe confrontate senza differenze oltre agli identificativi casuali"
       },
       "seguito": {
-        "stato": "da-correggere",
+        "stato": "dichiarato",
         "descrizione": "Il prospetto 6 della UNI 11104:2025 differisce dai valori del codice (UNI 11104:2016, prospetto 5) in tre punti, tutti con il codice più restrittivo: (1) classe minima di XF1, C30/37 contro C32/40; (2) A/C massimo di XF1, 0,55 contro 0,50; (3) cemento minimo inferiore in tutte le classi: 280 contro 300 (XC1-XC2), 300 contro 320 (XC3, XD1, XF1, XA1), 320 contro 340 (XC4, XS1, XD2, XF2-XF3, XA2), 340 contro 360 (XF4), 350 contro 360 (XS2-XS3, XD3, XA3). I punti (1) e (2) e il verso del punto (3) vengono dall'estratto del 28/07/2025 (fonte secondaria); i valori di cemento per classe sono quelli provvisori del riferimento normativo, da riscontrare sul prospetto 6 di una copia con licenza.",
         "effetto": "Classe minima: con XF1 a C30/37 cambiano 13 combinazioni di esposizione su 520 (1 singola, 5 doppie, 7 triple: XF1 con XC1, XC2, XC3, XD1, XA1), da C32/40 a C30/37; nel catalogo cambia solo C30/37, oggi segnalata inferiore al minimo in quelle 13 combinazioni, e il copriferro nominale NTC di C30/37 in quelle combinazioni perderebbe la maggiorazione di 5 mm. Composizione: cambia il cemento minimo di tutte le combinazioni tranne X0 e l'A/C delle combinazioni in cui XF1 governa.",
         "opzioni": [
@@ -1181,6 +1181,11 @@
           "decisore": "coordinatore su delega dell'utente («esegui tutto te»), da ratificare",
           "opzione": "e4",
           "esito": "e4 in F2.9 dopo riscontro del prospetto 6 su copia con licenza: allineamento alla UNI 11104:2025, coerente con «confermo la norma più aggiornata», attuato insieme allo spostamento della durabilità nella libreria (due commit, ricattura di durability-legacy.csv, attesi di MaterialViewChecks.cs:78 ritrascritti dal prospetto 6). Il riscontro sul testo viene prima perché la variazione su XF1 e sul cemento minimo è a sfavore rispetto al codice attuale e le fonti di oggi sono le pagine visibili dell'anteprima UNI e l'estratto del 28/07/2025 (fonte secondaria). Se il testo smentisse l'estratto si torna alla scelta fra e4 ed e5 con l'utente."
+        },
+        "decisione_utente": {
+          "data": "2026-10-14",
+          "utente": "«U1: non ho la norma. resta sulla 2016» (scritto «2026», refuso; decisioni.md, punto 4c)",
+          "esito": "e4 non adottata: classi minime e composizione restano quelle della UNI 11104:2016, prospetto 5, come scelta dichiarata (e5); etichetta della libreria «UNI 11104:2016 prospetto 5» (U2, Checker 4f9ef3e0); testi della scheda Materiali con i soli rimandi normativi (U5, voce F4-47)"
         }
       },
       "data": "2026-10-06",
@@ -1190,11 +1195,12 @@
         "decisore": "coordinatore su delega dell'utente, da ratificare (F2.9-D6, decisioni.md)",
         "esito": "e4 esclusa da F2.9: serve una copia con licenza della UNI 11104:2025 per riscontrare il prospetto 6. Restano i valori della UNI 11104:2016, prospetto 5, in libreria e in ANTHEA; nessun atteso, testo o fixture cambia (durability-legacy.csv, supporto/test/Materiali/MaterialViewChecks.cs:78). La scelta fra e4 ed e5 torna all'utente (proposta F2.9-U1). Le citazioni della libreria senza e4 (ExposureClasses.cs, README, MIGRAZIONE_ANTHEA.txt, DurabilityEdgeCaseTests.cs:122) sono il passo CD1 di F2.9a in Checker: c'è sul branch locale anthea-f2-9-durabilita (975cf006, corsia F2.9a, worktree Temp\\gpc-s3-dev-d\\Checker), non ancora in develop né pushato; attuazione.libreria si aggiorna quando entra in develop. Il riferimento restituito a ExposureClasses.cs:107 non cambia (F2.9-D7, proposta U2)."
       },
+      "allineamento_15_10": "Decisione E4 del 15/10 («E1–E8 come nel foglio»): voce attuata. C30/37 per XC3, XD1, XF4 e XA1 come nella UNI 11104 in vigore (decisione del 7/10), citazioni con edizione e prospetto in ANTHEA (6b01da8) e in libreria (F2.9 CD1 975cf006, U2 4f9ef3e0); il seguito e4 è chiuso dalla decisione U1 del 14/10. Nucleo legacy e scheda Materiali spostati da D3 e F3: percorsi aggiornati.",
       "test": [
         "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-125",
         "Checker/GPCChecker.Test.Concrete/DurabilityMigrationTests.cs (durability-legacy.csv, righe MIX)",
-        "X.Materiali/ExposureSelector.cs:102",
-        "X.Materiali/ExposureSelector.cs:109"
+        "supporto/test/Materiali/MaterialViewChecks.cs:103 (prima X.Materiali/ExposureSelector.cs:102, F1.3)",
+        "supporto/test/Materiali/MaterialViewChecks.cs:110 (prima X.Materiali/ExposureSelector.cs:109, F1.3)"
       ],
       "riquadro_wiki": {
         "stato": "da-scrivere",
@@ -1211,7 +1217,7 @@
       "titolo": "Bridge Design: γQ = 1,50 sul traffico e carico uniforme di 9 kN/m² sull'intera larghezza senza tandem",
       "famiglia": "ponti/bridge-design",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "attuato",
       "descrizione": "Il predimensionamento applica γQ = 1,50 al traffico (Tab. 5.1.V: 1,35) e un carico uniforme di 9 kN/m² sull'intera larghezza dell'impalcato, senza i tandem dello Schema 1; γG = 1,35 vale anche per i permanenti portati (Tab. 5.1.V: 1,50 se non ben definiti). Le ipotesi sono modificabili e memorizzate negli archivi; il modulo dichiara di non costituire verifica NTC.",
       "componenti": [
         {
@@ -1247,9 +1253,11 @@
       ],
       "codice": [
         "X.Calculations/BridgeConcept.cs:9",
-        "X.Calculations/BridgeConcept.cs:99-102",
-        "X.Calculations/BridgeConcept.Calculation.cs:102-105",
-        "X.Calculations/BridgeConcept.AdvancedCalculation.cs:43-61"
+        "Checker/src/GPC.Design/Bridges/BridgeConcept.cs:95-98 (parametri e predefiniti; prima X.Calculations/BridgeConcept.cs:99-102, F4.11)",
+        "tests/ANTHEA.Legacy/Bridge/LegacyBridgeConcept.Calculation.cs:105-108 (modello uniforme storico; prima X.Calculations/BridgeConcept.Calculation.cs:102-105, D3)",
+        "tests/ANTHEA.Legacy/Bridge/LegacyBridgeConcept.AdvancedCalculation.cs:46-64 (prima X.Calculations/BridgeConcept.AdvancedCalculation.cs:43-61, D3)",
+        "Checker/src/GPC.Design/Bridges/RoadTraffic.cs:18 (γQ 1,35 dello Schema 1)",
+        "X.Calculations/BridgeConcept.Traffic.cs (Schema 1 dei documenti nuovi, voce F4-29)"
       ],
       "segno": "γQ cautelativo; carico equivalente misto (non cautelativo sotto 20 m di luce); γG2 non cautelativo",
       "effetto_quantificato": {
@@ -1346,6 +1354,12 @@
         "esito": "Ricerca completata (supporto/artefatti/refactoring/ricerca-f/rapporto.md, calcolo Python indipendente e sonda sul motore attuale). Il metodo attuale si scosta dallo Schema 1 fra −82 % e +142 % secondo la grandezza (a sfavore sulle luci corte e sulle carreggiate strette). Nessun carico uniforme resta entro il 10 % sulle travi continue: 9 kN/m² × W + tandem da +1 % a +158 %; 20 kN/m² da −59 % a +438 %; tandem ripartito q_U + 2T/L (1 − 0,6/L)² esatto solo per M+ della campata appoggiata. Scelta: Schema 1 NTC (tandem per corsia e carichi distribuiti sulle sole parti sfavorevoli) con linee di influenza in forma chiusa e γQ 1,35; tandem ripartito solo per archi, reticolari, strallati e sospesi, più il tandem locale per pendini e stralli; modello legacy (uniforme) per gli archivi senza il campo nuovo. f3 (γG2 1,50 sui permanenti non strutturali, Tab. 5.1.V) confermata dalla ricerca. Costo totale dei casi tipo fra −7,5 % e +6,5 %.",
         "attuazione": "F4.11 in GPC.Design, in due commit (modello legacy identico, poi Schema 1 come predefinito dei documenti nuovi); proposta da confermare con l'utente prima dell'attuazione"
       },
+      "attuazione": {
+        "data": "2026-10-14",
+        "voce": "F4-29 (F4.11d)",
+        "esito": "Schema 1 NTC 2018 con tandem e linee di influenza in forma chiusa e γQ = 1,35 in GPC.Design per i documenti nuovi (componenti f1 e f2); i documenti precedenti conservano il modello uniforme e i coefficienti, con migrazione esplicita; il modello storico è in tests/ANTHEA.Legacy/Bridge (D3). La componente f3 (γG2 1,50 sui permanenti portati) non è attuata: resta γG = 1,35 modificabile, dichiarato.",
+        "allineamento": "stato allineato il 15/10 (decisione E4, «E1–E8 come nel foglio»)"
+      },
       "data": "2026-10-06",
       "fase": "F4.11",
       "test": [
@@ -1372,10 +1386,10 @@
         "X.Calculations/BridgeSection.Analysis.cs:12",
         "X.Calculations/BridgeSection.Analysis.cs:17",
         "X.Calculations/BridgeSection.Analysis.cs:19-20",
-        "X.Calculations/BridgeSection.cs:14",
-        "X.Core/ReportBridge.cs:80",
-        "X.Core/ReportBridge.History.cs:13",
-        "X.Desktop/Wpf/BridgeHistory.cs:60"
+        "X.Calculations/BridgeSection.cs:13",
+        "src/ANTHEA.Reports/Generators/ReportBridge.cs:81 (prima X.Core/ReportBridge.cs:80, F3)",
+        "src/ANTHEA.Reports/Generators/ReportBridge.History.cs:13 (prima X.Core/ReportBridge.History.cs:13, F3)",
+        "X.Desktop/Wpf/BridgeHistory.cs:57"
       ],
       "segno": "nessun effetto numerico",
       "effetto_quantificato": {
@@ -1467,7 +1481,7 @@
       "attuazione": {
         "data": "2026-10-15",
         "codice": [
-          "Checker, ramo anthea-f2-residui (3b48eca4, versioni del candidato a7247664 e 6f15f185), non pubblicato: SectionCrackOptions.ModelCode2010BondStages (falso per default) in CrackWidthCalculator.Width e UnbondedUpperBound",
+          "Checker, master 6f15f185 (3b48eca4, versioni a7247664 e 6f15f185), pubblicato il 15/10 e distribuito con la release Y (GPCChecker.Concrete 0.10.0.0, ANTHEA 2257e991): SectionCrackOptions.ModelCode2010BondStages (falso per default) in CrackWidthCalculator.Width e UnbondedUpperBound",
           "X.Calculations/ConcreteServiceabilityAdapter.cs: Options attiva l'opzione nel prodotto",
           "X.Calculations/ConcreteLibraryMapping.Serviceability.cs: σsr, τbms/fctm e stadio tradotti"
         ],
@@ -1519,7 +1533,7 @@
       "attuazione": {
         "data": "2026-10-15",
         "codice": [
-          "Checker, ramo anthea-f2-residui (3b48eca4, versioni del candidato a7247664 e 6f15f185), non pubblicato: SectionCrackOptions.DinKtByDuration (falso per default) in CrackWidthCalculator.Width",
+          "Checker, master 6f15f185 (3b48eca4, versioni a7247664 e 6f15f185), pubblicato il 15/10 e distribuito con la release Y (GPCChecker.Concrete 0.10.0.0, ANTHEA 2257e991): SectionCrackOptions.DinKtByDuration (falso per default) in CrackWidthCalculator.Width",
           "X.Calculations/ConcreteServiceabilityAdapter.cs: Options attiva l'opzione nel prodotto"
         ],
         "regola": "kt = 0,6 a breve e 0,4 a lunga durata, come EN 1992-1-1 7.3.4(2), invece di 0,4 per ogni durata (DIN 1045-1)",
@@ -1550,7 +1564,7 @@
         "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:95",
         "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:123",
         "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:207",
-        "X.Calculations/ConcreteCodeChecks.cs:213"
+        "tests/ANTHEA.Legacy/Serviceability/LegacyConcreteCodeChecks.cs:209 (prima X.Calculations/ConcreteCodeChecks.cs:213, D3)"
       ],
       "segno": "nessun effetto numerico",
       "raccomandazione": "correggere il testo in Checker e in ANTHEA",
@@ -1595,7 +1609,7 @@
           "supporto/artefatti/refactoring/metodi/esempi.txt"
         ]
       },
-      "effetto_anthea": "Verificato il 7/10: ANTHEA offre il profilo «Model Code 2010» (X.Calculations/ConcreteStandards.cs:10) e il suo codice legacy del taglio con staffe usa lo stesso θmin = 20° (X.Calculations/ConcreteCodeChecks.cs:107, maxCot = cot 20°). Il profilo NTC predefinito non è coinvolto.",
+      "effetto_anthea": "Verificato il 7/10: ANTHEA offre il profilo «Model Code 2010» (X.Calculations/ConcreteStandards.cs:10) e il suo codice legacy del taglio con staffe usa lo stesso θmin = 20° (X.Calculations/ConcreteCodeChecks.cs:107, maxCot = cot 20°; ora tests/ANTHEA.Legacy/Serviceability/LegacyConcreteCodeChecks.cs:101, D3). Il profilo NTC predefinito non è coinvolto.",
       "raccomandazione": "riscontrare il testo e correggere con opzione legacy; a sfavore di sicurezza, priorità alta",
       "decisione": {
         "data": "2026-10-07",
@@ -1628,7 +1642,7 @@
       "effetto_quantificato": {
         "sintesi": "σc −31 % a 80 kNm; a 150 kNm rapporto 0,83 contro 1,14 dell'analisi lineare (sezione 300×500 dell'esempio)"
       },
-      "effetto_anthea": "Verificato il 7/10: per default le tensioni SLE della sezione c.a. sono lineari (il predefinito «Lineare · sezione fessurata» è ricondotto a «Lineare» in X.Calculations/SectionWorkspace.cs:64). Se l'utente sceglie «Non lineare» nella scheda Tensioni (X.Desktop/Wpf/ConcreteStress.cs), CheckerSection passa StressAnalysisTypes.NonLinear (X.Calculations/CheckerSection.cs:94) e le tensioni di esercizio usano le leggi di progetto senza avviso; la relazione riporta «Modello: Non lineare» (Ntc2018Checks.cs:42).",
+      "effetto_anthea": "Verificato il 7/10: per default le tensioni SLE della sezione c.a. sono lineari (il predefinito «Lineare · sezione fessurata» è ricondotto a «Lineare» in X.Calculations/SectionWorkspace.cs:64). Se l'utente sceglie «Non lineare» nella scheda Tensioni (X.Desktop/Wpf/ConcreteStress.cs), CheckerSection passa StressAnalysisTypes.NonLinear (X.Calculations/CheckerSection.cs:94) e le tensioni di esercizio usano le leggi di progetto senza avviso; la relazione riporta «Modello: Non lineare» (allora Ntc2018Checks.cs:42; ora X.Calculations/ConcreteLibraryMapping.Serviceability.cs:217 e, per il motore storico, tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.cs:48).",
       "raccomandazione": "leggi di esercizio nell'analisi non lineare oppure rifiuto con avviso; a sfavore di sicurezza, priorità alta",
       "decisione": {
         "data": "2026-10-07",
@@ -1658,7 +1672,7 @@
         }
       ],
       "codice": [
-        "Model/Model/Standards/StandardModelCode2010.cs:176"
+        "Model/Model/Design/Standards/StandardModelCode2010.cs:176"
       ],
       "segno": "NON cautelativo se confermato",
       "raccomandazione": "riscontrare il NA; se confermato correggere in Model",
@@ -1766,7 +1780,7 @@
       "effetto_quantificato": {
         "sintesi": "lb,rqd −11 % con C90/105"
       },
-      "effetto_anthea": "Verificato il 7/10: la sezione c.a. limita fck a 60 prima di ricavare fctk (X.Calculations/ConcreteDetailingAnalysis.cs:60-61) e il palo elastico passa fctk della classe limitata (ElasticHorizontalPile.Reinforcement.cs:204); le armature dei muri passano fctk,0,05 senza limite (X.Calculations/RetainingWall.Reinforcement.cs:45-46 e :52): ancoraggi e sovrapposizioni dei muri più corti del dovuto solo con classi oltre C60/75.",
+      "effetto_anthea": "Verificato il 7/10: la sezione c.a. limita fck a 60 prima di ricavare fctk (X.Calculations/ConcreteDetailingAnalysis.cs:60-61) e il palo elastico passa fctk della classe limitata (ElasticHorizontalPile.Reinforcement.cs:204); le armature dei muri passano fctk,0,05 senza limite (X.Calculations/RetainingWall.Reinforcement.cs:45-46 e :52; ora, per il percorso storico, tests/ANTHEA.Legacy/Walls/LegacyRetainingWall.cs:203-204 e :210, D3): ancoraggi e sovrapposizioni dei muri più corti del dovuto solo con classi oltre C60/75.",
       "raccomandazione": "applicare il limite nella libreria, con opzione legacy; intanto i muri vanno allineati agli altri chiamanti",
       "decisione": {
         "data": "2026-10-07",
@@ -1776,7 +1790,7 @@
       "decisione_successiva": {
         "data": "2026-10-08",
         "utente": "ok (proposta F2.8-U3 del progetto F2.8 rivisto)",
-        "esito": "tetto C60/75 di fctk,0,05 anche nei muri, nel momento proposto dal progetto: F5.15. Voce aggiunta dall'audit del 14/10 (decisioni.md, 8/10 pomeriggio). Nel codice del ramo F4 i muri passano ancora fctk,0,05 senza tetto (X.Calculations/RetainingWall.Reinforcement.cs:48-49 e RetainingWall.Library.Details.cs:43)."
+        "esito": "tetto C60/75 di fctk,0,05 anche nei muri, nel momento proposto dal progetto: F5.15. Voce aggiunta dall'audit del 14/10 (decisioni.md, 8/10 pomeriggio). Nel codice del ramo F4 i muri passano ancora fctk,0,05 senza tetto (X.Calculations/RetainingWall.Reinforcement.cs:48-49 e RetainingWall.Library.Details.cs:43; ora X.Calculations/RetainingWall.Library.Details.cs:40 e, per il percorso storico, tests/ANTHEA.Legacy/Walls/LegacyRetainingWall.cs:203-204, D3)."
       },
       "data": "2026-10-07",
       "fase": "F2.3"
@@ -1798,7 +1812,7 @@
           "supporto/artefatti/refactoring/metodi2/out-durability.txt"
         ]
       },
-      "effetto_anthea": "Verificato il 7/10: nessuno. Tutti i chiamanti di ANTHEA passano la classe minima pertinente (X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Calculations/Materials/MaterialCover.cs:31, X.Materiali/MaterialDetails.cs:173 con MinimumConcrete.Required; ElasticHorizontalPile.Reinforcement.cs:155 con ExposureClasses.Uni11104MinimumStrength). Il default riguarda solo gli altri utenti della libreria. Riverificato in F2.9 (8/10): con l'adattatore della durabilità i chiamanti sono gli stessi e passano la classe pertinente (X.Calculations/Materials/MaterialCover.cs:34, X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Materiali/MaterialDetails.cs:173, ElasticHorizontalPile.Reinforcement.cs:155); il default lo usano solo le prove (supporto/test/Shared/DurabilityReferenceChecks.cs) e la cattura densa, con risultati identici fra i motori (registro F2-13).",
+      "effetto_anthea": "Verificato il 7/10: nessuno. Tutti i chiamanti di ANTHEA passano la classe minima pertinente (X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Calculations/Materials/MaterialCover.cs:31, X.Materiali/MaterialDetails.cs:173 (ora src/ANTHEA.Application/Materials/MaterialSheetPresentation.cs:112, F3) con MinimumConcrete.Required; ElasticHorizontalPile.Reinforcement.cs:155 con ExposureClasses.Uni11104MinimumStrength). Il default riguarda solo gli altri utenti della libreria. Riverificato in F2.9 (8/10): con l'adattatore della durabilità i chiamanti sono gli stessi e passano la classe pertinente (X.Calculations/Materials/MaterialCover.cs:34, X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Materiali/MaterialDetails.cs:173 (ora src/ANTHEA.Application/Materials/MaterialSheetPresentation.cs:112, F3), ElasticHorizontalPile.Reinforcement.cs:155); il default lo usano solo le prove (supporto/test/Shared/DurabilityReferenceChecks.cs) e la cattura densa, con risultati identici fra i motori (registro F2-13).",
       "raccomandazione": "default = classe minima pertinente dell'esposizione dalla tabella di durabilità (oggi 25 + 5 · severità, cioè i Cmin per ambiente della Tab. C4.1.IV, che la Circolare riferisce alla classe di esposizione pertinente)",
       "decisione": {
         "data": "2026-10-07",
@@ -1897,8 +1911,8 @@
         }
       ],
       "codice": [
-        "X.Calculations/ConcreteInnerCracking.cs:24-43",
-        "X.Calculations/ConcreteInnerCracking.cs:61-72",
+        "tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.InnerCracking.cs:29-61 (prima X.Calculations/ConcreteInnerCracking.cs:24-43, D3)",
+        "tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.InnerCracking.cs:79-90 (prima X.Calculations/ConcreteInnerCracking.cs:61-72, D3)",
         "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:362-414 (12547700)"
       ],
       "segno": "il difetto dava aperture assurde (cautelative) nei soli casi di trazione quasi uniforme o eccentrica con asse neutro fuori dalla sezione; nessun effetto con l'asse neutro interno. Con la regola adottata h − x delle fasce è limitato all'altezza lungo il gradiente nelle sezioni interamente tese (wk minore o uguale a 733a77c) ed è continuo all'ingresso dell'asse neutro; alla soglia della trazione uniforme, per un'eccentricità trascurabile, wk delle fasce cambia a gradino nel rapporto fra l'altezza lungo il gradiente e quella normale alla faccia (nei casi di prova da −29 % a +50 %)",
@@ -1949,6 +1963,11 @@
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
         "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
       },
+      "ratifica": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2)",
+        "esito": "ratificato il rinvio a F5.15, esteso dal coordinatore il 7/10 (E4)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3 (libreria); decisione in F5.15"
     },
@@ -1976,7 +1995,7 @@
       ],
       "test": [
         "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-123 (XC3: EN e UNI C25/30, dalla stessa lettura)",
-        "Model/ModelChecker.Tests/DurabilityDetailingTest.cs:98 (XC3, profilo EN: «Table E.1N C25/30 = fck», dalla stessa lettura)"
+        "Checker/ModelChecker.Tests/DurabilityDetailingTest.cs:103 (XC3, profilo EN: «Table E.1N C25/30 = fck», dalla stessa lettura; prima Model/ModelChecker.Tests/DurabilityDetailingTest.cs:98)"
       ],
       "segno": "NON cautelativo: con XC3 sola o combinata con classi meno severe il controllo della classe minima dei profili EN e UNI accetta C25/30 e C28/35; nessun effetto sui copriferri",
       "effetto_anthea": "Nessuno, verificato in F2.9 (8/10): nessun sorgente di produzione né di prova di ANTHEA chiama ExposureClasses.MinimumStrength (classe minima per profilo); la scheda Materiali, i dettagli della sezione c.a. e i muri usano solo la classe UNI 11104 (MinimumConcrete.Required, ConcreteDurabilityAdapter.MinimumStrength, ExposureClasses.Uni11104MinimumStrength) e il palo elastico ExposureClasses.Uni11104MinimumStrength (ElasticHorizontalPile.Reinforcement.cs:155). La scansione 11i di tests/ConcreteLibraryAdapter.Checks (regola classe-minima-per-profilo) lo rende permanente.",
@@ -1986,6 +2005,11 @@
         "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
         "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
+      },
+      "ratifica": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2)",
+        "esito": "ratificato il rinvio a F5.15, esteso dal coordinatore il 7/10 (E4)"
       },
       "data": "2026-10-07",
       "fase": "F2.9 (durabilità); decisione in F5.15"
@@ -2018,6 +2042,11 @@
         "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
         "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
+      },
+      "ratifica": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2)",
+        "esito": "ratificato il rinvio a F5.15, esteso dal coordinatore il 7/10 (E4)"
       },
       "data": "2026-10-07",
       "fase": "F2.8 (momento-curvatura, libreria Model); decisione in F5.15"
@@ -2053,6 +2082,11 @@
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
         "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
       },
+      "ratifica": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2)",
+        "esito": "ratificato il rinvio a F5.15, esteso dal coordinatore il 7/10 (E4)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3 (citazioni della libreria)"
     },
@@ -2080,6 +2114,11 @@
         "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
         "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
+      },
+      "ratifica": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2)",
+        "esito": "ratificato il rinvio a F5.15, esteso dal coordinatore il 7/10 (E4)"
       },
       "data": "2026-10-07",
       "fase": "F2.3 (libreria); decisione in F5.15"
@@ -2109,6 +2148,11 @@
         "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
         "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
+      },
+      "ratifica": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2)",
+        "esito": "ratificato il rinvio a F5.15, esteso dal coordinatore il 7/10 (E4)"
       },
       "data": "2026-10-07",
       "fase": "F2.3 (libreria), F2.7 (collegamento); decisione in F5.15"
@@ -2215,6 +2259,11 @@
         "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente («esegui tutto te», 7/10 pomeriggio), da ratificare",
         "esito": "si ratifica F2-1 così com'è: per i ripieghi cambia solo il chiamante registrato del ripiego J.B(\"foro_presente\") = False dei fogli senza la chiave (ConcreteShearTorsionAdapter.TorsionGeometryOf invece di ConcreteTorsionCalculator.Geometry), con la stessa chiave e lo stesso valore; nessun caso senza la chiave aggiunto al corpus di B3"
       },
+      "ratifica": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2)",
+        "esito": "ratificata la scelta del coordinatore (E1)"
+      },
       "data": "2026-10-07",
       "fase": "F2.5, F2.6",
       "test": [
@@ -2245,6 +2294,11 @@
         "data": "2026-10-07",
         "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare",
         "esito": "la traccia NTC della libreria non è esposta nel JSON 'taglio' né nelle relazioni, come oggi; si riprende con le tracce in italiano per i report (F2.3)"
+      },
+      "ratifica": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2)",
+        "esito": "ratificata la scelta del coordinatore (E1); la traccia NTC della libreria si riprende con la revisione dei report, in coda dopo il refactoring (E2), non più con F2.3"
       },
       "attuazione": {
         "data": "2026-10-07",
@@ -2282,6 +2336,11 @@
         "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare",
         "esito": "la torsione senza staffe chiuse resta un rifiuto con il messaggio di oggi, controllato dall'adattatore prima della libreria"
       },
+      "ratifica": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2)",
+        "esito": "ratificata la scelta del coordinatore (E1)"
+      },
       "attuazione": {
         "data": "2026-10-07",
         "commit": [
@@ -2308,7 +2367,7 @@
       "codice": [
         "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:151",
         "Checker/GPCChecker.Concrete/Torsion/SectionTorsionContracts.cs:47-64, :83-88",
-        "X.Calculations/ConcreteTorsion.cs:7-17",
+        "tests/ANTHEA.Legacy/ShearTorsion/ConcreteTorsion.cs:9-19 (prima X.Calculations/ConcreteTorsion.cs:7-17, D3)",
         "X.Calculations/ConcreteLibraryMapping.cs"
       ],
       "segno": "nessuno sui casi del modulo",
@@ -2320,6 +2379,11 @@
         "data": "2026-10-07",
         "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare",
         "esito": "limiti e rifiuti propri della libreria non raggiungibili dal modulo accettati, nessuna azione"
+      },
+      "ratifica": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2)",
+        "esito": "ratificata la scelta del coordinatore (E1)"
       },
       "attuazione": {
         "data": "2026-10-07",
@@ -2341,11 +2405,11 @@
       "famiglia": "calcestruzzo/sle-fessurazione",
       "categoria": "convenzione",
       "stato": "dichiarato",
-      "descrizione": "Voce prevista dal progetto F2.7 (commit A8 e A9) e non scritta quando l'interruttore delle SLE è passato alla libreria nel commit F4 b7339f4a del 12/10; ricostruita dall'audit del 14/10. Con ConcreteServiceabilityAdapter.Default = Library tensioni, limiti e fessurazione vengono da GPCChecker.Concrete con le stesse formule del legacy e un'aritmetica diversa. Nel legacy Ac,eff è la somma delle facce della mesh tagliata nella fascia efficace (X.Calculations/Ntc2018Checks.cs:191); la libreria parte dalla geometria della fessurazione costruita sui poligoni del contorno (CrackSectionGeometry, ConcreteLibraryMapping.CrackGeometry), da cui scarti nelle ultime cifre di Ac,eff e delle grandezze derivate. Il legacy resta selezionabile per i confronti (ServiceabilityEngine.Legacy, --motore-sle legacy).",
+      "descrizione": "Voce prevista dal progetto F2.7 (commit A8 e A9) e non scritta quando l'interruttore delle SLE è passato alla libreria nel commit F4 b7339f4a del 12/10; ricostruita dall'audit del 14/10. Con ConcreteServiceabilityAdapter.Default = Library tensioni, limiti e fessurazione vengono da GPCChecker.Concrete con le stesse formule del legacy e un'aritmetica diversa. Nel legacy Ac,eff è la somma delle facce della mesh tagliata nella fascia efficace (X.Calculations/Ntc2018Checks.cs:191, ora tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.cs:177, D3); la libreria parte dalla geometria della fessurazione costruita sui poligoni del contorno (CrackSectionGeometry, ConcreteLibraryMapping.CrackGeometry), da cui scarti nelle ultime cifre di Ac,eff e delle grandezze derivate. Il legacy resta selezionabile per i confronti (ServiceabilityEngine.Legacy, --motore-sle legacy).",
       "codice": [
         "X.Calculations/ConcreteServiceabilityAdapter.cs (Default => Library dal commit b7339f4a)",
         "X.Calculations/ConcreteLibraryMapping.Serviceability.cs:92-95 (CrackGeometry)",
-        "X.Calculations/Ntc2018Checks.cs:191 (Ac,eff dalla mesh nel legacy)",
+        "tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.cs:177 (Ac,eff dalla mesh nel legacy; prima X.Calculations/Ntc2018Checks.cs:191, D3)",
         "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs"
       ],
       "segno": "nessuno nei casi misurati: scarti relativi fino a 1,44e-13 sui numeri della fessurazione, nessuno sulle tensioni",
@@ -2437,6 +2501,35 @@
       "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita in parte nell'audit del 14/10"
     },
     {
+      "id": "F2-9",
+      "titolo": "F2.8, dettagli, ancoraggi, aderenza e M–χ dalla libreria: rimando ad API-01 al posto delle voci F2-9…F2-12 del micro-piano",
+      "famiglia": "calcestruzzo/dettagli-ancoraggi-mchi",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Il micro-piano di F2.8 (supporto/artefatti/refactoring/f27-f28-progetto/F28-progetto-rivisto.md, passo D1) prevedeva quattro voci: F2-9, numeri identici di ancoraggi e aderenza e tetto R10 dalla libreria; F2-10, ultime cifre dei dettagli, Fctm da Model, solette e pareti in libreria; F2-11, M–χ con le unità del chiamante, Status ricostruito, punto limite pigro, solo χ diversa; F2-12, rifiuti nuovi della libreria non raggiungibili e LinkLegs < 0 con l'opzione legacy. Non sono mai state scritte: il commit F4 b7339f4a del 12/10 (riuso delle API, voce API-01) ha portato queste famiglie sulla libreria senza interruttore, scelta ratificata dall'utente il 14/10 (decisioni.md, punto 3a). Con la decisione E3 del 15/10 la voce che le documenta è API-01 e questa voce ne è il rimando; i numeri F2-10…F2-12 restano liberi. Dove stanno i singoli punti: numeri e scarti in API-01; interassi e dettagli circolari in API-02; tetto R10 dei muri in R10 (F5.15, F2.8-U3); LinkLegs < 0 rifiutato in F2-21 (F2.8-U2); NEd in F4-20 e F4-44; M–χ nel report di progetto in F3-11. Le decisioni F2.8-D1…D12 sono trascritte e ratificate in decisioni.md (residui di F2, E3).",
+      "codice": [
+        "X.Calculations/ConcreteBond.cs",
+        "X.Calculations/ConcreteDetailing.cs",
+        "X.Calculations/ConcreteDetailingAnalysis.cs",
+        "X.Calculations/MomentCurvature.cs"
+      ],
+      "segno": "nessuno: esiti, errori, testi e input invariati (API-01)",
+      "effetto_quantificato": {
+        "sintesi": "Prove accettate con E3 al posto di B1–B3, T1 e I1–I3 del micro-piano: confronto denso del riuso delle API con ancoraggi 468/468 e aderenza 1918/1918 identici, dettagli e M–χ entro 1e-12 (API-01: 1421 differenze numeriche, massimo relativo 1,1436e-15); controllo delle chiamate reali alla DLL; 266 casi congelati; catture prima e dopo D3 uguali; full conforme del 15/10 (20261015-105444-f4-full-190, 140 PASS)."
+      },
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«E1–E8 come nel foglio» (f2-residui-decisioni.md; decisioni.md, residui di F2)",
+        "esito": "prove accettate (E3); voce di rimando ad API-01 invece di ricostruire F2-9…F2-12; attesi indipendenti mancanti delle pagine dei metodi (ancoraggi AN-01/02 e SO-01/02; dettagli As,min, As,max e Ast/s; M–χ) da aggiungere alle suite di ANTHEA"
+      },
+      "data": "2026-10-15",
+      "fase": "F2.8, chiusura E3 del 15/10",
+      "test": [
+        "tests/ANTHEA.ApiReuse.Checks (266 casi congelati, chiamate reali alla DLL)",
+        "tests/ConcreteLibraryAdapter.Checks"
+      ]
+    },
+    {
       "id": "F2-13",
       "titolo": "Durabilità e copriferri con GPCChecker.Concrete: uscite identiche, testi e rifiuti attraverso la mappatura",
       "famiglia": "calcestruzzo/durabilita",
@@ -2444,10 +2537,10 @@
       "stato": "dichiarato",
       "descrizione": "Dal passo F2.9 E5 la durabilità di ANTHEA (catalogo delle esposizioni, copriferro EC2 e NTC della scheda Materiali, dei muri a mensola, dei dettagli della sezione c.a. e della validazione di progetto, classe minima, limiti di composizione e aria UNI 11104) è calcolata da GPC.Checkers.Concrete.Durability 0.0.17.0 attraverso ConcreteDurabilityAdapter, con un solo interruttore (F2.9-D8). La libreria è il trasferimento dei nuclei di ANTHEA (commit fe4652c): stessi dati per le 18 classi, stesse espressioni aritmetiche nello stesso ordine, stesso ordine dei controlli; le uscite numeriche sono identiche bit per bit, quindi nessuna tolleranza. Cambiano solo i testi, che la mappatura (ConcreteLibraryMapping.Durability.cs) riporta a quelli del legacy: descrizioni italiane delle esposizioni, nomi dei gruppi ambientali NTC, etichette delle classi minime dal catalogo dei calcestruzzi della scheda (F2.9-D13) e rifiuti tradotti per messaggio (dizionario ed espressioni regolari; F2.9-D3; un testo senza traduzione è un errore di programma). Il codice di un'esposizione fuori catalogo ha il testo del legacy dell'operazione chiamata («Esposizione non riconosciuta.», oppure «Classe di esposizione non riconosciuta.» per la classe minima). Restano fuori dall'adattatore: la durabilità del palo elastico, che chiamava già la libreria (F2.9-D4, testi inglesi, proposta U3), e Strength, EffectiveWater e DefaultCmin senza chiamanti di produzione (F2.9-D5). Poiché le uscite coincidono, la prova che distingue i motori è la sonda dell'adattatore (adattatore, operazione, motore di ogni chiamata, F2.9-D14) con la scansione dei sorgenti, come per l'aderenza in F2.8.",
       "codice": [
-        "X.Calculations/ConcreteDurabilityAdapter.cs:30 (interruttore), :56-158 (operazioni), :33-50 (sonda)",
+        "X.Calculations/ConcreteDurabilityAdapter.cs:25-33 (aggancio di sola prova e sonda; l'interruttore è uscito dal prodotto con D3), :37-133 (operazioni)",
         "X.Calculations/ConcreteLibraryMapping.Durability.cs:20-102",
         "X.Calculations/Materials/Durability.cs, NtcCover.cs, MinimumConcrete.cs, MixAutomation.cs (facciate)",
-        "X.Calculations/Materials/DurabilityLegacy.cs (nucleo legacy, raggiungibile fino a F2.11)",
+        "tests/ANTHEA.Legacy/Durability/DurabilityLegacy.cs (nucleo legacy, fuori dal prodotto con D3; prima X.Calculations/Materials/DurabilityLegacy.cs)",
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:56-135",
         "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:135-181"
       ],
@@ -2463,11 +2556,16 @@
           "supporto/artefatti/refactoring/f2-9/ci"
         ]
       },
-      "raccomandazione": "nessuna azione; eliminazione del legacy di durabilità in F2.11 [CP], dopo la revisione della pagina del metodo (proposta F2.9-U6)",
+      "raccomandazione": "nessuna azione; eliminazione del legacy di durabilità in F2.11 [CP], dopo la revisione della pagina del metodo (proposta F2.9-U6). Superata da D3 (15/10): il nucleo legacy non si elimina, è in tests/ANTHEA.Legacy/Durability e le prove lo agganciano con EngineHook",
       "decisione": {
         "data": "2026-10-08",
         "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D1…D14, progetto F29-progetto.md), da ratificare",
         "esito": "interruttore unico sulla libreria; legacy raggiungibile con DurabilityEngine.Legacy e '--motore-durabilita legacy' fino a F2.11"
+      },
+      "ratifica": {
+        "data": "2026-10-14",
+        "utente": "«ratifico entrambe» (decisioni.md, punto 4b: F2.9-D1…D14)",
+        "allineamento": "voce allineata il 15/10 (decisione E4)"
       },
       "attuazione": {
         "data": "2026-10-08",
@@ -2514,6 +2612,11 @@
         "data": "2026-10-08",
         "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D3, progetto F29-progetto.md §6.4), da ratificare",
         "esito": "casi dichiarati, nessuna azione"
+      },
+      "ratifica": {
+        "data": "2026-10-14",
+        "utente": "«ratifico entrambe» (decisioni.md, punto 4b: F2.9-D1…D14)",
+        "allineamento": "voce allineata il 15/10 (decisione E4)"
       },
       "attuazione": {
         "data": "2026-10-08",
@@ -2721,10 +2824,17 @@
       },
       "opzioni": [
         "A. Predefinito Library per tutti i criteri: un solo proprietario anche in ANTHEA; i casi senza punto convergente mostrano «Checker: punto resistente non convergente» invece di un tasso",
-        "B. Predefinito Library per N costante ed eccentricità costante (dove la libreria trova sempre un punto convergente) e decisione separata per Mx–My costanti, N e Mx costanti, N e My costanti",
+        "B. Predefinito Library per N costante ed eccentricità costante (dove si riteneva che la libreria trovasse sempre un punto convergente: falso, vedi rettifica) e decisione separata per Mx–My costanti, N e Mx costanti, N e My costanti",
         "C. Restare sul legacy fino a F2.11 e mostrare un avviso quando il punto grezzo non rispetta i vincoli"
       ],
       "raccomandazione": "A. Con il legacy i criteri Mx–My costanti (N = 0), N e Mx costanti (My = 0) e N e My costanti (Mx = 0) danno η = 0 e «Entro il dominio» qualunque sia il momento: esito non cautelativo raggiungibile dal modulo scegliendo il criterio (per esempio una trave con N = 0). Con la libreria quei casi non hanno punto e il modulo mostra «Checker: punto resistente non convergente». Prima del passaggio: profilo full a schermo con il motore Library e cattura B nuova.",
+      "rettifica": {
+        "data": "2026-10-15",
+        "oggetto": "opzione B: «con N costante ed eccentricità costante la libreria trova sempre un punto convergente»",
+        "fonte": "analisi dei bug del 15/10 (docs/refactoring/analisi-bug-20261015.md), voce SLU-2",
+        "esito": "Falso. Con il criterio «N costante», il predefinito, la porta della libreria non dà il punto per una domanda a momento nullo (direzione di ricerca nulla) né con N fuori da [NRd,c; NRd,t]: una sezione schiacciata dallo sforzo normale (η reale 1,24) risultava «DA COMPLETARE» con il testo «punto non convergente» e una combinazione solo assiale interna al campo restava senza esito. Per M = 0 è una regressione di R2. La decisione dell'11/10 (opzione A, solo la libreria) non cambia.",
+        "correzione": "Libreria: esiti tipizzati della resistenza a N assegnato, N fuori dal campo (η > 1, AxialForceOutsideDomain) e momento nullo (η = 0, ZeroMomentDemand), Checker 2b0304e7 e mappatura di ModelChecker de1857f4 sul ramo di integrazione anthea-bug-1015, in GPCChecker.Concrete 0.11.0.0, distribuita con la prossima release. ANTHEA adotta gli esiti con la stessa release (proposta dell'analisi: «Fuori dominio (|NEd| > |NRd,c|)» ed estensione della prova 12c)."
+      },
       "data": "2026-10-11",
       "fase": "revisione di architettura R2 (branch claude/revisione-architettura, unito in main il 12/10: fast-forward che comprende ff0e5fb7, ANTHEA 1.2.0, presente anche in origin/main; «non unito» corretto dall'audit del 14/10)",
       "test": [
@@ -3756,9 +3866,9 @@
         "X.Desktop/Wpf/FoundationWorkspace.cs",
         "X.Desktop/Wpf/FoundationWorkspace.Materials.cs",
         "X.Desktop/Wpf/FoundationViews.cs",
-        "X.Core/ProjectSharedData.cs",
-        "X.Core/ProjectSharedSoils.cs",
-        "X.Core/SoilProfileTransfer.cs",
+        "src/ANTHEA.Application/Projects/ProjectSharedData.cs (prima X.Core, F3)",
+        "src/ANTHEA.Application/Projects/ProjectSharedSoils.cs (prima X.Core, F3)",
+        "src/ANTHEA.Application/Projects/SoilProfileTransfer.cs (prima X.Core, F3)",
         "Checker/GPCChecker.Geotechnics/Foundations/FoundationGraphics.cs",
         "Checker/GPCChecker.Geotechnics/Foundations/FoundationSoilProfile.cs"
       ],
@@ -3804,7 +3914,7 @@
         "X.Calculations/SectionRegions.cs",
         "X.Calculations/RebarMaterial.cs",
         "X.Calculations/ConcreteServiceabilityAdapter.cs",
-        "X.Calculations/ConcreteAnalysisSession.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteAnalysisSession.cs (prima X.Calculations, F3)",
         "X.Calculations/X.Calculations.csproj"
       ],
       "segno": "Esiti, errori, testi e input invariati. Nel confronto completo 1421 differenze numeriche, massimo relativo 1.1436e-15; tolleranza relativa 1e-12 solo nei campi dichiarati. Nessun effetto sui verdetti. Nessuna DLL modificata.",
@@ -3838,7 +3948,7 @@
       "descrizione": "Il raggruppamento per Math.Round(r,5) separa barre della stessa corona vicino alla soglia. La norma euclidea del legacy e quella della DLL distribuita producono gruppi diversi; non è un arrotondamento ammissibile.",
       "codice": [
         "X.Calculations/TensionBarSpacing.cs",
-        "X.Calculations/LegacyCircularDetailing.cs",
+        "tests/ANTHEA.Legacy/Detailing/LegacyCircularDetailing.cs (prima X.Calculations, D3)",
         "X.Calculations/ConcreteServiceabilityAdapter.cs",
         "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs"
       ],
@@ -4151,7 +4261,7 @@
       "codice": [
         "X.Calculations/ConcreteSectionProperties.cs",
         "X.Desktop/Wpf/ConcreteStress.cs",
-        "X.Core/ReportConcreteShort.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcreteShort.cs (prima X.Core, F3)",
         "X.Calculations/Ntc2018Checks.cs"
       ],
       "segno": "Valori, rifiuti, testi e archivi invariati; il report mantiene lo stesso contenuto. Nessuna modifica degli attesi indipendenti.",
@@ -4286,10 +4396,14 @@
       "decisione": {
         "data": "2026-10-15",
         "utente": "«Non soddisfatta», sull'esempio della R300x500 armata solo in basso con N = 500 kN di compressione ed e = 160 mm (zona tesa di circa 20 cm senza barre); prima: «se asse neutro nel copriferro e non ci sono armature tese e l'area che dovrebbe creare la zona fessurata è zero la sezione non fessura»; alla proposta con fctm/1,2: «dovrebbe reagire a trazione il cls???»",
-        "esito": "attuata; l'estensione alle superfici interne delle sezioni cave è dell'agente, da confermare (f2-residui-decisioni.md)"
+        "esito": "attuata; l'estensione alle superfici interne delle sezioni cave, proposta dall'agente, è confermata dall'utente il 15/10 (vedi conferma_15_10)"
+      },
+      "conferma_15_10": {
+        "data": "2026-10-15",
+        "esito": "Superfici interne delle sezioni cave: la verifica resta «non soddisfatta» anche lì (33 stati della griglia con le pareti interne tese senza barre vicino al foro); scartata l'alternativa che le lasciava senza esito (decisioni.md, residui di F2)."
       },
       "codice": [
-        "Checker, ramo anthea-f2-residui (3b48eca4, versioni del candidato a7247664 e 6f15f185), non pubblicato: SectionCrackOptions.UnreinforcedTensileZoneFails (falso per default) in SectionCrackCheck",
+        "Checker, master 6f15f185 (3b48eca4, versioni a7247664 e 6f15f185), pubblicato il 15/10 e distribuito con la release Y (GPCChecker.Concrete 0.10.0.0, ANTHEA 2257e991): SectionCrackOptions.UnreinforcedTensileZoneFails (falso per default) in SectionCrackCheck",
         "X.Calculations/ConcreteServiceabilityAdapter.cs: Options attiva l'opzione nel prodotto",
         "X.Calculations/ConcreteLibraryMapping.Serviceability.cs: StopStatus e superfici interne, UnreinforcedTensileZoneFailure",
         "tests/ANTHEA.Legacy/Serviceability/PreviousCrackRules.cs: aggancio di sola prova con le regole precedenti"
@@ -4300,7 +4414,7 @@
         "tests/ConcreteLibraryAdapter.Checks, prova 5n: regole del prodotto contro le regole precedenti della libreria sugli stessi stati (936 della griglia e stati mirati): MC2010 31 stati cambiati, DIN breve durata 4, zona tesa senza armatura 35, 866 invariati; 5c (equivalenza con il motore storico) con le regole precedenti, PASS (35 stati: i due stati mirati F2-7 e 33 stati di sezioni cave con le pareti interne tese senza barre)",
         "cattura headless del corpus invariata con le regole nuove: corsa 20261015-151550-f2res-regole (librerie candidate) contro la cattura 20261015-124031-f2res-b4, solo tempi volatili e manifest; il corpus non ha stati MC2010, DIN a breve durata o zone tese senza armatura. Banco c.a. contro le fixture di Checker con --regole-fessurazione precedenti: PASS (corsa 20261015-f2res-banco)"
       ],
-      "muri": "non toccati: la regola dei muri (σt,el ≤ fctk,0,05 e verifica senza esito) è la domanda E1-D4 di f2-residui-decisioni.md"
+      "muri": "Decisi il 15/10 (E1-D4, scelta dell'utente: la proposta): la faccia tesa del fusto o della fondazione senza barre dà la verifica non soddisfatta, come nelle sezioni, senza la prova di sezione non fessurata con fctk,0,05 di WallSectionSession. Si attua nella release delle correzioni dei bug (Checker 8d547829 sul ramo di integrazione anthea-bug-1015, parte ANTHEA sul ramo refactoring/bug-1015-geo). Prima: regola dei muri σt,el ≤ fctk,0,05 e verifica senza esito."
     },
     {
       "id": "STG-01",
