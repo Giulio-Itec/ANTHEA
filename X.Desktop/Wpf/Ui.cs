@@ -133,7 +133,9 @@ internal sealed class SectionIcon : FrameworkElement
 
 /// <param name="Help">Wiki section for this field when the key alone is ambiguous in the module (e.g. «modello»).</param>
 /// <param name="Note">Notice shown under the field while it returns a text (for example a choice with known limits).</param>
-internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "", bool Wide = false, WikiContextHelp.Topic? Help = null, Func<JsonObject, string?>? Note = null);
+/// <param name="Default">Scelta mostrata quando la chiave manca nel documento (fogli salvati prima del campo): solo presentazione, il documento
+/// non cambia finché l'utente non sceglie.</param>
+internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "", bool Wide = false, WikiContextHelp.Topic? Help = null, Func<JsonObject, string?>? Note = null, string? Default = null);
 
 internal static class FieldNotes
 {
@@ -203,7 +205,7 @@ internal sealed class InputForm : ChainedScrollViewer
             }
             else if (f.Choices is not null)
             {
-                var choices = f.Choices.ToList(); string v = values.S(f.Key); if (v != "" && !choices.Contains(v)) choices.Add(v);
+                var choices = f.Choices.ToList(); string v = f.Default is not null && values[f.Key] is null ? f.Default : values.S(f.Key); if (v != "" && !choices.Contains(v)) choices.Add(v);
                 var c = Ui.Choice(choices, v); c.SelectionChanged += (_, _) => Store(f.Key, c.SelectedItem?.ToString() ?? ""); editor = c;
             }
             else

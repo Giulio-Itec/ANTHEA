@@ -266,7 +266,7 @@ public static class ReportConcrete
         if(options.Contains("curvatura"))
         {
             Heading("Diagramma momento–curvatura");
-            if(settings["momento_curvatura"] is JsonObject curveOptions)Parameters("Percorso di carico",curveOptions,[("N","N costante [kN]"),("theta","Direzione momento [°]"),("passi","Passi"),("frazione","Frazione di MRd"),("campionamento","Campionamento"),("trazione_cls","CLS a trazione")]);
+            if(settings["momento_curvatura"] is JsonObject curveOptions)Parameters("Percorso di carico",curveOptions,[("N","N costante [kN]"),("theta","Direzione momento [°]"),("passi","Passi"),("frazione","Frazione di MRd"),("campionamento","Campionamento"),("trazione_cls","CLS a trazione"),("cls_teso_risposte","CLS teso nelle risposte")]);
             if(result["momento_curvatura"] is JsonObject curve)
             {P(curve.S("Status"));P($"MRd = {F(curve["LimitMoment"])} kNm; χy = {F(curve["YieldCurvature"])} 1/m; χu = {F(curve["UltimateCurvature"])} 1/m.");Figures("curvatura");Table(["M [kNm]","χ [1/m]","ε0 [‰]","εc,comp [‰]","|εs|max [‰]"],curve.Array("Points").Select(p=>new[]{F(p?["Moment"]),F(p?["Curvature"]),F(p?["Epsilon0"]),F(p?["ConcreteCompressionStrain"]),F(p?["SteelStrain"])}));}
             else P(result["errori_calcolo"].S("Momento–curvatura") is { Length: > 0 } curveError

@@ -100,6 +100,7 @@ try
     checks += await ConcretePropertyChecks.Run();
     checks += ConcreteGeometryChecks.Run();
     checks += ConcreteEditorChecks.Run(root);
+    checks += ConcreteResponseTensionChecks.Run(root, output);
     checks += ConcreteAuxiliaryContractChecks.Run(root);
     checks += ConcreteDomainContractChecks.Run(root);
     checks += EditorContractChecks.Run(root);

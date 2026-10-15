@@ -15,6 +15,8 @@ public static class ConcreteEditor
     public static string[] SharedSleFields => SectionWorkspace.SharedSleFields.ToArray();
     public static string[] Standards => ConcreteStandards.OrdinaryNames.ToArray();
     public static string[] ResistanceCriteria => CheckerSection.Criteria.ToArray();
+    /// <summary>Scelte di «CLS teso nelle risposte» del M–χ; la prima è il predefinito, anche senza la chiave nel foglio.</summary>
+    public static string[] ResponseConcreteTensionModes => ConcreteCurvatureAnalysis.ResponseConcreteTensionModes.ToArray();
     public static (string Key, string Label)[] Coefficients => ConcreteStandards.Coefficients.ToArray();
     public static (string Input, string Standard)[] CommonCoefficients => ConcreteCalculationSettings.CommonCoefficients.ToArray();
     public static (string Key, string Name)[] DesignTargets => ConcreteReinforcementDesign.Targets.ToArray();

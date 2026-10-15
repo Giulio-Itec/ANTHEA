@@ -22,17 +22,20 @@ internal static class ConcreteReportCurvatureChecks
         var builder = new ModuleReportService(renderer);
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         JsonObject Sheet(JsonObject data) => J.Obj(("nome", "Verifica M–χ nel progetto"), ("modulo_id", "str_palo"), ("dati", data.DeepClone()));
-        foreach (var (axial, angle) in new[] { ("0", "0"), ("-350", "27") })
+        // Terzo percorso (16/10/2026): «CLS teso nelle risposte» = Tension stiffening, con la riga fra i parametri e la frase nello stato.
+        foreach (var (axial, angle, tension) in new (string, string, string?)[] { ("0", "0", null), ("-350", "27", null), ("0", "0", "Tension stiffening") })
         {
             var data = (JsonObject)original.DeepClone();
             var settings = data["workspace_ca"]!.AsObject(); var options = settings["momento_curvatura"]!.AsObject();
             options["N"] = axial; options["theta"] = angle;
+            if (tension is not null) options[ConcreteCurvatureAnalysis.ResponseConcreteTensionKey] = tension;
+            string tag = axial + (tension is null ? "" : "-cls-teso");
             string before = data.ToJsonString();
             // Existing library-backed path is the numerical reference; no expected fixture is overwritten.
             var expected = ConcreteCurvatureAnalysis.Calculate(data["input"]!.AsObject(), settings, options);
             var chapter = await builder.BuildAsync(Sheet(data), default);
             var result = renderer.Request!.Calculation.Values;
-            File.WriteAllText(Path.Combine(output, $"report-curvature-N{axial}.json"), result.ToJsonString());
+            File.WriteAllText(Path.Combine(output, $"report-curvature-N{tag}.json"), result.ToJsonString());
             Check(result["momento_curvatura"] is JsonObject, "F3.4-U5: il report di progetto non calcola la curva M–χ");
             Check(JsonNode.DeepEquals(result["momento_curvatura"], J.Node(expected)), "Curva del report diversa dal servizio condiviso");
             Check(data.ToJsonString() == before, "Il report modifica gli input della scheda");
@@ -48,7 +51,11 @@ internal static class ConcreteReportCurvatureChecks
                 Check(rows[i].Elements(w + "tc").Select(c => string.Concat(c.Descendants(w + "t").Select(t => t.Value)))
                     .SequenceEqual(values.Select(v => EngineeringFormat.Number(v))), "Valori o unità M–χ alterati nel DOCX");
             }
-            File.WriteAllBytes(Path.Combine(output, $"report-curvature-N{axial}.docx"), DocxWriter.Write(chapter.Document));
+            var texts = xml.Descendants(w + "t").Select(t => t.Value).ToList();
+            int row = texts.IndexOf("CLS teso nelle risposte");
+            Check(tension is null ? row < 0 : row >= 0 && texts[row + 1] == tension, "Riga «CLS teso nelle risposte» dei parametri del M–χ: " + tension);
+            Check(string.Concat(texts).Contains(ConcreteCurvatureAnalysis.ResponseConcreteTensionStatus) == (tension is not null), "Stato del tension stiffening nel capitolo M–χ");
+            File.WriteAllBytes(Path.Combine(output, $"report-curvature-N{tag}.docx"), DocxWriter.Write(chapter.Document));
         }
         foreach (string failure in new[] { "passi", "trefoli", "N" })
         {
@@ -70,7 +77,7 @@ internal static class ConcreteReportCurvatureChecks
         renderer.AfterCapture = cancellation.Cancel;
         try { await builder.BuildAsync(Sheet(original), cancellation.Token); throw new Exception("Annullamento tardivo ignorato"); }
         catch (OperationCanceledException) { Check(renderer.Request is not null, "Annullamento tardivo non esercitato"); }
-        Console.WriteLine($"M–χ report progetto: {checks} controlli, due percorsi, tre rifiuti e annullamento");
+        Console.WriteLine($"M–χ report progetto: {checks} controlli, tre percorsi (uno con «CLS teso nelle risposte»), tre rifiuti e annullamento");
         return checks;
     }
     private sealed class RecordingRenderer : IFigureRenderer
