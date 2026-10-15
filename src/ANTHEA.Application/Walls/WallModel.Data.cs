@@ -240,6 +240,11 @@ public static partial class WallModel
         public string? SeismicBearingError { get; }
         /// <summary>False in the twin rows «b»: variable surcharge in the thrust only, absent from the heel (MUR-1).</summary>
         public bool VariableSurchargeOnHeel => Source.VariableSurchargeOnHeel;
+        /// <summary>γR,e of the passive in front (MUR-2).</summary>
+        public double PassiveFactor => Source.PassiveFactor;
+        /// <summary>Demands of the sliding (kN/m) and overturning (kNm/m) checks, never reduced by the passive (MUR-2).</summary>
+        public double SlidingDemand => Source.SlidingDemand;
+        public double OverturningDemand => Source.OverturningDemand;
         internal LoadCase(global::Anthea.Calculations.RetainingWall.LoadCase source)
         {
             Source = source;

@@ -61,10 +61,13 @@ internal static class LibraryAdapterChecks
         Check(true, "Domanda, resistenza, unità, rapporto ed esito delle verifiche geotecniche");
         var generated = RetainingWall.GenerateCombinations(d);
         Check(generated.Count == rows.Count && generated.Zip(rows).All(p => p.First.S("name") == p.Second.Name && p.First.D("wall") == p.Second.Wall && p.First.D("rbearing") == p.Second.BearingFactor
-            && p.First.B("heel_surcharge") == p.Second.VariableSurchargeOnHeel
+            && p.First.B("heel_surcharge") == p.Second.VariableSurchargeOnHeel && p.First.D("rpassive") == p.Second.PassiveFactor
             && d.Array("actions").All(a => p.First!["coefficients"].D(a.S("id")) == p.Second.Coefficients[a.S("id")])), "Righe automatiche del documento = WallCombinations.Generate");
         // MUR-1: le gemelle «b» della libreria attraversano la riga del documento con il flag (prima il ritorno da ToRow le rendeva uguali alle principali).
         Check(rows.Count(c => !c.VariableSurchargeOnHeel) > 0 && result.Cases.Zip(rows).All(p => p.First.VariableSurchargeOnHeel == p.Second.VariableSurchargeOnHeel), "Gemelle «b» della libreria nei casi del documento");
+        // MUR-2: γR,e del preset di ANTHEA per le righe senza valore (matrici storiche, versione 1) = quello delle righe della libreria.
+        Check(rows.All(c => c.PassiveFactor == RetainingWall.DefaultPassiveFactor(RetainingWall.States[(int)c.State])) && rows.Any(c => c.PassiveFactor == 1.4), "γR,e della passiva del preset = WallCombinations.Generate");
+        Check(result.Cases.Zip(wall.Cases).All(p => p.First.SlidingDemand == p.Second.SlidingDemand && p.First.OverturningDemand == p.Second.OverturningDemand / 1000 && p.First.PassiveFactor == p.Second.Combination.PassiveFactor), "Ed di scorrimento e ribaltamento e γR,e della libreria");
         Check(result.Cases.All(c => c.Factors is not null && c.LiveFactor == 1 && c.Actions.Count == 4), "Documento versione 2: righe e azioni nei casi");
 
         // 3. Version 1: the fixed cases on the three loads.
@@ -77,6 +80,7 @@ internal static class LibraryAdapterChecks
         var slu = legacy.Cases.First(c => c.State == "SLU");
         Same(slu.SlidingResistance, slu.Vertical * Math.Tan(26 * deg) / 1.1, "Versione 1: γR 1,1 sullo scorrimento con δb del terreno di posa");
         Same(slu.OverturningResistance, slu.Stabilizing / 1.15, "Versione 1: γR 1,15 sul ribaltamento");
+        Check(legacy.Cases.All(c => c.PassiveFactor == (c.State == "SLU" ? 1.4 : 1)), "Versione 1: γR,e 1,4 della passiva nelle SLU");
 
         // 4. Methods of the library in the units of the document.
         var contact = RetainingWallFunctions.ContactLaw(3, 100, 1.2);

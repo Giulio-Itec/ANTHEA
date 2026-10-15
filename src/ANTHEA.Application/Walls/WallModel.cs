@@ -38,6 +38,7 @@ public static partial class WallModel
     public static void Upgrade(JsonObject d) => Native.Upgrade(d);
     public static string CombinationSignature(JsonObject d) => Native.CombinationSignature(d);
     public static bool HeelSurcharge(JsonNode? row) => Native.HeelSurcharge(row);
+    public static double DefaultPassiveFactor(string state) => Native.DefaultPassiveFactor(state);
     public static JsonArray GenerateCombinations(JsonObject d) => Native.GenerateCombinations(d);
     public static void ValidateActions(JsonObject d, bool matrix = true) => Native.ValidateActions(d, matrix);
     public static WallModel.BarSchedule CalculateBarSchedule(JsonObject input) => new WallModel.BarSchedule(Native.CalculateBarSchedule(input));

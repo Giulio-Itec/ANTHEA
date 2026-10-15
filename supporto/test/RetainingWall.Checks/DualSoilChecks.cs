@@ -34,13 +34,33 @@ internal static class DualSoilChecks
         Near(wc.SoilAudit.D("q_ricoprimento_kPa"), 18 * .45 + (20 - 9.81) * 1, "Ricoprimento stratificato dalla falda di valle");
         Near(wc.SoilAudit.D("peso_valle_kN_m"), .8 * (.45 * 18 + .55 * 20), "Peso saturo totale sopra mensola");
         d["valley"]!["passive"] = true; d["valley"]!["mobilization"] = .4;
-        var pc = RetainingWall.Calculate(d).Cases[0];
+        var pr = RetainingWall.Calculate(d); var pc = pr.Cases[0];
+        // ηp Kp γ Dv²/2 con Kp(30°) = 3 (Rankine, a mano). Caso caratteristico: γR,e = 1.
         double passive = .4 * .5 * 18 * 3 * dv * dv;
         Near(pc.SoilAudit.D("passiva_usata_kN_m"), passive, "Integrale passiva Rankine con quota mobilitata");
-        Near(pc.Horizontal, original.Horizontal - passive, "Passiva non duplicata nella resistenza allo scorrimento");
+        Near(pc.Horizontal, original.Horizontal - passive, "Equilibrio: H al netto della passiva usata");
         Near(original.Overturning - pc.Overturning, passive * dv / 3, "Momento della passiva rispetto al piano di posa");
-        d["valley"]!["free_height"] = .1; d["valley"]!["mobilization"] = 1;
+        // MUR-2: la passiva è una resistenza di progetto e non riduce le azioni delle verifiche (spinta motrice e momento ribaltante del muro
+        // senza terreno a valle, che non ne dipendono).
+        Near(pc.SlidingDemand, original.SlidingDemand, "MUR-2: Ed di scorrimento non ridotta dalla passiva");
+        Near(pc.OverturningDemand, original.OverturningDemand, "MUR-2: Ed di ribaltamento non ridotta dalla passiva");
+        Near(pr.Checks.Single(x => x.Name == "Scorrimento" && x.Combination == pr.Cases.First(c => c.State == "SLU").Name).Demand, pr.Cases.First(c => c.State == "SLU").SlidingDemand, "MUR-2: la verifica di scorrimento usa Ed");
+        // SLU A1+M1+R3 con γ valle = 1 e γMφ = 1: γR,e = 1,4 (NTC 2018 Tab. 6.5.I); resistenze N tan δb/1,1 + ηp Pp/1,4 e Mstab/1,15 + (ηp Pp/1,4) Dv/3.
+        var slu = pr.Cases.First(x => x.State == "SLU" && x.Factors.D("valley_soil") == 1 && x.Factors.D("mphi") == 1);
+        Near(slu.PassiveFactor, 1.4, "MUR-2: γR,e = 1,4 nelle SLU");
+        Near(slu.SoilAudit.D("passiva_progetto_kN_m"), passive / 1.4, "MUR-2: passiva di progetto ηp·Pp/γR,e");
+        Near(slu.SoilAudit.D("passiva_disponibile_kN_m"), passive, "MUR-2: passiva mobilitata ηp·Pp senza γR,e");
+        Near(slu.SlidingResistance - slu.Vertical * Math.Tan(26 * Math.PI / 180) / 1.1, passive / 1.4, "MUR-2: passiva di progetto nella resistenza allo scorrimento");
+        // Interruttore unico del ribaltamento (RetainingWall.PassiveResistsOverturning): deve seguire la libreria.
+        Near(slu.OverturningResistance - slu.Stabilizing / 1.15, RetainingWall.PassiveResistsOverturning ? passive / 1.4 * dv / 3 : 0, "MUR-2: passiva nel ribaltamento come dichiarato da PassiveResistsOverturning");
+        d["valley"]!["free_height"] = .1; d["valley"]!["mobilization"] = .5;
         var limited = RetainingWall.Calculate(d).Cases[0]; Near(limited.Horizontal, 0, "Passiva limitata senza invertire la spinta netta");
+        // MUR-2: ηp ≤ 0,5 (NTC 2018 §6.5.3.1.1); un documento storico con la passiva e ηp > 0,5 è rifiutato con il motivo; senza passiva il campo non è usato.
+        d["valley"]!["mobilization"] = .6;
+        try { RetainingWall.Calculate(d); throw new Exception("Accettato: ηp = 0,6 con la passiva"); }
+        catch (ArgumentException ex) { Check(ex.Message.Contains("ηp = 0,6") && ex.Message.Contains("§6.5.3.1.1"), "MUR-2: ηp > 0,5 rifiutata con il riferimento normativo"); }
+        d["valley"]!["passive"] = false; Check(RetainingWall.Calculate(d).Cases.All(x => x.SoilAudit.D("passiva_usata_kN_m") == 0), "MUR-2: ηp > 0,5 senza passiva non usata e non rifiutata");
+        d["valley"]!["passive"] = true; d["valley"]!["mobilization"] = .5;
         var wedge = Base(); wedge["geometry"]!["stem_top"] = .2; wedge["valley"]!["height_mode"] = "Assegnato"; wedge["valley"]!["free_height"] = 2;
         var mass = RetainingWallFunctions.FrontSoilMass(wedge, wedgeOnly: true);
         Near(mass.Weight, 18 * .5 * (.2 / 3), "Cuneo sopra paramento inclinato: area triangolare GPC");
