@@ -131,6 +131,8 @@ public static partial class RetainingWall
     {
         public string? Member { get; init; }
         public double? Position { get; init; }
+        /// <summary>False when the check has no computed demand (E1-D4: crack width of a tensile zone without reinforcement): shown as «—».</summary>
+        [System.Text.Json.Serialization.JsonIgnore] public bool HasDemand { get; init; } = true;
         // Runtime provenance. Historical report/archive projections retain their existing shape.
         [System.Text.Json.Serialization.JsonIgnore] public EngineeringOutcome Outcome { get; init; } = EngineeringOutcome.NotEvaluated;
         [System.Text.Json.Serialization.JsonIgnore] public ExecutionStatus Execution { get; init; } = ExecutionStatus.NotExecuted;

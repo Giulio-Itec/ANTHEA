@@ -101,7 +101,7 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         return grid;
     }
     private static DataGrid CheckTable(IEnumerable<WallModel.Check> checks) => Table(["Verifica", "Combinazione", "Ed", "Rd", "Unità", "Ed/Rd", "Esito"],
-        checks.Select(c => new[] { c.Name, c.Combination, F(c.Demand), c.Resistance is double r ? F(r) : "—", c.Unit, c.Ratio is double q ? q.ToString("0.000", It) : "—", c.Status }));
+        checks.Select(c => new[] { c.Name, c.Combination, c.HasDemand ? F(c.Demand) : "—", c.Resistance is double r ? F(r) : "—", c.Unit, c.Ratio is double q ? q.ToString("0.000", It) : "—", c.Status }));
     internal static IEnumerable<WallModel.Check> Envelope(IEnumerable<WallModel.Check> checks) => WallExports.Envelope(checks);
     private void SelectSection((string Member, double Position, string Combination)? selected)
     {

@@ -39,6 +39,10 @@ try
     Near(result.Cases.First(r => r.State == "SLU").SlidingResistance, result.Cases.First(r => r.State == "SLU").Vertical * Math.Tan(26 * Math.PI / 180) / 1.1, "Coefficiente R3 scorrimento");
     Check(result.Structural.Any(s => s.Name.Contains("N–M GPC") && s.Resistance > 0), "Resistenza flessionale GPC effettiva");
     Check(result.Structural.Any(s => s.Name.Contains("fessurazione") && s.Resistance > 0), "Fessurazione SLE effettiva");
+    // E1-D4 (decisione dell'utente del 15/10/2026): nessuna prova «non fessurata» con σt,el ≤ fctk,0.05; una zona tesa senza armatura è non
+    // soddisfatta con il testo delle sezioni (testo deciso nell'integrazione del 16/10) e la domanda «—».
+    Check(result.Structural.Where(s => s.Name.EndsWith(" · fessurazione")).All(s => !s.Status.StartsWith("Non fessurata") && s.HasDemand), "E1-D4: fessurazione senza la prova fctk,0.05");
+    Check(RetainingWall.UncontrolledCrackStatus == "Nessuna armatura tesa · non soddisfatta: zona tesa senza armatura, apertura delle fessure non controllata", "E1-D4: testo della zona tesa senza armatura");
     foreach (var item in result.Structural.Where(s => s.Ratio is null)) log.Add("INCOMPLETA " + item.Name + " " + item.Status);
     foreach (double x in new[] { .1, .5, 1d, 1.5, 2d, 2.5, 2.9 })
     {

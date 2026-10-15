@@ -12,7 +12,7 @@ public static partial class ReportRetainingWall
     private static string[] Cells(RetainingWall.Check c)
     {
         string R(double d) => d.ToString("G17", CultureInfo.GetCultureInfo("it-IT"));
-        return [c.Name, c.Combination, R(c.Demand), c.Resistance is double r ? R(r) : "—", c.Unit, c.Ratio is double q ? R(q) : "—", c.Status];
+        return [c.Name, c.Combination, c.HasDemand ? R(c.Demand) : "—", c.Resistance is double r ? R(r) : "—", c.Unit, c.Ratio is double q ? R(q) : "—", c.Status];
     }
     public static IEnumerable<RetainingWall.Check> Envelope(IEnumerable<RetainingWall.Check> checks) => checks.GroupBy(c => System.Text.RegularExpressions.Regex.Replace(c.Name, @" z=\d+\.\d+ m", "")).Select(g => g.OrderByDescending(c => c.Ratio ?? double.PositiveInfinity).First());
     public static string Csv(RetainingWall.Result r)
@@ -99,7 +99,7 @@ public static partial class ReportRetainingWall
         else if (d["gravity_design"].S("type") == "Resistenze assegnate") doc.P("Gravità: compressione e taglio confrontati con resistenze di progetto assegnate, da documentare per il materiale effettivo. Fusto verificato anche per assenza di trazione. Fondazione non armata verificata a flessione con fctd assegnata. Non è una verifica normativa completa di muratura o pietrame.");
         doc.P("Inviluppo verifiche geotecniche", true); Checks(Envelope(result.Checks));
         doc.P("Inviluppo verifiche strutturali", true); Checks(Envelope(result.Structural));
-        void Checks(IEnumerable<RetainingWall.Check> checks) => doc.Table(["Controllo / caso", "Ed / Rd", "Unità", "Ed/Rd", "Esito"], checks.Select(c => new[] { c.Name + "\n" + c.Combination, F(c.Demand) + " / " + (c.Resistance is double rr ? F(rr) : "—"), c.Unit, c.Ratio is double q ? F(q) : "—", c.Status }), [3.3, 1.5, .8, .7, 2]);
+        void Checks(IEnumerable<RetainingWall.Check> checks) => doc.Table(["Controllo / caso", "Ed / Rd", "Unità", "Ed/Rd", "Esito"], checks.Select(c => new[] { c.Name + "\n" + c.Combination, (c.HasDemand ? F(c.Demand) : "—") + " / " + (c.Resistance is double rr ? F(rr) : "—"), c.Unit, c.Ratio is double q ? F(q) : "—", c.Status }), [3.3, 1.5, .8, .7, 2]);
         doc.P("Combinazioni e equilibrio", true);
         if (d.D("version") >= 2)
         {
