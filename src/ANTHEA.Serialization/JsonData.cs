@@ -1,10 +1,6 @@
-using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Globalization;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.RegularExpressions;
 
 namespace Anthea.Calculations;
 
@@ -33,7 +29,7 @@ public static class J
     {
         var value = n?[key];
         if (value is not null) return value.ToString();
-        if (JsonFallbackTrace.Enabled) JsonFallbackTrace.Record("S", n, key, fallback);
+        if (JsonFallbackHook.Enabled) JsonFallbackHook.Record("S", n, key, fallback);
         return fallback;
     }
     public static double? Number(JsonNode? n)
@@ -43,13 +39,13 @@ public static class J
     public static double D(this JsonNode? n, string key, double fallback = 0)
     {
         if (Number(n?[key]) is double value) return value;
-        if (JsonFallbackTrace.Enabled) JsonFallbackTrace.Record("D", n, key, fallback);
+        if (JsonFallbackHook.Enabled) JsonFallbackHook.Record("D", n, key, fallback);
         return fallback;
     }
     public static bool B(this JsonNode? n, string key, bool fallback = false)
     {
         if (n?[key] is JsonValue v && v.TryGetValue<bool>(out var b)) return b;
-        if (JsonFallbackTrace.Enabled) JsonFallbackTrace.Record("B", n, key, fallback);
+        if (JsonFallbackHook.Enabled) JsonFallbackHook.Record("B", n, key, fallback);
         return fallback;
     }
     public static double Required(this JsonNode? n, string key, double minimum = 0, bool strict = false)
@@ -65,60 +61,20 @@ public static class J
 }
 
 /// <summary>
-/// Trace of the fallback values returned by <see cref="J.S"/>, <see cref="J.D"/> and <see cref="J.B"/> when a key is missing or not valid,
-/// for the refactoring baselines (tests/ANTHEA.Testing). It is active only when the environment variable ANTHEA_TRACE_FALLBACKS names a
-/// file (read once, at the first use of this class): then every distinct (context, kind, key, fallback, parent, caller) is appended to that file as
-/// a tab-separated line. The returned values never change; without the variable nothing is recorded.
+/// Punto d'osservazione dei ripieghi restituiti da <see cref="J.S"/>, <see cref="J.D"/> e <see cref="J.B"/> quando una chiave manca o non
+/// è valida (decisione D3 del 15/10/2026): nessuna logica, nessuna variabile d'ambiente, nessun file. In produzione non c'è osservatore e
+/// non si registra nulla. Lo registra soltanto lo strumento delle catture (tests/ANTHEA.Testing, JsonFallbackTrace), che scrive
+/// fallbacks.json. I valori restituiti non cambiano mai.
 /// </summary>
-public static class JsonFallbackTrace
+public static class JsonFallbackHook
 {
-    public const string Variable = "ANTHEA_TRACE_FALLBACKS";
-    /// <summary>Free label of the running calculation (module, case, step), set by the capture tools.</summary>
-    public static readonly AsyncLocal<string?> Context = new();
-    static readonly string? path;
+    static Action<string, JsonNode?, string, object>? observer;
 
-    // Explicit static constructor: the variable is read at the first use of the trace, not earlier.
-    static JsonFallbackTrace() => path = Environment.GetEnvironmentVariable(Variable) is { Length: > 0 } value ? Path.GetFullPath(value) : null;
+    /// <summary>Osservatore corrente: tipo ("S", "D", "B"), oggetto genitore, chiave e ripiego restituito; null in produzione.</summary>
+    public static Action<string, JsonNode?, string, object>? Observer { get => observer; set => observer = value; }
 
-    public static bool Enabled => path is not null;
+    internal static bool Enabled => observer is not null;
 
-    // Called only when Enabled: the fallback is boxed only for an active trace.
-    internal static void Record(string kind, JsonNode? parent, string key, object fallback)
-    {
-        if (path is null) return;
-        Recorder.Add(path, kind, parent, key, fallback);
-    }
-
-    /// <summary>State of an active trace, created only when the variable is set (no cost for the application).</summary>
-    static class Recorder
-    {
-        static readonly ConcurrentDictionary<string, byte> seen = new(StringComparer.Ordinal);
-        static readonly object gate = new();
-        static readonly Regex Generated = new(@"(?<=__)\d+(?:_\d+)?|(?<=DisplayClass)\d+_\d+|(?<=\|)\d+_\d+");
-
-        static Recorder() { }
-
-        internal static void Add(string path, string kind, JsonNode? parent, string key, object fallback)
-        {
-            string line = string.Join('\t', Clean(Context.Value ?? ""), kind, Clean(key), Clean(Convert.ToString(fallback, CultureInfo.InvariantCulture) ?? ""),
-                parent is null ? "assente" : parent is JsonObject ? "oggetto" : "altro", Caller());
-            if (!seen.TryAdd(line, 0)) return;
-            lock (gate) File.AppendAllText(path, line + "\n", new UTF8Encoding(false));
-        }
-
-        static string Clean(string text) => text.Replace('\t', ' ').Replace('\r', ' ').Replace('\n', ' ');
-
-        /// <summary>The first method outside J and the trace, with the numbers of the compiler-generated names removed.</summary>
-        static string Caller()
-        {
-            foreach (var frame in new StackTrace(false).GetFrames())
-            {
-                var method = frame.GetMethod(); var type = method?.DeclaringType;
-                if (method is null || type is null || type == typeof(J) || type == typeof(JsonFallbackTrace) || type == typeof(Recorder)) continue;
-                while (type.DeclaringType is not null && type.Name.StartsWith('<')) type = type.DeclaringType;
-                return Generated.Replace(type.FullName + "." + method.Name, "");
-            }
-            return "";
-        }
-    }
+    // Chiamato solo con un osservatore: il ripiego viene incapsulato (boxing) solo allora.
+    internal static void Record(string kind, JsonNode? parent, string key, object fallback) => observer?.Invoke(kind, parent, key, fallback);
 }
