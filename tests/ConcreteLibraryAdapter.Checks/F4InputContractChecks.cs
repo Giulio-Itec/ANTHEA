@@ -25,7 +25,11 @@ internal static class F4InputContractChecks
                 var data=(JsonObject)row["input"]!.DeepClone();var settings=SectionWorkspace.Prepare(data);
                 var actions=row["actions"]!.AsArray().OfType<JsonObject>().ToArray();
                 // F4-44 adds the governing combination to the result; rows without "stato" are ultimate.
-                var retained=JsonSerializer.SerializeToNode(ConcreteDetailingAnalysis.Calculate(data["input"]!.AsObject(),settings,actions,legacyActions:true));
+                // Input precedente a F4.12d (solo le azioni passate, senza le righe della tabella del taglio): prima legacyActions: true,
+                // tolto dal prodotto con la decisione D3. Calculate legge la tabella del taglio solo per NEd: con le azioni del taglio
+                // vuote, su una copia delle impostazioni, il risultato è identico (verificato carattere per carattere).
+                var withoutShear=(JsonObject)settings.DeepClone();withoutShear["taglio"]!["azioni"]=new JsonArray();
+                var retained=JsonSerializer.SerializeToNode(ConcreteDetailingAnalysis.Calculate(data["input"]!.AsObject(),withoutShear,actions));
                 Compare(row["expected"]!["ui"],Governing(retained,"SLU · SLU","retained-legacy-input"),"retained-legacy-input");
                 settings["taglio"]!["azioni"]![0]!["N"]="-20000";
                 var significant=ConcreteDetailingAnalysis.Calculate(data["input"]!.AsObject(),settings,actions);

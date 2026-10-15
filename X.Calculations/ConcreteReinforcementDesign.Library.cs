@@ -63,8 +63,8 @@ public static partial class ConcreteReinforcementDesign
         detailing["as_secondaria"]=result.Reinforcement.AreaPerMetre;
     }
 
-    sealed record DesignDocument(JsonObject Data,JsonObject Workspace,JsonObject Input,Dictionary<string,JsonObject[]> Rows,JsonObject[] ShearRows,bool Torsion);
-    static DesignDocument PrepareDesignInput(JsonObject source,ConcreteDesignOptions options,CancellationToken token)
+    internal sealed record DesignDocument(JsonObject Data,JsonObject Workspace,JsonObject Input,Dictionary<string,JsonObject[]> Rows,JsonObject[] ShearRows,bool Torsion);
+    internal static DesignDocument PrepareDesignInput(JsonObject source,ConcreteDesignOptions options,CancellationToken token)
     {
         options.Validate(); token.ThrowIfCancellationRequested();
         var data = (JsonObject)source.DeepClone(); var workspace = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();
@@ -82,7 +82,7 @@ public static partial class ConcreteReinforcementDesign
         if (torsion && !options.TorsionLayoutConfirmed) throw new ArgumentException("Torsione: confermare nella ricerca lo schema periferico con staffe chiuse e barre di spigolo.");
         return new(data,workspace,input,rows,shearRows,torsion);
     }
-    static string[] DesignNotes(bool torsion)=>[ "Migliore tra le configurazioni calcolate; ricerca discreta, nessuna garanzia di minimo fuori dagli elenchi assegnati.",
+    internal static string[] DesignNotes(bool torsion)=>[ "Migliore tra le configurazioni calcolate; ricerca discreta, nessuna garanzia di minimo fuori dagli elenchi assegnati.",
           "Geometria, materiali, copriferro e sollecitazioni mantenuti. Barre su una fila per faccia / un anello; barre laterali con il diametro inferiore. Le armature manuali e i secondi strati vengono sostituiti solo con Applica.",
           "Peso per metro: acciaio 7850 kg/m³, staffe con sviluppo geometrico e maggiorazione ganci impostata; escluse sovrapposizioni, ancoraggi longitudinali, sfridi e armature locali.",
           "Numero barre: pezzi equivalenti per metro, con una barra longitudinale continua contata come un pezzo, più staffe, bracci aggiunti e barre ortogonali. Compromesso: p_peso·kg/m + p_barre·pezzi/m + p_diametri·numero diametri. I pesi sono coefficienti assegnati dall’utente, senza normalizzazione automatica.",
