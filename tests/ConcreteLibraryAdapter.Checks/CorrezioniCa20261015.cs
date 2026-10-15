@@ -167,9 +167,78 @@ internal static class CorrezioniCa20261015
                 Near(p.Epsilon0, -p.ConcreteCompressionStrain + Math.Abs(p.GradientX) * 150 + Math.Abs(p.GradientY) * 250, 1e-9,
                     $"SLU-4 riga {(p.Limit ? "limite" : "M = " + p.Moment.ToString("0.###", Invariant))}: ε0 = −εc + |χx| b/2 + |χy| h/2");
         }
+
+        // ------------------------------------------------------------ FES-2 e FES-1: fessurazione con le barre libere
+        Crack(Near, Is);
         return count;
     }
 
     static JsonObject Curvature(double axial) => J.Obj(("N", axial.ToString(Invariant)), ("theta", "0"), ("passi", "10"), ("frazione", "1"), ("campionamento", "Lineare"),
         ("trazione_cls", "No"), ("angoli", "64"), ("tolleranza_n", "1"), ("raffina_snervamento", "12"));
+
+    /// <summary>
+    /// FES-2 (copriferro della formula dalle barre efficaci) e FES-1 (asse neutro nel copriferro di una barra del lembo teso) sul percorso del
+    /// modulo (CheckerSection.Stress e ConcreteServiceabilityAdapter.Cracking), con le regole del prodotto e, per confronto, con quelle precedenti.
+    /// </summary>
+    static void Crack(Action<double?, double, double, string> near, Action<bool, string> @is)
+    {
+        var data = SezioneCA.DefaultData(); var settings = SectionWorkspace.Prepare(data);
+        var input = (JsonObject)data["input"]!.DeepClone();
+        input["shape"] = "Rettangolare"; input["width_mm"] = "300"; input["height_mm"] = "500"; input["fck_mpa"] = "30";
+        input["cover_mm"] = "30"; input["transverse_bar_diameter_mm"] = "8"; input["staffe_presenti"] = "Sì";
+        JsonArray Bars(params (double X, double Y, double Phi)[] bars)
+            => new(bars.Select(b => (JsonNode)new JsonObject { ["x"] = b.X.ToString("R", Invariant), ["y"] = b.Y.ToString("R", Invariant), ["phi"] = b.Phi.ToString("R", Invariant) }).ToArray());
+        Ntc2018Checks.CrackResult Run(JsonArray bars, double n, double mx, string code)
+        {
+            var i = (JsonObject)input.DeepClone(); i["barre_manuali"] = bars.DeepClone();
+            var w = (JsonObject)settings.DeepClone(); w["normativa"] = code;
+            var sle = (JsonObject)settings["sle"]!["SLE_QP"]!.DeepClone();
+            sle["modello"] = "Lineare"; sle["phi"] = "0"; sle["trazione_cls"] = "No"; sle["esposizione"] = "XC1"; sle["sensibilita"] = "Poco sensibile";
+            sle["durata"] = "Lunga"; sle["aderenza"] = "Migliorata"; sle["copriferro_fessure"] = ""; sle["spaziatura_fessure"] = "";
+            sle["limite_fessure"] = code == "NTC 2018" ? "" : "0.3";
+            var engine = new CheckerSection(i, w, sle);
+            var action = new ActionPoint(n, mx, 0);
+            return ConcreteServiceabilityAdapter.Cracking(engine, engine.Stress(action, "SLE_QP"), action, i, w, sle, "SLE_QP");
+        }
+        double? Detail(Ntc2018Checks.CrackResult r, string symbol) => r.Details.LastOrDefault(d => d.Symbol == symbol)?.Value;
+        // Verso di Mx che tende il lembo inferiore.
+        var probe = new CheckerSection(Merge(input, Bars((-100, -200, 20), (0, -200, 20), (100, -200, 20))), settings, (JsonObject)settings["sle"]!["SLE_QP"]!.DeepClone());
+        double sign = probe.Stress(new(0, 100, 0), "SLE_QP").tensioni_barre.All(t => t > 0) ? 1 : -1;
+        // FES-2: 3Ø20 libere con il centro a 70 mm dal lembo teso (copriferro reale 60), 2Ø16 a 50 mm dal lembo compresso, N = 0, Mx = 98 kNm.
+        // Atteso EN (7.8)-(7.11) (correzioni_ca_20261015.py): c = 60, sr,max = 345,594 mm, wk = 0,36132 mm, non soddisfatta (wlim 0,3); prima
+        // c = 38 (nominale 30 + 8) e wk = 0,28311 mm, soddisfatta. NTC (C4.1.2.2.4.5) con le stesse formule: stesso wk.
+        foreach (string code in new[] { "NTC 2018", "EN 1992-1-1" })
+        {
+            var deep = Bars((-100, -180, 20), (0, -180, 20), (100, -180, 20), (-100, 200, 16), (100, 200, 16));
+            var r = Run(deep, 0, sign * 98, code);
+            near(r.Width, 0.36132, 1e-4, $"FES-2 {code}: wk con le barre a 70 mm");
+            near(Detail(r, "c"), 60, 1e-9, $"FES-2 {code}: c dalle barre");
+            @is(r.Passed == false && r.Details.Any(d => d.Symbol == "c" && d.Expression == "Minimo copriferro libero delle barre efficaci verso la faccia tesa"),
+                $"FES-2 {code}: esito o testo del copriferro");
+            Ntc2018Checks.CrackResult previous;
+            using (PreviousCrackRules.Use()) previous = Run(deep, 0, sign * 98, code);
+            near(previous.Width, 0.28311, 1e-4, $"FES-2 {code}: wk con le regole precedenti (copriferro nominale)");
+            // Barre al copriferro nominale (centro a 48 mm): c = 38 in entrambi i casi, wk = 0,25865 mm.
+            var nominal = Bars((-100, -202, 20), (0, -202, 20), (100, -202, 20), (-100, 200, 16), (100, 200, 16));
+            near(Run(nominal, 0, sign * 98, code).Width, 0.25865, 1e-4, $"FES-2 {code}: wk con le barre al copriferro nominale");
+        }
+        // FES-1: 3Ø16 in alto (y = +204), 2Ø12 laterali a 200 mm dal lembo inferiore teso, nessuna barra inferiore; N = −600 kN, Mx = 86 kNm.
+        // h − x = 171,43 mm (verifica indipendente del verificatore, attesi.py); la barra più vicina dista 200 mm > a,c = 30 + 8 + 12/2 = 44 mm
+        // (gradiente normale alla faccia): zona tesa senza armatura, non soddisfatta. Prima (soglia h/2): wk = 0 «asse neutro nel copriferro».
+        foreach (string code in new[] { "NTC 2018", "EN 1992-1-1" })
+        {
+            var side = Bars((-100, 204, 16), (0, 204, 16), (100, 204, 16), (-106, -50, 12), (106, -50, 12));
+            var r = Run(side, -600, sign * 86, code);
+            @is(r.Passed == false && r.Width is null && r.Status == "Nessuna armatura tesa · non soddisfatta: zona tesa senza armatura, apertura delle fessure non controllata",
+                $"FES-1 {code}: «{r.Status}» wk {r.Width}");
+            near(Detail(r, "h − x"), 171.43, 1e-3, $"FES-1 {code}: h − x");
+            near(Detail(r, ConcreteLibraryMapping.ProjectedCoverSymbol), 44, 1e-6, $"FES-1 {code}: a,c (rientro poligonale della libreria)");
+            Ntc2018Checks.CrackResult previous;
+            using (PreviousCrackRules.Use()) previous = Run(side, -600, sign * 86, code);
+            @is(previous.Passed == true && previous.Width == 0 && previous.Details.All(d => d.Symbol != ConcreteLibraryMapping.ProjectedCoverSymbol),
+                $"FES-1 {code}: regole precedenti «{previous.Status}»");
+        }
+    }
+
+    static JsonObject Merge(JsonObject input, JsonArray bars) { var copy = (JsonObject)input.DeepClone(); copy["barre_manuali"] = bars.DeepClone(); return copy; }
 }

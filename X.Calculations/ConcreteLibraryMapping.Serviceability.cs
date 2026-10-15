@@ -238,6 +238,16 @@ public static partial class ConcreteLibraryMapping
         details.Add(new("wlim", requirement.Limit, "mm", "Limite di apertura selezionato",
             requirement.Limit is null ? "Nessun limite di apertura numerico per questo ramo." : "Confronto wk ≤ wlim"));
         details.AddRange(r.Trace.Select(e => CrackDetail(e, profile)));
+        // FES-1 (analisi dei bug del 15/10/2026): con la regola del prodotto nessuna barra tesa dà wk = 0 solo se l'asse neutro cade nel copriferro di
+        // una barra del lembo teso. La libreria riporta il copriferro proiettato a,c nei dettagli, non nella traccia: la voce segue h − x e x.
+        if (r.Details.LastOrDefault(d => d.Symbol == ProjectedCoverSymbol) is { } projected)
+        {
+            int depth = details.FindLastIndex(d => d.Symbol == "x");
+            details.Insert(depth < 0 ? details.Count : depth + 1, new(ProjectedCoverSymbol, projected.Value, "mm",
+                "Profondità lungo il gradiente del calcestruzzo rientrato di c + Ø/2 della barra più vicina al lembo teso",
+                "Barra del lembo teso se Qmax − Q ≤ a,c (sezioni circolari: più la freccia dell'anello di barre): asse neutro nel copriferro, wk = 0; "
+                + "altrimenti zona tesa senza armatura."));
+        }
         double? spacing = LegacyEntirelyTensileNtcBarSpacing && NtcTexts(profile) && IsFace(r.GoverningRegion) ? null : r.BarSpacing;
         return new(r.Width, r.Limit, r.Ratio, r.Passed, CrackStatus(r, requirement.Criterion, kind, hollow), r.EffectiveArea, r.EffectiveSteel, spacing, SpacingSourceText(r.SpacingSource))
         {
@@ -289,6 +299,9 @@ public static partial class ConcreteLibraryMapping
     /// stato del legacy prosegue con il motivo.
     /// </summary>
     internal const string UnreinforcedTensileZoneFailure = " · non soddisfatta: zona tesa senza armatura, apertura delle fessure non controllata";
+
+    /// <summary>Simbolo del dettaglio della libreria con il copriferro proiettato a(c + Ø/2) della regola dell'asse neutro nel copriferro (FES-1).</summary>
+    public const string ProjectedCoverSymbol = "a,c";
 
     /// <summary>Stato del legacy di una verifica fermata senza ampiezza (sezione, faccia o sistema grossolano).</summary>
     static string StopStatus(SectionCrackResult r)
@@ -345,7 +358,7 @@ public static partial class ConcreteLibraryMapping
         CrackTraceFlags.InnerBand, CrackTraceFlags.Included, CrackTraceFlags.Excluded, CrackTraceFlags.TensileBars, CrackTraceFlags.EffectiveBars,
         CrackTraceFlags.Formula, CrackTraceFlags.UpperBound, CrackTraceFlags.FormulaStandard, CrackTraceFlags.FormulaModelCode2010, CrackTraceFlags.FormulaDin,
         CrackTraceFlags.FormulaSparseBars, CrackTraceFlags.UpperBoundNtc, CrackTraceFlags.UpperBoundEurocode, CrackTraceFlags.UpperBoundDin,
-        CrackTraceFlags.Assigned, CrackTraceFlags.Nominal, CrackTraceFlags.Automatic, CrackTraceFlags.Manual, CrackTraceFlags.ShortTerm, CrackTraceFlags.LongTerm,
+        CrackTraceFlags.Assigned, CrackTraceFlags.Nominal, CrackTraceFlags.BarGeometry, CrackTraceFlags.Automatic, CrackTraceFlags.Manual, CrackTraceFlags.ShortTerm, CrackTraceFlags.LongTerm,
         CrackTraceFlags.Ribbed, CrackTraceFlags.Plain, CrackTraceFlags.ComputedGoverns, CrackTraceFlags.MinimumGoverns, CrackTraceFlags.CloseBars,
         CrackTraceFlags.SparseBars, CrackTraceFlags.NearGoverns, CrackTraceFlags.FarGoverns, CrackTraceFlags.DsCoarseHalf, CrackTraceFlags.Envelope,
         CrackTraceFlags.Uniform, CrackTraceFlags.BoundedByHeight, CrackTraceFlags.Local, CrackTraceFlags.SingleCrackStage, CrackTraceFlags.StabilizedCrackStage
@@ -451,8 +464,10 @@ public static partial class ConcreteLibraryMapping
             : ("As,eff", "ΣAs,i delle barre tese incluse nella fascia efficace", ""),
         [CrackTraceCodes.DiameterSquareSum] = (_, _) => ("ΣØ²", "Somma sulle barre efficaci", ""),
         [CrackTraceCodes.DiameterSum] = (_, _) => ("ΣØ", "Somma sulle barre efficaci", ""),
+        // FES-2 (analisi dei bug del 15/10/2026): senza copriferro assegnato c è il minimo copriferro libero delle barre efficaci verso la faccia tesa
+        // (BarGeometry); il copriferro nominale + staffa (Nominal) resta solo come ripiego e con le regole precedenti delle prove.
         [CrackTraceCodes.Cover] = (e, _) => ("c", Pick(e, (CrackTraceFlags.Assigned, "Override manuale per fessurazione"), (CrackTraceFlags.Nominal, "Copriferro netto + Ø staffa"),
-            (CrackTraceFlags.Formula, "Copriferro delle barre efficaci")), ""),
+            (CrackTraceFlags.BarGeometry, "Minimo copriferro libero delle barre efficaci verso la faccia tesa"), (CrackTraceFlags.Formula, "Copriferro delle barre efficaci")), ""),
         [CrackTraceCodes.Spacing] = (e, _) => ("s", Pick(e, (CrackTraceFlags.Automatic, "Interasse massimo geometrico delle barre efficaci tese"),
             (CrackTraceFlags.Manual, "Interasse massimo manuale"), (CrackTraceFlags.Formula, "Interasse massimo adottato")), ""),
         [CrackTraceCodes.AnalysisConcreteModulus] = (_, _) => ("Ecls analisi", "Modulo del materiale nell'analisi Checker", ""),

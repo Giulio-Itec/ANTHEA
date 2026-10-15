@@ -110,13 +110,15 @@ public static class ConcreteServiceabilityAdapter
 
     /// <summary>Opzioni della verifica: validazione al punto d'uso, traccia e, per il profilo la cui hc,eff legge il copriferro (DIN,
     /// <see cref="CrackProfiles.EffectiveDepthReadsCover"/>), il copriferro della condizione. Regole decise dall'utente il 15/10/2026: stadi di
-    /// fib MC2010 Tab. 7.6-2 (R1), kt della DIN secondo la durata (R2), zona tesa senza armatura non soddisfatta (F2-7 punto 3); le prove le
-    /// tolgono con <see cref="IPreviousCrackRules"/> per confrontare la libreria con il motore storico a regole uguali.</summary>
+    /// fib MC2010 Tab. 7.6-2 (R1), kt della DIN secondo la durata (R2), zona tesa senza armatura non soddisfatta (F2-7 punto 3, con la regola
+    /// dell'asse neutro nel copriferro di una barra del lembo teso della correzione FES-1); dall'analisi dei bug del 15/10/2026 (FES-2), senza
+    /// copriferro assegnato, c della formula dal copriferro delle barre efficaci verso la faccia tesa invece che dal copriferro nominale + staffa.
+    /// Le prove le tolgono tutte con <see cref="IPreviousCrackRules"/> per confrontare la libreria con il motore storico a regole uguali.</summary>
     static SectionCrackOptions Options(CrackProfile profile, double? effectiveDepthCover)
     {
         var options = SectionCrackOptions.Default.WithValidateAtUse(true).WithTrace(true);
         if (EngineHook.Get<IPreviousCrackRules>() is null)
-            options = options.WithModelCode2010BondStages(true).WithDinKtByDuration(true).WithUnreinforcedTensileZoneFails(true);
+            options = options.WithModelCode2010BondStages(true).WithDinKtByDuration(true).WithUnreinforcedTensileZoneFails(true).WithCoverFromBarGeometry(true);
         return CrackProfiles.EffectiveDepthReadsCover(profile) ? options.WithEffectiveDepthCover(effectiveDepthCover) : options;
     }
 
@@ -233,7 +235,8 @@ internal interface ILegacyServiceability
 
 /// <summary>
 /// Aggancio delle prove (<see cref="EngineHook"/>): con un'implementazione agganciata la fessurazione della libreria usa le regole di
-/// GPCChecker.Concrete prima del 15/10/2026 (τbms per durata nel fib MC2010, kt = 0,4 della DIN, zona tesa senza armatura senza esito),
-/// per confrontarla con il motore storico. Nullo in produzione. Nessuna formula.
+/// GPCChecker.Concrete prima del 15/10/2026 (τbms per durata nel fib MC2010, kt = 0,4 della DIN, zona tesa senza armatura senza esito con la
+/// soglia h/2 della barra più vicina, c della formula dal copriferro nominale + staffa), per confrontarla con il motore storico. Nullo in
+/// produzione. Nessuna formula.
 /// </summary>
 internal interface IPreviousCrackRules { }

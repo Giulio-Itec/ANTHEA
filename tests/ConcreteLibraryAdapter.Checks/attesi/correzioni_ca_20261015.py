@@ -122,3 +122,30 @@ for _ in range(70):
 u, tmax, top, kappa = plane(-math.pi / 2, 0.5 * (lo + hi), SYM)
 print(f"SLU-4 N = −1000 kN, θ = 0: x = {0.5 * (lo + hi):.2f} mm, ε lembo = {top * 1e3:.4f} ‰, χ = {kappa * 1e6:.4f} 1/km, "
       f"ε0 al baricentro = {(top + kappa * tmax) * 1e3:.4f} ‰ (prima la riga limite riportava ε al vertice, −3,5 ‰)")
+
+# ---------------------------------------------------------------- FES-2: copriferro c della formula dalle barre (EN 1992-1-1 7.3.4)
+# Rettangolo 300×500 C30/37 (fctm = 0,30·30^(2/3), Ecm = 22000 (38/10)^0,3), 3Ø20 libere con il centro a 70 mm dal lembo teso (copriferro
+# reale 60 mm), 2Ø16 a 50 mm dal lembo compresso; N = 0, Mx = 98 kNm, SLE QP, analisi lineare fessurata (barre compresse con n − 1),
+# lunga durata kt = 0,4, k1 = 0,8, k2 = 0,5, k3 = 3,4, k4 = 0,425. Copriferro nominale 30 + 8 = 38 mm.
+fck = 30.0; fctm = 0.30 * fck ** (2 / 3); Ecm = 22000 * ((fck + 8) / 10) ** 0.3; ne = Es / Ecm
+def crack(c, centre=70.0, M=98.0, b=300.0, h=500.0):
+    As = 3 * A20; d = h - centre; As2 = 2 * A16; d2 = 50.0
+    # asse neutro: b x²/2 + (n−1) As2 (x − d2) − n As (d − x) = 0
+    a2, a1, a0 = b / 2, (ne - 1) * As2 + ne * As, -(ne - 1) * As2 * d2 - ne * As * d
+    x = (-a1 + math.sqrt(a1 * a1 - 4 * a2 * a0)) / (2 * a2)
+    I = b * x ** 3 / 3 + (ne - 1) * As2 * (x - d2) ** 2 + ne * As * (d - x) ** 2
+    ss = ne * M * 1e6 * (d - x) / I
+    hc = min(2.5 * (h - d), (h - x) / 3, h / 2); rho = As / (b * hc)
+    de = max((ss - 0.4 * fctm / rho * (1 + ne * rho)) / Es, 0.6 * ss / Es)
+    sr = 3.4 * c + 0.8 * 0.5 * 0.425 * 20 / rho
+    return x, ss, hc, rho, de, sr, sr * de
+for c in (38.0, 60.0):
+    x, ss, hc, rho, de, sr, wk = crack(c)
+    print(f"FES-2 c = {c:.0f} mm: x = {x:.3f}, σs = {ss:.3f} MPa, hc,eff = {hc:.3f}, ρp,eff = {rho:.6f}, εsm − εcm = {de:.6e}, sr,max = {sr:.3f} mm, wk = {wk:.5f} mm")
+# Barre al copriferro nominale (centro a 48 mm): c delle barre = 38 mm = nominale, wk invariato.
+print(f"FES-2 barre a 48 mm: wk = {crack(38.0, centre=48.0)[6]:.5f} mm")
+
+# ---------------------------------------------------------------- FES-1: copriferro proiettato a,c
+# Asse neutro nel copriferro solo se Qmax − Q della barra più vicina ≤ a(c + Ø/2); gradiente normale alla faccia inferiore: a(d) = d.
+# Barre laterali Ø12 a 200 mm dal lembo teso: a,c = 30 + 8 + 12/2 = 44 mm < 200 mm, e h − x ≈ 171 mm > 44 mm: zona tesa senza armatura.
+print("FES-1 a,c = 44 mm (barre Ø12); distanza della barra più vicina 200 mm")
