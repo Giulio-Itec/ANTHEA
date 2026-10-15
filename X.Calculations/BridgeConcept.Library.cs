@@ -23,13 +23,8 @@ public static partial class BridgeConcept
     public static string[] OptimizationExclusions(JsonObject data, Result result, OptimizationOptions options) => NativeBridge.OptimizationExclusions(NativeInput(data), ToNative(result), ToNative(options));
     public static double ReferenceDepth(Family family, double maxSpan, bool continuous) => NativeBridge.ReferenceDepth(ToNative(family), maxSpan, continuous);
     public static OptimizationResult Optimize(JsonObject source, OptimizationOptions options, CancellationToken cancellation = default,
-        IProgress<OptimizationProgress>? progress = null, bool legacy = false)
+        IProgress<OptimizationProgress>? progress = null)
     {
-        if (legacy)
-        {
-            if (ReadTrafficModel(source) != TrafficModel.LegacyUniform) throw new ArgumentException("Il motore diagnostico precedente non supporta Schema 1.");
-            return LegacyOptimize(source, options, cancellation, progress);
-        }
         var template = (JsonObject)source.DeepClone(); template.Remove("alternative_a");
         // A trial published in progress is the same presentation object in the completed trace.
         var trials = new Dictionary<NativeBridge.OptimizationTrial, OptimizationTrial>(ReferenceEqualityComparer.Instance);
