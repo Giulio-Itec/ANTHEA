@@ -36,13 +36,32 @@ public static class VerticalPileCharts
         }
         foreach (var (name, points) in result["azioni"]!.AsObject()) if (points!.AsArray().Count > 0)
         { string key = "azione_" + name; allSeries.Add(new(key, new PlotSeriesData("Ed " + name, points.AsArray().Select(p => new[] { p![1]!.GetValue<double>(), p[0]!.GetValue<double>() }).ToList(), name == "compressione" ? "#D32F2F" : "#29A9E0", true), data["visibilita_grafici"].B(key, true))); }
+        // PV-1: the undrained actions have their own series only where they differ from the drained ones (undrained compression with the gross
+        // base and the full weight while the drained one uses the buoyancy option).
+        if (!micro)
+            foreach (string name in new[] { "non_drenante_compressione", "non_drenante_trazione" })
+                if (result["azioni_condizione"]?[name] is JsonArray points && points.Count > 0 && !JsonNode.DeepEquals(points, result["azioni"]?[name.EndsWith("trazione") ? "trazione" : "compressione"]))
+                {
+                    string key = "azione_" + name;
+                    allSeries.Add(new(key, new PlotSeriesData("Ed " + name.Replace('_', ' '), points.Select(p => new[] { p![1]!.GetValue<double>(), p[0]!.GetValue<double>() }).ToList(), name.EndsWith("compressione") ? "#8E1B1B" : "#1B6F94", true, DashPattern: "Dash"), data["visibilita_grafici"].B(key, true)));
+                }
         return allSeries;
     }
-    public static bool CapacityIncludes(string key, bool micro, int selected)
+    /// <summary>The design actions of a curve of the result (PV-1: every condition has its own; older results only by direction).</summary>
+    public static JsonArray? Actions(JsonObject? result, string curve) => Calcolo.AzioniCurva(result, curve);
+    public static bool CapacityIncludes(string key, bool micro, int selected) => CapacityIncludes(key, micro, selected, []);
+    /// <summary>
+    /// The series of the selected curve (0: every design curve and every action). For a condition the action is its own series when the chart has
+    /// one (<paramref name="keys"/>, PV-1), otherwise the drained action of the same direction.
+    /// </summary>
+    public static bool CapacityIncludes(string key, bool micro, int selected, IEnumerable<string> keys)
     {
         if (selected <= 0) return key.StartsWith("progetto_") || key.StartsWith("azione_");
         string condition = micro ? selected == 1 ? "compressione" : "trazione" : new[] { "", "drenante_compressione", "drenante_trazione", "non_drenante_compressione", "non_drenante_trazione" }[selected];
-        return key.StartsWith("azione_") ? key.EndsWith(condition.EndsWith("trazione") ? "trazione" : "compressione") : key[(key.IndexOf('_') + 1)..] == condition;
+        if (!key.StartsWith("azione_")) return key[(key.IndexOf('_') + 1)..] == condition;
+        string direction = condition.EndsWith("trazione") ? "trazione" : "compressione";
+        string action = keys.Contains("azione_" + condition) ? "azione_" + condition : "azione_" + direction;
+        return key == action;
     }
     public static PlotData Reference(JsonObject data, JsonObject? result, bool micro, int selectedSurvey)
     {

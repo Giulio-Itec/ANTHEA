@@ -200,7 +200,7 @@ internal sealed partial class SheetEditor
         tables = Tabelle.Crea(Result, Micro); var summary = new List<string[]>();
         foreach (var (key, c) in Result["curve"]!.AsObject())
         {
-            var p = c!.Array("progetto")[^1]!; double rd = p[1]!.GetValue<double>(); var a = Result["azioni"]!.Array(key.Contains("trazione") ? "trazione" : "compressione").LastOrDefault(); double? ed = J.Number(a?[1]);
+            var p = c!.Array("progetto")[^1]!; double rd = p[1]!.GetValue<double>(); var a = Anthea.Application.Presentation.VerticalPileCharts.Actions(Result, key)?.LastOrDefault(); double? ed = J.Number(a?[1]);
             summary.Add([key.Replace('_', ' '), Tabelle.F(p[0]), Tabelle.F(rd), ed.HasValue ? Tabelle.F(ed.Value) : "—", !Result.B("copertura_completa") ? "Verifica incompleta: stratigrafia insufficiente" : ed.HasValue ? ed <= rd ? "Verifica soddisfatta" : "Verifica non soddisfatta" : "Azione non inserita"]);
         }
         tables.Insert(0, new("Riepilogo alla quota disponibile", ["Verifica", Micro ? "s [m]" : "z [m]", "Rd [kN]", "Ed [kN]", "Esito"], summary));
@@ -215,7 +215,7 @@ internal sealed partial class SheetEditor
         {
             foreach (var (key, curve) in Result["curve"]!.AsObject())
             {
-                double rd = curve!.Array("progetto")[^1]![1]!.GetValue<double>(); var action = Result["azioni"]!.Array(key.Contains("trazione") ? "trazione" : "compressione").LastOrDefault(); double? ed = J.Number(action?[1]);
+                double rd = curve!.Array("progetto")[^1]![1]!.GetValue<double>(); var action = Anthea.Application.Presentation.VerticalPileCharts.Actions(Result, key)?.LastOrDefault(); double? ed = J.Number(action?[1]);
                 rows.Add([key.Replace("non_drenante", "N.dr.").Replace("drenante", "Dr.").Replace("compressione", "C").Replace("trazione", "T").Replace('_', ' '), ed?.ToString("N1") ?? "—", rd.ToString("N1"), ed.HasValue && rd > 0 ? (100 * ed.Value / rd).ToString("N1") + "%" : "—"]);
             }
         }
@@ -236,7 +236,7 @@ internal sealed partial class SheetEditor
             if (Result?.B("copertura_completa") == true)
             {
                 var resistance = Result["curve"]?[key]?["progetto"] as JsonArray;
-                var actions = Result["azioni"]?[key.EndsWith("trazione") ? "trazione" : "compressione"] as JsonArray;
+                var actions = Anthea.Application.Presentation.VerticalPileCharts.Actions(Result, key);
                 rd = J.Number((resistance?.LastOrDefault() as JsonArray)?.ElementAtOrDefault(1));
                 ed = J.Number((actions?.LastOrDefault() as JsonArray)?.ElementAtOrDefault(1));
             }
@@ -276,7 +276,7 @@ internal sealed partial class SheetEditor
         verification.Content = table;
     }
     private bool CapacityIncludes(string key)
-        => Anthea.Application.Presentation.VerticalPileCharts.CapacityIncludes(key, Micro, capacityView.SelectedIndex);
+        => Anthea.Application.Presentation.VerticalPileCharts.CapacityIncludes(key, Micro, capacityView.SelectedIndex, allSeries.Select(s => s.Key));
     private void UpdateVisible()
     { plot.Series = allSeries.Where(p => visibility.GetValueOrDefault(p.Key) && CapacityIncludes(p.Key)).Select(p => p.Series).ToList(); if (Result is not null) plot.EmptyMessage = "Nessuna curva selezionata"; plot.InvalidateVisual(); }
     private void SetVisible(bool show)

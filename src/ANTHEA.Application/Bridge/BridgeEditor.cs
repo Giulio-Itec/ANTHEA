@@ -18,6 +18,7 @@ public static class BridgeEditor
     public static string[] DiaphragmKinds => Native.DiaphragmKinds.ToArray();
     public static string[] LoadReferences => Native.LoadReferences.ToArray();
     public static string[] NonlinearCreepModes => Native.NonlinearCreepModes.ToArray();
+    public static string[] ConcreteTensionModes => Native.ConcreteTensionModes.ToArray();
     public static string[] PhaseKinds => Native.PhaseKinds.ToArray();
     public static string[] RebarNames => Native.RebarNames.ToArray();
     public static string[] ResponseModes => Native.ResponseModes.ToArray();

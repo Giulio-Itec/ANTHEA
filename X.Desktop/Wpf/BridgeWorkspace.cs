@@ -303,8 +303,10 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         }
         ShowAccessoryResults(stage);
         warnings.Text = string.Join("  ", stage.Warnings);
-        stressTable.Content = ResultTable(["Punto", "y [mm]", ..stage.Contributions.Select((_, i) => $"Δσ {i + 1} [MPa]"), "Σσ [MPa]"],
-            stage.Points.Select(p => new[] { p.Name, F(p.Y) }.Concat(p.Contributions.Select(F)).Append(p.Active ? F(p.Stress) : "—").ToArray()));
+        // PON-1: for the tensile bars of the cracked slab in SLE Σσ = σs,0 + Δσs, while the contributions sum σs,0 (tension stiffening column).
+        bool stiffening = stage.Points.Any(p => p.GetTensionStiffening() is not null);
+        stressTable.Content = ResultTable(["Punto", "y [mm]", ..stage.Contributions.Select((_, i) => $"Δσ {i + 1} [MPa]"), ..(stiffening ? new[] { "Δσs tension stiff. [MPa]" } : []), "Σσ [MPa]"],
+            stage.Points.Select(p => new[] { p.Name, F(p.Y) }.Concat(p.Contributions.Select(F)).Concat(stiffening ? [p.GetTensionStiffening() is { } t ? F(t.Increment) : "—"] : []).Append(p.Active ? F(p.Stress) : "—").ToArray()));
         verificationTable.Content = ResultTable(["Controllo", "Stato limite", "Domanda", "Limite", "η", "Esito", "Note"],
             stage.Points.Select(p => new[] { p.Name, result.Input.S("stato"), p.Active ? F(p.Stress) : "—", p.Active ? F(p.Limit) : "—", p.Utilization is { } u ? F(u) : "—",
                 !p.Active ? "Non attivo" : p.Utilization is null ? "CLS teso" : p.Utilization <= 1 ? "Entro limite locale" : "Limite superato", "σ e limite in MPa" }).Concat((stage.Shear?.Checks ?? []).Concat(stage.Studs?.Checks ?? []).Concat(stage.Torsion?.Checks ?? [])
@@ -313,7 +315,8 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             stage.Contributions.Select(c => new[] { c.Name, Dash(c.N0), Dash(c.HomogenizationN), c.HasConcrete ? F(c.Phi) : "—", c.HasConcrete ? F(c.EffectivePhi) : "—",
                 c.HasConcrete ? F(BridgeEditor.EffectiveConcreteModulus(result.Materials.Ea, c.HomogenizationN)) : "—", F(c.Area), F(c.Centroid), E(c.Inertia), E(c.WTop), E(c.WBottom), c.NeutralAxis is { } z ? F(z) : "—", E(c.Curvature(result.Materials.Ea) * 1000) }));
         classTable.Content = ResultTable(["Pannello", "b [mm]", "t [mm]", "σ₁ [MPa]", "σ₂ [MPa]", "ψ", "kσ", "λp", "ρ", "bc [mm]", "b₁ eff [mm]", "b₂ eff [mm]"],
-            new[] { ("Anima · sup → inf", stage.Effective.Web), ("Sbalzo superiore", stage.Effective.Top), (stage.Effective.SecondBottom is null ? "Sbalzo inferiore" : "Sbalzo inferiore · piastra 1", stage.Effective.Bottom) }.Concat(stage.Effective.SecondBottom is { } second ? new[] { ("Sbalzo inferiore · piastra 2", second) } : []).Select(x =>
+            new[] { ("Anima · sup → inf", stage.Effective.Web), ("Sbalzo superiore", stage.Effective.Top), (g.SectionType == BridgeSteelSectionType.Box ? "Fondo · lamiera interna" : stage.Effective.SecondBottom is null ? "Sbalzo inferiore" : "Sbalzo inferiore · piastra 1", stage.Effective.Bottom) }
+                .Concat(g.SectionType == BridgeSteelSectionType.Box && stage.Effective.BottomOutstand is { } outstand ? new[] { ("Fondo · sbalzi", outstand) } : []).Concat(stage.Effective.SecondBottom is { } second ? new[] { ("Sbalzo inferiore · piastra 2", second) } : []).Select(x =>
                 new[] { x.Item1, F(x.Item2.Width), F(x.Item2.Thickness), F(x.Item2.StartStress), F(x.Item2.EndStress), F(x.Item2.Psi), F(x.Item2.KSigma), F(x.Item2.Lambda), F(x.Item2.Rho), F(x.Item2.CompressedWidth), F(x.Item2.EffectiveAtStart), F(x.Item2.EffectiveAtEnd) }));
         phaseTable.Content = ResultTable(["Fase", "Sezione", "Riferimento N", "yN [mm]", "ΔN [kN]", "ΔMx al punto N [kNm]", "ΔV [kN]", "ΣN [kN]", "ΣMx a y=0 [kNm]", "ΣV [kN]", "Δεcs [µε]", "N eq. [kN]", "M eq. a y=0 [kNm]", "σc impedita [MPa]", "As [mm²]", "Ix* integrazione [mm⁴]", "Residuo equilibrio"],
             stage.Contributions.Select((c, i) => new[] { c.Name, c.Kind, c.LoadReference, F(c.LoadY), F(c.N), F(c.Mx), F(c.V), F(stage.Contributions.Take(i + 1).Sum(x => x.N)), F(stage.Contributions.Take(i + 1).Sum(x => x.MomentAtInterface)), F(stage.Contributions.Take(i + 1).Sum(x => x.V)),

@@ -32,7 +32,7 @@ internal static class SeismicSoilChecks
         s["ag_g"] = 20; Reject(() => RetainingWall.DeriveSeismic(d), "ag/g percentuale non accettato come rapporto"); s["ag_g"] = .2;
         s["ss_mode"] = RetainingWall.AmplificationAssigned; s["ss"] = 1.3; s["st_mode"] = RetainingWall.AmplificationAssigned; s["st"] = 1.2;
         Near(RetainingWall.DeriveSeismic(d)!.AmaxG, .312, "Amplificazioni assegnate disponibili");
-        var result = RetainingWall.Calculate(d); var cases = result.Cases.Where(c => c.State == "SISMA").ToArray();
+        var result = RetainingWall.Calculate(d); var cases = result.Cases.Where(c => c.State == "SISMA" && c.VariableSurchargeOnHeel).ToArray(); // righe proprie, senza le gemelle «b» (MUR-1)
         Check(cases.Length == 4 && cases.Count(c => c.Factors.S("purpose") == "Ribaltamento") == 2, "Quattro casi distinti ±kv generali e ribaltamento");
         Check(cases.All(c => c.Factors.D("rslide") == 1 && c.Factors.D("rover") == 1 && c.Factors.D("rbearing") == 1.2), "Coefficienti SLV tabella 7.11.III");
         Check(result.Checks.Where(c => c.Name == "Ribaltamento" && cases.Any(sc => sc.Name == c.Combination)).All(c => c.Combination.Contains("Ribaltamento")), "Verifica ribaltamento usa i casi dedicati");

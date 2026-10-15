@@ -131,6 +131,8 @@ public static partial class WallModel
         public string Status { get; }
         public string? Member { get; }
         public double? Position { get; }
+        /// <summary>False when the check has no computed demand (shown as «—»).</summary>
+        [System.Text.Json.Serialization.JsonIgnore] public bool HasDemand => Source.HasDemand;
         [System.Text.Json.Serialization.JsonIgnore] public bool IsSatisfied => Source.IsSatisfied;
         [System.Text.Json.Serialization.JsonIgnore] public bool IsNotSatisfied => Source.IsNotSatisfied;
         [System.Text.Json.Serialization.JsonIgnore] public bool IsNotEvaluated => Source.IsNotEvaluated;
@@ -236,6 +238,13 @@ public static partial class WallModel
         public List<WallModel.PressureDetail> StemPressureDetails { get; }
         public SeismicBearing? SeismicBearing { get; }
         public string? SeismicBearingError { get; }
+        /// <summary>False in the twin rows «b»: variable surcharge in the thrust only, absent from the heel (MUR-1).</summary>
+        public bool VariableSurchargeOnHeel => Source.VariableSurchargeOnHeel;
+        /// <summary>γR,e of the passive in front (MUR-2).</summary>
+        public double PassiveFactor => Source.PassiveFactor;
+        /// <summary>Demands of the sliding (kN/m) and overturning (kNm/m) checks, never reduced by the passive (MUR-2).</summary>
+        public double SlidingDemand => Source.SlidingDemand;
+        public double OverturningDemand => Source.OverturningDemand;
         internal LoadCase(global::Anthea.Calculations.RetainingWall.LoadCase source)
         {
             Source = source;

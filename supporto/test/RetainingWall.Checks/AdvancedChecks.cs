@@ -65,6 +65,12 @@ internal static class AdvancedChecks
             d["serviceability"]!["layers"] = new JsonArray(J.Obj(("name", "Sabbia"), ("thickness", 25), ("modulus", 30000)));
             var result = RetainingWall.Calculate(d);
             Check(result.Serviceability!.Cases.Count > 0 && result.Serviceability.Cases.All(c => c.HeadDisplacement is not null), "Cedimenti e spostamenti integrati per tutte le SLE");
+            // MUR-4: u testa = u fusto + H/k − θ (H + t), con H + t = 3 + 0,45 m del muro predefinito e k = 100000 kN/m² (formula del metodo,
+            // composta a mano dai termini del risultato); θ non nulla, così il braccio H + t è discriminante (con H sarebbe 0,45 θ in meno).
+            Check(result.Serviceability.Cases.Any(c => Math.Abs(c.FoundationRotation ?? 0) > 1e-7), "MUR-4: rotazione da cedimenti non nulla");
+            foreach (var s in result.Serviceability.Cases)
+                Near(s.HeadDisplacement!.Value, s.StemDisplacement!.Value + result.Cases.Single(c => c.Name == s.Combination).Horizontal / 100000 * 1000 - s.FoundationRotation!.Value * 3.45 * 1000,
+                    "MUR-4: spostamento in testa con il braccio H + t · " + s.Combination);
             Check(result.Serviceability.Cases.All(c => c.StemDisplacement is > .1 and < 100), "Curvatura GPC lungo Y: flessione del fusto non nulla e scala in mm");
             Check(result.Checks.Any(c => c.Name.Contains("Cedimento") && c.Ratio is not null), "Cedimenti nei tassi di lavoro");
             d["serviceability"]!["layers"]![0]!["thickness"] = .2;

@@ -158,6 +158,19 @@ public static class Calcolo
         try { var (method,e)=Gruppo(dati); return J.Obj(("errore",""),("metodo",method),("eta_compressione",e.Compression),("eta_trazione",e.Tension),("numero_pali",(double)e.Piles)); }
         catch(ArgumentException ex) { return J.Error(ex.Message); }
     }
+    /// <summary>
+    /// PV-1: azioni di progetto della curva <paramref name="curva"/> (drenante_compressione, non_drenante_trazione, compressione, …) di un
+    /// risultato. Ogni condizione ha le proprie (AxialCapacityResult.Actions di GPCChecker.Geotechnics); i risultati salvati prima del 16/10/2026
+    /// hanno solo «azioni» per verso, usate per tutte le condizioni come allora.
+    /// </summary>
+    public static JsonArray? AzioniCurva(JsonNode? risultato,string curva)
+        =>risultato?["azioni_condizione"]?[curva] as JsonArray??risultato?["azioni"]?[curva.EndsWith("trazione")?"trazione":"compressione"] as JsonArray;
+    /// <summary>
+    /// Regole del peso del palo nelle azioni (PV-1, GPCChecker.Geotechnics 0.4) per l'aiuto di «Considera sottospinta», il report e la guida.
+    /// </summary>
+    public const string RegoleSottospinta="Peso del palo nelle azioni per condizione e verso: a trazione, drenata e non drenata, sempre il peso alleggerito W′ = W − γw A (z − zf) sotto falda; "
+        +"a compressione non drenata con la base lorda Ab (Nc cu + σv,L totale), punta coesiva sotto falda in almeno una verticale, sempre il peso intero W (σv contiene già la pressione dell'acqua alla base); "
+        +"a compressione drenata (e non drenata senza base lorda) W′ con «Considera sottospinta», W altrimenti (a favore di sicurezza). Ogni condizione è confrontata con la propria resistenza.";
     public static JsonObject Calcola(JsonNode dati,bool micropalo=false)
     {
         try { ValidaForma(dati);return new Motore(dati,micropalo).Esegui(); }
@@ -270,9 +283,11 @@ public static class Calcolo
                 var components=new JsonObject();foreach(var (key,c,dir) in parts)components[key]=Componenti(x.Components[(c,dir)]);
                 return J.Obj(("z",x.Depth/M),("sondaggi",x.Surveys.Select(sondaggio).ToList()),("peso",x.Weight/1000),("componenti",components));
             }).ToList();
+            // «azioni»: drenate per verso, come prima (grafici e risultati storici); «azioni_condizione»: le azioni di ogni curva (PV-1).
             var actions=J.Obj(("compressione",Punti(r.CompressionActions)),("trazione",Punti(r.TensionActions)));
+            var byCondition=new JsonObject();foreach(var (key,c,dir) in keys)byCondition[key]=Punti(r.Actions[(c,dir)]);
             var e=r.Efficiency;
-            return J.Obj(("errore",""),("curve",curves),("dettagli",details),("azioni",actions),("profondita_massima",r.MaximumDepth/M),("lunghezza_palo",r.PileLength/M),("copertura_completa",r.FullCoverage),
+            return J.Obj(("errore",""),("curve",curves),("dettagli",details),("azioni",actions),("azioni_condizione",byCondition),("profondita_massima",r.MaximumDepth/M),("lunghezza_palo",r.PileLength/M),("copertura_completa",r.FullCoverage),
                 ("numero_stratigrafie",r.SurveyCount),("efficienza",J.Obj(("errore",""),("metodo",metodo),("eta_compressione",e.Compression),("eta_trazione",e.Tension),("numero_pali",(double)e.Piles))));
         }
         public JsonObject Esegui()

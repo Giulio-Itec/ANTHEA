@@ -11,6 +11,7 @@ internal static class ActionsChecks
         void Check(bool value, string name) { if (!value) throw new Exception(name); log.Add("OK " + name); }
         void Near(double a, double b, string name, double tol = 1e-7) => Check(Math.Abs(a - b) <= tol * Math.Max(1, Math.Abs(b)), name);
         void Reject(JsonObject d, string name) { try { RetainingWall.Calculate(d); } catch (ArgumentException) { Check(true, name); return; } throw new Exception("Accettato: " + name); }
+        static bool WallModelRow(JsonNode? row) => RetainingWall.HeelSurcharge(row);
         JsonObject Single(JsonObject d, string state = "SLE")
         {
             var c = (JsonObject)RetainingWall.GenerateCombinations(d).OfType<JsonObject>().First(x => x.S("state") == state).DeepClone();
@@ -27,20 +28,25 @@ internal static class ActionsChecks
             var d = RetainingWall.Example("gravity"); var q1 = d.Array("actions")[0]!; q1["group"] = ""; q1["psi0"] = .6;
             var q2 = RetainingWall.NewAction(d); q2["value"] = 20; q2["psi0"] = .8; q2["psi1"] = .6; d.Array("actions").Add(q2);
             var combinations = RetainingWall.GenerateCombinations(d);
-            Check(combinations.Count(c => c.S("state") == "SLU") == 20, "Due variabili: alternanza principali e omissione favorevoli");
+            // MUR-1: 20 righe SLU (2 γG muro × 2 γG terra × 5 disposizioni delle variabili) e la gemella «b» di ognuna delle 16 con un sovraccarico
+            // variabile presente (4 disposizioni su 5), perché la mensola a monte del muro a gravità è 0,25 m.
+            Check(combinations.Count(c => c.S("state") == "SLU" && WallModelRow(c)) == 20, "Due variabili: alternanza principali e omissione favorevoli");
+            Check(combinations.Count(c => c.S("state") == "SLU" && !WallModelRow(c) && c.S("name").EndsWith("b")) == 16, "MUR-1: gemelle «b» delle SLU con il sovraccarico");
             Check(combinations.Count(c => c.S("state") == "SLE") == 2 && combinations.Count(c => c.S("state") == "SLE_FREQ") == 2, "SLE alterna la variabile principale");
             Check(combinations.Any(c => c.S("state") == "SLU" && c!["coefficients"].D(q1.S("id")) == 1.5 && Math.Abs(c!["coefficients"].D(q2.S("id")) - 1.2) < 1e-9), "ψ₀ specifico della seconda azione");
             Check(combinations.Any(c => c.S("state") == "SLU" && Math.Abs(c!["coefficients"].D(q1.S("id")) - .9) < 1e-9 && c!["coefficients"].D(q2.S("id")) == 1.5), "ψ₀ specifico della prima azione");
             var impact = RetainingWall.NewAction(d, "Urto"); impact["value"] = 40; impact["z"] = 2; d.Array("actions").Add(impact);
             var impact2 = RetainingWall.NewAction(d, "Urto"); impact2["name"] = "Altro evento"; d.Array("actions").Add(impact2);
-            var r = RetainingWall.Calculate(d); var accidents = r.Cases.Where(c => c.State == "ECCEZIONALE").ToArray();
+            // MUR-1 (esteso agli eccezionali il 16/10): le righe proprie, ognuna con l'eventuale gemella «b» senza ψ2·q sulla mensola.
+            var r = RetainingWall.Calculate(d); var accidents = r.Cases.Where(c => c.State == "ECCEZIONALE" && c.VariableSurchargeOnHeel).ToArray();
+            Check(r.Cases.Where(c => c.State == "ECCEZIONALE" && !c.VariableSurchargeOnHeel).All(t => accidents.Any(p => p.Name + "b" == t.Name && p.Actions.Select(a => a.Factor).SequenceEqual(t.Actions.Select(a => a.Factor)))), "MUR-1: gemelle eccezionali accanto alla propria riga");
             Check(accidents.Length == 2 && accidents.All(c => c.Actions.Count(a => a.Type == "Urto" && a.Factor != 0) == 1), "Eventi eccezionali separati");
             Check(r.Cases.Where(c => c.State != "ECCEZIONALE").All(c => c.Actions.Where(a => a.Type == "Urto").All(a => a.Factor == 0)), "Urto assente nelle combinazioni ordinarie");
             Check(accidents.All(c => c.Actions.Where(a => a.Type == "Sovraccarico uniforme").All(a => a.Factor == .3)), "Eccezionali con ψ₂ delle variabili");
             var a1 = accidents.Single(c => c.Actions.Single(a => a.Id == impact.S("id")).Factor == 1);
             var qp = r.Cases.Single(c => c.State == "SLE_QP"); Near(a1.Horizontal - qp.Horizontal, 40, "Urto: somma delle forze"); Near(a1.Overturning - qp.Overturning, 80, "Urto: braccio assegnato");
             impact["visible"] = false; Near(RetainingWall.Calculate(d).Cases[0].Horizontal, r.Cases[0].Horizontal, "Visibilità non modifica il calcolo");
-            impact["enabled"] = false; Check(RetainingWall.GenerateCombinations(d).Count(c => c.S("state") == "ECCEZIONALE") == 1, "Azione esclusa non genera casi");
+            impact["enabled"] = false; Check(RetainingWall.GenerateCombinations(d).Count(c => c.S("state") == "ECCEZIONALE" && WallModelRow(c)) == 1, "Azione esclusa non genera casi");
             d = RetainingWall.Example("gravity"); d.Array("actions").Clear();
             var hor = RetainingWall.NewAction(d, "Forza orizzontale"); hor["value"] = 10; hor["z"] = 1.45; d.Array("actions").Add(hor);
             var moment = RetainingWall.NewAction(d, "Momento"); moment["value"] = 8; moment["z"] = 3.45; d.Array("actions").Add(moment);
@@ -63,13 +69,13 @@ internal static class ActionsChecks
             d.Array("actions")[0]!["psi0"] = .9; Reject(d, "Matrice obsoleta dopo modifica ψ bloccata");
             d["combination_signature"] = RetainingWall.CombinationSignature(d); def["coefficients"]![hor.S("id")] = ""; Reject(d, "Coefficiente vuoto rifiutato");
             var seismic = RetainingWall.Example("gravity"); seismic["seismic"]!["source"] = RetainingWall.SeismicManual; seismic["seismic"]!["enabled"] = true; seismic["seismic"]!["method"] = "Wood semplificato"; seismic["seismic"]!["kv"] = 0;
-            var wr = RetainingWall.Calculate(seismic); var wc = wr.Cases.Single(c => c.State == "SISMA"); double ht = 3.45;
+            var wr = RetainingWall.Calculate(seismic); var wc = wr.Cases.Single(c => c.State == "SISMA" && c.VariableSurchargeOnHeel); double ht = 3.45;
             Near(wc.PressureDetails[0].K, .5, "Wood: K₀ per terreno normalmente consolidato");
             Near(wc.PressureDetails[0].Dynamic * ht, .1 * 18 * ht * ht, "Wood: risultante kh γ Ht²");
             Near(wc.PressureDetails[0].Surcharge, .5 * 10 * .3, "Wood: componente statica del sovraccarico esplicita");
             var woodCustom = (JsonObject)seismic.DeepClone(); var woodDef = Single(woodCustom, "SISMA"); woodDef["soil"] = 1.3;
             Near(RetainingWall.Calculate(woodCustom).Cases[0].PressureDetails[0].Dynamic, wc.PressureDetails[0].Dynamic * 1.3, "γ terreno personalizzato applicato anche alla componente sismica");
-            seismic["seismic"]!["method"] = "Mononobe–Okabe"; seismic["seismic"]!["kh"] = 0; var mo = RetainingWall.Calculate(seismic).Cases.Single(c => c.State == "SISMA");
+            seismic["seismic"]!["method"] = "Mononobe–Okabe"; seismic["seismic"]!["kh"] = 0; var mo = RetainingWall.Calculate(seismic).Cases.Single(c => c.State == "SISMA" && c.VariableSurchargeOnHeel);
             Near(mo.PressureDetails[0].K, 1d / 3, "MO usa Ka"); Near(mo.PressureDetails[0].Dynamic, 0, "MO a kh=0 non genera incremento");
             var rc = RetainingWall.Defaults(); rc["geometry"]!["stem_top"] = .4; rc["reinforcement"]!["two_zones"] = true; rc["reinforcement"]!["lower_height"] = 1.2; rc["reinforcement"]!["stem_upper"]!["diameter"] = 12;
             Near(RetainingWall.SectionInput(rc, "Fusto", .4, 1).D("top_bar_diameter_mm"), 12, "Sezione superiore usa Ø12");

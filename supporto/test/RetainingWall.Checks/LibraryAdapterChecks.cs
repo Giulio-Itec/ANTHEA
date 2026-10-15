@@ -61,17 +61,26 @@ internal static class LibraryAdapterChecks
         Check(true, "Domanda, resistenza, unità, rapporto ed esito delle verifiche geotecniche");
         var generated = RetainingWall.GenerateCombinations(d);
         Check(generated.Count == rows.Count && generated.Zip(rows).All(p => p.First.S("name") == p.Second.Name && p.First.D("wall") == p.Second.Wall && p.First.D("rbearing") == p.Second.BearingFactor
+            && p.First.B("heel_surcharge") == p.Second.VariableSurchargeOnHeel && p.First.D("rpassive") == p.Second.PassiveFactor
             && d.Array("actions").All(a => p.First!["coefficients"].D(a.S("id")) == p.Second.Coefficients[a.S("id")])), "Righe automatiche del documento = WallCombinations.Generate");
+        // MUR-1: le gemelle «b» della libreria attraversano la riga del documento con il flag (prima il ritorno da ToRow le rendeva uguali alle principali).
+        Check(rows.Count(c => !c.VariableSurchargeOnHeel) > 0 && result.Cases.Zip(rows).All(p => p.First.VariableSurchargeOnHeel == p.Second.VariableSurchargeOnHeel), "Gemelle «b» della libreria nei casi del documento");
+        // MUR-2: γR,e del preset di ANTHEA per le righe senza valore (matrici storiche, versione 1) = quello delle righe della libreria.
+        Check(rows.All(c => c.PassiveFactor == RetainingWall.DefaultPassiveFactor(RetainingWall.States[(int)c.State])) && rows.Any(c => c.PassiveFactor == 1.4), "γR,e della passiva del preset = WallCombinations.Generate");
+        Check(result.Cases.Zip(wall.Cases).All(p => p.First.SlidingDemand == p.Second.SlidingDemand && p.First.OverturningDemand == p.Second.OverturningDemand / 1000 && p.First.PassiveFactor == p.Second.Combination.PassiveFactor), "Ed di scorrimento e ribaltamento e γR,e della libreria");
         Check(result.Cases.All(c => c.Factors is not null && c.LiveFactor == 1 && c.Actions.Count == 4), "Documento versione 2: righe e azioni nei casi");
 
         // 3. Version 1: the fixed cases on the three loads.
         var legacy = RetainingWall.Calculate(RetainingWall.LegacyDefaults());
-        Check(legacy.Cases.Select(c => c.Name).SequenceEqual(new[] { "Caratteristica", "Frequente", "Quasi permanente" }.Concat(Enumerable.Range(1, 8).Select(i => "SLU " + i))), "Versione 1: tre SLE e otto SLU");
+        // MUR-1: nei fattori fissi γQ vale 0 nelle SLU dispari e 1,5 nelle pari; ogni SLU pari è seguita dalla gemella «b» (mensola 1,8 m).
+        Check(legacy.Cases.Select(c => c.Name).SequenceEqual(new[] { "Caratteristica", "Frequente", "Quasi permanente" }.Concat(Enumerable.Range(1, 8).SelectMany(i => i % 2 == 0 ? new[] { "SLU " + i, "SLU " + i + "b" } : new[] { "SLU " + i }))), "Versione 1: tre SLE, otto SLU e quattro gemelle «b»");
+        Check(legacy.Cases.All(c => c.VariableSurchargeOnHeel != c.Name.EndsWith("b")), "Versione 1: gemelle senza il sovraccarico variabile sulla mensola");
         Same(legacy.Cases[1].LiveFactor, .5, "Versione 1: ψ1 sul carico frequente"); Same(legacy.Cases[2].LiveFactor, .3, "Versione 1: ψ2 quasi permanente");
         Check(legacy.Cases.All(c => c.Factors is null && c.Actions.Count == 0), "Versione 1: nessuna riga e nessuna azione esposta, come prima");
         var slu = legacy.Cases.First(c => c.State == "SLU");
         Same(slu.SlidingResistance, slu.Vertical * Math.Tan(26 * deg) / 1.1, "Versione 1: γR 1,1 sullo scorrimento con δb del terreno di posa");
         Same(slu.OverturningResistance, slu.Stabilizing / 1.15, "Versione 1: γR 1,15 sul ribaltamento");
+        Check(legacy.Cases.All(c => c.PassiveFactor == (c.State == "SLU" ? 1.4 : 1)), "Versione 1: γR,e 1,4 della passiva nelle SLU");
 
         // 4. Methods of the library in the units of the document.
         var contact = RetainingWallFunctions.ContactLaw(3, 100, 1.2);
@@ -90,7 +99,10 @@ internal static class LibraryAdapterChecks
         var bearing = seismic.Cases.First(c => c.State == "SISMA" && c.SeismicBearing is not null).SeismicBearing!;
         Same(bearing.SoilInertia, .28 / Math.Tan(34 * deg), "F̄ = ag S/(g tan φ′d) senza γRd, EN 1998-5 (F.7)");
         Check(!RetainingWall.ModelFactorOnSoilInertia, "γRd non applicato a F̄ (D7-c)");
-        Check(seismic.Cases.Count(c => c.State == "SISMA") == 4 && seismic.Cases.Where(c => c.State == "SISMA").All(c => c.Factors.S("purpose") is "Generale" or "Ribaltamento"), "Sisma dal sito: generale e ribaltamento ±kv");
+        Check(seismic.Cases.Count(c => c.State == "SISMA" && c.VariableSurchargeOnHeel) == 4 && seismic.Cases.Where(c => c.State == "SISMA").All(c => c.Factors.S("purpose") is "Generale" or "Ribaltamento"), "Sisma dal sito: generale e ribaltamento ±kv");
+        // MUR-1 esteso al sisma: ogni gemella sismica segue la propria riga (stessa destinazione e stessi kh, kv).
+        Check(seismic.Cases.Where(c => c.State == "SISMA" && !c.VariableSurchargeOnHeel).All(t => seismic.Cases.Any(p => p.Name + "b" == t.Name && p.VariableSurchargeOnHeel
+            && p.Factors.S("purpose") == t.Factors.S("purpose") && p.Kh == t.Kh && p.Kv == t.Kv)), "Gemelle sismiche accanto alla propria riga");
 
         // 6. Serviceability: results of the library, data errors as in the legacy calculation.
         var service = RetainingWall.Defaults(); var opt = service["serviceability"]!; opt["settlement"] = true; opt["removed_pressure"] = 0;

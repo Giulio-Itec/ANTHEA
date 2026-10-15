@@ -13,7 +13,8 @@ internal sealed partial class BridgeWorkspace
     {
         Anthea.Application.Presentation.BridgeSheetPresentation.PrepareCalculationOptions(Data);
         methodForm = Form(Data, [new("metodo_analisi", "Metodo di calcolo", Choices: BridgeEditor.CalculationMethods, Wide: true),
-            new("viscosita_nl", "Viscosità nel non lineare", Choices: BridgeEditor.NonlinearCreepModes, Wide: true)], _ => { RefreshCalculationOptions(); Dispatcher.BeginInvoke(BuildPhases); });
+            new("viscosita_nl", "Viscosità nel non lineare", Choices: BridgeEditor.NonlinearCreepModes, Wide: true),
+            new("cls_teso_nl", "CLS teso (non lineare)", Choices: BridgeEditor.ConcreteTensionModes, Wide: true)], _ => { RefreshCalculationOptions(); Dispatcher.BeginInvoke(BuildPhases); });
         meshControls = Group("Discretizzazione e sottopassi", Ui.Stack(Form(Data, [new("fibre_anima", "Strisce anima"), new("fibre_flange", "Strisce per piattabanda"),
             new("fibre_cls", "Strisce soletta"), new("sottopassi", "Sottopassi per fase")]), Ui.Text("Due fibre per striscia. Aumentare i valori per verificare la sensibilità dei risultati.", 11, color: Ui.Muted)));
         RefreshCalculationOptions();
@@ -22,12 +23,12 @@ internal sealed partial class BridgeWorkspace
     private void RefreshCalculationOptions()
     {
         bool history = BridgeEditor.IsHistory(Data), nonlinear = BridgeEditor.IsNonlinear(Data);
-        methodForm?.ShowField("viscosita_nl", nonlinear);
+        methodForm?.ShowField("viscosita_nl", nonlinear); methodForm?.ShowField("cls_teso_nl", nonlinear);
         if (meshControls is not null) meshControls.Visibility = history ? Visibility.Visible : Visibility.Collapsed;
         foreach (var form in inputForms.Where(f => f.Editors.ContainsKey("classe4")))
             foreach (string key in new[] { "classe4", "instabilita_sup", "instabilita_inf", "instabilita_anima" }) form.Enable(key, !nonlinear, dim: true);
         methodNotice.Text = nonlinear
-            ? "Non lineare N–Mx sulla sezione lorda, con memoria plastica dell’acciaio e inviluppo CLS Model. Legami caratteristici: verifica SLU di classe 4 e controlli accessori da completare. Dettagli in Info modello."
+            ? "Non lineare N–Mx sulla sezione lorda, con memoria plastica dell’acciaio e inviluppo CLS Model in compressione; CLS teso " + (Data.S("cls_teso_nl", BridgeEditor.ConcreteTensionModes[0]) == BridgeEditor.ConcreteTensionModes[1] ? "con tension stiffening (Collins e Mitchell)" : "trascurato") + ". Legami caratteristici: verifica SLU di classe 4 e controlli accessori da completare. Dettagli in Info modello."
             : history ? "Storico lineare: deformazioni al getto, carichi e ritiri incrementali senza limite numerico di fasi. φ/n modifica i nuovi incrementi. Le fasi già concluse conservano la propria storia. Taglio e connessione da verificare separatamente."
             : "Metodo cumulativo precedente: ricalcola i contributi sulla stessa sezione efficace della situazione. Comprende le verifiche di taglio e connessione. Fino a 20 fasi.";
     }

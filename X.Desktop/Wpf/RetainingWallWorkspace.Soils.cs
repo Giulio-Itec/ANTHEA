@@ -16,7 +16,7 @@ internal sealed partial class RetainingWallWorkspace
         var valley = Data["valley"]!.AsObject();
         var mode = Form("valley", [new("height_mode", "Tratto libero a valle", Choices: ["Interamente libero", "Assegnato"]),
             new("free_height", "Dalla sommità al terreno di valle", "m", Symbol: "Hlib"), new("linked", "Modifica insieme le due colonne", Bool: true),
-            new("passive", "Considera la resistenza passiva a valle", Bool: true), new("mobilization", "Frazione mobilitata (0–1)", "−", Symbol: "ηp")], valley,
+            new("passive", "Considera la resistenza passiva a valle", Bool: true), new("mobilization", "Frazione mobilitata (0–0,5)", "−", Symbol: "ηp")], valley,
             key => { if (key == "linked" && valley.B("linked")) SyncSoils(false); });
         FrameworkElement Column(bool front)
         {

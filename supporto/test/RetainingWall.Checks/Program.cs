@@ -33,12 +33,28 @@ try
     double heelPressure = c.Contact.Toe + slope * 1.1 - 10 - 54 - 10;
     Near(c.Sections.Single(s => s.Name == "Monte" && s.Position == 1.9).M, heelPressure * 1.9 * 1.9 / 2 + slope * 1.9 * 1.9 * 1.9 / 3, "Momento mensola a monte da integrazione indipendente");
     Near(result.Area, 2.1, "Area muro via GPC");
-    Check(result.Cases.Count == 11, "Otto SLU e tre SLE");
+    // MUR-1: ogni SLU con il sovraccarico (γQ = 1,5) di un muro con mensola a monte ha la gemella «b» senza il sovraccarico variabile sulla
+    // mensola: 8 SLU, 4 gemelle (le righe con γQ = 1,5) e 3 SLE.
+    Check(result.Cases.Count == 15 && result.Cases.Count(x => !x.VariableSurchargeOnHeel) == 4, "Otto SLU, quattro gemelle «b» e tre SLE");
+    {
+        // SLU 2: γG = 1, γQ = 1,5. La gemella SLU 2b conserva la spinta; sulla mensola manca 1,5 · q · b = 1,5 · 10 · 1,9 = 28,5 kN/m, con il
+        // braccio dal piede a + s + b/2 = 0,8 + 0,3 + 0,95 = 2,05 m (calcolo a mano).
+        var main = result.Cases.Single(x => x.Name == "SLU 2"); var twin = result.Cases.Single(x => x.Name == "SLU 2b");
+        Check(main.VariableSurchargeOnHeel && !twin.VariableSurchargeOnHeel && twin.LiveFactor == 1.5, "MUR-1: gemella della SLU con il sovraccarico");
+        Near(twin.Horizontal, main.Horizontal, "MUR-1: la gemella conserva la spinta K·γQ·q");
+        Near(main.Vertical - twin.Vertical, 1.5 * 10 * 1.9, "MUR-1: sovraccarico variabile assente sulla mensola");
+        Near(main.Stabilizing - twin.Stabilizing, 1.5 * 10 * 1.9 * 2.05, "MUR-1: momento stabilizzante del sovraccarico sulla mensola");
+        Check(result.Checks.Count(x => x.Combination == "SLU 2b") == result.Checks.Count(x => x.Combination == "SLU 2"), "MUR-1: la gemella entra in tutte le verifiche geotecniche");
+    }
     double phi = 34 * Math.PI / 180, nqf = Math.Exp(Math.PI * Math.Tan(phi)) * Math.Pow(Math.Tan(Math.PI / 4 + phi / 2), 2);
     Near(c.BearingResistance!.Value, .5 * 19 * c.EffectiveWidth * c.EffectiveWidth * 2 * (nqf - 1) * Math.Tan(phi) * Math.Pow(1 - c.Horizontal / c.Vertical, 3), "Portanza drenata con riduzione per inclinazione");
     Near(result.Cases.First(r => r.State == "SLU").SlidingResistance, result.Cases.First(r => r.State == "SLU").Vertical * Math.Tan(26 * Math.PI / 180) / 1.1, "Coefficiente R3 scorrimento");
     Check(result.Structural.Any(s => s.Name.Contains("N–M GPC") && s.Resistance > 0), "Resistenza flessionale GPC effettiva");
     Check(result.Structural.Any(s => s.Name.Contains("fessurazione") && s.Resistance > 0), "Fessurazione SLE effettiva");
+    // E1-D4 (decisione dell'utente del 15/10/2026): nessuna prova «non fessurata» con σt,el ≤ fctk,0.05; una zona tesa senza armatura è non
+    // soddisfatta con il testo delle sezioni (testo deciso nell'integrazione del 16/10) e la domanda «—».
+    Check(result.Structural.Where(s => s.Name.EndsWith(" · fessurazione")).All(s => !s.Status.StartsWith("Non fessurata") && s.HasDemand), "E1-D4: fessurazione senza la prova fctk,0.05");
+    Check(RetainingWall.UncontrolledCrackStatus == "Nessuna armatura tesa · non soddisfatta: zona tesa senza armatura, apertura delle fessure non controllata", "E1-D4: testo della zona tesa senza armatura");
     foreach (var item in result.Structural.Where(s => s.Ratio is null)) log.Add("INCOMPLETA " + item.Name + " " + item.Status);
     foreach (double x in new[] { .1, .5, 1d, 1.5, 2d, 2.5, 2.9 })
     {
@@ -61,7 +77,15 @@ try
     split["layers"] = new JsonArray(l, l2); var splitResult = RetainingWall.Calculate(split).Cases[0];
     Near(splitResult.Horizontal, c.Horizontal, "Invarianza alla suddivisione di uno strato"); Near(splitResult.Overturning, c.Overturning, "Invarianza del momento per strato suddiviso");
     var seismic = (JsonObject)data.DeepClone(); seismic["seismic"]!["enabled"] = true; var sr = RetainingWall.Calculate(seismic);
-    Check(sr.Cases.Count(s => s.State == "SISMA") == 2, "Entrambi i segni di kv");
+    Check(sr.Cases.Count(s => s.State == "SISMA" && s.VariableSurchargeOnHeel) == 2, "Entrambi i segni di kv");
+    {
+        // MUR-1 esteso al sisma (decisione del 16/10): la gemella «Sisma kv−b» non ha ψ2·q = 0,3 · 10 kPa sulla mensola di 1,9 m; la spinta resta,
+        // cambiano N per (1 − kv) = 1,05 e l'inerzia kh · ψ2 q b = 0,1 · 5,7 kN/m (pseudostatica a mano).
+        var main = sr.Cases.Single(s => s.Name == "Sisma kv−"); var twin = sr.Cases.Single(s => s.Name == "Sisma kv−b");
+        Check(!twin.VariableSurchargeOnHeel && sr.Cases.Count(s => s.State == "SISMA" && !s.VariableSurchargeOnHeel) == 2, "MUR-1: gemelle sismiche nella versione 1");
+        Near(main.Vertical - twin.Vertical, .3 * 10 * 1.9 * 1.05, "MUR-1: ψ2·q assente sulla mensola nel sisma");
+        Near(main.Horizontal - twin.Horizontal, .1 * .3 * 10 * 1.9, "MUR-1: inerzia del sovraccarico sulla mensola esclusa nel sisma");
+    }
     Check(sr.Cases.Where(s => s.State == "SISMA").All(s => s.BearingResistance is null), "Nessun esito di portanza sismica senza inerzia del terreno");
     Near(RetainingWall.SeismicKa(30, 0, 0), RetainingWallFunctions.Ka(30), "Mononobe–Okabe al limite statico");
     Check(sr.Cases.Where(s => s.State == "SISMA").All(s => s.Horizontal > c.Horizontal), "Incremento sismico avverso");

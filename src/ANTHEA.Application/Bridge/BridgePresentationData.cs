@@ -455,8 +455,40 @@ public sealed class BridgeContribution
     }
 }
 
+/// <summary>
+/// Tension stiffening of a tensile bar of the cracked slab in the SLE states (PON-1; EN 1994-2 §7.2.1(1), EN 1994-1-1 §7.4.3(3)):
+/// σs = σs,0 + Δσs, Δσs = 0,4 fctm/(αst ρs), ρs = As/Act, αst = A I/(Aa Ia). N, mm, MPa. Copy of the native BridgeTensionStiffening.
+/// </summary>
+public sealed class BridgeTensionStiffening
+{
+    /// <summary>σs,0: the stress of the bar in the cracked section, the sum of the phase contributions.</summary>
+    public double StressAtCrack { get; }
+    /// <summary>Δσs.</summary>
+    public double Increment { get; }
+    public double Fctm { get; }
+    /// <summary>ρs = As/Act.</summary>
+    public double ReinforcementRatio { get; }
+    /// <summary>αst = A I/(Aa Ia).</summary>
+    public double Alpha { get; }
+    public double ConcreteArea { get; }
+    public double ReinforcementArea { get; }
+    public double CrackedArea { get; }
+    public double CrackedInertia { get; }
+    public double SteelArea { get; }
+    public double SteelInertia { get; }
+    /// <summary>σs = σs,0 + Δσs.</summary>
+    public double Stress => StressAtCrack + Increment;
+    internal BridgeTensionStiffening(global::GPC.Checkers.CompositeBridge.BridgeTensionStiffening source)
+    {
+        StressAtCrack = source.StressAtCrack; Increment = source.Increment; Fctm = source.Fctm; ReinforcementRatio = source.ReinforcementRatio; Alpha = source.Alpha;
+        ConcreteArea = source.ConcreteArea; ReinforcementArea = source.ReinforcementArea; CrackedArea = source.CrackedArea; CrackedInertia = source.CrackedInertia;
+        SteelArea = source.SteelArea; SteelInertia = source.SteelInertia;
+    }
+}
+
 public sealed class BridgeStressPoint
 {
+    private readonly BridgeTensionStiffening? tensionStiffening;
     public string Name { get; }
     public string Material { get; }
     public double Y { get; }
@@ -475,7 +507,13 @@ public sealed class BridgeStressPoint
         Utilization = source.Utilization;
         Active = source.Active;
         Contributions = source.Contributions.Select(v => v).ToArray();
+        tensionStiffening = source.GetTensionStiffening() is { } stiffening ? new BridgeTensionStiffening(stiffening) : null;
     }
+    /// <summary>
+    /// The tension stiffening added to the stress of a tensile bar of the cracked slab (PON-1; null: not applied). A method, as in the library, so
+    /// that the shape of the projected point does not change; here Stress ≠ ΣContributions.
+    /// </summary>
+    public BridgeTensionStiffening? GetTensionStiffening() => tensionStiffening;
 }
 
 public sealed class BridgeSteelProperties

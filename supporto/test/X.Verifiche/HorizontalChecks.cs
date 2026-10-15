@@ -147,8 +147,25 @@ public static class HorizontalChecks
         Near(Calc(efficient).D("resistenza_progetto_manuale_kn"), 108 / 1.7 / 1.3 * .5, "η applicata una sola volta");
         efficient["verifica"]!["efficienza_metodo"] = "Reese & Van Impe (foglio)";
         foreach (string key in new[] { "interasse_anteriore", "interasse_posteriore", "interasse_sinistro", "interasse_destro" }) efficient["verifica"]![key] = 1;
-        double diagonalFront = Math.Sqrt((.7 * .7 + .64 * .64) / 2), diagonalBack = Math.Sqrt((.48 * .48 + .64 * .64) / 2);
+        // PO-2: il vicino anteriore (nel verso di H) mette il palo nella sua scia (0,48), il posteriore lo fa capofila (0,70); a s = D le diagonali
+        // a 45° valgono √((η² + 0,64²)/2) con l'η del proprio lato.
+        double diagonalFront = Math.Sqrt((.48 * .48 + .64 * .64) / 2), diagonalBack = Math.Sqrt((.7 * .7 + .64 * .64) / 2);
         Near(PaloOrizzontale.Efficiency(efficient).D("eta"), .7 * .48 * .64 * .64 * diagonalFront * diagonalFront * diagonalBack * diagonalBack, "Prodotto otto contributi foglio");
+        {
+            // PO-2 (analisi dei bug del 15/10/2026), interassi della cattura storica «due sondaggi» (D = 1 m; anteriore 3, posteriore 2,4, sinistro 2,
+            // destro 4,5 m): Reese e Van Impe, η = min(1; 0,48 (s/D)^0,38) col vicino davanti (palo in scia), min(1; 0,70 (s/D)^0,26) col vicino dietro
+            // (capofila), min(1; 0,64 (s/D)^0,34) ai lati, diagonali ellittiche √((ηa cos θ)² + (ηs sin θ)²) con θ = atan(st/sa) (formule a mano).
+            var asymmetric = (JsonObject)efficient.DeepClone(); var v = asymmetric["verifica"]!;
+            v["efficienza_metodo"] = "Reese & Van Impe (foglio)"; v["interasse_anteriore"] = 3; v["interasse_posteriore"] = 2.4; v["interasse_sinistro"] = 2; v["interasse_destro"] = 4.5;
+            double front = Math.Min(1, .48 * Math.Pow(3, .38)), back = Math.Min(1, .7 * Math.Pow(2.4, .26)), left = Math.Min(1, .64 * Math.Pow(2, .34)), right = Math.Min(1, .64 * Math.Pow(4.5, .34));
+            double Diagonal(double sa, double st, double ea, double es) { double t = Math.Atan2(st, sa); return Math.Sqrt(Math.Pow(ea * Math.Cos(t), 2) + Math.Pow(es * Math.Sin(t), 2)); }
+            var e = PaloOrizzontale.Efficiency(asymmetric);
+            Near(e.D("anteriore"), front, "PO-2: vicino anteriore, palo in scia 0,48 (s/D)^0,38 = 0,7287");
+            Near(e.D("posteriore"), back, "PO-2: vicino posteriore, palo capofila 0,70 (s/D)^0,26");
+            Near(e.D("anteriore_sinistro"), Diagonal(3, 2, front, left), "PO-2: diagonale anteriore con il fattore del lato anteriore");
+            Near(e.D("posteriore_destro"), Diagonal(2.4, 4.5, back, right), "PO-2: diagonale posteriore con il fattore del lato posteriore");
+            Near(e.D("eta"), front * back * left * right * Diagonal(3, 2, front, left) * Diagonal(3, 4.5, front, right) * Diagonal(2.4, 2, back, left) * Diagonal(2.4, 4.5, back, right), "PO-2: η prodotto degli otto");
+        }
         foreach (string key in new[] { "interasse_anteriore", "interasse_posteriore", "interasse_sinistro", "interasse_destro" }) efficient["verifica"]![key] = 100;
         Near(PaloOrizzontale.Efficiency(efficient).D("eta"), 1, "Efficienza limitata a uno");
         efficient["verifica"]!["interasse_anteriore"] = "";

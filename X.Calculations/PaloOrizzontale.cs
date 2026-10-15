@@ -148,6 +148,8 @@ public static partial class PaloOrizzontale
         return Library(() => LateralPileCapacity.ModelName(surveys, l * M, d * M, distributed ? LateralPileMethod.Stratified : LateralPileMethod.Broms));
     }
 
+    /// <summary>Regola dei vicini di Reese e Van Impe (PO-2, GPCChecker.Geotechnics 07e620a7), per il foglio e il report.</summary>
+    public const string ReeseVanImpeRule = "Interassi riferiti alla direzione di H. Il vicino anteriore (nel verso di H) mette il palo nella sua scia: η = min(1; 0,48 (s/D)^0,38); con il vicino posteriore il palo è capofila: η = min(1; 0,70 (s/D)^0,26); ai lati η = min(1; 0,64 (s/D)^0,34); diagonali ellittiche con il fattore del proprio lato. η del palo = prodotto degli otto.";
     /// <summary>Efficienza del gruppo dal foglio con la libreria (LateralGroupEfficiency): assegnata 0 &lt; η ≤ 1, o Reese e Van Impe (otto pali).</summary>
     private static (JsonObject Json, LateralGroupEfficiency Efficiency) Gruppo(JsonObject data)
     {

@@ -76,7 +76,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             new("interasse_sinistro", "Interasse sinistro", "m"), new("interasse_destro", "Interasse destro", "m"),
             new("__eta", "Efficienza adottata", Symbol: "η", ReadOnly: true)], _ => Changed(), compact: true, symbolColumns: true);
         AddCard("Dati generali", Ui.Dock(general, bottom: advanced));
-        AddCard("Efficienza", Ui.Dock(new ChainedScrollViewer { Content = efficiency, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, bottom: Ui.Text("Interassi riferiti alla direzione di H.\nMetodo del foglio: schema a 8 vicini.", 12, color: Ui.Muted)));
+        AddCard("Efficienza", Ui.Dock(new ChainedScrollViewer { Content = efficiency, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, bottom: Ui.Text(Anthea.Application.Presentation.HorizontalSheetPresentation.ReeseVanImpeRule + "\nMetodo del foglio: schema a 8 vicini.", 12, color: Ui.Muted)));
         AddCard("Coefficienti normativa", Ui.Dock(factors, bottom: Ui.Text("Rd = η · min(Hu,media / ξ3; Hu,min / ξ4) / 1,3\nRestano escluse le altre verifiche NTC/EC2.", 12, color: Ui.Muted)));
         modelLabel.Margin = new Thickness(0, 0, 0, 8);
         AddCard("Verifica", Ui.Dock(new ChainedScrollViewer { Content = Ui.Stack(modelLabel, verification, summary, CalculationDescription()), VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, bottom: Ui.Bar(details, csv)));

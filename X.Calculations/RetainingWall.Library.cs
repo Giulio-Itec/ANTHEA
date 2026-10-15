@@ -155,9 +155,24 @@ public static partial class RetainingWall
             _ => throw new ArgumentException("Destinazione della combinazione sismica non valida.")
         };
         double soil = Value(c, "soil");
-        return new WallCombination(c.S("name"), State(c.S("state")), Value(c, "wall"), soil, J.Number(c["valley_soil"]) ?? soil, Value(c, "water"), Value(c, "mphi"), Value(c, "rslide"),
-            Value(c, "rover"), Value(c, "rbearing"), Value(c, "kh"), Value(c, "kv"), c["coefficients"]!.AsObject().ToDictionary(p => p.Key, p => J.Number(p.Value) ?? double.NaN), purpose, c.S("approach"));
+        // MUR-1/MUR-2: a row saved before 16/10/2026 has neither the flag of the variable surcharge on the heel (true, as before) nor γR,e of the
+        // passive in front (the preset of the library for its state, DefaultPassiveFactor).
+        var state = State(c.S("state"));
+        return new WallCombination(c.S("name"), state, Value(c, "wall"), soil, J.Number(c["valley_soil"]) ?? soil, Value(c, "water"), Value(c, "mphi"), Value(c, "rslide"),
+            Value(c, "rover"), Value(c, "rbearing"), Value(c, "kh"), Value(c, "kv"), c["coefficients"]!.AsObject().ToDictionary(p => p.Key, p => J.Number(p.Value) ?? double.NaN), purpose, c.S("approach"),
+            HeelSurcharge(c), c["rpassive"] is null ? DefaultPassiveFactor(state) : Value(c, "rpassive"));
     }
+    /// <summary>
+    /// γR,e of the passive in front of a row without its own value (MUR-2): the preset of GPCChecker.Geotechnics (WallCombinations.Generate), 1.4 in
+    /// the ULS (NTC 2018 Tab. 6.5.I, R3), 1 in the other states. RetainingWall.Checks verifies it against the rows of the library.
+    /// </summary>
+    public static double DefaultPassiveFactor(string state) => States.Contains(state) ? DefaultPassiveFactor(State(state)) : double.NaN;
+    static double DefaultPassiveFactor(WallLimitState state) => state == WallLimitState.Ultimate ? 1.4 : 1;
+    /// <summary>
+    /// The flag of a row (MUR-1): the variable (Q) uniform surcharges also on the heel (true, also when the row predates the flag) or only in the
+    /// thrust (false: the twin «b» of WallCombinations.Generate, γQ = 0 on the favourable part, NTC 2018 Tab. 2.6.I).
+    /// </summary>
+    public static bool HeelSurcharge(JsonNode? row) => row?["heel_surcharge"] is null || row.B("heel_surcharge");
 
     /// <summary>A combination of the library as a row of the document (the factors of every action of the document, disabled ones 0).</summary>
     static JsonObject ToRow(JsonObject d, WallCombination c)
@@ -165,24 +180,29 @@ public static partial class RetainingWall
         var coefficients = new JsonObject();
         foreach (var a in d.Array("actions")) coefficients[a.S("id")] = a.B("enabled") && c.Coefficients.TryGetValue(a.S("id"), out double f) ? f : 0;
         var row = J.Obj(("enabled", true), ("name", c.Name), ("state", StateName(c.State)), ("approach", c.Approach), ("wall", c.Wall), ("soil", c.Soil), ("valley_soil", c.ValleySoil),
-            ("water", c.Water), ("mphi", c.FrictionFactor), ("rslide", c.SlidingFactor), ("rover", c.OverturningFactor), ("rbearing", c.BearingFactor), ("kh", c.Kh), ("kv", c.Kv), ("coefficients", coefficients));
+            ("water", c.Water), ("mphi", c.FrictionFactor), ("rslide", c.SlidingFactor), ("rover", c.OverturningFactor), ("rbearing", c.BearingFactor), ("rpassive", c.PassiveFactor),
+            ("heel_surcharge", c.VariableSurchargeOnHeel), ("kh", c.Kh), ("kv", c.Kv), ("coefficients", coefficients));
         if (c.Purpose != WallSeismicPurpose.None) row["purpose"] = c.Purpose == WallSeismicPurpose.General ? "Generale" : "Ribaltamento";
         return row;
     }
 
     /// <summary>
     /// The fixed cases of a version 1 document: characteristic, frequent (ψ1) and quasi permanent (ψ2) on the three loads; 8 or 16 ULS with γR 1.1,
-    /// 1.15, 1.4; seismic ±kv with ψ2 and the seismic bearing γR 1.2. Returned with the factor of the loads of every case.
+    /// 1.15, 1.4 and γR,e 1.4 of the passive in front (MUR-2); seismic ±kv with ψ2 and the seismic bearing γR 1.2. On a wall with a heel every ULS
+    /// and seismic case with the surcharge (factor 1.5 or ψ2 &gt; 0) is followed by its twin «b» without the variable surcharge on the heel (MUR-1,
+    /// the rule of WallCombinations.Generate, extended to the seismic and accidental rows on 16/10/2026). Returned with the factor of the loads of
+    /// every case.
     /// </summary>
     static List<(WallCombination Combination, double Live)> LegacyCombinations(JsonObject d)
     {
-        var loads = d["loads"]!; bool water = d["water"].B("enabled");
+        var loads = d["loads"]!; bool water = d["water"].B("enabled"), heel = Need(d["geometry"], "heel") > 0;
         var result = new List<(WallCombination, double)>();
         void Add(string name, WallLimitState state, double fc, double fs, double fq, double fw = 1, double kh = 0, double kv = 0)
         {
             bool design = state is WallLimitState.Ultimate or WallLimitState.Seismic;
-            result.Add((new WallCombination(name, state, fc, fs, fs, fw, 1, design ? 1.1 : 1, design ? 1.15 : 1, state == WallLimitState.Seismic ? 1.2 : design ? 1.4 : 1, kh, kv,
-                new Dictionary<string, double> { ["q"] = fq, ["hq"] = fq, ["nq"] = fq }), fq));
+            foreach (bool onHeel in design && heel && fq > 0 ? new[] { true, false } : new[] { true })
+                result.Add((new WallCombination(onHeel ? name : name + "b", state, fc, fs, fs, fw, 1, design ? 1.1 : 1, design ? 1.15 : 1, state == WallLimitState.Seismic ? 1.2 : design ? 1.4 : 1, kh, kv,
+                    new Dictionary<string, double> { ["q"] = fq, ["hq"] = fq, ["nq"] = fq }, variableSurchargeOnHeel: onHeel, passiveFactor: DefaultPassiveFactor(state)), fq));
         }
         Add("Caratteristica", WallLimitState.Characteristic, 1, 1, 1); Add("Frequente", WallLimitState.Frequent, 1, 1, loads.D("psi1")); Add("Quasi permanente", WallLimitState.QuasiPermanent, 1, 1, loads.D("psi2"));
         int index = 0;
@@ -212,12 +232,14 @@ public static partial class RetainingWall
             r.Eccentricity / Mm, r.EffectiveWidth / Mm, ToContact(r.Contact), r.SlidingResistance, r.OverturningResistance / Mm, r.BearingResistance, r.Pressures.Select(Segment).ToList(),
             r.Sections.Select(f => new SectionForce(MemberNames[(int)f.Member], f.Position / Mm, f.Thickness / Mm, f.N, f.M / Mm, f.V)).ToList())
         {
+            VariableSurchargeOnHeel = c.VariableSurchargeOnHeel, PassiveFactor = c.PassiveFactor, SlidingDemand = r.SlidingDemand, OverturningDemand = r.OverturningDemand / Mm,
             SeismicBearing = r.SeismicBearing is null ? null : Geotechnics.SeismicBearing.From(r.SeismicBearing), SeismicBearingError = r.SeismicBearingError,
             Factors = definition is null ? null : (JsonObject)definition.DeepClone(), PressureDetails = r.PressureDetails.Select(Detail).ToList(), Actions = actions,
             StemPressures = r.StemPressures.Select(Segment).ToList(), ValleyPressures = r.ValleyPressures.Select(Segment).ToList(), StemPressureDetails = r.StemPressureDetails.Select(Detail).ToList(),
             SoilAudit = J.Obj(("Dv_m", s.ValleyHeight / Mm), ("Hlib_m", s.FreeHeight / Mm), ("peso_valle_kN_m", s.ValleyWeight), ("momento_peso_valle_kNm_m", s.ValleyMoment / Mm),
                 ("q_ricoprimento_kPa", s.Overburden / KPa), ("delta_muro_d_gradi", s.WallFriction / Deg), ("delta_base_d_gradi", s.BaseFriction / Deg), ("mu_base", s.BaseFrictionCoefficient),
-                ("delta_piano_equilibrio_gradi", s.EquilibriumPlaneFriction / Deg), ("passiva_disponibile_kN_m", s.PassiveAvailable), ("passiva_usata_kN_m", s.PassiveUsed),
+                ("delta_piano_equilibrio_gradi", s.EquilibriumPlaneFriction / Deg), ("passiva_disponibile_kN_m", s.PassiveAvailable), ("passiva_fattore", s.PassiveFactor),
+                ("passiva_progetto_kN_m", s.PassiveDesign), ("passiva_usata_kN_m", s.PassiveUsed),
                 ("passiva_frazione", s.PassiveFraction), ("passiva_limite_equilibrio", s.PassiveScale), ("Nq", s.Nq), ("Ngamma", s.Ngamma), ("iq", s.Iq), ("igamma", s.Igamma), ("base_ruvida", s.RoughBase))
         };
     }

@@ -35,7 +35,8 @@ internal sealed partial class RetainingWallWorkspace
             foreach (var p in c.StemPressureDetails) Add($"Coefficienti fusto z={F(p.Z0)}–{F(p.Z1)} m", $"φd={F(p.PhiDesign)}°; K={p.K:0.00000}; Ke={p.Ke:0.00000}; Δp={F(p.Dynamic)} kPa", "Coulomb/MO con δ muro, oppure K₀ Wood");
             foreach (var p in c.StemPressures) Add($"Fusto z={F(p.Z0)}–{F(p.Z1)} m", $"p={F(p.P0)}–{F(p.P1)} kPa", "Coulomb/MO al paramento + acqua + azioni − passiva");
             foreach (var p in c.ValleyPressures) Add($"Valle z={F(p.Z0)}–{F(p.Z1)} m", $"p={F(p.P0)}–{F(p.P1)} kPa", "Passiva effettivamente utilizzata · z dalla sommità muro");
-            Add("Equilibrio", $"H={F(c.Horizontal)}; V′={F(c.Vertical)}; U={F(c.Uplift)} kN/m; Mstab={F(c.Stabilizing)}; Mrib={F(c.Overturning)} kNm/m", "Somma forze e momenti");
+            Add("Equilibrio", $"H={F(c.Horizontal)}; V′={F(c.Vertical)}; U={F(c.Uplift)} kN/m; Mstab={F(c.Stabilizing)}; Mrib={F(c.Overturning)} kNm/m", "Somma forze e momenti; H e Mrib al netto della passiva di progetto usata");
+            Add("Verifiche", $"Ed scorr.={F(c.SlidingDemand)} kN/m; Ed ribalt.={F(c.OverturningDemand)} kNm/m; MRd ribalt.={F(c.OverturningResistance)} kNm/m; γR,e passiva={F(c.PassiveFactor)}", "Azioni delle verifiche senza la passiva, che è nelle resistenze");
             Add("Fondazione", $"e={F(c.Eccentricity)} m; B′={F(c.EffectiveWidth)} m; Rsc={F(c.SlidingResistance)} kN/m; Rport={c.BearingResistance?.ToString("0.###") ?? "non disponibile"} kN/m", "Contatto e resistenze");
             foreach (var p in c.Sections) Add($"{p.Name} z/l={F(p.Position)} m", $"N={F(p.N)} kN/m; M={F(p.M)} kNm/m; V={F(p.V)} kN/m", "Equilibrio della sezione · modificare le cause negli input");
             var table = Table(["Valore", "Risultato utilizzato", "Origine / significato"], values); table.Height = 230; derived.Content = table;

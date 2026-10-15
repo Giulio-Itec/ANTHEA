@@ -22,7 +22,8 @@ public static partial class ReportBridge
             doc.Table(["Opzione numerica", "Valore"], new[] {
                 new[] { "Strisce anima / flange / CLS", result.Input.S("fibre_anima", "160") + " / " + result.Input.S("fibre_flange", "8") + " / " + result.Input.S("fibre_cls", "64") },
                 new[] { "Punti di integrazione", "2 per striscia" }, new[] { "Sottopassi per fase", result.Input.S("sottopassi", "8") },
-                new[] { "Viscosità non lineare", result.Input.S("viscosita_nl", BridgeSection.NonlinearCreepModes[0]) } }, [2, 3]);
+                new[] { "Viscosità non lineare", result.Input.S("viscosita_nl", BridgeSection.NonlinearCreepModes[0]) },
+                new[] { "CLS teso (non lineare)", result.Input.S("cls_teso_nl", BridgeSection.ConcreteTensionModes[0]) } }, [2, 3]);
         }
         if (options.Contains("materiali"))
         {
@@ -66,6 +67,7 @@ public static partial class ReportBridge
             if (options.Contains("tensioni"))
             {
                 doc.Table(["Punto", "y [mm]", "σ [MPa]", "Ultimo Δσ [MPa]"], stage.Points.Select(p => new[] { p.Name, F(p.Y), p.Active ? F(p.Stress) : "—", F(p.Contributions.Last()) }), [2.8, 1, 1, 1]);
+                TensionStiffening(doc, stage.Points);
                 doc.Sub("Deformazioni meccaniche e plastiche");
                 doc.Table(["Componente", "εmecc min [µε]", "εmecc max [µε]", "|εpl|max [µε]"], s.Fibers.Where(f => f.Active).GroupBy(f => f.ComponentId).Select(row => new[] {
                     row.Key, F(row.Min(f => f.MechanicalStrain) * 1e6), F(row.Max(f => f.MechanicalStrain) * 1e6), F(row.Max(f => f.MaterialState is HistoryPlasticState p ? Math.Abs(p.PlasticStrain) : 0) * 1e6) }), [1.6, 1.4, 1.4, 1.4]);

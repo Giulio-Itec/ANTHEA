@@ -28,7 +28,7 @@ internal sealed partial class RetainingWallWorkspace
                     new("head_limit", "Limite spostamento in testa", "mm"), new("horizontal_stiffness", "Rigidezza orizzontale fondazione per metro", "kN/m²")]),
                 grid, Ui.Bar(Ui.Button("+ Strato", () => AddRow(grid, layers, J.Obj(("name", "Strato deformabile"), ("thickness", 2), ("modulus", "")))),
                     Ui.Button("− Strato", () => { if (grid.SelectedItem is JsonRow row) { layers.Remove(row.Values); grid.Rows.Remove(row); Changed(); } })),
-                Ui.Text("Modello edometrico: s=∫Δσz/M dz; tensioni da fondazione nastriforme. Integrare fino a Δσz ≤10% del carico netto o substrato rigido. Rotazione stimata dal profilo libero; spostamento totale disaccoppiato = flessione + H/K − rotazione·H. Limiti modificabili dal progettista.", 11, color: Ui.Muted)), false));
+                Ui.Text("Modello edometrico: s=∫Δσz/M dz; tensioni da fondazione nastriforme. Integrare fino a Δσz ≤10% del carico netto o substrato rigido. Rotazione stimata dal profilo libero; spostamento totale disaccoppiato = flessione + H/K − rotazione·(H + t), con la rotazione rigida della fondazione attorno alla base. Limiti modificabili dal progettista.", 11, color: Ui.Muted)), false));
     }
 
     private UIElement BuildGravityMaterial() => Group("Materiale del muro a gravità", Ui.Stack(

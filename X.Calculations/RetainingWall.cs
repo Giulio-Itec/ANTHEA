@@ -10,7 +10,18 @@ public static partial class RetainingWall
     public const string Module = "geo_muri_sostegno";
     public const string Scope = "Sezione piana per metro di sviluppo. Paramento di monte verticale, riempimento orizzontale granulare (c′ = 0), spinta attiva oppure a riposo nel modello Wood. Fondazione nastriforme superficiale su terreno omogeneo drenato, con due stratigrafie e terreno a valle. Muro a mensola in c.a. o a gravità con sezione trapezia.";
     public const string Limits = "Bishop, cedimenti edometrici e spostamenti sono verifiche separate da attivare con i dati richiesti. Portanza sismica: EN 1998-5 allegato F, base ruvida e terreno granulare asciutto. Newmark: accelerogrammi e soglia di scorrimento assegnati, solo muro libero. Gravità: resistenze assegnate oppure CLS/muratura nel dominio senza trazione; fuori campo occorre analisi non lineare. Il disegno delle armature è un predimensionamento, da completare con dettagli esecutivi. Liquefazione, verifiche idrauliche e degradazione ciclica non incluse. Nessun esito complessivo dell’opera.";
-    public const string Method = "Statica: Rankine per strati (K₀ nel modello Wood), pressioni efficaci e acqua separate. Preset SLU A1+M1+R3: inviluppo γG,muro e γG,terra = 1 / 1,3; γQ = 0 / 1,5; γG,acqua = 1 / 1,3, correlato a spinta e sottospinta. γR scorrimento 1,1, ribaltamento 1,15, portanza 1,4. Portanza: EN 1997-1, allegato D, fondazione nastriforme c′=0, q′ di ricoprimento da valle, Nγ=2(Nq−1)tanφ, iγ=(1−H/V)³; base ruvida δ≥φ/2. Contatto elastico senza trazione; B′=B−2|e|. Oltre |e|=B/3 la portanza è fuori campo. Passiva Rankine opzionale e parzializzabile, esclusa nel sisma.";
+    public const string Method = "Statica: Rankine per strati (K₀ nel modello Wood), pressioni efficaci e acqua separate. Preset SLU A1+M1+R3: inviluppo γG,muro e γG,terra = 1 / 1,3; γQ = 0 / 1,5; γG,acqua = 1 / 1,3, correlato a spinta e sottospinta. Con una mensola a monte ogni combinazione SLU, sismica o eccezionale con il sovraccarico uniforme variabile è seguita dalla gemella «b» senza il sovraccarico variabile sulla mensola (variabile favorevole esclusa: γQ = 0, NTC 2018 Tab. 2.6.I; ψ2·q solo se sfavorevole nel sisma e negli eccezionali, §2.5.3) e con la stessa spinta; entrambe entrano in tutte le verifiche. γR scorrimento 1,1, ribaltamento 1,15, portanza 1,4. Portanza: EN 1997-1, allegato D, fondazione nastriforme c′=0, q′ di ricoprimento da valle, Nγ=2(Nq−1)tanφ, iγ=(1−H/V)³; base ruvida δ≥φ/2. Contatto elastico senza trazione; B′=B−2|e|. Oltre |e|=B/3 la portanza è fuori campo. " + PassiveResistanceText + " Nell’equilibrio (contatto, eccentricità, inclinazione della portanza, sollecitazioni del fusto) la passiva di progetto è limitata alla spinta motrice.";
+    /// <summary>
+    /// MUR-2 (analisi dei bug del 15/10/2026): GPCChecker.Geotechnics 0.4 adds the moment of the design passive ηp Pp/γR,e about the toe to the
+    /// overturning resistance (RetainingWallAnalysis: OverturningResistance = Mstab/γR + M(ηp Pp/γR,e)), an extension of the library agent awaiting
+    /// the decision of the user. This flag follows the library and is the only switch of ANTHEA: it writes every text on the passive in the
+    /// overturning (method, help, audit, report); RetainingWall.Checks (DualSoilChecks) verifies it against the library. To exclude the passive from
+    /// the overturning: change the library and set this flag to false.
+    /// </summary>
+    public const bool PassiveResistsOverturning = true;
+    /// <summary>The passive in front in the checks (MUR-2), as written by <see cref="PassiveResistsOverturning"/>.</summary>
+    public const string PassiveResistanceText = "Passiva Rankine a valle facoltativa, esclusa nel sisma, con frazione mobilitata ηp ≤ 0,5 (NTC 2018 §6.5.3.1.1): la resistenza di progetto ηp·Pp/γR,e (γR,e = 1,4 nelle SLU, Tab. 6.5.I; 1 negli altri stati) si somma alla resistenza allo scorrimento"
+        + (PassiveResistsOverturning ? " e, con il suo momento rispetto al piede, a quella al ribaltamento" : "; nel ribaltamento non è contata") + ", senza ridurre l’azione di progetto Ed.";
     public sealed record Family(string Id, string Name, bool Available);
     public static readonly Family[] Families = [new("cantilever", "Mensola in c.a.", true), new("gravity", "Gravità", true),
         new("semigravity", "Semigravità", false), new("gabions", "Gabbioni", false), new("counterforts", "Contrafforti", false),
@@ -131,6 +142,8 @@ public static partial class RetainingWall
     {
         public string? Member { get; init; }
         public double? Position { get; init; }
+        /// <summary>False when the check has no computed demand (E1-D4: crack width of a tensile zone without reinforcement): shown as «—».</summary>
+        [System.Text.Json.Serialization.JsonIgnore] public bool HasDemand { get; init; } = true;
         // Runtime provenance. Historical report/archive projections retain their existing shape.
         [System.Text.Json.Serialization.JsonIgnore] public EngineeringOutcome Outcome { get; init; } = EngineeringOutcome.NotEvaluated;
         [System.Text.Json.Serialization.JsonIgnore] public ExecutionStatus Execution { get; init; } = ExecutionStatus.NotExecuted;
@@ -161,6 +174,14 @@ public static partial class RetainingWall
         public Geotechnics.SeismicBearing? SeismicBearing { get; init; }
         public string? SeismicBearingError { get; init; }
         public List<CurvaturePoint> Curvatures { get; init; } = [];
+        /// <summary>MUR-1: false in the twin rows «b», where the variable uniform surcharges are absent from the heel and remain in the thrust.</summary>
+        public bool VariableSurchargeOnHeel { get; init; } = true;
+        /// <summary>MUR-2: γR,e of the passive in front of the combination.</summary>
+        public double PassiveFactor { get; init; } = 1;
+        /// <summary>MUR-2: demand of the sliding check, kN/m (driving thrust, horizontal actions, inertia; never reduced by the passive, unlike <see cref="Horizontal"/>).</summary>
+        public double SlidingDemand { get; init; }
+        /// <summary>MUR-2: demand of the overturning check, kNm/m (driving moment; never reduced by the passive, unlike <see cref="Overturning"/>).</summary>
+        public double OverturningDemand { get; init; }
     }
     public sealed record Result(JsonObject Input, double Width, double Area, double Volume, double SteelKg, List<LoadCase> Cases, List<Check> Checks, List<Check> Structural, List<string> Notes)
     {

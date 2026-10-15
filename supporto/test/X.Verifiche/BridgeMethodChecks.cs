@@ -193,6 +193,25 @@ internal static class BridgeMethodChecks
         { var q = BridgeSection.ResponseDefaults(); q[key] = 1.5; Reject(() => BridgeSection.CalculateResponse(Data(2), q), key); }
         var zero = BridgeSection.ResponseDefaults(); zero["incremento_k"] = 0;
         Reject(() => BridgeSection.CalculateResponse(Data(2), zero), "curva senza incremento");
+        // PON-2 (analisi dei bug del 15/10/2026): «CLS teso (non lineare)». Fase composta con M = −1000 kNm, N = 0: soletta interamente tesa con
+        // ε ≤ 2,6e-5 < εcr = fctm/Ecm = 3,20996/34077,1 = 9,42e-5. Tension stiffening: ramo elastico, sezione non fessurata con n = Ea/Ecm e barre
+        // Es/Ea e CLS netto delle barre, κ = M/(Ea I*) = −5,246459e-8 1/mm; Trascurato (predefinito, anche senza la chiave nei fogli storici): acciaio e barre,
+        // κ = −1,100025e-7 1/mm (scratchpad agent-anthea-geo/pon2_ref.py: Ecm = 22000 (fcm/10)^0,3, fctm = 0,30 fck^(2/3), rettangoli esatti).
+        foreach (var (mode, expected) in new[] { ("", -1.100025e-7), ("Trascurato", -1.100025e-7), ("Tension stiffening", -5.246459e-8) })
+        {
+            caseId = "PON2-" + (mode == "" ? "storico" : mode);
+            var d = Data(2); if (mode != "") d["cls_teso_nl"] = mode;
+            d["fasi"] = new JsonArray(BridgeSection.Phase("Q", "Composta", 0, -1000));
+            var stage = BridgeSection.Calculate(d).Stages.Single(); var history = stage.GetHistory()!;
+            Near(history.State.TotalPlane.Curvature, expected, Math.Abs(expected) * 1e-5, "PON-2: curvatura con CLS teso " + (mode == "" ? "assente (Trascurato)" : mode));
+            Equilibrium(history.State);
+            Check(BridgeSection.HistoryOptions(d).ConcreteTension == (mode == "Tension stiffening" ? HistoryConcreteTension.TensionStiffening : HistoryConcreteTension.Neglected), "PON-2: opzione passata alla libreria");
+        }
+        var unknownTension = Data(2); unknownTension["cls_teso_nl"] = "Resistente";
+        Reject(() => BridgeSection.Calculate(unknownTension), "PON-2: CLS teso sconosciuto");
+        var linearTension = Data(1); linearTension["cls_teso_nl"] = "Tension stiffening"; linearTension["fasi"] = new JsonArray(BridgeSection.Phase("Q", "Composta", 0, -1000));
+        var linearHistory = BridgeSection.Calculate(linearTension).Stages.Single().GetHistory()!;
+        Check(!linearHistory.Nonlinear, "PON-2: lo storico lineare non usa l'opzione");
         using var cancellation = new CancellationTokenSource(); cancellation.Cancel();
         foreach (int method in new[] { 0, 1, 2 })
         {

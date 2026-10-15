@@ -16,10 +16,12 @@ public static partial class RetainingWall
         "delta_base_d_gradi" => ("Attrito base δb,d", "°", "Automatico da φcv o assegnato, con γMφ"),
         "mu_base" => ("Coefficiente attrito base μd", "−", "tan δb,d"),
         "delta_piano_equilibrio_gradi" => ("Attrito piano di equilibrio", "°", "Piano virtuale con mensola: 0; senza mensola: δ muro"),
-        "passiva_disponibile_kN_m" => ("Passiva disponibile", "kN/m", "Integrale ηp Kp σ′v, Kp=1/Ka"),
-        "passiva_usata_kN_m" => ("Passiva utilizzata", "kN/m", "Limitata alla spinta motrice; sisma: 0"),
-        "passiva_frazione" => ("Frazione passiva ηp", "−", "Input 0–1; sisma: 0"),
-        "passiva_limite_equilibrio" => ("Riduzione passiva per equilibrio", "−", "min(1, spinta motrice / passiva disponibile)"),
+        "passiva_disponibile_kN_m" => ("Passiva mobilitata ηp·Pp", "kN/m", "Integrale ηp Kp σ′v, Kp=1/Ka, senza γR,e"),
+        "passiva_fattore" => ("γR,e della passiva", "−", "NTC 2018 Tab. 6.5.I: 1,4 nelle SLU, 1 negli altri stati; matrice personalizzata: valore della riga"),
+        "passiva_progetto_kN_m" => ("Passiva di progetto ηp·Pp/γR,e", "kN/m", PassiveResistsOverturning ? "Resistenza sommata a scorrimento e ribaltamento (momento rispetto al piede)" : "Resistenza sommata allo scorrimento"),
+        "passiva_usata_kN_m" => ("Passiva usata nell’equilibrio", "kN/m", "Passiva di progetto limitata alla spinta motrice; sisma: 0"),
+        "passiva_frazione" => ("Frazione passiva ηp", "−", "Input 0–0,5 (NTC 2018 §6.5.3.1.1); sisma: 0"),
+        "passiva_limite_equilibrio" => ("Riduzione passiva per equilibrio", "−", "min(1, spinta motrice / passiva di progetto)"),
         "Nq" => ("Fattore di portanza Nq", "−", "exp(π tanφd) tan²(45°+φd/2)"),
         "Ngamma" => ("Fattore di portanza Nγ", "−", "2(Nq−1)tanφd"),
         "iq" => ("Inclinazione iq", "−", "max(0,1−|H|/V′)²"),
@@ -27,7 +29,12 @@ public static partial class RetainingWall
         "base_ruvida" => ("Campo portanza base ruvida", "sì/no", "δb,d≥φd/2"),
         _ => (key, "−", "Valore derivato")
     };
-    public const string SoilHelp = "Due colonne con profondità dalla rispettiva superficie. Hlib è misurata dalla sommità al terreno di valle; Dv=H+t−Hlib dal piano di posa. Collegare le colonne copia spessori e materiali, non le quote assolute. Peso del terreno sopra la mensola e ricoprimento efficace nella portanza sempre inclusi. Passiva Rankine attivabile con frazione mobilitata 0–1; esclusa nei casi sismici. Il terreno di posa resta un input distinto.";
+    public const string SoilHelp = "Due colonne con profondità dalla rispettiva superficie. Hlib è misurata dalla sommità al terreno di valle; Dv=H+t−Hlib dal piano di posa. Collegare le colonne copia spessori e materiali, non le quote assolute. Peso del terreno sopra la mensola e ricoprimento efficace nella portanza sempre inclusi. Passiva Rankine attivabile con frazione mobilitata ηp fra 0 e 0,5 (NTC 2018 §6.5.3.1.1: al più il 50% della resistenza passiva, se giustificato); resistenza di progetto ηp·Pp/γR,e, esclusa nei casi sismici. Il terreno di posa resta un input distinto.";
+    /// <summary>Help of the field «Frazione mobilitata» (MUR-2).</summary>
+    public const string MobilizationHelp = "Frazione ηp della resistenza passiva Rankine a valle usata nel calcolo, fra 0 e 0,5: NTC 2018 §6.5.3.1.1 ammette al più il 50% della resistenza passiva, se giustificato da spostamenti compatibili con la sua mobilitazione e dalla permanenza del terreno a valle. "
+        + "Nelle SLU la resistenza di progetto è ηp·Pp/γR,e con γR,e = 1,4 (Tab. 6.5.I); è esclusa nel sisma. I documenti con ηp > 0,5 e la passiva attiva non vengono calcolati.";
+    /// <summary>NTC 2018 §6.5.3.1.1: at most 50% of the passive resistance (the limit of GPCChecker.Geotechnics WallValley).</summary>
+    public const double MaximumPassiveMobilization = .5;
     public const string FrictionHelp = "Automatico: δd=k·atan(tanφcv,k/γMφ), k=1 gettato in opera, 2/3 prefabbricato, 0 liscio. φcv è l’angolo a volume costante, da caratterizzare; non è automaticamente l’angolo di picco. Assegnato: tanδd=tanδk/γMφ. Sul fusto Coulomb/Mononobe–Okabe con attrito; per l’equilibrio con mensola a monte la spinta è sul piano virtuale a tergo della mensola, δ=0. Wood non mobilita δ. Nessun doppio conteggio dell’attrito interno al blocco muro–terreno.";
     public static void CompleteSoilInput(JsonObject d)
     {
@@ -52,6 +59,9 @@ public static partial class RetainingWall
         double ht = d["geometry"].D("height") + d["geometry"].D("slab");
         if (v.S("height_mode") == "Assegnato" && (J.Number(v["free_height"]) is not double free || !double.IsFinite(free) || free < 0 || free > ht)) throw new ArgumentException("Altezza libera: 0≤Hlib≤H+t.");
         if (J.Number(v["mobilization"]) is not double eta || !double.IsFinite(eta) || eta < 0 || eta > 1) throw new ArgumentException("Frazione di passiva mobilitata: 0–1.");
+        // MUR-2: the library rejects ηp > 0.5 with the passive; documents saved before 16/10/2026 with a larger fraction get the reason and the remedy.
+        if (v.B("passive") && eta > MaximumPassiveMobilization)
+            throw new ArgumentException($"Resistenza passiva a valle: frazione mobilitata ηp = {eta.ToString("0.###", System.Globalization.CultureInfo.GetCultureInfo("it-IT"))} oltre il massimo 0,5. NTC 2018 §6.5.3.1.1 ammette al più il 50% della resistenza passiva, se giustificato (spostamenti compatibili con la sua mobilitazione e permanenza del terreno a valle). Ridurre ηp nella scheda Terreni o disattivare la passiva: dal 16/10/2026 un documento con ηp > 0,5 non viene calcolato.");
         var layers = ValleyLayers(d);
         if (layers.Count is < 1 or > 50 || layers.Any(l => l is not JsonObject)) throw new ArgumentException("Valle: inserire 1–50 strati.");
         foreach (var l in layers)
