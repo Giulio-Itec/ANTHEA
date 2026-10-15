@@ -41,6 +41,9 @@ if (args.Length == 4 && args[0] == "--f4-wall-port") return F4WallPortChecks.Run
 // 4. Attesi indipendenti (reference.json, benchmark e forme chiuse di taglio e torsione) sul percorso dell'adattatore, con entrambi i motori.
 // 11. Durabilità e copriferri (refactoring F2.9): Durability.cs.
 // 12. Punto resistente SLU (revisione di architettura R2, registro F2-17): Resistance.cs. '--solo-slu' esegue solo la 12, senza misura.json.
+// 13. Attesi indipendenti degli esempi delle pagine dei metodi di Checker (ca.ancoraggi, ca.dettagli e ca.momento-curvatura §10, casi AN/SO
+//    del 25/9) sul percorso di produzione (refactoring F2.8, decisione E3 del 15/10/2026): MethodPages.cs, attesi in attesi/pagine-metodi.json
+//    scritti da attesi/pagine_metodi.py. Contata a parte, come la 5l; eseguita anche con --rapido.
 // 5l (F2.7, commit A2; LegacyServiceability da A3; adattatore SLE e sonda da A4): stato statico di Ntc2018Checks, ConcreteLibraryMapping,
 //    ConcreteShearTorsionAdapter, LegacyServiceability, ConcreteServiceabilityAdapter e ServiceabilityProbe per riflessione (StaticState.cs), con le eccezioni
 //    dichiarate (solo l'AsyncLocal diagnostico della sonda dopo A11). Contata a parte; in misura.json da A4.
@@ -50,7 +53,7 @@ if (args.Length == 4 && args[0] == "--f4-wall-port") return F4WallPortChecks.Run
 //    motori; da A4 anche 5l e 7a entrano in misura.json, ciascuna con i propri conteggi.
 //   dotnet ConcreteLibraryAdapter.Checks.dll [cartella] [--solo-sle] [--prove 5a,5d,…] [--rapido]   (--solo-sle salta le griglie di taglio e
 //   torsione e non scrive misura.json; --prove limita le prove SLE, per le prove negative; --rapido, stadio fast del runner, esegue le sezioni
-//   1-4 e controlla gli interruttori della durabilità e delle SLE, senza le griglie 11 e SLE e senza misura.json: la corsa completa è nello
+//   1-4 e 13 e controlla gli interruttori della durabilità e delle SLE, senza le griglie 11 e SLE e senza misura.json: la corsa completa è nello
 //   stadio regression, scelta dell'utente del 9/10)
 // Uscita 0 con la riga "PASS · …"; 1 con il primo controllo fallito.
 const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Library; // F2.5 e cattura di B3: legacy; F2.6: libreria
@@ -78,6 +81,9 @@ void StaticCheck(bool ok, string message) { if (!ok) throw new Exception(message
 // Prova 7a contata a parte, come la 5l.
 int thinCastingChecks = 0;
 void ThinCastingCheck(bool ok, string message) { if (!ok) throw new Exception(message); thinCastingChecks++; }
+// Prova 13 (pagine dei metodi) contata a parte, come la 5l.
+int pageChecks = 0;
+void PageCheck(bool ok, string message) { if (!ok) throw new Exception(message); pageChecks++; }
 var italian = CultureInfo.GetCultureInfo("it-IT");
 CultureInfo.CurrentCulture = italian; // cultura dell'applicazione: i messaggi con numeri formattati devono coincidere anche qui
 var shearStats = new Stats("taglio"); var torsionStats = new Stats("torsione"); var geometryStats = new Stats("profilo resistente"); var moduleStats = new Stats("modulo");
@@ -572,6 +578,9 @@ try
     }
     Check(independent > 200, "attesi indipendenti: " + independent);
 
+    // ---------------------------------------------------------------- 13. attesi delle pagine dei metodi (F2.8, E3): MethodPages.cs
+    MethodPageChecks.Run(root, PageCheck);
+
     if (quick)
     {
         // Interruttore SLE già controllato nella sezione 2; qui il selettore della durabilità (11b nella corsa completa): dalla decisione D3
@@ -579,7 +588,7 @@ try
         DurabilityChecks.EngineSwitch("motore della durabilità", Check);
         ResistanceChecks.CheckEngine(Check);
         Console.WriteLine($"PASS · {count} controlli (rapido: sezioni 1-4 e interruttori della durabilità, delle SLE e dello SLU; griglie 11, 12 e SLE nello stadio regression), "
-            + $"{staticChecks} della 5l e {thinCastingChecks} della 7a.");
+            + $"{staticChecks} della 5l, {thinCastingChecks} della 7a e {pageChecks} della 13 (pagine dei metodi).");
         return 0;
     }
 
@@ -607,6 +616,7 @@ try
             + $"campione con {sample.Length} violazioni riconosciute; eccezioni dichiarate: {string.Join(", ", declaredStatic.Keys)}")
         .Append($"getti sottili (7a): {thinCastingChecks} controlli superati; griglia di {thinCasting.Cases} casi ({thinCasting.Reduced} con riduzione) e {thinCasting.Rejections} rifiuti "
             + $"uguali all'espressione legacy; {thinCasting.Readers} letture di 'gettato_sottile' con il fattore della mappatura")
+        .Append($"pagine dei metodi (13): {pageChecks} controlli superati (ca.ancoraggi, ca.dettagli, ca.momento-curvatura §10; casi AN/SO del 25/9)")
         .Concat(sle.Lines.Select(l => "SLE · " + l)).ToArray();
     foreach (var line in lines) Console.WriteLine(line);
     if (output is not null && !partial)
@@ -627,12 +637,13 @@ try
         // di taglio e torsione.
         report["stato_statico_5l"] = new JsonObject { ["controlli"] = staticChecks, ["membri_statici"] = staticMembers, ["eccezioni_dichiarate"] = new JsonArray(declaredStatic.Keys.Select(k => (JsonNode)k).ToArray()) };
         report["getti_sottili_7a"] = new JsonObject { ["controlli"] = thinCastingChecks, ["casi"] = thinCasting.Cases, ["con_riduzione"] = thinCasting.Reduced, ["rifiuti"] = thinCasting.Rejections };
+        report["pagine_metodi_13"] = new JsonObject { ["controlli"] = pageChecks, ["attesi"] = "tests/ConcreteLibraryAdapter.Checks/attesi/pagine-metodi.json" };
         sle.Report["motore_predefinito"] = ServiceabilityEngines.Default.ToString();
         report["sle"] = sle.Report;
         File.WriteAllText(Path.Combine(output, "misura.json"), report.ToJsonString(J.Options), new UTF8Encoding(false));
     }
     Console.WriteLine($"PASS · {count} controlli dell'adattatore di taglio e torsione (motore predefinito {ExpectedDefault}), {sle.Checks} della parte SLE "
-        + $"(motore predefinito {ServiceabilityEngines.Default}, prove con entrambi i motori), {staticChecks} della 5l e {thinCastingChecks} della 7a.");
+        + $"(motore predefinito {ServiceabilityEngines.Default}, prove con entrambi i motori), {staticChecks} della 5l, {thinCastingChecks} della 7a e {pageChecks} della 13.");
     return 0;
 }
 catch (Exception ex) { Console.Error.WriteLine("FAIL: " + ex.Message); Console.Error.WriteLine(ex); return 1; }

@@ -22,6 +22,9 @@ python -I tools/attesi/sezione_ca.py --confronta supporto/test/casi_confronto.js
 python -I tools/attesi/sezione_ca.py --scrivi supporto/test/casi_confronto.json --provenienza "<testo>"
 ```
 
+Il runner (`build/ci.ps1`, stadio fast) esegue `--valida` e `--confronta` su `supporto/test/casi_confronto.json`:
+suite `attesi/sezione_ca-valida` e `attesi/sezione_ca-confronta` (decisione E6 del 15/10/2026, F2.12).
+
 `--scrivi` sostituisce solo gli attesi dei casi di sezione che hanno `fonte_atteso` e rifiuta il file se la sua
 riscrittura non è identica byte per byte all'originale. Tolleranza dei confronti: la stessa di `supporto/test/X.Verifiche`,
 cioè |Δ| ≤ 1e-8 + 1e-10·|atteso|, con testi uguali. Registro: TEST-02.
