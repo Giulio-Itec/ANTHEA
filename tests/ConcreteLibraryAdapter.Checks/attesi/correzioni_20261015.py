@@ -90,3 +90,37 @@ a16 = math.pi * 16 ** 2 / 4
 bars = [(244.0, a16)] * 4 + [(-244.0, a16)] * 3
 m = mrd_rect(bars, compressed_top=False)   # 4Ø16 tesi in alto, 3Ø16 compressi in basso
 print(f"ARM-2 sup. 4Ø16 / inf. 3Ø16, lembo superiore teso: MRd = {m:.6f} kNm, η(150) = {150 / m:.6f}")
+
+# ---------------------------------------------------------------- SLU-3 (supporto/test/X.Verifiche, --ca-module)
+# NTC 2018 §4.1.2.1.2: parabola-rettangolo (εc2 = 2 ‰, εcu = 3,5 ‰, fcd = 0,85 · 35/1,5), acciaio elastico-perfettamente plastico
+# (fyd = 450/1,15, εud = 0,9 · 7,5 %), N = 0, sezione netta. Cerchio D 1600 come poligono inscritto di 32 lati, 16Ø24 sul raggio
+# R − 70 − 10 − 12 (copriferro 70, staffe Ø10). Rottura per εcu al lembo o εud nella barra più tesa.
+def circle_mrd(D, sides=32, cover=70, stir=10, nb=16, phi=24, ntop=40000):
+    R = D / 2; eud = 0.9 * 0.075
+    verts = [(R * math.cos(2 * math.pi * i / sides), R * math.sin(2 * math.pi * i / sides)) for i in range(sides)]
+    rb = R - cover - stir - phi / 2
+    bars = [(rb * math.sin(2 * math.pi * i / nb), math.pi * phi ** 2 / 4) for i in range(nb)]
+    def width(y):
+        xs = []
+        for i in range(sides):
+            (x1, y1), (x2, y2) = verts[i], verts[(i + 1) % sides]
+            if (y1 - y) * (y2 - y) < 0: xs.append(x1 + (y - y1) / (y2 - y1) * (x2 - x1))
+        xs.sort(); return sum(xs[k + 1] - xs[k] for k in range(0, len(xs) - 1, 2))
+    sc = lambda e: 0.0 if e <= 0 else (fcd * (1 - (1 - e / 0.002) ** 2) if e < 0.002 else fcd)
+    def forces(x, n):
+        k = min(0.0035 / x, eud / (R - x + rb) if R - x + rb > 0 else float("inf"))
+        eps = lambda y: k * (y - (R - x)); N = M = 0.0; h = x / n
+        for i in range(n):
+            y = R - x + (i + 0.5) * h; f = sc(eps(y)) * width(y) * h; N += f; M += f * y
+        for y, a in bars:
+            e = eps(y); f = (max(-fyd, min(fyd, 200000.0 * e)) - sc(e)) * a; N += f; M += f * y
+        return N, M, k
+    lo, hi = 1.0, 0.999 * D
+    for _ in range(80):
+        mid = (lo + hi) / 2
+        if forces(mid, 4000)[0] > 0: hi = mid
+        else: lo = mid
+    N, M, k = forces((lo + hi) / 2, ntop)
+    return M / 1e6, k * 1000
+m, chi = circle_mrd(1600)
+print(f"SLU-3 D 1600, 16Ø24, N = 0: MRd = {m:.3f} kNm, χu = {chi:.6f} 1/m")

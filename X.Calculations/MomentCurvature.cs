@@ -2,7 +2,11 @@ using NativeCurve = GPC.Checkers.Concrete.Response;
 
 namespace Anthea.Calculations;
 
-public sealed record MomentCurvatureRequest(double AxialKn, double DirectionDegrees, int Steps, double EndFraction = 1, bool QuadraticSampling = true, double AxialToleranceKn = 1, int YieldRefinementSteps = 12);
+public sealed record MomentCurvatureRequest(double AxialKn, double DirectionDegrees, int Steps, double EndFraction = 1, bool QuadraticSampling = true, double AxialToleranceKn = 1, int YieldRefinementSteps = 12)
+{
+    /// <summary>Tolleranza assegnata dall'utente quando AxialToleranceKn è quella effettiva, cioè il massimo con la regola della libreria (SLU-3).</summary>
+    public double? AssignedAxialToleranceKn { get; init; }
+}
 public sealed record MomentCurvaturePoint(double Moment, double Mx, double My, double Curvature, double GradientX,
     double GradientY, double Epsilon0, double ConcreteCompressionStrain, double SteelStrain, bool Yielded, bool Limit);
 public sealed record MomentCurvatureResult(IReadOnlyList<MomentCurvaturePoint> Points, double LimitMoment, double? YieldCurvature,
@@ -65,7 +69,10 @@ public sealed class MomentCurvatureCalculator : IMomentCurvatureCalculator
         var points = r.Points.Select(v => new MomentCurvaturePoint(v.Moment,v.Mx,v.My,v.Curvature*1000,
             v.GradientX*1000,v.GradientY*1000,v.ReferenceStrain*1000,v.ConcreteCompressionStrain*1000,v.SteelStrain*1000,v.Yielded,v.Limit)).ToArray();
         return new(points,r.LimitMoment,r.YieldCurvature*1000,r.UltimateCurvature*1000,
-            status+$" N del punto limite = {r.LimitAxialForce:G9} kN; residuo = {r.AxialResidual:G6} kN (tolleranza assegnata {p.AxialToleranceKn:G6} kN). χ è il modulo del gradiente [1/m]; la direzione del momento è imposta, quella della curvatura può differire nelle sezioni asimmetriche. Nessun ramo post-picco.")
+            status+$" N del punto limite = {r.LimitAxialForce:G9} kN; residuo = {r.AxialResidual:G6} kN ({Tolerance(p)}). χ è il modulo del gradiente [1/m]; la direzione del momento è imposta, quella della curvatura può differire nelle sezioni asimmetriche. Nessun ramo post-picco.")
         { LimitAxialKn=r.LimitAxialForce, AxialResidualKn=r.AxialResidual };
     }
+    static string Tolerance(MomentCurvatureRequest p) => p.AssignedAxialToleranceKn is double assigned && assigned != p.AxialToleranceKn
+        ? $"tolleranza {p.AxialToleranceKn:G6} kN dalla regola della libreria per legame e dimensioni della sezione; assegnata {assigned:G6} kN"
+        : $"tolleranza assegnata {p.AxialToleranceKn:G6} kN";
 }

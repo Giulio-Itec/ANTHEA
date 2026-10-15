@@ -34,6 +34,7 @@ public static class CalculationHelp
         "pressione_iniezione" => "Pressione in MPa utilizzata nell’abaco Bustamante–Doix secondo la convenzione p_i = p_l adottata dal modulo. I valori fuori dall’intervallo documentato vengono rifiutati.",
         "inizio_aderenza" => "Distanza lungo l’asse del micropalo dall’origine al primo tratto aderente. Gli spessori degli strati sono invece verticali e vengono convertiti usando l’inclinazione.",
         "cover_mm" => "Copriferro netto dal bordo del calcestruzzo alla superficie esterna della staffa. Il confronto con Materiali usa anche il diametro effettivo delle barre della sezione.",
+        "tolleranza_n" => "Residuo massimo su N del punto limite della curva momento–curvatura, in kN. Il calcolo usa il maggiore fra questo valore e la regola della libreria, che cresce con le dimensioni della sezione e con lo stress block; lo stato della curva riporta la tolleranza effettiva.",
         "origine_momento" => "La scelta automatica usa la sezione e i materiali inseriti. Con momento manuale indicare valore e provenienza: la verifica geotecnica non lo ricava dalla geometria della sezione.",
         _ => null
     };
