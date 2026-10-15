@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using Anthea.Calculations;
 using Anthea.Testing.Normalization;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace Anthea.Testing.Capture;
 
@@ -198,7 +199,7 @@ public sealed partial class CaptureRunner
     static string Sha(string path) => Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)));
 
     // ------------------------------------------------------------------ archives
-    /// <summary>Round trip of every document of supporto/esempi: Archivio.Leggi, Archivio.Scrivi, Archivio.Leggi again.</summary>
+    /// <summary>Round trip of every document of supporto/esempi: DocumentService.Open, Save, Open again (Archivio.Leggi/Scrivi until the decision D3).</summary>
     void Archives()
     {
         string examples = Path.Combine(options.Root, "supporto", "esempi");
@@ -214,12 +215,12 @@ public sealed partial class CaptureRunner
             try
             {
                 var original = JsonNode.Parse(File.ReadAllText(file, Encoding.UTF8));
-                var document = Archivio.Leggi(file);
+                var document = DocumentService.Open(file);
                 string target = Path.Combine(raw, "archivi", name);
                 Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-                Archivio.Scrivi(target, (JsonObject)document.DeepClone());
+                DocumentService.Save(target, (JsonObject)document.DeepClone());
                 var stored = JsonNode.Parse(File.ReadAllText(target, Encoding.UTF8));
-                var reread = Archivio.Leggi(target);
+                var reread = DocumentService.Open(target);
                 var differences = new JsonArray(Differences(document, reread, "$").Take(50).Select(p => (JsonNode)p).ToArray());
                 node = new JsonObject
                 {

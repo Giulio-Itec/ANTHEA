@@ -3,6 +3,7 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using Anthea.Calculations;
 using X.Core;
+using Anthea.Application.Documents;
 
 static partial class Program
 {
@@ -32,8 +33,8 @@ static partial class Program
         string basename=cuttingExample?"palo-20m-tagli-12-18-20":"palo-12m-quattro-tratti";
         root["vista_orizzontale"]="elastico";
         var document=Archivio.Documento(PaloOrizzontale.Module);document["dati"]=root;document["nome"]=cuttingExample?"Esempio · palo 20 m con tagli 12 / 18 / 20":"Esempio · palo 12 m con quattro tratti di armatura";
-        string path=Path.Combine(folder,basename+".programma");Archivio.Scrivi(path,document);
-        var reopened=Archivio.Leggi(path)["dati"]!.AsObject();Check(JsonNode.DeepEquals(root,reopened),"example archive opens without changing its settings");
+        string path=Path.Combine(folder,basename+".programma");DocumentService.Save(path,document);
+        var reopened=DocumentService.Open(path)["dati"]!.AsObject();Check(JsonNode.DeepEquals(root,reopened),"example archive opens without changing its settings");
         var result=ElasticHorizontalPile.CalculateShared(reopened);var broms=PaloOrizzontale.Calculate(reopened);
         Check(result["armature"]!.Array("distinta").Count==(cuttingExample?3:4)&&result["armature"]!.Array("tratti").Count==(cuttingExample?3:4),"example preserves every user-defined cutting group");
         if(cuttingExample)

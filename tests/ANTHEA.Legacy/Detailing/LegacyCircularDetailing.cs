@@ -1,3 +1,5 @@
+// Spostato da X.Calculations/LegacyCircularDetailing.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: codice morto (D1), senza
+// chiamanti dalla 1.3.0 (API-02b). Codice storico conservato per le prove, fuori dall'installer.
 namespace Anthea.Calculations;
 
 // Retained from 76e7916 only for circular sections: native spacing splits rings

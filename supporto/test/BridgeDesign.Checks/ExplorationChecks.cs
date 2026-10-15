@@ -1,5 +1,6 @@
 using Anthea.Calculations;
 using System.Text.Json.Nodes;
+using NativeBridge = GPC.Design.Bridges.BridgeConcept;
 
 internal static class ExplorationChecks
 {
@@ -10,12 +11,12 @@ internal static class ExplorationChecks
         int count = 0;
         void Check(bool pass, string message) { count++; if (!pass) throw new Exception(message); }
         void Invalid(Action run) { try { run(); throw new Exception("Griglia invalida accettata"); } catch (ArgumentException) { count++; } }
-        Check(BridgeConcept.OptimizationRange(100, 115, 10).SequenceEqual(new[] { 1d, 1.1, 1.15 }), "Endpoint griglia perso");
-        Check(BridgeConcept.OptimizationRange(112.5, 112.5, 1).SequenceEqual(new[] { 1.125 }), "Intervallo puntuale errato");
-        Check(BridgeConcept.OptimizationRange(100, 200, 10).Length == 11, "Numero valori griglia errato");
-        Invalid(() => BridgeConcept.OptimizationRange(100, 200, 1));
-        Invalid(() => BridgeConcept.OptimizationRange(115, 100, 5)); Invalid(() => BridgeConcept.OptimizationRange(99, 150, 25));
-        Invalid(() => BridgeConcept.OptimizationRange(100, 150, 0)); Invalid(() => BridgeConcept.OptimizationRange(100, double.NaN, 5));
+        Check(NativeBridge.OptimizationRange(100, 115, 10).SequenceEqual(new[] { 1d, 1.1, 1.15 }), "Endpoint griglia perso");
+        Check(NativeBridge.OptimizationRange(112.5, 112.5, 1).SequenceEqual(new[] { 1.125 }), "Intervallo puntuale errato");
+        Check(NativeBridge.OptimizationRange(100, 200, 10).Length == 11, "Numero valori griglia errato");
+        Invalid(() => NativeBridge.OptimizationRange(100, 200, 1));
+        Invalid(() => NativeBridge.OptimizationRange(115, 100, 5)); Invalid(() => NativeBridge.OptimizationRange(99, 150, 25));
+        Invalid(() => NativeBridge.OptimizationRange(100, 150, 0)); Invalid(() => NativeBridge.OptimizationRange(100, double.NaN, 5));
         var data = BridgeConcept.Defaults(); var input = data["input"]!;
         input["length"] = 120; input["spans"] = 3; input["height"] = 12; input["soil"] = "Roccia"; input["obstacle"] = "Nessuno";
         string before = data.ToJsonString();

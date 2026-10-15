@@ -10,7 +10,7 @@ internal static class SectionExchangeChecks
         int count = 0;
         void Assert(bool ok, string label) { if (!ok) throw new Exception("Excel azioni: " + label); count++; }
         void Reject(byte[] data, string label) { try { SectionActionsExcel.Read(data); } catch (ArgumentException) { count++; return; } throw new Exception("Excel accettato: " + label); }
-        byte[] template = SectionActionsExcel.Template(legacy: true);
+        byte[] template = LegacySectionActionsExcel.Template();
         Assert(SectionActionsExcel.Read(template).Rows.Count == 0, "Template senza azioni inventate");
         XNamespace ns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
         byte[] FileFor(string[][] rows, Action<XDocument>? change = null)
@@ -43,7 +43,7 @@ internal static class SectionExchangeChecks
         Reject(FileFor([["SLU", "A", "0", "0", "0", "5", "0"]]), "Taglio non ignorato");
         var shearMoment = SectionActionsExcel.Read(FileFor([["Taglio", "A", "0", "5", "-7", "20", "30"]]));
         Assert(shearMoment.Rows[0].Mx == 5 && shearMoment.Rows[0].My == -7, "Momenti associati al taglio conservati");
-        Assert(SectionActionsExcel.Read(SectionActionsExcel.Write(shearMoment.Rows)).Rows.SequenceEqual(shearMoment.Rows), "Round trip Excel dei momenti per MC2010");
+        Assert(SectionActionsExcel.Read(LegacySectionActionsExcel.Write(shearMoment.Rows)).Rows.SequenceEqual(shearMoment.Rows), "Round trip Excel dei momenti per MC2010");
         Reject(FileFor([["SLU", "A", "0", "0", "0", "", "", "Extra"]]), "Colonna extra");
         Reject(FileFor([["SLU", "A", "0", "0", "0"]], d => d.Descendants(ns + "c").First(c => (string?)c.Attribute("r") == "C6").ReplaceWith(new XElement(ns + "c", new XAttribute("r", "C6"), new XAttribute("t", "inlineStr"), new XElement(ns + "is", new XElement(ns + "t", "N [N]"))))), "Unità diverse");
         void Formula(XDocument d, bool cache)

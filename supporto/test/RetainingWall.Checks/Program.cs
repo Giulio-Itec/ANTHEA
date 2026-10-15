@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using X.Core;
+using Anthea.Application.Documents;
 
 if (args is ["--bar-schedule", var scheduleDirectory])
 {
@@ -77,8 +78,8 @@ try
     var invalid = RetainingWall.LegacyDefaults(); invalid["extensions"]!["anchors"] = new JsonArray(); Reject(invalid, "Componenti futuri non ignorati");
     invalid = RetainingWall.LegacyDefaults(); invalid["geometry"]!["height"] = ""; Reject(invalid, "Input vuoto non sostituito da zero");
     invalid = RetainingWall.LegacyDefaults(); invalid["layers"]![0]!["thickness"] = 1; Reject(invalid, "Stratigrafia insufficiente");
-    var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = data.DeepClone(); string archive = Path.Combine(directory, "mensola.anthea"); Archivio.Scrivi(archive, doc);
-    Check(J.Equivalent(Archivio.Leggi(archive)["dati"], data), "Archivio ANTHEA round trip");
+    var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = data.DeepClone(); string archive = Path.Combine(directory, "mensola.anthea"); DocumentService.Save(archive, doc);
+    Check(J.Equivalent(DocumentService.Open(archive)["dati"], data), "Archivio ANTHEA round trip");
     var incomplete = Archivio.Documento(RetainingWall.Module); incomplete["dati"]!["geometry"]!["height"] = "";
     Archivio.Valida(incomplete); Check(true, "Calcolo incompleto archiviabile");
     var service = CalculationService.Calculate(RetainingWall.Module, data);

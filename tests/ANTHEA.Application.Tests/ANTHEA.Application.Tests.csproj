@@ -1,4 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
   <ItemGroup><ProjectReference Include="../../src/ANTHEA.Application/ANTHEA.Application.csproj" /><ProjectReference Include="../ANTHEA.Legacy/ANTHEA.Legacy.csproj" /></ItemGroup>
+  <!-- Formato Excel storico delle azioni, solo per le prove della lettura (decisione D3 del 15/10/2026). -->
+  <ItemGroup><Compile Include="../Shared/LegacySectionActionsExcel.cs" Link="Shared/LegacySectionActionsExcel.cs" /><EmbeddedResource Include="../Shared/ANTHEA_Sollecitazioni_legacy.xlsx" LogicalName="ANTHEA.Sollecitazioni.Legacy.xlsx" Link="Shared/ANTHEA_Sollecitazioni_legacy.xlsx" /></ItemGroup>
 </Project>

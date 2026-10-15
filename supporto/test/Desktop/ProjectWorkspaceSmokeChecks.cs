@@ -3,6 +3,7 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -90,10 +91,10 @@ public sealed partial class MainWindow
         var entry = pile.Array("revisioni")[0]!.AsObject(); var snapshot = ProjectRevisions.Snapshot(document, entry);
         Check(ProjectSharedData.SubtreeSheets(snapshot).All(s => s["dati"]!["input"].D("fyk_mpa") == 450), "Revisione modificata da dati correnti");
         Check(ProjectRevisions.Changes(document, pile).Any(c => c.Contains("420")), "Riepilogo variazioni mancante");
-        string filename = Path.Combine(directory, "revisioni.programma"); Archivio.Scrivi(filename, document);
+        string filename = Path.Combine(directory, "revisioni.programma"); DocumentService.Save(filename, document);
         var packed = JsonNode.Parse(File.ReadAllText(filename))!.AsObject();
         Check(packed.D("versione") == 2 && ProjectSharedData.SubtreeSheets(packed.Array("progetti")[0]!.AsObject()).All(s => s["dati"] is null && s["dati_ref"] is not null), "Salvataggio senza deduplicazione");
-        var loaded = Archivio.Leggi(filename); var loadedPile = ProjectRevisions.Find(loaded, pileId)!;
+        var loaded = DocumentService.Open(filename); var loadedPile = ProjectRevisions.Find(loaded, pileId)!;
         Check(loadedPile.Array("revisioni").Count == 2 && ProjectRevisions.Find(loaded, sheetId)!["dati"]!["input"].D("fyk_mpa") == 420, "Riapertura revisioni fallita");
         var broken = (JsonObject)packed.DeepClone(); broken["archivio_revisioni"] = new JsonObject();
         bool rejected = false; try { ProjectRevisions.Unpack(broken); } catch (ArgumentException) { rejected = true; }

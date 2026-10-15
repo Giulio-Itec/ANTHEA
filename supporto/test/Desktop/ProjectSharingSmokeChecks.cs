@@ -3,6 +3,7 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -17,7 +18,7 @@ public sealed partial class MainWindow
         JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
         if (Environment.GetEnvironmentVariable("ANTHEA_SOIL_REGRESSION_FILE") is string regressionPath)
         {
-            var regression = Archivio.Leggi(regressionPath);
+            var regression = DocumentService.Open(regressionPath);
             var regressionSection = regression.Array("progetti")[0]!["strutture"]![0]!.AsObject();
             var geo = regressionSection.Array("fogli").OfType<JsonObject>().Where(ProjectSharedData.SupportsSharedSoils).ToArray();
             if (Environment.GetEnvironmentVariable("ANTHEA_SOIL_EXPECT_CONFLICT") is string expectedKey)
@@ -47,7 +48,7 @@ public sealed partial class MainWindow
             }
             else
             {
-            Check(geo.Length == 2 && ProjectSharedData.SameCommonSoilData(geo[0], geo[1]), "Test 1: stratigrafie comuni ancora differenti");
+            Check(geo.Length == 2 && ProjectSharedDataProbe.SameCommonSoilData(geo[0], geo[1]), "Test 1: stratigrafie comuni ancora differenti");
             Check(!ProjectSharedData.Limitations(regressionSection).Any(s => s.Contains("suddivisione degli strati")), "Test 1: falso avviso stratigrafico");
             Check(!ProjectSharedData.Differences(regressionSection).Any(d => d.Key.StartsWith("Strato · ") || d.Key == "profondita_falda"), "Test 1: conflitto stratigrafico inatteso");
             }
@@ -55,7 +56,7 @@ public sealed partial class MainWindow
         if (Environment.GetEnvironmentVariable("ANTHEA_SOIL_MISSING_FILE") is string missingPath)
         {
             editor?.Dispose(); editor = null; currentSheet = null;
-            document = Archivio.Leggi(missingPath);
+            document = DocumentService.Open(missingPath);
             var actualSection = document.Array("progetti")[0]!["strutture"]![0]!.AsObject();
             var actualSheets = actualSection.Array("fogli").OfType<JsonObject>().Where(ProjectSharedData.SupportsSharedSoils).ToArray();
             Check(ProjectSharedData.MissingSoilLayers(actualSection).Count > 0, "Test 3: strato mancante non rilevato");
@@ -83,8 +84,8 @@ public sealed partial class MainWindow
             }));
             ShowCoherence(actualSection);
             if (missingFailure is not null) throw missingFailure;
-            string savedPath = Path.Combine(directory, "test3-risolto.programma"); Archivio.Scrivi(savedPath, document);
-            var reopened = Archivio.Leggi(savedPath).Array("progetti")[0]!["strutture"]![0]!.AsObject();
+            string savedPath = Path.Combine(directory, "test3-risolto.programma"); DocumentService.Save(savedPath, document);
+            var reopened = DocumentService.Open(savedPath).Array("progetti")[0]!["strutture"]![0]!.AsObject();
             Check(ProjectSharedData.MissingSoilLayers(reopened).Count == 0, "Test 3: strato perso al salvataggio");
         }
         editor?.Dispose(); editor = null; currentSheet = null;
@@ -213,12 +214,12 @@ public sealed partial class MainWindow
         unlinkedH["dati"]!["generali"]!["profondita_falda"] = "0";
         Check(!ProjectSharedData.Differences(soilPair).Any(d => d.Key == "profondita_falda"), "Quota falda inattiva genera conflitto");
         unlinkedH["dati"]!["generali"]!["presenza_falda"] = true;
-        Check(!ProjectSharedData.SameCommonSoilData(unlinkedV, unlinkedH), "Gamma saturo ignorato con falda attiva");
+        Check(!ProjectSharedDataProbe.SameCommonSoilData(unlinkedV, unlinkedH), "Gamma saturo ignorato con falda attiva");
         unlinkedH["dati"]!["generali"]!["presenza_falda"] = false;
-        Check(ProjectSharedData.SameCommonSoilData(unlinkedV, unlinkedH), "Campi specifici generano un falso conflitto stratigrafico");
+        Check(ProjectSharedDataProbe.SameCommonSoilData(unlinkedV, unlinkedH), "Campi specifici generano un falso conflitto stratigrafico");
         Check(!ProjectSharedData.Limitations(soilPair).Any(s => s.Contains("strati")), "Dati comuni uguali segnalati solo per mancanza di collegamento");
         hLayer.Remove("angolo_attrito");
-        Check(!ProjectSharedData.SameCommonSoilData(unlinkedV, unlinkedH), "Parametro comune mancante confuso con parametro specifico");
+        Check(!ProjectSharedDataProbe.SameCommonSoilData(unlinkedV, unlinkedH), "Parametro comune mancante confuso con parametro specifico");
         hLayer["angolo_attrito"] = "30";
         // Compare and resolve every numbered layer, without shared IDs or a prior link.
         unlinkedV["dati"]!["stratigrafie"]![0]!.AsArray().Add(J.Obj(("spessore", "4"), ("tipologia", "Granulare"), ("angolo_attrito", "28"), ("nc", "12")));
@@ -287,8 +288,8 @@ public sealed partial class MainWindow
         }));
         ShowCoherence(section);
         Check(compared, "Finestra confronto non aperta");
-        string archive = Path.Combine(directory, "condivisione.programma"); Archivio.Scrivi(archive, document);
-        Check(JsonNode.DeepEquals(document, Archivio.Leggi(archive)), "Salvataggio condivisione non riuscito");
+        string archive = Path.Combine(directory, "condivisione.programma"); DocumentService.Save(archive, document);
+        Check(JsonNode.DeepEquals(document, DocumentService.Open(archive)), "Salvataggio condivisione non riuscito");
         File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK: scelta tutti/locale, nessuna richiesta ripetuta, CLS tra materiali e verifiche, mm/m in entrambe le direzioni, geometrie incompatibili, armatura e reset, carichi invariati, sezioni indipendenti, ereditarietà nuovi fogli, confronto e persistenza.");
     }
 }

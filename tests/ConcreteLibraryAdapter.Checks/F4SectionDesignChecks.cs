@@ -31,7 +31,8 @@ internal static class F4SectionDesignChecks
                 if(expected.S("status")!="ok"){errors.Add(id+": expected refusal");continue;}
                 var actual=JsonSerializer.SerializeToNode(result)!.AsObject();actual.Remove("Performance");
                 Compare(expected["value"],actual,id);candidates+=result.Candidates.Count;
-                var old=ConcreteReinforcementDesign.Optimize(input,options,legacy:true);
+                // Ricerca precedente spostata in ANTHEA.Legacy (decisione D3): stesse verifiche native, chiamata diretta.
+                var old=LegacyConcreteReinforcementDesign.Optimize(input,options);
                 var previous=JsonSerializer.SerializeToNode(old)!.AsObject();previous.Remove("Performance");
                 Compare(previous,actual,id+"/legacy-search");
                 if(old.Performance!.LongitudinalCalculations!=result.Performance!.LongitudinalCalculations||old.Performance.LongitudinalReuses!=result.Performance.LongitudinalReuses||old.Performance.ProbeSections!=result.Performance.ProbeSections)
@@ -39,12 +40,12 @@ internal static class F4SectionDesignChecks
                 foreach(var c in result.Candidates)
                 {
                     var section=new SezioneCA(c.Input);
-                    Compare(JsonSerializer.SerializeToNode(ConcreteReinforcementDesign.Metrics(section,c.Shear,c.Detailing,options,legacy:true)),JsonSerializer.SerializeToNode(c.Metrics),id+"/metrics-legacy/"+c.Id);
+                    Compare(JsonSerializer.SerializeToNode(LegacyConcreteReinforcementDesign.Metrics(section,c.Shear,c.Detailing,options)),JsonSerializer.SerializeToNode(c.Metrics),id+"/metrics-legacy/"+c.Id);
                 }
                 foreach(string objective in new[]{"Peso","Numero barre","Numero diametri","Compromesso"})
                 {
                     var choice=options with {Objective=objective};
-                    Compare(JsonSerializer.SerializeToNode(ConcreteReinforcementDesign.Rank(result.Candidates,choice,legacy:true)),
+                    Compare(JsonSerializer.SerializeToNode(LegacyConcreteReinforcementDesign.Rank(result.Candidates,choice)),
                         JsonSerializer.SerializeToNode(ConcreteReinforcementDesign.Rank(result.Candidates,choice)),id+"/rank/"+objective);
                 }
             }

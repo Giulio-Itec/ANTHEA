@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -36,8 +37,8 @@ public sealed partial class MainWindow
             if (editor.Result is null || editor.Result.S("errore") != "") throw new Exception(kind + ": calcolo non riuscito");
             var expected = kind == "sezione" ? null : Calcolo.Calcola(editor.Data, kind == "micropalo");
             if (kind != "sezione" && !JsonNode.DeepEquals(expected, editor.Result)) throw new Exception(kind + ": risultato WPF diverso dal Core");
-            await Capture(kind); Commit(); string file = Path.Combine(directory, kind + ".programma"); Archivio.Scrivi(file, document);
-            if (!JsonNode.DeepEquals(Archivio.Leggi(file), document)) throw new Exception("Round trip " + kind);
+            await Capture(kind); Commit(); string file = Path.Combine(directory, kind + ".programma"); DocumentService.Save(file, document);
+            if (!JsonNode.DeepEquals(DocumentService.Open(file), document)) throw new Exception("Round trip " + kind);
             editor.ExportResult(Path.Combine(directory, kind + ".json"));
             if (kind != "sezione") editor.ExportReport(Path.Combine(directory, kind + ".docx"), kind, ReportWord.Sezioni.Select(s => s.Key).ToHashSet());
             await editor.VerifyWpf(directory, kind); log.Add(kind + ": layout WPF, input, invalidazione, calcoli, archivi, export OK");
@@ -57,8 +58,8 @@ public sealed partial class MainWindow
         var projectNode = (TreeViewItem)tree.Items[0]; var structureNode = (TreeViewItem)projectNode.Items[0]; ((TreeViewItem)structureNode.Items[0]).IsSelected = true; ShowSheet(first);
         editor!.SetGeometryForSmoke("1100"); ShowProjects(); ((TreeViewItem)((TreeViewItem)((TreeViewItem)tree.Items[0]).Items[0]).Items[1]).IsSelected = true; Commit(); ShowSheet(second);
         if (first["dati"]?["input"].S("diameter_mm") != "1100" || currentSheet != second) throw new Exception("Cambio foglio non conserva i dati");
-        Commit(); string archive = Path.Combine(directory, "progetti.programma"); Archivio.Scrivi(archive, document);
-        if (!JsonNode.DeepEquals(Archivio.Leggi(archive), document)) throw new Exception("Round trip progetti WPF");
+        Commit(); string archive = Path.Combine(directory, "progetti.programma"); DocumentService.Save(archive, document);
+        if (!JsonNode.DeepEquals(DocumentService.Open(archive), document)) throw new Exception("Round trip progetti WPF");
         log.Add("Progetti: selezione, cambio foglio, conservazione input e salvataggio OK");
         File.WriteAllLines(Path.Combine(directory, "smoke.txt"), log); dirty = false;
     }

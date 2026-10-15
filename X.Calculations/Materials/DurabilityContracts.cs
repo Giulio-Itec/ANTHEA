@@ -1,7 +1,8 @@
 namespace Materiali;
 
 // Contratti della durabilità di ANTHEA (refactoring F2.9, passo E1): i record di Durability.cs e NtcCover.cs, invariati, in un file
-// proprio. Li usano le facciate (Durability, NtcCover, MinimumConcrete, AtecapMix), il nucleo legacy (DurabilityLegacy), l'adattatore
+// proprio. Li usano le facciate (Durability, NtcCover, MinimumConcrete, AtecapMix), il nucleo legacy (DurabilityLegacy, in
+// tests/ANTHEA.Legacy dalla decisione D3 del 15/10/2026), l'adattatore
 // verso GPCChecker.Concrete (Anthea.Calculations.ConcreteDurabilityAdapter), la scheda Materiali, i muri e i dettagli della sezione c.a.
 // Omonimi dei tipi CoverInput, CoverLine e CoverResult di GPC.Checkers.Concrete.Durability: i file che usano entrambi danno un alias
 // alla libreria.

@@ -39,8 +39,8 @@ try
             if (Directory.Exists(output) && Directory.EnumerateFileSystemEntries(output).Any()) { Console.Error.WriteLine("Cartella di uscita non vuota: " + output); return 2; }
             Directory.CreateDirectory(output);
             bool trace = !flags.Contains("no-trace");
-            // Before any calculation: JsonFallbackTrace reads the variable at its first use.
-            if (trace) Environment.SetEnvironmentVariable("ANTHEA_TRACE_FALLBACKS", Path.Combine(output, "raw", "fallbacks.tsv"));
+            // Prima di ogni calcolo: la traccia registra il suo osservatore nel prodotto (JsonFallbackHook, decisione D3).
+            if (trace) JsonFallbackTrace.Start(Path.Combine(output, "raw", "fallbacks.tsv"));
             Directory.CreateDirectory(Path.Combine(output, "raw"));
             var culture = CultureInfo.GetCultureInfo(named.GetValueOrDefault("culture", "it-IT"));
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = culture;

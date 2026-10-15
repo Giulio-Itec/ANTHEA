@@ -1,8 +1,11 @@
+// Spostato da X.Calculations/BridgeConcept.AdvancedCalculation.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: tipologie estese del motore
+// precedente (CalculateAdvanced), usate solo dalle prove. Codice storico conservato per le prove, fuori dall'installer.
 using System.Text.Json.Nodes;
+using static Anthea.Calculations.BridgeConcept;
 
 namespace Anthea.Calculations;
 
-public static partial class BridgeConcept
+public static partial class LegacyBridgeConcept
 {
     private static Result CalculateAdvanced(JsonObject data)
     {

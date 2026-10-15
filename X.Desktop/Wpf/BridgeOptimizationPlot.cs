@@ -8,7 +8,7 @@ using System.Windows.Media;
 namespace X.Desktop;
 
 /// <summary>View-only plots of the engine's actual trials; no calculation rules live here.</summary>
-internal sealed class BridgeOptimizationPlot : FrameworkElement
+internal sealed partial class BridgeOptimizationPlot : FrameworkElement
 {
     internal bool Scatter, ParetoOnly;
     internal int Variable, SelectedRank;
@@ -21,7 +21,6 @@ internal sealed class BridgeOptimizationPlot : FrameworkElement
     private static readonly Brush[] Palette = [Ui.Brush("#0B5CAD"), Ui.Brush("#168B94"), Ui.Brush("#8462AB"), Ui.Brush("#C26817"), Ui.Brush("#337E46"), Ui.Brush("#B44866"), Ui.Brush("#526680"), Ui.Brush("#98682D"), Ui.Brush("#557C19"), Ui.Brush("#0082C2"), Ui.Brush("#BF3737"), Ui.Brush("#5724A3"), Ui.Brush("#BD277A"), Ui.Brush("#1D5951")];
     private static readonly string[] FamilyLabels = ["Soletta", "Travi T", "Travi I c.a.p.", "Travi U", "Cassone c.a.p.", "Conci FCM", "Travi I acc.", "Cassone acc.", "Incorporate", "Ortotropa", "Arco", "Strallato", "Sospeso", "Reticolare"];
     internal static Brush FamilyBrush(string id) => Palette[Math.Max(0, Array.FindIndex(BridgeDesignModel.Families, f => f.Id == id)) % Palette.Length];
-    internal int PointCount => hits.Count;
     internal IReadOnlyList<(Point Point, BridgeDesignModel.OptimizationTrial Trial, int Rank)> Points => hits;
     internal void SetData(BridgeDesignModel.OptimizationTrial[] attempted, BridgeDesignModel.OptimizationSolution[] admitted, BridgeDesignModel.Result? reference)
     { trials = attempted; solutions = admitted; baseline = reference; SelectedRank = 0; InvalidateVisual(); }

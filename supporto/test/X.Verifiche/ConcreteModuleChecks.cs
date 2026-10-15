@@ -107,7 +107,7 @@ internal static class ConcreteModuleChecks
         Check(!zeroSteel.Passed&&zeroSteel.TorsionRatio is null&&J.Node(zeroSteel) is JsonObject,"Torsione senza As disponibile: fallisce ed è esportabile");
         Near(t.ConcreteCombinedRatio!.Value,10/t.TRcd+50/shear.VRcd,1e-12,"Interazione monoassiale NTC [4.1.40]");
         var rows=new[]{new SectionActionsExcel.Row("Taglio","Torsione",-100,null,null,20,30,-12.34567)};
-        Check(SectionActionsExcel.Read(SectionActionsExcel.Write(rows)).Rows.SequenceEqual(rows),"Torsione Excel round trip");
+        Check(SectionActionsExcel.Read(LegacySectionActionsExcel.Write(rows)).Rows.SequenceEqual(rows),"Torsione Excel round trip");
         Console.WriteLine($"Modulo CA ampliato: {count} controlli superati.");return count;
     }
 }

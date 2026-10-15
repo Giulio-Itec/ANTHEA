@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -75,8 +76,8 @@ internal sealed partial class HorizontalWorkspace
         }
         string path = Path.Combine(directory, "stratificato.programma");
         var doc = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", PaloOrizzontale.Module), ("dati", Data));
-        Archivio.Scrivi(path, doc);
-        var reopened = Archivio.Leggi(path)["dati"]!.AsObject();
+        DocumentService.Save(path, doc);
+        var reopened = DocumentService.Open(path)["dati"]!.AsObject();
         if (reopened["generali"].S("metodo_calcolo") != PaloOrizzontale.StratifiedMethod || PaloOrizzontale.Calculate(reopened).S("errore") != "")
             throw new Exception("Metodo stratificato non conservato nel salvataggio");
         Data["stratigrafie"] = backup; RebuildSurveys();

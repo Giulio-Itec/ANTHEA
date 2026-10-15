@@ -6,6 +6,7 @@ using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -116,8 +117,8 @@ public sealed partial class MainWindow
         ShowSheet(rc);
         Check(sharedStatus.Text.Contains("NON RISPETTATO"), "Materiale superiore ignorato");
         Commit();
-        var filename = Path.Combine(directory, "copriferro-minimo.programma"); Archivio.Scrivi(filename, document);
-        var reopened = Archivio.Leggi(filename);
+        var filename = Path.Combine(directory, "copriferro-minimo.programma"); DocumentService.Save(filename, document);
+        var reopened = DocumentService.Open(filename);
         Check(CoverChecks(reopened.Array("progetti")[0]!.AsObject()).Any(c => c.Passed == false), "Avviso perso alla riapertura");
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         File.WriteAllBytes(Path.Combine(directory, "copriferro-minimo-scheda.png"), Ui.Snapshot(this));

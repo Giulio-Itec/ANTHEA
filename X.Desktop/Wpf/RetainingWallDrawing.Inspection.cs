@@ -18,7 +18,6 @@ internal sealed partial class RetainingWallDrawing
     internal static readonly string[] LayerColors = ["#DBCDAE", "#B9D6C6", "#D2C2DC", "#D9C3A7", "#B9CFDC", "#DAD6A8"];
     private readonly List<(Rect Area, string Text, string? Id)> hits = [];
     private readonly List<(Rect Area, Func<Point,string> Read)> plots = [];
-    internal int InspectionCount => hits.Count + plots.Count;
     internal RetainingWallDrawing()
     {
         ClipToBounds = true;

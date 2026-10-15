@@ -36,12 +36,12 @@ internal static class BridgeSectionChecks
         foreach (var (a, b) in result.Stages[^1].Points.Zip(manual.Stages[^1].Points)) Near(a.Stress, b.Stress, 1e-9, "identità ingresso phi/n");
 
         // Published JRC EN1993-1-5 worked example, web subpanel 2, p. 200: lambda=.912, rho=.871.
-        var plate = BridgeSection.InternalPlate(492, 8, -100, -40.6, 235);
+        var plate = HBridgeSection.InternalPlate(492, 8, -100, -40.6, 235);
         Near(plate.KSigma, 5.632, .001, "JRC ksigma"); Near(plate.Lambda, .912, .002, "JRC lambda"); Near(plate.Rho, .871, .002, "JRC rho");
-        var reverse = BridgeSection.InternalPlate(492, 8, -40.6, -100, 235);
+        var reverse = HBridgeSection.InternalPlate(492, 8, -40.6, -100, 235);
         Near(plate.EffectiveAtStart, reverse.EffectiveAtEnd, 1e-12, "simmetria compressione anima");
-        var tension = BridgeSection.InternalPlate(1800, 8, 100, 20, 355); Near(tension.Rho, 1, 0, "anima tesa interamente efficace");
-        var compression = BridgeSection.InternalPlate(1800, 8, -100, -100, 355); Assert(compression.Rho < .3, "anima snella compressa ridotta");
+        var tension = HBridgeSection.InternalPlate(1800, 8, 100, 20, 355); Near(tension.Rho, 1, 0, "anima tesa interamente efficace");
+        var compression = HBridgeSection.InternalPlate(1800, 8, -100, -100, 355); Assert(compression.Rho < .3, "anima snella compressa ridotta");
         Near(compression.EffectiveAtStart, compression.EffectiveAtEnd, 1e-12, "compressione uniforme simmetrica");
 
         foreach (bool top in new[] { true, false }) foreach (bool bottom in new[] { true, false })
@@ -70,7 +70,7 @@ internal static class BridgeSectionChecks
         var br = BridgeSection.Calculate(benchmark).Stages[0];
         Near(br.Points.Where(p => p.Material == "Acciaio").Max(p => p.Stress), 270.88, .006, "benchmark Checker acciaio");
         Near(br.Points.Where(p => p.Material == "CLS").Min(p => p.Stress), -20.84, .006, "benchmark Checker CLS");
-        var section = BridgeSection.NativeSection(benchmark);
+        var section = BridgeLibraryAccess.NativeSection(benchmark);
         var local = new CoordinateSystem(new Point2d(600, 0), new Vector3d(-1, 0, 0), new Vector3d(0, -1, 0));
         foreach (double phi in new[] { 0d, 2d })
         {

@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using Anthea.Calculations;
 using GPC.Checkers.Geotechnics.Piles;
 using X.Core;
+using Anthea.Application.Documents;
 
 internal static class Program
 {
@@ -58,7 +59,7 @@ internal static class Program
             var invalid = Grid(2, 1, .5); try { Calc(invalid, LateralGroupMethod.ReeseVanImpe); throw new Exception("Overlap accepted"); } catch (ArgumentException) { checks++; }
             invalid = Grid(); invalid.Diameter = double.NaN; try { Calc(invalid, LateralGroupMethod.Davisson); throw new Exception("NaN accepted"); } catch (ArgumentException) { checks++; }
             var data = HorizontalPileGroup.Defaults(); string original = data.ToJsonString(); var result = CalculationService.Calculate(HorizontalPileGroup.Module, data); Check(data.ToJsonString() == original, "Adapter does not mutate input"); Check(result.Array("confronto").Count == 12, "Six methods in X and Y");
-            var document = Archivio.Documento(HorizontalPileGroup.Module); string archive = Path.Combine(folder, "palificata.anthea"); Archivio.Scrivi(archive, document); Check(JsonNode.DeepEquals(document, Archivio.Leggi(archive)), "Archive roundtrip");
+            var document = Archivio.Documento(HorizontalPileGroup.Module); string archive = Path.Combine(folder, "palificata.anthea"); DocumentService.Save(archive, document); Check(JsonNode.DeepEquals(document, DocumentService.Open(archive)), "Archive roundtrip");
             foreach(var (kind,expected) in new[]{(PileLayoutKind.Rectangular,9),(PileLayoutKind.Staggered,8),(PileLayoutKind.Triangular,6),(PileLayoutKind.Pentagonal,6),(PileLayoutKind.Hexagonal,7)})
             {
                 var layout=PileGroupLayout.Generate(new PileLayoutOptions{Kind=kind});Check(layout.Count==expected,"layout count "+kind);Equal(layout.Average(p=>p.X),0,"center x "+kind);Equal(layout.Average(p=>p.Y),0,"center y "+kind);

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -74,8 +75,8 @@ internal static class GlobalGuidanceChecks
             var result = w.GlobalResult!;
             Render(new GlobalStabilityDrawing { Data = w.Data, Result = result }, "superficie-critica", 1000, 460);
             File.WriteAllText(Path.Combine(directory, "risultati.json"), RetainingWall.Calculate(w.Data).Json().ToJsonString(J.Options));
-            var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = w.Data.DeepClone(); Archivio.Scrivi(Path.Combine(directory, "esempio-guidato.anthea"), doc);
-            Check(J.Equivalent(Archivio.Leggi(Path.Combine(directory, "esempio-guidato.anthea"))["dati"], w.Data), "File ripercorribile mantiene quote, proprietà e limiti");
+            var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = w.Data.DeepClone(); DocumentService.Save(Path.Combine(directory, "esempio-guidato.anthea"), doc);
+            Check(J.Equivalent(DocumentService.Open(Path.Combine(directory, "esempio-guidato.anthea"))["dati"], w.Data), "File ripercorribile mantiene quote, proprietà e limiti");
             Render(w, "workspace-verifiche-1600", 1600, 1000);
             w.ShowGlobalSetup(); Render(w, "workspace-input-1050", 1050, 1000);
             Check(w.Pages.Items.Count == 2, "Restano le sole due schede Input e Verifiche");
@@ -104,7 +105,7 @@ internal static class GlobalGuidanceChecks
             for (int i = 0; i < 3; i++) illustrated.GlobalLayers.Columns[i].Width = new DataGridLength(i == 0 ? 310 : 165);
             var soilPaper = Ui.Paper(soilPanel, 10); soilPaper.Measure(new Size(680, double.PositiveInfinity)); Render(soilPaper, "esempio-stratificato-editor", 680, soilPaper.DesiredSize.Height);
             await illustrated.CalculateGlobalAsync(); Check(illustrated.GlobalResult is not null, "Esempio stratificato della guida ricalcolato dal percorso reale");
-            doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = layered.DeepClone(); Archivio.Scrivi(Path.Combine(directory, "esempio-stratificato.anthea"), doc);
+            doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = layered.DeepClone(); DocumentService.Save(Path.Combine(directory, "esempio-stratificato.anthea"), doc);
             File.WriteAllText(Path.Combine(directory, "esempio-stratificato-conci.csv"), Anthea.Application.Walls.WallExports.GlobalCsv(illustrated.GlobalResult!));
             Render(new GlobalStabilityDrawing { Data = layered, Result = illustrated.GlobalResult }, "esempio-stratificato-esito", 640, 350);
             File.WriteAllText(Path.Combine(directory, "esempio-stratificato-esito.txt"), string.Join("\n", illustrated.GlobalResult!.Cases.Select(c => $"{c.Factors.Name}; F={c.Critical?.Factor:G10}; eta={c.Critical?.Ratio:G10}; {c.Status}")));

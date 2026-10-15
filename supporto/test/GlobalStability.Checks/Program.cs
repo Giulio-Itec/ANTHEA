@@ -2,6 +2,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using X.Core;
+using Anthea.Application.Documents;
 using Gpc = GPC.Checkers.Geotechnics.Slopes;
 
 string directory = Path.GetFullPath(args.FirstOrDefault() ?? "supporto/artefatti/stabilita-globale"); Directory.CreateDirectory(directory);
@@ -106,8 +107,8 @@ try
     foreach (var example in examples)
     {
         string folder = Path.Combine(directory, "esempi", example.Id); Directory.CreateDirectory(folder);
-        var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = example.Data.DeepClone(); Archivio.Scrivi(Path.Combine(folder, "modello.anthea"), doc);
-        var loaded = Archivio.Leggi(Path.Combine(folder, "modello.anthea")); Check(loaded["dati"]!.ToJsonString() == example.Data.ToJsonString(), "Archivio ripercorribile " + example.Id);
+        var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = example.Data.DeepClone(); DocumentService.Save(Path.Combine(folder, "modello.anthea"), doc);
+        var loaded = DocumentService.Open(Path.Combine(folder, "modello.anthea")); Check(loaded["dati"]!.ToJsonString() == example.Data.ToJsonString(), "Archivio ripercorribile " + example.Id);
         var result = RetainingWall.Calculate(example.Data); Check(result.GlobalStability is not null, "Integrazione calcolo locale/globale " + example.Id);
         File.WriteAllText(Path.Combine(folder, "risultati-anthea.json"), result.Json().ToJsonString(J.Options));
         File.WriteAllText(Path.Combine(folder, "conci-anthea.csv"), ReportRetainingWall.GlobalCsv(result.GlobalStability!));

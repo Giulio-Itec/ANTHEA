@@ -25,7 +25,7 @@ internal static class PdfChecks
         var lines = new List<string>();
         void Compare(string name, DocxDocument docx)
         {
-            var expected = Words(docx); var actual = DocxPdf.Lines(DocxPdf.Translate(docx, name)).SelectMany(Split).ToArray();
+            var expected = Words(docx); var actual = DocxPdfText.Lines(DocxPdf.Translate(docx, name)).SelectMany(Split).ToArray();
             int mismatch = Enumerable.Range(0, Math.Min(expected.Length, actual.Length)).FirstOrDefault(i => expected[i] != actual[i], -1);
             Check(expected.Length == actual.Length && mismatch < 0, $"{name}: testo del PDF diverso dal DOCX ({expected.Length} contro {actual.Length} parole; prima differenza alla parola {mismatch}: " +
                 $"«{(mismatch >= 0 ? expected[mismatch] : "")}» / «{(mismatch >= 0 ? actual[mismatch] : "")}»)");

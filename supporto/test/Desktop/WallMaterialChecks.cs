@@ -2,6 +2,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 internal static class WallMaterialChecks
@@ -43,7 +44,7 @@ internal static class WallMaterialChecks
         File.WriteAllBytes(Path.Combine(directory,"distinta-due-zone.docx"),Anthea.Application.Walls.WallExports.CreateBarSchedule(twoDrawing.Data,twoDrawing.Schedule,twoFigures));
         File.WriteAllBytes(Path.Combine(directory,"distinta-due-zone.pdf"),DrawingPdf.Create(twoFigures.Select(f=>f.Png)));
         for(int i=0;i<twoFigures.Count;i++) File.WriteAllBytes(Path.Combine(directory,$"distinta-due-zone-{i+1}.png"),twoFigures[i].Png);
-        var archive=Archivio.Documento(RetainingWall.Module);archive["dati"]=two.DeepClone();Archivio.Scrivi(Path.Combine(directory,"distinta-due-zone.anthea"),archive);
+        var archive=Archivio.Documento(RetainingWall.Module);archive["dati"]=two.DeepClone();DocumentService.Save(Path.Combine(directory,"distinta-due-zone.anthea"),archive);
         Check(Application.Current.Windows.Count==0,"Tavole e PDF prodotti senza usare mouse o finestre");
         File.WriteAllLines(Path.Combine(directory,"test.txt"),log.Append($"PASS {log.Count} controlli interfaccia"));
     }

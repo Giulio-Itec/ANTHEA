@@ -67,7 +67,7 @@ di caratteri si scrivono compressi (`.gz`), letti in modo trasparente da `compar
 
 - default degli 11 moduli di `ModuleCatalog.All` e vista elastica dei due moduli orizzontali;
 - esempi della Wiki (`X.Desktop/Wiki/Examples`), applicati come `MainWindow.WikiExamples`;
-- documenti di `supporto/esempi` (`.json`, `.anthea`, `.programma`) letti con `Archivio.Leggi`;
+- documenti di `supporto/esempi` (`.json`, `.anthea`, `.programma`) letti con `DocumentService.Open` (fino alla decisione D3 `Archivio.Leggi`, che lo inoltrava);
 - casi `palo` e `micropalo` di `supporto/test/casi_confronto.json` (i default dei pali
   verticali sono moduli vuoti);
 - `RetainingWall.Example("gravity")` ed `Example("cantilever")`;
@@ -162,12 +162,14 @@ dichiarato è un errore.
 
 ## Registro dei ripieghi
 
-Con la variabile `ANTHEA_TRACE_FALLBACKS=<file>`, `X.Calculations/JsonData.cs` registra ogni
-ripiego distinto di `J.S`, `J.D` e `J.B` (contesto, tipo, chiave, valore di ripiego, genitore,
-metodo chiamante). I valori restituiti non cambiano. `capture` attiva la variabile e salva
-l'insieme ordinato in `fallbacks.json` (`--no-trace` lo disattiva). La compilazione a livelli
-è disattivata nel toolkit (`TieredCompilation=false`) perché il chiamante registrato non
-dipenda dall'inlining del momento.
+`Capture/JsonFallbackTrace.cs` registra ogni ripiego distinto di `J.S`, `J.D` e `J.B`
+(contesto, tipo, chiave, valore di ripiego, genitore, metodo chiamante). I valori restituiti non
+cambiano. Dalla decisione D3 del 15/10/2026 il prodotto contiene soltanto il punto d'osservazione
+`JsonFallbackHook` (`src/ANTHEA.Serialization/JsonData.cs`), senza logica né file, e non legge più
+la variabile `ANTHEA_TRACE_FALLBACKS`: `capture` registra l'osservatore prima di ogni calcolo e
+salva l'insieme ordinato in `fallbacks.json` (`--no-trace` lo disattiva; il campo `variabile`
+conserva il nome storico). La compilazione a livelli è disattivata nel toolkit
+(`TieredCompilation=false`) perché il chiamante registrato non dipenda dall'inlining del momento.
 
 ## Non determinismi noti
 

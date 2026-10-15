@@ -10,11 +10,10 @@ public sealed record ConcreteCoverResult(double Adopted, double MaterialMinimum,
 
 public static class ConcreteCoverAnalysis
 {
-    /// <summary>Checks material-sheet and actual-bar cover minima without changing either input.
-    /// The optional durability engine (refactoring F2.9-D2) is passed to every minimum; default the adapter's.</summary>
-    public static ConcreteCoverResult Calculate(JsonObject input, JsonObject material, double fck, DurabilityEngine? engine = null)
+    /// <summary>Checks material-sheet and actual-bar cover minima without changing either input.</summary>
+    public static ConcreteCoverResult Calculate(JsonObject input, JsonObject material, double fck)
     {
-        double minimum = Materiali.MaterialCover.Required(material, fck, engine);
+        double minimum = Materiali.MaterialCover.Required(material, fck);
         double adopted = input.Required("cover_mm");
         double? actualMinimum = null;
         double? diameter = null; string? error = null;
@@ -23,16 +22,16 @@ public static class ConcreteCoverAnalysis
             var section = new SezioneCA(input);
             if (section.Bars.Count == 0) throw new ArgumentException("armatura non definita");
             diameter = section.Bars.Max(b => b.Diametro);
-            actualMinimum = Materiali.MaterialCover.Required(material, fck, diameter.Value, engine);
+            actualMinimum = Materiali.MaterialCover.Required(material, fck, diameter.Value);
         }
         catch (ArgumentException ex) { error = ex.Message; }
         return Assess(adopted, minimum, actualMinimum, diameter, error);
     }
     /// <summary>Same assessment when the actual reinforcement is already read, such as for a wall.</summary>
     public static ConcreteCoverResult CalculateForBars(double adopted, JsonObject material, double fck,
-        double maximumBarDiameter, DurabilityEngine? engine = null)
-        => Assess(adopted, Materiali.MaterialCover.Required(material, fck, engine),
-            Materiali.MaterialCover.Required(material, fck, maximumBarDiameter, engine), maximumBarDiameter, null);
+        double maximumBarDiameter)
+        => Assess(adopted, Materiali.MaterialCover.Required(material, fck),
+            Materiali.MaterialCover.Required(material, fck, maximumBarDiameter), maximumBarDiameter, null);
 
     private static ConcreteCoverResult Assess(double adopted, double minimum, double? actualMinimum,
         double? diameter, string? error)

@@ -28,7 +28,6 @@ internal sealed partial class WikiView : UserControl
     private Action refreshPage = () => { };
     private bool bookCover;
     private string? chapterFocus;
-    internal string? CurrentId => article?.Id;
     internal WikiView(Action<string, string?> openModule, WikiProgress? progress = null, Action? returnToWork = null)
     {
         this.openModule = openModule; this.progress = progress ?? new WikiProgress();

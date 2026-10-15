@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using X.Core;
+using Anthea.Application.Documents;
 using Slopes = GPC.Checkers.Geotechnics.Slopes;
 
 internal static class DualSoilChecks
@@ -93,11 +94,11 @@ internal static class DualSoilChecks
         Check(both.GlobalStability!.Cases.All(x => x.Critical is not null), "Ricerca Bishop risolta con due colonne");
         // The section of the result comes from the library (rad): the angles are back in degrees up to the rounding of the conversion.
         Check(Math.Abs(both.GlobalStability.Section.Soils[0].Phi - 30) < 1e-12 && Math.Abs(both.GlobalStability.Section.ValleySoils[0].Phi - 24) < 1e-12, "Parametri profondi indipendenti conservati nel risultato");
-        var twoSave = Archivio.Documento(RetainingWall.Module); twoSave["dati"] = both.Input.DeepClone(); Archivio.Scrivi(Path.Combine(directory, "due-colonne-globale.anthea"), twoSave);
+        var twoSave = Archivio.Documento(RetainingWall.Module); twoSave["dati"] = both.Input.DeepClone(); DocumentService.Save(Path.Combine(directory, "due-colonne-globale.anthea"), twoSave);
         File.WriteAllText(Path.Combine(directory, "due-colonne-globale.json"), both.Json().ToJsonString(J.Options));
         File.WriteAllBytes(Path.Combine(directory, "due-colonne-globale.docx"), ReportRetainingWall.Create("Due colonne e stabilità globale", both));
-        var save = Archivio.Documento(RetainingWall.Module); save["dati"] = r.Input.DeepClone(); string path = Path.Combine(directory, "due-colonne.anthea"); Archivio.Scrivi(path, save);
-        var restored = Archivio.Leggi(path)["dati"]!.AsObject(); Near(RetainingWall.Calculate(restored).Cases[0].Vertical, c.Vertical, "Salvataggio e rilettura numericamente invarianti");
+        var save = Archivio.Documento(RetainingWall.Module); save["dati"] = r.Input.DeepClone(); string path = Path.Combine(directory, "due-colonne.anthea"); DocumentService.Save(path, save);
+        var restored = DocumentService.Open(path)["dati"]!.AsObject(); Near(RetainingWall.Calculate(restored).Cases[0].Vertical, c.Vertical, "Salvataggio e rilettura numericamente invarianti");
         File.WriteAllText(Path.Combine(directory, "due-colonne-risultati.json"), r.Json().ToJsonString(J.Options));
         File.WriteAllBytes(Path.Combine(directory, "due-colonne.docx"), ReportRetainingWall.Create("Due colonne · caso riproducibile", r));
         File.WriteAllLines(Path.Combine(directory, "due-colonne-test.txt"), log); Console.WriteLine($"PASS {log.Count} due colonne / attriti"); return log.Count;

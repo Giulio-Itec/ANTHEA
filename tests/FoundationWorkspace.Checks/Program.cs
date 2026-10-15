@@ -34,8 +34,8 @@ internal static class Program
             data["input"]!["MomentX"]=0;
             var roundtrip=JsonNode.Parse(data.ToJsonString())!.AsObject();Check(roundtrip.ToJsonString()==data.ToJsonString(),"riapertura documento senza perdita");
             var archive=X.Core.Archivio.Documento(FoundationDocument.Module);archive["dati"]=data.DeepClone();
-            string file=Path.Combine(output,"fondazione.x");X.Core.Archivio.Scrivi(file,archive);
-            Check(JsonNode.DeepEquals(data,X.Core.Archivio.Leggi(file)["dati"]),"salvataggio e lettura archivio ANTHEA");
+            string file=Path.Combine(output,"fondazione.x");Anthea.Application.Documents.DocumentService.Save(file,archive);
+            Check(JsonNode.DeepEquals(data,Anthea.Application.Documents.DocumentService.Open(file)["dati"]),"salvataggio e lettura archivio ANTHEA");
             roundtrip["input"]!["Width"]="abc";FoundationDocument.ValidateShape(roundtrip);Reject(()=>FoundationDocument.LibraryInput(roundtrip),"testo incompleto conservato e rifiutato dal calcolo");
             roundtrip["input"]!["Width"]="NaN";Reject(()=>FoundationDocument.LibraryInput(roundtrip),"NaN");
             roundtrip["input"]!["Method"]=99;Reject(()=>FoundationDocument.ValidateShape(roundtrip),"metodo sconosciuto in archivio");

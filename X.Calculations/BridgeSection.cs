@@ -3,7 +3,6 @@ using System.Text.Json.Nodes;
 using GPC.Model.Data.Concrete;
 using GPC.Model.Data.Steel;
 using GPC.Model.Materials;
-using GPC.Model.Sections.Concrete;
 
 namespace Anthea.Calculations;
 
@@ -75,6 +74,5 @@ public static partial class BridgeSection
             g.Bottom1Thickness, g.WebSpacingTop, g.WebSpacingBottom),
         _ => null
     };
-    public static ReinforcedConcreteSection NativeSection(JsonObject d) => HBridgeSection.NativeSection(GeometryInput(d));
     public static (double N0, double N, double PhiEffective, double Phi) Homogenization(JsonObject data, JsonObject phase) => HBridgeSection.Homogenization(GeometryInput(data), ToCheckerPhase(phase));
 }
