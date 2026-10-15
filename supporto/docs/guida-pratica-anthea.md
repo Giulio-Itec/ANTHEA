@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 15 ottobre 2026 — revisione documentale 46
+Edizione 6 aggiornata il 16 ottobre 2026 — revisione documentale 47
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -178,7 +178,7 @@ Impostare tecnologia del palo, diametro, lunghezza, peso del materiale, azioni a
 
 Per un calcolo drenato occorrono i parametri efficaci. Per il ramo non drenato degli strati coesivi occorre Cu; il programma considera anche la posizione della falda per decidere il tratto nel quale applicare quel ramo. Non usare c′ e Cu come sinonimi. Negli strati granulari il contributo c′ alla resistenza laterale drenata è nullo, anche se il campo contiene un numero.
 
-Indicare la presenza e la profondità della falda. L'effetto sulle tensioni del terreno e l'opzione di sottospinta sul peso proprio sono aspetti distinti. Spuntare la sottospinta solo secondo l'ipotesi di peso immerso che si vuole applicare al palo; non aspettarsi che questo comando definisca da solo la stratigrafia satura.
+Indicare la presenza e la profondità della falda. L'effetto sulle tensioni del terreno e l'opzione di sottospinta sul peso proprio sono aspetti distinti. Spuntare la sottospinta solo secondo l'ipotesi di peso immerso che si vuole applicare al palo; non aspettarsi che questo comando definisca da solo la stratigrafia satura. L'opzione riguarda soltanto la compressione drenata e quella non drenata senza base lorda: a trazione il peso sotto falda è sempre alleggerito, nella compressione non drenata con base lorda è sempre intero. Riepilogo, grafici e report confrontano ogni condizione con la propria azione.
 
 «Copia in» e «Copia da» permettono di riutilizzare gli strati fra sondaggi creando copie indipendenti. Controllare la destinazione prima di sovrascriverla. Il pulsante meno della riga elimina uno strato; quello della linguetta elimina la stratigrafia. Il colore identifica il terreno nel profilo e non costituisce un parametro di calcolo.
 
@@ -222,7 +222,7 @@ Verificare che p_l rientri nel campo della curva selezionata: il motore rifiuta 
 
 ### Preparare un modello coerente
 
-Il modulo applica meccanismi limite di Broms. Definire il diametro geotecnico, la lunghezza infissa, la famiglia del terreno, il vincolo in testa e l'eccentricità della forza. Per la testa libera il momento esterno è H × e. La testa impedita richiede e = 0 nel modello disponibile. Un momento indipendente aggiunto alla forza non è gestito come azione generica.
+Il modulo applica meccanismi limite di Broms. Definire il diametro geotecnico, la lunghezza infissa, la famiglia del terreno, il vincolo in testa e l'eccentricità della forza. Per la testa libera il momento esterno è H × e. La testa impedita richiede e = 0 e tratto libero nullo, perché i meccanismi di Broms pongono il vincolo al piano campagna; con il plinto rialzato, cioè con un tratto libero sopra il terreno, il calcolo è rifiutato: usare la risposta elastica, che vincola la testa sopra il terreno. Un momento indipendente aggiunto alla forza non è gestito come azione generica.
 
 Lo sforzo normale N è positivo a compressione in questi fogli. È una convenzione diversa dalla sezione in c.a. Non copiare il segno senza controllarlo. N entra nel calcolo del momento resistente della sezione quando questo è automatico; non trasforma Broms in un'analisi completa del secondo ordine del palo nel terreno.
 
@@ -317,6 +317,8 @@ Gli archivi precedenti privi del tipo di sezione vengono interpretati come H sal
 
 La scelta va fatta prima di interpretare le differenze fra due risultati. Uno storico non lineare non è semplicemente un cumulativo «più preciso» per ogni scopo: introduce fenomeni diversi e non include tutti i controlli locali del cumulativo. I controlli di taglio, connessione e accessori non vengono valutati dai due metodi storici.
 
+Con Storico non lineare compare il campo «CLS teso (non lineare)»: Trascurato, predefinito anche per i fogli salvati prima, oppure Tension stiffening. La stessa scelta vale per le curve di risposta; il legame è descritto nella guida teorica.
+
 ### Costruire le fasi
 
 Aprire la scheda fasi e tensioni e inserire gli incrementi in ordine. Un percorso comune comprende peso della carpenteria e getto sulla sezione di acciaio, permanenti successivi sulla sezione composta a lungo termine e variabili sulla sezione composta a breve termine. Il primo carico applicato prima della maturazione non deve beneficiare della soletta che ancora non collabora.
@@ -330,6 +332,8 @@ Per il ritiro assegnare la deformazione con il segno corretto: un accorciamento 
 ### Leggere efficacia tensioni e controlli locali
 
 Selezionare la situazione da visualizzare e distinguere tensioni della fase, contributi precedenti e stato cumulato. Le parti inefficaci dell'acciaio evidenziano la riduzione per instabilità locale sotto tensioni normali. L'anima resistente a taglio non viene automaticamente ridotta nello stesso modo. Leggere area, baricentro, inerzia, coefficienti di omogeneizzazione e residui di convergenza.
+
+Negli SLE con la soletta esclusa la tabella dei contributi mostra la colonna «Δσs tension stiff.» per le barre tese: la loro tensione totale è la somma dei contributi più Δσs.
 
 Nel metodo cumulativo aprire i controlli di taglio, irrigidimenti, appoggi e pioli. Inserire geometrie reali, pannelli, reazioni, eccentricità, saldature, passi e materiali. Un irrigidimento non idoneo non deve produrre il beneficio di un pannello corto. La connessione richiede anche dettagli costruttivi e, se pertinente, dati di fatica; un rapporto di resistenza favorevole del singolo piolo non esaurisce questi controlli.
 
@@ -648,9 +652,9 @@ La [guida teorica](wiki:architettura-del-calcolo-e-convenzioni) descrive i calco
 
 La scheda Input definisce muro, terreni e azioni; Verifiche raccoglie gli esiti locali e globali. Prepara separatamente stratigrafie delle spinte, terreno di fondazione e profilo profondo della stabilità globale. Un modello completo per una verifica può essere insufficiente per le altre.
 
-Le stratigrafie di monte e valle sono affiancate, indipendenti o collegate per spessori e proprietà; le profondità partono dalle rispettive superfici. Hlib è la distanza dalla sommità al terreno di valle: Dv=H+t−Hlib. Il terreno davanti al muro entra nei pesi, nei momenti, nelle sollecitazioni della mensola e nel ricoprimento efficace della portanza. La passiva richiede attivazione e frazione mobilitata; è esclusa nel sisma. Gli attriti del muro e della fondazione sono assegnabili oppure ricavati da φcv,k e tipo di interfaccia. Il valore a volume costante va caratterizzato, senza sostituirlo automaticamente con quello di picco.
+Le stratigrafie di monte e valle sono affiancate, indipendenti o collegate per spessori e proprietà; le profondità partono dalle rispettive superfici. Hlib è la distanza dalla sommità al terreno di valle: Dv=H+t−Hlib. Il terreno davanti al muro entra nei pesi, nei momenti, nelle sollecitazioni della mensola e nel ricoprimento efficace della portanza. La passiva richiede attivazione e frazione mobilitata, non oltre 0,5: un documento con un valore maggiore è rifiutato con il motivo. È esclusa nel sisma. Gli attriti del muro e della fondazione sono assegnabili oppure ricavati da φcv,k e tipo di interfaccia. Il valore a volume costante va caratterizzato, senza sostituirlo automaticamente con quello di picco.
 
-Valori di calcolo consente di interrogare e modificare gli input e leggere coefficienti effettivi per combinazione, pesi, attriti, pressioni e sollecitazioni. Le forze risultanti dipendono dagli input e non si possono forzare. Le combinazioni sono modificabili: il preset locale è A1+M1+R3, quello globale A2+M2+R2. Azioni eccezionali e sisma Mononobe–Okabe o Wood semplificato sono espliciti. Il terreno del lato selezionato può essere trasferito ai moduli dei pali; la sezione selezionata può essere inviata al modulo c.a.
+Valori di calcolo consente di interrogare e modificare gli input e leggere coefficienti effettivi per combinazione, pesi, attriti, pressioni e sollecitazioni. Le forze risultanti dipendono dagli input e non si possono forzare. Le combinazioni sono modificabili: il preset locale è A1+M1+R3, quello globale A2+M2+R2. Con la mensola a monte le righe con il sovraccarico variabile hanno la gemella «b»: la colonna «q var. mensola» non spuntata lascia il sovraccarico nella spinta e lo toglie dalla mensola. La colonna «γR,e passiva» riporta il coefficiente della passiva; nella combinazione selezionata e nei valori di calcolo si leggono Ed e resistenze di scorrimento e ribaltamento. Azioni eccezionali e sisma Mononobe–Okabe o Wood semplificato sono espliciti. Il terreno del lato selezionato può essere trasferito ai moduli dei pali; la sezione selezionata può essere inviata al modulo c.a.
 
 La stabilità globale Bishop ha un motore separato e un proprio profilo esteso, anche con due colonne profonde e confine verticale assegnato. Il pulsante Stabilità globale apre il percorso; al primo accesso a un profilo vuoto ne prepara i dati e attiva la verifica. Gli strati si inseriscono per spessore, con quota del fondo calcolata automaticamente. La precompilazione non prolunga le indagini: rilievo, terreni profondi e falda del sito vanno controllati e confermati. Il disegno rappresenta anche il terreno sotto il piano di posa. Parametri, dominio e combinazioni restano interrogabili e modificabili.
 
@@ -867,7 +871,7 @@ Il passo iniziale FEM predefinito è 0,50 m, modificabile nelle opzioni della ri
 
 Nel pannello Momento plastico resistente scegliere i materiali dalle tendine Calcestruzzo e Acciaio. Nei nuovi fogli del palo è preselezionato B450C con tutte le proprietà del catalogo, come nel modulo della sezione in c.a.; i materiali personalizzati degli archivi esistenti rimangono conservati. Il riferimento Motore di calcolo: GPC Engine è in alto a destra del modulo, come nella scheda della sezione in c.a., ed è visibile per entrambe le analisi. Le proprietà numeriche sono raccolte nei dati opzionali, chiusi inizialmente, insieme a esposizione, vita utile, qualità del copriferro e legami. Gli archivi personalizzati conservano i valori precedenti. N e MRd sono sotto il disegno della sezione. Le opzioni di resistenza manuale ed EJ rimangono accessibili in un pannello chiuso.
 
-Coefficienti unitari è disattivato inizialmente. Attivandolo si usa una configurazione custom della normativa di sezione con tutti i fattori gamma e alpha_cc pari a 1. Disattivandolo si recuperano i coefficienti ordinari conservati nell'archivio. Il comando riguarda la resistenza strutturale: non modifica i fattori geotecnici di Broms. La modalità custom compare nei risultati e nel report.
+Coefficienti unitari è disattivato inizialmente. Attivandolo si usa una configurazione custom della normativa di sezione con tutti i fattori gamma e alpha_cc pari a 1. Il foglio c.a. di approfondimento eredita la stessa normativa: anche taglio, torsione, ancoraggi e dettagli costruttivi usano γc = 1 e fyd = fyk. Disattivandolo si recuperano i coefficienti ordinari conservati nell'archivio. Il comando riguarda la resistenza strutturale: non modifica i fattori geotecnici di Broms. La modalità custom compare nei risultati e nel report.
 
 Le colonne della stratigrafia sono Addensamento, Determinazione, Parametro, Minimo, Massimo e Adottato. Per i granulari si scelgono Sciolto, Medio o Denso; per i coesivi la categoria riporta il terreno effettivo della tabella 14.6. Gli autori sono filtrati per quella categoria. Il pulsante Tabelle nella riga mostra integralmente i cataloghi 14.5 e 14.6 usati da Checker, con unità, intervalli, media software e valori consigliati bibliografici distinti. Cambiare categoria aggiorna una media automatica; un valore manuale è conservato e richiede la conferma della nuova fonte. Il cambio tra granulare e coesivo conserva le scelte precedenti nello storico e propone una modalità compatibile.
 
@@ -1107,9 +1111,9 @@ I documenti precedenti mantengono i gruppi Plastico ed Elastico fino alla conver
 
 Aprire la scheda dedicata, scegliere la combinazione e leggere prima lo stato tensionale: zona compressa, barre tese, tensione massima, asse neutro e deformazioni. Le deformazioni a video possono essere in per mille; i coefficienti di curvatura hanno un'altra dimensione. Non confrontare i due numeri senza conversione.
 
-La fessurazione dipende anche da durata, aderenza, copriferro alle barre, diametri, interassi e area efficace di calcestruzzo teso. Aprire il dettaglio del calcolo di wk: permette di capire se governa il termine di deformazione minima o quello corretto per il tension stiffening, e se si applica il ramo di barre ravvicinate o distanziate.
+La fessurazione dipende anche da durata, aderenza, copriferro alle barre, diametri, interassi e area efficace di calcestruzzo teso. Con il campo «c barra» vuoto il copriferro della formula è misurato sulle barre efficaci verso la faccia tesa; un valore assegnato lo sostituisce. Aprire il dettaglio del calcolo di wk: permette di capire se governa il termine di deformazione minima o quello corretto per il tension stiffening, e se si applica il ramo di barre ravvicinate o distanziate.
 
-La trazione dell'intera sezione segue un ramo specifico con regioni di bordo. Le superfici interne dei fori compatibili hanno controlli dedicati; una superficie tesa priva di armatura efficace o di interasse definito lascia la verifica incompleta. Il disegno completo non dimostra la completezza dei controlli. Analogamente, una soluzione tensionale non lineare o una sezione con tendini può avere disponibilità diversa per il controllo di fessurazione. Leggere lo stato della singola verifica, non soltanto il grafico delle tensioni.
+La trazione dell'intera sezione segue un ramo specifico con regioni di bordo. Le superfici interne dei fori compatibili hanno controlli dedicati; una superficie tesa priva di armatura efficace rende la verifica non soddisfatta, una priva di interasse definito la lascia incompleta. Il disegno completo non dimostra la completezza dei controlli. Analogamente, una soluzione tensionale non lineare o una sezione con tendini può avere disponibilità diversa per il controllo di fessurazione. Leggere lo stato della singola verifica, non soltanto il grafico delle tensioni.
 
 ### Taglio torsione e dettagli
 
@@ -1117,7 +1121,7 @@ Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura 
 
 La torsione richiede un dettaglio chiuso compatibile e armatura longitudinale disponibile dopo le esigenze di flessione. Non assegnare come disponibile tutta l'armatura senza aver verificato questa condizione. La verifica combinata usa anche un'interazione conservativa fra torsione e i due tagli, esplicitata nel dettaglio.
 
-Nella scheda dettagli costruttivi scegliere il tipo di elemento e completare le informazioni su diametri, passi, sovrapposizioni, ancoraggi e copriferro. Per i minimi di armatura dei pilastri la scheda usa la compressione più gravosa fra tutte le combinazioni del foglio e indica quella che governa. Se governa una combinazione SLE, il valore è segnalato come di esercizio: controllare che le combinazioni SLU e SLV siano complete. «Da completare» non equivale a «Verificato». I controlli automatici riguardano le condizioni esplicitamente rappresentate; ganci, nodi, confinamento e situazioni esecutive speciali possono richiedere valutazioni aggiuntive.
+Nella scheda dettagli costruttivi scegliere il tipo di elemento e completare le informazioni su diametri, passi, sovrapposizioni, ancoraggi e copriferro. Gli ancoraggi seguono il campo Barre della sezione: con Liscia restano da completare, anche nelle proposte della ricerca delle armature. Per i minimi di armatura dei pilastri la scheda usa la compressione più gravosa fra tutte le combinazioni del foglio e indica quella che governa. Se governa una combinazione SLE, il valore è segnalato come di esercizio: controllare che le combinazioni SLU e SLV siano complete. «Da completare» non equivale a «Verificato». I controlli automatici riguardano le condizioni esplicitamente rappresentate; ganci, nodi, confinamento e situazioni esecutive speciali possono richiedere valutazioni aggiuntive.
 
 ### Curva momento curvatura e aggiornamento
 
