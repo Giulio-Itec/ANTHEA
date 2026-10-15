@@ -63,3 +63,30 @@ def d_circle(n, phi_l, phi_st, D=600.0, c=40.0):
 d0, d1 = d_circle(16, 24, 8), d_circle(24, 24, 10)
 v = vrd_staffe(600, d1, 10, 100, lever=0.75)
 print(f"ARM-1 cerchio: d(16Ø24, Ø8) = {d0:.12f} mm (manuale); d(24Ø24, Ø10) = {d1:.12f} mm; VRd(z = 0,75 d, Ø10/100) = {v:.12f} kN; η(300) = {300 / v:.12f}")
+
+# ---------------------------------------------------------------- ARM-2 (tests/ANTHEA.Application.Tests)
+# NTC 2018 §4.1.2.3.4: parabola-rettangolo (εc2 = 2 ‰, εcu = 3,5 ‰), fcd = 0,85 · 35/1,5, B450C elastico-perfettamente plastico
+# fyd = 450/1,15, N = 0, flessione retta per integrazione a fibre. Trave 400×600, copriferro 40, staffe Ø8: barre Ø16 con il centro a
+# 40 + 8 + 8 = 56 mm dai bordi, distribuite uniformemente su ogni faccia fra gli spigoli (x = ±144 mm). 4Ø16 a y = +244, 3Ø16 a y = −244.
+def mrd_rect(bars, compressed_top, B=400.0, H=600.0, nf=6000):
+    ec2, ecu, Es = 0.002, 0.0035, 200000.0
+    sc = lambda e: 0.0 if e <= 0 else (fcd * (1 - (1 - e / ec2) ** 2) if e < ec2 else fcd)
+    top = H / 2
+    def forces(c):
+        N = M = 0.0; dz = H / nf
+        for i in range(nf):
+            s = top - (i + 0.5) * dz; e = ecu * (c - (top - s)) / c; f = sc(e) * B * dz; N += f; M += f * s
+        for y, a in bars:
+            s = y if compressed_top else -y; e = ecu * (c - (top - s)) / c
+            f = (max(-fyd, min(fyd, Es * e)) - (sc(e) if e > 0 else 0.0)) * a; N += f; M += f * s
+        return N, M
+    lo, hi = 1.0, H
+    for _ in range(100):
+        mid = 0.5 * (lo + hi)
+        if forces(mid)[0] > 0: hi = mid
+        else: lo = mid
+    return forces(0.5 * (lo + hi))[1] / 1e6
+a16 = math.pi * 16 ** 2 / 4
+bars = [(244.0, a16)] * 4 + [(-244.0, a16)] * 3
+m = mrd_rect(bars, compressed_top=False)   # 4Ø16 tesi in alto, 3Ø16 compressi in basso
+print(f"ARM-2 sup. 4Ø16 / inf. 3Ø16, lembo superiore teso: MRd = {m:.6f} kNm, η(150) = {150 / m:.6f}")

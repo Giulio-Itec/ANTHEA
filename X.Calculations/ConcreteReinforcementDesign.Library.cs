@@ -81,9 +81,13 @@ public static partial class ConcreteReinforcementDesign
             .Select(r => J.Obj(("nome", r.S("nome")), ("N", r["azioni"]?[0]), ("Mx", r["azioni"]?[1]), ("My", r["azioni"]?[2]))).ToArray());
         foreach (var row in rows.Values.SelectMany(r => r)) _ = SectionWorkspace.ReadAction(row);
         var shearRows = workspace["taglio"]!.Array("azioni").OfType<JsonObject>().ToArray();
-        // Shear/torsion rows also carry N/M: the design must not ignore those simultaneous actions.
-        rows["SLU"] = rows["SLU"].Concat(shearRows.Select(r => J.Obj(("nome", "Taglio · " + r.S("nome")),
-            ("N", r.S("N", "0")), ("Mx", r.S("Mx", "0")), ("My", r.S("My", "0")), ("__locali", true)))).ToArray();
+        // Contratto storico: le righe di taglio e torsione portano anche N/M, in assi locali, e la ricerca non deve ignorarle. Nei fogli con
+        // azioni unificate (sollecitazioni_versione = 1) le righe di taglio sono copie delle righe SLU/SLV, già verificate a N–Mx–My negli
+        // assi di dominio3d come nella scheda N–M: non si aggiungono una seconda volta in assi locali (analisi dei bug del 15/10/2026, ARM-2).
+        bool unified = workspace["sollecitazioni_versione"]?.ToString() == "1";
+        if (!unified)
+            rows["SLU"] = rows["SLU"].Concat(shearRows.Select(r => J.Obj(("nome", "Taglio · " + r.S("nome")),
+                ("N", r.S("N", "0")), ("Mx", r.S("Mx", "0")), ("My", r.S("My", "0")), ("__locali", true)))).ToArray();
         foreach (var row in rows["SLU"]) _ = SectionWorkspace.ReadAction(row);
         bool torsion = shearRows.Any(r => SectionWorkspace.Number(r.S("T", "0"), "T") != 0);
         if (torsion && !options.TorsionLayoutConfirmed) throw new ArgumentException("Torsione: confermare nella ricerca lo schema periferico con staffe chiuse e barre di spigolo.");
