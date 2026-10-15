@@ -66,6 +66,13 @@ internal static class DualSoilChecks
         Near(mass.Weight, 18 * .5 * (.2 / 3), "Cuneo sopra paramento inclinato: area triangolare GPC");
         Near(mass.MomentX / mass.Weight, .8 + (.2 / 3) / 3, "Baricentro orizzontale indipendente del cuneo");
         Near(mass.MomentY / mass.Weight, .45 + 2d / 3, "Baricentro verticale indipendente del cuneo");
+        // MUR-3: per un taglio del fusto sopra la fondazione (yc = 1,0 m) grava sul paramento solo il terreno fra la faccia alla quota del taglio,
+        // x = a + i (yc − t), e la faccia sopra: triangolo di area i (Dv − yc)²/2 con i = 0,2/3, Dv = 1,45 m (geometria a mano).
+        double inclination = .2 / 3, cut = 1.0, rise = 1.45 - cut, faceAtCut = .8 + inclination * (cut - .45);
+        var upper = RetainingWallFunctions.FrontSoilMass(wedge, cut, wedgeOnly: true);
+        Near(upper.Weight, 18 * inclination * rise * rise / 2, "MUR-3: cuneo sopra il taglio, peso");
+        Near(upper.MomentX / upper.Weight, faceAtCut + inclination * rise / 3, "MUR-3: cuneo sopra il taglio, baricentro orizzontale");
+        Near(upper.MomentY / upper.Weight, cut + 2 * rise / 3, "MUR-3: cuneo sopra il taglio, baricentro verticale");
         var friction = Base(); friction["interfaces"]!["base_mode"] = "Prefabbricato liscio"; friction["interfaces"]!["base_phi_cv"] = 30;
         Near(RetainingWall.InterfaceDelta(friction, false, 1.25), 2d / 3 * Math.Atan(Math.Tan(Math.PI / 6) / 1.25) * 180 / Math.PI, "Automatico riduce φcv prima di applicare k");
         var fc = RetainingWall.Calculate(friction).Cases[0]; Near(fc.SlidingResistance, fc.Vertical * Math.Tan(20 * Math.PI / 180), "Scorrimento usa il δ automatico");
