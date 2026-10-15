@@ -268,7 +268,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     }
 }
 
-internal sealed class DomainViewport3D : Grid
+internal sealed partial class DomainViewport3D : Grid
 {
     private readonly Viewport3D viewport = new();
     private readonly PerspectiveCamera camera = new() { FieldOfView = 40, NearPlaneDistance = .01, FarPlaneDistance = 100 };
@@ -318,7 +318,6 @@ internal sealed class DomainViewport3D : Grid
         double? ratio = Ratios is null ? pass ? 0 : 2 : Ratios.GetValueOrDefault(id);
         return UtilizationPalette.Brush(ratio);
     }
-    internal int VisibleActionCount => ShowActions ? actionPoints.Count(p => !OnlySelectedActions || p.Id == selectedId) : 0;
     internal event Action<string>? ActionSelected;
     internal bool Wireframe { get; private set; }
     internal int TriangleCount => mesh?.Triangles.Count / 3 ?? 0;

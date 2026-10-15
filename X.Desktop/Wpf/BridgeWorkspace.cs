@@ -35,7 +35,6 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     private readonly IModuleService calculationService;
     private Task scheduledCalculation = Task.CompletedTask;
     private readonly List<InputForm> inputForms = [], phaseInputForms = [];
-    internal IReadOnlyList<InputForm> InputForms => inputForms;
     private JsonObject[] displayedPhases = [];
     private JsonObject? selectedPhase;
     private bool followLatestStage = true;

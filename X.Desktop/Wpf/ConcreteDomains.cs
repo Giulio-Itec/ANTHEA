@@ -147,16 +147,6 @@ internal sealed partial class ConcreteWorkspace
         finally { panel.AttachingRows = false; }
     }
     private static ConcreteResults.Action ReadAction(JsonRow row) => Anthea.Application.Concrete.ConcreteDomainChart.ReadNamedAction(row.Values);
-    private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null)
-    {
-        string key = requestedKey ?? panel.Key;
-        status.Text = $"GPC Engine · {ActionSetLabel(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
-        var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
-        var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
-        var calculated = await Task.Run(() => analysisSession.Domain(input, workspace, options, key, panel.ThreeD, snapshots, token), token);
-        token.ThrowIfCancellationRequested();
-        PublishDomain(panel, key, calculated);
-    }
     private void PublishDomain(DomainPanel panel, string key, ConcreteDomainResult calculated)
     {
         if (calculated.Three is not null) checker3D[key] = calculated.Three;

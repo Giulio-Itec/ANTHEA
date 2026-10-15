@@ -1,5 +1,4 @@
 using Anthea.Application.Concrete;
-using System.Globalization;
 using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -151,32 +150,5 @@ internal sealed partial class ConcreteWorkspace
             Archivio.ScriviAtomico(dialog.FileName, bytes); RememberExcel(dialog.FileName); status.Text = "Esportate tutte le combinazioni, anche quelle nascoste dai filtri. Per rileggerle aprire Sollecitazioni e scegliere il comando di importazione.";
         }
         catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Esportazione Excel"); }
-    }
-    private IEnumerable<SectionActionsExcel.Row> ExportActionRows()
-    {
-        foreach (var (key, rows) in actions) foreach (var row in rows) { var p = ReadAction(row); yield return new(key, row.Values.S("nome"), p.N, p.Mx, p.My, null, null); }
-        if (shearGrid is not null) foreach (var row in shearGrid.Rows)
-            yield return new("Taglio", row.Values.S("nome"), ConcreteEditor.Number(row.Values.S("N"), "N taglio"), ConcreteEditor.Number(row.Values.S("Mx", "0"), "Mx"), ConcreteEditor.Number(row.Values.S("My", "0"), "My"), ConcreteEditor.Number(row.Values.S("Vx"), "Vx"), ConcreteEditor.Number(row.Values.S("Vy"), "Vy"),ConcreteEditor.Number(row.Values.S("T","0"),"T"));
-    }
-    private void ApplyImport(SectionActionsExcel.Import import, bool replace)
-    {
-        Commit(); synchronizing = true;
-        var selections = grids.ToDictionary(grid => grid, grid => grid.SelectedItem as JsonRow);
-        static string Number(double? v) => v?.ToString("G17", CultureInfo.InvariantCulture) ?? "0";
-        try
-        {
-            foreach (var group in import.Rows.GroupBy(r => r.Family))
-            {
-                var collection = group.Key == "Taglio" ? shearGrid!.Rows : actions[group.Key];
-                using var refresh = collection.DeferRefresh();
-                if (replace) collection.Clear();
-                foreach (var row in group)
-                    collection.Add(group.Key == "Taglio" ? ShearRow(J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", row.Name), ("N", Number(row.N)), ("Mx", Number(row.Mx)), ("My", Number(row.My)), ("Vx", Number(row.Vx)), ("Vy", Number(row.Vy)),("T",Number(row.T)))) : CreateAction(group.Key, row.Name, Number(row.N), Number(row.Mx), Number(row.My)));
-            }
-            foreach (var (grid, selected) in selections)
-                grid.SelectedItem = selected is not null && grid.Items.Contains(selected) ? selected : grid.Items.OfType<JsonRow>().FirstOrDefault();
-        }
-        finally { synchronizing = false; }
-        Commit(); foreach (string family in import.Rows.Select(r => r.Family).Distinct()) InvalidateActions(family);
     }
 }
