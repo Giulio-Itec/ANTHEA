@@ -53,7 +53,11 @@ internal static class ConcreteAuxiliaryContractChecks
         var options = ConcreteReinforcementDesign.Prepare(ws);
         foreach (var (key, value) in new[] { ("diametri", "16;20"), ("n_superiori", "3;4"), ("n_inferiori", "3;4"), ("n_laterali", "2"), ("diametri_staffe", "8"), ("passi_staffe", "100;150"), ("parallelismo", "1") }) options[key] = value;
         string before = source.ToJsonString(); int notifications = 0;
-        var design = StructuralQueries.ConcreteReinforcement(source, progress: new InlineProgress(p => { Same(p); notifications++; })); Same(design);
+        // The search reports progress at most every 300 ms (SectionDesignSearch), so the number of notifications depends on the
+        // machine load: each one is compared exactly, in a comparison of its own, and together they count as one check
+        var progressComparison = new OwnedProjectionComparison();
+        var design = StructuralQueries.ConcreteReinforcement(source, progress: new InlineProgress(p => { progressComparison.Compare(Original(p), p, p.GetType().Name); notifications++; })); Same(design);
+        Check(notifications > 0 && progressComparison.Values > 0, "Avanzamenti della ricerca non confrontati");
         Check(design.Candidates.Count > 0 && design.Completed && notifications > 0 && source.ToJsonString() == before, "Ricerca incompleta, progressi persi o input mutato");
         design.Candidates[0].Input["only_view"] = true;
         Check(((ConcreteDesignResult)Original(design)).Candidates[0].Input["only_view"] is null, "Proposta condivide input nativo");
@@ -69,7 +73,7 @@ internal static class ConcreteAuxiliaryContractChecks
             || t.HasElementType && Native(t.GetElementType()!) || t.IsGenericType && t.GenericTypeArguments.Any(Native);
         foreach (var type in typeof(ConcreteResults).GetNestedTypes(BindingFlags.Public))
             Check(type.GetProperties().All(p => !Native(p.PropertyType)), "Contratto CA espone il motore: " + type.Name);
-        Console.WriteLine($"Contratti CA: {comparison.Values} valori esatti, {shearRows} righe taglio, {torsionRows} torsioni, {design.Candidates.Count} proposte e {curve.Points.Count} punti curva");
+        Console.WriteLine($"Contratti CA: {comparison.Values} valori esatti, {shearRows} righe taglio, {torsionRows} torsioni, {design.Candidates.Count} proposte e {curve.Points.Count} punti curva; {notifications} avanzamenti con {progressComparison.Values} valori esatti (variano col carico della macchina)");
         return checks;
     }
     private sealed class InlineProgress(Action<ConcreteResults.DesignProgress> callback) : IProgress<ConcreteResults.DesignProgress>
