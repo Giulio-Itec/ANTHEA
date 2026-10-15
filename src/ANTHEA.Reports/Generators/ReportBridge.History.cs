@@ -66,6 +66,7 @@ public static partial class ReportBridge
             if (options.Contains("tensioni"))
             {
                 doc.Table(["Punto", "y [mm]", "σ [MPa]", "Ultimo Δσ [MPa]"], stage.Points.Select(p => new[] { p.Name, F(p.Y), p.Active ? F(p.Stress) : "—", F(p.Contributions.Last()) }), [2.8, 1, 1, 1]);
+                TensionStiffening(doc, stage.Points);
                 doc.Sub("Deformazioni meccaniche e plastiche");
                 doc.Table(["Componente", "εmecc min [µε]", "εmecc max [µε]", "|εpl|max [µε]"], s.Fibers.Where(f => f.Active).GroupBy(f => f.ComponentId).Select(row => new[] {
                     row.Key, F(row.Min(f => f.MechanicalStrain) * 1e6), F(row.Max(f => f.MechanicalStrain) * 1e6), F(row.Max(f => f.MaterialState is HistoryPlasticState p ? Math.Abs(p.PlasticStrain) : 0) * 1e6) }), [1.6, 1.4, 1.4, 1.4]);

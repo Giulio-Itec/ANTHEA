@@ -303,8 +303,10 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         }
         ShowAccessoryResults(stage);
         warnings.Text = string.Join("  ", stage.Warnings);
-        stressTable.Content = ResultTable(["Punto", "y [mm]", ..stage.Contributions.Select((_, i) => $"Δσ {i + 1} [MPa]"), "Σσ [MPa]"],
-            stage.Points.Select(p => new[] { p.Name, F(p.Y) }.Concat(p.Contributions.Select(F)).Append(p.Active ? F(p.Stress) : "—").ToArray()));
+        // PON-1: for the tensile bars of the cracked slab in SLE Σσ = σs,0 + Δσs, while the contributions sum σs,0 (tension stiffening column).
+        bool stiffening = stage.Points.Any(p => p.GetTensionStiffening() is not null);
+        stressTable.Content = ResultTable(["Punto", "y [mm]", ..stage.Contributions.Select((_, i) => $"Δσ {i + 1} [MPa]"), ..(stiffening ? new[] { "Δσs tension stiff. [MPa]" } : []), "Σσ [MPa]"],
+            stage.Points.Select(p => new[] { p.Name, F(p.Y) }.Concat(p.Contributions.Select(F)).Concat(stiffening ? [p.GetTensionStiffening() is { } t ? F(t.Increment) : "—"] : []).Append(p.Active ? F(p.Stress) : "—").ToArray()));
         verificationTable.Content = ResultTable(["Controllo", "Stato limite", "Domanda", "Limite", "η", "Esito", "Note"],
             stage.Points.Select(p => new[] { p.Name, result.Input.S("stato"), p.Active ? F(p.Stress) : "—", p.Active ? F(p.Limit) : "—", p.Utilization is { } u ? F(u) : "—",
                 !p.Active ? "Non attivo" : p.Utilization is null ? "CLS teso" : p.Utilization <= 1 ? "Entro limite locale" : "Limite superato", "σ e limite in MPa" }).Concat((stage.Shear?.Checks ?? []).Concat(stage.Studs?.Checks ?? []).Concat(stage.Torsion?.Checks ?? [])

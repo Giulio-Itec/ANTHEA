@@ -46,6 +46,16 @@ internal static class BridgeContractChecks
             Check(native.Input.S("classe_cls") != "modificato" && !native.Stages[0].Warnings.Contains("solo vista") && second.Stages.Count == native.Stages.Count
                 && second.Input.S("classe_cls") != "modificato" && !second.Stages[0].Warnings.Contains("solo vista"), "Proiezioni o risultato nativo condividono dati modificabili");
         }
+        {
+            // PON-1: tension stiffening of the bars of the cracked slab in SLE copied into the owned stress point (a method, as in the library).
+            var input = BridgeSection.Defaults(); input["stato"] = "SLE rara"; input["classe4"] = false;
+            input["fasi"] = new JsonArray(BridgeSection.Phase("G1", "Solo acciaio", 0, -1500), BridgeSection.Phase("G2", "Soletta esclusa", 0, -2000), BridgeSection.Phase("Q", "Soletta esclusa", 0, -10000));
+            var calculation = ModuleServices.Get(BridgeSection.Module).Calculate(input);
+            var native = calculation.NativeAs<BridgeResult>(); var view = BridgeResultView.Read(calculation);
+            var pairs = native.Stages[^1].Points.Zip(view.Stages[^1].Points).ToArray();
+            Check(pairs.Count(p => p.First.GetTensionStiffening() is not null) == 2 && pairs.All(p => (p.First.GetTensionStiffening() is null) == (p.Second.GetTensionStiffening() is null)), "PON-1: tension stiffening delle barre tese nella vista");
+            foreach (var (a, b) in pairs) Compare(a.GetTensionStiffening(), b.GetTensionStiffening(), "Tension stiffening " + a.Name);
+        }
         var responseInput = BridgeSection.Defaults(); var request = BridgeSection.ResponseDefaults(); request["punti"] = 5;
         var response = StructuralQueries.BridgeResponse(responseInput, request);
         var reference = BridgeSection.CalculateResponse(responseInput, request);
