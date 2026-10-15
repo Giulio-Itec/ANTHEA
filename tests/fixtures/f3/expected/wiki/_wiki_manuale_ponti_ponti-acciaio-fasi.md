@@ -22,7 +22,7 @@ Una connessione saldata e una lamiera continua con la stessa tensione nominale n
 
 Il controllo richiede lo spettro delle escursioni dovute al traffico e le regole della norma adottata. Non basta sostituire il carico massimo SLU nella formula della fatica. In ANTHEA la costruzione delle fasi della sezione composta serve a separare i contributi; non equivale a una verifica completa di fatica del ponte o di stabilità durante il montaggio.
 
-Fonti: FHWA, esempio di progetto LRFD di un impalcato a travi metalliche, passo 3 sulla trave metallica; SCI, Fatigue design of bridges. Esempio numerico originale.
+Esempio numerico originale.
 
 ### Proseguire nella Wiki
 

@@ -10,7 +10,6 @@ text: L’accorciamento elastico al trasferimento interagisce con il calcestruzz
 text: controlli-oltre-la-tensione-longitudinale
 text: Servono verifiche al trasferimento, durante sollevamento e montaggio, in esercizio e allo SLU. Le zone di ancoraggio possono presentare trazioni trasversali; taglio e torsione interagiscono con lo stato di compressione. Freccia e controfreccia dipendono dal tempo, dalla sequenza e dai vincoli. Una controfreccia geometrica non elimina le tensioni che l’hanno prodotta.
 text: ANTHEA non dispone di un modulo generale di progetto dei cavi, delle perdite o delle zone di ancoraggio dei ponti precompressi. Questa pagina amplia la teoria del ponte e ne distingue il perimetro dalle funzioni della sezione composta e dal predimensionamento concettuale.
-text: Riferimento bibliografico: FHWA, esempio di progetto LRFD di un ponte a travi precompresse, sequenza di valutazione delle perdite di precompressione. I coefficienti delle procedure statunitensi richiedono un confronto separato con le norme del progetto.
 text: proseguire-nella-wiki
 text: - Cos'è un ponte?
 text: - Calcestruzzo armature e copriferro

@@ -44,5 +44,5 @@ Durante un'ispezione un quadro fessurativo o una corrosione osservata costituisc
 
 Prima del predimensionamento prepara uno schema degli appoggi, una sezione trasversale e una sequenza delle fasi. Nel modulo Bridge Design verifica poi le ipotesi della famiglia scelta: il confronto di alternative non sostituisce le verifiche locali, geotecniche o sismiche. Prosegui con [il percorso dei carichi](wiki:load-path), [gli elementi beam](wiki:beam) e con il capitolo sulle fasi costruttive.
 
-Riferimento di terminologia e componenti: FHWA, *Bridge Inspector's Reference Manual*. Testi e figure di questa pagina sono originali.
+Testi e figure di questa pagina sono originali.
 

@@ -22,17 +22,41 @@ I metri e i millimetri sono indicati accanto ai campi. Non inserire 250 in una s
 
 ### Creare il progetto di riferimento
 
-Apri il modulo Bridge Design e lavora nella scheda Progetto. Le schede di ingresso sono Sito, Campate, Sezione e Pile. I risultati comprendono Quantità e costi, Dettagli del predimensionamento, Confronto A / B, Prezzi unitari, Ipotesi e coefficienti e Sezioni e quote. Il pulsante Ottimizza porta alla scheda separata Ottimizzazione.
+Apri il modulo Bridge Design e lavora nella scheda Progetto. Le schede di ingresso sono Sito, Campate, Sezione, Pile e Traffico. I risultati comprendono Quantità e costi, Dettagli del predimensionamento, Confronto A / B, Prezzario, Ipotesi e coefficienti e Sezioni e quote. Il pulsante Ottimizza porta alla scheda separata Ottimizzazione.
 
 1. In Sito imposta lunghezza, quota, corsie e larghezze accessorie. Controlla la larghezza complessiva restituita dal programma, non soltanto il numero di corsie.
 2. Seleziona l’ostacolo e la larghezza. Osserva il prospetto: il disegno è schematico e non costituisce una verifica del franco, dell’alveo o della posizione reale degli appoggi.
 3. In Campate scegli una famiglia iniziale e la continuità. Inserisci un numero di campate ragionevole oppure usa zero per la scelta automatica. Leggi poi le luci effettive, che non sono necessariamente tutte uguali.
 4. In Sezione imposta i soli dati noti. Lascia zero nei campi automatici se vuoi che il motore li predimensioni. Per le lamiere usa gli spessori in mm; per anime e solette in cls usa le unità mostrate.
 5. In Pile scegli terreno, schema e fondazione. Una misura a zero resta automatica; una misura positiva è una richiesta esplicita. Verifica gli avvisi su snellezza, compressione e capacità assiale.
-6. Apri Prezzi unitari e Ipotesi e coefficienti. Aggiorna tariffe, carichi equivalenti, resistenze geotecniche di riferimento e fattori ambientali dove disponi di informazioni migliori.
+6. In Traffico scegli il modello e controlla il coefficiente γQ. Apri Prezzario e Ipotesi e coefficienti per tariffe, resistenze geotecniche di riferimento e fattori ambientali.
 7. Salva il progetto prima della ricerca. Se non è calcolabile, correggi l’errore prima di avviare l’ottimizzazione: il motore deve poter costruire il riferimento.
 
 Una configurazione calcolabile può essere fuori dal campo usuale della famiglia. La scheda Progetto può mostrarla con un avviso, mentre l’ottimizzazione la esclude dai candidati ammessi. Perciò un costo visibile nella scheda Progetto non basta a dimostrare che il riferimento appartenga all’insieme esplorato.
+
+### Scegliere e cambiare prezzario
+
+Da Progetto apri Prezzario e premi Gestisci prezzario. La finestra conserva una bozza: il documento cambia soltanto con Applica prezzario. Assegna nome ed edizione al catalogo; gli importi sono in EUR, IVA esclusa. Nella scheda Voci del prezzario puoi aggiungere, modificare ed eliminare voci, oppure importare CSV, XLSX o un catalogo JSON esportato da ANTHEA.
+
+Per Excel usa il foglio Prezzario e cinque colonne, in quest’ordine: Codice, Descrizione, Unita, Prezzo, Inclusioni. Le medesime intestazioni valgono per CSV; Modello CSV prepara il tracciato. Il codice deve essere univoco, la descrizione compilata e il prezzo non negativo. Sono ammesse m, m², m³, kg, t, cad e h (ore, per manodopera e noli delle analisi composte). Scrivi i numeri senza separatori delle migliaia: 1660 oppure 1660,50. Una cella prezzo vuota significa dato mancante; zero è un importo assegnato consapevolmente.
+
+In Associazioni e anteprima collega ogni lavorazione al codice del catalogo. Le colonne Prima e Dopo mostrano il prezzo adottato nella stessa unità della lavorazione. Puoi assegnare un Prezzo personalizzato, accompagnato dal Motivo personalizzazione; lasciandolo vuoto si usa la voce associata. Se importi un altro catalogo, scegli prima se mantenere questi prezzi: l’opzione non è attiva per impostazione iniziale. Verifica sempre le associazioni, perché lo stesso codice può avere un significato diverso nel nuovo prezzario.
+
+Inclusioni contiene codici di lavorazioni separati da |. Attualmente è supportato rebar nelle tariffe dei pali pile_1 e pile_15: l’armatura del relativo palo non viene addebitata due volte. L’inclusione non elimina le armature dell’impalcato o delle altre parti. Le inclusioni non rappresentate dal computo vengono rifiutate; non dichiarare montaggio o altre prestazioni come comprese se il modello non le distingue.
+
+Nella scheda Analisi composte un prezzo si ricava dai suoi componenti. Per ogni analisi indica codice, descrizione, unità e componenti nella forma codice = quantità, separati da punto e virgola: per un metro cubo di getto, per esempio, CLS = 1,05; MO = 0,8; POMPA = 0,1. Le quantità sono nell'unità del componente; un componente può essere una voce del prezzario o un'altra analisi. Selezionando un'analisi, sotto la tabella compaiono il totale dei componenti, le spese generali, l'utile d'impresa e il prezzo unitario, come voci distinte del totale.
+
+Spese generali e utile d'impresa in alto valgono per tutto il prezzario; compilando le colonne dell'analisi li sostituisci solo per quella riga. Alla prima analisi ANTHEA propone 15% e 10%: sono valori da confermare. Il codice di un'analisi si associa alle lavorazioni come una voce. Componenti mancanti o senza prezzo, analisi che si richiamano a vicenda e percentuali fuori da 0–100 impediscono di applicare il prezzario; l'esito in basso indica la causa.
+
+L’anteprima verifica prezzi, unità e completezza per la geometria corrente. Un’associazione non risolta può non intervenire sul ponte corrente ma escludere una diversa alternativa: controlla anche l’avviso sul catalogo complessivo. Applica prezzario registra una revisione e rivaluta il costo a quantità costanti. La precedente ricerca deve essere rieseguita, perché può cambiare la graduatoria. Puoi scegliere Rivaluta anche l’alternativa A con questo prezzario; altrimenti A conserva la propria base economica, da leggere prima del confronto.
+
+La scheda Revisioni conserva le copie precedenti. Prepara ripristino carica una nuova bozza da controllare e applicare, senza cancellare la cronologia. Esporta catalogo JSON permette il riuso in un altro progetto. Le modifiche ai fattori CO₂ hanno una revisione distinta: cambiare prezzario non aggiorna automaticamente l’indicatore ambientale. Report e CSV identificano i dati effettivamente usati dal risultato.
+
+### Impostare il traffico del ponte
+
+I nuovi progetti adottano Schema 1 NTC 2018. Nella scheda Traffico controlla le carreggiate, il modello e γQ. Il comando per il coefficiente consigliato propone 1,35; un valore assegnato rimane una scelta esplicita dell’utente. Il diagramma mostra estremi positivi e negativi; la reazione minima aiuta a riconoscere possibili sollevamenti.
+
+I documenti precedenti mantengono Uniforme equivalente (legacy) e il proprio coefficiente. Il passaggio a Schema 1 è volontario e richiede un nuovo calcolo e una nuova ricerca. Gli estremi di momento, taglio, freccia e reazione possono provenire da posizioni differenti del traffico: non sono un unico stato simultaneo. Per arco, reticolare, strallato e sospeso leggi l’ambito parametrico dichiarato dal risultato; il predimensionamento non sostituisce un’analisi spaziale del ponte.
 
 ### Leggere sezioni spessori e lunghezze
 
@@ -98,7 +122,7 @@ Il grafico qui riportato è generato dai dati della ricerca descritta nel capito
 
 ### Esempio guidato da centoventi metri
 
-Costruisci un riferimento con i valori seguenti. Mantieni gli altri parametri ai valori iniziali della revisione documentata: un archivio precedente potrebbe avere un listino diverso.
+Questo esempio conserva i risultati della revisione storica con traffico uniforme. Se parti da un nuovo documento, seleziona Uniforme equivalente (legacy), imposta γQ = 1,50 e mantieni il listino iniziale riportato nella guida teorica. Schema 1 o un prezzario diverso producono un altro confronto: non devono restituire i numeri di questo esempio.
 
 | Campo | Valore |
 | --- | --- |

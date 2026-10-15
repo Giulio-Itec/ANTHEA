@@ -3916,6 +3916,36 @@
       ]
     },
     {
+      "id": "TEST-03",
+      "data": "2026-10-15",
+      "fase": "chiusura F4, decisioni D1 e D2 del 15/10",
+      "titolo": "Confronto UI F3: transizioni di F4 ammesse una per una",
+      "famiglia": "infrastruttura/test",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Il confronto esatto con il riferimento F3 (ui/f3-equivalence) falliva per costruzione dopo F4: 7214 differenze, tutte classificate. Decisioni dell'utente: D1, le transizioni sono attese; D2, si ammettono una per una, senza tolleranze nuove. BaselineComparer.Admit ammette una differenza solo se file, percorso, classe, valore prima e valore dopo coincidono con una voce non ancora usata; una voce che non si presenta è un errore («transizione-assente»). tests/fixtures/f3/transitions-f4.json: 6878 voci in 41 file, ognuna con la voce del registro (F3-11, F4-03, F4-08, F4-13, F4-14, F4-15, F4-23, F4-28, F4-29, F4-31, F4-35, F4-40, F4-47). Wiki e ricerca: 47 file sostituiti nel riferimento come in F3-06, con le impronte prima e dopo in editorial_updates_f4 (F4-48). Generatore tools/qa/f3_transizioni.py: voci dalla classificazione puntuale (6166) e da cinque regole esplicite per le differenze nuove del full del 14/10 sera (712); una differenza senza voce lo ferma. Risultati e report attesi del riferimento F3 invariati.",
+      "codice": [
+        "tests/ANTHEA.Testing/Comparison/BaselineComparer.cs",
+        "tests/ANTHEA.Testing/Comparison/Transitions.cs",
+        "tests/ANTHEA.Testing/Comparison/TransitionChecks.cs",
+        "tests/ANTHEA.Testing.Tests/Program.cs",
+        "tests/ANTHEA.Desktop.Equivalence/F3EquivalenceCapture.cs",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/fixtures/f3/manifest.json",
+        "tools/qa/f3_transizioni.py"
+      ],
+      "decisione": "Utente, 15/10: «ok punto 1», «ok punto 2» (f4-chiusura-decisioni.md, D1 e D2).",
+      "test": [
+        "Testing.Tests PASS: 8 controlli negativi (differenza non elencata, voce assente, valore dopo diverso, voce doppia, classe diversa, voce senza registro)",
+        "ui/f3-equivalence PASS (20261015-074208-d2-f3-equivalence): 0 differenze non ammesse, 6878 transizioni elencate e tutte avvenute",
+        "Impronte di editorial_updates_f4 verificate sui blob di git: 47 su 47"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261014-230601-f4-full-20261015/ui_f3-equivalence/cattura/confronto.json",
+        "supporto/artefatti/ci/20261015-074208-d2-f3-equivalence"
+      ]
+    },
+    {
       "id": "F2-18",
       "data": "2026-10-12",
       "fase": "F2.7-A11",

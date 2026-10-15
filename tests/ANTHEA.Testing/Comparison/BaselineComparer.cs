@@ -22,14 +22,35 @@ public sealed class BaselineComparer
     readonly List<Difference> stored = [];
     readonly Dictionary<string, int> counts = new(StringComparer.Ordinal);
     readonly Dictionary<string, int> volatileReasons = new(StringComparer.Ordinal);
-    int compared;
+    readonly Dictionary<(string, string, string, string?, string?), Queue<Transition>> transitions = [];
+    readonly Dictionary<string, int> admittedByEntry = new(StringComparer.Ordinal);
+    int compared, listedTransitions;
 
     public BaselineComparer(Tolerances tolerances) => this.tolerances = tolerances;
 
     public int NotAdmitted { get; private set; }
 
+    /// <summary>
+    /// Admits exactly the listed differences (decision D2 of 15/10/2026). A difference is admitted only when file, path, class, value before
+    /// and value after are equal to an unused entry; a listed transition that does not occur is a failure ("transizione-assente").
+    /// </summary>
+    public void Admit(IEnumerable<Transition> list)
+    {
+        foreach (var t in list)
+        {
+            if (!transitions.TryGetValue(t.Key, out var queue)) transitions[t.Key] = queue = new();
+            queue.Enqueue(t); listedTransitions++;
+        }
+    }
+
     void Add(Difference d)
     {
+        if (!d.Admitted && transitions.TryGetValue((d.File, d.Path, d.Class, d.A, d.B), out var queue) && queue.Count > 0)
+        {
+            var t = queue.Dequeue();
+            d = d with { Admitted = true, Note = "transizione ammessa · " + t.Entry };
+            admittedByEntry[t.Entry] = admittedByEntry.GetValueOrDefault(t.Entry) + 1;
+        }
         counts[d.Class] = counts.GetValueOrDefault(d.Class) + 1;
         if (!d.Admitted) NotAdmitted++;
         if (d.Class == "volatile") { volatileReasons[d.Note ?? ""] = volatileReasons.GetValueOrDefault(d.Note ?? "") + 1; return; }
@@ -61,6 +82,10 @@ public sealed class BaselineComparer
             }
             catch (JsonException ex) { Add(new(file, "", "testo", false, null, null, Note: "JSON non leggibile: " + ex.Message)); }
         }
+        // Listed transitions that did not occur: the list must describe the comparison exactly, never in excess.
+        foreach (var t in transitions.Values.SelectMany(q => q).ToArray())
+            Add(new(t.File, t.Path, "transizione-assente", false, t.A, t.B, Note: "attesa da " + t.Entry + " come " + t.Class));
+        foreach (var q in transitions.Values) q.Clear();
         return Report(a, b);
     }
 
@@ -271,6 +296,7 @@ public sealed class BaselineComparer
         catch (Exception ex) when (ex is IOException or JsonException or InvalidOperationException) { manifest["nota"] = "manifest non confrontabile: " + ex.Message; }
         var byClass = new JsonObject(); foreach (var (k, v) in counts.OrderBy(p => p.Key, StringComparer.Ordinal)) byClass[k] = v;
         var reasons = new JsonObject(); foreach (var (k, v) in volatileReasons.OrderBy(p => p.Key, StringComparer.Ordinal)) reasons[k] = v;
+        var byEntry = new JsonObject(); foreach (var (k, v) in admittedByEntry.OrderBy(p => p.Key, StringComparer.Ordinal)) byEntry[k] = v;
         var details = new JsonArray(stored.OrderBy(d => d.Admitted).ThenBy(d => d.File, StringComparer.Ordinal).Select(d => (JsonNode)new JsonObject
         {
             ["file"] = d.File, ["percorso"] = d.Path, ["classe"] = d.Class, ["ammessa"] = d.Admitted, ["a"] = d.A, ["b"] = d.B,
@@ -280,7 +306,9 @@ public sealed class BaselineComparer
         {
             ["a"] = a, ["b"] = b, ["tolleranze"] = tolerances.Source, ["file_confrontati"] = compared,
             ["esito"] = NotAdmitted == 0 ? "uguali entro le tolleranze" : "differenze non ammesse",
-            ["differenze_non_ammesse"] = NotAdmitted, ["per_classe"] = byClass, ["volatili"] = reasons, ["manifest"] = manifest,
+            ["differenze_non_ammesse"] = NotAdmitted, ["per_classe"] = byClass, ["volatili"] = reasons,
+            ["transizioni"] = new JsonObject { ["elencate"] = listedTransitions, ["ammesse"] = admittedByEntry.Values.Sum(), ["per_voce"] = byEntry },
+            ["manifest"] = manifest,
             ["dettagli_troncati"] = counts.Values.Sum() - volatileReasons.Values.Sum() > stored.Count, ["differenze"] = details
         };
     }

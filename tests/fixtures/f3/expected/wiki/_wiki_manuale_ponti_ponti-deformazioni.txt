@@ -13,7 +13,7 @@ text: Nel caso ideale di impedimento assiale completo e risposta elastica, la te
 text: appoggi-e-costruzione
 text: Un appoggio deve trasmettere le azioni previste e permettere i movimenti assegnati. Attrito, rotazione, spostamento, stabilità e sostituibilità vanno coordinati; il punto fisso influenza la distribuzione di frenatura e temperatura. Le quote di posa e la temperatura al montaggio determinano la posizione iniziale nel campo di escursione.
 text: Le NTC 2018 §5.1.4.7 richiedono: «Le verifiche di sicurezza vanno svolte anche per le singole fasi di costruzione dell’opera». La fase di getto e quella di rimozione dei sostegni temporanei possono governare anche quando la configurazione definitiva è soddisfacente. La controfreccia compensa una quota attesa, non annulla lo stato tensionale.
-text: In ANTHEA le fasi della sezione composta aiutano a organizzare azioni e rigidezze. L’esempio di Bridge Design va letto con i propri limiti: non rappresenta un progetto completo di appoggi o giunti. Fonti: NTC 2018, §§5.1.4.5 e 5.1.4.7; FHWA, esempio di progetto LRFD di un impalcato a travi metalliche, passo 6 sugli appoggi.
+text: In ANTHEA le fasi della sezione composta aiutano a organizzare azioni e rigidezze. L’esempio di Bridge Design va letto con i propri limiti: non rappresenta un progetto completo di appoggi o giunti. Fonti: NTC 2018, §§5.1.4.5 e 5.1.4.7.
 text: proseguire-nella-wiki
 text: - Cos'è un ponte?
 text: - Travi metalliche da ponte fra montaggio fatica e sezione composta

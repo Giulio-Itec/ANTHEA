@@ -65,7 +65,7 @@ La geometria completa rimane in contesto. Questa versione non simula l'attivazio
 
 I modelli con risultati per fase usano il formato modello 2. Le versioni precedenti di ANTHEA lo rifiutano; questa versione continua a leggere i modelli statici nel formato 1. **Solo risultati** controlla anche le tabelle delle fasi: se la copia precedente non contiene i metadati necessari, usa **Tutto** e verifica la revisione. Gli export tabellari privi di un contesto stage esplicito non vengono confusi con casi statici.
 
-La lettura per fasi è stata collaudata sul protocollo e su dati sintetici. Il confronto con un modello reale dotato di stage resta da completare. Per Straus il catalogo è predisposto, ma la lettura nativa dei risultati stage non è ancora attiva.
+La lettura per fasi è stata collaudata sul protocollo e su dati sintetici. Il confronto con un modello reale dotato di stage resta da completare.
 
 ### Aggiornare una copia esistente
 

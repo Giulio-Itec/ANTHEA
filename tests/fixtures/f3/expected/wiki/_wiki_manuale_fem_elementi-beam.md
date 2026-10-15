@@ -61,7 +61,7 @@ La matrice trasforma spostamenti e rotazioni nodali nelle azioni nodali elastich
 
 Nello schema, il momento positivo tende le fibre inferiori. L'area sotto il carico è 200 kN e coincide con la somma delle reazioni. Il diagramma nullo agli appoggi è una verifica indipendente dei rilasci terminali. L'esempio è statico, elastico e del primo ordine; non rappresenta fessurazione, viscosità o variazioni di rigidezza.
 
-La formulazione variazionale e l'interpolazione sono documentate nel capitolo *Euler-Bernoulli beam elements* del manuale di modellazione computazionale TU Delft. Il segno di curvatura può differire fra testi: la relazione costitutiva deve essere letta con la stessa convenzione del momento, senza combinare definizioni provenienti da solutori diversi.
+La formulazione variazionale e l'interpolazione sono quelle classiche dell'elemento trave di Euler–Bernoulli. Il segno di curvatura può differire fra testi: la relazione costitutiva deve essere letta con la stessa convenzione del momento, senza combinare definizioni provenienti da solutori diversi.
 
 ### Flessione
 
@@ -207,6 +207,5 @@ Un beam concentra il comportamento di una struttura allungata in una linea con p
 
 ### Riferimenti
 
-- TU Delft, Computational Modelling, Euler-Bernoulli beam elements: derivazione della cinematica e dell'interpolazione.
 - Il capitolo spiega un modello meccanico e non introduce coefficienti di verifica normativa. Le prescrizioni dei materiali e gli stati limite si consultano nella guida teorica globale, nelle sezioni dei moduli corrispondenti.
 

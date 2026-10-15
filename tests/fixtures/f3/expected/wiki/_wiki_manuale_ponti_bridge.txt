@@ -34,4 +34,4 @@ text: L'acqua raccolta da un giunto può raggiungere testate, appoggi e pulvini.
 text: Durante un'ispezione un quadro fessurativo o una corrosione osservata costituiscono evidenze; la capacità residua richiede rilievi, modello e verifiche. La stessa lesione può avere interpretazioni diverse in una fase costruttiva e nell'esercizio definitivo.
 text: dall-anatomia-al-progetto-in-anthea
 text: Prima del predimensionamento prepara uno schema degli appoggi, una sezione trasversale e una sequenza delle fasi. Nel modulo Bridge Design verifica poi le ipotesi della famiglia scelta: il confronto di alternative non sostituisce le verifiche locali, geotecniche o sismiche. Prosegui con Fondamenti del percorso dei carichi, Elementi Beam e con il capitolo sulle fasi costruttive.
-text: Riferimento di terminologia e componenti: FHWA, *Bridge Inspector's Reference Manual*. Testi e figure di questa pagina sono originali.
+text: Testi e figure di questa pagina sono originali.

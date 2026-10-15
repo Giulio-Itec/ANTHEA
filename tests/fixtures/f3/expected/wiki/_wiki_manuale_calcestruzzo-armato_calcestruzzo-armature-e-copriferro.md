@@ -16,7 +16,7 @@ Il catalogo delle armature comprende classi attuali e storiche. I dati nominali 
 
 ### Esposizioni e requisiti del materiale
 
-Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinate vengono ricavate assumendo il massimo dei requisiti minimi di resistenza, il minimo dei rapporti acqua cemento massimi e il massimo dei contenuti minimi di cemento pertinenti. Le classi minime seguono il prospetto 6 della UNI 11104:2025, in vigore dal 24 luglio 2025, con una sola eccezione: per XF1 resta C32/40 del prospetto 5 dell'edizione 2016, più cautelativo del C30/37 dell'edizione in vigore. Rapporti acqua cemento massimi e contenuti minimi di cemento sono quelli del prospetto 5 della UNI 11104:2016, riportato nel vademecum ATECAP 2020 (p. 19). Il prospetto 6 dell'edizione 2025 ha contenuti minimi di cemento inferiori in tutte le classi e per XF1 un rapporto acqua cemento massimo di 0,55: i limiti implementati sono quindi più restrittivi dell'edizione in vigore.
+Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinate vengono ricavate assumendo il massimo dei requisiti minimi di resistenza, il minimo dei rapporti acqua cemento massimi e il massimo dei contenuti minimi di cemento pertinenti. Classi minime, rapporti acqua cemento massimi e contenuti minimi di cemento sono quelli del prospetto 5 della UNI 11104:2016, richiamata dalle NTC 2018 al §11.2.11. L'edizione 2025 della UNI 11104 non è adottata: i suoi valori saranno considerati solo dopo il riscontro sul testo della norma. Descrizioni ed esempi delle classi mostrati nella scheda Materiali sono testi di ANTHEA basati sulla classificazione del prospetto 1 della UNI EN 206.
 
 | Esposizione | Classe minima implementata |
 | --- | --- |
@@ -29,7 +29,7 @@ Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinat
 | XD3 | C35/45 |
 | XS1 | C32/40 |
 | XS2 e XS3 | C35/45 |
-| XF1 | C32/40 (UNI 11104:2025: C30/37) |
+| XF1 | C32/40 |
 | XF2 e XF3 | C25/30 |
 | XF4 | C30/37 |
 | XA1 | C30/37 |

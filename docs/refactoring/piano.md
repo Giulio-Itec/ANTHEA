@@ -426,6 +426,7 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
     - `ui/smoke-bridge-prices`: prova non aggiornata a F4-45, corretta in `5ba83f1f`.
 
     Restano le decisioni D1–D5 di [f4-chiusura-decisioni.md](f4-chiusura-decisioni.md) e la corsa conforme dopo D2.
+    15/10: D1–D5 decise dall'utente ([decisioni](decisioni.md)). D2 fatta (registro TEST-03): `ui/f3-equivalence` PASS con le 6878 transizioni elencate e la Wiki aggiornata; restano D3 (codice legacy e di prova fuori dagli assembly distribuiti) e il full conforme.
   - [x] 14/10 notte — attesi indipendenti e preparazione della chiusura:
     - TEST-02: gli ultimi 32 attesi di `casi_confronto.json` rigenerati dal codice sono ricalcolati con `tools/attesi` (30 sezioni a T, 2 pali).
     - F2-7: due stati mirati con armature libere.

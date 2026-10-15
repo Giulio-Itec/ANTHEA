@@ -4,7 +4,7 @@ Il motore ElasticPile in GPCChecker.Geotechnics risolve una trave di Euler–Ber
 
 ### Fonti consultate e attribuzione
 
-La formulazione FEM di riferimento consultata il 2 ottobre 2026 è TU Delft, Computational Modelling, capitolo 4.1 Euler–Bernoulli beam elements, pagina web senza numerazione di pagina. Sono state consultate la relazione cinematica, l'ipotesi di trascurare le deformazioni da taglio e la discretizzazione Hermite con spostamento e rotazione nodali. La convenzione dei segni qui dichiarata viene usata coerentemente nell'implementazione.
+La formulazione FEM è quella classica dell'elemento trave di Euler–Bernoulli: relazione cinematica delle sezioni piane, deformazioni da taglio trascurate e interpolazione di Hermite con spostamento e rotazione nodali. La convenzione dei segni qui dichiarata viene usata coerentemente nell'implementazione.
 
 Carlo Viggiani, Fondazioni: pp. 464–465 (§14.4.1), pp. 466–467 e pp. 478–479 (equazione 14.25 e tabelle 14.5–14.6), con le pagine adiacenti 476–477 e 480–481. L'edizione della copia consultata non è identificabile: mancano frontespizio e colophon e la prefazione è datata dicembre 1998; tale data non viene usata per dedurre l'edizione. La trattazione è di Viggiani; le correlazioni sono attribuite agli autori indicati nel libro. Gli articoli originali non sono stati consultati.
 
@@ -108,7 +108,7 @@ Le lunghezze di ancoraggio e sovrapposizione richiamano il motore Checker già v
 
 La partizione determina i tagli fisici. Per un tratto [a_i,b_i], il primo gruppo occupa [0,b_1]; ogni gruppo successivo occupa [max(0,a_i−l0_i),b_i]. La lunghezza adottata l0_i è il massimo delle lunghezze iniziali e richieste delle due armature collegate. La quota b_i rimane invariata. Questa è una convenzione geometrica di ANTHEA, non una prescrizione normativa: non dimostra da sola il pieno sviluppo dell'armatura alla quota di cambio. Non si sommano lbd o traslazioni alla lunghezza fisica, non si fondono gruppi identici e non si estendono automaticamente le barre oltre testa, punta o fine tratto. Un giunto privo dello spazio disponibile viene segnalato.
 
-Lo sviluppo richiesto per usare la resistenza conserva lbd+a_l, con a_l=z cotθ/2 per staffe ortogonali (EN1992-1-1 §9.2.1.3, presentazione JRC Arrieta 2011, diapositiva 33). Se il taglio non è confermato si usa il limite superiore cotθ=2,5 a fini preliminari. Questo controllo non modifica le quote scelte: può lasciare tratti non verificati. La regola riguarda esclusivamente i tagli e la costruzione della distinta, non le formule del motore di aderenza.
+Lo sviluppo richiesto per usare la resistenza conserva lbd+a_l, con a_l=z cotθ/2 per staffe ortogonali (EN 1992-1-1 §9.2.1.3). Se il taglio non è confermato si usa il limite superiore cotθ=2,5 a fini preliminari. Questo controllo non modifica le quote scelte: può lasciare tratti non verificati. La regola riguarda esclusivamente i tagli e la costruzione della distinta, non le formule del motore di aderenza.
 
 La finestra del giunto è l'intersezione fisica dei due gruppi e termina al confine dei tratti. Si conservano l0 iniziale, richiesta, adottata ed effettiva. Il calcolo assume il 100% delle giunzioni alla stessa quota; una percentuale richiesta inferiore rimane da realizzare mediante sfalsamento esplicito. Si associano soltanto barre sulla stessa direzione radiale nominale e si indicano coppie allineate e coppie previste. Per 20Ø20 e 12Ø16 su corone regolari con lo stesso orientamento coincidono quattro direzioni su dodici richieste: le altre non vengono considerate automaticamente giuntate. La distanza trasversale, le interferenze tra finestre e la lunghezza disponibile partecipano allo stato del dettaglio. Il disegno non certifica piegature, accostamento o confinamento.
 
@@ -192,7 +192,7 @@ Le prove automatiche confrontano MRd seriale/parallelo, conservazione del FEM al
 
 ### Fonti e validazione dell'estensione strutturale
 
-Fonti consultate il 6 ottobre 2026: DM 17 gennaio 2018, NTC, Gazzetta Ufficiale, capitolo 4 (§4.1.2.3.5, §4.1.6.1.4) e capitolo 7 (§7.2.5); José M. Arrieta, Eurocode 2 Background and Applications, workshop JRC Bruxelles 20–21 ottobre 2011, diapositive 7–8, 16 e 33. Il materiale JRC è un supporto formativo, non una nuova edizione della norma.
+Fonti: DM 17 gennaio 2018, NTC, Gazzetta Ufficiale, capitolo 4 (§4.1.2.3.5, §4.1.6.1.4) e capitolo 7 (§7.2.5); EN 1992-1-1:2004 §9.2.1.3 per la traslazione del diagramma delle forze di trazione.
 
 I test diretti dell'estensione controllano pesi su aree disgiunte, carico assiale nullo e invertito, azioni concomitanti, confini esatti della mesh, continuità dei tratti, MRd nei due versi e dipendenza da N, rifiuto dei casi fuori dominio, minimi selezionati, ancoraggi, sovrapposizioni e distinta. Riferimento indipendente per l'aderenza: φ16, σsd=400 MPa, fctk05=2 MPa, γc=1,5 e buona aderenza danno fbd=3 MPa, lbd=533,333 mm e l0=800 mm con tutte le barre sovrapposte. Restano attivi i confronti analitici FEM e Viggiani già documentati.
 

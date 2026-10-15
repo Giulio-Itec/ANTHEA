@@ -27,8 +27,6 @@ Il copriferro maggiore può migliorare la protezione delle armature ma riduce d 
 
 ANTHEA consente di verificare la sezione in c.a. soggetta alle azioni ricavate dal modello. Bridge Design fornisce un’impostazione concettuale dell’impalcato: non sostituisce una verifica locale completa della piastra sotto ruote o barriera.
 
-Riferimento bibliografico: FHWA, esempio di progetto LRFD di un impalcato a travi metalliche, passo 2 sulla soletta. Le procedure FHWA fanno riferimento al quadro statunitense: coefficienti e carichi non si trasferiscono automaticamente alle NTC.
-
 ### Proseguire nella Wiki
 
 - [Cos'è un ponte?](wiki:bridge)
