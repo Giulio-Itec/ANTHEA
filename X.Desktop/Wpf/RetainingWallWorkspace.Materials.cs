@@ -22,7 +22,8 @@ internal sealed partial class RetainingWallWorkspace
             new("materiale_cls_nome", "Nome CLS personalizzato"), new("fck", "fck", "MPa"),
             new("cls_diagramma", "Diagramma CLS", Choices: MaterialInputCatalog.ConcreteDiagrams, Note: FieldNotes.StressBlock),
             new("__fcd", "fcd", "MPa", ReadOnly: true), new("__ecm", "Ecm", "MPa", ReadOnly: true),
-            new("classe_acciaio", "Acciaio da normativa", Choices: Choices(MaterialInputCatalog.Steel(false, "NTC 2018"), "classe_acciaio")),
+            // DET-3: acciaio salvato con il nome del catalogo e valori diversi (B450A con εu = 30 ‰), dichiarato come nella sezione c.a. e nel palo.
+            new("classe_acciaio", "Acciaio da normativa", Choices: Choices(MaterialInputCatalog.Steel(false, "NTC 2018"), "classe_acciaio"), Note: WallModel.SteelDifference),
             new("materiale_acciaio_nome", "Nome acciaio personalizzato"), new("fyk", "fyk", "MPa"), new("steel_modulus_mpa", "Es", "MPa"),
             new("steel_fu_mpa", "fu", "MPa"), new("steel_eps_u", "εu", "‰"), new("steel_diagramma", "Diagramma acciaio", Choices: ["Elastoplastico", "Incrudente"]),
             new("__fyd", "fyd", "MPa", ReadOnly: true), new("alpha_cc", "αcc"), new("gamma_c", "γc"), new("gamma_s", "γs"),

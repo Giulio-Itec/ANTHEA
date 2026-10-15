@@ -54,6 +54,14 @@ public static partial class WallModel
     public static (double Force, double Moment) Integrate(IEnumerable<WallModel.PressureSegment> pieces, double left, double right, double root) => Native.Integrate(pieces.Select(item => item.Source).ToArray(), left, right, root);
     public static bool UsesConcrete(JsonObject d) => Native.UsesConcrete(d);
     public static void ApplyMaterialPreset(JsonObject d, JsonObject preset) => Native.ApplyMaterialPreset(d, preset);
+    /// <summary>
+    /// Acciaio del muro salvato con il nome di un materiale del catalogo NTC 2018 ma con valori diversi da quelli attuali (DET-3, per esempio B450A
+    /// con εu = 30 ‰): lo stesso testo della scheda Acciaio per armature, della sezione c.a. e del palo orizzontale
+    /// (RebarMaterial.CatalogueDifference), oppure null. I materiali del muro passano dalla mappatura del verificatore delle sezioni
+    /// (MaterialSectionInput: fyk → fyk_mpa e i completamenti dei muri precedenti, che restano «Personalizzato»).
+    /// </summary>
+    public static string? SteelDifference(JsonObject materials)
+        => RebarMaterial.CatalogueDifference(Native.MaterialSectionInput(J.Obj(("materials", materials.DeepClone()))), "NTC 2018");
     public static double RequiredCover(JsonObject d) => Native.RequiredCover(d);
     public static string RebarZoneName(string key) => Native.RebarZoneName(key);
     public static WallModel.ReinforcementDetails CalculateReinforcementDetails(JsonObject input) => new WallModel.ReinforcementDetails(Native.CalculateReinforcementDetails(input));

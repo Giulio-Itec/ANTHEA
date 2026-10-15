@@ -5,9 +5,10 @@ using Anthea.Calculations;
 /// <summary>
 /// Prova 4c: integrazione in ANTHEA delle correzioni lato calcestruzzo delle librerie dell'analisi dei bug del 15/10/2026
 /// (docs/refactoring/analisi-bug-20261015.md): SLU-1, SLU-2, SLU-4, FES-1, FES-2, ARM-3, DET-3 e i coefficienti unitari del foglio c.a. del
-/// palo in ancoraggi e dettagli; seguiti del 16/10/2026: coefficienti unitari nel primo snervamento del M–χ e punto disegnato del grafico
-/// N–M con la proiezione. Attesi indipendenti dallo script attesi/correzioni_ca_20261015.py (modello a fibre, formule di norma) o calcolati a
-/// mano, citati accanto a ogni valore; i confronti fra due percorsi della libreria (2D contro 3D) sono dichiarati come tali.
+/// palo in ancoraggi e dettagli; seguiti del 16/10/2026: coefficienti unitari nel primo snervamento del M–χ, punto disegnato del grafico
+/// N–M con la proiezione e nota DET-3 nella scheda Materiali dei muri. Attesi indipendenti dallo script attesi/correzioni_ca_20261015.py
+/// (modello a fibre, formule di norma) o calcolati a mano, citati accanto a ogni valore; i confronti fra due percorsi della libreria (2D contro
+/// 3D) sono dichiarati come tali.
 /// </summary>
 internal static class CorrezioniCa20261015
 {
@@ -227,6 +228,25 @@ internal static class CorrezioniCa20261015
             Is(difference == "Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo.",
                 "DET-3 differenza: «" + difference + "»");
             Is(RebarMaterial.Evaluate(saved).EpsilonU == 30 && saved.D("steel_eps_u") == 30, "DET-3 valore salvato usato e non riscritto");
+        }
+        // DET-3 nella scheda Materiali dei muri (seguito del 16/10/2026): stessa nota del campo dell'acciaio della sezione c.a. e del palo, dai
+        // materiali del muro (chiave fyk, non fyk_mpa). Attesi: NTC 2018 Tab. 11.3.Ic, B450A εuk = 25 ‰ e fyk = 450 MPa; testo di DET-3.
+        {
+            var wall = RetainingWall.Defaults(); var m = wall["materials"]!.AsObject();
+            Is(m.S("classe_acciaio") == "B450C" && Anthea.Application.Walls.WallModel.SteelDifference(m) is null, "DET-3 muro B450C del catalogo: nessuna nota");
+            m["classe_acciaio"] = "B450A";
+            Anthea.Application.Walls.WallModel.ApplyMaterialPreset(wall, ConcreteMaterialCatalog.Steel(false, "NTC 2018").Single(p => p.S("nome") == "B450A"));
+            Is(m.D("steel_eps_u") == 25 && Anthea.Application.Walls.WallModel.SteelDifference(m) is null, "DET-3 muro B450A del catalogo: nessuna nota");
+            m["steel_eps_u"] = 30;
+            string? note = Anthea.Application.Walls.WallModel.SteelDifference(m);
+            Is(note == "Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo.",
+                "DET-3 muro B450A con εu 30: «" + note + "»");
+            m["fyk"] = 500;
+            note = Anthea.Application.Walls.WallModel.SteelDifference(m);
+            Is(note is not null && note.Contains("fyk = 500 MPa (catalogo 450 MPa)") && note.Contains("εu = 30 ‰ (catalogo 25 ‰)"), "DET-3 muro: fyk del muro letto come fyk_mpa: «" + note + "»");
+            // Muro precedente senza materiali di catalogo: i completamenti lo lasciano «Personalizzato», nessuna nota.
+            m.Remove("classe_acciaio");
+            Is(Anthea.Application.Walls.WallModel.SteelDifference(m) is null && !m.ContainsKey("classe_acciaio"), "DET-3 muro senza classe dell'acciaio: nessuna nota, materiali non riscritti");
         }
 
         // ------------------------------------------------------------ foglio c.a. del palo con coefficienti unitari: ancoraggi e dettagli

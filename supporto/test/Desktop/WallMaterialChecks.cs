@@ -14,6 +14,22 @@ internal static class WallMaterialChecks
         var d = RetainingWall.Defaults(); using var view = new RetainingWallWorkspace(d);
         var form = view.Forms["materials"];
         Check(Application.Current.Windows.Count == 0,"Nessuna finestra nativa");
+        // DET-3 (seguito del 16/10/2026): acciaio del muro salvato come B450A con εu = 30 ‰ (catalogo precedente). La scheda Materiali lo dichiara
+        // con la nota del campo, come la sezione c.a. e il palo orizzontale, senza riscrivere il valore; con l'acciaio del catalogo nessuna nota.
+        const string det3 = "Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo.";
+        IEnumerable<TextBlock> Notes(RetainingWallWorkspace w) => Ui.Descendants<TextBlock>(w.Forms["materials"]).Where(t => t.Text.StartsWith("Valori salvati diversi dal catalogo") && t.Parent is FrameworkElement { Visibility: Visibility.Visible });
+        var saved = RetainingWall.Defaults(); saved["materials"]!["classe_acciaio"] = "B450A";
+        RetainingWall.ApplyMaterialPreset(saved, Anthea.Application.Materials.MaterialInputCatalog.Steel(false, "NTC 2018").Single(x => x.S("nome") == "B450A"));
+        saved["materials"]!["steel_eps_u"] = 30;
+        using (var savedView = new RetainingWallWorkspace(saved))
+        {
+            savedView.Cards["Terreno"].IsExpanded = false; savedView.Width = 1600; savedView.Height = 1000; savedView.Measure(new(1600, 1000)); savedView.Arrange(new(0, 0, 1600, 1000)); savedView.UpdateLayout();
+            Check(Notes(savedView).Select(t => t.Text).SequenceEqual([det3]), "Nota DET-3 dell'acciaio salvato nella scheda Materiali del muro");
+            Check(saved["materials"].D("steel_eps_u") == 30, "Valore salvato non riscritto all'apertura");
+            File.WriteAllBytes(Path.Combine(directory, "materiali-muro-acciaio-salvato.png"), Ui.Snapshot(savedView));
+        }
+        view.Width = 1600; view.Height = 1000; view.Measure(new(1600, 1000)); view.Arrange(new(0, 0, 1600, 1000)); view.UpdateLayout();
+        Check(!Notes(view).Any(), "Nessuna nota DET-3 con l'acciaio del catalogo");
         ((ComboBox)form.Editors["classe_cls"]).SelectedItem = "C40/50";
         ((ComboBox)form.Editors["classe_acciaio"]).SelectedItem = "B450A";
         Check(d["materials"].D("fck")==40 && d["materials"].S("classe_acciaio")=="B450A","Selettori aggiornano i materiali effettivi");
