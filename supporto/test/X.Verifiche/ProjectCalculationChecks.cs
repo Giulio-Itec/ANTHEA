@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using X.Core;
+using Anthea.Application.Documents;
 
 /// <summary>Collects check outcomes, so that a failure does not hide the checks that follow it.</summary>
 internal sealed class CheckLog
@@ -98,7 +99,7 @@ internal static class ProjectCalculationChecks
             var duplicate = ProjectRevisions.Duplicate(section);
             Check(!ProjectSharedData.SubtreeSheets(duplicate).Select(s => s.S("id")).Intersect(ProjectSharedData.SubtreeSheets(section).Select(s => s.S("id"))).Any(), "Duplica conserva gli ID");
             string path = Path.Combine(directory, "progetti.programma");
-            Archivio.Scrivi(path, document); var restored = Archivio.Leggi(path);
+            DocumentService.Save(path, document); var restored = DocumentService.Open(path);
             Check(JsonNode.DeepEquals(restored, document), "Salvataggio/riapertura cambia il progetto");
         });
 

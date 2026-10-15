@@ -102,6 +102,6 @@ public sealed partial class SectionActionsViewModel : ObservableObject
         {
             var v = r.Values(); double F(string k) => SectionWorkspace.Number(v.S(k), k);
             return new SectionActionsExcel.Row(v.S("stato"), r.Name, F("N"), F("Mx"), F("My"), F("Vx"), F("Vy"), F("T"), r.Element);
-        }), unified: true);
+        }));
     }
 }

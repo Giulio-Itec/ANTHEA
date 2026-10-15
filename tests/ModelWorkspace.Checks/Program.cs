@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using X.Core;
 using Anthea.Calculations;
+using Anthea.Application.Documents;
 
 static partial class Program
 {
@@ -44,13 +45,13 @@ static partial class Program
             var changed = Sample.Model(); changed.Plates[0] = changed.Plates[0] with { Offset = .45 }; ProjectModelStore.Set(sub, changed, id);
             Check(ProjectModelStore.LinkStatus(sub, sheet) == "Riferimento da aggiornare" && sheet["dati"]!.ToJsonString() == input, "replacement marks stale references without applying loads");
             Check(ProjectModelStore.Read(sub, secondId)!.Plates[0].Offset == -.7, "replacing one model leaves the second model unchanged");
-            string archive = Path.Combine(output, "progetto.programma"); Archivio.Scrivi(archive, doc); var reopened = Archivio.Leggi(archive);
+            string archive = Path.Combine(output, "progetto.programma"); DocumentService.Save(archive, doc); var reopened = DocumentService.Open(archive);
             var reopenedSub = ProjectRevisions.Find(reopened, sub.S("id"))!;
             Check(ProjectModelStore.Models(reopenedSub).Count() == 2 && ProjectModelStore.Read(reopenedSub, id)!.Fingerprint() == changed.Fingerprint(), "real ANTHEA archive persists multiple models per subphase");
             ProjectRevisions.NewRevision(doc, sub, "Con modello");
             changed.Plates[0] = changed.Plates[0] with { Offset = .9 }; ProjectModelStore.Set(sub, changed, id);
             ProjectRevisions.NewRevision(doc, sub, "Offset modificato");
-            Archivio.Scrivi(archive, doc); reopened = Archivio.Leggi(archive);
+            DocumentService.Save(archive, doc); reopened = DocumentService.Open(archive);
             reopenedSub = ProjectRevisions.Find(reopened, sub.S("id"))!;
             var history = reopenedSub.Array("revisioni").OfType<JsonObject>().First();
             var historical = ProjectRevisions.Snapshot(reopened, history);
@@ -110,7 +111,7 @@ static partial class Program
                 real.Name = "Spalla · modello del laboratorio"; string key = ProjectModelStore.Set(sf, real);
                 ProjectModelStore.Link(sf, check, key, real.Results[0].Values[0].Element, real.Results[0].Name, "Myy");
                 ProjectModelStore.Set(sf, Sample.Model());
-                Archivio.Scrivi(Path.Combine(output, "demo-modelli.programma"), demo);
+                DocumentService.Save(Path.Combine(output, "demo-modelli.programma"), demo);
                 File.WriteAllText(Path.Combine(output, "spalla.antheamodel"), JsonSerializer.Serialize(real));
             }
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks"); return 0;

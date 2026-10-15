@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -62,7 +63,7 @@ public sealed partial class MainWindow
         Commit(); ShowHome(); ResumeCalculation();
         if (!ReferenceEquals(editor, retained) || !ReferenceEquals(editor.Result, retainedResult) || editor.Data.ToJsonString() != retainedData)
             throw new Exception("Navigazione Home perde il modulo orizzontale");
-        Commit(); Archivio.Scrivi(Path.Combine(directory, "orizzontale.programma"), document);
+        Commit(); DocumentService.Save(Path.Combine(directory, "orizzontale.programma"), document);
         editor.ExportResult(Path.Combine(directory, "orizzontale.json"));
         editor.ExportReport(Path.Combine(directory, "orizzontale.docx"), "Palo orizzontale", []);
         File.WriteAllText(Path.Combine(directory, "orizzontale.csv"), PaloOrizzontale.Csv(editor.Result!));
@@ -87,7 +88,7 @@ public sealed partial class MainWindow
         }
         var retained = editor; Commit(); ShowHome(); ResumeCalculation();
         if (!ReferenceEquals(retained, editor)) throw new Exception("Home perde micropalo CHS");
-        Archivio.Scrivi(Path.Combine(directory, "micropalo.programma"), document);
+        DocumentService.Save(Path.Combine(directory, "micropalo.programma"), document);
         editor.ExportReport(Path.Combine(directory, "micropalo.docx"), "Micropalo orizzontale CHS", []);
         dirty = false; LoadFile(Path.Combine(directory, "micropalo.programma")); await editor.WaitForHorizontalAutomatic();
         if (editor.Result?["sezione"].S("tipo") != "CHS") throw new Exception("Riapertura CHS fallita");

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -116,7 +117,7 @@ public sealed partial class MainWindow
         var opened = Application.Current.Windows.OfType<MainWindow>().Single(window => !ReferenceEquals(window, this));
         Check(opened.editor!.Module == "str_palo" && opened.editor.Data["input"].D("width_mm") == 1000, "Apertura del vero modulo c.a. con fascia unitaria");
         Check(opened.editor.Data["input"].D("fck_mpa") == w.Data["materials"].D("fck") && opened.editor.Data["input"].D("top_bar_diameter_mm") == 12, "Sezione c.a. mantiene materiali e armatura della zona selezionata");
-        opened.Commit(); Archivio.Scrivi(Path.Combine(directory, "sezione-inviata.anthea"), opened.document);
+        opened.Commit(); DocumentService.Save(Path.Combine(directory, "sezione-inviata.anthea"), opened.document);
         File.WriteAllBytes(Path.Combine(directory, "sezione-inviata.png"), Ui.Snapshot(opened)); opened.Close();
         Check(ReferenceEquals(editor!.retainingWall, w) && w.Calculation is not null, "Invio sezione conserva il muro e i suoi risultati");
         w.CheckFilter.SelectedItem = "Riepilogo completo";
@@ -128,7 +129,7 @@ public sealed partial class MainWindow
         editor.ExportReport(Path.Combine(directory, "gravita.docx"), "Muro a gravità", []); editor.ExportResult(Path.Combine(directory, "gravita.json"));
         w.Example("cantilever"); var pending = w.CalculateAsync(); w.Forms["action"].Set("value", "35"); await pending; await w.CalculateAsync();
         Check(w.Calculation!.Input["actions"]![0].D("value") == 35, "Una modifica durante il calcolo scarta il risultato precedente");
-        Commit(); string file = Path.Combine(directory, "mensola.anthea"); Archivio.Scrivi(file, document); var loaded = Archivio.Leggi(file);
+        Commit(); string file = Path.Combine(directory, "mensola.anthea"); DocumentService.Save(file, document); var loaded = DocumentService.Open(file);
         Check(loaded["dati"]!["actions"]![0].D("value") == 35, "Salvataggio dal workspace");
         editor.ExportReport(Path.Combine(directory, "mensola.docx"), "Muro a mensola", []);
         var reportCaptions = WallAdvancedChecks.ReportFigureCaptions(w, global: false);

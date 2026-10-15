@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
@@ -215,7 +216,7 @@ internal sealed partial class ConcreteWorkspace
         Assert(shearGrid.Rows.Count == 1 && shearGrid.Rows[0].Values.D("N") == -50, "Excel carica tabella Taglio");
         Commit();
         Assert(ShearOptions["azioni"]![0].D("Mx") == 12 && ShearOptions["azioni"]![0].D("My") == -18, "Commit conserva i momenti associati al taglio");
-        var shearExport = SectionActionsExcel.Read(SectionActionsExcel.Write(ExportActionRows())).Rows.Single(r => r.Family == "Taglio");
+        var shearExport = SectionActionsExcel.Read(LegacySectionActionsExcel.Write(ExportActionRows())).Rows.Single(r => r.Family == "Taglio");
         Assert(shearExport.Mx == 12 && shearExport.My == -18, "Esportazione conserva Mx/My del taglio");
         await Automatic();
         Assert(Result is not null && shearResults.Count == 1 && stressResults["SLE_QP"].Count == 1, "Excel avvia il ricalcolo");
@@ -257,7 +258,7 @@ internal sealed partial class ConcreteWorkspace
         Assert(three.Grid.Items.Count == 1 && actions["SLU"].Count == 2, "Filtro testuale non elimina input");
         filter.Query = ""; filter.SortKey = "N"; filter.Descending = false; ApplyTableFilter(three.Grid);
         Assert(three.Grid.Items.OfType<JsonRow>().First().Values.D("N") <= three.Grid.Items.OfType<JsonRow>().Last().Values.D("N"), "Ordinamento numerico e non lessicografico");
-        var xlsx = SectionActionsExcel.Write(ExportActionRows()); File.WriteAllBytes(Path.Combine(directory, "sollecitazioni.xlsx"), xlsx); RememberExcel(Path.Combine(directory, "sollecitazioni.xlsx"));
+        var xlsx = LegacySectionActionsExcel.Write(ExportActionRows()); File.WriteAllBytes(Path.Combine(directory, "sollecitazioni.xlsx"), xlsx); RememberExcel(Path.Combine(directory, "sollecitazioni.xlsx"));
         Assert(SectionActionsExcel.Read(xlsx).Rows.Count == actions.Values.Sum(a => a.Count) + shearGrid.Rows.Count && excelPaths.All(t => t.Text == settings.S("file_sollecitazioni")), "Excel esportazione completa e percorso condiviso");
         var unchangedDomains = domainResults.ToDictionary(kv => kv.Key, kv => kv.Value);
         var unchangedStress = stressResults.ToDictionary(kv => kv.Key, kv => kv.Value);
@@ -383,8 +384,8 @@ internal sealed partial class ConcreteWorkspace
             Assert(firstImage >= 0 && firstImage < materialsHeading && blocks.Count(b => b.Descendants(w + "drawing").Any()) >= 4, "Grafici inseriti nelle sezioni pertinenti");
             Assert(blocks.Any(b => b.Descendants(w + "t").Any(t => t.Value.Contains("governante tensioni"))), "Contouring report riferito alla combinazione governante");
         }
-        Commit(); string archivePath = Path.Combine(directory, "ca_impostazioni.programma"); var archive = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", "str_palo"), ("dati", Data)); Archivio.Scrivi(archivePath, archive);
-        Assert(System.Text.Json.Nodes.JsonNode.DeepEquals(Archivio.Leggi(archivePath)["dati"], Data), "Salvataggio integrale opzioni, normativa, staffe, Excel e report");
+        Commit(); string archivePath = Path.Combine(directory, "ca_impostazioni.programma"); var archive = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", "str_palo"), ("dati", Data)); DocumentService.Save(archivePath, archive);
+        Assert(System.Text.Json.Nodes.JsonNode.DeepEquals(DocumentService.Open(archivePath)["dati"], Data), "Salvataggio integrale opzioni, normativa, staffe, Excel e report");
         var reopened = new ConcreteWorkspace((JsonObject)Data.DeepClone()); reopened.Commit();
         Assert(reopened.settings.S("file_sollecitazioni") == settings.S("file_sollecitazioni") && reopened.ShearOptions.S("rami_x") == "4" && reopened.domainPanels.All(p => p.Options.B("colora_eta")), "Riapertura delle nuove impostazioni"); reopened.Dispose();
         owner.Width = 1366; owner.Height = 850;

@@ -76,7 +76,7 @@ try
         "src/ANTHEA.Application/Templates/ANTHEA_Sollecitazioni.xlsx")))), "Risorsa Excel diversa dal modello originale");
     SectionActionsExcel.Row[] rows = [new("SLU", "Combinazione firmata", -125.5, 34.75, -8, null, null),
         new("Taglio", "Torsione", 9, null, null, -22.25, 32.5, -2.75)];
-    var imported = SectionActionsExcel.Read(SectionActionsExcel.Write(rows));
+    var imported = SectionActionsExcel.Read(LegacySectionActionsExcel.Write(rows));
     Check(rows.SequenceEqual(imported.Rows), "Segni, valori o campi opzionali Excel alterati");
     Check(imported.FormulaCells == 0, "Export a valori contiene formule");
     checks += DocumentFileChecks.Run(output);

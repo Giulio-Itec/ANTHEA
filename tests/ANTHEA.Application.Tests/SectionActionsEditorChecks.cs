@@ -14,7 +14,7 @@ internal static class SectionActionsEditorChecks
         void Check(bool ok, string message) { if (!ok) throw new Exception(message); checks++; }
         void Reject(Action action) { try { action(); } catch (ArgumentException) { checks++; return; } throw new Exception("Excel invalido accettato"); }
         SectionActionsExcel.Row[] expected = [new("SLU", "C1", -123.45, 3.4, -5.6, 7.8, 0, -9.1), new("SLU", "C1", 1, 2, 3, 4, 5, 6, "E-02"), new("SLV", "Sisma", -10, 2, 4, 6, 8, 10, "E-03"), new("SLE", "Rara", 10, 20, 30, 40, 50, 60)];
-        byte[] bytes = SectionActionsExcel.Write(expected, unified: true);
+        byte[] bytes = SectionActionsExcel.Write(expected);
         var read = SectionActionsExcel.Read(bytes);
         Check(!read.Legacy && read.Rows.SequenceEqual(expected), "Ordine, segni o associazione elemento errati");
         Check(SectionActionsExcel.Read(SectionActionsExcel.Template()).Rows.Count == 0, "Template inventa combinazioni");

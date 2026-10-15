@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -50,8 +51,8 @@ public sealed partial class MainWindow
             w.Forms["global_search"].Set("depth_max", "6.9"); w.Forms["foundation"].Set("delta", "26"); await w.CalculateAsync();
             Width = 1050; await Settle(); File.WriteAllBytes(Path.Combine(directory, "globale-1050.png"), Ui.Snapshot(this));
             Check(w.Pages.Items.Count == 2, "Restano due sole schede");
-            Commit(); Archivio.Scrivi(Path.Combine(directory, "globale.anthea"), document);
-            Check(Archivio.Leggi(Path.Combine(directory, "globale.anthea"))["dati"]!["global_stability"].B("enabled"), "Salvataggio e rilettura degli input globali");
+            Commit(); DocumentService.Save(Path.Combine(directory, "globale.anthea"), document);
+            Check(DocumentService.Open(Path.Combine(directory, "globale.anthea"))["dati"]!["global_stability"].B("enabled"), "Salvataggio e rilettura degli input globali");
         }
         finally { File.WriteAllLines(Path.Combine(directory, "smoke.txt"), log); }
     }

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -47,13 +48,13 @@ public sealed partial class MainWindow
         foreach (var p in RebarMaterial.Curve(view.Input)) Check(Math.Abs(customNative.GetStress(p[0] / 1000) - p[1]) < 1e-6, "Diagramma incrudente incoerente col motore");
         Check(dirty && view.Status.Text.StartsWith("✓"), "Personalizzato non valido o modifiche non segnalate");
         string single = Path.Combine(directory, "acciaio.programma"); var expected = editor!.Data.DeepClone();
-        Archivio.Scrivi(single, document); dirty = false; LoadFile(single); Commit();
+        DocumentService.Save(single, document); dirty = false; LoadFile(single); Commit();
         Check(JsonNode.DeepEquals(expected, editor!.Data), "Round trip singolo perde dati");
         ShowHome(); OpenModule(RebarMaterial.Module); Check(editor!.Data["input"].D("fyk_mpa") == 410.5, "Riprendi perde l'acciaio");
         view = editor.rebarMaterial!;
         view.Properties.Set("steel_fu_mpa", "400"); Check(view.Status.Text.Contains("fu deve"), "fu < fy accettato");
         view.Properties.Set("steel_fu_mpa", "550"); view.Properties.Set("steel_eps_u", "0,1"); Check(view.Status.Text.Contains("εu deve"), "εu inferiore a snervamento accettato");
-        view.Properties.Set("steel_eps_u", "abc"); Commit(); Archivio.Scrivi(single, document); dirty = false; LoadFile(single);
+        view.Properties.Set("steel_eps_u", "abc"); Commit(); DocumentService.Save(single, document); dirty = false; LoadFile(single);
         Check(editor!.Data["input"].S("steel_eps_u") == "abc" && editor.rebarMaterial!.Status.Text.StartsWith("⚠"), "Input incompleto perso alla riapertura");
 
         // Real project commit: update all, then only this sheet; other sections remain independent.
@@ -88,7 +89,7 @@ public sealed partial class MainWindow
         var newSteel = Sheet(RebarMaterial.Module, "Nuovo acciaio"); section.Array("fogli").Add(newSteel); InheritSectionData(newSteel, section);
         Check(newSteel["dati"]!["input"].S("classe_acciaio") == "B450A", "Nuovo acciaio non eredita la sezione");
         Commit(); ShowProjects(); await Capture("progetto-acciaio");
-        string archive = Path.Combine(directory, "progetto-acciaio.programma"); Archivio.Scrivi(archive, document); dirty = false; LoadFile(archive);
+        string archive = Path.Combine(directory, "progetto-acciaio.programma"); DocumentService.Save(archive, document); dirty = false; LoadFile(archive);
         var restored = document.Array("progetti")[0]!["strutture"]![0]!["fogli"]![0]!.AsObject(); ShowSheet(restored); Commit();
         Check(editor!.Data["input"].S("classe_acciaio") == "B450A", "Riapertura progetto perde dati acciaio");
         editor.rebarMaterial!.Selection.SelectedItem = "FeB22k"; Commit();

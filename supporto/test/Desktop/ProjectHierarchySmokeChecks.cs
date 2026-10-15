@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -125,7 +126,7 @@ public sealed partial class MainWindow
         Check(!ProjectSharedData.AncestorReferences(pile, "cover_mm").Any() && pile["dati"]!["sezione"].S("classe_acciaio") == independent["dati"]!["input"].S("classe_acciaio"), "Spostamento cambia dati o conserva vecchia autorità");
         Drop(upper, SheetDragFormat, pile); Check(ReferenceEquals(pile.Parent, upper["fogli"]), "Impossibile riportare una scheda nel gruppo superiore");
         ShowProjects(); await Capture("progetti-gerarchici");
-        string archive = Path.Combine(directory, "gerarchia.programma"); Archivio.Scrivi(archive, document);
+        string archive = Path.Combine(directory, "gerarchia.programma"); DocumentService.Save(archive, document);
         var expected = document.DeepClone(); dirty = false; LoadFile(archive);
         Check(JsonNode.DeepEquals(expected, document), "Salvataggio/riapertura cambia gerarchia o dati");
         var restoredRoot = document.Array("progetti")[0]!.AsObject();

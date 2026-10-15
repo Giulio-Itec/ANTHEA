@@ -113,9 +113,9 @@ internal static class ConcreteEnhancementChecks
         input["cls_diagramma"] = "Bilineare"; Check(ConcreteMaterials.Concrete(input).CompressionStressStrainDiagram.ToString() == "Bilinear", "Diagramma CLS custom");
         Check(EngineeringFormat.Number(.00000234).Contains("E") && EngineeringFormat.Number(1.234).EndsWith("23"), "Formato due decimali e numeri piccoli");
         var rows = new[] { new SectionActionsExcel.Row("SLU", "=testo non formula", -123.456789, 1.2345, 0, null, null), new SectionActionsExcel.Row("Taglio", "Taglio", -10, null, null, 20, -30) };
-        var roundtrip = SectionActionsExcel.Read(SectionActionsExcel.Write(rows));
+        var roundtrip = SectionActionsExcel.Read(LegacySectionActionsExcel.Write(rows));
         Check(roundtrip.Rows.SequenceEqual(rows) && roundtrip.FormulaCells == 0, "Excel round trip completo con precisione e testo sicuro");
-        Check(SectionActionsExcel.Read(SectionActionsExcel.Write([])).Rows.Count == 0, "Excel vuoto reimportabile");
+        Check(SectionActionsExcel.Read(LegacySectionActionsExcel.Write([])).Rows.Count == 0, "Excel vuoto reimportabile");
         var scenario = SezioneCA.DefaultData(); var shared = SectionWorkspace.Prepare(scenario); var sectionInput = scenario["input"]!.AsObject();
         var domainOptions = shared["dominio3d"]!.AsObject(); domainOptions["angoli"] = "8"; domainOptions["suddivisioni_n"] = "8";
         var domain = new CheckerSection(sectionInput, shared, domainOptions).Domain3D(); var mesh = domain.Mesh; var native = domain.Native.Domain;

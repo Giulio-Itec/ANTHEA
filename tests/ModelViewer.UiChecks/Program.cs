@@ -13,6 +13,7 @@ using ANTHEA.ModelViewer.Wpf;
 using Anthea.Calculations;
 using HelixToolkit.Wpf.SharpDX;
 using X.Core;
+using Anthea.Application.Documents;
 
 static partial class Program
 {
@@ -99,7 +100,7 @@ static partial class Program
                 fixture.NodeFrames = [new(1, new(0, 1, 0), new(-1, 0, 0), new(0, 0, 1))];
                 fixture.Boundaries = [new("CONS/1", "RESTRAIN", [1], null, "DX, DY, DZ"), new("ELNK/1", "CONSTRAINT", [1, 6], null, "DX"), new("ELNK/2", "LINK", [2, 5], null, "Matrice elastica"), new("FRLS/12/I", "RELEASE", [1], 12, "RZ")];
                 ProjectModelStore.Set(sf, fixture);
-                archive = Path.Combine(output, "ui.programma"); Archivio.Scrivi(archive, doc);
+                archive = Path.Combine(output, "ui.programma"); DocumentService.Save(archive, doc);
             }
             if (Path.GetExtension(archive).Equals(".antheamodel", StringComparison.OrdinalIgnoreCase))
             {
@@ -107,7 +108,7 @@ static partial class Program
                 var project = ProjectDocuments.AddProject(doc, "Prova del visualizzatore");
                 var subphase = ProjectDocuments.AddSection(project, "Modello offline");
                 ProjectModelStore.Set(subphase, ModelSnapshotFiles.Read(archive));
-                archive = Path.Combine(output, "preview.programma"); Archivio.Scrivi(archive, doc);
+                archive = Path.Combine(output, "preview.programma"); DocumentService.Save(archive, doc);
             }
             window = new X.Desktop.MainWindow { Width = 1600, Height = 990, ShowInTaskbar = false, ShowActivated = false };
             Call(window, "LoadFile", archive); window.Show(); Wait(150);
