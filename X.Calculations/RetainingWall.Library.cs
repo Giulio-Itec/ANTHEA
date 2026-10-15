@@ -188,27 +188,26 @@ public static partial class RetainingWall
 
     /// <summary>
     /// The fixed cases of a version 1 document: characteristic, frequent (ψ1) and quasi permanent (ψ2) on the three loads; 8 or 16 ULS with γR 1.1,
-    /// 1.15, 1.4 and γR,e 1.4 of the passive in front (MUR-2), each one with the surcharge (factor 1.5) followed, on a wall with a heel, by its
-    /// twin «b» without the variable surcharge on the heel (MUR-1, the rule of WallCombinations.Generate); seismic ±kv with ψ2 and the seismic
-    /// bearing γR 1.2. Returned with the factor of the loads of every case.
+    /// 1.15, 1.4 and γR,e 1.4 of the passive in front (MUR-2); seismic ±kv with ψ2 and the seismic bearing γR 1.2. On a wall with a heel every ULS
+    /// and seismic case with the surcharge (factor 1.5 or ψ2 &gt; 0) is followed by its twin «b» without the variable surcharge on the heel (MUR-1,
+    /// the rule of WallCombinations.Generate, extended to the seismic and accidental rows on 16/10/2026). Returned with the factor of the loads of
+    /// every case.
     /// </summary>
     static List<(WallCombination Combination, double Live)> LegacyCombinations(JsonObject d)
     {
         var loads = d["loads"]!; bool water = d["water"].B("enabled"), heel = d["geometry"].D("heel") > 0;
         var result = new List<(WallCombination, double)>();
-        void Add(string name, WallLimitState state, double fc, double fs, double fq, double fw = 1, double kh = 0, double kv = 0, bool onHeel = true)
+        void Add(string name, WallLimitState state, double fc, double fs, double fq, double fw = 1, double kh = 0, double kv = 0)
         {
             bool design = state is WallLimitState.Ultimate or WallLimitState.Seismic;
-            result.Add((new WallCombination(name, state, fc, fs, fs, fw, 1, design ? 1.1 : 1, design ? 1.15 : 1, state == WallLimitState.Seismic ? 1.2 : design ? 1.4 : 1, kh, kv,
-                new Dictionary<string, double> { ["q"] = fq, ["hq"] = fq, ["nq"] = fq }, variableSurchargeOnHeel: onHeel, passiveFactor: DefaultPassiveFactor(state)), fq));
+            foreach (bool onHeel in design && heel && fq > 0 ? new[] { true, false } : new[] { true })
+                result.Add((new WallCombination(onHeel ? name : name + "b", state, fc, fs, fs, fw, 1, design ? 1.1 : 1, design ? 1.15 : 1, state == WallLimitState.Seismic ? 1.2 : design ? 1.4 : 1, kh, kv,
+                    new Dictionary<string, double> { ["q"] = fq, ["hq"] = fq, ["nq"] = fq }, variableSurchargeOnHeel: onHeel, passiveFactor: DefaultPassiveFactor(state)), fq));
         }
         Add("Caratteristica", WallLimitState.Characteristic, 1, 1, 1); Add("Frequente", WallLimitState.Frequent, 1, 1, loads.D("psi1")); Add("Quasi permanente", WallLimitState.QuasiPermanent, 1, 1, loads.D("psi2"));
         int index = 0;
         foreach (double fc in new[] { 1d, 1.3 }) foreach (double fs in new[] { 1d, 1.3 }) foreach (double fq in new[] { 0d, 1.5 }) foreach (double fw in water ? new[] { 1d, 1.3 } : new[] { 1d })
-        {
             Add("SLU " + ++index, WallLimitState.Ultimate, fc, fs, fq, fw);
-            if (heel && fq > 0) Add("SLU " + index + "b", WallLimitState.Ultimate, fc, fs, fq, fw, onHeel: false);
-        }
         if (d["seismic"].B("enabled")) foreach (double kv in new[] { -d["seismic"].D("kv"), d["seismic"].D("kv") }.Distinct())
             Add(kv < 0 ? "Sisma kv−" : "Sisma kv+", WallLimitState.Seismic, 1, 1, loads.D("psi2"), 1, d["seismic"].D("kh"), kv);
         return result;

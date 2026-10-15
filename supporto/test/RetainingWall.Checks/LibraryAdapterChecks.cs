@@ -99,7 +99,10 @@ internal static class LibraryAdapterChecks
         var bearing = seismic.Cases.First(c => c.State == "SISMA" && c.SeismicBearing is not null).SeismicBearing!;
         Same(bearing.SoilInertia, .28 / Math.Tan(34 * deg), "F̄ = ag S/(g tan φ′d) senza γRd, EN 1998-5 (F.7)");
         Check(!RetainingWall.ModelFactorOnSoilInertia, "γRd non applicato a F̄ (D7-c)");
-        Check(seismic.Cases.Count(c => c.State == "SISMA") == 4 && seismic.Cases.Where(c => c.State == "SISMA").All(c => c.Factors.S("purpose") is "Generale" or "Ribaltamento"), "Sisma dal sito: generale e ribaltamento ±kv");
+        Check(seismic.Cases.Count(c => c.State == "SISMA" && c.VariableSurchargeOnHeel) == 4 && seismic.Cases.Where(c => c.State == "SISMA").All(c => c.Factors.S("purpose") is "Generale" or "Ribaltamento"), "Sisma dal sito: generale e ribaltamento ±kv");
+        // MUR-1 esteso al sisma: ogni gemella sismica segue la propria riga (stessa destinazione e stessi kh, kv).
+        Check(seismic.Cases.Where(c => c.State == "SISMA" && !c.VariableSurchargeOnHeel).All(t => seismic.Cases.Any(p => p.Name + "b" == t.Name && p.VariableSurchargeOnHeel
+            && p.Factors.S("purpose") == t.Factors.S("purpose") && p.Kh == t.Kh && p.Kv == t.Kv)), "Gemelle sismiche accanto alla propria riga");
 
         // 6. Serviceability: results of the library, data errors as in the legacy calculation.
         var service = RetainingWall.Defaults(); var opt = service["serviceability"]!; opt["settlement"] = true; opt["removed_pressure"] = 0;
