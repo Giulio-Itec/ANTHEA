@@ -356,20 +356,5 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         AttachClipboard(grid, ActiveKey, buttons);
         return Ui.Dock(WithFilters(grid), bottom: buttons);
     }
-    internal static List<string[]> ParsePaste(string text)
-    {
-        var result = new List<string[]>();
-        foreach (string line in text.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries))
-        {
-            var cells = line.Split('\t');
-            if (cells.Length == 4 && cells[1].Trim().StartsWith("N", StringComparison.OrdinalIgnoreCase)) continue;
-            if (cells.Length == 3) cells = new[] { "", cells[0], cells[1], cells[2] };
-            if (cells.Length != 4) throw new ArgumentException("Usare 3 colonne N–Mx–My oppure 4 colonne Nome–N–Mx–My, separate da tabulazioni.");
-            for (int i = 1; i < 4; i++) ConcreteEditor.Number(cells[i], "Riga " + (result.Count + 1));
-            result.Add(cells);
-        }
-        if (result.Count == 0) throw new ArgumentException("Nessuna combinazione da incollare.");
-        return result;
-    }
     public void Dispose() { disposed = true; calculationQueued = false; analysisScheduler.Dispose(); curvatureScheduler.Dispose(); quickResistanceScheduler.Dispose(); designCancellation?.Cancel(); foreach (var panel in domainPanels) panel.Inspection.Session.Dispose(); }
 }

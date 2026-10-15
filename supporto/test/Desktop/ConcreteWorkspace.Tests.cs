@@ -62,4 +62,22 @@ internal sealed partial class ConcreteWorkspace
 
     // Da ConcreteWorkspace.cs: scorciatoia delle prove per cambiare il diametro.
     internal void SetGeometry(string value) => geometry.Set("diameter_mm", value);
+
+    // Da ConcreteWorkspace.cs: lettura storica degli appunti, codice morto nel prodotto (l'incolla usa PasteCells di
+    // ConcreteExchange.cs). Resta per la prova che accetta 3 e 4 colonne nello stesso incolla, caso che PasteCells rifiuta.
+    internal static List<string[]> ParsePaste(string text)
+    {
+        var result = new List<string[]>();
+        foreach (string line in text.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries))
+        {
+            var cells = line.Split('\t');
+            if (cells.Length == 4 && cells[1].Trim().StartsWith("N", StringComparison.OrdinalIgnoreCase)) continue;
+            if (cells.Length == 3) cells = new[] { "", cells[0], cells[1], cells[2] };
+            if (cells.Length != 4) throw new ArgumentException("Usare 3 colonne N–Mx–My oppure 4 colonne Nome–N–Mx–My, separate da tabulazioni.");
+            for (int i = 1; i < 4; i++) ConcreteEditor.Number(cells[i], "Riga " + (result.Count + 1));
+            result.Add(cells);
+        }
+        if (result.Count == 0) throw new ArgumentException("Nessuna combinazione da incollare.");
+        return result;
+    }
 }
