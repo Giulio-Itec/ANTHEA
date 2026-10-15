@@ -10,6 +10,7 @@ internal static class F4StructuralAdapterChecks
     {
         CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("it-IT");
         int walls=0,numbers=0,shear=0,curvatures=0; double maxError=0;var errors=new List<string>();
+        var categories=new F4WallFixCategories.Counts(); // differenze classificate MUR-1, MUR-2, MUR-3 (F4WallFixCategories)
         var hashes=JsonNode.Parse(File.ReadAllText(Path.Combine(root,"tests/fixtures/f4/reference.json")))!["files"]!.AsArray()
             .ToDictionary(v=>v!["file"]!.GetValue<string>(),v=>v!["sha256"]!.GetValue<string>());
         JsonObject Read(string relative)
@@ -36,7 +37,7 @@ internal static class F4StructuralAdapterChecks
             string id=Path.GetFileName(file);var input=Read("inputs/walls/"+id);var captured=Read("results/walls/"+id);
             if(captured.S("status")!="ok"||input.S("family")!=(gravityOnly?"gravity":"cantilever"))continue;
             string before=input.ToJsonString();walls++;
-            var actual=JsonSerializer.SerializeToNode(RetainingWall.Calculate(input))!;
+            var actual=F4WallFixCategories.Classify(JsonSerializer.SerializeToNode(RetainingWall.Calculate(input))!,categories,errors,id);
             // Derive classified predictions in memory only; never rewrite the captured results.
             var expected=captured["value"]!.DeepClone();
             foreach(var check in expected["Structural"]!.AsArray().OfType<JsonObject>().Where(c=>c.S("Name").EndsWith(" · taglio senza staffe",StringComparison.Ordinal)))
@@ -84,10 +85,11 @@ internal static class F4StructuralAdapterChecks
         try { RetainingWall.Calculate(serviceInput,new CancellationToken(true));errors.Add("Cancelled calculation completed"); }
         catch(OperationCanceledException){cancellations++;}
         if(gravityOnly?walls!=6||curvatures!=240:walls!=26||shear!=12512||curvatures!=1572||shapes==0)errors.Add("Incomplete structural corpus");
+        if(categories.Mur1Twins==0||categories.Texts==0)errors.Add("MUR-1/MUR-2: classified differences not exercised");
         Directory.CreateDirectory(output);
-        File.WriteAllText(Path.Combine(output,"comparison.json"),JsonSerializer.Serialize(new{walls,numbers,shear,curvatures,shapes,cancellations,maxError,differences=errors.Count,errors=errors.Take(100)},new JsonSerializerOptions{WriteIndented=true}));
+        File.WriteAllText(Path.Combine(output,"comparison.json"),JsonSerializer.Serialize(new{walls,numbers,shear,curvatures,shapes,cancellations,maxError,classified=categories.Json(),differences=errors.Count,errors=errors.Take(100)},new JsonSerializerOptions{WriteIndented=true}));
         foreach(string e in errors.Take(15))Console.Error.WriteLine(e);
-        Console.WriteLine($"F4 structural adapter: {walls} walls, {numbers} numbers, {errors.Count} differences, max {maxError:R}");
+        Console.WriteLine($"F4 structural adapter: {walls} walls, {numbers} numbers, {errors.Count} differences, max {maxError:R}; classified: {categories.Line()}");
         return errors.Count==0?0:1;
     }
 }
