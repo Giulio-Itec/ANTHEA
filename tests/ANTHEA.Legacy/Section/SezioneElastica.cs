@@ -1,3 +1,5 @@
+// Spostato da X.Calculations/SezioneElastica.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: porting di sezione_elastica.py
+// (metodo n, domini campionati, calcolo storico della sezione) senza chiamanti nel prodotto. Codice storico conservato per le prove, fuori dall'installer.
 using System.Text.Json.Nodes;
 
 namespace Anthea.Calculations;
