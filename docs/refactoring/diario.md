@@ -834,3 +834,81 @@ Ramo `refactoring/f4-correzioni-audit`.
   0 BLOCKED.
 - **Setup 1.9.0:** 62836719 byte, SHA-256 D6C46DE0…86CD34, contenuto verificato.
 - F4 chiusa con il [verbale](chiusura-f4-20261015.md); merge in `main`, tag e push come da D5.
+
+## 15 ottobre 2026, pomeriggio e sera: residui di F2, analisi dei bug e release Y
+
+Ramo `refactoring/f2-residui`, poi `main`.
+- **14:40–15:49**, residui di F2:
+  - foglio delle decisioni E1–E8 (415e9db1);
+  - conteggio stabile di `Application.Tests`, TEST-04 (5f3ebb7b, 06ccbc18, merge 9df7e475);
+  - regole di fessurazione del 15/10 nell'adattatore: R1, R2 e F2-7 punto 3 (43203aa6);
+  - registro R1 e R2 attuati e voce F2-25 (9e47e630).
+- **16:25**, [analisi dei bug](analisi-bug-20261015.md) del codice di calcolo (1510289e).
+  - Workflow leggero con 32 agenti: 40 segnalazioni, 22 verificate e tutte confermate.
+  - Nessun repository modificato.
+- **Release Y**, intermedia, con le opzioni di fessurazione di R1, R2 e F2-25 (GPCChecker.Concrete 0.10.0.0).
+  - Checker master 6f15f185 pubblicato dall'utente; set non candidato in `supporto/artefatti/refactoring/f2/release-y`
+    con tutte le suite delle librerie superate.
+  - Installato in `lib/Checker` (2257e991, 21:24): profilo baseline 83 PASS, falliscono solo i due controlli della Wiki per
+    le figure non versionate.
+  - `main` portato avanti da `refactoring/f2-residui` e pubblicato.
+- **Sera**, piano delle correzioni approvato («il piano va bene», [decisioni](decisioni.md), 16 ottobre).
+  - Dalle 20:40 circa, agenti in parallelo, ognuno sul proprio ramo:
+    - ANTHEA, `refactoring/bug-1015`;
+    - c.a. SLU, c.a. SLE, geotecnica, ponte e Model, sui rami delle librerie.
+  - L'agente ANTHEA chiude 15 codici in 15 commit fra le 20:59 e le 21:39 (da TAG-1 a MUR-5); profilo standard invariato,
+    67 PASS più i 2 fallimenti della Wiki.
+  - Versioni delle librerie: Checker 3ae0cdb6 e Model b7171107. Set di sviluppo `lib-bug-dev` alle 22:19.
+
+## Notte 15-16 ottobre 2026: correzioni dei bug, chiusura di F2, stratigrafia e integrazione
+
+- **Risposte dell'utente** ([decisioni](decisioni.md), «16 ottobre (notte)»):
+  - catture congelate rigenerate;
+  - regole FES-1 e FES-2 dell'agente confermate;
+  - gemelle dei muri anche sismiche ed eccezionali;
+  - difetti nuovi tutti corretti;
+  - opzione del calcestruzzo teso nello storico del ponte;
+  - tension stiffening opzionale per tutti i calcestruzzi;
+  - MUR-2 nel ribaltamento lasciato aperto;
+  - combinazioni tutte in Model, in coda dopo il rilascio.
+- **Librerie**, rami di integrazione Checker `anthea-bug-1015`, Model `bugint-model` e `bug/model`:
+  - c.a.:
+    - SLU-1 (1bebb0b6, 390cab43), SLU-2 (2b0304e7, ModelChecker de1857f4), SLU-4 (e752c86f), TAG-1 (5fcbe78d);
+    - FES-1 (07966b4d), FES-2 (02234ce7), DET-1 (8f95242c), PO-3 (c35a0a5e), PO-5 (9b8a48ba);
+    - muri E1-D4 (8d547829) e ARM-3 in GPC.Design (9d50956c);
+    - seguiti 8a4a27e9, 73efb4ac e 6a4de7db;
+  - geotecnica:
+    - MUR-1 (cec70517, edc6ac35), MUR-2 (2836af62), MUR-3 (a8cf2722), MUR-4 (0077375a), MUR-5 (7c9327cc, a8f00e92);
+    - PO-2 (07e620a7), PV-1 (a9b36481), PV-2 (e42f2a1e), PV-3 (36e2639d), PV-4 (eb7a8d87);
+    - GEO-1 (7f77486c), GEO-2 (288bc983);
+  - ponte: PON-1 (29f115fa), PON-2 (520be2f1 e l'opzione f89826ba), PON-3 (360ac43b), PON-4 (8c56a876), PON-5 (ca12971d);
+  - Model:
+    - DET-3 (1b6738b0), SLU-5 (3bdcfc19), SLU-6 (60960461);
+    - seguiti b9d7cea3, 5d9def76, cb7d5f8b, ebcb3d59, 8ee12ef6 e d078a016;
+    - tension stiffening 79fca5ea, GPCModel 5.5.0.0 (12ac64d3); in Checker f22ddd5d, d31da989 e b06a58bd;
+  - catture congelate rigenerate: M–χ (b3e53fbd), punti del dominio (372d8a6d), solette e pareti (a0c36656), muri e pali
+    (d40bcc04). K0 invariato;
+  - E7: Checker 14673564 e Model 2ebc01e2.
+- **ANTHEA**:
+  - `refactoring/bug-1015`, con `main` (release Y) unito in dcc2ed44:
+    - agente c.a., 8 commit: SLU-1, SLU-2, SLU-4, FES-1 e FES-2, ARM-3, DET-3, coefficienti unitari del palo, categoria DET-1;
+    - profilo baseline con `lib-bug-dev`: da 77 a 79 PASS;
+  - `refactoring/bug-1015-geo`, agente geotecnica e ponte: MUR-1…MUR-4, E1-D4, PV-1, PO-2, PV-3, PON-1…PON-3 e Info
+    modello; profilo baseline da 77 PASS e 9 NEW-FAIL a 81 PASS e 5 NEW-FAIL.
+- **Chiusura di F2, E1–E8**:
+  - `refactoring/f2-documenti`: decisioni 91e30ebb, registro f4779a91, AGENTS.md 14e50945, piano a4c56f31, foglio dei
+    residui 1c9f43e9;
+  - `refactoring/f2-chiusura`: E3 (ae8f429f) ed E6 (8be5f0a4); profilo standard da 67 a 70 PASS.
+- **Stratigrafia**: `codex/modulo-stratigrafia` (89dc0d28, 31836d7d, guide Rev46) unito in 245f8ddf. Prima del push va
+  controllato che `StratigraphyAiImporter` non contenga segreti.
+- **Integrazione**, `refactoring/integrazione-1016`:
+  - unione di f2-chiusura (7e4d1982), stratigrafia (245f8ddf), bug-1015 (8c073dc4) e bug-1015-geo (94acc474);
+  - un conflitto in `tests/ConcreteLibraryAdapter.Checks/Program.cs`, risolto tenendo le sezioni 4b, 4c e 13;
+  - profilo standard prima dei rami delle correzioni: 70 PASS più i 2 fallimenti della Wiki.
+- **Alle 00:15**, lavori in corso, ognuno nel proprio worktree:
+  - seguiti di ANTHEA (`refactoring/seguiti-1016`), guide (`refactoring/guide-1016`), registro e documenti
+    (`refactoring/registro-1016`: voci BUG-*, decisioni, questo diario, esito dell'analisi);
+  - BridgeAudit (`bug/bridge-audit`) e catture congelate di Checker.
+
+  Poi: unione di `bug/model` in `bugint-model`, documenti di Checker, set candidato del rilascio Z, campo «CLS teso nelle
+  risposte» in ANTHEA.
