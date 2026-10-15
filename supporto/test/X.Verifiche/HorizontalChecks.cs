@@ -214,6 +214,17 @@ public static class HorizontalChecks
             foreach (double e in new[] { 0d, 3d })
                 Near(Calc(Elevated(false, e, 3)).D("capacita_kn"), Calc(Elevated(false, e, 0)).D("capacita_kn"), "PO-1: testa libera cambiata dal tratto libero", 1e-12);
         }
+        // PO-6: Broms usa il peso unitario dell'acqua del foglio (generali.gamma_acqua), come il modello elastico. Granulare γsat 20, φ 30°,
+        // falda a 0 m, D 1, L 15, testa libera, e = 0, My 1000: γ′ = 20 − γw, z = (3 My/k)^(1/3), Hu = k z²/2 con k = 3 Kp γ′ D
+        // (attesi/correzioni_20261015.py): 469,018 kN con γw = 9,81 e 458,184 kN con γw = 10,5 (prima 469,018 in entrambi i casi).
+        foreach (var (gw, expected) in new[] { (9.81, 469.018246464), (10.5, 458.183605822) })
+        {
+            var wet = Data(false, false, 15, 1000); var g = wet["generali"]!; g["diametro"] = "1"; g["presenza_falda"] = true; g["profondita_falda"] = "0"; g["gamma_acqua"] = gw;
+            Near(Calc(wet).D("capacita_kn"), expected, "PO-6: Hu con γw = " + gw, 1e-6);
+            wet["stratigrafie"]![0]![0]!["peso_specifico_saturo"] = "10.4"; wet["stratigrafie"]![0]![0]!["peso_specifico"] = "10";
+            string refused = PaloOrizzontale.Calculate(wet).S("errore");
+            Assert(gw > 10.4 ? refused == "γsat deve essere maggiore di γw = 10,5 kN/m³." : refused == "", "PO-6: controllo γsat > γw con il γw del foglio: " + refused);
+        }
         return count;
     }
 

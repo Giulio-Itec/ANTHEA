@@ -84,7 +84,7 @@ public static partial class PaloOrizzontale
     /// Una verticale del foglio come profilo di Model, con i controlli e i messaggi del foglio. Sono letti gli strati fino alla lunghezza infissa.
     /// Nel profilo interamente coesivo i pesi di volume non entrano nel modello e possono mancare; Weights dice se sono completi per le tensioni.
     /// </summary>
-    private static (LateralPileSurvey Survey, bool Weights) Verticale(JsonArray rows, double l, bool water, double zw, bool distributed)
+    private static (LateralPileSurvey Survey, bool Weights) Verticale(JsonArray rows, double l, bool water, double zw, bool distributed, double gw)
     {
         if (rows.Count == 0) throw new ArgumentException("Inserire almeno uno strato.");
         var layers = new List<(JsonNode Row, double Top, double Thickness, double End)>(); double top = 0;
@@ -114,17 +114,26 @@ public static partial class PaloOrizzontale
             if (!clay)
             {
                 row.Required("peso_specifico", strict: true);
-                if (wet && row.Required("peso_specifico_saturo", strict: true) <= Gw) throw new ArgumentException("γsat deve essere maggiore di γw = 9,81 kN/m³.");
+                if (wet && row.Required("peso_specifico_saturo", strict: true) <= gw) throw new ArgumentException($"γsat deve essere maggiore di γw = {gw.ToString("0.###", CultureInfo.GetCultureInfo("it-IT"))} kN/m³.");
             }
             double gamma = J.Number(row["peso_specifico"]) ?? double.NaN, saturated = wet ? J.Number(row["peso_specifico_saturo"]) ?? double.NaN : gamma;
             if (!clay && wet && saturated < gamma) throw new ArgumentException("γsat deve essere almeno pari a γ (terreno di Model).");
-            weights &= double.IsFinite(gamma) && gamma > 0 && double.IsFinite(saturated) && (!wet || saturated > Gw);
+            weights &= double.IsFinite(gamma) && gamma > 0 && double.IsFinite(saturated) && (!wet || saturated > gw);
             // Profilo interamente coesivo senza pesi: pesi di riferimento, non usati dal modello; le tensioni non sono riportate.
             double g = gamma > 0 ? gamma : 18, gs = wet ? (saturated >= g ? saturated : g) : J.Number(row["peso_specifico_saturo"]) is double s && s >= g ? s : g;
             list.Add(new SoilLayer(new Soil("Strato " + (list.Count + 1), g * KN3, gs * KN3, phi * Deg, 0, "ANTHEA", undrainedShearStrength: cu * KPa), -depth * M, -(depth + thickness) * M));
             kinds.Add(cohesive ? SoilBehaviour.Cohesive : SoilBehaviour.Granular); depth += thickness;
         }
-        return (new LateralPileSurvey(new SoilProfile("Verticale", list, "ANTHEA", water ? -zw * M : null), kinds), weights);
+        return (new LateralPileSurvey(new SoilProfile("Verticale", list, "ANTHEA", water ? -zw * M : null, gw * KN3), kinds), weights);
+    }
+
+    /// <summary>Peso unitario dell'acqua del foglio (generali.gamma_acqua, kN/m³), lo stesso del modello elastico; 9,81 se assente (PO-6).</summary>
+    private static double WaterUnitWeight(JsonNode g, bool water)
+    {
+        if (g["gamma_acqua"] is null) return Gw;
+        double gw = J.Number(g["gamma_acqua"]) ?? double.NaN;
+        if (water && !(gw > 0 && double.IsFinite(gw))) throw new ArgumentException("Peso unitario dell'acqua γw: inserire un valore finito positivo.");
+        return water ? gw : Gw;
     }
 
     /// <summary>Uses the same active-depth properties and groundwater rules as the solver.</summary>
@@ -134,7 +143,8 @@ public static partial class PaloOrizzontale
         double l = g.Required("lunghezza", strict: true), d = g.Required("diametro", strict: true); g.Required("tolleranza", strict: true);
         bool water = g.B("presenza_falda"); double zw = water ? g.Required("profondita_falda") : l;
         bool distributed = DistributedMethod(g);
-        var surveys = data.Array("stratigrafie").Select(s => Verticale(s!.AsArray(), l, water, zw, distributed).Survey).ToArray();
+        double gw = WaterUnitWeight(g, water);
+        var surveys = data.Array("stratigrafie").Select(s => Verticale(s!.AsArray(), l, water, zw, distributed, gw).Survey).ToArray();
         return Library(() => LateralPileCapacity.ModelName(surveys, l * M, d * M, distributed ? LateralPileMethod.Stratified : LateralPileMethod.Broms));
     }
 
@@ -230,7 +240,8 @@ public static partial class PaloOrizzontale
             }
             else throw new ArgumentException("Origine del momento resistente non riconosciuta.");
             bool distributed = DistributedMethod(g);
-            var verticals = data.Array("stratigrafie").Select(s => Verticale(s!.AsArray(), l, water, zw, distributed)).ToArray();
+            double gw = WaterUnitWeight(g, water);
+            var verticals = data.Array("stratigrafie").Select(s => Verticale(s!.AsArray(), l, water, zw, distributed, gw)).ToArray();
             var verification = data["verifica"]!;
             if (!Calcolo.Verticali.ContainsKey(verification.S("verticali_indagate", "1")))
                 throw new ArgumentException("Numero di verticali indagate non riconosciuto.");
