@@ -342,5 +342,22 @@
     "sha256": "5f66a59fc75a07d954e2a78ecffdf220fb095889c551d9ba2b7e5eb04a25b500",
     "entries": 6878,
     "decision": "D2 del 15/10/2026"
+  },
+  "editorial_updates_rev45": {
+    "revision": 45,
+    "capture": "supporto/artefatti/ci/20261015-102736-guide-rev45-f3-cattura/ui_f3-equivalence/cattura",
+    "reason": "Guida pratica Rev45: frase d'installazione senza numero di versione (decisione dell'utente del 15/10/2026 per il rilascio di ANTHEA 1.9.0); Wiki aggiornata secondo la regola editoriale F3-06. Nessun atteso ingegneristico modificato.",
+    "files": [
+      {
+        "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+        "before_sha256": "46644610eb39fa134b2998f0eee270f7143bb0a69e6228efea0b47f5bb2cdfb2",
+        "after_sha256": "c4e3ee5448a513d02c0f03aeafa17c30d1c683c448ccab0e56720256431a8a40"
+      },
+      {
+        "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+        "before_sha256": "dc63ffb5683522bc9b867e5bb88b4de52800c84689d77790c0bcaa76d5fc77d8",
+        "after_sha256": "90d527e7c43ce5bc765d9e0c7a13a72cf76de98fdfb0e6167e8e4b55d5e2d91a"
+      }
+    ]
   }
 }

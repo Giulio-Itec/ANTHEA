@@ -21,6 +21,7 @@ Non ci sono tolleranze nuove. Le prove negative sono in `tests/ANTHEA.Testing.Te
 Wiki e ricerca seguono invece la regola editoriale di F3-06: i file cambiati sono sostituiti nel riferimento.
 - Rev40: `editorial_updates` del manifest.
 - Rev41–Rev44: `editorial_updates_f4`, voce F4-48.
+- Rev45: `editorial_updates_rev45`, frase d'installazione della guida pratica senza numero di versione.
 
 Le impronte prima e dopo sono calcolate sulla forma conservata da git (fine riga LF).
 
