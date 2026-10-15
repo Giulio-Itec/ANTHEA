@@ -48,7 +48,7 @@ public sealed partial class MainWindow
             }
             else
             {
-            Check(geo.Length == 2 && ProjectSharedData.SameCommonSoilData(geo[0], geo[1]), "Test 1: stratigrafie comuni ancora differenti");
+            Check(geo.Length == 2 && ProjectSharedDataProbe.SameCommonSoilData(geo[0], geo[1]), "Test 1: stratigrafie comuni ancora differenti");
             Check(!ProjectSharedData.Limitations(regressionSection).Any(s => s.Contains("suddivisione degli strati")), "Test 1: falso avviso stratigrafico");
             Check(!ProjectSharedData.Differences(regressionSection).Any(d => d.Key.StartsWith("Strato · ") || d.Key == "profondita_falda"), "Test 1: conflitto stratigrafico inatteso");
             }
@@ -214,12 +214,12 @@ public sealed partial class MainWindow
         unlinkedH["dati"]!["generali"]!["profondita_falda"] = "0";
         Check(!ProjectSharedData.Differences(soilPair).Any(d => d.Key == "profondita_falda"), "Quota falda inattiva genera conflitto");
         unlinkedH["dati"]!["generali"]!["presenza_falda"] = true;
-        Check(!ProjectSharedData.SameCommonSoilData(unlinkedV, unlinkedH), "Gamma saturo ignorato con falda attiva");
+        Check(!ProjectSharedDataProbe.SameCommonSoilData(unlinkedV, unlinkedH), "Gamma saturo ignorato con falda attiva");
         unlinkedH["dati"]!["generali"]!["presenza_falda"] = false;
-        Check(ProjectSharedData.SameCommonSoilData(unlinkedV, unlinkedH), "Campi specifici generano un falso conflitto stratigrafico");
+        Check(ProjectSharedDataProbe.SameCommonSoilData(unlinkedV, unlinkedH), "Campi specifici generano un falso conflitto stratigrafico");
         Check(!ProjectSharedData.Limitations(soilPair).Any(s => s.Contains("strati")), "Dati comuni uguali segnalati solo per mancanza di collegamento");
         hLayer.Remove("angolo_attrito");
-        Check(!ProjectSharedData.SameCommonSoilData(unlinkedV, unlinkedH), "Parametro comune mancante confuso con parametro specifico");
+        Check(!ProjectSharedDataProbe.SameCommonSoilData(unlinkedV, unlinkedH), "Parametro comune mancante confuso con parametro specifico");
         hLayer["angolo_attrito"] = "30";
         // Compare and resolve every numbered layer, without shared IDs or a prior link.
         unlinkedV["dati"]!["stratigrafie"]![0]!.AsArray().Add(J.Obj(("spessore", "4"), ("tipologia", "Granulare"), ("angolo_attrito", "28"), ("nc", "12")));
