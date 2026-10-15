@@ -90,7 +90,7 @@ Il percorso completo richiede un modello globale plausibile, azioni coerenti, un
 
 Le schede dominio 3D e dominio 2D permettono di esaminare le resistenze della sezione e il punto richiesto. Scegliere il criterio di ricerca coerente con il problema: mantenere N costante e aumentare il momento non è lo stesso percorso che mantenere costante l'eccentricità. Il coefficiente risultante dipende anche da questo percorso.
 
-Un dominio bidimensionale è una sezione o una proiezione del problema. Se il punto ha componenti fuori dal piano rappresentato, leggere l'indicazione di proiezione e non trattare l'immagine come una verifica completa della pressoflessione deviata. I quattro momenti rapidi Mx positivo e negativo, My positivo e negativo sono utili per orientarsi, ma non descrivono da soli l'intero dominio N Mx My.
+Un dominio bidimensionale è una sezione o una proiezione del problema. Se il punto ha componenti fuori dal piano rappresentato, leggere l'indicazione di proiezione e non trattare l'immagine come una verifica completa della pressoflessione deviata. Con «Proietta azioni sul piano» il grafico N–M mostra il punto verificato: Mθ = Mx cos θ + My sin θ con N invariato, sulla retta dall'origine a Rd. I quattro momenti rapidi Mx positivo e negativo, My positivo e negativo sono utili per orientarsi, ma non descrivono da soli l'intero dominio N Mx My.
 
 Nei nuovi fogli scegliere separatamente lo Stato limite (SLU o SLV) e il Criterio resistente (Plastico o Elastico). Il criterio si imposta nella verifica, nelle schede dominio 3D e dominio 2D, e si applica alle combinazioni dei due stati limite. Cambiarlo aggiorna i domini e i risultati. Non vengono calcolati sempre entrambi i criteri. La ricerca della resistenza, ad esempio N costante, rimane una scelta distinta.
 
@@ -114,7 +114,7 @@ Nella scheda dettagli costruttivi scegliere il tipo di elemento e completare le 
 
 ### Curva momento curvatura e aggiornamento
 
-La curva M χ si avvia con il proprio comando. Assegnare N, direzione del momento, numero di passi e distribuzione dei punti. Esaminare la progressione della risposta e le deformazioni terminali. La curva arriva al limite trattato dal motore e non descrive automaticamente un ramo post picco di degradazione della struttura.
+La curva M χ si avvia con il proprio comando. Assegnare N, direzione del momento, numero di passi e distribuzione dei punti. Il campo «CLS teso nelle risposte», Trascurato oppure Tension stiffening, riguarda solo i punti della curva: punto limite e verifiche non lo usano. Esaminare la progressione della risposta e le deformazioni terminali. La curva arriva al limite trattato dal motore e non descrive automaticamente un ramo post picco di degradazione della struttura.
 
 Nel report di progetto la curva viene ricalcolata automaticamente con N, direzione, passi e opzioni salvati nel foglio. Il capitolo comprende valori limite, tabella dei punti e grafico; non serve aprire la scheda né avviare prima il comando Calcola curva. La preparazione lavora su una copia dei dati. Se il percorso non è valido o contiene trefoli, la curva è segnalata come non disponibile con il motivo e le altre verifiche restano nel report. Interrompere la preparazione conserva il documento precedente. Il report del singolo foglio continua a usare la curva calcolata nella scheda.
 

@@ -170,7 +170,7 @@ La ricerca costruttiva conserva griglia 0,5 m, lunghezza minima e vincoli commer
 
 Il progresso MRd conta coppie di resistenze completate, una per ciascun N esatto distinto, compresi i valori recuperati dalla cache. I tempi esportati separano preparazione della sezione, costruzione dei solutori indipendenti, calcolo parallelo delle resistenze, verifiche N-M-V e dettagli. Modificare il solo passo delle staffe aggiorna taglio e dettagli riutilizzando il dominio N-M; cambiare diametro delle staffe può spostare le barre e invalida invece le resistenze.
 
-La configurazione custom Coefficienti unitari modifica un'istanza della normativa GPC, impostando a 1 ogni proprietà gamma disponibile e alpha_cc. Materiali, geometria e azioni restano quelli assegnati; la modalità è tracciata. Non è una verifica con i coefficienti ordinari NTC e non altera EJ lordo né il peso unitario adottato.
+La configurazione custom Coefficienti unitari modifica un'istanza della normativa GPC, impostando a 1 ogni proprietà gamma disponibile e alpha_cc. Materiali, geometria e azioni restano quelli assegnati; la modalità è tracciata. Non è una verifica con i coefficienti ordinari NTC e non altera EJ lordo né il peso unitario adottato. Nel foglio c.a. di approfondimento i coefficienti unitari valgono in tutte le verifiche della sezione: dominio, taglio e torsione, ancoraggi, dettagli costruttivi e primo snervamento della curva momento–curvatura, con εyd = fyk/Es.
 
 ### Calcolo parallelo e dipendenze dei risultati
 
