@@ -3,6 +3,7 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -17,7 +18,7 @@ public sealed partial class MainWindow
         JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
         if (Environment.GetEnvironmentVariable("ANTHEA_SOIL_REGRESSION_FILE") is string regressionPath)
         {
-            var regression = Archivio.Leggi(regressionPath);
+            var regression = DocumentService.Open(regressionPath);
             var regressionSection = regression.Array("progetti")[0]!["strutture"]![0]!.AsObject();
             var geo = regressionSection.Array("fogli").OfType<JsonObject>().Where(ProjectSharedData.SupportsSharedSoils).ToArray();
             if (Environment.GetEnvironmentVariable("ANTHEA_SOIL_EXPECT_CONFLICT") is string expectedKey)
@@ -55,7 +56,7 @@ public sealed partial class MainWindow
         if (Environment.GetEnvironmentVariable("ANTHEA_SOIL_MISSING_FILE") is string missingPath)
         {
             editor?.Dispose(); editor = null; currentSheet = null;
-            document = Archivio.Leggi(missingPath);
+            document = DocumentService.Open(missingPath);
             var actualSection = document.Array("progetti")[0]!["strutture"]![0]!.AsObject();
             var actualSheets = actualSection.Array("fogli").OfType<JsonObject>().Where(ProjectSharedData.SupportsSharedSoils).ToArray();
             Check(ProjectSharedData.MissingSoilLayers(actualSection).Count > 0, "Test 3: strato mancante non rilevato");
@@ -83,8 +84,8 @@ public sealed partial class MainWindow
             }));
             ShowCoherence(actualSection);
             if (missingFailure is not null) throw missingFailure;
-            string savedPath = Path.Combine(directory, "test3-risolto.programma"); Archivio.Scrivi(savedPath, document);
-            var reopened = Archivio.Leggi(savedPath).Array("progetti")[0]!["strutture"]![0]!.AsObject();
+            string savedPath = Path.Combine(directory, "test3-risolto.programma"); DocumentService.Save(savedPath, document);
+            var reopened = DocumentService.Open(savedPath).Array("progetti")[0]!["strutture"]![0]!.AsObject();
             Check(ProjectSharedData.MissingSoilLayers(reopened).Count == 0, "Test 3: strato perso al salvataggio");
         }
         editor?.Dispose(); editor = null; currentSheet = null;
@@ -287,8 +288,8 @@ public sealed partial class MainWindow
         }));
         ShowCoherence(section);
         Check(compared, "Finestra confronto non aperta");
-        string archive = Path.Combine(directory, "condivisione.programma"); Archivio.Scrivi(archive, document);
-        Check(JsonNode.DeepEquals(document, Archivio.Leggi(archive)), "Salvataggio condivisione non riuscito");
+        string archive = Path.Combine(directory, "condivisione.programma"); DocumentService.Save(archive, document);
+        Check(JsonNode.DeepEquals(document, DocumentService.Open(archive)), "Salvataggio condivisione non riuscito");
         File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK: scelta tutti/locale, nessuna richiesta ripetuta, CLS tra materiali e verifiche, mm/m in entrambe le direzioni, geometrie incompatibili, armatura e reset, carichi invariati, sezioni indipendenti, ereditarietà nuovi fogli, confronto e persistenza.");
     }
 }

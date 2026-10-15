@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -92,8 +93,8 @@ public sealed partial class MainWindow
         Check(Scope()["revisione"].D("numero") == 1 && Scope().Array("revisioni").Count == 1, "Nuova revisione dopo eliminazione non valida");
         SwitchProjectRevision(scopeId, 0); await Layout(); await Delete();
         Check(Scope()["revisione"].D("numero") == 1 && Scope().Array("revisioni").Count == 0 && !DeleteButton().IsEnabled, "Eliminazione della sola archiviata altera quella attuale");
-        Archivio.Scrivi(Path.Combine(directory, "revisioni-eliminate.programma"), document);
-        var saved = Archivio.Leggi(Path.Combine(directory, "revisioni-eliminate.programma"));
+        DocumentService.Save(Path.Combine(directory, "revisioni-eliminate.programma"), document);
+        var saved = DocumentService.Open(Path.Combine(directory, "revisioni-eliminate.programma"));
         Check(JsonNode.DeepEquals(ProjectRevisions.Pack(saved), ProjectRevisions.Pack(document)), "Revisioni eliminate riappaiono alla riapertura");
         Check(saved["archivio_revisioni"]!.AsObject().Count < document["archivio_revisioni"]!.AsObject().Count, "Salvataggio conserva dati di revisioni non più referenziate");
         File.WriteAllBytes(Path.Combine(directory, "revisione-precedente-editabile.png"), Ui.Snapshot(this));

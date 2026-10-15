@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Anthea.Calculations;
 using X.Core;
+using Anthea.Application.Documents;
 
 static partial class Program
 {
@@ -36,8 +37,8 @@ static partial class Program
         Check(records.SelectMany(r=>r!.Array("dettagli_barre")).Any(),"seismic checks preserve cutting schedule");
         var proposal=ElasticHorizontalPile.DesignSegment(root,result,1,[12,24],[20,24],[10],[100,150]);
         Check(proposal.D("longitudinal_bar_count")==24&&proposal.D("longitudinal_bar_diameter_mm")==24&&proposal.D("transverse_spacing_mm")==100,"dimensioning rejects candidates below1percent or exceeding6phi");
-        var doc=Archivio.Documento(PaloOrizzontale.Module);doc["dati"]=root;string path=Path.Combine(directory,"palo-sisma.programma");Archivio.Scrivi(path,doc);
-        var reopened=Archivio.Leggi(path)["dati"]!.AsObject();Check(JsonNode.DeepEquals(root,reopened),"seismic mode and confirmations survive archive roundtrip");
+        var doc=Archivio.Documento(PaloOrizzontale.Module);doc["dati"]=root;string path=Path.Combine(directory,"palo-sisma.programma");DocumentService.Save(path,doc);
+        var reopened=DocumentService.Open(path)["dati"]!.AsObject();Check(JsonNode.DeepEquals(root,reopened),"seismic mode and confirmations survive archive roundtrip");
         string keyBefore=ElasticHorizontalPile.ResponseKey(root);root["sezione"]!["longitudinal_bar_count"]=20;Check(ElasticHorizontalPile.ResponseKey(root)==keyBefore,"steel changes keep NVM independent with seismic mode");root["sezione"]!["longitudinal_bar_count"]=24;
         string csv=ElasticHorizontalPile.Csv(result);Check(csv.Contains("SeismicElasticMoment")&&csv.Contains("sisma_azioni"),"CSV contains seismic criteria and input provenance");
         var report=ReportElasticPile.Create("Controlli sismici di testa · prova",result);File.WriteAllBytes(Path.Combine(directory,"report-sisma.docx"),report);

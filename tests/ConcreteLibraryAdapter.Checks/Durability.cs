@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using Anthea.Calculations;
 using Materiali;
 using X.Core;
+using Anthea.Application.Documents;
 using ProbeEntry = Anthea.Calculations.DurabilityProbe.Entry;
 
 /// <summary>
@@ -654,13 +655,13 @@ internal static class DurabilityChecks
     }
 
     /// <summary>Muri a mensola: i tre della baseline B3 (il default del modulo, RetainingWall.Example("cantilever") e il documento
-    /// supporto/esempi/muri-sostegno/mensola.anthea, letto con Archivio.Leggi come nella cattura: caso esempio-muri-sostegno-mensola) e
+    /// supporto/esempi/muri-sostegno/mensola.anthea, letto con DocumentService.Open come nella cattura: caso esempio-muri-sostegno-mensola) e
     /// W1-W3 del corpus di B6.</summary>
     static IEnumerable<(string Name, JsonObject Wall)> Walls(string root)
     {
         yield return ("default", ModuleCatalog.CreateData(RetainingWall.Module));
         yield return ("esempio a mensola", RetainingWall.Example("cantilever"));
-        var document = Archivio.Leggi(Path.Combine(root, "supporto", "esempi", "muri-sostegno", "mensola.anthea"));
+        var document = DocumentService.Open(Path.Combine(root, "supporto", "esempi", "muri-sostegno", "mensola.anthea"));
         yield return ("esempio-muri-sostegno-mensola", document["dati"]!.AsObject());
         foreach (var (id, _, data) in CorpusDocuments(root).Where(d => d.Module == RetainingWall.Module)) yield return ("corpus " + id, data);
     }

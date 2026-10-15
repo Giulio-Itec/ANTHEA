@@ -67,7 +67,7 @@ di caratteri si scrivono compressi (`.gz`), letti in modo trasparente da `compar
 
 - default degli 11 moduli di `ModuleCatalog.All` e vista elastica dei due moduli orizzontali;
 - esempi della Wiki (`X.Desktop/Wiki/Examples`), applicati come `MainWindow.WikiExamples`;
-- documenti di `supporto/esempi` (`.json`, `.anthea`, `.programma`) letti con `Archivio.Leggi`;
+- documenti di `supporto/esempi` (`.json`, `.anthea`, `.programma`) letti con `DocumentService.Open` (fino alla decisione D3 `Archivio.Leggi`, che lo inoltrava);
 - casi `palo` e `micropalo` di `supporto/test/casi_confronto.json` (i default dei pali
   verticali sono moduli vuoti);
 - `RetainingWall.Example("gravity")` ed `Example("cantilever")`;

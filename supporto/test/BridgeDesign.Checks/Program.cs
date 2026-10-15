@@ -3,6 +3,7 @@ using X.Core;
 using System.Text.Json.Nodes;
 using System.IO.Compression;
 using System.Xml.Linq;
+using Anthea.Application.Documents;
 
 string output = Path.GetFullPath(args.FirstOrDefault() ?? "supporto/artefatti/bridge_design/calcoli");
 Directory.CreateDirectory(output); var log = new List<string>(); int checks = 0;
@@ -71,8 +72,8 @@ try
     { var d=BridgeConcept.Defaults();d[invalid.Item1]![invalid.Item2]=invalid.Item3;Invalid(()=>BridgeConcept.Calculate(d),"Dato invalido accettato"); }
     data=BridgeConcept.Defaults();data["input"]!["depth"]=.1;Invalid(()=>BridgeConcept.Calculate(data),"Sezione impossibile accettata");
     data=BridgeConcept.Defaults(); data["alternative_a"]=BridgeConcept.Defaults(); data["rates"]!["concrete_deck"]=333;
-    var doc=Archivio.Documento(BridgeConcept.Module);doc["dati"]=data; var file=Path.Combine(output,"esempio.anthea");Archivio.Scrivi(file,doc);
-    var reopened=Archivio.Leggi(file); Assert(J.Equivalent(reopened["dati"],data),"Round-trip prezzi / baseline");
+    var doc=Archivio.Documento(BridgeConcept.Module);doc["dati"]=data; var file=Path.Combine(output,"esempio.anthea");DocumentService.Save(file,doc);
+    var reopened=DocumentService.Open(file); Assert(J.Equivalent(reopened["dati"],data),"Round-trip prezzi / baseline");
     r=BridgeConcept.Calculate(data); File.WriteAllText(Path.Combine(output,"quantita.csv"),BridgeConceptExport.Csv(r));
     var bytes=BridgeConceptExport.Report("Prova Bridge Design",data,r); File.WriteAllBytes(Path.Combine(output,"report.docx"),bytes);
     using(var zip=new ZipArchive(new MemoryStream(bytes),ZipArchiveMode.Read))

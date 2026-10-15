@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -35,7 +36,7 @@ public sealed partial class MainWindow
         independent.RestoreState(Archivio.NuovoFoglio("mat_calcestruzzo"));
         Check(!JsonNode.DeepEquals(expected, independent.CaptureState()), "Nuove schede ereditano modifiche di altre schede");
         string single = Path.Combine(directory, "materiale.programma");
-        Archivio.Scrivi(single, document);
+        DocumentService.Save(single, document);
         dirty = false; LoadFile(single); Commit();
         Check(JsonNode.DeepEquals(expected, editor!.Data), "Riapertura materiale singolo perde input");
         editor.Dispose(); editor = null; currentSheet = null;
@@ -48,7 +49,7 @@ public sealed partial class MainWindow
         Check(JsonNode.DeepEquals(expected, editor!.materials!.CaptureState()), "Apertura materiale nel progetto perde dati");
         ShowProjects(); MoveProjectSheet(sheet, nested);
         Check(ReferenceEquals(sheet.Parent, nested["fogli"]), "Spostamento materiale non riuscito");
-        string archive = Path.Combine(directory, "progetto.programma"); Archivio.Scrivi(archive, document);
+        string archive = Path.Combine(directory, "progetto.programma"); DocumentService.Save(archive, document);
         dirty = false; LoadFile(archive);
         var loaded = document.Array("progetti")[0]!["strutture"]![0]!["strutture"]![0]!["fogli"]![0]!.AsObject();
         ShowSheet(loaded); Commit();

@@ -21,6 +21,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using X.Core;
 using X.Desktop.Services;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -1826,7 +1827,7 @@ public sealed partial class MainWindow
     {
         JsonObject? Case(string name) => File.Exists(Path.Combine(a.Root, "supporto", "test", "casi_confronto.json"))
             ? SmokeTestData.LoadCases().OfType<JsonObject>().FirstOrDefault(c => c.S("nome") == name)?["input"]?.DeepClone().AsObject() : null;
-        JsonObject? Example(params string[] parts) { var file = Path.Combine([a.Root, "supporto", "esempi", .. parts]); return File.Exists(file) ? Archivio.Leggi(file)["dati"]?.DeepClone().AsObject() : null; }
+        JsonObject? Example(params string[] parts) { var file = Path.Combine([a.Root, "supporto", "esempi", .. parts]); return File.Exists(file) ? DocumentService.Open(file)["dati"]?.DeepClone().AsObject() : null; }
         JsonObject Layered(JsonObject data) { data.Array("stratigrafie")[0]!.AsArray().Add(PaloOrizzontale.Layer()); return data; }
         return module switch
         {

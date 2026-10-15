@@ -4,6 +4,7 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -86,8 +87,8 @@ internal static class WallAdvancedChecks
             var captions = ReportFigureCaptions(w, global: false);
             Check(captions.Length >= 7 && ReportHasFigures(bytes, captions), "Relazione con quinta figura delle armature e tavole della distinta: " + string.Join(" | ", captions));
             var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = w.Data.DeepClone();
-            Archivio.Scrivi(Path.Combine(directory, "esempio-completo.anthea"), doc);
-            Check(J.Equivalent(Archivio.Leggi(Path.Combine(directory, "esempio-completo.anthea"))["dati"], w.Data), "Modello ripercorribile con accelerogramma");
+            DocumentService.Save(Path.Combine(directory, "esempio-completo.anthea"), doc);
+            Check(J.Equivalent(DocumentService.Open(Path.Combine(directory, "esempio-completo.anthea"))["dati"], w.Data), "Modello ripercorribile con accelerogramma");
             File.WriteAllText(Path.Combine(directory, "risultati.json"), w.Calculation.Json().ToJsonString(J.Options));
             w.Pages.SelectedIndex = 0; w.Cards["Geometria"].IsExpanded = true;
             Render(w, "input-1050", 1050, 1000);
@@ -103,7 +104,7 @@ internal static class WallAdvancedChecks
                 await designer.CalculateAsync();
                 Check(designer.Calculation is not null && designer.ViewMode.SelectedItem as string == "Armature", "Proposta applicata ricalcolata e visualizzata");
                 var designed = Archivio.Documento(RetainingWall.Module); designed["dati"] = designer.Data.DeepClone();
-                Archivio.Scrivi(Path.Combine(directory, "predimensionamento.anthea"), designed);
+                DocumentService.Save(Path.Combine(directory, "predimensionamento.anthea"), designed);
             }
             Check(Application.Current.Windows.Count == 0, "Nessuna interazione con il desktop");
             log.Add("PASS " + log.Count + " controlli interfaccia avanzata");

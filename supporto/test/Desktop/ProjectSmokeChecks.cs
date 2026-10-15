@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -44,8 +45,8 @@ public sealed partial class MainWindow
         Check(sheet["dati"]!["generali"].S("diametro") == "1.25", "Spostamento perde input modificati");
         MoveProjectSheet(sheet, other); MoveProjectSheet(sheet, other);
         Check(other.Array("fogli").Count == 1 && deep.Array("fogli").Count == 0, "Spostamento duplica il foglio");
-        string file = Path.Combine(directory, "progetti.programma"); Archivio.Scrivi(file, document);
-        Check(JsonNode.DeepEquals(Archivio.Leggi(file), document), "Round trip gerarchia non riuscito");
+        string file = Path.Combine(directory, "progetti.programma"); DocumentService.Save(file, document);
+        Check(JsonNode.DeepEquals(DocumentService.Open(file), document), "Round trip gerarchia non riuscito");
         sheet["modulo_id"] = "inesistente";
         bool rejected = false; try { Archivio.Valida(document); } catch (ArgumentException) { rejected = true; }
         Check(rejected, "Validazione non controlla i fogli annidati"); sheet["modulo_id"] = "geo_palo_verticale";
@@ -99,7 +100,7 @@ public sealed partial class MainWindow
         LabelClick(sectionLabel, UIElement.MouseLeftButtonUpEvent, 1);
         await Task.Delay((int)GetDoubleClickTime() + 50);
         Check(selectedProjectId == main.S("id"), "Clic singolo non apre il riepilogo");
-        Archivio.Scrivi(file, document); Check(JsonNode.DeepEquals(Archivio.Leggi(file), document), "Nomi e gerarchia non persistono");
+        DocumentService.Save(file, document); Check(JsonNode.DeepEquals(DocumentService.Open(file), document), "Nomi e gerarchia non persistono");
         AddSheetTo("str_palo", other, false);
         AddSheetTo("str_palo", other, false);
         var ca1 = other.Array("fogli")[1]!.AsObject(); var ca2 = other.Array("fogli")[2]!.AsObject();
@@ -123,7 +124,7 @@ public sealed partial class MainWindow
         Check(rowDrop.Effects == DragDropEffects.Move && ReferenceEquals(other.Array("fogli")[1], ca2), "Drop riga non riordina");
         MoveProjectSheet(ca2, deep, null);
         Check(ReferenceEquals(deep.Array("fogli")[0], ca2), "Spostamento tra gruppi dopo riordino");
-        Archivio.Scrivi(file, document); Check(JsonNode.DeepEquals(Archivio.Leggi(file), document), "Ordine non conservato nel file");
+        DocumentService.Save(file, document); Check(JsonNode.DeepEquals(DocumentService.Open(file), document), "Ordine non conservato nel file");
         ShowProjects(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         // Drag the group header in both directions, retaining complete subtrees and data.
         TreeViewItem Find(JsonObject value)
@@ -193,7 +194,7 @@ public sealed partial class MainWindow
         editor!.SetGeometryForSmoke("1.35");
         await Reorder(other, first, false);
         Check(sheet["dati"]!["generali"].D("diametro") == 1.35, "Riordino perde modifiche in sospeso");
-        Archivio.Scrivi(file, document); var expectedOrder = document.DeepClone(); dirty = false; LoadFile(file);
+        DocumentService.Save(file, document); var expectedOrder = document.DeepClone(); dirty = false; LoadFile(file);
         Check(JsonNode.DeepEquals(expectedOrder, document), "Ordine sezioni o contenuti persi alla riapertura");
         ShowProjects(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         File.WriteAllBytes(Path.Combine(directory, "progetti.png"), Ui.Snapshot(this));

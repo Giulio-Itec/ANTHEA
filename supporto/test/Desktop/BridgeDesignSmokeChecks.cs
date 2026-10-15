@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -141,8 +142,8 @@ public sealed partial class MainWindow
         workspace.Undo(); await Settle();
         Check(workspace.Data["input"]!.ToJsonString() == original, "Annulla non ripristina la configurazione pre-ottimizzazione.");
         // Save through the shell to exercise normal archive integration, then reopen an independent editor.
-        Commit(); string archive = Path.Combine(directory, "BridgeDesign.anthea"); Archivio.Scrivi(archive, document);
-        var reopened = Archivio.Leggi(archive); using var restored = new SheetEditor(BridgeConcept.Module, reopened["dati"]!.AsObject());
+        Commit(); string archive = Path.Combine(directory, "BridgeDesign.anthea"); DocumentService.Save(archive, document);
+        var reopened = DocumentService.Open(archive); using var restored = new SheetEditor(BridgeConcept.Module, reopened["dati"]!.AsObject());
         await restored.CalculateAsync();
         Check(restored.HasResults && restored.Data["alternative_a"] is JsonObject, "Archivio incompleto al riavvio.");
         File.WriteAllBytes(Path.Combine(directory, "BridgeDesign.docx"), workspace.BuildReport("Predimensionamento del ponte"));

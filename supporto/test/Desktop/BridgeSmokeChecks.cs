@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -161,7 +162,7 @@ public sealed partial class MainWindow
         Commit(); var retained = editor; var computed = bridge.Calculation;
         ShowHome(); ResumeCalculation();
         if (!ReferenceEquals(editor, retained) || !ReferenceEquals(bridge.Calculation, computed)) throw new Exception("Home perde la sezione composta.");
-        Archivio.Scrivi(Path.Combine(directory, "ponte.anthea"), document); editor.ExportResult(Path.Combine(directory, "ponte-risultati.json"));
+        DocumentService.Save(Path.Combine(directory, "ponte.anthea"), document); editor.ExportResult(Path.Combine(directory, "ponte-risultati.json"));
         var saved = editor.Data.DeepClone(); dirty = false; LoadFile(Path.Combine(directory, "ponte.anthea"));
         if (!JsonNode.DeepEquals(saved, editor!.Data)) throw new Exception("Riapertura perde dati delle fasi.");
         await editor.CalculateAsync();
