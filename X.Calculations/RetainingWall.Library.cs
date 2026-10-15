@@ -195,7 +195,7 @@ public static partial class RetainingWall
     /// </summary>
     static List<(WallCombination Combination, double Live)> LegacyCombinations(JsonObject d)
     {
-        var loads = d["loads"]!; bool water = d["water"].B("enabled"), heel = d["geometry"].D("heel") > 0;
+        var loads = d["loads"]!; bool water = d["water"].B("enabled"), heel = Need(d["geometry"], "heel") > 0;
         var result = new List<(WallCombination, double)>();
         void Add(string name, WallLimitState state, double fc, double fs, double fq, double fw = 1, double kh = 0, double kv = 0)
         {

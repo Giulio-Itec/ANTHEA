@@ -36,7 +36,7 @@ public static partial class RetainingWall
         notes.Add(EquilibriumNote);
         if (modern) { notes.Add(ApproachHelp); notes.Add("Azioni indipendenti con ψ propri e gruppi correlati. Matrice " + d.S("combination_mode") + ": fanno fede i coefficienti salvati in ogni riga. Urto: forza statica equivalente assegnata per metro; eventi eccezionali separati, ψ₂ delle variabili e γR=1 nel preset. Resistenze del materiale conservate cautelativamente ai valori ordinari."); }
         if (modern && d.S("combination_mode") != "Automatiche" && MissingHeelTwins(input, rows.Select(r => r.Combination)) is { Length: > 0 } missing)
-            notes.Add("Matrice personalizzata: " + string.Join(", ", missing.Take(5)) + (missing.Length > 5 ? $" e altre {missing.Length - 5}" : "") + " con il sovraccarico variabile anche sulla mensola a monte e senza la gemella che lo esclude (colonna «q var. mensola» non spuntata): la disposizione senza la variabile favorevole sulla mensola (γQ = 0, NTC 2018 Tab. 2.6.I; ψ2·q solo se sfavorevole nel sisma e negli eccezionali, §2.5.3) non è verificata. Rigenerare le combinazioni automatiche o aggiungere le righe «b».");
+            notes.Add("Matrice personalizzata: " + string.Join(", ", missing.Take(ListedRows)) + (missing.Length > ListedRows ? $" e altre {missing.Length - ListedRows}" : "") + " con il sovraccarico variabile anche sulla mensola a monte e senza la gemella che lo esclude (colonna «q var. mensola» non spuntata): la disposizione senza la variabile favorevole sulla mensola (γQ = 0, NTC 2018 Tab. 2.6.I; ψ2·q solo se sfavorevole nel sisma e negli eccezionali, §2.5.3) non è verificata. Rigenerare le combinazioni automatiche o aggiungere le righe «b».");
         if (wood) notes.Add(SeismicHelp);
         if (water) notes.Add("Sottospinta lineare fra i battenti a valle e a monte, senza riduzioni da drenaggi. Peso saturo totale sopra la mensola; pressione efficace nel terreno. Per la portanza si adotta cautelativamente γ′ su tutta la zona di rottura.");
         if (d["seismic"].B("enabled"))
@@ -65,6 +65,8 @@ public static partial class RetainingWall
     /// missing: same state, purpose, factors, coefficients and kh, kv with <see cref="WallCombination.VariableSurchargeOnHeel"/> false. Only with a
     /// heel; no calculation.
     /// </summary>
+    /// <summary>Rows named in a note of the calculation; the others are counted.</summary>
+    const int ListedRows = 5;
     static string[] MissingHeelTwins(WallInput input, IEnumerable<WallCombination> rows)
     {
         if (!(input.Geometry.Heel > 0)) return [];
