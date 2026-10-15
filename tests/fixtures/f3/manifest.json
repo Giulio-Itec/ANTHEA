@@ -360,5 +360,197 @@
         "after_sha256": "90d527e7c43ce5bc765d9e0c7a13a72cf76de98fdfb0e6167e8e4b55d5e2d91a"
       }
     ]
+  },
+  "editorial_updates_rev47": {
+    "revision": 47,
+    "capture": "supporto/artefatti/ci/20261016-004452-guide-rev47-f3-cattura/ui_f3-equivalence/cattura",
+    "reason": "Guide Rev46 (modulo Stratigrafia: due articoli nuovi, offset e ricerca) e Rev47 (frasi delle correzioni delle verifiche del 15/10/2026) nella Wiki e nella ricerca, secondo la regola editoriale F3-06. Nessun atteso ingegneristico modificato.",
+    "files": [
+      {
+        "file": "wiki/_wiki_guide_moduli-singoli_muri-di-sostegno-con-stratigrafie-di-monte-e-valle.md",
+        "before_sha256": "24f29fe48d40f954ed180aa42161ca1bdeeb970a35c4f54721e6ce20068e63c4",
+        "after_sha256": "943cad9fcde56d4749222dabd14801dae2d46be99385e7519b3865e7ff733b4e"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli-singoli_muri-di-sostegno-con-stratigrafie-di-monte-e-valle.txt",
+        "before_sha256": "04a96fd275d256df47126d9fa4b37c6c69402a708526034449a751cb3ce13b6d",
+        "after_sha256": "baa7b441b2a7f79600bfb65a91f7f157cd4c9026b3af6610190b5619bf489739"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli-singoli_pali-e-micropali-caricati-orizzontalmente.md",
+        "before_sha256": "0866a99e48d6e72240172486abcd27f962da39a9d082423d20b5752b8ae344bb",
+        "after_sha256": "03abbe6c521bd16fa50fffbb4373bae15c82cb3269897aead03eabaf5f9837a6"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli-singoli_pali-e-micropali-caricati-orizzontalmente.txt",
+        "before_sha256": "bf59f289fe855e2ff4fb28021e929703bec44e4cb10593ad4cf8b46b16bbd15b",
+        "after_sha256": "c4e58a60af811a7852fc7f910717a11af3e4c570c270186cda6cb22b089cfc76"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.md",
+        "before_sha256": "8b0f33d22a62dfec413ca238857207c3bd9d65b8867ecdaa6872c12ef40f7d3a",
+        "after_sha256": "514a0a073e9d5a993e4147b97c8759b509d2f7fc4791c05c2eb3f21fc822b645"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.txt",
+        "before_sha256": "c6ff8ea3398e6067009fde4af4ed111b6851c50d8f85c296fd58c4f0f1a45400",
+        "after_sha256": "6c20fdc17123e165b91e065fa2e41ad5db96ff4f32d309215c5db9e94624fc53"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli-singoli_sezione-composta-da-ponte.md",
+        "before_sha256": "f3ea091e44a96ede0aa64929d6f32057cf70b0541ed82b4efaeacc5ab49f4171",
+        "after_sha256": "1271d3c04e16a21520dee2284ddb2fffc756d378b3470663c456a4b40493fd68"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli-singoli_sezione-composta-da-ponte.txt",
+        "before_sha256": "afbe0e484f5c40d94fdf891f66a3172710747f050b7e142d8d55096c6aac0dda",
+        "after_sha256": "4d6c65267c9220c44240d89d6114d2f54154be9315da418a02db33d200240723"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli_guida-stratigrafia.md",
+        "before_sha256": null,
+        "after_sha256": "f1e8c198391fc08d29fe744c5fbf6a2ea85d4f90668851eef36fab26874dc652"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli_guida-stratigrafia.txt",
+        "before_sha256": null,
+        "after_sha256": "fab5efa0640e5fb75a5840241b90ea452f03f038ea813089e74a16a82d28b604"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+        "before_sha256": "fbe530aac884e92251089e80f5063e27f3c0418dac192277b8b492e821fdaa48",
+        "after_sha256": "d3a2311d02cefb87563ea463c67f3c23a79eec173cc0237dbaa243301120dce8"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+        "before_sha256": "49e0e68baf288245701e39d89a5bdf8efc419e4d0d1b837bf0d3603c37df9322",
+        "after_sha256": "a7faf47677cf5dc8d2ce37c1a5bf2cd9072cf31f54dbb332057174f8afb23dae"
+      },
+      {
+        "file": "wiki/_wiki_guide_palo-elastico.md",
+        "before_sha256": "60143808963ca6ba7472977965ea53512d8e73b4d4dbdf4bd7438bec0b5cd7bf",
+        "after_sha256": "fcad3c5a82b6eca1ec617df871f5898cff26522870a0fd3d75be9355806c407a"
+      },
+      {
+        "file": "wiki/_wiki_guide_palo-elastico.txt",
+        "before_sha256": "18bf7f6b0c9884888101c97966278e8367672abbfbf0b3053bf93c2c2464a259",
+        "after_sha256": "1cefee237c1f89ace5b8842bde99fe82f3c4093540c1a14bbe146da832ec4b75"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_capacita-orizzontale-con-broms.md",
+        "before_sha256": "f1c35d4276ff3bb29605fc19fdddaf1aa241486b8c1e2fec1208998dfb4c855d",
+        "after_sha256": "a9a496f477f0953207cac8eab3de98e6fb639f3088fdb3606610d79e33ff0a3f"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_capacita-orizzontale-con-broms.txt",
+        "before_sha256": "8c72e67bc719c8669bfb62683975c7d412ac731329e1b02ce574251bae27dbac",
+        "after_sha256": "cf4ba8289280af018808691f5a692b2d6ae7f96d78dcb2d378786aff4942b16d"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+        "before_sha256": "c364e8df70cacaeddf3dafc6552d8e2a477eb6aaced449a1bdf2950cca1955e0",
+        "after_sha256": "cddc3386a79e942c2ebfe1fc391c5fb219c84f380b33ae8a2bfe86711ea464f6"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+        "before_sha256": "1fde790b63ba5940a72e51a869531cdf11b266ff8dd904c0964ec157e19ce3f8",
+        "after_sha256": "95046ff05f7ffb30230237f8682e74ce743d68576281793df262495f37a6ad33"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+        "before_sha256": "40b375c2f0fb3f6e3a20fd7b63a1f879af29846e7d36e4622fdc0acb0cb7462f",
+        "after_sha256": "1511c53b473352b1bc12474f76645c965f5f5207072a03911f8c0f9643b4e6c7"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+        "before_sha256": "0d1dd69b94ecdd280aa753123f497ae1dd4e26a9cf7ab232a3e8fe721bda3d7f",
+        "after_sha256": "06eeda66c15d73a91f134d6e188227500b90311944df2ddb5a214afe37284960"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo_cracking.md",
+        "before_sha256": "3cae9b5063168271292d6f34c0d2170db4e45576be1dbc6baab170f4fc955e40",
+        "after_sha256": "33662450c8cbdb505b8324c498423c3d2f89eed1ced7af5b555e359cda99e606"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo_cracking.txt",
+        "before_sha256": "60b13e7fc55d2b8624097095b2622b376cd7a3fc55c18a1785faa61ef0d1273e",
+        "after_sha256": "565ab56ec004534a7e019842dcf129985fa4c1f9d604072c3fb7db8c12210bd5"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.md",
+        "before_sha256": "656f5b55122d076e440926175f000b90c180148c166d0e5fe7197b26a8f76b48",
+        "after_sha256": "0d4d8ec2f65cfcb6cf5588a348ce2d9e4848ffe48c416abaf4ce20ffab10a4ce"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.txt",
+        "before_sha256": "0084a0d1e81d6e678a440f5b9933424aa9e5d493c913f0d59fa7f5f83766d49c",
+        "after_sha256": "a56a8993e47def3e49ffacb60cd3022a9412dbb076678626a201828ec0b3d61e"
+      },
+      {
+        "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+        "before_sha256": "b9304ce0af27141780d944e715c814a0fc274ec8152036be4dcb84f3b7efdbc2",
+        "after_sha256": "c674b33aebf58f3601488eb8722f2b0a41e3a6773074a088cb6a855ab04aa654"
+      },
+      {
+        "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+        "before_sha256": "d4866222415ae8100da263c78796e682833339c09e408f0a74a162adc06e18df",
+        "after_sha256": "01162fa8f6adcdc9c6200369505c2f9532cfa4b485c408256e4a468c2eece8a3"
+      },
+      {
+        "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.md",
+        "before_sha256": "9c1643d5545b9aca4ab37e06371b50ca9e6a8b6891b065619204711d408f8a12",
+        "after_sha256": "57ed567cff8b12381746b1073f3f17d70a3ba8ed6ada70b1245b350d3af0a2ad"
+      },
+      {
+        "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+        "before_sha256": "f3bb5419e2759c6d82458c415376c484065eb65ab04ea9cb6877f15ba9da491a",
+        "after_sha256": "4176211fc4c78eaa642f76f28fa8d67a51556bfbc110decf1831d182f22a2165"
+      },
+      {
+        "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_palo-verticale.md",
+        "before_sha256": "12a6cb6e3d79cf5f0ca98d4c0e228f7a3948475b926425d61e1d4a6b7af9b937",
+        "after_sha256": "218939e67534fe1f3a0e7893b9fe6a92b0b21d4602ae4fc5fffb17a17cc8221a"
+      },
+      {
+        "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_palo-verticale.txt",
+        "before_sha256": "21d0d5ad665b073599549760aa521396cab6eceb02ae5c3f257538727b9e4f7c",
+        "after_sha256": "a004dcd6c37198341c78e2e1479adb7ece7244e76f45987b2791b6da007ee652"
+      },
+      {
+        "file": "wiki/_wiki_manuale_geotecnica_modello-stratigrafia.md",
+        "before_sha256": null,
+        "after_sha256": "981627211afc411638e0373c8f4090cbba966fb86246ec77f935125e2c5200b9"
+      },
+      {
+        "file": "wiki/_wiki_manuale_geotecnica_modello-stratigrafia.txt",
+        "before_sha256": null,
+        "after_sha256": "0d7687cb2f9c78374a480bd210f9e5dd573918f52837fa9087710075214f38b1"
+      },
+      {
+        "file": "wiki/_wiki_manuale_materiali_acciaio-armature.md",
+        "before_sha256": "121d3d2aedf6b7e10784187e2bf0e0e22ebde4c4d688cda35c526f9a40a7d72a",
+        "after_sha256": "e9edf8aaec329c96427c4cee04ac71a9854a40065947af1b231837cf9c3062fb"
+      },
+      {
+        "file": "wiki/_wiki_manuale_materiali_acciaio-armature.txt",
+        "before_sha256": "86aa3de5f4feb849f324e274609eb9d1972f86857060b7914059091a55e645f7",
+        "after_sha256": "730cd6573f3cfe0087dd6fb315148e88fbaf5ab08d76b16d26a5bc84b14facce"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_sezione-composta-da-ponte.md",
+        "before_sha256": "2b95344629074948928ead543739a30b8e4e201e43b582f6649962c54b80c314",
+        "after_sha256": "a84e60f47886f4f557a933f0770a67ce41bf46599b5e50f7c2cd13529750b3e7"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_sezione-composta-da-ponte.txt",
+        "before_sha256": "693d7f0d042772472fe835d0902f77dcc29758b7f124b94344e3922961c317f6",
+        "after_sha256": "f7b02d9997cc49ccf6bbda33a264b8b416fec09227581a932ca3a782c24c7408"
+      },
+      {
+        "file": "wiki/search.json",
+        "before_sha256": "06436decb87a72750ce4cd55fe4041d90d07caeb2ed765fad170feaf97d51dc2",
+        "after_sha256": "5bb3fde2ab29e65fca15c72e73f32af1ac7ccce5e58ef3da5ffd6a13fa72a62b"
+      }
+    ]
   }
 }

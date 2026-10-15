@@ -22,6 +22,7 @@ Wiki e ricerca seguono invece la regola editoriale di F3-06: i file cambiati son
 - Rev40: `editorial_updates` del manifest.
 - Rev41–Rev44: `editorial_updates_f4`, voce F4-48.
 - Rev45: `editorial_updates_rev45`, frase d'installazione della guida pratica senza numero di versione.
+- Rev46 e Rev47: `editorial_updates_rev47`, articoli della stratigrafia (Rev46) e frasi delle correzioni del 15/10/2026 (Rev47); con le correzioni il confronto è troncato, quindi i file della Wiki sono confrontati direttamente.
 
 Le impronte prima e dopo sono calcolate sulla forma conservata da git (fine riga LF).
 

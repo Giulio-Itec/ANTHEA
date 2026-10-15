@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 15 ottobre 2026 — revisione documentale 46
+Edizione 6 aggiornata il 16 ottobre 2026 — revisione documentale 47
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -225,7 +225,7 @@ Il foglio nuovo parte dal palo trivellato con γb = 1,35. Quando si cambia la te
 
 I fogli del formato precedente, privi del numero di versione del foglio, proponevano 1,35 per ogni tecnologia. Per i pali battuti e a elica continua di questi fogli, un γb di 1,35 o mancante vale come il γb della tabella. Il foglio è aggiornato una sola volta, all'apertura o quando un progetto vi trascrive dei valori, e riceve il numero di versione: un 1,35 scelto in seguito resta quindi 1,35. Il calcolo e la relazione applicano la stessa regola senza modificare il documento. I pali trivellati e i micropali non cambiano, e ogni altro valore di γb resta quello memorizzato. Sui casi di prova, con il γb della tabella la resistenza di progetto drenata alla profondità massima aumenta del 4,3–7,0 % per i pali battuti e dell'1,0–1,2 % per l'elica continua.
 
-L'azione di compressione comprende il peso proprio sfavorevole e quella di trazione è ridotta dal peso favorevole, con i coefficienti specificati. L'opzione di sottospinta modifica il peso secondo la parte immersa del palo, separatamente dal calcolo delle tensioni del terreno.
+L'azione di compressione comprende il peso proprio sfavorevole e quella di trazione è ridotta dal peso favorevole, con i coefficienti specificati. Il peso del palo nelle azioni dipende dalla condizione e dal verso. A trazione, drenata e non drenata, si usa sempre il peso alleggerito W′ = W − γw A (z − zf) sotto falda, con z profondità della punta e zf della falda. A compressione non drenata con la base lorda Ab (Nc Cu + σv,L totale), cioè con la punta coesiva sotto falda in almeno una verticale, si usa sempre il peso intero W: σv contiene già la pressione dell'acqua alla base. A compressione drenata, e non drenata senza base lorda, si usa W′ con «Considera sottospinta», altrimenti W, a favore di sicurezza. Ogni condizione è confrontata con la propria resistenza. La sottospinta sul peso resta separata dal calcolo delle tensioni del terreno.
 
 ```math
 E_{d,C} = N_C+\gamma_{G,sfav}W
@@ -324,7 +324,7 @@ R_k = \min\left(\frac{H_{u,medio}}{\xi_3};\frac{H_{u,\min}}{\xi_4}\right)
 R_d = \frac{\eta R_k}{1{,}3}
 ```
 
-HEd è già un'azione di progetto assegnata. Il motore non genera l'intero percorso delle combinazioni normative. L'efficienza di gruppo basata su Reese e Van Impe usa fattori direzionali: davanti min[1; 0,7(s/D)^0,26], dietro min[1; 0,48(s/D)^0,38], lateralmente min[1; 0,64(s/D)^0,34]. I contributi diagonali combinano i fattori longitudinali e laterali secondo l'angolo; il prodotto dei vicini attivi dà η. Questa riduzione agisce su Rd, senza ridisegnare il meccanismo Hu del singolo palo.
+HEd è già un'azione di progetto assegnata. Il motore non genera l'intero percorso delle combinazioni normative. L'efficienza di gruppo basata su Reese e Van Impe usa fattori direzionali riferiti al verso di H. Con il vicino davanti il palo è nella sua scia, min[1; 0,48(s/D)^0,38]; con il vicino dietro è capofila, min[1; 0,70(s/D)^0,26]; lateralmente vale min[1; 0,64(s/D)^0,34]. Ogni contributo diagonale combina secondo l'angolo il fattore laterale con quello longitudinale del proprio lato, anteriore o posteriore; il prodotto dei vicini attivi dà η. Questa riduzione agisce su Rd, senza ridisegnare il meccanismo Hu del singolo palo.
 
 ### Momento resistente del palo in c a
 
@@ -372,6 +372,10 @@ Per un dato stato N Mx My, il motore cerca le deformazioni che producono le risu
 Il criterio di crescita delle azioni determina la direzione della ricerca sul dominio. Con N costante si aumenta la componente flettente lungo la direzione scelta; con eccentricità costante si percorre una direzione differente nello spazio delle azioni. Un coefficiente di sfruttamento non è quindi interpretabile senza il criterio associato.
 
 I quattro momenti resistenti rapidi, a N assegnato, corrispondono alle direzioni positive e negative dei due assi. Sono quattro interrogazioni del motore, non un rettangolo resistente dentro cui qualunque coppia di momenti sia ammessa. La proiezione 2D di un punto fuori piano può apparire interna pur non risolvendo il problema tridimensionale.
+
+Il dominio bidimensionale N–M è la sezione del dominio sul meridiano della direzione del momento θ, per ogni θ e per ogni sistema di assi, in SLU e in SLV: i punti resistenti hanno il momento nel piano θ, senza componente trasversale. Il tasso di lavoro è quello del punto resistente tridimensionale.
+
+Con i criteri a N assegnato («N costante», «N e Mx costanti», «N e My costanti») un NEd fuori dal campo resistente [NRd,c; NRd,t] non ha punti del dominio a quel valore: l'esito è «Fuori dominio (N fuori dal campo [NRd,c; NRd,t])» con η > 1, valutato sul punto a eccentricità costante. Con «N costante» e momento di domanda nullo l'esito è «Entro il dominio (momento nullo)» con η = 0. Per un N fuori dal campo anche la resistenza a N assegnato e il punto limite della curva M–χ non sono disponibili, e il messaggio riporta NRd,c e NRd,t in kN.
 
 ### Materiali tendini e analisi di esercizio
 
@@ -427,6 +431,8 @@ w_k = \max(0;1{,}70\Delta s_m\Delta\varepsilon)
 
 Se s ≤ slim si usa Δsm,vicino; altrimenti si usa il massimo fra le due distanze. Questo dettaglio è rilevante: sostituire il ramo distante con un coefficiente arrotondato ricordato da un'altra formulazione non riproduce esattamente il codice. σs è il massimo delle barre efficaci, non la media delle tensioni di tutte le barre.
 
+Il copriferro c della formula è il valore del campo «c barra»; con il campo vuoto è il minimo copriferro libero delle barre efficaci verso la faccia tesa, misurato sulla posizione delle barre. Barre più interne del copriferro nominale entrano quindi in Δsm,vicino e in slim con il loro copriferro reale. Senza barre tese wk = 0 solo se l'asse neutro cade nel copriferro di una barra del lembo teso: la barra deve trovarsi, lungo il gradiente delle deformazioni, entro la proiezione a,c del proprio copriferro c + Ø/2, con c assegnato o nominale; la traccia riporta a,c. Altrimenti la zona tesa è priva di armatura, nessuna barra ne controlla le fessure (EN 1992-1-1 §7.3.2(1)) e la verifica non è soddisfatta; lo stesso vale per una faccia della sezione interamente tesa senza barre nella propria fascia efficace.
+
 L'area efficace viene costruita sulla zona tesa e sulle barre pertinenti. Nella trazione integrale sono esaminate regioni di bordo o radiali e governa il risultato massimo; non si sommano le aree sovrapposte come se fossero indipendenti. Disposizioni non supportate restano fuori campo; per le superfici interne compatibili valgono le fasce di parete o anello descritte più avanti. La disponibilità della formula va verificata anche rispetto al metodo tensionale e alla presenza di tendini.
 
 ### Esempio di fessurazione
@@ -471,7 +477,7 @@ Asl,disp è l'armatura longitudinale disponibile per la torsione dopo la flessio
 
 ### Dettagli e curva momento curvatura
 
-Le verifiche costruttive dipendono dal tipo di elemento scelto. Il modulo confronta geometria, armature e parametri necessari con i limiti implementati e mantiene «Da completare» quando mancano informazioni. La lunghezza di ancoraggio rettilineo parte da lbrqd = φσsd/(4fbd), con i coefficienti di forma e condizioni α1–α5 assunti unitari nel ramo documentato. Le sovrapposizioni introducono α6 e i relativi minimi; i dettagli speciali non vengono ricavati da un disegno ideale della sezione.
+Le verifiche costruttive dipendono dal tipo di elemento scelto. Il modulo confronta geometria, armature e parametri necessari con i limiti implementati e mantiene «Da completare» quando mancano informazioni. La lunghezza di ancoraggio rettilineo parte da lbrqd = φσsd/(4fbd), con i coefficienti di forma e condizioni α1–α5 assunti unitari nel ramo documentato. Le regole di aderenza sono quelle delle barre ad aderenza migliorata, fbd = 2,25 η1 η2 fctd (NTC 2018 §4.1.2.1.1.4; EN 1992-1-1 §8.4.2): con «Barre: Liscia» nella sezione, la stessa scelta usata dalla fessurazione, l'ancoraggio resta da completare, anche nella ricerca delle armature. Le sovrapposizioni introducono α6 e i relativi minimi; i dettagli speciali non vengono ricavati da un disegno ideale della sezione.
 
 Lo sforzo NEd dei minimi di armatura dei pilastri (NTC 2018 §4.1.6.1.2) è la compressione più gravosa fra tutte le combinazioni del foglio: SLU, SLV, taglio, rara, frequente e quasi permanente. A parità di valore prevale una combinazione di progetto. Con combinazioni ultime complete le SLE di norma non governano; se governano, il risultato indica che NEd è un valore di esercizio.
 
@@ -479,13 +485,13 @@ Lo sforzo NEd dei minimi di armatura dei pilastri (NTC 2018 §4.1.6.1.2) è la c
 N_{Ed} = \max_r\ \max(0;\ -N_r)
 ```
 
-La curva M χ viene costruita a N fissato nella direzione assegnata, con passi uniformi o quadratici fino al limite resistente. Ogni punto richiede equilibrio di sezione. In una sezione asimmetrica la direzione del gradiente di deformazione può non coincidere con quella del momento. Non sono inclusi automaticamente softening strutturale, lunghezza della cerniera, rotazione globale o interazione con instabilità dell'elemento.
+La curva M χ viene costruita a N fissato nella direzione assegnata, con passi uniformi o quadratici fino al limite resistente. Ogni punto richiede equilibrio di sezione. In ogni riga, punto limite compreso, ε0 è la deformazione nell'origine degli assi locali delle azioni: anche il piano del punto limite, che proviene dal dominio, è letto in quell'origine e non nel vertice con cui il dominio lo costruisce. In una sezione asimmetrica la direzione del gradiente di deformazione può non coincidere con quella del momento. Non sono inclusi automaticamente softening strutturale, lunghezza della cerniera, rotazione globale o interazione con instabilità dell'elemento.
 
 ### Asse neutro e stato resistente
 
 L'asse neutro nel c.a. è il luogo di deformazione nulla del piano affine. Con deformazione uniforme non esiste una retta univoca. L'asse del punto resistente sul dominio e quello della combinazione di esercizio appartengono a stati diversi. Nei tendini la predeformazione può separare lo zero della deformazione geometrica da quello della tensione.
 
-Le superfici interne dei fori sono trattate con fasce di parete o anello, limitate a metà spessore; le facce sono controllate separatamente. Ogni fascia usa il k2 della propria distribuzione di deformazioni, non quello della sezione (vedi l'apertura delle fessure). Una superficie compressa non richiede apertura delle fessure. Una superficie tesa senza armatura efficace o senza interasse assegnato lascia il controllo incompleto; un superamento già accertato resta sfavorevole.
+Le superfici interne dei fori sono trattate con fasce di parete o anello, limitate a metà spessore; le facce sono controllate separatamente. Ogni fascia usa il k2 della propria distribuzione di deformazioni, non quello della sezione (vedi l'apertura delle fessure). Una superficie compressa non richiede apertura delle fessure. Una superficie tesa senza armatura efficace non soddisfa la verifica, perché nessuna barra ne controlla le fessure; senza interasse assegnato il controllo resta incompleto. Un superamento già accertato resta sfavorevole.
 
 I coefficienti e i campi dei diversi profili sono distinti nella [matrice del calcestruzzo](wiki:profili-calcestruzzo). La [guida operativa](wiki:guida-sezione-ca) descrive importazioni, stati del calcolo e lettura dei risultati.
 
@@ -611,7 +617,9 @@ Il metodo conserva il riferimento di deformazione al momento del getto e gli sta
 
 ### Metodo storico non lineare
 
-La sezione è discretizzata a fibre e l'equilibrio N Mx viene risolto seguendo la storia. L'acciaio adotta una legge bilineare con incrudimento isotropo, memoria plastica e scarico elastico. Il calcestruzzo usa l'inviluppo del materiale tabulato disponibile nella libreria, senza una legge completa di danno ciclico e degradazione.
+La sezione è discretizzata a fibre e l'equilibrio N Mx viene risolto seguendo la storia. L'acciaio adotta una legge bilineare con incrudimento isotropo, memoria plastica e scarico elastico. Il calcestruzzo compresso usa l'inviluppo del materiale tabulato disponibile nella libreria, senza una legge completa di danno ciclico e degradazione.
+
+Il legame del calcestruzzo teso nello storico non lineare e nelle curve M–κ e N–ε si sceglie con «CLS teso (non lineare)». Con Trascurato, predefinito, il calcestruzzo non resiste a trazione (EN 1992-1-1 §6.1(2)P, sezione fessurata di EN 1994-2), con tensione nulla per ogni deformazione di trazione, anche prima della fessurazione: la scelta è a favore di sicurezza per acciaio e barre. Con Tension stiffening il calcestruzzo è elastico fino a fctm, poi segue la tensione media del calcestruzzo fessurato σ = fctm/(1 + √(500 ε)) (Collins e Mitchell, 1991); alla fessurazione la tensione scende a circa 0,82 fctm. Oltre lo snervamento delle barre il contributo del calcestruzzo teso è sovrastimato, perché non si controlla la tensione trasmissibile alla fessura. Storico lineare e metodo cumulativo non usano l'opzione.
 
 Il calcolo è istantaneo, su sezione lorda e con proprietà caratteristiche. Non applica la riduzione locale di classe 4 e non sostituisce le verifiche di instabilità con la plasticità delle fibre. Il percorso non ammette di simulare la viscosità alterando arbitrariamente il modulo di un materiale plastico attraverso n. Le impostazioni iniziali usano 160 suddivisioni nell'anima, 8 nelle flange, 64 nel cls e 8 sottopassi per incremento; la sensibilità numerica va controllata nei casi impegnativi.
 
@@ -643,6 +651,8 @@ L'iterazione utilizza una tolleranza dell'ordine di 10⁻⁷ e massimo 120 passi
 ### Limiti di tensione e interpretazione delle curve
 
 Il percorso elastico di esercizio confronta l'acciaio strutturale con fy, il cls con i limiti 0,60fck o 0,45fck secondo la situazione e l'armatura con 0,80fyk nel percorso previsto. L'esclusione della soletta tesa è una scelta del modello; l'armatura può restare attiva. Nel cumulativo non viene introdotta automaticamente una fessurazione parziale della soletta tale da risolvere ogni distribuzione tesa.
+
+Negli SLE le barre tese della soletta fessurata, nelle fasi con «Soletta esclusa», includono il tension stiffening di EN 1994-1-1 §7.4.3(3): σs = σs,0 + Δσs con Δσs = 0,4 fctm/(αst ρs), dove σs,0 è la tensione delle barre nella sezione fessurata, ρs = As/Act il rapporto d'armatura della soletta tesa e αst = A I/(Aa Ia), con A e I della sezione composta senza calcestruzzo teso e Aa e Ia dell'acciaio strutturale. La tensione totale di queste barre supera quindi la somma dei contributi delle fasi, che sommano σs,0; allo SLU Δσs non si applica. Il report elenca σs,0, Δσs, αst, ρs e fctm.
 
 Le curve M κ a N costante e N ε a curvatura costante possono partire da stato vergine o dalla ricostruzione della storia fino a una fase. Il motore conserva la memoria prevista dallo storico non lineare. Il risultato è una risposta caratteristica della sezione lorda: per trasformarlo in una capacità di progetto servono le verifiche e i coefficienti pertinenti. Punti non convergenti non vengono sostituiti da un inviluppo artificiale.
 
@@ -1228,7 +1238,7 @@ Il DM 17 gennaio 2018 e la Circolare 21 gennaio 2019 n. 7 sono i riferimenti ita
 
 Il modulo tratta muri a mensola e a gravità. Le verifiche locali e la stabilità globale hanno modelli e combinazioni distinti. La [guida ai muri](wiki:guida-muri-di-sostegno-con-stratigrafie-di-monte-e-valle) descrive il percorso Input e Verifiche, le stratigrafie di monte e valle, gli attriti, i valori di calcolo e la preparazione del profilo globale; [portanza, cedimenti e armature](wiki:portanza-sismica-cedimenti-spostamenti-e-armature-rev07) approfondisce i modelli aggiuntivi.
 
-L’attrito automatico usa δd=k·atan(tanφcv,k/γMφ), con k=1 per gettato in opera e 2/3 per prefabbricato liscio. L’assegnazione usa tanδd=tanδk/γMφ. Coulomb/MO sul fusto tiene conto di δ muro; l’equilibrio del blocco muro e terreno sulla mensola usa il piano virtuale a δ=0, evitando il doppio conteggio delle forze interne. La portanza drenata include q′B′Nq iq e 0,5γ′B′²Nγ iγ; rimane fuori campo con base non ruvida, eccentricità eccessiva o inerzia sismica del terreno di fondazione. Lo scorrimento usa V′tanδb,d/γR.
+L’attrito automatico usa δd=k·atan(tanφcv,k/γMφ), con k=1 per gettato in opera e 2/3 per prefabbricato liscio. L’assegnazione usa tanδd=tanδk/γMφ. Coulomb/MO sul fusto tiene conto di δ muro; l’equilibrio del blocco muro e terreno sulla mensola usa il piano virtuale a δ=0, evitando il doppio conteggio delle forze interne. La portanza drenata include q′B′Nq iq e 0,5γ′B′²Nγ iγ; rimane fuori campo con base non ruvida, eccentricità eccessiva o inerzia sismica del terreno di fondazione. Lo scorrimento confronta Ed, cioè spinta motrice, azioni orizzontali e inerzia, mai ridotta dalla passiva, con V′tanδb,d/γR + ηp·Pp/γR,e; il ribaltamento confronta il momento ribaltante con Mstab/γR più il momento di ηp·Pp/γR,e rispetto al piede. La passiva a valle è facoltativa ed esclusa nel sisma, con ηp ≤ 0,5 (NTC 2018 §6.5.3.1.1) e γR,e = 1,4 nelle SLU (Tab. 6.5.I), 1 negli altri stati; nell’equilibrio (contatto, eccentricità, inclinazione della portanza e sollecitazioni del fusto) la passiva di progetto è limitata alla spinta motrice. Con la mensola a monte ogni combinazione SLU, sismica o eccezionale con un sovraccarico uniforme variabile ha la gemella «b», con la stessa spinta e senza il sovraccarico variabile sulla mensola: la variabile favorevole non si applica (γQ = 0 nelle SLU, NTC 2018 Tab. 2.6.I; ψ2·q solo se sfavorevole nel sisma e negli eccezionali, §2.5.3), quindi né il suo peso né l’inerzia kh·ψ2·q sulla mensola stabilizzano. Principale e gemella entrano in tutte le verifiche.
 
 Le relazioni Word includono stratigrafie e coefficienti utilizzati. Cedimenti e spostamenti sono modelli separati; verifiche idrauliche, liquefazione e completamento esecutivo richiedono analisi dedicate. Il modulo non emette una verifica complessiva dell’opera.
 
@@ -1292,7 +1302,7 @@ Si integra s=∫Δσz/M dz con tensioni Boussinesq di una striscia infinita e pr
 
 È un cedimento finale con moduli costanti assegnati: non ricostruisce tempi di consolidazione, OCR, scarico e ricarico, variazione di M con le tensioni o degrado ciclico. La rotazione θ=(smonte−svalle)/B deriva dal profilo libero; non è una soluzione accoppiata della fondazione rigida.
 
-Per Calcola spostamenti in testa servono anche la rigidezza orizzontale di fondazione K per metro di muro, in kN/m², e il limite scelto. Il fusto in c.a. usa curvature totali delle sezioni fessurate GPC con viscosità assegnata. Per l’analisi lineare si usa la curvatura totale comprensiva dell’effetto viscoso, mantenendo la convenzione del solutore e senza moltiplicarla nuovamente per 1 + φ. La doppia integrazione fornisce u del fusto con base fissa; la stima disaccoppiata totale è utesta=ufusto+H/K−θHmuro. Il termine di rotazione conserva il segno. Le curvature mancanti impediscono il risultato. La gravità usa il modello elastico del materiale nel campo senza trazione.
+Per Calcola spostamenti in testa servono anche la rigidezza orizzontale di fondazione K per metro di muro, in kN/m², e il limite scelto. Il fusto in c.a. usa curvature totali delle sezioni fessurate GPC con viscosità assegnata. Per l’analisi lineare si usa la curvatura totale comprensiva dell’effetto viscoso, mantenendo la convenzione del solutore e senza moltiplicarla nuovamente per 1 + φ. La doppia integrazione fornisce u del fusto con base fissa; la stima disaccoppiata totale è utesta=ufusto+H/K−θ(Hmuro+t). Il termine di rotazione conserva il segno. Le curvature mancanti impediscono il risultato. La gravità usa il modello elastico del materiale nel campo senza trazione.
 
 ### Spostamenti permanenti Newmark
 
@@ -1349,10 +1359,10 @@ La stima del cedimento integra l'incremento di tensione verticale nel profilo de
 ```math
 s=\int\frac{\Delta\sigma_z}{M}\,dz
 \theta=\frac{s_{monte}-s_{valle}}{B}
-u_{testa}=u_{fusto}+\frac{H}{K}-\theta H_{muro}
+u_{testa}=u_{fusto}+\frac{H}{K}-\theta (H_{muro}+t)
 ```
 
-Nell'ultima relazione H è la risultante orizzontale per metro di muro, non l'altezza; Hmuro è l'altezza geometrica. Con H in kN/m e K in kN/m², H/K è uno spostamento in metri. Somma i contributi conservandone i segni. Il modello disaccoppiato non ricostruisce l'interazione rigida terreno–fondazione.
+Nell'ultima relazione H è la risultante orizzontale per metro di muro, non l'altezza; Hmuro è l'altezza geometrica del fusto e t lo spessore della fondazione. θ è una rotazione rigida della fondazione attorno alla base: il suo braccio è l'intera altezza sopra la base. Con H in kN/m e K in kN/m², H/K è uno spostamento in metri. Somma i contributi conservandone i segni. Il modello disaccoppiato non ricostruisce l'interazione rigida terreno–fondazione.
 
 ## Efficienza orizzontale della palificata
 
@@ -2240,7 +2250,7 @@ s_{r,max}=3{,}4c+0{,}425k_1k_2\frac{\phi}{\rho_{eff}}
 | $c,\phi$ | Copriferro dell'armatura considerata e diametro | mm |
 | $k_t,k_1,k_2$ | Coefficienti di durata, aderenza e distribuzione deformativa | adimensionali |
 
-Il copriferro della formula va riferito alle barre che controllano la fessura: non sostituire senza controllo il copriferro netto alla staffa impostato nella UI. L'area efficace non è l'intera sezione né tutta la zona geometricamente tesa. Per flessione semplice della sezione rettangolare, la definizione classica limita l'altezza efficace con il minimo dei tre contributi seguenti, dove $d$ è l'altezza utile e $x$ la profondità dell'asse neutro dal bordo compresso:
+Il copriferro della formula va riferito alle barre che controllano la fessura: non sostituire senza controllo il copriferro netto alla staffa impostato nella UI. In ANTHEA, con il campo «c barra» vuoto, c è il minimo copriferro libero delle barre efficaci verso la faccia tesa, misurato sulle barre. L'area efficace non è l'intera sezione né tutta la zona geometricamente tesa. Per flessione semplice della sezione rettangolare, la definizione classica limita l'altezza efficace con il minimo dei tre contributi seguenti, dove $d$ è l'altezza utile e $x$ la profondità dell'asse neutro dal bordo compresso:
 
 ```math
 h_{c,eff}=\min\left(2{,}5(h-d),\frac{h-x}{3},\frac{h}{2}\right)
@@ -2396,7 +2406,7 @@ In Anthea il motore numerico resta nei progetti di calcolo e nelle librerie prev
 
 ## Acciaio per armature: proprietà e diagrammi
 
-Il materiale definisce la risposta delle barre; non verifica da solo una sezione. La scheda propone B450C, B450A, classi storiche FeB e un materiale personalizzato. I valori storici di catalogo non sostituiscono le prove su una struttura esistente.
+Il materiale definisce la risposta delle barre; non verifica da solo una sezione. La scheda propone B450C, B450A, classi storiche FeB e un materiale personalizzato. Nel catalogo B450A ha εu = 25 ‰, cioè (Agt)k ≥ 2,5 % (NTC 2018 Tab. 11.3.Ic; EN 1992-1-1 Tab. C.1, classe A), e B450C 75 ‰. Le schede salvate con valori diversi dal catalogo, per esempio B450A con il 30 ‰ di un catalogo precedente, conservano i propri valori, che il calcolo usa, e dichiarano la differenza; riselezionando la classe si adottano i valori del catalogo. I valori storici di catalogo non sostituiscono le prove su una struttura esistente.
 
 ### Grandezze e unità
 
@@ -2483,8 +2493,9 @@ con i predefiniti e usare il ripristino per aggiornare un vecchio foglio.
   Le azioni sono già combinate/coefficientate: non vengono moltiplicate ancora.
   γc e γs operano sulle resistenze.
 - dg è condiviso con Dettagli → Copriferro e durabilità; modificarlo invalida il
-  taglio. Δe MC è distinto per asse e visibile solo per quel modello. Asl
-  automatica richiede conferma dell'ancoraggio, anche con staffe nel Model Code;
+  taglio. Δe MC è distinto per asse e visibile solo per quel modello.
+  Δe è la distanza della retta d'azione di N dalla metà di z, positiva verso il lembo teso a flessione e negativa verso quello compresso, come richiede il segno + di N(1/2 + Δe/z) nella (7.3-16) di Model Code 2010; il campo accetta valori negativi.
+  Asl automatica richiede conferma dell'ancoraggio, anche con staffe nel Model Code;
   cambiare la geometria revoca la conferma.
 - wlim è comune alle SLE. Vuoto: criterio del codice; MC e classi ambientali
   non tabulate richiedono un valore esplicito. NTC/UNI conservano i propri
@@ -2508,9 +2519,9 @@ wk richiede analisi lineare con CLS teso escluso. Le fasce efficaci sono tagli
 Le superfici interne hanno fasce di parete o anello limitate a metà spessore.
 Nel rettangolo si limita anche l'estensione tangenziale alla faccia del foro:
 le barre esterne agli angoli non diventano armatura della parete interna.
-Un foro compresso non richiede verifica di apertura; una superficie tesa senza
-armatura efficace/interasse definito lascia il controllo incompleto. Un
-superamento noto resta negativo. Report e vista mostrano lo stesso inviluppo.
+Un foro compresso non richiede verifica di apertura. Una superficie tesa senza
+armatura efficace non soddisfa la verifica; senza interasse definito il controllo resta incompleto.
+Un superamento noto resta negativo. Report e vista mostrano lo stesso inviluppo.
 L'estensione a pareti/anelli è una schematizzazione geometrica del modulo,
 esplicitata nelle tracce; non è una validazione sperimentale di tutte le cavità.
 
@@ -3054,7 +3065,7 @@ Per una resistenza positiva si richiede a minore di uno e ic non negativo. Azion
 
 ### Condizioni non drenate
 
-Per Eurocodice 7 Nc = π + 2, sc = 1 + 0,2r, dc = 1 e ic = (1 + √(1 − H/(A′cu)))/2, con H non maggiore di A′cu. La pressione limite è cu Nc sc ic + q. Per Vesić si usano sc = 1 + 0,2r, dc = 1 + 0,4k, ic = 1 − mH/(A′cuNc), non negativo, in forma moltiplicativa. Meyerhof usa sc = 1 + 0,2r, dc = 1 + 0,2D/B e il fattore di inclinazione sopra descritto, limitato alla striscia quando H non è nullo.
+Per Eurocodice 7 Nc = π + 2, sc = 1 + 0,2r, dc = 1 e ic = (1 + √(1 − H/(A′cu)))/2, con H non maggiore di A′cu. La pressione limite è cu Nc sc ic + q. Per Vesić si usano sc = 1 + 0,2r, dc = 1 + 0,4k, ic = 1 − mH/(A′cuNc), non negativo, in forma moltiplicativa. Meyerhof usa sc = 1 + 0,2r, dc = 1 + 0,2D/B e il fattore di inclinazione sopra descritto, limitato alla striscia quando H non è nullo. A differenza di Eurocodice 7, Vesić, Hansen e Terzaghi, che sommano q, Meyerhof applica l'inclinazione anche al sovraccarico: cu Nc sc dc ic + q iq, con iq = ic = (1 − θ/(π/2))², in continuità con il ramo drenato (Meyerhof, 1963; USACE EM 1110-1-1905, tabella 4-3).
 
 Hansen con carico normale usa invece una forma additiva:
 

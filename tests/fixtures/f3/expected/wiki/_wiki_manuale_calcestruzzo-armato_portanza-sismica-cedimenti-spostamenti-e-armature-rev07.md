@@ -14,7 +14,7 @@ Si integra s=∫Δσz/M dz con tensioni Boussinesq di una striscia infinita e pr
 
 È un cedimento finale con moduli costanti assegnati: non ricostruisce tempi di consolidazione, OCR, scarico e ricarico, variazione di M con le tensioni o degrado ciclico. La rotazione θ=(smonte−svalle)/B deriva dal profilo libero; non è una soluzione accoppiata della fondazione rigida.
 
-Per Calcola spostamenti in testa servono anche la rigidezza orizzontale di fondazione K per metro di muro, in kN/m², e il limite scelto. Il fusto in c.a. usa curvature totali delle sezioni fessurate GPC con viscosità assegnata. Per l’analisi lineare si usa la curvatura totale comprensiva dell’effetto viscoso, mantenendo la convenzione del solutore e senza moltiplicarla nuovamente per 1 + φ. La doppia integrazione fornisce u del fusto con base fissa; la stima disaccoppiata totale è utesta=ufusto+H/K−θHmuro. Il termine di rotazione conserva il segno. Le curvature mancanti impediscono il risultato. La gravità usa il modello elastico del materiale nel campo senza trazione.
+Per Calcola spostamenti in testa servono anche la rigidezza orizzontale di fondazione K per metro di muro, in kN/m², e il limite scelto. Il fusto in c.a. usa curvature totali delle sezioni fessurate GPC con viscosità assegnata. Per l’analisi lineare si usa la curvatura totale comprensiva dell’effetto viscoso, mantenendo la convenzione del solutore e senza moltiplicarla nuovamente per 1 + φ. La doppia integrazione fornisce u del fusto con base fissa; la stima disaccoppiata totale è utesta=ufusto+H/K−θ(Hmuro+t). Il termine di rotazione conserva il segno. Le curvature mancanti impediscono il risultato. La gravità usa il modello elastico del materiale nel campo senza trazione.
 
 ### Spostamenti permanenti Newmark
 
@@ -71,8 +71,8 @@ La stima del cedimento integra l'incremento di tensione verticale nel profilo de
 ```math
 s=\int\frac{\Delta\sigma_z}{M}\,dz
 \theta=\frac{s_{monte}-s_{valle}}{B}
-u_{testa}=u_{fusto}+\frac{H}{K}-\theta H_{muro}
+u_{testa}=u_{fusto}+\frac{H}{K}-\theta (H_{muro}+t)
 ```
 
-Nell'ultima relazione H è la risultante orizzontale per metro di muro, non l'altezza; Hmuro è l'altezza geometrica. Con H in kN/m e K in kN/m², H/K è uno spostamento in metri. Somma i contributi conservandone i segni. Il modello disaccoppiato non ricostruisce l'interazione rigida terreno–fondazione.
+Nell'ultima relazione H è la risultante orizzontale per metro di muro, non l'altezza; Hmuro è l'altezza geometrica del fusto e t lo spessore della fondazione. θ è una rotazione rigida della fondazione attorno alla base: il suo braccio è l'intera altezza sopra la base. Con H in kN/m e K in kN/m², H/K è uno spostamento in metri. Somma i contributi conservandone i segni. Il modello disaccoppiato non ricostruisce l'interazione rigida terreno–fondazione.
 

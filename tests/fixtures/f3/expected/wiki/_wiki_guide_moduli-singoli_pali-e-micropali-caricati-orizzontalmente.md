@@ -2,7 +2,7 @@
 
 ### Preparare un modello coerente
 
-Il modulo applica meccanismi limite di Broms. Definire il diametro geotecnico, la lunghezza infissa, la famiglia del terreno, il vincolo in testa e l'eccentricità della forza. Per la testa libera il momento esterno è H × e. La testa impedita richiede e = 0 nel modello disponibile. Un momento indipendente aggiunto alla forza non è gestito come azione generica.
+Il modulo applica meccanismi limite di Broms. Definire il diametro geotecnico, la lunghezza infissa, la famiglia del terreno, il vincolo in testa e l'eccentricità della forza. Per la testa libera il momento esterno è H × e. La testa impedita richiede e = 0 e tratto libero nullo, perché i meccanismi di Broms pongono il vincolo al piano campagna; con il plinto rialzato, cioè con un tratto libero sopra il terreno, il calcolo è rifiutato: usare la risposta elastica, che vincola la testa sopra il terreno. Un momento indipendente aggiunto alla forza non è gestito come azione generica.
 
 Lo sforzo normale N è positivo a compressione in questi fogli. È una convenzione diversa dalla sezione in c.a. Non copiare il segno senza controllarlo. N entra nel calcolo del momento resistente della sezione quando questo è automatico; non trasforma Broms in un'analisi completa del secondo ordine del palo nel terreno.
 

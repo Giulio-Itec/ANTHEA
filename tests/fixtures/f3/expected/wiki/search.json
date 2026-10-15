@@ -271,7 +271,8 @@
     "/wiki/guide/palo-elastico",
     "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
     "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
-    "/wiki/manuale/materiali/acciaio-armature"
+    "/wiki/manuale/materiali/acciaio-armature",
+    "/wiki/guide/moduli/guida-stratigrafia"
   ],
   "muro": [
     "/wiki/guide/primi-passi/avvio-e-scelta-del-modulo",
@@ -303,6 +304,7 @@
     "/wiki/manuale/calcestruzzo-armato/tracciabilita-e-riferimenti",
     "/wiki/theory/palificata-orizzontale",
     "/wiki/manuale/materiali/acciaio-armature",
+    "/wiki/guide/moduli/guida-stratigrafia",
     "/wiki/guide/moduli-singoli/fondazioni-superficiali",
     "/wiki/manuale/geotecnica/geotecnica-parametri",
     "/wiki/manuale/geotecnica/geotecnica-gruppi"
@@ -339,6 +341,7 @@
     "/wiki/guide/esportazione/salvataggio-e-report",
     "/wiki/guide/primi-passi/avvio-e-scelta-del-modulo",
     "/wiki/guide/progetti/progetti-e-gestione-del-lavoro",
+    "/wiki/guide/moduli-singoli/palo-verticale",
     "/wiki/guide/moduli-singoli/micropalo-verticale",
     "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
     "/wiki/guide/moduli-singoli/bridge-design",
@@ -359,6 +362,7 @@
     "/wiki/theory/palo-elastico",
     "/wiki/manuale/calcestruzzo/cracking",
     "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+    "/wiki/guide/moduli/guida-stratigrafia",
     "/wiki/guide/moduli-singoli/fondazioni-superficiali",
     "/wiki/manuale/geotecnica/muri-metodi-perimetro"
   ],
@@ -400,6 +404,7 @@
     "/wiki/guide/palo-elastico",
     "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
     "/wiki/manuale/ponti/bridge-design",
+    "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
     "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
     "/wiki/theory/palo-elastico",
     "/wiki/manuale/ponti/bridge",
@@ -477,6 +482,7 @@
     "/wiki/manuale/calcestruzzo/cracking",
     "/wiki/manuale/geotecnica/bearing-capacity",
     "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+    "/wiki/manuale/geotecnica/modello-stratigrafia",
     "/wiki/guide/moduli-singoli/fondazioni-superficiali",
     "/wiki/manuale/geotecnica/geotecnica-parametri",
     "/wiki/manuale/geotecnica/muri-metodi-perimetro",
@@ -487,6 +493,8 @@
     "/wiki/manuale/calcestruzzo/reologia"
   ],
   "terreno": [
+    "/wiki/guide/moduli/guida-stratigrafia",
+    "/wiki/manuale/geotecnica/modello-stratigrafia",
     "/wiki/guide/primi-passi/avvio-e-scelta-del-modulo",
     "/wiki/guide/moduli-singoli/palo-verticale",
     "/wiki/guide/moduli-singoli/micropalo-verticale",
@@ -517,6 +525,7 @@
   "torsione": [
     "/wiki/manuale/ponti/ponti-cassoni",
     "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+    "/wiki/guide/palo-elastico",
     "/wiki/guide/moduli/sezione-ca",
     "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
     "/wiki/manuale/ponti/sezione-composta-da-ponte",

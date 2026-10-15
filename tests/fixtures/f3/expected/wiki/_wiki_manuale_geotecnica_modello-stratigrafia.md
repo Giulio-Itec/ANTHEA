@@ -1,0 +1,36 @@
+## Modello della stratigrafia del terreno
+
+Il modulo stratigrafico rappresenta una colonna di strati orizzontali, contigui e omogenei nei dati assegnati. Gli spessori positivi sono la sola definizione della geometria: il limite superiore del primo strato è a profondità zero e i limiti successivi derivano dalla somma degli spessori precedenti. Non sono ammessi vuoti o sovrapposizioni. L’ultimo strato può essere indefinito; questa scelta costituisce un’ipotesi di modellazione e non estende la profondità effettivamente indagata.
+
+Il riferimento delle profondità è il piano campagna, con verso positivo discendente e unità metro. L’eventuale quota altimetrica del piano campagna resta distinta. La falda assegnata è un singolo livello al piano campagna o al di sotto; Non nota esprime assenza di informazione, Non considerata una scelta esplicita del modello. Questa versione non calcola pressioni interstiziali, tensioni geostatiche, resistenze o cedimenti.
+
+I dati efficaci φ′ e c′ e la resistenza non drenata cu possono coesistere. Il successivo modulo di verifica dovrà scegliere le condizioni di analisi e richiedere i parametri necessari. Non vengono effettuate conversioni fra resistenza drenata e non drenata né correlazioni automatiche con la descrizione litologica.
+
+I pesi dell’unità di volume sono espressi in kN/m³, le resistenze in kPa e l’angolo in gradi. Un campo vuoto significa dato non disponibile, non zero. I pesi assegnati devono essere positivi; resistenze e angolo non negativi, con angolo minore di 90°. Questi sono controlli del contratto dati, non prescrizioni normative. Il caso γsat minore di γ genera un avviso per il controllo dei dati e delle condizioni di misura.
+
+La qualificazione inserita dall’utente documenta l’origine interpretativa dei valori e non costituisce una trasformazione automatica in valori caratteristici o di progetto. Non vengono applicati coefficienti parziali. La gestione di moduli di deformabilità, permeabilità e acquiferi multipli è rinviata a sviluppi successivi. Lo scambio verso i moduli di verifica è descritto nel paragrafo sul trasferimento dei dati.
+
+### Significato delle famiglie grafiche
+
+La famiglia prevalente è un attributo descrittivo dello strato, usato per il retino e per riconoscere il materiale nel profilo. Le famiglie ammesse comprendono riporto, ghiaia, sabbia, limo, argilla, terreno organico e roccia, oltre ai casi non classificato e altro. La descrizione libera conserva componenti secondarie, stato, alterazione e altre particolarità. Una sabbia limosa può quindi usare il retino Sabbia senza perdere la descrizione della miscela.
+
+I retini sono convenzioni grafiche proprie di ANTHEA; non rappresentano una classificazione granulometrica normativa e non sostituiscono prove o criteri di classificazione. Il loro passo è espresso in dimensioni di visualizzazione e non descrive la dimensione reale dei grani o delle discontinuità. Cambiare famiglia o colore non modifica alcun parametro geotecnico.
+
+### Insiemi di parametri
+
+La stratigrafia conserva un insieme principale di valori medi e un insieme opzionale di valori minimi per strato, con identica geometria e falda. Fonte e qualificazione sono distinte. La scelta Medi, Minimi o Entrambi rappresenta lo scenario richiesto, senza attribuire automaticamente natura caratteristica o di progetto ai dati. I coefficienti parziali di sicurezza non appartengono a questi insiemi.
+
+L’assenza dei minimi non equivale ai medi. Per l’impiego futuro, il modulo di verifica dichiara i parametri necessari: il contratto richiede sempre i medi pertinenti e, per gli scenari che li usano, anche i minimi corrispondenti. Le copie degli scenari sono indipendenti e la stratigrafia originale resta integra. Non è imposto un obbligo normativo generale di doppio calcolo: la scelta dipende dal problema, dalle ipotesi progettuali e dal metodo della verifica.
+
+### Trasferimento dei dati fra moduli
+
+Lo scambio crea copie indipendenti, senza correlazioni né applicazione di coefficienti parziali. Il documento stratigrafico conserva entrambi gli insiemi; un modulo con un solo insieme riceve quello esplicitamente scelto. Per confrontare medi e minimi si creano due fogli di verifica distinti, mantenendo tracciabile lo scenario trasferito. La copia conserva una fotografia dei dati sorgente come provenienza; non costituisce un collegamento che si aggiorna automaticamente.
+
+La famiglia litologica usata dal retino non determina il comportamento Granulare o Coesivo, che deve essere assegnato esplicitamente. L’estensione indefinita dell’ultimo strato non è convertita automaticamente in uno spessore di calcolo. Falda non nota, parametri mancanti e incompatibilità del modello richiedono completamento; le profondità non vengono traslate fra riferimenti diversi. Il trasferimento riutilizza dati, non certifica l’applicabilità del modello di destinazione.
+
+### Limiti dell’estrazione assistita
+
+L’importatore produce una trascrizione proposta e non una caratterizzazione geotecnica autonoma. Non calcola statistiche, correlazioni o coefficienti; richiede la revisione del progettista. I valori minimi esplicitamente forniti dalla relazione possono essere acquisiti senza ricavarli dai medi. Valori caratteristici o di progetto non identificabili come medi o minimi devono essere classificati in sede di revisione.
+
+Il termine di un sondaggio non dimostra l’estensione indefinita dell’ultimo strato. Una relazione con più profili non autorizza a fonderli in una sola colonna. La fonte associata a un valore è proposta dal modello e va verificata, incluse conversioni di unità e numerazione delle pagine PDF. L’impronta del documento importato consente di identificare il file sorgente, ma non dimostra la correttezza dell’interpretazione.
+

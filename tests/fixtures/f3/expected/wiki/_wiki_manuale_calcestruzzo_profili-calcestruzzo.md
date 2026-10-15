@@ -55,8 +55,9 @@ con i predefiniti e usare il ripristino per aggiornare un vecchio foglio.
   Le azioni sono già combinate/coefficientate: non vengono moltiplicate ancora.
   γc e γs operano sulle resistenze.
 - dg è condiviso con Dettagli → Copriferro e durabilità; modificarlo invalida il
-  taglio. Δe MC è distinto per asse e visibile solo per quel modello. Asl
-  automatica richiede conferma dell'ancoraggio, anche con staffe nel Model Code;
+  taglio. Δe MC è distinto per asse e visibile solo per quel modello.
+  Δe è la distanza della retta d'azione di N dalla metà di z, positiva verso il lembo teso a flessione e negativa verso quello compresso, come richiede il segno + di N(1/2 + Δe/z) nella (7.3-16) di Model Code 2010; il campo accetta valori negativi.
+  Asl automatica richiede conferma dell'ancoraggio, anche con staffe nel Model Code;
   cambiare la geometria revoca la conferma.
 - wlim è comune alle SLE. Vuoto: criterio del codice; MC e classi ambientali
   non tabulate richiedono un valore esplicito. NTC/UNI conservano i propri
@@ -80,9 +81,9 @@ wk richiede analisi lineare con CLS teso escluso. Le fasce efficaci sono tagli
 Le superfici interne hanno fasce di parete o anello limitate a metà spessore.
 Nel rettangolo si limita anche l'estensione tangenziale alla faccia del foro:
 le barre esterne agli angoli non diventano armatura della parete interna.
-Un foro compresso non richiede verifica di apertura; una superficie tesa senza
-armatura efficace/interasse definito lascia il controllo incompleto. Un
-superamento noto resta negativo. Report e vista mostrano lo stesso inviluppo.
+Un foro compresso non richiede verifica di apertura. Una superficie tesa senza
+armatura efficace non soddisfa la verifica; senza interasse definito il controllo resta incompleto.
+Un superamento noto resta negativo. Report e vista mostrano lo stesso inviluppo.
 L'estensione a pareti/anelli è una schematizzazione geometrica del modulo,
 esplicitata nelle tracce; non è una validazione sperimentale di tutte le cavità.
 

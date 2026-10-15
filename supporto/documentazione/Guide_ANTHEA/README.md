@@ -1,11 +1,11 @@
 # Guide globali ANTHEA
 
-Edizione 6, 15 ottobre 2026. Guide pratica e teorica Rev46. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 16 ottobre 2026. Guide pratica e teorica Rev47. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev46.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev46.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev46.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev46.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev47.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev47.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev47.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev47.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 Le revisioni precedenti sono conservate in `supporto/SUPERATI/fondazioni-superficiali-rev34/` e `supporto/SUPERATI/merge-f4-modelli-rev35-20261012/`, con origine, motivo e impronte nel registro di archiviazione. Le edizioni pratica Rev35 e teorica Rev34 sono archiviate in `supporto/SUPERATI/rilascio-s-rev36-20261012/`. Il motore di portanza è disponibile con il rilascio approvato GPC S, distribuito con ANTHEA.
 
@@ -28,3 +28,5 @@ La Rev43 è conservata in `supporto/SUPERATI/f4-rev44-20261014/`, con origine e 
 La Rev44 è conservata in `supporto/SUPERATI/installazione-rev45-20261015/`, con origine e SHA-256. Nella Rev45 la frase d’installazione della guida pratica non riporta più il numero di versione di ANTHEA, così non va aggiornata a ogni rilascio; la guida teorica è invariata nel contenuto e prende lo stesso numero di revisione.
 
 La Rev45 è conservata in `supporto/SUPERATI/stratigrafia-rev46-20261015/`. La Rev46 introduce il modulo autonomo Stratigrafia del terreno; il collegamento ai motori geotecnici resta successivo.
+
+La Rev46 è conservata in `supporto/SUPERATI/correzioni-rev47-20261016/`, con origine e SHA-256. La Rev47 descrive le regole delle verifiche corrette il 15/10/2026: dominio N–M sul meridiano della direzione del momento ed esiti a N assegnato fuori campo, ε0 della curva M–χ, copriferro della fessurazione dalle barre, barre lisce negli ancoraggi, B450A con εu 25 ‰, segno di Δe di Model Code 2010, coefficienti unitari del palo, peso del palo nelle azioni, testa impedita di Broms, efficienza di Reese e Van Impe, passiva e gemelle dei muri, spostamento in testa dei muri, Meyerhof non drenato e tension stiffening della sezione composta.
