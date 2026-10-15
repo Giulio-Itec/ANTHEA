@@ -48,11 +48,12 @@ della norma dalla mappatura; requisiti attraverso l'adattatore). Il motore usato
 nell'intestazione dei documenti dei muri, escluse dal confronto.
 
 `--motore-durabilita`, dopo la modalità (refactoring F2.9): la durabilità (`durability-legacy.csv`) passa dalle
-facciate `Materiali.Durability`, `NtcCover`, `MinimumConcrete` e `AtecapMix` con il motore indicato di
-`ConcreteDurabilityAdapter`. Con `legacy` si cattura il nucleo `DurabilityLegacy` di `X.Calculations` (le fixture di
-Checker), con `libreria` GPCChecker.Concrete attraverso lo strato di mappatura (testi del legacy); senza l'opzione il
-motore predefinito dell'adattatore. Il motore usato è scritto nella riga `#` del file. I due motori danno uscite
-identiche (registro F2-13).
+facciate `Materiali.Durability`, `NtcCover`, `MinimumConcrete` e `AtecapMix` e da `ConcreteDurabilityAdapter`. Con
+`legacy` si cattura il nucleo `DurabilityLegacy` (le fixture di Checker), agganciato all'adattatore per tutta la
+cattura con `LegacyDurabilityEngine.Use` di `tests/ANTHEA.Legacy` (decisione D3 del 15/10/2026: il motore legacy non è
+più nel prodotto); con `libreria` GPCChecker.Concrete attraverso lo strato di mappatura (testi del legacy); senza
+l'opzione la libreria. Il motore usato è scritto nella riga `#` del file. I due motori danno uscite identiche
+(registro F2-13).
 
 ## Cattura estesa di dettagli, aderenza e M-χ (F2.8-A0)
 

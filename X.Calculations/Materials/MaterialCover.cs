@@ -5,25 +5,26 @@ using Anthea.Calculations;
 namespace Materiali;
 
 /// <summary>Uses the same durability engines and input conventions as the Materiali sheet.</summary>
-/// <remarks>Refactoring F2.9: the durability goes through the facades and <see cref="ConcreteDurabilityAdapter"/>; the optional
-/// engine (F2.9-D2) selects it for every call of the entry point, default <see cref="ConcreteDurabilityAdapter.Default"/>.</remarks>
+/// <remarks>Refactoring F2.9: the durability goes through the facades and <see cref="ConcreteDurabilityAdapter"/>. Il motore
+/// facoltativo (F2.9-D2) è uscito dal prodotto con la decisione D3 del 15/10/2026: le prove agganciano il legacy da tests/ANTHEA.Legacy
+/// per tutta la chiamata.</remarks>
 public static class MaterialCover
 {
     private static double Number(string raw) => double.TryParse(raw.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double v) && double.IsFinite(v)
         ? v : throw new ArgumentException("Dati del copriferro incompleti o non numerici.");
 
     // The nominal cover shown in the material sheet, using its reference bar diameter.
-    public static double Required(JsonObject state, double fck, DurabilityEngine? engine = null) => Required(state, fck,
-        Number(state["numeri"]?["diameter"]?.ToString() ?? MaterialDefaults.Number("diameter")), engine);
+    public static double Required(JsonObject state, double fck) => Required(state, fck,
+        Number(state["numeri"]?["diameter"]?.ToString() ?? MaterialDefaults.Number("diameter")));
 
-    public static double Required(JsonObject state, double fck, double diameter, DurabilityEngine? engine = null)
+    public static double Required(JsonObject state, double fck, double diameter)
     {
         string Choice(string key) => state["scelte"]?[key]?.ToString() ?? MaterialDefaults.Choice(key);
         string code = state["esposizione_principale"]?.ToString() ?? MaterialDefaults.Exposure;
-        var exposure = ConcreteDurabilityAdapter.Exposures(engine).SingleOrDefault(e => e.Code == code) ?? throw new ArgumentException("Definire la classe di esposizione.");
+        var exposure = ConcreteDurabilityAdapter.Exposures().SingleOrDefault(e => e.Code == code) ?? throw new ArgumentException("Definire la classe di esposizione.");
         var input = Input(state, diameter, Number(state["numeri"]?["aggregate"]?.ToString() ?? MaterialDefaults.Number("aggregate")));
-        return Choice("coverMethod") == "EC2 2004" ? Durability.Cover([exposure], fck, input, engine).Nominal :
-            NtcCover.Calculate([exposure], fck, input, Choice("ntcElement") == "Piastra / soletta / parete", state["opzioni"]?["ntcQuality"]?.GetValue<bool>() == true, MinimumConcrete.Required([exposure], engine), engine).Cover.Nominal;
+        return Choice("coverMethod") == "EC2 2004" ? Durability.Cover([exposure], fck, input).Nominal :
+            NtcCover.Calculate([exposure], fck, input, Choice("ntcElement") == "Piastra / soletta / parete", state["opzioni"]?["ntcQuality"]?.GetValue<bool>() == true, MinimumConcrete.Required([exposure])).Cover.Nominal;
     }
     public static CoverInput Input(JsonObject state, double diameter, double aggregate)
     {
