@@ -2188,14 +2188,6 @@
       "Example": "1000"
     },
     {
-      "File": "X.Calculations/BridgeSection.SlabLayout.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeSection.LegacySlabLayout",
-      "Fingerprint": "D5E481A8D347C2EFA9C496A6CD23E2F9C64A193D64129F4E64BE2BB459556846",
-      "Count": 1,
-      "Example": "data . D ( \"d_bottom\" )"
-    },
-    {
       "File": "X.Calculations/BridgeSection.cs",
       "Rule": "R1-math",
       "Owner": "BridgeSection.RealSteelSection",
@@ -7738,54 +7730,6 @@
       "Fingerprint": "86A775D13E5103C3B2BDB51C154A7A954022EFD01D00BB826DDB531C3A627A7C",
       "Count": 1,
       "Example": ".001"
-    },
-    {
-      "File": "X.Calculations/SectionShearGeometry.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.LegacyDerive",
-      "Fingerprint": "449E6C32FB1EE32EF81858C5D4F740C4B7663B4616ECACF0E3229DBF7C476BF9",
-      "Count": 1,
-      "Example": "section . Input . D ( \"inner_diameter_mm\" )"
-    },
-    {
-      "File": "X.Calculations/SectionShearGeometry.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.LegacyDerive",
-      "Fingerprint": "54CFEE929C10C10D73B0F358072DA9EC650207F7130720EB99000B271E12B198",
-      "Count": 1,
-      "Example": "section . Input . D ( \"top_bar_count\" )"
-    },
-    {
-      "File": "X.Calculations/SectionShearGeometry.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.LegacyDerive",
-      "Fingerprint": "D5C94A5B1642C188C5F4668ED52523C3626B0F054ED5758263F4AE37DBCE9E98",
-      "Count": 1,
-      "Example": "section . Input . D ( \"bottom_bar_count\" )"
-    },
-    {
-      "File": "X.Calculations/SectionShearGeometry.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.LegacyDerive",
-      "Fingerprint": "6A59B98F743CD1CBA88C85C4AA81903341F55FAE6BFDC3DB00B77367B89865DF",
-      "Count": 1,
-      "Example": "section . Input . D ( alongX ? \"inner_height_mm\" : \"inner_width_mm\" )"
-    },
-    {
-      "File": "X.Calculations/SectionShearGeometry.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.LegacyDerive",
-      "Fingerprint": "A6EB96F2DCD19C9E7F0BCF7B01C2F7540E240352AF97EE6CA5558B4F4C94AE98",
-      "Count": 1,
-      "Example": "section . Input . D ( \"second_bottom_count\" )"
-    },
-    {
-      "File": "X.Calculations/SectionShearGeometry.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.LegacyDerive",
-      "Fingerprint": "44F16CAE7AAF5D93106C22574C2DD64ED2F15749E758034E2DE8E37926B79CF8",
-      "Count": 1,
-      "Example": "section . Input . D ( \"second_top_count\" )"
     },
     {
       "File": "X.Calculations/SectionWorkspace.cs",
