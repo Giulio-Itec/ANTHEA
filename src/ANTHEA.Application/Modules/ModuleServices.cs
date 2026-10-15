@@ -6,8 +6,16 @@ public static class ModuleServices
     // Identities come from the existing catalog; this is not a second module catalog.
     private static readonly IReadOnlyDictionary<string, IModuleService> Services = ModuleCatalog.All
         .ToDictionary(m => m.Id, m => (IModuleService)new CalculationModule(m.Id), StringComparer.Ordinal);
-    public static IModuleService Get(string module) => Services.TryGetValue(module, out var service) ? service
+    public static IModuleService Get(string module) => module == Stratigraphy.StratigraphyDocument.Module ? new StratigraphyModule() : Services.TryGetValue(module, out var service) ? service
         : throw new ArgumentException("Modulo di calcolo non disponibile: " + module, nameof(module));
+
+    private sealed class StratigraphyModule : IModuleService
+    {
+        public string ModuleId => Stratigraphy.StratigraphyDocument.Module;
+        public JsonObject Prepare(JsonObject source) => Stratigraphy.StratigraphyDocument.Snapshot(source).Read();
+        public ModuleCalculation Calculate(JsonObject source, CancellationToken cancellation = default)
+            => throw new NotSupportedException("La stratigrafia gestisce dati; non esegue verifiche geotecniche.");
+    }
 
     public static IModuleService ForFoundation(Anthea.FoundationWorkspace.FoundationLibrary library)
     {

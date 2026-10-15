@@ -18,7 +18,7 @@ public interface IFigureRenderer
 
 public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectReportChapterBuilder
 {
-    public static bool Supports(string module) => module is "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module or BridgeSection.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "str_palo";
+    public static bool Supports(string module) => module is Stratigraphy.StratigraphyDocument.Module or "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module or BridgeSection.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "str_palo";
     public static HashSet<string> DefaultSections(string module) => module == BridgeSection.Module ? ReportBridge.DefaultSections()
         : module == "str_palo" ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet()
         : ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
@@ -27,6 +27,12 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     {
         cancellation.ThrowIfCancellationRequested();
         string module = sheet.S("modulo_id");
+        if (module == Stratigraphy.StratigraphyDocument.Module)
+        {
+            var profile = sheet["dati"] as JsonObject ?? Stratigraphy.StratigraphyDocument.Create();
+            Stratigraphy.StratigraphyDocument.Validate(profile);
+            return new(Document: StratigraphyReport.Create(sheet.S("nome"), profile));
+        }
         if (!Supports(module)) throw new NotSupportedException("Capitolo autonomo non ancora disponibile: " + module);
         var source = sheet["dati"] as JsonObject ?? ModuleCatalog.CreateData(module);
         var data = (JsonObject)source.DeepClone();

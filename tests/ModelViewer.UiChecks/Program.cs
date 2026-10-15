@@ -82,6 +82,12 @@ static partial class Program
             typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.Appearance")!.GetMethod("Initialize", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [false]);
             int themeArgument=Array.IndexOf(args,"--appearance");
             if(themeArgument>=0 && themeArgument+1<args.Length)SetAppearance(args[themeArgument+1]);
+            if (args.Contains("--stratigraphy"))
+            {
+                StratigraphyRenderingChecks(output);
+                File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli stratigrafia");
+                return 0;
+            }
             ModelSnapshot? directSnapshot=null;JsonObject owner=null!;string id="";
             if(args.Contains("--direct-model"))
             {

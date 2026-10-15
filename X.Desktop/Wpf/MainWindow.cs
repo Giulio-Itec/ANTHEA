@@ -242,6 +242,10 @@ public sealed partial class MainWindow : Window
         editor.ReportRequested += () => Safe(ExportReport);
         editor.ModuleCopyRequested += (module, data, name) => Safe(() => OpenModuleCopy(module, data, name));
         editor.SoilReplacementRequested += data => Safe(() => ReplaceCurrentSoil(data));
+        editor.SoilSources = () => document.Array("progetti").OfType<JsonObject>()
+            .SelectMany(root => ProjectSharedData.SubtreeSheets(root))
+            .Where(sheet => !ReferenceEquals(sheet, currentSheet) && SoilProfileTransfer.Supports(sheet.S("modulo_id")))
+            .Select(sheet => (sheet.S("nome") + " · " + ModuleName(sheet.S("modulo_id")), sheet.S("modulo_id"), sheet["dati"]!.AsObject(), sheet.S("id")));
         if (projectReadOnly) editor.InspectRevision();
         sharedBaseline = (JsonObject)sheet.DeepClone(); sharedBaseline["dati"] = editor.Data.DeepClone();
         sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or HorizontalPileEditor.Module or MicropaloOrizzontale.Module or WallModel.Module or "mat_calcestruzzo" or RebarEditor.Module or BridgeEditor.Module or BridgeDesignModel.Module
@@ -411,6 +415,13 @@ public sealed partial class MainWindow : Window
     }
     private void ExportReport()
     {
+        if (editor?.Module == Anthea.Application.Stratigraphy.StratigraphyDocument.Module)
+        {
+            Commit();
+            var save = new SaveFileDialog { Filter = "Word e PDF affiancati|*.docx", FileName = "Stratigrafia.docx" };
+            if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []);
+            return;
+        }
         if (editor?.Module == Anthea.FoundationWorkspace.FoundationDocument.Module)
         {
             Commit(); if (!editor.HasResults) { MessageBox.Show(this, "Completare il calcolo prima di esportare il report."); return; }

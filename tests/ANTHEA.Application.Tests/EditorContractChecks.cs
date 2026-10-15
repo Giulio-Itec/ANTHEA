@@ -11,7 +11,8 @@ internal static class EditorContractChecks
         int checks = 0;
         void Check(bool ok, string text) { if (!ok) throw new InvalidOperationException(text); checks++; }
         var comparison = new OwnedProjectionComparison();
-        comparison.Compare(ModuleCatalog.All, ModuleDirectory.All, "Catalogo");
+        // The standalone document module is owned by Application, outside the calculation catalog.
+        comparison.Compare(ModuleCatalog.All, ModuleDirectory.All.Where(m => m.Id != Anthea.Application.Stratigraphy.StratigraphyDocument.Module).ToArray(), "Catalogo");
         foreach (var module in ModuleDirectory.All)
         {
             Check(ReferenceEquals(module, ModuleDirectory.Get(module.Id)), "Identità dei metadati del catalogo");
