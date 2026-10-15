@@ -15,7 +15,12 @@ public static class ModelReportExporter
         lock (FontLock)
         {
             if (GlobalFontSettings.FontResolver is ReportFonts) return;
-            if (GlobalFontSettings.FontResolver != null) throw new InvalidOperationException("Configurazione dei caratteri PDF incompatibile.");
+            // The application installs the shared resolver of the report PDFs at start-up: it resolves the "Anthea Report" family too
+            if (GlobalFontSettings.FontResolver is { } shared)
+            {
+                if (shared.ResolveTypeface("Anthea Report", false, false) is null) throw new InvalidOperationException("Configurazione dei caratteri PDF incompatibile.");
+                return;
+            }
             GlobalFontSettings.FontResolver = new ReportFonts(regular, bold);
         }
     }

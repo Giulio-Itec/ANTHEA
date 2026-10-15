@@ -687,3 +687,150 @@ versione e installer 1.2.0.
 - Installer `ANTHEA-1.2.0-Setup-x64.exe` (59,1 MB, SHA256 7B20009D5AB3AFCE90FA72B2C86EC9FE28E5E85E3FE2F4F2B4FC34148B383344),
   ANTHEA.exe 1.2.0.0, prodotto `1.2.0+fc632464`, guide Rev32. Compilato da un worktree pulito a fc632464, perché nel checkout
   principale c'era lavoro di un altro agente non committato (fondazioni superficiali), che non compila ancora.
+
+## 12 ottobre 2026: fondazioni, riuso delle API, Modelli, set S e blocco F2 (ANTHEA 1.3.0)
+
+Voci scritte dopo l'audit del 14/10, ricavate dal git log, dal piano e dai verbali: dopo l'1:03 del 12/10 il diario non era più
+stato aggiornato.
+- Fondazioni superficiali (ramo `refactoring/f5-fondazioni-superficiali`): foglio, report e guide Rev33 (27a530d1, 098f5b68),
+  profili del terreno e grafica a pagina unica con guide Rev34 (4a6a6227, 76e79164). Profilo standard 45 PASS, 1 KNOWN già
+  censito, 0 NEW-FAIL. Geotechnics 0.1.2.0, con la versione assegnata dall'utente, integrata e pushata su Checker.
+- Riuso delle API GPC (ramo `refactoring/f4-riuso-api`): cattura prima (285e048b), tolleranze relative 1e-12 (1b3c38f1,
+  d69b97d5), rimozione dei sei motori geotecnici esclusi su consenso esplicito (83081a67) e uso delle API GPC (b7339f4a). Runner
+  baseline 52 PASS, 1 KNOWN, 0 NEW-FAIL; 548 file e 50 996 righe dense senza differenze non ammesse; registro API-01 e API-02.
+  Lo stesso b7339f4a porta l'interruttore SLE sulla libreria e sostituisce senza interruttore aderenza, dettagli non circolari,
+  M–χ e interassi (vedi l'audit del 14/10).
+- Modelli: importazione MIDAS e predisposizione Straus (88ff0077, 44259465; quick 27 PASS), combinazioni e finestra staccabile
+  (dfcb96af, 601ea09d, 086585da, 6292cceb; full 83 PASS, 1 KNOWN, 0 NEW-FAIL), guida pratica sull'importazione (ba31793e).
+  Integrazione del riuso API e delle fondazioni nel ramo delle combinazioni (1e5d2fae): quick 31 PASS, 0 NEW-FAIL.
+- Set S con le versioni assegnate e pubblicate dall'utente (75140e9e, f5a6e63a): full `20261012-170114-release-s-full` 88 PASS,
+  1 KNOWN (confronto GUID dei muri), 0 NEW-FAIL. Merge in main 80191514 e 9b42f093 e push, autorizzati dopo il collaudo.
+- Sera, chiusure pendenti (ramo `refactoring/f3-chiusure-pendenti`): F3.3a (30a09245), F2.9 (3368035c), rilascio Modelli
+  (384794ea), API-02a (08d09332), F2.7-A11 (97632e45), regola delle versioni (97544364), F2.11a (ebd675e8), F2.3a (5b348692),
+  F2.11b (e56ffaeb). Profilo standard `20261012-195301-f3-defaults-standard`: 48 PASS, 0 KNOWN, 0 NEW-FAIL; tolta l'ultima
+  eccezione di `known-failures.json`.
+- Blocco F2 approvato dall'utente (ramo `refactoring/f2-chiusure-pendenti`): API-02b (66a9d351), A10 (1e9998e0), punto 2 con
+  U5, U7 e F2.8-U2 (cf33c16e), punto 3 con U1 e U3 (fbedb8ca), punto 4 lock globale (c53fd9b0), punto 5.2 Reologia (71aaa60b),
+  punto 5 collaudo (a701af8a). Set T dai master pushati di Utilities, Geometry, Model e Checker: 2742 prove di libreria PASS,
+  17 Steel già censiti. Full `20261012-225933-f2-set-t-full` su 71aaa60b: 102 PASS e 1 NEW-FAIL nel confronto delle fixture
+  (13 tracce F2-22), chiuso con regole nuove in `f2-classificazione.json` e ripresa del solo confronto (3 PASS). ANTHEA 1.3.0,
+  guide Rev37, installer 1.3.0. Merge in main a701af8a e push autorizzati dall'utente. Le corse di chiusura dei punti 2, 3 e 4 e
+  la ripresa del confronto sono su alberi non committati (audit del 14/10).
+- Notte: STG-1 e STG-2 (65fa5564, 59525585). L'utente assegna nove ore dalle 22:19 (F2, STG, SEZ, F3 e F4 se c'è tempo; F5
+  esclusa), con test, versioni, merge e push autorizzati al completamento dei blocchi.
+
+## 13 ottobre 2026: stage, sezioni, F3, EXCEL-SOL, ANTHEA da 1.4.0 a 1.7.1 e avvio di F4
+
+- Notte: STG-3 con il set U e ANTHEA 1.4.0 (22f6a1aa); full `20261012-235957-stg-set-u-full` 102 PASS e un rilievo nei metadati
+  della Wiki, corretto e ricontrollato (4 PASS). SEZ-1…SEZ-4 (d44ba4df, a64a4c11, f58abeb1, bce1e337) con il set V (Model
+  7fd1fe4c, Checker 75e9adaa; 2778 prove di libreria PASS): full `20261013-004459-sez-set-v-full` 104 PASS, 0 KNOWN, 0 NEW-FAIL.
+  ANTHEA 1.5.0, guide Rev39, main e origin a bce1e337. STG-4 e SEZ-3b restano aperti.
+- F3 sul worktree `model-viewer-draft` (ramo `refactoring/f3-strato-applicativo`), dalle 01:22 alle 13:45: F3.1 a35a7413, F3.2
+  1d1b45e9, F3.3b c35a041f, F3.4 cadf7844, F3.5a e F3.6 (0260dd95…ecad955a), F3.5b (6bab13c4…82c9ec4d), F3.7 (bd2e0f4e…
+  f4cf8efd), guide Rev40 (e8a6e38e) e ANTHEA 1.6.0 (0cc2181c). Full `20261013-130137-f3-final-full`: 114 PASS, 4 NEW-FAIL e 4
+  suite bloccate; riprese mirate fino a 122 voci con esito PASS (copertura del full con riprese, non un full pulito). Merge e
+  push 812d8ab6, setup definitivo dal commit pulito 8b0da2a2. Le decisioni F3 sono del coordinatore su delega: [CP] da
+  ratificare.
+- EXCEL-SOL (ramo `codex/section-actions-excel`): 504de76e, 9e1ac2ca, 6903923d, b6fac621, 93a1eca9, 68330851, dc4fcc6f. Profilo
+  standard 66 PASS e un errore documentale nel registro, corretto (ripresa con 239 controlli PASS); quattro suite WPF PASS; 71
+  voci finali PASS. ANTHEA 1.7.0, guide Rev41; merge e push 90550d7e. 504de76e e 9e1ac2ca cambiano anche i report di calcolo,
+  durante il blocco dell'8/10.
+- Audit pre-F4 (08f5c925): riaperta F3.4-U5, M–χ nel report di progetto. Correzione 4a3044cb, 15 PASS mirati
+  (`20261013-f3-u5-closure`); versione 1.7.1 (2c06ab46, 4 PASS); merge in main 46b4c918 su richiesta dell'utente, senza push.
+- Sera: l'utente avvia F4 sul ramo `refactoring/f4-calcoli-residui`, prima per 90 minuti con Bridge Design sospesa, poi per
+  tutta la notte con prezzari e F4.16 riattivati (49708ee6). Passi: F4-P0 f0e593ba, F4.1a 5cb01170, F4.1b 7b2a0c4b, F4.2
+  b684403a, F4.3a 6107210e, F4.4a 845124a9, F4.6a c59d90a7, F4.6c a4883931, F4.3b 2f8f3934 (quick 47 PASS); F4.5 58f174ab, F4.6b
+  fe2f5617, F4.7a 45993caa, F4.7b.1 76656951, F4.7b.2 1b4abf09, F4.7b.3 0ad345d8; F4.8a fc5ac4b7, F4.8b.1 ebd781d0, F4.9a.1
+  68a2de3e, F4.8b.3 ac058a5b, F4.7c bbfe0638. Commit Checker corrispondenti sui rami di lavoro; collaudi con runner mirati,
+  tutti PASS, nessun full.
+
+## 14 ottobre 2026: F4 nei sorgenti, set W, ANTHEA 1.8.0 e installer
+
+- Notte, ramo `refactoring/f4-calcoli-residui`: F4.8 gravità 5afb47ab, F4.4b 2fbe0710, F4.10b 732b002f, F4.10c 7dbe189c, F4.12b
+  b39c0f24, F4.12c e1d47060, F4.12d 80787318 e 9ce3f3dc, F4.15b ec284cf2, F4.12e e8191632, F4.11a.0 78948c39, F4.11a bed30616,
+  F4.11c.1 6f6b65f6, F4.11c.2 440db3fd, F4.11c.3 3ecaf795, F4.11d d4762582, F4.13 3815b798 e ba307ce0, F4.14a 9fee7a47, F4.13b
+  d30465ca e af6a0cbb, F4.14b 575e2396, F4.14c b0a625c0, audit F4.13-F4.14 6fc2b0cd. Ogni passo con runner mirato PASS sui set
+  candidati; nessun full. 440db3fd, 3ecaf795, d4762582, 9fee7a47 e 575e2396 cambiano anche i report di calcolo, durante il blocco
+  dell'8/10.
+- 04:04: merge e push su master di Model (d5e328db) e Checker (949b4527), senza un ok dell'utente registrato. Release-Set del set
+  W: 2953 PASS, 17 Steel già censiti, due prove native Model ignorate.
+- 04:32–04:40: set W installato in `lib/Checker` (3f9df6b8, 12 DLL), ANTHEA 1.8.0 (0eaebd3e), guide Rev43 (82fcd8fc).
+- Primo full su 1.8.0 e set W (`20261014-f4-1.8.0-full`): 114 PASS e 5 NEW-FAIL. Correzioni con riprese mirate: predalle F4-36
+  (7d3c9bc9, 9 PASS), muri precedenti F4-37 (2850c031, 9 esiti PASS), esempio Wiki F4-38 (660b4c71) e confronto dei capitoli
+  (ef1b0cff; 3 PASS). Resta il confronto UI con la cattura F3: 6805 differenze non ammesse, prospetto da revisionare (9707b109);
+  la proposta di ammetterle per interi file è stata respinta dalla revisione automatica e tolta. Archivio delle guide Rev42 con i
+  byte originali (fd55a6c5). Il secondo full è interrotto, senza esito.
+- 06:35–06:39: banco installer isolato (244a0f52), installer che svuota la destinazione e si ferma con ANTHEA in uso (d66379ac,
+  F4-39), verbale (7569f6fc). Runner finale sul commit pulito 9 PASS, 0 NEW-FAIL; setup 1.8.0 di 62 886 541 byte. Push del ramo
+  F4 su richiesta dell'utente (origin a 7569f6fc); nessun merge in main.
+
+## 14 ottobre 2026: audit indipendente
+
+L'utente chiede un controllo di tutte le sottofasi fino a F4. Quattro verifiche in sola lettura (F0-F2, F3 ed EXCEL-SOL, F4 e
+librerie, regole trasversali) e il profilo standard sul ramo F4 7569f6fc: 66 PASS e un fallimento intermittente di
+`Application.Tests` per un file bloccato, PASS ripetuto da solo. Codice delle librerie e attesi indipendenti risultano intatti.
+Problemi trovati:
+1. F4 non è chiusa: set W pubblicato e installato e installer 1.8.0 prodotto senza un full conforme (primo full 114 PASS e 5
+   NEW-FAIL, secondo interrotto, 6805 differenze UI da revisionare); requisito «analisi composte» dei prezzari non implementato.
+2. Merge e push dei master di Model e Checker del 14/10 alle 04:04 senza un ok registrato.
+3. [CP] chiusi dall'agente senza approvazione: F1.4, F1.6, F2.2, F2.9, F3.1, F3.4, F3.6, F3.7, F4.3 e F4.14; marcatore [CP]
+   tolto da F0.9, F3.1 e F3.4. Il «report short senza Word» di F3.6 non è fatto.
+4. Report di calcolo modificati durante il blocco dell'8/10: 30 commit su `src/ANTHEA.Reports` e sui report, 8 con cambi di
+   testo o comportamento.
+5. F2.7: interruttore A8 attivato in b7339f4a fuori dal micro-piano, senza B4, A7, voci F2-5…F2-8 e R22 e decisioni F2.7-D; A12
+   aperta.
+6. F2.8: b7339f4a sostituisce senza interruttore aderenza/ancoraggi, dettagli non circolari, M–χ e interassi, contro
+   `decisioni.md` (U6, F2.8-U1); F2.8-U1 assente dalla coda delle attività.
+7. Blocco del 12/10: correzioni accorpate (cf33c16e, fbedb8ca) contro «una per commit», corse di chiusura su alberi non
+   committati, NEW-FAIL del full chiuso modificando `f2-classificazione.json` (a701af8a).
+8. Scelte dell'agente senza ratifica: σcp (F4-03), viscosità (F4-08), NEd (F4-20), migrazione a NTC (F4-31).
+9. Registro non allineato: F4-36 e F4-37 classificate come difetti legacy, ma sono regressioni introdotte da F4; F4-29 senza
+   effetto sui costi; voci F4 ancora «runtime invariato»; F4-01…F4-03 senza data e fase; F2-17 «non unito»; API-02
+   «da-correggere»; R5 e R10 senza le decisioni dell'8/10; voci F2-5…F2-8 e R22 mancanti.
+10. Piano non allineato: junction di F0.1 descritta come «ricomparsa» (esiste dal 18/09); frasi «F4 ferma» non marcate come
+    storiche; voci F4 del 14/10 fuori dalla sezione Fase 4; F4.1 con «Bridge Design sospesa»; F4.16 senza l'elenco di ciò che
+    manca.
+11. Diario fermo al 12/10 alle 01:03.
+
+Correzioni documentali sul ramo `refactoring/f4-correzioni-audit` (piano, registro e questo diario); decisioni dell'utente
+punto per punto in `decisioni.md`. Nessuna fase è dichiarata chiusa con queste correzioni.
+
+## 14 ottobre 2026, pomeriggio e notte: correzioni dell'audit
+
+Ramo `refactoring/f4-correzioni-audit`.
+- **Pomeriggio:**
+  - classificazione puntuale delle 6805 differenze UI (372d38cf);
+  - correzioni F4-40, F4-41 e F4-42;
+  - cataloghi A12 (3f8e358c);
+  - set X in `lib/Checker` (137acd4b);
+  - F4-43…F4-46 (01523e9a–6bd55f6b), con le analisi composte dei prezzari e i report senza Word.
+- **Sera:**
+  - guide Rev44 (2a23ba48);
+  - testi della durabilità (99fd0ad6);
+  - pagine dei metodi pubblicate su master del Checker (08588fec);
+  - attesi indipendenti TEST-02 (429dcb1d, fd28f353);
+  - voce F4-48 (a96d2d35).
+- **Full delle 23:05** (`20261014-230601-f4-full-20261015`): 136 PASS e 2 NEW-FAIL.
+  - Le 7214 differenze UI erano tutte nella previsione scritta prima della corsa.
+  - La prova dei prezzari non era aggiornata a F4-45 ed è stata corretta in 5ba83f1f.
+- Decisioni per la chiusura proposte all'utente: D1–D5.
+
+## 15 ottobre 2026: D1–D5 e chiusura di F4
+
+- **07:33–07:45:** decisioni D1–D5 dell'utente (a80fe13e, 505227a1).
+  - D2 attuata: 6878 transizioni ammesse una per una in `ui/f3-equivalence`, registro TEST-03 (4144fe9e).
+- **D3, modo (b)** («confermo la scelta b»):
+  - catture prima a `4144fe9e`;
+  - progetto `tests/ANTHEA.Legacy` con l'aggancio `EngineHook` (6ac048b1);
+  - SLE, taglio e torsione e muri (da7c204a);
+  - sette famiglie lavorate in parallelo su rami `refactoring/d3-*` e unite in 98e1535c.
+  - Catture dopo uguali alle catture prima, otto su otto. Baseline F4 da 2909 a 2211; registro F4-49 (a1830bf3).
+- **Primo full** `20261015-101226-f4-full-d3`: 136 PASS e un NEW-FAIL di build.
+  - `ConcreteShort.UiChecks` non vedeva `ANTHEA.Legacy`. Riferimento esplicito nel gruppo UiTests (ea4b1de5).
+- **Guide e versione:**
+  - guide Rev45 senza numero di versione nella frase d'installazione (5025d9c5);
+  - ANTHEA 1.9.0 e voce F4-50 (a46e91fb).
+- **Full conforme** `20261015-105444-f4-full-190` su a46e91fb, con le suite dell'installer: 140 PASS, 0 KNOWN, 0 NEW-FAIL,
+  0 BLOCKED.
+- **Setup 1.9.0:** 62836719 byte, SHA-256 D6C46DE0…86CD34, contenuto verificato.
+- F4 chiusa con il [verbale](chiusura-f4-20261015.md); merge in `main`, tag e push come da D5.

@@ -8,4 +8,25 @@ La suite `ui/f3-equivalence` nel runner unico cattura apertura, visita delle sch
 
 Doppia cattura D/E: 458 file uguali, salvo il solo `tempi_ms` già escluso dal toolkit. Riferimento immutabile in `expected`, input e librerie identificati da `manifest.json`; soglie iniziali in `architecture.json`. I DOCX e le immagini restano in supporto/artefatti/ci. Il banco confronta automaticamente le catture future con questo riferimento e non lo aggiorna.
 
+## Transizioni di F4
+
+Decisione D2 del 15/10/2026 (`docs/refactoring/decisioni.md`). I risultati e i report del riferimento non cambiano: le
+differenze introdotte da F4 sono ammesse una per una in `transitions-f4.json`. Ogni voce indica file, percorso, classe,
+valore prima, valore dopo e voce del registro. Il confronto fallisce in due casi:
+- una differenza che non è nell'elenco;
+- una voce dell'elenco che non si presenta.
+
+Non ci sono tolleranze nuove. Le prove negative sono in `tests/ANTHEA.Testing.Tests`.
+
+Wiki e ricerca seguono invece la regola editoriale di F3-06: i file cambiati sono sostituiti nel riferimento.
+- Rev40: `editorial_updates` del manifest.
+- Rev41–Rev44: `editorial_updates_f4`, voce F4-48.
+- Rev45: `editorial_updates_rev45`, frase d'installazione della guida pratica senza numero di versione.
+
+Le impronte prima e dopo sono calcolate sulla forma conservata da git (fine riga LF).
+
+L'elenco e l'aggiornamento della Wiki si generano con `tools/qa/f3_transizioni.py`. Il programma parte dal confronto di
+una corsa e dalla classificazione puntuale delle differenze, in `docs/refactoring/f4-transizioni-ui-classificazione.md`.
+Le differenze senza voce lo fermano.
+
 Comando: `build/ci.ps1 -Stage build,ui -Only '^ui/f3-equivalence$' -Tag f3-equivalence`.

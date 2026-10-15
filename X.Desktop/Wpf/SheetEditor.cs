@@ -352,7 +352,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
             ReportProject.Write(filename, new ProjectReportPlan(section), new Dictionary<JsonObject, ReportProject.SheetContent> { [sheet] = MaterialReportContent() }, [], materialSheet: true);
             return;
         }
-        Archivio.ScriviAtomico(filename, BuildReport(title, options, projectReport));
+        Anthea.Reports.ReportFiles.Write(filename, BuildReport(title, options, projectReport), title);
     }
     internal ReportProject.SheetContent MaterialReportContent()
     {

@@ -30,7 +30,11 @@ public static partial class BridgeDesignModel
     public static Parameter[] AdvancedAssumptions => Native.AdvancedAssumptions.Select(p => new Parameter(p)).ToArray();
     public static Family[] Families => Native.Families.Select(f => new Family(f)).ToArray();
     public static IReadOnlyDictionary<string, string> RateNotes => new System.Collections.ObjectModel.ReadOnlyDictionary<string, string>(Native.RateNotes.ToDictionary(p => p.Key, p => p.Value));
-    public static JsonObject Defaults() => Native.Defaults();
+    public static JsonObject Defaults() => Native.NewDocument();
+    public static string[] TrafficModels => Native.TrafficModels.ToArray();
+    public const string Schema1 = Native.Schema1;
+    public const string UniformLegacy = Native.UniformLegacy;
+    public static void ApplyRecommendedTrafficFactor(JsonObject data) => Native.ApplyRecommendedTrafficFactor(data);
     public static bool IsExtended(string family) => Native.IsExtended(family);
     public static bool HasTowers(string family) => Native.HasTowers(family);
     public static bool HasUpperStructure(string family) => Native.HasUpperStructure(family);

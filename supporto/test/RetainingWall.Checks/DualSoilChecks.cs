@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using X.Core;
+using Anthea.Application.Documents;
 using Slopes = GPC.Checkers.Geotechnics.Slopes;
 
 internal static class DualSoilChecks
@@ -41,7 +42,7 @@ internal static class DualSoilChecks
         d["valley"]!["free_height"] = .1; d["valley"]!["mobilization"] = 1;
         var limited = RetainingWall.Calculate(d).Cases[0]; Near(limited.Horizontal, 0, "Passiva limitata senza invertire la spinta netta");
         var wedge = Base(); wedge["geometry"]!["stem_top"] = .2; wedge["valley"]!["height_mode"] = "Assegnato"; wedge["valley"]!["free_height"] = 2;
-        var mass = RetainingWall.FrontSoilMass(wedge, wedgeOnly: true);
+        var mass = RetainingWallFunctions.FrontSoilMass(wedge, wedgeOnly: true);
         Near(mass.Weight, 18 * .5 * (.2 / 3), "Cuneo sopra paramento inclinato: area triangolare GPC");
         Near(mass.MomentX / mass.Weight, .8 + (.2 / 3) / 3, "Baricentro orizzontale indipendente del cuneo");
         Near(mass.MomentY / mass.Weight, .45 + 2d / 3, "Baricentro verticale indipendente del cuneo");
@@ -54,11 +55,11 @@ internal static class DualSoilChecks
         var wallRough = RetainingWall.Calculate(friction).Cases[0]; Near(wallRough.Horizontal, original.Horizontal, "Attrito interno non modifica il piano virtuale con mensola");
         Check(wallRough.Sections.Last(x => x.Name == "Fusto").N > original.Sections.Last(x => x.Name == "Fusto").N, "Attrito aggiunge N al fusto");
         Check(wallRough.Sections.Last(x => x.Name == "Fusto").V < original.Sections.Last(x => x.Name == "Fusto").V, "Coulomb riduce H sul fusto");
-        foreach (double phi in new[] { 20d, 30, 40 }) Near(RetainingWall.ActiveHorizontal(phi, 0), RetainingWall.Ka(phi), "Coulomb liscio = Rankine φ=" + phi);
-        Near(RetainingWall.ActiveHorizontal(30, 20, 0, 0), RetainingWall.ActiveHorizontal(30, 20), "MO a sisma nullo = Coulomb");
-        Near(RetainingWall.ActiveHorizontal(30, 0, .12, .05), RetainingWall.SeismicKa(30, .12, .05), "MO liscio compatibile con motore precedente");
+        foreach (double phi in new[] { 20d, 30, 40 }) Near(RetainingWallFunctions.ActiveHorizontal(phi, 0), RetainingWallFunctions.Ka(phi), "Coulomb liscio = Rankine φ=" + phi);
+        Near(RetainingWallFunctions.ActiveHorizontal(30, 20, 0, 0), RetainingWallFunctions.ActiveHorizontal(30, 20), "MO a sisma nullo = Coulomb");
+        Near(RetainingWallFunctions.ActiveHorizontal(30, 0, .12, .05), RetainingWall.SeismicKa(30, .12, .05), "MO liscio compatibile con motore precedente");
         friction["geometry"]!["heel"] = 0; var noHeel = RetainingWall.Calculate(friction).Cases[0];
-        Near(noHeel.Horizontal, .5 * 18 * 3.45 * 3.45 * RetainingWall.ActiveHorizontal(30, 20), "Senza mensola Coulomb sul piano reale");
+        Near(noHeel.Horizontal, .5 * 18 * 3.45 * 3.45 * RetainingWallFunctions.ActiveHorizontal(30, 20), "Senza mensola Coulomb sul piano reale");
         friction["interfaces"]!["wall_delta"] = 50; Reject(friction, "δ muro maggiore di φ rifiutato");
         friction["interfaces"]!["wall_delta"] = 20; friction["interfaces"]!["base_mode"] = "Gettato in opera"; friction["interfaces"]!["base_phi_cv"] = 40; Reject(friction, "φcv maggiore di φ′ rifiutato");
         var seismic = (JsonObject)d.DeepClone(); seismic["seismic"]!["enabled"] = true; seismic["seismic"]!["source"] = RetainingWall.SeismicManual;
@@ -93,11 +94,11 @@ internal static class DualSoilChecks
         Check(both.GlobalStability!.Cases.All(x => x.Critical is not null), "Ricerca Bishop risolta con due colonne");
         // The section of the result comes from the library (rad): the angles are back in degrees up to the rounding of the conversion.
         Check(Math.Abs(both.GlobalStability.Section.Soils[0].Phi - 30) < 1e-12 && Math.Abs(both.GlobalStability.Section.ValleySoils[0].Phi - 24) < 1e-12, "Parametri profondi indipendenti conservati nel risultato");
-        var twoSave = Archivio.Documento(RetainingWall.Module); twoSave["dati"] = both.Input.DeepClone(); Archivio.Scrivi(Path.Combine(directory, "due-colonne-globale.anthea"), twoSave);
+        var twoSave = Archivio.Documento(RetainingWall.Module); twoSave["dati"] = both.Input.DeepClone(); DocumentService.Save(Path.Combine(directory, "due-colonne-globale.anthea"), twoSave);
         File.WriteAllText(Path.Combine(directory, "due-colonne-globale.json"), both.Json().ToJsonString(J.Options));
         File.WriteAllBytes(Path.Combine(directory, "due-colonne-globale.docx"), ReportRetainingWall.Create("Due colonne e stabilità globale", both));
-        var save = Archivio.Documento(RetainingWall.Module); save["dati"] = r.Input.DeepClone(); string path = Path.Combine(directory, "due-colonne.anthea"); Archivio.Scrivi(path, save);
-        var restored = Archivio.Leggi(path)["dati"]!.AsObject(); Near(RetainingWall.Calculate(restored).Cases[0].Vertical, c.Vertical, "Salvataggio e rilettura numericamente invarianti");
+        var save = Archivio.Documento(RetainingWall.Module); save["dati"] = r.Input.DeepClone(); string path = Path.Combine(directory, "due-colonne.anthea"); DocumentService.Save(path, save);
+        var restored = DocumentService.Open(path)["dati"]!.AsObject(); Near(RetainingWall.Calculate(restored).Cases[0].Vertical, c.Vertical, "Salvataggio e rilettura numericamente invarianti");
         File.WriteAllText(Path.Combine(directory, "due-colonne-risultati.json"), r.Json().ToJsonString(J.Options));
         File.WriteAllBytes(Path.Combine(directory, "due-colonne.docx"), ReportRetainingWall.Create("Due colonne · caso riproducibile", r));
         File.WriteAllLines(Path.Combine(directory, "due-colonne-test.txt"), log); Console.WriteLine($"PASS {log.Count} due colonne / attriti"); return log.Count;

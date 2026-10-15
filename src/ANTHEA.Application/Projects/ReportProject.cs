@@ -41,6 +41,10 @@ public static class ReportProject
         var document = Compose(plan, reports, warnings, cancellation, materialSheet);
         var bytes = DocxWriter.Write(document);
         cancellation.ThrowIfCancellationRequested();
+        // DOCX and PDF of the same package (decision of 14/10/2026); a cancellation before writing keeps both previous files
+        var pdf = Anthea.Reports.Pdf.DocxPdf.Render(document, plan.Root.S("nome"));
+        cancellation.ThrowIfCancellationRequested();
         DocumentFile.Write(path, bytes);
+        DocumentFile.Write(ReportFiles.PdfPath(path), pdf.Bytes);
     }
 }

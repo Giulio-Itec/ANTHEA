@@ -43,7 +43,7 @@ internal sealed partial class ConcreteWorkspace
         }
         else if(mode=="stress")
         {
-            string set=c.S("set","SLE_QP");sleTabs.SelectedIndex=Array.IndexOf(SectionWorkspace.Sets,set)-2;
+            string set=c.S("set","SLE_QP");sleTabs.SelectedIndex=SectionWorkspace.Sets.IndexOf(set)-2;
             stressPanels[set].Grid.SelectedItem=actions[set].FirstOrDefault();UpdateStressSelection(set);
         }
         else if(mode=="shear"){CalculateShear();shearGrid!.SelectedIndex=0;UpdateShearSelection();}

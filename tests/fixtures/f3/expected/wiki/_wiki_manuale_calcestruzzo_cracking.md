@@ -8,7 +8,7 @@ Alla fessura il contributo teso del calcestruzzo è interrotto; l'aderenza trasf
 
 ![Figura 04.1 — Tirante fessurato: due fessure attraversano la zona tesa e l'armatura continua trasferisce forza per aderenza. La distanza tra fessure e l'apertura sono grandezze diverse.](../../X.Desktop/Assets/Wiki/crack-transfer.svg)
 
-Le relazioni qui riportate riguardano la formulazione classica di EN 1992-1-1 illustrata da Walraven nel materiale JRC del 2008, per armatura ordinaria aderente, senza precompressione e con barre ravvicinate. È una relazione normativa empirico-meccanica, non una legge universale né una dichiarazione sull'edizione applicabile oggi al singolo progetto.
+Le relazioni qui riportate riguardano la formulazione classica di EN 1992-1-1 (§7.3.4), per armatura ordinaria aderente, senza precompressione e con barre ravvicinate. È una relazione normativa empirico-meccanica, non una legge universale né una dichiarazione sull'edizione applicabile oggi al singolo progetto.
 
 ### Relazioni e simboli
 

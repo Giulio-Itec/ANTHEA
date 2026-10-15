@@ -39,5 +39,11 @@ public static class ModuleSheetPreparation
         foreach (string group in new[] { "input", "rates", "assumptions" })
             if (data[group] is JsonObject target && completed[group] is JsonObject fields)
                 foreach (var field in fields) if (!target.ContainsKey(field.Key)) target[field.Key] = field.Value?.DeepClone();
+        if (data["input"] is JsonObject input && !input.ContainsKey("traffic_model"))
+        {
+            input["traffic_model"] = BridgeConcept.UniformLegacy;
+            data["traffic_migration"] = "Archivio v1: mantenuti modello uniforme e gamma_q salvato";
+        }
+        try { Anthea.Serialization.BridgeEnvironmentData.Synchronize(data); } catch (ArgumentException) { /* Incomplete drafts remain editable; calculation reports missing inputs. */ }
     }
 }

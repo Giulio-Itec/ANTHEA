@@ -22,6 +22,8 @@ internal static class F3ReportChapterChecks
             string module = fixture.S("module");
             // Missing legacy row identities are created once, before the independent copies.
             if (module == "str_palo") SectionWorkspace.Prepare(fixture["data"]!.AsObject());
+            // Initialize the revision timestamp once, before independent UI/report snapshots.
+            if (module == BridgeConcept.Module) Anthea.Application.Modules.ModuleSheetPreparation.PrepareBridgeDesign(fixture["data"]!.AsObject());
             Check(ModuleReportService.Supports(module), "Modulo privo di capitolo autonomo: " + module);
             string title = "F3 capitolo " + fixture.S("id");
             var sheet = J.Obj(("nome", title), ("modulo_id", module), ("dati", fixture["data"]!.DeepClone()));

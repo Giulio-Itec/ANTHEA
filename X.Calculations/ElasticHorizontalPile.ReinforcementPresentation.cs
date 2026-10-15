@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace Anthea.Calculations;
@@ -18,18 +19,20 @@ public static partial class ElasticHorizontalPile
         string adopted=string.IsNullOrWhiteSpace(local)?root["elastico"]!["dettagli"].S("sisma_staffe","Staffe singole"):local;
         return adopted is "Staffe singole" or "Spirale" or "Da definire"?adopted:throw new ArgumentException("Tipo di armatura trasversale non riconosciuto.");
     }
-    public static JsonObject ReinforcementSummary(JsonObject record)
+    public static JsonObject ReinforcementSummary(JsonObject record)=>TypedReinforcementSummary(record);
+    private static JsonObject TypedReinforcementSummary(JsonObject record)
     {
-        var failures=new List<string>();var pending=new List<string>();var excluded=new List<string>();
-        foreach(string issue in record.Array("da_completare").Select(v=>v!.ToString()))
-        {
-            if(issue.StartsWith("Non eseguiti:"))excluded.Add(issue[13..].Trim());
-            else if(issue.StartsWith("NON SODDISFATTO:"))failures.Add(issue["NON SODDISFATTO:".Length..].Trim());
-            else if(issue.StartsWith("Sviluppo barre insufficiente")||issue.StartsWith("Giunti non utilizzabili"))failures.Add(issue);
-            else pending.Add(issue);
-        }
-        if(record.Array("verifiche").Count==0&&!pending.Any())pending.Add("Nessun risultato di sezione disponibile.");
-        bool all=failures.Count==0&&pending.Count==0;
-        return J.Obj(("stato",failures.Count>0?"NON VERIFICATO":pending.Count>0?"VERIFICA INCOMPLETA":"CONTROLLI ESEGUITI SODDISFATTI"),("eseguiti_soddisfatti",all),("colore",failures.Count>0?"rosso":pending.Count>0?"ambra":"verde"),("non_soddisfatti",J.Node(failures.Distinct().ToArray())),("da_completare",J.Node(pending.Distinct().ToArray())),("esclusi",J.Node(excluded.Distinct().ToArray())));
+        var issues=record["da_completare_tipizzati"]?.Deserialize<PileIssue[]>();
+        if(issues is null || issues.Any(i=>!Enum.IsDefined(i.Kind)))
+            return J.Obj(("stato","VERIFICA INCOMPLETA"),("eseguiti_soddisfatti",false),("colore","ambra"),
+                ("non_soddisfatti",new JsonArray()),("da_completare",new JsonArray("Ricalcolare per aggiornare gli esiti delle verifiche.")),("esclusi",new JsonArray()));
+        var failures=issues.Where(i=>i.Kind==PileIssueKind.Failure).Select(i=>i.Summary).Distinct().ToArray();
+        var pending=issues.Where(i=>i.Kind==PileIssueKind.Pending).Select(i=>i.Summary).Distinct().ToList();
+        var excluded=issues.Where(i=>i.Kind==PileIssueKind.Excluded).Select(i=>i.Summary).Distinct().ToArray();
+        if(record.Array("verifiche").Count==0&&pending.Count==0)pending.Add("Nessun risultato di sezione disponibile.");
+        return J.Obj(("stato",failures.Length>0?"NON VERIFICATO":pending.Count>0?"VERIFICA INCOMPLETA":"CONTROLLI ESEGUITI SODDISFATTI"),
+            ("eseguiti_soddisfatti",failures.Length==0&&pending.Count==0),("colore",failures.Length>0?"rosso":pending.Count>0?"ambra":"verde"),
+            ("non_soddisfatti",J.Node(failures)),("da_completare",J.Node(pending.ToArray())),("esclusi",J.Node(excluded)));
     }
+
 }

@@ -13,6 +13,11 @@ try
     string root = directory?.FullName ?? throw new DirectoryNotFoundException("ANTHEA.sln non trovato.");
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f3/architecture") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
+    var productionSources = Directory.EnumerateDirectories(root, "X.*")
+        .Concat(Directory.EnumerateDirectories(Path.Combine(root, "src"))).SelectMany(SourceFiles);
+    bool f4Inventory = args.Contains("--f4-inventory", StringComparer.Ordinal);
+    checks += F4DomainRules.Run(root, output, productionSources, f4Inventory);
+    if (f4Inventory) return 0;
     string[] modules = ["ANTHEA.Application", "ANTHEA.Reports", "ANTHEA.Wiki", "ANTHEA.Serialization"];
     foreach (string module in modules)
     {
@@ -40,11 +45,22 @@ try
     var baseline = JsonSerializer.Deserialize<ArchitectureBaseline>(File.ReadAllText(Path.Combine(root, "tests/fixtures/f3/architecture.json")))!;
     using var fixtureManifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "tests/fixtures/f3/manifest.json")));
     string manifestHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(Path.Combine(root, "lib/Checker/manifest.json"))));
-    Check(manifestHash.Equals(fixtureManifest.RootElement.GetProperty("library_manifest_sha256").GetString(), StringComparison.OrdinalIgnoreCase), "Set GPC cambiato durante F3: il riferimento va riesaminato prima degli spostamenti");
+    F4ReleaseProvenance.Verify(root, manifestHash, fixtureManifest.RootElement.GetProperty("library_manifest_sha256").GetString()!, Check);
     var desktopProject = XDocument.Load(Path.Combine(root, "X.Desktop/X.Desktop.csproj"));
     Check(desktopProject.Descendants("GpcRuntimeOnly").Any(e => e.Value == "true" && e.Attribute("Condition")?.Value == "'$(Configuration)' != 'UiTests'"), "Desktop deve distribuire GPC senza riferimenti diretti di compilazione");
     Check(!desktopProject.Descendants("ProjectReference").Any(e => (e.Attribute("Include")?.Value ?? "").Contains("X.Calculations")), "Riferimento di progetto Desktop al motore legacy");
-    using (var runtimeManifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "lib/Checker/manifest.json"))))
+    // Decisione D3 del 15/10/2026: i motori storici conservati stanno in tests/ANTHEA.Legacy, mai nel prodotto né nella pubblicazione.
+    // Ammesso solo nel gruppo della configurazione UiTests di X.Desktop (prove WPF), come ANTHEA.Testing.
+    static bool UiTestsOnly(XElement reference) => reference.Parent?.Attribute("Condition")?.Value.Replace(" ", "") == "'$(Configuration)'=='UiTests'";
+    foreach (string project in Directory.EnumerateDirectories(root, "X.*").Concat(Directory.EnumerateDirectories(Path.Combine(root, "src")))
+        .SelectMany(d => Directory.EnumerateFiles(d, "*.csproj")))
+        Check(!XDocument.Load(project).Descendants("ProjectReference").Any(e => (e.Attribute("Include")?.Value ?? "").Contains("ANTHEA.Legacy", StringComparison.Ordinal) && !UiTestsOnly(e)),
+            "Riferimento di progetto del prodotto al codice legacy conservato: " + Path.GetFileName(project));
+    Check(!File.Exists(Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows/ANTHEA.Legacy.dll")), "Codice legacy conservato nella build Release del prodotto");
+    int gpcArgument = Array.IndexOf(args, "--gpc-snapshot");
+    string runtimeSnapshot = gpcArgument < 0 ? Path.Combine(root, "lib/Checker")
+        : gpcArgument + 1 < args.Length ? Path.GetFullPath(args[gpcArgument + 1]) : throw new ArgumentException("Missing explicit GPC snapshot directory.");
+    using (var runtimeManifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(runtimeSnapshot, "manifest.json"))))
         foreach (var assembly in runtimeManifest.RootElement.GetProperty("assemblies").EnumerateArray())
         {
             string file = assembly.GetProperty("file").GetString()!;

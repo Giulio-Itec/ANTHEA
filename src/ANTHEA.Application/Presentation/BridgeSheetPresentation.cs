@@ -16,7 +16,7 @@ public static class BridgeSheetPresentation
         phase["V"] ??= 0; phase["T"] ??= 0; phase["epsilon_cs"] ??= 0; phase["q_conn"] ??= 0;
     }
     public static bool PhaseHomogenizationNeeded(JsonObject data, string kind) => BridgeSection.HasConcrete(kind)
-        || kind == "Soletta esclusa" && data.B("pioli") && !data.S("normativa").StartsWith("NTC");
+        || kind == "Soletta esclusa" && data.B("pioli") && BridgeSection.RequiredStandard(data) != GPC.Checkers.CompositeBridge.BridgeStandard.Ntc2018;
     public static (double N0, double N, double PhiEffective, double Phi) UpdateHomogenization(JsonObject data, JsonObject phase, bool requireFinite = true)
     {
         var h = BridgeSection.Homogenization(data, phase);

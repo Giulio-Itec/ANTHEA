@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
@@ -51,7 +52,13 @@ public sealed partial class MainWindow
             button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             workspace.Editors["input/length"].Text = (BridgeConcept.HasTowers(family.Id) ? 2 * Math.Min(450, (family.MinSpan + family.MaxSpan) / 2) : (family.MinSpan + family.MaxSpan) / 2 * 4.6).ToString(System.Globalization.CultureInfo.InvariantCulture);
             workspace.Editors["input/height"].Text = "40";
-            await Settle(); Check(workspace.Calculation?.Family.Id == family.Id, "Cambio famiglia fallito: " + family.Id);
+            await Settle();
+            if (workspace.Calculation is null)
+            {
+                File.WriteAllText(Path.Combine(directory, "failed-family-input.json"), workspace.Data.ToJsonString());
+                _ = Anthea.Calculations.CalculationService.Calculate(BridgeConcept.Module, workspace.Data);
+            }
+            Check(workspace.Calculation?.Family.Id == family.Id, "Cambio famiglia fallito: " + family.Id);
             File.WriteAllBytes(Path.Combine(directory, family.Id + "_prospetto.png"), workspace.Drawing.Png(false));
             File.WriteAllBytes(Path.Combine(directory, family.Id + "_sezione.png"), workspace.Drawing.Png(true));
         }
@@ -135,8 +142,8 @@ public sealed partial class MainWindow
         workspace.Undo(); await Settle();
         Check(workspace.Data["input"]!.ToJsonString() == original, "Annulla non ripristina la configurazione pre-ottimizzazione.");
         // Save through the shell to exercise normal archive integration, then reopen an independent editor.
-        Commit(); string archive = Path.Combine(directory, "BridgeDesign.anthea"); Archivio.Scrivi(archive, document);
-        var reopened = Archivio.Leggi(archive); using var restored = new SheetEditor(BridgeConcept.Module, reopened["dati"]!.AsObject());
+        Commit(); string archive = Path.Combine(directory, "BridgeDesign.anthea"); DocumentService.Save(archive, document);
+        var reopened = DocumentService.Open(archive); using var restored = new SheetEditor(BridgeConcept.Module, reopened["dati"]!.AsObject());
         await restored.CalculateAsync();
         Check(restored.HasResults && restored.Data["alternative_a"] is JsonObject, "Archivio incompleto al riavvio.");
         File.WriteAllBytes(Path.Combine(directory, "BridgeDesign.docx"), workspace.BuildReport("Predimensionamento del ponte"));

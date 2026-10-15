@@ -991,3 +991,214 @@ Completati contratti, servizi, report e confine Desktop. Verifica sorgenti oltre
 L’utente sceglie Plastico/Elastico nella verifica, indipendentemente dallo stato limite della riga. Sei componenti memorizzate una volta; proiezioni per SLU/SLV, SLE e taglio/torsione. Elemento è un riferimento facoltativo: tutte le righe sono verificate sulla sezione del foglio, anche se riferite a elementi differenti. Non si assegnano automaticamente geometrie del modello. I nomi uguali restano righe distinte con ID propri.
 Conversione dei dati storici esplicita: le vecchie famiglie Plastico/Elastico e Taglio richiedono l’assegnazione dello stato limite; le componenti mancanti devono essere compilate. Nessun coefficiente o cambio di segno aggiuntivo. L’apertura dei documenti precedenti non cambia il comportamento.
 Cattura preventiva: `20261013-142103-excel-sol-before`, Application.Tests e verifiche/ca-data PASS. F4 non avviata.
+
+## 13 ottobre — ANTHEA 1.7.1 e ripresa della pianificazione F4
+
+Dopo la correzione F3.4-U5 l’utente richiede «merge in master, versione 1.7.1».
+ANTHEA usa `main`: integrazione completata in `46b4c918`, versione patch
+`2c06ab46`, installer e DLL verificati come nel verbale F3. Nessun push in
+questo passaggio. Non sono state modificate le librerie GPC.
+
+La successiva richiesta «poi parti con la F4. pianifichiamo i punti» supera
+l’arresto della fase. Si apre `refactoring/f4-calcoli-residui` da quella 1.7.1.
+Il [piano aggiornato](f4-calcoli-residui.md) mantiene F4.1–F4.16, propone F4.12
+dopo F4.10 per completare la ricerca delle armature prima di Bridge Design,
+e parte da inventario, catture e protezioni automatiche. L’inventario iniziale
+è eseguito, ma non costituisce equivalenza né chiusura di F4.1.
+
+GPC.Design nel repository Checker è la proposta di collocazione da rendere
+concreta in F4.3; non è una libreria già creata. Si riusano esiti, coefficienti,
+servizi Application e test presenti. Le decisioni normative già registrate
+non si richiedono di nuovo; le questioni ancora aperte richiedono prima una
+scheda con fonte ed effetto numerico. Trasferimento equivalente e correzione
+numerica hanno commit distinti. Un aggiornamento per punto concluso; F5 e
+la rimozione indiscriminata del legacy restano esclusi.
+
+### F4 — finestra operativa e sospensione Bridge Design
+
+L’utente autorizza l’esecuzione degli altri punti per 1,5 ore e sospende il
+blocco 5 del piano operativo (F4.11): vuole definire prima la gestione dei
+prezzari. Chiede inoltre di attendere per la chiusura F4.16, che potrebbe
+includere successivamente Bridge Design. La sospensione non riguarda F4.5,
+che resta il punto tecnico dei coefficienti normativi. Nessun rilascio finale
+di fase né avvio F5; commit e aggiornamento per ogni passo concluso.
+
+### F4 — completamento notturno e prezzari sostituibili
+
+Il 13 ottobre sera l'utente approva la gestione dei prezzari e richiede F4
+completata per la mattina successiva, con commit per punto e aggiornamenti.
+Sono superate le sospensioni di F4.11 e F4.16; F5 resta esclusa.
+
+Cataloghi versionati, import Excel/CSV, associazioni riutilizzabili alle
+lavorazioni, analisi composte, prezzi di progetto e confronto fra revisioni.
+Il cambio di prezzario conserva quantità e revisioni precedenti; segnala voci
+mancanti/incompatibili senza prezzi zero impliciti. La scelta di conservare
+le personalizzazioni è esplicita. I prezzi correnti migrano senza ricalcolo.
+Prezzi e CO₂ hanno fonti/versioni indipendenti.
+
+GPC.Design esegue calcolo e ottimizzazione del costo con dati immutabili della
+chiamata, senza leggere controlli WPF o archivi ANTHEA. ANTHEA gestisce prezzari,
+documenti, associazioni, avvio/annullamento e presentazione. Dopo il cambio dei
+prezzi si rivalutano le alternative note e si può rilanciare la ricerca: la
+nuova soluzione migliore non è necessariamente fra quelle già esplorate.
+
+Prima del collegamento dei nuovi servizi si completa il confronto isolato.
+Il set distribuito si aggiorna soltanto con il treno coerente; i checkpoint
+Git e la rimozione del legacy restano soggetti alle regole del repository.
+
+## 14 ottobre — audit indipendente di F0-F4 e decisioni punto per punto
+
+Il 14/10 l'utente chiede un controllo di tutte le sottofasi fino a F4 («secondo me non ha lavorato bene»). Quattro
+verifiche indipendenti in sola lettura (F0-F2, F3 ed EXCEL-SOL, F4 e librerie, regole trasversali) e il profilo
+standard sul ramo F4 (7569f6fc: 66 PASS, un fallimento intermittente di `Application.Tests` per un file bloccato,
+ripetuta da sola PASS). Esito: F4 non è chiusa; codice delle librerie reale e attesi indipendenti intatti, ma report
+modificati durante il blocco, push e merge senza richiesta, [CP] chiusi dall'agente e rilascio W e installer 1.8.0
+senza full conforme. L'utente: «parti pure a correggere gli errori che hai segnalato… scrivimi per ogni cosa che ti
+serve la mia autorizzazione. vediamo punto per punto». Correzioni sul ramo `refactoring/f4-correzioni-audit`.
+
+Decisioni dell'utente, una per punto:
+
+1. **Report di calcolo** (blocco dell'8/10): «Ratifico e sblocco». Restano le modifiche già fatte ai report
+   (EXCEL-SOL 504de76e e 9e1ac2ca, Bridge 440db3fd, 3ecaf795 e d4762582, U5 4a3044cb, F4.14 9fee7a47 e 575e2396) e il
+   blocco è tolto: i report si possono modificare, sempre con cattura prima e confronto dopo e con le differenze nel
+   registro.
+2. **Scelte ingegneristiche prese dall'agente in F4**, una alla volta:
+   - (a) F4-03, σcp nel taglio dei muri: «il punto a te lo confermo». Resta la correzione.
+   - (b) F4-08, curvatura dei muri con viscosità: «confermo b». Resta la curvatura totale χ·(1+φ). Il solutore
+     risolve con Ec pieno ed Es·(1+φ): le tensioni dipendono solo da n, ma il piano è (1+φ) volte più piccolo della
+     deformazione reale. Prova: una barra a σs ha deformazione σs/Es, il piano le dà σs/(Es·(1+φ)). L'utente ha
+     chiesto se convenga spostare la riduzione su Ec nel solutore. Deciso («sì a entrambe»): il solutore resta com'è
+     (il significato del piano cambierebbe in silenzio per tutti gli utilizzatori, che moltiplicano già per (1+φ); la
+     libreria ammette φ diversi per armature e cavi; nessun guadagno sulle tensioni). Si aggiunge invece in Concrete il
+     piano totale esplicito, con il piano attuale documentato come equivalente; push della libreria su OK dell'utente.
+     Approvata anche la correzione del modulo sezioni: equazione del piano e diagramma delle deformazioni SLE con φ > 0
+     mostrano il piano equivalente, (1+φ) volte più piccolo delle deformazioni di barre e vertici nella stessa vista.
+     Solo visualizzazione; nuova voce del registro, cattura prima e confronto dopo.
+   - (c) F4-31, documenti c.a. senza norma: l'utente precisa che non esistono file salvati senza norma e che la norma
+     è effettivamente NTC. Deciso («sì a entrambe»): calcoli rigorosi senza ripiego su NTC; nota di migrazione tolta
+     (era anche contraddittoria se poi si sceglie un'altra norma); NTC assegnata solo ai file del formato precedente al
+     selettore, un file del formato attuale senza norma si rifiuta. In coda, dopo il refactoring: Eurocodici con una
+     norma di progetto (non per modulo), annesso nazionale come dato del profilo, profili tipizzati per disciplina nelle
+     librerie (combinazioni EN 1990, geotecnica EN 1997, sisma EN 1998, traffico EN 1991-2, copriferri), rifiuto
+     esplicito dei moduli che non supportano la norma scelta, attesi indipendenti per ogni modulo e norma.
+   - (d) F4-20, NEd dell'armatura longitudinale minima: «compressione massima tra tutte le combo. slu, slv e taglio
+     (eventualmente sle se le altre sono nulle)»; precisato: «se dovessero mancare considera gli sle. in generale, usa
+     le N più gravose di tutte le combo». Regola: NEd = compressione massima fra tutte le combinazioni (SLU, SLV, righe
+     del taglio, SLE rara, frequente e quasi permanente), uguale in scheda dettagli e progetto armature; il risultato
+     indica la combinazione che governa e segnala quando è di esercizio. Oggi entrano SLU, SLV e taglio: si aggiungono
+     le SLE. La regola va nella libreria (GPC.Design, `SectionDesignDemand`), non in ANTHEA.
+   - Seguito di (b), viscosità nelle combinazioni SLE dei muri: «confermo la 1. ad ora teniamo quella». Resta (1+φ)
+     in tutte e tre le combinazioni SLE, come per le tensioni (stesso n): a favore di sicurezza, sovrastima modesta
+     perché la spinta è quasi tutta permanente. φ solo nella quasi permanente è escluso (perderebbe la viscosità dei
+     permanenti). La sovrapposizione (quasi permanente con viscosità più incremento variabile senza) «in un futuro
+     eventuale, ma non in questo refactoring».
+3. **Legacy sostituito in b7339f4a** (12/10): «ratifico entrambe».
+   - (3a) Aderenza/ancoraggi, dettagli non circolari, M–χ e interassi non circolari restano sulla libreria, senza
+     interruttore; il codice precedente si recupera da git. Equivalenza: 548 file e 50 996 righe, scarto massimo
+     1,1e-15 relativo. Superata per queste famiglie la condizione di F2.11 («il legacy resta finché l'utente non
+     decide»); la revisione delle pagine dei metodi (F2.8-U1) resta in coda come documentazione.
+   - (3b) Tensioni e fessurazione SLE: libreria come motore predefinito (A8), legacy selezionabile fino alla revisione
+     delle pagine dei metodi, poi rimozione con l'ok dell'utente. Il coordinatore completa le evidenze mancanti
+     (cattura B4 del corpus SLE con i due motori, voci F2-7 e F2-8).
+4. **Ratifiche a posteriori**: «ratifico entrambe».
+   - (4a) Push dei master di Model e Checker del 14/10 alle 04:04 (set W); merge e push di EXCEL-SOL su main (1.7.0,
+     13/10; il verbale dichiarava un'autorizzazione non registrata); merge e push di F3 del 13/10 alle 13:45, dopo la
+     scadenza del mandato notturno.
+   - (4b) [CP] F1.4, F1.6, F2.2 (la rilettura dei contenuti delle pagine dei metodi resta in coda), F2.9-D1…D14,
+     F2.7-D1, F3.1, F3.4, F3.6 limitatamente al ricalcolo ritardato del ponte (450 ms), F3.7, F4.3 e F4.14.
+   - Restano aperti (4c): «report short senza Word» di F3.6 e proposte F2.9-U1…U6.
+   - (4c-1) Report sintetico senza Word: «predisponilo ora in questo refactoring. fai che faccia entrambi i file: docx
+     e pdf. export in pdf aggiungilo anche agli altri report. per ora però prendi i report per come sono. li dovremo
+     rivedere appena finito il refactoring». Il PDF si genera in ANTHEA.Reports dallo stesso modello in memoria del
+     DOCX, con una libreria MIT e senza Word; il report sintetico scrive sempre DOCX e PDF e il controllo delle due
+     pagine lo fa ANTHEA; l'esportazione PDF si aggiunge a tutti gli altri report. Contenuti e impaginazione dei DOCX
+     restano quelli attuali (cattura prima e confronto dopo: DOCX invariati); la revisione dei report è in coda dopo la
+     fine del refactoring. Dipendenza: «va bene aggiungere un nuget» (PDFsharp/MigraDoc, MIT, da nuget.org; DLL e nota
+     di licenza anche nell'installer).
+   - (4c-2…7) Proposte F2.9: U1 «non ho la norma. resta sulla 2016» (scritto «2026», refuso): classi minime e
+     composizione restano UNI 11104:2016 prospetto 5, la 2025 non si adotta senza il testo primario; U2, che segue U1:
+     l'etichetta della libreria diventa «UNI 11104:2016 prospetto 5»; U3 «correggi»: si traducono i testi inglesi del
+     palo elastico (riferimento e messaggi di `PileDurability`, 7 righe di relazione); U4 «ok»: i valori predefiniti
+     della scheda Materiali si scrivono nel documento e si mostrano, nessun numero cambia; U5 «ok»: descrizioni, esempi e
+     note riprese da ATECAP 2020 si riscrivono con testi nostri, citando solo le norme; U6 «ok»: la pagina del metodo
+     `ca.durabilita-copriferri` resta in coda con le altre.
+5. **Autorizzazioni operative**: «autorizzo tutte le 5 che hai mandato». Eseguite il 14/10:
+   - (5a) junction `supporto/artefatti/verifiche_ca_auto/template/node_modules` (dal 18/09, verso il runtime Codex)
+     tolta con `cmd /c rmdir`; destinazione intatta;
+   - (5b) `supporto/tmp/f2-libs` (1,34 GB): quattro worktree di Checker, Geometry, Model e Utilities, puliti e su commit
+     già in origin/master, rimossi con `git worktree remove`; cancellata la copia di Gmsh.Net (il repository resta);
+   - (5c) Temp: `gpc-rev` (2,27 GB, revisione delle librerie chiusa il 12/10), `anthea-uitests-a5` e 38 cartelle vuote
+     (AntheaShort-*, ANTHEA-InstallerTest-*, ANTHEA-GuideTest-*, ANTHEA-GuideCheck-*, anthea-midas-*, d7d-harness-*);
+     controllato prima che non contenessero collegamenti; `anthea-guides` del 28/09 non toccata;
+   - (5d) tag annotati delle versioni sul commit da cui è costruito l'installer, dove registrato (1.2.0 fc632464, 1.6.0
+     8b0da2a2, 1.7.0 68330851, 1.7.1 2c06ab46, 1.8.0 d66379ac), altrimenti sul commit che porta la versione (1.3.0
+     71aaa60b, 1.4.0 22f6a1aa, 1.5.0 bce1e337); push dei tag e del ramo `refactoring/f4-correzioni-audit`.
+6. **Profilo full**: «profilo full lo facciamo stanotte. non ora. da mezzanotte in poi»; poi spostato: «lavora uno alla
+   volta. spostiamo il full a domattina alle 6.00. se non riesci a finire le cose, spostiamo il full». Corsa sul ramo
+   delle correzioni il 15/10 alle 06:00 solo se le correzioni concordate sono finite e committate, altrimenti si
+   rinvia; comprende il nuovo confronto UI con la cattura F3 sul commit corrente. Lavoro senza agenti in parallelo.
+8. **Voci anticipate a prima del full** (A12, avviso di migrazione EXCEL-SOL, pagine dei metodi F4, analisi composte).
+   Analisi composte dei prezzari: prezzo unitario = Σ quantità × prezzo dei componenti (materiali, manodopera, noli,
+   trasporti) più spese generali e utile d'impresa, «che siano chiare voci presenti nel totale» e impostabili;
+   percentuali predefinite nel prezzario, modificabili per singola analisi in modo esplicito; un'analisi può usare
+   altre analisi come componenti, con rifiuto dei riferimenti circolari. Calcolo in GPC.Design, gestione in ANTHEA.
+7. **Riferimenti di terzi nelle guide**: «punto 7 ok nella Rev44». Restano citazioni normative e bibliografia dei metodi
+   implementati (FHWA GEC 10 e AASHTO per i p-multiplier, USGS e USACE per Newmark, Timoshenko e Gere, schema IFC); si
+   tolgono TU Delft, MIT, diapositive JRC (al loro posto la norma, es. EN 1992-1-1 §9.2.1.3), SCI, esempi LRFD e
+   manuali FHWA di metodi non implementati, con spiegazioni riscritte in testo nostro. La frase su Straus si toglie
+   finché l'importazione non è attiva; il controllo delle guide intercetta anche questi riferimenti. Tutto nella
+   Rev44, insieme a PDF dei report, regola di NEd e testi ATECAP riscritti.
+9. **Seguiti della sera del 14/10**: «ok push di checker e anthea»; «lascia pure quel minor, non dà fastidio».
+   - Pubblicati master del Checker (26cef01a, pagine dei metodi F4) e il ramo `refactoring/f4-correzioni-audit`.
+   - Il commit vuoto 2bbdcbce «minor» del Checker (aggiunge solo `diff-piano.txt`) resta, senza revert.
+   - F2-7, uscite della fessurazione non raggiunte ([f2-7-rifiuti-sle.md](f2-7-rifiuti-sle.md) §4): «ok 1 e 2, la 3
+     mettila in coda dopo F4». Le sette uscite impossibili o degeneri restano difese della libreria; i due casi
+     raggiungibili con le armature libere diventano stati mirati con il confronto fra i due motori; l'indicazione
+     all'utente sulla zona tesa non armata è in coda dopo F4.
+
+## 15 ottobre — decisioni per la chiusura di F4
+
+Proposte di [f4-chiusura-decisioni.md](f4-chiusura-decisioni.md), dopo il full del 14/10 sera (136 PASS; confronto UI
+F3 con 7214 differenze tutte nella previsione).
+
+- **D1** «ok punto 1»: i 17 gruppi di differenze del confronto UI F3 sono transizioni attese, insieme alle variazioni
+  misurate nel full del 14/10 (F4-40, F4-47, versione di Geotechnics, Wiki e ricerca F4-48). La stazione Bridge con
+  V = 9,1e-13 (V6) resta com'è.
+- **D2** «ok punto 2»: elenco versionato delle transizioni ammesse, per file e percorso, con valore prima e dopo e voce
+  del registro; ogni altra differenza fallisce; nessuna tolleranza nuova; Wiki e ricerca come F3-06, con impronte
+  prima e dopo. Confermata la modifica dei due input F3 fatta con F4-40. Poi un full conforme.
+- **D3** «sposterei il vecchio codice in un progetto parallelo o in una parte di progetto che non viene rilasciata.
+  non vorrei rilasciare doppio codice inutile. ma vorrei rimanesse per storico»: il codice legacy non più usato dal
+  prodotto esce dal rilascio e si conserva in un progetto non distribuito, usato solo dalle prove come riferimento
+  storico. Resta nel prodotto solo ciò che il prodotto usa davvero (il nome «Legacy» da solo non basta: per esempio
+  `LegacyNumerics` è la somma usata dal calcolo attuale). La scelta del motore SLE oggi è solo un parametro delle prove,
+  senza comandi nell'interfaccia. Precisato subito dopo, alla domanda se conservarlo in un progetto parallelo: «io
+  onestamente eliminerei tutto quello che non serve ed è servito per test. vorrei rilasciare un codice relativamente
+  pulito senza codice inutile e test dentro». Quindi: si elimina il codice legacy che il prodotto non usa e il codice
+  che serve solo alle prove dentro gli assembly distribuiti; nessun progetto parallelo. Supera la parte di 3b che teneva
+  il legacy SLE selezionabile fino alla revisione delle pagine dei metodi. Modo (proposta dell'agente, coerente con le
+  regole del refactoring): tag git sul commit precedente alla rimozione, per ritrovare il codice; dove una prova
+  confronta la libreria con il legacy, prima si congelano le uscite del legacy sui corpus esistenti (fixture con
+  SHA-256) e la prova confronta poi la libreria con la cattura congelata; gli attesi indipendenti restano.
+  **Decisione finale**, dopo la spiegazione di come si replicherebbero le prove: «allora optiamo per tenere tutto il
+  codice e spostarlo dentro dei file che non finiscono nell'installer. non vorrei cancellarlo dal progetto, per quanto
+  versionato». Quindi nessuna cancellazione: il codice legacy non usato dal prodotto e il codice che serve solo alle
+  prove escono dagli assembly distribuiti e vanno in un progetto del repository che l'installer non contiene, usato
+  dalle prove; i confronti vivi fra libreria e legacy restano. Superate le due formulazioni precedenti (progetto
+  parallelo come proposta e poi eliminazione).
+  **Modo per le prove di modulo** («confermo la scelta b», 15/10): l'inventario
+  (21 blocchi da spostare, circa 3000 righe di `X.Calculations`) proponeva (a) prove che chiamano il legacy solo
+  funzione per funzione, perdendo i giri di modulo col motore vecchio, o (b) un punto d'aggancio interno nel prodotto,
+  senza formule, con il motore vecchio in `tests/ANTHEA.Legacy` attivato dalle prove in un ambito. Scelta (b): le prove
+  di modulo (sezione c.a. completa, muri, durabilità di progetto, taglio e torsione) continuano a girare dal vivo col
+  legacy. Punti minori decisi dall'agente: la traccia dei ripieghi del JSON non si attiva più da variabile d'ambiente
+  nel prodotto ma dal banco di prova; l'opzione `--models` e `RunVerificationAsync` restano.
+- **D4** «ok, finito questa correzione chiusura F4»: chiusura dei punti di F4 e dei [CP] F4.9 e F4.16 dopo D3 e il
+  full conforme, con verbale.
+- **D5** «D5 ok»: merge senza avanzamento rapido in `main`, tag `refactoring/post-f4`, ANTHEA 1.9.0 con installer e
+  suite dell'installer, tag `v1.9.0`, push di `main` (che pubblica anche il merge 1.7.1) e dei tag, cancellazione dei
+  rami F4 uniti anche su origin.
+  **Guide per la 1.9.0** («Rev45, frase senza versione», 15/10): la guida pratica Rev44 diceva «Per installare ANTHEA
+  1.8.0…»; la Rev45 toglie il numero dalla frase, così non va cambiata a ogni versione (registro F4-50).
+- **Attuazione di D4 e D5** (15/10): full conforme `20261015-105444-f4-full-190` (140 PASS, 0 NEW-FAIL), installer
+  1.9.0 da `a46e91fb`, F4 chiusa con il [verbale](chiusura-f4-20261015.md); merge, tag e push come da D5.

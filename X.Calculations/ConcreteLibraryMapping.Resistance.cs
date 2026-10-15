@@ -11,7 +11,7 @@ namespace Anthea.Calculations;
 /// </summary>
 public static partial class ConcreteLibraryMapping
 {
-    static readonly FrozenDictionary<string, string> ResistanceRejections = new Dictionary<string, string>(StringComparer.Ordinal)
+    internal static readonly FrozenDictionary<string, string> ResistanceRejections = new Dictionary<string, string>(StringComparer.Ordinal)
     {
         ["Missing domain point/strain plane."] = "punto resistente non trovato",
         ["Non-finite domain point."] = "punto resistente non finito",
@@ -26,7 +26,4 @@ public static partial class ConcreteLibraryMapping
         if (response.Diagnostics.Message is { } message && ResistanceRejections.TryGetValue(message, out var text)) return text;
         throw new InvalidOperationException($"Punto resistente: testo della libreria senza traduzione ({response.Diagnostics.Status}: «{response.Diagnostics.Message}»).");
     }
-
-    /// <summary>Testi della libreria tradotti (per le prove della mappatura).</summary>
-    public static IReadOnlyCollection<string> ResistanceRejectionTexts => ResistanceRejections.Keys;
 }

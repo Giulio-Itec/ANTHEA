@@ -76,11 +76,15 @@ try
         "src/ANTHEA.Application/Templates/ANTHEA_Sollecitazioni.xlsx")))), "Risorsa Excel diversa dal modello originale");
     SectionActionsExcel.Row[] rows = [new("SLU", "Combinazione firmata", -125.5, 34.75, -8, null, null),
         new("Taglio", "Torsione", 9, null, null, -22.25, 32.5, -2.75)];
-    var imported = SectionActionsExcel.Read(SectionActionsExcel.Write(rows));
+    var imported = SectionActionsExcel.Read(LegacySectionActionsExcel.Write(rows));
     Check(rows.SequenceEqual(imported.Rows), "Segni, valori o campi opzionali Excel alterati");
     Check(imported.FormulaCells == 0, "Export a valori contiene formule");
+    checks += DocumentFileChecks.Run(output);
     checks += SectionActionInputsChecks.Run();
     checks += SectionActionsEditorChecks.Run();
+    checks += BridgePricesChecks.Run();
+    checks += BridgePriceAnalysesChecks.Run();
+    checks += BridgeTrafficChecks.Run();
     checks += await ModuleServiceChecks.Run();
     checks += await ElasticPileSessionChecks.Run(root);
     checks += MaterialPresentationChecks.Run(root);
@@ -104,6 +108,11 @@ try
     checks += HorizontalPreviewChecks.Run(root);
     checks += HorizontalSoilChecks.Run();
     checks += VerticalPilePreviewChecks.Run();
+    checks += F4PileCoefficientChecks.Run(root);
+    checks += F4StandardInputChecks.Run(root);
+    checks += PileDurabilityTextChecks.Run();
+    checks += MaterialDefaultsChecks.Run();
+    checks += DetailingCompressionChecks.Run();
     checks += await PileSegmentOperationChecks.Run(root);
     checks += await ProjectReportServiceChecks.Run(output);
     checks += await ConcreteReportCurvatureChecks.Run(root, output);

@@ -60,7 +60,7 @@ public sealed partial class MaterialView
                 if (codes.Any(c => !exposureChecks.ContainsKey(c))) throw new ArgumentException("Classe di esposizione non riconosciuta.");
                 foreach (var (key, box) in exposureChecks) box.IsChecked = codes.Contains(key);
             }
-            string selected = state["esposizione_principale"]?.ToString() ?? (state["esposizioni"] as JsonArray)?.FirstOrDefault()?.ToString() ?? "XC1";
+            string selected = state["esposizione_principale"]?.ToString() ?? (state["esposizioni"] as JsonArray)?.FirstOrDefault()?.ToString() ?? MaterialDefaults.Exposure;
             if (!exposureChecks.ContainsKey(selected)) throw new ArgumentException("Classe di esposizione non riconosciuta.");
             exposureSelector.SelectedItem = selected;
             foreach (var (key, box) in exposureChecks) box.IsChecked = key == selected;

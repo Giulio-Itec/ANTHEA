@@ -19,7 +19,8 @@ public sealed partial class MainWindow
             if(dialog.ShowDialog(this)!=true)return;
             shortReportRunning=true;
             foreach(var button in shortReportButtons)button.IsEnabled=false;
-            await ShortReportExport.WriteAsync(dialog.FileName,bytes);
+            // DOCX and PDF without Word: ANTHEA paginates the PDF and refuses more than two pages (decision of 14/10/2026)
+            string title=heading.Text;await Task.Run(()=>Anthea.Reports.ReportFiles.Write(dialog.FileName,bytes,title,Anthea.Reports.ReportFiles.ShortReportPages));
             MessageBox.Show(this,"Report short salvato in Word e PDF, entro due pagine.","Report short");
         }
         catch(Exception ex){MessageBox.Show(this,ex.Message,"Report short",MessageBoxButton.OK,MessageBoxImage.Warning);}

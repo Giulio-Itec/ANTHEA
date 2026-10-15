@@ -9,7 +9,7 @@ text: Il vincolo laterale della piattabanda compressa dipende da controventi e c
 text: la-fatica-e-sensibile-al-dettaglio
 text: Una connessione saldata e una lamiera continua con la stessa tensione nominale non hanno necessariamente la stessa resistenza a fatica. Contano categoria del dettaglio, intervallo di tensione, numero di cicli e modo di valutare le tensioni. Su un ramo idealizzato della curva S–N con esponente m, N è proporzionale a Δσ elevato a −m. Con m = 3, passare da 60 a 80 MPa riduce il numero di cicli a (60/80)³ = 0,422 del precedente. Il valore m = 3 è qui un’ipotesi illustrativa, non una scelta valida per ogni dettaglio e regime.
 text: Il controllo richiede lo spettro delle escursioni dovute al traffico e le regole della norma adottata. Non basta sostituire il carico massimo SLU nella formula della fatica. In ANTHEA la costruzione delle fasi della sezione composta serve a separare i contributi; non equivale a una verifica completa di fatica del ponte o di stabilità durante il montaggio.
-text: Fonti: FHWA, esempio di progetto LRFD di un impalcato a travi metalliche, passo 3 sulla trave metallica; SCI, Fatigue design of bridges. Esempio numerico originale.
+text: Esempio numerico originale.
 text: proseguire-nella-wiki
 text: - Sezione composta da ponte
 text: - Instabilità delle aste compresse

@@ -14,7 +14,7 @@ internal sealed partial class ConcreteWorkspace
     private static readonly (string Input, string Standard)[] CommonCoefficients = ConcreteEditor.CommonCoefficients;
     private void PrepareCoefficients()
     {
-        if (settings["coefficienti"] is not JsonObject) settings["coefficienti"] = ConcreteEditor.StandardDefaults(settings.S("normativa", "NTC 2018"));
+        if (settings["coefficienti"] is not JsonObject) settings["coefficienti"] = ConcreteEditor.StandardDefaults(ConcreteEditor.RequiredStandardName(settings));
         SyncCoefficientsFromInput(); standardNote.Text = ConcreteEditor.StandardNote(settings.S("normativa"));
     }
     private void SyncCoefficientsFromInput()

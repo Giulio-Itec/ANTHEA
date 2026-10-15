@@ -25,6 +25,9 @@ FORBIDDEN_IN_GUIDES=[
     (r"(?i)preferenza (?:esplicita )?dell['’]utente|(?:richiest|autorizzat|allegat)[aoie] dall['’]utente|per scelta dell['’]utente|scansione locale|lett[ei] (?:anche )?visivamente",'diario di sviluppo'),
     (r'supporto/(?:test|scripts|SUPERATI)/|CONTROLLO\.md|\b\w+\.(?:cs|csproj)\b','percorso di sviluppo'),
     (r'supporto/artefatti/(?!'+'|'.join(map(re.escape,ARTIFACT_EXAMPLES))+')','percorso di sviluppo'),
+    # Point 7 of the audit of 14/10/2026: no third-party teaching material or vendors in the guides.
+    (r'\bTU Delft\b|\bMIT\b|\bJRC\b|\bSCI\b|\bATECAP\b|Bridge Inspector','riferimento di terzi'),
+    (r'(?i)\bstraus\b|diapositiv','riferimento di terzi'),
 ]
 IMPORT_GUIDE_TITLE='Modelli e importazione da MIDAS'
 IMPORT_GUIDE_KEY='guida-modelli-importazione-midas'
@@ -129,7 +132,8 @@ class HandbookChecks(unittest.TestCase):
     def test_diary_lint_rejects_and_accepts(self):
         for text in ['Il collegamento condiviso ChatGPT non era recuperabile.','Generato con Codex.','Confronto con SOFiSTiK.','Fonte: thebridgeeng.com/design',
                      'Evidenze in supporto/artefatti/palo-armature.','I test sono in supporto/test/ElasticPile.Checks.','Vedi BarScheduleChecks.cs.',
-                     "Le fonti restano nell'archivio Rev14.",'Valore iniziale per preferenza dell’utente.','Il comando è stato eliminato.']:
+                     "Le fonti restano nell'archivio Rev14.",'Valore iniziale per preferenza dell’utente.','Il comando è stato eliminato.',
+                     'Formulazione documentata da TU Delft.','Lezioni MIT 16.20.','Presentazione JRC, diapositiva 33.','Valori riportati in ATECAP 2020.','Per Straus il catalogo è predisposto.']:
             with self.subTest(text=text):self.assertTrue(diary_violations(text),text)
         allowed=['NTC 2018 §7.2.5, G.U. 20 febbraio 2018, S.O. n. 8; Circolare 21 gennaio 2019 n. 7, C4.1.10.',
                  'EN 1998-5:2004 allegato F (F.7); EN 1992-1-1 §7.3.4(3); UNI 11104:2016; CNR-DT 200; fib Model Code 2010, Tab. 7.6-2.',
@@ -172,4 +176,6 @@ class HandbookChecks(unittest.TestCase):
         self.assertAlmostEqual(2*math.pi*math.sqrt(2000/40000),1.4049629462,places=10)
         self.assertEqual(1855-25-30,1800)
         self.assertEqual(1850-25-25,1800)
+        s=1.05*110+.8*30+.1*90;self.assertAlmostEqual(s,148.5)  # composite price analysis of the theory guide
+        self.assertAlmostEqual(s*.15,22.275);self.assertAlmostEqual(s*1.15*.10,17.0775);self.assertAlmostEqual(s*1.15*1.10,187.8525)
 if __name__=='__main__':unittest.main(verbosity=2)

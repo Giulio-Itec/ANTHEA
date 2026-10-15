@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Text.Json.Nodes;
 using GPC.Checkers.Concrete.Cracking;
 using GPC.Checkers.Concrete.Results;
@@ -8,83 +7,6 @@ using GPC.Model.Sections.Concrete;
 using GPC.Model.Standards;
 
 namespace Anthea.Calculations;
-
-/// <summary>Motore delle verifiche SLE della sezione c.a. (limiti tensionali e fessurazione): il nucleo legacy di X.Calculations o GPCChecker.Concrete.</summary>
-public enum ServiceabilityEngine { Legacy, Library }
-
-/// <summary>Voce della sonda degli adattatori: adattatore, operazione e motore usato.</summary>
-public sealed record ServiceabilityProbeEntry(string Adapter, string Operation, string Engine);
-
-/// <summary>
-/// Sonda diagnostica degli adattatori di libreria (refactoring F2.7b, progetto F2.7 §6.2; servirà anche agli adattatori di F2.8): registra
-/// adattatore, operazione e motore di ogni chiamata del flusso in cui è attiva. Il valore corrente è un <see cref="AsyncLocal{T}"/>: segue
-/// <see cref="Task.Run(Action)"/> e <see cref="Parallel"/> (ExecutionContext) e in produzione è nullo, quindi nessuna registrazione.
-/// Il registro è thread-safe. È l'unica eccezione dichiarata della prova 5l (stato statico) di tests/ConcreteLibraryAdapter.Checks.
-/// Uso: <c>using var probe = ServiceabilityProbe.Start();</c>, poi <see cref="Entries"/>; Dispose ripristina la sonda precedente.
-/// </summary>
-public sealed class ServiceabilityProbe : IDisposable
-{
-    static readonly AsyncLocal<ServiceabilityProbe?> current = new();
-    readonly ConcurrentQueue<ServiceabilityProbeEntry> entries = new();
-    readonly ConcurrentQueue<object> results = new();
-    readonly ServiceabilityProbe? previous;
-    readonly Type? owner;
-
-    ServiceabilityProbe(ServiceabilityProbe? previous, Type? owner)
-    {
-        this.previous = previous;
-        this.owner = owner;
-    }
-
-    /// <summary>Attiva una sonda nuova per il flusso corrente.</summary>
-    public static ServiceabilityProbe Start() => Start(null);
-
-    // Le facciate diagnostiche condividono il contesto, mantenendo la proprietà del proprio scope.
-    internal static ServiceabilityProbe Start(Type? owner)
-    {
-        var probe = new ServiceabilityProbe(current.Value, owner);
-        current.Value = probe;
-        return probe;
-    }
-
-    // Stop di una facciata non deve chiudere una sonda generale o di un altro adattatore.
-    internal static void Stop(Type owner)
-    {
-        if (current.Value is { } probe && probe.owner == owner) probe.Dispose();
-    }
-
-    /// <summary>Chiamate registrate, nell'ordine di arrivo.</summary>
-    public IReadOnlyList<ServiceabilityProbeEntry> Entries => entries.ToArray();
-
-    /// <summary>Registra una chiamata se una sonda è attiva nel flusso; altrimenti non fa nulla.</summary>
-    public static void Record(string adapter, string operation, Enum engine)
-    {
-        if (current.Value is { } probe) probe.entries.Enqueue(new(adapter, operation, engine.ToString()));
-    }
-
-    /// <summary>Registra una chiamata di un adattatore con un solo motore (il nome del motore).</summary>
-    public static void Record(string adapter, string operation, string engine)
-    {
-        if (current.Value is { } probe) probe.entries.Enqueue(new(adapter, operation, engine));
-    }
-
-    /// <summary>
-    /// Risultati e rifiuti della libreria ricevuti dagli adattatori nel flusso, prima della mappatura, nell'ordine di arrivo (ciclo di prototipo di F2.7:
-    /// copertura di codici, flag, argomenti, motivi ed esiti nella prova 5c).
-    /// </summary>
-    public IReadOnlyList<object> Results => results.ToArray();
-
-    /// <summary>Registra un risultato o un rifiuto della libreria se una sonda è attiva nel flusso; altrimenti non fa nulla.</summary>
-    public static void RecordResult(object result)
-    {
-        if (current.Value is { } probe) probe.results.Enqueue(result);
-    }
-
-    public void Dispose()
-    {
-        if (ReferenceEquals(current.Value, this)) current.Value = previous;
-    }
-}
 
 /// <summary>
 /// Adattatore delle verifiche SLE della sezione c.a. verso GPCChecker.Concrete (refactoring F2.7b, commit A4; progetto F2.7 §5 e §6): limiti
@@ -98,15 +20,15 @@ public sealed class ServiceabilityProbe : IDisposable
 /// - fessurazione: norma per nome con <see cref="ConcreteLibraryMapping.StandardFor"/> (rifiuto del legacy per le norme escluse), opzioni
 ///   ValidateAtUse e Trace, rifiuti differiti (il dato non valido entra come NaN e, se la libreria lo rifiuta al punto d'uso, si rilancia
 ///   l'eccezione del legacy conservata), sezione non fessurata calcolata solo quando serve e con lo stesso motore.
-/// Il legacy resta raggiungibile con <see cref="ServiceabilityEngine.Legacy"/> fino a F2.11.
+/// Il motore legacy sta in tests/ANTHEA.Legacy (decisione D3 del 15/10/2026): le prove lo agganciano con <see cref="ILegacyServiceability"/>.
 /// </summary>
 public static class ConcreteServiceabilityAdapter
 {
     /// <summary>Nome dell'adattatore nella sonda.</summary>
     public const string ProbeName = "ConcreteServiceabilityAdapter";
 
-    /// <summary>Motore GPC usato da ANTHEA; il ramo legacy esplicito resta disponibile per i confronti di regressione.</summary>
-    public static ServiceabilityEngine Default => ServiceabilityEngine.Library;
+    /// <summary>Motore SLE del flusso corrente, per le firme delle cache: «Library» in produzione, «Legacy» solo con l'aggancio delle prove.</summary>
+    public static string EngineName => EngineHook.EngineName(EngineHook.Get<ILegacyServiceability>());
 
     // Nomi dei parametri della libreria rifiutati al punto d'uso (ArgumentOutOfRangeException.ParamName di SectionCrackInput e CrackRequirements).
     const string DesignLimitParameter = "designLimit", NominalCoverParameter = "nominalCover", CoverOverrideParameter = "coverOverride",
@@ -114,34 +36,33 @@ public static class ConcreteServiceabilityAdapter
 
     // ------------------------------------------------------------------ limiti tensionali
     /// <summary>
-    /// Tasso, stato e limiti tensionali SLE di uno stato tensionale già calcolato (come LegacyServiceability.StressLimits), con il marcatore
-    /// del motore. <paramref name="standard"/> è la norma effettiva dell'analisi; <paramref name="thinCastingFactor"/> il fattore dei getti sottili.
+    /// Tasso, stato e limiti tensionali SLE di uno stato tensionale già calcolato (come LegacyServiceability.StressLimits).
+    /// <paramref name="standard"/> è la norma effettiva dell'analisi; <paramref name="thinCastingFactor"/> il fattore dei getti sottili.
     /// </summary>
     public static ServiceabilityStressLimits StressLimits(StressAnalysisResult result, string set, StandardModelCode2010 standard, ReinforcedConcreteSection section,
-        double psiRebar, double psiTendon, double thinCastingFactor, ServiceabilityEngine? engine = null)
+        double psiRebar, double psiTendon, double thinCastingFactor)
     {
-        var chosen = engine ?? Default;
+        var legacy = EngineHook.Get<ILegacyServiceability>();
         var combination = ConcreteLibraryMapping.CombinationOf(set);
-        ServiceabilityProbe.Record(ProbeName, combination is null ? "SteelLimit" : "StressLimits", chosen);
-        if (chosen == ServiceabilityEngine.Legacy)
-            return LegacyServiceability.StressLimits(result, set, standard, section, psiRebar, psiTendon, thinCastingFactor) with { Engine = chosen };
+        EngineHook.Record(ProbeName, combination is null ? "SteelLimit" : "StressLimits", EngineHook.EngineName(legacy));
+        if (legacy is not null) return legacy.StressLimits(result, set, standard, section, psiRebar, psiTendon, thinCastingFactor);
         // Limite dell'acciaio della prima barra per ogni stato, come il legacy (rilievo W6: in ANTHEA le barre ordinarie precedono i trefoli).
         double steel = StressLimitCheck.SteelLimit(standard, section.Rebars.First().RebarMaterial);
         if (combination is not ServiceabilityCombination c)
-            return new(null, ConcreteLibraryMapping.StressStatus(null), null, steel) { Engine = chosen };
+            return new(null, ConcreteLibraryMapping.StressStatus(null), null, steel);
         StressLimitResult limits;
         try { limits = StressLimitCheck.Evaluate(result, c, thinCastingFactor); }
         catch (Exception e) when (e is InvalidOperationException or NotSupportedException) { throw ConcreteLibraryMapping.StressLimitError(e); }
-        return new(limits.Ratio, ConcreteLibraryMapping.StressStatus(limits.Satisfied), limits.ConcreteLimit, steel) { Engine = chosen };
+        return new(limits.Ratio, ConcreteLibraryMapping.StressStatus(limits.Satisfied), limits.ConcreteLimit, steel);
     }
 
     // ------------------------------------------------------------------ requisiti
     /// <summary>Requisito della fessurazione (testo del criterio e wlim), come ConcreteCodeChecks.CrackRequirement.</summary>
-    public static (string Kind, double? Limit) CrackRequirement(string standard, string set, JsonObject options, ServiceabilityEngine? engine = null)
+    public static (string Kind, double? Limit) CrackRequirement(string standard, string set, JsonObject options)
     {
-        var chosen = engine ?? Default;
-        ServiceabilityProbe.Record(ProbeName, "CrackRequirement", chosen);
-        if (chosen == ServiceabilityEngine.Legacy) return ConcreteCodeChecks.CrackRequirement(standard, set, options);
+        var legacy = EngineHook.Get<ILegacyServiceability>();
+        EngineHook.Record(ProbeName, "CrackRequirement", EngineHook.EngineName(legacy));
+        if (legacy is not null) return legacy.CrackRequirement(standard, set, options);
         var (requirement, profile) = LibraryRequirement(standard, set, options);
         return (ConcreteLibraryMapping.CrackRequirementText(requirement, profile), requirement.Limit);
     }
@@ -150,14 +71,14 @@ public static class ConcreteServiceabilityAdapter
     /// Vero se la fessurazione è da mostrare per l'insieme (come SleCheckScope.Cracking prima di F2.7): falso solo quando la norma non la richiede
     /// in questa combinazione. Totale: norme escluse e valori non validi danno vero, come oggi (prova 5i).
     /// </summary>
-    public static bool CrackingRequired(string set, JsonNode workspace, ServiceabilityEngine? engine = null)
+    public static bool CrackingRequired(string set, JsonNode workspace)
     {
-        var chosen = engine ?? Default;
-        ServiceabilityProbe.Record(ProbeName, "CrackingRequired", chosen);
-        if (chosen == ServiceabilityEngine.Legacy) return LegacyServiceability.CrackingRequired(set, workspace);
+        var legacy = EngineHook.Get<ILegacyServiceability>();
+        EngineHook.Record(ProbeName, "CrackingRequired", EngineHook.EngineName(legacy));
+        if (legacy is not null) return legacy.CrackingRequired(set, workspace);
         try
         {
-            var (requirement, _) = LibraryRequirement(workspace.S("normativa", "NTC 2018"), set, workspace["sle"]?[set] as JsonObject ?? new());
+            var (requirement, _) = LibraryRequirement(ConcreteStandards.RequiredName(workspace), set, workspace["sle"]?[set] as JsonObject ?? new());
             return requirement.Criterion != CrackCriterion.NotRequired;
         }
         catch (ArgumentException) { return true; }
@@ -197,17 +118,17 @@ public static class ConcreteServiceabilityAdapter
 
     // ------------------------------------------------------------------ fessurazione
     /// <summary>
-    /// Fessurazione di uno stato SLE (come Ntc2018Checks.Cracking): DTO, traccia, regioni, stati e rifiuti del legacy, con il marcatore del motore.
+    /// Fessurazione di uno stato SLE (come Ntc2018Checks.Cracking): DTO, traccia, regioni, stati e rifiuti del legacy.
     /// </summary>
     public static Ntc2018Checks.CrackResult Cracking(CheckerSection section, CheckerStressState state, ActionPoint force, JsonObject input, JsonObject workspace,
-        JsonObject options, string set, ServiceabilityEngine? engine = null)
+        JsonObject options, string set)
     {
         // API-02: the corrected library groups physical rings independently of rounding boundaries.
-        // Explicit engines remain available to the migration harness; the probe records the actual choice.
-        var chosen = engine ?? Default;
-        ServiceabilityProbe.Record(ProbeName, "Cracking", chosen);
-        if (chosen == ServiceabilityEngine.Legacy) return Ntc2018Checks.Cracking(section, state, force, input, workspace, options, set) with { Engine = chosen };
-        return LibraryCracking(section, state, force, input, workspace, options, set) with { Engine = chosen };
+        // The historical engine is reachable only through the test hook; the probe records the actual choice.
+        var legacy = EngineHook.Get<ILegacyServiceability>();
+        EngineHook.Record(ProbeName, "Cracking", EngineHook.EngineName(legacy));
+        if (legacy is not null) return legacy.Cracking(section, state, force, input, workspace, options, set);
+        return LibraryCracking(section, state, force, input, workspace, options, set);
     }
 
     static Ntc2018Checks.CrackResult LibraryCracking(CheckerSection section, CheckerStressState state, ActionPoint force, JsonObject input, JsonObject workspace,
@@ -218,7 +139,7 @@ public static class ConcreteServiceabilityAdapter
         var header = ConcreteLibraryMapping.CrackInputDetails(set, options.S("esposizione"), options.S("sensibilita"), options.S("durata"), options.S("aderenza"),
             native.LinearElasticAnalysis, options.S("trazione_cls"), options.S("assi", "Locali"), force.N, force.Mx, force.My, native.PsiRebar ?? 0,
             input.D("gamma_c"), input.D("gamma_s"));
-        string code = workspace.S("normativa", "NTC 2018");
+        string code = ConcreteStandards.RequiredName(workspace);
         var standard = ConcreteLibraryMapping.StandardFor(code);
         var profile = CrackProfiles.Resolve(standard);
         var combination = ConcreteLibraryMapping.RequireCombination(set);
@@ -248,7 +169,7 @@ public static class ConcreteServiceabilityAdapter
             try
             {
                 var uncracked = (JsonObject)options.DeepClone(); uncracked["modello"] = "Lineare"; uncracked["trazione_cls"] = "Sì";
-                var check = new CheckerSection(section.Model, input, workspace, uncracked, "SLU", ServiceabilityEngine.Library).Stress(force, "SLE_FREQ");
+                var check = new CheckerSection(section.Model, input, workspace, uncracked, "SLU").Stress(force, "SLE_FREQ");
                 return check.Native.GetConcreteVerticesTension(check.Native.PsiRebar ?? 0).Max(p => p.tension);
             }
             catch (Exception e) { callbackError = e; throw; }
@@ -266,11 +187,11 @@ public static class ConcreteServiceabilityAdapter
         }
         catch (ArgumentException e) when (!ReferenceEquals(e, callbackError))
         {
-            ServiceabilityProbe.RecordResult(e);
+            EngineHook.RecordResult(e);
             if (e is ArgumentOutOfRangeException && deferred.For(e.ParamName) is { } legacy) throw legacy;
             throw ConcreteLibraryMapping.CrackError(e, profile, Ntc2018Checks.NtcK2FromCompressedBars);
         }
-        ServiceabilityProbe.RecordResult(result);
+        EngineHook.RecordResult(result);
         return ConcreteLibraryMapping.ToCrackResult(result, profile, header, geometry.Holes.Count > 0);
     }
 
@@ -290,4 +211,18 @@ public static class ConcreteServiceabilityAdapter
 
         public ArgumentException? For(string? parameter) => parameter is not null && saved.TryGetValue(parameter, out var e) ? e : null;
     }
+}
+
+/// <summary>
+/// Motore SLE storico agganciato dalle prove (<see cref="EngineHook"/>, decisione D3 del 15/10/2026, modo b): stesse operazioni
+/// dell'adattatore. L'implementazione (LegacyServiceability, LegacyNtc2018Checks, LegacyConcreteCodeChecks) sta in tests/ANTHEA.Legacy.
+/// </summary>
+internal interface ILegacyServiceability
+{
+    ServiceabilityStressLimits StressLimits(StressAnalysisResult result, string set, StandardModelCode2010 standard, ReinforcedConcreteSection section,
+        double psiRebar, double psiTendon, double thinCastingFactor);
+    (string Kind, double? Limit) CrackRequirement(string standard, string set, JsonObject options);
+    bool CrackingRequired(string set, JsonNode workspace);
+    Ntc2018Checks.CrackResult Cracking(CheckerSection section, CheckerStressState state, ActionPoint force, JsonObject input, JsonObject workspace,
+        JsonObject options, string set);
 }

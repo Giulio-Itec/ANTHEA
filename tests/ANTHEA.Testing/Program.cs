@@ -7,7 +7,8 @@ using Anthea.Testing.Normalization;
 
 // ANTHEA.Testing: the single capture, normalisation and comparison toolkit of the refactoring (docs/refactoring/piano.md, F0.4).
 //   capture <out> [--root <repo>] [--tag <name>] [--commit <sha>] [--only <regex>] [--no-trace] [--culture it-IT] [--motore-sle legacy|libreria]
-//   compare <a> <b> [--tolerances <file>] [--report <file.json>] [--max <n>]      exit 0 = equal within the tolerances
+//   compare <a> <b> [--tolerances <file>] [--transitions <file>] [--report <file.json>] [--max <n>]
+//                                                                                 exit 0 = equal within the tolerances, listed transitions admitted exactly
 //   compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--tolerances <file>] [--report <file.json>] [--max <n>]
 //                                                                                 dense captures of CheckerMigration.Capture (F2.1): exit 0 = every difference admitted or classified
 //   normalize <in> <out>                                                          DOCX, JSON, text, PNG of WPF tests and reports
@@ -19,6 +20,12 @@ try
 {
     switch (args[0])
     {
+        case "capture-f4":
+        {
+            if (positional.Count != 1) return Usage();
+            new F4Capture(named.TryGetValue("root", out var f4Root) ? Path.GetFullPath(f4Root) : FindRoot(), Path.GetFullPath(positional[0])).Run();
+            return 0;
+        }
         case "fixtures-f3":
         {
             if (positional.Count != 1) return Usage();
@@ -32,8 +39,8 @@ try
             if (Directory.Exists(output) && Directory.EnumerateFileSystemEntries(output).Any()) { Console.Error.WriteLine("Cartella di uscita non vuota: " + output); return 2; }
             Directory.CreateDirectory(output);
             bool trace = !flags.Contains("no-trace");
-            // Before any calculation: JsonFallbackTrace reads the variable at its first use.
-            if (trace) Environment.SetEnvironmentVariable("ANTHEA_TRACE_FALLBACKS", Path.Combine(output, "raw", "fallbacks.tsv"));
+            // Prima di ogni calcolo: la traccia registra il suo osservatore nel prodotto (JsonFallbackHook, decisione D3).
+            if (trace) JsonFallbackTrace.Start(Path.Combine(output, "raw", "fallbacks.tsv"));
             Directory.CreateDirectory(Path.Combine(output, "raw"));
             var culture = CultureInfo.GetCultureInfo(named.GetValueOrDefault("culture", "it-IT"));
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = culture;
@@ -54,6 +61,7 @@ try
             if (positional.Count != 2) return Usage();
             foreach (var folder in positional) if (!Directory.Exists(folder)) { Console.Error.WriteLine("Cartella non trovata: " + folder); return 2; }
             var comparer = new BaselineComparer(Tolerances.Load(named.GetValueOrDefault("tolerances")));
+            if (named.TryGetValue("transitions", out var transitionsFile)) comparer.Admit(Transition.Load(transitionsFile));
             var report = comparer.Compare(positional[0], positional[1]);
             if (named.TryGetValue("report", out var path))
             {
@@ -98,6 +106,7 @@ static int Usage()
         ANTHEA.Testing compare <a> <b> [--tolerances <file>] [--report <file.json>] [--max <n>]
         ANTHEA.Testing compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--tolerances <file>] [--report <file.json>] [--max <n>]
         ANTHEA.Testing fixtures-f3 <out> [--root <repo>]   (crea solo input, mai attesi)
+        ANTHEA.Testing capture-f4 <out> [--root <repo>]    (cinque ambiti F4; Bridge Design esclusa)
         ANTHEA.Testing normalize <in> <out>
         """);
     return 2;

@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
@@ -75,7 +76,7 @@ internal sealed partial class ConcreteWorkspace
         tabs.SelectedIndex=3;
         foreach(var key in SectionWorkspace.Sets.Skip(2))
         {
-            var panel=stressPanels[key]; sleTabs.SelectedIndex=Array.IndexOf(SectionWorkspace.Sets,key)-2; panel.Grid.SelectedItem=actions[key][0];
+            var panel=stressPanels[key]; sleTabs.SelectedIndex=SectionWorkspace.Sets.IndexOf(key)-2; panel.Grid.SelectedItem=actions[key][0];
             panel.Options.Set("esposizione","XC1"); panel.Options.Set("spaziatura_fessure","150");
             await RunAnalysis(t=>CalculateStress(key,t));
             var check=stressResults[key].Values.First();
@@ -93,6 +94,8 @@ internal sealed partial class ConcreteWorkspace
         rare.Options.Set("modello","Lineare");
         actions["SLE"][0]["N"]="-2510";
         Assert(Result is null && checker3D.Count==2 && stressResults.Count==0 && domainResults.ContainsKey("3D:SLU"),"Invalidazione SLE conserva domini indipendenti");
+        // ParsePaste è codice morto spostato fra le prove (D3): i suoi casi sono riprovati su PasteCells, il percorso del prodotto, dopo
+        // «Incolla non valido atomico». Qui resta solo per le 3 e 4 colonne nello stesso incolla, che PasteCells rifiuta.
         Assert(ParsePaste("Nome\tN\tMx\tMy\nA\t-100,5\t20\t30\n-200\t1\t2").Count==2,"Incolla");
         tendons.Rows.Add(new JsonRow(J.Obj(("id","T1"),("x","0"),("y","-100"),("area","150"),("sigma0","1000")), _=>TendonsChanged())); TendonsChanged();
         Assert(stressPanels.Values.All(p => p.Options.Editors["n_trefoli"].Visibility == Visibility.Visible) && tendonOnlyControls.All(c => c.Visibility == Visibility.Visible), "Inserire trefolo rende visibili le opzioni dedicate");
@@ -147,6 +150,20 @@ internal sealed partial class ConcreteWorkspace
         string before = actions["SLU"][0].Values.ToJsonString();
         bool rejected = false; try { PasteCells(three.Grid, "SLU", "-1\t2\t3\n-2\tnon numero\t4"); } catch (ArgumentException) { rejected = true; }
         Assert(rejected && actions["SLU"][0].Values.ToJsonString() == before && actions["SLU"].Count == 1, "Incolla non valido atomico");
+        // Casi della prova di ParsePaste sul percorso del prodotto: intestazione Nome–N–Mx–My saltata, 4 colonne con nome e virgola
+        // decimale (stesso nome, valori diversi); poi la riga 0 torna ai dati di prima con le 3 colonne N–Mx–My, già provate sopra.
+        // Lo stesso testo di ParsePaste, con 4 e 3 colonne insieme, è rifiutato da PasteCells senza toccare le righe.
+        string PastedInputs(JsonRow row) => string.Join("\t", new[] { "nome", "N", "Mx", "My" }.Select(k => row.Values.S(k)));
+        string inputsBefore = PastedInputs(actions["SLU"][0]), rowName = actions["SLU"][0].Values.S("nome");
+        three.Grid.SelectedItem = actions["SLU"][0];
+        PasteCells(three.Grid, "SLU", "Nome\tN\tMx\tMy\n" + rowName + "\t-100,25\t21\t31");
+        var headerRow = actions["SLU"][0].Values;
+        Assert(headerRow.S("nome") == rowName && headerRow.D("N") == -100.25 && headerRow.D("Mx") == 21 && headerRow.D("My") == 31 && actions["SLU"].Count == 1, "Incolla con intestazione e nome");
+        PasteCells(three.Grid, "SLU", "-100,5\t20\t30");
+        Assert(PastedInputs(actions["SLU"][0]) == inputsBefore && actions["SLU"].Count == 1, "Incolla riporta la riga 0 ai dati di prima");
+        string beforeMixed = actions["SLU"][0].Values.ToJsonString();
+        rejected = false; try { PasteCells(three.Grid, "SLU", "Nome\tN\tMx\tMy\nA\t-100,5\t20\t30\n-200\t1\t2"); } catch (ArgumentException) { rejected = true; }
+        Assert(rejected && actions["SLU"][0].Values.ToJsonString() == beforeMixed && actions["SLU"].Count == 1, "Incolla con 4 e 3 colonne rifiutato");
         PasteCells(three.Grid, "SLU", "Aggiunta\t-200\t25\t10", true); await Automatic();
         Assert(actions["SLU"].Count == 2, "Aggiunta dagli appunti");
         Assert(three.View3D.VisibleActionCount == 2, "Tutte le forze visibili");
@@ -180,7 +197,7 @@ internal sealed partial class ConcreteWorkspace
         // extended summary with the cracking is the one of the quasi permanent combination (the rare tab is selected again: the quasi
         // permanent one must be hidden at the import below)
         Assert(rare.Detail.Text.Contains("TENSIONI") && !rare.Detail.Text.Contains("\n\nFESSURAZIONE"), "Riepilogo SLE rara senza fessurazione non richiesta");
-        sleTabs.SelectedIndex = Array.IndexOf(SectionWorkspace.Sets, "SLE_QP") - 2; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
+        sleTabs.SelectedIndex = SectionWorkspace.Sets.IndexOf("SLE_QP") - 2; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         var quasiPermanent = stressPanels["SLE_QP"]; quasiPermanent.Grid.SelectedItem = actions["SLE_QP"][0]; UpdateStressSelection("SLE_QP");
         Assert(quasiPermanent.Detail.Text.Contains("FESSURAZIONE") && quasiPermanent.Detail.Text.Contains("As,eff"), "Riepilogo SLE quasi permanente esteso");
         sleTabs.SelectedIndex = 0; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
@@ -199,7 +216,7 @@ internal sealed partial class ConcreteWorkspace
         Assert(shearGrid.Rows.Count == 1 && shearGrid.Rows[0].Values.D("N") == -50, "Excel carica tabella Taglio");
         Commit();
         Assert(ShearOptions["azioni"]![0].D("Mx") == 12 && ShearOptions["azioni"]![0].D("My") == -18, "Commit conserva i momenti associati al taglio");
-        var shearExport = SectionActionsExcel.Read(SectionActionsExcel.Write(ExportActionRows())).Rows.Single(r => r.Family == "Taglio");
+        var shearExport = SectionActionsExcel.Read(LegacySectionActionsExcel.Write(ExportActionRows())).Rows.Single(r => r.Family == "Taglio");
         Assert(shearExport.Mx == 12 && shearExport.My == -18, "Esportazione conserva Mx/My del taglio");
         await Automatic();
         Assert(Result is not null && shearResults.Count == 1 && stressResults["SLE_QP"].Count == 1, "Excel avvia il ricalcolo");
@@ -241,7 +258,7 @@ internal sealed partial class ConcreteWorkspace
         Assert(three.Grid.Items.Count == 1 && actions["SLU"].Count == 2, "Filtro testuale non elimina input");
         filter.Query = ""; filter.SortKey = "N"; filter.Descending = false; ApplyTableFilter(three.Grid);
         Assert(three.Grid.Items.OfType<JsonRow>().First().Values.D("N") <= three.Grid.Items.OfType<JsonRow>().Last().Values.D("N"), "Ordinamento numerico e non lessicografico");
-        var xlsx = SectionActionsExcel.Write(ExportActionRows()); File.WriteAllBytes(Path.Combine(directory, "sollecitazioni.xlsx"), xlsx); RememberExcel(Path.Combine(directory, "sollecitazioni.xlsx"));
+        var xlsx = LegacySectionActionsExcel.Write(ExportActionRows()); File.WriteAllBytes(Path.Combine(directory, "sollecitazioni.xlsx"), xlsx); RememberExcel(Path.Combine(directory, "sollecitazioni.xlsx"));
         Assert(SectionActionsExcel.Read(xlsx).Rows.Count == actions.Values.Sum(a => a.Count) + shearGrid.Rows.Count && excelPaths.All(t => t.Text == settings.S("file_sollecitazioni")), "Excel esportazione completa e percorso condiviso");
         var unchangedDomains = domainResults.ToDictionary(kv => kv.Key, kv => kv.Value);
         var unchangedStress = stressResults.ToDictionary(kv => kv.Key, kv => kv.Value);
@@ -367,8 +384,8 @@ internal sealed partial class ConcreteWorkspace
             Assert(firstImage >= 0 && firstImage < materialsHeading && blocks.Count(b => b.Descendants(w + "drawing").Any()) >= 4, "Grafici inseriti nelle sezioni pertinenti");
             Assert(blocks.Any(b => b.Descendants(w + "t").Any(t => t.Value.Contains("governante tensioni"))), "Contouring report riferito alla combinazione governante");
         }
-        Commit(); string archivePath = Path.Combine(directory, "ca_impostazioni.programma"); var archive = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", "str_palo"), ("dati", Data)); Archivio.Scrivi(archivePath, archive);
-        Assert(System.Text.Json.Nodes.JsonNode.DeepEquals(Archivio.Leggi(archivePath)["dati"], Data), "Salvataggio integrale opzioni, normativa, staffe, Excel e report");
+        Commit(); string archivePath = Path.Combine(directory, "ca_impostazioni.programma"); var archive = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", "str_palo"), ("dati", Data)); DocumentService.Save(archivePath, archive);
+        Assert(System.Text.Json.Nodes.JsonNode.DeepEquals(DocumentService.Open(archivePath)["dati"], Data), "Salvataggio integrale opzioni, normativa, staffe, Excel e report");
         var reopened = new ConcreteWorkspace((JsonObject)Data.DeepClone()); reopened.Commit();
         Assert(reopened.settings.S("file_sollecitazioni") == settings.S("file_sollecitazioni") && reopened.ShearOptions.S("rami_x") == "4" && reopened.domainPanels.All(p => p.Options.B("colora_eta")), "Riapertura delle nuove impostazioni"); reopened.Dispose();
         owner.Width = 1366; owner.Height = 850;

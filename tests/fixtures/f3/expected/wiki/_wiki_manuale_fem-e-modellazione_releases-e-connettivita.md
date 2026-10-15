@@ -16,5 +16,5 @@ Confronta il modello numerico con uno schizzo cinematico. Usa un carico unitario
 
 ### Riferimento del modello
 
-La formulazione dei telai piani del testo TU Delft Computational Modelling distingue traslazioni e rotazione del nodo e l’assemblaggio delle rigidezze. Questa pagina riguarda l’interpretazione del modello esterno: non introduce un editor generale di release in Anthea.
+Nel modello a telaio piano ogni nodo ha due traslazioni e una rotazione; le rigidezze degli elementi si assemblano su queste incognite. Questa pagina riguarda l’interpretazione del modello esterno: non introduce un editor generale di release in Anthea.
 

@@ -1,4 +1,4 @@
-﻿<#
+<#
 Single runner for the ANTHEA verifications (refactoring, phase F0).
 
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1                          # profile quick
@@ -8,7 +8,7 @@ Single runner for the ANTHEA verifications (refactoring, phase F0).
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Tag B1 -BaselineRef supporto\artefatti\baseline\F0-B0\headless
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Only '^baseline/banco' -DenseRef <F2-pre-m4-v2>\a\tutte
 
-Stages: build, fast, regression, wiki, baseline, ui, word (word needs Microsoft Word, never in a profile).
+Stages: build, fast, regression, wiki, baseline, ui. The stage word was removed on 14/10/2026: reports are written without Word.
 Profiles: quick = build fast wiki; standard = quick + regression; baseline = standard + baseline; full = standard + ui.
 Stage baseline: headless capture of the corpus with tests\ANTHEA.Testing (results, engines, report text, archives, fallbacks);
 with -BaselineRef <capture folder> also its comparison with that reference capture (tests\ANTHEA.Testing\tolerances.json).
@@ -27,19 +27,40 @@ compiles X.Desktop with -c UiTests and the ui stage runs X.Desktop\bin\UiTests\n
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
 Exit code 0 only without NEW-FAIL and without tracked files modified by the suites.
 Outputs: supporto/artefatti/ci/<yyyyMMdd-HHmmss>-<Tag>/ (summary.json, summary.txt, one folder and log per suite).
+With -Installer the fast stage also runs isolated NSIS installation/cleanup checks (requires NSIS 3).
 #>
 [CmdletBinding()]
 param(
     [ValidateSet('quick', 'standard', 'baseline', 'full')] [string] $Profile = 'quick',
-    [ValidateSet('build', 'fast', 'regression', 'wiki', 'baseline', 'ui', 'word')] [string[]] $Stage,
+    [ValidateSet('build', 'fast', 'regression', 'wiki', 'baseline', 'ui')] [string[]] $Stage,
     [string] $Tag = 'run',
     [string] $Output,
     [switch] $NoBuild,
+    [switch] $Installer,
     [string] $GpcLibDir,
     [string] $CompareTo,
     [string] $Only,
     [string] $BaselineRef,
     [string] $CaptureCandidate,
+    [string] $F4CaptureCandidate,
+    [string] $F4CandidateConcrete,
+    [switch] $F4GravityCapture,
+    [switch] $F4DetailCapture,
+    [switch] $F4DetailAdapter,
+    [switch] $F4StructuralAdapter,
+    [switch] $F4GravityAdapter,
+    [switch] $F4PileOutcomes,
+    [switch] $F4PileDesign,
+    [switch] $F4WallDesign,
+    [switch] $F4SectionDesign,
+    [switch] $F4InputContractCapture,
+    [switch] $F4InputContracts,
+    [switch] $F4ResidualCapture,
+    [switch] $F4LastAdaptersCapture,
+    [switch] $F4LastAdapters,
+    [switch] $F4Residual,
+    [switch] $F4BridgeCapture,
+    [switch] $F4Bridge,
     [switch] $CaptureConcreteFigures,
     [string] $CheckerFixtures,
     [string] $DenseRef,
@@ -101,12 +122,17 @@ foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'p
 }
 Add-Suite @{ Name = 'verifiche/micropalo'; Stage = 'fast'; Kind = 'run'; Project = $Verifiche; Args = @('--micropalo', '{cases}') }
 Add-Suite @{ Name = 'CalculationLibrary.Checks'; Stage = 'fast'; Kind = 'run'; Project = (TestProject 'CalculationLibrary.Checks'); Args = @() }
+if ($Installer) {
+    Add-Suite @{ Name = 'installer/safety'; Stage = 'fast'; Kind = 'powershell'; Script = 'tests\Installer\Test-Safety.ps1'; Args = @('-Output', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+    Add-Suite @{ Name = 'installer/guides'; Stage = 'fast'; Kind = 'powershell'; Script = 'supporto\test\installer\Test-Guide.ps1'; Args = @(); Timeout = 180 }
+}
 Add-Suite @{ Name = 'ModelWorkspace.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelWorkspace.Checks\ModelWorkspace.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ModelViewer.CombinationBench.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelViewer.CombinationBench.Checks\ModelViewer.CombinationBench.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-Add-Suite @{ Name = 'Architecture.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' }; Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
+Add-Suite @{ Name = 'Architecture.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}') + $(if ($GpcLibDir) { @('--gpc-snapshot', [IO.Path]::GetFullPath($GpcLibDir)) }); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' }; Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
 Add-Suite @{ Name = 'Reports.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Reports.Tests\ANTHEA.Reports.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Application.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Application.Tests\ANTHEA.Application.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Wiki.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Wiki.Tests\ANTHEA.Wiki.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'Architecture.F4.Inventory'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}', '--f4-inventory'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS F4 inventory:' } }
 Add-Suite @{ Name = 'Testing.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Testing.Tests\ANTHEA.Testing.Tests.csproj'; Args = @() }
 Add-Suite @{ Name = 'Headless/help'; Stage = 'fast'; Kind = 'run'; Project = 'tools\ANTHEA.Headless\ANTHEA.Headless.csproj'; Args = @('--help') }
 Add-Suite @{ Name = 'ModelViewer.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ModelViewer.UiChecks\ModelViewer.UiChecks.csproj'; Args = @('{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
@@ -148,8 +174,82 @@ foreach ($name in 'BridgeDesign.Checks', 'BridgeDesign.IndependentChecks', 'Glob
 Add-Suite @{ Name = 'wiki/indice'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\scripts\wiki\build-wiki-index.py'; Args = @('--check') }
 Add-Suite @{ Name = 'wiki/manuale'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\test\wiki-handbook-checks.py'; Args = @() }
 
+if ($true) { # F4 comparisons always run in the baseline stage (audit of 14/10/2026); only the captures are opt-in
+    Add-Suite @{ Name = 'baseline/f4-last-adapters'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @($(if ($F4LastAdaptersCapture) { '--f4-last-adapters-capture' } else { '--f4-last-adapters' }), '{root}', '{out}'); Timeout = 180 }
+}
+if ($F4ResidualCapture) {
+    Add-Suite @{ Name = 'baseline/f4-residual-capture'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-residual-capture', '{root}', '{out}'); Timeout = 180 }
+}
+if (!$F4ResidualCapture) {
+    Add-Suite @{ Name = 'baseline/f4-residual'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-residual', '{root}', '{out}'); Timeout = 180 }
+}
+if (!$F4BridgeCapture) {
+    Add-Suite @{ Name = 'baseline/f4-bridge'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-bridge', '{root}', '{out}'); Timeout = 180 }
+}
+if ($F4BridgeCapture) {
+    Add-Suite @{ Name = 'baseline/f4-bridge-capture'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-bridge-capture', '{root}', '{out}'); Timeout = 180 }
+}
+if (!$F4InputContractCapture) {
+    Add-Suite @{ Name = 'baseline/f4-input-contracts'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-input-contracts', '{root}', '{out}'); Timeout = 180 }
+}
+if ($F4InputContractCapture) {
+    Add-Suite @{ Name = 'baseline/f4-input-contract-capture'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-input-contract-capture', '{root}', '{out}'); Timeout = 120 }
+}
+if ($true) {
+    Add-Suite @{ Name = 'baseline/f4-section-design'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-section-design', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 900 }
+}
+if ($true) {
+    Add-Suite @{ Name = 'baseline/f4-wall-design'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-wall-design', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 900 }
+}
+if ($true) {
+    Add-Suite @{ Name = 'baseline/f4-pile-design'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-pile-design', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 600 }
+}
+if ($true) {
+    Add-Suite @{ Name = 'baseline/f4-pile-outcomes'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-pile-outcomes', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 600 }
+}
+if (!$F4GravityCapture) {
+    Add-Suite @{ Name = 'baseline/f4-gravity-adapter'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-gravity-adapter', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 600 }
+}
+if ($true) {
+    Add-Suite @{ Name = 'baseline/f4-structural-adapter'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-structures', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 600 }
+}
+if (!$F4DetailCapture) {
+    Add-Suite @{ Name = 'baseline/f4-detail-adapter'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-details', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 120 }
+}
+if ($F4DetailCapture) {
+    Add-Suite @{ Name = 'baseline/f4-detail-reference'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-detail-capture', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 120 }
+}
+if ($F4GravityCapture) {
+    Add-Suite @{ Name = 'baseline/f4-gravity-reference'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-gravity-capture', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 120 }
+}
+# The observed reference of the F4 comparisons is unversioned (37 MB): its files must match the versioned SHA-256 list.
+Add-Suite @{ Name = 'baseline/f4-reference'; Stage = 'baseline'; Kind = 'powershell'; Script = 'tools\qa\Test-F4Reference.ps1'; Args = @('-Output', '{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+# Optional diagnostic candidate: no production snapshot replacement.
+if ($F4CandidateConcrete) {
+    Add-Suite @{ Name = 'baseline/f4-wall-port'; Stage = 'baseline'; Kind = 'powershell'; Script = 'tools\qa\Invoke-F4WallPort.ps1'
+        Args = @('-Output', '{out}', '-CandidateConcrete', [IO.Path]::GetFullPath($F4CandidateConcrete)); Timeout = 1800
+        Builds = @(@{ Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Configuration = 'Release' }) }
+}
 # Placeholders of the baseline suites: {root} repository, {output} run folder, {tag}, {commit}.
 $Testing = 'tests\ANTHEA.Testing\ANTHEA.Testing.csproj'
+Add-Suite @{ Name = 'baseline/f4'; Stage = 'baseline'; Kind = 'powershell'; Script = 'tools\qa\Invoke-F4Capture.ps1'; Args = @('-Output', '{out}') + $(if ($F4CaptureCandidate) { @('-CapturedRoot', [IO.Path]::GetFullPath($F4CaptureCandidate)) }); Timeout = 1800
+    Builds = @(@{ Project = $Testing; Configuration = 'Release' }); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS F4:' } }
 if (-not $CaptureCandidate) { Add-Suite @{ Name = 'baseline/cattura'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 3600
     Args = @('capture', '{out}\cattura', '--root', '{root}', '--tag', '{tag}', '--commit', '{commit}')
     Proof = @{ File = '{out}\cattura\manifest.json'; Pattern = '"strumento": "ANTHEA.Testing"' } } }
@@ -198,7 +298,7 @@ if ($DenseRef -and $DenseSet -eq 'input-validation') {
         Args = @('{out}', '--catalog', $(if ([IO.Path]::IsPathRooted($DenseRef)) { $DenseRef } else { Join-Path $Root $DenseRef }), '{out}\..\baseline_banco-denso\cattura') }
 }
 
-$smokes = 'smoke-section-actions', 'smoke', 'smoke-bridge', 'smoke-bridge-curves', 'smoke-bridge-design', 'smoke-bridge-predalle', 'smoke-ca-extensions', 'smoke-ca-features',
+$smokes = 'smoke-bridge-traffic', 'smoke-bridge-prices', 'smoke-section-actions', 'smoke', 'smoke-bridge', 'smoke-bridge-curves', 'smoke-bridge-design', 'smoke-bridge-predalle', 'smoke-ca-extensions', 'smoke-ca-features',
     'smoke-display', 'smoke-global-stability', 'smoke-hierarchy', 'smoke-horizontal', 'smoke-material-report', 'smoke-materials', 'smoke-neutral-axis',
     'smoke-project-report', 'smoke-projects', 'smoke-project-workspace', 'smoke-retaining-wall', 'smoke-sharing', 'smoke-steel'
 foreach ($s in $smokes) {
@@ -227,7 +327,8 @@ Add-Suite @{ Name = 'ElasticPile.UiChecks/nota-stress-block'; Stage = 'ui'; Kind
 Add-Suite @{ Name = 'ui/check-concrete-design'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-design', '{out}'); Timeout = 900
     Before = @{ Project = (TestProject 'ConcreteDesign.Checks'); Args = @('{out}') }; Builds = @(@{ Project = (TestProject 'ConcreteDesign.Checks'); Configuration = 'Release' })
     Proof = @{ File = '{out}\ui-pass.txt'; Pattern = '^PASS' } }
-Add-Suite @{ Name = 'ConcreteShort.Checks'; Stage = 'word'; Kind = 'run'; Project = (TestProject 'ConcreteShort.Checks'); Args = @('{out}'); Timeout = 900 }
+# Short report selection and its DOCX + PDF without Word (F4-46): moved from the former stage word.
+Add-Suite @{ Name = 'ConcreteShort.Checks'; Stage = 'regression'; Kind = 'run'; Project = (TestProject 'ConcreteShort.Checks'); Args = @('{out}'); Timeout = 900; Proof = @{ File = '{out}\test-results.txt'; Pattern = '^PASS \d+ assertions' } }
 
 # Projects of supporto\test that the runner does not execute. The external comparisons and one-off tools (MAX, web
 # site, stress diagnosis, validation of 25/9) were moved to supporto\SUPERATI\test in F1.6.
@@ -289,10 +390,19 @@ $selected = @($Suites | Where-Object { $Stage -contains $_.Stage -and (-not $Onl
 $results = New-Object System.Collections.ArrayList
 $statusBefore = Tracked-Status
 $commit = if ($Git) { (& $Git -C $Root rev-parse HEAD).Trim() } else { '' }
-$manifest = Join-Path $Root 'lib\Checker\manifest.json'
+$manifest = if ($GpcLibDir) { Join-Path $GpcLibDir 'manifest.json' } else { Join-Path $Root 'lib\Checker\manifest.json' }
 $started = Get-Date
 
-function Say([string] $text) { Write-Host $text; Add-Content -LiteralPath (Join-Path $Output 'summary.txt') -Value $text -Encoding UTF8 }
+function Say([string] $text)
+{
+    Write-Host $text
+    # summary.txt is the record of the run: a file held for an instant by another process ("Flusso illeggibile", 14/10)
+    # must neither lose the line nor fail the run. Bounded retries, then the original error.
+    for ($attempt = 1; ; $attempt++) {
+        try { Add-Content -LiteralPath (Join-Path $Output 'summary.txt') -Value $text -Encoding UTF8 -ErrorAction Stop; return }
+        catch { if ($attempt -ge 10) { throw }; Start-Sleep -Milliseconds (50 * $attempt) }
+    }
+}
 Say ("ANTHEA ci  profilo {0}  stadi {1}  tag {2}" -f $Profile, ($Stage -join ','), $Tag)
 Say ("commit {0}  output {1}" -f $commit, $Output)
 

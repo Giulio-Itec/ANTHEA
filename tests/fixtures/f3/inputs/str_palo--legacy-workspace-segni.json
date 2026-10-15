@@ -62,7 +62,8 @@
       ]
     },
     "workspace_ca": {
-      "versione": 1
+      "versione": 1,
+      "normativa": "NTC 2018"
     }
   }
 }

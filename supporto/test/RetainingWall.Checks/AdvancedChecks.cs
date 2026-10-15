@@ -26,9 +26,9 @@ internal static class AdvancedChecks
             Near(FoundationSettlement.Calculate(Layers(1), 1500, 0, 3000, .1, .1, .1, 3000).Settlement, 0, "Carico netto nullo");
             Reject(() => FoundationSettlement.Calculate([], 0, 0, 3000, .1, .1, 0, 3000), "Nessun modulo inventato");
             Reject(() => FoundationSettlement.Calculate(Layers(1), 1000, 0, 3000, .1, .1, .11, 3000), "Scarico non confuso con cedimento positivo");
-            var shape = RetainingWall.IntegrateCurvature([new(0, .001), new(3, .001)], 3);
+            var shape = RetainingWallFunctions.IntegrateCurvature([new(0, .001), new(3, .001)], 3);
             Near(shape[^1].DisplacementMm, 4.5, "Integrale curvatura costante κH²/2");
-            Near(RetainingWall.IntegrateCurvature([new(0, .003), new(3, 0)], 3)[^1].DisplacementMm, 9, "Integrale curvatura triangolare κ0H²/3");
+            Near(RetainingWallFunctions.IntegrateCurvature([new(0, .003), new(3, 0)], 3)[^1].DisplacementMm, 9, "Integrale curvatura triangolare κ0H²/3");
             Near(NewmarkSliding.Calculate([new(0, .2), new(1, .2)], .1).Displacement, 981, "Newmark impulso rettangolare più arresto analitico");
             Near(NewmarkSliding.Calculate([new(0, .05), new(1, -.4), new(2, .1)], .1).Displacement, 0, "Newmark sotto soglia nessuno scorrimento");
             var triangle = NewmarkSliding.Calculate([new(0, 0), new(1, .2), new(2, 0)], .1);

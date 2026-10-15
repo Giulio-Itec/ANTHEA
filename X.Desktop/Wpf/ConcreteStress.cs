@@ -9,7 +9,7 @@ namespace X.Desktop;
 
 internal sealed partial class ConcreteWorkspace
 {
-    private static readonly string[] CrackFields = ConcreteAnalysisSession.CrackFields;
+    private static readonly System.Collections.Immutable.ImmutableArray<string> CrackFields = ConcreteAnalysisSession.CrackFields;
     // SLE inputs are shared; their presentation errors must also stay identical in all three tabs.
     private readonly Dictionary<string, string> homogenizationErrors = [];
     private readonly TabControl sleTabs = new() { BorderThickness = new Thickness(0), Background = Appearance.Surface };
@@ -106,14 +106,6 @@ internal sealed partial class ConcreteWorkspace
         }
         sleTabs.SelectedIndex=0;
         return sleTabs;
-    }
-    private async Task CalculateStress(string key, CancellationToken token)
-    {
-        status.Text = "Analisi tensionale · " + ConcreteEditor.Label(key) + "…"; var settingsSle = settings["sle"]![key]!;
-        var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone(); var options = (JsonObject)settingsSle.DeepClone();
-        var requests = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
-        var outcomes = await Task.Run(() => analysisSession.Stress(input, workspace, options, key, requests, token), token);
-        token.ThrowIfCancellationRequested(); PublishStress(key, outcomes);
     }
     private void PublishStress(string key, Dictionary<string, StressOutcome> outcomes)
     {

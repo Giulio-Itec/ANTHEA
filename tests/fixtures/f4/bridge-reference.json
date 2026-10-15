@@ -1,0 +1,21 @@
+{
+  "sourceCommit": "ec284cf221e1f0e6db8fcf481d3e99cdb7f6e0a7",
+  "file": "supporto/artefatti/refactoring/f4/bridge-before/bridge-before.json",
+  "sha256": "4543A21565708BFE309C6A6898D5D369D5DE6259B0318257B8729E69D798D8E6",
+  "cases": 31,
+  "families": 14,
+  "optimizationGrids": 17,
+  "sourceFiles": {
+    "X.Calculations/BridgeConcept.AdvancedCalculation.cs": "C2C46956C6970AD3BC854059B5A8BCF57CD7192D998BEFFA0A781573EE3F6E57",
+    "X.Calculations/BridgeConcept.AdvancedDeck.cs": "EF89841334E87627E0E8612F1A4E5460FE4AE530990730F03CE416097057EA8D",
+    "X.Calculations/BridgeConcept.AdvancedSchema.cs": "231EC73D16C86BF65CE77BCD6EF97CAB313E14BDF18A970B134CC8402780C5CA",
+    "X.Calculations/BridgeConcept.AdvancedStructure.cs": "2F5CDC5772382DE1B9A3C833ED7F8AFDE9790F160FB9A5BBEFB8C8403A23F219",
+    "X.Calculations/BridgeConcept.Calculation.cs": "83394A7E782178C219C437920DC669F101F5B8528FADCC396FAD404E865E24B0",
+    "X.Calculations/BridgeConcept.cs": "1E5630032F1B7679AC6ECEE4031E770A50807DAA4255F52BB0FDBB40874F6B1D",
+    "X.Calculations/BridgeConcept.Foundation.cs": "AC1F5E9A41ECCDFE57F9BF894D40BCA86F92BACE9D5ACE3163DEAC04D46B7043",
+    "X.Calculations/BridgeConcept.Optimization.cs": "A777484246F307298887EA8834F4BDD36F8A6DEBF03437113AB446F853E8D82E",
+    "X.Calculations/BridgeConcept.Pricing.cs": "BECB6CDD33DDA941070DB5292221B2506A4D76156AB7F04835EFAC644BFFA50C",
+    "X.Calculations/BridgeConcept.Technical.cs": "4BAF758E08173975D3DFC33131542D51EE4909801AC892B1C9649E10D4DB8E85"
+  },
+  "note": "Capture before Bridge engine modification. Outputs and timings in artifact, immutable SHA; independent engineering expected values remain separate."
+}

@@ -106,7 +106,7 @@ public static partial class ElasticHorizontalPile
         if(root.S("tipo_sezione")=="CHS")
         {
             double d,t;if(s.S("modo_chs")=="Catalogo"){if(!Chs.Catalogo.TryGetValue(s.S("profilo_chs"),out var profile))throw new ArgumentException("CHS non presente in catalogo.");(d,t)=profile;}else{d=s.Required("diametro_chs_mm",strict:true);t=s.Required("spessore_chs_mm",strict:true);}
-            if(d>=g.Required("diametro",strict:true)*1000)throw new ArgumentException("Il CHS deve essere contenuto nel diametro geotecnico.");
+            if(d>=ConcreteLibraryMapping.MillimetresFromMetres(g.Required("diametro",strict:true)))throw new ArgumentException("Il CHS deve essere contenuto nel diametro geotecnico.");
             section=ElasticPileSection.Tube(d,t,s.Required("modulo_chs_mpa",strict:true));
         }
         else section=ElasticPileSection.Concrete(g.Required("diametro",strict:true),s.Required("fck_mpa",strict:true));
@@ -137,7 +137,7 @@ public static partial class ElasticHorizontalPile
         var segments=ReadSegments(root);PileSegments.Validate(segments,input.D("lunghezza"));var depths=segments.Select(s=>s.End).ToList();
         if(root.S("tipo_sezione")!="CHS"&&root["elastico"]!["dettagli"].B("sisma_testa"))
         {
-            var zone=PileReinforcement.DescribeSeismicHead(g.Required("diametro",strict:true)*1000,input.D("lunghezza"),SeismicSettings(root).HeadLength);
+            var zone=PileReinforcement.DescribeSeismicHead(ConcreteLibraryMapping.MillimetresFromMetres(g.Required("diametro",strict:true)),input.D("lunghezza"),SeismicSettings(root).HeadLength);
             input["zona_sismica"]=System.Text.Json.JsonSerializer.SerializeToNode(zone);depths.Add(zone.MinimumEnd);depths.Add(zone.AdoptedEnd);
         }
         input["quote_verifica"]=J.Node(depths.Distinct().OrderBy(x=>x).ToArray());

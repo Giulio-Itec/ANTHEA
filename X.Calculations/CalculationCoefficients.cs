@@ -24,7 +24,7 @@ public static class CalculationCoefficients
     }
     public static string Standard(string module, JsonObject data) => module switch {
         HorizontalPileGroup.Module => "Modelli di effetto di gruppo · fonti specifiche per metodo",
-        "str_palo" => data["workspace_ca"].S("normativa", "NTC 2018"),
+        "str_palo" => data["workspace_ca"].S("normativa"),
         BridgeSection.Module => data.S("normativa", BridgeSection.Standards[0]).StartsWith("NTC 2018") ? "NTC 2018" : data.S("normativa"),
         RebarMaterial.Module => "Assegnato", _ => "NTC 2018"
     };
@@ -52,7 +52,7 @@ public static class CalculationCoefficients
         }
         if (module == "str_palo")
         {
-            var defaults = ConcreteStandards.Defaults(ConcreteStandards.Names.Contains(standard) ? standard : "NTC 2018");
+            var defaults = ConcreteStandards.Names.Contains(standard) ? ConcreteStandards.Defaults(standard) : new JsonObject();
             var common = ConcreteCalculationSettings.CommonCoefficients.Select(c => c.Standard).ToHashSet();
             foreach (var (key, label) in ConcreteStandards.Coefficients.Where(c => !common.Contains(c.Key)))
                 Add("CA · " + key, label, "workspace_ca/coefficienti/" + key, defaults[key]);

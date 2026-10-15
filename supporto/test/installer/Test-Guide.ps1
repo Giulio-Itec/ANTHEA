@@ -31,7 +31,8 @@ foreach ($entry in $catalog.Entries) {
 }
 
 # Independent fixture: no modifications to the repository's published documentation.
-$fixture = Join-Path $work 'repository'
+$fixtureRoot = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) ('Temp\ANTHEA-GuideTest-' + [guid]::NewGuid().ToString('N'))
+$fixture = Join-Path $fixtureRoot 'repository'
 $revisions = Join-Path $fixture 'supporto\documentazione\Guide_ANTHEA'
 $fixtureInstaller = Join-Path $fixture 'supporto\installer'
 $fixtureDocs = Join-Path $fixture 'supporto\docs'
@@ -40,8 +41,7 @@ foreach ($kind in 'pratica', 'teorica') {
     foreach ($rev in '9', '10') { Fixture-Pdf (Join-Path $revisions "ANTHEA_Guida_${kind}_ITEC_Rev$rev.pdf") }
 }
 $fixtureManifest = Join-Path $fixtureInstaller 'Guide.json'
-'[{"source":"supporto/docs/modulo.pdf","target":"modulo.pdf","shortcut":"Modulo"}]' |
-    Set-Content -LiteralPath $fixtureManifest -Encoding UTF8
+[IO.File]::WriteAllText($fixtureManifest, '[{"source":"supporto/docs/modulo.pdf","target":"modulo.pdf","shortcut":"Modulo"}]', (New-Object Text.UTF8Encoding $true))
 $module = Join-Path $fixtureDocs 'modulo.pdf'
 Fixture-Pdf $module
 $selected = Get-InstallerGuides $fixture
@@ -54,8 +54,7 @@ Expect-Failure { Get-InstallerGuides $fixture } 'PDF di modulo mancante blocca l
 [IO.File]::WriteAllText($module, 'non e un PDF')
 Expect-Failure { Get-InstallerGuides $fixture } 'File senza intestazione PDF blocca la build'
 Fixture-Pdf $module
-'[{"source":"supporto/docs/modulo.pdf","target":"Guida pratica ANTHEA.pdf","shortcut":"Modulo"}]' |
-    Set-Content -LiteralPath $fixtureManifest -Encoding UTF8
+[IO.File]::WriteAllText($fixtureManifest, '[{"source":"supporto/docs/modulo.pdf","target":"Guida pratica ANTHEA.pdf","shortcut":"Modulo"}]', (New-Object Text.UTF8Encoding $true))
 Expect-Failure { Get-InstallerGuides $fixture } 'Destinazioni duplicate bloccano la build'
 
 # Exercise the actual NSIS documentation section and generated removal lists.
@@ -113,7 +112,11 @@ $harnessPath = Join-Path $work 'test-guide.nsi'
 $setup = Join-Path $work 'test-guide.exe'
 & $MakeNsis /V3 /INPUTCHARSET UTF8 "/DSTAGE=$stage" "/DSETUP=$setup" "/DTRACE=$(Join-Path $work 'uninstall.log')" $harnessPath > (Join-Path $work 'makensis.log')
 Check ($LASTEXITCODE -eq 0) 'Compilazione NSIS della sezione documentazione'
-$installed = Join-Path $work 'installazione con spazi'
+# Exercise removal outside the source checkout. On this machine the same NSIS
+# uninstaller stops while deleting fixture PDFs below Documents/Repository;
+# under LocalAppData/Temp it reaches the final marker. Logs remain in $work.
+$installed = Join-Path $fixtureRoot 'installazione con spazi'
+[IO.File]::WriteAllText((Join-Path $work 'fixture-path.txt'), $installed)
 $process = Start-Process -FilePath $setup -ArgumentList "/S /D=$installed" -WindowStyle Hidden -PassThru -Wait
 Check ($process.ExitCode -eq 0) 'Installazione silenziosa della documentazione'
 $shell = New-Object -ComObject WScript.Shell

@@ -12,20 +12,6 @@ public sealed record ConcreteDomainResult(ConcreteResults.Domain3D? Three, Concr
 /// One session per sheet. Call a given domain/set once at a time, on input snapshots.</summary>
 public sealed partial class ConcreteAnalysisSession
 {
-    /// <summary>Sessione con il motore SLE indicato, o con quello predefinito dell'adattatore (refactoring F2.7b, commit A4). Il punto resistente
-    /// SLU dei domini viene sempre dal motore della libreria (<see cref="ConcreteResistanceAdapter"/>).</summary>
-    public ConcreteAnalysisSession() : this(null) { }
-    public ConcreteAnalysisSession(ServiceabilityEngine? engine)
-    {
-        requestedEngine = engine;
-        Engine = engine ?? ConcreteServiceabilityAdapter.Default;
-    }
-    private readonly ServiceabilityEngine? requestedEngine;
-
-    /// <summary>Motore SLE (limiti tensionali e fessurazione) della sessione: fissato alla costruzione e parte della firma della cache degli
-    /// stati tensionali, così due sessioni con motori diversi non condividono stati (prova 5m).</summary>
-    public ServiceabilityEngine Engine { get; }
-
     public static JsonObject ExportStress(IReadOnlyDictionary<string, StressOutcome> rows)
     {
         var result = new JsonObject();
@@ -56,7 +42,7 @@ public sealed partial class ConcreteAnalysisSession
     private readonly ConcreteProjection projection = new();
     private readonly ConcurrentDictionary<string, (string Signature, CheckerDomain3D? Three, CheckerDomain2D? Two)> domainCache = new();
     private readonly ConcurrentDictionary<string, (string Signature, CheckerSection Engine, CheckerStressState State)> stressCache = new();
-    public static readonly string[] CrackFields = ["esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure", "limite_fessure"];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> CrackFields = ["esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure", "limite_fessure"];
     public static ConcreteResults.Action ReadAction(JsonObject row) => new(SectionWorkspace.ReadAction(row));
 
     public ConcreteDomainResult Domain(JsonObject input, JsonObject workspace, JsonObject options, string key,
@@ -76,7 +62,7 @@ public sealed partial class ConcreteAnalysisSession
         CheckerDomain2D? two = cached.Signature == signature ? cached.Two : null;
         if (three is null && two is null)
         {
-            var engine = prepared is null ? new CheckerSection(input, workspace, options, key, Engine) : new CheckerSection(prepared, input, workspace, options, key, Engine);
+            var engine = prepared is null ? new CheckerSection(input, workspace, options, key) : new CheckerSection(prepared, input, workspace, options, key);
             three = threeD ? engine.Domain3D(token) : null;
             two = threeD ? null : engine.Domain2D(token);
         }
@@ -119,8 +105,9 @@ public sealed partial class ConcreteAnalysisSession
         foreach (var id in stressCache.Keys.Where(id => id.StartsWith(key + ":") && !activeIds.Contains(id))) stressCache.TryRemove(id, out _);
         var analysisOptions = (JsonObject)options.DeepClone();
         foreach (var field in CrackFields.Concat(new[] { "contour", "testi_barre", "testi_trefoli", "testi_cls", "asse_neutro" })) analysisOptions.Remove(field);
+        // Il motore SLE fa parte della firma: il motore storico agganciato dalle prove (decisione D3 del 15/10/2026) non riusa stati della libreria (prova 5m).
         string analysisSignature = input.ToJsonString() + workspace.S("normativa") + workspace["coefficienti"]?.ToJsonString() + workspace["trefoli"]?.ToJsonString() + analysisOptions.ToJsonString()
-            + "|motore SLE " + Engine;
+            + "|motore SLE " + ConcreteServiceabilityAdapter.EngineName;
 
         var results = new ConcurrentDictionary<string, StressOutcome>(); if (requests.Length == 0) return new Dictionary<string, StressOutcome>();
         Parallel.ForEach(requests, new ParallelOptions { CancellationToken = token, MaxDegreeOfParallelism = Math.Max(1, Math.Min(2, Environment.ProcessorCount / 3)) },
@@ -133,13 +120,13 @@ public sealed partial class ConcreteAnalysisSession
                 string cacheKey = key + ":" + request.Id, signature = analysisSignature + J.Node(force)?.ToJsonString();
                 if (!stressCache.TryGetValue(cacheKey, out var cached) || cached.Signature != signature)
                 {
-                    workerEngine ??= prepared is null ? new CheckerSection(input, workspace, options, "SLU", Engine) : new CheckerSection(prepared, input, workspace, options, "SLU", Engine);
+                    workerEngine ??= prepared is null ? new CheckerSection(input, workspace, options, "SLU") : new CheckerSection(prepared, input, workspace, options, "SLU");
                     var calculated = workerEngine.Stress(force, key); token.ThrowIfCancellationRequested();
                     cached = (signature, workerEngine, calculated); stressCache[cacheKey] = cached;
                 }
                 var engine = cached.Engine; var state = cached.State;
                 Ntc2018Checks.CrackResult crack;
-                try { crack = ConcreteServiceabilityAdapter.Cracking(engine, state, force, input, workspace, options, key, requestedEngine); }
+                try { crack = ConcreteServiceabilityAdapter.Cracking(engine, state, force, input, workspace, options, key); }
                 catch (Exception ex) { crack = new(null, null, null, null, "Fessurazione non calcolata: " + ex.Message); }
                 results[request.Id] = new(projection.Read(state), state.Ratio, state.Status, crack.Status, new ConcreteResults.CrackResult(crack));
             }

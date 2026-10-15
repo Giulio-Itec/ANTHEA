@@ -7,6 +7,8 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        // One font resolver for the PDF of reports and model reports, installed before any of them (PDFsharp fixes it at first use)
+        Anthea.Reports.Pdf.PdfFonts.Ensure();
         bool handled = false;
         RunTestHarness(e, ref handled);
         if (handled) return;

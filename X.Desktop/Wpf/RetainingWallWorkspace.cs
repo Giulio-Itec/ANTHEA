@@ -76,7 +76,7 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
                 if (current.Error is not null) throw current.Error;
                 var result = current.Value!; Calculation = result; ShowResults();
                 var all = result.Checks.Concat(result.Structural).ToArray();
-                int failed = all.Count(c => c.Ratio > 1 || c.Status.StartsWith("Non soddisfatta") || c.Status == "Perdita di equilibrio"), missing = all.Count(c => c.Ratio is null && !c.Status.StartsWith("Non soddisfatta"));
+                int failed = all.Count(c => c.IsNotSatisfied), missing = all.Count(c => c.IsNotEvaluated);
                 status.Text = $"Calcolo aggiornato · {result.Cases.Count} combinazioni · {failed} controlli non soddisfatti · {missing} non disponibili";
                 status.Foreground = Appearance.Foreground(failed > 0 ? Brushes.Firebrick : missing > 0 ? Brushes.DarkGoldenrod : Ui.Navy);
             }

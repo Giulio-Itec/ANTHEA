@@ -60,7 +60,7 @@ internal sealed partial class ConcreteWorkspace
         foreach(var form in detailingForms) foreach(string k in new[]{"as_secondaria","passo_secondaria"}) if(form.Editors.ContainsKey(k))form.ShowField(k,plate);
         foreach(var form in detailingForms){if(form.Editors.ContainsKey("zona_critica"))form.ShowField("zona_critica",o.S("elemento")=="Soletta piena");if(form.Editors.ContainsKey("ancoraggio_appoggi"))form.ShowField("ancoraggio_appoggi",o.S("elemento")=="Trave");}
         var presentation = Anthea.Application.Concrete.ConcreteDetailingPresentation.Calculate(
-            Input, settings, actions["SLU"].Concat(actions["SLV"]).Select(r => r.Values));
+            Input, settings, actions.ToDictionary(p => p.Key, p => p.Value.Select(r => r.Values).ToArray()));
         presentation.ApplyDerivedValues(settings);
         detailingResults = presentation.Checks; anchorageResult = presentation.Anchorage; exportResult = null;
         if (presentation.Exposure is not null) coverDetailingForm.Set("esposizione_sle", presentation.Exposure, true);

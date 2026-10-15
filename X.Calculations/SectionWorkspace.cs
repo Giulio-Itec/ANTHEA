@@ -9,14 +9,20 @@ public static class SectionWorkspace
         SectionWorkspace.Number(row.S("N"), "N"), SectionWorkspace.Number(row.S("Mx"), "Mx"),
         SectionWorkspace.Number(row.S("My"), "My"));
 
-    public static readonly string[] Sets = ["SLU", "SLV", "SLE", "SLE_FREQ", "SLE_QP"];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> Sets = ["SLU", "SLV", "SLE", "SLE_FREQ", "SLE_QP"];
     public static string Label(string key) => key switch { "SLU" => "Plastico", "SLV" => "Elastico", "SLE" => "Rara", "SLE_FREQ" => "Frequente", "SLE_QP" => "Quasi permanente", _ => key };
-    public static readonly string[] SharedSleFields = ["modello", "phi", "phi_trefoli", "n_armature", "n_trefoli", "trazione_cls", "assi", "origine_x", "origine_y", "rotazione", "esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure", "limite_fessure"];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> SharedSleFields = ["modello", "phi", "phi_trefoli", "n_armature", "n_trefoli", "trazione_cls", "assi", "origine_x", "origine_y", "rotazione", "esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure", "limite_fessure"];
     public static JsonObject Prepare(JsonObject data)
     {
         ModuleCatalog.ValidateConcreteWorkspace(data);
-        if (data["input"] is not JsonObject) data["input"] = SezioneCA.DefaultInput();
-        foreach (var (key, value) in SezioneCA.DefaultInput()) if (!data["input"]!.AsObject().ContainsKey(key)) data["input"]![key] = value?.DeepClone();
+        var addedInput = new JsonObject();
+        if (data["input"] is not JsonObject) data["input"] = new JsonObject();
+        foreach (var (key, value) in SezioneCA.DefaultInput())
+            if (!data["input"]!.AsObject().ContainsKey(key))
+            {
+                data["input"]![key] = value?.DeepClone();
+                addedInput[key] = value?.DeepClone();
+            }
         if (data["input"]!["gettato_sottile"] is null) data["input"]!["gettato_sottile"] = "No";
         data["versione_sezione"] = 2;
         if (data["combinazioni"] is null)
@@ -29,11 +35,28 @@ public static class SectionWorkspace
             foreach (var row in data["combinazioni"]![set]!.AsArray().OfType<JsonObject>())
                 if (row.S("id") == "" || !ids.Add(row.S("id"))) { row["id"] = Guid.NewGuid().ToString("N"); ids.Add(row.S("id")); }
         }
+        // Sheets written before the concrete workspace (18/09/2026) had no choice of standard: they were NTC 2018
+        bool beforeWorkspace = data["workspace_ca"] is null;
         if (data["workspace_ca"] is not JsonObject) data["workspace_ca"] = new JsonObject();
         var settings = data["workspace_ca"]!.AsObject();
+        if (addedInput.Count > 0)
+        {
+            if (settings["migrazione_input"] is not JsonObject) settings["migrazione_input"] = new JsonObject();
+            foreach (var (key, value) in addedInput) settings["migrazione_input"]![key] = value?.DeepClone();
+        }
         if (settings.D("versione", 1) is not (1 or 2)) throw new ArgumentException("Versione dell’interfaccia CA non supportata.");
         void Default(string key, object value) { if (!settings.ContainsKey(key)) settings[key] = J.Node(value); }
-        Default("versione", 1); Default("normativa", "NTC 2018"); Default("nota", ""); Default("tab", 0);
+        Default("versione", 1);
+        // Since then ANTHEA always writes the standard: a workspace without it is incomplete and is refused, never completed with
+        // NTC (user decision of 14/10/2026, audit point 2c). The note of the 1.8.0 migration is dropped.
+        if (!settings.ContainsKey("normativa"))
+        {
+            if (!beforeWorkspace) throw new ArgumentException("Normativa assente nel foglio Sezione CA: il file è incompleto, perché ANTHEA la registra sempre. Ripristinare una copia del documento.");
+            settings["normativa"] = "NTC 2018";
+        }
+        settings.Remove("migrazione_normativa");
+        _ = ConcreteStandards.RequiredName(settings);
+        Default("nota", ""); Default("tab", 0);
         Default("dominio3d", J.Obj(("stato", "SLU"), ("angoli", "32"), ("criterio", "N costante"), ("filtro", "Tutte")));
         Default("dominio2d", J.Obj(("stato", "SLU"), ("tipo", "Mx–My"), ("theta", "0"), ("N", "1000"), ("filtro", "Tutte")));
         Default("trefoli", new JsonArray());

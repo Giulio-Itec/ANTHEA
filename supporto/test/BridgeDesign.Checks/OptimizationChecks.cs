@@ -23,7 +23,7 @@ internal static class OptimizationChecks
             Check(JsonNode.DeepEquals(c.Data["assumptions"], data["assumptions"]), "Carichi o coefficienti cambiati");
             foreach (string key in new[] { "length", "height", "lanes", "lane_width", "shoulder", "median", "barrier_width", "obstacle", "obstacle_width", "soil", "fc", "fc_sub", "start_pier", "end_pier", "low_carbon", "recycled", "continuous", "pier" })
                 Check(JsonNode.DeepEquals(data["input"]![key], c.Data["input"]![key]), "Vincolo violato: " + key);
-            Check(BridgeConcept.OptimizationExclusions(c.Data, c.Result, options).Length == 0, "Candidato presentato pur essendo escluso");
+            Check(BridgeLibraryAccess.OptimizationExclusions(c.Data, c.Result, options).Length == 0, "Candidato presentato pur essendo escluso");
             Near(BridgeConcept.Calculate(c.Data).TotalCost, c.Result.TotalCost, "Candidato non riproducibile");
         }
         var again = BridgeConcept.Optimize(data, options);
@@ -64,7 +64,7 @@ internal static class OptimizationChecks
         ui["obstacle"] = "Strada / ferrovia"; ui["soil"] = "Roccia"; ui["pier"] = "Testa a martello"; ui["end_pier"] = true; ui["fc"] = 35;
         var upliftResult = BridgeConcept.Calculate(uplift);
         Check(double.IsFinite(upliftResult.TotalCost), "Il sollevamento propaga valori non finiti");
-        Check(BridgeConcept.OptimizationExclusions(uplift, upliftResult, new()).Any(x => x.Contains("sollevamento")), "Sollevamento non escluso dalla ricerca");
+        Check(BridgeLibraryAccess.OptimizationExclusions(uplift, upliftResult, new()).Any(x => x.Contains("sollevamento")), "Sollevamento non escluso dalla ricerca");
         uplift["input"]!["pier_size"] = 1.2;
         try { BridgeConcept.Calculate(uplift); Check(false, "Assiale netto negativo accettato"); }
         catch (ArgumentException ex) { Check(ex.Message.Contains("sollevamento"), "Assiale negativo non diagnosticato"); }

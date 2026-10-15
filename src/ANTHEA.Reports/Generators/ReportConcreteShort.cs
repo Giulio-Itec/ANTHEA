@@ -72,10 +72,11 @@ public static class ReportConcreteShort
     public static byte[] Create(string title, JsonObject data, JsonObject result)
     {
         if(result.S("motore")!="GPCChecker.Concrete.dll")throw new ArgumentException("Risultati sezionali aggiornati non disponibili.");
+        data=ConcreteReportSource.Read(result);
         var input=data["input"]!.AsObject();var ws=data["workspace_ca"]!.AsObject(); var section=new SezioneCA(input);
         var rows=Select(data,result); var sle=ws["sle_comuni"]!;var domain=ws["dominio3d"]!;var shear=(JsonObject)ws["taglio"]!.DeepClone();
         ConcreteCalculationSettings.UpdateAutomaticShear(input,shear);
-        double circularLever=shear.S("modello_circolare").StartsWith("Pile") ? (input.B("foro_presente") ? .60 : .75) : shear.D("z_d");
+        double circularLever=shear.S("modello_circolare").StartsWith("Pile") ? ConcreteShearTorsionAdapter.CircularPierLeverFactor(input.B("foro_presente")) : shear.D("z_d");
         double modularRatio=Homogenization.ModularRatio(input.D("steel_modulus_mpa"),ConcreteMaterials.Concrete(input).E,sle.D("phi"));
         XNamespace w="http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         var body=new XElement(w+"body");

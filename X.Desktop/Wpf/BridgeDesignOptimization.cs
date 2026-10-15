@@ -30,8 +30,6 @@ internal sealed partial class BridgeDesignWorkspace
     private JsonObject? optimizationSource;
     private DataGrid? optimizationRanking;
     private int selectedSolution = -1;
-    internal int SelectedOptimizationRank => selectedSolution + 1;
-    internal int DisplayedOptimizationCount => optimizationRanking?.Items.Count ?? 0;
     internal BridgeDesignModel.OptimizationResult? Optimization { get; private set; }
     private static TextBox SearchEdit(string value) => new() { Text = value, Width = 58, Margin = new Thickness(3), VerticalContentAlignment = VerticalAlignment.Center };
 

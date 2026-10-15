@@ -63,24 +63,8 @@ public static partial class ProjectSharedData
     static bool WaterDataActive(JsonObject first, JsonObject second) =>
         (first["dati"]?["generali"]).B("presenza_falda") || (second["dati"]?["generali"]).B("presenza_falda");
 
-    public static bool SameCommonSoilData(JsonObject first, JsonObject second)
-    {
-        if (!SupportsSharedSoils(first) || !SupportsSharedSoils(second)) return false;
-        var a = first["dati"]!.AsObject().Array("stratigrafie");
-        var b = second["dati"]!.AsObject().Array("stratigrafie");
-        if (a.Count != b.Count) return false;
-        for (int i = 0; i < a.Count; i++)
-        {
-            if (a[i] is not JsonArray sa || b[i] is not JsonArray sb || sa.Count != sb.Count) return false;
-            for (int j = 0; j < sa.Count; j++)
-            {
-                if (sa[j] is not JsonObject ra || sb[j] is not JsonObject rb) return false;
-                foreach (string key in SoilProperties)
-                    if ((key != "peso_specifico_saturo" || WaterDataActive(first, second)) && !Equal(SoilValue(ra, key), SoilValue(rb, key))) return false;
-            }
-        }
-        return true;
-    }
+    // SameCommonSoilData, usato solo dalle prove WPF, è uscito con la decisione D3 del 15/10/2026:
+    // supporto/test/Desktop/ProjectSharedDataProbe.cs, che legge per riflessione SoilProperties, SoilValue e WaterDataActive.
 
     // Optional explicit initialization copies common inputs; ordinary comparison also works without this step.
     public static void LinkSoils(JsonObject source, JsonObject target)

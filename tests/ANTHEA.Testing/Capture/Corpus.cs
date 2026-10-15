@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using X.Core;
+using Anthea.Application.Documents;
 
 namespace Anthea.Testing.Capture;
 
@@ -15,7 +16,7 @@ public sealed record CaptureCase(string Module, string Id, string Origin, string
 /// <summary>
 /// The B0 corpus: the defaults of the 11 modules of ModuleCatalog.All (and the elastic view of the two horizontal modules), the Wiki
 /// examples (src/ANTHEA.Wiki/Content/Examples, applied as MainWindow.WikiExamples does), the documents of supporto/esempi read with
-/// Archivio.Leggi, the vertical pile cases of supporto/test/casi_confronto.json and RetainingWall.Example("gravity"/"cantilever").
+/// DocumentService.Open (Archivio.Leggi until the decision D3), the vertical pile cases of supporto/test/casi_confronto.json and RetainingWall.Example("gravity"/"cantilever").
 /// From B3 (refactoring F2.6) also the cases of tests/ANTHEA.Testing/corpus: concrete sections with shear and torsion; from B6
 /// (refactoring F2.9) the durability cases verifica-durabilita-*.json (material sheets, cantilever walls, detailing of sections).
 /// </summary>
@@ -60,14 +61,14 @@ public static class Corpus
                 string relative = Relative(root, file), id = "esempio-" + Id(Path.ChangeExtension(Path.GetRelativePath(examples, file), null)!);
                 JsonObject document;
                 JsonFallbackTrace.Context.Value = "corpus/" + id;
-                try { document = Archivio.Leggi(file); }
+                try { document = DocumentService.Open(file); }
                 catch (Exception ex) { cases.Add(new("sconosciuto", id, "documento di supporto/esempi", relative, null, ex.GetType().Name + ": " + ex.Message)); continue; }
                 finally { JsonFallbackTrace.Context.Value = null; }
                 var sheets = Sheets(document).ToList();
                 for (int i = 0; i < sheets.Count; i++)
                 {
                     var (module, data) = sheets[i];
-                    cases.Add(new(module, sheets.Count == 1 ? id : id + "-foglio-" + (i + 1), "documento di supporto/esempi letto con Archivio.Leggi", relative, data));
+                    cases.Add(new(module, sheets.Count == 1 ? id : id + "-foglio-" + (i + 1), "documento di supporto/esempi letto con DocumentService.Open", relative, data));
                 }
             }
 

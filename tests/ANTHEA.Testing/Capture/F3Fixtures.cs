@@ -36,7 +36,8 @@ public static class F3Fixtures
             d["classe"] = "C35/45"; d["esposizioni"] = new JsonArray("XC3", "XD1");
         });
         Legacy("str_palo", "legacy-workspace-segni", d => {
-            d["workspace_ca"] = new JsonObject { ["versione"] = 1 };
+            // ANTHEA has always written the standard into the workspace (decision of 14/10/2026, F4-31)
+            d["workspace_ca"] = new JsonObject { ["versione"] = 1, ["normativa"] = "NTC 2018" };
             d["combinazioni"] = new JsonObject { ["SLU"] = new JsonArray(new JsonObject {
                 ["nome"] = "compressione storica", ["azioni"] = new JsonArray("-350", "45", "-12") }) };
         });
@@ -72,7 +73,7 @@ public static class F3Fixtures
             });
         Legacy("str_palo", "legacy-calculation-settings", d => {
             foreach (string key in new[] { "staffe_presenti", "coefficienti_unitari", "cls_diagramma" }) d["input"]!.AsObject().Remove(key);
-            d["workspace_ca"] = new JsonObject { ["versione"] = 2, ["coefficienti"] = new JsonObject() };
+            d["workspace_ca"] = new JsonObject { ["versione"] = 2, ["normativa"] = "NTC 2018", ["coefficienti"] = new JsonObject() };
         });
         foreach (var c in cases.DistinctBy(c => c.Key))
         {

@@ -63,6 +63,7 @@ ShowUninstDetails show
 !include x64.nsh
 !include WinVer.nsh
 !include FileFunc.nsh
+!include "InstallSafety.nsh"
 
 Var CommandLineDir
 
@@ -77,7 +78,7 @@ Var CommandLineDir
 !define MUI_COMPONENTSPAGE_SMALLDESC
 
 !define MUI_WELCOMEPAGE_TITLE "Installazione di ${APP} ${VERSION}"
-!define MUI_WELCOMEPAGE_TEXT "${APP} è l'applicazione ${COMPANY} per il calcolo strutturale e geotecnico.$\r$\n$\r$\nIl runtime .NET 8 è incluso: non servono altri componenti.$\r$\n$\r$\nSe ${APP} è aperto, chiudilo prima di proseguire.$\r$\n$\r$\n$(^ClickNext)"
+!define MUI_WELCOMEPAGE_TEXT "${APP} è l'applicazione ${COMPANY} per il calcolo strutturale e geotecnico.$\r$\n$\r$\nIl runtime .NET 8 è incluso: non servono altri componenti.$\r$\n$\r$\nChiudere ${APP}: se è in uso, il setup si blocca.$\r$\n$\r$\nPrima della copia verrà eliminato tutto il contenuto della cartella di installazione, inclusi eventuali file aggiunti. Conservare i propri progetti in una cartella esterna.$\r$\n$\r$\n$(^ClickNext)"
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MULTIUSER_PAGE_INSTALLMODE
 !insertmacro MUI_PAGE_COMPONENTS
@@ -103,24 +104,6 @@ VIAddVersionKey /LANG=${LANG_ITALIAN} "FileVersion" "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ITALIAN} "ProductVersion" "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ITALIAN} "LegalCopyright" "© 2026 ${COMPANY}"
 
-; A running ANTHEA.exe cannot be opened for writing: ask to close it before touching the files.
-!macro CHECK_NOT_RUNNING UN
-Function ${UN}CheckNotRunning
-  ${If} ${FileExists} "$INSTDIR\${EXE}"
-    ${Do}
-      ClearErrors
-      FileOpen $0 "$INSTDIR\${EXE}" a
-      ${IfNot} ${Errors}
-        FileClose $0
-        ${Break}
-      ${EndIf}
-      MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "${APP} è in esecuzione. Chiudilo e premi Riprova." /SD IDCANCEL IDRETRY retry
-      Abort "${APP} è in esecuzione: operazione annullata."
-      retry:
-    ${Loop}
-  ${EndIf}
-FunctionEnd
-!macroend
 !insertmacro CHECK_NOT_RUNNING ""
 !insertmacro CHECK_NOT_RUNNING "un."
 
@@ -191,6 +174,7 @@ Function .onInit
   SetRegView 64
   StrCpy $CommandLineDir $INSTDIR
   !insertmacro MULTIUSER_INIT
+  Call CheckNotRunning
 FunctionEnd
 
 Function un.onInit
@@ -201,7 +185,9 @@ FunctionEnd
 Section "${APP}" SecApp
   SectionIn RO
   Call CheckNotRunning
+  Call ValidateInstallDirectory
   Call RemovePreviousVersion
+  Call CleanInstallDirectory
   ; Uninstaller first: even an incomplete installation can be removed from Apps & Features.
   SetOutPath "$INSTDIR"
   WriteUninstaller "$INSTDIR\Uninstall.exe"

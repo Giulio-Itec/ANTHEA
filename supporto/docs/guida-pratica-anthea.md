@@ -2,13 +2,17 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 42
+Edizione 6 aggiornata il 15 ottobre 2026 — revisione documentale 45
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
 ## Avvio e scelta del modulo
 
 ### Avviare la versione aggiornata
+
+Per installare ANTHEA eseguire il setup e scegliere l'installazione per l'utente corrente oppure per tutti gli utenti. Il runtime .NET 8 è incluso. Se ANTHEA è aperta, anche da un'altra cartella, il setup si blocca prima di rimuovere la versione precedente: chiudere tutte le finestre e riavviare il setup.
+
+Prima di copiare la nuova versione il setup elimina tutto il contenuto della cartella di installazione, incluse vecchie DLL, sottocartelle ed eventuali file aggiunti dall'utente. Salvare quindi progetti, modelli e report in una cartella esterna. Usare una destinazione dedicata di nome ANTHEA oppure la cartella riconosciuta di una precedente installazione. Percorsi di sistema, collegamenti a cartelle e file che impediscono la pulizia arrestano l'installazione prima della copia dei nuovi file.
 
 Nel repository, Avvia ANTHEA.cmd ricompila il progetto in Release, pubblica nella cartella app e avvia l'eseguibile soltanto se i passaggi riescono. Richiede quindi l'SDK .NET e ANTHEA chiuso durante l'aggiornamento. La distribuzione già pubblicata può essere avviata direttamente da app/ANTHEA.exe. La distribuzione dipendente dal framework richiede il runtime desktop .NET 8. Il sorgente e la distribuzione sono due cose distinte: modificare un file C# non aggiorna un eseguibile già pubblicato.
 
@@ -335,17 +339,41 @@ I metri e i millimetri sono indicati accanto ai campi. Non inserire 250 in una s
 
 ### Creare il progetto di riferimento
 
-Apri il modulo Bridge Design e lavora nella scheda Progetto. Le schede di ingresso sono Sito, Campate, Sezione e Pile. I risultati comprendono Quantità e costi, Dettagli del predimensionamento, Confronto A / B, Prezzi unitari, Ipotesi e coefficienti e Sezioni e quote. Il pulsante Ottimizza porta alla scheda separata Ottimizzazione.
+Apri il modulo Bridge Design e lavora nella scheda Progetto. Le schede di ingresso sono Sito, Campate, Sezione, Pile e Traffico. I risultati comprendono Quantità e costi, Dettagli del predimensionamento, Confronto A / B, Prezzario, Ipotesi e coefficienti e Sezioni e quote. Il pulsante Ottimizza porta alla scheda separata Ottimizzazione.
 
 1. In Sito imposta lunghezza, quota, corsie e larghezze accessorie. Controlla la larghezza complessiva restituita dal programma, non soltanto il numero di corsie.
 2. Seleziona l’ostacolo e la larghezza. Osserva il prospetto: il disegno è schematico e non costituisce una verifica del franco, dell’alveo o della posizione reale degli appoggi.
 3. In Campate scegli una famiglia iniziale e la continuità. Inserisci un numero di campate ragionevole oppure usa zero per la scelta automatica. Leggi poi le luci effettive, che non sono necessariamente tutte uguali.
 4. In Sezione imposta i soli dati noti. Lascia zero nei campi automatici se vuoi che il motore li predimensioni. Per le lamiere usa gli spessori in mm; per anime e solette in cls usa le unità mostrate.
 5. In Pile scegli terreno, schema e fondazione. Una misura a zero resta automatica; una misura positiva è una richiesta esplicita. Verifica gli avvisi su snellezza, compressione e capacità assiale.
-6. Apri Prezzi unitari e Ipotesi e coefficienti. Aggiorna tariffe, carichi equivalenti, resistenze geotecniche di riferimento e fattori ambientali dove disponi di informazioni migliori.
+6. In Traffico scegli il modello e controlla il coefficiente γQ. Apri Prezzario e Ipotesi e coefficienti per tariffe, resistenze geotecniche di riferimento e fattori ambientali.
 7. Salva il progetto prima della ricerca. Se non è calcolabile, correggi l’errore prima di avviare l’ottimizzazione: il motore deve poter costruire il riferimento.
 
 Una configurazione calcolabile può essere fuori dal campo usuale della famiglia. La scheda Progetto può mostrarla con un avviso, mentre l’ottimizzazione la esclude dai candidati ammessi. Perciò un costo visibile nella scheda Progetto non basta a dimostrare che il riferimento appartenga all’insieme esplorato.
+
+### Scegliere e cambiare prezzario
+
+Da Progetto apri Prezzario e premi Gestisci prezzario. La finestra conserva una bozza: il documento cambia soltanto con Applica prezzario. Assegna nome ed edizione al catalogo; gli importi sono in EUR, IVA esclusa. Nella scheda Voci del prezzario puoi aggiungere, modificare ed eliminare voci, oppure importare CSV, XLSX o un catalogo JSON esportato da ANTHEA.
+
+Per Excel usa il foglio Prezzario e cinque colonne, in quest’ordine: Codice, Descrizione, Unita, Prezzo, Inclusioni. Le medesime intestazioni valgono per CSV; Modello CSV prepara il tracciato. Il codice deve essere univoco, la descrizione compilata e il prezzo non negativo. Sono ammesse m, m², m³, kg, t, cad e h (ore, per manodopera e noli delle analisi composte). Scrivi i numeri senza separatori delle migliaia: 1660 oppure 1660,50. Una cella prezzo vuota significa dato mancante; zero è un importo assegnato consapevolmente.
+
+In Associazioni e anteprima collega ogni lavorazione al codice del catalogo. Le colonne Prima e Dopo mostrano il prezzo adottato nella stessa unità della lavorazione. Puoi assegnare un Prezzo personalizzato, accompagnato dal Motivo personalizzazione; lasciandolo vuoto si usa la voce associata. Se importi un altro catalogo, scegli prima se mantenere questi prezzi: l’opzione non è attiva per impostazione iniziale. Verifica sempre le associazioni, perché lo stesso codice può avere un significato diverso nel nuovo prezzario.
+
+Inclusioni contiene codici di lavorazioni separati da |. Attualmente è supportato rebar nelle tariffe dei pali pile_1 e pile_15: l’armatura del relativo palo non viene addebitata due volte. L’inclusione non elimina le armature dell’impalcato o delle altre parti. Le inclusioni non rappresentate dal computo vengono rifiutate; non dichiarare montaggio o altre prestazioni come comprese se il modello non le distingue.
+
+Nella scheda Analisi composte un prezzo si ricava dai suoi componenti. Per ogni analisi indica codice, descrizione, unità e componenti nella forma codice = quantità, separati da punto e virgola: per un metro cubo di getto, per esempio, CLS = 1,05; MO = 0,8; POMPA = 0,1. Le quantità sono nell'unità del componente; un componente può essere una voce del prezzario o un'altra analisi. Selezionando un'analisi, sotto la tabella compaiono il totale dei componenti, le spese generali, l'utile d'impresa e il prezzo unitario, come voci distinte del totale.
+
+Spese generali e utile d'impresa in alto valgono per tutto il prezzario; compilando le colonne dell'analisi li sostituisci solo per quella riga. Alla prima analisi ANTHEA propone 15% e 10%: sono valori da confermare. Il codice di un'analisi si associa alle lavorazioni come una voce. Componenti mancanti o senza prezzo, analisi che si richiamano a vicenda e percentuali fuori da 0–100 impediscono di applicare il prezzario; l'esito in basso indica la causa.
+
+L’anteprima verifica prezzi, unità e completezza per la geometria corrente. Un’associazione non risolta può non intervenire sul ponte corrente ma escludere una diversa alternativa: controlla anche l’avviso sul catalogo complessivo. Applica prezzario registra una revisione e rivaluta il costo a quantità costanti. La precedente ricerca deve essere rieseguita, perché può cambiare la graduatoria. Puoi scegliere Rivaluta anche l’alternativa A con questo prezzario; altrimenti A conserva la propria base economica, da leggere prima del confronto.
+
+La scheda Revisioni conserva le copie precedenti. Prepara ripristino carica una nuova bozza da controllare e applicare, senza cancellare la cronologia. Esporta catalogo JSON permette il riuso in un altro progetto. Le modifiche ai fattori CO₂ hanno una revisione distinta: cambiare prezzario non aggiorna automaticamente l’indicatore ambientale. Report e CSV identificano i dati effettivamente usati dal risultato.
+
+### Impostare il traffico del ponte
+
+I nuovi progetti adottano Schema 1 NTC 2018. Nella scheda Traffico controlla le carreggiate, il modello e γQ. Il comando per il coefficiente consigliato propone 1,35; un valore assegnato rimane una scelta esplicita dell’utente. Il diagramma mostra estremi positivi e negativi; la reazione minima aiuta a riconoscere possibili sollevamenti.
+
+I documenti precedenti mantengono Uniforme equivalente (legacy) e il proprio coefficiente. Il passaggio a Schema 1 è volontario e richiede un nuovo calcolo e una nuova ricerca. Gli estremi di momento, taglio, freccia e reazione possono provenire da posizioni differenti del traffico: non sono un unico stato simultaneo. Per arco, reticolare, strallato e sospeso leggi l’ambito parametrico dichiarato dal risultato; il predimensionamento non sostituisce un’analisi spaziale del ponte.
 
 ### Leggere sezioni spessori e lunghezze
 
@@ -411,7 +439,7 @@ Il grafico qui riportato è generato dai dati della ricerca descritta nel capito
 
 ### Esempio guidato da centoventi metri
 
-Costruisci un riferimento con i valori seguenti. Mantieni gli altri parametri ai valori iniziali della revisione documentata: un archivio precedente potrebbe avere un listino diverso.
+Questo esempio conserva i risultati della revisione storica con traffico uniforme. Se parti da un nuovo documento, seleziona Uniforme equivalente (legacy), imposta γQ = 1,50 e mantieni il listino iniziale riportato nella guida teorica. Schema 1 o un prezzario diverso producono un altro confronto: non devono restituire i numeri di questo esempio.
 
 | Campo | Valore |
 | --- | --- |
@@ -504,7 +532,7 @@ Prima di scegliere definitivamente verifica che la configurazione sia fisicament
 
 ### Conservare dati modificabili
 
-Usare il formato proposto dal modulo per il foglio singolo e .programma per il progetto. I formati dei fogli possono variare per modulo; Bridge Design usa l'archivio .anthea. Gli archivi mantengono input e impostazioni necessarie, mentre CSV, PNG e Word sono esportazioni destinate a lettura, controllo o presentazione.
+Usare il formato proposto dal modulo per il foglio singolo e .programma per il progetto. I formati dei fogli possono variare per modulo; Bridge Design usa l'archivio .anthea. Gli archivi mantengono input e impostazioni necessarie, mentre CSV, PNG, Word e PDF sono esportazioni destinate a lettura, controllo o presentazione.
 
 Utilizzare Salva con nome prima di una variante che si desidera mantenere indipendente. Per la storia interna di un progetto usare le revisioni. I file di progetto con revisioni utilizzano un formato aggiornato e richiedono una versione di ANTHEA compatibile; non risalvarli con un eseguibile precedente senza averne verificato il supporto.
 
@@ -513,6 +541,8 @@ Utilizzare Salva con nome prima di una variante che si desidera mantenere indipe
 Il report di un foglio riguarda i dati e i risultati di quel modulo. «Genera report» su progetto o sezione comprende invece i fogli diretti e tutte le sottosezioni, nell'ordine dell'albero. Include indice navigabile, dati comuni, dati specifici, risultati e immagini. I riferimenti degli antenati necessari vengono richiamati anche esportando un solo ramo.
 
 La generazione ricalcola i fogli su copie dei dati. Le schede incomplete restano nel documento con segnalazione; non vengono trasformate in verifiche favorevoli. In presenza di conflitti si può aprire il confronto oppure proseguire conservando le segnalazioni. Prima della consegna leggere sempre le pagine degli avvisi e verificare il ramo e la revisione indicati nel titolo.
+
+Ogni report si salva in Word e in PDF affiancati, con lo stesso nome nella stessa cartella. ANTHEA produce il PDF dallo stesso contenuto del file Word, senza usare Microsoft Word; se il PDF non può essere generato, nessuno dei due file viene scritto. Il file Word resta modificabile, il PDF è la copia da consegnare o archiviare. L'impaginazione del PDF può differire leggermente da quella che Word mostra aprendo il documento.
 
 Un report storico ricalcola i dati della revisione selezionata con il motore della versione in uso. Per la riproducibilità conservare quindi anche versione dell'applicazione, data del report e archivio originario. Lo snapshot dei dati protegge gli input; non contiene una copia autonoma di ogni vecchio motore di calcolo.
 
@@ -927,6 +957,13 @@ Le procedure di creazione, rinomina, duplicazione e revisioni restano nei capito
 
 ## Modulo Sezione in c.a.
 
+### Controllare norma e dati ereditati
+
+La norma selezionata governa i coefficienti iniziali. Cambiarla richiede il controllo dei parametri assegnati e il ricalcolo. Un documento salvato da una versione di ANTHEA che non registrava ancora la norma si apre con NTC 2018, la norma con cui era stato calcolato. Un documento attuale senza norma è incompleto, perché ANTHEA la registra sempre: l'apertura si ferma con un messaggio e occorre ripristinare una copia del documento. I campi assenti integrati dalla preparazione del documento sono elencati in Valori integrati dal documento precedente. Valori nulli, testi errati e norme sconosciute richiedono invece una correzione.
+
+Il report usa i dati e la norma della copia che ha prodotto il risultato. Se la provenienza manca o è incoerente, occorre ricalcolare; cambiare un campo nella scheda non aggiorna retroattivamente un risultato salvato.
+
+
 Questo modulo verifica una sezione in calcestruzzo armato a partire da geometria, materiali, armature e azioni assegnate. Permette di esplorare domini resistenti, stati tensionali e deformativi, taglio, torsione e dettagli nei limiti indicati dalle rispettive schede. Non determina le azioni di un telaio completo e non sostituisce l'analisi globale della struttura.
 
 ### A cosa serve e quando usarlo
@@ -1030,7 +1067,7 @@ Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura 
 
 La torsione richiede un dettaglio chiuso compatibile e armatura longitudinale disponibile dopo le esigenze di flessione. Non assegnare come disponibile tutta l'armatura senza aver verificato questa condizione. La verifica combinata usa anche un'interazione conservativa fra torsione e i due tagli, esplicitata nel dettaglio.
 
-Nella scheda dettagli costruttivi scegliere il tipo di elemento e completare le informazioni su diametri, passi, sovrapposizioni, ancoraggi e copriferro. «Da completare» non equivale a «Verificato». I controlli automatici riguardano le condizioni esplicitamente rappresentate; ganci, nodi, confinamento e situazioni esecutive speciali possono richiedere valutazioni aggiuntive.
+Nella scheda dettagli costruttivi scegliere il tipo di elemento e completare le informazioni su diametri, passi, sovrapposizioni, ancoraggi e copriferro. Per i minimi di armatura dei pilastri la scheda usa la compressione più gravosa fra tutte le combinazioni del foglio e indica quella che governa. Se governa una combinazione SLE, il valore è segnalato come di esercizio: controllare che le combinazioni SLU e SLV siano complete. «Da completare» non equivale a «Verificato». I controlli automatici riguardano le condizioni esplicitamente rappresentate; ganci, nodi, confinamento e situazioni esecutive speciali possono richiedere valutazioni aggiuntive.
 
 ### Curva momento curvatura e aggiornamento
 
@@ -1062,7 +1099,7 @@ Filtri e ordinamenti delle tabelle di verifica cambiano la vista, non eliminano 
 
 ### Report short della sezione in calcestruzzo armato
 
-Accanto a Report Word, il pulsante Report short esporta il foglio corrente in Word e PDF omonimi, entro due pagine. Attendere il completamento del calcolo automatico. Il comando richiede Microsoft Word installato: lo usa in background per verificare la paginazione e produrre il PDF. Il report completo rimane disponibile dal pulsante precedente.
+Accanto a Report Word, il pulsante Report short esporta il foglio corrente in Word e PDF omonimi, entro due pagine. Attendere il completamento del calcolo automatico. ANTHEA impagina e produce il PDF da sé: Microsoft Word non serve. Il report completo rimane disponibile dal pulsante precedente.
 
 La prima pagina raccoglie geometria, coordinate delle armature o definizione degli anelli regolari, staffe, materiali, coefficienti e opzioni di calcolo. La seconda contiene una combinazione governante per ciascuna verifica: SLU N–Mx–My, SLV N–Mx–My, taglio, tensioni rara, fessurazione frequente, tensioni quasi permanente e fessurazione quasi permanente. Azioni, resistenze o limiti, tasso ed esito sono racchiusi in due tabelle.
 
@@ -1073,6 +1110,8 @@ Il report short non comprende torsione e interazioni, dettagli costruttivi, anco
 ### Leggere asse neutro, mappe e report
 
 La linea dell'asse neutro rappresenta deformazione nulla dello stato selezionato. Nei domini il piano è quello del punto resistente; nelle SLE è quello dell'azione assegnata. Una mappa normalizzata alla resistenza del materiale non sostituisce il controllo dei limiti SLE. Con campo uniforme l'asse può non essere definito; un asse esterno non indica da solo un errore.
+
+Nell'analisi elastica con viscosità il diagramma delle deformazioni mostra le deformazioni reali della sezione, comprese quelle differite: in una barra la deformazione vale σs/Es. Le tensioni sono le stesse del calcolo; la posizione dell'asse neutro non cambia.
 
 Il report raccoglie input, materiali, coefficienti, azioni ed esiti scelti. Gli estremi di tensione/deformazione e i casi governanti possono provenire da combinazioni diverse. Non leggerli come un unico stato. Dati globalmente invalidi o un aggiornamento in corso impediscono l'esportazione dei risultati correnti.
 
@@ -1239,7 +1278,7 @@ La geometria completa rimane in contesto. Questa versione non simula l'attivazio
 
 I modelli con risultati per fase usano il formato modello 2. Le versioni precedenti di ANTHEA lo rifiutano; questa versione continua a leggere i modelli statici nel formato 1. **Solo risultati** controlla anche le tabelle delle fasi: se la copia precedente non contiene i metadati necessari, usa **Tutto** e verifica la revisione. Gli export tabellari privi di un contesto stage esplicito non vengono confusi con casi statici.
 
-La lettura per fasi è stata collaudata sul protocollo e su dati sintetici. Il confronto con un modello reale dotato di stage resta da completare. Per Straus il catalogo è predisposto, ma la lettura nativa dei risultati stage non è ancora attiva.
+La lettura per fasi è stata collaudata sul protocollo e su dati sintetici. Il confronto con un modello reale dotato di stage resta da completare.
 
 ### Aggiornare una copia esistente
 

@@ -15,7 +15,7 @@ using Anthea.Calculations.Geotechnics;
 // Serviceability stresses, cracking and the retaining walls go through ConcreteServiceabilityAdapter (refactoring F2.7b, commit A4) with the engine
 // of '--motore-sle' (without the option the default engine of the adapter); with 'libreria' the scalar crack cores are those of the library.
 // Durability goes through the facades and ConcreteDurabilityAdapter (refactoring F2.9): '--motore-durabilita legacy|libreria', without
-// the option the default engine of that adapter.
+// the option the library (decisione D3 del 15/10/2026: il legacy si aggancia da tests/ANTHEA.Legacy con LegacyDurabilityEngine.Use).
 string output = Path.GetFullPath(args.Length > 0 ? args[0] : Path.Combine("supporto", "artefatti", "migrazione-checker"));
 string commit = args.Length > 1 ? args[1] : "unknown";
 Directory.CreateDirectory(output);
@@ -28,17 +28,17 @@ string mode = args.Length > 2 && args[2] is "muri" or "pali" or "mesh" ? args[2]
 void Finish() { if (args.Skip(3).Contains("--manifest")) CaptureManifest.Write(output, mode, commit, args, started); }
 var shearTorsionEngine = args.SkipWhile(a => a != "--motore").Skip(1).FirstOrDefault() switch
 {
-    null => ConcreteShearTorsionAdapter.Default, "legacy" => ShearTorsionEngine.Legacy, "libreria" => ShearTorsionEngine.Library,
+    null => ShearTorsionEngines.Default, "legacy" => ShearTorsionEngine.Legacy, "libreria" => ShearTorsionEngine.Library,
     var other => throw new ArgumentException("--motore: legacy o libreria, non " + other)
 };
 var durabilityEngine = args.SkipWhile(a => a != "--motore-durabilita").Skip(1).FirstOrDefault() switch
 {
-    null => ConcreteDurabilityAdapter.Default, "legacy" => DurabilityEngine.Legacy, "libreria" => DurabilityEngine.Library,
+    null => DurabilityEngine.Library, "legacy" => DurabilityEngine.Legacy, "libreria" => DurabilityEngine.Library,
     var other => throw new ArgumentException("--motore-durabilita: legacy o libreria, non " + other)
 };
 var serviceabilityEngine = args.SkipWhile(a => a != "--motore-sle").Skip(1).FirstOrDefault() switch
 {
-    null => ConcreteServiceabilityAdapter.Default, "legacy" => ServiceabilityEngine.Legacy, "libreria" => ServiceabilityEngine.Library,
+    null => ServiceabilityEngines.Default, "legacy" => ServiceabilityEngine.Legacy, "libreria" => ServiceabilityEngine.Library,
     var other => throw new ArgumentException("--motore-sle: legacy o libreria, non " + other)
 };
 // Optional third argument "muri": only the retaining walls.
@@ -49,7 +49,7 @@ if (args.Length > 2 && args[2] == "pali") { PilesCapture.Run(output, commit, sha
 if (args.Length > 2 && args[2] == "mesh") { MeshCapture.Run(output, commit, sha); Finish(); return; }
 
 var cases = new List<ConcreteCodeChecks.ShearInput>();
-string[] standards = ConcreteStandards.OrdinaryNames;
+var standards = ConcreteStandards.OrdinaryNames;
 foreach (var s in standards)
 {
     // A. Without shear reinforcement: axial force, shear, depth (DIN vmin interpolation) and strength.
@@ -101,7 +101,7 @@ for (int i = 0; i < cases.Count; i++)
         F(c.Asw), F(c.Spacing), F(c.Alpha), F(c.CotTheta), F(c.LeverFactor), F(c.Aggregate), F(c.AxialEccentricity));
     try
     {
-        var r = ConcreteShearTorsionAdapter.Shear(c, shearTorsionEngine);
+        var r = ShearTorsionEngines.Shear(c, shearTorsionEngine);
         string details = string.Join("|", r.Details.Select(x => x.Symbol + "=" + F(x.Value) + "=" + x.Unit));
         csv.AppendLine(string.Join(";", head, "ok", F(r.VRsd), F(r.VRcd), F(r.VRd), F(r.Ratio), F(r.CotTheta), r.Status.Replace(";", ","), details));
     }
@@ -159,7 +159,7 @@ internal static class StressCapture
                     var options = (System.Text.Json.Nodes.JsonObject)settings["sle"]!["SLE"]!.DeepClone();
                     options["modello"] = linear ? "Lineare" : "Non lineare"; options["phi"] = psi; options["trazione_cls"] = tension; options["angoli"] = "32";
                     CheckerSection engine;
-                    try { engine = new CheckerSection(prepared, input, settings, options, "SLU", serviceability); }
+                    try { engine = new CheckerSection(prepared, input, settings, options, "SLU"); }
                     catch (Exception ex) { csv.AppendLine(string.Join(";", id++, name, standard, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "error:" + ex.GetType().Name, "", "", "", "", "", ex.Message.Replace(";", ","))); continue; }
                     var effective = ConcreteStandards.Effective(input, settings); double reduction = standard == "NTC 2018" && thin ? .8 : 1; effective.AlphaCC *= reduction;
                     string coefficients = string.Join(",", ConcreteStandards.Coefficients.Select(c => c.Key + "=" + F((double)typeof(GPC.Model.Standards.StandardModelCode2010).GetProperty(c.Key)!.GetValue(effective)!)));
@@ -173,7 +173,7 @@ internal static class StressCapture
                         {
                             try
                             {
-                                var s = engine.Stress(action, set);
+                                var s = ServiceabilityEngines.Stress(engine, action, set, serviceability);
                                 csv.AppendLine(string.Join(";", head, set, "ok", F(s.sigma_cls), F(s.sigma_acciaio), F(s.Ratio), F(s.ConcreteStressLimit), F(s.SteelStressLimit), s.Status));
                             }
                             catch (Exception ex) { csv.AppendLine(string.Join(";", head, set, "error:" + ex.GetType().Name, "", "", "", "", "", ex.Message.Replace(";", ",").Replace("\n", " "))); }
@@ -231,7 +231,7 @@ internal static class TorsionCapture
                 hollow && s.Shape == "Circolare" ? F(s.Input.D("inner_diameter_mm")) : "");
             try
             {
-                var g = ConcreteShearTorsionAdapter.TorsionGeometryOf(s, engine);
+                var g = ShearTorsionEngines.TorsionGeometryOf(s, engine);
                 geometry.AppendLine(string.Join(";", head, "ok", F(g.Area), F(g.Perimeter), F(g.Thickness), ""));
             }
             catch (Exception ex) { geometry.AppendLine(string.Join(";", head, "error:" + ex.GetType().Name, "", "", "", Clean(ex.Message))); }
@@ -291,7 +291,7 @@ internal static class TorsionCapture
                 F(c.ShearY.VRsd), F(c.ShearY.VRcd), F(c.ShearY.CotTheta));
             try
             {
-                var r = ConcreteShearTorsionAdapter.Torsion(c, 30, 1.5, engine);
+                var r = ShearTorsionEngines.Torsion(c, 30, 1.5, engine);
                 csv.AppendLine(string.Join(";", head, "ok", F(r.TRcd), F(r.TRsd), F(r.TRld), F(r.TRd), F(r.TorsionRatio), F(r.ConcreteCombinedRatio), F(r.SteelCombinedRatio),
                     F(r.RequiredLongitudinalArea), r.Passed, Clean(r.Status)));
             }
@@ -302,7 +302,7 @@ internal static class TorsionCapture
     }
 }
 
-// Cracking (Ntc2018Checks.Cracking with ConcreteCodeChecks, ConcreteTensionCracking, ConcreteInnerCracking): sections saved with the Model
+// Cracking (LegacyNtc2018Checks.Cracking with ConcreteCodeChecks, ConcreteTensionCracking, ConcreteInnerCracking): sections saved with the Model
 // archive, actions in the local axes passed to the native checker, crack options rotated over the states, legacy result and regions.
 internal static class CrackCapture
 {
@@ -361,11 +361,11 @@ internal static class CrackCapture
                         // Model Code 2010 has no default limit: a design wlim in three states out of four.
                         if (standard == "Model Code 2010" && v.Limit == "" && variant % 4 != 0) options["limite_fessure"] = "0.3";
                         // Keep one state out of four where the standard does not require the check for this combination.
-                        if (ConcreteServiceabilityAdapter.CrackRequirement(standard, set, options, serviceability).Kind.StartsWith("Non richiesta") && skipped++ % 4 != 0) continue;
+                        if (ServiceabilityEngines.CrackRequirement(standard, set, options, serviceability).Kind.StartsWith("Non richiesta") && skipped++ % 4 != 0) continue;
                         var effective = ConcreteStandards.Effective(input, settings);
                         string coefficients = string.Join(",", ConcreteStandards.Coefficients.Select(c => c.Key + "=" + F((double)typeof(GPC.Model.Standards.StandardModelCode2010).GetProperty(c.Key)!.GetValue(effective)!)));
                         CheckerSection engine;
-                        try { engine = new CheckerSection(prepared, input, settings, options, "SLU", serviceability); }
+                        try { engine = new CheckerSection(prepared, input, settings, options, "SLU"); }
                         catch (Exception ex) { csv.AppendLine(string.Join(";", id++, name, standard, "", "", "", "", "", "", "", "", "", "", "", "", "", "", set, "", "", "", "", "", "", "", "error:" + ex.GetType().Name, "", "", "", "", Clean(ex.Message), "", "", "", "", "", "")); continue; }
                         var force = engine.Force(action); var cs = force.CoordinateSystem;
                         string head = string.Join(";", id++, name, standard, coefficients, linear, psi, tension, 32,
@@ -374,8 +374,8 @@ internal static class CrackCapture
                             options.S("limite_fessure"));
                         try
                         {
-                            var state = engine.Stress(action, set);
-                            var r = ConcreteServiceabilityAdapter.Cracking(engine, state, action, input, settings, options, set, serviceability);
+                            var state = ServiceabilityEngines.Stress(engine, action, set, serviceability);
+                            var r = ServiceabilityEngines.Cracking(engine, state, action, input, settings, options, set, serviceability);
                             string regions = string.Join("|", r.Regions.Select(g => string.Join(":", Clean(g.Name), F(g.Area), F(g.SteelArea), F(g.Width), string.Join("/", g.BarIndices))));
                             string details = string.Join("|", r.Details.Where(d => d.Value is double && Symbols.Any(s => d.Symbol == s || d.Symbol.EndsWith(" · " + s)))
                                 .Select(d => Clean(d.Symbol) + "=" + F(d.Value)));
@@ -408,7 +408,7 @@ internal static class CrackCapture
                 if (serviceability == ServiceabilityEngine.Legacy)
                 {
                     var trace = new List<CrackCalculationDetail>();
-                    w = ConcreteCodeChecks.CrackWidth(standard, sigma, es, ecm, fct, rho, phi, cover, spacing, depth, shortTerm, ribbed, k2, trace);
+                    w = LegacyConcreteCodeChecks.CrackWidth(standard, sigma, es, ecm, fct, rho, phi, cover, spacing, depth, shortTerm, ribbed, k2, trace);
                 }
                 // Library core of the width formula, profile of the standard through the mapping (refusals keep the type ArgumentException).
                 else w = GPC.Checkers.Concrete.Cracking.CrackWidthCalculator.Width(GPC.Checkers.Concrete.Cracking.CrackProfiles.Resolve(ConcreteLibraryMapping.StandardFor(standard)),
@@ -419,12 +419,12 @@ internal static class CrackCapture
         }
         foreach (var standard in ConcreteStandards.OrdinaryNames)
             foreach (var set in new[] { "SLE", "SLE_FREQ", "SLE_QP" })
-                foreach (var exposure in Ntc2018Checks.Exposures)
+                foreach (var exposure in LegacyNtc2018Checks.Exposures)
                     foreach (var sensitive in new[] { false, true })
                         foreach (var limit in new[] { "", "0.25" })
                         {
                             var o = new System.Text.Json.Nodes.JsonObject { ["esposizione"] = exposure, ["sensibilita"] = sensitive ? "Sensibile" : "Poco sensibile", ["limite_fessure"] = limit };
-                            var req = ConcreteServiceabilityAdapter.CrackRequirement(standard, set, o, serviceability);
+                            var req = ServiceabilityEngines.CrackRequirement(standard, set, o, serviceability);
                             scalar.AppendLine(string.Join(";", "R", standard, set, exposure, sensitive, limit, Clean(req.Kind), F(req.Limit)));
                         }
         File.WriteAllText(Path.Combine(output, "crack-scalar-legacy.csv"), scalar.ToString(), new UTF8Encoding(false));
@@ -566,17 +566,19 @@ internal static class DetailingCapture
 }
 
 // Durability (Materiali: Durability.Cover EC2 4.4N with structural classes, NtcCover.Calculate, MinimumConcrete, AtecapMix) on a grid of exposures,
-// strengths and options, single and combined exposures. Through the facades with the engine of ConcreteDurabilityAdapter (refactoring F2.9).
+// strengths and options, single and combined exposures. Through the facades with the engine of ConcreteDurabilityAdapter (refactoring F2.9),
+// agganciato per tutta la cattura con LegacyDurabilityEngine.Use (decisione D3 del 15/10/2026).
 internal static class DurabilityCapture
 {
     static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
     static string Clean(string s) => s.Replace(";", ",").Replace("\n", " ").Replace("|", "/");
     internal static void Run(string output, string commit, string sha, DurabilityEngine engine)
     {
+        using var scope = LegacyDurabilityEngine.Use(engine);
         var csv = new StringBuilder();
         csv.AppendLine("# Materiali.Durability / NtcCover / MinimumConcrete / AtecapMix legacy outputs (engine " + engine + " of ConcreteDurabilityAdapter); ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
         csv.AppendLine("# Lengths mm, strengths MPa. method;exposures;fck;life;strengthReduction;slab;quality;diameter;aggregate;deviation;rough;abrasion;ground;plate;ntcQuality;outcome;bond;durability;minimum;nominal;lines|...");
-        var exposures = ConcreteDurabilityAdapter.Exposures(engine);
+        var exposures = ConcreteDurabilityAdapter.Exposures();
         var sets = exposures.Select(e => new[] { e }).Concat(new[] { new[] { "XC4", "XF2" }, new[] { "XC4", "XS3", "XF4" }, new[] { "XD1", "XA2" }, new[] { "XF1", "XF3" }, new[] { "X0", "XC1" }, new[] { "XF4" } }
             .Select(c => c.Select(code => exposures.Single(e => e.Code == code)).ToArray())).ToArray();
         int n = 0;
@@ -591,7 +593,7 @@ internal static class DurabilityCapture
                     string head = string.Join(";", codes, F(fck), p.Life, p.StrengthReduction, p.Slab, p.Quality, F(p.Diameter), F(p.Aggregate), F(p.Deviation), p.Rough, p.Abrasion, p.Ground);
                     try
                     {
-                        var r = Materiali.Durability.Cover(set, fck, p, engine);
+                        var r = Materiali.Durability.Cover(set, fck, p);
                         csv.AppendLine(string.Join(";", "EC2", head, "", "", "ok", F(r.Bond), F(r.Durability), F(r.Minimum), F(r.Nominal), string.Join("|", r.Lines.Select(l => l.Exposure + ":" + l.StructuralClass + ":" + F(l.Durability)))));
                     }
                     catch (Exception ex) { csv.AppendLine(string.Join(";", "EC2", head, "", "", "error:" + ex.GetType().Name, "", "", "", "", Clean(ex.Message))); }
@@ -600,8 +602,8 @@ internal static class DurabilityCapture
                         bool quality = v % 2 == 1; int? pertinent = null;
                         try
                         {
-                            if (v % 5 == 3) pertinent = Materiali.MinimumConcrete.Required(set, engine);
-                            var r = Materiali.NtcCover.Calculate(set, fck, p, plate, quality, pertinent, engine);
+                            if (v % 5 == 3) pertinent = Materiali.MinimumConcrete.Required(set);
+                            var r = Materiali.NtcCover.Calculate(set, fck, p, plate, quality, pertinent);
                             csv.AppendLine(string.Join(";", "NTC", head, plate, quality + (pertinent is int c ? ":" + c : ""), "ok", F(r.Cover.Bond), F(r.Cover.Durability), F(r.Cover.Minimum), F(r.Cover.Nominal),
                                 string.Join("|", r.Environment, r.Severity, F(r.Cmin), F(r.C0), F(r.TableCover), F(r.LifeExtra), F(r.LowStrengthExtra), F(r.QualityReduction))));
                         }
@@ -612,9 +614,9 @@ internal static class DurabilityCapture
         {
             try
             {
-                var mix = Materiali.AtecapMix.Required(set, engine);
-                csv.AppendLine(string.Join(";", "MIX", string.Join("+", set.Select(e => e.Code)), F(Materiali.MinimumConcrete.Required(set, engine)), F(mix.Ratio), mix.Cement?.ToString() ?? "",
-                    F(Materiali.AtecapMix.Air(set, 16, engine)), F(Materiali.AtecapMix.Air(set, 32, engine)), F(Materiali.AtecapMix.Air(set, 8, engine))));
+                var mix = Materiali.AtecapMix.Required(set);
+                csv.AppendLine(string.Join(";", "MIX", string.Join("+", set.Select(e => e.Code)), F(Materiali.MinimumConcrete.Required(set)), F(mix.Ratio), mix.Cement?.ToString() ?? "",
+                    F(Materiali.AtecapMix.Air(set, 16)), F(Materiali.AtecapMix.Air(set, 32)), F(Materiali.AtecapMix.Air(set, 8))));
             }
             catch (Exception ex) { csv.AppendLine(string.Join(";", "MIX", string.Join("+", set.Select(e => e.Code)), "error:" + ex.GetType().Name, "", "", "", "", Clean(ex.Message))); }
         }
@@ -1315,7 +1317,7 @@ internal static class WallCapture
                 try { line["result"] = Node(run()); } catch (Exception ex) { line["result"] = Error(ex); }
                 Write(w, line); functions++;
             }
-            for (double phi = 10; phi <= 45.0001; phi += 2.5) { double p = phi; Line("Ka", new() { ["phi"] = p }, () => RetainingWall.Ka(p)); }
+            for (double phi = 10; phi <= 45.0001; phi += 2.5) { double p = phi; Line("Ka", new() { ["phi"] = p }, () => RetainingWallFunctions.Ka(p)); }
             foreach (double phi in new[] { 15.0, 25, 30, 36, 45 })
                 foreach (double kh in new[] { 0.0, .05, .1, .2, .3, .4 })
                     foreach (double kv in new[] { -.2, -.05, 0, .05, .2 })
@@ -1324,13 +1326,13 @@ internal static class WallCapture
                 foreach (double delta in new[] { -1.0, 0, 10, 2 * phi / 3, phi, phi + 1 })
                     foreach (double kh in new[] { 0.0, .1, .25 })
                         foreach (double kv in new[] { -.1, 0, .1 })
-                            Line("ActiveHorizontal", new() { ["phi"] = phi, ["delta"] = delta, ["kh"] = kh, ["kv"] = kv }, () => RetainingWall.ActiveHorizontal(phi, delta, kh, kv));
+                            Line("ActiveHorizontal", new() { ["phi"] = phi, ["delta"] = delta, ["kh"] = kh, ["kv"] = kv }, () => RetainingWallFunctions.ActiveHorizontal(phi, delta, kh, kv));
             foreach (double width in new[] { 2.0, 3.5 })
                 foreach (double n in new[] { -10.0, 0, 150 })
                     foreach (double x in new[] { -.1, 0, .2, width / 3, width / 2 - .1, width / 2, width * 2 / 3, width - .2, width, width + .1 })
                     {
-                        Line("ContactLaw", new() { ["width"] = width, ["n"] = n, ["x"] = x }, () => RetainingWall.ContactLaw(width, n, x));
-                        var c = RetainingWall.ContactLaw(width, n, x);
+                        Line("ContactLaw", new() { ["width"] = width, ["n"] = n, ["x"] = x }, () => RetainingWallFunctions.ContactLaw(width, n, x));
+                        var c = RetainingWallFunctions.ContactLaw(width, n, x);
                         foreach (double at in new[] { 0.0, width / 4, width / 2, width })
                             Line("Pressure", new() { ["width"] = width, ["n"] = n, ["x"] = x, ["at"] = at }, () => RetainingWall.Pressure(c, at));
                     }
@@ -1346,7 +1348,7 @@ internal static class WallCapture
                 new[] { new RetainingWall.CurvaturePoint(0, 1e-4) },
                 new[] { new RetainingWall.CurvaturePoint(0, double.NaN), new(3, 0) }
             };
-            for (int i = 0; i < curvatures.Length; i++) { var set = curvatures[i]; Line("IntegrateCurvature", new() { ["points"] = Node(set.Select(p => new { p.Y, Curvature = double.IsFinite(p.Curvature) ? (double?)p.Curvature : null })), ["height"] = 3 }, () => RetainingWall.IntegrateCurvature(set, 3)); }
+            for (int i = 0; i < curvatures.Length; i++) { var set = curvatures[i]; Line("IntegrateCurvature", new() { ["points"] = Node(set.Select(p => new { p.Y, Curvature = double.IsFinite(p.Curvature) ? (double?)p.Curvature : null })), ["height"] = 3 }, () => RetainingWallFunctions.IntegrateCurvature(set, 3)); }
             // NTC site derivation: soil classes, F0, ag, topography, assigned amplifications and both methods.
             foreach (string method in new[] { "Mononobe–Okabe", "Wood semplificato" })
                 foreach (string soil in new[] { "A", "B", "C", "D", "E", "Da scegliere" })
@@ -1394,7 +1396,7 @@ internal static class WallCapture
             {
                 string before = data.ToJsonString(); JsonObject result;
                 var watch = System.Diagnostics.Stopwatch.StartNew();
-                try { result = Full(RetainingWall.Calculate(data, default, serviceability)); }
+                try { result = Full(LegacyRetainingWall.Calculate(data, default, serviceability)); }
                 catch (Exception ex) { result = Error(ex); }
                 if (before != data.ToJsonString()) throw new InvalidOperationException("Input modified: " + name);
                 Write(w, new JsonObject { ["name"] = name, ["input"] = data, ["result"] = result }); documents++;

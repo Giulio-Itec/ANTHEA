@@ -40,7 +40,8 @@ public sealed partial class SectionActionsViewModel : ObservableObject
     public bool Legacy { get; }
     public bool HasOrigins => Rows.Any(r => r.Origin.Length > 0);
     public string Guidance => "Elemento è facoltativo. Tutte le righe sono verificate sulla sezione di questo foglio. N negativo a compressione; kN e kNm. Nessun coefficiente aggiunto.";
-    public string MigrationNotice => "Dati precedenti: assegnare lo stato limite alle righe Plastico/Elastico e Taglio. Completare le componenti mancanti, oppure usare ‘Vuoti a zero’ solo se effettivamente nulle. Le righe non vengono fuse per nome.";
+    // Audit of 14/10/2026: the old notice did not say that the former "Elastico" rows lose their own criterion
+    public string MigrationNotice => "Dati precedenti: assegnare lo stato limite alle righe Plastico/Elastico e Taglio. Completare le componenti mancanti, oppure usare ‘Vuoti a zero’ solo se effettivamente nulle. Le righe non vengono fuse per nome. Dopo la conversione il criterio resistente non dipende più dalla riga: domini e verifiche N–M usano quello scelto nel pannello (inizialmente Elastico per lo stato SLV e Plastico per SLU), anche per le ex righe Elastico.";
     [ObservableProperty] private SectionActionRow? selected;
     [ObservableProperty] private string status = "Le modifiche saranno applicate solo con Applica.";
     public JsonObject? Result { get; private set; }
@@ -101,6 +102,6 @@ public sealed partial class SectionActionsViewModel : ObservableObject
         {
             var v = r.Values(); double F(string k) => SectionWorkspace.Number(v.S(k), k);
             return new SectionActionsExcel.Row(v.S("stato"), r.Name, F("N"), F("Mx"), F("My"), F("Vx"), F("Vy"), F("T"), r.Element);
-        }), unified: true);
+        }));
     }
 }

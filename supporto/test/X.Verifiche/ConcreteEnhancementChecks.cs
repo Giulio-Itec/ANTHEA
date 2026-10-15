@@ -88,7 +88,7 @@ internal static class ConcreteEnhancementChecks
             Check(lazyDomain.IsMeshCreated && ReferenceEquals(lazyMesh, lazyDomain.Mesh), "Mesh grafica creata una sola volta " + norm);
             Check(result.Resistance.HasValue && result.Utilization is > 0, "Motore disponibile " + norm);
             settings["coefficienti"]!["ServiceabilityStressConcreteCoefficientForCharacteristicCombination"] = "0.51";
-            var stressEngine = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject(), engine: SleEngine.Selected);
+            var stressEngine = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject());
             var stress = stressEngine.Stress(new(-500, 5, 5), "SLE");
             Check(!stress.IsRasterCreated, "Verifica SLE senza raster " + norm);
             var secondStress = stressEngine.Stress(new(-700, 10, 10), "SLE");
@@ -96,7 +96,7 @@ internal static class ConcreteEnhancementChecks
             Check(Math.Abs(stress.ConcreteStressLimit!.Value - .51 * input.D("fck_mpa")) < 1e-10, "Limite personalizzato passato alla DLL " + norm);
             Check(stress.ConcreteVertices.Length == engine.Geometry.Outline.Count && stress.Raster?.Stresses.All(double.IsFinite) == true, "Contouring e vertici nativi " + norm);
             var raster = stress.Raster!;
-            var fresh = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject(), engine: SleEngine.Selected).Stress(new(-500, 5, 5), "SLE").Raster!;
+            var fresh = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject()).Stress(new(-500, 5, 5), "SLE").Raster!;
             Check(stress.IsRasterCreated && ReferenceEquals(raster, stress.Raster) && !secondStress.IsRasterCreated, "Raster memorizzato per la sola combinazione richiesta " + norm);
             Check(raster.Stresses.SequenceEqual(fresh.Stresses) && raster.Strains.SequenceEqual(fresh.Strains), "Raster differito conserva lo stato dopo altre analisi " + norm);
         }
@@ -113,9 +113,9 @@ internal static class ConcreteEnhancementChecks
         input["cls_diagramma"] = "Bilineare"; Check(ConcreteMaterials.Concrete(input).CompressionStressStrainDiagram.ToString() == "Bilinear", "Diagramma CLS custom");
         Check(EngineeringFormat.Number(.00000234).Contains("E") && EngineeringFormat.Number(1.234).EndsWith("23"), "Formato due decimali e numeri piccoli");
         var rows = new[] { new SectionActionsExcel.Row("SLU", "=testo non formula", -123.456789, 1.2345, 0, null, null), new SectionActionsExcel.Row("Taglio", "Taglio", -10, null, null, 20, -30) };
-        var roundtrip = SectionActionsExcel.Read(SectionActionsExcel.Write(rows));
+        var roundtrip = SectionActionsExcel.Read(LegacySectionActionsExcel.Write(rows));
         Check(roundtrip.Rows.SequenceEqual(rows) && roundtrip.FormulaCells == 0, "Excel round trip completo con precisione e testo sicuro");
-        Check(SectionActionsExcel.Read(SectionActionsExcel.Write([])).Rows.Count == 0, "Excel vuoto reimportabile");
+        Check(SectionActionsExcel.Read(LegacySectionActionsExcel.Write([])).Rows.Count == 0, "Excel vuoto reimportabile");
         var scenario = SezioneCA.DefaultData(); var shared = SectionWorkspace.Prepare(scenario); var sectionInput = scenario["input"]!.AsObject();
         var domainOptions = shared["dominio3d"]!.AsObject(); domainOptions["angoli"] = "8"; domainOptions["suddivisioni_n"] = "8";
         var domain = new CheckerSection(sectionInput, shared, domainOptions).Domain3D(); var mesh = domain.Mesh; var native = domain.Native.Domain;

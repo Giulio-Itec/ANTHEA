@@ -19,7 +19,7 @@ internal static class StrainDiagramChecks
             foreach (var force in new[] { new ActionPoint(-100, 80, 35), new ActionPoint(-100, 0, 0) })
             {
                 var native = engine.Stress(force, "TEST"); var diagram = ConcreteStrainDiagram.Read(new ConcreteResults.StressState(native), geometry);
-                var plane = native.Native.StrainPlane;
+                var plane = native.Native.TotalStrainPlane;
                 Check(Exact(diagram.StrainReferencePoint, plane.StrainReferencePoint) && Exact(diagram.ChiX, plane.ChiX)
                     && Exact(diagram.ChiY, plane.ChiY) && Exact(diagram.Width, geometry.Width) && Exact(diagram.Height, geometry.Height), "Piano o ingombro alterati");
                 var actual = diagram.Holes.Prepend(diagram.Outline).ToArray();

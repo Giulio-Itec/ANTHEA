@@ -41,8 +41,9 @@ try
     }
     if (args.Length == 4 && args[0] == "--attesi")
     {
-        // Results of the cases whose name contains the filter, with the same calculations of the comparison: they regenerate the expected
-        // values when a behaviour is deliberately changed (supporto/scripts/aggiorna_attesi.py merges them into casi_confronto.json).
+        // Results of the cases whose name contains the filter, with the same calculations of the comparison, for diagnosis only: the
+        // expected values are independent and are never regenerated from these results (AGENTS.md; the merge script is archived in
+        // supporto/SUPERATI/scripts since 14/10/2026). A deliberate change gets new expected values computed independently.
         var all = JsonNode.Parse(File.ReadAllText(args[1]))!.AsArray(); var output = new JsonObject();
         foreach (var c in all.OfType<JsonObject>().Where(c => c.S("nome").Contains(args[2]))) output[c.S("nome")] = Actual(c);
         File.WriteAllText(args[3], output.ToJsonString()); Console.WriteLine($"{output.Count} casi calcolati."); return 0;

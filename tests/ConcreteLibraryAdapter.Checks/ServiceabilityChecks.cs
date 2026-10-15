@@ -53,7 +53,7 @@ sealed partial class ServiceabilityChecks
     void All()
     {
         // Production uses Checker; both engines remain explicit comparison paths in these tests.
-        Check(ConcreteServiceabilityAdapter.Default == ServiceabilityEngine.Library, "motore SLE predefinito " + ConcreteServiceabilityAdapter.Default + ", atteso Library");
+        Check(ServiceabilityEngines.Default == ServiceabilityEngine.Library, "motore SLE predefinito " + ServiceabilityEngines.Default + ", atteso Library");
         if (Selected("5a")) MappingLayer();
         if (Selected("5b", "5c")) { CrackGrid(); RequirementTable(); StressGrid(); }
         if (Selected("5d")) Session();
@@ -81,7 +81,7 @@ sealed partial class ServiceabilityChecks
     void ProbeSelfTest(string proof)
     {
         using var probe = ServiceabilityProbe.Start();
-        _ = ConcreteServiceabilityAdapter.CrackRequirement("NTC 2018", "SLE_QP", J.Obj(("esposizione", "XC3")), ServiceabilityEngine.Library);
+        _ = ServiceabilityEngines.CrackRequirement("NTC 2018", "SLE_QP", J.Obj(("esposizione", "XC3")), ServiceabilityEngine.Library);
         Check(probe.Entries.Count == 1 && probe.Entries[0] == new ServiceabilityProbeEntry(ConcreteServiceabilityAdapter.ProbeName, "CrackRequirement", "Library"),
             proof + ": la sonda non registra la chiamata nota");
         var inner = Task.Run(() => { using var nested = ServiceabilityProbe.Start(); return nested.Entries.Count; }).Result;
@@ -105,24 +105,24 @@ sealed partial class ServiceabilityChecks
             Check(literals.All(allowed.Contains), file + ": numeri non ammessi: " + string.Join(", ", literals.Except(allowed)));
         }
         // Ogni membro della libreria ha una traduzione (riflessione sulla DLL caricata).
-        Check(Enum.GetValues<CrackOutcome>().All(ConcreteLibraryMapping.TranslatedOutcomes.Contains),
-            "5a: esiti senza traduzione: " + string.Join(", ", Enum.GetValues<CrackOutcome>().Except(ConcreteLibraryMapping.TranslatedOutcomes)));
-        Check(Enum.GetValues<CrackReason>().All(ConcreteLibraryMapping.TranslatedReasons.Contains),
-            "5a: motivi senza traduzione: " + string.Join(", ", Enum.GetValues<CrackReason>().Except(ConcreteLibraryMapping.TranslatedReasons)));
-        Check(Enum.GetValues<CrackCriterion>().All(ConcreteLibraryMapping.TranslatedCriteria.Contains), "5a: criteri senza traduzione");
-        Check(Enum.GetValues<CrackProfile>().All(ConcreteLibraryMapping.TranslatedProfiles.Contains), "5a: profili senza nome");
+        Check(Enum.GetValues<CrackOutcome>().All(MappingCoverage.TranslatedOutcomes.Contains),
+            "5a: esiti senza traduzione: " + string.Join(", ", Enum.GetValues<CrackOutcome>().Except(MappingCoverage.TranslatedOutcomes)));
+        Check(Enum.GetValues<CrackReason>().All(MappingCoverage.TranslatedReasons.Contains),
+            "5a: motivi senza traduzione: " + string.Join(", ", Enum.GetValues<CrackReason>().Except(MappingCoverage.TranslatedReasons)));
+        Check(Enum.GetValues<CrackCriterion>().All(MappingCoverage.TranslatedCriteria.Contains), "5a: criteri senza traduzione");
+        Check(Enum.GetValues<CrackProfile>().All(MappingCoverage.TranslatedProfiles.Contains), "5a: profili senza nome");
         foreach (var combination in Enum.GetValues<ServiceabilityCombination>())
             Check(ConcreteLibraryMapping.CombinationOf(ConcreteLibraryMapping.SetOf(combination)) == combination, "5a: combinazione " + combination);
         foreach (var set in new[] { "ED", "CURVA", "LIMITE", "BENCH", "SLU", "SLV", "" })
             Check(ConcreteLibraryMapping.CombinationOf(set) is null, "5a: insieme non SLE con una combinazione: " + set);
         var codes = Constants(typeof(CrackTraceCodes)); var flags = Constants(typeof(CrackTraceFlags)); var arguments = Constants(typeof(CrackTraceArguments));
         var rejections = Constants(typeof(CrackRejection)).Where(c => c != CrackRejection.DataKey).ToArray();
-        Check(codes.Length >= 80 && codes.ToHashSet().SetEquals(ConcreteLibraryMapping.TranslatedTraceCodes),
-            "5a: codici della traccia senza traduzione: " + string.Join(", ", codes.Except(ConcreteLibraryMapping.TranslatedTraceCodes)) + " / tradotti e assenti: "
-            + string.Join(", ", ConcreteLibraryMapping.TranslatedTraceCodes.Except(codes)));
+        Check(codes.Length >= 80 && codes.ToHashSet().SetEquals(MappingCoverage.TranslatedTraceCodes),
+            "5a: codici della traccia senza traduzione: " + string.Join(", ", codes.Except(MappingCoverage.TranslatedTraceCodes)) + " / tradotti e assenti: "
+            + string.Join(", ", MappingCoverage.TranslatedTraceCodes.Except(codes)));
         Check(flags.ToHashSet().SetEquals(ConcreteLibraryMapping.TranslatedTraceFlags), "5a: flag della traccia senza traduzione: " + string.Join(", ", flags.Except(ConcreteLibraryMapping.TranslatedTraceFlags)));
         Check(arguments.ToHashSet().SetEquals(ConcreteLibraryMapping.TranslatedTraceArguments), "5a: argomenti della traccia senza traduzione: " + string.Join(", ", arguments.Except(ConcreteLibraryMapping.TranslatedTraceArguments)));
-        Check(rejections.ToHashSet().SetEquals(ConcreteLibraryMapping.TranslatedRejections), "5a: codici di rifiuto senza traduzione: " + string.Join(", ", rejections.Except(ConcreteLibraryMapping.TranslatedRejections)));
+        Check(rejections.ToHashSet().SetEquals(MappingCoverage.TranslatedRejections), "5a: codici di rifiuto senza traduzione: " + string.Join(", ", rejections.Except(MappingCoverage.TranslatedRejections)));
         // Ogni codice produce una voce per ogni profilo, con le varianti dei flag che lo distinguono.
         int entries = 0;
         foreach (var profile in Enum.GetValues<CrackProfile>())
@@ -257,7 +257,7 @@ sealed partial class ServiceabilityChecks
                         options["esposizione"] = v.Exposure; options["sensibilita"] = v.Sensitivity; options["durata"] = v.Duration; options["aderenza"] = v.Bond;
                         options["copriferro_fessure"] = v.Cover; options["spaziatura_fessure"] = v.Spacing; options["limite_fessure"] = v.Limit;
                         if (standard == "Model Code 2010" && v.Limit == "" && variant % 4 != 0) options["limite_fessure"] = "0.3";
-                        if (ConcreteCodeChecks.CrackRequirement(standard, set, options).Kind.StartsWith("Non richiesta") && skipped++ % 4 != 0) continue;
+                        if (LegacyConcreteCodeChecks.CrackRequirement(standard, set, options).Kind.StartsWith("Non richiesta") && skipped++ % 4 != 0) continue;
                         yield return new(id++, name, standard, set, action, prepared, (JsonObject)input.DeepClone(), (JsonObject)settings.DeepClone(), options);
                     }
         }
@@ -275,20 +275,21 @@ sealed partial class ServiceabilityChecks
     /// <summary>
     /// Stati mirati della 5c (ciclo di prototipo, giro 1): rami raggiungibili in ANTHEA che la griglia della cattura densa non tocca (formazione delle
     /// fessure, barre distanziate con la regione distante o vicina governante, precompressione, copriferro e interasse della fessurazione non validi
-    /// rifiutati al punto d'uso o non letti), sulla R300x500 della griglia; ognuno con il ramo che deve raggiungere nel legacy (risultato o messaggio
-    /// del rifiuto). I rami non raggiungibili in ANTHEA (regola di k₂ prima di D7-b, hc,eff nulla, Ac,eff nulla, faccia senza armatura, asse neutro non
-    /// determinato, nessuna armatura tesa, superfici interne non supportate, limite superiore DIN, rifiuti dei parametri della formula, delle tensioni delle
-    /// barre e della sezione non fessurata) restano provati dalla libreria e dalla 5a.
+    /// rifiutati al punto d'uso o non letti; con le armature libere, F2-7: nessuna armatura tesa e faccia senza armatura), sulla R300x500 della griglia;
+    /// ognuno con il ramo che deve raggiungere nel legacy (risultato o messaggio del rifiuto). I rami non raggiungibili in ANTHEA (regola di k₂ prima di
+    /// D7-b, hc,eff nulla, Ac,eff nulla, asse neutro non determinato, superfici interne non supportate, limite superiore DIN, rifiuti dei parametri della
+    /// formula, delle tensioni delle barre e della sezione non fessurata) restano provati dalla libreria e dalla 5a (docs/refactoring/f2-7-rifiuti-sle.md).
     /// </summary>
     static IEnumerable<(CrackState State, string Branch, Func<Ntc2018Checks.CrackResult?, string, bool> Reached)> TargetedCrackStates()
     {
         (CrackState, string, Func<Ntc2018Checks.CrackResult?, string, bool>) Make(int id, string standard, string set, ActionPoint action, string branch,
-            Func<Ntc2018Checks.CrackResult?, string, bool> reached, Action<JsonObject> options, bool tendon = false)
+            Func<Ntc2018Checks.CrackResult?, string, bool> reached, Action<JsonObject> options, bool tendon = false, (double X, double Y, double Phi)[]? bars = null)
         {
             var data = SezioneCA.DefaultData(); var settings = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();
             input["shape"] = "Rettangolare"; input["width_mm"] = "300"; input["height_mm"] = "500"; input["top_bar_count"] = "2"; input["bottom_bar_count"] = "3";
             input["side_bar_count_per_side"] = "0"; input["top_bar_diameter_mm"] = "16"; input["bottom_bar_diameter_mm"] = "20"; input["cover_mm"] = "30"; input["fck_mpa"] = "30";
             input["gettato_sottile"] = "No"; settings["normativa"] = standard;
+            if (bars is not null) input["barre_manuali"] = new JsonArray(bars.Select(b => (JsonNode)J.Obj(("x", b.X), ("y", b.Y), ("phi", b.Phi))).ToArray());
             if (tendon) settings["trefoli"]!.AsArray().Add(J.Obj(("id", "T1"), ("x", "0"), ("y", "-150"), ("area", "150"), ("sigma0", "1000"), ("Ep", "195000"),
                 ("fpyk", "1670"), ("fpk", "1860"), ("eps_u", "35")));
             var prepared = CheckerSection.PrepareModel(input, settings);
@@ -328,6 +329,16 @@ sealed partial class ServiceabilityChecks
             (r, _) => r?.Status == "Sezione interamente compressa", o => { o["copriferro_fessure"] = "abc"; o["spaziatura_fessure"] = "0"; });
         yield return Make(id++, "NTC 2018", "SLE_QP", bending, "copriferro e interasse non validi non letti, decompressione",
             (r, _) => r?.Status.StartsWith("Decompressione") == true, o => { o["esposizione"] = "XD1"; o["sensibilita"] = "Sensibile"; o["copriferro_fessure"] = "abc"; o["spaziatura_fessure"] = "0"; });
+        // F2-7 (decisione dell'utente del 14/10, punto 2): armature libere su un solo lato, con il lato non armato teso.
+        // Pressoflessione con e = 160 mm > h/6 e lembo superiore teso: le sole barre inferiori sono compresse e distano 450 mm > h/2 dal lembo teso.
+        var bottom = new[] { (-100d, -200d, 20d), (0d, -200d, 20d), (100d, -200d, 20d) };
+        yield return Make(id++, "NTC 2018", "SLE_QP", new ActionPoint(-500, -80, 0), "nessuna armatura tesa, armature libere",
+            (r, _) => r?.Status == "Nessuna armatura tesa", _ => { }, bars: bottom);
+        // Trazione con risultante a metà fra due file inferiori (y = −150 mm, M = 300 · 0,15): deformazione uniforme, sezione interamente tesa;
+        // la fascia efficace della faccia superiore non contiene barre.
+        yield return Make(id++, "NTC 2018", "SLE_QP", new ActionPoint(300, 45, 0), "faccia senza armatura, armature libere",
+            (r, _) => r?.Status.Contains(": area o armatura efficace assente") == true, _ => { },
+            bars: bottom.Concat(bottom.Select(b => (b.Item1, -100d, 20d))).ToArray());
     }
 
     void CrackGrid()
@@ -343,25 +354,29 @@ sealed partial class ServiceabilityChecks
             bool grid = s.Id < TargetedFirstId;
             if (grid) states++;
             string id = $"fessurazione {s.Id} {s.Section} {s.Standard} {s.Set}";
-            var legacySection = Try(() => new CheckerSection(s.Prepared, s.Input, s.Settings, s.Options, "SLU", ServiceabilityEngine.Legacy));
-            var librarySection = Try(() => new CheckerSection(s.Prepared, s.Input, s.Settings, s.Options, "SLU", ServiceabilityEngine.Library));
+            // Dalla decisione D3 il motore non si fissa più alla costruzione della sezione: si sceglie con l'aggancio nell'analisi tensionale.
+            var legacySection = Try(() => new CheckerSection(s.Prepared, s.Input, s.Settings, s.Options, "SLU"));
+            var librarySection = Try(() => new CheckerSection(s.Prepared, s.Input, s.Settings, s.Options, "SLU"));
             Check(legacySection.Outcome == librarySection.Outcome && legacySection.Message == librarySection.Message, id + ": costruzione diversa fra i motori");
             if (legacySection.Value is null) { rejected++; continue; }
-            var legacyState = Try(() => legacySection.Value.Stress(s.Action, s.Set));
-            var libraryState = Try(() => librarySection.Value!.Stress(s.Action, s.Set));
+            var legacyState = Try(() => ServiceabilityEngines.Stress(legacySection.Value, s.Action, s.Set, ServiceabilityEngine.Legacy));
+            var libraryState = Try(() => ServiceabilityEngines.Stress(librarySection.Value!, s.Action, s.Set, ServiceabilityEngine.Library));
             Check(legacyState.Outcome == libraryState.Outcome && legacyState.Message == libraryState.Message, id + ": analisi diversa fra i motori");
             if (legacyState.Value is null) { rejected++; continue; }
             foreach (var culture in new[] { Italian, Invariant })
             {
                 CultureInfo.CurrentCulture = culture;
                 string tag = id + " (" + (culture == Italian ? "it-IT" : "invariante") + ")";
-                var direct = Try(() => Ntc2018Checks.Cracking(legacySection.Value, legacyState.Value, s.Action, s.Input, s.Settings, s.Options, s.Set));
-                var legacy = Try(() => ConcreteServiceabilityAdapter.Cracking(legacySection.Value, legacyState.Value, s.Action, s.Input, s.Settings, s.Options, s.Set, ServiceabilityEngine.Legacy));
+                var direct = Try(() => LegacyNtc2018Checks.Cracking(legacySection.Value, legacyState.Value, s.Action, s.Input, s.Settings, s.Options, s.Set));
+                ServiceabilityProbe legacyProbe;
+                (string Outcome, string Message, Ntc2018Checks.CrackResult? Value, Exception? Error) legacy;
+                using (legacyProbe = ServiceabilityProbe.Start())
+                    legacy = Try(() => ServiceabilityEngines.Cracking(legacySection.Value, legacyState.Value, s.Action, s.Input, s.Settings, s.Options, s.Set, ServiceabilityEngine.Legacy));
                 // Risultati della libreria prima della mappatura, dalla sonda: copertura della 5c e requisito di ogni ramo (ciclo di prototipo, giro 1).
                 ServiceabilityProbe probe;
                 (string Outcome, string Message, Ntc2018Checks.CrackResult? Value, Exception? Error) library;
                 using (probe = ServiceabilityProbe.Start())
-                    library = Try(() => ConcreteServiceabilityAdapter.Cracking(librarySection.Value!, libraryState.Value!, s.Action, s.Input, s.Settings, s.Options, s.Set, ServiceabilityEngine.Library));
+                    library = Try(() => ServiceabilityEngines.Cracking(librarySection.Value!, libraryState.Value!, s.Action, s.Input, s.Settings, s.Options, s.Set, ServiceabilityEngine.Library));
                 if (culture == Italian && library.Value is not null) libraryValues++;
                 if (culture == Italian && !grid)
                 {
@@ -380,10 +395,11 @@ sealed partial class ServiceabilityChecks
                         Check((raw.Reason == CrackReason.EntirelyCompressed) == legacyCompressed, $"{tag}: motivo {raw.Reason} della libreria, stato «{direct.Value?.Status}» del legacy");
                         if (legacyCompressed) compressed++;
                     }
-                // 5b: legacy dell'adattatore = legacy diretto, bit per bit; marcatori dei due motori.
+                // 5b: legacy agganciato all'adattatore = legacy diretto, bit per bit; motore di ogni fessurazione dalla sonda (dalla decisione D3 i
+                // risultati non portano più il marcatore del motore).
                 Check(direct.Outcome == legacy.Outcome && direct.Message == legacy.Message && Text(direct.Value) == Text(legacy.Value), tag + ": il motore Legacy dell'adattatore non coincide con il legacy");
-                Check(legacy.Value is null || legacy.Value.Engine == ServiceabilityEngine.Legacy, tag + ": marcatore del motore Legacy");
-                Check(library.Value is null || library.Value.Engine == ServiceabilityEngine.Library, tag + ": marcatore del motore Library");
+                Check(legacy.Value is null || Sle(legacyProbe).Any(e => e.Operation == "Cracking") && Sle(legacyProbe).All(e => e.Engine == "Legacy"), tag + ": motore Legacy nella sonda");
+                Check(library.Value is null || Sle(probe).Any(e => e.Operation == "Cracking") && Sle(probe).All(e => e.Engine == "Library"), tag + ": motore Library nella sonda");
                 // 5c: libreria = legacy (esiti, stati, rifiuti, regioni, traccia; numeri entro 1e-9; note con i numeri entro 1e-9).
                 Check(!library.Message.Contains(UnmappedText) && !Text(library.Value).Contains(UnmappedText), tag + ": testo non tradotto: " + library.Message);
                 Check(direct.Outcome == library.Outcome && direct.Message == library.Message, $"{tag}: rifiuto «{direct.Message}» ({direct.Outcome}) con il legacy, «{library.Message}» ({library.Outcome}) con la libreria"
@@ -484,15 +500,15 @@ sealed partial class ServiceabilityChecks
         int checksBefore = Checks, rows = 0, rejected = 0;
         foreach (var standard in ConcreteStandards.Names.Append("ACI 318"))
             foreach (var set in SleSets)
-                foreach (var exposure in Ntc2018Checks.Exposures.Append("").Append("XZ9"))
+                foreach (var exposure in LegacyNtc2018Checks.Exposures.Append("").Append("XZ9"))
                     foreach (var sensitive in new[] { false, true })
                         foreach (var limit in new[] { "", "0.25", "abc", "-5", "0", " " })
                         {
                             var o = J.Obj(("esposizione", exposure), ("sensibilita", sensitive ? "Sensibile" : "Poco sensibile"), ("limite_fessure", limit));
                             string id = $"requisito {standard} {set} {exposure} {sensitive} «{limit}»";
-                            var direct = Try<object>(() => ConcreteCodeChecks.CrackRequirement(standard, set, o));
-                            var legacy = Try<object>(() => ConcreteServiceabilityAdapter.CrackRequirement(standard, set, o, ServiceabilityEngine.Legacy));
-                            var library = Try<object>(() => ConcreteServiceabilityAdapter.CrackRequirement(standard, set, o, ServiceabilityEngine.Library));
+                            var direct = Try<object>(() => LegacyConcreteCodeChecks.CrackRequirement(standard, set, o));
+                            var legacy = Try<object>(() => ServiceabilityEngines.CrackRequirement(standard, set, o, ServiceabilityEngine.Legacy));
+                            var library = Try<object>(() => ServiceabilityEngines.CrackRequirement(standard, set, o, ServiceabilityEngine.Library));
                             Check(direct.Outcome == legacy.Outcome && direct.Message == legacy.Message && Equals(direct.Value, legacy.Value), id + ": il motore Legacy non coincide");
                             Check(direct.Outcome == library.Outcome && direct.Message == library.Message, $"{id}: rifiuto «{direct.Message}» con il legacy, «{library.Message}» con la libreria");
                             Check(Equals(direct.Value, library.Value), $"{id}: {direct.Value} con il legacy, {library.Value} con la libreria");
@@ -528,7 +544,7 @@ sealed partial class ServiceabilityChecks
                     settings["normativa"] = standard; input["gettato_sottile"] = thin ? "Sì" : "No";
                     var options = (JsonObject)settings["sle"]!["SLE"]!.DeepClone();
                     options["modello"] = linear ? "Lineare" : "Non lineare"; options["phi"] = psi; options["trazione_cls"] = tension; options["angoli"] = "32";
-                    var sections2 = Engines.ToDictionary(e => e, e => Try(() => new CheckerSection(prepared, input, settings, options, "SLU", e)));
+                    var sections2 = Engines.ToDictionary(e => e, e => Try(() => new CheckerSection(prepared, input, settings, options, "SLU")));
                     Check(sections2.Values.Select(v => v.Outcome + v.Message).Distinct().Count() == 1, name + " " + standard + ": costruzione diversa fra i motori");
                     if (sections2[ServiceabilityEngine.Legacy].Value is not { } legacySection) { rejected += actions.Length * 3; rows += actions.Length * 3; continue; }
                     var librarySection = sections2[ServiceabilityEngine.Library].Value!;
@@ -541,19 +557,19 @@ sealed partial class ServiceabilityChecks
                             rows++;
                             string id = $"tensioni {name} {standard} {linear} {psi} {tension} {thin} {action} {set}";
                             using var probe = ServiceabilityProbe.Start();
-                            var legacy = Try(() => legacySection.Stress(action, set));
-                            var library = Try(() => librarySection.Stress(action, set));
+                            var legacy = Try(() => ServiceabilityEngines.Stress(legacySection, action, set, ServiceabilityEngine.Legacy));
+                            var library = Try(() => ServiceabilityEngines.Stress(librarySection, action, set, ServiceabilityEngine.Library));
                             Check(legacy.Outcome == library.Outcome && legacy.Message == library.Message, $"{id}: rifiuto «{legacy.Message}» con il legacy, «{library.Message}» con la libreria");
                             if (legacy.Value is null) { rejected++; continue; }
                             var l = legacy.Value; var b = library.Value!;
                             // 5b: tasso, stato e limiti di CheckerSection con il motore Legacy = LegacyServiceability diretto = adattatore Legacy, bit per bit.
                             var direct = LegacyServiceability.StressLimits(l.Native, set, effective, legacySection.Section, phi, phiT, reduction);
-                            var adapted = ConcreteServiceabilityAdapter.StressLimits(l.Native, set, effective, legacySection.Section, phi, phiT, reduction, ServiceabilityEngine.Legacy);
-                            Check(direct == adapted with { Engine = null } && Same(l.Ratio, direct.Ratio) && l.Status == direct.Status && Same(l.ConcreteStressLimit, direct.ConcreteStressLimit)
+                            var adapted = ServiceabilityEngines.StressLimits(l.Native, set, effective, legacySection.Section, phi, phiT, reduction, ServiceabilityEngine.Legacy);
+                            Check(direct == adapted && Same(l.Ratio, direct.Ratio) && l.Status == direct.Status && Same(l.ConcreteStressLimit, direct.ConcreteStressLimit)
                                 && Same(l.SteelStressLimit, direct.SteelStressLimit), id + ": il motore Legacy non coincide con LegacyServiceability");
-                            Check(l.Engine == ServiceabilityEngine.Legacy && b.Engine == ServiceabilityEngine.Library, id + ": marcatori degli stati tensionali");
+                            // Motore degli stati tensionali: dalla decisione D3 lo dice la sonda qui sotto (due chiamate per motore), non più un marcatore.
                             // Lo stato della libreria viene dall'adattatore (stessi valori bit per bit).
-                            var libraryLimits = ConcreteServiceabilityAdapter.StressLimits(b.Native, set, effective, librarySection.Section, phi, phiT, reduction, ServiceabilityEngine.Library);
+                            var libraryLimits = ServiceabilityEngines.StressLimits(b.Native, set, effective, librarySection.Section, phi, phiT, reduction, ServiceabilityEngine.Library);
                             Check(Same(b.Ratio, libraryLimits.Ratio) && b.Status == libraryLimits.Status && Same(b.ConcreteStressLimit, libraryLimits.ConcreteStressLimit)
                                 && Same(b.SteelStressLimit, libraryLimits.SteelStressLimit), id + ": lo stato della libreria non viene dall'adattatore");
                             // Sonda: due chiamate per motore (stato e verifica qui sopra), operazione delle combinazioni SLE.
@@ -598,46 +614,53 @@ sealed partial class ServiceabilityChecks
                             if (standard == "") workspace.Remove("normativa");
                             bool direct = LegacyServiceability.CrackingRequired(set, workspace);
                             using var probe = ServiceabilityProbe.Start();
-                            bool legacy = ConcreteServiceabilityAdapter.CrackingRequired(set, workspace, ServiceabilityEngine.Legacy);
-                            bool library = ConcreteServiceabilityAdapter.CrackingRequired(set, workspace, ServiceabilityEngine.Library);
+                            bool legacy = ServiceabilityEngines.CrackingRequired(set, workspace, ServiceabilityEngine.Legacy);
+                            bool library = ServiceabilityEngines.CrackingRequired(set, workspace, ServiceabilityEngine.Library);
                             bool production = SleCheckScope.Cracking(set, workspace);
                             string id = $"ambito {standard} {set} {exposure} «{limit}» {layout}";
-                            Check(direct == legacy && direct == library && direct == production, $"{id}: legacy {direct}, adattatore Legacy {legacy}, Library {library}, SleCheckScope {production}");
+                            // F4.14: a missing standard is invalid, rather than implicitly NTC.
+                            // Keep the check visible so the calculation can explain the missing input.
+                            // The diagnostic legacy path and its original expectation stay unchanged.
+                            Check(direct == legacy && (standard == "" ? library && production : direct == library && direct == production),
+                                $"{id}: legacy {direct}, adattatore Legacy {legacy}, Library {library}, SleCheckScope {production}");
                             // Sonda: SleCheckScope passa dall'adattatore con il motore predefinito.
                             Check(Sle(probe).SequenceEqual(new ServiceabilityProbeEntry[]
                             {
                                 new(ConcreteServiceabilityAdapter.ProbeName, "CrackingRequired", "Legacy"), new(ConcreteServiceabilityAdapter.ProbeName, "CrackingRequired", "Library"),
-                                new(ConcreteServiceabilityAdapter.ProbeName, "CrackingRequired", ConcreteServiceabilityAdapter.Default.ToString())
+                                new(ConcreteServiceabilityAdapter.ProbeName, "CrackingRequired", ServiceabilityEngines.Default.ToString())
                             }), id + ": sonda " + string.Join(", ", Sle(probe)));
                             rows++; if (direct) required++;
                         }
         Report["ambito_5i"] = new JsonObject { ["righe"] = rows, ["richieste"] = required };
-        Lines.Add($"5i ambito della fessurazione: {rows} righe uguali nei due motori e in SleCheckScope ({required} richieste, norme escluse e dati non validi compresi); {Checks - checksBefore} controlli");
+        Lines.Add($"5i ambito della fessurazione: {rows} righe confrontate ({required} richieste legacy); differenza F4.14 esplicita per normativa assente, verifica visibile; {Checks - checksBefore} controlli");
     }
 
     // ================================================================== 5k. scansione dei sorgenti
     /// <summary>
-    /// Chiamate del legacy SLE fuori dall'adattatore e dai file legacy, vietate nel codice di produzione (X.Calculations, X.Core, X.Desktop) e, dal
+    /// Chiamate del legacy SLE fuori dai file legacy e dall'aggancio, vietate nel codice di produzione (X.Calculations, X.Core, X.Desktop, src) e, dal
     /// commit A5, nelle suite (supporto/test, tests), salvo le voci di legacy-allowlist.json: file, numero esatto di chiamate (oppure tutto il file),
     /// testo ammesso di ogni chiamata, motivo e scadenza. Una chiamata nuova, una in più o in meno o una voce senza riscontro fanno fallire la prova
-    /// (prova negativa n11). Commenti e stringhe non contano.
+    /// (prova negativa n11). Commenti e stringhe non contano. Dalla decisione D3 del 15/10/2026 il legacy SLE sta in tests/ANTHEA.Legacy con i nomi
+    /// LegacyNtc2018Checks e LegacyConcreteCodeChecks; nel prodotto Ntc2018Checks e ConcreteCodeChecks hanno solo DTO e norme.
     /// </summary>
     void Scan()
     {
         int checksBefore = Checks;
-        var legacyFiles = new[] { "X.Calculations/Ntc2018Checks.cs", "X.Calculations/ConcreteTensionCracking.cs", "X.Calculations/ConcreteInnerCracking.cs",
-            "X.Calculations/ConcreteCodeChecks.cs", "X.Calculations/LegacyServiceability.cs" };
-        const string adapter = "X.Calculations/ConcreteServiceabilityAdapter.cs";
-        foreach (var file in legacyFiles.Append(adapter)) Check(File.Exists(Path.Combine(root, file)), "5k: file dichiarato assente: " + file);
-        var forbidden = new Regex(@"\bNtc2018Checks\s*\.\s*(Cracking|CrackRequirement|CrackWidth|CrackWidthWithDetails|CrackK2)\b"
-            + @"|\bConcreteCodeChecks\s*\.\s*(CrackRequirement|CrackWidth|UnbondedCrackWidthBound|EffectiveCrackDepth)\b"
-            + @"|\bLegacyServiceability\s*\.\s*(StressLimits|CrackingRequired)\b|using\s+static\s+Anthea\.Calculations\.(Ntc2018Checks|ConcreteCodeChecks|LegacyServiceability)\b",
+        var legacyFiles = new[] { "tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.cs", "tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.TensionCracking.cs",
+            "tests/ANTHEA.Legacy/Serviceability/LegacyNtc2018Checks.InnerCracking.cs", "tests/ANTHEA.Legacy/Serviceability/LegacyConcreteCodeChecks.cs",
+            "tests/ANTHEA.Legacy/Serviceability/LegacyServiceability.cs" };
+        const string adapter = "tests/ANTHEA.Legacy/Serviceability/ServiceabilityEngines.cs";
+        foreach (var file in legacyFiles.Append(adapter).Append("X.Calculations/ConcreteServiceabilityAdapter.cs"))
+            Check(File.Exists(Path.Combine(root, file)), "5k: file dichiarato assente: " + file);
+        var forbidden = new Regex(@"\bLegacyNtc2018Checks\s*\.\s*(Cracking|CrackRequirement|CrackWidth|CrackWidthWithDetails|CrackK2)\b"
+            + @"|\bLegacyConcreteCodeChecks\s*\.\s*(CrackRequirement|CrackWidth|UnbondedCrackWidthBound|EffectiveCrackDepth)\b"
+            + @"|\bLegacyServiceability\s*\.\s*(StressLimits|CrackingRequired)\b|using\s+static\s+Anthea\.Calculations\.(LegacyNtc2018Checks|LegacyConcreteCodeChecks|LegacyServiceability)\b",
             RegexOptions.CultureInvariant);
         string Call(Match m) => Regex.Replace(Regex.Replace(m.Value, @"\s*\.\s*", "."), @"\s+", " ");
-        // Il campione: la scansione riconosce le chiamate, anche spezzate, e ignora commenti, testi e stringhe grezze.
-        const string sample = "var r = Ntc2018Checks .Cracking(a); var q = ConcreteCodeChecks.CrackRequirement(x); // Ntc2018Checks.Cracking\n var t = \"LegacyServiceability.StressLimits\";"
-            + "\n var u = \"\"\"\n Ntc2018Checks.CrackK2\n \"\"\"; var v = $@\"{x} ConcreteCodeChecks.CrackWidth\";";
-        Check(forbidden.Matches(DurabilityChecks.CodeOnly(sample)).Select(Call).SequenceEqual(["Ntc2018Checks.Cracking", "ConcreteCodeChecks.CrackRequirement"]),
+        // Il campione: la scansione riconosce le chiamate, anche spezzate, e ignora commenti, testi e stringhe grezze e i DTO rimasti nel prodotto.
+        const string sample = "var r = LegacyNtc2018Checks .Cracking(a); var q = LegacyConcreteCodeChecks.CrackRequirement(x); // LegacyNtc2018Checks.Cracking\n var t = \"LegacyServiceability.StressLimits\";"
+            + "\n var u = \"\"\"\n LegacyNtc2018Checks.CrackK2\n \"\"\"; var v = $@\"{x} LegacyConcreteCodeChecks.CrackWidth\"; Ntc2018Checks.CrackResult w = null!; ConcreteCodeChecks.RequireOrdinary(n);";
+        Check(forbidden.Matches(DurabilityChecks.CodeOnly(sample)).Select(Call).SequenceEqual(["LegacyNtc2018Checks.Cracking", "LegacyConcreteCodeChecks.CrackRequirement"]),
             "5k: la scansione non riconosce il campione");
         var allowlist = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests", "ConcreteLibraryAdapter.Checks", "legacy-allowlist.json")))!["voci"]!.AsArray()
             .Select(v => (File: v!["file"]!.GetValue<string>(), Calls: v["chiamate"]?.GetValue<int>(), WholeFile: v["tutto_il_file"]?.GetValue<bool>() == true,
@@ -677,37 +700,46 @@ sealed partial class ServiceabilityChecks
     }
 
     // ================================================================== 5m. motore della sessione
+    // Dalla decisione D3 del 15/10/2026 la sessione non ha più un motore proprio: lo stato tensionale usa il motore agganciato nel flusso (libreria
+    // senza aggancio) e la firma della cache contiene quel motore (ConcreteServiceabilityAdapter.EngineName). La prova controlla che stati di motori
+    // diversi non si mescolino né fra sessioni né nella cache della stessa sessione.
     void SessionEngine()
     {
         int checksBefore = Checks;
-        var property = typeof(ConcreteAnalysisSession).GetProperty(nameof(ConcreteAnalysisSession.Engine))!;
-        var field = typeof(ConcreteAnalysisSession).GetField("<Engine>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
-        Check(property.SetMethod is null && field is { IsInitOnly: true }, "5m: il motore della sessione è modificabile");
-        Check(typeof(ConcreteAnalysisSession).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-            .Where(f => f.FieldType == typeof(ServiceabilityEngine) || f.FieldType == typeof(ServiceabilityEngine?)).All(f => f.IsInitOnly), "5m: un campo del motore è scrivibile");
-        Check(new ConcreteAnalysisSession().Engine == ConcreteServiceabilityAdapter.Default, "5m: motore predefinito della sessione");
+        Check(ConcreteServiceabilityAdapter.EngineName == "Library", "5m: motore predefinito della sessione");
+        Check(ServiceabilityEngines.Run(ServiceabilityEngine.Legacy, () => ConcreteServiceabilityAdapter.EngineName) == "Legacy", "5m: motore agganciato nella firma");
         var data = SleDocument("NTC 2018", "Rettangolare"); var settings = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();
         var rows = SessionRows(data, "SLE_QP"); var options = settings["sle"]!["SLE_QP"]!.AsObject();
-        var sessions = Engines.ToDictionary(e => e, e => new ConcreteAnalysisSession(e));
-        var outcomes = Engines.ToDictionary(e => e, e => sessions[e].Stress(input, settings, options, "SLE_QP", rows));
+        var sessions = Engines.ToDictionary(e => e, e => new ConcreteAnalysisSession());
+        var probes = new Dictionary<ServiceabilityEngine, IReadOnlyList<ServiceabilityProbeEntry>>();
+        var outcomes = Engines.ToDictionary(e => e, e =>
+        {
+            using var probe = ServiceabilityProbe.Start();
+            var result = ServiceabilityEngines.Run(e, () => sessions[e].Stress(input, settings, options, "SLE_QP", rows));
+            probes[e] = Sle(probe);
+            return result;
+        });
+        foreach (var engine in Engines)
+            Check(probes[engine].Count > 0 && probes[engine].All(p => p.Engine == engine.ToString()), $"5m: la sessione con il motore {engine} non usa quel motore: " + string.Join(", ", probes[engine]));
         foreach (var (id, legacy) in outcomes[ServiceabilityEngine.Legacy])
         {
             var library = outcomes[ServiceabilityEngine.Library][id];
             if (legacy.State is null) continue;
-            Check(!ReferenceEquals(legacy.State, library.State) && legacy.State.GetNativeForTest().Engine == ServiceabilityEngine.Legacy && library.State!.GetNativeForTest().Engine == ServiceabilityEngine.Library,
-                "5m: due sessioni con motori diversi condividono uno stato o hanno lo stesso marcatore: " + id);
+            Check(!ReferenceEquals(legacy.State, library.State), "5m: due sessioni con motori diversi condividono uno stato: " + id);
         }
-        // La firma della cache contiene il motore: cambiando per riflessione il motore della sessione, gli stati si ricalcolano.
+        // La firma della cache contiene il motore: cambiando il motore agganciato, la stessa sessione ricalcola gli stati.
         var session = sessions[ServiceabilityEngine.Legacy];
-        var first = session.Stress(input, settings, options, "SLE_QP", rows);
-        var again = session.Stress(input, settings, options, "SLE_QP", rows);
+        var first = ServiceabilityEngines.Run(ServiceabilityEngine.Legacy, () => session.Stress(input, settings, options, "SLE_QP", rows));
+        var again = ServiceabilityEngines.Run(ServiceabilityEngine.Legacy, () => session.Stress(input, settings, options, "SLE_QP", rows));
         Check(first.All(p => p.Value.State is null || ReferenceEquals(p.Value.State, again[p.Key].State)), "5m: la cache della sessione non riusa gli stati");
-        field!.SetValue(session, ServiceabilityEngine.Library);
-        var switched = session.Stress(input, settings, options, "SLE_QP", rows);
-        Check(first.All(p => p.Value.State is null || !ReferenceEquals(p.Value.State, switched[p.Key].State) && switched[p.Key].State!.GetNativeForTest().Engine == ServiceabilityEngine.Library),
-            "5m: la firma della cache non contiene il motore della sessione");
+        IReadOnlyList<ServiceabilityProbeEntry> switchedEntries;
+        Dictionary<string, StressOutcome> switched;
+        using (var probe = ServiceabilityProbe.Start()) { switched = session.Stress(input, settings, options, "SLE_QP", rows); switchedEntries = Sle(probe); }
+        Check(first.All(p => p.Value.State is null || !ReferenceEquals(p.Value.State, switched[p.Key].State))
+            && switchedEntries.Any(e => e.Operation == "StressLimits") && switchedEntries.All(e => e.Engine == "Library"),
+            "5m: la firma della cache non contiene il motore agganciato");
         Report["sessione_5m"] = new JsonObject { ["righe"] = rows.Length, ["controlli"] = Checks - checksBefore };
-        Lines.Add($"5m motore della sessione: di sola lettura, nella firma della cache ({rows.Length} righe), sessioni con motori diversi senza stati comuni; {Checks - checksBefore} controlli");
+        Lines.Add($"5m motore della sessione: motore agganciato nella firma della cache ({rows.Length} righe), sessioni e chiamate con motori diversi senza stati comuni; {Checks - checksBefore} controlli");
     }
 }
 

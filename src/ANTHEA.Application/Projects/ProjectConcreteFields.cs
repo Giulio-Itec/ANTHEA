@@ -36,7 +36,7 @@ public static partial class ProjectSharedData
         if (module == RetainingWall.Module) return ActiveWallField(sheet, key);
         if (sheet["dati"] is JsonObject data && !CalculationCoefficients.Active(module, data, key)) return false;
         if (module == BridgeSection.Module && key.StartsWith(BridgePrefix)) return ActiveBridgeField(sheet, key);
-        if (key.StartsWith("Durabilità · ")) return module == "mat_calcestruzzo" || sheet["dati"]?["workspace_ca"].S("normativa", "NTC 2018") == "NTC 2018";
+        if (key.StartsWith("Durabilità · ")) return module == "mat_calcestruzzo" || sheet["dati"]?["workspace_ca"].S("normativa") == "NTC 2018";
         if (module is not ("str_palo" or PaloOrizzontale.Module)) return true;
         var input = sheet["dati"]?[module == "str_palo" ? "input" : "sezione"];
         string shape = module == "str_palo" ? input.S("shape", "Rettangolare") : "Circolare";

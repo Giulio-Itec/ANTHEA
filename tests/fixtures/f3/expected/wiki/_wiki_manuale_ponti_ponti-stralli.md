@@ -29,7 +29,7 @@ Con L = 100 m, T = 2 MN e μ = 50 kg/m risulta f1 = 1 Hz. Una variazione della t
 
 Pioggia e vento possono attivare meccanismi aeroelastici che la sola frequenza propria non descrive. Trattamenti della superficie, smorzatori e collegamenti fra cavi affrontano fenomeni differenti; un collegamento può anche creare nuovi modi locali. Ispezionabilità degli ancoraggi, protezione dalla corrosione e possibilità di sostituzione devono essere considerate insieme alla risposta resistente.
 
-ANTHEA non calcola attualmente l’equilibrio non lineare o la dinamica di un sistema di stralli. Riferimento bibliografico: FHWA, Wind-Induced Vibration of Stay Cables, capitolo 4, rapporto di ricerca storico da leggere nel proprio contesto, non prescrizione normativa corrente.
+ANTHEA non calcola attualmente l’equilibrio non lineare o la dinamica di un sistema di stralli.
 
 ### Proseguire nella Wiki
 

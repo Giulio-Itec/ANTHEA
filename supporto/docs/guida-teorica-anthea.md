@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 42
+Edizione 6 aggiornata il 15 ottobre 2026 — revisione documentale 45
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -62,7 +62,7 @@ Il catalogo delle armature comprende classi attuali e storiche. I dati nominali 
 
 ### Esposizioni e requisiti del materiale
 
-Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinate vengono ricavate assumendo il massimo dei requisiti minimi di resistenza, il minimo dei rapporti acqua cemento massimi e il massimo dei contenuti minimi di cemento pertinenti. Le classi minime seguono il prospetto 6 della UNI 11104:2025, in vigore dal 24 luglio 2025, con una sola eccezione: per XF1 resta C32/40 del prospetto 5 dell'edizione 2016, più cautelativo del C30/37 dell'edizione in vigore. Rapporti acqua cemento massimi e contenuti minimi di cemento sono quelli del prospetto 5 della UNI 11104:2016, riportato nel vademecum ATECAP 2020 (p. 19). Il prospetto 6 dell'edizione 2025 ha contenuti minimi di cemento inferiori in tutte le classi e per XF1 un rapporto acqua cemento massimo di 0,55: i limiti implementati sono quindi più restrittivi dell'edizione in vigore.
+Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinate vengono ricavate assumendo il massimo dei requisiti minimi di resistenza, il minimo dei rapporti acqua cemento massimi e il massimo dei contenuti minimi di cemento pertinenti. Classi minime, rapporti acqua cemento massimi e contenuti minimi di cemento sono quelli del prospetto 5 della UNI 11104:2016, richiamata dalle NTC 2018 al §11.2.11. L'edizione 2025 della UNI 11104 non è adottata: i suoi valori saranno considerati solo dopo il riscontro sul testo della norma. Descrizioni ed esempi delle classi mostrati nella scheda Materiali sono testi di ANTHEA basati sulla classificazione del prospetto 1 della UNI EN 206.
 
 | Esposizione | Classe minima implementata |
 | --- | --- |
@@ -75,7 +75,7 @@ Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinat
 | XD3 | C35/45 |
 | XS1 | C32/40 |
 | XS2 e XS3 | C35/45 |
-| XF1 | C32/40 (UNI 11104:2025: C30/37) |
+| XF1 | C32/40 |
 | XF2 e XF3 | C25/30 |
 | XF4 | C30/37 |
 | XA1 | C30/37 |
@@ -345,6 +345,16 @@ Per un gruppo di n fili o trefoli con area assegnata, l'eventuale diametro equiv
 
 Le verifiche di tensione di esercizio utilizzano le combinazioni già assegnate e i limiti disponibili nel modulo. La scelta Rara, Frequente o Quasi permanente non genera le combinazioni. In alcuni percorsi la verifica di decompressione o di formazione delle fessure usa uno stato ausiliario interamente reagente: tale stato non va confuso con quello fessurato usato per le tensioni delle barre.
 
+Nell'analisi elastica lineare con viscosità il solutore integra il calcestruzzo con Ec e l'acciaio con Es(1 + ψ). Le tensioni dipendono solo da n = Es(1 + ψ)/Ec, ma il piano che risolve l'equilibrio è quello di una sezione 1 + ψ volte più rigida di quella reale. Deformazioni e curvature mostrate, e quelle integrate per gli spostamenti dei muri, appartengono al piano totale:
+
+```math
+\varepsilon_{tot}(x,y) = (1+\psi)\,\varepsilon_{sol}(x,y)
+\chi_{tot} = (1+\psi)\,\chi_{sol} = \frac{M}{E_{c,eff}\,I_{cr}(n)}
+E_{c,eff} = \frac{E_c}{1+\psi}
+```
+
+Sul piano totale una barra a tensione σs ha deformazione σs/Es e il calcestruzzo compresso σc(1 + ψ)/Ec. Tensioni e asse neutro non cambiano. Nelle tre combinazioni SLE lo stesso ψ vale anche per la parte variabile del carico: la deformazione è sovrastimata, a favore di sicurezza. Con ψ = 0 e nell'analisi non lineare i due piani coincidono.
+
 ### Selezione delle verifiche nel report short
 
 Il report short è una rappresentazione dei risultati correnti, senza nuovi calcoli resistenti. Per ogni famiglia sceglie il massimo tasso di lavoro numerico finito non arrotondato, mantenendo concomitanti azioni e risultati della combinazione selezionata. La selezione è distinta per SLU N–Mx–My, SLV N–Mx–My, taglio, tensioni rara, fessurazione frequente, tensioni quasi permanente e fessurazione quasi permanente.
@@ -426,6 +436,12 @@ Asl,disp è l'armatura longitudinale disponibile per la torsione dopo la flessio
 ### Dettagli e curva momento curvatura
 
 Le verifiche costruttive dipendono dal tipo di elemento scelto. Il modulo confronta geometria, armature e parametri necessari con i limiti implementati e mantiene «Da completare» quando mancano informazioni. La lunghezza di ancoraggio rettilineo parte da lbrqd = φσsd/(4fbd), con i coefficienti di forma e condizioni α1–α5 assunti unitari nel ramo documentato. Le sovrapposizioni introducono α6 e i relativi minimi; i dettagli speciali non vengono ricavati da un disegno ideale della sezione.
+
+Lo sforzo NEd dei minimi di armatura dei pilastri (NTC 2018 §4.1.6.1.2) è la compressione più gravosa fra tutte le combinazioni del foglio: SLU, SLV, taglio, rara, frequente e quasi permanente. A parità di valore prevale una combinazione di progetto. Con combinazioni ultime complete le SLE di norma non governano; se governano, il risultato indica che NEd è un valore di esercizio.
+
+```math
+N_{Ed} = \max_r\ \max(0;\ -N_r)
+```
 
 La curva M χ viene costruita a N fissato nella direzione assegnata, con passi uniformi o quadratici fino al limite resistente. Ogni punto richiede equilibrio di sezione. In una sezione asimmetrica la direzione del gradiente di deformazione può non coincidere con quella del momento. Non sono inclusi automaticamente softening strutturale, lunghezza della cerniera, rotazione globale o interazione con instabilità dell'elemento.
 
@@ -791,7 +807,7 @@ Il modello costruisce e confronta alternative parametriche. La graduatoria rigua
 
 ### Ambito del motore e significato di ottimizzazione
 
-Bridge Design usa il motore parametrico BridgeConcept di ANTHEA. I moduli Sezione in c.a. e Sezione composta da ponte impiegano invece le librerie indicate nell’interfaccia come GPC Engine. L’ottimizzazione di Bridge Design non richiama automaticamente quelle verifiche di sezione. La presenza delle librerie GPC non trasforma il predimensionamento in una verifica strutturale completa.
+Bridge Design usa il motore parametrico BridgeConcept della libreria GPC.Design. ANTHEA gestisce documenti, cataloghi, revisione dei prezzi e comandi di ricerca; GPC calcola quantità, azioni, costi e graduatoria sui dati ricevuti. I moduli Sezione in c.a. e Sezione composta da ponte impiegano invece le librerie indicate nell’interfaccia come GPC Engine. L’ottimizzazione di Bridge Design non richiama automaticamente quelle verifiche di sezione. La presenza delle librerie GPC non trasforma il predimensionamento in una verifica strutturale completa.
 
 L’ottimizzatore è una ricerca discreta deterministica: genera combinazioni, calcola ciascuna, applica filtri e ordina quelle rimaste. Non usa apprendimento automatico, un algoritmo genetico o una ricerca continua per gradiente. A parità di dati, opzioni e versione del motore produce gli stessi risultati. Non promette di trovare una soluzione compresa fra due valori della griglia o appartenente a una tipologia non modellata.
 
@@ -799,7 +815,7 @@ La soluzione ammissibile è una soluzione che supera i filtri interni elencati n
 
 ### Dati esterni e loro ingresso nel calcolo
 
-I dati esterni entrano attraverso i campi del progetto e il listino. Durante la ricerca non vengono interrogati servizi esterni, come prezzari, servizi geologici o banche dati di ponti. I valori iniziali sono contenuti nel codice e restano modificabili; un archivio riaperto conserva i propri prezzi e coefficienti. L’utente deve aggiornare consapevolmente le ipotesi quando cambia sito, anno economico, fornitore o prestazione richiesta.
+I dati esterni entrano attraverso i campi del progetto e il listino. I cataloghi possono essere importati da CSV, XLSX e JSON ANTHEA. Durante la ricerca non vengono interrogati servizi esterni, come prezzari, servizi geologici o banche dati di ponti. I valori iniziali sono contenuti nel codice e restano modificabili; un archivio riaperto conserva i propri prezzi e coefficienti. L’utente deve aggiornare consapevolmente le ipotesi quando cambia sito, anno economico, fornitore o prestazione richiesta.
 
 | Dato | Origine prevista | Effetto nel modello |
 | --- | --- | --- |
@@ -904,7 +920,7 @@ I_{eq} = \sum_j n_j\left[I_j+A_j(y_j-y_G)^2\right]
 
 Per le travi incorporate, Ac = Wd − Aa: il volume d’acciaio sostituisce calcestruzzo. L’inerzia usa il rettangolo lordo in cls più l’apporto dell’acciaio con coefficiente Es/Ec − 1, evitando di conteggiare due volte la stessa area. Si assume collaborazione perfetta; adesione, fasi di getto e verifiche dei profili non sono risolte.
 
-La piastra ortotropa somma lamiera superiore, canalette, fondi e due anime verticali per cassone. La lunghezza dei lati inclinati delle canalette è calcolata geometricamente. Il numero delle canalette deriva dalla parte intera di W/interasse e il prospetto espone l’interasse adottato W/n. La massa riceve un’aggiunta per traversi e accessori, ma il modello non esegue una verifica locale ortotropa o delle saldature. Il manuale FHWA [R3] documenta la necessità di trattare distintamente flessione locale, distorsione e fatica; citarlo non significa che queste verifiche siano implementate.
+La piastra ortotropa somma lamiera superiore, canalette, fondi e due anime verticali per cassone. La lunghezza dei lati inclinati delle canalette è calcolata geometricamente. Il numero delle canalette deriva dalla parte intera di W/interasse e il prospetto espone l’interasse adottato W/n. La massa riceve un’aggiunta per traversi e accessori, ma il modello non esegue una verifica locale ortotropa o delle saldature. Flessione locale della lamiera, distorsione delle canalette e fatica dei dettagli restano verifiche distinte, da svolgere fuori dal modulo.
 
 ### Acciai e carichi equivalenti
 
@@ -912,7 +928,7 @@ Il volume di calcestruzzo dell’impalcato è l’area della sezione per la lung
 
 Le armature sono stimate per incidenza: 140 kg/m³ per impalcati in c.a., 110 per c.a.p., 120 per soletta mista e famiglie estese; 150 per sottostrutture e 120 per fondazioni. La precompressione vale inizialmente 30 kg/m³ di impalcato precompresso. I parametri editabili sono riportati nell’interfaccia; l’incidenza 120 delle solette miste è una convenzione del motore. Non vengono ricavati numero, tracciato, tesatura o perdite dei cavi di precompressione.
 
-Indicando con ma la massa totale di carpenteria dell’impalcato in t, con g2 il carico permanente portato in kN/m² e con nb il numero convenzionale di barriere, i carichi sull’intera larghezza sono:
+Nel modello Uniforme equivalente (legacy), indicando con ma la massa totale di carpenteria dell’impalcato in t, con g2 il carico permanente portato in kN/m² e con nb il numero convenzionale di barriere, i carichi sull’intera larghezza sono:
 
 ```math
 G = 25A_c+\frac{9{,}81m_a}{L}+g_2 W+8n_b
@@ -921,11 +937,21 @@ q_s = G+Q
 q_d = \gamma_G G+\gamma_Q Q
 ```
 
-I valori iniziali sono g2 = 2,5 kN/m², qtraffico = 9 kN/m², γG = 1,35 e γQ = 1,50. nb vale 2, oppure 3 in presenza di spartitraffico. Il traffico è uniforme e contemporaneo su tutte le campate: non è un inviluppo di assi mobili né un modello di corsie caricate alternativamente. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza.
+I valori storici del modello uniforme sono g2 = 2,5 kN/m², qtraffico = 9 kN/m², γG = 1,35 e γQ = 1,50. nb vale 2, oppure 3 in presenza di spartitraffico. In questo modello il traffico è uniforme e contemporaneo su tutte le campate. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza. I nuovi progetti adottano invece Schema 1 e γQ = 1,35, descritti nel seguito.
+
+### Traffico mobile Schema 1
+
+Il modello adotta le corsie convenzionali dello Schema 1 delle NTC 2018 §5.1.3.3, Tabelle 5.1.I e 5.1.II. Ogni tandem ha due assi a distanza 1,20 m; il carico per asse è 300, 200 e 100 kN per le prime tre corsie. Il carico distribuito è 9 kN/m² sulla prima corsia e 2,5 kN/m² sulle successive e sulla parte rimanente, per quest’ultima secondo EN 1991-2, Tabella 4.2. La numerazione sfavorevole è comune alle carreggiate separate; le corsie convenzionali non coincidono necessariamente con quelle tracciate a terra.
+
+Per la trave longitudinale equivalente si costruiscono linee di influenza cubiche di momento, taglio, spostamento e reazione. Si cercano le posizioni sfavorevoli dei tandem e le porzioni favorevoli o sfavorevoli del carico distribuito. La ricerca longitudinale degli estremi avviene sui tratti polinomiali; le 41 sezioni per campata sono punti di restituzione del diagramma, non il passo di avanzamento del veicolo. Restano le ipotesi di elasticità lineare e EI costante della trave equivalente.
+
+Ogni grandezza conserva minimo e massimo. Gli estremi sono indipendenti e non costituiscono una combinazione concomitante; in particolare non si sommano massimi di reazione come se avvenissero insieme. Il predimensionamento degli appoggi usa l’estremo del singolo appoggio, mentre una reazione minima negativa segnala un possibile sollevamento. Il coefficiente γQ è un unico dato assegnato, con valore iniziale sfavorevole 1,35; la traccia riporta i coefficienti usati.
+
+Nelle famiglie con struttura superiore il servizio conserva un modello concettuale: ricava azioni globali equivalenti dagli inviluppi e applica i tandem ai membri locali secondo lo schema adottato. Non ricostruisce le linee di influenza spaziali di cavi, pendini o aste del ponte reale, né la non linearità geometrica. Questi limiti restano distinti dall’analisi longitudinale delle travate ordinarie.
 
 ### Analisi della trave equivalente
 
-Per le famiglie senza struttura superiore, ANTHEA risolve una trave di Euler Bernoulli con EI costante, appoggi verticali e rotazioni libere alle estremità. Nella continuità i momenti sugli appoggi interni sono ottenuti con il teorema dei tre momenti. Per due campate adiacenti a e b, con momenti Ml, Mi e Mr e carico uniforme q:
+Per le famiglie senza struttura superiore, il servizio GPC risolve una trave di Euler Bernoulli con EI costante, appoggi verticali e rotazioni libere alle estremità. Nella continuità i momenti sugli appoggi interni sono ottenuti con il teorema dei tre momenti. Per due campate adiacenti a e b, con momenti Ml, Mi e Mr e carico uniforme q:
 
 ```math
 M_l a+2M_i(a+b)+M_r b = -\frac{q(a^3+b^3)}{4}
@@ -941,7 +967,7 @@ M(x) = M_l+R_l x-\frac{qx^2}{2}
 
 La freccia è ricavata integrando M/EI due volte e imponendo spostamento nullo ai due appoggi. Il motore campiona 41 punti per campata e aggiunge il punto di taglio nullo per individuare l’estremo del momento. L’estremo della freccia resta campionato: il valore visualizzato non è sempre il massimo analitico esatto. I diagrammi delle azioni usano qd; la freccia indicativa e le reazioni usate nel dimensionamento ordinario delle fondazioni sono riferite a qs.
 
-Per una campata appoggiata valgono R = ql/2, Mmax = ql²/8 e vmax = 5ql⁴/(384EI). Per due campate uguali continue, il momento centrale è −ql²/8, la reazione esterna 3ql/8, quella centrale 5ql/4 e il massimo positivo 9ql²/128. Questi casi sono controllati direttamente dalla suite. La formulazione FEM adottata nella verifica indipendente è documentata da TU Delft [R4].
+Per una campata appoggiata valgono R = ql/2, Mmax = ql²/8 e vmax = 5ql⁴/(384EI). Per due campate uguali continue, il momento centrale è −ql²/8, la reazione esterna 3ql/8, quella centrale 5ql/4 e il massimo positivo 9ql²/128. Questi casi sono controllati direttamente dalla suite. La verifica indipendente usa elementi trave di Euler–Bernoulli con funzioni di forma di Hermite.
 
 Il modello trascura deformazione a taglio, fessurazione, viscosità, ritiro, effetti reali della precompressione, rigidezza variabile, cedimenti degli appoggi e fasi costruttive. La buona concordanza fra due solutori con queste ipotesi dimostra la corretta soluzione del problema ideale, non la validità delle ipotesi per qualsiasi ponte.
 
@@ -978,7 +1004,7 @@ L’azione comprende reazione dell’impalcato, peso della sottostruttura e peso
 
 Per il plinto diretto si parte da una dimensione basata su √(N/(0,85p)), con minimo geometrico e arrotondamento a 0,25 m; lo spessore è max(0,60; B/6). La dimensione viene aumentata a passi di 0,25 m finché il rapporto è non maggiore di 1. Per i pali il numero automatico è pari e non inferiore a 4; aumenta di almeno due unità quando necessario. Il plinto su pali ha spessore 1,5D e deve contenere una griglia a interasse 3D con ingombro minimo [ceil(√np) − 1]3D + 2D. Il lato trasversale tiene conto anche della larghezza della sottostruttura.
 
-Il ciclo di fondazione ha un limite di 1.024 aggiornamenti e rifiuta casi non convergenti. Quote e numeri imposti dall’utente vengono rispettati, esponendo l’eventuale superamento del rapporto. Restano esclusi eccentricità, pressoflessione dei pali, carichi orizzontali, effetto di gruppo, cedimenti, attrito negativo, liquefazione e scalzamento. Il quadro delle verifiche reali è distinto da queste formule e va ricondotto alle norme applicabili [R5].
+Il ciclo di fondazione ha un limite di 1.024 aggiornamenti e rifiuta casi non convergenti. Quote e numeri imposti dall’utente vengono rispettati, esponendo l’eventuale superamento del rapporto. Restano esclusi eccentricità, pressoflessione dei pali, carichi orizzontali, effetto di gruppo, cedimenti, attrito negativo, liquefazione e scalzamento. Il quadro delle verifiche reali è distinto da queste formule e va ricondotto alle norme applicabili [R3].
 
 ### Archi reticolari stralli e sospensioni
 
@@ -1031,9 +1057,24 @@ I valori correnti sono stati confrontati con ANAS NC MP 2026 Rev 1 [R1] e con Em
 | Cavi e pendini | 16.000 €/t | Sistema installato da preventivare |
 | Montaggio speciale | 1.000 €/t | Aggiunta per complessità speciale |
 
+Il computo separa quantità fisiche e prezzi risolti. Ogni risultato conserva la revisione del catalogo, le associazioni, le unità e gli eventuali prezzi personalizzati con motivazione. Una rivalutazione economica mantiene geometria e quantità; una nuova ricerca valuta invece tutti i candidati con la stessa copia del prezzario. I costi sono sommati dopo la conversione coerente delle unità, ad esempio €/kg e €/t. Un prezzo mancante rende il computo incompleto per le quantità che lo richiedono; zero resta un prezzo esplicito.
+
+Le inclusioni agiscono solo sulle quantità figlie rappresentate dal computo. La relazione disponibile è l’armatura compresa nella tariffa del relativo palo: non sopprime l’armatura delle altre parti. Una dichiarazione di inclusione non supportata viene rifiutata. Catalogo economico e fattori ambientali hanno revisioni indipendenti; il cambio di uno non modifica l’altro. I prezzi iniziali riportati restano riferimenti convenzionali da sostituire o confermare nel progetto, non un aggiornamento automatico dei prezzari citati.
+
 Il cls dei pali è incluso nella tariffa al metro e non viene nuovamente addebitato a volume; il volume resta conteggiato per l’impronta ambientale e per l’armatura. Gli appoggi ANAS sono articolati per forza e movimento, mentre qui si usa un importo medio a dispositivo. Le casseforme sono equivalenti; scavi, rinterri, drenaggi, impermeabilizzazione, protezioni, accessi, centine alte e sicurezza specifica non sono computati analiticamente. Per la carpenteria ortotropa la maggiorazione ANAS riguarda la lamiera interessata, mentre ANTHEA adotta un prezzo aggregato del sistema.
 
 Il listino ANAS dichiara spese generali 15% e utile 10% già inclusi e tratta la sicurezza specifica separatamente [R1]. Per questo il 12% ANTHEA deve coprire soltanto oneri aggiuntivi non computati; aggiungerlo come nuova percentuale generale di impresa può produrre un doppio conteggio. Il montaggio speciale va azzerato o adattato quando già compreso nel preventivo.
+
+Un'analisi composta ricava il prezzo unitario dai componenti, voci del prezzario o altre analisi, con quantità qi nell'unità del componente e prezzi pi. Spese generali g e utile d'impresa u sono voci distinte del totale:
+
+```math
+S = \sum_i q_i p_i
+G = S\,\frac{g}{100}
+U = (S+G)\,\frac{u}{100}
+p_{analisi} = S+G+U
+```
+
+g e u sono quelli del prezzario, salvo valori propri dell'analisi. Un'analisi annidata entra con il proprio prezzo esatto, senza arrotondamenti intermedi; i riferimenti circolari vengono rifiutati. Il prezzo di un'analisi comprende già spese generali e utile: gli oneri aggiuntivi del computo vanno quindi valutati con la stessa cautela indicata per il listino. Per esempio, 1,05 m³ di calcestruzzo a 110 €/m³, 0,80 h di manodopera a 30 €/h e 0,10 h di autopompa a 90 €/h danno S = 148,50 €; con g = 15% e u = 10% si ottengono G = 22,275 €, U = 17,0775 € e un prezzo di 187,8525 €/m³, presentato come 187,85 €/m³.
 
 La CO₂ somma cls e acciai e applica una maggiorazione convenzionale di trasporti e cantiere. Con masse in tonnellate e fattori dell’acciaio in kg/kg, il prodotto restituisce tonnellate di CO₂ equivalente. Il cls usa kg/m³ e richiede divisione per 1.000. I fattori iniziali sono 320 kg/m³ per cls, 1,4 kg/kg per armatura, 2 per carpenteria, 2,5 per precompressione e cavi; il cantiere aggiunge 15%.
 
@@ -1086,11 +1127,7 @@ Un buon uso del modulo consiste nel restringere un insieme di idee a poche alter
 
 [R2] Regione Emilia Romagna, Elenco regionale prezzi 2026 e correzioni 2026. Riscontro territoriale delle tariffe; non attribuisce una localizzazione al progetto.
 
-[R3] FHWA IF 12 027, Manual for Design Construction and Maintenance of Orthotropic Steel Deck Bridges, febbraio 2012. Riferimento tecnico per l’estensione reale delle verifiche ortotrope.
-
-[R4] TU Delft, Computational Modelling, Euler Bernoulli beam elements, capitolo 4.1. Riferimento della formulazione per rigidezze e funzioni di Hermite del verificatore indipendente.
-
-[R5] Decreto 17 gennaio 2018, Aggiornamento delle Norme tecniche per le costruzioni, pubblicazione in GU 20 febbraio 2018. Riferimento del quadro normativo, non certificazione del predimensionamento.
+[R3] Decreto 17 gennaio 2018, Aggiornamento delle Norme tecniche per le costruzioni, pubblicazione in GU 20 febbraio 2018. Riferimento del quadro normativo, non certificazione del predimensionamento.
 
 ### Controllo manuale della trave equivalente
 
@@ -1219,7 +1256,7 @@ Si integra s=∫Δσz/M dz con tensioni Boussinesq di una striscia infinita e pr
 
 È un cedimento finale con moduli costanti assegnati: non ricostruisce tempi di consolidazione, OCR, scarico e ricarico, variazione di M con le tensioni o degrado ciclico. La rotazione θ=(smonte−svalle)/B deriva dal profilo libero; non è una soluzione accoppiata della fondazione rigida.
 
-Per Calcola spostamenti in testa servono anche la rigidezza orizzontale di fondazione K per metro di muro, in kN/m², e il limite scelto. Il fusto in c.a. usa curvature delle sezioni fessurate GPC con viscosità assegnata. La doppia integrazione fornisce u del fusto con base fissa; la stima disaccoppiata totale è utesta=ufusto+H/K−θHmuro. Il termine di rotazione conserva il segno. Le curvature mancanti impediscono il risultato. La gravità usa il modello elastico del materiale nel campo senza trazione.
+Per Calcola spostamenti in testa servono anche la rigidezza orizzontale di fondazione K per metro di muro, in kN/m², e il limite scelto. Il fusto in c.a. usa curvature totali delle sezioni fessurate GPC con viscosità assegnata. Per l’analisi lineare si usa la curvatura totale comprensiva dell’effetto viscoso, mantenendo la convenzione del solutore e senza moltiplicarla nuovamente per 1 + φ. La doppia integrazione fornisce u del fusto con base fissa; la stima disaccoppiata totale è utesta=ufusto+H/K−θHmuro. Il termine di rotazione conserva il segno. Le curvature mancanti impediscono il risultato. La gravità usa il modello elastico del materiale nel campo senza trazione.
 
 ### Spostamenti permanenti Newmark
 
@@ -1228,6 +1265,12 @@ Il blocco rigido scorre in una sola direzione. L’integrazione dei tratti linea
 ### Armature e comando Calcola armature
 
 Il predimensionamento usa ancoraggi a fyd e nessuna riduzione favorevole dei coefficienti di forma o confinamento. fbd deriva dalle proprietà GPC e dalle condizioni di aderenza. Le giunzioni sono alla stessa quota, quindi lo schema richiede il 100% delle barre giuntate e numeri compatibili nelle due zone. Si controllano lunghezza comune, interferro tra coppie, ingombro, area e passo dei collegamenti. Il mandrino considera anche la pressione nel calcestruzzo all’interno della piega.
+
+### Taglio senza staffe e stato delle verifiche del muro
+
+La verifica a taglio senza staffe riusa il servizio delle sezioni in c.a. e comprende il contributo della compressione assiale σcp entro i limiti del profilo normativo. La striscia strutturale è larga 1 m; l’adattatore converte una sola volta le azioni e il segno della compressione. I dati che escono dal campo supportato, compresi i casi di trazione rifiutati dal servizio, producono una diagnosi e non una resistenza favorevole fittizia.
+
+Esecuzione, disponibilità dei dati ed esito ingegneristico sono distinti. Un controllo non eseguito, incompleto o non convergente non diventa soddisfatto; una violazione accertata resta evidenziata anche se un altro controllo è incompleto. Questo criterio vale anche per le verifiche dei pali e per l’ammissione dei candidati nelle ricerche.
 
 ### Materiali del muro e condivisione nel progetto
 
@@ -1261,7 +1304,7 @@ Aprire supporto/artefatti/muri-completamento-20260930/interfaccia-finale/esempio
 
 Nella stessa cartella sono presenti relazione Word e PDF, figure della sezione e risultati JSON.
 
-Fonti: JRC, Eurocode 8 Worked Examples, §4.8; JRC, Eurocode 2 Detailing (J. M. Arrieta, workshop 2011); USGS, SIR 2007-5196 sul metodo di Newmark; NTC 2018 §§4.1.11 e 7.8.2.2.3; USACE EM 1110-1-1905, 2025.
+Fonti: NTC 2018 §§4.1.11 e 7.8.2.2.3; USGS, SIR 2007-5196 sul metodo di Newmark; USACE EM 1110-1-1905, 2025.
 
 ### Relazioni degli spostamenti
 
@@ -1400,7 +1443,7 @@ Il motore ElasticPile in GPCChecker.Geotechnics risolve una trave di Euler–Ber
 
 ### Fonti consultate e attribuzione
 
-La formulazione FEM di riferimento consultata il 2 ottobre 2026 è TU Delft, Computational Modelling, capitolo 4.1 Euler–Bernoulli beam elements, pagina web senza numerazione di pagina. Sono state consultate la relazione cinematica, l'ipotesi di trascurare le deformazioni da taglio e la discretizzazione Hermite con spostamento e rotazione nodali. La convenzione dei segni qui dichiarata viene usata coerentemente nell'implementazione.
+La formulazione FEM è quella classica dell'elemento trave di Euler–Bernoulli: relazione cinematica delle sezioni piane, deformazioni da taglio trascurate e interpolazione di Hermite con spostamento e rotazione nodali. La convenzione dei segni qui dichiarata viene usata coerentemente nell'implementazione.
 
 Carlo Viggiani, Fondazioni: pp. 464–465 (§14.4.1), pp. 466–467 e pp. 478–479 (equazione 14.25 e tabelle 14.5–14.6), con le pagine adiacenti 476–477 e 480–481. L'edizione della copia consultata non è identificabile: mancano frontespizio e colophon e la prefazione è datata dicembre 1998; tale data non viene usata per dedurre l'edizione. La trattazione è di Viggiani; le correlazioni sono attribuite agli autori indicati nel libro. Gli articoli originali non sono stati consultati.
 
@@ -1504,7 +1547,7 @@ Le lunghezze di ancoraggio e sovrapposizione richiamano il motore Checker già v
 
 La partizione determina i tagli fisici. Per un tratto [a_i,b_i], il primo gruppo occupa [0,b_1]; ogni gruppo successivo occupa [max(0,a_i−l0_i),b_i]. La lunghezza adottata l0_i è il massimo delle lunghezze iniziali e richieste delle due armature collegate. La quota b_i rimane invariata. Questa è una convenzione geometrica di ANTHEA, non una prescrizione normativa: non dimostra da sola il pieno sviluppo dell'armatura alla quota di cambio. Non si sommano lbd o traslazioni alla lunghezza fisica, non si fondono gruppi identici e non si estendono automaticamente le barre oltre testa, punta o fine tratto. Un giunto privo dello spazio disponibile viene segnalato.
 
-Lo sviluppo richiesto per usare la resistenza conserva lbd+a_l, con a_l=z cotθ/2 per staffe ortogonali (EN1992-1-1 §9.2.1.3, presentazione JRC Arrieta 2011, diapositiva 33). Se il taglio non è confermato si usa il limite superiore cotθ=2,5 a fini preliminari. Questo controllo non modifica le quote scelte: può lasciare tratti non verificati. La regola riguarda esclusivamente i tagli e la costruzione della distinta, non le formule del motore di aderenza.
+Lo sviluppo richiesto per usare la resistenza conserva lbd+a_l, con a_l=z cotθ/2 per staffe ortogonali (EN 1992-1-1 §9.2.1.3). Se il taglio non è confermato si usa il limite superiore cotθ=2,5 a fini preliminari. Questo controllo non modifica le quote scelte: può lasciare tratti non verificati. La regola riguarda esclusivamente i tagli e la costruzione della distinta, non le formule del motore di aderenza.
 
 La finestra del giunto è l'intersezione fisica dei due gruppi e termina al confine dei tratti. Si conservano l0 iniziale, richiesta, adottata ed effettiva. Il calcolo assume il 100% delle giunzioni alla stessa quota; una percentuale richiesta inferiore rimane da realizzare mediante sfalsamento esplicito. Si associano soltanto barre sulla stessa direzione radiale nominale e si indicano coppie allineate e coppie previste. Per 20Ø20 e 12Ø16 su corone regolari con lo stesso orientamento coincidono quattro direzioni su dodici richieste: le altre non vengono considerate automaticamente giuntate. La distanza trasversale, le interferenze tra finestre e la lunghezza disponibile partecipano allo stato del dettaglio. Il disegno non certifica piegature, accostamento o confinamento.
 
@@ -1588,7 +1631,7 @@ Le prove automatiche confrontano MRd seriale/parallelo, conservazione del FEM al
 
 ### Fonti e validazione dell'estensione strutturale
 
-Fonti consultate il 6 ottobre 2026: DM 17 gennaio 2018, NTC, Gazzetta Ufficiale, capitolo 4 (§4.1.2.3.5, §4.1.6.1.4) e capitolo 7 (§7.2.5); José M. Arrieta, Eurocode 2 Background and Applications, workshop JRC Bruxelles 20–21 ottobre 2011, diapositive 7–8, 16 e 33. Il materiale JRC è un supporto formativo, non una nuova edizione della norma.
+Fonti: DM 17 gennaio 2018, NTC, Gazzetta Ufficiale, capitolo 4 (§4.1.2.3.5, §4.1.6.1.4) e capitolo 7 (§7.2.5); EN 1992-1-1:2004 §9.2.1.3 per la traslazione del diagramma delle forze di trazione.
 
 I test diretti dell'estensione controllano pesi su aree disgiunte, carico assiale nullo e invertito, azioni concomitanti, confini esatti della mesh, continuità dei tratti, MRd nei due versi e dipendenza da N, rifiuto dei casi fuori dominio, minimi selezionati, ancoraggi, sovrapposizioni e distinta. Riferimento indipendente per l'aderenza: φ16, σsd=400 MPa, fctk05=2 MPa, γc=1,5 e buona aderenza danno fbd=3 MPa, lbd=533,333 mm e l0=800 mm con tutte le barre sovrapposte. Restano attivi i confronti analitici FEM e Viggiani già documentati.
 
@@ -1714,7 +1757,7 @@ La matrice trasforma spostamenti e rotazioni nodali nelle azioni nodali elastich
 
 Nello schema, il momento positivo tende le fibre inferiori. L'area sotto il carico è 200 kN e coincide con la somma delle reazioni. Il diagramma nullo agli appoggi è una verifica indipendente dei rilasci terminali. L'esempio è statico, elastico e del primo ordine; non rappresenta fessurazione, viscosità o variazioni di rigidezza.
 
-La formulazione variazionale e l'interpolazione sono documentate nel capitolo *Euler-Bernoulli beam elements* del manuale di modellazione computazionale TU Delft. Il segno di curvatura può differire fra testi: la relazione costitutiva deve essere letta con la stessa convenzione del momento, senza combinare definizioni provenienti da solutori diversi.
+La formulazione variazionale e l'interpolazione sono quelle classiche dell'elemento trave di Euler–Bernoulli. Il segno di curvatura può differire fra testi: la relazione costitutiva deve essere letta con la stessa convenzione del momento, senza combinare definizioni provenienti da solutori diversi.
 
 ### Flessione
 
@@ -1860,7 +1903,6 @@ Un beam concentra il comportamento di una struttura allungata in una linea con p
 
 ### Riferimenti
 
-- TU Delft, Computational Modelling, Euler-Bernoulli beam elements: derivazione della cinematica e dell'interpolazione.
 - Il capitolo spiega un modello meccanico e non introduce coefficienti di verifica normativa. Le prescrizioni dei materiali e gli stati limite si consultano nella guida teorica globale, nelle sezioni dei moduli corrispondenti.
 
 ## Elementi Shell
@@ -1905,7 +1947,7 @@ Confronta il modello numerico con uno schizzo cinematico. Usa un carico unitario
 
 ### Riferimento del modello
 
-La formulazione dei telai piani del testo TU Delft Computational Modelling distingue traslazioni e rotazione del nodo e l’assemblaggio delle rigidezze. Questa pagina riguarda l’interpretazione del modello esterno: non introduce un editor generale di release in Anthea.
+Nel modello a telaio piano ogni nodo ha due traslazioni e una rotazione; le rigidezze degli elementi si assemblano su queste incognite. Questa pagina riguarda l’interpretazione del modello esterno: non introduce un editor generale di release in Anthea.
 
 ## Instabilità delle aste compresse
 
@@ -1979,7 +2021,7 @@ Con $f_y=355\,\mathrm{MPa}$ la tensione critica resta sotto lo snervamento, cond
 
 Disegna i ritegni nei due piani, scegli le rispettive inerzie e determina il modo governante. Solo dopo valuta la procedura normativa applicabile: imperfezioni, analisi del secondo ordine, classificazione della sezione e instabilità locale possono richiedere controlli distinti. L'instabilità flesso-torsionale, spesso indicata LTB, riguarda accoppiamento di spostamento laterale e torsione di un elemento inflesso: non si verifica sostituendo semplicemente un'inerzia nella formula di Euler.
 
-La derivazione è un modello teorico, verificato sulle lezioni MIT *Buckling of Beams*, corso 16.001, 2021. Le verifiche dell'acciaio ricadono nel quadro NTC ed Eurocodice 3 adottato dal progetto; qui non sono assegnati coefficienti parziali o curve di buckling normative. Bibliografia per approfondire: Timoshenko e Gere, *Theory of Elastic Stability*, stabilità delle aste.
+La derivazione è il modello teorico classico della biforcazione elastica. Le verifiche dell'acciaio ricadono nel quadro NTC ed Eurocodice 3 adottato dal progetto; qui non sono assegnati coefficienti parziali o curve di buckling normative. Bibliografia per approfondire: Timoshenko e Gere, *Theory of Elastic Stability*, stabilità delle aste.
 
 ### Errori comuni
 
@@ -2054,7 +2096,7 @@ Per m = 1000 kg e k = 40000 N/m si ottengono frequenza angolare 6,3246 rad/s e p
 T=\frac{2\pi}{\omega_n}
 ```
 
-La derivazione è nelle lezioni MIT di dinamica strutturale, corso 16.20 Structural Mechanics, Unit 20. I coefficienti normativi e lo smorzamento vanno definiti separatamente.
+È la soluzione classica dell'oscillatore semplice non smorzato. I coefficienti normativi e lo smorzamento vanno definiti separatamente.
 
 ## Fasi costruttive e percorso dei carichi
 
@@ -2079,7 +2121,7 @@ Il modulo Sezione composta da ponte di Anthea documenta l'analisi per fasi nella
 
 ### Riferimento e campo
 
-La trattazione SCI sulla costruzione composta distingue la fase non puntellata, in cui l’acciaio sostiene il calcestruzzo fresco, dalla fase composta. È un riferimento sul modello; non sostituisce le norme applicabili al ponte né verifica puntelli, stabilità laterale o procedure di montaggio del progetto concreto.
+Il modello distingue la fase non puntellata, in cui l’acciaio sostiene il calcestruzzo fresco, dalla fase composta. Non sostituisce le norme applicabili al ponte né verifica puntelli, stabilità laterale o procedure di montaggio del progetto concreto.
 
 ## Cos'è un ponte?
 
@@ -2127,7 +2169,7 @@ Durante un'ispezione un quadro fessurativo o una corrosione osservata costituisc
 
 Prima del predimensionamento prepara uno schema degli appoggi, una sezione trasversale e una sequenza delle fasi. Nel modulo Bridge Design verifica poi le ipotesi della famiglia scelta: il confronto di alternative non sostituisce le verifiche locali, geotecniche o sismiche. Prosegui con [il percorso dei carichi](wiki:load-path), [gli elementi beam](wiki:beam) e con il capitolo sulle fasi costruttive.
 
-Riferimento di terminologia e componenti: FHWA, *Bridge Inspector's Reference Manual*. Testi e figure di questa pagina sono originali.
+Testi e figure di questa pagina sono originali.
 
 ## Fessurazione del calcestruzzo armato
 
@@ -2139,7 +2181,7 @@ Alla fessura il contributo teso del calcestruzzo è interrotto; l'aderenza trasf
 
 ![Figura 04.1 — Tirante fessurato: due fessure attraversano la zona tesa e l'armatura continua trasferisce forza per aderenza. La distanza tra fessure e l'apertura sono grandezze diverse.](../../X.Desktop/Assets/Wiki/crack-transfer.svg)
 
-Le relazioni qui riportate riguardano la formulazione classica di EN 1992-1-1 illustrata da Walraven nel materiale JRC del 2008, per armatura ordinaria aderente, senza precompressione e con barre ravvicinate. È una relazione normativa empirico-meccanica, non una legge universale né una dichiarazione sull'edizione applicabile oggi al singolo progetto.
+Le relazioni qui riportate riguardano la formulazione classica di EN 1992-1-1 (§7.3.4), per armatura ordinaria aderente, senza precompressione e con barre ravvicinate. È una relazione normativa empirico-meccanica, non una legge universale né una dichiarazione sull'edizione applicabile oggi al singolo progetto.
 
 ### Relazioni e simboli
 
@@ -2697,8 +2739,6 @@ Il copriferro maggiore può migliorare la protezione delle armature ma riduce d 
 
 ANTHEA consente di verificare la sezione in c.a. soggetta alle azioni ricavate dal modello. Bridge Design fornisce un’impostazione concettuale dell’impalcato: non sostituisce una verifica locale completa della piastra sotto ruote o barriera.
 
-Riferimento bibliografico: FHWA, esempio di progetto LRFD di un impalcato a travi metalliche, passo 2 sulla soletta. Le procedure FHWA fanno riferimento al quadro statunitense: coefficienti e carichi non si trasferiscono automaticamente alle NTC.
-
 ### Proseguire nella Wiki
 
 - [Cos'è un ponte?](wiki:bridge)
@@ -2728,7 +2768,7 @@ Una connessione saldata e una lamiera continua con la stessa tensione nominale n
 
 Il controllo richiede lo spettro delle escursioni dovute al traffico e le regole della norma adottata. Non basta sostituire il carico massimo SLU nella formula della fatica. In ANTHEA la costruzione delle fasi della sezione composta serve a separare i contributi; non equivale a una verifica completa di fatica del ponte o di stabilità durante il montaggio.
 
-Fonti: FHWA, esempio di progetto LRFD di un impalcato a travi metalliche, passo 3 sulla trave metallica; SCI, Fatigue design of bridges. Esempio numerico originale.
+Esempio numerico originale.
 
 ### Proseguire nella Wiki
 
@@ -2759,8 +2799,6 @@ L’accorciamento elastico al trasferimento interagisce con il calcestruzzo. Rit
 Servono verifiche al trasferimento, durante sollevamento e montaggio, in esercizio e allo SLU. Le zone di ancoraggio possono presentare trazioni trasversali; taglio e torsione interagiscono con lo stato di compressione. Freccia e controfreccia dipendono dal tempo, dalla sequenza e dai vincoli. Una controfreccia geometrica non elimina le tensioni che l’hanno prodotta.
 
 ANTHEA non dispone di un modulo generale di progetto dei cavi, delle perdite o delle zone di ancoraggio dei ponti precompressi. Questa pagina amplia la teoria del ponte e ne distingue il perimetro dalle funzioni della sezione composta e dal predimensionamento concettuale.
-
-Riferimento bibliografico: FHWA, esempio di progetto LRFD di un ponte a travi precompresse, sequenza di valutazione delle perdite di precompressione. I coefficienti delle procedure statunitensi richiedono un confronto separato con le norme del progetto.
 
 ### Proseguire nella Wiki
 
@@ -2834,7 +2872,7 @@ Con L = 100 m, T = 2 MN e μ = 50 kg/m risulta f1 = 1 Hz. Una variazione della t
 
 Pioggia e vento possono attivare meccanismi aeroelastici che la sola frequenza propria non descrive. Trattamenti della superficie, smorzatori e collegamenti fra cavi affrontano fenomeni differenti; un collegamento può anche creare nuovi modi locali. Ispezionabilità degli ancoraggi, protezione dalla corrosione e possibilità di sostituzione devono essere considerate insieme alla risposta resistente.
 
-ANTHEA non calcola attualmente l’equilibrio non lineare o la dinamica di un sistema di stralli. Riferimento bibliografico: FHWA, Wind-Induced Vibration of Stay Cables, capitolo 4, rapporto di ricerca storico da leggere nel proprio contesto, non prescrizione normativa corrente.
+ANTHEA non calcola attualmente l’equilibrio non lineare o la dinamica di un sistema di stralli.
 
 ### Proseguire nella Wiki
 
@@ -2873,7 +2911,7 @@ Un appoggio deve trasmettere le azioni previste e permettere i movimenti assegna
 
 Le NTC 2018 §5.1.4.7 richiedono: «Le verifiche di sicurezza vanno svolte anche per le singole fasi di costruzione dell’opera». La fase di getto e quella di rimozione dei sostegni temporanei possono governare anche quando la configurazione definitiva è soddisfacente. La controfreccia compensa una quota attesa, non annulla lo stato tensionale.
 
-In ANTHEA le fasi della sezione composta aiutano a organizzare azioni e rigidezze. L’esempio di Bridge Design va letto con i propri limiti: non rappresenta un progetto completo di appoggi o giunti. Fonti: NTC 2018, §§5.1.4.5 e 5.1.4.7; FHWA, esempio di progetto LRFD di un impalcato a travi metalliche, passo 6 sugli appoggi.
+In ANTHEA le fasi della sezione composta aiutano a organizzare azioni e rigidezze. L’esempio di Bridge Design va letto con i propri limiti: non rappresenta un progetto completo di appoggi o giunti. Fonti: NTC 2018, §§5.1.4.5 e 5.1.4.7.
 
 ### Proseguire nella Wiki
 

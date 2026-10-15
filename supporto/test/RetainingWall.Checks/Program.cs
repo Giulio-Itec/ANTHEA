@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using X.Core;
+using Anthea.Application.Documents;
 
 if (args is ["--bar-schedule", var scheduleDirectory])
 {
@@ -19,7 +20,7 @@ try
     var data = RetainingWall.LegacyDefaults(); var g = data["geometry"]!; g["stem_base"] = .3; g["stem_top"] = .3; g["slab"] = .4; g["heel"] = 1.9;
     var before = data.ToJsonString(); var result = RetainingWall.Calculate(data); var c = result.Cases[0];
     Check(before == data.ToJsonString(), "Il motore non modifica i dati");
-    Near(RetainingWall.Ka(30), 1d / 3, "Rankine φ=30°");
+    Near(RetainingWallFunctions.Ka(30), 1d / 3, "Rankine φ=30°");
     Near(c.Horizontal, .5 * 18 * 3.4 * 3.4 / 3 + 10 * 3.4 / 3, "Spinta di riferimento asciutta");
     Near(c.Vertical, 30 + 22.5 + 102.6 + 19, "Somma dei pesi indipendente");
     Near(c.Stabilizing, 30 * 1.5 + 22.5 * .95 + (102.6 + 19) * 2.05, "Momenti stabilizzanti indipendenti");
@@ -41,12 +42,12 @@ try
     foreach (var item in result.Structural.Where(s => s.Ratio is null)) log.Add("INCOMPLETA " + item.Name + " " + item.Status);
     foreach (double x in new[] { .1, .5, 1d, 1.5, 2d, 2.5, 2.9 })
     {
-        var p = RetainingWall.ContactLaw(3, 100, x);
+        var p = RetainingWallFunctions.ContactLaw(3, 100, x);
         var integral = RetainingWall.Integrate([new(p.Start, p.End, p.Toe, p.Heel)], 0, 3, 0);
         Near(integral.Force, 100, "Equilibrio verticale del contatto x=" + x);
         Near(integral.Moment, 100 * x, "Equilibrio dei momenti del contatto x=" + x);
     }
-    Check(!RetainingWall.ContactLaw(3, 100, 0).Valid && !RetainingWall.ContactLaw(3, -1, 1).Valid, "Contatto impossibile rifiutato");
+    Check(!RetainingWallFunctions.ContactLaw(3, 100, 0).Valid && !RetainingWallFunctions.ContactLaw(3, -1, 1).Valid, "Contatto impossibile rifiutato");
     var wet = (JsonObject)data.DeepClone(); wet["water"]!["enabled"] = true; wet["water"]!["depth"] = 1.4;
     var w = RetainingWall.Calculate(wet).Cases[0];
     Near(w.Uplift, .5 * 9.81 * 2 * 3, "Sottospinta triangolare");
@@ -62,7 +63,7 @@ try
     var seismic = (JsonObject)data.DeepClone(); seismic["seismic"]!["enabled"] = true; var sr = RetainingWall.Calculate(seismic);
     Check(sr.Cases.Count(s => s.State == "SISMA") == 2, "Entrambi i segni di kv");
     Check(sr.Cases.Where(s => s.State == "SISMA").All(s => s.BearingResistance is null), "Nessun esito di portanza sismica senza inerzia del terreno");
-    Near(RetainingWall.SeismicKa(30, 0, 0), RetainingWall.Ka(30), "Mononobe–Okabe al limite statico");
+    Near(RetainingWall.SeismicKa(30, 0, 0), RetainingWallFunctions.Ka(30), "Mononobe–Okabe al limite statico");
     Check(sr.Cases.Where(s => s.State == "SISMA").All(s => s.Horizontal > c.Horizontal), "Incremento sismico avverso");
     seismic["water"]!["enabled"] = true; Reject(seismic, "Sisma con falda non ignorato");
     var gravity = RetainingWall.Calculate(RetainingWall.Example("gravity")); Check(gravity.Structural.Any(s => s.Name.Contains("assenza trazione")), "Gravità: controllo nel corpo del muro");
@@ -77,8 +78,8 @@ try
     var invalid = RetainingWall.LegacyDefaults(); invalid["extensions"]!["anchors"] = new JsonArray(); Reject(invalid, "Componenti futuri non ignorati");
     invalid = RetainingWall.LegacyDefaults(); invalid["geometry"]!["height"] = ""; Reject(invalid, "Input vuoto non sostituito da zero");
     invalid = RetainingWall.LegacyDefaults(); invalid["layers"]![0]!["thickness"] = 1; Reject(invalid, "Stratigrafia insufficiente");
-    var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = data.DeepClone(); string archive = Path.Combine(directory, "mensola.anthea"); Archivio.Scrivi(archive, doc);
-    Check(J.Equivalent(Archivio.Leggi(archive)["dati"], data), "Archivio ANTHEA round trip");
+    var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = data.DeepClone(); string archive = Path.Combine(directory, "mensola.anthea"); DocumentService.Save(archive, doc);
+    Check(J.Equivalent(DocumentService.Open(archive)["dati"], data), "Archivio ANTHEA round trip");
     var incomplete = Archivio.Documento(RetainingWall.Module); incomplete["dati"]!["geometry"]!["height"] = "";
     Archivio.Valida(incomplete); Check(true, "Calcolo incompleto archiviabile");
     var service = CalculationService.Calculate(RetainingWall.Module, data);

@@ -11,7 +11,7 @@ public static partial class ProjectSharedData
         if (module is "str_palo" or BridgeSection.Module)
         {
             string path = module == "str_palo" ? "workspace_ca/normativa" : "normativa";
-            string value = module == "str_palo" ? data["workspace_ca"].S("normativa", "NTC 2018") : data.S("normativa", BridgeSection.Standards[0]);
+            string value = module == "str_palo" ? data["workspace_ca"].S("normativa") : data.S("normativa", BridgeSection.Standards[0]);
             fields["Normativa · " + module] = new("Normativa · " + module, "Normativa", path, JsonValue.Create(value));
         }
     }

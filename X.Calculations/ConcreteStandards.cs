@@ -7,17 +7,23 @@ namespace Anthea.Calculations;
 /// <summary>Catalog of concrete implementations actually shipped in GPC.Model.dll, not a claim of full code compliance.</summary>
 public static class ConcreteStandards
 {
-    public static readonly string[] Names = ["NTC 2018", "Model Code 2010", "EN 1992-1-1", "UNI EN 1992-1-1", "DIN EN 1992-1-1", "DS EN 1992-1-1", "NS EN 1992-1-1", "CNR-DT 204/2006", "CS-TR34"];
-    public static readonly string[] OrdinaryNames = Names.Where(n => n is not ("CNR-DT 204/2006" or "CS-TR34")).ToArray();
-    public static StandardModelCode2010 Create(string name) => name switch
+    public static readonly System.Collections.Immutable.ImmutableArray<string> Names = [.. ConcreteStandardCatalog.Supported.Select(ConcreteStandardCatalog.Name)];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> OrdinaryNames = [.. Names.Where(n => n is not ("CNR-DT 204/2006" or "CS-TR34"))];
+    public static StandardModelCode2010 Create(string name) => ConcreteStandardCatalog.Create(ConcreteStandardCatalog.Parse(name));
+    public static string RequiredName(JsonNode? workspace)
     {
-        "NTC 2018" => new StandardNTC2018Concrete(), "Model Code 2010" => new StandardModelCode2010(),
-        "EN 1992-1-1" => new StandardEN1992p11(), "UNI EN 1992-1-1" => new StandardUNIEN1992p11 { AlphaCC = .85 },
-        "DIN EN 1992-1-1" => new StandardDINEN1992p11 { AlphaCT = .85 }, "DS EN 1992-1-1" => new StandardDSEN1992p11(),
-        "NS EN 1992-1-1" => new StandardNSEN1992p11 { AlphaCT = .85, SteelCoefficientStrainTension = .4 }, "CNR-DT 204/2006" => new StandardCNR204(), "CS-TR34" => new StandardCSTR34(),
-        _ => throw new ArgumentException("Normativa non disponibile nelle DLL: " + name)
-    };
-    public static readonly (string Key, string Label)[] Coefficients =
+        if (workspace is not JsonObject settings || settings["normativa"] is not JsonValue value || !value.TryGetValue<string>(out var name) || string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("Selezionare esplicitamente la normativa; preparare prima i documenti precedenti.");
+        return ConcreteStandardCatalog.Name(ConcreteStandardCatalog.Parse(name));
+    }
+    public static string ResultName(JsonObject workspace)
+    {
+        string name = RequiredName(workspace);
+        if (!workspace.ContainsKey("normativa_custom")) return name;
+        string label = workspace.S("normativa_custom");
+        return string.IsNullOrWhiteSpace(label) ? throw new ArgumentException("Descrizione della normativa personalizzata assente.") : label;
+    }
+    public static readonly System.Collections.Immutable.ImmutableArray<(string Key, string Label)> Coefficients =
     [
         ("AlphaCC", "αcc · compressione"), ("AlphaCT", "αct · trazione"), ("GammaC", "γc · CLS"), ("GammaS", "γs · armature"),
         ("GammaSPrestress", "γp · trefoli"), ("GammaCAccidental", "γc · accidentale"), ("GammaCE", "γcE · modulo"),
@@ -36,7 +42,7 @@ public static class ConcreteStandards
     }
     public static StandardModelCode2010 Effective(JsonObject input, JsonObject workspace)
     {
-        var standard = Create(workspace.S("normativa", "NTC 2018"));
+        var standard = Create(RequiredName(workspace));
         if (workspace["coefficienti"] is JsonObject overrides)
             foreach (var (key, label) in Coefficients)
                 if (overrides.ContainsKey(key) && (!key.Contains("Prestress") || workspace.Array("trefoli").Count > 0))

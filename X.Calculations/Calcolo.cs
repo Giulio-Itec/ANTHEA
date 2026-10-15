@@ -281,10 +281,11 @@ public static class Calcolo
                 strata.Add(list);
             }
             if(strata.Count==0)throw new ArgumentException("Aggiungere almeno una stratigrafia.");
-            var (xi3,xi4)=Verticali[g.S("verticali_indagate","1")];
+            var normativeFactors=PileResistanceFactors.FromStandard(new StandardNTC2018Geotechnics{PileExecution=Esecuzione(g,micro)},Profili(g.S("verticali_indagate","1")));
             double gammaB=SicurezzaBase(dati,micro);
-            var factors=new PileResistanceFactors(g.D("sicurezza_laterale_compressione",1.15),g.D("sicurezza_laterale_trazione",1.25),gammaB,g.D("peso_palo_sfavorevole",1.30),
-                g.D("peso_palo_favorevole",1),xi3,xi4);
+            // Validate has already rejected invalid explicit values; only absent keys use the typed standard.
+            var factors=new PileResistanceFactors(g.D("sicurezza_laterale_compressione",normativeFactors.ShaftCompression),g.D("sicurezza_laterale_trazione",normativeFactors.ShaftTension),gammaB,g.D("peso_palo_sfavorevole",normativeFactors.WeightUnfavourable),
+                g.D("peso_palo_favorevole",normativeFactors.WeightFavourable),normativeFactors.Xi3,normativeFactors.Xi4);
             double? compression=J.Number(g["azione_compressione"])*1000,tension=J.Number(g["azione_trazione"])*1000;
             var rowsList=dati.Array("stratigrafie").Select(s=>s!.AsArray()).ToList();
             JsonObject result;var warnings=new List<string>();
@@ -303,13 +304,12 @@ public static class Calcolo
             else
             {
                 var injection=BustamanteDoix.Injection(g.S("tipo_iniezione"));
-                BustamanteDoixSoil Bd(JsonNode v){try{return BustamanteDoix.Soil(v.S("terreno"));}catch(ArgumentException){return BustamanteDoixSoil.Gravel;}}
-                // Le stratigrafie del micropalo hanno solo spessori e parametri di Bustamante–Doix: terreno di Model di riferimento per le quote.
-                var surveys=rowsList.Select((rows,i)=>new MicropileSurvey(Profilo(rows,i,null,(v,k)=>new Soil(v.S("terreno") is {Length:>0} n?n:"Strato "+(k+1),18*KN3,20*KN3,0,0,"ANTHEA, solo quote")),
-                    rows.Select(v=>(Bd(v!),J.Number(v!["alpha"])??double.NaN,v.B("laterale_attiva",true))))).ToArray();
+                BustamanteDoixSoil Bd(JsonNode v) => BustamanteDoix.Soil(v.S("terreno"));
+                var surveys=rowsList.Select(rows=>new MicropileDepthSurvey(rows.Select(v=>new MicropileDepthLayer(
+                    v.Required("spessore",strict:true)*M,Bd(v!),J.Number(v!["alpha"])??double.NaN,v.B("laterale_attiva",true))))).ToArray();
                 var pile=new Micropile(d*M,l*M,(J.Number(g["inclinazione"])??0)*Deg,injection,pi,sb*M,g.B("considera_punta")?pct:null,Chs.Sezione(g.S("profilo_chs")),Chs.Acciaio,
                     g.D("peso_specifico_palo",25)*KN3,compression,tension);
-                var r=AxialPileCapacity.Calculate(pile,surveys,factors,gruppo.Efficienza);
+                var r=AxialPileCapacity.CalculateFromDepths(pile,surveys,factors,gruppo.Efficienza);
                 result=Risultato(r,s=>J.Obj(("compressione",J.Obj(("laterale",s.Shaft/1000),("base",s.Base/1000))),("tratti",s.Segments.Select(t=>Tratto(t,g.S("tipo_iniezione"))).ToList())),gruppo.Metodo);
                 warnings.AddRange(r.Warnings);
                 result["inizio_aderenza"]=sb;result["inclinazione"]=g.D("inclinazione");result["profondita_punta"]=r.PileLength*cos/M;result["coordinata_curve"]="Lungo asse s [m]";result["peso_sezione"]=pesoChs!.DeepClone();

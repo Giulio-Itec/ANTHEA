@@ -17,7 +17,7 @@ using GPC.Model.Standards;
 
 // Banco F2.1 del refactoring (docs/refactoring/f2.1-banco.md, voci «casi vicini alla soglia» e «test con sezioni in forma chiusa»).
 //   dotnet ConcreteBench.Checks.dll [cartella]   (con la cartella scrive misura.json: conteggi, scarti massimi, soglie trovate)
-// Motori confrontati: il legacy di X.Calculations (CheckerSection.Stress e i limiti di DescribeStress, Ntc2018Checks.Cracking,
+// Motori confrontati: il legacy di X.Calculations (CheckerSection.Stress e i limiti di DescribeStress, LegacyNtc2018Checks.Cracking,
 // SectionMomentResistance, CheckerDomain3D, ConcreteCodeChecks.Shear) e GPCChecker.Concrete di lib/Checker chiamato direttamente
 // (SectionCheckerModelCode2010, StressLimitCheck, SectionCrackCheck, SectionSolver.CalculateDomainPoint; il taglio attraverso
 // ConcreteShearTorsionAdapter con il motore Library). Ingressi comuni: la sezione del Model costruita da CheckerSection.PrepareModel
@@ -430,7 +430,7 @@ try
     void Shear(string at, ConcreteCodeChecks.ShearInput c)
     {
         (string Outcome, Ntc2018Checks.ShearResult? R) Run(ShearTorsionEngine e)
-        { try { return ("ok", ConcreteShearTorsionAdapter.Shear(c, e)); } catch (ArgumentException ex) { return ("rifiuto: " + ex.Message, null); } }
+        { try { return ("ok", ShearTorsionEngines.Shear(c, e)); } catch (ArgumentException ex) { return ("rifiuto: " + ex.Message, null); } }
         var a = Run(ShearTorsionEngine.Legacy); var b = Run(ShearTorsionEngine.Library);
         Agree(a.Outcome == b.Outcome, $"{at}: {a.Outcome} legacy, {b.Outcome} libreria");
         if (a.R is { } x && b.R is { } y)
@@ -447,7 +447,7 @@ try
         {
             var c = at(star * (1 + d));
             Shear($"{id} λ*(1{d:+0.0E+0;-0.0E+0;+0})", c);
-            if (Math.Abs(d) >= Side && side is not null) side(d, ConcreteCodeChecks.Shear(c));
+            if (Math.Abs(d) >= Side && side is not null) side(d, LegacyConcreteCodeChecks.Shear(c));
         }
     }
     foreach (var standard in ConcreteStandards.OrdinaryNames)
@@ -457,17 +457,17 @@ try
         // η ≈ 1 senza e con staffe: VEd* per bisezione sul legacy (con MC2010 e DIN la resistenza dipende anche da VEd).
         foreach (var (kind, c) in new[] { ("senza staffe", plain), ("con staffe", links) })
         {
-            double vrd = ConcreteCodeChecks.Shear(c).VRd;
+            double vrd = LegacyConcreteCodeChecks.Shear(c).VRd;
             // VEd uguale alla resistenza calcolata dal legacy con lo stesso VEd (η = 1 esatto se VRd non dipende da VEd).
-            Shear($"B12-η-esatto {standard} {kind}", c with { V = ConcreteCodeChecks.Shear(c with { V = vrd }).VRd });
-            double v = Bisect(x => ConcreteCodeChecks.Shear(c with { V = x }).Ratio <= 1 ? -1 : 1, .5 * vrd, 2 * vrd);
+            Shear($"B12-η-esatto {standard} {kind}", c with { V = LegacyConcreteCodeChecks.Shear(c with { V = vrd }).VRd });
+            double v = Bisect(x => LegacyConcreteCodeChecks.Shear(c with { V = x }).Ratio <= 1 ? -1 : 1, .5 * vrd, 2 * vrd);
             Threshold($"B12-η {standard} {kind}", "VEd (kN)", v, "VEd = VRd(VEd); VRd a VEd di partenza " + F(vrd));
             ShearAround($"B12-η {standard} {kind}", x => c with { V = x }, v, (d, r) => Agree((r.Ratio <= 1) == d < 0, $"B12-η {standard} {kind} {d:+0.0E+0;-0.0E+0}: esito del taglio dal lato sbagliato (rapporto {r.Ratio:R})"));
         }
         // Senza staffe: minimo vmin contro la formula con ρl (bisezione su Asl); tetti di k (d = 200 mm), di ρl (0,02) e di σcp (0,2 fcd).
         if (standard != "Model Code 2010")
         {
-            double asl = Bisect(x => { var r = ConcreteCodeChecks.Shear(plain with { Asl = x }); return r.VRsd - r.VRcd; }, 1, 2700);
+            double asl = Bisect(x => { var r = LegacyConcreteCodeChecks.Shear(plain with { Asl = x }); return r.VRsd - r.VRcd; }, 1, 2700);
             Threshold("B12-vmin " + standard, "Asl (mm²)", asl, "VRd,c formula = minimo");
             ShearAround("B12-vmin " + standard, x => plain with { Asl = x }, asl, (d, r) => Agree((r.VRsd > r.VRcd) == d > 0, standard + ": ramo di vmin"));
             ShearAround("B12-k " + standard, x => plain with { D = x, Area = 300 * (x + 50) }, 200);
@@ -476,8 +476,8 @@ try
         }
         // Con staffe e cot θ ottimizzato: limite superiore di cot θ (bisezione su Asw).
         var auto = links with { CotTheta = null, N = 0 };
-        double top = ConcreteCodeChecks.Shear(auto with { Asw = 1e-3 }).CotTheta;
-        double asw = Bisect(x => ConcreteCodeChecks.Shear(auto with { Asw = x }).CotTheta < top - 1e-9 ? 1 : -1, 1e-3, 5000);
+        double top = LegacyConcreteCodeChecks.Shear(auto with { Asw = 1e-3 }).CotTheta;
+        double asw = Bisect(x => LegacyConcreteCodeChecks.Shear(auto with { Asw = x }).CotTheta < top - 1e-9 ? 1 : -1, 1e-3, 5000);
         Threshold("B12-cot-max " + standard, "Asw (mm²)", asw, "cot θ ottimo = " + F(top));
         ShearAround("B12-cot-max " + standard, x => auto with { Asw = x }, asw, (d, r) => Agree((r.CotTheta < top - 1e-9) == d > 0, standard + ": ramo di cot θ"));
     }
@@ -622,7 +622,7 @@ sealed class Prep
     public Ntc2018Checks.CrackResult LegacyCrack(JsonObject options, string set, ActionPoint action)
     {
         var engine = Engine(options);
-        return Ntc2018Checks.Cracking(engine, engine.Stress(action, set), action, Input, Settings, options, set);
+        return LegacyNtc2018Checks.Cracking(engine, engine.Stress(action, set), action, Input, Settings, options, set);
     }
     public (ReinforcedConcreteSection Section, CoordinateSystem Local, SectionCheckerModelCode2010 Checker, StandardModelCode2010 Standard) Library(bool linear, double psi, bool tension)
     {

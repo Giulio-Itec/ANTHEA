@@ -1,6 +1,6 @@
 # Materiale di supporto ANTHEA
 
-La documentazione utente è raccolta in due guide globali: pratica e teorica Rev42 del 13 ottobre 2026.
+La documentazione utente è raccolta in due guide globali: pratica e teorica Rev45 del 15 ottobre 2026.
 
 - [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli; comprende importazione dei modelli e finestra di supporto per la reologia del calcestruzzo.
 - [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.
@@ -45,12 +45,17 @@ suite. Casi, riferimenti analitici e limiti sono descritti in
 tranne le prove WPF) e ne restituisce l'esito; i risultati sono in `artefatti/ci/<data>-verifica/`
 (`summary.txt`, `summary.json` e il confronto numerico in `verifiche_regressione/confronto_numerico.json`).
 
-I valori attesi provengono dal programma Python originale. Quando ANTHEA se ne discosta per scelta, i casi interessati si
-rigenerano dal C# e restano marcati dal campo `fonte_atteso`:
-`dotnet run --project test/X.Verifiche -c Release -- --attesi test/casi_confronto.json "<filtro sul nome>" <risultati.json>`,
-poi `python scripts/aggiorna_attesi.py test/casi_confronto.json <risultati.json> "<motivazione>"` (conserva la struttura e il
-formato del file; gli altri casi restano identici). Così sono stati rigenerati il 26 settembre 2026 i 30 casi delle sezioni
-a T: l'ultima coppia di barre laterali è agli angoli superiori della staffa d'anima, nell'ala.
+I valori attesi provengono dal programma Python originale e sono indipendenti dal codice: non si rigenerano mai dai
+risultati del C#. Quando ANTHEA se ne discosta per scelta, gli attesi nuovi si calcolano in modo indipendente (Python, a
+mano o da esempi pubblicati) e la differenza va nel registro di `docs/refactoring`. Il campo `fonte_atteso` indica la provenienza dei casi che non
+vengono direttamente dal programma originale. I 30 casi delle sezioni a T, rigenerati dal C# il 26 settembre 2026 prima di
+questa regola (l'ultima coppia di barre laterali è agli angoli superiori della staffa d'anima, nell'ala), sono stati
+ricalcolati il 14/10/2026 con `tools/attesi/sezione_ca.py`, ricostruzione Python del programma originale validata sui suoi
+casi. Anche i due casi di palo rigenerati dal C# il 27/09 (`palo_storico_0` e `palo_storico_3`: c′ nullo negli strati
+granulari) sono stati ricalcolati con `tools/attesi/palo_granulare.py`, a partire dagli attesi del programma originale
+(registro TEST-02). Lo script usato allora è archiviato in
+`SUPERATI/scripts/aggiorna_attesi.py` (registro `SUPERATI/registro-20261014-script.json`); l'opzione `--attesi` di
+`test/X.Verifiche` resta solo per diagnosi.
 I nuovi output di test vanno salvati in `supporto/artefatti/` per mantenere pulita la radice.
 Le immagini utilizzate dall'applicazione rimangono in `X.Desktop/Assets`.
 

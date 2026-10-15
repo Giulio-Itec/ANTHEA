@@ -24,6 +24,9 @@ public sealed record ConcreteDetailingPresentation(IReadOnlyList<ConcreteResults
         if(name.Contains("Ancoraggio")||name.StartsWith("Bordi"))return "anchors";
         return "bars";
     }
+    /// <summary>Detailing of the sheet from its combination rows by limit state: NEd is the most severe compression of all of them.</summary>
+    public static ConcreteDetailingPresentation Calculate(JsonObject sourceInput, JsonObject sourceSettings, IReadOnlyDictionary<string, JsonObject[]> rowsBySet)
+        => Calculate(sourceInput, sourceSettings, ConcreteDetailingAnalysis.AllRows(rowsBySet));
     public static ConcreteDetailingPresentation Calculate(JsonObject sourceInput, JsonObject sourceSettings, IEnumerable<JsonObject> sourceActions)
     {
         var Input = (JsonObject)sourceInput.DeepClone();
@@ -52,7 +55,8 @@ public sealed record ConcreteDetailingPresentation(IReadOnlyList<ConcreteResults
             else {o["cmin_dur"]="";durabilityNote=evaluation.DurabilityError ?? "";}
             double n=evaluation.MaximumCompression;
             detailingResults=evaluation.Checks;
-            var b=new StringBuilder($"{o.S("elemento")} · NEd,max compressione = {n:0.###} kN\n");
+            var b=new StringBuilder($"{o.S("elemento")} · NEd,max compressione = {n:0.###} kN"+(evaluation.CompressionSource.Length>0?$" ({evaluation.CompressionSource})":"")+"\n");
+            if(evaluation.CompressionFromServiceability)b.AppendLine("Valore di esercizio: la compressione più gravosa viene da una combinazione SLE, non da SLU, SLV o taglio.");
             b.AppendLine($"{detailingResults.Count(r=>r.Passed==true)} soddisfatti · {detailingResults.Count(r=>r.Passed==false)} non soddisfatti · {detailingResults.Count(r=>r.Passed is null)} da completare\n");
             detailingText.Text=b.ToString();
             foreach(var r in detailingResults)detailingTopics[Topic(r.Name)].AddDetail(r.Name,r.Passed,$"Valore: {r.Actual?.ToString("0.###")??"—"} {r.Unit} · limite: {r.Limit?.ToString("0.###")??"—"} {r.Unit}",r.Explanation,r.Reference);

@@ -14,7 +14,7 @@ public static class ConcreteMaterials
         double reduction = thinCasting != 1 && input.S("gettato_sottile", "No") == "Sì" ? thinCasting : 1;
         return new(Math.Abs(Concrete(input).CalculateFcd(standard)) * reduction, Math.Abs(Rebar(input).CalculateFyd(standard)));
     }
-    public static readonly string[] ConcreteDiagrams = ["Parabola-rettangolo", "Bilineare", "Stress block", "Non lineare"];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> ConcreteDiagrams = ["Parabola-rettangolo", "Bilineare", "Stress block", "Non lineare"];
     public static ConcreteMaterialEN1992 Concrete(JsonObject input)
     {
         var diagram = input.S("cls_diagramma", ConcreteDiagrams[0]) switch

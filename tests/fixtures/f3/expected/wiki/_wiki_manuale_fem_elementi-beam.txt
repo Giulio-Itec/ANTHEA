@@ -31,7 +31,7 @@ text: Copia LaTeX
 text: La matrice trasforma spostamenti e rotazioni nodali nelle azioni nodali elastiche. Il carico distribuito deve entrare anche nel vettore nodale coerente: applicare soltanto metà della risultante a ogni nodo può perdere le coppie equivalenti. Un elemento libero possiede moti rigidi; la singolarità scompare soltanto con vincoli fisicamente sufficienti, non aumentando artificialmente la rigidezza.
 text: Figura 09.1 — Trave di 8 m con carico 25 kN/m, cerniera e carrello. Le reazioni sono 100 kN; il momento positivo è parabolico e raggiunge 200 kNm in mezzeria.
 text: Nello schema, il momento positivo tende le fibre inferiori. L'area sotto il carico è 200 kN e coincide con la somma delle reazioni. Il diagramma nullo agli appoggi è una verifica indipendente dei rilasci terminali. L'esempio è statico, elastico e del primo ordine; non rappresenta fessurazione, viscosità o variazioni di rigidezza.
-text: La formulazione variazionale e l'interpolazione sono documentate nel capitolo *Euler-Bernoulli beam elements* del manuale di modellazione computazionale TU Delft. Il segno di curvatura può differire fra testi: la relazione costitutiva deve essere letta con la stessa convenzione del momento, senza combinare definizioni provenienti da solutori diversi.
+text: La formulazione variazionale e l'interpolazione sono quelle classiche dell'elemento trave di Euler–Bernoulli. Il segno di curvatura può differire fra testi: la relazione costitutiva deve essere letta con la stessa convenzione del momento, senza combinare definizioni provenienti da solutori diversi.
 text: flessione
 formula: \kappa = \frac{M}{EI}
 formula: \sigma = \frac{M}{W}
@@ -119,5 +119,4 @@ text: Elementi Shell
 text: Releases e connettività
 text: Instabilità delle aste compresse
 text: riferimenti
-text: - TU Delft, Computational Modelling, Euler-Bernoulli beam elements: derivazione della cinematica e dell'interpolazione.
 text: - Il capitolo spiega un modello meccanico e non introduce coefficienti di verifica normativa. Le prescrizioni dei materiali e gli stati limite si consultano nella guida teorica globale, nelle sezioni dei moduli corrispondenti.

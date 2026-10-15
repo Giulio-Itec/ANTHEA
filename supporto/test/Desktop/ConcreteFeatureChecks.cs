@@ -175,7 +175,7 @@ internal sealed partial class ConcreteWorkspace
         SyncActions("SLE"); InvalidateActions("SLE"); await Update();
         var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone(); var options = (JsonObject)settings["sle"]!["SLE"]!.DeepClone();
         var forces = actions["SLE"].Select(ReadAction).ToArray();
-        var expected = await Task.Run(() => { var engine = new CheckerSection(input, workspace, options, engine: sle); return forces.Select(f => engine.Stress(f.GetNativeForTest(), "SLE")).ToArray(); });
+        var expected = await Task.Run(() => { var engine = new CheckerSection(input, workspace, options); return forces.Select(f => ServiceabilityEngines.Stress(engine, f.GetNativeForTest(), "SLE", sle)).ToArray(); });
         for (int i = 0; i < expected.Length; i++)
         {
             var state = stressResults["SLE"][actions["SLE"][i].Values.S("id")].State;
@@ -196,7 +196,7 @@ internal sealed partial class ConcreteWorkspace
         panel.Options.Set("modello", "Non lineare"); await Update();
         Check(nonLinearWarning.Visibility == Visibility.Visible, "Avviso con analisi non lineare");
         options = (JsonObject)settings["sle"]!["SLE"]!.DeepClone();
-        var nonlinearExpected = await Task.Run(() => { var engine = new CheckerSection(input, workspace, options, engine: sle); return forces.Select(f => engine.Stress(f.GetNativeForTest(), "SLE")).ToArray(); });
+        var nonlinearExpected = await Task.Run(() => { var engine = new CheckerSection(input, workspace, options); return forces.Select(f => ServiceabilityEngines.Stress(engine, f.GetNativeForTest(), "SLE", sle)).ToArray(); });
         for (int i = 0; i < nonlinearExpected.Length; i++) Check(Math.Abs(stressResults["SLE"][actions["SLE"][i].Values.S("id")].State!.sigma_cls - nonlinearExpected[i].sigma_cls) < 1e-8, "Parallelo non lineare identico al seriale");
         panel.Options.Set("modello", "Lineare"); await Update();
         Check(nonLinearWarning.Visibility == Visibility.Collapsed, "Avviso tolto tornando all'analisi lineare");
@@ -216,14 +216,14 @@ internal sealed partial class ConcreteWorkspace
         Check(preview.DimensionLabels.Any(s => s.StartsWith("D =")), "Quota diametro sezione circolare");
         var autoOptions = (JsonObject)settings["sle"]!["SLE_QP"]!.DeepClone();
         autoOptions["esposizione"] = "XC1"; autoOptions["sensibilita"] = "Poco sensibile"; autoOptions["spaziatura_fessure"] = "";
-        var crackingEngine = new CheckerSection(Input, settings, autoOptions, engine: sle);
+        var crackingEngine = new CheckerSection(Input, settings, autoOptions);
         var crackingForce = new ActionPoint(-100, 150, 0);
-        var crackingState = crackingEngine.Stress(crackingForce, "SLE_QP");
-        var autoCrack = ConcreteServiceabilityAdapter.Cracking(crackingEngine, crackingState, crackingForce, Input, settings, autoOptions, "SLE_QP", sle);
+        var crackingState = ServiceabilityEngines.Stress(crackingEngine, crackingForce, "SLE_QP", sle);
+        var autoCrack = ServiceabilityEngines.Cracking(crackingEngine, crackingState, crackingForce, Input, settings, autoOptions, "SLE_QP", sle);
         Check(autoCrack.Details.Any(d => d.Symbol == "wk") && autoCrack.Details.Any(d => d.Symbol == "hc,eff") && CrackCalculationSummary.Format(autoCrack).Contains("k₂"), "Dettaglio completo della fessurazione");
         Check(autoCrack.BarSpacing > 0 && autoCrack.Width is not null && autoCrack.SpacingSource == "Automatico geometrico", "Spaziatura automatica alimenta fessurazione");
         autoOptions["spaziatura_fessure"] = Exact(autoCrack.BarSpacing!.Value);
-        var manualCrack = ConcreteServiceabilityAdapter.Cracking(crackingEngine, crackingState, crackingForce, Input, settings, autoOptions, "SLE_QP", sle);
+        var manualCrack = ServiceabilityEngines.Cracking(crackingEngine, crackingState, crackingForce, Input, settings, autoOptions, "SLE_QP", sle);
         Check(manualCrack.Width == autoCrack.Width && manualCrack.SpacingSource == "Manuale", "Override manuale coerente con automatico");
         foreach (var (field, value) in new[] { ("esposizione", "XC1"), ("sensibilita", "Poco sensibile"), ("spaziatura_fessure", "") }) panel.Options.Set(field, value);
         var crackRow = CreateAction("SLE_QP", "Diagnostica fessure", "-100", "150", "0");
@@ -279,6 +279,6 @@ internal sealed partial class ConcreteWorkspace
         Commit(); var copy = JsonNode.Parse(Data.ToJsonString())!.AsObject();
         using var restored = new ConcreteWorkspace(copy);
         Check(restored.tendons.Rows[0].Values.S("materiale") == "A" && restored.tendons.Rows[1].Values.S("diagramma") == "Elastoplastico" && restored.Input.S("flange_bottom_count") == "4", "Round trip nuovi input");
-        File.WriteAllText(Path.Combine(directory, "features.txt"), count + " controlli superati (motore SLE delle chiamate dirette: " + (sle ?? ConcreteServiceabilityAdapter.Default) + "): parallelo/seriale, cache SLE, geometria, staffe, materiali trefoli, salvataggio.");
+        File.WriteAllText(Path.Combine(directory, "features.txt"), count + " controlli superati (motore SLE delle chiamate dirette: " + (sle ?? ServiceabilityEngines.Default) + "): parallelo/seriale, cache SLE, geometria, staffe, materiali trefoli, salvataggio.");
     }
 }

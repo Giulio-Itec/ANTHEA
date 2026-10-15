@@ -1,3 +1,5 @@
+using GPC.Model.Checking.Contracts;
+using GPC.Model.Core.Diagnostics;
 ﻿using System.Text.Json.Nodes;
 
 namespace Anthea.Calculations;
@@ -117,6 +119,13 @@ public static partial class RetainingWall
     {
         public string? Member { get; init; }
         public double? Position { get; init; }
+        // Runtime provenance. Historical report/archive projections retain their existing shape.
+        [System.Text.Json.Serialization.JsonIgnore] public EngineeringOutcome Outcome { get; init; } = EngineeringOutcome.NotEvaluated;
+        [System.Text.Json.Serialization.JsonIgnore] public ExecutionStatus Execution { get; init; } = ExecutionStatus.NotExecuted;
+        [System.Text.Json.Serialization.JsonIgnore] public DataStatus Data { get; init; } = DataStatus.Insufficient;
+        [System.Text.Json.Serialization.JsonIgnore] public bool IsSatisfied => Outcome == EngineeringOutcome.Satisfied && Execution == ExecutionStatus.Completed && Data == DataStatus.Ready;
+        [System.Text.Json.Serialization.JsonIgnore] public bool IsNotSatisfied => Outcome == EngineeringOutcome.NotSatisfied;
+        [System.Text.Json.Serialization.JsonIgnore] public bool IsNotEvaluated => !IsSatisfied && !IsNotSatisfied;
     }
     public sealed record Contact(double Start, double End, double Toe, double Heel, double Peak, bool Valid)
     {

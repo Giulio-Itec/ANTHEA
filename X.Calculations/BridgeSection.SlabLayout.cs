@@ -16,20 +16,19 @@ public static partial class BridgeSection
     public static BridgeSlabLayout SlabLayout(JsonObject data)
     {
         bool enabled = data.B("predalle");
-        double height = J.Number(data["h_cls"]) ?? double.NaN;
-        double thickness = enabled ? J.Number(data["h_predalle"]) ?? double.NaN : 0;
-        if (enabled && (!double.IsFinite(thickness) || thickness <= 0 || !double.IsFinite(height) || thickness >= height))
-            throw new ArgumentException("Predalle: inserire uno spessore maggiore di zero e minore dello spessore totale della soletta.");
+        bool topBars = data.B("rebars_top"), bottomBars = data.B("rebars_bottom");
         string reference = enabled ? data.S("rif_ferri_inf", PredalleTopReference) : SlabBottomReference;
-        double bottomDistance = J.Number(data["cover_bottom"]) ?? double.NaN;
-        if (enabled && data.B("rebars_bottom"))
+        var nativeReference = reference switch
         {
-            if (!BottomRebarReferences.Contains(reference)) throw new ArgumentException("Selezionare il riferimento geometrico dei ferri inferiori.");
-            if (reference == PredalleTopReference && (!double.IsFinite(bottomDistance) || bottomDistance <= 0 || bottomDistance < data.D("d_bottom") / 2))
-                throw new ArgumentException("Ferri inferiori: la distanza dall'estradosso predalle all'asse deve essere positiva e almeno pari al raggio della barra.");
-        }
-        return new(enabled, thickness, height, reference,
-            height - (J.Number(data["cover_top"]) ?? double.NaN),
-            bottomDistance + (enabled && reference == PredalleTopReference ? thickness : 0));
+            SlabBottomReference => GPC.Checkers.CompositeBridge.SlabBottomReference.SlabSoffit,
+            PredalleTopReference => GPC.Checkers.CompositeBridge.SlabBottomReference.PredalleTop,
+            _ when !bottomBars => GPC.Checkers.CompositeBridge.SlabBottomReference.SlabSoffit,
+            _ => throw new ArgumentException("Selezionare il riferimento geometrico dei ferri inferiori.")
+        };
+        var value = new GPC.Checkers.CompositeBridge.SlabRebarLayout(enabled, enabled ? data.Required("h_predalle") : 0,
+            data.Required("h_cls"), nativeReference, topBars ? data.Required("cover_top") : 0,
+            bottomBars ? data.Required("cover_bottom") : 0, bottomBars,
+            bottomBars ? data.Required("d_bottom", strict: true) : 0);
+        return new(value.HasPredalle, value.PredalleThickness, value.Height, reference, value.TopAxisY, value.BottomAxisY);
     }
 }

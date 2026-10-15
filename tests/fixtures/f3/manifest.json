@@ -45,9 +45,20 @@
     "inputs/str_mista_ponte--legacy-web-and-accessories.json": "5017f7d1757a886dd9f2dba9309ae82973e8946ad8c949ab198a961002ac3d67",
     "inputs/str_palo--corpus-sezione-ca-taglio-din-rettangolare.json": "0336af6a0e65f7369f1f5a5be590a95a4d908f13bf81ebdb20fedd49ffa162bf",
     "inputs/str_palo--default.json": "68b5bfd77984f0e516340ce47b84f2a48ffbb3f7773af1e53abd4fdcb2763ad2",
-    "inputs/str_palo--legacy-calculation-settings.json": "280f7afd8d662f070054d3cdf7a84d24560963c1504b6fe0f99cdab7ee354332",
-    "inputs/str_palo--legacy-workspace-segni.json": "f1b95f8323e3bccf729fd1225af4fde4810378871e7d3c01319986df4201e3d7"
+    "inputs/str_palo--legacy-calculation-settings.json": "a1760142ce3a39533d95340084e96014d96b13b9ffd409bc592b65940baa1be5",
+    "inputs/str_palo--legacy-workspace-segni.json": "8922b2ea4cde0655690c827324a33c7c3a9b51a1356fe68a87f0ab14c18b3dd6"
   },
+  "input_updates": [
+    {
+      "record": "F4-31",
+      "date": "2026-10-14",
+      "reason": "Decisione dell'utente del 14/10 (audit, punto 2c): un foglio Sezione CA con area di lavoro ma senza normativa si rifiuta, perche' ANTHEA la scrive sempre dal 18/09/2026. Le due fixture sintetiche ricevono la normativa NTC 2018 che il programma avrebbe scritto; Prepare la assegnava gia', quindi gli attesi non cambiano.",
+      "files": [
+        { "file": "inputs/str_palo--legacy-calculation-settings.json", "before_sha256": "280f7afd8d662f070054d3cdf7a84d24560963c1504b6fe0f99cdab7ee354332", "after_sha256": "a1760142ce3a39533d95340084e96014d96b13b9ffd409bc592b65940baa1be5" },
+        { "file": "inputs/str_palo--legacy-workspace-segni.json", "before_sha256": "f1b95f8323e3bccf729fd1225af4fde4810378871e7d3c01319986df4201e3d7", "after_sha256": "8922b2ea4cde0655690c827324a33c7c3a9b51a1356fe68a87f0ab14c18b3dd6" }
+      ]
+    }
+  ],
   "editorial_updates": [
     {
       "revision": 40,
@@ -82,5 +93,272 @@
         }
       ]
     }
-  ]
+  ],
+  "editorial_updates_f4": {
+    "revision": 44,
+    "record": "F4-48",
+    "capture": "supporto/artefatti/ci/20261014-230601-f4-full-20261015/ui_f3-equivalence/cattura",
+    "reason": "Guide Rev41-Rev44 nella Wiki e nella ricerca (F4-39, F4-43…F4-47, punto 7 dell'audit); decisione D2 del 15/10/2026. Nessun atteso ingegneristico modificato.",
+    "files": [
+      {
+        "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.md",
+        "before_sha256": "ed369d450f6b116dc82692552a56b501f374e60ad9414596bf56a92caf716e04",
+        "after_sha256": "ea11f6baf2e6be18a22e43b3c95fa28c17d697655e1284a60f00883a5fdc1bc3"
+      },
+      {
+        "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.txt",
+        "before_sha256": "d7702da98141d11bea7d8e41bab2d87d03c4b379b976a88464bf8c6bbad9754f",
+        "after_sha256": "a04d3c65c45856dc0a922e571ca3efdce33e00b0027e4128d3d1f0a9a3b62822"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli-singoli_bridge-design.md",
+        "before_sha256": "fcfe58bac8861215156ed00faa3ad6455bf449ca1cb07711706023a806d588c6",
+        "after_sha256": "e75a14fd338578d66e7f43508f93829e5b3cfc924ed725aafe15b474a26384db"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli-singoli_bridge-design.txt",
+        "before_sha256": "2f7bde3507f731409145753a260558de02a15186b12040374413db1b22d09857",
+        "after_sha256": "75335e61fcfda1c2236a345b1904f97690f7f87cb5c6bb6f3027f9de14d40190"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+        "before_sha256": "d0e6d5d1b696a89dd6128fd3cae8c90ad66a003c190320caa53afd163e35500e",
+        "after_sha256": "fbe530aac884e92251089e80f5063e27f3c0418dac192277b8b492e821fdaa48"
+      },
+      {
+        "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+        "before_sha256": "3ab6b63ae6fc4ec7c0b4404d8ced68a7593fd5642628c46ab1335ad0516e32ba",
+        "after_sha256": "49e0e68baf288245701e39d89a5bdf8efc419e4d0d1b837bf0d3603c37df9322"
+      },
+      {
+        "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+        "before_sha256": "b220107117e79c454e81f651a99d7a1299708001b2a806553b0fceb6560a7c82",
+        "after_sha256": "46644610eb39fa134b2998f0eee270f7143bb0a69e6228efea0b47f5bb2cdfb2"
+      },
+      {
+        "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+        "before_sha256": "2dd0b46dcb8b64c8b534a59eeec603545c2d1ad7805d36de3590ce38fb573bff",
+        "after_sha256": "dc63ffb5683522bc9b867e5bb88b4de52800c84689d77790c0bcaa76d5fc77d8"
+      },
+      {
+        "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+        "before_sha256": "47b3d0db10da45e206783eaa942a088a0f39fda165b3925b9542891570497bd1",
+        "after_sha256": "3dcd979c4a0146806960a4636a5fec31cd7c0ccba86064973e15fcf70abfcbfc"
+      },
+      {
+        "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+        "before_sha256": "f8319cea0a146262919086b7c423b65f1076a3b13fc950d5a035acbcd5785df8",
+        "after_sha256": "7358f34f5094465c9e0afa6c37e527265a01dbe2164eb29f8d258482e4f35491"
+      },
+      {
+        "file": "wiki/_wiki_manuale_acciaio_instabilita-delle-aste-compresse.md",
+        "before_sha256": "cc34d929abd8d98aa855689e170f3652c1dc8195bad864fca13efbd0b9785fca",
+        "after_sha256": "0f47246e93267232ac9d411d5d88dffdf2d1dcfab4f43569ae795a0b81f19bb1"
+      },
+      {
+        "file": "wiki/_wiki_manuale_acciaio_instabilita-delle-aste-compresse.txt",
+        "before_sha256": "fd9c51d0289dc9cae72fc7eca3ba00fbb78960d16c329ea8aa64966b4e3a6af3",
+        "after_sha256": "87834c598f8caf0af7d96f35734985ebf479368fbe5be3faecafff3b645c66f0"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_calcestruzzo-armature-e-copriferro.md",
+        "before_sha256": "3f21398596cb469b6b0053f08a241af72c690ddf6ee3e1d82f7564533bd4d929",
+        "after_sha256": "d84908f659794ccf551a902898d4aacf1b51f15eba17d37dccc567f7ee62573f"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_calcestruzzo-armature-e-copriferro.txt",
+        "before_sha256": "a374ad4595d827f00e409447dc6aa91c0caac4cc88df6583bf6360cf5d99185a",
+        "after_sha256": "90acdc48d7a08a9fd6583a75db649820c653808b21cebe527137557dd4db91f9"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+        "before_sha256": "5a89f8a00fca8df031b660a632bc4497983d93e39f19d650735d70f21e001a28",
+        "after_sha256": "c364e8df70cacaeddf3dafc6552d8e2a477eb6aaced449a1bdf2950cca1955e0"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+        "before_sha256": "c14590ccd59d546a612fb73ca12c9ebb8a4c775cc9ba70b98e403aa09fede918",
+        "after_sha256": "1fde790b63ba5940a72e51a869531cdf11b266ff8dd904c0964ec157e19ce3f8"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+        "before_sha256": "f8eb56d0d1ebb5755c7319c97e806268a4a298012f6b49090c69560f398cfe78",
+        "after_sha256": "40b375c2f0fb3f6e3a20fd7b63a1f879af29846e7d36e4622fdc0acb0cb7462f"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+        "before_sha256": "99ba4e2b77600563ed6313d56c6f15fba70470c41cabc77e33b34135a1ebfc61",
+        "after_sha256": "0d1dd69b94ecdd280aa753123f497ae1dd4e26a9cf7ab232a3e8fe721bda3d7f"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo_cracking.md",
+        "before_sha256": "065b30dcf7f9bc8c28c7d40adbf3bcc59f115d18aeb02a80fec41dbd2d8cd482",
+        "after_sha256": "3cae9b5063168271292d6f34c0d2170db4e45576be1dbc6baab170f4fc955e40"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo_cracking.txt",
+        "before_sha256": "ce4786459d0f738ad7cc35ac25634dd29d4b76406bafec6673937c57dc3fc6f6",
+        "after_sha256": "60b13e7fc55d2b8624097095b2622b376cd7a3fc55c18a1785faa61ef0d1273e"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.md",
+        "before_sha256": "cc42e3589ccd3e402a8e1b56496f8a2cd32c8347f69aadcb9b6da28b5412259c",
+        "after_sha256": "656f5b55122d076e440926175f000b90c180148c166d0e5fe7197b26a8f76b48"
+      },
+      {
+        "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.txt",
+        "before_sha256": "b41af3e99eb1d9fa6ec711404f6fc3393eca7769e0494f4582271ad4c8d96999",
+        "after_sha256": "0084a0d1e81d6e678a440f5b9933424aa9e5d493c913f0d59fa7f5f83766d49c"
+      },
+      {
+        "file": "wiki/_wiki_manuale_dinamica-e-sisma_dinamica-e-sisma-del-modello.md",
+        "before_sha256": "e58fbe58909c000b3ab72c4d490b279b8e546b33794e0c4f591ee8362c6ba0ea",
+        "after_sha256": "dcc257035fc8782aec2e45e25e4260a32f21ec74d378da58193260a5850bb87d"
+      },
+      {
+        "file": "wiki/_wiki_manuale_dinamica-e-sisma_dinamica-e-sisma-del-modello.txt",
+        "before_sha256": "739f6b1826a1cd26bace1350297690ee363d5e38ee0d9610b749ec03bbe3ee47",
+        "after_sha256": "7e49189a81398eaebf72d5a6782d97b73678026b4c68f3ddaf234392ed6cd972"
+      },
+      {
+        "file": "wiki/_wiki_manuale_fem-e-modellazione_releases-e-connettivita.md",
+        "before_sha256": "de61f2ac99a41d9fe19e9740f9801c48219fa00e40dab77f759b97f6c01a408c",
+        "after_sha256": "4704a58e7ca9b8069bfbe15979f6d38cce2683245e11d554544f86830759f02a"
+      },
+      {
+        "file": "wiki/_wiki_manuale_fem-e-modellazione_releases-e-connettivita.txt",
+        "before_sha256": "094621ab58fd6ef84e7648c60030e79b5e6d0520d3c09256b4c49cd1c1063a4b",
+        "after_sha256": "f78cf306f3320f20f4dde2adc7a8acab5b66748fb004a3dded7b727ff40cbab1"
+      },
+      {
+        "file": "wiki/_wiki_manuale_fem_elementi-beam.md",
+        "before_sha256": "4ce2fd330df97543fb8aba7d88037c431e6c6e54de60e6508397fea3fa6d848a",
+        "after_sha256": "f0e03ce16ac19d3abf149fe8c6390e94360a63d94d959b287796d58562cbbb82"
+      },
+      {
+        "file": "wiki/_wiki_manuale_fem_elementi-beam.txt",
+        "before_sha256": "baa5758066c9a5b61ce45d9dfaf93de71e95a17acfd7f69f0ad75b25c7523dfa",
+        "after_sha256": "51aebeb8f50e7e242e1d304bf1b8abb07065a44dda61b7f2e1c705ff555d5032"
+      },
+      {
+        "file": "wiki/_wiki_manuale_metodi-costruttivi_fasi-costruttive-e-percorso-dei-carichi.md",
+        "before_sha256": "53babe27833c6e120cb575bafff8a789331e9ef36c7a804e18914d88f8c018c3",
+        "after_sha256": "7142608ab2c11c9bef5311ede8932c3f45d8a1e8c63ebe509d4b6382719b9099"
+      },
+      {
+        "file": "wiki/_wiki_manuale_metodi-costruttivi_fasi-costruttive-e-percorso-dei-carichi.txt",
+        "before_sha256": "27c414cf202bc9c91a2af1b00e155953e3cddc7ac7ea0731192d931d6281f757",
+        "after_sha256": "af9307360b7c549e2fb15ac7d71ef3339bfb821c39efcc602e1839eefcad5780"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+        "before_sha256": "c56e581eaa3ff4e4d844228fc8ddc1e4937eae9e926c4ac47b4f3897de31c29f",
+        "after_sha256": "38a9218b85405b6eb3d77e4e50608de498a1571628d8c92c9c90ca180516ea1d"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
+        "before_sha256": "28c0db7e13912fb8999bd556ed55e724c3007f154632078d206f2fbedf7fb50e",
+        "after_sha256": "ac3ef3fdd1436bd746e66b46d7c15fc598024e00e4ff3c19c552ecc8f987be83"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_bridge.md",
+        "before_sha256": "e163fab47dec71d01c5baae7d5cee4689b51bd1238da7118cfb4e54d204c8aca",
+        "after_sha256": "52c5c5e1314e423144ea5b2a4d52a761817448848623e8551a1908ca48fbf7c4"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_bridge.txt",
+        "before_sha256": "e0a86c908a7027bb3fb3b5bb7dd0c75d4f58d0529d21f6424de4b5af4990316d",
+        "after_sha256": "f23632911346bf9b06b6ee245f565c349f57f7f933f2c1ae281fdc6a7f92cdb6"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_ponti-acciaio-fasi.md",
+        "before_sha256": "562c214dc3c28ee8d59e7e25b65515948abba214f2a4fcc816436c7f2bf67b3a",
+        "after_sha256": "a0d5c64187699cfff7521141e59a8a0aeee62bdf9d054a055eb35f764c23a8d3"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_ponti-acciaio-fasi.txt",
+        "before_sha256": "a3d829981622c2a04f3f98a004fa04b65e8ef4bd12d3de546e0cbe1061911a9c",
+        "after_sha256": "7a193e093b8a173a054198ab9f1c2ebc5f22a4f46c8a8de4d5b14d7b10d28e36"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_ponti-deformazioni.md",
+        "before_sha256": "00901b8fb7b965746f5c15afa7c352c1399d56ef0f59a46d0969ad6a6ff284de",
+        "after_sha256": "d307c84981edfbdc215287f0eeafbafdf37f30b9ab4a9adcc25336387faad2de"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_ponti-deformazioni.txt",
+        "before_sha256": "7318c143c861972a753af31a1ca9c001d73db0b2fe2d58eff3fc6e515e112271",
+        "after_sha256": "42fad303107f2c87778c3120f38f2b38adc10c83228e2632cd61b7b1a82d4ba3"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_ponti-precompressione.md",
+        "before_sha256": "0fa893cd0b26edbee4ac263a2eafb2fddaf993641de7c07a3c5ef9a5d3a5bf65",
+        "after_sha256": "0ffb7be6dfc97c06177d9d7c2df58f6001f339680461e4b421e563a790529c58"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_ponti-precompressione.txt",
+        "before_sha256": "8f789ebf4970b7601721343816f7cee9cbc8958f01fe51fe53de4e44e4fb4443",
+        "after_sha256": "69ead1eeed4df508eb2f0aaaa297e22d9f4c562679d02380872afc4677ab3085"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_ponti-solette.md",
+        "before_sha256": "2ecceb2b1cbf71caefc3728a7fc501d0e20c648706f1ed75bdc2768efae6645e",
+        "after_sha256": "e7759c7031f1dba0ff2df9acc3aaeb5b4ffa415cd1a08671900d4f3b0068be9e"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_ponti-solette.txt",
+        "before_sha256": "c8b33a8b5087ee4045b584ddb0e925410b6f07b8e025d007502fd4c2fe221706",
+        "after_sha256": "b2780f1179683a2d2beb45399070276178b523df872e399953ebfa960ae5d852"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_ponti-stralli.md",
+        "before_sha256": "3d20944251d94718f2d2f0b3ac09cfb94083e87af7455b49ecfcb618e100347b",
+        "after_sha256": "53df1fc18284a56c0c5af43590da7d1862a77d4ff0ba837076bd35dd654c4c56"
+      },
+      {
+        "file": "wiki/_wiki_manuale_ponti_ponti-stralli.txt",
+        "before_sha256": "4f5a21d461e7d9ea069746912e0ccd0f4ccdd75e18ab54e7b6afe271ff595dc1",
+        "after_sha256": "e6f0350170725c69ee50524ac9d4cf50989c3ee199fc604bb0f278d2eb97e73c"
+      },
+      {
+        "file": "wiki/_wiki_theory_palo-elastico.md",
+        "before_sha256": "ee38f4eb70cd01146723984ffd000ef7ec691d77a86282518ae78947e084cc95",
+        "after_sha256": "d78f2ed652aea6e7384e9be841156a468d35be6d5c19a65b8551a6001ebc989b"
+      },
+      {
+        "file": "wiki/_wiki_theory_palo-elastico.txt",
+        "before_sha256": "754ba72280176978b5d94b0f01d3a110af28c98f8fb20f1feb650094857c0fbd",
+        "after_sha256": "cb9865e6ac9faf8c88d835344801908880ce71a5752d6014194390b59244285f"
+      },
+      {
+        "file": "wiki/search.json",
+        "before_sha256": "12574caf9c84be6407b94705835964f30dd9a120de8162f9d3711922bf89d642",
+        "after_sha256": "06436decb87a72750ce4cd55fe4041d90d07caeb2ed765fad170feaf97d51dc2"
+      }
+    ]
+  },
+  "transitions": {
+    "file": "tests/fixtures/f3/transitions-f4.json",
+    "sha256": "5f66a59fc75a07d954e2a78ecffdf220fb095889c551d9ba2b7e5eb04a25b500",
+    "entries": 6878,
+    "decision": "D2 del 15/10/2026"
+  },
+  "editorial_updates_rev45": {
+    "revision": 45,
+    "record": "F4-50",
+    "capture": "supporto/artefatti/ci/20261015-102736-guide-rev45-f3-cattura/ui_f3-equivalence/cattura",
+    "reason": "Guida pratica Rev45: frase d'installazione senza numero di versione (decisione dell'utente del 15/10/2026 per il rilascio di ANTHEA 1.9.0); Wiki aggiornata secondo la regola editoriale F3-06. Nessun atteso ingegneristico modificato.",
+    "files": [
+      {
+        "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+        "before_sha256": "46644610eb39fa134b2998f0eee270f7143bb0a69e6228efea0b47f5bb2cdfb2",
+        "after_sha256": "c4e3ee5448a513d02c0f03aeafa17c30d1c683c448ccab0e56720256431a8a40"
+      },
+      {
+        "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+        "before_sha256": "dc63ffb5683522bc9b867e5bb88b4de52800c84689d77790c0bcaa76d5fc77d8",
+        "after_sha256": "90d527e7c43ce5bc765d9e0c7a13a72cf76de98fdfb0e6167e8e4b55d5e2d91a"
+      }
+    ]
+  }
 }

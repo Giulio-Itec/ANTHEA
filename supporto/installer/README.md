@@ -29,8 +29,8 @@ Opzioni: `-SkipPublish` riusa la pubblicazione già presente, aggiornando comunq
 ## Versione
 
 La versione è `<Version>` in `X.Desktop/X.Desktop.csproj`, formato `maggiore.minore.patch`
-(oggi `1.2.0`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
-«App installate». ANTHEA.exe riporta versione file `1.2.0.0` e prodotto `1.2.0+<commit>`.
+(oggi `1.9.0`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
+«App installate». ANTHEA.exe riporta versione file `1.9.0.0` e prodotto `1.9.0+<commit>`.
 
 A parità di versione il setup viene sovrascritto. Prima della distribuzione aumentare
 `patch` per correzioni, `minore` per funzioni, `maggiore` per cambi di formato degli archivi.
@@ -40,8 +40,9 @@ Il setup sostituisce anche una versione installata più recente, senza conferma.
 
 - **Per tutti gli utenti** in `C:\Program Files\ANTHEA` (richiede l'amministratore) oppure **solo per l'utente corrente** in `%LOCALAPPDATA%\Programs\ANTHEA`, senza diritti di amministratore. Un utente senza diritti installa direttamente per sé.
 - Componenti obbligatori: programma e documentazione completa in PDF con collegamenti nel menu Start. Componenti selezionabili: collegamento sul desktop, apertura dei file `.anthea` e `.programma` con doppio clic. Un'eventuale associazione precedente viene salvata e ripristinata alla disinstallazione.
-- Se ANTHEA è aperto, chiede di chiuderlo prima di sostituire i file.
-- Aggiornamento: una versione già installata viene rimossa con il suo disinstallatore, quindi non restano file delle versioni precedenti.
+- Se ANTHEA è aperta, anche da un'altra cartella, il setup si blocca prima di disinstallare o cancellare file. Chiudere tutte le finestre e riavviare il setup. Il blocco vale anche in modalità silenziosa (codice 10); il setup non chiude forzatamente l'applicazione.
+- Aggiornamento: una versione già installata viene rimossa con il suo disinstallatore; prima della copia, viene poi eliminato **tutto il contenuto della cartella di destinazione**, comprese vecchie DLL, sottocartelle e file aggiunti dall'utente. Conservare progetti, modelli e report fuori dalla cartella del programma.
+- La destinazione deve essere una cartella locale dedicata di nome ANTHEA, una cartella nuova oppure un'installazione precedente riconosciuta. Il setup rifiuta percorsi di sistema o profilo e collegamenti nelle cartelle da attraversare o pulire (codice 11). Una pulizia incompleta blocca la copia dei nuovi file (codice 12).
 - Se un file non può essere scritto, l'installazione si interrompe con un errore (codice 2) invece di risultare riuscita.
 - La disinstallazione, da «App installate» o `Uninstall.exe`, elimina soltanto i file installati, i collegamenti e le chiavi di registro scritte dal setup. Altri file salvati dall'utente nella cartella del programma non vengono eliminati.
 
@@ -53,7 +54,7 @@ La cartella `Guide` accanto ad `ANTHEA.exe` contiene tre PDF:
 - `Guida pratica ANTHEA.pdf`: uso e UI di tutti i moduli;
 - `Guida teorica ANTHEA.pdf`: teoria, formule, ipotesi e limiti di tutti i moduli.
 
-Tutti gli approfondimenti sono incorporati nelle due guide globali Rev15. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
+Tutti gli approfondimenti sono incorporati nelle due guide globali Rev45. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
 
 Per i nuovi argomenti aggiornare i due volumi, i PDF corrispondenti e l’indice. Per casi particolari chiedere all’utente prima di creare un documento autonomo. `Guide.json` contiene soltanto l’indice; i due manuali sono selezionati automaticamente alla revisione più recente.
 
@@ -66,13 +67,18 @@ in una cartella di prova, senza modificare l'installazione di ANTHEA.
 `-SkipUninstall` limita la prova a catalogo, elenchi, installazione e collegamenti,
 segnalando esplicitamente che la disinstallazione non è stata eseguita.
 
+Il runner `powershell -File build/ci.ps1 -Stage fast -Only '^installer/' -Installer`
+esegue anche le prove di pulizia e blocco in `tests/Installer/Test-Safety.ps1`.
+Usa cartelle temporanee e un proprio processo di prova, senza modificare
+l'installazione reale, il registro o i collegamenti dell'utente. Richiede NSIS 3.
+
 ## Installazione da riga di comando
 
 Riga di comando (installazioni silenziose o distribuite):
 
 ```bat
-ANTHEA-1.2.0-Setup-x64.exe /S /AllUsers
-ANTHEA-1.2.0-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
+ANTHEA-1.9.0-Setup-x64.exe /S /AllUsers
+ANTHEA-1.9.0-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
 "C:\Program Files\ANTHEA\Uninstall.exe" /S /AllUsers
 ```
 

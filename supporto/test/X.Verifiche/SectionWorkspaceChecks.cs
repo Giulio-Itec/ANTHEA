@@ -43,22 +43,22 @@ internal static class SectionWorkspaceChecks
         // Same VCA_N_1 benchmark as Checker/ValidationTestLinearStressAnalysis: n=15, 300x500, 4 Ø18 at 50 mm.
         sle["phi"] = (15 * new GPC.Model.Materials.ConcreteMaterialEN1992("C25",25,GPC.Model.Materials.ConcreteMaterial.CompressionStressStrainDiagrams.ParabolaRectangle).E / 200000 - 1).ToString("G17",System.Globalization.CultureInfo.InvariantCulture);
         sle["modello"] = "Lineare";
-        var linear = new CheckerSection(input, settings, sle, engine: SleEngine.Selected).Stress(new(-500, 50, -30), "SLE");
+        var linear = new CheckerSection(input, settings, sle).Stress(new(-500, 50, -30), "SLE");
         Assert(linear.sigma_cls < 0, "Compressione negativa nelle tensioni");
         Assert(linear.ConcreteCompressionStrength > 0 && linear.ConcreteTensionStrength > 0 && linear.BarStrengths.All(v => v > 0), "Scale contouring positive da materiali Checker");
         Assert(Math.Abs(linear.ConcreteStressLimit!.Value - 15) < 1e-12, "Limite SLE espresso in valore assoluto");
         Assert(linear.FiberStrains.Length == linear.FiberStresses.Length && linear.FiberStrains.All(double.IsFinite), "Deformazioni contouring native finite");
         Assert(linear.Response is { CMin: < 0, UsefulDepth: > 0, PMin: null }, "Riepilogo nativo completo senza trefoli inventati");
-        var compression = new CheckerSection(input,settings,sle,engine:SleEngine.Selected).Stress(new(-500,0,0),"SLE_QP");
+        var compression = new CheckerSection(input,settings,sle).Stress(new(-500,0,0),"SLE_QP");
         input["gettato_sottile"]="Sì";
-        var thinCompression = new CheckerSection(input,settings,sle,engine:SleEngine.Selected).Stress(new(-500,0,0),"SLE_QP");
+        var thinCompression = new CheckerSection(input,settings,sle).Stress(new(-500,0,0),"SLE_QP");
         Assert(Math.Abs(thinCompression.Ratio!.Value/compression.Ratio!.Value-1.25)<1e-10,"Riduzione limite tensionale elemento piano sottile");
         input["gettato_sottile"]="No";
         Assert(Math.Abs(linear.sigma_cls + 11.04) / 11.04 < .05, "VCA_N_1 CLS");
         var expected = new[] { -131.6, -44.86, -33.25, 53.53 }; var actualBars = linear.tensioni_barre.Order().ToArray();
         for (int i=0;i<4;i++) Assert(Math.Abs(actualBars[i]-expected[i])/Math.Abs(expected[i]) < .05, "VCA_N_1 barra " + i);
         sle["modello"] = "Non lineare"; sle["phi"]="0";
-        var nonlin = new CheckerSection(input, settings, sle, engine: SleEngine.Selected).Stress(new(-500,50,-30), "SLE");
+        var nonlin = new CheckerSection(input, settings, sle).Stress(new(-500,50,-30), "SLE");
         Assert(!nonlin.Native.LinearElasticAnalysis && linear.Native.LinearElasticAnalysis, "Scelta metodo rispettata");
         var twoOptions = settings["dominio2d"]!.AsObject(); twoOptions["tipo"]="Mx–My"; twoOptions["N"]="-500"; twoOptions["angoli"]="12";
         var two = new CheckerSection(input, settings, twoOptions).Domain2D();
@@ -77,34 +77,34 @@ internal static class SectionWorkspaceChecks
         // Legacy rule of Ntc2018Checks.NtcK2FromCompressedBars (until 7/10/2026), kept for these checks and the historical comparisons
         // (the concrete fixtures of Checker are captures of the current behaviour since 06d97733): k2 from the bar stresses.
         Assert(!Ntc2018Checks.NtcK2FromCompressedBars, "D7-b: k2 dall'asse neutro come predefinito");
-        Assert(Ntc2018Checks.CrackK2([-1, 100, 200]) == .5, "k2 legacy: flessione con una barra compressa");
-        Assert(Ntc2018Checks.CrackK2([100, 150, 200]) == 1, "k2 legacy: trazione con tutte le barre tese");
-        Assert(Ntc2018Checks.CrackK2([0, 100]) == 1 && Ntc2018Checks.CrackK2([-1e-12, 100]) == .5, "k2 legacy: zero non compresso, segno negativo rispettato");
+        Assert(LegacyNtc2018Checks.CrackK2([-1, 100, 200]) == .5, "k2 legacy: flessione con una barra compressa");
+        Assert(LegacyNtc2018Checks.CrackK2([100, 150, 200]) == 1, "k2 legacy: trazione con tutte le barre tese");
+        Assert(LegacyNtc2018Checks.CrackK2([0, 100]) == 1 && LegacyNtc2018Checks.CrackK2([-1e-12, 100]) == .5, "k2 legacy: zero non compresso, segno negativo rispettato");
         bool invalidK2 = false;
-        try { Ntc2018Checks.CrackK2([double.NaN]); } catch (ArgumentException) { invalidK2 = true; }
+        try { LegacyNtc2018Checks.CrackK2([double.NaN]); } catch (ArgumentException) { invalidK2 = true; }
         Assert(invalidK2, "k2 non accetta tensioni non finite");
-        var traced = Ntc2018Checks.CrackWidthWithDetails(200,200000,30000,2.6,.02,16,40,150,400,false,true,.5);
+        var traced = LegacyNtc2018Checks.CrackWidthWithDetails(200,200000,30000,2.6,.02,16,40,150,400,false,true,.5);
         double Trace(string symbol) => traced.Details.Single(d => d.Symbol == symbol).Value!.Value;
         Assert(Math.Abs(traced.Width-.19185066666666667)<1e-12, "Traccia conserva risultato lunga durata");
         Assert(Trace("kt") == .4 && Trace("k₁") == .8 && Trace("k₂") == .5 && Trace("k₃") == 3.4 && Trace("k₄") == .425, "Coefficienti effettivi memorizzati");
         Assert(Math.Abs(Trace("αe") - 200000d/30000) < 1e-12 && Trace("s_lim") == 240, "Omogeneizzazione e soglia interasse tracciate");
         Assert(Math.Abs(Trace("Δε calcolata") - .0007053333333333333) < 1e-14 && Trace("Δε minima") == .0006, "Entrambi i candidati di deformazione tracciati");
         Assert(Math.Abs(1.7 * Trace("Δsm adottata") * Trace("εsm − εcm") - traced.Width) < 1e-14, "wk ricostruibile dai passaggi senza arrotondamenti");
-        var shortTrace = Ntc2018Checks.CrackWidthWithDetails(200,200000,30000,2.6,.02,16,40,150,400,true,true,.5);
+        var shortTrace = LegacyNtc2018Checks.CrackWidthWithDetails(200,200000,30000,2.6,.02,16,40,150,400,true,true,.5);
         Assert(shortTrace.Details.Single(d => d.Symbol == "εsm − εcm").Note.Contains("minimo"), "Indicato minimo governante breve durata");
-        var farTrace = Ntc2018Checks.CrackWidthWithDetails(200,200000,30000,2.6,.02,16,40,500,400,false,true,.5);
+        var farTrace = LegacyNtc2018Checks.CrackWidthWithDetails(200,200000,30000,2.6,.02,16,40,500,400,false,true,.5);
         Assert(farTrace.Details.Single(d => d.Symbol == "Δsm adottata").Value == 300 && farTrace.Details.Single(d => d.Symbol == "s − s_lim").Note.Contains("s > s_lim"), "Ramo distanziato ricostruibile");
-        var ntcLong = Ntc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,40,150,400,false,true,.5);
+        var ntcLong = LegacyNtc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,40,150,400,false,true,.5);
         Assert(Math.Abs(ntcLong-.19185066666666667)<1e-12,"Fessure: calcolo indipendente lunga durata");
-        Assert(Math.Abs(Ntc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,40,150,400,true,true,.5)-.1632)<1e-12,"Fessure: breve durata e deformazione minima");
-        Assert(Ntc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,40,500,400,false,true,.5)>ntcLong,"Spaziatura grande non usa il minimo non cautelativo");
-        Assert(Math.Abs(Ntc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,40,500,400,false,true,.5)-.35972)<1e-12,"C4.1.10 distanza media 0,75(h-x)");
-        Assert(Ntc2018Checks.CrackRequirement("SLE_QP","XC4",true).Kind=="Decompressione","Decompressione distinta da wk=0");
-        Assert(Ntc2018Checks.CrackRequirement("SLE_FREQ","XD3",true).Kind=="Formazione fessure","Formazione distinta da decompressione");
-        Assert(Ntc2018Checks.CrackRequirement("SLE_QP","XC1",false).Limit==.3,"Limite apertura NTC");
-        Assert(Ntc2018Checks.CrackRequirement("SLE_FREQ","XC1",false).Limit==.4,"Limite frequente NTC");
+        Assert(Math.Abs(LegacyNtc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,40,150,400,true,true,.5)-.1632)<1e-12,"Fessure: breve durata e deformazione minima");
+        Assert(LegacyNtc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,40,500,400,false,true,.5)>ntcLong,"Spaziatura grande non usa il minimo non cautelativo");
+        Assert(Math.Abs(LegacyNtc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,40,500,400,false,true,.5)-.35972)<1e-12,"C4.1.10 distanza media 0,75(h-x)");
+        Assert(LegacyNtc2018Checks.CrackRequirement("SLE_QP","XC4",true).Kind=="Decompressione","Decompressione distinta da wk=0");
+        Assert(LegacyNtc2018Checks.CrackRequirement("SLE_FREQ","XD3",true).Kind=="Formazione fessure","Formazione distinta da decompressione");
+        Assert(LegacyNtc2018Checks.CrackRequirement("SLE_QP","XC1",false).Limit==.3,"Limite apertura NTC");
+        Assert(LegacyNtc2018Checks.CrackRequirement("SLE_FREQ","XC1",false).Limit==.4,"Limite frequente NTC");
         bool invalidCrack = false;
-        try { Ntc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,double.NaN,150,400,false,true,.5); } catch(ArgumentException) { invalidCrack=true; }
+        try { LegacyNtc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,double.NaN,150,400,false,true,.5); } catch(ArgumentException) { invalidCrack=true; }
         Assert(invalidCrack,"Copriferro non finito respinto");
         // The same formula checks on the functions of GPCChecker.Concrete (refactoring F2.7, commit A5), with the same independent expected
         // values; the legacy assertions above stay in tests/ConcreteLibraryAdapter.Checks/legacy-allowlist.json until F2.11.
@@ -140,17 +140,17 @@ internal static class SectionWorkspaceChecks
         var otherNorm=(JsonObject)settings.DeepClone();otherNorm["normativa"]="EC2";bool invalidNorm=false;
         try { _=new CheckerSection(input,otherNorm,options); } catch(ArgumentException) { invalidNorm=true; }
         Assert(invalidNorm,"Normativa fuori campo non etichettata NTC");
-        var shear=Ntc2018Checks.Shear(-300,100,150000,300,450,1000,30,17,450/1.15,1.5,2*Math.PI*100/4,150,90,2);
+        var shear=LegacyNtc2018Checks.Shear(-300,100,150000,300,450,1000,30,17,450/1.15,1.5,2*Math.PI*100/4,150,90,2);
         Assert(Math.Abs(shear.VRsd-331.9160934010086)<1e-9 && Math.Abs(shear.VRcd-461.7)<1e-9,"Taglio: confronto indipendente NTC");
-        Assert(Ntc2018Checks.Shear(300,100,150000,300,450,1000,30,17,450/1.15,1.5,0,150,90).Ratio is null,"Trazione senza staffe non migliora la resistenza");
-        Assert(Ntc2018Checks.Shear(-3000,100,150000,300,450,1000,30,17,450/1.15,1.5,157,150,90).Ratio is null,"Compressione oltre fcd non produce falso pass");
+        Assert(LegacyNtc2018Checks.Shear(300,100,150000,300,450,1000,30,17,450/1.15,1.5,0,150,90).Ratio is null,"Trazione senza staffe non migliora la resistenza");
+        Assert(LegacyNtc2018Checks.Shear(-3000,100,150000,300,450,1000,30,17,450/1.15,1.5,157,150,90).Ratio is null,"Compressione oltre fcd non produce falso pass");
         sle["modello"]="Lineare"; sle["esposizione"]="XC1"; sle["spaziatura_fessure"]="200";
-        var crackEngine=new CheckerSection(input,settings,sle,engine:SleEngine.Selected); var crackAction=new ActionPoint(-100,50,0); var crackStress=crackEngine.Stress(crackAction,"SLE_QP");
-        var crack=ConcreteServiceabilityAdapter.Cracking(crackEngine,crackStress,crackAction,input,settings,sle,"SLE_QP",SleEngine.Selected);
+        var crackEngine=new CheckerSection(input,settings,sle); var crackAction=new ActionPoint(-100,50,0); var crackStress=crackEngine.Stress(crackAction,"SLE_QP");
+        var crack=ServiceabilityEngines.Cracking(crackEngine,crackStress,crackAction,input,settings,sle,"SLE_QP",SleEngine.Selected);
         Assert(crack.Details.Any(d => d.Symbol == "hc,eff") && crack.Details.Any(d => d.Symbol == "Criterio k₂") && crack.Details.Any(d => d.Symbol.StartsWith("B") && d.Symbol.EndsWith(" · σs")), "Traccia geometria, assunzioni e tensioni delle singole barre");
         Assert(J.Node(crack)?["Details"] is JsonArray { Count: > 30 }, "Passaggi esportati in JSON");
         var compact = CrackCalculationSummary.Values(crack);
-        Assert(compact.Length == CrackCalculationSummary.MaxValues && compact.Select(d => d.Symbol).Distinct().Count() == compact.Length, "Riepilogo limitato a 30 valori senza duplicati");
+        Assert(compact.Length == 30 && compact.Select(d => d.Symbol).Distinct().Count() == compact.Length, "Riepilogo limitato a 30 valori senza duplicati");
         Assert(compact.Single(d => d.Symbol == "wk").Value == crack.Width && compact.Single(d => d.Symbol == "ηw").Value == crack.Ratio, "Riepilogo conserva risultati non arrotondati");
         Assert(!CrackCalculationSummary.Format(crack).Contains("B01 ·") && compact.Any(d => d.Symbol == "k₂"), "Riepilogo senza singole barre, con coefficienti normativi");
         var restoredCrack = System.Text.Json.JsonSerializer.Deserialize<Ntc2018Checks.CrackResult>(J.Node(crack)!.ToJsonString())!;
@@ -160,7 +160,7 @@ internal static class SectionWorkspaceChecks
         foreach (var force in new[] { new ActionPoint(100, 0, 0), new ActionPoint(100, 10, 0), new ActionPoint(200, 20, 0), new ActionPoint(-100, 50, 0) })
         {
             var nativeState = crackEngine.Stress(force, "SLE_QP");
-            var checkedCrack = ConcreteServiceabilityAdapter.Cracking(crackEngine, nativeState, force, input, settings, sle, "SLE_QP", SleEngine.Selected);
+            var checkedCrack = ServiceabilityEngines.Cracking(crackEngine, nativeState, force, input, settings, sle, "SLE_QP", SleEngine.Selected);
             double expectedK2 = .5;
             var eps=nativeState.ConcreteVertices.Select(v=>v.Strain).ToArray();
             Assert(eps.Max()>1e-12, "Casi di prova non interamente compressi");
@@ -177,10 +177,10 @@ internal static class SectionWorkspaceChecks
         foreach(var exposure in new[]{"XC4","XD3"})
         {
             sle["esposizione"]=exposure;sle["sensibilita"]="Sensibile";
-            var result=ConcreteServiceabilityAdapter.Cracking(crackEngine,crackStress,crackAction,input,settings,sle,exposure=="XC4"?"SLE_QP":"SLE_FREQ",SleEngine.Selected);
+            var result=ServiceabilityEngines.Cracking(crackEngine,crackStress,crackAction,input,settings,sle,exposure=="XC4"?"SLE_QP":"SLE_FREQ",SleEngine.Selected);
             Assert(result.Details.Any(d => d.Symbol == "σct,max") && result.Details.Any(d => d.Symbol == "σct,lim"), "Traccia ramo sezione integra " + exposure);
             var compactUncracked = CrackCalculationSummary.Values(result);
-            Assert(compactUncracked.Length <= CrackCalculationSummary.MaxValues && compactUncracked.Any(d => d.Symbol == "σct,lim") && !compactUncracked.Any(d => d.Symbol == "wk"), "Riepilogo pertinente per decompressione e formazione " + exposure);
+            Assert(compactUncracked.Length <= 30 && compactUncracked.Any(d => d.Symbol == "σct,lim") && !compactUncracked.Any(d => d.Symbol == "wk"), "Riepilogo pertinente per decompressione e formazione " + exposure);
             Assert(result.Width is null && result.Ratio is null && result.Passed.HasValue,"Verifica sezione integra "+exposure);
         }
         options["assi"]="Personalizzati";options["origine_x"]="10";options["origine_y"]="20";options["rotazione"]="0";
@@ -231,8 +231,8 @@ internal static class CrackK2Checks
         {
             var i = (JsonObject)input.DeepClone(); i["barre_manuali"] = bars.DeepClone();
             var w = (JsonObject)settings.DeepClone(); w["normativa"] = code;
-            var engine = new CheckerSection(i, w, sle, engine: SleEngine.Selected); var action = new ActionPoint(n, m, 0); var state = engine.Stress(action, "SLE_QP");
-            return (ConcreteServiceabilityAdapter.Cracking(engine, state, action, i, w, sle, "SLE_QP", SleEngine.Selected), state, engine);
+            var engine = new CheckerSection(i, w, sle); var action = new ActionPoint(n, m, 0); var state = engine.Stress(action, "SLE_QP");
+            return (ServiceabilityEngines.Cracking(engine, state, action, i, w, sle, "SLE_QP", SleEngine.Selected), state, engine);
         }
         double V(Ntc2018Checks.CrackResult r, string symbol) => r.Details.Last(d => d.Symbol == symbol).Value!.Value;
         int Count(Ntc2018Checks.CrackResult r, string symbol) => r.Details.Count(d => d.Symbol == symbol);
@@ -257,7 +257,7 @@ internal static class CrackK2Checks
 
         // (a) Singly reinforced beam in bending, NTC: no compressed bar, neutral axis inside: k2 = 0,5 (the bar rule gave 1).
         var (beam, beamState, _) = Crack("NTC 2018", single, 0, sign * 100);
-        Assert(Bending(beam) && beamState.tensioni_barre.Take(3).All(s => s > 0) && Ntc2018Checks.CrackK2(beamState.tensioni_barre.Take(3).ToArray()) == 1, "(a) trave a semplice armatura inflessa, nessuna barra compressa");
+        Assert(Bending(beam) && beamState.tensioni_barre.Take(3).All(s => s > 0) && LegacyNtc2018Checks.CrackK2(beamState.tensioni_barre.Take(3).ToArray()) == 1, "(a) trave a semplice armatura inflessa, nessuna barra compressa");
         FlexureK2(beam, "(a)");
         Assert(V(beam, "k₂") == .5 && beam.Width is > 0, "(a) k₂ = 0,50 nella formula di wk");
         double handBeam = NtcWidth(beam, .5), legacyBeam = NtcWidth(beam, 1);
@@ -340,8 +340,8 @@ internal static class CrackK2Checks
             foreach (var y in new[] { -200d, 0, 200 }) { boxBars.Add((-440, y, 16)); boxBars.Add((440, y, 16)); boxBars.Add((-340, y, 12)); boxBars.Add((340, y, 12)); }
             box["barre_manuali"] = Bars(boxBars.ToArray());
             var w = (JsonObject)settings.DeepClone(); w["normativa"] = "NTC 2018";
-            var engine = new CheckerSection(box, w, sle, engine: SleEngine.Selected); var action = new ActionPoint(0, sign * 600, 0); var state = engine.Stress(action, "SLE_QP");
-            var r = ConcreteServiceabilityAdapter.Cracking(engine, state, action, box, w, sle, "SLE_QP", SleEngine.Selected);
+            var engine = new CheckerSection(box, w, sle); var action = new ActionPoint(0, sign * 600, 0); var state = engine.Stress(action, "SLE_QP");
+            var r = ServiceabilityEngines.Cracking(engine, state, action, box, w, sle, "SLE_QP", SleEngine.Selected);
             Assert(Bending(r), "(g) cassone: asse neutro interno");
             FlexureK2(r, "(g)");
             Assert(r.Details.Single(d => d.Symbol == "Criterio k₂").Note.EndsWith("Le fasce interne dei fori usano il k₂ della propria distribuzione di deformazioni («k₂ della fascia»)."), "(g) criterio della sezione rimanda al k₂ delle fasce");
@@ -382,7 +382,7 @@ internal static class CrackK2Checks
                 var action = new ActionPoint(-500, 0, 0);
                 var i = (JsonObject)input.DeepClone(); i["barre_manuali"] = both.DeepClone();
                 var w = (JsonObject)settings.DeepClone(); w["normativa"] = "NTC 2018";
-                var r = ConcreteServiceabilityAdapter.Cracking(compressedEngine, state, action, i, w, sle, "SLE_QP", SleEngine.Selected);
+                var r = ServiceabilityEngines.Cracking(compressedEngine, state, action, i, w, sle, "SLE_QP", SleEngine.Selected);
                 Assert(r.Width == 0 && r.Passed == true && r.Status == "Sezione interamente compressa" && compressed.Width == 0, "(i) compressione con tensioni delle barre " + label + ": wk = 0");
             }
             var (bent, bentState, bentEngine) = Crack("NTC 2018", single, 0, sign * 100);
@@ -392,7 +392,7 @@ internal static class CrackK2Checks
             {
                 var i = (JsonObject)input.DeepClone(); i["barre_manuali"] = single.DeepClone();
                 var w = (JsonObject)settings.DeepClone(); w["normativa"] = "NTC 2018";
-                ConcreteServiceabilityAdapter.Cracking(bentEngine, bentState with { tensioni_barre = bentState.tensioni_barre.Select(_ => double.NaN).ToArray() }, new ActionPoint(0, sign * 100, 0), i, w, sle, "SLE_QP", SleEngine.Selected);
+                ServiceabilityEngines.Cracking(bentEngine, bentState with { tensioni_barre = bentState.tensioni_barre.Select(_ => double.NaN).ToArray() }, new ActionPoint(0, sign * 100, 0), i, w, sle, "SLE_QP", SleEngine.Selected);
             }
             catch (ArgumentException ex) { message = ex.Message; }
             Assert(message == "tensioni delle armature mancanti o non finite.", $"(i) flessione con tensioni non finite: errore senza k₂ («{message}»)");
@@ -419,8 +419,8 @@ internal static class CrackK2Checks
             {
                 var w = (JsonObject)settings.DeepClone(); w["normativa"] = code;
                 var options = (JsonObject)sle.DeepClone(); if (shape == "anello") options["spaziatura_fessure"] = "300";
-                var engine = new CheckerSection(section, w, options, engine: SleEngine.Selected); var action = new ActionPoint(n, sign * m, 0); var state = engine.Stress(action, "SLE_QP");
-                var r = ConcreteServiceabilityAdapter.Cracking(engine, state, action, section, w, options, "SLE_QP", SleEngine.Selected);
+                var engine = new CheckerSection(section, w, options); var action = new ActionPoint(n, sign * m, 0); var state = engine.Stress(action, "SLE_QP");
+                var r = ServiceabilityEngines.Cracking(engine, state, action, section, w, options, "SLE_QP", SleEngine.Selected);
                 var plane = state.Native.StrainPlane; double gradient = double.Hypot(plane.ChiX, plane.ChiY);
                 var strains = engine.Geometry.Outline.Select(p => plane.GetStrain(p[0], p[1])).ToArray();
                 string label = $"(j) {shape} {code}, N = {n} kN, M = {m} kNm";
@@ -507,9 +507,9 @@ internal static class CrackK2Checks
                 double m, double ux, double uy)
             {
                 var w = (JsonObject)settings.DeepClone(); w["normativa"] = code;
-                if (!engines.TryGetValue(section.Name + code, out var engine)) engines[section.Name + code] = engine = new CheckerSection(section.Data, w, options, engine: SleEngine.Selected);
+                if (!engines.TryGetValue(section.Name + code, out var engine)) engines[section.Name + code] = engine = new CheckerSection(section.Data, w, options);
                 var action = new ActionPoint(section.N, sign * ux * m, sign * uy * m); var state = engine.Stress(action, "SLE_QP");
-                return (ConcreteServiceabilityAdapter.Cracking(engine, state, action, section.Data, w, options, "SLE_QP", SleEngine.Selected), state, engine);
+                return (ServiceabilityEngines.Cracking(engine, state, action, section.Data, w, options, "SLE_QP", SleEngine.Selected), state, engine);
             }
             double Gradient(CheckerStressState state) => double.Hypot(state.Native.StrainPlane.ChiX, state.Native.StrainPlane.ChiY);
             double[] Strains((Ntc2018Checks.CrackResult R, CheckerStressState S, CheckerSection E) run) => run.E.Geometry.Outline.Select(p => run.S.Native.StrainPlane.GetStrain(p[0], p[1])).ToArray();
@@ -565,7 +565,7 @@ internal static class CrackK2Checks
                                 native.LinearElasticAnalysis, native.PsiRebar, native.PsiTendon);
                             var state = (CheckerStressState)describe.Invoke(tensile.E, [result, "SLE_QP"])!;
                             var w = (JsonObject)settings.DeepClone(); w["normativa"] = code;
-                            return (ConcreteServiceabilityAdapter.Cracking(tensile.E, state, new ActionPoint(section.N, sign * ux * lo, sign * uy * lo), section.Data, w, options, "SLE_QP", SleEngine.Selected), state, tensile.E);
+                            return (ServiceabilityEngines.Cracking(tensile.E, state, new ActionPoint(section.N, sign * ux * lo, sign * uy * lo), section.Data, w, options, "SLE_QP", SleEngine.Selected), state, tensile.E);
                         }
                         var outside = Prescribed(1e-6); var inside = Prescribed(-1e-6);
                         Assert(!Bending(outside.R) && Strains(outside).Min() > 0 && Bending(inside.R), $"{label}: piani prescritti con l'asse neutro 1e-6 mm fuori e dentro");

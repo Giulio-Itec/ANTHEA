@@ -1,3 +1,5 @@
+using GPC.Model.Checking.Contracts;
+using GPC.Model.Core.Diagnostics;
 using System.Text.Json.Nodes;
 using GPC.Checkers.Geotechnics.Walls;
 
@@ -16,9 +18,7 @@ public static partial class RetainingWall
     /// combination (RetainingWallAnalysis), serviceability and global stability; ANTHEA checks the document, writes the results in m and kN and adds
     /// the reinforced concrete or gravity checks of the sections.
     /// </summary>
-    /// <param name="serviceabilityEngine">Motore SLE delle sezioni in c.a. (tensioni e fessurazione); null = predefinito dell'adattatore
-    /// (refactoring F2.7b, commit A4).</param>
-    public static Result Calculate(JsonObject data, CancellationToken token = default, ServiceabilityEngine? serviceabilityEngine = null)
+    public static Result Calculate(JsonObject data, CancellationToken token = default)
     {
         ValidateShape(data); var d = (JsonObject)data.DeepClone(); CompleteSoilInput(d); CompleteAdvancedInput(d); CompleteMaterialInput(d); ResolveSeismic(d); Validate(d);
         bool modern = d.D("version") >= 2;
@@ -44,9 +44,10 @@ public static partial class RetainingWall
             else notes.Add("kh e kv assegnati: il preset manuale mantiene γR statici e non maggiora kh per il ribaltamento. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).");
         }
         notes.AddRange(wall.Warnings);
-        var structural = StructuralChecks(d, cases.Where(c => c.Factors.S("purpose") != "Ribaltamento").ToList(), token, out double steel, serviceabilityEngine);
+        var structural = StructuralChecks(d, cases.Where(c => c.Factors.S("purpose") != "Ribaltamento").ToList(), token, out double steel);
         var service = CalculateService(d, input, wall, cases, checks, token);
-        var detailing = d.S("family") == "cantilever" ? CalculateReinforcementDetails(d) : null;
+        // Dettagli storici solo con l'aggancio delle prove (decisione D3 del 15/10/2026).
+        var detailing = d.S("family") == "cantilever" ? EngineHook.Get<ILegacyWalls>()?.ReinforcementDetails(d) ?? CalculateReinforcementDetails(d) : null;
         if (d["detailing"].B("enabled") && detailing is not null) { structural.AddRange(detailing.Checks); steel = detailing.SteelKg; }
         double area = wall.Area / (Mm * Mm);
         Geotechnics.SlopeResult? global = null; string? globalError = null;
@@ -60,7 +61,7 @@ public static partial class RetainingWall
     public static Check CheckValue(string name, string combo, double demand, double? resistance, string unit, string unavailable = "Non disponibile")
     {
         double? ratio = resistance is > 0 ? Math.Abs(demand) / resistance : null;
-        if (resistance == 0) return new(name, combo, Math.Abs(demand), 0, unit, demand == 0 ? 0 : null, demand == 0 ? "Soddisfatta" : "Non soddisfatta: resistenza nulla");
-        return new(name, combo, Math.Abs(demand), resistance, unit, ratio, ratio is null ? unavailable : ratio <= 1 ? "Soddisfatta" : "Non soddisfatta");
+        if (resistance == 0) return new(name, combo, Math.Abs(demand), 0, unit, demand == 0 ? 0 : null, demand == 0 ? "Soddisfatta" : "Non soddisfatta: resistenza nulla") { Outcome = demand == 0 ? EngineeringOutcome.Satisfied : EngineeringOutcome.NotSatisfied, Execution = ExecutionStatus.Completed, Data = DataStatus.Ready };
+        return new(name, combo, Math.Abs(demand), resistance, unit, ratio, ratio is null ? unavailable : ratio <= 1 ? "Soddisfatta" : "Non soddisfatta") { Outcome = ratio is null ? EngineeringOutcome.NotEvaluated : ratio <= 1 ? EngineeringOutcome.Satisfied : EngineeringOutcome.NotSatisfied, Execution = ratio is null ? ExecutionStatus.NotExecuted : ExecutionStatus.Completed, Data = ratio is null ? DataStatus.Insufficient : DataStatus.Ready };
     }
 }

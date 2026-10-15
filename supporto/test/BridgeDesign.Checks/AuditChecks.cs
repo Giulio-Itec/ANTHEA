@@ -108,12 +108,12 @@ internal static class AuditChecks
         var manual = Case("psc_i", 120); manual["input"]!["foundation"] = "Pali Ø 1,0 m"; manual["input"]!["pile_count"] = 1; manual["input"]!["footing_size"] = 1;
         var mr = BridgeConcept.Calculate(manual);
         Check(mr.Supports.All(s => s.Piles == 1 && s.FootingSize == 1), "Dimensioni manuali sovrascritte");
-        Check(BridgeConcept.OptimizationExclusions(manual, mr, new()).Any(s => s.Contains("Pali non contenuti")), "Plinto manuale incompatibile ammesso");
+        Check(BridgeLibraryAccess.OptimizationExclusions(manual, mr, new()).Any(s => s.Contains("Pali non contenuti")), "Plinto manuale incompatibile ammesso");
         var towerManual = Case("cable_stayed", 500); towerManual["input"]!["pier_size"] = 1.5;
         var tm = BridgeConcept.Calculate(towerManual);
-        Check(BridgeConcept.OptimizationExclusions(towerManual, tm, new()).Any(s => s.Contains("Compressione antenna")), "Antenna manuale sottodimensionata ammessa");
+        Check(BridgeLibraryAccess.OptimizationExclusions(towerManual, tm, new()).Any(s => s.Contains("Compressione antenna")), "Antenna manuale sottodimensionata ammessa");
         var capManual = Case("psc_i", 120); capManual["input"]!["pier_size"] = 2; capManual["input"]!["footing_size"] = 1;
-        Check(BridgeConcept.OptimizationExclusions(capManual, BridgeConcept.Calculate(capManual), new()).Any(s => s.Contains("Fusto non contenuto")), "Fusto fuori dal plinto ammesso");
+        Check(BridgeLibraryAccess.OptimizationExclusions(capManual, BridgeConcept.Calculate(capManual), new()).Any(s => s.Contains("Fusto non contenuto")), "Fusto fuori dal plinto ammesso");
         var archive = Case("psc_i", 120); var expected = BridgeConcept.Calculate(archive);
         archive["rates"]!.AsObject().Remove("steel_ortho"); archive["assumptions"]!.AsObject().Remove("concept_tower");
         string saved = archive.ToJsonString(); Near(BridgeConcept.Calculate(archive).TotalCost, expected.TotalCost, "Migrazione parziale archivio"); Check(archive.ToJsonString() == saved, "Migrazione muta archivio");
@@ -163,7 +163,7 @@ internal static class AuditChecks
             foreach (double factor in new[] { 1d, 1.1, 1.2 })
             {
                 var c = (JsonObject)d.DeepClone(); c["input"]!["depth"] = factor == 1 ? baseline.Depth : Math.Ceiling(baseline.Depth * factor * 20) / 20;
-                var x = BridgeConcept.Calculate(c); if (BridgeConcept.OptimizationExclusions(c, x, opt).Length == 0) direct.Add(x);
+                var x = BridgeConcept.Calculate(c); if (BridgeLibraryAccess.OptimizationExclusions(c, x, opt).Length == 0) direct.Add(x);
             }
             double mc = direct.Min(x => x.TotalCost), me = direct.Min(x => x.Carbon);
             double Score(BridgeConcept.Result x) => objective switch { BridgeConcept.OptimizationObjective.Cost => x.TotalCost, BridgeConcept.OptimizationObjective.Carbon => x.Carbon, _ => .5 * (x.TotalCost / mc + x.Carbon / me) };
@@ -193,7 +193,7 @@ internal static class AuditChecks
             foreach (var s in r.Solutions.Take(10))
             {
                 var calculated = BridgeConcept.Calculate(s.Data);
-                Check(calculated.TotalCost == s.Trial.Cost && BridgeConcept.OptimizationExclusions(s.Data, calculated, opt).Length == 0, "Top 10 globale non riproducibile");
+                Check(calculated.TotalCost == s.Trial.Cost && BridgeLibraryAccess.OptimizationExclusions(s.Data, calculated, opt).Length == 0, "Top 10 globale non riproducibile");
             }
             rows.Add(new { id = "free_" + length, objective = objective.ToString(), r.Evaluated, r.Admissible, solutions = r.Solutions.Length, bestCost = r.Solutions[0].Trial.Cost, bestCarbon = r.Solutions[0].Trial.Carbon });
         }

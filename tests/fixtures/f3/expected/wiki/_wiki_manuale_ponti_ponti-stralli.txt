@@ -13,7 +13,7 @@ text: Copia LaTeX
 text: Con L = 100 m, T = 2 MN e μ = 50 kg/m risulta f1 = 1 Hz. Una variazione della tensione cambia la frequenza: a parità del resto, raddoppiare T la moltiplica per √2. Curvatura del cavo, rigidezza flessionale, condizioni degli ancoraggi e dispositivi esterni possono modificare questa stima.
 text: vibrazioni-e-manutenzione
 text: Pioggia e vento possono attivare meccanismi aeroelastici che la sola frequenza propria non descrive. Trattamenti della superficie, smorzatori e collegamenti fra cavi affrontano fenomeni differenti; un collegamento può anche creare nuovi modi locali. Ispezionabilità degli ancoraggi, protezione dalla corrosione e possibilità di sostituzione devono essere considerate insieme alla risposta resistente.
-text: ANTHEA non calcola attualmente l’equilibrio non lineare o la dinamica di un sistema di stralli. Riferimento bibliografico: FHWA, Wind-Induced Vibration of Stay Cables, capitolo 4, rapporto di ricerca storico da leggere nel proprio contesto, non prescrizione normativa corrente.
+text: ANTHEA non calcola attualmente l’equilibrio non lineare o la dinamica di un sistema di stralli.
 text: proseguire-nella-wiki
 text: - Cos'è un ponte?
 text: - Dinamica e sisma del modello

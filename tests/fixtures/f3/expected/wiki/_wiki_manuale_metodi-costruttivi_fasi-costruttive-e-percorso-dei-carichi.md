@@ -21,5 +21,5 @@ Il modulo Sezione composta da ponte di Anthea documenta l'analisi per fasi nella
 
 ### Riferimento e campo
 
-La trattazione SCI sulla costruzione composta distingue la fase non puntellata, in cui l’acciaio sostiene il calcestruzzo fresco, dalla fase composta. È un riferimento sul modello; non sostituisce le norme applicabili al ponte né verifica puntelli, stabilità laterale o procedure di montaggio del progetto concreto.
+Il modello distingue la fase non puntellata, in cui l’acciaio sostiene il calcestruzzo fresco, dalla fase composta. Non sostituisce le norme applicabili al ponte né verifica puntelli, stabilità laterale o procedure di montaggio del progetto concreto.
 

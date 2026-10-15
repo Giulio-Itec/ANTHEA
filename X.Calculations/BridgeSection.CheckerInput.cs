@@ -60,7 +60,7 @@ public static partial class BridgeSection
                 GammaM1 = J.Number(d["gamma_m1"]) ?? double.NaN,
                 GammaM2 = J.Number(d["gamma_m2"]) ?? double.NaN,
                 ShearEta = J.Number(d["eta_taglio"]) ?? double.NaN,
-                Standard = (BridgeStandard)Array.IndexOf(Standards, d.S("normativa")),
+                Standard = RequiredStandard(d),
                 LimitState = (BridgeLimitState)Array.IndexOf(new[] { "SLU", "SLE rara", "SLE quasi permanente" }, d.S("stato")),
             },
             Intermediate = new BridgeIntermediateStiffener

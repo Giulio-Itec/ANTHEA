@@ -30,7 +30,7 @@ Un appoggio deve trasmettere le azioni previste e permettere i movimenti assegna
 
 Le NTC 2018 §5.1.4.7 richiedono: «Le verifiche di sicurezza vanno svolte anche per le singole fasi di costruzione dell’opera». La fase di getto e quella di rimozione dei sostegni temporanei possono governare anche quando la configurazione definitiva è soddisfacente. La controfreccia compensa una quota attesa, non annulla lo stato tensionale.
 
-In ANTHEA le fasi della sezione composta aiutano a organizzare azioni e rigidezze. L’esempio di Bridge Design va letto con i propri limiti: non rappresenta un progetto completo di appoggi o giunti. Fonti: NTC 2018, §§5.1.4.5 e 5.1.4.7; FHWA, esempio di progetto LRFD di un impalcato a travi metalliche, passo 6 sugli appoggi.
+In ANTHEA le fasi della sezione composta aiutano a organizzare azioni e rigidezze. L’esempio di Bridge Design va letto con i propri limiti: non rappresenta un progetto completo di appoggi o giunti. Fonti: NTC 2018, §§5.1.4.5 e 5.1.4.7.
 
 ### Proseguire nella Wiki
 

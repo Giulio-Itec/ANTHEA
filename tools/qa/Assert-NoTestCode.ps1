@@ -21,14 +21,28 @@ param(
         'RunTestHarness', 'CheckErrorLog', 'VerifyChs', 'VerifyHorizontal', 'WaitForAutomatic', 'BoxInputsVisible', 'TorsionResultsVisible',
         'TorqueColumnVisible', 'RevealTorsion', 'CheckBond', 'CheckAutomaticMix', 'CheckExposureSelector', 'DurabilityReferenceChecks',
         'CheckDurability', 'CheckNtcCover', 'ForTest', 'TestServices', 'ScriptedConfirmations', 'RethrowingMessages', 'ValidationCapture',
-        'StartConcreteDesign', 'ContrastAudit', 'OffscreenWindows', 'AuditContrastViews', 'AuditAppearanceSwitch', 'AuditWaitEditor'),
+        'StartConcreteDesign', 'ContrastAudit', 'OffscreenWindows', 'AuditContrastViews', 'AuditAppearanceSwitch', 'AuditWaitEditor',
+        # Decision D3 of 15/10/2026: legacy engines, probes and test-only members moved to tests/ANTHEA.Legacy and to the test projects.
+        # Anchored names: 'Legacy' alone would match product names (LegacyNumerics, LegacyStratifiedMethod, ILegacyServiceability...).
+        '^(ServiceabilityEngines?|ShearTorsionEngines?|DurabilityEngine|WallCalculationEngine|EngineScope)$', 'ServiceabilityProbe', 'DurabilityProbe',
+        '^(StartProbe|StopProbe)$', '^DurabilityLegacy$', '^I?ConcreteTorsionCalculator$', '^(SezioneElastica|CalcoloSezione|StatoElastico|PuntoDominio|Domini)$',
+        '^Legacy(Ntc2018Checks|ConcreteCodeChecks|Serviceability|RetainingWall|BridgeConcept|BridgeSection|SectionShearGeometry|ConcreteReinforcementDesign|ElasticHorizontalPile|PaloOrizzontale|SezioneCA|CircularDetailingCalculator|CircularSpacing|ElasticPileVerificationCache|Durability|DurabilityEngine|NtcCover|SectionActionsExcel)$',
+        '^(LegacyCalculate|LegacyOptimize|LegacyAnalyze|LegacySlabLayout|LegacyDerive|CalculateStratified|SameCommonSoilData)$',
+        '^(MappingCoverage|RetainingWallFunctions|BridgeLibraryAccess|JsonFallbackTrace|ProjectSharedDataProbe|DocxPdfText)$',
+        '^(get_)?(Translated(Criteria|Profiles|Outcomes|Reasons|Rejections|TraceCodes)|ResistanceRejectionTexts)$', '^MetresFromMillimetres$', 'Sollecitazioni\.Legacy',
+        '^<?(get_)?(CalculateDomain|CalculateStress|ExportActionRows|ApplyImport|SetGeometry|InheritSectionData|ParsePaste|CurrentId|SelectedOptimizationRank|DisplayedOptimizationCount|InputForms|InspectionCount|PointCount|VisibleActionCount)(>|$)'),
     # Names that contain a marker but belong to the framework (System.Windows.Media.Brushes.WhiteSmoke).
     [string[]] $AllowedIdentifier = @('WhiteSmoke', 'get_WhiteSmoke'),
     # Regular expressions on the string literals of the #US heap.
-    [string[]] $Literal = @('^--smoke', '^--check', '^--capture', 'esito-smoke-completo')
+    [string[]] $Literal = @('^--smoke', '^--check', '^--capture', 'esito-smoke-completo', '^ANTHEA_TRACE_FALLBACKS$', '^ANTHEA_MOTORE_SLE$', '^--motore'),
+    # Assemblies that must never be in a shipped folder (decision D3: legacy engines and test toolkit stay out of the installer).
+    [string[]] $ForbiddenAssembly = @('ANTHEA.Legacy.dll', 'ANTHEA.Testing.dll')
 )
 $ErrorActionPreference = 'Stop'
-$DefaultAssemblies = 'ANTHEA.dll', 'ANTHEA.Core.dll', 'ANTHEA.Calculations.dll', 'Materiali.dll', 'ANTHEA.Application.dll', 'ANTHEA.Reports.dll', 'ANTHEA.Wiki.dll', 'ANTHEA.Serialization.dll'
+# Every ANTHEA assembly of the published graph of X.Desktop (installer), plus the former ones still checked when present.
+$DefaultAssemblies = 'ANTHEA.dll', 'ANTHEA.Core.dll', 'ANTHEA.Calculations.dll', 'Materiali.dll', 'ANTHEA.Application.dll', 'ANTHEA.Reports.dll', 'ANTHEA.Wiki.dll', 'ANTHEA.Serialization.dll',
+    'ANTHEA.FoundationWorkspace.dll', 'ANTHEA.ModelWorkspace.dll', 'ANTHEA.ModelReports.dll', 'ANTHEA.ModelViewer.Presentation.dll', 'ANTHEA.ModelViewer.Wpf.dll',
+    'ANTHEA.DesignTools.Presentation.dll'
 
 function Read-Heaps([string] $file) {
     $b = [IO.File]::ReadAllBytes($file)
@@ -97,6 +111,9 @@ foreach ($item in $Path) {
         $found = @($DefaultAssemblies | ForEach-Object { Join-Path $full $_ } | Where-Object { Test-Path -LiteralPath $_ })
         if ($found.Count -eq 0) { Write-Output "FAIL: $full`: nessun assembly ANTHEA nella cartella"; $files.Add('') }
         foreach ($f in $found) { $files.Add($f) }
+        foreach ($name in $ForbiddenAssembly) {
+            if (Test-Path -LiteralPath (Join-Path $full $name)) { Write-Output "FAIL: $full`: assembly di prova $name nella cartella"; $files.Add('') }
+        }
     } else { $files.Add($full) }
 }
 

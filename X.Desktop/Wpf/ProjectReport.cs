@@ -38,7 +38,7 @@ public sealed partial class MainWindow
             if (dialog.ShowDialog() != true) { if (compare) ShowCoherence(section); return; }
         }
         var name = string.Concat(section.S("nome", "Sezione").Select(c => Path.GetInvalidFileNameChars().Contains(c) ? '_' : c));
-        var save = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione " + name + ".docx" };
+        var save = new SaveFileDialog { Filter = "Word e PDF affiancati|*.docx", FileName = "Relazione " + name + ".docx" };
         if (save.ShowDialog(this) != true) return;
         var snapshot = SectionReportSnapshot(section);
         var status = Ui.Text("Preparazione delle schede…", 14);
@@ -60,7 +60,7 @@ public sealed partial class MainWindow
         progress.ShowDialog();
         if (failure is OperationCanceledException) return;
         if (failure is not null) throw failure;
-        MessageBox.Show(this, "Report salvato in:\n" + save.FileName + (unavailable > 0 ? $"\n\n{unavailable} schede contengono risultati mancanti o incompleti, segnalati nel documento." : ""), "ANTHEA", MessageBoxButton.OK, unavailable > 0 ? MessageBoxImage.Warning : MessageBoxImage.Information);
+        MessageBox.Show(this, "Report salvato in Word e PDF:\n" + save.FileName + "\n" + Path.ChangeExtension(save.FileName, ".pdf") + (unavailable > 0 ? $"\n\n{unavailable} schede contengono risultati mancanti o incompleti, segnalati nel documento." : ""), "ANTHEA", MessageBoxButton.OK, unavailable > 0 ? MessageBoxImage.Warning : MessageBoxImage.Information);
     }
 
     private static string[] SectionReportWarnings(JsonObject section) => ProjectValidation.Warnings(section);

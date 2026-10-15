@@ -783,9 +783,7 @@
     "prerequisites": [
       "load-path"
     ],
-    "references": [
-      "delft-beam"
-    ],
+    "references": [],
     "order": 34,
     "title": "Elementi Beam"
   },
@@ -825,9 +823,7 @@
     "prerequisites": [
       "load-path"
     ],
-    "references": [
-      "delft-frames"
-    ],
+    "references": [],
     "title": "Releases e connettività",
     "order": 36,
     "summary": "Gradi di libertà, rilasci e collegamenti: distinguere coincidenza geometrica e continuità meccanica."
@@ -848,7 +844,7 @@
       "load-path"
     ],
     "references": [
-      "mit-buckling"
+      "timoshenko-stability"
     ],
     "order": 37,
     "summary": "Biforcazione elastica, lunghezza efficace e snellezza. Derivazione, diagramma ed esempio con unità coerenti.",
@@ -868,9 +864,7 @@
     "status": "reviewed",
     "level": "introductory",
     "prerequisites": [],
-    "references": [
-      "delft-frames"
-    ],
+    "references": [],
     "order": 38,
     "title": "Fondamenti del percorso dei carichi",
     "summary": "Seguire le azioni dagli elementi caricati ai vincoli e distinguere equilibrio e verifica."
@@ -912,9 +906,7 @@
     "prerequisites": [
       "azioni-e-combinazioni-del-modello"
     ],
-    "references": [
-      "mit-dynamics"
-    ],
+    "references": [],
     "title": "Dinamica e sisma del modello",
     "order": 40,
     "summary": "Masse, rigidezze, modi e azioni dinamiche: cosa rappresenta e cosa esclude il modello."
@@ -933,9 +925,7 @@
     "prerequisites": [
       "bridge"
     ],
-    "references": [
-      "sci-composite"
-    ],
+    "references": [],
     "title": "Fasi costruttive e percorso dei carichi",
     "order": 41,
     "summary": "Materiali attivi, vincoli e fenomeni differiti nella sequenza costruttiva."
@@ -956,9 +946,7 @@
       "ponti-stralli"
     ],
     "prerequisites": [],
-    "references": [
-      "fhwa-bridge"
-    ],
+    "references": [],
     "modules": [
       "str_bridge_design"
     ],
@@ -981,7 +969,7 @@
       "beam"
     ],
     "references": [
-      "jrc-cracking"
+      "en1992-1-1-fessurazione"
     ],
     "modules": [
       "str_palo"
@@ -1048,9 +1036,7 @@
     "prerequisites": [
       "beam"
     ],
-    "references": [
-      "delft-beam"
-    ],
+    "references": [],
     "modules": [],
     "order": 46,
     "summary": "Geometria, analisi e verifica in un processo riproducibile: dipendenze, dati e limiti dell’ottimizzazione.",

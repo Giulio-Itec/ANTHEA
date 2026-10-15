@@ -14,7 +14,7 @@
     <TieredCompilation>false</TieredCompilation>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../X.Core/X.Core.csproj" />
+    <ProjectReference Include="../../X.Core/X.Core.csproj" /><ProjectReference Include="../ANTHEA.Legacy/ANTHEA.Legacy.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tolerances.json" CopyToOutputDirectory="PreserveNewest" />

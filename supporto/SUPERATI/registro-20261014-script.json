@@ -1,0 +1,9 @@
+[
+  {
+    "original": "supporto/scripts/aggiorna_attesi.py",
+    "archived": "supporto/SUPERATI/scripts/aggiorna_attesi.py",
+    "sha256": "EE3A157A13A27CFE06E4E49354BC80F2205E21F347730277DEE2DA960B0F995C",
+    "reason": "Audit del 14/10/2026: lo script riscriveva i valori attesi di supporto/test/casi_confronto.json con i risultati del C#, contro la regola di AGENTS.md (gli attesi indipendenti non si sovrascrivono mai con risultati del codice). Ultimo uso documentato: 26/09/2026, 30 casi delle sezioni a T, marcati dal campo fonte_atteso.",
+    "replacement": "Nessuno script: una modifica voluta del comportamento richiede attesi nuovi calcolati in modo indipendente (Python, a mano o da esempi pubblicati) e una voce nel registro delle differenze. L'opzione --attesi di supporto/test/X.Verifiche resta solo per diagnosi."
+  }
+]

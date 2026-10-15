@@ -70,6 +70,19 @@ public static partial class ConcreteLibraryMapping
             ?? throw new ArgumentException(DurabilityLabelMessage);
     }
 
+    // ------------------------------------------------------------------ durabilità: riferimento normativo del copriferro
+    /// <summary>Riferimento italiano di <see cref="CoverResult.Reference"/> per profilo (proposta F2.9-U3, decisione dell'utente del
+    /// 14/10/2026: il palo elastico mostrava nel risultato e nella relazione il testo inglese della libreria).</summary>
+    public static string DurabilityReference(DurabilityProfile profile) => profile switch
+    {
+        DurabilityProfile.Ntc2018 => "NTC 2018 §4.1.6.1.3 e Circolare 2019 Tab. C4.1.IV",
+        DurabilityProfile.CnrDT200 => "CNR-DT 200 R1/2013 con NTC 2018 §4.1.6.1.3 per l'elemento in c.a.",
+        DurabilityProfile.EN1992p11 => "EN 1992-1-1 §4.4.1, prospetti 4.3N e 4.4N",
+        DurabilityProfile.UniEN1992p11 => "UNI EN 1992-1-1 §4.4.1 con DM 31/07/2012 (valori raccomandati)",
+        DurabilityProfile.DsEN1992p11 => "DS/EN 1992-1-1 §4.4.1 con DK NA:2024 Tabel 4.4N NA",
+        _ => throw Unmapped("riferimento del copriferro", profile.ToString())
+    };
+
     // ------------------------------------------------------------------ durabilità: rifiuti
     /// <summary>Testo del legacy per un codice di esposizione fuori catalogo (NtcCover.Severity, AtecapMix.Limits).</summary>
     public const string DurabilityUnknownExposureMessage = "Esposizione non riconosciuta.";

@@ -7,7 +7,7 @@ text: Copia LaTeX
 text: Con fck = 30 MPa, αcc = 0,85 e γc = 1,50 si ottiene fcd = 17 MPa. Con fyk = 450 MPa e γs = 1,15 si ottiene fyd = 391,30 MPa. Assumendo Es = 200000 MPa, la deformazione elastica a fyd è 0,0019565, cioè 1,9565 per mille. Sono esempi dei passaggi algebrici, non una scelta universale dei coefficienti.
 text: Il catalogo delle armature comprende classi attuali e storiche. I dati nominali delle classi storiche non sostituiscono prove e valutazioni di un materiale esistente. A5 e deformazione ultima del diagramma hanno definizioni diverse. Quando il motore richiede una deformazione ultima, essa deve provenire da una scelta documentata e coerente con il modello costitutivo.
 text: esposizioni-e-requisiti-del-materiale
-text: Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinate vengono ricavate assumendo il massimo dei requisiti minimi di resistenza, il minimo dei rapporti acqua cemento massimi e il massimo dei contenuti minimi di cemento pertinenti. Le classi minime seguono il prospetto 6 della UNI 11104:2025, in vigore dal 24 luglio 2025, con una sola eccezione: per XF1 resta C32/40 del prospetto 5 dell'edizione 2016, più cautelativo del C30/37 dell'edizione in vigore. Rapporti acqua cemento massimi e contenuti minimi di cemento sono quelli del prospetto 5 della UNI 11104:2016, riportato nel vademecum ATECAP 2020 (p. 19). Il prospetto 6 dell'edizione 2025 ha contenuti minimi di cemento inferiori in tutte le classi e per XF1 un rapporto acqua cemento massimo di 0,55: i limiti implementati sono quindi più restrittivi dell'edizione in vigore.
+text: Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinate vengono ricavate assumendo il massimo dei requisiti minimi di resistenza, il minimo dei rapporti acqua cemento massimi e il massimo dei contenuti minimi di cemento pertinenti. Classi minime, rapporti acqua cemento massimi e contenuti minimi di cemento sono quelli del prospetto 5 della UNI 11104:2016, richiamata dalle NTC 2018 al §11.2.11. L'edizione 2025 della UNI 11104 non è adottata: i suoi valori saranno considerati solo dopo il riscontro sul testo della norma. Descrizioni ed esempi delle classi mostrati nella scheda Materiali sono testi di ANTHEA basati sulla classificazione del prospetto 1 della UNI EN 206.
 text: Esposizione
 text: Classe minima implementata
 text: X0
@@ -29,7 +29,7 @@ text: C32/40
 text: XS2 e XS3
 text: C35/45
 text: XF1
-text: C32/40 (UNI 11104:2025: C30/37)
+text: C32/40
 text: XF2 e XF3
 text: C25/30
 text: XF4

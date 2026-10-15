@@ -2,6 +2,7 @@ using System.IO.Compression;
 using System.Text.Json.Nodes;
 using System.Xml.Linq;
 using X.Core;
+using Anthea.Application.Documents;
 
 public static class HorizontalChecks
 {
@@ -186,7 +187,7 @@ public static class HorizontalChecks
         try
         {
             var doc = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", PaloOrizzontale.Module), ("dati", section));
-            string file = Path.Combine(temp, "roundtrip.programma"); Archivio.Scrivi(file, doc); Assert(JsonNode.DeepEquals(doc, Archivio.Leggi(file)), "Roundtrip orizzontale");
+            string file = Path.Combine(temp, "roundtrip.programma"); DocumentService.Save(file, doc); Assert(JsonNode.DeepEquals(doc, DocumentService.Open(file)), "Roundtrip orizzontale");
             Assert(PaloOrizzontale.Csv(sr).Contains("p_kN_m"), "CSV mancante");
             string report = Path.Combine(temp, "report.docx"); ReportOrizzontale.Write(report, "Test", sr);
             using var zip = ZipFile.OpenRead(report); using var stream = zip.GetEntry("word/document.xml")!.Open();

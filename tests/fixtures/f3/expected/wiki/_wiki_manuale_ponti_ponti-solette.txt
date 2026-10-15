@@ -12,7 +12,6 @@ text: Questi carichi sono inventati per il controllo manuale e non costituiscono
 text: durabilita-e-dettagli-che-cambiano-il-calcolo
 text: Il copriferro maggiore può migliorare la protezione delle armature ma riduce d a spessore costante. Lo spessore del pacchetto impermeabilizzazione–pavimentazione modifica peso e quote. Ristagni presso giunti, scarichi e cordoli aumentano l’importanza del dettaglio di drenaggio. Il disegno deve mostrare continuità dell’armatura superiore, interferenze e possibilità concreta di getto.
 text: ANTHEA consente di verificare la sezione in c.a. soggetta alle azioni ricavate dal modello. Bridge Design fornisce un’impostazione concettuale dell’impalcato: non sostituisce una verifica locale completa della piastra sotto ruote o barriera.
-text: Riferimento bibliografico: FHWA, esempio di progetto LRFD di un impalcato a travi metalliche, passo 2 sulla soletta. Le procedure FHWA fanno riferimento al quadro statunitense: coefficienti e carichi non si trasferiscono automaticamente alle NTC.
 text: proseguire-nella-wiki
 text: - Cos'è un ponte?
 text: - Taglio nel calcestruzzo armato e scelta del traliccio

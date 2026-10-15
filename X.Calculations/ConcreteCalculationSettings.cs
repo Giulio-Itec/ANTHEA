@@ -10,7 +10,7 @@ public static class ConcreteCalculationSettings
     public static void Prepare(JsonObject input, JsonObject settings)
     {
         if (settings["coefficienti"] is not JsonObject)
-            settings["coefficienti"] = ConcreteStandards.Defaults(settings.S("normativa", "NTC 2018"));
+            settings["coefficienti"] = ConcreteStandards.Defaults(ConcreteStandards.RequiredName(settings));
         foreach (var (key, standard) in CommonCoefficients) settings["coefficienti"]![standard] = input[key]?.DeepClone();
         if (!input.ContainsKey("staffe_presenti")) input["staffe_presenti"] = "Sì";
         if (settings["taglio"] is not JsonObject) settings["taglio"] = new JsonObject();

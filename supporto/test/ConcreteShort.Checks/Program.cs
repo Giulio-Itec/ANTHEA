@@ -4,7 +4,6 @@ using System.IO.Compression;
 using System.Xml.Linq;
 using Anthea.Calculations;
 using X.Core;
-using X.Desktop;
 
 string folder=Path.GetFullPath(args[0]);Directory.CreateDirectory(folder);
 // SLE engine (refactoring F2.7, commit A5): '--motore-sle legacy|libreria', otherwise the default engine of ConcreteServiceabilityAdapter.
@@ -13,6 +12,8 @@ ServiceabilityEngine? sle=args.SkipWhile(a=>a!="--motore-sle").Skip(1).FirstOrDe
     null=>null,"legacy"=>ServiceabilityEngine.Legacy,"libreria"=>ServiceabilityEngine.Library,
     var other=>throw new ArgumentException("--motore-sle: legacy o libreria, non "+other)
 };
+// Since decision D3 of 15/10/2026 the engine is hooked for the whole run (tests/ANTHEA.Legacy), not passed to the section.
+ServiceabilityEngines.Use(sle);
 int assertions=0;void Check(bool pass,string message){if(!pass)throw new Exception(message);assertions++;}
 var data=SezioneCA.DefaultData();var ws=SectionWorkspace.Prepare(data);var input=data["input"]!.AsObject();
 ws["sle_comuni"]!["esposizione"]="XC1";ws["dettagli_costruttivi"]!["elemento"]="Pilastro";
@@ -31,11 +32,11 @@ foreach(string family in SectionWorkspace.Sets)
     else
     {
         var options=ws["sle"]![family]!.AsObject();options["esposizione"]="XC1";
-        var engine=new CheckerSection(input,ws,options,engine:sle);var checks=new Dictionary<string,StressOutcome>();
+        var engine=new CheckerSection(input,ws,options);var checks=new Dictionary<string,StressOutcome>();
         foreach(var row in actions)
         {
             var a=row!.Array("azioni");var force=new ActionPoint(double.Parse(a[0]!.GetValue<string>()),double.Parse(a[1]!.GetValue<string>()),double.Parse(a[2]!.GetValue<string>()));
-            var s=engine.Stress(force,family);var crack=ConcreteServiceabilityAdapter.Cracking(engine,s,force,input,ws,options,family,sle);
+            var s=engine.Stress(force,family);var crack=ServiceabilityEngines.Cracking(engine,s,force,input,ws,options,family,sle);
             checks[row.S("id")]=new(s.ViewForTest(),s.Ratio,s.Status,crack.Status,crack.ViewForTest());
         }
         result["tensioni"]![family]=ConcreteAnalysisSession.ExportStress(checks);
@@ -59,6 +60,8 @@ var empty=(JsonObject)data.DeepClone();empty["combinazioni"]!["SLU"]=new JsonArr
 Check(ReportConcreteShort.Select(empty,result)[0].Outcome.StartsWith("Non richiesta"),"Empty family confused with missing results");
 var close=(JsonObject)result.DeepClone();close["domini"]!["3D:SLU"]!["SLU1"]!["Utilization"]=.9902;close["domini"]!["3D:SLU"]!["SLU2"]!["Utilization"]=.9901;
 Check(ReportConcreteShort.Select(data,close)[0].Combination.EndsWith("1"),"Rounded ratio used for selection");
+// The synthetic result carries the same provenance as ConcreteResultExport.
+result["dati"]=data.DeepClone();result["normativa_riferimento"]=ws.S("normativa");
 var bytes=ReportConcreteShort.Create("Sezione di prova con tutte le verifiche",data,result);
 using(var zip=new ZipArchive(new MemoryStream(bytes)))
 {
@@ -66,13 +69,15 @@ using(var zip=new ZipArchive(new MemoryStream(bytes)))
     Check(xml.Descendants(w+"tbl").Count()==2,"Short report should have two tables");
     Check(xml.Descendants(w+"br").Count(b=>b.Attribute(w+"type")?.Value=="page")==1,"Expected one deliberate page break");
 }
-await ShortReportExport.WriteAsync(Path.Combine(folder,"Relazione_short.docx"),bytes);
-Check(File.Exists(Path.Combine(folder,"Relazione_short.pdf")),"Companion PDF missing");
+// DOCX and PDF without Word (F4-46): the same writer as the Report short button.
+const string title="Sezione di prova con tutte le verifiche";
+var pdf=Anthea.Reports.ReportFiles.Write(Path.Combine(folder,"Relazione_short.docx"),bytes,title,Anthea.Reports.ReportFiles.ShortReportPages);
+Check(File.Exists(Path.Combine(folder,"Relazione_short.pdf")) && pdf.Pages<=Anthea.Reports.ReportFiles.ShortReportPages,"Companion PDF missing or longer than two pages");
 var oversize=ReportConcreteShort.Create(string.Join("\n",Enumerable.Repeat("Titolo di prova volutamente lungo",150)),data,result);
 bool rejected=false;
-try{await ShortReportExport.WriteAsync(Path.Combine(folder,"oversize.docx"),oversize);}
+try{Anthea.Reports.ReportFiles.Write(Path.Combine(folder,"oversize.docx"),oversize,title,Anthea.Reports.ReportFiles.ShortReportPages);}
 catch(InvalidOperationException ex) when(ex.Message.Contains("pagine")){rejected=true;}
 Check(rejected && !File.Exists(Path.Combine(folder,"oversize.docx")) && !File.Exists(Path.Combine(folder,"oversize.pdf")),"More than two pages exported");
 File.WriteAllText(Path.Combine(folder,"source.json"),data.ToJsonString());File.WriteAllText(Path.Combine(folder,"results.json"),result.ToJsonString());
-File.WriteAllText(Path.Combine(folder,"test-results.txt"),$"PASS {assertions} assertions (SLE engine {sle??ConcreteServiceabilityAdapter.Default}); Word pagination accepted (at most two pages), PDF exported.");
+File.WriteAllText(Path.Combine(folder,"test-results.txt"),$"PASS {assertions} assertions (SLE engine {sle??ServiceabilityEngines.Default}); PDF of {pdf.Pages} pages without Word (at most two), oversize refused.");
 Console.WriteLine($"PASS {assertions} assertions");

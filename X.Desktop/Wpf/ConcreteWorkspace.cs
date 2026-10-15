@@ -171,7 +171,9 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         var materialGroups = Ui.Stack(materials,
             Ui.Button("Reologia del calcestruzzo…", () => ConcreteTimeEffectsView.CreateWindow(this, Math.Abs(Input.D("fck_mpa"))).Show(), inspection: true),
             BuildCustomMaterials()); materialGroups.Margin = new Thickness(14, 0, 0, 0);
-        var inputStack = Ui.Stack(norm, standardNote, Group("Coefficienti da normativa", BuildCoefficients()), Group("Materiali", materialGroups, true), Group("Geometria", Ui.Stack(geometry,holeToggle,holeForm), true), Group("Armature", Ui.Stack(reinforcement, BuildAdditionalLayers())), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
+        var inputStack = Ui.Stack(norm,
+            settings["migrazione_input"] is JsonObject migratedInput ? Group("Valori integrati dal documento precedente",
+                Ui.Text("Valori storici iniziali aggiunti ai campi assenti; controllarli prima dell’uso.\n" + string.Join("\n", migratedInput.Select(p => p.Key + " = " + p.Value)), 11)) : Ui.Text(""), standardNote, Group("Coefficienti da normativa", BuildCoefficients()), Group("Materiali", materialGroups, true), Group("Geometria", Ui.Stack(geometry,holeToggle,holeForm), true), Group("Armature", Ui.Stack(reinforcement, BuildAdditionalLayers())), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
         var left = Panel("Definizione della sezione", Scroller(inputStack), "Dati comuni a tutte le verifiche · mm, MPa");
         var viewport = new ViewportFrame("Sezione geometrica", preview, preview.ResetView);
         var axes = new CheckBox { Content = "Assi", IsChecked = true, Margin = new Thickness(7, 3, 5, 3), VerticalAlignment = VerticalAlignment.Center };
@@ -232,7 +234,6 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         foreach (var grid in grids) grid.Commit(); foreach (string key in actions.Keys) SyncActions(key);
         if (shearGrid is not null && !UnifiedActions) ShearOptions["azioni"] = Anthea.Application.Concrete.ConcreteSheetPreparation.StoreShearRows(shearGrid.Rows.Select(r => r.Values));
     }
-    internal void SetGeometry(string value) => geometry.Set("diameter_mm", value);
     private void Invalidate(bool geometryChanged = true)
     {
         using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
@@ -354,21 +355,6 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         var buttons = Ui.Bar(Ui.Button("+ Riga", Add), Ui.Button("Duplica", Duplicate), Ui.Button("− Riga", Remove));
         AttachClipboard(grid, ActiveKey, buttons);
         return Ui.Dock(WithFilters(grid), bottom: buttons);
-    }
-    internal static List<string[]> ParsePaste(string text)
-    {
-        var result = new List<string[]>();
-        foreach (string line in text.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries))
-        {
-            var cells = line.Split('\t');
-            if (cells.Length == 4 && cells[1].Trim().StartsWith("N", StringComparison.OrdinalIgnoreCase)) continue;
-            if (cells.Length == 3) cells = new[] { "", cells[0], cells[1], cells[2] };
-            if (cells.Length != 4) throw new ArgumentException("Usare 3 colonne N–Mx–My oppure 4 colonne Nome–N–Mx–My, separate da tabulazioni.");
-            for (int i = 1; i < 4; i++) ConcreteEditor.Number(cells[i], "Riga " + (result.Count + 1));
-            result.Add(cells);
-        }
-        if (result.Count == 0) throw new ArgumentException("Nessuna combinazione da incollare.");
-        return result;
     }
     public void Dispose() { disposed = true; calculationQueued = false; analysisScheduler.Dispose(); curvatureScheduler.Dispose(); quickResistanceScheduler.Dispose(); designCancellation?.Cancel(); foreach (var panel in domainPanels) panel.Inspection.Session.Dispose(); }
 }

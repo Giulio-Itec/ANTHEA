@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-13",
+  "aggiornato": "2026-10-14",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
@@ -12,18 +12,562 @@
     "convenzione": "il codice segue alla lettera un testo normativo diverso da un altro testo applicabile",
     "intenzionale": "scelta dichiarata nel codice, nei commenti o nei test",
     "difetto-legacy": "comportamento non voluto del codice esistente",
-    "scostamento-normativo": "il codice si discosta dal testo della norma del profilo"
+    "scostamento-normativo": "il codice si discosta dal testo della norma del profilo",
+    "regressione": "comportamento corretto prima del refactoring e alterato da un passo del refactoring stesso; la voce indica origine e correzione"
   },
   "stati": [
     "da-decidere",
     "dichiarato",
     "da-correggere",
     "corretto",
-    "attuato"
+    "attuato",
+    "da-ricostruire"
   ],
   "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
+  "nota_audit_14_10": "Audit indipendente del 14/10/2026 (piano.md, sezione iniziale). Le voci F4 indicate come «distribuite con il set W» sono attive in ANTHEA 1.8.0 con il set W installato in lib/Checker dal commit 3f9df6b8, sul ramo refactoring/f4-calcoli-residui: il ramo non è unito a main e il full conforme manca (F4.16). Dove la scelta è stata dell'agente la voce indica «decisione dell'utente da ratificare». Lo stato «da-ricostruire» segnala una voce prevista dai micro-piani e non scritta a suo tempo, ricostruita solo in parte: la descrizione dice cosa manca. La categoria «regressione» è aggiunta per F4-36 e F4-37.",
   "voci": [
+    {
+      "id": "F4-27",
+      "data": "2026-10-14",
+      "fase": "F4.11b.4",
+      "titolo": "Rifiuto di inclusioni senza quantità associate",
+      "famiglia": "Bridge Design",
+      "categoria": "difetto-legacy",
+      "stato": "dichiarato",
+      "descrizione": "Nel nuovo computo Bridge si rifiutano inclusioni diverse dalla quota di armatura nel prezzo dei pali. Non si dichiara compresa una lavorazione che il computo non sa separare; l’interfaccia espone la limitazione. Fix Design 0.15.0.1, distribuito con il set W il 14/10 (Design 0.19.0.0, commit 3f9df6b8).",
+      "test": [
+        "BridgeCostTests PASS: inclusione montaggio/carpenteria rifiutata"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4",
+        "../Checker/docs/refactoring/f4-cost-contract.md",
+        "../Model/docs/refactoring/f4-material-properties.md"
+      ]
+    },
+    {
+      "id": "F4-26",
+      "data": "2026-10-14",
+      "fase": "F4.11a.3",
+      "titolo": "Riuso Ecm e densità senza scarti numerici",
+      "famiglia": "Bridge Design",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Model centralizza la formula con valutazione esplicita MPa/GPa e densità da 7850 kg/m³; Bridge riusa Fcm del materiale e i nuovi servizi. I due ordini aritmetici storici sono conservati bit per bit. Nessun allargamento della tolleranza, nessuna rigenerazione degli attesi.",
+      "test": [
+        "141 resistenze catturate prima: SHA e bit identici",
+        "1236 test Model PASS e API/audit; 45 test Design PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4",
+        "../Checker/docs/refactoring/f4-cost-contract.md",
+        "../Model/docs/refactoring/f4-material-properties.md"
+      ]
+    },
+    {
+      "id": "F4-25",
+      "data": "2026-10-14",
+      "fase": "F4.11c.2",
+      "titolo": "Prezzari sostituibili e anteprima MVVM",
+      "famiglia": "Bridge Design",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Cataloghi, associazioni e override separati dal motore. Snapshot versionata per il calcolo e la ricerca, anteprima prima/dopo, applicazione transazionale, cronologia e rivalutazione esplicita di A con storia propria. Prezzi mancanti non diventano zero; report/CSV mostrano la revisione usata. Archivi precedenti e valori conservati; nessuna differenza di struttura o CO₂. Guide Rev43 pubblicate il 14/10 (82fcd8fc) e distribuzione con il set W (3f9df6b8); chiusura F4.16 ancora aperta. Il requisito «analisi composte» dei prezzari (decisioni del 13/10 sera) non è implementato.",
+      "test": [
+        "14 PASS runner, corpus 31/17 invariato",
+        "24 controlli WPF nei tre temi, PNG controllati",
+        "pricing-e 5 PASS su invalidità e contratti dei documenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4",
+        "../Checker/docs/refactoring/f4-cost-contract.md",
+        "../Model/docs/refactoring/f4-material-properties.md"
+      ]
+    },
+    {
+      "id": "F4-24",
+      "data": "2026-10-14",
+      "fase": "F4.11c.1",
+      "titolo": "Lettura OOXML condivisa",
+      "famiglia": "importazioni Excel",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Parsing celle, stringhe, formule memorizzate e relazioni trasferito in ANTHEA.Serialization.WorkbookCells. Import Azioni preservato e lettore disponibile ai prezzari. Nessun nuovo calcolo o parser duplicato; unica impronta della base alfabetica 26 spostata senza nuove esenzioni.",
+      "test": [
+        "Application prima/dopo PASS, architettura PASS",
+        "Contratti XLSX e editor delle sollecitazioni invariati"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/table-reader-before.log",
+        "supporto/artefatti/refactoring/f4/table-reader-after-b.log"
+      ]
+    },
+    {
+      "id": "F4-23",
+      "data": "2026-10-14",
+      "fase": "F4.11a",
+      "titolo": "Motore BridgeConcept in GPC.Design e campionamento stabile",
+      "famiglia": "Bridge Design",
+      "categoria": "difetto-legacy",
+      "stato": "dichiarato",
+      "descrizione": "Motore e ricerca trasferiti con contratti immutabili, mappatura esplicita del documento e conservazione del percorso diagnostico. Corretto un punto quasi duplicato all'estremo analitico della trave: 33 stazioni ridondanti del corpus eliminate solo dopo confronto di tutte le ordinate con la tolleranza originale. Nessun cambio di quantità, esiti, proposte o Pareto oltre tolleranza; attesi SHA invariati. 131 impronte architetturali cambiano soltanto proprietario per il prefisso Legacy, senza nuove eccezioni. Riuso Ecm/densità, cataloghi e traffico restano punti distinti.",
+      "test": [
+        "39 test nativi PASS, API compatibili",
+        "31 calcoli/17 ricerche, 161550 numeri nell'adattatore, nessuna differenza oltre 1e-10; input immutato, metadati archivio conservati, annullamento/progresso e dati errati"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/bridge-native-sampling",
+        "supporto/artefatti/refactoring/f4/bridge-adapter-direct/comparison.json",
+        "../Checker/docs/refactoring/f4-bridge-port.md"
+      ]
+    },
+    {
+      "id": "F4-22",
+      "data": "2026-10-14",
+      "fase": "F4.12e.2",
+      "titolo": "Domande e rapporti di progetto in GPC.Design",
+      "famiglia": "sezioni c.a.",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Compressione massima, proiezione delle tensioni, rapporti domanda/capacità e capacità necessaria per obiettivo risolti da SectionDesignDemand; i limiti restano dei servizi Concrete. Risultati, ordinamento e contatori del corpus invariati. Capacità assenti/nonfinite non possono certificare il candidato. Una lettura implicita ripetuta rimossa dalla baseline; distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
+      "test": [
+        "34 prove native Design e API compatibili",
+        "11 controlli applicativi pertinenti PASS, 21579 numeri equivalenti e prove NEd con attesi manuali"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/demands-b.log",
+        "../Checker/docs/refactoring/f4-section-demand.md"
+      ]
+    },
+    {
+      "id": "F4-21",
+      "data": "2026-10-14",
+      "fase": "F4.15b",
+      "titolo": "Giudizio condiviso sul copriferro",
+      "famiglia": "durabilità e progetto",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Sezioni, pali e muri condividono CoverAssessment tramite ConcreteDurabilityAdapter. Nessun calcolo dei minimi nel validatore di progetto; requisito effettivo e del materiale combinati dalla libreria. Dati mancanti non certificano il copriferro né nascondono un minimo noto insufficiente. Tutti i testi/esiti/valori congelati restano identici. Collegamento alla candidata H, distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
+      "test": [
+        "11 PASS runner, regressione adattatori/SLE completa",
+        "12 casi congelati, 247 percorsi con sonda, ricerca muri e distinta equivalenti",
+        "Nessuna nuova eccezione delle scansioni architetturali"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/cover-b.log",
+        "tests/ConcreteLibraryAdapter.Checks/F4InputContractChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-20",
+      "data": "2026-10-14",
+      "fase": "F4.12d.1 / F2.8-U4",
+      "titolo": "NEd comune fra scheda dettagli e progetto armature",
+      "famiglia": "sezioni c.a.",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "La scheda dettagli ora include le componenti N delle righe taglio, come il progetto armature. Cattura preservata: con N=-100 kN nelle azioni ultime e -6000 kN nel taglio, NEd passa da 100 a 6000 kN e As,min da 720 a 1533.333333 mm². Il segno positivo resta trazione; N presente non numerico è rifiutato. Ramo diagnostico conservato. Nessuna modifica alle formule normative. Distribuito con il set W il 14/10 (commit 3f9df6b8, ANTHEA 1.8.0).",
+      "decisione": "L'utente aveva chiesto l'8/10 di trattare l'incoerenza in F4.12 (F2.8-U4 «ok»). La scelta di usare in entrambi i percorsi la N delle righe del taglio è dell'agente: decisione dell'utente da ratificare (audit 14/10). Decisa dall'utente il 14/10 (decisioni.md, punto 2d): NEd è la compressione più gravosa di tutte le combinazioni, SLE comprese, uguale nei due percorsi (F4-44).",
+      "test": [
+        "11 PASS runner, inclusi Application, ConcreteDesign, contratti input e ricerca sezioni",
+        "Caso N=-20000 kN: As,min=5111.111111111111 mm² ed esito negativo; immutabilità e letture errate controllate"
+      ],
+      "evidenze": [
+        "tests/fixtures/f4/input-contracts-reference.json",
+        "tests/ConcreteLibraryAdapter.Checks/F4InputContractChecks.cs",
+        "supporto/artefatti/refactoring/f4/ned-a.log"
+      ]
+    },
+    {
+      "id": "F4-19",
+      "data": "2026-10-14",
+      "fase": "F4.12c.2",
+      "titolo": "Coordinamento nativo della ricerca sezioni",
+      "famiglia": "sezioni c.a.",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Generazione catalogo e coordinamento in GPC.Design con avanzamento, budget, annullamento e raggruppamento delle verifiche longitudinali. Dati e note comuni ai rami nuovo/diagnostico. Riserva torsionale e soglie centralizzate. Stessi candidati, esclusioni, ordine e contatori di riuso; 21579 numeri entro tolleranza 1e-9, massimo relativo 4.82e-16. Distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
+      "test": [
+        "10 PASS runner; Application e ConcreteDesign",
+        "9 casi SHA, 81 candidati, 3 rifiuti; confronto completo vecchio/nuovo e quattro obiettivi"
+      ],
+      "evidenze": [
+        "tests/ConcreteLibraryAdapter.Checks/F4SectionDesignChecks.cs",
+        "supporto/artefatti/refactoring/f4/section-search-a.log"
+      ]
+    },
+    {
+      "id": "F4-18",
+      "data": "2026-10-14",
+      "fase": "F4.12b.1",
+      "titolo": "Servizi comuni della ricerca sezioni collegati",
+      "famiglia": "sezioni c.a.",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Quantità, obiettivi, graduatoria/Pareto, rete secondaria, distribuzione torsionale e campionamento in GPC.Design. Densità da Model, regole di dettaglio condivise; rami diagnostici conservati. Nove casi, 81 candidati e 18039 numeri equivalenti, scarto relativo massimo 4.82e-16, nessun esito/candidato/ordine alterato. Dati mancanti/non finiti rifiutati. Distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
+      "test": [
+        "8 PASS runner, regressioni ConcreteDesign e architettura",
+        "Corpus SHA congelato, 3 rifiuti e quattro obiettivi confrontati"
+      ],
+      "evidenze": [
+        "tests/ConcreteLibraryAdapter.Checks/F4SectionDesignChecks.cs",
+        "supporto/artefatti/refactoring/f4/section-helpers-a.log"
+      ]
+    },
+    {
+      "id": "F4-17",
+      "data": "2026-10-14",
+      "fase": "F4.10c.2",
+      "titolo": "Ricerca armature muri nel motore Design",
+      "famiglia": "muri",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Catalogo, filtro superiore, rete secondaria, ammissibilità e continuità conteggi nel motore GPC.Design. Adattatore documentale con sezioni GPC condivise; nessuna mutazione input. Proposte/esiti identici al congelato, 68184 confronti completi con ricerca precedente sugli stessi servizi meccanici. Verifiche vuote/rapporti non finiti rifiutati. Legacy diagnostico conservato; distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
+      "test": [
+        "6 PASS runner, 12 cataloghi, 3 rifiuti, scarto numerico zero"
+      ],
+      "evidenze": [
+        "tests/ConcreteLibraryAdapter.Checks/F4WallDesignChecks.cs",
+        "supporto/artefatti/refactoring/f4/wall-design-a.log"
+      ]
+    },
+    {
+      "id": "F4-16",
+      "data": "2026-10-14",
+      "fase": "F4.10b.2",
+      "titolo": "Ricerca armature tratti sui servizi GPC",
+      "famiglia": "pali",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Adattatore sui contratti PileSegmentDesign; legacy diagnostico conservato. Cinque proposte confrontate esattamente incluse due ricerche estese con uno/due worker. Azioni con segno validate senza default a zero; dati mancanti rifiutati. Distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
+      "test": [
+        "8 PASS runner; cancellazione prima/durante, progressi, conferme, input mancanti, input invariato"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/pile-design-c.log",
+        "tests/ConcreteLibraryAdapter.Checks/F4PileDesignChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-15",
+      "data": "2026-10-14",
+      "fase": "F4.4b",
+      "titolo": "Esiti tipizzati nei consumatori pali e muri",
+      "famiglia": "presentazione verifiche",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Nessun esito positivo dedotto da etichette. Risultati pali privi di criticità tipizzate richiedono ricalcolo. Capacità nulla con domanda positiva classificata come fallimento, contatto valido senza rapporto non classificato come dato mancante. Proprietà muro non serializzate; legacy diagnostico conservato. Attivazione distribuita con il set W il 14/10 (F4.9, commit 3f9df6b8).",
+      "test": [
+        "10 PASS runner, 1358 controlli Application, WPF PASS",
+        "20 pali, 28 tratti, 3698 verifiche, 22188 numeri equivalenti; traduzioni e vecchi risultati non tipizzati"
+      ],
+      "evidenze": [
+        "docs/refactoring/f4-adattatori-muri.md",
+        "supporto/artefatti/refactoring/f4/outcomes-final.log"
+      ]
+    },
+    {
+      "id": "F4-14",
+      "data": "2026-10-14",
+      "fase": "F4.8a.4",
+      "titolo": "Adattatore completo dei muri a gravità",
+      "famiglia": "muri a gravità",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Percorso candidato sulle librerie Concrete/Masonry/Design. 82568 confronti numerici e 240 curvature equivalenti; nessun modulo E inventato per resistenze assegnate, rifiuti espliciti e limite negativo non valutabile. Ramo legacy conservato. Distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
+      "test": [
+        "Sei muri congelati, due casi di contratto, annullamento, 6 PASS runner",
+        "1668 Checker PASS e soli 17 Steel noti nel set B; API compatibili"
+      ],
+      "evidenze": [
+        "docs/refactoring/f4-adattatori-muri.md",
+        "supporto/artefatti/refactoring/f4/gravity-adapter-b.log"
+      ]
+    },
+    {
+      "id": "F4-13",
+      "data": "2026-10-13",
+      "fase": "F4.7c.1",
+      "titolo": "Adattatore completo dei muri in c.a.",
+      "famiglia": "muri in c.a.",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Percorso candidato sui servizi GPC condivisi. Zero differenze oltre taglio con sigma_cp (F4-03) e curvatura totale (F4-08). Fattori di conversione nominati con ordine aritmetico storico; selettore legacy conservato. Distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8); rilascio della fase ancora aperto (F4.16).",
+      "test": [
+        "26 muri, 285743 confronti numerici, 12512 tagli indipendenti, 1572 curvature, tre forme SLE e annullamento",
+        "6 PASS runner, nessuna tolleranza o eccezione nuova"
+      ],
+      "evidenze": [
+        "docs/refactoring/f4-adattatori-muri.md",
+        "supporto/artefatti/refactoring/f4/structures-b.log"
+      ]
+    },
+    {
+      "id": "F4-12",
+      "data": "2026-10-13",
+      "fase": "F4.8b.3/F4.10a.1",
+      "titolo": "Adattatore dettagli e distinta sul set coerente candidato",
+      "famiglia": "muri/adattatori",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Dettagli e distinta della build candidata delegano alle API Design; legacy selezionabile esplicitamente per le prove. Input obbligatori validati con il lettore esistente, profilo di copriferro sconosciuto rifiutato. Nessuna nuova formula in ANTHEA e nessuna eccezione alla baseline architetturale. Snapshot candidato fuori lib/Checker al 13/10; integrazione distribuita con il set W il 14/10 (F4.9, commit 3f9df6b8).",
+      "effetto_quantificato": "56 modelli, 30 distinte/CSV e 26127 valori confrontati, zero differenze non ammesse; scarto massimo 5.684341886080802e-14. Tre rifiuti espliciti senza mutazione del documento.",
+      "test": [
+        "Runner 20261013-f4-detail-final: 5 PASS",
+        "273 controlli architetturali PASS",
+        "Set candidato con tutte le suite Model e Checker, soli 17 Steel noti"
+      ],
+      "evidenze": [
+        "docs/refactoring/f4-adattatori-muri.md",
+        "supporto/artefatti/refactoring/f4/detail-final.log",
+        "supporto/artefatti/f4-set-a/coherent-complete/release-set.json"
+      ]
+    },
+    {
+      "id": "F4-11",
+      "data": "2026-10-13",
+      "fase": "F4.10a",
+      "titolo": "Distinta muri con dettagli condivisi e quantità tipizzate",
+      "famiglia": "muri/distinta",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Checker b8763b87: WallBarScheduling riusa il servizio dei dettagli; contratti e avvisi tipizzati, proprietà del confine fra zone conservata. Peso parziale se manca lo sviluppo dei collegamenti, nessun taglio automatico oltre la barra commerciale. Al 13/10 runtime ANTHEA e set V invariati; distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
+      "effetto_quantificato": "30 distinte congelate: 435 barre, 600 tratti e 1680 punti equivalenti; quantità intere esatte, sviluppo/peso/interassi entro 1e-9 assoluta più relativa. Attesi invariati.",
+      "test": [
+        "13 Design PASS",
+        "API compatibili, zero rimozioni",
+        "Confini condivisi, estremità pannello, peso parziale, stock e annullamento"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/schedule-final",
+        "Checker/docs/refactoring/f4-wall-schedule.md"
+      ]
+    },
+    {
+      "id": "F4-10",
+      "data": "2026-10-13",
+      "fase": "F4.8b",
+      "titolo": "Dettagli delle armature dei muri con regole condivise",
+      "famiglia": "muri/dettagli/copriferro",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Checker bd3b2483: coordinamento tipizzato in Design, riuso di ancoraggi e copriferro Concrete, interassi e minimi secondari condivisi con MemberDetailingCalculator. Conservati criteri per faccia, sagome, archi analitici, domande assolute ed esiti indisponibili con capacità negativa. Al 13/10 nessuna modifica al runtime ANTHEA o al set V; distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8).",
+      "effetto_quantificato": "56 input: 374 barre, 2316 punti delle sagome, 3260 controlli e 56 pesi equivalenti con tolleranza preesistente 1e-9 assoluta più relativa. Fixture con SHA fisso; nessun atteso sostituito. Differenza XC3/C25 nel primo adattatore di test risolta passando il pertinente Cmin UNI 11104 già usato dal legacy (35 mm, non il default 30).",
+      "test": [
+        "4 prove dettagli PASS",
+        "Suite Checker complete: 1660 PASS, 17 Steel noti, zero nuovi fallimenti; API compatibili",
+        "Cattura ANTHEA: 2 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/details-verify",
+        "Checker/docs/refactoring/f4-wall-details.md"
+      ]
+    },
+    {
+      "id": "F4-09",
+      "data": "2026-10-13",
+      "fase": "F4.8a",
+      "titolo": "Port equivalente dei muri a gravità nei verificatori e in Design",
+      "famiglia": "muri/gravità",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Checker b5e40cca separa CLS non armato in Concrete/Walls e muratura in GPCChecker.Masonry, con coordinamento tipizzato in GPC.Design. Conservati resistenze assegnate, campo elastico non fessurato, stabilità, segni e assenza di capacità nei casi fuori campo. Al 13/10 nessuna modifica delle DLL o dei risultati runtime ANTHEA; distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8). Regressione aggiuntiva F4.8a.1: la trazione assiale con resistenze assegnate conserva il valore assoluto della domanda storico; Checker 34e8f823, Design 0.1.0.1, cinque test PASS.",
+      "effetto_quantificato": "Sei modelli congelati: 8672 verifiche e 240 curvature equivalenti entro le tolleranze preesistenti 1e-9 assoluta + relativa; disponibilità, rapporti e giudizi confrontati. Fixture derivata esclusivamente dalle osservazioni originali e protetta da SHA256, senza ricalcolo degli attesi.",
+      "test": [
+        "4 test Design.Checks PASS",
+        "Checker completo: 1655 PASS, 17 Steel già censiti, zero nuovi fallimenti, API compatibili",
+        "ANTHEA runner: 5 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/gravity-verify",
+        "supporto/artefatti/refactoring/f4/gravity-source-final.log",
+        "Checker/docs/refactoring/f4-gravity-walls.md"
+      ]
+    },
+    {
+      "id": "F4-08",
+      "data": "2026-10-13",
+      "fase": "F4.7b.3",
+      "titolo": "Curvatura del muro senza amplificazione delle deformazioni per viscosità",
+      "famiglia": "muri/SLE/spostamenti",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "RetainingWall.Structures integra il ChiY del piano elastico equivalente. La deformazione totale nativa GetVerticeStrain(point,phi) è invece quella del piano moltiplicata per 1+phi. A phi=2 viene omesso un fattore 3 nella curvatura e nella sua integrazione. Il port equivalente è conservato nella proprietà diagnostica ElasticEquivalentCurvature; Curvature del nuovo servizio candidato restituisce la curvatura totale. Al 13/10 runtime ANTHEA invariato; attivo nel prodotto con il set W dal 14/10 (F4.9, commit 3f9df6b8, ANTHEA 1.8.0): nel confronto UI con la cattura F3, 180 curvature delle tre fixture a mensola diventano tre volte quelle del piano elastico equivalente, con φ=2 (f4-transizioni-ui-da-revisionare.md).",
+      "effetto_quantificato": "1572 curvature e 78 forme flessionali nel corpus: delta massimo 0.001496934767347093 1/m e 3.5411539587512513 mm. Il fattore riguarda la sola componente flessionale, non traslazione e rotazione della fondazione. Sei attesi cinematici indipendenti da sigma/Eeff: 2 PASS e 4 FAIL prima, 6 PASS dopo con tolleranza invariata. Banco completo 94114 confronti senza differenze non ammesse, scarto massimo 5.684341886080802e-14.",
+      "decisione": "Correzione separata F4.7b.3 in Concrete candidata 0.4.0.2. Riuso del fattore di omogeneizzazione anche nell'accessore nativo, senza duplicare l'amplificazione della fessurazione. Attesi congelati e motore legacy non modificati.",
+      "ratifica": "Correzione della curvatura con viscosità decisa e attivata dall'agente; confermata dall'utente il 14/10 («confermo b», decisioni.md). Il solutore resta con Ec pieno ed Es·(1+φ); si aggiunge in Concrete il piano totale esplicito. Aperti: applicazione di (1+φ) a tutte e tre le combinazioni SLE (da discutere con l'utente) e pagina del metodo (F4.16).",
+      "test": [
+        "28 test mirati muri PASS",
+        "6 PASS runner 20261013-f4-wall-curvature-final"
+      ],
+      "codice": [
+        "X.Calculations/RetainingWall.Structures.cs",
+        "Checker/GPCChecker.Concrete/Results/ResultType/StressAnalysisResult.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/curvature-before",
+        "supporto/artefatti/refactoring/f4/curvature-after",
+        "supporto/artefatti/refactoring/f4/wall-curvature-final.log",
+        "Checker/docs/refactoring/f4-muri-ca.md"
+      ]
+    },
+    {
+      "id": "F4-07",
+      "data": "2026-10-13",
+      "fase": "F4.7b.1",
+      "titolo": "Sessione nativa dei muri, port equivalente N–M e SLE",
+      "famiglia": "muri/sezioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "WallSectionSession riusa i motori GPC di resistenza, limiti tensionali e fessurazione, con cache N/segno, annullamento e risultati separati per metodo. Sessione proprietaria, input immutabili, controlli geometrici; nessun nuovo solutore. Concrete candidata 0.4.0.0, allora non distribuita in ANTHEA; distribuita con il set W il 14/10 (Concrete 0.8.0.0, commit 3f9df6b8).",
+      "effetto_quantificato": "62568 confronti su 26 muri, 576 sezioni e 286 combinazioni: zero differenze non ammesse, scarto massimo 7.105427357601002e-15. Riferimenti originali verificati con SHA. Il corpus non esercita la prova integrativa non fessurata, che resta un limite esplicito della copertura.",
+      "test": [
+        "33 prove mirate Concrete PASS",
+        "6 PASS runner, zero nuovi fallimenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/wall-port-equivalent.log",
+        "Checker/docs/refactoring/f4-muri-ca.md"
+      ]
+    },
+    {
+      "id": "F4-06",
+      "data": "2026-10-13",
+      "fase": "F4.7a",
+      "titolo": "Contratti delle sezioni dei muri e dettagli longitudinali condivisi",
+      "famiglia": "muri/sezioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Checker 1033ed05 introduce WallStrip immutabile e controlli minimi/massimi con coefficienti riusati da MemberDetailingCalculator. Conservata la policy storica del maggiore d per entrambe le facce; gli esiti non certificano i dettagli non calcolati. Concrete candidata 0.3.0.0, ANTHEA allora sul set V; distribuita con il set W il 14/10 (Concrete 0.8.0.0, commit 3f9df6b8).",
+      "effetto_quantificato": "576 sezioni del riferimento F4 equivalenti entro 1e-12 relativo sulle aree, giudizi identici. Geometrie impossibili e dati non finiti rifiutati dal nuovo contratto; nessun cambiamento runtime.",
+      "test": [
+        "4 nuovi test dei muri",
+        "23 test mirati PASS inclusi dettagli, ancoraggi e piastre esistenti"
+      ],
+      "evidenze": [
+        "Checker/docs/refactoring/f4-muri-ca.md",
+        "supporto/artefatti/refactoring/f4/wall-strip-a"
+      ]
+    },
+    {
+      "id": "F4-05",
+      "data": "2026-10-13",
+      "fase": "F4.6b",
+      "titolo": "Confini di unità espliciti per pali e armature",
+      "famiglia": "pali/unità",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Conversioni nominate con fattori GPC, ordine numerico conservato. ANTHEA riusa il proprio adattatore; Checker 0cb1c206 completa i confini delle armature. Precisata la descrizione della tolleranza N senza modificarla. Concrete candidata 0.2.0.0, allora runtime set V invariato; distribuita con il set W il 14/10 (Concrete 0.8.0.0, commit 3f9df6b8).",
+      "effetto_quantificato": "548 file generali e 234 file F4 equivalenti; 11 casi di palo con SHA invariato. Sei rilievi architetturali eliminati (4604 residui), zero aggiunte.",
+      "test": [
+        "735 Concrete PASS",
+        "48 controlli bit per bit delle conversioni",
+        "5 PASS runner mirato e 1 PASS baseline/f4"
+      ],
+      "evidenze": [
+        "docs/refactoring/f4-unita-adattatori.md",
+        "supporto/artefatti/refactoring/f4/units-f4-before-after.json"
+      ]
+    },
+    {
+      "id": "F4-04",
+      "data": "2026-10-13",
+      "fase": "F4.5",
+      "titolo": "Coefficienti di riserva dei pali dalla norma tipizzata",
+      "famiglia": "pali/coefficienti",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "I quattro coefficienti mancanti di attrito e peso provengono da PileResistanceFactors.FromStandard. Override, validazione, migrazione gammaB e registrazione dei fallback conservati; nessun dato persistito modificato.",
+      "effetto_quantificato": "548 file del corpus prima/dopo equivalenti salvo tempi già esclusi. Quattro impronte aggiornate nella baseline architetturale senza aumento delle 4610 occorrenze; attesi invariati.",
+      "test": [
+        "76 nuovi controlli Application",
+        "verifiche/pile-factors",
+        "ConcreteLibraryAdapter.Checks/rapido",
+        "12 PASS del runner, zero nuovi fallimenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/coeff-final.log",
+        "docs/refactoring/f4-coefficienti.md"
+      ]
+    },
+    {
+      "id": "F4-03",
+      "data": "2026-10-13",
+      "fase": "F4.3b (studio), F4.7b.2 (API), F4.7c.1 e F4.9 (attivazione)",
+      "titolo": "Taglio dei muri CA: contributo assiale omesso nel percorso locale",
+      "famiglia": "muri/taglio",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "descrizione": "La formula locale del muro senza staffe omette sigma_cp e non rifiuta la trazione. SectionShearCalculator include il contributo e il limite in compressione, rifiutando automaticamente tutti i casi in trazione. Studio indipendente concluso; correzione nella sessione GPC. Al 13/10 runtime ANTHEA invariato; attiva nel prodotto con il set W dal 14/10 (F4.9, commit 3f9df6b8, ANTHEA 1.8.0): nel confronto UI con la cattura F3 le 960 variazioni strutturali dei muri oltre 1e-10 riguardano solo resistenza e rapporto del taglio senza staffe (f4-transizioni-ui-da-revisionare.md).",
+      "riferimento_normativo": [
+        {
+          "fonte": "NTC 2018",
+          "punto": "4.1.2.3.5.1, formula 4.1.23",
+          "riscontro": "Gazzetta Ufficiale 20/02/2018, S.O. 8, capitolo 4 pagina 79: contributo 0,15 sigma_cp in entrambi i rami, limite 0,2 fcd, condizioni di ancoraggio e trazione; testo primario letto il 13/10/2026."
+        }
+      ],
+      "codice": [
+        "X.Calculations/RetainingWall.Structures.cs",
+        "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs"
+      ],
+      "segno": "Resistenza locale ridotta in compressione; mancanza di rifiuto automatico in trazione.",
+      "effetto_quantificato": "Studio Python su 12512 controlli di 26 muri: 4192 capacità aumenterebbero, massimo 4,301578125 kN/m e 2,80197%; nessun esito cambia nel corpus. Cinque vettori indipendenti verificano N nullo, compressione, limite e trazione contro la API GPC. F4.7b.2: il nuovo servizio è confrontato con tutti i 12512 attesi indipendenti, zero differenze non ammesse; 22 test mirati PASS.",
+      "decisione": "F4.3b del 13/10/2026: adottare il percorso GPC nel successivo F4.7, in commit separato dal port equivalente; conservare faccia e armatura efficace e non certificare dettagli o casi rifiutati. Il rifiuto GPC per ogni N positivo è una restrizione del supporto automatico, non una soglia normativa. API candidata Concrete 0.4.0.1 implementata in un commit distinto dal port; attivazione ANTHEA ancora F4.9.",
+      "ratifica": "Scelta del metodo σcp fatta dall'agente in F4.3b e attivata con il set W; confermata dall'utente il 14/10 («il punto a te lo confermo», decisioni.md). Pagina del metodo ancora da scrivere (F4.16).",
+      "test": [
+        "Checker/tests/Concrete.Checks/WallShearAxialTests.cs",
+        "tools/qa/Study-F4WallShear.py"
+      ],
+      "evidenze": "supporto/artefatti/refactoring/f4/wall-sigma-study/independent.json; supporto/artefatti/refactoring/f4/wall-sigma-tests/wall-sigma.trx",
+      "wiki": "Attivazione runtime avvenuta con il set W (ANTHEA 1.8.0); pagina del metodo ancora da scrivere (F4.16). Nessuna variazione della 1.7.1."
+    },
+    {
+      "id": "F4-02",
+      "data": "2026-10-13",
+      "fase": "F4.6c (correzione in libreria), F4.9 (attivazione)",
+      "titolo": "Copertura del palo entro tolleranza genera un elemento spurio quasi nullo",
+      "famiglia": "pali/mesh",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "ElasticPile accetta il fondo degli strati fino a L-1e-10 L, ma se il fondo è appena inferiore a L aggiunge sia quel confine sia la punta: nasce un elemento quasi nullo e il sistema viene rifiutato per condizionamento. Riprodotto sia in kN/m sia in N/mm; nessun errore di conversione delle unità.",
+      "riferimento_normativo": [],
+      "codice": [
+        "Checker/GPCChecker.Geotechnics/Piles/ElasticPile.cs"
+      ],
+      "segno": "Rifiuto spurio di un input ammesso dalla tolleranza geometrica già esistente.",
+      "effetto_quantificato": "L=12 m, strato lungo L*(1-5e-11): prima errore di matrice mal condizionata, dopo risultato serializzato identico alla copertura esatta. Quattro regressioni kN/m e N/mm su terreno uniforme/stratificato: 24/25 elementi, interfaccia interna a 4,13 m e input invariati. L*(1-2e-10) resta rifiutato per copertura. Le catture degli 11 pali e 7 muri legacy restano identiche byte per byte.",
+      "decisione": "13/10/2026: F4.6c, Checker 164e4836, regressione fallita prima del fix e coincidenza della sola estremità finale entro la tolleranza già dichiarata. Nessun aumento delle tolleranze o modifica dei confini interni. Geotechnics candidata 0.2.0.1; attivazione runtime rinviata al set coerente. Suite complete: 1625 PASS, 17 Steel già censiti, nessun nuovo fallimento; API compatibili.",
+      "test": [
+        "Checker/tests/Geotechnics.Checks/ElasticPileUnitsTests.cs"
+      ],
+      "evidenze": "supporto/artefatti/refactoring/f4/tip-fix-before; supporto/artefatti/refactoring/f4/tip-fix-final/checker-verify/summary.json",
+      "attivazione": "Distribuita con il set W il 14/10 (Geotechnics 0.3.0.0, commit 3f9df6b8, ANTHEA 1.8.0).",
+      "wiki": "Correzione attivata con il set W (ANTHEA 1.8.0); nessuna modifica runtime nella 1.7.1."
+    },
+    {
+      "id": "F4-01",
+      "data": "2026-10-13",
+      "fase": "F4.4a (API), F4.4b e F4.9 (attivazione)",
+      "titolo": "Esiti tipizzati dei pali e dei muri, API additive nelle librerie",
+      "famiglia": "esiti/pali-muri",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Checker c6f10056 aggiunge Outcome, Execution e Data usando gli enum Model. Selezione e sviluppo dei pali non interpretano Status. Le stringhe compatibili restano invariate sui casi reali; scrivere un'etichetta positiva non certifica una verifica non eseguita. Nei muri i nuovi esiti non certificano dati non finiti, anche se il vecchio factory restituisce ancora la propria etichetta. Attuato nelle API candidate; al 13/10 non ancora nel set runtime ANTHEA. Collegato in F4.4b (F4-15) e distribuito con il set W il 14/10 (F4.9, commit 3f9df6b8, ANTHEA 1.8.0).",
+      "riferimento_normativo": [],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Piles/PileReinforcement.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallResults.cs"
+      ],
+      "segno": "Nessuna variazione dei valori di calcolo; nuova rappresentazione degli esiti e protezione dai falsi PASS testuali/non finiti.",
+      "effetto_quantificato": "11 casi di palo e 7 di muro prima/dopo: tutti i campi legacy identici byte per byte. SHA palo 5E75A6432480694166F77216554D772AF00FFFB079495F6A45BF12458851985E; muro 14A345FB46085EDDBA07C889BFF0468356138FFC9EF5732D0B508B9B84D9043E. Suite Checker 1565 PASS, 17 fallimenti Steel già ammessi, zero nuovi fallimenti; API pubbliche senza rimozioni.",
+      "decisione": "13/10/2026: eseguire F4 esclusi Bridge Design e chiusura; F4.3a distingue esito, disponibilità ed esecuzione. API additive Concrete 0.1.0.0 e Geotechnics 0.2.0.0, attivazione ANTHEA con set coerente separato.",
+      "test": [
+        "Checker/tests/Concrete.Checks/PileOutcomeTests.cs",
+        "Checker/tests/Geotechnics.Checks/WallOutcomeTests.cs"
+      ],
+      "evidenze": "supporto/artefatti/refactoring/f4/outcomes-before e outcomes-after/checker-verify/summary.json",
+      "wiki": "Attivato con F4.4b e il set W (ANTHEA 1.8.0); il comportamento UI di ANTHEA 1.7.1 non cambia."
+    },
     {
       "id": "D7-a",
       "titolo": "Fessurazione NTC con barre distanziate: 1,7 · 0,75 (h − x) e massimo fra zona vicina e distante",
@@ -1050,6 +1594,11 @@
         "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
       },
+      "decisione_successiva": {
+        "data": "2026-10-08",
+        "utente": "il calcolo viene fatto secondo legame costitutivo coefficientato con alpha e gamma. quindi valori caratteristici + coeff x il design. ad ora lascialo così. ritiriamo fuori questo argomento a fine refactoring; poi: metti il rimando alla guida accanto al tipo di analisi. l'avviso mettilo",
+        "esito": "proposta U2 del progetto F2.7 sospesa fino a fine refactoring: l'analisi non lineare resta con i legami di progetto, senza modifiche di calcolo; R5 resta da ridiscutere in F5.15. Nella scheda Tensioni il campo «Analisi» ha il «?» verso la guida teorica e con «Non lineare» compare l'avviso sui legami di progetto (commit 7bdc1744, solo interfaccia; calcolo e relazioni invariati). Voce aggiunta dall'audit del 14/10 (decisioni.md, 8/10)."
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -1182,6 +1731,11 @@
         "data": "2026-10-07",
         "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
         "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
+      "decisione_successiva": {
+        "data": "2026-10-08",
+        "utente": "ok (proposta F2.8-U3 del progetto F2.8 rivisto)",
+        "esito": "tetto C60/75 di fctk,0,05 anche nei muri, nel momento proposto dal progetto: F5.15. Voce aggiunta dall'audit del 14/10 (decisioni.md, 8/10 pomeriggio). Nel codice del ramo F4 i muri passano ancora fctk,0,05 senza tetto (X.Calculations/RetainingWall.Reinforcement.cs:48-49 e RetainingWall.Library.Details.cs:43)."
       },
       "data": "2026-10-07",
       "fase": "F2.3"
@@ -1519,6 +2073,47 @@
       "fase": "F2.3 (libreria), F2.7 (collegamento); decisione in F5.15"
     },
     {
+      "id": "R22",
+      "titolo": "Getti sottili: fattore 0,8 applicato solo con NTC 2018 e non con UNI EN 1992-1-1 e appendice italiana (DM 31/07/2012)",
+      "famiglia": "calcestruzzo/sle",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "descrizione": "Con gettato_sottile = Sì il codice riduceva di 0,8 il limite SLE del calcestruzzo, αcc e fcd solo con il profilo NTC 2018, mentre la pagina del metodo ca.sle-tensioni cita anche il DM 31/07/2012 §7.2 per UNI EN 1992-1-1 con appendice italiana (progetto F2.7 rivisto, rilievo W4 e proposta U3). Il progetto F2.7 prevedeva di registrare la voce «da decidere» nel commit A9; la voce non era stata scritta ed è ricostruita dall'audit del 14/10 da decisioni.md, dal progetto F2.7 e dalla voce F2-22.",
+      "riferimento_normativo": [
+        {
+          "fonte": "DM 31/07/2012 (appendice nazionale italiana agli Eurocodici)",
+          "punto": "§7.2",
+          "riscontro": "citazione della pagina del metodo ca.sle-tensioni di Checker (righe 143-144 e 219 secondo il progetto F2.7); testo primario non riletto in questa ricostruzione"
+        }
+      ],
+      "codice": [
+        "X.Calculations/CheckerSection.cs:77 e X.Calculations/ConcreteMaterials.cs:11 (stato descritto dal progetto F2.7, 8/10)",
+        "X.Calculations/ConcreteLibraryMapping.cs e X.Calculations/ConcreteLibraryMapping.Serviceability.cs (correzione fbedb8ca)"
+      ],
+      "segno": "a sfavore di sicurezza prima della correzione: con UNI e getto sottile limiti SLE del calcestruzzo, αcc e fcd non ridotti di 0,8",
+      "effetto_quantificato": {
+        "sintesi": "Con UNI e gettato_sottile = Sì: limiti SLE del calcestruzzo × 0,8, αcc e fcd × 0,8 (domini SLU/SLV, taglio e torsione del modulo); tutti gli altri profili invariati (F2-22). Le fixture dense non hanno casi UNI con getto sottile (216 righe UNI con fattore 1, progetto F2.7 §12): l'effetto è provato sulla griglia dedicata dei getti sottili (369 controlli), non sul corpus headless."
+      },
+      "decisione": {
+        "data": "2026-10-08",
+        "utente": "correggi (proposta U3 del progetto F2.7 rivisto)",
+        "esito": "R22 si risolve applicando il fattore 0,8 dei getti sottili anche con UNI/DM 2012: limiti SLE del calcestruzzo, αcc e fcd con gettato_sottile = Sì"
+      },
+      "attuazione": {
+        "data": "2026-10-12",
+        "commit": [
+          "ANTHEA fbedb8ca (F2.7-U3 insieme a U1, regola GPC Ntc2018AndItalianAnnex già esistente; registro F2-22)"
+        ],
+        "verifica": "Voce F2-22: 548 file headless con soli tempi volatili; 27 file e 50996 righe dense con le sole 13 differenze BarSpacing di U1; 369 controlli dei getti sottili. Corsa finale 20261012-220834-f2-sle-chiusura, eseguita su albero non committato (piano.md, blocco del 12/10, punto 3)."
+      },
+      "data": "2026-10-08",
+      "fase": "F2.7 (voce prevista in A9, mancante); correzione F2.7-U3 nel blocco F2 del 12/10",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/ThinCastingGrid.cs",
+        "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+      ]
+    },
+    {
       "id": "F2-1",
       "titolo": "Taglio e torsione con GPCChecker.Concrete: differenze nelle ultime cifre",
       "famiglia": "calcestruzzo/taglio-torsione",
@@ -1698,6 +2293,106 @@
       "test": [
         "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 3b, 3c, 3d)"
       ]
+    },
+    {
+      "id": "F2-5",
+      "titolo": "SLE e fessurazione con GPCChecker.Concrete: differenze nelle ultime cifre, Ac,eff dai poligoni invece che dalla mesh",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "convenzione",
+      "stato": "dichiarato",
+      "descrizione": "Voce prevista dal progetto F2.7 (commit A8 e A9) e non scritta quando l'interruttore delle SLE è passato alla libreria nel commit F4 b7339f4a del 12/10; ricostruita dall'audit del 14/10. Con ConcreteServiceabilityAdapter.Default = Library tensioni, limiti e fessurazione vengono da GPCChecker.Concrete con le stesse formule del legacy e un'aritmetica diversa. Nel legacy Ac,eff è la somma delle facce della mesh tagliata nella fascia efficace (X.Calculations/Ntc2018Checks.cs:191); la libreria parte dalla geometria della fessurazione costruita sui poligoni del contorno (CrackSectionGeometry, ConcreteLibraryMapping.CrackGeometry), da cui scarti nelle ultime cifre di Ac,eff e delle grandezze derivate. Il legacy resta selezionabile per i confronti (ServiceabilityEngine.Legacy, --motore-sle legacy).",
+      "codice": [
+        "X.Calculations/ConcreteServiceabilityAdapter.cs (Default => Library dal commit b7339f4a)",
+        "X.Calculations/ConcreteLibraryMapping.Serviceability.cs:92-95 (CrackGeometry)",
+        "X.Calculations/Ntc2018Checks.cs:191 (Ac,eff dalla mesh nel legacy)",
+        "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs"
+      ],
+      "segno": "nessuno nei casi misurati: scarti relativi fino a 1,44e-13 sui numeri della fessurazione, nessuno sulle tensioni",
+      "effetto_quantificato": {
+        "sintesi": "tests/ConcreteLibraryAdapter.Checks nel full del 12/10 sul commit pulito 71aaa60b (motore predefinito Library, tolleranza 1e-9). Fessurazione: 936 stati, 934 risultati e 17 rifiuti; 10776 numeri diversi su 188958, scarto relativo massimo 1,436e-13 (caso peggiore «fessurazione 650 C1000H NTC 2018 SLE_QP (it-IT)», Details[209].Value −4,995540056234603e-05 → −4,995540056233885e-05); 294 stati con uscite dei motori diverse; nessuna nota con numeri diversi. Le 13 BarSpacing delle sezioni NTC interamente tese sono la correzione U1 (F2-22), non questa voce. Tensioni: 2016 risultati, 11161752 numeri, nessuno diverso. Confronto completo del riuso API-01 del 12/10 (SLE, M–χ, dettagli e muri insieme): 1421 differenze numeriche, massimo relativo 1,1436e-15, con le regole api_arrotondamento (relative 1e-12) di 1b3c38f1, che non sono le regole A7 previste dal progetto F2.7. Non misurato: la baseline B4 con corpus SLE, mai catturata.",
+        "evidenze": [
+          "supporto/artefatti/ci/20261012-225933-f2-set-t-full/ConcreteLibraryAdapter.Checks/misura.json (sezione sle)",
+          "supporto/artefatti/riuso-api-20261012/"
+        ]
+      },
+      "decisione": {
+        "esito": "interruttore attivato dall'agente in b7339f4a, fuori dal micro-piano F2.7; ratificato dall'utente il 14/10 («ratifico entrambe», decisioni.md punto 3b): libreria come motore predefinito, legacy selezionabile fino alla revisione delle pagine dei metodi. Cattura B4 del 14/10 con i due motori: supporto/artefatti/baseline/F2-B4, 159 file uguali entro le tolleranze"
+      },
+      "data": "2026-10-14",
+      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); attivazione nel riuso API F4 del 12/10; voce ricostruita nell'audit del 14/10",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs (griglie di fessurazione e tensioni con i due motori)"
+      ]
+    },
+    {
+      "id": "F2-6",
+      "titolo": "Testi e traccia di SLE e fessurazione: la mappatura restituisce simboli, espressioni, note e stati del legacy",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Voce prevista dal progetto F2.7 (A8 e A9) e non scritta; ricostruita dall'audit del 14/10. La libreria scrive la traccia della fessurazione con codici e flag stabili (scelta F2.7-D1, traccia T1); ConcreteLibraryMapping.Serviceability traduce codici, flag, esiti, motivi e rifiuti nei simboli, nelle espressioni, nelle note e negli stati italiani del legacy, compresi i testi che descrivono il calcolo sulla mesh (Ac,eff, ConcreteLibraryMapping.Serviceability.cs:442-445). Un codice senza traduzione è un errore di programma. JSON CrackResult.Details, scheda «Fessurazione · passaggi», riepiloghi e relazioni restano quelli del legacy. La scelta F2.7-D1 è del coordinatore e non è registrata in decisioni.md.",
+      "codice": [
+        "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+        "X.Calculations/CrackCalculationDetail.cs"
+      ],
+      "segno": "nessuno: testi identici al legacy",
+      "effetto_quantificato": {
+        "sintesi": "tests/ConcreteLibraryAdapter.Checks nel full del 12/10 sul commit pulito 71aaa60b: mappatura (prova 5a) 2303 controlli su 2272 voci sintetiche, 91 codici della traccia e 47 flag; nella griglia di fessurazione nessuna nota con numeri diversi fra i motori; prova 5h su 28 relazioni e 60 simboli della relazione sintetica. Copertura della traccia: 90 codici su 91 raggiunti dalle griglie (manca FormationDivisor), 91 su 91 con gli stati mirati. Non misurato: le relazioni sintetiche di B4, mai catturata.",
+        "evidenze": [
+          "supporto/artefatti/ci/20261012-225933-f2-set-t-full/ConcreteLibraryAdapter.Checks/misura.json (sezione sle)"
+        ]
+      },
+      "decisione": {
+        "esito": "scelta F2.7-D1 del coordinatore (progetto F2.7 rivisto, §1), ratificata dall'utente il 14/10 (decisioni.md punto 4b). Contribuisce alle tracce per i report di F2.3 [CP]."
+      },
+      "data": "2026-10-14",
+      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita nell'audit del 14/10",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs (prove 5a e 5h)"
+      ]
+    },
+    {
+      "id": "F2-7",
+      "titolo": "Rifiuti e ordine dei controlli della libreria SLE non raggiungibili dal modulo",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Voce prevista dal progetto F2.7 (A8: «rifiuti e ordini della libreria non raggiungibili, misurati») e non scritta quando l'interruttore delle SLE è passato alla libreria in b7339f4a. Disponibile oggi: la copertura misurata da tests/ConcreteLibraryAdapter.Checks nel full del 12/10 (commit 71aaa60b). Rifiuti raggiunti: RibbedBarsRequired; con gli stati mirati anche i parametri coverOverride e spacingOverride. Motivi non raggiunti nemmeno con gli stati mirati: ZeroEffectiveDepth, NoEffectiveSteelOrArea, FaceWithoutAreaOrSteel. Esiti non raggiunti nemmeno con gli stati mirati: NeutralAxisUndetermined, NoTensileReinforcement, NoEffectiveArea, InnerSurfaceNotSupported; PrestressNotSupported è raggiunto solo dagli stati mirati. Il caso (i) di CrackK2Checks del 9/10 (sezione interamente compressa senza tensioni delle barre: wk = 0 nel legacy, rifiuto non tradotto nella libreria) risulta poi trattato con il controllo ValidateAtUse di Concrete 0.0.25.0 (lib/Checker/README.md). Ricostruita il 14/10 sera in docs/refactoring/f2-7-rifiuti-sle.md: l'ordine delle uscite della libreria coincide con quello del legacy (unico controllo in più, UncrackedStressRequired, non raggiungibile perché l'adattatore passa sempre la sezione non fessurata); sei uscite non raggiunte sono impossibili con i dati del modulo (UncrackedStressRequired, BarStresses, ZeroEffectiveDepth, NoEffectiveSteelOrArea, InnerSurfaceNotSupported, parametri della formula) e una è degenere (NeutralAxisUndetermined); tre sono raggiungibili e mancano dal corpus: PrestressNotSupported (coperto dagli stati mirati) e, con le armature libere, NoTensileReinforcement e FaceWithoutAreaOrSteel. Decisione del 14/10 sulle proposte del §4: le sette uscite impossibili o degeneri restano difese della libreria senza prove nel modulo; i due casi raggiungibili sono ora stati mirati con il confronto fra libreria e legacy (stessa uscita, stesso testo); l'indicazione all'utente per la zona tesa non armata è in coda dopo F4. Testo precedente — Manca: l'elenco ragionato dei rifiuti e dell'ordine dei controlli della libreria non raggiungibili dal modulo, con la prova che la produzione non li raggiunge e il confronto con l'ordine dei rifiuti del legacy; la decisione dell'utente.",
+      "codice": [
+        "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-225933-f2-set-t-full/ConcreteLibraryAdapter.Checks/misura.json (sle.fessurazione_copertura e sle.fessurazione_copertura_con_stati_mirati)",
+        "docs/refactoring/diario.md, 9 ottobre pomeriggio (caso (i) di CrackK2Checks)",
+        "docs/refactoring/f2-7-rifiuti-sle.md (elenco ragionato, 14/10)",
+        "supporto/artefatti/ci/20261014-222511-f2-7-stati/ConcreteLibraryAdapter.Checks/misura.json (17 stati mirati; esiti con NoTensileReinforcement, motivi con FaceWithoutAreaOrSteel)"
+      ],
+      "decisione": "Utente, 14/10: «ok 1 e 2, la 3 mettila in coda dopo F4».",
+      "test": [
+        "ConcreteLibraryAdapter.Checks PASS (14/10): stati mirati «nessuna armatura tesa, armature libere» e «faccia senza armatura, armature libere» sulla R300x500 con le sole barre inferiori, uscita e testo uguali fra libreria e legacy"
+      ],
+      "data": "2026-10-14",
+      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita nell'audit del 14/10"
+    },
+    {
+      "id": "F2-8",
+      "titolo": "Ripieghi della cattura headless (fallbacks.json): chiamanti registrati con il motore SLE della libreria",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Voce prevista dal progetto F2.7 (A8 e rischio 10: con l'adattatore cambiano i chiamanti registrati dei ripieghi J.S, J.D e J.B, come in F2-1) e non scritta. Misurato nell'audit del 14/10: fallbacks.json della cattura headless del full del 12/10 (commit 71aaa60b, successivo a b7339f4a, quindi con il motore SLE della libreria) è identico byte per byte a quello della baseline F2-B6, catturata con il legacy l'8/10: nessun cambio sui documenti del corpus. Misurato il 14/10 con la cattura B4 (supporto/artefatti/baseline/F2-B4: corpus str_palo e muri, 17 documenti, motore legacy e libreria): fallbacks.json identico byte per byte fra i due motori, 159 file uguali entro le tolleranze (712 arrotondamenti, 1420 numeri entro tolleranza, nessuna differenza non ammessa). Motore della libreria ratificato dall'utente il 14/10 (decisioni.md punto 3b).",
+      "codice": [
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "src/ANTHEA.Serialization/JsonData.cs (ripieghi J.S, J.D, J.B)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/baseline/F2-B6/headless/fallbacks.json",
+        "supporto/artefatti/ci/20261012-225933-f2-set-t-full/baseline_cattura/cattura/fallbacks.json"
+      ],
+      "data": "2026-10-14",
+      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita in parte nell'audit del 14/10"
     },
     {
       "id": "F2-13",
@@ -1989,7 +2684,7 @@
       ],
       "raccomandazione": "A. Con il legacy i criteri Mx–My costanti (N = 0), N e Mx costanti (My = 0) e N e My costanti (Mx = 0) danno η = 0 e «Entro il dominio» qualunque sia il momento: esito non cautelativo raggiungibile dal modulo scegliendo il criterio (per esempio una trave con N = 0). Con la libreria quei casi non hanno punto e il modulo mostra «Checker: punto resistente non convergente». Prima del passaggio: profilo full a schermo con il motore Library e cattura B nuova.",
       "data": "2026-10-11",
-      "fase": "revisione di architettura R2 (branch claude/revisione-architettura, non unito)",
+      "fase": "revisione di architettura R2 (branch claude/revisione-architettura, unito in main il 12/10: fast-forward che comprende ff0e5fb7, ANTHEA 1.2.0, presente anche in origin/main; «non unito» corretto dall'audit del 14/10)",
       "test": [
         "tests/ConcreteLibraryAdapter.Checks/Resistance.cs (prove 12a-12g; '--solo-slu' per eseguirle da sole; 12c direzione di ricerca nulla)",
         "tests/ConcreteBench.Checks (A2: modulo e punto grezzo contro attesi/attesi.json; modulo diverso dal punto grezzo solo se questo è fuori dai vincoli)",
@@ -3096,7 +3791,8 @@
       "titolo": "Interassi circolari instabili sul confine del raggruppamento per raggio",
       "famiglia": "calcestruzzo/geometria",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "distribuzione": "Attuata nel set T: Concrete 0.0.27.2 da master pushati, installata con manifest e attivata in ANTHEA 1.3.0 (punto 1 del blocco F2 del 12/10, commit 66a9d351; collaudo in chiusura-blocco-f2-20261012.md). Lo stato «da-correggere» e le note «non distribuito» qui sotto sono superati (audit del 14/10).",
       "descrizione": "Il raggruppamento per Math.Round(r,5) separa barre della stessa corona vicino alla soglia. La norma euclidea del legacy e quella della DLL distribuita producono gruppi diversi; non è un arrotondamento ammissibile.",
       "codice": [
         "X.Calculations/TensionBarSpacing.cs",
@@ -3121,14 +3817,14 @@
         "repository": "Checker",
         "branch": "codex/f2-api02-interassi",
         "commit": "e1a9c78e",
-        "stato": "corretto-e-testato-non-distribuito",
+        "stato": "corretto e testato; distribuito poi nel set T (Concrete 0.0.27.2)",
         "descrizione": "Raggruppamento per estensione radiale massima 1e-5 mm ancorata al minimo; nessun interasse da gruppi con una sola barra. Coordinate e fixture immutate.",
         "prove": "38 prove geometriche indipendenti: 7 FAIL prima, 38 PASS dopo. Checker completo: 1544 PASS, 17 Steel noti, zero nuovi fallimenti; API compatibili.",
         "residuo": "Versione assegnata dall'utente, set coerente da commit pushati, collegamento ANTHEA e confronto prima/dopo. Lo stato globale resta da-correggere finché il prodotto usa il percorso precedente."
       },
       "attuazione_anthea": {
         "data": "2026-10-12",
-        "stato": "collegato e collaudato sul set candidato; pubblicazione nel rilascio finale",
+        "stato": "collegato e collaudato sul set candidato; pubblicato nel set T e attivo in ANTHEA 1.3.0",
         "descrizione": "Interassi, dettagli e fessurazione circolari ora usano la libreria; legacy esplicito conservato per confronto. Concrete 0.0.27.2 dal set candidato coerente Checker 97b7d1f1 / Model abd2b520.",
         "confronto": "548 file headless: solo 21 tempi. 50996 righe dense: 4 interassi e 4 esiti corretti, 2 conteggi aggregati; 24 arrotondamenti entro le tolleranze esistenti. Il solo dettaglio di interasse diventa soddisfatto (115.192 <= 300 mm), non la verifica complessiva.",
         "evidenze": [
@@ -3190,6 +3886,129 @@
         "supporto/artefatti/ci/20261012-194854-f3-defaults-before",
         "supporto/artefatti/ci/20261012-195218-f3-defaults-after-fixed",
         "supporto/artefatti/ci/20261012-195301-f3-defaults-standard"
+      ]
+    },
+    {
+      "id": "TEST-02",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, seguito notturno",
+      "titolo": "Attesi rigenerati dal C# (30 sezioni a T, 2 pali) ricalcolati in modo indipendente",
+      "famiglia": "infrastruttura/test",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Il 26/09, prima della regola sugli attesi indipendenti, gli attesi dei 30 casi a T di supporto/test/casi_confronto.json (12 sezione, 12 elastica, 2 resistenza_elastica, 4 dominio) erano stati rigenerati dal C# dopo lo spostamento voluto delle barre laterali nell'ala (campo fonte_atteso). Il programma Python originale non è più disponibile. tools/attesi/sezione_ca.py lo ricostruisce senza dipendere da ANTHEA. È uguale bit per bit ai 90 casi di sezione del programma originale: rettangolari e circolari del file attuale e del commit 51e1c114 e le stesse 30 sezioni a T con la regola precedente delle barre, 52 173 numeri, controlli compresi, scarto 0. Con la regola attuale, ricavata a mano dagli angoli della staffa d'anima, rifà i 30 attesi: numeri identici bit per bit a quelli del C# del 26/09. Nel file restano i suoi valori; cambiano solo i testi non confrontati dei controlli (formato del programma originale) e la provenienza in fonte_atteso. Anche i due casi di palo rigenerati dal C# il 27/09 (palo_storico_0 e palo_storico_3: c′ nullo negli strati granulari, come nella guida teorica, mentre il programma originale lo sommava) sono ricalcolati, con tools/attesi/palo_granulare.py a partire dagli attesi del programma originale (51e1c114). Lo strumento rifà τ negli strati granulari come K·μ·σ′v, poi le resistenze laterali, le aggregazioni NTC (media e minimo fra i sondaggi, ξ3 e ξ4, η/γ) e le curve. Le regole di aggregazione sono provate sui 57 casi di palo originali: 783 708 numeri, scarto 4,5e-13. Il risultato è di 26 355 numeri, entro 4,6e-13 dai valori del C#.",
+      "codice": [
+        "tools/attesi/sezione_ca.py",
+        "tools/attesi/palo_granulare.py",
+        "supporto/test/casi_confronto.json",
+        "supporto/README.md"
+      ],
+      "segno": "Numeri degli attesi invariati; provenienza indipendente al posto di quella del codice per le 30 sezioni a T.",
+      "test": [
+        "tools/attesi/sezione_ca.py --valida (file attuale e 51e1c114 con --barre-laterali originale): 90 casi, scarto 0",
+        "tools/attesi/sezione_ca.py --confronta: 30 casi a T, 16 006 numeri, scarto 0",
+        "tools/attesi/palo_granulare.py --confronta: 57 casi di palo originali e i 2 casi ricalcolati, scarto massimo 4,5e-13",
+        "verifiche/regressione PASS: 464 casi, 942 254 numeri, scarto massimo 5,5e-12; verifiche/software PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261014-224957-t30-attesi",
+        "supporto/artefatti/ci/20261014-230301-pali-attesi"
+      ]
+    },
+    {
+      "id": "TEST-03",
+      "data": "2026-10-15",
+      "fase": "chiusura F4, decisioni D1 e D2 del 15/10",
+      "titolo": "Confronto UI F3: transizioni di F4 ammesse una per una",
+      "famiglia": "infrastruttura/test",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Il confronto esatto con il riferimento F3 (ui/f3-equivalence) falliva per costruzione dopo F4: 7214 differenze, tutte classificate. Decisioni dell'utente: D1, le transizioni sono attese; D2, si ammettono una per una, senza tolleranze nuove. BaselineComparer.Admit ammette una differenza solo se file, percorso, classe, valore prima e valore dopo coincidono con una voce non ancora usata; una voce che non si presenta è un errore («transizione-assente»). tests/fixtures/f3/transitions-f4.json: 6878 voci in 41 file, ognuna con la voce del registro (F3-11, F4-03, F4-08, F4-13, F4-14, F4-15, F4-23, F4-28, F4-29, F4-31, F4-35, F4-40, F4-47). Wiki e ricerca: 47 file sostituiti nel riferimento come in F3-06, con le impronte prima e dopo in editorial_updates_f4 (F4-48). Generatore tools/qa/f3_transizioni.py: voci dalla classificazione puntuale (6166) e da cinque regole esplicite per le differenze nuove del full del 14/10 sera (712); una differenza senza voce lo ferma. Risultati e report attesi del riferimento F3 invariati.",
+      "codice": [
+        "tests/ANTHEA.Testing/Comparison/BaselineComparer.cs",
+        "tests/ANTHEA.Testing/Comparison/Transitions.cs",
+        "tests/ANTHEA.Testing/Comparison/TransitionChecks.cs",
+        "tests/ANTHEA.Testing.Tests/Program.cs",
+        "tests/ANTHEA.Desktop.Equivalence/F3EquivalenceCapture.cs",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/fixtures/f3/manifest.json",
+        "tools/qa/f3_transizioni.py"
+      ],
+      "decisione": "Utente, 15/10: «ok punto 1», «ok punto 2» (f4-chiusura-decisioni.md, D1 e D2).",
+      "test": [
+        "Testing.Tests PASS: 8 controlli negativi (differenza non elencata, voce assente, valore dopo diverso, voce doppia, classe diversa, voce senza registro)",
+        "ui/f3-equivalence PASS (20261015-074208-d2-f3-equivalence): 0 differenze non ammesse, 6878 transizioni elencate e tutte avvenute",
+        "Impronte di editorial_updates_f4 verificate sui blob di git: 47 su 47"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261014-230601-f4-full-20261015/ui_f3-equivalence/cattura/confronto.json",
+        "supporto/artefatti/ci/20261015-074208-d2-f3-equivalence"
+      ]
+    },
+    {
+      "id": "F4-49",
+      "data": "2026-10-15",
+      "fase": "chiusura F4, decisione D3 del 15/10",
+      "titolo": "Codice legacy e codice di sola prova fuori dagli assembly distribuiti (tests/ANTHEA.Legacy)",
+      "famiglia": "infrastruttura/test",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Decisione D3: il codice che il prodotto non usa più e il codice che serve solo alle prove escono dagli assembly dell'installer, senza cancellazioni. Nuovo progetto non distribuito tests/ANTHEA.Legacy (namespace Anthea.Calculations, InternalsVisibleTo da ANTHEA.Calculations), vietato al prodotto dalla prova di architettura e da Assert-NoTestCode. Modo (b): dove una prova fa girare un modulo intero col motore vecchio, nel prodotto resta solo un aggancio interno senza formule (EngineHook, AsyncLocal nullo in produzione; ILegacyServiceability, ILegacyShearTorsion, ILegacyDurability, ILegacyWalls). Spostati: SLE (LegacyNtc2018Checks, LegacyConcreteCodeChecks, LegacyServiceability), taglio e torsione (ConcreteTorsionCalculator), durabilità (DurabilityLegacy e funzioni di facciata senza chiamanti), sezione storica (SezioneElastica, motore di SezioneCA), muri (verifiche strutturali, dettagli, distinta, gravità, ricerca precedente), pali (ricerca dei tratti e riepilogo precedenti, CalculateStratified, conteggi della cache), dettagli e interassi circolari, progetto armature (ricerca precedente e rami mai raggiungibili), Bridge Design (motore, ricerca e schede precedenti), geometrie senza chiamanti; codice di sola prova: sonde degli adattatori, tabelle della mappatura (MappingCoverage), funzioni dei muri e involucri GPC del Bridge usati solo dalle prove, traccia dei ripieghi JSON (resta l'osservatore JsonFallbackHook senza logica; il prodotto non legge più ANTHEA_TRACE_FALLBACKS), modello Excel storico delle azioni, Archivio.Leggi/Scrivi (inoltri di una riga, le prove chiamano DocumentService), SameCommonSoilData, DocxPdf.Lines, membri delle finestre letti solo dalle prove WPF (parti partial compilate solo in UiTests). Restano nel prodotto le migrazioni dei documenti vecchi, LegacyNumerics, i DTO usati dalla libreria e la costante LegacyEntirelyTensileNtcBarSpacing (U1, nessun effetto). Firme pubbliche tolte senza chiamanti di produzione: parametri del motore SLE, del taglio, della durabilità e dei muri, parametro legacy di BridgeConcept, ElasticHorizontalPile, ConcreteReinforcementDesign e RetainingWall, sovraccarico legacyActions di ConcreteDetailingAnalysis. Prove: firme di prima con il motore come ultimo argomento in ServiceabilityEngines e ShearTorsionEngines; marcatori del motore dei risultati sostituiti dalla sonda; 5k, 11g, 11i e gli elenchi ammessi riscritti sui file nuovi. Baseline F4 da 2909 a 2211 voci, nessuna aggiunta. Inventario: d3-inventario-legacy.md (21 blocchi da spostare, 6 già senza chiamanti).",
+      "codice": [
+        "tests/ANTHEA.Legacy/",
+        "X.Calculations/EngineHook.cs",
+        "X.Calculations/X.Calculations.csproj",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "X.Calculations/ConcreteShearTorsionAdapter.cs",
+        "X.Calculations/ConcreteDurabilityAdapter.cs",
+        "X.Calculations/RetainingWall.Structures.cs",
+        "src/ANTHEA.Serialization/JsonData.cs",
+        "tests/ANTHEA.Architecture.Tests/Program.cs",
+        "tests/ANTHEA.Architecture.Tests/f4-domain-baseline.json",
+        "tools/qa/Assert-NoTestCode.ps1",
+        "tools/qa/f4_baseline_riduci.py"
+      ],
+      "decisione": "Utente, 15/10: «allora optiamo per tenere tutto il codice e spostarlo dentro dei file che non finiscono nell'installer. non vorrei cancellarlo dal progetto, per quanto versionato»; modo per le prove di modulo: «confermo la scelta b».",
+      "test": [
+        "Cattura prima (4144fe9e) e dopo (98e1535c) con d3-cattura.ps1: ANTHEA.Testing con e senza --motore-sle legacy, CheckerMigration.Capture tutte con i motori della libreria e con --motore legacy --motore-sle legacy --motore-durabilita legacy, muri con e senza --motore-sle legacy, pali, mesh; confronto esatto con d3-confronta.py (normalizzati solo intestazioni con commit e impronta, GUID casuali, tempi_ms e la classe dei chiamanti spostati in fallbacks.json)",
+        "Ogni famiglia verificata sul proprio ramo con il runner e con lo stesso confronto (8 catture uguali); runner d3-nucleo PASS 58",
+        "Assert-NoTestCode: Release PASS su 12 assembly ANTHEA (6 prima non letti); UiTests FAIL come controprova (ANTHEA.Legacy.dll, ANTHEA.Testing.dll, 541 marcatori)",
+        "Architecture.Tests PASS: nessun progetto di X.* o src/ referenzia ANTHEA.Legacy, assente dalla build Release"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/d3/prima",
+        "supporto/artefatti/refactoring/d3/dopo",
+        "supporto/artefatti/ci/20261015-094438-d3-nucleo"
+      ]
+    },
+    {
+      "id": "F4-50",
+      "data": "2026-10-15",
+      "fase": "chiusura F4, rilascio 1.9.0",
+      "titolo": "Guide Rev45: installazione senza numero di versione",
+      "famiglia": "documentazione",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Per il rilascio di ANTHEA 1.9.0 la guida pratica non cita più un numero di versione nella frase d'installazione («Per installare ANTHEA eseguire il setup…»), così non va cambiata a ogni versione. Entrambe le guide passano a Rev45 come da convenzione (un solo numero per i due volumi, controllato dall'installer); la teorica cambia solo nella copertina. Word e PDF rigenerati: 82 + 145 pagine, 345 formule OMML identiche alla Rev44, 26 parti ITEC per volume, 227 pagine rasterizzate senza sforamenti né glifi sostitutivi. Rev44 archiviata in supporto/SUPERATI/installazione-rev45-20261015 con 16 SHA-256. Wiki: cambia solo l'articolo «Avvio e scelta del modulo» e gli offset successivi dell'indice. Riferimento F3: due file della Wiki sostituiti secondo la regola editoriale F3-06 (editorial_updates_rev45, impronte LF); transitions-f4.json invariato.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "supporto/documentazione/Guide_ANTHEA/",
+        "supporto/SUPERATI/installazione-rev45-20261015/",
+        "src/ANTHEA.Wiki/Content/index.json",
+        "src/ANTHEA.Wiki/Content/sources.props",
+        "tests/fixtures/f3/manifest.json",
+        "tests/fixtures/f3/expected/wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+        "tests/fixtures/f3/expected/wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt"
+      ],
+      "decisione": "Utente, 15/10: «Rev45, frase senza versione».",
+      "test": [
+        "Runner guide-rev45 (20261015-103113): wiki/indice, wiki/manuale, Wiki.Tests 240, installer/guides 30, Architecture.Tests 366, qa/no-test-code, ui/check-wiki-offscreen 3363, ui/f3-equivalence (0 differenze non ammesse, 6878 transizioni): PASS 12, NEW-FAIL 0"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261015-103113-guide-rev45",
+        "supporto/artefatti/ci/20261015-102736-guide-rev45-f3-cattura",
+        "supporto/artefatti/guide_anthea_itec_rev45"
       ]
     },
     {
@@ -3806,6 +4625,518 @@
         "supporto/artefatti/refactoring/f3-u5/before-after.json",
         "supporto/artefatti/refactoring/f3-u5/closure-summary.json",
         "supporto/artefatti/refactoring/f3-u5/qa/pages.json"
+      ]
+    },
+    {
+      "id": "F4-28",
+      "data": "2026-10-14",
+      "fase": "F4.11c.3",
+      "titolo": "Revisione indipendente dei fattori ambientali",
+      "famiglia": "Bridge Design documenti",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Fattori espliciti e copie storiche nel documento, impronta dei dati effettivi nel risultato, report e CSV. Cambiare listino non cambia CO2; cambiare CO2 non cambia prezzi. Nessuna formula modificata.",
+      "test": [
+        "environment-a: 8 PASS",
+        "Application: dati cambiati, metadati vecchi, cronologia, indipendenza prezzi/CO2",
+        "Corpus Bridge 161550 numeri entro tolleranza originale"
+      ],
+      "codice": [
+        "src/ANTHEA.Serialization/BridgeEnvironmentData.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/environment-a.log"
+      ]
+    },
+    {
+      "id": "F4-29",
+      "data": "2026-10-14",
+      "fase": "F4.11d",
+      "titolo": "Traffico mobile e tandem con provenienza",
+      "famiglia": "Bridge Design",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Attuazione D7-f. Nuovi documenti Schema 1 NTC 2018; vecchi documenti conservano il modello uniforme e i coefficienti, con migrazione esplicita. Travate con estremi indipendenti da linee di influenza; strutture superiori con azioni equivalenti globali e tandem locali, limiti dichiarati. Nessuna somma di reazioni massime non concomitanti. Report e CSV identificano il risultato adottato.",
+      "effetto_quantificato": "Effetto sui costi misurato solo per le strutture superiori: due modelli per famiglia della cattura Bridge F4, calcolati con il modello del documento (carico uniforme storico) e con lo Schema 1 NTC con γQ 1,35, stessa geometria dell'impalcato. Costo totale: arco a spinta eliminata (tied_arch) −21,1 % e −15,2 %; strallato (cable_stayed) +7,0 % e +3,9 %; sospeso (suspension) −28,0 % e −31,9 %; reticolare (truss) −18,8 % e −17,9 %. CO₂: tied_arch −21,7 % e −14,3 %; cable_stayed +0,8 % e −1,9 %; suspension −29,1 % e −35,5 %; truss −16,9 % e −20,1 %. Percentuali calcolate dai valori stampati dal test (per esempio tied_arch: costo 47988036,84 → 37883924,46, CO₂ 21948,999 → 17191,687). Fonte: test Checker DesignTests.BridgeTrafficTests.UpperStructuresUseLocalTandemsAndExposeTheirConceptualBounds, uscita in supporto/artefatti/refactoring/f4/traffic-upper-b/traffic-upper-b.trx, identica in traffic-upper-a e endpoint-after. Per le famiglie a travata nelle evidenze non c'è un confronto dei costi: da misurare.",
+      "decisione": "D7-f; completamento F4 autorizzato il 13/10 sera.",
+      "test": [
+        "52 test Design PASS, 20 attesi Python preesistenti invariati",
+        "traffic-ui-c: 11 PASS, WPF nei tre temi e tutte le famiglie",
+        "31 modelli/17 ricerche/161550 numeri legacy equivalenti",
+        "648 candidati Schema 1 circa 201 ms; sette candidati 21 ms freddo e 2 ms caldo"
+      ],
+      "codice": [
+        "X.Calculations/BridgeConcept.Traffic.cs",
+        "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
+        "src/ANTHEA.Reports/Generators/BridgeConceptExport.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/traffic-ui-c.log",
+        "../Checker/docs/refactoring/f4-bridge-traffic.md"
+      ]
+    },
+    {
+      "id": "F4-30",
+      "data": "2026-10-14",
+      "fase": "F4.13a",
+      "titolo": "Geometria residua e dati micropalo senza riempitivi",
+      "famiglia": "Adattatori di sezione e geotecnica",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Proposta bw/d/Asl, riferimento predalle e stratigrafia di soli spessori nelle API GPC. Riutilizzati DesignBar e modulo elastico; nessuna formula duplicata nel percorso migrato. Conservate le implementazioni geometriche precedenti per diagnostica. Valori numerici dei 53 casi congelati equivalenti; sei rifiuti mantenuti.",
+      "test": [
+        "residual-adapter-c: 10 PASS, set P completo",
+        "53 casi congelati confrontati, input invariati",
+        "Suite completa degli adattatori e delle SLE PASS"
+      ],
+      "codice": [
+        "X.Calculations/SectionShearGeometry.cs",
+        "X.Calculations/BridgeSection.SlabLayout.cs",
+        "X.Calculations/Calcolo.cs",
+        "X.Calculations/SezioneCA.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/residual-adapter-c.log",
+        "tests/fixtures/f4/residual-reference.json"
+      ]
+    },
+    {
+      "id": "F4-31",
+      "data": "2026-10-14",
+      "fase": "F4.14a",
+      "titolo": "Norma esplicita e provenienza dei report CA",
+      "famiglia": "Norme e ingressi",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Catalogo tipizzato in Model; i coefficienti dei nove profili restano equivalenti. Documento precedente senza norma migrato esplicitamente a NTC con nota e override conservati; valori nulli, errati o sconosciuti rifiutati. La fessurazione senza norma resta visibile ma non viene calcolata assumendo NTC. Micropalo con terreno sconosciuto rifiutato anche se lo strato non è attivo. Report completo/sintetico legge norma e dati dal risultato, rifiuta snapshot assenti o incoerenti; rimosso un paragrafo normativo duplicato. Distribuito con il set W (Model 5.4.0.1) e ANTHEA 1.8.0 il 14/10.",
+      "decisione": "La migrazione esplicita a NTC dei documenti precedenti senza norma è una scelta dell'agente (F4.14a): decisione dell'utente da ratificare (audit 14/10). Decisa dall'utente il 14/10 (decisioni.md, punto 2c): NTC solo per i file del formato precedente al selettore della norma, un file del formato attuale senza norma si rifiuta, nota di migrazione tolta (F4-40); ratifica di F4.14 al punto 4b. Il commit 9fee7a47 cambia anche i report di calcolo durante il blocco dell'8/10 (piano.md, voce «Report di calcolo»).",
+      "test": [
+        "residual-adapter-c: 10 PASS, nessun nuovo fallimento",
+        "Nove profili congelati, migrazione idempotente, override e rifiuti",
+        "Provenienza report indipendente dalle modifiche successive della UI",
+        "Griglia SLE conserva i confronti legacy; differenza sulla norma assente verificata esplicitamente"
+      ],
+      "codice": [
+        "X.Calculations/ConcreteStandards.cs",
+        "X.Calculations/SectionWorkspace.cs",
+        "src/ANTHEA.Reports/Generators/ConcreteReportSource.cs",
+        "tests/ANTHEA.Application.Tests/F4StandardInputChecks.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/residual-adapter-c.log",
+        "../Model/docs/refactoring/f4-concrete-profiles.md"
+      ]
+    },
+    {
+      "id": "F4-32",
+      "data": "2026-10-14",
+      "fase": "F4.13b",
+      "titolo": "Braccio del taglio e proprietà delle aste condivisi",
+      "famiglia": "Ultimi adattatori",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Braccio del taglio e duttilità danese nella API Concrete; area delle barre e proprietà delle aste dai servizi esistenti. Report sintetico usa il medesimo rapporto circolare. Nessuna formula nuova in ANTHEA. Tredici segnalazioni eliminate senza aggiunte; attesi e tolleranze invariati.",
+      "test": [
+        "44 casi congelati equivalenti, 53 casi residui equivalenti, 161550 numeri Bridge equivalenti",
+        "last-adapters-a: suite completa ConcreteLibraryAdapter e ingressi PASS",
+        "last-adapters-b: architettura e Application PASS dopo correzione del richiamo UI"
+      ],
+      "codice": [
+        "X.Calculations/ConcreteShearAnalysis.cs",
+        "X.Calculations/ConcreteShearTorsionAdapter.cs",
+        "X.Calculations/BridgeConcept.AdvancedSchema.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcreteShort.cs"
+      ],
+      "evidenze": [
+        "tests/fixtures/f4/last-adapters-reference.json",
+        "supporto/artefatti/refactoring/f4/last-adapters-a.log",
+        "supporto/artefatti/refactoring/f4/last-adapters-b.log"
+      ]
+    },
+    {
+      "id": "F4-33",
+      "data": "2026-10-14",
+      "fase": "F4.14b",
+      "titolo": "Migrazioni degli input e profili composti espliciti",
+      "famiglia": "Norme e ingressi",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Le sezioni composte risolvono esattamente il profilo supportato e riusano i coefficienti dei servizi GPC. I due cambi di norma conservano coefficienti e rappresentazione precedenti. Le integrazioni dei soli campi assenti nei vecchi input CA sono registrate e mostrate nella scheda e nel report; nulli e dati invalidi non sono sostituiti. Nessun ripiego NTC nel validatore di progetto. La UI passa da ConcreteEditor, mantenendo il confine applicativo. Sei segnalazioni eliminate.",
+      "test": [
+        "last-adapters-b: 5 PASS, Architecture e Application",
+        "44 confronti congelati PASS, comprese due transizioni dei profili composti",
+        "Migrazione idempotente, valore nullo conservato e rifiutato, profili sconosciuti rifiutati"
+      ],
+      "codice": [
+        "X.Calculations/BridgeSection.StandardDefaults.cs",
+        "X.Calculations/SectionWorkspace.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteEditor.cs",
+        "src/ANTHEA.Application/Projects/ProjectCoefficientFields.cs",
+        "tests/ANTHEA.Application.Tests/F4StandardInputChecks.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/last-adapters-a.log",
+        "supporto/artefatti/refactoring/f4/last-adapters-b.log",
+        "tests/fixtures/f4/last-adapters-reference.json"
+      ]
+    },
+    {
+      "id": "F4-34",
+      "data": "2026-10-14",
+      "fase": "F4.14c",
+      "titolo": "Norma dei risultati e filtro di fase senza inferenze dal testo",
+      "famiglia": "Norme e presentazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Risultati dei pali con etichetta derivata dal profilo validato o dalla descrizione esplicita dei coefficienti unitari. La vista segnala una norma assente, senza inventare NTC. Omogeneizzazione della fase composta governata dal profilo tipizzato, non dal prefisso NTC. Restano solo due ripieghi R3 nei motori diagnostici conservati.",
+      "test": [
+        "standard-labels-a: 7 PASS, nessun nuovo fallimento",
+        "20 pali/28 tratti/3698 verifiche/22188 numeri congelati equivalenti",
+        "Profili personalizzati, assenti e refusi; visibilità NTC/EC verificata"
+      ],
+      "codice": [
+        "X.Calculations/ConcreteStandards.cs",
+        "X.Calculations/HorizontalConcreteSection.cs",
+        "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
+        "src/ANTHEA.Application/Presentation/BridgeSheetPresentation.cs",
+        "X.Desktop/Wpf/HorizontalWorkspace.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/standard-labels-a.log"
+      ]
+    },
+    {
+      "id": "F4-35",
+      "data": "2026-10-14",
+      "fase": "F4.9",
+      "titolo": "Set W e provenienza completa installata insieme alle DLL",
+      "famiglia": "Rilascio librerie",
+      "categoria": "difetto-legacy",
+      "stato": "attuato",
+      "descrizione": "Update-Snapshot copiava i binari e il manifest del sottoinsieme ma lasciava release-set.json obsoleto. Ora conserva anche il manifest integrale originale, byte per byte. Il controllo architetturale verifica transizione dal riferimento F3 immutato, suite, impronte e commit pubblicati. Set W da master pushati, 12 DLL distribuite incluse Design/Masonry; DelaunayMesh identica. Nessun atteso numerico modificato.",
+      "test": [
+        "Release-Set: 2953 PASS, 17 fallimenti Steel gia censiti, due prove native Model ignorate",
+        "release-w-provenance: 5 PASS, architettura e Application",
+        "SHA del manifest integrale identico al rilascio W; API pubbliche compatibili"
+      ],
+      "codice": [
+        "tools/libs/Update-Snapshot.ps1",
+        "tests/ANTHEA.Architecture.Tests/F4ReleaseProvenance.cs",
+        "lib/Checker/manifest.json",
+        "lib/Checker/release-set.json"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/release-set-stale-before.json",
+        "supporto/artefatti/refactoring/f4/release-w.log",
+        "supporto/artefatti/refactoring/f4/release-w-provenance.log",
+        "tests/fixtures/f4/library-release.json"
+      ]
+    },
+    {
+      "id": "F4-36",
+      "data": "2026-10-14",
+      "fase": "F4.13a (origine), F4.16 (correzione)",
+      "titolo": "Predalle: non leggere i dati delle file disattivate",
+      "famiglia": "Geometria composta",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Il full ha rilevato una regressione nel mapping verso SlabRebarLayout: riferimento e copriferri inattivi venivano validati. Ora solo le file abilitate leggono i relativi input; i campi dormienti restano intatti. Nessuna formula o atteso numerico modificato.",
+      "origine": "Regressione introdotta da F4 (non un difetto legacy): commit ba307ce0 del 14/10 (F4.13a, geometria residua delle sezioni delegata a GPC), che nel mapping delle predalle verso SlabRebarLayout leggeva come obbligatori anche gli input delle file disattivate. Non rilevata dalle catture congelate F4; emersa solo nella prima corsa full su 1.8.0/set W (supporto/artefatti/refactoring/f4/full-1.8.0.log). Riclassificata dall'audit del 14/10.",
+      "correzione": "Commit 7d3c9bc9 del 14/10 (X.Calculations/BridgeSection.SlabLayout.cs).",
+      "test": [
+        "predalle-fix: 9 PASS, inclusi confronto dei 53 casi congelati, regressione predalle, WPF e architettura"
+      ],
+      "codice": [
+        "X.Calculations/BridgeSection.SlabLayout.cs",
+        "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/full-1.8.0.log",
+        "supporto/artefatti/refactoring/f4/predalle-fix.log"
+      ]
+    },
+    {
+      "id": "F4-37",
+      "data": "2026-10-14",
+      "fase": "F4.8b.3/F4.10a.1 (origine), F4.16 (correzione)",
+      "titolo": "Muri precedenti senza suddivisione: quota inferiore inattiva",
+      "famiglia": "Muri",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "La quota lower_height del contratto nativo viene letta solo con due zone abilitate. Ripristinato il calcolo degli archivi precedenti che non contengono il campo, senza completare o alterare gli input e senza cambiare formule.",
+      "origine": "Regressione introdotta da F4 (non un difetto legacy): adattatore nativo dei dettagli dei muri, commit ac058a5b/5afb47ab del 13-14/10, che leggeva lower_height come obbligatoria anche con una sola zona; gli archivi precedenti senza il campo non si calcolavano più. Non rilevata dalle catture congelate F4; emersa solo nella prima corsa full su 1.8.0/set W. Riclassificata dall'audit del 14/10.",
+      "correzione": "Commit 2850c031 del 14/10 (X.Calculations/RetainingWall.Library.Details.cs).",
+      "test": [
+        "wall-inactive: 7 PASS, confronti strutturali, dettagli e ricerca contro le catture precedenti",
+        "wall-legacy: 2 PASS, suite storica RetainingWall.Checks completa"
+      ],
+      "codice": [
+        "X.Calculations/RetainingWall.Library.Details.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/wall-inactive.log",
+        "supporto/artefatti/refactoring/f4/wall-legacy.log"
+      ]
+    },
+    {
+      "id": "F4-38",
+      "data": "2026-10-14",
+      "fase": "F4.16",
+      "titolo": "Esempio Wiki CA nel contratto a sei componenti",
+      "famiglia": "Wiki",
+      "categoria": "difetto-legacy",
+      "stato": "attuato",
+      "descrizione": "L’esempio della trave conservava tre componenti dopo EXCEL-SOL. Esplicitati N,Vx,Vy,T,Mx,My e versione; invariati N=0 e Mx=200 kNm, nessun nuovo calcolo o atteso indipendente modificato.",
+      "test": [
+        "wiki-chapters: check-wiki-offscreen PASS; controllo del momento alla quinta componente"
+      ],
+      "codice": [
+        "src/ANTHEA.Wiki/Content/Examples/beam-ca.json",
+        "supporto/test/Desktop/WikiChecks.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/wiki-chapters.log"
+      ]
+    },
+    {
+      "id": "F4-39",
+      "data": "2026-10-14",
+      "fase": "F4.16",
+      "titolo": "Installazione pulita e blocco con ANTHEA in uso",
+      "famiglia": "Installer",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Su richiesta esplicita, il setup 1.8.0 rimuove tutti i contenuti della destinazione prima della copia, anche file non elencati dalla versione precedente. Blocca ANTHEA in esecuzione anche da altra cartella prima della disinstallazione. Verifica percorso locale canonico e assenza di cartelle protette/collegamenti; una pulizia incompleta arresta la copia. Disinstallazione ordinaria invariata. Nessuna modifica a calcoli o attesi.",
+      "test": [
+        "installer-180-e: 26 controlli di sicurezza e pulizia, 30 controlli delle guide, 2 suite PASS",
+        "installer-180-b: 7 PASS di build, architettura, Wiki e indici; suite installer riprese con esito completo in e",
+        "Guida pratica 81 pagine e README 3 pagine renderizzati e controllati"
+      ],
+      "codice": [
+        "supporto/installer/ANTHEA.nsi",
+        "supporto/installer/InstallSafety.nsh",
+        "tests/Installer/Test-Safety.ps1",
+        "tests/Installer/SafetyHarness.nsi",
+        "build/ci.ps1"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261014-installer-180-e/summary.json",
+        "supporto/artefatti/ci/20261014-installer-180-b/summary.json",
+        "supporto/artefatti/installer-safety/pdf-qa/qa.json"
+      ]
+    },
+    {
+      "id": "F4-40",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto 2c",
+      "titolo": "Norma della sezione c.a.: niente nota di migrazione, rifiuto del foglio con area di lavoro senza normativa",
+      "famiglia": "Norme e ingressi",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Seguito di F4-31 deciso dall'utente. Un foglio Sezione CA senza area di lavoro (formato anteriore al 18/09/2026, quando l'unica norma era NTC) riceve NTC 2018 senza nota; un foglio con area di lavoro ma senza normativa si rifiuta all'apertura, perché ANTHEA la scrive sempre da quella data e non esistono file salvati in quello stato. La nota «Documento precedente senza normativa…» non si scrive più, si toglie dai documenti salvati con la 1.8.0 e sparisce da editor e report completo (era contraddittoria se poi si sceglieva un'altra norma). Calcoli invariati: la norma resta obbligatoria e senza ripieghi. Le due fixture sintetiche F3 str_palo legacy-calculation-settings e legacy-workspace-segni e l'esempio Wiki beam-ca ricevono la normativa NTC 2018 che il programma avrebbe scritto; il manifest F3 registra le nuove impronte (input_updates). Rispetto alla cattura F3 le differenze F4-31 della nota (chiave migrazione_normativa e paragrafo del report) scompaiono.",
+      "decisione": "Utente, 14/10: «considera non ci sono ancora file salvati con quelli. la norma è effettivamente NTC» e «sì a entrambe» (calcoli rigorosi, nota tolta, NTC solo per il formato precedente).",
+      "test": [
+        "Application.Tests PASS: F4StandardInputChecks con rifiuto, migrazione senza nota, idempotenza, coefficienti conservati e nota 1.8.0 eliminata"
+      ],
+      "codice": [
+        "X.Calculations/SectionWorkspace.cs",
+        "X.Desktop/Wpf/ConcreteWorkspace.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcrete.cs",
+        "tests/ANTHEA.Testing/Capture/F3Fixtures.cs",
+        "tests/fixtures/f3/inputs/str_palo--legacy-calculation-settings.json",
+        "tests/fixtures/f3/inputs/str_palo--legacy-workspace-segni.json",
+        "tests/fixtures/f3/manifest.json",
+        "src/ANTHEA.Wiki/Content/Examples/beam-ca.json"
+      ]
+    },
+    {
+      "id": "F4-41",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, proposta F2.9-U3",
+      "titolo": "Palo elastico: riferimento del copriferro e rifiuti della durabilità in italiano",
+      "famiglia": "Durabilità",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "PileDurability mostrava nel risultato (durabilita.fonte) e nella relazione il testo inglese della libreria, «NTC 2018 §4.1.6.1.3 and Circolare 2019 Tab. C4.1.IV», e i suoi messaggi di rifiuto in inglese. Ora il riferimento passa dalla mappatura della durabilità per profilo («NTC 2018 §4.1.6.1.3 e Circolare 2019 Tab. C4.1.IV») e i rifiuti della libreria dalla stessa traduzione di F2.9 (testo senza traduzione = errore di programma); gli errori dei dati di ANTHEA restano invariati. Valori di cmin,dur invariati. Nessuna fixture F3 contiene il testo (zero occorrenze di «and Circolare» nel repository prima della modifica).",
+      "decisione": "Utente, 14/10: «U3: correggi».",
+      "test": [
+        "Application.Tests PASS: PileDurabilityTextChecks (riferimento tradotto, XC2 C30 cmin,dur 25 mm, esposizione sconosciuta tradotta)"
+      ],
+      "codice": [
+        "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
+        "X.Calculations/ConcreteLibraryMapping.Durability.cs",
+        "tests/ANTHEA.Application.Tests/PileDurabilityTextChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-42",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, proposta F2.9-U4",
+      "titolo": "Scheda Materiali: valori iniziali espliciti nei nuovi fogli, in una sola sorgente",
+      "famiglia": "Durabilità",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Un nuovo foglio Materiali conteneva solo versione_materiali e il copriferro, la scheda e i dati condivisi del progetto completavano in silenzio XC1, metodo NTC + Circ. 2019, Ø16, Dmax 20, 50 anni, Δc 10 mm (cnom 35 mm con C30/37). Ora i valori iniziali stanno in MaterialDefaults (X.Calculations/Materials) e un nuovo foglio li riceve esplicitamente, uguali allo stato canonico che la scheda salva; MaterialCover, MaterialSheetInput, la vista e i dati condivisi leggono le chiavi mancanti dei fogli già salvati con gli stessi valori, quindi nessun numero cambia. Effetto atteso nelle catture: i fogli Materiali creati da CreateData/AddSheet (progetti di prova) contengono ora tutte le chiavi.",
+      "decisione": "Utente, 14/10: «U4: ok».",
+      "test": [
+        "Application.Tests PASS: MaterialDefaultsChecks (chiavi esplicite, stato canonico, foglio precedente letto uguale, cnom 35 mm invariato)"
+      ],
+      "codice": [
+        "X.Calculations/Materials/MaterialDefaults.cs",
+        "X.Calculations/Materials/MaterialCover.cs",
+        "X.Calculations/ModuleCatalog.cs",
+        "src/ANTHEA.Application/Materials/MaterialSheetInput.cs",
+        "src/ANTHEA.Application/Projects/ProjectSharedData.cs",
+        "X.Desktop/Wpf/Materials/MaterialState.cs",
+        "tests/ANTHEA.Application.Tests/MaterialDefaultsChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-43",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto 2b",
+      "titolo": "Sezione c.a.: equazione e diagramma del piano di deformazione SLE con la viscosità",
+      "famiglia": "sezioni c.a.",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Nell'analisi lineare con viscosità il solutore usa il piano elastico equivalente (calcestruzzo a Ec, acciaio a Es·(1+φ)): le tensioni dipendono solo da n, ma le deformazioni del piano sono 1+φ volte più piccole di quelle reali. Il testo di ispezione (ε0, gx, gy) e il diagramma delle deformazioni mostravano quel piano, mentre le deformazioni di barre e vertici della stessa vista erano totali. Ora tutti usano StressAnalysisResult.TotalStrainPlane (Concrete 0.9.0.0): una barra a σs sta sul piano a σs/Es. Tensioni, asse neutro e verifiche invariati; con φ = 0 o analisi non lineare il piano non cambia.",
+      "decisione": "Utente, 14/10: «sì a entrambe» (solutore invariato, piano totale esplicito nella libreria, correzione della visualizzazione).",
+      "test": [
+        "Checker: TotalStrainPlaneCarriesThePhysicalStrainsOfTheLinearAnalysisWithCreep (barre a σs/Es, calcestruzzo compresso a σc(1+φ) diviso Ec, stessi valori degli accessori)",
+        "Application.Tests PASS: StrainDiagramChecks sul piano totale"
+      ],
+      "codice": [
+        "src/ANTHEA.Application/Concrete/ConcreteStrainDiagram.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteResponsePresentation.cs",
+        "tests/ANTHEA.Application.Tests/StrainDiagramChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-44",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto 2d",
+      "titolo": "NEd dell'armatura minima: compressione più gravosa di tutte le combinazioni, SLE comprese",
+      "famiglia": "sezioni c.a.",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Seguito di F4-20. Scheda dettagli, progetto delle armature e report prendono NEd dalla compressione più gravosa fra SLU, SLV, righe del taglio e SLE rara, frequente e quasi permanente (SectionDesignDemand.DetailingCompression, GPC.Design 0.20.0.0). La scheda indica la combinazione che governa e segnala quando è un valore di esercizio. As,min può solo crescere rispetto a F4-20; con combinazioni ultime complete le SLE non governano. Righe senza stato limite (chiamanti storici) valgono come SLU.",
+      "decisione": "Utente, 14/10: «compressione massima tra tutte le combo. slu, slv e taglio (eventualmente sle se le altre sono nulle)» e «in generale, usa le N più gravose di tutte le combo».",
+      "test": [
+        "Design.Checks: DetailingCompressionTakesTheMostSevereRowOfAllFamilies",
+        "Application.Tests PASS: DetailingCompressionChecks (SLE che governa, SLV che governa, testo, righe storiche)",
+        "baseline/f4-input-contracts PASS (14/10, dopo correzione della prova): i campi nuovi CompressionSource e CompressionFromServiceability sono controllati con la combinazione attesa dal contratto di DetailingCompression (parità: famiglie di progetto, poi prima riga) e tolti prima del confronto con la cattura congelata, che è rimasta invariata"
+      ],
+      "codice": [
+        "X.Calculations/ConcreteDetailingAnalysis.cs",
+        "X.Calculations/ConcreteReinforcementDesign.cs",
+        "X.Calculations/ConcreteReinforcementDesign.Library.Search.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteDetailingPresentation.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteSheetPreparation.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteReportAnalysis.cs",
+        "X.Desktop/Wpf/ConcreteDetailing.cs",
+        "tests/ANTHEA.Application.Tests/DetailingCompressionChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-45",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, requisito dei prezzari del 13/10",
+      "titolo": "Prezzari del ponte: analisi composte con spese generali e utile",
+      "famiglia": "Bridge Design",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Requisito «analisi composte» del 13/10, non implementato in F4. Un'analisi ha componenti (voci o altre analisi) con quantità nell'unità del componente; prezzo = componenti + spese generali sui componenti + utile su componenti e spese generali, voci esplicite del dettaglio (PriceAnalyses, GPC.Design 0.20.0.0). Percentuali predefinite nel prezzario (15 % e 10 % proposti alla prima analisi, modificabili) e sovrascrivibili per analisi; riferimenti circolari, componenti mancanti o senza prezzo e percentuali fuori da 0–100 rifiutati in italiano. Il codice di un'analisi si associa alle lavorazioni come una voce. Nuova unità h per manodopera e noli. CSV ed Excel conservano le analisi dell'editor, il catalogo JSON le sostituisce. Un prezzario senza analisi si serializza come prima, quindi revisioni e risultati esistenti non cambiano.",
+      "decisione": "Utente, 14/10: prezzo da componenti più spese generali e utile «che siano chiare voci presenti nel totale», percentuali nel prezzario modificabili per analisi, annidamento con rifiuto dei cicli.",
+      "test": [
+        "Design.Checks: PriceAnalysesTests (attesi a mano 187,8525 e 482,1006575 €/m³, rifiuti, ore)",
+        "Application.Tests PASS: BridgePriceAnalysesChecks (dettaglio, associazione, applicazione al computo, JSON, CSV, ciclo, percentuali mancanti)",
+        "ui/smoke-bridge-prices: NEW-FAIL nel full del 14/10 sera (20261014-230601-f4-full-20261015), perché la prova attendeva 3 schede dell'editor e F4-45 ha aggiunto «Analisi composte»; lo stadio ui non era stato eseguito dopo a105e011. Prova aggiornata a 4 schede, con aggiunta e rimozione di un'analisi, percentuali 15 e 10 rese esplicite e anteprima di nuovo applicabile: PASS, 30 controlli WPF nei tre aspetti (20261014-233816-prezzi-intestazioni). Nella stessa occasione le intestazioni «Spese generali %» e «Utile %» della tabella, tagliate, vanno su due righe."
+      ],
+      "codice": [
+        "X.Calculations/BridgePricing.cs",
+        "src/ANTHEA.Application/BridgeDesign/PriceCatalogue.cs",
+        "src/ANTHEA.Application/BridgeDesign/PriceCatalogueViewModel.cs",
+        "X.Desktop/Wpf/BridgePricesView.cs",
+        "tests/ANTHEA.Application.Tests/BridgePriceAnalysesChecks.cs",
+        "tests/Desktop/BridgePricesSmokeChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-46",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto 4c-1 (F3.6)",
+      "titolo": "Report in DOCX e PDF senza Word",
+      "famiglia": "Report",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Ogni report si salva in DOCX e PDF con lo stesso nome (ReportFiles), dallo stesso pacchetto: il PDF si genera in ANTHEA.Reports dalle parti Open XML con PDFsharp/MigraDoc (MIT), senza Word. Il report sintetico non usa più Word: ANTHEA impagina il PDF e rifiuta più di due pagine senza scrivere file. I DOCX non cambiano. Report di progetto e scheda materiali scrivono anche il PDF; il report delle fondazioni conserva il suo PDF; la distinta ferri conserva il PDF A3. Un solo risolutore dei caratteri per tutti i PDF del processo (Calibri, Arial, Times New Roman, Segoe UI, alias dei report dei modelli) con passaggio a Segoe UI o Segoe UI Symbol dei caratteri mancanti. L'impaginazione è quella di MigraDoc e può differire da Word.",
+      "decisione": "Utente, 14/10: «predisponilo ora in questo refactoring. fai che faccia entrambi i file: docx e pdf. export in pdf aggiungilo anche agli altri report. per ora però prendi i report per come sono»; «va bene aggiungere un nuget» (già referenziato da ANTHEA.Reports).",
+      "test": [
+        "Reports.Tests PASS: PdfChecks su 151 report della cattura headless (parole del PDF uguali, in ordine, a quelle del DOCX; sintetici entro 2 pagine; DOCX e PDF scritti insieme o nessuno)"
+      ],
+      "codice": [
+        "src/ANTHEA.Reports/Pdf/DocxPdf.cs",
+        "src/ANTHEA.Reports/Pdf/PdfFonts.cs",
+        "src/ANTHEA.Reports/ReportFiles.cs",
+        "src/ANTHEA.Application/Projects/ReportProject.cs",
+        "src/ANTHEA.Reports/Generators/FoundationReport.cs",
+        "src/ANTHEA.ModelReports/ModelReportExporter.cs",
+        "X.Desktop/Wpf/App.cs",
+        "X.Desktop/Wpf/MainWindow.ShortReport.cs",
+        "X.Desktop/Wpf/SheetEditor.cs",
+        "X.Desktop/Wpf/ConcreteReport.cs",
+        "X.Desktop/Wpf/RetainingWallWorkspace.GlobalStability.cs",
+        "X.Desktop/Wpf/ProjectReport.cs",
+        "X.Desktop/Wpf/MainWindow.cs",
+        "tests/ANTHEA.Reports.Tests/PdfChecks.cs",
+        "supporto/test/ConcreteShort.Checks/Program.cs"
+      ]
+    },
+    {
+      "id": "F4-47",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto 4c (F2.9-U5, con U1)",
+      "titolo": "Testi della durabilità con i soli rimandi normativi",
+      "famiglia": "Materiali",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Descrizioni ed esempi delle classi di esposizione riscritti con testi di ANTHEA, con il rimando a UNI EN 206 prospetto 1 (prima riprendevano il vademecum ATECAP 2020, p. 7). Nella scheda Materiali e nel report: nota della classe dei cloruri con rimando a UNI EN 206; riferimento della composizione «UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata» al posto del rimando ATECAP e del confronto con la UNI 11104:2025 tratto da un estratto (decisione U1); nota della vita utile di 100 anni e classi di consistenza senza rimandi di pagina; S5 «≥ 220 mm» invece di «> 220 mm», come la classe di abbassamento al cono di UNI EN 206. Valori di calcolo invariati. I nomi interni (AtecapMix) e i commenti sull'origine dei valori restano.",
+      "decisione": "Utente, 14/10, punto 4c: «U1: non ho la norma. resta sulla 2016 [scritto 2026]»; «U5: ok» (riscrivere i testi ATECAP con parole proprie, citando solo le norme).",
+      "test": [
+        "Application.Tests PASS: MaterialPresentationChecks confronta ancora il report congelato pre-refactoring; i due testi cambiati sono una tabella esplicita (vecchio testo che deve esistere nel riferimento, nuovo testo del programma), tutte le altre voci invariate",
+        "Prove WPF dei Materiali (UiTests): descrizioni ed esempi letti dagli stessi dizionari; nota dei 100 anni presente",
+        "Confronto UI F3 del profilo full: le differenze del report di progetto e dei report della scheda vanno classificate su questa voce"
+      ],
+      "codice": [
+        "X.Desktop/Wpf/Materials/ExposureSelector.cs",
+        "X.Desktop/Wpf/Materials/MixAutomation.cs",
+        "src/ANTHEA.Application/Materials/MaterialSheetPresentation.cs",
+        "tests/ANTHEA.Application.Tests/MaterialPresentationChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-48",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto V5 della classificazione UI",
+      "titolo": "Guide Rev41–Rev44 nella Wiki e nella ricerca: differenze editoriali rispetto al riferimento F3",
+      "famiglia": "documentazione e ricerca",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Il riferimento F3 della Wiki (tests/fixtures/f3) è aggiornato fino alla Rev40 (F3-06, editorial_updates del manifest). Le revisioni successive delle due guide globali entrano negli articoli e nella ricerca della Wiki e producono differenze editoriali nel confronto ui/f3-equivalence. Rev41 (b6fac621, ANTHEA 1.7.0, EXCEL-SOL): azioni unificate della sezione c.a. e profili del calcestruzzo, 51 differenze nella cattura di 82fcd8fc (gruppo 3). Rev42 (4a3044cb, 1.7.1, F3.4-U5): M–χ nel report di progetto, 3 differenze (gruppo 2). Rev43 (82fcd8fc e d66379ac, F4-39): prezzari e traffico del ponte, portanza sismica dei muri, installer; 88 differenze negli articoli e 44 di spostamento nella ricerca (gruppi 16-17), più quelle di d66379ac non ancora misurate. Rev44 (2a23ba48): fonti normative al posto dei riferimenti di terzi (punto 7), durabilità con UNI 11104:2016 (U1, U5), report Word e PDF (F4-46), norma esplicita (F4-31/F4-40), NEd (F4-44), piano delle deformazioni totali (F4-43), analisi composte (F4-45); riferimenti Wiki: sette tolti, due nuovi (timoshenko-stability, en1992-1-1-fessurazione). Differenze di Rev44 da misurare nel full del 15/10. Nessun input o atteso ingegneristico cambia. L'ammissione nel riferimento F3 (impronte prima/dopo come in F3-06) è la decisione D2 di f4-chiusura-decisioni.md.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "src/ANTHEA.Wiki/Content/references.json",
+        "src/ANTHEA.Wiki/Content/editorial.json",
+        "src/ANTHEA.Wiki/Content/sources.props"
+      ],
+      "test": [
+        "Classificazione puntuale della cattura di 82fcd8fc (f4-transizioni-ui-classificazione.md, gruppi 2, 3, 16, 17): nessuna differenza non spiegata",
+        "wiki/manuale e wiki-handbook-checks (12 prove) PASS sulle guide Rev44; quick 47 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/classificazione-ui/classificazione.tsv",
+        "supporto/artefatti/guide_anthea_itec_rev44"
       ]
     }
   ]

@@ -28,8 +28,14 @@ text: Lunghezza di trasferimento; durata breve/lunga; wlim assegnato
 text: DIN usa i parametri di prima generazione riscontrati nella documentazione NA:2011; il materiale GPC dichiara NA:2013-04. Questa distinzione è intenzionale: non è un'attestazione di copertura di ogni aggiornamento dell'annesso. NS è NA:2010. Non sono implementati EC2:2023, Model Code 2020 o il progetto di aggiornamento delle appendici italiane.
 text: Predefiniti impostati nell'adattatore: UNI αcc=0,85; DIN αct=0,85; NS αct=0,85 e εud/εuk=0,4. DS usa γc=1,45 e γs=1,20 della libreria GPC. I coefficienti salvati restano assegnazioni dell'utente: consultare il confronto con i predefiniti e usare il ripristino per aggiornare un vecchio foglio.
 text: dati-condivisi-e-aggiornamento
-text: - Le combinazioni di taglio conservano nome, N, Mx, My, Vx, Vy, T anche in
-text: archivio, Excel e report. I vecchi file restano leggibili; momenti assenti vengono inizializzati a zero nell'interfaccia.
+text: - Nel nuovo schema ogni combinazione conserva insieme N, Vx, Vy, T, Mx e My,
+text: nome, stato limite e riferimento elemento facoltativo. SLU e SLV alimentano domini, taglio e torsione dalla stessa riga; i tre stati SLE alimentano i controlli pertinenti. Non si costruiscono stati concomitanti da estremi indipendenti e non si riapplicano coefficienti alle azioni.
+text: - Il criterio resistente Plastico o Elastico è scelto nella verifica,
+text: separatamente dallo stato limite e dal percorso di ricerca della resistenza. L’etichetta SLV non attiva da sola gerarchie sismiche o altri controlli dell’elemento non rappresentati nel modulo.
+text: - Elemento identifica la provenienza delle azioni; non assegna una geometria
+text: differente. Tutte le righe sono verificate sulla sezione del foglio. I nomi delle combinazioni non sono usati come chiave per fondere le righe.
+text: - I documenti precedenti mantengono il comportamento originario fino alla
+text: conversione esplicita. I vecchi gruppi Plastico/Elastico e Taglio richiedono l’assegnazione dello stato limite. Le componenti mancanti nel nuovo elenco devono essere compilate; non sono trasformate implicitamente in zero.
 text: - N negativo a compressione. Mx è associato a Vy, My a Vx nel livello II MC.
 text: Le azioni sono già combinate/coefficientate: non vengono moltiplicate ancora. γc e γs operano sulle resistenze.
 text: - dg è condiviso con Dettagli → Copriferro e durabilità; modificarlo invalida il

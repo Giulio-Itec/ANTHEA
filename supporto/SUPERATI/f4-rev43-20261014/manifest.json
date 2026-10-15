@@ -1,0 +1,114 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/docs/guida-pratica-anthea.md",
+    "sha256": "0c1464411f6390cda2686416b14aee2dc6a2a8859b6a7e42bee149c4c4251ec1",
+    "motivo": "Sostituita dalla revisione 43 per il rilascio F4",
+    "sostituzione": "Guide globali Rev43"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "570b27d366993052aa5fab07ede2c4d16c5109ccb999b844038d2bb0636b9f66",
+    "motivo": "Sostituita dalla revisione 43 per il rilascio F4",
+    "sostituzione": "Guide globali Rev43"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/docs/guida-teorica-anthea.md",
+    "sha256": "5d7b6e32563c55d8f11e319339386858a5c56294e6faa0cc59d3070e46a75539",
+    "motivo": "Sostituita dalla revisione 43 per il rilascio F4",
+    "sostituzione": "Guide globali Rev43"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "89f33ad6d50a5aab1a288ede80fe8aa247e594731803ab0bf0aed5235df968d2",
+    "motivo": "Sostituita dalla revisione 43 per il rilascio F4",
+    "sostituzione": "Guide globali Rev43"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev42.docx",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev42.docx",
+    "sha256": "fb6ae8edc6e071089521afb4d0a2c8cb734ce336d9b87fd9e3d297689a47a4be",
+    "motivo": "Sostituita dalla revisione 43 per il rilascio F4",
+    "sostituzione": "Guide globali Rev43"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev42.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev42.pdf",
+    "sha256": "570b27d366993052aa5fab07ede2c4d16c5109ccb999b844038d2bb0636b9f66",
+    "motivo": "Sostituita dalla revisione 43 per il rilascio F4",
+    "sostituzione": "Guide globali Rev43"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev42.docx",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev42.docx",
+    "sha256": "dbd1253886fafcaef5a333055074ea871ab28e8c175378e3db0828000491aec4",
+    "motivo": "Sostituita dalla revisione 43 per il rilascio F4",
+    "sostituzione": "Guide globali Rev43"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev42.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev42.pdf",
+    "sha256": "89f33ad6d50a5aab1a288ede80fe8aa247e594731803ab0bf0aed5235df968d2",
+    "motivo": "Sostituita dalla revisione 43 per il rilascio F4",
+    "sostituzione": "Guide globali Rev43"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "df6a89224e591233663ff9cb2693efa7e873dc7db16243fe920aa50a74c8c0e3",
+    "motivo": "Sostituita dalla revisione 43 per il rilascio F4",
+    "sostituzione": "Guide globali Rev43"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "2a2d49d17c6d23c1906d8bbc08d8dfc12c62ac8b6033fa5ff649e35407e6485d",
+    "motivo": "Sostituita dalla revisione 43 per il rilascio F4",
+    "sostituzione": "Guide globali Rev43"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/README.md",
+    "sha256": "56ca0d6ccbae6b86748126b5d599580d175aedcc3f030b71d63ee5f585605117",
+    "motivo": "Indice e documentazione aggiornati per F4/Rev43",
+    "sostituzione": "Revisione F4 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/README.pdf",
+    "sha256": "9b4bfd5063301d34908ecc6abbe8174e535a4dedab8b01a76ff4b6b985d8c7f1",
+    "motivo": "Indice e documentazione aggiornati per F4/Rev43",
+    "sostituzione": "Revisione F4 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/installer/README.md",
+    "sha256": "7c97958ce20a36ef9e4c12554e46f6fb7f6e53dc636ea4c7650da84eed5d0d50",
+    "motivo": "Indice e documentazione aggiornati per F4/Rev43",
+    "sostituzione": "Revisione F4 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/installer/README.pdf",
+    "sha256": "097fd18e5cc5513e4b2a78ad2596cb6ed4987c1f1e0a4f5a2197541747e0db98",
+    "motivo": "Indice e documentazione aggiornati per F4/Rev43",
+    "sostituzione": "Revisione F4 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/installer/Indice-guide.md",
+    "sha256": "29931601cf59de8c4516488d13f1c1a06a9591f0a85b06cffd17fe31b252cb9b",
+    "motivo": "Indice e documentazione aggiornati per F4/Rev43",
+    "sostituzione": "Revisione F4 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev43-20261014/supporto/installer/Indice-guide.pdf",
+    "sha256": "215fadda638ab9b2d41f9fca74bcd04b7f6ad8e9f479eea0ed2fb5c2be517ac5",
+    "motivo": "Indice e documentazione aggiornati per F4/Rev43",
+    "sostituzione": "Revisione F4 del documento allo stesso percorso"
+  }
+]

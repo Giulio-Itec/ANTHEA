@@ -91,6 +91,9 @@ internal static class F3EquivalenceCapture
         if (Directory.Exists(expected))
         {
             var comparer = new Anthea.Testing.Comparison.BaselineComparer(Anthea.Testing.Comparison.Tolerances.Load(Path.Combine(root, "tests/ANTHEA.Testing/tolerances.json")));
+            // Transitions of F4 admitted one by one by the user (D2, 15/10/2026); any other difference, or a listed one that does not occur, fails.
+            string transitions = Path.Combine(root, "tests/fixtures/f3/transitions-f4.json");
+            if (File.Exists(transitions)) comparer.Admit(Anthea.Testing.Comparison.Transition.Load(transitions));
             var comparison = comparer.Compare(expected, output);
             File.WriteAllText(Path.Combine(output, "confronto.json"), comparison.ToJsonString(J.Options));
             if (comparer.NotAdmitted > 0) throw new InvalidOperationException($"Equivalenza F3: {comparer.NotAdmitted} differenze non ammesse. Leggere confronto.json.");

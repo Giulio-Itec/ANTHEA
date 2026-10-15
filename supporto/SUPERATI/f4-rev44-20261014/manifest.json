@@ -1,0 +1,114 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/docs/guida-pratica-anthea.md",
+    "sha256": "b1b6d25a699516e19286240817b31d2103d5a7f842a5fcc176e784ce82fb9905",
+    "motivo": "Sostituita dalla revisione 44 (audit del 14/10/2026)",
+    "sostituzione": "Guide globali Rev44"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "82829df1545a7225778a4bfea15d000255c013c98530cc54b7cc37c6635ec9dc",
+    "motivo": "Sostituita dalla revisione 44 (audit del 14/10/2026)",
+    "sostituzione": "Guide globali Rev44"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/docs/guida-teorica-anthea.md",
+    "sha256": "eed1c8e3535d7f04f96e9c4d81a0b641edf1fb6c16f7b0e88403b100be51a96d",
+    "motivo": "Sostituita dalla revisione 44 (audit del 14/10/2026)",
+    "sostituzione": "Guide globali Rev44"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "86cfa91c98f15a06252f39a8ca37d8c5a9f272239dcc037c95e3c244b46a8e2c",
+    "motivo": "Sostituita dalla revisione 44 (audit del 14/10/2026)",
+    "sostituzione": "Guide globali Rev44"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "8036457d215dee45d902fb99fc2243af35cac91f9091467d424c451193d0de6f",
+    "motivo": "Indice e documentazione aggiornati per la revisione 44",
+    "sostituzione": "Revisione 44 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "d19f7eefb0eab7d5dad0263dce2ce7171895b0672f16c2c6901476dea907ccb4",
+    "motivo": "Indice e documentazione aggiornati per la revisione 44",
+    "sostituzione": "Revisione 44 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/README.md",
+    "sha256": "7981f1e5847b41af3a86b8f87d347ebb6c3f3b0027263fd56a47c87128c4d1c4",
+    "motivo": "Indice e documentazione aggiornati per la revisione 44",
+    "sostituzione": "Revisione 44 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/README.pdf",
+    "sha256": "9c9b43314a1c07489d9093f0aa022ca64b240c8f8e11de1a71eac692724f020b",
+    "motivo": "Indice e documentazione aggiornati per la revisione 44",
+    "sostituzione": "Revisione 44 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/installer/README.md",
+    "sha256": "4b52e701782de89907c9fed0ce23afda4aea2e9d274ea9b99a36718da78a74ad",
+    "motivo": "Indice e documentazione aggiornati per la revisione 44",
+    "sostituzione": "Revisione 44 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/installer/README.pdf",
+    "sha256": "2c67986dd5f16a6f7f0025b9ec228baa73815cab3c65c8572fac4087884483c2",
+    "motivo": "Indice e documentazione aggiornati per la revisione 44",
+    "sostituzione": "Revisione 44 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/installer/Indice-guide.md",
+    "sha256": "eccf188496cd555442f6445d98cea609d443b287301f7f97869ac3a59f157455",
+    "motivo": "Indice e documentazione aggiornati per la revisione 44",
+    "sostituzione": "Revisione 44 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/installer/Indice-guide.pdf",
+    "sha256": "8a1834a0c2a5fbdb1b30f6d499fd89da55f1c6406556b9ed923666a0b61ac7df",
+    "motivo": "Indice e documentazione aggiornati per la revisione 44",
+    "sostituzione": "Revisione 44 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev43.docx",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev43.docx",
+    "sha256": "7d8da7ae4b7da597c8ce2c077481bf6bbc88b666428e0bf58a289f87973194c0",
+    "motivo": "Sostituita dalla revisione 44 (audit del 14/10/2026)",
+    "sostituzione": "Guide globali Rev44"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev43.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev43.pdf",
+    "sha256": "82829df1545a7225778a4bfea15d000255c013c98530cc54b7cc37c6635ec9dc",
+    "motivo": "Sostituita dalla revisione 44 (audit del 14/10/2026)",
+    "sostituzione": "Guide globali Rev44"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev43.docx",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev43.docx",
+    "sha256": "c188dfeee6e8bb9eb3fa3d45e4e5b331a89a21b5baf02033a9536d64c1a14e08",
+    "motivo": "Sostituita dalla revisione 44 (audit del 14/10/2026)",
+    "sostituzione": "Guide globali Rev44"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev43.pdf",
+    "archivio": "supporto/SUPERATI/f4-rev44-20261014/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev43.pdf",
+    "sha256": "86cfa91c98f15a06252f39a8ca37d8c5a9f272239dcc037c95e3c244b46a8e2c",
+    "motivo": "Sostituita dalla revisione 44 (audit del 14/10/2026)",
+    "sostituzione": "Guide globali Rev44"
+  }
+]

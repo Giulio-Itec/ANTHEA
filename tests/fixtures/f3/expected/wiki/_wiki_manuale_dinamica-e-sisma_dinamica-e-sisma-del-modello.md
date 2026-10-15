@@ -25,5 +25,5 @@ Per m = 1000 kg e k = 40000 N/m si ottengono frequenza angolare 6,3246 rad/s e p
 T=\frac{2\pi}{\omega_n}
 ```
 
-La derivazione è nelle lezioni MIT di dinamica strutturale, corso 16.20 Structural Mechanics, Unit 20. I coefficienti normativi e lo smorzamento vanno definiti separatamente.
+È la soluzione classica dell'oscillatore semplice non smorzato. I coefficienti normativi e lo smorzamento vanno definiti separatamente.
 

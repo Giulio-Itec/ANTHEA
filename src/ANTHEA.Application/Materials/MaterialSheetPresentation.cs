@@ -12,7 +12,9 @@ public sealed class MaterialSheetPresentation
     public IReadOnlyList<PropertyRow> Properties { get; private set; } = [];
     public bool CoverError { get; private set; }
     public Dictionary<string, string> Composition { get; } = new() { ["chloride"]="", ["ratio"]="", ["cement"]="", ["air"]="", ["dmax"]="" };
-    public const string CompositionChlorideNote = "Cl 0,40: proposta per armatura ordinaria dagli esempi ATECAP, pp. 43–50; non è una classe dedotta dall’esposizione e va confermata nella prescrizione.";
+    // Texts citing only standards (decisions U1 and U5 of 14/10/2026, register F4-47).
+    public const string CompositionChlorideNote = "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri).";
+    public const string CompositionReference = "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).";
     public string Strength { get; private set; } = "";
     public string Tension { get; private set; } = "";
     public string Modulus { get; private set; } = "";
@@ -129,9 +131,9 @@ public sealed class MaterialSheetPresentation
         foreach(var key in Composition.Keys.ToArray())Composition[key]="Da definire";
         Composition["chloride"]="Cl 0,40";
         CompositionAirNote="";CompositionRequirements="";
-        CompositionSource="UNI 11104:2016, prospetto 5 (riportato in ATECAP 2020, p. 19). Nella UNI 11104:2025 in vigore (prospetto 6) i dosaggi minimi di cemento sono inferiori e per XF1 l’A/C massimo è 0,55: i valori adottati sono più restrittivi. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).";
-        if(input.Index("life")==1)CompositionSource+="\n\nVita utile 100 anni: i valori del prospetto sono riferimenti per 50 anni (ATECAP 2020, p. 9); la prescrizione per 100 anni richiede una valutazione specifica.";
-        string[] slump=["Da scegliere secondo elemento e modalità di getto (p. 21).","S1: 10–40 mm","S2: 50–90 mm","S3: 100–150 mm","S4: 160–210 mm","S5: > 220 mm (tabella ATECAP, p. 22)."];
+        CompositionSource=CompositionReference;
+        if(input.Index("life")==1)CompositionSource+="\n\nVita utile 100 anni: i valori del prospetto si riferiscono a 50 anni; la prescrizione per 100 anni richiede una valutazione specifica.";
+        string[] slump=["Da scegliere secondo elemento e modalità di getto; classi di abbassamento al cono di UNI EN 206.","S1: 10–40 mm","S2: 50–90 mm","S3: 100–150 mm","S4: 160–210 mm","S5: ≥ 220 mm"];
         ConsistencyInfo=slump[input.Index("consistency")];
         double? dmax=null;
         try{dmax=input.Number("aggregate","Dmax",.1,1000);Composition["dmax"]=dmax.Value.ToString("0.##",CultureInfo.GetCultureInfo("it-IT"));}
@@ -147,7 +149,7 @@ public sealed class MaterialSheetPresentation
             {
                 var minimum=AtecapMix.Air(active,d);
                 Composition["air"]=minimum?.ToString("0.0",CultureInfo.GetCultureInfo("it-IT"))??"Da definire";
-                CompositionAirNote=d>20?"Nota a: minimo 4% per Dupper > 20 mm.":d>=12&&d<=16?"Nota a: 5% è l’esempio indicato per Dupper da 12 a 16 mm; da confermare nella specifica.":"Nota a: il 4% è indicato per Dupper > 20 mm. Per questo Dmax il documento non fornisce un minimo numerico univoco: definire il contenuto d’aria nella specifica.";
+                CompositionAirNote=d>20?"Nota a: minimo 4% per Dupper > 20 mm.":d>=12&&d<=16?"Nota a: 5% è l’esempio indicato per Dupper da 12 a 16 mm; da confermare nella specifica.":"Nota a: il 4% è indicato per Dupper > 20 mm. Per questo Dmax il prospetto non fornisce un minimo numerico univoco: definire il contenuto d’aria nella specifica.";
                 CompositionAirNote+=" L’alternativa senza aria inglobata richiede prove prestazionali di resistenza al gelo/disgelo.";
             }
             if(active.Any(e=>e.Code=="XF1"))CompositionRequirements+="XF1: tabella per calcestruzzo senza aria aggiunta; per la variante aerata valgono le specifiche XF2/XF3 (nota b).\n";

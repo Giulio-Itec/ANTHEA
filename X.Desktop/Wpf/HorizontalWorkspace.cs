@@ -244,7 +244,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     {
         if (MicroHorizontal) { momentValue.Text = $"My(N) = {result.D("momento_knm"):N1} kNm · N = {result.D("n_kn"):N1} kN\nCHS classe {result.D("classe")} · solo acciaio · interazione N–M lineare"; return; }
         momentValue.Text = $"MRd = {result.D("momento_knm"):N1} kNm · N = {result.D("n_kn"):N1} kN\nChecker · {result.D("lati_contorno"):0} lati · residuo N = {result.D("residuo_n_kn"):G3} kN (tol. {result.D("tolleranza_n_kn"):G3})";
-        momentValue.Text+="\n"+result.S("normativa","NTC 2018");momentValue.ToolTip = result.S("modello");
+        momentValue.Text+="\n"+result.S("normativa", "Normativa del risultato non disponibile");momentValue.ToolTip = result.S("modello");
     }
     internal Task CalculateAsync(bool commitEdits = true) => scheduledCalculation = CalculateScheduledAsync(TimeSpan.Zero, commitEdits);
     private async Task CalculateScheduledAsync(TimeSpan delay, bool commitEdits)

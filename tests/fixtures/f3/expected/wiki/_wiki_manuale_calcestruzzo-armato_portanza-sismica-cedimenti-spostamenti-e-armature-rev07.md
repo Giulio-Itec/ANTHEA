@@ -14,7 +14,7 @@ Si integra s=∫Δσz/M dz con tensioni Boussinesq di una striscia infinita e pr
 
 È un cedimento finale con moduli costanti assegnati: non ricostruisce tempi di consolidazione, OCR, scarico e ricarico, variazione di M con le tensioni o degrado ciclico. La rotazione θ=(smonte−svalle)/B deriva dal profilo libero; non è una soluzione accoppiata della fondazione rigida.
 
-Per Calcola spostamenti in testa servono anche la rigidezza orizzontale di fondazione K per metro di muro, in kN/m², e il limite scelto. Il fusto in c.a. usa curvature delle sezioni fessurate GPC con viscosità assegnata. La doppia integrazione fornisce u del fusto con base fissa; la stima disaccoppiata totale è utesta=ufusto+H/K−θHmuro. Il termine di rotazione conserva il segno. Le curvature mancanti impediscono il risultato. La gravità usa il modello elastico del materiale nel campo senza trazione.
+Per Calcola spostamenti in testa servono anche la rigidezza orizzontale di fondazione K per metro di muro, in kN/m², e il limite scelto. Il fusto in c.a. usa curvature totali delle sezioni fessurate GPC con viscosità assegnata. Per l’analisi lineare si usa la curvatura totale comprensiva dell’effetto viscoso, mantenendo la convenzione del solutore e senza moltiplicarla nuovamente per 1 + φ. La doppia integrazione fornisce u del fusto con base fissa; la stima disaccoppiata totale è utesta=ufusto+H/K−θHmuro. Il termine di rotazione conserva il segno. Le curvature mancanti impediscono il risultato. La gravità usa il modello elastico del materiale nel campo senza trazione.
 
 ### Spostamenti permanenti Newmark
 
@@ -23,6 +23,12 @@ Il blocco rigido scorre in una sola direzione. L’integrazione dei tratti linea
 ### Armature e comando Calcola armature
 
 Il predimensionamento usa ancoraggi a fyd e nessuna riduzione favorevole dei coefficienti di forma o confinamento. fbd deriva dalle proprietà GPC e dalle condizioni di aderenza. Le giunzioni sono alla stessa quota, quindi lo schema richiede il 100% delle barre giuntate e numeri compatibili nelle due zone. Si controllano lunghezza comune, interferro tra coppie, ingombro, area e passo dei collegamenti. Il mandrino considera anche la pressione nel calcestruzzo all’interno della piega.
+
+### Taglio senza staffe e stato delle verifiche del muro
+
+La verifica a taglio senza staffe riusa il servizio delle sezioni in c.a. e comprende il contributo della compressione assiale σcp entro i limiti del profilo normativo. La striscia strutturale è larga 1 m; l’adattatore converte una sola volta le azioni e il segno della compressione. I dati che escono dal campo supportato, compresi i casi di trazione rifiutati dal servizio, producono una diagnosi e non una resistenza favorevole fittizia.
+
+Esecuzione, disponibilità dei dati ed esito ingegneristico sono distinti. Un controllo non eseguito, incompleto o non convergente non diventa soddisfatto; una violazione accertata resta evidenziata anche se un altro controllo è incompleto. Questo criterio vale anche per le verifiche dei pali e per l’ammissione dei candidati nelle ricerche.
 
 ### Materiali del muro e condivisione nel progetto
 
@@ -56,7 +62,7 @@ Aprire supporto/artefatti/muri-completamento-20260930/interfaccia-finale/esempio
 
 Nella stessa cartella sono presenti relazione Word e PDF, figure della sezione e risultati JSON.
 
-Fonti: JRC, Eurocode 8 Worked Examples, §4.8; JRC, Eurocode 2 Detailing (J. M. Arrieta, workshop 2011); USGS, SIR 2007-5196 sul metodo di Newmark; NTC 2018 §§4.1.11 e 7.8.2.2.3; USACE EM 1110-1-1905, 2025.
+Fonti: NTC 2018 §§4.1.11 e 7.8.2.2.3; USGS, SIR 2007-5196 sul metodo di Newmark; USACE EM 1110-1-1905, 2025.
 
 ### Relazioni degli spostamenti
 

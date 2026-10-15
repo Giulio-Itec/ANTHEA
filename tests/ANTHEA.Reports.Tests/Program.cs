@@ -110,6 +110,7 @@ try
         File.WriteAllText(Path.Combine(output, "parts-comparison.json"), JsonSerializer.Serialize(new { documents, xmlParts, mediaParts, differences }, new JsonSerializerOptions { WriteIndented = true }));
         Check(documents > 0 && differences.Count == 0, "Differenze fra parti DOCX: " + string.Join("; ", differences.Take(10)));
     }
+    if (!args.Contains("--compare")) checks += PdfChecks.Run(root, output);
     string result = $"PASS {checks} controlli Reports";
     File.WriteAllText(Path.Combine(output, "esito.txt"), result); Console.WriteLine(result); return 0;
 }

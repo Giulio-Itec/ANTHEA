@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using X.Core;
+using Anthea.Application.Documents;
 
 internal static class ActionsChecks
 {
@@ -90,8 +91,8 @@ internal static class ActionsChecks
             Near(section["workspace_ca"]!["sle_comuni"].D("phi"), 2, "Trasferimento viscosità SLE");
             var exportCopy = section.ToJsonString(); SectionWorkspace.Prepare(section); Check(section.ToJsonString() == exportCopy, "Riapertura sezione senza doppia inversione di N");
             section["input"]!["fck_mpa"] = 40; Near(two.Input["materials"].D("fck"), 30, "Sezione esportata indipendente dal muro");
-            var archive = Archivio.Documento(RetainingWall.Module); archive["dati"] = rc.DeepClone(); string path = Path.Combine(directory, "due-zone.anthea"); Archivio.Scrivi(path, archive);
-            Check(J.Equivalent(Archivio.Leggi(path)["dati"], rc), "Archivio v2 conserva azioni e due armature");
+            var archive = Archivio.Documento(RetainingWall.Module); archive["dati"] = rc.DeepClone(); string path = Path.Combine(directory, "due-zone.anthea"); DocumentService.Save(path, archive);
+            Check(J.Equivalent(DocumentService.Open(path)["dati"], rc), "Archivio v2 conserva azioni e due armature");
             File.WriteAllBytes(Path.Combine(directory, "azioni.docx"), ReportRetainingWall.Create("Muro con azioni e due armature", two));
             File.WriteAllText(Path.Combine(directory, "azioni.json"), two.Json().ToJsonString(J.Options));
             Console.WriteLine($"PASS {log.Count} controlli azioni/combinazioni"); return log.Count;

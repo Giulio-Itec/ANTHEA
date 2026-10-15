@@ -23,8 +23,6 @@ Servono verifiche al trasferimento, durante sollevamento e montaggio, in eserciz
 
 ANTHEA non dispone di un modulo generale di progetto dei cavi, delle perdite o delle zone di ancoraggio dei ponti precompressi. Questa pagina amplia la teoria del ponte e ne distingue il perimetro dalle funzioni della sezione composta e dal predimensionamento concettuale.
 
-Riferimento bibliografico: FHWA, esempio di progetto LRFD di un ponte a travi precompresse, sequenza di valutazione delle perdite di precompressione. I coefficienti delle procedure statunitensi richiedono un confronto separato con le norme del progetto.
-
 ### Proseguire nella Wiki
 
 - [Cos'è un ponte?](wiki:bridge)

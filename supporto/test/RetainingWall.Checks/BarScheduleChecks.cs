@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using X.Core;
+using Anthea.Application.Documents;
 
 internal static class BarScheduleChecks
 {
@@ -37,8 +38,8 @@ internal static class BarScheduleChecks
         var defined = RetainingWall.CalculateBarSchedule(d); Check(defined.CompleteQuantities, "Sviluppo collegamenti assegnato completa il computo");
         Near(defined.Bars.Single(b => b.Mark == "C1").CutLength!.Value, .8, "Sviluppo assegnato convertito da mm a m");
         string csv = ReportRetainingWall.BarScheduleCsv(defined); Check(csv.Contains("\"C1\"") && csv.Contains("Tratto muro m") && csv.Contains("\"NOTA\""), "CSV include collegamenti, impostazioni e limiti");
-        var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = d.DeepClone(); string path = Path.Combine(directory, "distinta-due-zone.anthea"); Archivio.Scrivi(path, doc);
-        Check(J.Equivalent(Archivio.Leggi(path)["dati"]!["bar_schedule"], d["bar_schedule"]), "Archivio conserva impostazioni distinta");
+        var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = d.DeepClone(); string path = Path.Combine(directory, "distinta-due-zone.anthea"); DocumentService.Save(path, doc);
+        Check(J.Equivalent(DocumentService.Open(path)["dati"]!["bar_schedule"], d["bar_schedule"]), "Archivio conserva impostazioni distinta");
         File.WriteAllText(Path.Combine(directory, "distinta-due-zone.csv"), csv);
         var invalid = (JsonObject)d.DeepClone(); invalid["bar_schedule"]!["panel_length"] = 0;
         try { RetainingWall.CalculateBarSchedule(invalid); throw new Exception("Tratto nullo accettato"); } catch (ArgumentException) { Check(true, "Tratto nullo rifiutato"); }
