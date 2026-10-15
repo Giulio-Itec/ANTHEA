@@ -26,3 +26,10 @@ compatibilità, **non un atteso geometrico corretto**: il raggruppamento per rag
 arrotondati è instabile nel legacy e nella DLL. Interassi, dettagli e fessurazione
 delle sezioni circolari mantengono il percorso precedente fino alla correzione
 e al rilascio coerente della libreria. Gli altri casi usano le API native.
+
+DET-1 (analisi dei bug del 15/10/2026): con GPCChecker.Concrete corretto
+l'interasse di solette e pareti si misura lungo gli strati. La prova ammette una
+per una le sole quattro voci «Interasse verticale sulla sezione» delle pareti
+600×800 (con e senza sovrapposizione e staffe): da 424 a 208 mm, atteso a mano
+(800 − 2·(70 + 10 + 8))/3, verifica da non soddisfatta a soddisfatta. Ogni altro
+campo resta identico alla cattura, che non si rigenera.

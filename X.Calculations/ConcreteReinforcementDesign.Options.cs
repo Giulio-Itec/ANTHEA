@@ -106,7 +106,8 @@ public sealed record ConcreteDesignOptions
 public static partial class ConcreteReinforcementDesign
 {
     public static readonly System.Collections.Immutable.ImmutableArray<(string Key, string Name)> Targets =
-    [ ("slu", "Resistenza plastica N–Mx–My"), ("slv", "Resistenza elastica N–Mx–My"),
+    // Nomi per stato limite (ARM-4): il criterio resistente effettivo (modello_resistente di dominio3d) è nel dettaglio di ogni verifica.
+    [ ("slu", "N–Mx–My · SLU"), ("slv", "N–Mx–My · SLV"),
       ("sigma_c_rara", "Tensione CLS · rara"), ("sigma_s_rara", "Tensione acciaio · rara"), ("sigma_c_qp", "Tensione CLS · quasi permanente"),
       ("wk_freq", "Fessurazione · frequente"), ("wk_qp", "Fessurazione · quasi permanente"),
       ("vx", "Taglio Vx"), ("vy", "Taglio Vy"), ("torsione", "Torsione"), ("vt_cls", "Taglio–torsione · CLS"), ("vt_staffe", "Taglio–torsione · staffe"),

@@ -34,6 +34,8 @@ public static class RebarEditor
     private static Preset Copy(Native.Preset value) => new(value.Name, value.Surface, value.A5, (JsonObject)value.Input.DeepClone());
     public static Preset[] Catalog() => Native.Catalog().Select(Copy).ToArray();
     public static Preset? Match(JsonObject input) => Native.Match(input) is { } match ? Copy(match) : null;
+    /// <summary>Scheda salvata con il nome di un acciaio del catalogo ma con valori diversi dal catalogo attuale (DET-3): il testo, oppure null.</summary>
+    public static string? CatalogueDifference(JsonObject input) => Native.CatalogueDifference(input);
     public static void Select(JsonObject input, string name) => Native.Select(input, name);
     public static Values Read(ModuleCalculation calculation) => new(calculation.NativeAs<Native.Values>());
 }

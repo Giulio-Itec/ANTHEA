@@ -27,6 +27,8 @@ public static class ConcreteEditor
     public static void PrepareParameters(JsonObject input, JsonObject settings) => ConcreteCalculationSettings.Prepare(input, settings);
     public static void ValidateStirrups(JsonObject input, JsonObject options) => ConcreteCalculationSettings.ValidateStirrups(input, options);
     public static JsonObject PrepareDesign(JsonObject settings) => ConcreteReinforcementDesign.Prepare(settings);
+    /// <summary>Campi del taglio della proposta che «Applica» copia nel foglio e avviso sui parametri manuali conservati (ARM-1).</summary>
+    public static (string[] Keys, string Notice) AppliedShearFields(JsonObject sheet, JsonObject candidate) => ConcreteReinforcementDesign.AppliedShearFields(sheet, candidate);
     public static bool HasStressCheck(string set) => SleCheckScope.Stress(set);
     public static bool HasCrackCheck(string set, JsonNode workspace) => SleCheckScope.Cracking(set, workspace);
     public static double ReinforcementArea(double diameter, int count = 1) => ReinforcementGeometry.Area(diameter, count);

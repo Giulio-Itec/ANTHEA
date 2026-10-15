@@ -207,7 +207,9 @@ internal sealed partial class ConcreteWorkspace
         if (designSelection is not { } candidate || designStale || designRunning || disposed) return;
         // Keep bound JsonObject instances alive; replace their values, not the form data sources.
         Input.Clear(); foreach (var (k, v) in candidate.Input) Input[k] = v?.DeepClone();
-        foreach (var (k, v) in candidate.Shear) if (k != "azioni") ShearOptions[k] = v?.DeepClone();
+        // Con parametri del taglio manuali «Applica» non li sovrascrive (ARM-1): l'avviso dello stato lo dichiara.
+        var (shearKeys, shearNotice) = ConcreteEditor.AppliedShearFields(ShearOptions, candidate.Shear);
+        foreach (string k in shearKeys) ShearOptions[k] = candidate.Shear[k]?.DeepClone();
         foreach (string k in new[] { "as_secondaria", "passo_secondaria", "diametro_secondaria" })
             if (candidate.Detailing.ContainsKey(k)) DetailingOptions[k] = candidate.Detailing[k]?.DeepClone();
         DetailingOptions["barre_trattenute"] = "Da confermare"; DetailingOptions["ancoraggio_appoggi"] = "Da confermare";
@@ -223,6 +225,6 @@ internal sealed partial class ConcreteWorkspace
         foreach (string k in torsionForm.Editors.Keys) torsionForm.Set(k, ShearOptions.S(k), true);
         barInventory.Rows.Clear(); Invalidate();
         designApply.IsEnabled = false;
-        designStatus.Text = "Configurazione applicata. Verifiche del foglio in aggiornamento; riscontri esecutivi da confermare sulla nuova disposizione.";
+        designStatus.Text = "Configurazione applicata. Verifiche del foglio in aggiornamento; riscontri esecutivi da confermare sulla nuova disposizione." + (shearNotice == "" ? "" : " " + shearNotice);
     }
 }

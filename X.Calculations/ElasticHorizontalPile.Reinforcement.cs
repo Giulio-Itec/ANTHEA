@@ -77,7 +77,7 @@ public static partial class ElasticHorizontalPile
                 times["verifiche_nmv"]=timing.Elapsed.TotalMilliseconds;timing.Restart();
                 if(input.S("tipo_trasversale")!="Staffe singole")foreach(var check in checks)
                     check.Message=check.Message.Replace("Confermare il modello di taglio circolare e z/d.",input.S("tipo_trasversale")=="Spirale"?"Taglio con spirale non verificato: modello resistente non implementato.":"Taglio non verificato: tipologia di armatura trasversale da definire.");
-                record["verifiche"]=JsonSerializer.SerializeToNode(checks);record["critica"]=JsonSerializer.SerializeToNode(checks.OrderByDescending(c=>c.GoverningRatio??c.BendingRatio??double.PositiveInfinity).First());
+                record["verifiche"]=JsonSerializer.SerializeToNode(checks);record["critica"]=JsonSerializer.SerializeToNode(Critical(checks));
                 detailSegments.Add(new PileDetailSegment{Id=s.Id,Start=s.Start,End=s.End,Service=cache.Service,Checks=checks});
                 record["stato"]=checks.Any(c=>c.Outcome==EngineeringOutcome.NotSatisfied)?"Non soddisfatto":checks.Any(c=>c.Execution==ExecutionStatus.Error)?"Non verificabile":checks.All(c=>c.Outcome==EngineeringOutcome.Satisfied)?"Soddisfatto N–M–V; dettagli da completare":"Parziale";
                 if(checks.All(c=>c.Outcome==EngineeringOutcome.Satisfied))satisfiedSegments.Add(s.Id);
@@ -113,7 +113,8 @@ public static partial class ElasticHorizontalPile
             var checks=detailSegments.Single(s=>s.Id==record.S("id")).Checks;
             PileReinforcement.ApplyDevelopment(segmentRuns,checks);
             record["verifiche"]=JsonSerializer.SerializeToNode(checks);
-            record["critica"]=JsonSerializer.SerializeToNode(checks.OrderByDescending(c=>c.DevelopmentAvailable==false?double.PositiveInfinity:c.GoverningRatio??c.BendingRatio??double.PositiveInfinity).First());
+            // Critica dopo lo sviluppo: stessa scelta per rapporto (PO-4); lo sviluppo insufficiente resta nello stato e fra i punti da completare.
+            record["critica"]=JsonSerializer.SerializeToNode(Critical(checks));
             if(checks.Any(c=>c.DevelopmentAvailable==false)&&satisfiedSegments.Remove(record.S("id")))record["stato"]="Parziale: sviluppo barre insufficiente";
         }
         foreach(var record in output.OfType<JsonObject>())
@@ -135,6 +136,13 @@ public static partial class ElasticHorizontalPile
         progress?.Report(new("Verifiche e distinta aggiornate",1,1));
         return J.Obj(("versione_distinta",3),("stato","Verifiche di sezione N–M e taglio; dettagli costruttivi preliminari"),("tratti",output),("distinta",JsonSerializer.SerializeToNode(runs)),("giunti",JsonSerializer.SerializeToNode(runs.SelectMany(r=>r.Joints).Distinct())),("impostazioni",details.DeepClone()),("ipotesi","NTC 2018; azioni concomitanti. MRd nominale a N locale, nei due versi. Taglio: sezione circolare equivalente, bw=D, d dai baricentri delle barre nei semicerchi, z/d assegnato e confermato. Staffe chiuse a 90°, due bracci; nessuna equivalenza automatica della spirale. Dettagli sismici di testa opzionali: risultati nel relativo riepilogo NTC §7.2.5. SLE, sisma globale, duttilità esplicita, confinamento dei giunti e progetto esecutivo esclusi. Barre sovrapposte non sommate alla resistenza nominale. Quote dei tratti come quote finali dei tagli: primo gruppo da 0 alla fine assegnata, successivi da inizio tratto−l0 alla fine assegnata. Nessuna fusione di tratti uguali né prolungamenti automatici oltre testa, confini o punta. Suddivisione interna solo per il limite commerciale. Sviluppo, abbinamento e resistenza restano verifiche distinte; le quote non certificano il dettaglio. Giunti generati al 100%, senza sfalsamento automatico."));
     }
+    /// <summary>
+    /// Sezione critica del tratto (analisi dei bug del 15/10/2026, PO-4): rapporto massimo GoverningRatio ?? BendingRatio (un punto non
+    /// verificabile prevale), a parità di rapporto il |M| maggiore. Lo sviluppo delle barre non entra nella scelta: le quote vicine alla testa e
+    /// alla punta, sempre senza sviluppo, non devono diventare la critica con M ≈ 0.
+    /// </summary>
+    static PileSectionCheck Critical(IEnumerable<PileSectionCheck> checks)
+        => checks.OrderByDescending(c=>c.GoverningRatio??c.BendingRatio??double.PositiveInfinity).ThenByDescending(c=>Math.Abs(c.Action.M)).First();
     public static JsonArray ProposeSegments(JsonObject root,JsonObject result)
     {
         var checks=result["armature"]!.Array("tratti").SelectMany(t=>t!.Array("verifiche")).Select(c=>c!.Deserialize<PileSectionCheck>()!).ToArray();var d=root["elastico"]!["dettagli"]!;
@@ -181,6 +189,8 @@ public static partial class ElasticHorizontalPile
         "BarsHeldByLinks"=>"Trattenimento barre compresse: disposizione staffe da confermare", "LinkSpacingNearBeams"=>"Staffe nelle zone di estremità",
         "MemberRulesExcluded"=>"Regole di trave/pilastro escluse", _=>key
     };
+    /// <summary>Testo del punto da completare per lo sviluppo delle barre insufficiente ad alcune quote (PO-5).</summary>
+    public const string DevelopmentPendingText="Da completare: sviluppo barre insufficiente ad alcune quote, MRd nominale non utilizzabile.";
     private enum PileIssueKind { Pending, Failure, Excluded }
     private sealed record PileIssue(PileIssueKind Kind,string Text,string Summary);
     private static PileIssue[] PendingIssues(JsonObject record,JsonNode settings)
@@ -199,7 +209,8 @@ public static partial class ElasticHorizontalPile
         if(record.Array("verifiche").Any(c=>c?["MRdPositive"]==null||c?["MRdNegative"]==null))Add("N–M non verificabile ad alcune quote: sforzo normale fuori dominio o mancata convergenza.");
         if(record.Array("verifiche").Any(c=>J.Number(c?["BendingRatio"])>1))Failure("NON SODDISFATTO: pressoflessione N–M.","pressoflessione N–M.");
         if(record.Array("verifiche").Any(c=>J.Number(c?["ShearRatio"])>1))Failure("NON SODDISFATTO: taglio.","taglio.");
-        if(record.Array("verifiche").Any(c=>c?["DevelopmentAvailable"]!=null&&!c.B("DevelopmentAvailable")))Failure("Sviluppo barre insufficiente ad alcune quote: MRd nominale non utilizzabile.");
+        // Sviluppo delle barre non disponibile: esito NotEvaluated della libreria, quindi verifica da completare, non «NON SODDISFATTO» (PO-5).
+        if(record.Array("verifiche").Any(c=>c?["DevelopmentAvailable"]!=null&&!c.B("DevelopmentAvailable")))Add(DevelopmentPendingText);
         foreach(var run in record.Array("dettagli_barre"))
         {
             if(run!.Array("Joints").Any(j=>!j.B("LengthPassed")||!j.B("ArrangementPassed")))Failure("Giunti non utilizzabili nel gruppo "+run.S("Id")+": lunghezza, sovrapposizione fra giunti o distanza trasversale da correggere.");

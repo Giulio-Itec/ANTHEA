@@ -40,6 +40,19 @@ internal static class SeismicSoilChecks
         Check(cases.All(c => c.SeismicBearing is not null && c.BearingResistance is >= 0), "Portanza sismica con inerzia del terreno e interazione N–V–M");
         var custom = (JsonObject)result.Input.DeepClone(); custom["combination_mode"] = "Personalizzate"; custom["combination_signature"] = RetainingWall.CombinationSignature(custom);
         custom["seismic"]!["ag_g"] = .25; Reject(() => RetainingWall.Calculate(custom), "Variazione del sito invalida la matrice personalizzata");
+        // MUR-5 (analisi dei bug del 15/10/2026): kh ricavato dal sito fuori dal campo del motore, rifiutato con un messaggio sul valore ricavato e
+        // non come «coefficiente assegnato». Wood, ag/g 0,35, categoria C, F₀ 2,5, pianeggiante: Ss = 1,70 − 0,60 F₀ ag/g = 1,175 (NTC
+        // Tab. 3.2.IV, entro 1,00–1,50), St = 1, amax/g = 0,41125; βm = 1 → kh = 0,41125 > 0,4 e |kv| = 0,205625 > 0,2.
+        {
+            var site = RetainingWall.Example("gravity"); var w = site["seismic"]!;
+            w["enabled"] = true; w["source"] = RetainingWall.SeismicSite; w["method"] = "Wood semplificato"; w["ag_g"] = .35; w["f0"] = 2.5; w["soil_class"] = "C";
+            Near(RetainingWall.DeriveSeismic(site)!.Kh, .41125, "MUR-5: kh ricavato dal sito con Wood");
+            string message = "";
+            try { RetainingWall.Calculate(site); } catch (ArgumentException e) { message = e.Message; }
+            Check(message.StartsWith("Sisma da parametri del sito: kh = βm × amax/g = 0,411 e |kv| = 0,206 ricavati dal sito superano il campo del motore") && !message.Contains("assegnato"),
+                "MUR-5: kh ricavato dal sito validato come dato assegnato: " + message);
+            w["ag_g"] = .3; Check(RetainingWall.Calculate(site).Cases.Any(c => c.State == "SISMA"), "MUR-5: kh ricavato entro il campo (ag/g 0,30) non calcolato");
+        }
         byte[] report = ReportRetainingWall.Create("Sisma da parametri del sito", result); File.WriteAllBytes(Path.Combine(directory, "sisma-sito.docx"), report);
         using (var zip = new System.IO.Compression.ZipArchive(new MemoryStream(report)))
         using (var reader = new StreamReader(zip.GetEntry("word/document.xml")!.Open())) Check(reader.ReadToEnd().Contains("Dati del sito per il calcolo"), "Relazione comprende i dati sismici del sito");

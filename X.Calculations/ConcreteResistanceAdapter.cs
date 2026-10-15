@@ -19,12 +19,29 @@ public sealed class ResistancePoint
     {
         searchCriterion = criterion; libraryRatio = response.Utilization!.Value;
         NRd = response.N!.Value; MxRd = response.M1!.Value; MyRd = response.M2!.Value; StrainPlane = response.Strain!.ToStrainPlane();
+        AxialForceOutsideDomain = response.IsAxialForceOutsideDomain; ZeroMomentDemand = response.IsZeroMomentDemand;
+        AxialCompressionResistance = response.AxialCompressionResistance; AxialTensionResistance = response.AxialTensionResistance;
     }
 
     public double NRd { get; }
     public double MxRd { get; }
     public double MyRd { get; }
     public StrainPlane StrainPlane { get; }
+
+    /// <summary>Esito tipizzato della libreria con i criteri a N assegnato (SLU-2 del 15/10/2026): N fuori dal campo [NRd,c; NRd,t] del dominio,
+    /// sezione non verificata per qualunque momento; tasso maggiore di 1, punto dichiarato a eccentricità costante della domanda (o estremo del
+    /// campo). Prima la libreria rispondeva «non convergente».</summary>
+    public bool AxialForceOutsideDomain { get; }
+
+    /// <summary>Esito tipizzato della libreria con «N costante» (SLU-2): momento di domanda nullo con N nel campo del dominio, tasso 0; il punto
+    /// dichiarato è la resistenza all'N assegnato per un momento positivo attorno al primo asse delle forze.</summary>
+    public bool ZeroMomentDemand { get; }
+
+    /// <summary>NRd,c (N, negativo) degli esiti tipizzati a N assegnato; null negli altri casi.</summary>
+    public double? AxialCompressionResistance { get; }
+
+    /// <summary>NRd,t (N) degli esiti tipizzati a N assegnato; null negli altri casi.</summary>
+    public double? AxialTensionResistance { get; }
 
     /// <summary>Tasso di lavoro dell'azione, calcolato dalla libreria con il criterio della ricerca: chiederlo con un altro criterio è un errore
     /// di programma.</summary>

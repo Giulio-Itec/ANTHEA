@@ -452,10 +452,12 @@ sealed partial class ServiceabilityChecks
         Report["fessurazione_griglia"]!["ntc_interamente_tese_barspacing_corretto"] = ntcEntirelyTensileCorrectedSpacing;
         Report["fessurazione_griglia"]!["stati_per_esito"] = new JsonObject(outcomes.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => KeyValuePair.Create(p.Key, (JsonNode?)p.Value)));
         // 5n: ogni regola del 15/10/2026 cambia almeno uno stato, gli altri stati restano identici.
-        foreach (var rule in new[] { RuleModelCode, RuleDin, RuleUnreinforced })
+        // FES-1 e FES-2 (analisi dei bug del 15/10/2026): la griglia ha soltanto barre della disposizione automatica, dove c dalle barre è il
+        // nominale entro 1e-9; i casi con barre libere più profonde e con la zona tesa senza barre del lembo sono nella prova 4c.
+        foreach (var rule in new[] { RuleModelCode, RuleDin, RuleUnreinforced, RuleEdgeBarKept, RuleCoverNominal })
             Check(rules.GetValueOrDefault(rule) > 0, $"5n: nessuno stato cambiato dalla regola «{rule}»");
         Report["fessurazione_regole_15_10"] = new JsonObject(rules.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => KeyValuePair.Create(p.Key, (JsonNode?)p.Value)));
-        Lines.Add("5n regole del 15/10/2026 (R1, R2, F2-7 punto 3) contro le regole precedenti della libreria: "
+        Lines.Add("5n regole del 15/10/2026 (R1, R2, F2-7 punto 3; FES-1, FES-2) contro le regole precedenti della libreria: "
             + string.Join(", ", rules.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => $"{p.Key} {p.Value}")));
         Lines.Add(stats.Line() + $"; {states} stati, {discriminating} con uscite dei due motori diverse, {notesDifferent} note con numeri diversi entro 1e-9, "
             + $"BarSpacing corretto in {ntcEntirelyTensileCorrectedSpacing} righe NTC interamente tese (correzione U1); {Checks - checksBefore} controlli (5b, 5c; it-IT e invariante)");
@@ -464,8 +466,44 @@ sealed partial class ServiceabilityChecks
     }
 
     const string RuleModelCode = "MC2010, stadi della Tab. 7.6-2 (R1)", RuleDin = "DIN breve durata (R2)", RuleUnreinforced = "zona tesa senza armatura (F2-7 punto 3)",
-        RuleSame = "stati invariati";
+        RuleSame = "stati invariati", RuleEdgeBar = "asse neutro oltre il copriferro delle barre del lembo teso, non soddisfatta (FES-1)",
+        RuleEdgeBarAssigned = "asse neutro oltre il copriferro assegnato della fessurazione, non soddisfatta (FES-1, c assegnato)",
+        RuleEdgeBarKept = "asse neutro nel copriferro di una barra del lembo teso, a,c dichiarato (FES-1)",
+        RuleCoverNominal = "c dalle barre uguale al nominale entro 1e-9 (FES-2)", RuleCover = "c dalle barre diverso dal nominale (FES-2)";
     const string UnreinforcedFailure = " · non soddisfatta: zona tesa senza armatura, apertura delle fessure non controllata";
+    const string NominalCoverText = "Copriferro netto + Ø staffa", BarCoverText = "Minimo copriferro libero delle barre efficaci verso la faccia tesa";
+
+    /// <summary>
+    /// Il risultato con le regole del prodotto riportato a quello delle regole precedenti per le sole voci delle correzioni FES-1 e FES-2: tolta la voce
+    /// a,c (FES-1, solo nel ramo senza barre tese) e, nelle voci «c» della formula, il testo del copriferro dalle barre (FES-2) sostituito da quello del
+    /// copriferro nominale della stessa voce con le regole precedenti; il valore resta quello calcolato. Restituisce quante voci a,c e c sono state
+    /// riportate e se un c differisce dal nominale oltre 1e-9.
+    /// </summary>
+    (Ntc2018Checks.CrackResult Value, int Projected, int Covers, bool CoverChanged) WithoutBarCoverRules(string tag, Ntc2018Checks.CrackResult p, Ntc2018Checks.CrackResult c)
+    {
+        var details = c.Details.Where(d => d.Symbol != ConcreteLibraryMapping.ProjectedCoverSymbol).ToArray();
+        int projected = c.Details.Length - details.Length, covers = 0; bool changed = false;
+        Check(projected <= 1 && p.Details.All(d => d.Symbol != ConcreteLibraryMapping.ProjectedCoverSymbol), tag + ": 5n voce a,c ripetuta o presente con le regole precedenti");
+        if (details.Length == p.Details.Length)
+            for (int i = 0; i < details.Length; i++)
+            {
+                if (details[i].Expression != BarCoverText) continue;
+                Check(details[i].Symbol == p.Details[i].Symbol && p.Details[i].Expression == NominalCoverText,
+                    $"{tag}: 5n voce {i} «{details[i].Symbol}» con il copriferro dalle barre, «{p.Details[i].Expression}» con le regole precedenti");
+                double a = p.Details[i].Value ?? double.NaN, b = details[i].Value ?? double.NaN;
+                changed |= !(Math.Abs(a - b) <= 1e-9 + 1e-9 * Math.Max(Math.Abs(a), Math.Abs(b)));
+                details[i] = details[i] with { Expression = NominalCoverText }; covers++;
+            }
+        return (c with { Details = details }, projected, covers, changed);
+    }
+
+    /// <summary>Uguali entro 1e-9 relativo sui numeri (stati, regioni e traccia); testi esatti.</summary>
+    static bool Close(Ntc2018Checks.CrackResult a, Ntc2018Checks.CrackResult b)
+    {
+        var errors = new List<string>();
+        Json.Compare(J.Node(a), J.Node(b), "5n", new Stats("5n"), errors, 1e-9);
+        return errors.Count == 0;
+    }
 
     /// <summary>
     /// 5n (decisione dell'utente del 15/10/2026): la fessurazione della libreria con le regole del prodotto contro le stesse regole di prima, sullo stesso
@@ -473,13 +511,18 @@ sealed partial class ServiceabilityChecks
     /// durata solo la traccia con σsr e τbms) e DIN a breve durata (kt = 0,6, R2), dove wk non cresce (a meno di 1e-12 mm di arrotondamento) e una verifica
     /// soddisfatta resta tale; zona tesa senza armatura (F2-7 punto 3), dove la verifica senza esito
     /// diventa non soddisfatta con il motivo e il resto del risultato non cambia. Le note dei numeri seguono la cultura.
+    /// Correzioni dell'analisi dei bug del 15/10/2026, categorie con nome: FES-1, nessuna barra tesa e asse neutro oltre il copriferro delle barre del
+    /// lembo teso, da wk = 0 soddisfatta (soglia h/2) a «Nessuna armatura tesa» non soddisfatta, oppure wk = 0 invariato con la voce a,c in più;
+    /// FES-2, c della formula dal copriferro delle barre efficaci verso la faccia tesa invece che nominale: uguale al nominale entro 1e-9 (resto entro
+    /// 1e-9), oppure diverso, con wk che cambia nello stesso verso di c e lo stesso esito di calcolo.
     /// </summary>
     void CompareRules(string tag, CrackState s, (string Outcome, string Message, Ntc2018Checks.CrackResult? Value, Exception? Error) previous,
         (string Outcome, string Message, Ntc2018Checks.CrackResult? Value, Exception? Error) current, Dictionary<string, int>? counts)
     {
         Check(previous.Outcome == current.Outcome && previous.Message == current.Message, $"{tag}: 5n rifiuto «{previous.Message}» prima, «{current.Message}» con le regole del 15/10");
-        if (previous.Value is not { } p || current.Value is not { } c) return;
-        Check(!Text(c).Contains(UnmappedText), tag + ": 5n testo non tradotto");
+        if (previous.Value is not { } p || current.Value is not { } full) return;
+        Check(!Text(full).Contains(UnmappedText), tag + ": 5n testo non tradotto");
+        var (c, projected, covers, coverChanged) = WithoutBarCoverRules(tag, p, full);
         bool shortTerm = (string?)s.Options["durata"] == "Breve";
         bool widthRule = s.Standard == "Model Code 2010" || s.Standard == "DIN EN 1992-1-1" && shortTerm;
         string rule;
@@ -489,7 +532,23 @@ sealed partial class ServiceabilityChecks
             Check(c.Status == p.Status + UnreinforcedFailure, $"{tag}: 5n stato «{c.Status}» invece di «{p.Status}{UnreinforcedFailure}»");
             if (!widthRule) Check(Text(c with { Passed = null, Status = p.Status }) == Text(p), tag + ": 5n zona tesa senza armatura con altre differenze");
         }
-        else if (Text(p) == Text(c)) rule = RuleSame;
+        else if (p.Passed == true && p.Width == 0 && c.Passed == false && c.Width is null && projected == 1)
+        {
+            // Con il copriferro della fessurazione assegnato la regola della libreria usa quello (c + Ø/2 proiettato), anche se è minore del
+            // copriferro reale delle barre: categoria a parte, da confermare (rapporto dell'integrazione).
+            rule = (string?)s.Options["copriferro_fessure"] is { Length: > 0 } ? RuleEdgeBarAssigned : RuleEdgeBar;
+            Check(c.Status == "Nessuna armatura tesa" + UnreinforcedFailure && p.Status.StartsWith("Asse neutro nel copriferro: nessuna barra tesa, wk = 0", StringComparison.Ordinal),
+                $"{tag}: 5n FES-1 «{p.Status}» → «{c.Status}»");
+        }
+        else if (Text(p) == Text(c)) rule = projected == 1 ? RuleEdgeBarKept : covers > 0 ? RuleCoverNominal : RuleSame;
+        else if (covers > 0 && !coverChanged && Close(p, c)) rule = RuleCoverNominal;
+        else if (covers > 0 && coverChanged && !widthRule)
+        {
+            rule = RuleCover;
+            double before = p.Details.Last(d => d.Expression == NominalCoverText).Value!.Value, after = full.Details.Last(d => d.Expression == BarCoverText).Value!.Value;
+            Check(p.Width is null == c.Width is null && (c.Width is null || Math.Sign(c.Width.Value - p.Width!.Value) == Math.Sign(after - before)),
+                $"{tag}: 5n FES-2 wk {p.Width} → {c.Width} con c {before} → {after}");
+        }
         else if (widthRule)
         {
             rule = s.Standard == "Model Code 2010" ? RuleModelCode : RuleDin;

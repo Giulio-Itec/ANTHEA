@@ -93,6 +93,50 @@ try
     Check(tr.Candidates.All(c => c.Checks.Any(x => x.Key == "vt_staffe") && c.Checks.Any(x => x.Combination.Contains("distribuzione"))), "Torsion distribution missing");
     var match = r.Candidates.First(c => c.Input.ToJsonString() == tr.Candidates[0].Input.ToJsonString());
     Check(tr.Candidates[0].Checks.Single(c => c.Key == "slu" && c.Combination == "Flessione").Ratio > match.Checks.Single(c => c.Key == "slu").Ratio, "Torsion reserve not removed from flexural capacity");
+    // DET-2 (analisi dei bug del 15/10/2026): con barre lisce dichiarate nella sezione l'ancoraggio della proposta resta da completare,
+    // mai soddisfatto né calcolato con le regole delle barre ad aderenza migliorata.
+    var plain = Fixture(); plain["workspace_ca"]!["sle_comuni"]!["aderenza"] = "Liscia";
+    var plainResult = ConcreteReinforcementDesign.Optimize(plain, small with { MaxEvaluations = 4 });
+    Check(plainResult.Candidates.Count > 0 && plainResult.Candidates.All(c => c.NeedsReview && c.Checks.Any(x => x.Key == "ancoraggio")
+        && c.Checks.Where(x => x.Key == "ancoraggio").All(x => x.Passed == null && x.Ratio == null && x.Detail == ConcreteAnchorageCalculator.PlainBarsMessage)),
+        "Plain bars: anchorage not left pending: " + string.Join("; ", plainResult.Exclusions.Keys));
+    // ARM-1 (analisi dei bug del 15/10/2026): parametri del taglio «Manuali» rispettati dalla ricerca (per asse bw, d e Asl = min fra il
+    // valore manuale e quello ricavato dalla proposta, parametri sempre manuali) e conservati da Applica. Attesi NTC [4.1.27]-[4.1.29] in
+    // tests/ConcreteLibraryAdapter.Checks/attesi/correzioni_20261015.py: bw = 250, d = 540 (le proposte hanno d ≥ 540), staffe a due bracci.
+    {
+        var manual = Fixture(); var mt = manual["workspace_ca"]!["taglio"]!;
+        mt["parametri"] = "Manuali"; mt["bw_x"] = "600"; mt["d_x"] = "340"; mt["asl_x"] = "0"; mt["bw_y"] = "250"; mt["d_y"] = "540"; mt["asl_y"] = "0";
+        mt["azioni"] = new JsonArray(J.Obj(("nome", "V"), ("N", "0"), ("Mx", "0"), ("My", "0"), ("Vx", "0"), ("Vy", "600"), ("T", "0")));
+        var mo = small with { TopCounts = [3], BottomCounts = [3, 4], SideCounts = [0], StirrupDiameters = [8, 10], StirrupSpacings = [100, 150] };
+        // Vy = 600 kN: nessuna staffa dell'elenco basta con bw = 250 e d = 540 (Ø10/100: VRd = 520,278 kN). Prima la ricerca usava bw = 400.
+        var none600 = ConcreteReinforcementDesign.Optimize(manual, mo);
+        Check(none600.Candidates.Count == 0 && none600.Exclusions.Keys.Any(k => k.Contains("Taglio Vy")), "Manual shear parameters replaced by the gross section: " + none600.Candidates.Count);
+        // Vy = 500 kN: solo Ø10/100, η = 500/520,278142300280 = 0,961024420110.
+        mt["azioni"]![0]!["Vy"] = "500";
+        var r500 = ConcreteReinforcementDesign.Optimize(manual, mo);
+        Check(r500.Candidates.Count > 0 && r500.Candidates.All(c => c.Shear.S("parametri") == "Manuali" && c.Shear.D("bw_y") == 250 && c.Shear.D("d_y") == 540
+            && c.Input.D("transverse_bar_diameter_mm") == 10 && c.Input.D("transverse_spacing_mm") == 100), "Manual shear parameters: wrong candidates");
+        foreach (var c in r500.Candidates) Check(Math.Abs(c.Checks.Single(x => x.Key == "vy").Ratio!.Value - 0.961024420110) < 1e-9, "Manual shear: η Vy " + c.Checks.Single(x => x.Key == "vy").Ratio);
+        Check(r500.Notes.Contains(ConcreteReinforcementDesign.ManualShearNote) && !r.Notes.Contains(ConcreteReinforcementDesign.ManualShearNote), "Manual shear rule not declared only for manual parameters");
+        var (keys, notice) = ConcreteReinforcementDesign.AppliedShearFields(mt.AsObject(), r500.Candidates[0].Shear);
+        Check(!keys.Intersect(new[] { "parametri", "bw_x", "d_x", "asl_x", "bw_y", "d_y", "asl_y", "azioni" }).Any() && keys.Contains("modello") && notice.Contains("Manuali"), "Apply overwrites manual shear parameters");
+        var automatic = r.Candidates[0].Shear; var sheetAuto = data["workspace_ca"]!["taglio"]!.AsObject();
+        (keys, notice) = ConcreteReinforcementDesign.AppliedShearFields(sheetAuto, automatic);
+        Check(keys.Contains("bw_y") && keys.Contains("parametri") && !keys.Contains("azioni") && notice == "", "Apply with automatic shear parameters changed");
+        // Cerchio D = 600: valori automatici di 16Ø24 con staffe Ø8 congelati come «Manuali» (d = 472,366); ricerca 24Ø24 con staffe Ø10/100:
+        // d della proposta 464,344 (minimo), VRd = 535,151 kN con z = 0,75 d, η = 300/VRd = 0,560589718295. Prima restava d = 472,366.
+        var circ = Fixture("Pilastro", "Circolare"); var cin = circ["input"]!.AsObject();
+        cin["longitudinal_bar_count"] = 16; cin["longitudinal_bar_diameter_mm"] = 24; cin["transverse_bar_diameter_mm"] = 8; cin["transverse_spacing_mm"] = 100;
+        var ct = SectionWorkspace.Prepare(circ)["taglio"]!.AsObject(); ct["z_d"] = "0.75";
+        var frozen = (JsonObject)ct.DeepClone(); frozen["parametri"] = "Automatici da sezione"; ConcreteCalculationSettings.UpdateAutomaticShear(cin, frozen);
+        foreach (string k in new[] { "bw_x", "d_x", "asl_x", "bw_y", "d_y", "asl_y" }) ct[k] = frozen[k]!.DeepClone();
+        ct["parametri"] = "Manuali";
+        Check(Math.Abs(ct.D("d_y") - 472.365925444315) < 1e-9, "Circle: manual d of the original layout " + ct.D("d_y"));
+        ct["azioni"] = new JsonArray(J.Obj(("nome", "V"), ("N", "0"), ("Mx", "0"), ("My", "0"), ("Vx", "300"), ("Vy", "300"), ("T", "0")));
+        var rc = ConcreteReinforcementDesign.Optimize(circ, small with { Diameters = [24], CircularCounts = [24], StirrupDiameters = [10], StirrupSpacings = [100] });
+        Check(rc.Candidates.Count > 0 && rc.Candidates.All(c => c.Shear.S("parametri") == "Manuali" && Math.Abs(c.Shear.D("d_y") - 464.344498075326) < 1e-9
+            && Math.Abs(c.Checks.Single(x => x.Key == "vy").Ratio!.Value - 0.560589718295) < 1e-9), "Circle: manual d not limited by the proposal: " + string.Join("; ", rc.Exclusions.Keys));
+    }
     foreach (string kind in new[] { "Soletta piena", "Parete" })
     {
         var plate = Fixture(kind); plate["input"]!["width_mm"] = "1000"; plate["input"]!["height_mm"] = "250";

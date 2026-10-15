@@ -195,6 +195,36 @@ public static class HorizontalChecks
             Assert(xml.Contains("Modello selezionato automaticamente") && !xml.Contains("Modello terreno"), "Relazione usa la selezione manuale obsoleta");
         }
         finally { Directory.Delete(temp, true); }
+        // PO-1 (analisi dei bug del 15/10/2026): Broms pone il vincolo della testa impedita al piano campagna, quindi con tratto libero > 0 il
+        // calcolo è rifiutato invece di restituire la capacità del plinto a terra (circa doppia). D 1, L 15, granulare γ 18, φ 30°, My 1000.
+        // Atteso con tratto libero nullo, meccanismo lungo: k = 3 Kp γ D = 162 kN/m², S(zf) = k zf³/3 = 2 My, Hu = k zf²/2 = 900 kN
+        // (tests/ConcreteLibraryAdapter.Checks/attesi/correzioni_20261015.py). Testa libera: e è la quota della forza, il tratto libero non cambia nulla.
+        {
+            JsonObject Elevated(bool fixedHead, double eccentricity, double free)
+            {
+                var data = Data(false, fixedHead, 15, 1000, eccentricity); data["generali"]!["diametro"] = "1"; data["generali"]!["tratto_libero"] = free; return data;
+            }
+            Near(Calc(Elevated(true, 0, 0)).D("capacita_kn"), 900, "PO-1: testa impedita al piano campagna");
+            foreach (double free in new[] { 3d, 10d })
+            {
+                var refused = PaloOrizzontale.Calculate(Elevated(true, 0, free));
+                Assert(refused.S("errore").StartsWith("Testa impedita con tratto libero di " + free + " m: i meccanismi di Broms richiedono il vincolo al piano campagna"),
+                    "PO-1: testa impedita rialzata calcolata come al piano campagna: " + refused.S("errore"));
+            }
+            foreach (double e in new[] { 0d, 3d })
+                Near(Calc(Elevated(false, e, 3)).D("capacita_kn"), Calc(Elevated(false, e, 0)).D("capacita_kn"), "PO-1: testa libera cambiata dal tratto libero", 1e-12);
+        }
+        // PO-6: Broms usa il peso unitario dell'acqua del foglio (generali.gamma_acqua), come il modello elastico. Granulare γsat 20, φ 30°,
+        // falda a 0 m, D 1, L 15, testa libera, e = 0, My 1000: γ′ = 20 − γw, z = (3 My/k)^(1/3), Hu = k z²/2 con k = 3 Kp γ′ D
+        // (attesi/correzioni_20261015.py): 469,018 kN con γw = 9,81 e 458,184 kN con γw = 10,5 (prima 469,018 in entrambi i casi).
+        foreach (var (gw, expected) in new[] { (9.81, 469.018246464), (10.5, 458.183605822) })
+        {
+            var wet = Data(false, false, 15, 1000); var g = wet["generali"]!; g["diametro"] = "1"; g["presenza_falda"] = true; g["profondita_falda"] = "0"; g["gamma_acqua"] = gw;
+            Near(Calc(wet).D("capacita_kn"), expected, "PO-6: Hu con γw = " + gw, 1e-6);
+            wet["stratigrafie"]![0]![0]!["peso_specifico_saturo"] = "10.4"; wet["stratigrafie"]![0]![0]!["peso_specifico"] = "10";
+            string refused = PaloOrizzontale.Calculate(wet).S("errore");
+            Assert(gw > 10.4 ? refused == "γsat deve essere maggiore di γw = 10,5 kN/m³." : refused == "", "PO-6: controllo γsat > γw con il γw del foglio: " + refused);
+        }
         return count;
     }
 

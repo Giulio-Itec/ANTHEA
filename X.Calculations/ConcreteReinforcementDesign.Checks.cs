@@ -32,6 +32,8 @@ public static partial class ConcreteReinforcementDesign
             // One radial N–Mx–My check covers combined and pure axial actions, without a mesh.
             o["criterio"] = "Eccentricità costante";
             var engine = new CheckerSection(resistanceModel, reduced, workspace, o, set);
+            // Criterio resistente effettivo, con lo stesso predefinito per stato di CheckerSection (ARM-4).
+            string criterion = o.S("modello_resistente", set == "SLV" ? "Elastico" : "Plastico");
             var localOptions = (JsonObject)o.DeepClone(); localOptions["assi"] = "Locali";
             var localEngine = o.S("assi", "Locali") == "Locali" || !rows[set].Any(r => r.B("__locali")) ? engine
                 : new CheckerSection(resistanceModel, reduced, workspace, localOptions, set);
@@ -54,7 +56,7 @@ public static partial class ConcreteReinforcementDesign
                     }
                 }
                 AddRatio(checks, set.ToLowerInvariant(), row.S("nome"), ratio, options,
-                    $"Iterativo 3D a eccentricità costante, assi {(row.B("__locali") ? "Locali" : o.S("assi", "Locali"))}. N={action.N:0.###} kN; Mx={action.Mx:0.###}, My={action.My:0.###} kNm." +
+                    $"Dominio {criterion.ToLowerInvariant()} (criterio resistente), iterativo 3D a eccentricità costante, assi {(row.B("__locali") ? "Locali" : o.S("assi", "Locali"))}. N={action.N:0.###} kN; Mx={action.Mx:0.###}, My={action.My:0.###} kNm." +
                     (torsion ? $" Area longitudinale resistente ridotta del {options.TorsionReservePercent:0.#}% per la torsione." : ""));
                 if (checks[^1].Passed == false) return checks;
             }
@@ -104,7 +106,15 @@ public static partial class ConcreteReinforcementDesign
             diameters = diameters.Append(workspace["dettagli_costruttivi"].D("diametro_secondaria"));
         foreach (double phi in diameters.Distinct().Order())
         {
-            a["diametro"] = phi; var r = ConcreteDetailingAnalysis.Anchorage(input, copy).Check;
+            a["diametro"] = phi;
+            Anthea.Calculations.AnchorageResult r;
+            try { r = ConcreteDetailingAnalysis.Anchorage(input, copy).Check; }
+            catch (ArgumentException e) when (e.Message == ConcreteAnchorageCalculator.PlainBarsMessage)
+            {
+                // Barre lisce (DET-2): nessuna regola di aderenza, controllo da completare per la proposta, mai soddisfatto né escluso.
+                checks.Add(new("ancoraggio", "Ancoraggio / giunzione Ø" + phi, "Dettaglio esecutivo", null, options.Target("ancoraggio"), null, e.Message));
+                continue;
+            }
             string detail = $"Ø{phi:0.#}; l richiesta = {r.RequiredLength:0.#} mm; lb,rqd = {r.BasicLength:0.#} mm; fbd = {r.Fbd:0.###} MPa. σsd = fyd. {r.Expression}";
             if (available) AddRatio(checks, "ancoraggio", "Ø" + phi, SectionDesignDemand.Ratio(r.RequiredLength, anchor.D("lunghezza")), options, detail);
             else checks.Add(new("ancoraggio", "Ancoraggio / giunzione Ø" + phi, "Dettaglio esecutivo", null, options.Target("ancoraggio"), null,

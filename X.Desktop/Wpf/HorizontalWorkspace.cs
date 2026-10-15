@@ -95,7 +95,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             new("fck_mpa", "fck del materiale", "MPa", ReadOnly:true),
             new("alpha_cc", "αcc archivio",ReadOnly:true), new("gamma_c", "γc archivio",ReadOnly:true),
             new("__fcd", "Resistenza di progetto a compressione", "MPa", Symbol: "fcd", ReadOnly: true),
-            new("classe_acciaio","Acciaio", Choices:MaterialInputCatalog.Steel(false,"NTC 2018").Select(m=>m.S("nome")).Append(sectionData.S("classe_acciaio")).Append("Personalizzato").Distinct().ToArray()),
+            new("classe_acciaio","Acciaio", Choices:MaterialInputCatalog.Steel(false,"NTC 2018").Select(m=>m.S("nome")).Append(sectionData.S("classe_acciaio")).Append("Personalizzato").Distinct().ToArray(), Note: i => MaterialInputCatalog.SteelDifference(i, "NTC 2018")),
             new("fyk_mpa", "fyk del materiale", "MPa", ReadOnly:true),
             new("gamma_s", "γs archivio",ReadOnly:true),
             new("coefficienti_unitari","Coefficienti unitari",Bool:true),

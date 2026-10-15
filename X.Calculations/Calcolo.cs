@@ -208,10 +208,19 @@ public static class Calcolo
                     double gamma=r.Required("peso_specifico",strict:true);if(r.Required("angolo_attrito")>=90)throw new ArgumentException("φ deve essere inferiore a 90°.");
                     foreach(var k in new[]{"peso_specifico_saturo","coesione_efficace","coesione_non_drenata","nc"})if(!string.IsNullOrWhiteSpace(r.S(k)))r.Required(k);
                     if(falda&&bottom>zf&&bottom-r.D("spessore")<l&&r.D("peso_specifico_saturo",gamma)<gamma)throw new ArgumentException("γsat deve essere almeno pari a γ sotto falda.");
-                    if(r.S("tipologia")=="Coesivo"&&falda&&Math.Min(bottom,l)>zf&&string.IsNullOrWhiteSpace(r.S("coesione_non_drenata")))throw new ArgumentException("Inserire Cu per il calcolo non drenato.");
-                    if(r.S("tipologia")=="Coesivo"&&falda&&Math.Min(bottom,l)>zf&&r.D("coesione_non_drenata")<=0)throw new ArgumentException("Cu deve essere positiva per il calcolo non drenato.");
+                    // Cu solo negli strati coesivi che il palo attraversa (cielo < L) sotto falda: gli strati sotto la punta non entrano nel calcolo (PV-2).
+                    bool undrained=r.S("tipologia")=="Coesivo"&&falda&&bottom-r.Required("spessore",strict:true)<l&&Math.Min(bottom,l)>zf;
+                    if(undrained&&string.IsNullOrWhiteSpace(r.S("coesione_non_drenata")))throw new ArgumentException("Inserire Cu per il calcolo non drenato.");
+                    if(undrained&&r.D("coesione_non_drenata")<=0)throw new ArgumentException("Cu deve essere positiva per il calcolo non drenato.");
                 }
             }
+        }
+        /// <summary>Strati di una stratigrafia con il cielo sopra la quota della punta (m), nell'ordine: gli altri non entrano nel calcolo.</summary>
+        private static JsonArray Attraversati(JsonArray rows,double punta)
+        {
+            var result=new JsonArray();double top=0;
+            foreach(var r in rows){if(top>=punta)break;result.Add(r!.DeepClone());top+=r.Required("spessore",strict:true);}
+            return result;
         }
         /// <summary>Profilo di Model di una stratigrafia (spessori verticali dal piano campagna a quota 0), falda alla profondità indicata.</summary>
         private static SoilProfile Profilo(JsonArray rows,int index,double? falda,Func<JsonNode,int,Soil> terreno)
@@ -291,7 +300,9 @@ public static class Calcolo
             JsonObject result;var warnings=new List<string>();
             if(!micro)
             {
-                var surveys=rowsList.Select((rows,i)=>new AxialPileSurvey(Profilo(rows,i,falda?zf:null,Terreno),rows.Select(v=>new AxialPileLayer(v.S("tipologia")=="Coesivo"?SoilBehaviour.Cohesive:SoilBehaviour.Granular,
+                // Strati interamente sotto la punta (cielo ≥ L) esclusi dal profilo passato alla libreria (PV-2): la punta è l'ultimo strato con
+                // cielo < z ≤ L e nessun tratto laterale li raggiunge, quindi non entrano nel calcolo e non richiedono Cu. Restano validati.
+                var surveys=rowsList.Select(rows=>Attraversati(rows,l)).Select((rows,i)=>new AxialPileSurvey(Profilo(rows,i,falda?zf:null,Terreno),rows.Select(v=>new AxialPileLayer(v.S("tipologia")=="Coesivo"?SoilBehaviour.Cohesive:SoilBehaviour.Granular,
                     v.S("addensamento")=="Sciolto"?SoilDensity.Loose:SoilDensity.Dense,v.D("nc",9),v.B("laterale_attiva",true))))).ToArray();
                 var pile=new AxialPile(Tecnologia(g)!.Value,d*M,l*M,g.D("peso_specifico_palo",25)*KN3,g.B("considera_sottospinta"),compression,tension);
                 var r=AxialPileCapacity.Calculate(pile,surveys,factors,gruppo.Efficienza);
@@ -305,8 +316,20 @@ public static class Calcolo
             {
                 var injection=BustamanteDoix.Injection(g.S("tipo_iniezione"));
                 BustamanteDoixSoil Bd(JsonNode v) => BustamanteDoix.Soil(v.S("terreno"));
-                var surveys=rowsList.Select(rows=>new MicropileDepthSurvey(rows.Select(v=>new MicropileDepthLayer(
-                    v.Required("spessore",strict:true)*M,Bd(v!),J.Number(v!["alpha"])??double.NaN,v.B("laterale_attiva",true))))).ToArray();
+                // Fuori dalla zona iniettata [sb, L] (lungo l'asse) α non ha significato: lo strato è passato senza laterale, come per
+                // BustamanteDoix.Tratti, che controlla α (con il messaggio del foglio) solo negli strati attivi che la intersecano (PV-4).
+                MicropileDepthSurvey Survey(JsonArray rows)
+                {
+                    double top=0;var layers=new List<MicropileDepthLayer>();
+                    foreach(var v in rows)
+                    {
+                        double thickness=v.Required("spessore",strict:true),bottom=top+thickness;
+                        bool grouted=Math.Min(bottom/cos,l)>Math.Max(top/cos,sb);
+                        layers.Add(new MicropileDepthLayer(thickness*M,Bd(v!),J.Number(v!["alpha"])??double.NaN,v.B("laterale_attiva",true)&&grouted));top=bottom;
+                    }
+                    return new MicropileDepthSurvey(layers);
+                }
+                var surveys=rowsList.Select(Survey).ToArray();
                 var pile=new Micropile(d*M,l*M,(J.Number(g["inclinazione"])??0)*Deg,injection,pi,sb*M,g.B("considera_punta")?pct:null,Chs.Sezione(g.S("profilo_chs")),Chs.Acciaio,
                     g.D("peso_specifico_palo",25)*KN3,compression,tension);
                 var r=AxialPileCapacity.CalculateFromDepths(pile,surveys,factors,gruppo.Efficienza);

@@ -19,6 +19,12 @@ public static class ConcreteCurvatureAnalysis
             SectionWorkspace.Subdivisions(o.S("raffina_snervamento"), "Bisezioni", 0, 30));
         o["criterio"] = "N costante"; o["assi"] = "Locali"; o["modello"] = "Non lineare"; o["strategia"] = "Iterativo";
         var engine = new CheckerSection(input, workspace, o);
+        // Tolleranza su N del punto limite (SLU-3): almeno la regola della libreria per il legame e la scala della sezione, come la
+        // resistenza a N assegnato (SectionMomentResistance, F2-15); la tolleranza dell'utente vale se maggiore. Un valore non valido
+        // resta all'analisi, che lo rifiuta come prima.
+        double assigned = request.AxialToleranceKn;
+        if (double.IsFinite(assigned) && assigned > 0)
+            request = request with { AxialToleranceKn = Math.Max(assigned, SectionMomentResistance.AxialToleranceKn(engine, request.AxialKn)), AssignedAxialToleranceKn = assigned };
         var domain = engine.Domain3D(token);
         return new MomentCurvatureCalculator().Calculate(request, domain.Check,
             a => engine.Stress(a, "CURVA"), engine.Geometry.Fyd / engine.Geometry.Es, token);

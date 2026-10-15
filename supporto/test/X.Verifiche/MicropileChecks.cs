@@ -38,6 +38,33 @@ internal static class MicropileChecks
             Assert(Tabelle.Crea(result, true).Any(t => t.Titolo.StartsWith("trazione —") && t.Colonne.Contains("L d [kN]")), "Dettaglio laterale trazione mancante");
         }
         Assert(fixtures > 0, "Nessun caso micropalo");
+        // PV-4 (analisi dei bug del 15/10/2026): α richiesto solo negli strati attivi che intersecano la zona iniettata [sb, L]. Micropalo IGU,
+        // L 12, sb 3, CHS 88,9 × 8, p_i 1,5 MPa: lo strato 0–3 m (non iniettato) e uno strato sotto la punta con α = 0 non contribuiscono, quindi
+        // il calcolo coincide con quello con α = 1,15 negli stessi strati; nella zona iniettata α = 0 resta un rifiuto italiano con strato e
+        // stratigrafia.
+        {
+            JsonObject Micro(params (string Thickness, string Alpha)[] layers)
+            {
+                var sheet = CalculationDefaults.Vertical(true); var g = sheet["generali"]!.AsObject();
+                g["lunghezza"] = "12"; g["profilo_chs"] = "CHS 88.9 × 8"; g["pressione_iniezione"] = "1.5"; g["tipo_iniezione"] = "IGU"; g["inizio_aderenza"] = "3";
+                g["azione_compressione"] = "300"; g["azione_trazione"] = "200";
+                var rows = new JsonArray();
+                foreach (var (h, alpha) in layers) rows.Add(new JsonObject { ["spessore"] = h, ["terreno"] = "Sabbia media", ["alpha"] = alpha, ["laterale_attiva"] = true });
+                sheet["stratigrafie"] = new JsonArray(rows); return sheet;
+            }
+            var reference = Calcolo.Calcola(Micro(("3", "1.15"), ("12", "1.15")), true);
+            Assert(reference.S("errore") == "", "PV-4: micropalo di riferimento non calcolato: " + reference.S("errore"));
+            foreach (var (label, sheet, same) in new[] { ("strato non iniettato con α = 0", Micro(("3", "0"), ("12", "1.15")), Micro(("3", "1.15"), ("12", "1.15"))),
+                ("strato sotto la punta con α = 0", Micro(("3", "1.15"), ("9", "1.15"), ("5", "0")), Micro(("3", "1.15"), ("9", "1.15"), ("5", "1.15"))),
+                ("strato non iniettato con α vuoto", Micro(("3", ""), ("12", "1.15")), Micro(("3", "1.15"), ("12", "1.15"))) })
+            {
+                var actual = Calcolo.Calcola(sheet, true); var expected = Calcolo.Calcola(same, true);
+                Assert(actual.S("errore") == "", "PV-4: " + label + " rifiutato: " + actual.S("errore"));
+                Assert(JsonNode.DeepEquals(actual["curve"], expected["curve"]) && JsonNode.DeepEquals(actual["dettagli"], expected["dettagli"]), "PV-4: " + label + " cambia il calcolo");
+            }
+            var injected = Calcolo.Calcola(Micro(("3", "1.15"), ("12", "0")), true);
+            Assert(injected.S("errore").StartsWith("Stratigrafia 1: Strato 2: alpha: inserire un numero finito maggiore di 0"), "PV-4: α nullo nella zona iniettata senza messaggio italiano: " + injected.S("errore"));
+        }
         var defaults=Archivio.NuovoFoglio("geo_micropalo_verticale")["generali"]!;
         Assert(defaults.D("diametro")==.24&&defaults.S("tipo_iniezione")=="IGU"&&defaults.D("peso_specifico_palo")==25, "Default micropalo");
         var linear=cases.First(c=>c.S("nome")=="micropalo_IRS_45_Feld")!["input"]!.DeepClone().AsObject();

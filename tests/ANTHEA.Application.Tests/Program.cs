@@ -82,6 +82,8 @@ try
     Check(imported.FormulaCells == 0, "Export a valori contiene formule");
     checks += DocumentFileChecks.Run(output);
     checks += SectionActionInputsChecks.Run();
+    checks += DesignActionChecks.Run();
+    checks += PileCriticalChecks.Run();
     checks += SectionActionsEditorChecks.Run();
     checks += BridgePricesChecks.Run();
     checks += BridgePriceAnalysesChecks.Run();

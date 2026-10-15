@@ -1,10 +1,13 @@
-// Regole della fessurazione decise dall'utente il 15/10/2026 (R1, R2, F2-7 punto 3): il prodotto le usa sempre; le prove le tolgono per
-// confrontare la libreria con il motore storico a regole uguali (ConcreteLibraryAdapter.Checks, 5c) e per misurare cosa cambia (5n).
+// Regole della fessurazione decise dall'utente il 15/10/2026 (R1, R2, F2-7 punto 3) e correzioni FES-1 e FES-2 dell'analisi dei bug dello
+// stesso giorno: il prodotto le usa sempre; le prove le tolgono per confrontare la libreria con il motore storico a regole uguali
+// (ConcreteLibraryAdapter.Checks, 5c; banco c.a. contro le fixture di Checker) e per misurare cosa cambia (5n).
 namespace Anthea.Calculations;
 
 /// <summary>
 /// Regole di GPCChecker.Concrete prima del 15/10/2026 nella fessurazione della libreria: τbms per durata con β = kt nel fib MC2010,
-/// kt = 0,4 della DIN per ogni durata, zona tesa senza armatura senza esito. Uso: <c>using (PreviousCrackRules.Use()) { … }</c>.
+/// kt = 0,4 della DIN per ogni durata, zona tesa senza armatura senza esito (asse neutro nel copriferro con la barra più vicina entro h/2),
+/// c della formula dal copriferro nominale + staffa anche con le barre libere (opzione CoverFromBarGeometry spenta).
+/// Uso: <c>using (PreviousCrackRules.Use()) { … }</c>.
 /// </summary>
 public static class PreviousCrackRules
 {

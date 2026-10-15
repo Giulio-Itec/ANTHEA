@@ -33,6 +33,10 @@ public static class SectionMomentResistance
                 // Direct iterative search: neither Domain3D nor GetFailureDomainResult is called. The point comes from the ULS adapter,
                 // library engine (architecture review R2, register F2-17).
                 var outcome = ConcreteResistanceAdapter.Points(engine, [engine.Force(new(axial, mx, my))], token)[0];
+                // N fuori dal campo del dominio (esito tipizzato della libreria, SLU-2 del 15/10/2026): nessuna resistenza a quell'N; il punto
+                // dichiarato è a eccentricità costante e non va letto come resistenza a N assegnato. Prima: «non convergente».
+                if (outcome.Point is { } beyond && ConcreteLibraryMapping.AxialForceRangeKn(beyond) is { } range)
+                    throw new ArgumentException(ConcreteLibraryMapping.AxialForceOutsideRange(range.Compression, range.Tension) + ".");
                 if (outcome.Point is not { } point)
                     throw new ArgumentException(outcome.Rejection is null ? "Punto resistente non trovato." : char.ToUpperInvariant(outcome.Rejection[0]) + outcome.Rejection[1..] + ".");
                 var r = CheckerSection.Point(point);

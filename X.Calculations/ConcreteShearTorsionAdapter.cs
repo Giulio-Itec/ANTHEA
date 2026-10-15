@@ -16,10 +16,15 @@ public static class ConcreteShearTorsionAdapter
     public static double CircularPierLeverFactor(bool hollow) => ShearLeverArm.NtcCircularPierRatio(hollow);
     public static bool DanishSteelDuctility(double fy, double fu, double strainPerMille)
         => ShearLeverArm.DanishSteelDuctility(fy, fu, strainPerMille);
+    /// <summary>Rapporto z/d della libreria; i suoi rifiuti arrivano in italiano dalla mappatura (TAG-3). Il rifiuto della norma non
+    /// ordinaria (StandardFor) è già italiano e resta fuori dalla traduzione.</summary>
     public static double LeverFactor(string standard, double depth, double cover, double linkDiameter,
         bool circular, bool hollow, bool ntcPier, double? assignedRatio)
-        => ShearLeverArm.Ratio(ShearProfiles.Resolve(ConcreteLibraryMapping.StandardFor(standard)), depth, cover, linkDiameter,
-            circular, hollow, ntcPier, assignedRatio);
+    {
+        var profile = ShearProfiles.Resolve(ConcreteLibraryMapping.StandardFor(standard));
+        try { return ShearLeverArm.Ratio(profile, depth, cover, linkDiameter, circular, hollow, ntcPier, assignedRatio); }
+        catch (ArgumentException e) { throw ConcreteLibraryMapping.ShearLeverError(e); }
+    }
 
     /// <summary>Taglio di una direzione, come ConcreteCodeChecks.Shear.</summary>
     public static Ntc2018Checks.ShearResult Shear(ConcreteCodeChecks.ShearInput p)

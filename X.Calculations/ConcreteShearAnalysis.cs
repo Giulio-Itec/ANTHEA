@@ -23,6 +23,9 @@ public static class ConcreteShearAnalysis
             throw new ArgumentException("Il modello delle pile è specifico NTC: per " + code + " assegnare esplicitamente z/d e confermare la schematizzazione circolare.");
         if (settings.Array("trefoli").Count > 0) throw new ArgumentException("Taglio CAP: includere le componenti di precompressione; modello da definire");
         var materials = ConcreteMaterials.DesignValues(input, settings);
+        // γc, fcd e fyd della norma effettiva (TAG-2): con i coefficienti unitari del foglio del palo valgono 1, fck e fyk; altrimenti
+        // coincidono con gamma_c e fyk/γs dell'input, bit per bit.
+        double gammaC = ConcreteStandards.Effective(input, settings).GammaC;
         double fcd = materials.Fcd;
         bool stirrups = options.S("modello") == "Con staffe";
         if (stirrups && input.S("staffe_presenti", "Sì") == "No") throw new ArgumentException("Staffe assenti nella sezione: scegliere Senza staffe.");
@@ -50,18 +53,19 @@ public static class ConcreteShearAnalysis
                 circular, input.B("foro_presente"), ntcPier, circular && !ntcPier ? options.Required("z_d") : null);
             double moment = code == "Model Code 2010" ? SectionWorkspace.Number(row.S(axis == "x" ? "My" : "Mx"), "Momento per taglio MC2010") : 0;
             var check = ConcreteShearTorsionAdapter.Shear(new(code, n, v, moment, geometry.AreaCls, bw, d, asl,
-                input.Required("fck_mpa"), fcd, materials.Fyd, input.Required("gamma_c"), geometry.Es,
+                input.Required("fck_mpa"), fcd, materials.Fyd, gammaC, geometry.Es,
                 stirrups ? legs * ReinforcementGeometry.Area(phi) : 0, spacing, stirrups ? Value("alpha") : 90, cot, lever,
                 code == "Model Code 2010" || code.StartsWith("NS") ? settings["dettagli_costruttivi"]!.AsObject().Required("aggregato") : 20,
-                code == "Model Code 2010" ? options.Required("eccentricita_mc_" + axis) : 0));
+                // Δe con segno (TAG-1): positiva verso il lembo teso, come il "+" della formula della libreria; negativa verso il compresso.
+                code == "Model Code 2010" ? SectionWorkspace.Number(options.S("eccentricita_mc_" + axis), "Δe MC2010 " + axis) : 0));
             results.Add(check);
         }
 
         if (torque != 0 && code != "NTC 2018") throw new ArgumentException("Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio " + code + ".");
-        return new(results.ToArray(), Torsion(input, options, row, geometry, results.ToArray(), fcd));
+        return new(results.ToArray(), Torsion(input, options, row, geometry, results.ToArray(), fcd, materials.Fyd, gammaC));
     }
     private static TorsionResult? Torsion(JsonObject input, JsonObject options, JsonObject row,
-        SezioneCA geometry, Ntc2018Checks.ShearResult[] shear, double fcd)
+        SezioneCA geometry, Ntc2018Checks.ShearResult[] shear, double fcd, double fyd, double gammaC)
     {
         double torque = SectionWorkspace.Number(row.S("T", "0"), "T");
         if (torque == 0) return null;
@@ -72,7 +76,7 @@ public static class ConcreteShearAnalysis
         double al = options.Required("as_torsione"); if (al > geometry.AreaSteel) throw new ArgumentException("As disponibile per torsione supera l’armatura totale.");
         // Profilo resistente e torsione dallo stesso motore del taglio (adattatore, refactoring F2.5-F2.6).
         var g = ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry);
-        return ConcreteShearTorsionAdapter.Torsion(new(torque, g, fcd, geometry.Fyd, ReinforcementGeometry.Area(input.Required("transverse_bar_diameter_mm", strict: true)), input.Required("transverse_spacing_mm", strict: true), al, options.Required("cot_torsione"), row.D("Vx"), row.D("Vy"), shear[0], shear[1]),
-            input.Required("fck_mpa"), input.Required("gamma_c"));
+        return ConcreteShearTorsionAdapter.Torsion(new(torque, g, fcd, fyd, ReinforcementGeometry.Area(input.Required("transverse_bar_diameter_mm", strict: true)), input.Required("transverse_spacing_mm", strict: true), al, options.Required("cot_torsione"), row.D("Vx"), row.D("Vy"), shear[0], shear[1]),
+            input.Required("fck_mpa"), gammaC);
     }
 }

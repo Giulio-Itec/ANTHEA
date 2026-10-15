@@ -181,6 +181,14 @@ try
     }
     // Un testo della libreria senza traduzione è un errore di programma, mai un testo inglese mostrato.
     Check(Run(() => ConcreteLibraryMapping.ShearError(new ArgumentException("Shear: new message."), "NTC 2018")).Outcome == "error:InvalidOperationException", "rifiuto del taglio non tradotto accettato");
+    // Rifiuti del braccio del taglio (TAG-3 del 15/10/2026): ogni testo della libreria tradotto, un testo nuovo è un errore di programma.
+    foreach (string text in new[] { "Unknown shear profile.", "Finite section depths, covers and link diameters required.", "The circular pier approximation is specific to NTC 2018.",
+        "Assign a lever ratio between zero (excluded) and 0.9.", "Cover leaves no positive shear lever arm." })
+    {
+        var mapped = ConcreteLibraryMapping.ShearLeverError(new ArgumentException(text)).Message;
+        Check(mapped.StartsWith("Taglio:") && mapped != text, "rifiuto del braccio del taglio non tradotto: " + text);
+    }
+    Check(Run(() => ConcreteLibraryMapping.ShearLeverError(new ArgumentException("Lever: new message."))).Outcome == "error:InvalidOperationException", "rifiuto del braccio non tradotto accettato");
     Check(Run(() => ConcreteLibraryMapping.TorsionError(new ArgumentException("Torsion: new message."))).Outcome == "error:InvalidOperationException", "rifiuto della torsione non tradotto accettato");
 
     // ---------------------------------------------------------------- 2. interruttore
@@ -578,6 +586,10 @@ try
     }
     Check(independent > 200, "attesi indipendenti: " + independent);
 
+    // ---------------------------------------------------------------- 4b. correzioni dell'analisi dei bug del 15/10/2026 (Correzioni20261015.cs)
+    Check(Correzioni20261015.Run(Check) > 0, "4b: nessun controllo delle correzioni del 15/10");
+    // ---------------------------------------------------------------- 4c. integrazione c.a. delle correzioni delle librerie del 15/10/2026 (CorrezioniCa20261015.cs)
+    Check(CorrezioniCa20261015.Run(Check) > 0, "4c: nessun controllo dell'integrazione c.a. delle correzioni del 15/10");
     // ---------------------------------------------------------------- 13. attesi delle pagine dei metodi (F2.8, E3): MethodPages.cs
     MethodPageChecks.Run(root, PageCheck);
 

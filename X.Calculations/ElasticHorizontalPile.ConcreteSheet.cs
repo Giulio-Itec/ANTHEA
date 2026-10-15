@@ -12,11 +12,21 @@ public static partial class ElasticHorizontalPile
         if(sheet["workspace_ca"] is not JsonObject)sheet["workspace_ca"]=J.Obj(("versione",2),("normativa","NTC 2018"),("convenzione","N negativo a compressione"));
         if(sheet["combinazioni"]==null)
         {
-            var action=result?["armature"]?.Array("tratti").FirstOrDefault(s=>s.S("id")==row.S("id"))?["critica"]?["Action"];
+            var segment=result?["armature"]?.Array("tratti").FirstOrDefault(s=>s.S("id")==row.S("id"));
+            var action=segment?["critica"]?["Action"];
             sheet["combinazioni"]=J.Obj(("SLU",new JsonArray(J.Obj(("nome",action==null?"Azioni da assegnare":$"Critica del palo · x={action.D("Depth"):G5} m"),("azioni",new[]{-action.D("N"),action.D("M"),0d})))));
             // Shear loads are editable in the native sheet. The transverse axes are those used by the existing section model.
             sheet["sorgente_palo"]!["azioni_concomitanti"]=action?.DeepClone();
             sheet["workspace_ca"]!["taglio"]=J.Obj(("azioni",new JsonArray(J.Obj(("id",Guid.NewGuid().ToString("N")),("nome","Critica concomitante del palo"),("N",-action.D("N")),("Mx",action.D("M")),("My",0),("Vx",0),("Vy",action.D("V")),("T",0)))));
+            // Oltre alla critica (rapporto massimo), l'azione con |M| massimo del tratto se è a una quota diversa (PO-4).
+            var maximum=segment.Array("verifiche").Select(c=>c?["Action"]).Where(a=>a is not null).MaxBy(a=>Math.Abs(J.Number(a!["M"])??0));
+            if(action!=null&&maximum!=null&&J.Number(maximum["Depth"])!=J.Number(action["Depth"]))
+            {
+                double Value(string key)=>J.Number(maximum[key])??throw new ArgumentException("Azione del palo incompleta: "+key+".");
+                double depth=Value("Depth"),n=Value("N"),m=Value("M"),v=Value("V");
+                sheet["combinazioni"]!["SLU"]!.AsArray().Add(J.Obj(("nome",$"|M| massimo del palo · x={depth:G5} m"),("azioni",new[]{-n,m,0d})));
+                sheet["workspace_ca"]!["taglio"]!["azioni"]!.AsArray().Add(J.Obj(("id",Guid.NewGuid().ToString("N")),("nome","|M| massimo concomitante del palo"),("N",-n),("Mx",m),("My",0),("Vx",0),("Vy",v),("T",0)));
+            }
         }
         sheet.Remove("risultati");sheet.Remove("output");SectionWorkspace.Prepare(sheet);
         var settings=sheet["workspace_ca"]!.AsObject();

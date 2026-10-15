@@ -321,7 +321,7 @@
       "differenze_attese": []
     },
     "fixture-checker": {
-      "descrizione": "Cattura densa (CheckerMigration.Capture, modalità tutte) contro le fixture c.a. di Checker/GPCChecker.Test.Concrete/Fixtures, ricatturate il 7/10/2026 dalla cattura supporto/artefatti/baseline/F2-pre-m4-v2/a/tutte (ANTHEA refactoring/integrazione-d7b-d2 d2d3225; Checker develop 06d97733, decisione B dell'utente). Le fixture del 1/10/2026 (ANTHEA fe4652c, ultimo commit ddfe7edf) e le loro classificazioni FC-1…FC-14 restano nella storia di git. Tolleranze allineate ai MigrationTests di Checker (regole 'fixture-checker/' di tolerances.json); ingressi e testi esatti; sole differenze classificate S4-1/S4-2 e F2-22 (13 interassi NTC già usati nel calcolo ora visibili).",
+      "descrizione": "Cattura densa (CheckerMigration.Capture, modalità tutte) contro le fixture c.a. di Checker/GPCChecker.Test.Concrete/Fixtures, ricatturate il 7/10/2026 dalla cattura supporto/artefatti/baseline/F2-pre-m4-v2/a/tutte (ANTHEA refactoring/integrazione-d7b-d2 d2d3225; Checker develop 06d97733, decisione B dell'utente). Le fixture del 1/10/2026 (ANTHEA fe4652c, ultimo commit ddfe7edf) e le loro classificazioni FC-1…FC-14 restano nella storia di git. Tolleranze allineate ai MigrationTests di Checker (regole 'fixture-checker/' di tolerances.json); ingressi e testi esatti; sole differenze classificate S4-1/S4-2, F2-22 (13 interassi NTC già usati nel calcolo ora visibili) e SLU-4 (ε0 della riga limite del M–χ, analisi dei bug del 15/10/2026).",
       "prefisso_tolleranze": "fixture-checker",
       "file": [
         { "nome": "shear-legacy.csv", "chiave": "id", "sha256": "CDFE0CD5C89AD9A44B9699D5A5F5C9F410A0E9462C83BDEE1A454AD0484302CB", "righe_dati": 2016, "test": "Checker/GPCChecker.Test.Concrete/ShearMigrationTests.cs:41-84" },
@@ -467,6 +467,16 @@
           "motivo": "Model 4: una sezione generica descritta dal contorno non salva i moduli plastici come valori propri; nell'archivio sono NaN e la proprietà li calcola esatti al primo accesso (Section.Wpl1 restituisce Calculated.Wpl1 quando il campo è NaN). 16 sezioni generiche per 4 moduli (WPL1, WPL2, WPLX, WPLY); nessun file di calcolo cambia.",
           "commit": "lib/Checker S4, Model a324af3f (9/10/2026)", "registro": "S4-1",
           "codice": ["Model/Model/Sections/Section.cs:268", "Model/Model/Sections/Section.cs:618-624"]
+        },
+        {
+          "id": "SLU-4", "categoria": "difetto-legacy",
+          "file": "^curvature-legacy\\.csv$", "righe": "^[0-4]$", "campo": "^points$", "classe": "^numero$",
+          "a": "\\|(?:[^|:]*:){4}-3\\.5:(?:[^|:]*:){3}True:[^|]*$",
+          "b": "\\|(?:[^|:]*:){4}(?:5\\.059523787696179|15\\.594286825819394|-0\\.5561097162241763|0\\.8943467637686832|10\\.201674982975705):(?:[^|:]*:){3}True:[^|]*$",
+          "righe_attese": 5, "differenze_attese": 5,
+          "motivo": "Analisi dei bug del 15/10/2026, SLU-4: ε0 [‰] della riga limite del M–χ (ultimo punto, campo 5 di 'points') nell'origine degli assi locali come le altre righe, non nel vertice pivot del piano del dominio (−3,5). Le fixture di Checker non sono rigenerate (decisione dell'utente in sospeso, Checker e752c86f): stessi valori della libreria, curva 0 a mano −3,5 ‰ + 0,034238 ‰/mm · 250 mm = +5,0595 ‰; ε0 al baricentro indipendente nella prova 4c di ConcreteLibraryAdapter.Checks. Gli altri punti restano entro le tolleranze.",
+          "registro": "SLU-4",
+          "codice": ["X.Calculations/MomentCurvature.cs", "X.Calculations/CheckerSection.cs"]
         }
       ]
     },

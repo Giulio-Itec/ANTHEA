@@ -28,6 +28,24 @@ public static class RebarMaterial
     }
     public static Preset? Match(JsonObject input) => Catalog().FirstOrDefault(p =>
         p.Input.All(v => p.A5 is not null && v.Key is "steel_eps_u" or "steel_diagramma" || J.Equivalent(v.Value, input[v.Key])));
+
+    /// <summary>
+    /// Scheda o sezione salvata con il nome di un acciaio del catalogo della norma ma con proprietà meccaniche diverse da quelle del catalogo
+    /// attuale: il testo che lo dichiara, null se coincidono o se il nome non è del catalogo. Caso tipico (DET-3 del 15/10/2026): B450A e B500A
+    /// salvati con εu = 30 ‰, prima che il catalogo di ModelData portasse εuk a 25 ‰ (NTC 2018 Tab. 11.3.Ic, EN 1992-1-1 Tab. C.1, classe A:
+    /// (Agt)k ≥ 2,5 %). I valori salvati non si riscrivono: il calcolo li usa come sono; il catalogo si adotta riselezionando il materiale.
+    /// </summary>
+    public static string? CatalogueDifference(JsonObject input, string standard = "NTC 2018")
+    {
+        string name = input.S("classe_acciaio");
+        var preset = ConcreteMaterialCatalog.Steel(false, standard).FirstOrDefault(m => m.S("nome") == name);
+        if (preset is null) return null;
+        var different = new[] { ("fyk_mpa", "fyk", "MPa"), ("steel_modulus_mpa", "Es", "MPa"), ("steel_fu_mpa", "fu", "MPa"), ("steel_eps_u", "εu", "‰") }
+            .Where(k => !J.Equivalent(preset[k.Item1], input[k.Item1]))
+            .Select(k => $"{k.Item2} = {input.S(k.Item1)} {k.Item3} (catalogo {preset.S(k.Item1)} {k.Item3})").ToArray();
+        return different.Length == 0 ? null
+            : $"Valori salvati diversi dal catalogo {name}: {string.Join("; ", different)}. Il calcolo usa i valori salvati; riselezionare {name} per adottare quelli del catalogo.";
+    }
     public static void Select(JsonObject input, string name)
     {
         if (name == "Personalizzato")

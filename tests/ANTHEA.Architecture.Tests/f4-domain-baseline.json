@@ -399,14 +399,6 @@
       "File": "X.Calculations/CheckerSection.cs",
       "Rule": "R1-math",
       "Owner": "CheckerSection.Domain2D",
-      "Fingerprint": "3F572D2AC5F211ECCC6CCB3B4310ACE97CB4A357945C72723A67DBE4A17C1E18",
-      "Count": 1,
-      "Example": "Math . Sin ( 2 * theta )"
-    },
-    {
-      "File": "X.Calculations/CheckerSection.cs",
-      "Rule": "R1-math",
-      "Owner": "CheckerSection.Domain2D",
       "Fingerprint": "C2F0662F0A4AF10D817443909B56125F312E932941008E0D6A34D3D33173E625",
       "Count": 1,
       "Example": "Math . Sin ( theta )"
@@ -14282,14 +14274,6 @@
       "Fingerprint": "731495059D06429E371FC9745DDEFD7FDAC1E59D4DAD0C5CFBA4872D2C953987",
       "Count": 1,
       "Example": "3"
-    },
-    {
-      "File": "src/ANTHEA.Application/Concrete/ConcreteDetailingPresentation.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteDetailingPresentation.Calculate",
-      "Fingerprint": "7387C23197FCBA2AB523CA8C58DB0008D95CF7A3B905864E49745A0678396B6E",
-      "Count": 1,
-      "Example": "Input . D ( \"gamma_c\" )"
     },
     {
       "File": "src/ANTHEA.Application/Concrete/ConcreteDomainChart.cs",

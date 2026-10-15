@@ -88,7 +88,8 @@ internal sealed class RebarMaterialView : UserControl
         }
         Properties.Enable("steel_diagramma", custom || historical);
         ((TextBox)identity.Editors["materiale_acciaio_nome"]).IsReadOnly = !custom;
-        description.Text = custom ? "Dati personalizzati. Specificare la provenienza dei valori adottati."
+        // DET-3: una scheda salvata come B450A con εu = 30 ‰ (catalogo precedente) non è più il preset; lo si dichiara senza riscrivere i valori.
+        description.Text = custom ? RebarEditor.CatalogueDifference(Input) ?? "Dati personalizzati. Specificare la provenienza dei valori adottati."
             : historical ? $"{preset!.Surface}\nAcciaio storico · A5 minimo {preset.A5:0}%\nA5 non coincide con εu. Definire εu per le verifiche."
             : preset!.Name == "B450A" ? "Aderenza migliorata · classe A\nL'impiego del B450A è soggetto alle limitazioni delle NTC 2018, §§ 7.4.2.2 e 11.3.2.1."
             : "Aderenza migliorata · classe C\nAcciaio B450C da catalogo.";

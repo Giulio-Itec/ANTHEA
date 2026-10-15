@@ -7,7 +7,7 @@ public static class CalculationHelp
     {
         "metodo_calcolo" => "Broms: terreni della stessa famiglia, con risultante concentrata al piede nel granulare. Stratificato: estensione sperimentale con reazioni distribuite ed equilibrio globale, anche per alternanze coesivo/granulare. Nei granulari corti e intermedi i due modelli possono dare capacità diverse.",
         "limite_fessure" => "Limite di apertura wlim in mm. Vuoto: tabella nazionale per EC2; Model Code richiede una scelta di progetto. Per NTC e UNI si applica il criterio italiano per esposizione e combinazione. Un limite di progetto diverso va motivato nella relazione.",
-        "eccentricita_mc_x" or "eccentricita_mc_y" => "Eccentricità Δe usata per la deformazione longitudinale MC2010 (7.3-16), in mm, positiva verso il lembo compresso. Non sommare di nuovo l’eccentricità già inclusa nel momento M della riga.",
+        "eccentricita_mc_x" or "eccentricita_mc_y" => "Eccentricità Δe usata per la deformazione longitudinale MC2010 (7.3-16), in mm: distanza della retta d’azione di N dalla metà di z, positiva verso il lembo teso a flessione (corda tesa) e negativa verso il lembo compresso. Non sommare di nuovo l’eccentricità già inclusa nel momento M della riga.",
         "aggregato" => "Dimensione massima dell’aggregato dg in mm. Dato condiviso dai dettagli costruttivi e dal taglio: MC2010 usa dg=0 oltre C70; NS distingue dg minore di 16 mm.",
         "cot_x" or "cot_y" => "Cotangente dell’inclinazione del puntone. Vuoto: ricerca della massima capacità nell’intervallo della norma. DIN: il limite dipende anche da V e N; NS lo riduce con trazione significativa; DS adotta il limite cautelativo 2.",
         "phi" => "Coefficiente di viscosità φ. Nel modello a modulo efficace riduce la rigidezza del calcestruzzo; non è un coefficiente delle azioni. Nel ponte interviene anche ψL: n = Es/Ec · (1 + ψL·φ).",
@@ -34,6 +34,9 @@ public static class CalculationHelp
         "pressione_iniezione" => "Pressione in MPa utilizzata nell’abaco Bustamante–Doix secondo la convenzione p_i = p_l adottata dal modulo. I valori fuori dall’intervallo documentato vengono rifiutati.",
         "inizio_aderenza" => "Distanza lungo l’asse del micropalo dall’origine al primo tratto aderente. Gli spessori degli strati sono invece verticali e vengono convertiti usando l’inclinazione.",
         "cover_mm" => "Copriferro netto dal bordo del calcestruzzo alla superficie esterna della staffa. Il confronto con Materiali usa anche il diametro effettivo delle barre della sezione.",
+        "tolleranza_n" => "Residuo massimo su N del punto limite della curva momento–curvatura, in kN. Il calcolo usa il maggiore fra questo valore e la regola della libreria, che cresce con le dimensioni della sezione e con lo stress block; lo stato della curva riporta la tolleranza effettiva.",
+        "tratto_libero" => "Quota della testa sopra il piano campagna, in m, nel modello elastico (lunghezza totale = infissa + libera). Broms e Stratificato pongono il vincolo della testa impedita al piano campagna: con testa impedita richiedono tratto libero nullo, altrimenti usare la risposta elastica.",
+        "gamma_acqua" => "Peso unitario dell’acqua γw, in kN/m³ (9,81 se assente). Sotto falda Broms, Stratificato e modello elastico usano γ′ = γsat − γw con questo valore; γsat deve superarlo.",
         "origine_momento" => "La scelta automatica usa la sezione e i materiali inseriti. Con momento manuale indicare valore e provenienza: la verifica geotecnica non lo ricava dalla geometria della sezione.",
         _ => null
     };
@@ -47,7 +50,7 @@ public static class CalculationHelp
         "Le verifiche di taglio, torsione, ancoraggio e durabilità hanno ingressi e ipotesi propri: il solo esito del dominio non le sostituisce.";
     public const string PileTheory = "Palo verticale: la resistenza laterale è integrata per strato e combinata con la resistenza di punta; " +
         "falda, condizioni drenate/non drenate, correlazione delle indagini e coefficienti di resistenza restano distinti. " +
-        "Palo orizzontale: Broms equilibra la reazione limite del terreno con H e il momento H·e, individuando il meccanismo corto, intermedio o lungo. " +
+        "Palo orizzontale: Broms equilibra la reazione limite del terreno con H e il momento H·e, individuando il meccanismo corto, intermedio o lungo; con testa impedita il vincolo è al piano campagna e il tratto libero deve essere nullo. " +
         "Il metodo Stratificato, selezionabile nelle opzioni avanzate, ammette anche alternanze coesivo/granulare e chiude l'equilibrio con reazioni distribuite; nel granulare corto/intermedio differisce dalla forza concentrata di Broms. " +
         "Il momento resistente della sezione c.a. viene da Checker a N costante, con lo stesso modello del modulo strutturale e prendendo il minore dei due versi Mx. " +
         "Il residuo assiale è mostrato con la tolleranza di accettazione, senza confonderlo con un confronto fra mesh. " +

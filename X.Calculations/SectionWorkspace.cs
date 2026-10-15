@@ -125,6 +125,9 @@ public readonly record struct ActionPoint(double N, double Mx, double My)
 public sealed record DomainCheck(double? Utilization, ActionPoint? Resistance, string Status, SectionResponse? Response = null)
 {
     [System.Text.Json.Serialization.JsonIgnore] public Lazy<CheckerStressState>? LimitState { get; init; }
+    /// <summary>Campo resistente di N (NRd,c; NRd,t, kN) quando la libreria dà l'esito «N fuori dal campo» di un criterio a N assegnato (SLU-2 del
+    /// 15/10/2026): il punto dichiarato è a eccentricità costante, non all'N assegnato. Null negli altri casi. Non serializzato.</summary>
+    [System.Text.Json.Serialization.JsonIgnore] public (double Compression, double Tension)? AxialForceOutsideRange { get; init; }
 }
 public sealed record DomainSegment(ActionPoint A, ActionPoint B);
 
