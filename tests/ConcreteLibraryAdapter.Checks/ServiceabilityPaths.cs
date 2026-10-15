@@ -174,7 +174,9 @@ sealed partial class ServiceabilityChecks
                 })
                 {
                     using var probe = ServiceabilityProbe.Start();
-                    string a = DocxText(make(Ordered(results[ServiceabilityEngine.Legacy], data))), b = DocxText(make(Ordered(results[ServiceabilityEngine.Library], data)));
+                    // Le due relazioni sono generate in momenti diversi: data e ora della generazione («gg/mm/aaaa hh:mm») non entrano nel
+                    // confronto, altrimenti la prova fallisce quando il minuto cambia fra le due (osservato il 16/10/2026, 01:32 contro 01:33).
+                    string a = GenerationTime(DocxText(make(Ordered(results[ServiceabilityEngine.Legacy], data)))), b = GenerationTime(DocxText(make(Ordered(results[ServiceabilityEngine.Library], data))));
                     Check(a.Contains("SLE") && a == b, $"5h {norm} {shape}: relazione {kind} diversa fra i motori: " + FirstLineDifference(a, b));
                     if (kind == "completa")
                         Check(Sle(probe).Count >= 2 * SleSets.Length && Sle(probe).All(e => e.Operation == "CrackingRequired" && e.Engine == ServiceabilityEngines.Default.ToString()),
@@ -213,6 +215,9 @@ sealed partial class ServiceabilityChecks
         System.Xml.Linq.XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         return string.Join("\n", xml.Descendants(w + "p").Select(p => string.Concat(p.Descendants(w + "t").Select(t => t.Value))));
     }
+
+    static string GenerationTime(string text) =>
+        System.Text.RegularExpressions.Regex.Replace(text, @"\b\d{2}/\d{2}/\d{4} \d{2}:\d{2}\b", "<data e ora>");
 
     static string FirstLineDifference(string a, string b)
     {

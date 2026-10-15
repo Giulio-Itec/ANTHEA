@@ -6973,7 +6973,7 @@
       "famiglia": "calcestruzzo/analisi-non-lineari",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Richiesta dell'utente di un ramo decrescente del calcestruzzo teso, per la convergenza. Attuata come diagramma opzionale di Model per le sole analisi di risposta, mai nelle verifiche SLU: ConcreteTensionStiffening (Collins e Mitchell 1991: lineare con Ec fino a fct, poi σ = fct/(1 + √(500 ε)); valori medi senza coefficienti parziali, fctm per i calcestruzzi europei e 0,33 √f'c per ACI 318) e il selettore ConcreteMaterial.TensionResponseDiagrams {Default, TensionStiffening}, opzione dell'analisi e non proprietà del materiale (non salvato nell'archivio). In Checker: SectionOptions.StressAnalysisConcreteTension per le analisi tensionali non lineari e le risposte del M–χ (punto limite dal dominio, invariato) e la legge dello storico non lineare del ponte presa da Model (stessi numeri bit per bit). Domini, SolveResistance, punti del dominio, progetto delle armature e analisi lineari sono invariati bit per bit. ANTHEA: opzione del ponte esposta (BUG-PON-2); il campo del M–χ «CLS teso nelle risposte» («Trascurato» predefinito, anche per i fogli vecchi, oppure «Tension stiffening») si espone con le DLL candidate del rilascio Z; non nelle SLE (BUG-TS-2).",
+      "descrizione": "Richiesta dell'utente di un ramo decrescente del calcestruzzo teso, per la convergenza. Attuata come diagramma opzionale di Model per le sole analisi di risposta, mai nelle verifiche SLU: ConcreteTensionStiffening (Collins e Mitchell 1991: lineare con Ec fino a fct, poi σ = fct/(1 + √(500 ε)); valori medi senza coefficienti parziali, fctm per i calcestruzzi europei e 0,33 √f'c per ACI 318) e il selettore ConcreteMaterial.TensionResponseDiagrams {Default, TensionStiffening}, opzione dell'analisi e non proprietà del materiale (non salvato nell'archivio). In Checker: SectionOptions.StressAnalysisConcreteTension per le analisi tensionali non lineari e le risposte del M–χ (punto limite dal dominio, invariato) e la legge dello storico non lineare del ponte presa da Model (stessi numeri bit per bit). Domini, SolveResistance, punti del dominio, progetto delle armature e analisi lineari sono invariati bit per bit. ANTHEA: opzione del ponte esposta (BUG-PON-2); campo del M–χ «CLS teso nelle risposte» (chiave cls_teso_risposte di workspace_ca.momento_curvatura; «Trascurato» predefinito, anche per i fogli vecchi, oppure «Tension stiffening»), esposto il 16/10 (d869963d): con «Tension stiffening» le analisi tensionali dei punti della curva usano in trazione la legge di Collins e Mitchell; il punto limite viene dal dominio, che non legge l'opzione; le verifiche SLU e SLE non la usano (decisione sulle SLE in sospeso, BUG-TS-2); «CLS resistente a trazione» resta com'era. La chiave non viene scritta nei documenti (se manca vale «Trascurato»; nuovo Field.Default di sola presentazione), diversamente dal ponte che scrive cls_teso_nl all'apertura: così le catture F3 non cambiano; la riga «CLS teso nelle risposte» del report compare solo se la chiave è nel foglio. Prima: 300 × 500 C25/30 4Ø16, N = 0, a 0,6 MRd = 41,06 kNm |εs|max = 1,228 ‰, χ = 3,554e-3 1/m; primo snervamento a 65,29 kNm. Dopo, con «Tension stiffening»: |εs|max = 0,1757 ‰, χ = 7,812e-4 1/m; a 0,3 MRd sezione non fessurata (0,0774 ‰); nessuno snervamento prima del punto limite; MRd = 68,4395 kNm, χu = 0,076165 1/m e riga limite identici bit per bit.",
       "codice": [
         "Model, ramo bug/model (da unire in bugint-model) (79fca5ea), GPCModel 5.5.0.0 (12ac64d3), rilascio Z (non ancora in lib/Checker)",
         "Model/Model/Materials/Concrete/ConcreteTensionStiffening.cs",
@@ -6985,7 +6985,14 @@
         "Checker/GPCChecker.Concrete/Response/MomentCurvatureAnalysis.cs",
         "Checker/GPCChecker.CompositeBridge/History/HistoryMaterials.cs",
         "Checker/docs/metodi/ca.sle-tensioni.md",
-        "Checker/docs/metodi/ca.momento-curvatura.md"
+        "Checker/docs/metodi/ca.momento-curvatura.md",
+        "ANTHEA, ramo refactoring/cls-teso-1016 unito in refactoring/integrazione-1016: d869963d, 46b41550",
+        "X.Calculations/ConcreteCurvatureAnalysis.cs",
+        "X.Calculations/CheckerSection.cs",
+        "X.Desktop/Wpf/ConcreteCurvature.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteEditor.cs",
+        "src/ANTHEA.Application/Presentation/CalculationHelp.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcrete.cs"
       ],
       "segno": "nessuno con l'opzione spenta (predefinita); con l'opzione la risposta delle sezioni poco armate è molto più rigida",
       "effetto_quantificato": {
@@ -7000,7 +7007,8 @@
         "Model/UnitTest/ConcreteTensionStiffeningTest.cs (valori e tangenti da Python indipendente)",
         "Checker/GPCChecker.Test.Concrete/StressAnalysisTensionStiffeningTests.cs",
         "Checker/GPCChecker.Test.CompositeBridge/NonlinearCrackedSlabTests.cs (TensionStiffeningLawIsTheOneOfModel)",
-        "Da completare al rilascio Z: campo «CLS teso nelle risposte» del M–χ in ANTHEA e voce nei parametri del M–χ del report, hash del set e profilo full"
+        "Da completare al rilascio Z: campo «CLS teso nelle risposte» del M–χ in ANTHEA e voce nei parametri del M–χ del report, hash del set e profilo full",
+        "ANTHEA: ConcreteLibraryAdapter.Checks 4d (ClsTesoRisposte.cs) contro attesi/cls_teso_risposte.py (modello a fibre indipendente): MRd e χu entro 0,2 %, punti a 0,3 e 0,6 MRd entro 0,5–1 % (scarti osservati sotto lo 0,05 %), primo snervamento; predefinito uguale a «Trascurato»; punto limite identico; opzione mai presa dalle opzioni SLE; prova negativa. Application.Tests (ConcreteResponseTensionChecks, ConcreteReportCurvatureChecks, ConcreteEditorChecks): round trip, fogli storici, servizio, report. Curve predefinite prima/dopo identiche su 8 casi."
       ],
       "voci_collegate": [
         "BUG-TS-2",
