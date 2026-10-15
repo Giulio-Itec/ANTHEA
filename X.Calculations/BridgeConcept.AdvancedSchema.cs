@@ -28,6 +28,4 @@ public static partial class BridgeConcept
         if (d["alternative_a"] is JsonObject a && a["alternative_a"] is null) d["alternative_a"] = WithAdvancedDefaults(a);
         return d;
     }
-    public static double LegacyReferenceDepth(Family family, double maxSpan, bool continuous) => Math.Max(family.MinDepth,
-        maxSpan / family.Ratio * (HasUpperStructure(family.Id) ? 1 : continuous ? .95 : 1.1));
 }

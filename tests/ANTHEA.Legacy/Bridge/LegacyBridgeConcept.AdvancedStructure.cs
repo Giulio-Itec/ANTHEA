@@ -1,8 +1,11 @@
+// Spostato da X.Calculations/BridgeConcept.AdvancedStructure.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: strutture superiori delle tipologie
+// estese del motore precedente, usate solo dalle prove. Codice storico conservato per le prove, fuori dall'installer.
 using System.Text.Json.Nodes;
+using static Anthea.Calculations.BridgeConcept;
 
 namespace Anthea.Calculations;
 
-public static partial class BridgeConcept
+public static partial class LegacyBridgeConcept
 {
     private sealed record UpperStructure(StructuralLine[] Members, double Steel, double Cables, double Rise, double Tower, double Horizontal);
     private static UpperStructure ExtendedMembers(JsonNode i, JsonNode a, string id, double[] spans, double q)

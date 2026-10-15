@@ -42,25 +42,6 @@ public static partial class BridgeConcept
             ValidateShape(a);
         }
     }
-    private static void Validate(JsonObject data)
-    {
-        ValidateShape(data);
-        foreach (var (key, fields) in new[] { ("input", Site.Concat(Layout).Concat(Section).Concat(AdvancedSection).Concat(Substructure)), ("rates", Rates.AsEnumerable()), ("assumptions", Assumptions.Concat(AdvancedAssumptions)) })
-            foreach (var p in fields)
-            {
-                var n = J.Number(data[key]?[p.Key]);
-                if (n is null || n < p.Min || n > p.Max || p.Unit == "n." && n != Math.Truncate(n.Value))
-                    throw new ArgumentException($"{p.Label}: valore richiesto tra {p.Min} e {p.Max} {p.Unit}.");
-            }
-        var i = data["input"]!;
-        if (!DeckTypes.Contains(i.S("deck_type"))) throw new ArgumentException("Tipo di impalcato non riconosciuto.");
-        if (!Families.Any(f => f.Id == i.S("family"))) throw new ArgumentException("Tipologia impalcato non riconosciuta.");
-        foreach (var (key, choices) in new[] { ("obstacle", Obstacles), ("soil", Soils), ("pier", Piers), ("foundation", Foundations) })
-            if (!choices.Contains(i.S(key))) throw new ArgumentException("Scelta non valida: " + key);
-        foreach (string key in new[] { "continuous", "start_pier", "end_pier", "low_carbon", "recycled" })
-            if (i[key] is not JsonValue v || !v.TryGetValue<bool>(out _)) throw new ArgumentException("Opzione non valida: " + key);
-        if (i.S("obstacle") != "Nessuno" && i.D("obstacle_width") >= i.D("length") - 4) throw new ArgumentException("L'ostacolo deve lasciare almeno 2 m per lato alle estremità del ponte.");
-    }
     public sealed record Quantity(string Group, string Item, double Amount, string Unit, double Rate, double Cost, double Carbon);
     public sealed record Detail(string Name, double Value, string Unit, string Rule);
     public sealed record Station(int Span, double X, double Moment, double Shear, double DeflectionMm)

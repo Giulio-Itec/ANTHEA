@@ -7,11 +7,7 @@ namespace Anthea.Calculations;
 // Archive/UI boundary only. Engineering rules, search and numerical validation belong to GPC.Design.
 public static partial class BridgeConcept
 {
-    public static Result Calculate(JsonObject data, bool legacy = false)
-    {
-        if (legacy && ReadTrafficModel(data) != TrafficModel.LegacyUniform) throw new ArgumentException("Il motore diagnostico precedente non supporta Schema 1.");
-        return legacy ? LegacyCalculate(data) : WithEnvironment(FromNative(NativeBridge.Calculate(NativeInput(data))), data);
-    }
+    public static Result Calculate(JsonObject data) => WithEnvironment(FromNative(NativeBridge.Calculate(NativeInput(data))), data);
     private static Result WithEnvironment(Result result, JsonObject data) => data["environment"] is null ? result
         : result with { EnvironmentRevision = Anthea.Serialization.BridgeEnvironmentData.Revision(WithAdvancedDefaults(data)) };
     public static (double[] Reactions, Station[] Stations) Analyze(double[] spans, double q, double ei, bool continuous)
@@ -19,17 +15,10 @@ public static partial class BridgeConcept
     public static TechnicalItem[] TechnicalSchedule(JsonObject data, Result result) => NativeBridge.TechnicalSchedule(NativeInput(data), ToNative(result)).Select(FromNative).ToArray();
     public static SupportGeometry[] SupportSchedule(JsonObject data, Result result) => NativeBridge.SupportSchedule(NativeInput(data), ToNative(result)).Select(FromNative).ToArray();
     public static SpanGeometry[] SpanSchedule(Result result) => NativeBridge.SpanSchedule(ToNative(result)).Select(FromNative).ToArray();
-    public static double[] OptimizationRange(double min, double max, double step) => NativeBridge.OptimizationRange(min, max, step);
-    public static string[] OptimizationExclusions(JsonObject data, Result result, OptimizationOptions options) => NativeBridge.OptimizationExclusions(NativeInput(data), ToNative(result), ToNative(options));
     public static double ReferenceDepth(Family family, double maxSpan, bool continuous) => NativeBridge.ReferenceDepth(ToNative(family), maxSpan, continuous);
     public static OptimizationResult Optimize(JsonObject source, OptimizationOptions options, CancellationToken cancellation = default,
-        IProgress<OptimizationProgress>? progress = null, bool legacy = false)
+        IProgress<OptimizationProgress>? progress = null)
     {
-        if (legacy)
-        {
-            if (ReadTrafficModel(source) != TrafficModel.LegacyUniform) throw new ArgumentException("Il motore diagnostico precedente non supporta Schema 1.");
-            return LegacyOptimize(source, options, cancellation, progress);
-        }
         var template = (JsonObject)source.DeepClone(); template.Remove("alternative_a");
         // A trial published in progress is the same presentation object in the completed trace.
         var trials = new Dictionary<NativeBridge.OptimizationTrial, OptimizationTrial>(ReferenceEqualityComparer.Instance);
@@ -284,7 +273,7 @@ public static partial class BridgeConcept
     private static Support FromNative(NativeBridge.Support v) => new(v.Index, v.X, v.Type, v.Reaction, v.PierHeight, v.PierSize, v.Columns, v.FootingSize, v.FootingWidth, v.Piles) { MinimumReaction = v.MinimumReaction };
     private static NativeBridge.Support ToNative(Support v) => new(v.Index, v.X, v.Type, v.Reaction, v.PierHeight, v.PierSize, v.Columns, v.FootingSize, v.FootingWidth, v.Piles) { MinimumReaction = v.MinimumReaction };
     private static Result FromNative(NativeBridge.Result v) => new(FromNative(v.Family), v.Width, v.Depth, v.PierDepth, v.Slab, v.Spacing, v.Girders, v.Web, v.Bottom, v.Spans.ToArray(), v.Supports.Select(FromNative).ToArray(), v.Foundation, v.PileDiameter, v.PileLength, v.Concrete, v.Steel, v.Rebar, v.Prestress, v.Inertia, v.DirectCost, v.TotalCost, v.CostLow, v.CostHigh, v.Carbon, v.Duration, v.Quantities.Select(FromNative).ToArray(), v.Details.Select(FromNative).ToArray(), v.Stations.Select(FromNative).ToArray(), v.Warnings.ToArray()) { Advanced = v.Advanced is null ? null : FromNative(v.Advanced), PriceRevision = v.PriceRevision, Traffic = FromTraffic(v.Traffic) };
-    private static NativeBridge.Result ToNative(Result v) => new(ToNative(v.Family), v.Width, v.Depth, v.PierDepth, v.Slab, v.Spacing, v.Girders, v.Web, v.Bottom, v.Spans.ToArray(), v.Supports.Select(ToNative).ToArray(), v.Foundation, v.PileDiameter, v.PileLength, v.Concrete, v.Steel, v.Rebar, v.Prestress, v.Inertia, v.DirectCost, v.TotalCost, v.CostLow, v.CostHigh, v.Carbon, v.Duration, v.Quantities.Select(ToNative).ToArray(), v.Details.Select(ToNative).ToArray(), v.Stations.Select(ToNative).ToArray(), v.Warnings.ToArray()) { Advanced = v.Advanced is null ? null : ToNative(v.Advanced) };
+    internal static NativeBridge.Result ToNative(Result v) => new(ToNative(v.Family), v.Width, v.Depth, v.PierDepth, v.Slab, v.Spacing, v.Girders, v.Web, v.Bottom, v.Spans.ToArray(), v.Supports.Select(ToNative).ToArray(), v.Foundation, v.PileDiameter, v.PileLength, v.Concrete, v.Steel, v.Rebar, v.Prestress, v.Inertia, v.DirectCost, v.TotalCost, v.CostLow, v.CostHigh, v.Carbon, v.Duration, v.Quantities.Select(ToNative).ToArray(), v.Details.Select(ToNative).ToArray(), v.Stations.Select(ToNative).ToArray(), v.Warnings.ToArray()) { Advanced = v.Advanced is null ? null : ToNative(v.Advanced) };
     private static TechnicalItem FromNative(NativeBridge.TechnicalItem v) => new(v.Component, v.Symbol, v.Value, v.Unit, v.Origin, v.Note);
     private static NativeBridge.TechnicalItem ToNative(TechnicalItem v) => new(v.Component, v.Symbol, v.Value, v.Unit, v.Origin, v.Note);
     private static SpanGeometry FromNative(NativeBridge.SpanGeometry v) => new(v.Number, v.Start, v.End, v.Length, v.Elements, v.DevelopedLength);
@@ -297,7 +286,7 @@ public static partial class BridgeConcept
     private static NativeBridge.AdvancedGeometry ToNative(AdvancedGeometry v) => new(v.Orthotropic, v.GlobalBeam, v.MainSpan, v.Rise, v.TowerHeight, v.DeckSteel, v.StructureSteel, v.CableSteel, v.AnchorVolume, v.TowerVolume, v.HorizontalForce, v.Members.Select(ToNative).ToArray(), v.Dimensions.Select(ToNative).ToArray()) { FoundationSchedule = v.FoundationSchedule.Select(ToNative).ToArray() };
     private static OptimizationTrial FromNative(NativeBridge.OptimizationTrial v) => new(v.Iteration, v.Family, v.Spans, v.Depth, v.PileLength, v.Cost, v.Carbon, v.Pier, v.Foundation, v.Continuous, v.Exclusions.ToArray());
     private static NativeBridge.OptimizationTrial ToNative(OptimizationTrial v) => new(v.Iteration, v.Family, v.Spans, v.Depth, v.PileLength, v.Cost, v.Carbon, v.Pier, v.Foundation, v.Continuous, v.Exclusions.ToArray());
-    private static NativeBridge.OptimizationOptions ToNative(OptimizationOptions v) => new()
+    internal static NativeBridge.OptimizationOptions ToNative(OptimizationOptions v) => new()
     {
         Objective = (NativeBridge.OptimizationObjective)v.Objective,
         KeepFamily = v.KeepFamily,

@@ -58,5 +58,4 @@ public static class Homogenization
         }
     }
     public static double ModularRatio(double es, double ec, double phi) => LibraryHomogenization.ModularRatio(es, ec, phi);
-    public static double CreepFromModularRatio(double n, double es, double ec) => LibraryHomogenization.CreepFromModularRatio(n, es, ec);
 }

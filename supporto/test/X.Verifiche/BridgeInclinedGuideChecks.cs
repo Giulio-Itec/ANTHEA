@@ -54,7 +54,7 @@ internal static class BridgeInclinedGuideChecks
                 Near(g.WebSpacingBottom, 1300, 1e-10, "interasse al piede");
                 Near(g.BottomInternalWidth, 1300 - tw / cos, 1e-10, "fondo interno netto");
                 Near(g.BottomOutstandWidth, (1400 - 1300 - tw / cos) / 2, 1e-10, "sbalzo del fondo");
-                Near(BridgeSection.EffectiveWidths(g, _ => -100, 355).Bottom.KSigma, 4, 1e-12, "fondo interno in compressione uniforme");
+                Near(HBridgeSection.EffectiveWidths(g, _ => -100, 355).Bottom.KSigma, 4, 1e-12, "fondo interno in compressione uniforme");
             }
             foreach (int method in new[] { 0, 1, 2 })
             {
