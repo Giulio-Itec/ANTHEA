@@ -39,5 +39,5 @@ public static partial class BridgeSection
             ConcreteLayers = Integer("fibre_cls", 64, 10000), SubstepsPerPhase = Integer("sottopassi", 8, 1000) };
     }
     // Geometry queries never depend on how many load increments have been entered.
-    private static HBridgeInput GeometryInput(JsonObject data) => ToCheckerInput(data) with { Phases = [new BridgePhase()] };
+    internal static HBridgeInput GeometryInput(JsonObject data) => ToCheckerInput(data) with { Phases = [new BridgePhase()] };
 }
