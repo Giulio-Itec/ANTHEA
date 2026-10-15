@@ -238,6 +238,8 @@ public static partial class WallModel
         public List<WallModel.PressureDetail> StemPressureDetails { get; }
         public SeismicBearing? SeismicBearing { get; }
         public string? SeismicBearingError { get; }
+        /// <summary>False in the twin rows «b»: variable surcharge in the thrust only, absent from the heel (MUR-1).</summary>
+        public bool VariableSurchargeOnHeel => Source.VariableSurchargeOnHeel;
         internal LoadCase(global::Anthea.Calculations.RetainingWall.LoadCase source)
         {
             Source = source;

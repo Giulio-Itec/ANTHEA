@@ -85,6 +85,7 @@ public static partial class RetainingWall
             if (string.IsNullOrWhiteSpace(c.S("name")) || !names.Add(c.S("name")) || !States.Contains(c.S("state"))) throw new ArgumentException("Combinazioni: nome univoco e stato limite valido obbligatori.");
             if (c.S("purpose") is not ("" or "Generale" or "Ribaltamento") || c.S("purpose") != "" && c.S("state") != "SISMA") throw new ArgumentException("Destinazione della combinazione sismica non valida.");
             if (c["valley_soil"] is not null && c.Required("valley_soil") > 5) throw new ArgumentException("Coefficiente terreno valle fuori campo.");
+            if (c["heel_surcharge"] is { } heel && (heel is not JsonValue flag || !flag.TryGetValue<bool>(out _))) throw new ArgumentException("Combinazioni: «q var. mensola» deve essere vero o falso.");
             foreach (string key in new[] { "wall", "soil", "water", "mphi", "rslide", "rover", "rbearing", "kh" }) if (c.Required(key, minimum: key is "mphi" or "rslide" or "rover" or "rbearing" ? .1 : 0) > (key == "kh" ? .4 : 5)) throw new ArgumentException("Coefficiente fuori campo: " + key);
             if (J.Number(c["kv"]) is not double kv || Math.Abs(kv) > .2) throw new ArgumentException("kv deve essere compreso fra −0,2 e +0,2.");
             if ((c.D("kh") != 0 || kv != 0) && (c.S("state") != "SISMA" || !d["seismic"].B("enabled"))) throw new ArgumentException("kh/kv ammessi soltanto in combinazioni SISMA con sisma abilitato.");

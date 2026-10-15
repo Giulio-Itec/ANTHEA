@@ -35,6 +35,8 @@ public static partial class RetainingWall
         notes.Add(SoilHelp); notes.Add(FrictionHelp);
         notes.Add("Passiva applicata al piano verticale esterno a valle e limitata alla spinta motrice; nessuna maggiorazione favorevole γG>1. Diagrammi del fusto: equilibrio della sezione con terreno sul paramento inclinato e attrito di monte. Ricoprimento q′ di valle usato con iq=(1−|H|/V)²; nessuna maggiorazione di profondità.");
         if (modern) { notes.Add(ApproachHelp); notes.Add("Azioni indipendenti con ψ propri e gruppi correlati. Matrice " + d.S("combination_mode") + ": fanno fede i coefficienti salvati in ogni riga. Urto: forza statica equivalente assegnata per metro; eventi eccezionali separati, ψ₂ delle variabili e γR=1 nel preset. Resistenze del materiale conservate cautelativamente ai valori ordinari."); }
+        if (modern && d.S("combination_mode") != "Automatiche" && MissingHeelTwins(input, rows.Select(r => r.Combination)) is { Length: > 0 } missing)
+            notes.Add("Matrice personalizzata: " + string.Join(", ", missing.Take(5)) + (missing.Length > 5 ? $" e altre {missing.Length - 5}" : "") + " con il sovraccarico variabile anche sulla mensola a monte e senza la gemella che lo esclude (colonna «q var. mensola» non spuntata): la disposizione con γQ = 0 sulla parte favorevole (NTC 2018 Tab. 2.6.I) non è verificata. Rigenerare le combinazioni automatiche o aggiungere le righe «b».");
         if (wood) notes.Add(SeismicHelp);
         if (water) notes.Add("Sottospinta lineare fra i battenti a valle e a monte, senza riduzioni da drenaggi. Peso saturo totale sopra la mensola; pressione efficace nel terreno. Per la portanza si adotta cautelativamente γ′ su tutta la zona di rottura.");
         if (d["seismic"].B("enabled"))
@@ -57,6 +59,20 @@ public static partial class RetainingWall
             catch (ArgumentException ex) { globalError = ex.Message; checks.Add(new("Stabilità globale · Bishop", "Globale", 0, null, "−", null, "Dati da correggere: " + ex.Message)); }
         }
         return new(d, wall.Width / Mm, area, area, steel, cases, checks, structural, notes) { GlobalStability = global, GlobalError = globalError, Serviceability = service, Detailing = detailing };
+    }
+    /// <summary>
+    /// The enabled ULS rows of a matrix with a variable uniform surcharge also on the heel (MUR-1) whose twin without it is missing: same state,
+    /// factors and coefficients with <see cref="WallCombination.VariableSurchargeOnHeel"/> false. Only with a heel; no calculation.
+    /// </summary>
+    static string[] MissingHeelTwins(WallInput input, IEnumerable<WallCombination> rows)
+    {
+        if (!(input.Geometry.Heel > 0)) return [];
+        var surcharges = input.Actions.Where(a => a.Enabled && a.Type == WallActionType.UniformSurcharge && a.Category == WallActionCategory.Q).Select(a => a.Id).ToArray();
+        var ultimate = rows.Where(c => c.State == WallLimitState.Ultimate).ToArray();
+        string Key(WallCombination c) => string.Join("|", new[] { c.Wall, c.Soil, c.ValleySoil, c.Water, c.FrictionFactor, c.SlidingFactor, c.OverturningFactor, c.BearingFactor, c.PassiveFactor }
+            .Concat(input.Actions.Select(a => c.Coefficients.TryGetValue(a.Id, out double f) ? f : 0)).Select(v => v.ToString("R", System.Globalization.CultureInfo.InvariantCulture)));
+        var twins = ultimate.Where(c => !c.VariableSurchargeOnHeel).Select(Key).ToHashSet();
+        return ultimate.Where(c => c.VariableSurchargeOnHeel && surcharges.Any(id => c.Coefficients.TryGetValue(id, out double f) && f > 0) && !twins.Contains(Key(c))).Select(c => c.Name).ToArray();
     }
     public static Check CheckValue(string name, string combo, double demand, double? resistance, string unit, string unavailable = "Non disponibile")
     {

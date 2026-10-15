@@ -33,7 +33,19 @@ try
     double heelPressure = c.Contact.Toe + slope * 1.1 - 10 - 54 - 10;
     Near(c.Sections.Single(s => s.Name == "Monte" && s.Position == 1.9).M, heelPressure * 1.9 * 1.9 / 2 + slope * 1.9 * 1.9 * 1.9 / 3, "Momento mensola a monte da integrazione indipendente");
     Near(result.Area, 2.1, "Area muro via GPC");
-    Check(result.Cases.Count == 11, "Otto SLU e tre SLE");
+    // MUR-1: ogni SLU con il sovraccarico (γQ = 1,5) di un muro con mensola a monte ha la gemella «b» senza il sovraccarico variabile sulla
+    // mensola: 8 SLU, 4 gemelle (le righe con γQ = 1,5) e 3 SLE.
+    Check(result.Cases.Count == 15 && result.Cases.Count(x => !x.VariableSurchargeOnHeel) == 4, "Otto SLU, quattro gemelle «b» e tre SLE");
+    {
+        // SLU 2: γG = 1, γQ = 1,5. La gemella SLU 2b conserva la spinta; sulla mensola manca 1,5 · q · b = 1,5 · 10 · 1,9 = 28,5 kN/m, con il
+        // braccio dal piede a + s + b/2 = 0,8 + 0,3 + 0,95 = 2,05 m (calcolo a mano).
+        var main = result.Cases.Single(x => x.Name == "SLU 2"); var twin = result.Cases.Single(x => x.Name == "SLU 2b");
+        Check(main.VariableSurchargeOnHeel && !twin.VariableSurchargeOnHeel && twin.LiveFactor == 1.5, "MUR-1: gemella della SLU con il sovraccarico");
+        Near(twin.Horizontal, main.Horizontal, "MUR-1: la gemella conserva la spinta K·γQ·q");
+        Near(main.Vertical - twin.Vertical, 1.5 * 10 * 1.9, "MUR-1: sovraccarico variabile assente sulla mensola");
+        Near(main.Stabilizing - twin.Stabilizing, 1.5 * 10 * 1.9 * 2.05, "MUR-1: momento stabilizzante del sovraccarico sulla mensola");
+        Check(result.Checks.Count(x => x.Combination == "SLU 2b") == result.Checks.Count(x => x.Combination == "SLU 2"), "MUR-1: la gemella entra in tutte le verifiche geotecniche");
+    }
     double phi = 34 * Math.PI / 180, nqf = Math.Exp(Math.PI * Math.Tan(phi)) * Math.Pow(Math.Tan(Math.PI / 4 + phi / 2), 2);
     Near(c.BearingResistance!.Value, .5 * 19 * c.EffectiveWidth * c.EffectiveWidth * 2 * (nqf - 1) * Math.Tan(phi) * Math.Pow(1 - c.Horizontal / c.Vertical, 3), "Portanza drenata con riduzione per inclinazione");
     Near(result.Cases.First(r => r.State == "SLU").SlidingResistance, result.Cases.First(r => r.State == "SLU").Vertical * Math.Tan(26 * Math.PI / 180) / 1.1, "Coefficiente R3 scorrimento");

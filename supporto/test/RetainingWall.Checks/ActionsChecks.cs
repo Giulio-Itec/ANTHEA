@@ -11,6 +11,7 @@ internal static class ActionsChecks
         void Check(bool value, string name) { if (!value) throw new Exception(name); log.Add("OK " + name); }
         void Near(double a, double b, string name, double tol = 1e-7) => Check(Math.Abs(a - b) <= tol * Math.Max(1, Math.Abs(b)), name);
         void Reject(JsonObject d, string name) { try { RetainingWall.Calculate(d); } catch (ArgumentException) { Check(true, name); return; } throw new Exception("Accettato: " + name); }
+        static bool WallModelRow(JsonNode? row) => RetainingWall.HeelSurcharge(row);
         JsonObject Single(JsonObject d, string state = "SLE")
         {
             var c = (JsonObject)RetainingWall.GenerateCombinations(d).OfType<JsonObject>().First(x => x.S("state") == state).DeepClone();
@@ -27,7 +28,10 @@ internal static class ActionsChecks
             var d = RetainingWall.Example("gravity"); var q1 = d.Array("actions")[0]!; q1["group"] = ""; q1["psi0"] = .6;
             var q2 = RetainingWall.NewAction(d); q2["value"] = 20; q2["psi0"] = .8; q2["psi1"] = .6; d.Array("actions").Add(q2);
             var combinations = RetainingWall.GenerateCombinations(d);
-            Check(combinations.Count(c => c.S("state") == "SLU") == 20, "Due variabili: alternanza principali e omissione favorevoli");
+            // MUR-1: 20 righe SLU (2 γG muro × 2 γG terra × 5 disposizioni delle variabili) e la gemella «b» di ognuna delle 16 con un sovraccarico
+            // variabile presente (4 disposizioni su 5), perché la mensola a monte del muro a gravità è 0,25 m.
+            Check(combinations.Count(c => c.S("state") == "SLU" && WallModelRow(c)) == 20, "Due variabili: alternanza principali e omissione favorevoli");
+            Check(combinations.Count(c => c.S("state") == "SLU" && !WallModelRow(c) && c.S("name").EndsWith("b")) == 16, "MUR-1: gemelle «b» delle SLU con il sovraccarico");
             Check(combinations.Count(c => c.S("state") == "SLE") == 2 && combinations.Count(c => c.S("state") == "SLE_FREQ") == 2, "SLE alterna la variabile principale");
             Check(combinations.Any(c => c.S("state") == "SLU" && c!["coefficients"].D(q1.S("id")) == 1.5 && Math.Abs(c!["coefficients"].D(q2.S("id")) - 1.2) < 1e-9), "ψ₀ specifico della seconda azione");
             Check(combinations.Any(c => c.S("state") == "SLU" && Math.Abs(c!["coefficients"].D(q1.S("id")) - .9) < 1e-9 && c!["coefficients"].D(q2.S("id")) == 1.5), "ψ₀ specifico della prima azione");

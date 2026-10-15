@@ -35,7 +35,7 @@ internal sealed partial class RetainingWallWorkspace
         if (MatrixGrid is not null) grids.Remove(MatrixGrid);
         var fields = new List<Field> { new("enabled", "Usa", Bool: true), new("name", "Combinazione"), new("state", "Stato", Choices: WallModel.States), new("approach", "A / M / R", ReadOnly: true), new("wall", "γ muro"), new("soil", "γ monte"), new("valley_soil", "γ valle"), new("water", "γ acqua") };
         foreach (var (a, i) in Data.Array("actions").Select((a, i) => (a, i))) fields.Add(new("a_" + a.S("id"), $"{i + 1} · {a.S("name")}\nγ × ψ"));
-        fields.AddRange([new("mphi", "γMφ"), new("rslide", "γR\nscorr."), new("rover", "γR\nribalt."), new("rbearing", "γR\nport."), new("kh", "kh"), new("kv", "kv")]);
+        fields.AddRange([new("mphi", "γMφ"), new("rslide", "γR\nscorr."), new("rover", "γR\nribalt."), new("rbearing", "γR\nport."), new("heel_surcharge", "q var.\nmensola", Bool: true), new("kh", "kh"), new("kv", "kv")]);
         if (Data.Array("combinations").Any(c => c.S("purpose") != "")) fields.Add(new("purpose", "Uso sisma", Choices: ["", "Generale", "Ribaltamento"]));
         MatrixGrid = new JsonGrid(fields) { Height = 205, RowHeight = 30, ColumnHeaderHeight = 43, AlternatingRowBackground = Ui.Brush("#F3F6FA") };
         CompactHeaders(MatrixGrid);
@@ -44,6 +44,8 @@ internal sealed partial class RetainingWallWorkspace
         foreach (var c in Data.Array("combinations").OfType<JsonObject>())
         {
             var flat = (JsonObject)c.DeepClone(); flat.Remove("coefficients"); foreach (var a in Data.Array("actions")) flat["a_" + a.S("id")] = c["coefficients"]?[a.S("id")]?.DeepClone();
+            // MUR-1: the rows saved before the flag keep the variable surcharge on the heel (shown checked, stored only when edited).
+            flat["heel_surcharge"] ??= WallModel.HeelSurcharge(c);
             var row = new JsonRow(flat, key =>
             {
                 if (Data.S("combination_mode") == "Automatiche") Data["combination_signature"] = WallModel.CombinationSignature(Data);
@@ -55,7 +57,7 @@ internal sealed partial class RetainingWallWorkspace
         }
         MatrixGrid.SelectionChanged += (_, _) => { if (MatrixGrid.SelectedItem is JsonRow row && Calculation is not null) Combination.SelectedItem = row.Values.S("name"); };
         matrixHost.Content = MatrixGrid;
-        matrixStatus.Text = $"{Data.S("combination_mode")} · {Data.Array("combinations").Count} righe · ogni colonna azione contiene il prodotto γ×ψ. Modificare una cella passa a Personalizzate. Genera ripristina il preset NTC.";
+        matrixStatus.Text = $"{Data.S("combination_mode")} · {Data.Array("combinations").Count} righe · ogni colonna azione contiene il prodotto γ×ψ. «q var. mensola» non spuntato: il sovraccarico variabile resta nella spinta ed è assente sulla mensola (righe «b»). Modificare una cella passa a Personalizzate. Genera ripristina il preset NTC.";
     }
     private void ShowResults()
     {
@@ -125,7 +127,7 @@ internal sealed partial class RetainingWallWorkspace
         grid.SelectionChanged += (_, _) => { var check = grid.SelectedIndex >= 0 ? rows[grid.SelectedIndex] : null; SelectSection(check is { Member: not null, Position: double z } ? (check.Member, z, check.Combination == "Dettagli" ? c.Name : check.Combination) : null); };
         SelectedResultsGrid = grid;
         var factor = c.Factors;
-        var text = Ui.Text($"{c.Name} · {factor.S("approach")} · γMφ={factor.D("mphi", 1):0.##}; γR scorr./ribalt./port.={factor.D("rslide", 1):0.##}/{factor.D("rover", 1):0.##}/{factor.D("rbearing", 1):0.##}" + $"\nRd scorr.={F(c.SlidingResistance)} kN/m · MRd ribalt.={F(c.OverturningResistance)} kNm/m · Rd port.={(c.BearingResistance is double b ? F(b) : "da verificare")} kN/m · U={F(c.Uplift)} kN/m", 12);
+        var text = Ui.Text($"{c.Name}{(c.VariableSurchargeOnHeel ? "" : " · q variabile solo nella spinta, assente sulla mensola")} · {factor.S("approach")} · γMφ={factor.D("mphi", 1):0.##}; γR scorr./ribalt./port.={factor.D("rslide", 1):0.##}/{factor.D("rover", 1):0.##}/{factor.D("rbearing", 1):0.##}" + $"\nRd scorr.={F(c.SlidingResistance)} kN/m · MRd ribalt.={F(c.OverturningResistance)} kNm/m · Rd port.={(c.BearingResistance is double b ? F(b) : "da verificare")} kN/m · U={F(c.Uplift)} kN/m", 12);
         checks.Content = Ui.Stack(text, grid, Ui.Text("Riepilogo: inviluppo delle verifiche locali e della stabilità globale, se attivata. Un controllo non disponibile resta visibile. Per la globale selezionare la vista dedicata e la sua combinazione. Cedimenti da valutare separatamente.", 11, color: Ui.Muted));
     }
     internal static string RebarLabel(JsonObject d, string key) => WallModel.RebarLabel(d, key);

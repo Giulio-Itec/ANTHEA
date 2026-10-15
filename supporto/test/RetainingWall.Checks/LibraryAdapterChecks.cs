@@ -61,12 +61,17 @@ internal static class LibraryAdapterChecks
         Check(true, "Domanda, resistenza, unità, rapporto ed esito delle verifiche geotecniche");
         var generated = RetainingWall.GenerateCombinations(d);
         Check(generated.Count == rows.Count && generated.Zip(rows).All(p => p.First.S("name") == p.Second.Name && p.First.D("wall") == p.Second.Wall && p.First.D("rbearing") == p.Second.BearingFactor
+            && p.First.B("heel_surcharge") == p.Second.VariableSurchargeOnHeel
             && d.Array("actions").All(a => p.First!["coefficients"].D(a.S("id")) == p.Second.Coefficients[a.S("id")])), "Righe automatiche del documento = WallCombinations.Generate");
+        // MUR-1: le gemelle «b» della libreria attraversano la riga del documento con il flag (prima il ritorno da ToRow le rendeva uguali alle principali).
+        Check(rows.Count(c => !c.VariableSurchargeOnHeel) > 0 && result.Cases.Zip(rows).All(p => p.First.VariableSurchargeOnHeel == p.Second.VariableSurchargeOnHeel), "Gemelle «b» della libreria nei casi del documento");
         Check(result.Cases.All(c => c.Factors is not null && c.LiveFactor == 1 && c.Actions.Count == 4), "Documento versione 2: righe e azioni nei casi");
 
         // 3. Version 1: the fixed cases on the three loads.
         var legacy = RetainingWall.Calculate(RetainingWall.LegacyDefaults());
-        Check(legacy.Cases.Select(c => c.Name).SequenceEqual(new[] { "Caratteristica", "Frequente", "Quasi permanente" }.Concat(Enumerable.Range(1, 8).Select(i => "SLU " + i))), "Versione 1: tre SLE e otto SLU");
+        // MUR-1: nei fattori fissi γQ vale 0 nelle SLU dispari e 1,5 nelle pari; ogni SLU pari è seguita dalla gemella «b» (mensola 1,8 m).
+        Check(legacy.Cases.Select(c => c.Name).SequenceEqual(new[] { "Caratteristica", "Frequente", "Quasi permanente" }.Concat(Enumerable.Range(1, 8).SelectMany(i => i % 2 == 0 ? new[] { "SLU " + i, "SLU " + i + "b" } : new[] { "SLU " + i }))), "Versione 1: tre SLE, otto SLU e quattro gemelle «b»");
+        Check(legacy.Cases.All(c => c.VariableSurchargeOnHeel != c.Name.EndsWith("b")), "Versione 1: gemelle senza il sovraccarico variabile sulla mensola");
         Same(legacy.Cases[1].LiveFactor, .5, "Versione 1: ψ1 sul carico frequente"); Same(legacy.Cases[2].LiveFactor, .3, "Versione 1: ψ2 quasi permanente");
         Check(legacy.Cases.All(c => c.Factors is null && c.Actions.Count == 0), "Versione 1: nessuna riga e nessuna azione esposta, come prima");
         var slu = legacy.Cases.First(c => c.State == "SLU");
