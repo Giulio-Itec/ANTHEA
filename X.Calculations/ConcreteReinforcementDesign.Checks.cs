@@ -11,7 +11,7 @@ public static partial class ConcreteReinforcementDesign
         var check=GPC.Design.Sections.SectionDesignCheck.FromRatio(key,Targets.Single(t=>t.Key==key).Name,combination,value,o.Target(key),detail);
         checks.Add(DisplayCheck(check with {Detail=detail+(check.Ratio.HasValue?"":" · Esito numerico mancante: proposta esclusa.")}));
     }
-    private static IReadOnlyList<ConcreteDesignCheck> LongitudinalChecks(JsonObject input, JsonObject workspace,
+    internal static IReadOnlyList<ConcreteDesignCheck> LongitudinalChecks(JsonObject input, JsonObject workspace,
         Dictionary<string, JsonObject[]> rows, bool torsion, ConcreteDesignOptions options, CancellationToken token)
     {
         var checks = new List<ConcreteDesignCheck>();
@@ -91,7 +91,7 @@ public static partial class ConcreteReinforcementDesign
         return checks;
     }
 
-    private static void AnchorageChecks(JsonObject input, JsonObject workspace, ConcreteDesignOptions options, List<ConcreteDesignCheck> checks)
+    internal static void AnchorageChecks(JsonObject input, JsonObject workspace, ConcreteDesignOptions options, List<ConcreteDesignCheck> checks)
     {
         var anchor = workspace["ancoraggi"]!.AsObject();
         bool available = !string.IsNullOrWhiteSpace(anchor.S("lunghezza"));
@@ -121,37 +121,14 @@ public static partial class ConcreteReinforcementDesign
         }
     }
 
-    private static void CheckTorsionDistribution(SezioneCA section, TorsionResult torsion, ConcreteDesignOptions options,
+    internal static void CheckTorsionDistribution(SezioneCA section, TorsionResult torsion, ConcreteDesignOptions options,
         List<ConcreteDesignCheck> checks, string combination)
         => CheckTorsionDistributionNative(section, torsion, options, checks, combination);
 
-    public static ConcreteDesignMetrics Metrics(SezioneCA section, JsonObject shear, JsonObject detailing, ConcreteDesignOptions options, bool legacy = false)
-    {
-        if (!legacy) return MetricsNative(section, shear, detailing, options);
-        var input = section.Input; var diameters = section.Bars.Select(b => b.Diametro).ToList();
-        double weight = 0, pieces = section.Bars.Count;
-        if (input.S("staffe_presenti", "Sì") == "Sì")
-        {
-            double phi = input.Required("transverse_bar_diameter_mm", strict: true), spacing = input.Required("transverse_spacing_mm", strict: true);
-            double c = input.D("cover_mm") + phi / 2, width = section.Width - 2 * c, height = section.Height - 2 * c;
-            double extra = section.Shape == "Circolare" ? shear.D("rami_interni") : Math.Max(0, shear.D("rami_x", 2) - 2) + Math.Max(0, shear.D("rami_y", 2) - 2);
-            double length = section.Shape == "Circolare" ? Math.PI * width + extra * width : 2 * (width + height) + Math.Max(0, shear.D("rami_x", 2) - 2) * width + Math.Max(0, shear.D("rami_y", 2) - 2) * height;
-            length += options.HookAllowance * phi * (1 + extra);
-            if (length <= 0) throw new ArgumentException("Sviluppo staffe incompatibile con il copriferro.");
-            weight = Math.PI * phi * phi / 4 * length / spacing * .00785;
-            pieces += (1 + extra) * 1000 / spacing; diameters.Add(phi);
-        }
-        if (detailing.S("elemento") is "Soletta piena" or "Parete")
-        {
-            double span = detailing.S("elemento") == "Parete" ? Math.Max(section.Width, section.Height) : section.Width;
-            weight += detailing.D("as_secondaria") * span / 1000 * .00785;
-            if (detailing.D("passo_secondaria") > 0) pieces += 2000 / detailing.D("passo_secondaria");
-            if (detailing.D("diametro_secondaria") > 0) diameters.Add(detailing.D("diametro_secondaria"));
-        }
-        return new(section.AreaSteel, section.AreaSteel * .00785, weight, section.Bars.Count, diameters.Distinct().Count(), pieces);
-    }
+    public static ConcreteDesignMetrics Metrics(SezioneCA section, JsonObject shear, JsonObject detailing, ConcreteDesignOptions options)
+        => MetricsNative(section, shear, detailing, options);
 
-    private static void SelectSecondary(SezioneCA section, JsonObject shear, JsonObject detailing,
+    internal static void SelectSecondary(SezioneCA section, JsonObject shear, JsonObject detailing,
         IReadOnlyList<DetailingCheck> checks, ConcreteDesignOptions options)
         => SelectSecondaryNative(section, shear, detailing, checks, options);
 }

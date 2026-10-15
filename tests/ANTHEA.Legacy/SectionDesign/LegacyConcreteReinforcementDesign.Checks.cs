@@ -1,11 +1,10 @@
-// Spostato da X.Calculations/ConcreteReinforcementDesign.Checks.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: rami legacy mai
-// raggiungibili di AddRatio, CheckTorsionDistribution e SelectSecondary (H2). Codice storico conservato per le prove, fuori dall'installer.
+// Spostato da X.Calculations/ConcreteReinforcementDesign.Checks.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: ramo legacy di
+// Metrics (H1) e rami legacy mai raggiungibili di AddRatio, CheckTorsionDistribution e SelectSecondary (H2). Codice storico conservato
+// per le prove, fuori dall'installer.
 using System.Text.Json.Nodes;
 
 namespace Anthea.Calculations;
 
-/// <summary>Parti storiche di <see cref="ConcreteReinforcementDesign"/> (classe partial: nome nuovo, corpi invariati). Le chiamate che nel
-/// prodotto andavano ai rami nativi (senza <c>legacy</c>) restano qualificate con <see cref="ConcreteReinforcementDesign"/>.</summary>
 public static partial class LegacyConcreteReinforcementDesign
 {
     /// <summary>Ramo legacy di ConcreteReinforcementDesign.AddRatio: nessun chiamante passava <c>legacy: true</c>.</summary>
@@ -32,6 +31,32 @@ public static partial class LegacyConcreteReinforcementDesign
         }
         ConcreteReinforcementDesign.AddRatio(checks, "torsione", combination + " · distribuzione longitudinale", worst, options,
             "As,T ripartita per lunghezza tributaria fra barre consecutive sul perimetro; verifica della quota riservata su ciascuna barra.");
+    }
+
+    /// <summary>Ramo legacy di ConcreteReinforcementDesign.Metrics (prima con <c>legacy: true</c>).</summary>
+    public static ConcreteDesignMetrics Metrics(SezioneCA section, JsonObject shear, JsonObject detailing, ConcreteDesignOptions options)
+    {
+        var input = section.Input; var diameters = section.Bars.Select(b => b.Diametro).ToList();
+        double weight = 0, pieces = section.Bars.Count;
+        if (input.S("staffe_presenti", "Sì") == "Sì")
+        {
+            double phi = input.Required("transverse_bar_diameter_mm", strict: true), spacing = input.Required("transverse_spacing_mm", strict: true);
+            double c = input.D("cover_mm") + phi / 2, width = section.Width - 2 * c, height = section.Height - 2 * c;
+            double extra = section.Shape == "Circolare" ? shear.D("rami_interni") : Math.Max(0, shear.D("rami_x", 2) - 2) + Math.Max(0, shear.D("rami_y", 2) - 2);
+            double length = section.Shape == "Circolare" ? Math.PI * width + extra * width : 2 * (width + height) + Math.Max(0, shear.D("rami_x", 2) - 2) * width + Math.Max(0, shear.D("rami_y", 2) - 2) * height;
+            length += options.HookAllowance * phi * (1 + extra);
+            if (length <= 0) throw new ArgumentException("Sviluppo staffe incompatibile con il copriferro.");
+            weight = Math.PI * phi * phi / 4 * length / spacing * .00785;
+            pieces += (1 + extra) * 1000 / spacing; diameters.Add(phi);
+        }
+        if (detailing.S("elemento") is "Soletta piena" or "Parete")
+        {
+            double span = detailing.S("elemento") == "Parete" ? Math.Max(section.Width, section.Height) : section.Width;
+            weight += detailing.D("as_secondaria") * span / 1000 * .00785;
+            if (detailing.D("passo_secondaria") > 0) pieces += 2000 / detailing.D("passo_secondaria");
+            if (detailing.D("diametro_secondaria") > 0) diameters.Add(detailing.D("diametro_secondaria"));
+        }
+        return new(section.AreaSteel, section.AreaSteel * .00785, weight, section.Bars.Count, diameters.Distinct().Count(), pieces);
     }
 
     /// <summary>Ramo legacy di ConcreteReinforcementDesign.SelectSecondary: nessun chiamante passava <c>legacy: true</c>.</summary>
