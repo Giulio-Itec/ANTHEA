@@ -22,6 +22,30 @@ Inventario in sola lettura di piano, decisioni, registro e micro-piani (`support
 Le due modifiche della libreria vanno in un solo set di `lib/Checker` con le correzioni che usciranno dall'analisi
 dei bug, per fare un solo full a schermo.
 
+**Attuazione (15/10 pomeriggio).**
+- **Checker**, ramo `anthea-f2-residui` da master `26cef01a`, non pubblicato:
+  - `3b48eca4` aggiunge tre opzioni di `SectionCrackOptions`, spente per default: `ModelCode2010BondStages`, `DinKtByDuration` e
+    `UnreinforcedTensileZoneFails`. Il default resta quello di prima, quindi il contratto K0 di ModelChecker e le fixture congelate non
+    cambiano;
+  - attesi indipendenti in frazioni esatte per MC2010 (due stadi e due durate), DIN e il limite senza barre aderenti;
+  - 94 prove di fessurazione, SLE, muri e ModelChecker superate;
+  - versioni del candidato: Concrete 0.10.0.0 (`a7247664`) e versioni di correzione per le DLL ricompilate (`6f15f185`).
+- **ANTHEA**:
+  - l'adattatore SLE attiva le tre opzioni;
+  - la mappatura traduce i due codici nuovi (σsr, τbms/fctm) e lo stadio, e scrive «non soddisfatta: zona tesa senza armatura, apertura
+    delle fessure non controllata»;
+  - le prove di equivalenza con il motore storico girano con le regole precedenti (aggancio di sola prova `PreviousCrackRules`, D3).
+- **Prova 5n**, regole nuove contro regole precedenti sugli stessi 936 stati e sugli stati mirati: cambiano solo
+  - MC2010, 31 stati: wk minore a lunga durata, più due voci di traccia a breve durata;
+  - DIN a breve durata, 4 stati, con wk mai maggiore;
+  - zona tesa senza armatura, 35 stati, che passano da «senza esito» a «non soddisfatta» senza altre differenze.
+
+  Gli altri 866 stati sono identici.
+- **Conseguenza da confermare.** Dei 35 stati della zona tesa, 33 sono sezioni cave con le pareti interne tese e senza barre vicino al
+  foro, armate solo sul contorno esterno. Oggi la libreria tratta così anche la superficie interna, e l'ho allineata alla stessa regola. La
+  verifica, che prima restava sospesa, ora è non soddisfatta. Alternativa: limitare la regola alla zona tesa esterna e lasciare le superfici
+  interne senza esito.
+
 ## Prova nuova: corsa baseline contro B4
 
 `supporto/artefatti/ci/20261015-124031-f2res-b4` (worktree, `7cb08295`), profilo baseline con `-BaselineRef
@@ -53,11 +77,14 @@ Scelte del coordinatore del 7–12/10, mai ratificate. **Proposta: ratificare tu
 | A7 e T1 | I commit dedicati delle tolleranze sono sostituiti dalle regole `api_arrotondamento` di `1b3c38f1` (relative 1e-12, più strette di quelle previste). |
 | D7 / B4 | La B4 attuale (17 documenti, catturata con i due motori dopo l'interruttore) sostituisce il corpus SLE del micro-piano; con la corsa di oggi. |
 
-**Da guardare (D4).** Nei muri la fessurazione è «Non fessurata» se la tensione della sezione non fessurata è al
-più fctk,0,05 (`RetainingWall.Library.Structures.cs:90`): usa la resistenza a trazione del calcestruzzo, come nel
-legacy. I muri hanno armatura su entrambe le facce e la soglia fctk,0,05 è più prudente di fctm/1,2 (formazione delle
-fessure NTC) e di fctm (EN 1992-1-1 §7.1(2)). **Proposta: tenerla e dichiararla nella guida.** Alternativa: calcolare
-sempre wk anche nei muri.
+**Da decidere (D4, muri).** La regola dei muri scatta proprio nel caso deciso oggi per le sezioni: la faccia tesa
+del fusto o della fondazione senza barre («Nessuna armatura tesa»). Lì il muro usa la resistenza a trazione del
+calcestruzzo: se la tensione della sezione non fessurata è al più fctk,0,05 dichiara «Non fessurata», wk = 0;
+altrimenti la verifica resta senza esito, con valore 0 e senza limite (`GPCChecker.Concrete/Walls/WallSectionSession.cs:204-208`,
+`RetainingWall.Library.Structures.cs:90`). Con le armature su entrambe le facce il caso non si presenta; nel corpus
+non c'è. **Proposta: allineare i muri alla decisione delle sezioni**: faccia tesa senza barre → verifica non
+soddisfatta, senza la prova con fctk,0,05. Alternativa: tenere la prova con fctk,0,05 e rendere non soddisfatta solo
+la verifica oggi senza esito.
 
 ## E2. Traccia del calcolo a taglio NTC nei report (F2-2)
 

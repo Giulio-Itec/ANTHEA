@@ -1429,7 +1429,7 @@
       "titolo": "MC2010, fessurazione stabilizzata a lunga durata: τbms = 1,35 fctm e β = 0,4",
       "famiglia": "calcestruzzo/fessurazione",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "attuato",
       "descrizione": "Il profilo fib Model Code 2010 usa τbms/fctm = 1,8 a breve durata e 1,35 a lunga durata, con βmin = 1 − kt. La Tab. 7.6-2 dà τbms = 1,8 fctm nella fessurazione stabilizzata a ogni durata (β 0,6 breve, 0,4 lunga); 1,35 fctm vale solo nella formazione della singola fessura a lunga durata, con β = 0,6. Il profilo MC2010 non ha regole per barre distanziate; il limite 1,3 (h − x) senza barre aderenti non ha base nel Model Code.",
       "riferimento_normativo": [
         {
@@ -1458,14 +1458,35 @@
       "fase": "F2.3",
       "test": [
         "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs (righe MC2010 delle fixture)"
-      ]
+      ],
+      "decisione_15_10": {
+        "data": "2026-10-15",
+        "utente": "«Correggi su fonti secondarie» (alla domanda: testi delle norme non disponibili)",
+        "esito": "corretto senza il testo originale della Tab. 7.6-2, certezza dichiarata «probabile»"
+      },
+      "attuazione": {
+        "data": "2026-10-15",
+        "codice": [
+          "Checker, ramo anthea-f2-residui (3b48eca4, versioni del candidato a7247664 e 6f15f185), non pubblicato: SectionCrackOptions.ModelCode2010BondStages (falso per default) in CrackWidthCalculator.Width e UnbondedUpperBound",
+          "X.Calculations/ConcreteServiceabilityAdapter.cs: Options attiva l'opzione nel prodotto",
+          "X.Calculations/ConcreteLibraryMapping.Serviceability.cs: σsr, τbms/fctm e stadio tradotti"
+        ],
+        "regola": "σsr = fctm/ρ (1 + αe ρ) sceglie lo stadio: fessurazione stabilizzata (σs ≥ σsr) con τbms = 1,8 fctm, β = 0,6 breve e 0,4 lunga, εsm − εcm = (σs − β σsr)/Es; formazione della singola fessura (σs < σsr) con β = 0,6, τbms = 1,8 fctm breve e 1,35 fctm lunga, εsm − εcm = (1 − β) σs/Es; senza barre aderenti il limite superiore usa la formazione (βmin = 0,4) con sr,max = 1,3 (h − x) preso da EN 1992-1-1 7.3.4(3), come prima. Ritiro (ηr εsh) non considerato.",
+        "effetto": "a lunga durata wk diminuisce: −21 % (fessurazione stabilizzata) e −33 % (formazione) negli esempi delle prove, −22 % e −33 % negli esempi della ricerca; a breve durata invariato salvo l'arrotondamento",
+        "prove": [
+          "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs: ModelCode2010StagesFollowTable762, DinKtFollowsTheDuration, UnreinforcedTensileZoneFailsWithTheOption (attesi indipendenti in frazioni esatte, scratch attesi_r1_r2.py); 94 prove di fessurazione, SLE, muri e ModelChecker superate, contratto K0 invariato",
+          "tests/ConcreteLibraryAdapter.Checks, prova 5n: regole del prodotto contro le regole precedenti della libreria sugli stessi stati (936 della griglia e stati mirati): MC2010 31 stati cambiati, DIN breve durata 4, zona tesa senza armatura 35, 866 invariati; 5c (equivalenza con il motore storico) con le regole precedenti, PASS",
+          "cattura headless del corpus invariata con le regole nuove: corsa 20261015-151550-f2res-regole (librerie candidate) contro la cattura 20261015-124031-f2res-b4, solo tempi volatili e manifest; il corpus non ha stati MC2010, DIN a breve durata o zone tese senza armatura. Banco c.a. contro le fixture di Checker con --regole-fessurazione precedenti: PASS (corsa 20261015-f2res-banco)"
+        ],
+        "da_completare": "rilascio di lib/Checker con le correzioni dell'analisi dei bug, guida teorica e pagina del metodo ca.fessurazione, full"
+      }
     },
     {
       "id": "R2",
       "titolo": "DIN EN 1992-1-1/NA: kt = 0,4 per ogni durata",
       "famiglia": "calcestruzzo/fessurazione",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "attuato",
       "descrizione": "Il profilo DIN usa kt = 0,4 anche a breve durata (valore fisso della DIN 1045-1, eq. 136). Il NA conserva kt = 0,6 breve / 0,4 lunga come la EN; la bozza 2010-02 contiene una NCI «di regola kt = 0,4» la cui presenza nel testo finale è incerta. sr,max del profilo DIN (k1 k2 = 1, k3 = 0, k4 = 1/3,6, tetto σs φ/(3,6 fct,eff)) è corretto.",
       "riferimento_normativo": [
         {
@@ -1489,7 +1510,27 @@
         "esito": "da correggere"
       },
       "data": "2026-10-07",
-      "fase": "F2.3"
+      "fase": "F2.3",
+      "decisione_15_10": {
+        "data": "2026-10-15",
+        "utente": "«Correggi su fonti secondarie» (alla domanda: testi delle norme non disponibili)",
+        "esito": "corretto senza il testo del NA DIN 2013, certezza dichiarata «probabile»"
+      },
+      "attuazione": {
+        "data": "2026-10-15",
+        "codice": [
+          "Checker, ramo anthea-f2-residui (3b48eca4, versioni del candidato a7247664 e 6f15f185), non pubblicato: SectionCrackOptions.DinKtByDuration (falso per default) in CrackWidthCalculator.Width",
+          "X.Calculations/ConcreteServiceabilityAdapter.cs: Options attiva l'opzione nel prodotto"
+        ],
+        "regola": "kt = 0,6 a breve e 0,4 a lunga durata, come EN 1992-1-1 7.3.4(2), invece di 0,4 per ogni durata (DIN 1045-1)",
+        "effetto": "a breve durata wk uguale o minore (il minimo 0,6 σs/Es non cambia); a lunga durata invariato",
+        "prove": [
+          "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs: ModelCode2010StagesFollowTable762, DinKtFollowsTheDuration, UnreinforcedTensileZoneFailsWithTheOption (attesi indipendenti in frazioni esatte, scratch attesi_r1_r2.py); 94 prove di fessurazione, SLE, muri e ModelChecker superate, contratto K0 invariato",
+          "tests/ConcreteLibraryAdapter.Checks, prova 5n: regole del prodotto contro le regole precedenti della libreria sugli stessi stati (936 della griglia e stati mirati): MC2010 31 stati cambiati, DIN breve durata 4, zona tesa senza armatura 35, 866 invariati; 5c (equivalenza con il motore storico) con le regole precedenti, PASS",
+          "cattura headless del corpus invariata con le regole nuove: corsa 20261015-151550-f2res-regole (librerie candidate) contro la cattura 20261015-124031-f2res-b4, solo tempi volatili e manifest; il corpus non ha stati MC2010, DIN a breve durata o zone tese senza armatura. Banco c.a. contro le fixture di Checker con --regole-fessurazione precedenti: PASS (corsa 20261015-f2res-banco)"
+        ],
+        "da_completare": "rilascio di lib/Checker con le correzioni dell'analisi dei bug, guida teorica e pagina del metodo ca.fessurazione, full"
+      }
     },
     {
       "id": "R3",
@@ -2374,7 +2415,8 @@
         "ConcreteLibraryAdapter.Checks PASS (14/10): stati mirati «nessuna armatura tesa, armature libere» e «faccia senza armatura, armature libere» sulla R300x500 con le sole barre inferiori, uscita e testo uguali fra libreria e legacy"
       ],
       "data": "2026-10-14",
-      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita nell'audit del 14/10"
+      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita nell'audit del 14/10",
+      "nota_15_10": "Punto 3 deciso dall'utente il 15/10/2026 e attuato nella voce F2-25: la zona tesa senza armatura dà la verifica non soddisfatta; l'asse neutro nel copriferro resta wk = 0."
     },
     {
       "id": "F2-8",
@@ -4204,6 +4246,34 @@
         "supporto/artefatti/ci/20261012-224554-reologia-finale-vista",
         "supporto/artefatti/guide_anthea_itec_rev37"
       ]
+    },
+    {
+      "id": "F2-25",
+      "data": "2026-10-15",
+      "fase": "residui di F2, F2-7 punto 3",
+      "titolo": "Zona tesa senza armatura: verifica a fessurazione non soddisfatta invece che senza esito",
+      "famiglia": "calcestruzzo/sle-fessurazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Prima la libreria e il legacy fermavano la verifica senza esito («Nessuna armatura tesa», «⟨faccia⟩: area o armatura efficace assente», «superficie del foro tesa senza armatura efficace»). Ora, con SectionCrackOptions.UnreinforcedTensileZoneFails attivo nel prodotto, la verifica è non soddisfatta (Passed = false, stesso esito, nessuna ampiezza) e lo stato aggiunge «non soddisfatta: zona tesa senza armatura, apertura delle fessure non controllata». Tre casi: nessuna barra tesa e la barra più vicina al lembo teso oltre h/2; faccia di una sezione interamente tesa con calcestruzzo ma senza barre nella sua fascia; superficie interna di una sezione cava tesa senza armatura efficace. Il calcestruzzo teso non entra: nessuna prova di sezione non fessurata. Resta wk = 0 con l'asse neutro nel copriferro di una faccia armata (barra più vicina entro h/2).",
+      "decisione": {
+        "data": "2026-10-15",
+        "utente": "«Non soddisfatta», sull'esempio della R300x500 armata solo in basso con N = 500 kN di compressione ed e = 160 mm (zona tesa di circa 20 cm senza barre); prima: «se asse neutro nel copriferro e non ci sono armature tese e l'area che dovrebbe creare la zona fessurata è zero la sezione non fessura»; alla proposta con fctm/1,2: «dovrebbe reagire a trazione il cls???»",
+        "esito": "attuata; l'estensione alle superfici interne delle sezioni cave è dell'agente, da confermare (f2-residui-decisioni.md)"
+      },
+      "codice": [
+        "Checker, ramo anthea-f2-residui (3b48eca4, versioni del candidato a7247664 e 6f15f185), non pubblicato: SectionCrackOptions.UnreinforcedTensileZoneFails (falso per default) in SectionCrackCheck",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs: Options attiva l'opzione nel prodotto",
+        "X.Calculations/ConcreteLibraryMapping.Serviceability.cs: StopStatus e superfici interne, UnreinforcedTensileZoneFailure",
+        "tests/ANTHEA.Legacy/Serviceability/PreviousCrackRules.cs: aggancio di sola prova con le regole precedenti"
+      ],
+      "segno": "cautelativo (una verifica sospesa diventa non soddisfatta)",
+      "test": [
+        "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs: ModelCode2010StagesFollowTable762, DinKtFollowsTheDuration, UnreinforcedTensileZoneFailsWithTheOption (attesi indipendenti in frazioni esatte, scratch attesi_r1_r2.py); 94 prove di fessurazione, SLE, muri e ModelChecker superate, contratto K0 invariato",
+        "tests/ConcreteLibraryAdapter.Checks, prova 5n: regole del prodotto contro le regole precedenti della libreria sugli stessi stati (936 della griglia e stati mirati): MC2010 31 stati cambiati, DIN breve durata 4, zona tesa senza armatura 35, 866 invariati; 5c (equivalenza con il motore storico) con le regole precedenti, PASS (35 stati: i due stati mirati F2-7 e 33 stati di sezioni cave con le pareti interne tese senza barre)",
+        "cattura headless del corpus invariata con le regole nuove: corsa 20261015-151550-f2res-regole (librerie candidate) contro la cattura 20261015-124031-f2res-b4, solo tempi volatili e manifest; il corpus non ha stati MC2010, DIN a breve durata o zone tese senza armatura. Banco c.a. contro le fixture di Checker con --regole-fessurazione precedenti: PASS (corsa 20261015-f2res-banco)"
+      ],
+      "muri": "non toccati: la regola dei muri (σt,el ≤ fctk,0,05 e verifica senza esito) è la domanda E1-D4 di f2-residui-decisioni.md"
     },
     {
       "id": "STG-01",
