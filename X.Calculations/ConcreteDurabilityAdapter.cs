@@ -28,28 +28,8 @@ public static class ConcreteDurabilityAdapter
     /// catturate con il legacy); il legacy resta raggiungibile con <see cref="DurabilityEngine.Legacy"/> fino a F2.11.</summary>
     public static DurabilityEngine Default => DurabilityEngine.Library;
 
-    // ------------------------------------------------------------------ sonda (F2.9-D14)
-    /// <summary>Voce della sonda: adattatore, operazione, motore (forma della sonda generalizzata chiesta da F2.8 §13.2).</summary>
-    public sealed record ProbeEntry(string Adapter, string Operation, DurabilityEngine Engine);
-
-    /// <summary>Vista tipizzata della sonda comune degli adattatori; conserva il contratto delle prove di durabilità.</summary>
-    public sealed class Probe
-    {
-        readonly ServiceabilityProbe? scope;
-        public Probe() { }
-        internal Probe(ServiceabilityProbe scope) => this.scope = scope;
-        public IReadOnlyList<ProbeEntry> Entries => scope is null ? [] : scope.Entries
-            .Where(entry => entry.Adapter == nameof(ConcreteDurabilityAdapter))
-            .Select(entry => Enum.TryParse<DurabilityEngine>(entry.Engine, out var engine) && Enum.IsDefined(engine)
-                ? new ProbeEntry(entry.Adapter, entry.Operation, engine) : null)
-            .OfType<ProbeEntry>()
-            .ToArray();
-    }
-
-    /// <summary>Avvia una sonda nel contesto corrente; StopProbe ripristina quella precedente.</summary>
-    public static Probe StartProbe() => new(ServiceabilityProbe.Start(typeof(ConcreteDurabilityAdapter)));
-    public static void StopProbe() => ServiceabilityProbe.Stop(typeof(ConcreteDurabilityAdapter));
-    static void Record(string operation, DurabilityEngine engine) => ServiceabilityProbe.Record(nameof(ConcreteDurabilityAdapter), operation, engine);
+    // Sonda delle prove (F2.9-D14; vista tipizzata DurabilityProbe in tests/ANTHEA.Legacy, decisione D3 del 15/10/2026).
+    static void Record(string operation, DurabilityEngine engine) => EngineHook.Record(nameof(ConcreteDurabilityAdapter), operation, engine.ToString());
 
     static bool UseLegacy(DurabilityEngine? engine) => (engine ?? Default) == DurabilityEngine.Legacy;
 

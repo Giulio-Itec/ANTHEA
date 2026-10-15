@@ -194,12 +194,13 @@ try
     // Eccezioni dichiarate (membro → motivo e scadenza). Un'eccezione che non trova più la sua violazione è superata e va tolta.
     var declaredStatic = new Dictionary<string, string>(StringComparer.Ordinal)
     {
-        ["ServiceabilityProbe.current"] = "AsyncLocal diagnostico della sonda degli adattatori, nullo in produzione: unica eccezione dichiarata della 5l per l'adattatore SLE "
-            + "(progetto F2.7 §6.2 e §9)"
+        ["EngineHook.current"] = "AsyncLocal degli agganci delle prove (motori storici e sonda degli adattatori), nullo in produzione: unica eccezione dichiarata "
+            + "della 5l (progetto F2.7 §6.2 e §9; dalla decisione D3 del 15/10/2026 sostituisce ServiceabilityProbe.current)"
     };
     int staticMembers = 0; var excepted = new List<string>();
+    var engineHook = typeof(ConcreteServiceabilityAdapter).Assembly.GetType("Anthea.Calculations.EngineHook", throwOnError: true)!;
     foreach (var type in new[] { typeof(Ntc2018Checks), typeof(ConcreteLibraryMapping), typeof(ConcreteShearTorsionAdapter), typeof(LegacyServiceability),
-        typeof(ConcreteServiceabilityAdapter), typeof(ServiceabilityProbe), typeof(ConcreteResistanceAdapter) })
+        typeof(ConcreteServiceabilityAdapter), typeof(ServiceabilityProbe), typeof(ConcreteResistanceAdapter), engineHook })
     {
         var (members, violations) = StaticState.Inspect(type);
         staticMembers += members;
@@ -601,7 +602,7 @@ try
             + $"libreria: {resistance["12d_griglia"]!["uguali"]} uguali, {resistance["12d_griglia"]!["spostati"]} spostati, {resistance["12d_griglia"]!["rifiutati"]} rifiutati, "
             + $"{resistance["12d_griglia"]!["recuperati"]} recuperati; motore unico {ConcreteResistanceAdapter.Engine}")
         .Append($"stato statico (5l): {staticChecks} controlli superati, {staticMembers} membri statici di Ntc2018Checks, ConcreteLibraryMapping, ConcreteShearTorsionAdapter, LegacyServiceability, "
-            + $"ConcreteServiceabilityAdapter, ServiceabilityProbe e ConcreteResistanceAdapter; "
+            + $"ConcreteServiceabilityAdapter, ServiceabilityProbe, ConcreteResistanceAdapter ed EngineHook; "
             + $"campione con {sample.Length} violazioni riconosciute; eccezioni dichiarate: {string.Join(", ", declaredStatic.Keys)}")
         .Append($"getti sottili (7a): {thinCastingChecks} controlli superati; griglia di {thinCasting.Cases} casi ({thinCasting.Reduced} con riduzione) e {thinCasting.Rejections} rifiuti "
             + $"uguali all'espressione legacy; {thinCasting.Readers} letture di 'gettato_sottile' con il fattore della mappatura")

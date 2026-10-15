@@ -9,4 +9,6 @@
     <ProjectReference Include="../src/ANTHEA.FoundationWorkspace/ANTHEA.FoundationWorkspace.csproj" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
   </ItemGroup>
+  <!-- Motori storici conservati per le prove fuori dall'installer (decisione D3 del 15/10/2026): solo il nome dell'assembly amico. -->
+  <ItemGroup><InternalsVisibleTo Include="ANTHEA.Legacy" /></ItemGroup>
 </Project>

@@ -51,7 +51,7 @@ public sealed record ResistanceOutcome(ResistancePoint? Point, string? Rejection
 /// </summary>
 public static class ConcreteResistanceAdapter
 {
-    /// <summary>Nome dell'adattatore nella sonda (<see cref="ServiceabilityProbe"/>).</summary>
+    /// <summary>Nome dell'adattatore nella sonda delle prove (<see cref="EngineHook.Record"/>).</summary>
     public const string ProbeName = "ConcreteResistanceAdapter";
 
     /// <summary>Nome del motore nella sonda.</summary>
@@ -60,7 +60,7 @@ public static class ConcreteResistanceAdapter
     /// <summary>Punti resistenti di un lotto di forze, nell'ordine, con il criterio delle opzioni del solutore della sezione.</summary>
     public static ResistanceOutcome[] Points(CheckerSection section, IReadOnlyList<ResultBeamForces> forces, CancellationToken token = default)
     {
-        ServiceabilityProbe.Record(ProbeName, "Points", Engine);
+        EngineHook.Record(ProbeName, "Points", Engine);
         token.ThrowIfCancellationRequested();
         var outcomes = new ResistanceOutcome[forces.Count];
         for (int i = 0; i < forces.Count; i++) outcomes[i] = Solve(section, forces[i], token);
@@ -70,7 +70,7 @@ public static class ConcreteResistanceAdapter
     /// <summary>Punto resistente di una forza del dominio 3D (CheckerDomain3D.Check).</summary>
     public static ResistanceOutcome Point(CheckerSection section, ResultBeamForces force, CancellationToken token = default)
     {
-        ServiceabilityProbe.Record(ProbeName, "Point", Engine);
+        EngineHook.Record(ProbeName, "Point", Engine);
         token.ThrowIfCancellationRequested();
         return Solve(section, force, token);
     }
@@ -79,7 +79,7 @@ public static class ConcreteResistanceAdapter
     {
         var criterion = section.Checker.SectionCheckerOptions.FailureAnalysisType;
         var response = section.ResistanceSolver.SolveResistance(new SectionAnalysisInput(force), token);
-        ServiceabilityProbe.RecordResult(response);
+        EngineHook.RecordResult(response);
         return response.Diagnostics.Status == CalculationStatus.Completed && !response.IsZeroDemand
             ? new(new ResistancePoint(response, criterion), null)
             : new(null, ConcreteLibraryMapping.ResistanceRejection(response));

@@ -1186,6 +1186,13 @@ F3 con 7214 differenze tutte nella previsione).
   prove escono dagli assembly distribuiti e vanno in un progetto del repository che l'installer non contiene, usato
   dalle prove; i confronti vivi fra libreria e legacy restano. Superate le due formulazioni precedenti (progetto
   parallelo come proposta e poi eliminazione).
+  **Modo per le prove di modulo** («confermo la scelta b», 15/10): l'inventario
+  (21 blocchi da spostare, circa 3000 righe di `X.Calculations`) proponeva (a) prove che chiamano il legacy solo
+  funzione per funzione, perdendo i giri di modulo col motore vecchio, o (b) un punto d'aggancio interno nel prodotto,
+  senza formule, con il motore vecchio in `tests/ANTHEA.Legacy` attivato dalle prove in un ambito. Scelta (b): le prove
+  di modulo (sezione c.a. completa, muri, durabilità di progetto, taglio e torsione) continuano a girare dal vivo col
+  legacy. Punti minori decisi dall'agente: la traccia dei ripieghi del JSON non si attiva più da variabile d'ambiente
+  nel prodotto ma dal banco di prova; l'opzione `--models` e `RunVerificationAsync` restano.
 - **D4** «ok, finito questa correzione chiusura F4»: chiusura dei punti di F4 e dei [CP] F4.9 e F4.16 dopo D3 e il
   full conforme, con verbale.
 - **D5** «D5 ok»: merge senza avanzamento rapido in `main`, tag `refactoring/post-f4`, ANTHEA 1.9.0 con installer e

@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using Anthea.Calculations;
 using Materiali;
 using X.Core;
-using ProbeEntry = Anthea.Calculations.ConcreteDurabilityAdapter.ProbeEntry;
+using ProbeEntry = Anthea.Calculations.DurabilityProbe.Entry;
 
 /// <summary>
 /// Sezione 11 delle prove dell'adattatore: durabilità, copriferri, scheda Materiali e validazione di progetto (refactoring F2.9,
@@ -59,7 +59,7 @@ internal static class DurabilityChecks
         {
             CultureInfo.CurrentCulture = Italian;
             try { report[key] = test(); }
-            catch (Exception e) { failures.Add(e.Message); ConcreteDurabilityAdapter.StopProbe(); }
+            catch (Exception e) { failures.Add(e.Message); DurabilityProbe.Stop(); }
         }
         CultureInfo.CurrentCulture = Italian;
         foreach (var (key, value) in report) Console.WriteLine($"durabilità {key}: {value?.ToJsonString()}");
@@ -98,9 +98,9 @@ internal static class DurabilityChecks
     /// <summary>Esegue la chiamata con una sonda attiva e restituisce l'esito e le voci registrate.</summary>
     static (string Outcome, IReadOnlyList<ProbeEntry> Entries) Probed(Func<object?> call)
     {
-        var probe = ConcreteDurabilityAdapter.StartProbe();
+        var probe = DurabilityProbe.Start();
         try { return (Outcome(call), probe.Entries); }
-        finally { ConcreteDurabilityAdapter.StopProbe(); }
+        finally { DurabilityProbe.Stop(); }
     }
 
     static string Describe(IEnumerable<ProbeEntry> entries)
@@ -113,7 +113,7 @@ internal static class DurabilityChecks
     /// una sonda che non riceve nulla fa fallire la prova invece di farla passare.</summary>
     static void ProbeSelfCheck(string test, Action<bool, string> check)
     {
-        var probe = ConcreteDurabilityAdapter.StartProbe();
+        var probe = DurabilityProbe.Start();
         try
         {
             ConcreteDurabilityAdapter.Severity("XC1", DurabilityEngine.Legacy);
@@ -123,8 +123,8 @@ internal static class DurabilityChecks
             check(e.Count == 6 && e[0] == new ProbeEntry(Adapter, "Severity", DurabilityEngine.Legacy) && e.Skip(1).All(x => x == new ProbeEntry(Adapter, "Severity", DurabilityEngine.Library)),
                 test + ": autoverifica della sonda fallita: " + Describe(e));
         }
-        finally { ConcreteDurabilityAdapter.StopProbe(); }
-        var after = ConcreteDurabilityAdapter.StartProbe(); ConcreteDurabilityAdapter.StopProbe();
+        finally { DurabilityProbe.Stop(); }
+        var after = DurabilityProbe.Start(); DurabilityProbe.Stop();
         ConcreteDurabilityAdapter.Severity("XC1", DurabilityEngine.Library);
         check(after.Entries.Count == 0, test + ": la sonda registra dopo l'arresto");
     }
@@ -416,10 +416,10 @@ internal static class DurabilityChecks
         int paths = 0, entriesTotal = 0;
         void OnPath(string id, Func<object?> call, bool requireEntries = true)
         {
-            var probe = ConcreteDurabilityAdapter.StartProbe();
+            var probe = DurabilityProbe.Start();
             string outcome;
             try { outcome = Run(call); }
-            finally { ConcreteDurabilityAdapter.StopProbe(); }
+            finally { DurabilityProbe.Stop(); }
             var entries = probe.Entries;
             if (requireEntries) check(entries.Count > 0, $"11e: {id}: nessuna voce della sonda ({outcome})");
             check(entries.All(e => e.Adapter == Adapter && e.Engine == ExpectedDefault), $"11e: {id}: voci con un motore diverso dal predefinito {ExpectedDefault}: {Describe(entries.Where(e => e.Engine != ExpectedDefault))}");
