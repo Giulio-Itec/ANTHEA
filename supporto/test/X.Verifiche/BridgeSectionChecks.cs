@@ -79,6 +79,24 @@ internal static class BridgeSectionChecks
             Assert(stage.Points.Where(p => p.GetTensionStiffening() is null).All(p => Math.Abs(p.Stress - p.Contributions.Sum()) <= 1e-9 * Math.Max(1, Math.Abs(p.Stress))), "PON-1: Σσ = ΣΔσ per gli altri punti");
             stiffeningInput["stato"] = "SLU"; Assert(BridgeSection.Calculate(stiffeningInput).Stages[^1].Points.All(p => p.GetTensionStiffening() is null), "PON-1: nessun tension stiffening allo SLU");
         }
+        {
+            // PON-3 (analisi dei bug del 15/10/2026): cassoncino δ = 250, s = 1800, piattabande superiori 450 × 25, fondo 2600 × 14, H = 1839, classe 4,
+            // G1 solo acciaio −3000 kNm e Q −8000 kNm. Sbalzo del fondo oltre l'anima: c = (2600 − 1300 − 14,134)/2 = 642,93 mm, EN 1993-1-5 Tab. 4.2
+            // (ψ = 1, kσ = 0,43) e (4.3): λp = (c/t)/(28,4 ε √kσ) = 3,0309, ρ = (λp − 0,188)/λp² = 0,30947, b_eff = 198,97 mm (calcolo indipendente
+            // scratchpad agent-bridge/py/pon3.py). Il report chiama «Fondo · lamiera interna» la lamiera fra le anime e aggiunge «Fondo · sbalzi».
+            var outstandBox = (JsonObject)d.DeepClone();
+            outstandBox["sezione"] = BridgeSection.SectionTypes[2]; outstandBox["offset_anima"] = 250; outstandBox["interasse_anime"] = 1800;
+            outstandBox["b_top"] = 450; outstandBox["t_top"] = 25; outstandBox["b_bottom"] = 2600; outstandBox["t_bottom"] = 14; outstandBox["h_trave"] = 1839;
+            outstandBox["fasi"] = new JsonArray(BridgeSection.Phase("G1", "Solo acciaio", 0, -3000), BridgeSection.Phase("Q", "Composta", 0, -8000));
+            var outstandResult = BridgeSection.Calculate(outstandBox); var effective = outstandResult.Stages[^1].Effective;
+            var outstand = effective.BottomOutstand!;
+            Near(outstand.Width, 642.9328, 2e-6, "PON-3: larghezza dello sbalzo del fondo"); Near(outstand.Lambda, 3.03086, 2e-5, "PON-3: λp dello sbalzo");
+            Near(outstand.Rho, .30947, 2e-5, "PON-3: ρ dello sbalzo"); Near(outstand.EffectiveAtStart, 198.9711, 2e-6, "PON-3: larghezza efficace dello sbalzo");
+            var panels = ReportBridge.ClassFourPanels(outstandResult.Geometry, effective);
+            Assert(panels.Select(p => p.Name).SequenceEqual(new[] { "Anima", "Sbalzo superiore", "Fondo · lamiera interna", "Fondo · sbalzi" })
+                && ReferenceEquals(panels[2].Plate, effective.Bottom) && ReferenceEquals(panels[3].Plate, outstand), "PON-3: tabella di classe 4 del cassoncino");
+            Assert(ReportBridge.ClassFourPanels(result.Geometry, result.Stages[^1].Effective).Select(p => p.Name).SequenceEqual(new[] { "Anima", "Sbalzo superiore", "Sbalzo inferiore" }), "PON-3: tabella dell'H invariata");
+        }
         var inactive = (JsonObject)d.DeepClone(); inactive.Array("fasi")[1]!["attiva"] = false;
         Assert(BridgeSection.Calculate(inactive).Stages.Count == 2, "fasi disattive");
         var zero = (JsonObject)d.DeepClone(); foreach (var p in zero.Array("fasi")) { p!["N"] = 0; p["Mx"] = 0; }

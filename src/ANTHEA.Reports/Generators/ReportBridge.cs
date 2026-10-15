@@ -199,7 +199,7 @@ public static partial class ReportBridge
             if (options.Contains("classe4"))
             {
                 doc.Sub("Sezione efficace di classe 4");
-                var panels = new[] { ("Anima", s.Effective.Web), ("Sbalzo superiore", s.Effective.Top), (s.Effective.SecondBottom is null ? "Sbalzo inferiore" : "Sbalzo inferiore · piastra 1", s.Effective.Bottom) }.Concat(s.Effective.SecondBottom is { } second ? new[] { ("Sbalzo inferiore · piastra 2", second) } : []).ToArray();
+                var panels = ClassFourPanels(g, s.Effective);
                 doc.Table(["Pannello", "b [mm]", "t [mm]", "ψ", "kσ", "λp", "ρ"], panels.Select(p => new[] { p.Item1, F(p.Item2.Width), F(p.Item2.Thickness), F(p.Item2.Psi), F(p.Item2.KSigma), F(p.Item2.Lambda), F(p.Item2.Rho) }), [2.2, .9, .7, .8, .8, .8, .8]);
                 doc.Table(["Pannello", "σ1 [MPa]", "σ2 [MPa]", "bc [mm]", "b1 eff [mm]", "b2 eff [mm]"], panels.Select(p => new[] { p.Item1, F(p.Item2.StartStress), F(p.Item2.EndStress), F(p.Item2.CompressedWidth), F(p.Item2.EffectiveAtStart), F(p.Item2.EffectiveAtEnd) }), [2.2, 1, 1, 1, 1, 1]);
                 doc.Table(["Carpenteria", "Area [mm²]", "yG [mm]", "Ix [mm⁴]"], new[] {
@@ -235,6 +235,19 @@ public static partial class ReportBridge
         return doc.BuildDocument();
     }
 
+    /// <summary>
+    /// The plates of the class 4 table. In the box (PON-3) Bottom is the internal plate between the webs and BottomOutstand the outstands beyond
+    /// them (reduced as well since GPCChecker.CompositeBridge 360ac43b); in the H the bottom flange is an outstand.
+    /// </summary>
+    public static (string Name, BridgePlate Plate)[] ClassFourPanels(BridgeGeometry g, BridgeEffective e)
+    {
+        bool box = g.SectionType == BridgeSteelSectionType.Box;
+        var panels = new List<(string, BridgePlate)> { ("Anima", e.Web), ("Sbalzo superiore", e.Top),
+            (box ? "Fondo · lamiera interna" : e.SecondBottom is null ? "Sbalzo inferiore" : "Sbalzo inferiore · piastra 1", e.Bottom) };
+        if (box && e.BottomOutstand is { } outstand) panels.Add(("Fondo · sbalzi", outstand));
+        if (e.SecondBottom is { } second) panels.Add(("Sbalzo inferiore · piastra 2", second));
+        return panels.ToArray();
+    }
     /// <summary>PON-1: note of the tension stiffening of the bars of the cracked slab in the SLE states.</summary>
     public const string TensionStiffeningNote = "Soletta fessurata negli stati SLE (contributi «Soletta esclusa»): alle barre tese si somma il tension stiffening, σs = σs,0 + Δσs con Δσs = 0,4 fctm/(αst ρs), ρs = As/Act (Act = beff hc, As = tutti gli strati di barre), αst = A I/(Aa Ia) della sezione fessurata (EN 1994-2 §7.2.1(1), EN 1994-1-1 §7.4.3(3)). Per queste barre Σσ ≠ ΣΔσ: i contributi Δσ delle fasi sommano σs,0, mentre Σσ e il controllo del limite comprendono Δσs.";
     /// <summary>PON-1: table of the tension stiffening of the tensile bars (σs,0, Δσs, σs, αst, ρs, fctm), when the situation has it.</summary>
