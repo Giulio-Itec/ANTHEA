@@ -32,6 +32,8 @@ public static partial class ConcreteReinforcementDesign
             // One radial N–Mx–My check covers combined and pure axial actions, without a mesh.
             o["criterio"] = "Eccentricità costante";
             var engine = new CheckerSection(resistanceModel, reduced, workspace, o, set);
+            // Criterio resistente effettivo, con lo stesso predefinito per stato di CheckerSection (ARM-4).
+            string criterion = o.S("modello_resistente", set == "SLV" ? "Elastico" : "Plastico");
             var localOptions = (JsonObject)o.DeepClone(); localOptions["assi"] = "Locali";
             var localEngine = o.S("assi", "Locali") == "Locali" || !rows[set].Any(r => r.B("__locali")) ? engine
                 : new CheckerSection(resistanceModel, reduced, workspace, localOptions, set);
@@ -54,7 +56,7 @@ public static partial class ConcreteReinforcementDesign
                     }
                 }
                 AddRatio(checks, set.ToLowerInvariant(), row.S("nome"), ratio, options,
-                    $"Iterativo 3D a eccentricità costante, assi {(row.B("__locali") ? "Locali" : o.S("assi", "Locali"))}. N={action.N:0.###} kN; Mx={action.Mx:0.###}, My={action.My:0.###} kNm." +
+                    $"Dominio {criterion.ToLowerInvariant()} (criterio resistente), iterativo 3D a eccentricità costante, assi {(row.B("__locali") ? "Locali" : o.S("assi", "Locali"))}. N={action.N:0.###} kN; Mx={action.Mx:0.###}, My={action.My:0.###} kNm." +
                     (torsion ? $" Area longitudinale resistente ridotta del {options.TorsionReservePercent:0.#}% per la torsione." : ""));
                 if (checks[^1].Passed == false) return checks;
             }
