@@ -1155,3 +1155,33 @@ Decisioni dell'utente, una per punto:
      mettila in coda dopo F4». Le sette uscite impossibili o degeneri restano difese della libreria; i due casi
      raggiungibili con le armature libere diventano stati mirati con il confronto fra i due motori; l'indicazione
      all'utente sulla zona tesa non armata è in coda dopo F4.
+
+## 15 ottobre — decisioni per la chiusura di F4
+
+Proposte di [f4-chiusura-decisioni.md](f4-chiusura-decisioni.md), dopo il full del 14/10 sera (136 PASS; confronto UI
+F3 con 7214 differenze tutte nella previsione).
+
+- **D1** «ok punto 1»: i 17 gruppi di differenze del confronto UI F3 sono transizioni attese, insieme alle variazioni
+  misurate nel full del 14/10 (F4-40, F4-47, versione di Geotechnics, Wiki e ricerca F4-48). La stazione Bridge con
+  V = 9,1e-13 (V6) resta com'è.
+- **D2** «ok punto 2»: elenco versionato delle transizioni ammesse, per file e percorso, con valore prima e dopo e voce
+  del registro; ogni altra differenza fallisce; nessuna tolleranza nuova; Wiki e ricerca come F3-06, con impronte
+  prima e dopo. Confermata la modifica dei due input F3 fatta con F4-40. Poi un full conforme.
+- **D3** «sposterei il vecchio codice in un progetto parallelo o in una parte di progetto che non viene rilasciata.
+  non vorrei rilasciare doppio codice inutile. ma vorrei rimanesse per storico»: il codice legacy non più usato dal
+  prodotto esce dal rilascio e si conserva in un progetto non distribuito, usato solo dalle prove come riferimento
+  storico. Resta nel prodotto solo ciò che il prodotto usa davvero (il nome «Legacy» da solo non basta: per esempio
+  `LegacyNumerics` è la somma usata dal calcolo attuale). La scelta del motore SLE oggi è solo un parametro delle prove,
+  senza comandi nell'interfaccia. Precisato subito dopo, alla domanda se conservarlo in un progetto parallelo: «io
+  onestamente eliminerei tutto quello che non serve ed è servito per test. vorrei rilasciare un codice relativamente
+  pulito senza codice inutile e test dentro». Quindi: si elimina il codice legacy che il prodotto non usa e il codice
+  che serve solo alle prove dentro gli assembly distribuiti; nessun progetto parallelo. Supera la parte di 3b che teneva
+  il legacy SLE selezionabile fino alla revisione delle pagine dei metodi. Modo (proposta dell'agente, coerente con le
+  regole del refactoring): tag git sul commit precedente alla rimozione, per ritrovare il codice; dove una prova
+  confronta la libreria con il legacy, prima si congelano le uscite del legacy sui corpus esistenti (fixture con
+  SHA-256) e la prova confronta poi la libreria con la cattura congelata; gli attesi indipendenti restano.
+- **D4** «ok, finito questa correzione chiusura F4»: chiusura dei punti di F4 e dei [CP] F4.9 e F4.16 dopo D3 e il
+  full conforme, con verbale.
+- **D5** «D5 ok»: merge senza avanzamento rapido in `main`, tag `refactoring/post-f4`, ANTHEA 1.9.0 con installer e
+  suite dell'installer, tag `v1.9.0`, push di `main` (che pubblica anche il merge 1.7.1) e dei tag, cancellazione dei
+  rami F4 uniti anche su origin.
