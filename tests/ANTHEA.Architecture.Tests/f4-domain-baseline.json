@@ -4118,14 +4118,6 @@
     {
       "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "ElasticHorizontalPile.DesignSegment",
-      "Fingerprint": "B6F21EE49F45CDAFD189BD2DAFA2998E182E89768FA07A556202BD0581EBB40A",
-      "Count": 2,
-      "Example": "1e-9"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R2-numeric-literal",
       "Owner": "ElasticHorizontalPile.ProposeSegments",
       "Fingerprint": "3E56CEBD558AF17456178385C594091488E294EF4876868C8C2465F9F7E2E7C3",
       "Count": 1,
@@ -4191,49 +4183,9 @@
       "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
       "Rule": "R4-implicit-number",
       "Owner": "ElasticHorizontalPile.DesignSegment",
-      "Fingerprint": "217432A266D26B41A491CE85DC04DD0BA571D724547A8A428F79505361F78AD9",
-      "Count": 1,
-      "Example": "p . D ( \"Shear\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticHorizontalPile.DesignSegment",
-      "Fingerprint": "366C71383F748FA1FC5C13F2BBFCCC453E9331674CE2425C26734D0B6369B2CC",
-      "Count": 1,
-      "Example": "p . D ( \"AxialForce\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticHorizontalPile.DesignSegment",
       "Fingerprint": "59D620166037AF1C08EB8DC9827C84FA18E1248966E2C4D95CDE5387A29925F2",
       "Count": 1,
       "Example": "SegmentSection ( root , root [ \"elastico\" ] ! . Array ( \"tratti\" ) [ index ] ! . AsObject ( ) ) . D ( \"longitudinal_bar_diameter_mm\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticHorizontalPile.DesignSegment",
-      "Fingerprint": "90BEAECD517C2FC58B20D32C2848C2170D067C1676172E87EA29AB018E9CA7ED",
-      "Count": 2,
-      "Example": "result [ \"input\" ] . D ( \"lunghezza\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticHorizontalPile.DesignSegment",
-      "Fingerprint": "A576FB6DBF519A4BBBF339AEC4E82ACD1FBE1CE985D76EB931F95270768B27B1",
-      "Count": 3,
-      "Example": "p . D ( \"Depth\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticHorizontalPile.DesignSegment",
-      "Fingerprint": "AEFAA4233B1C96FC6B398139B219161F5A70CF0255C2CEE90371439BC615F735",
-      "Count": 1,
-      "Example": "p . D ( \"Moment\" )"
     },
     {
       "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
@@ -4289,14 +4241,6 @@
       "Owner": "ElasticHorizontalPile.CalculateReinforcementCore",
       "Fingerprint": "2FB14001E2D3AC545D67E1FE3733F66ECD2B1077A635E546B778EDD57CFB1DE6",
       "Count": 4,
-      "Example": "1e-9"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "ElasticHorizontalPile.DesignSegment",
-      "Fingerprint": "B6F21EE49F45CDAFD189BD2DAFA2998E182E89768FA07A556202BD0581EBB40A",
-      "Count": 2,
       "Example": "1e-9"
     },
     {

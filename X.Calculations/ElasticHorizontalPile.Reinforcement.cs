@@ -217,45 +217,14 @@ public static partial class ElasticHorizontalPile
         double? length=string.IsNullOrWhiteSpace(d.S("sisma_lunghezza"))?null:J.Number(d["sisma_lunghezza"])??throw new ArgumentException("Lunghezza zona sismica non valida.");
         return new PileSeismicSettings{Enabled=d.B("sisma_testa"),HeadLength=length,SeismicActionsConfirmed=d.B("sisma_azioni"),ElasticMomentConfirmed=d.B("sisma_elastico"),StandardNtc2018=!root["sezione"].B("coefficienti_unitari"),Links=d.S("sisma_staffe","Da definire") switch{"Da definire"=>PileSeismicLinks.Unspecified,"Staffe singole"=>PileSeismicLinks.SingleHoops,"Spirale"=>PileSeismicLinks.Spiral,_=>throw new ArgumentException("Tipologia di staffe sismiche non riconosciuta.")}};
     }
-    static PileSeismicLinks LinkKind(string kind)=>kind switch{"Staffe singole"=>PileSeismicLinks.SingleHoops,"Spirale"=>PileSeismicLinks.Spiral,_=>PileSeismicLinks.Unspecified};
-    static PileRcParameters RcParameters(JsonObject input,JsonNode details,JsonObject workspace,CheckerSection engine)
+    internal static PileSeismicLinks LinkKind(string kind)=>kind switch{"Staffe singole"=>PileSeismicLinks.SingleHoops,"Spirale"=>PileSeismicLinks.Spiral,_=>PileSeismicLinks.Unspecified};
+    internal static PileRcParameters RcParameters(JsonObject input,JsonNode details,JsonObject workspace,CheckerSection engine)
     {
         var standard=ConcreteStandards.Effective(input,workspace);var strengths=ConcreteMaterials.DesignValues(input,workspace);
         return new PileRcParameters{Solver=engine.Checker.SectionSolver,Section=engine.Section,Axes=engine.Local,Standard=standard,Diameter=input.Required("diameter_mm"),Fck=input.Required("fck_mpa"),Fctm=ConcreteMaterials.Concrete(input).Fctm,Fyk=input.Required("fyk_mpa"),Fctk05=GPC.Checkers.Concrete.Detailing.AnchorageCalculator.BondFctk05(input.D("fck_mpa")),Fcd=strengths.Fcd,Fyd=strengths.Fyd,Es=input.Required("steel_modulus_mpa"),Cover=input.Required("cover_mm"),LinkDiameter=input.Required("transverse_bar_diameter_mm"),LinkSpacing=input.Required("transverse_spacing_mm"),LeverFactor=details.Required("z_d",strict:true),ShearModelConfirmed=details.B("taglio_confermato")&&input.S("tipo_trasversale","Staffe singole")=="Staffe singole",DesignActionsConfirmed=details.B("azioni_progetto"),PileMinimumRequirements=details.B("minimi_pali"),DetailingMode=details.S("elemento","Pilastro") switch{"Pilastro"=>PileDetailingMode.Column,"Trave"=>PileDetailingMode.Beam,"Solo controlli comuni"=>PileDetailingMode.CommonOnly,_=>throw new ArgumentException("Comportamento dettagli non riconosciuto")},CompressionBarsRestrained=details.B("barre_trattenute"),EndZonesConfirmed=details.B("zone_estremita"),GoodBond=details.B("aderenza_buona"),LapPercent=details.Required("percentuale_sovrapposta",strict:true),LapClearDistance=details.Required("distanza_barre"),HeadAnchorage=details.Required("ancoraggio_testa"),ToeAnchorage=details.Required("ancoraggio_punta"),StockLength=details.Required("lunghezza_barra",strict:true),LapDiameterFactor=details.Required("fattore_sovrapposizione",strict:true),Aggregate=details.Required("aggregato"),CoverDeviation=details.Required("delta_c"),MinimumDurabilityCover=J.Number(PileDurability(input,details)["cmin_dur"])};
     }
     public static JsonObject DesignSegment(JsonObject root,JsonObject result,int index,int[] counts,double[] spacings)
         =>DesignSegment(root,result,index,counts,[SegmentSection(root,root["elastico"]!.Array("tratti")[index]!.AsObject()).D("longitudinal_bar_diameter_mm")],[SegmentSection(root,root["elastico"]!.Array("tratti")[index]!.AsObject()).D("transverse_bar_diameter_mm")],spacings);
-    public static JsonObject DesignSegment(JsonObject root,JsonObject result,int index,int[] counts,double[] diameters,double[] linkDiameters,double[] spacings,CancellationToken cancellation=default,IProgress<PileCalculationProgress>? progress=null,bool legacy=false,int maximumParallelism=0)
-    {
-        if(!legacy)return DesignSegmentWithLibrary(root,result,index,counts,diameters,linkDiameters,spacings,cancellation,progress,maximumParallelism);
-        var source=root["elastico"]!.Array("tratti")[index]!.AsObject();var segment=ReadSegments(root)[index];var settings=root["elastico"]!["dettagli"]!;
-        if(!settings.B("azioni_progetto")||!settings.B("taglio_confermato"))throw new ArgumentException("Confermare azioni di progetto e modello di taglio nelle ipotesi.");
-        var seismicSettings=SeismicSettings(root);seismicSettings.Links=LinkKind(TransverseKind(root,source));
-        if(TransverseKind(root,source)!="Staffe singole")throw new ArgumentException("Il dimensionamento a taglio richiede staffe singole: modello resistente della spirale non implementato.");
-        if(seismicSettings.Enabled&&(!seismicSettings.SeismicActionsConfirmed||!seismicSettings.ElasticMomentConfirmed||seismicSettings.Links==PileSeismicLinks.Unspecified||!seismicSettings.StandardNtc2018))throw new ArgumentException("Dimensionamento sismico: confermare azioni sismiche, momento elastico q=1, tipologia staffe e coefficienti ordinari NTC.");
-        var workspace=ConcreteStandards.PileWorkspace(root["sezione"]!.AsObject());var options=J.Obj(("criterio","N costante"),("assi","Locali"),("strategia","Iterativo"),("modello","Non lineare"));
-        var actions=result["risposta"]!.Array("Points").Where(p=>p.D("Depth")>=segment.Start-1e-9&&p.D("Depth")<=segment.End+1e-9).Select(p=>new PileAction{Depth=p.D("Depth"),Side=p.S("Side"),N=p.D("AxialForce"),V=p.D("Shear"),M=p.D("Moment")}).ToArray();
-        if(actions.Length==0)throw new ArgumentException("Nessuna azione disponibile sul tratto.");
-        var screen=new[]{actions.MaxBy(a=>Math.Abs(a.M))!,actions.MaxBy(a=>Math.Abs(a.V))!,actions.MinBy(a=>a.N)!,actions.MaxBy(a=>a.N)!}.Distinct().ToArray();
-        var exclusions=new List<string>();var tables=new ElasticPileVerificationCache();int evaluated=0;
-        var layouts=PileReinforcement.Layouts(counts,diameters,linkDiameters,spacings);
-        foreach(var layout in layouts)
-        {
-            cancellation.ThrowIfCancellationRequested();evaluated++;progress?.Report(new($"Disposizione {evaluated}/{layouts.Count}: {layout.Count}φ{layout.Diameter}, staffe φ{layout.LinkDiameter}/{layout.LinkSpacing}",evaluated-1,layouts.Count));
-            var input=SegmentSection(root,source);input["longitudinal_bar_count"]=layout.Count;input["longitudinal_bar_diameter_mm"]=layout.Diameter;input["transverse_bar_diameter_mm"]=layout.LinkDiameter;input["transverse_spacing_mm"]=layout.LinkSpacing;
-            try
-            {
-                PileReinforcement Create(){var c=(JsonObject)input.DeepClone();return new PileReinforcement(RcParameters(c,settings,workspace,new CheckerSection(c,(JsonObject)workspace.DeepClone(),(JsonObject)options.DeepClone())));}
-                var service=Create();if(service.ConstructionChecks(actions.Max(a=>a.N)).Any(c=>c.Passed==false))continue;
-                if(seismicSettings.Enabled&&service.CheckHeadSeismic(seismicSettings,segment.Start,segment.End,result["input"].D("lunghezza"),[]).Checks.Any(c=>c.Passed==false))continue;
-                if(screen.Any(a=>service.Check(a).Outcome!=EngineeringOutcome.Satisfied))continue;
-                service.PrepareResistance(actions.Select(a=>a.N),Create,tables.For(input.ToJsonString()),cancellation,progress:(done,total)=>progress?.Report(new($"Disposizione {evaluated}/{layouts.Count} · MRd: {done}/{total} valori N",done,total)));
-                var verified=actions.Select(service.Check).ToArray();if(verified.Any(c=>c.Outcome!=EngineeringOutcome.Satisfied))continue;
-                if(seismicSettings.Enabled&&service.CheckHeadSeismic(seismicSettings,segment.Start,segment.End,result["input"].D("lunghezza"),verified).Checks.Any(c=>c.Passed!=true))continue;
-                var proposal=new JsonObject();foreach(string key in ReinforcementKeys)proposal[key]=input[key]!.DeepClone();proposal["candidati_esaminati"]=evaluated;proposal["esclusioni_geometriche"]=J.Node(exclusions);proposal["criterio"]="Ricerca discreta Checker: As crescente, poi quantità di staffe per metro crescente. N–M–V concomitanti a tutte le ascisse e controlli geometrici/minimi disponibili. Copriferro senza cmin,dur e dettagli di sviluppo restano da completare.";return proposal;
-            }
-            catch(ArgumentException ex){exclusions.Add($"{layout.Count}φ{layout.Diameter}, staffe φ{layout.LinkDiameter}/{layout.LinkSpacing}: {ex.Message}");}
-        }
-        throw new ArgumentException("Nessuna disposizione del catalogo soddisfa N–M–V, interferro e minimi selezionati. Ampliare il catalogo.");
-    }
+    public static JsonObject DesignSegment(JsonObject root,JsonObject result,int index,int[] counts,double[] diameters,double[] linkDiameters,double[] spacings,CancellationToken cancellation=default,IProgress<PileCalculationProgress>? progress=null,int maximumParallelism=0)
+        =>DesignSegmentWithLibrary(root,result,index,counts,diameters,linkDiameters,spacings,cancellation,progress,maximumParallelism);
 }
