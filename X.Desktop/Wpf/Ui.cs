@@ -86,6 +86,7 @@ internal static class Ui
     internal static BitmapImage Asset(string name) => new(new Uri($"pack://application:,,,/ANTHEA;component/Assets/{name}"));
     internal static FrameworkElement ModuleIcon(string module)
     {
+        if (module == Anthea.Application.Stratigraphy.StratigraphyDocument.Module) return new SoilProfileIcon { Width = 80, Height = 80 };
         if (module == Anthea.FoundationWorkspace.FoundationDocument.Module) return new FoundationIcon { Width = 80, Height = 80 };
         if (module == WallModel.Module) return new RetainingWallIcon { Width = 80, Height = 80 };
         if (module is BridgeEditor.Module or BridgeDesignModel.Module) return new BridgeIcon { Width = 80, Height = 80 };

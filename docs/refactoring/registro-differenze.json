@@ -28,6 +28,66 @@
   "nota_audit_14_10": "Audit indipendente del 14/10/2026 (piano.md, sezione iniziale). Le voci F4 indicate come «distribuite con il set W» sono attive in ANTHEA 1.8.0 con il set W installato in lib/Checker dal commit 3f9df6b8, sul ramo refactoring/f4-calcoli-residui: il ramo non è unito a main e il full conforme manca (F4.16). Dove la scelta è stata dell'agente la voce indica «decisione dell'utente da ratificare». Lo stato «da-ricostruire» segnala una voce prevista dai micro-piani e non scritta a suo tempo, ricostruita solo in parte: la descrizione dice cosa manca. La categoria «regressione» è aggiunta per F4-36 e F4-37.",
   "voci": [
     {
+      "id": "STRAT-4",
+      "data": "2026-10-15",
+      "fase": "Attività autonoma post-F4",
+      "titolo": "Famiglie descrittive e retini del terreno",
+      "famiglia": "Geotecnica",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Menu di sette famiglie prevalenti più Non classificato e Altro; retini vettoriali propri di ANTHEA nel profilo. Descrizioni miste conservate, colore separato e nessuna assegnazione di parametri. Importatore AI propone la famiglia solo dal testo e resta revisionabile. Report con denominazione della famiglia, senza disegno del profilo.",
+      "decisione": "Richiesta dell’utente di associare retini ai tipi di terreno e predisporre un menu limitato di tipi.",
+      "test": [
+        "StratigraphyChecks: tipi ammessi, default legacy, assenza di parametri inventati",
+        "StratigraphyAiChecks: famiglia e descrizione mista preservate",
+        "Stratigraphy.UiChecks: campionario dei retini e profilo"
+      ],
+      "evidenze": [
+        "docs/stratigrafia.md",
+        "docs/refactoring/piano.md"
+      ]
+    },
+    {
+      "id": "STRAT-2-3",
+      "data": "2026-10-15",
+      "fase": "Attività autonoma post-F4",
+      "titolo": "Medi, minimi opzionali e importazione AI revisionabile",
+      "famiglia": "Geotecnica",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Schema 2 con insieme principale medio e minimi opzionali; scelta Medi/Minimi/Entrambi, copie indipendenti e controllo dei parametri richiesti prima dell’uso futuro. Importatore PDF OpenAI con schema strutturato, fonti, profili separati e anteprima da revisionare. Nessun calcolo statistico, coefficiente o motore GPC modificato. Nessuna doppia verifica normativa imposta genericamente.",
+      "decisione": "Richiesta esplicita dell’utente: medi sempre previsti, minimi opzionali anche forniti dalla relazione, scelta di entrambi e realizzazione dell’importatore AI.",
+      "test": [
+        "StratigraphyAiChecks: scenari, dati mancanti, provenienza, persistenza, report, HTTP simulato, refusal e annullamento",
+        "Stratigraphy.UiChecks: editor e anteprima AI senza rete"
+      ],
+      "evidenze": [
+        "docs/stratigrafia.md",
+        "docs/refactoring/piano.md"
+      ],
+      "limiti": "Nessuna richiesta API reale eseguita; accesso a un modello compatibile e qualità su relazioni reali da collaudare con documenti scelti dall’utente. Moduli di verifica non ancora collegati."
+    },
+    {
+      "id": "STRAT-1",
+      "data": "2026-10-15",
+      "fase": "Attività autonoma post-F4",
+      "titolo": "Modulo documentale Stratigrafia del terreno",
+      "famiglia": "Geotecnica",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Aggiunto modulo autonomo con editor WPF, contratto e validazione in Application, persistenza e report dati in Reports. Directory dei moduli estesa rispetto al catalogo dei motori: il nuovo modulo non esegue verifiche. Nessun motore, coefficiente, DLL GPC o atteso numerico modificato. Due nuovi capitoli Wiki e guide Rev46; revisioni precedenti conservate.",
+      "decisione": "Richiesta dell’utente di partire da main e creare il modulo singolo. Importazione assistita accodata separatamente; medi/minimi/adottati proposti, non implementati.",
+      "test": [
+        "Quick 20261015-213157-stratigrafia-finale: 46 PASS; conteggio Wiki obsoleto corretto",
+        "20261015-213831-stratigrafia-conclusione: build e suite Wiki.Tests e Stratigraphy.UiChecks, 4 PASS"
+      ],
+      "evidenze": [
+        "docs/stratigrafia.md",
+        "supporto/artefatti/stratigrafia",
+        "supporto/artefatti/ci/20261015-213831-stratigrafia-conclusione"
+      ]
+    },
+    {
       "id": "F4-27",
       "data": "2026-10-14",
       "fase": "F4.11b.4",
@@ -5348,6 +5408,29 @@
       "evidenze": [
         "supporto/artefatti/refactoring/f4/classificazione-ui/classificazione.tsv",
         "supporto/artefatti/guide_anthea_itec_rev44"
+      ]
+    },
+    {
+      "id": "STRAT-5",
+      "data": "2026-10-15",
+      "fase": "modulo autonomo successivo a F4",
+      "titolo": "Scambio interno del terreno fra stratigrafie e moduli compatibili",
+      "famiglia": "documenti, adattatori e UI",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Estensione del trasferimento esistente con pacchetto stratigrafico completo e selezione di altri fogli del progetto. Copie indipendenti, anteprima e conferma di sostituzione, scelta Medi/Minimi per il singolo foglio di verifica. Nessuna deduzione automatica di comportamento dalla litologia, falda o profondità di indagine. Null convertito in campo vuoto nel contratto legacy, senza assegnazione di zero. Nessuna modifica a formule, DLL o attesi indipendenti. Importatore AI disabilitato su richiesta.",
+      "codice": [
+        "src/ANTHEA.Application/Stratigraphy/StratigraphyTransfer.cs",
+        "src/ANTHEA.Application/Projects/SoilProfileTransfer.cs",
+        "X.Desktop/Wpf/SoilTransferDialog.cs"
+      ],
+      "test": [
+        "StratigraphyTransferChecks: 17 controlli di conversione, conservazione, copie e rifiuto input incompatibili",
+        "Stratigraphy.UiChecks: 25 controlli inclusa selezione sorgente e anteprima senza mutazioni",
+        "Application.Tests: 1582 controlli; Architecture.Tests e Wiki: PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261015-225547-stratigrafia-scambio-finale"
       ]
     }
   ]

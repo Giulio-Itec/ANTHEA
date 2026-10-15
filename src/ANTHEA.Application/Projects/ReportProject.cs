@@ -29,7 +29,8 @@ public static class ReportProject
         var projection = new ProjectReportData(plan.Root, plan.Sheets,
             plan.Common.Select(v => new ProjectReportData.CommonValue(v.Section, ProjectSharedData.Location(v.Source), v.Field.Group,
                 v.Sheets, Values([new(v.Field.Group, ProjectReportPlan.Label(v.Field.Key), v.Field.Value)]))).ToArray(),
-            conflicts, plan.Sheets.ToDictionary(s => s, s => Values(plan.LocalInputs(s))), locations);
+            conflicts, plan.Sheets.ToDictionary(s => s, s => Values(plan.LocalInputs(s))), locations)
+        { ModuleNames = Anthea.Application.Modules.ModuleDirectory.All.ToDictionary(m => m.Id, m => m.Name) };
         var content = reports.ToDictionary(p => p.Key, p => new ProjectReportData.SheetContent(p.Value.Document ??
             (p.Value.Docx is null ? null : DocxWriter.Read(p.Value.Docx)), p.Value.Error,
             p.Value.Derived is null ? null : Values(p.Value.Derived)));

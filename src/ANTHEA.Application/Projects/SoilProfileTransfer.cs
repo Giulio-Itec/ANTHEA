@@ -1,17 +1,25 @@
 ﻿using System.Text.Json.Nodes;
 
 namespace X.Core;
+using Anthea.Application.Stratigraphy;
+using Anthea.Application.Modules;
 
 /// <summary>A portable soil profile; module-specific resistance factors and loads are never copied.</summary>
 public static class SoilProfileTransfer
 {
-    public static readonly string[] Modules = [RetainingWall.Module, "geo_palo_verticale", PaloOrizzontale.Module, MicropaloOrizzontale.Module, Anthea.FoundationWorkspace.FoundationDocument.Module];
+    public static readonly string[] Modules = [StratigraphyDocument.Module, RetainingWall.Module, "geo_palo_verticale", PaloOrizzontale.Module, MicropaloOrizzontale.Module, Anthea.FoundationWorkspace.FoundationDocument.Module];
     private static readonly string[] Properties = ["name", "spessore", "tipologia", "peso_specifico", "peso_specifico_saturo", "angolo_attrito", "coesione_efficace", "coesione_non_drenata"];
     public static bool Supports(string module) => Modules.Contains(module);
-    public static int SurveyCount(string module, JsonObject data) => module == RetainingWall.Module ? 2 : data.Array("stratigrafie").Count;
+    public static int SurveyCount(string module, JsonObject data) => module == StratigraphyDocument.Module ? 1 : module == RetainingWall.Module ? 2 : data.Array("stratigrafie").Count;
     public static JsonObject Extract(string module, JsonObject data, int survey = 0)
     {
         if (!Supports(module)) throw new ArgumentException("Modulo non compatibile con il profilo terreno comune.");
+        if (module == StratigraphyDocument.Module)
+        {
+            StratigraphyDocument.Validate(data);
+            return new JsonObject { ["formato"] = "ANTHEA.Stratigrafia", ["versione"] = 1,
+                ["source_module"] = module, ["source_survey"] = 1, ["stratigraphy"] = data.DeepClone() };
+        }
         var rows = new JsonArray();
         bool wall = module == RetainingWall.Module;
         if (wall && survey is not (0 or 1)) throw new ArgumentException("Selezionare Monte o Valle.");
@@ -36,6 +44,12 @@ public static class SoilProfileTransfer
     }
     public static void Validate(JsonObject profile)
     {
+        if (profile.S("formato") == "ANTHEA.Stratigrafia")
+        {
+            if (StratigraphyDocument.Number(profile["versione"], "Versione trasferimento") != 1 || profile["stratigraphy"] is not JsonObject document)
+                throw new ArgumentException("Stratigrafia trasferita non valida.");
+            StratigraphyDocument.Validate(document); return;
+        }
         if (profile.S("formato") != "ANTHEA.Terreno" || profile.D("versione") != 1 || profile["layers"] is not JsonArray { Count: > 0 and <= 50 } rows)
             throw new ArgumentException("Profilo terreno: formato non riconosciuto o numero di strati non valido (1–50).");
         foreach (var row in rows)
@@ -49,9 +63,12 @@ public static class SoilProfileTransfer
         if (profile["water"] is not JsonObject water || water["enabled"] is not JsonValue flag || !flag.TryGetValue<bool>(out bool wet)) throw new ArgumentException("Dati della falda non validi.");
         if (wet) water.Required("depth");
     }
-    public static JsonObject Apply(string module, JsonObject original, JsonObject profile, int survey = 0)
+    public static JsonObject Apply(string module, JsonObject original, JsonObject profile, int survey = 0, string scenario = "Medi")
     {
         Validate(profile); if (!Supports(module)) throw new ArgumentException("Modulo non compatibile con il profilo terreno comune.");
+        if (module == StratigraphyDocument.Module) return StratigraphyTransfer.ToDocument(profile);
+        var source = profile.DeepClone();
+        if (profile.S("formato") == "ANTHEA.Stratigrafia") profile = StratigraphyTransfer.ToLegacy(profile, scenario);
         var data = (JsonObject)original.DeepClone(); var layers = profile.Array("layers"); var water = profile["water"]!;
         if (module == RetainingWall.Module)
         {
@@ -86,16 +103,18 @@ public static class SoilProfileTransfer
             foreach (var row in layers.OfType<JsonObject>())
             {
                 var copy = module == "geo_palo_verticale" ? Archivio.NuovoStratoPalo() : new JsonObject();
-                foreach (string key in Properties) copy[key] = row[key]?.DeepClone();
+                foreach (string key in Properties) copy[key] = row[key]?.DeepClone() ?? JsonValue.Create("");
                 // Density, interface factors and method-specific data must be assigned for the destination pile.
                 rows.Add(copy);
             }
-            surveys[survey] = rows; data["generali"]!["presenza_falda"] = water.B("enabled"); data["generali"]!["profondita_falda"] = water["depth"]?.DeepClone();
+            surveys[survey] = rows; data["generali"]!["presenza_falda"] = water.B("enabled"); data["generali"]!["profondita_falda"] = water["depth"]?.DeepClone() ?? JsonValue.Create("");
         }
         data["soil_transfer"] = J.Obj(("source_module", profile.S("source_module")), ("source_survey", profile.D("source_survey", 1)), ("datum", profile.S("datum")), ("note", Guidance(module)));
+        data["soil_transfer"]!["snapshot"] = source;
+        data["soil_transfer"]!["scenario"] = source["formato"]?.ToString() == "ANTHEA.Stratigrafia" ? scenario : "Insieme unico del modulo";
         ModuleCatalog.ValidateData(module, data); return data;
     }
-    public static JsonObject Create(string module, JsonObject profile) => Apply(module, ModuleCatalog.CreateData(module), profile);
+    public static JsonObject Create(string module, JsonObject profile, string scenario = "Medi") => Apply(module, ModuleDirectory.CreateData(module), profile, scenario: scenario);
     public static string Guidance(string module) => "Copia indipendente di un profilo; profondità e falda mantengono lo stesso z=0. Nessuna traslazione automatica di quota. "
         + (module == Anthea.FoundationWorkspace.FoundationDocument.Module ? "Controllare il sondaggio selezionato, la quota di posa e l'ipotesi di semispazio. Sono ammessi strati diversi sopra la base; sotto la base il modello richiede parametri omogenei. Nessuna media o conversione automatica tra c′ e cu." : module == RetainingWall.Module ? "Selezionare Monte o Valle. Controllare terreno di fondazione, battenti e copertura fino al piano di posa; il collegamento copia i materiali, non le falde. Il calcolo dei muri ammette solo strati granulari con c′=0."
         : "Completare geometria e azioni del palo, addensamento e parametri specifici del metodo. Controllare che l’indagine raggiunga la punta: il profilo non viene prolungato. Cu resta da assegnare dove richiesto; nessuna correlazione automatica da φ′.");

@@ -8,6 +8,7 @@ public sealed record ProjectReportData(JsonObject Root, JsonObject[] Sheets,
     IReadOnlyDictionary<JsonObject, IReadOnlyList<ProjectReportData.InputValue>> Inputs,
     IReadOnlyDictionary<JsonObject, string> Locations)
 {
+    public IReadOnlyDictionary<string, string> ModuleNames { get; init; } = new Dictionary<string, string>();
     public sealed record InputValue(string Group, string Label, JsonNode? Value);
     public sealed record CommonValue(JsonObject Section, string Origin, string Group, JsonObject[] Sheets, IReadOnlyList<InputValue> Values);
     public sealed record Participant(JsonObject Sheet, JsonNode? Value);

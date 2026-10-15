@@ -1527,5 +1527,43 @@
     "title": "Geometria e rappresentazione delle sezioni",
     "order": 213,
     "summary": "Contorni, punto di inserimento, proprietà geometriche e limiti della rappresentazione delle sezioni composte."
+  },
+  "guide:Stratigrafia del terreno": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/guida-stratigrafia",
+    "modules": [
+      "geo_stratigrafia"
+    ],
+    "related": [
+      "modello-stratigrafia"
+    ],
+    "key": "guida-stratigrafia",
+    "chapterId": "geotecnica",
+    "status": "reviewed",
+    "level": "introductory",
+    "prerequisites": [],
+    "references": [],
+    "title": "Stratigrafia del terreno",
+    "order": 99,
+    "summary": "Strati orizzontali, dati geotecnici e falda nel modulo autonomo di ANTHEA."
+  },
+  "theory:Modello della stratigrafia del terreno": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/geotecnica/modello-stratigrafia",
+    "modules": [
+      "geo_stratigrafia"
+    ],
+    "related": [
+      "guida-stratigrafia"
+    ],
+    "key": "modello-stratigrafia",
+    "chapterId": "geotecnica",
+    "status": "reviewed",
+    "level": "introductory",
+    "prerequisites": [],
+    "references": [],
+    "title": "Modello della stratigrafia del terreno",
+    "order": 99,
+    "summary": "Strati orizzontali, dati geotecnici e falda nel modulo autonomo di ANTHEA."
   }
 }

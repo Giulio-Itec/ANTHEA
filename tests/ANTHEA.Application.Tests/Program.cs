@@ -18,6 +18,7 @@ try
     string root = directory?.FullName ?? throw new DirectoryNotFoundException("ANTHEA.sln non trovato.");
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f3/application") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
+    checks += StratigraphyChecks.Run(output);
     string path = Path.Combine(output, "documento.anth");
     foreach (string fixturePath in Directory.GetFiles(Path.Combine(root, "tests/fixtures/f3/inputs"), "*.json"))
     {

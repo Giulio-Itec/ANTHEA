@@ -1,11 +1,11 @@
 # Guide globali ANTHEA
 
-Edizione 6, 15 ottobre 2026. Guide pratica e teorica Rev45. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 15 ottobre 2026. Guide pratica e teorica Rev46. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev45.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev45.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev45.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev45.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev46.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev46.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev46.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev46.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 Le revisioni precedenti sono conservate in `supporto/SUPERATI/fondazioni-superficiali-rev34/` e `supporto/SUPERATI/merge-f4-modelli-rev35-20261012/`, con origine, motivo e impronte nel registro di archiviazione. Le edizioni pratica Rev35 e teorica Rev34 sono archiviate in `supporto/SUPERATI/rilascio-s-rev36-20261012/`. Il motore di portanza è disponibile con il rilascio approvato GPC S, distribuito con ANTHEA.
 
@@ -26,3 +26,5 @@ La Rev42 è conservata in `supporto/SUPERATI/f4-rev43-20261014/`, con origine e 
 La Rev43 è conservata in `supporto/SUPERATI/f4-rev44-20261014/`, con origine e SHA-256. La Rev44 documenta i report in Word e PDF senza Microsoft Word, le analisi composte dei prezzi, il piano delle deformazioni totali con viscosità e la compressione dei minimi dei pilastri; i riferimenti restano alle sole norme e alla bibliografia dei metodi.
 
 La Rev44 è conservata in `supporto/SUPERATI/installazione-rev45-20261015/`, con origine e SHA-256. Nella Rev45 la frase d’installazione della guida pratica non riporta più il numero di versione di ANTHEA, così non va aggiornata a ogni rilascio; la guida teorica è invariata nel contenuto e prende lo stesso numero di revisione.
+
+La Rev45 è conservata in `supporto/SUPERATI/stratigrafia-rev46-20261015/`. La Rev46 introduce il modulo autonomo Stratigrafia del terreno; il collegamento ai motori geotecnici resta successivo.

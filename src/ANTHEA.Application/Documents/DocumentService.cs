@@ -7,7 +7,7 @@ namespace Anthea.Application.Documents;
 
 public static class DocumentService
 {
-    public static readonly string[] ModuleIds = ModuleCatalog.All.Select(m => m.Id).ToArray();
+    public static readonly string[] ModuleIds = Modules.ModuleDirectory.All.Select(m => m.Id).ToArray();
     public static JsonObject Open(string path)
     {
         var doc=JsonNode.Parse(File.ReadAllText(path,Encoding.UTF8)) as JsonObject??throw new ArgumentException("Contenuto non riconosciuto.");
@@ -23,7 +23,7 @@ public static class DocumentService
             if(sheet["dati_ref"] is not null)throw new ArgumentException("Riferimento ai dati del foglio non risolto.");
             var data=sheet["dati"];if(data is null&&allowEmpty)return;
             if(data is not JsonObject)throw new ArgumentException("Dati del foglio mancanti.");
-            ModuleCatalog.ValidateData(sheet.S("modulo_id"), data.AsObject());
+            Modules.ModuleDirectory.ValidateData(sheet.S("modulo_id"), data.AsObject());
         }
         if(doc.S("tipo")=="calcolo"){Sheet(doc,false);return;}
         if(doc.S("tipo")!="progetti"||doc["progetti"] is not JsonArray projects)throw new ArgumentException("Dati dei progetti mancanti.");

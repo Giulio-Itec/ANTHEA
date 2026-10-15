@@ -41,7 +41,7 @@ public static class ProjectDocuments
     public static JsonObject AddSheet(JsonObject parent, string module, string? name = null)
     {
         ValidateContainer(parent);
-        var definition = ModuleCatalog.Get(module);
+        var definition = Anthea.Application.Modules.ModuleDirectory.Get(module);
         bool hadSheets = parent.ContainsKey("fogli");
         var sheets = parent["fogli"] as JsonArray ?? new JsonArray();
         var sheet = J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", Name(name ?? NextName(sheets, definition.Name))),
@@ -52,7 +52,7 @@ public static class ProjectDocuments
         try
         {
             ProjectSharedData.InheritHierarchy(sheet, parent);
-            ModuleCatalog.ValidateData(module, sheet["dati"]!.AsObject());
+            Anthea.Application.Modules.ModuleDirectory.ValidateData(module, sheet["dati"]!.AsObject());
             return sheet;
         }
         catch

@@ -144,7 +144,8 @@ public static class ProjectReportComposer
             foreach (var sheet in section.Array("fogli").OfType<JsonObject>())
             {
                 if (!materialSheet) NodeHeading(sheet);
-                P("Modulo: " + ModuleCatalog.Get(sheet.S("modulo_id")).Name);
+                P("Modulo: " + (plan.ModuleNames.TryGetValue(sheet.S("modulo_id"), out var moduleName)
+                    ? moduleName : ModuleCatalog.Get(sheet.S("modulo_id")).Name));
                 var refs = plan.Common.Where(v => v.Sheets.Contains(sheet)).Select(v => numbers[v.Section] + " " + v.Section.S("nome") + " — " + v.Group).Distinct().ToArray();
                 if (refs.Length > 0) P("Dati condivisi: vedere " + string.Join("; ", refs) + ".");
                 foreach (var group in plan.Inputs[sheet].GroupBy(v => v.Group))

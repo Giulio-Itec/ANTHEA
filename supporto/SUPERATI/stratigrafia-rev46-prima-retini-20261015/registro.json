@@ -1,0 +1,45 @@
+{
+  "motivo": "Bozza Rev46 sostituita dalla Rev46 con famiglie di terreno e retini, prima del rilascio",
+  "files": [
+    {
+      "origine": "supporto/docs/guida-pratica-anthea.md",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-retini-20261015/supporto/docs/guida-pratica-anthea.md",
+      "sha256": "a3eb401d9b31321f7041adbd0699e9f2fa312029bd356178a3dc54b863b4ee70"
+    },
+    {
+      "origine": "supporto/docs/guida-pratica-anthea.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-retini-20261015/supporto/docs/guida-pratica-anthea.pdf",
+      "sha256": "566e5745ad75736e637dd5a791689c30f68a169b0c60bb5f64d22e46e9897ca1"
+    },
+    {
+      "origine": "supporto/docs/guida-teorica-anthea.md",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-retini-20261015/supporto/docs/guida-teorica-anthea.md",
+      "sha256": "591672bfaa2ddcba0139cbecbf4867e4e189f45a6e0d863a581942dafac77ebd"
+    },
+    {
+      "origine": "supporto/docs/guida-teorica-anthea.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-retini-20261015/supporto/docs/guida-teorica-anthea.pdf",
+      "sha256": "dceee938aceaed46edc146feb474954fcd9d50875f2a56337a4ad1ad86f2d59c"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev46.docx",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-retini-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev46.docx",
+      "sha256": "5191dfc49536fa3756a682b5b2af9f366e8b8336e3ff8116cd9fade2a5691e49"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev46.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-retini-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev46.pdf",
+      "sha256": "566e5745ad75736e637dd5a791689c30f68a169b0c60bb5f64d22e46e9897ca1"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev46.docx",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-retini-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev46.docx",
+      "sha256": "694f3120456df94614922091660a90a60a22df9f0e53c3be337a77865ef3fe02"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev46.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-retini-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev46.pdf",
+      "sha256": "dceee938aceaed46edc146feb474954fcd9d50875f2a56337a4ad1ad86f2d59c"
+    }
+  ]
+}

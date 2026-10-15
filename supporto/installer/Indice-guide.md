@@ -1,13 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · 15 ottobre 2026 · Pratica Rev45 e teorica Rev45
-
-Guide globali consultabili anche nella Wiki. Revisione F4: prezzari sostituibili e versionati con analisi composte, traffico Schema 1, contratti di calcolo GPC, input e provenienza normativa, report in Word e PDF. Conservati i contenuti precedenti su modelli, sezioni, revisioni e risultati per fase.
+ITEC Engineering · Revisione 46 · 15 ottobre 2026
 
 ## Guida pratica ANTHEA
 
-[Word Rev45](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev45.docx) · [PDF Rev45](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev45.pdf)
+[Word Rev46](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev46.docx) · [PDF Rev46](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev46.pdf)
 
+- Stratigrafia del terreno
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
 - Materiali e durabilità
@@ -30,11 +29,13 @@ Guide globali consultabili anche nella Wiki. Revisione F4: prezzari sostituibili
 - Fondazioni superficiali
 - Modelli e importazione da MIDAS
 - Reologia del calcestruzzo
+- Esaminare le sezioni del modello
 
 ## Guida teorica ANTHEA
 
-[Word Rev45](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev45.docx) · [PDF Rev45](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev45.pdf)
+[Word Rev46](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev46.docx) · [PDF Rev46](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev46.pdf)
 
+- Modello della stratigrafia del terreno
 - Architettura del calcolo e convenzioni
 - Calcestruzzo armature e copriferro
 - Palo verticale
@@ -82,5 +83,4 @@ Guide globali consultabili anche nella Wiki. Revisione F4: prezzari sostituibili
 - Fondazioni superficiali
 - Reologia del calcestruzzo
 - Risultati dei modelli per fasi
-
-Le guide comprendono inoltre Esaminare le sezioni del modello (pratica) e Geometria e rappresentazione delle sezioni (teorica).
+- Geometria e rappresentazione delle sezioni

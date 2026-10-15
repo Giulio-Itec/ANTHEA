@@ -28,6 +28,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private readonly HorizontalWorkspace? horizontal;
     private readonly HorizontalPileGroupWorkspace? pileGroup;
     private readonly FoundationWorkspace? foundation;
+    private readonly StratigraphyWorkspace? soilWorkspace;
     internal readonly BridgeWorkspace? bridge;
     internal readonly BridgeDesignWorkspace? bridgeDesign;
     internal readonly RetainingWallWorkspace? retainingWall;
@@ -41,6 +42,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         ?? throw new InvalidOperationException("Il report short è disponibile per le sezioni in calcestruzzo armato.");
     internal event Action<string, JsonObject, string>? ModuleCopyRequested;
     internal event Action<JsonObject>? SoilReplacementRequested;
+    internal Func<IEnumerable<(string Label, string Module, JsonObject Data, string Id)>>? SoilSources;
     private bool building = true, disposed;
     private int expanded = -1;
     private bool Micro => Module == "geo_micropalo_verticale";
@@ -87,6 +89,11 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         };
         calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true, inspection: true); calculate.Width = 120; calculate.Visibility = Geo ? Visibility.Collapsed : Visibility.Visible;
         RevisionInspection.Allow(tableSelect); RevisionInspection.Allow(capacityView); RevisionInspection.Allow(curveChoices);
+        if (module == Anthea.Application.Stratigraphy.StratigraphyDocument.Module)
+        {
+            soilWorkspace = new StratigraphyWorkspace(Data); soilWorkspace.Modified += () => Modified?.Invoke();
+            Content = Ui.Dock(soilWorkspace, Ui.Bar(Ui.Button("Invia / importa terreno da ANTHEA…", OpenSoilTransfer))); building = false; return;
+        }
         if (module == Anthea.FoundationWorkspace.FoundationDocument.Module)
         {
             foundation = new FoundationWorkspace(Data); foundation.Modified += () => Modified?.Invoke();
@@ -145,15 +152,15 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     internal void OpenSoilTransfer()
     {
-        Commit(); var dialog = new SoilTransferDialog(Window.GetWindow(this), Module, Data);
+        Commit(); var dialog = new SoilTransferDialog(Window.GetWindow(this), Module, Data, SoilSources?.Invoke());
         if (dialog.ShowDialog() != true || dialog.Output is null) return;
         if (dialog.Replace) SoilReplacementRequested?.Invoke(dialog.Output);
-        else if (dialog.DestinationModule is string target) ModuleCopyRequested?.Invoke(target, dialog.Output, "Terreno da " + ModuleDirectory.Get(Module).Element);
+        else if (dialog.DestinationModule is string target) ModuleCopyRequested?.Invoke(target, dialog.Output, dialog.OutputName);
     }
     private Action? releaseRevisionInspection;
     internal void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
     public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); horizontal?.Dispose(); pileGroup?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); bridgeDesign?.Dispose(); }
-    internal void Commit() { if (foundation is not null) foundation.Commit(); else if (pileGroup is not null) pileGroup.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
+    internal void Commit() { if (soilWorkspace is not null) soilWorkspace.Commit(); else if (foundation is not null) foundation.Commit(); else if (pileGroup is not null) pileGroup.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
@@ -242,6 +249,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     internal async Task CalculateAsync(bool commitEdits = true)
     {
+        if (soilWorkspace is not null) { soilWorkspace.Commit(); return; }
         if (foundation is not null) { foundation.TryCalculate(); return; }
         if (pileGroup is not null) { pileGroup.TryCalculate(); return; }
         if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
@@ -335,6 +343,10 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     internal void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
     {
+        if (soilWorkspace is not null)
+        {
+            Commit(); ReportFiles.Write(filename, DocxWriter.Write(StratigraphyReport.Create(title, Data)), title); return;
+        }
         if (foundation is not null)
         {
             var current = Result ?? throw new InvalidOperationException("Calcolare prima di esportare.");
