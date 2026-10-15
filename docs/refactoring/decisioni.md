@@ -1321,3 +1321,76 @@ superfici interne delle sezioni cave.
   c'è punto per una domanda a momento nullo né con N fuori da [NRd,c; NRd,t]. La decisione dell'11/10 (opzione A, solo la
   libreria) non cambia. La correzione è nella libreria, con esiti tipizzati (GPCChecker.Concrete 0.11.0.0, nella prossima
   release). Registro F2-17.
+
+## 16 ottobre (notte) — correzioni dei bug: decisioni dell'utente
+
+Correzioni dell'[analisi dei bug](analisi-bug-20261015.md) del 15/10, proposte in un piano a tre lotti e fatte fra la sera
+del 15 e la notte del 16 da agenti in parallelo. Le correzioni delle librerie sono sui rami di integrazione (Checker
+`anthea-bug-1015`, Model `bugint-model` con `bug/model`) e si distribuiscono con il rilascio Z; quelle di ANTHEA sono sui
+rami `refactoring/bug-1015` e `refactoring/bug-1015-geo`, uniti in `refactoring/integrazione-1016`. Nel registro le
+risposte della notte hanno la data del 15/10: quasi tutti i commit che le attuano sono di quella sera (dalle 20:54), mentre
+la rigenerazione delle catture e gli ultimi seguiti di Model sono della notte del 16 (fino alle 00:13). Esito per codice:
+[analisi](analisi-bug-20261015.md), sezione «Esito delle correzioni»; registro, voci `BUG-*`.
+
+- **Piano delle correzioni**, «il piano va bene» (15/10, sera). Si correggono A, B, C e le basse, con le scelte proposte:
+  - MUR-1: gemella di ogni riga SLU con il sovraccarico variabile assente sulla mensola, non solo q tolta da scorrimento e
+    ribaltamento (BUG-MUR-1);
+  - MUR-2: passiva come resistenza con γR,e = 1,4 e ηp ≤ 0,5, con rifiuto (BUG-MUR-2);
+  - PON-1: Δσs secondo EN 1994-1-1 7.4.3(3), non un avviso (BUG-PON-1);
+  - TAG-1: si corregge l'aiuto, Δe positiva verso il lembo teso, senza invertire il segno passato alla libreria
+    (BUG-TAG-1);
+  - GEO-1: Meyerhof con iq anche con φ = 0, invece del manuale Califfo (BUG-GEO-1);
+  - DET-3: εuk = 2,5 % per B450A e B500A in GPCModelData; i fogli salvati conservano i valori e lo dichiarano (BUG-DET-3);
+  - SLU-5: fcm a 28 giorni nel legame non lineare, senza opzione legacy (BUG-SLU-5);
+  - superfici interne delle sezioni cave «non soddisfatta» (F2-25) e muri E1-D4 come proposto (F2-25, campo «muri»).
+
+  Modo: correzione diretta in libreria; opzioni solo dove cambierebbe il contratto K0 di ModelChecker (FES-2,
+  `CoverFromBarGeometry`, attivata da ANTHEA; FES-1 dentro l'opzione esistente `UnreinforcedTensileZoneFails`) e
+  un'opzione legacy nominata per DET-1. K0 invariato.
+- **Catture congelate**, «Rigenera tutte». Le catture cambiate solo dalle correzioni approvate si rigenerano una volta, sul
+  ramo di integrazione di Checker, valore per valore e con il motivo nel commit:
+  - M–χ dopo SLU-4 (`b3e53fbd`): 5 righe limite, colonna ReferenceStrain;
+  - punti del dominio dopo SLU-5 (`372d8a6d`): i 256 punti del legame non lineare, nessun verdetto su N cambiato;
+  - solette e pareti dopo DET-1 (`a0c36656`): 60 righe su 282, verdetti invariati; l'opzione legacy resta;
+  - muri e pali (`d40bcc04`): MUR-2, MUR-3, MUR-4, PO-2 e PV-1, nessun verdetto cambiato.
+- **FES-1 e FES-2**, «Confermo le regole dell'agente».
+  - FES-1: wk = 0 solo con l'asse neutro nel copriferro di una barra del lembo teso, h − x ≤ a(c + Ø/2), con una regola
+    più larga di quella del verificatore (testo di F2-25).
+  - FES-2: senza c assegnato, c è il copriferro delle barre efficaci verso la faccia tesa (BUG-FES-2).
+- **Gemelle sismiche ed eccezionali dei muri**, «Sì, estendi»: anche ψ2·q sulla mensola e l'inerzia kh·ψ2·q·b non
+  stabilizzano (Checker `edc6ac35`, ANTHEA `1d1d003b`; BUG-MUR-1).
+- **Difetti nuovi trovati durante le correzioni**, «Correggili tutti»:
+  - piano dei punti interpolati a N costante e fra campi di rottura (BUG-N1);
+  - polo di trazione del dominio elastico (BUG-N2);
+  - overload a quattro argomenti degli acciai (BUG-N3) e degli FRP (BUG-N4);
+  - ordine della classe del cemento (BUG-N5);
+  - coefficienti unitari del palo in ancoraggi e dettagli (BUG-N6);
+  - Mononobe-Okabe controllato per riga con φd e δd (BUG-MUR-5).
+- **PON-2**, «si può tenere l'opzione del cls reagente a trazione nello storico non lineare?». Lo storico trascura la
+  trazione del calcestruzzo per default; l'opzione «Tension stiffening» resta, con «Trascurato» predefinito anche nei
+  documenti salvati (BUG-PON-2).
+- **Tension stiffening**, «ramo decrescente su tutti i calcestruzzi?? aiuta la convergenza sempre». Attuato come diagramma
+  opzionale di Model, una legge per tutti i calcestruzzi (Collins e Mitchell 1991), solo nelle analisi di risposta: M–χ,
+  analisi tensionali non lineari, storico del ponte. Mai nei domini né nelle verifiche SLU, che trascurano la trazione
+  (BUG-TS-1). In ANTHEA il campo del M–χ si espone con le DLL candidate del rilascio Z; non nelle SLE. Le domande 1–8
+  dell'agente sono aperte (BUG-TS-2).
+- **MUR-2, ribaltamento**, «non lo so. devo vederlo. lascia momentaneamente aperto». L'agente ha esteso γR,e = 1,4 al
+  ribaltamento, con il momento della passiva fra le resistenze: resta nel codice fino alla decisione (BUG-MUR-2b).
+- **Combinazioni**, alla domanda se si fanno con il generatore di Model (no: i muri usano `WallCombinations`, porta del
+  legacy): «sì, mettilo in coda dopo il rilascio. vorrei però che le combo venissero fatte tutte in model.» In coda dopo
+  il rilascio Z:
+  - censimento dei moduli che generano le combinazioni da sé, a partire dai muri;
+  - passaggio al generatore di Model (`StandardEN1990.CreateCombinations`, `StandardGeotechnical.Combinations`).
+
+  Scritto in [piano.md](piano.md).
+- **Punti aperti**, da decidere (registro, stato «da-decidere»):
+  - BUG-MUR-2b: passiva nel ribaltamento con γR,e = 1,4;
+  - BUG-PO-5b: sviluppo parziale delle barre al piede del palo elastico (non risposto: non si assume nulla);
+  - BUG-FES-1b: barre libere più profonde del copriferro nominale (non risposto: non si assume nulla);
+  - BUG-FES-1c: c di fessurazione assegnato minore del copriferro reale (stato 480 della griglia, ora non soddisfatta);
+  - BUG-SLU-2b: «N e Mx costanti» e «N e My costanti» con N fuori dal campo, «Fuori dominio» accettato in via provvisoria;
+  - BUG-TS-2: domande 1–8 sul tension stiffening, soprattutto la legge su tutta la zona tesa e l'uso nelle SLE;
+  - BUG-N7: classe FRP di Model modellata come un acciaio, senza CNR-DT 200 né ACI 440 (non usata).
+
+  Senza risposta anche due proposte operative: guide aggiornate ora nel solo testo, con i PDF dopo; push fatti
+  dall'utente al mattino, mai dagli agenti.
