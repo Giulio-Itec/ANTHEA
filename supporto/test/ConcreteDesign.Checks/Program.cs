@@ -93,6 +93,13 @@ try
     Check(tr.Candidates.All(c => c.Checks.Any(x => x.Key == "vt_staffe") && c.Checks.Any(x => x.Combination.Contains("distribuzione"))), "Torsion distribution missing");
     var match = r.Candidates.First(c => c.Input.ToJsonString() == tr.Candidates[0].Input.ToJsonString());
     Check(tr.Candidates[0].Checks.Single(c => c.Key == "slu" && c.Combination == "Flessione").Ratio > match.Checks.Single(c => c.Key == "slu").Ratio, "Torsion reserve not removed from flexural capacity");
+    // DET-2 (analisi dei bug del 15/10/2026): con barre lisce dichiarate nella sezione l'ancoraggio della proposta resta da completare,
+    // mai soddisfatto né calcolato con le regole delle barre ad aderenza migliorata.
+    var plain = Fixture(); plain["workspace_ca"]!["sle_comuni"]!["aderenza"] = "Liscia";
+    var plainResult = ConcreteReinforcementDesign.Optimize(plain, small with { MaxEvaluations = 4 });
+    Check(plainResult.Candidates.Count > 0 && plainResult.Candidates.All(c => c.NeedsReview && c.Checks.Any(x => x.Key == "ancoraggio")
+        && c.Checks.Where(x => x.Key == "ancoraggio").All(x => x.Passed == null && x.Ratio == null && x.Detail == ConcreteAnchorageCalculator.PlainBarsMessage)),
+        "Plain bars: anchorage not left pending: " + string.Join("; ", plainResult.Exclusions.Keys));
     foreach (string kind in new[] { "Soletta piena", "Parete" })
     {
         var plate = Fixture(kind); plate["input"]!["width_mm"] = "1000"; plate["input"]!["height_mm"] = "250";

@@ -92,6 +92,23 @@ internal static class ConcreteModuleChecks
         Near(anchorCalc.Calculate(new(20,400,2,1.5,true,1000,true,100,80)).RequiredLength,1000,1e-10,"Sovrapposizione 100%: α6 = 1,5");
         Check(!anchorCalc.Calculate(new(20,400,2,1.5,true,1200,true,100,81)).Passed,"Interferro oltre 4Ø non soddisfatto");
         Near(anchorCalc.Calculate(new(20,400,2,1.5,false,1200,false,100,0)).Fbd,2.1,1e-12,"Aderenza non buona: η1 = 0,7");
+        // DET-2 (analisi dei bug del 15/10/2026): il tipo di barra della sezione (SLE, Barre: Migliorata/Liscia) arriva all'ancoraggio.
+        // C25/30, B450 con γs = 1,15, Ø16, aderenza buona, 600 mm disponibili. Atteso a mano, NTC [4.1.7] ed EC2 8.4.2-8.4.3:
+        // fctk = 0,7 · 0,30 · 25^(2/3) = 1,7955 MPa, fbd = 2,25 fctk/γc = 2,6932 MPa, lb,rqd = Ø fyd/(4 fbd) = 581,17 mm ≤ 600 mm.
+        {
+            var sheet=SezioneCA.DefaultData();var sw=SectionWorkspace.Prepare(sheet);var si=sheet["input"]!.AsObject();
+            si["fck_mpa"]="25";si["fyk_mpa"]="450";si["gamma_s"]="1.15";si["gamma_c"]="1.5";
+            var anchorage=sw["ancoraggi"]!;anchorage["diametro"]="16";anchorage["aderenza"]="Buona";anchorage["lunghezza"]="600";anchorage["tipo"]="Ancoraggio rettilineo";
+            sw["sle_comuni"]!["aderenza"]="Migliorata";
+            var ribbed=ConcreteDetailingAnalysis.Anchorage(si,sw).Check;double fbd=2.25*.7*.3*Math.Pow(25,2.0/3)/1.5;
+            Near(ribbed.Fbd,fbd,1e-9,"DET-2: fbd barre ad aderenza migliorata");Near(ribbed.RequiredLength,16*(450/1.15)/(4*fbd),1e-9,"DET-2: lb,rqd barre ad aderenza migliorata");
+            Check(ribbed.Passed,"DET-2: 600 mm sufficienti con barre ad aderenza migliorata");
+            sw["sle_comuni"]!["aderenza"]="Liscia";string message="";
+            try{_=ConcreteDetailingAnalysis.Anchorage(si,sw);}catch(ArgumentException ex){message=ex.Message;}
+            Check(message==ConcreteAnchorageCalculator.PlainBarsMessage,"DET-2: barre lisce verificate con le regole delle barre ad aderenza migliorata: «"+message+"»");
+            message="";try{_=anchorCalc.Calculate(new(16,391.3,1.7955,1.5,true,600,false,100,0,RibbedBars:false));}catch(ArgumentException ex){message=ex.Message;}
+            Check(message==ConcreteAnchorageCalculator.PlainBarsMessage,"DET-2: rifiuto della libreria per le barre lisce non tradotto");
+        }
         var td=new ConcreteDetailingInput(ConcreteMemberKind.Slab,noStirrups,0,false,0,0,0,20,20,10,false,500,150,false,false,false);
         Check(new ConcreteDetailingCalculator().Calculate(td).All(r=>!r.Name.StartsWith("Staffe minime")),"Soletta senza staffatura minima da trave");
         var col=new ConcreteDetailingCalculator().Calculate(td with{Kind=ConcreteMemberKind.Column});Check(col.Any(r=>r.Name=="Diametro staffe"&&r.Passed==false),"Pilastro senza staffe non soddisfatto");

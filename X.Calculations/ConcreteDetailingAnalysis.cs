@@ -101,8 +101,10 @@ public static class ConcreteDetailingAnalysis
         _ = ConcreteMaterials.Concrete(input); // Preserve material/diagram validation; the bond cap belongs to Checker.
         double fct = GPC.Checkers.Concrete.Detailing.AnchorageCalculator.BondFctk05(input.D("fck_mpa"));
         bool lap = a.S("tipo").StartsWith("Sovrapposizione");
+        // Tipo di barra dalla sezione (Barre: Migliorata/Liscia delle SLE), con la stessa lettura e lo stesso predefinito della fessurazione (DET-2).
+        bool ribbed = settings["sle_comuni"].S("aderenza", "Migliorata") == "Migliorata";
         var result = new ConcreteAnchorageCalculator().Calculate(new(phi, sigma, fct, input.D("gamma_c"),
-            a.S("aderenza") == "Buona", Number("lunghezza"), lap, lap ? Number("percentuale") : 100, lap ? Number("interferro") : 0));
+            a.S("aderenza") == "Buona", Number("lunghezza"), lap, lap ? Number("percentuale") : 100, lap ? Number("interferro") : 0, ribbed));
         return new(phi, sigma, fct, result);
     }
 }

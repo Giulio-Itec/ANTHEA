@@ -5,8 +5,10 @@ namespace Anthea.Calculations;
 /// <summary>UI-independent contracts, mm/MPa/kN. Reusable by section and future anchorage modules.</summary>
 public enum ConcreteMemberKind { Beam, Column, Slab, Wall }
 public sealed record DetailingCheck(string Name, double? Actual, double? Limit, string Unit, bool? Passed, string Reference, string Explanation);
+/// <summary>RibbedBars: barre ad aderenza migliorata (predefinito); con barre lisce la libreria non ha regole e l'ancoraggio è rifiutato
+/// con <see cref="ConcreteAnchorageCalculator.PlainBarsMessage"/> (analisi dei bug del 15/10/2026, DET-2).</summary>
 public sealed record AnchorageInput(double Diameter, double Stress, double Fctk05, double GammaC, bool GoodBond,
-    double AvailableLength, bool Lap, double LapPercent, double LapClearDistance);
+    double AvailableLength, bool Lap, double LapPercent, double LapClearDistance, bool RibbedBars = true);
 public sealed record AnchorageResult(double Fbd, double BasicLength, double RequiredLength, bool Passed, string Expression)
 {
     public double Eta1 { get; init; }
@@ -19,14 +21,17 @@ public sealed record AnchorageResult(double Fbd, double BasicLength, double Requ
 public interface IConcreteAnchorageCalculator { AnchorageResult Calculate(AnchorageInput input); }
 public sealed class ConcreteAnchorageCalculator : IConcreteAnchorageCalculator
 {
+    /// <summary>Rifiuto delle barre lisce: la verifica resta da completare, mai soddisfatta.</summary>
+    public const string PlainBarsMessage = "Ancoraggi: regole implementate per barre ad aderenza migliorata; con barre lisce la verifica resta da completare.";
     public AnchorageResult Calculate(AnchorageInput p)
     {
         NativeDetailing.AnchorageResult r;
         try
         {
             r = NativeDetailing.AnchorageCalculator.Calculate(NativeDetailing.DetailingProfile.Ntc2018,
-                new(p.Diameter, p.Stress, p.Fctk05, p.GammaC, p.GoodBond, p.AvailableLength, p.Lap, p.LapPercent, p.LapClearDistance));
+                new(p.Diameter, p.Stress, p.Fctk05, p.GammaC, p.GoodBond, p.AvailableLength, p.Lap, p.LapPercent, p.LapClearDistance, ribbedBars: p.RibbedBars));
         }
+        catch (NotSupportedException) when (!p.RibbedBars) { throw new ArgumentException(PlainBarsMessage); }
         catch (ArgumentException e)
         {
             throw new ArgumentException(e.Message switch

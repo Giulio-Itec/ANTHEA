@@ -104,7 +104,15 @@ public static partial class ConcreteReinforcementDesign
             diameters = diameters.Append(workspace["dettagli_costruttivi"].D("diametro_secondaria"));
         foreach (double phi in diameters.Distinct().Order())
         {
-            a["diametro"] = phi; var r = ConcreteDetailingAnalysis.Anchorage(input, copy).Check;
+            a["diametro"] = phi;
+            Anthea.Calculations.AnchorageResult r;
+            try { r = ConcreteDetailingAnalysis.Anchorage(input, copy).Check; }
+            catch (ArgumentException e) when (e.Message == ConcreteAnchorageCalculator.PlainBarsMessage)
+            {
+                // Barre lisce (DET-2): nessuna regola di aderenza, controllo da completare per la proposta, mai soddisfatto né escluso.
+                checks.Add(new("ancoraggio", "Ancoraggio / giunzione Ø" + phi, "Dettaglio esecutivo", null, options.Target("ancoraggio"), null, e.Message));
+                continue;
+            }
             string detail = $"Ø{phi:0.#}; l richiesta = {r.RequiredLength:0.#} mm; lb,rqd = {r.BasicLength:0.#} mm; fbd = {r.Fbd:0.###} MPa. σsd = fyd. {r.Expression}";
             if (available) AddRatio(checks, "ancoraggio", "Ø" + phi, SectionDesignDemand.Ratio(r.RequiredLength, anchor.D("lunghezza")), options, detail);
             else checks.Add(new("ancoraggio", "Ancoraggio / giunzione Ø" + phi, "Dettaglio esecutivo", null, options.Target("ancoraggio"), null,
