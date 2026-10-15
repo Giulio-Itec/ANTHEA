@@ -49,7 +49,7 @@ R_k = \min\left(\frac{H_{u,medio}}{\xi_3};\frac{H_{u,\min}}{\xi_4}\right)
 R_d = \frac{\eta R_k}{1{,}3}
 ```
 
-HEd è già un'azione di progetto assegnata. Il motore non genera l'intero percorso delle combinazioni normative. L'efficienza di gruppo basata su Reese e Van Impe usa fattori direzionali: davanti min[1; 0,7(s/D)^0,26], dietro min[1; 0,48(s/D)^0,38], lateralmente min[1; 0,64(s/D)^0,34]. I contributi diagonali combinano i fattori longitudinali e laterali secondo l'angolo; il prodotto dei vicini attivi dà η. Questa riduzione agisce su Rd, senza ridisegnare il meccanismo Hu del singolo palo.
+HEd è già un'azione di progetto assegnata. Il motore non genera l'intero percorso delle combinazioni normative. L'efficienza di gruppo basata su Reese e Van Impe usa fattori direzionali riferiti al verso di H. Con il vicino davanti il palo è nella sua scia, min[1; 0,48(s/D)^0,38]; con il vicino dietro è capofila, min[1; 0,70(s/D)^0,26]; lateralmente vale min[1; 0,64(s/D)^0,34]. Ogni contributo diagonale combina secondo l'angolo il fattore laterale con quello longitudinale del proprio lato, anteriore o posteriore; il prodotto dei vicini attivi dà η. Questa riduzione agisce su Rd, senza ridisegnare il meccanismo Hu del singolo palo.
 
 ### Momento resistente del palo in c a
 

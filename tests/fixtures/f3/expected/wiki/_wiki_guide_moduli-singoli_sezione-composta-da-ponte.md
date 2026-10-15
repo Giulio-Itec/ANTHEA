@@ -61,6 +61,8 @@ Gli archivi precedenti privi del tipo di sezione vengono interpretati come H sal
 
 La scelta va fatta prima di interpretare le differenze fra due risultati. Uno storico non lineare non è semplicemente un cumulativo «più preciso» per ogni scopo: introduce fenomeni diversi e non include tutti i controlli locali del cumulativo. I controlli di taglio, connessione e accessori non vengono valutati dai due metodi storici.
 
+Con Storico non lineare compare il campo «CLS teso (non lineare)»: Trascurato, predefinito anche per i fogli salvati prima, oppure Tension stiffening. La stessa scelta vale per le curve di risposta; il legame è descritto nella guida teorica.
+
 ### Costruire le fasi
 
 Aprire la scheda fasi e tensioni e inserire gli incrementi in ordine. Un percorso comune comprende peso della carpenteria e getto sulla sezione di acciaio, permanenti successivi sulla sezione composta a lungo termine e variabili sulla sezione composta a breve termine. Il primo carico applicato prima della maturazione non deve beneficiare della soletta che ancora non collabora.
@@ -74,6 +76,8 @@ Per il ritiro assegnare la deformazione con il segno corretto: un accorciamento 
 ### Leggere efficacia tensioni e controlli locali
 
 Selezionare la situazione da visualizzare e distinguere tensioni della fase, contributi precedenti e stato cumulato. Le parti inefficaci dell'acciaio evidenziano la riduzione per instabilità locale sotto tensioni normali. L'anima resistente a taglio non viene automaticamente ridotta nello stesso modo. Leggere area, baricentro, inerzia, coefficienti di omogeneizzazione e residui di convergenza.
+
+Negli SLE con la soletta esclusa la tabella dei contributi mostra la colonna «Δσs tension stiff.» per le barre tese: la loro tensione totale è la somma dei contributi più Δσs.
 
 Nel metodo cumulativo aprire i controlli di taglio, irrigidimenti, appoggi e pioli. Inserire geometrie reali, pannelli, reazioni, eccentricità, saldature, passi e materiali. Un irrigidimento non idoneo non deve produrre il beneficio di un pannello corto. La connessione richiede anche dettagli costruttivi e, se pertinente, dati di fatica; un rapporto di resistenza favorevole del singolo piolo non esaurisce questi controlli.
 

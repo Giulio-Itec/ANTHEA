@@ -48,7 +48,7 @@ text:
 formula: k_t,k_1,k_2
 text: Coefficienti di durata, aderenza e distribuzione deformativa
 text: adimensionali
-text: Il copriferro della formula va riferito alle barre che controllano la fessura: non sostituire senza controllo il copriferro netto alla staffa impostato nella UI. L'area efficace non è l'intera sezione né tutta la zona geometricamente tesa. Per flessione semplice della sezione rettangolare, la definizione classica limita l'altezza efficace con il minimo dei tre contributi seguenti, dove   è l'altezza utile e   la profondità dell'asse neutro dal bordo compresso:
+text: Il copriferro della formula va riferito alle barre che controllano la fessura: non sostituire senza controllo il copriferro netto alla staffa impostato nella UI. In ANTHEA, con il campo «c barra» vuoto, c è il minimo copriferro libero delle barre efficaci verso la faccia tesa, misurato sulle barre. L'area efficace non è l'intera sezione né tutta la zona geometricamente tesa. Per flessione semplice della sezione rettangolare, la definizione classica limita l'altezza efficace con il minimo dei tre contributi seguenti, dove   è l'altezza utile e   la profondità dell'asse neutro dal bordo compresso:
 formula: d
 formula: x
 formula: h_{c,eff}=\min\left(2{,}5(h-d),\frac{h-x}{3},\frac{h}{2}\right)

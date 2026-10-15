@@ -120,7 +120,9 @@ Il metodo conserva il riferimento di deformazione al momento del getto e gli sta
 
 ### Metodo storico non lineare
 
-La sezione è discretizzata a fibre e l'equilibrio N Mx viene risolto seguendo la storia. L'acciaio adotta una legge bilineare con incrudimento isotropo, memoria plastica e scarico elastico. Il calcestruzzo usa l'inviluppo del materiale tabulato disponibile nella libreria, senza una legge completa di danno ciclico e degradazione.
+La sezione è discretizzata a fibre e l'equilibrio N Mx viene risolto seguendo la storia. L'acciaio adotta una legge bilineare con incrudimento isotropo, memoria plastica e scarico elastico. Il calcestruzzo compresso usa l'inviluppo del materiale tabulato disponibile nella libreria, senza una legge completa di danno ciclico e degradazione.
+
+Il legame del calcestruzzo teso nello storico non lineare e nelle curve M–κ e N–ε si sceglie con «CLS teso (non lineare)». Con Trascurato, predefinito, il calcestruzzo non resiste a trazione (EN 1992-1-1 §6.1(2)P, sezione fessurata di EN 1994-2), con tensione nulla per ogni deformazione di trazione, anche prima della fessurazione: la scelta è a favore di sicurezza per acciaio e barre. Con Tension stiffening il calcestruzzo è elastico fino a fctm, poi segue la tensione media del calcestruzzo fessurato σ = fctm/(1 + √(500 ε)) (Collins e Mitchell, 1991); alla fessurazione la tensione scende a circa 0,82 fctm. Oltre lo snervamento delle barre il contributo del calcestruzzo teso è sovrastimato, perché non si controlla la tensione trasmissibile alla fessura. Storico lineare e metodo cumulativo non usano l'opzione.
 
 Il calcolo è istantaneo, su sezione lorda e con proprietà caratteristiche. Non applica la riduzione locale di classe 4 e non sostituisce le verifiche di instabilità con la plasticità delle fibre. Il percorso non ammette di simulare la viscosità alterando arbitrariamente il modulo di un materiale plastico attraverso n. Le impostazioni iniziali usano 160 suddivisioni nell'anima, 8 nelle flange, 64 nel cls e 8 sottopassi per incremento; la sensibilità numerica va controllata nei casi impegnativi.
 
@@ -152,6 +154,8 @@ L'iterazione utilizza una tolleranza dell'ordine di 10⁻⁷ e massimo 120 passi
 ### Limiti di tensione e interpretazione delle curve
 
 Il percorso elastico di esercizio confronta l'acciaio strutturale con fy, il cls con i limiti 0,60fck o 0,45fck secondo la situazione e l'armatura con 0,80fyk nel percorso previsto. L'esclusione della soletta tesa è una scelta del modello; l'armatura può restare attiva. Nel cumulativo non viene introdotta automaticamente una fessurazione parziale della soletta tale da risolvere ogni distribuzione tesa.
+
+Negli SLE le barre tese della soletta fessurata, nelle fasi con «Soletta esclusa», includono il tension stiffening di EN 1994-1-1 §7.4.3(3): σs = σs,0 + Δσs con Δσs = 0,4 fctm/(αst ρs), dove σs,0 è la tensione delle barre nella sezione fessurata, ρs = As/Act il rapporto d'armatura della soletta tesa e αst = A I/(Aa Ia), con A e I della sezione composta senza calcestruzzo teso e Aa e Ia dell'acciaio strutturale. La tensione totale di queste barre supera quindi la somma dei contributi delle fasi, che sommano σs,0; allo SLU Δσs non si applica. Il report elenca σs,0, Δσs, αst, ρs e fctm.
 
 Le curve M κ a N costante e N ε a curvatura costante possono partire da stato vergine o dalla ricostruzione della storia fino a una fase. Il motore conserva la memoria prevista dallo storico non lineare. Il risultato è una risposta caratteristica della sezione lorda: per trasformarlo in una capacità di progetto servono le verifiche e i coefficienti pertinenti. Punti non convergenti non vengono sostituiti da un inviluppo artificiale.
 

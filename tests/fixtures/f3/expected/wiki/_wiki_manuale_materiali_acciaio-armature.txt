@@ -1,4 +1,4 @@
-text: Il materiale definisce la risposta delle barre; non verifica da solo una sezione. La scheda propone B450C, B450A, classi storiche FeB e un materiale personalizzato. I valori storici di catalogo non sostituiscono le prove su una struttura esistente.
+text: Il materiale definisce la risposta delle barre; non verifica da solo una sezione. La scheda propone B450C, B450A, classi storiche FeB e un materiale personalizzato. Nel catalogo B450A ha εu = 25 ‰, cioè (Agt)k ≥ 2,5 % (NTC 2018 Tab. 11.3.Ic; EN 1992-1-1 Tab. C.1, classe A), e B450C 75 ‰. Le schede salvate con valori diversi dal catalogo, per esempio B450A con il 30 ‰ di un catalogo precedente, conservano i propri valori, che il calcolo usa, e dichiarano la differenza; riselezionando la classe si adottano i valori del catalogo. I valori storici di catalogo non sostituiscono le prove su una struttura esistente.
 text: grandezze-e-unita
 text: Simbolo
 text: Significato

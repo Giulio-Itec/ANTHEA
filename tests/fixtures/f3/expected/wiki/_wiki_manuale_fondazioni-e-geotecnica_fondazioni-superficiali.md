@@ -67,7 +67,7 @@ Per una resistenza positiva si richiede a minore di uno e ic non negativo. Azion
 
 ### Condizioni non drenate
 
-Per Eurocodice 7 Nc = π + 2, sc = 1 + 0,2r, dc = 1 e ic = (1 + √(1 − H/(A′cu)))/2, con H non maggiore di A′cu. La pressione limite è cu Nc sc ic + q. Per Vesić si usano sc = 1 + 0,2r, dc = 1 + 0,4k, ic = 1 − mH/(A′cuNc), non negativo, in forma moltiplicativa. Meyerhof usa sc = 1 + 0,2r, dc = 1 + 0,2D/B e il fattore di inclinazione sopra descritto, limitato alla striscia quando H non è nullo.
+Per Eurocodice 7 Nc = π + 2, sc = 1 + 0,2r, dc = 1 e ic = (1 + √(1 − H/(A′cu)))/2, con H non maggiore di A′cu. La pressione limite è cu Nc sc ic + q. Per Vesić si usano sc = 1 + 0,2r, dc = 1 + 0,4k, ic = 1 − mH/(A′cuNc), non negativo, in forma moltiplicativa. Meyerhof usa sc = 1 + 0,2r, dc = 1 + 0,2D/B e il fattore di inclinazione sopra descritto, limitato alla striscia quando H non è nullo. A differenza di Eurocodice 7, Vesić, Hansen e Terzaghi, che sommano q, Meyerhof applica l'inclinazione anche al sovraccarico: cu Nc sc dc ic + q iq, con iq = ic = (1 − θ/(π/2))², in continuità con il ramo drenato (Meyerhof, 1963; USACE EM 1110-1-1905, tabella 4-3).
 
 Hansen con carico normale usa invece una forma additiva:
 

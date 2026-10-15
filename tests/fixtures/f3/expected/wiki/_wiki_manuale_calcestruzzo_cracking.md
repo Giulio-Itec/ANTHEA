@@ -31,7 +31,7 @@ s_{r,max}=3{,}4c+0{,}425k_1k_2\frac{\phi}{\rho_{eff}}
 | $c,\phi$ | Copriferro dell'armatura considerata e diametro | mm |
 | $k_t,k_1,k_2$ | Coefficienti di durata, aderenza e distribuzione deformativa | adimensionali |
 
-Il copriferro della formula va riferito alle barre che controllano la fessura: non sostituire senza controllo il copriferro netto alla staffa impostato nella UI. L'area efficace non è l'intera sezione né tutta la zona geometricamente tesa. Per flessione semplice della sezione rettangolare, la definizione classica limita l'altezza efficace con il minimo dei tre contributi seguenti, dove $d$ è l'altezza utile e $x$ la profondità dell'asse neutro dal bordo compresso:
+Il copriferro della formula va riferito alle barre che controllano la fessura: non sostituire senza controllo il copriferro netto alla staffa impostato nella UI. In ANTHEA, con il campo «c barra» vuoto, c è il minimo copriferro libero delle barre efficaci verso la faccia tesa, misurato sulle barre. L'area efficace non è l'intera sezione né tutta la zona geometricamente tesa. Per flessione semplice della sezione rettangolare, la definizione classica limita l'altezza efficace con il minimo dei tre contributi seguenti, dove $d$ è l'altezza utile e $x$ la profondità dell'asse neutro dal bordo compresso:
 
 ```math
 h_{c,eff}=\min\left(2{,}5(h-d),\frac{h-x}{3},\frac{h}{2}\right)
