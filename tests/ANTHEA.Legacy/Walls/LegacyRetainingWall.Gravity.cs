@@ -1,8 +1,11 @@
+// Spostato da X.Calculations/RetainingWall.Gravity.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: verifiche storiche del muro a
+// gravità, sostituite da GPC (RetainingWall.Library.Gravity.cs). Codice storico conservato per le prove, fuori dall'installer.
 using System.Text.Json.Nodes;
+using static Anthea.Calculations.RetainingWall;
 
 namespace Anthea.Calculations;
 
-public static partial class RetainingWall
+public static partial class LegacyRetainingWall
 {
     public static (double Compression, double Tension, double E, double Shear0, double ShearCap, double Gamma) GravityMaterial(JsonObject d)
     {

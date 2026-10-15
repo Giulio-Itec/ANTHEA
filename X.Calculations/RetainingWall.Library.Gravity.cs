@@ -31,7 +31,7 @@ public static partial class RetainingWall
             default: throw new ArgumentException("Materiale del muro a gravità non riconosciuto.");
         }
     }
-    private static List<Check> GravityChecksNative(JsonObject d,List<LoadCase> cases,CancellationToken token)
+    internal static List<Check> GravityChecksNative(JsonObject d,List<LoadCase> cases,CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
         GravityWallMaterial material;

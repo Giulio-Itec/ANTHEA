@@ -4,23 +4,15 @@ using LibraryTorsionGeometry = GPC.Checkers.Concrete.Torsion.TorsionGeometry;
 
 namespace Anthea.Calculations;
 
-/// <summary>Motore delle verifiche di taglio e torsione della sezione c.a.: il nucleo legacy di X.Calculations o GPCChecker.Concrete.</summary>
-public enum ShearTorsionEngine { Legacy, Library }
-
 /// <summary>
 /// Adattatore di taglio e torsione della sezione verso GPCChecker.Concrete (refactoring F2.5-F2.6, docs/refactoring/piano.md).
-/// Stesso contratto del legacy (ConcreteCodeChecks.Shear, ConcreteTorsionCalculator): ingressi e DTO in kN e kNm, testi e rifiuti
+/// Stesso contratto del legacy (LegacyConcreteCodeChecks.Shear, ConcreteTorsionCalculator): ingressi e DTO in kN e kNm, testi e rifiuti
 /// italiani identici, tramite <see cref="ConcreteLibraryMapping"/>. Nessuna formula: i calcoli sono della libreria o del legacy.
-/// Il motore legacy resta raggiungibile passando <see cref="ShearTorsionEngine.Legacy"/> (confronti, cattura densa con
-/// '--motore legacy') finché l'utente non decide la sua eliminazione (F2.11).
+/// Il motore legacy sta in tests/ANTHEA.Legacy (decisione D3 del 15/10/2026): le prove e la cattura densa con '--motore legacy' lo
+/// agganciano con <see cref="ILegacyShearTorsion"/>.
 /// </summary>
 public static class ConcreteShearTorsionAdapter
 {
-    /// <summary>Interruttore del motore usato da ANTHEA quando il chiamante non ne indica uno: la libreria dal passo F2.6 per
-    /// taglio, profilo resistente e torsione (equivalenza misurata nel registro F2-1 contro F2-pre-m4-v2 e la baseline headless B3,
-    /// catturate con il legacy); il legacy resta raggiungibile con <see cref="ShearTorsionEngine.Legacy"/>.</summary>
-    public static ShearTorsionEngine Default => ShearTorsionEngine.Library;
-
     public static double CircularPierLeverFactor(bool hollow) => ShearLeverArm.NtcCircularPierRatio(hollow);
     public static bool DanishSteelDuctility(double fy, double fu, double strainPerMille)
         => ShearLeverArm.DanishSteelDuctility(fy, fu, strainPerMille);
@@ -30,9 +22,9 @@ public static class ConcreteShearTorsionAdapter
             circular, hollow, ntcPier, assignedRatio);
 
     /// <summary>Taglio di una direzione, come ConcreteCodeChecks.Shear.</summary>
-    public static Ntc2018Checks.ShearResult Shear(ConcreteCodeChecks.ShearInput p, ShearTorsionEngine? engine = null)
+    public static Ntc2018Checks.ShearResult Shear(ConcreteCodeChecks.ShearInput p)
     {
-        if ((engine ?? Default) == ShearTorsionEngine.Legacy) return ConcreteCodeChecks.Shear(p);
+        if (EngineHook.Get<ILegacyShearTorsion>() is { } legacy) return legacy.Shear(p);
         var standard = ConcreteLibraryMapping.StandardFor(p.Standard);
         SectionShearResult result;
         try
@@ -50,9 +42,9 @@ public static class ConcreteShearTorsionAdapter
     /// Torsione NTC 2018 con l'interazione del taglio delle due direzioni, come ConcreteTorsionCalculator.Calculate.
     /// fck e γc servono alla libreria (validazione del campo delle classi; per NTC non entrano nelle resistenze); il legacy non li usa.
     /// </summary>
-    public static TorsionResult Torsion(TorsionInput p, double fck, double gammaC, ShearTorsionEngine? engine = null)
+    public static TorsionResult Torsion(TorsionInput p, double fck, double gammaC)
     {
-        if ((engine ?? Default) == ShearTorsionEngine.Legacy) return new ConcreteTorsionCalculator().Calculate(p);
+        if (EngineHook.Get<ILegacyShearTorsion>() is { } legacy) return legacy.Torsion(p);
         // Contratto di ANTHEA: senza staffe chiuse la torsione è un dato non valido, con il messaggio del legacy. La libreria darebbe
         // invece una verifica non soddisfatta con resistenza nulla (registro delle differenze, F2-3).
         if (p.StirrupLegArea == 0) throw new ArgumentException(ConcreteLibraryMapping.TorsionInputMessage);
@@ -78,9 +70,9 @@ public static class ConcreteShearTorsionAdapter
     /// con il foro centrato. La distanza dell'asse delle barre dal bordo (copriferro + Ø staffa + metà della barra più grossa) e
     /// l'area di calcestruzzo vengono dalla sezione di ANTHEA.
     /// </summary>
-    public static TorsionGeometry TorsionGeometryOf(SezioneCA s, ShearTorsionEngine? engine = null)
+    public static TorsionGeometry TorsionGeometryOf(SezioneCA s)
     {
-        if ((engine ?? Default) == ShearTorsionEngine.Legacy) return ConcreteTorsionCalculator.Geometry(s);
+        if (EngineHook.Get<ILegacyShearTorsion>() is { } legacy) return legacy.TorsionGeometry(s);
         if (s.Shape is not ("Rettangolare" or "Circolare")) throw new ArgumentException(ConcreteLibraryMapping.TorsionShapeMessage);
         double axis = s.Input.D("cover_mm") + s.Input.D("transverse_bar_diameter_mm") + s.Bars.Max(b => b.Diametro) / 2;
         bool hollow = s.Input.B("foro_presente");
@@ -94,4 +86,15 @@ public static class ConcreteShearTorsionAdapter
         catch (ArgumentException e) { throw ConcreteLibraryMapping.TorsionGeometryError(e); }
         return new(g.EnclosedArea, g.Perimeter, g.Thickness);
     }
+}
+
+/// <summary>
+/// Taglio e torsione storici agganciati dalle prove (<see cref="EngineHook"/>, decisione D3 del 15/10/2026, modo b): stesse operazioni
+/// dell'adattatore. L'implementazione (LegacyConcreteCodeChecks.Shear, ConcreteTorsionCalculator) sta in tests/ANTHEA.Legacy.
+/// </summary>
+internal interface ILegacyShearTorsion
+{
+    Ntc2018Checks.ShearResult Shear(ConcreteCodeChecks.ShearInput input);
+    TorsionResult Torsion(TorsionInput input);
+    TorsionGeometry TorsionGeometry(SezioneCA section);
 }

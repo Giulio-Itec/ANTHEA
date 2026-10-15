@@ -60,7 +60,7 @@ internal static class ResistanceChecks
     static JsonObject Mapping(Action<bool, string> check)
     {
         int texts = 0;
-        foreach (var text in ConcreteLibraryMapping.ResistanceRejectionTexts)
+        foreach (var text in MappingCoverage.ResistanceRejectionTexts)
         {
             var response = new SectionResistanceResponse(new SolverDiagnostics(CalculationStatus.NotConverged, "prova", "1", text), "ConstantN");
             var mapped = ConcreteLibraryMapping.ResistanceRejection(response);

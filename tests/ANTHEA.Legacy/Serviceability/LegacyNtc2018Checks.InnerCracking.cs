@@ -1,9 +1,12 @@
+// Spostato da X.Calculations/ConcreteInnerCracking.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: parte di LegacyNtc2018Checks
+// (prima Ntc2018Checks) per le fasce interne dei fori. Codice storico conservato per le prove, fuori dall'installer.
 using System.Text.Json.Nodes;
 using GPC.Model.Materials;
+using CrackResult = Anthea.Calculations.Ntc2018Checks.CrackResult;
 
 namespace Anthea.Calculations;
 
-public static partial class Ntc2018Checks
+public static partial class LegacyNtc2018Checks
 {
     /// <summary>Relative strain variation |∇ε|·h/εmax over the section below which the inner bands are in uniform tension (k₂ = 1): the
     /// solver returns gradients of 1e-15…1e-12 1/mm for axial tension, whose direction means nothing; 1e-4 is an eccentricity of about h/120000.</summary>
@@ -79,7 +82,7 @@ public static partial class Ntc2018Checks
             if (!legacyK2) trace.Add(uniform ? new("k₂ della fascia", k2, "−", "Trazione uniforme: 1", "Gradiente trascurabile rispetto alla deformazione (EN 1992-1-1 7.3.4(3), eq. (7.13) con ε1 = ε2).")
                 : new("k₂ della fascia", k2, "−", "(εmax + εmin)/(2 εmax) ai vertici della parte tesa della fascia, limitato fra 0,50 e 1",
                 "Distribuzione locale delle deformazioni (EN 1992-1-1 7.3.4(3), aree locali): 0,50 se l'asse neutro taglia la fascia, oltre 0,50 se la fascia è tutta tesa. Indipendente dal Criterio k₂ della sezione."));
-            double width = ConcreteCodeChecks.CrackWidth(code, sigma,s.Es,material.Ecm,material.Fctm,steel/area,phi,c,spacing.Value,depth,
+            double width = LegacyConcreteCodeChecks.CrackWidth(code, sigma,s.Es,material.Ecm,material.Fctm,steel/area,phi,c,spacing.Value,depth,
                 options.S("durata","Lunga")=="Breve",options.S("aderenza","Migliorata")=="Migliorata",k2,trace);
             details.Add(new(name+" · Ac,eff",area,"mm²","Area della fascia interna tesa, depurata del foro"));
             details.Add(new(name+" · As,eff",steel,"mm²",string.Join(", ",indices.Select(i=>$"B{i+1:00}"))));

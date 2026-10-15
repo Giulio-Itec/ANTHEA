@@ -19,7 +19,7 @@ internal static class LibraryCalls
         Require(typeof(RebarMaterial.Values), "get_EpsilonYd", "GPC.Model.Materials.SteelMaterial", "CalculateDesignYieldingStrainTension");
         foreach (string name in new[] { "Resolve", "ModularRatio", "CreepFromModularRatio" })
             Require(typeof(Homogenization), name, "GPC.Checkers.Concrete.Serviceability.Homogenization", name);
-        if (ConcreteServiceabilityAdapter.Default != ServiceabilityEngine.Library) throw new Exception("SLE production engine is not Checker");
+        if (ConcreteServiceabilityAdapter.EngineName != "Library") throw new Exception("SLE production engine is not Checker");
     }
 
     private static void Require(Type facade, string methodName, string libraryType, string libraryMethod)

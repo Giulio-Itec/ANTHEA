@@ -25,4 +25,12 @@ public sealed class EngineScope : IDisposable
         disposed = true;
         EngineHook.Restore(previous);
     }
+
+    /// <summary>Più ambiti insieme, chiusi in ordine inverso; i null sono ignorati.</summary>
+    public static IDisposable Combine(params IDisposable?[] scopes) => new Combined(scopes.OfType<IDisposable>().ToArray());
+
+    sealed class Combined(IDisposable[] scopes) : IDisposable
+    {
+        public void Dispose() { for (int i = scopes.Length - 1; i >= 0; i--) scopes[i].Dispose(); }
+    }
 }

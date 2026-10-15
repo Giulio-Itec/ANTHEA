@@ -147,8 +147,8 @@ internal static class F4WallPortChecks
                     {
                         var oldCurvatures = c["Curvatures"]!.AsArray().OfType<JsonObject>()
                             .Select(p => new RetainingWall.CurvaturePoint(p.D("Y"), p.D("Curvature"))).ToArray();
-                        var oldShape = RetainingWall.IntegrateCurvature(oldCurvatures, original["geometry"].D("height"));
-                        var totalShape = RetainingWall.IntegrateCurvature(totalCurvatures, original["geometry"].D("height"));
+                        var oldShape = RetainingWallFunctions.IntegrateCurvature(oldCurvatures, original["geometry"].D("height"));
+                        var totalShape = RetainingWallFunctions.IntegrateCurvature(totalCurvatures, original["geometry"].D("height"));
                         if (oldShape.Count != totalShape.Count) errors.Add(id + ": bending shape size differs");
                         else for (int p = 0; p < oldShape.Count; p++)
                         {

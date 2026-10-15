@@ -21,7 +21,7 @@ internal static class F4GravityCapture
         {
             string id = Path.GetFileName(file); var input = Read("inputs/walls/" + id); var result = Read("results/walls/" + id);
             if (result.S("status") != "ok") throw new InvalidOperationException(id + ": expected valid frozen wall");
-            var material = RetainingWall.GravityMaterial(input); var native = ConcreteMaterials.Concrete(RetainingWall.MaterialSectionInput(input));
+            var material = LegacyRetainingWall.GravityMaterial(input); var native = ConcreteMaterials.Concrete(RetainingWall.MaterialSectionInput(input));
             var value = result["value"]!;
             rows.Add(new JsonObject {
                 ["id"] = id, ["input"] = input, ["material"] = new JsonObject {

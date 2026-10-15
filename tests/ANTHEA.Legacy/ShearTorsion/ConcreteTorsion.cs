@@ -1,6 +1,8 @@
+// Spostato da X.Calculations/ConcreteTorsion.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: torsione NTC 2018 legacy, sostituita
+// da GPCChecker.Concrete nell'adattatore. Codice storico conservato per le prove, fuori dall'installer.
 namespace Anthea.Calculations;
 
-// Motore legacy della torsione NTC 2018. I DTO sono in ConcreteTorsionContracts.cs; ANTHEA lo chiama tramite ConcreteShearTorsionAdapter.
+// Motore legacy della torsione NTC 2018. I DTO sono in ConcreteTorsionContracts.cs (prodotto); le prove lo agganciano con ShearTorsionEngines.
 public interface IConcreteTorsionCalculator { TorsionResult Calculate(TorsionInput input); }
 public sealed class ConcreteTorsionCalculator : IConcreteTorsionCalculator
 {

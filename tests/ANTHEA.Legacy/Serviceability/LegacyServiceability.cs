@@ -1,3 +1,6 @@
+// Spostato da X.Calculations/LegacyServiceability.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: motore SLE legacy, raggiungibile
+// solo con l'aggancio delle prove. Codice storico conservato per le prove, fuori dall'installer. Il record ServiceabilityStressLimits resta nel
+// prodotto (X.Calculations/ServiceabilityStressLimits.cs), senza il marcatore del motore.
 using System.Text.Json.Nodes;
 using GPC.Checkers.Concrete.Results;
 using GPC.Model.Materials;
@@ -5,17 +8,6 @@ using GPC.Model.Sections.Concrete;
 using GPC.Model.Standards;
 
 namespace Anthea.Calculations;
-
-/// <summary>Tasso, stato e limiti tensionali SLE di uno stato tensionale (MPa, valori assoluti dei limiti).</summary>
-/// <param name="Ratio">Tasso delle combinazioni con limiti (rara: CLS e acciaio; quasi permanente: CLS); null per le altre.</param>
-/// <param name="Status">«Entro limiti tensionali», «Oltre limiti tensionali» o, senza tasso, «Stato tensionale calcolato».</param>
-/// <param name="ConcreteStressLimit">Limite del calcestruzzo della combinazione, con il fattore dei getti sottili; null senza limite.</param>
-/// <param name="SteelStressLimit">Limite dell'armatura k3·fyk della prima barra, mostrato per ogni stato.</param>
-public sealed record ServiceabilityStressLimits(double? Ratio, string Status, double? ConcreteStressLimit, double SteelStressLimit)
-{
-    /// <summary>Motore che ha calcolato i limiti: lo scrive soltanto ConcreteServiceabilityAdapter (marcatore del commit A4, rilievo M4).</summary>
-    public ServiceabilityEngine? Engine { get; init; }
-}
 
 /// <summary>
 /// Limiti tensionali SLE del motore legacy, estratti senza modifiche da CheckerSection.DescribeStress (refactoring F2.7b, commit A3;
@@ -60,7 +52,7 @@ public static class LegacyServiceability
     /// </summary>
     public static bool CrackingRequired(string set, JsonNode workspace)
     {
-        try { return !ConcreteCodeChecks.CrackRequirement(workspace.S("normativa", "NTC 2018"), set,
+        try { return !LegacyConcreteCodeChecks.CrackRequirement(workspace.S("normativa", "NTC 2018"), set,
             workspace["sle"]?[set] as JsonObject ?? new()).Kind.StartsWith("Non richiesta"); }
         catch (ArgumentException) { return true; }
     }

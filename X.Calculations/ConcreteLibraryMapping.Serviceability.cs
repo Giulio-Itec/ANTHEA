@@ -64,7 +64,7 @@ public static partial class ConcreteLibraryMapping
 
     // ------------------------------------------------------------------ norme, esposizioni e requisiti
     /// <summary>Profilo della libreria → nome della norma in ANTHEA (testi della traccia che citano la norma).</summary>
-    static readonly FrozenDictionary<CrackProfile, string> ProfileNames = new Dictionary<CrackProfile, string>
+    internal static readonly FrozenDictionary<CrackProfile, string> ProfileNames = new Dictionary<CrackProfile, string>
     {
         [CrackProfile.Ntc2018] = "NTC 2018", [CrackProfile.ModelCode2010] = "Model Code 2010", [CrackProfile.EN1992p11] = "EN 1992-1-1",
         [CrackProfile.UniEN1992p11] = "UNI EN 1992-1-1", [CrackProfile.DinEN1992p11] = "DIN EN 1992-1-1", [CrackProfile.DsEN1992p11] = "DS EN 1992-1-1",
@@ -123,16 +123,6 @@ public static partial class ConcreteLibraryMapping
             _ => throw Unmapped("criterio della fessurazione", requirement.Criterion.ToString())
         };
     }
-
-    /// <summary>Criteri della libreria tradotti da <see cref="CrackRequirementText"/> (prova 5a).</summary>
-    public static IReadOnlyCollection<CrackCriterion> TranslatedCriteria { get; } = new[]
-    {
-        CrackCriterion.NotRequired, CrackCriterion.ExposureRequired, CrackCriterion.DesignLimitRequired, CrackCriterion.Decompression,
-        CrackCriterion.CrackFormation, CrackCriterion.CrackWidth
-    }.ToFrozenSet();
-
-    /// <summary>Profili con un nome in ANTHEA (prova 5a).</summary>
-    public static IReadOnlyCollection<CrackProfile> TranslatedProfiles => ProfileNames.Keys;
 
     // ------------------------------------------------------------------ regioni
     // Chiave della regione → (prefisso delle voci della traccia, nome della regione in 'Regions' e nei riepiloghi).
@@ -194,38 +184,30 @@ public static partial class ConcreteLibraryMapping
     // ------------------------------------------------------------------ esito della fessurazione
     // Stati del legacy delle verifiche fermate senza ampiezza (Ntc2018Checks.cs:94-167) e testi delle superfici interne incomplete
     // (ConcreteInnerCracking.cs:57, :64; il caso delle superfici non supportate non esiste in ANTHEA, che tratta solo fori rettangolari e anelli).
-    static readonly FrozenDictionary<CrackOutcome, string> OuterStops = new Dictionary<CrackOutcome, string>
+    internal static readonly FrozenDictionary<CrackOutcome, string> OuterStops = new Dictionary<CrackOutcome, string>
     {
         [CrackOutcome.PrestressNotSupported] = "Apertura CAP: modello aderenza/decompressione da definire",
         [CrackOutcome.RequiresLinearCrackedAnalysis] = "wk richiede analisi lineare con CLS teso escluso",
         [CrackOutcome.NeutralAxisUndetermined] = "Asse neutro non determinato",
         [CrackOutcome.NoTensileReinforcement] = "Nessuna armatura tesa"
     }.ToFrozenDictionary();
-    static readonly FrozenDictionary<CrackOutcome, string> InnerMissing = new Dictionary<CrackOutcome, string>
+    internal static readonly FrozenDictionary<CrackOutcome, string> InnerMissing = new Dictionary<CrackOutcome, string>
     {
         [CrackOutcome.InnerSurfaceUnreinforced] = ": superficie del foro tesa senza armatura efficace",
         [CrackOutcome.SpacingUndetermined] = ": inserire l’interasse massimo per la superficie del foro",
         [CrackOutcome.InnerSurfaceNotSupported] = ": implementate per un solo foro rettangolare allineato agli assi o per un anello circolare"
     }.ToFrozenDictionary();
-    static readonly FrozenDictionary<CrackReason, string> NoEffectiveAreaStops = new Dictionary<CrackReason, string>
+    internal static readonly FrozenDictionary<CrackReason, string> NoEffectiveAreaStops = new Dictionary<CrackReason, string>
     {
         [CrackReason.ZeroEffectiveDepth] = "Area efficace nulla",
         [CrackReason.NoEffectiveSteelOrArea] = "Armatura/area efficace assente",
         [CrackReason.FaceWithoutAreaOrSteel] = ": area o armatura efficace assente"
     }.ToFrozenDictionary();
     // Motivi dei rami valutati senza una voce propria nella traccia (Ntc2018Checks.cs:124; ciclo di prototipo di F2.7).
-    static readonly FrozenDictionary<CrackReason, string> EvaluatedReasons = new Dictionary<CrackReason, string>
+    internal static readonly FrozenDictionary<CrackReason, string> EvaluatedReasons = new Dictionary<CrackReason, string>
     {
         [CrackReason.EntirelyCompressed] = "Sezione interamente compressa"
     }.ToFrozenDictionary();
-
-    /// <summary>Esiti della libreria tradotti (prova 5a): stati fissi, superfici interne, requisiti, verifiche con ampiezza e rami composti.</summary>
-    public static IReadOnlyCollection<CrackOutcome> TranslatedOutcomes { get; } = OuterStops.Keys.Concat(InnerMissing.Keys)
-        .Concat(new[] { CrackOutcome.Evaluated, CrackOutcome.NotRequired, CrackOutcome.MissingExposure, CrackOutcome.MissingDesignLimit, CrackOutcome.NoEffectiveArea })
-        .ToFrozenSet();
-
-    /// <summary>Motivi della libreria tradotti (prova 5a); None non ha un testo proprio.</summary>
-    public static IReadOnlyCollection<CrackReason> TranslatedReasons { get; } = NoEffectiveAreaStops.Keys.Concat(EvaluatedReasons.Keys).Append(CrackReason.None).ToFrozenSet();
 
     /// <summary>Voci che ripetono gli ingressi della verifica, scritte dalla mappatura prima della traccia (Ntc2018Checks.cs:60-67).</summary>
     public static CrackCalculationDetail[] CrackInputDetails(string set, string exposure, string sensitivity, string duration, string bond, bool linear,
@@ -322,7 +304,7 @@ public static partial class ConcreteLibraryMapping
 
     // ------------------------------------------------------------------ rifiuti della fessurazione
     // Codice del rifiuto (CrackRejection, in Exception.Data) → messaggio del legacy, per profilo e regola di k₂ (NtcK2FromCompressedBars).
-    static readonly FrozenDictionary<string, Func<CrackProfile, bool, string>> CrackRejections = new Dictionary<string, Func<CrackProfile, bool, string>>(StringComparer.Ordinal)
+    internal static readonly FrozenDictionary<string, Func<CrackProfile, bool, string>> CrackRejections = new Dictionary<string, Func<CrackProfile, bool, string>>(StringComparer.Ordinal)
     {
         [CrackRejection.WidthParameters] = (profile, _) => NtcTexts(profile) ? "Parametri fessurazione non validi." : "Parametri di fessurazione non validi.",
         [CrackRejection.UpperBoundParameters] = (_, _) => "Parametri di fessurazione non validi.",
@@ -330,9 +312,6 @@ public static partial class ConcreteLibraryMapping
         [CrackRejection.BarStresses] = (_, k2FromBars) => k2FromBars ? "k₂: tensioni delle armature mancanti o non finite." : "tensioni delle armature mancanti o non finite.",
         [CrackRejection.UncrackedStressRequired] = (_, _) => "Fessurazione: tensione della sezione non fessurata non disponibile per decompressione o formazione."
     }.ToFrozenDictionary(StringComparer.Ordinal);
-
-    /// <summary>Codici di rifiuto tradotti (prova 5a).</summary>
-    public static IReadOnlyCollection<string> TranslatedRejections => CrackRejections.Keys;
 
     /// <summary>Rifiuto della libreria con codice → stesso rifiuto con il messaggio del legacy; senza codice è un testo non tradotto.</summary>
     public static ArgumentException CrackError(ArgumentException e, CrackProfile profile, bool k2FromBars)
@@ -369,9 +348,6 @@ public static partial class ConcreteLibraryMapping
         CrackTraceArguments.FromNeutralAxis
     }.ToFrozenSet(StringComparer.Ordinal);
 
-    /// <summary>Codici della traccia tradotti (prova 5a).</summary>
-    public static IReadOnlyCollection<string> TranslatedTraceCodes => TraceTexts.Keys;
-
     /// <summary>
     /// Voce della traccia della libreria → voce della traccia del legacy: simbolo (con il prefisso della barra o della regione, assente nelle voci
     /// di riepilogo), valore, unità, espressione e nota. I numeri delle note sono formattati nella cultura corrente, come nel legacy.
@@ -389,7 +365,7 @@ public static partial class ConcreteLibraryMapping
 
     // Testi del legacy di ogni codice: (simbolo, espressione, nota). Righe del legacy nel progetto F2.7 e in k3-codici.md (Ntc2018Checks.cs, ConcreteCodeChecks.cs,
     // ConcreteTensionCracking.cs, ConcreteInnerCracking.cs).
-    static readonly FrozenDictionary<string, Func<CrackTraceEntry, CrackProfile, (string Symbol, string Expression, string Note)>> TraceTexts =
+    internal static readonly FrozenDictionary<string, Func<CrackTraceEntry, CrackProfile, (string Symbol, string Expression, string Note)>> TraceTexts =
         new Dictionary<string, Func<CrackTraceEntry, CrackProfile, (string, string, string)>>(StringComparer.Ordinal)
     {
         // Decompressione e formazione (Ntc2018Checks.cs:85-89)

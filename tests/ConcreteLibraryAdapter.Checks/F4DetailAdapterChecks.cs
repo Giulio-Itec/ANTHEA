@@ -35,7 +35,7 @@ internal static class F4DetailAdapterChecks
             string id=scope+"/"+Path.GetFileName(file);var d=Read("inputs/"+id);var expected=Read("results/"+id);
             if(expected.S("status")!="ok"||d.S("family")!="cantilever")continue;
             string before=d.ToJsonString();models++;
-            Compare(JsonSerializer.SerializeToNode(RetainingWall.CalculateReinforcementDetails(d,WallCalculationEngine.Legacy)),
+            Compare(JsonSerializer.SerializeToNode(LegacyRetainingWall.CalculateReinforcementDetails(d)),
                 JsonSerializer.SerializeToNode(RetainingWall.CalculateReinforcementDetails(d)),id+"/details");
             if(scope=="schedules")
             {

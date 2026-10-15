@@ -1,6 +1,7 @@
 /// <summary>
-/// SLE engine of the checks (refactoring F2.7, commit A5): '--motore-sle legacy|libreria' among the arguments, otherwise null, the default
-/// engine of ConcreteServiceabilityAdapter. The stress limits (CheckerSection) and the cracking of the checks go through the adapter with it.
+/// SLE engine of the checks (refactoring F2.7, commit A5): '--motore-sle legacy|libreria' among the arguments, otherwise null, the library.
+/// The stress limits (CheckerSection) and the cracking of the checks go through the adapter with it: since decision D3 of 15/10/2026 the
+/// engine is hooked for the whole process (ServiceabilityEngines.Use in tests/ANTHEA.Legacy) instead of being passed to every call.
 /// </summary>
 internal static class SleEngine
 {
@@ -17,6 +18,7 @@ internal static class SleEngine
             var other => throw new ArgumentException("--motore-sle: legacy o libreria, non " + other)
         };
         Console.WriteLine("Motore SLE: " + Selected);
+        ServiceabilityEngines.Use(Selected); // for the rest of the process: never disposed
         return [.. args[..at], .. args[(at + 2)..]];
     }
 }

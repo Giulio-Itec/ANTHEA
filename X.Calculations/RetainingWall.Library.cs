@@ -15,7 +15,7 @@ namespace Anthea.Calculations;
 /// </summary>
 public static partial class RetainingWall
 {
-    private const double Mm = Slope.Mm, KPa = Slope.KPa, KN3 = Slope.KN3, Deg = Slope.Deg;
+    internal const double Mm = Slope.Mm, KPa = Slope.KPa, KN3 = Slope.KN3, Deg = Slope.Deg;
     /// <summary>
     /// γRd on the soil inertia F̄ of EN 1998-5 Annex F: false, as in (F.7), where γRd enters only N̄, V̄ and M̄ (decision D7-c of 6/10/2026;
     /// until then ANTHEA applied it also to F̄, and the library keeps that option for its fixtures).
@@ -197,7 +197,7 @@ public static partial class RetainingWall
     static PressureSegment Segment(WallPressureSegment p) => new(p.Z0 / Mm, p.Z1 / Mm, p.P0 / KPa, p.P1 / KPa);
     static PressureDetail Detail(WallPressureDetail p) => new(p.Z0 / Mm, p.Z1 / Mm, p.FrictionAngle / Deg, p.DesignFrictionAngle / Deg, p.K, p.Ke, p.Sigma0 / KPa, p.Sigma1 / KPa,
         p.Soil0 / KPa, p.Soil1 / KPa, p.Surcharge / KPa, p.Water0 / KPa, p.Water1 / KPa, p.Dynamic / KPa, p.Total0 / KPa, p.Total1 / KPa);
-    static Contact ToContact(WallContact c) => new(c.Start / Mm, c.End / Mm, c.Toe / KPa, c.Heel / KPa, c.Peak / KPa, c.Valid) { Law = c };
+    internal static Contact ToContact(WallContact c) => new(c.Start / Mm, c.End / Mm, c.Toe / KPa, c.Heel / KPa, c.Peak / KPa, c.Valid) { Law = c };
 
     /// <summary>A combination of the library in the units of the document: lengths m, forces kN/m, moments kNm/m, pressures kPa, angles in degrees.</summary>
     static LoadCase ToLoadCase(JsonObject d, WallCaseResult r, JsonObject? definition, double live)
@@ -239,15 +239,13 @@ public static partial class RetainingWall
         return new Check(name, c.Combination, c.Demand / scale, c.Resistance / scale, unit, c.Ratio, c.Message) { Outcome = c.Outcome, Execution = c.Execution, Data = c.Data };
     }
 
-    // Methods of the library in the units of the document, for the drawings, the tables and the checks of ANTHEA.
+    // Methods of the library in the units of the document, for the drawings, the tables and the checks of ANTHEA. Those used only by the tests
+    // (Ka, ActiveHorizontal, ContactLaw, ValleyBands, FrontSoilMass, IntegrateCurvature) are RetainingWallFunctions in tests/ANTHEA.Legacy
+    // (decision D3 of 15/10/2026).
 
-    public static double Ka(double phi) => EarthPressure.RankineActive(phi * Deg);
     public static double SeismicKa(double phi, double kh, double kv) => EarthPressure.MononobeOkabe(phi * Deg, kh, kv);
-    /// <summary>Horizontal Coulomb / Mononobe–Okabe coefficient, vertical back and horizontal fill (angles in degrees).</summary>
-    public static double ActiveHorizontal(double phi, double delta, double kh = 0, double kv = 0) => EarthPressure.ActiveHorizontal(phi * Deg, delta * Deg, kh, kv);
     /// <summary>Design friction of the back or of the base, degrees.</summary>
     public static double InterfaceDelta(JsonObject d, bool wall, double mphi = 1) => Interface(d, wall).Design(mphi) / Deg;
-    public static Contact ContactLaw(double width, double n, double x) => ToContact(WallContact.Law(width * Mm, n, x * Mm));
     /// <summary>Contact pressure at x (m), kPa.</summary>
     public static double Pressure(Contact c, double x) => c.Law is { } law ? law.Pressure(x * Mm) / KPa : 0;
     public static (double Force, double Moment) Integrate(IEnumerable<PressureSegment> pieces, double left, double right, double root)
@@ -255,16 +253,4 @@ public static partial class RetainingWall
         var r = WallPressureSegment.Integrate(pieces.Select(p => new WallPressureSegment(p.Z0 * Mm, p.Z1 * Mm, p.P0 * KPa, p.P1 * KPa)), left * Mm, right * Mm, root * Mm);
         return (r.Force, r.Moment / Mm);
     }
-    public static List<ValleyBand> ValleyBands(JsonObject d) => RetainingWallAnalysis.ValleyBands(ToWallInput(d))
-        .Select(b => new ValleyBand(b.Top / Mm, b.Bottom / Mm, b.UnitWeight / KN3, b.EffectiveUnitWeight / KN3, b.FrictionAngle / Deg, b.SigmaTop / KPa, b.SigmaBottom / KPa)).ToList();
-    /// <summary>Weight (kN/m) and static moments (kNm/m) of the soil in front of the wall, or of the wedge over the face above the elevation (m).</summary>
-    public static SoilMass FrontSoilMass(JsonObject d, double above = 0, bool wedgeOnly = false)
-    {
-        var input = ToWallInput(d); var m = RetainingWallAnalysis.FrontSoilMass(input.Geometry, RetainingWallAnalysis.ValleyBands(input), above * Mm, wedgeOnly);
-        return new(m.Weight, m.MomentX / Mm, m.MomentY / Mm);
-    }
-    /// <summary>Rotation and displacement of the stem fixed at the base from the curvatures (heights m, curvatures 1/m, displacements mm).</summary>
-    public static IReadOnlyList<DisplacementPoint> IntegrateCurvature(IEnumerable<CurvaturePoint> values, double height)
-        => WallDisplacementPoint.Integrate(values.Select(p => new WallCurvaturePoint(p.Y * Mm, p.Curvature / Mm)), height * Mm)
-            .Select(p => new DisplacementPoint(p.Height / Mm, p.Curvature * Mm, p.Rotation, p.Displacement)).ToList();
 }

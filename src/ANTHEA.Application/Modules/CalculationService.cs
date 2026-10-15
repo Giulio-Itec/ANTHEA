@@ -6,13 +6,11 @@ namespace Anthea.Calculations;
 /// <summary>Nonvisual calculation entry point. Every branch calls the same engines as the sheet UI.</summary>
 public static class CalculationService
 {
-    /// <param name="serviceabilityEngine">Motore SLE della sezione c.a. e dei muri (limiti tensionali e fessurazione); null = predefinito
-    /// dell'adattatore (refactoring F2.7b, commit A4). Gli altri moduli non hanno verifiche SLE della sezione.</param>
-    public static JsonObject Calculate(string module, JsonObject data, CancellationToken cancellation = default, ServiceabilityEngine? serviceabilityEngine = null)
-        => CalculateModule(module, data, cancellation, serviceabilityEngine).Values;
+    public static JsonObject Calculate(string module, JsonObject data, CancellationToken cancellation = default)
+        => CalculateModule(module, data, cancellation).Values;
 
     internal static ModuleCalculation CalculateModule(string module, JsonObject data, CancellationToken cancellation = default,
-        ServiceabilityEngine? serviceabilityEngine = null, Anthea.FoundationWorkspace.FoundationLibrary? foundation = null)
+        Anthea.FoundationWorkspace.FoundationLibrary? foundation = null)
     {
         ModuleCatalog.ValidateData(module, data);
         CalculationValidation.RequireValidCoefficients(module, data);
@@ -28,10 +26,10 @@ public static class CalculationService
             "geo_palo_verticale" => Calcolo.Calcola(snapshot),
             "geo_micropalo_verticale" => Calcolo.Calcola(snapshot, true),
             PaloOrizzontale.Module or MicropaloOrizzontale.Module => PaloOrizzontale.Calculate(snapshot),
-            RetainingWall.Module => Typed(RetainingWall.Calculate(snapshot, cancellation, serviceabilityEngine), value => value.Json()),
+            RetainingWall.Module => Typed(RetainingWall.Calculate(snapshot, cancellation), value => value.Json()),
             BridgeSection.Module => Typed(BridgeSection.Calculate(snapshot, cancellation), value => value.Json()),
             BridgeConcept.Module => Typed(BridgeConcept.Calculate(snapshot), value => value.Json()),
-            "str_palo" => ConcreteAnalysis.Calculate(snapshot, cancellation, serviceabilityEngine),
+            "str_palo" => ConcreteAnalysis.Calculate(snapshot, cancellation),
             RebarMaterial.Module => Typed(RebarMaterial.Evaluate(snapshot["input"]!.AsObject()), value => J.Obj(("errore", ""), ("materiale", value),
                 ("diagramma", RebarMaterial.Curve(snapshot["input"]!.AsObject())))),
             "mat_calcestruzzo" => MaterialProperties(snapshot),

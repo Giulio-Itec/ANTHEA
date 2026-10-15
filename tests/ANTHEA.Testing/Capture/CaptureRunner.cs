@@ -79,7 +79,7 @@ public sealed partial class CaptureRunner
         var input = (JsonObject)item.Data.DeepClone();
         CanonicalJson.Register(input, guids);
         entry["sha256_input"] = Sha(Write($"inputs/{item.Module}/{item.Id}.json", input, guids));
-        var result = Json($"results/{item.Module}/{item.Id}.json", guids, () => CalculationService.Calculate(item.Module, Clone(item.Data), default, options.ServiceabilityEngine));
+        var result = Json($"results/{item.Module}/{item.Id}.json", guids, () => { using (ServiceabilityEngines.ForModule(item.Module, options.ServiceabilityEngine)) return CalculationService.Calculate(item.Module, Clone(item.Data)); });
         entry["esito"] = result is null ? "errore" : result["errore"] is JsonValue e && e.ToString().Length > 0 ? "errore del calcolo" : "ok";
         Extras(item, guids, result);
     }

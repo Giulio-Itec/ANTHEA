@@ -6,7 +6,7 @@ using Anthea.Calculations;
 
 // Fingerprints of the concrete meshes (DelaunayMesh through GPC.Model) of usual sections, built along the path of the RC solver:
 // CheckerSection.PrepareModel -> ReinforcedConcreteSection.Mesh (automatic element size), the mesh that SectionSolver integrates and
-// Ntc2018Checks.Cracking cuts. Node coordinates (format 'R') and connectivity are hashed with SHA-256: equal hashes mean bit-identical
+// LegacyNtc2018Checks.Cracking cuts. Node coordinates (format 'R') and connectivity are hashed with SHA-256: equal hashes mean bit-identical
 // meshes (same nodes, same order, same faces). The canonical hash ignores the numbering and the order of nodes and faces.
 internal static class MeshCapture
 {

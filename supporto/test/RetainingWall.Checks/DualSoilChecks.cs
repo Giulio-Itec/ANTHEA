@@ -41,7 +41,7 @@ internal static class DualSoilChecks
         d["valley"]!["free_height"] = .1; d["valley"]!["mobilization"] = 1;
         var limited = RetainingWall.Calculate(d).Cases[0]; Near(limited.Horizontal, 0, "Passiva limitata senza invertire la spinta netta");
         var wedge = Base(); wedge["geometry"]!["stem_top"] = .2; wedge["valley"]!["height_mode"] = "Assegnato"; wedge["valley"]!["free_height"] = 2;
-        var mass = RetainingWall.FrontSoilMass(wedge, wedgeOnly: true);
+        var mass = RetainingWallFunctions.FrontSoilMass(wedge, wedgeOnly: true);
         Near(mass.Weight, 18 * .5 * (.2 / 3), "Cuneo sopra paramento inclinato: area triangolare GPC");
         Near(mass.MomentX / mass.Weight, .8 + (.2 / 3) / 3, "Baricentro orizzontale indipendente del cuneo");
         Near(mass.MomentY / mass.Weight, .45 + 2d / 3, "Baricentro verticale indipendente del cuneo");
@@ -54,11 +54,11 @@ internal static class DualSoilChecks
         var wallRough = RetainingWall.Calculate(friction).Cases[0]; Near(wallRough.Horizontal, original.Horizontal, "Attrito interno non modifica il piano virtuale con mensola");
         Check(wallRough.Sections.Last(x => x.Name == "Fusto").N > original.Sections.Last(x => x.Name == "Fusto").N, "Attrito aggiunge N al fusto");
         Check(wallRough.Sections.Last(x => x.Name == "Fusto").V < original.Sections.Last(x => x.Name == "Fusto").V, "Coulomb riduce H sul fusto");
-        foreach (double phi in new[] { 20d, 30, 40 }) Near(RetainingWall.ActiveHorizontal(phi, 0), RetainingWall.Ka(phi), "Coulomb liscio = Rankine φ=" + phi);
-        Near(RetainingWall.ActiveHorizontal(30, 20, 0, 0), RetainingWall.ActiveHorizontal(30, 20), "MO a sisma nullo = Coulomb");
-        Near(RetainingWall.ActiveHorizontal(30, 0, .12, .05), RetainingWall.SeismicKa(30, .12, .05), "MO liscio compatibile con motore precedente");
+        foreach (double phi in new[] { 20d, 30, 40 }) Near(RetainingWallFunctions.ActiveHorizontal(phi, 0), RetainingWallFunctions.Ka(phi), "Coulomb liscio = Rankine φ=" + phi);
+        Near(RetainingWallFunctions.ActiveHorizontal(30, 20, 0, 0), RetainingWallFunctions.ActiveHorizontal(30, 20), "MO a sisma nullo = Coulomb");
+        Near(RetainingWallFunctions.ActiveHorizontal(30, 0, .12, .05), RetainingWall.SeismicKa(30, .12, .05), "MO liscio compatibile con motore precedente");
         friction["geometry"]!["heel"] = 0; var noHeel = RetainingWall.Calculate(friction).Cases[0];
-        Near(noHeel.Horizontal, .5 * 18 * 3.45 * 3.45 * RetainingWall.ActiveHorizontal(30, 20), "Senza mensola Coulomb sul piano reale");
+        Near(noHeel.Horizontal, .5 * 18 * 3.45 * 3.45 * RetainingWallFunctions.ActiveHorizontal(30, 20), "Senza mensola Coulomb sul piano reale");
         friction["interfaces"]!["wall_delta"] = 50; Reject(friction, "δ muro maggiore di φ rifiutato");
         friction["interfaces"]!["wall_delta"] = 20; friction["interfaces"]!["base_mode"] = "Gettato in opera"; friction["interfaces"]!["base_phi_cv"] = 40; Reject(friction, "φcv maggiore di φ′ rifiutato");
         var seismic = (JsonObject)d.DeepClone(); seismic["seismic"]!["enabled"] = true; seismic["seismic"]!["source"] = RetainingWall.SeismicManual;

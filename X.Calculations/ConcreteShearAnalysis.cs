@@ -5,10 +5,10 @@ namespace Anthea.Calculations;
 public sealed record ConcreteShearResult(Ntc2018Checks.ShearResult[] Shear, TorsionResult? Torsion);
 
 /// <summary>Shared section adapter for the ordinary-concrete code profiles; no WPF dependencies. Shear and torsion are computed by
-/// <see cref="ConcreteShearTorsionAdapter"/>: the argument engine = null uses its default engine (refactoring F2.5-F2.6).</summary>
+/// <see cref="ConcreteShearTorsionAdapter"/> (refactoring F2.5-F2.6).</summary>
 public static class ConcreteShearAnalysis
 {
-    public static ConcreteShearResult Calculate(JsonObject input, JsonObject settings, JsonObject options, JsonObject row, ShearTorsionEngine? engine = null)
+    public static ConcreteShearResult Calculate(JsonObject input, JsonObject settings, JsonObject options, JsonObject row)
     {
         ConcreteCalculationSettings.ValidateStirrups(input, options);
         // Derived geometry cannot depend on a WPF panel having been visited.
@@ -53,15 +53,15 @@ public static class ConcreteShearAnalysis
                 input.Required("fck_mpa"), fcd, materials.Fyd, input.Required("gamma_c"), geometry.Es,
                 stirrups ? legs * ReinforcementGeometry.Area(phi) : 0, spacing, stirrups ? Value("alpha") : 90, cot, lever,
                 code == "Model Code 2010" || code.StartsWith("NS") ? settings["dettagli_costruttivi"]!.AsObject().Required("aggregato") : 20,
-                code == "Model Code 2010" ? options.Required("eccentricita_mc_" + axis) : 0), engine);
+                code == "Model Code 2010" ? options.Required("eccentricita_mc_" + axis) : 0));
             results.Add(check);
         }
 
         if (torque != 0 && code != "NTC 2018") throw new ArgumentException("Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio " + code + ".");
-        return new(results.ToArray(), Torsion(input, options, row, geometry, results.ToArray(), fcd, engine));
+        return new(results.ToArray(), Torsion(input, options, row, geometry, results.ToArray(), fcd));
     }
     private static TorsionResult? Torsion(JsonObject input, JsonObject options, JsonObject row,
-        SezioneCA geometry, Ntc2018Checks.ShearResult[] shear, double fcd, ShearTorsionEngine? engine)
+        SezioneCA geometry, Ntc2018Checks.ShearResult[] shear, double fcd)
     {
         double torque = SectionWorkspace.Number(row.S("T", "0"), "T");
         if (torque == 0) return null;
@@ -71,8 +71,8 @@ public static class ConcreteShearAnalysis
         if (input.S("shape") == "Circolare" && options.S("tipo_staffa") == "Spirale") throw new ArgumentException("Torsione: selezionare staffa chiusa; spirale non equivalente automaticamente.");
         double al = options.Required("as_torsione"); if (al > geometry.AreaSteel) throw new ArgumentException("As disponibile per torsione supera l’armatura totale.");
         // Profilo resistente e torsione dallo stesso motore del taglio (adattatore, refactoring F2.5-F2.6).
-        var g = ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry, engine);
+        var g = ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry);
         return ConcreteShearTorsionAdapter.Torsion(new(torque, g, fcd, geometry.Fyd, ReinforcementGeometry.Area(input.Required("transverse_bar_diameter_mm", strict: true)), input.Required("transverse_spacing_mm", strict: true), al, options.Required("cot_torsione"), row.D("Vx"), row.D("Vy"), shear[0], shear[1]),
-            input.Required("fck_mpa"), input.Required("gamma_c"), engine);
+            input.Required("fck_mpa"), input.Required("gamma_c"));
     }
 }

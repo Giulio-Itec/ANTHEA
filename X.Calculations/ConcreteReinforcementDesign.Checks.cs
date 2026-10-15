@@ -70,7 +70,7 @@ public static partial class ConcreteReinforcementDesign
         {
             if (rows[set].Length == 0) continue;
             var o = workspace["sle"]![set]!.AsObject();
-            var engine = new CheckerSection(full, input, workspace, o, "SLU", options.ServiceabilityEngine);
+            var engine = new CheckerSection(full, input, workspace, o, "SLU");
             foreach (var row in rows[set])
             {
                 token.ThrowIfCancellationRequested(); var action = SectionWorkspace.ReadAction(row);
@@ -83,7 +83,7 @@ public static partial class ConcreteReinforcementDesign
                 if (checks.Any(c => c.Passed == false)) return checks;
                 if (set != "SLE")
                 {
-                    var r = ConcreteServiceabilityAdapter.Cracking(engine, s, action, input, workspace, o, set, options.ServiceabilityEngine);
+                    var r = ConcreteServiceabilityAdapter.Cracking(engine, s, action, input, workspace, o, set);
                     string key = set == "SLE_FREQ" ? "wk_freq" : "wk_qp";
                     if (r.Ratio is not null) AddRatio(checks, key, row.S("nome"), r.Ratio, options,
                         $"wk = {r.Width:0.####} mm; wlim = {r.Limit:0.###} mm. {r.Status}");

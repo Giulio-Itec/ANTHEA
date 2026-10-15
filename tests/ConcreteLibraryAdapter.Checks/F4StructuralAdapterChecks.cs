@@ -59,7 +59,7 @@ internal static class F4StructuralAdapterChecks
         int shapes=0;
         if(!gravityOnly)
         {
-        var old=RetainingWall.Calculate(serviceInput,wallEngine:WallCalculationEngine.Legacy);
+        var old=LegacyRetainingWall.Calculate(serviceInput,wallEngine:WallCalculationEngine.Legacy);
         var current=RetainingWall.Calculate(serviceInput);
         foreach(var a in old.Serviceability!.Cases)
         {
@@ -74,10 +74,10 @@ internal static class F4StructuralAdapterChecks
         if(gravityOnly)
         {
             var assigned=Read("inputs/walls/gravity-2-e0.json");assigned["gravity_design"]!["elastic_modulus"]="";assigned["gravity_design"]!["effective_height"]=1;
-            Compare(JsonSerializer.SerializeToNode(RetainingWall.Calculate(assigned,wallEngine:WallCalculationEngine.Legacy)),
+            Compare(JsonSerializer.SerializeToNode(LegacyRetainingWall.Calculate(assigned,wallEngine:WallCalculationEngine.Legacy)),
                 JsonSerializer.SerializeToNode(RetainingWall.Calculate(assigned)),"assigned-without-E");
             var invalid=Read("inputs/walls/gravity-0-e0.json");invalid["gravity_design"]!["fk"]="";
-            Compare(JsonSerializer.SerializeToNode(RetainingWall.Calculate(invalid,wallEngine:WallCalculationEngine.Legacy)),
+            Compare(JsonSerializer.SerializeToNode(LegacyRetainingWall.Calculate(invalid,wallEngine:WallCalculationEngine.Legacy)),
                 JsonSerializer.SerializeToNode(RetainingWall.Calculate(invalid)),"invalid-material");
         }
         int cancellations=0;

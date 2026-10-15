@@ -17,8 +17,6 @@ public sealed record CrackCalculationDetail(string Symbol, double? Value, string
 
 public static class CrackCalculationSummary
 {
-    public const int MaxValues = 30;
-
     /// <summary>Presentation only: the full, unrounded diagnostic trace remains in Details.</summary>
     public static CrackCalculationDetail[] Values(Ntc2018Checks.CrackResult result)
     {

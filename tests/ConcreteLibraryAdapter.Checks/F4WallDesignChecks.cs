@@ -22,7 +22,7 @@ internal static class F4WallDesignChecks
         {
             string id=Path.GetFileName(file);var input=Read("inputs/wall-design/"+id);string before=input.ToJsonString();
             var frozen=Read("results/wall-design/"+id)["value"]!;
-            var legacy=RetainingWall.DesignReinforcement(input,legacy:true); // search on the current, already verified GPC section adapter
+            var legacy=LegacyRetainingWall.DesignReinforcement(input,legacy:true); // search on the current, already verified GPC section adapter
             var result=RetainingWall.DesignReinforcement(input);walls++;
             Compare(frozen["Input"],JsonSerializer.SerializeToNode(result.Input),id+"/frozen-input");
             Compare(frozen["Message"],JsonSerializer.SerializeToNode(result.Message),id+"/frozen-message");

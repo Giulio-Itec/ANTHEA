@@ -4,9 +4,6 @@ using GPC.Model.Checking.Contracts;
 
 namespace Anthea.Calculations;
 
-/// <summary>Explicit diagnostic selector. Library is the production path; Legacy is retained for comparisons.</summary>
-public enum WallCalculationEngine { Library, Legacy }
-
 public static partial class RetainingWall
 {
     private static readonly IReadOnlyDictionary<WallRebarZone,string> NativeZoneKeys = new Dictionary<WallRebarZone,string>

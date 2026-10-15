@@ -74,7 +74,7 @@ internal static class LibraryAdapterChecks
         Same(slu.OverturningResistance, slu.Stabilizing / 1.15, "Versione 1: γR 1,15 sul ribaltamento");
 
         // 4. Methods of the library in the units of the document.
-        var contact = RetainingWall.ContactLaw(3, 100, 1.2);
+        var contact = RetainingWallFunctions.ContactLaw(3, 100, 1.2);
         Same(RetainingWall.Pressure(contact, 0), contact.Toe, "Pressione al piede dalla legge della libreria"); Same(RetainingWall.Pressure(contact, 3.5), 0, "Pressione fuori dalla base");
         Check(contact.Law is not null && contact.Valid, "Contatto con la legge della libreria");
         var integral = RetainingWall.Integrate([new(0, 2, 10, 30)], 0, 2, 0); Same(integral.Force, 40, "Integrale delle pressioni kN/m"); Same(integral.Moment, 10 * 2 + 20 * 4 / 3.0, "Momento delle pressioni kNm/m");

@@ -12,6 +12,8 @@ ServiceabilityEngine? sle=args.SkipWhile(a=>a!="--motore-sle").Skip(1).FirstOrDe
     null=>null,"legacy"=>ServiceabilityEngine.Legacy,"libreria"=>ServiceabilityEngine.Library,
     var other=>throw new ArgumentException("--motore-sle: legacy o libreria, non "+other)
 };
+// Since decision D3 of 15/10/2026 the engine is hooked for the whole run (tests/ANTHEA.Legacy), not passed to the section.
+ServiceabilityEngines.Use(sle);
 int assertions=0;void Check(bool pass,string message){if(!pass)throw new Exception(message);assertions++;}
 var data=SezioneCA.DefaultData();var ws=SectionWorkspace.Prepare(data);var input=data["input"]!.AsObject();
 ws["sle_comuni"]!["esposizione"]="XC1";ws["dettagli_costruttivi"]!["elemento"]="Pilastro";
@@ -30,11 +32,11 @@ foreach(string family in SectionWorkspace.Sets)
     else
     {
         var options=ws["sle"]![family]!.AsObject();options["esposizione"]="XC1";
-        var engine=new CheckerSection(input,ws,options,engine:sle);var checks=new Dictionary<string,StressOutcome>();
+        var engine=new CheckerSection(input,ws,options);var checks=new Dictionary<string,StressOutcome>();
         foreach(var row in actions)
         {
             var a=row!.Array("azioni");var force=new ActionPoint(double.Parse(a[0]!.GetValue<string>()),double.Parse(a[1]!.GetValue<string>()),double.Parse(a[2]!.GetValue<string>()));
-            var s=engine.Stress(force,family);var crack=ConcreteServiceabilityAdapter.Cracking(engine,s,force,input,ws,options,family,sle);
+            var s=engine.Stress(force,family);var crack=ServiceabilityEngines.Cracking(engine,s,force,input,ws,options,family,sle);
             checks[row.S("id")]=new(s.ViewForTest(),s.Ratio,s.Status,crack.Status,crack.ViewForTest());
         }
         result["tensioni"]![family]=ConcreteAnalysisSession.ExportStress(checks);
@@ -77,5 +79,5 @@ try{Anthea.Reports.ReportFiles.Write(Path.Combine(folder,"oversize.docx"),oversi
 catch(InvalidOperationException ex) when(ex.Message.Contains("pagine")){rejected=true;}
 Check(rejected && !File.Exists(Path.Combine(folder,"oversize.docx")) && !File.Exists(Path.Combine(folder,"oversize.pdf")),"More than two pages exported");
 File.WriteAllText(Path.Combine(folder,"source.json"),data.ToJsonString());File.WriteAllText(Path.Combine(folder,"results.json"),result.ToJsonString());
-File.WriteAllText(Path.Combine(folder,"test-results.txt"),$"PASS {assertions} assertions (SLE engine {sle??ConcreteServiceabilityAdapter.Default}); PDF of {pdf.Pages} pages without Word (at most two), oversize refused.");
+File.WriteAllText(Path.Combine(folder,"test-results.txt"),$"PASS {assertions} assertions (SLE engine {sle??ServiceabilityEngines.Default}); PDF of {pdf.Pages} pages without Word (at most two), oversize refused.");
 Console.WriteLine($"PASS {assertions} assertions");

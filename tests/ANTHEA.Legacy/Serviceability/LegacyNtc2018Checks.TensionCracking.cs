@@ -1,8 +1,11 @@
+// Spostato da X.Calculations/ConcreteTensionCracking.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: parte di LegacyNtc2018Checks
+// (prima Ntc2018Checks) per le sezioni interamente tese. Codice storico conservato per le prove, fuori dall'installer.
 using System.Text.Json.Nodes;
 using GPC.Geometry;
 using GPC.Model.Materials;
+using CrackResult = Anthea.Calculations.Ntc2018Checks.CrackResult;
 namespace Anthea.Calculations;
-public static partial class Ntc2018Checks
+public static partial class LegacyNtc2018Checks
 {
     /// <param name="code">Standard of the crack check (the "normativa" of the workspace, as in <see cref="Cracking"/>).</param>
     /// <param name="spacingCalculator">Stateless geometric spacing of the tensile bars, passed by <see cref="Cracking"/>.</param>
@@ -34,7 +37,7 @@ public static partial class Ntc2018Checks
             double edge=section.Bars.Max(b=>Q(b.X,b.Y));
             var face=section.Bars.Where(b=>Q(b.X,b.Y)>=edge-section.Bars.Max(b=>b.Diametro)).ToArray();
             double center=face.Sum(b=>Q(b.X,b.Y)*b.Area)/face.Sum(b=>b.Area);
-            double hc=ConcreteCodeChecks.EffectiveCrackDepth(code,section,qx,qy,top,height,top-center,height,true),level=top-hc;
+            double hc=LegacyConcreteCodeChecks.EffectiveCrackDepth(code,section,qx,qy,top,height,top-center,height,true),level=top-hc;
             var indices=section.Bars.Select((b,i)=>(b,i)).Where(v=>Q(v.b.X,v.b.Y)>=level-1e-8&&state.tensioni_barre[v.i]>0).Select(v=>v.i).ToArray();
             var region=SectionRegions.Region(section,name,qx,qy,level,indices);
             details.Add(new(name,null,"","Verifica indipendente della fascia; nessuna somma con le aree delle altre facce."));
@@ -49,7 +52,7 @@ public static partial class Ntc2018Checks
             if(spacing is not >0)return new(null,limit,null,null,name+": specificare l’interasse massimo delle barre"){Details=details.ToArray(),Regions=regions.Append(region).ToArray()};
             double sigma=indices.Max(i=>state.tensioni_barre[i]);
             var calculation=new List<CrackCalculationDetail>();
-            double width=ConcreteCodeChecks.CrackWidth(code,sigma,section.Es,material.Ecm,material.Fctm,region.SteelArea/region.Area,phi,cover,spacing.Value,height,
+            double width=LegacyConcreteCodeChecks.CrackWidth(code,sigma,section.Es,material.Ecm,material.Fctm,region.SteelArea/region.Area,phi,cover,spacing.Value,height,
                 options.S("durata","Lunga")=="Breve",options.S("aderenza","Migliorata")=="Migliorata",k2,calculation);
             details.AddRange(calculation.Select(d=>d with{Symbol=name+" · "+d.Symbol}));formulae.Add(calculation);
             regions.Add(region with{Width=width});widths.Add(width);
@@ -63,7 +66,7 @@ public static partial class Ntc2018Checks
             double? spacing=options.S("spaziatura_fessure").Trim()==""?spacingCalculator.Maximum(section,indices):options.Required("spaziatura_fessure",strict:true);
             if(spacing is not >0)return new(null,limit,null,null,"DS sistema grossolano: inserire interasse massimo"){Details=details.ToArray(),Regions=regions.ToArray()};
             var trace=new List<CrackCalculationDetail>();
-            double width=.5*ConcreteCodeChecks.CrackWidth("DS EN 1992-1-1",state.tensioni_barre.Max(),section.Es,material.Ecm,material.Fctm,steel/area,phi,cover,spacing.Value,Math.Max(section.Width,section.Height),
+            double width=.5*LegacyConcreteCodeChecks.CrackWidth("DS EN 1992-1-1",state.tensioni_barre.Max(),section.Es,material.Ecm,material.Fctm,steel/area,phi,cover,spacing.Value,Math.Max(section.Width,section.Height),
                 options.S("durata","Lunga")=="Breve",options.S("aderenza","Migliorata")=="Migliorata",k2,trace);
             trace.Add(new("wk",width,"mm","0,5 · apertura Eq.(7.8) con intera area tesa · DK NA 7.3.4(1)"));
             regions.Add(new("Sistema grossolano DS",0,0,0,area,indices,steel,width,section.Outline.ToArray(),section.Holes.ToArray()));
