@@ -1,0 +1,836 @@
+{
+ "strumento": "pagine_metodi.py",
+ "descrizione": "Attesi indipendenti degli esempi delle pagine dei metodi di Checker (ca.ancoraggi, ca.dettagli, ca.momento-curvatura §10) e dei casi AN/SO della campagna del 25/9, per ConcreteLibraryAdapter.Checks (sezione 13, decisione E3 del 15/10/2026).",
+ "unita": "mm, mm², MPa, kN, kNm; curvature in 1/m, deformazioni in ‰ (unità di ANTHEA)",
+ "ancoraggi": [
+  {
+   "id": "A",
+   "fonte": "ca.ancoraggi §10, caso A",
+   "dati": {
+    "diametro": 16,
+    "sigma": 391.304347826087,
+    "fctk005": 1.7954747440105314,
+    "fck": 25,
+    "gamma_c": 1.5,
+    "aderenza_buona": true,
+    "lunghezza": 600,
+    "sovrapposizione": false,
+    "percentuale": 100,
+    "interferro": 0
+   },
+   "ingresso_completo": true,
+   "atteso": {
+    "Eta1": 1.0,
+    "Eta2": 1.0,
+    "Fbd": 2.693212116015797,
+    "BasicLength": 581.1712274708805,
+    "Alpha6": 1.0,
+    "RequiredLength": 581.1712274708805,
+    "MaximumLapClearDistance": null,
+    "LengthPassed": true,
+    "LapClearDistancePassed": true,
+    "Passed": true
+   }
+  },
+  {
+   "id": "B",
+   "fonte": "ca.ancoraggi §10, caso B",
+   "dati": {
+    "diametro": 16,
+    "sigma": 391.304347826087,
+    "fctk005": 1.7954747440105314,
+    "fck": 25,
+    "gamma_c": 1.5,
+    "aderenza_buona": true,
+    "lunghezza": 900,
+    "sovrapposizione": true,
+    "percentuale": 100,
+    "interferro": 30
+   },
+   "ingresso_completo": true,
+   "atteso": {
+    "Eta1": 1.0,
+    "Eta2": 1.0,
+    "Fbd": 2.693212116015797,
+    "BasicLength": 581.1712274708805,
+    "Alpha6": 1.5,
+    "RequiredLength": 871.7568412063207,
+    "MaximumLapClearDistance": 64,
+    "LengthPassed": true,
+    "LapClearDistancePassed": true,
+    "Passed": true
+   }
+  },
+  {
+   "id": "C",
+   "fonte": "ca.ancoraggi §10, caso C",
+   "dati": {
+    "diametro": 16,
+    "sigma": 391.304347826087,
+    "fctk005": 1.7954747440105314,
+    "fck": 25,
+    "gamma_c": 1.5,
+    "aderenza_buona": true,
+    "lunghezza": 900,
+    "sovrapposizione": true,
+    "percentuale": 100,
+    "interferro": 70
+   },
+   "ingresso_completo": true,
+   "atteso": {
+    "Eta1": 1.0,
+    "Eta2": 1.0,
+    "Fbd": 2.693212116015797,
+    "BasicLength": 581.1712274708805,
+    "Alpha6": 1.5,
+    "RequiredLength": 871.7568412063207,
+    "MaximumLapClearDistance": 64,
+    "LengthPassed": true,
+    "LapClearDistancePassed": false,
+    "Passed": false
+   }
+  },
+  {
+   "id": "D",
+   "fonte": "ca.ancoraggi §10, caso D",
+   "dati": {
+    "diametro": 16,
+    "sigma": 391.304347826087,
+    "fctk005": 1.7954747440105314,
+    "fck": 25,
+    "gamma_c": 1.5,
+    "aderenza_buona": false,
+    "lunghezza": 600,
+    "sovrapposizione": false,
+    "percentuale": 100,
+    "interferro": 0
+   },
+   "ingresso_completo": true,
+   "atteso": {
+    "Eta1": 0.7,
+    "Eta2": 1.0,
+    "Fbd": 1.8852484812110581,
+    "BasicLength": 830.2446106726862,
+    "Alpha6": 1.0,
+    "RequiredLength": 830.2446106726862,
+    "MaximumLapClearDistance": null,
+    "LengthPassed": false,
+    "LapClearDistancePassed": true,
+    "Passed": false
+   }
+  },
+  {
+   "id": "E",
+   "fonte": "ca.ancoraggi §10, caso E (ldisp e s del caso B)",
+   "dati": {
+    "diametro": 16,
+    "sigma": 391.304347826087,
+    "fctk005": 1.7954747440105314,
+    "fck": 25,
+    "gamma_c": 1.5,
+    "aderenza_buona": true,
+    "lunghezza": 900,
+    "sovrapposizione": true,
+    "percentuale": 50,
+    "interferro": 30
+   },
+   "ingresso_completo": true,
+   "atteso": {
+    "Eta1": 1.0,
+    "Eta2": 1.0,
+    "Fbd": 2.693212116015797,
+    "BasicLength": 581.1712274708805,
+    "Alpha6": 1.4142135623730951,
+    "RequiredLength": 821.9002319503383,
+    "MaximumLapClearDistance": 64,
+    "LengthPassed": true,
+    "LapClearDistancePassed": true,
+    "Passed": true
+   }
+  },
+  {
+   "id": "F",
+   "fonte": "ca.ancoraggi §10, caso F (ldisp = 200 mm al limite, s = 20 mm)",
+   "dati": {
+    "diametro": 8,
+    "sigma": 100.0,
+    "fctk005": 1.7954747440105314,
+    "fck": 25,
+    "gamma_c": 1.5,
+    "aderenza_buona": true,
+    "lunghezza": 200,
+    "sovrapposizione": true,
+    "percentuale": 100,
+    "interferro": 20
+   },
+   "ingresso_completo": true,
+   "atteso": {
+    "Eta1": 1.0,
+    "Eta2": 1.0,
+    "Fbd": 2.693212116015797,
+    "BasicLength": 74.26076795461249,
+    "Alpha6": 1.5,
+    "RequiredLength": 200.0,
+    "MaximumLapClearDistance": 32,
+    "LengthPassed": true,
+    "LapClearDistancePassed": true,
+    "Passed": true
+   }
+  },
+  {
+   "id": "G",
+   "fonte": "ca.ancoraggi §10, caso G (ramo NTC, ldisp = 1600 mm)",
+   "dati": {
+    "diametro": 40,
+    "sigma": 391.304347826087,
+    "fctk005": 1.7954747440105314,
+    "fck": 25,
+    "gamma_c": 1.5,
+    "aderenza_buona": true,
+    "lunghezza": 1600,
+    "sovrapposizione": false,
+    "percentuale": 100,
+    "interferro": 0
+   },
+   "ingresso_completo": true,
+   "atteso": {
+    "Eta1": 1.0,
+    "Eta2": 0.92,
+    "Fbd": 2.4777551467345336,
+    "BasicLength": 1579.2696398665228,
+    "Alpha6": 1.0,
+    "RequiredLength": 1579.2696398665228,
+    "MaximumLapClearDistance": null,
+    "LengthPassed": true,
+    "LapClearDistancePassed": true,
+    "Passed": true
+   }
+  },
+  {
+   "id": "AN-01",
+   "fonte": "campagna del 25/9, reference_extra.py, caso AN-01",
+   "dati": {
+    "diametro": 20,
+    "sigma": 400.0,
+    "fctk005": 2.027527707671822,
+    "fck": 30,
+    "gamma_c": 1.5,
+    "aderenza_buona": true,
+    "lunghezza": 660,
+    "sovrapposizione": false,
+    "percentuale": 25,
+    "interferro": 20
+   },
+   "ingresso_completo": false,
+   "atteso": {
+    "Eta1": 1.0,
+    "Eta2": 1.0,
+    "Fbd": 3.0412915615077334,
+    "BasicLength": 657.61534517542,
+    "Alpha6": 1.0,
+    "RequiredLength": 657.61534517542,
+    "MaximumLapClearDistance": null,
+    "LengthPassed": true,
+    "LapClearDistancePassed": true,
+    "Passed": true
+   }
+  },
+  {
+   "id": "AN-02",
+   "fonte": "campagna del 25/9, reference_extra.py, caso AN-02",
+   "dati": {
+    "diametro": 16,
+    "sigma": 300.0,
+    "fctk005": 2.027527707671822,
+    "fck": 30,
+    "gamma_c": 1.5,
+    "aderenza_buona": false,
+    "lunghezza": 300,
+    "sovrapposizione": false,
+    "percentuale": 100,
+    "interferro": 70
+   },
+   "ingresso_completo": true,
+   "atteso": {
+    "Eta1": 0.7,
+    "Eta2": 1.0,
+    "Fbd": 2.128904093055413,
+    "BasicLength": 563.6702958646457,
+    "Alpha6": 1.0,
+    "RequiredLength": 563.6702958646457,
+    "MaximumLapClearDistance": null,
+    "LengthPassed": false,
+    "LapClearDistancePassed": true,
+    "Passed": false
+   }
+  },
+  {
+   "id": "SO-01",
+   "fonte": "campagna del 25/9, reference_extra.py, caso SO-01",
+   "dati": {
+    "diametro": 20,
+    "sigma": 400.0,
+    "fctk005": 2.027527707671822,
+    "fck": 30,
+    "gamma_c": 1.5,
+    "aderenza_buona": true,
+    "lunghezza": 660,
+    "sovrapposizione": true,
+    "percentuale": 25,
+    "interferro": 20
+   },
+   "ingresso_completo": false,
+   "atteso": {
+    "Eta1": 1.0,
+    "Eta2": 1.0,
+    "Fbd": 3.0412915615077334,
+    "BasicLength": 657.61534517542,
+    "Alpha6": 1.0,
+    "RequiredLength": 657.61534517542,
+    "MaximumLapClearDistance": 80,
+    "LengthPassed": true,
+    "LapClearDistancePassed": true,
+    "Passed": true
+   }
+  },
+  {
+   "id": "SO-02",
+   "fonte": "campagna del 25/9, reference_extra.py, caso SO-02",
+   "dati": {
+    "diametro": 16,
+    "sigma": 300.0,
+    "fctk005": 2.027527707671822,
+    "fck": 30,
+    "gamma_c": 1.5,
+    "aderenza_buona": false,
+    "lunghezza": 300,
+    "sovrapposizione": true,
+    "percentuale": 100,
+    "interferro": 70
+   },
+   "ingresso_completo": true,
+   "atteso": {
+    "Eta1": 0.7,
+    "Eta2": 1.0,
+    "Fbd": 2.128904093055413,
+    "BasicLength": 563.6702958646457,
+    "Alpha6": 1.5,
+    "RequiredLength": 845.5054437969686,
+    "MaximumLapClearDistance": 64,
+    "LengthPassed": false,
+    "LapClearDistancePassed": false,
+    "Passed": false
+   }
+  }
+ ],
+ "dettagli": [
+  {
+   "id": "trave",
+   "fonte": "ca.dettagli §10, trave 300 × 500 (profilo NTC)",
+   "b": 300,
+   "h": 500,
+   "fck": 25,
+   "fyk": 450,
+   "fctm": 2.564963920015045,
+   "barre": [
+    [
+     -97,
+     -197,
+     20
+    ],
+    [
+     0,
+     -197,
+     20
+    ],
+    [
+     97,
+     -197,
+     20
+    ],
+    [
+     -100,
+     200,
+     14
+    ],
+    [
+     100,
+     200,
+     14
+    ]
+   ],
+   "cnom": 35,
+   "staffe": {
+    "diametro": 8,
+    "passo": 200,
+    "braccia": 2
+   },
+   "NEd_kN": 0,
+   "aggregato": 20,
+   "cmin_dur": 25,
+   "delta_c": 10,
+   "sovrapposizione": false,
+   "controlli": [
+    {
+     "chiave": "ClearSpacing",
+     "nome": "Interferro minimo",
+     "effettivo": 77.0,
+     "limite": 25,
+     "esito": true
+    },
+    {
+     "chiave": "NominalCover",
+     "nome": "Copriferro nominale",
+     "effettivo": 35,
+     "limite": 35.0,
+     "esito": true
+    },
+    {
+     "chiave": "BarCoverMargin",
+     "nome": "Margine copriferro barre longitudinali",
+     "effettivo": 8.0,
+     "limite": 0.0,
+     "esito": true
+    },
+    {
+     "chiave": "MinimumTension:Bottom",
+     "nome": "As,min inferiore",
+     "effettivo": 942.4777960769379,
+     "limite": 198.7334045227657,
+     "esito": true,
+     "d": 447.0
+    },
+    {
+     "chiave": "MaximumTension:Bottom",
+     "nome": "As,max inferiore",
+     "effettivo": 942.4777960769379,
+     "limite": 6000.0,
+     "esito": true
+    },
+    {
+     "chiave": "MinimumLinks:Bottom",
+     "nome": "Staffe minime · inferiore",
+     "effettivo": 502.65482457436684,
+     "limite": 450.0,
+     "esito": true
+    },
+    {
+     "chiave": "LinkSpacing:Bottom",
+     "nome": "Passo staffe · inferiore",
+     "effettivo": 200,
+     "limite": 333.3333333333333,
+     "esito": true
+    },
+    {
+     "chiave": "MinimumTension:Top",
+     "nome": "As,min superiore",
+     "effettivo": 307.8760800517997,
+     "limite": 200.06718576117353,
+     "esito": true,
+     "d": 450.0
+    },
+    {
+     "chiave": "MaximumTension:Top",
+     "nome": "As,max superiore",
+     "effettivo": 307.8760800517997,
+     "limite": 6000.0,
+     "esito": true
+    },
+    {
+     "chiave": "MinimumLinks:Top",
+     "nome": "Staffe minime · superiore",
+     "effettivo": 502.65482457436684,
+     "limite": 450.0,
+     "esito": true
+    },
+    {
+     "chiave": "LinkSpacing:Top",
+     "nome": "Passo staffe · superiore",
+     "effettivo": 200,
+     "limite": 333.3333333333333,
+     "esito": true
+    },
+    {
+     "chiave": "CompressionBarRestraint",
+     "nome": "Trattenimento barre compresse",
+     "effettivo": 200,
+     "limite": 210,
+     "esito": true
+    }
+   ]
+  },
+  {
+   "id": "pilastro",
+   "fonte": "ca.dettagli §10, pilastro 400 × 400 (profilo NTC)",
+   "b": 400,
+   "h": 400,
+   "fck": 25,
+   "fyk": 450,
+   "fctm": 2.564963920015045,
+   "barre": [
+    [
+     -149,
+     149,
+     16
+    ],
+    [
+     0,
+     149,
+     16
+    ],
+    [
+     149,
+     149,
+     16
+    ],
+    [
+     -149,
+     0,
+     16
+    ],
+    [
+     149,
+     0,
+     16
+    ],
+    [
+     -149,
+     -149,
+     16
+    ],
+    [
+     0,
+     -149,
+     16
+    ],
+    [
+     149,
+     -149,
+     16
+    ]
+   ],
+   "cnom": 35,
+   "staffe": {
+    "diametro": 8,
+    "passo": 250,
+    "braccia": 0
+   },
+   "NEd_kN": 2000.0,
+   "aggregato": 20,
+   "cmin_dur": 25,
+   "delta_c": 10,
+   "sovrapposizione": false,
+   "controlli": [
+    {
+     "chiave": "ClearSpacing",
+     "nome": "Interferro minimo",
+     "effettivo": 133.0,
+     "limite": 25,
+     "esito": true
+    },
+    {
+     "chiave": "NominalCover",
+     "nome": "Copriferro nominale",
+     "effettivo": 35,
+     "limite": 35.0,
+     "esito": true
+    },
+    {
+     "chiave": "BarCoverMargin",
+     "nome": "Margine copriferro barre longitudinali",
+     "effettivo": 8.0,
+     "limite": 0.0,
+     "esito": true
+    },
+    {
+     "chiave": "LongitudinalDiameter",
+     "nome": "Diametro longitudinale",
+     "effettivo": 16,
+     "limite": 12.0,
+     "esito": true
+    },
+    {
+     "chiave": "LongitudinalSpacing",
+     "nome": "Interasse longitudinale",
+     "effettivo": 298,
+     "limite": 300.0,
+     "esito": true
+    },
+    {
+     "chiave": "MinimumLongitudinal",
+     "nome": "Armatura longitudinale minima",
+     "effettivo": 1608.495438637974,
+     "limite": 511.1111111111111,
+     "esito": true
+    },
+    {
+     "chiave": "MaximumLongitudinal",
+     "nome": "Armatura longitudinale massima",
+     "effettivo": 1608.495438637974,
+     "limite": 6400.0,
+     "esito": true
+    },
+    {
+     "chiave": "LinkDiameter",
+     "nome": "Diametro staffe",
+     "effettivo": 8.0,
+     "limite": 6.0,
+     "esito": true
+    },
+    {
+     "chiave": "LinkSpacing",
+     "nome": "Passo staffe",
+     "effettivo": 250.0,
+     "limite": 192,
+     "esito": false
+    }
+   ]
+  },
+  {
+   "id": "pilastro-giunzione",
+   "fonte": "ca.dettagli §10, pilastro 400 × 400 in zona di sovrapposizione (riquadro D-4, voce R13)",
+   "b": 400,
+   "h": 400,
+   "fck": 25,
+   "fyk": 450,
+   "fctm": 2.564963920015045,
+   "barre": [
+    [
+     -149,
+     149,
+     16
+    ],
+    [
+     0,
+     149,
+     16
+    ],
+    [
+     149,
+     149,
+     16
+    ],
+    [
+     -149,
+     0,
+     16
+    ],
+    [
+     149,
+     0,
+     16
+    ],
+    [
+     -149,
+     -149,
+     16
+    ],
+    [
+     0,
+     -149,
+     16
+    ],
+    [
+     149,
+     -149,
+     16
+    ]
+   ],
+   "cnom": 35,
+   "staffe": {
+    "diametro": 8,
+    "passo": 250,
+    "braccia": 0
+   },
+   "NEd_kN": 2000.0,
+   "aggregato": 20,
+   "cmin_dur": 25,
+   "delta_c": 10,
+   "sovrapposizione": true,
+   "controlli": [
+    {
+     "chiave": "LinkSpacing",
+     "nome": "Passo staffe",
+     "effettivo": 250.0,
+     "limite": 192,
+     "esito": false
+    },
+    {
+     "chiave": "MaximumAtLap",
+     "nome": "Armatura massima nella giunzione",
+     "effettivo": 1608.495438637974,
+     "limite": 12800.0,
+     "esito": true
+    }
+   ]
+  }
+ ],
+ "momento_curvatura": [
+  {
+   "id": "lembo-superiore",
+   "lembo_compresso": "superiore",
+   "fonte": "ca.momento-curvatura §10",
+   "b": 300,
+   "h": 500,
+   "barre": [
+    [
+     -100,
+     -202,
+     20
+    ],
+    [
+     0,
+     -202,
+     20
+    ],
+    [
+     100,
+     -202,
+     20
+    ],
+    [
+     -100,
+     204,
+     16
+    ],
+    [
+     100,
+     204,
+     16
+    ]
+   ],
+   "fck": 30,
+   "fyk": 450,
+   "Es": 200000,
+   "fu": 450,
+   "eps_uk_permille": 100,
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": 0,
+   "passi": 40,
+   "campionamento": "Quadratico",
+   "bisezioni": 12,
+   "tolleranza_N_kN": 1,
+   "atteso": {
+    "x_limite": 68.37187784515619,
+    "Mr_kNm": 154.68772880556978,
+    "chi_u_1_m": 0.051190637295739534,
+    "eps_c_limite": 3.5,
+    "eps_s_limite": 19.638168057674267,
+    "x_snervamento": 151.31500680800457,
+    "My_kNm": 147.535471631246,
+    "chi_y_1_m": 0.006506881897764493,
+    "eps_c_snervamento": 0.9845888786591159,
+    "eps_s_snervamento": 1.956521739130435
+   },
+   "tabella": {
+    "x_limite": 0.0010624799117520123,
+    "Mr_kNm": -1.1453596510113684e-05,
+    "chi_u_1_m": -0.001061352246310987,
+    "eps_c_limite": 0.0,
+    "eps_s_limite": -0.0012505110747299542,
+    "x_snervamento": 0.0025087195809689877,
+    "My_kNm": 6.867564853241248e-06,
+    "chi_y_1_m": 0.0012640696365349147,
+    "eps_c_snervamento": 0.0037759604137528324,
+    "eps_s_snervamento": 0.0
+   },
+   "tolleranze": {
+    "Mr_kNm": 0.0005114535965101137,
+    "My_kNm": 0.0005068675648532413,
+    "chi_u_1_m": 0.004061352246310987,
+    "chi_y_1_m": 0.004264069636534915,
+    "eps_s_limite": 0.004250511074729954,
+    "eps_c_snervamento": 0.0067759604137528325
+   }
+  },
+  {
+   "id": "lembo-inferiore",
+   "lembo_compresso": "inferiore",
+   "fonte": "stesso caso di ca.momento-curvatura §10 con il lembo inferiore compresso (calcolato qui)",
+   "b": 300,
+   "h": 500,
+   "barre": [
+    [
+     -100,
+     -202,
+     20
+    ],
+    [
+     0,
+     -202,
+     20
+    ],
+    [
+     100,
+     -202,
+     20
+    ],
+    [
+     -100,
+     204,
+     16
+    ],
+    [
+     100,
+     204,
+     16
+    ]
+   ],
+   "fck": 30,
+   "fyk": 450,
+   "Es": 200000,
+   "fu": 450,
+   "eps_uk_permille": 100,
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": 0,
+   "passi": 40,
+   "campionamento": "Quadratico",
+   "bisezioni": 12,
+   "tolleranza_N_kN": 1,
+   "atteso": {
+    "x_limite": 45.79763573126378,
+    "Mr_kNm": 69.35902192415102,
+    "chi_u_1_m": 0.07642315905863943,
+    "eps_c_limite": 3.5,
+    "eps_s_limite": 31.196114212622298,
+    "x_snervamento": 94.53788971213139,
+    "My_kNm": 65.67123242435014,
+    "chi_y_1_m": 0.005442915075426422,
+    "eps_c_snervamento": 0.5145617051131604,
+    "eps_s_snervamento": 1.956521739130435
+   },
+   "tabella": {
+    "x_limite": 0.000395003941114469,
+    "Mr_kNm": -6.592181221642957e-05,
+    "chi_u_1_m": -0.00039484797460842547,
+    "eps_c_limite": 2.220446049250313e-16,
+    "eps_s_limite": -0.0004391473351538222,
+    "x_snervamento": 0.0035383974604983326,
+    "My_kNm": 1.4501524655763376e-05,
+    "chi_y_1_m": 0.0009314589885567326,
+    "eps_c_snervamento": 0.004473152321174956,
+    "eps_s_snervamento": 0.0
+   },
+   "tolleranze": {
+    "Mr_kNm": 0.0005659218122164296,
+    "My_kNm": 0.0005145015246557634,
+    "chi_u_1_m": 0.0033948479746084255,
+    "chi_y_1_m": 0.003931458988556733,
+    "eps_s_limite": 0.0034391473351538223,
+    "eps_c_snervamento": 0.007473152321174956
+   }
+  }
+ ],
+ "margini_momento_curvatura": {
+  "Mr_kNm": 0.0005,
+  "My_kNm": 0.0005,
+  "chi_u_1_m": 0.003,
+  "chi_y_1_m": 0.003,
+  "eps_s_limite": 0.003,
+  "eps_c_snervamento": 0.003
+ }
+}
