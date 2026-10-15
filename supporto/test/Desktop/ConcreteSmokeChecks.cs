@@ -150,13 +150,19 @@ internal sealed partial class ConcreteWorkspace
         bool rejected = false; try { PasteCells(three.Grid, "SLU", "-1\t2\t3\n-2\tnon numero\t4"); } catch (ArgumentException) { rejected = true; }
         Assert(rejected && actions["SLU"][0].Values.ToJsonString() == before && actions["SLU"].Count == 1, "Incolla non valido atomico");
         // Casi della prova di ParsePaste sul percorso del prodotto: intestazione Nome–N–Mx–My saltata, 4 colonne con nome e virgola
-        // decimale (nome e valori della riga 0, che resta identica); le 3 colonne N–Mx–My sono incollate sopra. Lo stesso testo di
-        // ParsePaste, con 4 e 3 colonne insieme, è rifiutato da PasteCells senza toccare le righe.
+        // decimale (stesso nome, valori diversi); poi la riga 0 torna ai dati di prima con le 3 colonne N–Mx–My, già provate sopra.
+        // Lo stesso testo di ParsePaste, con 4 e 3 colonne insieme, è rifiutato da PasteCells senza toccare le righe.
+        string PastedInputs(JsonRow row) => string.Join("\t", new[] { "nome", "N", "Mx", "My" }.Select(k => row.Values.S(k)));
+        string inputsBefore = PastedInputs(actions["SLU"][0]), rowName = actions["SLU"][0].Values.S("nome");
         three.Grid.SelectedItem = actions["SLU"][0];
-        PasteCells(three.Grid, "SLU", "Nome\tN\tMx\tMy\n" + actions["SLU"][0].Values.S("nome") + "\t-100,5\t20\t30");
-        Assert(actions["SLU"][0].Values.ToJsonString() == before && actions["SLU"].Count == 1, "Incolla con intestazione e nome");
+        PasteCells(three.Grid, "SLU", "Nome\tN\tMx\tMy\n" + rowName + "\t-100,25\t21\t31");
+        var headerRow = actions["SLU"][0].Values;
+        Assert(headerRow.S("nome") == rowName && headerRow.D("N") == -100.25 && headerRow.D("Mx") == 21 && headerRow.D("My") == 31 && actions["SLU"].Count == 1, "Incolla con intestazione e nome");
+        PasteCells(three.Grid, "SLU", "-100,5\t20\t30");
+        Assert(PastedInputs(actions["SLU"][0]) == inputsBefore && actions["SLU"].Count == 1, "Incolla riporta la riga 0 ai dati di prima");
+        string beforeMixed = actions["SLU"][0].Values.ToJsonString();
         rejected = false; try { PasteCells(three.Grid, "SLU", "Nome\tN\tMx\tMy\nA\t-100,5\t20\t30\n-200\t1\t2"); } catch (ArgumentException) { rejected = true; }
-        Assert(rejected && actions["SLU"][0].Values.ToJsonString() == before && actions["SLU"].Count == 1, "Incolla con 4 e 3 colonne rifiutato");
+        Assert(rejected && actions["SLU"][0].Values.ToJsonString() == beforeMixed && actions["SLU"].Count == 1, "Incolla con 4 e 3 colonne rifiutato");
         PasteCells(three.Grid, "SLU", "Aggiunta\t-200\t25\t10", true); await Automatic();
         Assert(actions["SLU"].Count == 2, "Aggiunta dagli appunti");
         Assert(three.View3D.VisibleActionCount == 2, "Tutte le forze visibili");
