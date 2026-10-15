@@ -18,4 +18,15 @@ public static class BridgeLibraryAccess
     /// <summary>Era <c>BridgeConcept.OptimizationExclusions</c>: le esclusioni della ricerca GPC.Design per un risultato.</summary>
     public static string[] OptimizationExclusions(JsonObject data, BridgeConcept.Result result, BridgeConcept.OptimizationOptions options) =>
         NativeBridge.OptimizationExclusions(BridgeConcept.NativeInput(data), BridgeConcept.ToNative(result), BridgeConcept.ToNative(options));
+
+    // Deleghe di una riga senza conversioni, conservate come erano nel prodotto (decisione D3: nessuna cancellazione); le prove chiamano
+    // direttamente le stesse API GPC.
+    /// <summary>Era <c>BridgeConcept.OptimizationRange</c>.</summary>
+    public static double[] OptimizationRange(double min, double max, double step) => NativeBridge.OptimizationRange(min, max, step);
+    /// <summary>Era <c>BridgeSection.EffectiveWidths</c> (X.Calculations/BridgeSection.EffectiveWidths.cs).</summary>
+    public static BridgeEffective EffectiveWidths(BridgeGeometry g, Func<double, double> stress, double fy) => HBridgeSection.EffectiveWidths(g, stress, fy);
+    /// <summary>Era <c>BridgeSection.InternalPlate</c> (X.Calculations/BridgeSection.EffectiveWidths.cs).</summary>
+    public static BridgePlate InternalPlate(double b, double t, double startStress, double endStress, double fy) => HBridgeSection.InternalPlate(b, t, startStress, endStress, fy);
+    /// <summary>Era <c>Homogenization.CreepFromModularRatio</c> (X.Calculations/ConcreteSectionProperties.cs).</summary>
+    public static double CreepFromModularRatio(double n, double es, double ec) => GPC.Checkers.Concrete.Serviceability.Homogenization.CreepFromModularRatio(n, es, ec);
 }
