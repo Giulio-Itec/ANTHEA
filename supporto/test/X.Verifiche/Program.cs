@@ -50,7 +50,28 @@ try
     }
     Console.WriteLine("ANTHEA — verifiche C#");
     if (args.Length == 0) { Console.WriteLine("Specificare il percorso del file casi_confronto.json."); return 2; }
-    var cases = JsonNode.Parse(File.ReadAllText(args[0]))!.AsArray(); int count = 0, numbers = 0, failed = 0; double maxAbs = 0, maxRel = 0; string maxPath = "";
+    var cases = JsonNode.Parse(File.ReadAllText(args[0]))!.AsArray(); int count = 0, numbers = 0, failed = 0, pv3 = 0; double maxAbs = 0, maxRel = 0; string maxPath = "";
+    // Differenza intenzionale classificata PV-3 (analisi dei bug del 15/10/2026, GPCChecker.Geotechnics 36e2639d), applicata solo all'atteso
+    // indipendente, mai riscritto: l'avviso storico «ATTENZIONE Nq: alcune quote hanno z/D fuori dall'intervallo lo–hi …» compariva in ogni
+    // calcolo per le prime quote (z/D < lo). Se il palo non supera z/D = hi (profondità massima attesa / D ≤ hi) l'avviso è ora la nota del tratto
+    // superficiale, ricostruita qui da D e dall'intervallo della curva; oltre hi (avviso ATTENZIONE con Nq alla punta) la categoria non si applica.
+    JsonNode? Pv3(JsonNode c)
+    {
+        var expected = c["atteso"]?.DeepClone();
+        if (c.S("tipo") != "palo" || expected?["avvisi"] is not JsonArray warnings) return expected;
+        var it = System.Globalization.CultureInfo.GetCultureInfo("it-IT");
+        double d = double.Parse(c["input"]!["generali"]!.S("diametro"), System.Globalization.CultureInfo.InvariantCulture);
+        for (int i = 0; i < warnings.Count; i++)
+        {
+            var m = System.Text.RegularExpressions.Regex.Match(warnings[i]?.ToString() ?? "", "^ATTENZIONE Nq: alcune quote hanno z/D fuori dall'intervallo (\\d+)–(\\d+); adottata la curva di bordo, senza estrapolare\\.$");
+            if (!m.Success) continue;
+            double low = double.Parse(m.Groups[1].Value), high = double.Parse(m.Groups[2].Value);
+            if (expected.D("profondita_massima") / d > high) continue;
+            warnings[i] = $"Nq: nel tratto superficiale con z/D < {low.ToString(it)} (z < {(low * d).ToString("0.00", it)} m) adottata la curva z/D = {low.ToString(it)}, senza estrapolare: a favore di sicurezza (Nq cresce al diminuire di z/D).";
+            pv3++;
+        }
+        return expected;
+    }
     void Compare(JsonNode? a, JsonNode? b, string path)
     {
         if (a is null || b is null) { if (a is not null || b is not null) throw new Exception(path + ": null diverso"); return; }
@@ -80,7 +101,7 @@ try
         {
             var c = item!; JsonNode actual = Actual(c);
             if (c.B("atteso_errore")) { if (actual.S("errore") == "") throw new Exception("Errore atteso, calcolo accettato."); }
-            else Compare(c["atteso"], actual, c.S("nome")); count++;
+            else Compare(Pv3(c), actual, c.S("nome")); count++;
         }
         catch (Exception ex) { Console.WriteLine("FAIL " + item.S("nome") + ": " + ex.Message); failed++; }
     }
@@ -94,7 +115,9 @@ try
         try { softwareChecks += HorizontalChecks.Run(); } catch (Exception ex) { failed++; Console.WriteLine("FAIL palo orizzontale: " + ex); }
         try { softwareChecks += HorizontalStratifiedChecks.Run(); } catch (Exception ex) { failed++; Console.WriteLine("FAIL palo stratificato: " + ex); }
     }
-    var report = J.Obj(("casi_superati", count), ("controlli_software_superati", softwareChecks), ("casi_falliti", failed), ("valori_numerici_confrontati", numbers), ("massimo_delta_assoluto", maxAbs), ("massimo_delta_relativo_scalato", maxRel), ("percorso_massimo_delta", maxPath), ("tolleranza_assoluta", 1e-8), ("tolleranza_relativa", 1e-10));
+    Console.WriteLine($"PV-3 (avviso z/D di Nq): {pv3} avvisi storici classificati.");
+    if (pv3 == 0) { failed++; Console.WriteLine("FAIL PV-3: nessun avviso storico classificato (categoria non esercitata)"); }
+    var report = J.Obj(("casi_superati", count), ("controlli_software_superati", softwareChecks), ("casi_falliti", failed), ("pv3_classificati", pv3), ("valori_numerici_confrontati", numbers), ("massimo_delta_assoluto", maxAbs), ("massimo_delta_relativo_scalato", maxRel), ("percorso_massimo_delta", maxPath), ("tolleranza_assoluta", 1e-8), ("tolleranza_relativa", 1e-10));
     Console.WriteLine(report.ToJsonString(J.Options)); if (args.Length > 1) File.WriteAllText(args[1], report.ToJsonString(J.Options)); return failed == 0 ? 0 : 1;
 }
 catch (Exception ex)
