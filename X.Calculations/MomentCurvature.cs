@@ -30,7 +30,12 @@ public sealed class MomentCurvatureCalculator : IMomentCurvatureCalculator
         NativeCurve.MomentCurvatureStrains Strains(CheckerStressState state)
         {
             var plane = state.Native.StrainPlane;
-            return new(plane.ChiX, plane.ChiY, plane.StrainReferencePoint,
+            // ε0 di ogni riga nell'origine degli assi locali (SLU-4 del 15/10/2026), come MomentCurvatureStrains.From della libreria: il piano del
+            // punto limite viene dal dominio con il riferimento nel vertice pivot e la riga riportava −3,5 ‰. Nel punto di riferimento del piano
+            // stesso (le risposte) il valore memorizzato, bit per bit.
+            var origin = state.StrainReference;
+            bool own = origin is null || plane.ReferencePoint is { } r && r.X == origin.X && r.Y == origin.Y;
+            return new(plane.ChiX, plane.ChiY, own ? plane.StrainReferencePoint : plane.GetStrain(origin!),
                 state.BarStrains.Select(Math.Abs).DefaultIfEmpty(0).Max()/1000,
                 state.ConcreteVertices.Min(v => v.Strain)/1000);
         }

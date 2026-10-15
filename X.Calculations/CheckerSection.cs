@@ -207,6 +207,8 @@ public sealed partial class CheckerSection
         return new(concrete.Min(c => c.tension), bars.Max(b => Math.Abs(b.tension)), bars.Select(b => b.tension).ToArray(), fibers, limits.Ratio, limits.Status, result)
         {
             Response = response,
+            // Origine degli assi delle forze, punto di riferimento dell'integrazione del solutore: ε0 del M–χ (SLU-4).
+            StrainReference = Checker.SectionCheckerOptions.ForceReferenceCoordinateSystem.Origin,
             ConcreteCompressionStrength = Math.Abs(material.CalculateFcd(standard)), ConcreteTensionStrength = Math.Abs(material.CalculateFctd(standard)),
             // Plot normalization is a material strength ratio, not a SLE compliance check.
             BarStrengths = Section.Rebars.Select(r => Math.Abs(r.RebarMaterial.CalculateFyd(standard))).ToArray(),
@@ -223,6 +225,9 @@ public sealed record CheckerStressState(double sigma_cls, double sigma_acciaio, 
     double? Ratio, string Status, [property: System.Text.Json.Serialization.JsonIgnore] StressAnalysisResult Native)
 {
     public SectionResponse? Response { get; init; }
+    /// <summary>Punto (assi della sezione, mm) dove il M–χ legge ε0 di ogni stato: l'origine degli assi delle forze del solutore, cioè degli
+    /// assi locali (SLU-4 del 15/10/2026). Il piano del punto limite viene dal dominio e ha il riferimento nel vertice pivot. Non serializzato.</summary>
+    [System.Text.Json.Serialization.JsonIgnore] public Point2d? StrainReference { get; init; }
     public double ConcreteCompressionStrength { get; init; }
     public double ConcreteTensionStrength { get; init; }
     public double? ConcreteStressLimit { get; init; }

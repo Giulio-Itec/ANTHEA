@@ -110,3 +110,15 @@ print(f"SLU-1 2Ø16/3Ø20 θ = 90°, N −1000, My 200: R = ({p[0] / 1e3:.1f} kN
 As = 4 * A16
 nrdc = -(fcd * (B * H - As) + As * fyd) / 1e3; nrdt = As * fyd / 1e3
 print(f"SLU-2 NRd,c = {nrdc:.4f} kN, NRd,t = {nrdt:.4f} kN; |N/NRd| con N = −3000: {3000 / -nrdc:.6f}, N = +400: {400 / nrdt:.6f}")
+
+# ---------------------------------------------------------------- SLU-4: ε0 del punto limite del M–χ al baricentro
+# N = −1000 kN, θ = 0° (Mx, lembo superiore compresso): piano di rottura in campo B (εcu al lembo) con N = −1000; ε0 = ε a metà altezza.
+lo, hi = 50.0, 499.0
+fN = lambda c: forces(-math.pi / 2, c, SYM)[0] / 1e3 + 1000   # β = −90°: compressione dal lato −y nel riferimento interno (simmetrico)
+for _ in range(70):
+    mid = 0.5 * (lo + hi)
+    if fN(mid) * fN(lo) > 0: lo = mid
+    else: hi = mid
+u, tmax, top, kappa = plane(-math.pi / 2, 0.5 * (lo + hi), SYM)
+print(f"SLU-4 N = −1000 kN, θ = 0: x = {0.5 * (lo + hi):.2f} mm, ε lembo = {top * 1e3:.4f} ‰, χ = {kappa * 1e6:.4f} 1/km, "
+      f"ε0 al baricentro = {(top + kappa * tmax) * 1e3:.4f} ‰ (prima la riga limite riportava ε al vertice, −3,5 ‰)")

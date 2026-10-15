@@ -154,6 +154,19 @@ internal static class CorrezioniCa20261015
             catch (ArgumentException ex) { message = ex.Message; }
             Is(message.StartsWith("Punto limite non disponibile: N fuori dal campo resistente [NRd,c; NRd,t] = ["), "SLU-2 M–χ con N = −3000: «" + message + "»");
         }
+
+        // ------------------------------------------------------------ SLU-4: ε0 del punto limite del M–χ al baricentro
+        // 300×500 C25/30 4Ø16, N = −1000 kN, θ = 0, 10 passi lineari. Atteso a fibre (correzioni_ca_20261015.py): ε0 = −0,5032 ‰ (prima −3,5 ‰,
+        // la deformazione al vertice pivot). Per costruzione, dal vertice più compresso (±150; ±250) al baricentro: ε0 [‰] = −εc [‰] + |χx| · 0,15 m
+        // + |χy| · 0,25 m (χ in 1/m, εc accorciamento del vertice, positivo) per ogni riga, limite compreso.
+        {
+            var curve = ConcreteCurvatureAnalysis.Calculate(symmetric, Workspace(), Curvature(-1000));
+            var limit = curve.Points.Single(p => p.Limit);
+            Near(limit.Epsilon0, -0.5032, .015, "SLU-4 ε0 del punto limite contro il modello a fibre");
+            foreach (var p in curve.Points)
+                Near(p.Epsilon0, -p.ConcreteCompressionStrain + Math.Abs(p.GradientX) * 150 + Math.Abs(p.GradientY) * 250, 1e-9,
+                    $"SLU-4 riga {(p.Limit ? "limite" : "M = " + p.Moment.ToString("0.###", Invariant))}: ε0 = −εc + |χx| b/2 + |χy| h/2");
+        }
         return count;
     }
 
