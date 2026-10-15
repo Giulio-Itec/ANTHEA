@@ -189,6 +189,8 @@ public static partial class ElasticHorizontalPile
         "BarsHeldByLinks"=>"Trattenimento barre compresse: disposizione staffe da confermare", "LinkSpacingNearBeams"=>"Staffe nelle zone di estremità",
         "MemberRulesExcluded"=>"Regole di trave/pilastro escluse", _=>key
     };
+    /// <summary>Testo del punto da completare per lo sviluppo delle barre insufficiente ad alcune quote (PO-5).</summary>
+    public const string DevelopmentPendingText="Da completare: sviluppo barre insufficiente ad alcune quote, MRd nominale non utilizzabile.";
     private enum PileIssueKind { Pending, Failure, Excluded }
     private sealed record PileIssue(PileIssueKind Kind,string Text,string Summary);
     private static PileIssue[] PendingIssues(JsonObject record,JsonNode settings)
@@ -207,7 +209,8 @@ public static partial class ElasticHorizontalPile
         if(record.Array("verifiche").Any(c=>c?["MRdPositive"]==null||c?["MRdNegative"]==null))Add("N–M non verificabile ad alcune quote: sforzo normale fuori dominio o mancata convergenza.");
         if(record.Array("verifiche").Any(c=>J.Number(c?["BendingRatio"])>1))Failure("NON SODDISFATTO: pressoflessione N–M.","pressoflessione N–M.");
         if(record.Array("verifiche").Any(c=>J.Number(c?["ShearRatio"])>1))Failure("NON SODDISFATTO: taglio.","taglio.");
-        if(record.Array("verifiche").Any(c=>c?["DevelopmentAvailable"]!=null&&!c.B("DevelopmentAvailable")))Failure("Sviluppo barre insufficiente ad alcune quote: MRd nominale non utilizzabile.");
+        // Sviluppo delle barre non disponibile: esito NotEvaluated della libreria, quindi verifica da completare, non «NON SODDISFATTO» (PO-5).
+        if(record.Array("verifiche").Any(c=>c?["DevelopmentAvailable"]!=null&&!c.B("DevelopmentAvailable")))Add(DevelopmentPendingText);
         foreach(var run in record.Array("dettagli_barre"))
         {
             if(run!.Array("Joints").Any(j=>!j.B("LengthPassed")||!j.B("ArrangementPassed")))Failure("Giunti non utilizzabili nel gruppo "+run.S("Id")+": lunghezza, sovrapposizione fra giunti o distanza trasversale da correggere.");

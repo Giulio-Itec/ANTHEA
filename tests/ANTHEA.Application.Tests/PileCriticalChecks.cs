@@ -45,6 +45,18 @@ internal static class PileCriticalChecks
         Check(slu.Any(r => Math.Abs(r!["azioni"]![1]!.GetValue<double>()) == Math.Abs(peak.D("Moment"))), $"foglio c.a. senza l'azione con |M| massimo ({peak.D("Moment")} kNm a {peak.D("Depth")} m)");
         var shear = sheet["workspace_ca"]!["taglio"]!.Array("azioni");
         Check(shear.Count == slu.Count && shear.Any(r => Math.Abs(r.D("Mx")) == Math.Abs(peak.D("Moment"))), "righe di taglio del foglio c.a. senza l'azione con |M| massimo");
+        // PO-5: lo sviluppo delle barre insufficiente ad alcune quote (testa e punta, esito NotEvaluated della libreria) è un punto da
+        // completare: riepilogo «VERIFICA INCOMPLETA» in ambra, nessun «NON SODDISFATTO» se tutte le verifiche N–M–V sono entro i limiti.
+        var summary = segment["riepilogo"]!;
+        Check(checks.All(c => (J.Number(c["GoverningRatio"]) ?? 0) <= 1), "caso predefinito con verifiche N–M–V non soddisfatte");
+        Check(segment.S("stato") == "Parziale: sviluppo barre insufficiente", "stato del tratto: " + segment.S("stato"));
+        Check(summary.S("stato") == "VERIFICA INCOMPLETA" && summary.S("colore") == "ambra" && summary.Array("non_soddisfatti").Count == 0
+            && summary.Array("da_completare").Any(t => t!.ToString() == ElasticHorizontalPile.DevelopmentPendingText), "sviluppo insufficiente non da completare: " + summary.ToJsonString());
+        // Una verifica N–M non soddisfatta resta «NON VERIFICATO» in rosso (H = 1500 kN sullo stesso palo).
+        var overloaded = DefaultElasticPile(); overloaded["generali"]!["azione_orizzontale"] = "1500";
+        var failed = PaloOrizzontale.Calculate(overloaded)["armature"]!.Array("tratti")[0]!;
+        Check(failed.Array("verifiche").Any(c => J.Number(c?["BendingRatio"]) > 1), "caso sovraccaricato senza N–M non soddisfatta");
+        Check(failed["riepilogo"].S("stato") == "NON VERIFICATO" && failed["riepilogo"].S("colore") == "rosso", "N–M non soddisfatta non più «NON VERIFICATO»");
         return count;
     }
 }
