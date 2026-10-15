@@ -181,6 +181,23 @@ internal static class CorrezioniCa20261015
             var metrics = ConcreteReinforcementDesign.Metrics(new SezioneCA(input), J.Obj(("rami_x", "2"), ("rami_y", "2")), J.Obj(("elemento", "Trave")), new ConcreteDesignOptions());
             Near(metrics.TransverseKgPerM, 4.756053, 1e-6, "ARM-3 staffe della T");
         }
+
+        // ------------------------------------------------------------ DET-3: B450A del catalogo
+        // NTC 2018 Tab. 11.3.Ic ed EN 1992-1-1 Tab. C.1 (classe A): εuk ≥ 2,5 % = 25 ‰; B450C 75 ‰.
+        {
+            var catalog = RebarMaterial.Catalog();
+            Is(catalog.Single(p => p.Name == "B450A").Input.D("steel_eps_u") == 25, "DET-3 preset B450A: εu " + catalog.Single(p => p.Name == "B450A").Input.S("steel_eps_u"));
+            Is(catalog.Single(p => p.Name == "B450C").Input.D("steel_eps_u") == 75, "DET-3 preset B450C: εu");
+            var fresh = (JsonObject)catalog.Single(p => p.Name == "B450A").Input.DeepClone(); fresh["gamma_s"] = "1.15";
+            Is(RebarMaterial.Match(fresh)?.Name == "B450A" && RebarMaterial.CatalogueDifference(fresh) is null, "DET-3 preset B450A riconosciuto");
+            // Scheda salvata con il catalogo precedente (εu = 30 ‰): non riscritta, non più il preset, differenza dichiarata.
+            var saved = (JsonObject)fresh.DeepClone(); saved["steel_eps_u"] = 30;
+            Is(RebarMaterial.Match(saved) is null, "DET-3 scheda B450A con εu 30: riconosciuta come preset");
+            string? difference = RebarMaterial.CatalogueDifference(saved);
+            Is(difference == "Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo.",
+                "DET-3 differenza: «" + difference + "»");
+            Is(RebarMaterial.Evaluate(saved).EpsilonU == 30 && saved.D("steel_eps_u") == 30, "DET-3 valore salvato usato e non riscritto");
+        }
         return count;
     }
 

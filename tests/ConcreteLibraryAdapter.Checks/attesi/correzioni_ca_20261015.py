@@ -155,3 +155,7 @@ print("FES-1 a,c = 44 mm (barre Ø12); distanza della barra più vicina 200 mm")
 dev = 2 * ((300 - 88) + (700 - 88)) + 20 * 8
 print(f"ARM-3 sviluppo {dev:.0f} mm, staffe {math.pi * 8 ** 2 / 4 * 1e-6 * dev / 1000 * (1000 / 150) * 7850:.6f} kg/m (con l'ala: "
       f"{math.pi * 8 ** 2 / 4 * 1e-6 * (2 * ((1200 - 88) + (700 - 88)) + 160) / 1000 * (1000 / 150) * 7850:.6f} kg/m)")
+
+# ---------------------------------------------------------------- DET-3: B450A
+# NTC 2018 Tab. 11.3.Ic ed EN 1992-1-1 Tab. C.1 classe A: (Agt)k = εuk ≥ 2,5 %, cioè 25 ‰; B450C ≥ 7,5 % (75 ‰).
+print("DET-3 εuk B450A = 25 ‰, B450C = 75 ‰")

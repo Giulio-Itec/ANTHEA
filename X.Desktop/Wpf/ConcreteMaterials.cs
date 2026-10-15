@@ -44,7 +44,7 @@ internal sealed partial class ConcreteWorkspace
             new("gettato_sottile", "Piano gettato in opera < 50 mm", Choices: ["No", "Sì"]),
             new("__fcd", "fcd", "MPa", ReadOnly: true), new("__ecm", "Ecm", "MPa", ReadOnly: true),
             new("__ec2", "εc,y (diagramma)", "‰", ReadOnly: true), new("__ecu", "εc,u (diagramma)", "‰", ReadOnly: true),
-            new("classe_acciaio", "Acciaio da normativa", Choices: Choices(steelCatalog, "classe_acciaio")),
+            new("classe_acciaio", "Acciaio da normativa", Choices: Choices(steelCatalog, "classe_acciaio"), Note: i => MaterialInputCatalog.SteelDifference(i, settings.S("normativa"))),
             new("fyk_mpa", "fyk", "MPa", ReadOnly: true), new("steel_modulus_mpa", "Es", "MPa", ReadOnly: true),
             new("steel_fu_mpa", "fu", "MPa", ReadOnly: true), new("steel_eps_u", "εu", "‰", ReadOnly: true),
             new("steel_diagramma", "Diagramma acciaio", Choices: ["Elastoplastico", "Incrudente"]),
