@@ -363,6 +363,7 @@
   },
   "editorial_updates_rev47": {
     "revision": 47,
+    "record": "F4-51",
     "capture": "supporto/artefatti/ci/20261016-004452-guide-rev47-f3-cattura/ui_f3-equivalence/cattura",
     "reason": "Guide Rev46 (modulo Stratigrafia: due articoli nuovi, offset e ricerca) e Rev47 (frasi delle correzioni delle verifiche del 15/10/2026) nella Wiki e nella ricerca, secondo la regola editoriale F3-06. Nessun atteso ingegneristico modificato.",
     "files": [
