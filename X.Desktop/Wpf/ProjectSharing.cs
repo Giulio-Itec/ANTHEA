@@ -33,11 +33,6 @@ public sealed partial class MainWindow
         catch { currentSheet["dati"] = before; throw; }
     }
 
-    private static void InheritSectionData(JsonObject sheet, JsonObject section)
-    {
-        ProjectSharedData.InheritHierarchy(sheet, section);
-    }
-
     private void AddCoherenceBadge(Panel header, JsonObject section)
     {
         if (!ProjectSharedData.SubtreeSheets(section).Any()) return;

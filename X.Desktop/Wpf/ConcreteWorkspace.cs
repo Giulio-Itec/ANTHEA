@@ -234,7 +234,6 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         foreach (var grid in grids) grid.Commit(); foreach (string key in actions.Keys) SyncActions(key);
         if (shearGrid is not null && !UnifiedActions) ShearOptions["azioni"] = Anthea.Application.Concrete.ConcreteSheetPreparation.StoreShearRows(shearGrid.Rows.Select(r => r.Values));
     }
-    internal void SetGeometry(string value) => geometry.Set("diameter_mm", value);
     private void Invalidate(bool geometryChanged = true)
     {
         using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
