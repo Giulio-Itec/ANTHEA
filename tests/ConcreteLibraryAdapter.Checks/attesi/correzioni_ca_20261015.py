@@ -149,3 +149,9 @@ print(f"FES-2 barre a 48 mm: wk = {crack(38.0, centre=48.0)[6]:.5f} mm")
 # Asse neutro nel copriferro solo se Qmax − Q della barra più vicina ≤ a(c + Ø/2); gradiente normale alla faccia inferiore: a(d) = d.
 # Barre laterali Ø12 a 200 mm dal lembo teso: a,c = 30 + 8 + 12/2 = 44 mm < 200 mm, e h − x ≈ 171 mm > 44 mm: zona tesa senza armatura.
 print("FES-1 a,c = 44 mm (barre Ø12); distanza della barra più vicina 200 mm")
+
+# ---------------------------------------------------------------- ARM-3: staffe della T sull'anima
+# bf 1200, bw 300, h 700, copriferro 40, staffe Ø8/150 a due bracci, ganci 2 × 10 Ø: sviluppo 2[(300 − 2·44) + (700 − 2·44)] + 20·8.
+dev = 2 * ((300 - 88) + (700 - 88)) + 20 * 8
+print(f"ARM-3 sviluppo {dev:.0f} mm, staffe {math.pi * 8 ** 2 / 4 * 1e-6 * dev / 1000 * (1000 / 150) * 7850:.6f} kg/m (con l'ala: "
+      f"{math.pi * 8 ** 2 / 4 * 1e-6 * (2 * ((1200 - 88) + (700 - 88)) + 160) / 1000 * (1000 / 150) * 7850:.6f} kg/m)")

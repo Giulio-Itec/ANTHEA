@@ -12,8 +12,11 @@ public static partial class ConcreteReinforcementDesign
     },options.WeightCost,options.BarCost,options.DiameterCost);
     static SectionDesignMetric NativeMetric(ConcreteDesignMetrics m)=>new(m.SteelArea,m.LongitudinalKgPerM,m.TransverseKgPerM,m.Bars,m.Diameters,m.PiecesPerM);
     static ConcreteDesignMetrics DisplayMetric(SectionDesignMetric m)=>new(m.SteelArea,m.LongitudinalKgPerM,m.TransverseKgPerM,m.Bars,m.Diameters,m.PiecesPerM);
+    // Staffe chiuse della T sull'anima (ARM-3 del 15/10/2026): larghezza delle staffe web_width_mm, come taglio e dettagli; prima l'ingombro del
+    // contorno, cioè l'ala (bf 1200, bw 300, h 700: 9,491 invece di 4,756 kg/m). Per le altre forme LinkWidth = Width, come il costruttore storico.
     static SectionDesignGeometry NativeGeometry(SezioneCA section)=>new(section.Shape=="Circolare",section.Width,section.Height,
-        section.Input.Required("cover_mm"),section.AreaSteel,ConcreteDesignMapping.Bars(section));
+        section.Input.Required("cover_mm"),section.AreaSteel,ConcreteDesignMapping.Bars(section),
+        section.Shape=="A T"?section.Input.Required("web_width_mm"):section.Width);
     static SectionDesignLinks NativeLinks(SezioneCA section,JsonObject shear,ConcreteDesignOptions options)
     {
         bool present=ConcreteCalculationSettings.HasStirrups(section.Input);

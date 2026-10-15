@@ -170,6 +170,17 @@ internal static class CorrezioniCa20261015
 
         // ------------------------------------------------------------ FES-2 e FES-1: fessurazione con le barre libere
         Crack(Near, Is);
+
+        // ------------------------------------------------------------ ARM-3: staffe della T sull'anima
+        // bf 1200, bw 300, hf 200, h 700, copriferro 40, staffe Ø8/150 a due bracci, ganci 20 Ø (predefinito): sviluppo 1808 mm, 4,756053 kg/m
+        // (correzioni_ca_20261015.py); prima 3608 mm e 9,491061 kg/m con la larghezza dell'ala.
+        {
+            var input = SezioneCA.DefaultCatalogInput();
+            input["shape"] = "A T"; input["flange_width_mm"] = "1200"; input["web_width_mm"] = "300"; input["flange_thickness_mm"] = "200"; input["height_mm"] = "700";
+            input["cover_mm"] = "40"; input["transverse_bar_diameter_mm"] = "8"; input["transverse_spacing_mm"] = "150";
+            var metrics = ConcreteReinforcementDesign.Metrics(new SezioneCA(input), J.Obj(("rami_x", "2"), ("rami_y", "2")), J.Obj(("elemento", "Trave")), new ConcreteDesignOptions());
+            Near(metrics.TransverseKgPerM, 4.756053, 1e-6, "ARM-3 staffe della T");
+        }
         return count;
     }
 
