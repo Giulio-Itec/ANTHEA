@@ -353,11 +353,16 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
         return map.Select(i => checks[i]).ToArray();
     }
     private DomainCheck Describe(ResistanceOutcome outcome)
-        => outcome.Point is not { } p ? new(null, null, "Checker: " + (outcome.Rejection ?? "punto resistente non trovato"))
-         : Outcome(p.WorkingRatio(Native.FailureAnalysisType), CheckerSection.Point(p)) with { Response = Section.Describe(p), LimitState = new(() => Section.LimitState(p)) };
-    internal static DomainCheck Outcome(double ratio, ActionPoint p)
+    {
+        if (outcome.Point is not { } p) return new(null, null, "Checker: " + (outcome.Rejection ?? "punto resistente non trovato"));
+        double ratio = p.WorkingRatio(Native.FailureAnalysisType);
+        // Esiti tipizzati della libreria a N assegnato (SLU-2 del 15/10/2026): N fuori dal campo [NRd,c; NRd,t] e momento nullo con N costante.
+        return Outcome(ratio, CheckerSection.Point(p), ConcreteLibraryMapping.ResistanceOutcomeStatus(p, ratio))
+            with { Response = Section.Describe(p), LimitState = new(() => Section.LimitState(p)), AxialForceOutsideRange = ConcreteLibraryMapping.AxialForceRangeKn(p) };
+    }
+    internal static DomainCheck Outcome(double ratio, ActionPoint p, string? typedStatus = null)
         => !double.IsFinite(ratio) || ratio < 0 || !double.IsFinite(p.N + p.Mx + p.My) ? new(null, null, "Checker: resistenza non determinata")
-         : new(ratio, p, ratio <= 1 ? "Entro il dominio" : "Fuori dominio");
+         : new(ratio, p, typedStatus ?? (ratio <= 1 ? "Entro il dominio" : "Fuori dominio"));
 }
 public sealed class CheckerDomain2D
 {

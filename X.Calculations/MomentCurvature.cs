@@ -37,6 +37,10 @@ public sealed class MomentCurvatureCalculator : IMomentCurvatureCalculator
         NativeCurve.MomentCurvatureLimit Limit(double n, double x, double y)
         {
             var check = resistance(new(n,x,y));
+            // N fuori dal campo del dominio (SLU-2 del 15/10/2026): nessun punto limite a quell'N. Il punto della libreria è a eccentricità
+            // costante: senza questo rifiuto la curva lo scarterebbe per il residuo su N, con un motivo fuorviante.
+            if (check.AxialForceOutsideRange is { } range)
+                throw new ArgumentException("Punto limite non disponibile: " + ConcreteLibraryMapping.AxialForceOutsideRange(range.Compression, range.Tension) + ".");
             if (check.Resistance is not ActionPoint rd || check.LimitState is null) return null!;
             return new(rd.N,rd.Mx,rd.My,() => Strains(check.LimitState.Value));
         }

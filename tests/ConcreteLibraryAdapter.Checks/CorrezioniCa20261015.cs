@@ -101,6 +101,62 @@ internal static class CorrezioniCa20261015
                 Near(two.Utilization, elastic3D.Check(action).Utilization ?? double.NaN, .01, $"SLU-1 SLV θ = {theta}°: η 2D contro la verifica 3D elastica");
             }
         }
+
+        // ------------------------------------------------------------ SLU-2: esiti tipizzati a N assegnato
+        // Campo di N in forma chiusa (correzioni_ca_20261015.py): NRd,c = −[fcd (Ac − As) + As fyd] = −2428,3121 kN, NRd,t = As fyd = 314,7056 kN.
+        {
+            const double compression = -2428.3121, tension = 314.7056;
+            var constantN = Domain3D(symmetric, "N costante", "SLU");
+            foreach (var (action, outside, expected) in new (ActionPoint, bool, double?)[]
+            {
+                // Domanda puramente assiale fuori dal campo: punto a eccentricità costante, η = |N / NRd,lim| (forma chiusa, entro lo 0,5% del dominio).
+                (new(-3000, 0, 0), true, 3000 / -compression), (new(400, 0, 0), true, 400 / tension),
+                (new(-3000, 50, 0), true, null), (new(-3000, 50, 20), true, null), (new(400, 10, 0), true, null), (new(-2600, 5, 0), true, null),
+                // Momento nullo con N nel campo: η = 0.
+                (new(-1000, 0, 0), false, 0), (new(200, 0, 0), false, 0)
+            })
+            {
+                string tag = $"SLU-2 N costante ({action.N}; {action.Mx}; {action.My})";
+                var r = constantN.Check(action);
+                Is(r.Status == (outside ? ConcreteLibraryMapping.AxialForceOutsideDomainStatus : ConcreteLibraryMapping.ZeroMomentDemandStatus), $"{tag}: stato «{r.Status}»");
+                Is(outside ? r.Utilization > 1 : r.Utilization == 0, $"{tag}: η {r.Utilization}");
+                if (expected is double e && outside) Near(r.Utilization, e, .005, tag + ": η = |N/NRd,lim|");
+                if (outside)
+                {
+                    Near(r.AxialForceOutsideRange?.Compression, compression, 1e-3, tag + ": NRd,c");
+                    Near(r.AxialForceOutsideRange?.Tension, tension, 1e-3, tag + ": NRd,t");
+                }
+                else Is(r.AxialForceOutsideRange is null && r.Resistance is not null && r.LimitState is not null, tag + ": punto dichiarato");
+            }
+            // Le stesse domande fuori campo con «N e Mx costanti» e «N e My costanti» (sottocaso di F2-17: esito della libreria, da confermare).
+            foreach (var criterion in new[] { "N e Mx costanti", "N e My costanti" })
+            {
+                var r = Domain3D(symmetric, criterion, "SLU").Check(new(-3000, 50, 20));
+                Is(r.Status == ConcreteLibraryMapping.AxialForceOutsideDomainStatus && r.Utilization > 1, $"SLU-2 {criterion} (−3000; 50; 20): «{r.Status}» η {r.Utilization}");
+            }
+            // Percorso della scheda (CheckMany) e riepilogo: prima C1, C2 e C3 senza η e «DA COMPLETARE» con η governante 0,26 su C4.
+            var checks = constantN.CheckMany([new(-1000, 0, 0), new(-3000, 0, 0), new(-3000, 50, 0), new(-1000, 50, 0)]);
+            var summary = VerificationSummary.Create("3D · SLU", checks.Length, checks.Select((c, i) => ("C" + (i + 1), c.Utilization, (bool?)null)));
+            Is(summary.Status == "NON VERIFICATA" && summary.Missing == 0 && summary.Governing is "C2" or "C3", $"SLU-2 riepilogo «{summary.Status}», mancanti {summary.Missing}, governante {summary.Governing}");
+            // Resistenza a N assegnato (e palo di Broms, stessa funzione): il campo invece di «non convergente».
+            foreach (double axial in new[] { -3000d, 400 })
+            {
+                var directions = SectionMomentResistance.Calculate(symmetric, Workspace(), axial, false);
+                Is(directions.All(d => d.Moment is null && d.Status.StartsWith("N fuori dal campo resistente [NRd,c; NRd,t] = [")),
+                    $"SLU-2 resistenza a N = {axial}: «{directions[0].Status}»");
+            }
+            var inside = SectionMomentResistance.Calculate(symmetric, Workspace(), -1000, false);
+            // MRd,x(N = −1000 kN) del modello a fibre indipendente del verificatore: 191,93 kNm (scratchpad bug/sezione-slu-ncost/ref.py), entro l'1%.
+            Near(inside[0].Moment, 191.93, .01, "SLU-2 resistenza a N = −1000: MRd,x+");
+            // Punto limite del M–χ con N fuori dal campo: rifiuto con il campo, non con il residuo su N del punto a eccentricità costante.
+            string message = "";
+            try { ConcreteCurvatureAnalysis.Calculate(symmetric, Workspace(), Curvature(-3000)); }
+            catch (ArgumentException ex) { message = ex.Message; }
+            Is(message.StartsWith("Punto limite non disponibile: N fuori dal campo resistente [NRd,c; NRd,t] = ["), "SLU-2 M–χ con N = −3000: «" + message + "»");
+        }
         return count;
     }
+
+    static JsonObject Curvature(double axial) => J.Obj(("N", axial.ToString(Invariant)), ("theta", "0"), ("passi", "10"), ("frazione", "1"), ("campionamento", "Lineare"),
+        ("trazione_cls", "No"), ("angoli", "64"), ("tolleranza_n", "1"), ("raffina_snervamento", "12"));
 }

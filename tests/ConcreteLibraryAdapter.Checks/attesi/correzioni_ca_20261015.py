@@ -104,3 +104,9 @@ def asym_my_only(e=0.2):
     return at_eccentricity(0.5 * (lo + hi), e, ASYM)
 p = asym_my_only()
 print(f"SLU-1 2Ø16/3Ø20 θ = 90°, N −1000, My 200: R = ({p[0] / 1e3:.1f} kN; Mx {p[1] / 1e6:.3f}; |My| {abs(p[2]) / 1e6:.2f} kNm), η = {eta((-1000, 0, 200), p):.4f}")
+
+# ---------------------------------------------------------------- SLU-2: campo di N del dominio, forma chiusa
+# Compressione uniforme a εc2 = 2 ‰ > εyd = 1,957 ‰: NRd,c = −[fcd (Ac − As) + As fyd]; trazione uniforme: NRd,t = As fyd.
+As = 4 * A16
+nrdc = -(fcd * (B * H - As) + As * fyd) / 1e3; nrdt = As * fyd / 1e3
+print(f"SLU-2 NRd,c = {nrdc:.4f} kN, NRd,t = {nrdt:.4f} kN; |N/NRd| con N = −3000: {3000 / -nrdc:.6f}, N = +400: {400 / nrdt:.6f}")
