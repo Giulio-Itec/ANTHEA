@@ -303,3 +303,100 @@ Rifiutare η > 0,5, o almeno dare un avviso.
 
 Ogni correzione segue la regola del refactoring: cattura prima, modifica, confronto dopo, voce nel registro, attesi
 indipendenti (quelli Python dei verificatori, non l'uscita del codice).
+
+## Esito delle correzioni
+
+Stato al 16/10/2026, notte. L'utente ha approvato il piano («il piano va bene») e ha risposto ai punti della notte
+([decisioni](decisioni.md), «16 ottobre (notte)»). Tutti i 40 codici sono corretti; per quattro resta aperta una parte.
+
+Dove stanno le correzioni:
+- **librerie**: rami di integrazione Checker `anthea-bug-1015` e Model `bugint-model` con `bug/model`, nel rilascio Z
+  (non ancora in `lib/Checker`);
+- **ANTHEA**: rami `refactoring/bug-1015` e `refactoring/bug-1015-geo`, uniti in `refactoring/integrazione-1016`.
+
+Le catture congelate cambiate dalle correzioni sono rigenerate in Checker («Rigenera tutte»), K0 invariato. Hash del set,
+profilo full e transizioni del confronto UI F3 si completano al rilascio Z.
+
+| Codice | Esito | Voce del registro |
+|---|---|---|
+| SLU-1 | corretto (L+A) | BUG-SLU-1 |
+| MUR-1 | corretto (L+A), gemelle anche nelle righe sismiche ed eccezionali | BUG-MUR-1 |
+| PON-1 | corretto (L+A) | BUG-PON-1 |
+| FES-1 | corretto (L+A), regola dell'agente confermata; due casi aperti | F2-25; BUG-FES-1b e BUG-FES-1c, da decidere |
+| FES-2 | corretto (L+A), opzione della libreria attivata da ANTHEA | BUG-FES-2 |
+| TAG-1 | corretto (A; verso dichiarato in libreria) | BUG-TAG-1 |
+| DET-2 | corretto (A) | BUG-DET-2 |
+| ARM-1 | corretto (A) | BUG-ARM-1 |
+| PV-1 | corretto (L+A) | BUG-PV-1 |
+| PO-1 | corretto (A), con rifiuto esplicito | BUG-PO-1 |
+| PO-2 | corretto (L+A) | BUG-PO-2 |
+| MUR-2 | corretto nello scorrimento (L+A); passiva nel ribaltamento aperta | BUG-MUR-2; BUG-MUR-2b, da decidere |
+| MUR-3 | corretto (L+A) | BUG-MUR-3 |
+| SLU-2 | corretto (L+A); «N e Mx/My costanti» fuori campo accettato in via provvisoria | F2-17, rettifica; BUG-SLU-2b, da decidere |
+| PO-3 | corretto (L) | BUG-PO-3 |
+| DET-1 | corretto (L), opzione legacy nominata; categoria nel riuso delle API | BUG-DET-1 |
+| ARM-2 | corretto (A) | BUG-ARM-2 |
+| PON-2 | corretto (L+A), con l'opzione «Tension stiffening» | BUG-PON-2 |
+| SLU-3 | corretto (A) | BUG-SLU-3 |
+| TAG-2 | corretto (A) | BUG-TAG-2 |
+| PO-4 | corretto (A) | BUG-PO-4 |
+| PO-5 | corretto (L+A); sviluppo parziale al piede aperto | BUG-PO-5; BUG-PO-5b, da decidere |
+| DET-3 | corretto (Model e A) | BUG-DET-3 |
+| GEO-1 | corretto (L) | BUG-GEO-1 |
+| SLU-4 | corretto (L+A) | BUG-SLU-4 |
+| SLU-5 | corretto (Model) | BUG-SLU-5 |
+| SLU-6 | corretto (Model) | BUG-SLU-6 |
+| TAG-3 | corretto (A), regressione di F4.13b | BUG-TAG-3 |
+| ARM-3 | corretto (L+A) | BUG-ARM-3 |
+| ARM-4 | corretto (A) | BUG-ARM-4 |
+| PV-2 | corretto (L+A) | BUG-PV-2 |
+| PV-3 | corretto (L), categoria nella regressione di ANTHEA | BUG-PV-3 |
+| PV-4 | corretto (L+A) | BUG-PV-4 |
+| PO-6 | corretto (A) | BUG-PO-6 |
+| MUR-4 | corretto (L+A) | BUG-MUR-4 |
+| MUR-5 | corretto (L+A), Mononobe-Okabe anche per riga sismica | BUG-MUR-5 |
+| GEO-2 | corretto (L): contratto documentato e prova del segno | BUG-GEO-2 |
+| PON-3 | corretto (L+A) | BUG-PON-3 |
+| PON-4 | corretto (L) | BUG-PON-4 |
+| PON-5 | corretto (L) | BUG-PON-5 |
+
+**Difetti nuovi trovati durante le correzioni** («Correggili tutti»):
+
+| Voce | Difetto | Esito |
+|---|---|---|
+| BUG-N1 | piano dei punti interpolati a N costante e fra campi di rottura (Checker) | corretto |
+| BUG-N2 | ricerca a eccentricità costante: polo di compressione per la trazione pura nel dominio elastico (Checker) | corretto |
+| BUG-N3 | overload a quattro argomenti della tensione di progetto degli acciai (Model) | corretto |
+| BUG-N4 | FRP: difetto di SLU-6 e overload a quattro argomenti (Model) | corretto |
+| BUG-N5 | classe del cemento assegnata dopo le proprietà meccaniche (Model) | corretto, nessun valore cambia |
+| BUG-N6 | coefficienti unitari del palo in ancoraggi e dettagli (ANTHEA) | corretto |
+| BUG-N7 | classe FRP modellata come un acciaio, senza CNR-DT 200 né ACI 440 (non usata) | da decidere |
+| BUG-TS-1 | tension stiffening opzionale nelle analisi di risposta, su richiesta dell'utente | attuato in libreria; campo del M–χ in ANTHEA al rilascio Z |
+| BUG-TS-2 | domande 1–8 sul tension stiffening | da decidere |
+
+Fanno parte delle voci dei codici: la mappatura degli esiti di SLU-2 in ModelChecker (F2-17), Mononobe-Okabe per riga
+sismica (BUG-MUR-5) e le gemelle sismiche ed eccezionali (BUG-MUR-1).
+
+**Ancora da fare**, non nel registro:
+- seguiti di ANTHEA, sul ramo `refactoring/seguiti-1016`:
+  - deformazione di snervamento del M–χ con i coefficienti unitari del palo;
+  - grafico N–M «proietta», che disegna sign·hypot mentre la verifica usa la proiezione;
+  - nota DET-3 nella scheda dei materiali dei muri;
+  - esposizione del campo «CLS teso nelle risposte» con le DLL candidate;
+- frasi delle guide teorica e pratica, sul ramo `refactoring/guide-1016`;
+- documenti di Checker:
+  - regola della tolleranza su N in ca.momento-curvatura §7;
+  - righe citate di `CalculateDesignStressCommon`;
+  - conteggi del README degli storici del ponte;
+  - istantanee delle API in `build/api`;
+- BridgeAudit non compila contro l'ANTHEA attuale (ramo `bug/bridge-audit`). Il confronto denso con F2-pre-m4-v2 non è
+  stato eseguito.
+
+**Segnalati e non corretti**, da valutare:
+- `ApproximateScore` della ricerca usa ancora la larghezza dell'ala;
+- «a,c» solo nei dettagli inglesi della libreria, non nella traccia;
+- il testo dell'ancoraggio «Barra rettilinea, nessuna riduzione favorevole» non dichiara l'ipotesi di barre nervate;
+- lo stress block è discontinuo in compressione centrata: è la causa dei mancati calcoli del M–χ D800 con N −1500 kN;
+- `ConsiderTensileConcrete` («CLS resistente a trazione» in ANTHEA) entra nel dominio SLU;
+- gli overload a due argomenti degli acciai usano in compressione le proprietà di trazione;
+- R12 (pilastri) resta da decidere.
