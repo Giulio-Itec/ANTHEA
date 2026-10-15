@@ -75,6 +75,27 @@ void Compare(JsonNode? a, JsonNode? b, string path)
     }
     else if (!JsonNode.DeepEquals(a, b)) throw new Exception(path + ": " + a + " != " + b);
 }
+// DET-1 (analisi dei bug del 15/10/2026, GPCChecker.Concrete 8f95242c): l'interasse di solette e pareti si misura lungo gli strati, non più fra
+// le barre allineate delle due facce. Differenza ammessa una per una: parete dalla sezione predefinita 600×800 (Width < Height: strati alle facce
+// x = ±212), «Interasse verticale sulla sezione» da 424 (prima: max fra strati e attraverso lo spessore) a 208 mm, atteso a mano
+// (800 − 2·(70 + 10 + 8))/3 = 208: le due barre laterali Ø16 di ogni faccia fra i centri a ±312 mm; la verifica (≤ 400 mm) diventa soddisfatta.
+// Ogni altro campo resta identico; la cattura before.json non si rigenera.
+int det1 = 0;
+foreach (var (key, node) in snapshot.AsObject())
+{
+    if (!key.StartsWith("detailing/") || node is not JsonArray now || expected[key] is not JsonArray before || now.Count != before.Count) continue;
+    for (int i = 0; i < now.Count; i++)
+    {
+        if (now[i] is not JsonObject n || before[i] is not JsonObject b || (string?)n["Name"] != "Interasse verticale sulla sezione") continue;
+        if (JsonNode.DeepEquals(n, b)) continue;
+        double hand = (800 - 2 * (70 + 10 + 8)) / 3.0, limit = (double)n["Limit"]!;
+        bool sameOtherwise = n.Where(p => p.Key is not ("Actual" or "Passed")).All(p => JsonNode.DeepEquals(p.Value, b[p.Key]));
+        if (!sameOtherwise || (double)b["Actual"]! != 424 || (bool?)b["Passed"] != false || Math.Abs((double)n["Actual"]! - hand) > 1e-12 * hand || (bool?)n["Passed"] != (hand <= limit))
+            throw new Exception($"cases/{key}/{i}: differenza fuori dalla categoria DET-1: {b.ToJsonString()} -> {n.ToJsonString()}");
+        n["Actual"] = b["Actual"]!.DeepClone(); n["Passed"] = b["Passed"]!.DeepClone(); det1++;
+    }
+}
+if (det1 != 4) throw new Exception($"DET-1: {det1} voci classificate invece di 4 (pareti rettangolari 600×800, con e senza sovrapposizione e staffe)");
 Compare(expected, snapshot, "cases");
 LibraryCalls.Check();
 ProductionPaths.Check();
@@ -94,4 +115,4 @@ var anchor = new ConcreteAnchorageCalculator().Calculate(new(16, 300, 2, 1.5, tr
 if (anchor.Fbd != 3 || anchor.BasicLength != 400 || anchor.RequiredLength != 400 || !anchor.Passed) throw new Exception("Independent straight anchorage");
 var lapResult = new ConcreteAnchorageCalculator().Calculate(new(16, 300, 2, 1.5, true, 600, true, 100, 64));
 if (lapResult.RequiredLength != 600 || lapResult.Alpha6 != 1.5 || !lapResult.Passed) throw new Exception("Independent lap");
-Console.WriteLine($"PASS: {rows.Count} captured cases; {numbers} numbers, {rounded} rounding differences, max relative {maxRelative:R}; 2 independent anchorage cases.");
+Console.WriteLine($"PASS: {rows.Count} captured cases; {numbers} numbers, {rounded} rounding differences, max relative {maxRelative:R}; 2 independent anchorage cases; DET-1 {det1} wall spacings classified.");
