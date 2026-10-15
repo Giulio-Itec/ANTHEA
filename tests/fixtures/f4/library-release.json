@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "phase": "F4",
-  "release": "Y",
+  "release": "Z",
   "previous_manifest_sha256": "64dedf03c1df331cfaca79d044ed04c0975bccec0b53d23eac3f02d55adb14e0",
-  "library_manifest_sha256": "be530a0a4abb400a1aa06262f837eab4311c8bb110c7376ef22dfcf36d079978",
-  "release_set_sha256": "c12956553f33d3dd89259b2ca664a342b6ea7b3e3e11d180347cdd8b19b34e3f",
-  "note": "Provenance transition only. F3 numerical inputs, expected files and hashes remain frozen. Y (15/10/2026) follows X with Checker 6f15f185 (R1, R2, F2-25 as opt-in crack options)."
+  "library_manifest_sha256": "52db6d6291472ec01ac949a24c7123f8c6577f1f5553ab80f1650e777dfbde08",
+  "release_set_sha256": "df4f3c4de6877a91723b48f37678f54d065b721cc14f09daa8ff00db4f457ad4",
+  "note": "Provenance transition only. F3 numerical inputs, expected files and hashes remain frozen. Y (15/10/2026) follows X with Checker 6f15f185 (R1, R2, F2-25 as opt-in crack options). Z (16/10/2026) follows Y with Model bf8563f5 and Checker bce7aaae (bug fixes of 15/10, BUG-* entries; frozen library captures regenerated with user approval)."
 }

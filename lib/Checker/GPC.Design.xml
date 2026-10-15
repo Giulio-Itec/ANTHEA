@@ -153,6 +153,15 @@
         <member name="M:GPC.Design.Sections.SectionDesignDemand.Ratio(System.Double,System.Nullable{System.Double})">
             <summary>Missing/nonpositive capacity or invalid demand cannot certify a candidate.</summary>
         </member>
+        <member name="P:GPC.Design.Sections.SectionDesignGeometry.LinkWidth">
+            <summary>
+            Width of the closed links of a non-circular section, mm: the web width of a T section, where <see cref="P:GPC.Design.Sections.SectionDesignGeometry.Width"/> is the extent of the outline
+            (the flange). Defaults to <see cref="P:GPC.Design.Sections.SectionDesignGeometry.Width"/>; not used by circular sections (ANTHEA bug analysis 15/10/2026, ARM-3).
+            </summary>
+        </member>
+        <member name="M:GPC.Design.Sections.SectionDesignGeometry.#ctor(System.Boolean,System.Double,System.Double,System.Double,System.Double,System.Collections.Generic.IEnumerable{GPC.Design.Sections.DesignBar},System.Double)">
+            <summary>Geometry with the width of the closed links (<see cref="P:GPC.Design.Sections.SectionDesignGeometry.LinkWidth"/>): positive, finite and not larger than <paramref name="width"/>.</summary>
+        </member>
         <member name="T:GPC.Design.Sections.SectionDesignQuantities">
             <summary>Section search quantities (mm, mm², kg/m), scoring and longitudinal torsion allocation.
             Uses Model's canonical steel density. Transverse take-off is a preliminary geometric estimate.</summary>

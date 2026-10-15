@@ -188,7 +188,8 @@
             the water table and the drained τ above it; base A σ'v Nq (Nq of <see cref="T:GPC.Checkers.Geotechnics.Piles.BearingCapacityFactors"/> with z/D and φ' of the layer or reduced by
             Kishida, <see cref="P:GPC.Checkers.Geotechnics.Piles.AxialPile.BaseFrictionAngle"/>; the shaft keeps the φ' of the layer) and, undrained below the water
             table, A (Nc cu + σv). Micropiles: Bustamante-Doix shaft along the axis and a base share of 0-15%. Design curves: mean/ξ3 and minimum/ξ4 of
-            the verticals with γb, γs (γst in tension) and the group efficiency; actions with the factored weight of the pile.
+            the verticals with γb, γs (γst in tension) and the group efficiency; actions with the factored weight of the pile by condition and direction
+            (tension with the buoyant weight, undrained compression with the gross base with the full weight, drained compression as chosen).
             </para>
             </summary>
         </member>
@@ -241,7 +242,8 @@
         <member name="T:GPC.Checkers.Geotechnics.Piles.AxialPile">
             <summary>
             Pile for the axial capacity: installation, diameter and length (mm), unit weight of the pile (N/mm³; 25 kN/m³ as ANTHEA), buoyancy below the
-            water table, design actions in compression and tension at the head (N; null when not given) and the friction angle of the base factor Nq
+            water table in the drained compression (the tension always uses the buoyant weight and the undrained compression with the gross base the full
+            weight: <see cref="P:GPC.Checkers.Geotechnics.Piles.AxialCapacityResult`1.Actions"/>), design actions in compression and tension at the head (N; null when not given) and the friction angle of the base factor Nq
             (the one of the layer as ANTHEA, or reduced by Kishida: see <see cref="M:GPC.Checkers.Geotechnics.Piles.BearingCapacityFactors.Kishida(GPC.Checkers.Geotechnics.Piles.PileInstallation)"/> for the rule of the installation).
             </summary>
         </member>
@@ -284,7 +286,10 @@
             <summary>Components of a condition and direction at a depth: mean branch (ξ3) and minimum branch (ξ4).</summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.AxialDepthResult`1">
-            <summary>Results at one depth: weight of the pile (N), resistances of every vertical and the components by condition and direction.</summary>
+            <summary>
+            Results at one depth: weight of the pile of the drained compression (N; buoyant with <see cref="P:GPC.Checkers.Geotechnics.Piles.AxialPile.Buoyancy"/>), resistances of every
+            vertical and the components by condition and direction.
+            </summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.AxialCapacityCurve">
             <summary>Design capacity curves along the depth: mean branch, minimum branch and design = min of the two (N).</summary>
@@ -295,11 +300,20 @@
             every depth, reached depth and coverage.
             </summary>
         </member>
+        <member name="P:GPC.Checkers.Geotechnics.Piles.AxialCapacityResult`1.Actions">
+            <summary>
+            Actions at every depth by condition and direction (N; empty lists without the action): compression NEd + γG,unfav W, tension
+            max(0; NEd,t − γG,fav W'). Tension, drained and undrained: W' = W − γw A max(0, z − zf) whenever there is a water table. Undrained
+            compression with the gross base A (Nc cu + σv) of a cohesive tip below the water table (in at least one vertical): the full W, since σv
+            already contains the water pressure at the base. Drained compression (and undrained without the gross base): W' with
+            <see cref="P:GPC.Checkers.Geotechnics.Piles.AxialPile.Buoyancy"/>, W otherwise. Micropiles: the drained condition only, full weight.
+            </summary>
+        </member>
         <member name="P:GPC.Checkers.Geotechnics.Piles.AxialCapacityResult`1.CompressionActions">
-            <summary>NEd + γG,unfav W at every depth (N); empty without the action.</summary>
+            <summary>Drained compression actions, <see cref="P:GPC.Checkers.Geotechnics.Piles.AxialCapacityResult`1.Actions"/> of (Drained, true): NEd + γG,unfav W (W' with the buoyancy option), N.</summary>
         </member>
         <member name="P:GPC.Checkers.Geotechnics.Piles.AxialCapacityResult`1.TensionActions">
-            <summary>max(0; NEd,t − γG,fav W) at every depth (N); empty without the action.</summary>
+            <summary>Drained tension actions, <see cref="P:GPC.Checkers.Geotechnics.Piles.AxialCapacityResult`1.Actions"/> of (Drained, false): max(0; NEd,t − γG,fav W'), W' buoyant below the water table, N.</summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.NqResult">
             <summary>
@@ -511,8 +525,12 @@
         </member>
         <member name="M:GPC.Checkers.Geotechnics.Piles.LateralGroupEfficiency.ReeseVanImpeEfficiency(System.Double,System.Double,System.Double,System.Double,System.Double)">
             <summary>
-            Reese and Van Impe (SMath sheet): spacings in front, behind, left and right of the pile in the direction of H (mm, at least D):
-            ηa = min(1; 0.7 (s/D)^0.26), ηb = min(1; 0.48 (s/D)^0.38), ηs = min(1; 0.64 (s/D)^0.34), diagonals by the elliptical rule; η = product of the eight.
+            Reese and Van Impe (SMath sheet): spacings to the neighbours in front of, behind, left and right of the pile in the direction of H (mm, at
+            least D). A pile with a neighbour in front is the trailing pile in its shadow: ηfront = min(1; 0.48 (s/D)^0.38); a pile with a neighbour
+            behind is the leading pile: ηback = min(1; 0.70 (s/D)^0.26) (Reese and Van Impe; Caltrans §10.7.2.4; the same rule as
+            <see cref="T:GPC.Checkers.Geotechnics.Piles.LateralPileGroup"/>, leading = ahead in the direction of H); ηs = min(1; 0.64 (s/D)^0.34) at the sides; diagonals by the
+            elliptical rule with the factor of their side (front or back); η = product of the eight. The original SMath sheet gave 0.70 to the spacing
+            in front and 0.48 to the one behind (PO-2, corrected 15/10/2026).
             </summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.LateralPileResult">
@@ -537,7 +555,11 @@
             <summary>Stratified extension or multilayer Broms: experimental models of ANTHEA, not the original Broms formulas.</summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.MicropileDepthLayer">
-            <summary>Vertical layer thickness in mm and the Bustamante–Doix parameters actually needed by a micropile.</summary>
+            <summary>
+            Vertical layer thickness in mm and the Bustamante–Doix parameters actually needed by a micropile. α is required (positive and finite) only for
+            an active layer that intersects the grouted length [sb, L]: the calculation checks it there and names the vertical and the layer
+            (<see cref="M:GPC.Checkers.Geotechnics.Piles.BustamanteDoix.Segments(System.Collections.Generic.IReadOnlyList{GPC.Checkers.Geotechnics.Piles.MicropileLayer},System.Double,System.Double,System.Double,GPC.Checkers.Geotechnics.Piles.MicropileInjection,System.Double)"/>); outside the grouted zone α has no meaning and may be missing (NaN) or zero (PV-4).
+            </summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.MicropileDepthSurvey">
             <summary>Micropile survey without invented mechanical soil properties. Layers start at the pile head.</summary>
@@ -750,9 +772,10 @@
         <member name="T:GPC.Checkers.Geotechnics.Slopes.SlopeLoad">
             <summary>
             External load identified by <see cref="P:GPC.Checkers.Geotechnics.Slopes.SlopeLoad.Id"/> (its partial factor comes from <see cref="P:GPC.Checkers.Geotechnics.Slopes.SlopeFactors.Loads"/>). Concentrated: forces per
-            unit length (N/mm, vertical downwards and horizontal towards +X positive) at abscissa <see cref="P:GPC.Checkers.Geotechnics.Slopes.SlopeLoad.Left"/> and height <see cref="P:GPC.Checkers.Geotechnics.Slopes.SlopeLoad.Y"/>, and a
-            moment (N·mm/mm) positive when it increases the driving moment. Distributed: the same three quantities per unit length of the segment
-            between <see cref="P:GPC.Checkers.Geotechnics.Slopes.SlopeLoad.Left"/> and <see cref="P:GPC.Checkers.Geotechnics.Slopes.SlopeLoad.Right"/> (pressures in MPa).
+            unit length (N/mm) at abscissa <see cref="P:GPC.Checkers.Geotechnics.Slopes.SlopeLoad.Left"/> and height <see cref="P:GPC.Checkers.Geotechnics.Slopes.SlopeLoad.Y"/>: vertical positive downwards, horizontal positive towards the
+            valley, that is towards −X, the direction of sliding (the valley is on the left: the circles exit left of their entries); a moment
+            (N·mm/mm) positive when it increases the driving moment. Distributed: the same three quantities per unit length of the segment between
+            <see cref="P:GPC.Checkers.Geotechnics.Slopes.SlopeLoad.Left"/> and <see cref="P:GPC.Checkers.Geotechnics.Slopes.SlopeLoad.Right"/> (pressures in MPa). A horizontal force towards the hill (+X) is negative.
             </summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Slopes.SlopeSection">
@@ -777,7 +800,8 @@
         <member name="T:GPC.Checkers.Geotechnics.Slopes.SlopeFactors">
             <summary>
             Partial factors of one combination: on the weight of the soil and of the bodies, on tan φ', c' and cu, γR on the resistance,
-            seismic coefficients kh and kv (kv positive upwards: V = (1 − kv) W) and the factors of the loads by identifier (missing = 0).
+            seismic coefficients kh and kv (kh positive towards the valley, −X, the direction of sliding: H = kh W; kv positive upwards:
+            V = (1 − kv) W) and the factors of the loads by identifier (missing = 0).
             </summary>
         </member>
         <member name="P:GPC.Checkers.Geotechnics.Slopes.SlopeFactors.Undrained">
@@ -971,9 +995,12 @@
             <para>
             Earth pressure: Rankine by layers on the vertical plane behind the heel (δ = 0; with the friction of the back when there is no heel), on the stem
             Coulomb with the friction of the back; effective stresses and water separate; seismic Mononobe-Okabe (increment at mid height) or simplified Wood
-            (at rest, kh γ Ht² uniform); passive Rankine in front optional, limited to the driving thrust, never seismic. Equilibrium about the toe with
-            uplift, weights of the wall, of the fill on the heel and of the soil in front, actions; contact without tension; sliding μ N/γR, overturning
-            stabilising/γR, bearing EN 1997-1 Annex D (c' = 0, q' of the soil in front, Nγ = 2(Nq − 1) tan φ, iq = (1 − H/V)², iγ = (1 − H/V)³, rough base
+            (at rest, kh γ Ht² uniform); passive Rankine in front optional (η ≤ 0.5, never seismic), design value η Pp/γR,e
+            (<see cref="P:GPC.Checkers.Geotechnics.Walls.WallCombination.PassiveFactor"/>). Equilibrium about the toe with uplift, weights of the wall, of the fill on the heel and of the
+            soil in front, actions (the uniform surcharge also on the heel, without its variable part when
+            <see cref="P:GPC.Checkers.Geotechnics.Walls.WallCombination.VariableSurchargeOnHeel"/> is false) and the design passive limited to the driving thrust; contact without tension.
+            Sliding: driving thrust + horizontal actions + inertia against μ N/γR + η Pp/γR,e; overturning: driving moment against stabilising/γR + the
+            moment of η Pp/γR,e (the passive is a resistance, never subtracted from the demand). Bearing EN 1997-1 Annex D (c' = 0, q' of the soil in front, Nγ = 2(Nq − 1) tan φ, iq = (1 − H/V)², iγ = (1 − H/V)³, rough base
             δb ≥ φd/2, |e| ≤ B/3) and in the seismic combinations EN 1998-5 Annex F. Internal forces of the stem at 21 cuts (and at the loads, the change of
             the reinforcement and the valley bands) and of the toe and heel at 21 cuts.
             </para>
@@ -988,7 +1015,15 @@
         <member name="M:GPC.Checkers.Geotechnics.Walls.RetainingWallAnalysis.FrontSoilMass(GPC.Checkers.Geotechnics.Walls.WallGeometry,System.Collections.Generic.IEnumerable{GPC.Checkers.Geotechnics.Walls.WallValleyBand},System.Double,System.Boolean)">
             <summary>
             Weight and static moments of the soil in front of the wall above the slab (or only of the wedge over the inclined face of the stem above the
-            elevation <paramref name="above"/>): trapezoids between the end of the toe (or the root of the stem) and the face.
+            elevation <paramref name="above"/>): trapezoids between the end of the toe (or, for the wedge, the face at the elevation of the cut) and the
+            face. The wedge is the soil resting on the face above the cut, between x_face(cut) and x_face(y): one band gives slope (Dv − cut)²/2.
+            </summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Walls.RetainingWallAnalysis.MononobeOkabeField(GPC.Checkers.Geotechnics.Walls.WallInput,GPC.Checkers.Geotechnics.Walls.WallCombination)">
+            <summary>
+            Field of Mononobe-Okabe in a seismic row with the values the calculation uses: φd = atan(tan φ′/γM) of the row, δd of the back on the stem and
+            on the equilibrium plane (0 behind a heel, δd of the back without heel), θ = atan(kh/(1 − kv)) of the row. Requires θ &lt; φd, δd ≤ φd and
+            δd + θ &lt; 90°; otherwise a message that names the row (the formula would only give the generic Coulomb message later).
             </summary>
         </member>
         <member name="F:GPC.Checkers.Geotechnics.Walls.RetainingWallAnalysis.Tolerance">
@@ -1003,9 +1038,17 @@
             commit fe4652c): SLS characteristic and frequent with every leading variable action, quasi permanent; ULS with every pattern of the factors
             of the wall (1/1.3), of the fill (1/1.3), of the water (1/1.3), of every permanent group (G1 1/1.3, G2 0/1.5), of the presence of every
             variable group and every leading one (1.5, the others 1.5 ψ0), and of the valley soil (1/1.3) when there is soil in front; γR 1.1 sliding,
-            1.15 overturning, 1.4 bearing. Seismic with the quasi permanent actions: assigned kh and ±kv, or from the site general and overturning (γR
+            1.15 overturning, 1.4 bearing, 1.4 the passive resistance in front (γR,e, NTC 2018 Tab. 6.5.I; 1 in the other rows). Seismic with the quasi permanent actions: assigned kh and ±kv, or from the site general and overturning (γR
             1, 1, 1.2, NTC Tab. 7.11.III). Accidental: every group of accidental actions with the quasi permanent ones. Identical rows are merged; at
             most 4096 rows.
+            <para>
+            Every ULS, seismic (assigned, SLV general and overturning) and accidental row with a variable uniform surcharge (factor &gt; 0: γQ, ψ0 γQ or
+            ψ2) on a wall with a heel is followed by its twin, named with the suffix «b» (for example SLU 8 and SLU 8b, SLV Generale kv− 12 and
+            SLV Generale kv− 12b), with <see cref="P:GPC.Checkers.Geotechnics.Walls.WallCombination.VariableSurchargeOnHeel"/> false: the surcharge keeps the thrust and is absent from
+            the heel (a favourable variable action is not applied: γQ = 0, NTC 2018 Tab. 2.6.I; ψ2 Qk only where unfavourable in the seismic and
+            accidental combinations, NTC 2018 §2.5.3). Both rows enter every check (sliding, overturning, bearing, contact) and the internal forces of
+            the heel. The numbers of the other rows do not change.
+            </para>
             </summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Walls.WallGlobalProfile">
@@ -1090,7 +1133,8 @@
             <summary>
             Soil in front of the wall: height Dv of the ground above the base (0 = entirely free face), its Model column (<see cref="T:GPC.Model.Geotechnics.SoilProfile"/>
             with the ground at Dv, c' = 0, without groundwater: the water is <see cref="T:GPC.Checkers.Geotechnics.Walls.WallWater"/>), Rankine passive resistance with the mobilised
-            fraction 0-1 (never in the seismic combinations).
+            fraction η (never in the seismic combinations). With the passive η ≤ 0.5: NTC 2018 §6.5.3.1.1 admits at most 50% of the passive
+            resistance, when justified (displacements compatible with its mobilisation, permanence of the soil in front).
             </summary>
         </member>
         <member name="M:GPC.Checkers.Geotechnics.Walls.WallValley.Free(GPC.Model.Geotechnics.SoilProfile)">
@@ -1122,6 +1166,24 @@
             <summary>
             A combination of the wall: limit state, factors of the weight of the wall, of the fill (also on the thrust), of the valley soil and of the
             water, γM of tan φ, γR of sliding, overturning and bearing, seismic coefficients and the factor of every action (by id).
+            <para>
+            The factor of a uniform surcharge acts on the thrust (K q) and on the load q over the heel (normal force, stabilising moment, inertia kh q
+            b ht, load of the heel slab). <see cref="P:GPC.Checkers.Geotechnics.Walls.WallCombination.VariableSurchargeOnHeel"/> false removes the variable (Q) surcharges from the heel only, with the
+            thrust unchanged: the arrangement with the favourable part of the variable action absent (γQ = 0, NTC 2018 Tab. 2.6.I; EN 1990 A1.2).
+            Permanent surcharges (G1, G2) keep one factor on both parts (single source, EN 1997-1 2.4.2(9)).
+            </para>
+            </summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallCombination.VariableSurchargeOnHeel">
+            <summary>
+            True (default): the variable surcharges act also on the heel with the factor of the thrust. False: the variable surcharges are absent from the
+            heel (twin rows «b» of <see cref="M:GPC.Checkers.Geotechnics.Walls.WallCombinations.Generate(GPC.Checkers.Geotechnics.Walls.WallInput)"/>), the thrust keeps them.
+            </summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallCombination.PassiveFactor">
+            <summary>
+            γR,e of the passive resistance of the soil in front (NTC 2018 Tab. 6.5.I, 1.4 in the A1+M1+R3 rows of <see cref="M:GPC.Checkers.Geotechnics.Walls.WallCombinations.Generate(GPC.Checkers.Geotechnics.Walls.WallInput)"/>,
+            1 elsewhere; default 1): the design passive η Pp/γR,e is a resistance of sliding and overturning and the value used in the equilibrium.
             </summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Walls.WallSeismicMethod">
@@ -1187,16 +1249,50 @@
         <member name="T:GPC.Checkers.Geotechnics.Walls.WallSoilAudit">
             <summary>
             Soil quantities of a combination: valley height and free height, weight of the valley soil and its moment, effective overburden q' at the
-            base, design friction of the back and of the base and μ, friction on the equilibrium plane, passive available, used, mobilised fraction and
-            equilibrium scale, bearing factors and inclination factors, rough base (δb ≥ φd/2).
+            base, design friction of the back and of the base and μ, friction on the equilibrium plane, passive: mobilised η Pp (available), γR,e,
+            design value η Pp/γR,e, the part used in the equilibrium, mobilised fraction η and equilibrium scale min(1, driving thrust / design
+            passive), bearing factors and inclination factors, rough base (δb ≥ φd/2).
             </summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallSoilAudit.PassiveAvailable">
+            <summary>Mobilised passive η Pp (N/mm), without γR,e.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallSoilAudit.PassiveFactor">
+            <summary>γR,e of the passive of the combination (<see cref="P:GPC.Checkers.Geotechnics.Walls.WallCombination.PassiveFactor"/>).</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallSoilAudit.PassiveDesign">
+            <summary>Design passive η Pp/γR,e (N/mm): the resistance added to sliding (and its moment to overturning).</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallSoilAudit.PassiveUsed">
+            <summary>Part of the design passive used in the equilibrium (contact, eccentricity, H on the base, internal forces), N/mm.</summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Walls.WallCaseResult">
             <summary>
             Equilibrium of the wall in a combination (per unit length, N/mm and N·mm/mm about the toe at the base): horizontal and normal forces, uplift,
-            stabilising and overturning moments, position x of the normal force, eccentricity, effective width, contact, design resistances to sliding,
-            overturning and bearing (null out of the field), pressures on the equilibrium plane, on the stem and in front, details, internal forces.
+            stabilising and overturning moments, position x of the normal force, eccentricity, effective width, contact, demands and design resistances
+            of sliding and overturning, bearing resistance (null out of the field), pressures on the equilibrium plane, on the stem and in front,
+            details, internal forces. <see cref="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.Horizontal"/> and <see cref="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.Overturning"/> are the equilibrium values, net of the design passive used
+            (limited to the driving thrust): they give x, e, the contact and the inclination of the bearing. The checks use
+            <see cref="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.SlidingDemand"/> and <see cref="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.OverturningDemand"/>, never reduced by the passive, which is in the resistances.
             </summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.Horizontal">
+            <summary>Horizontal force on the base (N/mm): thrust, horizontal actions and inertia, net of the design passive used.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.Overturning">
+            <summary>Overturning moment of the equilibrium (N·mm/mm), net of the moment of the design passive used.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.SlidingDemand">
+            <summary>Demand of the sliding check (N/mm): driving thrust, horizontal actions and inertia, without the passive in front.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.SlidingResistance">
+            <summary>N tan δb/γR + η Pp/γR,e (the passive only with a driving thrust towards the valley), N/mm.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.OverturningDemand">
+            <summary>Demand of the overturning check (N·mm/mm): the driving overturning moment, without the passive in front.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.OverturningResistance">
+            <summary>Stabilising moment/γR + moment of η Pp/γR,e about the toe (N·mm/mm).</summary>
         </member>
         <member name="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.SeismicBearing">
             <summary>Seismic bearing capacity (EN 1998-5 Annex F) of a seismic combination, null otherwise or out of the field (see <see cref="P:GPC.Checkers.Geotechnics.Walls.WallCaseResult.SeismicBearingError"/>).</summary>
@@ -1265,7 +1361,7 @@
             <summary>
             Serviceability of the wall (ANTHEA RetainingWall.CalculateService, commit fe4652c): oedometric settlements under the contact of the base of
             every SLS combination with the convergence and the depth of the profile checked, rotation from the differential settlements, elastic
-            displacement of the stem from the curvatures (cantilever fixed at the base) and decoupled head displacement u = u_stem + H/k − θ H,
+            displacement of the stem from the curvatures (cantilever fixed at the base) and decoupled head displacement u = u_stem + H/k − θ (H + t),
             permanent sliding of Newmark. Units mm, MPa, N/mm, rad.
             </summary>
         </member>
