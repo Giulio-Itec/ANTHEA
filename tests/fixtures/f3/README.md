@@ -30,4 +30,19 @@ L'elenco e l'aggiornamento della Wiki si generano con `tools/qa/f3_transizioni.p
 una corsa e dalla classificazione puntuale delle differenze, in `docs/refactoring/f4-transizioni-ui-classificazione.md`.
 Le differenze senza voce lo fermano.
 
+Il 16/10/2026 l'elenco è stato rigenerato per le correzioni dei bug del 15-16/10, con il set candidato Z
+(cattura `20261016-005646-f3-bug1016`, commit `e34f176c`).
+- Contiene 22126 voci:
+  - 5442 transizioni F4 invariate;
+  - 736 transizioni F4 spostate o con il valore dopo cambiato, con voce combinata come «F4-35 / BUG-…»;
+  - le differenze nuove con la loro voce `BUG-*`; per SLU-2 la voce è F2-17.
+- La classificazione è in `docs/refactoring/bug-1015-transizioni-ui-classificazione.md`, con le transizioni F4
+  non più presenti e il motivo.
+- Nell'elenco «a» resta il valore del riferimento e «b» il valore nuovo.
+- Il `confronto.json` della corsa è troncato oltre 20000 dettagli, comprese le transizioni ammesse. Per rigenerare
+  l'elenco servono:
+  - il confronto completo senza transizioni, da `tools/qa/f3_confronto_completo.py`;
+  - `f3_transizioni.py --voci`, con una voce per ogni differenza, nello stesso ordine.
+- Nel manifest cambiano solo impronta e numero delle voci di `transitions`.
+
 Comando: `build/ci.ps1 -Stage build,ui -Only '^ui/f3-equivalence$' -Tag f3-equivalence`.
