@@ -171,11 +171,14 @@ public static partial class ConcreteResults
         public string Status { get; }
         public SectionState? Response { get; }
         public Lazy<StressState>? LimitState { get; }
+        /// <summary>Azione verificata dopo la proiezione «proietta» del dominio 2D, null senza proiezione (DomainCheck.ProjectedAction).</summary>
+        public Action? ProjectedAction { get; }
         internal Check(Native.DomainCheck value)
         {
             Source = value;
             Utilization = value.Utilization;
             Resistance = value.Resistance is { } item0 ? new Action(item0) : null;
+            ProjectedAction = value.ProjectedAction is { } projected ? new Action(projected) : null;
             Status = value.Status;
             Response = value.Response is null ? null : new SectionState(value.Response);
             LimitState = value.LimitState is { } lazy ? new(() => new StressState(lazy.Value)) : null;

@@ -417,6 +417,7 @@ public sealed class CheckerDomain2D
         var comparable = new ResultBeamForces(local.N * 1000, 0, 0, 0, local.Mx * 1e6, local.My * 1e6, Section.Local);
         var check = CheckerDomain3D.Outcome(point.CalculateWorkingRatio(NM ? SectionSolver.FailureAnalysisTypes.ConstantEccentricity : SectionSolver.FailureAnalysisTypes.ConstantN, comparable, 1e6, 1000), CheckerSection.Point(point));
         check = check with { Response = Section.Describe(point), LimitState = new(() => Section.LimitState(point)) };
-        return !inPlane && project ? check with { Status = check.Status + " · azione proiettata" } : check;
+        // Con la proiezione anche l'azione verificata, che il grafico disegna al posto dell'azione intera (seguito di SLU-1, 16/10/2026).
+        return !inPlane && project ? check with { Status = check.Status + " · azione proiettata", ProjectedAction = local } : check;
     }
 }

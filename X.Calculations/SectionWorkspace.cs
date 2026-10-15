@@ -128,6 +128,10 @@ public sealed record DomainCheck(double? Utilization, ActionPoint? Resistance, s
     /// <summary>Campo resistente di N (NRd,c; NRd,t, kN) quando la libreria dà l'esito «N fuori dal campo» di un criterio a N assegnato (SLU-2 del
     /// 15/10/2026): il punto dichiarato è a eccentricità costante, non all'N assegnato. Null negli altri casi. Non serializzato.</summary>
     [System.Text.Json.Serialization.JsonIgnore] public (double Compression, double Tension)? AxialForceOutsideRange { get; init; }
+    /// <summary>Azione verificata (assi locali, kN e kNm) quando la verifica del dominio 2D ha proiettato un'azione fuori piano con «proietta»:
+    /// nel piano N–M la proiezione sul meridiano di θ, Mθ = Mx cos θ + My sin θ con N invariato; nel piano Mx–My l'azione con l'N del piano. Il
+    /// grafico disegna questo punto, quello verificato (seguito di SLU-1, 16/10/2026). Null negli altri casi. Non serializzato.</summary>
+    [System.Text.Json.Serialization.JsonIgnore] public ActionPoint? ProjectedAction { get; init; }
 }
 public sealed record DomainSegment(ActionPoint A, ActionPoint B);
 

@@ -5,8 +5,10 @@ using Anthea.Calculations;
 /// <summary>
 /// Prova 4c: integrazione in ANTHEA delle correzioni lato calcestruzzo delle librerie dell'analisi dei bug del 15/10/2026
 /// (docs/refactoring/analisi-bug-20261015.md): SLU-1, SLU-2, SLU-4, FES-1, FES-2, ARM-3, DET-3 e i coefficienti unitari del foglio c.a. del
-/// palo in ancoraggi e dettagli. Attesi indipendenti dallo script attesi/correzioni_ca_20261015.py (modello a fibre, formule di norma), citati
-/// accanto a ogni valore; i confronti fra due percorsi della libreria (2D contro 3D) sono dichiarati come tali.
+/// palo in ancoraggi e dettagli; seguiti del 16/10/2026: coefficienti unitari nel primo snervamento del M–χ, punto disegnato del grafico
+/// N–M con la proiezione e nota DET-3 nella scheda Materiali dei muri. Attesi indipendenti dallo script attesi/correzioni_ca_20261015.py
+/// (modello a fibre, formule di norma) o calcolati a mano, citati accanto a ogni valore; i confronti fra due percorsi della libreria (2D contro
+/// 3D) sono dichiarati come tali.
 /// </summary>
 internal static class CorrezioniCa20261015
 {
@@ -100,6 +102,35 @@ internal static class CorrezioniCa20261015
                 var two = new CheckerSection(symmetric, Workspace(), Options2D(theta), "SLV").Domain2D().Check(action);
                 Near(two.Utilization, elastic3D.Check(action).Utilization ?? double.NaN, .01, $"SLU-1 SLV θ = {theta}°: η 2D contro la verifica 3D elastica");
             }
+        }
+        // Grafico del dominio 2D N–M con «proietta» (seguito di SLU-1, 16/10/2026): il punto Ed disegnato è quello verificato. La verifica proietta
+        // l'azione fuori piano sul meridiano di θ, Mθ = Mx cos θ + My sin θ con N invariato (assi locali); prima il grafico disegnava
+        // sign(Mx)·√(Mx² + My²), un punto non verificato. Attesi a mano: Ed = (Mθ; N) e, a eccentricità costante, Ed = η·Rd (retta dall'origine per
+        // Rd); l'azione nel piano resta dov'era.
+        foreach (var (theta, action, expected, projected) in new (double, ActionPoint, double, bool)[]
+        {
+            (30, new(-500, -30, 120), -30 * Math.Cos(Math.PI / 6) + 120 * Math.Sin(Math.PI / 6), true), // 34,0192; prima −123,693, dall'altra parte
+            (90, new(-800, 40, 60), 60, true),                                                          // prima 72,111
+            (0, new(-500, -20, 90), -20, true),                                                         // prima −92,195
+            (45, new(-600, 80, 10), 90 / Math.Sqrt(2), true),                                           // 63,6396; prima 80,623
+            (30, new(-500, 100 * Math.Cos(Math.PI / 6), 100 * Math.Sin(Math.PI / 6)), 100, false)        // nel piano: invariato
+        })
+        {
+            string tag = $"grafico N–M θ = {theta}° con proiezione, azione ({action.N}; {action.Mx:0.###}; {action.My:0.###})";
+            var options = Options2D(theta); options["proietta"] = "Sì";
+            var row = J.Obj(("id", "a"), ("nome", "A"), ("N", action.N.ToString("R", Invariant)), ("Mx", action.Mx.ToString("R", Invariant)), ("My", action.My.ToString("R", Invariant)));
+            var result = new ConcreteAnalysisSession().Domain(symmetric, Workspace(), options, "SLU", false, [row]);
+            var outcome = result.Checks["a"];
+            Is(outcome.Status.EndsWith("azione proiettata") == projected && outcome.Utilization is > 0 && outcome.Resistance is not null, $"{tag}: stato «{outcome.Status}»");
+            var chart = Anthea.Application.Concrete.ConcreteDomainChart.Actions(options, result.Two, [row], "a", result.Checks);
+            var ed = chart.Markers.Single(m => m.Label == "Ed"); var rd = chart.Markers.Single(m => m.Label == "Rd");
+            Near(ed.X, expected, 1e-9, tag + ": Mθ del punto disegnato");
+            Near(ed.Y, action.N, 1e-9, tag + ": N del punto disegnato");
+            double eta = outcome.Utilization ?? double.NaN;
+            Near(ed.X, eta * rd.X, 1e-9, tag + ": Ed = η·Rd (Mθ)");
+            Near(ed.Y, eta * rd.Y, 1e-9, tag + ": Ed = η·Rd (N)");
+            Is(chart.Lines.Count == 2 && chart.Lines[0].B.SequenceEqual(new[] { ed.X, ed.Y }) && chart.Lines[1].A.SequenceEqual(new[] { ed.X, ed.Y })
+                && chart.Lines[1].B.SequenceEqual(new[] { rd.X, rd.Y }), tag + ": linee origine–Ed–Rd sul punto disegnato");
         }
 
         // ------------------------------------------------------------ SLU-2: esiti tipizzati a N assegnato
@@ -198,6 +229,25 @@ internal static class CorrezioniCa20261015
                 "DET-3 differenza: «" + difference + "»");
             Is(RebarMaterial.Evaluate(saved).EpsilonU == 30 && saved.D("steel_eps_u") == 30, "DET-3 valore salvato usato e non riscritto");
         }
+        // DET-3 nella scheda Materiali dei muri (seguito del 16/10/2026): stessa nota del campo dell'acciaio della sezione c.a. e del palo, dai
+        // materiali del muro (chiave fyk, non fyk_mpa). Attesi: NTC 2018 Tab. 11.3.Ic, B450A εuk = 25 ‰ e fyk = 450 MPa; testo di DET-3.
+        {
+            var wall = RetainingWall.Defaults(); var m = wall["materials"]!.AsObject();
+            Is(m.S("classe_acciaio") == "B450C" && Anthea.Application.Walls.WallModel.SteelDifference(m) is null, "DET-3 muro B450C del catalogo: nessuna nota");
+            m["classe_acciaio"] = "B450A";
+            Anthea.Application.Walls.WallModel.ApplyMaterialPreset(wall, ConcreteMaterialCatalog.Steel(false, "NTC 2018").Single(p => p.S("nome") == "B450A"));
+            Is(m.D("steel_eps_u") == 25 && Anthea.Application.Walls.WallModel.SteelDifference(m) is null, "DET-3 muro B450A del catalogo: nessuna nota");
+            m["steel_eps_u"] = 30;
+            string? note = Anthea.Application.Walls.WallModel.SteelDifference(m);
+            Is(note == "Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo.",
+                "DET-3 muro B450A con εu 30: «" + note + "»");
+            m["fyk"] = 500;
+            note = Anthea.Application.Walls.WallModel.SteelDifference(m);
+            Is(note is not null && note.Contains("fyk = 500 MPa (catalogo 450 MPa)") && note.Contains("εu = 30 ‰ (catalogo 25 ‰)"), "DET-3 muro: fyk del muro letto come fyk_mpa: «" + note + "»");
+            // Muro precedente senza materiali di catalogo: i completamenti lo lasciano «Personalizzato», nessuna nota.
+            m.Remove("classe_acciaio");
+            Is(Anthea.Application.Walls.WallModel.SteelDifference(m) is null && !m.ContainsKey("classe_acciaio"), "DET-3 muro senza classe dell'acciaio: nessuna nota, materiali non riscritti");
+        }
 
         // ------------------------------------------------------------ foglio c.a. del palo con coefficienti unitari: ancoraggi e dettagli
         // Stessa classe di TAG-2: γc e fyd della norma effettiva (γc = 1, fyd = fyk). Attesi (correzioni_ca_20261015.py): NTC 2018 §4.1.2.1.1.4,
@@ -217,17 +267,42 @@ internal static class CorrezioniCa20261015
             var details = ConcreteDetailingAnalysis.Calculate(input, settings, [J.Obj(("nome", "C1"), ("stato", "SLU"), ("N", "-10000"))]);
             Near(details.Checks.Single(c => c.Name == "Armatura longitudinale minima").Limit, unit ? 2222.222222 : 2555.555556, 1e-9, tag + ": As,min = 0,10 NEd/fyd");
         }
+
+        // ------------------------------------------------------------ foglio c.a. del palo con coefficienti unitari: primo snervamento del M–χ
+        // Seguito del 16/10/2026, stessa classe di TAG-2: la legge dell'acciaio usa fyd della norma effettiva, il primo snervamento della curva
+        // εyd = fyd/Es della stessa norma. Attesi (correzioni_ca_20261015.py, modello a strisce): 300×500 C25/30 4Ø16, N = 0, θ = 0; unitari
+        // εyd = 450/200 000 = 2,25 ‰, My = 76,4192 kNm, χy = 6,1483e-3 1/m (prima εyd = 391,30/200 000 = 1,9565 ‰ anche con i coefficienti
+        // unitari: My 66,4926 kNm, χy 5,3395e-3 1/m); ordinari εyd = 1,9565 ‰, My = 65,2912 kNm, χy = 5,6821e-3 1/m.
+        foreach (bool unit in new[] { true, false })
+        {
+            var (input, settings) = PileSheet(unit, Rect(2, 16, 2, 16));
+            string tag = "M–χ " + (unit ? "foglio del palo, coefficienti unitari" : "foglio del palo, coefficienti ordinari");
+            var curve = ConcreteCurvatureAnalysis.Calculate(input, settings, Curvature(0));
+            double yieldStrain = unit ? 2.25 : 450 / 1.15 / 200000 * 1000; // ‰
+            int first = curve.Points.ToList().FindIndex(p => p.Yielded);
+            Is(first > 0, $"{tag}: primo snervamento dopo la prima riga ({first})");
+            if (first <= 0) continue;
+            var yielded = curve.Points[first]; var before = curve.Points[first - 1];
+            // Riga del primo snervamento raffinata con 12 bisezioni: la barra più deformata appena oltre εyd, la riga precedente sotto.
+            Is(yielded.SteelStrain >= yieldStrain && yielded.SteelStrain <= yieldStrain + 1e-3, $"{tag}: εs al primo snervamento {yielded.SteelStrain:G9} ‰ (εyd {yieldStrain:G9} ‰)");
+            Is(before.SteelStrain < yieldStrain && !before.Yielded, $"{tag}: riga precedente εs {before.SteelStrain:G9} ‰ non snervata");
+            Near(Math.Abs(yielded.Moment), unit ? 76.4192 : 65.2912, .005, tag + ": My contro il modello a strisce");
+            Near(curve.YieldCurvature, unit ? 6.1483e-3 : 5.6821e-3, .005, tag + ": χy contro il modello a strisce");
+        }
         return count;
     }
 
     static JsonObject Curvature(double axial) => J.Obj(("N", axial.ToString(Invariant)), ("theta", "0"), ("passi", "10"), ("frazione", "1"), ("campionamento", "Lineare"),
         ("trazione_cls", "No"), ("angoli", "64"), ("tolleranza_n", "1"), ("raffina_snervamento", "12"));
 
-    /// <summary>Foglio c.a. di approfondimento del palo come lo crea ElasticHorizontalPile.CreateConcreteSheet: sezione predefinita 600×800 C35/45,
-    /// NTC 2018; con i coefficienti unitari la normativa_custom di ConcreteStandards.PileWorkspace (tutti i γ e αcc = 1).</summary>
-    static (JsonObject Input, JsonObject Settings) PileSheet(bool unit)
+    /// <summary>Foglio c.a. di approfondimento del palo come lo crea ElasticHorizontalPile.CreateConcreteSheet: sezione predefinita 600×800 C35/45
+    /// (oppure i campi di <paramref name="section"/>), NTC 2018; con i coefficienti unitari la normativa_custom di ConcreteStandards.PileWorkspace
+    /// (tutti i γ e αcc = 1).</summary>
+    static (JsonObject Input, JsonObject Settings) PileSheet(bool unit, JsonObject? section = null)
     {
-        var data = SezioneCA.DefaultData(); var input = data["input"]!.AsObject(); var settings = SectionWorkspace.Prepare(data);
+        var data = SezioneCA.DefaultData(); var input = data["input"]!.AsObject();
+        if (section is not null) foreach (var (k, v) in section) input[k] = v?.DeepClone();
+        var settings = SectionWorkspace.Prepare(data);
         settings["normativa"] = "NTC 2018"; settings["coefficienti"] = ConcreteStandards.Defaults("NTC 2018");
         foreach (var (k, v) in ConcreteCalculationSettings.CommonCoefficients) input[k] = settings["coefficienti"]![v]!.DeepClone();
         ConcreteCalculationSettings.Prepare(input, settings);

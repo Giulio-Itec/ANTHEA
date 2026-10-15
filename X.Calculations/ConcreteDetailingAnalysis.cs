@@ -67,6 +67,8 @@ public static class ConcreteDetailingAnalysis
             o.S("barre_trattenute") == "Confermato", o.S("ancoraggio_appoggi") == "Confermato")
         {
             // Coefficienti unitari del foglio c.a. del palo: fyd = fyk della norma effettiva (come TAG-2); senza, SezioneCA.Fyd come prima.
+            // Ripiego legittimo (fallbacks.json, ambito dettagli_durabilita): la chiave esiste solo nei fogli del palo (HorizontalSheetPresentation
+            // la completa a false); nei fogli della sezione c.a. manca per costruzione e false è il ripiego di ConcreteStandards.Effective.
             DesignYieldStrength = input.B("coefficienti_unitari") ? ConcreteMaterials.DesignValues(input, settings).Fyd : null
         };
         return new(n, durability, durabilityError, new ConcreteDetailingCalculator().Calculate(request))
