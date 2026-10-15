@@ -1,8 +1,11 @@
+// Spostato da X.Calculations/BridgeConcept.AdvancedDeck.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: impalcati delle tipologie estese
+// del motore precedente, usati solo dalle prove. Codice storico conservato per le prove, fuori dall'installer.
 using System.Text.Json.Nodes;
+using static Anthea.Calculations.BridgeConcept;
 
 namespace Anthea.Calculations;
 
-public static partial class BridgeConcept
+public static partial class LegacyBridgeConcept
 {
     private sealed record AdvancedDeck(double Slab, double Spacing, int Girders, double ConcreteArea, double SteelArea,
         double SteelMass, double Inertia, double Web, double Bottom, TechnicalItem[] Dimensions);

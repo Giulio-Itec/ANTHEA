@@ -35,7 +35,7 @@ internal static class BridgeTrafficChecks
             Check(!report.Contains("1,42") && !report.Contains("1.42"), "Report reconstructed gamma from changed UI data");
         }
         Check(BridgeConceptExport.Csv(result).Contains("Schema 1 NTC 2018"), "CSV dropped traffic provenance");
-        try { BridgeConcept.Calculate(data, legacy: true); throw new Exception("Diagnostic engine silently discarded Schema 1"); } catch (ArgumentException) { checks++; }
+        try { LegacyBridgeConcept.Calculate(data); throw new Exception("Diagnostic engine silently discarded Schema 1"); } catch (ArgumentException) { checks++; }
         data["input"]!["traffic_model"] = "unknown";
         try { BridgeConcept.Calculate(data); throw new Exception("Invalid traffic accepted"); } catch (ArgumentException) { checks++; }
         data["input"]!["traffic_model"] = 123;

@@ -20,7 +20,7 @@ internal static class F4BridgeChecks
             if (Normalize(actual) != 0) errors.Add(id + ": duplicate native stations");
             Compare(row["calculation"], actual, id); calculations++;
             Compare(JsonSerializer.SerializeToNode(BridgeConcept.SpanSchedule(BridgeConcept.Calculate(input))),
-                JsonSerializer.SerializeToNode(BridgeConcept.LegacySpanSchedule(BridgeConcept.Calculate(input, legacy: true))), id + "/span-schedule");
+                JsonSerializer.SerializeToNode(LegacyBridgeConcept.LegacySpanSchedule(LegacyBridgeConcept.Calculate(input))), id + "/span-schedule");
             if (row["options"] is not null)
             {
                 var options = row["options"]!.Deserialize<BridgeConcept.OptimizationOptions>()!;

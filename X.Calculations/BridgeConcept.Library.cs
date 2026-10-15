@@ -7,11 +7,7 @@ namespace Anthea.Calculations;
 // Archive/UI boundary only. Engineering rules, search and numerical validation belong to GPC.Design.
 public static partial class BridgeConcept
 {
-    public static Result Calculate(JsonObject data, bool legacy = false)
-    {
-        if (legacy && ReadTrafficModel(data) != TrafficModel.LegacyUniform) throw new ArgumentException("Il motore diagnostico precedente non supporta Schema 1.");
-        return legacy ? LegacyCalculate(data) : WithEnvironment(FromNative(NativeBridge.Calculate(NativeInput(data))), data);
-    }
+    public static Result Calculate(JsonObject data) => WithEnvironment(FromNative(NativeBridge.Calculate(NativeInput(data))), data);
     private static Result WithEnvironment(Result result, JsonObject data) => data["environment"] is null ? result
         : result with { EnvironmentRevision = Anthea.Serialization.BridgeEnvironmentData.Revision(WithAdvancedDefaults(data)) };
     public static (double[] Reactions, Station[] Stations) Analyze(double[] spans, double q, double ei, bool continuous)
