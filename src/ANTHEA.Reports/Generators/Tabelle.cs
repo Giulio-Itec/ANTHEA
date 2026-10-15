@@ -66,7 +66,7 @@ public static class Tabelle
         foreach(var (key,curve) in r["curve"]!.AsObject())
         {
             var branchMaps=new[]{"media","minima","progetto"}.ToDictionary(k=>k,k=>curve!.Array(k).ToDictionary(p=>p![0]!.GetValue<double>(),p=>p![1]!.GetValue<double>()));
-            var actions=r["azioni"]!.Array(key.Contains("trazione")?"trazione":"compressione").ToDictionary(p=>p![0]!.GetValue<double>(),p=>p![1]!.GetValue<double>());
+            var actions=(Calcolo.AzioniCurva(r,key)??new JsonArray()).ToDictionary(p=>p![0]!.GetValue<double>(),p=>p![1]!.GetValue<double>());
             Add(key.Replace('_',' ')+" — verifica a ogni quota",[axis,"Rd media [kN]","Rd minimo [kN]","Rd [kN]","Ed [kN]","Ed/Rd [-]"],details.Select(d=>
             {
                 double z=d.D("z"),rd=branchMaps["progetto"][z];bool present=actions.TryGetValue(z,out double ed);

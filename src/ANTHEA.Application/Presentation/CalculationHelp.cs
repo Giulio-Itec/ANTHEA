@@ -30,6 +30,7 @@ public static class CalculationHelp
         "sicurezza_laterale_compressione" => "Divisore γs della resistenza geotecnica laterale a compressione. È distinto dal γs delle armature e dai coefficienti ξ di correlazione delle indagini.",
         "sicurezza_laterale_trazione" => "Divisore γt della resistenza geotecnica laterale a trazione. Il contributo resistente della punta a trazione è nullo.",
         "sicurezza_base" => "Divisore γb della resistenza geotecnica di punta. Non modifica la resistenza laterale né le azioni di progetto.",
+        "considera_sottospinta" => "Riduce il peso del palo sotto falda (W′ = W − γw A (z − zf)) nelle azioni a compressione drenate; disattivata il peso resta intero, a favore di sicurezza. " + Calcolo.RegoleSottospinta,
         "azione_compressione" or "azione_trazione" => "Modulo positivo dell’azione assiale di progetto, già combinata. Il peso proprio del palo è gestito separatamente dal motore con i coefficienti favorevole/sfavorevole.",
         "pressione_iniezione" => "Pressione in MPa utilizzata nell’abaco Bustamante–Doix secondo la convenzione p_i = p_l adottata dal modulo. I valori fuori dall’intervallo documentato vengono rifiutati.",
         "inizio_aderenza" => "Distanza lungo l’asse del micropalo dall’origine al primo tratto aderente. Gli spessori degli strati sono invece verticali e vengono convertiti usando l’inclinazione.",

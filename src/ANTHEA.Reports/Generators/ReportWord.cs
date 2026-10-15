@@ -81,13 +81,13 @@ public static class ReportWord
         {
             body.Add(P("Criteri e unità",true));body.Add(P("Lunghezze m; forze kN; tensioni e aderenze kPa; pesi specifici kN/m³. I valori arrotondati sono solo di presentazione. I minimi dei contributi laterale e di punta sono valutati separatamente."));
             body.Add(P("Rd,c = ηc min[Rb,media/(ξ3 γb) + Rs,media/(ξ3 γs,c); Rb,min/(ξ4 γb) + Rs,min/(ξ4 γs,c)]. Rd,t = ηt min[Rs,media/(ξ3 γs,t); Rs,min/(ξ4 γs,t)]."));
-            body.Add(P(micro?"Rs = Σπ (Db α) Δs s_aderenza. Coordinate lungo asse s; z=s cosθ. Il peso proprio è proiettato sull'asse. Rb è la percentuale selezionata di Rs.":"Rd drenata: Rb,calc = Ab σ′v Nq; Rs = ΣπD Δz (c′ + k μ σ′media). Non drenata coesiva sotto falda: τ=α Cu e Rb,calc = Ab (Nc Cu + σv,L totale), formulazione lorda richiesta il 16/09/2026. Sopra falda si usa il ramo drenato. La sottospinta agisce separatamente sul peso nelle azioni."));
+            body.Add(P(micro?"Rs = Σπ (Db α) Δs s_aderenza. Coordinate lungo asse s; z=s cosθ. Il peso proprio è proiettato sull'asse. Rb è la percentuale selezionata di Rs.":"Rd drenata: Rb,calc = Ab σ′v Nq; Rs = ΣπD Δz (c′ + k μ σ′media). Non drenata coesiva sotto falda: τ=α Cu e Rb,calc = Ab (Nc Cu + σv,L totale), formulazione lorda richiesta il 16/09/2026. Sopra falda si usa il ramo drenato. "+Calcolo.RegoleSottospinta));
         }
         if(options.Contains("risultati"))
         {
             var rows=new List<string[]>();foreach(var (name,c) in result["curve"]!.AsObject())
             {
-                var last=c!.Array("progetto")[^1]!;var action=result["azioni"]!.Array(name.Contains("trazione")?"trazione":"compressione").LastOrDefault();double rd=last[1]!.GetValue<double>();double? ed=J.Number(action?[1]);
+                var last=c!.Array("progetto")[^1]!;var action=Calcolo.AzioniCurva(result,name)?.LastOrDefault();double rd=last[1]!.GetValue<double>();double? ed=J.Number(action?[1]);
                 string esito=!result.B("copertura_completa")?"Verifica incompleta: stratigrafia insufficiente":!ed.HasValue?"Azione non inserita":ed<=rd?"Verifica soddisfatta":"Verifica non soddisfatta";
                 rows.Add([name.Replace('_',' '),Tabelle.F(last[0]),Tabelle.F(rd),ed.HasValue?Tabelle.F(ed.Value):"—",esito]);
             }
