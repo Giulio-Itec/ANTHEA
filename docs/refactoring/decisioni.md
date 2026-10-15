@@ -1202,3 +1202,122 @@ F3 con 7214 differenze tutte nella previsione).
   1.8.0…»; la Rev45 toglie il numero dalla frase, così non va cambiata a ogni versione (registro F4-50).
 - **Attuazione di D4 e D5** (15/10): full conforme `20261015-105444-f4-full-190` (140 PASS, 0 NEW-FAIL), installer
   1.9.0 da `a46e91fb`, F4 chiusa con il [verbale](chiusura-f4-20261015.md); merge, tag e push come da D5.
+
+## 15 ottobre — residui di F2, decisioni E1–E8
+
+Proposte del [foglio dei residui di F2](f2-residui-decisioni.md), preparato dopo la chiusura di F4 sul ramo
+`refactoring/f2-residui`. Lo stesso giorno, prima del foglio, l'utente ha deciso R1, R2 e il punto 3 di F2-7; poi ha
+approvato tutte le proposte del foglio: «E1–E8 come nel foglio». Ha risposto a parte su due punti: i muri (E1-D4) e le
+superfici interne delle sezioni cave.
+
+- **R1 e R2** «Correggi su fonti secondarie» (alla domanda: testi delle norme non disponibili). Si correggono τbms e β per
+  stadi del fib MC2010 (Tab. 7.6-2) e kt della DIN secondo la durata, come nel rapporto
+  `supporto/artefatti/refactoring/ricerca-a/rapporto.md` §6.7, con certezza dichiarata «probabile».
+  - In libreria sono opzioni di `SectionCrackOptions` spente per default: il contratto K0 di ModelChecker non cambia.
+  - L'adattatore SLE di ANTHEA le attiva. Le prove di equivalenza con il motore storico girano con le regole precedenti
+    (aggancio di sola prova `PreviousCrackRules`).
+  - Distribuite con la release Y: GPCChecker.Concrete 0.10.0.0, Checker master `6f15f185`, ANTHEA `2257e991`.
+  - Registro R1 e R2, attuate.
+- **F2-7 punto 3**, zona tesa senza armatura: «Non soddisfatta», sull'esempio della R300x500 armata solo in basso.
+  - Con le barre tutte compresse, o con una faccia tesa senza barre, la verifica a fessurazione è non soddisfatta, con il
+    motivo.
+  - Con l'asse neutro nel copriferro e nessuna barra tesa la sezione non fessura: wk = 0, come prima.
+  - Il calcestruzzo teso non entra nella verifica wk (domanda dell'utente: «dovrebbe reagire a trazione il cls???»).
+  - Registro F2-25 e nota in F2-7; distribuito con la release Y.
+- **Superfici interne delle sezioni cave**, estensione di F2-25 decisa dall'agente: 33 stati della griglia, con le pareti
+  interne tese e senza barre vicino al foro. Confermata la verifica **non soddisfatta**, come per la zona tesa esterna.
+  Scartata l'alternativa: superfici interne senza esito.
+- **E1**, ratifiche a comportamento invariato: «come nel foglio».
+  - F2-1 con T-1: taglio e torsione della libreria con differenze nelle ultime cifre (tolleranza 1e-9). Con VEd = VRd e
+    senza staffe l'esito può cambiare per 1 ulp; nessuna tolleranza sul verdetto.
+  - F2-3: la torsione senza staffe chiuse resta un rifiuto, con il messaggio del legacy.
+  - F2-4: limiti propri della libreria non raggiungibili dal modulo (torsione oltre C90/105, CNR-DT): nessuna azione.
+  - B3: quattro casi di taglio e torsione nel corpus, baseline catturata con il legacy.
+  - A7 e T1: i commit dedicati delle tolleranze sono sostituiti dalle regole `api_arrotondamento` di `1b3c38f1`
+    (relative 1e-12, più strette di quelle previste).
+  - D7 / B4: la B4 attuale sostituisce il corpus SLE del micro-piano. Ha 17 documenti, catturati con i due motori dopo
+    l'interruttore; con la corsa baseline del 15/10 contro B4 (`20261015-124031-f2res-b4`).
+  - F2.7-D1…D12, scelte del progetto F2.7 rivisto (`supporto/artefatti/refactoring/f27-f28-progetto/F27-progetto-rivisto.md`,
+    §2), trascritte qui come chiedeva l'audit del 14/10:
+
+    | Decisione | Scelta del progetto | Esito |
+    | --- | --- | --- |
+    | F2.7-D1 Traccia | Chiavi stabili in libreria; la mappatura restituisce simboli, espressioni e note del legacy (K3) | Ratificata il 14/10 (punto 4b) |
+    | F2.7-D2 Getti sottili | Regola per profilo in libreria, con i valori di allora (NTC 2018 → 0,8, altri → 1) | Superata da U3: 0,8 anche con UNI/DM 2012 (R22) |
+    | F2.7-D3 SteelStressLimit | Limite dell'acciaio per ogni stato, JSON invariato (K1) | Attuata |
+    | F2.7-D4 «Non fessurata» dei muri | Resta nel modulo muri fino a F4.7 | Superata da E1-D4 (sotto) |
+    | F2.7-D5 BarSpacing della sezione NTC interamente tesa | Difetto conservato con un'opzione legacy nominata | Superata da U1: corretto |
+    | F2.7-D6 Omogeneizzazione | In GPCChecker.Concrete, con il comportamento di allora anche per φ < 0 (K4) | Superata da U5: φ < 0 rifiutato |
+    | F2.7-D7 Baseline | B4 con il corpus SLE e la cattura del progetto armature (A6) | Superata dalla B4 attuale (punto D7 / B4) |
+    | F2.7-D8 Interruttori | Uno solo (A8) | Superata da 3b (libreria predefinita) e da D3 (motore storico fuori dal prodotto) |
+    | F2.7-D9 R5 | Non si anticipa | Attuata: R5 in F5.15 |
+    | F2.7-D10 R1, R2, a4 | Fuori da F2.7 | Attuata: R1 e R2 decise a parte il 15/10 (sopra) |
+    | F2.7-D11 Array statici | F2.7c, dopo il merge del tema | Attuata con A12 (14/10) |
+    | F2.7-D12 Validazioni | Al punto d'uso, attivate da un'opzione (K2): ModelChecker invariato | Attuata |
+- **E1-D4, muri**: l'utente sceglie la proposta. La faccia tesa del fusto o della fondazione senza barre dà la verifica a
+  fessurazione **non soddisfatta**, come nelle sezioni, senza la prova di sezione non fessurata con fctk,0,05 di
+  `WallSectionSession`. Si attua nella release delle correzioni dei bug: Checker `8d547829` sul ramo di integrazione
+  `anthea-bug-1015`, parte ANTHEA sul ramo `refactoring/bug-1015-geo`.
+- **E2**, traccia del calcolo a taglio NTC (F2-2): rinviata alla revisione dei report, in coda dopo il refactoring
+  (decisione del 14/10, punto 4c-1: «per ora però prendi i report per come sono»). Con R1 e R2 attuate, il punto
+  F2.3b-tracce si chiude così.
+- **E3**, chiusura di F2.8 (dettagli, ancoraggi, aderenza, M–χ).
+  - Al posto di B1–B3, T1 e I1–I3 si accettano le prove di equivalenza già misurate:
+    - confronto denso del riuso API: ancoraggi 468/468 e aderenza 1918/1918 identici, dettagli e M–χ entro 1e-12;
+    - controllo delle chiamate reali alla DLL e 266 casi congelati;
+    - catture prima e dopo D3 uguali e full del 15/10.
+  - Nel registro la voce F2-9 rimanda ad API-01, invece di ricostruire le voci F2-9…F2-12 previste dal micro-piano.
+  - Alle suite di ANTHEA si aggiungono gli attesi indipendenti delle pagine dei metodi che mancano: ancoraggi (AN-01/02,
+    SO-01/02), dettagli (As,min, As,max, Ast/s) e M–χ.
+  - F2.8-D1…D12, scelte del progetto F2.8 rivisto (`F28-progetto-rivisto.md`, §2), trascritte e ratificate:
+
+    | Decisione | Scelta del progetto | Esito |
+    | --- | --- | --- |
+    | F2.8-D1 Ordine e release | Dopo F2.7, una sola release S3 per la libreria di F2.7 e F2.8 | Attuata (S3, 8/10) |
+    | F2.8-D2 Muri | Ancoraggi dei muri dall'adattatore di F2.8, con l'interruttore I1 | Superata: libreria senza interruttore (3a, 14/10), poi D3 |
+    | F2.8-D3 Tetto R10 | Tetto C60/75 di fctk,0,05 a richiesta; muri senza tetto fino a F5.15 | Resta (F2.8-U3) |
+    | F2.8-D4 Soletta e parete | Solo NTC; gli altri profili rifiutati con il motivo | Attuata (L1) |
+    | F2.8-D5 Unità del M–χ | Unità del chiamante, tolleranza 1e-9 | Attuata (L3) |
+    | F2.8-D6 Deformazioni del M–χ | Dal `CheckerStressState` | Attuata (L3) |
+    | F2.8-D7 Punto limite del M–χ | Valutato in modo pigro al passo limite | Attuata (L3) |
+    | F2.8-D8 Testi | La mappatura restituisce i testi del legacy | Attuata |
+    | F2.8-D9 Ambito delle norme | Come allora: dettagli e ancoraggi solo NTC, M–χ con tutte le norme | Attuata |
+    | F2.8-D10 Baseline | B4 unica per F2.7 e F2.8, altrimenti B5 | Superata dalla B4 attuale (E1) |
+    | F2.8-D11 Rifiuti nuovi | Accettati solo se misurati non raggiungibili; LinkLegs < 0 conservato con l'opzione legacy | Superata: LinkLegs < 0 rifiutato (F2.8-U2, registro F2-21) |
+    | F2.8-D12 Release e push | Dalla sessione del coordinatore, mai dai workflow | Attuata |
+- **E4**, F2.10, accettazione dell'equivalenza.
+  - Accettata l'equivalenza di F2 sul full conforme del 15/10 (`20261015-105444-f4-full-190`, 140 PASS), sulle catture
+    prima e dopo D3 e sulla corsa baseline contro B4 del 15/10.
+  - Ratificato il rinvio di R16–R21 a F5.15, esteso dal coordinatore il 7/10.
+  - Registro allineato: D7-e e D7-f attuate; F2-13 e F2-14 ratificate con 4b; percorsi di codice spostati da D3, F3 e F4.
+- **E5**, F2.11c dopo D3.
+  - Si spostano in `tests/` i membri usati solo dalle prove, con cattura prima e dopo: `TensionBarSpacing`,
+    `SectionRegions.Clip/Area/Region`, `RetainingWall.SoilMass` e `ValleyBand`, `ConcreteReinforcementDesign.SearchIndices`,
+    `Durability.ValidateExposure` e due interfacce senza utilizzatori.
+  - C.a.: array e dizionari statici pubblici resi immutabili, come in A12. `JsonFallbackHook.Observer`, aggancio di sola
+    prova pubblico e globale, diventa interno e per contesto.
+  - Il resto dello stato statico (ponte, muri, pali, fondazioni, Wiki) va in F5.13, che chiede già calcoli in parallelo
+    senza stato statico.
+  - Lock: punto chiuso. Nessun lock globale sul calcolo; restano i lock di istanza, quelli dei font PDF e quello del
+    registro degli errori.
+- **E6**, F2.12: chiusa con D3 (F4-49).
+  - Il solutore legacy a fibre è in `tests/ANTHEA.Legacy/Section`; i 90 casi di `X.Verifiche` girano ancora contro di esso.
+  - L'oracolo Python `tools/attesi/sezione_ca.py` (464 casi) è conservato. `sezione_ca.py --valida` e `--confronta`
+    vanno nello stadio fast del runner.
+  - Il confronto dei 90 casi fra libreria e Python si fa dopo il refactoring.
+- **E7**, F2.13, registri di migrazione.
+  - Voce «M4 (c.a.)» in `Checker/docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt` (Checker `14673564`) e riga in
+    `Model/CHECKER_PASSO_4.txt` (Model `2ebc01e2`), che diceva ancora «ANTHEA non usa ancora le nuove API». Fatte il 15/10
+    sui rami di integrazione delle correzioni (Checker `anthea-bug-1015`, Model `bugint-model`): si uniscono con la
+    prossima release.
+  - Nessuna `SCHEDA_SCOSTAMENTI_FESSURAZIONE.txt`: la sostituisce il registro delle differenze.
+  - `AGENTS.md`: la regola sul motore legacy segue D3. Il motore legacy non si elimina: si sposta in `tests/ANTHEA.Legacy`.
+  - Ratificato F2.3 [CP]: API e versioni sono distribuite dai set S, T e X.
+- **E8**, STG-4 e SEZ-3b fuori da F2. Il confronto numerico per fase sul ponte reale e la sezione variabile per fase non
+  dipendono dal refactoring: oggi MIDAS restituisce tabelle per fase vuote. Passano nella traccia del modulo Modelli, da
+  riprendere quando ci sarà un modello MIDAS con i risultati per fase.
+- **Rettifica di F2-17**, dall'[analisi dei bug](analisi-bug-20261015.md) del 15/10 (SLU-2). L'opzione B della voce diceva
+  che con N costante ed eccentricità costante la libreria trova sempre un punto convergente: è falso. Con N costante non
+  c'è punto per una domanda a momento nullo né con N fuori da [NRd,c; NRd,t]. La decisione dell'11/10 (opzione A, solo la
+  libreria) non cambia. La correzione è nella libreria, con esiti tipizzati (GPCChecker.Concrete 0.11.0.0, nella prossima
+  release). Registro F2-17.
