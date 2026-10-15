@@ -388,26 +388,6 @@ public sealed class CheckerDomain2D
     }
     public ActionPoint LocalAction(ActionPoint action) => CheckerSection.Point(Section.Force(action));
     public double[] Project(ActionPoint local) => NM ? [SignedMoment(local), local.N] : [local.Mx, local.My];
-    /// <summary>
-    /// Punto del grafico dell'azione locale <paramref name="local"/>: quello che <see cref="Check"/> verifica. Nel piano N–M, con «proietta» e
-    /// un'azione fuori dal meridiano di θ, la sua proiezione Mθ = Mx cos θ + My sin θ con N invariato (seguito di SLU-1, 16/10/2026: prima il grafico
-    /// disegnava sign(Mx)·√(Mx² + My²), un punto non verificato e, con Mx di segno opposto a Mθ, dall'altra parte del grafico). Negli altri casi
-    /// come <see cref="Project"/>: un'azione nel piano (entro la tolleranza di <see cref="Check"/>) resta dov'era, bit per bit; nel piano Mx–My
-    /// la proiezione cambia solo N, che il grafico non mostra.
-    /// </summary>
-    public double[] ProjectAction(ActionPoint local) => Project(NM && !InPlane(local) && Projects ? OnMeridian(local) : local);
-    private bool Projects => Section.Options.S("proietta") == "Sì";
-    private bool InPlane(ActionPoint local) => NM
-        ? Math.Abs(-local.Mx * Math.Sin(localTheta) + local.My * Math.Cos(localTheta)) < 1e-6 * Math.Max(1, double.Hypot(local.Mx, local.My))
-        : Math.Abs(local.N - Axial) < 1e-6;
-    /// <summary>Componente del momento sul meridiano di θ, Mθ = Mx cos θ + My sin θ (assi locali).</summary>
-    private double MeridianMoment(ActionPoint local) => local.Mx * Math.Cos(localTheta) + local.My * Math.Sin(localTheta);
-    /// <summary>Azione locale proiettata sul meridiano di θ: N invariato, momento Mθ nella direzione θ.</summary>
-    private ActionPoint OnMeridian(ActionPoint local)
-    {
-        double m = MeridianMoment(local);
-        return new(local.N, m * Math.Cos(localTheta), m * Math.Sin(localTheta));
-    }
     private double SignedMoment(ActionPoint p)
     {
         // FailureDomain2d.DomainPoints2dAssociation (SLU-1 del 15/10/2026) prende il segno dalla proiezione sull'asse del meridiano, MomentAxis in
@@ -418,17 +398,16 @@ public sealed class CheckerDomain2D
     public DomainCheck Check(ActionPoint action)
     {
         var force = Section.Force(action); var local = CheckerSection.Point(force);
-        bool inPlane = InPlane(local);
-        bool project = Projects;
+        bool inPlane = NM ? Math.Abs(-local.Mx * Math.Sin(localTheta) + local.My * Math.Cos(localTheta)) < 1e-6 * Math.Max(1, double.Hypot(local.Mx, local.My)) : Math.Abs(local.N - Axial) < 1e-6;
+        bool project = Section.Options.S("proietta") == "Sì";
         if (!inPlane && !project) return new(null, null, "Fuori dal piano selezionato");
         if (NM)
         {
-            double m = MeridianMoment(local);
+            double m = local.Mx * Math.Cos(localTheta) + local.My * Math.Sin(localTheta);
             // The library expects N and the signed 2D moment in M1, as in CheckerUI.Force2d.
             double sign = Math.Abs(Math.Cos(localTheta)) > 1e-8 ? Math.Sign(Math.Cos(localTheta)) : Math.Sign(Math.Sin(localTheta));
             force = new ResultBeamForces(local.N * 1000, 0, 0, 0, m * sign * 1e6, 0, Section.Local, 1);
-            // Lo stesso punto che il grafico disegna con ProjectAction (azione fuori piano con «proietta»).
-            local = OnMeridian(local);
+            local = new(local.N, m * Math.Cos(localTheta), m * Math.Sin(localTheta));
         }
         else { force = new ResultBeamForces(Axial * 1000, 0, 0, 0, force.M1, force.M2, Section.Local, 1); local = local with { N = Axial }; }
         Native.ClearForces(); var p = Native.AddForce(force);
@@ -438,6 +417,7 @@ public sealed class CheckerDomain2D
         var comparable = new ResultBeamForces(local.N * 1000, 0, 0, 0, local.Mx * 1e6, local.My * 1e6, Section.Local);
         var check = CheckerDomain3D.Outcome(point.CalculateWorkingRatio(NM ? SectionSolver.FailureAnalysisTypes.ConstantEccentricity : SectionSolver.FailureAnalysisTypes.ConstantN, comparable, 1e6, 1000), CheckerSection.Point(point));
         check = check with { Response = Section.Describe(point), LimitState = new(() => Section.LimitState(point)) };
-        return !inPlane && project ? check with { Status = check.Status + " · azione proiettata" } : check;
+        // Con la proiezione anche l'azione verificata, che il grafico disegna al posto dell'azione intera (seguito di SLU-1, 16/10/2026).
+        return !inPlane && project ? check with { Status = check.Status + " · azione proiettata", ProjectedAction = local } : check;
     }
 }
