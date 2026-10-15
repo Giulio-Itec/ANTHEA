@@ -110,6 +110,7 @@ public static class ReportOrizzontale
             P($"Efficienza: {efficiency.S("metodo")}; η = {efficiency.D("eta"):0.000}. Rd = η · Rk / γR.");
             if (includeInputs && efficiency.S("metodo") != "Manuale")
             {
+                P(PaloOrizzontale.ReeseVanImpeRule);
                 Parameters("Interassi rispetto alla direzione di H", input["verifica"]!,
                     [("interasse_anteriore", "Anteriore [m]"), ("interasse_posteriore", "Posteriore [m]"), ("interasse_sinistro", "Sinistro [m]"), ("interasse_destro", "Destro [m]")]);
                 foreach (var coefficient in efficiency.Where(p => p.Key is not ("metodo" or "eta")))
