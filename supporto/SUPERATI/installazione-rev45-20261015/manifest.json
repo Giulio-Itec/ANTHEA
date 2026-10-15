@@ -1,0 +1,114 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/docs/guida-pratica-anthea.md",
+    "sha256": "88ebdad1bf6da19c9c25c2fdecae70d5f8df36412abe612d26120f1cf26dde8e",
+    "motivo": "Sostituita dalla revisione 45 (frase d'installazione senza numero di versione, decisione dell'utente del 15/10/2026)",
+    "sostituzione": "Guide globali Rev45"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "f0d871df5d3920a82a601bfc0cfa090411e0041f54f5e504bd7f11bd95503d71",
+    "motivo": "Sostituita dalla revisione 45 (frase d'installazione senza numero di versione, decisione dell'utente del 15/10/2026)",
+    "sostituzione": "Guide globali Rev45"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/docs/guida-teorica-anthea.md",
+    "sha256": "34f87883bf904e862fda8ff7195c5a887f9c9a8504c14ad58b2e4b87b3dd2cde",
+    "motivo": "Sostituita dalla revisione 45 (frase d'installazione senza numero di versione, decisione dell'utente del 15/10/2026)",
+    "sostituzione": "Guide globali Rev45"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "a71391e9ec78f7a45094d22b835fa756fe840b87c248f32fea848373be7ba55a",
+    "motivo": "Sostituita dalla revisione 45 (frase d'installazione senza numero di versione, decisione dell'utente del 15/10/2026)",
+    "sostituzione": "Guide globali Rev45"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "0d8b9dc7066e36cbd512eb51dd0da5affa8329b227052e382574ba89c2b91c7f",
+    "motivo": "Indice e documentazione aggiornati per la revisione 45",
+    "sostituzione": "Revisione 45 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "6c74174910c954887b22aa19befbbffe0548595620aa882ce8afaf9a2c3efc33",
+    "motivo": "Indice e documentazione aggiornati per la revisione 45",
+    "sostituzione": "Revisione 45 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/README.md",
+    "sha256": "2aa2a8d76aece6262e4d55aaef7d7f897898d9d0eb2ba0bd0891b734683366ec",
+    "motivo": "Indice e documentazione aggiornati per la revisione 45",
+    "sostituzione": "Revisione 45 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/README.pdf",
+    "sha256": "e6f64cde709ac3869734013eda9f53142d5c4f85357bfa1d9c068b8da496dae1",
+    "motivo": "Indice e documentazione aggiornati per la revisione 45",
+    "sostituzione": "Revisione 45 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/installer/README.md",
+    "sha256": "a318ac0aabab65e2add3b3673ea3e01886625183728a1c3e0f15ff4dde8e096c",
+    "motivo": "Indice e documentazione aggiornati per la revisione 45",
+    "sostituzione": "Revisione 45 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/installer/README.pdf",
+    "sha256": "6b1b31c1f3d38f8c65178600d931b45f167d04ab05ee70192d2ff7e1c4b16f51",
+    "motivo": "Indice e documentazione aggiornati per la revisione 45",
+    "sostituzione": "Revisione 45 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/installer/Indice-guide.md",
+    "sha256": "992394b2e26d0af49bd62d2879d4ac3c80019c05f1158e45483d05f1ebd84339",
+    "motivo": "Indice e documentazione aggiornati per la revisione 45",
+    "sostituzione": "Revisione 45 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/installer/Indice-guide.pdf",
+    "sha256": "512337f13973efedf6ec85268cf7b09e890dc55b5075717fc13bf955d61b3387",
+    "motivo": "Indice e documentazione aggiornati per la revisione 45",
+    "sostituzione": "Revisione 45 del documento allo stesso percorso"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev44.docx",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev44.docx",
+    "sha256": "82d3d6d94b00a7eecc2d558bcb6defd663cfb8f4dba772460406910d2056faaa",
+    "motivo": "Sostituita dalla revisione 45 (frase d'installazione senza numero di versione, decisione dell'utente del 15/10/2026)",
+    "sostituzione": "Guide globali Rev45"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev44.pdf",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev44.pdf",
+    "sha256": "f0d871df5d3920a82a601bfc0cfa090411e0041f54f5e504bd7f11bd95503d71",
+    "motivo": "Sostituita dalla revisione 45 (frase d'installazione senza numero di versione, decisione dell'utente del 15/10/2026)",
+    "sostituzione": "Guide globali Rev45"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev44.docx",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev44.docx",
+    "sha256": "bd76c2a7ca2815bc01ac521882625b140e56c749b586e644223eee3905c789c8",
+    "motivo": "Sostituita dalla revisione 45 (frase d'installazione senza numero di versione, decisione dell'utente del 15/10/2026)",
+    "sostituzione": "Guide globali Rev45"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev44.pdf",
+    "archivio": "supporto/SUPERATI/installazione-rev45-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev44.pdf",
+    "sha256": "a71391e9ec78f7a45094d22b835fa756fe840b87c248f32fea848373be7ba55a",
+    "motivo": "Sostituita dalla revisione 45 (frase d'installazione senza numero di versione, decisione dell'utente del 15/10/2026)",
+    "sostituzione": "Guide globali Rev45"
+  }
+]
