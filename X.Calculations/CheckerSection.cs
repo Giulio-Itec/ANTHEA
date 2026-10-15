@@ -73,9 +73,14 @@ public sealed partial class CheckerSection
     /// <summary>Sessione della porta della libreria per il punto resistente SLU (<see cref="ConcreteResistanceAdapter"/>: dominio 3D, resistenza
     /// a N assegnato e progetto delle armature): una sola per sezione, creata al primo uso.</summary>
     internal ISectionResistanceSolver ResistanceSolver => resistanceSolver.Value;
-    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU")
-        : this(PrepareModel(input, workspace), input, workspace, options, state) { }
-    public CheckerSection(CheckerSectionModel model, JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU")
+    /// <param name="responseConcreteTension">Calcestruzzo teso delle sole analisi tensionali non lineari (SectionOptions.StressAnalysisConcreteTension
+    /// della libreria, 16/10/2026): lo passa soltanto il M–χ (<see cref="ConcreteCurvatureAnalysis"/>, «CLS teso nelle risposte»); le verifiche
+    /// SLE e SLU usano il predefinito. Il dominio, le resistenze e le analisi lineari non lo leggono.</param>
+    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU",
+        ConcreteMaterial.TensionResponseDiagrams responseConcreteTension = ConcreteMaterial.TensionResponseDiagrams.Default)
+        : this(PrepareModel(input, workspace), input, workspace, options, state, responseConcreteTension) { }
+    public CheckerSection(CheckerSectionModel model, JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU",
+        ConcreteMaterial.TensionResponseDiagrams responseConcreteTension = ConcreteMaterial.TensionResponseDiagrams.Default)
     {
         resistanceSolver = new(() => new LegacySectionCalculation(Checker));
         Model = model; Options = (JsonObject)options.DeepClone(); Geometry = model.Geometry; Section = model.Section; Local = model.Local;
@@ -108,6 +113,8 @@ public sealed partial class CheckerSection
             },
             options.S("modello", "Non lineare") == "Lineare" ? SectionSolver.StressAnalysisTypes.Linear : SectionSolver.StressAnalysisTypes.NonLinear,
             Nonnegative("phi"), workspace.Array("trefoli").Count > 0 ? Nonnegative("phi_trefoli") : 0, tensile, subdivisions);
+        // Opzione assegnata solo se diversa dal predefinito: senza di essa le opzioni restano quelle di prima, campo per campo.
+        if (responseConcreteTension != ConcreteMaterial.TensionResponseDiagrams.Default) settings.StressAnalysisConcreteTension = responseConcreteTension;
         // GPC owns the per-section mesh cache lock; independent checker instances may be constructed concurrently.
         // Captured usual meshes and serial/parallel stress states are bit-identical (F2 point 4).
         Checker = new SectionCheckerModelCode2010(new SectionCheckerAttribute(Section, null, null), settings, standard, tensile);

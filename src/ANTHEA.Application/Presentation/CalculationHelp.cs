@@ -40,6 +40,7 @@ public static class CalculationHelp
         "gamma_acqua" => "Peso unitario dell’acqua γw, in kN/m³ (9,81 se assente). Sotto falda Broms, Stratificato e modello elastico usano γ′ = γsat − γw con questo valore; γsat deve superarlo.",
         "mobilization" => RetainingWall.MobilizationHelp,
         "cls_teso_nl" => BridgeSection.ConcreteTensionHelp,
+        ConcreteCurvatureAnalysis.ResponseConcreteTensionKey => ConcreteCurvatureAnalysis.ResponseConcreteTensionHelp,
         "origine_momento" => "La scelta automatica usa la sezione e i materiali inseriti. Con momento manuale indicare valore e provenienza: la verifica geotecnica non lo ricava dalla geometria della sezione.",
         _ => null
     };

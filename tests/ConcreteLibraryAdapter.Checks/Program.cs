@@ -590,6 +590,8 @@ try
     Check(Correzioni20261015.Run(Check) > 0, "4b: nessun controllo delle correzioni del 15/10");
     // ---------------------------------------------------------------- 4c. integrazione c.a. delle correzioni delle librerie del 15/10/2026 (CorrezioniCa20261015.cs)
     Check(CorrezioniCa20261015.Run(Check) > 0, "4c: nessun controllo dell'integrazione c.a. delle correzioni del 15/10");
+    // ---------------------------------------------------------------- 4d. «CLS teso nelle risposte» del M–χ, 16/10/2026 (ClsTesoRisposte.cs)
+    Check(ClsTesoRisposte.Run(Check) > 0, "4d: nessun controllo di «CLS teso nelle risposte»");
     // ---------------------------------------------------------------- 13. attesi delle pagine dei metodi (F2.8, E3): MethodPages.cs
     MethodPageChecks.Run(root, PageCheck);
 

@@ -19,6 +19,7 @@ internal static class ConcreteEditorChecks
         Independent(() => ConcreteEditor.SharedSleFields, SectionWorkspace.SharedSleFields);
         Independent(() => ConcreteEditor.Standards, ConcreteStandards.OrdinaryNames);
         Independent(() => ConcreteEditor.ResistanceCriteria, CheckerSection.Criteria);
+        Independent(() => ConcreteEditor.ResponseConcreteTensionModes, ConcreteCurvatureAnalysis.ResponseConcreteTensionModes);
         Independent(() => ConcreteEditor.Coefficients, ConcreteStandards.Coefficients);
         Independent(() => ConcreteEditor.CommonCoefficients, ConcreteCalculationSettings.CommonCoefficients);
         Independent(() => ConcreteEditor.DesignTargets, ConcreteReinforcementDesign.Targets);
