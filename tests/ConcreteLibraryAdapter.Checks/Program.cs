@@ -582,6 +582,8 @@ try
 
     // ---------------------------------------------------------------- 4b. correzioni dell'analisi dei bug del 15/10/2026 (Correzioni20261015.cs)
     Check(Correzioni20261015.Run(Check) > 0, "4b: nessun controllo delle correzioni del 15/10");
+    // ---------------------------------------------------------------- 4c. integrazione c.a. delle correzioni delle librerie del 15/10/2026 (CorrezioniCa20261015.cs)
+    Check(CorrezioniCa20261015.Run(Check) > 0, "4c: nessun controllo dell'integrazione c.a. delle correzioni del 15/10");
 
     if (quick)
     {

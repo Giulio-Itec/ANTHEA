@@ -399,14 +399,6 @@
       "File": "X.Calculations/CheckerSection.cs",
       "Rule": "R1-math",
       "Owner": "CheckerSection.Domain2D",
-      "Fingerprint": "3F572D2AC5F211ECCC6CCB3B4310ACE97CB4A357945C72723A67DBE4A17C1E18",
-      "Count": 1,
-      "Example": "Math . Sin ( 2 * theta )"
-    },
-    {
-      "File": "X.Calculations/CheckerSection.cs",
-      "Rule": "R1-math",
-      "Owner": "CheckerSection.Domain2D",
       "Fingerprint": "C2F0662F0A4AF10D817443909B56125F312E932941008E0D6A34D3D33173E625",
       "Count": 1,
       "Example": "Math . Sin ( theta )"

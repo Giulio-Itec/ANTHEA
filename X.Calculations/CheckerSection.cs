@@ -160,17 +160,14 @@ public sealed partial class CheckerSection
         token.ThrowIfCancellationRequested();
         bool nm = Options.S("tipo") == "N–M";
         double theta = N("theta") * Math.PI / 180, axial = N("N");
-        FailureDomainResult2d result;
-        // CheckerUI CalcDomain2d: direct meridian for the local principal directions; otherwise library section of 3D domain.
-        if (nm && Math.Abs(Math.Sin(2 * theta)) < 1e-10 && Options.S("assi", "Locali") == "Locali")
-            result = Checker.SectionCheckerOptions.FailureDomainType == SectionSolver.FailureDomainTypes.Plastic
-                ? Checker.SectionSolver.GetPlasticFailureDomainResult2d(theta) : Checker.SectionSolver.GetElasticFailureDomainResult2d(theta);
-        else
-        {
-            var d = Checker.GetFailureDomainResult();
-            result = nm ? d.CalculateDomainConstantMomentsRatio(Force(new(0, Math.Cos(theta), Math.Sin(theta))))
-                : d.CalculateDomainConstantAxialForce(Force(new(axial, 0, 0)));
-        }
+        // N–M: sempre il meridiano della direzione del momento della libreria (CalculateDomainConstantMomentsRatio), per ogni θ e ogni sistema di
+        // assi, SLU (plastico) e SLV (elastico): le resistenze hanno il momento nel piano θ (SLU-1 del 15/10/2026). Prima, a θ multiplo di 90° in
+        // assi locali, si usava come nel CheckerUI il meridiano dell'asse neutro fisso (GetPlastic/ElasticFailureDomainResult2d): nelle sezioni non
+        // simmetriche rispetto al piano di flessione ha un momento trasversale (fino a 42 kNm nella 2Ø16/3Ø20 a θ = 90°) e la sua sezione N–M
+        // sovrastimava la resistenza di circa il 5%. Mx–My a N costante: sezione del dominio 3D, invariata.
+        var d = Checker.GetFailureDomainResult();
+        FailureDomainResult2d result = nm ? d.CalculateDomainConstantMomentsRatio(Force(new(0, Math.Cos(theta), Math.Sin(theta))))
+            : d.CalculateDomainConstantAxialForce(Force(new(axial, 0, 0)));
         token.ThrowIfCancellationRequested();
         if (result?.Domain?.DomainPoints is not { Length: > 2 } points || points.Any(p => p is null)) throw new ArgumentException("Checker: sezione del dominio assente; controllare N e direzione.");
         result.ClearForces();
@@ -383,7 +380,8 @@ public sealed class CheckerDomain2D
     public double[] Project(ActionPoint local) => NM ? [SignedMoment(local), local.N] : [local.Mx, local.My];
     private double SignedMoment(ActionPoint p)
     {
-        // FailureDomain2d.DomainPoints2dAssociation defines sign by Mx (or My for 90 degrees).
+        // FailureDomain2d.DomainPoints2dAssociation (SLU-1 del 15/10/2026) prende il segno dalla proiezione sull'asse del meridiano, MomentAxis in
+        // (−90°; 90°]: per i punti del meridiano della direzione del momento, l'unico usato da Domain2D, coincide con il segno di Mx (di My a 90°).
         double sign = Math.Abs(Math.Cos(localTheta)) > 1e-8 ? Math.Sign(p.Mx) : Math.Sign(p.My);
         return sign * double.Hypot(p.Mx, p.My);
     }
