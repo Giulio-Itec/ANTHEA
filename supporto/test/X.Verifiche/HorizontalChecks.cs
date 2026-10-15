@@ -195,6 +195,25 @@ public static class HorizontalChecks
             Assert(xml.Contains("Modello selezionato automaticamente") && !xml.Contains("Modello terreno"), "Relazione usa la selezione manuale obsoleta");
         }
         finally { Directory.Delete(temp, true); }
+        // PO-1 (analisi dei bug del 15/10/2026): Broms pone il vincolo della testa impedita al piano campagna, quindi con tratto libero > 0 il
+        // calcolo è rifiutato invece di restituire la capacità del plinto a terra (circa doppia). D 1, L 15, granulare γ 18, φ 30°, My 1000.
+        // Atteso con tratto libero nullo, meccanismo lungo: k = 3 Kp γ D = 162 kN/m², S(zf) = k zf³/3 = 2 My, Hu = k zf²/2 = 900 kN
+        // (tests/ConcreteLibraryAdapter.Checks/attesi/correzioni_20261015.py). Testa libera: e è la quota della forza, il tratto libero non cambia nulla.
+        {
+            JsonObject Elevated(bool fixedHead, double eccentricity, double free)
+            {
+                var data = Data(false, fixedHead, 15, 1000, eccentricity); data["generali"]!["diametro"] = "1"; data["generali"]!["tratto_libero"] = free; return data;
+            }
+            Near(Calc(Elevated(true, 0, 0)).D("capacita_kn"), 900, "PO-1: testa impedita al piano campagna");
+            foreach (double free in new[] { 3d, 10d })
+            {
+                var refused = PaloOrizzontale.Calculate(Elevated(true, 0, free));
+                Assert(refused.S("errore").StartsWith("Testa impedita con tratto libero di " + free + " m: i meccanismi di Broms richiedono il vincolo al piano campagna"),
+                    "PO-1: testa impedita rialzata calcolata come al piano campagna: " + refused.S("errore"));
+            }
+            foreach (double e in new[] { 0d, 3d })
+                Near(Calc(Elevated(false, e, 3)).D("capacita_kn"), Calc(Elevated(false, e, 0)).D("capacita_kn"), "PO-1: testa libera cambiata dal tratto libero", 1e-12);
+        }
         return count;
     }
 

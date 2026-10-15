@@ -124,3 +124,16 @@ def circle_mrd(D, sides=32, cover=70, stir=10, nb=16, phi=24, ntop=40000):
     return M / 1e6, k * 1000
 m, chi = circle_mrd(1600)
 print(f"SLU-3 D 1600, 16Ø24, N = 0: MRd = {m:.3f} kNm, χu = {chi:.6f} 1/m")
+
+# ---------------------------------------------------------------- PO-1 e PO-6 (supporto/test/X.Verifiche, --horizontal)
+# Broms granulare (Viggiani pp. 400-415): p(z) = 3 Kp γ′ D z, Kp = (1 + sin φ)/(1 − sin φ) = 3 per φ = 30°, D = 1 m, My = 1000 kNm.
+kp = (1 + math.sin(math.radians(30))) / (1 - math.sin(math.radians(30)))
+# PO-1, testa impedita al piano campagna (L = 15 m, γ = 18, meccanismo lungo): cerniere a −My in testa e a zf con Q(zf) = H:
+# S(zf) = k zf³/3 = 2 My, H = k zf²/2.
+k = 3 * kp * 18 * 1
+zf = (6 * 1000 / k) ** (1 / 3)
+print(f"PO-1 testa impedita, tratto libero nullo: Hu = {k * zf * zf / 2:.9f} kN")
+# PO-6, testa libera, e = 0, falda al piano campagna, γsat = 20: γ′ = 20 − γw; Mmax = (2/3) H z con Q(z) = H ⇒ z = (3 My/k)^(1/3).
+for gw in (9.81, 10.5):
+    k = 3 * kp * (20 - gw) * 1; z = (3 * 1000 / k) ** (1 / 3)
+    print(f"PO-6 γw = {gw}: Hu = {k * z * z / 2:.9f} kN")

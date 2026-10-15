@@ -214,6 +214,10 @@ public static partial class PaloOrizzontale
             if (restraint is not ("Libera" or "Impedita")) throw new ArgumentException("Vincolo non riconosciuto.");
             bool fixedHead = restraint == "Impedita", water = g.B("presenza_falda");
             if (fixedHead && e != 0) throw new ArgumentException("Testa impedita: il modello richiede vincolo e forza al piano campagna (e = 0).");
+            // Il tratto libero dei dati condivisi è la quota della testa sopra il piano campagna: con la testa impedita il vincolo sarebbe
+            // rialzato, mentre i meccanismi di Broms lo pongono al piano campagna (PO-1). Testa libera invariata: e è la quota della forza.
+            if (fixedHead && J.Number(g["tratto_libero"]) is double free && free > 0)
+                throw new ArgumentException($"Testa impedita con tratto libero di {free.ToString("0.###", CultureInfo.GetCultureInfo("it-IT"))} m: i meccanismi di Broms richiedono il vincolo al piano campagna. Usare la risposta elastica, che vincola la testa sopra il terreno, oppure tratto libero nullo.");
             if (g.AsObject().ContainsKey("momento_applicato") && Signed(g, "momento_applicato") != 0) throw new ArgumentException("Momento indipendente non supportato; il solo momento applicato è H·e.");
             double zw = water ? g.Required("profondita_falda") : l;
             _ = Signed(g, "azione_assiale");

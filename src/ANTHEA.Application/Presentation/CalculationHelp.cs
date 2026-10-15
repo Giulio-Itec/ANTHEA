@@ -35,6 +35,7 @@ public static class CalculationHelp
         "inizio_aderenza" => "Distanza lungo l’asse del micropalo dall’origine al primo tratto aderente. Gli spessori degli strati sono invece verticali e vengono convertiti usando l’inclinazione.",
         "cover_mm" => "Copriferro netto dal bordo del calcestruzzo alla superficie esterna della staffa. Il confronto con Materiali usa anche il diametro effettivo delle barre della sezione.",
         "tolleranza_n" => "Residuo massimo su N del punto limite della curva momento–curvatura, in kN. Il calcolo usa il maggiore fra questo valore e la regola della libreria, che cresce con le dimensioni della sezione e con lo stress block; lo stato della curva riporta la tolleranza effettiva.",
+        "tratto_libero" => "Quota della testa sopra il piano campagna, in m, nel modello elastico (lunghezza totale = infissa + libera). Broms e Stratificato pongono il vincolo della testa impedita al piano campagna: con testa impedita richiedono tratto libero nullo, altrimenti usare la risposta elastica.",
         "origine_momento" => "La scelta automatica usa la sezione e i materiali inseriti. Con momento manuale indicare valore e provenienza: la verifica geotecnica non lo ricava dalla geometria della sezione.",
         _ => null
     };
@@ -48,7 +49,7 @@ public static class CalculationHelp
         "Le verifiche di taglio, torsione, ancoraggio e durabilità hanno ingressi e ipotesi propri: il solo esito del dominio non le sostituisce.";
     public const string PileTheory = "Palo verticale: la resistenza laterale è integrata per strato e combinata con la resistenza di punta; " +
         "falda, condizioni drenate/non drenate, correlazione delle indagini e coefficienti di resistenza restano distinti. " +
-        "Palo orizzontale: Broms equilibra la reazione limite del terreno con H e il momento H·e, individuando il meccanismo corto, intermedio o lungo. " +
+        "Palo orizzontale: Broms equilibra la reazione limite del terreno con H e il momento H·e, individuando il meccanismo corto, intermedio o lungo; con testa impedita il vincolo è al piano campagna e il tratto libero deve essere nullo. " +
         "Il metodo Stratificato, selezionabile nelle opzioni avanzate, ammette anche alternanze coesivo/granulare e chiude l'equilibrio con reazioni distribuite; nel granulare corto/intermedio differisce dalla forza concentrata di Broms. " +
         "Il momento resistente della sezione c.a. viene da Checker a N costante, con lo stesso modello del modulo strutturale e prendendo il minore dei due versi Mx. " +
         "Il residuo assiale è mostrato con la tolleranza di accettazione, senza confonderlo con un confronto fra mesh. " +
