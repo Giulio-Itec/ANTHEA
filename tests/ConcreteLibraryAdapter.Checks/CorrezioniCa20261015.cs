@@ -5,7 +5,7 @@ using Anthea.Calculations;
 /// <summary>
 /// Prova 4c: integrazione in ANTHEA delle correzioni lato calcestruzzo delle librerie dell'analisi dei bug del 15/10/2026
 /// (docs/refactoring/analisi-bug-20261015.md): SLU-1, SLU-2, SLU-4, FES-1, FES-2, ARM-3, DET-3 e i coefficienti unitari del foglio c.a. del
-/// palo in ancoraggi e dettagli. Attesi indipendenti dallo script attesi/correzioni_ca_20261015.py (modello a fibre, formule di norma), citati
+/// palo in ancoraggi e dettagli; seguiti del 16/10/2026: coefficienti unitari nel primo snervamento del M–χ. Attesi indipendenti dallo script attesi/correzioni_ca_20261015.py (modello a fibre, formule di norma), citati
 /// accanto a ogni valore; i confronti fra due percorsi della libreria (2D contro 3D) sono dichiarati come tali.
 /// </summary>
 internal static class CorrezioniCa20261015
@@ -217,17 +217,42 @@ internal static class CorrezioniCa20261015
             var details = ConcreteDetailingAnalysis.Calculate(input, settings, [J.Obj(("nome", "C1"), ("stato", "SLU"), ("N", "-10000"))]);
             Near(details.Checks.Single(c => c.Name == "Armatura longitudinale minima").Limit, unit ? 2222.222222 : 2555.555556, 1e-9, tag + ": As,min = 0,10 NEd/fyd");
         }
+
+        // ------------------------------------------------------------ foglio c.a. del palo con coefficienti unitari: primo snervamento del M–χ
+        // Seguito del 16/10/2026, stessa classe di TAG-2: la legge dell'acciaio usa fyd della norma effettiva, il primo snervamento della curva
+        // εyd = fyd/Es della stessa norma. Attesi (correzioni_ca_20261015.py, modello a strisce): 300×500 C25/30 4Ø16, N = 0, θ = 0; unitari
+        // εyd = 450/200 000 = 2,25 ‰, My = 76,4192 kNm, χy = 6,1483e-3 1/m (prima εyd = 391,30/200 000 = 1,9565 ‰ anche con i coefficienti
+        // unitari: My 66,4926 kNm, χy 5,3395e-3 1/m); ordinari εyd = 1,9565 ‰, My = 65,2912 kNm, χy = 5,6821e-3 1/m.
+        foreach (bool unit in new[] { true, false })
+        {
+            var (input, settings) = PileSheet(unit, Rect(2, 16, 2, 16));
+            string tag = "M–χ " + (unit ? "foglio del palo, coefficienti unitari" : "foglio del palo, coefficienti ordinari");
+            var curve = ConcreteCurvatureAnalysis.Calculate(input, settings, Curvature(0));
+            double yieldStrain = unit ? 2.25 : 450 / 1.15 / 200000 * 1000; // ‰
+            int first = curve.Points.ToList().FindIndex(p => p.Yielded);
+            Is(first > 0, $"{tag}: primo snervamento dopo la prima riga ({first})");
+            if (first <= 0) continue;
+            var yielded = curve.Points[first]; var before = curve.Points[first - 1];
+            // Riga del primo snervamento raffinata con 12 bisezioni: la barra più deformata appena oltre εyd, la riga precedente sotto.
+            Is(yielded.SteelStrain >= yieldStrain && yielded.SteelStrain <= yieldStrain + 1e-3, $"{tag}: εs al primo snervamento {yielded.SteelStrain:G9} ‰ (εyd {yieldStrain:G9} ‰)");
+            Is(before.SteelStrain < yieldStrain && !before.Yielded, $"{tag}: riga precedente εs {before.SteelStrain:G9} ‰ non snervata");
+            Near(Math.Abs(yielded.Moment), unit ? 76.4192 : 65.2912, .005, tag + ": My contro il modello a strisce");
+            Near(curve.YieldCurvature, unit ? 6.1483e-3 : 5.6821e-3, .005, tag + ": χy contro il modello a strisce");
+        }
         return count;
     }
 
     static JsonObject Curvature(double axial) => J.Obj(("N", axial.ToString(Invariant)), ("theta", "0"), ("passi", "10"), ("frazione", "1"), ("campionamento", "Lineare"),
         ("trazione_cls", "No"), ("angoli", "64"), ("tolleranza_n", "1"), ("raffina_snervamento", "12"));
 
-    /// <summary>Foglio c.a. di approfondimento del palo come lo crea ElasticHorizontalPile.CreateConcreteSheet: sezione predefinita 600×800 C35/45,
-    /// NTC 2018; con i coefficienti unitari la normativa_custom di ConcreteStandards.PileWorkspace (tutti i γ e αcc = 1).</summary>
-    static (JsonObject Input, JsonObject Settings) PileSheet(bool unit)
+    /// <summary>Foglio c.a. di approfondimento del palo come lo crea ElasticHorizontalPile.CreateConcreteSheet: sezione predefinita 600×800 C35/45
+    /// (oppure i campi di <paramref name="section"/>), NTC 2018; con i coefficienti unitari la normativa_custom di ConcreteStandards.PileWorkspace
+    /// (tutti i γ e αcc = 1).</summary>
+    static (JsonObject Input, JsonObject Settings) PileSheet(bool unit, JsonObject? section = null)
     {
-        var data = SezioneCA.DefaultData(); var input = data["input"]!.AsObject(); var settings = SectionWorkspace.Prepare(data);
+        var data = SezioneCA.DefaultData(); var input = data["input"]!.AsObject();
+        if (section is not null) foreach (var (k, v) in section) input[k] = v?.DeepClone();
+        var settings = SectionWorkspace.Prepare(data);
         settings["normativa"] = "NTC 2018"; settings["coefficienti"] = ConcreteStandards.Defaults("NTC 2018");
         foreach (var (k, v) in ConcreteCalculationSettings.CommonCoefficients) input[k] = settings["coefficienti"]![v]!.DeepClone();
         ConcreteCalculationSettings.Prepare(input, settings);

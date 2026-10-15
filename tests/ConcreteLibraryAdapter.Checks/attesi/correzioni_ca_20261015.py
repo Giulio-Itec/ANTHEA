@@ -170,3 +170,33 @@ for lab, fy in (("unitari", 450.0), ("ordinari", 450 / 1.15)):
 # ---------------------------------------------------------------- DET-3: B450A
 # NTC 2018 Tab. 11.3.Ic ed EN 1992-1-1 Tab. C.1 classe A: (Agt)k = εuk ≥ 2,5 %, cioè 25 ‰; B450C ≥ 7,5 % (75 ‰).
 print("DET-3 εuk B450A = 25 ‰, B450C = 75 ‰")
+
+# ---------------------------------------------------------------- foglio c.a. del palo con coefficienti unitari: primo snervamento del M–χ
+# La curva classifica snervata una riga quando la barra più deformata raggiunge εyd = fyd/Es (seguito del 16/10/2026, stessa classe di TAG-2):
+# con i coefficienti unitari fyd = fyk/1 = 450 MPa, εyd = 450/200 000 = 2,25 ‰; ordinari fyd = 450/1,15, εyd = 1,9565 ‰ (prima anche con i
+# coefficienti unitari). Rettangolo 300×500 C25/30 4Ø16 (barre a 46 e 454 mm dal lembo compresso), N = 0, θ = 0: modello a strisce, parabola-
+# rettangolo con fcd = αcc fck/γc (unitari 25 MPa, ordinari 0,85·25/1,5), CLS non reagente a trazione e dedotto dove ci sono le barre, acciaio
+# elastico-perfettamente plastico. Primo snervamento: ε delle barre tese = εyd con N = 0.
+def first_yield(fcd_y, fyd_y, n_strips=20000):
+    eyd = fyd_y / Es; dt = H / n_strips
+    t = (np.arange(n_strips) + 0.5) * dt
+    bars_t = [(46.0, 2 * A16), (454.0, 2 * A16)]
+    def sc1(e):
+        c = np.clip(-np.asarray(e, dtype=float), 0, None)
+        return -np.where(c > 0, np.where(c < ec2, fcd_y * (1 - (1 - c / ec2) ** 2), fcd_y), 0.0)
+    def nm(ec):
+        chi = (eyd + ec) / 454.0; s = sc1(-ec + chi * t) * B * dt
+        N, M = s.sum(), (s * (H / 2 - t)).sum()
+        for tb, a in bars_t:
+            e = -ec + chi * tb; f = (max(-fyd_y, min(fyd_y, Es * e)) - float(sc1(e))) * a; N += f; M += f * (H / 2 - tb)
+        return N, M, chi
+    lo, hi = 1e-6, ecu
+    for _ in range(60):
+        mid = 0.5 * (lo + hi)
+        if nm(mid)[0] * nm(lo)[0] > 0: lo = mid
+        else: hi = mid
+    N, M, chi = nm(0.5 * (lo + hi))
+    return eyd, abs(M) / 1e6, chi * 1e3
+for lab, fc, fy in (("unitari", 25.0, 450.0), ("ordinari", 0.85 * 25 / 1.5, 450 / 1.15), ("unitari con l'εyd di prima", 25.0, 450 / 1.15)):
+    eyd, my, chi = first_yield(fc, fy)
+    print(f"M–χ {lab}: εyd = {eyd * 1e3:.6f} ‰, My = {my:.4f} kNm, χy = {chi:.7f} 1/m")
