@@ -52,6 +52,29 @@ internal static class Correzioni20261015
             }
         }
 
+        // ------------------------------------------------------------ TAG-3: rifiuti del braccio del taglio in italiano
+        // Casi della segnalazione, dal calcolo del modulo con entrambi i motori (il braccio è della libreria anche con il motore legacy).
+        foreach (var (norm, shape, setup, expected) in new (string, string, Action<JsonObject>, string)[]
+        {
+            ("NTC 2018", "Rettangolare", o => { o["parametri"] = "Manuali"; o["d_x"] = "0"; }, ConcreteLibraryMapping.ShearInvalidMessage),
+            ("EN 1992-1-1", "Rettangolare", o => { o["parametri"] = "Manuali"; o["d_x"] = "-10"; }, ConcreteLibraryMapping.ShearInvalidMessage),
+            ("NTC 2018", "Circolare", o => { o["modello_circolare"] = "Parametri assegnati"; o["z_d"] = "0.95"; }, "Taglio: assegnare z/d maggiore di zero e non superiore a 0,9."),
+            ("NTC 2018", "Circolare", o => { o["modello_circolare"] = "Parametri assegnati"; o["z_d"] = "0"; }, "Taglio: assegnare z/d maggiore di zero e non superiore a 0,9."),
+            // DIN: z = min(0,9 d; max(d − cv − 30; d − 2 cv)) con cv = 70 + 10 = 80 mm: con d = 50 mm il braccio è negativo.
+            ("DIN EN 1992-1-1", "Rettangolare", o => { o["parametri"] = "Manuali"; o["d_x"] = "50"; }, "Taglio: con questo copriferro il braccio z non risulta positivo; controllare d, copriferro e diametro delle staffe.")
+        })
+            foreach (var engine in new[] { ShearTorsionEngine.Legacy, ShearTorsionEngine.Library })
+            {
+                var (input, settings, options) = Module(norm);
+                input["shape"] = shape; options = (JsonObject)options.DeepClone();
+                if (shape == "Circolare") ConcreteCalculationSettings.UpdateAutomaticShear(input, options);
+                setup(options);
+                string message = "";
+                try { ShearTorsionEngines.ShearAnalysis(input, settings, options, Row("-300", "60", "25", "50", "80", "0"), engine); }
+                catch (ArgumentException e) { message = e.Message; }
+                check(message == expected, $"TAG-3 {norm} {shape} ({engine}): rifiuto «{message}» invece di «{expected}»"); count++;
+            }
+
         // ------------------------------------------------------------ TAG-2: coefficienti unitari del foglio c.a. del palo
         // Senza coefficienti unitari γc e fyd della norma effettiva coincidono bit per bit con gamma_c e fyk/γs dell'input usati prima:
         // taglio e torsione restano identici per tutte le norme ordinarie, anche con fyk e γ non arrotondati.

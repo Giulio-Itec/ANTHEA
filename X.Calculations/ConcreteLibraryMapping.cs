@@ -128,9 +128,12 @@ public static partial class ConcreteLibraryMapping
         return d.Unit == "N" ? new(d.Symbol, KilonewtonsFromNewtons(d.Value), "kN", expression) : new(d.Symbol, d.Value, d.Unit, expression);
     }
 
+    /// <summary>Rifiuto storico dei dati non validi del taglio (LegacyConcreteCodeChecks.Shear).</summary>
+    public const string ShearInvalidMessage = "Taglio: geometria, materiali, carichi o inclinazione delle staffe non validi.";
+
     static readonly FrozenDictionary<string, string> ShearMessages = new Dictionary<string, string>(StringComparer.Ordinal)
     {
-        ["Shear: invalid geometry, materials, actions or shear-reinforcement inclination."] = "Taglio: geometria, materiali, carichi o inclinazione delle staffe non validi.",
+        ["Shear: invalid geometry, materials, actions or shear-reinforcement inclination."] = ShearInvalidMessage,
         ["Shear: concrete above C90/105 is outside the implemented range."] = "Taglio: calcestruzzo oltre C90/105 fuori dal campo implementato.",
         ["NTC 2018: cot θ must be within [1; 2.5]."] = "NTC: cot θ deve essere tra 1 e 2,5.",
         ["Model Code 2010: an effective Asl is required, also with shear reinforcement."] = "Model Code: occorre Asl efficace anche in presenza di staffe.",
@@ -147,6 +150,21 @@ public static partial class ConcreteLibraryMapping
         if (m.Success) return new ArgumentException($"{standardName}: cot θ fuori intervallo [{m.Groups["min"].Value}; {m.Groups["max"].Value}].");
         throw Unmapped("rifiuto del taglio", e.Message);
     }
+
+    /// <summary>Rifiuti del braccio del taglio (ShearLeverArm.Ratio, adottato da F4.13b) → testi italiani (analisi dei bug del 15/10/2026,
+    /// TAG-3): d, copriferro o staffe non validi con il messaggio storico dei dati non validi; z/d e copriferro DIN con testi dedicati.</summary>
+    static readonly FrozenDictionary<string, string> ShearLeverMessages = new Dictionary<string, string>(StringComparer.Ordinal)
+    {
+        ["Unknown shear profile."] = ShearInvalidMessage,
+        ["Finite section depths, covers and link diameters required."] = ShearInvalidMessage,
+        ["The circular pier approximation is specific to NTC 2018."] = "Taglio: il modello delle pile circolari è specifico NTC 2018; assegnare esplicitamente z/d.",
+        ["Assign a lever ratio between zero (excluded) and 0.9."] = "Taglio: assegnare z/d maggiore di zero e non superiore a 0,9.",
+        ["Cover leaves no positive shear lever arm."] = "Taglio: con questo copriferro il braccio z non risulta positivo; controllare d, copriferro e diametro delle staffe."
+    }.ToFrozenDictionary(StringComparer.Ordinal);
+
+    /// <summary>Rifiuto del braccio del taglio della libreria → testo italiano; un testo senza traduzione è un errore di programma.</summary>
+    public static ArgumentException ShearLeverError(ArgumentException e)
+        => ShearLeverMessages.TryGetValue(e.Message, out var text) ? new ArgumentException(text) : throw Unmapped("rifiuto del braccio del taglio", e.Message);
 
     // ------------------------------------------------------------------ torsione
     public const string TorsionInputMessage = "Torsione: controllare geometria, armature, materiali e 1 ≤ cot θ ≤ 2,5.";

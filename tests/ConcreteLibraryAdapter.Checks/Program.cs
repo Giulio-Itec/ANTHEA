@@ -175,6 +175,14 @@ try
     }
     // Un testo della libreria senza traduzione è un errore di programma, mai un testo inglese mostrato.
     Check(Run(() => ConcreteLibraryMapping.ShearError(new ArgumentException("Shear: new message."), "NTC 2018")).Outcome == "error:InvalidOperationException", "rifiuto del taglio non tradotto accettato");
+    // Rifiuti del braccio del taglio (TAG-3 del 15/10/2026): ogni testo della libreria tradotto, un testo nuovo è un errore di programma.
+    foreach (string text in new[] { "Unknown shear profile.", "Finite section depths, covers and link diameters required.", "The circular pier approximation is specific to NTC 2018.",
+        "Assign a lever ratio between zero (excluded) and 0.9.", "Cover leaves no positive shear lever arm." })
+    {
+        var mapped = ConcreteLibraryMapping.ShearLeverError(new ArgumentException(text)).Message;
+        Check(mapped.StartsWith("Taglio:") && mapped != text, "rifiuto del braccio del taglio non tradotto: " + text);
+    }
+    Check(Run(() => ConcreteLibraryMapping.ShearLeverError(new ArgumentException("Lever: new message."))).Outcome == "error:InvalidOperationException", "rifiuto del braccio non tradotto accettato");
     Check(Run(() => ConcreteLibraryMapping.TorsionError(new ArgumentException("Torsion: new message."))).Outcome == "error:InvalidOperationException", "rifiuto della torsione non tradotto accettato");
 
     // ---------------------------------------------------------------- 2. interruttore
