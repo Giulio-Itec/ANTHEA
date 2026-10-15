@@ -78,7 +78,7 @@ public static class Domini
         {
             double factor;
             if(elastic){double maximum=bars.Max(b=>Math.Abs(b.U-neutral));if(maximum<=1e-12)throw new ArgumentException("Braccio delle armature nullo.");factor=engine.Fyd/(n*maximum);}
-            else factor=engine.EpsCu/Math.Max(hi-neutral,depth*1e-8);
+            else factor=engine.EpsCu()/Math.Max(hi-neutral,depth*1e-8);
             double C(double u)=>elastic?Math.Max(0,(u-neutral)*factor):engine.ConcreteStress((u-neutral)*factor);
             double S(double u)=>elastic?n*(u-neutral)*factor:engine.SteelStress((u-neutral)*factor);
             double nn=0,mx=0,my=0;

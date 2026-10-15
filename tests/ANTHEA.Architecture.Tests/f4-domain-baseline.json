@@ -7838,14 +7838,6 @@
     {
       "File": "X.Calculations/SezioneCA.cs",
       "Rule": "R1-math",
-      "Owner": "SezioneCA.Analyze",
-      "Fingerprint": "0B8CA0129CE3FAA0E1CCB9604EACDE3071C48E4C70FB41FBF466F8C4FAD4417E",
-      "Count": 1,
-      "Example": "Math . Atan2 ( my , mx )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
       "Owner": "SezioneCA.BuildBars",
       "Fingerprint": "5814509B948243C684FED0CF22AECD0EB470B4C306D3B5FAE3E688D09F5FD6CA",
       "Count": 1,
@@ -7918,14 +7910,6 @@
     {
       "File": "X.Calculations/SezioneCA.cs",
       "Rule": "R1-math",
-      "Owner": "SezioneCA.ConcreteStress",
-      "Fingerprint": "003334AF27BF832890CAF1AEB49E3255E6B29F64B3F24F0DFA0BD1B47E7D14C0",
-      "Count": 1,
-      "Example": "Math . Pow ( 1 - Math . Clamp ( strain / EpsC2 , 0 , 1 ) , ParabolaN )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
       "Owner": "SezioneCA.Geometry",
       "Fingerprint": "3FDD521553635FBEB21B8CFC7EE9D4BEFB819F7638595BB85E1EBF4F94D84405",
       "Count": 1,
@@ -7965,110 +7949,6 @@
     },
     {
       "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
-      "Owner": "SezioneCA.Interaction",
-      "Fingerprint": "50F7ADBACF77E43993A5A5FB743FF5E00EE554382A9A5E5A76A1C466F43F835D",
-      "Count": 1,
-      "Example": "Math . Exp ( logMin + i / ( double ) Math . Max ( count - 1 , 1 ) * ( logMax - logMin ) )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
-      "Owner": "SezioneCA.Interaction",
-      "Fingerprint": "A0A6E387958AAD1972DD70A783E94B83E0A3663F59CFECB28D204CA895C7F307",
-      "Count": 1,
-      "Example": "Math . Log ( ( high - low ) * 1000 )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
-      "Owner": "SezioneCA.Interaction",
-      "Fingerprint": "A668DA04AE2FB2ED4433C92C9531CFE923190DAB2866591685C1328B4EAB0137",
-      "Count": 1,
-      "Example": "Math . Log ( ( high - low ) * .0005 )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
-      "Owner": "SezioneCA.ParametriCls",
-      "Fingerprint": "04527D1CB87ED88D3157A80CA2B49C6327A4815F2E2B254CB42CA6723AD5E55A",
-      "Count": 1,
-      "Example": "Math . Pow ( fck - 50 , .53 )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
-      "Owner": "SezioneCA.ParametriCls",
-      "Fingerprint": "194809476C2C168ACB3FE9C68AC5AB18227B7A05F3D6A39A13510AD12101809E",
-      "Count": 2,
-      "Example": "Math . Pow ( ratio , 4 )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
-      "Owner": "SezioneCA.Profile",
-      "Fingerprint": "54DFB2D8CE9B8F394E6C04A90DB13EDE5534A653E8E134264E7F6C2A2D23B29A",
-      "Count": 1,
-      "Example": "Math . Cos ( direction )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
-      "Owner": "SezioneCA.Profile",
-      "Fingerprint": "DFA8E45770BA1EEFCCC2FEEABE71451B54AD55F7368DA3A965356E0A60449DBB",
-      "Count": 1,
-      "Example": "Math . Sin ( direction )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
-      "Owner": "SezioneCA.Supports",
-      "Fingerprint": "CDE6D82B9F285498910BFBFB6FEA72E98F264C17CAD715BD6B5B3267C0FF76E0",
-      "Count": 1,
-      "Example": "Math . Sin ( direction )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
-      "Owner": "SezioneCA.Supports",
-      "Fingerprint": "F6AD338A8FFDA5DA8C7ED830E73EBC68D131C2B8A8D4C34391CCFD32417A1DAE",
-      "Count": 1,
-      "Example": "Math . Cos ( direction )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.Analyze",
-      "Fingerprint": "0596205EA9D8899771DA17CCD2B62536042A81479A51D9E81F5867E418E9B192",
-      "Count": 2,
-      "Example": ".45"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.Analyze",
-      "Fingerprint": "2E634A8F98FFD2656E4F7A2BCE58A16BFC8557AA5D0E615C594945AF67DF2583",
-      "Count": 4,
-      "Example": "1e-9"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.Analyze",
-      "Fingerprint": "68EC614EEADD2C137B22E5B55AECE34D50CE4ED11031FD01E7FDD53B5C051EB6",
-      "Count": 1,
-      "Example": "1e-12"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.Analyze",
-      "Fingerprint": "CA543771CF87B0B97254D71CFE3110FF1E95026DC32952DE20BD1267148F9F08",
-      "Count": 3,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "SezioneCA.BuildBars",
       "Fingerprint": "3566B64B8F8774B57AAD2F3D5C1E18022CCBB25D8554A4BD15F00C4A3F9B0244",
@@ -8094,14 +7974,6 @@
     {
       "File": "X.Calculations/SezioneCA.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.Capacity",
-      "Fingerprint": "B49218F5B598CC2AC2C1BE1A55CED382D093861BBE893942050E1A07622D9AF8",
-      "Count": 2,
-      "Example": "1e-9"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
       "Owner": "SezioneCA.Geometry",
       "Fingerprint": "333AE0F310D0042CF661A0AD5E4F583533CDA9F0CB1EACEA0E60602332AD348A",
       "Count": 1,
@@ -8110,138 +7982,10 @@
     {
       "File": "X.Calculations/SezioneCA.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.Inside",
-      "Fingerprint": "10EAF06D92C31D169BA54C050189E1B679AD5399E0769A9848F7C0FA5D34FC4B",
-      "Count": 1,
-      "Example": "1e-8"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.Interaction",
-      "Fingerprint": "98E094C3070ABC1106D18C9AF65D65AAC83FC5E5D2F369C4D4CAE41BEBDC138D",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.Interaction",
-      "Fingerprint": "CD6B4CF8E26C61D9E361D5D3CE8BD193BE8D2857E4F601CBDE9F5B09708A6D32",
-      "Count": 1,
-      "Example": ".0005"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
       "Owner": "SezioneCA.Layer",
       "Fingerprint": "0CD7CBBC3982F5F73C3A0F613F68904264C68EC07599C9A51148FB45BC6D156C",
       "Count": 1,
       "Example": "4"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.ParametriCls",
-      "Fingerprint": "0337BC96B3E74C416D8EF061200D880FADE1724B806D66E6C9636D02ACA9BED6",
-      "Count": 1,
-      "Example": "50"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.ParametriCls",
-      "Fingerprint": "10FFD61AD4AD3C9432256C2E0611F562D17DA2E9A049C0AB0A37698E9B4EA8E9",
-      "Count": 1,
-      "Example": ".085"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.ParametriCls",
-      "Fingerprint": "20E44753767B6417C07372F07CC6DB6861E51BFF1B3FCB2ECF5F17BBDFD99C2E",
-      "Count": 1,
-      "Example": "1.4"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.ParametriCls",
-      "Fingerprint": "877782798525100EA782321A1EE629DBE243C37EB416D7C9D6BD53FB3BF0C127",
-      "Count": 1,
-      "Example": "90"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.ParametriCls",
-      "Fingerprint": "931533121E59EF7029D627C07BD580B543294DF1A921CCD095BAB5883FA264B8",
-      "Count": 2,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.ParametriCls",
-      "Fingerprint": "C10D4722886098E9F8D63F6E45DFB9A4DBBB4D485B7F3F7131AB46A2C30BA5C7",
-      "Count": 1,
-      "Example": "35"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.ParametriCls",
-      "Fingerprint": "E17B4DA3965696638E383EF7711C71BF6760303FFF39210826E9137200567C6B",
-      "Count": 1,
-      "Example": "23.4"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.ParametriCls",
-      "Fingerprint": "E4F3A0D5CFEBD6E7D97E27F320C6EA39727547FE5C47F045987183104B89745A",
-      "Count": 1,
-      "Example": "2.6"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.Profile",
-      "Fingerprint": "1AFE5E9C3FEB9F1B9AC2BA345BB9D6104CB640C213A78C806D1E20B37856D2BF",
-      "Count": 1,
-      "Example": "1e-8"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.Profile",
-      "Fingerprint": "64022DCAC57C86C4F91D2FA6F44DFD354024C4D6A43BDC2140FAD856CF0FD94E",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.Profile",
-      "Fingerprint": "C7C50B1A2E6A2104D86F3F5A2F54C894106F9281E44092B50A54A8E2C0E8F61E",
-      "Count": 1,
-      "Example": "1e6"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.PureCompression",
-      "Fingerprint": "31E5B5C3D613644BFCAB8A26BC8041D67481F26BE8D0EF9787745B78C2661F0E",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.PureTension",
-      "Fingerprint": "BDE113A8363EE97C47BAE3BE8DB140722EC210AA00C717D7796719B71AF2A8BD",
-      "Count": 1,
-      "Example": "1000"
     },
     {
       "File": "X.Calculations/SezioneCA.cs",
@@ -8282,78 +8026,6 @@
       "Fingerprint": "1A2E7573A968252620C6772DF5A3BEB84CCB1F28321E75091F768D691B6BB9EB",
       "Count": 1,
       "Example": "Input . D ( key )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "SezioneCA.Analyze",
-      "Fingerprint": "2E634A8F98FFD2656E4F7A2BCE58A16BFC8557AA5D0E615C594945AF67DF2583",
-      "Count": 4,
-      "Example": "1e-9"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "SezioneCA.Analyze",
-      "Fingerprint": "CA543771CF87B0B97254D71CFE3110FF1E95026DC32952DE20BD1267148F9F08",
-      "Count": 3,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "SezioneCA.Capacity",
-      "Fingerprint": "B49218F5B598CC2AC2C1BE1A55CED382D093861BBE893942050E1A07622D9AF8",
-      "Count": 2,
-      "Example": "1e-9"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "SezioneCA.Interaction",
-      "Fingerprint": "98E094C3070ABC1106D18C9AF65D65AAC83FC5E5D2F369C4D4CAE41BEBDC138D",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "SezioneCA.ParametriCls",
-      "Fingerprint": "931533121E59EF7029D627C07BD580B543294DF1A921CCD095BAB5883FA264B8",
-      "Count": 2,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "SezioneCA.Profile",
-      "Fingerprint": "64022DCAC57C86C4F91D2FA6F44DFD354024C4D6A43BDC2140FAD856CF0FD94E",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "SezioneCA.Profile",
-      "Fingerprint": "C7C50B1A2E6A2104D86F3F5A2F54C894106F9281E44092B50A54A8E2C0E8F61E",
-      "Count": 1,
-      "Example": "1e6"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "SezioneCA.PureCompression",
-      "Fingerprint": "31E5B5C3D613644BFCAB8A26BC8041D67481F26BE8D0EF9787745B78C2661F0E",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "SezioneCA.PureTension",
-      "Fingerprint": "BDE113A8363EE97C47BAE3BE8DB140722EC210AA00C717D7796719B71AF2A8BD",
-      "Count": 1,
-      "Example": "1000"
     },
     {
       "File": "X.Calculations/TensionBarSpacing.cs",
