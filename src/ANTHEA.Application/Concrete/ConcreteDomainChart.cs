@@ -60,7 +60,8 @@ public static class ConcreteDomainChart
             bool nm = options.S("tipo") == "N–M"; double value = SectionWorkspace.Number(options.S(nm ? "theta" : "N"), "Piano") * (nm ? Math.PI / 180 : 1);
             foreach (var action in visible)
             {
-                var p = domain is not null ? domain.Project(action.Force) : Project(action.Force, nm, value);
+                // Il punto verificato: con «proietta» l'azione fuori piano proiettata sul meridiano di θ (seguito di SLU-1, 16/10/2026).
+                var p = domain is not null ? domain.ProjectAction(action.Force) : Project(action.Force, nm, value);
                 if (options.B("mostra_ed", true) && (!options.B("solo_selezionata") || action.Id == selected))
                     markers.Add(new(p[0], p[1], action.Id == selected ? "Ed" : "", options.B("colora_eta") ? UtilizationColors.Color(checks?.GetValueOrDefault(action.Id)?.Utilization) : action.Id == selected ? "#E09620" : "#0B5CAD", Radius: options.D("dimensione_ed", 5)));
                 if ((action.Id == selected || options.B("tutte_rd")) && options.B("mostra_linee", true))

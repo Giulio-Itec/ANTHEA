@@ -206,6 +206,8 @@ public static partial class ConcreteResults
         internal Domain2D(Native.CheckerDomain2D source)
         { Source = source; Segments = source.Segments.Select(s => new Segment(s)).ToArray(); }
         internal double[] Project(Action point) => Source.Project(point.Source);
+        /// <summary>Punto del grafico di un'azione: quello verificato, con la proiezione sul meridiano di θ se attiva (CheckerDomain2D.ProjectAction).</summary>
+        internal double[] ProjectAction(Action point) => Source.ProjectAction(point.Source);
         internal Action LocalAction(Action point) => new(Source.LocalAction(point.Source));
     }
     public sealed class Domain3D

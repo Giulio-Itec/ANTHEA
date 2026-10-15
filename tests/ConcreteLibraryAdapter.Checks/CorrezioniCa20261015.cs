@@ -5,8 +5,9 @@ using Anthea.Calculations;
 /// <summary>
 /// Prova 4c: integrazione in ANTHEA delle correzioni lato calcestruzzo delle librerie dell'analisi dei bug del 15/10/2026
 /// (docs/refactoring/analisi-bug-20261015.md): SLU-1, SLU-2, SLU-4, FES-1, FES-2, ARM-3, DET-3 e i coefficienti unitari del foglio c.a. del
-/// palo in ancoraggi e dettagli; seguiti del 16/10/2026: coefficienti unitari nel primo snervamento del M–χ. Attesi indipendenti dallo script attesi/correzioni_ca_20261015.py (modello a fibre, formule di norma), citati
-/// accanto a ogni valore; i confronti fra due percorsi della libreria (2D contro 3D) sono dichiarati come tali.
+/// palo in ancoraggi e dettagli; seguiti del 16/10/2026: coefficienti unitari nel primo snervamento del M–χ e punto disegnato del grafico
+/// N–M con la proiezione. Attesi indipendenti dallo script attesi/correzioni_ca_20261015.py (modello a fibre, formule di norma) o calcolati a
+/// mano, citati accanto a ogni valore; i confronti fra due percorsi della libreria (2D contro 3D) sono dichiarati come tali.
 /// </summary>
 internal static class CorrezioniCa20261015
 {
@@ -100,6 +101,35 @@ internal static class CorrezioniCa20261015
                 var two = new CheckerSection(symmetric, Workspace(), Options2D(theta), "SLV").Domain2D().Check(action);
                 Near(two.Utilization, elastic3D.Check(action).Utilization ?? double.NaN, .01, $"SLU-1 SLV θ = {theta}°: η 2D contro la verifica 3D elastica");
             }
+        }
+        // Grafico del dominio 2D N–M con «proietta» (seguito di SLU-1, 16/10/2026): il punto Ed disegnato è quello verificato. La verifica proietta
+        // l'azione fuori piano sul meridiano di θ, Mθ = Mx cos θ + My sin θ con N invariato (assi locali); prima il grafico disegnava
+        // sign(Mx)·√(Mx² + My²), un punto non verificato. Attesi a mano: Ed = (Mθ; N) e, a eccentricità costante, Ed = η·Rd (retta dall'origine per
+        // Rd); l'azione nel piano resta dov'era.
+        foreach (var (theta, action, expected, projected) in new (double, ActionPoint, double, bool)[]
+        {
+            (30, new(-500, -30, 120), -30 * Math.Cos(Math.PI / 6) + 120 * Math.Sin(Math.PI / 6), true), // 34,0192; prima −123,693, dall'altra parte
+            (90, new(-800, 40, 60), 60, true),                                                          // prima 72,111
+            (0, new(-500, -20, 90), -20, true),                                                         // prima −92,195
+            (45, new(-600, 80, 10), 90 / Math.Sqrt(2), true),                                           // 63,6396; prima 80,623
+            (30, new(-500, 100 * Math.Cos(Math.PI / 6), 100 * Math.Sin(Math.PI / 6)), 100, false)        // nel piano: invariato
+        })
+        {
+            string tag = $"grafico N–M θ = {theta}° con proiezione, azione ({action.N}; {action.Mx:0.###}; {action.My:0.###})";
+            var options = Options2D(theta); options["proietta"] = "Sì";
+            var row = J.Obj(("id", "a"), ("nome", "A"), ("N", action.N.ToString("R", Invariant)), ("Mx", action.Mx.ToString("R", Invariant)), ("My", action.My.ToString("R", Invariant)));
+            var result = new ConcreteAnalysisSession().Domain(symmetric, Workspace(), options, "SLU", false, [row]);
+            var outcome = result.Checks["a"];
+            Is(outcome.Status.EndsWith("azione proiettata") == projected && outcome.Utilization is > 0 && outcome.Resistance is not null, $"{tag}: stato «{outcome.Status}»");
+            var chart = Anthea.Application.Concrete.ConcreteDomainChart.Actions(options, result.Two, [row], "a", result.Checks);
+            var ed = chart.Markers.Single(m => m.Label == "Ed"); var rd = chart.Markers.Single(m => m.Label == "Rd");
+            Near(ed.X, expected, 1e-9, tag + ": Mθ del punto disegnato");
+            Near(ed.Y, action.N, 1e-9, tag + ": N del punto disegnato");
+            double eta = outcome.Utilization ?? double.NaN;
+            Near(ed.X, eta * rd.X, 1e-9, tag + ": Ed = η·Rd (Mθ)");
+            Near(ed.Y, eta * rd.Y, 1e-9, tag + ": Ed = η·Rd (N)");
+            Is(chart.Lines.Count == 2 && chart.Lines[0].B.SequenceEqual(new[] { ed.X, ed.Y }) && chart.Lines[1].A.SequenceEqual(new[] { ed.X, ed.Y })
+                && chart.Lines[1].B.SequenceEqual(new[] { rd.X, rd.Y }), tag + ": linee origine–Ed–Rd sul punto disegnato");
         }
 
         // ------------------------------------------------------------ SLU-2: esiti tipizzati a N assegnato
