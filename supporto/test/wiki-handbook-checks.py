@@ -32,14 +32,17 @@ FORBIDDEN_IN_GUIDES=[
 IMPORT_GUIDE_TITLE='Modelli e importazione da MIDAS'
 IMPORT_GUIDE_KEY='guida-modelli-importazione-midas'
 IMPORT_GUIDE_ROUTE='/wiki/guide/progetti/modelli-importazione-midas'
+AI_IMPORT_TITLE='Stratigrafia del terreno'
+AI_IMPORT_ROUTE='/wiki/guide/moduli/guida-stratigrafia'
 
-def diary_violations(text,guide=True,import_source=False):
+def diary_violations(text,guide=True,import_source=False,ai_import_source=False):
     """Forbidden expressions as (category, match); guide=False applies only the checks valid for metadata and code."""
     rules=FORBIDDEN_EVERYWHERE+(FORBIDDEN_IN_GUIDES if guide else [])
     # The requested import procedure must name its source. This exception is supplied
     # only for that chapter and its own metadata; external links and other products stay forbidden.
     return [(label,m.group(0)) for pattern,label in rules for m in re.finditer(pattern,text)
-            if not (import_source and label=='programma concorrente' and m.group(0).casefold()=='midas')]
+            if not (import_source and label=='programma concorrente' and m.group(0).casefold()=='midas')
+            and not (ai_import_source and label=='strumento di IA' and m.group(0).casefold()=='openai')]
 def prose(text):
     """Paragraphs over 80 characters, excluding headings, tables, figures, formulas and link lists."""
     return {l.strip() for l in text.splitlines() if len(l.strip())>80 and not l.lstrip().startswith(('#','|','!','```','$$','- ','>','<!--'))}
@@ -109,7 +112,10 @@ class HandbookChecks(unittest.TestCase):
         for path in GUIDES:
             for part in re.split(r'(?m)(?=^## )',path.read_text(encoding='utf-8')):
                 scoped=path.name=='guida-pratica-anthea.md' and part.splitlines()[0]=='## '+IMPORT_GUIDE_TITLE
-                self.assertEqual(diary_violations(part,import_source=scoped),[],path.name)
+                ai_scoped=path.name=='guida-pratica-anthea.md' and part.splitlines()[0]=='## '+AI_IMPORT_TITLE
+                # The requested PDF importer must identify the service receiving the document.
+                # Only its operating chapter may name OpenAI; authorship diaries and external sites remain forbidden.
+                self.assertEqual(diary_violations(part,import_source=scoped,ai_import_source=ai_scoped),[],path.name)
         for name in ['editorial.json','chapters.json','glossary.json','references.json']:
             if name=='editorial.json':
                 for key,entry in read(name).items():
@@ -127,7 +133,8 @@ class HandbookChecks(unittest.TestCase):
             elif path.name=='search.json':
                 for term,positions in json.loads(data).items():
                     scoped=term=='midas' and bool(positions) and all(self.articles[p]['id']==IMPORT_GUIDE_ROUTE for p in positions)
-                    self.assertEqual(diary_violations(json.dumps({term:positions}),guide=False,import_source=scoped),[],term)
+                    ai_scoped=term=='openai' and bool(positions) and all(self.articles[p]['id']==AI_IMPORT_ROUTE for p in positions)
+                    self.assertEqual(diary_violations(json.dumps({term:positions}),guide=False,import_source=scoped,ai_import_source=ai_scoped),[],term)
             else:self.assertEqual(diary_violations(data,guide=False),[],path.name)
     def test_diary_lint_rejects_and_accepts(self):
         for text in ['Il collegamento condiviso ChatGPT non era recuperabile.','Generato con Codex.','Confronto con SOFiSTiK.','Fonte: thebridgeeng.com/design',
@@ -146,6 +153,10 @@ class HandbookChecks(unittest.TestCase):
         self.assertEqual(diary_violations('Sorgente MIDAS Civil NX',import_source=True),[])
         self.assertTrue(diary_violations('Fonte esterna midas.com',import_source=True))
         self.assertTrue(diary_violations('Confronto con SOFiSTiK.',import_source=True))
+        self.assertTrue(diary_violations('Invia PDF a OpenAI.'))
+        self.assertEqual(diary_violations('Invia PDF a OpenAI.',ai_import_source=True),[])
+        self.assertTrue(diary_violations('Generato con Codex.',ai_import_source=True))
+        self.assertTrue(diary_violations('Fonte openai.com',ai_import_source=True))
     def test_no_paragraphs_duplicated_between_guides(self):
         practical,theory=(prose(p.read_text(encoding='utf-8')) for p in GUIDES)
         self.assertEqual(sorted(practical&theory),[])

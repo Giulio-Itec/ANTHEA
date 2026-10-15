@@ -1,0 +1,45 @@
+{
+  "motivo": "Bozza Rev46 sostituita dalla Rev46 con scambio terreno interno e importazione AI disattivata",
+  "files": [
+    {
+      "origine": "supporto/docs/guida-pratica-anthea.md",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-scambio-20261015/supporto/docs/guida-pratica-anthea.md",
+      "sha256": "e31185b9b6f46d014c439cd5bf51ca4838f4915daf2c76431655f15b6505f8f7"
+    },
+    {
+      "origine": "supporto/docs/guida-pratica-anthea.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-scambio-20261015/supporto/docs/guida-pratica-anthea.pdf",
+      "sha256": "81838de74da416d8af98261cca216a00067bc77650df14ffd9f41ec9f119593b"
+    },
+    {
+      "origine": "supporto/docs/guida-teorica-anthea.md",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-scambio-20261015/supporto/docs/guida-teorica-anthea.md",
+      "sha256": "4d4413d75c57d8fe6ba40f048f6b40bf54f56b6454552d85a2fa5dd0bf42c4f8"
+    },
+    {
+      "origine": "supporto/docs/guida-teorica-anthea.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-scambio-20261015/supporto/docs/guida-teorica-anthea.pdf",
+      "sha256": "db4f7d5d21677768a0713a165a87d9f7a217c2688c52e5e128c5812241d639f5"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev46.docx",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-scambio-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev46.docx",
+      "sha256": "0b59fc2a385debb199787f78c50f5cb6fab32b105b300c7726ac6369fe2cd22f"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev46.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-scambio-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev46.pdf",
+      "sha256": "81838de74da416d8af98261cca216a00067bc77650df14ffd9f41ec9f119593b"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev46.docx",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-scambio-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev46.docx",
+      "sha256": "b44cc1d099a1ac9bbc9fb83775bdaad06d360381bef99fee63e20c52a61b9d31"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev46.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-prima-scambio-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev46.pdf",
+      "sha256": "db4f7d5d21677768a0713a165a87d9f7a217c2688c52e5e128c5812241d639f5"
+    }
+  ]
+}

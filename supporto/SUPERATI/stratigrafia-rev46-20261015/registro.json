@@ -1,0 +1,101 @@
+{
+  "motivo": "Introduzione del modulo autonomo Stratigrafia",
+  "files": [
+    {
+      "origine": "supporto/docs/guida-pratica-anthea.md",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/docs/guida-pratica-anthea.md",
+      "sha256": "a3e3d8a618e7bb6949d95d5c77b913a17154c534aa0f874496023a24660a86e9",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/docs/guida-pratica-anthea.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/docs/guida-pratica-anthea.pdf",
+      "sha256": "12e9d469e0763c9de211e18d0ecc0d4f4c676f206f544c40818da40cdab9992f",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/docs/guida-teorica-anthea.md",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/docs/guida-teorica-anthea.md",
+      "sha256": "3111963bc615eea3a939d2f2a4e01cbbaa141471d8b423613cc1f2f2529e8e8e",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/docs/guida-teorica-anthea.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/docs/guida-teorica-anthea.pdf",
+      "sha256": "f3c89ef93eef2c91d4acf29411a4a1001ce08f8eef8b052d84758571d12357ef",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev45.docx",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev45.docx",
+      "sha256": "be109324915de3bf7431fb2ed84570d118401b010def805ea08fcb128e6b3272",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev45.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev45.pdf",
+      "sha256": "12e9d469e0763c9de211e18d0ecc0d4f4c676f206f544c40818da40cdab9992f",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev45.docx",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev45.docx",
+      "sha256": "c352c3bafb0fa5bceba69f2acd4b4bc396a033028da422b7b9c20c652016a13c",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev45.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev45.pdf",
+      "sha256": "f3c89ef93eef2c91d4acf29411a4a1001ce08f8eef8b052d84758571d12357ef",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/documentazione/Guide_ANTHEA/README.md",
+      "sha256": "642f94d73dc6459fa17459fa8febd13487227f3d2b190f49a71f6267166cedeb",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/documentazione/Guide_ANTHEA/README.pdf",
+      "sha256": "50172b8ec02c402e5202fc5f7b237c6cc7ff8c1c9581973168ef5282f96886f6",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/installer/Indice-guide.md",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/installer/Indice-guide.md",
+      "sha256": "91073522013bf0a80f9cf58847f10a579e2e343b87114fb2fec44581e815605c",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/installer/Indice-guide.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/installer/Indice-guide.pdf",
+      "sha256": "6d74ce2c16d51af40e5ffa7140215acde57f2cb2bb51777fb8b163af8115b61a",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/README.md",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/README.md",
+      "sha256": "6e08a9d64fd3968c0738914c0854cac28925d25424e63fc94f6df859805479a6",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/README.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/README.pdf",
+      "sha256": "c77d9ef1aada727043971be51d4c68e72ed475967ce4a1ba0b0406687ba040d3",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/installer/README.md",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/installer/README.md",
+      "sha256": "6b1c20b9bfdd8ce059c58ffb7a5e009a32145ca793f0e8f35ee3a9270d504d4c",
+      "sostituzione": "Guide globali Rev46"
+    },
+    {
+      "origine": "supporto/installer/README.pdf",
+      "archivio": "supporto/SUPERATI/stratigrafia-rev46-20261015/supporto/installer/README.pdf",
+      "sha256": "4680d4614e7ad18126122d3ef5834273cac42960b52828cec2779cbfe24d1526",
+      "sostituzione": "Guide globali Rev46"
+    }
+  ]
+}

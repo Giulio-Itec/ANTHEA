@@ -9,6 +9,37 @@ ogni commit: `[x]` fatto, `[~]` in corso, `[ ]` da fare.
 
 ## Chiusura di F4 — 15 ottobre 2026
 
+### Attività autonoma successiva su richiesta dell’utente
+
+- [x] STRAT-5: scambio interno del terreno fra fogli, copie indipendenti, selezione
+  medi/minimi e controlli di compatibilità. Application 1582 controlli e UI 25;
+  Architecture e Wiki PASS. Guide globali Word/PDF Rev46 aggiornate.
+  Il pulsante AI resta visibile e disattivato su richiesta dell’utente.
+
+- [x] STRAT-1, 15/10: modulo singolo Stratigrafia del terreno, da `main` `9df7e475`,
+  branch `codex/modulo-stratigrafia`. Editor, contratto documentale senza WPF,
+  persistenza e report DOCX/PDF implementati; guide Rev46. Collegamento ai motori
+  geotecnici rinviato. Non avvia F5. [Contratto e verifiche](../stratigrafia.md).
+  Quick `20261015-213157-stratigrafia-finale`: 46 PASS, un fallimento nel conteggio
+  statico dei capitoli Wiki (71 precedenti più 2 nuovi). Corretto il controllo
+  mantenendo la verifica dei 71 preesistenti; build e suite Wiki e UI stratigrafia
+  `20261015-213831-stratigrafia-conclusione`: 4 PASS, zero NEW-FAIL.
+  Nessuna modifica a motori o DLL GPC; full non eseguito per questa aggiunta.
+- [x] STRAT-2, STRAT-3 e STRAT-4: importatore PDF tramite OpenAI con anteprima revisionabile,
+  fonti e profili separati; medi principali, minimi opzionali, scelta di entrambi.
+  Menu di famiglie prevalenti e retini vettoriali, senza assegnazione di proprietà.
+  Implementati e guide Word/PDF Rev46 aggiornate. Nessuna
+  richiesta API reale eseguita; prove del trasporto con risposte simulate.
+  Quick `20261015-215818-stratigrafia-ai-finale`: 46 PASS, un fallimento editoriale
+  per il nome del servizio AI nella procedura richiesta. Lint adeguato solo per
+  OpenAI nel capitolo operativo della stratigrafia e relativo indice di ricerca,
+  preservando divieti di diario di sviluppo, altri prodotti e link esterni.
+  Collaudo finale `20261015-221211-stratigrafia-completa-finale`: 11 PASS, zero
+  NEW-FAIL e BLOCKED (build, Application, Architecture, Wiki, UI e lint Wiki).
+  Le segnalazioni diagnostiche sui limiti in byte e sul metodo statico del banco
+  UI sono corrette senza nuove eccezioni architetturali. Nessun full eseguito.
+  Requisiti e limiti nella [coda evolutiva](../stratigrafia.md#coda-evolutiva).
+
 **F4 è chiusa il 15/10** con le decisioni D1–D5 dell'utente ([decisioni](decisioni.md)):
 [verbale di chiusura](chiusura-f4-20261015.md).
 - Full conforme `20261015-105444-f4-full-190` sul commit pulito `a46e91fb`: 140 PASS, 0 NEW-FAIL, 0 BLOCKED.
