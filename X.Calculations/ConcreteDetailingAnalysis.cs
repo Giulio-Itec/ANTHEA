@@ -18,10 +18,6 @@ public sealed record ConcreteAnchorageResult(double Diameter, double Stress, dou
 public static class ConcreteDetailingAnalysis
 {
     public static ConcreteDetailingResult Calculate(JsonObject input, JsonObject settings, IEnumerable<JsonObject> actions)
-        => Calculate(input, settings, actions, legacyActions: false);
-
-    /// <param name="legacyActions">Diagnostic comparison only: ignore the shear-table axial actions, as before F4.12d.</param>
-    public static ConcreteDetailingResult Calculate(JsonObject input, JsonObject settings, IEnumerable<JsonObject> actions, bool legacyActions)
     {
         if (settings.S("normativa") != "NTC 2018")
             throw new ArgumentException("I dettagli implementati sono riferiti a NTC 2018 con integrazioni EC2.");
@@ -53,7 +49,7 @@ public static class ConcreteDetailingAnalysis
         // GPC.Design). Rows without "stato" are ultimate, as the callers before the decision passed only SLU and SLV. Legacy shear rows
         // explicitly allow an omitted axial component (= 0); a present malformed value is rejected.
         var rows = actions.Select(row => new DesignAxialAction(row.S("nome"), Family(row.S("stato", "SLU")), SectionWorkspace.Number(row.S("N"), "N")));
-        if (!legacyActions) rows = rows.Concat(settings["taglio"]!.Array("azioni").OfType<JsonObject>()
+        rows = rows.Concat(settings["taglio"]!.Array("azioni").OfType<JsonObject>()
             .Select(row => new DesignAxialAction(row.S("nome"), DesignActionFamily.Shear, SectionWorkspace.Number(row.S("N", "0"), "N"))));
         var governing = SectionDesignDemand.DetailingCompression(rows.ToArray());
         double n = governing.Value;
