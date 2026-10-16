@@ -1,0 +1,119 @@
+{
+  "hasResults": false,
+  "allSeries": [],
+  "capacity-0": {
+    "Title": "Premere Calcola",
+    "XLabel": "Forza assiale [kN]",
+    "YLabel": "Profondit\u00E0 z [m]",
+    "Note": "",
+    "InvertY": true,
+    "Capacity": true,
+    "CapacityDepth": 0,
+    "XMinimum": null,
+    "XMaximum": null,
+    "XTickStep": null,
+    "EmptyMessage": "Completare i dati \u00B7 calcolo automatico",
+    "AxisNumberFormat": null,
+    "ScaleX": 1,
+    "ScaleY": 1,
+    "Series": [],
+    "Markers": []
+  },
+  "capacity-1": {
+    "Title": "Premere Calcola",
+    "XLabel": "Forza assiale [kN]",
+    "YLabel": "Profondit\u00E0 z [m]",
+    "Note": "",
+    "InvertY": true,
+    "Capacity": true,
+    "CapacityDepth": 0,
+    "XMinimum": null,
+    "XMaximum": null,
+    "XTickStep": null,
+    "EmptyMessage": "Completare i dati \u00B7 calcolo automatico",
+    "AxisNumberFormat": null,
+    "ScaleX": 1,
+    "ScaleY": 1,
+    "Series": [],
+    "Markers": []
+  },
+  "capacity-2": {
+    "Title": "Premere Calcola",
+    "XLabel": "Forza assiale [kN]",
+    "YLabel": "Profondit\u00E0 z [m]",
+    "Note": "",
+    "InvertY": true,
+    "Capacity": true,
+    "CapacityDepth": 0,
+    "XMinimum": null,
+    "XMaximum": null,
+    "XTickStep": null,
+    "EmptyMessage": "Completare i dati \u00B7 calcolo automatico",
+    "AxisNumberFormat": null,
+    "ScaleX": 1,
+    "ScaleY": 1,
+    "Series": [],
+    "Markers": []
+  },
+  "reference-0": {
+    "Title": "Abachi Bustamante\u2013Doix",
+    "XLabel": "p_l [MPa]",
+    "YLabel": "s [kPa]",
+    "Note": "Stratigrafia 1 \u00B7 IGU \u00B7 SG2 \u00B7 p_l = p_i \u00B7 punti disponibili dopo il calcolo",
+    "InvertY": false,
+    "Capacity": false,
+    "CapacityDepth": 0,
+    "XMinimum": null,
+    "XMaximum": null,
+    "XTickStep": null,
+    "EmptyMessage": "Premere Calcola",
+    "AxisNumberFormat": null,
+    "ScaleX": 1,
+    "ScaleY": 1,
+    "Series": [
+      {
+        "Name": "SG2",
+        "Points": [
+          [
+            0.25,
+            25
+          ],
+          [
+            1,
+            100
+          ],
+          [
+            2,
+            200
+          ],
+          [
+            3,
+            300
+          ],
+          [
+            4,
+            400
+          ],
+          [
+            5,
+            500
+          ],
+          [
+            6,
+            600
+          ],
+          [
+            6.7,
+            670
+          ]
+        ],
+        "Color": "#FF0B5CAD",
+        "Dashed": false,
+        "Highlighted": false,
+        "Dashes": null,
+        "DashOffset": null
+      }
+    ],
+    "Markers": []
+  }
+}

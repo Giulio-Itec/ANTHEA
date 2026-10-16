@@ -76,6 +76,7 @@ public static class F3Fixtures
             d["workspace_ca"] = new JsonObject { ["versione"] = 2, ["normativa"] = "NTC 2018", ["coefficienti"] = new JsonObject() };
         });
         PileGroupF54(cases);
+        VerticalPileF56(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -157,6 +158,108 @@ public static class F3Fixtures
         Added("generica-sovrapposti", d => {
             Generator(d)["tipo"] = "Generica";
             d["pali"] = new JsonArray(J.Obj(("id", "P1"), ("x", 0), ("y", 0)), J.Obj(("id", "P2"), ("x", 0.6), ("y", 0)), J.Obj(("id", "P3"), ("x", 3), ("y", 0)));
+        });
+    }
+
+    /// <summary>
+    /// Vertical pile and micropile fixtures added before the F5.6 preparation (proposal F5, section 7.2: capture first, with the
+    /// historic view of SheetEditor/GeoEditor): driven, bored and continuous flight auger piles, groundwater with and without buoyancy,
+    /// several surveys with granular, cohesive and excluded layers, the efficiency methods, a stratigraphy shorter than the pile,
+    /// saved chart visibility, warnings (γb of the sheet, efficiency), IRS and IGU micropiles with tip, inclination and grouting start,
+    /// and two calculations that stop with missing data. Documents as the sheet writes them: texts for the typed values (also with a
+    /// decimal comma), JSON booleans for the options. The identifiers never end in "default", which the F3 project report collects.
+    /// </summary>
+    static void VerticalPileF56(List<CaptureCase> cases)
+    {
+        const string Pile = "geo_palo_verticale", Micro = "geo_micropalo_verticale";
+        void Added(string module, string id, Action<JsonObject, JsonObject> alter)
+        {
+            var data = ModuleCatalog.CreateData(module); alter(data, data["generali"]!.AsObject());
+            cases.Add(new(module, id, "Fixture sintetica F5.6 (proposta F5 7.2, cattura prima con la vista storica)", null, data));
+        }
+        static JsonObject Layer(string type, string density, string thickness, string gamma, string saturated, string phi, string cohesion = "0", string undrained = "0", string nc = "9", bool lateral = true) =>
+            J.Obj(("spessore", thickness), ("tipologia", type), ("addensamento", density), ("peso_specifico", gamma), ("peso_specifico_saturo", saturated),
+                ("angolo_attrito", phi), ("coesione_efficace", cohesion), ("coesione_non_drenata", undrained), ("nc", nc), ("laterale_attiva", lateral));
+        static JsonObject Efficiency(string method, string nx, string ny, string sx = "", string sy = "", string etaC = "1", string etaT = "1") =>
+            J.Obj(("metodo", method), ("numero_pali_x", nx), ("numero_pali_y", ny), ("interasse_x", sx), ("interasse_y", sy), ("eta_compressione", etaC), ("eta_trazione", etaT));
+        static string Base(JsonObject g, bool micro) => Calcolo.SicurezzaBaseNormativa(g, micro).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+        string[] soils = BustamanteDoix.Terreni.Keys.ToArray();
+        string Alpha(string soil, string injection) => (injection == "IRS" ? BustamanteDoix.Terreni[soil].IRS : BustamanteDoix.Terreni[soil].IGU)[0]
+            .ToString(System.Globalization.CultureInfo.InvariantCulture);
+        JsonObject MicroLayer(string soil, string thickness, string injection, bool lateral = true) =>
+            J.Obj(("spessore", thickness), ("terreno", soil), ("alpha", Alpha(soil, injection)), ("laterale_attiva", lateral));
+
+        // Driven pile (precast) with groundwater and buoyancy, two surveys of granular and cohesive layers (undrained branch below the
+        // water table), ξ of three investigated verticals, Converse–Labarre group; γb of the technology (driven: 1,15).
+        Added(Pile, "battuto-falda-sondaggi", (d, g) => {
+            g["tipo_palo"] = "Battuto"; g["sottotipo_palo_battuto"] = "Calcestruzzo prefabbricato";
+            g["diametro"] = "0.6"; g["lunghezza"] = "15"; g["azione_compressione"] = "1200"; g["azione_trazione"] = "250";
+            g["presenza_falda"] = true; g["profondita_falda"] = "2,5"; g["considera_sottospinta"] = true; g["verticali_indagate"] = "3";
+            g["sicurezza_base"] = Base(g, false);
+            d["efficienza"] = Efficiency("Converse-Labarre", "3", "2", "1.8", "2.1");
+            d["stratigrafie"] = new JsonArray(
+                new JsonArray(Layer("Granulare", "Sciolto", "4", "18", "20", "30"), Layer("Coesivo", "Denso", "6", "19", "20", "24", "10", "80"),
+                    Layer("Granulare", "Denso", "10", "20", "22", "36")),
+                new JsonArray(Layer("Granulare", "Denso", "8", "19.5", "21", "34"), Layer("Coesivo", "Sciolto", "12", "18.5", "19.5", "22", "5", "60", "7")));
+        });
+        // Continuous flight auger pile in cohesive soil, water table at the ground surface without buoyancy, a first layer excluded from
+        // the shaft, Feld group, γb of the sheet different from the technology (warning), traction action not given.
+        Added(Pile, "elica-coesivo-avvisi", (d, g) => {
+            g["tipo_palo"] = "Elica continua"; g["diametro"] = "0.8"; g["lunghezza"] = "18"; g["azione_compressione"] = "900"; g["azione_trazione"] = "";
+            g["presenza_falda"] = true; g["profondita_falda"] = "0"; g["considera_sottospinta"] = false; g["verticali_indagate"] = "≥10";
+            g["sicurezza_base"] = "1.50"; g["sicurezza_laterale_compressione"] = "1.20";
+            d["efficienza"] = Efficiency("Feld", "2", "3");
+            d["stratigrafie"] = new JsonArray(new JsonArray(Layer("Granulare", "Sciolto", "3", "17", "19", "28", lateral: false),
+                Layer("Coesivo", "Sciolto", "9", "18", "19", "22", "5", "45"), Layer("Coesivo", "Denso", "12", "19", "20.5", "25", "15", "120", "8")));
+        });
+        // Bored pile longer than the surveys (results limited to the available depth, warning of the sheet), three surveys, user
+        // defined efficiency and the chart visibility saved in the sheet (design curves of traction hidden, mean compression shown).
+        Added(Pile, "copertura-insufficiente", (d, g) => {
+            g["diametro"] = "1.2"; g["lunghezza"] = "22"; g["azione_compressione"] = "2500"; g["azione_trazione"] = "600"; g["verticali_indagate"] = "2";
+            d["efficienza"] = Efficiency("Definita dall'utente", "1", "1", etaC: "0.85", etaT: "0,9");
+            d["stratigrafie"] = new JsonArray(
+                new JsonArray(Layer("Granulare", "Denso", "8", "19", "21", "33"), Layer("Granulare", "Denso", "6", "20", "22", "37")),
+                new JsonArray(Layer("Granulare", "Sciolto", "5", "18", "20", "30"), Layer("Granulare", "Denso", "11", "20", "21", "35")),
+                new JsonArray(Layer("Granulare", "Denso", "16", "19.5", "21.5", "34")));
+            d["visibilita_grafici"] = J.Obj(("progetto_drenante_trazione", false), ("progetto_non_drenante_trazione", false), ("media_drenante_compressione", true));
+        });
+        // Complete geometry with a cohesive layer below the water table without Cu: the calculation stops with «Dati da completare».
+        Added(Pile, "dati-incompleti", (d, g) => {
+            g["diametro"] = "0.8"; g["lunghezza"] = "12"; g["azione_compressione"] = "700";
+            g["presenza_falda"] = true; g["profondita_falda"] = "3";
+            d["stratigrafie"] = new JsonArray(new JsonArray(Layer("Granulare", "Denso", "4", "19", "21", "32"),
+                J.Obj(("spessore", "10"), ("tipologia", "Coesivo"), ("addensamento", "Denso"), ("peso_specifico", "19"), ("peso_specifico_saturo", "20"),
+                    ("angolo_attrito", "24"), ("coesione_efficace", "10"), ("coesione_non_drenata", ""), ("nc", "9"), ("laterale_attiva", true))));
+        });
+        // IRS micropile with tip (10%), inclined 15°, grouted from 2 m along the axis, CHS tube, two surveys (one layer excluded),
+        // Converse–Labarre group; γb of the technology.
+        Added(Micro, "irs-punta-inclinato", (d, g) => {
+            g["tipo_iniezione"] = "IRS"; g["diametro"] = "0.3"; g["lunghezza"] = "14"; g["profilo_chs"] = "CHS 139.7 × 8"; g["pressione_iniezione"] = "2.5";
+            g["inclinazione"] = "15"; g["inizio_aderenza"] = "2"; g["considera_punta"] = true; g["percentuale_punta"] = "10";
+            g["azione_compressione"] = "450"; g["azione_trazione"] = "200"; g["verticali_indagate"] = "2";
+            g["sicurezza_base"] = Base(g, true);
+            d["efficienza"] = Efficiency("Converse-Labarre", "2", "2", "1", "1,2");
+            d["stratigrafie"] = new JsonArray(
+                new JsonArray(MicroLayer(soils[0], "3", "IRS", lateral: false), MicroLayer(soils[2], "6", "IRS"), MicroLayer(soils[^1], "8", "IRS")),
+                new JsonArray(MicroLayer(soils[1], "5", "IRS"), MicroLayer(soils[3], "12", "IRS")));
+        });
+        // IGU micropile without tip, surveys shorter than the micropile (results limited to the available length), Feld group, three
+        // surveys and the chart visibility saved in the sheet.
+        Added(Micro, "igu-copertura-avvisi", (d, g) => {
+            g["tipo_iniezione"] = "IGU"; g["diametro"] = "0.22"; g["lunghezza"] = "16"; g["profilo_chs"] = "CHS 114.3 × 8"; g["pressione_iniezione"] = "3";
+            g["azione_compressione"] = "380"; g["azione_trazione"] = "";
+            d["efficienza"] = Efficiency("Feld", "3", "1");
+            d["stratigrafie"] = new JsonArray(
+                new JsonArray(MicroLayer(soils[1], "4", "IGU"), MicroLayer(soils[2], "6", "IGU")),
+                new JsonArray(MicroLayer(soils[0], "12", "IGU")),
+                new JsonArray(MicroLayer(soils[3], "5", "IGU"), MicroLayer(soils[^1], "5", "IGU")));
+            d["visibilita_grafici"] = J.Obj(("progetto_trazione", false), ("minima_compressione", true));
+        });
+        // Tip contribution above 15% of the shaft: the calculation stops with «Dati da completare».
+        Added(Micro, "dati-incompleti", (d, g) => {
+            g["diametro"] = "0.25"; g["lunghezza"] = "10"; g["profilo_chs"] = "CHS 114.3 × 6.3"; g["pressione_iniezione"] = "2";
+            g["considera_punta"] = true; g["percentuale_punta"] = "20"; g["azione_compressione"] = "300";
+            d["stratigrafie"] = new JsonArray(new JsonArray(MicroLayer(soils[2], "12", "IGU")));
         });
     }
 }

@@ -1,0 +1,170 @@
+# word/document.xml
+¶ ANTHEA — Fixture F3 · geo_micropalo_verticale · igu-copertura-avvisi
+¶ Micropalo — Bustamante–Doix · <DATA> <ORA>
+¶ Dati generali — m, kN, kPa, gradi; p_i in MPa
+[T1 r1 c1] Parametro
+[T1 r1 c2] Valore
+[T1 r2 c1] diametro
+[T1 r2 c2] 0,22
+[T1 r3 c1] lunghezza
+[T1 r3 c2] 16
+[T1 r4 c1] peso_specifico_palo
+[T1 r4 c2] 25
+[T1 r5 c1] azione_compressione
+[T1 r5 c2] 380
+[T1 r6 c1] azione_trazione
+[T1 r6 c2]
+[T1 r7 c1] verticali_indagate
+[T1 r7 c2] 1
+[T1 r8 c1] sicurezza_laterale_compressione
+[T1 r8 c2] 1,15
+[T1 r9 c1] sicurezza_laterale_trazione
+[T1 r9 c2] 1,25
+[T1 r10 c1] peso_palo_sfavorevole
+[T1 r10 c2] 1,3
+[T1 r11 c1] peso_palo_favorevole
+[T1 r11 c2] 1
+[T1 r12 c1] metodo_micropalo
+[T1 r12 c2] BD-VIGGIANI-2026-09-10
+[T1 r13 c1] tipo_iniezione
+[T1 r13 c2] IGU
+[T1 r14 c1] profilo_chs
+[T1 r14 c2] CHS 114.3 × 8
+[T1 r15 c1] pressione_iniezione
+[T1 r15 c2] 3
+[T1 r16 c1] inclinazione
+[T1 r16 c2] 0
+[T1 r17 c1] inizio_aderenza
+[T1 r17 c2] 0
+[T1 r18 c1] considera_punta
+[T1 r18 c2] false
+¶ Efficienza — dati
+[T2 r1 c1] Parametro
+[T2 r1 c2] Valore
+[T2 r2 c1] metodo
+[T2 r2 c2] Feld
+[T2 r3 c1] numero_pali_x
+[T2 r3 c2] 3
+[T2 r4 c1] numero_pali_y
+[T2 r4 c2] 1
+[T2 r5 c1] interasse_x
+[T2 r5 c2]
+[T2 r6 c1] interasse_y
+[T2 r6 c2]
+[T2 r7 c1] eta_compressione
+[T2 r7 c2] 1
+[T2 r8 c1] eta_trazione
+[T2 r8 c2] 1
+¶ Efficienza — risultati
+[T3 r1 c1] Parametro
+[T3 r1 c2] Valore
+[T3 r2 c1] errore
+[T3 r2 c2]
+[T3 r3 c1] metodo
+[T3 r3 c2] Feld
+[T3 r4 c1] eta_compressione
+[T3 r4 c2] 0,9
+[T3 r5 c1] eta_trazione
+[T3 r5 c2] 0,9
+[T3 r6 c1] numero_pali
+[T3 r6 c2] 3,0
+¶ Coefficienti applicati
+[T4 r1 c1] Parametro
+[T4 r1 c2] Valore
+[T4 r2 c1] ξ3
+[T4 r2 c2] 1,7
+[T4 r3 c1] ξ4
+[T4 r3 c2] 1,7
+[T4 r4 c1] γs,c
+[T4 r4 c2] 1,15
+[T4 r5 c1] γs,t
+[T4 r5 c2] 1,25
+[T4 r6 c1] γG sfavorevole
+[T4 r6 c2] 1,3
+[T4 r7 c1] γG favorevole
+[T4 r7 c2] 1
+¶ Sondaggio 1 — strato 1
+[T5 r1 c1] Parametro
+[T5 r1 c2] Valore
+[T5 r2 c1] spessore
+[T5 r2 c2] 4
+[T5 r3 c1] terreno
+[T5 r3 c2] Ghiaia sabbiosa
+[T5 r4 c1] alpha
+[T5 r4 c2] 1,2
+[T5 r5 c1] laterale_attiva
+[T5 r5 c2] true
+¶ Sondaggio 1 — strato 2
+[T6 r1 c1] Parametro
+[T6 r1 c2] Valore
+[T6 r2 c1] spessore
+[T6 r2 c2] 6
+[T6 r3 c1] terreno
+[T6 r3 c2] Sabbia ghiaiosa
+[T6 r4 c1] alpha
+[T6 r4 c2] 1,2
+[T6 r5 c1] laterale_attiva
+[T6 r5 c2] true
+¶ Profilo del sondaggio 1
+¶ Sondaggio 2 — strato 1
+[T7 r1 c1] Parametro
+[T7 r1 c2] Valore
+[T7 r2 c1] spessore
+[T7 r2 c2] 12
+[T7 r3 c1] terreno
+[T7 r3 c2] Ghiaia
+[T7 r4 c1] alpha
+[T7 r4 c2] 1,3
+[T7 r5 c1] laterale_attiva
+[T7 r5 c2] true
+¶ Profilo del sondaggio 2
+¶ Sondaggio 3 — strato 1
+[T8 r1 c1] Parametro
+[T8 r1 c2] Valore
+[T8 r2 c1] spessore
+[T8 r2 c2] 5
+[T8 r3 c1] terreno
+[T8 r3 c2] Sabbia grossa
+[T8 r4 c1] alpha
+[T8 r4 c2] 1,1
+[T8 r5 c1] laterale_attiva
+[T8 r5 c2] true
+¶ Sondaggio 3 — strato 2
+[T9 r1 c1] Parametro
+[T9 r1 c2] Valore
+[T9 r2 c1] spessore
+[T9 r2 c2] 5
+[T9 r3 c1] terreno
+[T9 r3 c2] Roccia alterata e/o fratturata
+[T9 r4 c1] alpha
+[T9 r4 c2] 1,1
+[T9 r5 c1] laterale_attiva
+[T9 r5 c2] true
+¶ Profilo del sondaggio 3
+¶ Metodo
+¶ C. Viggiani, Fondazioni, §13.1.6, pp. 392–396; eq. 13.21, tab. 13.12–13.13, fig. 13.16–13.19. p_l = p_i; α maggiora il diametro. Interpolazione lineare degli abachi, senza estrapolazione.
+¶ Criteri e unità
+¶ Lunghezze m; forze kN; tensioni e aderenze kPa; pesi specifici kN/m³. I valori arrotondati sono solo di presentazione. I minimi dei contributi laterale e di punta sono valutati separatamente.
+¶ Rd,c = ηc min[Rb,media/(ξ3 γb) + Rs,media/(ξ3 γs,c); Rb,min/(ξ4 γb) + Rs,min/(ξ4 γs,c)]. Rd,t = ηt min[Rs,media/(ξ3 γs,t); Rs,min/(ξ4 γs,t)].
+¶ Rs = Σπ (Db α) Δs s_aderenza. Coordinate lungo asse s; z=s cosθ. Il peso proprio è proiettato sull'asse. Rb è la percentuale selezionata di Rs.
+¶ Resistenze di progetto
+[T10 r1 c1] Verifica (asse s)
+[T10 r1 c2] Quota [m]
+[T10 r1 c3] Rd [kN]
+[T10 r1 c4] Ed [kN]
+[T10 r1 c5] Esito
+[T10 r2 c1] compressione
+[T10 r2 c2] 10,0
+[T10 r2 c3] 1140,7
+[T10 r2 c4] 394,2
+[T10 r2 c5] Verifica incompleta: stratigrafia insufficiente
+[T10 r3 c1] trazione
+[T10 r3 c2] 10,0
+[T10 r3 c3] 1049,5
+[T10 r3 c4] —
+[T10 r3 c5] Verifica incompleta: stratigrafia insufficiente
+¶ Capacità portante del micropalo
+¶ Abachi Bustamante–Doix del sondaggio 1
+¶ Abachi Bustamante–Doix del sondaggio 2
+¶ Abachi Bustamante–Doix del sondaggio 3
+¶ Profilo stratigrafico

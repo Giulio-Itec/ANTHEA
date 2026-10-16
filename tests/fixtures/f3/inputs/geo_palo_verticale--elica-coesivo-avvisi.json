@@ -1,0 +1,78 @@
+{
+  "module": "geo_palo_verticale",
+  "id": "elica-coesivo-avvisi",
+  "origin": "Fixture sintetica F5.6 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "generali": {
+      "tipo_palo": "Elica continua",
+      "sottotipo_palo_battuto": "Profilato d'acciaio",
+      "diametro": "0.8",
+      "lunghezza": "18",
+      "peso_specifico_palo": "25",
+      "azione_compressione": "900",
+      "azione_trazione": "",
+      "presenza_falda": true,
+      "considera_sottospinta": false,
+      "profondita_falda": "0",
+      "verticali_indagate": "≥10",
+      "sicurezza_laterale_compressione": "1.20",
+      "sicurezza_laterale_trazione": "1.25",
+      "sicurezza_base": "1.50",
+      "peso_palo_sfavorevole": "1.30",
+      "peso_palo_favorevole": "1.00",
+      "metodo_nq": "Parametrizzata"
+    },
+    "efficienza": {
+      "metodo": "Feld",
+      "numero_pali_x": "2",
+      "numero_pali_y": "3",
+      "interasse_x": "",
+      "interasse_y": "",
+      "eta_compressione": "1",
+      "eta_trazione": "1"
+    },
+    "stratigrafie": [
+      [
+        {
+          "spessore": "3",
+          "tipologia": "Granulare",
+          "addensamento": "Sciolto",
+          "peso_specifico": "17",
+          "peso_specifico_saturo": "19",
+          "angolo_attrito": "28",
+          "coesione_efficace": "0",
+          "coesione_non_drenata": "0",
+          "nc": "9",
+          "laterale_attiva": false
+        },
+        {
+          "spessore": "9",
+          "tipologia": "Coesivo",
+          "addensamento": "Sciolto",
+          "peso_specifico": "18",
+          "peso_specifico_saturo": "19",
+          "angolo_attrito": "22",
+          "coesione_efficace": "5",
+          "coesione_non_drenata": "45",
+          "nc": "9",
+          "laterale_attiva": true
+        },
+        {
+          "spessore": "12",
+          "tipologia": "Coesivo",
+          "addensamento": "Denso",
+          "peso_specifico": "19",
+          "peso_specifico_saturo": "20.5",
+          "angolo_attrito": "25",
+          "coesione_efficace": "15",
+          "coesione_non_drenata": "120",
+          "nc": "8",
+          "laterale_attiva": true
+        }
+      ]
+    ],
+    "visibilita_grafici": {},
+    "versione": 2
+  }
+}
