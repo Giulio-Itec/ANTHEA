@@ -392,7 +392,8 @@ internal sealed partial class ConcreteWorkspace
         for (int i = 0; i < 5; i++) { tabs.SelectedIndex = i; await Capture("automatico_1366_tab_" + (i + 1)); }
         Assert(shearGrid.ActualHeight >= 80, "Tabella taglio leggibile anche a 1366 px con Mx/My e comandi Excel");
         tabs.SelectedIndex = 3; sleTabs.SelectedIndex = 0;
-        var summaryTab = Ui.Descendants<TabControl>(this).First(t => t.Items.OfType<TabItem>().Any(i => i.Header?.ToString() == "Riepilogo verifiche"));
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); // the search walks the visual tree of the tab just selected
+        var summaryTab =Ui.Descendants<TabControl>(this).First(t => t.Items.OfType<TabItem>().Any(i => i.Header?.ToString() == "Riepilogo verifiche"));
         summaryTab.SelectedIndex = 1; await Capture("riepilogo_verifiche");
         tabs.SelectedIndex = 0;
         File.WriteAllText(Path.Combine(directory,"ca_workspace_tests.txt"),$"{checks} controlli WPF Checker superati.");
