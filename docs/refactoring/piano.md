@@ -584,8 +584,33 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - **Prove nuove:** `ui/check-theme-tokens` e `ui/check-contrast` nello stadio ui. Scuro e Molto scuro hanno 0 difetti; la
     Chiara ne ha 699 nella baseline a 96 DPI.
   - **Corsa** build, fast, wiki e ui sul merge con il pilota `20261016-123436-f5-int5`: PASS 111, 0 NEW-FAIL.
-- [ ] F5.4 [CP] Modulo pilota: palificata orizzontale.
+- [ ] F5.4 [CP] Modulo pilota: palificata orizzontale. Passi 1–4 della ricetta fatti il 16/10; in attesa del punto di
+  controllo dell'utente ([ricetta e materiale](f5-4-pilota.md), sezione 4).
+  - **Preparazione** (merge 826eb8ed):
+    - 6 fixture F3 nuove catturate con la vista storica e 11 tracce congelate;
+    - derivazioni spostate in Application;
+    - ViewModel uguale byte per byte alla vista storica;
+    - `SheetCalculationMode.Synchronous` (Q8 a).
+  - **Vista XAML** (merge 065f6ab3):
+    - `Views/PileGroup`, con sola lettura e aiuto nel form comune;
+    - banco `--module-impl`;
+    - confronto diretto storica/MVVM identico su 514 file;
+    - `ui/check-pile-group-view` al posto della parte UI di `HorizontalPileGroup.Checks`;
+    - contrasto 0 in Scuro e Molto scuro.
+  - **Versione di prova portatile `1.11.0-prova.f5`**, consegnata all'utente il 16/10. Ramo locale `prova/f5-palificata`, con la
+    palificata MVVM anche nella Release.
 - [ ] F5.5–F5.12 Materiali, palo verticale, orizzontale, elastico, muri, sezione c.a., sezione composta, Bridge Design.
+  - **Preparazioni fatte il 16/10** (passi 1–5 della ricetta, Release storica). Per entrambe restano la vista XAML e il punto
+    di controllo:
+    - **F5.5, materiali** ([f5-5-materiali.md](f5-5-materiali.md), merge ac82c69e):
+      - 12 fixture e 21 tracce;
+      - `PreviewData` nel contratto dei fogli e `SheetCalculationMode.None`;
+      - ViewModel del calcestruzzo e dell'acciaio.
+    - **F5.6, palo e micropalo verticale** ([f5-6-palo-verticale.md](f5-6-palo-verticale.md), merge 56992d3c):
+      - 7 fixture, 7 figure e 18 tracce;
+      - ViewModel sullo sfondo;
+      - un difetto storico del micropalo segnalato (cambio dell'iniezione con un risultato presente).
+  - **Corsa** build, fast, wiki e ui sul merge `20261016-155151-f5-int7`: PASS 114, 0 NEW-FAIL, 61 fixture F3.
 - [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. Requisito
   dell'utente dell'8/10 («considera le opzioni 1 e 3. non multi progetto. però dai la possibilità di staccare la
   finestra per più monitor»):
