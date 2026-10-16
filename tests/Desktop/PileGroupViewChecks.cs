@@ -92,6 +92,7 @@ internal static class PileGroupViewChecks
             await Help(root, editors, wiki);
             await AutomationNames(root, editors);
             await ReadOnly(root, editors);
+            InteractiveBench(root);
         }
         finally
         {
@@ -537,6 +538,27 @@ internal static class PileGroupViewChecks
             Log.Add($"   nomi nuovi ({id}): " + string.Join(", ", after.Except(before).Order(StringComparer.Ordinal)));
         }
     }
+
+    // ---------------------------------------------------------------- 8. interactive bench
+
+    /// <summary>
+    /// ANTHEA.exe --interactive --module-impl geo_efficienza_orizzontale=mvvm (UiTests, manual tests before the checkpoint): the factory of
+    /// the composition root with the bench choice opens the MVVM pile group with the services of the product, the others stay historic.
+    /// </summary>
+    private static void InteractiveBench(string root)
+    {
+        var composition = new DesktopComposition(() => null);
+        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Interactive, ModuleHostBench.Argument, Module + "=mvvm"], composition);
+        using (var pileGroup = factory.Open(Module, PileGroupScenarios.FixtureData(root, "default")))
+            Check(pileGroup is MvvmSheetEditor { Sheet: PileGroupSheetViewModel sheet } && sheet.DiameterForm.WikiNavigator is WpfWikiNavigator && sheet.HasResults,
+                "Banco interattivo: palificata MVVM con i servizi del prodotto (Wiki della finestra)");
+        using (var other = factory.Open("geo_palo_verticale", Anthea.Application.Modules.ModuleDirectory.CreateData("geo_palo_verticale")))
+            Check(other is SheetEditor, "Banco interattivo: gli altri moduli restano storici");
+        Check(composition.SheetEditors.Open(Module, PileGroupScenarios.FixtureData(root, "default")) is SheetEditor historic && Dispose(historic),
+            "Banco interattivo: la radice di composizione della Release apre ancora la vista storica");
+    }
+
+    private static bool Dispose(IDisposable value) { value.Dispose(); return true; }
 
     // ---------------------------------------------------------------- 7. read-only
 

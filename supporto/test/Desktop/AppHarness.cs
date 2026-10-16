@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Threading;
 using X.Core;
+using X.Desktop.Services;
 
 namespace X.Desktop;
 
@@ -18,6 +19,8 @@ public partial class App
 
     partial void RunTestHarness(StartupEventArgs e, ref bool handled)
     {
+        // F5.4: the application as in the product, with the sheets of --module-impl (ModuleHostBench), to try a migrated module by hand.
+        if (e.Args.FirstOrDefault() == ModuleHostBench.Interactive) { handled = true; StartInteractive(e); return; }
         if (!e.Args.Any(a => a.StartsWith("--check") || a.StartsWith("--smoke") || a == "--capture-validation")) return;
         // Every check runs with the light theme; the later production call is ignored (Initialize is idempotent).
         Appearance.Initialize(false);
@@ -178,6 +181,29 @@ public partial class App
         if (e.Args.Length >= 2 && SmokeFlags.Contains(e.Args[0])) { StartSmoke(e); return; }
         // Any other use of --check*/--smoke*: normal start, still with the light theme, as before.
         handled = false;
+    }
+
+    /// <summary>
+    /// ANTHEA.exe --interactive --module-impl &lt;modulo&gt;=mvvm [archivio] (UiTests only): the startup of App.OnStartup (appearance of the
+    /// user, error log, composition root, services of the product) with the editors of the bench, so that a module migrated to MVVM can be
+    /// tried by hand before its checkpoint. Never in Release.
+    /// </summary>
+    private void StartInteractive(StartupEventArgs e)
+    {
+        Appearance.Initialize(true);
+        ErrorLog.Attach();
+        DispatcherUnhandledException += (_, error) =>
+        {
+            ErrorLog.Write("Errore non gestito nell'interfaccia", error.Exception);
+            MessageBox.Show(error.Exception.Message, "ANTHEA — errore", MessageBoxButton.OK, MessageBoxImage.Error);
+            error.Handled = true;
+        };
+        Composition = new DesktopComposition(ActiveWindow);
+        var window = new MainWindow(Composition.WindowServices, ModuleHostBench.SheetEditors(e.Args, Composition));
+        MainWindow = window;
+        if (ModuleHostBench.WithoutBench(e.Args).Skip(1).FirstOrDefault(a => !a.StartsWith("--")) is string path)
+            window.Loaded += (_, _) => window.Safe(() => window.LoadFile(path));
+        window.Show();
     }
 
     private void StartSmoke(StartupEventArgs e)
