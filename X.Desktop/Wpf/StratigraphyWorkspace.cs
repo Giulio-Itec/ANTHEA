@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Anthea.Application.Stratigraphy;
+using Anthea.Presentation.Forms;
+using Anthea.Presentation.Modules.Stratigraphy;
 
 namespace X.Desktop;
 
@@ -26,16 +28,12 @@ internal sealed partial class StratigraphyWorkspace : UserControl
         {
             var importButton = Ui.Button("Importa relazione PDF con AI…", Import);
             importButton.IsEnabled = false;
-            importButton.ToolTip = "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire.";
+            importButton.ToolTip = StratigraphyImport.Disabled;
             ToolTipService.SetShowOnDisabled(importButton, true);
             general.Children.Add(importButton);
         }
-        Choice(general, data, "scenario", "Parametri da usare nelle verifiche", StratigraphyDocument.Scenarios);
-        Field(general, data, "name", "Nome della stratigrafia");
-        Field(general, data, "description", "Descrizione / ubicazione");
-        Field(general, data, "ground_elevation", "Quota altimetrica piano campagna [m] · facoltativa");
-        Choice(general, data, "water_state", "Falda", StratigraphyDocument.WaterStates);
-        Field(general, data, "water_depth", "Profondità falda [m] · positiva verso il basso");
+        // The fields of the sheet are defined once (F5.6b) for this view and for StratigraphyEditorViewModel.
+        foreach (var field in StratigraphyFields.General()) Add(general, data, field);
         general.Children.Add(Ui.Text("Origine delle profondità: piano campagna (0 m). Un solo livello di falda; nessuna modellazione artesiana o di falde sospese.", 12));
         var actions = Ui.Bar(
             Ui.Button("+ Strato", () => Edit(() => StratigraphyDocument.Add(data))),
@@ -73,9 +71,15 @@ internal sealed partial class StratigraphyWorkspace : UserControl
         };
         host.Children.Add(Ui.Text(label, 12)); host.Children.Add(box);
     }
+    private void Add(Panel host, JsonObject owner, FieldSpec field)
+    {
+        if (field.Choices is not null) Choice(host, owner, field.Key, field.Label, field.Choices);
+        else Field(host, owner, field.Key, field.Label);
+    }
+    private static FieldSpec Spec(FieldSpec[] fields, string key) => fields.Single(f => f.Key == key);
     private void Choice(Panel host, JsonObject owner, string key, string label, string[] choices)
     {
-        var combo = new ComboBox { ItemsSource = choices, SelectedItem = owner[key]?.ToString() ?? (key == "scenario" ? "Medi" : key == "soil_type" ? "Non classificato" : key == "behavior" ? "Da definire" : null), Margin = new Thickness(0, 2, 0, 8) };
+        var combo = new ComboBox { ItemsSource = choices, SelectedItem = owner[key]?.ToString() ?? StratigraphyPresentation.DefaultChoice(key), Margin = new Thickness(0, 2, 0, 8) };
         System.Windows.Automation.AutomationProperties.SetName(combo, label);
         combo.SelectionChanged += (_, _) => { owner[key] = combo.SelectedItem?.ToString(); Changed(); };
         host.Children.Add(Ui.Text(label, 12)); host.Children.Add(combo);
@@ -91,24 +95,25 @@ internal sealed partial class StratigraphyWorkspace : UserControl
     {
         fields.Children.Clear(); if (layers.SelectedIndex < 0) return;
         var layer = StratigraphyDocument.Layers(data)[Selected]!.AsObject();
+        var identity = StratigraphyFields.Layer();
         fields.Children.Add(Ui.Text("Dati dello strato selezionato", 16, true));
-        Field(fields, layer, "name", "Denominazione");
-        Choice(fields, layer, "soil_type", "Famiglia prevalente · retino automatico", StratigraphyDocument.SoilTypes);
-        Choice(fields, layer, "behavior", "Comportamento per il trasferimento ai moduli di verifica", ["Da definire", "Granulare", "Coesivo"]);
+        Add(fields, layer, Spec(identity, "name"));
+        Add(fields, layer, Spec(identity, "soil_type"));
+        Add(fields, layer, Spec(identity, "behavior"));
         fields.Children.Add(Ui.Text("Per terreni misti scegli la componente prevalente e specifica la miscela nella descrizione. Il retino è una convenzione grafica, non assegna parametri.", 12));
-        Field(fields, layer, "description", "Descrizione litologica");
-        Field(fields, layer, "color", "Colore del profilo [#RRGGBB]");
+        Add(fields, layer, Spec(identity, "description"));
+        Add(fields, layer, Spec(identity, "color"));
         bool infinite = StratigraphyDocument.Infinite(layer);
-        var check = new CheckBox { Content = "Ultimo strato esteso indefinitamente", IsChecked = infinite,
+        var check = new CheckBox { Content = StratigraphyFields.InfiniteLabel, IsChecked = infinite,
             IsEnabled = Selected == layers.Items.Count - 1, Margin = new Thickness(0, 4, 0, 8) };
-        check.Click += (_, _) => { layer["infinite"] = check.IsChecked == true; layer["thickness"] = check.IsChecked == true ? null : JsonValue.Create(1.0); ShowLayer(); Changed(); };
+        check.Click += (_, _) => { StratigraphyPresentation.SetInfinite(layer, check.IsChecked == true); ShowLayer(); Changed(); };
         fields.Children.Add(check);
-        if (!infinite) Field(fields, layer, "thickness", "Spessore [m]");
-        var useMinimum = new CheckBox { Content = "Gestisci anche i valori minimi (opzionali)", IsChecked = layer["minimum"] is JsonObject, Margin = new Thickness(0, 4, 0, 8) };
+        if (!infinite) Add(fields, layer, Spec(StratigraphyFields.Thickness(), "thickness"));
+        var useMinimum = new CheckBox { Content = StratigraphyFields.MinimaLabel, IsChecked = layer["minimum"] is JsonObject, Margin = new Thickness(0, 4, 0, 8) };
         useMinimum.Click += (_, _) =>
         {
             if (useMinimum.IsChecked == true) layer["minimum"] = StratigraphyDocument.NewMinimum();
-            else if (MessageBox.Show(Window.GetWindow(this), "Rimuovere i valori minimi di questo strato?", "Valori minimi", MessageBoxButton.YesNo) == MessageBoxResult.Yes) layer["minimum"] = null;
+            else if (MessageBox.Show(Window.GetWindow(this), StratigraphyPresentation.MinimaRemoval, StratigraphyPresentation.MinimaCaption, MessageBoxButton.YesNo) == MessageBoxResult.Yes) layer["minimum"] = null;
             ShowLayer(); Changed();
         };
         fields.Children.Add(useMinimum);
@@ -119,31 +124,27 @@ internal sealed partial class StratigraphyWorkspace : UserControl
         parameterGrid.Children.Add(means); Grid.SetColumn(minima, 1); parameterGrid.Children.Add(minima);
         means.Children.Add(Ui.Text("Valori medi · insieme principale", 14, true));
         minima.Children.Add(Ui.Text("Valori minimi · opzionali", 14, true));
-        foreach (var (key, label) in new[] { ("gamma", "Peso naturale γ [kN/m³]"),
-            ("gamma_sat", "Peso dell’unità di volume saturo γsat [kN/m³]"), ("phi", "Angolo di resistenza efficace φ′ [°]"),
-            ("c", "Coesione efficace c′ [kPa]"), ("cu", "Resistenza non drenata cu [kPa]") })
+        var meanFields = StratigraphyFields.Means();
+        var minimumFields = StratigraphyFields.Minima();
+        foreach (var (key, _) in StratigraphyFields.Parameters())
         {
-            Field(means, layer, key, label);
-            if (layer["minimum"] is JsonObject minimum) Field(minima, minimum, key, label + " · minimo");
+            Add(means, layer, Spec(meanFields, key));
+            if (layer["minimum"] is JsonObject minimum) Add(minima, minimum, Spec(minimumFields, key));
         }
-        Choice(means, layer, "qualification", "Qualificazione dei medi", StratigraphyDocument.Qualifications);
-        Field(means, layer, "source", "Fonte dei medi / pagine");
+        Add(means, layer, Spec(meanFields, "qualification"));
+        Add(means, layer, Spec(meanFields, "source"));
         if (layer["minimum"] is JsonObject minimumData)
-        {
-            Choice(minima, minimumData, "qualification", "Qualificazione dei minimi", StratigraphyDocument.Qualifications);
-            Field(minima, minimumData, "source", "Fonte dei minimi / pagine");
-            Field(minima, minimumData, "notes", "Note sui minimi");
-        }
-        else minima.Children.Add(Ui.Text("Non assegnati. Non vengono copiati dai medi.", 12));
+            foreach (string key in new[] { "qualification", "source", "notes" }) Add(minima, minimumData, Spec(minimumFields, key));
+        else minima.Children.Add(Ui.Text(StratigraphyPresentation.MinimaNote, 12));
         fields.Children.Add(parameterGrid);
         fields.Children.Add(Ui.Text("Vuoto = dato non disponibile. Nessuna correlazione automatica o applicazione di coefficienti parziali.", 12));
-        Field(fields, layer, "notes", "Note (specificare eventuali qualificazioni diverse per parametro)");
+        Add(fields, layer, Spec(StratigraphyFields.Notes(), "notes"));
     }
     private void Import()
     {
         var dialog = new StratigraphyImportWindow { Owner = Window.GetWindow(this) };
         if (dialog.ShowDialog() != true || dialog.Result is not JsonObject result) return;
-        data.Clear(); foreach (var pair in result) data[pair.Key] = pair.Value?.DeepClone();
+        StratigraphyImport.Replace(data, result);
         var replacement = new StratigraphyWorkspace(data);
         replacement.Modified += () => Modified?.Invoke();
         Content = replacement;
@@ -152,19 +153,14 @@ internal sealed partial class StratigraphyWorkspace : UserControl
     private void Edit(Action action, int? selected = null)
     {
         try { action(); Reload(selected ?? Selected); Modified?.Invoke(); }
-        catch (ArgumentException ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Stratigrafia"); }
+        catch (ArgumentException ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, StratigraphyPresentation.Caption); }
     }
     private void Changed() { Refresh(); Modified?.Invoke(); }
     private void Refresh()
     {
         foreach (ListBoxItem item in layers.Items) item.Background = item.IsSelected ? Appearance.Selection("#DCEBFA") : Appearance.Paper;
-        try
-        {
-            var warnings = StratigraphyDocument.Warnings(data);
-            status.Text = warnings.Count == 0 ? "Dati validi. Il modulo non esegue verifiche geotecniche." : string.Join("\n", warnings);
-            drawing.Data = data;
-        }
-        catch (ArgumentException ex) { status.Text = "Correggere prima di salvare: " + ex.Message; drawing.Data = null; }
+        var current = StratigraphyPresentation.Status(data);
+        status.Text = current.Text; drawing.Data = current.Drawn ? data : null;
         drawing.Selection = Selected; drawing.InvalidateVisual();
     }
     internal void Commit() => StratigraphyDocument.Validate(data);

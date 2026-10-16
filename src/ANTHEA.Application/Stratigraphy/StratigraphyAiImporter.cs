@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 namespace Anthea.Application.Stratigraphy;
 
 /// <summary>Extracts untrusted, reviewable drafts. Never writes a project or performs engineering calculations.</summary>
-public sealed class StratigraphyAiImporter(HttpClient http)
+public sealed class StratigraphyAiImporter(HttpClient http) : IStratigraphyDraftSource
 {
     // Transport bounds in bytes: 20 MiB PDF and 4 MiB JSON, not engineering constants.
     public const int MaximumPdfBytes = 20_971_520;
