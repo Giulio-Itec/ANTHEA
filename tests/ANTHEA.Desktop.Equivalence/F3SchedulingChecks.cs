@@ -13,11 +13,13 @@ internal sealed partial class SheetEditor
         var fixture = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests/fixtures/f3/inputs/geo_palo_verticale--regressione-palo_storico_0.json")))!;
         var data = fixture["data"]!.AsObject();
         using var service = new GatedModuleService();
-        using var editor = new SheetEditor(service.ModuleId, data, service);
+        using var editor = new SheetEditorFactory().Open(service.ModuleId, data, service);
+        // Edits go through the general form of the historic vertical-pile view, outside the ISheetEditor contract until F5.6.
+        var historic = (SheetEditor)editor;
         var first = editor.CalculateAsync(commitEdits: false);
         await service.Started.Task.WaitAsync(TimeSpan.FromSeconds(15));
         Check(editor.Busy, "Stato Busy non attivato nella vista");
-        editor.generalForm.Set("diametro", "1.25");
+        historic.generalForm.Set("diametro", "1.25");
         var last = editor.CalculateAsync(commitEdits: false);
         Check(editor.Result is null, "Risultato non invalidato dopo la modifica");
         Check(service.Calls == 1, "Motori verticali sovrapposti");
@@ -27,7 +29,7 @@ internal sealed partial class SheetEditor
         Check(editor.Result!.D("test_diametro_snapshot") == 1.25, "Pubblicato il risultato di una geometria precedente");
         Check(service.Calls == 2, "Richiesta automatica duplicata dopo il calcolo esplicito");
         service.Arm();
-        editor.generalForm.Set("diametro", "1.35");
+        historic.generalForm.Set("diametro", "1.35");
         var closing = editor.CalculateAsync(commitEdits: false);
         await service.Started.Task.WaitAsync(TimeSpan.FromSeconds(15));
         editor.Dispose(); service.Release();

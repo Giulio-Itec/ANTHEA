@@ -27,6 +27,8 @@ internal static class F3EquivalenceCapture
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
         var normalizer = new TextNormalizer([(root, "<RADICE>"), (output, "<USCITA>"), (Path.GetTempPath(), "<TEMP>")]);
         int count = 0;
+        // Sheets open through the factory of the window (F5.2): a migrated module is captured with the editor it opens in the product.
+        var editors = new SheetEditorFactory();
         foreach (string input in Directory.EnumerateFiles(Path.Combine(root, "tests/fixtures/f3/inputs"), "*.json").Order(StringComparer.Ordinal))
         {
             var fixture = JsonNode.Parse(File.ReadAllText(input))!.AsObject();
@@ -41,9 +43,9 @@ internal static class F3EquivalenceCapture
                 File.WriteAllText(Path.Combine(folder, name + ".json"), CanonicalJson.Serialize(value, guids, normalizer), new UTF8Encoding(false));
             }
             Console.WriteLine("F3 " + module + "/" + id);
-            using var editor = new SheetEditor(module, data);
+            using var editor = editors.Open(module, data);
             editor.Commit(); Save("opened", editor.Data);
-            Visit(editor); editor.Commit(); Save("visited", editor.Data);
+            Visit(editor.View); editor.Commit(); Save("visited", editor.Data);
             await editor.CalculateAsync(); editor.Commit(); Save("calculated-data", editor.Data); Save("result", editor.Result);
             var status = new JsonObject { ["hasResults"] = editor.HasResults };
             string raw = Path.Combine(output, "raw", module, id); Directory.CreateDirectory(raw);
@@ -66,7 +68,7 @@ internal static class F3EquivalenceCapture
             catch (Exception ex) when (ex is not IOException && ex is not UnauthorizedAccessException)
             { status["report"] = "unavailable"; status["reason"] = ex.GetType().Name + ": " + ex.Message; }
             Save("exported-data", editor.Data); Save("status", status);
-            using var reopened = new SheetEditor(module, editor.Data); reopened.Commit(); Save("reopened", reopened.Data);
+            using var reopened = editors.Open(module, editor.Data); reopened.Commit(); Save("reopened", reopened.Data);
             count++;
         }
         string wiki = Path.Combine(output, "wiki"); Directory.CreateDirectory(wiki);
