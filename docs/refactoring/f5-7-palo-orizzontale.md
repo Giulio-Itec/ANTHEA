@@ -169,6 +169,14 @@ moduli esistenti:
 Stadio `ui`: `ui/check-palo-orizzontale-historic` (tracce, elenchi di disegno, dati dei diagrammi), `ui/check-module-host-offscreen`
 (registro con i due moduli orizzontali, Release storica), le suite F3.
 
+**Corsa finale** `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `b7de81c0`:
+`supporto/artefatti/ci/20261017-005213-f57-finale`, PASS 114 (build 25, fast 31, wiki 2, ui 56), KNOWN 0, NEW-FAIL 0, nessun file
+tracciato modificato. `ui/f3-equivalence` PASS con 67 fixture e `transitions-f4.json` invariato; `ui/f3-report-chapters` PASS con 68
+capitoli; `ui/check-palo-orizzontale-historic` 22 scenari, 36211 righe, 40 disegni; `Presentation.Tests` 1296; `ui/smoke-horizontal`
+ed `ElasticPile.UiChecks` con le due varianti PASS. `ui/check-contrast` è escluso: dal 16/10 sera lo schermo è al 150% (144 DPI) e il
+controllo non può confrontarsi con la sua baseline a 96 DPI (decisione D6); il coordinatore lo ripete a 96 DPI. La suite
+`ui/check-palo-orizzontale-historic` è l'unica nuova dello stadio `ui` (57 con il contrasto).
+
 ## 2. Comportamenti della vista storica trovati con le tracce
 
 Riprodotti dal ViewModel, perché la vista storica li ha; da decidere al punto di controllo (domande O3–O6).
