@@ -55,15 +55,20 @@ internal static class ModuleHostWpfChecks
         Check(ModuleImplementations.Declared.All(d => d.Implementation == SheetImplementation.Historic) && ModuleImplementations.Release.Mvvm.Count == 0,
             "Release: tutti i moduli con la vista storica");
 
-        // The composition root of the product: registry of ModuleDirectory with the MVVM pile group (F5.4), historic editors.
+        // The composition root of the product: registry of ModuleDirectory with the MVVM pile group (F5.4) and vertical piles (F5.6),
+        // historic editors.
         var composition = new DesktopComposition(() => null);
         Check(composition.Modules.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
-            && composition.Modules.SheetModuleIds.SequenceEqual(["geo_efficienza_orizzontale"]),
-            "Radice di composizione: registro uguale a ModuleDirectory, con la sola palificata MVVM");
+            && composition.Modules.SheetModuleIds.SequenceEqual(ModuleDirectory.All.Select(m => m.Id)
+                .Where(m => m is "geo_efficienza_orizzontale" or "geo_palo_verticale" or "geo_micropalo_verticale")),
+            "Radice di composizione: registro uguale a ModuleDirectory, con la palificata e i pali verticali MVVM");
         using (var historic = composition.SheetEditors.Open(ProbeModule, ModuleDirectory.CreateData(ProbeModule)))
             Check(historic is SheetEditor, "Radice di composizione: la fabbrica apre la vista storica");
         using (var pileGroup = composition.SheetEditors.Open("geo_efficienza_orizzontale", ModuleDirectory.CreateData("geo_efficienza_orizzontale")))
             Check(pileGroup is SheetEditor, "Radice di composizione: la Release apre la palificata con la vista storica");
+        foreach (string vertical in new[] { "geo_palo_verticale", "geo_micropalo_verticale" })
+            using (var pile = composition.SheetEditors.Open(vertical, ModuleDirectory.CreateData(vertical)))
+                Check(pile is SheetEditor, "Radice di composizione: la Release apre " + vertical + " con la vista storica");
         Fails<ArgumentException>(() => composition.SheetEditors.Open("inesistente", new JsonObject()), "inesistente", "Modulo sconosciuto rifiutato come oggi");
 
         // The bench argument (UiTests only).
