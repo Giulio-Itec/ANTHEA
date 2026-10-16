@@ -112,6 +112,7 @@ internal static class F4DomainRules
     }
 
     static bool IsNonWpfLayer(string file) => file.StartsWith("X.Core/", StringComparison.Ordinal)
+        || file.StartsWith("src/ANTHEA.Presentation/", StringComparison.Ordinal)
         || file.StartsWith("src/ANTHEA.Application/", StringComparison.Ordinal)
         || file.StartsWith("src/ANTHEA.Reports/", StringComparison.Ordinal)
         || file.StartsWith("src/ANTHEA.Serialization/", StringComparison.Ordinal)
