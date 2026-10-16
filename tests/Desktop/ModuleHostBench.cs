@@ -10,13 +10,16 @@ namespace X.Desktop;
 /// <see cref="ModuleImplementations.Release"/> and the modules of the composition root, and with the services of the checks.
 /// On the command line of the harness, <c>--module-impl &lt;module&gt;=mvvm|historic</c> (repeatable) chooses another
 /// implementation for a module: before its checkpoint a migrated module is selectable only here, never in the product and never
-/// with an environment variable (decision D3). Accepted after the arguments of --check-f3-equivalence; a module without an MVVM
-/// implementation makes the factory fail with its name.
+/// with an environment variable (decision D3). Accepted after the arguments of --check-f3-equivalence and --check-f3-report-chapters
+/// (F5.4); a module without an MVVM implementation makes the factory fail with its name.
 /// </summary>
 internal static class ModuleHostBench
 {
     /// <summary>The bench argument.</summary>
     internal const string Argument = "--module-impl";
+
+    /// <summary>First argument of the interactive bench (F5.4): the application of the product with the editors of the bench (App.StartInteractive).</summary>
+    internal const string Interactive = "--interactive";
 
     /// <summary>Factory of the checks with the bench choices of the command line of this process.</summary>
     internal static SheetEditorFactory SheetEditors() => SheetEditors(Environment.GetCommandLineArgs());
@@ -24,6 +27,13 @@ internal static class ModuleHostBench
     /// <summary>Factory of the checks with the bench choices of <paramref name="arguments"/> and the modules of <paramref name="modules"/>.</summary>
     internal static SheetEditorFactory SheetEditors(IReadOnlyList<string> arguments, ModuleRegistry? modules = null) =>
         new(Implementations(arguments), modules ?? DesktopComposition.CreateModules(), Services(), new CalculationLimiter(CalculationLimiter.DefaultMaximum));
+
+    /// <summary>
+    /// Factory of the interactive bench: the bench choices of <paramref name="arguments"/> with the modules, the services and the limiter of
+    /// the composition root of the product (real dialogs and Wiki), as App.OnStartup builds them.
+    /// </summary>
+    internal static SheetEditorFactory SheetEditors(IReadOnlyList<string> arguments, DesktopComposition composition) =>
+        new(Implementations(arguments), composition.Modules, composition.Services, composition.Limiter);
 
     /// <summary>The Release choices with the <c>--module-impl</c> pairs of <paramref name="arguments"/> applied in order.</summary>
     internal static ModuleImplementations Implementations(IReadOnlyList<string> arguments)

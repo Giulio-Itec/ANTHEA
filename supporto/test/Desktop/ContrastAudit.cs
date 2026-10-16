@@ -164,6 +164,18 @@ internal sealed class ContrastAudit
                     var window = await audit.OpenMain(mode);
                     try { await window.AuditContrastViews(audit); }
                     finally { await audit.CloseMain(window); }
+                    // Views of the modules migrated to MVVM before their Release switch (F5.4: the pile group), in a window whose editors open
+                    // them. With --baseline (runner) only Scuro and Molto scuro: until the Release opens the new view, the Chiara of the module is
+                    // the one of the historic view, whose defects are in the baseline (modulo-geo_efficienza_orizzontale); without --baseline also Chiara.
+                    if (audit.Want(MainWindow.MvvmPileGroupView) && (mode != AppAppearance.Light || audit.baselineFile is null))
+                    {
+                        var mvvm = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "geo_efficienza_orizzontale=mvvm"]));
+                        try { await mvvm.AuditMvvmViews(audit); }
+                        finally { await audit.CloseMain(mvvm); }
+                    }
+                    else if (mode == AppAppearance.Light && audit.baselineFile is not null && audit.Want(MainWindow.MvvmPileGroupView))
+                        audit.Uncovered("Vista MVVM della palificata (F5.4) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre la vista storica, " +
+                            "la cui Chiara è nella baseline (modulo-geo_efficienza_orizzontale); la Chiara della vista MVVM si misura senza --baseline");
                     var start = mode == AppAppearance.Light ? AppAppearance.VeryDark : AppAppearance.Light;
                     if (audit.Want("cambio"))
                     {
@@ -338,10 +350,10 @@ internal sealed class ContrastAudit
 
     /// <summary>Main window off screen: native handle without showing it (Loaded and the theme handler work), fixed
     /// 1600×1000 client area, no frame; shown off screen and without activation only if the handle alone gives no Loaded.</summary>
-    internal async Task<MainWindow> OpenMain(AppAppearance mode)
+    internal async Task<MainWindow> OpenMain(AppAppearance mode, SheetEditorFactory? editors = null)
     {
         Appearance.Set(mode, false);
-        var window = new MainWindow(TestServices.Create);
+        var window = editors is null ? new MainWindow(TestServices.Create) : new MainWindow(TestServices.Create, editors);
         Main = window; seenWindows.Add(window);
         window.PrepareContrastAudit();
         window.WindowStyle = WindowStyle.None; window.ResizeMode = ResizeMode.NoResize; window.ShowInTaskbar = false; window.ShowActivated = false;
@@ -1684,7 +1696,14 @@ public sealed partial class MainWindow
     internal async Task AuditWaitEditor(ContrastAudit a, bool calculate)
     {
         if (editor is null) return;
-        var active = historicEditor!;
+        if (editor is not SheetEditor active)
+        {
+            // A sheet of a module migrated to MVVM (MvvmSheetEditor): «Calcola», then the end of the calculation.
+            if (calculate) { try { await editor.CalculateAsync(); } catch (Exception ex) { a.Note(a.Context, "Calcolo: " + ex.Message); } }
+            if (!await a.WaitUntil(() => editor is null || !editor.Busy, 120)) a.Note(a.Context, "calcolo ancora in corso dopo 120 s");
+            await a.Settle(60);
+            return;
+        }
         if (calculate) { try { await active.CalculateAsync(); } catch (Exception ex) { a.Note(a.Context, "Calcolo: " + ex.Message); } }
         try { await active.WaitForAutomatic(); } catch (Exception ex) { a.Note(a.Context, ex.Message); }
         if (!await a.WaitUntil(() => editor is null || !editor.Busy, 120)) a.Note(a.Context, "calcolo ancora in corso dopo 120 s");
@@ -1866,17 +1885,24 @@ public sealed partial class MainWindow
 
     /// <summary>The module as opened from the catalogue; when its defaults are incomplete, the main view only, then every tab,
     /// popup and window on complete data ("-dati").</summary>
-    private async Task AuditModule(ContrastAudit a, string module)
+    private async Task AuditModule(ContrastAudit a, string module, string prefix = "modulo-")
     {
         JsonObject? complete = null;
-        try { complete = AuditCompleteData(a, module); } catch (Exception ex) { a.Note("modulo-" + module, "dati completi non disponibili: " + ex.Message); }
+        try { complete = AuditCompleteData(a, module); } catch (Exception ex) { a.Note(prefix + module, "dati completi non disponibili: " + ex.Message); }
         if (complete is not null)
         {
             ModuleCatalog.ValidateData(module, complete);
-            await AuditModuleState(a, module, null, "modulo-" + module, full: false);
+            await AuditModuleState(a, module, null, prefix + module, full: false);
         }
-        await AuditModuleState(a, module, complete, "modulo-" + module + (complete is null ? "" : "-dati"), full: true);
+        await AuditModuleState(a, module, complete, prefix + module + (complete is null ? "" : "-dati"), full: true);
     }
+
+    /// <summary>Step of the MVVM view of the pile group (F5.4): the same exploration as the module steps, in a window that opens the MVVM sheet.</summary>
+    internal const string MvvmPileGroupView = "mvvm-geo_efficienza_orizzontale";
+
+    /// <summary>The views of the modules migrated to MVVM and not yet switched in the Release (F5.4: the pile group), with the steps of the modules.</summary>
+    internal async Task AuditMvvmViews(ContrastAudit a) =>
+        await a.Step(MvvmPileGroupView, () => AuditModule(a, "geo_efficienza_orizzontale", "mvvm-"));
 
     private async Task AuditModuleState(ContrastAudit a, string module, JsonObject? data, string name, bool full)
     {

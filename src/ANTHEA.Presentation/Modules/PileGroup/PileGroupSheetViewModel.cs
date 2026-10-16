@@ -32,8 +32,9 @@ namespace Anthea.Presentation.Modules.PileGroup;
 /// (<see cref="HorizontalPileGroupEditor.Select"/>) and raises Modified, without recalculating; allowed also when read-only.</item>
 /// <item>View state not saved: the direction of the representative spacings shown.</item>
 /// <item>Read-only (a previous revision): layout, cap, spacing direction, cells and the cancelled cell edit refuse the changes;
-/// the forms are rebuilt on detached copies, because <see cref="FormViewModel"/> has no read-only state of its own. Selection and
-/// calculation stay available.</item>
+/// the forms are read-only (<see cref="FormViewModel.IsReadOnly"/>, decision D4 of F5.4). Selection and calculation stay available.</item>
+/// <item>Forms: compact, as the 12-point fields of the historic view; the «?» labels and F1 open the Wiki with the navigator of the
+/// services (<see cref="FormViewModel.WikiNavigator"/>).</item>
 /// </list>
 /// Numbers and rules of the texts come from <see cref="PileGroupPresentation"/>, shared with the historic view. The equivalence
 /// with that view is proved without WPF by tests/ANTHEA.Presentation.Tests (PileGroupSheetChecks) against its traces frozen in
@@ -55,7 +56,8 @@ public sealed class PileGroupSheetViewModel : SheetViewModelBase
     private int spacingIndex;
     private bool isGeneric;
     private string coordinateHelp = "", generatorNote = "";
-    private FormViewModel? diameterForm, generatorForm, directionsForm, capForm, optionsForm, spacingForm;
+    private FormViewModel? diameterForm, generatorForm, rotationForm, xDirectionsForm, yDirectionsForm, customDirectionForm, capForm, extrapolationsForm,
+        projectedRowsForm, spacingForm;
     private string title = "", state = "", minimum = "—", mean = "—", maximum = "—", reduction = "—", geometry = "", source = "", notes = "";
     private IReadOnlyList<ComparisonRowViewModel> comparison = [];
     private ComparisonRowViewModel? selectedComparison;
@@ -92,7 +94,7 @@ public sealed class PileGroupSheetViewModel : SheetViewModelBase
             selectedLayout = value;
             OnPropertyChanged();
             Data["generatore"]!["tipo"] = value;
-            BuildGenerator(keepTexts: false);
+            BuildGenerator();
             Queue();
         }
     }
@@ -103,8 +105,11 @@ public sealed class PileGroupSheetViewModel : SheetViewModelBase
     /// <summary>Fields of the layout; null with the generic layout, whose coordinates are typed in the table.</summary>
     public FormViewModel? GeneratorForm => generatorForm;
 
-    /// <summary>Note under the fields of the rings (pentagonal and hexagonal layouts); empty otherwise.</summary>
+    /// <summary>Note under the fields of the rings (pentagonal and hexagonal layouts), before the rotation; empty otherwise.</summary>
     public string GeneratorNote { get => generatorNote; private set => SetProperty(ref generatorNote, value); }
+
+    /// <summary>Rotation of the generated group, the last field of the layout (after <see cref="GeneratorNote"/>); null with the generic layout.</summary>
+    public FormViewModel? RotationForm => rotationForm;
 
     /// <summary>Coordinates of the piles: typed with the generic layout, regenerated otherwise.</summary>
     public ObservableCollection<PileRowViewModel> Piles { get; } = [];
@@ -122,8 +127,14 @@ public sealed class PileGroupSheetViewModel : SheetViewModelBase
     /// <summary>Help under the table.</summary>
     public string CoordinateHelp { get => coordinateHelp; private set => SetProperty(ref coordinateHelp, value); }
 
-    /// <summary>Directions of the load: +X, +Y, −X, −Y, the custom one and its angle (enabled only with the custom direction).</summary>
-    public FormViewModel DirectionsForm => directionsForm!;
+    /// <summary>Directions of the load along X, +X and −X: the first column of the two rows of directions.</summary>
+    public FormViewModel XDirectionsForm => xDirectionsForm!;
+
+    /// <summary>Directions of the load along Y, +Y and −Y: the second column.</summary>
+    public FormViewModel YDirectionsForm => yDirectionsForm!;
+
+    /// <summary>The custom direction and its angle, enabled only with the custom direction.</summary>
+    public FormViewModel CustomDirectionForm => customDirectionForm!;
 
     /// <summary>Shapes of the cap.</summary>
     public IReadOnlyList<string> CapShapes { get; } = ["Contorno palificata", "Rettangolare"];
@@ -146,8 +157,11 @@ public sealed class PileGroupSheetViewModel : SheetViewModelBase
     /// <summary>Distance between the axis of the pile and the edge of the cap, in diameters.</summary>
     public FormViewModel CapForm => capForm!;
 
-    /// <summary>Options of applicability: extrapolations and the extension to projected rows.</summary>
-    public FormViewModel OptionsForm => optionsForm!;
+    /// <summary>Option of applicability: extrapolations (its note follows it).</summary>
+    public FormViewModel ExtrapolationsForm => extrapolationsForm!;
+
+    /// <summary>Option of applicability: the extension to projected rows (its note follows it).</summary>
+    public FormViewModel ProjectedRowsForm => projectedRowsForm!;
 
     /// <summary>Directions of the representative spacings, in the order of <see cref="SpacingDirectionIndex"/>.</summary>
     public IReadOnlyList<string> SpacingDirections { get; } = ["+X", "+Y", "−X", "−Y", "Personalizzata"];
@@ -164,7 +178,7 @@ public sealed class PileGroupSheetViewModel : SheetViewModelBase
             spacingDirection = SpacingId(value);
             OnPropertyChanged();
             OnPropertyChanged(nameof(SpacingDirection));
-            BuildSpacing(keepTexts: false);
+            BuildSpacing();
         }
     }
 
@@ -173,6 +187,13 @@ public sealed class PileGroupSheetViewModel : SheetViewModelBase
 
     /// <summary>Representative spacings S∥ and S⊥ of the shown direction; empty means automatic (the key is removed).</summary>
     public FormViewModel SpacingForm => spacingForm!;
+
+    /// <summary>The forms of the sheet in the order of the view (without the forms of the generic layout).</summary>
+    public IEnumerable<FormViewModel> Forms => new[] { diameterForm, generatorForm, rotationForm, xDirectionsForm, yDirectionsForm, customDirectionForm, capForm,
+        extrapolationsForm, projectedRowsForm, spacingForm }.OfType<FormViewModel>();
+
+    /// <summary>The field <paramref name="key"/> of the forms of the sheet (the keys are unique among the forms shown).</summary>
+    public FieldViewModel Field(string key) => Forms.Where(f => f.Contains(key)).Select(f => f[key]).Single();
 
     /// <summary>
     /// The view cancelled the edit of a cell of the table (Esc): the table is compared with the data again and the sheet
@@ -287,9 +308,9 @@ public sealed class PileGroupSheetViewModel : SheetViewModelBase
         base.OnPropertyChanged(e);
         if (e.PropertyName != nameof(CanEdit)) return;
         OnPropertyChanged(nameof(CanEditCoordinates));
-        if (loading || IsDisposed) return;
+        if (IsDisposed) return;
         foreach (var row in Piles) row.Locked = !CanEdit;
-        BuildForms(keepTexts: true);
+        foreach (var form in Forms) form.IsReadOnly = !CanEdit;
     }
 
     protected override void OnDisposed()
@@ -310,37 +331,38 @@ public sealed class PileGroupSheetViewModel : SheetViewModelBase
         string cap = Data["basamento"].S("tipo");
         selectedCapShape = CapShapes.Contains(cap) ? cap : null;
         OnPropertyChanged(nameof(SelectedCapShape));
-        BuildForms(keepTexts: false);
+        BuildForms();
         LoadPiles();
     }
 
-    /// <summary>The forms of the sheet on the current data: on detached copies when read-only; with the texts shown before when kept.</summary>
-    private void BuildForms(bool keepTexts)
+    /// <summary>The forms of the sheet on the current data.</summary>
+    private void BuildForms()
     {
-        var shown = keepTexts ? Texts(diameterForm, directionsForm, capForm, optionsForm) : null;
-        Set(ref diameterForm, Form(Data, [Number("diametro", "Diametro comune D [m]")], shown), nameof(DiameterForm));
-        BuildGenerator(keepTexts);
+        Set(ref diameterForm, Form(Data, [Number("diametro", "Diametro comune D [m]")]), nameof(DiameterForm));
+        BuildGenerator();
+        // The directions in two columns (+X/−X, +Y/−Y), as the two rows of the historic view, without its alignment spaces (D8).
         var directions = Data["direzioni"]!.AsObject();
-        Set(ref directionsForm, Form(directions, [Option("X", "+X · 0°"), Option("Y", "+Y · 90°"), Option("X-", "−X · 180°"), Option("Y-", "−Y · 270°"),
-            Option("custom", "Aggiungi direzione personalizzata"), Number("angolo_custom", "Angolo [° antiorari da +X]")], shown), nameof(DirectionsForm));
-        DirectionsForm.Enable("angolo_custom", directions.B("custom"));
-        Set(ref capForm, Form(Data["basamento"]!.AsObject(), [Number("bordo_d", "Distanza asse palo–bordo / D")], shown), nameof(CapForm));
-        Set(ref optionsForm, Form(Data, [Option("estrapolazioni", "Consenti estrapolazioni"), Option("file_proiettate", "Accetto l’estensione per file proiettate")], shown),
-            nameof(OptionsForm));
-        BuildSpacing(keepTexts);
+        Set(ref xDirectionsForm, Form(directions, [Option("X", "+X · 0°"), Option("X-", "−X · 180°")]), nameof(XDirectionsForm));
+        Set(ref yDirectionsForm, Form(directions, [Option("Y", "+Y · 90°"), Option("Y-", "−Y · 270°")]), nameof(YDirectionsForm));
+        Set(ref customDirectionForm, Form(directions, [Option("custom", "Aggiungi direzione personalizzata"), Number("angolo_custom", "Angolo [° antiorari da +X]")]),
+            nameof(CustomDirectionForm));
+        CustomDirectionForm.Enable("angolo_custom", directions.B("custom"));
+        Set(ref capForm, Form(Data["basamento"]!.AsObject(), [Number("bordo_d", "Distanza asse palo–bordo / D")]), nameof(CapForm));
+        Set(ref extrapolationsForm, Form(Data, [Option("estrapolazioni", "Consenti estrapolazioni")]), nameof(ExtrapolationsForm));
+        Set(ref projectedRowsForm, Form(Data, [Option("file_proiettate", "Accetto l’estensione per file proiettate")]), nameof(ProjectedRowsForm));
+        BuildSpacing();
     }
 
     /// <summary>BuildGenerator of the historic view: the fields of the layout, none for the generic one.</summary>
-    private void BuildGenerator(bool keepTexts)
+    private void BuildGenerator()
     {
-        var shown = keepTexts ? Texts(generatorForm) : null;
         var g = Data["generatore"]!.AsObject();
         string kind = g.S("tipo");
         bool generic = kind == Generic;
         IsGeneric = generic;
         CoordinateHelp = generic ? "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
             : "Coordinate automatiche. Scegli Generica per modificarle dalla tabella.";
-        if (generic) { Set(ref generatorForm, null, nameof(GeneratorForm)); GeneratorNote = ""; return; }
+        if (generic) { Set(ref generatorForm, null, nameof(GeneratorForm)); Set(ref rotationForm, null, nameof(RotationForm)); GeneratorNote = ""; return; }
         var fields = new List<FieldSpec>();
         bool rings = false;
         if (kind is "Rettangolare" or "Quinconce")
@@ -353,19 +375,18 @@ public sealed class PileGroupSheetViewModel : SheetViewModelBase
             fields.AddRange([Number("anelli", "Numero di anelli concentrici"), Number("suddivisioni", "Suddivisioni/lato primo anello"),
                 Number("sx_d", "Passo lungo il lato S / D"), Option("centro", "Palo al centro")]);
         }
-        fields.Add(Number("rotazione", "Rotazione palificata [° da +X]"));
-        Set(ref generatorForm, Form(g, fields, shown), nameof(GeneratorForm));
+        Set(ref generatorForm, Form(g, fields), nameof(GeneratorForm));
         GeneratorNote = rings ? "L’anello k ha k volte le suddivisioni del primo; il passo lungo il lato resta costante." : "";
+        Set(ref rotationForm, Form(g, [Number("rotazione", "Rotazione palificata [° da +X]")]), nameof(RotationForm));
     }
 
     /// <summary>BuildSpacing of the historic view: the object of the shown direction is created when missing, without Modified.</summary>
-    private void BuildSpacing(bool keepTexts)
+    private void BuildSpacing()
     {
-        var shown = keepTexts ? Texts(spacingForm) : null;
         var spacings = Data["interassi"]!.AsObject();
         if (spacings[spacingDirection] is not JsonObject) spacings[spacingDirection] = new JsonObject();
         Set(ref spacingForm, Form(spacings[spacingDirection]!.AsObject(), [Optional("interasse_parallelo", "S∥ · tra file lungo H [m]"),
-            Optional("interasse_trasversale", "S⊥ · ortogonale a H [m]")], shown), nameof(SpacingForm));
+            Optional("interasse_trasversale", "S⊥ · ortogonale a H [m]")]), nameof(SpacingForm));
     }
 
     private void Set(ref FormViewModel? field, FormViewModel? value, string name)
@@ -382,28 +403,17 @@ public sealed class PileGroupSheetViewModel : SheetViewModelBase
 
     private static string SpacingId(int index) => index switch { 0 => "X", 1 => "Y", 2 => "X-", 3 => "Y-", _ => "custom" };
 
-    /// <summary>Texts of the text fields of <paramref name="forms"/>, by key.</summary>
-    private static Dictionary<string, string> Texts(params FormViewModel?[] forms) => forms.Where(f => f is not null)
-        .SelectMany(f => f!.Fields).Where(f => f.Kind == FieldKind.Text).ToDictionary(f => f.Key, f => f.Text, StringComparer.Ordinal);
-
     /// <summary>
-    /// A form on <paramref name="values"/> that writes with the rules of its fields and queues the recalculation. Read-only: on a
-    /// detached copy and without callback, so that typing never reaches the data. <paramref name="shown"/>: texts shown again
-    /// (a typed «1,2» stays as typed, not as the saved 1.2), without writing.
+    /// A form on <paramref name="values"/> that writes with the rules of its fields and queues the recalculation: compact (the
+    /// 12-point labels of the historic view), read-only while the sheet cannot be edited, with the Wiki of the services for «?» and F1.
     /// </summary>
-    private FormViewModel Form(JsonObject values, IEnumerable<FieldSpec> fields, IReadOnlyDictionary<string, string>? shown)
-    {
-        var form = CanEdit ? new FormViewModel(values, fields, OnFieldChanged, wikiModule: ModuleId)
-            : new FormViewModel((JsonObject)values.DeepClone(), fields, wikiModule: ModuleId);
-        if (shown is not null)
-            foreach (var field in form.Fields.Where(f => f.Kind == FieldKind.Text && shown.ContainsKey(f.Key))) form.Set(field.Key, shown[field.Key], display: true);
-        return form;
-    }
+    private FormViewModel Form(JsonObject values, IEnumerable<FieldSpec> fields) =>
+        new(values, fields, OnFieldChanged, compact: true, wikiModule: ModuleId) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
 
     private void OnFieldChanged(string key)
     {
         Queue();
-        if (key == "custom") DirectionsForm.Enable("angolo_custom", DirectionsForm["custom"].IsChecked);
+        if (key == "custom") CustomDirectionForm.Enable("angolo_custom", CustomDirectionForm["custom"].IsChecked);
     }
 
     // ---------------------------------------------------------------- coordinates

@@ -90,6 +90,35 @@ internal static class FormViewModelChecks
         expect.That(values["calc"]!.ToString() == "2.5" && calls.SequenceEqual(["calc"]) && form.Get("calc") == "2.5", "Sola lettura: il modulo può impostare il valore calcolato");
         form.Set("calc", "3.5", display: true);
         expect.That(values["calc"]!.ToString() == "2.5" && form.Get("calc") == "3.5" && calls.Count == 1, "Sola lettura: valore solo mostrato");
+        expect.That(field.IsInputReadOnly && field.CanChange && !form.IsReadOnly, "Campo calcolato in un form modificabile");
+        ReadOnlyForm(expect);
+    }
+
+    /// <summary>A read-only form (a previous revision, D4 of F5.4): the user's typing, choices and ticks are refused; the module still sets values.</summary>
+    static void ReadOnlyForm(Expect expect)
+    {
+        var values = new JsonObject { ["testo"] = "1", ["scelta"] = "A", ["spunta"] = false };
+        var calls = new List<string>();
+        var form = new FormViewModel(values, [new("testo", "Testo", Write: FieldWriteRule.NumberOrText), new("scelta", "Scelta", Choices: ["A", "B"]),
+            new("spunta", "Spunta", Bool: true)], calls.Add) { CommitOnFocusLoss = true };
+        var notices = new List<string?>();
+        form["testo"].PropertyChanged += (_, e) => notices.Add(e.PropertyName);
+        form.IsReadOnly = true;
+        expect.That(form.Fields.All(f => f.IsInputReadOnly && !f.CanChange && !f.IsReadOnly)
+            && notices.Contains(nameof(FieldViewModel.IsInputReadOnly)) && notices.Contains(nameof(FieldViewModel.CanChange)), "Form in sola lettura: stato dei campi notificato");
+        string before = Text(values);
+        notices.Clear();
+        form["testo"].IsFocused = true; form["testo"].EditText = "2"; form["testo"].IsFocused = false; form.Commit();
+        form["scelta"].SelectedChoice = "B"; form["spunta"].IsChecked = true;
+        expect.That(Text(values) == before && calls.Count == 0 && form.Get("testo") == "1" && form.Get("scelta") == "A" && !form["spunta"].IsChecked && !form.HasDrafts,
+            "Form in sola lettura: digitazione, scelta e spunta rifiutate");
+        expect.That(notices.Contains(nameof(FieldViewModel.EditText)), "Form in sola lettura: l'editor torna al testo del campo");
+        form.Set("testo", "3");
+        expect.That(values["testo"]!.GetValue<double>() == 3 && calls.SequenceEqual(["testo"]), "Form in sola lettura: il modulo imposta ancora i valori");
+        form.IsReadOnly = false;
+        form["testo"].EditText = "4"; form["scelta"].SelectedChoice = "B"; form["spunta"].IsChecked = true;
+        expect.That(form.Fields.All(f => !f.IsInputReadOnly && f.CanChange) && values["testo"]!.GetValue<double>() == 4 && values["scelta"]!.ToString() == "B"
+            && values["spunta"]!.GetValue<bool>() && calls.SequenceEqual(["testo", "testo", "scelta", "spunta"]), "Ritorno alla modifica: il form accetta di nuovo");
     }
 
     sealed class NonNegative(params string[] keys) : IFieldValidator
@@ -247,5 +276,14 @@ internal static class FormViewModelChecks
             "F1 senza argomento: guida del modulo");
         var given = new FormViewModel(new JsonObject(), [new("cover_mm", "Copriferro", "mm")], wikiModule: "str_palo") { InheritedWikiModule = "geo_palo_verticale" };
         expect.That(given.EffectiveWikiModule == "str_palo" && given["cover_mm"].EditorToolTip == topic.Title, "Il modulo dato al form prevale su quello della vista");
+
+        // «?» and F1 through the navigator of the sheet (F5.4): the topic of the field, otherwise the guide of the module.
+        expect.That(!help["cover_mm"].OpenHelp() && !help["cover_mm"].OpenContextHelp(), "Senza navigatore la vista apre la Wiki da sé");
+        var wiki = new RecordingWiki();
+        help.WikiNavigator = wiki;
+        given.WikiNavigator = wiki;
+        expect.That(help["cover_mm"].OpenHelp() && help["cover_mm"].OpenContextHelp() && !help["ignoto"].OpenHelp() && help["ignoto"].OpenContextHelp() && help["modello"].OpenHelp(),
+            "Aiuto dei campi dal navigatore del form");
+        expect.That(wiki.Shown.SequenceEqual([topic.Uri, topic.Uri, WikiCatalog.ForModule("str_palo")?.Id, HelpTopics.StressAnalysis.Uri]), "Sezioni aperte: argomento, F1, guida del modulo, aiuto fisso");
     }
 }

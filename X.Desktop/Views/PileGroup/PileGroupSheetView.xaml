@@ -1,0 +1,200 @@
+<!--
+  View of the horizontal pile group sheet (F5.4 pilot, decision Q3): PileGroupSheetViewModel shown with the layout of the historic
+  HorizontalPileGroupWorkspace. Input column of 355 px on paper, results on the right; the fields are FieldForm (one per form of the
+  ViewModel, compact as the 12-point fields of the historic view); the two Expanders and the three tables keep their columns and
+  bindings; the fixed texts are those of the historic view. Colours and font sizes are theme tokens only (rule P7):
+  {DynamicResource Token.<nome>} and {DynamicResource Font.<nome>}. The plan (PileGroupPlan) is hosted unchanged and drawn from the
+  code-behind, which also forwards the cancelled edit of a coordinate cell; every write into the document goes through the ViewModel.
+  Read-only revision: choices disabled, coordinate table read-only, forms read-only (FormViewModel.IsReadOnly); the comparison stays
+  selectable.
+-->
+<UserControl x:Class="X.Desktop.Views.PileGroup.PileGroupSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <common:NegationConverter x:Key="Not"/>
+
+  <!-- Texts: the Ui.Text of the historic view (wrapping, vertically centred, ink), in its sizes 12, 11, 16 and 22. -->
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Muted" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+  </Style>
+  <Style x:Key="Note" TargetType="TextBlock" BasedOn="{StaticResource Muted}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Caption}"/>
+  </Style>
+  <Style x:Key="Heading" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Heading}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+   <Setter Property="Margin" Value="0,12,0,8"/>
+  </Style>
+  <Style x:Key="Large" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Title}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style x:Key="StatName" TargetType="TextBlock" BasedOn="{StaticResource Note}">
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <!-- Ui.Paper: white card with a thin border. -->
+  <Style x:Key="Paper" TargetType="Border">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+   <Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Padding" Value="14"/>
+  </Style>
+  <Style x:Key="Stat" TargetType="Border">
+   <Setter Property="Background" Value="{DynamicResource Token.Surface}"/>
+   <Setter Property="CornerRadius" Value="3"/>
+   <Setter Property="Padding" Value="10,7,10,7"/>
+   <Setter Property="Margin" Value="0,0,8,0"/>
+  </Style>
+  <!-- Host of a form: the FieldForm of the DataTemplate of FormViewModel (Views/Common/FieldFormTemplates.xaml). -->
+  <Style x:Key="Form" TargetType="ContentControl">
+   <Setter Property="Focusable" Value="False"/>
+   <Setter Property="IsTabStop" Value="False"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+  </Style>
+ </UserControl.Resources>
+
+ <Grid>
+  <Grid.ColumnDefinitions>
+   <ColumnDefinition Width="355"/>
+   <ColumnDefinition/>
+  </Grid.ColumnDefinitions>
+
+  <!-- Input -->
+  <ScrollViewer Background="{DynamicResource Token.Paper}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel Margin="14">
+    <TextBlock Style="{StaticResource Heading}" Text="Disposizione dei pali"/>
+    <ComboBox ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}" IsEnabled="{Binding CanEdit, Mode=OneWay}" Margin="0,0,0,8"/>
+    <ContentControl Style="{StaticResource Form}" Content="{Binding DiameterForm}"/>
+    <ContentControl Style="{StaticResource Form}" Content="{Binding GeneratorForm}"/>
+    <TextBlock Text="{Binding GeneratorNote}">
+     <TextBlock.Style>
+      <Style TargetType="TextBlock" BasedOn="{StaticResource Note}">
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding GeneratorNote}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </TextBlock.Style>
+    </TextBlock>
+    <ContentControl Style="{StaticResource Form}" Content="{Binding RotationForm}"/>
+
+    <TextBlock Style="{StaticResource Heading}" Text="Coordinate dei pali [m]"/>
+    <DataGrid x:Name="Coordinates" ItemsSource="{Binding Piles}" AutoGenerateColumns="False" Height="210" MinColumnWidth="90"
+     IsReadOnly="{Binding CanEditCoordinates, Mode=OneWay, Converter={StaticResource Not}}" CanUserAddRows="{Binding CanEditCoordinates, Mode=OneWay}"
+     CanUserDeleteRows="{Binding CanEditCoordinates, Mode=OneWay}" CellEditEnding="Coordinates_CellEditEnding">
+     <DataGrid.Columns>
+      <DataGridTextColumn Header="Palo" Binding="{Binding Id, UpdateSourceTrigger=PropertyChanged}" Width="96"/>
+      <DataGridTextColumn Header="X [m]" Binding="{Binding X, UpdateSourceTrigger=PropertyChanged}" Width="96"/>
+      <DataGridTextColumn Header="Y [m]" Binding="{Binding Y, UpdateSourceTrigger=PropertyChanged}" Width="96"/>
+     </DataGrid.Columns>
+    </DataGrid>
+    <TextBlock Style="{StaticResource Note}" Text="{Binding CoordinateHelp}"/>
+
+    <TextBlock Style="{StaticResource Heading}" Text="Direzioni di carico"/>
+    <!-- The two rows of directions of the historic view (+X, +Y / −X, −Y), aligned by two columns. -->
+    <Grid>
+     <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+     <ContentControl Style="{StaticResource Form}" Content="{Binding XDirectionsForm}"/>
+     <ContentControl Style="{StaticResource Form}" Grid.Column="1" Content="{Binding YDirectionsForm}"/>
+    </Grid>
+    <ContentControl Style="{StaticResource Form}" Content="{Binding CustomDirectionForm}"/>
+
+    <Expander Header="Basamento e distanze dai bordi" IsExpanded="True" Margin="0,10,0,8">
+     <StackPanel>
+      <ComboBox ItemsSource="{Binding CapShapes}" SelectedItem="{Binding SelectedCapShape}" IsEnabled="{Binding CanEdit, Mode=OneWay}" Margin="0,5,0,7"/>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding CapForm}"/>
+      <TextBlock Style="{StaticResource Note}" Text="1,0D dall’asse = 0,5D libero dal bordo del palo. Il basamento in pianta non modifica i fattori di gruppo."/>
+     </StackPanel>
+    </Expander>
+    <Expander Header="Opzioni di calcolo e applicabilità" Margin="0,8,0,10">
+     <StackPanel>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding ExtrapolationsForm}"/>
+      <TextBlock Style="{StaticResource Note}" Text="Davisson, AASHTO, FHWA: sotto 3D. Rollins: fuori 3,3–5,65D. Caltrans: α sotto 2D. Non riguarda Reese; non supera il limite trasversale di Davisson."/>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding ProjectedRowsForm}"/>
+      <TextBlock Style="{StaticResource Note}" Text="Davisson, AASHTO, FHWA, Rollins e α di Caltrans: per geometrie non regolari rispetto al carico. Reese usa sempre le coppie reali."/>
+      <TextBlock Style="{StaticResource Text}" FontWeight="SemiBold" Text="Interassi rappresentativi della direzione"/>
+      <ComboBox ItemsSource="{Binding SpacingDirections}" SelectedIndex="{Binding SpacingDirectionIndex}" IsEnabled="{Binding CanEdit, Mode=OneWay}" Margin="0,8,0,5"/>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding SpacingForm}"/>
+      <TextBlock Style="{StaticResource Note}" Text="S∥ = distanza tra file lungo H; S⊥ = passo ortogonale. Assegnazione per Davisson/AASHTO/FHWA/Rollins; solo S∥ interviene in α Caltrans. Nessuno cambia le distanze di Reese. Vuoto = automatico."/>
+     </StackPanel>
+    </Expander>
+   </StackPanel>
+  </ScrollViewer>
+
+  <!-- Results -->
+  <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel Margin="12">
+    <Border Style="{StaticResource Paper}">
+     <StackPanel>
+      <TextBlock Style="{StaticResource Large}" Text="{Binding Title}"/>
+      <TextBlock Style="{StaticResource Muted}" Text="{Binding State}"/>
+      <UniformGrid Columns="4" Margin="0,10,0,8">
+       <Border Style="{StaticResource Stat}">
+        <StackPanel><TextBlock Style="{StaticResource StatName}" Text="MINIMO"/><TextBlock Style="{StaticResource Large}" Text="{Binding Minimum}"/></StackPanel>
+       </Border>
+       <Border Style="{StaticResource Stat}">
+        <StackPanel><TextBlock Style="{StaticResource StatName}" Text="MEDIA"/><TextBlock Style="{StaticResource Large}" Text="{Binding Mean}"/></StackPanel>
+       </Border>
+       <Border Style="{StaticResource Stat}">
+        <StackPanel><TextBlock Style="{StaticResource StatName}" Text="MASSIMO"/><TextBlock Style="{StaticResource Large}" Text="{Binding Maximum}"/></StackPanel>
+       </Border>
+       <Border Style="{StaticResource Stat}">
+        <StackPanel><TextBlock Style="{StaticResource StatName}" Text="RIDUZIONE MEDIA"/><TextBlock Style="{StaticResource Large}" Text="{Binding Reduction}"/></StackPanel>
+       </Border>
+      </UniformGrid>
+      <local:PileGroupPlan x:Name="PlanDrawing" Height="345"/>
+      <TextBlock Style="{StaticResource Text}" Text="{Binding Geometry}"/>
+     </StackPanel>
+    </Border>
+
+    <Border Style="{StaticResource Paper}" Margin="0,12,0,0">
+     <StackPanel>
+      <TextBlock Style="{StaticResource Heading}" Text="Confronto · seleziona un risultato per visualizzarlo"/>
+      <TextBlock Style="{StaticResource Note}" Text="Rg riduce kh/nh; Pm riduce la reazione p. Non sono verifiche della capacità del gruppo."/>
+      <DataGrid x:Name="ComparisonGrid" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" HeadersVisibility="Column" Height="305" ItemsSource="{Binding Comparison}" SelectedItem="{Binding SelectedComparison}">
+       <DataGrid.Columns>
+        <DataGridTextColumn Header="Direzione" Binding="{Binding Direction, Mode=OneWay}" Width="110"/>
+        <DataGridTextColumn Header="Metodo / grandezza" Binding="{Binding MethodName, Mode=OneWay}" Width="260"/>
+        <DataGridTextColumn Header="Min" Binding="{Binding Minimum, Mode=OneWay}" Width="60"/>
+        <DataGridTextColumn Header="Media" Binding="{Binding Mean, Mode=OneWay}" Width="65"/>
+        <DataGridTextColumn Header="Max" Binding="{Binding Maximum, Mode=OneWay}" Width="60"/>
+        <DataGridTextColumn Header="Riduzione" Binding="{Binding Reduction, Mode=OneWay}" Width="85"/>
+        <DataGridTextColumn Header="Applicabilità" Binding="{Binding Status, Mode=OneWay}" Width="360"/>
+       </DataGrid.Columns>
+      </DataGrid>
+      <TextBlock Style="{StaticResource Note}" Text="{Binding Source}"/>
+      <TextBlock Style="{StaticResource Text}" Text="{Binding Notes}"/>
+     </StackPanel>
+    </Border>
+
+    <Border Style="{StaticResource Paper}" Margin="0,12,0,0">
+     <StackPanel>
+      <TextBlock Style="{StaticResource Heading}" Text="Valori per palo del risultato selezionato"/>
+      <!-- OutputGrid of the historic view: read-only, column headers only. -->
+      <DataGrid x:Name="DetailsGrid" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" HeadersVisibility="Column" Height="235" ItemsSource="{Binding Details}">
+       <DataGrid.Columns>
+        <DataGridTextColumn Header="Palo" Binding="{Binding Pile, Mode=OneWay}" Width="75"/>
+        <DataGridTextColumn Header="Fila" Binding="{Binding Row, Mode=OneWay}" Width="60"/>
+        <DataGridTextColumn Header="q ∥ [m]" Binding="{Binding Parallel, Mode=OneWay}" Width="100"/>
+        <DataGridTextColumn Header="t ⊥ [m]" Binding="{Binding Transverse, Mode=OneWay}" Width="100"/>
+        <DataGridTextColumn Header="β" Binding="{Binding Beta, Mode=OneWay}" Width="85"/>
+        <DataGridTextColumn Header="α" Binding="{Binding Alpha, Mode=OneWay}" Width="85"/>
+        <DataGridTextColumn Header="Coefficiente" Binding="{Binding Factor, Mode=OneWay}" Width="100"/>
+        <DataGridTextColumn Header="Riduzione" Binding="{Binding Reduction, Mode=OneWay}" Width="100"/>
+       </DataGrid.Columns>
+      </DataGrid>
+     </StackPanel>
+    </Border>
+   </StackPanel>
+  </ScrollViewer>
+ </Grid>
+</UserControl>

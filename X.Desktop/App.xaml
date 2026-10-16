@@ -10,6 +10,7 @@
    <ResourceDictionary Source="Themes/Typography.xaml"/>
    <ResourceDictionary Source="Themes/Controls.xaml"/>
    <ResourceDictionary Source="Views/Common/FieldFormTemplates.xaml"/>
+   <ResourceDictionary Source="Views/PileGroup/PileGroupTemplates.xaml"/>
   </ResourceDictionary.MergedDictionaries>
   </ResourceDictionary>
  </Application.Resources>

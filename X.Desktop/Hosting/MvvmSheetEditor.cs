@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Anthea.Application.Modules;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Modules;
@@ -22,6 +23,9 @@ namespace X.Desktop;
 /// ConcreteSectionRequested is never raised: MainWindow opens the section of a wall as OpenModuleCopy("str_palo", …), the
 /// same command.</item>
 /// <item>Revisions: <see cref="InspectRevision"/> sets <see cref="ISheetViewModel.IsReadOnly"/>.</item>
+/// <item>Help: F1 not handled by a field opens the guide of the module (<see cref="IModuleDescriptor.Help"/>) with the
+/// <see cref="IWikiNavigator"/> of the services, as SheetEditor opens it; the «?» labels and F1 of the fields go through the same
+/// navigator, given by the ViewModel to its forms.</item>
 /// <item>Results and reports: the generic path of SheetEditor (JSON of the result, Word document of the sheet); the short
 /// report and the material chapter come with the modules that have them (F5.5, F5.10).</item>
 /// </list>
@@ -48,6 +52,12 @@ internal sealed class MvvmSheetEditor : ISheetEditor
             view = new ContentControl { Focusable = false, IsTabStop = false, HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch };
             view.ContentTemplate = ViewOf(view, Sheet.GetType());
             view.Content = Sheet;
+            view.KeyDown += (_, e) =>
+            {
+                if (e.Key != Key.F1 || module.Help.GuideId is not { } guide) return;
+                e.Handled = true;
+                services.Wiki.Show(guide);
+            };
         }
         catch { Sheet.Dispose(); throw; }
         Sheet.Modified += OnModified;
