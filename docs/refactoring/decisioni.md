@@ -1372,7 +1372,7 @@ la rigenerazione delle catture e gli ultimi seguiti di Model sono della notte de
 - **Tension stiffening**, «ramo decrescente su tutti i calcestruzzi?? aiuta la convergenza sempre». Attuato come diagramma
   opzionale di Model, una legge per tutti i calcestruzzi (Collins e Mitchell 1991), solo nelle analisi di risposta: M–χ,
   analisi tensionali non lineari, storico del ponte. Mai nei domini né nelle verifiche SLU, che trascurano la trazione
-  (BUG-TS-1). In ANTHEA il campo del M–χ si espone con le DLL candidate del rilascio Z; non nelle SLE. Le domande 1–8
+  (BUG-TS-1). In ANTHEA il campo del M–χ «CLS teso nelle risposte» è esposto (d869963d); non nelle SLE. Le domande 1–8
   dell'agente sono aperte (BUG-TS-2).
 - **MUR-2, ribaltamento**, «non lo so. devo vederlo. lascia momentaneamente aperto». L'agente ha esteso γR,e = 1,4 al
   ribaltamento, con il momento della passiva fra le resistenze: resta nel codice fino alla decisione (BUG-MUR-2b).
@@ -1394,3 +1394,31 @@ la rigenerazione delle catture e gli ultimi seguiti di Model sono della notte de
 
   Senza risposta anche due proposte operative: guide aggiornate ora nel solo testo, con i PDF dopo; push fatti
   dall'utente al mattino, mai dagli agenti.
+
+## 16 ottobre (notte) — rilascio Z, ANTHEA 1.10.0 e avvio di F5
+
+Indicazioni dell'utente: «ti autorizzo al push e al full»; «prima di fare i test fai il merge anche col branch modulo
+stratigrafia. correggi eventuali conflitti»; «finito tutto, se tutto funziona, prepara anthea 1.10.0. prepara anche
+installer. finito tutto, se hai ancora tempo […] inizia la fase F5. puoi usare più agenti. parti F5 da main pulito e
+aggiornato.»
+
+- **Librerie, rilascio Z.** Merge dei rami di integrazione nei master e push dal coordinatore: Model `bf8563f5`, Checker
+  `bce7aaae`. Set non candidato da `Release-Set.ps1` con `-Previous` il set Y, tutte le suite verdi; installato in
+  `lib/Checker` (`89545655`). Catture congelate del Checker rigenerate secondo «Rigenera tutte»; K0 invariato.
+- **Rami di ANTHEA uniti** in `refactoring/integrazione-1016`: documenti e chiusura di F2, modulo stratigrafia (Codex,
+  nessun conflitto), correzioni dei bug (c.a., geotecnica e ponte), seguiti, guide Rev47, registro, «CLS teso nelle
+  risposte», transizioni del confronto UI F3 ([classificazione](bug-1015-transizioni-ui-classificazione.md)).
+- **ANTHEA 1.10.0**: secondo componente per le funzioni nuove (modulo stratigrafia e scambio del terreno, opzioni del
+  calcestruzzo teso) e per le correzioni; versione in `X.Desktop.csproj`, README dell'installer e suo PDF; setup e
+  collaudo nel [verbale](installer-1.10.0.md).
+- **Scelte del coordinatore da confermare:**
+  - i tre documenti storici dei muri con passiva a valle ηp = 1 sono ora rifiutati da MUR-2 e, nelle catture congelate
+    della geotecnica, registrati come rifiuti: con loro escono dal confronto tre casi (terreno di valle legato al
+    rinterro, acqua di valle sul fusto, terreno di valle sotto l'estradosso della platea). Alternativa: ηp = 0,5 in quei
+    tre ingressi, con valori in parte presi dalla libreria (BUG-MUR-2);
+  - la chiave `cls_teso_risposte` non si scrive nei documenti se l'utente non la cambia (vale «Trascurato»), a
+    differenza di `cls_teso_nl` del ponte, per non cambiare le catture F3;
+  - confronto UI F3: il report di progetto supera il limite della LCS del comparatore e si confronta per posizione
+    (4334 transizioni invece di circa 803); da decidere se alzare il limite o confrontare per capitolo.
+- **F5** parte da `main` aggiornato con la ripianificazione F5.0, punto di controllo dell'utente: nessuna scelta
+  definitiva prima della sua approvazione.
