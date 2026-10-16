@@ -7,6 +7,7 @@
   <!-- Dictionaries of the theme (X.Desktop/Themes, F5.3), each loadable on its own, and the data templates of the MVVM views. -->
   <ResourceDictionary.MergedDictionaries>
    <ResourceDictionary Source="Themes/ProjectStyles.xaml"/>
+   <ResourceDictionary Source="Themes/Typography.xaml"/>
    <ResourceDictionary Source="Themes/Controls.xaml"/>
    <ResourceDictionary Source="Views/Common/FieldFormTemplates.xaml"/>
   </ResourceDictionary.MergedDictionaries>

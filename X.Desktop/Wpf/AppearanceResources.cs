@@ -33,5 +33,7 @@ internal static class AppearanceResources
         resources["Appearance.border.EEDCAF"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#EEDCAF"), "border");
         resources["Appearance.foreground.64748B"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#64748B"), "foreground");
         resources["Appearance.foreground.865D16"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#865D16"), "foreground");
+        // Theme tokens of the new views (F5.3, Themes/ThemeTokens.cs): the same palette brushes, under the keys Token.<nome>.
+        Themes.ThemeTokens.Register(resources);
     }
 }
