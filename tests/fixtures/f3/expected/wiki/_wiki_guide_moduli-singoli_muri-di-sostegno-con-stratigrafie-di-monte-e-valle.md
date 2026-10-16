@@ -16,7 +16,7 @@ La scheda Materiali del muro usa gli stessi cataloghi GPC del verificatore delle
 
 Nei progetti, le schede Calcestruzzo e Acciaio del ramo forniscono i materiali al muro secondo le normali regole di ereditarietà. Il confronto dei dati comuni include esposizione, aggregato, vita utile, tolleranza e scelte di durabilità. Il copriferro adottato è condivisibile con le sezioni e viene confrontato con il minimo della scheda Materiali, usando il diametro massimo effettivamente presente nel muro. Adotta copriferro minimo applica esplicitamente la proposta. Il controllo non aumenta silenziosamente il copriferro e non modifica geometria, carichi o quantità di barre.
 
-Gli archivi precedenti mantengono le resistenze e il legame dell'acciaio con cui erano stati calcolati; l'apertura non li riclassifica automaticamente come B450C. Nei muri a gravità le proprietà del CLS sono attive quando si sceglie Calcestruzzo non armato; la muratura non eredita proprietà meccaniche del CLS o dell'armatura non utilizzate.
+Gli archivi precedenti mantengono le resistenze e il legame dell'acciaio con cui erano stati calcolati; l'apertura non li riclassifica automaticamente come B450C. Se l'acciaio salvato ha il nome di un materiale del catalogo ma valori diversi, per esempio B450A con εu = 30 ‰ contro i 25 ‰ del catalogo, la scheda Materiali lo segnala sotto «Acciaio da normativa»: il calcolo usa i valori salvati; riselezionare il materiale per adottare quelli del catalogo. Nei muri a gravità le proprietà del CLS sono attive quando si sceglie Calcestruzzo non armato; la muratura non eredita proprietà meccaniche del CLS o dell'armatura non utilizzate.
 
 ### Avviare la verifica globale
 

@@ -364,18 +364,18 @@
   "editorial_updates_rev47": {
     "revision": 47,
     "record": "F4-51",
-    "capture": "supporto/artefatti/ci/20261016-004452-guide-rev47-f3-cattura/ui_f3-equivalence/cattura",
-    "reason": "Guide Rev46 (modulo Stratigrafia: due articoli nuovi, offset e ricerca) e Rev47 (frasi delle correzioni delle verifiche del 15/10/2026) nella Wiki e nella ricerca, secondo la regola editoriale F3-06. Nessun atteso ingegneristico modificato.",
+    "capture": "supporto/artefatti/ci/20261016-015130-guide-rev47b-f3-cattura/ui_f3-equivalence/cattura",
+    "reason": "Guide Rev46 (modulo Stratigrafia: due articoli nuovi, offset e ricerca) e Rev47 (frasi delle correzioni delle verifiche del 15/10/2026 e dei seguiti del 16/10) nella Wiki e nella ricerca, secondo la regola editoriale F3-06. Nessun atteso ingegneristico modificato.",
     "files": [
       {
         "file": "wiki/_wiki_guide_moduli-singoli_muri-di-sostegno-con-stratigrafie-di-monte-e-valle.md",
         "before_sha256": "24f29fe48d40f954ed180aa42161ca1bdeeb970a35c4f54721e6ce20068e63c4",
-        "after_sha256": "943cad9fcde56d4749222dabd14801dae2d46be99385e7519b3865e7ff733b4e"
+        "after_sha256": "4466e45d56ef3cba758945db88e2d47b55c28f2eaf0cf48fbfe8c192deb15636"
       },
       {
         "file": "wiki/_wiki_guide_moduli-singoli_muri-di-sostegno-con-stratigrafie-di-monte-e-valle.txt",
         "before_sha256": "04a96fd275d256df47126d9fa4b37c6c69402a708526034449a751cb3ce13b6d",
-        "after_sha256": "baa7b441b2a7f79600bfb65a91f7f157cd4c9026b3af6610190b5619bf489739"
+        "after_sha256": "63d11a2a5143ad4d6189f1bd010b96cd8104aa6a6f2515694909296cbc4d6ce5"
       },
       {
         "file": "wiki/_wiki_guide_moduli-singoli_pali-e-micropali-caricati-orizzontalmente.md",
@@ -420,22 +420,22 @@
       {
         "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
         "before_sha256": "fbe530aac884e92251089e80f5063e27f3c0418dac192277b8b492e821fdaa48",
-        "after_sha256": "d3a2311d02cefb87563ea463c67f3c23a79eec173cc0237dbaa243301120dce8"
+        "after_sha256": "924672bdb35b6b232d00f0f6bf8cefa5ad07d53628ed9b309abdd75af2320608"
       },
       {
         "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
         "before_sha256": "49e0e68baf288245701e39d89a5bdf8efc419e4d0d1b837bf0d3603c37df9322",
-        "after_sha256": "a7faf47677cf5dc8d2ce37c1a5bf2cd9072cf31f54dbb332057174f8afb23dae"
+        "after_sha256": "4bc7ffb10ee65a8a9d2ef4ed6b8beb38245e2e67203a7d38e47c621dba1afdfe"
       },
       {
         "file": "wiki/_wiki_guide_palo-elastico.md",
         "before_sha256": "60143808963ca6ba7472977965ea53512d8e73b4d4dbdf4bd7438bec0b5cd7bf",
-        "after_sha256": "fcad3c5a82b6eca1ec617df871f5898cff26522870a0fd3d75be9355806c407a"
+        "after_sha256": "4d01eb0e11d40eef3351cffc7fd8d85103ce1acb949ba525204009be4ae651c0"
       },
       {
         "file": "wiki/_wiki_guide_palo-elastico.txt",
         "before_sha256": "18bf7f6b0c9884888101c97966278e8367672abbfbf0b3053bf93c2c2464a259",
-        "after_sha256": "1cefee237c1f89ace5b8842bde99fe82f3c4093540c1a14bbe146da832ec4b75"
+        "after_sha256": "d211097974949f6137d0604d1ce0cdb8892b51e7c5c970c812e9499fe0342cdb"
       },
       {
         "file": "wiki/_wiki_manuale_calcestruzzo-armato_capacita-orizzontale-con-broms.md",
@@ -460,12 +460,12 @@
       {
         "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
         "before_sha256": "40b375c2f0fb3f6e3a20fd7b63a1f879af29846e7d36e4622fdc0acb0cb7462f",
-        "after_sha256": "1511c53b473352b1bc12474f76645c965f5f5207072a03911f8c0f9643b4e6c7"
+        "after_sha256": "b3891ad79fbbe0368efdb0806943c6fca27b45b002a22d9e0bf47c3bab8430b9"
       },
       {
         "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
         "before_sha256": "0d1dd69b94ecdd280aa753123f497ae1dd4e26a9cf7ab232a3e8fe721bda3d7f",
-        "after_sha256": "06eeda66c15d73a91f134d6e188227500b90311944df2ddb5a214afe37284960"
+        "after_sha256": "63c1214de37eca4f2d8d264de6f0faa46782ece1b489c611f61979cde66894cc"
       },
       {
         "file": "wiki/_wiki_manuale_calcestruzzo_cracking.md",
@@ -548,9 +548,19 @@
         "after_sha256": "f7b02d9997cc49ccf6bbda33a264b8b416fec09227581a932ca3a782c24c7408"
       },
       {
+        "file": "wiki/_wiki_theory_palo-elastico.md",
+        "before_sha256": "d78f2ed652aea6e7384e9be841156a468d35be6d5c19a65b8551a6001ebc989b",
+        "after_sha256": "2463a7f01e4f6d0c3a8940b967567638b624bc30b2b8a582260b4ea68fbaf5f1"
+      },
+      {
+        "file": "wiki/_wiki_theory_palo-elastico.txt",
+        "before_sha256": "cb9865e6ac9faf8c88d835344801908880ce71a5752d6014194390b59244285f",
+        "after_sha256": "c59793367fcb1949cc1430454b22d9e9f5011a8ac928f4d94bccdb4613e564c8"
+      },
+      {
         "file": "wiki/search.json",
         "before_sha256": "06436decb87a72750ce4cd55fe4041d90d07caeb2ed765fad170feaf97d51dc2",
-        "after_sha256": "5bb3fde2ab29e65fca15c72e73f32af1ac7ccce5e58ef3da5ffd6a13fa72a62b"
+        "after_sha256": "d5130274d6473134432552e6164efbeec9b93210794a90b40a31be35204a46aa"
       }
     ]
   }
