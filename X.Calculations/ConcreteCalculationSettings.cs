@@ -5,7 +5,7 @@ namespace Anthea.Calculations;
 /// <summary>Defaults and authoritative section parameters, independent of which tab has been opened.</summary>
 public static class ConcreteCalculationSettings
 {
-    public static readonly (string Input, string Standard)[] CommonCoefficients =
+    public static readonly System.Collections.Immutable.ImmutableArray<(string Input, string Standard)> CommonCoefficients =
         [("alpha_cc", "AlphaCC"), ("gamma_c", "GammaC"), ("gamma_s", "GammaS")];
     public static void Prepare(JsonObject input, JsonObject settings)
     {

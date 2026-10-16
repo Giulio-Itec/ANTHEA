@@ -12,8 +12,8 @@ namespace X.Core;
 /// </summary>
 public static class SectionActionsExcel
 {
-    public static readonly string[] Headers = ["Famiglia", "Nome", "N [kN]", "Mx [kNm]", "My [kNm]", "Vx [kN]", "Vy [kN]", "T [kNm]"];
-    public static readonly string[] UnifiedHeaders = ["Elemento", "Nome combo", "Stato limite", "N [kN]", "Vx [kN]", "Vy [kN]", "T [kNm]", "Mx [kNm]", "My [kNm]"];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> Headers = ["Famiglia", "Nome", "N [kN]", "Mx [kNm]", "My [kNm]", "Vx [kN]", "Vy [kN]", "T [kNm]"];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> UnifiedHeaders = ["Elemento", "Nome combo", "Stato limite", "N [kN]", "Vx [kN]", "Vy [kN]", "T [kNm]", "Mx [kNm]", "My [kNm]"];
     public sealed record Row(string Family, string Name, double N, double? Mx, double? My, double? Vx, double? Vy, double? T = null, string Element = "");
     public sealed record Import(IReadOnlyList<Row> Rows, int FormulaCells, bool Legacy = false);
     public static byte[] Template()

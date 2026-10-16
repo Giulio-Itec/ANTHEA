@@ -234,6 +234,18 @@ try
         StaticCheck(field is { IsInitOnly: true } && field.FieldType.IsGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(System.Collections.Immutable.ImmutableArray<>),
             $"5l/A12: {owner.Name}.{name} non è un catalogo di sola lettura");
     }
+    // F2.11c (decisione E5 del 15/10/2026): gli altri cataloghi statici pubblici del c.a., come in A12; Contours è una proprietà senza set.
+    foreach (var (owner, name) in new[] { (typeof(ConcreteCalculationSettings), "CommonCoefficients"), (typeof(RebarMaterial), "Keys"),
+        (typeof(Anthea.Application.Concrete.SectionActionInputs), "Components"), (typeof(X.Core.SectionActionsExcel), "Headers"),
+        (typeof(X.Core.SectionActionsExcel), "UnifiedHeaders"), (typeof(X.Core.ReportConcrete), "Sections"),
+        (typeof(Anthea.Application.Concrete.ConcreteSheetPreparation), "Contours") })
+    {
+        const System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public;
+        var type = owner.GetField(name, flags) is { } field ? (field.IsInitOnly ? field.FieldType : null)
+            : owner.GetProperty(name, flags) is { CanWrite: false } property ? property.PropertyType : null;
+        StaticCheck(type is { IsGenericType: true } && type.GetGenericTypeDefinition() == typeof(System.Collections.Immutable.ImmutableArray<>),
+            $"5l/F2.11c: {owner.Name}.{name} non è un catalogo di sola lettura");
+    }
 
     // ---------------------------------------------------------------- 2c. getti sottili (prova 7a)
     var thinCasting = ThinCastingGrid.Run(root, ThinCastingCheck);
