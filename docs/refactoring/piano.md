@@ -538,12 +538,42 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - Microsoft.VisualStudio.Threading.Analyzers 18.7.23 solo su Presentation.
 
   Corsa build, fast, wiki e ui sul merge `20261016-073701-f5-int2`: PASS 106, 0 NEW-FAIL; `ui/f3-equivalence` invariata.
-- [ ] F5.2 `ModuleHost` (moduli nuovi e legacy insieme); componenti dei form. In corso:
-  - fatti `ISheetEditor` e `SheetEditorFactory`, usati da `MainWindow`, dalla cattura F3 e da 11 delle 16 costruzioni nelle
-    prove (merge 85575d2f);
-  - la regola dei renderer copre anche la fabbrica (a0bf6e3a);
-  - restano `ModuleRegistry`, `ISheetModule`, `ISheetViewModel`, `ISheetHost`, `ModuleImplementations`, i componenti dei form,
-    `SharedDataCoordinator` e `ProjectHistory`.
+- [x] F5.2 `ModuleHost` (moduli nuovi e legacy insieme); componenti dei form. Fatta il 16/10 su `refactoring/f5`:
+  - **Editor dei fogli** (merge 85575d2f, a0bf6e3a):
+    - `ISheetEditor` e `SheetEditorFactory` sono usati da `MainWindow`, dalla cattura F3 e da 11 delle 16 costruzioni nelle
+      prove;
+    - la regola dei renderer copre anche la fabbrica.
+  - **ModuleHost** (merge 1264a1c1):
+    - il contratto (`IModuleDescriptor`, `ISheetModule`, `SheetContext`, `ISheetViewModel`, `ISheetHost`, `ModuleRegistry` su
+      `ModuleDirectory`) e `SheetViewModelBase` stanno in Presentation;
+    - `MvvmSheetEditor` e `ModuleImplementations`, con 13 moduli tutti storici;
+    - la fabbrica viene dalla radice di composizione;
+    - `--module-impl <modulo>=mvvm` esiste solo nella build UiTests;
+    - il confronto diretto a differenza zero di due catture F3 è `tools/qa/f5_confronto_diretto.py`;
+    - c'è una prova fuori schermo, `ui/check-module-host-offscreen`.
+  - **Componenti dei form** (merge d39d0183):
+    - `FieldSpec` con le regole di scrittura, `FieldViewModel`, `FormViewModel`, `JsonRowViewModel` e `JsonRowCollection`;
+    - gli argomenti di aiuto stanno in `Presentation/Help`;
+    - `FieldForm` è in XAML;
+    - parità con `InputForm` (`ui/check-field-form-parity`, 2025 controlli, stessi byte del documento);
+    - il censimento P3 scende da 133 a 130.
+  - **Progetto** (merge d168f8d3):
+    - `SharedDataCoordinator` copre dati condivisi, anteprima dello spostamento, confronto e coerenza;
+    - `ProjectHistory` copre annulla e ripristina;
+    - `MainWindow` li usa con gli stessi testi e la stessa sequenza.
+  - **Corse:**
+    - build, fast, wiki e ui sul merge `20261016-094843-f5-int4`: PASS 108, 0 NEW-FAIL;
+    - `ui/f3-equivalence` è invariata;
+    - Presentation.Tests conta 318 controlli.
+  - **Correzioni delle prove:**
+    - il riepilogo del runner si scrive con un flusso condiviso (2abd404e);
+    - la smoke c.a. attende il disegno della scheda (17712fa4).
+  - **Rinviati a F5.13:**
+    - il report di progetto della cattura passa dalla sessione del progetto;
+    - `ConfirmDiscard` passa da `IConfirmationService`;
+    - dopo un errore si ripristinano anche i fogli collegati.
+  - **Rinviati al primo modulo migrato:** controllo tabellare XAML, aiuto F1 nell'ospite, esportazioni per modulo, anteprima
+    dei materiali (F5.5).
 - [ ] F5.3 [CP] Temi a token.
 - [ ] F5.4 [CP] Modulo pilota: palificata orizzontale.
 - [ ] F5.5–F5.12 Materiali, palo verticale, orizzontale, elastico, muri, sezione c.a., sezione composta, Bridge Design.
