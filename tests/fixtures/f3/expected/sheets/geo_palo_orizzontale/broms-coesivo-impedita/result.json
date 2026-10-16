@@ -1,0 +1,2530 @@
+{
+  "avvisi": [
+    "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.",
+    "Resistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.",
+    "I diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.",
+    "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare.",
+    "Efficienza dal foglio SMath: schema di otto pali interferenti (quattro allineati e quattro diagonali). Verificare ulteriori interferenze nelle maglie fitte; lo schema non rappresenta una palificata arbitraria. Distanze riferite alla direzione di H."
+  ],
+  "azione_kn": 350,
+  "capacita_kn": 518.4,
+  "capacita_media_kn": 600.4824105923071,
+  "criterio_governante": "Minimo / ξ4",
+  "efficienza": {
+    "anteriore": 0.7286975580717907,
+    "anteriore_destro": 0.9038670593248773,
+    "anteriore_sinistro": 0.9038670593248773,
+    "destro": 1,
+    "eta": 0.5258464945447888,
+    "metodo": "Reese & Van Impe (foglio)",
+    "posteriore": 0.9314285939986953,
+    "posteriore_destro": 0.9738150724867104,
+    "posteriore_sinistro": 0.9738150724867104,
+    "sinistro": 1
+  },
+  "errore": "",
+  "esito_manuale": "Verifica non soddisfatta",
+  "fonte": "Viggiani, Fondazioni, pp. 400–415 (PDF 205–212), §§13.2.2–13.2.5",
+  "gamma_r": 1.3,
+  "input": {
+    "elastico": {
+      "dettagli": {
+        "aderenza_buona": false,
+        "aggregato": 20,
+        "ancoraggio_punta": 0,
+        "ancoraggio_testa": 0,
+        "azioni_progetto": false,
+        "copriferro_override": false,
+        "delta_c": 10,
+        "distanza_barre": 0,
+        "elemento": "Pilastro",
+        "fattore_sovrapposizione": 60,
+        "lunghezza_barra": 12,
+        "lunghezza_gabbia": 12,
+        "lunghezza_minima": 3,
+        "minimi_pali": true,
+        "percentuale_sovrapposta": 100,
+        "sisma_staffe": "Staffe singole",
+        "sisma_testa": false,
+        "taglio_confermato": false,
+        "z_d": 0.9
+      },
+      "passo": 0.5,
+      "punta": "Libera",
+      "stratigrafia": -1,
+      "tratti": [
+        {
+          "collegato": true,
+          "fine": null,
+          "id": "T1"
+        }
+      ],
+      "versione": 2,
+      "visualizzazione": {}
+    },
+    "generali": {
+      "azione_assiale": "800",
+      "azione_orizzontale": "350",
+      "diametro": "0.8",
+      "eccentricita": "0",
+      "gamma_acqua": "10",
+      "lunghezza": "3",
+      "metodo_calcolo": "Broms",
+      "modalita": "Automatica",
+      "momento_resistente": "1000",
+      "origine_momento": "Sezione c.a.",
+      "passo": "0.10",
+      "presenza_falda": true,
+      "profondita_falda": "2",
+      "provenienza_momento": "",
+      "tolleranza": "1e-8",
+      "tratto_libero": 0,
+      "vincolo": "Impedita"
+    },
+    "sezione": {
+      "alpha_cc": "0.85",
+      "apply_minimum_eccentricity": false,
+      "apply_pile_requirements": false,
+      "axial_force_kn": "2500",
+      "bottom_bar_count": "6",
+      "bottom_bar_diameter_mm": "24",
+      "circular_sides": "32",
+      "classe_acciaio": "B450C",
+      "classe_cls": "C35/45",
+      "cls_diagramma": "Parabola-rettangolo",
+      "coefficienti_unitari": false,
+      "cover_mm": "60",
+      "diameter_mm": 800,
+      "dissipative_zone": false,
+      "fck_mpa": 35,
+      "flange_thickness_mm": "250",
+      "flange_width_mm": "1200",
+      "fyk_mpa": 450,
+      "gamma_acciaio": 78.5,
+      "gamma_c": "1.50",
+      "gamma_ca": 25,
+      "gamma_iniezione": 0,
+      "gamma_s": "1.15",
+      "height_mm": "800",
+      "longitudinal_bar_count": "18",
+      "longitudinal_bar_diameter_mm": "26",
+      "materiale_acciaio_nome": "B450C",
+      "materiale_cls_nome": "C35/45",
+      "minimum_eccentricity_mm": "0",
+      "modulo_chs_mpa": 210000,
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "n": "",
+      "second_inner_count": "8",
+      "second_inner_diameter": "20",
+      "second_inner_enabled": true,
+      "second_inner_gap": "30",
+      "shape": "Circolare",
+      "side_bar_count_per_side": "2",
+      "side_bar_diameter_mm": "16",
+      "steel_diagramma": "Elastoplastico",
+      "steel_eps_u": 75,
+      "steel_fu_mpa": 540,
+      "steel_modulus_mpa": 200000,
+      "top_bar_count": "4",
+      "top_bar_diameter_mm": "20",
+      "transverse_bar_diameter_mm": "10",
+      "transverse_spacing_mm": "200",
+      "vita_durabilita": 50,
+      "web_width_mm": "400",
+      "width_mm": "600"
+    },
+    "stratigrafie": [
+      [
+        {
+          "angolo_attrito": "0",
+          "coesione_efficace": "0",
+          "coesione_non_drenata": "40",
+          "peso_specifico": "18",
+          "peso_specifico_saturo": "19",
+          "reazione_orizzontale": {
+            "categoria": "Argilla n.c. o lievemente o.c.",
+            "densita": "Sciolto",
+            "fonte": "Viggiani, parametri orientativi; verificare condizioni di impiego",
+            "legge": "nh da tabella 14.6 · coesivi",
+            "media_iniziale": 1.85,
+            "nh_tabella": 1.85,
+            "origine_scelta": "Media iniziale del software",
+            "riga_146": "clay-reese-1956",
+            "scelta_per": "nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956"
+          },
+          "spessore": "4",
+          "tipologia": "Coesivo"
+        },
+        {
+          "angolo_attrito": "0",
+          "coesione_efficace": "0",
+          "coesione_non_drenata": "90",
+          "peso_specifico": "19",
+          "peso_specifico_saturo": "20",
+          "reazione_orizzontale": {
+            "categoria": "Argilla n.c. o lievemente o.c.",
+            "densita": "Sciolto",
+            "fonte": "Viggiani, parametri orientativi; verificare condizioni di impiego",
+            "legge": "nh da tabella 14.6 · coesivi",
+            "media_iniziale": 1.85,
+            "nh_tabella": 1.85,
+            "origine_scelta": "Media iniziale del software",
+            "riga_146": "clay-reese-1956",
+            "scelta_per": "nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956"
+          },
+          "spessore": "10",
+          "tipologia": "Coesivo"
+        }
+      ],
+      [
+        {
+          "angolo_attrito": "0",
+          "coesione_efficace": "0",
+          "coesione_non_drenata": "60",
+          "peso_specifico": "18.5",
+          "peso_specifico_saturo": "19.5",
+          "reazione_orizzontale": {
+            "categoria": "Argilla n.c. o lievemente o.c.",
+            "densita": "Sciolto",
+            "fonte": "Viggiani, parametri orientativi; verificare condizioni di impiego",
+            "legge": "nh da tabella 14.6 · coesivi",
+            "media_iniziale": 1.85,
+            "nh_tabella": 1.85,
+            "origine_scelta": "Media iniziale del software",
+            "riga_146": "clay-reese-1956",
+            "scelta_per": "nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956"
+          },
+          "spessore": "14",
+          "tipologia": "Coesivo"
+        }
+      ]
+    ],
+    "verifica": {
+      "efficienza_eta": "1",
+      "efficienza_metodo": "Reese & Van Impe (foglio)",
+      "interasse_anteriore": "2.4",
+      "interasse_destro": "3",
+      "interasse_posteriore": "2,4",
+      "interasse_sinistro": "3",
+      "verticali_indagate": "3"
+    },
+    "versione_orizzontale": 1
+  },
+  "meccanismo": "Corto",
+  "metodo_calcolo": "Broms",
+  "modello_adottato": "Omogeneo",
+  "momento_resistente_knm": 1353.0811332372905,
+  "percorso": "Incremento di H con e costante; M applicato = H·e; N costante",
+  "ramo_media_kn": 375.3015066201919,
+  "ramo_minimo_kn": 350.2702702702703,
+  "rapporto_meccanico": 0.6751543209876543,
+  "resistenza_caratteristica_manuale_kn": 350.2702702702703,
+  "resistenza_progetto_manuale_kn": 141.68337981913646,
+  "riferimenti": [
+    {
+      "dettaglio": "Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+      "id": "Pacini",
+      "titolo": "G. Pacini — approccio al terreno stratificato",
+      "url": "",
+      "uso": "Origine dell'estensione stratificata. Equilibrio globale e chiusura distribuita in GPCChecker.Geotechnics (LateralPileCapacity)."
+    },
+    {
+      "dettaglio": "§§13.2.2–13.2.5, pp. 400–415 del testo fornito",
+      "id": "Viggiani",
+      "titolo": "C. Viggiani, Fondazioni",
+      "url": "",
+      "uso": "Leggi locali e meccanismi classici; non attribuisce al testo l'estensione mista."
+    },
+    {
+      "dettaglio": "ASCE, Journal of the Soil Mechanics and Foundations Division, 90(SM2)",
+      "id": "Broms-C",
+      "titolo": "B. B. Broms (1964), Lateral Resistance of Piles in Cohesive Soils",
+      "url": "https://doi.org/10.1061/JSFEAQ.0000611",
+      "uso": "Riferimento originale per i terreni coesivi, ripreso attraverso Viggiani."
+    },
+    {
+      "dettaglio": "ASCE, Journal of the Soil Mechanics and Foundations Division, 90(SM3)",
+      "id": "Broms-G",
+      "titolo": "B. B. Broms (1964), Lateral Resistance of Piles in Cohesionless Soils",
+      "url": "https://doi.org/10.1061/JSFEAQ.0000614",
+      "uso": "Riferimento originale per i granulari e la chiusura concentrata, ripreso attraverso Viggiani e Wood."
+    },
+    {
+      "dettaglio": "New Zealand Geotechnical Society, Geomechanics News 101, 22 giugno 2021; §§2.2–2.3, 2.5, 2.8",
+      "id": "NZGS",
+      "titolo": "J. Wood (2021), Cantilever Pole Retaining Walls",
+      "url": "https://www.nzgs.org/libraries/cantilever-pole-retaining-walls/",
+      "uso": "Broms Modified: reazioni opposte distribuite per pali corti rigidi in terreno granulare. Supporta questa ipotesi, non valida l'estensione mista o la chiusura sotto la cerniera dei pali lunghi. Il salto di segno è un'idealizzazione limite, non una legge pressione-spostamento."
+    },
+    {
+      "dettaglio": "Design, Analysis, and Testing of Laterally Loaded Deep Foundations that Support Transportation Facilities; FHWA-HIF-18-031, §§6.3 e 6.5",
+      "id": "FHWA",
+      "titolo": "FHWA (2018), Geotechnical Engineering Circular No. 9",
+      "url": "https://www.fhwa.dot.gov/engineering/geotech/pubs/hif18031.pdf",
+      "uso": "Inquadramento dei metodi p-y, della deformabilità e dei limiti di Broms. Le curve p-y non sono implementate qui e richiedono calibrazione appropriata; non sono una validazione del presente modello."
+    }
+  ],
+  "selezione_modello": "Automatica",
+  "sezione": {
+    "area_acciaio_mm2": 12069.998975091985,
+    "asse_neutro_mm": 274.6599434128823,
+    "bars": [
+      [317,0,530.929158456675,26
+      ],
+      [297.882560789133,108.42038543423698,530.929158456675,26
+      ],
+      [242.83608846871604,203.76367227063295,530.929158456675,26
+      ],
+      [158.50000000000003,274.530052999667,530.929158456675,26
+      ],
+      [55.04647232041694,312.18405770486993,530.929158456675,26
+      ],
+      [-55.0464723204169,312.18405770486993,530.929158456675,26
+      ],
+      [-158.49999999999994,274.5300529996671,530.929158456675,26
+      ],
+      [-242.83608846871599,203.763672270633,530.929158456675,26
+      ],
+      [-297.8825607891329,108.42038543423703,530.929158456675,26
+      ],
+      [-317,3.88213035329711E-14,530.929158456675,26
+      ],
+      [-297.882560789133,-108.42038543423696,530.929158456675,26
+      ],
+      [-242.83608846871613,-203.76367227063284,530.929158456675,26
+      ],
+      [-158.50000000000014,-274.530052999667,530.929158456675,26
+      ],
+      [-55.04647232041692,-312.18405770486993,530.929158456675,26
+      ],
+      [55.046472320416804,-312.18405770487,530.929158456675,26
+      ],
+      [158.4999999999998,-274.5300529996672,530.929158456675,26
+      ],
+      [242.83608846871596,-203.76367227063304,530.929158456675,26
+      ],
+      [297.882560789133,-108.42038543423695,530.929158456675,26
+      ],
+      [264,0,314.1592653589793,20
+      ],
+      [186.67619023324855,186.67619023324855,314.1592653589793,20
+      ],
+      [1.6165337748745062E-14,264,314.1592653589793,20
+      ],
+      [-186.67619023324852,186.67619023324855,314.1592653589793,20
+      ],
+      [-264,3.2330675497490123E-14,314.1592653589793,20
+      ],
+      [-186.67619023324858,-186.67619023324852,314.1592653589793,20
+      ],
+      [-4.849601324623518E-14,-264,314.1592653589793,20
+      ],
+      [186.6761902332485,-186.67619023324858,314.1592653589793,20
+      ]
+    ],
+    "coefficienti_unitari": false,
+    "direzioni": [
+      {
+        "Direction": "Mx+",
+        "Moment": 1353.0811332372905,
+        "Resistance": {
+          "Length": 1571.994578303516,
+          "Mx": 1353.0811332372905,
+          "My": 0.00017486727941749995,
+          "N": -800.2114727326192
+        },
+        "Section": {
+          "CMax": 0,
+          "CMin": -19.833333333333332,
+          "EcMax": 6.6944242945369545,
+          "EcMin": -3.5,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 5.575389977712456,
+          "EsMin": -2.380965683175501,
+          "NeutralAngle": -0.000563814700762367,
+          "NeutralDistance": 274.6599434128823,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 391.304347826087,
+          "SMin": -391.304347826087,
+          "UsefulDepth": 725.1845993509548
+        },
+        "Status": "Resistenza a N costante · assi locali"
+      },
+      {
+        "Direction": "Mx−",
+        "Moment": -1353.089986680973,
+        "Resistance": {
+          "Length": 1572.0022269193967,
+          "Mx": -1353.089986680973,
+          "My": -0.0002956208013791329,
+          "N": -800.2115278994295
+        },
+        "Section": {
+          "CMax": 0,
+          "CMin": -19.833333333333332,
+          "EcMax": 6.694496349400354,
+          "EcMin": -3.5,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 5.57545313845969,
+          "EsMin": -2.3809567890593364,
+          "NeutralAngle": -180.00048338346744,
+          "NeutralDistance": 274.65800211552875,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 391.304347826087,
+          "SMin": -391.304347826087,
+          "UsefulDepth": 725.1845220864125
+        },
+        "Status": "Resistenza a N costante · assi locali"
+      }
+    ],
+    "fcd_mpa": 19.833333333333332,
+    "fyd_mpa": 391.304347826087,
+    "lati_contorno": 32,
+    "modello": "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare.",
+    "momento_knm": 1353.0811332372905,
+    "motore": "GPCChecker.Concrete",
+    "n_checker_kn": -800,
+    "n_kn": 800,
+    "normativa": "NTC 2018",
+    "outline": [
+      [400,0
+      ],
+      [392.3141121612922,78.0361288064513
+      ],
+      [369.5518130045147,153.0733729460359
+      ],
+      [332.5878449210181,222.22809320784086
+      ],
+      [282.842712474619,282.842712474619
+      ],
+      [222.2280932078409,332.5878449210181
+      ],
+      [153.07337294603593,369.5518130045147
+      ],
+      [78.03612880645133,392.3141121612922
+      ],
+      [2.4492935982947064E-14,400
+      ],
+      [-78.03612880645127,392.3141121612922
+      ],
+      [-153.0733729460359,369.5518130045147
+      ],
+      [-222.22809320784077,332.58784492101813
+      ],
+      [-282.84271247461896,282.842712474619
+      ],
+      [-332.58784492101813,222.22809320784086
+      ],
+      [-369.5518130045147,153.07337294603596
+      ],
+      [-392.3141121612922,78.03612880645144
+      ],
+      [-400,4.898587196589413E-14
+      ],
+      [-392.3141121612922,-78.03612880645134
+      ],
+      [-369.5518130045147,-153.07337294603587
+      ],
+      [-332.5878449210182,-222.22809320784077
+      ],
+      [-282.8427124746191,-282.84271247461896
+      ],
+      [-222.22809320784086,-332.5878449210181
+      ],
+      [-153.07337294603613,-369.5518130045146
+      ],
+      [-78.03612880645147,-392.31411216129214
+      ],
+      [-7.347880794884119E-14,-400
+      ],
+      [78.03612880645132,-392.3141121612922
+      ],
+      [153.073372946036,-369.55181300451466
+      ],
+      [222.22809320784074,-332.5878449210182
+      ],
+      [282.84271247461896,-282.8427124746191
+      ],
+      [332.5878449210181,-222.22809320784086
+      ],
+      [369.5518130045146,-153.07337294603616
+      ],
+      [392.31411216129214,-78.03612880645149
+      ]
+    ],
+    "residuo_n_kn": 0.21147273261919963,
+    "tolleranza_n_kn": 1.12
+  },
+  "sondaggi": [
+    {
+      "candidati": [
+        {
+          "capacita_kn": 518.4,
+          "governante": true,
+          "meccanismo": "Corto",
+          "stato": "Ammissibile, governante"
+        },
+        {
+          "capacita_kn": null,
+          "governante": false,
+          "meccanismo": "Intermedio",
+          "stato": "Meccanismo non attivabile nel campo di lunghezza"
+        },
+        {
+          "capacita_kn": null,
+          "governante": false,
+          "meccanismo": "Lungo",
+          "stato": "Meccanismo non attivabile nel campo di lunghezza"
+        }
+      ],
+      "capacita_kn": 518.4,
+      "cerniere_m": [],
+      "chiusura_equilibrio": "Distribuita",
+      "coesivo": true,
+      "convergenza": "Raggiunta",
+      "diagramma_limite": [
+        {
+          "a_m": 1.2,
+          "da_m": 0,
+          "momento_primo_knm": 0,
+          "p_iniziale_kn_m": 0,
+          "pendenza_kn_m2": 0,
+          "risultante_kn": 0,
+          "sigma_eff_iniziale_kpa": 0,
+          "strato": 1,
+          "tipologia": "Coesivo"
+        },
+        {
+          "a_m": 3,
+          "da_m": 1.2,
+          "momento_primo_knm": 1088.64,
+          "p_iniziale_kn_m": 288,
+          "pendenza_kn_m2": 0,
+          "risultante_kn": 518.4,
+          "sigma_eff_iniziale_kpa": 21.6,
+          "strato": 1,
+          "tipologia": "Coesivo"
+        }
+      ],
+      "diagramma_terreno": [
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 0,
+          "sigma_v_kpa": 0,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 1.7999999999999998,
+          "sigma_v_kpa": 1.7999999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 1.7999999999999998,
+          "sigma_v_kpa": 1.7999999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 3.5999999999999996,
+          "sigma_v_kpa": 3.5999999999999996,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 3.5999999999999996,
+          "sigma_v_kpa": 3.5999999999999996,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 5.4,
+          "sigma_v_kpa": 5.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 5.4,
+          "sigma_v_kpa": 5.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 7.199999999999999,
+          "sigma_v_kpa": 7.199999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 7.199999999999999,
+          "sigma_v_kpa": 7.199999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 9,
+          "sigma_v_kpa": 9,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 9,
+          "sigma_v_kpa": 9,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 10.8,
+          "sigma_v_kpa": 10.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 10.8,
+          "sigma_v_kpa": 10.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 12.6,
+          "sigma_v_kpa": 12.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 12.6,
+          "sigma_v_kpa": 12.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 14.399999999999999,
+          "sigma_v_kpa": 14.399999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 14.399999999999999,
+          "sigma_v_kpa": 14.399999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 16.2,
+          "sigma_v_kpa": 16.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 16.2,
+          "sigma_v_kpa": 16.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 18,
+          "sigma_v_kpa": 18,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 18,
+          "sigma_v_kpa": 18,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 19.8,
+          "sigma_v_kpa": 19.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 19.8,
+          "sigma_v_kpa": 19.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 21.6,
+          "sigma_v_kpa": 21.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 21.6,
+          "sigma_v_kpa": 21.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 28.8,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 23.4,
+          "sigma_v_kpa": 23.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 28.8,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 23.4,
+          "sigma_v_kpa": 23.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 57.6,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 25.2,
+          "sigma_v_kpa": 25.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 57.6,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 25.2,
+          "sigma_v_kpa": 25.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 86.4,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 27,
+          "sigma_v_kpa": 27,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 86.4,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 27,
+          "sigma_v_kpa": 27,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 115.2,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 28.799999999999997,
+          "sigma_v_kpa": 28.799999999999997,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 115.2,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 28.799999999999997,
+          "sigma_v_kpa": 28.799999999999997,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 144,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 30.6,
+          "sigma_v_kpa": 30.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 144,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 30.6,
+          "sigma_v_kpa": 30.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 172.8,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 32.4,
+          "sigma_v_kpa": 32.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 172.8,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 32.4,
+          "sigma_v_kpa": 32.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 201.6,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 34.2,
+          "sigma_v_kpa": 34.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 201.6,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 34.2,
+          "sigma_v_kpa": 34.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 230.4,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 36,
+          "sigma_v_kpa": 36,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 230.4,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 36,
+          "sigma_v_kpa": 36,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 259.2,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 36.9,
+          "sigma_v_kpa": 37.900000000000006,
+          "strato": 1,
+          "u_kpa": 1,
+          "z": 2.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 259.2,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 36.9,
+          "sigma_v_kpa": 37.900000000000006,
+          "strato": 1,
+          "u_kpa": 1,
+          "z": 2.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 288,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 37.8,
+          "sigma_v_kpa": 39.800000000000004,
+          "strato": 1,
+          "u_kpa": 2,
+          "z": 2.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 288,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 37.8,
+          "sigma_v_kpa": 39.800000000000004,
+          "strato": 1,
+          "u_kpa": 2,
+          "z": 2.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 316.8,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 38.699999999999996,
+          "sigma_v_kpa": 41.7,
+          "strato": 1,
+          "u_kpa": 2.9999999999999996,
+          "z": 2.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 316.8,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 38.699999999999996,
+          "sigma_v_kpa": 41.7,
+          "strato": 1,
+          "u_kpa": 2.9999999999999996,
+          "z": 2.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 345.6,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 39.599999999999994,
+          "sigma_v_kpa": 43.6,
+          "strato": 1,
+          "u_kpa": 4,
+          "z": 2.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 345.6,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 39.599999999999994,
+          "sigma_v_kpa": 43.6,
+          "strato": 1,
+          "u_kpa": 4,
+          "z": 2.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 374.4,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 40.5,
+          "sigma_v_kpa": 45.5,
+          "strato": 1,
+          "u_kpa": 4.999999999999999,
+          "z": 2.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 374.4,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 40.5,
+          "sigma_v_kpa": 45.5,
+          "strato": 1,
+          "u_kpa": 4.999999999999999,
+          "z": 2.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 403.2,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 41.400000000000006,
+          "sigma_v_kpa": 47.400000000000006,
+          "strato": 1,
+          "u_kpa": 5.999999999999999,
+          "z": 2.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 403.2,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 41.400000000000006,
+          "sigma_v_kpa": 47.400000000000006,
+          "strato": 1,
+          "u_kpa": 5.999999999999999,
+          "z": 2.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 432,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 42.300000000000004,
+          "sigma_v_kpa": 49.300000000000004,
+          "strato": 1,
+          "u_kpa": 6.999999999999999,
+          "z": 2.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 432,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 42.300000000000004,
+          "sigma_v_kpa": 49.300000000000004,
+          "strato": 1,
+          "u_kpa": 6.999999999999999,
+          "z": 2.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 460.8,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 43.2,
+          "sigma_v_kpa": 51.2,
+          "strato": 1,
+          "u_kpa": 8,
+          "z": 2.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 460.8,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 43.2,
+          "sigma_v_kpa": 51.2,
+          "strato": 1,
+          "u_kpa": 8,
+          "z": 2.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 489.6,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 44.1,
+          "sigma_v_kpa": 53.1,
+          "strato": 1,
+          "u_kpa": 9,
+          "z": 2.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 489.6,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 44.1,
+          "sigma_v_kpa": 53.1,
+          "strato": 1,
+          "u_kpa": 9,
+          "z": 2.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 288,
+          "q_integrale_kn": 518.4,
+          "q_lim_kpa": 360,
+          "sigma_eff_kpa": 45,
+          "sigma_v_kpa": 55,
+          "strato": 1,
+          "u_kpa": 9.999999999999998,
+          "z": 3
+        }
+      ],
+      "diagrammi": [
+        {
+          "lato": "nodo",
+          "m_knm": -1088.64,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 0
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -1036.8,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 0.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -984.96,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 0.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -933.12,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 0.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -881.28,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 0.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -829.44,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 0.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -777.6,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 0.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -725.76,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 0.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -673.92,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 0.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -622.08,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 0.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -570.24,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -518.4,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 1.1
+        },
+        {
+          "lato": "prima",
+          "m_knm": -466.56,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 518.4,
+          "z": 1.2
+        },
+        {
+          "lato": "dopo",
+          "m_knm": -466.56,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 518.4,
+          "z": 1.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -416.16,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 489.6,
+          "z": 1.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -368.64,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 460.8,
+          "z": 1.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -324,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 432,
+          "z": 1.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -282.24,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 403.2,
+          "z": 1.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -243.36,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 374.4,
+          "z": 1.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -207.36,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 345.6,
+          "z": 1.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -174.24,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 316.8,
+          "z": 1.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -144,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 288,
+          "z": 2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -116.64,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 259.2,
+          "z": 2.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -92.16,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 230.4,
+          "z": 2.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -70.56,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 201.6,
+          "z": 2.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -51.84,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 172.8,
+          "z": 2.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -36,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 144,
+          "z": 2.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -23.04,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 115.2,
+          "z": 2.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -12.96,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 86.4,
+          "z": 2.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -5.76,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 57.6,
+          "z": 2.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -1.44,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 28.8,
+          "z": 2.9
+        },
+        {
+          "lato": "prima",
+          "m_knm": 0,
+          "p_kn_m": 288,
+          "q_kpa": 360,
+          "v_kn": 0,
+          "z": 3
+        },
+        {
+          "lato": "dopo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 3
+        }
+      ],
+      "fine_reazioni_m": 3,
+      "inversione_reazioni_m": 3,
+      "meccanismo": "Corto",
+      "misto": false,
+      "modello_adottato": "Omogeneo",
+      "momento_massimo_knm": 1088.64,
+      "momento_testa_knm": -1088.64,
+      "nota_tensioni": "σv e σ′v da peso proprio; u idrostatica, senza suzione. q_lim=p_lim/D; q=p/D è una pressione laterale equivalente. Nessuna riduzione locale con ξ o γR.",
+      "quota_momento_massimo_m": 0,
+      "quota_risultante_m": 3,
+      "quota_taglio_nullo_m": 3,
+      "residuo_forza_kn": 0,
+      "residuo_momento_knm": 0,
+      "risultante_concentrata_kn": 0,
+      "tensioni_disponibili": true
+    },
+    {
+      "candidati": [
+        {
+          "capacita_kn": 777.6,
+          "governante": false,
+          "meccanismo": "Corto",
+          "stato": "Candidato non governante; limite precedente già raggiunto"
+        },
+        {
+          "capacita_kn": 682.5648211846142,
+          "governante": true,
+          "meccanismo": "Intermedio",
+          "stato": "Ammissibile, governante"
+        },
+        {
+          "capacita_kn": null,
+          "governante": false,
+          "meccanismo": "Lungo",
+          "stato": "Meccanismo non attivabile nel campo di lunghezza"
+        }
+      ],
+      "capacita_kn": 682.5648211846142,
+      "cerniere_m": [0
+      ],
+      "chiusura_equilibrio": "Distribuita",
+      "coesivo": true,
+      "convergenza": "Raggiunta",
+      "diagramma_limite": [
+        {
+          "a_m": 1.2,
+          "da_m": 0,
+          "momento_primo_knm": 0,
+          "p_iniziale_kn_m": 0,
+          "pendenza_kn_m2": 0,
+          "risultante_kn": 0,
+          "sigma_eff_iniziale_kpa": 0,
+          "strato": 1,
+          "tipologia": "Coesivo"
+        },
+        {
+          "a_m": 3,
+          "da_m": 1.2,
+          "momento_primo_knm": 1632.96,
+          "p_iniziale_kn_m": 432,
+          "pendenza_kn_m2": 0,
+          "risultante_kn": 777.6,
+          "sigma_eff_iniziale_kpa": 22.199999999999996,
+          "strato": 1,
+          "tipologia": "Coesivo"
+        }
+      ],
+      "diagramma_terreno": [
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 0,
+          "sigma_v_kpa": 0,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 1.8499999999999999,
+          "sigma_v_kpa": 1.8499999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 1.8499999999999999,
+          "sigma_v_kpa": 1.8499999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 3.6999999999999997,
+          "sigma_v_kpa": 3.6999999999999997,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 3.6999999999999997,
+          "sigma_v_kpa": 3.6999999999999997,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 5.549999999999999,
+          "sigma_v_kpa": 5.549999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 5.549999999999999,
+          "sigma_v_kpa": 5.549999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 7.3999999999999995,
+          "sigma_v_kpa": 7.3999999999999995,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 7.3999999999999995,
+          "sigma_v_kpa": 7.3999999999999995,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 9.25,
+          "sigma_v_kpa": 9.25,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 9.25,
+          "sigma_v_kpa": 9.25,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 11.099999999999998,
+          "sigma_v_kpa": 11.099999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 11.099999999999998,
+          "sigma_v_kpa": 11.099999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 12.95,
+          "sigma_v_kpa": 12.95,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 12.95,
+          "sigma_v_kpa": 12.95,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 14.799999999999999,
+          "sigma_v_kpa": 14.799999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 14.799999999999999,
+          "sigma_v_kpa": 14.799999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 16.65,
+          "sigma_v_kpa": 16.65,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 16.65,
+          "sigma_v_kpa": 16.65,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 18.5,
+          "sigma_v_kpa": 18.5,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 18.5,
+          "sigma_v_kpa": 18.5,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 20.349999999999998,
+          "sigma_v_kpa": 20.349999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 20.349999999999998,
+          "sigma_v_kpa": 20.349999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 22.199999999999996,
+          "sigma_v_kpa": 22.199999999999996,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 22.199999999999996,
+          "sigma_v_kpa": 22.199999999999996,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 43.2,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 24.049999999999997,
+          "sigma_v_kpa": 24.049999999999997,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 43.2,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 24.049999999999997,
+          "sigma_v_kpa": 24.049999999999997,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 86.4,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 25.9,
+          "sigma_v_kpa": 25.9,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 86.4,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 25.9,
+          "sigma_v_kpa": 25.9,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 129.6,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 27.749999999999996,
+          "sigma_v_kpa": 27.749999999999996,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 129.6,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 27.749999999999996,
+          "sigma_v_kpa": 27.749999999999996,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 172.8,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 29.599999999999998,
+          "sigma_v_kpa": 29.599999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 172.8,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 29.599999999999998,
+          "sigma_v_kpa": 29.599999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 216,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 31.45,
+          "sigma_v_kpa": 31.45,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 216,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 31.45,
+          "sigma_v_kpa": 31.45,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 259.2,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 33.3,
+          "sigma_v_kpa": 33.3,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 259.2,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 33.3,
+          "sigma_v_kpa": 33.3,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 302.4,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 35.15,
+          "sigma_v_kpa": 35.15,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 302.4,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 35.15,
+          "sigma_v_kpa": 35.15,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 345.6,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 37,
+          "sigma_v_kpa": 37,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 345.6,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 37,
+          "sigma_v_kpa": 37,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 388.8,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 37.949999999999996,
+          "sigma_v_kpa": 38.949999999999996,
+          "strato": 1,
+          "u_kpa": 1,
+          "z": 2.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 388.8,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 37.949999999999996,
+          "sigma_v_kpa": 38.949999999999996,
+          "strato": 1,
+          "u_kpa": 1,
+          "z": 2.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 432,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 38.9,
+          "sigma_v_kpa": 40.9,
+          "strato": 1,
+          "u_kpa": 2,
+          "z": 2.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 432,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 38.9,
+          "sigma_v_kpa": 40.9,
+          "strato": 1,
+          "u_kpa": 2,
+          "z": 2.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 475.2,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 39.849999999999994,
+          "sigma_v_kpa": 42.85,
+          "strato": 1,
+          "u_kpa": 2.9999999999999996,
+          "z": 2.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 475.2,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 39.849999999999994,
+          "sigma_v_kpa": 42.85,
+          "strato": 1,
+          "u_kpa": 2.9999999999999996,
+          "z": 2.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 518.4,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 40.800000000000004,
+          "sigma_v_kpa": 44.8,
+          "strato": 1,
+          "u_kpa": 4,
+          "z": 2.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 518.4,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 40.800000000000004,
+          "sigma_v_kpa": 44.8,
+          "strato": 1,
+          "u_kpa": 4,
+          "z": 2.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 561.6,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 41.75,
+          "sigma_v_kpa": 46.75,
+          "strato": 1,
+          "u_kpa": 4.999999999999999,
+          "z": 2.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 561.6,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 41.75,
+          "sigma_v_kpa": 46.75,
+          "strato": 1,
+          "u_kpa": 4.999999999999999,
+          "z": 2.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 604.8,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 42.7,
+          "sigma_v_kpa": 48.699999999999996,
+          "strato": 1,
+          "u_kpa": 5.999999999999999,
+          "z": 2.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 604.8,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 42.7,
+          "sigma_v_kpa": 48.699999999999996,
+          "strato": 1,
+          "u_kpa": 5.999999999999999,
+          "z": 2.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 648,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 43.65,
+          "sigma_v_kpa": 50.65,
+          "strato": 1,
+          "u_kpa": 6.999999999999999,
+          "z": 2.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 648,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 43.65,
+          "sigma_v_kpa": 50.65,
+          "strato": 1,
+          "u_kpa": 6.999999999999999,
+          "z": 2.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 682.5648211846142,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 44.41010602142091,
+          "sigma_v_kpa": 52.21021762291661,
+          "strato": 1,
+          "u_kpa": 7.8001116014957,
+          "z": 2.78001116014957
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 682.5648211846142,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 44.41010602142091,
+          "sigma_v_kpa": 52.21021762291661,
+          "strato": 1,
+          "u_kpa": 7.8001116014957,
+          "z": 2.78001116014957
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 691.2,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 44.599999999999994,
+          "sigma_v_kpa": 52.599999999999994,
+          "strato": 1,
+          "u_kpa": 8,
+          "z": 2.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 691.2,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 44.599999999999994,
+          "sigma_v_kpa": 52.599999999999994,
+          "strato": 1,
+          "u_kpa": 8,
+          "z": 2.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 730.0824105923072,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 45.45505301071046,
+          "sigma_v_kpa": 54.3551088114583,
+          "strato": 1,
+          "u_kpa": 8.900055800747849,
+          "z": 2.890005580074785
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 730.0824105923072,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 45.45505301071046,
+          "sigma_v_kpa": 54.3551088114583,
+          "strato": 1,
+          "u_kpa": 8.900055800747849,
+          "z": 2.890005580074785
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 734.4,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 45.55,
+          "sigma_v_kpa": 54.55,
+          "strato": 1,
+          "u_kpa": 9,
+          "z": 2.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 734.4,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 45.55,
+          "sigma_v_kpa": 54.55,
+          "strato": 1,
+          "u_kpa": 9,
+          "z": 2.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 432,
+          "q_integrale_kn": 777.6,
+          "q_lim_kpa": 540,
+          "sigma_eff_kpa": 46.5,
+          "sigma_v_kpa": 56.49999999999999,
+          "strato": 1,
+          "u_kpa": 9.999999999999998,
+          "z": 3
+        }
+      ],
+      "diagrammi": [
+        {
+          "lato": "nodo",
+          "m_knm": -1353.0811332372905,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 0
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -1284.824651118829,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 0.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -1216.5681690003676,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 0.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -1148.311686881906,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 0.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -1080.0552047634446,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 0.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -1011.7987226449833,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 0.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -943.5422405265219,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 0.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -875.2857584080605,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 0.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -807.029276289599,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 0.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -738.7727941711375,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 0.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -670.5163120526762,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -602.2598299342147,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 1.1
+        },
+        {
+          "lato": "prima",
+          "m_knm": -534.0033478157534,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 682.5648211846142,
+          "z": 1.2
+        },
+        {
+          "lato": "dopo",
+          "m_knm": -534.0033478157534,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 682.5648211846142,
+          "z": 1.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -467.90686569729195,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 639.3648211846142,
+          "z": 1.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -406.1303835788305,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 596.1648211846142,
+          "z": 1.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -348.6739014603691,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 552.9648211846142,
+          "z": 1.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -295.53741934190776,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 509.7648211846142,
+          "z": 1.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -246.72093722344613,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 466.56482118461423,
+          "z": 1.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -202.22445510498477,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 423.3648211846142,
+          "z": 1.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -162.04797298652338,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 380.1648211846142,
+          "z": 1.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -126.19149086806202,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 336.9648211846142,
+          "z": 2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -94.65500874960065,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 293.7648211846142,
+          "z": 2.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -67.43852663113904,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 250.5648211846142,
+          "z": 2.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -44.54204451267767,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 207.36482118461421,
+          "z": 2.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -25.9655623942163,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 164.1648211846142,
+          "z": 2.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -11.709080275754928,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 120.96482118461421,
+          "z": 2.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": -1.772598157293558,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 77.7648211846142,
+          "z": 2.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 3.843883961168051,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 34.56482118461421,
+          "z": 2.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 5.22666968283987,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": 0,
+          "z": 2.78001116014957
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 5.1403660796294215,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": -8.635178815385792,
+          "z": 2.8
+        },
+        {
+          "lato": "prima",
+          "m_knm": 2.613334841267586,
+          "p_kn_m": 432,
+          "q_kpa": 540,
+          "v_kn": -47.517589407692896,
+          "z": 2.890005580074785
+        },
+        {
+          "lato": "dopo",
+          "m_knm": 2.613334841267586,
+          "p_kn_m": -432,
+          "q_kpa": -540,
+          "v_kn": -47.517589407692896,
+          "z": 2.890005580074785
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 2.1599999996957777,
+          "p_kn_m": -432,
+          "q_kpa": -540,
+          "v_kn": -43.2,
+          "z": 2.9
+        },
+        {
+          "lato": "prima",
+          "m_knm": -3.0422210693359375E-10,
+          "p_kn_m": -432,
+          "q_kpa": -540,
+          "v_kn": 0,
+          "z": 3
+        },
+        {
+          "lato": "dopo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 3
+        }
+      ],
+      "fine_reazioni_m": 3,
+      "inversione_reazioni_m": 2.890005580074785,
+      "meccanismo": "Intermedio",
+      "misto": false,
+      "modello_adottato": "Omogeneo",
+      "momento_massimo_knm": 1353.0811332372905,
+      "momento_testa_knm": -1353.0811332372905,
+      "nota_tensioni": "σv e σ′v da peso proprio; u idrostatica, senza suzione. q_lim=p_lim/D; q=p/D è una pressione laterale equivalente. Nessuna riduzione locale con ξ o γR.",
+      "quota_momento_massimo_m": 0,
+      "quota_risultante_m": 3,
+      "quota_taglio_nullo_m": 2.78001116014957,
+      "residuo_forza_kn": 0,
+      "residuo_momento_knm": -3.0422210693359375E-10,
+      "risultante_concentrata_kn": 0,
+      "tensioni_disponibili": true
+    }
+  ],
+  "sondaggio_governante": 1,
+  "sperimentale": false,
+  "utilizzo_manuale": 2.4702968015499533,
+  "verifica_normativa": "Incompleta",
+  "versione_motore": "Broms-ANTHEA-1",
+  "verticali_indagate": "3",
+  "xi3": 1.6,
+  "xi4": 1.48
+}

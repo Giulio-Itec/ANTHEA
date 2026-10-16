@@ -137,3 +137,32 @@ passati da 3 + 3 a 7 + 6 fixture (49 in tutto), catturate con la vista storica (
 - In `expected/esito.txt` è cambiato solo il numero delle fixture (42 → 49).
 - Impronte nel manifest, sezione `fixture_aggiunte_f5_6` (input, attesi, figure ed `esito.txt`), sulla forma conservata da
   git (fine riga LF).
+
+## Fixture aggiunte in F5.7 (palo e micropalo orizzontale)
+
+Stessa regola di F5.4 (proposta F5, sezione 7.2): prima della preparazione di F5.7 il palo e il micropalo orizzontale sono
+passati da 5 + 5 a 8 + 8 fixture (67 in tutto), catturate con la vista storica (`HorizontalWorkspace`). Fra le 10 esistenti
+calcolavano la capacità solo le due `single-soil-layer` (una stratigrafia granulare, Broms, testa libera); le altre sono
+default incompleti o fixture della risposta elastica. Le 6 nuove restano sulla scheda della capacità (`vista_orizzontale`
+assente): la risposta elastica è F5.8, quindi nessuna tocca le transizioni F4 dell'elastico (BUG-PO-4, BUG-PO-5, F4-15).
+Gli attesi delle 61 fixture esistenti e le transizioni F4 non cambiano.
+
+| Fixture | Cosa copre |
+| --- | --- |
+| `geo_palo_orizzontale--broms-coesivo-impedita` | palo corto (L = 3 m) in terreni coesivi, Broms con testa impedita: meccanismo corto nella prima stratigrafia, intermedio nella seconda; falda con γw = 10, forza assiale, ξ di tre verticali, efficienza di Reese e Van Impe con gli interassi (anche con la virgola), momento della sezione c.a. con secondo anello interno |
+| `geo_palo_orizzontale--stratificato-misto-manuale` | metodo stratificato su sequenza granulare–coesivo–granulare (modello sperimentale), falda a 3,5 m, momento manuale con la sua fonte, coefficienti unitari della sezione, efficienza manuale 0,85, ξ di almeno dieci verticali |
+| `geo_palo_orizzontale--dati-incompleti` | Broms con una stratigrafia più corta del palo e una mista: calcolo fermato con «Dati da completare», momento della sezione mostrato, nessun report |
+| `geo_micropalo_orizzontale--chs-manuale-impedita` | tubo CHS manuale con peso dell'iniezione, testa impedita, falda a 1,5 m, due stratigrafie granulari (forza concentrata di Broms), ξ di due verticali, efficienza di Reese e Van Impe |
+| `geo_micropalo_orizzontale--stratificato-chs-catalogo` | metodo stratificato su sequenza coesivo–granulare, eccentricità 0,3 m, momento del CHS 193.7 × 12.5 del catalogo, efficienza manuale |
+| `geo_micropalo_orizzontale--dati-incompleti` | tubo CHS manuale senza spessore: sezione e capacità fermate con «Dati da completare» |
+
+- Gli input vengono da `fixtures-f3` (`F3Fixtures.HorizontalPileF57`). Sono documenti come li scrive la scheda (testi per i
+  valori digitati, anche con la virgola; booleani JSON per le opzioni) e archivi validi. Nessun identificativo finisce con
+  `default`.
+- Gli attesi (50 file) vengono dalla cattura `20261016-221302-f57-f3-cattura-d`, sul codice di produzione di `92613e60`;
+  la seconda cattura (`…-f57-f3-cattura-e`) dà gli stessi 50 file.
+- Con queste fixture passano `ui/f3-equivalence` (stesse transizioni F4) e `ui/f3-report-chapters`. I pali orizzontali non
+  hanno figure congelate in `f3-figures`.
+- In `expected/esito.txt` è cambiato solo il numero delle fixture (61 → 67).
+- Impronte nel manifest, sezione `fixture_aggiunte_f5_7` (input, attesi ed `esito.txt`), sulla forma conservata da git (fine
+  riga LF).

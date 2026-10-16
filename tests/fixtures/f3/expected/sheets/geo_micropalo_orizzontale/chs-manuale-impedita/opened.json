@@ -1,0 +1,146 @@
+{
+  "elastico": {
+    "dettagli": {
+      "aderenza_buona": false,
+      "aggregato": 20,
+      "ancoraggio_punta": 0,
+      "ancoraggio_testa": 0,
+      "azioni_progetto": false,
+      "copriferro_override": false,
+      "delta_c": 10,
+      "distanza_barre": 0,
+      "elemento": "Pilastro",
+      "fattore_sovrapposizione": 60,
+      "lunghezza_barra": 12,
+      "lunghezza_gabbia": 12,
+      "lunghezza_minima": 3,
+      "minimi_pali": true,
+      "percentuale_sovrapposta": 100,
+      "sisma_staffe": "Staffe singole",
+      "sisma_testa": false,
+      "taglio_confermato": false,
+      "z_d": 0.9
+    },
+    "passo": 0.5,
+    "punta": "Libera",
+    "stratigrafia": -1,
+    "tratti": [
+      {
+        "collegato": true,
+        "fine": null,
+        "id": "T1"
+      }
+    ],
+    "versione": 2,
+    "visualizzazione": {}
+  },
+  "generali": {
+    "azione_assiale": "150",
+    "azione_orizzontale": "60",
+    "diametro": "0.3",
+    "eccentricita": "0",
+    "gamma_acqua": 9.81,
+    "lunghezza": "9",
+    "metodo_calcolo": "Broms",
+    "modalita": "Automatica",
+    "momento_resistente": "1000",
+    "origine_momento": "Sezione CHS",
+    "passo": "0.10",
+    "presenza_falda": true,
+    "profondita_falda": "1,5",
+    "provenienza_momento": "",
+    "tolleranza": "1e-8",
+    "tratto_libero": 0,
+    "vincolo": "Impedita"
+  },
+  "sezione": {
+    "diametro_chs_mm": "168.3",
+    "fy_chs_mpa": "355",
+    "gamma_acciaio": 78.5,
+    "gamma_ca": 25,
+    "gamma_iniezione": "22",
+    "gamma_m0": "1.05",
+    "modo_chs": "Manuale",
+    "modulo_chs_mpa": 210000,
+    "profilo_chs": "CHS 139.7 × 8",
+    "spessore_chs_mm": "10",
+    "vita_durabilita": 50
+  },
+  "stratigrafie": [
+    [
+      {
+        "angolo_attrito": "30",
+        "coesione_efficace": "0",
+        "coesione_non_drenata": "0",
+        "peso_specifico": "18",
+        "peso_specifico_saturo": "20",
+        "reazione_orizzontale": {
+          "A": 200,
+          "categoria": "Argilla n.c. o lievemente o.c.",
+          "densita": "Sciolto",
+          "fonte": "Viggiani, parametri orientativi; verificare condizioni di impiego",
+          "legge": "nh = A·γ/1,35 · incoerenti",
+          "media_iniziale": 200,
+          "origine_scelta": "Media iniziale del software",
+          "riga_146": "clay-reese-1956",
+          "scelta_per": "nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956"
+        },
+        "spessore": "4",
+        "tipologia": "Granulare"
+      },
+      {
+        "angolo_attrito": "35",
+        "coesione_efficace": "0",
+        "coesione_non_drenata": "0",
+        "peso_specifico": "19",
+        "peso_specifico_saturo": "21",
+        "reazione_orizzontale": {
+          "A": 200,
+          "categoria": "Argilla n.c. o lievemente o.c.",
+          "densita": "Sciolto",
+          "fonte": "Viggiani, parametri orientativi; verificare condizioni di impiego",
+          "legge": "nh = A·γ/1,35 · incoerenti",
+          "media_iniziale": 200,
+          "origine_scelta": "Media iniziale del software",
+          "riga_146": "clay-reese-1956",
+          "scelta_per": "nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956"
+        },
+        "spessore": "6",
+        "tipologia": "Granulare"
+      }
+    ],
+    [
+      {
+        "angolo_attrito": "32",
+        "coesione_efficace": "0",
+        "coesione_non_drenata": "0",
+        "peso_specifico": "18.5",
+        "peso_specifico_saturo": "20.5",
+        "reazione_orizzontale": {
+          "A": 200,
+          "categoria": "Argilla n.c. o lievemente o.c.",
+          "densita": "Sciolto",
+          "fonte": "Viggiani, parametri orientativi; verificare condizioni di impiego",
+          "legge": "nh = A·γ/1,35 · incoerenti",
+          "media_iniziale": 200,
+          "origine_scelta": "Media iniziale del software",
+          "riga_146": "clay-reese-1956",
+          "scelta_per": "nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956"
+        },
+        "spessore": "10",
+        "tipologia": "Granulare"
+      }
+    ]
+  ],
+  "tipo_sezione": "CHS",
+  "verifica": {
+    "efficienza_eta": "1",
+    "efficienza_metodo": "Reese & Van Impe (foglio)",
+    "interasse_anteriore": "0.9",
+    "interasse_destro": "0,9",
+    "interasse_posteriore": "1.2",
+    "interasse_sinistro": "0.9",
+    "verticali_indagate": "2"
+  },
+  "versione_orizzontale": 1
+}

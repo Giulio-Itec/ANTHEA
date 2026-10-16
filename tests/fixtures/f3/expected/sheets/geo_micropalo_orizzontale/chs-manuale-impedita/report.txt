@@ -1,0 +1,1202 @@
+# word/document.xml
+¶ ANTHEA — Fixture F3 · geo_micropalo_orizzontale · chs-manuale-impedita
+¶ Palo singolo: capacità portante orizzontale — Broms-ANTHEA-1
+¶ MODALITÀ MULTISTRATO SPERIMENTALE
+¶ Modello selezionato automaticamente in base alle proprietà degli strati attraversati e alla falda: Multistrato sperimentale.
+¶ Modello e fonti
+¶ Viggiani, Fondazioni, pp. 400–415 (PDF 205–212), §§13.2.2–13.2.5
+¶ Incremento di H con e costante; M applicato = H·e; N costante
+¶ z positivo verso il basso; H positiva; p [kN/m] positiva se opposta a H. V(z)=H−∫p dz; M(z)=M0+Hz−∫(z−s)p(s) ds. Compressione N positiva.
+¶ Coesivo non drenato: p=0 per z<1,5D; p=9CuD al di sotto (Viggiani p.400). Granulare drenato: p=3KpDσ′v; Kp=(1+sinφ′)/(1−sinφ′), σ′v integrata dagli strati sovrastanti; γw=9,81 kN/m³. Nessun modello c–φ. Sequenze miste escluse dal metodo Broms.
+¶ Omogeneo: coesivo testa libera eq.13.23–13.29; impedita eq.13.30–13.36. Granulare libera eq.13.37–13.43; impedita eq.13.44–13.47. L'estensione a strati e falda interna è una scelta ANTHEA sperimentale: integrali esatti a tratti e ricerca delle radici, senza media dei parametri o somma di capacità.
+¶ Nel coesivo il tratto inferiore forma una coppia con risultante nulla. Nel granulare F è una risultante concentrata separata: il completamento sotto la cerniera è idealizzato, non univoco.
+¶ I diagrammi non forniscono spostamenti o rotazioni.
+¶ Lettura dei diagrammi
+¶ σv è la tensione verticale totale da peso proprio; u è la pressione idrostatica; σ′v=σv−u. La pressione laterale equivalente q_lim=p_lim/D [kPa] è distinta dalla reazione lineare p_lim [kN/m]. Le curve p e q rappresentano la distribuzione adottata alla capacità Hu, non il carico HEd. ξ e γR riducono la capacità globale e non le tensioni locali.
+¶ Q(z)=∫p_lim dz individua z_f con Q(z_f)=Hu. z_f (taglio nullo) è distinto da b (inversione delle reazioni). Il tratto sotto la cerniera interna è un completamento idealizzato, mostrato tratteggiato su fondo grigio. Le forze concentrate sono dichiarate separatamente.
+¶ Dati di ingresso
+¶ Geometria e azioni
+[T1 r1 c1] Parametro
+[T1 r1 c2] Valore
+[T1 r2 c1] Diametro D [m]
+[T1 r2 c2] 0.3
+[T1 r3 c1] Lunghezza infissa L [m]
+[T1 r3 c2] 9
+[T1 r4 c1] Quota forza sopra terreno e [m]
+[T1 r4 c2] 0
+[T1 r5 c1] Rotazione in testa
+[T1 r5 c2] Impedita
+[T1 r6 c1] HEd [kN]
+[T1 r6 c2] 60
+[T1 r7 c1] N costante [kN], compressione positiva
+[T1 r7 c2] 150
+[T1 r8 c1] Presenza falda
+[T1 r8 c2] true
+[T1 r9 c1] Origine del momento resistente
+[T1 r9 c2] Sezione CHS
+[T1 r10 c1] Passo dei diagrammi [m]
+[T1 r10 c2] 0.10
+[T1 r11 c1] Tolleranza delle radici
+[T1 r11 c2] 1e-8
+¶ Profondità falda: 1,5 m.
+¶ Sezione resistente CHS · solo acciaio
+[T2 r1 c1] Parametro
+[T2 r1 c2] Valore
+[T2 r2 c1] Inserimento
+[T2 r2 c2] Manuale
+[T2 r3 c1] Catalogo (solo modalità catalogo)
+[T2 r3 c2] CHS 139.7 × 8
+[T2 r4 c1] Diametro manuale [mm] (solo modalità manuale)
+[T2 r4 c2] 168.3
+[T2 r5 c1] Spessore manuale [mm] (solo modalità manuale)
+[T2 r5 c2] 10
+[T2 r6 c1] fy [MPa]
+[T2 r6 c2] 355
+[T2 r7 c1] γM0
+[T2 r7 c2] 1.05
+¶ Proprietà CHS adottate
+[T3 r1 c1] Parametro
+[T3 r1 c2] Valore
+[T3 r2 c1] De [mm]
+[T3 r2 c2] 168.3
+[T3 r3 c1] t [mm]
+[T3 r3 c2] 10
+[T3 r4 c1] A [mm²]
+[T3 r4 c2] 4973.14117063264
+[T3 r5 c1] I [mm⁴]
+[T3 r5 c2] 15639838.95830224
+[T3 r6 c1] Wel [mm³]
+[T3 r6 c2] 185856.67211292026
+[T3 r7 c1] Wpl [mm³]
+[T3 r7 c2] 250922.2333333333
+[T3 r8 c1] Classe
+[T3 r8 c2] 1
+[T3 r9 c1] My(N) [kNm]
+[T3 r9 c2] 77.26728996701225
+¶ Coefficienti: verticali indagate 2; ξ3 = 1,65; ξ4 = 1,55; γR = 1,30.
+¶ Efficienza: Reese & Van Impe (foglio); η = 0,418. Rd = η · Rk / γR.
+¶ Interassi riferiti alla direzione di H. Il vicino anteriore (nel verso di H) mette il palo nella sua scia: η = min(1; 0,48 (s/D)^0,38); con il vicino posteriore il palo è capofila: η = min(1; 0,70 (s/D)^0,26); ai lati η = min(1; 0,64 (s/D)^0,34); diagonali ellittiche con il fattore del proprio lato. η del palo = prodotto degli otto.
+¶ Interassi rispetto alla direzione di H
+[T4 r1 c1] Parametro
+[T4 r1 c2] Valore
+[T4 r2 c1] Anteriore [m]
+[T4 r2 c2] 0.9
+[T4 r3 c1] Posteriore [m]
+[T4 r3 c2] 1.2
+[T4 r4 c1] Sinistro [m]
+[T4 r4 c2] 0.9
+[T4 r5 c1] Destro [m]
+[T4 r5 c2] 0,9
+¶ η anteriore: 0,729
+¶ η posteriore: 1,000
+¶ η sinistro: 0,930
+¶ η destro: 0,930
+¶ η anteriore_sinistro: 0,835
+¶ η anteriore_destro: 0,835
+¶ η posteriore_sinistro: 0,975
+¶ η posteriore_destro: 0,975
+¶ Stratigrafia 1
+[T5 r1 c1] Tipo
+[T5 r1 c2] S [m]
+[T5 r1 c3] γ
+[T5 r1 c4] γsat
+[T5 r1 c5] φ′ [°]
+[T5 r1 c6] Cu [kPa]
+[T5 r2 c1] Granulare
+[T5 r2 c2] 4
+[T5 r2 c3] 18
+[T5 r2 c4] 20
+[T5 r2 c5] 30
+[T5 r2 c6] 0
+[T5 r3 c1] Granulare
+[T5 r3 c2] 6
+[T5 r3 c3] 19
+[T5 r3 c4] 21
+[T5 r3 c5] 35
+[T5 r3 c6] 0
+¶ Stratigrafia 2
+[T6 r1 c1] Tipo
+[T6 r1 c2] S [m]
+[T6 r1 c3] γ
+[T6 r1 c4] γsat
+[T6 r1 c5] φ′ [°]
+[T6 r1 c6] Cu [kPa]
+[T6 r2 c1] Granulare
+[T6 r2 c2] 10
+[T6 r2 c3] 18.5
+[T6 r2 c4] 20.5
+[T6 r2 c5] 32
+[T6 r2 c6] 0
+¶ Risultati
+¶ Hu = 108,867 kN; sondaggio governante 1; meccanismo Lungo; My adottato = 77,267 kNm.
+¶ Solo acciaio CHS, classe 1 secondo limiti D/t con ε²=235/fy. My = Wpl·fy/γM0·(1−|N|/Npl). Interazione lineare conservativa N–M; riempimento escluso. Non verifica instabilità globale, taglio, giunti, corrosione o capacità di rotazione delle connessioni. fy deve essere appropriato a materiale e spessore.
+¶ N=150,0 kN; fyd=338,1 MPa; My(N)=77,3 kNm.
+¶ Verifica normativa: Incompleta
+¶ Rk = min(Hu,media/ξ3; Hu,min/ξ4) = min(67,2; 70,2) = 67,2 kN; criterio governante: Media / ξ3. Rd = η · Rk/γR = 21,6 kN. HEd = 60,0 kN. Verifica non soddisfatta. Non costituisce conformità normativa complessiva automatica.
+¶ Avvisi e limiti
+¶ Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.
+¶ Resistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.
+¶ I diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.
+¶ MULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.
+¶ Terreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.
+¶ Solo acciaio CHS, classe 1 secondo limiti D/t con ε²=235/fy. My = Wpl·fy/γM0·(1−|N|/Npl). Interazione lineare conservativa N–M; riempimento escluso. Non verifica instabilità globale, taglio, giunti, corrosione o capacità di rotazione delle connessioni. fy deve essere appropriato a materiale e spessore.
+¶ Efficienza dal foglio SMath: schema di otto pali interferenti (quattro allineati e quattro diagonali). Verificare ulteriori interferenze nelle maglie fitte; lo schema non rappresenta una palificata arbitraria. Distanze riferite alla direzione di H.
+¶ Sondaggio 1: Lungo
+¶ Hu=108,867 kN; |M|max=77,267 kNm a z=2,161 m. Cerniere z [m]: [
+  0,
+  2.160944497245252
+].
+¶ Residui di equilibrio: forza=0 kN; momento=-5,597E-11 kNm. Convergenza: Raggiunta.
+¶ Risultante concentrata F=132,689 kN a z=3,39 m, positiva nel verso di H. Non è una pressione distribuita.
+[T7 r1 c1] Meccanismo
+[T7 r1 c2] Capacità candidata [kN]
+[T7 r1 c3] Stato
+[T7 r2 c1] Corto
+[T7 r2 c2] 1658,838
+[T7 r2 c3] Candidato non governante; limite precedente già raggiunto
+[T7 r3 c1] Intermedio
+[T7 r3 c2] 567,554
+[T7 r3 c3] Candidato non governante; limite precedente già raggiunto
+[T7 r4 c1] Lungo
+[T7 r4 c2] 108,867
+[T7 r4 c3] Ammissibile, governante
+¶ σv e σ′v da peso proprio; u idrostatica, senza suzione. q_lim=p_lim/D; q=p/D è una pressione laterale equivalente. Nessuna riduzione locale con ξ o γR.
+¶ Legge locale per tratti
+[T8 r1 c1] Strato / tipo
+[T8 r1 c2] da / a [m]
+[T8 r1 c3] σ′v iniz. [kPa]
+[T8 r1 c4] p iniz. [kN/m]
+[T8 r1 c5] dp/dz [kN/m²]
+[T8 r2 c1] 1 / Granulare
+[T8 r2 c2] 0 / 1,5
+[T8 r2 c3] 0
+[T8 r2 c4] 0
+[T8 r2 c5] 48,6
+[T8 r3 c1] 1 / Granulare
+[T8 r3 c2] 1,5 / 4
+[T8 r3 c3] 27
+[T8 r3 c4] 72,9
+[T8 r3 c5] 27,513
+[T8 r4 c1] 2 / Granulare
+[T8 r4 c2] 4 / 9
+[T8 r4 c3] 52,475
+[T8 r4 c4] 174,278
+[T8 r4 c5] 37,164
+¶ Diagrammi tabellari alla capacità ultima (prima/dopo: lati della quota)
+[T9 r1 c1] z [m]
+[T9 r1 c2] Lato
+[T9 r1 c3] p [kN/m]
+[T9 r1 c4] V [kN]
+[T9 r1 c5] M [kNm]
+[T9 r2 c1] 0
+[T9 r2 c2] nodo
+[T9 r2 c3] 0
+[T9 r2 c4] 108,8673
+[T9 r2 c5] -77,2673
+[T9 r3 c1] 0,1
+[T9 r3 c2] nodo
+[T9 r3 c3] 4,86
+[T9 r3 c4] 108,6243
+[T9 r3 c5] -66,3887
+[T9 r4 c1] 0,2
+[T9 r4 c2] nodo
+[T9 r4 c3] 9,72
+[T9 r4 c4] 107,8953
+[T9 r4 c5] -55,5586
+[T9 r5 c1] 0,3
+[T9 r5 c2] nodo
+[T9 r5 c3] 14,58
+[T9 r5 c4] 106,6803
+[T9 r5 c5] -44,8258
+[T9 r6 c1] 0,4
+[T9 r6 c2] nodo
+[T9 r6 c3] 19,44
+[T9 r6 c4] 104,9793
+[T9 r6 c5] -34,2388
+[T9 r7 c1] 0,5
+[T9 r7 c2] nodo
+[T9 r7 c3] 24,3
+[T9 r7 c4] 102,7923
+[T9 r7 c5] -23,8461
+[T9 r8 c1] 0,6
+[T9 r8 c2] nodo
+[T9 r8 c3] 29,16
+[T9 r8 c4] 100,1193
+[T9 r8 c5] -13,6965
+[T9 r9 c1] 0,7
+[T9 r9 c2] nodo
+[T9 r9 c3] 34,02
+[T9 r9 c4] 96,9603
+[T9 r9 c5] -3,8384
+[T9 r10 c1] 0,8
+[T9 r10 c2] nodo
+[T9 r10 c3] 38,88
+[T9 r10 c4] 93,3153
+[T9 r10 c5] 5,6794
+[T9 r11 c1] 0,9
+[T9 r11 c2] nodo
+[T9 r11 c3] 43,74
+[T9 r11 c4] 89,1843
+[T9 r11 c5] 14,8084
+[T9 r12 c1] 1
+[T9 r12 c2] nodo
+[T9 r12 c3] 48,6
+[T9 r12 c4] 84,5673
+[T9 r12 c5] 23,5001
+[T9 r13 c1] 1,1
+[T9 r13 c2] nodo
+[T9 r13 c3] 53,46
+[T9 r13 c4] 79,4643
+[T9 r13 c5] 31,7057
+[T9 r14 c1] 1,2
+[T9 r14 c2] nodo
+[T9 r14 c3] 58,32
+[T9 r14 c4] 73,8753
+[T9 r14 c5] 39,3767
+[T9 r15 c1] 1,3
+[T9 r15 c2] nodo
+[T9 r15 c3] 63,18
+[T9 r15 c4] 67,8003
+[T9 r15 c5] 46,4646
+[T9 r16 c1] 1,4
+[T9 r16 c2] nodo
+[T9 r16 c3] 68,04
+[T9 r16 c4] 61,2393
+[T9 r16 c5] 52,9206
+[T9 r17 c1] 1,5
+[T9 r17 c2] nodo
+[T9 r17 c3] 72,9
+[T9 r17 c4] 54,1923
+[T9 r17 c5] 58,6962
+[T9 r18 c1] 1,6
+[T9 r18 c2] nodo
+[T9 r18 c3] 75,6513
+[T9 r18 c4] 46,7648
+[T9 r18 c5] 63,7464
+[T9 r19 c1] 1,7
+[T9 r19 c2] nodo
+[T9 r19 c3] 78,4026
+[T9 r19 c4] 39,0621
+[T9 r19 c5] 68,04
+[T9 r20 c1] 1,8
+[T9 r20 c2] nodo
+[T9 r20 c3] 81,1539
+[T9 r20 c4] 31,0843
+[T9 r20 c5] 71,5496
+[T9 r21 c1] 1,9
+[T9 r21 c2] nodo
+[T9 r21 c3] 83,9052
+[T9 r21 c4] 22,8313
+[T9 r21 c5] 74,2477
+[T9 r22 c1] 2
+[T9 r22 c2] nodo
+[T9 r22 c3] 86,6565
+[T9 r22 c4] 14,3032
+[T9 r22 c5] 76,1067
+[T9 r23 c1] 2,1
+[T9 r23 c2] nodo
+[T9 r23 c3] 89,4078
+[T9 r23 c4] 5,5
+[T9 r23 c5] 77,0992
+[T9 r24 c1] 2,1609
+[T9 r24 c2] nodo
+[T9 r24 c3] 91,0846
+[T9 r24 c4] 0
+[T9 r24 c5] 77,2673
+[T9 r25 c1] 2,2
+[T9 r25 c2] nodo
+[T9 r25 c3] 92,1591
+[T9 r25 c4] -3,5783
+[T9 r25 c5] 77,1975
+[T9 r26 c1] 2,3
+[T9 r26 c2] nodo
+[T9 r26 c3] 94,9104
+[T9 r26 c4] -12,9318
+[T9 r26 c5] 76,3743
+[T9 r27 c1] 2,4
+[T9 r27 c2] nodo
+[T9 r27 c3] 97,6617
+[T9 r27 c4] -22,5604
+[T9 r27 c5] 74,602
+[T9 r28 c1] 2,5
+[T9 r28 c2] nodo
+[T9 r28 c3] 100,413
+[T9 r28 c4] -32,4642
+[T9 r28 c5] 71,8531
+[T9 r29 c1] 2,6
+[T9 r29 c2] nodo
+[T9 r29 c3] 103,1643
+[T9 r29 c4] -42,643
+[T9 r29 c5] 68,1
+[T9 r30 c1] 2,7
+[T9 r30 c2] nodo
+[T9 r30 c3] 105,9156
+[T9 r30 c4] -53,097
+[T9 r30 c5] 63,3153
+[T9 r31 c1] 2,8
+[T9 r31 c2] nodo
+[T9 r31 c3] 108,6669
+[T9 r31 c4] -63,8261
+[T9 r31 c5] 57,4714
+[T9 r32 c1] 2,9
+[T9 r32 c2] nodo
+[T9 r32 c3] 111,4182
+[T9 r32 c4] -74,8304
+[T9 r32 c5] 50,5409
+[T9 r33 c1] 3
+[T9 r33 c2] nodo
+[T9 r33 c3] 114,1695
+[T9 r33 c4] -86,1098
+[T9 r33 c5] 42,4962
+[T9 r34 c1] 3,1
+[T9 r34 c2] nodo
+[T9 r34 c3] 116,9208
+[T9 r34 c4] -97,6643
+[T9 r34 c5] 33,3098
+[T9 r35 c1] 3,2
+[T9 r35 c2] nodo
+[T9 r35 c3] 119,6721
+[T9 r35 c4] -109,4939
+[T9 r35 c5] 22,9542
+[T9 r36 c1] 3,3
+[T9 r36 c2] nodo
+[T9 r36 c3] 122,4234
+[T9 r36 c4] -121,5987
+[T9 r36 c5] 11,4018
+[T9 r37 c1] 3,3897
+[T9 r37 c2] prima
+[T9 r37 c3] 124,891
+[T9 r37 c4] -132,6895
+[T9 r37 c5] -0
+[T9 r38 c1] 3,3897
+[T9 r38 c2] dopo
+[T9 r38 c3] 0
+[T9 r38 c4] 0
+[T9 r38 c5] 0
+[T9 r39 c1] 3,4
+[T9 r39 c2] nodo
+[T9 r39 c3] 0
+[T9 r39 c4] 0
+[T9 r39 c5] 0
+[T9 r40 c1] 3,5
+[T9 r40 c2] nodo
+[T9 r40 c3] 0
+[T9 r40 c4] 0
+[T9 r40 c5] 0
+[T9 r41 c1] 3,6
+[T9 r41 c2] nodo
+[T9 r41 c3] 0
+[T9 r41 c4] 0
+[T9 r41 c5] 0
+[T9 r42 c1] 3,7
+[T9 r42 c2] nodo
+[T9 r42 c3] 0
+[T9 r42 c4] 0
+[T9 r42 c5] 0
+[T9 r43 c1] 3,8
+[T9 r43 c2] nodo
+[T9 r43 c3] 0
+[T9 r43 c4] 0
+[T9 r43 c5] 0
+[T9 r44 c1] 3,9
+[T9 r44 c2] nodo
+[T9 r44 c3] 0
+[T9 r44 c4] 0
+[T9 r44 c5] 0
+[T9 r45 c1] 4
+[T9 r45 c2] nodo
+[T9 r45 c3] 0
+[T9 r45 c4] 0
+[T9 r45 c5] 0
+[T9 r46 c1] 4,1
+[T9 r46 c2] nodo
+[T9 r46 c3] 0
+[T9 r46 c4] 0
+[T9 r46 c5] 0
+[T9 r47 c1] 4,2
+[T9 r47 c2] nodo
+[T9 r47 c3] 0
+[T9 r47 c4] 0
+[T9 r47 c5] 0
+[T9 r48 c1] 4,3
+[T9 r48 c2] nodo
+[T9 r48 c3] 0
+[T9 r48 c4] 0
+[T9 r48 c5] 0
+[T9 r49 c1] 4,4
+[T9 r49 c2] nodo
+[T9 r49 c3] 0
+[T9 r49 c4] 0
+[T9 r49 c5] 0
+[T9 r50 c1] 4,5
+[T9 r50 c2] nodo
+[T9 r50 c3] 0
+[T9 r50 c4] 0
+[T9 r50 c5] 0
+[T9 r51 c1] 4,6
+[T9 r51 c2] nodo
+[T9 r51 c3] 0
+[T9 r51 c4] 0
+[T9 r51 c5] 0
+[T9 r52 c1] 4,7
+[T9 r52 c2] nodo
+[T9 r52 c3] 0
+[T9 r52 c4] 0
+[T9 r52 c5] 0
+[T9 r53 c1] 4,8
+[T9 r53 c2] nodo
+[T9 r53 c3] 0
+[T9 r53 c4] 0
+[T9 r53 c5] 0
+[T9 r54 c1] 4,9
+[T9 r54 c2] nodo
+[T9 r54 c3] 0
+[T9 r54 c4] 0
+[T9 r54 c5] 0
+[T9 r55 c1] 5
+[T9 r55 c2] nodo
+[T9 r55 c3] 0
+[T9 r55 c4] 0
+[T9 r55 c5] 0
+[T9 r56 c1] 5,1
+[T9 r56 c2] nodo
+[T9 r56 c3] 0
+[T9 r56 c4] 0
+[T9 r56 c5] 0
+[T9 r57 c1] 5,2
+[T9 r57 c2] nodo
+[T9 r57 c3] 0
+[T9 r57 c4] 0
+[T9 r57 c5] 0
+[T9 r58 c1] 5,3
+[T9 r58 c2] nodo
+[T9 r58 c3] 0
+[T9 r58 c4] 0
+[T9 r58 c5] 0
+[T9 r59 c1] 5,4
+[T9 r59 c2] nodo
+[T9 r59 c3] 0
+[T9 r59 c4] 0
+[T9 r59 c5] 0
+[T9 r60 c1] 5,5
+[T9 r60 c2] nodo
+[T9 r60 c3] 0
+[T9 r60 c4] 0
+[T9 r60 c5] 0
+[T9 r61 c1] 5,6
+[T9 r61 c2] nodo
+[T9 r61 c3] 0
+[T9 r61 c4] 0
+[T9 r61 c5] 0
+[T9 r62 c1] 5,7
+[T9 r62 c2] nodo
+[T9 r62 c3] 0
+[T9 r62 c4] 0
+[T9 r62 c5] 0
+[T9 r63 c1] 5,8
+[T9 r63 c2] nodo
+[T9 r63 c3] 0
+[T9 r63 c4] 0
+[T9 r63 c5] 0
+[T9 r64 c1] 5,9
+[T9 r64 c2] nodo
+[T9 r64 c3] 0
+[T9 r64 c4] 0
+[T9 r64 c5] 0
+[T9 r65 c1] 6
+[T9 r65 c2] nodo
+[T9 r65 c3] 0
+[T9 r65 c4] 0
+[T9 r65 c5] 0
+[T9 r66 c1] 6,1
+[T9 r66 c2] nodo
+[T9 r66 c3] 0
+[T9 r66 c4] 0
+[T9 r66 c5] 0
+[T9 r67 c1] 6,2
+[T9 r67 c2] nodo
+[T9 r67 c3] 0
+[T9 r67 c4] 0
+[T9 r67 c5] 0
+[T9 r68 c1] 6,3
+[T9 r68 c2] nodo
+[T9 r68 c3] 0
+[T9 r68 c4] 0
+[T9 r68 c5] 0
+[T9 r69 c1] 6,4
+[T9 r69 c2] nodo
+[T9 r69 c3] 0
+[T9 r69 c4] 0
+[T9 r69 c5] 0
+[T9 r70 c1] 6,5
+[T9 r70 c2] nodo
+[T9 r70 c3] 0
+[T9 r70 c4] 0
+[T9 r70 c5] 0
+[T9 r71 c1] 6,6
+[T9 r71 c2] nodo
+[T9 r71 c3] 0
+[T9 r71 c4] 0
+[T9 r71 c5] 0
+[T9 r72 c1] 6,7
+[T9 r72 c2] nodo
+[T9 r72 c3] 0
+[T9 r72 c4] 0
+[T9 r72 c5] 0
+[T9 r73 c1] 6,8
+[T9 r73 c2] nodo
+[T9 r73 c3] 0
+[T9 r73 c4] 0
+[T9 r73 c5] 0
+[T9 r74 c1] 6,9
+[T9 r74 c2] nodo
+[T9 r74 c3] 0
+[T9 r74 c4] 0
+[T9 r74 c5] 0
+[T9 r75 c1] 7
+[T9 r75 c2] nodo
+[T9 r75 c3] 0
+[T9 r75 c4] 0
+[T9 r75 c5] 0
+[T9 r76 c1] 7,1
+[T9 r76 c2] nodo
+[T9 r76 c3] 0
+[T9 r76 c4] 0
+[T9 r76 c5] 0
+[T9 r77 c1] 7,2
+[T9 r77 c2] nodo
+[T9 r77 c3] 0
+[T9 r77 c4] 0
+[T9 r77 c5] 0
+[T9 r78 c1] 7,3
+[T9 r78 c2] nodo
+[T9 r78 c3] 0
+[T9 r78 c4] 0
+[T9 r78 c5] 0
+[T9 r79 c1] 7,4
+[T9 r79 c2] nodo
+[T9 r79 c3] 0
+[T9 r79 c4] 0
+[T9 r79 c5] 0
+[T9 r80 c1] 7,5
+[T9 r80 c2] nodo
+[T9 r80 c3] 0
+[T9 r80 c4] 0
+[T9 r80 c5] 0
+[T9 r81 c1] 7,6
+[T9 r81 c2] nodo
+[T9 r81 c3] 0
+[T9 r81 c4] 0
+[T9 r81 c5] 0
+[T9 r82 c1] 7,7
+[T9 r82 c2] nodo
+[T9 r82 c3] 0
+[T9 r82 c4] 0
+[T9 r82 c5] 0
+[T9 r83 c1] 7,8
+[T9 r83 c2] nodo
+[T9 r83 c3] 0
+[T9 r83 c4] 0
+[T9 r83 c5] 0
+[T9 r84 c1] 7,9
+[T9 r84 c2] nodo
+[T9 r84 c3] 0
+[T9 r84 c4] 0
+[T9 r84 c5] 0
+[T9 r85 c1] 8
+[T9 r85 c2] nodo
+[T9 r85 c3] 0
+[T9 r85 c4] 0
+[T9 r85 c5] 0
+[T9 r86 c1] 8,1
+[T9 r86 c2] nodo
+[T9 r86 c3] 0
+[T9 r86 c4] 0
+[T9 r86 c5] 0
+[T9 r87 c1] 8,2
+[T9 r87 c2] nodo
+[T9 r87 c3] 0
+[T9 r87 c4] 0
+[T9 r87 c5] 0
+[T9 r88 c1] 8,3
+[T9 r88 c2] nodo
+[T9 r88 c3] 0
+[T9 r88 c4] 0
+[T9 r88 c5] 0
+[T9 r89 c1] 8,4
+[T9 r89 c2] nodo
+[T9 r89 c3] 0
+[T9 r89 c4] 0
+[T9 r89 c5] 0
+[T9 r90 c1] 8,5
+[T9 r90 c2] nodo
+[T9 r90 c3] 0
+[T9 r90 c4] 0
+[T9 r90 c5] 0
+[T9 r91 c1] 8,6
+[T9 r91 c2] nodo
+[T9 r91 c3] 0
+[T9 r91 c4] 0
+[T9 r91 c5] 0
+[T9 r92 c1] 8,7
+[T9 r92 c2] nodo
+[T9 r92 c3] 0
+[T9 r92 c4] 0
+[T9 r92 c5] 0
+[T9 r93 c1] 8,8
+[T9 r93 c2] nodo
+[T9 r93 c3] 0
+[T9 r93 c4] 0
+[T9 r93 c5] 0
+[T9 r94 c1] 8,9
+[T9 r94 c2] nodo
+[T9 r94 c3] 0
+[T9 r94 c4] 0
+[T9 r94 c5] 0
+[T9 r95 c1] 9
+[T9 r95 c2] nodo
+[T9 r95 c3] 0
+[T9 r95 c4] 0
+[T9 r95 c5] 0
+¶ Sondaggio 2: Lungo
+¶ Hu=113,011 kN; |M|max=77,267 kNm a z=2,076 m. Cerniere z [m]: [
+  0,
+  2.0763548568105303
+].
+¶ Residui di equilibrio: forza=0 kN; momento=-3,949E-10 kNm. Convergenza: Raggiunta.
+¶ Risultante concentrata F=138,557 kN a z=3,253 m, positiva nel verso di H. Non è una pressione distribuita.
+[T10 r1 c1] Meccanismo
+[T10 r1 c2] Capacità candidata [kN]
+[T10 r1 c3] Stato
+[T10 r2 c1] Corto
+[T10 r2 c2] 1551,249
+[T10 r2 c3] Candidato non governante; limite precedente già raggiunto
+[T10 r3 c1] Intermedio
+[T10 r3 c2] 561,413
+[T10 r3 c3] Candidato non governante; limite precedente già raggiunto
+[T10 r4 c1] Lungo
+[T10 r4 c2] 113,011
+[T10 r4 c3] Ammissibile, governante
+¶ σv e σ′v da peso proprio; u idrostatica, senza suzione. q_lim=p_lim/D; q=p/D è una pressione laterale equivalente. Nessuna riduzione locale con ξ o γR.
+¶ Legge locale per tratti
+[T11 r1 c1] Strato / tipo
+[T11 r1 c2] da / a [m]
+[T11 r1 c3] σ′v iniz. [kPa]
+[T11 r1 c4] p iniz. [kN/m]
+[T11 r1 c5] dp/dz [kN/m²]
+[T11 r2 c1] 1 / Granulare
+[T11 r2 c2] 0 / 1,5
+[T11 r2 c3] 0
+[T11 r2 c4] 0
+[T11 r2 c5] 54,189
+[T11 r3 c1] 1 / Granulare
+[T11 r3 c2] 1,5 / 9
+[T11 r3 c3] 27,75
+[T11 r3 c4] 81,283
+[T11 r3 c5] 31,312
+¶ Diagrammi tabellari alla capacità ultima (prima/dopo: lati della quota)
+[T12 r1 c1] z [m]
+[T12 r1 c2] Lato
+[T12 r1 c3] p [kN/m]
+[T12 r1 c4] V [kN]
+[T12 r1 c5] M [kNm]
+[T12 r2 c1] 0
+[T12 r2 c2] nodo
+[T12 r2 c3] 0
+[T12 r2 c4] 113,0113
+[T12 r2 c5] -77,2673
+[T12 r3 c1] 0,1
+[T12 r3 c2] nodo
+[T12 r3 c3] 5,4189
+[T12 r3 c4] 112,7404
+[T12 r3 c5] -65,9752
+[T12 r4 c1] 0,2
+[T12 r4 c2] nodo
+[T12 r4 c3] 10,8378
+[T12 r4 c4] 111,9275
+[T12 r4 c5] -54,7373
+[T12 r5 c1] 0,3
+[T12 r5 c2] nodo
+[T12 r5 c3] 16,2567
+[T12 r5 c4] 110,5728
+[T12 r5 c5] -43,6077
+[T12 r6 c1] 0,4
+[T12 r6 c2] nodo
+[T12 r6 c3] 21,6756
+[T12 r6 c4] 108,6762
+[T12 r6 c5] -32,6408
+[T12 r7 c1] 0,5
+[T12 r7 c2] nodo
+[T12 r7 c3] 27,0944
+[T12 r7 c4] 106,2377
+[T12 r7 c5] -21,8906
+[T12 r8 c1] 0,6
+[T12 r8 c2] nodo
+[T12 r8 c3] 32,5133
+[T12 r8 c4] 103,2573
+[T12 r8 c5] -11,4113
+[T12 r9 c1] 0,7
+[T12 r9 c2] nodo
+[T12 r9 c3] 37,9322
+[T12 r9 c4] 99,735
+[T12 r9 c5] -1,2572
+[T12 r10 c1] 0,8
+[T12 r10 c2] nodo
+[T12 r10 c3] 43,3511
+[T12 r10 c4] 95,6709
+[T12 r10 c5] 8,5176
+[T12 r11 c1] 0,9
+[T12 r11 c2] nodo
+[T12 r11 c3] 48,77
+[T12 r11 c4] 91,0648
+[T12 r11 c5] 17,8589
+[T12 r12 c1] 1
+[T12 r12 c2] nodo
+[T12 r12 c3] 54,1889
+[T12 r12 c4] 85,9169
+[T12 r12 c5] 26,7125
+[T12 r13 c1] 1,1
+[T12 r13 c2] nodo
+[T12 r13 c3] 59,6078
+[T12 r13 c4] 80,227
+[T12 r13 c5] 35,0242
+[T12 r14 c1] 1,2
+[T12 r14 c2] nodo
+[T12 r14 c3] 65,0267
+[T12 r14 c4] 73,9953
+[T12 r14 c5] 42,7399
+[T12 r15 c1] 1,3
+[T12 r15 c2] nodo
+[T12 r15 c3] 70,4456
+[T12 r15 c4] 67,2217
+[T12 r15 c5] 49,8052
+[T12 r16 c1] 1,4
+[T12 r16 c2] nodo
+[T12 r16 c3] 75,8645
+[T12 r16 c4] 59,9062
+[T12 r16 c5] 56,1662
+[T12 r17 c1] 1,5
+[T12 r17 c2] nodo
+[T12 r17 c3] 81,2833
+[T12 r17 c4] 52,0488
+[T12 r17 c5] 61,7684
+[T12 r18 c1] 1,6
+[T12 r18 c2] nodo
+[T12 r18 c3] 84,4146
+[T12 r18 c4] 43,7639
+[T12 r18 c5] 66,5617
+[T12 r19 c1] 1,7
+[T12 r19 c2] nodo
+[T12 r19 c3] 87,5458
+[T12 r19 c4] 35,1659
+[T12 r19 c5] 70,5108
+[T12 r20 c1] 1,8
+[T12 r20 c2] nodo
+[T12 r20 c3] 90,6771
+[T12 r20 c4] 26,2547
+[T12 r20 c5] 73,5844
+[T12 r21 c1] 1,9
+[T12 r21 c2] nodo
+[T12 r21 c3] 93,8083
+[T12 r21 c4] 17,0305
+[T12 r21 c5] 75,7513
+[T12 r22 c1] 2
+[T12 r22 c2] nodo
+[T12 r22 c3] 96,9395
+[T12 r22 c4] 7,4931
+[T12 r22 c5] 76,9801
+[T12 r23 c1] 2,0764
+[T12 r23 c2] nodo
+[T12 r23 c3] 99,3304
+[T12 r23 c4] 0
+[T12 r23 c5] 77,2673
+[T12 r24 c1] 2,1
+[T12 r24 c2] nodo
+[T12 r24 c3] 100,0708
+[T12 r24 c4] -2,3574
+[T12 r24 c5] 77,2395
+[T12 r25 c1] 2,2
+[T12 r25 c2] nodo
+[T12 r25 c3] 103,202
+[T12 r25 c4] -12,5211
+[T12 r25 c5] 76,4981
+[T12 r26 c1] 2,3
+[T12 r26 c2] nodo
+[T12 r26 c3] 106,3333
+[T12 r26 c4] -22,9978
+[T12 r26 c5] 74,7248
+[T12 r27 c1] 2,4
+[T12 r27 c2] nodo
+[T12 r27 c3] 109,4645
+[T12 r27 c4] -33,7877
+[T12 r27 c5] 71,8881
+[T12 r28 c1] 2,5
+[T12 r28 c2] nodo
+[T12 r28 c3] 112,5957
+[T12 r28 c4] -44,8907
+[T12 r28 c5] 67,9568
+[T12 r29 c1] 2,6
+[T12 r29 c2] nodo
+[T12 r29 c3] 115,727
+[T12 r29 c4] -56,3069
+[T12 r29 c5] 62,8995
+[T12 r30 c1] 2,7
+[T12 r30 c2] nodo
+[T12 r30 c3] 118,8582
+[T12 r30 c4] -68,0361
+[T12 r30 c5] 56,685
+[T12 r31 c1] 2,8
+[T12 r31 c2] nodo
+[T12 r31 c3] 121,9895
+[T12 r31 c4] -80,0785
+[T12 r31 c5] 49,2819
+[T12 r32 c1] 2,9
+[T12 r32 c2] nodo
+[T12 r32 c3] 125,1207
+[T12 r32 c4] -92,434
+[T12 r32 c5] 40,6589
+[T12 r33 c1] 3
+[T12 r33 c2] nodo
+[T12 r33 c3] 128,2519
+[T12 r33 c4] -105,1027
+[T12 r33 c5] 30,7846
+[T12 r34 c1] 3,1
+[T12 r34 c2] nodo
+[T12 r34 c3] 131,3832
+[T12 r34 c4] -118,0844
+[T12 r34 c5] 19,6279
+[T12 r35 c1] 3,2
+[T12 r35 c2] nodo
+[T12 r35 c3] 134,5144
+[T12 r35 c4] -131,3793
+[T12 r35 c5] 7,1573
+[T12 r36 c1] 3,253
+[T12 r36 c2] prima
+[T12 r36 c3] 136,175
+[T12 r36 c4] -138,557
+[T12 r36 c5] -0
+[T12 r37 c1] 3,253
+[T12 r37 c2] dopo
+[T12 r37 c3] 0
+[T12 r37 c4] 0
+[T12 r37 c5] 0
+[T12 r38 c1] 3,3
+[T12 r38 c2] nodo
+[T12 r38 c3] 0
+[T12 r38 c4] 0
+[T12 r38 c5] 0
+[T12 r39 c1] 3,4
+[T12 r39 c2] nodo
+[T12 r39 c3] 0
+[T12 r39 c4] 0
+[T12 r39 c5] 0
+[T12 r40 c1] 3,5
+[T12 r40 c2] nodo
+[T12 r40 c3] 0
+[T12 r40 c4] 0
+[T12 r40 c5] 0
+[T12 r41 c1] 3,6
+[T12 r41 c2] nodo
+[T12 r41 c3] 0
+[T12 r41 c4] 0
+[T12 r41 c5] 0
+[T12 r42 c1] 3,7
+[T12 r42 c2] nodo
+[T12 r42 c3] 0
+[T12 r42 c4] 0
+[T12 r42 c5] 0
+[T12 r43 c1] 3,8
+[T12 r43 c2] nodo
+[T12 r43 c3] 0
+[T12 r43 c4] 0
+[T12 r43 c5] 0
+[T12 r44 c1] 3,9
+[T12 r44 c2] nodo
+[T12 r44 c3] 0
+[T12 r44 c4] 0
+[T12 r44 c5] 0
+[T12 r45 c1] 4
+[T12 r45 c2] nodo
+[T12 r45 c3] 0
+[T12 r45 c4] 0
+[T12 r45 c5] 0
+[T12 r46 c1] 4,1
+[T12 r46 c2] nodo
+[T12 r46 c3] 0
+[T12 r46 c4] 0
+[T12 r46 c5] 0
+[T12 r47 c1] 4,2
+[T12 r47 c2] nodo
+[T12 r47 c3] 0
+[T12 r47 c4] 0
+[T12 r47 c5] 0
+[T12 r48 c1] 4,3
+[T12 r48 c2] nodo
+[T12 r48 c3] 0
+[T12 r48 c4] 0
+[T12 r48 c5] 0
+[T12 r49 c1] 4,4
+[T12 r49 c2] nodo
+[T12 r49 c3] 0
+[T12 r49 c4] 0
+[T12 r49 c5] 0
+[T12 r50 c1] 4,5
+[T12 r50 c2] nodo
+[T12 r50 c3] 0
+[T12 r50 c4] 0
+[T12 r50 c5] 0
+[T12 r51 c1] 4,6
+[T12 r51 c2] nodo
+[T12 r51 c3] 0
+[T12 r51 c4] 0
+[T12 r51 c5] 0
+[T12 r52 c1] 4,7
+[T12 r52 c2] nodo
+[T12 r52 c3] 0
+[T12 r52 c4] 0
+[T12 r52 c5] 0
+[T12 r53 c1] 4,8
+[T12 r53 c2] nodo
+[T12 r53 c3] 0
+[T12 r53 c4] 0
+[T12 r53 c5] 0
+[T12 r54 c1] 4,9
+[T12 r54 c2] nodo
+[T12 r54 c3] 0
+[T12 r54 c4] 0
+[T12 r54 c5] 0
+[T12 r55 c1] 5
+[T12 r55 c2] nodo
+[T12 r55 c3] 0
+[T12 r55 c4] 0
+[T12 r55 c5] 0
+[T12 r56 c1] 5,1
+[T12 r56 c2] nodo
+[T12 r56 c3] 0
+[T12 r56 c4] 0
+[T12 r56 c5] 0
+[T12 r57 c1] 5,2
+[T12 r57 c2] nodo
+[T12 r57 c3] 0
+[T12 r57 c4] 0
+[T12 r57 c5] 0
+[T12 r58 c1] 5,3
+[T12 r58 c2] nodo
+[T12 r58 c3] 0
+[T12 r58 c4] 0
+[T12 r58 c5] 0
+[T12 r59 c1] 5,4
+[T12 r59 c2] nodo
+[T12 r59 c3] 0
+[T12 r59 c4] 0
+[T12 r59 c5] 0
+[T12 r60 c1] 5,5
+[T12 r60 c2] nodo
+[T12 r60 c3] 0
+[T12 r60 c4] 0
+[T12 r60 c5] 0
+[T12 r61 c1] 5,6
+[T12 r61 c2] nodo
+[T12 r61 c3] 0
+[T12 r61 c4] 0
+[T12 r61 c5] 0
+[T12 r62 c1] 5,7
+[T12 r62 c2] nodo
+[T12 r62 c3] 0
+[T12 r62 c4] 0
+[T12 r62 c5] 0
+[T12 r63 c1] 5,8
+[T12 r63 c2] nodo
+[T12 r63 c3] 0
+[T12 r63 c4] 0
+[T12 r63 c5] 0
+[T12 r64 c1] 5,9
+[T12 r64 c2] nodo
+[T12 r64 c3] 0
+[T12 r64 c4] 0
+[T12 r64 c5] 0
+[T12 r65 c1] 6
+[T12 r65 c2] nodo
+[T12 r65 c3] 0
+[T12 r65 c4] 0
+[T12 r65 c5] 0
+[T12 r66 c1] 6,1
+[T12 r66 c2] nodo
+[T12 r66 c3] 0
+[T12 r66 c4] 0
+[T12 r66 c5] 0
+[T12 r67 c1] 6,2
+[T12 r67 c2] nodo
+[T12 r67 c3] 0
+[T12 r67 c4] 0
+[T12 r67 c5] 0
+[T12 r68 c1] 6,3
+[T12 r68 c2] nodo
+[T12 r68 c3] 0
+[T12 r68 c4] 0
+[T12 r68 c5] 0
+[T12 r69 c1] 6,4
+[T12 r69 c2] nodo
+[T12 r69 c3] 0
+[T12 r69 c4] 0
+[T12 r69 c5] 0
+[T12 r70 c1] 6,5
+[T12 r70 c2] nodo
+[T12 r70 c3] 0
+[T12 r70 c4] 0
+[T12 r70 c5] 0
+[T12 r71 c1] 6,6
+[T12 r71 c2] nodo
+[T12 r71 c3] 0
+[T12 r71 c4] 0
+[T12 r71 c5] 0
+[T12 r72 c1] 6,7
+[T12 r72 c2] nodo
+[T12 r72 c3] 0
+[T12 r72 c4] 0
+[T12 r72 c5] 0
+[T12 r73 c1] 6,8
+[T12 r73 c2] nodo
+[T12 r73 c3] 0
+[T12 r73 c4] 0
+[T12 r73 c5] 0
+[T12 r74 c1] 6,9
+[T12 r74 c2] nodo
+[T12 r74 c3] 0
+[T12 r74 c4] 0
+[T12 r74 c5] 0
+[T12 r75 c1] 7
+[T12 r75 c2] nodo
+[T12 r75 c3] 0
+[T12 r75 c4] 0
+[T12 r75 c5] 0
+[T12 r76 c1] 7,1
+[T12 r76 c2] nodo
+[T12 r76 c3] 0
+[T12 r76 c4] 0
+[T12 r76 c5] 0
+[T12 r77 c1] 7,2
+[T12 r77 c2] nodo
+[T12 r77 c3] 0
+[T12 r77 c4] 0
+[T12 r77 c5] 0
+[T12 r78 c1] 7,3
+[T12 r78 c2] nodo
+[T12 r78 c3] 0
+[T12 r78 c4] 0
+[T12 r78 c5] 0
+[T12 r79 c1] 7,4
+[T12 r79 c2] nodo
+[T12 r79 c3] 0
+[T12 r79 c4] 0
+[T12 r79 c5] 0
+[T12 r80 c1] 7,5
+[T12 r80 c2] nodo
+[T12 r80 c3] 0
+[T12 r80 c4] 0
+[T12 r80 c5] 0
+[T12 r81 c1] 7,6
+[T12 r81 c2] nodo
+[T12 r81 c3] 0
+[T12 r81 c4] 0
+[T12 r81 c5] 0
+[T12 r82 c1] 7,7
+[T12 r82 c2] nodo
+[T12 r82 c3] 0
+[T12 r82 c4] 0
+[T12 r82 c5] 0
+[T12 r83 c1] 7,8
+[T12 r83 c2] nodo
+[T12 r83 c3] 0
+[T12 r83 c4] 0
+[T12 r83 c5] 0
+[T12 r84 c1] 7,9
+[T12 r84 c2] nodo
+[T12 r84 c3] 0
+[T12 r84 c4] 0
+[T12 r84 c5] 0
+[T12 r85 c1] 8
+[T12 r85 c2] nodo
+[T12 r85 c3] 0
+[T12 r85 c4] 0
+[T12 r85 c5] 0
+[T12 r86 c1] 8,1
+[T12 r86 c2] nodo
+[T12 r86 c3] 0
+[T12 r86 c4] 0
+[T12 r86 c5] 0
+[T12 r87 c1] 8,2
+[T12 r87 c2] nodo
+[T12 r87 c3] 0
+[T12 r87 c4] 0
+[T12 r87 c5] 0
+[T12 r88 c1] 8,3
+[T12 r88 c2] nodo
+[T12 r88 c3] 0
+[T12 r88 c4] 0
+[T12 r88 c5] 0
+[T12 r89 c1] 8,4
+[T12 r89 c2] nodo
+[T12 r89 c3] 0
+[T12 r89 c4] 0
+[T12 r89 c5] 0
+[T12 r90 c1] 8,5
+[T12 r90 c2] nodo
+[T12 r90 c3] 0
+[T12 r90 c4] 0
+[T12 r90 c5] 0
+[T12 r91 c1] 8,6
+[T12 r91 c2] nodo
+[T12 r91 c3] 0
+[T12 r91 c4] 0
+[T12 r91 c5] 0
+[T12 r92 c1] 8,7
+[T12 r92 c2] nodo
+[T12 r92 c3] 0
+[T12 r92 c4] 0
+[T12 r92 c5] 0
+[T12 r93 c1] 8,8
+[T12 r93 c2] nodo
+[T12 r93 c3] 0
+[T12 r93 c4] 0
+[T12 r93 c5] 0
+[T12 r94 c1] 8,9
+[T12 r94 c2] nodo
+[T12 r94 c3] 0
+[T12 r94 c4] 0
+[T12 r94 c5] 0
+[T12 r95 c1] 9
+[T12 r95 c2] nodo
+[T12 r95 c3] 0
+[T12 r95 c4] 0
+[T12 r95 c5] 0
+¶ Riferimenti bibliografici e attribuzione delle ipotesi
+¶ G. Pacini — approccio al terreno stratificato
+¶ Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce
+¶ Origine dell'estensione stratificata. Equilibrio globale e chiusura distribuita in GPCChecker.Geotechnics (LateralPileCapacity).
+¶ C. Viggiani, Fondazioni
+¶ §§13.2.2–13.2.5, pp. 400–415 del testo fornito
+¶ Leggi locali e meccanismi classici; non attribuisce al testo l'estensione mista.
+¶ B. B. Broms (1964), Lateral Resistance of Piles in Cohesive Soils
+¶ ASCE, Journal of the Soil Mechanics and Foundations Division, 90(SM2)
+¶ Riferimento originale per i terreni coesivi, ripreso attraverso Viggiani.
+¶ https://doi.org/10.1061/JSFEAQ.0000611
+¶ B. B. Broms (1964), Lateral Resistance of Piles in Cohesionless Soils
+¶ ASCE, Journal of the Soil Mechanics and Foundations Division, 90(SM3)
+¶ Riferimento originale per i granulari e la chiusura concentrata, ripreso attraverso Viggiani e Wood.
+¶ https://doi.org/10.1061/JSFEAQ.0000614
+¶ J. Wood (2021), Cantilever Pole Retaining Walls
+¶ New Zealand Geotechnical Society, Geomechanics News 101, 22 giugno 2021; §§2.2–2.3, 2.5, 2.8
+¶ Broms Modified: reazioni opposte distribuite per pali corti rigidi in terreno granulare. Supporta questa ipotesi, non valida l'estensione mista o la chiusura sotto la cerniera dei pali lunghi. Il salto di segno è un'idealizzazione limite, non una legge pressione-spostamento.
+¶ https://www.nzgs.org/libraries/cantilever-pole-retaining-walls/
+¶ FHWA (2018), Geotechnical Engineering Circular No. 9
+¶ Design, Analysis, and Testing of Laterally Loaded Deep Foundations that Support Transportation Facilities; FHWA-HIF-18-031, §§6.3 e 6.5
+¶ Inquadramento dei metodi p-y, della deformabilità e dei limiti di Broms. Le curve p-y non sono implementate qui e richiedono calibrazione appropriata; non sono una validazione del presente modello.
+¶ https://www.fhwa.dot.gov/engineering/geotech/pubs/hif18031.pdf
+¶ Sondaggio 1 · Tensioni e resistenze del terreno
+¶  ⏎ 
+¶ Sondaggio 1 · Equilibrio e sollecitazioni alla capacità ultima
+¶  ⏎ 
+¶ Sondaggio 2 · Tensioni e resistenze del terreno
+¶  ⏎ 
+¶ Sondaggio 2 · Equilibrio e sollecitazioni alla capacità ultima
