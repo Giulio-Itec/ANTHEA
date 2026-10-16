@@ -20,6 +20,10 @@ Riferimenti:
 Ramo `refactoring/f5-4-pilota`, da `refactoring/f5` `5f29067b`, 16/10/2026. Si lavora sulla raccomandazione Q8 (a):
 il calcolo breve resta sincrono sul thread dell'interfaccia, come oggi.
 
+**Aggiornamento del 16/10, ramo `refactoring/f5-4-vista`.** Dopo l'unione di F5.3 sono stati eseguiti i passi 1–4 della
+sezione 2: vista XAML, banco, confronto diretto e `HorizontalPileGroup.Checks`. La sezione 4 contiene gli esiti e il materiale
+per il punto di controllo; i passi 5–7 vengono dopo.
+
 ## 1. Che cosa esiste dopo la preparazione
 
 | Commit | Contenuto |
@@ -106,9 +110,11 @@ Non usa copie, thread di sfondo né limitatore. La modalità sullo sfondo non ca
 | Vista storica | ViewModel |
 | --- | --- |
 | costruttore: `Upgrade`, campi, `LoadPiles`, `BuildSpacing`, `TryCalculate` | costruttore: `Build`, poi `CalculateNow` |
-| `Field(...)` con `Value`/`optional` | `FormViewModel` + `FieldSpec` (`NumberOrText`, `NumberOrTextRemoveEmpty`) |
+| `Field(...)` con `Value`/`optional` | `FormViewModel` compatto + `FieldSpec` (`NumberOrText`, `NumberOrTextRemoveEmpty`) |
 | `Option(...)` | `FieldSpec(Bool: true)`; «custom» abilita l'angolo (`Enable`) |
-| combo della disposizione, `BuildGenerator` | `SelectedLayout`, `GeneratorForm`, `GeneratorNote` |
+| combo della disposizione, `BuildGenerator` | `SelectedLayout`, `GeneratorForm`, `GeneratorNote`, `RotationForm` (la rotazione dopo la nota degli anelli) |
+| direzioni in due righe (+X, +Y / −X, −Y), direzione personalizzata e angolo | `XDirectionsForm` e `YDirectionsForm` (due colonne), `CustomDirectionForm` |
+| opzioni con la loro nota | `ExtrapolationsForm`, `ProjectedRowsForm` (una nota sotto ciascuna) |
 | `PileRow`, `piles`, `CapturePiles`, `LoadPiles` | `PileRowViewModel`, `Piles`, stesse regole |
 | `CellEditEnding` annullato | `CoordinateEditCancelled()` (chiamato dalla vista) |
 | combo del basamento, campo `bordo_d` | `SelectedCapShape`, `CapForm` |
@@ -120,7 +126,12 @@ Non usa copie, thread di sfondo né limitatore. La modalità sullo sfondo non ca
 | testi e indicatori, `Clear`, `Present` | `Title`, `State`, `Minimum`…`Notes`, stessi `Clear` e `Present` |
 | `plan.Set(data, selected, cap)` | `Plan` (`PileGroupPlanInput`) |
 | `Commit`, `Dispose` | `OnCommit`, `OnDisposed` |
-| `RevisionInspection.Protect` (sola lettura) | `IsReadOnly`, `CanEdit`, `CanEditCoordinates`; selezione e calcolo sempre ammessi |
+| `RevisionInspection.Protect` (sola lettura) | `IsReadOnly`, `CanEdit`, `CanEditCoordinates`, `FormViewModel.IsReadOnly` dei form; selezione e calcolo sempre ammessi |
+| `WikiContextHelp.Label` («?»), F1 di `SheetEditor` | `FormViewModel.WikiNavigator` (servizi del contesto); F1 fuori dai campi in `MvvmSheetEditor` |
+
+I form per blocco visivo (rotazione, direzioni, opzioni) e la forma compatta sono stati introdotti con la vista XAML
+(commit `1f3899d6`), per conservare la disposizione di oggi: `FieldForm` mostra un form intero, in colonna. `Forms` e
+`Field(chiave)` elencano i form e trovano un campo per le prove.
 
 Il modulo `PileGroupSheetModule` dichiara le chiavi di stato `metodo`, `direzione_selezionata` e `angolo`. È registrato
 in `DesktopComposition.CreateModules`. La Release resta storica: `ModuleImplementations` non cambia.
@@ -128,8 +139,8 @@ in `DesktopComposition.CreateModules`. La Release resta storica: `ModuleImplemen
 Restano espliciti nel ViewModel, perché i componenti di F5.2 non li esprimono:
 - **La tabella delle coordinate.** `JsonRowViewModel` scrive il testo grezzo cella per cella. La vista storica, invece,
   tiene righe di testo e scrive l'intero elenco normalizzato, solo con «Generica» e solo se cambia.
-- **La sola lettura dei campi.** `FormViewModel` non ha uno stato di sola lettura. In revisione il ViewModel ricostruisce
-  i form su copie staccate, quindi la scrittura non raggiunge mai i dati.
+- **La sola lettura dei campi** (fino a `c21466e8`). `FormViewModel` non aveva uno stato di sola lettura e il ViewModel
+  ricostruiva i form su copie staccate. Ora i form hanno `IsReadOnly` (domanda D4) e il ViewModel lo imposta.
 
 ### 1.6 Prove
 
@@ -149,6 +160,8 @@ Restano espliciti nel ViewModel, perché i componenti di F5.2 non li esprimono:
 ## 2. Ricetta per finire F5.4
 
 L'ordine è vincolante: ogni passo parte con le prove del precedente verdi.
+
+Stato al 16/10: passi 1–4 fatti (sezione 4.1); passo 5 in corso; passi 6 e 7 dopo l'ok dell'utente.
 
 1. **Vista XAML**, dopo l'unione di F5.3: `X.Desktop/Views/PileGroup/PileGroupSheetView.xaml` più un DataTemplate per
    `PileGroupSheetViewModel`.
@@ -205,6 +218,9 @@ L'ordine è vincolante: ogni passo parte con le prove del precedente verdi.
 
    La suite passa in `tests/ANTHEA.Desktop.UiTests`, come previsto da `progetti-di-test.md` («UI archiviata dopo F5.4»).
    Il conteggio delle suite `ui` si riporta.
+
+   Fatto diversamente (D13): la parte UI è nella suite `ui/check-pile-group-view` dell'harness UiTests, che raggiunge
+   `MvvmSheetEditor` senza riflessione; `tests/ANTHEA.Desktop.UiTests` non è stato creato.
 5. **Punto di controllo dell'utente** con il materiale della sezione 4.
 6. **Passaggio della Release e ritiro della vista storica (Q11)**, nello stesso commit, dopo l'ok:
    - `ModuleImplementations.Declared`: `("geo_efficienza_orizzontale", SheetImplementation.Mvvm)`, e
@@ -219,6 +235,10 @@ L'ordine è vincolante: ogni passo parte con le prove del precedente verdi.
      il ramo dipende dal modulo e non dalla vista. Resta anche l'adattamento `DisplayAdaptation.Viewport(…, 1120, 600)`
      della riga 253.
    - `PileGroupPlan` resta con le sue 37 voci F4 (disegno).
+   - Contrasto: il passo `modulo-geo_efficienza_orizzontale` mostra la vista nuova; le 4 voci della Chiara della baseline
+     passano a quel passo con la chiave della vista nuova (D12), il passo `mvvm-geo_efficienza_orizzontale` si toglie.
+   - `ui/check-pile-group-view` confronta ancora le tracce attraverso la vista; le parti che aprono la vista storica
+     (esportazioni, schermate, aiuto, nomi, sola lettura) passano al confronto con i valori attesi.
    - Le viste storiche e le partial di prova devono compilare senza la classe archiviata.
 7. **Guida pratica e PDF**, se la disposizione descritta cambia (regola di `AGENTS.md`).
 
@@ -282,33 +302,153 @@ Se l'utente scegliesse (b), il ViewModel passa a `SheetCalculationMode.Backgroun
 
 ## 4. Materiale per il punto di controllo F5.4
 
-**Punti da confermare dall'utente:**
+Passi 1–4 della sezione 2 eseguiti sul ramo `refactoring/f5-4-vista` (da `refactoring/f5` `1626e776`, 16/10/2026), con la
+raccomandazione Q8 (a). La Release resta storica: `ModuleImplementations` non cambia e la vista storica non è archiviata.
 
-- **D1 · Q8.** Si conferma la raccomandazione (a): calcolo breve sincrono e scritture della selezione nel documento come
-  oggi (sezione 3).
-- **D2 · Riferimento F3.** Con l'aggiunta delle fixture cambia solo il numero in `expected/esito.txt` (36 → 42). La
-  modifica è registrata nel manifest (`fixture_aggiunte_f5_4`, impronte prima e dopo); in alternativa si userebbe una voce
-  in `transitions-f5.json`.
-- **D3 · Interassi mancanti.** Se un archivio non ha l'oggetto degli interassi della direzione mostrata all'apertura, la
-  vista lo crea vuoto, mentre la preparazione del capitolo autonomo no: dati preparati diversi, report uguale. Oggi nessuna
-  fixture lo mostra. Il ViewModel riproduce la vista. Da decidere se allineare `ModuleSheetPreparation.PreparePileGroup`
-  (modifica dell'Application, non dei report).
-- **D4 · Sola lettura dei form.** `FormViewModel` e `FieldForm` non hanno uno stato di sola lettura del foglio. Il
-  ViewModel usa copie staccate. Si propone uno stato `IsReadOnly` nel form e il legame in `FieldForm` (area F5.3), da
-  usare in tutti i moduli.
-- **D5 · Modalità sincrona.** Si conferma `SheetCalculationMode.Synchronous` nel componente comune, come regola per i
-  moduli che oggi calcolano sul thread dell'interfaccia.
+### 4.1 Esiti
+
+| Commit | Contenuto |
+| --- | --- |
+| `c21466e8` | `FormViewModel.IsReadOnly` e `WikiNavigator`, legati in `FieldForm` (D4); parità FieldForm/InputForm estesa alla sola lettura |
+| `1f3899d6` | vista XAML `X.Desktop/Views/PileGroup`, DataTemplate in `Views/PileGroup/PileGroupTemplates.xaml` unito da App.xaml; ViewModel con form per blocco visivo; F1 della guida del modulo in `MvvmSheetEditor` |
+| `1332b7cb` | banco anche per `--check-f3-report-chapters`; suite `ui/check-pile-group-view`; parte UI di `HorizontalPileGroup.Checks` spostata lì |
+| `c6859882` | passo `mvvm-geo_efficienza_orizzontale` di `--check-contrast` |
+| `1b28324f` | banco interattivo per le prove a mano: `ANTHEA.exe --interactive --module-impl geo_efficienza_orizzontale=mvvm` (solo UiTests) |
+
+| Criterio | Esito |
+| --- | --- |
+| Vista XAML con la disposizione di oggi, solo token (P7) | sì; `Architecture.Tests` PASS 507, P6 e P7 attive su `Views/PileGroup`, baseline F4 senza aggiunte, P3 130 invariata |
+| Tracce della vista storica (11 scenari) | uguali riga per riga sia dal ViewModel (`Presentation.Tests`, PASS 470) sia **attraverso i controlli della vista XAML** (`ui/check-pile-group-view`) |
+| Cattura F3 con il modulo MVVM contro `expected` + `transitions-f4.json` | PASS 42 fixture, 514 file, 0 differenze non ammesse; transizioni F4 invariate (nessuna per la palificata); nessuna voce nuova |
+| Cattura F3 storica dello stesso codice | PASS 42 fixture, 0 differenze non ammesse |
+| Confronto diretto storica/MVVM (`tools/qa/f5_confronto_diretto.py`) | **identiche**: 514 file, 513 uguali byte per byte, 1 JSON uguale in forma canonica (un tempo misurato del palo elastico, chiave volatile); 0 differenze, quindi anche sulle 8 fixture della palificata |
+| `ui/f3-report-chapters` con il modulo MVVM | PASS 43 capitoli autonomi, 89 immagini |
+| Esportazioni | per le 8 fixture: JSON del risultato uguale byte per byte, report Word uguale in ogni parte e PDF affiancato uguale (date, identificativi e sigle dei sottoinsiemi dei font normalizzati); nome proposto invariato (`MainWindow.ExportReport` sceglie per modulo) |
+| `HorizontalPileGroup.Checks` | motore, adattatore, archivio e report: PASS 92; la parte UI è sulla vista XAML in `ui/check-pile-group-view` (PNG 1400×1050, «UI calculated», selezione con `SelectedComparison`) |
+| Visita senza scritture | per le 8 fixture: espansori aperti e tre aspetti, senza scritture e senza `Modified` |
+| F1 e «?» | dal navigatore Wiki dei servizi, anche in sola lettura |
+| `AutomationProperties.Name` | quelli della vista storica (l'unico è «Wiki: Diametro comune D [m]») conservati; nessuna prova del runner usa nomi della palificata |
+| Contrasto | Scuro 0, Molto scuro 0; Chiara 4 difetti, gli stessi della vista storica (sezione 4.3) |
+| Parità FieldForm/InputForm | PASS 2072 controlli (2025 prima), con la sola lettura |
+| Profilo quick | PASS 52 |
+| Corsa `-Stage build,fast,wiki,ui` | PASS 112, KNOWN 0, NEW-FAIL 0 (build 25, fast 31, wiki 2, ui 54) su `1b28324f`, `supporto/artefatti/ci/20261016-132935-f54v-finale`; nessun file tracciato modificato; `ui/f3-equivalence` con la vista storica PASS 42 fixture e lo stesso `transitions-f4.json` |
+
+**Suite dello stadio ui.** Sono 54: 53 sulla base `1626e776` (51 del pilota e 2 di F5.3) più una. Una sola suite nuova, `ui/check-pile-group-view`; nessuna tolta:
+`HorizontalPileGroup.Checks` resta nello stadio ui senza la parte WPF, `ui/check-pile-group-historic` resta finché la vista
+storica esiste. Non è stato creato `tests/ANTHEA.Desktop.UiTests`: l'harness UiTests raggiunge `MvvmSheetEditor` (internal)
+senza riflessione, mentre un progetto separato avrebbe richiesto riflessione o `InternalsVisibleTo` (D13).
+
+### 4.2 Schermate
+
+Cartella non versionata `supporto/artefatti/refactoring/f5/f5-4-vista/vista/schermate/` del worktree
+`C:\Users\g.pacini\AppData\Local\Temp\aw-f5-4-vista`. Le produce `ui/check-pile-group-view` a ogni corsa.
+
+| Dati | Chiara | Scuro | Molto scuro |
+| --- | --- | --- | --- |
+| default, vista nuova | `vista-default-chiara.png` | `vista-default-scuro.png` | `vista-default-molto-scuro.png` |
+| default, vista storica | `storica-default-chiara.png` | `storica-default-scuro.png` | `storica-default-molto-scuro.png` |
+| quinconce con quattro direzioni, vista nuova | `vista-quinconce-direzioni-chiara.png` | `vista-quinconce-direzioni-scuro.png` | `vista-quinconce-direzioni-molto-scuro.png` |
+| quinconce con quattro direzioni, vista storica | `storica-quinconce-direzioni-chiara.png` | `storica-quinconce-direzioni-scuro.png` | `storica-quinconce-direzioni-molto-scuro.png` |
+
+Gli espansori sono aperti. Nella cartella `vista/` c'è anche `ui-4.png`, la schermata 1400×1050 di
+`HorizontalPileGroup.Checks`. Le catture del contrasto sono in `contrasto-mvvm-tre-aspetti/` (con la Chiara) e
+`contrasto-mvvm-baseline/` (come il runner).
+
+Differenze visibili fra le due viste, le stesse in tutti gli aspetti:
+- **Campi.** `FieldForm` compatto: etichette di 12 punti come oggi; editor di 82 px invece di 94, con la colonna dell'unità
+  (42 px) vuota a destra, perché le etichette della palificata contengono già l'unità. È la disposizione di `InputForm` negli
+  altri moduli.
+- **Direzioni.** Due colonne (+X/−X, +Y/−Y) invece di due righe allineate con spazi; etichette senza spazi (D8).
+- **Titolo.** `Font.Title` (22 punti) invece di 20: accorpamento Q6 (c). Le altre dimensioni (22, 16, 12, 11) hanno un token
+  uguale; la 14 non è usata.
+- **Bordo delle schede.** `#D8E0EB` di `Ui.Paper` diventa `Token.Border` (`#DCE2E9`, ΔE 2,3) in Chiara; negli aspetti scuri i
+  due colori coincidono.
+
+### 4.3 Contrasto
+
+`--check-contrast` ha il passo nuovo `mvvm-geo_efficienza_orizzontale`: la stessa esplorazione dei passi dei moduli, in una
+finestra principale che apre la palificata MVVM.
+- Con `--baseline` (runner) il passo misura solo Scuro e Molto scuro. Finché la Release apre la vista storica, la Chiara del
+  modulo è quella storica, i cui difetti sono già nella baseline. La Chiara della vista MVVM è dichiarata fra le finestre non
+  coperte.
+- Senza `--baseline` il passo misura anche la Chiara.
+
+| Corsa (ANTHEA.exe, 96 DPI) | Catture | Chiara | Scuro | Molto scuro |
+| --- | --- | --- | --- | --- |
+| `contrasto-mvvm-tre-aspetti` (`--viste ^mvvm-`) | 15 | 4: etichette MINIMO, MEDIA, MASSIMO e RIDUZIONE MEDIA, `#64748B` su `#F3F5F8`, 4,36:1 | 0 | 0 |
+| `contrasto-mvvm-baseline` (`--viste ^mvvm- --baseline`) | 10 | non misurata | 0 | 0 |
+| runner, `ui/check-contrast` (corsa finale) | 887, di cui 10 del passo MVVM | 699 in 187 voci, uguali alla baseline; Chiara della vista MVVM non misurata | 0 | 0 |
+
+I 4 difetti della Chiara sono gli stessi della vista storica (voce `modulo-geo_efficienza_orizzontale` della baseline, 4
+occorrenze): stessi colori, stessi elementi.
+
+### 4.4 Domande D1–D8 con quello che si sa ora, e domande nuove
+
+- **D1 · Q8 (a).** Calcolo breve sincrono e scritture della selezione nel documento come oggi (sezione 3). Confermata dai
+  fatti: con il calcolo sincrono la cattura F3 MVVM è uguale al riferimento senza transizioni e identica alla cattura
+  storica. Resta la conferma dell'utente.
+- **D2 · `expected/esito.txt` 36 → 42.** Con l'aggiunta delle fixture cambia solo il numero; la modifica è registrata nel
+  manifest (`fixture_aggiunte_f5_4`, impronte prima e dopo). L'alternativa era una voce in `transitions-f5.json`. Invariata,
+  da confermare.
+- **D3 · Interassi mancanti.** Se un archivio non ha l'oggetto degli interassi della direzione mostrata all'apertura, la vista
+  lo crea vuoto (senza `Modified`), mentre la preparazione del capitolo autonomo no: dati preparati diversi, report uguale.
+  Nessuna fixture lo mostra. Il ViewModel e la vista nuova riproducono la vista storica. Invariata: da decidere se allineare
+  `ModuleSheetPreparation.PreparePileGroup` (modifica dell'Application, non dei report).
+- **D4 · Sola lettura dei form.** Fatto.
+  - `FormViewModel.IsReadOnly` rifiuta digitazione, scelta e spunta.
+  - `FieldForm` mette in sola lettura le caselle e disattiva scelte e spunte. Il fondo cambia solo per i campi calcolati e le
+    «?» restano utilizzabili.
+  - La parità con `InputForm` sotto `RevisionInspection` è provata.
+  - Il ViewModel della palificata non usa più copie staccate. Nella vista nuova i controlli bloccati sono gli stessi della
+    storica.
+
+  Da confermare come regola per tutti i moduli.
+- **D5 · Modalità sincrona.** `SheetCalculationMode.Synchronous` nel componente comune, come regola per i moduli che oggi
+  calcolano sul thread dell'interfaccia. Invariata, da confermare.
 - **D6 · `Reload`.** Il foglio si ricostruisce come all'apertura (migrazioni comprese) e ricalcola dopo il ritardo, senza
-  `Modified`. La direzione degli interassi mostrata resta quella scelta.
-- **D7 · `Calcola` da `MvvmSheetEditor`.** Prima conferma le bozze (`Commit`), mentre la palificata storica calcola
-  senza `Commit`. Il risultato è lo stesso: `Commit` ricalcola solo se un ricalcolo è in attesa, e ricalcolare gli stessi
-  dati non cambia nulla.
-- **D8 · Etichette delle direzioni.** Nella vista nuova non hanno più gli spazi di allineamento («+X · 0°     »).
+  `Modified`; la direzione degli interassi mostrata resta quella scelta. Invariata, da confermare.
+- **D7 · `Calcola` da `MvvmSheetEditor`.** Prima conferma le bozze (`Commit`), mentre la palificata storica calcola senza
+  `Commit`. `Commit` ricalcola solo se un ricalcolo è in attesa, e ricalcolare gli stessi dati non cambia nulla. Verificato:
+  catture F3 e tracce identiche. Da confermare.
+- **D8 · Etichette delle direzioni.** Senza gli spazi di allineamento di oggi («+X · 0°     »); le due righe sono rese con due
+  colonne.
+- **D9 · Dimensione del titolo.** 20 → 22 punti (`Font.Title`), unico accorpamento tipografico della vista. L'alternativa è un
+  token da 20, che oggi non esiste.
+- **D10 · Disposizione dei campi.** `FieldForm` compatto come negli altri moduli (editor più stretti, colonna dell'unità
+  vuota). Per conservare la disposizione di oggi il ViewModel ha form per blocco visivo: rotazione dopo la nota degli anelli,
+  direzioni in due colonne, ogni opzione con la sua nota. Si accetta?
+- **D11 · F1 sul diametro.** La vista storica apriva la guida del modulo con F1 su qualunque campo. La nuova, come
+  `FieldForm`/`InputForm`, apre la sezione del campo quando esiste («Effetto di gruppo e applicabilità», solo per il diametro),
+  altrimenti la guida. Le «?» sono le stesse.
+- **D12 · Contrasto della Chiara.** La vista nuova conserva i colori di oggi, quindi anche i 4 difetti delle etichette degli
+  indicatori. Al passaggio della Release (passo 6) le 4 voci passano dal passo storico al passo del modulo con la vista nuova,
+  a totale invariato. L'alternativa è correggere il contrasto nella vista nuova, cambiando la Chiara.
+- **D13 · Suite UI.** La parte UI di `HorizontalPileGroup.Checks` è in `ui/check-pile-group-view` dell'harness UiTests, non in
+  un progetto `tests/ANTHEA.Desktop.UiTests`. Si conferma per i moduli successivi?
+- **D14 · Banco interattivo.** `ANTHEA.exe --interactive --module-impl <modulo>=mvvm` esiste solo nella build UiTests, per le
+  prove a mano prima del punto di controllo. Si tiene fino a F5.14?
 
-**Materiale da mostrare** (dopo i passi 1–3 della sezione 2):
-- schermate fuori schermo nei tre aspetti;
-- esito di `--check-contrast`;
-- confronto diretto a zero;
-- `ui/f3-equivalence` con il modulo MVVM;
-- conteggio delle suite `ui`;
-- questa nota con le risposte.
+Osservazioni senza decisione:
+- Le operazioni che WPF accoda al dispatcher, per esempio la modifica di cella annullata, usano la cultura del thread e non
+  quella di un flusso asincrono. Per questo le prove che impostano `it-IT` lo fanno anche in un'operazione del dispatcher. Su
+  questa macchina la cultura dell'utente usa il punto come separatore decimale. Nel prodotto tutte le operazioni usano la
+  stessa cultura, nella vista storica come nella nuova.
+- La guida pratica (riga 819) cita l'espansore «Applicabilità e interassi rappresentativi»; nelle due viste si chiama
+  «Opzioni di calcolo e applicabilità». È così anche oggi.
+
+### 4.5 Da provare a mano in una build di prova
+
+```
+dotnet build X.Desktop/X.Desktop.csproj -c UiTests
+X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe --interactive --module-impl geo_efficienza_orizzontale=mvvm
+```
+
+1. File → Nuova palificata orizzontale: disposizione, campi, tabelle e disegno come oggi. Cambiare disposizione (anelli con
+   «Palo al centro»), diametro e interassi: il ricalcolo parte dopo una breve pausa.
+2. Generica: modificare una coordinata, aggiungere una riga, eliminarne una con Canc, premere Esc durante una modifica.
+3. Fare clic su più righe del confronto: titolo, indicatori, dettagli e pianta seguono, e il documento risulta modificato.
+4. «?» del diametro, F1 su un campo e F1 fuori dai campi: si apre la sezione giusta della Wiki.
+5. Report Word: nome proposto `Relazione_palificata_orizzontale.docx`; esportazione dei risultati in JSON.
+6. Aspetto Scuro e Molto scuro dal menu, con la scheda aperta.
+7. In un progetto, aprire una revisione precedente: campi e scelte bloccati, confronto selezionabile.
+8. Salvare, chiudere e riaprire l'archivio: stessi dati e stesso risultato selezionato.
