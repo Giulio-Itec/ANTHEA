@@ -9,5 +9,9 @@
     <ProjectReference Include="../../src/ANTHEA.Application/ANTHEA.Application.csproj" />
     <ProjectReference Include="../../src/ANTHEA.Reports/ANTHEA.Reports.csproj" />
     <ProjectReference Include="../../src/ANTHEA.Wiki/ANTHEA.Wiki.csproj" />
+    <!-- F5.1 rules P1-P5: metadata of the projects without WPF. ANTHEA.Presentation only once it exists (step F5.1, other branch). -->
+    <ProjectReference Include="../../src/ANTHEA.ModelViewer.Presentation/ANTHEA.ModelViewer.Presentation.csproj" />
+    <ProjectReference Include="../../src/ANTHEA.DesignTools.Presentation/ANTHEA.DesignTools.Presentation.csproj" />
+    <ProjectReference Include="../../src/ANTHEA.Presentation/ANTHEA.Presentation.csproj" Condition="Exists('../../src/ANTHEA.Presentation/ANTHEA.Presentation.csproj')" />
   </ItemGroup>
 </Project>

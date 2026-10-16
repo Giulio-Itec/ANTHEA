@@ -1,0 +1,46 @@
+# Microsoft.VisualStudio.Threading.Analyzers on ANTHEA.Presentation only (F5.1, decision Q16 of 16/10/2026).
+# Applied by Directory.Build.targets to the project named ANTHEA.Presentation; version in the dependency table of
+# docs/refactoring/decisioni.md. Every rule of the package has an explicit severity, so the choice does not depend on
+# the package defaults. tests/ANTHEA.Architecture.Tests checks the error rules and the ConfigureAwait policy.
+is_global = true
+
+# error: rules that encode the F5 decisions. The build of ANTHEA.Presentation fails.
+# P5: zero async void in Presentation (methods; the architecture test sees them too).
+dotnet_diagnostic.VSTHRD100.severity = error
+# async lambdas passed to void-returning delegates (Action, event handlers): the async void that syntax cannot see.
+dotnet_diagnostic.VSTHRD101.severity = error
+# .Result, .Wait(), GetAwaiter().GetResult(): ViewModels run on the interface thread and keep its context (section 3.1),
+# a synchronous wait blocks the interface and can deadlock.
+dotnet_diagnostic.VSTHRD002.severity = error
+# unobserved Task (fire and forget): its error would be lost; Q19 wants command errors shown and unhandled ones logged.
+# An intentional fire and forget is written as "_ = Operation();".
+dotnet_diagnostic.VSTHRD110.severity = error
+
+# warning: advisory rules, reported without failing the build.
+dotnet_diagnostic.VSTHRD103.severity = warning
+dotnet_diagnostic.VSTHRD104.severity = warning
+dotnet_diagnostic.VSTHRD105.severity = warning
+dotnet_diagnostic.VSTHRD106.severity = warning
+dotnet_diagnostic.VSTHRD107.severity = warning
+dotnet_diagnostic.VSTHRD112.severity = warning
+dotnet_diagnostic.VSTHRD113.severity = warning
+dotnet_diagnostic.VSTHRD114.severity = warning
+dotnet_diagnostic.VSTHRD200.severity = warning
+
+# none: ConfigureAwait policy. ViewModels await on the caller's context so that results are published on the interface
+# thread without a Dispatcher (section 3.1): ConfigureAwait(false) must not be required in Presentation.
+dotnet_diagnostic.VSTHRD111.severity = none
+
+# none: rules of the JoinableTaskFactory / Visual Studio main-thread model, which ANTHEA does not use. Thread switching
+# and Dispatcher in ViewModels are forbidden by rule P4 of the architecture tests instead.
+dotnet_diagnostic.VSTHRD001.severity = none
+dotnet_diagnostic.VSTHRD003.severity = none
+dotnet_diagnostic.VSTHRD004.severity = none
+dotnet_diagnostic.VSTHRD010.severity = none
+dotnet_diagnostic.VSTHRD011.severity = none
+dotnet_diagnostic.VSTHRD012.severity = none
+dotnet_diagnostic.VSTHRD102.severity = none
+dotnet_diagnostic.VSTHRD108.severity = none
+dotnet_diagnostic.VSTHRD109.severity = none
+dotnet_diagnostic.VSTHRD115.severity = none
+dotnet_diagnostic.VSTHRD201.severity = none
