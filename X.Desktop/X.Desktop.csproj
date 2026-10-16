@@ -31,6 +31,8 @@
     <!-- Motori storici delle prove WPF (decisione D3): esplicito, perché ConcreteShort.UiChecks costruisce X.Desktop senza riferimenti transitivi. -->
     <ProjectReference Include="../tests/ANTHEA.Legacy/ANTHEA.Legacy.csproj" />
     <Compile Include="../tests/Shared/ConcreteContractProbe.cs" Link="Tests/Shared/ConcreteContractProbe.cs" />
+    <!-- Test-only module of the ModuleHost contract (F5.2), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../tests/Shared/ProbeSheetModule.cs" Link="Tests/Shared/ProbeSheetModule.cs" />
     <Compile Include="../tests/ANTHEA.Desktop.Equivalence/*.cs" Link="Tests/F3/%(Filename)%(Extension)" />
     <Compile Include="../supporto/test/Materiali/*.cs" Link="Tests/Materiali/%(Filename)%(Extension)" />
     <Compile Include="../supporto/test/Shared/DurabilityReferenceChecks.cs" Link="Tests/Materiali/DurabilityReferenceChecks.cs" />

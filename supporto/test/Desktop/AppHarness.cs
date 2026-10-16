@@ -70,14 +70,15 @@ public partial class App
             }));
             return;
         }
-        if (e.Args.Length == 3 && e.Args[0] == "--check-f3-equivalence")
+        // F5.2: after root and output, "--module-impl <module>=mvvm|historic" pairs choose the implementation of a module (ModuleHostBench).
+        if (e.Args.Length >= 3 && e.Args[0] == "--check-f3-equivalence" && ModuleHostBench.WithoutBench(e.Args) is [_, var root, var capture])
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>
             {
                 int code = 0;
-                try { await F3EquivalenceCapture.Run(e.Args[1], e.Args[2]); }
-                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
+                try { await F3EquivalenceCapture.Run(root, capture); }
+                catch (Exception ex) { Directory.CreateDirectory(capture); File.WriteAllText(Path.Combine(capture, "errore.txt"), ex.ToString()); code = 1; }
                 finally { Shutdown(code); }
             }));
             return;
@@ -120,7 +121,7 @@ public partial class App
             }));
             return;
         }
-        if (e.Args.Length == 2 && e.Args[0] is "--check-global-guidance-offscreen" or "--check-wall-advanced-offscreen" or "--check-wall-materials-offscreen" or "--check-error-log-offscreen" or "--check-report-appearance-offscreen" or "--check-field-form-parity")
+        if (e.Args.Length == 2 && e.Args[0] is "--check-global-guidance-offscreen" or "--check-wall-advanced-offscreen" or "--check-wall-materials-offscreen" or "--check-error-log-offscreen" or "--check-report-appearance-offscreen" or "--check-field-form-parity" or "--check-module-host-offscreen")
         {
             // No native window or input focus: render controls directly to bitmaps (the FieldForm parity check opens its own
             // windows outside the screen, never activated on purpose, for the real keyboard focus of the commit on focus loss).
@@ -135,6 +136,7 @@ public partial class App
                     else if (e.Args[0] == "--check-error-log-offscreen") CheckErrorLog(e.Args[1]);
                     else if (e.Args[0] == "--check-report-appearance-offscreen") await ReportAppearanceChecks.Run(e.Args[1]);
                     else if (e.Args[0] == "--check-field-form-parity") await FieldFormParityChecks.Run(e.Args[1]);
+                    else if (e.Args[0] == "--check-module-host-offscreen") await ModuleHostWpfChecks.Run(e.Args[1]);
                     else await GlobalGuidanceChecks.Run(e.Args[1]);
                 }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }

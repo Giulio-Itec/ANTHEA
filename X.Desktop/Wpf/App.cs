@@ -21,9 +21,10 @@ public partial class App : Application
             MessageBox.Show(error.Exception.Message, "ANTHEA — errore", MessageBoxButton.OK, MessageBoxImage.Error);
             error.Handled = true;
         };
-        // Composition root (F5.1, decision Q2): services created by hand; the main window keeps its own services (F1.4).
+        // Composition root (F5.1, decision Q2): services created by hand; the main window keeps its own services (F1.4) and
+        // receives the editors of the sheets (F5.2).
         Composition = new DesktopComposition(ActiveWindow);
-        var window = new MainWindow(Composition.WindowServices);
+        var window = new MainWindow(Composition.WindowServices, Composition.SheetEditors);
         MainWindow = window;
         if (e.Args.Length == 2 && e.Args[0] == "--wiki")
             window.Loaded += (_, _) => window.Safe(() => window.ShowWiki(e.Args[1]));

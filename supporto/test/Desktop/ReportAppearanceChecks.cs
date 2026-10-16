@@ -50,7 +50,7 @@ internal static class ReportAppearanceChecks
     // Every report with figures of X.Desktop, from the documents of a new sheet (or the test cases already used by the smoke).
     private static async Task<Dictionary<string, byte[]>> Images(string directory, Action<bool, string> check, Action<string> note)
     {
-        var images = new Dictionary<string, byte[]>(); var editors = new SheetEditorFactory();
+        var images = new Dictionary<string, byte[]>(); var editors = ModuleHostBench.SheetEditors();
         void Add(string report, byte[] docx)
         {
             Directory.CreateDirectory(Path.Combine(directory, report)); File.WriteAllBytes(Path.Combine(directory, report + ".docx"), docx);

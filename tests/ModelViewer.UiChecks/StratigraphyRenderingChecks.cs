@@ -19,10 +19,10 @@ static partial class Program
         row = rows[1]!.AsObject(); row["name"] = "Argilla"; row["soil_type"] = "Argilla"; row["infinite"] = true; row["thickness"] = null; row["color"] = "#A7B7C7";
         row["cu"] = 60; data["water_state"] = "Assegnata"; data["water_depth"] = 1.5;
         var assembly = typeof(X.Desktop.MainWindow).Assembly;
-        // The sheet opens through the factory of the window and its contract (F5.2), as in the product; the checks read its view.
+        // The sheet opens through the factory of the composition root and its contract (F5.2), as in the product; the checks read its view.
         var contract = assembly.GetType("X.Desktop.ISheetEditor")!;
-        var factory = assembly.GetType("X.Desktop.SheetEditorFactory")!;
-        var sheet = factory.GetMethod("Open", Flags)!.Invoke(Activator.CreateInstance(factory, true), [StratigraphyDocument.Module, data, null])!;
+        var factory = ProductSheetEditors(ProductComposition());
+        var sheet = factory.GetType().GetMethod("Open", Flags)!.Invoke(factory, [StratigraphyDocument.Module, data, null])!;
         var editor = (FrameworkElement)contract.GetProperty("View")!.GetValue(sheet)!;
         using var disposable = (IDisposable)sheet;
         var host = new Window { Content = editor, Width = 1280, Height = 900, ShowActivated = false, ShowInTaskbar = false };

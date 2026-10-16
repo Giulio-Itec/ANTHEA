@@ -32,11 +32,13 @@ param(
         # Decision E5 of 15/10/2026 (F2.11c): members used only by the tests and two interfaces without users, moved to tests/ANTHEA.Legacy.
         '^I?TensionBarSpacing$', '^I(ConcreteAnchorageCalculator|MomentCurvatureCalculator)$', '^(SoilMass|ValleyBand|(Native)?SearchIndices|ValidateExposure)$',
         '^(get_)?(Translated(Criteria|Profiles|Outcomes|Reasons|Rejections|TraceCodes)|ResistanceRejectionTexts)$', '^MetresFromMillimetres$', 'Sollecitazioni\.Legacy',
-        '^<?(get_)?(CalculateDomain|CalculateStress|ExportActionRows|ApplyImport|SetGeometry|InheritSectionData|ParsePaste|CurrentId|SelectedOptimizationRank|DisplayedOptimizationCount|InputForms|InspectionCount|PointCount|VisibleActionCount)(>|$)'),
+        '^<?(get_)?(CalculateDomain|CalculateStress|ExportActionRows|ApplyImport|SetGeometry|InheritSectionData|ParsePaste|CurrentId|SelectedOptimizationRank|DisplayedOptimizationCount|InputForms|InspectionCount|PointCount|VisibleActionCount)(>|$)',
+        # F5.2: bench of the ModuleHost and test-only probe module (tests/Desktop, tests/Shared; UiTests only).
+        'ProbeSheet', 'ModuleHostBench', 'ModuleHostWpfChecks', 'CheckMvvmSheet'),
     # Names that contain a marker but belong to the framework (System.Windows.Media.Brushes.WhiteSmoke).
     [string[]] $AllowedIdentifier = @('WhiteSmoke', 'get_WhiteSmoke'),
     # Regular expressions on the string literals of the #US heap.
-    [string[]] $Literal = @('^--smoke', '^--check', '^--capture', 'esito-smoke-completo', '^ANTHEA_TRACE_FALLBACKS$', '^ANTHEA_MOTORE_SLE$', '^--motore'),
+    [string[]] $Literal = @('^--smoke', '^--check', '^--capture', 'esito-smoke-completo', '^ANTHEA_TRACE_FALLBACKS$', '^ANTHEA_MOTORE_SLE$', '^--motore', '^--module-impl'),
     # Assemblies that must never be in a shipped folder (decision D3: legacy engines and test toolkit stay out of the installer).
     [string[]] $ForbiddenAssembly = @('ANTHEA.Legacy.dll', 'ANTHEA.Testing.dll')
 )
