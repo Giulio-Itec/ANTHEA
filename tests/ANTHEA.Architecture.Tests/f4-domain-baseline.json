@@ -9454,22 +9454,6 @@
     {
       "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalDiagrams.Render.DepthLine",
-      "Fingerprint": "4FFCC74DEC2728D4FCE99FD9D346F9841C690D822DD7357283464D84270950DE",
-      "Count": 1,
-      "Example": "16"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalDiagrams.Render.DepthLine",
-      "Fingerprint": "60F23DA31CF28A4A13CCF909B4C1A2778DDBAE10511E02C3FF5575A46FC00D89",
-      "Count": 1,
-      "Example": "32"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R2-numeric-literal",
       "Owner": "HorizontalDiagrams.Render",
       "Fingerprint": "1A0C5FA915A986ADAEE099721FE1E5DC18AEE9F780B5247C583AD54255002DBA",
       "Count": 1,
@@ -9498,14 +9482,6 @@
       "Fingerprint": "32F8C3482064E601C2B49B79D1642C22EA9D25AC96344A3BC1AF0CBA80BDD49F",
       "Count": 2,
       "Example": "10"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "53513CA042C8EE9636F0DFEB736A078350BC28BF2CC5264266ACA7FBDC7C29C4",
-      "Count": 4,
-      "Example": "1.5"
     },
     {
       "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
@@ -9544,7 +9520,7 @@
       "Rule": "R2-numeric-literal",
       "Owner": "HorizontalDiagrams.Render",
       "Fingerprint": "88F17F260B3B424AC49D1DF9462099217C20FC4A3943E4FC110E22023CF28571",
-      "Count": 6,
+      "Count": 7,
       "Example": "32"
     },
     {
@@ -9576,7 +9552,7 @@
       "Rule": "R2-numeric-literal",
       "Owner": "HorizontalDiagrams.Render",
       "Fingerprint": "CE8185C46F7CE262132EE1C7A5DAB144368A98CACA41F4E2C446FAC5E1541F37",
-      "Count": 3,
+      "Count": 2,
       "Example": "4"
     },
     {
@@ -9629,155 +9605,11 @@
     },
     {
       "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
+      "Rule": "R2-numeric-literal",
       "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "3D17F0708CD4760882B64756F7B1B88288A7EDB7340B9578F1FF7797C4D90FE7",
-      "Count": 2,
-      "Example": "g . D ( \"profondita_falda\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "46D02265011C2E1858B038D9D55318454E92086AEF54ABDEF8D0DF2BE0165A33",
+      "Fingerprint": "1B10A73224AF0EC637435ED6B6514DED4B9780B90DA10ECA752ADE30C76FF5EF",
       "Count": 1,
-      "Example": "row . D ( \"m_knm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "4A366B276B960F06B1DF04F4C09098D4670C143FF3262168CA4BB8A2A78BB5AF",
-      "Count": 2,
-      "Example": "s . D ( \"risultante_concentrata_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "63F7296AE0AB0D38F8E179246F906E7A1B9E8FD19FD2C844D283FE522C6B06B6",
-      "Count": 1,
-      "Example": "s . D ( \"fine_reazioni_m\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "6C70CC51EBA91E76511EA4AAD9A2AE2FECF19A997A0C8FFF0D3A578A26946515",
-      "Count": 1,
-      "Example": "g . D ( \"lunghezza\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "7076B1A246B9813B370C44CE456D0D2A541E5CE31C6C0A89640B493F61B299C5",
-      "Count": 1,
-      "Example": "a . D ( c . Key )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "850EDC6EDE35F65FC45949C98A9DCD344A2F1D2159AD5DF7DD25BAA6478F646C",
-      "Count": 1,
-      "Example": "s . D ( \"inversione_reazioni_m\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "88540EB497690EE3C58859F692E10A3A97463A484567A7915D433CAE082DBD47",
-      "Count": 1,
-      "Example": "layers [ i ] . D ( \"spessore\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "8DF59566DA0F26C414C72311AD689DE06B28B9906065227F581A1D8786505DE8",
-      "Count": 1,
-      "Example": "s . D ( \"quota_risultante_m\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "9569DD2BDEAE6E11682B9B7C8606276043D767BA52265F98F2329029F60F5E03",
-      "Count": 1,
-      "Example": "p . D ( c . Key )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "B1F663A28BEAAB4B33C2FB61AC7F49A8DAF9949542D01BEA4E664060F0CA209A",
-      "Count": 1,
-      "Example": "p . D ( \"z\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "B2F4174BD468A2CA4766E9C771DC201545D06DD8FFA86B7622EC22F6A7BAF4F2",
-      "Count": 2,
-      "Example": "a . D ( \"z\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "B8C905642B3A26670F3AFBE338080C644E3D1B738BABCB47F584FB9DCE647136",
-      "Count": 2,
-      "Example": "s . D ( \"quota_taglio_nullo_m\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "C72D5C200C19DEEEFFA6D0254B33DC95AE84C28978D616F28F41D24AEC1C7FD0",
-      "Count": 1,
-      "Example": "b . D ( c . Key )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "D93EB13C03D4A2F8F113F05ABC8A9AFD2133FD52D5112688C3CAB40AE1C8AAC4",
-      "Count": 4,
-      "Example": "result . D ( \"momento_resistente_knm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "E4935FD2F724BA84B36748E1B258737707830A632AB7BD2EE1A5B8CCFD4D1F1D",
-      "Count": 2,
-      "Example": "s . D ( \"capacita_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "E4DE3BC39FC874E6747A9A82DDCC898C7BF79AA2BED9A011AE49D1B1C82023F1",
-      "Count": 2,
-      "Example": "b . D ( \"z\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalDiagrams.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalDiagrams.Render",
-      "Fingerprint": "FB9CEC5077F05EA4FF3D3D43C1B3057DDC6F105E2F6F9F4AD90491E6A12CAF09",
-      "Count": 1,
-      "Example": "g . D ( \"diametro\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalMaterials.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.SectionMaterialChanged",
-      "Fingerprint": "C297D31BB65EEF76AFC01F25A8B56EE6AC2179715078CF577E80F82775AC60CA",
-      "Count": 1,
-      "Example": "input . D ( \"fck_mpa\" )"
+      "Example": "16"
     },
     {
       "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
@@ -9858,30 +9690,6 @@
       "Fingerprint": "DCEEF969167064002A88FA7837AECB31A3EAB32F4F7C22F53908EE7217478181",
       "Count": 1,
       "Example": "80"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.UpdateVerification.Number",
-      "Fingerprint": "696260CF8613E912367A595157803FFD1484981257399398AFCBDD654CFCFCD9",
-      "Count": 1,
-      "Example": "Result . D ( key )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.UpdateVerification",
-      "Fingerprint": "A139F187FD544FBA78B63043EC6A2E456A87CCA506A935062656EC8DEDD69594",
-      "Count": 1,
-      "Example": "Result . D ( \"resistenza_progetto_manuale_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.UpdateVerification",
-      "Fingerprint": "DDBFB95162CDCA5868B9DFE18AD664B1A78626B5766E313843D481D99021F7E7",
-      "Count": 1,
-      "Example": "Result ! . D ( \"azione_kn\" )"
     },
     {
       "File": "X.Desktop/Wpf/HorizontalProfileDrawing.cs",
@@ -10020,14 +9828,6 @@
       "Example": "result . D ( \"risultante_concentrata_kn\" )"
     },
     {
-      "File": "X.Desktop/Wpf/HorizontalProfileDrawing.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "StratigraphyDrawing.PhysicalDiagram",
-      "Fingerprint": "DB9935D405E2371B9490F298E87B5FA639FF88994A9E80BE4DC0184C97280747",
-      "Count": 2,
-      "Example": "r . D ( \"z\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/HorizontalSoilEditor.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "HorizontalSoilEditor.Build.Combo",
@@ -10042,238 +9842,6 @@
       "Fingerprint": "FBC854E20BCACA1E305C520583DEC745DD10C269D9FAAB77E9F72CDD5D73EF5D",
       "Count": 2,
       "Example": "6"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalWorkspace.Preview",
-      "Fingerprint": "176B22A78D40DD544F13C4335AA011F91A5B187ACCF2CC1B1C89AB20A1F7AC7D",
-      "Count": 1,
-      "Example": "26"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.CalculateScheduledAsync",
-      "Fingerprint": "117FC80768E97D5CDF0CB67648D29F66AD4F97706577B800791D0F34367EE5FA",
-      "Count": 2,
-      "Example": "result . D ( \"momento_resistente_knm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.CalculateScheduledAsync",
-      "Fingerprint": "189EC934EC6793AB3D16BD738A447245D4AC4BA4D87D7D050EBDB2CF3F94AED9",
-      "Count": 1,
-      "Example": "result . D ( \"sondaggio_governante\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.CalculateScheduledAsync",
-      "Fingerprint": "CBEA437D8F2D6E13D5CB187B10D421596EE33A80380C6A8C57BA86305BE72170",
-      "Count": 1,
-      "Example": "result . D ( \"rapporto_meccanico\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.DisplayMoment",
-      "Fingerprint": "39F2741FF020C7D0A9882A424B487D3A0C13523137A837A1744CCDEE94CBE496",
-      "Count": 1,
-      "Example": "result . D ( \"classe\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.DisplayMoment",
-      "Fingerprint": "861CF9CB35933EEE54B26A58EAFABB6FC6B66D74BDFD3E9E934633164D9E791F",
-      "Count": 1,
-      "Example": "result . D ( \"lati_contorno\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.DisplayMoment",
-      "Fingerprint": "8F1A53C57F76372D40FB2E00F6E34CB115B64AF4628B3BE23680029DB3C16F45",
-      "Count": 2,
-      "Example": "result . D ( \"n_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.DisplayMoment",
-      "Fingerprint": "CC3A97DDB27E022918F6A7191FFE4B91EF8FAADBEF9B35760037B9E4138B76F7",
-      "Count": 1,
-      "Example": "result . D ( \"tolleranza_n_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.DisplayMoment",
-      "Fingerprint": "F44C79E2A5461A9A0B5AA6BBD200AF59A01975E4BD11894EFB3CD7364A7BA52E",
-      "Count": 1,
-      "Example": "result . D ( \"residuo_n_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.DisplayMoment",
-      "Fingerprint": "F53A9308358717DCA922DF7ECA2EC6EE72AB347057C878DDAF044748E7142DBC",
-      "Count": 2,
-      "Example": "result . D ( \"momento_knm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "0CCCDB91558EB035DEB9348DF79E4FC35B846DBD1712679CD5CF1E63866E0A69",
-      "Count": 1,
-      "Example": "r . D ( \"m_knm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "1008029C34651284BF3A9DFFEEF1C30443FEC8C673105AFB0B7B6B29F7424D0C",
-      "Count": 1,
-      "Example": "result . D ( \"quota_risultante_m\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "2FFED52C1E408D3FF6F8887300C8AD199C1433801EEAAFE3A2AD76FEB67F81D4",
-      "Count": 1,
-      "Example": "result . D ( \"capacita_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "42FD681FDDA1FD71CFA407BE305F9F0992B343DC5C6C11FF11681B3520B3BA49",
-      "Count": 1,
-      "Example": "r . D ( \"p_lim_kn_m\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "67BB50A793B82CF176705723578DF17AD8ED866B98F4F6118B3482FA4A529BF9",
-      "Count": 1,
-      "Example": "r . D ( \"sigma_eff_kpa\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "6DEA960BF24CAADAD423558255442E919E243F407A2621893492BBEE15A908C9",
-      "Count": 1,
-      "Example": "r . D ( \"q_integrale_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "70E68806E7AFBEEF28445DBBAD594B7B0567FF0585B9F1EBB7C941DF07FB8748",
-      "Count": 1,
-      "Example": "result . D ( \"risultante_concentrata_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "7B632FF23289A55FCA6B7A7807AAFB9901F1C6EA4ABF03E07EACCFE03AD7C69E",
-      "Count": 1,
-      "Example": "r . D ( \"u_kpa\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "805DC9BCA024A1C18421C0D832B4BDCB94E79F8B7B4C9168887646C013AAAAFA",
-      "Count": 1,
-      "Example": "r . D ( \"sigma_v_kpa\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "81BF1DBAB447FFD7F7EC07DFCE819C0B5CAC5740FB152500F1448EF82CE22637",
-      "Count": 1,
-      "Example": "r . D ( \"q_lim_kpa\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "85F1AFF9D67EB5657538119C644E886885197443FEC8943B4C12439722D5DD68",
-      "Count": 1,
-      "Example": "r . D ( \"capacita_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "8E08F9B44EAFAFDA3E3E5FFB3269AC763E6324D68D12F6DCDE28F3BB35164277",
-      "Count": 1,
-      "Example": "result . D ( \"momento_massimo_knm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "A0477BBC50927942634CAAFBDC2778A20182BFCEA1ACD6A7262B027DB3C30DEF",
-      "Count": 1,
-      "Example": "result . D ( \"residuo_forza_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "B3E7F254C455F05FD975E64631D0BB705B40E4A2BF24C9D3FCB08CB781088AF3",
-      "Count": 2,
-      "Example": "r . D ( \"z\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "B60C806F22D73BA1907FCEE1682A9687A16476F598F96968284EE0AF6F2A2A74",
-      "Count": 1,
-      "Example": "r . D ( \"p_kn_m\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "D7AE9C7ADAEB6D867893D3D1985A96143C2692786A27C8FAADE983B0A577FAB1",
-      "Count": 1,
-      "Example": "r . D ( \"strato\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "D7EA5DD56CFE413D9E5E820C99339D48CAC30905C34A5C1400810A18EB90F330",
-      "Count": 1,
-      "Example": "r . D ( \"v_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "F1AF02946A50749566A5F60132998FF616AA1F163F151ADC163E973573E0D93D",
-      "Count": 1,
-      "Example": "result . D ( \"residuo_momento_knm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalWorkspace.ResultsTabs",
-      "Fingerprint": "F6F595068D22C8F98CC63A817396DC4FBAFD23E8DBAB0F00225B92BD4B750C39",
-      "Count": 1,
-      "Example": "result . D ( \"quota_momento_massimo_m\" )"
     },
     {
       "File": "X.Desktop/Wpf/Materials/MaterialView.cs",
@@ -10346,30 +9914,6 @@
       "Fingerprint": "DA1C0BFF702035C87AD75153D2663AB24D59AD4CE188F912542E445372C2A28A",
       "Count": 1,
       "Example": "o . D ( \"scala_x\" , 1 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.Horizontal.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ModuleFigureRenderer.HorizontalFigures",
-      "Fingerprint": "8A2B2B8515355F950DEA4C9496C694F6AF587AE24986FD808142E47B88F69A21",
-      "Count": 1,
-      "Example": "660"
-    },
-    {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.Horizontal.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ModuleFigureRenderer.HorizontalFigures",
-      "Fingerprint": "C953151A27C241191B6193EAEF5387B9C548EBED7FF8A6E4EB1FE32C23E1522F",
-      "Count": 1,
-      "Example": "1000d"
-    },
-    {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.Horizontal.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "ModuleFigureRenderer.HorizontalFigures",
-      "Fingerprint": "C953151A27C241191B6193EAEF5387B9C548EBED7FF8A6E4EB1FE32C23E1522F",
-      "Count": 1,
-      "Example": "1000d"
     },
     {
       "File": "X.Desktop/Wpf/ModuleFigureRenderer.Wall.cs",
@@ -15034,6 +14578,446 @@
       "Fingerprint": "17559D2A9E75E9C5DC2380FD98053CAA9F62363CC78E7DA6BC0166DEF9AC4A6D",
       "Count": 1,
       "Example": "data [ \"generali\" ] . D ( \"lunghezza\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "5E78A2C55DC68EA6A65FF84D557A5E6F513F0C296373DE13EF637722DB128F9B",
+      "Count": 3,
+      "Example": "1.5"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "CFE8DDF0C03B5C85F3728A245812EAE3586D73286EF53786D33C823303954997",
+      "Count": 1,
+      "Example": "4"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "0234C916D08660330A99B528A547D6AE72C40C59D63EE6BDD88C6489781DAD84",
+      "Count": 2,
+      "Example": "g . D ( \"profondita_falda\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "055685BB21D45D802BEC4A3B4FFAA13C579E7FFC587C63E9E0D60BFD8AD3C1E4",
+      "Count": 1,
+      "Example": "p . D ( c . Key )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "07F37ADB5E4835DECC040A6718E8413AEF1556A6BFCC89C28900E495F3D736A1",
+      "Count": 1,
+      "Example": "b . D ( c . Key )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "0A48EE61FD5EB93323FEA963014F529018BD6DB7FB8E6FBE5213E6BCAF9CEEE7",
+      "Count": 1,
+      "Example": "g . D ( \"diametro\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "1A3A22B43D1DDBC49DEB6283F36491BEB7367B42364B3FADDD5024E7F8DD1F77",
+      "Count": 1,
+      "Example": "a . D ( c . Key )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "3CA6413E1BFDFC9A0E20EF9974CD96F9CCA150F21850FBB222D1C09E605962CB",
+      "Count": 1,
+      "Example": "s . D ( \"fine_reazioni_m\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "415CFCFDE545FA605C0F52322CB6195C847DDE06620DE30AE410BDBA1BFB358B",
+      "Count": 1,
+      "Example": "actual . First ( p => Math . Abs ( p . D ( \"z\" ) - z ) < 1e-9 ) . D ( \"m_knm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "41711E9DFD01AB1F7482261B938EB906061940629420992DD96C6DC79BFF3D4D",
+      "Count": 2,
+      "Example": "b . D ( \"z\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "44E375F5580057892C151A1A94EEC3AD72012B9DD8EF00EFA94A8CC3014A1681",
+      "Count": 1,
+      "Example": "p . D ( \"z\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "686EA75BE8BB6A35DACFA458F654F2F08692F56CFE409C74AE76C4A9E4293473",
+      "Count": 2,
+      "Example": "s . D ( \"capacita_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "698A1A1A9B54DED6820240FA0D05F3D48C40857DFF220506850D5A43D9D26C4A",
+      "Count": 2,
+      "Example": "s . D ( \"quota_taglio_nullo_m\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "8A1AEA6CF77861E990565CCB14143244EB249B23BA32F43827A3DFF9977C1EEC",
+      "Count": 2,
+      "Example": "a . D ( \"z\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "906FFF94A56E374FB6F34BF929BF02C34BA62063E90D2C159A66C9D375B97C0F",
+      "Count": 2,
+      "Example": "s . D ( \"risultante_concentrata_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "AC47E28352E7BF58555BC3B2A17BFABB0003BCCD11F7A5806D2B9156FECE1271",
+      "Count": 1,
+      "Example": "g . D ( \"lunghezza\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "AF52453644F313EA47C0D28F60658ABE536ED3C804C2D85E9E65E06872DFECC8",
+      "Count": 1,
+      "Example": "s . D ( \"quota_risultante_m\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "E4E6438C6E45429EA483FE84369FE2A9D13799D105DC9B0591C7AE196C626F7B",
+      "Count": 1,
+      "Example": "s . D ( \"inversione_reazioni_m\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "E7133EEFF55BFDE22AAC10CDC2C00CF5C3C50AD72EDE14A5DEF5DFA860BD1213",
+      "Count": 3,
+      "Example": "result . D ( \"momento_resistente_knm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.Build",
+      "Fingerprint": "F3620E53F588F78E441BB7EFD533F0C3220BBC3337981BFF5F58579B17D0121B",
+      "Count": 1,
+      "Example": "layers [ i ] . D ( \"spessore\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPileDiagrams.PhysicalDiagram",
+      "Fingerprint": "42D267F5A5354B4DC07EE0A5A83E0A15374BBE650180CA8CB3EC63355DA1E249",
+      "Count": 2,
+      "Example": "r . D ( \"z\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.ApplySectionMaterial",
+      "Fingerprint": "D4838D20BF7262E5A5B2978F5B4E3634BA47EF786842A6B84B6142F2B317B24D",
+      "Count": 1,
+      "Example": "section . D ( \"fck_mpa\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.ResultMoment",
+      "Fingerprint": "760752728419634D8835DF963FB62C67538952E1A9363181CCB509269FA98991",
+      "Count": 1,
+      "Example": "result . D ( \"momento_resistente_knm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "24436FFC1B84449E04726117A5193EFF6C08066569984617D026D41BB6EE29E5",
+      "Count": 1,
+      "Example": "s . D ( \"momento_massimo_knm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "519CB8BF0FAA6C03496FB5DA586DA3DF69BCF3705B08638E9B799CBD62EF4026",
+      "Count": 1,
+      "Example": "s . D ( \"residuo_forza_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "6188FE87A6DD6308B835F16AE650F45D5CB67F5A0976683E02DE5F360F758925",
+      "Count": 2,
+      "Example": "r . D ( \"z\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "681D1D1468CC85FFFE53CF59D929D25D696CD3FFB68B92C7F3F9C464FEAD81A6",
+      "Count": 1,
+      "Example": "r . D ( \"strato\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "6F02DEAD35487C03E398E81A4CE69EF41F7BCAD3BF3B749743F1BED1BA8DE3CE",
+      "Count": 1,
+      "Example": "s . D ( \"residuo_momento_knm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "7596C483D0B6068E702ACEC9147A9D33214452B114497FCDDAB57B4DA72301F5",
+      "Count": 1,
+      "Example": "r . D ( \"u_kpa\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "832C1DFC34DACADBE0CFE2BDCF1C8AA1B1D9EA2C3A1E92EAA5816467C9D47AE7",
+      "Count": 1,
+      "Example": "r . D ( \"q_lim_kpa\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "93BDF1CFE82BCA2AC79C9E1115B8894D891E270B7DAAE3A2840C765F04C30D11",
+      "Count": 1,
+      "Example": "s . D ( \"quota_risultante_m\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "9C48A2942EC82297B14EBCCB3DF96239055011654533C0862F88C4064F06F529",
+      "Count": 1,
+      "Example": "r . D ( \"p_lim_kn_m\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "B2DEE0FBDA7A1533CB60C05030DA9AB8F6F1F26456ADE72CDFA0E26793C677BE",
+      "Count": 1,
+      "Example": "s . D ( \"quota_momento_massimo_m\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "B66928CDC243C7D3AA3D87F860DE5F762DB31E803F1F901D48203C4AD49076DF",
+      "Count": 1,
+      "Example": "s . D ( \"risultante_concentrata_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "BB4F416DA600ABE42491A1FE8132EB7AC67FEFDFDD244EF66589B0BD6021C654",
+      "Count": 1,
+      "Example": "r . D ( \"v_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "C66AC1D2C4D1144B3888E7FB267896F7D22DF55D1F0FF7087A2A17586CC12D06",
+      "Count": 1,
+      "Example": "s . D ( \"capacita_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "C763680B89E7CB9F0EFA2A418F185C1B1C397F0A744EE12439F46584AE774DD7",
+      "Count": 1,
+      "Example": "r . D ( \"m_knm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "C9C2A7AB2983B299B52F90D559EB7669A4CEBFD5B1C6D371BFE5D3E34EF01226",
+      "Count": 1,
+      "Example": "r . D ( \"q_integrale_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "D110A552A7B506DB587491A4348765A3A54558A082146576CB7B012FECB39081",
+      "Count": 1,
+      "Example": "r . D ( \"p_kn_m\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "D77C4A4896947931C18A7CCF79A6D4F5FBD4709E7017595A115DE675ED4F7E99",
+      "Count": 1,
+      "Example": "r . D ( \"sigma_eff_kpa\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "EDF71C4E4B01E0921088584326FB492984422AB6D93C779AD060C578BDE4DA4B",
+      "Count": 1,
+      "Example": "r . D ( \"sigma_v_kpa\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Results",
+      "Fingerprint": "F24AC5E218E2EA943E53140B4373D456F4F5D58C7F6D3FB8A35B401E6246CF09",
+      "Count": 1,
+      "Example": "r . D ( \"capacita_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.SectionMoment",
+      "Fingerprint": "1D7CCE69635B6DB36263C812D4FB54C3854AC44C8F8EBC33007AC644897121BE",
+      "Count": 1,
+      "Example": "section . D ( \"classe\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.SectionMoment",
+      "Fingerprint": "4004A2FC7DBCEF829957E28D8B3239C4D1D1727A9141E12AAE2EDEB931374B6E",
+      "Count": 2,
+      "Example": "section . D ( \"n_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.SectionMoment",
+      "Fingerprint": "62C49E9D75D3632946CB3E4514AEED10E583A342BB3262B82C155F04CECDF47E",
+      "Count": 1,
+      "Example": "section . D ( \"tolleranza_n_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.SectionMoment",
+      "Fingerprint": "A5F0575FAED7457D15DAB7A8DEF6E1B5035D8C35E57DCB93337BC71C340BEA2A",
+      "Count": 1,
+      "Example": "section . D ( \"lati_contorno\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.SectionMoment",
+      "Fingerprint": "D207CD7355A55F1E456DBF9B5DCADCF2E569AEA2CCB387C17247621257C78606",
+      "Count": 1,
+      "Example": "section . D ( \"residuo_n_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.SectionMoment",
+      "Fingerprint": "EB8E51E6E2EDEAA0C49CB588BF6901E922C314F1437E6819B24FF6620511045E",
+      "Count": 2,
+      "Example": "section . D ( \"momento_knm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Summary",
+      "Fingerprint": "1397F4FB6730E33CE7D808AA22D0743C360C7DEEF8E25B3E0FA40FC2B1933D96",
+      "Count": 1,
+      "Example": "result . D ( \"sondaggio_governante\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Summary",
+      "Fingerprint": "3E0AE5FD92869229B691158889E076CE95DEF88BC2470F6645BE3D0FD8A6B419",
+      "Count": 1,
+      "Example": "result . D ( \"rapporto_meccanico\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Summary",
+      "Fingerprint": "F3EBCBEB860E61C6707AFBC2927C4455D3C912F61B340C3321665C56199709C3",
+      "Count": 1,
+      "Example": "result . D ( \"momento_resistente_knm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Verification.Number",
+      "Fingerprint": "2E36A1CEAE23CCA40C5AEEDB0C477F423412365E80D9CC717507714613F25E0D",
+      "Count": 1,
+      "Example": "result . D ( key )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Verification",
+      "Fingerprint": "D0804E686F36418DAC05E40AE14BF905FD9B4FD933C3D8405CAC6DC7ABB1DAE6",
+      "Count": 1,
+      "Example": "result ! . D ( \"azione_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "HorizontalPilePresentation.Verification",
+      "Fingerprint": "D4717156AA68898FCB8126B3C9D7BEF90A960DD4F89AF0E6873816EE87AD06CB",
+      "Count": 1,
+      "Example": "result . D ( \"resistenza_progetto_manuale_kn\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "HorizontalPilePresentation.LayerName",
+      "Fingerprint": "1EA41D15B4ADE4BBD2590F82D97BBCBB9707BE4D465E698F630F081F509C39CF",
+      "Count": 1,
+      "Example": "26"
     },
     {
       "File": "src/ANTHEA.Application/Projects/ProjectConcreteFields.cs",

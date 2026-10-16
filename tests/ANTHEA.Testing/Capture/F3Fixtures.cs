@@ -79,6 +79,7 @@ public static class F3Fixtures
         MaterialsF55(cases);
         VerticalPileF56(cases);
         ShallowFoundationF59b(cases);
+        HorizontalPileF57(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -354,6 +355,7 @@ public static class F3Fixtures
             d["stratigrafie"] = new JsonArray(new JsonArray(MicroLayer(soils[2], "12", "IGU")));
         });
     }
+
     /// <summary>
     /// Shallow foundation fixtures added before the F5.9b preparation (proposal F5, section 7.2: capture first, with the historic
     /// view FoundationWorkspace): every method (EC7, Terzaghi, Meyerhof, Brinch Hansen, Vesić), the three shapes, the drained and
@@ -439,6 +441,90 @@ public static class F3Fixtures
             d.Remove("stratigrafie"); d.Remove("generali"); d.Remove("sezione"); d["versione_fondazioni"] = 1;
             i["Depth"] = "0"; i["WaterEnabled"] = true; i["WaterDepth"] = "0,6"; i["FrictionAngle"] = "34"; i["UnitWeight"] = "19"; i["SaturatedUnitWeight"] = "21";
             d["azioni_confermate"] = true;
+        });
+    }
+
+    /// <summary>
+    /// Horizontal pile and micropile fixtures added before the F5.7 preparation (proposal F5, section 7.2: capture first, with the
+    /// historic view HorizontalWorkspace), all on the capacity tab (the elastic response is F5.8): Broms with the head restrained (short and
+    /// intermediate mechanisms) and with the head free, the stratified method on mixed sequences, groundwater with its unit weight, eccentricity and axial force,
+    /// several surveys, the efficiency of Reese and Van Impe with spacings and the manual one, ξ of more investigated verticals, the
+    /// moment from the c.a. section (second inner ring, unit coefficients), from the CHS section (catalogue and manual tube) and manual,
+    /// and two calculations that stop with missing data (mixed sequence with Broms, a survey shorter than the pile). Documents as the
+    /// sheet writes them: texts for the typed values (also with a decimal comma), JSON booleans for the options. The identifiers never
+    /// end in "default", which the F3 project report collects.
+    /// </summary>
+    static void HorizontalPileF57(List<CaptureCase> cases)
+    {
+        void Added(string module, string id, Action<JsonObject, JsonObject, JsonObject, JsonObject> alter)
+        {
+            var data = ModuleCatalog.CreateData(module);
+            alter(data, data["generali"]!.AsObject(), data["sezione"]!.AsObject(), data["verifica"]!.AsObject());
+            cases.Add(new(module, id, "Fixture sintetica F5.7 (proposta F5 7.2, cattura prima con la vista storica)", null, data));
+        }
+        static JsonObject Layer(string type, string thickness, string gamma, string saturated, string phi, string undrained = "0") =>
+            J.Obj(("tipologia", type), ("spessore", thickness), ("peso_specifico", gamma), ("peso_specifico_saturo", saturated),
+                ("angolo_attrito", phi), ("coesione_non_drenata", undrained), ("coesione_efficace", "0"));
+        static void Efficiency(JsonObject v, string front, string back, string left, string right)
+        {
+            v["efficienza_metodo"] = "Reese & Van Impe (foglio)"; v["efficienza_eta"] = "1";
+            v["interasse_anteriore"] = front; v["interasse_posteriore"] = back; v["interasse_sinistro"] = left; v["interasse_destro"] = right;
+        }
+
+        // A short pile in cohesive soils with Broms and the head restrained (short mechanism in the first survey, intermediate in the
+        // second), groundwater with its unit weight, axial force, ξ of three verticals, efficiency of Reese and Van Impe; moment of the
+        // c.a. section with a second inner ring of bars.
+        Added(PaloOrizzontale.Module, "broms-coesivo-impedita", (d, g, s, v) => {
+            g["diametro"] = "0.8"; g["lunghezza"] = "3"; g["vincolo"] = "Impedita";
+            g["azione_orizzontale"] = "350"; g["azione_assiale"] = "800"; g["presenza_falda"] = true; g["profondita_falda"] = "2"; g["gamma_acqua"] = "10";
+            s["longitudinal_bar_count"] = "18"; s["longitudinal_bar_diameter_mm"] = "26"; s["cover_mm"] = "60";
+            s["second_inner_enabled"] = true; s["second_inner_count"] = "8"; s["second_inner_diameter"] = "20"; s["second_inner_gap"] = "30";
+            v["verticali_indagate"] = "3"; Efficiency(v, "2.4", "2,4", "3", "3");
+            d["stratigrafie"] = new JsonArray(
+                new JsonArray(Layer("Coesivo", "4", "18", "19", "0", "40"), Layer("Coesivo", "10", "19", "20", "0", "90")),
+                new JsonArray(Layer("Coesivo", "14", "18.5", "19.5", "0", "60")));
+        });
+        // Stratified method on a mixed sequence (experimental model) with groundwater, head free, manual moment with its source, unit
+        // coefficients of the section, manual efficiency and ξ of at least ten verticals.
+        Added(PaloOrizzontale.Module, "stratificato-misto-manuale", (d, g, s, v) => {
+            g["diametro"] = "1.2"; g["lunghezza"] = "16"; g["metodo_calcolo"] = PaloOrizzontale.StratifiedMethod;
+            g["azione_orizzontale"] = "600"; g["presenza_falda"] = true; g["profondita_falda"] = "3,5";
+            g["origine_momento"] = "Manuale"; g["momento_resistente"] = "2500"; g["provenienza_momento"] = "Verifica della sezione esterna";
+            s["coefficienti_unitari"] = true;
+            v["verticali_indagate"] = "≥10"; v["efficienza_eta"] = "0,85";
+            d["stratigrafie"] = new JsonArray(new JsonArray(Layer("Granulare", "3", "18", "20", "28"), Layer("Coesivo", "5", "19", "20", "0", "50"),
+                Layer("Granulare", "10", "19", "21", "34")));
+        });
+        // Broms with a mixed sequence in the second survey and a first survey shorter than the pile: the calculation stops with «Dati da
+        // completare» while the moment of the section is shown.
+        Added(PaloOrizzontale.Module, "dati-incompleti", (d, g, s, v) => {
+            g["diametro"] = "1"; g["lunghezza"] = "12"; g["azione_orizzontale"] = "250";
+            d["stratigrafie"] = new JsonArray(new JsonArray(Layer("Granulare", "8", "18", "20", "32")),
+                new JsonArray(Layer("Granulare", "5", "18", "20", "30"), Layer("Coesivo", "9", "19", "20", "0", "70")));
+        });
+        // Manual CHS tube with grout weight, head restrained, groundwater, two granular surveys, ξ of two verticals, efficiency of Reese
+        // and Van Impe.
+        Added(MicropaloOrizzontale.Module, "chs-manuale-impedita", (d, g, s, v) => {
+            g["diametro"] = "0.3"; g["lunghezza"] = "9"; g["vincolo"] = "Impedita"; g["azione_orizzontale"] = "60"; g["azione_assiale"] = "150";
+            g["presenza_falda"] = true; g["profondita_falda"] = "1,5";
+            s["modo_chs"] = "Manuale"; s["diametro_chs_mm"] = "168.3"; s["spessore_chs_mm"] = "10"; s["gamma_iniezione"] = "22";
+            v["verticali_indagate"] = "2"; Efficiency(v, "0.9", "1.2", "0.9", "0,9");
+            d["stratigrafie"] = new JsonArray(new JsonArray(Layer("Granulare", "4", "18", "20", "30"), Layer("Granulare", "6", "19", "21", "35")),
+                new JsonArray(Layer("Granulare", "10", "18.5", "20.5", "32")));
+        });
+        // Stratified method on a mixed sequence, eccentricity, the moment of a CHS of the catalogue and manual efficiency.
+        Added(MicropaloOrizzontale.Module, "stratificato-chs-catalogo", (d, g, s, v) => {
+            g["diametro"] = "0.25"; g["lunghezza"] = "12"; g["eccentricita"] = "0.3"; g["metodo_calcolo"] = PaloOrizzontale.StratifiedMethod;
+            g["azione_orizzontale"] = "40";
+            s["profilo_chs"] = "CHS 193.7 × 12.5";
+            v["efficienza_eta"] = "0.9";
+            d["stratigrafie"] = new JsonArray(new JsonArray(Layer("Coesivo", "4", "18", "19", "0", "35"), Layer("Granulare", "8", "19", "21", "33")));
+        });
+        // Manual CHS tube without thickness: section and capacity stop with missing data.
+        Added(MicropaloOrizzontale.Module, "dati-incompleti", (d, g, s, v) => {
+            g["diametro"] = "0.24"; g["lunghezza"] = "10"; g["azione_orizzontale"] = "50";
+            s["modo_chs"] = "Manuale"; s["diametro_chs_mm"] = "139.7"; s["spessore_chs_mm"] = "";
+            d["stratigrafie"] = new JsonArray(new JsonArray(Layer("Granulare", "10", "18", "20", "31")));
         });
     }
 }

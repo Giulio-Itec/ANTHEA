@@ -1,1 +1,1 @@
-PASS 69 fixture; 71 articoli; 30 ricerche; report progetto.
+PASS 75 fixture; 71 articoli; 30 ricerche; report progetto.

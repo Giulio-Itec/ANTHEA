@@ -121,7 +121,7 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
         }
         if (module is HorizontalPileEditor.Module or MicropaloOrizzontale.Module)
         {
-            horizontal = new HorizontalWorkspace(Data); horizontal.Modified += () => Modified?.Invoke(); Content = Ui.Dock(horizontal, Ui.Bar(Ui.Button("Invia / carica terreno…", OpenSoilTransfer))); building = false; return;
+            horizontal = new HorizontalWorkspace(Data, calculationService); horizontal.Modified += () => Modified?.Invoke(); Content = Ui.Dock(horizontal, Ui.Bar(Ui.Button("Invia / carica terreno…", OpenSoilTransfer))); building = false; return;
         }
         if (module == "mat_calcestruzzo")
         {

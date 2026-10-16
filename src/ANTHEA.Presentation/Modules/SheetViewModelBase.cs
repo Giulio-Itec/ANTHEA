@@ -46,6 +46,7 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
 {
     private readonly ModuleCalculationSession session;
     private readonly SheetCalculation<ModuleCalculation> calculation;
+    private ModuleCalculation? reviewed;
     private bool readOnly;
     private long revision;
 
@@ -66,7 +67,7 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
         Guard = new CommandGuard(context.Services.Messages);
         // As SheetCalculation.ForModule: the module service with the per-document cache of the session, cleared at closing.
         session = new ModuleCalculationSession(context.Calculation);
-        calculation = new SheetCalculation<ModuleCalculation>(session.Calculate, SheetCalculation.Review, automaticDelay ?? TimeSpan.Zero, context.Limiter, session.Clear);
+        calculation = new SheetCalculation<ModuleCalculation>(session.Calculate, Review, automaticDelay ?? TimeSpan.Zero, context.Limiter, session.Clear);
         calculation.PropertyChanged += OnCalculationChanged;
         calculation.Published += OnPublished;
     }
@@ -225,6 +226,23 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     /// </summary>
     protected virtual ModuleCalculation CalculateSynchronously() => CalculateModule(Data);
 
+    /// <summary>
+    /// The calculation published last (F5.7): the value of the service of the module, also when the result is incomplete, so that a
+    /// module reads its typed part (<see cref="ModuleCalculation.Native"/>) in <see cref="OnCalculationPublished"/>; null after a
+    /// failure or a change of the data. Nothing changes for the modules that do not read it.
+    /// </summary>
+    protected ModuleCalculation? PublishedCalculation { get; private set; }
+
+    /// <summary>
+    /// Cancels the pending or running calculation without clearing the published result (F5.7: the horizontal pile when the elastic tab
+    /// is chosen, as its historic view): the cancelled request is never published.
+    /// </summary>
+    protected void CancelCalculation()
+    {
+        ThrowIfDisposed();
+        calculation.Cancel();
+    }
+
     /// <summary>The calculation service of the module on <paramref name="data"/>, through the per-document cache of the sheet (the session copies the data).</summary>
     protected ModuleCalculation CalculateModule(JsonObject data) => session.Calculate(data);
 
@@ -249,6 +267,7 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     private void NewRevision()
     {
         revision++;
+        PublishedCalculation = null;
         calculation.Invalidate();
         OnPropertyChanged(nameof(Revision));
         if (AutomaticDelay is not null) PendingCalculation = ScheduleRecalculationAsync();
@@ -257,7 +276,19 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     private Task<bool> ScheduleRecalculationAsync() => CalculationMode == SheetCalculationMode.Synchronous
         ? calculation.ScheduleNowAsync(CalculateSynchronously) : calculation.ScheduleAsync(Data);
 
-    private void OnPublished(object? sender, EventArgs e) => OnCalculationPublished();
+    // The value reviewed for the publication under way (on the calling thread, just before it): kept for PublishedCalculation.
+    private CalculationReview Review(ModuleCalculation value)
+    {
+        reviewed = value;
+        return SheetCalculation.Review(value);
+    }
+
+    private void OnPublished(object? sender, EventArgs e)
+    {
+        PublishedCalculation = CalculationState == CalculationState.Failed ? null : reviewed;
+        reviewed = null;
+        OnCalculationPublished();
+    }
 
     private void OnCalculationChanged(object? sender, PropertyChangedEventArgs e)
     {

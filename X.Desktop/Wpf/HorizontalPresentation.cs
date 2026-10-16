@@ -1,4 +1,6 @@
 using System.Text.Json.Nodes;
+using Anthea.Application.Presentation;
+using Anthea.Presentation.Modules.HorizontalPile;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -95,22 +97,22 @@ internal sealed partial class HorizontalWorkspace
     private void UpdateVerification()
     {
         profile.HorizontalResult = Result; profile.InvalidateVisual();
-        string Number(string key) => Result?[key] is null ? "—" : Result.D(key).ToString("N1");
-        var panel = Ui.Stack(CenteredTable(["Grandezza", "Valore [kN]"], new[] {
-            new[] { "Azione orizzontale HEd", Number("azione_kn") }, new[] { "Capacità ultima Hu", Number("capacita_kn") },
-            new[] { "Resistenza caratteristica Rk", Number("resistenza_caratteristica_manuale_kn") },
-            new[] { "Resistenza di progetto Rd", Number("resistenza_progetto_manuale_kn") } }, 650));
-        bool available = Result?["resistenza_progetto_manuale_kn"] is not null;
-        bool satisfied = available && Result!.D("azione_kn") <= Result.D("resistenza_progetto_manuale_kn");
-        string outcome = Result is null ? "Da calcolare" : !available ? "Verifica non eseguita: Rd non determinata" :
-            satisfied ? "Verifica soddisfatta" : "Verifica non soddisfatta";
-        var label = Ui.Text(outcome, 14, true, !available ? Ui.Muted : satisfied ? Ui.Brush("#16703C") : Ui.Brush("#B42318"));
+        var shown = HorizontalPilePresentation.Verification(Result);
+        var panel = Ui.Stack(CenteredTable(HorizontalPilePresentation.VerificationColumns.ToArray(), shown.Rows, 650));
+        var label = Ui.Text(shown.Outcome, 14, true, shown.Kind switch
+        {
+            HorizontalVerificationOutcome.Satisfied => Ui.Brush("#16703C"),
+            HorizontalVerificationOutcome.NotSatisfied => Ui.Brush("#B42318"),
+            _ => Ui.Muted
+        });
         label.TextAlignment = TextAlignment.Center; label.Margin = new Thickness(0, 8, 0, 8); panel.Children.Add(label);
         verification.Content = panel;
     }
 
-    private static JsonObject NewLayer() => J.Obj(("tipologia", "Granulare"), ("spessore", "0"), ("peso_specifico", "0"),
-        ("peso_specifico_saturo", "0"), ("angolo_attrito", "0"), ("coesione_non_drenata", "0"), ("coesione_efficace", "0"));
+    private static void Group(InputForm form, IEnumerable<HorizontalPileFieldGroup> groups)
+    {
+        foreach (var group in groups) form.GroupFields(group.Title, group.Keys.ToArray(), group.Expanded);
+    }
 
     private void DeleteSurvey(JsonArray survey, bool confirm = true)
     {

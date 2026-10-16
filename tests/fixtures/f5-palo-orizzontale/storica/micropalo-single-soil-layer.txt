@@ -1,0 +1,840 @@
+== apertura
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}}}
+modificato 0 · modificabile sì · esportabile no · dettagli no · scheda 0
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro geotecnico micropalo" = "0.24"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione CHS" voci "Sezione CHS|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta modo_chs "Inserimento CHS" = "Catalogo" voci "Catalogo|Manuale"
+  scelta profilo_chs "Catalogo ANTHEA" = "CHS 139.7 × 8" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo diametro_chs_mm "Diametro esterno manuale" = "139.7" · spento · attenuato
+  campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
+  campo fy_chs_mpa "Snervamento acciaio" = "355"
+  campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
+  campo gamma_m0 "Sicurezza resistenza" = "1.05"
+  campo __fyd "Resistenza di progetto" = "338,1"
+  campo __diametro_mm "Diametro adottato" = "139,7"
+  campo __spessore_mm "Spessore adottato" = "8,0"
+  campo __area_mm2 "Area acciaio" = "3.310,0"
+  campo __inerzia_mm4 "Momento d’inerzia" = "7.202.889,1"
+  campo __wel_mm3 "Modulo elastico" = "103.119,4"
+  campo __wpl_mm3 "Modulo plastico" = "138.929,8"
+  campo __massa_kg_m "Massa lineare acciaio" = "26,0"
+  campo __classe "Classe sezione" = "1"
+  campo __npl_kn "Resistenza assiale sezione" = "1.119,1"
+  campo __mpl_knm "Momento plastico N=0" = "47,0"
+  gruppo "Tubolare CHS" modo_chs|profilo_chs|diametro_chs_mm|spessore_chs_mm · aperto
+  gruppo "Acciaio" fy_chs_mpa|modulo_chs_mpa|gamma_m0|__fyd · aperto
+  gruppo "Proprietà della sezione" __diametro_mm|__spessore_mm|__area_mm2|__inerzia_mm4|__wel_mm3|__wpl_mm3|__massa_kg_m|__classe|__npl_kn|__mpl_knm · aperto
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione - · chs 1A78A2609F256408
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}}}
+modificato 0 · modificabile sì · esportabile no · dettagli no · scheda 0
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro geotecnico micropalo" = "0.24"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione CHS" voci "Sezione CHS|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta modo_chs "Inserimento CHS" = "Catalogo" voci "Catalogo|Manuale"
+  scelta profilo_chs "Catalogo ANTHEA" = "CHS 139.7 × 8" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo diametro_chs_mm "Diametro esterno manuale" = "139.7" · spento · attenuato
+  campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
+  campo fy_chs_mpa "Snervamento acciaio" = "355"
+  campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
+  campo gamma_m0 "Sicurezza resistenza" = "1.05"
+  campo __fyd "Resistenza di progetto" = "338,1"
+  campo __diametro_mm "Diametro adottato" = "139,7"
+  campo __spessore_mm "Spessore adottato" = "8,0"
+  campo __area_mm2 "Area acciaio" = "3.310,0"
+  campo __inerzia_mm4 "Momento d’inerzia" = "7.202.889,1"
+  campo __wel_mm3 "Modulo elastico" = "103.119,4"
+  campo __wpl_mm3 "Modulo plastico" = "138.929,8"
+  campo __massa_kg_m "Massa lineare acciaio" = "26,0"
+  campo __classe "Classe sezione" = "1"
+  campo __npl_kn "Resistenza assiale sezione" = "1.119,1"
+  campo __mpl_knm "Momento plastico N=0" = "47,0"
+  gruppo "Tubolare CHS" modo_chs|profilo_chs|diametro_chs_mm|spessore_chs_mm · aperto
+  gruppo "Acciaio" fy_chs_mpa|modulo_chs_mpa|gamma_m0|__fyd · aperto
+  gruppo "Proprietà della sezione" __diametro_mm|__spessore_mm|__area_mm2|__inerzia_mm4|__wel_mm3|__wpl_mm3|__massa_kg_m|__classe|__npl_kn|__mpl_knm · aperto
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione - · chs 1A78A2609F256408
+== scheda [1]
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"elastico"}
+modificato 1 · modificabile sì · esportabile no · dettagli no · scheda 1
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro geotecnico micropalo" = "0.24"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione CHS" voci "Sezione CHS|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta modo_chs "Inserimento CHS" = "Catalogo" voci "Catalogo|Manuale"
+  scelta profilo_chs "Catalogo ANTHEA" = "CHS 139.7 × 8" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo diametro_chs_mm "Diametro esterno manuale" = "139.7" · spento · attenuato
+  campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
+  campo fy_chs_mpa "Snervamento acciaio" = "355"
+  campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
+  campo gamma_m0 "Sicurezza resistenza" = "1.05"
+  campo __fyd "Resistenza di progetto" = "338,1"
+  campo __diametro_mm "Diametro adottato" = "139,7"
+  campo __spessore_mm "Spessore adottato" = "8,0"
+  campo __area_mm2 "Area acciaio" = "3.310,0"
+  campo __inerzia_mm4 "Momento d’inerzia" = "7.202.889,1"
+  campo __wel_mm3 "Modulo elastico" = "103.119,4"
+  campo __wpl_mm3 "Modulo plastico" = "138.929,8"
+  campo __massa_kg_m "Massa lineare acciaio" = "26,0"
+  campo __classe "Classe sezione" = "1"
+  campo __npl_kn "Resistenza assiale sezione" = "1.119,1"
+  campo __mpl_knm "Momento plastico N=0" = "47,0"
+  gruppo "Tubolare CHS" modo_chs|profilo_chs|diametro_chs_mm|spessore_chs_mm · aperto
+  gruppo "Acciaio" fy_chs_mpa|modulo_chs_mpa|gamma_m0|__fyd · aperto
+  gruppo "Proprietà della sezione" __diametro_mm|__spessore_mm|__area_mm2|__inerzia_mm4|__wel_mm3|__wpl_mm3|__massa_kg_m|__classe|__npl_kn|__mpl_knm · aperto
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione - · chs 1A78A2609F256408
+== scheda [0]
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 2 · modificabile sì · esportabile no · dettagli no · scheda 0
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro geotecnico micropalo" = "0.24"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione CHS" voci "Sezione CHS|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta modo_chs "Inserimento CHS" = "Catalogo" voci "Catalogo|Manuale"
+  scelta profilo_chs "Catalogo ANTHEA" = "CHS 139.7 × 8" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo diametro_chs_mm "Diametro esterno manuale" = "139.7" · spento · attenuato
+  campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
+  campo fy_chs_mpa "Snervamento acciaio" = "355"
+  campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
+  campo gamma_m0 "Sicurezza resistenza" = "1.05"
+  campo __fyd "Resistenza di progetto" = "338,1"
+  campo __diametro_mm "Diametro adottato" = "139,7"
+  campo __spessore_mm "Spessore adottato" = "8,0"
+  campo __area_mm2 "Area acciaio" = "3.310,0"
+  campo __inerzia_mm4 "Momento d’inerzia" = "7.202.889,1"
+  campo __wel_mm3 "Modulo elastico" = "103.119,4"
+  campo __wpl_mm3 "Modulo plastico" = "138.929,8"
+  campo __massa_kg_m "Massa lineare acciaio" = "26,0"
+  campo __classe "Classe sezione" = "1"
+  campo __npl_kn "Resistenza assiale sezione" = "1.119,1"
+  campo __mpl_knm "Momento plastico N=0" = "47,0"
+  gruppo "Tubolare CHS" modo_chs|profilo_chs|diametro_chs_mm|spessore_chs_mm · aperto
+  gruppo "Acciaio" fy_chs_mpa|modulo_chs_mpa|gamma_m0|__fyd · aperto
+  gruppo "Proprietà della sezione" __diametro_mm|__spessore_mm|__area_mm2|__inerzia_mm4|__wel_mm3|__wpl_mm3|__massa_kg_m|__classe|__npl_kn|__mpl_knm · aperto
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione - · chs 1A78A2609F256408
+== attendi
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 2 · modificabile sì · esportabile sì · dettagli sì · scheda 0
+risultato 49AE1CAB65FA954C
+stato "Calcolo completato · diagrammi alla capacità ultima"
+sintesi "Lungo · stratigrafia 1\nMy = 47,0 kNm\nHEd / Hu = 218,0%\nVerifica normativa incompleta."
+momento "My(N) = 47,0 kNm · N = 0,0 kN\nCHS classe 1 · solo acciaio · interazione N–M lineare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nSolo acciaio CHS, classe 1 secondo limiti D/t con ε²=235/fy. My = Wpl·fy/γM0·(1−|N|/Npl). Interazione lineare conservativa N–M; riempimento escluso. Non verifica instabilità globale, taglio, giunti, corrosione o capacità di rotazione delle connessioni. fy deve essere appropriato a materiale e spessore."
+form generali
+  campo diametro "Diametro geotecnico micropalo" = "0.24"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione CHS" voci "Sezione CHS|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta modo_chs "Inserimento CHS" = "Catalogo" voci "Catalogo|Manuale"
+  scelta profilo_chs "Catalogo ANTHEA" = "CHS 139.7 × 8" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo diametro_chs_mm "Diametro esterno manuale" = "139.7" · spento · attenuato
+  campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
+  campo fy_chs_mpa "Snervamento acciaio" = "355"
+  campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
+  campo gamma_m0 "Sicurezza resistenza" = "1.05"
+  campo __fyd "Resistenza di progetto" = "338,1"
+  campo __diametro_mm "Diametro adottato" = "139,7"
+  campo __spessore_mm "Spessore adottato" = "8,0"
+  campo __area_mm2 "Area acciaio" = "3.310,0"
+  campo __inerzia_mm4 "Momento d’inerzia" = "7.202.889,1"
+  campo __wel_mm3 "Modulo elastico" = "103.119,4"
+  campo __wpl_mm3 "Modulo plastico" = "138.929,8"
+  campo __massa_kg_m "Massa lineare acciaio" = "26,0"
+  campo __classe "Classe sezione" = "1"
+  campo __npl_kn "Resistenza assiale sezione" = "1.119,1"
+  campo __mpl_knm "Momento plastico N=0" = "47,0"
+  gruppo "Tubolare CHS" modo_chs|profilo_chs|diametro_chs_mm|spessore_chs_mm · aperto
+  gruppo "Acciaio" fy_chs_mpa|modulo_chs_mpa|gamma_m0|__fyd · aperto
+  gruppo "Proprietà della sezione" __diametro_mm|__spessore_mm|__area_mm2|__inerzia_mm4|__wel_mm3|__wpl_mm3|__massa_kg_m|__classe|__npl_kn|__mpl_knm · aperto
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Verifica non soddisfatta" non-soddisfatta
+  "Azione orizzontale HEd" | "100,0"
+  "Capacità ultima Hu" | "45,9"
+  "Resistenza caratteristica Rk" | "27,0"
+  "Resistenza di progetto Rd" | "20,8"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione - · chs 1A78A2609F256408
+risultati sondaggio 1 · "Lungo · Hu 45,9 kN · |M|max 47,0 kNm a z=1,5 m\nResidui: H 0,0 kN · M 0,0 kNm · Raggiunta\nCerniere z [m]: 1,5 · Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio."
+  tabella "Tabella terreno" colonne "z [m]|Lato|Strato|σv [kPa]|u [kPa]|σ′v [kPa]|q_lim [kPa]|p_lim [kN/m]|Q [kN]" righe 204 C33E8CA917FD0D4C
+    "0,000" | "dopo" | "1" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00"
+    "0,100" | "prima" | "1" | "1,80" | "0,00" | "1,80" | "16,20" | "3,89" | "0,19"
+  tabella "Tabella" colonne "z [m]|Lato|p [kN/m]|V [kN]|M [kNm]" righe 104 502F609F530C7C2C
+    "0,0" | "nodo" | "0,0" | "45,9" | "0,0"
+    "0,1" | "nodo" | "3,9" | "45,7" | "4,6"
+  tabella "Meccanismi" colonne "Meccanismo|H [kN]|Stato" righe 2 A81D071E463B0196
+    "Corto" | "648,0" | "Candidato non governante; limite precedente già raggiunto"
+    "Lungo" | "45,9" | "Ammissibile, governante"
+== calcola
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 2 · modificabile sì · esportabile sì · dettagli sì · scheda 0
+risultato 49AE1CAB65FA954C
+stato "Calcolo completato · diagrammi alla capacità ultima"
+sintesi "Lungo · stratigrafia 1\nMy = 47,0 kNm\nHEd / Hu = 218,0%\nVerifica normativa incompleta."
+momento "My(N) = 47,0 kNm · N = 0,0 kN\nCHS classe 1 · solo acciaio · interazione N–M lineare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nSolo acciaio CHS, classe 1 secondo limiti D/t con ε²=235/fy. My = Wpl·fy/γM0·(1−|N|/Npl). Interazione lineare conservativa N–M; riempimento escluso. Non verifica instabilità globale, taglio, giunti, corrosione o capacità di rotazione delle connessioni. fy deve essere appropriato a materiale e spessore."
+form generali
+  campo diametro "Diametro geotecnico micropalo" = "0.24"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione CHS" voci "Sezione CHS|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta modo_chs "Inserimento CHS" = "Catalogo" voci "Catalogo|Manuale"
+  scelta profilo_chs "Catalogo ANTHEA" = "CHS 139.7 × 8" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo diametro_chs_mm "Diametro esterno manuale" = "139.7" · spento · attenuato
+  campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
+  campo fy_chs_mpa "Snervamento acciaio" = "355"
+  campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
+  campo gamma_m0 "Sicurezza resistenza" = "1.05"
+  campo __fyd "Resistenza di progetto" = "338,1"
+  campo __diametro_mm "Diametro adottato" = "139,7"
+  campo __spessore_mm "Spessore adottato" = "8,0"
+  campo __area_mm2 "Area acciaio" = "3.310,0"
+  campo __inerzia_mm4 "Momento d’inerzia" = "7.202.889,1"
+  campo __wel_mm3 "Modulo elastico" = "103.119,4"
+  campo __wpl_mm3 "Modulo plastico" = "138.929,8"
+  campo __massa_kg_m "Massa lineare acciaio" = "26,0"
+  campo __classe "Classe sezione" = "1"
+  campo __npl_kn "Resistenza assiale sezione" = "1.119,1"
+  campo __mpl_knm "Momento plastico N=0" = "47,0"
+  gruppo "Tubolare CHS" modo_chs|profilo_chs|diametro_chs_mm|spessore_chs_mm · aperto
+  gruppo "Acciaio" fy_chs_mpa|modulo_chs_mpa|gamma_m0|__fyd · aperto
+  gruppo "Proprietà della sezione" __diametro_mm|__spessore_mm|__area_mm2|__inerzia_mm4|__wel_mm3|__wpl_mm3|__massa_kg_m|__classe|__npl_kn|__mpl_knm · aperto
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Verifica non soddisfatta" non-soddisfatta
+  "Azione orizzontale HEd" | "100,0"
+  "Capacità ultima Hu" | "45,9"
+  "Resistenza caratteristica Rk" | "27,0"
+  "Resistenza di progetto Rd" | "20,8"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione - · chs 1A78A2609F256408
+risultati sondaggio 1 · "Lungo · Hu 45,9 kN · |M|max 47,0 kNm a z=1,5 m\nResidui: H 0,0 kN · M 0,0 kNm · Raggiunta\nCerniere z [m]: 1,5 · Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio."
+  tabella "Tabella terreno" colonne "z [m]|Lato|Strato|σv [kPa]|u [kPa]|σ′v [kPa]|q_lim [kPa]|p_lim [kN/m]|Q [kN]" righe 204 C33E8CA917FD0D4C
+    "0,000" | "dopo" | "1" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00"
+    "0,100" | "prima" | "1" | "1,80" | "0,00" | "1,80" | "16,20" | "3,89" | "0,19"
+  tabella "Tabella" colonne "z [m]|Lato|p [kN/m]|V [kN]|M [kNm]" righe 104 502F609F530C7C2C
+    "0,0" | "nodo" | "0,0" | "45,9" | "0,0"
+    "0,1" | "nodo" | "3,9" | "45,7" | "4,6"
+  tabella "Meccanismi" colonne "Meccanismo|H [kN]|Stato" righe 2 A81D071E463B0196
+    "Corto" | "648,0" | "Candidato non governante; limite precedente già raggiunto"
+    "Lungo" | "45,9" | "Ammissibile, governante"
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 2 · modificabile sì · esportabile sì · dettagli sì · scheda 0
+risultato 49AE1CAB65FA954C
+stato "Calcolo completato · diagrammi alla capacità ultima"
+sintesi "Lungo · stratigrafia 1\nMy = 47,0 kNm\nHEd / Hu = 218,0%\nVerifica normativa incompleta."
+momento "My(N) = 47,0 kNm · N = 0,0 kN\nCHS classe 1 · solo acciaio · interazione N–M lineare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nSolo acciaio CHS, classe 1 secondo limiti D/t con ε²=235/fy. My = Wpl·fy/γM0·(1−|N|/Npl). Interazione lineare conservativa N–M; riempimento escluso. Non verifica instabilità globale, taglio, giunti, corrosione o capacità di rotazione delle connessioni. fy deve essere appropriato a materiale e spessore."
+form generali
+  campo diametro "Diametro geotecnico micropalo" = "0.24"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione CHS" voci "Sezione CHS|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta modo_chs "Inserimento CHS" = "Catalogo" voci "Catalogo|Manuale"
+  scelta profilo_chs "Catalogo ANTHEA" = "CHS 139.7 × 8" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo diametro_chs_mm "Diametro esterno manuale" = "139.7" · spento · attenuato
+  campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
+  campo fy_chs_mpa "Snervamento acciaio" = "355"
+  campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
+  campo gamma_m0 "Sicurezza resistenza" = "1.05"
+  campo __fyd "Resistenza di progetto" = "338,1"
+  campo __diametro_mm "Diametro adottato" = "139,7"
+  campo __spessore_mm "Spessore adottato" = "8,0"
+  campo __area_mm2 "Area acciaio" = "3.310,0"
+  campo __inerzia_mm4 "Momento d’inerzia" = "7.202.889,1"
+  campo __wel_mm3 "Modulo elastico" = "103.119,4"
+  campo __wpl_mm3 "Modulo plastico" = "138.929,8"
+  campo __massa_kg_m "Massa lineare acciaio" = "26,0"
+  campo __classe "Classe sezione" = "1"
+  campo __npl_kn "Resistenza assiale sezione" = "1.119,1"
+  campo __mpl_knm "Momento plastico N=0" = "47,0"
+  gruppo "Tubolare CHS" modo_chs|profilo_chs|diametro_chs_mm|spessore_chs_mm · aperto
+  gruppo "Acciaio" fy_chs_mpa|modulo_chs_mpa|gamma_m0|__fyd · aperto
+  gruppo "Proprietà della sezione" __diametro_mm|__spessore_mm|__area_mm2|__inerzia_mm4|__wel_mm3|__wpl_mm3|__massa_kg_m|__classe|__npl_kn|__mpl_knm · aperto
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Verifica non soddisfatta" non-soddisfatta
+  "Azione orizzontale HEd" | "100,0"
+  "Capacità ultima Hu" | "45,9"
+  "Resistenza caratteristica Rk" | "27,0"
+  "Resistenza di progetto Rd" | "20,8"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione - · chs 1A78A2609F256408
+risultati sondaggio 1 · "Lungo · Hu 45,9 kN · |M|max 47,0 kNm a z=1,5 m\nResidui: H 0,0 kN · M 0,0 kNm · Raggiunta\nCerniere z [m]: 1,5 · Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio."
+  tabella "Tabella terreno" colonne "z [m]|Lato|Strato|σv [kPa]|u [kPa]|σ′v [kPa]|q_lim [kPa]|p_lim [kN/m]|Q [kN]" righe 204 C33E8CA917FD0D4C
+    "0,000" | "dopo" | "1" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00"
+    "0,100" | "prima" | "1" | "1,80" | "0,00" | "1,80" | "16,20" | "3,89" | "0,19"
+  tabella "Tabella" colonne "z [m]|Lato|p [kN/m]|V [kN]|M [kNm]" righe 104 502F609F530C7C2C
+    "0,0" | "nodo" | "0,0" | "45,9" | "0,0"
+    "0,1" | "nodo" | "3,9" | "45,7" | "4,6"
+  tabella "Meccanismi" colonne "Meccanismo|H [kN]|Stato" righe 2 A81D071E463B0196
+    "Corto" | "648,0" | "Candidato non governante; limite precedente già raggiunto"
+    "Lungo" | "45,9" | "Ammissibile, governante"
+== riapri
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 0 · modificabile sì · esportabile no · dettagli no · scheda 0
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro geotecnico micropalo" = "0.24"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione CHS" voci "Sezione CHS|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta modo_chs "Inserimento CHS" = "Catalogo" voci "Catalogo|Manuale"
+  scelta profilo_chs "Catalogo ANTHEA" = "CHS 139.7 × 8" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo diametro_chs_mm "Diametro esterno manuale" = "139.7" · spento · attenuato
+  campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
+  campo fy_chs_mpa "Snervamento acciaio" = "355"
+  campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
+  campo gamma_m0 "Sicurezza resistenza" = "1.05"
+  campo __fyd "Resistenza di progetto" = "338,1"
+  campo __diametro_mm "Diametro adottato" = "139,7"
+  campo __spessore_mm "Spessore adottato" = "8,0"
+  campo __area_mm2 "Area acciaio" = "3.310,0"
+  campo __inerzia_mm4 "Momento d’inerzia" = "7.202.889,1"
+  campo __wel_mm3 "Modulo elastico" = "103.119,4"
+  campo __wpl_mm3 "Modulo plastico" = "138.929,8"
+  campo __massa_kg_m "Massa lineare acciaio" = "26,0"
+  campo __classe "Classe sezione" = "1"
+  campo __npl_kn "Resistenza assiale sezione" = "1.119,1"
+  campo __mpl_knm "Momento plastico N=0" = "47,0"
+  gruppo "Tubolare CHS" modo_chs|profilo_chs|diametro_chs_mm|spessore_chs_mm · aperto
+  gruppo "Acciaio" fy_chs_mpa|modulo_chs_mpa|gamma_m0|__fyd · aperto
+  gruppo "Proprietà della sezione" __diametro_mm|__spessore_mm|__area_mm2|__inerzia_mm4|__wel_mm3|__wpl_mm3|__massa_kg_m|__classe|__npl_kn|__mpl_knm · aperto
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione - · chs 1A78A2609F256408
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 0 · modificabile sì · esportabile no · dettagli no · scheda 0
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro geotecnico micropalo" = "0.24"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione CHS" voci "Sezione CHS|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta modo_chs "Inserimento CHS" = "Catalogo" voci "Catalogo|Manuale"
+  scelta profilo_chs "Catalogo ANTHEA" = "CHS 139.7 × 8" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo diametro_chs_mm "Diametro esterno manuale" = "139.7" · spento · attenuato
+  campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
+  campo fy_chs_mpa "Snervamento acciaio" = "355"
+  campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
+  campo gamma_m0 "Sicurezza resistenza" = "1.05"
+  campo __fyd "Resistenza di progetto" = "338,1"
+  campo __diametro_mm "Diametro adottato" = "139,7"
+  campo __spessore_mm "Spessore adottato" = "8,0"
+  campo __area_mm2 "Area acciaio" = "3.310,0"
+  campo __inerzia_mm4 "Momento d’inerzia" = "7.202.889,1"
+  campo __wel_mm3 "Modulo elastico" = "103.119,4"
+  campo __wpl_mm3 "Modulo plastico" = "138.929,8"
+  campo __massa_kg_m "Massa lineare acciaio" = "26,0"
+  campo __classe "Classe sezione" = "1"
+  campo __npl_kn "Resistenza assiale sezione" = "1.119,1"
+  campo __mpl_knm "Momento plastico N=0" = "47,0"
+  gruppo "Tubolare CHS" modo_chs|profilo_chs|diametro_chs_mm|spessore_chs_mm · aperto
+  gruppo "Acciaio" fy_chs_mpa|modulo_chs_mpa|gamma_m0|__fyd · aperto
+  gruppo "Proprietà della sezione" __diametro_mm|__spessore_mm|__area_mm2|__inerzia_mm4|__wel_mm3|__wpl_mm3|__massa_kg_m|__classe|__npl_kn|__mpl_knm · aperto
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione - · chs 1A78A2609F256408
+== attendi
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 0 · modificabile sì · esportabile sì · dettagli sì · scheda 0
+risultato 49AE1CAB65FA954C
+stato "Calcolo completato · diagrammi alla capacità ultima"
+sintesi "Lungo · stratigrafia 1\nMy = 47,0 kNm\nHEd / Hu = 218,0%\nVerifica normativa incompleta."
+momento "My(N) = 47,0 kNm · N = 0,0 kN\nCHS classe 1 · solo acciaio · interazione N–M lineare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nSolo acciaio CHS, classe 1 secondo limiti D/t con ε²=235/fy. My = Wpl·fy/γM0·(1−|N|/Npl). Interazione lineare conservativa N–M; riempimento escluso. Non verifica instabilità globale, taglio, giunti, corrosione o capacità di rotazione delle connessioni. fy deve essere appropriato a materiale e spessore."
+form generali
+  campo diametro "Diametro geotecnico micropalo" = "0.24"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione CHS" voci "Sezione CHS|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta modo_chs "Inserimento CHS" = "Catalogo" voci "Catalogo|Manuale"
+  scelta profilo_chs "Catalogo ANTHEA" = "CHS 139.7 × 8" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo diametro_chs_mm "Diametro esterno manuale" = "139.7" · spento · attenuato
+  campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
+  campo fy_chs_mpa "Snervamento acciaio" = "355"
+  campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
+  campo gamma_m0 "Sicurezza resistenza" = "1.05"
+  campo __fyd "Resistenza di progetto" = "338,1"
+  campo __diametro_mm "Diametro adottato" = "139,7"
+  campo __spessore_mm "Spessore adottato" = "8,0"
+  campo __area_mm2 "Area acciaio" = "3.310,0"
+  campo __inerzia_mm4 "Momento d’inerzia" = "7.202.889,1"
+  campo __wel_mm3 "Modulo elastico" = "103.119,4"
+  campo __wpl_mm3 "Modulo plastico" = "138.929,8"
+  campo __massa_kg_m "Massa lineare acciaio" = "26,0"
+  campo __classe "Classe sezione" = "1"
+  campo __npl_kn "Resistenza assiale sezione" = "1.119,1"
+  campo __mpl_knm "Momento plastico N=0" = "47,0"
+  gruppo "Tubolare CHS" modo_chs|profilo_chs|diametro_chs_mm|spessore_chs_mm · aperto
+  gruppo "Acciaio" fy_chs_mpa|modulo_chs_mpa|gamma_m0|__fyd · aperto
+  gruppo "Proprietà della sezione" __diametro_mm|__spessore_mm|__area_mm2|__inerzia_mm4|__wel_mm3|__wpl_mm3|__massa_kg_m|__classe|__npl_kn|__mpl_knm · aperto
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Verifica non soddisfatta" non-soddisfatta
+  "Azione orizzontale HEd" | "100,0"
+  "Capacità ultima Hu" | "45,9"
+  "Resistenza caratteristica Rk" | "27,0"
+  "Resistenza di progetto Rd" | "20,8"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione - · chs 1A78A2609F256408
+risultati sondaggio 1 · "Lungo · Hu 45,9 kN · |M|max 47,0 kNm a z=1,5 m\nResidui: H 0,0 kN · M 0,0 kNm · Raggiunta\nCerniere z [m]: 1,5 · Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio."
+  tabella "Tabella terreno" colonne "z [m]|Lato|Strato|σv [kPa]|u [kPa]|σ′v [kPa]|q_lim [kPa]|p_lim [kN/m]|Q [kN]" righe 204 C33E8CA917FD0D4C
+    "0,000" | "dopo" | "1" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00"
+    "0,100" | "prima" | "1" | "1,80" | "0,00" | "1,80" | "16,20" | "3,89" | "0,19"
+  tabella "Tabella" colonne "z [m]|Lato|p [kN/m]|V [kN]|M [kNm]" righe 104 502F609F530C7C2C
+    "0,0" | "nodo" | "0,0" | "45,9" | "0,0"
+    "0,1" | "nodo" | "3,9" | "45,7" | "4,6"
+  tabella "Meccanismi" colonne "Meccanismo|H [kN]|Stato" righe 2 A81D071E463B0196
+    "Corto" | "648,0" | "Candidato non governante; limite precedente già raggiunto"
+    "Lungo" | "45,9" | "Ammissibile, governante"
