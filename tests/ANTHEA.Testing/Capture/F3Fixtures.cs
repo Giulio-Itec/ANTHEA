@@ -78,6 +78,7 @@ public static class F3Fixtures
         PileGroupF54(cases);
         MaterialsF55(cases);
         VerticalPileF56(cases);
+        ShallowFoundationF59b(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -351,6 +352,93 @@ public static class F3Fixtures
             g["diametro"] = "0.25"; g["lunghezza"] = "10"; g["profilo_chs"] = "CHS 114.3 × 6.3"; g["pressione_iniezione"] = "2";
             g["considera_punta"] = true; g["percentuale_punta"] = "20"; g["azione_compressione"] = "300";
             d["stratigrafie"] = new JsonArray(new JsonArray(MicroLayer(soils[2], "12", "IGU")));
+        });
+    }
+    /// <summary>
+    /// Shallow foundation fixtures added before the F5.9b preparation (proposal F5, section 7.2: capture first, with the historic
+    /// view FoundationWorkspace): every method (EC7, Terzaghi, Meyerhof, Brinch Hansen, Vesić), the three shapes, the drained and
+    /// undrained conditions, the characteristic comparison without the A1 confirmation, the two reductions for compressibility,
+    /// groundwater above and below the base, eccentric actions and partial contact, actions beyond the resistant domain (views not
+    /// available), two surveys with the second one selected, a shared concrete of the catalogue and a custom one, the inputs collapsed
+    /// in the sheet (the visit opens the groups again), a version 1 archive with groundwater and the base at the ground surface, and
+    /// two calculations that stop: an incomplete layer and the half-space not assumed. Documents as the sheet writes them: texts for
+    /// the typed values (also with a decimal comma), indices for the choices, JSON booleans for the options. The identifiers never end
+    /// in "default", which the F3 project report collects.
+    /// </summary>
+    static void ShallowFoundationF59b(List<CaptureCase> cases)
+    {
+        const string Module = Anthea.FoundationWorkspace.FoundationDocument.Module;
+        void Added(string id, Action<JsonObject, JsonObject, JsonArray> alter)
+        {
+            var data = ModuleCatalog.CreateData(Module); alter(data, data["input"]!.AsObject(), data["stratigrafie"]![0]!.AsArray());
+            cases.Add(new(Module, id, "Fixture sintetica F5.9b (proposta F5 7.2, cattura prima con la vista storica)", null, data));
+        }
+        // The keys of FoundationMaterials.NewLayer, in its order; the typed values are texts, as the table of the sheet writes them.
+        static JsonObject Layer(string name, string thickness, string type, string gamma, string saturated, string phi, string cohesion, string undrained) =>
+            J.Obj(("name", name), ("spessore", thickness), ("tipologia", type), ("peso_specifico", gamma), ("peso_specifico_saturo", saturated),
+                ("angolo_attrito", phi), ("coesione_efficace", cohesion), ("coesione_non_drenata", undrained));
+
+        // Terzaghi on a strip (actions per metre), local shear reduction, groundwater below the base, rough base (the only one of
+        // Terzaghi in the library); cover and bearing layer typed with the decimal comma.
+        Added("terzaghi-nastriforme-falda", (d, i, layers) => {
+            i["Method"] = 1; i["Shape"] = 1; i["Compression"] = 1;
+            i["Width"] = "1,8"; i["Depth"] = "1,2"; i["Normal"] = "320";
+            d["nome_combinazione"] = "SLU · A1 · nastro"; d["azioni_confermate"] = true;
+            layers[0]!["spessore"] = "1,2"; layers[0]!["peso_specifico"] = "17,5"; layers[0]!["peso_specifico_saturo"] = "19";
+            layers[1]!["angolo_attrito"] = "32"; layers[1]!["coesione_efficace"] = "5";
+            d["generali"]!["presenza_falda"] = true; d["generali"]!["profondita_falda"] = "2,5";
+        });
+        // Brinch Hansen, undrained, on a cohesive bearing layer: additive corrections; characteristic comparison without the A1
+        // confirmation (hidden); eccentric actions along both sides; a custom concrete typed by its fck.
+        Added("hansen-non-drenato-caratteristico", (d, i, layers) => {
+            i["Method"] = 3; i["Condition"] = 1; i["Profile"] = 1;
+            i["Width"] = "2,4"; i["Length"] = "3,6"; i["Depth"] = "1,5"; i["Normal"] = "900"; i["MomentX"] = "45"; i["MomentY"] = "80";
+            d["nome_combinazione"] = "Caratteristica · confronto";
+            layers[0]!["spessore"] = "1,5";
+            layers[1] = Layer("Argilla limosa", "12", "Coesivo", "19", "20", "24", "8", "60");
+            var section = d["sezione"]!.AsObject();
+            section["classe_cls"] = "Personalizzato"; section["materiale_cls_nome"] = "Personalizzato"; section["fck_mpa"] = "28"; section["cls_diagramma"] = "Bilineare";
+        });
+        // Meyerhof with a large eccentricity along B (partial contact: compressed area smaller than the base), external surcharge,
+        // depth factors excluded; the inputs collapsed in the sheet and three groups closed (vista_fondazioni).
+        Added("meyerhof-eccentrica-input-raccolti", (d, i, layers) => {
+            i["Method"] = 2; i["IncludeDepthFactors"] = false;
+            i["Length"] = "2,5"; i["Normal"] = "800"; i["MomentY"] = "300"; i["Surcharge"] = "10";
+            d["azioni_confermate"] = true;
+            d["vista_fondazioni"] = J.Obj(("input_raccolti", true), ("metodo", false), ("Azioni", false), ("stratigrafia", false));
+        });
+        // Vesić on a centred circle, reduction for the relative density (drained sand, c′ = 0), groundwater above the base, two surveys
+        // with the second one selected (γsat left empty: it follows γ); the shared concrete of the catalogue chosen as the editor of the
+        // sheet writes it.
+        Added("vesic-circolare-due-sondaggi", (d, i, layers) => {
+            i["Method"] = 4; i["Shape"] = 2; i["Compression"] = 2; i["RelativeDensity"] = "0,35";
+            i["Width"] = "3"; i["Depth"] = "0,8"; i["Normal"] = "1500";
+            d["azioni_confermate"] = true;
+            d["stratigrafie"]!.AsArray().Add(new JsonArray(Layer("Riporto", "0,8", "Granulare", "18", "19", "28", "0", "75"),
+                Layer("Sabbia limosa", "15", "Granulare", "18,5", "", "29", "0", "75")));
+            var general = d["generali"]!; general["presenza_falda"] = true; general["profondita_falda"] = "0,5"; general["sondaggio_fondazione"] = 1;
+            var section = d["sezione"]!.AsObject(); section["classe_cls"] = "C25/30";
+            foreach (var (key, value) in ConcreteMaterialCatalog.Concrete().First(m => m.S("nome") == "C25/30").Where(p => p.Key != "nome")) section[key] = value?.DeepClone();
+        });
+        // EC7 with the resultant outside the base: no resistant domain, ratios undefined, views of the results not available.
+        Added("ec7-fuori-dominio", (d, i, layers) => {
+            i["MomentY"] = "660"; d["nome_combinazione"] = "SLU · A1 · fuori dominio"; d["azioni_confermate"] = true;
+        });
+        // A layer with a thickness that is not a number: the calculation stops, no result, no report; the profile is not drawn.
+        Added("strato-incompleto", (d, i, layers) => {
+            i["Width"] = "2,5"; d["azioni_confermate"] = true;
+            layers[1]!["tipologia"] = "Coesivo"; layers[1]!["spessore"] = "abc";
+        });
+        // The bearing layer is not assumed as a homogeneous half-space: the library refuses the calculation.
+        Added("semispazio-non-assunto", (d, i, layers) => {
+            i["Normal"] = "450"; d["azioni_confermate"] = true; d["generali"]!["strato_portante_semiinfinito"] = false;
+        });
+        // Version 1 archive with groundwater and the base at the ground surface (D = 0 typed as a text): the migration creates only
+        // the bearing layer and moves the groundwater to the common data.
+        Added("legacy-falda-piano-campagna", (d, i, layers) => {
+            d.Remove("stratigrafie"); d.Remove("generali"); d.Remove("sezione"); d["versione_fondazioni"] = 1;
+            i["Depth"] = "0"; i["WaterEnabled"] = true; i["WaterDepth"] = "0,6"; i["FrictionAngle"] = "34"; i["UnitWeight"] = "19"; i["SaturatedUnitWeight"] = "21";
+            d["azioni_confermate"] = true;
         });
     }
 }

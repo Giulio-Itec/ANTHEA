@@ -1,0 +1,51 @@
+# word/document.xml
+¶ Fixture F3 · geo_fondazioni_superficiali · ec7-fuori-dominio
+¶ ANTHEA · Relazione di calcolo
+¶ Capacità portante · fondazioni superficiali
+¶ NTC 2018 §6.4.2.1 · A1+M1+R3 · azioni A1 già combinate
+¶ Unica combinazione esaminata; nessun inviluppo automatico delle combinazioni.
+¶ Esito: Non verificata
+¶ Domanda N [kN]: 600
+¶ Resistenza R [kN]: 0
+¶ Indice N/R: —
+¶ Combinazione esaminata: SLU · A1 · fuori dominio
+¶ B′ × L′ [m]: 0 × 3
+¶ Area efficace [m²]: 0
+¶ ex / ey [m]: 1,1 / 0
+¶ Pressione agente [kPa]: —
+¶ Pressione limite lorda [kPa]: 0
+¶ Pressione limite netta [kPa]: -18
+¶ Pressione resistente [kPa]: 0
+¶ γR: 2,3
+¶ q al piano posa [kPa] · efficace drenato / totale non drenato: 18
+¶ γ medio sotto la base [kN/m³]: 18
+¶ φ adottato [°]: 30
+¶ c / cu adottato [kPa]: 0
+¶ Coefficienti e contributi
+¶ Coesione: N=0, s=1, d=1, i=1, contributo=0 kPa
+¶ Sovraccarico: N=0, s=1, d=1, i=1, contributo=0 kPa
+¶ Peso terreno: N=0, s=1, d=1, i=1, contributo=0 kPa
+¶ Dati al piano di posa già combinati e comprensivi dei pesi. Drenato: N efficace al netto della sottospinta; non drenato: N totale senza sottrarre la pressione interstiziale alla base. q non viene aggiunto nuovamente a N.
+¶ Dati di ingresso
+¶ Larghezza B [m]: 2
+¶ Lunghezza L [m]: 3
+¶ Profondità D [m]: 1
+¶ Sovraccarico esterno al piano campagna [kPa]: 0
+¶ N al piano di posa [kN]: 600
+¶ Hx parallela a B [kN]: 0
+¶ Hy parallela a L [kN]: 0
+¶ Mx · eccentricità lungo L [kNm]: 0
+¶ My · eccentricità lungo B [kNm]: 660
+¶ Profilo esaminato: Sondaggio 1
+¶ Strato 1 · Ricoprimento: z=-0–1 m; γ=18, γsat=20 kN/m³; φ′=30°; c′=0 kPa; cu=75 kPa.
+¶ Strato 2 · Strato portante: z=1–11 m; γ=18, γsat=20 kN/m³; φ′=30°; c′=0 kPa; cu=75 kPa.
+¶ Falda: assente
+¶ Ipotesi: terreno omogeneo sotto il piano di posa, prolungato come semispazio. Nessuna portanza multistrato o media delle resistenze.
+¶ Calcestruzzo: C30/37; fck=30 MPa; Parabola-rettangolo. Dato descrittivo condiviso nel progetto; resistenza strutturale e peso proprio automatico non calcolati.
+¶ Impostazioni: Rettangolare / quadrata; Drenata; Rottura generale
+¶ Base ruvida: sì
+¶ Grande eccentricità: EN 1997-1 §6.5.4 richiede precauzioni speciali; la sola portanza non conclude la verifica.
+¶ Risultante esterna alla base: dimensioni efficaci nulle. Capacità portante assunta nulla.
+¶ Distribuzione delle pressioni non convergente: non viene mostrata una soluzione approssimata non equilibrata.
+¶ Terreno omogeneo, piano campagna e base orizzontali. Esclusi sisma, cedimenti, scorrimento, stabilità globale e verifiche strutturali.
+¶ Libreria GPCChecker.Geotechnics 0.4.0.0

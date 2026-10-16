@@ -1,0 +1,53 @@
+# word/document.xml
+¶ Fixture F3 · geo_fondazioni_superficiali · terzaghi-nastriforme-falda
+¶ ANTHEA · Relazione di calcolo
+¶ Capacità portante · fondazioni superficiali
+¶ NTC 2018 §6.4.2.1 · A1+M1+R3 · azioni A1 già combinate
+¶ Terzaghi (1943); Nγ tabulato in USACE EM 1110-1-1905 (1992), tab. 4-1 e 4-2
+¶ Unica combinazione esaminata; nessun inviluppo automatico delle combinazioni.
+¶ Esito: Non verificata
+¶ Domanda N [kN]: 320
+¶ Resistenza R [kN]: 288,075
+¶ Indice N/R: 1,111
+¶ Combinazione esaminata: SLU · A1 · nastro
+¶ B′ × L′ [m]: 1,8 × 1
+¶ Area efficace [m²]: 1,8
+¶ ex / ey [m]: 0 / 0
+¶ Pressione agente [kPa]: 177,778
+¶ Pressione limite lorda [kPa]: 368,096
+¶ Pressione limite netta [kPa]: 347,096
+¶ Pressione resistente [kPa]: 160,042
+¶ γR: 2,3
+¶ q al piano posa [kPa] · efficace drenato / totale non drenato: 21
+¶ γ medio sotto la base [kN/m³]: 15,831
+¶ φ adottato [°]: 22,616
+¶ c / cu adottato [kPa]: 3,333
+¶ Coefficienti e contributi
+¶ Coesione: N=21,164, s=1, d=1, i=1, contributo=70,546 kPa
+¶ Sovraccarico: N=9,816, s=1, d=1, i=1, contributo=206,144 kPa
+¶ Peso terreno: N=6,416, s=1, d=1, i=1, contributo=91,406 kPa
+¶ Dati al piano di posa già combinati e comprensivi dei pesi. Drenato: N efficace al netto della sottospinta; non drenato: N totale senza sottrarre la pressione interstiziale alla base. q non viene aggiunto nuovamente a N.
+¶ Dati di ingresso
+¶ Larghezza B [m]: 1,8
+¶ Profondità D [m]: 1,2
+¶ γ acqua [kN/m³]: 9.81
+¶ Sovraccarico esterno al piano campagna [kPa]: 0
+¶ N al piano di posa [kN]: 320
+¶ Hx parallela a B [kN]: 0
+¶ My · eccentricità lungo B [kNm]: 0
+¶ Profilo esaminato: Sondaggio 1
+¶ Strato 1 · Ricoprimento: z=-0–1,2 m; γ=17,5, γsat=19 kN/m³; φ′=30°; c′=0 kPa; cu=75 kPa.
+¶ Strato 2 · Strato portante: z=1,2–11,2 m; γ=18, γsat=20 kN/m³; φ′=32°; c′=5 kPa; cu=75 kPa.
+¶ Falda: 2,5 m dal piano campagna
+¶ Ipotesi: terreno omogeneo sotto il piano di posa, prolungato come semispazio. Nessuna portanza multistrato o media delle resistenze.
+¶ Calcestruzzo: C30/37; fck=30 MPa; Parabola-rettangolo. Dato descrittivo condiviso nel progetto; resistenza strutturale e peso proprio automatico non calcolati.
+¶ Impostazioni: Nastriforme · azioni per metro; Drenata; Riduzione Terzaghi · taglio locale
+¶ Base ruvida: sì
+¶ Pressioni sotto la fondazione: pmin=177,778 kPa; pmax=177,778 kPa; area compressa=1,8 m². Area compressa e area efficace A′ sono distinte.
+¶ Distribuzione convenzionale affine, senza trazione: equilibrio di N, Mx, My su p=max(0,a+bx+cy). Non è una soluzione del semispazio elastico né una verifica dei cedimenti.
+¶ Schema di Prandtl per striscia su terreno privo di peso: cuneo, ventaglio logaritmico e zona passiva. Riferimento illustrativo, non superficie critica calcolata per il metodo selezionato; non rappresenta effetti di H, tridimensionalità, peso del terreno o profondità di posa.
+¶ Falda idrostatica: γ medio nello spessore B′ sotto la base; N efficace deve comprendere già la sottospinta.
+¶ Riduzione dei parametri per rottura locale selezionata dal progettista; nessuna diagnosi automatica del meccanismo.
+¶ Nγ di Terzaghi: interpolazione lineare della tabella USACE 4-1 (1992), non la formula incompleta del manuale di riferimento.
+¶ Terreno omogeneo, piano campagna e base orizzontali. Esclusi sisma, cedimenti, scorrimento, stabilità globale e verifiche strutturali.
+¶ Libreria GPCChecker.Geotechnics 0.4.0.0

@@ -1,0 +1,40 @@
+{
+  "module": "geo_fondazioni_superficiali",
+  "id": "legacy-falda-piano-campagna",
+  "origin": "Fixture sintetica F5.9b (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_fondazioni": 1,
+    "input": {
+      "Width": 2,
+      "Length": 3,
+      "Depth": "0",
+      "FrictionAngle": "34",
+      "Cohesion": 0,
+      "UndrainedStrength": 75,
+      "UnitWeight": "19",
+      "SaturatedUnitWeight": "21",
+      "CoverUnitWeight": 18,
+      "CoverSaturatedUnitWeight": 20,
+      "WaterDepth": "0,6",
+      "WaterUnitWeight": 9.81,
+      "Surcharge": 0,
+      "RelativeDensity": 0.5,
+      "Normal": 600,
+      "HorizontalX": 0,
+      "HorizontalY": 0,
+      "MomentX": 0,
+      "MomentY": 0,
+      "Method": 0,
+      "Shape": 0,
+      "Condition": 0,
+      "Profile": 0,
+      "Compression": 0,
+      "WaterEnabled": true,
+      "RoughBase": true,
+      "IncludeDepthFactors": true
+    },
+    "nome_combinazione": "SLU · A1",
+    "azioni_confermate": true
+  }
+}
