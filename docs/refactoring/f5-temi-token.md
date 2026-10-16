@@ -34,7 +34,7 @@ Criteri di uscita della riga F5.3:
 
 | Criterio | Esito |
 | --- | --- |
-| `--check-contrast`: 0 difetti in Scuro e Molto scuro, Chiara uguale al riferimento | sì: 0 e 0; Chiara 702 difetti, uguali alla baseline catturata prima (sezione 7.1) |
+| `--check-contrast`: 0 difetti in Scuro e Molto scuro, Chiara uguale al riferimento | sì: 0 e 0; Chiara 699 difetti a 96 DPI, gli stessi della cattura prima (sezione 7.1) |
 | `--check-appearance`, `--smoke-display` | nella corsa del runner (sezione 7.3) |
 | prova di uguaglianza dei colori | PASS 129 controlli |
 | P7 attiva con prove dei rilevatori | sì, 36 prove nuove |
@@ -352,36 +352,52 @@ Le cartelle citate sono in `supporto/artefatti/refactoring/f5/f5-3-temi/` del wo
 
 ### 7.1 Contrasto e invarianza delle viste storiche
 
-**Prima e dopo.** La cattura prima è sul commit base 5f29067b (`contrasto-prima`, 12 min 47 s). La corsa dopo è sul codice
-di F5.3 (`contrasto-dopo`), con `--riferimento contrasto-prima --baseline tests/fixtures/f5/contrasto-chiara.json`. Entrambe
-hanno 877 catture a 120 DPI.
+**Il DPI.** La misura del contrasto dai pixel dipende dal DPI delle finestre, e il DPI cambia con il modo di avvio:
+- il runner avvia `ANTHEA.exe`, che con `app.manifest` è PerMonitorV2. Le finestre della prova stanno fuori da ogni monitor
+  e ricevono **96 DPI**, qualunque sia la scala dello schermo;
+- `dotnet ANTHEA.dll` ha il DPI di sistema: 120 oggi, 144 l'8/10.
 
-| Corsa | Chiara | Scuro | Molto scuro | Esito |
-| --- | --- | --- | --- | --- |
-| prima (`contrasto-prima`) | 702 difetti in 27 gruppi | 0 | 0 | — |
-| prima, ripetuta (`contrasto-prima-2`) | 702, stesse 190 voci | 0 | 0 | — |
-| dopo (`contrasto-dopo`) | 702, uguali alla baseline | 0 | 0 | PASS |
+I 719 difetti delle note dell'8/10 erano misurati a 144 DPI.
 
-Invarianza pixel per pixel della corsa dopo rispetto alla cattura prima:
-- **Chiara:** 294 catture su 295 identiche. Quella diversa, il verificatore c.a. del palo orizzontale con 3 pixel, varia
-  anche fra le due corse del codice base: la cattura dopo è identica a `contrasto-prima-2`.
-- **Scuro e Molto scuro:** 289 catture su 291 identiche. Le 2+2 diverse sono `str_mista_ponte`, scheda Soletta: cambia il
-  fondo dei tre campi di φ, ψL e n. È la condizione di tempo nota delle catture di `str_mista_ponte` (`decisioni.md`, «Tema
-  scuro», seguiti). Due corse ripetute solo su `str_mista_ponte` con lo stesso binario (`ponte-dopo-1`, `ponte-dopo-2`)
-  danno 23 catture su 23 identiche alla cattura prima, in tutti e tre gli aspetti.
+Per questo la baseline della prova è a 96 DPI, catturata con il binario del commit base avviato come nel runner. Una corsa
+a un altro DPI fallisce senza confrontare.
+
+**Corse.** Tutte le corse hanno 877 catture. L'archivio di prova `supporto/artefatti/prova-f1.4.programma` manca in tutti i
+checkout, quindi le viste dei progetti con quell'archivio non sono coperte, prima come dopo.
+
+| Corsa | Codice | Avvio, DPI | Chiara | Scuro | Molto scuro |
+| --- | --- | --- | --- | --- | --- |
+| `contrasto-prima` | base 5f29067b | dotnet, 120 | 702 difetti, 190 voci | 0 | 0 |
+| `contrasto-prima-2` | base 5f29067b | dotnet, 120 | 702, stesse voci | 0 | 0 |
+| `contrasto-dopo` | F5.3 | dotnet, 120 | 702, stesse voci | 0 | 0 |
+| `contrasto-prima-96` | base 5f29067b | ANTHEA.exe, 96 | 699 difetti, 187 voci: è la baseline | 0 | 0 |
+| runner `20261016-110825-f53-finale` | F5.3, 945ef25c | ANTHEA.exe, 96 | 699, stesse 187 voci | 0 | 0 |
+
+Invarianza pixel per pixel prima e dopo F5.3:
+- **A 120 DPI** (`contrasto-dopo` con `--riferimento contrasto-prima`):
+  - Chiara: 294 catture su 295 identiche. Quella diversa, il verificatore c.a. del palo orizzontale con 3 pixel, varia
+    anche fra le due corse del codice base: la cattura dopo è identica a `contrasto-prima-2`;
+  - Scuro e Molto scuro: 289 su 291 identiche;
+  - le 2+2 catture diverse sono `str_mista_ponte`, scheda Soletta: cambia il fondo dei tre campi φ, ψL e n. È la condizione
+    di tempo nota di quelle catture (`decisioni.md`, «Tema scuro», seguiti). Due corse ripetute solo su `str_mista_ponte`
+    con lo stesso binario (`ponte-dopo-1`, `ponte-dopo-2`) danno 23 catture su 23 identiche alla cattura prima, in tutti e
+    tre gli aspetti.
+- **A 96 DPI** (runner contro `contrasto-prima-96`): 875 PNG su 877 identici byte per byte. I 2 diversi sono le stesse
+  catture Scuro di `str_mista_ponte`.
 - **FieldForm:** le catture del passo «componenti-campi» sono identiche byte per byte prima e dopo, nei tre aspetti.
 
 Le viste storiche restano quindi identiche nei tre aspetti.
 
-**Baseline della Chiara.** I difetti della Chiara sono 702 in 190 voci di vista e chiave: 692 delle viste storiche e 10
-del FieldForm nel passo «componenti-campi». Le note dell'8/10 contavano 719 difetti a 144 DPI: la misura dai pixel dipende
-dal DPI. La baseline registra il DPI, e la prova lo confronta.
+**Baseline della Chiara** (`tests/fixtures/f5/contrasto-chiara.json`):
+- 699 difetti in 187 voci di vista e chiave, a 96 DPI;
+- 10 sono del FieldForm nel passo «componenti-campi».
 
-Prove dell'esito con il solo passo componenti (`baseline-prove`):
+Prove dell'esito con il solo passo componenti (`baseline-prove`, `baseline-prove-96`):
 - baseline uguale: PASS;
 - un'occorrenza in meno nella baseline: FAIL, con la voce;
 - due in più: PASS, con la nota di abbassare la baseline;
-- baseline assente: FAIL.
+- baseline assente: FAIL;
+- DPI diverso (`dotnet ANTHEA.dll`, 120): FAIL.
 
 ### 7.2 Altre prove
 
@@ -394,7 +410,22 @@ Prove dell'esito con il solo passo componenti (`baseline-prove`):
 
 ### 7.3 Runner
 
-Corsa `-Stage build,fast,wiki,ui` sul commit del documento: in corso. Il risultato si aggiunge qui.
+**Prima corsa**, `-Stage build,fast,wiki,ui`, tag `f53-finale`, su 945ef25c (`supporto/artefatti/ci/20261016-110825-f53-finale`):
+PASS 108 e NEW-FAIL 2.
+- `ui/check-contrast` è fallita perché la baseline era a 120 DPI, misurata con `dotnet`, mentre il runner misura a 96 DPI. La
+  baseline è stata ricatturata dal binario base con `ANTHEA.exe`, e i difetti del runner coincidono con essa (sezione 7.1).
+- `ui/smoke-display` è fallita in `VerifyStratigraphyEditing` con «Il ricalcolo interrompe la digitazione». La prova chiede
+  il fuoco da tastiera in una finestra vera: quel fuoco dipende dal desktop, che altre prove in corso sulla macchina stavano
+  usando. Ripetuta da sola sullo stesso binario: PASS (`20261016-114203-f53-smoke-display`).
+
+Nella stessa corsa sono passate:
+- `ui/check-appearance`;
+- `ui/f3-equivalence`, con lo stesso file di transizioni;
+- `ui/check-theme-tokens`;
+- `ui/check-field-form-parity`;
+- le altre suite.
+
+**Corsa finale**: in corso.
 
 ## 8. Domande aperte e scelte da confermare
 
@@ -434,10 +465,10 @@ Utilization (6). In particolare:
 - `SystemColors` non è controllato: le sue chiavi puntano già alla tavolozza.
 
 **D6 — Baseline della Chiara.**
-- I difetti sono 702, in 190 voci di vista e chiave, misurati a 120 DPI.
-- La nota dell'8/10 diceva 719 a 144 DPI: la misura dai pixel dipende dal DPI. Se il DPI della finestra cambia, la prova lo
-  scrive in `esito.txt` e può fallire; si rigenera allora la baseline da una corsa sul codice invariato?
-- 10 dei 702 difetti sono del FieldForm nel passo «componenti-campi»: unità `#64748B` su `#F3F5F8`, 4,36:1. È la stessa
+- I difetti sono 699, in 187 voci, a 96 DPI, la condizione del runner (`ANTHEA.exe`, sezione 7.1).
+- I 719 dell'8/10 e i 702 di oggi con `dotnet ANTHEA.dll` sono misure al DPI di sistema, 144 e 120. Una corsa a un altro
+  DPI fallisce senza confrontare: va bene così?
+- 10 dei 699 difetti sono del FieldForm nel passo «componenti-campi»: unità `#64748B` su `#F3F5F8`. È la stessa
   combinazione di `InputForm` su fondo `Surface`, come nel gruppo delle fondazioni. Correggerla cambierebbe la Chiara del
   form rispetto a `InputForm`, quindi resta nella baseline.
 
