@@ -2,4 +2,6 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
   </PropertyGroup>
+  <!-- Aggancio dei ripieghi (JsonFallbackHook, decisione E5 del 15/10/2026): interno, lo registrano solo lo strumento delle catture e le sue prove. -->
+  <ItemGroup><InternalsVisibleTo Include="ANTHEA.Testing" /><InternalsVisibleTo Include="ANTHEA.Testing.Tests" /></ItemGroup>
 </Project>

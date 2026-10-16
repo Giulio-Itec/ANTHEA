@@ -21,5 +21,7 @@ Check(timestamps.NormalizeReportTimestamps(line + engineering) != timestamps.Nor
 Check(timestamps.NormalizeReportTimestamps(line.Replace("13/10/2026", "17/01/2018")) == line.Replace("13/10/2026", "17/01/2018"));
 Check(timestamps.NormalizeReportTimestamps(line.Replace("ANTHEA", "Nota utente")) == line.Replace("ANTHEA", "Nota utente"));
 Console.WriteLine($"PASS {checks} identità diagnostiche e orari di generazione circoscritti");
+// Aggancio dei ripieghi per contesto (decisione E5 del 15/10/2026, F2.11c).
+Console.WriteLine($"PASS {FallbackHookChecks.Run()} controlli dell'aggancio dei ripieghi per contesto");
 // Admitted transitions of the reference comparisons (decision D2 of 15/10/2026): negative checks.
 return Anthea.Testing.Comparison.TransitionChecks.Run() == 0 ? 0 : 1;
