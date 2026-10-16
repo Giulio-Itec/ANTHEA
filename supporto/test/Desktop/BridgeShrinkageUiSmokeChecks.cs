@@ -76,8 +76,25 @@ public sealed partial class MainWindow
             Check(shrink.IsShrinkage && shrink.ShrinkageStrain == -250e-6 && shrink.ConcreteStressOffset > 0 && shrink.N == 0 && shrink.Mx == 0, "Ritiro non autoequilibrato o con segno errato.");
             Check(!bridge.InputForms.Last(f => f.Editors.ContainsKey("Mx")).Editors["Mx"].IsVisible, "Carichi esterni editabili nel dettaglio Ritiro.");
             bridge.ActionsTable.SelectedIndex = 3;
-            for (int i = 0; i < 3; i++) { ClickTable("↑"); await Wait(); }
-            Check(data.Array("fasi")[0].S("tipo") == BridgeSection.ShrinkageKind && bridge.Calculation!.Stages[0].Contributions.Single().IsShrinkage, "Ritiro non spostabile prima della fase di solo acciaio.");
+            for (int i = 0; i < 2; i++) { ClickTable("↑"); await Wait(); }
+            Check(data.Array("fasi")[1].S("tipo") == BridgeSection.ShrinkageKind && bridge.Calculation!.Stages[1].Contributions.Last().IsShrinkage, "Ritiro non spostabile subito dopo la fase di solo acciaio.");
+            // PON-5 (16/10/2026): il ritiro conta come soletta gettata, quindi davanti alla fase di solo acciaio l'ordine è rifiutato
+            // dalla libreria («Le fasi di solo acciaio devono precedere il getto.»): restano gli ultimi risultati validi, segnati come
+            // non aggiornati; riportato il ritiro dopo la fase di solo acciaio, il calcolo riprende.
+            var beforeInvalidOrder = bridge.Calculation;
+            ClickTable("↑");
+            var rejectEnd = DateTime.UtcNow.AddSeconds(30);
+            bool Rejected() => !bridge.Busy && bridge.Calculation is null && Ui.Descendants<TextBlock>(bridge).Any(t => t.Text.Contains("solo acciaio") && t.Text.Contains("precedere"));
+            while (!Rejected())
+            {
+                if (DateTime.UtcNow > rejectEnd) throw new Exception("Ritiro prima della fase di solo acciaio: ordine non rifiutato o motivo non mostrato (PON-5): "
+                    + string.Join(" | ", Ui.Descendants<TextBlock>(bridge).Select(t => t.Text).Where(t => t.Contains("verificare") || t.Contains("Errore"))));
+                await Task.Delay(60);
+            }
+            await Layout();
+            Check(data.Array("fasi")[0].S("tipo") == BridgeSection.ShrinkageKind && bridge.ResultsAreStale && ReferenceEquals(beforeInvalidOrder, bridge.DisplayedCalculation), "Ritiro prima della fase di solo acciaio: ordine non rifiutato o ultimi risultati persi.");
+            ClickTable("↓"); await Wait();
+            Check(data.Array("fasi")[1].S("tipo") == BridgeSection.ShrinkageKind && bridge.Calculation!.Stages[1].Contributions.Last().IsShrinkage, "Ritiro non riportato dopo la fase di solo acciaio.");
             ClickTable("+ Ritiro"); await Wait(); await Edit(4, "epsilon_cs", "-75"); await Edit(4, "phi", "3");
             Check(bridge.Calculation!.Stages.Last().Contributions.Count(c => c.IsShrinkage) == 2, "Più fasi di ritiro non conservate.");
             var lastValid = bridge.Calculation;

@@ -68,7 +68,7 @@ internal static class WikiChecks
             WikiEditorial.Render(allBlocks, body, _ => { }, (_, label, _) => Ui.Text(label));
             allBlocks.Measure(new Size(760, double.PositiveInfinity));
             Check(allBlocks.DesiredSize.Height > 0, "Tutti i blocchi e le formule inline renderizzati · " + a.Key);
-            foreach (var m in a.Modules) Check(ModuleCatalog.Get(m) is not null, "Modulo esistente · " + m);
+            foreach (var m in a.Modules) Check(Anthea.Application.Modules.ModuleDirectory.Get(m) is not null, "Modulo esistente · " + m); // anche i moduli di ANTHEA.Application (stratigrafia)
             Check(a.Related.Distinct().Count() == a.Related.Length && !a.Related.Contains(a.Id), "Correlati senza duplicati o autoriferimenti · " + a.Title);
             foreach (var related in a.Related) CheckLink(related);
             foreach (Match link in Regex.Matches(body, @"\]\(((?:/wiki/|wiki:)[^)]+)\)")) CheckLink(link.Groups[1].Value);
