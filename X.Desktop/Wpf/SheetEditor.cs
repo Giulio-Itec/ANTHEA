@@ -360,11 +360,8 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
         }
         if (materials is not null || rebarMaterial is not null)
         {
-            Commit();
-            var sheet = J.Obj(("nome", title), ("modulo_id", Module), ("dati", Data.DeepClone()));
-            var section = J.Obj(("nome", title), ("fogli", new JsonArray()), ("strutture", new JsonArray()));
-            section.Array("fogli").Add(sheet);
-            ReportProject.Write(filename, new ProjectReportPlan(section), new Dictionary<JsonObject, ReportProject.SheetContent> { [sheet] = MaterialReportContent() }, [], materialSheet: true);
+            // The report of a section with only this sheet: Materiali.MaterialReportChapter.Write in Application (F5.5).
+            Commit(); Materiali.MaterialReportChapter.Write(filename, Module, title, Data);
             return;
         }
         Anthea.Reports.ReportFiles.Write(filename, BuildReport(title, options, projectReport), title);

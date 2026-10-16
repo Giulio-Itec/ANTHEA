@@ -644,30 +644,6 @@
       "Example": "internal static readonly double [ ] Widths"
     },
     {
-      "File": "X.Desktop/Wpf/Materials/ExposureSelector.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "MaterialView.ExposureDescriptions",
-      "Fingerprint": "95934211C340A7F3217F5006EA11523D0ED662942F9F0FFEBBEBCD332183C003",
-      "Count": 1,
-      "Example": "static readonly Dictionary < string , string > ExposureDescriptions"
-    },
-    {
-      "File": "X.Desktop/Wpf/Materials/ExposureSelector.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "MaterialView.ExposureExamples",
-      "Fingerprint": "FC9D39096CD99AFF6B2FB3F84B7CB5DD2379B8D2EBFE2B323869EE18F25FAAFB",
-      "Count": 1,
-      "Example": "static readonly Dictionary < string , string > ExposureExamples"
-    },
-    {
-      "File": "X.Desktop/Wpf/Materials/MaterialView.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "MaterialView.Classes",
-      "Fingerprint": "6E1E8089457C010FA10DE6D737163637C1F071C4351162CA2B3E9B730E1B5DBF",
-      "Count": 1,
-      "Example": "static readonly ( string Name , double Fck ) [ ] Classes"
-    },
-    {
       "File": "X.Desktop/Wpf/RetainingWallDrawing.Inspection.cs",
       "Rule": "P3-static-collection",
       "Owner": "RetainingWallDrawing.LayerColors",

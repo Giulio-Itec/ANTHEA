@@ -110,7 +110,7 @@ public sealed partial class MaterialView
         minimumConcreteClass.Text=value.MinimumConcreteClass;minimumConcreteNote.Text=value.MinimumConcreteNote;
         coverHeadline.Text=value.CoverHeadline;coverSteps.Text=value.CoverSteps;coverNotes.Text=value.CoverNotes;
         coverHeadline.Foreground=Themed("foreground",value.CoverError?"#9A4D0A":"#0B2A4A");
-        bool ntc=choices["coverMethod"].SelectedIndex==0;
+        bool ntc=MaterialSheetInput.IsNtcCover(Selected("coverMethod"));
         ntcOptions!.Visibility=ntc?Visibility.Visible:Visibility.Collapsed;ec2Options!.Visibility=ntc?Visibility.Collapsed:Visibility.Visible;
         foreach(var (key,text) in value.Composition)compositionValues[key].Text=text;
         compositionSource.Text=value.CompositionSource;compositionAirNote.Text=value.CompositionAirNote;
@@ -127,16 +127,12 @@ public sealed partial class MaterialView
                 var values=MaterialSheetInput.DeviationOptions(mode);
                 choices["deviationValue"].ItemsSource=values;
                 choices["deviationValue"].SelectedIndex=0;
-                choices["deviationValue"].IsEnabled=mode!=0;
+                choices["deviationValue"].IsEnabled=MaterialSheetInput.DeviationChoosable(mode);
                 lastDeviationControl=mode;
             }
             finally {updatingDeviation=false;}
         }
-        deviationNote.Text=mode switch {
-            0=>"Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3).",
-            1=>"Δcdev da 5 a 10 mm: sistema di controllo qualità con misure del copriferro (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato.",
-            _=>"Δcdev da 0 a 10 mm: misure molto accurate e scarto degli elementi non conformi, ad esempio prefabbricati (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato."
-        };
-        deviationNote.ToolTip="La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità.";
+        deviationNote.Text=MaterialSheetPresentation.DeviationNote(mode);
+        deviationNote.ToolTip=MaterialSheetPresentation.DeviationToolTip;
     }
 }

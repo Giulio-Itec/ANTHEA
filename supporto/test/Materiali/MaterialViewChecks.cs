@@ -101,7 +101,7 @@ public sealed partial class MaterialView
             {
                 exposureSelector.SelectedItem=code;
                 if(!minimumConcreteClass.IsReadOnly || minimumConcreteClass.Text!=MinimumConcrete.Label(MinimumConcrete.Fck(code))) throw new Exception("Classe minima non aggiornata: "+code);
-                if(Active().Length!=1||Active()[0].Code!=code||exposureDetails.Text!=ExposureDescriptions[code]||exposureExamples.Text!=ExposureExamples[code]||string.IsNullOrWhiteSpace(exposureExamples.Text)||exposureAggressiveness.Text!="Aggressività: "+expected)
+                if(Active().Length!=1||Active()[0].Code!=code||exposureDetails.Text!=MaterialExposurePresentation.Descriptions[code]||exposureExamples.Text!=MaterialExposurePresentation.Examples[code]||string.IsNullOrWhiteSpace(exposureExamples.Text)||exposureAggressiveness.Text!="Aggressività: "+expected)
                     throw new Exception("Menu/descrizione/aggressività non aggiornati: "+code);
             }
         exposureSelector.SelectedItem="XC1";exposureChecks["XS3"].IsChecked=true;
