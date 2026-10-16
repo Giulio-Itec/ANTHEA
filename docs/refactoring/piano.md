@@ -529,8 +529,21 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   raccomandazioni di Q1–Q5, Q7, Q11, Q12, Q15, Q16, Q19 e Q20 ([decisioni](decisioni.md), sezione del 16 ottobre mattina).
   Documenti: [nota per il punto di controllo](f5-ripianificazione.md), [inventario dell'interfaccia](f5-inventario-ui.md),
   [proposta di architettura](f5-proposta-architettura.md). Le altre domande si decidono ai passi indicati.
-- [ ] F5.1 Infrastruttura, servizi, gestione degli errori, analyzer.
-- [ ] F5.2 `ModuleHost` (moduli nuovi e legacy insieme); componenti dei form.
+- [x] F5.1 Infrastruttura, servizi, gestione degli errori, analyzer. Fatta il 16/10 su `refactoring/f5` (merge 6486b5cf e
+  bbb89416):
+  - `src/ANTHEA.Presentation` senza WPF, con `ViewModelBase`, `CommandGuard` (Q19), comandi guardati, `SheetCalculation` sullo
+    scheduler esistente, `CalculationLimiter` di istanza, servizi astratti e radice di composizione `DesktopComposition`;
+  - `tests/ANTHEA.Presentation.Tests` nello stadio fast (79 controlli);
+  - regole P1–P6 con 91 prove dei rilevatori e censimento P3 dello stato statico (133 voci, solo in calo);
+  - Microsoft.VisualStudio.Threading.Analyzers 18.7.23 solo su Presentation.
+
+  Corsa build, fast, wiki e ui sul merge `20261016-073701-f5-int2`: PASS 106, 0 NEW-FAIL; `ui/f3-equivalence` invariata.
+- [ ] F5.2 `ModuleHost` (moduli nuovi e legacy insieme); componenti dei form. In corso:
+  - fatti `ISheetEditor` e `SheetEditorFactory`, usati da `MainWindow`, dalla cattura F3 e da 11 delle 16 costruzioni nelle
+    prove (merge 85575d2f);
+  - la regola dei renderer copre anche la fabbrica (a0bf6e3a);
+  - restano `ModuleRegistry`, `ISheetModule`, `ISheetViewModel`, `ISheetHost`, `ModuleImplementations`, i componenti dei form,
+    `SharedDataCoordinator` e `ProjectHistory`.
 - [ ] F5.3 [CP] Temi a token.
 - [ ] F5.4 [CP] Modulo pilota: palificata orizzontale.
 - [ ] F5.5–F5.12 Materiali, palo verticale, orizzontale, elastico, muri, sezione c.a., sezione composta, Bridge Design.
