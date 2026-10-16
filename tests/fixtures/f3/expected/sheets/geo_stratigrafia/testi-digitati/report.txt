@@ -1,0 +1,40 @@
+# word/document.xml
+¶ Fixture F3 · geo_stratigrafia · testi-digitati
+¶ ANTHEA · Scheda dei dati stratigrafici
+¶ Scelta per le verifiche: Minimi. I due insiemi restano distinti; nessuna sostituzione dei minimi mancanti.
+¶ Stratigrafia digitata
+¶ Riga 1
+Riga 2, profondità 3,5 m
+¶ Profondità in metri, positive verso il basso, origine al piano campagna. Strati orizzontali contigui.
+¶ Quota altimetrica piano campagna [m]: non disponibile
+¶ Falda: Non considerata
+¶ Strato 1 · Strato A
+¶ non disponibile
+¶ Famiglia prevalente: Altro. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Spessore [m]: 1,5
+¶ Valori medi
+¶ γ [kN/m³]: 18,5; γsat [kN/m³]: non disponibile
+¶ φ′ [°]: 30; c′ [kPa]: 0; cu [kPa]: non disponibile
+¶ Qualificazione: Non qualificato. Provenienza: non disponibile
+¶ Note: Valori digitati con la virgola
+¶ Valori minimi
+¶ γ [kN/m³]: 17,5; γsat [kN/m³]: 19
+¶ φ′ [°]: 27,5; c′ [kPa]: 0; cu [kPa]: 0
+¶ Qualificazione: Interpretato. Provenienza: Stima
+¶ Note minimi: non disponibile
+¶ Strato 2 · Strato B
+¶ Limo
+¶ Famiglia prevalente: Non classificato. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Spessore [m]: 2
+¶ Valori medi
+¶ γ [kN/m³]: 19; γsat [kN/m³]: 20
+¶ φ′ [°]: 25; c′ [kPa]: 10; cu [kPa]: 40
+¶ Qualificazione: Misurato. Provenienza: Tab. 1
+¶ Valori minimi
+¶ γ [kN/m³]: 18; γsat [kN/m³]: 19,5
+¶ φ′ [°]: 22; c′ [kPa]: 5; cu [kPa]: 30
+¶ Qualificazione: Misurato. Provenienza: Tab. 1, minimi
+¶ Note minimi: Note sui minimi
+¶ Ambito e limiti
+¶ Scheda di input, anche incompleta. Non costituisce una verifica geotecnica. Nessuna correlazione automatica o applicazione di coefficienti parziali. I valori non disponibili restano distinti da zero.
+¶ Un unico livello di falda: esclusi acquiferi multipli, falde sospese e condizioni artesiane. Lo strato indefinito è un’ipotesi di modello, non un’estensione dell’indagine.

@@ -1,0 +1,32 @@
+# word/document.xml
+¶ Fixture F3 · geo_stratigrafia · trasferita-da-palo
+¶ ANTHEA · Scheda dei dati stratigrafici
+¶ Scelta per le verifiche: Medi. I due insiemi restano distinti; nessuna sostituzione dei minimi mancanti.
+¶ Stratigrafia
+¶ non disponibile
+¶ Profondità in metri, positive verso il basso, origine al piano campagna. Strati orizzontali contigui.
+¶ Quota altimetrica piano campagna [m]: non disponibile
+¶ Falda: Assegnata; profondità [m]: 2,5
+¶ Strato 1 · Strato 1
+¶ non disponibile
+¶ Famiglia prevalente: Non classificato. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Spessore [m]: 4
+¶ Valori medi
+¶ γ [kN/m³]: 18; γsat [kN/m³]: 20
+¶ φ′ [°]: 30; c′ [kPa]: 0; cu [kPa]: 0
+¶ Qualificazione: Non qualificato. Provenienza: Foglio ANTHEA: Palo P1
+¶ Note: Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.
+¶ Valori minimi: non assegnati.
+¶ Strato 2 · Strato 2
+¶ non disponibile
+¶ Famiglia prevalente: Non classificato. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Spessore [m]: 6
+¶ Valori medi
+¶ γ [kN/m³]: 19; γsat [kN/m³]: non disponibile
+¶ φ′ [°]: 24; c′ [kPa]: 10; cu [kPa]: 80
+¶ Qualificazione: Non qualificato. Provenienza: Foglio ANTHEA: Palo P1
+¶ Note: Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.
+¶ Valori minimi: non assegnati.
+¶ Ambito e limiti
+¶ Scheda di input, anche incompleta. Non costituisce una verifica geotecnica. Nessuna correlazione automatica o applicazione di coefficienti parziali. I valori non disponibili restano distinti da zero.
+¶ Un unico livello di falda: esclusi acquiferi multipli, falde sospese e condizioni artesiane. Lo strato indefinito è un’ipotesi di modello, non un’estensione dell’indagine.

@@ -1,0 +1,93 @@
+{
+  "module": "geo_stratigrafia",
+  "id": "minimi-entrambi-indefinito",
+  "origin": "Fixture sintetica F5.6b (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "schema": 2,
+    "scenario": "Entrambi",
+    "id": "56b0000a0f564b00800000000000000a",
+    "name": "Profilo P2 · medi e minimi",
+    "description": "Valori medi e minimi distinti dalla relazione geotecnica",
+    "ground_elevation": null,
+    "water_state": "Non nota",
+    "water_depth": null,
+    "layers": [
+      {
+        "id": "56b0000b0f564b00800000000000000b",
+        "name": "Ghiaia sabbiosa",
+        "description": "",
+        "color": "#C9B27C",
+        "soil_type": "Ghiaia",
+        "behavior": "Granulare",
+        "thickness": 2,
+        "infinite": false,
+        "gamma": 19,
+        "gamma_sat": 21,
+        "phi": 36,
+        "c": 0,
+        "cu": 0,
+        "source": "Tab. 5, valori medi",
+        "qualification": "Caratteristico",
+        "notes": "",
+        "minimum": {
+          "gamma": 18,
+          "gamma_sat": 20,
+          "phi": 33,
+          "c": 0,
+          "cu": 0,
+          "source": "Tab. 5, valori minimi",
+          "qualification": "Caratteristico",
+          "notes": "Minimi da prove penetrometriche"
+        }
+      },
+      {
+        "id": "56b0000c0f564b00800000000000000c",
+        "name": "Torba",
+        "description": "Torba e limo organico",
+        "color": "#6B5B45",
+        "soil_type": "Terreno organico",
+        "behavior": "Coesivo",
+        "thickness": 1.5,
+        "infinite": false,
+        "gamma": 14,
+        "gamma_sat": 13.5,
+        "phi": 22,
+        "c": 5,
+        "cu": 25,
+        "source": "Prove C3",
+        "qualification": "Misurato",
+        "notes": "",
+        "minimum": {
+          "gamma": 13,
+          "gamma_sat": null,
+          "phi": 24,
+          "c": 4,
+          "cu": null,
+          "source": "",
+          "qualification": "Non qualificato",
+          "notes": ""
+        }
+      },
+      {
+        "id": "56b0000d0f564b00800000000000000d",
+        "name": "Calcare fratturato",
+        "description": "Calcare fratturato in banchi",
+        "color": "#9A9A8E",
+        "soil_type": "Roccia",
+        "behavior": "Da definire",
+        "thickness": null,
+        "infinite": true,
+        "gamma": 24,
+        "gamma_sat": 25,
+        "phi": 40,
+        "c": 50,
+        "cu": null,
+        "source": "Stima di letteratura",
+        "qualification": "Interpretato",
+        "notes": "Estensione del substrato non indagata.",
+        "minimum": null
+      }
+    ]
+  }
+}

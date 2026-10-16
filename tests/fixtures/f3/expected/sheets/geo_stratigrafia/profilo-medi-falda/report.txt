@@ -1,0 +1,50 @@
+# word/document.xml
+¶ Fixture F3 · geo_stratigrafia · profilo-medi-falda
+¶ ANTHEA · Scheda dei dati stratigrafici
+¶ Scelta per le verifiche: Medi. I due insiemi restano distinti; nessuna sostituzione dei minimi mancanti.
+¶ Sondaggio S1 · via dei Tigli
+¶ Sondaggio a carotaggio continuo S1, campagna 2025
+¶ Profondità in metri, positive verso il basso, origine al piano campagna. Strati orizzontali contigui.
+¶ Quota altimetrica piano campagna [m]: 112.4
+¶ Falda: Assegnata; profondità [m]: 2.5
+¶ Strato 1 · Riporto antropico
+¶ Terreno di riporto eterogeneo
+¶ Famiglia prevalente: Riporto. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Spessore [m]: 1.2
+¶ Valori medi
+¶ γ [kN/m³]: 17; γsat [kN/m³]: 19
+¶ φ′ [°]: 28; c′ [kPa]: 0; cu [kPa]: 0
+¶ Qualificazione: Interpretato. Provenienza: Relazione geologica, tab. 2
+¶ Valori minimi: non assegnati.
+¶ Strato 2 · Sabbia limosa
+¶ Sabbia fine limosa, mediamente addensata
+¶ Famiglia prevalente: Sabbia. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Spessore [m]: 3.8
+¶ Valori medi
+¶ γ [kN/m³]: 18.5; γsat [kN/m³]: 20
+¶ φ′ [°]: 32; c′ [kPa]: 0; cu [kPa]: 0
+¶ Qualificazione: Misurato. Provenienza: Prove SPT S1, p. 14
+¶ Note: Parametri da prove in sito.
+¶ Valori minimi: non assegnati.
+¶ Strato 3 · Limo argilloso
+¶ Limo argilloso grigio, consistente
+¶ Famiglia prevalente: Limo. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Spessore [m]: 4
+¶ Valori medi
+¶ γ [kN/m³]: 19; γsat [kN/m³]: 19.5
+¶ φ′ [°]: 26; c′ [kPa]: 8; cu [kPa]: 65
+¶ Qualificazione: Caratteristico. Provenienza: Prove di laboratorio C2, p. 22
+¶ Valori minimi: non assegnati.
+¶ Strato 4 · Argilla
+¶ Argilla limosa sovraconsolidata
+¶ Famiglia prevalente: Argilla. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Spessore [m]: 7.5
+¶ Valori medi
+¶ γ [kN/m³]: 19.8; γsat [kN/m³]: 20.4
+¶ φ′ [°]: 24; c′ [kPa]: 15; cu [kPa]: 120
+¶ Qualificazione: Misurato. Provenienza: Prove triassiali C4
+¶ Note: Fine sondaggio a 16,5 m.
+¶ Valori minimi: non assegnati.
+¶ Ambito e limiti
+¶ Scheda di input, anche incompleta. Non costituisce una verifica geotecnica. Nessuna correlazione automatica o applicazione di coefficienti parziali. I valori non disponibili restano distinti da zero.
+¶ Un unico livello di falda: esclusi acquiferi multipli, falde sospese e condizioni artesiane. Lo strato indefinito è un’ipotesi di modello, non un’estensione dell’indagine.

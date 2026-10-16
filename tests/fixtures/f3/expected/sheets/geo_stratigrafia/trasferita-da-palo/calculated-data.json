@@ -1,0 +1,55 @@
+{
+  "description": "",
+  "ground_elevation": null,
+  "id": "<GUID-1>",
+  "layers": [
+    {
+      "behavior": "Granulare",
+      "c": "0",
+      "color": "#D5BE92",
+      "cu": "0",
+      "description": "",
+      "gamma": "18",
+      "gamma_sat": "20",
+      "id": "<GUID-2>",
+      "infinite": false,
+      "minimum": null,
+      "name": "Strato 1",
+      "notes": "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.",
+      "phi": "30",
+      "qualification": "Non qualificato",
+      "soil_type": "Non classificato",
+      "source": "Foglio ANTHEA: Palo P1",
+      "thickness": "4"
+    },
+    {
+      "behavior": "Coesivo",
+      "c": "10",
+      "color": "#D5BE92",
+      "cu": "80",
+      "description": "",
+      "gamma": "19",
+      "gamma_sat": "",
+      "id": "<GUID-3>",
+      "infinite": false,
+      "minimum": null,
+      "name": "Strato 2",
+      "notes": "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.",
+      "phi": "24",
+      "qualification": "Non qualificato",
+      "soil_type": "Non classificato",
+      "source": "Foglio ANTHEA: Palo P1",
+      "thickness": "6"
+    }
+  ],
+  "name": "Stratigrafia",
+  "scenario": "Medi",
+  "schema": 2,
+  "soil_transfer": {
+    "source_id": "<GUID-4>",
+    "source_module": "geo_palo_verticale",
+    "source_sheet": "Palo P1"
+  },
+  "water_depth": "2,5",
+  "water_state": "Assegnata"
+}

@@ -1,0 +1,73 @@
+{
+  "module": "geo_stratigrafia",
+  "id": "testi-digitati",
+  "origin": "Fixture sintetica F5.6b (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "schema": 2,
+    "scenario": "Minimi",
+    "id": "56b000140f564b008000000000000014",
+    "name": "Stratigrafia digitata",
+    "description": "Riga 1\nRiga 2, profondità 3,5 m",
+    "ground_elevation": "",
+    "water_state": "Non considerata",
+    "water_depth": "",
+    "layers": [
+      {
+        "id": "56b000150f564b008000000000000015",
+        "name": "Strato A",
+        "description": "",
+        "color": "#a7b7c7",
+        "soil_type": "Altro",
+        "thickness": "1,5",
+        "infinite": false,
+        "gamma": "18,5",
+        "gamma_sat": "",
+        "phi": "30",
+        "c": "0",
+        "cu": "",
+        "source": "",
+        "qualification": "Non qualificato",
+        "notes": "Valori digitati con la virgola",
+        "minimum": {
+          "gamma": "17,5",
+          "gamma_sat": "19",
+          "phi": "27,5",
+          "c": "0",
+          "cu": "0",
+          "source": "Stima",
+          "qualification": "Interpretato",
+          "notes": ""
+        }
+      },
+      {
+        "id": "56b000160f564b008000000000000016",
+        "name": "Strato B",
+        "description": "Limo",
+        "color": "#D5BE92",
+        "soil_type": "Non classificato",
+        "behavior": "Coesivo",
+        "thickness": "2",
+        "infinite": false,
+        "gamma": "19",
+        "gamma_sat": "20",
+        "phi": "25",
+        "c": "10",
+        "cu": "40",
+        "source": "Tab. 1",
+        "qualification": "Misurato",
+        "notes": "",
+        "minimum": {
+          "gamma": "18",
+          "gamma_sat": "19,5",
+          "phi": "22",
+          "c": "5",
+          "cu": "30",
+          "source": "Tab. 1, minimi",
+          "qualification": "Misurato",
+          "notes": "Note sui minimi"
+        }
+      }
+    ]
+  }
+}

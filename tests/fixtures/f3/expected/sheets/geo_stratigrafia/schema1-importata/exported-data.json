@@ -1,0 +1,51 @@
+{
+  "description": "Sondaggio S3\nRelazione geologica 2024, p. 5-9\nProfilo estratto e revisionato",
+  "ground_elevation": 87,
+  "id": "<GUID-1>",
+  "import_source": {
+    "date": "2026-09-30T08:15:00.0000000+00:00",
+    "file": "relazione-geologica.pdf",
+    "model": "modello-di-prova",
+    "reviewed": true,
+    "sha256": "8F3C2A1B0E9D8C7B6A5F4E3D2C1B0A9F8E7D6C5B4A3F2E1D0C9B8A7F6E5D4C3B",
+    "warnings": "Controllare le unità della tabella 3"
+  },
+  "layers": [
+    {
+      "c": 2,
+      "color": "#D5BE92",
+      "cu": null,
+      "description": "Limo sabbioso nocciola",
+      "gamma": 18,
+      "gamma_sat": 19,
+      "id": "<GUID-2>",
+      "infinite": false,
+      "name": "Limo sabbioso",
+      "notes": "\nGeometria: p. 6, colonna stratigrafica",
+      "phi": 29,
+      "qualification": "Non qualificato",
+      "source": "relazione-geologica.pdf\nphi: p. 7, tabella 3",
+      "thickness": 6
+    },
+    {
+      "c": 0,
+      "color": "#C9B27C",
+      "cu": null,
+      "description": "Ghiaia in matrice sabbiosa",
+      "gamma": 20,
+      "gamma_sat": 22,
+      "id": "<GUID-3>",
+      "infinite": true,
+      "name": "Ghiaia",
+      "notes": "\nGeometria: p. 6, base non raggiunta",
+      "phi": 38,
+      "qualification": "Non qualificato",
+      "source": "relazione-geologica.pdf\nphi: p. 8",
+      "thickness": null
+    }
+  ],
+  "name": "S3 · bozza AI revisionata",
+  "schema": 1,
+  "water_depth": 0,
+  "water_state": "Assegnata"
+}
