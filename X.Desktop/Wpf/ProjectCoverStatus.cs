@@ -16,7 +16,7 @@ public sealed partial class MainWindow
     {
         sharedStatus.Visibility = Visibility.Collapsed;
         if (document.S("tipo") != "progetti" || currentSheet?.Parent?.Parent is not JsonObject section || editor is null) return;
-        var (temporary, active) = ProjectSharedData.PreviewSection(section, currentSheet, editor.materials?.CaptureState() ?? editor.Data);
+        var (temporary, active) = ProjectSharedData.PreviewSection(section, currentSheet, editor.PreviewData);
         var checks = CoverChecks(temporary, currentSheet.S("modulo_id") == "mat_calcestruzzo" ? null : active);
         var conflicts = ProjectSharedData.Differences(temporary).Where(d =>
             ReferenceEquals(d.First, active) || ReferenceEquals(d.Second, active)).ToArray();

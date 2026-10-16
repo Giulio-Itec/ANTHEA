@@ -38,20 +38,20 @@ public sealed partial class MainWindow
                     throw new Exception("Area di lavoro non valida: " + page);
                 if (page.StartsWith("geo_"))
                 {
-                    editor!.VerifyDisplayLayout();
-                    var position = editor.TranslatePoint(new Point(), root);
-                    if (position.X < 0 || position.Y < 0 || position.X + editor.ActualWidth > root.ActualWidth + 1 || position.Y + editor.ActualHeight > root.ActualHeight + 1)
+                    historicEditor!.VerifyDisplayLayout();
+                    var position = editor!.View.TranslatePoint(new Point(), root);
+                    if (position.X < 0 || position.Y < 0 || position.X + editor.View.ActualWidth > root.ActualWidth + 1 || position.Y + editor.View.ActualHeight > root.ActualHeight + 1)
                         throw new Exception("Il modulo esce dalla finestra visibile");
-                    await editor.VerifyDisplayScrolling(directory, $"{page}_{width}");
+                    await historicEditor.VerifyDisplayScrolling(directory, $"{page}_{width}");
                     if (width == 1600)
                     {
                         string checksDirectory = Path.Combine(directory, page); Directory.CreateDirectory(checksDirectory);
-                        await editor.VerifyStratigraphyEditing(); editor.VerifyPileOutcomes(); await editor.VerifyPresentation(checksDirectory);
-                        editor.VerifyReport(checksDirectory);
+                        await historicEditor.VerifyStratigraphyEditing(); historicEditor.VerifyPileOutcomes(); await historicEditor.VerifyPresentation(checksDirectory);
+                        historicEditor.VerifyReport(checksDirectory);
                         var retainedEditor = editor;
-                        await editor.VerifyNavigationThrough(() => { Commit(); ShowHome(); }, () =>
+                        await historicEditor.VerifyNavigationThrough(() => { Commit(); ShowHome(); }, () =>
                             Ui.Descendants<Button>(dashboardBody).First(b => b.Content is string text && text.StartsWith("Riprendi ·")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)));
-                        await editor.VerifyNavigationThrough(() => { Commit(); ShowHome(); ShowModules(); }, () =>
+                        await historicEditor.VerifyNavigationThrough(() => { Commit(); ShowHome(); ShowModules(); }, () =>
                             Ui.Descendants<Button>(dashboardBody).First(b => Equals(b.Content, "Riprendi")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)));
                         if (!ReferenceEquals(editor, retainedEditor) || body.Content != moduleView) throw new Exception("Riprendi ha ricreato il modulo");
                     }

@@ -46,17 +46,17 @@ public sealed partial class MainWindow
         Directory.CreateDirectory(directory); WindowState = WindowState.Normal;
         var data = PaloOrizzontale.Defaults(); data["stratigrafie"]![0]!.AsArray().Add(PaloOrizzontale.Layer());
         document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", PaloOrizzontale.Module), ("dati", data));
-        dirty = false; currentSheet = null; ShowSheet(document); await editor!.WaitForHorizontalAutomatic();
-        if (editor.Result is null) throw new Exception("Palo orizzontale: calcolo WPF fallito");
+        dirty = false; currentSheet = null; ShowSheet(document); await historicEditor!.WaitForHorizontalAutomatic();
+        if (editor!.Result is null) throw new Exception("Palo orizzontale: calcolo WPF fallito");
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         File.WriteAllBytes(Path.Combine(directory, "orizzontale.png"), Ui.Snapshot(this));
-        await editor.VerifyHorizontal(directory);
+        await historicEditor.VerifyHorizontal(directory);
         double width = Width, height = Height;
         foreach (var size in new[] { (1920,1080), (1600, 990), (1280, 720), (960, 640), (760, 480) })
         {
             Width = size.Item1; Height = size.Item2;
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-            await editor.VerifyHorizontalLayout(directory, size.Item1.ToString());
+            await historicEditor.VerifyHorizontalLayout(directory, size.Item1.ToString());
         }
         Width = width; Height = height;
         var retained = editor; var retainedResult = editor.Result; string retainedData = editor.Data.ToJsonString();
@@ -68,7 +68,7 @@ public sealed partial class MainWindow
         editor.ExportReport(Path.Combine(directory, "orizzontale.docx"), "Palo orizzontale", []);
         File.WriteAllText(Path.Combine(directory, "orizzontale.csv"), PaloOrizzontale.Csv(editor.Result!));
         if (!JsonNode.DeepEquals(editor.Result, PaloOrizzontale.Calculate(editor.Data))) throw new Exception("WPF/Core orizzontale discordanti");
-        dirty = false; LoadFile(Path.Combine(directory, "orizzontale.programma")); await editor.WaitForHorizontalAutomatic();
+        dirty = false; LoadFile(Path.Combine(directory, "orizzontale.programma")); await historicEditor.WaitForHorizontalAutomatic();
         if (editor.Result is null) throw new Exception("Riapertura orizzontale fallita");
         File.WriteAllText(Path.Combine(directory, "orizzontale_smoke.txt"), "Layout 1920/1600/1280/960/760, espansione, scorrimento, modifica/copia/eliminazione strati e stratigrafie, colori/esiti, Home, calcolo automatico all'apertura e alle modifiche, focus continuo, risultati obsoleti scartati, dati incompleti, Dispose, momento automatico, diagrammi, salvataggio/riapertura, JSON, CSV, DOCX: OK");
         dirty = false;
@@ -80,17 +80,17 @@ public sealed partial class MainWindow
         Directory.CreateDirectory(directory);
         var data = MicropaloOrizzontale.Defaults(); data.Array("stratigrafie")[0]!.AsArray().Add(PaloOrizzontale.Layer());
         document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", MicropaloOrizzontale.Module), ("dati", data));
-        dirty = false; currentSheet = null; ShowSheet(document); await editor!.WaitForHorizontalAutomatic();
-        await editor.VerifyChs();
+        dirty = false; currentSheet = null; ShowSheet(document); await historicEditor!.WaitForHorizontalAutomatic();
+        await historicEditor.VerifyChs();
         foreach (var size in new[] { (1920,1080), (1600, 990), (960, 640), (760, 480) }) {
             Width = size.Item1; Height = size.Item2; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-            await editor.VerifyHorizontalLayout(directory, size.Item1.ToString());
+            await historicEditor.VerifyHorizontalLayout(directory, size.Item1.ToString());
         }
         var retained = editor; Commit(); ShowHome(); ResumeCalculation();
         if (!ReferenceEquals(retained, editor)) throw new Exception("Home perde micropalo CHS");
         DocumentService.Save(Path.Combine(directory, "micropalo.programma"), document);
-        editor.ExportReport(Path.Combine(directory, "micropalo.docx"), "Micropalo orizzontale CHS", []);
-        dirty = false; LoadFile(Path.Combine(directory, "micropalo.programma")); await editor.WaitForHorizontalAutomatic();
+        editor!.ExportReport(Path.Combine(directory, "micropalo.docx"), "Micropalo orizzontale CHS", []);
+        dirty = false; LoadFile(Path.Combine(directory, "micropalo.programma")); await historicEditor.WaitForHorizontalAutomatic();
         if (editor.Result?["sezione"].S("tipo") != "CHS") throw new Exception("Riapertura CHS fallita");
         File.WriteAllText(Path.Combine(directory, "smoke.txt"), "Micropalo CHS: layout, catalogo/manuale, calcolo, Home, salvataggio e relazione OK"); dirty = false;
     }

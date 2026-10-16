@@ -23,7 +23,8 @@ public sealed partial class MainWindow : Window
     private JsonObject? currentSheet;
     private string? path;
     private bool dirty;
-    private SheetEditor? editor;
+    private ISheetEditor? editor;
+    private readonly SheetEditorFactory sheetEditors = new();
     private readonly ContentControl body = new();
     private readonly Grid dashboard = new();
     private readonly ScrollViewer dashboardViewport;
@@ -236,7 +237,7 @@ public sealed partial class MainWindow : Window
     private void LoadSheetEditor(JsonObject sheet)
     {
         editor?.Dispose(); currentSheet = sheet; string module = sheet.S("modulo_id");
-        editor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module)); editor.Modified += MarkDirty; editor.Modified += RefreshSharedStatus;
+        editor = sheetEditors.Open(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module)); editor.Modified += MarkDirty; editor.Modified += RefreshSharedStatus;
         foreach(var button in shortReportButtons)button.Visibility=module=="str_palo"?Visibility.Visible:Visibility.Collapsed;
         editor.ConcreteSectionRequested += (data, name) => Safe(() => OpenWallConcreteSection(data, name));
         editor.ReportRequested += () => Safe(ExportReport);
@@ -249,7 +250,7 @@ public sealed partial class MainWindow : Window
         if (projectReadOnly) editor.InspectRevision();
         sharedBaseline = (JsonObject)sheet.DeepClone(); sharedBaseline["dati"] = editor.Data.DeepClone();
         sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or HorizontalPileEditor.Module or MicropaloOrizzontale.Module or WallModel.Module or "mat_calcestruzzo" or RebarEditor.Module or BridgeEditor.Module or BridgeDesignModel.Module
-            ? editor : DisplayAdaptation.Viewport(editor, 1120, 600);
+            ? editor.View : DisplayAdaptation.Viewport(editor.View, 1120, 600);
         heading.Text = SheetHeading(sheet); UpdateBackButton();
         RefreshModelReference(sheet);
         wikiHelp.Visibility = WikiCatalog.ForModule(module) is null ? Visibility.Collapsed : Visibility.Visible;

@@ -14,7 +14,7 @@ public sealed partial class MainWindow
     {
         Directory.CreateDirectory(directory); WindowState = WindowState.Normal; Width = 1600; Height = 990;
         document = Archivio.Documento(BridgeConcept.Module); dirty = false; currentSheet = null; ShowSheet(document);
-        var workspace = editor!.bridgeDesign ?? throw new Exception("Bridge Design non aperto.");
+        var workspace = historicEditor!.bridgeDesign ?? throw new Exception("Bridge Design non aperto.");
         async Task Settle() { await workspace.WaitForCalculationAsync(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); }
         void Check(bool ok, string error) { if (!ok) throw new Exception(error); }
         await Settle();
@@ -33,7 +33,7 @@ public sealed partial class MainWindow
         Check(workspace.Editors["rates/rebar"].Text == "1660" && workspace.Data["rates"].D("rebar") == 1660, "Listino 2026 non aggiorna editor e dati");
         workspace.Undo(); await Settle(); Check(workspace.Editors["rates/rebar"].Text == "1234", "Undo listino perde prezzo personale");
         workspace.Undo(); await Settle();
-        workspace.Editors["input/length"].Text = ""; Check(workspace.Calculation is null && editor.Result is null, "Risultati obsoleti con input vuoto.");
+        workspace.Editors["input/length"].Text = ""; Check(workspace.Calculation is null && editor!.Result is null, "Risultati obsoleti con input vuoto.");
         workspace.Undo(); await Settle(); Check(workspace.Calculation is not null, "Ripristino da input invalido fallito.");
         for (int tab = 0; tab < 4; tab++)
         {
@@ -151,7 +151,7 @@ public sealed partial class MainWindow
         int unavailable = await GenerateSectionReport(section, Path.Combine(directory, "Progetto.docx"), _ => { }, CancellationToken.None);
         Check(unavailable == 0, "Bridge Design non incluso nel report di progetto.");
         // Home keeps the same live editor, just like the other ANTHEA modules.
-        ShowHome(); OpenModule(BridgeConcept.Module); Check(ReferenceEquals(editor!.bridgeDesign, workspace), "Navigazione Home perde la configurazione.");
+        ShowHome(); OpenModule(BridgeConcept.Module); Check(ReferenceEquals(historicEditor!.bridgeDesign, workspace), "Navigazione Home perde la configurazione.");
         workspace.Inputs.SelectedIndex = 0; workspace.Outputs.SelectedIndex = 0;
         foreach (double width in new[] { 1366d, 960d, 780d })
         {

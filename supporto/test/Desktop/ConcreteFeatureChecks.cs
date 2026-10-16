@@ -12,7 +12,7 @@ public sealed partial class MainWindow
         Directory.CreateDirectory(directory);
         document = Archivio.Documento("str_palo"); document["dati"] = SezioneCA.DefaultData(); currentSheet = null; ShowSheet(document);
         await editor!.CalculateAsync();
-        await editor.VerifyConcreteFeatures(directory);
+        await historicEditor!.VerifyConcreteFeatures(directory);
         dirty = false;
     }
 }
