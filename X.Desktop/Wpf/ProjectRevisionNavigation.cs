@@ -136,7 +136,7 @@ public sealed partial class MainWindow
         Archivio.Valida(updated); ProjectRevisions.Validate(updated);
         string? preferredSheet = revisionNavigationSheetId, selection = selectedProjectId;
         ExitRevisionPreview(); DisposeRevisionEditor();
-        document = updated; historyDocument = updated; projectReadOnly = false;
+        document = updated; projectHistory.Track(updated); projectReadOnly = false;
         revisionScopeId = scopeId; projectLayoutSheetMode = null;
         MarkDirty(); switchingProjectRevision = true;
         try
