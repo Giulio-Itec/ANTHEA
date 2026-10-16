@@ -1,0 +1,104 @@
+{
+  "efficienza": {
+    "eta_compressione": "0.85",
+    "eta_trazione": "0,9",
+    "interasse_x": "",
+    "interasse_y": "",
+    "metodo": "Definita dall'utente",
+    "numero_pali_x": "1",
+    "numero_pali_y": "1"
+  },
+  "generali": {
+    "azione_compressione": "2500",
+    "azione_trazione": "600",
+    "considera_sottospinta": false,
+    "diametro": "1.2",
+    "lunghezza": "22",
+    "metodo_nq": "Parametrizzata",
+    "peso_palo_favorevole": "1.00",
+    "peso_palo_sfavorevole": "1.30",
+    "peso_specifico_palo": "25",
+    "presenza_falda": false,
+    "profondita_falda": "",
+    "sicurezza_base": "1.35",
+    "sicurezza_laterale_compressione": "1.15",
+    "sicurezza_laterale_trazione": "1.25",
+    "sottotipo_palo_battuto": "Profilato d'acciaio",
+    "tipo_palo": "Trivellato",
+    "verticali_indagate": "2"
+  },
+  "stratigrafie": [
+    [
+      {
+        "addensamento": "Denso",
+        "angolo_attrito": "33",
+        "coesione_efficace": "0",
+        "coesione_non_drenata": "0",
+        "laterale_attiva": true,
+        "nc": "9",
+        "peso_specifico": "19",
+        "peso_specifico_saturo": "21",
+        "spessore": "8",
+        "tipologia": "Granulare"
+      },
+      {
+        "addensamento": "Denso",
+        "angolo_attrito": "37",
+        "coesione_efficace": "0",
+        "coesione_non_drenata": "0",
+        "laterale_attiva": true,
+        "nc": "9",
+        "peso_specifico": "20",
+        "peso_specifico_saturo": "22",
+        "spessore": "6",
+        "tipologia": "Granulare"
+      }
+    ],
+    [
+      {
+        "addensamento": "Sciolto",
+        "angolo_attrito": "30",
+        "coesione_efficace": "0",
+        "coesione_non_drenata": "0",
+        "laterale_attiva": true,
+        "nc": "9",
+        "peso_specifico": "18",
+        "peso_specifico_saturo": "20",
+        "spessore": "5",
+        "tipologia": "Granulare"
+      },
+      {
+        "addensamento": "Denso",
+        "angolo_attrito": "35",
+        "coesione_efficace": "0",
+        "coesione_non_drenata": "0",
+        "laterale_attiva": true,
+        "nc": "9",
+        "peso_specifico": "20",
+        "peso_specifico_saturo": "21",
+        "spessore": "11",
+        "tipologia": "Granulare"
+      }
+    ],
+    [
+      {
+        "addensamento": "Denso",
+        "angolo_attrito": "34",
+        "coesione_efficace": "0",
+        "coesione_non_drenata": "0",
+        "laterale_attiva": true,
+        "nc": "9",
+        "peso_specifico": "19.5",
+        "peso_specifico_saturo": "21.5",
+        "spessore": "16",
+        "tipologia": "Granulare"
+      }
+    ]
+  ],
+  "versione": 2,
+  "visibilita_grafici": {
+    "media_drenante_compressione": true,
+    "progetto_drenante_trazione": false,
+    "progetto_non_drenante_trazione": false
+  }
+}

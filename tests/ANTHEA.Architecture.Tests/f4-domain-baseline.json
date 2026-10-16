@@ -9116,22 +9116,6 @@
       "Example": "4"
     },
     {
-      "File": "X.Desktop/Wpf/GeoEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SheetEditor.Preview",
-      "Fingerprint": "16EBE42C9F18226CA18DF684CF630D7ADACD45FC8C55E0764B56A07D796A68EE",
-      "Count": 1,
-      "Example": "g . D ( \"lunghezza\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/GeoEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SheetEditor.ShowGeoResults",
-      "Fingerprint": "0A05742767C9597352D03F005988F6D7D57F0F19E5857841D02CF70CD8367E1B",
-      "Count": 1,
-      "Example": "Result . D ( \"profondita_massima\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/GlobalStabilityDrawing.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "GlobalStabilityDrawing.OnRender.P",
@@ -10434,14 +10418,6 @@
       "Fingerprint": "A03BEC72D4D0E17435F1F4A92C95773441CFAD1CD5BBB964E82770DB8B4772CB",
       "Count": 1,
       "Example": "1100d"
-    },
-    {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ModuleFigureRenderer.RenderAsync",
-      "Fingerprint": "D0667AB534ADB29DF1B413ED661DC0FE87F87E104D99DD48ADB6C15401E53F0E",
-      "Count": 1,
-      "Example": "c . Values . D ( \"profondita_massima\" )"
     },
     {
       "File": "X.Desktop/Wpf/NeutralAxisOverlay.cs",
@@ -14164,14 +14140,6 @@
       "Example": "28"
     },
     {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SheetEditor.ShowTable",
-      "Fingerprint": "5D656CC1FED0D8393F2660A49F12B25A7D8249AF6FB209A7D10EBBBCA07EF108",
-      "Count": 1,
-      "Example": "Result . D ( \"profondita_massima\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/SoilTransferDialog.cs",
       "Rule": "R4-implicit-number",
       "Owner": "SoilTransferDialog.SoilTransferDialog.Refresh",
@@ -15058,6 +15026,22 @@
       "Fingerprint": "C0A7F79C7AEE4BFC96D1EEA26E0D2B91844A7BF2A34D83FB46670892D7AB9655",
       "Count": 1,
       "Example": "1e-9"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/VerticalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "VerticalPilePresentation.AvailableDepth",
+      "Fingerprint": "FB92E86A814F75B5A9FDA8B8AB2CBE62BF958C6BA594129FD79D0D3A883886FD",
+      "Count": 1,
+      "Example": "result . D ( \"profondita_massima\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/VerticalPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "VerticalPilePresentation.CapacityEmptyMessage",
+      "Fingerprint": "17559D2A9E75E9C5DC2380FD98053CAA9F62363CC78E7DA6BC0166DEF9AC4A6D",
+      "Count": 1,
+      "Example": "data [ \"generali\" ] . D ( \"lunghezza\" )"
     },
     {
       "File": "src/ANTHEA.Application/Projects/ProjectConcreteFields.cs",

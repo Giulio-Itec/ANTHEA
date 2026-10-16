@@ -56,7 +56,7 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     private readonly ScrollViewer scroll = new() { HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
     private readonly List<Border> cards = [];
     private readonly Dictionary<int, Button> expandButtons = new();
-    private readonly TextBlock status = Ui.Text("Dati da verificare · premere Calcola", color: Ui.Muted);
+    private readonly TextBlock status = Ui.Text(Anthea.Application.Presentation.VerticalPilePresentation.StatusToVerify, color: Ui.Muted);
     private readonly TextBox warnings = new() { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Background = Appearance.Background("#FFFAEB"), MaxHeight = 62, Visibility = Visibility.Collapsed };
     private readonly Button calculate;
     private readonly RecalculationScheduler recalculation = new();
@@ -240,14 +240,14 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     {
         if (building || disposed) return;
         recalculation.Invalidate(); Result = null; tables = []; tableSelect.Items.Clear(); tableHost.Content = null; warnings.Text = ""; warnings.Visibility = Visibility.Collapsed;
-        status.Text = "Dati modificati · premere Calcola"; allSeries.Clear(); visibility.Clear(); curveChoices.Children.Clear(); plot.Series = []; plot.InvalidateVisual();
-        raw.Text = "Dati modificati · risultati da ricalcolare";
+        status.Text = Anthea.Application.Presentation.VerticalPilePresentation.StatusChanged; allSeries.Clear(); visibility.Clear(); curveChoices.Children.Clear(); plot.Series = []; plot.InvalidateVisual();
+        raw.Text = Anthea.Application.Presentation.VerticalPilePresentation.RawChanged;
         Preview(); LayoutCards(); UpdateVerification(); QueueCalculation(); Modified?.Invoke();
     }
     private void QueueCalculation()
     {
         if (!Geo || building || disposed) return;
-        status.Text = "Aggiornamento automatico in attesa…";
+        status.Text = Anthea.Application.Presentation.VerticalPilePresentation.StatusPending;
         scheduledCalculation = CalculateScheduledAsync(TimeSpan.FromMilliseconds(450), commitEdits: false);
     }
     public async Task CalculateAsync(bool commitEdits = true)
@@ -272,7 +272,7 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
         var completed = await recalculation.ScheduleAsync(async token =>
         {
             Busy = true; calculate.IsEnabled = false; if (!Geo) canvas.IsEnabled = false;
-            status.Text = "Calcolo in corso…";
+            status.Text = Anthea.Application.Presentation.VerticalPilePresentation.StatusRunning;
             try { return (await Task.Run(() => calculationSession.Calculate(snapshot, token), token)).Values; }
             finally { Busy = false; if (!disposed) { calculate.IsEnabled = true; canvas.IsEnabled = true; } }
         }, delay);
@@ -282,31 +282,31 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
             {
                 if (current.Error is not null) throw current.Error;
                 var calculated = current.Value!;
-                if (calculated.S("errore") != "") { Result = null; status.Text = "Dati da completare: " + calculated.S("errore"); SetWarnings(Geo ? "" : calculated.S("errore")); return; }
+                if (calculated.S("errore") != "") { Result = null; status.Text = Anthea.Application.Presentation.VerticalPilePresentation.StatusIncomplete(calculated.S("errore")); SetWarnings(Geo ? "" : calculated.S("errore")); return; }
                 Result = calculated; SetWarnings(string.Join(Environment.NewLine, calculated.Array("avvisi").Select(v => v!.ToString())));
                 ShowGeoResults(); raw.Text = Result.ToJsonString(J.Options);
-                status.Text = "Calcolo completato · risultati riferiti ai dati correnti";
+                status.Text = Anthea.Application.Presentation.VerticalPilePresentation.StatusCompleted;
             }
-            catch (Exception ex) { Result = null; status.Text = "Errore: " + ex.Message; SetWarnings(ex.Message); }
+            catch (Exception ex) { Result = null; status.Text = Anthea.Application.Presentation.VerticalPilePresentation.StatusFailed(ex.Message); SetWarnings(ex.Message); }
         });
     }
     private void SetWarnings(string text) { warnings.Text = text; warnings.Visibility = string.IsNullOrWhiteSpace(text) ? Visibility.Collapsed : Visibility.Visible; }
     private void PopulateTables()
-    { tableSelect.Items.Clear(); if (Geo) tableSelect.Items.Add("Capacità portante — riepilogo"); foreach (var t in tables) tableSelect.Items.Add(t.Titolo); if (tableSelect.Items.Count > 0) tableSelect.SelectedIndex = 0; }
+    { tableSelect.Items.Clear(); if (Geo) tableSelect.Items.Add(Anthea.Application.Presentation.VerticalPilePresentation.CapacitySummaryTitle); foreach (var t in tables) tableSelect.Items.Add(t.Titolo); if (tableSelect.Items.Count > 0) tableSelect.SelectedIndex = 0; }
     private void ShowTable()
     {
         int i = tableSelect.SelectedIndex;
         if (Geo && i == 0 && Result is not null)
         {
             var panel = new StackPanel { MaxWidth = 620 };
-            panel.Children.Add(Ui.Text($"Compressione e trazione · quota disponibile {(Micro ? "s" : "z")} = {Result.D("profondita_massima").ToString("0.0", System.Globalization.CultureInfo.GetCultureInfo("it-IT"))} m" + (Result.B("copertura_completa") ? "" : " · copertura incompleta"), 11, color: Ui.Muted));
+            panel.Children.Add(Ui.Text(Anthea.Application.Presentation.VerticalPilePresentation.CapacitySummaryNote(Result, Micro), 11, color: Ui.Muted));
             foreach (var t in Tabelle.CapacitaPalo(Result, Micro))
             {
                 var title = Ui.Text(t.Titolo, 15, true); title.HorizontalAlignment = HorizontalAlignment.Center; title.Margin = new Thickness(0, 12, 0, 5); panel.Children.Add(title);
                 var grid = DetailTable(t);
                 grid.MinHeight = 80; panel.Children.Add(grid);
             }
-            panel.Children.Add(Ui.Text("Ramo governante (media o minimo) scelto separatamente per compressione e trazione.", 10, color: Ui.Muted));
+            panel.Children.Add(Ui.Text(Anthea.Application.Presentation.VerticalPilePresentation.CapacitySummaryFootnote, 10, color: Ui.Muted));
             tableHost.Content = new ScrollViewer { Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
             return;
         }
@@ -315,10 +315,7 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     }
     private static DataGrid DetailTable(Tabella table)
     {
-        var culture = System.Globalization.CultureInfo.GetCultureInfo("it-IT");
-        string Format(string value) => double.TryParse(value, System.Globalization.NumberStyles.Float, culture, out double number) && double.IsFinite(number)
-            ? number.ToString("0.0", culture) : value;
-        var grid = Ui.Table(table.Colonne, table.Righe.Select(row => row.Select(Format).ToArray()));
+        var grid = Ui.Table(table.Colonne, table.Righe.Select(row => row.Select(Anthea.Application.Presentation.VerticalPilePresentation.DetailCell).ToArray()));
         grid.FontSize = 12; grid.MaxWidth = Math.Min(1100, table.Colonne.Length * 155);
         foreach (var column in grid.Columns.Cast<DataGridTextColumn>())
         {

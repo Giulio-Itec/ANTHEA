@@ -1,0 +1,82 @@
+{
+  "module": "geo_micropalo_verticale",
+  "id": "irs-punta-inclinato",
+  "origin": "Fixture sintetica F5.6 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "generali": {
+      "tipo_palo": "Trivellato",
+      "sottotipo_palo_battuto": "Profilato d'acciaio",
+      "diametro": "0.3",
+      "lunghezza": "14",
+      "peso_specifico_palo": "25",
+      "azione_compressione": "450",
+      "azione_trazione": "200",
+      "presenza_falda": false,
+      "considera_sottospinta": false,
+      "profondita_falda": "",
+      "verticali_indagate": "2",
+      "sicurezza_laterale_compressione": "1.15",
+      "sicurezza_laterale_trazione": "1.25",
+      "sicurezza_base": "1.35",
+      "peso_palo_sfavorevole": "1.30",
+      "peso_palo_favorevole": "1.00",
+      "metodo_nq": "Parametrizzata",
+      "metodo_micropalo": "BD-VIGGIANI-2026-09-10",
+      "tipo_iniezione": "IRS",
+      "profilo_chs": "CHS 139.7 × 8",
+      "pressione_iniezione": "2.5",
+      "inclinazione": "15",
+      "inizio_aderenza": "2",
+      "considera_punta": true,
+      "percentuale_punta": "10"
+    },
+    "efficienza": {
+      "metodo": "Converse-Labarre",
+      "numero_pali_x": "2",
+      "numero_pali_y": "2",
+      "interasse_x": "1",
+      "interasse_y": "1,2",
+      "eta_compressione": "1",
+      "eta_trazione": "1"
+    },
+    "stratigrafie": [
+      [
+        {
+          "spessore": "3",
+          "terreno": "Ghiaia",
+          "alpha": "1.8",
+          "laterale_attiva": false
+        },
+        {
+          "spessore": "6",
+          "terreno": "Sabbia ghiaiosa",
+          "alpha": "1.5",
+          "laterale_attiva": true
+        },
+        {
+          "spessore": "8",
+          "terreno": "Roccia alterata e/o fratturata",
+          "alpha": "1.2",
+          "laterale_attiva": true
+        }
+      ],
+      [
+        {
+          "spessore": "5",
+          "terreno": "Ghiaia sabbiosa",
+          "alpha": "1.6",
+          "laterale_attiva": true
+        },
+        {
+          "spessore": "12",
+          "terreno": "Sabbia grossa",
+          "alpha": "1.4",
+          "laterale_attiva": true
+        }
+      ]
+    ],
+    "visibilita_grafici": {},
+    "versione": 2
+  }
+}

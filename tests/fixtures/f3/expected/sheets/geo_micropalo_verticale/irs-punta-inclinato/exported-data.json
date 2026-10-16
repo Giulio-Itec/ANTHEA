@@ -1,0 +1,76 @@
+{
+  "efficienza": {
+    "eta_compressione": "1",
+    "eta_trazione": "1",
+    "interasse_x": "1",
+    "interasse_y": "1,2",
+    "metodo": "Converse-Labarre",
+    "numero_pali_x": "2",
+    "numero_pali_y": "2"
+  },
+  "generali": {
+    "azione_compressione": "450",
+    "azione_trazione": "200",
+    "considera_punta": true,
+    "considera_sottospinta": false,
+    "diametro": "0.3",
+    "inclinazione": "15",
+    "inizio_aderenza": "2",
+    "lunghezza": "14",
+    "metodo_micropalo": "BD-VIGGIANI-2026-09-10",
+    "metodo_nq": "Parametrizzata",
+    "percentuale_punta": "10",
+    "peso_palo_favorevole": "1.00",
+    "peso_palo_sfavorevole": "1.30",
+    "peso_specifico_palo": "25",
+    "presenza_falda": false,
+    "pressione_iniezione": "2.5",
+    "profilo_chs": "CHS 139.7 × 8",
+    "profondita_falda": "",
+    "sicurezza_base": "1.35",
+    "sicurezza_laterale_compressione": "1.15",
+    "sicurezza_laterale_trazione": "1.25",
+    "sottotipo_palo_battuto": "Profilato d'acciaio",
+    "tipo_iniezione": "IRS",
+    "tipo_palo": "Trivellato",
+    "verticali_indagate": "2"
+  },
+  "stratigrafie": [
+    [
+      {
+        "alpha": "1.8",
+        "laterale_attiva": false,
+        "spessore": "3",
+        "terreno": "Ghiaia"
+      },
+      {
+        "alpha": "1.5",
+        "laterale_attiva": true,
+        "spessore": "6",
+        "terreno": "Sabbia ghiaiosa"
+      },
+      {
+        "alpha": "1.2",
+        "laterale_attiva": true,
+        "spessore": "8",
+        "terreno": "Roccia alterata e/o fratturata"
+      }
+    ],
+    [
+      {
+        "alpha": "1.6",
+        "laterale_attiva": true,
+        "spessore": "5",
+        "terreno": "Ghiaia sabbiosa"
+      },
+      {
+        "alpha": "1.4",
+        "laterale_attiva": true,
+        "spessore": "12",
+        "terreno": "Sabbia grossa"
+      }
+    ]
+  ],
+  "versione": 2,
+  "visibilita_grafici": {}
+}

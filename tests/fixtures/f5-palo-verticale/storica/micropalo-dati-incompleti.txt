@@ -1,0 +1,350 @@
+== apertura
+dati {"generali":{"tipo_palo":"Trivellato","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.25","lunghezza":"10","peso_specifico_palo":"25","azione_compressione":"300","azione_trazione":"","presenza_falda":false,"considera_sottospinta":false,"profondita_falda":"","verticali_indagate":"1","sicurezza_laterale_compressione":"1.15","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.35","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata","metodo_micropalo":"BD-VIGGIANI-2026-09-10","tipo_iniezione":"IGU","profilo_chs":"CHS 114.3 × 6.3","pressione_iniezione":"2","inclinazione":"0","inizio_aderenza":"0","considera_punta":true,"percentuale_punta":"20"},"efficienza":{"metodo":"Nessuna riduzione","numero_pali_x":"1","numero_pali_y":"1","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile no
+risultato -
+stato "Aggiornamento automatico in attesa…"
+avvisi ""
+generali
+  scelta tipo_iniezione "Iniezione" = "IGU" voci "IGU|IRS"
+  campo diametro "Diametro perforazione" = "0.25"
+  campo lunghezza "Lunghezza palo" = "10"
+  campo inizio_aderenza "Inizio aderenza lungo asse" = "0"
+  opzione considera_punta "Considera punta" = "sì"
+  campo percentuale_punta "Punta rispetto alla laterale" = "20"
+  campo pressione_iniezione "Pressione di iniezione" = "2"
+  scelta profilo_chs "Profilo CHS" = "CHS 114.3 × 6.3" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo __peso_lineare "Peso al metro del micropalo" = "1,3"
+  campo azione_compressione "Azione assiale — Compressione" = "300"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  campo inclinazione "Inclinazione dalla verticale" = "0"
+  scelta metodo_micropalo "Metodo (richiesto)" = "BD-VIGGIANI-2026-09-10" voci "BD-VIGGIANI-2026-09-10" · nascosto
+efficienza "ηg,c = 1,000\nηg,t = 1,000"
+  scelta metodo "Metodo" = "Nessuna riduzione" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "1" · nascosto
+  campo numero_pali_y "Pali in Y" = "1" · nascosto
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.15"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.35"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 2
+  "Compressione" | "—" | "—" | "—" | "Da verificare"
+  "Trazione" | "—" | "—" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
+viste "Tutte - progetto|Compressione|Trazione" · scelta 0
+grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+curve "Valori a L non disponibili"
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+  serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
+tabelle "" · scelta -1
+json ""
+== conferma
+dati {"generali":{"tipo_palo":"Trivellato","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.25","lunghezza":"10","peso_specifico_palo":"25","azione_compressione":"300","azione_trazione":"","presenza_falda":false,"considera_sottospinta":false,"profondita_falda":"","verticali_indagate":"1","sicurezza_laterale_compressione":"1.15","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.35","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata","metodo_micropalo":"BD-VIGGIANI-2026-09-10","tipo_iniezione":"IGU","profilo_chs":"CHS 114.3 × 6.3","pressione_iniezione":"2","inclinazione":"0","inizio_aderenza":"0","considera_punta":true,"percentuale_punta":"20"},"efficienza":{"metodo":"Nessuna riduzione","numero_pali_x":"1","numero_pali_y":"1","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile no
+risultato -
+stato "Aggiornamento automatico in attesa…"
+avvisi ""
+generali
+  scelta tipo_iniezione "Iniezione" = "IGU" voci "IGU|IRS"
+  campo diametro "Diametro perforazione" = "0.25"
+  campo lunghezza "Lunghezza palo" = "10"
+  campo inizio_aderenza "Inizio aderenza lungo asse" = "0"
+  opzione considera_punta "Considera punta" = "sì"
+  campo percentuale_punta "Punta rispetto alla laterale" = "20"
+  campo pressione_iniezione "Pressione di iniezione" = "2"
+  scelta profilo_chs "Profilo CHS" = "CHS 114.3 × 6.3" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo __peso_lineare "Peso al metro del micropalo" = "1,3"
+  campo azione_compressione "Azione assiale — Compressione" = "300"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  campo inclinazione "Inclinazione dalla verticale" = "0"
+  scelta metodo_micropalo "Metodo (richiesto)" = "BD-VIGGIANI-2026-09-10" voci "BD-VIGGIANI-2026-09-10" · nascosto
+efficienza "ηg,c = 1,000\nηg,t = 1,000"
+  scelta metodo "Metodo" = "Nessuna riduzione" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "1" · nascosto
+  campo numero_pali_y "Pali in Y" = "1" · nascosto
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.15"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.35"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 2
+  "Compressione" | "—" | "—" | "—" | "Da verificare"
+  "Trazione" | "—" | "—" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
+viste "Tutte - progetto|Compressione|Trazione" · scelta 0
+grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+curve "Valori a L non disponibili"
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+  serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
+tabelle "" · scelta -1
+json ""
+== calcola
+dati {"generali":{"tipo_palo":"Trivellato","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.25","lunghezza":"10","peso_specifico_palo":"25","azione_compressione":"300","azione_trazione":"","presenza_falda":false,"considera_sottospinta":false,"profondita_falda":"","verticali_indagate":"1","sicurezza_laterale_compressione":"1.15","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.35","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata","metodo_micropalo":"BD-VIGGIANI-2026-09-10","tipo_iniezione":"IGU","profilo_chs":"CHS 114.3 × 6.3","pressione_iniezione":"2","inclinazione":"0","inizio_aderenza":"0","considera_punta":true,"percentuale_punta":"20"},"efficienza":{"metodo":"Nessuna riduzione","numero_pali_x":"1","numero_pali_y":"1","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile no
+risultato -
+stato "Dati da completare: Il contributo di punta deve essere compreso tra 0% e 15% della resistenza laterale."
+avvisi ""
+generali
+  scelta tipo_iniezione "Iniezione" = "IGU" voci "IGU|IRS"
+  campo diametro "Diametro perforazione" = "0.25"
+  campo lunghezza "Lunghezza palo" = "10"
+  campo inizio_aderenza "Inizio aderenza lungo asse" = "0"
+  opzione considera_punta "Considera punta" = "sì"
+  campo percentuale_punta "Punta rispetto alla laterale" = "20"
+  campo pressione_iniezione "Pressione di iniezione" = "2"
+  scelta profilo_chs "Profilo CHS" = "CHS 114.3 × 6.3" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo __peso_lineare "Peso al metro del micropalo" = "1,3"
+  campo azione_compressione "Azione assiale — Compressione" = "300"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  campo inclinazione "Inclinazione dalla verticale" = "0"
+  scelta metodo_micropalo "Metodo (richiesto)" = "BD-VIGGIANI-2026-09-10" voci "BD-VIGGIANI-2026-09-10" · nascosto
+efficienza "ηg,c = 1,000\nηg,t = 1,000"
+  scelta metodo "Metodo" = "Nessuna riduzione" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "1" · nascosto
+  campo numero_pali_y "Pali in Y" = "1" · nascosto
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.15"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.35"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 2
+  "Compressione" | "—" | "—" | "—" | "Da verificare"
+  "Trazione" | "—" | "—" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
+viste "Tutte - progetto|Compressione|Trazione" · scelta 0
+grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+curve "Valori a L non disponibili"
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+  serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
+tabelle "" · scelta -1
+json ""
+== conferma
+dati {"generali":{"tipo_palo":"Trivellato","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.25","lunghezza":"10","peso_specifico_palo":"25","azione_compressione":"300","azione_trazione":"","presenza_falda":false,"considera_sottospinta":false,"profondita_falda":"","verticali_indagate":"1","sicurezza_laterale_compressione":"1.15","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.35","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata","metodo_micropalo":"BD-VIGGIANI-2026-09-10","tipo_iniezione":"IGU","profilo_chs":"CHS 114.3 × 6.3","pressione_iniezione":"2","inclinazione":"0","inizio_aderenza":"0","considera_punta":true,"percentuale_punta":"20"},"efficienza":{"metodo":"Nessuna riduzione","numero_pali_x":"1","numero_pali_y":"1","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile no
+risultato -
+stato "Dati da completare: Il contributo di punta deve essere compreso tra 0% e 15% della resistenza laterale."
+avvisi ""
+generali
+  scelta tipo_iniezione "Iniezione" = "IGU" voci "IGU|IRS"
+  campo diametro "Diametro perforazione" = "0.25"
+  campo lunghezza "Lunghezza palo" = "10"
+  campo inizio_aderenza "Inizio aderenza lungo asse" = "0"
+  opzione considera_punta "Considera punta" = "sì"
+  campo percentuale_punta "Punta rispetto alla laterale" = "20"
+  campo pressione_iniezione "Pressione di iniezione" = "2"
+  scelta profilo_chs "Profilo CHS" = "CHS 114.3 × 6.3" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo __peso_lineare "Peso al metro del micropalo" = "1,3"
+  campo azione_compressione "Azione assiale — Compressione" = "300"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  campo inclinazione "Inclinazione dalla verticale" = "0"
+  scelta metodo_micropalo "Metodo (richiesto)" = "BD-VIGGIANI-2026-09-10" voci "BD-VIGGIANI-2026-09-10" · nascosto
+efficienza "ηg,c = 1,000\nηg,t = 1,000"
+  scelta metodo "Metodo" = "Nessuna riduzione" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "1" · nascosto
+  campo numero_pali_y "Pali in Y" = "1" · nascosto
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.15"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.35"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 2
+  "Compressione" | "—" | "—" | "—" | "Da verificare"
+  "Trazione" | "—" | "—" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
+viste "Tutte - progetto|Compressione|Trazione" · scelta 0
+grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+curve "Valori a L non disponibili"
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+  serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
+tabelle "" · scelta -1
+json ""
+== riapri
+dati {"generali":{"tipo_palo":"Trivellato","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.25","lunghezza":"10","peso_specifico_palo":"25","azione_compressione":"300","azione_trazione":"","presenza_falda":false,"considera_sottospinta":false,"profondita_falda":"","verticali_indagate":"1","sicurezza_laterale_compressione":"1.15","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.35","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata","metodo_micropalo":"BD-VIGGIANI-2026-09-10","tipo_iniezione":"IGU","profilo_chs":"CHS 114.3 × 6.3","pressione_iniezione":"2","inclinazione":"0","inizio_aderenza":"0","considera_punta":true,"percentuale_punta":"20"},"efficienza":{"metodo":"Nessuna riduzione","numero_pali_x":"1","numero_pali_y":"1","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile no
+risultato -
+stato "Aggiornamento automatico in attesa…"
+avvisi ""
+generali
+  scelta tipo_iniezione "Iniezione" = "IGU" voci "IGU|IRS"
+  campo diametro "Diametro perforazione" = "0.25"
+  campo lunghezza "Lunghezza palo" = "10"
+  campo inizio_aderenza "Inizio aderenza lungo asse" = "0"
+  opzione considera_punta "Considera punta" = "sì"
+  campo percentuale_punta "Punta rispetto alla laterale" = "20"
+  campo pressione_iniezione "Pressione di iniezione" = "2"
+  scelta profilo_chs "Profilo CHS" = "CHS 114.3 × 6.3" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo __peso_lineare "Peso al metro del micropalo" = "1,3"
+  campo azione_compressione "Azione assiale — Compressione" = "300"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  campo inclinazione "Inclinazione dalla verticale" = "0"
+  scelta metodo_micropalo "Metodo (richiesto)" = "BD-VIGGIANI-2026-09-10" voci "BD-VIGGIANI-2026-09-10" · nascosto
+efficienza "ηg,c = 1,000\nηg,t = 1,000"
+  scelta metodo "Metodo" = "Nessuna riduzione" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "1" · nascosto
+  campo numero_pali_y "Pali in Y" = "1" · nascosto
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.15"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.35"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 2
+  "Compressione" | "—" | "—" | "—" | "Da verificare"
+  "Trazione" | "—" | "—" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
+viste "Tutte - progetto|Compressione|Trazione" · scelta 0
+grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+curve "Valori a L non disponibili"
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+  serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
+tabelle "" · scelta -1
+json ""
+== conferma
+dati {"generali":{"tipo_palo":"Trivellato","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.25","lunghezza":"10","peso_specifico_palo":"25","azione_compressione":"300","azione_trazione":"","presenza_falda":false,"considera_sottospinta":false,"profondita_falda":"","verticali_indagate":"1","sicurezza_laterale_compressione":"1.15","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.35","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata","metodo_micropalo":"BD-VIGGIANI-2026-09-10","tipo_iniezione":"IGU","profilo_chs":"CHS 114.3 × 6.3","pressione_iniezione":"2","inclinazione":"0","inizio_aderenza":"0","considera_punta":true,"percentuale_punta":"20"},"efficienza":{"metodo":"Nessuna riduzione","numero_pali_x":"1","numero_pali_y":"1","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile no
+risultato -
+stato "Aggiornamento automatico in attesa…"
+avvisi ""
+generali
+  scelta tipo_iniezione "Iniezione" = "IGU" voci "IGU|IRS"
+  campo diametro "Diametro perforazione" = "0.25"
+  campo lunghezza "Lunghezza palo" = "10"
+  campo inizio_aderenza "Inizio aderenza lungo asse" = "0"
+  opzione considera_punta "Considera punta" = "sì"
+  campo percentuale_punta "Punta rispetto alla laterale" = "20"
+  campo pressione_iniezione "Pressione di iniezione" = "2"
+  scelta profilo_chs "Profilo CHS" = "CHS 114.3 × 6.3" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo __peso_lineare "Peso al metro del micropalo" = "1,3"
+  campo azione_compressione "Azione assiale — Compressione" = "300"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  campo inclinazione "Inclinazione dalla verticale" = "0"
+  scelta metodo_micropalo "Metodo (richiesto)" = "BD-VIGGIANI-2026-09-10" voci "BD-VIGGIANI-2026-09-10" · nascosto
+efficienza "ηg,c = 1,000\nηg,t = 1,000"
+  scelta metodo "Metodo" = "Nessuna riduzione" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "1" · nascosto
+  campo numero_pali_y "Pali in Y" = "1" · nascosto
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.15"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.35"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 2
+  "Compressione" | "—" | "—" | "—" | "Da verificare"
+  "Trazione" | "—" | "—" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
+viste "Tutte - progetto|Compressione|Trazione" · scelta 0
+grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+curve "Valori a L non disponibili"
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+  serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
+tabelle "" · scelta -1
+json ""
+== attendi
+dati {"generali":{"tipo_palo":"Trivellato","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.25","lunghezza":"10","peso_specifico_palo":"25","azione_compressione":"300","azione_trazione":"","presenza_falda":false,"considera_sottospinta":false,"profondita_falda":"","verticali_indagate":"1","sicurezza_laterale_compressione":"1.15","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.35","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata","metodo_micropalo":"BD-VIGGIANI-2026-09-10","tipo_iniezione":"IGU","profilo_chs":"CHS 114.3 × 6.3","pressione_iniezione":"2","inclinazione":"0","inizio_aderenza":"0","considera_punta":true,"percentuale_punta":"20"},"efficienza":{"metodo":"Nessuna riduzione","numero_pali_x":"1","numero_pali_y":"1","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile no
+risultato -
+stato "Dati da completare: Il contributo di punta deve essere compreso tra 0% e 15% della resistenza laterale."
+avvisi ""
+generali
+  scelta tipo_iniezione "Iniezione" = "IGU" voci "IGU|IRS"
+  campo diametro "Diametro perforazione" = "0.25"
+  campo lunghezza "Lunghezza palo" = "10"
+  campo inizio_aderenza "Inizio aderenza lungo asse" = "0"
+  opzione considera_punta "Considera punta" = "sì"
+  campo percentuale_punta "Punta rispetto alla laterale" = "20"
+  campo pressione_iniezione "Pressione di iniezione" = "2"
+  scelta profilo_chs "Profilo CHS" = "CHS 114.3 × 6.3" voci "CHS 60.3 × 3.2|CHS 60.3 × 3.6|CHS 60.3 × 4|CHS 60.3 × 5|CHS 60.3 × 6.3|CHS 60.3 × 8|CHS 76.1 × 3.2|CHS 76.1 × 3.6|CHS 76.1 × 4|CHS 76.1 × 5|CHS 76.1 × 6.3|CHS 76.1 × 8|CHS 88.9 × 3.2|CHS 88.9 × 3.6|CHS 88.9 × 4|CHS 88.9 × 5|CHS 88.9 × 6.3|CHS 88.9 × 8|CHS 88.9 × 10|CHS 114.3 × 3.6|CHS 114.3 × 4|CHS 114.3 × 5|CHS 114.3 × 6.3|CHS 114.3 × 8|CHS 114.3 × 10|CHS 139.7 × 3.6|CHS 139.7 × 4|CHS 139.7 × 5|CHS 139.7 × 6.3|CHS 139.7 × 8|CHS 168.3 × 5|CHS 168.3 × 6.3|CHS 168.3 × 8|CHS 168.3 × 10|CHS 168.3 × 12.5|CHS 193.7 × 5|CHS 193.7 × 6.3|CHS 193.7 × 8|CHS 193.7 × 10|CHS 193.7 × 12.5|CHS 193.7 × 14.2|CHS 193.7 × 16|CHS 219.1 × 5|CHS 219.1 × 6.3|CHS 219.1 × 8|CHS 219.1 × 10|CHS 219.1 × 12.5|CHS 219.1 × 14.2|CHS 219.1 × 16|CHS 244.5 × 5|CHS 244.5 × 6.3|CHS 244.5 × 8|CHS 244.5 × 10|CHS 244.5 × 12.5|CHS 244.5 × 14.2|CHS 244.5 × 16|CHS 273 × 5|CHS 273 × 6.3|CHS 273 × 8|CHS 273 × 10|CHS 273 × 12.5|CHS 273 × 14.2|CHS 273 × 16|CHS 273 × 17.5"
+  campo __peso_lineare "Peso al metro del micropalo" = "1,3"
+  campo azione_compressione "Azione assiale — Compressione" = "300"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  campo inclinazione "Inclinazione dalla verticale" = "0"
+  scelta metodo_micropalo "Metodo (richiesto)" = "BD-VIGGIANI-2026-09-10" voci "BD-VIGGIANI-2026-09-10" · nascosto
+efficienza "ηg,c = 1,000\nηg,t = 1,000"
+  scelta metodo "Metodo" = "Nessuna riduzione" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "1" · nascosto
+  campo numero_pali_y "Pali in Y" = "1" · nascosto
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.15"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.35"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 2
+  "Compressione" | "—" | "—" | "—" | "Da verificare"
+  "Trazione" | "—" | "—" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
+viste "Tutte - progetto|Compressione|Trazione" · scelta 0
+grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+curve "Valori a L non disponibili"
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+  serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
+tabelle "" · scelta -1
+json ""

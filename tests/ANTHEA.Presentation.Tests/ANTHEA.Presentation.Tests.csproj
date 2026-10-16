@@ -8,6 +8,15 @@
   <ItemGroup><Compile Include="../Shared/PileGroupTrace.cs" Link="Shared/PileGroupTrace.cs" /></ItemGroup>
   <!-- Scenarios and traces of the material sheets (F5.5), shared with the trace of the historic views in the UiTests build of X.Desktop. -->
   <ItemGroup><Compile Include="../Shared/MaterialTrace.cs" Link="Shared/MaterialTrace.cs" /></ItemGroup>
+  <!-- Scenarios and traces of the vertical pile and micropile sheet (F5.6), shared with the trace of the historic view in the UiTests build of X.Desktop. -->
+  <ItemGroup><Compile Include="../Shared/VerticalPileTrace.cs" Link="Shared/VerticalPileTrace.cs" /></ItemGroup>
+  <!-- F5.6: the comparison of ui/f3-equivalence (tolerances and F4 transitions) for the files of the vertical piles with transitions. -->
+  <ItemGroup>
+    <Compile Include="../ANTHEA.Testing/Comparison/BaselineComparer.cs" Link="Shared/BaselineComparer.cs" />
+    <Compile Include="../ANTHEA.Testing/Comparison/Tolerances.cs" Link="Shared/Tolerances.cs" />
+    <Compile Include="../ANTHEA.Testing/Comparison/Transitions.cs" Link="Shared/Transitions.cs" />
+    <Compile Include="../ANTHEA.Testing/Comparison/NumberText.cs" Link="Shared/NumberText.cs" />
+  </ItemGroup>
   <!-- Canonical JSON and report text of the F3 captures (tests/ANTHEA.Testing), linked without the toolkit and its legacy engines. -->
   <ItemGroup>
     <Compile Include="../ANTHEA.Testing/Normalization/CanonicalJson.cs" Link="Shared/CanonicalJson.cs" />

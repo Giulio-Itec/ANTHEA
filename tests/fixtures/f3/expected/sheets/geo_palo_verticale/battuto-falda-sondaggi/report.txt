@@ -1,0 +1,239 @@
+# word/document.xml
+¶ ANTHEA — Fixture F3 · geo_palo_verticale · battuto-falda-sondaggi
+¶ Palo — capacità portante · <DATA> <ORA>
+¶ Dati generali — m, kN, kPa, gradi; p_i in MPa
+[T1 r1 c1] Parametro
+[T1 r1 c2] Valore
+[T1 r2 c1] tipo_palo
+[T1 r2 c2] Battuto
+[T1 r3 c1] sottotipo_palo_battuto
+[T1 r3 c2] Calcestruzzo prefabbricato
+[T1 r4 c1] diametro
+[T1 r4 c2] 0,6
+[T1 r5 c1] lunghezza
+[T1 r5 c2] 15
+[T1 r6 c1] peso_specifico_palo
+[T1 r6 c2] 25
+[T1 r7 c1] azione_compressione
+[T1 r7 c2] 1200
+[T1 r8 c1] azione_trazione
+[T1 r8 c2] 250
+[T1 r9 c1] presenza_falda
+[T1 r9 c2] true
+[T1 r10 c1] considera_sottospinta
+[T1 r10 c2] true
+[T1 r11 c1] profondita_falda
+[T1 r11 c2] 2,5
+[T1 r12 c1] verticali_indagate
+[T1 r12 c2] 3
+[T1 r13 c1] sicurezza_laterale_compressione
+[T1 r13 c2] 1,15
+[T1 r14 c1] sicurezza_laterale_trazione
+[T1 r14 c2] 1,25
+[T1 r15 c1] sicurezza_base
+[T1 r15 c2] 1,15
+[T1 r16 c1] peso_palo_sfavorevole
+[T1 r16 c2] 1,3
+[T1 r17 c1] peso_palo_favorevole
+[T1 r17 c2] 1
+[T1 r18 c1] metodo_nq
+[T1 r18 c2] Parametrizzata
+¶ Efficienza — dati
+[T2 r1 c1] Parametro
+[T2 r1 c2] Valore
+[T2 r2 c1] metodo
+[T2 r2 c2] Converse-Labarre
+[T2 r3 c1] numero_pali_x
+[T2 r3 c2] 3
+[T2 r4 c1] numero_pali_y
+[T2 r4 c2] 2
+[T2 r5 c1] interasse_x
+[T2 r5 c2] 1,8
+[T2 r6 c1] interasse_y
+[T2 r6 c2] 2,1
+[T2 r7 c1] eta_compressione
+[T2 r7 c2] 1
+[T2 r8 c1] eta_trazione
+[T2 r8 c2] 1
+¶ Efficienza — risultati
+[T3 r1 c1] Parametro
+[T3 r1 c2] Valore
+[T3 r2 c1] errore
+[T3 r2 c2]
+[T3 r3 c1] metodo
+[T3 r3 c2] Converse-Labarre
+[T3 r4 c1] eta_compressione
+[T3 r4 c2] 0,8
+[T3 r5 c1] eta_trazione
+[T3 r5 c2] 0,8
+[T3 r6 c1] numero_pali
+[T3 r6 c2] 6,0
+¶ Coefficienti applicati
+[T4 r1 c1] Parametro
+[T4 r1 c2] Valore
+[T4 r2 c1] ξ3
+[T4 r2 c2] 1,6
+[T4 r3 c1] ξ4
+[T4 r3 c2] 1,48
+[T4 r4 c1] γs,c
+[T4 r4 c2] 1,15
+[T4 r5 c1] γs,t
+[T4 r5 c2] 1,25
+[T4 r6 c1] γb
+[T4 r6 c2] 1,15
+[T4 r7 c1] γG sfavorevole
+[T4 r7 c2] 1,3
+[T4 r8 c1] γG favorevole
+[T4 r8 c2] 1
+¶ Sondaggio 1 — strato 1
+[T5 r1 c1] Parametro
+[T5 r1 c2] Valore
+[T5 r2 c1] spessore
+[T5 r2 c2] 4
+[T5 r3 c1] tipologia
+[T5 r3 c2] Granulare
+[T5 r4 c1] addensamento
+[T5 r4 c2] Sciolto
+[T5 r5 c1] peso_specifico
+[T5 r5 c2] 18
+[T5 r6 c1] peso_specifico_saturo
+[T5 r6 c2] 20
+[T5 r7 c1] angolo_attrito
+[T5 r7 c2] 30
+[T5 r8 c1] coesione_efficace
+[T5 r8 c2] 0
+[T5 r9 c1] coesione_non_drenata
+[T5 r9 c2] 0
+[T5 r10 c1] nc
+[T5 r10 c2] 9
+[T5 r11 c1] laterale_attiva
+[T5 r11 c2] true
+¶ Sondaggio 1 — strato 2
+[T6 r1 c1] Parametro
+[T6 r1 c2] Valore
+[T6 r2 c1] spessore
+[T6 r2 c2] 6
+[T6 r3 c1] tipologia
+[T6 r3 c2] Coesivo
+[T6 r4 c1] addensamento
+[T6 r4 c2] Denso
+[T6 r5 c1] peso_specifico
+[T6 r5 c2] 19
+[T6 r6 c1] peso_specifico_saturo
+[T6 r6 c2] 20
+[T6 r7 c1] angolo_attrito
+[T6 r7 c2] 24
+[T6 r8 c1] coesione_efficace
+[T6 r8 c2] 10
+[T6 r9 c1] coesione_non_drenata
+[T6 r9 c2] 80
+[T6 r10 c1] nc
+[T6 r10 c2] 9
+[T6 r11 c1] laterale_attiva
+[T6 r11 c2] true
+¶ Sondaggio 1 — strato 3
+[T7 r1 c1] Parametro
+[T7 r1 c2] Valore
+[T7 r2 c1] spessore
+[T7 r2 c2] 10
+[T7 r3 c1] tipologia
+[T7 r3 c2] Granulare
+[T7 r4 c1] addensamento
+[T7 r4 c2] Denso
+[T7 r5 c1] peso_specifico
+[T7 r5 c2] 20
+[T7 r6 c1] peso_specifico_saturo
+[T7 r6 c2] 22
+[T7 r7 c1] angolo_attrito
+[T7 r7 c2] 36
+[T7 r8 c1] coesione_efficace
+[T7 r8 c2] 0
+[T7 r9 c1] coesione_non_drenata
+[T7 r9 c2] 0
+[T7 r10 c1] nc
+[T7 r10 c2] 9
+[T7 r11 c1] laterale_attiva
+[T7 r11 c2] true
+¶ Profilo del sondaggio 1
+¶ Sondaggio 2 — strato 1
+[T8 r1 c1] Parametro
+[T8 r1 c2] Valore
+[T8 r2 c1] spessore
+[T8 r2 c2] 8
+[T8 r3 c1] tipologia
+[T8 r3 c2] Granulare
+[T8 r4 c1] addensamento
+[T8 r4 c2] Denso
+[T8 r5 c1] peso_specifico
+[T8 r5 c2] 19,5
+[T8 r6 c1] peso_specifico_saturo
+[T8 r6 c2] 21
+[T8 r7 c1] angolo_attrito
+[T8 r7 c2] 34
+[T8 r8 c1] coesione_efficace
+[T8 r8 c2] 0
+[T8 r9 c1] coesione_non_drenata
+[T8 r9 c2] 0
+[T8 r10 c1] nc
+[T8 r10 c2] 9
+[T8 r11 c1] laterale_attiva
+[T8 r11 c2] true
+¶ Sondaggio 2 — strato 2
+[T9 r1 c1] Parametro
+[T9 r1 c2] Valore
+[T9 r2 c1] spessore
+[T9 r2 c2] 12
+[T9 r3 c1] tipologia
+[T9 r3 c2] Coesivo
+[T9 r4 c1] addensamento
+[T9 r4 c2] Sciolto
+[T9 r5 c1] peso_specifico
+[T9 r5 c2] 18,5
+[T9 r6 c1] peso_specifico_saturo
+[T9 r6 c2] 19,5
+[T9 r7 c1] angolo_attrito
+[T9 r7 c2] 22
+[T9 r8 c1] coesione_efficace
+[T9 r8 c2] 5
+[T9 r9 c1] coesione_non_drenata
+[T9 r9 c2] 60
+[T9 r10 c1] nc
+[T9 r10 c2] 7
+[T9 r11 c1] laterale_attiva
+[T9 r11 c2] true
+¶ Profilo del sondaggio 2
+¶ Metodo
+¶ Parametrizzata NQ-2026-09-09: D ≤ 0,80 m, Nq = 10^(a+b·φ), b=1/(φ100-φ10), a=1-b·φ10. D > 0,80 m: Nq* da cubiche raccordate a 34° e 38°, adattate alla figura fornita. φ in gradi, senza riduzioni. Per una quota z si usa z/D; alla punta finale z=L. Tra le curve: t=ln(r/r1)/ln(r2/r1), interpolazione geometrica di Nq per i pali medi e aritmetica di Nq* per i grandi. Questa regola tra L/D è una scelta numerica mantenuta dal metodo precedente, non desunta dalla figura. Fuori dagli intervalli visibili si usa il bordo, con segnalazione; i valori limitati non costituiscono una validazione fuori campo.
+¶ Criteri e unità
+¶ Lunghezze m; forze kN; tensioni e aderenze kPa; pesi specifici kN/m³. I valori arrotondati sono solo di presentazione. I minimi dei contributi laterale e di punta sono valutati separatamente.
+¶ Rd,c = ηc min[Rb,media/(ξ3 γb) + Rs,media/(ξ3 γs,c); Rb,min/(ξ4 γb) + Rs,min/(ξ4 γs,c)]. Rd,t = ηt min[Rs,media/(ξ3 γs,t); Rs,min/(ξ4 γs,t)].
+¶ Rd drenata: Rb,calc = Ab σ′v Nq; Rs = ΣπD Δz (c′ + k μ σ′media). Non drenata coesiva sotto falda: τ=α Cu e Rb,calc = Ab (Nc Cu + σv,L totale), formulazione lorda richiesta il 16/09/2026. Sopra falda si usa il ramo drenato. Peso del palo nelle azioni per condizione e verso: a trazione, drenata e non drenata, sempre il peso alleggerito W′ = W − γw A (z − zf) sotto falda; a compressione non drenata con la base lorda Ab (Nc cu + σv,L totale), punta coesiva sotto falda in almeno una verticale, sempre il peso intero W (σv contiene già la pressione dell'acqua alla base); a compressione drenata (e non drenata senza base lorda) W′ con «Considera sottospinta», W altrimenti (a favore di sicurezza). Ogni condizione è confrontata con la propria resistenza.
+¶ Resistenze di progetto
+[T10 r1 c1] Verifica
+[T10 r1 c2] Quota [m]
+[T10 r1 c3] Rd [kN]
+[T10 r1 c4] Ed [kN]
+[T10 r1 c5] Esito
+[T10 r2 c1] drenante compressione
+[T10 r2 c2] 15,0
+[T10 r2 c3] 840,3
+[T10 r2 c4] 1292,8
+[T10 r2 c5] Verifica non soddisfatta
+[T10 r3 c1] drenante trazione
+[T10 r3 c2] 15,0
+[T10 r3 c3] 639,0
+[T10 r3 c4] 178,6
+[T10 r3 c5] Verifica soddisfatta
+[T10 r4 c1] non drenante compressione
+[T10 r4 c2] 15,0
+[T10 r4 c3] 721,1
+[T10 r4 c4] 1337,8
+[T10 r4 c5] Verifica non soddisfatta
+[T10 r5 c1] non drenante trazione
+[T10 r5 c2] 15,0
+[T10 r5 c3] 578,1
+[T10 r5 c4] 178,6
+[T10 r5 c5] Verifica soddisfatta
+¶ Capacità portante del palo
+¶ Nq parametrizzato
+¶ Profilo stratigrafico

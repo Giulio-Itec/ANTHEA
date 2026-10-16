@@ -107,3 +107,33 @@ armature da 1 a 7 (54 in tutto); gli attesi delle 42 esistenti e le transizioni 
 - In `expected/esito.txt` è cambiato solo il numero delle fixture (42 → 54). Il numero degli articoli resta quello del
   riferimento, con la transizione F4-51.
 - Impronte nel manifest, sezione `fixture_aggiunte_f5_5`, sulla forma conservata da git (fine riga LF).
+
+## Fixture aggiunte in F5.6 (palo e micropalo verticale)
+
+Stessa regola di F5.4 (proposta F5, sezione 7.2): prima della preparazione di F5.6 il palo e il micropalo verticale sono
+passati da 3 + 3 a 7 + 6 fixture (49 in tutto), catturate con la vista storica (ramo generico di `SheetEditor` e
+`GeoEditor`). Gli attesi delle 42 fixture esistenti, le figure congelate esistenti e le transizioni F4 non cambiano.
+
+| Fixture | Cosa copre |
+| --- | --- |
+| `geo_palo_verticale--battuto-falda-sondaggi` | palo battuto prefabbricato, falda a 2,5 m con sottospinta, due stratigrafie con strati granulari e coesivi (ramo non drenato), ξ di tre verticali, Converse–Labarre, γb della tecnologia; compressione non verificata |
+| `geo_palo_verticale--elica-coesivo-avvisi` | elica continua in terreni coesivi, falda al piano campagna senza sottospinta, primo strato escluso dalla laterale, Feld, γb del foglio diverso da quello della tecnologia (avviso), trazione non inserita |
+| `geo_palo_verticale--copertura-insufficiente` | palo trivellato più lungo delle stratigrafie (risultati limitati alla quota disponibile, avviso della scheda), tre stratigrafie, efficienza definita dall'utente con la virgola, visibilità dei grafici salvata nel foglio |
+| `geo_palo_verticale--dati-incompleti` | strato coesivo sotto falda senza Cu: calcolo fermato con «Dati da completare», nessun risultato e nessun report |
+| `geo_micropalo_verticale--irs-punta-inclinato` | micropalo IRS con punta al 10%, inclinato di 15°, aderenza da 2 m lungo l'asse, tubo CHS, due stratigrafie (uno strato escluso), Converse–Labarre |
+| `geo_micropalo_verticale--igu-copertura-avvisi` | micropalo IGU senza punta, stratigrafie più corte del micropalo, Feld, tre stratigrafie, visibilità dei grafici salvata nel foglio |
+| `geo_micropalo_verticale--dati-incompleti` | contributo di punta oltre il 15%: calcolo fermato con «Dati da completare» |
+
+- Gli input vengono da `fixtures-f3` (`F3Fixtures.VerticalPileF56`). Sono documenti come li scrive la scheda (testi per i
+  valori digitati, anche con la virgola; booleani JSON per le opzioni) e archivi validi. Nessun identificativo finisce con
+  `default`.
+- Gli attesi (59 file) vengono dalla cattura `20261016-134647-f56-f3-cattura-d`, sul codice di produzione di `3c336992`;
+  la seconda cattura (`…-134953-f56-f3-cattura-e`) dà gli stessi 59 file.
+- `ui/f3-figures` confronta le serie dei grafici di ogni fixture dei pali verticali: le 7 figure nuove di
+  `tests/fixtures/f3-figures` vengono da due catture uguali di `--check-f3-figures-capture`, nelle quali le 6 esistenti sono
+  uguali al riferimento congelato.
+- Con queste fixture passano `ui/f3-equivalence` (stesse transizioni F4), `ui/f3-report-chapters`, `ui/f3-figures` e
+  `ui/f3-scheduling`.
+- In `expected/esito.txt` è cambiato solo il numero delle fixture (42 → 49).
+- Impronte nel manifest, sezione `fixture_aggiunte_f5_6` (input, attesi, figure ed `esito.txt`), sulla forma conservata da
+  git (fine riga LF).
