@@ -1,0 +1,910 @@
+== apertura
+dati {"versione_orizzontale":1,"generali":{"diametro":"1","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione c.a.","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"shape":"Circolare","diameter_mm":1000,"circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0,"coefficienti_unitari":false},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}}}
+modificato 0 · modificabile sì · esportabile no · dettagli no · scheda 0
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro palo" = "1"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione c.a." voci "Sezione c.a.|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta classe_cls "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "fck del materiale" = "35"
+  campo alpha_cc "αcc archivio" = "0.85" · nascosto
+  campo gamma_c "γc archivio" = "1.50" · nascosto
+  campo __fcd "Resistenza di progetto a compressione" = "19,8"
+  scelta classe_acciaio "Acciaio" = "B450C" voci "B450A|B450C|Personalizzato"
+  campo fyk_mpa "fyk del materiale" = "450"
+  campo gamma_s "γs archivio" = "1.15" · nascosto
+  opzione coefficienti_unitari "Coefficienti unitari" = "no"
+  campo __fyd "Resistenza a snervamento di progetto" = "391,3"
+  scelta longitudinal_bar_diameter_mm "Diametro barre" = "24" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40"
+  campo longitudinal_bar_count "Numero barre" = "16"
+  opzione second_inner_enabled "Secondo anello interno" = "no"
+  campo second_inner_count "Numero barre dell'anello interno" = "" · nascosto
+  scelta second_inner_diameter "Diametro barre dell'anello interno" = "" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40" · nascosto
+  campo second_inner_gap "Distanza libera dalla prima fila" = "" · nascosto
+  scelta transverse_bar_diameter_mm "Diametro staffa" = "10" voci "6|8|10|12|14|16|18|20"
+  campo transverse_spacing_mm "Passo staffe" = "200"
+  campo gamma_ca "Peso unitario c.a. adottato (acciaio incluso)" = "25"
+  campo cover_mm "Copriferro netto" = "70"
+  scelta esposizione "Esposizione" = "" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+  scelta vita_durabilita "Vita utile per durabilità" = "50" voci "50|100"
+  opzione qualita_copriferro "Controllo qualità copriferro confermato" = "no"
+  campo steel_modulus_mpa "Modulo elastico acciaio" = "200000"
+  scelta cls_diagramma "Legame calcestruzzo" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+  scelta steel_diagramma "Legame acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+  campo steel_fu_mpa "Resistenza ultima" = "540"
+  campo steel_eps_u "Deformazione ultima" = "75"
+  scelta circular_sides "Lati del contorno" = "32" voci "16|32|64|96|128|256"
+  gruppo "Dati opzionali e proprietà materiali" fck_mpa|fyk_mpa|__fcd|__fyd|gamma_ca|esposizione|vita_durabilita|qualita_copriferro|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|cls_diagramma|steel_diagramma|circular_sides
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione contorno 32 0E523EC348875E50 · barre 16 2DE1A460590C8E3F · staffa 425 10 · assi · "Sezione principale · staffa verde" · chs -
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"1","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione c.a.","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"shape":"Circolare","diameter_mm":1000,"circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0,"coefficienti_unitari":false},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}}}
+modificato 0 · modificabile sì · esportabile no · dettagli no · scheda 0
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro palo" = "1"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione c.a." voci "Sezione c.a.|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta classe_cls "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "fck del materiale" = "35"
+  campo alpha_cc "αcc archivio" = "0.85" · nascosto
+  campo gamma_c "γc archivio" = "1.50" · nascosto
+  campo __fcd "Resistenza di progetto a compressione" = "19,8"
+  scelta classe_acciaio "Acciaio" = "B450C" voci "B450A|B450C|Personalizzato"
+  campo fyk_mpa "fyk del materiale" = "450"
+  campo gamma_s "γs archivio" = "1.15" · nascosto
+  opzione coefficienti_unitari "Coefficienti unitari" = "no"
+  campo __fyd "Resistenza a snervamento di progetto" = "391,3"
+  scelta longitudinal_bar_diameter_mm "Diametro barre" = "24" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40"
+  campo longitudinal_bar_count "Numero barre" = "16"
+  opzione second_inner_enabled "Secondo anello interno" = "no"
+  campo second_inner_count "Numero barre dell'anello interno" = "" · nascosto
+  scelta second_inner_diameter "Diametro barre dell'anello interno" = "" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40" · nascosto
+  campo second_inner_gap "Distanza libera dalla prima fila" = "" · nascosto
+  scelta transverse_bar_diameter_mm "Diametro staffa" = "10" voci "6|8|10|12|14|16|18|20"
+  campo transverse_spacing_mm "Passo staffe" = "200"
+  campo gamma_ca "Peso unitario c.a. adottato (acciaio incluso)" = "25"
+  campo cover_mm "Copriferro netto" = "70"
+  scelta esposizione "Esposizione" = "" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+  scelta vita_durabilita "Vita utile per durabilità" = "50" voci "50|100"
+  opzione qualita_copriferro "Controllo qualità copriferro confermato" = "no"
+  campo steel_modulus_mpa "Modulo elastico acciaio" = "200000"
+  scelta cls_diagramma "Legame calcestruzzo" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+  scelta steel_diagramma "Legame acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+  campo steel_fu_mpa "Resistenza ultima" = "540"
+  campo steel_eps_u "Deformazione ultima" = "75"
+  scelta circular_sides "Lati del contorno" = "32" voci "16|32|64|96|128|256"
+  gruppo "Dati opzionali e proprietà materiali" fck_mpa|fyk_mpa|__fcd|__fyd|gamma_ca|esposizione|vita_durabilita|qualita_copriferro|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|cls_diagramma|steel_diagramma|circular_sides
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione contorno 32 0E523EC348875E50 · barre 16 2DE1A460590C8E3F · staffa 425 10 · assi · "Sezione principale · staffa verde" · chs -
+== scheda [1]
+dati {"versione_orizzontale":1,"generali":{"diametro":"1","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione c.a.","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"shape":"Circolare","diameter_mm":1000,"circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0,"coefficienti_unitari":false},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"elastico"}
+modificato 1 · modificabile sì · esportabile no · dettagli no · scheda 1
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro palo" = "1"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione c.a." voci "Sezione c.a.|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta classe_cls "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "fck del materiale" = "35"
+  campo alpha_cc "αcc archivio" = "0.85" · nascosto
+  campo gamma_c "γc archivio" = "1.50" · nascosto
+  campo __fcd "Resistenza di progetto a compressione" = "19,8"
+  scelta classe_acciaio "Acciaio" = "B450C" voci "B450A|B450C|Personalizzato"
+  campo fyk_mpa "fyk del materiale" = "450"
+  campo gamma_s "γs archivio" = "1.15" · nascosto
+  opzione coefficienti_unitari "Coefficienti unitari" = "no"
+  campo __fyd "Resistenza a snervamento di progetto" = "391,3"
+  scelta longitudinal_bar_diameter_mm "Diametro barre" = "24" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40"
+  campo longitudinal_bar_count "Numero barre" = "16"
+  opzione second_inner_enabled "Secondo anello interno" = "no"
+  campo second_inner_count "Numero barre dell'anello interno" = "" · nascosto
+  scelta second_inner_diameter "Diametro barre dell'anello interno" = "" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40" · nascosto
+  campo second_inner_gap "Distanza libera dalla prima fila" = "" · nascosto
+  scelta transverse_bar_diameter_mm "Diametro staffa" = "10" voci "6|8|10|12|14|16|18|20"
+  campo transverse_spacing_mm "Passo staffe" = "200"
+  campo gamma_ca "Peso unitario c.a. adottato (acciaio incluso)" = "25"
+  campo cover_mm "Copriferro netto" = "70"
+  scelta esposizione "Esposizione" = "" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+  scelta vita_durabilita "Vita utile per durabilità" = "50" voci "50|100"
+  opzione qualita_copriferro "Controllo qualità copriferro confermato" = "no"
+  campo steel_modulus_mpa "Modulo elastico acciaio" = "200000"
+  scelta cls_diagramma "Legame calcestruzzo" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+  scelta steel_diagramma "Legame acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+  campo steel_fu_mpa "Resistenza ultima" = "540"
+  campo steel_eps_u "Deformazione ultima" = "75"
+  scelta circular_sides "Lati del contorno" = "32" voci "16|32|64|96|128|256"
+  gruppo "Dati opzionali e proprietà materiali" fck_mpa|fyk_mpa|__fcd|__fyd|gamma_ca|esposizione|vita_durabilita|qualita_copriferro|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|cls_diagramma|steel_diagramma|circular_sides
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione contorno 32 0E523EC348875E50 · barre 16 2DE1A460590C8E3F · staffa 425 10 · assi · "Sezione principale · staffa verde" · chs -
+== scheda [0]
+dati {"versione_orizzontale":1,"generali":{"diametro":"1","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione c.a.","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"shape":"Circolare","diameter_mm":1000,"circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0,"coefficienti_unitari":false},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 2 · modificabile sì · esportabile no · dettagli no · scheda 0
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro palo" = "1"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione c.a." voci "Sezione c.a.|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta classe_cls "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "fck del materiale" = "35"
+  campo alpha_cc "αcc archivio" = "0.85" · nascosto
+  campo gamma_c "γc archivio" = "1.50" · nascosto
+  campo __fcd "Resistenza di progetto a compressione" = "19,8"
+  scelta classe_acciaio "Acciaio" = "B450C" voci "B450A|B450C|Personalizzato"
+  campo fyk_mpa "fyk del materiale" = "450"
+  campo gamma_s "γs archivio" = "1.15" · nascosto
+  opzione coefficienti_unitari "Coefficienti unitari" = "no"
+  campo __fyd "Resistenza a snervamento di progetto" = "391,3"
+  scelta longitudinal_bar_diameter_mm "Diametro barre" = "24" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40"
+  campo longitudinal_bar_count "Numero barre" = "16"
+  opzione second_inner_enabled "Secondo anello interno" = "no"
+  campo second_inner_count "Numero barre dell'anello interno" = "" · nascosto
+  scelta second_inner_diameter "Diametro barre dell'anello interno" = "" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40" · nascosto
+  campo second_inner_gap "Distanza libera dalla prima fila" = "" · nascosto
+  scelta transverse_bar_diameter_mm "Diametro staffa" = "10" voci "6|8|10|12|14|16|18|20"
+  campo transverse_spacing_mm "Passo staffe" = "200"
+  campo gamma_ca "Peso unitario c.a. adottato (acciaio incluso)" = "25"
+  campo cover_mm "Copriferro netto" = "70"
+  scelta esposizione "Esposizione" = "" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+  scelta vita_durabilita "Vita utile per durabilità" = "50" voci "50|100"
+  opzione qualita_copriferro "Controllo qualità copriferro confermato" = "no"
+  campo steel_modulus_mpa "Modulo elastico acciaio" = "200000"
+  scelta cls_diagramma "Legame calcestruzzo" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+  scelta steel_diagramma "Legame acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+  campo steel_fu_mpa "Resistenza ultima" = "540"
+  campo steel_eps_u "Deformazione ultima" = "75"
+  scelta circular_sides "Lati del contorno" = "32" voci "16|32|64|96|128|256"
+  gruppo "Dati opzionali e proprietà materiali" fck_mpa|fyk_mpa|__fcd|__fyd|gamma_ca|esposizione|vita_durabilita|qualita_copriferro|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|cls_diagramma|steel_diagramma|circular_sides
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione contorno 32 0E523EC348875E50 · barre 16 2DE1A460590C8E3F · staffa 425 10 · assi · "Sezione principale · staffa verde" · chs -
+== attendi
+dati {"versione_orizzontale":1,"generali":{"diametro":"1","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione c.a.","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"shape":"Circolare","diameter_mm":1000,"circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0,"coefficienti_unitari":false},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 2 · modificabile sì · esportabile sì · dettagli sì · scheda 0
+risultato 61AB0D8DE9D2C4C3
+stato "Calcolo completato · diagrammi alla capacità ultima"
+sintesi "Lungo · stratigrafia 1\nMy = 1.088,1 kNm\nHEd / Hu = 16,7%\nVerifica normativa incompleta."
+momento "MRd = 1.088,1 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = 0,471 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+form generali
+  campo diametro "Diametro palo" = "1"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione c.a." voci "Sezione c.a.|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta classe_cls "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "fck del materiale" = "35"
+  campo alpha_cc "αcc archivio" = "0.85" · nascosto
+  campo gamma_c "γc archivio" = "1.50" · nascosto
+  campo __fcd "Resistenza di progetto a compressione" = "19,8"
+  scelta classe_acciaio "Acciaio" = "B450C" voci "B450A|B450C|Personalizzato"
+  campo fyk_mpa "fyk del materiale" = "450"
+  campo gamma_s "γs archivio" = "1.15" · nascosto
+  opzione coefficienti_unitari "Coefficienti unitari" = "no"
+  campo __fyd "Resistenza a snervamento di progetto" = "391,3"
+  scelta longitudinal_bar_diameter_mm "Diametro barre" = "24" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40"
+  campo longitudinal_bar_count "Numero barre" = "16"
+  opzione second_inner_enabled "Secondo anello interno" = "no"
+  campo second_inner_count "Numero barre dell'anello interno" = "" · nascosto
+  scelta second_inner_diameter "Diametro barre dell'anello interno" = "" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40" · nascosto
+  campo second_inner_gap "Distanza libera dalla prima fila" = "" · nascosto
+  scelta transverse_bar_diameter_mm "Diametro staffa" = "10" voci "6|8|10|12|14|16|18|20"
+  campo transverse_spacing_mm "Passo staffe" = "200"
+  campo gamma_ca "Peso unitario c.a. adottato (acciaio incluso)" = "25"
+  campo cover_mm "Copriferro netto" = "70"
+  scelta esposizione "Esposizione" = "" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+  scelta vita_durabilita "Vita utile per durabilità" = "50" voci "50|100"
+  opzione qualita_copriferro "Controllo qualità copriferro confermato" = "no"
+  campo steel_modulus_mpa "Modulo elastico acciaio" = "200000"
+  scelta cls_diagramma "Legame calcestruzzo" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+  scelta steel_diagramma "Legame acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+  campo steel_fu_mpa "Resistenza ultima" = "540"
+  campo steel_eps_u "Deformazione ultima" = "75"
+  scelta circular_sides "Lati del contorno" = "32" voci "16|32|64|96|128|256"
+  gruppo "Dati opzionali e proprietà materiali" fck_mpa|fyk_mpa|__fcd|__fyd|gamma_ca|esposizione|vita_durabilita|qualita_copriferro|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|cls_diagramma|steel_diagramma|circular_sides
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Verifica soddisfatta" soddisfatta
+  "Azione orizzontale HEd" | "100,0"
+  "Capacità ultima Hu" | "599,8"
+  "Resistenza caratteristica Rk" | "352,8"
+  "Resistenza di progetto Rd" | "271,4"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione contorno 32 0E523EC348875E50 · barre 16 2DE1A460590C8E3F · staffa 425 10 · assi · "Sezione principale · staffa verde" · chs -
+risultati sondaggio 1 · "Lungo · Hu 599,8 kN · |M|max 1.088,1 kNm a z=2,7 m\nResidui: H 0,0 kN · M 0,0 kNm · Raggiunta\nCerniere z [m]: 2,7 · Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio."
+  tabella "Tabella terreno" colonne "z [m]|Lato|Strato|σv [kPa]|u [kPa]|σ′v [kPa]|q_lim [kPa]|p_lim [kN/m]|Q [kN]" righe 204 300B1FDE3FAB23C2
+    "0,000" | "dopo" | "1" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00"
+    "0,100" | "prima" | "1" | "1,80" | "0,00" | "1,80" | "16,20" | "16,20" | "0,81"
+  tabella "Tabella" colonne "z [m]|Lato|p [kN/m]|V [kN]|M [kNm]" righe 104 5D06048A6CD315CD
+    "0,0" | "nodo" | "0,0" | "599,8" | "0,0"
+    "0,1" | "nodo" | "16,2" | "599,0" | "60,0"
+  tabella "Meccanismi" colonne "Meccanismo|H [kN]|Stato" righe 2 DEAA42CCEFE388CA
+    "Corto" | "2.700,0" | "Candidato non governante; limite precedente già raggiunto"
+    "Lungo" | "599,8" | "Ammissibile, governante"
+== calcola
+dati {"versione_orizzontale":1,"generali":{"diametro":"1","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione c.a.","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"shape":"Circolare","diameter_mm":1000,"circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0,"coefficienti_unitari":false},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 2 · modificabile sì · esportabile sì · dettagli sì · scheda 0
+risultato 61AB0D8DE9D2C4C3
+stato "Calcolo completato · diagrammi alla capacità ultima"
+sintesi "Lungo · stratigrafia 1\nMy = 1.088,1 kNm\nHEd / Hu = 16,7%\nVerifica normativa incompleta."
+momento "MRd = 1.088,1 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = 0,471 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+form generali
+  campo diametro "Diametro palo" = "1"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione c.a." voci "Sezione c.a.|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta classe_cls "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "fck del materiale" = "35"
+  campo alpha_cc "αcc archivio" = "0.85" · nascosto
+  campo gamma_c "γc archivio" = "1.50" · nascosto
+  campo __fcd "Resistenza di progetto a compressione" = "19,8"
+  scelta classe_acciaio "Acciaio" = "B450C" voci "B450A|B450C|Personalizzato"
+  campo fyk_mpa "fyk del materiale" = "450"
+  campo gamma_s "γs archivio" = "1.15" · nascosto
+  opzione coefficienti_unitari "Coefficienti unitari" = "no"
+  campo __fyd "Resistenza a snervamento di progetto" = "391,3"
+  scelta longitudinal_bar_diameter_mm "Diametro barre" = "24" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40"
+  campo longitudinal_bar_count "Numero barre" = "16"
+  opzione second_inner_enabled "Secondo anello interno" = "no"
+  campo second_inner_count "Numero barre dell'anello interno" = "" · nascosto
+  scelta second_inner_diameter "Diametro barre dell'anello interno" = "" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40" · nascosto
+  campo second_inner_gap "Distanza libera dalla prima fila" = "" · nascosto
+  scelta transverse_bar_diameter_mm "Diametro staffa" = "10" voci "6|8|10|12|14|16|18|20"
+  campo transverse_spacing_mm "Passo staffe" = "200"
+  campo gamma_ca "Peso unitario c.a. adottato (acciaio incluso)" = "25"
+  campo cover_mm "Copriferro netto" = "70"
+  scelta esposizione "Esposizione" = "" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+  scelta vita_durabilita "Vita utile per durabilità" = "50" voci "50|100"
+  opzione qualita_copriferro "Controllo qualità copriferro confermato" = "no"
+  campo steel_modulus_mpa "Modulo elastico acciaio" = "200000"
+  scelta cls_diagramma "Legame calcestruzzo" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+  scelta steel_diagramma "Legame acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+  campo steel_fu_mpa "Resistenza ultima" = "540"
+  campo steel_eps_u "Deformazione ultima" = "75"
+  scelta circular_sides "Lati del contorno" = "32" voci "16|32|64|96|128|256"
+  gruppo "Dati opzionali e proprietà materiali" fck_mpa|fyk_mpa|__fcd|__fyd|gamma_ca|esposizione|vita_durabilita|qualita_copriferro|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|cls_diagramma|steel_diagramma|circular_sides
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Verifica soddisfatta" soddisfatta
+  "Azione orizzontale HEd" | "100,0"
+  "Capacità ultima Hu" | "599,8"
+  "Resistenza caratteristica Rk" | "352,8"
+  "Resistenza di progetto Rd" | "271,4"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione contorno 32 0E523EC348875E50 · barre 16 2DE1A460590C8E3F · staffa 425 10 · assi · "Sezione principale · staffa verde" · chs -
+risultati sondaggio 1 · "Lungo · Hu 599,8 kN · |M|max 1.088,1 kNm a z=2,7 m\nResidui: H 0,0 kN · M 0,0 kNm · Raggiunta\nCerniere z [m]: 2,7 · Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio."
+  tabella "Tabella terreno" colonne "z [m]|Lato|Strato|σv [kPa]|u [kPa]|σ′v [kPa]|q_lim [kPa]|p_lim [kN/m]|Q [kN]" righe 204 300B1FDE3FAB23C2
+    "0,000" | "dopo" | "1" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00"
+    "0,100" | "prima" | "1" | "1,80" | "0,00" | "1,80" | "16,20" | "16,20" | "0,81"
+  tabella "Tabella" colonne "z [m]|Lato|p [kN/m]|V [kN]|M [kNm]" righe 104 5D06048A6CD315CD
+    "0,0" | "nodo" | "0,0" | "599,8" | "0,0"
+    "0,1" | "nodo" | "16,2" | "599,0" | "60,0"
+  tabella "Meccanismi" colonne "Meccanismo|H [kN]|Stato" righe 2 DEAA42CCEFE388CA
+    "Corto" | "2.700,0" | "Candidato non governante; limite precedente già raggiunto"
+    "Lungo" | "599,8" | "Ammissibile, governante"
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"1","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione c.a.","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"shape":"Circolare","diameter_mm":1000,"circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0,"coefficienti_unitari":false},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 2 · modificabile sì · esportabile sì · dettagli sì · scheda 0
+risultato 61AB0D8DE9D2C4C3
+stato "Calcolo completato · diagrammi alla capacità ultima"
+sintesi "Lungo · stratigrafia 1\nMy = 1.088,1 kNm\nHEd / Hu = 16,7%\nVerifica normativa incompleta."
+momento "MRd = 1.088,1 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = 0,471 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+form generali
+  campo diametro "Diametro palo" = "1"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione c.a." voci "Sezione c.a.|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta classe_cls "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "fck del materiale" = "35"
+  campo alpha_cc "αcc archivio" = "0.85" · nascosto
+  campo gamma_c "γc archivio" = "1.50" · nascosto
+  campo __fcd "Resistenza di progetto a compressione" = "19,8"
+  scelta classe_acciaio "Acciaio" = "B450C" voci "B450A|B450C|Personalizzato"
+  campo fyk_mpa "fyk del materiale" = "450"
+  campo gamma_s "γs archivio" = "1.15" · nascosto
+  opzione coefficienti_unitari "Coefficienti unitari" = "no"
+  campo __fyd "Resistenza a snervamento di progetto" = "391,3"
+  scelta longitudinal_bar_diameter_mm "Diametro barre" = "24" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40"
+  campo longitudinal_bar_count "Numero barre" = "16"
+  opzione second_inner_enabled "Secondo anello interno" = "no"
+  campo second_inner_count "Numero barre dell'anello interno" = "" · nascosto
+  scelta second_inner_diameter "Diametro barre dell'anello interno" = "" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40" · nascosto
+  campo second_inner_gap "Distanza libera dalla prima fila" = "" · nascosto
+  scelta transverse_bar_diameter_mm "Diametro staffa" = "10" voci "6|8|10|12|14|16|18|20"
+  campo transverse_spacing_mm "Passo staffe" = "200"
+  campo gamma_ca "Peso unitario c.a. adottato (acciaio incluso)" = "25"
+  campo cover_mm "Copriferro netto" = "70"
+  scelta esposizione "Esposizione" = "" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+  scelta vita_durabilita "Vita utile per durabilità" = "50" voci "50|100"
+  opzione qualita_copriferro "Controllo qualità copriferro confermato" = "no"
+  campo steel_modulus_mpa "Modulo elastico acciaio" = "200000"
+  scelta cls_diagramma "Legame calcestruzzo" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+  scelta steel_diagramma "Legame acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+  campo steel_fu_mpa "Resistenza ultima" = "540"
+  campo steel_eps_u "Deformazione ultima" = "75"
+  scelta circular_sides "Lati del contorno" = "32" voci "16|32|64|96|128|256"
+  gruppo "Dati opzionali e proprietà materiali" fck_mpa|fyk_mpa|__fcd|__fyd|gamma_ca|esposizione|vita_durabilita|qualita_copriferro|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|cls_diagramma|steel_diagramma|circular_sides
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Verifica soddisfatta" soddisfatta
+  "Azione orizzontale HEd" | "100,0"
+  "Capacità ultima Hu" | "599,8"
+  "Resistenza caratteristica Rk" | "352,8"
+  "Resistenza di progetto Rd" | "271,4"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione contorno 32 0E523EC348875E50 · barre 16 2DE1A460590C8E3F · staffa 425 10 · assi · "Sezione principale · staffa verde" · chs -
+risultati sondaggio 1 · "Lungo · Hu 599,8 kN · |M|max 1.088,1 kNm a z=2,7 m\nResidui: H 0,0 kN · M 0,0 kNm · Raggiunta\nCerniere z [m]: 2,7 · Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio."
+  tabella "Tabella terreno" colonne "z [m]|Lato|Strato|σv [kPa]|u [kPa]|σ′v [kPa]|q_lim [kPa]|p_lim [kN/m]|Q [kN]" righe 204 300B1FDE3FAB23C2
+    "0,000" | "dopo" | "1" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00"
+    "0,100" | "prima" | "1" | "1,80" | "0,00" | "1,80" | "16,20" | "16,20" | "0,81"
+  tabella "Tabella" colonne "z [m]|Lato|p [kN/m]|V [kN]|M [kNm]" righe 104 5D06048A6CD315CD
+    "0,0" | "nodo" | "0,0" | "599,8" | "0,0"
+    "0,1" | "nodo" | "16,2" | "599,0" | "60,0"
+  tabella "Meccanismi" colonne "Meccanismo|H [kN]|Stato" righe 2 DEAA42CCEFE388CA
+    "Corto" | "2.700,0" | "Candidato non governante; limite precedente già raggiunto"
+    "Lungo" | "599,8" | "Ammissibile, governante"
+== riapri
+dati {"versione_orizzontale":1,"generali":{"diametro":"1","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione c.a.","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"shape":"Circolare","diameter_mm":1000,"circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0,"coefficienti_unitari":false},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 0 · modificabile sì · esportabile no · dettagli no · scheda 0
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro palo" = "1"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione c.a." voci "Sezione c.a.|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta classe_cls "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "fck del materiale" = "35"
+  campo alpha_cc "αcc archivio" = "0.85" · nascosto
+  campo gamma_c "γc archivio" = "1.50" · nascosto
+  campo __fcd "Resistenza di progetto a compressione" = "19,8"
+  scelta classe_acciaio "Acciaio" = "B450C" voci "B450A|B450C|Personalizzato"
+  campo fyk_mpa "fyk del materiale" = "450"
+  campo gamma_s "γs archivio" = "1.15" · nascosto
+  opzione coefficienti_unitari "Coefficienti unitari" = "no"
+  campo __fyd "Resistenza a snervamento di progetto" = "391,3"
+  scelta longitudinal_bar_diameter_mm "Diametro barre" = "24" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40"
+  campo longitudinal_bar_count "Numero barre" = "16"
+  opzione second_inner_enabled "Secondo anello interno" = "no"
+  campo second_inner_count "Numero barre dell'anello interno" = "" · nascosto
+  scelta second_inner_diameter "Diametro barre dell'anello interno" = "" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40" · nascosto
+  campo second_inner_gap "Distanza libera dalla prima fila" = "" · nascosto
+  scelta transverse_bar_diameter_mm "Diametro staffa" = "10" voci "6|8|10|12|14|16|18|20"
+  campo transverse_spacing_mm "Passo staffe" = "200"
+  campo gamma_ca "Peso unitario c.a. adottato (acciaio incluso)" = "25"
+  campo cover_mm "Copriferro netto" = "70"
+  scelta esposizione "Esposizione" = "" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+  scelta vita_durabilita "Vita utile per durabilità" = "50" voci "50|100"
+  opzione qualita_copriferro "Controllo qualità copriferro confermato" = "no"
+  campo steel_modulus_mpa "Modulo elastico acciaio" = "200000"
+  scelta cls_diagramma "Legame calcestruzzo" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+  scelta steel_diagramma "Legame acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+  campo steel_fu_mpa "Resistenza ultima" = "540"
+  campo steel_eps_u "Deformazione ultima" = "75"
+  scelta circular_sides "Lati del contorno" = "32" voci "16|32|64|96|128|256"
+  gruppo "Dati opzionali e proprietà materiali" fck_mpa|fyk_mpa|__fcd|__fyd|gamma_ca|esposizione|vita_durabilita|qualita_copriferro|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|cls_diagramma|steel_diagramma|circular_sides
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione contorno 32 0E523EC348875E50 · barre 16 2DE1A460590C8E3F · staffa 425 10 · assi · "Sezione principale · staffa verde" · chs -
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"1","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione c.a.","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"shape":"Circolare","diameter_mm":1000,"circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0,"coefficienti_unitari":false},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 0 · modificabile sì · esportabile no · dettagli no · scheda 0
+risultato -
+stato "Aggiornamento automatico in attesa…"
+sintesi "Completare i dati · calcolo automatico"
+momento "Momento da calcolare" · nota ""
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi ""
+form generali
+  campo diametro "Diametro palo" = "1"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione c.a." voci "Sezione c.a.|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta classe_cls "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "fck del materiale" = "35"
+  campo alpha_cc "αcc archivio" = "0.85" · nascosto
+  campo gamma_c "γc archivio" = "1.50" · nascosto
+  campo __fcd "Resistenza di progetto a compressione" = "19,8"
+  scelta classe_acciaio "Acciaio" = "B450C" voci "B450A|B450C|Personalizzato"
+  campo fyk_mpa "fyk del materiale" = "450"
+  campo gamma_s "γs archivio" = "1.15" · nascosto
+  opzione coefficienti_unitari "Coefficienti unitari" = "no"
+  campo __fyd "Resistenza a snervamento di progetto" = "391,3"
+  scelta longitudinal_bar_diameter_mm "Diametro barre" = "24" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40"
+  campo longitudinal_bar_count "Numero barre" = "16"
+  opzione second_inner_enabled "Secondo anello interno" = "no"
+  campo second_inner_count "Numero barre dell'anello interno" = "" · nascosto
+  scelta second_inner_diameter "Diametro barre dell'anello interno" = "" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40" · nascosto
+  campo second_inner_gap "Distanza libera dalla prima fila" = "" · nascosto
+  scelta transverse_bar_diameter_mm "Diametro staffa" = "10" voci "6|8|10|12|14|16|18|20"
+  campo transverse_spacing_mm "Passo staffe" = "200"
+  campo gamma_ca "Peso unitario c.a. adottato (acciaio incluso)" = "25"
+  campo cover_mm "Copriferro netto" = "70"
+  scelta esposizione "Esposizione" = "" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+  scelta vita_durabilita "Vita utile per durabilità" = "50" voci "50|100"
+  opzione qualita_copriferro "Controllo qualità copriferro confermato" = "no"
+  campo steel_modulus_mpa "Modulo elastico acciaio" = "200000"
+  scelta cls_diagramma "Legame calcestruzzo" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+  scelta steel_diagramma "Legame acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+  campo steel_fu_mpa "Resistenza ultima" = "540"
+  campo steel_eps_u "Deformazione ultima" = "75"
+  scelta circular_sides "Lati del contorno" = "32" voci "16|32|64|96|128|256"
+  gruppo "Dati opzionali e proprietà materiali" fck_mpa|fyk_mpa|__fcd|__fyd|gamma_ca|esposizione|vita_durabilita|qualita_copriferro|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|cls_diagramma|steel_diagramma|circular_sides
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Da calcolare" attenuato
+  "Azione orizzontale HEd" | "—"
+  "Capacità ultima Hu" | "—"
+  "Resistenza caratteristica Rk" | "—"
+  "Resistenza di progetto Rd" | "—"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione contorno 32 0E523EC348875E50 · barre 16 2DE1A460590C8E3F · staffa 425 10 · assi · "Sezione principale · staffa verde" · chs -
+== attendi
+dati {"versione_orizzontale":1,"generali":{"diametro":"1","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione c.a.","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"shape":"Circolare","diameter_mm":1000,"circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0,"coefficienti_unitari":false},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."}}]],"elastico":{"versione":2,"stratigrafia":0,"punta":"Libera","passo":0.5,"visualizzazione":{},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 0 · modificabile sì · esportabile sì · dettagli sì · scheda 0
+risultato 61AB0D8DE9D2C4C3
+stato "Calcolo completato · diagrammi alla capacità ultima"
+sintesi "Lungo · stratigrafia 1\nMy = 1.088,1 kNm\nHEd / Hu = 16,7%\nVerifica normativa incompleta."
+momento "MRd = 1.088,1 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = 0,471 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+form generali
+  campo diametro "Diametro palo" = "1"
+  campo lunghezza "Lunghezza infissa" = "10"
+  campo eccentricita "Eccentricità forza sopra il piano campagna" = "0"
+  campo tratto_libero "Tratto libero sopra il terreno" = "0"
+  scelta vincolo "Rotazione in testa" = "Libera" voci "Libera|Impedita"
+  campo azione_orizzontale "Forza orizzontale" = "100"
+  campo azione_assiale "Forza assiale (+ compressione)" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda" = "0" · spento · attenuato
+  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  gruppo "Dati opzionali · peso acqua" gamma_acqua
+form modello
+  scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
+  campo passo "Passo diagrammi" = "0.10"
+  campo tolleranza "Tolleranza radici" = "1e-8"
+form coefficienti
+  scelta verticali_indagate "Verticali indagate" = "1" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,70"
+  campo __xi4 "Correlazione" = "1,70"
+  campo __gamma_r "Sicurezza resistenza" = "1,30"
+form efficienza
+  scelta efficienza_metodo "Efficienza" = "Manuale" voci "Manuale|Reese & Van Impe (foglio)"
+  campo efficienza_eta "Efficienza manuale" = "1"
+  campo interasse_anteriore "Interasse anteriore" = "" · spento · attenuato
+  campo interasse_posteriore "Interasse posteriore" = "" · spento · attenuato
+  campo interasse_sinistro "Interasse sinistro" = "" · spento · attenuato
+  campo interasse_destro "Interasse destro" = "" · spento · attenuato
+  campo __eta "Efficienza adottata" = "1,000"
+form momento
+  scelta origine_momento "Momento adottato da" = "Sezione c.a." voci "Sezione c.a.|Manuale"
+  campo momento_resistente "Momento manuale" = "1000" · spento · attenuato
+  campo provenienza_momento "Natura / fonte My manuale" = "" · spento · attenuato
+form sezione
+  scelta classe_cls "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "fck del materiale" = "35"
+  campo alpha_cc "αcc archivio" = "0.85" · nascosto
+  campo gamma_c "γc archivio" = "1.50" · nascosto
+  campo __fcd "Resistenza di progetto a compressione" = "19,8"
+  scelta classe_acciaio "Acciaio" = "B450C" voci "B450A|B450C|Personalizzato"
+  campo fyk_mpa "fyk del materiale" = "450"
+  campo gamma_s "γs archivio" = "1.15" · nascosto
+  opzione coefficienti_unitari "Coefficienti unitari" = "no"
+  campo __fyd "Resistenza a snervamento di progetto" = "391,3"
+  scelta longitudinal_bar_diameter_mm "Diametro barre" = "24" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40"
+  campo longitudinal_bar_count "Numero barre" = "16"
+  opzione second_inner_enabled "Secondo anello interno" = "no"
+  campo second_inner_count "Numero barre dell'anello interno" = "" · nascosto
+  scelta second_inner_diameter "Diametro barre dell'anello interno" = "" voci "8|10|12|14|16|18|20|22|24|25|26|28|30|32|36|40" · nascosto
+  campo second_inner_gap "Distanza libera dalla prima fila" = "" · nascosto
+  scelta transverse_bar_diameter_mm "Diametro staffa" = "10" voci "6|8|10|12|14|16|18|20"
+  campo transverse_spacing_mm "Passo staffe" = "200"
+  campo gamma_ca "Peso unitario c.a. adottato (acciaio incluso)" = "25"
+  campo cover_mm "Copriferro netto" = "70"
+  scelta esposizione "Esposizione" = "" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+  scelta vita_durabilita "Vita utile per durabilità" = "50" voci "50|100"
+  opzione qualita_copriferro "Controllo qualità copriferro confermato" = "no"
+  campo steel_modulus_mpa "Modulo elastico acciaio" = "200000"
+  scelta cls_diagramma "Legame calcestruzzo" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+  scelta steel_diagramma "Legame acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+  campo steel_fu_mpa "Resistenza ultima" = "540"
+  campo steel_eps_u "Deformazione ultima" = "75"
+  scelta circular_sides "Lati del contorno" = "32" voci "16|32|64|96|128|256"
+  gruppo "Dati opzionali e proprietà materiali" fck_mpa|fyk_mpa|__fcd|__fyd|gamma_ca|esposizione|vita_durabilita|qualita_copriferro|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|cls_diagramma|steel_diagramma|circular_sides
+form ej
+  opzione ej_override "EJ manuale motivato" = "no"
+  campo ej_assegnato "EJ assegnato" = "" · nascosto
+  campo ej_motivo "Motivazione EJ" = "" · nascosto
+verifica 4 · "Verifica soddisfatta" soddisfatta
+  "Azione orizzontale HEd" | "100,0"
+  "Capacità ultima Hu" | "599,8"
+  "Resistenza caratteristica Rk" | "352,8"
+  "Resistenza di progetto Rd" | "271,4"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 1
+    {"tipologia":"Granulare","spessore":"10","peso_specifico":"18","peso_specifico_saturo":"20","angolo_attrito":"30","coesione_non_drenata":"50","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c."},"__strato":"A","__kp":"3,0"}
+      terreno "Sciolto" di "Sciolto|Medio|Denso" · legge 0 di "nh = A·γ/1,35 · incoerenti|nh da tabella 14.5 · sabbie|kh costante assegnato|Reese–Matlock · nh assegnato|k distribuito costante assegnato" · "A [−]" "100" "300" · valore "200" · nh* no · info 789E16C8C47D530F
+sezione contorno 32 0E523EC348875E50 · barre 16 2DE1A460590C8E3F · staffa 425 10 · assi · "Sezione principale · staffa verde" · chs -
+risultati sondaggio 1 · "Lungo · Hu 599,8 kN · |M|max 1.088,1 kNm a z=2,7 m\nResidui: H 0,0 kN · M 0,0 kNm · Raggiunta\nCerniere z [m]: 2,7 · Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio."
+  tabella "Tabella terreno" colonne "z [m]|Lato|Strato|σv [kPa]|u [kPa]|σ′v [kPa]|q_lim [kPa]|p_lim [kN/m]|Q [kN]" righe 204 300B1FDE3FAB23C2
+    "0,000" | "dopo" | "1" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00" | "0,00"
+    "0,100" | "prima" | "1" | "1,80" | "0,00" | "1,80" | "16,20" | "16,20" | "0,81"
+  tabella "Tabella" colonne "z [m]|Lato|p [kN/m]|V [kN]|M [kNm]" righe 104 5D06048A6CD315CD
+    "0,0" | "nodo" | "0,0" | "599,8" | "0,0"
+    "0,1" | "nodo" | "16,2" | "599,0" | "60,0"
+  tabella "Meccanismi" colonne "Meccanismo|H [kN]|Stato" righe 2 DEAA42CCEFE388CA
+    "Corto" | "2.700,0" | "Candidato non governante; limite precedente già raggiunto"
+    "Lungo" | "599,8" | "Ammissibile, governante"

@@ -47,9 +47,14 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     private readonly InputForm general, model, factors, efficiency, moment, sectionFields;
     private readonly Expander advanced = new() { Header = "Opzioni avanzate", IsExpanded = false };
     private readonly TextBlock modelLabel = Ui.Text("Modello automatico · dati da completare", 13, true);
+    private readonly IModuleService? capacityService;
 
-    internal HorizontalWorkspace(JsonObject data)
+    internal HorizontalWorkspace(JsonObject data) : this(data, null) { }
+
+    /// <param name="capacityService">Calculation service of the capacity; null (production) uses the module service of the type of section.</param>
+    internal HorizontalWorkspace(JsonObject data, IModuleService? capacityService)
     {
+        this.capacityService = capacityService;
         Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareGeneral(data);
         Data = data; profile.Data = data; SetValue(InputForm.CommitOnFocusLossProperty, false);
         var g = data["generali"]!.AsObject();
@@ -255,7 +260,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         var completed = await recalculation.ScheduleAsync(async token =>
         {
             Busy = true; status.Text = "Calcolo di sezione ed equilibri in corso…";
-            try { return await Task.Run(() => HorizontalPileAnalysis.Calculate(snapshot, token), token); }
+            try { return await Task.Run(() => HorizontalPileAnalysis.Calculate(snapshot, capacityService, token), token); }
             finally { Busy = false; }
         }, delay);
         completed.TryPublish(current =>

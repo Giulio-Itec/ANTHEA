@@ -10,6 +10,8 @@
   <ItemGroup><Compile Include="../Shared/MaterialTrace.cs" Link="Shared/MaterialTrace.cs" /></ItemGroup>
   <!-- Scenarios and traces of the vertical pile and micropile sheet (F5.6), shared with the trace of the historic view in the UiTests build of X.Desktop. -->
   <ItemGroup><Compile Include="../Shared/VerticalPileTrace.cs" Link="Shared/VerticalPileTrace.cs" /></ItemGroup>
+  <!-- Scenarios and traces of the horizontal pile and micropile sheet (F5.7), shared with the trace of the historic view in the UiTests build of X.Desktop. -->
+  <ItemGroup><Compile Include="../Shared/HorizontalPileTrace.cs" Link="Shared/HorizontalPileTrace.cs" /></ItemGroup>
   <!-- F5.6: the comparison of ui/f3-equivalence (tolerances and F4 transitions) for the files of the vertical piles with transitions. -->
   <ItemGroup>
     <Compile Include="../ANTHEA.Testing/Comparison/BaselineComparer.cs" Link="Shared/BaselineComparer.cs" />
