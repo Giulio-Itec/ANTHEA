@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using Anthea.Application.Presentation;
 using System.Windows;
 using System.Windows.Media;
 using X.Core;
@@ -10,17 +11,10 @@ internal sealed partial class StratigraphyDrawing
     internal bool HorizontalForces { get; set; }
     internal JsonObject? HorizontalResult { get; set; }
 
-    // Only the above-hinge branch is determined by the long-pile Broms mechanism.
-    // The engine's below-hinge equilibrium completion is not a physical reaction diagram.
-    internal static double? ReactionLimit(JsonNode result) => result.S("meccanismo") == "Lungo"
-        ? result.Array("cerniere_m").Select(J.Number).Where(z => z > 0).Min() : null;
+    // Only the above-hinge branch is determined by the long-pile Broms mechanism (HorizontalPileDiagrams, ANTHEA.Application).
+    internal static double? ReactionLimit(JsonNode result) => HorizontalPileDiagrams.ReactionLimit(result);
 
-    internal static JsonNode?[] PhysicalDiagram(JsonNode result)
-    {
-        double? limit = ReactionLimit(result);
-        return result.Array("diagrammi").Where(r => limit is null || r.D("z") < limit ||
-            (r.D("z") == limit && r.S("lato") != "dopo")).ToArray();
-    }
+    internal static JsonNode?[] PhysicalDiagram(JsonNode result) => HorizontalPileDiagrams.PhysicalDiagram(result);
 
     private void DrawHorizontalForces(DrawingContext dc, int index, double pileX, double left, double right,
         double top, double scale, double length, double height)

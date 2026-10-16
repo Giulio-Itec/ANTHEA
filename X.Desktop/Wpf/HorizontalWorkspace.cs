@@ -9,6 +9,7 @@ using System.Windows.Media;
 using Anthea.Application.Modules;
 using Anthea.Application.Presentation;
 using Anthea.Application.Scheduling;
+using Anthea.Presentation.Modules.HorizontalPile;
 using Microsoft.Win32;
 using X.Core;
 
@@ -38,15 +39,15 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     private readonly Viewbox sectionPreview = new() { Stretch = Stretch.Uniform, Margin = new Thickness(8, 0, 0, 0) };
     private readonly StratigraphyDrawing profile = new() { ShowAll = false, HorizontalForces = true };
     private readonly SectionDrawing sectionDrawing = new();
-    private readonly TextBlock summary = Ui.Text("Completare i dati · calcolo automatico", 14);
-    private readonly TextBlock momentValue = Ui.Text("Momento da calcolare", 12, true);
-    private readonly TextBlock status = Ui.Text("Dati da verificare", 12, color: Ui.Muted);
+    private readonly TextBlock summary = Ui.Text(HorizontalPilePresentation.SummaryInitial, 14);
+    private readonly TextBlock momentValue = Ui.Text(HorizontalPilePresentation.MomentInitial, 12, true);
+    private readonly TextBlock status = Ui.Text(HorizontalPilePresentation.StatusToVerify, 12, color: Ui.Muted);
     private readonly TextBlock warnings = Ui.Text("", 12, color: Ui.Muted);
     private readonly Canvas layout = new();
     private readonly Button details, csv;
     private readonly InputForm general, model, factors, efficiency, moment, sectionFields;
     private readonly Expander advanced = new() { Header = "Opzioni avanzate", IsExpanded = false };
-    private readonly TextBlock modelLabel = Ui.Text("Modello automatico · dati da completare", 13, true);
+    private readonly TextBlock modelLabel = Ui.Text(HorizontalPilePresentation.ModelInitial, 13, true);
     private readonly IModuleService? capacityService;
 
     internal HorizontalWorkspace(JsonObject data) : this(data, null) { }
@@ -60,75 +61,33 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         var g = data["generali"]!.AsObject();
         details = Ui.Button("Diagrammi e dettagli", ShowResults, inspection: true); details.IsEnabled = false;
         csv = Ui.Button("Esporta CSV", ExportCsv, inspection: true); csv.IsEnabled = false;
-        general = new(g, [new("diametro", MicroHorizontal ? "Diametro geotecnico micropalo" : "Diametro palo", "m", Symbol: "D"), new("lunghezza", "Lunghezza infissa", "m", Symbol: "L"),
-            new("eccentricita", "Eccentricità forza sopra il piano campagna", "m", Symbol: "e"), new("tratto_libero", "Tratto libero sopra il terreno", "m"), new("vincolo", "Rotazione in testa", Choices: ["Libera", "Impedita"]),
-            new("azione_orizzontale", "Forza orizzontale", "kN", Symbol: "HEd"), new("azione_assiale", "Forza assiale (+ compressione)", "kN", Symbol: "N"),
-            new("presenza_falda", "Presenza falda", Bool: true), new("profondita_falda", "Profondità falda", "m"), new("gamma_acqua", "Peso unitario acqua", "kN/m³")], _ => Changed(), compact: true, symbolColumns: true);
-        general.GroupFields("Dati opzionali · peso acqua",["gamma_acqua"]);
-        model = new(g, [new("metodo_calcolo", "Metodo di calcolo", Choices: [HorizontalPileEditor.BromsMethod, HorizontalPileEditor.StratifiedMethod]),
-            new("passo", "Passo diagrammi", "m", Symbol: "Δz"), new("tolleranza", "Tolleranza radici", Symbol: "ε")], _ => Changed(), compact: true, symbolColumns: true);
+        general = new(g, HorizontalPileFields.General(MicroHorizontal), _ => Changed(), compact: true, symbolColumns: true);
+        Group(general, HorizontalPileFields.GeneralGroups());
+        model = new(g, HorizontalPileFields.Model(), _ => Changed(), compact: true, symbolColumns: true);
         ((Grid)model.Content).ColumnDefinitions[2].Width = new GridLength(150);
         advanced.Content = model; advanced.Expanded += (_, _) => LayoutCards(); advanced.Collapsed += (_, _) => LayoutCards();
         var coefficients = data["verifica"]!.AsObject();
         Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareFactors(coefficients);
-        factors = new(coefficients, [new("verticali_indagate", "Verticali indagate", Choices: Anthea.Application.Presentation.PileInputCatalog.InvestigatedProfiles),
-            new("__xi3", "Correlazione", Symbol: "ξ3", ReadOnly: true), new("__xi4", "Correlazione", Symbol: "ξ4", ReadOnly: true),
-            new("__gamma_r", "Sicurezza resistenza", Symbol: "γR", ReadOnly: true)], _ => Changed(), compact: true, symbolColumns: true);
-        efficiency = new(coefficients, [
-            new("efficienza_metodo", "Efficienza", Choices: ["Manuale", "Reese & Van Impe (foglio)"]),
-            new("efficienza_eta", "Efficienza manuale", Symbol: "η"),
-            new("interasse_anteriore", "Interasse anteriore", "m"), new("interasse_posteriore", "Interasse posteriore", "m"),
-            new("interasse_sinistro", "Interasse sinistro", "m"), new("interasse_destro", "Interasse destro", "m"),
-            new("__eta", "Efficienza adottata", Symbol: "η", ReadOnly: true)], _ => Changed(), compact: true, symbolColumns: true);
+        factors = new(coefficients, HorizontalPileFields.Factors(), _ => Changed(), compact: true, symbolColumns: true);
+        efficiency = new(coefficients, HorizontalPileFields.Efficiency(), _ => Changed(), compact: true, symbolColumns: true);
         AddCard("Dati generali", Ui.Dock(general, bottom: advanced));
-        AddCard("Efficienza", Ui.Dock(new ChainedScrollViewer { Content = efficiency, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, bottom: Ui.Text(Anthea.Application.Presentation.HorizontalSheetPresentation.ReeseVanImpeRule + "\nMetodo del foglio: schema a 8 vicini.", 12, color: Ui.Muted)));
-        AddCard("Coefficienti normativa", Ui.Dock(factors, bottom: Ui.Text("Rd = η · min(Hu,media / ξ3; Hu,min / ξ4) / 1,3\nRestano escluse le altre verifiche NTC/EC2.", 12, color: Ui.Muted)));
+        AddCard("Efficienza", Ui.Dock(new ChainedScrollViewer { Content = efficiency, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, bottom: Ui.Text(HorizontalPileFields.EfficiencyNote, 12, color: Ui.Muted)));
+        AddCard("Coefficienti normativa", Ui.Dock(factors, bottom: Ui.Text(HorizontalPileFields.FactorsNote, 12, color: Ui.Muted)));
         modelLabel.Margin = new Thickness(0, 0, 0, 8);
         AddCard("Verifica", Ui.Dock(new ChainedScrollViewer { Content = Ui.Stack(modelLabel, verification, summary, CalculationDescription()), VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, bottom: Ui.Bar(details, csv)));
         RebuildSurveys(); surveys.SelectionChanged += (_, e) => { if (e.Source == surveys) { profile.SelectedIndex = surveys.SelectedIndex; profile.InvalidateVisual(); } };
-        var surveyButtons = Ui.Bar(Ui.Button("+ Stratigrafia", () => { Commit(); Data.Array("stratigrafie").Add(new JsonArray(NewLayer())); RebuildSurveys(Data.Array("stratigrafie").Count - 1); Changed(); }),
+        var surveyButtons = Ui.Bar(Ui.Button("+ Stratigrafia", () => { Commit(); Data.Array("stratigrafie").Add(new JsonArray(HorizontalPilePresentation.NewLayer())); RebuildSurveys(Data.Array("stratigrafie").Count - 1); Changed(); }),
             Ui.Button("− Stratigrafia", () => { if (surveys.SelectedIndex >= 0) DeleteSurvey(Data.Array("stratigrafie")[surveys.SelectedIndex]!.AsArray()); }),
             Ui.Button("Copia in…", () => ChooseSurveyCopy(true)), Ui.Button("Copia da…", () => ChooseSurveyCopy(false)));
-        moment = new(g, [new("origine_momento", "Momento adottato da", Choices: [MicroHorizontal ? "Sezione CHS" : "Sezione c.a.", "Manuale"]),
-            new("momento_resistente", "Momento manuale", "kNm", Symbol: "My"), new("provenienza_momento", "Natura / fonte My manuale")], _ => Changed(), compact: true, symbolColumns: true);
+        moment = new(g, HorizontalPileFields.Moment(MicroHorizontal), _ => Changed(), compact: true, symbolColumns: true);
         var sectionData = data["sezione"]!.AsObject();
         if (MicroHorizontal) sectionFields = CreateChsForm(sectionData);
         else {
         Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareSection(data);
-        sectionFields = new InputForm(sectionData, [
-            new("classe_cls", "Calcestruzzo", Choices: MaterialInputCatalog.Concrete().Select(m=>m.S("nome")).Append(sectionData.S("classe_cls")).Append("Personalizzato").Distinct().ToArray()),
-            new("fck_mpa", "fck del materiale", "MPa", ReadOnly:true),
-            new("alpha_cc", "αcc archivio",ReadOnly:true), new("gamma_c", "γc archivio",ReadOnly:true),
-            new("__fcd", "Resistenza di progetto a compressione", "MPa", Symbol: "fcd", ReadOnly: true),
-            new("classe_acciaio","Acciaio", Choices:MaterialInputCatalog.Steel(false,"NTC 2018").Select(m=>m.S("nome")).Append(sectionData.S("classe_acciaio")).Append("Personalizzato").Distinct().ToArray(), Note: i => MaterialInputCatalog.SteelDifference(i, "NTC 2018")),
-            new("fyk_mpa", "fyk del materiale", "MPa", ReadOnly:true),
-            new("gamma_s", "γs archivio",ReadOnly:true),
-            new("coefficienti_unitari","Coefficienti unitari",Bool:true),
-            new("__fyd", "Resistenza a snervamento di progetto", "MPa", Symbol: "fyd", ReadOnly: true),
-            new("longitudinal_bar_diameter_mm", "Diametro barre", "mm", Symbol: "φL", Choices: ["8", "10", "12", "14", "16", "18", "20", "22", "24", "25", "26", "28", "30", "32", "36", "40"]),
-            new("longitudinal_bar_count", "Numero barre", Symbol: "n"),
-            new("second_inner_enabled", "Secondo anello interno", Bool: true),
-            new("second_inner_count", "Numero barre dell'anello interno", Symbol: "n₂"),
-            new("second_inner_diameter", "Diametro barre dell'anello interno", "mm", Symbol: "φL,2", Choices: ["8", "10", "12", "14", "16", "18", "20", "22", "24", "25", "26", "28", "30", "32", "36", "40"]),
-            new("second_inner_gap", "Distanza libera dalla prima fila", "mm"),
-            new("transverse_bar_diameter_mm", "Diametro staffa", "mm", Symbol: "φst", Choices: ["6", "8", "10", "12", "14", "16", "18", "20"]),
-            new("transverse_spacing_mm", "Passo staffe", "mm"),
-            new("gamma_ca", "Peso unitario c.a. adottato (acciaio incluso)", "kN/m³"),
-            new("cover_mm", "Copriferro netto", "mm", Symbol: "c"),
-            new("esposizione", "Esposizione", Choices: ConcreteEditor.ExposureChoices.ToArray()),
-            new("vita_durabilita", "Vita utile per durabilità", "anni", Choices:["50","100"]),
-            new("qualita_copriferro", "Controllo qualità copriferro confermato", Bool:true),
-            new("steel_modulus_mpa", "Modulo elastico acciaio", "MPa", Symbol: "Es"),
-            new("cls_diagramma", "Legame calcestruzzo", Choices: MaterialInputCatalog.ConcreteDiagrams, Note: FieldNotes.StressBlock),
-            new("steel_diagramma", "Legame acciaio", Choices: ["Elastoplastico", "Incrudente"]),
-            new("steel_fu_mpa", "Resistenza ultima", "MPa", Symbol: "fu"),
-            new("steel_eps_u", "Deformazione ultima", "‰", Symbol: "εu"),
-            new("circular_sides", "Lati del contorno", Choices: ["16", "32", "64", "96", "128", "256"])], SectionMaterialChanged, compact: true, symbolColumns: true);
-        sectionFields.GroupFields("Dati opzionali e proprietà materiali", ["fck_mpa","fyk_mpa","__fcd","__fyd","gamma_ca","esposizione","vita_durabilita","qualita_copriferro","steel_modulus_mpa","steel_fu_mpa","steel_eps_u","cls_diagramma","steel_diagramma","circular_sides"]);
-        foreach(string key in new[]{"alpha_cc","gamma_c","gamma_s"})sectionFields.ShowField(key,false);
-        sectionFields.Editors["coefficienti_unitari"].ToolTip="Disattivato: coefficienti NTC/archivio. Attivato: normativa custom di sezione con tutti i gamma e alpha_cc pari a 1; non modifica i coefficienti geotecnici di Broms. I valori ordinari restano conservati.";
-        sectionFields.Editors["cover_mm"].ToolTip = "Distanza netta dal bordo del calcestruzzo alla superficie esterna della staffa, in mm.";
-        sectionFields.Editors["second_inner_gap"].ToolTip = "Distanza libera tra le superfici delle barre dei due anelli, in mm.";
+        sectionFields = new InputForm(sectionData, HorizontalPileFields.ConcreteSection(sectionData), SectionMaterialChanged, compact: true, symbolColumns: true);
+        Group(sectionFields, HorizontalPileFields.ConcreteSectionGroups());
+        foreach (string key in HorizontalPileFields.ConcreteSectionHidden()) sectionFields.ShowField(key, false);
+        foreach (var (key, tip) in HorizontalPileFields.ConcreteSectionToolTips()) sectionFields.Editors[key].ToolTip = tip;
         ShowInnerRing(false);
         }
         moment.MaxWidth = sectionFields.MaxWidth = 650;
@@ -141,12 +100,12 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         var materialScroll=new ChainedScrollViewer{Content=sectionFields,VerticalScrollBarVisibility=ScrollBarVisibility.Auto};
         var sectionAndResults=Ui.Dock(sectionPreview,bottom:momentValue);Grid.SetColumn(sectionAndResults,1);
         sectionLayout.Children.Add(materialScroll); sectionLayout.Children.Add(sectionAndResults);
-        ejForm = new InputForm(sectionData, [new("ej_override", "EJ manuale motivato", Bool:true),new("ej_assegnato", "EJ assegnato", "kN m²"),new("ej_motivo", "Motivazione EJ", Wide:true)], _ => Changed(), compact:true);
+        ejForm = new InputForm(sectionData, HorizontalPileFields.Ej(), _ => Changed(), compact:true);
         var sectionPane = Ui.Dock(sectionLayout, bottom:new Expander{Header="Opzioni avanzate · resistenza manuale ed EJ",Content=Ui.Stack(moment,ejForm)});
         AlignSurveyToolbar(surveyButtons);
         AddCard("Stratigrafia", surveys, true);
         AddCard("Profilo stratigrafico", profile, true);
-        AddCard(MicroHorizontal ? "Sezione resistente CHS" : "Momento plastico / resistente", sectionPane, true);
+        AddCard(HorizontalPileFields.SectionTitle(MicroHorizontal), sectionPane, true);
         scroll.Content = layout;
         var warningPane = new Expander { Header = "Ipotesi e limiti del calcolo", Content = new ChainedScrollViewer { Content = warnings, MaxHeight = 90, VerticalScrollBarVisibility = ScrollBarVisibility.Auto } };
         var footer = Ui.Stack(Ui.Bar(status, Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, true), inspection: true)), warningPane); footer.Margin = new Thickness(16, 3, 16, 8);
@@ -168,10 +127,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         foreach (var node in Data.Array("stratigrafie"))
         {
             var rows = node!.AsArray();
-            Field[] fields = [new("tipologia", "Terreno", Choices: ["Granulare", "Coesivo"]),
-                new("__kp", "Kp [−]", ReadOnly: true),
-                new("spessore", "Spessore [m]"), new("peso_specifico", "γ [kN/m³]"), new("peso_specifico_saturo", "γsat [kN/m³]"),
-                new("angolo_attrito", "φ′ [°]"), new("coesione_non_drenata", "Cu [kPa]"), new("coesione_efficace", "c′ [kPa]")];
+            Field[] fields = HorizontalPileFields.Layers();
             var grid = new JsonGrid(fields); grids.Add(grid);
             JsonRow Bind(JsonObject data)
             {
@@ -179,7 +135,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
                 return new(display, key => { data[key] = display[key]?.DeepClone();Changed();grid.Rows.FirstOrDefault(r=>ReferenceEquals((r.Context as SoilRowContext)?.Layer,data))?.Refresh(); }){Context=new SoilRowContext(data,Changed)};
             }
             foreach (var row in rows.OfType<JsonObject>()) grid.Rows.Add(Bind(row));
-            void AddLayer() { grid.Commit(); var row = NewLayer(); rows.Add(row); grid.Rows.Add(Bind(row)); Changed(); }
+            void AddLayer() { grid.Commit(); var row = HorizontalPilePresentation.NewLayer(); rows.Add(row); grid.Rows.Add(Bind(row)); Changed(); }
             void DeleteLayer(JsonRow row) { grid.Commit(); int i = grid.Rows.IndexOf(row); if (i < 0) return; rows.RemoveAt(i); grid.Rows.RemoveAt(i); Changed(); }
             var table = StratigraphyTable.Build(grid, fields, AddLayer, DeleteLayer, gammaFallback: false);
             grid.FrozenColumnCount=2;grid.EnableColumnVirtualization=false;
@@ -202,21 +158,16 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         if (MicroHorizontal) UpdateChsPreview(); else UpdateSectionMaterialValues();
         var preview = HorizontalPreview.ReadModel(Data);
         modelLabel.Text = preview.Label; modelLabel.ToolTip = preview.Hint;
-        var g = Data["generali"]!; general.Enable("profondita_falda", g.B("presenza_falda"), dim: true);
-        // Keep a legacy nonzero eccentricity editable so it can be corrected, never silently overwrite it.
-        general.Enable("eccentricita", true);
-        bool manual = g.S("origine_momento") == "Manuale";
-        moment.Enable("momento_resistente", manual, dim: true); moment.Enable("provenienza_momento", manual, dim: true);
-        sectionFields.IsEnabled = true; sectionFields.Opacity = 1; ejForm?.ShowField("ej_assegnato",Data["sezione"].B("ej_override")); ejForm?.ShowField("ej_motivo",Data["sezione"].B("ej_override"));
+        // A legacy nonzero eccentricity stays editable so it can be corrected, never silently overwritten (FieldStates).
+        foreach (var (key, enabled, dim) in HorizontalPilePresentation.FieldStates(Data))
+            foreach (var form in new[] { general, moment, efficiency }) if (form.Editors.ContainsKey(key)) form.Enable(key, enabled, dim);
+        sectionFields.IsEnabled = true; sectionFields.Opacity = 1;
+        foreach (string key in HorizontalPileFields.EjValues()) ejForm?.ShowField(key, HorizontalPilePresentation.EjShown(Data["sezione"]!.AsObject()));
         foreach (var (key, value) in preview.Factors) factors.Set(key, value, true);
-        bool manualEfficiency = Data["verifica"].S("efficienza_metodo") == "Manuale";
-        efficiency.Enable("efficienza_eta", manualEfficiency, dim: true);
-        foreach (string key in new[] { "interasse_anteriore", "interasse_posteriore", "interasse_sinistro", "interasse_destro" })
-            efficiency.Enable(key, !manualEfficiency, dim: true);
         efficiency.Set("__eta", preview.Efficiency, true);
         foreach (var grid in grids) for (int i = 0; i < grid.Rows.Count; i++)
         {
-            grid.Rows[i].Output("__strato", ((char)('A' + i % 26)).ToString());
+            grid.Rows[i].Output("__strato", HorizontalPilePresentation.LayerName(i));
             grid.Rows[i].Output("__color", StratigraphyDrawing.LayerColors[i % StratigraphyDrawing.LayerColors.Length]);
             var row = grid.Rows[i].Values;
             grid.Rows[i].Output("__kp", HorizontalPreview.PassivePressure(row));
@@ -235,21 +186,20 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     private void Changed()
     {
         if (building || disposed) return;
-        recalculation.Invalidate(); Result = null; summary.Text = "Dati modificati · aggiornamento automatico"; momentValue.Text = "Aggiornamento automatico del momento…";
+        recalculation.Invalidate(); Result = null; summary.Text = HorizontalPilePresentation.SummaryChanged; momentValue.Text = HorizontalPilePresentation.MomentChanged;
         details.IsEnabled = csv.IsEnabled = false; warnings.Text = ""; elastic?.InvalidateShared(); Preview(); UpdateVerification(); QueueCalculation(); Modified?.Invoke();
     }
     internal void Commit() { general.Commit(); model.Commit(); factors.Commit(); efficiency.Commit(); moment.Commit(); sectionFields.Commit(); ejForm?.Commit(); foreach(var editor in soilEditors)editor.Commit(); foreach (var grid in grids) grid.Commit(); elastic?.Commit(); }
     private void QueueCalculation()
     {
         if (building || disposed || analyses.SelectedIndex == 1) return;
-        status.Text = "Aggiornamento automatico in attesa…";
+        status.Text = HorizontalPilePresentation.StatusPending;
         scheduledCalculation = CalculateScheduledAsync(TimeSpan.FromMilliseconds(450), false);
     }
-    private void DisplayMoment(JsonObject result)
+    private void ShowMoment(HorizontalPileMoment shown)
     {
-        if (MicroHorizontal) { momentValue.Text = $"My(N) = {result.D("momento_knm"):N1} kNm · N = {result.D("n_kn"):N1} kN\nCHS classe {result.D("classe")} · solo acciaio · interazione N–M lineare"; return; }
-        momentValue.Text = $"MRd = {result.D("momento_knm"):N1} kNm · N = {result.D("n_kn"):N1} kN\nChecker · {result.D("lati_contorno"):0} lati · residuo N = {result.D("residuo_n_kn"):G3} kN (tol. {result.D("tolleranza_n_kn"):G3})";
-        momentValue.Text+="\n"+result.S("normativa", "Normativa del risultato non disponibile");momentValue.ToolTip = result.S("modello");
+        momentValue.Text = shown.Text;
+        if (shown.ToolTip is not null) momentValue.ToolTip = shown.ToolTip;
     }
     internal Task CalculateAsync(bool commitEdits = true) => scheduledCalculation = CalculateScheduledAsync(TimeSpan.Zero, commitEdits);
     private async Task CalculateScheduledAsync(TimeSpan delay, bool commitEdits)
@@ -259,7 +209,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         var snapshot = (JsonObject)Data.DeepClone();
         var completed = await recalculation.ScheduleAsync(async token =>
         {
-            Busy = true; status.Text = "Calcolo di sezione ed equilibri in corso…";
+            Busy = true; status.Text = HorizontalPilePresentation.StatusRunning;
             try { return await Task.Run(() => HorizontalPileAnalysis.Calculate(snapshot, capacityService, token), token); }
             finally { Busy = false; }
         }, delay);
@@ -270,45 +220,28 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
                 if (current.Error is not null) throw current.Error;
                 var computed = current.Value!;
                 var result = computed.Capacity;
-                if (computed.Section is not null) DisplayMoment(computed.Section);
-                else if (snapshot["generali"].S("origine_momento") == "Manuale" && J.Number(snapshot["generali"]!["momento_resistente"]) is double manual && manual > 0)
-                    momentValue.Text = $"My inserito manualmente = {manual:N1} kNm";
-                else momentValue.Text = "Momento non disponibile" + (computed.SectionError == "" ? "" : ": " + computed.SectionError);
+                ShowMoment(HorizontalPilePresentation.CalculatedMoment(computed, snapshot, MicroHorizontal));
                 Result = result.S("errore") == "" ? result : null;
-                if (Result is null) { summary.Text = "Calcolo non disponibile: " + result.S("errore"); warnings.Text = result.S("errore"); status.Text = "Correggere i dati indicati"; details.IsEnabled = csv.IsEnabled = false; UpdateVerification(); return; }
-                if (result["sezione"] is JsonObject section) DisplayMoment(section);
-                else momentValue.Text = $"My adottato manualmente = {result.D("momento_resistente_knm"):N1} kNm";
-                summary.Text = $"{result.S("meccanismo")} · stratigrafia {result.D("sondaggio_governante")}\nMy = {result.D("momento_resistente_knm"):N1} kNm\nHEd / Hu = {100 * result.D("rapporto_meccanico"):0.0}%\nVerifica normativa incompleta." +
-                    (result.B("sperimentale") ? "\nMODELLO SPERIMENTALE" : "");
+                if (Result is null) { summary.Text = HorizontalPilePresentation.SummaryIncomplete(result.S("errore")); warnings.Text = result.S("errore"); status.Text = HorizontalPilePresentation.StatusIncomplete; details.IsEnabled = csv.IsEnabled = false; UpdateVerification(); return; }
+                ShowMoment(HorizontalPilePresentation.ResultMoment(result, MicroHorizontal));
+                summary.Text = HorizontalPilePresentation.Summary(result);
                 UpdateVerification();
-                warnings.Text = string.Join("\n", result.Array("avvisi").Select(v => v!.ToString()));
-                status.Text = "Calcolo completato · diagrammi alla capacità ultima"; details.IsEnabled = csv.IsEnabled = true;
+                warnings.Text = HorizontalPilePresentation.Warnings(result);
+                status.Text = HorizontalPilePresentation.StatusCompleted; details.IsEnabled = csv.IsEnabled = true;
             }
-            catch (Exception ex) { Result = null; summary.Text = "Calcolo fallito"; momentValue.Text = "Momento non disponibile"; status.Text = ex.Message; details.IsEnabled = csv.IsEnabled = false; UpdateVerification(); }
+            catch (Exception ex) { Result = null; summary.Text = HorizontalPilePresentation.SummaryFailed; momentValue.Text = HorizontalPilePresentation.MomentUnavailable; status.Text = ex.Message; details.IsEnabled = csv.IsEnabled = false; UpdateVerification(); }
         });
     }
     private TabControl ResultsTabs()
     {
         var tabs = new TabControl(); int index = 0;
-        foreach (var result in Result!.Array("sondaggi"))
+        foreach (var survey in HorizontalPilePresentation.Results(Result!))
         {
             var panel = new TabControl();
-            bool truncated = StratigraphyDrawing.ReactionLimit(result!) is not null;
-            var diagram = result!.Array("diagrammi");
             Ui.Tab(panel, "Terreno e tensioni", new ScrollViewer { Content = new HorizontalDiagrams(Result!, index, true) { MinWidth = 1000, MinHeight = 620 }, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto });
             Ui.Tab(panel, "Equilibrio del palo", new ScrollViewer { Content = new HorizontalDiagrams(Result!, index, false) { MinWidth = 1000, MinHeight = 620 }, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto });
-            var terrainRows = result.Array("diagramma_terreno").Select(r => new[] { r.D("z").ToString("0.000"), r.S("lato"), r.D("strato").ToString("0"),
-                r!["sigma_v_kpa"] is null ? "—" : r.D("sigma_v_kpa").ToString("0.00"), r.D("u_kpa").ToString("0.00"),
-                r["sigma_eff_kpa"] is null ? "—" : r.D("sigma_eff_kpa").ToString("0.00"), r.D("q_lim_kpa").ToString("0.00"), r.D("p_lim_kn_m").ToString("0.00"), r.D("q_integrale_kn").ToString("0.00") });
-            Ui.Tab(panel, "Tabella terreno", CenteredTable(["z [m]", "Lato", "Strato", "σv [kPa]", "u [kPa]", "σ′v [kPa]", "q_lim [kPa]", "p_lim [kN/m]", "Q [kN]"], terrainRows));
-            var rows = diagram.Select(r => new[] { r.D("z").ToString("0.0"), r.S("lato"), r.D("p_kn_m").ToString("0.0"), r.D("v_kn").ToString("0.0"), r.D("m_knm").ToString("0.0") });
-            Ui.Tab(panel, "Tabella", CenteredTable(["z [m]", "Lato", "p [kN/m]", "V [kN]", "M [kNm]"], rows));
-            var candidates = CenteredTable(["Meccanismo", "H [kN]", "Stato"], result.Array("candidati").Select(r => new[] { r.S("meccanismo"), r!["capacita_kn"] is null ? "—" : r.D("capacita_kn").ToString("N1"), r.S("stato") }));
-            Ui.Tab(panel, "Meccanismi", candidates);
-            var hinges = string.Join("; ", result.Array("cerniere_m").Select(v => (J.Number(v) ?? 0).ToString("0.0")));
-            var info = Ui.Text($"{result.S("meccanismo")} · Hu {result.D("capacita_kn"):N1} kN · |M|max {result.D("momento_massimo_knm"):N1} kNm a z={result.D("quota_momento_massimo_m"):0.0} m\n" +
-                $"Residui: H {result.D("residuo_forza_kn"):0.0} kN · M {result.D("residuo_momento_knm"):0.0} kNm · {result.S("convergenza")}\n" +
-                $"Cerniere z [m]: {hinges} · " + (truncated ? "Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio." : $"F concentrata {result.D("risultante_concentrata_kn"):N1} kN a z={result.D("quota_risultante_m"):0.0} m"), 12);
+            foreach (var table in survey.Tables) Ui.Tab(panel, table.Title, CenteredTable(table.Columns.ToArray(), table.Rows));
+            var info = Ui.Text(survey.Info, 12);
             info.Margin = new Thickness(12);
             Ui.Tab(tabs, $"Sondaggio {++index}", Ui.Dock(panel, info));
         }
