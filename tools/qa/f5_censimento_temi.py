@@ -1,7 +1,9 @@
 """Censimento dei colori e delle dimensioni dei caratteri dell'interfaccia storica (F5.3, proposta F5 sezione 6; Q6).
 
-Legge i sorgenti C# e XAML di X.Desktop (escluse le viste nuove X.Desktop/Views e X.Desktop/Shell, la cartella dei temi
-X.Desktop/Themes, bin e obj) e il catalogo dei token X.Desktop/Themes/ThemeTokens.cs, e produce:
+Legge i sorgenti C# e XAML di X.Desktop, esclusi le viste nuove (X.Desktop/Views, X.Desktop/Shell), il catalogo dei token
+(X.Desktop/Themes/ThemeTokens.cs e Typography.xaml), la tavolozza X.Desktop/Wpf/Appearance.cs (i colori di arrivo di Scuro e
+Molto scuro), bin e obj; i dizionari storici spostati in X.Desktop/Themes sono compresi. Legge anche il catalogo dei token
+X.Desktop/Themes/ThemeTokens.cs, e produce:
   - per ogni colore scritto nel codice (esadecimale, Brushes.*, Colors.*, Ui.Navy/Blue/Bg/Muted) le occorrenze, i file e il
     ruolo dedotto dal contesto della riga (sfondo, primo piano, bordo, selezione, serie, campione, disattivato, disegno, ?);
   - per ogni token il numero di usi esatti (stesso colore e ruolo compatibile) e le varianti vicine: colori diversi con lo
@@ -62,7 +64,9 @@ RESOURCE_USE = re.compile(r'\bAppearance\.(background|foreground|border|selectio
 NAMED_RESOURCES = {"AppearancePaper": ("FFFFFF", "background"), "AppearanceSurface": ("F3F5F8", "background"),
                    "AppearanceInk": ("0B2A4A", "foreground"), "AppearanceBorder": ("D3D3D3", "border"), "AppearanceSelection": ("E2EFFC", "selection")}
 NAMED_RESOURCE_USE = re.compile(r'\b(AppearancePaper|AppearanceSurface|AppearanceInk|AppearanceBorder|AppearanceSelection)\b')
-EXCLUDED = ("X.Desktop/Views/", "X.Desktop/Shell/", "X.Desktop/Themes/")
+# The catalogue of the tokens and the palette itself (the target colours of Scuro and Molto scuro) are not uses of colours;
+# the historic dictionaries moved to X.Desktop/Themes (Controls, ProjectStyles, AppearanceControls) are.
+EXCLUDED = ("X.Desktop/Views/", "X.Desktop/Shell/", "X.Desktop/Themes/ThemeTokens.cs", "X.Desktop/Themes/Typography.xaml", "X.Desktop/Wpf/Appearance.cs")
 
 
 def sources(root):
