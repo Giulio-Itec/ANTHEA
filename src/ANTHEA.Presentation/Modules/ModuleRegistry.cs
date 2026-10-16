@@ -54,11 +54,14 @@ public sealed class ModuleRegistry
     public ISheetModule SheetModule(string id) => sheets.TryGetValue(id, out var module) ? module
         : throw new InvalidOperationException("Nessuna implementazione MVVM per il modulo " + id + ": il modulo usa ancora la vista storica.");
 
-    /// <summary>A module still opened by its historic view: identity and guide; persistence and reports not declared yet.</summary>
+    /// <summary>
+    /// A module still opened by its historic view: identity and guide; persistence and reports not declared yet. The guide is
+    /// read when asked, so that building the registry at startup does not load the Wiki catalogue.
+    /// </summary>
     private sealed class HistoricModule(ModuleInfo info) : IModuleDescriptor
     {
         public ModuleInfo Info { get; } = info;
-        public ModuleHelp Help { get; } = ModuleHelp.For(info.Id);
+        public ModuleHelp Help => ModuleHelp.For(Info.Id);
         public ModulePersistence Persistence => ModulePersistence.Undeclared;
         public ModuleReportCapabilities Reports => ModuleReportCapabilities.Undeclared;
     }
