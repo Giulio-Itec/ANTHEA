@@ -37,9 +37,20 @@ internal static class WallContractChecks
         globalInput["seismic"]!["source"] = RetainingWall.SeismicManual;
         inputs.Add(("globale", globalInput));
         Check(WallModel.DeriveSeismic(globalInput) is null && RetainingWall.DeriveSeismic(globalInput) is null, "Coefficienti sismici assegnati: derivazione opzionale persa");
+        // F5.9: three F3 fixtures stop by design (incomplete stratigraphy, custom matrix to generate again, typology without a calculation):
+        // no result to project. They are named, so any other fixture that stops still fails.
+        string[] stopping = ["geo_muri_sostegno--matrice-da-rigenerare.json", "geo_muri_sostegno--stratigrafia-incompleta.json", "geo_muri_sostegno--tipologia-prevista.json"];
         foreach (var (name, data) in inputs)
         {
             string before = data.ToJsonString();
+            if (stopping.Contains(name))
+            {
+                bool stopped = false;
+                try { ModuleServices.Get(RetainingWall.Module).Calculate(data); }
+                catch (ArgumentException) { stopped = true; }
+                Check(stopped && data.ToJsonString() == before, "Fixture senza calcolo calcolata o input mutato: " + name);
+                continue;
+            }
             var calculation = ModuleServices.Get(RetainingWall.Module).Calculate(data);
             var native = calculation.NativeAs<RetainingWall.Result>(); var view = WallModel.Read(calculation); walls++;
             if (name == "globale") Check(native.GlobalError is null, "Fixture globale non valida: " + native.GlobalError);

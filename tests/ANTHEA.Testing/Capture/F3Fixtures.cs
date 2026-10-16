@@ -79,6 +79,7 @@ public static class F3Fixtures
         MaterialsF55(cases);
         VerticalPileF56(cases);
         ShallowFoundationF59b(cases);
+        RetainingWallF59(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -440,5 +441,160 @@ public static class F3Fixtures
             i["Depth"] = "0"; i["WaterEnabled"] = true; i["WaterDepth"] = "0,6"; i["FrictionAngle"] = "34"; i["UnitWeight"] = "19"; i["SaturatedUnitWeight"] = "21";
             d["azioni_confermate"] = true;
         });
+    }
+
+    /// <summary>
+    /// Retaining wall fixtures added before the preparation of F5.9 (proposal F5, section 7.2: capture first, with the historic view
+    /// RetainingWallWorkspace): the two families with a calculation (cantilever with two zones and different faces, gravity in plain
+    /// concrete and in masonry) and a family without a calculation; seismic from the site (Mononobe–Okabe, slope) and assigned (Wood);
+    /// two soil columns, the passive in front with an assigned free height and automatic friction; actions of every type
+    /// and nature, disabled and not drawn; a custom combination matrix with the variable surcharge excluded from the heel; global
+    /// stability drained in two columns with groundwater and undrained with the seismic action of the site (search to refine); the advanced options
+    /// (settlements, displacements, seismic bearing assigned, Newmark accelerogram, details of the bars, cover EC2, custom materials);
+    /// warnings (checks not satisfied, steel of the catalogue with other values, cover below the minimum, no toe); and three calculations
+    /// that stop: a stratigraphy that does not reach the foundation with an empty value, a custom matrix whose actions changed and a
+    /// family not yet available. Documents as the sheet writes them (numbers for the typed values, JSON booleans for the options). The
+    /// identifiers never end in "default", which the F3 project report collects.
+    /// </summary>
+    static void RetainingWallF59(List<CaptureCase> cases)
+    {
+        void Added(string id, Action<JsonObject> alter)
+        {
+            var data = ModuleCatalog.CreateData(RetainingWall.Module); alter(data);
+            cases.Add(new(RetainingWall.Module, id, "Fixture sintetica F5.9 (proposta F5 7.2, cattura prima con la vista storica)", null, data));
+        }
+        static JsonObject Layer(string name, double thickness, double gamma, double saturated, double phi) =>
+            J.Obj(("name", name), ("thickness", thickness), ("gamma", gamma), ("gamma_sat", saturated), ("phi", phi));
+        static JsonObject Action(JsonObject d, string type, string name, string category, double value, params (string Key, object? Value)[] values)
+        {
+            var a = RetainingWall.NewAction(d, type); a["name"] = name; a["category"] = category; a["value"] = value;
+            foreach (var (key, v) in values) a[key] = J.Node(v);
+            return a;
+        }
+        static void Steel(JsonObject d, string name) => RetainingWall.ApplyMaterialPreset(d, ConcreteMaterialCatalog.Steel(false, "NTC 2018").Single(m => m.S("nome") == name));
+        static void Concrete(JsonObject d, string name) => RetainingWall.ApplyMaterialPreset(d, ConcreteMaterialCatalog.Concrete().Single(m => m.S("nome") == name));
+        static void Site(JsonObject d, string method, Action<JsonNode>? site = null)
+        {
+            var s = d["seismic"]!; s["enabled"] = true; s["source"] = RetainingWall.SeismicSite; s["method"] = method;
+            s["ag_g"] = .2; s["soil_class"] = "C"; s["f0"] = 2.5; site?.Invoke(s);
+            // kh and kv derived from the site, as the sheet writes them (the chapter of the project report does not derive them).
+            var derived = RetainingWall.DeriveSeismic(d)!; s["kh"] = derived.Kh; s["kv"] = derived.Kv;
+        }
+        static void Global(JsonObject d, int grid, int slices, int refinements)
+        {
+            RetainingWall.PrepareGlobalProfile(d);
+            var g = d["global_stability"]!; g["enabled"] = true; g["profile_confirmed"] = true;
+            g["search_mode"] = "Assegnata"; g["depth_min"] = .1; g["grid"] = grid; g["slices"] = slices; g["refinements"] = refinements;
+        }
+
+        // Cantilever with the seismic action from the site at the SLV (Mononobe–Okabe, class C, slope of 20° higher than 15° and 40 m
+        // high, the wall at 30 m: St > 1), two zones of reinforcement with the stem faces different and the upper zone lighter; the
+        // default surcharge on the heel gives the twin rows «b» of the automatic matrix.
+        Added("mensola-sisma-sito-pendio", d => {
+            Site(d, "Mononobe–Okabe", s => { s["topography"] = RetainingWall.TopographySlope; s["slope"] = 20; s["relief_height"] = 40; s["site_height"] = 30; });
+            var r = d["reinforcement"]!; r["two_zones"] = true; r["lower_height"] = 1.4;
+            r["stem"]!["symmetric"] = false; r["stem"]!["opposite_diameter"] = 12; r["stem"]!["opposite_count"] = 5; r["stem"]!["lap_length"] = 700;
+            r["stem_upper"]!["diameter"] = 12; r["stem_upper"]!["count"] = 5;
+            d["geometry"]!["height"] = 3.6; d["geometry"]!["heel"] = 2.1;
+        });
+        // Cantilever with the seismic action assigned (Wood, rigid wall) and actions of every type and nature: horizontal force G2 in a
+        // correlated group with a lateral pressure, a centred vertical force and a moment of a barrier in the group of the default
+        // surcharge, an impact (accidental), a disabled action and one not drawn.
+        Added("mensola-wood-azioni", d => {
+            var s = d["seismic"]!; s["enabled"] = true; s["source"] = RetainingWall.SeismicManual; s["method"] = "Wood semplificato"; s["kh"] = .12; s["kv"] = .06;
+            var actions = d.Array("actions");
+            actions.Add(Action(d, "Forza orizzontale", "Spinta di un parapetto", "G2", 4, ("z", 3.2), ("group", "parapetto"), ("psi0", 1), ("psi1", 1), ("psi2", 1)));
+            actions.Add(Action(d, "Pressione laterale", "Pressione del parapetto", "G2", 2.5, ("z", 3.45), ("z0", 2.45), ("group", "parapetto"), ("psi0", 1), ("psi1", 1), ("psi2", 1)));
+            actions.Add(Action(d, "Forza verticale", "Carico della barriera", "Q", 6, ("z", 3.45), ("x", 1.1), ("group", "legacy")));
+            actions.Add(Action(d, "Momento", "Momento della barriera", "Q", 3, ("z", 3.45), ("visible", false), ("group", "legacy")));
+            actions.Add(Action(d, "Urto", "Urto di un veicolo", "A", 50, ("z", 3.2), ("psi0", 0), ("psi1", 0), ("psi2", 0)));
+            actions.Add(Action(d, "Sovraccarico uniforme", "Sovraccarico di cantiere", "Q", 5, ("enabled", false)));
+        });
+        // Gravity in plain concrete with two different layers uphill and one in front, the passive in front with a mobilized fraction and
+        // an assigned free height, automatic friction on the wall (cast in place) and on the base (precast).
+        Added("gravita-cls-passiva", d => {
+            d["family"] = "gravity";
+            var g = d["geometry"]!; g["stem_base"] = 2.2; g["stem_top"] = .55; g["toe"] = .3; g["heel"] = .3;
+            d["gravity_design"]!["type"] = "Calcestruzzo non armato"; Concrete(d, "C25/30");
+            d["layers"] = new JsonArray(Layer("Riporto", 1.5, 17, 19, 28), Layer("Sabbia limosa", 8, 18.5, 20, 31));
+            var v = d["valley"]!; v["height_mode"] = "Assegnato"; v["free_height"] = 2.6; v["passive"] = true; v["mobilization"] = .4;
+            v["layers"] = new JsonArray(Layer("Sabbia limosa", 8, 18.5, 20, 31));
+            var f = d["interfaces"]!; f["wall_mode"] = "Gettato in opera"; f["wall_phi_cv"] = 28; f["base_mode"] = "Prefabbricato liscio"; f["base_phi_cv"] = 30;
+        });
+        // Gravity in masonry, too slender for the default actions: checks not satisfied; the effective length and the eccentricity typed.
+        Added("gravita-muratura-avvisi", d => {
+            d["family"] = "gravity";
+            var g = d["geometry"]!; g["height"] = 2.4; g["stem_base"] = 1.1; g["stem_top"] = .5; g["slab"] = .4; g["toe"] = .1; g["heel"] = .1;
+            var p = d["gravity_design"]!; p["type"] = "Muratura"; p["fk"] = 4.5; p["fvk0"] = .1; p["fvk_limit"] = 1.2; p["gamma_m"] = 2.5;
+            p["confidence"] = 1.2; p["elastic_modulus"] = 4500; p["eccentricity"] = 5; p["effective_height"] = 5;
+        });
+        // Custom matrix: the generated rows confirmed, then the variable surcharge excluded from the heel in the first SLU row, a factor of
+        // the soil changed, γR,e of the passive typed, a row copied and one disabled (the rows of the matrix as the sheet writes them).
+        Added("matrice-personalizzata", d => {
+            d["valley"]!["passive"] = true; d["valley"]!["mobilization"] = .3;
+            var rows = RetainingWall.GenerateCombinations(d);
+            var first = rows.OfType<JsonObject>().First(r => r.S("state") == "SLU");
+            first["heel_surcharge"] = false; first["soil"] = 1.35; first["rpassive"] = 1.2; first["approach"] = "Personalizzato";
+            var copy = (JsonObject)first.DeepClone(); copy["name"] = first.S("name") + " copia " + (rows.Count + 1); copy["heel_surcharge"] = true;
+            rows.Add(copy);
+            rows.OfType<JsonObject>().Last(r => r.S("state") == "SLE")["enabled"] = false;
+            d["combinations"] = rows; d["combination_mode"] = "Personalizzate"; d["combination_signature"] = RetainingWall.CombinationSignature(d);
+        });
+        // Global stability drained in two columns with a groundwater line of its own (below the foundation under the wall, rising
+        // uphill), assigned search with the default grid.
+        Added("globale-drenata-due-colonne", d => {
+            d["layers"]![0]!["thickness"] = 25; d["valley"]!["layers"]![0]!["thickness"] = 12;
+            Global(d, 9, 60, 4);
+            var g = d["global_stability"]!; g["water_enabled"] = true;
+            g["water"] = new JsonArray(J.Obj(("x", -13.8), ("y", -.8)), J.Obj(("x", 3), ("y", -.5)), J.Obj(("x", 16.8), ("y", .6)));
+        });
+        // Global stability undrained on a single profile (cu of the deep layers) with the seismic action at the SLV from the site, the same
+        // site of the local checks (homogeneous dry soil); a coarse search: the outcome asks for more slices.
+        Added("globale-non-drenata-sisma", d => {
+            Site(d, "Mononobe–Okabe");
+            d["layers"]![0]!["thickness"] = 25; d["valley"]!["layers"]![0]!["thickness"] = 25;
+            Global(d, 7, 40, 3);
+            var g = d["global_stability"]!; g["condition"] = "Non drenata"; g["soil_mode"] = "Profilo unico"; g["seismic"] = true; g["seismic_source"] = "Da sito · βs=0,38";
+            foreach (var layer in g.Array("layers").OfType<JsonObject>()) layer["cu"] = 70;
+            g["combination_mode"] = "Automatiche";
+        });
+        // Advanced options: settlements and displacements with two deformable layers, the seismic bearing with assigned accelerations
+        // (seismic assigned, Mononobe–Okabe), a Newmark accelerogram, the details of the bars with good bond, cover EC2 with the
+        // reductions, a custom concrete and the steel B450A, a longer panel for the bar schedule.
+        Added("opzioni-avanzate", d => {
+            var s = d["seismic"]!; s["enabled"] = true; s["source"] = RetainingWall.SeismicManual; s["kh"] = .1; s["kv"] = .05;
+            var o = d["serviceability"]!; o["settlement"] = true; o["displacement"] = true; o["removed_pressure"] = 15; o["rigid_base"] = true;
+            o["horizontal_stiffness"] = 40000;
+            o["layers"] = new JsonArray(J.Obj(("name", "Limo sabbioso"), ("thickness", 3), ("modulus", 12000)), J.Obj(("name", "Ghiaia"), ("thickness", 5), ("modulus", 40000)));
+            var samples = new JsonArray();
+            for (int i = 0; i <= 60; i++) samples.Add(J.Obj(("t", i * .02), ("a_g", Math.Round(.25 * Math.Sin(i * .3), 4))));
+            o["histories"] = new JsonArray(J.Obj(("enabled", true), ("name", "Storia SLV 1"), ("state", "SLV"), ("yield_g", .08), ("scale", 1.2), ("limit_mm", 50), ("compatible", true), ("samples", samples)));
+            var b = d["bearing_seismic"]!; b["source"] = "Assegnata"; b["ground_kh"] = .15; b["ground_kv"] = .07; b["model_factor"] = 1;
+            var t = d["detailing"]!; t["enabled"] = true; t["good_bond"] = true; t["lap_percent"] = 50; t["lap_clear"] = 40;
+            t["cover_method"] = "EC2 2004"; t["cover_high_strength"] = true; t["cover_slab"] = true; t["cover_ec_quality"] = true;
+            var m = d["materials"]!; m["classe_cls"] = "Personalizzato"; m["materiale_cls_nome"] = "CLS di progetto"; m["fck"] = 32;
+            Steel(d, "B450A");
+            d["bar_schedule"]!["panel_length"] = 6; d["bar_schedule"]!["tie_cut_length"] = 900;
+        });
+        // Warnings: no toe and a short heel (sliding and overturning not satisfied), steel saved with the name of the catalogue and other
+        // values (DET-3), cover below the minimum for XC4.
+        Added("mensola-avvisi", d => {
+            var g = d["geometry"]!; g["toe"] = 0; g["heel"] = .9;
+            Steel(d, "B450A"); d["materials"]!["steel_eps_u"] = 30;
+            d["materials"]!["exposure"] = "XC4"; d["materials"]!["cover"] = 20;
+        });
+        // A stratigraphy that does not reach the foundation and an empty value in front: the calculation stops, no result, no report.
+        Added("stratigrafia-incompleta", d => {
+            d["layers"]![0]!["thickness"] = 2;
+            d["valley"]!["layers"]![0]!["phi"] = "";
+        });
+        // A custom matrix confirmed before an action changed: the calculation asks to generate the combinations again.
+        Added("matrice-da-rigenerare", d => {
+            d["combinations"] = RetainingWall.GenerateCombinations(d); d["combination_mode"] = "Personalizzate";
+            d["combination_signature"] = RetainingWall.CombinationSignature(d);
+            d.Array("actions")[0]!["psi0"] = .6;
+        });
+        // A family planned for future developments: the sheet opens, no calculation.
+        Added("tipologia-prevista", d => d["family"] = "semigravity");
     }
 }

@@ -1,0 +1,534 @@
+{
+  "module": "geo_muri_sostegno",
+  "id": "opzioni-avanzate",
+  "origin": "Fixture sintetica F5.9 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "version": 2,
+    "family": "cantilever",
+    "geometry": {
+      "height": 3,
+      "stem_base": 0.4,
+      "stem_top": 0.25,
+      "slab": 0.45,
+      "toe": 0.8,
+      "heel": 1.8
+    },
+    "foundation": {
+      "phi": 34,
+      "gamma": 19,
+      "gamma_sat": 21,
+      "delta": 26
+    },
+    "loads": {
+      "surcharge": 10,
+      "horizontal": 0,
+      "vertical": 0,
+      "psi1": 0.5,
+      "psi2": 0.3
+    },
+    "materials": {
+      "gamma": 25,
+      "fck": 32,
+      "fyk": 450,
+      "cover": 40,
+      "compression_rd": 5,
+      "shear_rd": 0.2,
+      "tension_rd": 0.3,
+      "creep": 2,
+      "exposure": "XC2",
+      "classe_cls": "Personalizzato",
+      "materiale_cls_nome": "CLS di progetto",
+      "cls_diagramma": "Parabola-rettangolo",
+      "classe_acciaio": "B450A",
+      "materiale_acciaio_nome": "B450A",
+      "steel_modulus_mpa": 200000,
+      "steel_fu_mpa": 540,
+      "steel_eps_u": 25,
+      "steel_diagramma": "Elastoplastico",
+      "alpha_cc": "0.85",
+      "gamma_c": "1.50",
+      "gamma_s": "1.15"
+    },
+    "layers": [
+      {
+        "name": "Terreno granulare",
+        "thickness": 10,
+        "gamma": 18,
+        "gamma_sat": 20,
+        "phi": 30
+      }
+    ],
+    "water": {
+      "enabled": false,
+      "depth": 2,
+      "front_head": 0
+    },
+    "seismic": {
+      "enabled": true,
+      "kh": 0.1,
+      "kv": 0.05,
+      "source": "kh e kv assegnati",
+      "ag_g": "",
+      "f0": "",
+      "soil_class": "Da scegliere",
+      "ss_mode": "Calcolato",
+      "ss": "",
+      "st_mode": "Calcolato",
+      "st": "",
+      "topography": "Pianeggiante",
+      "slope": "",
+      "relief_height": "",
+      "site_height": "",
+      "method": "Mononobe–Okabe"
+    },
+    "reinforcement": {
+      "stem": {
+        "diameter": 16,
+        "count": 6,
+        "symmetric": true,
+        "opposite_diameter": 16,
+        "opposite_count": 6,
+        "secondary_diameter": 10,
+        "secondary_spacing": 200,
+        "anchor_length": 0,
+        "lap_length": 0,
+        "bend_diameter": 0
+      },
+      "toe": {
+        "diameter": 16,
+        "count": 6,
+        "symmetric": true,
+        "opposite_diameter": 16,
+        "opposite_count": 6,
+        "secondary_diameter": 10,
+        "secondary_spacing": 200,
+        "anchor_length": 0,
+        "lap_length": 0,
+        "bend_diameter": 0
+      },
+      "heel": {
+        "diameter": 16,
+        "count": 6,
+        "symmetric": true,
+        "opposite_diameter": 16,
+        "opposite_count": 6,
+        "secondary_diameter": 10,
+        "secondary_spacing": 200,
+        "anchor_length": 0,
+        "lap_length": 0,
+        "bend_diameter": 0
+      },
+      "stem_upper": {
+        "diameter": 16,
+        "count": 6,
+        "symmetric": true,
+        "opposite_diameter": 16,
+        "opposite_count": 6,
+        "secondary_diameter": 10,
+        "secondary_spacing": 200,
+        "anchor_length": 0,
+        "lap_length": 0,
+        "bend_diameter": 0
+      },
+      "two_zones": false,
+      "lower_height": 1.5
+    },
+    "extensions": {},
+    "global_stability": {
+      "enabled": false,
+      "condition": "Drenata",
+      "water_enabled": false,
+      "seismic": false,
+      "seismic_source": "Da sito · βs=0,38",
+      "kh": "",
+      "kv": "",
+      "profile_confirmed": false,
+      "valley": [],
+      "uphill": [],
+      "layers": [],
+      "water": [],
+      "exit_min": "",
+      "exit_max": "",
+      "entry_min": "",
+      "entry_max": "",
+      "depth_min": 0.5,
+      "depth_max": "",
+      "grid": 9,
+      "slices": 60,
+      "refinements": 4,
+      "search_mode": "Automatica",
+      "combination_mode": "Automatiche",
+      "combinations": []
+    },
+    "valley": {
+      "height_mode": "Interamente libero",
+      "free_height": 3.45,
+      "linked": false,
+      "layers": [
+        {
+          "name": "Terreno granulare",
+          "thickness": 10,
+          "gamma": 18,
+          "gamma_sat": 20,
+          "phi": 30
+        }
+      ],
+      "passive": false,
+      "mobilization": 0
+    },
+    "interfaces": {
+      "wall_mode": "Assegnato",
+      "wall_delta": 0,
+      "wall_phi_cv": 30,
+      "base_mode": "Assegnato",
+      "base_phi_cv": 34
+    },
+    "bearing_seismic": {
+      "source": "Assegnata",
+      "ground_kh": 0.15,
+      "ground_kv": 0.07,
+      "model_factor": 1
+    },
+    "bar_schedule": {
+      "panel_length": 6,
+      "end_cover": 40,
+      "stock_length": 12,
+      "ties_per_m": 2,
+      "tie_cut_length": 900
+    },
+    "serviceability": {
+      "settlement": true,
+      "displacement": true,
+      "removed_pressure": 15,
+      "settlement_limit": 25,
+      "rotation_limit": 0.002,
+      "head_limit": 20,
+      "horizontal_stiffness": 40000,
+      "rigid_base": true,
+      "layers": [
+        {
+          "name": "Limo sabbioso",
+          "thickness": 3,
+          "modulus": 12000
+        },
+        {
+          "name": "Ghiaia",
+          "thickness": 5,
+          "modulus": 40000
+        }
+      ],
+      "histories": [
+        {
+          "enabled": true,
+          "name": "Storia SLV 1",
+          "state": "SLV",
+          "yield_g": 0.08,
+          "scale": 1.2,
+          "limit_mm": 50,
+          "compatible": true,
+          "samples": [
+            {
+              "t": 0,
+              "a_g": 0
+            },
+            {
+              "t": 0.02,
+              "a_g": 0.0739
+            },
+            {
+              "t": 0.04,
+              "a_g": 0.1412
+            },
+            {
+              "t": 0.06,
+              "a_g": 0.1958
+            },
+            {
+              "t": 0.08,
+              "a_g": 0.233
+            },
+            {
+              "t": 0.1,
+              "a_g": 0.2494
+            },
+            {
+              "t": 0.12,
+              "a_g": 0.2435
+            },
+            {
+              "t": 0.14,
+              "a_g": 0.2158
+            },
+            {
+              "t": 0.16,
+              "a_g": 0.1689
+            },
+            {
+              "t": 0.18,
+              "a_g": 0.1068
+            },
+            {
+              "t": 0.2,
+              "a_g": 0.0353
+            },
+            {
+              "t": 0.22,
+              "a_g": -0.0394
+            },
+            {
+              "t": 0.24,
+              "a_g": -0.1106
+            },
+            {
+              "t": 0.26,
+              "a_g": -0.1719
+            },
+            {
+              "t": 0.28,
+              "a_g": -0.2179
+            },
+            {
+              "t": 0.3,
+              "a_g": -0.2444
+            },
+            {
+              "t": 0.32,
+              "a_g": -0.249
+            },
+            {
+              "t": 0.34,
+              "a_g": -0.2315
+            },
+            {
+              "t": 0.36,
+              "a_g": -0.1932
+            },
+            {
+              "t": 0.38,
+              "a_g": -0.1377
+            },
+            {
+              "t": 0.4,
+              "a_g": -0.0699
+            },
+            {
+              "t": 0.42,
+              "a_g": 0.0042
+            },
+            {
+              "t": 0.44,
+              "a_g": 0.0779
+            },
+            {
+              "t": 0.46,
+              "a_g": 0.1446
+            },
+            {
+              "t": 0.48,
+              "a_g": 0.1984
+            },
+            {
+              "t": 0.5,
+              "a_g": 0.2345
+            },
+            {
+              "t": 0.52,
+              "a_g": 0.2496
+            },
+            {
+              "t": 0.54,
+              "a_g": 0.2425
+            },
+            {
+              "t": 0.56,
+              "a_g": 0.2136
+            },
+            {
+              "t": 0.58,
+              "a_g": 0.1657
+            },
+            {
+              "t": 0.6,
+              "a_g": 0.103
+            },
+            {
+              "t": 0.62,
+              "a_g": 0.0311
+            },
+            {
+              "t": 0.64,
+              "a_g": -0.0436
+            },
+            {
+              "t": 0.66,
+              "a_g": -0.1144
+            },
+            {
+              "t": 0.68,
+              "a_g": -0.175
+            },
+            {
+              "t": 0.7000000000000001,
+              "a_g": -0.2199
+            },
+            {
+              "t": 0.72,
+              "a_g": -0.2452
+            },
+            {
+              "t": 0.74,
+              "a_g": -0.2486
+            },
+            {
+              "t": 0.76,
+              "a_g": -0.2298
+            },
+            {
+              "t": 0.78,
+              "a_g": -0.1905
+            },
+            {
+              "t": 0.8,
+              "a_g": -0.1341
+            },
+            {
+              "t": 0.8200000000000001,
+              "a_g": -0.0658
+            },
+            {
+              "t": 0.84,
+              "a_g": 0.0084
+            },
+            {
+              "t": 0.86,
+              "a_g": 0.0819
+            },
+            {
+              "t": 0.88,
+              "a_g": 0.148
+            },
+            {
+              "t": 0.9,
+              "a_g": 0.2009
+            },
+            {
+              "t": 0.92,
+              "a_g": 0.2359
+            },
+            {
+              "t": 0.9400000000000001,
+              "a_g": 0.2498
+            },
+            {
+              "t": 0.96,
+              "a_g": 0.2414
+            },
+            {
+              "t": 0.98,
+              "a_g": 0.2114
+            },
+            {
+              "t": 1,
+              "a_g": 0.1626
+            },
+            {
+              "t": 1.02,
+              "a_g": 0.0992
+            },
+            {
+              "t": 1.04,
+              "a_g": 0.0269
+            },
+            {
+              "t": 1.06,
+              "a_g": -0.0477
+            },
+            {
+              "t": 1.08,
+              "a_g": -0.1181
+            },
+            {
+              "t": 1.1,
+              "a_g": -0.1779
+            },
+            {
+              "t": 1.12,
+              "a_g": -0.2219
+            },
+            {
+              "t": 1.1400000000000001,
+              "a_g": -0.246
+            },
+            {
+              "t": 1.16,
+              "a_g": -0.2482
+            },
+            {
+              "t": 1.18,
+              "a_g": -0.2281
+            },
+            {
+              "t": 1.2,
+              "a_g": -0.1877
+            }
+          ]
+        }
+      ]
+    },
+    "detailing": {
+      "enabled": true,
+      "aggregate": 20,
+      "lap_percent": 50,
+      "lap_clear": 40,
+      "good_bond": true,
+      "life": 50,
+      "cover_deviation": 10,
+      "tie_diameter": 8,
+      "tie_spacing": 200,
+      "max_diameter": 32,
+      "max_count": 12,
+      "target_ratio": 0.95,
+      "cover_method": "EC2 2004",
+      "cover_element": "Piastra / soletta / parete",
+      "cover_ground": "Casseratura",
+      "cover_abrasion": "Nessuno",
+      "cover_quality": false,
+      "cover_high_strength": true,
+      "cover_slab": true,
+      "cover_ec_quality": true,
+      "cover_rough": false
+    },
+    "gravity_design": {
+      "type": "Resistenze assegnate",
+      "fk": "",
+      "fvk0": "",
+      "fvk_limit": "",
+      "gamma_m": 2.5,
+      "confidence": 1,
+      "eccentricity": 0,
+      "effective_height": "",
+      "elastic_modulus": ""
+    },
+    "actions": [
+      {
+        "id": "d9d72723a6a04cbba0a3ac914ddb291f",
+        "name": "Sovraccarico uniforme",
+        "type": "Sovraccarico uniforme",
+        "category": "Q",
+        "enabled": true,
+        "visible": true,
+        "value": 10,
+        "z": 3.45,
+        "z0": 0.45,
+        "x": 1.0750000000000002,
+        "psi0": 0.7,
+        "psi1": 0.5,
+        "psi2": 0.3,
+        "group": "legacy"
+      }
+    ],
+    "combinations": [],
+    "combination_mode": "Automatiche"
+  }
+}

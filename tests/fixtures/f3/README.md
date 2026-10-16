@@ -169,3 +169,43 @@ le transizioni F4 non cambiano.
 - In `expected/esito.txt` è cambiato solo il numero delle fixture (61 → 69).
 - Impronte nel manifest, sezione `fixture_aggiunte_f5_9b` (input, attesi ed `esito.txt` prima e dopo), sulla forma conservata
   da git (fine riga LF).
+
+## Fixture aggiunte in F5.9 (muri di sostegno)
+
+Stessa regola di F5.4 (proposta F5, sezione 7.2): prima della preparazione di F5.9 i muri di sostegno sono passati da 4 a 16
+fixture (81 in tutto), catturate con la vista storica (`RetainingWallWorkspace`). Gli attesi delle 69 fixture esistenti e le
+transizioni F4 non cambiano: le 14 441 transizioni dei muri riguardano solo le 4 fixture precedenti.
+
+| Fixture | Cosa copre |
+| --- | --- |
+| `mensola-sisma-sito-pendio` | sisma dai parametri del sito allo SLV (Mononobe–Okabe, categoria C, pendio di 20° alto 40 m con il muro a 30 m: St > 1, kh e kv ricavati come li scrive la scheda); due zone di armatura con facce diverse nel fusto e zona superiore più leggera; gemelle «b» della matrice automatica |
+| `mensola-wood-azioni` | sisma assegnato con Wood; azioni di ogni tipo e natura: forza orizzontale e pressione laterale G2 correlate, forza verticale e momento Q nel gruppo del sovraccarico (il momento non disegnato), urto eccezionale, un sovraccarico disattivato |
+| `gravita-cls-passiva` | gravità in calcestruzzo non armato (C25/30); due strati diversi a monte e uno a valle, passiva a valle con frazione mobilitata e altezza libera assegnata, attrito automatico sul fusto (gettato in opera) e alla base (prefabbricato) |
+| `gravita-muratura-avvisi` | gravità in muratura troppo snella: verifiche non soddisfatte e fuori campo; lunghezza efficace ed eccentricità assegnate |
+| `matrice-personalizzata` | matrice confermata: sovraccarico variabile escluso dalla mensola nella prima riga SLU, fattore del terreno modificato, γR,e della passiva assegnato, riga copiata, una riga SLE disattivata; passiva a valle |
+| `globale-drenata-due-colonne` | stabilità globale drenata a due colonne, linea di falda propria sotto la fondazione e in salita a monte, ricerca assegnata con la griglia predefinita: una combinazione soddisfatta e una no |
+| `globale-non-drenata-sisma` | stabilità globale non drenata su profilo unico (cu degli strati profondi) con il sisma dello SLV dal sito, lo stesso delle verifiche locali; ricerca grossolana: l'esito chiede più conci |
+| `opzioni-avanzate` | cedimenti e spostamenti con due strati deformabili, portanza sismica con accelerazioni assegnate, accelerogramma di Newmark, dettagli delle armature con buona aderenza, copriferro EC2 con le riduzioni, calcestruzzo personalizzato e acciaio B450A, tratto di 6 m per la distinta |
+| `mensola-avvisi` | mensola a valle assente e mensola a monte corta (scorrimento e ribaltamento non soddisfatti, perdita di equilibrio), acciaio salvato con il nome del catalogo e valori diversi (DET-3), copriferro sotto il minimo per XC4 |
+| `stratigrafia-incompleta` | stratigrafia di monte che non raggiunge il piano di posa e φ′ vuoto a valle: calcolo fermato, nessun risultato e nessun report |
+| `matrice-da-rigenerare` | matrice personalizzata confermata prima di una modifica delle azioni: il calcolo chiede di rigenerare le combinazioni |
+| `tipologia-prevista` | tipologia «Semigravità» predisposta per sviluppi futuri: il foglio si apre, nessun calcolo |
+
+- Gli input vengono da `fixtures-f3` (`F3Fixtures.RetainingWallF59`). Sono documenti come li scrive la scheda (numeri per i
+  valori, booleani JSON per le opzioni, kh e kv ricavati dal sito quando il sisma è dai parametri del sito) e archivi validi.
+  Nessun identificativo finisce con `default`. Prima della cattura ogni input è stato provato con la vista storica in una radice
+  temporanea, per verificare l'esito descritto e contenere la dimensione dei risultati (le azioni correlate e la falda
+  moltiplicano le combinazioni).
+- Gli attesi (102 file) vengono dalla cattura `20261017-005656-f59m-f3-cattura-1`, sul codice di produzione di `6ea62a0f`:
+  senza attesi, le sole differenze erano i file aggiunti e il numero di `esito.txt`. La seconda cattura
+  (`…-005933-f59m-f3-cattura-2`) dà gli stessi file byte per byte. Le due fixture con il sisma del sito sono state rigenerate
+  con kh e kv già ricavati, come li salva la scheda: con i valori del catalogo (0,1 e 0,05) `ui/f3-report-chapters` segnalava
+  dati preparati diversi, perché la vista li ricava all'apertura e il capitolo autonomo del report di progetto no (il calcolo li
+  ricava comunque; vedi `docs/refactoring/f5-9-muri.md`). I loro attesi vengono dalla cattura `…-010331-f59m-f3-cattura-3`,
+  uguale byte per byte alla `…-010604-f59m-f3-cattura-4`, che passa con le transizioni F4 invariate; con queste fixture passano
+  anche `ui/f3-report-chapters` (82 capitoli) e `ui/f3-scheduling`.
+- Il generatore `fixtures-f3` crea identificativi delle azioni nuovi a ogni esecuzione e oggi produce input diversi da quelli
+  congelati per dieci fixture più vecchie: si sono copiate solo le 12 fixture nuove, come in F5.4–F5.9b.
+- In `expected/esito.txt` è cambiato solo il numero delle fixture (69 → 81).
+- Impronte nel manifest, sezione `fixture_aggiunte_f5_9` (input, attesi ed `esito.txt` prima e dopo), sulla forma conservata
+  da git (fine riga LF).
