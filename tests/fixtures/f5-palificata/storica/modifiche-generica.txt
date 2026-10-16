@@ -1,0 +1,1031 @@
+== apertura
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3}]}
+modificato 0 · modificabile sì
+risultato CBDC470162D74641 · selezionato 4/"X"/0
+titolo "Reese / Van Impe · interazione palo-palo · X 0°"
+stato "9 pali · calcolo automatico · coefficiente Pm di reazione p"
+indicatori "0,496" "0,651" "0,866" "34,918%"
+geometria "S∥ · distanza fra file lungo H: 3 m   |   S⊥ · interasse ortogonale a H: 3 m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006)."
+note "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+confronto 12 · selezionata 4
+  "X · 0°" | "Davisson (1970) · kh/nh" | "0,25" | "0,25" | "0,25" | "75%" | "Disponibile"
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "0,3" | "0,5" | "0,8" | "50%" | "Disponibile"
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "0,35" | "0,517" | "0,7" | "48,333%" | "Disponibile"
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,651" | "0,866" | "34,918%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "0,397" | "0,586" | "0,779" | "41,439%" | "Disponibile"
+  "Y · 90°" | "Davisson (1970) · kh/nh" | "0,25" | "0,25" | "0,25" | "75%" | "Disponibile"
+  "Y · 90°" | "AASHTO (2014) · p-multiplier" | "0,3" | "0,5" | "0,8" | "50%" | "Disponibile"
+  "Y · 90°" | "FHWA (2018) · p-multiplier" | "0,35" | "0,517" | "0,7" | "48,333%" | "Disponibile"
+  "Y · 90°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni."
+  "Y · 90°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,651" | "0,866" | "34,918%" | "Disponibile"
+  "Y · 90°" | "Caltrans (2025) · p-multiplier modificato" | "0,397" | "0,586" | "0,779" | "41,439%" | "Disponibile"
+dettagli 9
+  "P1" | 3 | "0" | "0" | "0,585" | "—" | "0,585" | "41,546%"
+  "P2" | 2 | "3" | "0" | "0,579" | "—" | "0,579" | "42,093%"
+  "P3" | 1 | "6" | "0" | "0,866" | "—" | "0,866" | "13,393%"
+  "P4" | 3 | "0" | "3" | "0,497" | "—" | "0,497" | "50,343%"
+  "P5" | 2 | "3" | "3" | "0,496" | "—" | "0,496" | "50,385%"
+  "P6" | 1 | "6" | "3" | "0,805" | "—" | "0,805" | "19,471%"
+  "P7" | 3 | "0" | "6" | "0,585" | "—" | "0,585" | "41,546%"
+  "P8" | 2 | "3" | "6" | "0,579" | "—" | "0,579" | "42,093%"
+  "P9" | 1 | "6" | "6" | "0,866" | "—" | "0,866" | "13,393%"
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 4/"X"/0 · basamento 4
+== conferma
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3}]}
+modificato 0 · modificabile sì
+risultato CBDC470162D74641 · selezionato 4/"X"/0
+titolo "Reese / Van Impe · interazione palo-palo · X 0°"
+stato "9 pali · calcolo automatico · coefficiente Pm di reazione p"
+indicatori "0,496" "0,651" "0,866" "34,918%"
+geometria "S∥ · distanza fra file lungo H: 3 m   |   S⊥ · interasse ortogonale a H: 3 m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006)."
+note "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+confronto 12 · selezionata 4
+  "X · 0°" | "Davisson (1970) · kh/nh" | "0,25" | "0,25" | "0,25" | "75%" | "Disponibile"
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "0,3" | "0,5" | "0,8" | "50%" | "Disponibile"
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "0,35" | "0,517" | "0,7" | "48,333%" | "Disponibile"
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,651" | "0,866" | "34,918%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "0,397" | "0,586" | "0,779" | "41,439%" | "Disponibile"
+  "Y · 90°" | "Davisson (1970) · kh/nh" | "0,25" | "0,25" | "0,25" | "75%" | "Disponibile"
+  "Y · 90°" | "AASHTO (2014) · p-multiplier" | "0,3" | "0,5" | "0,8" | "50%" | "Disponibile"
+  "Y · 90°" | "FHWA (2018) · p-multiplier" | "0,35" | "0,517" | "0,7" | "48,333%" | "Disponibile"
+  "Y · 90°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni."
+  "Y · 90°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,651" | "0,866" | "34,918%" | "Disponibile"
+  "Y · 90°" | "Caltrans (2025) · p-multiplier modificato" | "0,397" | "0,586" | "0,779" | "41,439%" | "Disponibile"
+dettagli 9
+  "P1" | 3 | "0" | "0" | "0,585" | "—" | "0,585" | "41,546%"
+  "P2" | 2 | "3" | "0" | "0,579" | "—" | "0,579" | "42,093%"
+  "P3" | 1 | "6" | "0" | "0,866" | "—" | "0,866" | "13,393%"
+  "P4" | 3 | "0" | "3" | "0,497" | "—" | "0,497" | "50,343%"
+  "P5" | 2 | "3" | "3" | "0,496" | "—" | "0,496" | "50,385%"
+  "P6" | 1 | "6" | "3" | "0,805" | "—" | "0,805" | "19,471%"
+  "P7" | 3 | "0" | "6" | "0,585" | "—" | "0,585" | "41,546%"
+  "P8" | 2 | "3" | "6" | "0,579" | "—" | "0,579" | "42,093%"
+  "P9" | 1 | "6" | "6" | "0,866" | "—" | "0,866" | "13,393%"
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 4/"X"/0 · basamento 4
+== palo X [0] «-3,5»
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3}]}
+modificato 1 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== attendi
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3}]}
+modificato 1 · modificabile sì
+risultato 1CB4E60C458EFF80 · selezionato 4/"X"/0
+titolo "Reese / Van Impe · interazione palo-palo · X 0°"
+stato "9 pali · calcolo automatico · coefficiente Pm di reazione p"
+indicatori "0,496" "0,661" "0,866" "33,945%"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006)."
+note "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+confronto 12 · selezionata 4
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,661" | "0,866" | "33,945%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,661" | "0,866" | "33,894%" | "Disponibile"
+  "Y · 90°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 9
+  "P1" | 4 | "0" | "0" | "0,646" | "—" | "0,646" | "35,391%"
+  "P2" | 2 | "3,5" | "0" | "0,603" | "—" | "0,603" | "39,724%"
+  "P3" | 1 | "6,5" | "0" | "0,866" | "—" | "0,866" | "13,393%"
+  "P4" | 3 | "0,5" | "3" | "0,499" | "—" | "0,499" | "50,11%"
+  "P5" | 2 | "3,5" | "3" | "0,496" | "—" | "0,496" | "50,385%"
+  "P6" | 1 | "6,5" | "3" | "0,805" | "—" | "0,805" | "19,471%"
+  "P7" | 3 | "0,5" | "6" | "0,585" | "—" | "0,585" | "41,546%"
+  "P8" | 2 | "3,5" | "6" | "0,579" | "—" | "0,579" | "42,093%"
+  "P9" | 1 | "6,5" | "6" | "0,866" | "—" | "0,866" | "13,393%"
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 4/"X"/0 · basamento 4
+== aggiungi-palo
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"","x":0,"y":0}]}
+modificato 2 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 10 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "" | "0" | "0"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== attendi
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"","x":0,"y":0}]}
+modificato 2 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Dati da completare: Coordinate finite e identificativi dei pali univoci richiesti."
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 10 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "" | "0" | "0"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== palo Id [9] «P10»
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":0,"y":0}]}
+modificato 3 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 10 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "0" | "0"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== palo X [9] «6»
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":0}]}
+modificato 4 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 10 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "0"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== palo Y [9] «6»
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 5 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 10 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== attendi
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 5 · modificabile sì
+risultato 540B8C8457CF7A78 · selezionato 4/"X"/0
+titolo "Reese / Van Impe · interazione palo-palo · X 0°"
+stato "10 pali · calcolo automatico · coefficiente Pm di reazione p"
+indicatori "0,496" "0,687" "1" "31,314%"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006)."
+note "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+confronto 12 · selezionata 4
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,687" | "1" | "31,314%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,687" | "1" | "31,268%" | "Disponibile"
+  "Y · 90°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 10
+  "P1" | 5 | "0" | "0" | "0,646" | "—" | "0,646" | "35,391%"
+  "P2" | 3 | "3,5" | "0" | "0,603" | "—" | "0,603" | "39,724%"
+  "P3" | 2 | "6,5" | "0" | "0,866" | "—" | "0,866" | "13,393%"
+  "P4" | 4 | "0,5" | "3" | "0,499" | "—" | "0,499" | "50,11%"
+  "P5" | 3 | "3,5" | "3" | "0,496" | "—" | "0,496" | "50,385%"
+  "P6" | 2 | "6,5" | "3" | "0,804" | "—" | "0,804" | "19,642%"
+  "P7" | 4 | "0,5" | "6" | "0,585" | "—" | "0,585" | "41,546%"
+  "P8" | 3 | "3,5" | "6" | "0,574" | "—" | "0,574" | "42,585%"
+  "P9" | 2 | "6,5" | "6" | "0,796" | "—" | "0,796" | "20,364%"
+  "P10" | 1 | "9,5" | "9" | "1" | "—" | "1" | "0%"
+pali 10 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 4/"X"/0 · basamento 4
+== togli-palo [1]
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 6 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== attendi
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 6 · modificabile sì
+risultato CDC02117510FC850 · selezionato 4/"X"/0
+titolo "Reese / Van Impe · interazione palo-palo · X 0°"
+stato "9 pali · calcolo automatico · coefficiente Pm di reazione p"
+indicatori "0,534" "0,734" "1" "26,644%"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006)."
+note "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+confronto 12 · selezionata 4
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,534" | "0,734" | "1" | "26,644%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Reese / Van Impe · interazione palo-palo" | "0,533" | "0,716" | "1" | "28,401%" | "Disponibile"
+  "Y · 90°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 9
+  "P1" | 5 | "0" | "0" | "0,836" | "—" | "0,836" | "16,381%"
+  "P3" | 2 | "6,5" | "0" | "0,93" | "—" | "0,93" | "7,018%"
+  "P4" | 4 | "0,5" | "3" | "0,543" | "—" | "0,543" | "45,743%"
+  "P5" | 3 | "3,5" | "3" | "0,534" | "—" | "0,534" | "46,64%"
+  "P6" | 2 | "6,5" | "3" | "0,804" | "—" | "0,804" | "19,642%"
+  "P7" | 4 | "0,5" | "6" | "0,586" | "—" | "0,586" | "41,422%"
+  "P8" | 3 | "3,5" | "6" | "0,574" | "—" | "0,574" | "42,585%"
+  "P9" | 2 | "6,5" | "6" | "0,796" | "—" | "0,796" | "20,364%"
+  "P10" | 1 | "9,5" | "9" | "1" | "—" | "1" | "0%"
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 4/"X"/0 · basamento 4
+== annulla-modifica
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 7 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== attendi
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 7 · modificabile sì
+risultato CDC02117510FC850 · selezionato 4/"X"/0
+titolo "Reese / Van Impe · interazione palo-palo · X 0°"
+stato "9 pali · calcolo automatico · coefficiente Pm di reazione p"
+indicatori "0,534" "0,734" "1" "26,644%"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006)."
+note "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+confronto 12 · selezionata 4
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,534" | "0,734" | "1" | "26,644%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Reese / Van Impe · interazione palo-palo" | "0,533" | "0,716" | "1" | "28,401%" | "Disponibile"
+  "Y · 90°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 9
+  "P1" | 5 | "0" | "0" | "0,836" | "—" | "0,836" | "16,381%"
+  "P3" | 2 | "6,5" | "0" | "0,93" | "—" | "0,93" | "7,018%"
+  "P4" | 4 | "0,5" | "3" | "0,543" | "—" | "0,543" | "45,743%"
+  "P5" | 3 | "3,5" | "3" | "0,534" | "—" | "0,534" | "46,64%"
+  "P6" | 2 | "6,5" | "3" | "0,804" | "—" | "0,804" | "19,642%"
+  "P7" | 4 | "0,5" | "6" | "0,586" | "—" | "0,586" | "41,422%"
+  "P8" | 3 | "3,5" | "6" | "0,574" | "—" | "0,574" | "42,585%"
+  "P9" | 2 | "6,5" | "6" | "0,796" | "—" | "0,796" | "20,364%"
+  "P10" | 1 | "9,5" | "9" | "1" | "—" | "1" | "0%"
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 4/"X"/0 · basamento 4
+== palo Y [2] «abc»
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":"abc"},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 8 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "abc"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== attendi
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":"abc"},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 8 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Dati da completare: Valore numerico non valido: y"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "abc"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== palo Y [2] «-3»
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":-3},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 9 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "-3"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== conferma
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":-3},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 9 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Dati da completare: Pali sovrapposti, coincidenti o coordinate fuori scala: P4 / P1"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "-3"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== seleziona [7]
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":-3},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 9 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Dati da completare: Pali sovrapposti, coincidenti o coordinate fuori scala: P4 / P1"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3,5" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "-3"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== disposizione «Rettangolare»
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Rettangolare","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3.5,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":-3},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3},{"id":"P10","x":6,"y":6}]}
+modificato 10 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 9 · modificabili no · righe nuove no · "Coordinate automatiche. Scegli Generica per modificarle dalla tabella."
+  "P1" | "-3,5" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "-3"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+  "P10" | "6" | "6"
+disposizione "Rettangolare" · nota ""
+  campo nx "Pali per fila Nx" = "3"
+  campo ny "Numero di file Ny" = "3"
+  campo sx_d "Interasse nella fila Sx / D" = "3"
+  campo sy_d "Interasse fra file Sy / D" = "3"
+  campo rotazione "Rotazione palificata [° da +X]" = "0"
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== attendi
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Rettangolare","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3}]}
+modificato 10 · modificabile sì
+risultato F207C0861A7590F4 · selezionato 4/"X"/0
+titolo "Reese / Van Impe · interazione palo-palo · X 0°"
+stato "9 pali · calcolo automatico · coefficiente Pm di reazione p"
+indicatori "0,496" "0,651" "0,866" "34,918%"
+geometria "S∥ · distanza fra file lungo H: 3 m   |   S⊥ · interasse ortogonale a H: 3 m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006)."
+note "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+confronto 12 · selezionata 4
+  "X · 0°" | "Davisson (1970) · kh/nh" | "0,25" | "0,25" | "0,25" | "75%" | "Disponibile"
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "0,3" | "0,5" | "0,8" | "50%" | "Disponibile"
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "0,35" | "0,517" | "0,7" | "48,333%" | "Disponibile"
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,651" | "0,866" | "34,918%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "0,397" | "0,586" | "0,779" | "41,439%" | "Disponibile"
+  "Y · 90°" | "Davisson (1970) · kh/nh" | "0,25" | "0,25" | "0,25" | "75%" | "Disponibile"
+  "Y · 90°" | "AASHTO (2014) · p-multiplier" | "0,3" | "0,5" | "0,8" | "50%" | "Disponibile"
+  "Y · 90°" | "FHWA (2018) · p-multiplier" | "0,35" | "0,517" | "0,7" | "48,333%" | "Disponibile"
+  "Y · 90°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni."
+  "Y · 90°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,651" | "0,866" | "34,918%" | "Disponibile"
+  "Y · 90°" | "Caltrans (2025) · p-multiplier modificato" | "0,397" | "0,586" | "0,779" | "41,439%" | "Disponibile"
+dettagli 9
+  "P1" | 3 | "0" | "0" | "0,585" | "—" | "0,585" | "41,546%"
+  "P2" | 2 | "3" | "0" | "0,579" | "—" | "0,579" | "42,093%"
+  "P3" | 1 | "6" | "0" | "0,866" | "—" | "0,866" | "13,393%"
+  "P4" | 3 | "0" | "3" | "0,497" | "—" | "0,497" | "50,343%"
+  "P5" | 2 | "3" | "3" | "0,496" | "—" | "0,496" | "50,385%"
+  "P6" | 1 | "6" | "3" | "0,805" | "—" | "0,805" | "19,471%"
+  "P7" | 3 | "0" | "6" | "0,585" | "—" | "0,585" | "41,546%"
+  "P8" | 2 | "3" | "6" | "0,579" | "—" | "0,579" | "42,093%"
+  "P9" | 1 | "6" | "6" | "0,866" | "—" | "0,866" | "13,393%"
+pali 9 · modificabili no · righe nuove no · "Coordinate automatiche. Scegli Generica per modificarle dalla tabella."
+  "P1" | "-3" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+disposizione "Rettangolare" · nota ""
+  campo nx "Pali per fila Nx" = "3"
+  campo ny "Numero di file Ny" = "3"
+  campo sx_d "Interasse nella fila Sx / D" = "3"
+  campo sy_d "Interasse fra file Sy / D" = "3"
+  campo rotazione "Rotazione palificata [° da +X]" = "0"
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 4/"X"/0 · basamento 4
+== disposizione «Generica»
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3}]}
+modificato 11 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== attendi
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-3,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3}]}
+modificato 11 · modificabile sì
+risultato CBDC470162D74641 · selezionato 4/"X"/0
+titolo "Reese / Van Impe · interazione palo-palo · X 0°"
+stato "9 pali · calcolo automatico · coefficiente Pm di reazione p"
+indicatori "0,496" "0,651" "0,866" "34,918%"
+geometria "S∥ · distanza fra file lungo H: 3 m   |   S⊥ · interasse ortogonale a H: 3 m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006)."
+note "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+confronto 12 · selezionata 4
+  "X · 0°" | "Davisson (1970) · kh/nh" | "0,25" | "0,25" | "0,25" | "75%" | "Disponibile"
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "0,3" | "0,5" | "0,8" | "50%" | "Disponibile"
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "0,35" | "0,517" | "0,7" | "48,333%" | "Disponibile"
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,651" | "0,866" | "34,918%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "0,397" | "0,586" | "0,779" | "41,439%" | "Disponibile"
+  "Y · 90°" | "Davisson (1970) · kh/nh" | "0,25" | "0,25" | "0,25" | "75%" | "Disponibile"
+  "Y · 90°" | "AASHTO (2014) · p-multiplier" | "0,3" | "0,5" | "0,8" | "50%" | "Disponibile"
+  "Y · 90°" | "FHWA (2018) · p-multiplier" | "0,35" | "0,517" | "0,7" | "48,333%" | "Disponibile"
+  "Y · 90°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni."
+  "Y · 90°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,651" | "0,866" | "34,918%" | "Disponibile"
+  "Y · 90°" | "Caltrans (2025) · p-multiplier modificato" | "0,397" | "0,586" | "0,779" | "41,439%" | "Disponibile"
+dettagli 9
+  "P1" | 3 | "0" | "0" | "0,585" | "—" | "0,585" | "41,546%"
+  "P2" | 2 | "3" | "0" | "0,579" | "—" | "0,579" | "42,093%"
+  "P3" | 1 | "6" | "0" | "0,866" | "—" | "0,866" | "13,393%"
+  "P4" | 3 | "0" | "3" | "0,497" | "—" | "0,497" | "50,343%"
+  "P5" | 2 | "3" | "3" | "0,496" | "—" | "0,496" | "50,385%"
+  "P6" | 1 | "6" | "3" | "0,805" | "—" | "0,805" | "19,471%"
+  "P7" | 3 | "0" | "6" | "0,585" | "—" | "0,585" | "41,546%"
+  "P8" | 2 | "3" | "6" | "0,579" | "—" | "0,579" | "42,093%"
+  "P9" | 1 | "6" | "6" | "0,866" | "—" | "0,866" | "13,393%"
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-3" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 4/"X"/0 · basamento 4
+== palo X [0] «-4»
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-4,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3}]}
+modificato 12 · modificabile sì
+risultato -
+titolo "Effetto di gruppo della palificata"
+stato "Aggiornamento automatico…"
+indicatori "—" "—" "—" "—"
+geometria ""
+fonte ""
+note ""
+confronto 0 · selezionata -1
+dettagli 0
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-4" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno senza risultato · basamento -
+== conferma
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-4,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3}]}
+modificato 12 · modificabile sì
+risultato 84DC8EEC6A704CFC · selezionato 4/"X"/0
+titolo "Reese / Van Impe · interazione palo-palo · X 0°"
+stato "9 pali · calcolo automatico · coefficiente Pm di reazione p"
+indicatori "0,496" "0,669" "0,866" "33,07%"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006)."
+note "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+confronto 12 · selezionata 4
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,669" | "0,866" | "33,07%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,669" | "0,866" | "33,104%" | "Disponibile"
+  "Y · 90°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 9
+  "P1" | 4 | "0" | "0" | "0,699" | "—" | "0,699" | "30,065%"
+  "P2" | 2 | "4" | "0" | "0,622" | "—" | "0,622" | "37,829%"
+  "P3" | 1 | "7" | "0" | "0,866" | "—" | "0,866" | "13,393%"
+  "P4" | 3 | "1" | "3" | "0,505" | "—" | "0,505" | "49,458%"
+  "P5" | 2 | "4" | "3" | "0,496" | "—" | "0,496" | "50,385%"
+  "P6" | 1 | "7" | "3" | "0,805" | "—" | "0,805" | "19,471%"
+  "P7" | 3 | "1" | "6" | "0,585" | "—" | "0,585" | "41,546%"
+  "P8" | 2 | "4" | "6" | "0,579" | "—" | "0,579" | "42,093%"
+  "P9" | 1 | "7" | "6" | "0,866" | "—" | "0,866" | "13,393%"
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-4" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 4/"X"/0 · basamento 4
+== riapri
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-4,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3}]}
+modificato 0 · modificabile sì
+risultato 84DC8EEC6A704CFC · selezionato 4/"X"/0
+titolo "Reese / Van Impe · interazione palo-palo · X 0°"
+stato "9 pali · calcolo automatico · coefficiente Pm di reazione p"
+indicatori "0,496" "0,669" "0,866" "33,07%"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006)."
+note "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+confronto 12 · selezionata 4
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,669" | "0,866" | "33,07%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,669" | "0,866" | "33,104%" | "Disponibile"
+  "Y · 90°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 9
+  "P1" | 4 | "0" | "0" | "0,699" | "—" | "0,699" | "30,065%"
+  "P2" | 2 | "4" | "0" | "0,622" | "—" | "0,622" | "37,829%"
+  "P3" | 1 | "7" | "0" | "0,866" | "—" | "0,866" | "13,393%"
+  "P4" | 3 | "1" | "3" | "0,505" | "—" | "0,505" | "49,458%"
+  "P5" | 2 | "4" | "3" | "0,496" | "—" | "0,496" | "50,385%"
+  "P6" | 1 | "7" | "3" | "0,805" | "—" | "0,805" | "19,471%"
+  "P7" | 3 | "1" | "6" | "0,585" | "—" | "0,585" | "41,546%"
+  "P8" | 2 | "4" | "6" | "0,579" | "—" | "0,579" | "42,093%"
+  "P9" | 1 | "7" | "6" | "0,866" | "—" | "0,866" | "13,393%"
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-4" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 4/"X"/0 · basamento 4
+== conferma
+dati {"versione":2,"diametro":1,"angolo":0,"metodo":4,"direzione_selezionata":"X","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":true,"X-":false,"Y-":false,"custom":false,"angolo_custom":45},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Contorno palificata","bordo_d":1},"pali":[{"id":"P1","x":-4,"y":-3},{"id":"P2","x":0,"y":-3},{"id":"P3","x":3,"y":-3},{"id":"P4","x":-3,"y":0},{"id":"P5","x":0,"y":0},{"id":"P6","x":3,"y":0},{"id":"P7","x":-3,"y":3},{"id":"P8","x":0,"y":3},{"id":"P9","x":3,"y":3}]}
+modificato 0 · modificabile sì
+risultato 84DC8EEC6A704CFC · selezionato 4/"X"/0
+titolo "Reese / Van Impe · interazione palo-palo · X 0°"
+stato "9 pali · calcolo automatico · coefficiente Pm di reazione p"
+indicatori "0,496" "0,669" "0,866" "33,07%"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006)."
+note "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+confronto 12 · selezionata 4
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,669" | "0,866" | "33,07%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Y · 90°" | "Reese / Van Impe · interazione palo-palo" | "0,496" | "0,669" | "0,866" | "33,104%" | "Disponibile"
+  "Y · 90°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 9
+  "P1" | 4 | "0" | "0" | "0,699" | "—" | "0,699" | "30,065%"
+  "P2" | 2 | "4" | "0" | "0,622" | "—" | "0,622" | "37,829%"
+  "P3" | 1 | "7" | "0" | "0,866" | "—" | "0,866" | "13,393%"
+  "P4" | 3 | "1" | "3" | "0,505" | "—" | "0,505" | "49,458%"
+  "P5" | 2 | "4" | "3" | "0,496" | "—" | "0,496" | "50,385%"
+  "P6" | 1 | "7" | "3" | "0,805" | "—" | "0,805" | "19,471%"
+  "P7" | 3 | "1" | "6" | "0,585" | "—" | "0,585" | "41,546%"
+  "P8" | 2 | "4" | "6" | "0,579" | "—" | "0,579" | "42,093%"
+  "P9" | 1 | "7" | "6" | "0,866" | "—" | "0,866" | "13,393%"
+pali 9 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "P1" | "-4" | "-3"
+  "P2" | "0" | "-3"
+  "P3" | "3" | "-3"
+  "P4" | "-3" | "0"
+  "P5" | "0" | "0"
+  "P6" | "3" | "0"
+  "P7" | "-3" | "3"
+  "P8" | "0" | "3"
+  "P9" | "3" | "3"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
+basamento "Contorno palificata" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 4/"X"/0 · basamento 4

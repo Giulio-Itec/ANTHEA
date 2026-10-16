@@ -83,6 +83,20 @@ public partial class App
             }));
             return;
         }
+        // F5.4: traces of the historic pile group view (tests/Desktop/PileGroupHistoricTrace.cs); the check also compares them
+        // with the frozen ones of tests/fixtures/f5-palificata/storica.
+        if (e.Args.Length == 3 && e.Args[0] is "--check-pile-group-historic" or "--check-pile-group-historic-capture")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0;
+                try { await PileGroupHistoricTrace.Run(e.Args[1], e.Args[2], e.Args[0] == "--check-pile-group-historic"); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            }));
+            return;
+        }
 
         if (e.Args.Length == 2 && e.Args[0] == "--check-appearance")
         {

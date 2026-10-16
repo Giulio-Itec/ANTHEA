@@ -13,7 +13,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
+internal sealed partial class HorizontalPileGroupWorkspace : UserControl, IDisposable
 {
     readonly JsonObject data;
     readonly ObservableCollection<PileRow> piles = new();

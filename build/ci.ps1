@@ -330,6 +330,9 @@ Add-Suite @{ Name = 'ui/f3-concrete-figures'; Stage = 'ui'; Kind = 'check'; Args
 Add-Suite @{ Name = 'ui/f3-scheduling'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-scheduling', '{root}', '{out}'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/f3-equivalence'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-equivalence', '{root}', '{out}\cattura'); Timeout = 1800; Proof = @{ File = '{out}\cattura\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-wiki-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-wiki-offscreen', '{out}'); Timeout = 600; Proof = @{ File = '{out}\exit-code.txt'; Pattern = '^0\s*$' } }
+# F5.4 (proposal 7.2, capture first): the historic pile group view still gives the traces frozen in tests/fixtures/f5-palificata,
+# which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
+Add-Suite @{ Name = 'ui/check-pile-group-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-pile-group-historic', '{root}', '{out}\traccia'); Timeout = 300; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
 # FieldForm (XAML + FormViewModel, F5.2) against the historic InputForm: same edit sequences on fields of real modules, same bytes of the document, same layout; windows outside the screen.
 Add-Suite @{ Name = 'ui/check-field-form-parity'; Stage = 'ui'; Kind = 'check'; Args = @('--check-field-form-parity', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 foreach ($name in 'HorizontalPileGroup.Checks', 'ElasticPile.UiChecks', 'ConcreteShort.UiChecks') {

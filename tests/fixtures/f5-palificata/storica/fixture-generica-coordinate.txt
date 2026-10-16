@@ -1,0 +1,252 @@
+== apertura
+dati {"versione":2,"diametro":1,"angolo":135,"metodo":0,"direzione_selezionata":"custom","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":false,"X-":false,"Y-":false,"custom":true,"angolo_custom":135},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Rettangolare","bordo_d":1},"pali":[{"id":"A","x":0,"y":0},{"id":"B","x":3.5,"y":0},{"id":"C","x":7,"y":0.5},{"id":"D","x":1.75,"y":3.2},{"id":"E","x":5.25,"y":3.2}]}
+modificato 0 · modificabile sì
+risultato EB6D9FE2D4CA8768 · selezionato 0/"custom"/135
+titolo "Davisson (1970) · kh/nh · Personalizzata 135°"
+stato "5 pali · calcolo automatico · metodo non applicabile: valori non disponibili"
+indicatori "—" "—" "—" "—"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica."
+note "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+confronto 12 · selezionata 6
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,694" | "0,781" | "0,925" | "21,948%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Reese / Van Impe · interazione palo-palo" | "0,657" | "0,814" | "0,954" | "18,628%" | "Disponibile"
+  "Personalizzata · 135°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 5
+  "A" | 2 | "0" | "-0" | "—" | "—" | "—" | "—"
+  "B" | 4 | "-2,475" | "-2,475" | "—" | "—" | "—" | "—"
+  "C" | 5 | "-4,596" | "-5,303" | "—" | "—" | "—" | "—"
+  "D" | 1 | "1,025" | "-3,5" | "—" | "—" | "—" | "—"
+  "E" | 3 | "-1,45" | "-5,975" | "—" | "—" | "—" | "—"
+pali 5 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "A" | "0" | "0"
+  "B" | "3,5" | "0"
+  "C" | "7" | "0,5"
+  "D" | "1,75" | "3,2"
+  "E" | "5.25" | "3.2"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=no X-=no Y-=no custom=sì · angolo "135" attivo
+basamento "Rettangolare" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 0/"custom"/135 · basamento 4
+== conferma
+dati {"versione":2,"diametro":1,"angolo":135,"metodo":0,"direzione_selezionata":"custom","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":false,"X-":false,"Y-":false,"custom":true,"angolo_custom":135},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Rettangolare","bordo_d":1},"pali":[{"id":"A","x":0,"y":0},{"id":"B","x":3.5,"y":0},{"id":"C","x":7,"y":0.5},{"id":"D","x":1.75,"y":3.2},{"id":"E","x":5.25,"y":3.2}]}
+modificato 0 · modificabile sì
+risultato EB6D9FE2D4CA8768 · selezionato 0/"custom"/135
+titolo "Davisson (1970) · kh/nh · Personalizzata 135°"
+stato "5 pali · calcolo automatico · metodo non applicabile: valori non disponibili"
+indicatori "—" "—" "—" "—"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica."
+note "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+confronto 12 · selezionata 6
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,694" | "0,781" | "0,925" | "21,948%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Reese / Van Impe · interazione palo-palo" | "0,657" | "0,814" | "0,954" | "18,628%" | "Disponibile"
+  "Personalizzata · 135°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 5
+  "A" | 2 | "0" | "-0" | "—" | "—" | "—" | "—"
+  "B" | 4 | "-2,475" | "-2,475" | "—" | "—" | "—" | "—"
+  "C" | 5 | "-4,596" | "-5,303" | "—" | "—" | "—" | "—"
+  "D" | 1 | "1,025" | "-3,5" | "—" | "—" | "—" | "—"
+  "E" | 3 | "-1,45" | "-5,975" | "—" | "—" | "—" | "—"
+pali 5 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "A" | "0" | "0"
+  "B" | "3,5" | "0"
+  "C" | "7" | "0,5"
+  "D" | "1,75" | "3,2"
+  "E" | "5.25" | "3.2"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=no X-=no Y-=no custom=sì · angolo "135" attivo
+basamento "Rettangolare" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 0/"custom"/135 · basamento 4
+== calcola
+dati {"versione":2,"diametro":1,"angolo":135,"metodo":0,"direzione_selezionata":"custom","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":false,"X-":false,"Y-":false,"custom":true,"angolo_custom":135},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Rettangolare","bordo_d":1},"pali":[{"id":"A","x":0,"y":0},{"id":"B","x":3.5,"y":0},{"id":"C","x":7,"y":0.5},{"id":"D","x":1.75,"y":3.2},{"id":"E","x":5.25,"y":3.2}]}
+modificato 0 · modificabile sì
+risultato EB6D9FE2D4CA8768 · selezionato 0/"custom"/135
+titolo "Davisson (1970) · kh/nh · Personalizzata 135°"
+stato "5 pali · calcolo automatico · metodo non applicabile: valori non disponibili"
+indicatori "—" "—" "—" "—"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica."
+note "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+confronto 12 · selezionata 6
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,694" | "0,781" | "0,925" | "21,948%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Reese / Van Impe · interazione palo-palo" | "0,657" | "0,814" | "0,954" | "18,628%" | "Disponibile"
+  "Personalizzata · 135°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 5
+  "A" | 2 | "0" | "-0" | "—" | "—" | "—" | "—"
+  "B" | 4 | "-2,475" | "-2,475" | "—" | "—" | "—" | "—"
+  "C" | 5 | "-4,596" | "-5,303" | "—" | "—" | "—" | "—"
+  "D" | 1 | "1,025" | "-3,5" | "—" | "—" | "—" | "—"
+  "E" | 3 | "-1,45" | "-5,975" | "—" | "—" | "—" | "—"
+pali 5 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "A" | "0" | "0"
+  "B" | "3,5" | "0"
+  "C" | "7" | "0,5"
+  "D" | "1,75" | "3,2"
+  "E" | "5.25" | "3.2"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=no X-=no Y-=no custom=sì · angolo "135" attivo
+basamento "Rettangolare" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 0/"custom"/135 · basamento 4
+== conferma
+dati {"versione":2,"diametro":1,"angolo":135,"metodo":0,"direzione_selezionata":"custom","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":false,"X-":false,"Y-":false,"custom":true,"angolo_custom":135},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Rettangolare","bordo_d":1},"pali":[{"id":"A","x":0,"y":0},{"id":"B","x":3.5,"y":0},{"id":"C","x":7,"y":0.5},{"id":"D","x":1.75,"y":3.2},{"id":"E","x":5.25,"y":3.2}]}
+modificato 0 · modificabile sì
+risultato EB6D9FE2D4CA8768 · selezionato 0/"custom"/135
+titolo "Davisson (1970) · kh/nh · Personalizzata 135°"
+stato "5 pali · calcolo automatico · metodo non applicabile: valori non disponibili"
+indicatori "—" "—" "—" "—"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica."
+note "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+confronto 12 · selezionata 6
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,694" | "0,781" | "0,925" | "21,948%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Reese / Van Impe · interazione palo-palo" | "0,657" | "0,814" | "0,954" | "18,628%" | "Disponibile"
+  "Personalizzata · 135°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 5
+  "A" | 2 | "0" | "-0" | "—" | "—" | "—" | "—"
+  "B" | 4 | "-2,475" | "-2,475" | "—" | "—" | "—" | "—"
+  "C" | 5 | "-4,596" | "-5,303" | "—" | "—" | "—" | "—"
+  "D" | 1 | "1,025" | "-3,5" | "—" | "—" | "—" | "—"
+  "E" | 3 | "-1,45" | "-5,975" | "—" | "—" | "—" | "—"
+pali 5 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "A" | "0" | "0"
+  "B" | "3,5" | "0"
+  "C" | "7" | "0,5"
+  "D" | "1,75" | "3,2"
+  "E" | "5.25" | "3.2"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=no X-=no Y-=no custom=sì · angolo "135" attivo
+basamento "Rettangolare" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 0/"custom"/135 · basamento 4
+== riapri
+dati {"versione":2,"diametro":1,"angolo":135,"metodo":0,"direzione_selezionata":"custom","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":false,"X-":false,"Y-":false,"custom":true,"angolo_custom":135},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Rettangolare","bordo_d":1},"pali":[{"id":"A","x":0,"y":0},{"id":"B","x":3.5,"y":0},{"id":"C","x":7,"y":0.5},{"id":"D","x":1.75,"y":3.2},{"id":"E","x":5.25,"y":3.2}]}
+modificato 0 · modificabile sì
+risultato EB6D9FE2D4CA8768 · selezionato 0/"custom"/135
+titolo "Davisson (1970) · kh/nh · Personalizzata 135°"
+stato "5 pali · calcolo automatico · metodo non applicabile: valori non disponibili"
+indicatori "—" "—" "—" "—"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica."
+note "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+confronto 12 · selezionata 6
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,694" | "0,781" | "0,925" | "21,948%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Reese / Van Impe · interazione palo-palo" | "0,657" | "0,814" | "0,954" | "18,628%" | "Disponibile"
+  "Personalizzata · 135°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 5
+  "A" | 2 | "0" | "-0" | "—" | "—" | "—" | "—"
+  "B" | 4 | "-2,475" | "-2,475" | "—" | "—" | "—" | "—"
+  "C" | 5 | "-4,596" | "-5,303" | "—" | "—" | "—" | "—"
+  "D" | 1 | "1,025" | "-3,5" | "—" | "—" | "—" | "—"
+  "E" | 3 | "-1,45" | "-5,975" | "—" | "—" | "—" | "—"
+pali 5 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "A" | "0" | "0"
+  "B" | "3.5" | "0"
+  "C" | "7" | "0.5"
+  "D" | "1.75" | "3.2"
+  "E" | "5.25" | "3.2"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=no X-=no Y-=no custom=sì · angolo "135" attivo
+basamento "Rettangolare" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 0/"custom"/135 · basamento 4
+== conferma
+dati {"versione":2,"diametro":1,"angolo":135,"metodo":0,"direzione_selezionata":"custom","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Generica","nx":3,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3,"sy_d":3,"rotazione":0},"direzioni":{"X":true,"Y":false,"X-":false,"Y-":false,"custom":true,"angolo_custom":135},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Rettangolare","bordo_d":1},"pali":[{"id":"A","x":0,"y":0},{"id":"B","x":3.5,"y":0},{"id":"C","x":7,"y":0.5},{"id":"D","x":1.75,"y":3.2},{"id":"E","x":5.25,"y":3.2}]}
+modificato 0 · modificabile sì
+risultato EB6D9FE2D4CA8768 · selezionato 0/"custom"/135
+titolo "Davisson (1970) · kh/nh · Personalizzata 135°"
+stato "5 pali · calcolo automatico · metodo non applicabile: valori non disponibili"
+indicatori "—" "—" "—" "—"
+geometria "S∥ · distanza fra file lungo H: — m   |   S⊥ · interasse ortogonale a H: — m\nAsse–bordo basamento = 1 m; margine libero dal palo = 0,5 m."
+fonte "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica."
+note "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+confronto 12 · selezionata 6
+  "X · 0°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "X · 0°" | "Reese / Van Impe · interazione palo-palo" | "0,694" | "0,781" | "0,925" | "21,948%" | "Disponibile"
+  "X · 0°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Davisson (1970) · kh/nh" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "AASHTO (2014) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "FHWA (2018) · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Rollins / FEMA · p-multiplier" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+  "Personalizzata · 135°" | "Reese / Van Impe · interazione palo-palo" | "0,657" | "0,814" | "0,954" | "18,628%" | "Disponibile"
+  "Personalizzata · 135°" | "Caltrans (2025) · p-multiplier modificato" | "—" | "—" | "—" | "—" | "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe."
+dettagli 5
+  "A" | 2 | "0" | "-0" | "—" | "—" | "—" | "—"
+  "B" | 4 | "-2,475" | "-2,475" | "—" | "—" | "—" | "—"
+  "C" | 5 | "-4,596" | "-5,303" | "—" | "—" | "—" | "—"
+  "D" | 1 | "1,025" | "-3,5" | "—" | "—" | "—" | "—"
+  "E" | 3 | "-1,45" | "-5,975" | "—" | "—" | "—" | "—"
+pali 5 · modificabili sì · righe nuove sì · "Modifica x e y, aggiungi una riga o elimina con Canc. Ricalcolo automatico."
+  "A" | "0" | "0"
+  "B" | "3.5" | "0"
+  "C" | "7" | "0.5"
+  "D" | "1.75" | "3.2"
+  "E" | "5.25" | "3.2"
+disposizione "Generica" · nota ""
+diametro "1"
+direzioni X=sì Y=no X-=no Y-=no custom=sì · angolo "135" attivo
+basamento "Rettangolare" · asse-bordo "1"
+opzioni estrapolazioni no · file proiettate no
+interassi X [0] "" ""
+disegno 0/"custom"/135 · basamento 4
