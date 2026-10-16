@@ -321,6 +321,8 @@ foreach ($c in 'check-appearance', 'check-global-guidance-offscreen', 'check-wal
     Add-Suite @{ Name = "ui/$c"; Stage = 'ui'; Kind = 'check'; Args = @("--$c", '{out}'); Timeout = 600 }
 }
 Add-Suite @{ Name = 'ui/check-error-log-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-error-log-offscreen', '{out}'); Timeout = 300; Proof = @{ File = '{out}\test.txt'; Pattern = '^PASS ' } }
+# ModuleHost (F5.2): ModuleImplementations, composition root, bench --module-impl and MvvmSheetEditor with the test-only probe module, off screen.
+Add-Suite @{ Name = 'ui/check-module-host-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-module-host-offscreen', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/f3-report-chapters'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-report-chapters', '{root}', '{out}'); Timeout = 600; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/f3-figures'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-figures', '{root}', '{out}'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/f3-concrete-figures'; Stage = 'ui'; Kind = 'check'; Args = @($(if ($CaptureConcreteFigures) { '--check-f3-concrete-figures-capture' } else { '--check-f3-concrete-figures' }), '{root}', '{out}'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = $(if ($CaptureConcreteFigures) { '^CAPTURE ' } else { '^PASS ' }) } }
