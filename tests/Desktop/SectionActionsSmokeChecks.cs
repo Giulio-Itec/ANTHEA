@@ -18,7 +18,7 @@ public sealed partial class MainWindow
         vm.Import(SectionActionsExcel.Write([new("SLU", "C1", -100, 10, 5, 20, 30, 0), new("SLV", "C1", -90, 8, 3, 12, 24, 0, "P02"), new("SLE", "Rara 1", -60, 6, 2, 8, 10, 0)]), true);
         if (!vm.Apply()) throw new Exception(vm.Status);
         document["dati"] = vm.Result!.DeepClone(); ShowSheet(document); await editor!.CalculateAsync();
-        await editor.VerifySectionActions(directory);
+        await historicEditor!.VerifySectionActions(directory);
         dirty = false;
     }
 }

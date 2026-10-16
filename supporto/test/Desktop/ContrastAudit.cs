@@ -1663,7 +1663,7 @@ public sealed partial class MainWindow
     internal async Task AuditWaitEditor(ContrastAudit a, bool calculate)
     {
         if (editor is null) return;
-        var active = editor;
+        var active = historicEditor!;
         if (calculate) { try { await active.CalculateAsync(); } catch (Exception ex) { a.Note(a.Context, "Calcolo: " + ex.Message); } }
         try { await active.WaitForAutomatic(); } catch (Exception ex) { a.Note(a.Context, ex.Message); }
         if (!await a.WaitUntil(() => editor is null || !editor.Busy, 120)) a.Note(a.Context, "calcolo ancora in corso dopo 120 s");

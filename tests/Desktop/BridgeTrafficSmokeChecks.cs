@@ -17,7 +17,7 @@ public sealed partial class MainWindow
         {
             Width = 1600; Height = 1000; WindowState = WindowState.Normal;
             document = Archivio.Documento(BridgeConcept.Module); dirty = false; currentSheet = null; ShowSheet(document);
-            var view = editor!.bridgeDesign!;
+            var view = historicEditor!.bridgeDesign!;
             async Task Settle() { await view.WaitForCalculationAsync(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); }
             await Settle(); Check(view.Calculation?.Traffic is not null, "New sheet does not calculate traffic envelope");
             view.Inputs.SelectedIndex = 4; view.Outputs.SelectedIndex = 1;

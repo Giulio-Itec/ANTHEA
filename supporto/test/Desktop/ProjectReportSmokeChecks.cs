@@ -18,7 +18,7 @@ public sealed partial class MainWindow
         static JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
         foreach (string module in new[] { "mat_calcestruzzo", RebarMaterial.Module })
         {
-            using var materialEditor = new SheetEditor(module, Archivio.NuovoFoglio(module));
+            using var materialEditor = sheetEditors.Open(module, Archivio.NuovoFoglio(module));
             string materialPath = Path.Combine(directory, module + ".docx");
             materialEditor.ExportReport(materialPath, module == "mat_calcestruzzo" ? "Calcestruzzo" : "Acciaio per armature", []);
             using var package = ZipFile.OpenRead(materialPath);
@@ -40,7 +40,7 @@ public sealed partial class MainWindow
         document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "progetti"), ("progetti", new JsonArray()));
         var project = J.Obj(("nome", "Ponte di prova"), ("strutture", new JsonArray()), ("fogli", new JsonArray())); document.Array("progetti").Add(project);
         var material = Sheet("mat_calcestruzzo", "Calcestruzzo di progetto"); project.Array("fogli").Add(material);
-        using (var view = new SheetEditor("mat_calcestruzzo", material["dati"]!.AsObject())) { view.Commit(); material["dati"] = view.Data.DeepClone(); }
+        using (var view = sheetEditors.Open("mat_calcestruzzo", material["dati"]!.AsObject())) { view.Commit(); material["dati"] = view.Data.DeepClone(); }
         var upper = CreateProjectSection(project, "Fondazioni"); var branch = CreateProjectSection(upper, "Spalla A"); var nested = CreateProjectSection(branch, "Pali");
         var empty = CreateProjectSection(upper, "Sezione da completare"); var other = CreateProjectSection(project, "Ramo indipendente");
         var steel = Sheet(RebarMaterial.Module, "Acciaio pali"); upper.Array("fogli").Add(steel);

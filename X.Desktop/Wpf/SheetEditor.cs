@@ -16,10 +16,10 @@ using X.Core;
 
 namespace X.Desktop;
 
-internal sealed partial class SheetEditor : UserControl, IDisposable
+internal sealed partial class SheetEditor : UserControl, ISheetEditor
 {
-    internal string Module { get; }
-    internal JsonObject Data { get; }
+    public string Module { get; }
+    public JsonObject Data { get; }
     private JsonObject? result;
     private bool busy;
     internal readonly Materiali.MaterialView? materials;
@@ -32,17 +32,20 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     internal readonly BridgeWorkspace? bridge;
     internal readonly BridgeDesignWorkspace? bridgeDesign;
     internal readonly RetainingWallWorkspace? retainingWall;
-    internal JsonObject? Result { get => foundation is not null ? foundation.Result : pileGroup is not null ? pileGroup.Result : retainingWall is not null ? retainingWall.Result : bridgeDesign is not null ? bridgeDesign.Result : bridge is not null ? bridge.Result : horizontal is not null ? horizontal.ActiveResult : concrete is null ? result : concrete.Result; private set => result = value; }
-    internal bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
-    internal bool Busy { get => retainingWall?.Busy ?? bridge?.Busy ?? horizontal?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
-    internal event Action? Modified;
-    internal event Action<JsonObject, string>? ConcreteSectionRequested;
-    internal event Action? ReportRequested;
-    internal byte[] BuildShortReport(string title) => concrete?.BuildShortReport(title)
+    public JsonObject? Result { get => foundation is not null ? foundation.Result : pileGroup is not null ? pileGroup.Result : retainingWall is not null ? retainingWall.Result : bridgeDesign is not null ? bridgeDesign.Result : bridge is not null ? bridge.Result : horizontal is not null ? horizontal.ActiveResult : concrete is null ? result : concrete.Result; private set => result = value; }
+    public bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
+    public bool Busy { get => retainingWall?.Busy ?? bridge?.Busy ?? horizontal?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
+    public event Action? Modified;
+    public event Action<JsonObject, string>? ConcreteSectionRequested;
+    public event Action? ReportRequested;
+    public byte[] BuildShortReport(string title) => concrete?.BuildShortReport(title)
         ?? throw new InvalidOperationException("Il report short è disponibile per le sezioni in calcestruzzo armato.");
-    internal event Action<string, JsonObject, string>? ModuleCopyRequested;
-    internal event Action<JsonObject>? SoilReplacementRequested;
-    internal Func<IEnumerable<(string Label, string Module, JsonObject Data, string Id)>>? SoilSources;
+    public event Action<string, JsonObject, string>? ModuleCopyRequested;
+    public event Action<JsonObject>? SoilReplacementRequested;
+    public Func<IEnumerable<(string Label, string Module, JsonObject Data, string Id)>>? SoilSources { get; set; }
+    public FrameworkElement View => this;
+    // Materiali keeps its edits in the view until Commit: the preview reads them without committing.
+    public JsonObject PreviewData => materials?.CaptureState() ?? Data;
     private bool building = true, disposed;
     private int expanded = -1;
     private bool Micro => Module == "geo_micropalo_verticale";
@@ -158,9 +161,9 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         else if (dialog.DestinationModule is string target) ModuleCopyRequested?.Invoke(target, dialog.Output, dialog.OutputName);
     }
     private Action? releaseRevisionInspection;
-    internal void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
+    public void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
     public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); horizontal?.Dispose(); pileGroup?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); bridgeDesign?.Dispose(); }
-    internal void Commit() { if (soilWorkspace is not null) soilWorkspace.Commit(); else if (foundation is not null) foundation.Commit(); else if (pileGroup is not null) pileGroup.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
+    public void Commit() { if (soilWorkspace is not null) soilWorkspace.Commit(); else if (foundation is not null) foundation.Commit(); else if (pileGroup is not null) pileGroup.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
@@ -247,7 +250,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         status.Text = "Aggiornamento automatico in attesa…";
         scheduledCalculation = CalculateScheduledAsync(TimeSpan.FromMilliseconds(450), commitEdits: false);
     }
-    internal async Task CalculateAsync(bool commitEdits = true)
+    public async Task CalculateAsync(bool commitEdits = true)
     {
         if (soilWorkspace is not null) { soilWorkspace.Commit(); return; }
         if (foundation is not null) { foundation.TryCalculate(); return; }
@@ -333,7 +336,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     {
         var dialog = Ui.Dialog(this, "Tabelle e dettagli", outputs, 1050, 650); dialog.Closed += (_, _) => dialog.Content = null; dialog.ShowDialog();
     }
-    internal void ExportResult(string filename)
+    public void ExportResult(string filename)
     {
         if (!HasResults || Busy) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         var exported = Result!;
@@ -341,7 +344,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         if (concrete is not null) exported["dati"] = Data.DeepClone();
         Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
     }
-    internal void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
+    public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
     {
         if (soilWorkspace is not null)
         {
@@ -366,11 +369,11 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         }
         Anthea.Reports.ReportFiles.Write(filename, BuildReport(title, options, projectReport), title);
     }
-    internal ReportProject.SheetContent MaterialReportContent()
+    public ReportProject.SheetContent MaterialReportContent()
     {
         Commit(); return Materiali.MaterialReportChapter.Create(Module, Data);
     }
-    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => DocxWriter.Write(BuildReportDocument(title, options, projectReport));
+    public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => DocxWriter.Write(BuildReportDocument(title, options, projectReport));
     internal DocxDocument BuildReportDocument(string title, HashSet<string> options, bool projectReport = false)
     {
         if (foundation is not null) return Anthea.FoundationWorkspace.FoundationReport.WordDocument(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));

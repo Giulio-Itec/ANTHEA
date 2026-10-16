@@ -17,6 +17,7 @@ internal static class F3ReportChapterChecks
         CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("it-IT");
         int count = 0, images = 0;
         var builder = new ModuleReportService(new ModuleFigureRenderer());
+        var editors = new SheetEditorFactory();
         foreach (var (file, fixture) in Inputs(root))
         {
             string module = fixture.S("module");
@@ -28,11 +29,12 @@ internal static class F3ReportChapterChecks
             string title = "F3 capitolo " + fixture.S("id");
             var sheet = J.Obj(("nome", title), ("modulo_id", module), ("dati", fixture["data"]!.DeepClone()));
             string original = fixture.ToJsonString();
-            using var editor = new SheetEditor(module, fixture["data"]!.AsObject());
+            using var editor = editors.Open(module, fixture["data"]!.AsObject());
             await editor.CalculateAsync(); editor.Commit();
             // U5 intentionally adds the curve to project reports. Compare against the existing
-            // interactive curve command, not the previous report that never calculated it.
-            if (module == "str_palo" && editor.HasResults) await editor.CalculateCurvatureForReportCheck();
+            // interactive curve command, not the previous report that never calculated it. The command belongs to the
+            // historic c.a. view (ConcreteWorkspace), outside the ISheetEditor contract until F5.10.
+            if (module == "str_palo" && editor.HasResults) await ((SheetEditor)editor).CalculateCurvatureForReportCheck();
             ReportProject.SheetContent? chapter = null; Exception? error = null;
             try { chapter = await builder.BuildAsync(sheet, default); } catch (ArgumentException ex) { error = ex; }
             Check(fixture.ToJsonString() == original, "Input originale modificato");

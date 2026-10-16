@@ -27,7 +27,7 @@ public sealed partial class MainWindow
         document = Archivio.Documento(BridgeSection.Module); document["dati"]!["plate2"] = true;
         document["dati"]!["ui_mista"] = J.Obj(("tab", 2), ("vista_2", 1), ("risultato_2", 1));
         dirty = false; currentSheet = null; ShowSheet(document);
-        var bridge = editor!.bridge!;
+        var bridge = historicEditor!.bridge!;
         async Task Wait()
         {
             var deadline = DateTime.UtcNow.AddSeconds(30);
@@ -162,13 +162,13 @@ public sealed partial class MainWindow
         Commit(); var retained = editor; var computed = bridge.Calculation;
         ShowHome(); ResumeCalculation();
         if (!ReferenceEquals(editor, retained) || !ReferenceEquals(bridge.Calculation, computed)) throw new Exception("Home perde la sezione composta.");
-        DocumentService.Save(Path.Combine(directory, "ponte.anthea"), document); editor.ExportResult(Path.Combine(directory, "ponte-risultati.json"));
+        DocumentService.Save(Path.Combine(directory, "ponte.anthea"), document); editor!.ExportResult(Path.Combine(directory, "ponte-risultati.json"));
         var saved = editor.Data.DeepClone(); dirty = false; LoadFile(Path.Combine(directory, "ponte.anthea"));
         if (!JsonNode.DeepEquals(saved, editor!.Data)) throw new Exception("Riapertura perde dati delle fasi.");
         await editor.CalculateAsync();
         if (editor.Result is null) throw new Exception("Ricalcolo dopo riapertura fallito.");
-        if (editor.bridge!.Pages.SelectedIndex != 1 || editor.bridge.Results.SelectedIndex != 2 || Math.Abs(editor.bridge.Splits["ingressi"].ColumnDefinitions[0].Width.Value - splitRatio) > 1e-9) throw new Exception("Riapertura perde scheda o disposizione pannelli.");
-        var reportCalculation = editor.bridge.Calculation; int reportPage = editor.bridge.Pages.SelectedIndex, reportStage = editor.bridge.StageChoice.SelectedIndex;
+        if (historicEditor.bridge!.Pages.SelectedIndex != 1 || historicEditor.bridge.Results.SelectedIndex != 2 || Math.Abs(historicEditor.bridge.Splits["ingressi"].ColumnDefinitions[0].Width.Value - splitRatio) > 1e-9) throw new Exception("Riapertura perde scheda o disposizione pannelli.");
+        var reportCalculation = historicEditor.bridge.Calculation; int reportPage = historicEditor.bridge.Pages.SelectedIndex, reportStage = historicEditor.bridge.StageChoice.SelectedIndex;
         var report = editor.BuildReport("Esempio di sezione composta da ponte", ReportBridge.DefaultSections());
         File.WriteAllBytes(Path.Combine(directory, "Relazione_sezione_composta.docx"), report);
         using (var zip = new System.IO.Compression.ZipArchive(new MemoryStream(report)))
@@ -176,7 +176,7 @@ public sealed partial class MainWindow
             using var stream = zip.GetEntry("word/document.xml")!.Open(); var xml = System.Xml.Linq.XDocument.Load(stream);
             if (zip.Entries.Count(e => e.FullName.StartsWith("word/media/")) != 4 || !xml.ToString().Contains("Situazione 3 dopo")) throw new Exception("Report incompleto per situazioni o grafici.");
         }
-        if (!ReferenceEquals(reportCalculation, editor.bridge.Calculation) || reportPage != editor.bridge.Pages.SelectedIndex || reportStage != editor.bridge.StageChoice.SelectedIndex) throw new Exception("Report modifica calcolo o selezione corrente.");
+        if (!ReferenceEquals(reportCalculation, historicEditor.bridge.Calculation) || reportPage != historicEditor.bridge.Pages.SelectedIndex || reportStage != historicEditor.bridge.StageChoice.SelectedIndex) throw new Exception("Report modifica calcolo o selezione corrente.");
         using (var selectedZip = new System.IO.Compression.ZipArchive(new MemoryStream(editor.BuildReport("Solo geometria", ["geometria"]))))
         {
             using var stream = selectedZip.GetEntry("word/document.xml")!.Open(); var xml = System.Xml.Linq.XDocument.Load(stream).ToString();

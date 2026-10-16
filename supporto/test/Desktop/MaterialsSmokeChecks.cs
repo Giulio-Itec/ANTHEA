@@ -19,14 +19,14 @@ public sealed partial class MainWindow
         File.WriteAllBytes(Path.Combine(directory, "materiali-catalogo.png"), Ui.Snapshot(this));
         var open = Ui.Descendants<Button>(dashboardBody).Single(b => b.Tag?.ToString() == "mat_calcestruzzo");
         open.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-        var active = editor?.materials ?? throw new Exception("Scheda materiali non aperta");
+        var active = historicEditor?.materials ?? throw new Exception("Scheda materiali non aperta");
         Check(Application.Current.Windows.Count == 1 && ReferenceEquals(body.Content, moduleView), "Materiali non integrato nella finestra principale");
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
         active.Check(); Commit();
         Check(dirty, "Modifiche materiali non segnalate");
         var expected = (JsonObject)editor!.Data.DeepClone();
         ShowHome(); OpenModule("mat_calcestruzzo");
-        Check(ReferenceEquals(active, editor.materials), "Riprendi perde la scheda");
+        Check(ReferenceEquals(active, historicEditor.materials), "Riprendi perde la scheda");
         File.WriteAllBytes(Path.Combine(directory, "materiali-scheda.png"), Ui.Snapshot(this));
         double previousWidth = Width; Width = 1200;
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
@@ -46,7 +46,7 @@ public sealed partial class MainWindow
         var sheet = J.Obj(("nome", "CLS fondazioni"), ("modulo_id", "mat_calcestruzzo"), ("dati", expected));
         section.Array("fogli").Add(sheet);
         ShowProjects(); ShowSheet(sheet);
-        Check(JsonNode.DeepEquals(expected, editor!.materials!.CaptureState()), "Apertura materiale nel progetto perde dati");
+        Check(JsonNode.DeepEquals(expected, historicEditor!.materials!.CaptureState()), "Apertura materiale nel progetto perde dati");
         ShowProjects(); MoveProjectSheet(sheet, nested);
         Check(ReferenceEquals(sheet.Parent, nested["fogli"]), "Spostamento materiale non riuscito");
         string archive = Path.Combine(directory, "progetto.programma"); DocumentService.Save(archive, document);
@@ -55,9 +55,9 @@ public sealed partial class MainWindow
         ShowSheet(loaded); Commit();
         Check(JsonNode.DeepEquals(expected, editor!.Data), "Round trip materiale nel progetto");
         // Invalid, unfinished numeric input must be preserved rather than replaced with defaults.
-        var invalid = editor.materials!.CaptureState(); invalid["numeri"]!["diameter"] = "abc";
+        var invalid = historicEditor.materials!.CaptureState(); invalid["numeri"]!["diameter"] = "abc";
         invalid["scelte"]!["deviationControl"] = "Misura accurata + scarto"; invalid["scelte"]!["deviationValue"] = "0 mm";
-        editor.materials.RestoreState(invalid); Commit();
+        historicEditor.materials.RestoreState(invalid); Commit();
         var restored = new Materiali.MaterialView(); restored.RestoreState(editor.Data);
         Check(JsonNode.DeepEquals(invalid, restored.CaptureState()), "Input incompleti o tolleranza non conservati");
         ShowProjects(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();

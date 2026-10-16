@@ -206,7 +206,7 @@ public sealed partial class MainWindow
         dirty = false; OpenWikiModule("str_palo", "beam-ca");
         RenderRoot("shell-example-1600");
         Check(editor!.Data["input"]!["moment_x_knm"]!.ToString() == "200" && dirty && path is null, "Esempio aperto come nuovo documento da salvare");
-        Check(Ui.Descendants<Button>(editor).Any(b => b.Content as string == "?" && b.Visibility == Visibility.Visible), "Help contestuale visibile dopo il collegamento all'editor");
+        Check(Ui.Descendants<Button>(editor!.View).Any(b => b.Content as string == "?" && b.Visibility == Visibility.Visible), "Help contestuale visibile dopo il collegamento all'editor");
         var helpRow = WikiContextHelp.Label(Ui.Text("Copriferro di prova"), "cover_mm", null);
         var probe = new StackPanel(); probe.SetValue(WikiContextHelp.ModuleProperty, "str_palo"); probe.Children.Add(helpRow);
         helpRow.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));

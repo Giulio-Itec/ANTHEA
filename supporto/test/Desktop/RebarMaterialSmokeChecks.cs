@@ -18,7 +18,7 @@ public sealed partial class MainWindow
         async Task Capture(string name) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + ".png"), Ui.Snapshot(this)); }
         ShowModules("Materiali"); await Capture("catalogo");
         Ui.Descendants<Button>(dashboardBody).Single(b => b.Tag?.ToString() == RebarMaterial.Module).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-        var view = editor?.rebarMaterial ?? throw new Exception("Modulo acciaio non aperto");
+        var view = historicEditor?.rebarMaterial ?? throw new Exception("Modulo acciaio non aperto");
         Check(Application.Current.Windows.Count == 1 && ReferenceEquals(body.Content, moduleView), "Acciaio aperto in finestra separata");
         Check(view.Selection.SelectedItem?.ToString() == "B450C", "Default B450C mancante");
         Check(((TextBox)view.Properties.Editors["fyk_mpa"]).IsReadOnly, "Preset modificabile senza passare a Personalizzato");
@@ -51,11 +51,11 @@ public sealed partial class MainWindow
         DocumentService.Save(single, document); dirty = false; LoadFile(single); Commit();
         Check(JsonNode.DeepEquals(expected, editor!.Data), "Round trip singolo perde dati");
         ShowHome(); OpenModule(RebarMaterial.Module); Check(editor!.Data["input"].D("fyk_mpa") == 410.5, "Riprendi perde l'acciaio");
-        view = editor.rebarMaterial!;
+        view = historicEditor.rebarMaterial!;
         view.Properties.Set("steel_fu_mpa", "400"); Check(view.Status.Text.Contains("fu deve"), "fu < fy accettato");
         view.Properties.Set("steel_fu_mpa", "550"); view.Properties.Set("steel_eps_u", "0,1"); Check(view.Status.Text.Contains("εu deve"), "εu inferiore a snervamento accettato");
         view.Properties.Set("steel_eps_u", "abc"); Commit(); DocumentService.Save(single, document); dirty = false; LoadFile(single);
-        Check(editor!.Data["input"].S("steel_eps_u") == "abc" && editor.rebarMaterial!.Status.Text.StartsWith("⚠"), "Input incompleto perso alla riapertura");
+        Check(editor!.Data["input"].S("steel_eps_u") == "abc" && historicEditor.rebarMaterial!.Status.Text.StartsWith("⚠"), "Input incompleto perso alla riapertura");
 
         // Real project commit: update all, then only this sheet; other sections remain independent.
         editor.Dispose(); editor = null; currentSheet = null; dirty = false;
@@ -67,7 +67,7 @@ public sealed partial class MainWindow
         foreach (var s in new[] { steel, rc, pile, chs }) section.Array("fogli").Add(s); elsewhere.Array("fogli").Add(other);
         var chsBefore = chs.DeepClone(); var otherBefore = other.DeepClone(); var rcBefore = rc["dati"]!.DeepClone();
         ShowSheet(steel); Scripted.SharedUpdate = () => true;
-        editor!.rebarMaterial!.Selection.SelectedItem = "B450A"; Commit();
+        historicEditor!.rebarMaterial!.Selection.SelectedItem = "B450A"; Commit();
         foreach (var target in new[] { rc, pile })
         {
             var fields = ProjectSharedData.Fields(target);
@@ -77,27 +77,27 @@ public sealed partial class MainWindow
         Check(JsonNode.DeepEquals(chsBefore, chs) && JsonNode.DeepEquals(otherBefore, other), "Acciaio trasferito a CHS o altra sezione");
         var pileEngine = new SezioneCA(pile["dati"]!["sezione"]!.AsObject());
         Check(Math.Abs(pileEngine.Fyd - RebarMaterial.Evaluate(steel["dati"]!["input"]!.AsObject()).Fyd) < 1e-9, "fyd nel palo non allineato");
-        Scripted.SharedUpdate = () => false; editor.rebarMaterial.Selection.SelectedItem = "B450C"; Commit();
+        Scripted.SharedUpdate = () => false; historicEditor.rebarMaterial.Selection.SelectedItem = "B450C"; Commit();
         Check(rc["dati"]!["input"].S("classe_acciaio") == "B450A" && ProjectSharedData.Differences(section).Any(d => d.Key == "classe_acciaio"), "Modifica locale non produce conflitto");
         Scripted.SharedUpdate = null;
         // Reverse update from the checking sheet, preserving the module's local reference.
         steel["dati"]!["riferimento"] = "Certificato di prova";
         ProjectSharedData.Apply(rc, section, new HashSet<string> { "Materiali" }, steel, RebarMaterial.Keys.ToHashSet());
         Check(steel["dati"]!.S("riferimento") == "Certificato di prova" && steel["dati"]!["input"].S("classe_acciaio") == "B450A", "Condivisione inversa incompleta");
-        editor.Dispose(); editor = null; currentSheet = null;
-        ShowSheet(steel); Check(editor!.rebarMaterial!.Selection.SelectedItem?.ToString() == "B450A", "Editor non riconosce l'acciaio condiviso");
+        editor!.Dispose(); editor = null; currentSheet = null;
+        ShowSheet(steel); Check(historicEditor!.rebarMaterial!.Selection.SelectedItem?.ToString() == "B450A", "Editor non riconosce l'acciaio condiviso");
         var newSteel = Sheet(RebarMaterial.Module, "Nuovo acciaio"); section.Array("fogli").Add(newSteel); InheritSectionData(newSteel, section);
         Check(newSteel["dati"]!["input"].S("classe_acciaio") == "B450A", "Nuovo acciaio non eredita la sezione");
         Commit(); ShowProjects(); await Capture("progetto-acciaio");
         string archive = Path.Combine(directory, "progetto-acciaio.programma"); DocumentService.Save(archive, document); dirty = false; LoadFile(archive);
         var restored = document.Array("progetti")[0]!["strutture"]![0]!["fogli"]![0]!.AsObject(); ShowSheet(restored); Commit();
         Check(editor!.Data["input"].S("classe_acciaio") == "B450A", "Riapertura progetto perde dati acciaio");
-        editor.rebarMaterial!.Selection.SelectedItem = "FeB22k"; Commit();
+        historicEditor.rebarMaterial!.Selection.SelectedItem = "FeB22k"; Commit();
         Check(ProjectSharedData.Limitations(restored.Parent!.Parent!.AsObject()).Any(w => w.Contains("εu")), "Acciaio incompleto non segnalato negli avvisi");
         var restoredSection = restored.Parent!.Parent!.AsObject();
         ProjectSharedData.Apply(restored, restoredSection, new HashSet<string> { "Materiali" }, keys: RebarMaterial.Keys.ToHashSet());
         var historicRc = restoredSection.Array("fogli").OfType<JsonObject>().First(s => s.S("modulo_id") == "str_palo");
-        using (var probe = new SheetEditor("str_palo", historicRc["dati"]!.AsObject()))
+        using (var probe = sheetEditors.Open("str_palo", historicRc["dati"]!.AsObject()))
         {
             probe.Commit();
             Check(probe.Data["input"].S("materiale_acciaio_nome") == "FeB22k" && probe.Data["input"].S("steel_eps_u") == "", "La verifica sostituisce dati storici incompleti all'apertura");

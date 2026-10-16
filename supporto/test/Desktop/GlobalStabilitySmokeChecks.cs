@@ -18,7 +18,7 @@ public sealed partial class MainWindow
         try
         {
             document = Archivio.Documento(RetainingWall.Module); dirty = false; currentSheet = null; ShowSheet(document);
-            var w = editor!.retainingWall!; await w.CalculateAsync();
+            var w = historicEditor!.retainingWall!; await w.CalculateAsync();
             Check(!w.Data["global_stability"].B("enabled") && w.Calculation!.GlobalStability is null, "Compatibilità: globale disattivata sui nuovi documenti");
             w.LayerGrid.Rows[0]["thickness"] = "25"; w.PrepareGlobal();
             ((CheckBox)w.Forms["global"].Editors["enabled"]).IsChecked = true;
@@ -39,7 +39,7 @@ public sealed partial class MainWindow
             Check(w.GlobalDrawing.Case?.Factors.Name == (string)w.GlobalCombination.SelectedItem, "Cambio combinazione aggiorna la superficie");
             w.GenerateGlobalMatrix(); var first = w.GlobalMatrix.Rows[0]; first["r"] = "1.35"; await w.CalculateAsync();
             Check(w.Data["global_stability"].S("combination_mode") == "Personalizzate" && w.GlobalResult!.Cases[0].Factors.R == 1.35, "Matrice globale modificabile ed effettiva");
-            editor.ExportReport(Path.Combine(directory, "muro-con-globale.docx"), "Muro con stabilità globale", []);
+            editor!.ExportReport(Path.Combine(directory, "muro-con-globale.docx"), "Muro con stabilità globale", []);
             var reportCaptions = WallAdvancedChecks.ReportFigureCaptions(w, global: true);
             Check(WallAdvancedChecks.ReportHasFigures(File.ReadAllBytes(Path.Combine(directory, "muro-con-globale.docx")), reportCaptions), "Relazione completa include la figura globale: " + string.Join(" | ", reportCaptions));
             w.Forms["foundation"].Set("delta", "40"); await w.CalculateAsync(); Check(w.Calculation is null, "Input locale fuori campo invalida solo il calcolo ordinario");

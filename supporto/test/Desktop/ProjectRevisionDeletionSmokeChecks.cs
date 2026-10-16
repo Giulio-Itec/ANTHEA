@@ -65,7 +65,7 @@ public sealed partial class MainWindow
         RestoreProjectHistory(false); RestoreProjectHistory(false); await ShowCurrent();
         Check(Scope()["revisione"].D("numero") == 2 && Scope().Array("revisioni").Count == 2, "Annullamento sequenza di eliminazioni incompleto");
         // Pending editor input is retained by Undo, never committed over restored data.
-        ShowSheet(ProjectRevisions.Find(document, pileId)!); await Layout(); editor!.SetGeometryForSmoke("2.3");
+        ShowSheet(ProjectRevisions.Find(document, pileId)!); await Layout(); historicEditor!.SetGeometryForSmoke("2.3");
         // The sheet has its own revision scope; select the parent revision explicitly.
         ShowProjectOverview(Scope()); revisionNavigationSheetId = pileId; await Layout();
         var oldEditor = editor;
@@ -80,7 +80,7 @@ public sealed partial class MainWindow
         RestoreProjectHistory(false); await ShowCurrent();
         Check(ProjectRevisions.Find(document, pileId)!["dati"]!["generali"].D("diametro") == 2.3, "Annulla eliminazione perde input non salvati");
         RestoreProjectHistory(true); await ShowCurrent();
-        ShowSheet(ProjectRevisions.Find(document, pileId)!); editor!.SetGeometryForSmoke("1.6"); Commit();
+        ShowSheet(ProjectRevisions.Find(document, pileId)!); historicEditor!.SetGeometryForSmoke("1.6"); Commit();
         Check(ProjectRevisions.Find(document, pileId)!["dati"]!["generali"].D("diametro") == 1.6, "Impossibile modificare la revisione promossa");
         var oldest = ProjectRevisions.Snapshot(document, Scope().Array("revisioni")[0]!.AsObject());
         Check(ProjectSharedData.SubtreeSheets(oldest).Single(s => s.S("id") == pileId)["dati"]!["generali"].D("diametro") == 1, "Modifica della revisione promossa altera quella archiviata");
@@ -88,7 +88,7 @@ public sealed partial class MainWindow
         Check(Scope()["revisione"].D("numero") == 0 && !DeleteButton().IsEnabled && Scope().Array("revisioni").Count == 0, "Ultima versione rimasta non protetta");
         var sole = document.DeepClone(); DeleteProjectRevision(scopeId, 0);
         Check(JsonNode.DeepEquals(sole, document), "Eliminazione dell’unica versione cancella la struttura");
-        ShowSheet(ProjectRevisions.Find(document, pileId)!); editor!.SetGeometryForSmoke("1.1"); Commit();
+        ShowSheet(ProjectRevisions.Find(document, pileId)!); historicEditor!.SetGeometryForSmoke("1.1"); Commit();
         await ShowCurrent(); CompleteProjectRevision(Scope(), "Ripartenza dalla revisione 0"); await Layout();
         Check(Scope()["revisione"].D("numero") == 1 && Scope().Array("revisioni").Count == 1, "Nuova revisione dopo eliminazione non valida");
         SwitchProjectRevision(scopeId, 0); await Layout(); await Delete();

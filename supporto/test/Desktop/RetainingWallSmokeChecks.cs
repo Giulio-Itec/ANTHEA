@@ -17,7 +17,7 @@ public sealed partial class MainWindow
         void Check(bool ok, string text) { if (!ok) throw new Exception(text); messages.Add("OK " + text); }
         async Task Settle() { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); }
         document = Archivio.Documento(RetainingWall.Module); dirty = false; currentSheet = null; ShowSheet(document);
-        var w = editor!.retainingWall!; await editor.CalculateAsync(); await Settle();
+        var w = historicEditor!.retainingWall!; await editor!.CalculateAsync(); await Settle();
         Check(w.Calculation is not null && editor.HasResults && !editor.Busy, "Apertura e calcolo nel catalogo");
         Check(w.Family.Items.Cast<ComboBoxItem>().Count(i => i.IsEnabled) == 2, "Soltanto mensola e gravità selezionabili");
         Check(!ProjectSharedData.Fields(document).ContainsKey("diameter_mm") && !ProjectSharedData.Fields(document).ContainsKey("verticali_indagate"), "Nessun campo del palo attribuito al muro");
@@ -90,7 +90,7 @@ public sealed partial class MainWindow
         Check(pileWindow.editor!.Module == "geo_palo_verticale" && pileWindow.editor.Data["stratigrafie"]![0]![0].D("angolo_attrito") == 30, "Invio terreno apre la portanza palo con il profilo del muro");
         Check(pileWindow.editor.Data["generali"].S("lunghezza") == "" && pileWindow.editor.Data["stratigrafie"]![0]![0].S("addensamento") == "", "Il nuovo palo richiede i dati specifici senza inventarli");
         File.WriteAllBytes(Path.Combine(directory, "terreno-nel-palo.png"), Ui.Snapshot(pileWindow)); pileWindow.Close();
-        Check(w.Calculation is not null && ReferenceEquals(editor!.retainingWall, w), "Invio terreno conserva dati e risultati del muro");
+        Check(w.Calculation is not null && ReferenceEquals(historicEditor!.retainingWall, w), "Invio terreno conserva dati e risultati del muro");
         w.Cards["Materiali"].BringIntoView(); await Settle(); File.WriteAllBytes(Path.Combine(directory, "materiali.png"), Ui.Snapshot(this));
         w.Forms["zones"].Set("two_zones", "true"); w.Data["reinforcement"]!["two_zones"] = true; w.Forms["rebar_stem_upper"].Set("diameter", "12"); await w.CalculateAsync();
         w.Cards["Geometria"].BringIntoView(); await Settle(); File.WriteAllBytes(Path.Combine(directory, "geometria.png"), Ui.Snapshot(this));
@@ -121,7 +121,7 @@ public sealed partial class MainWindow
         Check(opened.editor.Data["input"].D("fck_mpa") == w.Data["materials"].D("fck") && opened.editor.Data["input"].D("top_bar_diameter_mm") == 12, "Sezione c.a. mantiene materiali e armatura della zona selezionata");
         opened.Commit(); DocumentService.Save(Path.Combine(directory, "sezione-inviata.anthea"), opened.document);
         File.WriteAllBytes(Path.Combine(directory, "sezione-inviata.png"), Ui.Snapshot(opened)); opened.Close();
-        Check(ReferenceEquals(editor!.retainingWall, w) && w.Calculation is not null, "Invio sezione conserva il muro e i suoi risultati");
+        Check(ReferenceEquals(historicEditor!.retainingWall, w) && w.Calculation is not null, "Invio sezione conserva il muro e i suoi risultati");
         w.CheckFilter.SelectedItem = "Riepilogo completo";
         w.Pages.SelectedIndex = 0; w.Cards["Terreno"].BringIntoView();
         foreach (int size in new[] { 1366, 900 }) { Width = size; Height = 800; await Settle(); File.WriteAllBytes(Path.Combine(directory, "mensola_" + size + ".png"), Ui.Snapshot(this)); }
@@ -141,7 +141,7 @@ public sealed partial class MainWindow
         await Settle();
         var wallData = (JsonObject)w.Data.DeepClone();
         document = ProjectDocuments.CreateArchive(); var project = ProjectDocuments.AddProject(document, "Test trasferimento muro"); var wallSheet = ProjectDocuments.AddSheet(project, RetainingWall.Module); wallSheet["dati"] = wallData;
-        currentSheet = null; ShowSheet(wallSheet); await editor!.CalculateAsync(); var projectWall = editor.retainingWall!;
+        currentSheet = null; ShowSheet(wallSheet); await editor!.CalculateAsync(); var projectWall = historicEditor.retainingWall!;
         var projectResult = projectWall.Calculation!; var selectedCase = projectResult.Cases[0]; var selectedForce = selectedCase.Sections.Last(s => s.Name == "Fusto");
         OpenWallConcreteSection(Anthea.Application.Walls.WallModel.ExportSection(projectResult, "Fusto", selectedForce.Position, selectedCase.Name), "Sezione dal muro"); await Settle();
         Check(project.Array("fogli").Count == 2 && editor!.Module == "str_palo" && wallSheet["dati"]!["actions"]![0].D("value") == 35, "Invio nel progetto crea un nuovo foglio e conserva il muro");
