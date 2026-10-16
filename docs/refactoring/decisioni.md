@@ -1422,3 +1422,31 @@ aggiornato.»
     (4334 transizioni invece di circa 803); da decidere se alzare il limite o confrontare per capitolo.
 - **F5** parte da `main` aggiornato con la ripianificazione F5.0, punto di controllo dell'utente: nessuna scelta
   definitiva prima della sua approvazione.
+
+## 16 ottobre (mattina) — punto di controllo F5.0
+
+Sulla [nota F5.0](f5-ripianificazione.md) e la [proposta](f5-proposta-architettura.md). L'utente: «sisi. pagine dei
+metodi in coda. fai un merge di tutto in main per partire con F5», poi le risposte a scelta multipla, tutte sulle
+raccomandazioni:
+
+- **Q1** CommunityToolkit.Mvvm 8.3.2 (già approvato in tabella) più uno strato nostro, senza `Messenger.Default` né
+  `Ioc.Default`.
+- **Q2** Servizi collegati a mano nella radice di composizione, senza contenitore.
+- **Q3** Viste nuove in XAML con DataTemplate per tipo di ViewModel; disegni tecnici in codice.
+- **Q4/Q5** Un solo progetto nuovo `ANTHEA.Presentation` senza WPF; viste in `X.Desktop`; Modelli e Reologia separati.
+- **Q7** Prima i moduli, aperti nella finestra attuale tramite `ModuleHost`; la shell nuova in F5.13.
+- **Q11** Viste storiche dei moduli migrati archiviate in `supporto/SUPERATI`, non compilate.
+- **Q12** Stratigrafia in F5.6b (prima catturata nel riferimento F3), Fondazioni in F5.9b; Wiki, Progetti e Modelli in
+  F5.13.
+- **Q15** Riferimento F3 con le transizioni F4 conservato; differenze di F5 ammesse una per una in `transitions-f5.json`
+  con l'ok dell'utente (D2), senza tolleranze nuove; per ogni modulo anche il confronto vista vecchia/nuova.
+- **Q16** Regole con i test di architettura (baseline che può solo scendere) più Microsoft.VisualStudio.Threading.Analyzers
+  su Presentation.
+- **Q19** Errori dei comandi come oggi: mostrati nella schermata, nel registro solo i non gestiti.
+- **Q20** Pilota: palificata orizzontale, poi palo e micropalo verticale come secondo pilota con il suo punto di
+  controllo, prima delle tracce parallele.
+- **Revisione delle pagine dei metodi** (U6, F2.8-U1): resta in coda, non precede F5.
+- **Merge in `main`** di `refactoring/f2-11c` (F2 chiusa), `refactoring/combinazioni-model` (censimento) e
+  `refactoring/f5` (documenti F5.0): fatti in locale; **push di `main` non autorizzato** per ora («No, solo locale»).
+- Restano da decidere ai rispettivi passi: Q6 (F5.3), Q8 (F5.4), Q9, Q10, Q13, Q18 (F5.13), Q14 (F5.14), Q17
+  (F5.10, F5.12).
