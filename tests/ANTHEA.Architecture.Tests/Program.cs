@@ -117,7 +117,7 @@ try
     foreach (string file in Directory.EnumerateFiles(Path.Combine(root, "X.Desktop/Wpf"), "ModuleFigureRenderer*.cs"))
     {
         string source = File.ReadAllText(file);
-        Check(!Regex.IsMatch(source, @"new\s+(SheetEditor|ConcreteWorkspace|SezioneCA|BridgeWorkspace|WallWorkspace)\b"), "Il renderer costruisce un editor o un motore: " + file);
+        Check(!Regex.IsMatch(source, @"new\s+(SheetEditor|ConcreteWorkspace|SezioneCA|BridgeWorkspace|WallWorkspace)\b|\bSheetEditorFactory\b"), "Il renderer costruisce un editor o un motore: " + file);
     }
     Check(!File.ReadAllText(Path.Combine(root, "X.Desktop/Wpf/BridgeWorkspace.cs")).Contains("Data[\"gamma_m0\"] ="), "Regola cambio norma nella UI");
     Check(!File.ReadAllText(Path.Combine(root, "X.Desktop/Wpf/RetainingWallWorkspace.Advanced.cs")).Contains("double.TryParse"), "Parser accelerogramma nella UI");
