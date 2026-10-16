@@ -1,0 +1,27 @@
+{
+  "module": "mat_calcestruzzo",
+  "id": "legacy-tre-esposizioni",
+  "origin": "Fixture sintetica F5.5 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_materiali": 1,
+    "classe": "C32/40",
+    "esposizione_principale": "XD2",
+    "esposizioni": [
+      "XF1",
+      "XC4",
+      "XD2"
+    ],
+    "numeri": {
+      "diameter": "25"
+    },
+    "scelte": {
+      "coverMethod": "EC2 2004",
+      "deviationControl": "Misura copriferri"
+    },
+    "opzioni": {
+      "rough": true
+    },
+    "vista_precedente": "esposizioni"
+  }
+}

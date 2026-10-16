@@ -1,0 +1,20 @@
+{
+  "module": "mat_acciaio_armatura",
+  "id": "personalizzato-non-valido",
+  "origin": "Fixture sintetica F5.5 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_acciaio": 1,
+    "input": {
+      "classe_acciaio": "Personalizzato",
+      "materiale_acciaio_nome": "Acciaio personalizzato",
+      "steel_modulus_mpa": 200000,
+      "fyk_mpa": "500",
+      "steel_fu_mpa": "450",
+      "steel_eps_u": 75,
+      "steel_diagramma": "Elastoplastico",
+      "gamma_s": "1.15"
+    },
+    "riferimento": ""
+  }
+}

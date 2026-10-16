@@ -1,0 +1,41 @@
+{
+  "classe": "C32/40",
+  "esposizione_principale": "XD2",
+  "esposizioni": [
+    "XD2"
+  ],
+  "esposizioni_precedenti": [
+    "XF1",
+    "XC4",
+    "XD2"
+  ],
+  "numeri": {
+    "aggregate": "20",
+    "bondAlpha": "1,0",
+    "bondGamma": "1,5",
+    "cementName": "",
+    "diameter": "25"
+  },
+  "opzioni": {
+    "highStrength": false,
+    "ntcQuality": false,
+    "quality": false,
+    "rough": true,
+    "slab": false
+  },
+  "scelte": {
+    "abrasion": "Nessuno",
+    "bondCondition": "Altre · η₁ = 0,7",
+    "cement": "CEM I",
+    "cementClass": "32,5",
+    "cementEarly": "N",
+    "consistency": "Da definire",
+    "coverMethod": "EC2 2004",
+    "deviationControl": "Misura copriferri",
+    "deviationValue": "10 mm",
+    "ground": "Casseratura",
+    "life": "50 anni",
+    "ntcElement": "Trave / pilastro"
+  },
+  "versione_materiali": 1
+}
