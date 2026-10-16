@@ -11,6 +11,7 @@ try
     Directory.CreateDirectory(output);
     int checks = 0;
     checks += ViewModelBaseChecks.Run();
+    checks += await CommandGuardChecks.RunAsync();
     checks += await ServicesChecks.RunAsync();
     string message = $"PASS {checks} controlli di Presentation senza WPF";
     File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
