@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Finding = F4DomainRules.Finding;
 
 /// <summary>
-/// F5.1 rules P1–P6 (docs/refactoring/f5-proposta-architettura.md, section 7.4; decision Q16 of 16/10/2026).
+/// F5.1 rules P1–P6 and F5.3 rule P7 (docs/refactoring/f5-proposta-architettura.md, section 7.4; decision Q16 of 16/10/2026).
 /// Like F4.2 they are syntax and metadata candidates, not a proof of semantics. Rules on ANTHEA.Presentation and on the
 /// new views pass vacuously, with an explicit note, while the project or the folders do not exist yet.
 /// </summary>
@@ -35,6 +35,16 @@ internal static class F5PresentationRules
     static readonly HashSet<string> CalculationNames = ["IModuleService", "ModuleServices", "CalculationService", "ConcreteAnalysis",
         "RecalculationScheduler", "ScheduledCalculation", "SheetCalculation", "CalculationLimiter"];
     static readonly string[] CalculationSessionSuffixes = ["AnalysisSession", "CalculationSession", "InspectionSession", "PropertySession", "DesignSession"];
+    /// <summary>P7: properties that take a brush or a colour; in the new views their value is a theme token, Transparent or null.</summary>
+    static readonly HashSet<string> BrushProperties = ["Background", "Foreground", "BorderBrush", "Fill", "Stroke", "Color", "CaretBrush", "SelectionBrush",
+        "SelectionTextBrush", "OpacityMask", "RowBackground", "AlternatingRowBackground", "HorizontalGridLinesBrush", "VerticalGridLinesBrush"];
+    /// <summary>P7: colour members of the historic palette (Appearance.cs) and of Ui.cs; Appearance.Document (light scope) is allowed.</summary>
+    static readonly HashSet<string> PaletteMembers = ["Colour", "Background", "Foreground", "Outline", "Selection", "Swatch", "Series", "Dim",
+        "Paper", "Surface", "Ink", "Accent", "Selected", "Calculated"];
+    static readonly HashSet<string> CodeBrushes = ["SolidColorBrush", "LinearGradientBrush", "RadialGradientBrush", "Color"];
+    static readonly Regex HexColour = new(@"(?<![\w#&])#(?:[0-9A-Fa-f]{8}|[0-9A-Fa-f]{6})\b|^#(?:[0-9A-Fa-f]{3,4})$", RegexOptions.CultureInvariant);
+    static readonly Regex HistoricResource = new(@"^(?:Appearance\.(?:background|foreground|border|selection|calculated)\.[0-9A-Fa-f]{6}|Appearance(?:Paper|Surface|Ink|Border|Selection))$",
+        RegexOptions.CultureInvariant);
 
     internal sealed record Violation(string Rule, string File, string Text);
     internal sealed record RuleStatus(string Rule, string State, string Note);
@@ -69,7 +79,7 @@ internal static class F5PresentationRules
             StaticFindings = outcome.StaticFindings.Sum(f => f.Count), DetectorChecks = checks }, JsonOptions));
         foreach (var status in outcome.Statuses) Console.WriteLine($"F5 {status.Rule}: {status.State}. {status.Note}");
         Require(outcome.Violations.Count == 0, "Regole F5 violate: " + string.Join("; ", outcome.Violations.Take(12).Select(v => $"{v.Rule} {v.File}: {v.Text}")));
-        Console.WriteLine($"F5: P1–P6 rispettate; {outcome.StaticFindings.Sum(f => f.Count)} stati statici mutabili censiti; {checks} prove dei rilevatori");
+        Console.WriteLine($"F5: P1–P7 rispettate; {outcome.StaticFindings.Sum(f => f.Count)} stati statici mutabili censiti; {checks} prove dei rilevatori");
         return checks + outcome.Statuses.Count;
     }
 
@@ -166,6 +176,20 @@ internal static class F5PresentationRules
             foreach (string file in SourceFiles(Path.Combine(root, folder)))
                 foreach (string use in CalculationUses(Relative(file), File.ReadAllText(file))) Fail("P6", Relative(file), use);
         statuses.Add(new("P6", viewFolders.Length > 0 ? "attiva" : "vacua", viewFolders.Length > 0 ? "controllate " + string.Join(", ", viewFolders)
+            : "cartelle delle viste nuove (" + string.Join(", ", NewViewFolders) + ") non ancora presenti"));
+
+        // P7 — theme tokens (F5.3): in the new views no hex colour, Brushes.*, Colors.*, Color.From*, brush created in code, palette of
+        // Appearance or historic resource, in C# and XAML. Colours come only from {DynamicResource Token.*}; technical drawings use the
+        // Drawing.* tokens (ThemeTokens.Brush). No exemption.
+        foreach (string folder in viewFolders)
+        {
+            foreach (string file in SourceFiles(Path.Combine(root, folder)))
+                foreach (string use in ColourUses(Relative(file), File.ReadAllText(file))) Fail("P7", Relative(file), use);
+            foreach (string file in XamlFiles(Path.Combine(root, folder)))
+                foreach (string use in XamlColourUses(Relative(file), File.ReadAllText(file))) Fail("P7", Relative(file), use);
+        }
+        statuses.Add(new("P7", viewFolders.Length > 0 ? "attiva" : "vacua", viewFolders.Length > 0
+            ? "controllate " + string.Join(", ", viewFolders) + " (C# e XAML): colori solo da {DynamicResource Token.*}, disegni con i token Drawing.*"
             : "cartelle delle viste nuove (" + string.Join(", ", NewViewFolders) + ") non ancora presenti"));
         return new(violations, statuses, observed);
     }
@@ -391,7 +415,68 @@ internal static class F5PresentationRules
             if (Rightmost(creation.Type) == "Thread") yield return "thread nella vista: " + Excerpt(creation);
     }
 
+    /// <summary>P7 in C#: hex colours in strings, Brushes/Colors members, Color.From*, brushes and colours created in code, colour
+    /// converters, the palette members of Appearance and Ui, and the keys of the historic resources. Comments are never analysed.</summary>
+    internal static IEnumerable<string> ColourUses(string file, string source)
+    {
+        var root = Parse(file, source);
+        foreach (var token in root.DescendantTokens().Where(t => t.IsKind(SyntaxKind.StringLiteralToken) || t.IsKind(SyntaxKind.InterpolatedStringTextToken)
+            || t.IsKind(SyntaxKind.SingleLineRawStringLiteralToken) || t.IsKind(SyntaxKind.MultiLineRawStringLiteralToken)))
+        {
+            string text = token.ValueText;
+            if (HexColour.IsMatch(text)) yield return "colore esadecimale: " + Shorten(token.Text);
+            else if (HistoricResource.IsMatch(text)) yield return "risorsa storica invece di un token: " + text;
+        }
+        foreach (var access in root.DescendantNodes().OfType<MemberAccessExpressionSyntax>())
+        {
+            string receiver = Rightmost(access.Expression), member = access.Name.Identifier.ValueText;
+            if (receiver is "Brushes" or "Colors") yield return "colore predefinito: " + Excerpt(access);
+            else if (receiver == "Appearance" && PaletteMembers.Contains(member)) yield return "tavolozza storica invece di un token: " + Excerpt(access);
+            else if (receiver == "Ui" && member is "Brush" or "Navy" or "Blue" or "Bg" or "Muted") yield return "colore di Ui.cs invece di un token: " + Excerpt(access);
+            else if (receiver == "Color" && member.StartsWith("From", StringComparison.Ordinal)) yield return "colore costruito: " + Excerpt(access);
+        }
+        foreach (var directive in root.DescendantNodes().OfType<UsingDirectiveSyntax>())
+            if (directive.StaticKeyword.IsKind(SyntaxKind.StaticKeyword) && Rightmost(directive.NamespaceOrType) is "Brushes" or "Colors")
+                yield return "using static " + Excerpt(directive.NamespaceOrType);
+        foreach (var creation in root.DescendantNodes().OfType<ObjectCreationExpressionSyntax>())
+            if (CodeBrushes.Contains(Rightmost(creation.Type))) yield return "pennello o colore creato nel codice: " + Excerpt(creation);
+        foreach (var name in root.DescendantNodes().OfType<IdentifierNameSyntax>())
+            if (name.Identifier.ValueText is "ColorConverter" or "BrushConverter") yield return "convertitore di colori: " + Excerpt(name.Parent ?? name);
+    }
+
+    /// <summary>P7 in XAML: hex colours in any value, literal colours on brush properties (also in Setter), brush and colour elements,
+    /// x:Static of Brushes/Colors and references to the historic resources. Transparent and {x:Null} are not colours.</summary>
+    internal static IEnumerable<string> XamlColourUses(string file, string source)
+    {
+        XDocument document;
+        try { document = XDocument.Parse(source); }
+        catch (System.Xml.XmlException error) { throw new InvalidOperationException("XAML non analizzabile: " + file + ": " + error.Message); }
+        static string Local(string name) => name[(name.LastIndexOf('.') + 1)..];
+        static bool Literal(string value) => !value.TrimStart().StartsWith('{') && value.Trim() != "Transparent";
+        foreach (var element in document.Descendants())
+        {
+            string elementName = element.Name.LocalName;
+            if (CodeBrushes.Contains(elementName) || elementName is "GradientStop" or "ImageBrush" or "DrawingBrush" or "VisualBrush")
+                yield return $"pennello o colore nel XAML: <{elementName}>";
+            foreach (var attribute in element.Attributes().Where(a => !a.IsNamespaceDeclaration))
+            {
+                string name = attribute.Name.LocalName, value = attribute.Value;
+                if (HexColour.IsMatch(value)) yield return $"colore esadecimale: {elementName}.{name}=\"{Shorten(value)}\"";
+                else if (Regex.IsMatch(value, @"\{\s*x:Static\s+(?:\w+:)?(?:Brushes|Colors)\.", RegexOptions.CultureInvariant)) yield return $"colore predefinito: {elementName}.{name}=\"{Shorten(value)}\"";
+                else if (Regex.Match(value, @"^\{\s*(?:DynamicResource|StaticResource)\s+(?:ResourceKey\s*=\s*)?([^\s{}]+)\s*\}$") is { Success: true } reference && HistoricResource.IsMatch(reference.Groups[1].Value))
+                    yield return $"risorsa storica invece di un token: {elementName}.{name}=\"{value}\"";
+                else if (BrushProperties.Contains(Local(name)) && Literal(value)) yield return $"colore letterale: {elementName}.{name}=\"{Shorten(value)}\"";
+            }
+            if (elementName == "Setter" && element.Attribute("Property")?.Value is { } property && BrushProperties.Contains(Local(property))
+                && element.Attribute("Value")?.Value is { } setterValue && Literal(setterValue) && !HexColour.IsMatch(setterValue))
+                yield return $"colore letterale: Setter {property}=\"{Shorten(setterValue)}\"";
+        }
+    }
+
+    static string Shorten(string text) => text.Length > 80 ? text[..80] : text;
     static string Key(Finding value) => value.File + "|" + value.Rule + "|" + value.Owner + "|" + value.Fingerprint;
+    static IEnumerable<string> XamlFiles(string directory) => !Directory.Exists(directory) ? [] : Directory.EnumerateFiles(directory, "*.xaml", SearchOption.AllDirectories)
+        .Where(f => !Path.GetRelativePath(directory, f).Split(Path.DirectorySeparatorChar).Any(p => p is "bin" or "obj"));
     static IEnumerable<string> SourceFiles(string directory) => !Directory.Exists(directory) ? [] : Directory.EnumerateFiles(directory, "*.cs", SearchOption.AllDirectories)
         .Where(f => !Path.GetRelativePath(directory, f).Split(Path.DirectorySeparatorChar).Any(p => p is "bin" or "obj"));
     static void Require(bool condition, string message) { if (!condition) throw new InvalidOperationException(message); }
@@ -503,6 +588,53 @@ internal static class F5PresentationRules
         Check(Calculates("void M() => new Thread(() => { }).Start();"), "P6 Thread non rilevato");
         Check(Calculates("", "using static System.Threading.Tasks.Task;"), "P6 using static Task non rilevato");
         Check(!Calculates("System.Threading.Tasks.Task M(dynamic vm) => System.Threading.Tasks.Task.FromResult(vm.CalculateCommand); // Task.Run IModuleService\n string S = \"Task.Run\"; object SessionState;"), "P6 vista pulita segnalata");
+        // P7 theme tokens in the new views, C#.
+        bool Colours(string body, string prefix = "") => ColourUses(view, Class(body, prefix)).Any();
+        Check(Colours("string C = \"#0B2A4A\";"), "P7 esadecimale non rilevato");
+        Check(Colours("string C = \"#800B2A4A\";"), "P7 esadecimale con alfa non rilevato");
+        Check(Colours("string C = \"#FFF\";"), "P7 esadecimale breve non rilevato");
+        Check(Colours("string X = \"<Border Background='#F3F5F8'/>\";"), "P7 esadecimale in un frammento XAML non rilevato");
+        Check(Colours("string C(int n) => $\"#{n}\" + $\"x #E2EFFC\";"), "P7 esadecimale interpolato non rilevato");
+        Check(Colours("object B => Brushes.White;"), "P7 Brushes non rilevato");
+        Check(Colours("object B => System.Windows.Media.Brushes.Firebrick;"), "P7 Brushes qualificato non rilevato");
+        Check(Colours("object B => Colors.LightGray;"), "P7 Colors non rilevato");
+        Check(Colours("", "using static System.Windows.Media.Brushes;"), "P7 using static Brushes non rilevato");
+        Check(Colours("object C => Color.FromRgb(1, 2, 3);"), "P7 Color.FromRgb non rilevato");
+        Check(Colours("object C => System.Windows.Media.Color.FromArgb(9, 1, 2, 3);"), "P7 Color.FromArgb non rilevato");
+        Check(Colours("object B(dynamic c) => new SolidColorBrush(c);"), "P7 new SolidColorBrush non rilevato");
+        Check(Colours("object B => new System.Windows.Media.LinearGradientBrush();"), "P7 pennello sfumato non rilevato");
+        Check(Colours("object C(string s) => ColorConverter.ConvertFromString(s);"), "P7 ColorConverter non rilevato");
+        Check(Colours("object C(string s) => new BrushConverter().ConvertFromString(s);"), "P7 BrushConverter non rilevato");
+        Check(Colours("object B => Appearance.Background(\"x\");"), "P7 Appearance.Background non rilevato");
+        Check(Colours("object B => Appearance.Paper;"), "P7 Appearance.Paper non rilevato");
+        Check(Colours("object B => X.Desktop.Appearance.Colour(default, \"swatch\");"), "P7 Appearance.Colour qualificato non rilevato");
+        Check(Colours("object B => Ui.Muted;"), "P7 Ui.Muted non rilevato");
+        Check(Colours("object B(dynamic e) => e.FindResource(\"AppearancePaper\");"), "P7 risorsa storica nel codice non rilevata");
+        Check(Colours("void M(dynamic e) => e.SetResourceReference(null, \"Appearance.background.F3F5F8\");"), "P7 chiave storica nel codice non rilevata");
+        Check(!Colours("object B => ThemeTokens.Brush(\"Drawing.Ink\"); void M(dynamic e) => e.SetResourceReference(null, \"Token.Paper\");"
+            + " System.IDisposable D(object r) => Appearance.Document(r); object K => SystemColors.WindowBrushKey; string T = \"Rev #12 · issue #ABCDEFG\";"
+            + " // Brushes.Red \"#FF0000\" Color.FromRgb\n object myBrushes; object P => DocumentAppearance.Light(null); string S = \"AppearanceDrawingLabel\";"), "P7 codice con i token segnalato");
+        // P7 theme tokens in the new views, XAML.
+        const string xamlView = "X.Desktop/Views/Probe/ProbeView.xaml";
+        static string Xaml(string body) => "<UserControl xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">" + body + "</UserControl>";
+        bool XamlColours(string body) => XamlColourUses(xamlView, Xaml(body)).Any();
+        Check(XamlColours("<Border Background=\"#F3F5F8\"/>"), "P7 XAML esadecimale non rilevato");
+        Check(XamlColours("<Border Background=\"#FFF\"/>"), "P7 XAML esadecimale breve non rilevato");
+        Check(XamlColours("<TextBlock Foreground=\"Red\"/>"), "P7 XAML colore con nome non rilevato");
+        Check(XamlColours("<Border BorderBrush=\"White\"/>"), "P7 XAML bordo letterale non rilevato");
+        Check(XamlColours("<Border><Border.Style><Style TargetType=\"Border\"><Setter Property=\"Background\" Value=\"White\"/></Style></Border.Style></Border>"), "P7 XAML Setter letterale non rilevato");
+        Check(XamlColours("<Border><Border.Background><SolidColorBrush Color=\"{DynamicResource X}\"/></Border.Background></Border>"), "P7 XAML SolidColorBrush non rilevato");
+        Check(XamlColours("<Border><Border.Background><LinearGradientBrush><GradientStop Offset=\"0\"/></LinearGradientBrush></Border.Background></Border>"), "P7 XAML sfumatura non rilevata");
+        Check(XamlColours("<Rectangle Fill=\"{x:Static Brushes.Red}\"/>"), "P7 XAML x:Static Brushes non rilevato");
+        Check(XamlColours("<Border Background=\"{DynamicResource Appearance.background.F3F5F8}\"/>"), "P7 XAML risorsa storica non rilevata");
+        Check(XamlColours("<TextBlock Foreground=\"{StaticResource AppearanceInk}\"/>"), "P7 XAML risorsa storica statica non rilevata");
+        Check(XamlColours("<TextBlock Tag=\"#0B2A4A\"/>"), "P7 XAML esadecimale in altra proprietà non rilevato");
+        Check(!XamlColours("<Grid Background=\"Transparent\"><Border Background=\"{DynamicResource Token.Paper}\" BorderBrush=\"{x:Null}\"/>"
+            + "<TextBlock Text=\"Rev #12\" FontSize=\"{DynamicResource Font.Body}\" Foreground=\"{DynamicResource Token.Ink}\" Style=\"{DynamicResource ProjectButton}\"/>"
+            + "<!-- Background=\"#FF0000\" --><Border><Border.Style><Style TargetType=\"Border\"><Setter Property=\"Background\" Value=\"{DynamicResource Token.Hover}\"/>"
+            + "<Setter Property=\"Padding\" Value=\"4\"/></Style></Border.Style></Border></Grid>"), "P7 XAML con i token segnalato");
+        bool xamlError = false; try { XamlColourUses(xamlView, "<UserControl>").ToList(); } catch (InvalidOperationException) { xamlError = true; }
+        Check(xamlError, "P7 XAML non analizzabile ignorato");
         // Q16 analyzer configuration.
         const string targets = "<Project><ItemGroup Condition=\"'$(MSBuildProjectName)' == 'ANTHEA.Presentation'\"><PackageReference Include=\"Microsoft.VisualStudio.Threading.Analyzers\" Version=\"18.7.23\" PrivateAssets=\"all\" />"
             + "<EditorConfigFiles Include=\"$(MSBuildThisFileDirectory)build\\analyzers\\ANTHEA.Presentation.globalconfig\" /></ItemGroup></Project>";
@@ -528,14 +660,15 @@ internal static class F5PresentationRules
         string bad = Path.Combine(probeDirectory, "albero-violazioni");
         WriteTree(bad, includePresentation: true);
         var badOutcome = Evaluate(new Inputs(bad, [new("src/ANTHEA.Presentation/Bad.cs", "R2-numeric-literal", "Bad.M", new string('0', 64), 1, ".26")], [], null, null, isDesktop, []));
-        foreach (string rule in new[] { "P1", "P2", "P3", "P4", "P5", "P6" })
+        foreach (string rule in new[] { "P1", "P2", "P3", "P4", "P5", "P6", "P7" })
             Check(badOutcome.Violations.Any(v => v.Rule == rule), rule + " non rilevata sull'albero di prova");
         Check(badOutcome.Statuses.All(s => s.State == "attiva"), "regole non attive con Presentation e viste presenti");
         string clean = Path.Combine(probeDirectory, "albero-senza-presentation");
         WriteTree(clean, includePresentation: false);
         var cleanOutcome = Evaluate(new Inputs(clean, [], [], null, null, isDesktop, []));
         Check(cleanOutcome.Violations.Count == 0, "albero pulito segnalato: " + string.Join("; ", cleanOutcome.Violations.Select(v => v.Rule + " " + v.Text)));
-        Check(cleanOutcome.Statuses.Single(s => s.Rule == "P2").State == "vacua" && cleanOutcome.Statuses.Single(s => s.Rule == "P6").State == "vacua", "regole vacue non dichiarate");
+        Check(cleanOutcome.Statuses.Single(s => s.Rule == "P2").State == "vacua" && cleanOutcome.Statuses.Single(s => s.Rule == "P6").State == "vacua"
+            && cleanOutcome.Statuses.Single(s => s.Rule == "P7").State == "vacua", "regole vacue non dichiarate");
         Check(cleanOutcome.Statuses.Where(s => s.Rule is "P1" or "P2" or "P3" or "P4" or "P5").All(s => s.Note.Contains("progetto non ancora presente", StringComparison.Ordinal)), "nota «progetto non ancora presente» mancante");
         Directory.Delete(Path.Combine(clean, "src", "ANTHEA.DesignTools.Presentation"), true);
         Check(Evaluate(new Inputs(clean, [], [], null, null, isDesktop, [])).Violations.Any(v => v.Rule == "P1"), "progetto senza WPF esistente scomparso senza segnalazione");
@@ -557,6 +690,7 @@ internal static class F5PresentationRules
         Write("src/ANTHEA.Presentation/Bad.cs", "using System.Windows;\nnamespace Anthea.Presentation;\npublic class BadViewModel\n{\n    public static int Counter;\n"
             + "    public async void Load() { await System.Threading.Tasks.Task.Yield(); }\n    public object M() => CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger.Default;\n}");
         Write("X.Desktop/Views/Pile/PileView.xaml.cs", "namespace Anthea.Views;\npublic partial class PileView { void M(Anthea.Application.Modules.IModuleService s) => System.Threading.Tasks.Task.Run(() => { }); }");
+        Write("X.Desktop/Views/Pile/PileView.xaml", "<UserControl xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><Border Background=\"#F3F5F8\"/></UserControl>");
     }
 
     /// <summary>Compiles a probe assembly in memory against System.Private.CoreLib and fake libraries with the given names.</summary>

@@ -26,7 +26,7 @@ using Anthea.Application.Documents;
 namespace X.Desktop;
 
 /// <summary>
-/// --check-contrast &lt;cartella&gt; [--riferimento &lt;cartella&gt;] [--viste &lt;regex&gt;] (UiTests configuration only).
+/// --check-contrast &lt;cartella&gt; [--riferimento &lt;cartella&gt;] [--viste &lt;regex&gt;] [--baseline &lt;file&gt;] (UiTests configuration only).
 /// Builds every view, dialog and popup of the interface in the three appearances, entirely off screen, and measures the
 /// contrast of every visible text twice: from the pixels of the capture (prevailing background against the text pixel
 /// farthest from it) and from the properties (effective Foreground against the first non-transparent Background up the
@@ -34,6 +34,11 @@ namespace X.Desktop;
 /// (&lt;vista&gt;-&lt;modalità&gt;.png), annotated copies in difetti/, report.json and riepilogo.md.
 /// No calibration, no theme change: the views are built exactly as in the application (mode chosen before
 /// navigating, colours applied by the Loaded handler of Appearance), never re-themed before the capture.
+/// With --riferimento the captures of the three appearances are compared pixel by pixel with those of a previous run (the
+/// historic views must stay identical). With --baseline (stage ui of build/ci.ps1, F5.3) the run is also a check: 0 defects in
+/// Scuro and Molto scuro, and the defects of Chiara, which is not changed, within the frozen baseline (ContrastBaseline): a
+/// new defect or more occurrences of a known one fail, fewer are reported to lower the baseline. esito.txt is «PASS …» or
+/// «FAIL …»; baseline-chiara.json is the baseline of the run, to replace the frozen one only when the defects go down.
 /// </summary>
 internal sealed class ContrastAudit
 {
@@ -96,6 +101,7 @@ internal sealed class ContrastAudit
 
     internal readonly string OutputDirectory;
     private readonly string? referenceDirectory;
+    private readonly string? baselineFile;
     private readonly Regex? filter;
     internal AppAppearance Mode { get; private set; }
     internal string Context = "";
@@ -116,9 +122,10 @@ internal sealed class ContrastAudit
     private int counter;
     private double dpi = 96;
 
-    private ContrastAudit(string output, string? reference, string? views)
+    private ContrastAudit(string output, string? reference, string? views, string? baseline)
     {
         OutputDirectory = output; referenceDirectory = reference is null ? null : Path.GetFullPath(reference);
+        baselineFile = baseline is null ? null : Path.GetFullPath(baseline);
         filter = views is null ? null : new Regex(views, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
         sources = new SourceIndex(SourceIndex.RepositoryRoot());
         TestArchive = Path.Combine(sources.Root, "supporto", "artefatti", "prova-f1.4.programma");
@@ -128,17 +135,18 @@ internal sealed class ContrastAudit
     {
         if (args.Length == 2 && args[1] == "--diagnosi") { await Diagnose(Path.GetFullPath(args[0])); return; }
         if (args.Length == 2 && args[1] == "--diagnosi-menu") { await DiagnoseMenu(Path.GetFullPath(args[0])); return; }
-        string output = Path.GetFullPath(args[0]); string? reference = null, views = null;
+        string output = Path.GetFullPath(args[0]); string? reference = null, views = null, baseline = null;
         for (int i = 1; i < args.Length; i += 2)
         {
             if (i + 1 >= args.Length) throw new ArgumentException("Valore mancante per " + args[i]);
             if (args[i] == "--riferimento") reference = args[i + 1];
             else if (args[i] == "--viste") views = args[i + 1];
+            else if (args[i] == "--baseline") baseline = args[i + 1];
             else throw new ArgumentException("Opzione sconosciuta: " + args[i]);
         }
         Directory.CreateDirectory(output); Directory.CreateDirectory(Path.Combine(output, "difetti"));
         foreach (var old in Directory.GetFiles(output, "*.png").Concat(Directory.GetFiles(Path.Combine(output, "difetti"), "*.png")).ToList()) File.Delete(old);
-        var audit = new ContrastAudit(output, reference, views);
+        var audit = new ContrastAudit(output, reference, views, baseline);
         // The c.a. checker of the elastic pile is a ConcreteWorkspace in a dialog: from there "Modello e dati comuni…" opens its own window.
         audit.DialogActions["Verificatore c.a. · "] = async window =>
         {
@@ -169,6 +177,7 @@ internal sealed class ContrastAudit
         }
         Interlocked.Exchange(ref lastBeat, -1);
         audit.Write(started, args);
+        if (audit.baselineFile is not null) ContrastBaseline.Check(output, audit.baselineFile, views);
     }
 
     /// <summary>
@@ -180,7 +189,7 @@ internal sealed class ContrastAudit
     {
         Directory.CreateDirectory(output);
         var log = new List<string>();
-        var audit = new ContrastAudit(output, null, null);
+        var audit = new ContrastAudit(output, null, null, null);
         using (OffscreenWindows.Install(audit))
         {
             var window = new Window { Width = 400, Height = 300, ShowActivated = false, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.Manual, Left = 100, Top = 100 };
@@ -237,7 +246,7 @@ internal sealed class ContrastAudit
     {
         Directory.CreateDirectory(output);
         var log = new List<string>();
-        var audit = new ContrastAudit(output, null, null);
+        var audit = new ContrastAudit(output, null, null, null);
         string preference = Appearance.PreferencePath;
         byte[]? saved = File.Exists(preference) ? File.ReadAllBytes(preference) : null;
         static string B(Brush? b) => b is SolidColorBrush s ? s.Color.ToString() : b?.GetType().Name ?? "null";
@@ -1201,7 +1210,7 @@ internal sealed class ContrastAudit
             }).OrderByDescending(c => c["occorrenze"]!.GetValue<int>()).ToList();
         var exclusionList = new JsonArray(exclusions.OrderByDescending(e => e.Value.Pixels).Select(e => (JsonNode?)new JsonObject
             { ["elemento"] = e.Key, ["motivo"] = e.Value.Reason, ["occorrenze"] = e.Value.Count, ["pixel_chiari_esclusi"] = e.Value.Pixels }).ToArray());
-        var invariance = CompareReference();
+        var invariance = CompareReference("Light");
         var report = new JsonObject
         {
             ["strumento"] = "supporto/test/Desktop/ContrastAudit.cs", ["comando"] = "dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-contrast " + string.Join(" ", args),
@@ -1228,7 +1237,8 @@ internal sealed class ContrastAudit
             ["catture"] = captures.DeepClone(), ["finestre"] = windows.DeepClone(), ["violazioni_fuori_schermo"] = violations.DeepClone(),
             ["finestre_di_sistema"] = SystemDialogs.DeepClone(), ["non_coperti"] = uncovered.DeepClone(), ["note"] = notes.DeepClone(),
             ["comandi_trovati"] = new JsonObject(triggersFound.Select(p => KeyValuePair.Create(p.Key, (JsonNode?)new JsonArray(p.Value.Order().Select(v => (JsonNode?)v).ToArray())))),
-            ["invarianza_chiaro"] = invariance
+            ["invarianza_chiaro"] = invariance,
+            ["invarianza_scuri"] = referenceDirectory is null ? null : new JsonObject { ["Dark"] = CompareReference("Dark"), ["VeryDark"] = CompareReference("VeryDark") }
         };
         var options = new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
         File.WriteAllText(Path.Combine(OutputDirectory, "report.json"), report.ToJsonString(options), new UTF8Encoding(false));
@@ -1241,12 +1251,12 @@ internal sealed class ContrastAudit
         ("collegamento-dei-sondaggi", "anteprima JSON degli strati collegati, con gli identificativi generati a ogni collegamento (ProjectSharedData.LinkSoils)")
     ];
 
-    private JsonObject? CompareReference()
+    private JsonObject? CompareReference(string mode)
     {
         if (referenceDirectory is null) return null;
         var differences = new JsonArray(); var variable = new JsonArray(); int compared = 0, equal = 0;
-        var current = Directory.EnumerateFiles(OutputDirectory, "*-Light.png").Select(Path.GetFileName).OfType<string>().ToHashSet();
-        var reference = Directory.Exists(referenceDirectory) ? Directory.EnumerateFiles(referenceDirectory, "*-Light.png").Select(Path.GetFileName).OfType<string>().ToHashSet() : [];
+        var current = Directory.EnumerateFiles(OutputDirectory, $"*-{mode}.png").Select(Path.GetFileName).OfType<string>().ToHashSet();
+        var reference = Directory.Exists(referenceDirectory) ? Directory.EnumerateFiles(referenceDirectory, $"*-{mode}.png").Select(Path.GetFileName).OfType<string>().ToHashSet() : [];
         foreach (var name in current.Intersect(reference).Order())
         {
             compared++;
@@ -1335,6 +1345,17 @@ internal sealed class ContrastAudit
                 $"{inv["variabili_per_costruzione"]!.AsArray().Count} variabili per costruzione, {inv["mancanti"]!.AsArray().Count} mancanti, {inv["nuove"]!.AsArray().Count} nuove.");
             foreach (var d in inv["diverse"]!.AsArray().OfType<JsonObject>()) md.AppendLine($"- {d.S("cattura")}: {d["pixel_diversi"] ?? d["dimensioni"]}");
             foreach (var d in inv["variabili_per_costruzione"]!.AsArray().OfType<JsonObject>()) md.AppendLine($"- {d.S("cattura")}: {d["pixel_diversi"]} pixel, variabile per costruzione ({d.S("motivo")})");
+        }
+        if (report["invarianza_scuri"] is JsonObject dark)
+        {
+            md.AppendLine(); md.AppendLine("## Invarianza delle modalità scure"); md.AppendLine();
+            foreach (var (mode, node) in dark)
+            {
+                if (node is not JsonObject d) continue;
+                md.AppendLine($"{mode}: {d["confrontate"]} catture confrontate, {d["identiche"]} identiche, {d["diverse"]!.AsArray().Count} diverse, " +
+                    $"{d["variabili_per_costruzione"]!.AsArray().Count} variabili per costruzione, {d["mancanti"]!.AsArray().Count} mancanti, {d["nuove"]!.AsArray().Count} nuove.");
+                foreach (var x in d["diverse"]!.AsArray().OfType<JsonObject>()) md.AppendLine($"- {x.S("cattura")}: {x["pixel_diversi"] ?? x["dimensioni"]}");
+            }
         }
         var notes = report["note"]!.AsArray();
         if (notes.Count > 0) { md.AppendLine(); md.AppendLine("## Note"); md.AppendLine(); foreach (var n in notes.OfType<JsonObject>()) md.AppendLine($"- {n.S("vista")} ({n.S("modalita")}): {Cell(n.S("nota").Split('\n')[0])}"); }

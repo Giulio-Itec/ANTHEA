@@ -1,0 +1,22 @@
+<!--
+  Typographic tokens (refactoring F5.3, proposal F5 section 6.1): font sizes of the new views, in device-independent pixels. The
+  values are the most used sizes of the historic interface in each band (census tools/qa/f5_censimento_temi.py, table in
+  docs/refactoring/f5-temi-token.md): the historic views keep their sizes written in the code (Ui.Text). The new views use
+  {DynamicResource Font.<nome>}; Segoe UI and the default size 13 come from the style of Window (Themes/Controls.xaml).
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+ <!-- Titles of the pages (home, modules, models): 30, 4 uses; 26 (4) and 24 (2) are near variants. -->
+ <sys:Double x:Key="Font.Display">30</sys:Double>
+ <!-- Titles of the sections and of the windows: 22, 9 uses; 21 (8), 20 (7), 23 (4) and 19 (3) are near variants. -->
+ <sys:Double x:Key="Font.Title">22</sys:Double>
+ <!-- Headings of the groups: 16, 19 uses; 17 (12) and 18 (9) are near variants. -->
+ <sys:Double x:Key="Font.Heading">16</sys:Double>
+ <!-- Body text, labels of the fields: 13, the size of the style of Window. -->
+ <sys:Double x:Key="Font.Body">13</sys:Double>
+ <!-- Compact labels, tables, notes of the status: 12, the most used size (240 uses). -->
+ <sys:Double x:Key="Font.Small">12</sys:Double>
+ <!-- Units, notes and errors of the fields, legends: 11, 181 uses; 10 (12) is a near variant. -->
+ <sys:Double x:Key="Font.Caption">11</sys:Double>
+</ResourceDictionary>
