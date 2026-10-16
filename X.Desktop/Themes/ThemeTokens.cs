@@ -48,7 +48,7 @@ internal static class ThemeTokens
         // Text.
         new("Ink", "#0B2A4A", ThemeRole.Foreground, "testo", "AppearanceInk, Appearance.foreground.0B2A4A, Appearance.Ink, Ui.Navy"),
         new("InkSecondary", "#234767", ThemeRole.Foreground, "frecce e glifi dell'albero", "Appearance.foreground.234767"),
-        new("Muted", "#64748B", ThemeRole.Foreground, "testo secondario, unità di misura", "Appearance.foreground.64748B, Ui.Muted"),
+        new("Muted", "#64748B", ThemeRole.Foreground, "testo secondario, unità di misura", "Ui.Muted; ex Appearance.foreground.64748B di FieldForm (F5.2)"),
         new("Accent", "#0B5CAD", ThemeRole.Foreground, "collegamenti, enfasi", "Appearance.Accent, Ui.Blue"),
         new("Disabled", "#808080", ThemeRole.Disabled, "testo disattivato o valore automatico in grigio", "Appearance.Dim(Brushes.Gray)"),
         // Lines.
@@ -68,11 +68,11 @@ internal static class ThemeTokens
         new("Hover.Row", "#F0F6FC", ThemeRole.Background, "passaggio del mouse sulle righe dell'albero", "Appearance.background.F0F6FC"),
         new("Selected", "#0B2A4A", ThemeRole.Selected, "pulsante primario, scelta attiva", "Appearance.Selected"),
         new("Selection", "#E2EFFC", ThemeRole.Selection, "riga e scheda selezionate", "AppearanceSelection, Appearance.selection.E2EFFC"),
-        new("Calculated", "#EAF2FA", ThemeRole.Calculated, "campi calcolati o collegati", "Appearance.Calculated, Appearance.calculated.EAF2FA"),
+        new("Calculated", "#EAF2FA", ThemeRole.Calculated, "campi calcolati o collegati", "Appearance.Calculated; ex Appearance.calculated.EAF2FA di FieldForm (F5.2)"),
         // Notes, warnings and outcomes.
-        new("Note.Background", "#FFF6DD", ThemeRole.Background, "fondo delle note dei campi", "Appearance.background.FFF6DD, Appearance.Background(\"#FFF6DD\")"),
-        new("Note.Foreground", "#865D16", ThemeRole.Foreground, "testo delle note dei campi", "Appearance.foreground.865D16"),
-        new("Note.Border", "#EEDCAF", ThemeRole.Border, "bordo delle note dei campi", "Appearance.border.EEDCAF"),
+        new("Note.Background", "#FFF6DD", ThemeRole.Background, "fondo delle note dei campi", "Appearance.Background(\"#FFF6DD\") di InputForm; ex Appearance.background.FFF6DD di FieldForm (F5.2)"),
+        new("Note.Foreground", "#865D16", ThemeRole.Foreground, "testo delle note dei campi", "#865D16 di InputForm; ex Appearance.foreground.865D16 di FieldForm (F5.2)"),
+        new("Note.Border", "#EEDCAF", ThemeRole.Border, "bordo delle note dei campi", "#EEDCAF di InputForm; ex Appearance.border.EEDCAF di FieldForm (F5.2)"),
         new("Warning.Background", "#FFFAEB", ThemeRole.Background, "fondo degli avvisi", "Appearance.Background(\"#FFFAEB\")"),
         new("Warning.Foreground", "#9A4D0A", ThemeRole.Foreground, "testo degli avvisi e degli errori dei campi", "Appearance.foreground.9A4D0A"),
         new("Status.Ok", "#006400", ThemeRole.Foreground, "esito soddisfatto", "Brushes.DarkGreen (vicino: ForestGreen)"),

@@ -26,14 +26,8 @@ internal static class AppearanceResources
         resources["Appearance.foreground.234767"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#234767"), "foreground");
         resources["Appearance.foreground.9A4D0A"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#9A4D0A"), "foreground");
         resources["Appearance.foreground.FFFFFF"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#FFFFFF"), "foreground");
-        // Colours of InputForm (Ui.cs) used by the XAML FieldForm (F5.2): calculated field, unit, notice. Same brushes as the historic
-        // form; F5.3 turns them into tokens.
-        resources["Appearance.calculated.EAF2FA"] = Appearance.Calculated;
-        resources["Appearance.background.FFF6DD"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#FFF6DD"), "background");
-        resources["Appearance.border.EEDCAF"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#EEDCAF"), "border");
-        resources["Appearance.foreground.64748B"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#64748B"), "foreground");
-        resources["Appearance.foreground.865D16"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#865D16"), "foreground");
-        // Theme tokens of the new views (F5.3, Themes/ThemeTokens.cs): the same palette brushes, under the keys Token.<nome>.
+        // Theme tokens of the new views (F5.3, Themes/ThemeTokens.cs): the same palette brushes, under the keys Token.<nome>. They absorb
+        // the five resources Appearance.<ruolo>.<HEX> that the XAML FieldForm added in F5.2 (Calculated, Note.*, Muted).
         Themes.ThemeTokens.Register(resources);
     }
 }
