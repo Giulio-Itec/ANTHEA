@@ -524,6 +524,9 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
 ## Fase 5: interfaccia MVVM
 
 - [ ] F5.0 [CP] Ripianificazione sul codice dopo F4; `ANTHEA.Presentation` senza WPF.
+  16/10: proposta pronta, in attesa delle decisioni dell'utente: [nota per il punto di controllo](f5-ripianificazione.md),
+  con [inventario dell'interfaccia](f5-inventario-ui.md) e [proposta di architettura](f5-proposta-architettura.md)
+  (domande Q1–Q20; nessuna scelta definitiva prima dell'approvazione).
 - [ ] F5.1 Infrastruttura, servizi, gestione degli errori, analyzer.
 - [ ] F5.2 `ModuleHost` (moduli nuovi e legacy insieme); componenti dei form.
 - [ ] F5.3 [CP] Temi a token.
