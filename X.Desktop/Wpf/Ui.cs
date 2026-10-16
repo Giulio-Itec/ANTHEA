@@ -135,7 +135,7 @@ internal sealed class SectionIcon : FrameworkElement
 /// <param name="Note">Notice shown under the field while it returns a text (for example a choice with known limits).</param>
 /// <param name="Default">Scelta mostrata quando la chiave manca nel documento (fogli salvati prima del campo): solo presentazione, il documento
 /// non cambia finché l'utente non sceglie.</param>
-internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "", bool Wide = false, WikiContextHelp.Topic? Help = null, Func<JsonObject, string?>? Note = null, string? Default = null);
+internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "", bool Wide = false, Topic? Help = null, Func<JsonObject, string?>? Note = null, string? Default = null);
 
 internal static class FieldNotes
 {
