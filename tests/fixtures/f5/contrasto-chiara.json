@@ -1,20 +1,15 @@
 {
   "nota": "Difetti di contrasto della sola Chiara, lasciati per non cambiarla (decisioni.md, «Tema scuro»; F5 Q6): baseline di --check-contrast nello stadio ui (tests/Desktop/ContrastBaseline.cs). Può solo scendere: si sostituisce con baseline-chiara.json di una corsa con meno difetti.",
   "strumento": "supporto/test/Desktop/ContrastAudit.cs --baseline",
-  "comando": "cattura prima di F5.3, commit 5f29067b: dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-contrast supporto/artefatti/refactoring/f5/f5-3-temi/contrasto-prima",
-  "dpi": 120,
-  "totale": 702,
-  "voci_distinte": 190,
+  "comando": "cattura prima di F5.3, commit 5f29067b, con ANTHEA.exe come il runner: ANTHEA.exe --check-contrast supporto/artefatti/refactoring/f5/f5-3-temi/contrasto-prima-96",
+  "dpi": 96,
+  "totale": 699,
+  "voci_distinte": 187,
   "voci": [
     {
       "vista": "cambio-modulo-str_palo",
       "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
       "occorrenze": 8
-    },
-    {
-      "vista": "cambio-progetti-sezione",
-      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #64748B Local|Border #F6F9FC Local",
-      "occorrenze": 1
     },
     {
       "vista": "componenti-campi--componenti-campi-del-form-fieldform",
@@ -418,11 +413,6 @@
     },
     {
       "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c1t1-dominio",
-      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer > ViewportFrame > DomainViewport3D|TextBlock #397BCC Local|TextBlock #FFFFFF Local",
-      "occorrenze": 1
-    },
-    {
-      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c1t1-dominio",
       "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer > ViewportFrame > DomainViewport3D|TextBlock #E09620 Local|TextBlock #FFFFFF Local",
       "occorrenze": 1
     },
@@ -435,11 +425,6 @@
       "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c1t2-sezione",
       "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
       "occorrenze": 8
-    },
-    {
-      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c2t1-dettagli-combina",
-      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer > ViewportFrame > DomainViewport3D|TextBlock #397BCC Local|TextBlock #FFFFFF Local",
-      "occorrenze": 1
     },
     {
       "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c2t1-dettagli-combina",
@@ -713,6 +698,11 @@
     },
     {
       "vista": "modulo-str_mista_ponte-c1t2-02-p4",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|Button #0B2A4A Local|Button #FFFFFF Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c1t2-02-p4",
       "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
       "occorrenze": 3
     },
@@ -950,11 +940,6 @@
       "vista": "modulo-str_palo-t8-08-t3-ricerca-e-scarti-p2",
       "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
       "occorrenze": 8
-    },
-    {
-      "vista": "progetti-vuoto",
-      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #64748B Local|Border #F6F9FC Local",
-      "occorrenze": 1
     }
   ]
 }

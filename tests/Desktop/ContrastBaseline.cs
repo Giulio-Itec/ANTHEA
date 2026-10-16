@@ -14,6 +14,9 @@ namespace X.Desktop;
 /// components, owner, original colour and value source of text and background: no texts, positions or source lines), with the
 /// number of occurrences. A key that is new or has more occurrences fails; fewer occurrences pass and are reported, so that the
 /// baseline is lowered in a commit of its own (it may only go down). With --viste only the views of the filter are compared.
+/// The measures from the pixels depend on the DPI of the windows, which is recorded in the baseline: a run at another DPI fails
+/// without comparing. The runner starts ANTHEA.exe (PerMonitorV2, app.manifest), whose windows lie outside every monitor and get
+/// 96 DPI whatever the scale of the screen; «dotnet ANTHEA.dll» runs with the DPI of the system (120 or 144 on this machine).
 /// </summary>
 internal static class ContrastBaseline
 {
@@ -44,15 +47,15 @@ internal static class ContrastBaseline
                 .Where(v => filter is null || filter.IsMatch(v.View)).ToDictionary(v => (v.View, v.Key));
             frozenTotal = known.Values.Sum(v => v.Count);
             double frozenDpi = frozen["dpi"]?.GetValue<double>() ?? 0;
-            if (frozenDpi != dpi) notes.Add($"DPI della finestra {dpi} invece di {frozenDpi} della baseline: le misure dai pixel possono cambiare");
-            foreach (var entry in current)
+            if (frozenDpi != dpi) problems.Add($"DPI della finestra {dpi} invece di {frozenDpi} della baseline: misure non confrontabili (avviare ANTHEA.exe come il runner)");
+            else foreach (var entry in current)
             {
                 int allowed = known.TryGetValue((entry.View, entry.Key), out var k) ? k.Count : 0;
                 if (entry.Count > allowed) problems.Add($"Chiara, {entry.View}: {entry.Count} occorrenze invece di {allowed} · {entry.Key}");
             }
             var seen = current.ToDictionary(e => (e.View, e.Key), e => e.Count);
             int fewer = known.Values.Sum(k => Math.Max(0, k.Count - seen.GetValueOrDefault((k.View, k.Key))));
-            if (fewer > 0) notes.Add($"{fewer} occorrenze della Chiara in meno della baseline: abbassarla con baseline-chiara.json in un commit dedicato");
+            if (fewer > 0 && frozenDpi == dpi) notes.Add($"{fewer} occorrenze della Chiara in meno della baseline: abbassarla con baseline-chiara.json in un commit dedicato");
         }
         int light = current.Sum(e => e.Count);
         string summary = $"Scuro {dark}, Molto scuro {veryDark}; Chiara {light} difetti in {current.Count} voci (baseline {frozenTotal})";
