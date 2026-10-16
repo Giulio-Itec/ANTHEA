@@ -226,6 +226,7 @@ Per ogni fascia il token prende la dimensione più usata.
 | `Font.Display` | 30 | titoli delle pagine: home, moduli, modelli | 30 (4), 26 (4), 24 (2), 34 (1) |
 | `Font.Title` | 22 | titoli di sezione e delle finestre | 22 (9), 21 (8), 20 (7), 23 (4), 19 (3) |
 | `Font.Heading` | 16 | intestazioni dei gruppi | 16 (19), 17 (12), 18 (9) |
+| `Font.Subheading` | 14 | sottotitoli e valori in evidenza (aggiunto dopo il punto di controllo, D3) | 14 (45), 15 (27), 15,5 (1) |
 | `Font.Body` | 13 | testo ed etichette dei campi; dimensione dello stile `Window` | 13 (107) |
 | `Font.Small` | 12 | etichette del form compatto, tabelle, stato | 12 (240) |
 | `Font.Caption` | 11 | unità, note ed errori dei campi, legende | 11 (181), 10 (12) |
@@ -236,8 +237,8 @@ Note sul censimento:
 - **Title.** La proposta indicava 21/20; il censimento dà 22 (9 usi contro 8 del 21). Tre dei nove usi del 22 sono i
   valori grandi della palificata, non titoli.
 - **Heading.** La proposta indicava 17/16; il censimento dà 16.
-- **14 e 15 senza token.** Il 14 (45 usi), il 15 (27) e il 15,5 (1) non hanno un token. Nelle sei fasce della proposta
-  starebbero fra Body e Heading. Vedere la domanda D3.
+- **14 e 15.** Il 14 (45 usi), il 15 (27) e il 15,5 (1) non avevano un token. Al punto di controllo del 16/10 l'utente ha
+  scelto `Font.Subheading` = 14 (D3); il 15 e il 15,5 vanno a 14 o a 16 modulo per modulo, con schermate prima/dopo.
 - **Disegni.** I disegni (`FormattedText`: 10, 11, 12 e 13 espressioni) restano come sono.
 
 ## 5. Varianti vicine da accorpare modulo per modulo (Q6, raccomandazione c)
@@ -445,6 +446,14 @@ Per `ui/f3-equivalence`: il riferimento `tests/fixtures/f3` e il file delle tran
 Lo stadio ui dura circa 13 minuti in più per `ui/check-contrast`.
 
 ## 8. Domande aperte e scelte da confermare
+
+**Esito del punto di controllo (16/10).**
+- L'utente ha accettato tutte le raccomandazioni: D1 (c), D7 con nota quando i difetti scendono, e D2, D4, D5, D6, D8 e
+  D10 come proposte.
+- Per D3 ha scelto `Font.Subheading` = 14.
+- D9 resta fuori dal runner.
+
+Dettagli in [decisioni](decisioni.md), nella sezione del 16 ottobre pomeriggio.
 
 Il lavoro segue le raccomandazioni e, dove serviva una scelta, l'opzione più prudente. Da confermare:
 

@@ -34,7 +34,7 @@ internal static class ThemeTokenChecks
     internal static readonly string[] Dictionaries = ["ProjectStyles", "AppearanceControls", "Controls", "Typography"];
     /// <summary>Typographic tokens fixed by the census of F5.3 (docs/refactoring/f5-temi-token.md).</summary>
     internal static readonly (string Key, double Size)[] Fonts =
-        [("Font.Display", 30), ("Font.Title", 22), ("Font.Heading", 16), ("Font.Body", 13), ("Font.Small", 12), ("Font.Caption", 11)];
+        [("Font.Display", 30), ("Font.Title", 22), ("Font.Heading", 16), ("Font.Subheading", 14), ("Font.Body", 13), ("Font.Small", 12), ("Font.Caption", 11)];
     /// <summary>The resources added by the XAML FieldForm in F5.2, absorbed by Token.Calculated, Token.Note.* and Token.Muted.</summary>
     internal static readonly string[] Absorbed = ["Appearance.calculated.EAF2FA", "Appearance.background.FFF6DD", "Appearance.border.EEDCAF",
         "Appearance.foreground.64748B", "Appearance.foreground.865D16"];

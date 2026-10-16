@@ -13,6 +13,8 @@
  <sys:Double x:Key="Font.Title">22</sys:Double>
  <!-- Headings of the groups: 16, 19 uses; 17 (12) and 18 (9) are near variants. -->
  <sys:Double x:Key="Font.Heading">16</sys:Double>
+ <!-- Subheadings and emphasised values: 14, 45 uses; 15 (27) and 15.5 (1) go to 14 or 16 module by module (user, 16/10, D3). -->
+ <sys:Double x:Key="Font.Subheading">14</sys:Double>
  <!-- Body text, labels of the fields: 13, the size of the style of Window. -->
  <sys:Double x:Key="Font.Body">13</sys:Double>
  <!-- Compact labels, tables, notes of the status: 12, the most used size (240 uses). -->

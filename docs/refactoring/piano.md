@@ -574,7 +574,16 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
     - dopo un errore si ripristinano anche i fogli collegati.
   - **Rinviati al primo modulo migrato:** controllo tabellare XAML, aiuto F1 nell'ospite, esportazioni per modulo, anteprima
     dei materiali (F5.5).
-- [ ] F5.3 [CP] Temi a token.
+- [x] F5.3 [CP] Temi a token. Fatta il 16/10 (merge 1626e776); il punto di controllo è stato accettato dall'utente nello
+  stesso giorno, con tutte le raccomandazioni e `Font.Subheading` = 14 ([decisioni](decisioni.md), sezione del 16 ottobre
+  pomeriggio; [documento](f5-temi-token.md)).
+  - **Token:** 69 colori (36 semantici e i gruppi Series, Drawing, Swatch e Utilization), registrati con lo stesso pennello
+    di `Appearance.Colour`, e 7 dimensioni `Font.*`.
+  - **Dizionari** in `X.Desktop/Themes`, con le viste storiche invariate.
+  - **Regola P7** con 36 prove dei rilevatori; `FieldForm` usa solo token.
+  - **Prove nuove:** `ui/check-theme-tokens` e `ui/check-contrast` nello stadio ui. Scuro e Molto scuro hanno 0 difetti; la
+    Chiara ne ha 699 nella baseline a 96 DPI.
+  - **Corsa** build, fast, wiki e ui sul merge con il pilota `20261016-123436-f5-int5`: PASS 111, 0 NEW-FAIL.
 - [ ] F5.4 [CP] Modulo pilota: palificata orizzontale.
 - [ ] F5.5–F5.12 Materiali, palo verticale, orizzontale, elastico, muri, sezione c.a., sezione composta, Bridge Design.
 - [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. Requisito

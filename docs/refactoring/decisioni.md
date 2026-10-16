@@ -1450,3 +1450,22 @@ raccomandazioni:
   `refactoring/f5` (documenti F5.0): fatti in locale; **push di `main` non autorizzato** per ora («No, solo locale»).
 - Restano da decidere ai rispettivi passi: Q6 (F5.3), Q8 (F5.4), Q9, Q10, Q13, Q18 (F5.13), Q14 (F5.14), Q17
   (F5.10, F5.12).
+
+## 16 ottobre (pomeriggio) — punto di controllo F5.3
+
+Sul [documento dei temi a token](f5-temi-token.md) e sulle schermate del `FieldForm` nei tre aspetti. L'utente ha risposto
+alle domande a scelta multipla, tutte sulle raccomandazioni:
+
+- **Q6 / D1** Token semantici usati solo dalle viste nuove; varianti vicine accorpate modulo per modulo con schermate
+  prima/dopo; la Chiara non cambia fuori dalle viste migrate.
+- **D3** Nuovo token `Font.Subheading` = 14 (45 usi); il 15 e il 15,5 vanno a 14 o a 16 modulo per modulo.
+- **D7** Contrasto della Chiara: se i difetti scendono la prova passa con una nota e la baseline si abbassa in un commit
+  dedicato; fallisce una voce nuova o in aumento.
+- **D2, D4, D5, D6, D8, D10** Accettate come proposte: elenco dei 69 token; accorpamento con ΔE ≤ 5 e ruolo compatibile;
+  regola P7 come descritta; baseline della Chiara a 96 DPI (699 difetti) con fallimento a un altro DPI; `ui/check-contrast`
+  nello stadio ui (circa 13 minuti); tabella congelata dei colori aggiornata solo con una modifica motivata della
+  tavolozza.
+- **D9** Non chiesta: `--check-report-appearance-offscreen` resta fuori dal runner.
+
+L'utente ha chiesto anche una versione di prova a fine fase: si prepara una pubblicazione portatile con la palificata
+sulla vista nuova, dopo i passi 1–4 della ricetta di F5.4.
