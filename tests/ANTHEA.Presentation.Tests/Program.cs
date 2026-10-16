@@ -22,6 +22,7 @@ try
     checks += SharedDataCoordinatorChecks.Run();
     checks += ProjectHistoryChecks.Run();
     checks += ModuleHostChecks.Run();
+    checks += PileGroupSheetChecks.Run(root, output);
     string message = $"PASS {checks} controlli di Presentation senza WPF";
     File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
     Console.WriteLine(message);
