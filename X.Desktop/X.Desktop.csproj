@@ -17,6 +17,8 @@
   </PropertyGroup>
   <ItemGroup><ProjectReference Include="../src/ANTHEA.Application/ANTHEA.Application.csproj" /><ProjectReference Include="../src/ANTHEA.ModelViewer.Wpf/ANTHEA.ModelViewer.Wpf.csproj" /></ItemGroup>
   <ItemGroup><ProjectReference Include="../src/ANTHEA.Wiki/ANTHEA.Wiki.csproj" /><ProjectReference Include="../src/ANTHEA.DesignTools.Presentation/ANTHEA.DesignTools.Presentation.csproj" /></ItemGroup>
+  <!-- MVVM presentation layer without WPF (refactoring F5): services, ViewModels and sessions; views and WPF services stay here. -->
+  <ItemGroup><ProjectReference Include="../src/ANTHEA.Presentation/ANTHEA.Presentation.csproj" /></ItemGroup>
   <ItemGroup><Resource Include="Assets/*.png" /><Resource Include="Assets/anthea.ico" /></ItemGroup>
   <ItemGroup>
     <Content Include="Wiki/Licenses/*.txt"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><TargetPath>Licenses/%(Filename)%(Extension)</TargetPath></Content>
