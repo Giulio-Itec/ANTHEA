@@ -108,8 +108,7 @@ internal static class PileGroupSheetChecks
             sheet.Modified += (_, _) => modified++;
         }
 
-        private FieldViewModel Field(string key) => new[] { Sheet.DiameterForm, Sheet.GeneratorForm, Sheet.DirectionsForm, Sheet.CapForm, Sheet.OptionsForm, Sheet.SpacingForm }
-            .Where(f => f is not null && f.Contains(key)).Select(f => f![key]).Single();
+        private FieldViewModel Field(string key) => Sheet.Field(key);
 
         internal async Task ApplyAsync(PileGroupStep step)
         {
@@ -163,15 +162,15 @@ internal static class PileGroupSheetChecks
                 CoordinatesEditable = s.CanEditCoordinates, CanAddPiles = s.CanEditCoordinates, CoordinateHelp = s.CoordinateHelp,
                 Layout = s.SelectedLayout, GeneratorNote = s.GeneratorNote,
                 Diameter = s.DiameterForm["diametro"].Text,
-                Directions = new[] { "X", "Y", "X-", "Y-", "custom" }.Select(k => PileGroupTrace.DirectionLine(k, s.DirectionsForm[k].IsChecked)).ToList(),
-                CustomAngle = s.DirectionsForm["angolo_custom"].Text, CustomAngleEnabled = s.DirectionsForm["angolo_custom"].IsEnabled,
+                Directions = new[] { "X", "Y", "X-", "Y-", "custom" }.Select(k => PileGroupTrace.DirectionLine(k, s.Field(k).IsChecked)).ToList(),
+                CustomAngle = s.CustomDirectionForm["angolo_custom"].Text, CustomAngleEnabled = s.CustomDirectionForm["angolo_custom"].IsEnabled,
                 CapShape = s.SelectedCapShape, CapEdge = s.CapForm["bordo_d"].Text,
-                Extrapolations = s.OptionsForm["estrapolazioni"].IsChecked, ProjectedRows = s.OptionsForm["file_proiettate"].IsChecked,
+                Extrapolations = s.ExtrapolationsForm["estrapolazioni"].IsChecked, ProjectedRows = s.ProjectedRowsForm["file_proiettate"].IsChecked,
                 SpacingDirection = s.SpacingDirection, SpacingIndex = s.SpacingDirectionIndex,
                 ParallelSpacing = s.SpacingForm["interasse_parallelo"].Text, TransverseSpacing = s.SpacingForm["interasse_trasversale"].Text,
                 PlanShown = s.Plan is not null, PlanSelected = s.Plan?.Selected, PlanCap = s.Plan?.Cap,
             };
-            foreach (var field in s.GeneratorForm?.Fields ?? [])
+            foreach (var field in (s.GeneratorForm?.Fields ?? []).Concat(s.RotationForm?.Fields ?? []))
                 trace.Generator.Add(field.Kind == FieldKind.Bool ? PileGroupTrace.OptionLine(field.Key, field.Label, field.IsChecked)
                     : PileGroupTrace.FieldLine(field.Key, field.Label, field.Text, field.IsEnabled));
             return trace;
@@ -261,7 +260,7 @@ internal static class PileGroupSheetChecks
     // ---------------------------------------------------------------- read-only
 
     /// <summary>
-    /// A previous revision: the user's changes are refused (forms on detached copies, layout, cap, spacing direction, cells, the
+    /// A previous revision: the user's changes are refused (read-only forms, D4; layout, cap, spacing direction, cells, the
     /// cancelled edit), the selection in the comparison writes the selected result and raises Modified, the calculation stays.
     /// </summary>
     private static async Task ReadOnlyAsync(string root, Expect expect)
@@ -275,10 +274,13 @@ internal static class PileGroupSheetChecks
         await Expect.Within(sheet.CalculateAsync());
         sheet.IsReadOnly = true;
         string before = sheet.Data.ToJsonString();
-        expect.That(!sheet.CanEdit && !sheet.CanEditCoordinates && sheet.DiameterForm["diametro"].Text == typed && modified == 1, "Sola lettura: stato o testi mostrati");
+        var forms = sheet.Forms.ToArray();
+        expect.That(!sheet.CanEdit && !sheet.CanEditCoordinates && sheet.DiameterForm["diametro"].Text == typed && modified == 1 && sheet.GeneratorForm is null
+            && sheet.RotationForm is null && forms.Length == 8
+            && forms.All(f => f.IsReadOnly && f.Fields.All(field => field.IsInputReadOnly && !field.CanChange)), "Sola lettura: stato, form o testi mostrati");
         sheet.DiameterForm["diametro"].EditText = "2";
-        sheet.OptionsForm["estrapolazioni"].IsChecked = true;
-        sheet.DirectionsForm["custom"].IsChecked = true;
+        sheet.ExtrapolationsForm["estrapolazioni"].IsChecked = true;
+        sheet.CustomDirectionForm["custom"].IsChecked = true;
         sheet.SpacingForm["interasse_parallelo"].EditText = "3";
         sheet.SelectedLayout = "Rettangolare";
         sheet.SelectedCapShape = "Rettangolare";
@@ -294,7 +296,8 @@ internal static class PileGroupSheetChecks
             "Sola lettura: selezione nel confronto");
         expect.That(await Expect.Within(sheet.CalculateAsync()) && sheet.HasResults && sheet.SelectedComparison == sheet.Comparison[7], "Sola lettura: calcolo");
         sheet.IsReadOnly = false;
-        expect.That(sheet.CanEdit && sheet.CanEditCoordinates && sheet.DiameterForm["diametro"].Text == "2", "Ritorno alla modifica: stato o testi mostrati");
+        expect.That(sheet.CanEdit && sheet.CanEditCoordinates && sheet.DiameterForm["diametro"].Text == typed && forms.All(f => !f.IsReadOnly)
+            && ReferenceEquals(forms[0], sheet.DiameterForm), "Ritorno alla modifica: stato, form o testi mostrati");
         sheet.DiameterForm["diametro"].EditText = "1,5";
         expect.That(sheet.Data["diametro"]!.GetValue<double>() == 1.5 && modified == 3 && !sheet.HasResults, "Ritorno alla modifica: il campo non scrive");
     }
