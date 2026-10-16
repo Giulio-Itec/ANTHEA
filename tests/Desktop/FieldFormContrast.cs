@@ -22,6 +22,17 @@ internal static class FieldFormContrast
 
     internal static async Task Audit(ContrastAudit audit, Window owner)
     {
+        var (concrete, pile) = SampleForms();
+        var body = new StackPanel();
+        body.Children.Add(new FieldForm { DataContext = concrete });
+        body.Children.Add(new FieldForm { DataContext = pile, Margin = new Thickness(0, 16, 0, 0) });
+        var dialog = Ui.Dialog(owner, "Componenti · campi del form (FieldForm)", new ScrollViewer { Content = body, Padding = new Thickness(12) }, 640, 900);
+        await audit.Trigger("FieldForm", dialog.Show, 8);
+    }
+
+    /// <summary>The two sample forms of the step, also rendered by --check-theme-tokens (F5.3) in the light scope of the documents.</summary>
+    internal static (FormViewModel Concrete, FormViewModel Pile) SampleForms()
+    {
         var options = new JsonObject
         {
             ["modello"] = "Lineare", ["n_armature"] = "15.123456", ["__ep_ref"] = "195000", ["cls_diagramma"] = "Stress block", ["trazione_cls"] = "No",
@@ -38,10 +49,6 @@ internal static class FieldFormContrast
             new("tipo_palo", "Tipo di palo", Choices: ["Trivellato", "Elica continua", "Battuto"]), new("diametro", "Diametro palo D", "m"),
             new("presenza_falda", "Presenza falda", Bool: true), new("profondita_falda", "Profondità falda zf", "m"), new("__xi3", "Correlazione ξ3", ReadOnly: true)],
             compact: true, symbolColumns: true, wikiModule: "geo_palo_verticale");
-        var body = new StackPanel();
-        body.Children.Add(new FieldForm { DataContext = concrete });
-        body.Children.Add(new FieldForm { DataContext = pile, Margin = new Thickness(0, 16, 0, 0) });
-        var dialog = Ui.Dialog(owner, "Componenti · campi del form (FieldForm)", new ScrollViewer { Content = body, Padding = new Thickness(12) }, 640, 900);
-        await audit.Trigger("FieldForm", dialog.Show, 8);
+        return (concrete, pile);
     }
 }

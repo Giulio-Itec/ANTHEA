@@ -1,0 +1,419 @@
+{
+  "nota": "Colori dei token di tema nei tre aspetti (F5.3): Chiara (Light), Scuro (Dark), Molto scuro (VeryDark). Trasformazione della tavolozza di X.Desktop/Wpf/Appearance.cs al commit di F5.3; si aggiorna solo con una modifica motivata della tavolozza o del catalogo.",
+  "token": {
+    "Surface": {
+      "ruolo": "background",
+      "Light": "#F3F5F8",
+      "Dark": "#1D3047",
+      "VeryDark": "#090A0C"
+    },
+    "Paper": {
+      "ruolo": "background",
+      "Light": "#FFFFFF",
+      "Dark": "#142337",
+      "VeryDark": "#141518"
+    },
+    "PaperAlt": {
+      "ruolo": "background",
+      "Light": "#F8FAFC",
+      "Dark": "#1D3047",
+      "VeryDark": "#090A0C"
+    },
+    "Field.Background": {
+      "ruolo": "background",
+      "Light": "#F8FAFC",
+      "Dark": "#1D3047",
+      "VeryDark": "#090A0C"
+    },
+    "Header": {
+      "ruolo": "background",
+      "Light": "#E8EFF7",
+      "Dark": "#1D3047",
+      "VeryDark": "#090A0C"
+    },
+    "Ink": {
+      "ruolo": "foreground",
+      "Light": "#0B2A4A",
+      "Dark": "#E5EDF7",
+      "VeryDark": "#E8E9EB"
+    },
+    "InkSecondary": {
+      "ruolo": "foreground",
+      "Light": "#234767",
+      "Dark": "#E5EDF7",
+      "VeryDark": "#E8E9EB"
+    },
+    "Muted": {
+      "ruolo": "foreground",
+      "Light": "#64748B",
+      "Dark": "#B9C9DD",
+      "VeryDark": "#BFC2C7"
+    },
+    "Accent": {
+      "ruolo": "foreground",
+      "Light": "#0B5CAD",
+      "Dark": "#B9C9DD",
+      "VeryDark": "#BFC2C7"
+    },
+    "Disabled": {
+      "ruolo": "disabled",
+      "Light": "#808080",
+      "Dark": "#8291A5",
+      "VeryDark": "#8A8D92"
+    },
+    "Border": {
+      "ruolo": "border",
+      "Light": "#DCE2E9",
+      "Dark": "#596B7E",
+      "VeryDark": "#454C55"
+    },
+    "Border.Strong": {
+      "ruolo": "border",
+      "Light": "#CAD7E5",
+      "Dark": "#596B7E",
+      "VeryDark": "#454C55"
+    },
+    "Border.Default": {
+      "ruolo": "border",
+      "Light": "#D3D3D3",
+      "Dark": "#596B7E",
+      "VeryDark": "#454C55"
+    },
+    "Divider": {
+      "ruolo": "border",
+      "Light": "#E4EAF1",
+      "Dark": "#596B7E",
+      "VeryDark": "#454C55"
+    },
+    "TreeGuide": {
+      "ruolo": "border",
+      "Light": "#DCE5EE",
+      "Dark": "#596B7E",
+      "VeryDark": "#454C55"
+    },
+    "Focus": {
+      "ruolo": "border",
+      "Light": "#3986CB",
+      "Dark": "#3986CB",
+      "VeryDark": "#3986CB"
+    },
+    "Selection.Border": {
+      "ruolo": "border",
+      "Light": "#2582D2",
+      "Dark": "#2582D2",
+      "VeryDark": "#2582D2"
+    },
+    "CommandBar": {
+      "ruolo": "background",
+      "Light": "#0B2A4A",
+      "Dark": "#0B2A4A",
+      "VeryDark": "#17191C"
+    },
+    "CommandBar.Hover": {
+      "ruolo": "background",
+      "Light": "#244665",
+      "Dark": "#244665",
+      "VeryDark": "#17191C"
+    },
+    "OnCommandBar": {
+      "ruolo": "foreground",
+      "Light": "#FFFFFF",
+      "Dark": "#FFFFFF",
+      "VeryDark": "#FFFFFF"
+    },
+    "OnCommandBar.Muted": {
+      "ruolo": "foreground",
+      "Light": "#B9C8D8",
+      "Dark": "#B9C9DD",
+      "VeryDark": "#BFC2C7"
+    },
+    "Hover": {
+      "ruolo": "background",
+      "Light": "#E3EFFA",
+      "Dark": "#253B4A",
+      "VeryDark": "#25323C"
+    },
+    "Hover.Row": {
+      "ruolo": "background",
+      "Light": "#F0F6FC",
+      "Dark": "#1D3047",
+      "VeryDark": "#090A0C"
+    },
+    "Selected": {
+      "ruolo": "selected",
+      "Light": "#0B2A4A",
+      "Dark": "#24507E",
+      "VeryDark": "#2F4C6E"
+    },
+    "Selection": {
+      "ruolo": "selection",
+      "Light": "#E2EFFC",
+      "Dark": "#26425E",
+      "VeryDark": "#2E3D52"
+    },
+    "Calculated": {
+      "ruolo": "calculated",
+      "Light": "#EAF2FA",
+      "Dark": "#2B4252",
+      "VeryDark": "#26323C"
+    },
+    "Note.Background": {
+      "ruolo": "background",
+      "Light": "#FFF6DD",
+      "Dark": "#423A1E",
+      "VeryDark": "#353021"
+    },
+    "Note.Foreground": {
+      "ruolo": "foreground",
+      "Light": "#865D16",
+      "Dark": "#C8B595",
+      "VeryDark": "#C8B595"
+    },
+    "Note.Border": {
+      "ruolo": "border",
+      "Light": "#EEDCAF",
+      "Dark": "#596B7E",
+      "VeryDark": "#454C55"
+    },
+    "Warning.Background": {
+      "ruolo": "background",
+      "Light": "#FFFAEB",
+      "Dark": "#1D3047",
+      "VeryDark": "#090A0C"
+    },
+    "Warning.Foreground": {
+      "ruolo": "foreground",
+      "Light": "#9A4D0A",
+      "Dark": "#D1AE90",
+      "VeryDark": "#D1AE90"
+    },
+    "Status.Ok": {
+      "ruolo": "foreground",
+      "Light": "#006400",
+      "Dark": "#8CB98C",
+      "VeryDark": "#8CB98C"
+    },
+    "Status.Fail": {
+      "ruolo": "foreground",
+      "Light": "#B22222",
+      "Dark": "#DC9B9B",
+      "VeryDark": "#DC9B9B"
+    },
+    "Status.Warn": {
+      "ruolo": "foreground",
+      "Light": "#FF8C00",
+      "Dark": "#FECB8C",
+      "VeryDark": "#FECB8C"
+    },
+    "Badge.Ok": {
+      "ruolo": "background",
+      "Light": "#EAF5ED",
+      "Dark": "#1D3047",
+      "VeryDark": "#090A0C"
+    },
+    "Badge.Warn": {
+      "ruolo": "background",
+      "Light": "#FFF0D8",
+      "Dark": "#44381D",
+      "VeryDark": "#372F21"
+    },
+    "Series.Blue": {
+      "ruolo": "series",
+      "Light": "#0B5CAD",
+      "Dark": "#90B5D9",
+      "VeryDark": "#90B5D9"
+    },
+    "Series.Steel": {
+      "ruolo": "series",
+      "Light": "#4682B4",
+      "Dark": "#ABC6DD",
+      "VeryDark": "#ABC6DD"
+    },
+    "Series.Orange": {
+      "ruolo": "series",
+      "Light": "#FF8C00",
+      "Dark": "#FECB8C",
+      "VeryDark": "#FECB8C"
+    },
+    "Series.Red": {
+      "ruolo": "series",
+      "Light": "#BF5545",
+      "Dark": "#E1B2AB",
+      "VeryDark": "#E1B2AB"
+    },
+    "Series.Green": {
+      "ruolo": "series",
+      "Light": "#218463",
+      "Dark": "#9AC7B8",
+      "VeryDark": "#9AC7B8"
+    },
+    "Series.Amber": {
+      "ruolo": "series",
+      "Light": "#B45309",
+      "Dark": "#DDB190",
+      "VeryDark": "#DDB190"
+    },
+    "Series.Magenta": {
+      "ruolo": "series",
+      "Light": "#C02672",
+      "Dark": "#E29DBF",
+      "VeryDark": "#E29DBF"
+    },
+    "Drawing.Paper": {
+      "ruolo": "swatch",
+      "Light": "#FFFFFF",
+      "Dark": "#FFFFFF",
+      "VeryDark": "#FFFFFF"
+    },
+    "Drawing.Canvas": {
+      "ruolo": "swatch",
+      "Light": "#F8FAFD",
+      "Dark": "#F8FAFD",
+      "VeryDark": "#F8FAFD"
+    },
+    "Drawing.Ink": {
+      "ruolo": "swatch",
+      "Light": "#0B2A4A",
+      "Dark": "#0B2A4A",
+      "VeryDark": "#0B2A4A"
+    },
+    "Drawing.Muted": {
+      "ruolo": "swatch",
+      "Light": "#64748B",
+      "Dark": "#64748B",
+      "VeryDark": "#64748B"
+    },
+    "Drawing.Accent": {
+      "ruolo": "swatch",
+      "Light": "#0B5CAD",
+      "Dark": "#0B5CAD",
+      "VeryDark": "#0B5CAD"
+    },
+    "Drawing.Axis": {
+      "ruolo": "swatch",
+      "Light": "#94A3B8",
+      "Dark": "#94A3B8",
+      "VeryDark": "#94A3B8"
+    },
+    "Drawing.Grid": {
+      "ruolo": "swatch",
+      "Light": "#E8EDF3",
+      "Dark": "#E8EDF3",
+      "VeryDark": "#E8EDF3"
+    },
+    "Drawing.Guide": {
+      "ruolo": "swatch",
+      "Light": "#CBD5E1",
+      "Dark": "#CBD5E1",
+      "VeryDark": "#CBD5E1"
+    },
+    "Swatch.Soil1": {
+      "ruolo": "swatch",
+      "Light": "#F4C95D",
+      "Dark": "#F4C95D",
+      "VeryDark": "#F4C95D"
+    },
+    "Swatch.Soil2": {
+      "ruolo": "swatch",
+      "Light": "#DFA06E",
+      "Dark": "#DFA06E",
+      "VeryDark": "#DFA06E"
+    },
+    "Swatch.Soil3": {
+      "ruolo": "swatch",
+      "Light": "#A8C686",
+      "Dark": "#A8C686",
+      "VeryDark": "#A8C686"
+    },
+    "Swatch.Soil4": {
+      "ruolo": "swatch",
+      "Light": "#8FB8DE",
+      "Dark": "#8FB8DE",
+      "VeryDark": "#8FB8DE"
+    },
+    "Swatch.Soil5": {
+      "ruolo": "swatch",
+      "Light": "#C6A0D5",
+      "Dark": "#C6A0D5",
+      "VeryDark": "#C6A0D5"
+    },
+    "Swatch.Soil6": {
+      "ruolo": "swatch",
+      "Light": "#C9B79C",
+      "Dark": "#C9B79C",
+      "VeryDark": "#C9B79C"
+    },
+    "Swatch.Wall1": {
+      "ruolo": "swatch",
+      "Light": "#DBCDAE",
+      "Dark": "#DBCDAE",
+      "VeryDark": "#DBCDAE"
+    },
+    "Swatch.Wall2": {
+      "ruolo": "swatch",
+      "Light": "#B9D6C6",
+      "Dark": "#B9D6C6",
+      "VeryDark": "#B9D6C6"
+    },
+    "Swatch.Wall3": {
+      "ruolo": "swatch",
+      "Light": "#D2C2DC",
+      "Dark": "#D2C2DC",
+      "VeryDark": "#D2C2DC"
+    },
+    "Swatch.Wall4": {
+      "ruolo": "swatch",
+      "Light": "#D9C3A7",
+      "Dark": "#D9C3A7",
+      "VeryDark": "#D9C3A7"
+    },
+    "Swatch.Wall5": {
+      "ruolo": "swatch",
+      "Light": "#B9CFDC",
+      "Dark": "#B9CFDC",
+      "VeryDark": "#B9CFDC"
+    },
+    "Swatch.Wall6": {
+      "ruolo": "swatch",
+      "Light": "#DAD6A8",
+      "Dark": "#DAD6A8",
+      "VeryDark": "#DAD6A8"
+    },
+    "Utilization.None": {
+      "ruolo": "swatch",
+      "Light": "#9AA4AF",
+      "Dark": "#9AA4AF",
+      "VeryDark": "#9AA4AF"
+    },
+    "Utilization.Low": {
+      "ruolo": "swatch",
+      "Light": "#397BCC",
+      "Dark": "#397BCC",
+      "VeryDark": "#397BCC"
+    },
+    "Utilization.Fair": {
+      "ruolo": "swatch",
+      "Light": "#39A879",
+      "Dark": "#39A879",
+      "VeryDark": "#39A879"
+    },
+    "Utilization.High": {
+      "ruolo": "swatch",
+      "Light": "#E4C441",
+      "Dark": "#E4C441",
+      "VeryDark": "#E4C441"
+    },
+    "Utilization.Critical": {
+      "ruolo": "swatch",
+      "Light": "#EF8C32",
+      "Dark": "#EF8C32",
+      "VeryDark": "#EF8C32"
+    },
+    "Utilization.Exceeded": {
+      "ruolo": "swatch",
+      "Light": "#CB3939",
+      "Dark": "#CB3939",
+      "VeryDark": "#CB3939"
+    }
+  }
+}
