@@ -81,6 +81,4 @@ public static partial class RetainingWall
             if (InterfaceDelta(d, wall) > limit) throw new ArgumentException("L’attrito di interfaccia non può superare φ′ del terreno.");
         }
     }
-    /// <summary>A band of the soil in front of the wall (m above the base, kN/m³, degrees, σ′v in kPa), from the library.</summary>
-    public sealed record ValleyBand(double Top, double Bottom, double Gamma, double Effective, double Phi, double SigmaTop, double SigmaBottom);
 }

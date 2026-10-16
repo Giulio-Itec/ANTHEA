@@ -18,8 +18,8 @@ public sealed record AnchorageResult(double Fbd, double BasicLength, double Requ
     public bool LengthPassed { get; init; }
     public bool LapClearDistancePassed { get; init; }
 }
-public interface IConcreteAnchorageCalculator { AnchorageResult Calculate(AnchorageInput input); }
-public sealed class ConcreteAnchorageCalculator : IConcreteAnchorageCalculator
+// L'interfaccia IConcreteAnchorageCalculator, senza utilizzatori, è in tests/ANTHEA.Legacy dalla decisione E5 del 15/10/2026 (F2.11c).
+public sealed class ConcreteAnchorageCalculator
 {
     /// <summary>Rifiuto delle barre lisce: la verifica resta da completare, mai soddisfatta.</summary>
     public const string PlainBarsMessage = "Ancoraggi: regole implementate per barre ad aderenza migliorata; con barre lisce la verifica resta da completare.";

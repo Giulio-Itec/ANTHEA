@@ -33,7 +33,7 @@ public static class LegacyConcreteCodeChecks
                 double h=(lo+hi)/2,area=0,moment=0;
                 void Accumulate(IReadOnlyList<double[]> points,double sign)
                 {
-                    var clip=SectionRegions.Clip(points,qx,qy,top-h);if(clip.Length<3)return;
+                    var clip=LegacySectionRegions.Clip(points,qx,qy,top-h);if(clip.Length<3)return;
                     var poly=SectionGeometry.Polygon(clip);double a=Math.Abs(poly.GetSignedArea());if(a<1e-12)return;
                     var c=poly.GetCentroid();area+=sign*a;moment+=sign*a*(qx*c.X+qy*c.Y);
                 }

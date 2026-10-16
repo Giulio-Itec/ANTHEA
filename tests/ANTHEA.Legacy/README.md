@@ -28,15 +28,17 @@ Codice di `X.Calculations` che il prodotto non usa più, conservato per le prove
 | --- | --- | --- |
 | `Serviceability/` | `LegacyNtc2018Checks` (con le parti `TensionCracking` e `InnerCracking`), `LegacyConcreteCodeChecks`, `LegacyServiceability`; enum `ServiceabilityEngine` | `ServiceabilityEngines.Use`, `ForModule`, firme di prima con il motore come ultimo argomento |
 | `ShearTorsion/` | `ConcreteTorsionCalculator`; enum `ShearTorsionEngine` | `ShearTorsionEngines.Use` e firme di prima |
-| `Durability/` | `DurabilityLegacy`, `LegacyDurability`, `LegacyNtcCover`; enum `DurabilityEngine` | `LegacyDurabilityEngine.Use` |
-| `Walls/` | `LegacyRetainingWall` (verifiche strutturali, dettagli, distinta, gravità, ricerca delle armature precedente), `RetainingWallFunctions` | `LegacyRetainingWall.Use`, `Calculate` e `DesignReinforcement` con la semantica di prima |
-| `Section/` | `SezioneElastica`, `LegacySezioneCA` (motore storico di `SezioneCA`) | chiamate dirette |
-| `SectionDesign/` | `LegacyConcreteReinforcementDesign` (ricerca precedente e rami mai raggiungibili) | chiamate dirette |
+| `Durability/` | `DurabilityLegacy`, `LegacyDurability` (con `ValidateExposure`, E5), `LegacyNtcCover`; enum `DurabilityEngine` | `LegacyDurabilityEngine.Use` |
+| `Walls/` | `LegacyRetainingWall` (verifiche strutturali, dettagli, distinta, gravità, ricerca delle armature precedente), `RetainingWallFunctions` (con i record `SoilMass` e `ValleyBand`, E5) | `LegacyRetainingWall.Use`, `Calculate` e `DesignReinforcement` con la semantica di prima |
+| `Section/` | `SezioneElastica`, `LegacySezioneCA` (motore storico di `SezioneCA`); interfaccia `IMomentCurvatureCalculator` senza utilizzatori (E5) | chiamate dirette |
+| `SectionDesign/` | `LegacyConcreteReinforcementDesign` (ricerca precedente e rami mai raggiungibili; `NativeSearchIndices`, E5) | chiamate dirette |
 | `Piles/` | `LegacyElasticHorizontalPile`, `LegacyPaloOrizzontale`, `LegacyElasticPileVerificationCache` | chiamate dirette |
-| `Detailing/` | `LegacyCircularDetailingCalculator`, `LegacyCircularSpacing` (codice senza chiamanti) | — |
+| `Detailing/` | `LegacyCircularDetailingCalculator`, `LegacyCircularSpacing` (codice senza chiamanti); `TensionBarSpacing` con `ITensionBarSpacing` e l'interfaccia `IConcreteAnchorageCalculator` senza utilizzatori (E5) | — |
 | `Bridge/` | `LegacyBridgeConcept` (motore precedente, ricerca, schede tecniche), `BridgeLibraryAccess` (involucri GPC usati solo dalle prove) | chiamate dirette |
-| `Geometry/` | `LegacySectionShearGeometry`, `LegacyBridgeSection` (codice senza chiamanti) | — |
+| `Geometry/` | `LegacySectionShearGeometry`, `LegacyBridgeSection` (codice senza chiamanti); `LegacySectionRegions` (`Clip`, `Area`, `Region` di `SectionRegions`, E5) | — |
 | radice | `EngineScope`, `ServiceabilityProbe`, `DurabilityProbe`, `MappingCoverage` (viste delle tabelle della mappatura per la prova 5a) | — |
+
+E5 indica i membri usati solo dalle prove e le due interfacce senza utilizzatori spostati con la decisione E5 del 15/10/2026 (F2.11c).
 
 Altro codice di sola prova uscito dagli assembly distribuiti sta nei progetti che lo usano: la traccia dei ripieghi del JSON
 in `tests/ANTHEA.Testing/Capture/JsonFallbackTrace.cs`, il modello Excel storico delle azioni in `tests/Shared/`, il testo

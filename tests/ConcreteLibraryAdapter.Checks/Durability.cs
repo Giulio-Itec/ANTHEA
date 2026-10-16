@@ -267,7 +267,7 @@ internal static class DurabilityChecks
         {
             ("ExposureClasses.cs:84 esposizioni vuote, Cover", () => Durability.Cover([], 30, Basic), "Selezionare almeno una classe di esposizione."),
             ("ExposureClasses.cs:84 esposizioni vuote, NtcCover", () => NtcCover.Calculate([], 30, Basic, false, false, null), "Selezionare almeno una classe di esposizione."),
-            ("ExposureClasses.cs:84 esposizioni vuote, ValidateExposure", () => { Durability.ValidateExposure([]); return null; }, "Selezionare almeno una classe di esposizione."),
+            ("ExposureClasses.cs:84 esposizioni vuote, ValidateExposure", () => { LegacyDurability.ValidateExposure([]); return null; }, "Selezionare almeno una classe di esposizione."),
             ("ExposureClasses.cs:84 esposizioni vuote, MinimumConcrete.Required", () => MinimumConcrete.Required([]), "Selezionare almeno una classe di esposizione."),
             ("ExposureClasses.cs:84 esposizioni vuote, AtecapMix.Required", () => AtecapMix.Required([]), "Selezionare almeno una classe di esposizione."),
             ("ExposureClasses.cs:84 esposizioni vuote, AtecapMix.Air", () => AtecapMix.Air([], 16), "Selezionare almeno una classe di esposizione."),
@@ -400,7 +400,7 @@ internal static class DurabilityChecks
         foreach (var set in CaptureSets().Append([]))
         {
             string id = string.Join("+", set.Select(e => e.Code));
-            grid.Same("validazione " + id, () => { Durability.ValidateExposure(set); return null; });
+            grid.Same("validazione " + id, () => { LegacyDurability.ValidateExposure(set); return null; });
             grid.Same("classe minima " + id, () => MinimumConcrete.Required(set));
             grid.Same("composizione " + id, () => AtecapMix.Required(set));
             foreach (double dmax in AirAggregates) grid.Same($"aria {id} Dmax {dmax}", () => AtecapMix.Air(set, dmax));
@@ -476,7 +476,7 @@ internal static class DurabilityChecks
         var p = Basic;
         Exposure[] xc1 = Set("XC1"), xc3 = Set("XC3"), xc4 = Set("XC4"), xf4 = Set("XF4"), xc4xd1 = Set("XC4", "XD1"), xc4xf2 = Set("XC4", "XF2");
         OnPath("facciata Durability.Exposures", () => Durability.Exposures.Length);
-        OnPath("facciata Durability.ValidateExposure", () => { Durability.ValidateExposure(xc1); return null; });
+        OnPath("facciata LegacyDurability.ValidateExposure", () => { LegacyDurability.ValidateExposure(xc1); return null; });
         OnPath("facciata Durability.StructuralClass", () => Durability.StructuralClass(xc4[0], 40, p with { StrengthReduction = true }));
         OnPath("facciata Durability.Cover", () => Durability.Cover(xc4xd1, 40, p));
         OnPath("facciata NtcCover.Severity", () => NtcCover.Severity("XD3"));

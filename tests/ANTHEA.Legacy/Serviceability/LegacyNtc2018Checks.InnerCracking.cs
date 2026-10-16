@@ -47,11 +47,11 @@ public static partial class LegacyNtc2018Checks
         double gx = gradient > 0 ? plane.ChiX/gradient : 0, gy = gradient > 0 ? plane.ChiY/gradient : 0;
         double sectionAlongGradient = s.Outline.Max(p => gx*p[0]+gy*p[1]) - s.Outline.Min(p => gx*p[0]+gy*p[1]);
         bool uniform = gradient < 1e-15 || gradient*sectionAlongGradient <= UniformTensionTolerance*s.Outline.Max(E);
-        double[][] Tension(double[][] polygon) => uniform ? polygon : SectionRegions.Clip(polygon, gx, gy, -plane.GetStrain(0,0)/gradient);
+        double[][] Tension(double[][] polygon) => uniform ? polygon : LegacySectionRegions.Clip(polygon, gx, gy, -plane.GetStrain(0,0)/gradient);
         void Check(string name, double[][] outline, double[][][] holes, int[] indices, Func<Barra,double> cover, double effectiveDepth, double uniformDepth)
         {
             var p = Tension(outline); var h = holes.Select(Tension).Where(v => v.Length >= 3).ToArray();
-            double area = SectionRegions.Area(p) - h.Sum(SectionRegions.Area), steel = indices.Sum(i => s.Bars[i].Area);
+            double area = LegacySectionRegions.Area(p) - h.Sum(LegacySectionRegions.Area), steel = indices.Sum(i => s.Bars[i].Area);
             if (area <= 1e-8) return;
             var region = new ConcreteEffectiveRegion(name, 0, 0, 0, area, indices, steel, null, p, h);
             regions.Add(region);
@@ -114,8 +114,8 @@ public static partial class LegacyNtc2018Checks
                     && -qy*s.Bars[i].X+qx*s.Bars[i].Y<=tangentMax+1e-8).ToArray();
                 double nearest=candidates.Select(i=>Q(s.Bars[i].X,s.Bars[i].Y)-inner).DefaultIfEmpty(wall).Min();
                 double hc=Math.Min((code.StartsWith("DS")?2:2.5)*nearest,wall/2);
-                double[][] Band(IReadOnlyList<double[]> p)=>SectionRegions.Clip(SectionRegions.Clip(
-                    SectionRegions.Clip(SectionRegions.Clip(p,qx,qy,inner),-qx,-qy,-inner-hc),
+                double[][] Band(IReadOnlyList<double[]> p)=>LegacySectionRegions.Clip(LegacySectionRegions.Clip(
+                    LegacySectionRegions.Clip(LegacySectionRegions.Clip(p,qx,qy,inner),-qx,-qy,-inner-hc),
                     -qy,qx,tangentMin),qy,-qx,-tangentMax);
                 var indices=candidates.Where(i=>Q(s.Bars[i].X,s.Bars[i].Y)<=inner+hc+1e-8).ToArray();
                 Check(name,Band(s.Outline),s.Holes.Select(Band).Where(h=>h.Length>=3).ToArray(),indices,b=>Q(b.X,b.Y)-inner-b.Diametro/2,hc,edge-s.Outline.Min(p=>Q(p[0],p[1])));
