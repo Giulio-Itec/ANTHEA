@@ -76,6 +76,11 @@ public sealed class FieldViewModel : ObservableObject
     public FieldLayout Layout { get; }
     /// <summary>Calculated or linked value: typing never writes it (the form can still set it).</summary>
     public bool IsReadOnly => Spec.ReadOnly;
+    /// <summary>The text box refuses the typing: a calculated field (<see cref="IsReadOnly"/>) or a read-only form
+    /// (<see cref="FormViewModel.IsReadOnly"/>, a previous revision). Only the first one changes the background.</summary>
+    public bool IsInputReadOnly => IsReadOnly || Form.IsReadOnly;
+    /// <summary>The choice or the check box accepts the user: false in a read-only form, where the view disables them.</summary>
+    public bool CanChange => !Form.IsReadOnly;
     /// <summary>Items of the choice: the declared values plus the current one, without blanks and repetitions. Empty for the other kinds.</summary>
     public IReadOnlyList<string> Choices { get; } = [];
 
@@ -93,6 +98,8 @@ public sealed class FieldViewModel : ObservableObject
             // then the write (or the draft), then the presentation again (formatted when the editor has no focus).
             value ??= "";
             if (value == EditText) return;
+            // A read-only form refuses the typing: the editor shows the text of the field again.
+            if (Form.IsReadOnly) { OnPropertyChanged(); return; }
             SetRaw(value);
             OnEdited();
             RefreshText();
@@ -131,7 +138,7 @@ public sealed class FieldViewModel : ObservableObject
         set
         {
             if (Kind != FieldKind.Choice || selectedChoice == value) return;
-            if (value is not null && !Choices.Contains(value)) { OnPropertyChanged(); return; }
+            if (value is not null && !Choices.Contains(value) || Form.IsReadOnly) { OnPropertyChanged(); return; }
             selectedChoice = value;
             OnPropertyChanged();
             Form.Store(this, value ?? "");
@@ -144,6 +151,7 @@ public sealed class FieldViewModel : ObservableObject
         set
         {
             if (Kind != FieldKind.Bool || isChecked == value) return;
+            if (Form.IsReadOnly) { OnPropertyChanged(); return; }
             isChecked = value;
             OnPropertyChanged();
             Form.Store(this, value);
@@ -191,6 +199,22 @@ public sealed class FieldViewModel : ObservableObject
         }
     }
     public string LabelToolTip => HelpToolTip ?? CalculationHelp.Field(Key) ?? Label;
+
+    /// <summary>
+    /// The «?» label: opens the topic of the field with <see cref="FormViewModel.WikiNavigator"/>. False when the field has no
+    /// topic or the form has no navigator (the view of a historic host then opens the Wiki itself).
+    /// </summary>
+    public bool OpenHelp() => Open(HelpTopic?.Uri);
+
+    /// <summary>F1 in the editor: opens <see cref="HelpUri"/> (the topic, otherwise the guide of the module) with the navigator of the form; false as <see cref="OpenHelp"/>.</summary>
+    public bool OpenContextHelp() => Open(HelpUri);
+
+    private bool Open(string? uri)
+    {
+        if (uri is null || Form.WikiNavigator is not { } wiki) return false;
+        wiki.Show(uri);
+        return true;
+    }
     /// <summary>Tooltip of the editor; as in InputForm it looks up the topic only in the module given to the form.</summary>
     public string EditorToolTip => FixedHelp?.Title ?? HelpTopics.Description(Key, Form.WikiModule) ?? CalculationHelp.Field(Key) ?? Label + (Unit != "" ? " [" + Unit + "]" : "");
 
@@ -225,6 +249,12 @@ public sealed class FieldViewModel : ObservableObject
         OnPropertyChanged(nameof(EditText));
         OnPropertyChanged(nameof(Display));
         OnPropertyChanged(nameof(FormatsNumbers));
+    }
+
+    internal void RefreshEditable()
+    {
+        OnPropertyChanged(nameof(IsInputReadOnly));
+        OnPropertyChanged(nameof(CanChange));
     }
 
     internal void RefreshHelp()

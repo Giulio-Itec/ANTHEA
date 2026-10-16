@@ -7,8 +7,9 @@ namespace X.Desktop.Views.Common;
 /// <summary>
 /// View of a <see cref="FormViewModel"/> (proposal F5, section 3.2): the layout of the historic InputForm in XAML. The code
 /// behind only reports what WPF knows and the ViewModel does not: the keyboard focus of the editors, the inherited presentation
-/// of the numbers and module of the Wiki, F1, the «?» label (opening the Wiki stays WPF, WikiContextHelp.Open) and the
-/// forwarding of the mouse wheel of a closed choice to the scrolling form. No calculation and no direct write of the document.
+/// of the numbers and module of the Wiki, F1, the «?» label (through the IWikiNavigator of the form when the sheet gives one,
+/// FormViewModel.WikiNavigator; otherwise the Wiki of the window, WikiContextHelp.Open, as InputForm) and the forwarding of the
+/// mouse wheel of a closed choice to the scrolling form. No calculation and no direct write of the document.
 /// </summary>
 public partial class FieldForm : UserControl
 {
@@ -37,11 +38,12 @@ public partial class FieldForm : UserControl
         if (sender is FrameworkElement { DataContext: FieldViewModel field }) field.IsFocused = (bool)e.NewValue;
     }
 
+    /// <summary>F1: the topic of the field, otherwise the guide of the module; through the navigator of the form (MVVM sheets), or the window of a historic host.</summary>
     private void Editor_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key != Key.F1 || sender is not FrameworkElement { DataContext: FieldViewModel field } editor || field.HelpUri is not { } uri) return;
         e.Handled = true;
-        WikiContextHelp.Open(editor, uri);
+        if (!field.OpenContextHelp()) WikiContextHelp.Open(editor, uri);
     }
 
     private void Choice_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -51,9 +53,10 @@ public partial class FieldForm : UserControl
         e.Handled = true;
     }
 
+    /// <summary>The «?» label: the topic of the field, through the navigator of the form (MVVM sheets) or the window of a historic host.</summary>
     private void Help_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is FrameworkElement { DataContext: FieldViewModel { HelpTopic: { } topic } } button) WikiContextHelp.Open(button, topic.Uri);
+        if (sender is FrameworkElement { DataContext: FieldViewModel { HelpTopic: { } topic } field } button && !field.OpenHelp()) WikiContextHelp.Open(button, topic.Uri);
     }
 
     /// <summary>The «?» label stays usable while a revision is inspected, as in InputForm.</summary>

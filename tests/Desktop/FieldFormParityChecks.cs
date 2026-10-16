@@ -19,7 +19,8 @@ namespace X.Desktop;
 /// <summary>
 /// --check-field-form-parity &lt;cartella&gt; (F5.2, proposal F5 sections 3.2 and 7.3): the same edit sequences through the
 /// historic <see cref="InputForm"/> and through <see cref="FieldForm"/> + <see cref="FormViewModel"/>, on field lists taken
-/// from real modules (numbers, choices, booleans, read-only fields, symbols, notes, groups, default choices). After every
+/// from real modules (numbers, choices, booleans, read-only fields, symbols, notes, groups, default choices; a read-only revision,
+/// RevisionInspection on InputForm and FormViewModel.IsReadOnly on FieldForm, D4 of F5.4). After every
 /// step the two sides must give the same bytes of the <see cref="JsonObject"/>, the same callbacks, the same Get and the same
 /// layout properties: order and bounds of the elements, labels, units, symbols, editors, enabled and visible state, notes and
 /// help. No pixel comparison. Each side runs alone in a window placed outside the screen (never activated on purpose), so
@@ -96,6 +97,8 @@ internal static class FieldFormParityChecks
         internal abstract void Show(string key, bool show);
         internal abstract void Commit();
         internal abstract void UpdateNote(string key);
+        /// <summary>A previous revision of a project: RevisionInspection on InputForm, FormViewModel.IsReadOnly on FieldForm (D4 of F5.4).</summary>
+        internal abstract void ReadOnly();
 
         internal async Task Open()
         {
@@ -246,6 +249,7 @@ internal static class FieldFormParityChecks
         internal override void Show(string key, bool show) => form.ShowField(key, show);
         internal override void Commit() => form.Commit();
         internal override void UpdateNote(string key) => form.UpdateNote(key);
+        internal override void ReadOnly() => RevisionInspection.Protect(form);
     }
 
     /// <summary>The new form: FormViewModel shown by FieldForm, read through the named parts of its row template.</summary>
@@ -286,6 +290,7 @@ internal static class FieldFormParityChecks
         internal override void Show(string key, bool show) => model.ShowField(key, show);
         internal override void Commit() => model.Commit();
         internal override void UpdateNote(string key) => model.UpdateNote(key);
+        internal override void ReadOnly() => model.IsReadOnly = true;
     }
 
     // ---------------------------------------------------------------- scenarios from real modules
@@ -302,6 +307,7 @@ internal static class FieldFormParityChecks
     static Step UpdateNote(string key) => new($"UpdateNote {key}", s => s.UpdateNote(key));
     static Step Expand(string title, bool expanded) => new($"gruppo «{title}» aperto={expanded}", s => s.Expand(title, expanded));
     static Step External(string description, Action<JsonObject> change) => new("fuori dal form: " + description, s => s.External(change));
+    static Step ReadOnly() => new("sola lettura (revisione precedente)", s => s.ReadOnly());
 
     static IEnumerable<Scenario> Scenarios()
     {
@@ -317,7 +323,7 @@ internal static class FieldFormParityChecks
             Type("diametro", "1,2"), Choose("tipo_palo", "Battuto"), Enable("sottotipo_palo_battuto", true, true), Check("presenza_falda", true), Type("profondita_falda", "3.50"),
             Enable("profondita_falda", true, true), Set("lunghezza", "18"), Set("azione_compressione", "1500", true), Show("metodo_nq", false), Type("azione_trazione", ""),
             Choose("sottotipo_palo_battuto", PileInputCatalog.DrivenPileTypes[^1]), Check("presenza_falda", false), Enable("profondita_falda", false, true),
-            Enable("considera_sottospinta", false), Show("metodo_nq", true), Set("tipo_palo", "Non previsto"),
+            Enable("considera_sottospinta", false), Show("metodo_nq", true), Set("tipo_palo", "Non previsto"), ReadOnly(),
         ]);
 
         // Vertical pile, coefficients of the standard (GeoEditor): compact symbol columns, read-only correlation factors.
@@ -404,7 +410,7 @@ internal static class FieldFormParityChecks
         [
             Choose("cls_diagramma", "Stress block"), Type("fck", "32,5"), Set("classe_cls", "Personalizzato", true), Type("fyk", "500"),
             External("εu diverso dal catalogo", v => v["steel_eps_u"] = "30"), UpdateNote("classe_acciaio"), Choose("cls_diagramma", MaterialInputCatalog.ConcreteDiagrams[0]),
-            Set("__fcd", "18.13"), Type("cover", ""), Choose("steel_diagramma", "Incrudente"), Enable("materiale_cls_nome", false, true), Show("creep", false),
+            Set("__fcd", "18.13"), Type("cover", ""), Choose("steel_diagramma", "Incrudente"), Enable("materiale_cls_nome", false, true), Show("creep", false), ReadOnly(),
         ]);
 
         // Retaining wall, seismic action (RetainingWallWorkspace.Seismic): compact, wide choices, a boolean on the whole row.
@@ -433,7 +439,7 @@ internal static class FieldFormParityChecks
         yield return new("palo-orizzontale-ej", "X.Desktop/Wpf/HorizontalWorkspace.cs ejForm", () => new JsonObject { ["ej_override"] = false, ["ej_assegnato"] = "", ["ej_motivo"] = "" }, ej,
             new(Compact: true, HostModule: "geo_palo_orizzontale"), [],
         [
-            Check("ej_override", true), Type("ej_assegnato", "123456.789"), Type("ej_motivo", "Sezione fessurata"), Enable("ej_assegnato", false, true), Enable("ej_assegnato", true, true),
+            Check("ej_override", true), Type("ej_assegnato", "123456.789"), Type("ej_motivo", "Sezione fessurata"), Enable("ej_assegnato", false, true), Enable("ej_assegnato", true, true), ReadOnly(),
         ]);
 
         // New concrete material (ConcreteMaterialEditor): wide name, wide choices, the stress block notice, not compact.

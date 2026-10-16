@@ -5,7 +5,9 @@
   error. Groups follow the table as expanders. Colours and font sizes are theme tokens (F5.3): {DynamicResource Token.<nome>}
   (X.Desktop/Themes/ThemeTokens.cs, the same palette brushes as InputForm) and {DynamicResource Font.<nome>} (Themes/Typography.xaml),
   never literal colours (rule P7). Typing, focus, F1 and the «?» label are wired in FieldForm.xaml.cs; every write into the
-  document goes through the ViewModel.
+  document goes through the ViewModel. A read-only form (FormViewModel.IsReadOnly, a previous revision) makes the text boxes
+  read-only and disables choices and check boxes, as RevisionInspection does on InputForm; the background of a text box changes
+  only for a calculated field.
 -->
 <UserControl x:Class="X.Desktop.Views.Common.FieldForm"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -20,7 +22,7 @@
   <!-- Editors: the text box, the choice and the check box of InputForm. Margin and minimum height are also on the host
        of the editor in the row, so that the editor gets the same rounded layout slot as in InputForm. -->
   <DataTemplate x:Key="TextEditor" DataType="{x:Type forms:FieldViewModel}">
-   <TextBox x:Name="Box" Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly, Mode=OneWay}" TextAlignment="Right"
+   <TextBox x:Name="Box" Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsInputReadOnly, Mode=OneWay}" TextAlignment="Right"
     Background="{DynamicResource Token.Field.Background}" MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}"
     ToolTip="{Binding EditorToolTip}" ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}"
     IsKeyboardFocusWithinChanged="Editor_FocusChanged" KeyDown="Editor_KeyDown"/>
@@ -30,13 +32,13 @@
    </DataTemplate.Triggers>
   </DataTemplate>
   <DataTemplate x:Key="ChoiceEditor" DataType="{x:Type forms:FieldViewModel}">
-   <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}"
+   <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}" IsEnabled="{Binding CanChange, Mode=OneWay}"
     MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}"
     ToolTip="{Binding EditorToolTip}" ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}"
     KeyDown="Editor_KeyDown" PreviewMouseWheel="Choice_PreviewMouseWheel"/>
   </DataTemplate>
   <DataTemplate x:Key="BoolEditor" DataType="{x:Type forms:FieldViewModel}">
-   <CheckBox x:Name="Check" IsChecked="{Binding IsChecked}" VerticalContentAlignment="Center"
+   <CheckBox x:Name="Check" IsChecked="{Binding IsChecked}" IsEnabled="{Binding CanChange, Mode=OneWay}" VerticalContentAlignment="Center"
     MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}"
     ToolTip="{Binding EditorToolTip}" ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}" KeyDown="Editor_KeyDown">
     <DockPanel>

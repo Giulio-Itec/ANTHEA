@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
+using Anthea.Presentation.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Anthea.Presentation.Forms;
@@ -36,6 +37,8 @@ public sealed class FieldGroupViewModel(string title, IReadOnlyList<FieldViewMod
 /// FieldForm/InputForm parity check of the ui stage compares the bytes of the resulting document.
 /// <para>A default choice is shown and never written until the user chooses. With <see cref="CommitOnFocusLoss"/> a text
 /// typed in a field is written when the field loses the focus or at <see cref="Commit"/>; otherwise at every change.</para>
+/// <para>With <see cref="IsReadOnly"/> (a previous revision of a project, decision D4 of F5.4) the form refuses what the user
+/// types, chooses or ticks, as RevisionInspection does on the controls of the historic views; the module can still set values.</para>
 /// </summary>
 public sealed class FormViewModel : ObservableObject, INotifyDataErrorInfo
 {
@@ -44,7 +47,7 @@ public sealed class FormViewModel : ObservableObject, INotifyDataErrorInfo
     private readonly Dictionary<string, string[]> errors = new(StringComparer.Ordinal);
     private readonly Action<string>? changed;
     private readonly IFieldValidator? validator;
-    private bool commitOnFocusLoss, formatNumbers;
+    private bool commitOnFocusLoss, formatNumbers, isReadOnly;
     private string? inheritedWikiModule;
 
     /// <param name="values">Object of the document written by the form.</param>
@@ -101,6 +104,27 @@ public sealed class FormViewModel : ObservableObject, INotifyDataErrorInfo
 
     /// <summary>Text typed in a field is written when the field loses the focus (or at <see cref="Commit"/>), not at every change.</summary>
     public bool CommitOnFocusLoss { get => commitOnFocusLoss; set => SetProperty(ref commitOnFocusLoss, value); }
+
+    /// <summary>
+    /// Read-only form (a previous revision, decision D4 of F5.4): the text boxes refuse the typing and the choices and check boxes
+    /// are disabled (<see cref="FieldViewModel.IsInputReadOnly"/>, <see cref="FieldViewModel.CanChange"/>), the «?» labels stay
+    /// usable; <see cref="Set"/> from the module still writes. The FieldForm binds it.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => isReadOnly;
+        set
+        {
+            if (!SetProperty(ref isReadOnly, value)) return;
+            foreach (var field in Fields) field.RefreshEditable();
+        }
+    }
+
+    /// <summary>
+    /// Where the «?» labels and F1 of the fields open the Wiki (<see cref="FieldViewModel.OpenHelp"/>): the navigator of the
+    /// services of the sheet. Null for the forms of the historic views, whose FieldForm opens the Wiki of its window itself.
+    /// </summary>
+    public IWikiNavigator? WikiNavigator { get; set; }
 
     /// <summary>Numbers shown with <see cref="NumericDisplay.Format"/> in the fields without focus (presentation only).</summary>
     public bool FormatNumbers
