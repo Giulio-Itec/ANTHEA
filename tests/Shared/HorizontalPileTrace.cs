@@ -95,6 +95,9 @@ internal static class HorizontalPileScenarios
     /// <summary>Folder of the traces of the historic view, frozen before the migration (proposal 7.2, capture first).</summary>
     internal static string Reference(string root) => Path.Combine(root, "tests", "fixtures", "f5-palo-orizzontale", "storica");
 
+    /// <summary>Folder of the diagrams that the historic view draws for every F3 fixture with a result (module--id.json).</summary>
+    internal static string Diagrams(string root) => Path.Combine(root, "tests", "fixtures", "f5-palo-orizzontale", "diagrammi");
+
     internal static string FixturePath(string root, string module, string id) => Path.Combine(root, "tests", "fixtures", "f3", "inputs", module + "--" + id + ".json");
 
     /// <summary>The data of an F3 fixture, as the F3 capture reads them.</summary>
@@ -373,6 +376,10 @@ internal static class HorizontalPileTrace
             + " · barre " + barList.Length.ToString(CultureInfo.InvariantCulture) + " " + Hash(barList)
             + " · staffa " + Number(linkRadius) + " " + Number(linkDiameter) + (axes ? " · assi" : "") + " · " + Quote(caption);
     }
+
+    /// <summary>The diagrams of the surveys of a result as plain data (HorizontalPileDiagrams), indented JSON with invariant numbers.</summary>
+    internal static string Diagrams(IEnumerable<HorizontalDiagram> diagrams) =>
+        JsonSerializer.Serialize(diagrams.ToArray(), new JsonSerializerOptions { WriteIndented = true, Encoder = PileGroupTrace.Json.Encoder });
 
     internal static void Write(string path, IEnumerable<string> lines) => PileGroupTrace.Write(path, lines);
 

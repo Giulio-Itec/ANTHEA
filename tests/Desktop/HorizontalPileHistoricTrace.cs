@@ -49,7 +49,7 @@ internal static class HorizontalPileHistoricTrace
             string? difference = File.Exists(stored) ? HorizontalPileTrace.FirstDifference(HorizontalPileTrace.Read(stored), trace) : "traccia di riferimento assente";
             if (difference is not null) differences.Add(scenario.Name + ": " + difference);
         }
-        var drawings = await Drawings(root, Path.Combine(output, "disegni"));
+        var drawings = await Drawings(root, Path.Combine(output, "disegni"), Path.Combine(output, "diagrammi"));
         HorizontalPileTrace.Write(Path.Combine(output, "disegni", "elenco.txt"), drawings);
         string drawingList = Path.Combine(DrawingsReference(root), "elenco.txt");
         if (check)
@@ -59,6 +59,13 @@ internal static class HorizontalPileHistoricTrace
                 differences.Add(extra + ": traccia di riferimento senza scenario");
             string? drawingDifference = File.Exists(drawingList) ? HorizontalPileTrace.FirstDifference(HorizontalPileTrace.Read(drawingList), drawings) : "elenco dei disegni di riferimento assente";
             if (drawingDifference is not null) differences.Add("disegni: " + drawingDifference);
+            string frozen = HorizontalPileScenarios.Diagrams(root), captured = Path.Combine(output, "diagrammi");
+            var diagramNames = Directory.EnumerateFiles(captured, "*.json").Select(f => Path.GetFileName(f)).Order(StringComparer.Ordinal).ToArray();
+            var storedNames = Directory.Exists(frozen) ? Directory.EnumerateFiles(frozen, "*.json").Select(f => Path.GetFileName(f)).Order(StringComparer.Ordinal).ToArray() : [];
+            if (!diagramNames.SequenceEqual(storedNames)) differences.Add("diagrammi: file diversi dal riferimento (" + string.Join(", ", diagramNames) + ")");
+            foreach (string name in diagramNames.Intersect(storedNames))
+                if (File.ReadAllText(Path.Combine(frozen, name)).Replace("\r\n", "\n") != File.ReadAllText(Path.Combine(captured, name)).Replace("\r\n", "\n"))
+                    differences.Add("diagrammi: " + name + " diverso dal riferimento");
             if (differences.Count > 0)
             {
                 File.WriteAllLines(Path.Combine(output, "differenze.txt"), differences, new UTF8Encoding(false));
@@ -147,9 +154,9 @@ internal static class HorizontalPileHistoricTrace
     /// profile with the forces, for every F3 fixture of the two modules that has a result after «Calcola». The full lists go into
     /// <paramref name="output"/>; the returned lines (one per drawing: primitives and hash) are compared with disegni/elenco.txt.
     /// </summary>
-    static async Task<List<string>> Drawings(string root, string output)
+    static async Task<List<string>> Drawings(string root, string output, string diagrams)
     {
-        Directory.CreateDirectory(output);
+        Directory.CreateDirectory(output); Directory.CreateDirectory(diagrams);
         var list = new List<string>();
         foreach (string module in new[] { HorizontalPileScenarios.Pile, HorizontalPileScenarios.Micro })
             foreach (string id in HorizontalPileScenarios.Fixtures(root, module))
@@ -161,6 +168,9 @@ internal static class HorizontalPileHistoricTrace
                 var sheet = editor.HorizontalForChecks;
                 if (sheet.Result is not { } result) continue;
                 int surveys = result.Array("sondaggi").Count;
+                // The plain data that HorizontalDiagrams draws (the display lists below prove the drawing), which the ViewModel exposes.
+                File.WriteAllText(Path.Combine(diagrams, module + "--" + id + ".json"), HorizontalPileTrace.Diagrams(Enumerable.Range(0, surveys)
+                    .SelectMany(i => new[] { true, false }.Select(soil => Anthea.Application.Presentation.HorizontalPileDiagrams.Build(result, i, soil)))), new UTF8Encoding(false));
                 for (int i = 0; i < surveys; i++)
                 {
                     foreach (bool soil in new[] { true, false })

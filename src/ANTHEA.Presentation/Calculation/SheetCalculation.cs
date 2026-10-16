@@ -144,6 +144,19 @@ public sealed class SheetCalculation<TResult> : ObservableObject, IDisposable wh
         Result = null; Message = ""; Warnings = []; State = CalculationState.Idle;
     }
 
+    /// <summary>
+    /// Cancels the pending or running request without clearing the published result (F5.7: the horizontal pile when its view moves to
+    /// the tab of the elastic response, as the historic view invalidates its scheduler): the request is never published and a pending or
+    /// running state becomes <see cref="CalculationState.Cancelled"/>. Result, message and warnings stay as they are.
+    /// </summary>
+    public void Cancel()
+    {
+        if (disposed) return;
+        request++;
+        scheduler.Invalidate();
+        if (State is CalculationState.Pending or CalculationState.Running) State = CalculationState.Cancelled;
+    }
+
     /// <summary>Sheet closed: cancels the running request; a late completion is never published.</summary>
     public void Dispose()
     {

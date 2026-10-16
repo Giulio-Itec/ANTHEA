@@ -68,6 +68,13 @@ Ogni riga dà il numero dei primitivi e l'impronta dell'elenco; gli elenchi comp
 (`disegni/*.txt`). Servono a provare che lo spostamento dei dati dei diagrammi in Application lascia il disegno identico. I testi
 dipendono dai font installati: gli elenchi valgono sulla macchina del banco, come le prove di contrasto.
 
+`diagrammi/<modulo>--<id>.json` (aggiunti con il ViewModel, commit di F5.7 successivo alle tracce) conserva gli stessi diagrammi come
+dati semplici (`HorizontalPileDiagrams`: pannelli, curve con i segmenti e il tratteggio, campi degli assi, strati, quote, note), quelli
+che `HorizontalDiagrams` disegna dopo lo spostamento in Application. Gli elenchi di disegno, congelati prima dello spostamento e
+invariati dopo, provano che questi dati danno il disegno storico; `Presentation.Tests` confronta con questi file i diagrammi esposti dal
+ViewModel (`HorizontalPileSheetViewModel.Diagram`). La suite `ui/check-palo-orizzontale-historic` li ricalcola dalla vista storica e
+li confronta a ogni corsa.
+
 ## Cattura e controllo
 
 - Catturate il 16/10/2026 sul codice di produzione di `d3b0750a` (vista storica invariata da `92613e60`; l'unica modifica di
