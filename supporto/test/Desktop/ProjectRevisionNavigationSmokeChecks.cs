@@ -102,11 +102,11 @@ public sealed partial class MainWindow
         var added = Sheet(RebarMaterial.Module, "Acciaio aggiunto in Rev. 2", child); MarkDirty(); ShowSheet(added); await Layout();
         await Switch(0); Check(currentSheet is null && !ReferenceEquals(projectContent.Content, moduleView), "Foglio assente nella revisione non torna alla struttura");
         await Switch(null); Check(ReferenceEquals(currentSheet, added), "Il foglio non viene ritrovato nella revisione attuale");
-        int undoCount = projectUndo.Count;
+        int undoCount = projectHistory.UndoCount;
         string oldPath = path ?? ""; path = Path.Combine(directory, "revisioni-navigabili.programma");
         await Switch(1); Check(Save(false), "Salvataggio del progetto dalla vista storica fallito");
         var saved = DocumentService.Open(path); Check(ProjectRevisions.Find(saved, added.S("id")) is not null && ProjectRevisions.Find(saved, scope)!["revisione"].D("numero") == 2, "Salvata la revisione storica al posto del documento corrente");
-        await Switch(null); Check(projectUndo.Count == undoCount, "Navigazione altera la cronologia annulla/ripristina");
+        await Switch(null); Check(projectHistory.UndoCount == undoCount, "Navigazione altera la cronologia annulla/ripristina");
         RestoreProjectHistory(false); Check(ProjectRevisions.Find(document, added.S("id")) is null, "Annulla dopo consultazione storica non funziona");
         RestoreProjectHistory(true); Check(ProjectRevisions.Find(document, added.S("id")) is not null, "Ripristina dopo consultazione storica non funziona");
         ShowProjectOverview(ProjectRevisions.Find(document, scope)); await Layout();

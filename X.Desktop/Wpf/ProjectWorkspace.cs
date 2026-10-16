@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using X.Core;
+using Anthea.Presentation.Projects;
 
 namespace X.Desktop;
 
@@ -24,38 +25,30 @@ public sealed partial class MainWindow
     private bool refreshingProjectTree, projectReadOnly, projectDragged;
     private string? selectedProjectId;
     private readonly HashSet<string> collapsedProjectNodes = [];
-    private JsonObject? historyBaseline;
-    private JsonObject? historyDocument;
-    private readonly List<JsonObject> projectUndo = [], projectRedo = [];
+    /// <summary>Undo and redo of the project (F5.2): copies, baseline and restore sequence live in Presentation.</summary>
+    private readonly ProjectHistory projectHistory = new();
     private Button? undoProjectButton, redoProjectButton;
     private FrameworkElement projectStructureActions = null!;
 
     private void ResetProjectHistory()
     {
-        projectUndo.Clear(); projectRedo.Clear(); historyDocument = document;
-        ProjectRevisions.EnsureIds(document); historyBaseline = (JsonObject)document.DeepClone(); UpdateHistoryButtons();
+        projectHistory.Reset(document); UpdateHistoryButtons();
     }
     private void RecordProjectHistory()
     {
-        if (projectReadOnly || document.S("tipo") != "progetti") return;
-        if (!ReferenceEquals(historyDocument, document)) { ResetProjectHistory(); return; }
-        if (historyBaseline is null || JsonNode.DeepEquals(historyBaseline, document)) return;
-        projectUndo.Add(historyBaseline); if (projectUndo.Count > 30) projectUndo.RemoveAt(0);
-        projectRedo.Clear(); historyBaseline = (JsonObject)document.DeepClone(); UpdateHistoryButtons();
+        if (projectHistory.Record(document, projectReadOnly)) UpdateHistoryButtons();
     }
     private void UpdateHistoryButtons()
     {
-        if (undoProjectButton is not null) undoProjectButton.IsEnabled = !projectReadOnly && projectUndo.Count > 0;
-        if (redoProjectButton is not null) redoProjectButton.IsEnabled = !projectReadOnly && projectRedo.Count > 0;
+        if (undoProjectButton is not null) undoProjectButton.IsEnabled = projectHistory.CanUndo(projectReadOnly);
+        if (redoProjectButton is not null) redoProjectButton.IsEnabled = projectHistory.CanRedo(projectReadOnly);
     }
     private void RestoreProjectHistory(bool redo)
     {
-        if (projectReadOnly) return;
-        Commit(); var source = redo ? projectRedo : projectUndo; var target = redo ? projectUndo : projectRedo;
-        if (source.Count == 0) return;
+        // ProjectHistory commits the open sheet first, then gives the copy to show (null: read-only or nothing to restore).
+        if (projectHistory.Restore(redo, projectReadOnly, Commit, () => document) is not JsonObject restored) return;
         string? selection = selectedProjectId;
-        target.Add((JsonObject)document.DeepClone()); document = source[^1]; source.RemoveAt(source.Count - 1);
-        historyDocument = document; historyBaseline = (JsonObject)document.DeepClone();
+        document = restored;
         editor?.Dispose(); editor = null; currentSheet = null; sharedBaseline = null; sheetContent.Content = null;
         dirty = true; UpdateTitle(); ShowProjectOverview(selection is null ? null : ProjectRevisions.Find(document, selection)); UpdateHistoryButtons();
     }
@@ -196,7 +189,7 @@ public sealed partial class MainWindow
     private void ShowProjectOverview(JsonObject? section = null)
     {
         if (document.S("tipo") != "progetti") { NewProjects(); return; }
-        if (!projectReadOnly && !ReferenceEquals(historyDocument, document)) ResetProjectHistory();
+        if (!projectReadOnly && !projectHistory.Tracks(document)) ResetProjectHistory();
         EnsureProjectWorkspace();
         section ??= selectedProjectId is null ? null : ProjectRevisions.Find(document, selectedProjectId);
         if (section?.ContainsKey("modulo_id") == true) section = section.Parent?.Parent as JsonObject;

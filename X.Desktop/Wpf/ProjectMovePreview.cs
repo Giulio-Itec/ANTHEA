@@ -5,28 +5,8 @@ namespace X.Desktop;
 
 public sealed partial class MainWindow
 {
-    // Build the destination first, without touching live sheets or their data.
-    private JsonObject? PreviewProjectMove(JsonObject node, JsonObject destination)
-    {
-        var copy = (JsonObject)document.DeepClone();
-        var proposed = ProjectRevisions.Find(copy, node.S("id"))!;
-        var target = ProjectRevisions.Find(copy, destination.S("id"))!;
-        ((JsonArray)proposed.Parent!).Remove(proposed);
-        string list = node.ContainsKey("modulo_id") ? "fogli" : "strutture";
-        if (target[list] is not JsonArray) target[list] = new JsonArray(); target.Array(list).Add(proposed);
-        var sheets = proposed.ContainsKey("modulo_id") ? new[] { proposed } : ProjectSharedData.SubtreeSheets(proposed).ToArray();
-        var changes = new List<string>();
-        foreach (var sheet in sheets)
-        {
-            var before = ProjectSharedData.Fields(sheet);
-            ProjectSharedData.InheritHierarchy(sheet, sheet.Parent!.Parent!.AsObject());
-            var after = ProjectSharedData.Fields(sheet);
-            foreach (var key in before.Keys.Intersect(after.Keys).Where(k => !ProjectSharedData.Equal(before[k].Value, after[k].Value)))
-                changes.Add(sheet.S("nome") + " · " + ProjectReportPlan.Label(key) + ": " + ProjectSharedData.Text(before[key].Value) + " → " + ProjectSharedData.Text(after[key].Value));
-        }
-        if (changes.Count > 0 && !services.Confirmations.ConfirmProjectMove(destination.S("nome"), changes)) return null;
-        return proposed;
-    }
+    // Build the destination first, without touching live sheets or their data (decisions in SharedDataCoordinator, F5.2).
+    private JsonObject? PreviewProjectMove(JsonObject node, JsonObject destination) => SharedData.PreviewMove(document, node, destination);
     private void ReloadMovedEditor(JsonObject node)
     {
         if (currentSheet is null) return;
