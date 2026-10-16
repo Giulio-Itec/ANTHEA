@@ -66,7 +66,7 @@ internal sealed partial class FoundationWorkspace : UserControl
         body.RowDefinitions.Add(new RowDefinition());body.RowDefinitions.Add(new RowDefinition { Height=GridLength.Auto });body.RowDefinitions.Add(new RowDefinition { Height=GridLength.Auto });
         var formScroll=new ScrollViewer { Content=form,VerticalScrollBarVisibility=ScrollBarVisibility.Auto,HorizontalScrollBarVisibility=ScrollBarVisibility.Disabled };
         body.Children.Add(formScroll);Grid.SetColumn(graphicsTabs,1);body.Children.Add(graphicsTabs);
-        var soils=InputGroup("Stratigrafia",Ui.Dock(soilHost,Ui.Bar(survey,Ui.Button("+ Sondaggio",AddSurvey),Ui.Button("− Sondaggio",DeleteSurvey),Ui.Button("Invia / carica terreno…",()=>SoilTransferRequested?.Invoke()))),"stratigrafia");
+        var soils=InputGroup("Stratigrafia",Ui.Dock(soilHost,Ui.Bar(survey,Ui.Button("+ Sondaggio",AddSurvey),Ui.Button("− Sondaggio",()=>DeleteSurvey()),Ui.Button("Invia / carica terreno…",()=>SoilTransferRequested?.Invoke()))),"stratigrafia");
         soils.Margin=new Thickness(0,6,0,0);soils.MaxHeight=270;Grid.SetRow(soils,1);Grid.SetColumnSpan(soils,2);body.Children.Add(soils);
         Grid.SetRow(results,2);Grid.SetColumnSpan(results,2);body.Children.Add(results);
         survey.SelectionChanged+=(_,_)=>{if(building||survey.SelectedIndex<0)return;Commit();general["sondaggio_fondazione"]=survey.SelectedIndex;BuildSoils();Changed();};

@@ -1,0 +1,286 @@
+== apertura
+dati {"versione_fondazioni":2,"input":{"Width":"2,4","Length":"3,6","Depth":"1,5","FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":"900","HorizontalX":0,"HorizontalY":0,"MomentX":"45","MomentY":"80","Method":3,"Shape":0,"Condition":1,"Profile":1,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"Caratteristica · confronto","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60"}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"Personalizzato","materiale_cls_nome":"Personalizzato","fck_mpa":"28","cls_diagramma":"Bilineare"}}
+modificato 0 · modificabile sì · richieste report 0
+risultato -
+stato "Dati da verificare · premere Calcola"
+campi
+  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,4"
+  campo Length "Lunghezza L [m]" = "3,6"
+  campo Depth "Profondità D [m]" = "1,5"
+  campo Normal "N al piano di posa [kN]" = "900"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "45"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "80"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "Caratteristica · confronto"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa" · nascosto
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "28"
+  scelta cls_diagramma "Diagramma" = "Bilineare" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60","__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== conferma
+dati {"versione_fondazioni":2,"input":{"Width":"2,4","Length":"3,6","Depth":"1,5","FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":"900","HorizontalX":0,"HorizontalY":0,"MomentX":"45","MomentY":"80","Method":3,"Shape":0,"Condition":1,"Profile":1,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"Caratteristica · confronto","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60"}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"Personalizzato","materiale_cls_nome":"Personalizzato","fck_mpa":"28","cls_diagramma":"Bilineare"}}
+modificato 0 · modificabile sì · richieste report 0
+risultato -
+stato "Dati da verificare · premere Calcola"
+campi
+  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,4"
+  campo Length "Lunghezza L [m]" = "3,6"
+  campo Depth "Profondità D [m]" = "1,5"
+  campo Normal "N al piano di posa [kN]" = "900"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "45"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "80"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "Caratteristica · confronto"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa" · nascosto
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "28"
+  scelta cls_diagramma "Diagramma" = "Bilineare" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60","__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== calcola
+dati {"versione_fondazioni":2,"input":{"Width":"2,4","Length":"3,6","Depth":"1,5","FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":"900","HorizontalX":0,"HorizontalY":0,"MomentX":"45","MomentY":"80","Method":3,"Shape":0,"Condition":1,"Profile":1,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"Caratteristica · confronto","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60"}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"Personalizzato","materiale_cls_nome":"Personalizzato","fck_mpa":"28","cls_diagramma":"Bilineare"}}
+modificato 0 · modificabile sì · richieste report 0
+risultato 01581BA4CC7BEE1B
+stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
+campi
+  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,4"
+  campo Length "Lunghezza L [m]" = "3,6"
+  campo Depth "Profondità D [m]" = "1,5"
+  campo Normal "N al piano di posa [kN]" = "900"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "45"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "80"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "Caratteristica · confronto"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa" · nascosto
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "28"
+  scelta cls_diagramma "Diagramma" = "Bilineare" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60","__strato":"B"}
+risultati "Confronto caratteristico     N = 900 kN     R = 3513,949 kN     N/R = 0,256     A′ = 7,778 m²"
+  riepilogo "Esito   Confronto caratteristico"
+  riepilogo "Domanda N [kN]   900"
+  riepilogo "Resistenza R [kN]   3513,949"
+  riepilogo "Indice N/R   0,256"
+  riepilogo "Combinazione esaminata   Caratteristica · confronto"
+  riepilogo "B′ × L′ [m]   2,222 × 3,5"
+  riepilogo "Area efficace [m²]   7,778"
+  riepilogo "ex / ey [m]   0,089 / 0,05"
+  riepilogo "Pressione agente [kPa]   115,714"
+  riepilogo "Pressione limite lorda [kPa]   451,793"
+  riepilogo "Pressione limite netta [kPa]   424,793"
+  riepilogo "Pressione resistente [kPa]   451,793"
+  riepilogo "γR   1"
+  riepilogo "q al piano posa [kPa] · efficace drenato / totale non drenato   27"
+  riepilogo "γ medio sotto la base [kN/m³]   19"
+  riepilogo "φ adottato [°]   0"
+  riepilogo "c / cu adottato [kPa]   60"
+  coefficienti "Contributo|N|s|d|i|kPa" 3
+    "Coesione" | "5,142" | "—" | "—" | "—" | "424,793"
+    "Sovraccarico" | "1" | "1" | "1" | "1" | "27"
+    "Peso terreno" | "0" | "1" | "1" | "1" | "0"
+  additive "Hansen non drenato · correzioni additive" "Contributo|s′ (+)|d′ (+)|i′ (−)|1+s′+d′−i′" 1
+    "Coesione" | "0,127" | "0,25" | "0" | "1,377"
+  nota "Verifica statica di portanza; scorrimento, cedimenti, stabilità globale, sisma e struttura esclusi."
+  nota "Brinch Hansen (1970), non drenato, correzioni additive; carico normale"
+  nota "Terreno omogeneo, piano campagna e base orizzontali. Esclusi sisma, cedimenti, scorrimento, stabilità globale e verifiche strutturali."
+grafici geometria sì · stratigrafia sì
+  pianta 1FD6E28151ADA1BC
+  tensioni "Totali · pmin = 72,338 kPa · pmax = 135,995 kPa · area compressa = 8,64 m²"
+  andamenti "Distribuzione convenzionale affine, senza trazione: equilibrio di N, Mx, My su p=max(0,a+bx+cy). Non è una soluzione del semispazio elastico né una verifica dei cedimenti."
+  rottura "Sezione X · larghezza B|Sezione Y · lunghezza L" [0] ED525AB23758A67B "Schema di Prandtl per striscia su terreno privo di peso: cuneo, ventaglio logaritmico e zona passiva. Riferimento illustrativo, non superficie critica calcolata per il metodo selezionato; non rappresenta effetti di H, tridimensionalità, peso del terreno o profondità di posa."
+== conferma
+dati {"versione_fondazioni":2,"input":{"Width":"2,4","Length":"3,6","Depth":"1,5","FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":"900","HorizontalX":0,"HorizontalY":0,"MomentX":"45","MomentY":"80","Method":3,"Shape":0,"Condition":1,"Profile":1,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"Caratteristica · confronto","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60"}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"Personalizzato","materiale_cls_nome":"Personalizzato","fck_mpa":"28","cls_diagramma":"Bilineare"}}
+modificato 0 · modificabile sì · richieste report 0
+risultato 01581BA4CC7BEE1B
+stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
+campi
+  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,4"
+  campo Length "Lunghezza L [m]" = "3,6"
+  campo Depth "Profondità D [m]" = "1,5"
+  campo Normal "N al piano di posa [kN]" = "900"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "45"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "80"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "Caratteristica · confronto"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa" · nascosto
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "28"
+  scelta cls_diagramma "Diagramma" = "Bilineare" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60","__strato":"B"}
+risultati "Confronto caratteristico     N = 900 kN     R = 3513,949 kN     N/R = 0,256     A′ = 7,778 m²"
+  riepilogo "Esito   Confronto caratteristico"
+  riepilogo "Domanda N [kN]   900"
+  riepilogo "Resistenza R [kN]   3513,949"
+  riepilogo "Indice N/R   0,256"
+  riepilogo "Combinazione esaminata   Caratteristica · confronto"
+  riepilogo "B′ × L′ [m]   2,222 × 3,5"
+  riepilogo "Area efficace [m²]   7,778"
+  riepilogo "ex / ey [m]   0,089 / 0,05"
+  riepilogo "Pressione agente [kPa]   115,714"
+  riepilogo "Pressione limite lorda [kPa]   451,793"
+  riepilogo "Pressione limite netta [kPa]   424,793"
+  riepilogo "Pressione resistente [kPa]   451,793"
+  riepilogo "γR   1"
+  riepilogo "q al piano posa [kPa] · efficace drenato / totale non drenato   27"
+  riepilogo "γ medio sotto la base [kN/m³]   19"
+  riepilogo "φ adottato [°]   0"
+  riepilogo "c / cu adottato [kPa]   60"
+  coefficienti "Contributo|N|s|d|i|kPa" 3
+    "Coesione" | "5,142" | "—" | "—" | "—" | "424,793"
+    "Sovraccarico" | "1" | "1" | "1" | "1" | "27"
+    "Peso terreno" | "0" | "1" | "1" | "1" | "0"
+  additive "Hansen non drenato · correzioni additive" "Contributo|s′ (+)|d′ (+)|i′ (−)|1+s′+d′−i′" 1
+    "Coesione" | "0,127" | "0,25" | "0" | "1,377"
+  nota "Verifica statica di portanza; scorrimento, cedimenti, stabilità globale, sisma e struttura esclusi."
+  nota "Brinch Hansen (1970), non drenato, correzioni additive; carico normale"
+  nota "Terreno omogeneo, piano campagna e base orizzontali. Esclusi sisma, cedimenti, scorrimento, stabilità globale e verifiche strutturali."
+grafici geometria sì · stratigrafia sì
+  pianta 1FD6E28151ADA1BC
+  tensioni "Totali · pmin = 72,338 kPa · pmax = 135,995 kPa · area compressa = 8,64 m²"
+  andamenti "Distribuzione convenzionale affine, senza trazione: equilibrio di N, Mx, My su p=max(0,a+bx+cy). Non è una soluzione del semispazio elastico né una verifica dei cedimenti."
+  rottura "Sezione X · larghezza B|Sezione Y · lunghezza L" [0] ED525AB23758A67B "Schema di Prandtl per striscia su terreno privo di peso: cuneo, ventaglio logaritmico e zona passiva. Riferimento illustrativo, non superficie critica calcolata per il metodo selezionato; non rappresenta effetti di H, tridimensionalità, peso del terreno o profondità di posa."
+== riapri
+dati {"versione_fondazioni":2,"input":{"Width":"2,4","Length":"3,6","Depth":"1,5","FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":"900","HorizontalX":0,"HorizontalY":0,"MomentX":"45","MomentY":"80","Method":3,"Shape":0,"Condition":1,"Profile":1,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"Caratteristica · confronto","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60"}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"Personalizzato","materiale_cls_nome":"Personalizzato","fck_mpa":"28","cls_diagramma":"Bilineare"}}
+modificato 0 · modificabile sì · richieste report 0
+risultato -
+stato "Dati da verificare · premere Calcola"
+campi
+  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,4"
+  campo Length "Lunghezza L [m]" = "3,6"
+  campo Depth "Profondità D [m]" = "1,5"
+  campo Normal "N al piano di posa [kN]" = "900"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "45"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "80"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "Caratteristica · confronto"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa" · nascosto
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "28"
+  scelta cls_diagramma "Diagramma" = "Bilineare" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60","__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== conferma
+dati {"versione_fondazioni":2,"input":{"Width":"2,4","Length":"3,6","Depth":"1,5","FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":"900","HorizontalX":0,"HorizontalY":0,"MomentX":"45","MomentY":"80","Method":3,"Shape":0,"Condition":1,"Profile":1,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"Caratteristica · confronto","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60"}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"Personalizzato","materiale_cls_nome":"Personalizzato","fck_mpa":"28","cls_diagramma":"Bilineare"}}
+modificato 0 · modificabile sì · richieste report 0
+risultato -
+stato "Dati da verificare · premere Calcola"
+campi
+  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,4"
+  campo Length "Lunghezza L [m]" = "3,6"
+  campo Depth "Profondità D [m]" = "1,5"
+  campo Normal "N al piano di posa [kN]" = "900"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "45"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "80"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "Caratteristica · confronto"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa" · nascosto
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "28"
+  scelta cls_diagramma "Diagramma" = "Bilineare" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":"1,5","tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Argilla limosa","spessore":"12","tipologia":"Coesivo","peso_specifico":"19","peso_specifico_saturo":"20","angolo_attrito":"24","coesione_efficace":"8","coesione_non_drenata":"60","__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."

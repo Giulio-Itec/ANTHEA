@@ -1,0 +1,1708 @@
+== apertura
+dati {"versione_fondazioni":2,"input":{"Width":2,"Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":0,"MomentX":0,"MomentY":0,"Method":0,"Shape":0,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 0 · modificabile sì · richieste report 0
+risultato -
+stato "Dati da verificare · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2"
+  campo Length "Lunghezza L [m]" = "3"
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== conferma
+dati {"versione_fondazioni":2,"input":{"Width":2,"Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":0,"MomentX":0,"MomentY":0,"Method":0,"Shape":0,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 0 · modificabile sì · richieste report 0
+risultato -
+stato "Dati da verificare · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2"
+  campo Length "Lunghezza L [m]" = "3"
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== calcola
+dati {"versione_fondazioni":2,"input":{"Width":2,"Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":0,"MomentX":0,"MomentY":0,"Method":0,"Shape":0,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 0 · modificabile sì · richieste report 0
+risultato 5C36AA943058382B
+stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2"
+  campo Length "Lunghezza L [m]" = "3"
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verificata     N = 600 kN     R = 1906,871 kN     N/R = 0,315     A′ = 6 m²"
+  riepilogo "Esito   Verificata"
+  riepilogo "Domanda N [kN]   600"
+  riepilogo "Resistenza R [kN]   1906,871"
+  riepilogo "Indice N/R   0,315"
+  riepilogo "Combinazione esaminata   SLU · A1"
+  riepilogo "B′ × L′ [m]   2 × 3"
+  riepilogo "Area efficace [m²]   6"
+  riepilogo "ex / ey [m]   0 / 0"
+  riepilogo "Pressione agente [kPa]   100"
+  riepilogo "Pressione limite lorda [kPa]   730,967"
+  riepilogo "Pressione limite netta [kPa]   712,967"
+  riepilogo "Pressione resistente [kPa]   317,812"
+  riepilogo "γR   2,3"
+  riepilogo "q al piano posa [kPa] · efficace drenato / totale non drenato   18"
+  riepilogo "γ medio sotto la base [kN/m³]   18"
+  riepilogo "φ adottato [°]   30"
+  riepilogo "c / cu adottato [kPa]   0"
+  coefficienti "Contributo|N|s|d|i|kPa" 3
+    "Coesione" | "30,14" | "1,352" | "1" | "1" | "0"
+    "Sovraccarico" | "18,401" | "1,333" | "1" | "1" | "441,627"
+    "Peso terreno" | "20,093" | "0,8" | "1" | "1" | "289,34"
+  nota "Verifica statica di portanza; scorrimento, cedimenti, stabilità globale, sisma e struttura esclusi."
+  nota "EN 1997-1:2004/AC:2009, allegato D.4"
+  nota "Terreno omogeneo, piano campagna e base orizzontali. Esclusi sisma, cedimenti, scorrimento, stabilità globale e verifiche strutturali."
+grafici geometria sì · stratigrafia sì
+  pianta 738508193E66BEA5
+  tensioni "Efficaci · pmin = 100 kPa · pmax = 100 kPa · area compressa = 6 m²"
+  andamenti "Distribuzione convenzionale affine, senza trazione: equilibrio di N, Mx, My su p=max(0,a+bx+cy). Non è una soluzione del semispazio elastico né una verifica dei cedimenti."
+  rottura "Sezione X · larghezza B|Sezione Y · lunghezza L" [0] 1134A295E0024C6A "Schema di Prandtl per striscia su terreno privo di peso: cuneo, ventaglio logaritmico e zona passiva. Riferimento illustrativo, non superficie critica calcolata per il metodo selezionato; non rappresenta effetti di H, tridimensionalità, peso del terreno o profondità di posa."
+== campo Width «2,5»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":0,"MomentX":0,"MomentY":0,"Method":0,"Shape":0,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 1 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3"
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== calcola
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":0,"MomentX":0,"MomentY":0,"Method":0,"Shape":0,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 1 · modificabile sì · richieste report 0
+risultato 65D034BBB68151E4
+stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3"
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verificata     N = 600 kN     R = 2635,759 kN     N/R = 0,228     A′ = 7,5 m²"
+  riepilogo "Esito   Verificata"
+  riepilogo "Domanda N [kN]   600"
+  riepilogo "Resistenza R [kN]   2635,759"
+  riepilogo "Indice N/R   0,228"
+  riepilogo "Combinazione esaminata   SLU · A1"
+  riepilogo "B′ × L′ [m]   2,5 × 3"
+  riepilogo "Area efficace [m²]   7,5"
+  riepilogo "ex / ey [m]   0 / 0"
+  riepilogo "Pressione agente [kPa]   80"
+  riepilogo "Pressione limite lorda [kPa]   808,299"
+  riepilogo "Pressione limite netta [kPa]   790,299"
+  riepilogo "Pressione resistente [kPa]   351,435"
+  riepilogo "γR   2,3"
+  riepilogo "q al piano posa [kPa] · efficace drenato / totale non drenato   18"
+  riepilogo "γ medio sotto la base [kN/m³]   18"
+  riepilogo "φ adottato [°]   30"
+  riepilogo "c / cu adottato [kPa]   0"
+  coefficienti "Contributo|N|s|d|i|kPa" 3
+    "Coesione" | "30,14" | "1,441" | "1" | "1" | "0"
+    "Sovraccarico" | "18,401" | "1,417" | "1" | "1" | "469,229"
+    "Peso terreno" | "20,093" | "0,75" | "1" | "1" | "339,071"
+  nota "Verifica statica di portanza; scorrimento, cedimenti, stabilità globale, sisma e struttura esclusi."
+  nota "EN 1997-1:2004/AC:2009, allegato D.4"
+  nota "Terreno omogeneo, piano campagna e base orizzontali. Esclusi sisma, cedimenti, scorrimento, stabilità globale e verifiche strutturali."
+grafici geometria sì · stratigrafia sì
+  pianta 4FFCDA8E38D9A6D1
+  tensioni "Efficaci · pmin = 80 kPa · pmax = 80 kPa · area compressa = 7,5 m²"
+  andamenti "Distribuzione convenzionale affine, senza trazione: equilibrio di N, Mx, My su p=max(0,a+bx+cy). Non è una soluzione del semispazio elastico né una verifica dei cedimenti."
+  rottura "Sezione X · larghezza B|Sezione Y · lunghezza L" [0] 74E0B6C2E2DCED08 "Schema di Prandtl per striscia su terreno privo di peso: cuneo, ventaglio logaritmico e zona passiva. Riferimento illustrativo, non superficie critica calcolata per il metodo selezionato; non rappresenta effetti di H, tridimensionalità, peso del terreno o profondità di posa."
+== campo MomentX «15»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":0,"MomentX":"15","MomentY":0,"Method":0,"Shape":0,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 2 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3"
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== campo HorizontalY «abc»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":"abc","MomentX":"15","MomentY":0,"Method":0,"Shape":0,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 3 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3"
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "abc"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== calcola
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":"abc","MomentX":"15","MomentY":0,"Method":0,"Shape":0,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 3 · modificabile sì · richieste report 0
+risultato -
+stato "Hy parallela a L [kN]: inserire un numero finito."
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3"
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "abc"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== campo HorizontalY «0»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":0,"Shape":0,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 4 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3"
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0"
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== scelta Shape «Nastriforme · azioni per metro»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":0,"Shape":1,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 5 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== campo Length «4»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":0,"Shape":1,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 5 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== scelta Method «Meyerhof»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":true},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 6 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== opzione IncludeDepthFactors
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":0,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 7 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Rottura generale" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== scelta Compression «Riduzione Vesić · densità relativa»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":0.5,"Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 8 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0.5"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== campo RelativeDensity «0,4»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":false,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 9 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "no"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81" · nascosto
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== opzione presenza_falda
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":3,"sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 10 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "3"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== campo profondita_falda «0,7»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":9.81,"Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 11 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== campo WaterUnitWeight «10»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · A1","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 12 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · A1"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== campo nome_combinazione «»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 13 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = ""
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== calcola
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 13 · modificabile sì · richieste report 0
+risultato -
+stato "Assegnare un nome alla combinazione."
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = ""
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== campo nome_combinazione «SLU · prova»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":true,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 14 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "sì"
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== opzione azioni_confermate
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 15 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no"
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== calcola
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":0,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 15 · modificabile sì · richieste report 0
+risultato -
+stato "Confermare azioni A1 già combinate al piano di posa: N efficace nel drenato, totale nel non drenato; includere tutti i pesi e le pertinenti azioni idrauliche."
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no"
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== scelta Profile «Confronto caratteristico»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 16 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== calcola
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":0,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 16 · modificabile sì · richieste report 0
+risultato -
+stato "Fondazione nastriforme: My e Hx trasversali; Mx e Hy devono essere nulli. Azioni per metro."
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== scelta Condition «Non drenata»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":1,"Condition":1,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 17 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Nastriforme · azioni per metro" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0"
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== scelta Shape «Circolare · carico centrato»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"15","MomentY":0,"Method":2,"Shape":2,"Condition":1,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 18 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "15"
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== campo MomentX «0»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":0,"RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":2,"Shape":2,"Condition":1,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 19 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "0"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== campo Surcharge «12»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":2,"Shape":2,"Condition":1,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":30,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 20 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "30"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== scelta classe_cls «C35/45»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":2,"Shape":2,"Condition":1,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C35/45","materiale_cls_nome":"C35/45","fck_mpa":35,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 21 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "35"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== campo fck_mpa «33»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":2,"Shape":2,"Condition":1,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"Personalizzato","materiale_cls_nome":"Personalizzato","fck_mpa":"33","cls_diagramma":"Parabola-rettangolo"}}
+modificato 22 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "33"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== scelta cls_diagramma «Bilineare»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":2,"Shape":2,"Condition":1,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"Personalizzato","materiale_cls_nome":"Personalizzato","fck_mpa":"33","cls_diagramma":"Bilineare"}}
+modificato 23 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "33"
+  scelta cls_diagramma "Diagramma" = "Bilineare" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== scelta classe_cls «C20/25»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":2,"Shape":2,"Condition":1,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C20/25","materiale_cls_nome":"C20/25","fck_mpa":20,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 24 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4" · nascosto
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C20/25" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "20"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== scelta Condition «Drenata»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":2,"Shape":2,"Condition":0,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C20/25","materiale_cls_nome":"C20/25","fck_mpa":20,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 25 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no"
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C20/25" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "20"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== scelta Method «Eurocodice 7 · allegato D»
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":0,"Shape":2,"Condition":0,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C20/25","materiale_cls_nome":"C20/25","fck_mpa":20,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 26 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C20/25" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "20"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== opzione RoughBase
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":0,"Shape":2,"Condition":0,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":false,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C20/25","materiale_cls_nome":"C20/25","fck_mpa":20,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 27 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "no"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C20/25" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "20"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== calcola
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":0,"Shape":2,"Condition":0,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":false,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C20/25","materiale_cls_nome":"C20/25","fck_mpa":20,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 27 · modificabile sì · richieste report 0
+risultato -
+stato "EN 1997-1 allegato D: richiede base sufficientemente ruvida, δ ≥ φ′/2."
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "no"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C20/25" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "20"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== opzione RoughBase
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":0,"Shape":2,"Condition":0,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C20/25","materiale_cls_nome":"C20/25","fck_mpa":20,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 28 · modificabile sì · richieste report 0
+risultato -
+stato "Dati modificati · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C20/25" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "20"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== calcola
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":0,"Shape":2,"Condition":0,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C20/25","materiale_cls_nome":"C20/25","fck_mpa":20,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 28 · modificabile sì · richieste report 0
+risultato D64F6462C4130ACB
+stato "Calcolato · sondaggio 1 · unica combinazione: SLU · prova"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C20/25" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "20"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Confronto caratteristico     N = 600 kN     R = 3869,848 kN     N/R = 0,155     A′ = 4,909 m²"
+  riepilogo "Esito   Confronto caratteristico"
+  riepilogo "Domanda N [kN]   600"
+  riepilogo "Resistenza R [kN]   3869,848"
+  riepilogo "Indice N/R   0,155"
+  riepilogo "Combinazione esaminata   SLU · prova"
+  riepilogo "B′ × L′ [m]   2,5 × 2,5"
+  riepilogo "Area efficace [m²]   4,909"
+  riepilogo "ex / ey [m]   0 / 0"
+  riepilogo "Pressione agente [kPa]   122,231"
+  riepilogo "Pressione limite lorda [kPa]   788,359"
+  riepilogo "Pressione limite netta [kPa]   760,759"
+  riepilogo "Pressione resistente [kPa]   788,359"
+  riepilogo "γR   1"
+  riepilogo "q al piano posa [kPa] · efficace drenato / totale non drenato   27,6"
+  riepilogo "γ medio sotto la base [kN/m³]   10"
+  riepilogo "φ adottato [°]   28,659"
+  riepilogo "c / cu adottato [kPa]   0"
+  coefficienti "Contributo|N|s|d|i|kPa" 3
+    "Coesione" | "27,136" | "1,512" | "1" | "1" | "0"
+    "Sovraccarico" | "15,831" | "1,48" | "1" | "1" | "646,501"
+    "Peso terreno" | "16,212" | "0,7" | "1" | "1" | "141,858"
+  nota "Verifica statica di portanza; scorrimento, cedimenti, stabilità globale, sisma e struttura esclusi."
+  nota "EN 1997-1:2004/AC:2009, allegato D.4"
+  nota "Falda idrostatica: γ medio nello spessore B′ sotto la base; N efficace deve comprendere già la sottospinta."
+  nota "Riduzione dei parametri per rottura locale selezionata dal progettista; nessuna diagnosi automatica del meccanismo."
+  nota "Terreno omogeneo, piano campagna e base orizzontali. Esclusi sisma, cedimenti, scorrimento, stabilità globale e verifiche strutturali."
+grafici geometria sì · stratigrafia sì
+  pianta 3E2B8F2D1240393E
+  tensioni "Efficaci · pmin = 122,231 kPa · pmax = 122,231 kPa · area compressa = 4,909 m²"
+  andamenti "Pressione uniforme: fondazione circolare con carico centrato."
+  rottura "Sezione X · larghezza B|Sezione Y · lunghezza L" [0] A0B69E01CB3BF300 "Schema di Prandtl per striscia su terreno privo di peso: cuneo, ventaglio logaritmico e zona passiva. Riferimento illustrativo, non superficie critica calcolata per il metodo selezionato; non rappresenta effetti di H, tridimensionalità, peso del terreno o profondità di posa."
+== conferma
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":0,"Shape":2,"Condition":0,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C20/25","materiale_cls_nome":"C20/25","fck_mpa":20,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 28 · modificabile sì · richieste report 0
+risultato D64F6462C4130ACB
+stato "Calcolato · sondaggio 1 · unica combinazione: SLU · prova"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C20/25" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "20"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Confronto caratteristico     N = 600 kN     R = 3869,848 kN     N/R = 0,155     A′ = 4,909 m²"
+  riepilogo "Esito   Confronto caratteristico"
+  riepilogo "Domanda N [kN]   600"
+  riepilogo "Resistenza R [kN]   3869,848"
+  riepilogo "Indice N/R   0,155"
+  riepilogo "Combinazione esaminata   SLU · prova"
+  riepilogo "B′ × L′ [m]   2,5 × 2,5"
+  riepilogo "Area efficace [m²]   4,909"
+  riepilogo "ex / ey [m]   0 / 0"
+  riepilogo "Pressione agente [kPa]   122,231"
+  riepilogo "Pressione limite lorda [kPa]   788,359"
+  riepilogo "Pressione limite netta [kPa]   760,759"
+  riepilogo "Pressione resistente [kPa]   788,359"
+  riepilogo "γR   1"
+  riepilogo "q al piano posa [kPa] · efficace drenato / totale non drenato   27,6"
+  riepilogo "γ medio sotto la base [kN/m³]   10"
+  riepilogo "φ adottato [°]   28,659"
+  riepilogo "c / cu adottato [kPa]   0"
+  coefficienti "Contributo|N|s|d|i|kPa" 3
+    "Coesione" | "27,136" | "1,512" | "1" | "1" | "0"
+    "Sovraccarico" | "15,831" | "1,48" | "1" | "1" | "646,501"
+    "Peso terreno" | "16,212" | "0,7" | "1" | "1" | "141,858"
+  nota "Verifica statica di portanza; scorrimento, cedimenti, stabilità globale, sisma e struttura esclusi."
+  nota "EN 1997-1:2004/AC:2009, allegato D.4"
+  nota "Falda idrostatica: γ medio nello spessore B′ sotto la base; N efficace deve comprendere già la sottospinta."
+  nota "Riduzione dei parametri per rottura locale selezionata dal progettista; nessuna diagnosi automatica del meccanismo."
+  nota "Terreno omogeneo, piano campagna e base orizzontali. Esclusi sisma, cedimenti, scorrimento, stabilità globale e verifiche strutturali."
+grafici geometria sì · stratigrafia sì
+  pianta 3E2B8F2D1240393E
+  tensioni "Efficaci · pmin = 122,231 kPa · pmax = 122,231 kPa · area compressa = 4,909 m²"
+  andamenti "Pressione uniforme: fondazione circolare con carico centrato."
+  rottura "Sezione X · larghezza B|Sezione Y · lunghezza L" [0] A0B69E01CB3BF300 "Schema di Prandtl per striscia su terreno privo di peso: cuneo, ventaglio logaritmico e zona passiva. Riferimento illustrativo, non superficie critica calcolata per il metodo selezionato; non rappresenta effetti di H, tridimensionalità, peso del terreno o profondità di posa."
+== riapri
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":0,"Shape":2,"Condition":0,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C20/25","materiale_cls_nome":"C20/25","fck_mpa":20,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 0 · modificabile sì · richieste report 0
+risultato -
+stato "Dati da verificare · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C20/25" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "20"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."
+== conferma
+dati {"versione_fondazioni":2,"input":{"Width":"2,5","Length":3,"Depth":1,"FrictionAngle":30,"Cohesion":0,"UndrainedStrength":75,"UnitWeight":18,"SaturatedUnitWeight":20,"CoverUnitWeight":18,"CoverSaturatedUnitWeight":20,"WaterDepth":3,"WaterUnitWeight":"10","Surcharge":"12","RelativeDensity":"0,4","Normal":600,"HorizontalX":0,"HorizontalY":"0","MomentX":"0","MomentY":0,"Method":0,"Shape":2,"Condition":0,"Profile":1,"Compression":2,"WaterEnabled":false,"RoughBase":true,"IncludeDepthFactors":false},"nome_combinazione":"SLU · prova","azioni_confermate":false,"stratigrafie":[[{"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75},{"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75}]],"generali":{"presenza_falda":true,"profondita_falda":"0,7","sondaggio_fondazione":0,"strato_portante_semiinfinito":true},"sezione":{"classe_cls":"C20/25","materiale_cls_nome":"C20/25","fck_mpa":20,"cls_diagramma":"Parabola-rettangolo"}}
+modificato 0 · modificabile sì · richieste report 0
+risultato -
+stato "Dati da verificare · premere Calcola"
+campi
+  scelta Method "Metodo" = "Eurocodice 7 · allegato D" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Shape "Geometria" = "Circolare · carico centrato" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
+  scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
+  scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
+  campo Width "Larghezza B [m]" = "2,5"
+  campo Length "Lunghezza L [m]" = "3" · nascosto
+  campo Depth "Profondità D [m]" = "1"
+  campo Normal "N al piano di posa [kN]" = "600"
+  campo HorizontalX "Hx parallela a B [kN]" = "0"
+  campo HorizontalY "Hy parallela a L [kN]" = "0" · nascosto
+  campo MomentX "Mx · eccentricità lungo L [kNm]" = "0" · nascosto
+  campo MomentY "My · eccentricità lungo B [kNm]" = "0" · nascosto
+  campo Surcharge "Sovraccarico esterno q [kPa]" = "12"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda zf" [m] = "0,7"
+  campo nome_combinazione "Combinazione" = "SLU · prova"
+  opzione azioni_confermate "Azioni A1 già combinate, inclusi pesi e azioni idrauliche" = "no" · nascosto
+  scelta Compression "Compressibilità" = "Riduzione Vesić · densità relativa" voci "Rottura generale|Riduzione Terzaghi · taglio locale|Riduzione Vesić · densità relativa"
+  campo RelativeDensity "Densità relativa Dr [0–1]" = "0,4"
+  opzione IncludeDepthFactors "Includi fattori di profondità" = "no" · nascosto
+  opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "10"
+  scelta classe_cls "Calcestruzzo" = "C20/25" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+  campo fck_mpa "Resistenza fck" [MPa] = "20"
+  scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+gruppi metodo=aperto Geometria=aperto Azioni=aperto stratigrafia=aperto · input raccolti no · pulsante "Raccogli input"
+sondaggi "Sondaggio 1" · scelto 0 · semispazio sì
+  {"name":"Ricoprimento","spessore":1,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"A"}
+  {"name":"Strato portante","spessore":10,"tipologia":"Granulare","peso_specifico":18,"peso_specifico_saturo":20,"angolo_attrito":30,"coesione_efficace":0,"coesione_non_drenata":75,"__strato":"B"}
+risultati "Verifica da calcolare · selezionare il sondaggio e confermare le azioni." · senza dettagli
+grafici geometria sì · stratigrafia sì
+  risultati "Calcolare per aggiornare questa vista."

@@ -19,10 +19,11 @@ internal sealed partial class FoundationWorkspace
         Commit();var surveys=data["stratigrafie"]!.AsArray();surveys.Add(new JsonArray(FoundationMaterials.NewLayer()));data["generali"]!["sondaggio_fondazione"]=surveys.Count-1;
         RefreshSurveyChoices();BuildSoils();Changed();
     }
-    void DeleteSurvey()
+    // confirm=false only from the UiTests traces (F5.9b), which answer yes to the question, as GeoEditor.DeleteSurvey.
+    void DeleteSurvey(bool confirm=true)
     {
         var surveys=data["stratigrafie"]!.AsArray();if(surveys.Count<=1){state.Text="Conservare almeno un sondaggio.";return;}
-        if(MessageBox.Show(Window.GetWindow(this),"Eliminare il sondaggio selezionato e i suoi strati?","Stratigrafia",MessageBoxButton.YesNo,MessageBoxImage.Question)!=MessageBoxResult.Yes)return;
+        if(confirm && MessageBox.Show(Window.GetWindow(this),"Eliminare il sondaggio selezionato e i suoi strati?","Stratigrafia",MessageBoxButton.YesNo,MessageBoxImage.Question)!=MessageBoxResult.Yes)return;
         Commit();surveys.RemoveAt(survey.SelectedIndex);data["generali"]!["sondaggio_fondazione"]=Math.Min(survey.SelectedIndex,surveys.Count-1);RefreshSurveyChoices();BuildSoils();Changed();
     }
     void BuildSoils()
