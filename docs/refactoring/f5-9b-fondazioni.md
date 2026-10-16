@@ -163,6 +163,19 @@ FN8, come V9 di F5.6.
 - `Application.Tests`: `ShallowFoundationPresentationChecks`.
 - Stadio `ui`: `ui/check-fondazioni-historic`, `ui/f3-equivalence`, `ui/f3-report-chapters`, `FoundationWorkspace.UiChecks`,
   `ui/check-module-host-offscreen`.
+- Architettura: P1–P7 rispettate, F4 3347, P3 invariata (127), nessuna dipendenza dal calcolo nei metadati di Presentation.
+
+**Corsa finale** `-Stage build,fast,wiki,ui` su `dd5f1d93`: `supporto/artefatti/ci/20261016-225809-f59b-finale`, PASS 114,
+NEW-FAIL 1 (build 25, fast 31, wiki 2, ui 57, una suite `ui` in più: `ui/check-fondazioni-historic`), nessun file tracciato
+modificato.
+- `ui/f3-equivalence` PASS con 69 fixture e `transitions-f4.json` invariato; `ui/f3-report-chapters` PASS con 70 capitoli;
+  `ui/check-fondazioni-historic` 15 scenari; `ui/check-module-host-offscreen` 42 controlli; `FoundationWorkspace.UiChecks` 89;
+  Presentation.Tests 1068; Application.Tests 1866; Architecture.Tests 511.
+- **`ui/check-contrast` fallita per l'ambiente, non per questo ramo.** Durante la corsa la finestra aveva 144 DPI invece dei 96
+  della baseline (lo schermo della macchina era passato al 150%; la verifica lo dichiara: «misure non confrontabili»). Scuro 0 e
+  Molto scuro 0; Chiara 694 difetti invece di 699. Le 5 voci mancanti sono pagine di scorrimento di viste non toccate da questo
+  ramo (palo e micropalo orizzontale «p3», sezione mista «p4»), che a 144 DPI non esistono; le 25 voci delle fondazioni sono
+  uguali alla baseline una per una. La baseline non si cambia: la suite va ripetuta a 96 DPI (FN11).
 
 ## 2. Difetti della vista storica trovati
 
@@ -242,6 +255,8 @@ Passo 6 della ricetta, dopo il punto di controllo (l'ordine segue i passi 1–7 
   si potrebbe dare l'aiuto a tutti i campi: differenza visibile, da decidere.
 - **FN10 · Disponibilità della libreria.** Il ViewModel riceve dal modulo se il rilascio approvato è installato
   (`FoundationLibrary.Available`) e cambia solo il testo dei risultati senza calcolo; il calcolo resta nel servizio del contesto.
+- **FN11 · Contrasto a 96 DPI.** `ui/check-contrast` della corsa finale non è confrontabile (144 DPI, sezione 1.5). Va ripetuta a
+  96 DPI prima dell'unione: il ramo non tocca colori né viste diverse dalle fondazioni, e le voci delle fondazioni coincidono già.
 
 **Materiale da mostrare** (dopo i passi 1–3 della sezione 3): schermate nei tre aspetti, `--check-contrast`, confronto diretto a
 zero, `ui/f3-equivalence` con il modulo MVVM, conteggio delle suite `ui`, questa nota con le risposte.
