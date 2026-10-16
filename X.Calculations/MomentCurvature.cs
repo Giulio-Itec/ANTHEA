@@ -15,13 +15,9 @@ public sealed record MomentCurvatureResult(IReadOnlyList<MomentCurvaturePoint> P
     public double LimitAxialKn { get; init; }
     public double AxialResidualKn { get; init; }
 }
-/// <summary>Native equilibrium is injected. Portable orchestration, no UI or file dependencies.</summary>
-public interface IMomentCurvatureCalculator
-{
-    MomentCurvatureResult Calculate(MomentCurvatureRequest request, Func<ActionPoint,DomainCheck> resistance,
-        Func<ActionPoint,CheckerStressState> response, double steelYieldStrain, CancellationToken token=default);
-}
-public sealed class MomentCurvatureCalculator : IMomentCurvatureCalculator
+/// <summary>Native equilibrium is injected. Portable orchestration, no UI or file dependencies.
+/// L'interfaccia IMomentCurvatureCalculator, senza utilizzatori, è in tests/ANTHEA.Legacy dalla decisione E5 del 15/10/2026 (F2.11c).</summary>
+public sealed class MomentCurvatureCalculator
 {
     public MomentCurvatureResult Calculate(MomentCurvatureRequest p, Func<ActionPoint,DomainCheck> resistance,
         Func<ActionPoint,CheckerStressState> response, double steelYieldStrain, CancellationToken token=default)

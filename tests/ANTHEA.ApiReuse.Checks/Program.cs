@@ -32,7 +32,7 @@ foreach (bool links in new[] { false, true })
     Capture("detailing/" + id++, () => new ConcreteDetailingCalculator().Calculate(new(kind, section, 500, links, 10, 200, 2, 20, 25, 10, lap, 350, 200, true, false, false)));
     var indices = Enumerable.Range(0, section.Bars.Count).ToArray();
     Capture("spacing/" + id++, () => new TensionBarSpacing().Maximum(section, indices));
-    Capture("region/" + id++, () => SectionRegions.Region(section, "test", 1, 0, 0, indices));
+    Capture("region/" + id++, () => LegacySectionRegions.Region(section, "test", 1, 0, 0, indices));
 }
 foreach (string diagram in new[] { "Elastoplastico", "Incrudente" })
 foreach (double fy in new[] { 215d, 450, 600 })

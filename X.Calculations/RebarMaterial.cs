@@ -6,7 +6,7 @@ namespace Anthea.Calculations;
 public static class RebarMaterial
 {
     public const string Module = "mat_acciaio_armatura";
-    public static readonly string[] Keys = ["classe_acciaio", "materiale_acciaio_nome", "fyk_mpa", "steel_modulus_mpa", "steel_fu_mpa", "steel_eps_u", "steel_diagramma", "gamma_s"];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> Keys = ["classe_acciaio", "materiale_acciaio_nome", "fyk_mpa", "steel_modulus_mpa", "steel_fu_mpa", "steel_eps_u", "steel_diagramma", "gamma_s"];
     public sealed record Preset(string Name, string Surface, double? A5, JsonObject Input);
     public static Preset[] Catalog()
     {

@@ -6,7 +6,7 @@ namespace Anthea.Application.Concrete;
 public static class SectionActionInputs
 {
     public const string VersionKey = "sollecitazioni_versione";
-    public static readonly string[] Components = ["N", "Mx", "My", "Vx", "Vy", "T"];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> Components = ["N", "Mx", "My", "Vx", "Vy", "T"];
     public static bool Unified(JsonObject data) => data["workspace_ca"]?[VersionKey]?.ToString() == "1";
     public static string StateLabel(string key) => key switch { "SLE" => "Rara", "SLE_FREQ" => "Frequente", "SLE_QP" => "Quasi permanente", _ => key };
     public static string Label(string key, JsonObject settings) => settings[VersionKey]?.ToString() == "1" ? StateLabel(key) : SectionWorkspace.Label(key);

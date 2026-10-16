@@ -1,6 +1,8 @@
 // Spostato da X.Calculations/RetainingWall.Library.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: metodi della libreria dei muri
 // nelle unità del documento usati solo dalle prove (RetainingWall.Checks, F4WallPortChecks, cattura densa dei muri). Corpi invariati; costanti
 // e conversioni (Mm, KPa, KN3, Deg, ToContact, ToWallInput) restano nel prodotto.
+// I record SoilMass e ValleyBand, prima annidati in RetainingWall (X.Calculations/RetainingWall.SoilGeometry.cs e RetainingWall.Soils.cs,
+// commit 8b9ce6d3), sono qui dalla decisione E5 del 15/10/2026 (F2.11c): li restituiscono solo questi metodi. Campi invariati.
 using System.Text.Json.Nodes;
 using GPC.Checkers.Geotechnics.Foundations;
 using GPC.Checkers.Geotechnics.Seismic;
@@ -14,6 +16,9 @@ namespace Anthea.Calculations;
 /// <summary>Metodi della libreria dei muri nelle unità del documento (m, kN/m, kNm/m, kPa, gradi) per le prove.</summary>
 public static class RetainingWallFunctions
 {
+    /// <summary>A band of the soil in front of the wall (m above the base, kN/m³, degrees, σ′v in kPa), from the library.</summary>
+    public sealed record ValleyBand(double Top, double Bottom, double Gamma, double Effective, double Phi, double SigmaTop, double SigmaBottom);
+    public sealed record SoilMass(double Weight, double MomentX, double MomentY);
     public static double Ka(double phi) => EarthPressure.RankineActive(phi * Deg);
     /// <summary>Horizontal Coulomb / Mononobe–Okabe coefficient, vertical back and horizontal fill (angles in degrees).</summary>
     public static double ActiveHorizontal(double phi, double delta, double kh = 0, double kv = 0) => EarthPressure.ActiveHorizontal(phi * Deg, delta * Deg, kh, kv);

@@ -448,7 +448,7 @@ public sealed partial class MainWindow : Window
         }
         var list = new StackPanel { Margin = new Thickness(16) }; var checks = new Dictionary<string, CheckBox>();
         var saved = editor.Data[editor.Module == BridgeEditor.Module ? "ui_mista" : "workspace_ca"]?["report_sezioni"] as JsonArray;
-        var sections = editor.Module == BridgeEditor.Module ? ReportBridge.Sections : editor.Module == "str_palo" ? ReportConcrete.Sections : ReportWord.Sezioni;
+        IReadOnlyList<(string Key, string Label)> sections = editor.Module == BridgeEditor.Module ? ReportBridge.Sections : editor.Module == "str_palo" ? ReportConcrete.Sections : ReportWord.Sezioni;
         foreach (var (key, label) in sections) { var check = new CheckBox { Content = label, IsChecked = saved is not null ? saved.Any(v => v?.ToString() == key) : editor.Module == BridgeEditor.Module || (editor.Module == "str_palo" ? key is not ("dettagli" or "sle_tutte") : !key.StartsWith("grafico")), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
         if (editor.Module == BridgeEditor.Module) list.Children.Add(Ui.Text("Stampa tutte le situazioni e i rispettivi contributi, indipendentemente dalla fase visualizzata. Ambito, riepilogo e avvisi sono sempre inclusi. I grafici riportano la geometria e la somma dei contributi di ogni situazione.", 11));
         if (editor.Module == "str_palo") list.Children.Add(Ui.Text("SLE: di default inviluppo degli estremi con combinazione di origine e casi governanti distinti per tensioni e fessurazione. Nessun esito non determinato viene escluso. In modalità completa si stampano tutte le combinazioni; i grafici SLE restano riferiti ai casi governanti. Ambito, avvisi ed errori sono sempre inclusi.", 11));

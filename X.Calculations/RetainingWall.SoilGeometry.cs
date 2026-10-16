@@ -13,5 +13,4 @@ public static partial class RetainingWall
         var g = d["geometry"]!; double t = g.D("slab"), h = g.D("height"), a = g.D("toe"), s = g.D("stem_base"), top = g.D("stem_top"), dv = ValleyHeight(d), y = Math.Max(t, dv);
         return valley.Concat(new[] { new Geotechnics.SlopePoint(0, y), new Geotechnics.SlopePoint(a + (s - top) * (y - t) / h, y), new Geotechnics.SlopePoint(a + s - top, h + t) }).Concat(uphill).Distinct().ToArray();
     }
-    public sealed record SoilMass(double Weight, double MomentX, double MomentY);
 }

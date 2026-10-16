@@ -47,7 +47,8 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     internal ConcreteGeometry? Section { get; set; }
     internal List<TendonPoint> Tendons { get; set; } = [];
     internal ConcreteResults.StressState? Stress { get; set; }
-    internal static readonly string[] Contours = Anthea.Application.Concrete.ConcreteSheetPreparation.Contours;
+    // Copia locale: le prove WPF (ConcreteSmokeChecks, ConcreteExtensionSmokeChecks) la leggono come vettore; il catalogo è immutabile (F2.11c).
+    internal static readonly string[] Contours = [.. Anthea.Application.Concrete.ConcreteSheetPreparation.Contours];
     internal string Contour { get; set; } = Contours[0];
     internal string ContourLegend { get; private set; } = "";
     internal bool Labels { get; set; } = true;

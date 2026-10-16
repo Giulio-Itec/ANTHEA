@@ -57,11 +57,11 @@ try
     Check(bridgeResult.S("errore") == "", "Ponte non calcolabile senza UI");
     Check(bridge.ToJsonString() == old, "Calcolo ponte muta input");
     double[][] rectangle = [[0,0],[4,0],[4,3],[0,3]];
-    Near(SectionRegions.Area(rectangle), 12, "GPC area rettangolo");
-    Near(SectionRegions.Area(rectangle.Reverse().ToArray()), 12, "GPC orientamento invertito");
-    Near(SectionRegions.Area([]), 0, "GPC poligono vuoto");
-    Near(SectionRegions.Area([[0,0],[4,0]]), 0, "GPC contorno degenere");
-    Near(SectionRegions.Area(SectionRegions.Clip(rectangle, 1, 0, 2)), 6, "GPC area porzione efficace");
+    Near(LegacySectionRegions.Area(rectangle), 12, "GPC area rettangolo");
+    Near(LegacySectionRegions.Area(rectangle.Reverse().ToArray()), 12, "GPC orientamento invertito");
+    Near(LegacySectionRegions.Area([]), 0, "GPC poligono vuoto");
+    Near(LegacySectionRegions.Area([[0,0],[4,0]]), 0, "GPC contorno degenere");
+    Near(LegacySectionRegions.Area(LegacySectionRegions.Clip(rectangle, 1, 0, 2)), 6, "GPC area porzione efficace");
     var geometry = new SezioneCA(SezioneCA.DefaultInput());
     Near(SectionGeometry.BarCover(geometry, new(0, 0, Math.PI*100, 20)), 290, "GPC distanza interna");
     Near(SectionGeometry.BarCover(geometry, new(310, 0, Math.PI*100, 20)), -20, "GPC distanza esterna");

@@ -58,7 +58,7 @@ public static class ConcreteSheetPreparation
         }
         return updates;
     }
-    public static string[] Contours { get; } = ["CLS · gradiente tensioni", "CLS · bande tensioni", "CLS · scala resistenza", "Barre · tensioni", "Barre · tasso resistenza", "Sezione · tasso resistenza", "CLS · deformazioni", "Solo geometria"];
+    public static System.Collections.Immutable.ImmutableArray<string> Contours { get; } = ["CLS · gradiente tensioni", "CLS · bande tensioni", "CLS · scala resistenza", "Barre · tensioni", "Barre · tasso resistenza", "Sezione · tasso resistenza", "CLS · deformazioni", "Solo geometria"];
     public static void PrepareReport(JsonObject data)
     {
         var settings = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();

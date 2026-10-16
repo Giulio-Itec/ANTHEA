@@ -4007,8 +4007,8 @@
         "X.Calculations/ConcreteBond.cs",
         "X.Calculations/ConcreteDetailing.cs",
         "X.Calculations/MomentCurvature.cs",
-        "X.Calculations/TensionBarSpacing.cs",
-        "X.Calculations/SectionRegions.cs",
+        "tests/ANTHEA.Legacy/Detailing/TensionBarSpacing.cs (prima X.Calculations, F2.11c)",
+        "tests/ANTHEA.Legacy/Geometry/LegacySectionRegions.cs (Clip e Region, prima X.Calculations/SectionRegions.cs, F2.11c)",
         "X.Calculations/RebarMaterial.cs",
         "X.Calculations/ConcreteServiceabilityAdapter.cs",
         "src/ANTHEA.Application/Concrete/ConcreteAnalysisSession.cs (prima X.Calculations, F3)",
@@ -4044,7 +4044,7 @@
       "distribuzione": "Attuata nel set T: Concrete 0.0.27.2 da master pushati, installata con manifest e attivata in ANTHEA 1.3.0 (punto 1 del blocco F2 del 12/10, commit 66a9d351; collaudo in chiusura-blocco-f2-20261012.md). Lo stato «da-correggere» e le note «non distribuito» qui sotto sono superati (audit del 14/10).",
       "descrizione": "Il raggruppamento per Math.Round(r,5) separa barre della stessa corona vicino alla soglia. La norma euclidea del legacy e quella della DLL distribuita producono gruppi diversi; non è un arrotondamento ammissibile.",
       "codice": [
-        "X.Calculations/TensionBarSpacing.cs",
+        "tests/ANTHEA.Legacy/Detailing/TensionBarSpacing.cs (prima X.Calculations, F2.11c)",
         "tests/ANTHEA.Legacy/Detailing/LegacyCircularDetailing.cs (prima X.Calculations, D3)",
         "X.Calculations/ConcreteServiceabilityAdapter.cs",
         "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs"
@@ -4538,6 +4538,49 @@
         "BUG-FES-1b",
         "BUG-FES-1c",
         "R7"
+      ]
+    },
+    {
+      "id": "F2-26",
+      "data": "2026-10-16",
+      "fase": "F2.11c, decisione E5 del 15/10",
+      "titolo": "Membri di sola prova in tests/ANTHEA.Legacy, cataloghi statici del c.a. immutabili e aggancio dei ripieghi per contesto",
+      "famiglia": "infrastruttura/test",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Decisione E5 (F2.11c), dopo D3: nessuna eliminazione. (1) Membri senza chiamanti di produzione, cercati in X.*, src/, tests/, supporto/test e tools/, spostati in tests/ANTHEA.Legacy con i corpi invariati: TensionBarSpacing con ITensionBarSpacing; SectionRegions.Clip, Area e Region come LegacySectionRegions (BarCover e il record ConcreteEffectiveRegion restano nel prodotto); i record RetainingWall.SoilMass e ValleyBand annidati in RetainingWallFunctions; ConcreteReinforcementDesign.SearchIndices come LegacyConcreteReinforcementDesign.NativeSearchIndices (SearchIndices è già il ramo legacy H2); Durability.ValidateExposure in LegacyDurability (delega ancora a ConcreteDurabilityAdapter.Validate); le interfacce senza utilizzatori IConcreteAnchorageCalculator e IMomentCurvatureCalculator, che ConcreteAnchorageCalculator e MomentCurvatureCalculator non implementano più. Nomi aggiunti ai marcatori di Assert-NoTestCode. (2) Cataloghi statici pubblici del c.a. ancora modificabili, censiti per riflessione con il criterio della prova 5l: ConcreteCalculationSettings.CommonCoefficients, RebarMaterial.Keys, ConcreteSheetPreparation.Contours, SectionActionInputs.Components, SectionActionsExcel.Headers e UnifiedHeaders, ReportConcrete.Sections diventano ImmutableArray con gli stessi valori nello stesso ordine, come A12; prova 5l estesa. (3) JsonFallbackHook (aggancio dei ripieghi di J usato solo dalla traccia delle catture) interno, visibile solo a ANTHEA.Testing e ANTHEA.Testing.Tests, e per contesto con un AsyncLocal: due catture in parallelo non si mescolano. Il resto dello stato statico (ponte, muri, pali, fondazioni, Wiki) resta a F5.13; lock: punto chiuso, nessuna modifica.",
+      "codice": [
+        "tests/ANTHEA.Legacy/Detailing/TensionBarSpacing.cs (prima X.Calculations)",
+        "tests/ANTHEA.Legacy/Geometry/LegacySectionRegions.cs",
+        "X.Calculations/SectionRegions.cs",
+        "tests/ANTHEA.Legacy/Walls/RetainingWallFunctions.cs",
+        "tests/ANTHEA.Legacy/SectionDesign/LegacyConcreteReinforcementDesign.cs",
+        "tests/ANTHEA.Legacy/Durability/LegacyDurability.cs",
+        "tests/ANTHEA.Legacy/Detailing/IConcreteAnchorageCalculator.cs",
+        "tests/ANTHEA.Legacy/Section/IMomentCurvatureCalculator.cs",
+        "X.Calculations/ConcreteCalculationSettings.cs",
+        "X.Calculations/RebarMaterial.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteSheetPreparation.cs",
+        "src/ANTHEA.Application/Concrete/SectionActionInputs.cs",
+        "src/ANTHEA.Application/Documents/SectionActionsExcel.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcrete.cs",
+        "src/ANTHEA.Serialization/JsonData.cs",
+        "tests/ANTHEA.Testing.Tests/FallbackHookChecks.cs",
+        "tests/ConcreteLibraryAdapter.Checks/Program.cs",
+        "tools/qa/Assert-NoTestCode.ps1"
+      ],
+      "segno": "Nessuno: risultati, report, ripieghi, archivi, catture dense e DLL distribuite di GPC invariati. Cambiano solo l'API pubblica di ANTHEA.Calculations, Application, Reports e Serialization (membri spostati nelle prove, tipi dei cataloghi, aggancio interno) e le impronte delle DLL di ANTHEA.",
+      "decisione": "Utente, 15/10: «E1–E8 come nel foglio» (f2-residui-decisioni.md, E5; decisioni.md, sezione del 15 ottobre). Il resto dello stato statico (ponte, muri, pali, fondazioni, Wiki) va in F5.13; lock: punto chiuso.",
+      "test": [
+        "Runner -Profile baseline prima (8b9ce6d3): 89 PASS, 0 KNOWN, 0 NEW-FAIL; dopo (5a66ff99, con -BaselineRef sulla cattura di prima): 90 PASS (le stesse più baseline/confronto), 0 KNOWN, 0 NEW-FAIL",
+        "Cattura headless prima/dopo: 548 file confrontati, nessuna differenza non ammessa, 21 tempi volatili (armature del palo elastico); byte per byte 550 file su 710 identici, fallbacks.json identico (3218 voci, 143 chiavi), testi dei report identici; le altre differenze sono tempi, data e ora, commit e impronte delle DLL ANTHEA, identificativi casuali",
+        "Cattura densa del banco c.a. prima/dopo: 27 file, 51045 righe uguali salvo intestazioni (commit, impronta) e identificativi casuali; banco contro le fixture di Checker PASS",
+        "ANTHEA.Testing.Tests: 10 controlli dell'aggancio per contesto (contesti paralleli con Parallel.For interno, nessuna fuga, eredità dal chiamante); prova negativa: con il campo statico di prima la prova dei contesti paralleli fallisce",
+        "ConcreteLibraryAdapter.Checks: prova 5l estesa ai sette cataloghi (47 controlli della 5l nel rapido); ANTHEA.ApiReuse.Checks, CalculationLibrary.Checks, RetainingWall.Checks e qa/no-test-code PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261016-032148-f211c-prima del worktree aw-f211c",
+        "supporto/artefatti/ci/20261016-034639-f211c-dopo del worktree aw-f211c"
       ]
     },
     {

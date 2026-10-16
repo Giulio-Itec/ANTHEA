@@ -65,16 +65,18 @@ public static class J
 /// è valida (decisione D3 del 15/10/2026): nessuna logica, nessuna variabile d'ambiente, nessun file. In produzione non c'è osservatore e
 /// non si registra nulla. Lo registra soltanto lo strumento delle catture (tests/ANTHEA.Testing, JsonFallbackTrace), che scrive
 /// fallbacks.json. I valori restituiti non cambiano mai.
+/// Dalla decisione E5 del 15/10/2026 (F2.11c) l'aggancio è interno (visibile solo a ANTHEA.Testing e alle sue prove) e per contesto: un
+/// AsyncLocal, ereditato dai thread e dalle attività avviati dopo la registrazione, così due catture in parallelo non si mescolano.
 /// </summary>
-public static class JsonFallbackHook
+internal static class JsonFallbackHook
 {
-    static Action<string, JsonNode?, string, object>? observer;
+    static readonly AsyncLocal<Action<string, JsonNode?, string, object>?> observer = new();
 
-    /// <summary>Osservatore corrente: tipo ("S", "D", "B"), oggetto genitore, chiave e ripiego restituito; null in produzione.</summary>
-    public static Action<string, JsonNode?, string, object>? Observer { get => observer; set => observer = value; }
+    /// <summary>Osservatore del contesto corrente: tipo ("S", "D", "B"), oggetto genitore, chiave e ripiego restituito; null in produzione.</summary>
+    internal static Action<string, JsonNode?, string, object>? Observer { get => observer.Value; set => observer.Value = value; }
 
-    internal static bool Enabled => observer is not null;
+    internal static bool Enabled => observer.Value is not null;
 
     // Chiamato solo con un osservatore: il ripiego viene incapsulato (boxing) solo allora.
-    internal static void Record(string kind, JsonNode? parent, string key, object fallback) => observer?.Invoke(kind, parent, key, fallback);
+    internal static void Record(string kind, JsonNode? parent, string key, object fallback) => observer.Value?.Invoke(kind, parent, key, fallback);
 }

@@ -27,7 +27,8 @@ public static class JsonFallbackTrace
     public static readonly AsyncLocal<string?> Context = new();
     static string? path;
 
-    /// <summary>Attiva la traccia verso <paramref name="file"/>: registra l'osservatore nel punto d'osservazione del prodotto.</summary>
+    /// <summary>Attiva la traccia verso <paramref name="file"/>: registra l'osservatore nel punto d'osservazione del prodotto, per il contesto
+    /// corrente (AsyncLocal, decisione E5): lo ereditano i calcoli avviati dopo, non quelli di altri contesti.</summary>
     public static void Start(string file)
     {
         path = Path.GetFullPath(file);

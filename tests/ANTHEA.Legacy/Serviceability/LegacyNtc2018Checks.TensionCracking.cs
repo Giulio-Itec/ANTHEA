@@ -39,7 +39,7 @@ public static partial class LegacyNtc2018Checks
             double center=face.Sum(b=>Q(b.X,b.Y)*b.Area)/face.Sum(b=>b.Area);
             double hc=LegacyConcreteCodeChecks.EffectiveCrackDepth(code,section,qx,qy,top,height,top-center,height,true),level=top-hc;
             var indices=section.Bars.Select((b,i)=>(b,i)).Where(v=>Q(v.b.X,v.b.Y)>=level-1e-8&&state.tensioni_barre[v.i]>0).Select(v=>v.i).ToArray();
-            var region=SectionRegions.Region(section,name,qx,qy,level,indices);
+            var region=LegacySectionRegions.Region(section,name,qx,qy,level,indices);
             details.Add(new(name,null,"","Verifica indipendente della fascia; nessuna somma con le aree delle altre facce."));
             details.Add(new(name+" · hc,eff",hc,"mm","Profondità efficace della norma selezionata per sezione interamente tesa"));
             details.Add(new(name+" · Ac,eff",region.Area,"mm²","Area del contorno tagliato, sottratti gli eventuali fori"));

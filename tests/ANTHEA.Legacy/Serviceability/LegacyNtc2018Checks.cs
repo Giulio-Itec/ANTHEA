@@ -205,7 +205,7 @@ public static partial class LegacyNtc2018Checks
                 options.S("durata", "Lunga") == "Breve", options.S("aderenza", "Migliorata") == "Migliorata", details);
             Add("ηw", bound / req.Limit, "−", "wk / wlim");
             return InnerCracking(new(bound, req.Limit, bound / req.Limit, bound <= req.Limit, "Nessuna barra in Ac,eff: limite superiore con sr,max da (h − x) · "
-                + (bound <= req.Limit ? "apertura entro limite" : "apertura oltre limite"), aceff, 0) { Details = details.ToArray(), Regions=[SectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,[],bound)] },engine,state,options,code,spacingCalculator);
+                + (bound <= req.Limit ? "apertura entro limite" : "apertura oltre limite"), aceff, 0) { Details = details.ToArray(), Regions=[LegacySectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,[],bound)] },engine,state,options,code,spacingCalculator);
         }
         if (aceff <= 0) return new(null, req.Limit, null, null, "Armatura/area efficace assente") { Details = details.ToArray() };
         double steel = effective.Sum(r => r.Area), phi = effective.Sum(r => r.RebarSection.Diameter * r.RebarSection.Diameter) / effective.Sum(r => r.RebarSection.Diameter);
@@ -231,7 +231,7 @@ public static partial class LegacyNtc2018Checks
         double width = LegacyConcreteCodeChecks.CrackWidth(code, sigma, es, concrete.Ecm, concrete.Fctm, steel / aceff, phi, c, spacing, tensileDepth,
             options.S("durata", "Lunga") == "Breve", options.S("aderenza", "Migliorata") == "Migliorata", k2, details);
         Add("ηw", width / req.Limit, "−", "wk / wlim");
-        return InnerCracking(new(width, req.Limit, width / req.Limit, width <= req.Limit, width <= req.Limit ? "Apertura entro limite" : "Apertura oltre limite", aceff, steel, spacing, automatic ? "Automatico geometrico" : "Manuale") { Details = details.ToArray(), Regions=[SectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,tensileIndices,width)] },engine,state,options,code,spacingCalculator);
+        return InnerCracking(new(width, req.Limit, width / req.Limit, width <= req.Limit, width <= req.Limit ? "Apertura entro limite" : "Apertura oltre limite", aceff, steel, spacing, automatic ? "Automatico geometrico" : "Manuale") { Details = details.ToArray(), Regions=[LegacySectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,tensileIndices,width)] },engine,state,options,code,spacingCalculator);
     }
     public static double CrackWidth(double sigmaS, double es, double ecm, double fctm, double rho, double phi, double cover, double spacing, double tensileDepth, bool shortTerm, bool ribbed, double k2)
         => CalculateCrackWidth(sigmaS, es, ecm, fctm, rho, phi, cover, spacing, tensileDepth, shortTerm, ribbed, k2, null);

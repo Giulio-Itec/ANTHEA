@@ -1,6 +1,8 @@
 // Spostato da X.Calculations/ConcreteReinforcementDesign.cs (commit 4144fe9e) con la decisione D3 del 15/10/2026: ricerca precedente
 // Optimize(…, legacy: true) con Layouts e ApproximateScore, rami legacy di Score e Rank (H1) e ramo mai raggiungibile di SearchIndices
 // (H2). Codice storico conservato per le prove, fuori dall'installer.
+// Dalla decisione E5 del 15/10/2026 (F2.11c) anche ConcreteReinforcementDesign.SearchIndices (commit 8b9ce6d3), che solo questa ricerca
+// chiamava: qui con il nome NativeSearchIndices, perché SearchIndices è già il ramo legacy H2. Corpo invariato.
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text.Json.Nodes;
@@ -8,8 +10,9 @@ using System.Text.Json.Nodes;
 namespace Anthea.Calculations;
 
 /// <summary>Parti storiche di <see cref="ConcreteReinforcementDesign"/> (classe partial: nome nuovo, corpi invariati). Le chiamate che nel
-/// prodotto andavano ai rami nativi (AddRatio, SelectSecondary, CheckTorsionDistribution, SearchIndices, Metrics, Score, Rank senza
-/// <c>legacy</c>) restano qualificate con <see cref="ConcreteReinforcementDesign"/>: la ricerca precedente usa le stesse verifiche native.</summary>
+/// prodotto andavano ai rami nativi (AddRatio, SelectSecondary, CheckTorsionDistribution, Metrics, Score, Rank senza
+/// <c>legacy</c>) restano qualificate con <see cref="ConcreteReinforcementDesign"/>: la ricerca precedente usa le stesse verifiche native.
+/// Il campionamento nativo della griglia (prima ConcreteReinforcementDesign.SearchIndices) è <see cref="NativeSearchIndices"/>.</summary>
 public static partial class LegacyConcreteReinforcementDesign
 {
     /// <summary>Ricerca precedente al porting in GPC.Design (prima ConcreteReinforcementDesign.Optimize con <c>legacy: true</c>).
@@ -150,7 +153,7 @@ public static partial class LegacyConcreteReinforcementDesign
         try
         {
             Report(true);
-            Parallel.ForEach(ConcreteReinforcementDesign.SearchIndices(plans.Length, options.MaxEvaluations), parallel, PrepareCandidate);
+            Parallel.ForEach(NativeSearchIndices(plans.Length, options.MaxEvaluations), parallel, PrepareCandidate);
             var groups = prepared.GroupBy(c => c.Key).Select(g => g.OrderBy(c => c.Score).ThenBy(c => c.Id).ToArray())
                 .OrderBy(g => g[0].Score).ThenBy(g => g[0].Id).ToArray();
             var probes = ProbeGroups(groups);
@@ -176,6 +179,13 @@ public static partial class LegacyConcreteReinforcementDesign
         ConcreteReinforcementDesign.DesignNotes(torsion))
           { ExclusionExamples = exclusionExamples,
             Performance = new(watch.Elapsed.TotalSeconds, firstSolution, options.Workers, nativeCalculations, reuses, probeSections, timers.Results()) };
+    }
+
+    /// <summary>Spostato da ConcreteReinforcementDesign.SearchIndices (decisione E5, F2.11c): ramo nativo, usato solo da <see cref="Optimize"/>.
+    /// In a limited run, sample across the entire sorted grid instead of exhausting the lightest prefix.</summary>
+    internal static IEnumerable<int> NativeSearchIndices(int planned, int budget)
+    {
+        foreach (int index in GPC.Design.Sections.SectionDesignSelection.SampleIndices(planned, budget)) yield return index;
     }
 
     /// <summary>Ramo legacy di ConcreteReinforcementDesign.SearchIndices: nessun chiamante passava <c>legacy: true</c>.

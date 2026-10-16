@@ -12,12 +12,6 @@ public static partial class ConcreteReinforcementDesign
         CancellationToken token = default, IProgress<ConcreteDesignProgress>? progress = null)
         => OptimizeNative(source,options,token,progress);
 
-    /// <summary>In a limited run, sample across the entire sorted grid instead of exhausting the lightest prefix.</summary>
-    internal static IEnumerable<int> SearchIndices(int planned, int budget)
-    {
-        foreach (int index in GPC.Design.Sections.SectionDesignSelection.SampleIndices(planned, budget)) yield return index;
-    }
-
     private static void ValidateScope(JsonObject data, JsonObject workspace)
     {
         if (workspace.S("normativa") != "NTC 2018") throw new ArgumentException("Calcola armature: dettagli costruttivi disponibili per NTC 2018 con integrazioni EC2.");

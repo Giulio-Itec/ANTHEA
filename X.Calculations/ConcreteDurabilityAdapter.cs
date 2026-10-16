@@ -69,7 +69,7 @@ public static class ConcreteDurabilityAdapter
     }
 
     // ------------------------------------------------------------------ combinazioni di esposizioni
-    /// <summary>Almeno una esposizione, X0 non combinabile: come Durability.ValidateExposure.</summary>
+    /// <summary>Almeno una esposizione, X0 non combinabile: come Durability.ValidateExposure, che dalla decisione E5 (F2.11c) sta nelle prove.</summary>
     public static void Validate(Exposure[] values)
     {
         if (Hook(nameof(Validate)) is { } legacy) { legacy.Validate(values); return; }

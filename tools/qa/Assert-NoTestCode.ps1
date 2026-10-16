@@ -26,9 +26,11 @@ param(
         # Anchored names: 'Legacy' alone would match product names (LegacyNumerics, LegacyStratifiedMethod, ILegacyServiceability...).
         '^(ServiceabilityEngines?|ShearTorsionEngines?|DurabilityEngine|WallCalculationEngine|EngineScope)$', 'ServiceabilityProbe', 'DurabilityProbe',
         '^(StartProbe|StopProbe)$', '^DurabilityLegacy$', '^I?ConcreteTorsionCalculator$', '^(SezioneElastica|CalcoloSezione|StatoElastico|PuntoDominio|Domini)$',
-        '^Legacy(Ntc2018Checks|ConcreteCodeChecks|Serviceability|RetainingWall|BridgeConcept|BridgeSection|SectionShearGeometry|ConcreteReinforcementDesign|ElasticHorizontalPile|PaloOrizzontale|SezioneCA|CircularDetailingCalculator|CircularSpacing|ElasticPileVerificationCache|Durability|DurabilityEngine|NtcCover|SectionActionsExcel)$',
+        '^Legacy(Ntc2018Checks|ConcreteCodeChecks|Serviceability|RetainingWall|BridgeConcept|BridgeSection|SectionShearGeometry|ConcreteReinforcementDesign|ElasticHorizontalPile|PaloOrizzontale|SezioneCA|CircularDetailingCalculator|CircularSpacing|ElasticPileVerificationCache|Durability|DurabilityEngine|NtcCover|SectionActionsExcel|SectionRegions)$',
         '^(LegacyCalculate|LegacyOptimize|LegacyAnalyze|LegacySlabLayout|LegacyDerive|CalculateStratified|SameCommonSoilData)$',
         '^(MappingCoverage|RetainingWallFunctions|BridgeLibraryAccess|JsonFallbackTrace|ProjectSharedDataProbe|DocxPdfText)$',
+        # Decision E5 of 15/10/2026 (F2.11c): members used only by the tests and two interfaces without users, moved to tests/ANTHEA.Legacy.
+        '^I?TensionBarSpacing$', '^I(ConcreteAnchorageCalculator|MomentCurvatureCalculator)$', '^(SoilMass|ValleyBand|(Native)?SearchIndices|ValidateExposure)$',
         '^(get_)?(Translated(Criteria|Profiles|Outcomes|Reasons|Rejections|TraceCodes)|ResistanceRejectionTexts)$', '^MetresFromMillimetres$', 'Sollecitazioni\.Legacy',
         '^<?(get_)?(CalculateDomain|CalculateStress|ExportActionRows|ApplyImport|SetGeometry|InheritSectionData|ParsePaste|CurrentId|SelectedOptimizationRank|DisplayedOptimizationCount|InputForms|InspectionCount|PointCount|VisibleActionCount)(>|$)'),
     # Names that contain a marker but belong to the framework (System.Windows.Media.Brushes.WhiteSmoke).
