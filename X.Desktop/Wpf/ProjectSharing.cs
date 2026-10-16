@@ -20,24 +20,15 @@ public sealed partial class MainWindow
 
     private void AddCoherenceBadge(Panel header, JsonObject section)
     {
-        if (!ProjectSharedData.SubtreeSheets(section).Any()) return;
-        var comparison = new ProjectComparison(section);
-        var differences = comparison.Differences;
-        bool comparable = comparison.Matches.Count > 0;
-        var warnings = ProjectValidation.Warnings(section);
-        if (!comparable && warnings.Length == 0) return;
-        bool hasConflicts = differences.Count > 0 || ProjectSharedData.MissingSoilLayers(section).Count > 0;
-        string title = hasConflicts ? "⚠ Differenze tra fogli" : comparable ? "✓ Dati comuni coerenti" : "";
-        if (warnings.Length > 0) title += (title.Length > 0 ? " · " : "") + $"⚠ {warnings.Length} {(warnings.Length == 1 ? "avviso" : "avvisi")}";
-        var badge = ProjectButton(title, () => Safe(() => ShowCoherence(section)));
-        bool warning = hasConflicts || warnings.Length > 0;
-        badge.FontSize = 11; badge.Content = warning ? (differences.Select(d => d.Key).Distinct().Count() + ProjectSharedData.MissingSoilLayers(section).Count + warnings.Length).ToString() : "✓";
-        badge.Background = Appearance.Background(warning ? "#FFF0D8" : "#EAF5ED"); badge.BorderThickness = new Thickness(0);
+        // Titles, number and tooltip are decided in Presentation (F5.2); the button and its colours stay here.
+        if (SharedDataCoordinator.Coherence(section) is not { } coherence) return;
+        var badge = ProjectButton(coherence.Title, () => Safe(() => ShowCoherence(section)));
+        badge.FontSize = 11; badge.Content = coherence.Content;
+        badge.Background = Appearance.Background(coherence.Warning ? "#FFF0D8" : "#EAF5ED"); badge.BorderThickness = new Thickness(0);
         badge.MinHeight = 24; badge.Padding = new Thickness(7, 2, 7, 2); badge.Margin = new Thickness(4, 0, 5, 0); Grid.SetColumn(badge, 2);
-        System.Windows.Automation.AutomationProperties.SetName(badge, title);
-        badge.Foreground = Appearance.Foreground(!hasConflicts && warnings.Length == 0 ? System.Windows.Media.Brushes.DarkGreen : System.Windows.Media.Brushes.DarkOrange);
-        badge.ToolTip = warnings.Length == 0 ? "Apri il confronto dei dati comuni della sezione." :
-            "Apri il confronto e gli avvisi della sezione.\n\n" + string.Join("\n\n", warnings);
+        System.Windows.Automation.AutomationProperties.SetName(badge, coherence.Title);
+        badge.Foreground = Appearance.Foreground(!coherence.Warning ? System.Windows.Media.Brushes.DarkGreen : System.Windows.Media.Brushes.DarkOrange);
+        badge.ToolTip = coherence.ToolTip;
         header.Children.Add(badge);
     }
     private static string SharedFieldLabel(string key) => SharedDataCoordinator.FieldLabel(key);
@@ -107,12 +98,7 @@ public sealed partial class MainWindow
                 row.Children.Add(entry);
                 var align = Ui.Button("Uniforma a questo", () => Safe(() =>
                 {
-                    bool sourceChanged = soilType?.SelectedItem is string selected &&
-                        ProjectSharedData.Fields(sheet)[conflict.Key].Value?.ToString() != selected;
-                    if (sourceChanged && soilType?.SelectedItem is string soilValue) ProjectSharedData.SetSoilType(sheet, conflict.Key, soilValue);
-                    int count = ProjectSharedData.ApplyHierarchy(sheet,
-                        new HashSet<string> { conflict.First().Group }, new HashSet<string> { conflict.Key });
-                    if (count > 0 || sourceChanged)
+                    if (SharedDataCoordinator.Align(sheet, conflict.Key, conflict.First().Group, soilType?.SelectedItem as string))
                     {
                         MarkDirty();
                         RefreshSharedEditor();
@@ -155,8 +141,7 @@ public sealed partial class MainWindow
                 info.Width = 300; info.Margin = new Thickness(0, 0, 20, 0); row.Children.Add(info);
                 var copy = Ui.Button("Uniforma a questo", () => Safe(() =>
                 {
-                    if (chooseType.SelectedItem is string selectedType) ProjectSharedData.SetSoilType(sourceSheet, typeKey, selectedType);
-                    if (ProjectSharedData.CopyMissingSoilLayers(sourceSheet, sourceSheet.Parent!.Parent!.AsObject(), survey, layer) > 0)
+                    if (SharedDataCoordinator.CopyMissingLayers(sourceSheet, typeKey, survey, layer, chooseType.SelectedItem as string))
                     {
                         MarkDirty();
                         RefreshSharedEditor();
@@ -197,16 +182,15 @@ public sealed partial class MainWindow
             soilPanel.Children.Add(Ui.Button("Mostra collegamento stratigrafie…", () => Safe(() =>
             {
                 if (source.SelectedItem is not SharedSheet from || soilTarget.SelectedItem is not SharedSheet to || ReferenceEquals(from.Sheet, to.Sheet)) return;
-                var stagedSource = (JsonObject)from.Sheet.DeepClone(); var stagedTarget = (JsonObject)to.Sheet.DeepClone();
-                ProjectSharedData.LinkSoils(stagedSource, stagedTarget);
+                var link = SoilLink.Stage(from.Sheet, to.Sheet);
                 var preview = Ui.Stack(Ui.Text(from + " → " + to, 17, true),
                     Ui.Text("Conferma che i sondaggi corrispondano, nello stesso ordine e con la stessa origine delle quote. Saranno collegati gli strati e copiati i parametri fisici indicati sotto. I parametri specifici del metodo restano nel destinatario.", 13),
-                    Ui.Text(stagedTarget["dati"]!["stratigrafie"]!.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }), 12));
+                    Ui.Text(link.StagedTarget["dati"]!["stratigrafie"]!.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }), 12));
                 preview.Margin = new Thickness(18);
                 var confirm = Ui.Dialog(dialog, "Collegamento dei sondaggi", new ScrollViewer { Content = preview, Background = Appearance.Surface, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 760, 600);
                 preview.Children.Add(Ui.Bar(Ui.Button("Conferma stesso sondaggio e collega", () => confirm.DialogResult = true, true), Ui.Button("Annulla", () => confirm.DialogResult = false)));
                 if (confirm.ShowDialog() != true) return;
-                from.Sheet["dati"] = stagedSource["dati"]!.DeepClone(); to.Sheet["dati"] = stagedTarget["dati"]!.DeepClone(); MarkDirty();
+                link.Apply(); MarkDirty();
                 RefreshSharedEditor();
                 dialog.Close();
             })));

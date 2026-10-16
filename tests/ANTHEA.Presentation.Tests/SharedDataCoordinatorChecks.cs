@@ -23,6 +23,8 @@ internal static class SharedDataCoordinatorChecks
         Descendants(expect);
         Rollback(expect);
         Moves(expect);
+        Badge(expect);
+        Comparison(expect);
         return expect.Count;
     }
 
@@ -206,6 +208,72 @@ internal static class SharedDataCoordinatorChecks
         expect.That(section is not null && confirmations.Moves.Count == 3 && confirmations.Moves[^1].Changes.SequenceEqual([change]), "Anteprima dello spostamento della sezione");
         expect.That(ProjectSharedData.SubtreeSheets(section!).Single().S("id") == sheet.S("id") && section!.Parent?.Parent is JsonObject parent && parent.S("id") == other.S("id"), "Sezione proposta senza i suoi fogli");
         expect.That(JsonNode.DeepEquals(before, document), "Anteprima della sezione modifica il documento");
+    }
+
+    /// <summary>Badge of the section in the overview (formerly decided in MainWindow.AddCoherenceBadge): titles, number, tooltip.</summary>
+    private static void Badge(Expect expect)
+    {
+        var document = ProjectDocuments.CreateArchive();
+        var project = ProjectDocuments.AddProject(document, "Ponte");
+        var empty = ProjectDocuments.AddSection(project, "Vuota");
+        expect.That(SharedDataCoordinator.Coherence(empty) is null, "Contrassegno di una sezione senza fogli");
+
+        var steel = ProjectDocuments.AddSection(project, "Acciai");
+        var first = ProjectDocuments.AddSheet(steel, RebarMaterial.Module, "Acciaio A");
+        var second = ProjectDocuments.AddSheet(steel, RebarMaterial.Module, "Acciaio B");
+        var coherent = SharedDataCoordinator.Coherence(steel);
+        expect.That(coherent == new CoherenceBadge("✓ Dati comuni coerenti", "✓", false, "Apri il confronto dei dati comuni della sezione."), "Contrassegno dei dati coerenti: " + coherent);
+        second["dati"]!["input"]!["fyk_mpa"] = 400; second["dati"]!["input"]!["steel_fu_mpa"] = 480;
+        var conflicts = SharedDataCoordinator.Coherence(steel);
+        expect.That(conflicts == new CoherenceBadge("⚠ Differenze tra fogli", "2", true, "Apri il confronto dei dati comuni della sezione."), "Contrassegno delle differenze: " + conflicts);
+
+        // A single c.a. sheet: nothing to compare, one warning (no Materiali sheet for the cover).
+        var beam = ProjectDocuments.AddSection(project, "Travi");
+        ProjectDocuments.AddSheet(beam, "str_palo", "Verifica trave");
+        var warnings = ProjectValidation.Warnings(beam);
+        var warned = SharedDataCoordinator.Coherence(beam);
+        expect.That(warnings.Length == 1 && warned == new CoherenceBadge("⚠ 1 avviso", "1", true, "Apri il confronto e gli avvisi della sezione.\n\n" + warnings[0]), "Contrassegno dell'avviso: " + warned);
+    }
+
+    /// <summary>The actions of the comparison dialog: «Uniforma a questo», the missing layers, the link of the stratigraphies.</summary>
+    private static void Comparison(Expect expect)
+    {
+        var document = ProjectDocuments.CreateArchive();
+        var project = ProjectDocuments.AddProject(document, "Ponte");
+        var steel = ProjectDocuments.AddSection(project, "Acciai");
+        var first = ProjectDocuments.AddSheet(steel, RebarMaterial.Module, "Acciaio A");
+        var second = ProjectDocuments.AddSheet(steel, RebarMaterial.Module, "Acciaio B");
+        second["dati"]!["input"]!["fyk_mpa"] = 400;
+        expect.That(SharedDataCoordinator.Align(first, "fyk_mpa", "Materiali", null) && J.Number(second["dati"]!["input"]!["fyk_mpa"]) == J.Number(first["dati"]!["input"]!["fyk_mpa"]), "Uniforma a questo non applicato");
+        expect.That(!SharedDataCoordinator.Align(first, "fyk_mpa", "Materiali", null), "Uniforma a questo senza differenze segnalato come modifica");
+
+        // Soils: a vertical pile with one layer, a horizontal pile without layers.
+        var soils = ProjectDocuments.AddSection(project, "Terreni");
+        var vertical = ProjectDocuments.AddSheet(soils, "geo_palo_verticale", "Palo verticale");
+        var horizontal = ProjectDocuments.AddSheet(soils, PaloOrizzontale.Module, "Palo orizzontale");
+        var soil = Archivio.NuovoStratoPalo(); soil["spessore"] = "5"; soil["tipologia"] = "Granulare"; soil["angolo_attrito"] = "30"; soil["nc"] = "12";
+        vertical["dati"]!["stratigrafie"] = new JsonArray(new JsonArray(soil));
+        horizontal["dati"]!["stratigrafie"] = new JsonArray(new JsonArray());
+        expect.That(ProjectSharedData.MissingSoilLayers(soils).Count > 0, "Strato mancante non rilevato");
+        string typeKey = "Strato · 1/1/tipologia";
+        expect.That(SharedDataCoordinator.CopyMissingLayers(vertical, typeKey, 0, 0, "Coesivo"), "Strato mancante non copiato");
+        expect.That(ProjectSharedData.MissingSoilLayers(soils).Count == 0 && vertical["dati"]!["stratigrafie"]![0]![0].S("tipologia") == "Coesivo"
+            && horizontal["dati"]!["stratigrafie"]![0]![0].S("tipologia") == "Coesivo", "Tipologia scelta non condivisa");
+        expect.That(horizontal["dati"]!["stratigrafie"]![0]![0]!["nc"] is null, "Copiato un dato esclusivo del palo verticale");
+        expect.That(!SharedDataCoordinator.CopyMissingLayers(vertical, typeKey, 0, 0, null), "Copia senza strati mancanti segnalata come modifica");
+
+        // «Uniforma a questo» with a chosen soil type: the source changes, then the linked sheets follow.
+        expect.That(SharedDataCoordinator.Align(vertical, typeKey, "Terreno", "Granulare"), "Tipologia scelta non applicata");
+        expect.That(vertical["dati"]!["stratigrafie"]![0]![0].S("tipologia") == "Granulare" && horizontal["dati"]!["stratigrafie"]![0]![0].S("tipologia") == "Granulare", "Tipologia scelta non uniformata");
+        expect.That(!SharedDataCoordinator.Align(vertical, typeKey, "Terreno", "Granulare"), "Tipologia uguale segnalata come modifica");
+
+        // Link of the stratigraphies: staged on copies, applied only on confirmation.
+        var verticalBefore = vertical.DeepClone(); var horizontalBefore = horizontal.DeepClone();
+        var link = SoilLink.Stage(vertical, horizontal);
+        expect.That(JsonNode.DeepEquals(verticalBefore, vertical) && JsonNode.DeepEquals(horizontalBefore, horizontal), "Anteprima del collegamento modifica i fogli");
+        link.Apply();
+        expect.That(JsonNode.DeepEquals(link.StagedTarget["dati"], horizontal["dati"]) && JsonNode.DeepEquals(link.StagedSource["dati"], vertical["dati"])
+            && !ReferenceEquals(link.StagedTarget["dati"], horizontal["dati"]), "Collegamento non applicato come in anteprima");
     }
 }
 

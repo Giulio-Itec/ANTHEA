@@ -106,4 +106,100 @@ public sealed class SharedDataCoordinator
 
     /// <summary>Label of a shared field in the questions and in the comparison (formerly MainWindow.SharedFieldLabel).</summary>
     public static string FieldLabel(string key) => ProjectReportPlan.Label(key);
+
+    /// <summary>
+    /// «Uniforma a questo» in the comparison of a section (formerly in MainWindow.ShowCoherence): a soil type chosen in the
+    /// dialog and different from the sheet is written into the sheet first; then the field is applied from the sheet to its
+    /// section and subsections (<see cref="ProjectSharedData.ApplyHierarchy"/>).
+    /// </summary>
+    /// <param name="sheet">The sheet whose value is kept.</param>
+    /// <param name="key">The shared field in conflict.</param>
+    /// <param name="group">Group of the field in the conflict.</param>
+    /// <param name="soilType">Soil type chosen in the dialog for a «tipologia» conflict; null otherwise.</param>
+    /// <returns>True when the document changed: the window marks it modified and reloads the open sheet.</returns>
+    public static bool Align(JsonObject sheet, string key, string group, string? soilType)
+    {
+        ArgumentNullException.ThrowIfNull(sheet);
+        bool sourceChanged = soilType is not null && ProjectSharedData.Fields(sheet)[key].Value?.ToString() != soilType;
+        if (sourceChanged) ProjectSharedData.SetSoilType(sheet, key, soilType!);
+        int count = ProjectSharedData.ApplyHierarchy(sheet, new HashSet<string> { group }, new HashSet<string> { key });
+        return count > 0 || sourceChanged;
+    }
+
+    /// <summary>
+    /// «Uniforma a questo» for a layer missing in other sheets of the section (formerly in MainWindow.ShowCoherence): the soil
+    /// type chosen in the dialog is written into the source sheet, then the layer and the missing layers before it are copied,
+    /// common data only, into the other sheets of its section.
+    /// </summary>
+    /// <returns>True when layers were copied: the window marks the document modified and reloads the open sheet.</returns>
+    public static bool CopyMissingLayers(JsonObject sheet, string typeKey, int survey, int layer, string? soilType)
+    {
+        ArgumentNullException.ThrowIfNull(sheet);
+        if (soilType is not null) ProjectSharedData.SetSoilType(sheet, typeKey, soilType);
+        return ProjectSharedData.CopyMissingSoilLayers(sheet, sheet.Parent!.Parent!.AsObject(), survey, layer) > 0;
+    }
+
+    /// <summary>
+    /// Badge of a section in the project overview (formerly decided in MainWindow.AddCoherenceBadge): not shown without sheets,
+    /// nor when nothing is comparable and there are no warnings; otherwise conflicts (differences or missing layers), coherent
+    /// common data and the number of warnings.
+    /// </summary>
+    public static CoherenceBadge? Coherence(JsonObject section)
+    {
+        ArgumentNullException.ThrowIfNull(section);
+        if (!ProjectSharedData.SubtreeSheets(section).Any()) return null;
+        var comparison = new ProjectComparison(section);
+        var differences = comparison.Differences;
+        bool comparable = comparison.Matches.Count > 0;
+        var warnings = ProjectValidation.Warnings(section);
+        if (!comparable && warnings.Length == 0) return null;
+        int missingLayers = ProjectSharedData.MissingSoilLayers(section).Count;
+        bool hasConflicts = differences.Count > 0 || missingLayers > 0;
+        string title = hasConflicts ? "⚠ Differenze tra fogli" : comparable ? "✓ Dati comuni coerenti" : "";
+        if (warnings.Length > 0) title += (title.Length > 0 ? " · " : "") + $"⚠ {warnings.Length} {(warnings.Length == 1 ? "avviso" : "avvisi")}";
+        bool warning = hasConflicts || warnings.Length > 0;
+        string content = warning ? (differences.Select(d => d.Key).Distinct().Count() + missingLayers + warnings.Length).ToString() : "✓";
+        string toolTip = warnings.Length == 0 ? "Apri il confronto dei dati comuni della sezione." :
+            "Apri il confronto e gli avvisi della sezione.\n\n" + string.Join("\n\n", warnings);
+        return new(title, content, warning, toolTip);
+    }
+}
+
+/// <summary>Badge of a section: automation name and tooltip of the button, its content (number or «✓») and its warning colour.</summary>
+public sealed record CoherenceBadge(string Title, string Content, bool Warning, string ToolTip);
+
+/// <summary>
+/// Link of the stratigraphies of two sheets (formerly in MainWindow.ShowCoherence): staged on copies for the preview, written
+/// into the two sheets only by <see cref="Apply"/>, after the user confirmed.
+/// </summary>
+public sealed class SoilLink
+{
+    private readonly JsonObject source, target;
+
+    private SoilLink(JsonObject source, JsonObject target, JsonObject stagedSource, JsonObject stagedTarget)
+    {
+        this.source = source; this.target = target; StagedSource = stagedSource; StagedTarget = stagedTarget;
+    }
+
+    /// <summary>The reference sheet after the link (a copy).</summary>
+    public JsonObject StagedSource { get; }
+
+    /// <summary>The linked sheet after the link (a copy): its stratigraphies are shown in the preview.</summary>
+    public JsonObject StagedTarget { get; }
+
+    /// <summary>Links copies of the two sheets (<see cref="ProjectSharedData.LinkSoils"/>); the sheets do not change.</summary>
+    public static SoilLink Stage(JsonObject source, JsonObject target)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(target);
+        var stagedSource = (JsonObject)source.DeepClone(); var stagedTarget = (JsonObject)target.DeepClone();
+        ProjectSharedData.LinkSoils(stagedSource, stagedTarget);
+        return new(source, target, stagedSource, stagedTarget);
+    }
+
+    /// <summary>Writes the linked data into the two sheets.</summary>
+    public void Apply()
+    {
+        source["dati"] = StagedSource["dati"]!.DeepClone(); target["dati"] = StagedTarget["dati"]!.DeepClone();
+    }
 }
