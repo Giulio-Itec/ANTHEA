@@ -1,11 +1,5 @@
 using System.IO;
-using System.Reflection;
 using System.Text.Json.Nodes;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Anthea.Calculations;
 using GPC.Checkers.Geotechnics.Piles;
 using X.Core;
@@ -74,24 +68,11 @@ internal static class Program
             custom["generatore"]!["tipo"]="Generica";var originalPiles=custom["pali"]!.ToJsonString();HorizontalPileGroup.Regenerate(custom);Check(custom["pali"]!.ToJsonString()==originalPiles,"generic coordinates preserved");
             File.WriteAllText(Path.Combine(folder, "risultati.json"), result.ToJsonString(J.Options));
             File.WriteAllBytes(Path.Combine(folder, "esempio-palificata.docx"), ReportPileGroup.Create("Palificata 3 × 3 a 3D", result));
-            var app = new TestApp(); app.LoadStyles(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            var type = typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.HorizontalPileGroupWorkspace")!;
-            foreach (int selected in new[] { 4 })
-            {
-                Console.WriteLine("UI begin " + selected); var uiData = HorizontalPileGroup.Defaults(); uiData["metodo"] = selected;
-                var view = (FrameworkElement)Activator.CreateInstance(type, BindingFlags.Instance | BindingFlags.NonPublic, null, new object[] { uiData }, null)!;
-                Console.WriteLine("UI constructed"); view.Measure(new Size(1400, 1050)); view.Arrange(new Rect(0, 0, 1400, 1050)); view.UpdateLayout();
-                var bitmap = new RenderTargetBitmap(1400, 1050, 96, 96, PixelFormats.Pbgra32); bitmap.Render(view); var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap)); using (var file = File.Create(Path.Combine(folder, "ui-" + selected + ".png"))) encoder.Save(file);
-                var uiResult = (JsonObject?)type.GetProperty("Result", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(view); Check(uiResult is not null, "UI calculated");
-                var cmp=(DataGrid)type.GetField("comparison",BindingFlags.NonPublic|BindingFlags.Instance)!.GetValue(view)!;cmp.SelectedIndex=6;var selectedResult=(JsonObject)type.GetProperty("Result",BindingFlags.NonPublic|BindingFlags.Instance)!.GetValue(view)!;Check(selectedResult["selezionato"].S("DirectionId")=="Y"&&selectedResult["selezionato"].D("Method")==0,"selection drives displayed method and direction");
-                view.UpdateLayout(); Console.WriteLine("selected layout updated"); Console.WriteLine("dispose begin"); ((IDisposable)view).Dispose(); Console.WriteLine("dispose end");
-            }
-            File.WriteAllText(Path.Combine(folder, "checks.txt"), $"PASS: {checks} checks; reference values, symmetry, rotation, limits, archive, report, WPF offscreen.");
+            // The UI part (the historic view by reflection until F5.4) is now the XAML view hosted by MvvmSheetEditor, with the selection through
+            // SelectedComparison: ui/check-pile-group-view of the UiTests harness (tests/Desktop/PileGroupViewChecks.cs, part 3).
+            File.WriteAllText(Path.Combine(folder, "checks.txt"), $"PASS: {checks} checks; reference values, symmetry, rotation, limits, archive, report (UI: ui/check-pile-group-view).");
             Console.WriteLine($"PASS: {checks} checks"); return 0;
         }
         catch (Exception ex) { File.WriteAllText(Path.Combine(folder, "failure.txt"), ex.ToString()); Console.Error.WriteLine(ex); return 1; }
     }
 }
-
-// The extracted App.xaml dictionary needs the root namespaces: x, and local (with its assembly) for the Appearance triggers added in d7ca52a.
-internal sealed class TestApp : Application { internal void LoadStyles() { var document=System.Xml.Linq.XDocument.Load("X.Desktop/App.xaml"); var dictionary=document.Root!.Elements().Single().Elements().Single(); dictionary.SetAttributeValue(System.Xml.Linq.XNamespace.Xmlns+"x","http://schemas.microsoft.com/winfx/2006/xaml"); dictionary.SetAttributeValue(System.Xml.Linq.XNamespace.Xmlns+"local","clr-namespace:X.Desktop;assembly=ANTHEA"); foreach(var source in dictionary.Descendants().SelectMany(e=>e.Attributes("Source"))) source.Value="/ANTHEA;component/"+source.Value; Resources=(ResourceDictionary)System.Windows.Markup.XamlReader.Parse(dictionary.ToString()); } }

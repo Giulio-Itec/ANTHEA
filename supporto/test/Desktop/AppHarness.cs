@@ -46,7 +46,7 @@ public partial class App
             }));
             return;
         }
-        if (e.Args.Length == 3 && e.Args[0] == "--check-f3-report-chapters")
+        if (e.Args.Length >= 3 && e.Args[0] == "--check-f3-report-chapters" && ModuleHostBench.WithoutBench(e.Args).Length == 3)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>
@@ -92,6 +92,19 @@ public partial class App
             {
                 int code = 0;
                 try { await PileGroupHistoricTrace.Run(e.Args[1], e.Args[2], e.Args[0] == "--check-pile-group-historic"); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            }));
+            return;
+        }
+        // F5.4: the XAML view of the pile group hosted by MvvmSheetEditor, off screen (tests/Desktop/PileGroupViewChecks.cs).
+        if (e.Args.Length == 3 && e.Args[0] == "--check-pile-group-view")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0;
+                try { await PileGroupViewChecks.Run(e.Args[1], e.Args[2]); }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
                 finally { Shutdown(code); }
             }));

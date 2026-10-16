@@ -10,8 +10,8 @@ namespace X.Desktop;
 /// <see cref="ModuleImplementations.Release"/> and the modules of the composition root, and with the services of the checks.
 /// On the command line of the harness, <c>--module-impl &lt;module&gt;=mvvm|historic</c> (repeatable) chooses another
 /// implementation for a module: before its checkpoint a migrated module is selectable only here, never in the product and never
-/// with an environment variable (decision D3). Accepted after the arguments of --check-f3-equivalence; a module without an MVVM
-/// implementation makes the factory fail with its name.
+/// with an environment variable (decision D3). Accepted after the arguments of --check-f3-equivalence and --check-f3-report-chapters
+/// (F5.4); a module without an MVVM implementation makes the factory fail with its name.
 /// </summary>
 internal static class ModuleHostBench
 {
