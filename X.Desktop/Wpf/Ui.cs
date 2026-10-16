@@ -314,69 +314,7 @@ internal sealed class InputForm : ChainedScrollViewer
     }
 }
 
-// A small binding adapter keeps the existing JSON file format and unparsed user input.
-internal sealed class JsonRow : INotifyPropertyChanged
-{
-    internal object? Context { get; set; }
-    private int notificationDepth;
-    private bool notificationPending;
-    internal static IDisposable DeferNotifications(IEnumerable<JsonRow> rows)
-    {
-        var snapshot = rows.Distinct().ToArray();
-        foreach (var row in snapshot) row.notificationDepth++;
-        return new UpdateScope(() =>
-        {
-            foreach (var row in snapshot)
-                if (--row.notificationDepth == 0 && row.notificationPending)
-                { row.notificationPending = false; row.PropertyChanged?.Invoke(row, new("Item[]")); }
-        });
-    }
-    private void Notify()
-    {
-        if (notificationDepth > 0) notificationPending = true;
-        else PropertyChanged?.Invoke(this, new("Item[]"));
-    }
-    internal JsonObject Values { get; }
-    private readonly Action<string>? changed;
-    public event PropertyChangedEventHandler? PropertyChanged;
-    internal JsonRow(JsonObject values, Action<string>? changed = null) { Values = values; this.changed = changed; }
-    internal void Refresh() => Notify();
-    public object? this[string key]
-    {
-        get => Values[key] is JsonValue v && v.TryGetValue<bool>(out var b) ? b : Values.S(key);
-        set { Values[key] = J.Node(value); Notify(); changed?.Invoke(key); }
-    }
-    internal void Output(string key, object? value) { var node = J.Node(value); if (JsonNode.DeepEquals(Values[key], node)) return; Values[key] = node; Notify(); }
-}
-
-internal sealed class UpdateScope(Action end) : IDisposable
-{
-    private Action? end = end;
-    public void Dispose() => Interlocked.Exchange(ref end, null)?.Invoke();
-}
-
-internal sealed class JsonRows : ObservableCollection<JsonRow>
-{
-    private int updateDepth;
-    private bool pending;
-    internal IDisposable DeferRefresh()
-    {
-        updateDepth++;
-        return new UpdateScope(() =>
-        {
-            if (--updateDepth != 0 || !pending) return;
-            pending = false;
-            base.OnPropertyChanged(new("Count"));
-            base.OnPropertyChanged(new("Item[]"));
-            base.OnCollectionChanged(new(NotifyCollectionChangedAction.Reset));
-        });
-    }
-    protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-    { if (updateDepth > 0) pending = true; else base.OnCollectionChanged(e); }
-    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-    { if (updateDepth == 0) base.OnPropertyChanged(e); }
-}
-
+// JsonRow, JsonRows (now JsonRowViewModel, JsonRowCollection) and UpdateScope moved to ANTHEA.Presentation in F5.2: aliases in PresentationImports.cs.
 internal sealed class JsonGrid : DataGrid
 {
     internal JsonRows Rows { get; }
