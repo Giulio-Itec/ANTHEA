@@ -35,6 +35,8 @@
     <Compile Include="../tests/Shared/ProbeSheetModule.cs" Link="Tests/Shared/ProbeSheetModule.cs" />
     <!-- Scenarios and traces of the pile group sheet (F5.4), shared with tests/ANTHEA.Presentation.Tests. -->
     <Compile Include="../tests/Shared/PileGroupTrace.cs" Link="Tests/Shared/PileGroupTrace.cs" />
+    <!-- Scenarios and traces of the vertical pile and micropile sheet (F5.6), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../tests/Shared/VerticalPileTrace.cs" Link="Tests/Shared/VerticalPileTrace.cs" />
     <Compile Include="../tests/ANTHEA.Desktop.Equivalence/*.cs" Link="Tests/F3/%(Filename)%(Extension)" />
     <Compile Include="../supporto/test/Materiali/*.cs" Link="Tests/Materiali/%(Filename)%(Extension)" />
     <Compile Include="../supporto/test/Shared/DurabilityReferenceChecks.cs" Link="Tests/Materiali/DurabilityReferenceChecks.cs" />

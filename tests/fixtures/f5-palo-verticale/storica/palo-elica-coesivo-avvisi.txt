@@ -1,0 +1,455 @@
+== apertura
+dati {"generali":{"tipo_palo":"Elica continua","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.8","lunghezza":"18","peso_specifico_palo":"25","azione_compressione":"900","azione_trazione":"","presenza_falda":true,"considera_sottospinta":false,"profondita_falda":"0","verticali_indagate":"≥10","sicurezza_laterale_compressione":"1.20","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.50","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata"},"efficienza":{"metodo":"Feld","numero_pali_x":"2","numero_pali_y":"3","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false},{"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true},{"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile no
+risultato -
+stato "Aggiornamento automatico in attesa…"
+avvisi ""
+generali
+  scelta tipo_palo "Tipo di palo" = "Elica continua" voci "Trivellato|Elica continua|Battuto"
+  scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
+  campo diametro "Diametro palo" = "0.8"
+  campo lunghezza "Lunghezza palo" = "18"
+  campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda" = "0"
+  opzione considera_sottospinta "Considera sottospinta" = "no"
+  campo azione_compressione "Azione assiale — Compressione" = "900"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  scelta metodo_nq "Metodo Nq" = "Parametrizzata" voci "Parametrizzata" · nascosto
+efficienza "ηg,c = 0,771\nηg,t = 0,771"
+  scelta metodo "Metodo" = "Feld" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "2"
+  campo numero_pali_y "Pali in Y" = "3"
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "≥10" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,40"
+  campo __xi4 "Correlazione" = "1,21"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.20"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.50"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 4
+  "Comp – Dre" | "—" | "—" | "—" | "Da verificare"
+  "Comp – Non Dre" | "—" | "—" | "—" | "Da verificare"
+  "Tra – Dre" | "—" | "—" | "—" | "Da verificare"
+  "Tra – Non Dre" | "—" | "—" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 3
+    {"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false,"__strato":"A","__k":"0,7","__mu":"0,532","__alfa":"—","__nq":"24,936"}
+    {"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,7","__mu":"0,404","__alfa":"0,54","__nq":"7,232"}
+    {"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true,"__strato":"C","__k":"0,9","__mu":"0,466","__alfa":"0,35","__nq":"7,327"}
+viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
+grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+curve "Valori a L non disponibili"
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 22,5 · punto disponibile con dati completi fino alla punta" · vuoto "Premere Calcola" · quota 0 · xmin 25
+  serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
+  serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
+  serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
+  serie "z/D=50" #FF800080 punti 161 C31457C4CD6B1BA5
+  serie "L/D effettivo = 22,5" #FFDC143C evidenza punti 201 692E6DDAC0EF2DD6
+tabelle "" · scelta -1
+json ""
+== conferma
+dati {"generali":{"tipo_palo":"Elica continua","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.8","lunghezza":"18","peso_specifico_palo":"25","azione_compressione":"900","azione_trazione":"","presenza_falda":true,"considera_sottospinta":false,"profondita_falda":"0","verticali_indagate":"≥10","sicurezza_laterale_compressione":"1.20","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.50","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata"},"efficienza":{"metodo":"Feld","numero_pali_x":"2","numero_pali_y":"3","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false},{"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true},{"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile no
+risultato -
+stato "Aggiornamento automatico in attesa…"
+avvisi ""
+generali
+  scelta tipo_palo "Tipo di palo" = "Elica continua" voci "Trivellato|Elica continua|Battuto"
+  scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
+  campo diametro "Diametro palo" = "0.8"
+  campo lunghezza "Lunghezza palo" = "18"
+  campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda" = "0"
+  opzione considera_sottospinta "Considera sottospinta" = "no"
+  campo azione_compressione "Azione assiale — Compressione" = "900"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  scelta metodo_nq "Metodo Nq" = "Parametrizzata" voci "Parametrizzata" · nascosto
+efficienza "ηg,c = 0,771\nηg,t = 0,771"
+  scelta metodo "Metodo" = "Feld" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "2"
+  campo numero_pali_y "Pali in Y" = "3"
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "≥10" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,40"
+  campo __xi4 "Correlazione" = "1,21"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.20"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.50"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 4
+  "Comp – Dre" | "—" | "—" | "—" | "Da verificare"
+  "Comp – Non Dre" | "—" | "—" | "—" | "Da verificare"
+  "Tra – Dre" | "—" | "—" | "—" | "Da verificare"
+  "Tra – Non Dre" | "—" | "—" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 3
+    {"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false,"__strato":"A","__k":"0,7","__mu":"0,532","__alfa":"—","__nq":"24,936"}
+    {"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,7","__mu":"0,404","__alfa":"0,54","__nq":"7,232"}
+    {"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true,"__strato":"C","__k":"0,9","__mu":"0,466","__alfa":"0,35","__nq":"7,327"}
+viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
+grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+curve "Valori a L non disponibili"
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 22,5 · punto disponibile con dati completi fino alla punta" · vuoto "Premere Calcola" · quota 0 · xmin 25
+  serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
+  serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
+  serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
+  serie "z/D=50" #FF800080 punti 161 C31457C4CD6B1BA5
+  serie "L/D effettivo = 22,5" #FFDC143C evidenza punti 201 692E6DDAC0EF2DD6
+tabelle "" · scelta -1
+json ""
+== calcola
+dati {"generali":{"tipo_palo":"Elica continua","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.8","lunghezza":"18","peso_specifico_palo":"25","azione_compressione":"900","azione_trazione":"","presenza_falda":true,"considera_sottospinta":false,"profondita_falda":"0","verticali_indagate":"≥10","sicurezza_laterale_compressione":"1.20","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.50","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata"},"efficienza":{"metodo":"Feld","numero_pali_x":"2","numero_pali_y":"3","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false},{"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true},{"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile sì
+risultato 7DB57C473060B330
+stato "Calcolo completato · risultati riferiti ai dati correnti"
+avvisi "Scelta progettuale 2026-09-15: efficienza geometrica applicata sia a compressione sia a trazione.\r\nIpotesi progettuale 2026-09-15: nella verifica non drenata la porzione sopra falda è drenata; senza falda le due verifiche coincidono.\r\nNq: Parametrizzata NQ-2026-09-09; Nq per D ≤ 0,80 m. φ non ridotto.\r\nATTENZIONE Nq: φ fuori dal tratto visibile di almeno una curva; adottato il bordo. Vedere le φ adottate nel dettaglio export.\r\nNq: nel tratto superficiale con z/D < 5 (z < 4,00 m) adottata la curva z/D = 5, senza estrapolare: a favore di sicurezza (Nq cresce al diminuire di z/D).\r\nγb = 1,50 diverso dal valore della NTC 2018 Tab. 6.4.II per la tecnologia del palo (1,30): il calcolo usa il valore del foglio."
+generali
+  scelta tipo_palo "Tipo di palo" = "Elica continua" voci "Trivellato|Elica continua|Battuto"
+  scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
+  campo diametro "Diametro palo" = "0.8"
+  campo lunghezza "Lunghezza palo" = "18"
+  campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda" = "0"
+  opzione considera_sottospinta "Considera sottospinta" = "no"
+  campo azione_compressione "Azione assiale — Compressione" = "900"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  scelta metodo_nq "Metodo Nq" = "Parametrizzata" voci "Parametrizzata" · nascosto
+efficienza "ηg,c = 0,771\nηg,t = 0,771"
+  scelta metodo "Metodo" = "Feld" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "2"
+  campo numero_pali_y "Pali in Y" = "3"
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "≥10" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,40"
+  campo __xi4 "Correlazione" = "1,21"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.20"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.50"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 4
+  "Comp – Dre" | "1.194,1" | "1.035,0" | "115,4%" | "Verifica non soddisfatta"
+  "Comp – Non Dre" | "1.194,1" | "784,7" | "152,2%" | "Verifica non soddisfatta"
+  "Tra – Dre" | "—" | "740,5" | "—" | "Da verificare"
+  "Tra – Non Dre" | "—" | "521,1" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 3
+    {"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false,"__strato":"A","__k":"0,7","__mu":"0,532","__alfa":"—","__nq":"24,936"}
+    {"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,7","__mu":"0,404","__alfa":"0,54","__nq":"7,232"}
+    {"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true,"__strato":"C","__k":"0,9","__mu":"0,466","__alfa":"0,35","__nq":"7,327"}
+viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Nessuna curva selezionata" · quota 18 · xmin -
+  serie "Dren. C · progetto" #FF16703B punti 133 E1D27236712DF672
+  serie "Dren. T · progetto" #FF73B84C punti 133 BEA90127E25F919A
+  serie "Non dren. C · progetto" #FF6A1B9A punti 133 994F5CE10C2C40FA
+  serie "Non dren. T · progetto" #FFB779D6 punti 133 EA7AD9C93A2B1418
+  serie "Ed compressione" #FFD32F2F tratteggio punti 133 13E69006142B5085
+curve "Valori a L=18 m [kN]"
+  "Dren. C · progetto: 1.035,0" = sì
+  "Dren. T · progetto: 740,5" = sì
+  "Non dren. C · progetto: 784,7" = sì
+  "Non dren. T · progetto: 521,1" = sì
+  "Ed compressione: 1.194,1" = sì
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+  serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
+  serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
+  serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
+  serie "z/D=50" #FF800080 punti 161 C31457C4CD6B1BA5
+  serie "L/D effettivo = 22,5" #FFDC143C evidenza punti 201 692E6DDAC0EF2DD6
+  punto 25 8.193398976253842 "S1: φ=25° · Nq=8,193" #FFDC143C proiettato "" "" r 5
+tabelle "Capacità portante — riepilogo|Riepilogo alla quota disponibile|Sondaggio 1 — Nq — selezione curve|Sondaggio 1 — Nq — valutazione curve|Sondaggio 1 — parametri alla punta|Sondaggio 1 — integrazione per strato|Sondaggio 1 — contributi laterali|Sondaggio 1 — drenante — resistenze calcolate|Sondaggio 1 — non drenante — resistenze calcolate|drenante — Minimo — componenti|drenante — Media — componenti|non drenante — Minimo — componenti|non drenante — Media — componenti|drenante compressione — verifica a ogni quota|drenante trazione — verifica a ogni quota|non drenante compressione — verifica a ogni quota|non drenante trazione — verifica a ogni quota" · scelta 0
+  nota "Compressione e trazione · quota disponibile z = 18,0 m"
+  tabella "DRENATE" colonne "|Calcolo [kN]|Caratteristiche [kN]|Progetto [kN]" righe 3 4527CEDF4977C33B
+    "Laterale compressione" | "1681,1" | "1200,8" | "771,3"
+    "Punta compressione" | "718,3" | "513,1" | "263,7"
+    "Laterale trazione" | "1681,1" | "1200,8" | "740,5"
+  tabella "NON DRENATE" colonne "|Calcolo [kN]|Caratteristiche [kN]|Progetto [kN]" righe 3 9EE8803701437F0D
+    "Laterale compressione" | "1183,0" | "845,0" | "542,8"
+    "Punta compressione" | "659,0" | "470,7" | "241,9"
+    "Laterale trazione" | "1183,0" | "845,0" | "521,1"
+  piede "Ramo governante (media o minimo) scelto separatamente per compressione e trazione."
+json 773827 9AFF336094735EE5
+== conferma
+dati {"generali":{"tipo_palo":"Elica continua","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.8","lunghezza":"18","peso_specifico_palo":"25","azione_compressione":"900","azione_trazione":"","presenza_falda":true,"considera_sottospinta":false,"profondita_falda":"0","verticali_indagate":"≥10","sicurezza_laterale_compressione":"1.20","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.50","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata"},"efficienza":{"metodo":"Feld","numero_pali_x":"2","numero_pali_y":"3","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false},{"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true},{"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile sì
+risultato 7DB57C473060B330
+stato "Calcolo completato · risultati riferiti ai dati correnti"
+avvisi "Scelta progettuale 2026-09-15: efficienza geometrica applicata sia a compressione sia a trazione.\r\nIpotesi progettuale 2026-09-15: nella verifica non drenata la porzione sopra falda è drenata; senza falda le due verifiche coincidono.\r\nNq: Parametrizzata NQ-2026-09-09; Nq per D ≤ 0,80 m. φ non ridotto.\r\nATTENZIONE Nq: φ fuori dal tratto visibile di almeno una curva; adottato il bordo. Vedere le φ adottate nel dettaglio export.\r\nNq: nel tratto superficiale con z/D < 5 (z < 4,00 m) adottata la curva z/D = 5, senza estrapolare: a favore di sicurezza (Nq cresce al diminuire di z/D).\r\nγb = 1,50 diverso dal valore della NTC 2018 Tab. 6.4.II per la tecnologia del palo (1,30): il calcolo usa il valore del foglio."
+generali
+  scelta tipo_palo "Tipo di palo" = "Elica continua" voci "Trivellato|Elica continua|Battuto"
+  scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
+  campo diametro "Diametro palo" = "0.8"
+  campo lunghezza "Lunghezza palo" = "18"
+  campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda" = "0"
+  opzione considera_sottospinta "Considera sottospinta" = "no"
+  campo azione_compressione "Azione assiale — Compressione" = "900"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  scelta metodo_nq "Metodo Nq" = "Parametrizzata" voci "Parametrizzata" · nascosto
+efficienza "ηg,c = 0,771\nηg,t = 0,771"
+  scelta metodo "Metodo" = "Feld" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "2"
+  campo numero_pali_y "Pali in Y" = "3"
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "≥10" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,40"
+  campo __xi4 "Correlazione" = "1,21"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.20"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.50"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 4
+  "Comp – Dre" | "1.194,1" | "1.035,0" | "115,4%" | "Verifica non soddisfatta"
+  "Comp – Non Dre" | "1.194,1" | "784,7" | "152,2%" | "Verifica non soddisfatta"
+  "Tra – Dre" | "—" | "740,5" | "—" | "Da verificare"
+  "Tra – Non Dre" | "—" | "521,1" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 3
+    {"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false,"__strato":"A","__k":"0,7","__mu":"0,532","__alfa":"—","__nq":"24,936"}
+    {"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,7","__mu":"0,404","__alfa":"0,54","__nq":"7,232"}
+    {"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true,"__strato":"C","__k":"0,9","__mu":"0,466","__alfa":"0,35","__nq":"7,327"}
+viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Nessuna curva selezionata" · quota 18 · xmin -
+  serie "Dren. C · progetto" #FF16703B punti 133 E1D27236712DF672
+  serie "Dren. T · progetto" #FF73B84C punti 133 BEA90127E25F919A
+  serie "Non dren. C · progetto" #FF6A1B9A punti 133 994F5CE10C2C40FA
+  serie "Non dren. T · progetto" #FFB779D6 punti 133 EA7AD9C93A2B1418
+  serie "Ed compressione" #FFD32F2F tratteggio punti 133 13E69006142B5085
+curve "Valori a L=18 m [kN]"
+  "Dren. C · progetto: 1.035,0" = sì
+  "Dren. T · progetto: 740,5" = sì
+  "Non dren. C · progetto: 784,7" = sì
+  "Non dren. T · progetto: 521,1" = sì
+  "Ed compressione: 1.194,1" = sì
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+  serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
+  serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
+  serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
+  serie "z/D=50" #FF800080 punti 161 C31457C4CD6B1BA5
+  serie "L/D effettivo = 22,5" #FFDC143C evidenza punti 201 692E6DDAC0EF2DD6
+  punto 25 8.193398976253842 "S1: φ=25° · Nq=8,193" #FFDC143C proiettato "" "" r 5
+tabelle "Capacità portante — riepilogo|Riepilogo alla quota disponibile|Sondaggio 1 — Nq — selezione curve|Sondaggio 1 — Nq — valutazione curve|Sondaggio 1 — parametri alla punta|Sondaggio 1 — integrazione per strato|Sondaggio 1 — contributi laterali|Sondaggio 1 — drenante — resistenze calcolate|Sondaggio 1 — non drenante — resistenze calcolate|drenante — Minimo — componenti|drenante — Media — componenti|non drenante — Minimo — componenti|non drenante — Media — componenti|drenante compressione — verifica a ogni quota|drenante trazione — verifica a ogni quota|non drenante compressione — verifica a ogni quota|non drenante trazione — verifica a ogni quota" · scelta 0
+  nota "Compressione e trazione · quota disponibile z = 18,0 m"
+  tabella "DRENATE" colonne "|Calcolo [kN]|Caratteristiche [kN]|Progetto [kN]" righe 3 4527CEDF4977C33B
+    "Laterale compressione" | "1681,1" | "1200,8" | "771,3"
+    "Punta compressione" | "718,3" | "513,1" | "263,7"
+    "Laterale trazione" | "1681,1" | "1200,8" | "740,5"
+  tabella "NON DRENATE" colonne "|Calcolo [kN]|Caratteristiche [kN]|Progetto [kN]" righe 3 9EE8803701437F0D
+    "Laterale compressione" | "1183,0" | "845,0" | "542,8"
+    "Punta compressione" | "659,0" | "470,7" | "241,9"
+    "Laterale trazione" | "1183,0" | "845,0" | "521,1"
+  piede "Ramo governante (media o minimo) scelto separatamente per compressione e trazione."
+json 773827 9AFF336094735EE5
+== riapri
+dati {"generali":{"tipo_palo":"Elica continua","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.8","lunghezza":"18","peso_specifico_palo":"25","azione_compressione":"900","azione_trazione":"","presenza_falda":true,"considera_sottospinta":false,"profondita_falda":"0","verticali_indagate":"≥10","sicurezza_laterale_compressione":"1.20","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.50","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata"},"efficienza":{"metodo":"Feld","numero_pali_x":"2","numero_pali_y":"3","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false},{"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true},{"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile no
+risultato -
+stato "Aggiornamento automatico in attesa…"
+avvisi ""
+generali
+  scelta tipo_palo "Tipo di palo" = "Elica continua" voci "Trivellato|Elica continua|Battuto"
+  scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
+  campo diametro "Diametro palo" = "0.8"
+  campo lunghezza "Lunghezza palo" = "18"
+  campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda" = "0"
+  opzione considera_sottospinta "Considera sottospinta" = "no"
+  campo azione_compressione "Azione assiale — Compressione" = "900"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  scelta metodo_nq "Metodo Nq" = "Parametrizzata" voci "Parametrizzata" · nascosto
+efficienza "ηg,c = 0,771\nηg,t = 0,771"
+  scelta metodo "Metodo" = "Feld" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "2"
+  campo numero_pali_y "Pali in Y" = "3"
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "≥10" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,40"
+  campo __xi4 "Correlazione" = "1,21"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.20"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.50"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 4
+  "Comp – Dre" | "—" | "—" | "—" | "Da verificare"
+  "Comp – Non Dre" | "—" | "—" | "—" | "Da verificare"
+  "Tra – Dre" | "—" | "—" | "—" | "Da verificare"
+  "Tra – Non Dre" | "—" | "—" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 3
+    {"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false,"__strato":"A","__k":"0,7","__mu":"0,532","__alfa":"—","__nq":"24,936"}
+    {"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,7","__mu":"0,404","__alfa":"0,54","__nq":"7,232"}
+    {"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true,"__strato":"C","__k":"0,9","__mu":"0,466","__alfa":"0,35","__nq":"7,327"}
+viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
+grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+curve "Valori a L non disponibili"
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 22,5 · punto disponibile con dati completi fino alla punta" · vuoto "Premere Calcola" · quota 0 · xmin 25
+  serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
+  serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
+  serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
+  serie "z/D=50" #FF800080 punti 161 C31457C4CD6B1BA5
+  serie "L/D effettivo = 22,5" #FFDC143C evidenza punti 201 692E6DDAC0EF2DD6
+tabelle "" · scelta -1
+json ""
+== conferma
+dati {"generali":{"tipo_palo":"Elica continua","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.8","lunghezza":"18","peso_specifico_palo":"25","azione_compressione":"900","azione_trazione":"","presenza_falda":true,"considera_sottospinta":false,"profondita_falda":"0","verticali_indagate":"≥10","sicurezza_laterale_compressione":"1.20","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.50","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata"},"efficienza":{"metodo":"Feld","numero_pali_x":"2","numero_pali_y":"3","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false},{"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true},{"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile no
+risultato -
+stato "Aggiornamento automatico in attesa…"
+avvisi ""
+generali
+  scelta tipo_palo "Tipo di palo" = "Elica continua" voci "Trivellato|Elica continua|Battuto"
+  scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
+  campo diametro "Diametro palo" = "0.8"
+  campo lunghezza "Lunghezza palo" = "18"
+  campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda" = "0"
+  opzione considera_sottospinta "Considera sottospinta" = "no"
+  campo azione_compressione "Azione assiale — Compressione" = "900"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  scelta metodo_nq "Metodo Nq" = "Parametrizzata" voci "Parametrizzata" · nascosto
+efficienza "ηg,c = 0,771\nηg,t = 0,771"
+  scelta metodo "Metodo" = "Feld" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "2"
+  campo numero_pali_y "Pali in Y" = "3"
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "≥10" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,40"
+  campo __xi4 "Correlazione" = "1,21"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.20"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.50"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 4
+  "Comp – Dre" | "—" | "—" | "—" | "Da verificare"
+  "Comp – Non Dre" | "—" | "—" | "—" | "Da verificare"
+  "Tra – Dre" | "—" | "—" | "—" | "Da verificare"
+  "Tra – Non Dre" | "—" | "—" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 3
+    {"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false,"__strato":"A","__k":"0,7","__mu":"0,532","__alfa":"—","__nq":"24,936"}
+    {"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,7","__mu":"0,404","__alfa":"0,54","__nq":"7,232"}
+    {"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true,"__strato":"C","__k":"0,9","__mu":"0,466","__alfa":"0,35","__nq":"7,327"}
+viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
+grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+curve "Valori a L non disponibili"
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 22,5 · punto disponibile con dati completi fino alla punta" · vuoto "Premere Calcola" · quota 0 · xmin 25
+  serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
+  serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
+  serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
+  serie "z/D=50" #FF800080 punti 161 C31457C4CD6B1BA5
+  serie "L/D effettivo = 22,5" #FFDC143C evidenza punti 201 692E6DDAC0EF2DD6
+tabelle "" · scelta -1
+json ""
+== attendi
+dati {"generali":{"tipo_palo":"Elica continua","sottotipo_palo_battuto":"Profilato d'acciaio","diametro":"0.8","lunghezza":"18","peso_specifico_palo":"25","azione_compressione":"900","azione_trazione":"","presenza_falda":true,"considera_sottospinta":false,"profondita_falda":"0","verticali_indagate":"≥10","sicurezza_laterale_compressione":"1.20","sicurezza_laterale_trazione":"1.25","sicurezza_base":"1.50","peso_palo_sfavorevole":"1.30","peso_palo_favorevole":"1.00","metodo_nq":"Parametrizzata"},"efficienza":{"metodo":"Feld","numero_pali_x":"2","numero_pali_y":"3","interasse_x":"","interasse_y":"","eta_compressione":"1","eta_trazione":"1"},"stratigrafie":[[{"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false},{"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true},{"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true}]],"visibilita_grafici":{},"versione":2}
+modificato 0 · modificabile sì · esportabile sì
+risultato 7DB57C473060B330
+stato "Calcolo completato · risultati riferiti ai dati correnti"
+avvisi "Scelta progettuale 2026-09-15: efficienza geometrica applicata sia a compressione sia a trazione.\r\nIpotesi progettuale 2026-09-15: nella verifica non drenata la porzione sopra falda è drenata; senza falda le due verifiche coincidono.\r\nNq: Parametrizzata NQ-2026-09-09; Nq per D ≤ 0,80 m. φ non ridotto.\r\nATTENZIONE Nq: φ fuori dal tratto visibile di almeno una curva; adottato il bordo. Vedere le φ adottate nel dettaglio export.\r\nNq: nel tratto superficiale con z/D < 5 (z < 4,00 m) adottata la curva z/D = 5, senza estrapolare: a favore di sicurezza (Nq cresce al diminuire di z/D).\r\nγb = 1,50 diverso dal valore della NTC 2018 Tab. 6.4.II per la tecnologia del palo (1,30): il calcolo usa il valore del foglio."
+generali
+  scelta tipo_palo "Tipo di palo" = "Elica continua" voci "Trivellato|Elica continua|Battuto"
+  scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
+  campo diametro "Diametro palo" = "0.8"
+  campo lunghezza "Lunghezza palo" = "18"
+  campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
+  opzione presenza_falda "Presenza falda" = "sì"
+  campo profondita_falda "Profondità falda" = "0"
+  opzione considera_sottospinta "Considera sottospinta" = "no"
+  campo azione_compressione "Azione assiale — Compressione" = "900"
+  campo azione_trazione "Azione assiale — Trazione" = ""
+  scelta metodo_nq "Metodo Nq" = "Parametrizzata" voci "Parametrizzata" · nascosto
+efficienza "ηg,c = 0,771\nηg,t = 0,771"
+  scelta metodo "Metodo" = "Feld" voci "Nessuna riduzione|Converse-Labarre|Feld|Definita dall'utente"
+  campo numero_pali_x "Pali in X" = "2"
+  campo numero_pali_y "Pali in Y" = "3"
+  campo interasse_x "Interasse X" = "" · nascosto
+  campo interasse_y "Interasse Y" = "" · nascosto
+  campo eta_compressione "Efficienza compressione" = "1" · nascosto
+  campo eta_trazione "Efficienza trazione" = "1" · nascosto
+normativa
+  scelta verticali_indagate "Verticali indagate" = "≥10" voci "1|2|3|4|5|7|≥10"
+  campo __xi3 "Correlazione" = "1,40"
+  campo __xi4 "Correlazione" = "1,21"
+  campo sicurezza_laterale_compressione "Sicurezza laterale — Compressione" = "1.20"
+  campo sicurezza_laterale_trazione "Sicurezza laterale — Trazione" = "1.25"
+  campo sicurezza_base "Sicurezza di base" = "1.50"
+  campo peso_palo_sfavorevole "Peso proprio — Sfavorevole" = "1.30"
+  campo peso_palo_favorevole "Peso proprio — Favorevole" = "1.00"
+verifica 4
+  "Comp – Dre" | "1.194,1" | "1.035,0" | "115,4%" | "Verifica non soddisfatta"
+  "Comp – Non Dre" | "1.194,1" | "784,7" | "152,2%" | "Verifica non soddisfatta"
+  "Tra – Dre" | "—" | "740,5" | "—" | "Da verificare"
+  "Tra – Non Dre" | "—" | "521,1" | "—" | "Da verificare"
+stratigrafie 1 · selezionata 0 · profilo 0
+  stratigrafia 1 · strati 3
+    {"spessore":"3","tipologia":"Granulare","addensamento":"Sciolto","peso_specifico":"17","peso_specifico_saturo":"19","angolo_attrito":"28","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":false,"__strato":"A","__k":"0,7","__mu":"0,532","__alfa":"—","__nq":"24,936"}
+    {"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,7","__mu":"0,404","__alfa":"0,54","__nq":"7,232"}
+    {"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true,"__strato":"C","__k":"0,9","__mu":"0,466","__alfa":"0,35","__nq":"7,327"}
+viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Nessuna curva selezionata" · quota 18 · xmin -
+  serie "Dren. C · progetto" #FF16703B punti 133 E1D27236712DF672
+  serie "Dren. T · progetto" #FF73B84C punti 133 BEA90127E25F919A
+  serie "Non dren. C · progetto" #FF6A1B9A punti 133 994F5CE10C2C40FA
+  serie "Non dren. T · progetto" #FFB779D6 punti 133 EA7AD9C93A2B1418
+  serie "Ed compressione" #FFD32F2F tratteggio punti 133 13E69006142B5085
+curve "Valori a L=18 m [kN]"
+  "Dren. C · progetto: 1.035,0" = sì
+  "Dren. T · progetto: 740,5" = sì
+  "Non dren. C · progetto: 784,7" = sì
+  "Non dren. T · progetto: 521,1" = sì
+  "Ed compressione: 1.194,1" = sì
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+  serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
+  serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
+  serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
+  serie "z/D=50" #FF800080 punti 161 C31457C4CD6B1BA5
+  serie "L/D effettivo = 22,5" #FFDC143C evidenza punti 201 692E6DDAC0EF2DD6
+  punto 25 8.193398976253842 "S1: φ=25° · Nq=8,193" #FFDC143C proiettato "" "" r 5
+tabelle "Capacità portante — riepilogo|Riepilogo alla quota disponibile|Sondaggio 1 — Nq — selezione curve|Sondaggio 1 — Nq — valutazione curve|Sondaggio 1 — parametri alla punta|Sondaggio 1 — integrazione per strato|Sondaggio 1 — contributi laterali|Sondaggio 1 — drenante — resistenze calcolate|Sondaggio 1 — non drenante — resistenze calcolate|drenante — Minimo — componenti|drenante — Media — componenti|non drenante — Minimo — componenti|non drenante — Media — componenti|drenante compressione — verifica a ogni quota|drenante trazione — verifica a ogni quota|non drenante compressione — verifica a ogni quota|non drenante trazione — verifica a ogni quota" · scelta 0
+  nota "Compressione e trazione · quota disponibile z = 18,0 m"
+  tabella "DRENATE" colonne "|Calcolo [kN]|Caratteristiche [kN]|Progetto [kN]" righe 3 4527CEDF4977C33B
+    "Laterale compressione" | "1681,1" | "1200,8" | "771,3"
+    "Punta compressione" | "718,3" | "513,1" | "263,7"
+    "Laterale trazione" | "1681,1" | "1200,8" | "740,5"
+  tabella "NON DRENATE" colonne "|Calcolo [kN]|Caratteristiche [kN]|Progetto [kN]" righe 3 9EE8803701437F0D
+    "Laterale compressione" | "1183,0" | "845,0" | "542,8"
+    "Punta compressione" | "659,0" | "470,7" | "241,9"
+    "Laterale trazione" | "1183,0" | "845,0" | "521,1"
+  piede "Ramo governante (media o minimo) scelto separatamente per compressione e trazione."
+json 773827 9AFF336094735EE5
