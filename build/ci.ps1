@@ -413,10 +413,18 @@ function Say([string] $text)
 {
     Write-Host $text
     # summary.txt is the record of the run: a file held for an instant by another process ("Flusso illeggibile", 14/10)
-    # must neither lose the line nor fail the run. Bounded retries, then the original error.
+    # must neither lose the line nor fail the run. Add-Content reopens the file to read its encoding and kept failing
+    # (16/10, also after its retries): append through a stream shared for reading and writing, with the same bytes
+    # (UTF-8, BOM only when the file is created, CRLF). Bounded retries, then the original error.
+    $path = Join-Path $Output 'summary.txt'
     for ($attempt = 1; ; $attempt++) {
-        try { Add-Content -LiteralPath (Join-Path $Output 'summary.txt') -Value $text -Encoding UTF8 -ErrorAction Stop; return }
-        catch { if ($attempt -ge 10) { throw }; Start-Sleep -Milliseconds (50 * $attempt) }
+        try {
+            $stream = [System.IO.File]::Open($path, [System.IO.FileMode]::Append, [System.IO.FileAccess]::Write, [System.IO.FileShare]::ReadWrite)
+            try { $writer = New-Object System.IO.StreamWriter($stream, (New-Object System.Text.UTF8Encoding($true))); $writer.Write($text + "`r`n"); $writer.Flush() }
+            finally { $stream.Dispose() }
+            return
+        }
+        catch { if ($attempt -ge 20) { throw }; Start-Sleep -Milliseconds (50 * $attempt) }
     }
 }
 Say ("ANTHEA ci  profilo {0}  stadi {1}  tag {2}" -f $Profile, ($Stage -join ','), $Tag)
