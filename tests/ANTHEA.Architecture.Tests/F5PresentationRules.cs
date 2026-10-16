@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -20,6 +21,10 @@ internal static class F5PresentationRules
     /// <summary>New views (section 2.1): Views/&lt;modulo&gt; and the F5.13 shell. Historical views stay under X.Desktop/Wpf.</summary>
     internal static readonly string[] NewViewFolders = ["X.Desktop/Views/", "X.Desktop/Shell/"];
     const string BaselineFile = "tests/ANTHEA.Architecture.Tests/f5-static-baseline.json";
+    internal const string AnalyzerPackage = "Microsoft.VisualStudio.Threading.Analyzers";
+    const string AnalyzerConfig = "build/analyzers/ANTHEA.Presentation.globalconfig";
+    /// <summary>Q16: analyzer rules that must stay errors on Presentation (the reasons are in the global config).</summary>
+    static readonly string[] AnalyzerErrors = ["VSTHRD100", "VSTHRD101", "VSTHRD002", "VSTHRD110"];
     static readonly CSharpParseOptions ParseOptions = new(LanguageVersion.Preview, preprocessorSymbols: ["NET", "NET8_0", "NET8_0_OR_GREATER", "RELEASE"]);
     static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
     static readonly HashSet<string> MutableCollections = ["List", "Dictionary", "HashSet", "SortedSet", "SortedDictionary", "SortedList",
@@ -55,6 +60,9 @@ internal static class F5PresentationRules
         Require(products.Any(f => Path.GetFileName(f) == "ANTHEA.dll"), "P4: ANTHEA.dll Release assente, metadati del prodotto non verificabili.");
         var outcome = Evaluate(new Inputs(root, f4Baseline.Findings, staticBaseline.Findings,
             name => Path.Combine(AppContext.BaseDirectory, name + ".dll"), metadata, isDesktop, products));
+        var (analyzerProblems, analyzerStatus) = Analyzer(root);
+        outcome.Violations.AddRange(analyzerProblems.Select(p => new Violation("Q16", "Directory.Build.targets", p)));
+        outcome.Statuses.Add(analyzerStatus);
         File.WriteAllText(Path.Combine(output, "f5-static-findings.json"), JsonSerializer.Serialize(new F4DomainRules.Baseline(1, "candidate",
             "P3 syntax candidates (mutable static state) in production code. Proposal for review, never a blanket regeneration.", outcome.StaticFindings), JsonOptions));
         File.WriteAllText(Path.Combine(output, "f5-rules.json"), JsonSerializer.Serialize(new { outcome.Statuses, outcome.Violations,
@@ -160,6 +168,55 @@ internal static class F5PresentationRules
         statuses.Add(new("P6", viewFolders.Length > 0 ? "attiva" : "vacua", viewFolders.Length > 0 ? "controllate " + string.Join(", ", viewFolders)
             : "cartelle delle viste nuove (" + string.Join(", ", NewViewFolders) + ") non ancora presenti"));
         return new(violations, statuses, observed);
+    }
+
+    // ---------------------------------------------------------------- analyzer configuration (Q16)
+
+    static (List<string> Problems, RuleStatus Status) Analyzer(string root)
+    {
+        var targets = XDocument.Load(Path.Combine(root, "Directory.Build.targets"));
+        string config = Path.Combine(root, AnalyzerConfig);
+        var problems = File.Exists(config)
+            ? AnalyzerConfigProblems(targets, File.ReadAllText(config), File.ReadAllText(Path.Combine(root, "docs/refactoring/decisioni.md"))).ToList()
+            : ["configurazione delle gravità assente: " + AnalyzerConfig];
+        string version = targets.Descendants("PackageReference").FirstOrDefault(e => e.Attribute("Include")?.Value == AnalyzerPackage)?.Attribute("Version")?.Value ?? "?";
+        // Only the central block: a project file that adds the package itself would bypass the "only Presentation" choice.
+        var projectFiles = Directory.EnumerateDirectories(root, "X.*").Concat(new[] { "src", "tests", "tools" }.Select(d => Path.Combine(root, d)).Where(Directory.Exists))
+            .SelectMany(d => Directory.EnumerateFiles(d, "*", SearchOption.AllDirectories)
+                .Where(f => !Path.GetRelativePath(d, f).Split(Path.DirectorySeparatorChar).Any(p => p is "bin" or "obj" or "node_modules")))
+            .Where(f => Path.GetExtension(f) is ".csproj" or ".props" or ".targets").Append(Path.Combine(root, "Directory.Build.props"));
+        foreach (string file in projectFiles.Where(f => File.ReadAllText(f).Contains(AnalyzerPackage, StringComparison.OrdinalIgnoreCase)))
+            problems.Add("pacchetto dichiarato fuori dalla configurazione centrale: " + Path.GetRelativePath(root, file).Replace('\\', '/'));
+        bool presentation = File.Exists(Path.Combine(root, "src", Presentation, Presentation + ".csproj"));
+        string assets = Path.Combine(root, "src", Presentation, "obj", "project.assets.json");
+        string note = "configurazione verificata; ";
+        if (!presentation) note += "ANTHEA.Presentation: progetto non ancora presente";
+        else if (!File.Exists(assets)) note += "ripristino di ANTHEA.Presentation non ancora eseguito";
+        else if (!File.ReadAllText(assets).Contains("\"" + AnalyzerPackage + "/" + version + "\"", StringComparison.Ordinal)) problems.Add("pacchetto non ripristinato in ANTHEA.Presentation");
+        else note += "pacchetto ripristinato in ANTHEA.Presentation";
+        return (problems, new("Q16", presentation ? "attiva" : "vacua",
+            $"{AnalyzerPackage} {version} solo su ANTHEA.Presentation, errori {string.Join("/", AnalyzerErrors)}, VSTHRD111 disattivata; {note}"));
+    }
+
+    internal static IEnumerable<string> AnalyzerConfigProblems(XDocument targets, string globalConfig, string decisions)
+    {
+        var references = targets.Descendants("PackageReference").Where(e => e.Attribute("Include")?.Value == AnalyzerPackage).ToArray();
+        if (references.Length != 1) { yield return "PackageReference dell'analyzer assente o duplicato"; yield break; }
+        var reference = references[0];
+        string condition = (reference.Parent?.Attribute("Condition")?.Value ?? "").Replace(" ", "", StringComparison.Ordinal);
+        if (condition != "'$(MSBuildProjectName)'=='" + Presentation + "'") yield return "analyzer non limitato ad ANTHEA.Presentation: " + condition;
+        string version = reference.Attribute("Version")?.Value ?? "";
+        if (!Regex.IsMatch(version, @"^\d+\.\d+\.\d+$")) yield return "versione non esatta: " + version;
+        if (reference.Attribute("PrivateAssets")?.Value != "all") yield return "PrivateAssets=all mancante: il pacchetto passerebbe ai progetti che riferiscono Presentation";
+        if (!reference.Parent!.Elements("EditorConfigFiles").Any(e => (e.Attribute("Include")?.Value ?? "").Replace('\\', '/').EndsWith(AnalyzerConfig, StringComparison.Ordinal)))
+            yield return "configurazione delle gravità non collegata al compilatore";
+        var severities = globalConfig.Split('\n').Select(l => l.Trim()).Where(l => l.Length > 0 && !l.StartsWith('#')).Select(l => l.Split('=', 2)).Where(p => p.Length == 2)
+            .GroupBy(p => p[0].Trim(), StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.Last()[1].Trim(), StringComparer.Ordinal);
+        if (severities.GetValueOrDefault("is_global") != "true") yield return "is_global = true mancante";
+        foreach (string rule in AnalyzerErrors)
+            if (severities.GetValueOrDefault("dotnet_diagnostic." + rule + ".severity") != "error") yield return rule + " deve essere un errore";
+        if (severities.GetValueOrDefault("dotnet_diagnostic.VSTHRD111.severity") != "none") yield return "VSTHRD111 (ConfigureAwait) deve restare disattivata";
+        if (!decisions.Contains("| " + AnalyzerPackage + " " + version + " |", StringComparison.Ordinal)) yield return "versione assente dalla tabella delle dipendenze di decisioni.md: " + version;
     }
 
     // ---------------------------------------------------------------- project files
@@ -446,6 +503,24 @@ internal static class F5PresentationRules
         Check(Calculates("void M() => new Thread(() => { }).Start();"), "P6 Thread non rilevato");
         Check(Calculates("", "using static System.Threading.Tasks.Task;"), "P6 using static Task non rilevato");
         Check(!Calculates("System.Threading.Tasks.Task M(dynamic vm) => System.Threading.Tasks.Task.FromResult(vm.CalculateCommand); // Task.Run IModuleService\n string S = \"Task.Run\"; object SessionState;"), "P6 vista pulita segnalata");
+        // Q16 analyzer configuration.
+        const string targets = "<Project><ItemGroup Condition=\"'$(MSBuildProjectName)' == 'ANTHEA.Presentation'\"><PackageReference Include=\"Microsoft.VisualStudio.Threading.Analyzers\" Version=\"18.7.23\" PrivateAssets=\"all\" />"
+            + "<EditorConfigFiles Include=\"$(MSBuildThisFileDirectory)build\\analyzers\\ANTHEA.Presentation.globalconfig\" /></ItemGroup></Project>";
+        const string config = "# gravità\r\nis_global = true\r\ndotnet_diagnostic.VSTHRD100.severity = error\r\ndotnet_diagnostic.VSTHRD101.severity = error\r\n"
+            + "dotnet_diagnostic.VSTHRD002.severity = error\r\ndotnet_diagnostic.VSTHRD110.severity = error\r\ndotnet_diagnostic.VSTHRD111.severity = none\r\n";
+        const string table = "| Microsoft.VisualStudio.Threading.Analyzers 18.7.23 | MIT | analisi | F5 |";
+        bool Configured(string t, string c = config, string d = table) => !AnalyzerConfigProblems(XDocument.Parse(t), c, d).Any();
+        Check(Configured(targets), "Q16 configurazione corretta segnalata");
+        Check(!Configured(targets.Replace(" Condition=\"'$(MSBuildProjectName)' == 'ANTHEA.Presentation'\"", "")), "Q16 analyzer su tutti i progetti non rilevato");
+        Check(!Configured(targets.Replace("'ANTHEA.Presentation'", "'X.Desktop'")), "Q16 analyzer su un altro progetto non rilevato");
+        Check(!Configured(targets.Replace("18.7.23", "18.*"), config, table.Replace("18.7.23", "18.*")), "Q16 versione flottante non rilevata");
+        Check(!Configured(targets.Replace(" PrivateAssets=\"all\"", "")), "Q16 PrivateAssets mancante non rilevato");
+        Check(!Configured(targets.Replace("ANTHEA.Presentation.globalconfig", "altro.globalconfig")), "Q16 configurazione scollegata non rilevata");
+        Check(!Configured(targets, config.Replace("VSTHRD100.severity = error", "VSTHRD100.severity = warning")), "Q16 VSTHRD100 declassata non rilevata");
+        Check(!Configured(targets, config + "dotnet_diagnostic.VSTHRD002.severity = suggestion\r\n"), "Q16 VSTHRD002 ridefinita non rilevata");
+        Check(!Configured(targets, config.Replace("VSTHRD111.severity = none", "VSTHRD111.severity = warning")), "Q16 ConfigureAwait imposto non rilevato");
+        Check(!Configured(targets, config.Replace("is_global = true", "")), "Q16 is_global mancante non rilevato");
+        Check(!Configured(targets, config, table.Replace("18.7.23", "17.14.15")), "Q16 versione diversa dalla tabella non rilevata");
         bool syntaxError = false; try { StaticState(vm, "class {"); } catch (InvalidOperationException) { syntaxError = true; }
         Check(syntaxError, "sorgente non analizzabile ignorato");
 

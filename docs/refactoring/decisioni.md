@@ -449,7 +449,7 @@ Da approvare una volta; ogni variazione si aggiunge qui.
 | CommunityToolkit.Mvvm 8.3.2 | MIT | ViewModel del nuovo modulo Modelli; altri moduli in F5 | Modelli / F5 |
 | HelixToolkit.Wpf.SharpDX 3.1.2 | MIT | Renderer WPF/Direct3D del nuovo modulo Modelli | Bozza Modelli |
 | Microsoft.Extensions.DependencyInjection | MIT | composizione dell'applicazione | F5 |
-| Microsoft.VisualStudio.Threading.Analyzers | MIT | analisi di async void e attese | F5 |
+| Microsoft.VisualStudio.Threading.Analyzers 18.7.23 | MIT | analisi di async void e attese; solo `ANTHEA.Presentation`, gravità in `build/analyzers` (F5.1, Q16) | F5 |
 | Markdig, YamlDotNet | BSD-2, MIT | fonti della Wiki con front-matter | W2 |
 | DocumentFormat.OpenXml oppure Pandoc | MIT / GPL (strumento esterno) | guide Word e PDF dalle stesse fonti | W2.5 |
 | python-docx, lxml, pypdf, pypdfium2, Pillow, reportlab | varie (MIT, BSD, Apache) | pipeline attuale delle guide, fino a W2.5 | W0 |

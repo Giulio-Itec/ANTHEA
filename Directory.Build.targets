@@ -34,6 +34,20 @@
     </Content>
   </ItemGroup>
 
+  <!--
+    F5.1 (decision Q16, 16/10/2026): Microsoft.VisualStudio.Threading.Analyzers only on ANTHEA.Presentation, for now.
+    The version is in the dependency table of docs/refactoring/decisioni.md, the severities (and their reasons) in
+    build\analyzers\ANTHEA.Presentation.globalconfig. Analyzers only: PrivateAssets=all keeps the package out of the
+    projects that reference Presentation and nothing is copied to the output, so the binaries do not change.
+    Restored from nuget.org like the other packages. tests\ANTHEA.Architecture.Tests checks this block.
+    The global config goes straight into EditorConfigFiles (the list passed to the compiler): Roslyn copies
+    GlobalAnalyzerConfigFiles into it before this file is evaluated.
+  -->
+  <ItemGroup Condition="'$(MSBuildProjectName)' == 'ANTHEA.Presentation'">
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="18.7.23" PrivateAssets="all" />
+    <EditorConfigFiles Include="$(MSBuildThisFileDirectory)build\analyzers\ANTHEA.Presentation.globalconfig" />
+  </ItemGroup>
+
   <Target Name="VerifyGpcLibraries" BeforeTargets="ResolveAssemblyReferences" Condition="'$(_GpcEnabled)' == 'true' and '$(GpcVerifyHashes)' == 'true'">
     <Error Condition="!Exists('$(GpcManifestProps)')" Text="Manca $(GpcManifestProps): rigenerarlo con tools\libs\Write-ManifestProps.ps1." />
     <Error Condition="!Exists('%(GpcLibraryFile.Identity)')" Text="DLL GPC mancante: %(GpcLibraryFile.Identity)" />
