@@ -33,8 +33,9 @@ dalla revisione in sola lettura) non fa nulla. Il servizio di calcolo della capa
 nelle tracce: resta la sua parte che agisce sui dati e su `Modified` anche dalla scheda della capacità (preparazione
 all'apertura, `elastico.stratigrafia` quando cambia il numero delle stratigrafie, un secondo `Modified` per ogni modifica).
 
-Gli scenari sono 22:
-- `palo-<id>` e `micropalo-<id>`, uno per ognuna delle 16 fixture F3 dei due moduli: apertura, conferma, la visita delle due
+Gli scenari sono 27:
+- `palo-<id>` e `micropalo-<id>`, uno per ognuna delle 21 fixture F3 dei due moduli (16 di F5.7, più le 5 aggiunte in F5.8 sulla
+  risposta elastica, `elastico-*`): apertura, conferma, la visita delle due
   schede delle analisi come `ui/f3-equivalence` (andata e ritorno; una fixture aperta sulla risposta elastica torna alla
   capacità), attesa, calcolo, conferma, riapertura, conferma, attesa del ricalcolo automatico;
 - `modifiche-palo`: campi, scelte e opzioni dei sette form (testa impedita con e senza eccentricità, falda, metodo, verticali,
@@ -86,6 +87,10 @@ li confronta a ogni corsa.
 
   Tre catture (`supporto/artefatti/refactoring/f5/f5-7/traccia-a`, `-b`, `-c`) sono uguali byte per byte: 22 scenari, 36211
   righe, 40 disegni.
+- Il 17/10/2026 (F5.8) si sono aggiunte le tracce delle 5 fixture F3 nuove della risposta elastica, catturate con la vista storica
+  sul codice di `4b6a59de` (le fixture si aprono sulla risposta elastica e il percorso F3 le porta alla capacità, dove la traccia le
+  segue). Due catture (`supporto/artefatti/refactoring/f5/f5-8/traccia-orizzontale-a`, `-b`) sono uguali byte per byte: 27
+  scenari, 40277 righe, gli stessi 40 disegni; le 22 tracce precedenti sono invariate.
 - La suite `ui/check-palo-orizzontale-historic` dello stadio `ui` ricattura la vista storica e la confronta con queste
   tracce e con l'elenco dei disegni, finché la vista storica esiste.
 - `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con il ViewModel.

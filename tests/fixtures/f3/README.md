@@ -198,3 +198,36 @@ Gli attesi delle 61 fixture esistenti e le transizioni F4 non cambiano.
 - In `expected/esito.txt` è cambiato solo il numero delle fixture (61 → 67).
 - Impronte nel manifest, sezione `fixture_aggiunte_f5_7` (input, attesi ed `esito.txt`), sulla forma conservata da git (fine
   riga LF).
+
+## Fixture aggiunte in F5.8 (risposta elastica del palo e armature)
+
+Stessa regola di F5.4 (proposta F5, sezione 7.2): prima della preparazione di F5.8 le fixture aperte sulla scheda «Risposta
+elastica · trave su molle» (`vista_orizzontale` = `elastico`) sono passate da 6 a 11 (80 in tutto), catturate con la vista
+storica (`ElasticPileWorkspace` ospitata da `HorizontalWorkspace`). Delle 6 esistenti davano un risultato elastico solo le due
+`single-soil-elastic` (un solo strato, un solo tratto collegato alla sezione principale; per il micropalo le armature non si
+applicano al CHS); le altre sono default incompleti o archivi da migrare. Gli attesi delle 75 fixture esistenti e le
+transizioni F4 non cambiano: le 1 117 transizioni dell'elastico restano tutte su `geo_palo_orizzontale/single-soil-elastic`.
+
+| Fixture | Cosa copre |
+| --- | --- |
+| `geo_palo_orizzontale--elastico-tratti-anello-spirale` | tre tratti: il primo con la sezione principale, uno personalizzato con la spirale, uno personalizzato con il secondo anello interno; tratto libero 1,5 m con eccentricità, due stratigrafie con la seconda scelta (coesivo–granulare), punta a cerniera, passo con la virgola, ipotesi approvate («Approva tutto · ipotesi»), barre commerciali di 8 m, opzioni del disegno (molle sì, nodi e q no); distinta con due giunti |
+| `geo_palo_orizzontale--elastico-sisma-testa-impedita` | zona sismica di testa con estensione assegnata di 9 m (10D = 8 m) e azioni confermate («Approva tutto · sisma»), testa impedita, punta incastrata, falda con γw = 10, strati con kh assegnato, tabella 14.6 dei coesivi e nh assegnato, secondo tratto con armatura trasversale «Da definire», regole di dettaglio Trave, copriferro esplicito, minimi dei pali non controllati; zona sismica e tratti mostrati, kh nascosto |
+| `geo_palo_orizzontale--elastico-stratigrafia-da-scegliere` | due stratigrafie e nessuna scelta per la risposta elastica: calcolo fermato («Selezionare la stratigrafia della risposta elastica.»), nessun risultato e nessun report |
+| `geo_micropalo_orizzontale--elastico-chs-stratificato` | CHS 168.3 × 10 del catalogo con peso dell'iniezione, testa impedita, tratto libero 1 m, falda a 1,5 m, strato coesivo (tabella 14.6) e granulare (correlazione delle sabbie con override di nh e sua motivazione), punta a cerniera, passo fine; tratti, zona sismica e N nascosti |
+| `geo_micropalo_orizzontale--elastico-chs-ej-assegnato` | tubo CHS manuale 139,7 × 8 con EJ assegnato e motivazione, eccentricità 0,2 m, due stratigrafie con la prima scelta, k distribuito assegnato e tabella 14.5 delle sabbie, punta libera |
+
+- Gli input vengono da `fixtures-f3` (`F3Fixtures.HorizontalPileF58`): dati preparati come li prepara la vista
+  (`ElasticHorizontalPile.PrepareShared`), poi le scelte dell'utente; testi per i valori digitati, anche con la virgola;
+  booleani JSON per le opzioni. Nessun identificativo finisce con `default`. Si sono copiate solo le 5 fixture nuove: il
+  generatore produce input diversi da quelli congelati per alcune fixture più vecchie, come già in F5.4–F5.9b.
+- Gli attesi (43 file) vengono dalla cattura `20261017-013441-f58-f3-cattura-a`, sul codice di produzione di `4b6a59de`:
+  senza attesi, le sole differenze erano i 43 file aggiunti e il numero di `esito.txt`. La seconda cattura
+  (`…-013654-f58-f3-cattura-b`) dà gli stessi file byte per byte tranne i tempi misurati `tempi_ms` dei due `result.json` del
+  palo con armature, chiave volatile di `tests/ANTHEA.Testing/tolerances.json` (come per `single-soil-elastic`); senza quella
+  chiave i due JSON sono uguali.
+- Con queste fixture passano `ui/f3-equivalence` (stesse transizioni F4) e `ui/f3-report-chapters` (81 capitoli).
+- In `expected/esito.txt` è cambiato solo il numero delle fixture (75 → 80).
+- Impronte nel manifest, sezione `fixture_aggiunte_f5_8` (input, attesi ed `esito.txt`), sulla forma conservata da git (fine
+  riga LF).
+- Le tracce F5.7 della scheda della capacità (`tests/fixtures/f5-palo-orizzontale/storica`) hanno uno scenario per fixture dei
+  due moduli: si sono aggiunte, catturate con la vista storica, le tracce delle 5 fixture nuove (27 scenari).

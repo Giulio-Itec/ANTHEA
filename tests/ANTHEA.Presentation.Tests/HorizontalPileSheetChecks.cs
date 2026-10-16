@@ -72,7 +72,7 @@ internal static class HorizontalPileSheetChecks
                 expect.That(difference is null, "Palo orizzontale MVVM diverso dalla vista storica, scenario " + scenario.Name + ", " + difference);
             }
             var fixtures = new[] { Pile, Micro }.SelectMany(m => HorizontalPileScenarios.Fixtures(root, m).Select(id => (Module: m, Id: id))).ToArray();
-            expect.That(fixtures.Length == 16, "Fixture F3 dei pali orizzontali: " + fixtures.Length);
+            expect.That(fixtures.Length == 21, "Fixture F3 dei pali orizzontali: " + fixtures.Length);
             string capture = Path.Combine(output, "palo-orizzontale-f3");
             foreach (var (module, id) in fixtures) await F3Async(root, module, id, capture, expect);
             CompareF3(root, capture, fixtures, expect);
@@ -366,7 +366,7 @@ internal static class HorizontalPileSheetChecks
                 compared++;
             }
         }
-        expect.That(elastic == 6 && transitions.Count > 0 && transitions.All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal)),
+        expect.That(elastic == 11 && transitions.Count > 0 && transitions.All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal)),
             "Transizioni F4 dei pali orizzontali fuori dai file della risposta elastica");
         expect.That(compared > 0, "Nessun file F3 confrontato");
     }
