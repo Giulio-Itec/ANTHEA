@@ -4,7 +4,7 @@
  xmlns:local="clr-namespace:X.Desktop">
  <Application.Resources>
   <ResourceDictionary>
-  <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="Wpf/ProjectStyles.xaml"/><ResourceDictionary Source="Wpf/AppearanceControls.xaml"/></ResourceDictionary.MergedDictionaries>
+  <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="Wpf/ProjectStyles.xaml"/><ResourceDictionary Source="Wpf/AppearanceControls.xaml"/><ResourceDictionary Source="Views/Common/FieldFormTemplates.xaml"/></ResourceDictionary.MergedDictionaries>
   <Style TargetType="Menu"><Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/></Style>
   <Style TargetType="TabControl"><Style.Triggers><Trigger Property="local:Appearance.Dark" Value="True">
    <Setter Property="Background" Value="{DynamicResource AppearancePaper}"/>

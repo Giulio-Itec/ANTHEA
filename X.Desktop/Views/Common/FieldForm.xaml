@@ -1,0 +1,131 @@
+<!--
+  View of a FormViewModel (proposal F5, section 3.2): the layout of the historic InputForm (X.Desktop/Wpf/Ui.cs) in XAML.
+  One grid per field with the same columns as InputForm: label (star), symbol (52 with the symbol columns, otherwise 0),
+  editor (82 compact, 110) and unit (42 compact, 55); the rows of the arrangement (FieldLayout), then the notice and the
+  error. Groups follow the table as expanders. Brushes are the existing palette resources of the application (DynamicResource);
+  the theme tokens come in F5.3. Typing, focus, F1 and the «?» label are wired in FieldForm.xaml.cs; every write into the
+  document goes through the ViewModel.
+-->
+<UserControl x:Class="X.Desktop.Views.Common.FieldForm"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ xmlns:forms="clr-namespace:Anthea.Presentation.Forms;assembly=ANTHEA.Presentation">
+ <UserControl.Resources>
+  <common:FlagValueConverter x:Key="Flag"/>
+  <BooleanToVisibilityConverter x:Key="Visible"/>
+
+  <!-- Editors: the text box, the choice and the check box of InputForm. Margin and minimum height are also on the host
+       of the editor in the row, so that the editor gets the same rounded layout slot as in InputForm. -->
+  <DataTemplate x:Key="TextEditor" DataType="{x:Type forms:FieldViewModel}">
+   <TextBox x:Name="Box" Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly, Mode=OneWay}" TextAlignment="Right"
+    Background="{DynamicResource Appearance.background.F8FAFC}" MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}"
+    ToolTip="{Binding EditorToolTip}" ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}"
+    IsKeyboardFocusWithinChanged="Editor_FocusChanged" KeyDown="Editor_KeyDown"/>
+   <DataTemplate.Triggers>
+    <DataTrigger Binding="{Binding IsReadOnly}" Value="True"><Setter TargetName="Box" Property="Background" Value="{DynamicResource Appearance.calculated.EAF2FA}"/></DataTrigger>
+    <DataTrigger Binding="{Binding Form.SymbolColumns}" Value="True"><Setter TargetName="Box" Property="TextAlignment" Value="Center"/></DataTrigger>
+   </DataTemplate.Triggers>
+  </DataTemplate>
+  <DataTemplate x:Key="ChoiceEditor" DataType="{x:Type forms:FieldViewModel}">
+   <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}"
+    MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}"
+    ToolTip="{Binding EditorToolTip}" ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}"
+    KeyDown="Editor_KeyDown" PreviewMouseWheel="Choice_PreviewMouseWheel"/>
+  </DataTemplate>
+  <DataTemplate x:Key="BoolEditor" DataType="{x:Type forms:FieldViewModel}">
+   <CheckBox x:Name="Check" IsChecked="{Binding IsChecked}" VerticalContentAlignment="Center"
+    MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}"
+    ToolTip="{Binding EditorToolTip}" ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}" KeyDown="Editor_KeyDown">
+    <DockPanel>
+     <Button DockPanel.Dock="Right" Content="?" Style="{DynamicResource ProjectButton}" Background="{DynamicResource AppearancePaper}" Foreground="{DynamicResource AppearanceInk}"
+      Padding="2" Margin="1" MinHeight="20" Width="20" Visibility="{Binding HasHelp, Converter={StaticResource Visible}}" ToolTip="{Binding HelpToolTip}"
+      AutomationProperties.Name="{Binding Label, StringFormat='Wiki: {0}'}" Click="Help_Click" Initialized="Help_Initialized"/>
+     <TextBlock Text="{Binding Label}" FontSize="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='12|13'}"
+      Foreground="{DynamicResource Appearance.foreground.0B2A4A}" TextWrapping="Wrap" VerticalAlignment="Center" ToolTip="{Binding HelpToolTip}"/>
+    </DockPanel>
+   </CheckBox>
+   <DataTemplate.Triggers>
+    <!-- With the symbol columns the label of the check box is in the label column. -->
+    <DataTrigger Binding="{Binding Form.SymbolColumns}" Value="True"><Setter TargetName="Check" Property="Content" Value="{x:Null}"/></DataTrigger>
+   </DataTemplate.Triggers>
+  </DataTemplate>
+
+  <!-- Row of a field. -->
+  <DataTemplate x:Key="FieldRow" DataType="{x:Type forms:FieldViewModel}">
+   <Grid x:Name="Row" IsEnabled="{Binding IsEnabled}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+    <Grid.ColumnDefinitions>
+     <ColumnDefinition/>
+     <ColumnDefinition Width="{Binding Form.SymbolColumns, Converter={StaticResource Flag}, ConverterParameter='52|0'}"/>
+     <ColumnDefinition Width="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='82|110'}"/>
+     <ColumnDefinition Width="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='42|55'}"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+    <DockPanel x:Name="LabelHost">
+     <Button DockPanel.Dock="Right" Content="?" Style="{DynamicResource ProjectButton}" Background="{DynamicResource AppearancePaper}" Foreground="{DynamicResource AppearanceInk}"
+      Padding="2" Margin="1" MinHeight="20" Width="20" Visibility="{Binding HasHelp, Converter={StaticResource Visible}}" ToolTip="{Binding HelpToolTip}"
+      AutomationProperties.Name="{Binding Label, StringFormat='Wiki: {0}'}" Click="Help_Click" Initialized="Help_Initialized"/>
+     <TextBlock x:Name="LabelText" Text="{Binding Label}" FontSize="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='12|13'}"
+      Foreground="{DynamicResource Appearance.foreground.0B2A4A}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2,3,6,3"
+      ToolTip="{Binding LabelToolTip}" ToolTipService.ShowDuration="20000"/>
+    </DockPanel>
+    <TextBlock x:Name="SymbolText" Grid.Column="1" Text="{Binding Symbol}" FontSize="12" TextAlignment="Center" Foreground="{DynamicResource Appearance.foreground.0B2A4A}"
+     TextWrapping="Wrap" VerticalAlignment="Center" Visibility="Collapsed"/>
+    <ContentControl x:Name="Editor" Grid.Column="2" Content="{Binding}" Focusable="False" IsTabStop="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+     Margin="2,3,2,3" MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}">
+     <ContentControl.Style>
+      <Style TargetType="ContentControl">
+       <Setter Property="ContentTemplate" Value="{StaticResource TextEditor}"/>
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding Kind}" Value="Choice"><Setter Property="ContentTemplate" Value="{StaticResource ChoiceEditor}"/></DataTrigger>
+        <DataTrigger Binding="{Binding Kind}" Value="Bool"><Setter Property="ContentTemplate" Value="{StaticResource BoolEditor}"/></DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </ContentControl.Style>
+    </ContentControl>
+    <TextBlock x:Name="UnitText" Grid.Column="3" Text="{Binding Unit}" FontSize="11" Foreground="{DynamicResource Appearance.foreground.64748B}"
+     TextWrapping="Wrap" VerticalAlignment="Center" Margin="4,0,0,0"/>
+    <Border x:Name="NoteBox" Grid.Row="2" Grid.ColumnSpan="4" Background="{DynamicResource Appearance.background.FFF6DD}" BorderBrush="{DynamicResource Appearance.border.EEDCAF}"
+     BorderThickness="1" Padding="8" Margin="2,2,2,6" Visibility="{Binding IsNoteVisible, Converter={StaticResource Visible}}">
+     <TextBlock Text="{Binding Note}" FontSize="11" Foreground="{DynamicResource Appearance.foreground.865D16}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+    </Border>
+    <TextBlock x:Name="ErrorText" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding Error}" FontSize="11" Foreground="{DynamicResource Appearance.foreground.9A4D0A}"
+     TextWrapping="Wrap" Margin="2,2,2,6" Visibility="{Binding HasError, Converter={StaticResource Visible}}"/>
+   </Grid>
+   <DataTemplate.Triggers>
+    <DataTrigger Binding="{Binding IsDimmed}" Value="True"><Setter TargetName="Row" Property="Opacity" Value="0.4"/></DataTrigger>
+    <DataTrigger Binding="{Binding Form.SymbolColumns}" Value="True"><Setter TargetName="SymbolText" Property="Visibility" Value="Visible"/></DataTrigger>
+    <DataTrigger Binding="{Binding Layout}" Value="EditorSpansUnit">
+     <Setter TargetName="Editor" Property="Grid.ColumnSpan" Value="2"/><Setter TargetName="UnitText" Property="Visibility" Value="Collapsed"/>
+    </DataTrigger>
+    <DataTrigger Binding="{Binding Layout}" Value="EditorOnly">
+     <Setter TargetName="LabelHost" Property="Visibility" Value="Collapsed"/><Setter TargetName="UnitText" Property="Visibility" Value="Collapsed"/>
+     <Setter TargetName="Editor" Property="Grid.Column" Value="0"/><Setter TargetName="Editor" Property="Grid.ColumnSpan" Value="4"/>
+    </DataTrigger>
+    <DataTrigger Binding="{Binding Layout}" Value="LabelAbove">
+     <Setter TargetName="LabelHost" Property="Grid.ColumnSpan" Value="4"/><Setter TargetName="UnitText" Property="Visibility" Value="Collapsed"/>
+     <Setter TargetName="Editor" Property="Grid.Row" Value="1"/><Setter TargetName="Editor" Property="Grid.Column" Value="0"/><Setter TargetName="Editor" Property="Grid.ColumnSpan" Value="4"/>
+    </DataTrigger>
+   </DataTemplate.Triggers>
+  </DataTemplate>
+ </UserControl.Resources>
+
+ <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+  <StackPanel>
+   <ItemsControl x:Name="Table" ItemsSource="{Binding TableFields}" ItemTemplate="{StaticResource FieldRow}" Focusable="False"/>
+   <ItemsControl x:Name="GroupList" ItemsSource="{Binding Groups}" Focusable="False">
+    <ItemsControl.ItemTemplate>
+     <DataTemplate DataType="{x:Type forms:FieldGroupViewModel}">
+      <Expander IsExpanded="{Binding IsExpanded}" Margin="0,8,0,8">
+       <Expander.Header>
+        <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource Appearance.foreground.0B2A4A}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+       </Expander.Header>
+       <ItemsControl ItemsSource="{Binding Fields}" ItemTemplate="{StaticResource FieldRow}" Focusable="False"/>
+      </Expander>
+     </DataTemplate>
+    </ItemsControl.ItemTemplate>
+   </ItemsControl>
+  </StackPanel>
+ </local:ChainedScrollViewer>
+</UserControl>
