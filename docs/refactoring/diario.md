@@ -912,3 +912,17 @@ Ramo `refactoring/f2-residui`, poi `main`.
 
   Poi: unione di `bug/model` in `bugint-model`, documenti di Checker, set candidato del rilascio Z, campo «CLS teso nelle
   risposte» in ANTHEA.
+- **Dalle 00:15 alle 03:00**:
+  - catture congelate di Checker rigenerate (`b3e53fbd`, `372d8a6d`, `a0c36656`, `d40bcc04`); correzioni di acciai e FRP
+    in Model; documenti di Checker (`6b83dfff`); BridgeAudit di nuovo compilabile (302/302);
+  - set candidato Z (tutte le suite verdi), poi merge e push dei master: Model `bf8563f5`, Checker `bce7aaae`; set di
+    rilascio Z con `-Previous` il set Y, installato in ANTHEA (`89545655`);
+  - uniti seguiti, guide Rev47 (voce F4-51), registro (BUG-N8, BUG-N9), «CLS teso nelle risposte» (conflitto in
+    `ConcreteCurvatureAnalysis.cs` risolto tenendo le due modifiche) e transizioni del confronto UI F3 (22126 voci,
+    tutte classificate);
+  - primo full: 139 PASS e 3 NEW-FAIL nelle prove WPF (ritiro prima della fase di solo acciaio, PON-5; gemelle
+    sismiche dei muri, MUR-1; modulo stratigrafia nel controllo della Wiki), corrette in `9b44d8dd`; prova 5h resa
+    indipendente dall'orario della relazione;
+  - ANTHEA 1.10.0 (`139a19ce`); full finale sul commit `5c3f5baf`: **142 PASS, 0 NEW-FAIL**
+    (`supporto/artefatti/ci/20261016-022553-int1016-full2`).
+- **Per F5**: inventario dell'interfaccia e proposta di architettura (sola lettura), per il punto di controllo F5.0.
