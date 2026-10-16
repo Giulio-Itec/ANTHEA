@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Presentation layer of the MVVM interface (refactoring F5, decisions Q1, Q2, Q4/Q5 of 16/10/2026): ViewModels, abstract
+    services, sessions and calculation scheduling of the sheets. net8.0 without WPF: the views and the WPF implementations of
+    the services stay in X.Desktop. CommunityToolkit.Mvvm 8.3.2 with a small layer of our own, never Messenger.Default or
+    Ioc.Default; services are wired by hand in the composition root of the desktop.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <RootNamespace>Anthea.Presentation</RootNamespace><GpcLibraries>none</GpcLibraries>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <ProjectReference Include="../ANTHEA.Application/ANTHEA.Application.csproj" />
+    <ProjectReference Include="../ANTHEA.Wiki/ANTHEA.Wiki.csproj" />
+    <ProjectReference Include="../ANTHEA.ModelViewer.Presentation/ANTHEA.ModelViewer.Presentation.csproj" />
+    <ProjectReference Include="../ANTHEA.DesignTools.Presentation/ANTHEA.DesignTools.Presentation.csproj" />
+  </ItemGroup>
+</Project>

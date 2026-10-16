@@ -44,7 +44,7 @@ $ErrorActionPreference = 'Stop'
 # Every ANTHEA assembly of the published graph of X.Desktop (installer), plus the former ones still checked when present.
 $DefaultAssemblies = 'ANTHEA.dll', 'ANTHEA.Core.dll', 'ANTHEA.Calculations.dll', 'Materiali.dll', 'ANTHEA.Application.dll', 'ANTHEA.Reports.dll', 'ANTHEA.Wiki.dll', 'ANTHEA.Serialization.dll',
     'ANTHEA.FoundationWorkspace.dll', 'ANTHEA.ModelWorkspace.dll', 'ANTHEA.ModelReports.dll', 'ANTHEA.ModelViewer.Presentation.dll', 'ANTHEA.ModelViewer.Wpf.dll',
-    'ANTHEA.DesignTools.Presentation.dll'
+    'ANTHEA.DesignTools.Presentation.dll', 'ANTHEA.Presentation.dll'
 
 function Read-Heaps([string] $file) {
     $b = [IO.File]::ReadAllBytes($file)
