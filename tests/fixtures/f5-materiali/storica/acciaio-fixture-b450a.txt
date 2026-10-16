@@ -1,0 +1,120 @@
+== apertura
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+modificato 0 · modificabile sì
+tipo "B450A" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "25" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento "DDT 45 del 12/10/2026"
+descrizione "Aderenza migliorata · classe A\nL'impiego del B450A è soggetto alle limitazioni delle NTC 2018, §§ 7.4.2.2 e 11.3.2.1."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · 2C760871D8C8DD90
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+modificato 0 · modificabile sì
+tipo "B450A" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "25" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento "DDT 45 del 12/10/2026"
+descrizione "Aderenza migliorata · classe A\nL'impiego del B450A è soggetto alle limitazioni delle NTC 2018, §§ 7.4.2.2 e 11.3.2.1."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · 2C760871D8C8DD90
+== calcola
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+modificato 0 · modificabile sì
+tipo "B450A" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "25" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento "DDT 45 del 12/10/2026"
+descrizione "Aderenza migliorata · classe A\nL'impiego del B450A è soggetto alle limitazioni delle NTC 2018, §§ 7.4.2.2 e 11.3.2.1."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · 2C760871D8C8DD90
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+modificato 0 · modificabile sì
+tipo "B450A" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "25" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento "DDT 45 del 12/10/2026"
+descrizione "Aderenza migliorata · classe A\nL'impiego del B450A è soggetto alle limitazioni delle NTC 2018, §§ 7.4.2.2 e 11.3.2.1."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · 2C760871D8C8DD90
+== riapri
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+modificato 0 · modificabile sì
+tipo "B450A" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "25" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento "DDT 45 del 12/10/2026"
+descrizione "Aderenza migliorata · classe A\nL'impiego del B450A è soggetto alle limitazioni delle NTC 2018, §§ 7.4.2.2 e 11.3.2.1."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · 2C760871D8C8DD90
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"DDT 45 del 12/10/2026"}
+modificato 0 · modificabile sì
+tipo "B450A" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "25" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento "DDT 45 del 12/10/2026"
+descrizione "Aderenza migliorata · classe A\nL'impiego del B450A è soggetto alle limitazioni delle NTC 2018, §§ 7.4.2.2 e 11.3.2.1."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · 2C760871D8C8DD90

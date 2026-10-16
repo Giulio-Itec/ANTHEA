@@ -1,0 +1,120 @@
+== apertura
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "B450C" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450C" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "75" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata · classe C\nAcciaio B450C da catalogo."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450C" · 3 punti · 240095F491E5C023
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "B450C" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450C" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "75" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata · classe C\nAcciaio B450C da catalogo."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450C" · 3 punti · 240095F491E5C023
+== calcola
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "B450C" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450C" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "75" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata · classe C\nAcciaio B450C da catalogo."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450C" · 3 punti · 240095F491E5C023
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "B450C" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450C" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "75" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata · classe C\nAcciaio B450C da catalogo."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450C" · 3 punti · 240095F491E5C023
+== riapri
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "B450C" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450C" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "75" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata · classe C\nAcciaio B450C da catalogo."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450C" · 3 punti · 240095F491E5C023
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "B450C" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450C" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "75" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata · classe C\nAcciaio B450C da catalogo."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450C" · 3 punti · 240095F491E5C023

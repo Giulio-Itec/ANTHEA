@@ -9,7 +9,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-internal sealed class RebarMaterialView : UserControl
+internal sealed partial class RebarMaterialView : UserControl
 {
     internal JsonObject Data { get; }
     internal JsonObject Input => Data["input"]!.AsObject();

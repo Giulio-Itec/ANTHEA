@@ -1,0 +1,555 @@
+== apertura
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "B450C" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450C" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "75" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata · classe C\nAcciaio B450C da catalogo."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450C" · 3 punti · 240095F491E5C023
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "B450C" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450C" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "75" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata · classe C\nAcciaio B450C da catalogo."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450C" · 3 punti · 240095F491E5C023
+== tipo «B450A»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":25,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 1 · modificabile sì
+tipo "B450A" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "25" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata · classe A\nL'impiego del B450A è soggetto alle limitazioni delle NTC 2018, §§ 7.4.2.2 e 11.3.2.1."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · 2C760871D8C8DD90
+== tipo «FeB44k»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB44k","steel_modulus_mpa":200000,"fyk_mpa":430,"steel_fu_mpa":540,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB44k","steel_modulus_mpa":200000,"fyk_mpa":430,"steel_fu_mpa":540,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 2 · modificabile sì
+tipo "FeB44k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB44k" · bloccato
+  fyk_mpa "430" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u ""
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata\nAcciaio storico · A5 minimo 12%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     —\nεyd     —\nfu / fyk     —"
+stato "⚠ εu [‰]: inserire un numero maggiore di zero." · avviso
+diagramma 0
+== campo steel_eps_u «15»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB44k","steel_modulus_mpa":200000,"fyk_mpa":430,"steel_fu_mpa":540,"steel_eps_u":"15","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB44k","steel_modulus_mpa":200000,"fyk_mpa":430,"steel_fu_mpa":540,"steel_eps_u":"15","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 3 · modificabile sì
+tipo "FeB44k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB44k" · bloccato
+  fyk_mpa "430" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "15"
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata\nAcciaio storico · A5 minimo 12%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     373,91 MPa\nεyd     1,87 ‰\nfu / fyk     1,26"
+stato "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." · avviso
+diagramma 1
+  "FeB44k" · 3 punti · 43B93768EB2A9CD3
+== scelta steel_diagramma «Incrudente»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB44k","steel_modulus_mpa":200000,"fyk_mpa":430,"steel_fu_mpa":540,"steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB44k","steel_modulus_mpa":200000,"fyk_mpa":430,"steel_fu_mpa":540,"steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+modificato 4 · modificabile sì
+tipo "FeB44k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB44k" · bloccato
+  fyk_mpa "430" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "15"
+  gamma_s "1.15"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata\nAcciaio storico · A5 minimo 12%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     373,91 MPa\nεyd     1,87 ‰\nfu / fyk     1,26"
+stato "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." · avviso
+diagramma 1
+  "FeB44k" · 3 punti · 594F5C91DF5D7D64
+== campo gamma_s «1,2»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB44k","steel_modulus_mpa":200000,"fyk_mpa":430,"steel_fu_mpa":540,"steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB44k","steel_modulus_mpa":200000,"fyk_mpa":430,"steel_fu_mpa":540,"steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+modificato 5 · modificabile sì
+tipo "FeB44k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB44k" · bloccato
+  fyk_mpa "430" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "15"
+  gamma_s "1,2"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata\nAcciaio storico · A5 minimo 12%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     358,33 MPa\nεyd     1,79 ‰\nfu / fyk     1,26"
+stato "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." · avviso
+diagramma 1
+  "FeB44k" · 3 punti · 594F5C91DF5D7D64
+== tipo «Personalizzato»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":430,"steel_fu_mpa":540,"steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":430,"steel_fu_mpa":540,"steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+modificato 6 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio personalizzato"
+  fyk_mpa "430"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "15"
+  gamma_s "1,2"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     358,33 MPa\nεyd     1,79 ‰\nfu / fyk     1,26"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio personalizzato" · 3 punti · 594F5C91DF5D7D64
+== campo fyk_mpa «455»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":540,"steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":540,"steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+modificato 7 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio personalizzato"
+  fyk_mpa "455"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "15"
+  gamma_s "1,2"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     379,17 MPa\nεyd     1,9 ‰\nfu / fyk     1,19"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio personalizzato" · 3 punti · 8F6D20AD3D1A4D2E
+== campo steel_fu_mpa «abc»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"abc","steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"abc","steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+modificato 8 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio personalizzato"
+  fyk_mpa "455"
+  steel_fu_mpa "abc"
+  steel_modulus_mpa "200000"
+  steel_eps_u "15"
+  gamma_s "1,2"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     —\nεyd     —\nfu / fyk     —"
+stato "⚠ fu: inserire un numero maggiore di zero." · avviso
+diagramma 0
+== campo steel_fu_mpa «560»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+modificato 9 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio personalizzato"
+  fyk_mpa "455"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "200000"
+  steel_eps_u "15"
+  gamma_s "1,2"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     379,17 MPa\nεyd     1,9 ‰\nfu / fyk     1,23"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio personalizzato" · 3 punti · B525A1393B528F6F
+== campo steel_modulus_mpa «200000»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"15","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+modificato 9 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio personalizzato"
+  fyk_mpa "455"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "200000"
+  steel_eps_u "15"
+  gamma_s "1,2"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     379,17 MPa\nεyd     1,9 ‰\nfu / fyk     1,23"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio personalizzato" · 3 punti · B525A1393B528F6F
+== campo steel_eps_u «67,5»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+modificato 10 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio personalizzato"
+  fyk_mpa "455"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "200000"
+  steel_eps_u "67,5"
+  gamma_s "1,2"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     379,17 MPa\nεyd     1,9 ‰\nfu / fyk     1,23"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio personalizzato" · 3 punti · 086C738E45FDA1E9
+== campo materiale_acciaio_nome «Acciaio prova»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Incrudente","gamma_s":"1,2"},"riferimento":""}
+modificato 11 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio prova"
+  fyk_mpa "455"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "200000"
+  steel_eps_u "67,5"
+  gamma_s "1,2"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     379,17 MPa\nεyd     1,9 ‰\nfu / fyk     1,23"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio prova" · 3 punti · 086C738E45FDA1E9
+== scelta steel_diagramma «Elastoplastico»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":""}
+modificato 12 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio prova"
+  fyk_mpa "455"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "200000"
+  steel_eps_u "67,5"
+  gamma_s "1,2"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     379,17 MPa\nεyd     1,9 ‰\nfu / fyk     1,23"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio prova" · 3 punti · DF71B4B2AD84C0AA
+== riferimento «Certificato 1»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 1"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 1"}
+modificato 13 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio prova"
+  fyk_mpa "455"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "200000"
+  steel_eps_u "67,5"
+  gamma_s "1,2"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 1"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     379,17 MPa\nεyd     1,9 ‰\nfu / fyk     1,23"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio prova" · 3 punti · DF71B4B2AD84C0AA
+== riferimento «Certificato 12»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+modificato 14 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio prova"
+  fyk_mpa "455"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "200000"
+  steel_eps_u "67,5"
+  gamma_s "1,2"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     379,17 MPa\nεyd     1,9 ‰\nfu / fyk     1,23"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio prova" · 3 punti · DF71B4B2AD84C0AA
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+modificato 14 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio prova"
+  fyk_mpa "455"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "200000"
+  steel_eps_u "67,5"
+  gamma_s "1,2"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     379,17 MPa\nεyd     1,9 ‰\nfu / fyk     1,23"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio prova" · 3 punti · DF71B4B2AD84C0AA
+== campo materiale_acciaio_nome «FeB22k»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+modificato 15 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB22k"
+  fyk_mpa "455"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "200000"
+  steel_eps_u "67,5"
+  gamma_s "1,2"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     379,17 MPa\nεyd     1,9 ‰\nfu / fyk     1,23"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "FeB22k" · 3 punti · DF71B4B2AD84C0AA
+== campo fyk_mpa «215»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":"215","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":"215","steel_fu_mpa":"560","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+modificato 16 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB22k"
+  fyk_mpa "215"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "200000"
+  steel_eps_u "67,5"
+  gamma_s "1,2"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     179,17 MPa\nεyd     0,9 ‰\nfu / fyk     2,6"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "FeB22k" · 3 punti · CBA746DF7D3C8757
+== campo steel_fu_mpa «335»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":"215","steel_fu_mpa":"335","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":"215","steel_fu_mpa":"335","steel_eps_u":"67,5","steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+modificato 17 · modificabile sì
+tipo "FeB22k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB22k" · bloccato
+  fyk_mpa "215" · bloccato
+  steel_fu_mpa "335" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "67,5"
+  gamma_s "1,2"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Barre lisce\nAcciaio storico · A5 minimo 24%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     179,17 MPa\nεyd     0,9 ‰\nfu / fyk     1,56"
+stato "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." · avviso
+diagramma 1
+  "FeB22k" · 3 punti · CBA746DF7D3C8757
+== tipo «B450C»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1,2"},"riferimento":"Certificato 12"}
+modificato 18 · modificabile sì
+tipo "B450C" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450C" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "75" · bloccato
+  gamma_s "1,2"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Aderenza migliorata · classe C\nAcciaio B450C da catalogo."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     375 MPa\nεyd     1,88 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450C" · 3 punti · 240095F491E5C023
+== campo gamma_s «1.15»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+modificato 19 · modificabile sì
+tipo "B450C" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450C" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "75" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Aderenza migliorata · classe C\nAcciaio B450C da catalogo."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450C" · 3 punti · 240095F491E5C023
+== calcola
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+modificato 19 · modificabile sì
+tipo "B450C" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450C" · bloccato
+  fyk_mpa "450" · bloccato
+  steel_fu_mpa "540" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "75" · bloccato
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · spento · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Aderenza migliorata · classe C\nAcciaio B450C da catalogo."
+fonte "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450C" · 3 punti · 240095F491E5C023
+== tipo «Personalizzato»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+modificato 20 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio personalizzato"
+  fyk_mpa "450"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "75"
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio personalizzato" · 3 punti · 240095F491E5C023
+== campo steel_eps_u «1»
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":"1","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":"1","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+modificato 21 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio personalizzato"
+  fyk_mpa "450"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "1"
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     —\nεyd     —\nfu / fyk     —"
+stato "⚠ εu deve essere maggiore di fyk / Es (espresso in ‰)." · avviso
+diagramma 0
+== riapri
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":"1","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":"1","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio personalizzato"
+  fyk_mpa "450"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "1"
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     —\nεyd     —\nfu / fyk     —"
+stato "⚠ εu deve essere maggiore di fyk / Es (espresso in ‰)." · avviso
+diagramma 0
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":"1","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":"1","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 12"}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio personalizzato"
+  fyk_mpa "450"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "1"
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato 12"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     —\nεyd     —\nfu / fyk     —"
+stato "⚠ εu deve essere maggiore di fyk / Es (espresso in ‰)." · avviso
+diagramma 0

@@ -1,0 +1,114 @@
+== apertura
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB22k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB22k" · bloccato
+  fyk_mpa "215" · bloccato
+  steel_fu_mpa "335" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u ""
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Barre lisce\nAcciaio storico · A5 minimo 24%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     —\nεyd     —\nfu / fyk     —"
+stato "⚠ εu [‰]: inserire un numero maggiore di zero." · avviso
+diagramma 0
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB22k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB22k" · bloccato
+  fyk_mpa "215" · bloccato
+  steel_fu_mpa "335" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u ""
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Barre lisce\nAcciaio storico · A5 minimo 24%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     —\nεyd     —\nfu / fyk     —"
+stato "⚠ εu [‰]: inserire un numero maggiore di zero." · avviso
+diagramma 0
+== calcola
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB22k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB22k" · bloccato
+  fyk_mpa "215" · bloccato
+  steel_fu_mpa "335" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u ""
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Barre lisce\nAcciaio storico · A5 minimo 24%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     —\nεyd     —\nfu / fyk     —"
+stato "⚠ εu [‰]: inserire un numero maggiore di zero." · avviso
+diagramma 0
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB22k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB22k" · bloccato
+  fyk_mpa "215" · bloccato
+  steel_fu_mpa "335" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u ""
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Barre lisce\nAcciaio storico · A5 minimo 24%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     —\nεyd     —\nfu / fyk     —"
+stato "⚠ εu [‰]: inserire un numero maggiore di zero." · avviso
+diagramma 0
+== riapri
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB22k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB22k" · bloccato
+  fyk_mpa "215" · bloccato
+  steel_fu_mpa "335" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u ""
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Barre lisce\nAcciaio storico · A5 minimo 24%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     —\nεyd     —\nfu / fyk     —"
+stato "⚠ εu [‰]: inserire un numero maggiore di zero." · avviso
+diagramma 0
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB22k","steel_modulus_mpa":200000,"fyk_mpa":215,"steel_fu_mpa":335,"steel_eps_u":"","steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB22k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB22k" · bloccato
+  fyk_mpa "215" · bloccato
+  steel_fu_mpa "335" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u ""
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Barre lisce\nAcciaio storico · A5 minimo 24%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     —\nεyd     —\nfu / fyk     —"
+stato "⚠ εu [‰]: inserire un numero maggiore di zero." · avviso
+diagramma 0

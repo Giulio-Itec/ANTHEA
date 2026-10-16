@@ -1,0 +1,120 @@
+== apertura
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A"
+  fyk_mpa "450"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "30"
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · C6EDEDCFC1384778
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A"
+  fyk_mpa "450"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "30"
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · C6EDEDCFC1384778
+== calcola
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A"
+  fyk_mpa "450"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "30"
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · C6EDEDCFC1384778
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A"
+  fyk_mpa "450"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "30"
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · C6EDEDCFC1384778
+== riapri
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A"
+  fyk_mpa "450"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "30"
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · C6EDEDCFC1384778
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"B450A","materiale_acciaio_nome":"B450A","steel_modulus_mpa":200000,"fyk_mpa":450,"steel_fu_mpa":540,"steel_eps_u":30,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "B450A"
+  fyk_mpa "450"
+  steel_fu_mpa "540"
+  steel_modulus_mpa "200000"
+  steel_eps_u "30"
+  gamma_s "1.15"
+  steel_diagramma "Elastoplastico" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Valori salvati diversi dal catalogo B450A: εu = 30 ‰ (catalogo 25 ‰). Il calcolo usa i valori salvati; riselezionare B450A per adottare quelli del catalogo."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,3 MPa\nεyd     1,96 ‰\nfu / fyk     1,2"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "B450A" · 3 punti · C6EDEDCFC1384778

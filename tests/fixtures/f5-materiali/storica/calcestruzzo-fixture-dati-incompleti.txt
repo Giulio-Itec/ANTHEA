@@ -1,0 +1,300 @@
+== apertura
+dati {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+anteprima {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+modificato 0 · modificabile sì
+classe "C30/37" · voci 16
+numeri diameter="abc" aggregate="" cementName="" bondAlpha="1,0" bondGamma="0,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "Da definire"
+  cement "CEM V"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XA2" · attive XA2 · voci 18
+  descrizione "Attacco chimico moderato da terreni o acque."
+  esempi "Elementi a contatto con terreni o acque di falda moderatamente aggressivi: grado di attacco dall’analisi chimica, UNI EN 206 prospetto 2."
+  aggressività "Aggressività: aggressiva"
+  combinata "" · nascosta
+proprietà "30,00" "2,90" "32,84" · stato "C30/37  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "30,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "37" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "38,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,03" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,77" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "32.836,57" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "Da completare" · "Diametro: inserire un numero tra 0,1 e 131,999."
+classe minima "C32/40" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "Da completare" · errore
+  passi "Diametro: inserire un numero tra 0,1 e 1000."
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,50" cement="340" air="Non prescritto" dmax="Da definire"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XA2. Classe minima: C32/40.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria "Correggere il Dmax nei dati del copriferro."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "In presenza di solfati: cemento resistente ai solfati, classe da scegliere secondo UNI 11417-1 (nota c).\n"
+  consistenza "Da scegliere secondo elemento e modalità di getto; classi di abbassamento al cono di UNI EN 206."
+== conferma
+dati {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+anteprima {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+modificato 0 · modificabile sì
+classe "C30/37" · voci 16
+numeri diameter="abc" aggregate="" cementName="" bondAlpha="1,0" bondGamma="0,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "Da definire"
+  cement "CEM V"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XA2" · attive XA2 · voci 18
+  descrizione "Attacco chimico moderato da terreni o acque."
+  esempi "Elementi a contatto con terreni o acque di falda moderatamente aggressivi: grado di attacco dall’analisi chimica, UNI EN 206 prospetto 2."
+  aggressività "Aggressività: aggressiva"
+  combinata "" · nascosta
+proprietà "30,00" "2,90" "32,84" · stato "C30/37  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "30,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "37" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "38,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,03" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,77" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "32.836,57" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "Da completare" · "Diametro: inserire un numero tra 0,1 e 131,999."
+classe minima "C32/40" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "Da completare" · errore
+  passi "Diametro: inserire un numero tra 0,1 e 1000."
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,50" cement="340" air="Non prescritto" dmax="Da definire"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XA2. Classe minima: C32/40.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria "Correggere il Dmax nei dati del copriferro."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "In presenza di solfati: cemento resistente ai solfati, classe da scegliere secondo UNI 11417-1 (nota c).\n"
+  consistenza "Da scegliere secondo elemento e modalità di getto; classi di abbassamento al cono di UNI EN 206."
+== calcola
+dati {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+anteprima {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+modificato 0 · modificabile sì
+classe "C30/37" · voci 16
+numeri diameter="abc" aggregate="" cementName="" bondAlpha="1,0" bondGamma="0,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "Da definire"
+  cement "CEM V"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XA2" · attive XA2 · voci 18
+  descrizione "Attacco chimico moderato da terreni o acque."
+  esempi "Elementi a contatto con terreni o acque di falda moderatamente aggressivi: grado di attacco dall’analisi chimica, UNI EN 206 prospetto 2."
+  aggressività "Aggressività: aggressiva"
+  combinata "" · nascosta
+proprietà "30,00" "2,90" "32,84" · stato "C30/37  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "30,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "37" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "38,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,03" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,77" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "32.836,57" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "Da completare" · "Diametro: inserire un numero tra 0,1 e 131,999."
+classe minima "C32/40" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "Da completare" · errore
+  passi "Diametro: inserire un numero tra 0,1 e 1000."
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,50" cement="340" air="Non prescritto" dmax="Da definire"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XA2. Classe minima: C32/40.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria "Correggere il Dmax nei dati del copriferro."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "In presenza di solfati: cemento resistente ai solfati, classe da scegliere secondo UNI 11417-1 (nota c).\n"
+  consistenza "Da scegliere secondo elemento e modalità di getto; classi di abbassamento al cono di UNI EN 206."
+== conferma
+dati {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+anteprima {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+modificato 0 · modificabile sì
+classe "C30/37" · voci 16
+numeri diameter="abc" aggregate="" cementName="" bondAlpha="1,0" bondGamma="0,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "Da definire"
+  cement "CEM V"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XA2" · attive XA2 · voci 18
+  descrizione "Attacco chimico moderato da terreni o acque."
+  esempi "Elementi a contatto con terreni o acque di falda moderatamente aggressivi: grado di attacco dall’analisi chimica, UNI EN 206 prospetto 2."
+  aggressività "Aggressività: aggressiva"
+  combinata "" · nascosta
+proprietà "30,00" "2,90" "32,84" · stato "C30/37  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "30,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "37" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "38,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,03" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,77" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "32.836,57" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "Da completare" · "Diametro: inserire un numero tra 0,1 e 131,999."
+classe minima "C32/40" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "Da completare" · errore
+  passi "Diametro: inserire un numero tra 0,1 e 1000."
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,50" cement="340" air="Non prescritto" dmax="Da definire"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XA2. Classe minima: C32/40.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria "Correggere il Dmax nei dati del copriferro."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "In presenza di solfati: cemento resistente ai solfati, classe da scegliere secondo UNI 11417-1 (nota c).\n"
+  consistenza "Da scegliere secondo elemento e modalità di getto; classi di abbassamento al cono di UNI EN 206."
+== riapri
+dati {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+anteprima {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+modificato 0 · modificabile sì
+classe "C30/37" · voci 16
+numeri diameter="abc" aggregate="" cementName="" bondAlpha="1,0" bondGamma="0,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "Da definire"
+  cement "CEM V"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XA2" · attive XA2 · voci 18
+  descrizione "Attacco chimico moderato da terreni o acque."
+  esempi "Elementi a contatto con terreni o acque di falda moderatamente aggressivi: grado di attacco dall’analisi chimica, UNI EN 206 prospetto 2."
+  aggressività "Aggressività: aggressiva"
+  combinata "" · nascosta
+proprietà "30,00" "2,90" "32,84" · stato "C30/37  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "30,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "37" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "38,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,03" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,77" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "32.836,57" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "Da completare" · "Diametro: inserire un numero tra 0,1 e 131,999."
+classe minima "C32/40" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "Da completare" · errore
+  passi "Diametro: inserire un numero tra 0,1 e 1000."
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,50" cement="340" air="Non prescritto" dmax="Da definire"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XA2. Classe minima: C32/40.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria "Correggere il Dmax nei dati del copriferro."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "In presenza di solfati: cemento resistente ai solfati, classe da scegliere secondo UNI 11417-1 (nota c).\n"
+  consistenza "Da scegliere secondo elemento e modalità di getto; classi di abbassamento al cono di UNI EN 206."
+== conferma
+dati {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+anteprima {"versione_materiali":1,"classe":"C30/37","esposizione_principale":"XA2","numeri":{"diameter":"abc","aggregate":"","cementName":"","bondAlpha":"1,0","bondGamma":"0,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM V","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XA2"]}
+modificato 0 · modificabile sì
+classe "C30/37" · voci 16
+numeri diameter="abc" aggregate="" cementName="" bondAlpha="1,0" bondGamma="0,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "Da definire"
+  cement "CEM V"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XA2" · attive XA2 · voci 18
+  descrizione "Attacco chimico moderato da terreni o acque."
+  esempi "Elementi a contatto con terreni o acque di falda moderatamente aggressivi: grado di attacco dall’analisi chimica, UNI EN 206 prospetto 2."
+  aggressività "Aggressività: aggressiva"
+  combinata "" · nascosta
+proprietà "30,00" "2,90" "32,84" · stato "C30/37  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "30,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "37" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "38,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,03" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,77" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "32.836,57" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "Da completare" · "Diametro: inserire un numero tra 0,1 e 131,999."
+classe minima "C32/40" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "Da completare" · errore
+  passi "Diametro: inserire un numero tra 0,1 e 1000."
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,50" cement="340" air="Non prescritto" dmax="Da definire"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XA2. Classe minima: C32/40.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria "Correggere il Dmax nei dati del copriferro."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "In presenza di solfati: cemento resistente ai solfati, classe da scegliere secondo UNI 11417-1 (nota c).\n"
+  consistenza "Da scegliere secondo elemento e modalità di getto; classi di abbassamento al cono di UNI EN 206."

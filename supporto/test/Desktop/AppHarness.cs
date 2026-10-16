@@ -97,6 +97,20 @@ public partial class App
             }));
             return;
         }
+        // F5.5: traces of the historic material views (tests/Desktop/MaterialHistoricTrace.cs); the check also compares them
+        // with the frozen ones of tests/fixtures/f5-materiali/storica.
+        if (e.Args.Length == 3 && e.Args[0] is "--check-materials-historic" or "--check-materials-historic-capture")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0;
+                try { await MaterialHistoricTrace.Run(e.Args[1], e.Args[2], e.Args[0] == "--check-materials-historic"); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            }));
+            return;
+        }
 
         if (e.Args.Length == 2 && e.Args[0] == "--check-appearance")
         {

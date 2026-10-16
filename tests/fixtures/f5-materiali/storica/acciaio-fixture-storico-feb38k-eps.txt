@@ -1,0 +1,120 @@
+== apertura
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB38k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB38k" · bloccato
+  fyk_mpa "375" · bloccato
+  steel_fu_mpa "450" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "40"
+  gamma_s "1.15"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata\nAcciaio storico · A5 minimo 14%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     326,09 MPa\nεyd     1,63 ‰\nfu / fyk     1,2"
+stato "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." · avviso
+diagramma 1
+  "FeB38k" · 3 punti · 69D93BB488CDE0AC
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB38k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB38k" · bloccato
+  fyk_mpa "375" · bloccato
+  steel_fu_mpa "450" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "40"
+  gamma_s "1.15"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata\nAcciaio storico · A5 minimo 14%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     326,09 MPa\nεyd     1,63 ‰\nfu / fyk     1,2"
+stato "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." · avviso
+diagramma 1
+  "FeB38k" · 3 punti · 69D93BB488CDE0AC
+== calcola
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB38k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB38k" · bloccato
+  fyk_mpa "375" · bloccato
+  steel_fu_mpa "450" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "40"
+  gamma_s "1.15"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata\nAcciaio storico · A5 minimo 14%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     326,09 MPa\nεyd     1,63 ‰\nfu / fyk     1,2"
+stato "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." · avviso
+diagramma 1
+  "FeB38k" · 3 punti · 69D93BB488CDE0AC
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB38k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB38k" · bloccato
+  fyk_mpa "375" · bloccato
+  steel_fu_mpa "450" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "40"
+  gamma_s "1.15"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata\nAcciaio storico · A5 minimo 14%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     326,09 MPa\nεyd     1,63 ‰\nfu / fyk     1,2"
+stato "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." · avviso
+diagramma 1
+  "FeB38k" · 3 punti · 69D93BB488CDE0AC
+== riapri
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB38k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB38k" · bloccato
+  fyk_mpa "375" · bloccato
+  steel_fu_mpa "450" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "40"
+  gamma_s "1.15"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata\nAcciaio storico · A5 minimo 14%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     326,09 MPa\nεyd     1,63 ‰\nfu / fyk     1,2"
+stato "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." · avviso
+diagramma 1
+  "FeB38k" · 3 punti · 69D93BB488CDE0AC
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"FeB38k","steel_modulus_mpa":200000,"fyk_mpa":375,"steel_fu_mpa":450,"steel_eps_u":"40","steel_diagramma":"Incrudente","gamma_s":"1.15"},"riferimento":""}
+modificato 0 · modificabile sì
+tipo "FeB38k" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "FeB38k" · bloccato
+  fyk_mpa "375" · bloccato
+  steel_fu_mpa "450" · bloccato
+  steel_modulus_mpa "200000" · bloccato
+  steel_eps_u "40"
+  gamma_s "1.15"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento ""
+descrizione "Aderenza migliorata\nAcciaio storico · A5 minimo 14%\nA5 non coincide con εu. Definire εu per le verifiche."
+fonte "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
+risultati "fyd     326,09 MPa\nεyd     1,63 ‰\nfu / fyk     1,2"
+stato "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." · avviso
+diagramma 1
+  "FeB38k" · 3 punti · 69D93BB488CDE0AC

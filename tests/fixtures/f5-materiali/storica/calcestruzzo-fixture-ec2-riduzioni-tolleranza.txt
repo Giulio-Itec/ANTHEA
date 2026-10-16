@@ -1,0 +1,300 @@
+== apertura
+dati {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+anteprima {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+modificato 0 · modificabile sì
+classe "C45/55" · voci 16
+numeri diameter="20" aggregate="40" cementName="CEM III/A 42,5 R · cementeria di prova" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "100 anni"
+  deviationControl "Misura copriferri"
+  deviationValue "5 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm"
+  ground "Terreno preparato"
+  abrasion "XM2 · +10 mm"
+  consistency "S4"
+  cement "CEM III"
+  cementClass "42,5"
+  cementEarly "R"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=sì slab=sì quality=sì rough=sì ntcQuality=no
+esposizione "XD3" · attive XD3 · voci 18
+  descrizione "Corrosione da cloruri non marini: alternanza di periodi asciutti e bagnati."
+  esempi "Elementi raggiunti da spruzzi di acque con sali disgelanti: parti di ponti, muri di sostegno stradali, pavimentazioni di strade e parcheggi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "45,00" "3,80" "36,28" · stato "C45/55  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "45,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "55" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "53,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,80" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,66" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,93" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "36.283,19" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 3,99 MPa" · "φ = 20 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,66 MPa\nfctd = 1,77 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 60 mm"
+  passi "XD3: classe strutturale S3 → cmin,dur = 40 mm\n\ncmin,b = φ + 5 mm (Dmax > 32 mm) = 25 mm\ncmin = max(cmin,b; cmin,dur; 10 mm) + superficie + abrasione = 55 mm\ncnom = cmin + Δcdev = 60 mm\nLimite per il getto: 40 mm → cnom adottato 60 mm"
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Δcdev da 5 a 10 mm: sistema di controllo qualità con misure del copriferro (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="40"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nVita utile 100 anni: i valori del prospetto si riferiscono a 50 anni; la prescrizione per 100 anni richiede una valutazione specifica.\n\nEsposizioni: XD3. Classe minima: C35/45."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S4: 160–210 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+anteprima {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+modificato 0 · modificabile sì
+classe "C45/55" · voci 16
+numeri diameter="20" aggregate="40" cementName="CEM III/A 42,5 R · cementeria di prova" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "100 anni"
+  deviationControl "Misura copriferri"
+  deviationValue "5 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm"
+  ground "Terreno preparato"
+  abrasion "XM2 · +10 mm"
+  consistency "S4"
+  cement "CEM III"
+  cementClass "42,5"
+  cementEarly "R"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=sì slab=sì quality=sì rough=sì ntcQuality=no
+esposizione "XD3" · attive XD3 · voci 18
+  descrizione "Corrosione da cloruri non marini: alternanza di periodi asciutti e bagnati."
+  esempi "Elementi raggiunti da spruzzi di acque con sali disgelanti: parti di ponti, muri di sostegno stradali, pavimentazioni di strade e parcheggi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "45,00" "3,80" "36,28" · stato "C45/55  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "45,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "55" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "53,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,80" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,66" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,93" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "36.283,19" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 3,99 MPa" · "φ = 20 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,66 MPa\nfctd = 1,77 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 60 mm"
+  passi "XD3: classe strutturale S3 → cmin,dur = 40 mm\n\ncmin,b = φ + 5 mm (Dmax > 32 mm) = 25 mm\ncmin = max(cmin,b; cmin,dur; 10 mm) + superficie + abrasione = 55 mm\ncnom = cmin + Δcdev = 60 mm\nLimite per il getto: 40 mm → cnom adottato 60 mm"
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Δcdev da 5 a 10 mm: sistema di controllo qualità con misure del copriferro (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="40"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nVita utile 100 anni: i valori del prospetto si riferiscono a 50 anni; la prescrizione per 100 anni richiede una valutazione specifica.\n\nEsposizioni: XD3. Classe minima: C35/45."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S4: 160–210 mm"
+== calcola
+dati {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+anteprima {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+modificato 0 · modificabile sì
+classe "C45/55" · voci 16
+numeri diameter="20" aggregate="40" cementName="CEM III/A 42,5 R · cementeria di prova" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "100 anni"
+  deviationControl "Misura copriferri"
+  deviationValue "5 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm"
+  ground "Terreno preparato"
+  abrasion "XM2 · +10 mm"
+  consistency "S4"
+  cement "CEM III"
+  cementClass "42,5"
+  cementEarly "R"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=sì slab=sì quality=sì rough=sì ntcQuality=no
+esposizione "XD3" · attive XD3 · voci 18
+  descrizione "Corrosione da cloruri non marini: alternanza di periodi asciutti e bagnati."
+  esempi "Elementi raggiunti da spruzzi di acque con sali disgelanti: parti di ponti, muri di sostegno stradali, pavimentazioni di strade e parcheggi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "45,00" "3,80" "36,28" · stato "C45/55  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "45,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "55" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "53,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,80" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,66" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,93" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "36.283,19" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 3,99 MPa" · "φ = 20 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,66 MPa\nfctd = 1,77 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 60 mm"
+  passi "XD3: classe strutturale S3 → cmin,dur = 40 mm\n\ncmin,b = φ + 5 mm (Dmax > 32 mm) = 25 mm\ncmin = max(cmin,b; cmin,dur; 10 mm) + superficie + abrasione = 55 mm\ncnom = cmin + Δcdev = 60 mm\nLimite per il getto: 40 mm → cnom adottato 60 mm"
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Δcdev da 5 a 10 mm: sistema di controllo qualità con misure del copriferro (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="40"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nVita utile 100 anni: i valori del prospetto si riferiscono a 50 anni; la prescrizione per 100 anni richiede una valutazione specifica.\n\nEsposizioni: XD3. Classe minima: C35/45."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S4: 160–210 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+anteprima {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+modificato 0 · modificabile sì
+classe "C45/55" · voci 16
+numeri diameter="20" aggregate="40" cementName="CEM III/A 42,5 R · cementeria di prova" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "100 anni"
+  deviationControl "Misura copriferri"
+  deviationValue "5 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm"
+  ground "Terreno preparato"
+  abrasion "XM2 · +10 mm"
+  consistency "S4"
+  cement "CEM III"
+  cementClass "42,5"
+  cementEarly "R"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=sì slab=sì quality=sì rough=sì ntcQuality=no
+esposizione "XD3" · attive XD3 · voci 18
+  descrizione "Corrosione da cloruri non marini: alternanza di periodi asciutti e bagnati."
+  esempi "Elementi raggiunti da spruzzi di acque con sali disgelanti: parti di ponti, muri di sostegno stradali, pavimentazioni di strade e parcheggi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "45,00" "3,80" "36,28" · stato "C45/55  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "45,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "55" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "53,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,80" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,66" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,93" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "36.283,19" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 3,99 MPa" · "φ = 20 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,66 MPa\nfctd = 1,77 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 60 mm"
+  passi "XD3: classe strutturale S3 → cmin,dur = 40 mm\n\ncmin,b = φ + 5 mm (Dmax > 32 mm) = 25 mm\ncmin = max(cmin,b; cmin,dur; 10 mm) + superficie + abrasione = 55 mm\ncnom = cmin + Δcdev = 60 mm\nLimite per il getto: 40 mm → cnom adottato 60 mm"
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Δcdev da 5 a 10 mm: sistema di controllo qualità con misure del copriferro (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="40"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nVita utile 100 anni: i valori del prospetto si riferiscono a 50 anni; la prescrizione per 100 anni richiede una valutazione specifica.\n\nEsposizioni: XD3. Classe minima: C35/45."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S4: 160–210 mm"
+== riapri
+dati {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+anteprima {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+modificato 0 · modificabile sì
+classe "C45/55" · voci 16
+numeri diameter="20" aggregate="40" cementName="CEM III/A 42,5 R · cementeria di prova" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "100 anni"
+  deviationControl "Misura copriferri"
+  deviationValue "5 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm"
+  ground "Terreno preparato"
+  abrasion "XM2 · +10 mm"
+  consistency "S4"
+  cement "CEM III"
+  cementClass "42,5"
+  cementEarly "R"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=sì slab=sì quality=sì rough=sì ntcQuality=no
+esposizione "XD3" · attive XD3 · voci 18
+  descrizione "Corrosione da cloruri non marini: alternanza di periodi asciutti e bagnati."
+  esempi "Elementi raggiunti da spruzzi di acque con sali disgelanti: parti di ponti, muri di sostegno stradali, pavimentazioni di strade e parcheggi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "45,00" "3,80" "36,28" · stato "C45/55  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "45,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "55" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "53,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,80" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,66" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,93" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "36.283,19" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 3,99 MPa" · "φ = 20 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,66 MPa\nfctd = 1,77 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 60 mm"
+  passi "XD3: classe strutturale S3 → cmin,dur = 40 mm\n\ncmin,b = φ + 5 mm (Dmax > 32 mm) = 25 mm\ncmin = max(cmin,b; cmin,dur; 10 mm) + superficie + abrasione = 55 mm\ncnom = cmin + Δcdev = 60 mm\nLimite per il getto: 40 mm → cnom adottato 60 mm"
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Δcdev da 5 a 10 mm: sistema di controllo qualità con misure del copriferro (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="40"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nVita utile 100 anni: i valori del prospetto si riferiscono a 50 anni; la prescrizione per 100 anni richiede una valutazione specifica.\n\nEsposizioni: XD3. Classe minima: C35/45."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S4: 160–210 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+anteprima {"versione_materiali":1,"classe":"C45/55","esposizione_principale":"XD3","numeri":{"diameter":"20","aggregate":"40","cementName":"CEM III/A 42,5 R · cementeria di prova","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"100 anni","deviationControl":"Misura copriferri","deviationValue":"5 mm","ground":"Terreno preparato","abrasion":"XM2 · +10 mm","consistency":"S4","cement":"CEM III","cementClass":"42,5","cementEarly":"R","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":true,"slab":true,"quality":true,"rough":true,"ntcQuality":false},"esposizioni":["XD3"]}
+modificato 0 · modificabile sì
+classe "C45/55" · voci 16
+numeri diameter="20" aggregate="40" cementName="CEM III/A 42,5 R · cementeria di prova" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "EC2 2004"
+  life "100 anni"
+  deviationControl "Misura copriferri"
+  deviationValue "5 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm"
+  ground "Terreno preparato"
+  abrasion "XM2 · +10 mm"
+  consistency "S4"
+  cement "CEM III"
+  cementClass "42,5"
+  cementEarly "R"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=sì slab=sì quality=sì rough=sì ntcQuality=no
+esposizione "XD3" · attive XD3 · voci 18
+  descrizione "Corrosione da cloruri non marini: alternanza di periodi asciutti e bagnati."
+  esempi "Elementi raggiunti da spruzzi di acque con sali disgelanti: parti di ponti, muri di sostegno stradali, pavimentazioni di strade e parcheggi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "45,00" "3,80" "36,28" · stato "C45/55  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "45,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "55" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "53,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,80" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,66" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,93" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "36.283,19" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 3,99 MPa" · "φ = 20 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,66 MPa\nfctd = 1,77 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 60 mm"
+  passi "XD3: classe strutturale S3 → cmin,dur = 40 mm\n\ncmin,b = φ + 5 mm (Dmax > 32 mm) = 25 mm\ncmin = max(cmin,b; cmin,dur; 10 mm) + superficie + abrasione = 55 mm\ncnom = cmin + Δcdev = 60 mm\nLimite per il getto: 40 mm → cnom adottato 60 mm"
+  note "EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente."
+criterio ntc nascosto · ec2 visibile
+tolleranza "Δcdev da 5 a 10 mm: sistema di controllo qualità con misure del copriferro (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="40"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nVita utile 100 anni: i valori del prospetto si riferiscono a 50 anni; la prescrizione per 100 anni richiede una valutazione specifica.\n\nEsposizioni: XD3. Classe minima: C35/45."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S4: 160–210 mm"

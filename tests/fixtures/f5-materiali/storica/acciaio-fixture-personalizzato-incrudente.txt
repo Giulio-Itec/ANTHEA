@@ -1,0 +1,120 @@
+== apertura
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio da prove"
+  fyk_mpa "430,5"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "205000"
+  steel_eps_u "60"
+  gamma_s "1,10"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato n. 123/2026\nLaboratorio prove materiali"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,36 MPa\nεyd     1,91 ‰\nfu / fyk     1,3"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio da prove" · 3 punti · DCC89D34D0EBDE14
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio da prove"
+  fyk_mpa "430,5"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "205000"
+  steel_eps_u "60"
+  gamma_s "1,10"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato n. 123/2026\nLaboratorio prove materiali"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,36 MPa\nεyd     1,91 ‰\nfu / fyk     1,3"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio da prove" · 3 punti · DCC89D34D0EBDE14
+== calcola
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio da prove"
+  fyk_mpa "430,5"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "205000"
+  steel_eps_u "60"
+  gamma_s "1,10"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato n. 123/2026\nLaboratorio prove materiali"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,36 MPa\nεyd     1,91 ‰\nfu / fyk     1,3"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio da prove" · 3 punti · DCC89D34D0EBDE14
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio da prove"
+  fyk_mpa "430,5"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "205000"
+  steel_eps_u "60"
+  gamma_s "1,10"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato n. 123/2026\nLaboratorio prove materiali"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,36 MPa\nεyd     1,91 ‰\nfu / fyk     1,3"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio da prove" · 3 punti · DCC89D34D0EBDE14
+== riapri
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio da prove"
+  fyk_mpa "430,5"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "205000"
+  steel_eps_u "60"
+  gamma_s "1,10"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato n. 123/2026\nLaboratorio prove materiali"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,36 MPa\nεyd     1,91 ‰\nfu / fyk     1,3"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio da prove" · 3 punti · DCC89D34D0EBDE14
+== conferma
+dati {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+anteprima {"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio da prove","steel_modulus_mpa":"205000","fyk_mpa":"430,5","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gamma_s":"1,10"},"riferimento":"Certificato n. 123/2026\nLaboratorio prove materiali"}
+modificato 0 · modificabile sì
+tipo "Personalizzato" · voci "B450C" "B450A" "FeB22k" "FeB32k" "FeB38k" "FeB44k" "Personalizzato"
+campi
+  materiale_acciaio_nome "Acciaio da prove"
+  fyk_mpa "430,5"
+  steel_fu_mpa "560"
+  steel_modulus_mpa "205000"
+  steel_eps_u "60"
+  gamma_s "1,10"
+  steel_diagramma "Incrudente" · voci "Elastoplastico" "Incrudente"
+riferimento "Certificato n. 123/2026\nLaboratorio prove materiali"
+descrizione "Dati personalizzati. Specificare la provenienza dei valori adottati."
+fonte "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
+risultati "fyd     391,36 MPa\nεyd     1,91 ‰\nfu / fyk     1,3"
+stato "✓ Proprietà coerenti" · coerente
+diagramma 1
+  "Acciaio da prove" · 3 punti · DCC89D34D0EBDE14
