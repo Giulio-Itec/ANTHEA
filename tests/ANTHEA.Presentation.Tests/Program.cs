@@ -13,6 +13,7 @@ try
     checks += ViewModelBaseChecks.Run();
     checks += await CommandGuardChecks.RunAsync();
     checks += await ServicesChecks.RunAsync();
+    checks += SheetCalculationChecks.Run();
     string message = $"PASS {checks} controlli di Presentation senza WPF";
     File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
     Console.WriteLine(message);
