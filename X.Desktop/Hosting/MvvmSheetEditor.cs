@@ -60,8 +60,8 @@ internal sealed class MvvmSheetEditor : ISheetEditor
 
     public JsonObject Data => Sheet.Data;
 
-    /// <summary>The ViewModels write the fields into the working copy while the user edits, as InputForm: the preview is the data.</summary>
-    public JsonObject PreviewData => Sheet.Data;
+    /// <summary>The preview of the ViewModel (F5.5): the data for the sheets that write while the user edits, as InputForm; the state not committed yet for those that write at Commit.</summary>
+    public JsonObject PreviewData => Sheet.PreviewData;
 
     public JsonObject? Result => Sheet.Result;
 

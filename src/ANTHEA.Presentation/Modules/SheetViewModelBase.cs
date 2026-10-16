@@ -15,7 +15,13 @@ public enum SheetCalculationMode
     /// On the UI thread, as the historic view (Q8 a, F5.4: the short calculation of the pile group): «Calcola» returns with the
     /// result published and the automatic recalculation runs on the UI thread after the delay of the module.
     /// </summary>
-    Synchronous
+    Synchronous,
+    /// <summary>
+    /// No calculation is published (F5.5, the material sheets): the values shown are a presentation of the data that the sheet
+    /// computes after every edit; «Calcola» publishes nothing (the host commits the sheet) and there is no automatic
+    /// recalculation, as in the historic material views. <see cref="SheetViewModelBase.CalculateModule"/> stays available.
+    /// </summary>
+    None
 }
 
 /// <summary>
@@ -31,6 +37,9 @@ public enum SheetCalculationMode
 /// <item>With <see cref="SheetCalculationMode.Synchronous"/> (decision Q8 a) the module calculates on the UI thread, as its historic
 /// view: «Calcola» returns with the result published, the automatic recalculation runs on the UI thread after the delay, and the
 /// module prepares the data and reads the result in <see cref="CalculateSynchronously"/>.</item>
+/// <item>With <see cref="SheetCalculationMode.None"/> (F5.5) nothing is calculated or published: no result, no automatic
+/// recalculation.</item>
+/// <item><see cref="PreviewData"/> is <see cref="Data"/>; a sheet that keeps its edits until Commit gives its state instead (F5.5).</item>
 /// </list>
 /// </summary>
 public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
@@ -51,6 +60,8 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
         if (context.Calculation.ModuleId != moduleId)
             throw new ArgumentException($"Servizio di calcolo del modulo {context.Calculation.ModuleId} per un foglio del modulo {moduleId}.", nameof(context));
         if (!Enum.IsDefined(mode)) throw new ArgumentOutOfRangeException(nameof(mode));
+        if (mode == SheetCalculationMode.None && automaticDelay is not null)
+            throw new ArgumentException("Un foglio senza calcolo pubblicato non ha ricalcolo automatico.", nameof(automaticDelay));
         ModuleId = moduleId; Context = context; Data = context.Data; readOnly = context.ReadOnly; AutomaticDelay = automaticDelay; CalculationMode = mode;
         Guard = new CommandGuard(context.Services.Messages);
         // As SheetCalculation.ForModule: the module service with the per-document cache of the session, cleared at closing.
@@ -63,6 +74,9 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     public string ModuleId { get; }
 
     public JsonObject Data { get; }
+
+    /// <summary>The data: the edits are written at once. A sheet that keeps its edits until <see cref="Commit"/> gives its state (F5.5).</summary>
+    public virtual JsonObject PreviewData => Data;
 
     public long Revision => revision;
 
@@ -117,12 +131,18 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
 
     /// <summary>
     /// Calculates the current data (the «Calcola» command, allowed also when read-only). True when this request was published.
-    /// In synchronous mode the task is already completed when it is returned: the result is published on this thread.
+    /// In synchronous mode the task is already completed when it is returned: the result is published on this thread. Without
+    /// calculation (<see cref="SheetCalculationMode.None"/>) nothing is calculated: completed, false.
     /// </summary>
     public Task<bool> CalculateAsync(CancellationToken cancellation = default)
     {
         ThrowIfDisposed();
-        return CalculationMode == SheetCalculationMode.Synchronous ? Task.FromResult(CalculateNow()) : calculation.CalculateAsync(Data, cancellation);
+        return CalculationMode switch
+        {
+            SheetCalculationMode.Synchronous => Task.FromResult(CalculateNow()),
+            SheetCalculationMode.None => Task.FromResult(false),
+            _ => calculation.CalculateAsync(Data, cancellation)
+        };
     }
 
     Task ISheetViewModel.CalculateAsync(CancellationToken cancellation) => CalculateAsync(cancellation);
@@ -181,6 +201,8 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     protected Task<bool> ScheduleCalculationAsync()
     {
         ThrowIfDisposed();
+        if (CalculationMode == SheetCalculationMode.None)
+            throw new InvalidOperationException("Ricalcolo automatico chiesto da un foglio senza calcolo pubblicato.");
         return PendingCalculation = ScheduleRecalculationAsync();
     }
 

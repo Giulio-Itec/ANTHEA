@@ -15,6 +15,7 @@ try
     checks += await ServicesChecks.RunAsync();
     checks += SheetCalculationChecks.Run();
     checks += SynchronousSheetChecks.Run();
+    checks += SheetPreviewChecks.Run();
     checks += HelpTopicsChecks.Run();
     checks += FieldSpecChecks.Run();
     checks += JsonRowChecks.Run();
