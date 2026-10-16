@@ -1,0 +1,20 @@
+{
+  "module": "mat_acciaio_armatura",
+  "id": "storico-feb22k-incompleto",
+  "origin": "Fixture sintetica F5.5 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_acciaio": 1,
+    "input": {
+      "classe_acciaio": "Personalizzato",
+      "materiale_acciaio_nome": "FeB22k",
+      "steel_modulus_mpa": 200000,
+      "fyk_mpa": 215,
+      "steel_fu_mpa": 335,
+      "steel_eps_u": "",
+      "steel_diagramma": "Elastoplastico",
+      "gamma_s": "1.15"
+    },
+    "riferimento": ""
+  }
+}

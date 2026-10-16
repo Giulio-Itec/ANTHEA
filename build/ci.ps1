@@ -336,6 +336,10 @@ Add-Suite @{ Name = 'ui/check-pile-group-historic'; Stage = 'ui'; Kind = 'check'
 # F5.4: the XAML view of the pile group hosted by MvvmSheetEditor off screen: traces through its controls equal to those of the historic view,
 # visit without writes, exports equal to the historic ones, the former UI part of HorizontalPileGroup.Checks, screenshots, help, automation names, read-only.
 Add-Suite @{ Name = 'ui/check-pile-group-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-pile-group-view', '{root}', '{out}\vista'); Timeout = 600; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
+# F5.5 (proposal 7.2, capture first): the historic material views (concrete and reinforcing steel) still give the traces frozen in
+# tests/fixtures/f5-materiali, data and preview included, which Presentation.Tests compares with the ViewModels; off screen, until
+# the historic views are archived (Q11).
+Add-Suite @{ Name = 'ui/check-materials-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-materials-historic', '{root}', '{out}\traccia'); Timeout = 300; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
 # FieldForm (XAML + FormViewModel, F5.2) against the historic InputForm: same edit sequences on fields of real modules, same bytes of the document, same layout; windows outside the screen.
 Add-Suite @{ Name = 'ui/check-field-form-parity'; Stage = 'ui'; Kind = 'check'; Args = @('--check-field-form-parity', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # Theme tokens (F5.3): catalogue, colour equality with the palette in the three appearances, dictionaries of X.Desktop/Themes, light scope of the documents; off screen.

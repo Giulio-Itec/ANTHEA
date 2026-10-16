@@ -1,0 +1,14 @@
+{
+  "input": {
+    "classe_acciaio": "Personalizzato",
+    "fyk_mpa": 215,
+    "gamma_s": "1.15",
+    "materiale_acciaio_nome": "FeB22k",
+    "steel_diagramma": "Elastoplastico",
+    "steel_eps_u": "",
+    "steel_fu_mpa": 335,
+    "steel_modulus_mpa": 200000
+  },
+  "riferimento": "",
+  "versione_acciaio": 1
+}

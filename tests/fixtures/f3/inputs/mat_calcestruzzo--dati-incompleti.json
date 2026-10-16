@@ -1,0 +1,42 @@
+{
+  "module": "mat_calcestruzzo",
+  "id": "dati-incompleti",
+  "origin": "Fixture sintetica F5.5 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_materiali": 1,
+    "classe": "C30/37",
+    "esposizione_principale": "XA2",
+    "numeri": {
+      "diameter": "abc",
+      "aggregate": "",
+      "cementName": "",
+      "bondAlpha": "1,0",
+      "bondGamma": "0,5"
+    },
+    "scelte": {
+      "ntcElement": "Trave / pilastro",
+      "coverMethod": "EC2 2004",
+      "life": "50 anni",
+      "deviationControl": "Ordinario",
+      "deviationValue": "10 mm",
+      "ground": "Casseratura",
+      "abrasion": "Nessuno",
+      "consistency": "Da definire",
+      "cement": "CEM V",
+      "cementClass": "32,5",
+      "cementEarly": "N",
+      "bondCondition": "Altre · η₁ = 0,7"
+    },
+    "opzioni": {
+      "highStrength": false,
+      "slab": false,
+      "quality": false,
+      "rough": false,
+      "ntcQuality": false
+    },
+    "esposizioni": [
+      "XA2"
+    ]
+  }
+}

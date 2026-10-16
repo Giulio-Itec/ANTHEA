@@ -1,6 +1,7 @@
 using System.Windows;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Modules;
+using Anthea.Presentation.Modules.Materials;
 using Anthea.Presentation.Modules.PileGroup;
 
 namespace X.Desktop.Services;
@@ -42,12 +43,12 @@ internal sealed class DesktopComposition
     internal SheetEditorFactory SheetEditors { get; }
 
     /// <summary>
-    /// The modules migrated to MVVM, created by hand (decision Q2): the horizontal pile group (F5.4 pilot). The window opens it
-    /// only when <see cref="ModuleImplementations"/> says so: until the F5.4 checkpoint the Release keeps the historic view and the
-    /// MVVM sheet is chosen only in the UiTests bench (--module-impl). The WPF checks build the same registry
-    /// (tests/Desktop/ModuleHostBench.cs).
+    /// The modules migrated to MVVM, created by hand (decision Q2): the horizontal pile group (F5.4 pilot) and the materials,
+    /// concrete and reinforcing steel (F5.5). The window opens them only when <see cref="ModuleImplementations"/> says so: until
+    /// their checkpoints the Release keeps the historic views and the MVVM sheets are chosen only in the UiTests bench
+    /// (--module-impl). The WPF checks build the same registry (tests/Desktop/ModuleHostBench.cs).
     /// </summary>
-    internal static ModuleRegistry CreateModules() => new([new PileGroupSheetModule()]);
+    internal static ModuleRegistry CreateModules() => new([new PileGroupSheetModule(), new ConcreteMaterialSheetModule(), new RebarMaterialSheetModule()]);
 
     /// <summary>Factory of the services of a main window, unchanged since F1.4 (the WPF checks pass TestServices.Create instead).</summary>
     internal DesktopServices WindowServices(Window owner) => WpfDesktopServices.Create(owner);

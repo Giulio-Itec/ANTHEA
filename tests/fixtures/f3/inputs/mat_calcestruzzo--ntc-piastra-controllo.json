@@ -1,0 +1,42 @@
+{
+  "module": "mat_calcestruzzo",
+  "id": "ntc-piastra-controllo",
+  "origin": "Fixture sintetica F5.5 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_materiali": 1,
+    "classe": "C25/30",
+    "esposizione_principale": "XS3",
+    "numeri": {
+      "diameter": "12",
+      "aggregate": "16",
+      "cementName": "",
+      "bondAlpha": "1,0",
+      "bondGamma": "1,5"
+    },
+    "scelte": {
+      "ntcElement": "Piastra / soletta / parete",
+      "coverMethod": "NTC + Circ. 2019",
+      "life": "50 anni",
+      "deviationControl": "Misura accurata + scarto",
+      "deviationValue": "0 mm",
+      "ground": "Direttamente su terra",
+      "abrasion": "Nessuno",
+      "consistency": "S2",
+      "cement": "CEM II",
+      "cementClass": "52,5",
+      "cementEarly": "N",
+      "bondCondition": "Altre · η₁ = 0,7"
+    },
+    "opzioni": {
+      "highStrength": false,
+      "slab": false,
+      "quality": false,
+      "rough": false,
+      "ntcQuality": true
+    },
+    "esposizioni": [
+      "XS3"
+    ]
+  }
+}

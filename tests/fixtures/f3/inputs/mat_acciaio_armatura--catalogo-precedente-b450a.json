@@ -1,0 +1,20 @@
+{
+  "module": "mat_acciaio_armatura",
+  "id": "catalogo-precedente-b450a",
+  "origin": "Fixture sintetica F5.5 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_acciaio": 1,
+    "input": {
+      "classe_acciaio": "B450A",
+      "materiale_acciaio_nome": "B450A",
+      "steel_modulus_mpa": 200000,
+      "fyk_mpa": 450,
+      "steel_fu_mpa": 540,
+      "steel_eps_u": 30,
+      "steel_diagramma": "Elastoplastico",
+      "gamma_s": "1.15"
+    },
+    "riferimento": ""
+  }
+}

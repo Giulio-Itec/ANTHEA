@@ -1,0 +1,36 @@
+{
+  "classe": "C45/55",
+  "esposizione_principale": "XD3",
+  "esposizioni": [
+    "XD3"
+  ],
+  "numeri": {
+    "aggregate": "40",
+    "bondAlpha": "1,0",
+    "bondGamma": "1,5",
+    "cementName": "CEM III/A 42,5 R · cementeria di prova",
+    "diameter": "20"
+  },
+  "opzioni": {
+    "highStrength": true,
+    "ntcQuality": false,
+    "quality": true,
+    "rough": true,
+    "slab": true
+  },
+  "scelte": {
+    "abrasion": "XM2 · +10 mm",
+    "bondCondition": "Buone · η₁ = 1,0",
+    "cement": "CEM III",
+    "cementClass": "42,5",
+    "cementEarly": "R",
+    "consistency": "S4",
+    "coverMethod": "EC2 2004",
+    "deviationControl": "Misura copriferri",
+    "deviationValue": "5 mm",
+    "ground": "Terreno preparato",
+    "life": "100 anni",
+    "ntcElement": "Trave / pilastro"
+  },
+  "versione_materiali": 1
+}

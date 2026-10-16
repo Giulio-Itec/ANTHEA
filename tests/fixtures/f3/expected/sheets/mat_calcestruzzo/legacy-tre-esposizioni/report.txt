@@ -1,0 +1,108 @@
+# word/document.xml
+¶ Scheda materiale
+¶ Fixture F3 · mat_calcestruzzo · legacy-tre-esposizioni
+¶ ANTHEA · <DATA> <ORA>
+¶ Parametri impostati e proprietà ricavate dai dati correnti della scheda. Le indicazioni di applicabilità e gli eventuali dati da completare sono riportati nel documento.
+¶ Modulo: Calcestruzzo
+¶ Materiali
+[T1 r1 c1] Proprietà
+[T1 r1 c2] Valore
+[T1 r2 c1] CLS · fck [MPa]
+[T1 r2 c2] 32
+[T1 r3 c1] Diametro della barra di riferimento [mm]
+[T1 r3 c2] 25
+[T1 r4 c1] Durabilità · vita utile [anni]
+[T1 r4 c2] 50
+[T1 r5 c1] Coefficiente di trazione αct
+[T1 r5 c2] 1
+[T1 r6 c1] Coefficiente parziale γc per aderenza
+[T1 r6 c2] 1,5
+[T1 r7 c1] Tipo di elemento
+[T1 r7 c2] Trave / pilastro
+[T1 r8 c1] Criterio del copriferro
+[T1 r8 c2] EC2 2004
+[T1 r9 c1] Durabilità · qualità copriferri
+[T1 r9 c2] No
+[T1 r10 c1] Controllo di esecuzione
+[T1 r10 c2] Misura copriferri
+[T1 r11 c1] Superficie di getto
+[T1 r11 c2] Casseratura
+[T1 r12 c1] Strato per abrasione
+[T1 r12 c2] Nessuno
+[T1 r13 c1] Consistenza al getto
+[T1 r13 c2] Da definire
+[T1 r14 c1] Famiglia del cemento
+[T1 r14 c2] CEM I
+[T1 r15 c1] Classe del cemento
+[T1 r15 c2] 32,5
+[T1 r16 c1] Resistenza iniziale del cemento
+[T1 r16 c2] N
+[T1 r17 c1] Condizioni di aderenza
+[T1 r17 c2] Altre · η₁ = 0,7
+[T1 r18 c1] Riduzione EC2 per classe di resistenza
+[T1 r18 c2] No
+[T1 r19 c1] Riduzione EC2 per geometria a piastra
+[T1 r19 c2] No
+[T1 r20 c1] Controllo speciale della produzione
+[T1 r20 c2] No
+[T1 r21 c1] Superficie irregolare
+[T1 r21 c2] Sì
+[T1 r22 c1] Durabilità · tolleranza [mm]
+[T1 r22 c2] 10
+[T1 r23 c1] Classe di esposizione
+[T1 r23 c2] XD2
+[T1 r24 c1] Durabilità · aggregato [mm]
+[T1 r24 c2] 20
+¶ Proprietà di calcolo
+[T2 r1 c1] Proprietà
+[T2 r1 c2] Valore
+[T2 r2 c1] Resistenza caratteristica cubica (classe) · Rck [MPa]
+[T2 r2 c2] 40
+[T2 r3 c1] Resistenza media a compressione · fcm [MPa]
+[T2 r3 c2] 40
+[T2 r4 c1] Resistenza media a trazione · fctm [MPa]
+[T2 r4 c2] 3,02
+[T2 r5 c1] Resistenza caratteristica a trazione · 5% · fctk,0.05 [MPa]
+[T2 r5 c2] 2,12
+[T2 r6 c1] Resistenza caratteristica a trazione · 95% · fctk,0.95 [MPa]
+[T2 r6 c2] 3,93
+[T2 r7 c1] Modulo elastico secante · Ecm [MPa]
+[T2 r7 c2] 33.345,76
+[T2 r8 c1] Deformazione al picco · parabola-rettangolo · εc2 [‰]
+[T2 r8 c2] 2
+[T2 r9 c1] Deformazione ultima · parabola-rettangolo · εcu2 [‰]
+[T2 r9 c2] 3,5
+[T2 r10 c1] Coefficiente di Poisson · ν [—]
+[T2 r10 c2] 0,2
+[T2 r11 c1] Aderenza
+[T2 r11 c2] fbd = 2,22 MPa
+[T2 r12 c1] Dettagli aderenza
+[T2 r12 c2] φ = 25 mm  ·  η₁ = 0,70  ·  η₂ = 1,00
+fctk,0.05 per aderenza = 2,12 MPa
+fctd = 1,41 MPa
+[T2 r13 c1] Copriferro nominale
+[T2 r13 c2] cnom = 55 mm
+[T2 r14 c1] Dettagli copriferro
+[T2 r14 c2] XD2: classe strutturale S4 → cmin,dur = 40 mm
+
+cmin,b = φ = 25 mm
+cmin = max(cmin,b; cmin,dur; 10 mm) + superficie + abrasione = 45 mm
+cnom = cmin + Δcdev = 55 mm
+[T2 r15 c1] Applicabilità copriferro
+[T2 r15 c2] EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente.
+[T2 r16 c1] Classe cloruri
+[T2 r16 c2] Cl 0,40
+[T2 r17 c1] Rapporto A/C massimo
+[T2 r17 c2] 0,5
+[T2 r18 c1] Dosaggio minimo di cemento [kg/m³]
+[T2 r18 c2] 340
+[T2 r19 c1] Contenuto minimo di aria [%]
+[T2 r19 c2] Non prescritto
+[T2 r20 c1] Indicazioni cloruri
+[T2 r20 c2] Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri).
+[T2 r21 c1] Riferimenti della composizione
+[T2 r21 c2] UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).
+
+Esposizioni: XD2. Classe minima: C32/40.
+# word/footer.xml
+¶ ANTHEA · Pagina 1

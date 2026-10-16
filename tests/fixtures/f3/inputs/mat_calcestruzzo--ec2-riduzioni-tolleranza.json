@@ -1,0 +1,42 @@
+{
+  "module": "mat_calcestruzzo",
+  "id": "ec2-riduzioni-tolleranza",
+  "origin": "Fixture sintetica F5.5 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_materiali": 1,
+    "classe": "C45/55",
+    "esposizione_principale": "XD3",
+    "numeri": {
+      "diameter": "20",
+      "aggregate": "40",
+      "cementName": "CEM III/A 42,5 R · cementeria di prova",
+      "bondAlpha": "1,0",
+      "bondGamma": "1,5"
+    },
+    "scelte": {
+      "ntcElement": "Trave / pilastro",
+      "coverMethod": "EC2 2004",
+      "life": "100 anni",
+      "deviationControl": "Misura copriferri",
+      "deviationValue": "5 mm",
+      "ground": "Terreno preparato",
+      "abrasion": "XM2 · +10 mm",
+      "consistency": "S4",
+      "cement": "CEM III",
+      "cementClass": "42,5",
+      "cementEarly": "R",
+      "bondCondition": "Buone · η₁ = 1,0"
+    },
+    "opzioni": {
+      "highStrength": true,
+      "slab": true,
+      "quality": true,
+      "rough": true,
+      "ntcQuality": false
+    },
+    "esposizioni": [
+      "XD3"
+    ]
+  }
+}

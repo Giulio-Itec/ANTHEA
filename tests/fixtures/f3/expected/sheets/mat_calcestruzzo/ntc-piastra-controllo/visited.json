@@ -1,0 +1,36 @@
+{
+  "classe": "C25/30",
+  "esposizione_principale": "XS3",
+  "esposizioni": [
+    "XS3"
+  ],
+  "numeri": {
+    "aggregate": "16",
+    "bondAlpha": "1,0",
+    "bondGamma": "1,5",
+    "cementName": "",
+    "diameter": "12"
+  },
+  "opzioni": {
+    "highStrength": false,
+    "ntcQuality": true,
+    "quality": false,
+    "rough": false,
+    "slab": false
+  },
+  "scelte": {
+    "abrasion": "Nessuno",
+    "bondCondition": "Altre · η₁ = 0,7",
+    "cement": "CEM II",
+    "cementClass": "52,5",
+    "cementEarly": "N",
+    "consistency": "S2",
+    "coverMethod": "NTC + Circ. 2019",
+    "deviationControl": "Misura accurata + scarto",
+    "deviationValue": "0 mm",
+    "ground": "Direttamente su terra",
+    "life": "50 anni",
+    "ntcElement": "Piastra / soletta / parete"
+  },
+  "versione_materiali": 1
+}

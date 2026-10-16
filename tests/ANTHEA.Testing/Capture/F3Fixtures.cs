@@ -76,6 +76,7 @@ public static class F3Fixtures
             d["workspace_ca"] = new JsonObject { ["versione"] = 2, ["normativa"] = "NTC 2018", ["coefficienti"] = new JsonObject() };
         });
         PileGroupF54(cases);
+        MaterialsF55(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -157,6 +158,96 @@ public static class F3Fixtures
         Added("generica-sovrapposti", d => {
             Generator(d)["tipo"] = "Generica";
             d["pali"] = new JsonArray(J.Obj(("id", "P1"), ("x", 0), ("y", 0)), J.Obj(("id", "P2"), ("x", 0.6), ("y", 0)), J.Obj(("id", "P3"), ("x", 3), ("y", 0)));
+        });
+    }
+
+    /// <summary>
+    /// Material fixtures added before F5.5 (proposal F5, section 7.2: capture first, with the historic views MaterialView and
+    /// RebarMaterialView). Concrete: both cover methods (EC2 with the reductions of the structural class, NTC with plate and quality
+    /// control), every deviation control, ground and abrasion, 100 years, the bond conditions, frost with entrained air, sea water,
+    /// the classes outside the library catalogue, X0, invalid typed numbers, an archive with three exposures, a main exposure that
+    /// is not the first and a key the sheet does not know. Reinforcing steel: B450A, historic steels with and without εu, a custom
+    /// hardening steel with a reference, a sheet saved with the previous catalogue (DET-3) and fu lower than fyk. The values are
+    /// texts as the sheets write them; the documents are archive-valid; the identifiers never end in "default".
+    /// </summary>
+    static void MaterialsF55(List<CaptureCase> cases)
+    {
+        const string origin = "Fixture sintetica F5.5 (proposta F5 7.2, cattura prima con la vista storica)";
+        void Concrete(string id, Action<JsonObject> alter)
+        {
+            var data = ModuleCatalog.CreateData("mat_calcestruzzo"); alter(data);
+            cases.Add(new("mat_calcestruzzo", id, origin, null, data));
+        }
+        static void Values(JsonObject d, string group, params (string Key, object Value)[] values)
+        {
+            foreach (var (key, value) in values) d[group]![key] = JsonValue.Create(value);
+        }
+        static void Exposure(JsonObject d, string code) { d["esposizione_principale"] = code; d["esposizioni"] = new JsonArray(code); }
+        // EC2 2004 with the three reductions of the structural class, 100 years, measured cover (5 mm), prepared ground, XM2,
+        // rough surface, Dmax 40 mm (+5 mm), good bond, S4 and a named CEM III 42,5 R; XD3, C45/55.
+        Concrete("ec2-riduzioni-tolleranza", d => {
+            d["classe"] = "C45/55"; Exposure(d, "XD3");
+            Values(d, "numeri", ("diameter", "20"), ("aggregate", "40"), ("cementName", "CEM III/A 42,5 R · cementeria di prova"));
+            Values(d, "scelte", ("coverMethod", "EC2 2004"), ("life", "100 anni"), ("deviationControl", "Misura copriferri"), ("deviationValue", "5 mm"),
+                ("ground", "Terreno preparato"), ("abrasion", "XM2 · +10 mm"), ("consistency", "S4"), ("cement", "CEM III"), ("cementClass", "42,5"),
+                ("cementEarly", "R"), ("bondCondition", "Buone · η₁ = 1,0"));
+            Values(d, "opzioni", ("highStrength", true), ("slab", true), ("quality", true), ("rough", true));
+        });
+        // NTC 2018 + Circolare for a plate with quality control of the covers, accurate measure with rejection (0 mm), cast
+        // directly on the ground, sea water XS3 with a class below the minimum, Dmax 16 mm, S2, CEM II 52,5.
+        Concrete("ntc-piastra-controllo", d => {
+            d["classe"] = "C25/30"; Exposure(d, "XS3");
+            Values(d, "numeri", ("diameter", "12"), ("aggregate", "16"));
+            Values(d, "scelte", ("ntcElement", "Piastra / soletta / parete"), ("deviationControl", "Misura accurata + scarto"), ("deviationValue", "0 mm"),
+                ("ground", "Direttamente su terra"), ("consistency", "S2"), ("cement", "CEM II"), ("cementClass", "52,5"));
+            Values(d, "opzioni", ("ntcQuality", true));
+        });
+        // Frost with de-icing salts: entrained air for Dmax 16 mm, S3, a cement to be specified; C35/45, bond coefficients typed.
+        Concrete("gelo-aria-xf4", d => {
+            d["classe"] = "C35/45"; Exposure(d, "XF4");
+            Values(d, "numeri", ("aggregate", "16"), ("cementName", "CEM IV/B (P) 32,5 N"), ("bondAlpha", "0,85"), ("bondGamma", "1,2"));
+            Values(d, "scelte", ("consistency", "S3"), ("cement", "Altro / da specificare"), ("abrasion", "XM1 · +5 mm"));
+        });
+        // X0 with a class added outside the library catalogue (C16/20): nothing prescribed for the mix.
+        Concrete("x0-classe-fuori-catalogo", d => {
+            d["classe"] = "C16/20"; Exposure(d, "X0");
+            Values(d, "scelte", ("consistency", "S1"), ("bondCondition", "Buone · η₁ = 1,0"));
+        });
+        // Invalid typed numbers (diameter, Dmax, γc) with EC2 and XA2: bond, cover and Dmax to be completed, report with the error.
+        Concrete("dati-incompleti", d => {
+            Exposure(d, "XA2");
+            Values(d, "numeri", ("diameter", "abc"), ("aggregate", ""), ("bondGamma", "0,5"));
+            Values(d, "scelte", ("coverMethod", "EC2 2004"), ("cement", "CEM V"));
+        });
+        // Archive of a previous version: three exposures, the main one not the first, partial numbers, choices and options, a
+        // deviation value missing for a measured control, and a key the sheet does not know (dropped when the sheet is saved).
+        cases.Add(new("mat_calcestruzzo", "legacy-tre-esposizioni", origin, null, J.Obj(("versione_materiali", 1), ("classe", "C32/40"),
+            ("esposizione_principale", "XD2"), ("esposizioni", new JsonArray("XF1", "XC4", "XD2")), ("numeri", J.Obj(("diameter", "25"))),
+            ("scelte", J.Obj(("coverMethod", "EC2 2004"), ("deviationControl", "Misura copriferri"))), ("opzioni", J.Obj(("rough", true))),
+            ("vista_precedente", "esposizioni"))));
+
+        void Steel(string id, Action<JsonObject> alter, string reference = "")
+        {
+            var data = ModuleCatalog.CreateData(RebarMaterial.Module); alter(data["input"]!.AsObject()); data["riferimento"] = reference;
+            cases.Add(new(RebarMaterial.Module, id, origin, null, data));
+        }
+        // Catalogue steel of class A, with a reference.
+        Steel("b450a", input => RebarMaterial.Select(input, "B450A"), "DDT 45 del 12/10/2026");
+        // Historic steel with εu defined by the user and the hardening diagram (allowed for historic steels).
+        Steel("storico-feb38k-eps", input => { RebarMaterial.Select(input, "FeB38k"); input["steel_eps_u"] = "40"; input["steel_diagramma"] = "Incrudente"; });
+        // Historic steel without εu: the properties stop with the message of the missing value, report with the error.
+        Steel("storico-feb22k-incompleto", input => RebarMaterial.Select(input, "FeB22k"));
+        // Custom hardening steel with values typed with the decimal comma and a reference of two lines.
+        Steel("personalizzato-incrudente", input => {
+            RebarMaterial.Select(input, "Personalizzato"); input["materiale_acciaio_nome"] = "Acciaio da prove";
+            input["fyk_mpa"] = "430,5"; input["steel_fu_mpa"] = "560"; input["steel_modulus_mpa"] = "205000"; input["steel_eps_u"] = "60";
+            input["steel_diagramma"] = "Incrudente"; input["gamma_s"] = "1,10";
+        }, "Certificato n. 123/2026\nLaboratorio prove materiali");
+        // A B450A saved with the previous catalogue (εu = 30 ‰, DET-3): not the preset any more, declared without rewriting it.
+        Steel("catalogo-precedente-b450a", input => { RebarMaterial.Select(input, "B450A"); input["steel_eps_u"] = 30; });
+        // Custom steel with fu lower than fyk: the properties stop with the message, report with the error.
+        Steel("personalizzato-non-valido", input => {
+            RebarMaterial.Select(input, "Personalizzato"); input["fyk_mpa"] = "500"; input["steel_fu_mpa"] = "450";
         });
     }
 }

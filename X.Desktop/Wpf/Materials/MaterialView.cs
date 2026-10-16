@@ -12,7 +12,7 @@ namespace Materiali;
 public sealed partial class MaterialView : UserControl
 {
     static readonly Brush Navy = Brush("#0B2A4A"), Blue = Brush("#0B5CAD"), Muted = Brush("#64748B");
-    static readonly (string Name, double Fck)[] Classes = MaterialInputCatalog.MaterialSheetClasses();
+    static readonly IReadOnlyList<(string Name, double Fck)> Classes = MaterialInputCatalog.MaterialSheetClasses();
     readonly ComboBox choice = new() { MinWidth=130, Margin=new Thickness(0,4,0,6) };
     readonly TextBlock strength = Text("",32,true), modulus = Text("",32,true), tension = Text("",32,true);
     readonly TextBlock status = Text("",12);

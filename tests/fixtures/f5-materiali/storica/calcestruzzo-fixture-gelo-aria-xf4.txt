@@ -1,0 +1,300 @@
+== apertura
+dati {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+anteprima {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+modificato 0 · modificabile sì
+classe "C35/45" · voci 16
+numeri diameter="16" aggregate="16" cementName="CEM IV/B (P) 32,5 N" bondAlpha="0,85" bondGamma="1,2"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "XM1 · +5 mm"
+  consistency "S3"
+  cement "Altro / da specificare"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XF4" · attive XF4 · voci 18
+  descrizione "Gelo e disgelo: saturazione d’acqua elevata, con sali disgelanti o acqua di mare."
+  esempi "Impalcati, strade e pavimentazioni esposti al gelo e ai sali disgelanti.\nSuperfici esposte al gelo in zona costiera."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "35,00" "3,21" "34,08" · stato "C35/45  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "35,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "45" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "43,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,21" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,25" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,17" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "34.077,15" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,51 MPa" · "φ = 16 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,25 MPa\nfctd = 1,59 MPa"
+classe minima "C30/37" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata. XF2/XF3/XF4: valori del prospetto con aria inglobata; per l’alternativa senza aria occorrono prove prestazionali (nota a). XF1: valore ordinario senza aria aggiunta; l’alternativa aerata della nota b richiede una specifica dedicata."
+copriferro "cnom = 60 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXF4 · Trave / pilastro\nCmin (fck) = 30 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 45 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 45 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 50 mm\ncnom = cmin + Δcdev = 60 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="5,0" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XF4. Classe minima: C30/37."
+  aria "Nota a: 5% è l’esempio indicato per Dupper da 12 a 16 mm; da confermare nella specifica. L’alternativa senza aria inglobata richiede prove prestazionali di resistenza al gelo/disgelo."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Aggregati di adeguata resistenza al gelo/disgelo secondo UNI EN 12620.\n"
+  consistenza "S3: 100–150 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+anteprima {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+modificato 0 · modificabile sì
+classe "C35/45" · voci 16
+numeri diameter="16" aggregate="16" cementName="CEM IV/B (P) 32,5 N" bondAlpha="0,85" bondGamma="1,2"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "XM1 · +5 mm"
+  consistency "S3"
+  cement "Altro / da specificare"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XF4" · attive XF4 · voci 18
+  descrizione "Gelo e disgelo: saturazione d’acqua elevata, con sali disgelanti o acqua di mare."
+  esempi "Impalcati, strade e pavimentazioni esposti al gelo e ai sali disgelanti.\nSuperfici esposte al gelo in zona costiera."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "35,00" "3,21" "34,08" · stato "C35/45  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "35,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "45" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "43,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,21" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,25" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,17" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "34.077,15" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,51 MPa" · "φ = 16 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,25 MPa\nfctd = 1,59 MPa"
+classe minima "C30/37" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata. XF2/XF3/XF4: valori del prospetto con aria inglobata; per l’alternativa senza aria occorrono prove prestazionali (nota a). XF1: valore ordinario senza aria aggiunta; l’alternativa aerata della nota b richiede una specifica dedicata."
+copriferro "cnom = 60 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXF4 · Trave / pilastro\nCmin (fck) = 30 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 45 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 45 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 50 mm\ncnom = cmin + Δcdev = 60 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="5,0" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XF4. Classe minima: C30/37."
+  aria "Nota a: 5% è l’esempio indicato per Dupper da 12 a 16 mm; da confermare nella specifica. L’alternativa senza aria inglobata richiede prove prestazionali di resistenza al gelo/disgelo."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Aggregati di adeguata resistenza al gelo/disgelo secondo UNI EN 12620.\n"
+  consistenza "S3: 100–150 mm"
+== calcola
+dati {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+anteprima {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+modificato 0 · modificabile sì
+classe "C35/45" · voci 16
+numeri diameter="16" aggregate="16" cementName="CEM IV/B (P) 32,5 N" bondAlpha="0,85" bondGamma="1,2"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "XM1 · +5 mm"
+  consistency "S3"
+  cement "Altro / da specificare"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XF4" · attive XF4 · voci 18
+  descrizione "Gelo e disgelo: saturazione d’acqua elevata, con sali disgelanti o acqua di mare."
+  esempi "Impalcati, strade e pavimentazioni esposti al gelo e ai sali disgelanti.\nSuperfici esposte al gelo in zona costiera."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "35,00" "3,21" "34,08" · stato "C35/45  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "35,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "45" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "43,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,21" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,25" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,17" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "34.077,15" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,51 MPa" · "φ = 16 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,25 MPa\nfctd = 1,59 MPa"
+classe minima "C30/37" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata. XF2/XF3/XF4: valori del prospetto con aria inglobata; per l’alternativa senza aria occorrono prove prestazionali (nota a). XF1: valore ordinario senza aria aggiunta; l’alternativa aerata della nota b richiede una specifica dedicata."
+copriferro "cnom = 60 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXF4 · Trave / pilastro\nCmin (fck) = 30 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 45 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 45 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 50 mm\ncnom = cmin + Δcdev = 60 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="5,0" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XF4. Classe minima: C30/37."
+  aria "Nota a: 5% è l’esempio indicato per Dupper da 12 a 16 mm; da confermare nella specifica. L’alternativa senza aria inglobata richiede prove prestazionali di resistenza al gelo/disgelo."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Aggregati di adeguata resistenza al gelo/disgelo secondo UNI EN 12620.\n"
+  consistenza "S3: 100–150 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+anteprima {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+modificato 0 · modificabile sì
+classe "C35/45" · voci 16
+numeri diameter="16" aggregate="16" cementName="CEM IV/B (P) 32,5 N" bondAlpha="0,85" bondGamma="1,2"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "XM1 · +5 mm"
+  consistency "S3"
+  cement "Altro / da specificare"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XF4" · attive XF4 · voci 18
+  descrizione "Gelo e disgelo: saturazione d’acqua elevata, con sali disgelanti o acqua di mare."
+  esempi "Impalcati, strade e pavimentazioni esposti al gelo e ai sali disgelanti.\nSuperfici esposte al gelo in zona costiera."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "35,00" "3,21" "34,08" · stato "C35/45  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "35,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "45" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "43,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,21" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,25" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,17" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "34.077,15" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,51 MPa" · "φ = 16 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,25 MPa\nfctd = 1,59 MPa"
+classe minima "C30/37" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata. XF2/XF3/XF4: valori del prospetto con aria inglobata; per l’alternativa senza aria occorrono prove prestazionali (nota a). XF1: valore ordinario senza aria aggiunta; l’alternativa aerata della nota b richiede una specifica dedicata."
+copriferro "cnom = 60 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXF4 · Trave / pilastro\nCmin (fck) = 30 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 45 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 45 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 50 mm\ncnom = cmin + Δcdev = 60 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="5,0" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XF4. Classe minima: C30/37."
+  aria "Nota a: 5% è l’esempio indicato per Dupper da 12 a 16 mm; da confermare nella specifica. L’alternativa senza aria inglobata richiede prove prestazionali di resistenza al gelo/disgelo."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Aggregati di adeguata resistenza al gelo/disgelo secondo UNI EN 12620.\n"
+  consistenza "S3: 100–150 mm"
+== riapri
+dati {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+anteprima {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+modificato 0 · modificabile sì
+classe "C35/45" · voci 16
+numeri diameter="16" aggregate="16" cementName="CEM IV/B (P) 32,5 N" bondAlpha="0,85" bondGamma="1,2"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "XM1 · +5 mm"
+  consistency "S3"
+  cement "Altro / da specificare"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XF4" · attive XF4 · voci 18
+  descrizione "Gelo e disgelo: saturazione d’acqua elevata, con sali disgelanti o acqua di mare."
+  esempi "Impalcati, strade e pavimentazioni esposti al gelo e ai sali disgelanti.\nSuperfici esposte al gelo in zona costiera."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "35,00" "3,21" "34,08" · stato "C35/45  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "35,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "45" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "43,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,21" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,25" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,17" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "34.077,15" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,51 MPa" · "φ = 16 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,25 MPa\nfctd = 1,59 MPa"
+classe minima "C30/37" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata. XF2/XF3/XF4: valori del prospetto con aria inglobata; per l’alternativa senza aria occorrono prove prestazionali (nota a). XF1: valore ordinario senza aria aggiunta; l’alternativa aerata della nota b richiede una specifica dedicata."
+copriferro "cnom = 60 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXF4 · Trave / pilastro\nCmin (fck) = 30 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 45 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 45 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 50 mm\ncnom = cmin + Δcdev = 60 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="5,0" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XF4. Classe minima: C30/37."
+  aria "Nota a: 5% è l’esempio indicato per Dupper da 12 a 16 mm; da confermare nella specifica. L’alternativa senza aria inglobata richiede prove prestazionali di resistenza al gelo/disgelo."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Aggregati di adeguata resistenza al gelo/disgelo secondo UNI EN 12620.\n"
+  consistenza "S3: 100–150 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+anteprima {"versione_materiali":1,"classe":"C35/45","esposizione_principale":"XF4","numeri":{"diameter":"16","aggregate":"16","cementName":"CEM IV/B (P) 32,5 N","bondAlpha":"0,85","bondGamma":"1,2"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"XM1 · +5 mm","consistency":"S3","cement":"Altro / da specificare","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XF4"]}
+modificato 0 · modificabile sì
+classe "C35/45" · voci 16
+numeri diameter="16" aggregate="16" cementName="CEM IV/B (P) 32,5 N" bondAlpha="0,85" bondGamma="1,2"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "XM1 · +5 mm"
+  consistency "S3"
+  cement "Altro / da specificare"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "XF4" · attive XF4 · voci 18
+  descrizione "Gelo e disgelo: saturazione d’acqua elevata, con sali disgelanti o acqua di mare."
+  esempi "Impalcati, strade e pavimentazioni esposti al gelo e ai sali disgelanti.\nSuperfici esposte al gelo in zona costiera."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "35,00" "3,21" "34,08" · stato "C35/45  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "35,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "45" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "43,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "3,21" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "2,25" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "4,17" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "34.077,15" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,51 MPa" · "φ = 16 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 2,25 MPa\nfctd = 1,59 MPa"
+classe minima "C30/37" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata. XF2/XF3/XF4: valori del prospetto con aria inglobata; per l’alternativa senza aria occorrono prove prestazionali (nota a). XF1: valore ordinario senza aria aggiunta; l’alternativa aerata della nota b richiede una specifica dedicata."
+copriferro "cnom = 60 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXF4 · Trave / pilastro\nCmin (fck) = 30 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 45 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 45 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 50 mm\ncnom = cmin + Δcdev = 60 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="5,0" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XF4. Classe minima: C30/37."
+  aria "Nota a: 5% è l’esempio indicato per Dupper da 12 a 16 mm; da confermare nella specifica. L’alternativa senza aria inglobata richiede prove prestazionali di resistenza al gelo/disgelo."
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Aggregati di adeguata resistenza al gelo/disgelo secondo UNI EN 12620.\n"
+  consistenza "S3: 100–150 mm"

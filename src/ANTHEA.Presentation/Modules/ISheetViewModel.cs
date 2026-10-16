@@ -16,6 +16,14 @@ public interface ISheetViewModel : IDisposable
     /// <summary>Working copy of the sheet data, in the format of the documents (unchanged by F5); the host writes it back to the document.</summary>
     JsonObject Data { get; }
 
+    /// <summary>
+    /// The data with the edits that the sheet keeps until <see cref="Commit"/>, without committing them (F5.5): the shared-data
+    /// status of a project reads it while the sheet is open (ISheetEditor.PreviewData). <see cref="Data"/> for the sheets that write
+    /// at every edit (the default of <see cref="SheetViewModelBase"/>); the state not committed yet for the concrete material, whose
+    /// historic view writes its data only at Commit.
+    /// </summary>
+    JsonObject PreviewData { get; }
+
     /// <summary>Version of <see cref="Data"/>: it grows at every change and reload. Only a calculation of the current data is published.</summary>
     long Revision { get; }
 

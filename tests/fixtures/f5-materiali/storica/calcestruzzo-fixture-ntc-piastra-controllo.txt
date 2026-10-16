@@ -1,0 +1,300 @@
+== apertura
+dati {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+anteprima {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+modificato 0 · modificabile sì
+classe "C25/30" · voci 16
+numeri diameter="12" aggregate="16" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Piastra / soletta / parete"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Misura accurata + scarto"
+  deviationValue "0 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm" "4 mm" "3 mm" "2 mm" "1 mm" "0 mm"
+  ground "Direttamente su terra"
+  abrasion "Nessuno"
+  consistency "S2"
+  cement "CEM II"
+  cementClass "52,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=sì
+esposizione "XS3" · attive XS3 · voci 18
+  descrizione "Corrosione da cloruri marini: zone di marea, di onda e di spruzzi."
+  esempi "Banchine, moli, pontili e opere di difesa costiera nella zona di marea e di spruzzi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "25,00" "2,56" "31,48" · stato "C25/30  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "25,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "30" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "33,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,56" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,80" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,33" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "31.475,81" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 1,89 MPa" · "φ = 12 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,80 MPa\nfctd = 1,20 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 75 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXS3 · Piastra / soletta / parete\nCmin (fck) = 35 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 40 mm\nVita utile: +0 mm; classe < Cmin: +5 mm\nControllo dei copriferri: −5 mm\nMinimo per durabilità = 40 mm\nMinimo per aderenza = 12 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 40 mm\ncnom = cmin + Δcdev = 40 mm\nLimite getto 75 mm → adottato 75 mm\nClasse inferiore a Cmin: verificare anche la specifica del calcestruzzo."
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Δcdev da 0 a 10 mm: misure molto accurate e scarto degli elementi non conformi, ad esempio prefabbricati (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XS3. Classe minima: C35/45.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Cemento resistente all’acqua di mare secondo UNI 9156.\n"
+  consistenza "S2: 50–90 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+anteprima {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+modificato 0 · modificabile sì
+classe "C25/30" · voci 16
+numeri diameter="12" aggregate="16" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Piastra / soletta / parete"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Misura accurata + scarto"
+  deviationValue "0 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm" "4 mm" "3 mm" "2 mm" "1 mm" "0 mm"
+  ground "Direttamente su terra"
+  abrasion "Nessuno"
+  consistency "S2"
+  cement "CEM II"
+  cementClass "52,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=sì
+esposizione "XS3" · attive XS3 · voci 18
+  descrizione "Corrosione da cloruri marini: zone di marea, di onda e di spruzzi."
+  esempi "Banchine, moli, pontili e opere di difesa costiera nella zona di marea e di spruzzi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "25,00" "2,56" "31,48" · stato "C25/30  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "25,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "30" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "33,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,56" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,80" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,33" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "31.475,81" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 1,89 MPa" · "φ = 12 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,80 MPa\nfctd = 1,20 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 75 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXS3 · Piastra / soletta / parete\nCmin (fck) = 35 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 40 mm\nVita utile: +0 mm; classe < Cmin: +5 mm\nControllo dei copriferri: −5 mm\nMinimo per durabilità = 40 mm\nMinimo per aderenza = 12 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 40 mm\ncnom = cmin + Δcdev = 40 mm\nLimite getto 75 mm → adottato 75 mm\nClasse inferiore a Cmin: verificare anche la specifica del calcestruzzo."
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Δcdev da 0 a 10 mm: misure molto accurate e scarto degli elementi non conformi, ad esempio prefabbricati (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XS3. Classe minima: C35/45.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Cemento resistente all’acqua di mare secondo UNI 9156.\n"
+  consistenza "S2: 50–90 mm"
+== calcola
+dati {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+anteprima {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+modificato 0 · modificabile sì
+classe "C25/30" · voci 16
+numeri diameter="12" aggregate="16" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Piastra / soletta / parete"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Misura accurata + scarto"
+  deviationValue "0 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm" "4 mm" "3 mm" "2 mm" "1 mm" "0 mm"
+  ground "Direttamente su terra"
+  abrasion "Nessuno"
+  consistency "S2"
+  cement "CEM II"
+  cementClass "52,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=sì
+esposizione "XS3" · attive XS3 · voci 18
+  descrizione "Corrosione da cloruri marini: zone di marea, di onda e di spruzzi."
+  esempi "Banchine, moli, pontili e opere di difesa costiera nella zona di marea e di spruzzi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "25,00" "2,56" "31,48" · stato "C25/30  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "25,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "30" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "33,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,56" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,80" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,33" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "31.475,81" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 1,89 MPa" · "φ = 12 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,80 MPa\nfctd = 1,20 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 75 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXS3 · Piastra / soletta / parete\nCmin (fck) = 35 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 40 mm\nVita utile: +0 mm; classe < Cmin: +5 mm\nControllo dei copriferri: −5 mm\nMinimo per durabilità = 40 mm\nMinimo per aderenza = 12 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 40 mm\ncnom = cmin + Δcdev = 40 mm\nLimite getto 75 mm → adottato 75 mm\nClasse inferiore a Cmin: verificare anche la specifica del calcestruzzo."
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Δcdev da 0 a 10 mm: misure molto accurate e scarto degli elementi non conformi, ad esempio prefabbricati (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XS3. Classe minima: C35/45.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Cemento resistente all’acqua di mare secondo UNI 9156.\n"
+  consistenza "S2: 50–90 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+anteprima {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+modificato 0 · modificabile sì
+classe "C25/30" · voci 16
+numeri diameter="12" aggregate="16" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Piastra / soletta / parete"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Misura accurata + scarto"
+  deviationValue "0 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm" "4 mm" "3 mm" "2 mm" "1 mm" "0 mm"
+  ground "Direttamente su terra"
+  abrasion "Nessuno"
+  consistency "S2"
+  cement "CEM II"
+  cementClass "52,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=sì
+esposizione "XS3" · attive XS3 · voci 18
+  descrizione "Corrosione da cloruri marini: zone di marea, di onda e di spruzzi."
+  esempi "Banchine, moli, pontili e opere di difesa costiera nella zona di marea e di spruzzi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "25,00" "2,56" "31,48" · stato "C25/30  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "25,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "30" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "33,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,56" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,80" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,33" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "31.475,81" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 1,89 MPa" · "φ = 12 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,80 MPa\nfctd = 1,20 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 75 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXS3 · Piastra / soletta / parete\nCmin (fck) = 35 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 40 mm\nVita utile: +0 mm; classe < Cmin: +5 mm\nControllo dei copriferri: −5 mm\nMinimo per durabilità = 40 mm\nMinimo per aderenza = 12 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 40 mm\ncnom = cmin + Δcdev = 40 mm\nLimite getto 75 mm → adottato 75 mm\nClasse inferiore a Cmin: verificare anche la specifica del calcestruzzo."
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Δcdev da 0 a 10 mm: misure molto accurate e scarto degli elementi non conformi, ad esempio prefabbricati (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XS3. Classe minima: C35/45.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Cemento resistente all’acqua di mare secondo UNI 9156.\n"
+  consistenza "S2: 50–90 mm"
+== riapri
+dati {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+anteprima {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+modificato 0 · modificabile sì
+classe "C25/30" · voci 16
+numeri diameter="12" aggregate="16" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Piastra / soletta / parete"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Misura accurata + scarto"
+  deviationValue "0 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm" "4 mm" "3 mm" "2 mm" "1 mm" "0 mm"
+  ground "Direttamente su terra"
+  abrasion "Nessuno"
+  consistency "S2"
+  cement "CEM II"
+  cementClass "52,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=sì
+esposizione "XS3" · attive XS3 · voci 18
+  descrizione "Corrosione da cloruri marini: zone di marea, di onda e di spruzzi."
+  esempi "Banchine, moli, pontili e opere di difesa costiera nella zona di marea e di spruzzi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "25,00" "2,56" "31,48" · stato "C25/30  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "25,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "30" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "33,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,56" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,80" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,33" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "31.475,81" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 1,89 MPa" · "φ = 12 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,80 MPa\nfctd = 1,20 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 75 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXS3 · Piastra / soletta / parete\nCmin (fck) = 35 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 40 mm\nVita utile: +0 mm; classe < Cmin: +5 mm\nControllo dei copriferri: −5 mm\nMinimo per durabilità = 40 mm\nMinimo per aderenza = 12 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 40 mm\ncnom = cmin + Δcdev = 40 mm\nLimite getto 75 mm → adottato 75 mm\nClasse inferiore a Cmin: verificare anche la specifica del calcestruzzo."
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Δcdev da 0 a 10 mm: misure molto accurate e scarto degli elementi non conformi, ad esempio prefabbricati (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XS3. Classe minima: C35/45.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Cemento resistente all’acqua di mare secondo UNI 9156.\n"
+  consistenza "S2: 50–90 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+anteprima {"versione_materiali":1,"classe":"C25/30","esposizione_principale":"XS3","numeri":{"diameter":"12","aggregate":"16","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Piastra / soletta / parete","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Misura accurata + scarto","deviationValue":"0 mm","ground":"Direttamente su terra","abrasion":"Nessuno","consistency":"S2","cement":"CEM II","cementClass":"52,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":true},"esposizioni":["XS3"]}
+modificato 0 · modificabile sì
+classe "C25/30" · voci 16
+numeri diameter="12" aggregate="16" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Piastra / soletta / parete"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Misura accurata + scarto"
+  deviationValue "0 mm" · voci "10 mm" "9 mm" "8 mm" "7 mm" "6 mm" "5 mm" "4 mm" "3 mm" "2 mm" "1 mm" "0 mm"
+  ground "Direttamente su terra"
+  abrasion "Nessuno"
+  consistency "S2"
+  cement "CEM II"
+  cementClass "52,5"
+  cementEarly "N"
+  bondCondition "Altre · η₁ = 0,7"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=sì
+esposizione "XS3" · attive XS3 · voci 18
+  descrizione "Corrosione da cloruri marini: zone di marea, di onda e di spruzzi."
+  esempi "Banchine, moli, pontili e opere di difesa costiera nella zona di marea e di spruzzi."
+  aggressività "Aggressività: molto aggressiva"
+  combinata "" · nascosta
+proprietà "25,00" "2,56" "31,48" · stato "C25/30  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "25,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "30" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "33,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "2,56" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,80" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "3,33" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "31.475,81" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 1,89 MPa" · "φ = 12 mm  ·  η₁ = 0,70  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,80 MPa\nfctd = 1,20 MPa"
+classe minima "C35/45" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 75 mm"
+  passi "NTC + Circolare · ambiente molto aggressivo\nXS3 · Piastra / soletta / parete\nCmin (fck) = 35 MPa · C0 (fck) = 45 MPa\nMinimo tabellare = 40 mm\nVita utile: +0 mm; classe < Cmin: +5 mm\nControllo dei copriferri: −5 mm\nMinimo per durabilità = 40 mm\nMinimo per aderenza = 12 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 40 mm\ncnom = cmin + Δcdev = 40 mm\nLimite getto 75 mm → adottato 75 mm\nClasse inferiore a Cmin: verificare anche la specifica del calcestruzzo."
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Δcdev da 0 a 10 mm: misure molto accurate e scarto degli elementi non conformi, ad esempio prefabbricati (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="0,45" cement="360" air="Non prescritto" dmax="16"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: XS3. Classe minima: C35/45.\nLa classe di calcestruzzo selezionata è inferiore al minimo richiesto."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti "Cemento resistente all’acqua di mare secondo UNI 9156.\n"
+  consistenza "S2: 50–90 mm"

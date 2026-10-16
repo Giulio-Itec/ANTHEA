@@ -25,4 +25,30 @@ public static class MaterialReportChapter
         }
         catch (ArgumentException ex) { return new(Error: ex.Message); }
     }
+
+    /// <summary>
+    /// Report of one material sheet, as the sheet exports it: the report of a section with only this sheet, in the form of the
+    /// material sheet, with the chapter of <see cref="Create"/>. Moved without changes from SheetEditor.ExportReport in F5.5, so that
+    /// the historic view and the ViewModel compose the same document; the report code does not change (reports frozen on 8/10).
+    /// </summary>
+    public static Anthea.Reports.DocxDocument Document(string module, string title, JsonObject data)
+    {
+        var (plan, sheet) = Plan(module, title, data);
+        return ReportProject.Compose(plan, new Dictionary<JsonObject, ReportProject.SheetContent> { [sheet] = Create(module, data) }, [], materialSheet: true);
+    }
+
+    /// <summary>Writes the report of <see cref="Document"/> as DOCX and PDF (<see cref="ReportProject.Write"/>).</summary>
+    public static void Write(string path, string module, string title, JsonObject data)
+    {
+        var (plan, sheet) = Plan(module, title, data);
+        ReportProject.Write(path, plan, new Dictionary<JsonObject, ReportProject.SheetContent> { [sheet] = Create(module, data) }, [], materialSheet: true);
+    }
+
+    private static (ProjectReportPlan Plan, JsonObject Sheet) Plan(string module, string title, JsonObject data)
+    {
+        var sheet = J.Obj(("nome", title), ("modulo_id", module), ("dati", data.DeepClone()));
+        var section = J.Obj(("nome", title), ("fogli", new JsonArray()), ("strutture", new JsonArray()));
+        section.Array("fogli").Add(sheet);
+        return (new ProjectReportPlan(section), sheet);
+    }
 }

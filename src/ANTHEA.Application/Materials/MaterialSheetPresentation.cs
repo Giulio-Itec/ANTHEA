@@ -15,6 +15,14 @@ public sealed class MaterialSheetPresentation
     // Texts citing only standards (decisions U1 and U5 of 14/10/2026, register F4-47).
     public const string CompositionChlorideNote = "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri).";
     public const string CompositionReference = "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).";
+    /// <summary>Tooltip of the note of the deviation value (moved from the historic view, F5.5).</summary>
+    public const string DeviationToolTip = "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità.";
+    /// <summary>Note under the deviation value for the deviation control <paramref name="mode"/>, index of the menu (moved from the historic view, F5.5).</summary>
+    public static string DeviationNote(int mode) => mode switch {
+        0=>"Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3).",
+        1=>"Δcdev da 5 a 10 mm: sistema di controllo qualità con misure del copriferro (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato.",
+        _=>"Δcdev da 0 a 10 mm: misure molto accurate e scarto degli elementi non conformi, ad esempio prefabbricati (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato."
+    };
     public string Strength { get; private set; } = "";
     public string Tension { get; private set; } = "";
     public string Modulus { get; private set; } = "";

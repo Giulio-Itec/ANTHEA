@@ -21,6 +21,16 @@ public sealed class MaterialSheetInput
     };
     public static int InitialSelection(string key) => ChoiceCatalog[key].Initial;
     public static string InitialNumber(string key) => MaterialDefaults.Number(key);
+    /// <summary>Keys of the typed numbers, in the order of the persisted state (the order of the controls of the sheet).</summary>
+    public static IReadOnlyList<string> NumberKeys { get; } = MaterialDefaults.Numbers.Select(n => n.Key).ToArray();
+    /// <summary>Keys of the choices, deviation value included, in the order of the persisted state.</summary>
+    public static IReadOnlyList<string> ChoiceKeys { get; } = MaterialDefaults.ChoiceOrder.ToArray();
+    /// <summary>Keys of the options, in the order of the persisted state.</summary>
+    public static IReadOnlyList<string> FlagKeys { get; } = MaterialDefaults.Flags.ToArray();
+    /// <summary>The deviation value can be chosen for the deviation control <paramref name="mode"/> (index of the menu): not with the ordinary execution (moved from the historic view, F5.5).</summary>
+    public static bool DeviationChoosable(int mode) => mode != 0;
+    /// <summary>The cover follows NTC + Circolare, the first criterion of the menu; otherwise EC2 (moved from the historic view, F5.5).</summary>
+    public static bool IsNtcCover(string? method) => method == Options("coverMethod")[0];
     public JsonObject State { get; }
     public string ClassName { get; }
     public double Fck { get; }

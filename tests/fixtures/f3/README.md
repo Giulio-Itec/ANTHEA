@@ -74,3 +74,36 @@ transizioni F4 non cambiano.
 - In `expected/esito.txt` è cambiato solo il numero delle fixture (36 → 42). Il numero degli articoli resta quello del
   riferimento, con la transizione F4-51.
 - Impronte nel manifest, sezione `fixture_aggiunte_f5_4`, sulla forma conservata da git (fine riga LF).
+
+## Fixture aggiunte in F5.5 (materiali)
+
+Proposta F5, sezione 7.2: prima di migrare i materiali si aggiungono fixture catturate con le viste storiche
+(`Materiali.MaterialView` e `RebarMaterialView`). Il 16/10/2026 il calcestruzzo è passato da 2 a 8 fixture e l'acciaio per
+armature da 1 a 7 (54 in tutto); gli attesi delle 42 esistenti e le transizioni F4 non cambiano.
+
+| Fixture | Cosa copre |
+| --- | --- |
+| `mat_calcestruzzo--ec2-riduzioni-tolleranza` | criterio EC2 2004 con le tre riduzioni della classe strutturale, vita utile di 100 anni, misura dei copriferri (5 mm), terreno preparato, XM2, superficie irregolare, Dmax 40 mm, aderenza buona, S4, CEM III 42,5 R con designazione; XD3, C45/55 |
+| `mat_calcestruzzo--ntc-piastra-controllo` | NTC + Circolare per piastra con controllo dei copriferri, misura accurata con scarto (0 mm), getto direttamente su terra, XS3 con classe sotto il minimo, Dmax 16 mm, S2, CEM II 52,5 |
+| `mat_calcestruzzo--gelo-aria-xf4` | XF4 con aria inglobata per Dmax 16 mm, S3, cemento da specificare, XM1, coefficienti di aderenza digitati |
+| `mat_calcestruzzo--x0-classe-fuori-catalogo` | X0 (nessuna prescrizione della miscela) con C16/20, classe aggiunta fuori dal catalogo della libreria |
+| `mat_calcestruzzo--dati-incompleti` | diametro, Dmax e γc non validi con EC2 e XA2: aderenza, copriferro e Dmax da completare, report con l'errore |
+| `mat_calcestruzzo--legacy-tre-esposizioni` | archivio precedente con tre esposizioni e la principale non prima, numeri, scelte e opzioni parziali, tolleranza mancante per un controllo con misura, chiave sconosciuta tolta al salvataggio |
+| `mat_acciaio_armatura--b450a` | acciaio B450A del catalogo, con riferimento |
+| `mat_acciaio_armatura--storico-feb38k-eps` | acciaio storico con εu definito e diagramma incrudente |
+| `mat_acciaio_armatura--storico-feb22k-incompleto` | acciaio storico senza εu: proprietà ferme con il messaggio, report con l'errore |
+| `mat_acciaio_armatura--personalizzato-incrudente` | acciaio personalizzato incrudente, valori con la virgola, riferimento su due righe |
+| `mat_acciaio_armatura--catalogo-precedente-b450a` | B450A salvato con il catalogo precedente (εu = 30 ‰, DET-3): non è più il preset e lo si dichiara senza riscrivere i valori |
+| `mat_acciaio_armatura--personalizzato-non-valido` | fu minore di fyk: proprietà ferme con il messaggio, report con l'errore |
+
+- Gli input vengono da `fixtures-f3` (`F3Fixtures.MaterialsF55`). Sono archivi validi per la scheda (versione e forma dei
+  dati) e nessun identificativo finisce con `default`, perché il report di progetto della cattura raccoglie solo quelle
+  fixture.
+- Gli attesi (108 file) vengono dalla cattura `20261016-134413-f55-f3-cattura-1`, fatta sul codice di produzione di
+  `3c336992`: senza attesi, le sole differenze erano i 108 file aggiunti e il numero di `esito.txt`. La seconda cattura
+  (`…-134751-f55-f3-cattura-2`) dà gli stessi 108 file e passa con le transizioni F4 invariate; con queste fixture passa
+  anche `ui/f3-report-chapters`.
+- I materiali non hanno risultati di calcolo (`result.json` nullo, `hasResults` falso): «Calcola» conferma solo la scheda.
+- In `expected/esito.txt` è cambiato solo il numero delle fixture (42 → 54). Il numero degli articoli resta quello del
+  riferimento, con la transizione F4-51.
+- Impronte nel manifest, sezione `fixture_aggiunte_f5_5`, sulla forma conservata da git (fine riga LF).

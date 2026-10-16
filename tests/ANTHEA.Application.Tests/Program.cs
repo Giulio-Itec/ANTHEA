@@ -92,6 +92,7 @@ try
     checks += await ElasticPileSessionChecks.Run(root);
     checks += MaterialPresentationChecks.Run(root);
     checks += MaterialEditorChecks.Run();
+    checks += MaterialViewPresentationChecks.Run();
     checks += BridgeDesignAnalysisChecks.Run();
     checks += BridgeContractChecks.Run();
     checks += BridgeDesignContractChecks.Run();

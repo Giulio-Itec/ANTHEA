@@ -1,0 +1,300 @@
+== apertura
+dati {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+anteprima {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+modificato 0 · modificabile sì
+classe "C16/20" · voci 16
+numeri diameter="16" aggregate="20" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "S1"
+  cement "CEM I"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "X0" · attive X0 · voci 18
+  descrizione "Nessun rischio di corrosione o di attacco. Con armature o inserti metallici: solo ambiente molto asciutto. Senza armature: qualsiasi ambiente privo di gelo, abrasione e attacco chimico."
+  esempi "Elementi armati in interni molto asciutti.\nElementi non armati in interni, interrati o immersi in terreni e acque non aggressivi."
+  aggressività "Aggressività: ordinaria"
+  combinata "" · nascosta
+proprietà "16,00" "1,90" "28,61" · stato "C16/20  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "16,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "20" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "24,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "1,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,33" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "2,48" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "28.607,90" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,00 MPa" · "φ = 16 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,33 MPa\nfctd = 0,89 MPa"
+classe minima "C12/15" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 35 mm"
+  passi "NTC + Circolare · ambiente ordinario\nX0 · Trave / pilastro\nCmin (fck) = 12 MPa · C0 (fck) = 35 MPa\nMinimo tabellare = 25 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 25 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 25 mm\ncnom = cmin + Δcdev = 35 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="Non prescritto" cement="Non prescritto" air="Non prescritto" dmax="20"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: X0. Classe minima: C12/15."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S1: 10–40 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+anteprima {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+modificato 0 · modificabile sì
+classe "C16/20" · voci 16
+numeri diameter="16" aggregate="20" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "S1"
+  cement "CEM I"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "X0" · attive X0 · voci 18
+  descrizione "Nessun rischio di corrosione o di attacco. Con armature o inserti metallici: solo ambiente molto asciutto. Senza armature: qualsiasi ambiente privo di gelo, abrasione e attacco chimico."
+  esempi "Elementi armati in interni molto asciutti.\nElementi non armati in interni, interrati o immersi in terreni e acque non aggressivi."
+  aggressività "Aggressività: ordinaria"
+  combinata "" · nascosta
+proprietà "16,00" "1,90" "28,61" · stato "C16/20  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "16,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "20" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "24,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "1,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,33" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "2,48" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "28.607,90" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,00 MPa" · "φ = 16 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,33 MPa\nfctd = 0,89 MPa"
+classe minima "C12/15" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 35 mm"
+  passi "NTC + Circolare · ambiente ordinario\nX0 · Trave / pilastro\nCmin (fck) = 12 MPa · C0 (fck) = 35 MPa\nMinimo tabellare = 25 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 25 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 25 mm\ncnom = cmin + Δcdev = 35 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="Non prescritto" cement="Non prescritto" air="Non prescritto" dmax="20"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: X0. Classe minima: C12/15."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S1: 10–40 mm"
+== calcola
+dati {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+anteprima {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+modificato 0 · modificabile sì
+classe "C16/20" · voci 16
+numeri diameter="16" aggregate="20" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "S1"
+  cement "CEM I"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "X0" · attive X0 · voci 18
+  descrizione "Nessun rischio di corrosione o di attacco. Con armature o inserti metallici: solo ambiente molto asciutto. Senza armature: qualsiasi ambiente privo di gelo, abrasione e attacco chimico."
+  esempi "Elementi armati in interni molto asciutti.\nElementi non armati in interni, interrati o immersi in terreni e acque non aggressivi."
+  aggressività "Aggressività: ordinaria"
+  combinata "" · nascosta
+proprietà "16,00" "1,90" "28,61" · stato "C16/20  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "16,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "20" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "24,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "1,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,33" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "2,48" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "28.607,90" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,00 MPa" · "φ = 16 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,33 MPa\nfctd = 0,89 MPa"
+classe minima "C12/15" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 35 mm"
+  passi "NTC + Circolare · ambiente ordinario\nX0 · Trave / pilastro\nCmin (fck) = 12 MPa · C0 (fck) = 35 MPa\nMinimo tabellare = 25 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 25 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 25 mm\ncnom = cmin + Δcdev = 35 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="Non prescritto" cement="Non prescritto" air="Non prescritto" dmax="20"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: X0. Classe minima: C12/15."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S1: 10–40 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+anteprima {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+modificato 0 · modificabile sì
+classe "C16/20" · voci 16
+numeri diameter="16" aggregate="20" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "S1"
+  cement "CEM I"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "X0" · attive X0 · voci 18
+  descrizione "Nessun rischio di corrosione o di attacco. Con armature o inserti metallici: solo ambiente molto asciutto. Senza armature: qualsiasi ambiente privo di gelo, abrasione e attacco chimico."
+  esempi "Elementi armati in interni molto asciutti.\nElementi non armati in interni, interrati o immersi in terreni e acque non aggressivi."
+  aggressività "Aggressività: ordinaria"
+  combinata "" · nascosta
+proprietà "16,00" "1,90" "28,61" · stato "C16/20  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "16,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "20" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "24,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "1,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,33" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "2,48" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "28.607,90" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,00 MPa" · "φ = 16 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,33 MPa\nfctd = 0,89 MPa"
+classe minima "C12/15" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 35 mm"
+  passi "NTC + Circolare · ambiente ordinario\nX0 · Trave / pilastro\nCmin (fck) = 12 MPa · C0 (fck) = 35 MPa\nMinimo tabellare = 25 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 25 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 25 mm\ncnom = cmin + Δcdev = 35 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="Non prescritto" cement="Non prescritto" air="Non prescritto" dmax="20"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: X0. Classe minima: C12/15."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S1: 10–40 mm"
+== riapri
+dati {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+anteprima {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+modificato 0 · modificabile sì
+classe "C16/20" · voci 16
+numeri diameter="16" aggregate="20" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "S1"
+  cement "CEM I"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "X0" · attive X0 · voci 18
+  descrizione "Nessun rischio di corrosione o di attacco. Con armature o inserti metallici: solo ambiente molto asciutto. Senza armature: qualsiasi ambiente privo di gelo, abrasione e attacco chimico."
+  esempi "Elementi armati in interni molto asciutti.\nElementi non armati in interni, interrati o immersi in terreni e acque non aggressivi."
+  aggressività "Aggressività: ordinaria"
+  combinata "" · nascosta
+proprietà "16,00" "1,90" "28,61" · stato "C16/20  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "16,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "20" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "24,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "1,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,33" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "2,48" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "28.607,90" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,00 MPa" · "φ = 16 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,33 MPa\nfctd = 0,89 MPa"
+classe minima "C12/15" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 35 mm"
+  passi "NTC + Circolare · ambiente ordinario\nX0 · Trave / pilastro\nCmin (fck) = 12 MPa · C0 (fck) = 35 MPa\nMinimo tabellare = 25 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 25 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 25 mm\ncnom = cmin + Δcdev = 35 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="Non prescritto" cement="Non prescritto" air="Non prescritto" dmax="20"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: X0. Classe minima: C12/15."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S1: 10–40 mm"
+== conferma
+dati {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+anteprima {"versione_materiali":1,"classe":"C16/20","esposizione_principale":"X0","numeri":{"diameter":"16","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"NTC + Circ. 2019","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"S1","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Buone · η₁ = 1,0"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["X0"]}
+modificato 0 · modificabile sì
+classe "C16/20" · voci 16
+numeri diameter="16" aggregate="20" cementName="" bondAlpha="1,0" bondGamma="1,5"
+scelte
+  ntcElement "Trave / pilastro"
+  coverMethod "NTC + Circ. 2019"
+  life "50 anni"
+  deviationControl "Ordinario"
+  deviationValue "10 mm" · spento · voci "10 mm"
+  ground "Casseratura"
+  abrasion "Nessuno"
+  consistency "S1"
+  cement "CEM I"
+  cementClass "32,5"
+  cementEarly "N"
+  bondCondition "Buone · η₁ = 1,0"
+opzioni highStrength=no slab=no quality=no rough=no ntcQuality=no
+esposizione "X0" · attive X0 · voci 18
+  descrizione "Nessun rischio di corrosione o di attacco. Con armature o inserti metallici: solo ambiente molto asciutto. Senza armature: qualsiasi ambiente privo di gelo, abrasione e attacco chimico."
+  esempi "Elementi armati in interni molto asciutti.\nElementi non armati in interni, interrati o immersi in terreni e acque non aggressivi."
+  aggressività "Aggressività: ordinaria"
+  combinata "" · nascosta
+proprietà "16,00" "1,90" "28,61" · stato "C16/20  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006"
+tabella 10
+  "Resistenza caratteristica cilindrica" | "fck" | "16,00" | "MPa"
+  "Resistenza caratteristica cubica (classe)" | "Rck" | "20" | "MPa"
+  "Resistenza media a compressione" | "fcm" | "24,00" | "MPa"
+  "Resistenza media a trazione" | "fctm" | "1,90" | "MPa"
+  "Resistenza caratteristica a trazione · 5%" | "fctk,0.05" | "1,33" | "MPa"
+  "Resistenza caratteristica a trazione · 95%" | "fctk,0.95" | "2,48" | "MPa"
+  "Modulo elastico secante" | "Ecm" | "28.607,90" | "MPa"
+  "Deformazione al picco · parabola-rettangolo" | "εc2" | "2,00" | "‰"
+  "Deformazione ultima · parabola-rettangolo" | "εcu2" | "3,50" | "‰"
+  "Coefficiente di Poisson" | "ν" | "0,20" | "—"
+aderenza "fbd = 2,00 MPa" · "φ = 16 mm  ·  η₁ = 1,00  ·  η₂ = 1,00\nfctk,0.05 per aderenza = 1,33 MPa\nfctd = 0,89 MPa"
+classe minima "C12/15" · "UNI 11104:2025, prospetto 6. Per più esposizioni si adotta la classe minima più elevata."
+copriferro "cnom = 35 mm"
+  passi "NTC + Circolare · ambiente ordinario\nX0 · Trave / pilastro\nCmin (fck) = 12 MPa · C0 (fck) = 35 MPa\nMinimo tabellare = 25 mm\nVita utile: +0 mm; classe < Cmin: +0 mm\nControllo dei copriferri: −0 mm\nMinimo per durabilità = 25 mm\nMinimo per aderenza = 16 mm\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = 25 mm\ncnom = cmin + Δcdev = 35 mm"
+  note "NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese."
+criterio ntc visibile · ec2 nascosto
+tolleranza "Posa ordinaria: Δcdev = 10 mm (Circolare 2019 §C4.1.6.1.3)." · "La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità."
+composizione chloride="Cl 0,40" ratio="Non prescritto" cement="Non prescritto" air="Non prescritto" dmax="20"
+  fonte "UNI 11104:2016, prospetto 5, richiamata dalle NTC 2018 al §11.2.11; l’edizione 2025 non è adottata. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).\n\nEsposizioni: X0. Classe minima: C12/15."
+  aria ""
+  cloruri "Cl 0,40: valore proposto per il calcestruzzo con armatura ordinaria; non è dedotto dall’esposizione e va confermato nella prescrizione secondo UNI EN 206 (contenuto massimo di cloruri)."
+  requisiti ""
+  consistenza "S1: 10–40 mm"

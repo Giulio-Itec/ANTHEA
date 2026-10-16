@@ -55,15 +55,18 @@ internal static class ModuleHostWpfChecks
         Check(ModuleImplementations.Declared.All(d => d.Implementation == SheetImplementation.Historic) && ModuleImplementations.Release.Mvvm.Count == 0,
             "Release: tutti i moduli con la vista storica");
 
-        // The composition root of the product: registry of ModuleDirectory with the MVVM pile group (F5.4), historic editors.
+        // The composition root of the product: registry of ModuleDirectory with the MVVM pile group (F5.4) and materials (F5.5), historic editors.
         var composition = new DesktopComposition(() => null);
         Check(composition.Modules.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
-            && composition.Modules.SheetModuleIds.SequenceEqual(["geo_efficienza_orizzontale"]),
-            "Radice di composizione: registro uguale a ModuleDirectory, con la sola palificata MVVM");
+            && composition.Modules.SheetModuleIds.SequenceEqual(["geo_efficienza_orizzontale", "mat_calcestruzzo", "mat_acciaio_armatura"]),
+            "Radice di composizione: registro uguale a ModuleDirectory, con la palificata e i materiali MVVM");
         using (var historic = composition.SheetEditors.Open(ProbeModule, ModuleDirectory.CreateData(ProbeModule)))
             Check(historic is SheetEditor, "Radice di composizione: la fabbrica apre la vista storica");
         using (var pileGroup = composition.SheetEditors.Open("geo_efficienza_orizzontale", ModuleDirectory.CreateData("geo_efficienza_orizzontale")))
             Check(pileGroup is SheetEditor, "Radice di composizione: la Release apre la palificata con la vista storica");
+        foreach (string material in new[] { "mat_calcestruzzo", "mat_acciaio_armatura" })
+            using (var sheet = composition.SheetEditors.Open(material, ModuleDirectory.CreateData(material)))
+                Check(sheet is SheetEditor, "Radice di composizione: la Release apre " + material + " con la vista storica");
         Fails<ArgumentException>(() => composition.SheetEditors.Open("inesistente", new JsonObject()), "inesistente", "Modulo sconosciuto rifiutato come oggi");
 
         // The bench argument (UiTests only).

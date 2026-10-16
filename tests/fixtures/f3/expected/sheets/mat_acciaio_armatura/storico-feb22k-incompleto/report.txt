@@ -1,0 +1,31 @@
+# word/document.xml
+¶ Scheda materiale
+¶ Fixture F3 · mat_acciaio_armatura · storico-feb22k-incompleto
+¶ ANTHEA · <DATA> <ORA>
+¶ Parametri impostati e proprietà ricavate dai dati correnti della scheda. Le indicazioni di applicabilità e gli eventuali dati da completare sono riportati nel documento.
+¶ Attenzione: il report contiene 0 proprietà in conflitto e 1 schede senza risultati completi. Leggere le segnalazioni seguenti.
+¶ Avvisi
+¶ Fixture F3 · mat_acciaio_armatura · storico-feb22k-incompleto: acciaio — εu [‰]: inserire un numero maggiore di zero.
+¶ 1.1 Fixture F3 · mat_acciaio_armatura · storico-feb22k-incompleto: εu [‰]: inserire un numero maggiore di zero.
+¶ Modulo: Acciaio per armature
+¶ Materiali
+[T1 r1 c1] Proprietà
+[T1 r1 c2] Valore
+[T1 r2 c1] Classe acciaio
+[T1 r2 c2] Personalizzato
+[T1 r3 c1] Snervamento acciaio fyk [MPa]
+[T1 r3 c2] 215
+[T1 r4 c1] Modulo elastico Es [MPa]
+[T1 r4 c2] 200000
+[T1 r5 c1] Resistenza fu [MPa]
+[T1 r5 c2] 335
+[T1 r6 c1] Diagramma acciaio
+[T1 r6 c2] Elastoplastico
+¶ Coefficienti
+[T2 r1 c1] Proprietà
+[T2 r1 c2] Valore
+[T2 r2 c1] γs · resistenza delle armature
+[T2 r2 c2] 1,15
+¶ Risultati non disponibili: εu [‰]: inserire un numero maggiore di zero.
+# word/footer.xml
+¶ ANTHEA · Pagina 1

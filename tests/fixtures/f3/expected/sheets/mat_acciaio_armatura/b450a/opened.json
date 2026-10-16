@@ -1,0 +1,14 @@
+{
+  "input": {
+    "classe_acciaio": "B450A",
+    "fyk_mpa": 450,
+    "gamma_s": "1.15",
+    "materiale_acciaio_nome": "B450A",
+    "steel_diagramma": "Elastoplastico",
+    "steel_eps_u": 25,
+    "steel_fu_mpa": 540,
+    "steel_modulus_mpa": 200000
+  },
+  "riferimento": "DDT 45 del 12/10/2026",
+  "versione_acciaio": 1
+}

@@ -1,0 +1,42 @@
+{
+  "module": "mat_calcestruzzo",
+  "id": "gelo-aria-xf4",
+  "origin": "Fixture sintetica F5.5 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_materiali": 1,
+    "classe": "C35/45",
+    "esposizione_principale": "XF4",
+    "numeri": {
+      "diameter": "16",
+      "aggregate": "16",
+      "cementName": "CEM IV/B (P) 32,5 N",
+      "bondAlpha": "0,85",
+      "bondGamma": "1,2"
+    },
+    "scelte": {
+      "ntcElement": "Trave / pilastro",
+      "coverMethod": "NTC + Circ. 2019",
+      "life": "50 anni",
+      "deviationControl": "Ordinario",
+      "deviationValue": "10 mm",
+      "ground": "Casseratura",
+      "abrasion": "XM1 · +5 mm",
+      "consistency": "S3",
+      "cement": "Altro / da specificare",
+      "cementClass": "32,5",
+      "cementEarly": "N",
+      "bondCondition": "Altre · η₁ = 0,7"
+    },
+    "opzioni": {
+      "highStrength": false,
+      "slab": false,
+      "quality": false,
+      "rough": false,
+      "ntcQuality": false
+    },
+    "esposizioni": [
+      "XF4"
+    ]
+  }
+}

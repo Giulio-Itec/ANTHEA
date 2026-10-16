@@ -6,6 +6,8 @@
   <ItemGroup><Compile Include="../Shared/ProbeSheetModule.cs" Link="Shared/ProbeSheetModule.cs" /></ItemGroup>
   <!-- Scenarios and traces of the pile group sheet (F5.4), shared with the trace of the historic view in the UiTests build of X.Desktop. -->
   <ItemGroup><Compile Include="../Shared/PileGroupTrace.cs" Link="Shared/PileGroupTrace.cs" /></ItemGroup>
+  <!-- Scenarios and traces of the material sheets (F5.5), shared with the trace of the historic views in the UiTests build of X.Desktop. -->
+  <ItemGroup><Compile Include="../Shared/MaterialTrace.cs" Link="Shared/MaterialTrace.cs" /></ItemGroup>
   <!-- Canonical JSON and report text of the F3 captures (tests/ANTHEA.Testing), linked without the toolkit and its legacy engines. -->
   <ItemGroup>
     <Compile Include="../ANTHEA.Testing/Normalization/CanonicalJson.cs" Link="Shared/CanonicalJson.cs" />

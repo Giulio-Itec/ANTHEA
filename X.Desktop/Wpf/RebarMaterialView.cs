@@ -1,6 +1,5 @@
 using Anthea.Application.Materials;
 using Anthea.Application.Modules;
-using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,7 +8,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-internal sealed class RebarMaterialView : UserControl
+internal sealed partial class RebarMaterialView : UserControl
 {
     internal JsonObject Data { get; }
     internal JsonObject Input => Data["input"]!.AsObject();
@@ -25,7 +24,7 @@ internal sealed class RebarMaterialView : UserControl
     internal RebarMaterialView(JsonObject data)
     {
         Data = data;
-        Selection = Ui.Choice(RebarEditor.Catalog().Select(p => p.Name).Append("Personalizzato"));
+        Selection = Ui.Choice(RebarPresentation.Types());
         Selection.MinHeight = 28; Selection.FontSize = 14;
         Selection.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, "Tipo di acciaio");
         identity = new InputForm(Input, [new("materiale_acciaio_nome", "Nome", Wide: true)], _ => Changed(), compact: true);
@@ -66,8 +65,7 @@ internal sealed class RebarMaterialView : UserControl
     private void Changed()
     {
         if (refreshing) return;
-        if (RebarEditor.Match(Input) is null && Input.S("classe_acciaio") != "Personalizzato")
-        { Input["classe_acciaio"] = "Personalizzato"; Input["materiale_acciaio_nome"] = "Acciaio personalizzato"; identity.Set("materiale_acciaio_nome", Input.S("materiale_acciaio_nome"), true); }
+        if (RebarPresentation.MarkCustom(Input)) identity.Set("materiale_acciaio_nome", Input.S("materiale_acciaio_nome"), true);
         Refresh(); Modified?.Invoke();
     }
     private void RefreshEditors()
@@ -79,37 +77,31 @@ internal sealed class RebarMaterialView : UserControl
     }
     private void Refresh()
     {
-        var preset = RebarEditor.Match(Input); bool custom = preset is null, historical = preset?.A5 is not null;
-        refreshing = true; Selection.SelectedItem = preset?.Name ?? "Personalizzato"; refreshing = false;
-        foreach (string key in new[] { "fyk_mpa", "steel_fu_mpa", "steel_modulus_mpa", "steel_eps_u" })
+        // Type, fixed fields, texts and values: Anthea.Application.Materials.RebarPresentation (F5.5).
+        var state = RebarPresentation.Read(Input);
+        refreshing = true; Selection.SelectedItem = state.Selected; refreshing = false;
+        foreach (string key in RebarPresentation.PropertyKeys)
         {
-            var box = (TextBox)Properties.Editors[key]; box.IsReadOnly = !custom && !(historical && key == "steel_eps_u");
+            var box = (TextBox)Properties.Editors[key]; box.IsReadOnly = state.Locked(key);
             box.Background = box.IsReadOnly ? Appearance.Calculated : Appearance.Paper;
         }
-        Properties.Enable("steel_diagramma", custom || historical);
-        ((TextBox)identity.Editors["materiale_acciaio_nome"]).IsReadOnly = !custom;
-        // DET-3: una scheda salvata come B450A con εu = 30 ‰ (catalogo precedente) non è più il preset; lo si dichiara senza riscrivere i valori.
-        description.Text = custom ? RebarEditor.CatalogueDifference(Input) ?? "Dati personalizzati. Specificare la provenienza dei valori adottati."
-            : historical ? $"{preset!.Surface}\nAcciaio storico · A5 minimo {preset.A5:0}%\nA5 non coincide con εu. Definire εu per le verifiche."
-            : preset!.Name == "B450A" ? "Aderenza migliorata · classe A\nL'impiego del B450A è soggetto alle limitazioni delle NTC 2018, §§ 7.4.2.2 e 11.3.2.1."
-            : "Aderenza migliorata · classe C\nAcciaio B450C da catalogo.";
-        source.Text = historical ? "D.M. 09/01/1996, prospetti 1-I e 2-I: resistenze minime nominali, non valori misurati. Es = 200 000 MPa assunto. Per dati da prove scegliere Personalizzato."
-            : custom ? "Il riferimento rimane nella scheda. Le proprietà meccaniche sono condivisibili con i fogli della stessa sezione."
-            : "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato.";
+        Properties.Enable("steel_diagramma", state.DiagramEnabled);
+        ((TextBox)identity.Editors["materiale_acciaio_nome"]).IsReadOnly = state.NameLocked;
+        description.Text = state.Description;
+        source.Text = state.Source;
         try
         {
-            var calculated = ModuleServices.Get(RebarEditor.Module).Calculate(Data);
-            var v = RebarEditor.Read(calculated);
-            string F(double n) => n.ToString("0.##", CultureInfo.GetCultureInfo("it-IT"));
-            results.Text = $"fyd     {F(v.Fyd)} MPa\nεyd     {F(v.EpsilonYd)} ‰\nfu / fyk     {F(v.Ratio)}";
-            Status.Text = historical ? "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." : "✓ Proprietà coerenti";
-            Status.Foreground = Appearance.Foreground(Ui.Brush(historical ? "#9A6700" : "#18794E"));
-            diagram.Series = [new(Input.S("materiale_acciaio_nome"), calculated.Values.Array("diagramma").Select(p => p!.AsArray().Select(v => v!.GetValue<double>()).ToArray()).ToList(), Ui.Blue)];
+            var values = RebarPresentation.Results(ModuleServices.Get(RebarEditor.Module).Calculate(Data), state.Historical);
+            results.Text = values.Text;
+            Status.Text = values.Status;
+            Status.Foreground = Appearance.Foreground(Ui.Brush(values.Coherent ? "#18794E" : "#9A6700"));
+            diagram.Series = [new(Input.S("materiale_acciaio_nome"), values.Diagram.ToList(), Ui.Blue)];
         }
         catch (ArgumentException ex)
         {
-            results.Text = "fyd     —\nεyd     —\nfu / fyk     —";
-            Status.Text = "⚠ " + ex.Message; Status.Foreground = Appearance.Foreground(Ui.Brush("#9A6700")); diagram.Series = [];
+            var values = RebarPresentation.Failed(ex);
+            results.Text = values.Text;
+            Status.Text = values.Status; Status.Foreground = Appearance.Foreground(Ui.Brush("#9A6700")); diagram.Series = [];
         }
         diagram.ResetView();
     }

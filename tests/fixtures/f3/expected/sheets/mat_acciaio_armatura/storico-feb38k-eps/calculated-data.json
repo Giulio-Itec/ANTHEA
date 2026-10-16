@@ -1,0 +1,14 @@
+{
+  "input": {
+    "classe_acciaio": "Personalizzato",
+    "fyk_mpa": 375,
+    "gamma_s": "1.15",
+    "materiale_acciaio_nome": "FeB38k",
+    "steel_diagramma": "Incrudente",
+    "steel_eps_u": "40",
+    "steel_fu_mpa": 450,
+    "steel_modulus_mpa": 200000
+  },
+  "riferimento": "",
+  "versione_acciaio": 1
+}
