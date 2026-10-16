@@ -163,6 +163,9 @@ Comuni:
 - Stadio `ui`: `ui/check-materials-historic`, `ui/f3-equivalence`, `ui/f3-report-chapters`, `ui/smoke-materials`,
   `ui/smoke-steel`, `ui/smoke-material-report`, `ui/check-module-host-offscreen`.
 - Architettura: P2 senza dipendenze dal calcolo in Presentation, F4 3351 (invariata), P3 127.
+- **Corsa finale** `-Stage build,fast,wiki,ui` su `8fed9bec`: `supporto/artefatti/ci/20261016-143846-f55-finale`, PASS 112
+  (build 25, fast 31, wiki 2, ui 54), NEW-FAIL 0, nessun file tracciato modificato. `ui/f3-equivalence` PASS con 54
+  fixture e `transitions-f4.json` invariato; `ui/f3-report-chapters` PASS con 55 capitoli; Presentation.Tests 677.
 
 ## 2. Che cosa resta per finire F5.5
 
