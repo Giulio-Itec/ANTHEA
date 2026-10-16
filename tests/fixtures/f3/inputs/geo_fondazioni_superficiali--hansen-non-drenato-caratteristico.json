@@ -1,0 +1,76 @@
+{
+  "module": "geo_fondazioni_superficiali",
+  "id": "hansen-non-drenato-caratteristico",
+  "origin": "Fixture sintetica F5.9b (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_fondazioni": 2,
+    "input": {
+      "Width": "2,4",
+      "Length": "3,6",
+      "Depth": "1,5",
+      "FrictionAngle": 30,
+      "Cohesion": 0,
+      "UndrainedStrength": 75,
+      "UnitWeight": 18,
+      "SaturatedUnitWeight": 20,
+      "CoverUnitWeight": 18,
+      "CoverSaturatedUnitWeight": 20,
+      "WaterDepth": 3,
+      "WaterUnitWeight": 9.81,
+      "Surcharge": 0,
+      "RelativeDensity": 0.5,
+      "Normal": "900",
+      "HorizontalX": 0,
+      "HorizontalY": 0,
+      "MomentX": "45",
+      "MomentY": "80",
+      "Method": 3,
+      "Shape": 0,
+      "Condition": 1,
+      "Profile": 1,
+      "Compression": 0,
+      "WaterEnabled": false,
+      "RoughBase": true,
+      "IncludeDepthFactors": true
+    },
+    "nome_combinazione": "Caratteristica · confronto",
+    "azioni_confermate": false,
+    "stratigrafie": [
+      [
+        {
+          "name": "Ricoprimento",
+          "spessore": "1,5",
+          "tipologia": "Granulare",
+          "peso_specifico": 18,
+          "peso_specifico_saturo": 20,
+          "angolo_attrito": 30,
+          "coesione_efficace": 0,
+          "coesione_non_drenata": 75
+        },
+        {
+          "name": "Argilla limosa",
+          "spessore": "12",
+          "tipologia": "Coesivo",
+          "peso_specifico": "19",
+          "peso_specifico_saturo": "20",
+          "angolo_attrito": "24",
+          "coesione_efficace": "8",
+          "coesione_non_drenata": "60"
+        }
+      ]
+    ],
+    "generali": {
+      "presenza_falda": false,
+      "profondita_falda": 3,
+      "sondaggio_fondazione": 0,
+      "strato_portante_semiinfinito": true
+    },
+    "sezione": {
+      "classe_cls": "Personalizzato",
+      "materiale_cls_nome": "Personalizzato",
+      "fck_mpa": "28",
+      "cls_diagramma": "Bilineare"
+    }
+  }
+}

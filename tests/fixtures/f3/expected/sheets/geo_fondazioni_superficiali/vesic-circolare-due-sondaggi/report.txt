@@ -1,0 +1,52 @@
+# word/document.xml
+¶ Fixture F3 · geo_fondazioni_superficiali · vesic-circolare-due-sondaggi
+¶ ANTHEA · Relazione di calcolo
+¶ Capacità portante · fondazioni superficiali
+¶ NTC 2018 §6.4.2.1 · A1+M1+R3 · azioni A1 già combinate
+¶ Vesić (1975), formulazione generalizzata con fattori correlati dc/dq
+¶ Unica combinazione esaminata; nessun inviluppo automatico delle combinazioni.
+¶ Esito: Non verificata
+¶ Domanda N [kN]: 1500
+¶ Resistenza R [kN]: 1146,603
+¶ Indice N/R: 1,308
+¶ Combinazione esaminata: SLU · A1
+¶ B′ × L′ [m]: 3 × 3
+¶ Area efficace [m²]: 7,069
+¶ ex / ey [m]: 0 / 0
+¶ Pressione agente [kPa]: 212,207
+¶ Pressione limite lorda [kPa]: 373,086
+¶ Pressione limite netta [kPa]: 361,329
+¶ Pressione resistente [kPa]: 162,211
+¶ γR: 2,3
+¶ q al piano posa [kPa] · efficace drenato / totale non drenato: 11,757
+¶ γ medio sotto la base [kN/m³]: 8,69
+¶ φ adottato [°]: 27,141
+¶ c / cu adottato [kPa]: 0
+¶ Coefficienti e contributi
+¶ Coesione: N=24,193, s=1,554, d=1,087, i=1, contributo=0 kPa
+¶ Sovraccarico: N=13,402, s=1,513, d=1,081, i=1, contributo=257,606 kPa
+¶ Peso terreno: N=14,765, s=0,6, d=1, i=1, contributo=115,479 kPa
+¶ Dati al piano di posa già combinati e comprensivi dei pesi. Drenato: N efficace al netto della sottospinta; non drenato: N totale senza sottrarre la pressione interstiziale alla base. q non viene aggiunto nuovamente a N.
+¶ Dati di ingresso
+¶ Larghezza B [m]: 3
+¶ Profondità D [m]: 0,8
+¶ γ acqua [kN/m³]: 9.81
+¶ Sovraccarico esterno al piano campagna [kPa]: 0
+¶ Densità relativa Dr [0–1]: 0,35
+¶ N al piano di posa [kN]: 1500
+¶ Hx parallela a B [kN]: 0
+¶ Profilo esaminato: Sondaggio 2
+¶ Strato 1 · Riporto: z=-0–0,8 m; γ=18, γsat=19 kN/m³; φ′=28°; c′=0 kPa; cu=75 kPa.
+¶ Strato 2 · Sabbia limosa: z=0,8–15,8 m; γ=18,5, γsat=18,5 kN/m³; φ′=29°; c′=0 kPa; cu=75 kPa.
+¶ Falda: 0,5 m dal piano campagna
+¶ Ipotesi: terreno omogeneo sotto il piano di posa, prolungato come semispazio. Nessuna portanza multistrato o media delle resistenze.
+¶ Calcestruzzo: C25/30; fck=25 MPa; Parabola-rettangolo. Dato descrittivo condiviso nel progetto; resistenza strutturale e peso proprio automatico non calcolati.
+¶ Impostazioni: Circolare · carico centrato; Drenata; Riduzione Vesić · densità relativa
+¶ Fattori di profondità: sì
+¶ Pressioni sotto la fondazione: pmin=212,207 kPa; pmax=212,207 kPa; area compressa=7,069 m². Area compressa e area efficace A′ sono distinte.
+¶ Pressione uniforme: fondazione circolare con carico centrato.
+¶ Schema di Prandtl per striscia su terreno privo di peso: cuneo, ventaglio logaritmico e zona passiva. Riferimento illustrativo, non superficie critica calcolata per il metodo selezionato; non rappresenta effetti di H, tridimensionalità, peso del terreno o profondità di posa.
+¶ Falda idrostatica: γ medio nello spessore B′ sotto la base; N efficace deve comprendere già la sottospinta.
+¶ Riduzione dei parametri per rottura locale selezionata dal progettista; nessuna diagnosi automatica del meccanismo.
+¶ Terreno omogeneo, piano campagna e base orizzontali. Esclusi sisma, cedimenti, scorrimento, stabilità globale e verifiche strutturali.
+¶ Libreria GPCChecker.Geotechnics 0.4.0.0

@@ -113,6 +113,7 @@ try
     checks += HorizontalPreviewChecks.Run(root);
     checks += HorizontalSoilChecks.Run();
     checks += PileGroupPresentationChecks.Run();
+    checks += ShallowFoundationPresentationChecks.Run();
     checks += VerticalPilePreviewChecks.Run();
     checks += F4PileCoefficientChecks.Run(root);
     checks += F4StandardInputChecks.Run(root);

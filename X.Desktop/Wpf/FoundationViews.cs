@@ -150,10 +150,10 @@ internal sealed class FoundationSoilView : FoundationPlot
                 var color=StratigraphyDrawing.LayerColors[i%StratigraphyDrawing.LayerColors.Length];
                 dc.DrawRectangle(Appearance.Background(color),Outline,new Rect(left,y,right-left,hh));
                 if(y-lastLabel>17){Text(dc,F(top),3,y-6,10,Muted);lastLabel=y;}
-                if(hh>20)Text(dc,((char)('A'+i%26)).ToString(),left+7,y+3,12);
+                if(hh>20)Text(dc,Anthea.Application.Presentation.ShallowFoundationPresentation.LayerLetter(i),left+7,y+3,12);
                 if(wide && hh>25)
                 {
-                    string name=((char)('A'+i%26))+" · "+layer.Soil.Name;
+                    string name=Anthea.Application.Presentation.ShallowFoundationPresentation.LayerLetter(i)+" · "+layer.Soil.Name;
                     Text(dc,name,right+10,y+2,12,width:ActualWidth-right-22);
                     if(hh>55)Text(dc,"γ "+F(layer.Soil.UnitWeight*1e6)+" / γsat "+F(layer.Soil.SaturatedUnitWeight*1e6)+" kN/m³\nφ′ "+F(layer.Soil.FrictionAngle*180/Math.PI)+"° · c′ "+F(layer.Soil.EffectiveCohesion*1000)+" kPa",right+10,y+22,11,Muted,ActualWidth-right-22);
                 }

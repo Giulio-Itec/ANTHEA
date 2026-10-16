@@ -8975,14 +8975,6 @@
       "File": "X.Desktop/Wpf/FoundationViews.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "FoundationSoilView.OnRender",
-      "Fingerprint": "CF3546602FDAF50F2997F19708AA504D54AF40CB78C3B1A010F429D9235D2894",
-      "Count": 2,
-      "Example": "26"
-    },
-    {
-      "File": "X.Desktop/Wpf/FoundationViews.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "FoundationSoilView.OnRender",
       "Fingerprint": "E0E83E59F69D46C7C25A08489CFE16A0FB0E669E4E97979E5EFA35F2A18BF797",
       "Count": 2,
       "Example": "1e6"
@@ -9098,14 +9090,6 @@
       "Fingerprint": "E6997928D4497150E9AF93B0733DCCBFA413CC5A5DA5B3C35CCDE5E397A63BDD",
       "Count": 6,
       "Example": "1000"
-    },
-    {
-      "File": "X.Desktop/Wpf/FoundationWorkspace.Materials.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "FoundationWorkspace.BuildSoils.Labels",
-      "Fingerprint": "7800F3EA9A779D5BAD0686D047CDF46B645F85BDAD871552047A33BD37B3F6A1",
-      "Count": 1,
-      "Example": "26"
     },
     {
       "File": "X.Desktop/Wpf/FoundationWorkspace.Materials.cs",
@@ -14778,6 +14762,14 @@
       "Fingerprint": "B10B670818803848076C0E8D49BB264E1C663586E85F0C02FF24C0DCC1BE7861",
       "Count": 1,
       "Example": "pile . D ( \"Row\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ShallowFoundationPresentation.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "ShallowFoundationPresentation.LayerLetter",
+      "Fingerprint": "6F59A2B5A038B3F8C613201D7BFDB7F3D4C5C13F1CF93E77B2D974EBD522F407",
+      "Count": 1,
+      "Example": "26"
     },
     {
       "File": "src/ANTHEA.Application/Presentation/VerticalPileCharts.cs",

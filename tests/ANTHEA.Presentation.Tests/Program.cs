@@ -26,6 +26,7 @@ try
     checks += PileGroupSheetChecks.Run(root, output);
     checks += MaterialSheetChecks.Run(root, output);
     checks += VerticalPileSheetChecks.Run(root, output);
+    checks += ShallowFoundationSheetChecks.Run(root, output);
     string message = $"PASS {checks} controlli di Presentation senza WPF";
     File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
     Console.WriteLine(message);

@@ -137,3 +137,35 @@ passati da 3 + 3 a 7 + 6 fixture (49 in tutto), catturate con la vista storica (
 - In `expected/esito.txt` è cambiato solo il numero delle fixture (42 → 49).
 - Impronte nel manifest, sezione `fixture_aggiunte_f5_6` (input, attesi, figure ed `esito.txt`), sulla forma conservata da
   git (fine riga LF).
+
+## Fixture aggiunte in F5.9b (fondazioni superficiali)
+
+Stessa regola di F5.4 (proposta F5, sezione 7.2): prima della preparazione di F5.9b le fondazioni superficiali sono passate da
+3 a 11 fixture (69 in tutto), catturate con la vista storica (`FoundationWorkspace`). Gli attesi delle 61 fixture esistenti e
+le transizioni F4 non cambiano.
+
+| Fixture | Cosa copre |
+| --- | --- |
+| `terzaghi-nastriforme-falda` | Terzaghi su fondazione nastriforme (azioni per metro), riduzione per taglio locale, base ruvida, falda sotto la base, valori con la virgola; non verificata |
+| `hansen-non-drenato-caratteristico` | Brinch Hansen non drenato su strato coesivo: correzioni additive; confronto caratteristico senza conferma A1 (casella nascosta); momenti sui due lati; calcestruzzo personalizzato scritto con fck |
+| `meyerhof-eccentrica-input-raccolti` | Meyerhof con grande eccentricità lungo B (area compressa minore della base), sovraccarico esterno, fattori di profondità esclusi; input raccolti e tre gruppi chiusi in `vista_fondazioni`: la visita li riapre e li scrive |
+| `vesic-circolare-due-sondaggi` | Vesić su cerchio centrato, riduzione per densità relativa (sabbia drenata, c′ = 0), falda sopra la base, due sondaggi con il secondo scelto, γsat vuoto che segue γ, calcestruzzo C25/30 del catalogo; non verificata |
+| `ec7-fuori-dominio` | EC7 con risultante esterna alla base: resistenza nulla, rapporti indefiniti, viste dei risultati non disponibili; report disponibile con l'esito negativo |
+| `strato-incompleto` | spessore di uno strato non numerico: calcolo fermato, nessun risultato e nessun report, profilo non disegnato |
+| `semispazio-non-assunto` | strato portante non assunto come semispazio: la libreria rifiuta il calcolo, nessun risultato e nessun report |
+| `legacy-falda-piano-campagna` | archivio di versione 1 con falda e base al piano campagna (D = 0 scritto come testo): la migrazione crea il solo strato portante e porta la falda nei dati comuni |
+
+- Gli input vengono da `fixtures-f3` (`F3Fixtures.ShallowFoundationF59b`). Sono documenti come li scrive la scheda (testi per
+  i valori digitati, anche con la virgola; indici per le scelte; booleani JSON per le opzioni) e archivi validi. Nessun
+  identificativo finisce con `default`. Prima della cattura ogni input è stato calcolato con il servizio del modulo per
+  verificare l'esito descritto.
+- Gli attesi (68 file) vengono dalla cattura `20261016-221404-f59b-f3-cattura-1`, sul codice di produzione di `92613e60`:
+  senza attesi, le sole differenze erano i 68 file aggiunti e il numero di `esito.txt`. La seconda cattura
+  (`…-221601-f59b-f3-cattura-2`) dà gli stessi file byte per byte e passa con le transizioni F4 invariate; con queste fixture
+  passa anche `ui/f3-report-chapters` (70 capitoli).
+- Il generatore `fixtures-f3` oggi produce input diversi da quelli congelati per dieci fixture più vecchie (muri,
+  calcestruzzo, Bridge Design, sezione c.a.), per l'evoluzione dei default dei cataloghi: si sono copiate solo le 8 fixture
+  nuove, come in F5.4–F5.6.
+- In `expected/esito.txt` è cambiato solo il numero delle fixture (61 → 69).
+- Impronte nel manifest, sezione `fixture_aggiunte_f5_9b` (input, attesi ed `esito.txt` prima e dopo), sulla forma conservata
+  da git (fine riga LF).

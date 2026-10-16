@@ -1,0 +1,53 @@
+# word/document.xml
+¶ Fixture F3 · geo_fondazioni_superficiali · hansen-non-drenato-caratteristico
+¶ ANTHEA · Relazione di calcolo
+¶ Capacità portante · fondazioni superficiali
+¶ Confronto caratteristico · nessuna verifica normativa
+¶ Brinch Hansen (1970), non drenato, correzioni additive; carico normale
+¶ Unica combinazione esaminata; nessun inviluppo automatico delle combinazioni.
+¶ Esito: Confronto caratteristico
+¶ Domanda N [kN]: 900
+¶ Resistenza R [kN]: 3513,949
+¶ Indice N/R: 0,256
+¶ Combinazione esaminata: Caratteristica · confronto
+¶ B′ × L′ [m]: 2,222 × 3,5
+¶ Area efficace [m²]: 7,778
+¶ ex / ey [m]: 0,089 / 0,05
+¶ Pressione agente [kPa]: 115,714
+¶ Pressione limite lorda [kPa]: 451,793
+¶ Pressione limite netta [kPa]: 424,793
+¶ Pressione resistente [kPa]: 451,793
+¶ γR: 1
+¶ q al piano posa [kPa] · efficace drenato / totale non drenato: 27
+¶ γ medio sotto la base [kN/m³]: 19
+¶ φ adottato [°]: 0
+¶ c / cu adottato [kPa]: 60
+¶ Coefficienti e contributi
+¶ Coesione: N=5,142, s=—, d=—, i=—, contributo=424,793 kPa
+¶ Sovraccarico: N=1, s=1, d=1, i=1, contributo=27 kPa
+¶ Peso terreno: N=0, s=1, d=1, i=1, contributo=0 kPa
+¶ Coesione · correzioni additive Hansen: s′=0,127, d′=0,25, i′=0; fattore 1+s′+d′−i′=1,377.
+¶ Dati al piano di posa già combinati e comprensivi dei pesi. Drenato: N efficace al netto della sottospinta; non drenato: N totale senza sottrarre la pressione interstiziale alla base. q non viene aggiunto nuovamente a N.
+¶ Dati di ingresso
+¶ Larghezza B [m]: 2,4
+¶ Lunghezza L [m]: 3,6
+¶ Profondità D [m]: 1,5
+¶ Sovraccarico esterno al piano campagna [kPa]: 0
+¶ N al piano di posa [kN]: 900
+¶ Hx parallela a B [kN]: 0
+¶ Hy parallela a L [kN]: 0
+¶ Mx · eccentricità lungo L [kNm]: 45
+¶ My · eccentricità lungo B [kNm]: 80
+¶ Profilo esaminato: Sondaggio 1
+¶ Strato 1 · Ricoprimento: z=-0–1,5 m; γ=18, γsat=20 kN/m³; φ′=30°; c′=0 kPa; cu=75 kPa.
+¶ Strato 2 · Argilla limosa: z=1,5–13,5 m; γ=19, γsat=20 kN/m³; φ′=24°; c′=8 kPa; cu=60 kPa.
+¶ Falda: assente
+¶ Ipotesi: terreno omogeneo sotto il piano di posa, prolungato come semispazio. Nessuna portanza multistrato o media delle resistenze.
+¶ Calcestruzzo: Personalizzato; fck=28 MPa; Bilineare. Dato descrittivo condiviso nel progetto; resistenza strutturale e peso proprio automatico non calcolati.
+¶ Impostazioni: Rettangolare / quadrata; Non drenata; Rottura generale
+¶ Fattori di profondità: sì
+¶ Pressioni sotto la fondazione: pmin=72,338 kPa; pmax=135,995 kPa; area compressa=8,64 m². Area compressa e area efficace A′ sono distinte.
+¶ Distribuzione convenzionale affine, senza trazione: equilibrio di N, Mx, My su p=max(0,a+bx+cy). Non è una soluzione del semispazio elastico né una verifica dei cedimenti.
+¶ Schema di Prandtl per striscia su terreno privo di peso: cuneo, ventaglio logaritmico e zona passiva. Riferimento illustrativo, non superficie critica calcolata per il metodo selezionato; non rappresenta effetti di H, tridimensionalità, peso del terreno o profondità di posa.
+¶ Terreno omogeneo, piano campagna e base orizzontali. Esclusi sisma, cedimenti, scorrimento, stabilità globale e verifiche strutturali.
+¶ Libreria GPCChecker.Geotechnics 0.4.0.0
