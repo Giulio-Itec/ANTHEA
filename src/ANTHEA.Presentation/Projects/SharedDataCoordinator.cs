@@ -62,6 +62,41 @@ public sealed class SharedDataCoordinator
         return true;
     }
 
+    /// <summary>
+    /// Preview of a move into another section (formerly MainWindow.PreviewProjectMove): the node is moved in a copy of the
+    /// document, its sheets inherit the common data of the destination and its ancestors, and each changed value becomes
+    /// "sheet · field: before → after". When there are changes the user confirms («Sposta e aggiorna» / «Annulla»); without
+    /// changes nobody is asked. The document is never modified: the window moves the live node and copies the data.
+    /// </summary>
+    /// <param name="document">The open project document.</param>
+    /// <param name="node">The sheet or section being moved, inside the document.</param>
+    /// <param name="destination">The destination section, inside the document.</param>
+    /// <returns>The moved node inside the copy, with the inherited data; null when the user cancels.</returns>
+    public JsonObject? PreviewMove(JsonObject document, JsonObject node, JsonObject destination)
+    {
+        ArgumentNullException.ThrowIfNull(document);
+        ArgumentNullException.ThrowIfNull(node);
+        ArgumentNullException.ThrowIfNull(destination);
+        var copy = (JsonObject)document.DeepClone();
+        var proposed = ProjectRevisions.Find(copy, node.S("id"))!;
+        var target = ProjectRevisions.Find(copy, destination.S("id"))!;
+        ((JsonArray)proposed.Parent!).Remove(proposed);
+        string list = node.ContainsKey("modulo_id") ? "fogli" : "strutture";
+        if (target[list] is not JsonArray) target[list] = new JsonArray(); target.Array(list).Add(proposed);
+        var sheets = proposed.ContainsKey("modulo_id") ? new[] { proposed } : ProjectSharedData.SubtreeSheets(proposed).ToArray();
+        var changes = new List<string>();
+        foreach (var sheet in sheets)
+        {
+            var before = ProjectSharedData.Fields(sheet);
+            ProjectSharedData.InheritHierarchy(sheet, sheet.Parent!.Parent!.AsObject());
+            var after = ProjectSharedData.Fields(sheet);
+            foreach (var key in before.Keys.Intersect(after.Keys).Where(k => !ProjectSharedData.Equal(before[k].Value, after[k].Value)))
+                changes.Add(sheet.S("nome") + " · " + FieldLabel(key) + ": " + ProjectSharedData.Text(before[key].Value) + " → " + ProjectSharedData.Text(after[key].Value));
+        }
+        if (changes.Count > 0 && !confirmations.ConfirmProjectMove(destination.S("nome"), changes)) return null;
+        return proposed;
+    }
+
     /// <summary>The question about the linked sheets: groups in order of the fields, then each target with "label: before → after".</summary>
     private static SharedUpdatePrompt Prompt(HashSet<string> groups, JsonObject section, JsonObject[] targets, JsonObject proposed, HashSet<string> keys)
         => new(groups.ToList(), section.S("nome"),

@@ -22,6 +22,7 @@ internal static class SharedDataCoordinatorChecks
         Unchanged(expect);
         Descendants(expect);
         Rollback(expect);
+        Moves(expect);
         return expect.Count;
     }
 
@@ -161,6 +162,50 @@ internal static class SharedDataCoordinatorChecks
         expect.That(JsonNode.DeepEquals(before, project.Material["dati"]), "Dati del foglio aperto non ripristinati dopo l'errore");
         // As before F5.2 the rollback covers the open sheet only: the linked sheets keep what ApplyHierarchy wrote.
         expect.That(project.Second["dati"].S("classe") == "C40/50", "Ripristino diverso da quello della finestra");
+    }
+
+    /// <summary>
+    /// F1.4, move into another section (ProjectWorkspaceSmokeChecks): the preview works on a copy, lists the inherited changes
+    /// as "sheet · field: before → after", asks only when something changes, «Annulla» gives nothing, «Sposta e aggiorna» the
+    /// moved node with the inherited data; a section moves with all its sheets.
+    /// </summary>
+    private static void Moves(Expect expect)
+    {
+        var document = ProjectDocuments.CreateArchive();
+        var root = ProjectDocuments.AddProject(document, "Ponte di prova");
+        var foundation = ProjectDocuments.AddSection(root, "Fondazioni");
+        var pile = ProjectDocuments.AddSection(foundation, "Palo P1");
+        var other = ProjectDocuments.AddSection(root, "Fondazioni B");
+        var empty = ProjectDocuments.AddSection(root, "Vuota");
+        JsonObject Steel(JsonObject owner, string name, double fy)
+        {
+            var sheet = ProjectDocuments.AddSheet(owner, RebarMaterial.Module, name);
+            sheet["dati"]!["input"]!["fyk_mpa"] = fy; return sheet;
+        }
+        Steel(foundation, "Acciaio fondazioni", 450); var sheet = Steel(pile, "Acciaio palo", 450); Steel(other, "Acciaio destinazione", 400);
+        var before = document.DeepClone();
+        var confirmations = new ProjectPromptRecorder(new ScriptedConfirmations().Then(false).Then(true).Then(true));
+        var coordinator = new SharedDataCoordinator(confirmations);
+        string change = "Acciaio palo · " + SharedDataCoordinator.FieldLabel("fyk_mpa") + ": 450 → 400";
+
+        expect.That(coordinator.PreviewMove(document, sheet, other) is null, "Spostamento annullato restituisce una proposta");
+        var asked = confirmations.Moves.Single();
+        expect.That(asked.Destination == "Fondazioni B" && asked.Changes.SequenceEqual([change]), "Anteprima dello spostamento: " + string.Join(" | ", asked.Changes));
+        expect.That(JsonNode.DeepEquals(before, document), "Anteprima modifica il documento");
+
+        var proposed = coordinator.PreviewMove(document, sheet, other);
+        expect.That(proposed is not null && !ReferenceEquals(proposed, sheet) && proposed.S("id") == sheet.S("id") && J.Number(proposed["dati"]!["input"]!["fyk_mpa"]) == 400, "Proposta dello spostamento");
+        expect.That(proposed!.Parent?.Parent is JsonObject destination && destination.S("id") == other.S("id") && JsonNode.DeepEquals(before, document), "Proposta fuori dalla destinazione o documento modificato");
+
+        // Without changes of common data: no question (the scripted answers left are for the section).
+        var quiet = coordinator.PreviewMove(document, sheet, empty);
+        expect.That(quiet is not null && confirmations.Moves.Count == 2 && J.Number(quiet["dati"]!["input"]!["fyk_mpa"]) == 450, "Domanda senza dati comuni cambiati");
+
+        // A section moves with its sheets, each listed with its changes.
+        var section = coordinator.PreviewMove(document, pile, other);
+        expect.That(section is not null && confirmations.Moves.Count == 3 && confirmations.Moves[^1].Changes.SequenceEqual([change]), "Anteprima dello spostamento della sezione");
+        expect.That(ProjectSharedData.SubtreeSheets(section!).Single().S("id") == sheet.S("id") && section!.Parent?.Parent is JsonObject parent && parent.S("id") == other.S("id"), "Sezione proposta senza i suoi fogli");
+        expect.That(JsonNode.DeepEquals(before, document), "Anteprima della sezione modifica il documento");
     }
 }
 
