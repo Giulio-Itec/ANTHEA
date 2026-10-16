@@ -1,0 +1,960 @@
+{
+  "nota": "Difetti di contrasto della sola Chiara, lasciati per non cambiarla (decisioni.md, «Tema scuro»; F5 Q6): baseline di --check-contrast nello stadio ui (tests/Desktop/ContrastBaseline.cs). Può solo scendere: si sostituisce con baseline-chiara.json di una corsa con meno difetti.",
+  "strumento": "supporto/test/Desktop/ContrastAudit.cs --baseline",
+  "comando": "cattura prima di F5.3, commit 5f29067b: dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-contrast supporto/artefatti/refactoring/f5/f5-3-temi/contrasto-prima",
+  "dpi": 120,
+  "totale": 702,
+  "voci_distinte": 190,
+  "voci": [
+    {
+      "vista": "cambio-modulo-str_palo",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "cambio-progetti-sezione",
+      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #64748B Local|Border #F6F9FC Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "componenti-campi--componenti-campi-del-form-fieldform",
+      "chiave": "contrasto-testo|TextBlock|FieldForm > ChainedScrollViewer|TextBlock#UnitText #64748B ParentTemplate|Window #F3F5F8 Style",
+      "occorrenze": 4
+    },
+    {
+      "vista": "componenti-campi--componenti-campi-del-form-fieldform-espansa",
+      "chiave": "contrasto-testo|TextBlock|FieldForm > ChainedScrollViewer|TextBlock#UnitText #64748B ParentTemplate|Window #F3F5F8 Style",
+      "occorrenze": 6
+    },
+    {
+      "vista": "moduli",
+      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #228B22 Local|Border #FFFFFF Local",
+      "occorrenze": 6
+    },
+    {
+      "vista": "moduli",
+      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #64748B Local|DockPanel #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "moduli-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #228B22 Local|Border #FFFFFF Local",
+      "occorrenze": 5
+    },
+    {
+      "vista": "moduli-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #64748B Local|DockPanel #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "moduli-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #228B22 Local|Border #FFFFFF Local",
+      "occorrenze": 5
+    },
+    {
+      "vista": "moduli-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #64748B Local|DockPanel #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "moduli-strutture",
+      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #228B22 Local|Border #FFFFFF Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "moduli-strutture",
+      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #64748B Local|DockPanel #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_efficienza_orizzontale",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalPileGroupWorkspace|TextBlock #64748B Local|Border #F3F5F8 Local",
+      "occorrenze": 4
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali--terreno-invio-e-riutilizzo",
+      "chiave": "contrasto-testo|TextBlock|SoilTransferDialog|TextBlock #64748B Local|ScrollViewer #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t1-geometria",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t1-geometria",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t1-geometria-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t1-geometria-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 2
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t2-stratigrafia",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t2-stratigrafia",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t2-stratigrafia-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t2-stratigrafia-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 2
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t3-area-efficace",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t3-area-efficace",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t3-area-efficace-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t3-area-efficace-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 2
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t4-tensioni",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t4-tensioni",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t4-tensioni-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t4-tensioni-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 2
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t5-andamenti",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t5-andamenti",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t5-andamenti-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t5-andamenti-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 2
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t6-rottura",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t6-rottura",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t6-rottura-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace > InputForm|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_fondazioni_superficiali-t6-rottura-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > FoundationWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 2
+    },
+    {
+      "vista": "modulo-geo_micropalo_orizzontale",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_orizzontale-dati--terreno-invio-e-riutilizzo",
+      "chiave": "contrasto-testo|TextBlock|SoilTransferDialog|TextBlock #64748B Local|ScrollViewer #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_orizzontale-dati-t1-dati-comuni-e-ca-t1-1",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_orizzontale-dati-t1-dati-comuni-e-ca-t1-1-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_orizzontale-dati-t1-dati-comuni-e-ca-t1-1-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_orizzontale-dati-t2-risposta-elastic",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_orizzontale-dati-t2-risposta-elastic-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_orizzontale-dati-t2-risposta-elastic-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_orizzontale-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_orizzontale-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_verticale",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_verticale-dati-c1t1-1",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_verticale-dati-c1t1-1-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|CheckBox #29A9E0 Local|TabControl #FFFFFF DefaultStyle",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_verticale-dati-c1t1-1-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_verticale-dati-c2t2-tabelle-e-dettag",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_verticale-dati-c2t2-tabelle-e-dettag-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_verticale-dati-c2t3-abachi",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_verticale-dati-c2t3-abachi-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_verticale-dati-c2t4-risultati-json",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_verticale-dati-c2t4-risultati-json-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_micropalo_verticale-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-espansa",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t1-01-t1-armature-ordinar",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t1-01-t2-trefoli-cavi",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t2-02-c1t1-dominio",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer > ViewportFrame > DomainViewport3D|TextBlock #E09620 Local|TextBlock #FFFFFF Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t2-02-c1t1-dominio",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t2-02-c1t2-sezione",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t2-02-c2t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer > ViewportFrame > DomainViewport3D|TextBlock #E09620 Local|TextBlock #FFFFFF Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t2-02-c2t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t3-03-c1t1-dominio",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t3-03-c1t2-sezione",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t3-03-c2t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t4-04-t1-rara",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t4-04-t2-frequente",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t4-04-t3-quasi-permanente",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t5-05-t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t5-05-t2-riepilogo-verifi",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--anthea-nuovo-documento-t6-06",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_muri_sostegno-dati--terreno-invio-e-riutilizzo",
+      "chiave": "contrasto-testo|TextBlock|SoilTransferDialog|TextBlock #64748B Local|ScrollViewer #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--terreno-invio-e-riutilizzo",
+      "chiave": "contrasto-testo|TextBlock|SoilTransferDialog|TextBlock #64748B Local|ScrollViewer #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-espansa",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t1-01-t1-armature-ordinar",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t1-01-t2-trefoli-cavi",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c1t1-dominio",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer > ViewportFrame > DomainViewport3D|TextBlock #397BCC Local|TextBlock #FFFFFF Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c1t1-dominio",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer > ViewportFrame > DomainViewport3D|TextBlock #E09620 Local|TextBlock #FFFFFF Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c1t1-dominio",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c1t2-sezione",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c2t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer > ViewportFrame > DomainViewport3D|TextBlock #397BCC Local|TextBlock #FFFFFF Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c2t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer > ViewportFrame > DomainViewport3D|TextBlock #E09620 Local|TextBlock #FFFFFF Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t2-02-c2t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t3-03-c1t1-dominio",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t3-03-c1t2-sezione",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t3-03-c2t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t4-04-t1-rara",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t4-04-t2-frequente",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t4-04-t3-quasi-permanente",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t5-05-t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t5-05-t2-riepilogo-verifi",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati--verificatore-c-a-t1-t6-06",
+      "chiave": "contrasto-testo|TextBlock|ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati-t1-dati-comuni-e-ca-t1-1",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati-t1-dati-comuni-e-ca-t1-1-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati-t1-dati-comuni-e-ca-t1-1-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati-t2-risposta-elastic",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati-t2-risposta-elastic-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace > ElasticPileWorkspace > PileReinforcementEditor|TextBlock #B8860B Local|Border #FFFFFF Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati-t2-risposta-elastic-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati-t2-risposta-elastic-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace > ElasticPileWorkspace > PileReinforcementEditor|TextBlock #B8860B Local|Border #FFFFFF Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati-t2-risposta-elastic-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-dati-t2-risposta-elastic-p4",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_orizzontale-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalWorkspace|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati--terreno-invio-e-riutilizzo",
+      "chiave": "contrasto-testo|TextBlock|SoilTransferDialog|TextBlock #64748B Local|ScrollViewer #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c1t1-1",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c1t1-1-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c1t1-1-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c1t1-1-p4",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|CheckBox #29A9E0 Local|TabControl #FFFFFF DefaultStyle",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c1t1-1-p4",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|CheckBox #73B84C Local|TabControl #FFFFFF DefaultStyle",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c1t1-1-p4",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|CheckBox #B779D6 Local|TabControl #FFFFFF DefaultStyle",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c1t1-1-p4",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t2-tabelle-e-dettag",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t2-tabelle-e-dettag-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t2-tabelle-e-dettag-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t2-tabelle-e-dettag-p4",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t3-nq",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t3-nq-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t3-nq-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t3-nq-p4",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t4-risultati-json",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t4-risultati-json-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t4-risultati-json-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-dati-c2t4-risultati-json-p4",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > JsonGrid|TextBlock #808080 ParentTemplate|DataGridRow #FFFFFF DefaultStyle",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-geo_palo_verticale-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor|TextBlock #64748B Local|SheetEditor #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-str_bridge_design-dati-t2-ottimizzazione-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeDesignWorkspace > ChainedScrollViewer|TextBlock #0082C2 Local|TabControl #FFFFFF DefaultStyle",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-str_bridge_design-dati-t2-ottimizzazione-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeDesignWorkspace > ChainedScrollViewer|TextBlock #168B94 Local|TabControl #FFFFFF DefaultStyle",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-str_bridge_design-dati-t2-ottimizzazione-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeDesignWorkspace > ChainedScrollViewer|TextBlock #C26817 Local|TabControl #FFFFFF DefaultStyle",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c1t1-01",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c1t1-01-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c1t2-02",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c1t2-02-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c1t2-02-p3",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c1t2-02-p4",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c1t3-03",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c2t2-soletta",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c2t2-soletta-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c2t3-01-g1-getto-e-ca",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c2t3-01-g1-getto-e-ca-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c2t4-02-g2-permanenti",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c2t4-02-g2-permanenti-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c2t5-03-q-variabili",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_mista_ponte-c2t5-03-q-variabili-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > BridgeWorkspace > ChainedScrollViewer|TextBlock #64748B Local|BridgeWorkspace #F3F5F8 Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_palo--scala-del-dominio-3d",
+      "chiave": "contrasto-testo|TextBlock|InputForm|TextBlock #64748B Local|Border #FFFFFF Local",
+      "occorrenze": 3
+    },
+    {
+      "vista": "modulo-str_palo-t1-01-t1-armature-ordinar",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t1-01-t1-armature-ordinar-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t1-01-t1-armature-ordinar-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|TabControl #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-str_palo-t1-01-t2-trefoli-cavi",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t1-01-t2-trefoli-cavi-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t1-01-t2-trefoli-cavi-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|TabControl #F3F5F8 Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-str_palo-t2-02-c1t1-dominio",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer > ViewportFrame > DomainViewport3D|TextBlock #0B2A4A Local|DomainViewport3D #F8FAFD Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-str_palo-t2-02-c1t1-dominio",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t2-02-c1t2-sezione-t1-mappa",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t2-02-c1t2-sezione-t2-piano",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t2-02-c1t2-sezione-t3-valori",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t2-02-c2t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer > ViewportFrame > DomainViewport3D|TextBlock #0B2A4A Local|DomainViewport3D #F8FAFD Local",
+      "occorrenze": 1
+    },
+    {
+      "vista": "modulo-str_palo-t2-02-c2t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t3-03-c1t1-dominio",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t3-03-c1t2-sezione-t1-mappa",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t3-03-c1t2-sezione-t2-piano",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t3-03-c1t2-sezione-t3-valori",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t3-03-c2t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t4-04-t1-rara-t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t4-04-t1-rara-t2-riepilogo-verifi",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t4-04-t2-frequente-t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t4-04-t2-frequente-t2-riepilogo-verifi",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t4-04-t3-quasi-permanente-t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t4-04-t3-quasi-permanente-t2-riepilogo-verifi",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t5-05-t1-dettagli-combina",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t5-05-t1-dettagli-combina-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t5-05-t2-riepilogo-verifi",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t5-05-t2-riepilogo-verifi-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t6-06",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t6-06-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t7-07",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t8-08-t1-alternative",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t8-08-t1-alternative-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t8-08-t2-verifiche-della",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t8-08-t2-verifiche-della-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t8-08-t3-ricerca-e-scarti",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "modulo-str_palo-t8-08-t3-ricerca-e-scarti-p2",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > ConcreteWorkspace > ChainedScrollViewer|TextBlock #64748B Local|ConcreteWorkspace #F3F5F8 Local",
+      "occorrenze": 8
+    },
+    {
+      "vista": "progetti-vuoto",
+      "chiave": "contrasto-testo|TextBlock|MainWindow|TextBlock #64748B Local|Border #F6F9FC Local",
+      "occorrenze": 1
+    }
+  ]
+}
