@@ -122,7 +122,8 @@ public partial class App
         }
         if (e.Args.Length == 2 && e.Args[0] is "--check-global-guidance-offscreen" or "--check-wall-advanced-offscreen" or "--check-wall-materials-offscreen" or "--check-error-log-offscreen" or "--check-report-appearance-offscreen" or "--check-field-form-parity")
         {
-            // No native window or input focus: render controls directly to bitmaps.
+            // No native window or input focus: render controls directly to bitmaps (the FieldForm parity check opens its own
+            // windows outside the screen, never activated on purpose, for the real keyboard focus of the commit on focus loss).
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>
             {
