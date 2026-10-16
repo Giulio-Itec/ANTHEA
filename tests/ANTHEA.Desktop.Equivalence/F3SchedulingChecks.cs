@@ -13,7 +13,7 @@ internal sealed partial class SheetEditor
         var fixture = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests/fixtures/f3/inputs/geo_palo_verticale--regressione-palo_storico_0.json")))!;
         var data = fixture["data"]!.AsObject();
         using var service = new GatedModuleService();
-        using var editor = new SheetEditorFactory().Open(service.ModuleId, data, service);
+        using var editor = ModuleHostBench.SheetEditors().Open(service.ModuleId, data, service);
         // Edits go through the general form of the historic vertical-pile view, outside the ISheetEditor contract until F5.6.
         var historic = (SheetEditor)editor;
         var first = editor.CalculateAsync(commitEdits: false);

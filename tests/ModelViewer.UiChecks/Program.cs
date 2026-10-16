@@ -116,7 +116,7 @@ static partial class Program
                 ProjectModelStore.Set(subphase, ModelSnapshotFiles.Read(archive));
                 archive = Path.Combine(output, "preview.programma"); DocumentService.Save(archive, doc);
             }
-            window = new X.Desktop.MainWindow { Width = 1600, Height = 990, ShowInTaskbar = false, ShowActivated = false };
+            window = ProductWindow(); window.Width = 1600; window.Height = 990; window.ShowInTaskbar = false; window.ShowActivated = false;
             Call(window, "LoadFile", archive); window.Show(); Wait(150);
             var document = (JsonObject)window.GetType().GetField("document", Flags)!.GetValue(window)!;
             owner = document.Array("progetti").OfType<JsonObject>().SelectMany(ProjectModelStore.Containers).First(c => ProjectModelStore.Models(c).Any());

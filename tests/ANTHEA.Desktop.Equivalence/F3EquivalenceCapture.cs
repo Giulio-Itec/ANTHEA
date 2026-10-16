@@ -27,8 +27,9 @@ internal static class F3EquivalenceCapture
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
         var normalizer = new TextNormalizer([(root, "<RADICE>"), (output, "<USCITA>"), (Path.GetTempPath(), "<TEMP>")]);
         int count = 0;
-        // Sheets open through the factory of the window (F5.2): a migrated module is captured with the editor it opens in the product.
-        var editors = new SheetEditorFactory();
+        // Sheets open through the factory of the bench (F5.2): the implementations of the Release, or the MVVM one chosen with
+        // --module-impl for the direct comparison of a migrated module (proposal 7.2, tools/qa/f5_confronto_diretto.py).
+        var editors = ModuleHostBench.SheetEditors();
         foreach (string input in Directory.EnumerateFiles(Path.Combine(root, "tests/fixtures/f3/inputs"), "*.json").Order(StringComparer.Ordinal))
         {
             var fixture = JsonNode.Parse(File.ReadAllText(input))!.AsObject();

@@ -24,7 +24,7 @@ public sealed partial class MainWindow : Window
     private string? path;
     private bool dirty;
     private ISheetEditor? editor;
-    private readonly SheetEditorFactory sheetEditors = new();
+    private readonly SheetEditorFactory sheetEditors;
     private readonly ContentControl body = new();
     private readonly Grid dashboard = new();
     private readonly ScrollViewer dashboardViewport;
@@ -38,13 +38,13 @@ public sealed partial class MainWindow : Window
     private readonly TreeView tree = new() { BorderThickness = new Thickness(0), Background = Appearance.Paper };
     private readonly Dictionary<string, Button> navigation = new();
 
-    public MainWindow() : this(WpfDesktopServices.Create) { }
-
-    /// <summary>Main window whose questions and messages go through the services created by <paramref name="serviceFactory"/>;
-    /// the copies opened from this window use the same factory.</summary>
-    internal MainWindow(Func<Window, DesktopServices> serviceFactory)
+    /// <summary>Main window whose questions and messages go through the services created by <paramref name="serviceFactory"/>
+    /// and whose sheets open through <paramref name="sheetEditors"/>, both from the composition root (the WPF checks pass their own,
+    /// tests/Desktop/ModuleHostBench.cs); the copies opened from this window use the same.</summary>
+    internal MainWindow(Func<Window, DesktopServices> serviceFactory, SheetEditorFactory sheetEditors)
     {
         this.serviceFactory = serviceFactory;
+        this.sheetEditors = sheetEditors;
         services = serviceFactory(this);
         Style = (Style)Application.Current.FindResource(typeof(Window));
         Title = "ANTHEA"; Width = 1600; Height = 990; MinWidth = 760; MinHeight = 480; WindowStartupLocation = WindowStartupLocation.CenterScreen;

@@ -70,14 +70,15 @@ public partial class App
             }));
             return;
         }
-        if (e.Args.Length == 3 && e.Args[0] == "--check-f3-equivalence")
+        // F5.2: after root and output, "--module-impl <module>=mvvm|historic" pairs choose the implementation of a module (ModuleHostBench).
+        if (e.Args.Length >= 3 && e.Args[0] == "--check-f3-equivalence" && ModuleHostBench.WithoutBench(e.Args) is [_, var root, var capture])
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>
             {
                 int code = 0;
-                try { await F3EquivalenceCapture.Run(e.Args[1], e.Args[2]); }
-                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
+                try { await F3EquivalenceCapture.Run(root, capture); }
+                catch (Exception ex) { Directory.CreateDirectory(capture); File.WriteAllText(Path.Combine(capture, "errore.txt"), ex.ToString()); code = 1; }
                 finally { Shutdown(code); }
             }));
             return;

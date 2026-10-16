@@ -1,4 +1,6 @@
 using System.Windows;
+using Anthea.Presentation.Calculation;
+using Anthea.Presentation.Modules;
 
 namespace X.Desktop.Services;
 
@@ -21,10 +23,28 @@ internal sealed class DesktopComposition
             Clipboard: new WpfClipboardService(),
             Links: new WpfExternalLinkService(),
             Wiki: new WpfWikiNavigator(activeWindow));
+        Limiter = new CalculationLimiter(CalculationLimiter.DefaultMaximum);
+        Modules = CreateModules();
+        SheetEditors = new SheetEditorFactory(ModuleImplementations.Release, Modules, Services, Limiter);
     }
 
-    /// <summary>Application-wide services; no call site uses them yet (F5.1: no visible change).</summary>
+    /// <summary>Application-wide services; the sheets of the modules migrated to MVVM receive them (none yet: F5.2 has no visible change).</summary>
     internal PresentationServices Services { get; }
+
+    /// <summary>Limit of the calculations running at the same time, shared by the sheets (proposal 4.6).</summary>
+    internal CalculationLimiter Limiter { get; }
+
+    /// <summary>The modules of the interface, from ModuleDirectory, with their MVVM implementations.</summary>
+    internal ModuleRegistry Modules { get; }
+
+    /// <summary>The editors of the sheets of the main windows, as <see cref="ModuleImplementations.Release"/> chooses them.</summary>
+    internal SheetEditorFactory SheetEditors { get; }
+
+    /// <summary>
+    /// The modules migrated to MVVM, created by hand (decision Q2): none yet. F5.4 adds the first; the window opens it only when
+    /// <see cref="ModuleImplementations"/> says so. The WPF checks build the same registry (tests/Desktop/ModuleHostBench.cs).
+    /// </summary>
+    internal static ModuleRegistry CreateModules() => new([]);
 
     /// <summary>Factory of the services of a main window, unchanged since F1.4 (the WPF checks pass TestServices.Create instead).</summary>
     internal DesktopServices WindowServices(Window owner) => WpfDesktopServices.Create(owner);

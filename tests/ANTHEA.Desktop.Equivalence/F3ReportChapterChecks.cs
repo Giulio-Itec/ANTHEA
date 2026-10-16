@@ -17,7 +17,7 @@ internal static class F3ReportChapterChecks
         CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("it-IT");
         int count = 0, images = 0;
         var builder = new ModuleReportService(new ModuleFigureRenderer());
-        var editors = new SheetEditorFactory();
+        var editors = ModuleHostBench.SheetEditors();
         foreach (var (file, fixture) in Inputs(root))
         {
             string module = fixture.S("module");

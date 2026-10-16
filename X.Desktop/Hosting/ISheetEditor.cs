@@ -6,8 +6,9 @@ namespace X.Desktop;
 
 /// <summary>
 /// Editor of one open sheet, as MainWindow and the F3 equivalence captures use it (F5.2, proposal 4.5 and 5.2).
-/// Today only the historic <see cref="SheetEditor"/> implements it; from F5.4 the editors of the migrated modules
-/// (MVVM hosts) implement it too, and <see cref="SheetEditorFactory"/> chooses between them.
+/// It is implemented by the historic <see cref="SheetEditor"/> and by <see cref="MvvmSheetEditor"/>, the host of the modules
+/// migrated to MVVM; <see cref="SheetEditorFactory"/> chooses between them as <see cref="ModuleImplementations"/> says
+/// (every module historic until F5.4).
 /// </summary>
 /// <remarks>
 /// It stays in the WPF layer because of <see cref="View"/>. Every other member is free of WPF types and maps onto the
