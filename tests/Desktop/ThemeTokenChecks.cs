@@ -124,8 +124,10 @@ internal static class ThemeTokenChecks
 
             // Dictionaries of X.Desktop/Themes, each on its own, merged by App.xaml.
             var merged = app.Resources.MergedDictionaries.Select(d => d.Source?.OriginalString ?? "").ToList();
-            Check(merged.SequenceEqual(["Themes/ProjectStyles.xaml", "Themes/Typography.xaml", "Themes/Controls.xaml", "Views/Common/FieldFormTemplates.xaml"]),
-                "App.xaml unisce i dizionari di Themes e i modelli delle viste: " + string.Join(", ", merged));
+            // The data templates of the views follow the theme; a migrated module may add its own dictionary of templates under Views/.
+            Check(merged.Take(3).SequenceEqual(["Themes/ProjectStyles.xaml", "Themes/Typography.xaml", "Themes/Controls.xaml"])
+                && merged.Skip(3).All(s => s.StartsWith("Views/", StringComparison.Ordinal)) && merged.Contains("Views/Common/FieldFormTemplates.xaml"),
+                "App.xaml unisce i dizionari di Themes, poi i modelli delle viste: " + string.Join(", ", merged));
             Check(app.Resources.Keys.Cast<object>().All(k => k is string s && (s.StartsWith("Appearance", StringComparison.Ordinal) || s.StartsWith(ThemeTokens.Prefix, StringComparison.Ordinal)) || k is ResourceKey),
                 "App.xaml senza stili propri: in Application.Resources solo le risorse registrate dalla tavolozza");
             foreach (var name in Dictionaries)
