@@ -69,7 +69,7 @@ try
             Check(Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(path))).Equals(assembly.GetProperty("sha256").GetString(), StringComparison.OrdinalIgnoreCase), "Libreria runtime diversa dal set coerente: " + file);
         }
     var desktop = Metadata(Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll"));
-    // F5.1 (proposal 7.4, Q16): rules P1–P6 on ANTHEA.Presentation, the other Presentation projects and the new views.
+    // F5.1 (proposal 7.4, Q16): rules P1–P6 on ANTHEA.Presentation, the other Presentation projects and the new views; F5.3: P7 (theme tokens).
     checks += F5PresentationRules.Run(root, output, path => { var m = Metadata(path); return new(m.Assemblies, m.Types.Keys.ToArray(), m.Members); }, IsDesktop);
     // Metadata records constructors/methods actually referenced by the built product, including target-typed new.
     // This inventory does not classify all engineering semantics: getters and data adapters remain visible.
