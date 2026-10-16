@@ -343,6 +343,10 @@ Add-Suite @{ Name = 'ui/check-materials-historic'; Stage = 'ui'; Kind = 'check';
 # F5.6 (proposal 7.2, capture first): the historic vertical pile and micropile view still gives the traces frozen in
 # tests/fixtures/f5-palo-verticale, which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-palo-verticale-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-verticale-historic', '{root}', '{out}\traccia'); Timeout = 600; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
+# F5.6b (proposal 7.2, capture first): the historic stratigraphy view still gives the traces frozen in tests/fixtures/f5-stratigrafia
+# (message boxes answered and soil transfer dialog driven off screen), which Presentation.Tests compares with the ViewModel; off screen,
+# until the historic view is archived (Q11).
+Add-Suite @{ Name = 'ui/check-stratigrafia-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-stratigrafia-historic', '{root}', '{out}\traccia'); Timeout = 300; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
 # FieldForm (XAML + FormViewModel, F5.2) against the historic InputForm: same edit sequences on fields of real modules, same bytes of the document, same layout; windows outside the screen.
 Add-Suite @{ Name = 'ui/check-field-form-parity'; Stage = 'ui'; Kind = 'check'; Args = @('--check-field-form-parity', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # Theme tokens (F5.3): catalogue, colour equality with the palette in the three appearances, dictionaries of X.Desktop/Themes, light scope of the documents; off screen.

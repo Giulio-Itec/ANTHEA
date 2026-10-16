@@ -7,7 +7,7 @@ using Anthea.Application.Stratigraphy;
 
 namespace X.Desktop;
 
-internal sealed class StratigraphyWorkspace : UserControl
+internal sealed partial class StratigraphyWorkspace : UserControl
 {
     private const double MinimumLayoutWidth = 730;
     private readonly JsonObject data;

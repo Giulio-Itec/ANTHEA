@@ -1,0 +1,216 @@
+== apertura
+dati {"schema":2,"scenario":"Medi","id":"56b000280f564b008000000000000028","name":"Stratigrafia","description":"","ground_elevation":null,"water_state":"Assegnata","water_depth":"2,5","layers":[{"id":"56b000290f564b008000000000000029","name":"Strato 1","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Granulare","thickness":"4","infinite":false,"gamma":"18","gamma_sat":"20","phi":"30","c":"0","cu":"0","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null},{"id":"56b0002a0f564b00800000000000002a","name":"Strato 2","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Coesivo","thickness":"6","infinite":false,"gamma":"19","gamma_sat":"","phi":"24","c":"10","cu":"80","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null}],"soil_transfer":{"source_sheet":"Palo P1","source_module":"geo_palo_verticale","source_id":"56b0002b0f564b00800000000000002b"}}
+modificato 0
+importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
+generali
+  scelta scenario "Parametri da usare nelle verifiche" "Medi" · voci "Medi" "Minimi" "Entrambi"
+  testo name "Nome della stratigrafia" "Stratigrafia"
+  testo description "Descrizione / ubicazione" ""
+  testo ground_elevation "Quota altimetrica piano campagna [m] · facoltativa" ""
+  scelta water_state "Falda" "Assegnata" · voci "Non nota" "Non considerata" "Assegnata"
+  testo water_depth "Profondità falda [m] · positiva verso il basso" "2,5"
+azioni "+ Strato" "Duplica" "Elimina" "↑" "↓"
+strati 2 · selezionato 0
+  "Strato 1"
+  "Strato 2"
+strato
+  testo name "Denominazione" "Strato 1"
+  scelta soil_type "Famiglia prevalente · retino automatico" "Non classificato" · voci "Non classificato" "Riporto" "Ghiaia" "Sabbia" "Limo" "Argilla" "Terreno organico" "Roccia" "Altro"
+  scelta behavior "Comportamento per il trasferimento ai moduli di verifica" "Granulare" · voci "Da definire" "Granulare" "Coesivo"
+  testo description "Descrizione litologica" ""
+  testo color "Colore del profilo [#RRGGBB]" "#D5BE92"
+  opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
+  testo thickness "Spessore [m]" "4"
+  opzione minimum "Gestisci anche i valori minimi (opzionali)" "no"
+  testo gamma "Peso naturale γ [kN/m³]" "18"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "20"
+  testo phi "Angolo di resistenza efficace φ′ [°]" "30"
+  testo c "Coesione efficace c′ [kPa]" "0"
+  testo cu "Resistenza non drenata cu [kPa]" "0"
+  scelta qualification "Qualificazione dei medi" "Non qualificato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
+  testo source "Fonte dei medi / pagine" "Foglio ANTHEA: Palo P1"
+  testo notes "Note (specificare eventuali qualificazioni diverse per parametro)" "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito."
+  minimi assenti "Non assegnati. Non vengono copiati dai medi."
+stato "Strato 2: parametri incompleti; salvabile, da completare per la verifica richiesta."
+profilo disegnato · selezione 0
+trasferimento "Invia / importa terreno da ANTHEA…"
+== conferma
+dati {"schema":2,"scenario":"Medi","id":"56b000280f564b008000000000000028","name":"Stratigrafia","description":"","ground_elevation":null,"water_state":"Assegnata","water_depth":"2,5","layers":[{"id":"56b000290f564b008000000000000029","name":"Strato 1","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Granulare","thickness":"4","infinite":false,"gamma":"18","gamma_sat":"20","phi":"30","c":"0","cu":"0","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null},{"id":"56b0002a0f564b00800000000000002a","name":"Strato 2","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Coesivo","thickness":"6","infinite":false,"gamma":"19","gamma_sat":"","phi":"24","c":"10","cu":"80","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null}],"soil_transfer":{"source_sheet":"Palo P1","source_module":"geo_palo_verticale","source_id":"56b0002b0f564b00800000000000002b"}}
+modificato 0
+importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
+generali
+  scelta scenario "Parametri da usare nelle verifiche" "Medi" · voci "Medi" "Minimi" "Entrambi"
+  testo name "Nome della stratigrafia" "Stratigrafia"
+  testo description "Descrizione / ubicazione" ""
+  testo ground_elevation "Quota altimetrica piano campagna [m] · facoltativa" ""
+  scelta water_state "Falda" "Assegnata" · voci "Non nota" "Non considerata" "Assegnata"
+  testo water_depth "Profondità falda [m] · positiva verso il basso" "2,5"
+azioni "+ Strato" "Duplica" "Elimina" "↑" "↓"
+strati 2 · selezionato 0
+  "Strato 1"
+  "Strato 2"
+strato
+  testo name "Denominazione" "Strato 1"
+  scelta soil_type "Famiglia prevalente · retino automatico" "Non classificato" · voci "Non classificato" "Riporto" "Ghiaia" "Sabbia" "Limo" "Argilla" "Terreno organico" "Roccia" "Altro"
+  scelta behavior "Comportamento per il trasferimento ai moduli di verifica" "Granulare" · voci "Da definire" "Granulare" "Coesivo"
+  testo description "Descrizione litologica" ""
+  testo color "Colore del profilo [#RRGGBB]" "#D5BE92"
+  opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
+  testo thickness "Spessore [m]" "4"
+  opzione minimum "Gestisci anche i valori minimi (opzionali)" "no"
+  testo gamma "Peso naturale γ [kN/m³]" "18"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "20"
+  testo phi "Angolo di resistenza efficace φ′ [°]" "30"
+  testo c "Coesione efficace c′ [kPa]" "0"
+  testo cu "Resistenza non drenata cu [kPa]" "0"
+  scelta qualification "Qualificazione dei medi" "Non qualificato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
+  testo source "Fonte dei medi / pagine" "Foglio ANTHEA: Palo P1"
+  testo notes "Note (specificare eventuali qualificazioni diverse per parametro)" "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito."
+  minimi assenti "Non assegnati. Non vengono copiati dai medi."
+stato "Strato 2: parametri incompleti; salvabile, da completare per la verifica richiesta."
+profilo disegnato · selezione 0
+trasferimento "Invia / importa terreno da ANTHEA…"
+== calcola
+dati {"schema":2,"scenario":"Medi","id":"56b000280f564b008000000000000028","name":"Stratigrafia","description":"","ground_elevation":null,"water_state":"Assegnata","water_depth":"2,5","layers":[{"id":"56b000290f564b008000000000000029","name":"Strato 1","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Granulare","thickness":"4","infinite":false,"gamma":"18","gamma_sat":"20","phi":"30","c":"0","cu":"0","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null},{"id":"56b0002a0f564b00800000000000002a","name":"Strato 2","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Coesivo","thickness":"6","infinite":false,"gamma":"19","gamma_sat":"","phi":"24","c":"10","cu":"80","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null}],"soil_transfer":{"source_sheet":"Palo P1","source_module":"geo_palo_verticale","source_id":"56b0002b0f564b00800000000000002b"}}
+modificato 0
+importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
+generali
+  scelta scenario "Parametri da usare nelle verifiche" "Medi" · voci "Medi" "Minimi" "Entrambi"
+  testo name "Nome della stratigrafia" "Stratigrafia"
+  testo description "Descrizione / ubicazione" ""
+  testo ground_elevation "Quota altimetrica piano campagna [m] · facoltativa" ""
+  scelta water_state "Falda" "Assegnata" · voci "Non nota" "Non considerata" "Assegnata"
+  testo water_depth "Profondità falda [m] · positiva verso il basso" "2,5"
+azioni "+ Strato" "Duplica" "Elimina" "↑" "↓"
+strati 2 · selezionato 0
+  "Strato 1"
+  "Strato 2"
+strato
+  testo name "Denominazione" "Strato 1"
+  scelta soil_type "Famiglia prevalente · retino automatico" "Non classificato" · voci "Non classificato" "Riporto" "Ghiaia" "Sabbia" "Limo" "Argilla" "Terreno organico" "Roccia" "Altro"
+  scelta behavior "Comportamento per il trasferimento ai moduli di verifica" "Granulare" · voci "Da definire" "Granulare" "Coesivo"
+  testo description "Descrizione litologica" ""
+  testo color "Colore del profilo [#RRGGBB]" "#D5BE92"
+  opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
+  testo thickness "Spessore [m]" "4"
+  opzione minimum "Gestisci anche i valori minimi (opzionali)" "no"
+  testo gamma "Peso naturale γ [kN/m³]" "18"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "20"
+  testo phi "Angolo di resistenza efficace φ′ [°]" "30"
+  testo c "Coesione efficace c′ [kPa]" "0"
+  testo cu "Resistenza non drenata cu [kPa]" "0"
+  scelta qualification "Qualificazione dei medi" "Non qualificato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
+  testo source "Fonte dei medi / pagine" "Foglio ANTHEA: Palo P1"
+  testo notes "Note (specificare eventuali qualificazioni diverse per parametro)" "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito."
+  minimi assenti "Non assegnati. Non vengono copiati dai medi."
+stato "Strato 2: parametri incompleti; salvabile, da completare per la verifica richiesta."
+profilo disegnato · selezione 0
+trasferimento "Invia / importa terreno da ANTHEA…"
+== conferma
+dati {"schema":2,"scenario":"Medi","id":"56b000280f564b008000000000000028","name":"Stratigrafia","description":"","ground_elevation":null,"water_state":"Assegnata","water_depth":"2,5","layers":[{"id":"56b000290f564b008000000000000029","name":"Strato 1","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Granulare","thickness":"4","infinite":false,"gamma":"18","gamma_sat":"20","phi":"30","c":"0","cu":"0","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null},{"id":"56b0002a0f564b00800000000000002a","name":"Strato 2","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Coesivo","thickness":"6","infinite":false,"gamma":"19","gamma_sat":"","phi":"24","c":"10","cu":"80","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null}],"soil_transfer":{"source_sheet":"Palo P1","source_module":"geo_palo_verticale","source_id":"56b0002b0f564b00800000000000002b"}}
+modificato 0
+importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
+generali
+  scelta scenario "Parametri da usare nelle verifiche" "Medi" · voci "Medi" "Minimi" "Entrambi"
+  testo name "Nome della stratigrafia" "Stratigrafia"
+  testo description "Descrizione / ubicazione" ""
+  testo ground_elevation "Quota altimetrica piano campagna [m] · facoltativa" ""
+  scelta water_state "Falda" "Assegnata" · voci "Non nota" "Non considerata" "Assegnata"
+  testo water_depth "Profondità falda [m] · positiva verso il basso" "2,5"
+azioni "+ Strato" "Duplica" "Elimina" "↑" "↓"
+strati 2 · selezionato 0
+  "Strato 1"
+  "Strato 2"
+strato
+  testo name "Denominazione" "Strato 1"
+  scelta soil_type "Famiglia prevalente · retino automatico" "Non classificato" · voci "Non classificato" "Riporto" "Ghiaia" "Sabbia" "Limo" "Argilla" "Terreno organico" "Roccia" "Altro"
+  scelta behavior "Comportamento per il trasferimento ai moduli di verifica" "Granulare" · voci "Da definire" "Granulare" "Coesivo"
+  testo description "Descrizione litologica" ""
+  testo color "Colore del profilo [#RRGGBB]" "#D5BE92"
+  opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
+  testo thickness "Spessore [m]" "4"
+  opzione minimum "Gestisci anche i valori minimi (opzionali)" "no"
+  testo gamma "Peso naturale γ [kN/m³]" "18"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "20"
+  testo phi "Angolo di resistenza efficace φ′ [°]" "30"
+  testo c "Coesione efficace c′ [kPa]" "0"
+  testo cu "Resistenza non drenata cu [kPa]" "0"
+  scelta qualification "Qualificazione dei medi" "Non qualificato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
+  testo source "Fonte dei medi / pagine" "Foglio ANTHEA: Palo P1"
+  testo notes "Note (specificare eventuali qualificazioni diverse per parametro)" "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito."
+  minimi assenti "Non assegnati. Non vengono copiati dai medi."
+stato "Strato 2: parametri incompleti; salvabile, da completare per la verifica richiesta."
+profilo disegnato · selezione 0
+trasferimento "Invia / importa terreno da ANTHEA…"
+== riapri
+dati {"schema":2,"scenario":"Medi","id":"56b000280f564b008000000000000028","name":"Stratigrafia","description":"","ground_elevation":null,"water_state":"Assegnata","water_depth":"2,5","layers":[{"id":"56b000290f564b008000000000000029","name":"Strato 1","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Granulare","thickness":"4","infinite":false,"gamma":"18","gamma_sat":"20","phi":"30","c":"0","cu":"0","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null},{"id":"56b0002a0f564b00800000000000002a","name":"Strato 2","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Coesivo","thickness":"6","infinite":false,"gamma":"19","gamma_sat":"","phi":"24","c":"10","cu":"80","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null}],"soil_transfer":{"source_sheet":"Palo P1","source_module":"geo_palo_verticale","source_id":"56b0002b0f564b00800000000000002b"}}
+modificato 0
+importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
+generali
+  scelta scenario "Parametri da usare nelle verifiche" "Medi" · voci "Medi" "Minimi" "Entrambi"
+  testo name "Nome della stratigrafia" "Stratigrafia"
+  testo description "Descrizione / ubicazione" ""
+  testo ground_elevation "Quota altimetrica piano campagna [m] · facoltativa" ""
+  scelta water_state "Falda" "Assegnata" · voci "Non nota" "Non considerata" "Assegnata"
+  testo water_depth "Profondità falda [m] · positiva verso il basso" "2,5"
+azioni "+ Strato" "Duplica" "Elimina" "↑" "↓"
+strati 2 · selezionato 0
+  "Strato 1"
+  "Strato 2"
+strato
+  testo name "Denominazione" "Strato 1"
+  scelta soil_type "Famiglia prevalente · retino automatico" "Non classificato" · voci "Non classificato" "Riporto" "Ghiaia" "Sabbia" "Limo" "Argilla" "Terreno organico" "Roccia" "Altro"
+  scelta behavior "Comportamento per il trasferimento ai moduli di verifica" "Granulare" · voci "Da definire" "Granulare" "Coesivo"
+  testo description "Descrizione litologica" ""
+  testo color "Colore del profilo [#RRGGBB]" "#D5BE92"
+  opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
+  testo thickness "Spessore [m]" "4"
+  opzione minimum "Gestisci anche i valori minimi (opzionali)" "no"
+  testo gamma "Peso naturale γ [kN/m³]" "18"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "20"
+  testo phi "Angolo di resistenza efficace φ′ [°]" "30"
+  testo c "Coesione efficace c′ [kPa]" "0"
+  testo cu "Resistenza non drenata cu [kPa]" "0"
+  scelta qualification "Qualificazione dei medi" "Non qualificato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
+  testo source "Fonte dei medi / pagine" "Foglio ANTHEA: Palo P1"
+  testo notes "Note (specificare eventuali qualificazioni diverse per parametro)" "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito."
+  minimi assenti "Non assegnati. Non vengono copiati dai medi."
+stato "Strato 2: parametri incompleti; salvabile, da completare per la verifica richiesta."
+profilo disegnato · selezione 0
+trasferimento "Invia / importa terreno da ANTHEA…"
+== conferma
+dati {"schema":2,"scenario":"Medi","id":"56b000280f564b008000000000000028","name":"Stratigrafia","description":"","ground_elevation":null,"water_state":"Assegnata","water_depth":"2,5","layers":[{"id":"56b000290f564b008000000000000029","name":"Strato 1","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Granulare","thickness":"4","infinite":false,"gamma":"18","gamma_sat":"20","phi":"30","c":"0","cu":"0","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null},{"id":"56b0002a0f564b00800000000000002a","name":"Strato 2","description":"","color":"#D5BE92","soil_type":"Non classificato","behavior":"Coesivo","thickness":"6","infinite":false,"gamma":"19","gamma_sat":"","phi":"24","c":"10","cu":"80","source":"Foglio ANTHEA: Palo P1","qualification":"Non qualificato","notes":"Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.","minimum":null}],"soil_transfer":{"source_sheet":"Palo P1","source_module":"geo_palo_verticale","source_id":"56b0002b0f564b00800000000000002b"}}
+modificato 0
+importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
+generali
+  scelta scenario "Parametri da usare nelle verifiche" "Medi" · voci "Medi" "Minimi" "Entrambi"
+  testo name "Nome della stratigrafia" "Stratigrafia"
+  testo description "Descrizione / ubicazione" ""
+  testo ground_elevation "Quota altimetrica piano campagna [m] · facoltativa" ""
+  scelta water_state "Falda" "Assegnata" · voci "Non nota" "Non considerata" "Assegnata"
+  testo water_depth "Profondità falda [m] · positiva verso il basso" "2,5"
+azioni "+ Strato" "Duplica" "Elimina" "↑" "↓"
+strati 2 · selezionato 0
+  "Strato 1"
+  "Strato 2"
+strato
+  testo name "Denominazione" "Strato 1"
+  scelta soil_type "Famiglia prevalente · retino automatico" "Non classificato" · voci "Non classificato" "Riporto" "Ghiaia" "Sabbia" "Limo" "Argilla" "Terreno organico" "Roccia" "Altro"
+  scelta behavior "Comportamento per il trasferimento ai moduli di verifica" "Granulare" · voci "Da definire" "Granulare" "Coesivo"
+  testo description "Descrizione litologica" ""
+  testo color "Colore del profilo [#RRGGBB]" "#D5BE92"
+  opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
+  testo thickness "Spessore [m]" "4"
+  opzione minimum "Gestisci anche i valori minimi (opzionali)" "no"
+  testo gamma "Peso naturale γ [kN/m³]" "18"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "20"
+  testo phi "Angolo di resistenza efficace φ′ [°]" "30"
+  testo c "Coesione efficace c′ [kPa]" "0"
+  testo cu "Resistenza non drenata cu [kPa]" "0"
+  scelta qualification "Qualificazione dei medi" "Non qualificato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
+  testo source "Fonte dei medi / pagine" "Foglio ANTHEA: Palo P1"
+  testo notes "Note (specificare eventuali qualificazioni diverse per parametro)" "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito."
+  minimi assenti "Non assegnati. Non vengono copiati dai medi."
+stato "Strato 2: parametri incompleti; salvabile, da completare per la verifica richiesta."
+profilo disegnato · selezione 0
+trasferimento "Invia / importa terreno da ANTHEA…"
