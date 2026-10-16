@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using X.Core;
 using X.Desktop.Services;
+using Anthea.Presentation.Projects;
 
 namespace X.Desktop;
 
@@ -11,27 +12,11 @@ public sealed partial class MainWindow
     private JsonObject? sharedBaseline;
     private Button confirmShared = null!;
 
-    private void ConfirmSharedChanges(JsonObject proposed)
-    {
-        if (document.S("tipo") != "progetti" || currentSheet?.Parent?.Parent is not JsonObject section || sharedBaseline is null) return;
-        var preview = ProjectSharedData.PreviewSection(section, currentSheet, proposed["dati"]!.AsObject());
-        var keys = ProjectSharedData.ReferenceKeys(preview.Sheet, ProjectSharedData.ChangedKeys(sharedBaseline, proposed));
-        var groups = ProjectSharedData.Fields(proposed).Values.Where(f => keys.Contains(f.Key)).Select(f => f.Group).ToHashSet();
-        if (groups.Count == 0) return;
-        bool controlsDescendants = ProjectSharedData.Sections(section).Skip(1).Any(s => s.Array("fogli").Count > 0);
-        var targets = ProjectSharedData.SubtreeSheets(section).Where(s => !ReferenceEquals(s, currentSheet) &&
-            ProjectSharedData.Common(proposed, s).Any(p => keys.Contains(p.Source.Key) && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value))).ToArray();
-        if (targets.Length == 0) return;
-        bool update = controlsDescendants || services.Confirmations.ConfirmSharedUpdate(new SharedUpdatePrompt(groups.ToList(), section.S("nome"),
-            targets.Select(s => new SharedUpdateTarget(s.S("nome", ModuleName(s.S("modulo_id"))), ProjectSharedData.Common(proposed, s)
-                .Where(p => keys.Contains(p.Source.Key) && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value))
-                .Select(p => SharedFieldLabel(p.Source.Key) + ": " + ProjectSharedData.Text(p.Target.Value) + " → " + ProjectSharedData.Text(p.Source.Value)).ToList())).ToList()));
-        if (!update) return;
-        var before = currentSheet["dati"]?.DeepClone();
-        currentSheet["dati"] = proposed["dati"]!.DeepClone();
-        try { ProjectSharedData.ApplyHierarchy(currentSheet, groups, keys); MarkDirty(); }
-        catch { currentSheet["dati"] = before; throw; }
-    }
+    private SharedDataCoordinator? sharedData;
+    /// <summary>Shared data confirmation of the project sheets (F5.2): the decisions live in Presentation, the window keeps the sheet baseline.</summary>
+    private SharedDataCoordinator SharedData => sharedData ??= new(services.Confirmations);
+
+    private void ConfirmSharedChanges(JsonObject proposed) => SharedData.ConfirmSharedChanges(document, currentSheet, sharedBaseline, proposed, MarkDirty);
 
     private void AddCoherenceBadge(Panel header, JsonObject section)
     {
@@ -55,7 +40,7 @@ public sealed partial class MainWindow
             "Apri il confronto e gli avvisi della sezione.\n\n" + string.Join("\n\n", warnings);
         header.Children.Add(badge);
     }
-    private static string SharedFieldLabel(string key) => ProjectReportPlan.Label(key);
+    private static string SharedFieldLabel(string key) => SharedDataCoordinator.FieldLabel(key);
     private sealed record SharedSheet(JsonObject Sheet)
     {
         public override string ToString() => Sheet.S("nome", ModuleName(Sheet.S("modulo_id")));
