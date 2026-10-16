@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- ViewModels and services of src/ANTHEA.Presentation without WPF (proposal F5, section 7.1): fast stage of build/ci.ps1. -->
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><RootNamespace>Anthea.Presentation.Tests</RootNamespace></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../../src/ANTHEA.Presentation/ANTHEA.Presentation.csproj" /></ItemGroup>
+</Project>
