@@ -97,7 +97,7 @@ public sealed partial class MainWindow
         var restoredSection = restored.Parent!.Parent!.AsObject();
         ProjectSharedData.Apply(restored, restoredSection, new HashSet<string> { "Materiali" }, keys: RebarMaterial.Keys.ToHashSet());
         var historicRc = restoredSection.Array("fogli").OfType<JsonObject>().First(s => s.S("modulo_id") == "str_palo");
-        using (var probe = new SheetEditor("str_palo", historicRc["dati"]!.AsObject()))
+        using (var probe = sheetEditors.Open("str_palo", historicRc["dati"]!.AsObject()))
         {
             probe.Commit();
             Check(probe.Data["input"].S("materiale_acciaio_nome") == "FeB22k" && probe.Data["input"].S("steel_eps_u") == "", "La verifica sostituisce dati storici incompleti all'apertura");

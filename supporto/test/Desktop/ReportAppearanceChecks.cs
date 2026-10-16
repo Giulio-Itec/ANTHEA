@@ -50,7 +50,7 @@ internal static class ReportAppearanceChecks
     // Every report with figures of X.Desktop, from the documents of a new sheet (or the test cases already used by the smoke).
     private static async Task<Dictionary<string, byte[]>> Images(string directory, Action<bool, string> check, Action<string> note)
     {
-        var images = new Dictionary<string, byte[]>();
+        var images = new Dictionary<string, byte[]>(); var editors = new SheetEditorFactory();
         void Add(string report, byte[] docx)
         {
             Directory.CreateDirectory(Path.Combine(directory, report)); File.WriteAllBytes(Path.Combine(directory, report + ".docx"), docx);
@@ -89,7 +89,7 @@ internal static class ReportAppearanceChecks
             Directory.CreateDirectory(Path.Combine(directory, "esportazioni")); File.WriteAllBytes(Path.Combine(directory, "esportazioni", "vista-3d-schermo.png"), screen);
             images["esportazioni/vista-3d.png"] = exported; File.WriteAllBytes(Path.Combine(directory, "esportazioni", "vista-3d.png"), exported);
         }
-        using (var editor = new SheetEditor(BridgeSection.Module, Archivio.NuovoFoglio(BridgeSection.Module)))
+        using (var editor = editors.Open(BridgeSection.Module, Archivio.NuovoFoglio(BridgeSection.Module)))
         {
             await editor.CalculateAsync();
             Add("sezione-ponte", editor.BuildReport("Sezione da ponte · aspetto", ReportBridge.DefaultSections()));
@@ -121,7 +121,7 @@ internal static class ReportAppearanceChecks
             Add("palo-orizzontale", editor.BuildReport("Palo orizzontale · aspetto", []));
         }
         var pile = SmokeTestData.LoadCases().First(c => c.S("nome") == "palo_storico_0")!["input"]!.AsObject();
-        using (var editor = new SheetEditor("geo_palo_verticale", pile))
+        using (var editor = editors.Open("geo_palo_verticale", pile))
         {
             await editor.CalculateAsync();
             Add("palo-verticale", editor.BuildReport("Palo verticale · aspetto", ReportWord.Sezioni.Select(s => s.Key).ToHashSet()));

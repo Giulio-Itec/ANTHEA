@@ -143,7 +143,7 @@ public sealed partial class MainWindow
         Check(workspace.Data["input"]!.ToJsonString() == original, "Annulla non ripristina la configurazione pre-ottimizzazione.");
         // Save through the shell to exercise normal archive integration, then reopen an independent editor.
         Commit(); string archive = Path.Combine(directory, "BridgeDesign.anthea"); DocumentService.Save(archive, document);
-        var reopened = DocumentService.Open(archive); using var restored = new SheetEditor(BridgeConcept.Module, reopened["dati"]!.AsObject());
+        var reopened = DocumentService.Open(archive); using var restored = sheetEditors.Open(BridgeConcept.Module, reopened["dati"]!.AsObject());
         await restored.CalculateAsync();
         Check(restored.HasResults && restored.Data["alternative_a"] is JsonObject, "Archivio incompleto al riavvio.");
         File.WriteAllBytes(Path.Combine(directory, "BridgeDesign.docx"), workspace.BuildReport("Predimensionamento del ponte"));

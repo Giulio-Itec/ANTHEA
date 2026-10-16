@@ -149,7 +149,7 @@ public sealed partial class MainWindow
         var contents = new Dictionary<JsonObject, ReportProject.SheetContent>();
         foreach (var item in reportPlan.Sheets)
         {
-            using var reportEditor = new SheetEditor(item.S("modulo_id"), item["dati"]!.AsObject());
+            using var reportEditor = sheetEditors.Open(item.S("modulo_id"), item["dati"]!.AsObject());
             contents[item] = reportEditor.MaterialReportContent();
         }
         string reportPath = Path.Combine(directory, "report-revisione.docx"); ReportProject.Write(reportPath, reportPlan, contents, []);

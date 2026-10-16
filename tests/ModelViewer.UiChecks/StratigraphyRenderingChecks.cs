@@ -19,9 +19,12 @@ static partial class Program
         row = rows[1]!.AsObject(); row["name"] = "Argilla"; row["soil_type"] = "Argilla"; row["infinite"] = true; row["thickness"] = null; row["color"] = "#A7B7C7";
         row["cu"] = 60; data["water_state"] = "Assegnata"; data["water_depth"] = 1.5;
         var assembly = typeof(X.Desktop.MainWindow).Assembly;
-        var type = assembly.GetType("X.Desktop.SheetEditor")!;
-        var editor = (FrameworkElement)Activator.CreateInstance(type, Flags, null, [StratigraphyDocument.Module, data, null], null)!;
-        using var disposable = (IDisposable)editor;
+        // The sheet opens through the factory of the window and its contract (F5.2), as in the product; the checks read its view.
+        var contract = assembly.GetType("X.Desktop.ISheetEditor")!;
+        var factory = assembly.GetType("X.Desktop.SheetEditorFactory")!;
+        var sheet = factory.GetMethod("Open", Flags)!.Invoke(Activator.CreateInstance(factory, true), [StratigraphyDocument.Module, data, null])!;
+        var editor = (FrameworkElement)contract.GetProperty("View")!.GetValue(sheet)!;
+        using var disposable = (IDisposable)sheet;
         var host = new Window { Content = editor, Width = 1280, Height = 900, ShowActivated = false, ShowInTaskbar = false };
         try
         {
@@ -36,7 +39,7 @@ static partial class Program
             scroll.ScrollToEnd(); Wait(50); CapturePage(editor, Path.Combine(output, "stratigrafia-parametri.png")); scroll.ScrollToTop();
             list.SelectedIndex = 1; Wait(50);
             Check(Children<CheckBox>(editor).Single(c => c.Content?.ToString() == "Ultimo strato esteso indefinitamente").IsChecked == true, "Infinite last layer shown");
-            Call(editor, "Commit"); checks++;
+            contract.GetMethod("Commit")!.Invoke(sheet, null); checks++;
             foreach (string theme in new[] { "Dark", "VeryDark" })
             {
                 SetAppearance(theme); Wait(50);
