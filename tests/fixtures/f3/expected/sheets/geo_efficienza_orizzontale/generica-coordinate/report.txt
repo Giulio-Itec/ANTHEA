@@ -1,0 +1,94 @@
+# word/document.xml
+¶ Fixture F3 · geo_efficienza_orizzontale · generica-coordinate
+¶ Efficienza orizzontale della palificata
+¶ Pali identici. Le grandezze confrontate hanno significato fisico diverso: Davisson riduce kh/nh, gli altri metodi forniscono p-multiplier. Non si calcola la capacità laterale del gruppo.
+¶ Diametro D = 1 m; direzione H = 135° antioraria da +X.
+¶ Estrapolazioni: False; estensione file proiettate: False; S∥ assegnato = — m; S⊥ assegnato = — m.
+¶ Coordinate dei pali
+¶ A: x = 0 m; y = 0 m.
+¶ B: x = 3,5 m; y = 0 m.
+¶ C: x = 7 m; y = 0,5 m.
+¶ D: x = 1,75 m; y = 3,2 m.
+¶ E: x = 5,25 m; y = 3,2 m.
+¶ Davisson (1970) · kh/nh · X
+¶ Min —; media —; max —; riduzione media —%.
+¶ Riduzione kh/nh · Rg = —
+¶ Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.
+¶ S∥ = — m; S⊥ = — m.
+¶ Non disponibile: Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.
+¶ AASHTO (2014) · p-multiplier · X
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.
+¶ S∥ = — m; S⊥ = — m.
+¶ Non disponibile: Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.
+¶ FHWA (2018) · p-multiplier · X
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).
+¶ S∥ = — m; S⊥ = — m.
+¶ Non disponibile: Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.
+¶ Rollins / FEMA · p-multiplier · X
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.
+¶ S∥ = — m; S⊥ = — m.
+¶ Non disponibile: Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.
+¶ Reese / Van Impe · interazione palo-palo · X
+¶ Min 0,694; media 0,7805; max 0,9248; riduzione media 21,9478%.
+¶ p-multiplier medio = 0,7805
+¶ Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).
+¶ S∥ = — m; S⊥ = — m.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ A · fila 5 · Pm = 0,711 · β = 0,711 · α = 1
+¶ B · fila 3 · Pm = 0,7117 · β = 0,7117 · α = 1
+¶ C · fila 1 · Pm = 0,9248 · β = 0,9248 · α = 1
+¶ D · fila 4 · Pm = 0,694 · β = 0,694 · α = 1
+¶ E · fila 2 · Pm = 0,8612 · β = 0,8612 · α = 1
+¶ Caltrans (2025) · p-multiplier modificato · X
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.
+¶ S∥ = — m; S⊥ = — m.
+¶ Non disponibile: Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.
+¶ Davisson (1970) · kh/nh · Personalizzata · selezionato
+¶ Min —; media —; max —; riduzione media —%.
+¶ Riduzione kh/nh · Rg = —
+¶ Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.
+¶ S∥ = — m; S⊥ = — m.
+¶ Non disponibile: Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.
+¶ AASHTO (2014) · p-multiplier · Personalizzata
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.
+¶ S∥ = — m; S⊥ = — m.
+¶ Non disponibile: Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.
+¶ FHWA (2018) · p-multiplier · Personalizzata
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).
+¶ S∥ = — m; S⊥ = — m.
+¶ Non disponibile: Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.
+¶ Rollins / FEMA · p-multiplier · Personalizzata
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.
+¶ S∥ = — m; S⊥ = — m.
+¶ Non disponibile: Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.
+¶ Reese / Van Impe · interazione palo-palo · Personalizzata
+¶ Min 0,6571; media 0,8137; max 0,954; riduzione media 18,6276%.
+¶ p-multiplier medio = 0,8137
+¶ Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).
+¶ S∥ = — m; S⊥ = — m.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ A · fila 2 · Pm = 0,954 · β = 0,954 · α = 1
+¶ B · fila 4 · Pm = 0,6794 · β = 0,6794 · α = 1
+¶ C · fila 5 · Pm = 0,6571 · β = 0,6571 · α = 1
+¶ D · fila 1 · Pm = 0,9492 · β = 0,9492 · α = 1
+¶ E · fila 3 · Pm = 0,829 · β = 0,829 · α = 1
+¶ Caltrans (2025) · p-multiplier modificato · Personalizzata
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.
+¶ S∥ = — m; S⊥ = — m.
+¶ Non disponibile: Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.

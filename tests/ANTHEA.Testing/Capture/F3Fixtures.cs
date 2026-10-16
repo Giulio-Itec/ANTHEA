@@ -75,6 +75,7 @@ public static class F3Fixtures
             foreach (string key in new[] { "staffe_presenti", "coefficienti_unitari", "cls_diagramma" }) d["input"]!.AsObject().Remove(key);
             d["workspace_ca"] = new JsonObject { ["versione"] = 2, ["normativa"] = "NTC 2018", ["coefficienti"] = new JsonObject() };
         });
+        PileGroupF54(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -82,5 +83,80 @@ public static class F3Fixtures
             File.WriteAllText(Path.Combine(output, c.Module + "--" + c.Id + ".json"), item.ToJsonString(J.Options), new UTF8Encoding(false));
         }
         Console.WriteLine($"Fixture F3: {Directory.GetFiles(output, "*.json").Length}, moduli: {cases.Select(c => c.Module).Distinct().Count()}.");
+    }
+
+    /// <summary>
+    /// Pile group fixtures added before the F5.4 pilot (proposal F5, section 7.2: capture first, with the historic view): every
+    /// layout, every load direction, the two cap shapes and a cap without outline, optional keys absent, extrapolations, projected
+    /// rows with representative spacings per direction, warnings, and a calculation that stops with missing data. The documents
+    /// are archive-valid (DocumentService.Open); the identifiers never end in "default", which the F3 project report collects.
+    /// </summary>
+    static void PileGroupF54(List<CaptureCase> cases)
+    {
+        void Added(string id, Action<JsonObject> alter)
+        {
+            var data = ModuleCatalog.CreateData(HorizontalPileGroup.Module); alter(data);
+            cases.Add(new(HorizontalPileGroup.Module, id, "Fixture sintetica F5.4 (proposta F5 7.2, cattura prima con la vista storica)", null, data));
+        }
+        static JsonObject Generator(JsonObject d) => d["generatore"]!.AsObject();
+        static JsonObject Directions(JsonObject d) => d["direzioni"]!.AsObject();
+        // Staggered layout, rotated; all the load directions except +X; rectangular cap; Caltrans selected in −Y.
+        Added("quinconce-direzioni", d => {
+            d["diametro"] = 0.8;
+            var g = Generator(d); g["tipo"] = "Quinconce"; g["nx"] = 4; g["ny"] = 3; g["sx_d"] = 3.5; g["sy_d"] = 3; g["rotazione"] = 15;
+            var h = Directions(d); h["X"] = false; h["Y"] = true; h["X-"] = true; h["Y-"] = true; h["custom"] = true; h["angolo_custom"] = 30;
+            d["basamento"] = J.Obj(("tipo", "Rettangolare"), ("bordo_d", 1.25));
+            d["metodo"] = 5; d["direzione_selezionata"] = "Y-"; d["angolo"] = 270;
+            HorizontalPileGroup.Regenerate(d);
+        });
+        // Triangular layout below 3D, projected rows with both spacings of +X and extrapolations allowed: values available with
+        // warnings of explicit extrapolation and of the geometric extension; Rollins selected in +X.
+        Added("triangolare-avvisi", d => {
+            var g = Generator(d); g["tipo"] = "Triangolare"; g["lato"] = 4; g["sx_d"] = 2.5;
+            var h = Directions(d); h["Y"] = false;
+            d["estrapolazioni"] = true; d["file_proiettate"] = true;
+            d["interassi"]!["X"] = J.Obj(("interasse_parallelo", 2.2), ("interasse_trasversale", 2.5));
+            d["basamento"]!["bordo_d"] = 0.75; d["metodo"] = 3;
+            HorizontalPileGroup.Regenerate(d);
+        });
+        // Hexagonal layout with projected rows and representative spacings per direction: both in +X, only S∥ in +Y (S⊥ key
+        // removed, as the view removes an emptied optional field); AASHTO selected in the custom direction.
+        Added("esagonale-interassi", d => {
+            var g = Generator(d); g["tipo"] = "Esagonale"; g["anelli"] = 2; g["suddivisioni"] = 1; g["centro"] = true;
+            var h = Directions(d); h["custom"] = true; h["angolo_custom"] = 60;
+            d["file_proiettate"] = true;
+            d["interassi"]!["X"] = J.Obj(("interasse_parallelo", 2.6), ("interasse_trasversale", 3));
+            d["interassi"]!["Y"] = J.Obj(("interasse_parallelo", 3.2));
+            d["metodo"] = 1; d["direzione_selezionata"] = "custom"; d["angolo"] = 60;
+            HorizontalPileGroup.Regenerate(d);
+        });
+        // Pentagonal layout of an archive without the negative directions (keys and spacings); cap distance below 0.5D: no
+        // outline, error of the cap. The spacings of +X stay: the view creates the object of the shown direction at opening,
+        // the preparation of the project report does not (different prepared data, ui/f3-report-chapters).
+        Added("pentagonale-senza-basamento", d => {
+            d["diametro"] = 1.2;
+            var g = Generator(d); g["tipo"] = "Pentagonale"; g["anelli"] = 1; g["suddivisioni"] = 2; g["centro"] = false;
+            var h = Directions(d); h.Remove("X-"); h.Remove("Y-");
+            foreach (string key in new[] { "X-", "Y-" }) d["interassi"]!.AsObject().Remove(key);
+            d["basamento"]!["bordo_d"] = 0.4; d["direzione_selezionata"] = "Y"; d["angolo"] = 90;
+            HorizontalPileGroup.Regenerate(d);
+        });
+        // Generic coordinates typed as texts with a decimal comma (normalized to numbers when the view captures the table),
+        // rectangular cap; Davisson selected in the custom direction (not applicable to the irregular rows).
+        Added("generica-coordinate", d => {
+            Generator(d)["tipo"] = "Generica";
+            var h = Directions(d); h["Y"] = false; h["custom"] = true; h["angolo_custom"] = 135;
+            d["basamento"]!["tipo"] = "Rettangolare";
+            d["pali"] = new JsonArray(
+                J.Obj(("id", "A"), ("x", "0"), ("y", "0")), J.Obj(("id", "B"), ("x", "3,5"), ("y", "0")),
+                J.Obj(("id", "C"), ("x", "7"), ("y", "0,5")), J.Obj(("id", "D"), ("x", "1,75"), ("y", "3,2")),
+                J.Obj(("id", "E"), ("x", 5.25), ("y", 3.2)));
+            d["metodo"] = 0; d["direzione_selezionata"] = "custom"; d["angolo"] = 135;
+        });
+        // Generic coordinates with two overlapping piles: the calculation stops with missing data, no result and no report.
+        Added("generica-sovrapposti", d => {
+            Generator(d)["tipo"] = "Generica";
+            d["pali"] = new JsonArray(J.Obj(("id", "P1"), ("x", 0), ("y", 0)), J.Obj(("id", "P2"), ("x", 0.6), ("y", 0)), J.Obj(("id", "P3"), ("x", 3), ("y", 0)));
+        });
     }
 }

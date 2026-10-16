@@ -1,0 +1,95 @@
+{
+  "angolo": 0,
+  "basamento": {
+    "bordo_d": 0.75,
+    "tipo": "Contorno palificata"
+  },
+  "diametro": 1,
+  "direzione_selezionata": "X",
+  "direzioni": {
+    "X": true,
+    "X-": false,
+    "Y": false,
+    "Y-": false,
+    "angolo_custom": 45,
+    "custom": false
+  },
+  "estrapolazioni": true,
+  "file_proiettate": true,
+  "generatore": {
+    "anelli": 1,
+    "centro": true,
+    "lato": 4,
+    "nx": 3,
+    "ny": 3,
+    "rotazione": 0,
+    "suddivisioni": 1,
+    "sx_d": 2.5,
+    "sy_d": 3,
+    "tipo": "Triangolare"
+  },
+  "interassi": {
+    "X": {
+      "interasse_parallelo": 2.2,
+      "interasse_trasversale": 2.5
+    },
+    "X-": {},
+    "Y": {},
+    "Y-": {},
+    "custom": {}
+  },
+  "metodo": 3,
+  "pali": [
+    {
+      "id": "P1",
+      "x": -3.75,
+      "y": -2.1650635094610964
+    },
+    {
+      "id": "P2",
+      "x": -1.25,
+      "y": -2.1650635094610964
+    },
+    {
+      "id": "P3",
+      "x": 1.25,
+      "y": -2.1650635094610964
+    },
+    {
+      "id": "P4",
+      "x": 3.75,
+      "y": -2.1650635094610964
+    },
+    {
+      "id": "P5",
+      "x": -2.5,
+      "y": 0
+    },
+    {
+      "id": "P6",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "id": "P7",
+      "x": 2.5,
+      "y": 0
+    },
+    {
+      "id": "P8",
+      "x": -1.25,
+      "y": 2.1650635094610964
+    },
+    {
+      "id": "P9",
+      "x": 1.25,
+      "y": 2.1650635094610964
+    },
+    {
+      "id": "P10",
+      "x": 0,
+      "y": 4.330127018922194
+    }
+  ],
+  "versione": 2
+}

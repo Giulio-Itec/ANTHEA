@@ -1,0 +1,3204 @@
+{
+  "basamento": [
+    {
+      "X": -5.678054178660136,
+      "Y": -4.405261972524351
+    },
+    {
+      "X": 5.678054178660138,
+      "Y": -4.405261972524351
+    },
+    {
+      "X": 5.678054178660138,
+      "Y": 4.405261972524352
+    },
+    {
+      "X": -5.678054178660136,
+      "Y": 4.405261972524352
+    }
+  ],
+  "confronto": [
+    {
+      "Angle": 90,
+      "Available": false,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 0,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 0.7246933262870582,
+          "Row": 10,
+          "TransverseCoordinate": -2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 1.4493866525741164,
+          "Row": 9,
+          "TransverseCoordinate": -5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 2.1740799788611747,
+          "Row": 8,
+          "TransverseCoordinate": -8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 2.680568646237293,
+          "Row": 7,
+          "TransverseCoordinate": -0.731130448558646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 3.4052619725243516,
+          "Row": 6,
+          "TransverseCoordinate": -3.4357227621680373
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 4.12995529881141,
+          "Row": 5,
+          "TransverseCoordinate": -6.14031507577743
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 4.636443966187529,
+          "Row": 4,
+          "TransverseCoordinate": 1.2423314164920998
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 5.361137292474587,
+          "Row": 3,
+          "TransverseCoordinate": -1.4622608971172915
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": 6.085830618761645,
+          "Row": 2,
+          "TransverseCoordinate": -4.166853210726684
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": 6.810523945048703,
+          "Row": 1,
+          "TransverseCoordinate": -6.871445524336075
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870582,0.7246933262870582,0.7246933262870583,0.5064886673761184,0.7246933262870585,0.7246933262870585,0.5064886673761189,0.7246933262870581,0.7246933262870581,0.7246933262870581
+      ],
+      "ProjectedTransverseGaps": [1.2423314164920995,0.7311304485586447,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586456,1.2423314164921002,0.7311304485586455,0.731130448558646,1.2423314164920998
+      ],
+      "Quantity": "Riduzione kh/nh · Rg",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 90,
+      "Available": false,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 1,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 0.7246933262870582,
+          "Row": 10,
+          "TransverseCoordinate": -2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 1.4493866525741164,
+          "Row": 9,
+          "TransverseCoordinate": -5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 2.1740799788611747,
+          "Row": 8,
+          "TransverseCoordinate": -8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 2.680568646237293,
+          "Row": 7,
+          "TransverseCoordinate": -0.731130448558646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 3.4052619725243516,
+          "Row": 6,
+          "TransverseCoordinate": -3.4357227621680373
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 4.12995529881141,
+          "Row": 5,
+          "TransverseCoordinate": -6.14031507577743
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 4.636443966187529,
+          "Row": 4,
+          "TransverseCoordinate": 1.2423314164920998
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 5.361137292474587,
+          "Row": 3,
+          "TransverseCoordinate": -1.4622608971172915
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": 6.085830618761645,
+          "Row": 2,
+          "TransverseCoordinate": -4.166853210726684
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": 6.810523945048703,
+          "Row": 1,
+          "TransverseCoordinate": -6.871445524336075
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870582,0.7246933262870582,0.7246933262870583,0.5064886673761184,0.7246933262870585,0.7246933262870585,0.5064886673761189,0.7246933262870581,0.7246933262870581,0.7246933262870581
+      ],
+      "ProjectedTransverseGaps": [1.2423314164920995,0.7311304485586447,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586456,1.2423314164921002,0.7311304485586455,0.731130448558646,1.2423314164920998
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 90,
+      "Available": false,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 2,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 0.7246933262870582,
+          "Row": 10,
+          "TransverseCoordinate": -2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 1.4493866525741164,
+          "Row": 9,
+          "TransverseCoordinate": -5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 2.1740799788611747,
+          "Row": 8,
+          "TransverseCoordinate": -8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 2.680568646237293,
+          "Row": 7,
+          "TransverseCoordinate": -0.731130448558646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 3.4052619725243516,
+          "Row": 6,
+          "TransverseCoordinate": -3.4357227621680373
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 4.12995529881141,
+          "Row": 5,
+          "TransverseCoordinate": -6.14031507577743
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 4.636443966187529,
+          "Row": 4,
+          "TransverseCoordinate": 1.2423314164920998
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 5.361137292474587,
+          "Row": 3,
+          "TransverseCoordinate": -1.4622608971172915
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": 6.085830618761645,
+          "Row": 2,
+          "TransverseCoordinate": -4.166853210726684
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": 6.810523945048703,
+          "Row": 1,
+          "TransverseCoordinate": -6.871445524336075
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870582,0.7246933262870582,0.7246933262870583,0.5064886673761184,0.7246933262870585,0.7246933262870585,0.5064886673761189,0.7246933262870581,0.7246933262870581,0.7246933262870581
+      ],
+      "ProjectedTransverseGaps": [1.2423314164920995,0.7311304485586447,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586456,1.2423314164921002,0.7311304485586455,0.731130448558646,1.2423314164920998
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 90,
+      "Available": false,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 3,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 0.7246933262870582,
+          "Row": 10,
+          "TransverseCoordinate": -2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 1.4493866525741164,
+          "Row": 9,
+          "TransverseCoordinate": -5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 2.1740799788611747,
+          "Row": 8,
+          "TransverseCoordinate": -8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 2.680568646237293,
+          "Row": 7,
+          "TransverseCoordinate": -0.731130448558646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 3.4052619725243516,
+          "Row": 6,
+          "TransverseCoordinate": -3.4357227621680373
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 4.12995529881141,
+          "Row": 5,
+          "TransverseCoordinate": -6.14031507577743
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 4.636443966187529,
+          "Row": 4,
+          "TransverseCoordinate": 1.2423314164920998
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 5.361137292474587,
+          "Row": 3,
+          "TransverseCoordinate": -1.4622608971172915
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": 6.085830618761645,
+          "Row": 2,
+          "TransverseCoordinate": -4.166853210726684
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": 6.810523945048703,
+          "Row": 1,
+          "TransverseCoordinate": -6.871445524336075
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870582,0.7246933262870582,0.7246933262870583,0.5064886673761184,0.7246933262870585,0.7246933262870585,0.5064886673761189,0.7246933262870581,0.7246933262870581,0.7246933262870581
+      ],
+      "ProjectedTransverseGaps": [1.2423314164920995,0.7311304485586447,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586456,1.2423314164921002,0.7311304485586455,0.731130448558646,1.2423314164920998
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 90,
+      "Available": true,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "",
+      "Factor": 0.7531095858951715,
+      "Maximum": 0.9480815281026905,
+      "Method": 4,
+      "Minimum": 0.6012426758572545,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.7068364595267117,
+          "Factor": 0.7068364595267117,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6096574884356928,
+          "Factor": 0.6096574884356928,
+          "Id": "P2",
+          "ParallelCoordinate": 0.7246933262870582,
+          "Row": 10,
+          "TransverseCoordinate": -2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6226733763899304,
+          "Factor": 0.6226733763899304,
+          "Id": "P3",
+          "ParallelCoordinate": 1.4493866525741164,
+          "Row": 9,
+          "TransverseCoordinate": -5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8184322250257031,
+          "Factor": 0.8184322250257031,
+          "Id": "P4",
+          "ParallelCoordinate": 2.1740799788611747,
+          "Row": 8,
+          "TransverseCoordinate": -8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6159408260710133,
+          "Factor": 0.6159408260710133,
+          "Id": "P5",
+          "ParallelCoordinate": 2.680568646237293,
+          "Row": 7,
+          "TransverseCoordinate": -0.731130448558646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6012426758572545,
+          "Factor": 0.6012426758572545,
+          "Id": "P6",
+          "ParallelCoordinate": 3.4052619725243516,
+          "Row": 6,
+          "TransverseCoordinate": -3.4357227621680373
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6367662830753305,
+          "Factor": 0.6367662830753305,
+          "Id": "P7",
+          "ParallelCoordinate": 4.12995529881141,
+          "Row": 5,
+          "TransverseCoordinate": -6.14031507577743
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.9407531722099786,
+          "Factor": 0.9407531722099786,
+          "Id": "P8",
+          "ParallelCoordinate": 4.636443966187529,
+          "Row": 4,
+          "TransverseCoordinate": 1.2423314164920998
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8919107050762904,
+          "Factor": 0.8919107050762904,
+          "Id": "P9",
+          "ParallelCoordinate": 5.361137292474587,
+          "Row": 3,
+          "TransverseCoordinate": -1.4622608971172915
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8919107050762906,
+          "Factor": 0.8919107050762906,
+          "Id": "P10",
+          "ParallelCoordinate": 6.085830618761645,
+          "Row": 2,
+          "TransverseCoordinate": -4.166853210726684
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.9480815281026905,
+          "Factor": 0.9480815281026905,
+          "Id": "P11",
+          "ParallelCoordinate": 6.810523945048703,
+          "Row": 1,
+          "TransverseCoordinate": -6.871445524336075
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870582,0.7246933262870582,0.7246933262870583,0.5064886673761184,0.7246933262870585,0.7246933262870585,0.5064886673761189,0.7246933262870581,0.7246933262870581,0.7246933262870581
+      ],
+      "ProjectedTransverseGaps": [1.2423314164920995,0.7311304485586447,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586456,1.2423314164921002,0.7311304485586455,0.731130448558646,1.2423314164920998
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 24.689041410482847,
+      "RegularGrid": false,
+      "Source": "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).",
+      "TransverseSpacing": null,
+      "Warnings": [
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 90,
+      "Available": false,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 5,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 0.7246933262870582,
+          "Row": 10,
+          "TransverseCoordinate": -2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 1.4493866525741164,
+          "Row": 9,
+          "TransverseCoordinate": -5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 2.1740799788611747,
+          "Row": 8,
+          "TransverseCoordinate": -8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 2.680568646237293,
+          "Row": 7,
+          "TransverseCoordinate": -0.731130448558646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 3.4052619725243516,
+          "Row": 6,
+          "TransverseCoordinate": -3.4357227621680373
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 4.12995529881141,
+          "Row": 5,
+          "TransverseCoordinate": -6.14031507577743
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 4.636443966187529,
+          "Row": 4,
+          "TransverseCoordinate": 1.2423314164920998
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 5.361137292474587,
+          "Row": 3,
+          "TransverseCoordinate": -1.4622608971172915
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": 6.085830618761645,
+          "Row": 2,
+          "TransverseCoordinate": -4.166853210726684
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": 6.810523945048703,
+          "Row": 1,
+          "TransverseCoordinate": -6.871445524336075
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870582,0.7246933262870582,0.7246933262870583,0.5064886673761184,0.7246933262870585,0.7246933262870585,0.5064886673761189,0.7246933262870581,0.7246933262870581,0.7246933262870581
+      ],
+      "ProjectedTransverseGaps": [1.2423314164920995,0.7311304485586447,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586456,1.2423314164921002,0.7311304485586455,0.731130448558646,1.2423314164920998
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 180,
+      "Available": false,
+      "DirectionId": "X-",
+      "DirectionName": "X-",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 0,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": -2.7045923136093917,
+          "Row": 5,
+          "TransverseCoordinate": -0.7246933262870584
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": -5.409184627218783,
+          "Row": 8,
+          "TransverseCoordinate": -1.4493866525741168
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": -8.113776940828174,
+          "Row": 11,
+          "TransverseCoordinate": -2.174079978861175
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": -0.7311304485586457,
+          "Row": 3,
+          "TransverseCoordinate": -2.680568646237293
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": -3.435722762168037,
+          "Row": 6,
+          "TransverseCoordinate": -3.405261972524352
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": -6.140315075777429,
+          "Row": 9,
+          "TransverseCoordinate": -4.129955298811411
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164921002,
+          "Row": 1,
+          "TransverseCoordinate": -4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": -1.462260897117291,
+          "Row": 4,
+          "TransverseCoordinate": -5.361137292474587
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": -4.166853210726683,
+          "Row": 7,
+          "TransverseCoordinate": -6.085830618761646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": -6.871445524336074,
+          "Row": 10,
+          "TransverseCoordinate": -6.810523945048704
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164921004,0.7311304485586447,0.7311304485586456,1.2423314164921004,0.7311304485586461,0.7311304485586452,1.2423314164921007,0.7311304485586453,0.7311304485586457,1.2423314164921002
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.506488667376118,0.7246933262870583,0.7246933262870584,0.7246933262870584
+      ],
+      "Quantity": "Riduzione kh/nh · Rg",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 180,
+      "Available": false,
+      "DirectionId": "X-",
+      "DirectionName": "X-",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 1,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": -2.7045923136093917,
+          "Row": 5,
+          "TransverseCoordinate": -0.7246933262870584
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": -5.409184627218783,
+          "Row": 8,
+          "TransverseCoordinate": -1.4493866525741168
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": -8.113776940828174,
+          "Row": 11,
+          "TransverseCoordinate": -2.174079978861175
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": -0.7311304485586457,
+          "Row": 3,
+          "TransverseCoordinate": -2.680568646237293
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": -3.435722762168037,
+          "Row": 6,
+          "TransverseCoordinate": -3.405261972524352
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": -6.140315075777429,
+          "Row": 9,
+          "TransverseCoordinate": -4.129955298811411
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164921002,
+          "Row": 1,
+          "TransverseCoordinate": -4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": -1.462260897117291,
+          "Row": 4,
+          "TransverseCoordinate": -5.361137292474587
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": -4.166853210726683,
+          "Row": 7,
+          "TransverseCoordinate": -6.085830618761646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": -6.871445524336074,
+          "Row": 10,
+          "TransverseCoordinate": -6.810523945048704
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164921004,0.7311304485586447,0.7311304485586456,1.2423314164921004,0.7311304485586461,0.7311304485586452,1.2423314164921007,0.7311304485586453,0.7311304485586457,1.2423314164921002
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.506488667376118,0.7246933262870583,0.7246933262870584,0.7246933262870584
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 180,
+      "Available": false,
+      "DirectionId": "X-",
+      "DirectionName": "X-",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 2,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": -2.7045923136093917,
+          "Row": 5,
+          "TransverseCoordinate": -0.7246933262870584
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": -5.409184627218783,
+          "Row": 8,
+          "TransverseCoordinate": -1.4493866525741168
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": -8.113776940828174,
+          "Row": 11,
+          "TransverseCoordinate": -2.174079978861175
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": -0.7311304485586457,
+          "Row": 3,
+          "TransverseCoordinate": -2.680568646237293
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": -3.435722762168037,
+          "Row": 6,
+          "TransverseCoordinate": -3.405261972524352
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": -6.140315075777429,
+          "Row": 9,
+          "TransverseCoordinate": -4.129955298811411
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164921002,
+          "Row": 1,
+          "TransverseCoordinate": -4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": -1.462260897117291,
+          "Row": 4,
+          "TransverseCoordinate": -5.361137292474587
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": -4.166853210726683,
+          "Row": 7,
+          "TransverseCoordinate": -6.085830618761646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": -6.871445524336074,
+          "Row": 10,
+          "TransverseCoordinate": -6.810523945048704
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164921004,0.7311304485586447,0.7311304485586456,1.2423314164921004,0.7311304485586461,0.7311304485586452,1.2423314164921007,0.7311304485586453,0.7311304485586457,1.2423314164921002
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.506488667376118,0.7246933262870583,0.7246933262870584,0.7246933262870584
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 180,
+      "Available": false,
+      "DirectionId": "X-",
+      "DirectionName": "X-",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 3,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": -2.7045923136093917,
+          "Row": 5,
+          "TransverseCoordinate": -0.7246933262870584
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": -5.409184627218783,
+          "Row": 8,
+          "TransverseCoordinate": -1.4493866525741168
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": -8.113776940828174,
+          "Row": 11,
+          "TransverseCoordinate": -2.174079978861175
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": -0.7311304485586457,
+          "Row": 3,
+          "TransverseCoordinate": -2.680568646237293
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": -3.435722762168037,
+          "Row": 6,
+          "TransverseCoordinate": -3.405261972524352
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": -6.140315075777429,
+          "Row": 9,
+          "TransverseCoordinate": -4.129955298811411
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164921002,
+          "Row": 1,
+          "TransverseCoordinate": -4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": -1.462260897117291,
+          "Row": 4,
+          "TransverseCoordinate": -5.361137292474587
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": -4.166853210726683,
+          "Row": 7,
+          "TransverseCoordinate": -6.085830618761646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": -6.871445524336074,
+          "Row": 10,
+          "TransverseCoordinate": -6.810523945048704
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164921004,0.7311304485586447,0.7311304485586456,1.2423314164921004,0.7311304485586461,0.7311304485586452,1.2423314164921007,0.7311304485586453,0.7311304485586457,1.2423314164921002
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.506488667376118,0.7246933262870583,0.7246933262870584,0.7246933262870584
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 180,
+      "Available": true,
+      "DirectionId": "X-",
+      "DirectionName": "X-",
+      "Error": "",
+      "Factor": 0.7208378118166877,
+      "Maximum": 0.944329347490749,
+      "Method": 4,
+      "Minimum": 0.5732437798332253,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.944329347490749,
+          "Factor": 0.944329347490749,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6543113261645266,
+          "Factor": 0.6543113261645266,
+          "Id": "P2",
+          "ParallelCoordinate": -2.7045923136093917,
+          "Row": 5,
+          "TransverseCoordinate": -0.7246933262870584
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6244269423338468,
+          "Factor": 0.6244269423338468,
+          "Id": "P3",
+          "ParallelCoordinate": -5.409184627218783,
+          "Row": 8,
+          "TransverseCoordinate": -1.4493866525741168
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6590032661707131,
+          "Factor": 0.6590032661707131,
+          "Id": "P4",
+          "ParallelCoordinate": -8.113776940828174,
+          "Row": 11,
+          "TransverseCoordinate": -2.174079978861175
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.7810842224710103,
+          "Factor": 0.7810842224710103,
+          "Id": "P5",
+          "ParallelCoordinate": -0.7311304485586457,
+          "Row": 3,
+          "TransverseCoordinate": -2.680568646237293
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5732437798332253,
+          "Factor": 0.5732437798332253,
+          "Id": "P6",
+          "ParallelCoordinate": -3.435722762168037,
+          "Row": 6,
+          "TransverseCoordinate": -3.405261972524352
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5908427487628672,
+          "Factor": 0.5908427487628672,
+          "Id": "P7",
+          "ParallelCoordinate": -6.140315075777429,
+          "Row": 9,
+          "TransverseCoordinate": -4.129955298811411
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.9434382170356986,
+          "Factor": 0.9434382170356986,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164921002,
+          "Row": 1,
+          "TransverseCoordinate": -4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.7171808125308798,
+          "Factor": 0.7171808125308798,
+          "Id": "P9",
+          "ParallelCoordinate": -1.462260897117291,
+          "Row": 4,
+          "TransverseCoordinate": -5.361137292474587
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6997030476569114,
+          "Factor": 0.6997030476569114,
+          "Id": "P10",
+          "ParallelCoordinate": -4.166853210726683,
+          "Row": 7,
+          "TransverseCoordinate": -6.085830618761646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.7416522195331368,
+          "Factor": 0.7416522195331368,
+          "Id": "P11",
+          "ParallelCoordinate": -6.871445524336074,
+          "Row": 10,
+          "TransverseCoordinate": -6.810523945048704
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164921004,0.7311304485586447,0.7311304485586456,1.2423314164921004,0.7311304485586461,0.7311304485586452,1.2423314164921007,0.7311304485586453,0.7311304485586457,1.2423314164921002
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.506488667376118,0.7246933262870583,0.7246933262870584,0.7246933262870584
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 27.916218818331227,
+      "RegularGrid": false,
+      "Source": "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).",
+      "TransverseSpacing": null,
+      "Warnings": [
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 180,
+      "Available": false,
+      "DirectionId": "X-",
+      "DirectionName": "X-",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 5,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": -2.7045923136093917,
+          "Row": 5,
+          "TransverseCoordinate": -0.7246933262870584
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": -5.409184627218783,
+          "Row": 8,
+          "TransverseCoordinate": -1.4493866525741168
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": -8.113776940828174,
+          "Row": 11,
+          "TransverseCoordinate": -2.174079978861175
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": -0.7311304485586457,
+          "Row": 3,
+          "TransverseCoordinate": -2.680568646237293
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": -3.435722762168037,
+          "Row": 6,
+          "TransverseCoordinate": -3.405261972524352
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": -6.140315075777429,
+          "Row": 9,
+          "TransverseCoordinate": -4.129955298811411
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164921002,
+          "Row": 1,
+          "TransverseCoordinate": -4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": -1.462260897117291,
+          "Row": 4,
+          "TransverseCoordinate": -5.361137292474587
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": -4.166853210726683,
+          "Row": 7,
+          "TransverseCoordinate": -6.085830618761646
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": -6.871445524336074,
+          "Row": 10,
+          "TransverseCoordinate": -6.810523945048704
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164921004,0.7311304485586447,0.7311304485586456,1.2423314164921004,0.7311304485586461,0.7311304485586452,1.2423314164921007,0.7311304485586453,0.7311304485586457,1.2423314164921002
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.506488667376118,0.7246933262870583,0.7246933262870584,0.7246933262870584
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 270,
+      "Available": false,
+      "DirectionId": "Y-",
+      "DirectionName": "Y-",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 0,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": -0,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": -0.7246933262870585,
+          "Row": 2,
+          "TransverseCoordinate": 2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": -1.449386652574117,
+          "Row": 3,
+          "TransverseCoordinate": 5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": -2.1740799788611755,
+          "Row": 4,
+          "TransverseCoordinate": 8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": -2.680568646237293,
+          "Row": 5,
+          "TransverseCoordinate": 0.7311304485586456
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": -3.405261972524352,
+          "Row": 6,
+          "TransverseCoordinate": 3.435722762168037
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": -4.129955298811411,
+          "Row": 7,
+          "TransverseCoordinate": 6.140315075777429
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": -4.636443966187529,
+          "Row": 8,
+          "TransverseCoordinate": -1.2423314164921004
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": -5.361137292474587,
+          "Row": 9,
+          "TransverseCoordinate": 1.4622608971172908
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": -6.085830618761646,
+          "Row": 10,
+          "TransverseCoordinate": 4.166853210726683
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": -6.810523945048704,
+          "Row": 11,
+          "TransverseCoordinate": 6.871445524336074
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.5064886673761175,0.7246933262870585,0.7246933262870585,0.7246933262870585
+      ],
+      "ProjectedTransverseGaps": [1.2423314164921004,0.7311304485586456,0.7311304485586452,1.2423314164921009,0.7311304485586452,0.7311304485586461,1.2423314164921004,0.7311304485586456,0.7311304485586447,1.2423314164921004
+      ],
+      "Quantity": "Riduzione kh/nh · Rg",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 270,
+      "Available": false,
+      "DirectionId": "Y-",
+      "DirectionName": "Y-",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 1,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": -0,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": -0.7246933262870585,
+          "Row": 2,
+          "TransverseCoordinate": 2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": -1.449386652574117,
+          "Row": 3,
+          "TransverseCoordinate": 5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": -2.1740799788611755,
+          "Row": 4,
+          "TransverseCoordinate": 8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": -2.680568646237293,
+          "Row": 5,
+          "TransverseCoordinate": 0.7311304485586456
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": -3.405261972524352,
+          "Row": 6,
+          "TransverseCoordinate": 3.435722762168037
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": -4.129955298811411,
+          "Row": 7,
+          "TransverseCoordinate": 6.140315075777429
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": -4.636443966187529,
+          "Row": 8,
+          "TransverseCoordinate": -1.2423314164921004
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": -5.361137292474587,
+          "Row": 9,
+          "TransverseCoordinate": 1.4622608971172908
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": -6.085830618761646,
+          "Row": 10,
+          "TransverseCoordinate": 4.166853210726683
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": -6.810523945048704,
+          "Row": 11,
+          "TransverseCoordinate": 6.871445524336074
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.5064886673761175,0.7246933262870585,0.7246933262870585,0.7246933262870585
+      ],
+      "ProjectedTransverseGaps": [1.2423314164921004,0.7311304485586456,0.7311304485586452,1.2423314164921009,0.7311304485586452,0.7311304485586461,1.2423314164921004,0.7311304485586456,0.7311304485586447,1.2423314164921004
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 270,
+      "Available": false,
+      "DirectionId": "Y-",
+      "DirectionName": "Y-",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 2,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": -0,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": -0.7246933262870585,
+          "Row": 2,
+          "TransverseCoordinate": 2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": -1.449386652574117,
+          "Row": 3,
+          "TransverseCoordinate": 5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": -2.1740799788611755,
+          "Row": 4,
+          "TransverseCoordinate": 8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": -2.680568646237293,
+          "Row": 5,
+          "TransverseCoordinate": 0.7311304485586456
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": -3.405261972524352,
+          "Row": 6,
+          "TransverseCoordinate": 3.435722762168037
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": -4.129955298811411,
+          "Row": 7,
+          "TransverseCoordinate": 6.140315075777429
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": -4.636443966187529,
+          "Row": 8,
+          "TransverseCoordinate": -1.2423314164921004
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": -5.361137292474587,
+          "Row": 9,
+          "TransverseCoordinate": 1.4622608971172908
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": -6.085830618761646,
+          "Row": 10,
+          "TransverseCoordinate": 4.166853210726683
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": -6.810523945048704,
+          "Row": 11,
+          "TransverseCoordinate": 6.871445524336074
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.5064886673761175,0.7246933262870585,0.7246933262870585,0.7246933262870585
+      ],
+      "ProjectedTransverseGaps": [1.2423314164921004,0.7311304485586456,0.7311304485586452,1.2423314164921009,0.7311304485586452,0.7311304485586461,1.2423314164921004,0.7311304485586456,0.7311304485586447,1.2423314164921004
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 270,
+      "Available": false,
+      "DirectionId": "Y-",
+      "DirectionName": "Y-",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 3,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": -0,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": -0.7246933262870585,
+          "Row": 2,
+          "TransverseCoordinate": 2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": -1.449386652574117,
+          "Row": 3,
+          "TransverseCoordinate": 5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": -2.1740799788611755,
+          "Row": 4,
+          "TransverseCoordinate": 8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": -2.680568646237293,
+          "Row": 5,
+          "TransverseCoordinate": 0.7311304485586456
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": -3.405261972524352,
+          "Row": 6,
+          "TransverseCoordinate": 3.435722762168037
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": -4.129955298811411,
+          "Row": 7,
+          "TransverseCoordinate": 6.140315075777429
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": -4.636443966187529,
+          "Row": 8,
+          "TransverseCoordinate": -1.2423314164921004
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": -5.361137292474587,
+          "Row": 9,
+          "TransverseCoordinate": 1.4622608971172908
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": -6.085830618761646,
+          "Row": 10,
+          "TransverseCoordinate": 4.166853210726683
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": -6.810523945048704,
+          "Row": 11,
+          "TransverseCoordinate": 6.871445524336074
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.5064886673761175,0.7246933262870585,0.7246933262870585,0.7246933262870585
+      ],
+      "ProjectedTransverseGaps": [1.2423314164921004,0.7311304485586456,0.7311304485586452,1.2423314164921009,0.7311304485586452,0.7311304485586461,1.2423314164921004,0.7311304485586456,0.7311304485586447,1.2423314164921004
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 270,
+      "Available": true,
+      "DirectionId": "Y-",
+      "DirectionName": "Y-",
+      "Error": "",
+      "Factor": 0.7531095858951715,
+      "Maximum": 0.9480815281026908,
+      "Method": 4,
+      "Minimum": 0.6012426758572542,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.9480815281026908,
+          "Factor": 0.9480815281026908,
+          "Id": "P1",
+          "ParallelCoordinate": -0,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8919107050762901,
+          "Factor": 0.8919107050762901,
+          "Id": "P2",
+          "ParallelCoordinate": -0.7246933262870585,
+          "Row": 2,
+          "TransverseCoordinate": 2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8919107050762903,
+          "Factor": 0.8919107050762903,
+          "Id": "P3",
+          "ParallelCoordinate": -1.449386652574117,
+          "Row": 3,
+          "TransverseCoordinate": 5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.9407531722099787,
+          "Factor": 0.9407531722099787,
+          "Id": "P4",
+          "ParallelCoordinate": -2.1740799788611755,
+          "Row": 4,
+          "TransverseCoordinate": 8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6367662830753303,
+          "Factor": 0.6367662830753303,
+          "Id": "P5",
+          "ParallelCoordinate": -2.680568646237293,
+          "Row": 5,
+          "TransverseCoordinate": 0.7311304485586456
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6012426758572542,
+          "Factor": 0.6012426758572542,
+          "Id": "P6",
+          "ParallelCoordinate": -3.405261972524352,
+          "Row": 6,
+          "TransverseCoordinate": 3.435722762168037
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6159408260710133,
+          "Factor": 0.6159408260710133,
+          "Id": "P7",
+          "ParallelCoordinate": -4.129955298811411,
+          "Row": 7,
+          "TransverseCoordinate": 6.140315075777429
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8184322250257032,
+          "Factor": 0.8184322250257032,
+          "Id": "P8",
+          "ParallelCoordinate": -4.636443966187529,
+          "Row": 8,
+          "TransverseCoordinate": -1.2423314164921004
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6226733763899305,
+          "Factor": 0.6226733763899305,
+          "Id": "P9",
+          "ParallelCoordinate": -5.361137292474587,
+          "Row": 9,
+          "TransverseCoordinate": 1.4622608971172908
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6096574884356933,
+          "Factor": 0.6096574884356933,
+          "Id": "P10",
+          "ParallelCoordinate": -6.085830618761646,
+          "Row": 10,
+          "TransverseCoordinate": 4.166853210726683
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.7068364595267114,
+          "Factor": 0.7068364595267114,
+          "Id": "P11",
+          "ParallelCoordinate": -6.810523945048704,
+          "Row": 11,
+          "TransverseCoordinate": 6.871445524336074
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.5064886673761175,0.7246933262870585,0.7246933262870585,0.7246933262870585
+      ],
+      "ProjectedTransverseGaps": [1.2423314164921004,0.7311304485586456,0.7311304485586452,1.2423314164921009,0.7311304485586452,0.7311304485586461,1.2423314164921004,0.7311304485586456,0.7311304485586447,1.2423314164921004
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 24.689041410482847,
+      "RegularGrid": false,
+      "Source": "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).",
+      "TransverseSpacing": null,
+      "Warnings": [
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 270,
+      "Available": false,
+      "DirectionId": "Y-",
+      "DirectionName": "Y-",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 5,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": -0,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": -0.7246933262870585,
+          "Row": 2,
+          "TransverseCoordinate": 2.7045923136093917
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": -1.449386652574117,
+          "Row": 3,
+          "TransverseCoordinate": 5.409184627218783
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": -2.1740799788611755,
+          "Row": 4,
+          "TransverseCoordinate": 8.113776940828174
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": -2.680568646237293,
+          "Row": 5,
+          "TransverseCoordinate": 0.7311304485586456
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": -3.405261972524352,
+          "Row": 6,
+          "TransverseCoordinate": 3.435722762168037
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": -4.129955298811411,
+          "Row": 7,
+          "TransverseCoordinate": 6.140315075777429
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": -4.636443966187529,
+          "Row": 8,
+          "TransverseCoordinate": -1.2423314164921004
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": -5.361137292474587,
+          "Row": 9,
+          "TransverseCoordinate": 1.4622608971172908
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": -6.085830618761646,
+          "Row": 10,
+          "TransverseCoordinate": 4.166853210726683
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": -6.810523945048704,
+          "Row": 11,
+          "TransverseCoordinate": 6.871445524336074
+        }
+      ],
+      "ProjectedRowGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.5064886673761175,0.7246933262870585,0.7246933262870585,0.7246933262870585
+      ],
+      "ProjectedTransverseGaps": [1.2423314164921004,0.7311304485586456,0.7311304485586452,1.2423314164921009,0.7311304485586452,0.7311304485586461,1.2423314164921004,0.7311304485586456,0.7311304485586447,1.2423314164921004
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 30,
+      "Available": false,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 0,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 2.7045923136093917,
+          "Row": 8,
+          "TransverseCoordinate": -0.7246933262870582
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 5.409184627218783,
+          "Row": 5,
+          "TransverseCoordinate": -1.4493866525741164
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 8.113776940828174,
+          "Row": 2,
+          "TransverseCoordinate": -2.1740799788611738
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 1.9734618650507456,
+          "Row": 9,
+          "TransverseCoordinate": 1.9558753199502348
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 4.678054178660137,
+          "Row": 6,
+          "TransverseCoordinate": 1.2311819936631776
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 7.382646492269529,
+          "Row": 3,
+          "TransverseCoordinate": 0.5064886673761193
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164920998,
+          "Row": 10,
+          "TransverseCoordinate": 4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 3.9469237301014912,
+          "Row": 7,
+          "TransverseCoordinate": 3.911750639900471
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": 6.651516043710883,
+          "Row": 4,
+          "TransverseCoordinate": 3.1870573136134124
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": 9.356108357320274,
+          "Row": 1,
+          "TransverseCoordinate": 2.462363987326355
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164920998,0.7311304485586458,0.7311304485586461,1.2423314164920995,0.7311304485586456,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586447,1.2423314164920995
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870574,0.7246933262870582,0.7246933262870582,0.5064886673761193,0.7246933262870583,0.7246933262870572,0.5064886673761204,0.7246933262870572,0.7246933262870585,0.7246933262870581
+      ],
+      "Quantity": "Riduzione kh/nh · Rg",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 30,
+      "Available": false,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 1,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 2.7045923136093917,
+          "Row": 8,
+          "TransverseCoordinate": -0.7246933262870582
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 5.409184627218783,
+          "Row": 5,
+          "TransverseCoordinate": -1.4493866525741164
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 8.113776940828174,
+          "Row": 2,
+          "TransverseCoordinate": -2.1740799788611738
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 1.9734618650507456,
+          "Row": 9,
+          "TransverseCoordinate": 1.9558753199502348
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 4.678054178660137,
+          "Row": 6,
+          "TransverseCoordinate": 1.2311819936631776
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 7.382646492269529,
+          "Row": 3,
+          "TransverseCoordinate": 0.5064886673761193
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164920998,
+          "Row": 10,
+          "TransverseCoordinate": 4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 3.9469237301014912,
+          "Row": 7,
+          "TransverseCoordinate": 3.911750639900471
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": 6.651516043710883,
+          "Row": 4,
+          "TransverseCoordinate": 3.1870573136134124
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": 9.356108357320274,
+          "Row": 1,
+          "TransverseCoordinate": 2.462363987326355
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164920998,0.7311304485586458,0.7311304485586461,1.2423314164920995,0.7311304485586456,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586447,1.2423314164920995
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870574,0.7246933262870582,0.7246933262870582,0.5064886673761193,0.7246933262870583,0.7246933262870572,0.5064886673761204,0.7246933262870572,0.7246933262870585,0.7246933262870581
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 30,
+      "Available": false,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 2,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 2.7045923136093917,
+          "Row": 8,
+          "TransverseCoordinate": -0.7246933262870582
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 5.409184627218783,
+          "Row": 5,
+          "TransverseCoordinate": -1.4493866525741164
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 8.113776940828174,
+          "Row": 2,
+          "TransverseCoordinate": -2.1740799788611738
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 1.9734618650507456,
+          "Row": 9,
+          "TransverseCoordinate": 1.9558753199502348
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 4.678054178660137,
+          "Row": 6,
+          "TransverseCoordinate": 1.2311819936631776
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 7.382646492269529,
+          "Row": 3,
+          "TransverseCoordinate": 0.5064886673761193
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164920998,
+          "Row": 10,
+          "TransverseCoordinate": 4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 3.9469237301014912,
+          "Row": 7,
+          "TransverseCoordinate": 3.911750639900471
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": 6.651516043710883,
+          "Row": 4,
+          "TransverseCoordinate": 3.1870573136134124
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": 9.356108357320274,
+          "Row": 1,
+          "TransverseCoordinate": 2.462363987326355
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164920998,0.7311304485586458,0.7311304485586461,1.2423314164920995,0.7311304485586456,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586447,1.2423314164920995
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870574,0.7246933262870582,0.7246933262870582,0.5064886673761193,0.7246933262870583,0.7246933262870572,0.5064886673761204,0.7246933262870572,0.7246933262870585,0.7246933262870581
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 30,
+      "Available": false,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 3,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 2.7045923136093917,
+          "Row": 8,
+          "TransverseCoordinate": -0.7246933262870582
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 5.409184627218783,
+          "Row": 5,
+          "TransverseCoordinate": -1.4493866525741164
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 8.113776940828174,
+          "Row": 2,
+          "TransverseCoordinate": -2.1740799788611738
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 1.9734618650507456,
+          "Row": 9,
+          "TransverseCoordinate": 1.9558753199502348
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 4.678054178660137,
+          "Row": 6,
+          "TransverseCoordinate": 1.2311819936631776
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 7.382646492269529,
+          "Row": 3,
+          "TransverseCoordinate": 0.5064886673761193
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164920998,
+          "Row": 10,
+          "TransverseCoordinate": 4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 3.9469237301014912,
+          "Row": 7,
+          "TransverseCoordinate": 3.911750639900471
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": 6.651516043710883,
+          "Row": 4,
+          "TransverseCoordinate": 3.1870573136134124
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": 9.356108357320274,
+          "Row": 1,
+          "TransverseCoordinate": 2.462363987326355
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164920998,0.7311304485586458,0.7311304485586461,1.2423314164920995,0.7311304485586456,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586447,1.2423314164920995
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870574,0.7246933262870582,0.7246933262870582,0.5064886673761193,0.7246933262870583,0.7246933262870572,0.5064886673761204,0.7246933262870572,0.7246933262870585,0.7246933262870581
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 30,
+      "Available": true,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "",
+      "Factor": 0.7208378118166879,
+      "Maximum": 0.944329347490749,
+      "Method": 4,
+      "Minimum": 0.5732437798332256,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.6590032661707133,
+          "Factor": 0.6590032661707133,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6244269423338469,
+          "Factor": 0.6244269423338469,
+          "Id": "P2",
+          "ParallelCoordinate": 2.7045923136093917,
+          "Row": 8,
+          "TransverseCoordinate": -0.7246933262870582
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6543113261645268,
+          "Factor": 0.6543113261645268,
+          "Id": "P3",
+          "ParallelCoordinate": 5.409184627218783,
+          "Row": 5,
+          "TransverseCoordinate": -1.4493866525741164
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.944329347490749,
+          "Factor": 0.944329347490749,
+          "Id": "P4",
+          "ParallelCoordinate": 8.113776940828174,
+          "Row": 2,
+          "TransverseCoordinate": -2.1740799788611738
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.590842748762867,
+          "Factor": 0.590842748762867,
+          "Id": "P5",
+          "ParallelCoordinate": 1.9734618650507456,
+          "Row": 9,
+          "TransverseCoordinate": 1.9558753199502348
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5732437798332256,
+          "Factor": 0.5732437798332256,
+          "Id": "P6",
+          "ParallelCoordinate": 4.678054178660137,
+          "Row": 6,
+          "TransverseCoordinate": 1.2311819936631776
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.781084222471011,
+          "Factor": 0.781084222471011,
+          "Id": "P7",
+          "ParallelCoordinate": 7.382646492269529,
+          "Row": 3,
+          "TransverseCoordinate": 0.5064886673761193
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.741652219533137,
+          "Factor": 0.741652219533137,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164920998,
+          "Row": 10,
+          "TransverseCoordinate": 4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6997030476569113,
+          "Factor": 0.6997030476569113,
+          "Id": "P9",
+          "ParallelCoordinate": 3.9469237301014912,
+          "Row": 7,
+          "TransverseCoordinate": 3.911750639900471
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.71718081253088,
+          "Factor": 0.71718081253088,
+          "Id": "P10",
+          "ParallelCoordinate": 6.651516043710883,
+          "Row": 4,
+          "TransverseCoordinate": 3.1870573136134124
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.9434382170356987,
+          "Factor": 0.9434382170356987,
+          "Id": "P11",
+          "ParallelCoordinate": 9.356108357320274,
+          "Row": 1,
+          "TransverseCoordinate": 2.462363987326355
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164920998,0.7311304485586458,0.7311304485586461,1.2423314164920995,0.7311304485586456,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586447,1.2423314164920995
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870574,0.7246933262870582,0.7246933262870582,0.5064886673761193,0.7246933262870583,0.7246933262870572,0.5064886673761204,0.7246933262870572,0.7246933262870585,0.7246933262870581
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 27.916218818331206,
+      "RegularGrid": false,
+      "Source": "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).",
+      "TransverseSpacing": null,
+      "Warnings": [
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 30,
+      "Available": false,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 5,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 11,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 2.7045923136093917,
+          "Row": 8,
+          "TransverseCoordinate": -0.7246933262870582
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 5.409184627218783,
+          "Row": 5,
+          "TransverseCoordinate": -1.4493866525741164
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 8.113776940828174,
+          "Row": 2,
+          "TransverseCoordinate": -2.1740799788611738
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 1.9734618650507456,
+          "Row": 9,
+          "TransverseCoordinate": 1.9558753199502348
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 4.678054178660137,
+          "Row": 6,
+          "TransverseCoordinate": 1.2311819936631776
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 7.382646492269529,
+          "Row": 3,
+          "TransverseCoordinate": 0.5064886673761193
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 1.2423314164920998,
+          "Row": 10,
+          "TransverseCoordinate": 4.636443966187529
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 3.9469237301014912,
+          "Row": 7,
+          "TransverseCoordinate": 3.911750639900471
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P10",
+          "ParallelCoordinate": 6.651516043710883,
+          "Row": 4,
+          "TransverseCoordinate": 3.1870573136134124
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P11",
+          "ParallelCoordinate": 9.356108357320274,
+          "Row": 1,
+          "TransverseCoordinate": 2.462363987326355
+        }
+      ],
+      "ProjectedRowGaps": [1.2423314164920998,0.7311304485586458,0.7311304485586461,1.2423314164920995,0.7311304485586456,0.7311304485586465,1.2423314164920995,0.7311304485586465,0.7311304485586447,1.2423314164920995
+      ],
+      "ProjectedTransverseGaps": [0.7246933262870574,0.7246933262870582,0.7246933262870582,0.5064886673761193,0.7246933262870583,0.7246933262870572,0.5064886673761204,0.7246933262870572,0.7246933262870585,0.7246933262870581
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    }
+  ],
+  "errore": "",
+  "errore_basamento": "",
+  "input": {
+    "angolo": 270,
+    "basamento": {
+      "bordo_d": 1.25,
+      "tipo": "Rettangolare"
+    },
+    "diametro": 0.8,
+    "direzione_selezionata": "Y-",
+    "direzioni": {
+      "X": false,
+      "X-": true,
+      "Y": true,
+      "Y-": true,
+      "angolo_custom": 30,
+      "custom": true
+    },
+    "estrapolazioni": false,
+    "file_proiettate": false,
+    "generatore": {
+      "anelli": 1,
+      "centro": true,
+      "lato": 3,
+      "nx": 4,
+      "ny": 3,
+      "rotazione": 15,
+      "suddivisioni": 1,
+      "sx_d": 3.5,
+      "sy_d": 3,
+      "tipo": "Quinconce"
+    },
+    "interassi": {
+      "X": {},
+      "X-": {},
+      "Y": {},
+      "Y-": {},
+      "custom": {}
+    },
+    "metodo": 5,
+    "pali": [
+      {
+        "id": "P1",
+        "x": -3.4357227621680364,
+        "y": -3.405261972524351
+      },
+      {
+        "id": "P2",
+        "x": -0.7311304485586448,
+        "y": -2.680568646237293
+      },
+      {
+        "id": "P3",
+        "x": 1.973461865050747,
+        "y": -1.955875319950235
+      },
+      {
+        "id": "P4",
+        "x": 4.678054178660138,
+        "y": -1.2311819936631772
+      },
+      {
+        "id": "P5",
+        "x": -2.7045923136093903,
+        "y": -0.7246933262870578
+      },
+      {
+        "id": "P6",
+        "x": 8.579144739409624E-16,
+        "y": 2.298774904674523E-16
+      },
+      {
+        "id": "P7",
+        "x": 2.704592313609393,
+        "y": 0.7246933262870585
+      },
+      {
+        "id": "P8",
+        "x": -4.678054178660136,
+        "y": 1.2311819936631776
+      },
+      {
+        "id": "P9",
+        "x": -1.9734618650507447,
+        "y": 1.9558753199502357
+      },
+      {
+        "id": "P10",
+        "x": 0.7311304485586471,
+        "y": 2.680568646237294
+      },
+      {
+        "id": "P11",
+        "x": 3.435722762168038,
+        "y": 3.405261972524352
+      }
+    ],
+    "versione": 2
+  },
+  "selezionato": {
+    "Angle": 270,
+    "Available": false,
+    "DirectionId": "Y-",
+    "DirectionName": "Y-",
+    "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+    "Factor": null,
+    "Maximum": null,
+    "Method": 5,
+    "Minimum": null,
+    "ParallelSpacing": null,
+    "Piles": [
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "P1",
+        "ParallelCoordinate": -0,
+        "Row": 1,
+        "TransverseCoordinate": 0
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "P2",
+        "ParallelCoordinate": -0.7246933262870585,
+        "Row": 2,
+        "TransverseCoordinate": 2.7045923136093917
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "P3",
+        "ParallelCoordinate": -1.449386652574117,
+        "Row": 3,
+        "TransverseCoordinate": 5.409184627218783
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "P4",
+        "ParallelCoordinate": -2.1740799788611755,
+        "Row": 4,
+        "TransverseCoordinate": 8.113776940828174
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "P5",
+        "ParallelCoordinate": -2.680568646237293,
+        "Row": 5,
+        "TransverseCoordinate": 0.7311304485586456
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "P6",
+        "ParallelCoordinate": -3.405261972524352,
+        "Row": 6,
+        "TransverseCoordinate": 3.435722762168037
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "P7",
+        "ParallelCoordinate": -4.129955298811411,
+        "Row": 7,
+        "TransverseCoordinate": 6.140315075777429
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "P8",
+        "ParallelCoordinate": -4.636443966187529,
+        "Row": 8,
+        "TransverseCoordinate": -1.2423314164921004
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "P9",
+        "ParallelCoordinate": -5.361137292474587,
+        "Row": 9,
+        "TransverseCoordinate": 1.4622608971172908
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "P10",
+        "ParallelCoordinate": -6.085830618761646,
+        "Row": 10,
+        "TransverseCoordinate": 4.166853210726683
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "P11",
+        "ParallelCoordinate": -6.810523945048704,
+        "Row": 11,
+        "TransverseCoordinate": 6.871445524336074
+      }
+    ],
+    "ProjectedRowGaps": [0.7246933262870581,0.724693326287059,0.7246933262870581,0.506488667376118,0.724693326287059,0.724693326287059,0.5064886673761175,0.7246933262870585,0.7246933262870585,0.7246933262870585
+    ],
+    "ProjectedTransverseGaps": [1.2423314164921004,0.7311304485586456,0.7311304485586452,1.2423314164921009,0.7311304485586452,0.7311304485586461,1.2423314164921004,0.7311304485586456,0.7311304485586447,1.2423314164921004
+    ],
+    "Quantity": "p-multiplier medio",
+    "ReductionPercent": null,
+    "RegularGrid": false,
+    "Source": "California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.",
+    "TransverseSpacing": null,
+    "Warnings": []
+  }
+}

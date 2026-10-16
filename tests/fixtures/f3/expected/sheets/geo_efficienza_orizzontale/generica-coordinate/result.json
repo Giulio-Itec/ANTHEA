@@ -1,0 +1,992 @@
+{
+  "basamento": [
+    {
+      "X": -1,
+      "Y": -1
+    },
+    {
+      "X": 8,
+      "Y": -1
+    },
+    {
+      "X": 8,
+      "Y": 4.2
+    },
+    {
+      "X": -1,
+      "Y": 4.2
+    }
+  ],
+  "confronto": [
+    {
+      "Angle": 0,
+      "Available": false,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 0,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 5,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "B",
+          "ParallelCoordinate": 3.5,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "C",
+          "ParallelCoordinate": 7,
+          "Row": 1,
+          "TransverseCoordinate": 0.5
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "D",
+          "ParallelCoordinate": 1.75,
+          "Row": 4,
+          "TransverseCoordinate": 3.2
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "E",
+          "ParallelCoordinate": 5.25,
+          "Row": 2,
+          "TransverseCoordinate": 3.2
+        }
+      ],
+      "ProjectedRowGaps": [1.75,1.75,1.75,1.75
+      ],
+      "ProjectedTransverseGaps": [0.5,2.7
+      ],
+      "Quantity": "Riduzione kh/nh · Rg",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 0,
+      "Available": false,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 1,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 5,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "B",
+          "ParallelCoordinate": 3.5,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "C",
+          "ParallelCoordinate": 7,
+          "Row": 1,
+          "TransverseCoordinate": 0.5
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "D",
+          "ParallelCoordinate": 1.75,
+          "Row": 4,
+          "TransverseCoordinate": 3.2
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "E",
+          "ParallelCoordinate": 5.25,
+          "Row": 2,
+          "TransverseCoordinate": 3.2
+        }
+      ],
+      "ProjectedRowGaps": [1.75,1.75,1.75,1.75
+      ],
+      "ProjectedTransverseGaps": [0.5,2.7
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 0,
+      "Available": false,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 2,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 5,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "B",
+          "ParallelCoordinate": 3.5,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "C",
+          "ParallelCoordinate": 7,
+          "Row": 1,
+          "TransverseCoordinate": 0.5
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "D",
+          "ParallelCoordinate": 1.75,
+          "Row": 4,
+          "TransverseCoordinate": 3.2
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "E",
+          "ParallelCoordinate": 5.25,
+          "Row": 2,
+          "TransverseCoordinate": 3.2
+        }
+      ],
+      "ProjectedRowGaps": [1.75,1.75,1.75,1.75
+      ],
+      "ProjectedTransverseGaps": [0.5,2.7
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 0,
+      "Available": false,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 3,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 5,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "B",
+          "ParallelCoordinate": 3.5,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "C",
+          "ParallelCoordinate": 7,
+          "Row": 1,
+          "TransverseCoordinate": 0.5
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "D",
+          "ParallelCoordinate": 1.75,
+          "Row": 4,
+          "TransverseCoordinate": 3.2
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "E",
+          "ParallelCoordinate": 5.25,
+          "Row": 2,
+          "TransverseCoordinate": 3.2
+        }
+      ],
+      "ProjectedRowGaps": [1.75,1.75,1.75,1.75
+      ],
+      "ProjectedTransverseGaps": [0.5,2.7
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 0,
+      "Available": true,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "",
+      "Factor": 0.7805216841860039,
+      "Maximum": 0.9247781506110209,
+      "Method": 4,
+      "Minimum": 0.6939791806098543,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.7109821770143109,
+          "Factor": 0.7109821770143109,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 5,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.7116767553124389,
+          "Factor": 0.7116767553124389,
+          "Id": "B",
+          "ParallelCoordinate": 3.5,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.9247781506110209,
+          "Factor": 0.9247781506110209,
+          "Id": "C",
+          "ParallelCoordinate": 7,
+          "Row": 1,
+          "TransverseCoordinate": 0.5
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6939791806098543,
+          "Factor": 0.6939791806098543,
+          "Id": "D",
+          "ParallelCoordinate": 1.75,
+          "Row": 4,
+          "TransverseCoordinate": 3.2
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8611921573823947,
+          "Factor": 0.8611921573823947,
+          "Id": "E",
+          "ParallelCoordinate": 5.25,
+          "Row": 2,
+          "TransverseCoordinate": 3.2
+        }
+      ],
+      "ProjectedRowGaps": [1.75,1.75,1.75,1.75
+      ],
+      "ProjectedTransverseGaps": [0.5,2.7
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 21.947831581399612,
+      "RegularGrid": false,
+      "Source": "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).",
+      "TransverseSpacing": null,
+      "Warnings": [
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 0,
+      "Available": false,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 5,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 5,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "B",
+          "ParallelCoordinate": 3.5,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "C",
+          "ParallelCoordinate": 7,
+          "Row": 1,
+          "TransverseCoordinate": 0.5
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "D",
+          "ParallelCoordinate": 1.75,
+          "Row": 4,
+          "TransverseCoordinate": 3.2
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "E",
+          "ParallelCoordinate": 5.25,
+          "Row": 2,
+          "TransverseCoordinate": 3.2
+        }
+      ],
+      "ProjectedRowGaps": [1.75,1.75,1.75,1.75
+      ],
+      "ProjectedTransverseGaps": [0.5,2.7
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 135,
+      "Available": false,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 0,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "B",
+          "ParallelCoordinate": -2.474873734152916,
+          "Row": 4,
+          "TransverseCoordinate": -2.4748737341529163
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "C",
+          "ParallelCoordinate": -4.596194077712558,
+          "Row": 5,
+          "TransverseCoordinate": -5.303300858899107
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "D",
+          "ParallelCoordinate": 1.0253048327204946,
+          "Row": 1,
+          "TransverseCoordinate": -3.5001785668734104
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "E",
+          "ParallelCoordinate": -1.4495689014324218,
+          "Row": 3,
+          "TransverseCoordinate": -5.975052301026327
+        }
+      ],
+      "ProjectedRowGaps": [2.121320343559642,1.025304832720494,1.4495689014324218,1.0253048327204946
+      ],
+      "ProjectedTransverseGaps": [0.6717514421272206,1.8031222920256962,1.025304832720494,2.4748737341529163
+      ],
+      "Quantity": "Riduzione kh/nh · Rg",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 135,
+      "Available": false,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 1,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "B",
+          "ParallelCoordinate": -2.474873734152916,
+          "Row": 4,
+          "TransverseCoordinate": -2.4748737341529163
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "C",
+          "ParallelCoordinate": -4.596194077712558,
+          "Row": 5,
+          "TransverseCoordinate": -5.303300858899107
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "D",
+          "ParallelCoordinate": 1.0253048327204946,
+          "Row": 1,
+          "TransverseCoordinate": -3.5001785668734104
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "E",
+          "ParallelCoordinate": -1.4495689014324218,
+          "Row": 3,
+          "TransverseCoordinate": -5.975052301026327
+        }
+      ],
+      "ProjectedRowGaps": [2.121320343559642,1.025304832720494,1.4495689014324218,1.0253048327204946
+      ],
+      "ProjectedTransverseGaps": [0.6717514421272206,1.8031222920256962,1.025304832720494,2.4748737341529163
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 135,
+      "Available": false,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 2,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "B",
+          "ParallelCoordinate": -2.474873734152916,
+          "Row": 4,
+          "TransverseCoordinate": -2.4748737341529163
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "C",
+          "ParallelCoordinate": -4.596194077712558,
+          "Row": 5,
+          "TransverseCoordinate": -5.303300858899107
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "D",
+          "ParallelCoordinate": 1.0253048327204946,
+          "Row": 1,
+          "TransverseCoordinate": -3.5001785668734104
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "E",
+          "ParallelCoordinate": -1.4495689014324218,
+          "Row": 3,
+          "TransverseCoordinate": -5.975052301026327
+        }
+      ],
+      "ProjectedRowGaps": [2.121320343559642,1.025304832720494,1.4495689014324218,1.0253048327204946
+      ],
+      "ProjectedTransverseGaps": [0.6717514421272206,1.8031222920256962,1.025304832720494,2.4748737341529163
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 135,
+      "Available": false,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 3,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "B",
+          "ParallelCoordinate": -2.474873734152916,
+          "Row": 4,
+          "TransverseCoordinate": -2.4748737341529163
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "C",
+          "ParallelCoordinate": -4.596194077712558,
+          "Row": 5,
+          "TransverseCoordinate": -5.303300858899107
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "D",
+          "ParallelCoordinate": 1.0253048327204946,
+          "Row": 1,
+          "TransverseCoordinate": -3.5001785668734104
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "E",
+          "ParallelCoordinate": -1.4495689014324218,
+          "Row": 3,
+          "TransverseCoordinate": -5.975052301026327
+        }
+      ],
+      "ProjectedRowGaps": [2.121320343559642,1.025304832720494,1.4495689014324218,1.0253048327204946
+      ],
+      "ProjectedTransverseGaps": [0.6717514421272206,1.8031222920256962,1.025304832720494,2.4748737341529163
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    },
+    {
+      "Angle": 135,
+      "Available": true,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "",
+      "Factor": 0.8137236076139356,
+      "Maximum": 0.9540420105295214,
+      "Method": 4,
+      "Minimum": 0.6570525353286111,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.9540420105295214,
+          "Factor": 0.9540420105295214,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6793932968118472,
+          "Factor": 0.6793932968118472,
+          "Id": "B",
+          "ParallelCoordinate": -2.474873734152916,
+          "Row": 4,
+          "TransverseCoordinate": -2.4748737341529163
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.6570525353286111,
+          "Factor": 0.6570525353286111,
+          "Id": "C",
+          "ParallelCoordinate": -4.596194077712558,
+          "Row": 5,
+          "TransverseCoordinate": -5.303300858899107
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.9491653140706305,
+          "Factor": 0.9491653140706305,
+          "Id": "D",
+          "ParallelCoordinate": 1.0253048327204946,
+          "Row": 1,
+          "TransverseCoordinate": -3.5001785668734104
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8289648813290673,
+          "Factor": 0.8289648813290673,
+          "Id": "E",
+          "ParallelCoordinate": -1.4495689014324218,
+          "Row": 3,
+          "TransverseCoordinate": -5.975052301026327
+        }
+      ],
+      "ProjectedRowGaps": [2.121320343559642,1.025304832720494,1.4495689014324218,1.0253048327204946
+      ],
+      "ProjectedTransverseGaps": [0.6717514421272206,1.8031222920256962,1.025304832720494,2.4748737341529163
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 18.62763923860644,
+      "RegularGrid": false,
+      "Source": "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).",
+      "TransverseSpacing": null,
+      "Warnings": [
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 135,
+      "Available": false,
+      "DirectionId": "custom",
+      "DirectionName": "Personalizzata",
+      "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 5,
+      "Minimum": null,
+      "ParallelSpacing": null,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "A",
+          "ParallelCoordinate": 0,
+          "Row": 2,
+          "TransverseCoordinate": -0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "B",
+          "ParallelCoordinate": -2.474873734152916,
+          "Row": 4,
+          "TransverseCoordinate": -2.4748737341529163
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "C",
+          "ParallelCoordinate": -4.596194077712558,
+          "Row": 5,
+          "TransverseCoordinate": -5.303300858899107
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "D",
+          "ParallelCoordinate": 1.0253048327204946,
+          "Row": 1,
+          "TransverseCoordinate": -3.5001785668734104
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "E",
+          "ParallelCoordinate": -1.4495689014324218,
+          "Row": 3,
+          "TransverseCoordinate": -5.975052301026327
+        }
+      ],
+      "ProjectedRowGaps": [2.121320343559642,1.025304832720494,1.4495689014324218,1.0253048327204946
+      ],
+      "ProjectedTransverseGaps": [0.6717514421272206,1.8031222920256962,1.025304832720494,2.4748737341529163
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": false,
+      "Source": "California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.",
+      "TransverseSpacing": null,
+      "Warnings": []
+    }
+  ],
+  "errore": "",
+  "errore_basamento": "",
+  "input": {
+    "angolo": 135,
+    "basamento": {
+      "bordo_d": 1,
+      "tipo": "Rettangolare"
+    },
+    "diametro": 1,
+    "direzione_selezionata": "custom",
+    "direzioni": {
+      "X": true,
+      "X-": false,
+      "Y": false,
+      "Y-": false,
+      "angolo_custom": 135,
+      "custom": true
+    },
+    "estrapolazioni": false,
+    "file_proiettate": false,
+    "generatore": {
+      "anelli": 1,
+      "centro": true,
+      "lato": 3,
+      "nx": 3,
+      "ny": 3,
+      "rotazione": 0,
+      "suddivisioni": 1,
+      "sx_d": 3,
+      "sy_d": 3,
+      "tipo": "Generica"
+    },
+    "interassi": {
+      "X": {},
+      "X-": {},
+      "Y": {},
+      "Y-": {},
+      "custom": {}
+    },
+    "metodo": 0,
+    "pali": [
+      {
+        "id": "A",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "B",
+        "x": 3.5,
+        "y": 0
+      },
+      {
+        "id": "C",
+        "x": 7,
+        "y": 0.5
+      },
+      {
+        "id": "D",
+        "x": 1.75,
+        "y": 3.2
+      },
+      {
+        "id": "E",
+        "x": 5.25,
+        "y": 3.2
+      }
+    ],
+    "versione": 2
+  },
+  "selezionato": {
+    "Angle": 135,
+    "Available": false,
+    "DirectionId": "custom",
+    "DirectionName": "Personalizzata",
+    "Error": "Geometria irregolare o carico obliquo: abilitare esplicitamente l'estensione per file proiettate e assegnare gli interassi rappresentativi, oppure usare Reese / Van Impe.",
+    "Factor": null,
+    "Maximum": null,
+    "Method": 0,
+    "Minimum": null,
+    "ParallelSpacing": null,
+    "Piles": [
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "A",
+        "ParallelCoordinate": 0,
+        "Row": 2,
+        "TransverseCoordinate": -0
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "B",
+        "ParallelCoordinate": -2.474873734152916,
+        "Row": 4,
+        "TransverseCoordinate": -2.4748737341529163
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "C",
+        "ParallelCoordinate": -4.596194077712558,
+        "Row": 5,
+        "TransverseCoordinate": -5.303300858899107
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "D",
+        "ParallelCoordinate": 1.0253048327204946,
+        "Row": 1,
+        "TransverseCoordinate": -3.5001785668734104
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0,
+        "Factor": 0,
+        "Id": "E",
+        "ParallelCoordinate": -1.4495689014324218,
+        "Row": 3,
+        "TransverseCoordinate": -5.975052301026327
+      }
+    ],
+    "ProjectedRowGaps": [2.121320343559642,1.025304832720494,1.4495689014324218,1.0253048327204946
+    ],
+    "ProjectedTransverseGaps": [0.6717514421272206,1.8031222920256962,1.025304832720494,2.4748737341529163
+    ],
+    "Quantity": "Riduzione kh/nh · Rg",
+    "ReductionPercent": null,
+    "RegularGrid": false,
+    "Source": "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.",
+    "TransverseSpacing": null,
+    "Warnings": []
+  }
+}

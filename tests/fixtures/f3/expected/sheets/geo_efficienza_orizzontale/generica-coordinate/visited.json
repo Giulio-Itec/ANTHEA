@@ -1,0 +1,67 @@
+{
+  "angolo": 135,
+  "basamento": {
+    "bordo_d": 1,
+    "tipo": "Rettangolare"
+  },
+  "diametro": 1,
+  "direzione_selezionata": "custom",
+  "direzioni": {
+    "X": true,
+    "X-": false,
+    "Y": false,
+    "Y-": false,
+    "angolo_custom": 135,
+    "custom": true
+  },
+  "estrapolazioni": false,
+  "file_proiettate": false,
+  "generatore": {
+    "anelli": 1,
+    "centro": true,
+    "lato": 3,
+    "nx": 3,
+    "ny": 3,
+    "rotazione": 0,
+    "suddivisioni": 1,
+    "sx_d": 3,
+    "sy_d": 3,
+    "tipo": "Generica"
+  },
+  "interassi": {
+    "X": {},
+    "X-": {},
+    "Y": {},
+    "Y-": {},
+    "custom": {}
+  },
+  "metodo": 0,
+  "pali": [
+    {
+      "id": "A",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "id": "B",
+      "x": 3.5,
+      "y": 0
+    },
+    {
+      "id": "C",
+      "x": 7,
+      "y": 0.5
+    },
+    {
+      "id": "D",
+      "x": 1.75,
+      "y": 3.2
+    },
+    {
+      "id": "E",
+      "x": 5.25,
+      "y": 3.2
+    }
+  ],
+  "versione": 2
+}
