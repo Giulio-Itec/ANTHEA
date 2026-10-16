@@ -1,0 +1,7 @@
+<!-- Data templates of the common components of the MVVM views (F5.2): a FormViewModel is shown by a FieldForm. -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ xmlns:forms="clr-namespace:Anthea.Presentation.Forms;assembly=ANTHEA.Presentation">
+ <DataTemplate DataType="{x:Type forms:FormViewModel}"><common:FieldForm/></DataTemplate>
+</ResourceDictionary>

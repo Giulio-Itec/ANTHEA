@@ -14,6 +14,10 @@ try
     checks += await CommandGuardChecks.RunAsync();
     checks += await ServicesChecks.RunAsync();
     checks += SheetCalculationChecks.Run();
+    checks += HelpTopicsChecks.Run();
+    checks += FieldSpecChecks.Run();
+    checks += JsonRowChecks.Run();
+    checks += FormViewModelChecks.Run();
     string message = $"PASS {checks} controlli di Presentation senza WPF";
     File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
     Console.WriteLine(message);

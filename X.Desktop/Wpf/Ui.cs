@@ -131,19 +131,7 @@ internal sealed class SectionIcon : FrameworkElement
     }
 }
 
-/// <param name="Help">Wiki section for this field when the key alone is ambiguous in the module (e.g. «modello»).</param>
-/// <param name="Note">Notice shown under the field while it returns a text (for example a choice with known limits).</param>
-/// <param name="Default">Scelta mostrata quando la chiave manca nel documento (fogli salvati prima del campo): solo presentazione, il documento
-/// non cambia finché l'utente non sceglie.</param>
-internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "", bool Wide = false, WikiContextHelp.Topic? Help = null, Func<JsonObject, string?>? Note = null, string? Default = null);
-
-internal static class FieldNotes
-{
-    /// <summary>Stress block: the library accepts a wider tolerance on N for the stepped resultant (registro F2-15, decision of the user of 8/10).</summary>
-    internal static string? StressBlock(JsonObject values) => values.S("cls_diagramma") == "Stress block"
-        ? "Stress block: risultati SLU meno precisi. La risultante a gradini richiede una tolleranza su N più ampia; MRd può scostarsi fino a circa l'1-2 % vicino agli estremi del dominio."
-        : null;
-}
+// Field (now FieldSpec, an alias in PresentationImports.cs) and FieldNotes moved to Anthea.Presentation.Forms in F5.2.
 
 internal class ChainedScrollViewer : ScrollViewer
 {
@@ -194,13 +182,14 @@ internal sealed class InputForm : ChainedScrollViewer
         foreach (var original in fields)
         {
             var f = symbolColumns ? WithSymbol(original) : original;
+            var help = HelpTopics.Find(f.HelpTopic);
             int row = table.RowDefinitions.Count; table.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             var label = Ui.Text(f.Label, compact ? 12 : 13); label.Margin = new Thickness(2, 3, 6, 3); label.ToolTip = CalculationHelp.Field(f.Key) ?? f.Label;
-            var labelHost = WikiContextHelp.Label(label, f.Key, wikiModule, f.Help);
+            var labelHost = WikiContextHelp.Label(label, f.Key, wikiModule, help);
             FrameworkElement editor;
             if (f.Bool)
             {
-                var c = new CheckBox { Content = symbolColumns ? null : WikiContextHelp.Label(Ui.Text(f.Label, compact ? 12 : 13), f.Key, wikiModule, f.Help), IsChecked = values.B(f.Key), VerticalContentAlignment = VerticalAlignment.Center };
+                var c = new CheckBox { Content = symbolColumns ? null : WikiContextHelp.Label(Ui.Text(f.Label, compact ? 12 : 13), f.Key, wikiModule, help), IsChecked = values.B(f.Key), VerticalContentAlignment = VerticalAlignment.Center };
                 c.Checked += (_, _) => Store(f.Key, true); c.Unchecked += (_, _) => Store(f.Key, false); editor = c;
             }
             else if (f.Choices is not null)
@@ -235,14 +224,14 @@ internal sealed class InputForm : ChainedScrollViewer
                 t.LostKeyboardFocus += (_, _) => Present(false);
                 editor = t;
             }
-            editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = f.Help?.Title ?? WikiContextHelp.Description(f.Key, wikiModule) ?? CalculationHelp.Field(f.Key) ?? f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
+            editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = help?.Title ?? WikiContextHelp.Description(f.Key, wikiModule) ?? CalculationHelp.Field(f.Key) ?? f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
             ToolTipService.SetShowDuration(editor, 20000); ToolTipService.SetShowDuration(label, 20000);
             editor.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, f.Label);
             editor.KeyDown += (_, e) =>
             {
                 if (e.Key != System.Windows.Input.Key.F1) return;
                 var module = wikiModule ?? GetValue(WikiContextHelp.ModuleProperty) as string;
-                var uri = f.Help?.Uri ?? WikiContextHelp.ForField(f.Key, module)?.Uri ?? (module is null ? null : WikiCatalog.ForModule(module)?.Id);
+                var uri = help?.Uri ?? WikiContextHelp.ForField(f.Key, module)?.Uri ?? (module is null ? null : WikiCatalog.ForModule(module)?.Id);
                 if (uri is null) return;
                 e.Handled = true; WikiContextHelp.Open(editor, uri);
             };
@@ -288,29 +277,7 @@ internal sealed class InputForm : ChainedScrollViewer
         table.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         return table.DesiredSize;
     }
-    private static Field WithSymbol(Field f)
-    {
-        if (f.Symbol != "") return f;
-        var (name, symbol) = f.Key switch
-        {
-            "diametro" => ("Diametro palo", "D"), "lunghezza" => ("Lunghezza palo", "L"),
-            "peso_specifico_palo" => ("Peso specifico CLS / palo", "γp"),
-            "azione_compressione" => ("Azione assiale — Compressione", "NEd,c"), "azione_trazione" => ("Azione assiale — Trazione", "NEd,t"),
-            "profondita_falda" => ("Profondità falda", "zf"), "verticali_indagate" => ("Verticali indagate", "n"),
-            "__xi3" => ("Correlazione", "ξ3"), "__xi4" => ("Correlazione", "ξ4"),
-            "sicurezza_laterale_compressione" => ("Sicurezza laterale — Compressione", "γs"),
-            "sicurezza_laterale_trazione" => ("Sicurezza laterale — Trazione", "γt"),
-            "sicurezza_base" => ("Sicurezza di base", "γb"), "peso_palo_sfavorevole" => ("Peso proprio — Sfavorevole", "γG"),
-            "peso_palo_favorevole" => ("Peso proprio — Favorevole", "γG"),
-            "numero_pali_x" => ("Pali in X", "nx"), "numero_pali_y" => ("Pali in Y", "ny"),
-            "interasse_x" => ("Interasse X", "sx"), "interasse_y" => ("Interasse Y", "sy"),
-            "eta_compressione" => ("Efficienza compressione", "ηg,c"), "eta_trazione" => ("Efficienza trazione", "ηg,t"),
-            "pressione_iniezione" => ("Pressione di iniezione", "pi = pl"), "inclinazione" => ("Inclinazione dalla verticale", "θ"),
-            "inizio_aderenza" => ("Inizio aderenza lungo asse", "sb"), "percentuale_punta" => ("Punta rispetto alla laterale", ""),
-            _ => (f.Label, f.Symbol)
-        };
-        return f with { Label = name, Symbol = symbol };
-    }
+    private static Field WithSymbol(Field f) => FieldSymbols.Apply(f);
     internal void Commit()
     {
         foreach (var key in drafts.ToArray()) { drafts.Remove(key); if (Editors[key] is TextBox { IsReadOnly: false } text) Store(key, text.Text); }
@@ -347,69 +314,7 @@ internal sealed class InputForm : ChainedScrollViewer
     }
 }
 
-// A small binding adapter keeps the existing JSON file format and unparsed user input.
-internal sealed class JsonRow : INotifyPropertyChanged
-{
-    internal object? Context { get; set; }
-    private int notificationDepth;
-    private bool notificationPending;
-    internal static IDisposable DeferNotifications(IEnumerable<JsonRow> rows)
-    {
-        var snapshot = rows.Distinct().ToArray();
-        foreach (var row in snapshot) row.notificationDepth++;
-        return new UpdateScope(() =>
-        {
-            foreach (var row in snapshot)
-                if (--row.notificationDepth == 0 && row.notificationPending)
-                { row.notificationPending = false; row.PropertyChanged?.Invoke(row, new("Item[]")); }
-        });
-    }
-    private void Notify()
-    {
-        if (notificationDepth > 0) notificationPending = true;
-        else PropertyChanged?.Invoke(this, new("Item[]"));
-    }
-    internal JsonObject Values { get; }
-    private readonly Action<string>? changed;
-    public event PropertyChangedEventHandler? PropertyChanged;
-    internal JsonRow(JsonObject values, Action<string>? changed = null) { Values = values; this.changed = changed; }
-    internal void Refresh() => Notify();
-    public object? this[string key]
-    {
-        get => Values[key] is JsonValue v && v.TryGetValue<bool>(out var b) ? b : Values.S(key);
-        set { Values[key] = J.Node(value); Notify(); changed?.Invoke(key); }
-    }
-    internal void Output(string key, object? value) { var node = J.Node(value); if (JsonNode.DeepEquals(Values[key], node)) return; Values[key] = node; Notify(); }
-}
-
-internal sealed class UpdateScope(Action end) : IDisposable
-{
-    private Action? end = end;
-    public void Dispose() => Interlocked.Exchange(ref end, null)?.Invoke();
-}
-
-internal sealed class JsonRows : ObservableCollection<JsonRow>
-{
-    private int updateDepth;
-    private bool pending;
-    internal IDisposable DeferRefresh()
-    {
-        updateDepth++;
-        return new UpdateScope(() =>
-        {
-            if (--updateDepth != 0 || !pending) return;
-            pending = false;
-            base.OnPropertyChanged(new("Count"));
-            base.OnPropertyChanged(new("Item[]"));
-            base.OnCollectionChanged(new(NotifyCollectionChangedAction.Reset));
-        });
-    }
-    protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-    { if (updateDepth > 0) pending = true; else base.OnCollectionChanged(e); }
-    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-    { if (updateDepth == 0) base.OnPropertyChanged(e); }
-}
-
+// JsonRow, JsonRows (now JsonRowViewModel, JsonRowCollection) and UpdateScope moved to ANTHEA.Presentation in F5.2: aliases in PresentationImports.cs.
 internal sealed class JsonGrid : DataGrid
 {
     internal JsonRows Rows { get; }

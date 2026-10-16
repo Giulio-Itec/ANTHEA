@@ -684,30 +684,6 @@
       "Example": "private static readonly string [ ] GlobalSearchLimits"
     },
     {
-      "File": "X.Desktop/Wpf/WikiContextHelp.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "WikiContextHelp.Concrete",
-      "Fingerprint": "BF3762E911AF3B9A465BD86A58C625F5F8F04C0F6BB80312403B73A74FEF76C7",
-      "Count": 1,
-      "Example": "private static readonly string [ ] Concrete"
-    },
-    {
-      "File": "X.Desktop/Wpf/WikiContextHelp.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "WikiContextHelp.Horizontal",
-      "Fingerprint": "0442C33A649F958ABFA167A5B5FEEDAEFD5CF1838AB9615957F8B3BFEF3A1B7A",
-      "Count": 1,
-      "Example": "private static readonly string [ ] Horizontal"
-    },
-    {
-      "File": "X.Desktop/Wpf/WikiContextHelp.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "WikiContextHelp.Topics",
-      "Fingerprint": "865E33C6AA7A38EE9FD882E01926049165259DC24EE0A82748291A1EFC4113B0",
-      "Count": 1,
-      "Example": "internal static readonly Topic [ ] Topics"
-    },
-    {
       "File": "X.Desktop/Wpf/WikiVector.cs",
       "Rule": "P3-static-setter",
       "Owner": "WikiPalette.Dark",

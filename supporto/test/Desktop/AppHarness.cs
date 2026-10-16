@@ -120,9 +120,10 @@ public partial class App
             }));
             return;
         }
-        if (e.Args.Length == 2 && e.Args[0] is "--check-global-guidance-offscreen" or "--check-wall-advanced-offscreen" or "--check-wall-materials-offscreen" or "--check-error-log-offscreen" or "--check-report-appearance-offscreen")
+        if (e.Args.Length == 2 && e.Args[0] is "--check-global-guidance-offscreen" or "--check-wall-advanced-offscreen" or "--check-wall-materials-offscreen" or "--check-error-log-offscreen" or "--check-report-appearance-offscreen" or "--check-field-form-parity")
         {
-            // No native window or input focus: render controls directly to bitmaps.
+            // No native window or input focus: render controls directly to bitmaps (the FieldForm parity check opens its own
+            // windows outside the screen, never activated on purpose, for the real keyboard focus of the commit on focus loss).
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>
             {
@@ -133,6 +134,7 @@ public partial class App
                     else if (e.Args[0] == "--check-wall-advanced-offscreen") await WallAdvancedChecks.Run(e.Args[1]);
                     else if (e.Args[0] == "--check-error-log-offscreen") CheckErrorLog(e.Args[1]);
                     else if (e.Args[0] == "--check-report-appearance-offscreen") await ReportAppearanceChecks.Run(e.Args[1]);
+                    else if (e.Args[0] == "--check-field-form-parity") await FieldFormParityChecks.Run(e.Args[1]);
                     else await GlobalGuidanceChecks.Run(e.Args[1]);
                 }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }

@@ -1690,6 +1690,8 @@ public sealed partial class MainWindow
         await a.Step("wiki", () => AuditWiki(a));
         await a.Step("progetti", () => AuditProjects(a));
         foreach (var module in ModuleCatalog.All) await a.Step("modulo-" + module.Id, () => AuditModule(a, module.Id));
+        // Common components of the MVVM views (F5.2): FieldForm in a dialog.
+        await a.Step("componenti-campi", () => FieldFormContrast.Audit(a, this));
     }
 
     private async Task AuditWiki(ContrastAudit a)
