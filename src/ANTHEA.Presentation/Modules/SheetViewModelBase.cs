@@ -6,6 +6,18 @@ using Anthea.Presentation.Mvvm;
 
 namespace Anthea.Presentation.Modules;
 
+/// <summary>Where the sheets of a module calculate (proposal F5, section 3.1; decision Q8).</summary>
+public enum SheetCalculationMode
+{
+    /// <summary>On a copy of the data, on a background thread, through the limiter of the application: the rule of the modules.</summary>
+    Background,
+    /// <summary>
+    /// On the UI thread, as the historic view (Q8 a, F5.4: the short calculation of the pile group): «Calcola» returns with the
+    /// result published and the automatic recalculation runs on the UI thread after the delay of the module.
+    /// </summary>
+    Synchronous
+}
+
 /// <summary>
 /// Common implementation of <see cref="ISheetViewModel"/> (proposal F5, sections 3.1 and 5.1) on
 /// <see cref="SheetCalculation{TResult}"/>: the existing <see cref="IModuleService"/> of the module with the cache of
@@ -16,10 +28,14 @@ namespace Anthea.Presentation.Modules;
 /// is never published), automatic recalculation when the module has a delay, <see cref="Modified"/>.</item>
 /// <item>Only the calculation of the current revision is published (latest request wins, <see cref="SheetCalculation{TResult}"/>).</item>
 /// <item>Closing (<see cref="ViewModelBase.Dispose"/>) cancels the running calculation, which is never published, and clears the cache.</item>
+/// <item>With <see cref="SheetCalculationMode.Synchronous"/> (decision Q8 a) the module calculates on the UI thread, as its historic
+/// view: «Calcola» returns with the result published, the automatic recalculation runs on the UI thread after the delay, and the
+/// module prepares the data and reads the result in <see cref="CalculateSynchronously"/>.</item>
 /// </list>
 /// </summary>
 public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
 {
+    private readonly ModuleCalculationSession session;
     private readonly SheetCalculation<ModuleCalculation> calculation;
     private bool readOnly;
     private long revision;
@@ -27,16 +43,21 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     /// <param name="moduleId">Module of the sheet; the calculation service of the context must belong to it.</param>
     /// <param name="context">Data (owned copy), host, services, calculation and limiter.</param>
     /// <param name="automaticDelay">Delay of the automatic recalculation after an edit (450 ms for the vertical piles…); null: only «Calcola».</param>
-    protected SheetViewModelBase(string moduleId, SheetContext context, TimeSpan? automaticDelay = null)
+    /// <param name="mode">Where the module calculates: on a background thread (the rule), or on the UI thread (Q8 a).</param>
+    protected SheetViewModelBase(string moduleId, SheetContext context, TimeSpan? automaticDelay = null, SheetCalculationMode mode = SheetCalculationMode.Background)
     {
         ArgumentException.ThrowIfNullOrEmpty(moduleId);
         ArgumentNullException.ThrowIfNull(context);
         if (context.Calculation.ModuleId != moduleId)
             throw new ArgumentException($"Servizio di calcolo del modulo {context.Calculation.ModuleId} per un foglio del modulo {moduleId}.", nameof(context));
-        ModuleId = moduleId; Context = context; Data = context.Data; readOnly = context.ReadOnly; AutomaticDelay = automaticDelay;
+        if (!Enum.IsDefined(mode)) throw new ArgumentOutOfRangeException(nameof(mode));
+        ModuleId = moduleId; Context = context; Data = context.Data; readOnly = context.ReadOnly; AutomaticDelay = automaticDelay; CalculationMode = mode;
         Guard = new CommandGuard(context.Services.Messages);
-        calculation = SheetCalculation.ForModule(context.Calculation, automaticDelay ?? TimeSpan.Zero, context.Limiter);
+        // As SheetCalculation.ForModule: the module service with the per-document cache of the session, cleared at closing.
+        session = new ModuleCalculationSession(context.Calculation);
+        calculation = new SheetCalculation<ModuleCalculation>(session.Calculate, SheetCalculation.Review, automaticDelay ?? TimeSpan.Zero, context.Limiter, session.Clear);
         calculation.PropertyChanged += OnCalculationChanged;
+        calculation.Published += OnPublished;
     }
 
     public string ModuleId { get; }
@@ -47,6 +68,9 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
 
     /// <summary>Delay of the automatic recalculation, null when the module calculates only on request.</summary>
     public TimeSpan? AutomaticDelay { get; }
+
+    /// <summary>Where the module calculates (decision Q8).</summary>
+    public SheetCalculationMode CalculationMode { get; }
 
     public bool IsBusy => calculation.IsBusy;
 
@@ -91,11 +115,14 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
         OnCommit();
     }
 
-    /// <summary>Calculates the current data (the «Calcola» command, allowed also when read-only). True when this request was published.</summary>
+    /// <summary>
+    /// Calculates the current data (the «Calcola» command, allowed also when read-only). True when this request was published.
+    /// In synchronous mode the task is already completed when it is returned: the result is published on this thread.
+    /// </summary>
     public Task<bool> CalculateAsync(CancellationToken cancellation = default)
     {
         ThrowIfDisposed();
-        return calculation.CalculateAsync(Data, cancellation);
+        return CalculationMode == SheetCalculationMode.Synchronous ? Task.FromResult(CalculateNow()) : calculation.CalculateAsync(Data, cancellation);
     }
 
     Task ISheetViewModel.CalculateAsync(CancellationToken cancellation) => CalculateAsync(cancellation);
@@ -138,12 +165,49 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
         Modified?.Invoke(this, EventArgs.Empty);
     }
 
+    /// <summary>
+    /// The user changed interface state saved in the data that the published results already reflect (the selected result of
+    /// the pile group): new revision and <see cref="Modified"/>; the results stay and nothing is recalculated.
+    /// </summary>
+    protected void ChangedKeepingResults()
+    {
+        ThrowIfDisposed();
+        revision++;
+        OnPropertyChanged(nameof(Revision));
+        Modified?.Invoke(this, EventArgs.Empty);
+    }
+
     /// <summary>Starts the automatic recalculation with the delay of the module (for example at opening, as the vertical piles).</summary>
     protected Task<bool> ScheduleCalculationAsync()
     {
         ThrowIfDisposed();
-        return PendingCalculation = calculation.ScheduleAsync(Data);
+        return PendingCalculation = ScheduleRecalculationAsync();
     }
+
+    /// <summary>
+    /// Synchronous mode (Q8 a): calculates the current data now, on this thread, cancelling the pending automatic recalculation;
+    /// the result is published before returning. True when it was published.
+    /// </summary>
+    protected bool CalculateNow()
+    {
+        ThrowIfDisposed();
+        if (CalculationMode != SheetCalculationMode.Synchronous)
+            throw new InvalidOperationException("Calcolo sincrono chiesto da un foglio che calcola sullo sfondo: usare CalculateAsync.");
+        return calculation.CalculateNow(CalculateSynchronously);
+    }
+
+    /// <summary>
+    /// Synchronous mode (Q8 a): the calculation of the current data on the UI thread, by default the module service through the
+    /// cache of the sheet. A module overrides it to prepare the data before and to read the result after, as its historic view
+    /// did in the same call; an exception is published as the error of the calculation.
+    /// </summary>
+    protected virtual ModuleCalculation CalculateSynchronously() => CalculateModule(Data);
+
+    /// <summary>The calculation service of the module on <paramref name="data"/>, through the per-document cache of the sheet (the session copies the data).</summary>
+    protected ModuleCalculation CalculateModule(JsonObject data) => session.Calculate(data);
+
+    /// <summary>After every publication of a calculation of the current data (completed, incomplete or failed), on the UI thread; nothing by default.</summary>
+    protected virtual void OnCalculationPublished() { }
 
     /// <summary>Writes the drafts of the fields into <see cref="Data"/>; nothing by default.</summary>
     protected virtual void OnCommit() { }
@@ -154,6 +218,7 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     protected override void OnDisposed()
     {
         calculation.PropertyChanged -= OnCalculationChanged;
+        calculation.Published -= OnPublished;
         calculation.Dispose();
         Modified = null;
         OnPropertyChanged(nameof(CanEdit));
@@ -164,8 +229,13 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
         revision++;
         calculation.Invalidate();
         OnPropertyChanged(nameof(Revision));
-        if (AutomaticDelay is not null) PendingCalculation = calculation.ScheduleAsync(Data);
+        if (AutomaticDelay is not null) PendingCalculation = ScheduleRecalculationAsync();
     }
+
+    private Task<bool> ScheduleRecalculationAsync() => CalculationMode == SheetCalculationMode.Synchronous
+        ? calculation.ScheduleNowAsync(CalculateSynchronously) : calculation.ScheduleAsync(Data);
+
+    private void OnPublished(object? sender, EventArgs e) => OnCalculationPublished();
 
     private void OnCalculationChanged(object? sender, PropertyChangedEventArgs e)
     {

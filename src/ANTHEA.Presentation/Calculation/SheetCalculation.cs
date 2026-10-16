@@ -37,6 +37,9 @@ public sealed record CalculationReview(string Missing, IReadOnlyList<string> War
 /// as ConcreteAnalysisSession). No calculation logic of its own: it copies the data, runs the engine on a background thread,
 /// optionally through the <see cref="CalculationLimiter"/> of the application, and publishes state, result and warnings.
 /// Requests and publications happen on the calling thread (the UI thread): the scheduler keeps the synchronization context.
+/// A module with a short calculation that its historic view runs on the UI thread (decision Q8 a, the pile group) uses
+/// <see cref="CalculateNow"/> and <see cref="ScheduleNowAsync"/>: same states, publication and latest-request rule, no copy, no
+/// background thread and no limiter.
 /// </summary>
 public sealed class SheetCalculation<TResult> : ObservableObject, IDisposable where TResult : class
 {
@@ -101,6 +104,37 @@ public sealed class SheetCalculation<TResult> : ObservableObject, IDisposable wh
     /// <summary>Calculation requested by the user (Calcola), without delay. True when this request was published.</summary>
     public Task<bool> CalculateAsync(JsonObject data, CancellationToken cancellation = default) => StartAsync(data, TimeSpan.Zero, cancellation);
 
+    /// <summary>
+    /// Calculation on the calling thread, at once (decision Q8 a: the short calculation of the pile group, as its historic view
+    /// runs it): the pending request (an automatic recalculation waiting for its delay) is cancelled and never published, then
+    /// <paramref name="run"/> runs here and its value, or its error, is published before returning. No copy and no limiter:
+    /// <paramref name="run"/> reads the document itself, on the thread that owns it, and may prepare it as the historic view does.
+    /// True when this request was published.
+    /// </summary>
+    public bool CalculateNow(Func<TResult> run)
+    {
+        ArgumentNullException.ThrowIfNull(run);
+        ObjectDisposedException.ThrowIf(disposed, this);
+        long current = ++request;
+        scheduler.Invalidate();
+        return RunNow(run, current);
+    }
+
+    /// <summary>
+    /// Automatic recalculation of a module that calculates on the calling thread (Q8 a): after <see cref="Delay"/>, on the thread
+    /// of the request (its synchronization context, the UI thread), <paramref name="run"/> runs and is published as in
+    /// <see cref="CalculateNow"/>. Latest request wins: a later request, <see cref="Invalidate"/>, <see cref="CalculateNow"/> or
+    /// <see cref="Dispose"/> cancels it while it waits. True when this request was published.
+    /// </summary>
+    public Task<bool> ScheduleNowAsync(Func<TResult> run, CancellationToken cancellation = default)
+    {
+        ArgumentNullException.ThrowIfNull(run);
+        ObjectDisposedException.ThrowIf(disposed, this);
+        long current = ++request;
+        State = CalculationState.Pending;
+        return ScheduleNowCoreAsync(run, current, cancellation);
+    }
+
     /// <summary>The data changed: cancels the running request and clears the results, as SheetEditor.Changed does.</summary>
     public void Invalidate()
     {
@@ -140,23 +174,45 @@ public sealed class SheetCalculation<TResult> : ObservableObject, IDisposable wh
             if (current == request) State = CalculationState.Running;
             return await Task.Run(() => calculate(snapshot, token), token);
         }, delay, cancellation);
-        bool published = completed.TryPublish(Publish);
+        bool published = completed.TryPublish(c => Publish(c.Value, c.Error));
         if (!published && current == request && !disposed) State = CalculationState.Cancelled;
         return published;
     }
 
-    private void Publish(ScheduledCalculation<TResult> completed)
+    // The request waits for the delay through the scheduler, then runs on the thread of its synchronization context.
+    private async Task<bool> ScheduleNowCoreAsync(Func<TResult> run, long current, CancellationToken cancellation)
+    {
+        var completed = await scheduler.ScheduleAsync(_ => Task.FromResult(RunNow(run, current)), Delay, cancellation);
+        bool published = completed is { Cancelled: false, Error: null, Value: true };
+        if (!published && current == request && !disposed) State = CalculationState.Cancelled;
+        return published;
+    }
+
+    // A request superseded while it waited, or during the calculation itself, or a closed calculation publishes nothing.
+    private bool RunNow(Func<TResult> run, long current)
+    {
+        if (current != request || disposed) return false;
+        State = CalculationState.Running;
+        TResult? value = null;
+        Exception? error = null;
+        try { value = run(); }
+        catch (Exception failure) { error = failure; }
+        if (current != request || disposed) return false;
+        Publish(value, error);
+        return true;
+    }
+
+    private void Publish(TResult? value, Exception? error)
     {
         CalculationReview? verdict = null;
-        Exception? error = completed.Error;
         if (error is null)
         {
-            try { verdict = review(completed.Value!); }
+            try { verdict = review(value!); }
             catch (Exception reviewError) { error = reviewError; }
         }
         if (error is not null) { Result = null; Warnings = []; Message = error.Message; State = CalculationState.Failed; }
         else if (!verdict!.IsComplete) { Result = null; Warnings = verdict.Warnings; Message = verdict.Missing; State = CalculationState.Incomplete; }
-        else { Result = completed.Value; Warnings = verdict.Warnings; Message = ""; State = CalculationState.Completed; }
+        else { Result = value; Warnings = verdict.Warnings; Message = ""; State = CalculationState.Completed; }
         Published?.Invoke(this, EventArgs.Empty);
     }
 }

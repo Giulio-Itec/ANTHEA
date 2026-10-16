@@ -14,6 +14,7 @@ try
     checks += await CommandGuardChecks.RunAsync();
     checks += await ServicesChecks.RunAsync();
     checks += SheetCalculationChecks.Run();
+    checks += SynchronousSheetChecks.Run();
     checks += HelpTopicsChecks.Run();
     checks += FieldSpecChecks.Run();
     checks += JsonRowChecks.Run();
