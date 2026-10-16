@@ -1,7 +1,7 @@
 using Anthea.Application.Modules;
+using Anthea.Application.Presentation;
 using Anthea.Application.Scheduling;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,18 +42,18 @@ internal sealed partial class HorizontalPileGroupWorkspace : UserControl, IDispo
     public sealed class ComparisonRow
     {
         public JsonNode Node { get; init; } = null!;
-        public int Method => (int)Node.D("Method");
+        public int Method => PileGroupPresentation.Method(Node);
         public string DirectionId => Node.S("DirectionId");
         public string Direction => Node.S("DirectionName") + " · " + F(J.Number(Node["Angle"])) + "°";
         public string MethodName => HorizontalPileGroupEditor.MethodNames[Method];
         public string Minimum => F(J.Number(Node["Minimum"]));
         public string Mean => F(J.Number(Node["Factor"]));
         public string Maximum => F(J.Number(Node["Maximum"]));
-        public string Reduction => F(J.Number(Node["ReductionPercent"])) + (Node["Factor"] is null ? "" : "%");
-        public string Status => Node.S("Error") != "" ? Node.S("Error") : Node.Array("Warnings").Any(w => w!.ToString().Contains("strapolazione") || w.ToString().Contains("estensione geometrica")) ? "Approssimazione esplicita" : "Disponibile";
+        public string Reduction => F(J.Number(Node["ReductionPercent"])) + (PileGroupPresentation.Available(Node) ? "%" : "");
+        public string Status => PileGroupPresentation.Applicability(Node);
     }
     static DataGrid OutputGrid(double height) => new() { IsReadOnly = true, AutoGenerateColumns = false, CanUserAddRows = false, CanUserDeleteRows = false, Height = height, HeadersVisibility = DataGridHeadersVisibility.Column };
-    static string F(double? x) => x?.ToString("0.###", CultureInfo.CurrentCulture) ?? "—";
+    static string F(double? x) => PileGroupPresentation.Format(x);
     static JsonNode Value(string text) => ModuleSheetPreparation.NumericText(text);
     static void Column(DataGrid grid, string header, string property, double width) => grid.Columns.Add(new DataGridTextColumn { Header = header, Binding = new Binding(property) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }, Width = width });
     TextBox Field(Panel parent, string label, JsonObject owner, string key, bool optional = false)
@@ -111,7 +111,7 @@ internal sealed partial class HorizontalPileGroupWorkspace : UserControl, IDispo
         var comparisonPanel = new StackPanel(); Heading(comparisonPanel, "Confronto · seleziona un risultato per visualizzarlo");
         comparisonPanel.Children.Add(Ui.Text("Rg riduce kh/nh; Pm riduce la reazione p. Non sono verifiche della capacità del gruppo.", 11, color: Ui.Muted));
         Column(comparison, "Direzione", "Direction", 110); Column(comparison, "Metodo / grandezza", "MethodName", 260); Column(comparison, "Min", "Minimum", 60); Column(comparison, "Media", "Mean", 65); Column(comparison, "Max", "Maximum", 60); Column(comparison, "Riduzione", "Reduction", 85); Column(comparison, "Applicabilità", "Status", 360);
-        comparison.SelectionChanged += (_, _) => { if (selecting || Result is null || comparison.SelectedItem is not ComparisonRow row) return; data["metodo"] = row.Method; data["direzione_selezionata"] = row.DirectionId; data["angolo"] = row.Node.D("Angle"); HorizontalPileGroupEditor.Select(Result, row.Method, row.DirectionId); Present(); Modified?.Invoke(); };
+        comparison.SelectionChanged += (_, _) => { if (selecting || Result is null || comparison.SelectedItem is not ComparisonRow row) return; data["metodo"] = row.Method; data["direzione_selezionata"] = row.DirectionId; data["angolo"] = PileGroupPresentation.Angle(row.Node); HorizontalPileGroupEditor.Select(Result, row.Method, row.DirectionId); Present(); Modified?.Invoke(); };
         RevisionInspection.Allow(comparison); comparisonPanel.Children.Add(comparison); comparisonPanel.Children.Add(source); comparisonPanel.Children.Add(notes);
         var paper = Ui.Paper(comparisonPanel, 14); paper.Margin = new Thickness(0, 12, 0, 0); output.Children.Add(paper);
         var detailPanel = new StackPanel(); Heading(detailPanel, "Valori per palo del risultato selezionato");
@@ -169,20 +169,21 @@ internal sealed partial class HorizontalPileGroupWorkspace : UserControl, IDispo
         {
             coordinates.CommitEdit(DataGridEditingUnit.Cell, true); coordinates.CommitEdit(DataGridEditingUnit.Row, true); CapturePiles(); HorizontalPileGroupEditor.Regenerate(data); if (data["generatore"].S("tipo") != "Generica") LoadPiles();
             Result = calculationSession.Calculate(data).Values; ModuleSheetPreparation.ApplyPileGroupSelection(data, Result);
-            var rows = Result.Array("confronto").Select(n => new ComparisonRow { Node = n! }).ToArray(); selecting = true; comparison.ItemsSource = rows; comparison.SelectedItem = rows.First(r => r.Method == data.D("metodo") && r.DirectionId == data.S("direzione_selezionata")); selecting = false; Present();
+            var rows = Result.Array("confronto").Select(n => new ComparisonRow { Node = n! }).ToArray(); selecting = true; comparison.ItemsSource = rows; comparison.SelectedItem = rows.First(r => PileGroupPresentation.IsSelected(r.Node, data)); selecting = false; Present();
         }
         catch (Exception ex) { Result = null; Clear("Dati da completare: " + ex.Message); }
         finally { selecting = false; calculating = false; }
     }
     void Present()
     {
-        if (Result is null) return; var selected = Result["selezionato"]!; int method = (int)selected.D("Method"); bool available = selected["Factor"] is not null;
+        if (Result is null) return; var selected = Result["selezionato"]!; int method = PileGroupPresentation.Method(selected); bool available = PileGroupPresentation.Available(selected);
         title.Text = HorizontalPileGroupEditor.MethodNames[method] + " · " + selected.S("DirectionName") + " " + F(J.Number(selected["Angle"])) + "°";
-        state.Text = $"{data.Array("pali").Count} pali · calcolo automatico · " + (available ? (method == 0 ? "coefficiente Rg di kh/nh" : "coefficiente Pm di reazione p") : "metodo non applicabile: valori non disponibili");
+        state.Text = $"{data.Array("pali").Count} pali · calcolo automatico · " + (available ? PileGroupPresentation.FactorDescription(method) : "metodo non applicabile: valori non disponibili");
         minValue.Text = F(J.Number(selected["Minimum"])); meanValue.Text = F(J.Number(selected["Factor"])); maxValue.Text = F(J.Number(selected["Maximum"])); reduction.Text = F(J.Number(selected["ReductionPercent"])) + (available ? "%" : "");
-        geometry.Text = "S∥ · distanza fra file lungo H: " + F(J.Number(selected["ParallelSpacing"])) + " m   |   S⊥ · interasse ortogonale a H: " + F(J.Number(selected["TransverseSpacing"])) + " m\n" + "Asse–bordo basamento = " + F(J.Number(data["basamento"]?["bordo_d"]) * data.D("diametro")) + " m; margine libero dal palo = " + F((J.Number(data["basamento"]?["bordo_d"]) - .5) * data.D("diametro")) + " m.";
+        var (edge, margin) = PileGroupPresentation.CapDistances(data);
+        geometry.Text = "S∥ · distanza fra file lungo H: " + F(J.Number(selected["ParallelSpacing"])) + " m   |   S⊥ · interasse ortogonale a H: " + F(J.Number(selected["TransverseSpacing"])) + " m\n" + "Asse–bordo basamento = " + F(edge) + " m; margine libero dal palo = " + F(margin) + " m.";
         source.Text = selected.S("Source"); notes.Text = string.Join("\n", new[] { selected.S("Error"), Result.S("errore_basamento") }.Concat(selected.Array("Warnings").Select(w => w!.ToString())).Where(s => s.Length > 0));
-        details.ItemsSource = selected.Array("Piles").Select(p => new { Palo = p.S("Id"), Fila = p.D("Row"), Q = F(J.Number(p!["ParallelCoordinate"])), T = F(J.Number(p["TransverseCoordinate"])), Beta = method >= 4 && available ? F(J.Number(p["Beta"])) : "—", Alfa = method == 5 && available ? F(J.Number(p["Alpha"])) : "—", Coefficiente = available ? F(J.Number(p["Factor"])) : "—", Riduzione = available ? F((1 - J.Number(p["Factor"])) * 100) + "%" : "—" }).ToArray(); plan.Set(data, selected, Result["basamento"] as JsonArray);
+        details.ItemsSource = selected.Array("Piles").Select(p => new { Palo = p.S("Id"), Fila = PileGroupPresentation.Row(p!), Q = F(J.Number(p!["ParallelCoordinate"])), T = F(J.Number(p["TransverseCoordinate"])), Beta = PileGroupPresentation.ShowsBeta(method) && available ? F(J.Number(p["Beta"])) : "—", Alfa = PileGroupPresentation.ShowsAlpha(method) && available ? F(J.Number(p["Alpha"])) : "—", Coefficiente = available ? F(J.Number(p["Factor"])) : "—", Riduzione = available ? F(PileGroupPresentation.Reduction(p!)) + "%" : "—" }).ToArray(); plan.Set(data, selected, Result["basamento"] as JsonArray);
     }
     public void Dispose() { disposed = true; recalculation.Dispose(); calculationSession.Clear(); foreach (var row in piles) row.Changed = null; }
 }
