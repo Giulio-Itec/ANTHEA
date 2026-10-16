@@ -35,11 +35,11 @@ Criteri di uscita della riga F5.3:
 | Criterio | Esito |
 | --- | --- |
 | `--check-contrast`: 0 difetti in Scuro e Molto scuro, Chiara uguale al riferimento | sì: 0 e 0; Chiara 699 difetti a 96 DPI, gli stessi della cattura prima (sezione 7.1) |
-| `--check-appearance`, `--smoke-display` | nella corsa del runner (sezione 7.3) |
+| `--check-appearance`, `--smoke-display` | PASS nella corsa finale del runner |
 | prova di uguaglianza dei colori | PASS 129 controlli |
 | P7 attiva con prove dei rilevatori | sì, 36 prove nuove |
 | parità FieldForm | PASS 2025 controlli |
-| `-Stage build,fast,wiki,ui` verde, `ui/f3-equivalence` invariata con lo stesso file di transizioni | sezione 7.3 |
+| `-Stage build,fast,wiki,ui` verde, `ui/f3-equivalence` invariata con lo stesso file di transizioni | sì: PASS 110, NEW-FAIL 0; riferimento F3 e transizioni invariati (sezione 7.3) |
 | `f5-temi-token.md` pronto | questo documento |
 
 ## 2. Meccanismo
@@ -272,7 +272,7 @@ Con la raccomandazione (c) le varianti si accorpano solo nelle viste nuove, quan
 - la Chiara delle viste non migrate non cambia.
 
 La tabella elenca le varianti di ogni token con distanza, occorrenze e file principali. Le più frequenti:
-- `#D8E0EB`, 6 occorrenze, bordo di `Ui.Paper`: vicino a `Border` (ΔE 2,3) e a `Border.Strong` (4,2). Da decidere a quale
+- `#D8E0EB`, 6 occorrenze, bordo dei pannelli (`Ui.Paper`, materiali, reologia, fondazioni, progetti): vicino a `Border` (ΔE 2,3) e a `Border.Strong` (4,2). Da decidere a quale
   token assegnarlo (domanda D4);
 - `#DCE5EF`, 3 occorrenze, progetti: praticamente `TreeGuide` (ΔE 0,5);
 - `#F3F6FA`, `#F6F9FC`, `#F5F9FD`: fondi chiari di muri e progetti, fra `Surface` e `PaperAlt`;
@@ -425,7 +425,24 @@ Nella stessa corsa sono passate:
 - `ui/check-field-form-parity`;
 - le altre suite.
 
-**Corsa finale**: in corso.
+**Corsa finale**, `-Stage build,fast,wiki,ui`, tag `f53-finale2`, su 766bde04
+(`supporto/artefatti/ci/20261016-120021-f53-finale2`): **PASS 110, KNOWN 0, NEW-FAIL 0**. Erano 108 suite in F5.2; le due
+nuove sono `ui/check-theme-tokens` e `ui/check-contrast`.
+
+| Suite | Esito |
+| --- | --- |
+| `ui/check-contrast` | PASS in 799 s: Scuro 0, Molto scuro 0; Chiara 699 difetti in 187 voci, uguali alla baseline |
+| `ui/check-theme-tokens` | PASS |
+| `ui/check-appearance` | PASS |
+| `ui/smoke-display` | PASS |
+| `ui/check-field-form-parity` | PASS |
+| `ui/f3-equivalence` | PASS: 36 fixture, 73 articoli, 30 ricerche, report di progetto |
+| `Architecture.Tests` | PASS |
+
+Per `ui/f3-equivalence`: il riferimento `tests/fixtures/f3` e il file delle transizioni sono quelli del commit base
+5f29067b, senza alcuna differenza.
+
+Lo stadio ui dura circa 13 minuti in più per `ui/check-contrast`.
 
 ## 8. Domande aperte e scelte da confermare
 
