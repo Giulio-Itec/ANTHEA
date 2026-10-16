@@ -1,0 +1,101 @@
+{
+  "module": "geo_efficienza_orizzontale",
+  "id": "triangolare-avvisi",
+  "origin": "Fixture sintetica F5.4 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione": 2,
+    "diametro": 1,
+    "angolo": 0,
+    "metodo": 3,
+    "direzione_selezionata": "X",
+    "estrapolazioni": true,
+    "file_proiettate": true,
+    "generatore": {
+      "tipo": "Triangolare",
+      "nx": 3,
+      "ny": 3,
+      "lato": 4,
+      "anelli": 1,
+      "suddivisioni": 1,
+      "centro": true,
+      "sx_d": 2.5,
+      "sy_d": 3,
+      "rotazione": 0
+    },
+    "direzioni": {
+      "X": true,
+      "Y": false,
+      "X-": false,
+      "Y-": false,
+      "custom": false,
+      "angolo_custom": 45
+    },
+    "interassi": {
+      "X": {
+        "interasse_parallelo": 2.2,
+        "interasse_trasversale": 2.5
+      },
+      "Y": {},
+      "X-": {},
+      "Y-": {},
+      "custom": {}
+    },
+    "basamento": {
+      "tipo": "Contorno palificata",
+      "bordo_d": 0.75
+    },
+    "pali": [
+      {
+        "id": "P1",
+        "x": -3.75,
+        "y": -2.1650635094610964
+      },
+      {
+        "id": "P2",
+        "x": -1.25,
+        "y": -2.1650635094610964
+      },
+      {
+        "id": "P3",
+        "x": 1.25,
+        "y": -2.1650635094610964
+      },
+      {
+        "id": "P4",
+        "x": 3.75,
+        "y": -2.1650635094610964
+      },
+      {
+        "id": "P5",
+        "x": -2.5,
+        "y": 0
+      },
+      {
+        "id": "P6",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "P7",
+        "x": 2.5,
+        "y": 0
+      },
+      {
+        "id": "P8",
+        "x": -1.25,
+        "y": 2.1650635094610964
+      },
+      {
+        "id": "P9",
+        "x": 1.25,
+        "y": 2.1650635094610964
+      },
+      {
+        "id": "P10",
+        "x": 0,
+        "y": 4.330127018922194
+      }
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "module": "geo_efficienza_orizzontale",
+  "id": "generica-sovrapposti",
+  "origin": "Fixture sintetica F5.4 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione": 2,
+    "diametro": 1,
+    "angolo": 0,
+    "metodo": 4,
+    "direzione_selezionata": "X",
+    "estrapolazioni": false,
+    "file_proiettate": false,
+    "generatore": {
+      "tipo": "Generica",
+      "nx": 3,
+      "ny": 3,
+      "lato": 3,
+      "anelli": 1,
+      "suddivisioni": 1,
+      "centro": true,
+      "sx_d": 3,
+      "sy_d": 3,
+      "rotazione": 0
+    },
+    "direzioni": {
+      "X": true,
+      "Y": true,
+      "X-": false,
+      "Y-": false,
+      "custom": false,
+      "angolo_custom": 45
+    },
+    "interassi": {
+      "X": {},
+      "Y": {},
+      "X-": {},
+      "Y-": {},
+      "custom": {}
+    },
+    "basamento": {
+      "tipo": "Contorno palificata",
+      "bordo_d": 1
+    },
+    "pali": [
+      {
+        "id": "P1",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "P2",
+        "x": 0.6,
+        "y": 0
+      },
+      {
+        "id": "P3",
+        "x": 3,
+        "y": 0
+      }
+    ]
+  }
+}

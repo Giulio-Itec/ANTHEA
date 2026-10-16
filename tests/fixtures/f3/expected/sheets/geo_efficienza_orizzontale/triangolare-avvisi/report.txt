@@ -1,0 +1,134 @@
+# word/document.xml
+¶ Fixture F3 · geo_efficienza_orizzontale · triangolare-avvisi
+¶ Efficienza orizzontale della palificata
+¶ Pali identici. Le grandezze confrontate hanno significato fisico diverso: Davisson riduce kh/nh, gli altri metodi forniscono p-multiplier. Non si calcola la capacità laterale del gruppo.
+¶ Diametro D = 1 m; direzione H = 0° antioraria da +X.
+¶ Estrapolazioni: True; estensione file proiettate: True; S∥ assegnato = — m; S⊥ assegnato = — m.
+¶ Coordinate dei pali
+¶ P1: x = -3,75 m; y = -2,1651 m.
+¶ P2: x = -1,25 m; y = -2,1651 m.
+¶ P3: x = 1,25 m; y = -2,1651 m.
+¶ P4: x = 3,75 m; y = -2,1651 m.
+¶ P5: x = -2,5 m; y = 0 m.
+¶ P6: x = 0 m; y = 0 m.
+¶ P7: x = 2,5 m; y = 0 m.
+¶ P8: x = -1,25 m; y = 2,1651 m.
+¶ P9: x = 1,25 m; y = 2,1651 m.
+¶ P10: x = 0 m; y = 4,3301 m.
+¶ Davisson (1970) · kh/nh · X
+¶ Min 0,13; media 0,13; max 0,13; riduzione media 87%.
+¶ Riduzione kh/nh · Rg = 0,13
+¶ Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.
+¶ S∥ = 2,2 m; S⊥ = 2,5 m.
+¶ Interassi rappresentativi assegnati dall'utente: applicazione approssimata, verificare la pertinenza al modello.
+¶ File proiettate: estensione geometrica del metodo originale per direzione obliqua o geometria irregolare. La fila 1 è quella più avanzata nel verso H.
+¶ Nessuna ulteriore influenza trasversale secondo Davisson per S⊥ ≥ 2.5D (o unica colonna).
+¶ Davisson: estrapolazione esplicita sotto 3D; risultato limitato a [0,1].
+¶ Rg riduce kh/nh; non è un'efficienza di capacità Hgruppo/(N Hsingolo).
+¶ P1 · fila 7 · Rg = 0,13
+¶ P2 · fila 5 · Rg = 0,13
+¶ P3 · fila 3 · Rg = 0,13
+¶ P4 · fila 1 · Rg = 0,13
+¶ P5 · fila 6 · Rg = 0,13
+¶ P6 · fila 4 · Rg = 0,13
+¶ P7 · fila 2 · Rg = 0,13
+¶ P8 · fila 5 · Rg = 0,13
+¶ P9 · fila 3 · Rg = 0,13
+¶ P10 · fila 4 · Rg = 0,13
+¶ AASHTO (2014) · p-multiplier · X
+¶ Min 0,14; media 0,206; max 0,72; riduzione media 79,4%.
+¶ p-multiplier medio = 0,206
+¶ AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.
+¶ S∥ = 2,2 m; S⊥ = 2,5 m.
+¶ Interassi rappresentativi assegnati dall'utente: applicazione approssimata, verificare la pertinenza al modello.
+¶ File proiettate: estensione geometrica del metodo originale per direzione obliqua o geometria irregolare. La fila 1 è quella più avanzata nel verso H.
+¶ Estrapolazione esplicita oltre il campo tabellato/sperimentale; coefficienti limitati a [0,1].
+¶ Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 7 · Pm = 0,14
+¶ P2 · fila 5 · Pm = 0,14
+¶ P3 · fila 3 · Pm = 0,14
+¶ P4 · fila 1 · Pm = 0,72
+¶ P5 · fila 6 · Pm = 0,14
+¶ P6 · fila 4 · Pm = 0,14
+¶ P7 · fila 2 · Pm = 0,22
+¶ P8 · fila 5 · Pm = 0,14
+¶ P9 · fila 3 · Pm = 0,14
+¶ P10 · fila 4 · Pm = 0,14
+¶ FHWA (2018) · p-multiplier · X
+¶ Min 0,23; media 0,28; max 0,58; riduzione media 72%.
+¶ p-multiplier medio = 0,28
+¶ FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).
+¶ S∥ = 2,2 m; S⊥ = 2,5 m.
+¶ Interassi rappresentativi assegnati dall'utente: applicazione approssimata, verificare la pertinenza al modello.
+¶ File proiettate: estensione geometrica del metodo originale per direzione obliqua o geometria irregolare. La fila 1 è quella più avanzata nel verso H.
+¶ Estrapolazione esplicita oltre il campo tabellato/sperimentale; coefficienti limitati a [0,1].
+¶ Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 7 · Pm = 0,23
+¶ P2 · fila 5 · Pm = 0,23
+¶ P3 · fila 3 · Pm = 0,23
+¶ P4 · fila 1 · Pm = 0,58
+¶ P5 · fila 6 · Pm = 0,23
+¶ P6 · fila 4 · Pm = 0,23
+¶ P7 · fila 2 · Pm = 0,38
+¶ P8 · fila 5 · Pm = 0,23
+¶ P9 · fila 3 · Pm = 0,23
+¶ P10 · fila 4 · Pm = 0,23
+¶ Rollins / FEMA · p-multiplier · X · selezionato
+¶ Min 0,2231; media 0,29; max 0,705; riduzione media 71,0041%.
+¶ p-multiplier medio = 0,29
+¶ Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.
+¶ S∥ = 2,2 m; S⊥ = 2,5 m.
+¶ Interassi rappresentativi assegnati dall'utente: applicazione approssimata, verificare la pertinenza al modello.
+¶ File proiettate: estensione geometrica del metodo originale per direzione obliqua o geometria irregolare. La fila 1 è quella più avanzata nel verso H.
+¶ Estrapolazione esplicita oltre il campo tabellato/sperimentale; coefficienti limitati a [0,1].
+¶ Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.
+¶ Rollins: calibrazione principalmente in argilla rigida, S/D circa 3.3–5.65.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 7 · Pm = 0,2231
+¶ P2 · fila 5 · Pm = 0,2231
+¶ P3 · fila 3 · Pm = 0,2231
+¶ P4 · fila 1 · Pm = 0,705
+¶ P5 · fila 6 · Pm = 0,2231
+¶ P6 · fila 4 · Pm = 0,2231
+¶ P7 · fila 2 · Pm = 0,41
+¶ P8 · fila 5 · Pm = 0,2231
+¶ P9 · fila 3 · Pm = 0,2231
+¶ P10 · fila 4 · Pm = 0,2231
+¶ Reese / Van Impe · interazione palo-palo · X
+¶ Min 0,2705; media 0,4699; max 0,7795; riduzione media 53,0112%.
+¶ p-multiplier medio = 0,4699
+¶ Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).
+¶ S∥ = 2,2 m; S⊥ = 2,5 m.
+¶ Interassi rappresentativi assegnati dall'utente: applicazione approssimata, verificare la pertinenza al modello.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 7 · Pm = 0,4178 · β = 0,4178 · α = 1
+¶ P2 · fila 5 · Pm = 0,3332 · β = 0,3332 · α = 1
+¶ P3 · fila 3 · Pm = 0,4398 · β = 0,4398 · α = 1
+¶ P4 · fila 1 · Pm = 0,7795 · β = 0,7795 · α = 1
+¶ P5 · fila 6 · Pm = 0,2705 · β = 0,2705 · α = 1
+¶ P6 · fila 4 · Pm = 0,2821 · β = 0,2821 · α = 1
+¶ P7 · fila 2 · Pm = 0,5676 · β = 0,5676 · α = 1
+¶ P8 · fila 5 · Pm = 0,3488 · β = 0,3488 · α = 1
+¶ P9 · fila 3 · Pm = 0,552 · β = 0,552 · α = 1
+¶ P10 · fila 4 · Pm = 0,7077 · β = 0,7077 · α = 1
+¶ Caltrans (2025) · p-multiplier modificato · X
+¶ Min 0,2597; media 0,4549; max 0,7639; riduzione media 54,5078%.
+¶ p-multiplier medio = 0,4549
+¶ California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.
+¶ S∥ = 2,2 m; S⊥ = 2,5 m.
+¶ Interassi rappresentativi assegnati dall'utente: applicazione approssimata, verificare la pertinenza al modello.
+¶ File proiettate: estensione geometrica del metodo originale per direzione obliqua o geometria irregolare. La fila 1 è quella più avanzata nel verso H.
+¶ Caltrans 2025: α usa la media degli interassi fra file nella direzione H. Per unica fila α=1; oltre 8D α=1. Non prescrizione NTC.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 7 · Pm = 0,4011 · β = 0,4178 · α = 0,96
+¶ P2 · fila 5 · Pm = 0,3199 · β = 0,3332 · α = 0,96
+¶ P3 · fila 3 · Pm = 0,4222 · β = 0,4398 · α = 0,96
+¶ P4 · fila 1 · Pm = 0,7639 · β = 0,7795 · α = 0,98
+¶ P5 · fila 6 · Pm = 0,2597 · β = 0,2705 · α = 0,96
+¶ P6 · fila 4 · Pm = 0,2708 · β = 0,2821 · α = 0,96
+¶ P7 · fila 2 · Pm = 0,5676 · β = 0,5676 · α = 1
+¶ P8 · fila 5 · Pm = 0,3348 · β = 0,3488 · α = 0,96
+¶ P9 · fila 3 · Pm = 0,5299 · β = 0,552 · α = 0,96
+¶ P10 · fila 4 · Pm = 0,6794 · β = 0,7077 · α = 0,96

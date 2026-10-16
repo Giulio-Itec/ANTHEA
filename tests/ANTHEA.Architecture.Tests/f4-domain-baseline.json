@@ -9812,62 +9812,6 @@
       "Example": "input . D ( \"fck_mpa\" )"
     },
     {
-      "File": "X.Desktop/Wpf/HorizontalPileGroupWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalPileGroupWorkspace.Present",
-      "Fingerprint": "B8E77C53BA953A54B8B6ADD598D99B52D10B8D7EFECAFAE676332A1B9BDEDA0C",
-      "Count": 1,
-      "Example": ".5"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPileGroupWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalPileGroupWorkspace.CalculateCurrent",
-      "Fingerprint": "5AE487FDB94039E42B3CA6D19C944E5F134EFC79890010735E71938BD412CA20",
-      "Count": 1,
-      "Example": "data . D ( \"metodo\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPileGroupWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalPileGroupWorkspace.ComparisonRow.Method",
-      "Fingerprint": "B6B42FBD3355A4879B841B4913D96B7705ECE627017F99084EDD463E68932FBD",
-      "Count": 1,
-      "Example": "Node . D ( \"Method\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPileGroupWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalPileGroupWorkspace.HorizontalPileGroupWorkspace",
-      "Fingerprint": "308F0DB9B6E875411F39E97B2106AF61E23D6C60C0B59A14D83D58CF1060886F",
-      "Count": 1,
-      "Example": "row . Node . D ( \"Angle\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPileGroupWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalPileGroupWorkspace.Present",
-      "Fingerprint": "1F86F549E88EA15A835AF50C53BBE111C8D5FDE166D19E725E07ED09EC74D8F7",
-      "Count": 2,
-      "Example": "data . D ( \"diametro\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPileGroupWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalPileGroupWorkspace.Present",
-      "Fingerprint": "5E4CDE2829FA1CAEA42B4E322EB4618436BFE38D5F3A143FBC0671D68C7CA154",
-      "Count": 1,
-      "Example": "selected . D ( \"Method\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPileGroupWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "HorizontalPileGroupWorkspace.Present",
-      "Fingerprint": "8736AE5A0E1C18902EC7373B3994DFA5E551A1DA32E02B5075C6B6F0A5C8A44B",
-      "Count": 1,
-      "Example": "p . D ( \"Row\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "HorizontalWorkspace.LayoutCards",
@@ -14818,6 +14762,54 @@
       "Fingerprint": "2AF5C68F6304304E8F0119711AC9414735D20E6C2725D3C9627540300F58E549",
       "Count": 1,
       "Example": "1000"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/PileGroupPresentation.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "PileGroupPresentation.CapDistances",
+      "Fingerprint": "64AF4936BDF90EB494E95F28F5AF09CAF029A84CA86E1D43571B367009D9E9BF",
+      "Count": 1,
+      "Example": ".5"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/PileGroupPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "PileGroupPresentation.Angle",
+      "Fingerprint": "1478600B1A718DAC3555A49CE0F205F72EA1B9FF27984F8464AFCEC3ABEC4E22",
+      "Count": 1,
+      "Example": "row . D ( \"Angle\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/PileGroupPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "PileGroupPresentation.CapDistances",
+      "Fingerprint": "A1FFA6F650EA3A416D68786F5B2138F6B48004E3189B7AFF93E0EB223021D1C6",
+      "Count": 1,
+      "Example": "data . D ( \"diametro\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/PileGroupPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "PileGroupPresentation.IsSelected",
+      "Fingerprint": "155D8168F2E626CD8A8386BBACD1F7FCD78C979DB366E30A08AAF817672985B6",
+      "Count": 1,
+      "Example": "data . D ( \"metodo\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/PileGroupPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "PileGroupPresentation.Method",
+      "Fingerprint": "FA508213DE852FEE8B0C24B46813DE3D53317EFAB6F0011E93CF0256FB9F63B6",
+      "Count": 1,
+      "Example": "row . D ( \"Method\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/PileGroupPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "PileGroupPresentation.Row",
+      "Fingerprint": "B10B670818803848076C0E8D49BB264E1C663586E85F0C02FF24C0DCC1BE7861",
+      "Count": 1,
+      "Example": "pile . D ( \"Row\" )"
     },
     {
       "File": "src/ANTHEA.Application/Presentation/VerticalPileCharts.cs",

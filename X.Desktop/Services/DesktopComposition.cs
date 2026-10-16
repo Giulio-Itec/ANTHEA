@@ -1,6 +1,7 @@
 using System.Windows;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Modules;
+using Anthea.Presentation.Modules.PileGroup;
 
 namespace X.Desktop.Services;
 
@@ -28,7 +29,7 @@ internal sealed class DesktopComposition
         SheetEditors = new SheetEditorFactory(ModuleImplementations.Release, Modules, Services, Limiter);
     }
 
-    /// <summary>Application-wide services; the sheets of the modules migrated to MVVM receive them (none yet: F5.2 has no visible change).</summary>
+    /// <summary>Application-wide services; the sheets of the modules migrated to MVVM receive them (the Release opens none yet).</summary>
     internal PresentationServices Services { get; }
 
     /// <summary>Limit of the calculations running at the same time, shared by the sheets (proposal 4.6).</summary>
@@ -41,10 +42,12 @@ internal sealed class DesktopComposition
     internal SheetEditorFactory SheetEditors { get; }
 
     /// <summary>
-    /// The modules migrated to MVVM, created by hand (decision Q2): none yet. F5.4 adds the first; the window opens it only when
-    /// <see cref="ModuleImplementations"/> says so. The WPF checks build the same registry (tests/Desktop/ModuleHostBench.cs).
+    /// The modules migrated to MVVM, created by hand (decision Q2): the horizontal pile group (F5.4 pilot). The window opens it
+    /// only when <see cref="ModuleImplementations"/> says so: until the F5.4 checkpoint the Release keeps the historic view and the
+    /// MVVM sheet is chosen only in the UiTests bench (--module-impl). The WPF checks build the same registry
+    /// (tests/Desktop/ModuleHostBench.cs).
     /// </summary>
-    internal static ModuleRegistry CreateModules() => new([]);
+    internal static ModuleRegistry CreateModules() => new([new PileGroupSheetModule()]);
 
     /// <summary>Factory of the services of a main window, unchanged since F1.4 (the WPF checks pass TestServices.Create instead).</summary>
     internal DesktopServices WindowServices(Window owner) => WpfDesktopServices.Create(owner);

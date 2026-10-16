@@ -1,0 +1,73 @@
+{
+  "module": "geo_efficienza_orizzontale",
+  "id": "generica-coordinate",
+  "origin": "Fixture sintetica F5.4 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione": 2,
+    "diametro": 1,
+    "angolo": 135,
+    "metodo": 0,
+    "direzione_selezionata": "custom",
+    "estrapolazioni": false,
+    "file_proiettate": false,
+    "generatore": {
+      "tipo": "Generica",
+      "nx": 3,
+      "ny": 3,
+      "lato": 3,
+      "anelli": 1,
+      "suddivisioni": 1,
+      "centro": true,
+      "sx_d": 3,
+      "sy_d": 3,
+      "rotazione": 0
+    },
+    "direzioni": {
+      "X": true,
+      "Y": false,
+      "X-": false,
+      "Y-": false,
+      "custom": true,
+      "angolo_custom": 135
+    },
+    "interassi": {
+      "X": {},
+      "Y": {},
+      "X-": {},
+      "Y-": {},
+      "custom": {}
+    },
+    "basamento": {
+      "tipo": "Rettangolare",
+      "bordo_d": 1
+    },
+    "pali": [
+      {
+        "id": "A",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "id": "B",
+        "x": "3,5",
+        "y": "0"
+      },
+      {
+        "id": "C",
+        "x": "7",
+        "y": "0,5"
+      },
+      {
+        "id": "D",
+        "x": "1,75",
+        "y": "3,2"
+      },
+      {
+        "id": "E",
+        "x": 5.25,
+        "y": 3.2
+      }
+    ]
+  }
+}

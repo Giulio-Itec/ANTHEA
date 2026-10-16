@@ -1,0 +1,57 @@
+{
+  "angolo": 0,
+  "basamento": {
+    "bordo_d": 1,
+    "tipo": "Contorno palificata"
+  },
+  "diametro": 1,
+  "direzione_selezionata": "X",
+  "direzioni": {
+    "X": true,
+    "X-": false,
+    "Y": true,
+    "Y-": false,
+    "angolo_custom": 45,
+    "custom": false
+  },
+  "estrapolazioni": false,
+  "file_proiettate": false,
+  "generatore": {
+    "anelli": 1,
+    "centro": true,
+    "lato": 3,
+    "nx": 3,
+    "ny": 3,
+    "rotazione": 0,
+    "suddivisioni": 1,
+    "sx_d": 3,
+    "sy_d": 3,
+    "tipo": "Generica"
+  },
+  "interassi": {
+    "X": {},
+    "X-": {},
+    "Y": {},
+    "Y-": {},
+    "custom": {}
+  },
+  "metodo": 4,
+  "pali": [
+    {
+      "id": "P1",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "id": "P2",
+      "x": 0.6,
+      "y": 0
+    },
+    {
+      "id": "P3",
+      "x": 3,
+      "y": 0
+    }
+  ],
+  "versione": 2
+}
