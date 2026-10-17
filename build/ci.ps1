@@ -345,6 +345,10 @@ Add-Suite @{ Name = 'ui/check-palo-verticale-historic'; Stage = 'ui'; Kind = 'ch
 # F5.9b (proposal 7.2, capture first): the historic shallow foundation view still gives the traces frozen in tests/fixtures/f5-fondazioni,
 # which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-fondazioni-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-fondazioni-historic', '{root}', '{out}\traccia'); Timeout = 300; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
+# F5.9b: the XAML view of the shallow foundations hosted by MvvmSheetEditor off screen: traces through its controls equal to those of the historic
+# view, visit without writes, drawings and exports (PDF of MigraDoc, T8) equal to the historic ones, screenshots, help, identifiers of
+# FoundationWorkspace.UiChecks, automation names, read-only, soil transfer. The Release keeps the historic view until the test of the user.
+Add-Suite @{ Name = 'ui/check-fondazioni-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-fondazioni-view', '{root}', '{out}\vista'); Timeout = 900; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 # F5.7 (proposal 7.2, capture first): the historic horizontal pile and micropile view still gives the traces and the drawings frozen in
 # tests/fixtures/f5-palo-orizzontale, which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-palo-orizzontale-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-orizzontale-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
