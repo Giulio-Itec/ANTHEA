@@ -454,11 +454,11 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
     /// A form that writes the raw text and clears the result at every change; read-only while the sheet cannot be edited. Compact: the
     /// 12-point rows of the historic view (decision D10). With <paramref name="help"/> the forms of the historic view built with
     /// InputForm (groundwater, concrete), which had the «?» and F1 of the module (FN9): the module is explicit, so that the module
-    /// inherited by the view (WikiContextHelp.Module, not set by MvvmSheetEditor) does not replace it.
+    /// inherited by the view does not replace it. Every form has the navigator of the services: the others take the module inherited
+    /// by the view (WikiContextHelp.Module, set by MvvmSheetEditor since F5.5), and their F1 opens the guide of the module through it.
     /// </summary>
-    private FormViewModel Form(JsonObject values, IEnumerable<FieldSpec> fields, bool help = false, bool compact = false) => help
-        ? new FormViewModel(values, fields, _ => Edited(), compact, wikiModule: ModuleId) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki }
-        : new FormViewModel(values, fields, _ => Edited(), compact) { IsReadOnly = !CanEdit };
+    private FormViewModel Form(JsonObject values, IEnumerable<FieldSpec> fields, bool help = false, bool compact = false) =>
+        new(values, fields, _ => Edited(), compact, wikiModule: help ? ModuleId : null) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
 
     private void RefreshSurveys()
     {
