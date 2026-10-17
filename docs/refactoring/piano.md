@@ -664,12 +664,23 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
     - **F5.5, materiali** (merge 43170c9d): `ui/check-materials-view` con 214 controlli; domande nuove M15–M20.
     - **F5.6, palo e micropalo verticale** (merge b9458f85): `ui/check-palo-verticale-view` con 377 controlli. Arrivano anche il
       dialogo condiviso del trasferimento del terreno (`Modules/Shared`, T5) e la voce F5-01 del registro (V3).
+    - **F5.6b, stratigrafia** (merge 034839b4): `ui/check-stratigrafia-view` con 181 controlli. La stratigrafia MVVM usa il
+      dialogo condiviso del terreno (T5). `Multiline` e `ToolTip` sono additivi in `FieldSpec`/`FieldForm`. L'importazione con
+      l'IA ha una vista nuova, provata senza rete. Domande S13–S17.
+    - **F5.9, muri di sostegno** (merge f60875e2): `ui/check-muri-view` con 187 controlli e `ui/f3-scheduling-muri-mvvm`. Le
+      14 441 transizioni F4 restano identiche. Dialoghi dei valori, della distinta ferri e del terreno (MU9, MU10). Domande
+      MU14–MU19.
     - **Correzioni di integrazione.**
       - 842239dc: il registro di prova delle fondazioni contiene anche la palificata, che nella Release è già MVVM.
       - 9fea83ba: tutti i form delle fondazioni hanno il navigatore della Wiki dei servizi, perché da F5.5 i form ereditano
         il modulo dalla vista.
       - Per le viste future vale la stessa regola: ogni `FormViewModel` ha `WikiNavigator`.
-    - **Corsa** sul merge `20261017-171818-f5-int16`: PASS 123, 0 NEW-FAIL, senza `ui/check-contrast`.
+      - 2cf6f276: i pulsanti della vista del palo verticale prendono lo stile del tema (`BasedOn`), come il dialogo condiviso
+        (S17).
+    - **Corse** senza `ui/check-contrast`:
+      - sul merge del palo verticale `20261017-171818-f5-int16`: PASS 123, 0 NEW-FAIL;
+      - sul merge della stratigrafia `20261017-211836-f5-int17`: PASS 124, 0 NEW-FAIL;
+      - sul merge dei muri `20261017-222849-f5-int18`: PASS 126, 0 NEW-FAIL.
     - **Versione di prova** 1.11.0-prova.f5b (ramo locale `prova/f5-viste`): palificata, fondazioni, calcestruzzo e acciaio
       con la vista nuova. Consegnata all'utente il 17/10; `ui/f3-equivalence` passa con le quattro viste attive.
 - [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. Requisito
