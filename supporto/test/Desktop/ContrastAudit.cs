@@ -176,16 +176,9 @@ internal sealed class ContrastAudit
                     else if (mode == AppAppearance.Light && audit.baselineFile is not null && audit.Want(MainWindow.MvvmPileGroupView))
                         audit.Uncovered("Vista MVVM della palificata (F5.4) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre la vista storica, " +
                             "la cui Chiara è nella baseline (modulo-geo_efficienza_orizzontale); la Chiara della vista MVVM si misura senza --baseline");
-                    // F5.9b: the XAML view of the shallow foundations, with the same rule (the Release keeps the historic view until the test of the user).
-                    if (audit.Want(MainWindow.MvvmShallowFoundationView) && (mode != AppAppearance.Light || audit.baselineFile is null))
-                    {
-                        var mvvm = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "geo_fondazioni_superficiali=mvvm"]));
-                        try { await mvvm.AuditMvvmShallowFoundationView(audit); }
-                        finally { await audit.CloseMain(mvvm); }
-                    }
-                    else if (mode == AppAppearance.Light && audit.baselineFile is not null && audit.Want(MainWindow.MvvmShallowFoundationView))
-                        audit.Uncovered("Vista MVVM delle fondazioni superficiali (F5.9b) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre la vista " +
-                            "storica, la cui Chiara è nella baseline (modulo-geo_fondazioni_superficiali); la Chiara della vista MVVM si misura senza --baseline");
+                    // ---- F5.9b begin: step mvvm-geo_fondazioni_superficiali, self-contained (ShallowFoundationContrastStep at the end of the file) ----
+                    await ShallowFoundationContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
+                    // ---- F5.9b end ----
                     var start = mode == AppAppearance.Light ? AppAppearance.VeryDark : AppAppearance.Light;
                     if (audit.Want("cambio"))
                     {
@@ -1914,12 +1907,6 @@ public sealed partial class MainWindow
     internal async Task AuditMvvmViews(ContrastAudit a) =>
         await a.Step(MvvmPileGroupView, () => AuditModule(a, "geo_efficienza_orizzontale", "mvvm-"));
 
-    /// <summary>Step of the MVVM view of the shallow foundations (F5.9b): the same exploration as the module steps, in a window that opens the MVVM sheet.</summary>
-    internal const string MvvmShallowFoundationView = "mvvm-geo_fondazioni_superficiali";
-
-    internal async Task AuditMvvmShallowFoundationView(ContrastAudit a) =>
-        await a.Step(MvvmShallowFoundationView, () => AuditModule(a, "geo_fondazioni_superficiali", "mvvm-"));
-
     private async Task AuditModuleState(ContrastAudit a, string module, JsonObject? data, string name, bool full)
     {
         AuditReset();
@@ -2000,3 +1987,40 @@ public sealed partial class MainWindow
         Appearance.Set(mode, false);
     }
 }
+
+// ---------------------------------------------------------------- F5.9b begin: step mvvm-geo_fondazioni_superficiali (self-contained)
+
+/// <summary>
+/// The XAML view of the shallow foundations before the switch of the Release (F5.9b): the same exploration as the module steps
+/// (AuditModule), in a main window whose editors open the MVVM sheet (--module-impl geo_fondazioni_superficiali=mvvm). With --baseline
+/// (runner) only Scuro and Molto scuro: until the Release opens the new view, the Chiara of the module is the one of the historic view,
+/// whose defects are in the baseline (modulo-geo_fondazioni_superficiali); without --baseline also Chiara. Self-contained: it does not
+/// depend on the step of another module; at the switch of the Release it is removed and the step of the module shows the new view.
+/// </summary>
+internal static class ShallowFoundationContrastStep
+{
+    internal const string Module = "geo_fondazioni_superficiali";
+    internal const string View = "mvvm-" + Module;
+
+    internal static async Task RunAsync(ContrastAudit audit, AppAppearance mode, bool baseline)
+    {
+        if (!audit.Want(View)) return;
+        if (mode == AppAppearance.Light && baseline)
+        {
+            audit.Uncovered("Vista MVVM delle fondazioni superficiali (F5.9b) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre la vista " +
+                "storica, la cui Chiara è nella baseline (modulo-geo_fondazioni_superficiali); la Chiara della vista MVVM si misura senza --baseline");
+            return;
+        }
+        var window = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, Module + "=mvvm"]));
+        try { await audit.Step(View, () => window.AuditShallowFoundationMvvm(audit)); }
+        finally { await audit.CloseMain(window); }
+    }
+}
+
+public sealed partial class MainWindow
+{
+    /// <summary>F5.9b: the exploration of the module steps on the MVVM sheet of the shallow foundations, with the names of its step.</summary>
+    internal Task AuditShallowFoundationMvvm(ContrastAudit a) => AuditModule(a, ShallowFoundationContrastStep.Module, "mvvm-");
+}
+
+// ---------------------------------------------------------------- F5.9b end
