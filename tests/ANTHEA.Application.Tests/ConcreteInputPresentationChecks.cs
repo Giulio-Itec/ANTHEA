@@ -142,6 +142,17 @@ internal static class ConcreteInputPresentationChecks
             Check(Failure(() => ConcreteActionPresentation.Plan("SLU", " \t1\t2\t3", "")) == "Riga 1: nome mancante.", "Nome mancante");
             Check(Failure(() => ConcreteActionPresentation.Plan("SLU", "A\t1\tx\t3", "")) == "Riga 1, Mx: inserire un numero finito.", "Valore non numerico");
             Check(ConcreteActionPresentation.PastedName(4) == "Combo 5", "Nome di una riga incollata in più");
+
+            // F5.10 S1: the shell of the sheet (ConcreteSheetPresentation), main tab and dividers.
+            Check(ConcreteSheetPresentation.InitialTab(new JsonObject()) == 0 && ConcreteSheetPresentation.InitialTab(J.Obj(("tab", 3))) == 3
+                && ConcreteSheetPresentation.InitialTab(J.Obj(("tab", "5"))) == 5 && ConcreteSheetPresentation.InitialTab(J.Obj(("tab", 12))) == 7
+                && ConcreteSheetPresentation.InitialTab(J.Obj(("tab", -2))) == 0 && ConcreteSheetPresentation.InitialTab(J.Obj(("tab", "abc"))) == 0, "Scheda iniziale della sezione");
+            var layout = J.Obj(("layout", J.Obj(("ingressi", 0.4), ("righe", 0.9), ("risultati", "abc"))));
+            Check(ConcreteSheetPresentation.SplitRatio(layout, "ingressi", 0.3) == 0.4 && ConcreteSheetPresentation.SplitRatio(layout, "righe", 0.65) == 0.65
+                && ConcreteSheetPresentation.SplitRatio(layout, "risultati", 0.6) == 0.6 && ConcreteSheetPresentation.SplitRatio(new JsonObject(), "ingressi", 0.3) == 0.3,
+                "Divisori salvati in layout");
+            Check(ConcreteSheetPresentation.MovedSplitRatio(0.05) == 0.15 && ConcreteSheetPresentation.MovedSplitRatio(0.5) == 0.5 && ConcreteSheetPresentation.MovedSplitRatio(0.95) == 0.85,
+                "Divisore spostato limitato a 0,15–0,85");
         }
         finally { CultureInfo.CurrentCulture = culture; }
         return checks;
