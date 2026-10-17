@@ -169,6 +169,14 @@ soltanto, cioè valida. Senza risultato, «Esporta risultati» rifiuta come oggi
 Stadio `ui`: `ui/check-stratigrafia-historic`, `ui/check-module-host-offscreen` (registro con la stratigrafia, la Release apre la
 vista storica), le suite F3, `Stratigraphy.UiChecks`.
 
+**Corsa finale** `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `a35224c1`:
+`supporto/artefatti/ci/20261017-020803-f56b-finale`, PASS 114 (build 25, fast 31, wiki 2, ui 56), NEW-FAIL 0, nessun file
+tracciato modificato; `transitions-f4.json` invariato.
+- `ui/check-contrast` è escluso: lo schermo è al 150% (144 DPI) e la baseline è misurata a 96 DPI (decisione D6); il coordinatore
+  lo ripete a 96 DPI.
+- Presentation.Tests 1030; `ui/f3-equivalence` 66 fixture; `ui/f3-report-chapters` 67 capitoli; `ui/check-stratigrafia-historic`
+  15 scenari, 7882 righe.
+
 ## 2. Comportamenti della vista storica trovati con le tracce
 
 Nessun errore che fermi la vista. Riprodotti dal ViewModel così come sono, da decidere al punto di controllo:
