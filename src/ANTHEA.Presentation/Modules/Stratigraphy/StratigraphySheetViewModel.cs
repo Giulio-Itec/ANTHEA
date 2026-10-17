@@ -19,8 +19,9 @@ namespace Anthea.Presentation.Modules.Stratigraphy;
 /// when the module enables it, the command shows <see cref="StratigraphyImportDialogViewModel"/> through the dialog service, with the
 /// injected source of the drafts, and the reviewed draft replaces the data of the sheet.</item>
 /// <item>«Invia / importa terreno da ANTHEA…» (<see cref="TransferSoilCommand"/>): the sheet commits, then the soil transfer dialog
-/// (<see cref="ISoilTransferDialog"/>) receives its module, its data and the soil sheets of the project; a copy goes to the window as
-/// <see cref="ISheetHost.OpenModuleCopy"/>, a replacement as <see cref="ISheetHost.ReplaceSoil"/>.</item>
+/// (<see cref="ISoilTransferDialog"/>; by default the shared <see cref="SoilTransferDialogViewModel"/> on the dialog service,
+/// <see cref="SoilTransferDialogService"/>, decision T5) receives its module, its data and the soil sheets of the project; a copy goes to
+/// the window as <see cref="ISheetHost.OpenModuleCopy"/>, a replacement as <see cref="ISheetHost.ReplaceSoil"/>.</item>
 /// <item>The errors of the two commands are shown through the message service (decision Q19).</item>
 /// <item>The report is the data sheet of <see cref="StratigraphyReport"/> on the committed data, as the historic sheet exports it.</item>
 /// <item>Read-only (a previous revision): the editor refuses every change, the two commands are disabled; the selection of the layers
@@ -111,7 +112,8 @@ public sealed class StratigraphySheetViewModel : SheetViewModelBase
     {
         if (!CanEdit) return;
         Commit();
-        var choice = await options.Transfer.ShowAsync(ModuleId, Data, Context.Host.SoilSources());
+        var transfer = options.Transfer ?? new SoilTransferDialogService(Context.Services);
+        var choice = await transfer.ShowAsync(ModuleId, Data, Context.Host.SoilSources());
         if (choice is null || IsDisposed) return;
         if (choice.Module is null) Context.Host.ReplaceSoil(choice.Data);
         else Context.Host.OpenModuleCopy(choice.Module, choice.Data, choice.Name);
@@ -130,12 +132,13 @@ public sealed class StratigraphySheetViewModel : SheetViewModelBase
 
 /// <summary>
 /// What a stratigraphy sheet receives from its module: the source of the AI drafts, the model and key proposed when the import opens,
-/// the soil transfer dialog and whether the import is enabled (false in the Release, as the historic button).
+/// the soil transfer dialog and whether the import is enabled (false in the Release, as the historic button). Without a dialog
+/// (<paramref name="Transfer"/> null, the composition root of the desktop since the view of 17/10) the sheet shows the shared dialog of the
+/// soil on the dialog service of its services (<see cref="SoilTransferDialogService"/>, decision T5).
 /// </summary>
-public sealed record StratigraphySheetOptions(IStratigraphyDraftSource Drafts, Func<StratigraphyImportDefaults> Defaults, ISoilTransferDialog Transfer,
+public sealed record StratigraphySheetOptions(IStratigraphyDraftSource Drafts, Func<StratigraphyImportDefaults> Defaults, ISoilTransferDialog? Transfer = null,
     bool ImportEnabled = false)
 {
     public IStratigraphyDraftSource Drafts { get; } = Drafts ?? throw new ArgumentNullException(nameof(Drafts));
     public Func<StratigraphyImportDefaults> Defaults { get; } = Defaults ?? throw new ArgumentNullException(nameof(Defaults));
-    public ISoilTransferDialog Transfer { get; } = Transfer ?? throw new ArgumentNullException(nameof(Transfer));
 }

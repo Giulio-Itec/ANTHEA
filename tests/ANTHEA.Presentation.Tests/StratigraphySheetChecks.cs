@@ -28,8 +28,10 @@ namespace Anthea.Presentation.Tests;
 /// two paths and what the sheet does with its answer;</item>
 /// <item>for each F3 fixture of the module the data after opening, visit, calculation, export and reopening, the result, the status and
 /// the text and structure of the report are byte-identical to the F3 reference of the historic view;</item>
-/// <item>module and registry, persisted keys, read-only, Reload, closing, the AI import with a scripted source of the drafts (success,
-/// error, cancellation, review, application; never the network) and the routing of the soil transfer.</item>
+/// <item>module and registry, the forms and the commands that the XAML view binds (Wiki navigator, S7, φ′, check boxes, selection while
+/// the list is built again), persisted keys, read-only, Reload, closing, the AI import with a scripted source of the drafts (success,
+/// error, cancellation, review, application; never the network) and the routing of the soil transfer, also through the shared dialog on
+/// the dialog service (T5).</item>
 /// </list>
 /// One "UI" thread (SingleThreadContext), as the dispatcher.
 /// </summary>
@@ -76,6 +78,7 @@ internal static class StratigraphySheetChecks
             expect.That(fixtures.Count == 5, "Fixture F3 della stratigrafia");
             foreach (string id in fixtures) await F3Async(root, traces, id, expect);
             Contract(expect);
+            Forms(root, expect);
             StateKeys(root, expect);
             await ReadOnlyAsync(root, expect);
             Reload(root, expect);
@@ -175,7 +178,7 @@ internal static class StratigraphySheetChecks
                     case StratigraphyStep.Field: Type(editor.GeneralForm, current.Key!, current.Text!); break;
                     case StratigraphyStep.Choice: Choose(editor.GeneralForm, current.Key!, current.Text!); break;
                     case StratigraphyStep.Select: editor.SelectedLayerIndex = current.Index; break;
-                    case StratigraphyStep.LayerField: Type(With(current.Key!, editor.LayerForm, editor.ThicknessForm, editor.MeansForm, editor.NotesForm), current.Key!, current.Text!); break;
+                    case StratigraphyStep.LayerField: Type(With(current.Key!, editor.LayerForm, editor.DescriptionForm, editor.ThicknessForm, editor.MeansForm, editor.NotesForm), current.Key!, current.Text!); break;
                     case StratigraphyStep.LayerChoice: Choose(With(current.Key!, editor.LayerForm, editor.MeansForm), current.Key!, current.Text!); break;
                     case StratigraphyStep.MinimumField: Type(editor.MinimaForm, current.Key!, current.Text!); break;
                     case StratigraphyStep.MinimumChoice: Choose(editor.MinimaForm, current.Key!, current.Text!); break;
@@ -222,6 +225,7 @@ internal static class StratigraphySheetChecks
             if (editor.LayerForm is { } identity)
             {
                 state.Layer.AddRange(Controls(identity, ""));
+                state.Layer.AddRange(Controls(editor.DescriptionForm!, ""));
                 state.Layer.Add(new("opzione", "infinite", StratigraphyFields.InfiniteLabel, StratigraphyTrace.YesNo(editor.IsInfinite), editor.CanToggleInfinite));
                 if (editor.ThicknessForm is { } thickness) state.Layer.AddRange(Controls(thickness, ""));
                 state.Layer.Add(new("opzione", "minimum", StratigraphyFields.MinimaLabel, StratigraphyTrace.YesNo(editor.HasMinimum), editor.CanEdit));
@@ -365,6 +369,71 @@ internal static class StratigraphySheetChecks
         expect.That(ReferenceEquals(((ISheetViewModel)sheet).PreviewData, sheet.Data), "Anteprima diversa dai dati");
     }
 
+    // ---------------------------------------------------------------- forms and commands of the XAML view
+
+    /// <summary>
+    /// What the XAML view binds (view of 17/10): one compact form per block, each with the Wiki navigator of the services (lesson of the
+    /// merges of 17/10), F1 of every field to the guide of the module; the texts on more lines (S7) and the labels above the editors, as in
+    /// the historic view; φ′ without the help of the creep coefficient of the concrete; the commands of the actions and of the two check
+    /// boxes, disabled when read-only; the check box of the minima raised again after «No» (S6 kept); the selection that the list of the view
+    /// loses while it is built again ignored, as the view ignored SelectionChanged while refreshing.
+    /// </summary>
+    private static void Forms(string root, Expect expect)
+    {
+        var confirmations = new ScriptedConfirmations();
+        var wiki = new RecordingWiki();
+        var services = new PresentationServices(new ScriptedMessages(), confirmations, new ScriptedFileDialogs(), new ScriptedDialogs(), new RecordingClipboard(),
+            new RecordingLinks(), wiki);
+        using var sheet = Open(StratigraphyScenarios.FixtureData(root, "minimi-entrambi-indefinito"), services);
+        var editor = sheet.Editor;
+        var forms = editor.Forms.ToArray();
+        expect.That(forms.Length == 7 && forms.All(f => ReferenceEquals(f.WikiNavigator, wiki) && f.Compact && !f.SymbolColumns && f.WikiModule is null)
+            && ReferenceEquals(forms[0], editor.GeneralForm) && ReferenceEquals(forms[1], editor.LayerForm) && ReferenceEquals(forms[2], editor.DescriptionForm),
+            "Form della vista: sette blocchi compatti con il navigatore della Wiki dei servizi");
+        expect.That(editor.LayerForm!.Fields.Select(f => f.Key).SequenceEqual(["name", "soil_type", "behavior"]) && editor.DescriptionForm!.Fields.Select(f => f.Key).SequenceEqual(["description", "color"]),
+            "Identità dello strato in due blocchi, con la nota sui terreni misti fra comportamento e descrizione (S8)");
+        var multiline = forms.SelectMany(f => f.Fields.Where(x => x.Multiline).Select(x => (ReferenceEquals(f, editor.MinimaForm) ? "minimum." : "") + x.Key)).ToArray();
+        expect.That(multiline.SequenceEqual(["description", "description", "source", "minimum.source", "minimum.notes", "notes"]),
+            "Campi su più righe (S7): le caselle con AcceptsReturn della vista storica, " + string.Join(", ", multiline));
+        expect.That(forms.SelectMany(f => f.Fields).All(f => f.Layout == FieldLayout.LabelAbove), "Etichette sopra gli editor a tutta larghezza, come la vista storica");
+        foreach (var form in new[] { editor.MeansForm!, editor.MinimaForm! })
+            expect.That(form["phi"].LabelToolTip == form["phi"].Label && form["phi"].EditorToolTip == form["phi"].Label && form["gamma"].EditorToolTip == form["gamma"].Label
+                && CalculationHelp.Field("phi") is not null, "φ′ senza l'aiuto del coefficiente di viscosità del calcestruzzo: " + form["phi"].Label);
+        // F1 of a field: no topic of the stratigraphy, the guide of the module (the view gives the module to the forms, WikiContextHelp.Module).
+        foreach (var form in forms) form.InheritedWikiModule = StratigraphyScenarios.Module;
+        string guide = Anthea.Wiki.WikiCatalog.ForModule(StratigraphyScenarios.Module)?.Id ?? throw new InvalidOperationException("Guida della stratigrafia assente nella Wiki.");
+        expect.That(forms.All(f => f.Fields.All(x => !x.HasHelp)) && forms.All(f => f.Fields[0].OpenContextHelp()) && wiki.Shown.Count == forms.Length && wiki.Shown.All(u => u == guide),
+            "F1 di ogni form: la guida del modulo dal navigatore dei servizi, nessun «?»");
+        // The commands of the check boxes: the extent only for the last layer; «No» to the removal of the minima shows the minima again.
+        int modified = 0;
+        sheet.Modified += (_, _) => modified++;
+        var raised = new List<string?>();
+        editor.PropertyChanged += (_, e) => raised.Add(e.PropertyName);
+        expect.That(!editor.ToggleInfiniteCommand.CanExecute(null) && editor.ToggleMinimumCommand.CanExecute(null), "Comandi delle caselle sul primo strato");
+        confirmations.Then(false);
+        editor.ToggleMinimumCommand.Execute(null);
+        expect.That(editor.HasMinimum && raised.Contains(nameof(editor.HasMinimum)) && raised.Contains(nameof(editor.IsInfinite)) && editor.MinimaForm is not null && modified == 1
+            && confirmations.Asked.Count == 1, "«No» alla rimozione dei minimi: la casella torna spuntata, Modified come oggi (S6)");
+        // The list of the view loses its selection when its rows are built again: ignored, the moved layer stays selected.
+        editor.Layers.CollectionChanged += (_, _) => editor.SelectedLayerIndex = -1;
+        string first = editor.LayerForm!["name"].Text;
+        editor.MoveLayerDownCommand.Execute(null);
+        expect.That(editor.SelectedLayerIndex == 1 && editor.LayerForm!["name"].Text == first && editor.ProfileSelection == 1 && modified == 2,
+            "Selezione persa dall'elenco mentre si ricostruisce: ignorata, lo strato spostato resta selezionato");
+        editor.SelectedLayerIndex = 2;
+        expect.That(editor.ToggleInfiniteCommand.CanExecute(null) && editor.IsInfinite && editor.ThicknessForm is null, "Comando dell'estensione indefinita sull'ultimo strato");
+        // Read-only: every command of the editor disabled, the selection allowed.
+        sheet.IsReadOnly = true;
+        CommunityToolkit.Mvvm.Input.IRelayCommand[] commands = [editor.AddLayerCommand, editor.DuplicateLayerCommand, editor.RemoveLayerCommand, editor.MoveLayerUpCommand,
+            editor.MoveLayerDownCommand, editor.ToggleInfiniteCommand, editor.ToggleMinimumCommand];
+        editor.SelectedLayerIndex = 0;
+        expect.That(commands.All(c => !c.CanExecute(null)) && editor.SelectedLayerIndex == 0 && editor.Forms.All(f => f.IsReadOnly && ReferenceEquals(f.WikiNavigator, wiki)),
+            "Sola lettura: comandi dell'editor spenti, selezione ammessa, form con il navigatore");
+        sheet.IsReadOnly = false;
+        expect.That(commands.Where(c => !ReferenceEquals(c, editor.ToggleInfiniteCommand)).All(c => c.CanExecute(null)) && !editor.ToggleInfiniteCommand.CanExecute(null)
+            && modified == 2, "Ritorno alla modifica: comandi dell'editor attivi");
+    }
+
     /// <summary>
     /// The keys written by the sheet: only keys of the document (the editor never adds interface state); a behaviour chosen in a layer without
     /// it is added at the end of the layer, as the view does.
@@ -479,7 +548,7 @@ internal static class StratigraphySheetChecks
                 import.BrowseCommand.Execute(null);
                 var extraction = import.ExtractCommand.ExecuteAsync(null);
                 expect.That(extraction.IsCompleted && import.File == pdf && import.Profiles.SequenceEqual(["1 · S1 · bozza", "2 · S2"]) && import.SelectedProfileIndex == 0
-                    && import.Message == "Bozza AI da controllare · Controllare le unità" && import.Preview is { ImportVisible: false } && !import.CanApply,
+                    && import.Message == "Bozza AI da controllare · Controllare le unità" && import.Preview is { ImportVisible: false } preview && preview.Forms.All(f => f.WikiNavigator is not null) && !import.CanApply,
                     "Bozze estratte");
                 expect.That(source.Calls.Single() == (pdf, "chiave-di-prova", "modello-di-prova"), "Richiesta dell'estrazione");
                 import.Reviewed = true;
@@ -601,6 +670,20 @@ internal static class StratigraphySheetChecks
         await Expect.Within(sheet.TransferSoilCommand.ExecuteAsync(null));
         expect.That(transfer.Calls.Count == 3 && messages.Failures.Single() is var failure && failure.Title == "Operazione non completata"
             && failure.Error is ArgumentException && failure.Error.Message == "Assegnare un nome alla stratigrafia.", "Conferma non valida prima del dialogo");
+        // Without a dialog in the options (the composition root of the desktop since the XAML view): the shared dialog on the dialog service (T5).
+        var dialogs = new ScriptedDialogs();
+        SoilTransferDialogViewModel? shown = null;
+        dialogs.Then(d =>
+        {
+            shown = (SoilTransferDialogViewModel)d;
+            shown.SelectedDestination = "geo_palo_verticale";
+            shown.SendCommand.Execute(null);
+        });
+        using var shared = Open(StratigraphyScenarios.FixtureData(root, "profilo-medi-falda"), Scripted.Services(dialogs: dialogs), host, Options() with { Transfer = null });
+        await Expect.Within(shared.TransferSoilCommand.ExecuteAsync(null));
+        expect.That(shown is { Title: SoilTransferDialogViewModel.DialogTitle } && shown.SourceLabels.SequenceEqual(["1. Sondaggio S1"]) && dialogs.Shown.Count == 1
+            && host.Requests.Count == 3 && host.Requests[2].StartsWith("copia geo_palo_verticale «Terreno da ", StringComparison.Ordinal),
+            "Senza dialogo nelle opzioni: il dialogo condiviso sul servizio dei dialoghi (T5), " + host.Requests[^1]);
     }
 
     // ---------------------------------------------------------------- doubles

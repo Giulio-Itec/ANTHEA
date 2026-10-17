@@ -8,7 +8,8 @@ namespace X.Desktop;
 /// <summary>
 /// The soil transfer dialog of the MVVM sheets in the desktop (F5.6b): the historic window <see cref="SoilTransferDialog"/>, shared by the
 /// soil modules and unchanged, shown as the historic sheet shows it (SheetEditor.OpenSoilTransfer), owned by the active window. Its
-/// answer becomes a <see cref="SoilTransferChoice"/>: a copy in a new sheet, or the replacement of the soil of the sheet.
+/// answer becomes a <see cref="SoilTransferChoice"/>: a copy in a new sheet, or the replacement of the soil of the sheet. Since the XAML view
+/// of the stratigraphy the composition root gives it only to the shallow foundations; the stratigraphy shows the shared dialog (T5).
 /// </summary>
 internal sealed class WpfSoilTransferDialog : ISoilTransferDialog
 {

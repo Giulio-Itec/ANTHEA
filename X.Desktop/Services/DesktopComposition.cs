@@ -64,9 +64,9 @@ internal sealed class DesktopComposition
             new VerticalPileSheetModule(VerticalPileSheetViewModel.MicropileModule, verticalFigures), new ConcreteMaterialSheetModule(),
             new RebarMaterialSheetModule(), new HorizontalPileSheetModule(HorizontalPileSheetViewModel.PileModule, horizontalFigures),
             new HorizontalPileSheetModule(HorizontalPileSheetViewModel.MicropileModule, horizontalFigures), new ShallowFoundationSheetModule(transfer: new WpfSoilTransferDialog()),
-            // F5.6b: the stratigraphy, with the AI import of Application (disabled, as the historic button) and the historic soil transfer dialog.
-            new StratigraphySheetModule(new(Anthea.Application.Stratigraphy.StratigraphyImport.OpenAi(), Anthea.Application.Stratigraphy.StratigraphyImport.EnvironmentDefaults,
-                new WpfSoilTransferDialog())),
+            // F5.6b: the stratigraphy, with the AI import of Application (disabled, as the historic button) and, since its XAML view, the shared
+            // soil transfer dialog on the dialog service (no dialog in the options: SoilTransferDialogService, decision T5).
+            new StratigraphySheetModule(new(Anthea.Application.Stratigraphy.StratigraphyImport.OpenAi(), Anthea.Application.Stratigraphy.StratigraphyImport.EnvironmentDefaults)),
             new RetainingWallSheetModule(new RetainingWallFigureRenderer())]);
     }
 
