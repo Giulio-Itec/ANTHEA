@@ -29,6 +29,7 @@ try
     checks += ShallowFoundationSheetChecks.Run(root, output);
     checks += HorizontalPileSheetChecks.Run(root, output);
     checks += StratigraphySheetChecks.Run(root, output);
+    checks += RetainingWallSheetChecks.Run(root, output);
     string message = $"PASS {checks} controlli di Presentation senza WPF";
     File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
     Console.WriteLine(message);

@@ -9916,38 +9916,6 @@
       "Example": "o . D ( \"scala_x\" , 1 )"
     },
     {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.Wall.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ModuleFigureRenderer.BarFigures",
-      "Fingerprint": "D8D65C3062C3B6A99DACAC32F222A20A6276EC6307D17D61C17EC646D966B0F3",
-      "Count": 1,
-      "Example": "1120d"
-    },
-    {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.Wall.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ModuleFigureRenderer.BarFigures",
-      "Fingerprint": "FD1A1E830E596C7E1E00CA68EE85D1A9389092A2B65123F11EFBC6781819690A",
-      "Count": 1,
-      "Example": "790"
-    },
-    {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.Wall.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ModuleFigureRenderer.WallFigures",
-      "Fingerprint": "0C62D6C2C956E2699C2EDDC5ADCFEC635974CF65FF52D3DE61ED56D764D0AC65",
-      "Count": 1,
-      "Example": "460"
-    },
-    {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.Wall.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ModuleFigureRenderer.WallFigures",
-      "Fingerprint": "A03BEC72D4D0E17435F1F4A92C95773441CFAD1CD5BBB964E82770DB8B4772CB",
-      "Count": 1,
-      "Example": "1100d"
-    },
-    {
       "File": "X.Desktop/Wpf/NeutralAxisOverlay.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "NeutralAxisOverlay.Draw",
@@ -11830,14 +11798,6 @@
     {
       "File": "X.Desktop/Wpf/RetainingWallBarDrawing.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.PageCount",
-      "Fingerprint": "C6D8247368F04E9D2FB54C9613A0A3F0EC9E76046775928C60339356A6C88A21",
-      "Count": 1,
-      "Example": "8d"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
       "Owner": "RetainingWallBarDrawing.Render",
       "Fingerprint": "51510A98D0370F6757422E877FC2197A51C3CCDF3EC120473FCFA914A01228F4",
       "Count": 1,
@@ -11962,14 +11922,6 @@
       "Fingerprint": "F7EEFD667E548C6A15E95A5EAD64AA18D975E91624271EDB0FD7EC4EA9688372",
       "Count": 1,
       "Example": "390"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.ShapePages",
-      "Fingerprint": "EF818BA81C0CD7831F4AEA31B21E07AB96709EAAB2ED741496F04F1812B95128",
-      "Count": 1,
-      "Example": "4d"
     },
     {
       "File": "X.Desktop/Wpf/RetainingWallBarDrawing.cs",
@@ -13348,86 +13300,6 @@
       "Example": "1000"
     },
     {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Advanced.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.DesignRebarScheduledAsync",
-      "Fingerprint": "0771D22236C070C22B53F31F895EECBA102F21E3775488F7B254B375C5B4255A",
-      "Count": 1,
-      "Example": "a . D ( \"count\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Advanced.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.DesignRebarScheduledAsync",
-      "Fingerprint": "60D2FEFAAFE952B71C2307A842B4385B85A44D634C4C768B4083499BB332DC74",
-      "Count": 1,
-      "Example": "a . D ( \"secondary_diameter\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Advanced.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.DesignRebarScheduledAsync",
-      "Fingerprint": "6E8BB9A78A90DDC84AB3A14B64A519F8F5F9776802E93790C732A5AC4485DE05",
-      "Count": 1,
-      "Example": "a . D ( \"secondary_spacing\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Advanced.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.DesignRebarScheduledAsync",
-      "Fingerprint": "A5C005D50DBA84F817FBB64B73C8650626765D109DA683F6654210A495F218E8",
-      "Count": 1,
-      "Example": "a . D ( \"diameter\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalGuidance.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.RefreshGlobalGuidance",
-      "Fingerprint": "17518A6A9D966E482C65C5F995AC22267F69C16D9A956CE8A9AA0073470CACE2",
-      "Count": 1,
-      "Example": "g . D ( \"depth_min\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalGuidance.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.RefreshGlobalSearch",
-      "Fingerprint": "820162A3D89ECB6A5F9E30B8B1BD9A3DAE182F045921DC74C7F38FB6508635D3",
-      "Count": 1,
-      "Example": "g . D ( \"depth_min\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalGuidance.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.RefreshGlobalSearch",
-      "Fingerprint": "98D24E7498EE9422386E12A5743E8D805863E6959B3D882D9549CA044907D65B",
-      "Count": 1,
-      "Example": "g . D ( \"slices\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalSoils.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.GlobalSoilTop",
-      "Fingerprint": "80324C457F9E8065C0BF95B0BE942181778EBD772D66937280E345FCACFF72E6",
-      "Count": 1,
-      "Example": "Data [ \"geometry\" ] . D ( \"height\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalSoils.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.GlobalSoilTop",
-      "Fingerprint": "9A209672AB5E52A2BAF0BCC12973E7F65F6C5415152F1BFDCF96CE61D02787A1",
-      "Count": 1,
-      "Example": "Data [ \"geometry\" ] . D ( \"slab\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalSoils.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.GlobalSoilTop",
-      "Fingerprint": "E974138EB0A7709DBE75D234FF14B84DCA8DCAC75B5C47B3C3070170FDC095F2",
-      "Count": 1,
-      "Example": "( valley ? points [ ^ 1 ] : points [ 0 ] ) . D ( \"y\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalStability.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RetainingWallWorkspace.ExportGlobalWord",
@@ -13442,78 +13314,6 @@
       "Fingerprint": "C7DD71D045AA92A3AC77DEA5BB55246FFC36DD09F57E756EEF0D9A9BDBD2109F",
       "Count": 1,
       "Example": "460"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Inputs.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.UpdateSeismicStatus",
-      "Fingerprint": "0DBE96B0099D878025EB2A2675788379D31EF999D8D7082CE8BB6E47B8F3AC31",
-      "Count": 1,
-      "Example": "Data [ \"seismic\" ] . D ( \"kv\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Inputs.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.UpdateSeismicStatus",
-      "Fingerprint": "C77E17DA3D4FF559F0248B29D836B920D217935BFA0A91FE9CB02D800E69D55C",
-      "Count": 1,
-      "Example": "Data [ \"seismic\" ] . D ( \"kh\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Results.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.PressurePanel",
-      "Fingerprint": "BDCEC03ECB151B1E75668D9A5CBCBE6E1E4B6234ADA9068965A74DD9F78DB7FC",
-      "Count": 2,
-      "Example": "Data [ \"geometry\" ] . D ( \"height\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Results.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.PressurePanel",
-      "Fingerprint": "D3A11E518F693DE4B785A1A09070D56DF464A01F96B569AC09D26CE93953AAC8",
-      "Count": 2,
-      "Example": "Data [ \"geometry\" ] . D ( \"slab\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Results.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.ShowCheckTable",
-      "Fingerprint": "2DCB02CE4EC2FA5C02D5E6DD2414711F83DE149C4B422B34FE74084BFDC59F40",
-      "Count": 1,
-      "Example": "factor . D ( \"rslide\" , 1 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Results.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.ShowCheckTable",
-      "Fingerprint": "3B91A81962754C8B1B63142B711F561F98DF0BB8547F7B84089ECDF1C8BA997B",
-      "Count": 1,
-      "Example": "factor . D ( \"mphi\" , 1 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Results.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.ShowCheckTable",
-      "Fingerprint": "3CFC0F45398C870915B09CADF5288F79EF3BDB08FB224E4FA54EF3E2B90835A2",
-      "Count": 1,
-      "Example": "factor . D ( \"rover\" , 1 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Results.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.ShowCheckTable",
-      "Fingerprint": "7C851DC344EEE66C33033C2C827C489D0DF3882467CAB8D2AF81B5A6D541B039",
-      "Count": 1,
-      "Example": "factor . D ( \"rbearing\" , 1 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Seismic.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallWorkspace.UpdateSeismicFields",
-      "Fingerprint": "7C0988A5B6B067648A0233239EE5FC2642EB6328434A2BC8AF16A52DA36DB0D7",
-      "Count": 1,
-      "Example": "s . D ( \"slope\" )"
     },
     {
       "File": "X.Desktop/Wpf/RetainingWallWorkspace.Soils.cs",
@@ -14510,22 +14310,6 @@
     {
       "File": "src/ANTHEA.Application/Presentation/WallSheetPresentation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "WallSheetPresentation.DescribeColumnDepths",
-      "Fingerprint": "0DEFFFD6116339C4AFF4A88450D5DC6EEA28FAB08A7BD533080D6324EC18905E",
-      "Count": 1,
-      "Example": "data [ \"geometry\" ] . D ( \"slab\" )"
-    },
-    {
-      "File": "src/ANTHEA.Application/Presentation/WallSheetPresentation.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "WallSheetPresentation.DescribeColumnDepths",
-      "Fingerprint": "E1380DA88C12841C1EA1C5161831A53BBB7953279A1CB04A3244EF48E777801B",
-      "Count": 1,
-      "Example": "data [ \"geometry\" ] . D ( \"height\" )"
-    },
-    {
-      "File": "src/ANTHEA.Application/Presentation/WallSheetPresentation.cs",
-      "Rule": "R4-implicit-number",
       "Owner": "WallSheetPresentation.ParseHistory",
       "Fingerprint": "9E1DE5664D0CE2C5F50829D94858A2EEF7B4479B15343C60477741C770F53200",
       "Count": 1,
@@ -14562,6 +14346,22 @@
       "Fingerprint": "C0A7F79C7AEE4BFC96D1EEA26E0D2B91844A7BF2A34D83FB46670892D7AB9655",
       "Count": 1,
       "Example": "1e-9"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/WallSheetPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "WallSheetPresentation.TotalHeight",
+      "Fingerprint": "320F67F3F5EB11178967A3EDCB6F3D6D64461A0488FD06F6756B77E956B6FD37",
+      "Count": 1,
+      "Example": "data [ \"geometry\" ] . D ( \"height\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/WallSheetPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "WallSheetPresentation.TotalHeight",
+      "Fingerprint": "47492351066AE93B79D2892A6DCFF045F0437C778C2DCCB367BC216BF9BCB0C7",
+      "Count": 1,
+      "Example": "data [ \"geometry\" ] . D ( \"slab\" )"
     },
     {
       "File": "src/ANTHEA.Application/Presentation/VerticalPilePresentation.cs",
@@ -17626,6 +17426,126 @@
       "Fingerprint": "B6C22AD187A334D50B384057A37C87C2A4D5B5C9C0BBF88E8168295007248AE1",
       "Count": 1,
       "Example": "revision . D ( \"numero\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.Global.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.GlobalReadiness",
+      "Fingerprint": "4B40F04777743486570324AF5700B2F57690957B03BABE6A5F3ADEB7F69BCC50",
+      "Count": 1,
+      "Example": "g . D ( \"depth_min\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.Global.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.GlobalSearchSummary",
+      "Fingerprint": "7FD1B2A2C2169302DBB03B25AA4F307CAAF4390B5EDB8C01232B5A938982DB33",
+      "Count": 1,
+      "Example": "g . D ( \"slices\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.Global.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.GlobalSearchSummary",
+      "Fingerprint": "C2CF3BD5B8EEC7BE5F70B250F71E131149AE75EAE3C5A2E35A01F2D451599645",
+      "Count": 1,
+      "Example": "g . D ( \"depth_min\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.Global.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.GlobalSoilTop",
+      "Fingerprint": "5AAC3C37EA19B61A7D29B71DDCFEE70A2D0FBAD0D4F8A0FE3E83C54B0A7AD07E",
+      "Count": 1,
+      "Example": "( valley ? points [ ^ 1 ] : points [ 0 ] ) . D ( \"y\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.Inputs.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.InputRules",
+      "Fingerprint": "80B93FA18B143E8D9608168D99C90B147F56AF775F3B0CF3C283DD28595FCD03",
+      "Count": 1,
+      "Example": "s . D ( \"slope\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.CheckHeader",
+      "Fingerprint": "34D353955748394BAD1C5D9078F5060083101684C125572A104346D12EECDD48",
+      "Count": 1,
+      "Example": "factor . D ( \"mphi\" , 1 )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.CheckHeader",
+      "Fingerprint": "4981D6AC7E806DF81088E62EBF79F1346566FE604B270B0FB20220E526C9B8AE",
+      "Count": 1,
+      "Example": "factor . D ( \"rbearing\" , 1 )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.CheckHeader",
+      "Fingerprint": "8375A839487EAC354F10EA3FCD178F97356DFBDA55C92DA312DDEA15677B00C5",
+      "Count": 1,
+      "Example": "factor . D ( \"rover\" , 1 )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.CheckHeader",
+      "Fingerprint": "9F448BF1D70C1EBF55195C7CFCA0732D5096013E33EA8E2CCEC5171EF02B24F1",
+      "Count": 1,
+      "Example": "factor . D ( \"rslide\" , 1 )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.ProposalRows",
+      "Fingerprint": "23DCE39F4E8690C0351DF90A3560062861920F6178126D817949E6C1F8EDEEFB",
+      "Count": 1,
+      "Example": "a . D ( \"diameter\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.ProposalRows",
+      "Fingerprint": "2A0C303DE3C1604EAD027D4BA513A1BFF1D23D90CD6F0F21BD3EB56014BD27E6",
+      "Count": 1,
+      "Example": "a . D ( \"count\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.ProposalRows",
+      "Fingerprint": "520D83B93A25A958D9D62CC4FF1F962C491C46250FB30436C1F994F430BBE0E0",
+      "Count": 1,
+      "Example": "a . D ( \"secondary_diameter\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.ProposalRows",
+      "Fingerprint": "748F8A8240EFCE433877E2FE3A20BCD6E75F76B993BE9AAF108B0BB7378525FD",
+      "Count": 1,
+      "Example": "a . D ( \"secondary_spacing\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.SeismicStatus",
+      "Fingerprint": "1AD674D262F5888EA179B4A5AF912C6A8CEF737E1EBF3374D744B681D634B5BB",
+      "Count": 1,
+      "Example": "seismic . D ( \"kh\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/RetainingWallPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "RetainingWallPresentation.SeismicStatus",
+      "Fingerprint": "56707551531FF647EC8A5D829731238BE41B877BF93C53917B1654F65E63EA7B",
+      "Count": 1,
+      "Example": "seismic . D ( \"kv\" )"
     }
   ]
 }

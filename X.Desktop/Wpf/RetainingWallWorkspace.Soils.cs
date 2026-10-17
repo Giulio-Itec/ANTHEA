@@ -1,4 +1,5 @@
 using Anthea.Application.Walls;
+using Anthea.Presentation.Modules.RetainingWall;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,14 +15,12 @@ internal sealed partial class RetainingWallWorkspace
     {
         WallModel.CompleteSoilInput(Data);
         var valley = Data["valley"]!.AsObject();
-        var mode = Form("valley", [new("height_mode", "Tratto libero a valle", Choices: ["Interamente libero", "Assegnato"]),
-            new("free_height", "Dalla sommità al terreno di valle", "m", Symbol: "Hlib"), new("linked", "Modifica insieme le due colonne", Bool: true),
-            new("passive", "Considera la resistenza passiva a valle", Bool: true), new("mobilization", "Frazione mobilitata (0–0,5)", "−", Symbol: "ηp")], valley,
+        var mode = Form("valley", RetainingWallFields.Valley, valley,
             key => { if (key == "linked" && valley.B("linked")) SyncSoils(false); });
         FrameworkElement Column(bool front)
         {
             var array = front ? valley.Array("layers") : Data.Array("layers");
-            var grid = GridFor([new("name", "Terreno"), new("thickness", "Δz\n[m]"), new("gamma", "γ\n[kN/m³]"), new("gamma_sat", "γsat\n[kN/m³]"), new("phi", "φ′\n[°]"), new("__to", "Fondo z\n[m]", ReadOnly: true)], array,
+            var grid = GridFor(RetainingWallFields.SoilColumns, array,
                 _ => { SyncSoils(front); UpdateColumnDepths(); }, 150);
             if (front) ValleyLayerGrid = grid; else LayerGrid = grid;
             for (int i = 0; i < grid.Columns.Count; i++) { grid.Columns[i].Width = new DataGridLength(i == 0 ? 2 : 1, DataGridLengthUnitType.Star); grid.Columns[i].MinWidth = i == 0 ? 80 : 40; }
@@ -33,11 +32,10 @@ internal sealed partial class RetainingWallWorkspace
         var columns = new Grid(); columns.ColumnDefinitions.Add(new()); columns.ColumnDefinitions.Add(new());
         var left = Column(true); var right = Column(false); left.Margin = new Thickness(0, 0, 8, 0); Grid.SetColumn(right, 1); columns.Children.Add(left); columns.Children.Add(right);
         SoilButton = Ui.Button("Invia / carica terreno…", () => SoilTransferRequested?.Invoke());
-        var interfaces = Form("interfaces", [new("wall_mode", "Attrito muro–terreno", Choices: WallModel.FrictionModes), new("wall_delta", "δ muro caratteristico assegnato", "°"),
-            new("wall_phi_cv", "φcv,k terreno a contatto col muro", "°"), new("base_mode", "Attrito terreno–fondazione", Choices: WallModel.FrictionModes), new("base_phi_cv", "φcv,k terreno di fondazione", "°")]);
-        var water = Form("water", [new("enabled", "Presenza falda", Bool: true), new("depth", "Profondità da sommità monte", "m", Symbol: "zf"), new("front_head", "Battente a valle dal piano di posa", "m", Symbol: "hw,v")]);
+        var interfaces = Form("interfaces", RetainingWallFields.Interfaces);
+        var water = Form("water", RetainingWallFields.Water);
         return Ui.Stack(mode, columns, layerStatus, Ui.Bar(SoilButton), Ui.Text(WallModel.SoilHelp, 11, color: Ui.Muted),
-            Group("Attriti e terreno di fondazione", Ui.Stack(interfaces, Form("foundation", Fields(WallModel.FoundationFields)), Ui.Text(WallModel.FrictionHelp, 11, color: Ui.Muted)), false),
+            Group("Attriti e terreno di fondazione", Ui.Stack(interfaces, Form("foundation", RetainingWallFields.Foundation), Ui.Text(WallModel.FrictionHelp, 11, color: Ui.Muted)), false),
             Group("Falda e sottospinta", water, false), GlobalCard());
     }
     internal void SyncSoils(bool fromValley)
@@ -82,16 +80,5 @@ internal sealed partial class RetainingWallWorkspace
             grid.Height = Math.Min(200, 72 + 31 * grid.Rows.Count);
         }
         layerStatus.Text = summary.Text; layerStatus.Foreground = Appearance.Foreground(summary.Valid ? Ui.Muted : Brushes.Firebrick);
-    }
-    private void UpdateSoilFields()
-    {
-        if (Forms.TryGetValue("valley", out var v)) { v.Enable("free_height", Data["valley"].S("height_mode") == "Assegnato"); v.Enable("mobilization", Data["valley"].B("passive")); }
-        if (Forms.TryGetValue("interfaces", out var f))
-        {
-            f.ShowField("wall_delta", Data["interfaces"].S("wall_mode") == "Assegnato");
-            f.ShowField("wall_phi_cv", Data["interfaces"].S("wall_mode") is "Gettato in opera" or "Prefabbricato liscio");
-            f.ShowField("base_phi_cv", Data["interfaces"].S("base_mode") is "Gettato in opera" or "Prefabbricato liscio");
-            if (Forms.TryGetValue("foundation", out var foundation)) foundation.Enable("delta", Data["interfaces"].S("base_mode") == "Assegnato");
-        }
     }
 }

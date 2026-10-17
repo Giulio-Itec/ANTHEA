@@ -1,0 +1,434 @@
+== apertura
+dati: version|family|geometry|foundation|loads|materials|layers|water|seismic|reinforcement|extensions|global_stability|valley|interfaces|bearing_seismic|bar_schedule|serviceability|detailing|gravity_design|actions|combinations|combination_mode
+dati.version: 2
+dati.family: "cantilever"
+dati.geometry: {"height":3,"stem_base":0.4,"stem_top":0.25,"slab":0.45,"toe":0.8,"heel":1.8}
+dati.foundation: {"phi":34,"gamma":19,"gamma_sat":21,"delta":26}
+dati.loads: {"surcharge":10,"horizontal":0,"vertical":0,"psi1":0.5,"psi2":0.3}
+dati.materials: {"gamma":25,"fck":30,"fyk":450,"cover":40,"compression_rd":5,"shear_rd":0.2,"tension_rd":0.3,"creep":2,"exposure":"XC2","classe_cls":"C30/37","materiale_cls_nome":"C30/37","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_modulus_mpa":200000,"steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15"}
+dati.layers: [{"name":"Terreno granulare","thickness":25,"gamma":18,"gamma_sat":20,"phi":30,"__index":1,"__from":"0,00","__to":"25,00"}]
+dati.water: {"enabled":false,"depth":2,"front_head":0}
+dati.seismic: {"enabled":false,"kh":0.1,"kv":0.05,"source":"Da parametri del sito (SLV)","ag_g":"","f0":"","soil_class":"Da scegliere","ss_mode":"Calcolato","ss":"","st_mode":"Calcolato","st":"","topography":"Pianeggiante","slope":"","relief_height":"","site_height":"","method":"Mononobe–Okabe"}
+dati.reinforcement: {"stem":{"diameter":16,"count":6,"symmetric":true,"opposite_diameter":16,"opposite_count":6,"secondary_diameter":10,"secondary_spacing":200,"anchor_length":0,"lap_length":0,"bend_diameter":0},"toe":{"diameter":16,"count":6,"symmetric":true,"opposite_diameter":16,"opposite_count":6,"secondary_diameter":10,"secondary_spacing":200,"anchor_length":0,"lap_length":0,"bend_diameter":0},"heel":{"diameter":16,"count":6,"symmetric":true,"opposite_diameter":16,"opposite_count":6,"secondary_diameter":10,"secondary_spacing":200,"anchor_length":0,"lap_length":0,"bend_diameter":0},"stem_upper":{"diameter":16,"count":6,"symmetric":true,"opposite_diameter":16,"opposite_count":6,"secondary_diameter":10,"secondary_spacing":200,"anchor_length":0,"lap_length":0,"bend_diameter":0},"two_zones":false,"lower_height":1.5}
+dati.extensions: {}
+dati.global_stability: {"enabled":true,"condition":"Drenata","water_enabled":true,"seismic":false,"seismic_source":"Da sito · βs=0,38","kh":"","kv":"","profile_confirmed":true,"valley":[{"x":-13.8,"y":0},{"x":0,"y":0}],"uphill":[{"x":1.2000000000000002,"y":3.45},{"x":16.8,"y":3.45}],"layers":[{"name":"Terreno granulare","bottom":-21.55,"gamma":18,"gamma_sat":20,"phi":30,"c":0,"cu":""}],"water":[{"x":-13.8,"y":-0.8},{"x":3,"y":-0.5},{"x":16.8,"y":0.6}],"exit_min":-13.8,"exit_max":-0.1,"entry_min":3.1,"entry_max":16.8,"depth_min":0.1,"depth_max":6.9,"grid":9,"slices":60,"refinements":4,"search_mode":"Assegnata","combination_mode":"Automatiche","combinations":[],"valley_layers":[{"name":"Terreno granulare","bottom":-12,"gamma":18,"gamma_sat":20,"phi":30,"c":0,"cu":""}],"soil_mode":"Due colonne","soil_split_x":1.2000000000000002}
+dati.valley: {"height_mode":"Interamente libero","free_height":3.45,"linked":false,"layers":[{"name":"Terreno granulare","thickness":12,"gamma":18,"gamma_sat":20,"phi":30,"__index":1,"__from":"0,00","__to":"12,00"}],"passive":false,"mobilization":0}
+dati.interfaces: {"wall_mode":"Assegnato","wall_delta":0,"wall_phi_cv":30,"base_mode":"Assegnato","base_phi_cv":34}
+dati.bearing_seismic: {"source":"Da sito","ground_kh":"","ground_kv":"","model_factor":1.15}
+dati.bar_schedule: {"panel_length":1,"end_cover":40,"stock_length":12,"ties_per_m":2,"tie_cut_length":0}
+dati.serviceability: {"settlement":false,"displacement":false,"removed_pressure":"","settlement_limit":25,"rotation_limit":0.002,"head_limit":20,"horizontal_stiffness":"","rigid_base":false,"layers":[],"histories":[]}
+dati.detailing: {"enabled":false,"aggregate":20,"lap_percent":100,"lap_clear":0,"good_bond":false,"life":50,"cover_deviation":10,"tie_diameter":8,"tie_spacing":200,"max_diameter":32,"max_count":12,"target_ratio":0.95,"cover_method":"NTC + Circ. 2019","cover_element":"Piastra / soletta / parete","cover_ground":"Casseratura","cover_abrasion":"Nessuno","cover_quality":false,"cover_high_strength":false,"cover_slab":false,"cover_ec_quality":false,"cover_rough":false}
+dati.gravity_design: {"type":"Resistenze assegnate","fk":"","fvk0":"","fvk_limit":"","gamma_m":2.5,"confidence":1,"eccentricity":0,"effective_height":"","elastic_modulus":""}
+dati.actions: [{"id":"<ID-1>","name":"Sovraccarico uniforme","type":"Sovraccarico uniforme","category":"Q","enabled":true,"visible":true,"value":10,"z":3.45,"z0":0.45,"x":1.0750000000000002,"psi0":0.7,"psi1":0.5,"psi2":0.3,"group":"legacy"}]
+dati.combinations: []
+dati.combination_mode: "Automatiche"
+foglio: modificato 0 · sola lettura no · occupato no · report 0 · terreno 0
+sezioni: 
+risultato: -
+globale: -
+stato: "Dati da verificare"
+tipologia: cantilever · voci "Mensola in c.a.|Gravità|Semigravità · previsto (spenta)|Gabbioni · previsto (spenta)|Contrafforti · previsto (spenta)|Su pali · previsto (spenta)|Su micropali · previsto (spenta)|Con tiranti · previsto (spenta)|Con dente di fondazione · previsto (spenta)|Con mensole intermedie · previsto (spenta)|Muro di cantina · previsto (spenta)"
+pulsante.sisma: "Sisma: non attivo · imposta" · "Apri Input → Azioni → Sisma. Abilita l’azione sismica e assegna modello, kh e |kv|. Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti."
+pulsante.globale: "Stabilità globale: dati / calcolo" · "Apri il percorso guidato: profilo del terreno, strati profondi, falda, ricerca e verifica."
+pulsante.armature: sì
+pagina: 0
+combinazioni: "" · scelta ""
+vista: "Geometria e carichi" · elemento "Fusto" · filtro "Riepilogo completo"
+combinazioni-globali: "" · scelta "" · nascoste
+interruttori: Carichi=sì Dati=sì Armature=sì Spinte=sì Intero profilo=no · profilo nascosto
+riepilogo: ""
+form.valley: visibile
+campo.valley.height_mode: scelta "Tratto libero a valle" = "Interamente libero" voci "Interamente libero|Assegnato"
+campo.valley.free_height: campo "Dalla sommità al terreno di valle" Hlib [m] = "3.45" · spento
+campo.valley.linked: opzione "Modifica insieme le due colonne" = "no"
+campo.valley.passive: opzione "Considera la resistenza passiva a valle" = "no"
+campo.valley.mobilization: campo "Frazione mobilitata (0–0,5)" ηp [−] = "0" · spento
+form.interfaces: visibile
+campo.interfaces.wall_mode: scelta "Attrito muro–terreno" = "Assegnato" voci "Assegnato|Gettato in opera|Prefabbricato liscio|Liscio"
+campo.interfaces.wall_delta: campo "δ muro caratteristico assegnato" [°] = "0"
+campo.interfaces.wall_phi_cv: campo "φcv,k terreno a contatto col muro" [°] = "30" · nascosto
+campo.interfaces.base_mode: scelta "Attrito terreno–fondazione" = "Assegnato" voci "Assegnato|Gettato in opera|Prefabbricato liscio|Liscio"
+campo.interfaces.base_phi_cv: campo "φcv,k terreno di fondazione" [°] = "34" · nascosto
+form.foundation: visibile
+campo.foundation.phi: campo "Attrito terreno di posa" φ′f [°] = "34"
+campo.foundation.gamma: campo "Peso terreno asciutto" γf [kN/m³] = "19"
+campo.foundation.gamma_sat: campo "Peso terreno saturo" γsat,f [kN/m³] = "21"
+campo.foundation.delta: campo "Attrito alla base" δb [°] = "26"
+form.water: visibile
+campo.water.enabled: opzione "Presenza falda" = "no"
+campo.water.depth: campo "Profondità da sommità monte" zf [m] = "2" · spento · attenuato
+campo.water.front_head: campo "Battente a valle dal piano di posa" hw,v [m] = "0" · spento · attenuato
+form.global: visibile
+campo.global.enabled: opzione "Attiva la verifica globale" = "sì"
+campo.global.condition: scelta "Condizione del terreno" = "Drenata" voci "Drenata|Non drenata"
+campo.global.profile_confirmed: opzione "Ho controllato profilo, strati e falda del sito" = "sì"
+campo.global.water_enabled: opzione "Considera la falda" = "sì"
+campo.global.seismic: opzione "Includi il sisma SLV" = "no"
+campo.global.seismic_source: scelta "Coefficienti sismici" = "Da sito · βs=0,38" voci "Da sito · βs=0,38|kh e kv assegnati" · nascosto
+campo.global.kh: campo "Coefficiente orizzontale" [−] = "" · nascosto
+campo.global.kv: campo "Modulo coefficiente verticale" [−] = "" · nascosto
+campo.global.soil_mode: scelta "Stratigrafia globale" = "Due colonne" voci "Profilo unico|Due colonne"
+campo.global.soil_split_x: campo "Confine valle / monte" [m] = "1.2000000000000002"
+form.global_soil_rear: visibile
+campo.global_soil_rear.gamma: campo "Peso naturale" γ [kN/m³] = "18"
+campo.global_soil_rear.gamma_sat: campo "Peso saturo" γsat [kN/m³] = "20"
+campo.global_soil_rear.phi: campo "Angolo di attrito caratteristico" φ′k [°] = "30"
+campo.global_soil_rear.c: campo "Coesione efficace caratteristica" c′k [kPa] = "0"
+campo.global_soil_rear.cu: campo "Resistenza non drenata caratteristica" cu,k [kPa] = "" · nascosto
+form.global_soil_valley: visibile
+campo.global_soil_valley.gamma: campo "Peso naturale" γ [kN/m³] = "18"
+campo.global_soil_valley.gamma_sat: campo "Peso saturo" γsat [kN/m³] = "20"
+campo.global_soil_valley.phi: campo "Angolo di attrito caratteristico" φ′k [°] = "30"
+campo.global_soil_valley.c: campo "Coesione efficace caratteristica" c′k [kPa] = "0"
+campo.global_soil_valley.cu: campo "Resistenza non drenata caratteristica" cu,k [kPa] = "" · nascosto
+form.global_search_mode: visibile
+campo.global_search_mode.search_mode: scelta "Area di ricerca" = "Assegnata" voci "Automatica|Assegnata"
+form.global_search: visibile
+campo.global_search.exit_min: campo "Uscita a valle · x minima" [m] = "-13.8"
+campo.global_search.exit_max: campo "Uscita a valle · x massima" [m] = "-0.1"
+campo.global_search.entry_min: campo "Ingresso a monte · x minima" [m] = "3.1"
+campo.global_search.entry_max: campo "Ingresso a monte · x massima" [m] = "16.8"
+campo.global_search.depth_min: campo "Profondità minima sotto la fondazione" [m] = "0.1"
+campo.global_search.depth_max: campo "Profondità massima sotto la fondazione" [m] = "6.9"
+campo.global_search.grid: campo "Nodi per direzione" = "9"
+campo.global_search.slices: campo "Conci iniziali" = "60"
+campo.global_search.refinements: campo "Raffinamenti locali" = "4"
+form.bearing_seismic: visibile
+campo.bearing_seismic.source: scelta "Accelerazione fondazione" = "Da sito" voci "Da sito|Assegnata"
+campo.bearing_seismic.ground_kh: campo "Accelerazione orizzontale / g" [−] = "" · nascosto
+campo.bearing_seismic.ground_kv: campo "Accelerazione verticale / g (modulo)" [−] = "" · nascosto
+campo.bearing_seismic.model_factor: campo "Fattore modello γRD" [−] = "1.15"
+form.serviceability: visibile
+campo.serviceability.settlement: opzione "Calcola cedimenti finali" = "no"
+campo.serviceability.displacement: opzione "Calcola spostamenti in testa" = "no"
+campo.serviceability.removed_pressure: campo "Pressione del terreno rimosso" [kPa] = ""
+campo.serviceability.rigid_base: opzione "Substrato rigido documentato al fondo degli strati" = "no"
+campo.serviceability.settlement_limit: campo "Limite cedimento" [mm] = "25"
+campo.serviceability.rotation_limit: campo "Limite rotazione" [rad] = "0.002"
+campo.serviceability.head_limit: campo "Limite spostamento in testa" [mm] = "20"
+campo.serviceability.horizontal_stiffness: campo "Rigidezza orizzontale fondazione per metro" [kN/m²] = ""
+form.materials: visibile
+campo.materials.gamma: campo "Peso specifico muro" [kN/m³] = "25"
+campo.materials.classe_cls: scelta "Calcestruzzo da normativa" = "C30/37" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+campo.materials.materiale_cls_nome: campo "Nome CLS personalizzato" = "C30/37" · nascosto
+campo.materials.fck: campo "fck" [MPa] = "30" · spento · attenuato
+campo.materials.cls_diagramma: scelta "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+campo.materials.__fcd: campo "fcd" [MPa] = "17,00" · spento
+campo.materials.__ecm: campo "Ecm" [MPa] = "32836,57" · spento
+campo.materials.classe_acciaio: scelta "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+campo.materials.materiale_acciaio_nome: campo "Nome acciaio personalizzato" = "B450C" · nascosto
+campo.materials.fyk: campo "fyk" [MPa] = "450" · spento · attenuato
+campo.materials.steel_modulus_mpa: campo "Es" [MPa] = "200000" · spento · attenuato
+campo.materials.steel_fu_mpa: campo "fu" [MPa] = "540" · spento · attenuato
+campo.materials.steel_eps_u: campo "εu" [‰] = "75" · spento · attenuato
+campo.materials.steel_diagramma: scelta "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+campo.materials.__fyd: campo "fyd" [MPa] = "391,30" · spento
+campo.materials.alpha_cc: campo "αcc" = "0.85"
+campo.materials.gamma_c: campo "γc" = "1.50"
+campo.materials.gamma_s: campo "γs" = "1.15"
+campo.materials.cover: campo "Copriferro netto adottato" [mm] = "40"
+campo.materials.exposure: scelta "Esposizione" = "XC2" voci "X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+campo.materials.creep: campo "Viscosità SLE" [−] = "2"
+campo.materials.compression_rd: campo "Resistenza di progetto a compressione" σRd [MPa] = "5" · nascosto
+campo.materials.shear_rd: campo "Resistenza di progetto a taglio" τRd [MPa] = "0.2" · nascosto
+campo.materials.tension_rd: campo "Resistenza di progetto a trazione fondazione" fctd [MPa] = "0.3" · nascosto
+form.material_cover: visibile
+campo.material_cover.aggregate: campo "Diametro massimo aggregato" [mm] = "20"
+campo.material_cover.life: scelta "Vita utile" = "50" voci "50|100"
+campo.material_cover.cover_deviation: campo "Tolleranza copriferro" [mm] = "10"
+campo.material_cover.cover_method: scelta "Metodo copriferro" = "NTC + Circ. 2019" voci "NTC + Circ. 2019|EC2 2004"
+campo.material_cover.cover_element: scelta "Elemento NTC" = "Piastra / soletta / parete" voci "Trave / pilastro|Piastra / soletta / parete"
+campo.material_cover.cover_quality: opzione "Controllo qualità NTC" = "no"
+campo.material_cover.cover_ground: scelta "Superficie di getto" = "Casseratura" voci "Casseratura|Terreno preparato|Direttamente su terra"
+campo.material_cover.cover_abrasion: scelta "Abrasione" = "Nessuno" voci "Nessuno|XM1|XM2|XM3"
+campo.material_cover.cover_high_strength: opzione "Riduzione EC2 per resistenza" = "no" · nascosto
+campo.material_cover.cover_slab: opzione "Riduzione EC2 per piastra" = "no" · nascosto
+campo.material_cover.cover_ec_quality: opzione "Controllo qualità EC2" = "no" · nascosto
+campo.material_cover.cover_rough: opzione "Superficie irregolare" = "no"
+form.gravity_design: nascosto
+campo.gravity_design.type: scelta "Modello materiale" = "Resistenze assegnate" voci "Resistenze assegnate|Calcestruzzo non armato|Muratura"
+campo.gravity_design.fk: campo "Resistenza caratteristica muratura" [MPa] = ""
+campo.gravity_design.fvk0: campo "Resistenza a taglio senza compressione" [MPa] = ""
+campo.gravity_design.fvk_limit: campo "Limite caratteristico a taglio" [MPa] = ""
+campo.gravity_design.gamma_m: campo "Coefficiente γM" [−] = "2.5"
+campo.gravity_design.confidence: campo "Fattore di confidenza" [−] = "1"
+campo.gravity_design.elastic_modulus: campo "Modulo elastico muratura / assegnato" [MPa] = ""
+campo.gravity_design.eccentricity: campo "Imperfezione aggiuntiva (minimo H/200)" [mm] = "0"
+campo.gravity_design.effective_height: campo "Lunghezza efficace (vuoto = 2H)" [m] = ""
+form.zones: visibile
+campo.zones.two_zones: opzione "Due zone verticali di armatura" = "no"
+campo.zones.lower_height: campo "Altezza zona inferiore dal piede del fusto" h₁ [m] = "1.5" · nascosto
+form.rebar_stem: visibile
+campo.rebar_stem.diameter: campo "Ø monte (fusto) / inferiore (soletta)" [mm] = "16"
+campo.rebar_stem.count: campo "Barre principali per metro" [−] = "6"
+campo.rebar_stem.symmetric: opzione "Stesse barre sulla faccia opposta" = "sì"
+campo.rebar_stem.opposite_diameter: campo "Ø valle (fusto) / superiore (soletta)" [mm] = "16" · nascosto
+campo.rebar_stem.opposite_count: campo "Barre opposte per metro" [−] = "6" · nascosto
+campo.rebar_stem.secondary_diameter: campo "Ø rete secondaria su entrambe le facce" [mm] = "10"
+campo.rebar_stem.secondary_spacing: campo "Passo rete secondaria" [mm] = "200"
+campo.rebar_stem.anchor_length: campo "Ancoraggio (0 = automatico)" [mm] = "0"
+campo.rebar_stem.lap_length: campo "Sovrapposizione (0 = automatica)" [mm] = "0" · nascosto
+campo.rebar_stem.bend_diameter: campo "Diametro mandrino (0 = automatico)" [mm] = "0"
+form.rebar_stem_upper: nascosto
+campo.rebar_stem_upper.diameter: campo "Ø monte (fusto) / inferiore (soletta)" [mm] = "16"
+campo.rebar_stem_upper.count: campo "Barre principali per metro" [−] = "6"
+campo.rebar_stem_upper.symmetric: opzione "Stesse barre sulla faccia opposta" = "sì"
+campo.rebar_stem_upper.opposite_diameter: campo "Ø valle (fusto) / superiore (soletta)" [mm] = "16" · nascosto
+campo.rebar_stem_upper.opposite_count: campo "Barre opposte per metro" [−] = "6" · nascosto
+campo.rebar_stem_upper.secondary_diameter: campo "Ø rete secondaria su entrambe le facce" [mm] = "10"
+campo.rebar_stem_upper.secondary_spacing: campo "Passo rete secondaria" [mm] = "200"
+campo.rebar_stem_upper.anchor_length: campo "Ancoraggio (0 = automatico)" [mm] = "0"
+campo.rebar_stem_upper.lap_length: campo "Sovrapposizione (0 = automatica)" [mm] = "0" · nascosto
+campo.rebar_stem_upper.bend_diameter: campo "Diametro mandrino (0 = automatico)" [mm] = "0" · nascosto
+form.rebar_toe: visibile
+campo.rebar_toe.diameter: campo "Ø monte (fusto) / inferiore (soletta)" [mm] = "16"
+campo.rebar_toe.count: campo "Barre principali per metro" [−] = "6"
+campo.rebar_toe.symmetric: opzione "Stesse barre sulla faccia opposta" = "sì"
+campo.rebar_toe.opposite_diameter: campo "Ø valle (fusto) / superiore (soletta)" [mm] = "16" · nascosto
+campo.rebar_toe.opposite_count: campo "Barre opposte per metro" [−] = "6" · nascosto
+campo.rebar_toe.secondary_diameter: campo "Ø rete secondaria su entrambe le facce" [mm] = "10"
+campo.rebar_toe.secondary_spacing: campo "Passo rete secondaria" [mm] = "200"
+campo.rebar_toe.anchor_length: campo "Ancoraggio (0 = automatico)" [mm] = "0"
+campo.rebar_toe.lap_length: campo "Sovrapposizione (0 = automatica)" [mm] = "0" · nascosto
+campo.rebar_toe.bend_diameter: campo "Diametro mandrino (0 = automatico)" [mm] = "0" · nascosto
+form.rebar_heel: visibile
+campo.rebar_heel.diameter: campo "Ø monte (fusto) / inferiore (soletta)" [mm] = "16"
+campo.rebar_heel.count: campo "Barre principali per metro" [−] = "6"
+campo.rebar_heel.symmetric: opzione "Stesse barre sulla faccia opposta" = "sì"
+campo.rebar_heel.opposite_diameter: campo "Ø valle (fusto) / superiore (soletta)" [mm] = "16" · nascosto
+campo.rebar_heel.opposite_count: campo "Barre opposte per metro" [−] = "6" · nascosto
+campo.rebar_heel.secondary_diameter: campo "Ø rete secondaria su entrambe le facce" [mm] = "10"
+campo.rebar_heel.secondary_spacing: campo "Passo rete secondaria" [mm] = "200"
+campo.rebar_heel.anchor_length: campo "Ancoraggio (0 = automatico)" [mm] = "0"
+campo.rebar_heel.lap_length: campo "Sovrapposizione (0 = automatica)" [mm] = "0" · nascosto
+campo.rebar_heel.bend_diameter: campo "Diametro mandrino (0 = automatico)" [mm] = "0" · nascosto
+form.geometry: visibile
+campo.geometry.height: campo "Altezza sopra fondazione" H [m] = "3"
+campo.geometry.stem_base: campo "Spessore fusto al piede" s₀ [m] = "0.4"
+campo.geometry.stem_top: campo "Spessore fusto in testa" s₁ [m] = "0.25"
+campo.geometry.slab: campo "Spessore fondazione" t [m] = "0.45"
+campo.geometry.toe: campo "Mensola a valle" a [m] = "0.8"
+campo.geometry.heel: campo "Mensola a monte" b [m] = "1.8"
+form.bar_schedule: visibile
+campo.bar_schedule.panel_length: campo "Lunghezza del tratto da armare" [m] = "1"
+campo.bar_schedule.end_cover: campo "Copriferro alle estremità del tratto" [mm] = "40"
+campo.bar_schedule.stock_length: campo "Lunghezza barra commerciale" [m] = "12"
+campo.bar_schedule.ties_per_m: campo "Collegamenti per fila e per metro di muro" [−] = "2"
+campo.bar_schedule.tie_cut_length: campo "Sviluppo collegamento (0 = da definire)" [mm] = "0"
+form.detailing: visibile
+campo.detailing.enabled: opzione "Verifica i dettagli delle armature" = "no"
+campo.detailing.good_bond: opzione "Condizioni di buona aderenza documentate" = "no"
+campo.detailing.lap_percent: campo "Percentuale barre giuntate (schema: 100%)" [%] = "100"
+campo.detailing.lap_clear: campo "Distanza libera fra barre giuntate" [mm] = "0"
+campo.detailing.tie_diameter: campo "Ø collegamenti della giunzione" [mm] = "8"
+campo.detailing.tie_spacing: campo "Passo collegamenti della giunzione" [mm] = "200"
+campo.detailing.max_diameter: campo "Ø massimo nel predimensionamento" [mm] = "32"
+campo.detailing.max_count: campo "Numero massimo barre per metro" [−] = "12"
+campo.detailing.target_ratio: campo "Tasso massimo ricercato" [−] = "0.95"
+form.seismic: visibile
+campo.seismic.enabled: opzione "Considera il sisma" = "no"
+campo.seismic.method: scelta "Comportamento del muro / modello di spinta" = "Mononobe–Okabe" voci "Mononobe–Okabe|Wood semplificato" · spento · attenuato
+campo.seismic.source: scelta "Come definire l’azione sismica" = "Da parametri del sito (SLV)" voci "Da parametri del sito (SLV)|kh e kv assegnati" · spento · attenuato
+campo.seismic.ag_g: campo "Accelerazione su suolo rigido allo SLV · ag/g" [−] = "" · spento · attenuato
+campo.seismic.ss_mode: scelta "Amplificazione del sottosuolo · Ss" = "Calcolato" voci "Calcolato|Assegnato" · spento · attenuato
+campo.seismic.soil_class: scelta "Categoria dalla relazione geotecnica" = "Da scegliere" voci "Da scegliere|A|B|C|D|E" · spento · attenuato
+campo.seismic.f0: campo "Fattore spettrale del sito allo SLV · F₀" [−] = "" · spento · attenuato
+campo.seismic.ss: campo "Coefficiente Ss assegnato" [−] = "" · spento · attenuato · nascosto
+campo.seismic.st_mode: scelta "Amplificazione topografica · St" = "Calcolato" voci "Calcolato|Assegnato" · spento · attenuato
+campo.seismic.topography: scelta "Forma del terreno circostante" = "Pianeggiante" voci "Pianeggiante|Pendio|Rilievo a cresta stretta" · spento · attenuato
+campo.seismic.slope: campo "Inclinazione media del pendio / rilievo" [°] = "" · spento · attenuato · nascosto
+campo.seismic.relief_height: campo "Altezza del pendio / rilievo (non del muro)" [m] = "" · spento · attenuato · nascosto
+campo.seismic.site_height: campo "Quota del muro sopra la base del pendio / rilievo" [m] = "" · spento · attenuato · nascosto
+campo.seismic.st: campo "Coefficiente St assegnato" [−] = "" · spento · attenuato · nascosto
+campo.seismic.kh: campo "Coefficiente orizzontale kh assegnato" [−] = "0.1" · spento · attenuato · nascosto
+campo.seismic.kv: campo "Coefficiente verticale |kv| assegnato" [−] = "0.05" · spento · attenuato · nascosto
+form.action: visibile
+campo.action.name: campo "Nome" = "Sovraccarico uniforme"
+campo.action.type: scelta "Tipo" = "Sovraccarico uniforme" voci "Sovraccarico uniforme|Forza orizzontale|Forza verticale|Momento|Pressione laterale|Urto"
+campo.action.category: scelta "Natura" = "Q" voci "G1|G2|Q|A"
+campo.action.value: campo "Intensità caratteristica" [kPa] = "10"
+campo.action.z: campo "Quota di applicazione / estremo superiore" z₁ [m] = "3.45" · nascosto
+campo.action.z0: campo "Quota inferiore della pressione" z₀ [m] = "0.45" · nascosto
+campo.action.x: campo "Ascissa dal bordo a valle" x [m] = "1.0750000000000002" · nascosto
+campo.action.psi0: campo "Accompagnamento SLU / rara" ψ₀ [−] = "0.7"
+campo.action.psi1: campo "Frequente" ψ₁ [−] = "0.5"
+campo.action.psi2: campo "Quasi permanente" ψ₂ [−] = "0.3"
+campo.action.group: campo "Gruppo correlato (vuoto = indipendente)" = "legacy"
+scheda.Azioni: visibile · aperta
+scheda.Combinazioni: visibile · aperta
+scheda.Geometria: visibile · aperta
+scheda.Materiali: visibile · aperta
+scheda.Sisma: visibile · chiusa
+scheda.Stabilità globale: visibile · chiusa
+scheda.Strati globali valle: visibile · aperta
+scheda.Terreno: visibile · aperta
+scheda.rebar_heel: visibile · chiusa
+scheda.rebar_stem: visibile · chiusa
+scheda.rebar_stem_upper: nascosta · chiusa
+scheda.rebar_toe: visibile · chiusa
+tabella.valle: colonne "Terreno|Δz\n[m]|γ\n[kN/m³]|γsat\n[kN/m³]|φ′\n[°]|Fondo z\n[m]" · righe 1 · selezione -1
+tabella.valle.0: {"name":"Terreno granulare","thickness":12,"gamma":18,"gamma_sat":20,"phi":30,"__index":1,"__from":"0,00","__to":"12,00"}
+tabella.monte: colonne "Terreno|Δz\n[m]|γ\n[kN/m³]|γsat\n[kN/m³]|φ′\n[°]|Fondo z\n[m]" · righe 1 · selezione -1
+tabella.monte.0: {"name":"Terreno granulare","thickness":25,"gamma":18,"gamma_sat":20,"phi":30,"__index":1,"__from":"0,00","__to":"25,00"}
+tabella.cedimenti: colonne "Strato sotto posa|Spessore [m]|M edometrico [kPa]" · righe 0 · selezione -1
+tabella.globale-monte: colonne "Terreno|Spessore [m]|Fondo y [m]" · righe 1 · selezione 0
+tabella.globale-monte.0: {"name":"Terreno granulare","bottom":-21.55,"gamma":18,"gamma_sat":20,"phi":30,"c":0,"cu":"","__thickness":25}
+tabella.globale-valle: colonne "Terreno|Spessore [m]|Fondo y [m]" · righe 1 · selezione 0
+tabella.globale-valle.0: {"name":"Terreno granulare","bottom":-12,"gamma":18,"gamma_sat":20,"phi":30,"c":0,"cu":"","__thickness":12}
+tabella.punti-valle: colonne "x [m]|y [m]" · righe 2 · selezione -1
+tabella.punti-valle.0: {"x":-13.8,"y":0}
+tabella.punti-valle.1: {"x":0,"y":0}
+tabella.punti-monte: colonne "x [m]|y [m]" · righe 2 · selezione -1
+tabella.punti-monte.0: {"x":1.2000000000000002,"y":3.45}
+tabella.punti-monte.1: {"x":16.8,"y":3.45}
+tabella.punti-falda: colonne "x [m]|y [m]" · righe 3 · selezione -1
+tabella.punti-falda.0: {"x":-13.8,"y":-0.8}
+tabella.punti-falda.1: {"x":3,"y":-0.5}
+tabella.punti-falda.2: {"x":16.8,"y":0.6}
+tabella.matrice-globale: colonne "Usa|Combinazione|Stato|γ terra|γ muro|γMφ|γMc′|γMcu|γR|kh|kv|Sovraccarico uniforme" · righe 0 · selezione -1
+tabella.azioni: colonne "Calcola|Disegna|Azione|Tipo|Natura|Valore" · righe 1 · selezione 0
+tabella.azioni.0: {"id":"<ID-1>","name":"Sovraccarico uniforme","type":"Sovraccarico uniforme","category":"Q","enabled":true,"visible":true,"value":10,"z":3.45,"z0":0.45,"x":1.0750000000000002,"psi0":0.7,"psi1":0.5,"psi2":0.3,"group":"legacy"}
+tabella.matrice: -
+testo.strati: "Valle: 12,00 m / 0,00 m richiesti · Monte: 25,00 m / 3,45 m richiesti\nHlib=3,45 m · terreno di valle Dv=0,00 m sopra il piano di posa"
+testo.matrice: ""
+testo.matrice-globale: "Automatiche · coefficienti indipendenti dalle verifiche locali"
+testo.globale: "Pronto per il calcolo · premi «Calcola globale». L’esito si legge nelle Verifiche." · ""
+testo.ricerca: "Ricerca da 0,1 a 6,9 m sotto la fondazione · 60 conci. Limiti visibili nel disegno."
+testo.sisma: "Sisma escluso. Attivarlo per calcolare e verificare i casi sismici."
+testo.copriferro: "Minimo nominale 30 mm · adottato 40 mm · Ø massimo 16 mm. Minimo rispettato."
+accelerogrammi: 
+spinte: -
+verifiche: -
+sezione: "Selezionare una riga strutturale o una sezione nella tabella delle sollecitazioni." · invio no
+proposta: -
+disegno: caso "" · risultato no · azione <ID-1> · strato -1 · spinta -1 · carichi sì · dati sì · armature sì · spinte sì
+diagrammi: visibili · modo "Geometria e carichi" · diagrammi sì · elemento "Fusto" · caso "" · armature sì · carichi sì · larghezza libera
+disegno-globale: nascosto · caso "" · risultato no · critica sì · concio -1
+anteprima-globale: caso "" · risultato no · strato -1 monte
+parametri: -
+== conferma
+== calcola
+~ dati: version|family|geometry|foundation|loads|materials|layers|water|seismic|reinforcement|extensions|global_stability|valley|interfaces|bearing_seismic|bar_schedule|serviceability|detailing|gravity_design|actions|combinations|combination_mode|combination_signature
+~ dati.global_stability: {"enabled":true,"condition":"Drenata","water_enabled":true,"seismic":false,"seismic_source":"Da sito · βs=0,38","kh":"","kv":"","profile_confirmed":true,"valley":[{"x":-13.8,"y":0},{"x":0,"y":0}],"uphill":[{"x":1.2000000000000002,"y":3.45},{"x":16.8,"y":3.45}],"layers":[{"name":"Terreno granulare","bottom":-21.55,"gamma":18,"gamma_sat":20,"phi":30,"c":0,"cu":""}],"water":[{"x":-13.8,"y":-0.8},{"x":3,"y":-0.5},{"x":16.8,"y":0.6}],"exit_min":-13.8,"exit_max":-0.1,"entry_min":3.1,"entry_max":16.8,"depth_min":0.1,"depth_max":6.9,"grid":9,"slices":60,"refinements":4,"search_mode":"Assegnata","combination_mode":"Automatiche","combinations":[{"enabled":true,"name":"Globale A2–M2–R2 1","state":"SLU","soil":1,"wall":1,"mphi":1.25,"mc":1.25,"mcu":1.4,"r":1.1,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"Globale A2–M2–R2 2","state":"SLU","soil":1,"wall":1,"mphi":1.25,"mc":1.25,"mcu":1.4,"r":1.1,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.3}}],"valley_layers":[{"name":"Terreno granulare","bottom":-12,"gamma":18,"gamma_sat":20,"phi":30,"c":0,"cu":""}],"soil_mode":"Due colonne","soil_split_x":1.2000000000000002}
+~ dati.combinations: [{"enabled":true,"name":"SLE 1","state":"SLE","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1}},{"enabled":true,"name":"SLE_FREQ 2","state":"SLE_FREQ","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0.5}},{"enabled":true,"name":"Quasi permanente 3","state":"SLE_QP","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0.3}},{"enabled":true,"name":"SLU 4","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 5","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 6","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 7","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 8","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 8b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 9","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 9b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 10","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 10b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 11","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 11b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}}]
++ dati.combination_signature: "<ID-1>/Q/true/0.7/0.5/0.3/legacy|sito/false/Mononobe–Okabe///Da scegliere/Calcolato//Calcolato//Pianeggiante///"
+~ risultato: CC36C7DD126418C0
+~ globale: dal calcolo · casi 2
+~ stato: "Calcolo aggiornato · 15 combinazioni · 1 controlli non soddisfatti · 0 non disponibili"
+~ pulsante.globale: "Stabilità globale: calcolata · imposta" · "Apri il percorso guidato: profilo del terreno, strati profondi, falda, ricerca e verifica."
+~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b" · scelta "SLE 1"
+~ vista: "Geometria e carichi" · elemento "Fusto" nascosto · filtro "Riepilogo completo"
+~ combinazioni-globali: "Globale A2–M2–R2 1|Globale A2–M2–R2 2" · scelta "Globale A2–M2–R2 2" · nascoste
+~ riepilogo: "B 3,00 m · cls 2,33 m³/m · acciaio stimato 113,64 kg/m\nH 47,21 kN/m · V′ 173,33 kN/m · e 0,02 m"
+~ tabella.matrice-globale: colonne "Usa|Combinazione|Stato|γ terra|γ muro|γMφ|γMc′|γMcu|γR|kh|kv|Sovraccarico uniforme" · righe 2 · selezione -1
++ tabella.matrice-globale.0: {"enabled":true,"name":"Globale A2–M2–R2 1","state":"SLU","soil":1,"wall":1,"mphi":1.25,"mc":1.25,"mcu":1.4,"r":1.1,"kh":0,"kv":0,"a_<ID-1>":0}
++ tabella.matrice-globale.1: {"enabled":true,"name":"Globale A2–M2–R2 2","state":"SLU","soil":1,"wall":1,"mphi":1.25,"mc":1.25,"mcu":1.4,"r":1.1,"kh":0,"kv":0,"a_<ID-1>":1.3}
+~ tabella.matrice: colonne "Usa|Combinazione|Stato|A / M / R|γ muro|γ monte|γ valle|γ acqua|1 · Sovraccarico uniforme\nγ × ψ|γMφ|γR\nscorr.|γR\nribalt.|γR\nport.|γR,e\npassiva|q var.\nmensola|kh|kv" · righe 15 · selezione -1
++ tabella.matrice.0: {"enabled":true,"name":"SLE 1","state":"SLE","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"a_<ID-1>":1}
++ tabella.matrice.1: {"enabled":true,"name":"SLE_FREQ 2","state":"SLE_FREQ","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"a_<ID-1>":0.5}
++ tabella.matrice.2: {"enabled":true,"name":"Quasi permanente 3","state":"SLE_QP","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"a_<ID-1>":0.3}
++ tabella.matrice.3: {"enabled":true,"name":"SLU 4","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"a_<ID-1>":0}
++ tabella.matrice.4: {"enabled":true,"name":"SLU 5","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"a_<ID-1>":0}
++ tabella.matrice.5: {"enabled":true,"name":"SLU 6","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"a_<ID-1>":0}
++ tabella.matrice.6: {"enabled":true,"name":"SLU 7","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"a_<ID-1>":0}
++ tabella.matrice.7: {"enabled":true,"name":"SLU 8","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"a_<ID-1>":1.5}
++ tabella.matrice.8: {"enabled":true,"name":"SLU 8b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"a_<ID-1>":1.5}
++ tabella.matrice.9: {"enabled":true,"name":"SLU 9","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"a_<ID-1>":1.5}
++ tabella.matrice.10: {"enabled":true,"name":"SLU 9b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"a_<ID-1>":1.5}
++ tabella.matrice.11: {"enabled":true,"name":"SLU 10","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"a_<ID-1>":1.5}
++ tabella.matrice.12: {"enabled":true,"name":"SLU 10b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"a_<ID-1>":1.5}
++ tabella.matrice.13: {"enabled":true,"name":"SLU 11","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"a_<ID-1>":1.5}
++ tabella.matrice.14: {"enabled":true,"name":"SLU 11b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"a_<ID-1>":1.5}
+~ testo.matrice: "Automatiche · 15 righe · ogni colonna azione contiene il prodotto γ×ψ. «q var. mensola» non spuntato: il sovraccarico variabile resta nella spinta ed è assente sulla mensola (righe «b»). Modificare una cella passa a Personalizzate. Genera ripristina il preset NTC."
+~ spinte: 6 blocchi
++ spinte.0: testo "Coulomb/MO: Kh=cos²(φd−θ)cosδd/{cosθ cos(δd+θ)[1+√(sin(φd+δd)sin(φd−θ)/cos(δd+θ))]²}; θ=atan[kh/(1−kv)]. Con δ=θ=0: Rankine. Δp=(Ke−K)(1−kv)γHt/2. Piano virtuale con mensola: δ=0; fusto: δ muro."
++ spinte.1: testo "SLE 1 · kh=0, kv=0; θ=0°. σ′v incorpora γG e (1−kv). Tutte le pressioni in kPa. Azioni dirette trattate separatamente."
++ spinte.2: tabella "z₀ [m]|z₁ [m]|φk [°]|φd [°]|Ka / K₀|Kae|σ′v₀ [kPa]|σ′v₁ [kPa]|p terra₀|p terra₁|p q|u₀|u₁|Δp sisma|p tot₀|p tot₁" · righe 2 E6541262DB29F09C
++ spinte.2.0: "0,00" | "3,00" | "30,00" | "30,00" | "0,3333" | "0,3333" | "0,00" | "54,00" | "0,00" | "18,00" | "3,33" | "0,00" | "0,00" | "0,00" | "3,33" | "21,33"
++ spinte.2.1: "3,00" | "3,45" | "30,00" | "30,00" | "0,3333" | "0,3333" | "54,00" | "62,10" | "18,00" | "20,70" | "3,33" | "0,00" | "0,00" | "0,00" | "21,33" | "24,03"
++ spinte.3: gruppo "Fusto · coefficienti con attrito al paramento"
++ spinte.3.0: tabella "Fusto z₀–z₁ [m]|φd [°]|K|Ke|p₀–p₁ [kPa]" · righe 2 76600D936E5C81DD
++ spinte.3.0.0: "0,00–3,00" | "30,00" | "0,3333" | "0,3333" | "3,33–21,33"
++ spinte.3.0.1: "3,00–3,45" | "30,00" | "0,3333" | "0,3333" | "21,33–24,03"
++ spinte.4: gruppo "Valle · passiva mobilitata (z dalla sommità muro)"
++ spinte.4.0: tabella "Valle z₀–z₁ [m]|Pressione usata p₀–p₁ [kPa]" · righe 0 4F53CDA18C2BAA0C
++ spinte.5: testo "Integrale netto delle pressioni (monte + azioni laterali − passiva): P=47,21 kN/m; momento al piano di posa=60,90 kNm/m; quota risultante=1,29 m."
+~ verifiche: 3 blocchi
++ verifiche.0: testo "SLE 1 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=47,21/84,54 kN/m · ribaltamento Ed/MRd=60,90/317,76 kNm/m · Rd port.=1233,53 kN/m · U=0,00 kN/m"
++ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 26 1DBADBA61880E658
++ verifiche.1.0: "Scorrimento" | "SLU 10b" | "63,67" | "81,80" | "kN/m" | "0,778" | "Soddisfatta"
++ verifiche.1.1: "Ribaltamento" | "SLU 8b" | "70,82" | "243,45" | "kNm/m" | "0,291" | "Soddisfatta"
++ verifiche.1.2: "Capacità portante" | "SLU 10b" | "184,49" | "572,27" | "kN/m" | "0,322" | "Soddisfatta"
++ verifiche.2: testo "Riepilogo: inviluppo delle verifiche locali e della stabilità globale, se attivata. Un controllo non disponibile resta visibile. Per la globale selezionare la vista dedicata e la sua combinazione. Cedimenti da valutare separatamente."
+~ disegno: caso "SLE 1" · risultato sì · azione <ID-1> · strato -1 · spinta -1 · carichi sì · dati sì · armature sì · spinte sì
+~ diagrammi: visibili · modo "Geometria e carichi" · diagrammi no · elemento "Fusto" · caso "SLE 1" · armature sì · carichi sì · larghezza 1050
+~ disegno-globale: nascosto · caso "Globale A2–M2–R2 2" · risultato sì · critica sì · concio -1
+~ anteprima-globale: caso "Globale A2–M2–R2 2" · risultato sì · strato -1 monte
+== conferma
+== riapri
+~ risultato: -
+~ globale: -
+~ stato: "Dati da verificare"
+~ pulsante.globale: "Stabilità globale: dati / calcolo" · "Apri il percorso guidato: profilo del terreno, strati profondi, falda, ricerca e verifica."
+~ combinazioni: "" · scelta ""
+~ vista: "Geometria e carichi" · elemento "Fusto" · filtro "Riepilogo completo"
+~ combinazioni-globali: "" · scelta "" · nascoste
+~ riepilogo: ""
+~ spinte: -
+~ verifiche: -
+~ disegno: caso "" · risultato no · azione <ID-1> · strato -1 · spinta -1 · carichi sì · dati sì · armature sì · spinte sì
+~ diagrammi: visibili · modo "Geometria e carichi" · diagrammi sì · elemento "Fusto" · caso "" · armature sì · carichi sì · larghezza libera
+~ disegno-globale: nascosto · caso "" · risultato no · critica sì · concio -1
+~ anteprima-globale: caso "" · risultato no · strato -1 monte
+- spinte.0
+- spinte.1
+- spinte.2
+- spinte.2.0
+- spinte.2.1
+- spinte.3
+- spinte.3.0
+- spinte.3.0.0
+- spinte.3.0.1
+- spinte.4
+- spinte.4.0
+- spinte.5
+- verifiche.0
+- verifiche.1
+- verifiche.1.0
+- verifiche.1.1
+- verifiche.1.2
+- verifiche.2
+== conferma
+== attendi
+~ risultato: DC003E6AB5EE66CE
+~ globale: dal calcolo · casi 2
+~ stato: "Calcolo aggiornato · 15 combinazioni · 1 controlli non soddisfatti · 0 non disponibili"
+~ pulsante.globale: "Stabilità globale: calcolata · imposta" · "Apri il percorso guidato: profilo del terreno, strati profondi, falda, ricerca e verifica."
+~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b" · scelta "SLE 1"
+~ vista: "Geometria e carichi" · elemento "Fusto" nascosto · filtro "Riepilogo completo"
+~ combinazioni-globali: "Globale A2–M2–R2 1|Globale A2–M2–R2 2" · scelta "Globale A2–M2–R2 2" · nascoste
+~ riepilogo: "B 3,00 m · cls 2,33 m³/m · acciaio stimato 113,64 kg/m\nH 47,21 kN/m · V′ 173,33 kN/m · e 0,02 m"
+~ spinte: 6 blocchi
++ spinte.0: testo "Coulomb/MO: Kh=cos²(φd−θ)cosδd/{cosθ cos(δd+θ)[1+√(sin(φd+δd)sin(φd−θ)/cos(δd+θ))]²}; θ=atan[kh/(1−kv)]. Con δ=θ=0: Rankine. Δp=(Ke−K)(1−kv)γHt/2. Piano virtuale con mensola: δ=0; fusto: δ muro."
++ spinte.1: testo "SLE 1 · kh=0, kv=0; θ=0°. σ′v incorpora γG e (1−kv). Tutte le pressioni in kPa. Azioni dirette trattate separatamente."
++ spinte.2: tabella "z₀ [m]|z₁ [m]|φk [°]|φd [°]|Ka / K₀|Kae|σ′v₀ [kPa]|σ′v₁ [kPa]|p terra₀|p terra₁|p q|u₀|u₁|Δp sisma|p tot₀|p tot₁" · righe 2 E6541262DB29F09C
++ spinte.2.0: "0,00" | "3,00" | "30,00" | "30,00" | "0,3333" | "0,3333" | "0,00" | "54,00" | "0,00" | "18,00" | "3,33" | "0,00" | "0,00" | "0,00" | "3,33" | "21,33"
++ spinte.2.1: "3,00" | "3,45" | "30,00" | "30,00" | "0,3333" | "0,3333" | "54,00" | "62,10" | "18,00" | "20,70" | "3,33" | "0,00" | "0,00" | "0,00" | "21,33" | "24,03"
++ spinte.3: gruppo "Fusto · coefficienti con attrito al paramento"
++ spinte.3.0: tabella "Fusto z₀–z₁ [m]|φd [°]|K|Ke|p₀–p₁ [kPa]" · righe 2 76600D936E5C81DD
++ spinte.3.0.0: "0,00–3,00" | "30,00" | "0,3333" | "0,3333" | "3,33–21,33"
++ spinte.3.0.1: "3,00–3,45" | "30,00" | "0,3333" | "0,3333" | "21,33–24,03"
++ spinte.4: gruppo "Valle · passiva mobilitata (z dalla sommità muro)"
++ spinte.4.0: tabella "Valle z₀–z₁ [m]|Pressione usata p₀–p₁ [kPa]" · righe 0 4F53CDA18C2BAA0C
++ spinte.5: testo "Integrale netto delle pressioni (monte + azioni laterali − passiva): P=47,21 kN/m; momento al piano di posa=60,90 kNm/m; quota risultante=1,29 m."
+~ verifiche: 3 blocchi
++ verifiche.0: testo "SLE 1 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=47,21/84,54 kN/m · ribaltamento Ed/MRd=60,90/317,76 kNm/m · Rd port.=1233,53 kN/m · U=0,00 kN/m"
++ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 26 1DBADBA61880E658
++ verifiche.1.0: "Scorrimento" | "SLU 10b" | "63,67" | "81,80" | "kN/m" | "0,778" | "Soddisfatta"
++ verifiche.1.1: "Ribaltamento" | "SLU 8b" | "70,82" | "243,45" | "kNm/m" | "0,291" | "Soddisfatta"
++ verifiche.1.2: "Capacità portante" | "SLU 10b" | "184,49" | "572,27" | "kN/m" | "0,322" | "Soddisfatta"
++ verifiche.2: testo "Riepilogo: inviluppo delle verifiche locali e della stabilità globale, se attivata. Un controllo non disponibile resta visibile. Per la globale selezionare la vista dedicata e la sua combinazione. Cedimenti da valutare separatamente."
+~ disegno: caso "SLE 1" · risultato sì · azione <ID-1> · strato -1 · spinta -1 · carichi sì · dati sì · armature sì · spinte sì
+~ diagrammi: visibili · modo "Geometria e carichi" · diagrammi no · elemento "Fusto" · caso "SLE 1" · armature sì · carichi sì · larghezza 1050
+~ disegno-globale: nascosto · caso "Globale A2–M2–R2 2" · risultato sì · critica sì · concio -1
+~ anteprima-globale: caso "Globale A2–M2–R2 2" · risultato sì · strato -1 monte

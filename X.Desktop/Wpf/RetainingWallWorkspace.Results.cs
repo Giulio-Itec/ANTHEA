@@ -1,4 +1,6 @@
 ﻿using Anthea.Application.Walls;
+using Anthea.Application.Presentation;
+using Anthea.Presentation.Modules.RetainingWall;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,55 +13,43 @@ internal sealed partial class RetainingWallWorkspace
     internal void GenerateMatrix()
     {
         Commit();
-        try { Data["combinations"] = WallModel.GenerateCombinations(Data); Data["combination_mode"] = "Automatiche"; Data["combination_signature"] = WallModel.CombinationSignature(Data); BuildMatrix(); Changed(); }
+        try { RetainingWallPresentation.GenerateMatrix(Data); BuildMatrix(); Changed(); }
         catch (Exception ex) { matrixStatus.Text = ex.Message; }
     }
     private void ConfirmMatrix()
     {
-        Commit(); Data["combination_mode"] = "Personalizzate"; Data["combination_signature"] = WallModel.CombinationSignature(Data);
-        try { WallModel.ValidateActions(Data); matrixStatus.Text = "Matrice personalizzata confermata"; Changed(); }
+        Commit();
+        try { RetainingWallPresentation.ConfirmMatrix(Data); matrixStatus.Text = RetainingWallPresentation.MatrixConfirmed; Changed(); }
         catch (Exception ex) { matrixStatus.Text = ex.Message; }
     }
     private void CopyCombination()
     {
-        if (MatrixGrid?.SelectedItem is not JsonRow row) return; int index = MatrixGrid.Rows.IndexOf(row);
-        var copy = (JsonObject)Data.Array("combinations")[index]!.DeepClone(); copy["name"] = copy.S("name") + " copia " + (Data.Array("combinations").Count + 1); copy["approach"] = "Personalizzato";
-        Data.Array("combinations").Add(copy); Data["combination_mode"] = "Personalizzate"; BuildMatrix(); Changed();
+        if (MatrixGrid?.SelectedItem is not JsonRow row) return;
+        RetainingWallPresentation.CopyCombination(Data, MatrixGrid.Rows.IndexOf(row)); BuildMatrix(); Changed();
     }
     private void RemoveCombination()
     {
-        if (MatrixGrid?.SelectedItem is not JsonRow row) return; Data.Array("combinations").RemoveAt(MatrixGrid.Rows.IndexOf(row)); Data["combination_mode"] = "Personalizzate"; BuildMatrix(); Changed();
+        if (MatrixGrid?.SelectedItem is not JsonRow row) return; RetainingWallPresentation.RemoveCombination(Data, MatrixGrid.Rows.IndexOf(row)); BuildMatrix(); Changed();
     }
     private void BuildMatrix()
     {
         if (MatrixGrid is not null) grids.Remove(MatrixGrid);
-        var fields = new List<Field> { new("enabled", "Usa", Bool: true), new("name", "Combinazione"), new("state", "Stato", Choices: WallModel.States), new("approach", "A / M / R", ReadOnly: true), new("wall", "γ muro"), new("soil", "γ monte"), new("valley_soil", "γ valle"), new("water", "γ acqua") };
-        foreach (var (a, i) in Data.Array("actions").Select((a, i) => (a, i))) fields.Add(new("a_" + a.S("id"), $"{i + 1} · {a.S("name")}\nγ × ψ"));
-        fields.AddRange([new("mphi", "γMφ"), new("rslide", "γR\nscorr."), new("rover", "γR\nribalt."), new("rbearing", "γR\nport."), new("rpassive", "γR,e\npassiva"), new("heel_surcharge", "q var.\nmensola", Bool: true), new("kh", "kh"), new("kv", "kv")]);
-        if (Data.Array("combinations").Any(c => c.S("purpose") != "")) fields.Add(new("purpose", "Uso sisma", Choices: ["", "Generale", "Ribaltamento"]));
-        MatrixGrid = new JsonGrid(fields) { Height = 205, RowHeight = 30, ColumnHeaderHeight = 43, AlternatingRowBackground = Ui.Brush("#F3F6FA") };
+        MatrixGrid = new JsonGrid(RetainingWallFields.Matrix(Data)) { Height = 205, RowHeight = 30, ColumnHeaderHeight = 43, AlternatingRowBackground = Ui.Brush("#F3F6FA") };
         CompactHeaders(MatrixGrid);
         grids.Add(MatrixGrid);
         for (int i = 0; i < MatrixGrid.Columns.Count; i++) MatrixGrid.Columns[i].Width = i switch { 0 => 55, 1 => 185, 2 => 140, 3 => 150, _ => 85 };
         foreach (var c in Data.Array("combinations").OfType<JsonObject>())
         {
-            var flat = (JsonObject)c.DeepClone(); flat.Remove("coefficients"); foreach (var a in Data.Array("actions")) flat["a_" + a.S("id")] = c["coefficients"]?[a.S("id")]?.DeepClone();
-            // MUR-1: the rows saved before the flag keep the variable surcharge on the heel (shown checked, stored only when edited).
-            flat["heel_surcharge"] ??= WallModel.HeelSurcharge(c);
-            // MUR-2: γR,e of the passive of the preset for the rows saved without it (the value used by the calculation).
-            if (flat["rpassive"] is null && double.IsFinite(WallModel.DefaultPassiveFactor(c.S("state")))) flat["rpassive"] = WallModel.DefaultPassiveFactor(c.S("state"));
+            var flat = RetainingWallPresentation.MatrixRow(Data, c);
             var row = new JsonRow(flat, key =>
             {
-                if (Data.S("combination_mode") == "Automatiche") Data["combination_signature"] = WallModel.CombinationSignature(Data);
-                Data["combination_mode"] = "Personalizzate";
-                if (key.StartsWith("a_")) c["coefficients"]![key[2..]] = flat[key]?.DeepClone(); else c[key] = flat[key]?.DeepClone();
-                c["approach"] = "Personalizzato"; flat["approach"] = "Personalizzato";
-                matrixStatus.Text = "Personalizzate · modifiche conservate · i fattori delle singole azioni includono γ e ψ"; Changed();
+                RetainingWallPresentation.MatrixEdit(Data, c, flat, key);
+                matrixStatus.Text = RetainingWallPresentation.MatrixEdited; Changed();
             }); MatrixGrid.Rows.Add(row);
         }
         MatrixGrid.SelectionChanged += (_, _) => { if (MatrixGrid.SelectedItem is JsonRow row && Calculation is not null) Combination.SelectedItem = row.Values.S("name"); };
         matrixHost.Content = MatrixGrid;
-        matrixStatus.Text = $"{Data.S("combination_mode")} · {Data.Array("combinations").Count} righe · ogni colonna azione contiene il prodotto γ×ψ. «q var. mensola» non spuntato: il sovraccarico variabile resta nella spinta ed è assente sulla mensola (righe «b»). Modificare una cella passa a Personalizzate. Genera ripristina il preset NTC.";
+        matrixStatus.Text = RetainingWallPresentation.MatrixStatus(Data);
     }
     private void ShowResults()
     {
@@ -69,7 +59,7 @@ internal sealed partial class RetainingWallWorkspace
         if (prepared.GlobalUpdated) BuildGlobalMatrix();
         if (prepared.GlobalError is { } globalError) globalMessage.Text = globalError;
         GlobalCombination.ItemsSource = r.GlobalStability?.Cases.Select(c => c.Factors.Name).ToArray();
-        GlobalCombination.SelectedItem = r.GlobalStability?.Cases.FirstOrDefault(c => c.Factors.Name == globalName)?.Factors.Name ?? r.GlobalStability?.Cases.OrderByDescending(c => c.Critical?.Ratio ?? double.PositiveInfinity).FirstOrDefault()?.Factors.Name;
+        GlobalCombination.SelectedItem = RetainingWallPresentation.GlobalCombination(r.GlobalStability, globalName);
         if (prepared.LocalUpdated || MatrixGrid is null) BuildMatrix();
         Combination.ItemsSource = r.Cases.Select(c => c.Name).ToArray(); Combination.SelectedItem = name is not null && r.Cases.Any(c => c.Name == name) ? name : r.Cases[0].Name;
         ShowCombination();
@@ -79,24 +69,20 @@ internal sealed partial class RetainingWallWorkspace
     {
         if (Calculation is not { } r || Combination.SelectedItem is not string name) return; var c = r.Cases.FirstOrDefault(c => c.Name == name); if (c is null) return;
         foreach (var draw in new[] { Drawing, Diagrams }) { draw.Data = Data; draw.Calculation = r; draw.Case = c; }
-        summary.Text = $"B {F(r.Width)} m · cls {F(r.Volume)} m³/m" + (Data.S("family") == "cantilever" ? $" · acciaio stimato {F(r.SteelKg)} kg/m" : "") + $"\nH {F(c.Horizontal)} kN/m · V′ {F(c.Vertical)} kN/m · e {F(c.Eccentricity)} m";
+        summary.Text = RetainingWallPresentation.Summary(Data, r, c);
         pressures.Content = PressurePanel(c);
         ShowCheckTable(); RefreshViews();
     }
     private FrameworkElement PressurePanel(WallModel.LoadCase c)
     {
-        var table = Table(["z₀ [m]", "z₁ [m]", "φk [°]", "φd [°]", "Ka / K₀", "Kae", "σ′v₀ [kPa]", "σ′v₁ [kPa]", "p terra₀", "p terra₁", "p q", "u₀", "u₁", "Δp sisma", "p tot₀", "p tot₁"],
-            c.PressureDetails.Select(p => new[] { F(p.Z0), F(p.Z1), F(p.Phi), F(p.PhiDesign), p.K.ToString("0.0000", It), p.Ke.ToString("0.0000", It), F(p.Sigma0), F(p.Sigma1), F(p.Soil0), F(p.Soil1), F(p.Surcharge), F(p.Water0), F(p.Water1), F(p.Dynamic), F(p.Total0), F(p.Total1) }));
+        var table = Table([.. RetainingWallPresentation.PressureColumns], RetainingWallPresentation.PressureRows(c));
         table.Height = 175;
         table.SelectionChanged += (_, _) => { Drawing.SelectedPressure = table.SelectedIndex; Drawing.InvalidateVisual(); };
-        bool wood = Data["seismic"].B("enabled") && Data["seismic"].S("method") == "Wood semplificato";
-        var thrust = WallModel.Integrate(c.Pressures, 0, Data["geometry"].D("height") + Data["geometry"].D("slab"), Data["geometry"].D("height") + Data["geometry"].D("slab"));
-        string formula = wood ? "K₀=1−sinφd; Δp=kh·γ·Ht (Wood semplificato, uniforme); p=K₀σ′v+K₀Σ(fᵢqᵢ)+u+Δp." : "Coulomb/MO: Kh=cos²(φd−θ)cosδd/{cosθ cos(δd+θ)[1+√(sin(φd+δd)sin(φd−θ)/cos(δd+θ))]²}; θ=atan[kh/(1−kv)]. Con δ=θ=0: Rankine. Δp=(Ke−K)(1−kv)γHt/2. Piano virtuale con mensola: δ=0; fusto: δ muro.";
-        var stem = Table(["Fusto z₀–z₁ [m]", "φd [°]", "K", "Ke", "p₀–p₁ [kPa]"], c.StemPressureDetails.Select(p => new[] { F(p.Z0) + "–" + F(p.Z1), F(p.PhiDesign), p.K.ToString("0.0000", It), p.Ke.ToString("0.0000", It), F(p.Total0) + "–" + F(p.Total1) })); stem.Height = 130;
-        var valley = Table(["Valle z₀–z₁ [m]", "Pressione usata p₀–p₁ [kPa]"], c.ValleyPressures.Select(p => new[] { F(p.Z0) + "–" + F(p.Z1), F(p.P0) + "–" + F(p.P1) })); valley.Height = 110;
-        return Ui.Stack(Ui.Text(formula, 11), Ui.Text($"{c.Name} · kh={c.Kh:0.###}, kv={c.Kv:0.###}; θ={Anthea.Application.Presentation.WallSheetPresentation.SeismicAngleDegrees(c.Kh, c.Kv):0.###}°. σ′v incorpora γG e (1−kv). Tutte le pressioni in kPa. Azioni dirette trattate separatamente.", 11), table,
-            Group("Fusto · coefficienti con attrito al paramento", stem, false), Group("Valle · passiva mobilitata (z dalla sommità muro)", valley, false),
-            Ui.Text($"Integrale netto delle pressioni (monte + azioni laterali − passiva): P={F(thrust.Force)} kN/m; momento al piano di posa={F(-thrust.Moment)} kNm/m; quota risultante={(thrust.Force > 0 ? F(-thrust.Moment / thrust.Force) : "—")} m.", 11));
+        var stem = Table([.. RetainingWallPresentation.StemPressureColumns], RetainingWallPresentation.StemPressureRows(c)); stem.Height = 130;
+        var valley = Table([.. RetainingWallPresentation.ValleyPressureColumns], RetainingWallPresentation.ValleyPressureRows(c)); valley.Height = 110;
+        return Ui.Stack(Ui.Text(RetainingWallPresentation.PressureFormula(Data), 11), Ui.Text(RetainingWallPresentation.PressureHeader(c), 11), table,
+            Group(RetainingWallPresentation.PressureStemTitle, stem, false), Group(RetainingWallPresentation.PressureValleyTitle, valley, false),
+            Ui.Text(RetainingWallPresentation.PressureThrust(Data, c), 11));
     }
     private void RefreshViews()
     {
@@ -119,18 +105,15 @@ internal sealed partial class RetainingWallWorkspace
         if ((string)CheckFilter.SelectedItem == "Calcolo delle spinte") { checks.Content = PressurePanel(c); return; }
         if ((string)CheckFilter.SelectedItem == "Sollecitazioni numeriche")
         {
-            var table = Table(["Elemento", "z/l [m]", "s [m]", "N [kN/m]", "M [kNm/m]", "V [kN/m]", "Armatura"], c.Sections.Select(s => new[] { s.Name, F(s.Position), F(s.Thickness), F(s.N), F(s.M), F(s.V), RebarLabel(Data, WallModel.ReinforcementKey(Data, s.Name, s.Position)) })); table.Height = 285;
-            table.SelectionChanged += (_, _) => { var f = table.SelectedIndex >= 0 ? c.Sections[table.SelectedIndex] : null; SelectSection(f is not null && (f.Name == "Fusto" || c.Contact.Valid) ? (f.Name, f.Position, c.Name) : null); };
+            var table = Table([.. RetainingWallPresentation.SectionColumns], RetainingWallPresentation.SectionRows(Data, c)); table.Height = 285;
+            table.SelectionChanged += (_, _) => SelectSection(RetainingWallPresentation.ForceSection(c, table.SelectedIndex));
             SelectedResultsGrid = table; checks.Content = table; return;
         }
-        var all = r.Checks.Concat(r.Structural);
-        var selected = (string)CheckFilter.SelectedItem switch { "Combinazione selezionata" => all.Where(x => x.Combination == name || x.Combination == "Dettagli"), "Tutti i controlli" => all, _ => Envelope(all) };
-        var rows = selected.ToArray(); var grid = CheckTable(rows); grid.Height = 285;
-        grid.SelectionChanged += (_, _) => { var check = grid.SelectedIndex >= 0 ? rows[grid.SelectedIndex] : null; SelectSection(check is { Member: not null, Position: double z } ? (check.Member, z, check.Combination == "Dettagli" ? c.Name : check.Combination) : null); };
+        var rows = RetainingWallPresentation.FilterChecks(r, (string)CheckFilter.SelectedItem, name); var grid = CheckTable(rows); grid.Height = 285;
+        grid.SelectionChanged += (_, _) => SelectSection(grid.SelectedIndex >= 0 ? RetainingWallPresentation.CheckSection(rows[grid.SelectedIndex], c) : null);
         SelectedResultsGrid = grid;
-        var factor = c.Factors;
-        var text = Ui.Text($"{c.Name}{(c.VariableSurchargeOnHeel ? "" : " · q variabile solo nella spinta, assente sulla mensola")} · {factor.S("approach")} · γMφ={factor.D("mphi", 1):0.##}; γR scorr./ribalt./port.={factor.D("rslide", 1):0.##}/{factor.D("rover", 1):0.##}/{factor.D("rbearing", 1):0.##}; γR,e passiva={c.PassiveFactor:0.##}" + $"\nScorrimento Ed/Rd={F(c.SlidingDemand)}/{F(c.SlidingResistance)} kN/m · ribaltamento Ed/MRd={F(c.OverturningDemand)}/{F(c.OverturningResistance)} kNm/m · Rd port.={(c.BearingResistance is double b ? F(b) : "da verificare")} kN/m · U={F(c.Uplift)} kN/m", 12);
-        checks.Content = Ui.Stack(text, grid, Ui.Text("Riepilogo: inviluppo delle verifiche locali e della stabilità globale, se attivata. Un controllo non disponibile resta visibile. Per la globale selezionare la vista dedicata e la sua combinazione. Cedimenti da valutare separatamente.", 11, color: Ui.Muted));
+        var text = Ui.Text(RetainingWallPresentation.CheckHeader(c), 12);
+        checks.Content = Ui.Stack(text, grid, Ui.Text(RetainingWallPresentation.CheckFooter, 11, color: Ui.Muted));
     }
     internal static string RebarLabel(JsonObject d, string key) => WallModel.RebarLabel(d, key);
 

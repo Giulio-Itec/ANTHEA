@@ -26,7 +26,7 @@ public static class WallSheetPresentation
         => GPC.Checkers.Geotechnics.Walls.EarthPressure.SeismicAngle(kh, kv) * 180 / Math.PI;
     public static (string Text, bool Valid) DescribeColumnDepths(JsonObject data, IEnumerable<JsonObject> valley, IEnumerable<JsonObject> mountain)
     {
-        double ht = data["geometry"].D("height") + data["geometry"].D("slab"), dv = RetainingWall.ValleyHeight(data);
+        double ht = TotalHeight(data), dv = RetainingWall.ValleyHeight(data);
         var labels = new List<string>(); bool valid = true;
         foreach (var (rows, name, need) in new[] { (valley, "Valle", dv), (mountain, "Monte", ht) })
         {
@@ -36,6 +36,8 @@ public static class WallSheetPresentation
         return (string.Join(" · ", labels) + $"\nHlib={Number(ht - dv)} m · terreno di valle Dv={Number(dv)} m sopra il piano di posa", valid);
     }
     public static string Number(double value) => value.ToString("0.00", CultureInfo.GetCultureInfo("it-IT"));
+    /// <summary>H + t: the height above the foundation plus the thickness of the foundation (the depth of the uphill column to cover).</summary>
+    public static double TotalHeight(JsonObject data) => data["geometry"].D("height") + data["geometry"].D("slab");
     public static void PrepareGlobalSettings(JsonObject data)
     {
         var g = data["global_stability"]!.AsObject();

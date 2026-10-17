@@ -1,0 +1,537 @@
+{
+  "actions": [
+    {
+      "category": "Q",
+      "enabled": true,
+      "group": "legacy",
+      "id": "<GUID-1>",
+      "name": "Sovraccarico uniforme",
+      "psi0": 0.7,
+      "psi1": 0.5,
+      "psi2": 0.3,
+      "type": "Sovraccarico uniforme",
+      "value": 10,
+      "visible": true,
+      "x": 1.0750000000000002,
+      "z": 3.45,
+      "z0": 0.45
+    }
+  ],
+  "bar_schedule": {
+    "end_cover": 40,
+    "panel_length": 6,
+    "stock_length": 12,
+    "tie_cut_length": 900,
+    "ties_per_m": 2
+  },
+  "bearing_seismic": {
+    "ground_kh": 0.15,
+    "ground_kv": 0.07,
+    "model_factor": 1,
+    "source": "Assegnata"
+  },
+  "combination_mode": "Automatiche",
+  "combinations": [],
+  "detailing": {
+    "aggregate": 20,
+    "cover_abrasion": "Nessuno",
+    "cover_deviation": 10,
+    "cover_ec_quality": true,
+    "cover_element": "Piastra / soletta / parete",
+    "cover_ground": "Casseratura",
+    "cover_high_strength": true,
+    "cover_method": "EC2 2004",
+    "cover_quality": false,
+    "cover_rough": false,
+    "cover_slab": true,
+    "enabled": true,
+    "good_bond": true,
+    "lap_clear": 40,
+    "lap_percent": 50,
+    "life": 50,
+    "max_count": 12,
+    "max_diameter": 32,
+    "target_ratio": 0.95,
+    "tie_diameter": 8,
+    "tie_spacing": 200
+  },
+  "extensions": {},
+  "family": "cantilever",
+  "foundation": {
+    "delta": 26,
+    "gamma": 19,
+    "gamma_sat": 21,
+    "phi": 34
+  },
+  "geometry": {
+    "heel": 1.8,
+    "height": 3,
+    "slab": 0.45,
+    "stem_base": 0.4,
+    "stem_top": 0.25,
+    "toe": 0.8
+  },
+  "global_stability": {
+    "combination_mode": "Automatiche",
+    "combinations": [],
+    "condition": "Drenata",
+    "depth_max": "",
+    "depth_min": 0.1,
+    "enabled": false,
+    "entry_max": "",
+    "entry_min": 3.1,
+    "exit_max": -0.1,
+    "exit_min": "",
+    "grid": 9,
+    "kh": "",
+    "kv": "",
+    "layers": [],
+    "profile_confirmed": false,
+    "refinements": 4,
+    "search_mode": "Automatica",
+    "seismic": false,
+    "seismic_source": "Da sito · βs=0,38",
+    "slices": 60,
+    "soil_mode": "Profilo unico",
+    "soil_split_x": 1.2000000000000002,
+    "uphill": [],
+    "valley": [],
+    "valley_layers": [],
+    "water": [],
+    "water_enabled": false
+  },
+  "gravity_design": {
+    "confidence": 1,
+    "eccentricity": 0,
+    "effective_height": "",
+    "elastic_modulus": "",
+    "fk": "",
+    "fvk0": "",
+    "fvk_limit": "",
+    "gamma_m": 2.5,
+    "type": "Resistenze assegnate"
+  },
+  "interfaces": {
+    "base_mode": "Assegnato",
+    "base_phi_cv": 34,
+    "wall_delta": 0,
+    "wall_mode": "Assegnato",
+    "wall_phi_cv": 30
+  },
+  "layers": [
+    {
+      "__from": "0,00",
+      "__index": 1,
+      "__to": "10,00",
+      "gamma": 18,
+      "gamma_sat": 20,
+      "name": "Terreno granulare",
+      "phi": 30,
+      "thickness": 10
+    }
+  ],
+  "loads": {
+    "horizontal": 0,
+    "psi1": 0.5,
+    "psi2": 0.3,
+    "surcharge": 10,
+    "vertical": 0
+  },
+  "materials": {
+    "alpha_cc": "0.85",
+    "classe_acciaio": "B450A",
+    "classe_cls": "Personalizzato",
+    "cls_diagramma": "Parabola-rettangolo",
+    "compression_rd": 5,
+    "cover": 40,
+    "creep": 2,
+    "exposure": "XC2",
+    "fck": 32,
+    "fyk": 450,
+    "gamma": 25,
+    "gamma_c": "1.50",
+    "gamma_s": "1.15",
+    "materiale_acciaio_nome": "B450A",
+    "materiale_cls_nome": "CLS di progetto",
+    "shear_rd": 0.2,
+    "steel_diagramma": "Elastoplastico",
+    "steel_eps_u": 25,
+    "steel_fu_mpa": 540,
+    "steel_modulus_mpa": 200000,
+    "tension_rd": 0.3
+  },
+  "reinforcement": {
+    "heel": {
+      "anchor_length": 0,
+      "bend_diameter": 0,
+      "count": 6,
+      "diameter": 16,
+      "lap_length": 0,
+      "opposite_count": 6,
+      "opposite_diameter": 16,
+      "secondary_diameter": 10,
+      "secondary_spacing": 200,
+      "symmetric": true
+    },
+    "lower_height": 1.5,
+    "stem": {
+      "anchor_length": 0,
+      "bend_diameter": 0,
+      "count": 6,
+      "diameter": 16,
+      "lap_length": 0,
+      "opposite_count": 6,
+      "opposite_diameter": 16,
+      "secondary_diameter": 10,
+      "secondary_spacing": 200,
+      "symmetric": true
+    },
+    "stem_upper": {
+      "anchor_length": 0,
+      "bend_diameter": 0,
+      "count": 6,
+      "diameter": 16,
+      "lap_length": 0,
+      "opposite_count": 6,
+      "opposite_diameter": 16,
+      "secondary_diameter": 10,
+      "secondary_spacing": 200,
+      "symmetric": true
+    },
+    "toe": {
+      "anchor_length": 0,
+      "bend_diameter": 0,
+      "count": 6,
+      "diameter": 16,
+      "lap_length": 0,
+      "opposite_count": 6,
+      "opposite_diameter": 16,
+      "secondary_diameter": 10,
+      "secondary_spacing": 200,
+      "symmetric": true
+    },
+    "two_zones": false
+  },
+  "seismic": {
+    "ag_g": "",
+    "enabled": true,
+    "f0": "",
+    "kh": 0.1,
+    "kv": 0.05,
+    "method": "Mononobe–Okabe",
+    "relief_height": "",
+    "site_height": "",
+    "slope": "",
+    "soil_class": "Da scegliere",
+    "source": "kh e kv assegnati",
+    "ss": "",
+    "ss_mode": "Calcolato",
+    "st": "",
+    "st_mode": "Calcolato",
+    "topography": "Pianeggiante"
+  },
+  "serviceability": {
+    "displacement": true,
+    "head_limit": 20,
+    "histories": [
+      {
+        "compatible": true,
+        "enabled": true,
+        "limit_mm": 50,
+        "name": "Storia SLV 1",
+        "samples": [
+          {
+            "a_g": 0,
+            "t": 0
+          },
+          {
+            "a_g": 0.0739,
+            "t": 0.02
+          },
+          {
+            "a_g": 0.1412,
+            "t": 0.04
+          },
+          {
+            "a_g": 0.1958,
+            "t": 0.06
+          },
+          {
+            "a_g": 0.233,
+            "t": 0.08
+          },
+          {
+            "a_g": 0.2494,
+            "t": 0.1
+          },
+          {
+            "a_g": 0.2435,
+            "t": 0.12
+          },
+          {
+            "a_g": 0.2158,
+            "t": 0.14
+          },
+          {
+            "a_g": 0.1689,
+            "t": 0.16
+          },
+          {
+            "a_g": 0.1068,
+            "t": 0.18
+          },
+          {
+            "a_g": 0.0353,
+            "t": 0.2
+          },
+          {
+            "a_g": -0.0394,
+            "t": 0.22
+          },
+          {
+            "a_g": -0.1106,
+            "t": 0.24
+          },
+          {
+            "a_g": -0.1719,
+            "t": 0.26
+          },
+          {
+            "a_g": -0.2179,
+            "t": 0.28
+          },
+          {
+            "a_g": -0.2444,
+            "t": 0.3
+          },
+          {
+            "a_g": -0.249,
+            "t": 0.32
+          },
+          {
+            "a_g": -0.2315,
+            "t": 0.34
+          },
+          {
+            "a_g": -0.1932,
+            "t": 0.36
+          },
+          {
+            "a_g": -0.1377,
+            "t": 0.38
+          },
+          {
+            "a_g": -0.0699,
+            "t": 0.4
+          },
+          {
+            "a_g": 0.0042,
+            "t": 0.42
+          },
+          {
+            "a_g": 0.0779,
+            "t": 0.44
+          },
+          {
+            "a_g": 0.1446,
+            "t": 0.46
+          },
+          {
+            "a_g": 0.1984,
+            "t": 0.48
+          },
+          {
+            "a_g": 0.2345,
+            "t": 0.5
+          },
+          {
+            "a_g": 0.2496,
+            "t": 0.52
+          },
+          {
+            "a_g": 0.2425,
+            "t": 0.54
+          },
+          {
+            "a_g": 0.2136,
+            "t": 0.56
+          },
+          {
+            "a_g": 0.1657,
+            "t": 0.58
+          },
+          {
+            "a_g": 0.103,
+            "t": 0.6
+          },
+          {
+            "a_g": 0.0311,
+            "t": 0.62
+          },
+          {
+            "a_g": -0.0436,
+            "t": 0.64
+          },
+          {
+            "a_g": -0.1144,
+            "t": 0.66
+          },
+          {
+            "a_g": -0.175,
+            "t": 0.68
+          },
+          {
+            "a_g": -0.2199,
+            "t": 0.7000000000000001
+          },
+          {
+            "a_g": -0.2452,
+            "t": 0.72
+          },
+          {
+            "a_g": -0.2486,
+            "t": 0.74
+          },
+          {
+            "a_g": -0.2298,
+            "t": 0.76
+          },
+          {
+            "a_g": -0.1905,
+            "t": 0.78
+          },
+          {
+            "a_g": -0.1341,
+            "t": 0.8
+          },
+          {
+            "a_g": -0.0658,
+            "t": 0.8200000000000001
+          },
+          {
+            "a_g": 0.0084,
+            "t": 0.84
+          },
+          {
+            "a_g": 0.0819,
+            "t": 0.86
+          },
+          {
+            "a_g": 0.148,
+            "t": 0.88
+          },
+          {
+            "a_g": 0.2009,
+            "t": 0.9
+          },
+          {
+            "a_g": 0.2359,
+            "t": 0.92
+          },
+          {
+            "a_g": 0.2498,
+            "t": 0.9400000000000001
+          },
+          {
+            "a_g": 0.2414,
+            "t": 0.96
+          },
+          {
+            "a_g": 0.2114,
+            "t": 0.98
+          },
+          {
+            "a_g": 0.1626,
+            "t": 1
+          },
+          {
+            "a_g": 0.0992,
+            "t": 1.02
+          },
+          {
+            "a_g": 0.0269,
+            "t": 1.04
+          },
+          {
+            "a_g": -0.0477,
+            "t": 1.06
+          },
+          {
+            "a_g": -0.1181,
+            "t": 1.08
+          },
+          {
+            "a_g": -0.1779,
+            "t": 1.1
+          },
+          {
+            "a_g": -0.2219,
+            "t": 1.12
+          },
+          {
+            "a_g": -0.246,
+            "t": 1.1400000000000001
+          },
+          {
+            "a_g": -0.2482,
+            "t": 1.16
+          },
+          {
+            "a_g": -0.2281,
+            "t": 1.18
+          },
+          {
+            "a_g": -0.1877,
+            "t": 1.2
+          }
+        ],
+        "scale": 1.2,
+        "state": "SLV",
+        "yield_g": 0.08
+      }
+    ],
+    "horizontal_stiffness": 40000,
+    "layers": [
+      {
+        "modulus": 12000,
+        "name": "Limo sabbioso",
+        "thickness": 3
+      },
+      {
+        "modulus": 40000,
+        "name": "Ghiaia",
+        "thickness": 5
+      }
+    ],
+    "removed_pressure": 15,
+    "rigid_base": true,
+    "rotation_limit": 0.002,
+    "settlement": true,
+    "settlement_limit": 25
+  },
+  "valley": {
+    "free_height": 3.45,
+    "height_mode": "Interamente libero",
+    "layers": [
+      {
+        "__from": "0,00",
+        "__index": 1,
+        "__to": "10,00",
+        "gamma": 18,
+        "gamma_sat": 20,
+        "name": "Terreno granulare",
+        "phi": 30,
+        "thickness": 10
+      }
+    ],
+    "linked": false,
+    "mobilization": 0,
+    "passive": false
+  },
+  "version": 2,
+  "water": {
+    "depth": 2,
+    "enabled": false,
+    "front_head": 0
+  }
+}

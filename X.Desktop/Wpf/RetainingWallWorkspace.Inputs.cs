@@ -1,4 +1,6 @@
 using Anthea.Application.Walls;
+using Anthea.Application.Presentation;
+using Anthea.Presentation.Modules.RetainingWall;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,9 +13,9 @@ namespace X.Desktop;
 internal sealed partial class RetainingWallWorkspace
 {
     internal JsonGrid LayerGrid = null!, ActionGrid = null!, MatrixGrid = null!;
-    internal readonly ComboBox ViewMode = Ui.Choice(["Geometria e carichi", "Sollecitazioni", "Forze resistenti", "Tassi di lavoro", "Armature", "Stabilità globale"], "Geometria e carichi");
-    internal readonly ComboBox CheckFilter = Ui.Choice(["Riepilogo completo", "Combinazione selezionata", "Tutti i controlli", "Sollecitazioni numeriche", "Calcolo delle spinte", "Stabilità globale", "Portanza sismica", "Cedimenti e spostamenti", "Dettagli armature"], "Riepilogo completo");
-    internal readonly ComboBox Member = Ui.Choice(["Fusto", "Valle", "Monte"], "Fusto");
+    internal readonly ComboBox ViewMode = Ui.Choice(RetainingWallFields.ViewModes, RetainingWallFields.ViewModes[0]);
+    internal readonly ComboBox CheckFilter = Ui.Choice(RetainingWallFields.CheckFilters, RetainingWallFields.CheckFilters[0]);
+    internal readonly ComboBox Member = Ui.Choice(RetainingWallFields.Members, RetainingWallFields.Members[0]);
     internal readonly Dictionary<string, Expander> Cards = [];
     internal readonly Button SeismicButton, GlobalSetupButton;
     private readonly ContentControl inputHost = new();
@@ -42,7 +44,7 @@ internal sealed partial class RetainingWallWorkspace
         var steel = Toggle("Armature", true, v => { Drawing.ShowRebar = v; Drawing.InvalidateVisual(); });
         var push = Toggle("Spinte", true, v => { Drawing.ShowPressures = v; Drawing.InvalidateVisual(); });
         var inputView = Ui.Paper(Ui.Stack(Ui.Bar(Ui.Text("Sezione e azioni", 15, true), loads, labels, steel, push), Ui.Text("Carichi caratteristici inseriti · spinte e contatto della combinazione selezionata", 10, color: Ui.Muted), Drawing, probe, summary,
-            Group("Calcolo delle spinte · valori e coefficienti", Ui.Stack(Ui.Text("Scegliere la combinazione nella barra superiore. z è la profondità dalla sommità; Ht = H+t. Selezionare una riga per evidenziare il tratto.", 11, color: Ui.Muted), pressures), false)), 10);
+            Group("Calcolo delle spinte · valori e coefficienti", Ui.Stack(Ui.Text(RetainingWallPresentation.PressureHint, 11, color: Ui.Muted), pressures), false)), 10);
         inputLayout.ColumnDefinitions.Add(new() { Width = new GridLength(1.05, GridUnitType.Star) }); inputLayout.ColumnDefinitions.Add(new() { Width = new GridLength(1, GridUnitType.Star) });
         inputLayout.RowDefinitions.Add(new() { Height = GridLength.Auto }); inputLayout.RowDefinitions.Add(new() { Height = GridLength.Auto });
         inputLayout.Children.Add(inputHost); inputLayout.Children.Add(inputView); Grid.SetColumn(inputView, 1); inputView.Margin = new Thickness(10, 0, 0, 0);
@@ -57,9 +59,9 @@ internal sealed partial class RetainingWallWorkspace
         SendSectionButton = Ui.Button("Apri sezione in c.a.", SendSelectedSection); SendSectionButton.IsEnabled = false;
         SendSectionButton.ToolTip = "Copia geometria, materiali, armatura effettiva e combinazioni N/M/V della sezione selezionata nel modulo c.a. Il muro conserva i suoi dati.";
         var checksPane = Ui.Paper(Ui.Stack(Ui.Bar(Ui.Text("Riepilogo e dettagli", 15, true), CheckFilter, SendSectionButton), sectionSelection, checks)); checksPane.Margin = new Thickness(0, 10, 0, 0);
-        var resultPage = Ui.Stack(resultGraphic, checksPane, Group("Ipotesi, approcci e tipologie previste", Ui.Stack(Ui.Text(WallModel.Scope, 12), Ui.Text(WallModel.Limits, 12), Ui.Text(WallModel.ApproachHelp, 12), Ui.Text(WallModel.SeismicHelp, 12), Ui.Text("Tipologie predisposte: " + string.Join(", ", WallModel.Families.Where(f => !f.Available).Select(f => f.Name)) + ". Calcolo attivo soltanto per mensola e gravità.", 12)), false));
+        var resultPage = Ui.Stack(resultGraphic, checksPane, Group(RetainingWallPresentation.ApproachTitle, Ui.Stack(Ui.Text(WallModel.Scope, 12), Ui.Text(WallModel.Limits, 12), Ui.Text(WallModel.ApproachHelp, 12), Ui.Text(WallModel.SeismicHelp, 12), Ui.Text(RetainingWallPresentation.PlannedFamilies, 12)), false));
         Ui.Tab(Pages, "Input", Scroll(inputPage)); Ui.Tab(Pages, "Verifiche", Scroll(resultPage)); Pages.Margin = new Thickness(12, 4, 12, 6);
-        var header = Ui.Bar(Ui.Text("Muri di sostegno", 19, true), Family, Ui.Button("Mensola esempio", () => Example("cantilever")), Ui.Button("Gravità esempio", () => Example("gravity")), Ui.Button("Ricalcola", async () => await CalculateAsync(), inspection: true), Ui.Button("Relazione Word", () => ReportRequested?.Invoke(), inspection: true), Ui.Button("CSV", ExportCsv, inspection: true)); header.Margin = new Thickness(14, 8, 14, 4);
+        var header = Ui.Bar(Ui.Text(RetainingWallFields.Title, 19, true), Family, Ui.Button("Mensola esempio", () => Example("cantilever")), Ui.Button("Gravità esempio", () => Example("gravity")), Ui.Button("Ricalcola", async () => await CalculateAsync(), inspection: true), Ui.Button("Relazione Word", () => ReportRequested?.Invoke(), inspection: true), Ui.Button("CSV", ExportCsv, inspection: true)); header.Margin = new Thickness(14, 8, 14, 4);
         var comboBar = Ui.Bar(Ui.Text("Combinazione visualizzata", 12), Combination, SeismicButton, GlobalSetupButton, Ui.Button("Valori di calcolo…", () => { _ = ShowCalculationParameters(); }, inspection: true)); comboBar.Margin = new Thickness(14, 0, 14, 4);
         status.Margin = new Thickness(15, 4, 15, 8);
         Content = Ui.Dock(Pages, Ui.Stack(header, comboBar), status);
@@ -73,7 +75,6 @@ internal sealed partial class RetainingWallWorkspace
     }
     private static ScrollViewer Scroll(UIElement content) => new ChainedScrollViewer { Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
     private static Expander Group(string title, UIElement content, bool open = true) => new() { Header = title, IsExpanded = open, Content = content, Margin = new Thickness(0, 3, 0, 6), FontSize = 13 };
-    private static IEnumerable<Field> Fields(IEnumerable<WallModel.Parameter> parameters) => parameters.Select(p => new Field(p.Key, p.Label, p.Unit, Symbol: p.Symbol));
     private InputForm Form(string key, IEnumerable<Field> fields, JsonObject? obj = null, Action<string>? handler = null)
     {
         var form = new InputForm(obj ?? Data[key]!.AsObject(), fields, k => { handler?.Invoke(k); UpdateFields(); Changed(); }, compact: true, symbolColumns: true); Forms[key] = form; return form;
@@ -102,14 +103,14 @@ internal sealed partial class RetainingWallWorkspace
         void Card(string title, UIElement body) { var group = Group(title, body); Cards[title] = group; var paper = Ui.Paper(group, 10); paper.Margin = new Thickness(0, 0, 0, 8); cards.Children.Add(paper); }
         Card("Terreno", Ui.Stack(BuildSoilColumns(), BuildAdvancedSoil()));
         Card("Materiali", BuildWallMaterials());
-        var reinforcement = Ui.Stack(Form("zones", [new("two_zones", "Due zone verticali di armatura", Bool: true), new("lower_height", "Altezza zona inferiore dal piede del fusto", "m", Symbol: "h₁")], Data["reinforcement"]!.AsObject()));
-        foreach (var (key, label) in new[] { ("stem", "Fusto · zona inferiore / intera altezza"), ("stem_upper", "Fusto · zona superiore"), ("toe", "Mensola a valle"), ("heel", "Mensola a monte") })
+        var reinforcement = Ui.Stack(Form("zones", RetainingWallFields.Zones, Data["reinforcement"]!.AsObject()));
+        foreach (var (key, label) in RetainingWallFields.RebarZones)
         {
-            var arm = Form("rebar_" + key, RebarFields, Data["reinforcement"]![key]!.AsObject());
+            var arm = Form("rebar_" + key, RetainingWallFields.Rebar, Data["reinforcement"]![key]!.AsObject());
             var group = Group(label, arm, false); Cards["rebar_" + key] = group; reinforcement.Children.Add(group);
         }
-        Card("Geometria", Ui.Stack(Form("geometry", Fields(WallModel.GeometryFields)), Group("Armature inserite", reinforcement), BuildDetailing(), Ui.Text("Facce simmetriche oppure indipendenti. h₁ separa le due zone del fusto; la vista Armature mostra ancoraggi e sovrapposizioni. La distinta è un predimensionamento, da completare con il disegno esecutivo.", 11, color: Ui.Muted)));
-        ActionGrid = GridFor([new("enabled", "Calcola", Bool: true), new("visible", "Disegna", Bool: true), new("name", "Azione"), new("type", "Tipo", ReadOnly: true), new("category", "Natura", ReadOnly: true), new("value", "Valore", ReadOnly: true)], Data.Array("actions"), height: 145);
+        Card("Geometria", Ui.Stack(Form("geometry", RetainingWallFields.Geometry), Group("Armature inserite", reinforcement), BuildDetailing(), Ui.Text("Facce simmetriche oppure indipendenti. h₁ separa le due zone del fusto; la vista Armature mostra ancoraggi e sovrapposizioni. La distinta è un predimensionamento, da completare con il disegno esecutivo.", 11, color: Ui.Muted)));
+        ActionGrid = GridFor(RetainingWallFields.ActionColumns, Data.Array("actions"), height: 145);
         ActionGrid.Columns[2].Width = 140; ActionGrid.Columns[3].Width = 160; ActionGrid.Columns[4].Width = 65; ActionGrid.Columns[5].Width = 70;
         ActionGrid.SelectionChanged += (_, _) => EditAction();
         var type = Ui.Choice(WallModel.ActionTypes, WallModel.ActionTypes[0]); type.Width = 190;
@@ -136,36 +137,30 @@ internal sealed partial class RetainingWallWorkspace
         Forms.Remove("action"); selectedAction = (ActionGrid.SelectedItem as JsonRow)?.Values; actionDetails.Content = null;
         Drawing.SelectedAction = selectedAction?.S("id"); Drawing.InvalidateVisual(); if (selectedAction is null) return;
         var a = selectedAction;
-        var form = Form("action", [new("name", "Nome"), new("type", "Tipo", Choices: WallModel.ActionTypes), new("category", "Natura", Choices: WallModel.ActionCategories), new("value", "Intensità caratteristica", WallModel.ActionUnit(a.S("type"))),
-            new("z", "Quota di applicazione / estremo superiore", "m", Symbol: "z₁"), new("z0", "Quota inferiore della pressione", "m", Symbol: "z₀"), new("x", "Ascissa dal bordo a valle", "m", Symbol: "x"), new("psi0", "Accompagnamento SLU / rara", "−", Symbol: "ψ₀"), new("psi1", "Frequente", "−", Symbol: "ψ₁"), new("psi2", "Quasi permanente", "−", Symbol: "ψ₂"), new("group", "Gruppo correlato (vuoto = indipendente)")], a, key => { foreach (var row in ActionGrid.Rows) row.Refresh(); if (key == "type") Dispatcher.BeginInvoke(EditAction); });
-        form.ShowField("z", a.S("type") != "Sovraccarico uniforme"); form.ShowField("x", a.S("type") == "Forza verticale"); form.ShowField("z0", a.S("type") == "Pressione laterale");
+        var form = Form("action", RetainingWallFields.Action(a.S("type")), a, key => { foreach (var row in ActionGrid.Rows) row.Refresh(); if (key == "type") Dispatcher.BeginInvoke(EditAction); });
+        foreach (var (key, visible) in RetainingWallPresentation.ActionTypeFields(a.S("type"))) form.ShowField(key, visible);
         foreach (string key in new[] { "psi0", "psi1", "psi2" }) form.ShowField(key, a.S("category") == "Q");
-        actionDetails.Content = Ui.Stack(form, Ui.Text("Quote z dal piano di posa; x dal bordo a valle. H e pressioni positivi verso valle, N in compressione, M ribaltante. Urto: forza statica equivalente assegnata, distribuita per metro. Il sovraccarico è uniforme su tutto il riempimento.", 11, color: Ui.Muted));
+        actionDetails.Content = Ui.Stack(form, Ui.Text(RetainingWallPresentation.ActionHelp, 11, color: Ui.Muted));
     }
     private void UpdateFields()
     {
-        if (!Forms.TryGetValue("materials", out var material)) return;
-        bool rc = Data.S("family") == "cantilever";
-        foreach (var f in WallModel.MaterialFields) material.ShowField(f.Key, f.Key == "gamma" || (rc ? !f.Key.EndsWith("_rd") : f.Key.EndsWith("_rd")));
-        material.ShowField("exposure", rc);
-        if (!rc && Data["gravity_design"].S("type") == "Calcestruzzo non armato") { material.ShowField("fck", true); material.ShowField("creep", true); }
-        if (!rc && Data["gravity_design"].S("type") == "Muratura") material.ShowField("creep", true);
+        if (!Forms.ContainsKey("materials")) return;
+        // The rules of the fields come from RetainingWallPresentation.InputRules (F5.9), shared with the ViewModel; the previews, the
+        // seismic coefficients of the site and the global stability are refreshed in the same order as before.
+        ApplyRules(RetainingWallPresentation.InputRules(Data, Forms.ContainsKey("action") ? selectedAction?.S("category") : null));
         UpdateWallMaterials();
-        if (Forms.TryGetValue("gravity_design", out var gravity)) gravity.Visibility = rc ? Visibility.Collapsed : Visibility.Visible;
-        if (Forms.TryGetValue("detailing", out var detail)) detail.Visibility = rc ? Visibility.Visible : Visibility.Collapsed;
-        if (DesignButton is not null) DesignButton.IsEnabled = rc && !Busy;
-        foreach (string key in new[] { "stem", "stem_upper", "toe", "heel" })
-            if (Forms.TryGetValue("rebar_" + key, out var arm)) { arm.ShowField("opposite_diameter", !Data["reinforcement"]![key].B("symmetric", true)); arm.ShowField("opposite_count", !Data["reinforcement"]![key].B("symmetric", true)); arm.ShowField("lap_length", key.StartsWith("stem") && Data["reinforcement"].B("two_zones")); arm.ShowField("bend_diameter", key == "stem"); }
-        if (Forms.TryGetValue("bearing_seismic", out var bearing)) { bearing.ShowField("ground_kh", Data["bearing_seismic"].S("source") == "Assegnata"); bearing.ShowField("ground_kv", Data["bearing_seismic"].S("source") == "Assegnata"); }
-        foreach (var (key, card) in Cards.Where(f => f.Key.StartsWith("rebar_"))) card.Visibility = rc && (key != "rebar_stem_upper" || Data["reinforcement"].B("two_zones")) ? Visibility.Visible : Visibility.Collapsed;
-        if (Forms.TryGetValue("zones", out var zones)) { zones.Visibility = rc ? Visibility.Visible : Visibility.Collapsed; zones.ShowField("lower_height", Data["reinforcement"].B("two_zones")); }
-        if (Forms.TryGetValue("water", out var water)) foreach (string key in new[] { "depth", "front_head" }) water.Enable(key, Data["water"].B("enabled"), true);
-        UpdateSoilFields();
+        if (DesignButton is not null) DesignButton.IsEnabled = Data.S("family") == "cantilever" && !Busy;
         UpdateSeismicFields();
         RefreshGlobal();
         UpdateSeismicStatus();
-        if (Forms.TryGetValue("action", out var action) && selectedAction is not null) foreach (string key in new[] { "psi0", "psi1", "psi2" }) action.ShowField(key, selectedAction.S("category") == "Q");
         if (LayerGrid is not null) UpdateLayerDepths();
+    }
+    private void ApplyRules(WallInputRules rules)
+    {
+        foreach (var (key, visible) in rules.Forms) if (Forms.TryGetValue(key, out var form)) form.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        foreach (var (key, visible) in rules.Cards) if (Cards.TryGetValue(key, out var card)) card.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        foreach (var (key, field, visible) in rules.Fields) if (Forms.TryGetValue(key, out var form)) form.ShowField(field, visible);
+        foreach (var (key, field, enabled, dim) in rules.Enabled) if (Forms.TryGetValue(key, out var form)) form.Enable(field, enabled, dim);
     }
     private void ShowSeismic()
     {
@@ -174,10 +169,9 @@ internal sealed partial class RetainingWallWorkspace
     }
     private void UpdateSeismicStatus()
     {
-        bool enabled = Data["seismic"].B("enabled"); int? cases = Calculation?.Cases.Count(c => c.State == "SISMA");
-        SeismicButton.Content = !enabled ? "Sisma: non attivo · imposta" : cases is null ? "Sisma: attivo · da ricalcolare" : cases == 0 ? "Sisma: attivo · nessuna combinazione" : $"Sisma: attivo · {cases} combinazioni";
-        SeismicButton.Foreground = Appearance.Foreground(enabled && cases == 0 ? Brushes.Firebrick : Ui.Navy);
-        SeismicButton.ToolTip = "Apri Input → Azioni → Sisma. " + (enabled ? $"{Data["seismic"].S("method")} · kh={Data["seismic"].D("kh"):0.###} · |kv|={Data["seismic"].D("kv"):0.###}. " : "Abilita l’azione sismica e assegna modello, kh e |kv|. ")
-            + "Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti.";
+        var (content, warning, tip) = RetainingWallPresentation.SeismicStatus(Data, Calculation);
+        SeismicButton.Content = content;
+        SeismicButton.Foreground = Appearance.Foreground(warning ? Brushes.Firebrick : Ui.Navy);
+        SeismicButton.ToolTip = tip;
     }
 }

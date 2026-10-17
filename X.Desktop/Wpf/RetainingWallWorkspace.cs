@@ -1,5 +1,6 @@
 using Anthea.Application.Walls;
 using Anthea.Application.Modules;
+using Anthea.Application.Presentation;
 using Anthea.Application.Scheduling;
 using Anthea.Reports;
 using System.Globalization;
@@ -28,13 +29,13 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
     internal Button SendSectionButton = null!;
     internal DataGrid? SelectedResultsGrid;
     private (string Member, double Position, string Combination)? selectedSection;
-    private readonly TextBlock sectionSelection = Ui.Text("Selezionare una riga strutturale o una sezione nella tabella delle sollecitazioni.", 11, color: Ui.Muted);
+    private readonly TextBlock sectionSelection = Ui.Text(RetainingWallPresentation.SectionSelection(null), 11, color: Ui.Muted);
     internal readonly TabControl Pages = new();
     internal readonly Dictionary<string, InputForm> Forms = new();
     internal readonly ComboBox Family = new(), Combination = new();
     internal readonly RetainingWallDrawing Drawing = new() { Height = 400, MinHeight = 300 };
     internal readonly RetainingWallDrawing Diagrams = new() { Height = 410, Diagrams = true };
-    private readonly TextBlock status = Ui.Text("Dati da verificare", 12), summary = Ui.Text("", 14, true);
+    private readonly TextBlock status = Ui.Text(RetainingWallPresentation.StatusToVerify, 12), summary = Ui.Text("", 14, true);
     private readonly ContentControl checks = new(), pressures = new(), forces = new(), actionDetails = new(), matrixHost = new();
     private readonly List<JsonGrid> grids = [];
     private readonly RecalculationScheduler recalculation = new();
@@ -52,8 +53,8 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         revision++; recalculation.Invalidate(); Calculation = null; UpdateSeismicStatus(); checks.Content = null; pressures.Content = null; forces.Content = null;
         independentGlobal = null; independentGlobalInput = null; independentGlobalError = null; GlobalCombination.ItemsSource = null; RefreshGlobal();
         SelectSection(null);
-        Combination.ItemsSource = null; summary.Text = "Risultati da aggiornare"; Diagrams.Data = Data; Diagrams.Calculation = null; Diagrams.Case = null; Diagrams.InvalidateVisual(); Preview();
-        status.Text = "Aggiornamento in attesa…"; QueueCalculation(); Modified?.Invoke();
+        Combination.ItemsSource = null; summary.Text = RetainingWallPresentation.ResultsToUpdate; Diagrams.Data = Data; Diagrams.Calculation = null; Diagrams.Case = null; Diagrams.InvalidateVisual(); Preview();
+        status.Text = RetainingWallPresentation.StatusPending; QueueCalculation(); Modified?.Invoke();
     }
     private void QueueCalculation() => scheduledCalculation = CalculateScheduledAsync(TimeSpan.FromMilliseconds(450), false);
     internal void Commit() { foreach (var form in Forms.Values) form.Commit(); foreach (var grid in grids) grid.Commit(); }
@@ -65,7 +66,7 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         var snapshot = (JsonObject)Data.DeepClone();
         var completed = await recalculation.ScheduleAsync(async token =>
         {
-            Busy = true; status.Text = "Calcolo di equilibrio e verifiche GPC…";
+            Busy = true; status.Text = RetainingWallPresentation.StatusRunning;
             try { return WallModel.Read(await Task.Run(() => calculationService.Calculate(snapshot, token), token)); }
             finally { Busy = false; }
         }, delay);
@@ -75,12 +76,11 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
             {
                 if (current.Error is not null) throw current.Error;
                 var result = current.Value!; Calculation = result; ShowResults();
-                var all = result.Checks.Concat(result.Structural).ToArray();
-                int failed = all.Count(c => c.IsNotSatisfied), missing = all.Count(c => c.IsNotEvaluated);
-                status.Text = $"Calcolo aggiornato · {result.Cases.Count} combinazioni · {failed} controlli non soddisfatti · {missing} non disponibili";
-                status.Foreground = Appearance.Foreground(failed > 0 ? Brushes.Firebrick : missing > 0 ? Brushes.DarkGoldenrod : Ui.Navy);
+                var (text, severity) = RetainingWallPresentation.Status(result);
+                status.Text = text;
+                status.Foreground = Appearance.Foreground(severity == WallStatusSeverity.Failure ? Brushes.Firebrick : severity == WallStatusSeverity.Warning ? Brushes.DarkGoldenrod : Ui.Navy);
             }
-            catch (Exception ex) { Calculation = null; status.Text = "Dati da correggere: " + ex.Message; }
+            catch (Exception ex) { Calculation = null; status.Text = RetainingWallPresentation.StatusError(ex.Message); }
         });
     }
     internal void Example(string family)
@@ -100,25 +100,24 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         foreach (var column in grid.Columns) column.Width = DataGridLength.Auto;
         return grid;
     }
-    private static DataGrid CheckTable(IEnumerable<WallModel.Check> checks) => Table(["Verifica", "Combinazione", "Ed", "Rd", "Unità", "Ed/Rd", "Esito"],
-        checks.Select(c => new[] { c.Name, c.Combination, c.HasDemand ? F(c.Demand) : "—", c.Resistance is double r ? F(r) : "—", c.Unit, c.Ratio is double q ? q.ToString("0.000", It) : "—", c.Status }));
+    private static DataGrid CheckTable(IEnumerable<WallModel.Check> checks) => Table([.. RetainingWallPresentation.CheckColumns], RetainingWallPresentation.CheckRows(checks));
     internal static IEnumerable<WallModel.Check> Envelope(IEnumerable<WallModel.Check> checks) => WallExports.Envelope(checks);
     private void SelectSection((string Member, double Position, string Combination)? selected)
     {
         selectedSection = selected;
         SendSectionButton.IsEnabled = selected is not null && Calculation is not null && Data.S("family") == "cantilever";
-        sectionSelection.Text = selected is { } s ? $"{s.Member} · z/l={s.Position:0.######} m · {s.Combination}" : "Selezionare una riga strutturale o una sezione nella tabella delle sollecitazioni.";
+        sectionSelection.Text = RetainingWallPresentation.SectionSelection(selected);
     }
     internal void SendSelectedSection()
     {
         if (selectedSection is not { } s || Calculation is null || Busy || Data.S("family") != "cantilever") return;
         var output = WallModel.ExportSection(Calculation, s.Member, s.Position, s.Combination);
-        SectionRequested?.Invoke(output, $"Muro · {s.Member} · z/l {s.Position:0.###} m");
+        SectionRequested?.Invoke(output, RetainingWallPresentation.SectionName(s));
     }
     private void ExportCsv()
     {
         bool global = (string?)ViewMode.SelectedItem == "Stabilità globale" && GlobalResult is not null;
-        if ((!global && Calculation is null) || Busy) { MessageBox.Show(Window.GetWindow(this), "Attendere il calcolo e correggere i dati prima di esportare."); return; }
+        if ((!global && Calculation is null) || Busy) { MessageBox.Show(Window.GetWindow(this), RetainingWallPresentation.WaitBeforeExport); return; }
         var dialog = new SaveFileDialog { Filter = "Tabelle CSV|*.csv", FileName = global ? "Muro_stabilita_globale_conci.csv" : "Muro_verifiche.csv" };
         if (dialog.ShowDialog(Window.GetWindow(this)) == true) Archivio.ScriviAtomico(dialog.FileName, Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(global ? WallExports.GlobalCsv(GlobalResult!) : WallExports.Csv(Calculation!))).ToArray());
     }

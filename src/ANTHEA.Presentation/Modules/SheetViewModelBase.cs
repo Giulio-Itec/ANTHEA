@@ -87,7 +87,8 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     /// <summary>Where the module calculates (decision Q8).</summary>
     public SheetCalculationMode CalculationMode { get; }
 
-    public bool IsBusy => calculation.IsBusy;
+    /// <summary>True while the engine of the module runs; a module with other work of its own (the searches of the walls) adds it.</summary>
+    public virtual bool IsBusy => calculation.IsBusy;
 
     public JsonObject? Result => calculation.Result?.Values;
 
@@ -234,13 +235,14 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     protected ModuleCalculation? PublishedCalculation { get; private set; }
 
     /// <summary>
-    /// Cancels the pending or running calculation without clearing the published result (F5.7: the horizontal pile when the elastic tab
-    /// is chosen, as its historic view): the cancelled request is never published.
+    /// Cancels the pending or running calculation without clearing the published result; the cancelled request is never published
+    /// (<see cref="SheetCalculation{TResult}.Cancel"/>). F5.7, the horizontal pile when the elastic tab is chosen, keeps the state
+    /// Cancelled; F5.9, the searches of the walls, passes <paramref name="restorePublished"/> to go back to the published result.
     /// </summary>
-    protected void CancelCalculation()
+    protected void CancelCalculation(bool restorePublished = false)
     {
         ThrowIfDisposed();
-        calculation.Cancel();
+        calculation.Cancel(restorePublished);
     }
 
     /// <summary>The calculation service of the module on <paramref name="data"/>, through the per-document cache of the sheet (the session copies the data).</summary>
