@@ -1,6 +1,6 @@
 # F5 — Punti di controllo: le decisioni in una pagina
 
-Questa pagina raccoglie le domande che le note dei moduli F5.4–F5.9b lasciano all'utente e i difetti trovati nelle viste attuali (17/10/2026). Non sostituisce le note: ogni voce porta il codice (D, M, V, S, O, E, MU, FN) per ritrovare il dettaglio.
+Questa pagina raccoglie le domande che le note dei moduli F5.4–F5.10 lasciano all'utente e i difetti trovati nelle viste attuali (17/10/2026). Non sostituisce le note: ogni voce porta il codice (D, M, V, S, O, E, MU, FN) per ritrovare il dettaglio.
 
 Nella Release non è cambiato nulla: tutti i moduli aprono ancora le viste storiche. La vista nuova della palificata esiste solo nella build di prova.
 
@@ -211,6 +211,23 @@ Coperte: FN1 (T3), FN2 (T1), FN3 e FN4 (T6), FN6 (T8), FN7 (T12), FN8 (T5), FN11
 - **FN9 · Aiuto dei campi.** I campi numerici della vista storica non hanno «?» né F1 per campo; la falda e il calcestruzzo sì (`InputForm`). Il ViewModel conserva la distinzione. Con `FieldForm` si potrebbe dare l'aiuto a tutti: differenza visibile, da decidere.
 - **FN10 · Disponibilità della libreria.** Il ViewModel riceve dal modulo se il rilascio approvato è installato (`FoundationLibrary.Available`) e cambia solo il testo dei risultati senza calcolo. Informativo.
 
+### F5.10 — Sezione c.a. (parte A: fixture, tracce, derivazioni, piano dei sottopassi)
+
+Nessun ViewModel ancora: la [nota](f5-10-sezione.md) divide il modulo in nove sottopassi (S1–S9) e chiede prima queste
+scelte. Ogni codice rimanda alla sezione 7 della nota.
+
+- **C1 · Calcolo.** Un coordinatore in Presentation sopra i calcoli della sezione, con il foglio in modalità `None`, oppure
+  una modalità nuova del componente comune? Da decidere.
+- **C2 · Taglio.** Il calcolo del taglio resta sul thread dell'interfaccia come oggi? Da decidere (vedi T3).
+- **C3 · Azioni.** `SectionActionsViewModel` passa da Application a Presentation (Q17)? Da decidere.
+- **C4 · Verificatore del palo elastico.** Un dialogo che restituisce i dati al palo; è la stessa domanda di E1 (F5.8).
+- **C5 · Comportamenti storici.** Si conservano e diventano voci del registro (vedi T7)?
+- **C6 · Errori parziali.** Il ViewModel dà un ordine fisso agli errori parziali, che oggi non è deterministico?
+- **C7 · Peso delle tracce.** 7,3 MB e 165 s: come dividerle fra gli stadi delle prove?
+- **C8 · Disegni.** I disegni restano WPF e il dominio 3D si confronta solo come dati (vedi T9)?
+- **C9 · Trefoli e calcolo bloccato.** Coperti solo dalle tracce: bastano?
+- **C10 · Strategia.** Sottopassi in sequenza, con la Release storica fino a S9?
+
 ## Difetti trovati nelle viste attuali
 
 Comprende i difetti e i comportamenti storici che le note chiedono di decidere. Nei muri e nelle fondazioni nessun difetto tocca i risultati: tracce, F3 e capitoli autonomi coincidono. Nei materiali non ne sono stati trovati.
@@ -244,6 +261,16 @@ Comprende i difetti e i comportamenti storici che le note chiedono di decidere. 
 | F5.9b fondazioni | La scelta «Sezione X / Sezione Y» della scheda «Rottura» è bloccata in sola lettura solo se la scheda esisteva alla protezione o è visibile; una combo ricreata da un calcolo in una scheda non mostrata resta attiva. È stato di sola vista, non salvato (FN4) | La rifiuta sempre in sola lettura | Da decidere; alternativa: ammetterla sempre (T6) |
 | F5.9b fondazioni | In sola lettura aprire o chiudere un gruppo e «Raccogli input» scrivono `vista_fondazioni` e segnano il foglio modificato: una revisione precedente risulta «modificata» (FN3) | Lo conserva | Da decidere (T6): conservare o stato della vista non salvato |
 
+| F5.10 sezione c.a. | Le figure dei domini nel report della vista evidenziano la riga selezionata (la prima inserita); il capitolo autonomo la prima per nome | Da definire al sottopasso | Da decidere |
+| F5.10 sezione c.a. | L'ordine degli errori parziali non è deterministico quando due verifiche si fermano insieme | Da definire (C6) | Ordine fisso nel ViewModel |
+| F5.10 sezione c.a. | Un documento di versione 2 senza `dominio2d` riceve N = +1000 | Da definire | Da decidere |
+| F5.10 sezione c.a. | Nel dominio 2D SLV compare il messaggio grezzo della libreria «Value cannot be null. (Parameter 'failureDomain')» | Da definire | Da decidere |
+| F5.10 sezione c.a. | In sola lettura la revisione scrive ancora scheda, filtri e opzioni dei grafici, con `Modified` | Da definire | Vedi T6 |
+| F5.10 sezione c.a. | «Annulla» dell'editor delle sollecitazioni cambia i dati senza `Modified` | Da definire | Da decidere |
+| F5.10 sezione c.a. | L'impronta del risultato esportato cambia dopo la visita delle schede | Da definire | Da decidere |
+| F5.10 sezione c.a. | Blocco delle barre incoerente: `ManualBars` controlla che sia un elenco, `LayersLocked` solo che la chiave esista | Da definire | Da decidere |
+| F5.10 sezione c.a. | La ricerca delle armature rifiuta la riserva torsionale 0 %; con i dati di una fixture scarta tutte le configurazioni | Da definire | Da decidere |
+
 ## Cosa sblocca la risposta
 
 1. **Punto di controllo F5.4** (D3, D8–D12, bordo delle schede, più T1–T4 e T11). Sblocca il passo 6 della ricetta, nello stesso commit:
@@ -256,3 +283,4 @@ Comprende i difetti e i comportamenti storici che le note chiedono di decidere. 
    - Traccia A, **F5.5 materiali**: prima M9 e M11 (disposizione, Reologia).
    - Traccia B, **F5.6 palo verticale**: prima T5 e V12. Poi **F5.6b stratigrafia** (S7 prima della vista), **F5.9 muri** (MU3, MU4, MU10) e **F5.9b fondazioni** (FN5).
    - Traccia C, **F5.7 e F5.8 palo orizzontale ed elastico**: O2/E2 decidono se i due moduli passano insieme; E1 prima della vista elastica.
+   - Traccia D, **F5.10 sezione c.a.**: prima C1, C3 e C10; poi i sottopassi S1–S9, ciascuno con il suo ViewModel e le sue tracce.

@@ -628,8 +628,13 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
       - le 1 117 transizioni F4 dell'elastico restano identiche con il ViewModel.
     - **`SheetCalculation.Cancel(restorePublished)`.** Il palo orizzontale lascia lo stato annullato, i muri tornano al risultato
       pubblicato, come le rispettive viste storiche.
-  - **Totali dopo i merge:** 97 fixture F3; baseline F4 da 3349 a 3322 occorrenze.
-  - **Corsa** build, fast, wiki e ui sul merge `20261017-043656-f5-int12`: PASS 118, 0 NEW-FAIL, senza `ui/check-contrast`.
+    - **F5.10, sezione c.a., parte A** ([f5-10-sezione.md](f5-10-sezione.md), merge 8717b9c9): 7 fixture e 7 figure, 37
+      scenari di traccia divisi per sottopasso, 120 disegni 2D congelati; derivazioni di ingressi e azioni; piano dei sottopassi
+      S1–S9 con le domande C1–C10. Nessun ViewModel ancora.
+  - **Totali dopo i merge:** 104 fixture F3; baseline F4 da 3349 a 3320 occorrenze.
+  - **Corse** build, fast, wiki e ui, senza `ui/check-contrast`:
+    - merge `20261017-043656-f5-int12`: PASS 118, 0 NEW-FAIL;
+    - merge della sezione `20261017-060301-f5-int13`: PASS 119, 0 NEW-FAIL.
     Dalla notte del 16/10 lo schermo è al 150%: per la decisione D6 la prova del contrasto si confronta solo a 96 DPI e va ripetuta.
   - **Domande e difetti** delle viste storiche, raccolti per modulo: [f5-punti-di-controllo.md](f5-punti-di-controllo.md).
 - [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. Requisito
