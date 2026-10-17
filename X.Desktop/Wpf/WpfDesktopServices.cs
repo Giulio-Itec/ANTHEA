@@ -59,6 +59,10 @@ internal sealed class WpfConfirmationService(Func<Window?> owner) : IConfirmatio
 
     public bool ConfirmDelete(string title, string question)
         => WpfDesktopServices.Show(owner(), question, title, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
+
+    /// <summary>The question of SoilTransferDialog before the replacement of the soil: Yes and No, no icon, owned by the active window (the dialog).</summary>
+    public bool ConfirmReplace(string title, string question)
+        => WpfDesktopServices.Show(owner(), question, title, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 }
 
 /// <summary>Message box formerly in MainWindow.Safe, and the plain notes and warnings of the views.</summary>

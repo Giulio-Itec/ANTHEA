@@ -6,6 +6,7 @@ using Anthea.Presentation.Forms;
 using Anthea.Presentation.Mvvm;
 using Anthea.Presentation.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Anthea.Presentation.Modules.VerticalPile;
 
@@ -16,10 +17,22 @@ namespace Anthea.Presentation.Modules.VerticalPile;
 /// </summary>
 public sealed class VerticalPileSurveyViewModel
 {
-    internal VerticalPileSurveyViewModel(int index, JsonArray layers, IReadOnlyList<FieldSpec> columns)
+    internal VerticalPileSurveyViewModel(int index, JsonArray layers, IReadOnlyList<FieldSpec> columns, IRelayCommand addLayer, IRelayCommand<JsonRowViewModel> removeLayer)
     {
-        Index = index; Layers = layers; Columns = columns;
+        Index = index; Layers = layers; Columns = columns; AddLayerCommand = addLayer; RemoveLayerCommand = removeLayer;
+        // The items of the choice cells, as StratigraphyTable showed them: the choices of the column without empty or repeated values.
+        Choices = columns.Where(c => c.Choices is not null).ToDictionary(c => c.Key,
+            c => (IReadOnlyList<string>)c.Choices!.Where(v => !string.IsNullOrWhiteSpace(v)).Distinct().ToArray(), StringComparer.Ordinal);
     }
+
+    /// <summary>The items of the choice cells, by column key.</summary>
+    public IReadOnlyDictionary<string, IReadOnlyList<string>> Choices { get; }
+
+    /// <summary>«Aggiungi strato» (disabled when read-only).</summary>
+    public IRelayCommand AddLayerCommand { get; }
+
+    /// <summary>The [−] of a layer, with the row as parameter (disabled when read-only).</summary>
+    public IRelayCommand<JsonRowViewModel> RemoveLayerCommand { get; }
 
     /// <summary>Position of the stratigraphy, from 0.</summary>
     public int Index { get; }
@@ -124,7 +137,15 @@ public sealed class SurveyCopyDialogViewModel : DialogViewModel<SurveyCopyChoice
     internal SurveyCopyDialogViewModel(string title, string question, IReadOnlyList<SurveyCopyChoice> choices) : base(title)
     {
         Question = question; Choices = choices; selected = choices[0];
+        ConfirmCommand = new RelayCommand(Confirm);
+        DismissCommand = new RelayCommand(Dismiss);
     }
+
+    /// <summary>«Copia» (the default button of the dialog).</summary>
+    public IRelayCommand ConfirmCommand { get; }
+
+    /// <summary>«Annulla» (the cancel button of the dialog).</summary>
+    public IRelayCommand DismissCommand { get; }
 
     /// <summary>The question above the choice.</summary>
     public string Question { get; }

@@ -1,7 +1,7 @@
 using System.Text.Json.Nodes;
 using System.Windows;
 using Anthea.Presentation.Modules;
-using Anthea.Presentation.Modules.Stratigraphy;
+using Anthea.Presentation.Modules.Shared;
 
 namespace X.Desktop;
 
