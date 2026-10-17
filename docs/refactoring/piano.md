@@ -611,6 +611,27 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
       - ViewModel sullo sfondo;
       - un difetto storico del micropalo segnalato (cambio dell'iniezione con un risultato presente).
   - **Corsa** build, fast, wiki e ui sul merge `20261016-155151-f5-int7`: PASS 114, 0 NEW-FAIL, 61 fixture F3.
+  - **Preparazioni della notte fra il 16 e il 17/10** (passi 1–5 della ricetta, Release storica; manca la vista XAML di ogni modulo):
+    - **F5.9b, fondazioni superficiali** ([f5-9b-fondazioni.md](f5-9b-fondazioni.md), merge 6ea62a0f): 8 fixture, 15 tracce,
+      ViewModel sincrono senza ricalcolo automatico.
+    - **F5.7, palo e micropalo orizzontale, scheda della capacità** ([f5-7-palo-orizzontale.md](f5-7-palo-orizzontale.md), merge
+      4b6a59de): 6 fixture, 22 tracce e 40 disegni congelati, ViewModel sullo sfondo.
+    - **F5.6b, stratigrafia** ([f5-6b-stratigrafia.md](f5-6b-stratigrafia.md), merge 743d7aec):
+      - le prime 5 fixture e 15 tracce;
+      - l'importazione con l'IA spostata in Application, con la sorgente iniettabile; le prove non usano mai la rete;
+      - il ViewModel senza calcolo.
+    - **F5.9, muri di sostegno** ([f5-9-muri.md](f5-9-muri.md), merge cb35f915): 12 fixture, 24 tracce, ViewModel con la finestra
+      dei valori; le 14 441 transizioni F4 dei muri restano identiche con il ViewModel.
+    - **F5.8, risposta elastica del palo e armature** ([f5-8-palo-elastico.md](f5-8-palo-elastico.md), merge 0954c59f):
+      - 5 fixture, 20 tracce e 49 disegni;
+      - ViewModel integrato con quello di F5.7;
+      - le 1 117 transizioni F4 dell'elastico restano identiche con il ViewModel.
+    - **`SheetCalculation.Cancel(restorePublished)`.** Il palo orizzontale lascia lo stato annullato, i muri tornano al risultato
+      pubblicato, come le rispettive viste storiche.
+  - **Totali dopo i merge:** 97 fixture F3; baseline F4 da 3349 a 3322 occorrenze.
+  - **Corsa** build, fast, wiki e ui sul merge `20261017-043656-f5-int12`: PASS 118, 0 NEW-FAIL, senza `ui/check-contrast`.
+    Dalla notte del 16/10 lo schermo è al 150%: per la decisione D6 la prova del contrasto si confronta solo a 96 DPI e va ripetuta.
+  - **Domande e difetti** delle viste storiche, raccolti per modulo: [f5-punti-di-controllo.md](f5-punti-di-controllo.md).
 - [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. Requisito
   dell'utente dell'8/10 («considera le opzioni 1 e 3. non multi progetto. però dai la possibilità di staccare la
   finestra per più monitor»):
