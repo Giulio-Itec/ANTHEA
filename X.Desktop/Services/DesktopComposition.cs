@@ -5,6 +5,7 @@ using Anthea.Presentation.Modules.HorizontalPile;
 using Anthea.Presentation.Modules.Materials;
 using Anthea.Presentation.Modules.PileGroup;
 using Anthea.Presentation.Modules.ShallowFoundation;
+using Anthea.Presentation.Modules.Stratigraphy;
 using Anthea.Presentation.Modules.VerticalPile;
 
 namespace X.Desktop.Services;
@@ -49,7 +50,7 @@ internal sealed class DesktopComposition
     /// The modules migrated to MVVM, created by hand (decision Q2): the horizontal pile group (F5.4 pilot), the materials, concrete
     /// and reinforcing steel (F5.5), the vertical pile and micropile (F5.6, second pilot, with the WPF figures of their report) and the
     /// horizontal pile and micropile (F5.7, the tab of the capacity, with the WPF diagrams of their report) and the shallow
-    /// foundations (F5.9b).
+    /// foundations (F5.9b), and the stratigraphy (F5.6b).
     /// The window opens them only when <see cref="ModuleImplementations"/> says so: until their checkpoints the Release keeps the
     /// historic views and the MVVM sheets are chosen only in the UiTests bench (--module-impl). The WPF checks build the same registry
     /// (tests/Desktop/ModuleHostBench.cs).
@@ -61,7 +62,10 @@ internal sealed class DesktopComposition
         return new([new PileGroupSheetModule(), new VerticalPileSheetModule(VerticalPileSheetViewModel.PileModule, verticalFigures),
             new VerticalPileSheetModule(VerticalPileSheetViewModel.MicropileModule, verticalFigures), new ConcreteMaterialSheetModule(),
             new RebarMaterialSheetModule(), new HorizontalPileSheetModule(HorizontalPileSheetViewModel.PileModule, horizontalFigures),
-            new HorizontalPileSheetModule(HorizontalPileSheetViewModel.MicropileModule, horizontalFigures), new ShallowFoundationSheetModule()]);
+            new HorizontalPileSheetModule(HorizontalPileSheetViewModel.MicropileModule, horizontalFigures), new ShallowFoundationSheetModule(),
+            // F5.6b: the stratigraphy, with the AI import of Application (disabled, as the historic button) and the historic soil transfer dialog.
+            new StratigraphySheetModule(new(Anthea.Application.Stratigraphy.StratigraphyImport.OpenAi(), Anthea.Application.Stratigraphy.StratigraphyImport.EnvironmentDefaults,
+                new WpfSoilTransferDialog()))]);
     }
 
     /// <summary>Factory of the services of a main window, unchanged since F1.4 (the WPF checks pass TestServices.Create instead).</summary>

@@ -1,0 +1,61 @@
+{
+  "module": "geo_stratigrafia",
+  "id": "trasferita-da-palo",
+  "origin": "Fixture sintetica F5.6b (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "schema": 2,
+    "scenario": "Medi",
+    "id": "56b000280f564b008000000000000028",
+    "name": "Stratigrafia",
+    "description": "",
+    "ground_elevation": null,
+    "water_state": "Assegnata",
+    "water_depth": "2,5",
+    "layers": [
+      {
+        "id": "56b000290f564b008000000000000029",
+        "name": "Strato 1",
+        "description": "",
+        "color": "#D5BE92",
+        "soil_type": "Non classificato",
+        "behavior": "Granulare",
+        "thickness": "4",
+        "infinite": false,
+        "gamma": "18",
+        "gamma_sat": "20",
+        "phi": "30",
+        "c": "0",
+        "cu": "0",
+        "source": "Foglio ANTHEA: Palo P1",
+        "qualification": "Non qualificato",
+        "notes": "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.",
+        "minimum": null
+      },
+      {
+        "id": "56b0002a0f564b00800000000000002a",
+        "name": "Strato 2",
+        "description": "",
+        "color": "#D5BE92",
+        "soil_type": "Non classificato",
+        "behavior": "Coesivo",
+        "thickness": "6",
+        "infinite": false,
+        "gamma": "19",
+        "gamma_sat": "",
+        "phi": "24",
+        "c": "10",
+        "cu": "80",
+        "source": "Foglio ANTHEA: Palo P1",
+        "qualification": "Non qualificato",
+        "notes": "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.",
+        "minimum": null
+      }
+    ],
+    "soil_transfer": {
+      "source_sheet": "Palo P1",
+      "source_module": "geo_palo_verticale",
+      "source_id": "56b0002b0f564b00800000000000002b"
+    }
+  }
+}

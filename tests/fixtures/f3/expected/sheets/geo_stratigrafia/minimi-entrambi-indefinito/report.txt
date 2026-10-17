@@ -1,0 +1,48 @@
+# word/document.xml
+¶ Fixture F3 · geo_stratigrafia · minimi-entrambi-indefinito
+¶ ANTHEA · Scheda dei dati stratigrafici
+¶ Scelta per le verifiche: Entrambi. I due insiemi restano distinti; nessuna sostituzione dei minimi mancanti.
+¶ Profilo P2 · medi e minimi
+¶ Valori medi e minimi distinti dalla relazione geotecnica
+¶ Profondità in metri, positive verso il basso, origine al piano campagna. Strati orizzontali contigui.
+¶ Quota altimetrica piano campagna [m]: non disponibile
+¶ Falda: Non nota
+¶ Strato 1 · Ghiaia sabbiosa
+¶ non disponibile
+¶ Famiglia prevalente: Ghiaia. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Spessore [m]: 2
+¶ Valori medi
+¶ γ [kN/m³]: 19; γsat [kN/m³]: 21
+¶ φ′ [°]: 36; c′ [kPa]: 0; cu [kPa]: 0
+¶ Qualificazione: Caratteristico. Provenienza: Tab. 5, valori medi
+¶ Valori minimi
+¶ γ [kN/m³]: 18; γsat [kN/m³]: 20
+¶ φ′ [°]: 33; c′ [kPa]: 0; cu [kPa]: 0
+¶ Qualificazione: Caratteristico. Provenienza: Tab. 5, valori minimi
+¶ Note minimi: Minimi da prove penetrometriche
+¶ Strato 2 · Torba
+¶ Torba e limo organico
+¶ Famiglia prevalente: Terreno organico. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Spessore [m]: 1.5
+¶ Valori medi
+¶ γ [kN/m³]: 14; γsat [kN/m³]: 13.5
+¶ φ′ [°]: 22; c′ [kPa]: 5; cu [kPa]: 25
+¶ Qualificazione: Misurato. Provenienza: Prove C3
+¶ Valori minimi
+¶ γ [kN/m³]: 13; γsat [kN/m³]: non disponibile
+¶ φ′ [°]: 24; c′ [kPa]: 4; cu [kPa]: non disponibile
+¶ Qualificazione: Non qualificato. Provenienza: non disponibile
+¶ Note minimi: non disponibile
+¶ Strato 3 · Calcare fratturato
+¶ Calcare fratturato in banchi
+¶ Famiglia prevalente: Roccia. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Estensione indefinita in profondità
+¶ Valori medi
+¶ γ [kN/m³]: 24; γsat [kN/m³]: 25
+¶ φ′ [°]: 40; c′ [kPa]: 50; cu [kPa]: non disponibile
+¶ Qualificazione: Interpretato. Provenienza: Stima di letteratura
+¶ Note: Estensione del substrato non indagata.
+¶ Valori minimi: non assegnati.
+¶ Ambito e limiti
+¶ Scheda di input, anche incompleta. Non costituisce una verifica geotecnica. Nessuna correlazione automatica o applicazione di coefficienti parziali. I valori non disponibili restano distinti da zero.
+¶ Un unico livello di falda: esclusi acquiferi multipli, falde sospese e condizioni artesiane. Lo strato indefinito è un’ipotesi di modello, non un’estensione dell’indagine.

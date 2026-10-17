@@ -87,7 +87,7 @@ internal static class StratigraphyChecks
         Check(StratigraphyDocument.Warnings(data).Any(s => s.Contains("minore")), "Avviso γsat < γ assente");
         StratigraphyDocument.Duplicate(data, 0);
         StratigraphyDocument.Layers(data)[1]!["id"] = row["id"]!.DeepClone(); Reject(() => StratigraphyDocument.Validate(data));
-        return checks + StratigraphyAiChecks.Run(output) + StratigraphyTransferChecks.Run();
+        return checks + StratigraphyAiChecks.Run(output) + StratigraphyTransferChecks.Run() + StratigraphyImportChecks.Run(output);
     }
     private sealed class NoFigures : IFigureRenderer
     {

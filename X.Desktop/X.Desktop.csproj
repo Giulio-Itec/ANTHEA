@@ -43,6 +43,8 @@
     <Compile Include="../tests/Shared/ShallowFoundationTrace.cs" Link="Tests/Shared/ShallowFoundationTrace.cs" />
     <!-- Scenarios and traces of the horizontal pile and micropile sheet (F5.7), shared with tests/ANTHEA.Presentation.Tests. -->
     <Compile Include="../tests/Shared/HorizontalPileTrace.cs" Link="Tests/Shared/HorizontalPileTrace.cs" />
+    <!-- Scenarios and traces of the stratigraphy sheet (F5.6b), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../tests/Shared/StratigraphyTrace.cs" Link="Tests/Shared/StratigraphyTrace.cs" />
     <Compile Include="../tests/ANTHEA.Desktop.Equivalence/*.cs" Link="Tests/F3/%(Filename)%(Extension)" />
     <Compile Include="../supporto/test/Materiali/*.cs" Link="Tests/Materiali/%(Filename)%(Extension)" />
     <Compile Include="../supporto/test/Shared/DurabilityReferenceChecks.cs" Link="Tests/Materiali/DurabilityReferenceChecks.cs" />

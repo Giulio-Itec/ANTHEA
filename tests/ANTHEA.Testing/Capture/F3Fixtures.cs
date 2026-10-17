@@ -80,6 +80,7 @@ public static class F3Fixtures
         VerticalPileF56(cases);
         ShallowFoundationF59b(cases);
         HorizontalPileF57(cases);
+        StratigraphyF56b(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -526,5 +527,94 @@ public static class F3Fixtures
             s["modo_chs"] = "Manuale"; s["diametro_chs_mm"] = "139.7"; s["spessore_chs_mm"] = "";
             d["stratigrafie"] = new JsonArray(new JsonArray(Layer("Granulare", "10", "18", "20", "31")));
         });
+    }
+
+    /// <summary>
+    /// The first fixtures of the stratigraphy (geo_stratigrafia), added before the F5.6b preparation (proposal F5, section 7.2: capture
+    /// first, with the historic view StratigraphyWorkspace in SheetEditor); until then the module had none. They cover a complete profile
+    /// with the water table and four finite layers of both behaviours, mean values only and no warning (transferable to the verification
+    /// modules); means and minima with «Entrambi», a last layer of indefinite extent, an unknown water table and every warning of the sheet
+    /// (incomplete parameters, γsat lower than γ, minima incomplete or greater than the means); the values as the sheet writes them (texts
+    /// with the decimal comma, empty texts, «Minimi», water not considered, a layer without behaviour, a lower-case colour); a document of
+    /// the first schema without the later keys (choice, family, behaviour, minima) with the provenance of a reviewed AI import; and a
+    /// stratigraphy received from a vertical pile sheet (StratigraphyTransfer.ToDocument). Fixed identifiers; the documents are
+    /// archive-valid (StratigraphyDocument.Validate, which the sheet runs at every commit: an invalid document cannot be captured); the
+    /// identifiers never end in "default", which the F3 project report collects.
+    /// </summary>
+    static void StratigraphyF56b(List<CaptureCase> cases)
+    {
+        const string module = Anthea.Application.Stratigraphy.StratigraphyDocument.Module;
+        const string origin = "Fixture sintetica F5.6b (proposta F5 7.2, cattura prima con la vista storica)";
+        static string Id(int n) => new Guid(0x56b00000 + n, 0x0f56, 0x4b00, 0x80, 0, 0, 0, 0, 0, 0, (byte)n).ToString("N");
+        static JsonObject Minimum(object? gamma, object? saturated, object? phi, object? c, object? cu, string source, string qualification, string notes) =>
+            J.Obj(("gamma", gamma), ("gamma_sat", saturated), ("phi", phi), ("c", c), ("cu", cu), ("source", source), ("qualification", qualification), ("notes", notes));
+        // The keys of StratigraphyDocument.NewLayer, in its order; a null behaviour is left out (documents before the field).
+        static JsonObject Layer(int id, string name, string description, string color, string? soil, string? behavior, object? thickness,
+            object? gamma, object? saturated, object? phi, object? c, object? cu, string source, string qualification, string notes, JsonObject? minimum = null, bool withMinimum = true)
+        {
+            var layer = J.Obj(("id", Id(id)), ("name", name), ("description", description), ("color", color));
+            if (soil is not null) layer["soil_type"] = soil;
+            if (behavior is not null) layer["behavior"] = behavior;
+            layer["thickness"] = J.Node(thickness); layer["infinite"] = thickness is null;
+            foreach (var (key, value) in new[] { ("gamma", gamma), ("gamma_sat", saturated), ("phi", phi), ("c", c), ("cu", cu) }) layer[key] = J.Node(value);
+            layer["source"] = source; layer["qualification"] = qualification; layer["notes"] = notes;
+            if (withMinimum) layer["minimum"] = minimum;
+            return layer;
+        }
+        void Added(string id, JsonObject data)
+        {
+            Anthea.Application.Stratigraphy.StratigraphyDocument.Validate(data);
+            cases.Add(new(module, id, origin, null, data));
+        }
+        // Complete profile: water table at 2,5 m, four finite layers (granular and cohesive), means only, qualifications of every kind.
+        Added("profilo-medi-falda", J.Obj(("schema", 2), ("scenario", "Medi"), ("id", Id(1)), ("name", "Sondaggio S1 · via dei Tigli"),
+            ("description", "Sondaggio a carotaggio continuo S1, campagna 2025"), ("ground_elevation", 112.4), ("water_state", "Assegnata"), ("water_depth", 2.5),
+            ("layers", new JsonArray(
+                Layer(2, "Riporto antropico", "Terreno di riporto eterogeneo", "#B29C7C", "Riporto", "Granulare", 1.2, 17, 19, 28, 0, 0, "Relazione geologica, tab. 2", "Interpretato", ""),
+                Layer(3, "Sabbia limosa", "Sabbia fine limosa, mediamente addensata", "#D5BE92", "Sabbia", "Granulare", 3.8, 18.5, 20, 32, 0, 0, "Prove SPT S1, p. 14", "Misurato", "Parametri da prove in sito."),
+                Layer(4, "Limo argilloso", "Limo argilloso grigio, consistente", "#A7B7C7", "Limo", "Coesivo", 4, 19, 19.5, 26, 8, 65, "Prove di laboratorio C2, p. 22", "Caratteristico", ""),
+                Layer(5, "Argilla", "Argilla limosa sovraconsolidata", "#8E9AAF", "Argilla", "Coesivo", 7.5, 19.8, 20.4, 24, 15, 120, "Prove triassiali C4", "Misurato", "Fine sondaggio a 16,5 m.")))));
+        // «Entrambi»: complete minima, minima incomplete and greater than the means, γsat lower than γ, a last layer of indefinite extent
+        // without cu and without minima, the water table not known.
+        Added("minimi-entrambi-indefinito", J.Obj(("schema", 2), ("scenario", "Entrambi"), ("id", Id(10)), ("name", "Profilo P2 · medi e minimi"),
+            ("description", "Valori medi e minimi distinti dalla relazione geotecnica"), ("ground_elevation", null), ("water_state", "Non nota"), ("water_depth", null),
+            ("layers", new JsonArray(
+                Layer(11, "Ghiaia sabbiosa", "", "#C9B27C", "Ghiaia", "Granulare", 2, 19, 21, 36, 0, 0, "Tab. 5, valori medi", "Caratteristico", "",
+                    Minimum(18, 20, 33, 0, 0, "Tab. 5, valori minimi", "Caratteristico", "Minimi da prove penetrometriche")),
+                Layer(12, "Torba", "Torba e limo organico", "#6B5B45", "Terreno organico", "Coesivo", 1.5, 14, 13.5, 22, 5, 25, "Prove C3", "Misurato", "",
+                    Minimum(13, null, 24, 4, null, "", "Non qualificato", "")),
+                Layer(13, "Calcare fratturato", "Calcare fratturato in banchi", "#9A9A8E", "Roccia", "Da definire", null, 24, 25, 40, 50, null, "Stima di letteratura", "Interpretato",
+                    "Estensione del substrato non indagata.")))));
+        // The values as the sheet writes them: texts, the decimal comma, empty texts (no value), «Minimi», water not considered, a layer
+        // without the behaviour key, a lower-case colour, a description of two lines.
+        Added("testi-digitati", J.Obj(("schema", 2), ("scenario", "Minimi"), ("id", Id(20)), ("name", "Stratigrafia digitata"),
+            ("description", "Riga 1\nRiga 2, profondità 3,5 m"), ("ground_elevation", ""), ("water_state", "Non considerata"), ("water_depth", ""),
+            ("layers", new JsonArray(
+                Layer(21, "Strato A", "", "#a7b7c7", "Altro", null, "1,5", "18,5", "", "30", "0", "", "", "Non qualificato", "Valori digitati con la virgola",
+                    Minimum("17,5", "19", "27,5", "0", "0", "Stima", "Interpretato", "")),
+                Layer(22, "Strato B", "Limo", "#D5BE92", "Non classificato", "Coesivo", "2", "19", "20", "25", "10", "40", "Tab. 1", "Misurato", "",
+                    Minimum("18", "19,5", "22", "5", "30", "Tab. 1, minimi", "Misurato", "Note sui minimi"))))));
+        // A document of the first schema (no choice, family, behaviour or minima keys), water at the ground surface, a last layer of
+        // indefinite extent, and the provenance of a reviewed AI import (fixed date, no key: the key is never saved).
+        var imported = J.Obj(("schema", 1), ("id", Id(30)), ("name", "S3 · bozza AI revisionata"),
+            ("description", "Sondaggio S3\nRelazione geologica 2024, p. 5-9\nProfilo estratto e revisionato"), ("ground_elevation", 87), ("water_state", "Assegnata"), ("water_depth", 0),
+            ("layers", new JsonArray(
+                Layer(31, "Limo sabbioso", "Limo sabbioso nocciola", "#D5BE92", null, null, 6, 18, 19, 29, 2, null, "relazione-geologica.pdf\nphi: p. 7, tabella 3", "Non qualificato",
+                    "\nGeometria: p. 6, colonna stratigrafica", withMinimum: false),
+                Layer(32, "Ghiaia", "Ghiaia in matrice sabbiosa", "#C9B27C", null, null, null, 20, 22, 38, 0, null, "relazione-geologica.pdf\nphi: p. 8", "Non qualificato",
+                    "\nGeometria: p. 6, base non raggiunta", withMinimum: false))));
+        imported["import_source"] = J.Obj(("file", "relazione-geologica.pdf"), ("sha256", "8F3C2A1B0E9D8C7B6A5F4E3D2C1B0A9F8E7D6C5B4A3F2E1D0C9B8A7F6E5D4C3B"),
+            ("model", "modello-di-prova"), ("date", "2026-09-30T08:15:00.0000000+00:00"), ("warnings", "Controllare le unità della tabella 3"), ("reviewed", true));
+        Added("schema1-importata", imported);
+        // A stratigraphy received from a vertical pile sheet (StratigraphyTransfer.ToDocument): the layer texts of the pile, the behaviour
+        // from its type, the notes of the transfer, γsat empty in the second layer, and the provenance of the transfer.
+        const string transferNote = "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.";
+        var transferred = J.Obj(("schema", 2), ("scenario", "Medi"), ("id", Id(40)), ("name", "Stratigrafia"), ("description", ""), ("ground_elevation", null),
+            ("water_state", "Assegnata"), ("water_depth", "2,5"),
+            ("layers", new JsonArray(
+                Layer(41, "Strato 1", "", "#D5BE92", "Non classificato", "Granulare", "4", "18", "20", "30", "0", "0", "Foglio ANTHEA: Palo P1", "Non qualificato", transferNote),
+                Layer(42, "Strato 2", "", "#D5BE92", "Non classificato", "Coesivo", "6", "19", "", "24", "10", "80", "Foglio ANTHEA: Palo P1", "Non qualificato", transferNote))));
+        transferred["soil_transfer"] = J.Obj(("source_sheet", "Palo P1"), ("source_module", "geo_palo_verticale"), ("source_id", Id(43)));
+        Added("trasferita-da-palo", transferred);
     }
 }

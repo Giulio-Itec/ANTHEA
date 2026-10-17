@@ -45,7 +45,9 @@ internal static class F3ReportChapterChecks
                 Check(error is null && expected.Error == chapter?.Error, "Esito del capitolo materiali diverso");
                 Check(JsonNode.DeepEquals(System.Text.Json.JsonSerializer.SerializeToNode(expected.Derived), System.Text.Json.JsonSerializer.SerializeToNode(chapter?.Derived)), "Proprietà materiali diverse");
             }
-            else if (!editor.HasResults)
+            // F5.6b: the stratigraphy has no calculation (HasResults is always false); its chapter is the data sheet, compared below with
+            // the report that the view exports.
+            else if (!editor.HasResults && module != Anthea.Application.Stratigraphy.StratigraphyDocument.Module)
                 Check(error?.Message == "Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.", "Capitolo incompleto non segnalato");
             else
             {
@@ -53,7 +55,8 @@ internal static class F3ReportChapterChecks
                 string? expectedError = editor.Result?["errori_calcolo"] is JsonObject errors && errors.Count > 0
                     ? string.Join("; ", errors.Select(e => e.Key + ": " + e.Value)) : null;
                 Check(chapter!.Error == expectedError, "Errori parziali diversi: " + file);
-                byte[] expected = editor.BuildReport(title, ModuleReportService.DefaultSections(module), true);
+                byte[] expected = module == Anthea.Application.Stratigraphy.StratigraphyDocument.Module ? ExportedReport(editor, title, output, file)
+                    : editor.BuildReport(title, ModuleReportService.DefaultSections(module), true);
                 byte[] actual = DocxWriter.Write(chapter!.Document!);
                 if (module == "str_palo")
                 {
@@ -126,6 +129,17 @@ internal static class F3ReportChapterChecks
         yield return ("wall-global.json", J.Obj(("id", "globale-confermata"), ("module", RetainingWall.Module), ("data", wall)));
     }
     private static void Check(bool valid, string message) { if (!valid) throw new InvalidOperationException(message); }
+
+    /// <summary>
+    /// F5.6b: the report of a stratigraphy as the view exports it (the «Report Word» command: SheetEditor.ExportReport, Word and PDF side by
+    /// side); BuildReport of the historic sheet asks for a calculation, which the stratigraphy does not have.
+    /// </summary>
+    private static byte[] ExportedReport(ISheetEditor editor, string title, string output, string file)
+    {
+        string path = Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-esportato.docx");
+        editor.ExportReport(path, title, []);
+        return File.ReadAllBytes(path);
+    }
 }
 
 internal sealed partial class SheetEditor

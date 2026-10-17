@@ -1,0 +1,39 @@
+# word/document.xml
+¶ Fixture F3 · geo_stratigrafia · schema1-importata
+¶ ANTHEA · Scheda dei dati stratigrafici
+¶ Scelta per le verifiche: Medi. I due insiemi restano distinti; nessuna sostituzione dei minimi mancanti.
+¶ S3 · bozza AI revisionata
+¶ Sondaggio S3
+Relazione geologica 2024, p. 5-9
+Profilo estratto e revisionato
+¶ Profondità in metri, positive verso il basso, origine al piano campagna. Strati orizzontali contigui.
+¶ Quota altimetrica piano campagna [m]: 87
+¶ Falda: Assegnata; profondità [m]: 0
+¶ Strato 1 · Limo sabbioso
+¶ Limo sabbioso nocciola
+¶ Famiglia prevalente: Non classificato. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Spessore [m]: 6
+¶ Valori medi
+¶ γ [kN/m³]: 18; γsat [kN/m³]: 19
+¶ φ′ [°]: 29; c′ [kPa]: 2; cu [kPa]: non disponibile
+¶ Qualificazione: Non qualificato. Provenienza: relazione-geologica.pdf
+phi: p. 7, tabella 3
+¶ Note: 
+Geometria: p. 6, colonna stratigrafica
+¶ Valori minimi: non assegnati.
+¶ Strato 2 · Ghiaia
+¶ Ghiaia in matrice sabbiosa
+¶ Famiglia prevalente: Non classificato. Retino grafico convenzionale ANTHEA, senza attribuzione di parametri.
+¶ Estensione indefinita in profondità
+¶ Valori medi
+¶ γ [kN/m³]: 20; γsat [kN/m³]: 22
+¶ φ′ [°]: 38; c′ [kPa]: 0; cu [kPa]: non disponibile
+¶ Qualificazione: Non qualificato. Provenienza: relazione-geologica.pdf
+phi: p. 8
+¶ Note: 
+Geometria: p. 6, base non raggiunta
+¶ Valori minimi: non assegnati.
+¶ Ambito e limiti
+¶ Importazione AI revisionata: relazione-geologica.pdf; SHA-256: 8F3C2A1B0E9D8C7B6A5F4E3D2C1B0A9F8E7D6C5B4A3F2E1D0C9B8A7F6E5D4C3B; modello: modello-di-prova; data: 2026-09-30T08:15:00.0000000+00:00. Controllare le unità della tabella 3
+¶ Scheda di input, anche incompleta. Non costituisce una verifica geotecnica. Nessuna correlazione automatica o applicazione di coefficienti parziali. I valori non disponibili restano distinti da zero.
+¶ Un unico livello di falda: esclusi acquiferi multipli, falde sospese e condizioni artesiane. Lo strato indefinito è un’ipotesi di modello, non un’estensione dell’indagine.

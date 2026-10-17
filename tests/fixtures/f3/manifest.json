@@ -1078,5 +1078,81 @@
         "note": "Solo il numero delle fixture, conseguenza diretta dell'aggiunta: 61 -> 67 nel ramo F5.7, 69 -> 75 dopo l'unione con le fixture F5.9b (merge del coordinatore); il numero degli articoli resta quello del riferimento (71, transizione F4-51 invariata)."
       }
     ]
+  },
+  "fixture_aggiunte_f5_6b": {
+    "record": "F5.6b, proposta F5 sezione 7.2 (cattura prima)",
+    "date": "2026-10-17",
+    "source_commit": "92613e60a32e259b28c166c46b37b2ecfe6ca652",
+    "reason": "Prime cinque fixture della stratigrafia (geo_stratigrafia), che prima di F5.6b non ne aveva, catturate con la vista storica (StratigraphyWorkspace in SheetEditor): profilo completo con falda e quattro strati finiti dei due comportamenti, soli medi e nessun avviso; medi e minimi con «Entrambi», ultimo strato indefinito, falda non nota e tutti gli avvisi della scheda; valori come li scrive la scheda (testi con la virgola, testi vuoti, «Minimi», falda non considerata, strato senza comportamento); documento del primo schema con la provenienza di un'importazione AI revisionata; stratigrafia ricevuta da un foglio del palo verticale. Gli attesi delle 61 fixture esistenti e le transizioni F4 non cambiano.",
+    "report": "La stratigrafia non ha calcolo: result.json nullo e hasResults falso; il report è la scheda dati esportata dalla vista (SheetEditor.ExportReport), catturata come quella degli altri moduli. ui/f3-report-chapters la confronta con il capitolo autonomo (ModuleReportService) parte per parte, con un ramo aggiunto in F3ReportChapterChecks: BuildReport della vista storica chiede un calcolo.",
+    "generator": "tests/ANTHEA.Testing/Capture/F3Fixtures.cs (StratigraphyF56b), comando fixtures-f3: solo input, mai attesi; identificativi fissi, documenti validi (StratigraphyDocument.Validate)",
+    "captures": [
+      "20261017-005645-f56b-f3-cattura-1",
+      "20261017-005858-f56b-f3-cattura-2"
+    ],
+    "comparison": "45 file nuovi identici nelle due catture F3; senza attesi le sole differenze erano i file aggiunti e il numero di esito.txt; ui/f3-equivalence e ui/f3-report-chapters PASS con le 66 fixture e le transizioni F4 invariate",
+    "inputs": 5,
+    "expected_files": 45,
+    "hash": "SHA-256 della forma conservata da git (fine riga LF)",
+    "files": {
+      "inputs/geo_stratigrafia--minimi-entrambi-indefinito.json": "6dd32774f328dfe2a5f88e25869f6424f326c6ee0d9e7be2028e4cef960219d9",
+      "inputs/geo_stratigrafia--profilo-medi-falda.json": "ac2472bfa12e893c408594fbc884a3bfb8d855f9c143f76a6afe70f103799a20",
+      "inputs/geo_stratigrafia--schema1-importata.json": "8c1fad7daaafa0f924ce8bdf4047f6eb5e16e5be3752346c93dab429d7676083",
+      "inputs/geo_stratigrafia--testi-digitati.json": "cc9724eb7e413db003f9e95eb7c52873e95b94806f0ffa49369e488970f9bf4a",
+      "inputs/geo_stratigrafia--trasferita-da-palo.json": "26f5d4d07dd60ef128f528aa48a4113d65cdb07ae6f5f4a52909068572613f31",
+      "expected/sheets/geo_stratigrafia/minimi-entrambi-indefinito/calculated-data.json": "c27a72cd41c8980cd22516c1737f8b65e31fbe210fbf1c4085fa2bfbcb49422a",
+      "expected/sheets/geo_stratigrafia/minimi-entrambi-indefinito/exported-data.json": "c27a72cd41c8980cd22516c1737f8b65e31fbe210fbf1c4085fa2bfbcb49422a",
+      "expected/sheets/geo_stratigrafia/minimi-entrambi-indefinito/opened.json": "c27a72cd41c8980cd22516c1737f8b65e31fbe210fbf1c4085fa2bfbcb49422a",
+      "expected/sheets/geo_stratigrafia/minimi-entrambi-indefinito/reopened.json": "c27a72cd41c8980cd22516c1737f8b65e31fbe210fbf1c4085fa2bfbcb49422a",
+      "expected/sheets/geo_stratigrafia/minimi-entrambi-indefinito/report-structure.json": "6c28b870d228bcb0b865d3c1d76b10d7d861e2bba1efddcf4993f470729892fb",
+      "expected/sheets/geo_stratigrafia/minimi-entrambi-indefinito/report.txt": "604e4b339852ef2e26ca124e6594bb67839004ea01605c0360f70cdb8ac8ec75",
+      "expected/sheets/geo_stratigrafia/minimi-entrambi-indefinito/result.json": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+      "expected/sheets/geo_stratigrafia/minimi-entrambi-indefinito/status.json": "2ee4281f5ae12210ed93d4d4a22887ec428bcd39f039010018c5e371d4a95cce",
+      "expected/sheets/geo_stratigrafia/minimi-entrambi-indefinito/visited.json": "c27a72cd41c8980cd22516c1737f8b65e31fbe210fbf1c4085fa2bfbcb49422a",
+      "expected/sheets/geo_stratigrafia/profilo-medi-falda/calculated-data.json": "c4e5f92adda7c70c5148a0215d1c78ece000e0698b4879bb68e2ff406aac07a0",
+      "expected/sheets/geo_stratigrafia/profilo-medi-falda/exported-data.json": "c4e5f92adda7c70c5148a0215d1c78ece000e0698b4879bb68e2ff406aac07a0",
+      "expected/sheets/geo_stratigrafia/profilo-medi-falda/opened.json": "c4e5f92adda7c70c5148a0215d1c78ece000e0698b4879bb68e2ff406aac07a0",
+      "expected/sheets/geo_stratigrafia/profilo-medi-falda/reopened.json": "c4e5f92adda7c70c5148a0215d1c78ece000e0698b4879bb68e2ff406aac07a0",
+      "expected/sheets/geo_stratigrafia/profilo-medi-falda/report-structure.json": "6c28b870d228bcb0b865d3c1d76b10d7d861e2bba1efddcf4993f470729892fb",
+      "expected/sheets/geo_stratigrafia/profilo-medi-falda/report.txt": "b1fa94cb6242d7b9d2c8d1c5c0535da4fcac357b86fb9e176ae4f17822a7ed55",
+      "expected/sheets/geo_stratigrafia/profilo-medi-falda/result.json": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+      "expected/sheets/geo_stratigrafia/profilo-medi-falda/status.json": "2ee4281f5ae12210ed93d4d4a22887ec428bcd39f039010018c5e371d4a95cce",
+      "expected/sheets/geo_stratigrafia/profilo-medi-falda/visited.json": "c4e5f92adda7c70c5148a0215d1c78ece000e0698b4879bb68e2ff406aac07a0",
+      "expected/sheets/geo_stratigrafia/schema1-importata/calculated-data.json": "3006ab3af335c8f73eca7720569abe8150489113e91edac815403e79425b8153",
+      "expected/sheets/geo_stratigrafia/schema1-importata/exported-data.json": "3006ab3af335c8f73eca7720569abe8150489113e91edac815403e79425b8153",
+      "expected/sheets/geo_stratigrafia/schema1-importata/opened.json": "3006ab3af335c8f73eca7720569abe8150489113e91edac815403e79425b8153",
+      "expected/sheets/geo_stratigrafia/schema1-importata/reopened.json": "3006ab3af335c8f73eca7720569abe8150489113e91edac815403e79425b8153",
+      "expected/sheets/geo_stratigrafia/schema1-importata/report-structure.json": "6c28b870d228bcb0b865d3c1d76b10d7d861e2bba1efddcf4993f470729892fb",
+      "expected/sheets/geo_stratigrafia/schema1-importata/report.txt": "4f884df1340310d9cbec1a48773c15a8bd40cc994b02aabf4cf180c1052310fa",
+      "expected/sheets/geo_stratigrafia/schema1-importata/result.json": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+      "expected/sheets/geo_stratigrafia/schema1-importata/status.json": "2ee4281f5ae12210ed93d4d4a22887ec428bcd39f039010018c5e371d4a95cce",
+      "expected/sheets/geo_stratigrafia/schema1-importata/visited.json": "3006ab3af335c8f73eca7720569abe8150489113e91edac815403e79425b8153",
+      "expected/sheets/geo_stratigrafia/testi-digitati/calculated-data.json": "02a69603c90f23dcc8dedc02cbd8ec0b14997de2ff6b9a48b83f4b12be1c9a39",
+      "expected/sheets/geo_stratigrafia/testi-digitati/exported-data.json": "02a69603c90f23dcc8dedc02cbd8ec0b14997de2ff6b9a48b83f4b12be1c9a39",
+      "expected/sheets/geo_stratigrafia/testi-digitati/opened.json": "02a69603c90f23dcc8dedc02cbd8ec0b14997de2ff6b9a48b83f4b12be1c9a39",
+      "expected/sheets/geo_stratigrafia/testi-digitati/reopened.json": "02a69603c90f23dcc8dedc02cbd8ec0b14997de2ff6b9a48b83f4b12be1c9a39",
+      "expected/sheets/geo_stratigrafia/testi-digitati/report-structure.json": "6c28b870d228bcb0b865d3c1d76b10d7d861e2bba1efddcf4993f470729892fb",
+      "expected/sheets/geo_stratigrafia/testi-digitati/report.txt": "8bff766779229e76b72b93cf75b2855adf1e4532391fb25ce23658950c607e56",
+      "expected/sheets/geo_stratigrafia/testi-digitati/result.json": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+      "expected/sheets/geo_stratigrafia/testi-digitati/status.json": "2ee4281f5ae12210ed93d4d4a22887ec428bcd39f039010018c5e371d4a95cce",
+      "expected/sheets/geo_stratigrafia/testi-digitati/visited.json": "02a69603c90f23dcc8dedc02cbd8ec0b14997de2ff6b9a48b83f4b12be1c9a39",
+      "expected/sheets/geo_stratigrafia/trasferita-da-palo/calculated-data.json": "b3f612e4474f40725fd21cddf240e38dade380b583216b08b18d38f62c2589de",
+      "expected/sheets/geo_stratigrafia/trasferita-da-palo/exported-data.json": "b3f612e4474f40725fd21cddf240e38dade380b583216b08b18d38f62c2589de",
+      "expected/sheets/geo_stratigrafia/trasferita-da-palo/opened.json": "b3f612e4474f40725fd21cddf240e38dade380b583216b08b18d38f62c2589de",
+      "expected/sheets/geo_stratigrafia/trasferita-da-palo/reopened.json": "b3f612e4474f40725fd21cddf240e38dade380b583216b08b18d38f62c2589de",
+      "expected/sheets/geo_stratigrafia/trasferita-da-palo/report-structure.json": "6c28b870d228bcb0b865d3c1d76b10d7d861e2bba1efddcf4993f470729892fb",
+      "expected/sheets/geo_stratigrafia/trasferita-da-palo/report.txt": "bcd39f0ce2af28ffd97b9505b96c73a2732fc4d2daf774e824287e7d40cdb715",
+      "expected/sheets/geo_stratigrafia/trasferita-da-palo/result.json": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+      "expected/sheets/geo_stratigrafia/trasferita-da-palo/status.json": "2ee4281f5ae12210ed93d4d4a22887ec428bcd39f039010018c5e371d4a95cce",
+      "expected/sheets/geo_stratigrafia/trasferita-da-palo/visited.json": "b3f612e4474f40725fd21cddf240e38dade380b583216b08b18d38f62c2589de"
+    },
+    "updated": [
+      {
+        "file": "expected/esito.txt",
+        "before_sha256": "da17c23bcb56acd0b2ceaaae2d023c67dc3c3a6afb3e98ebd274b6254a3adf4e",
+        "after_sha256": "cf1fc391b42323d21491aa54742255f4fe93e62d0ed31ef31053856f1e303efb",
+        "note": "Solo il numero delle fixture, conseguenza diretta dell'aggiunta: 61 -> 66 nel ramo F5.6b, 75 -> 80 dopo l'unione con le fixture F5.9b e F5.7 (merge del coordinatore); il numero degli articoli resta quello del riferimento (71, transizione F4-51 invariata)."
+      }
+    ]
   }
 }

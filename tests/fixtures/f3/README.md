@@ -197,4 +197,32 @@ Gli attesi delle 61 fixture esistenti e le transizioni F4 non cambiano.
   hanno figure congelate in `f3-figures`.
 - In `expected/esito.txt` è cambiato solo il numero delle fixture (61 → 67).
 - Impronte nel manifest, sezione `fixture_aggiunte_f5_7` (input, attesi ed `esito.txt`), sulla forma conservata da git (fine
+
+## Fixture aggiunte in F5.6b (stratigrafia)
+
+Stessa regola di F5.4 (proposta F5, sezione 7.2). Prima di F5.6b la stratigrafia (`geo_stratigrafia`, modulo del 15/10) non
+aveva fixture. Il 17/10/2026 ne ha ricevute cinque (66 in tutto), catturate con la vista storica (`StratigraphyWorkspace` in
+`SheetEditor`). Gli attesi delle 61 fixture esistenti e le transizioni F4 non cambiano.
+
+| Fixture | Cosa copre |
+| --- | --- |
+| `profilo-medi-falda` | profilo completo con quota e falda a 2,5 m, quattro strati finiti (riporto, sabbia, limo, argilla) granulari e coesivi, soli medi, qualificazioni diverse; nessun avviso, trasferibile ai moduli di verifica |
+| `minimi-entrambi-indefinito` | «Entrambi»; minimi completi, minimi incompleti e maggiori dei medi, γsat minore di γ, ultimo strato indefinito senza cu e senza minimi, falda non nota: tutti gli avvisi della scheda |
+| `testi-digitati` | valori come li scrive la scheda: testi con la virgola, testi vuoti (dato assente), «Minimi», falda non considerata, strato senza la chiave del comportamento, colore in minuscolo, descrizione su due righe |
+| `schema1-importata` | documento del primo schema, senza scelta, famiglia, comportamento e minimi; falda al piano campagna, ultimo strato indefinito, provenienza di un'importazione AI revisionata (data fissa, nessuna chiave) |
+| `trasferita-da-palo` | stratigrafia ricevuta da un foglio del palo verticale (`StratigraphyTransfer.ToDocument`): testi del palo, comportamento dal tipo, note del trasferimento, γsat vuoto, provenienza del trasferimento |
+
+- Gli input vengono da `fixtures-f3` (`F3Fixtures.StratigraphyF56b`). Gli identificativi sono fissi e i documenti sono validi
+  (`StratigraphyDocument.Validate`): la scheda valida il documento a ogni conferma, quindi un documento non valido non si può
+  catturare. Nessun identificativo finisce con `default`.
+- Gli attesi (45 file) vengono dalla cattura `20261017-005645-f56b-f3-cattura-1`, sul codice di produzione di `92613e60`; la
+  seconda cattura (`…-005858-f56b-f3-cattura-2`) dà gli stessi 45 file.
+- **Report.** La stratigrafia non calcola: `result.json` è nullo e `hasResults` falso. Il report è la scheda dati che la vista
+  esporta (`SheetEditor.ExportReport`), catturata come quella degli altri moduli (`report.txt`, `report-structure.json`).
+  `ui/f3-report-chapters` la confronta parte per parte con il capitolo autonomo di `ModuleReportService`; il ramo della
+  stratigrafia in `F3ReportChapterChecks` esporta il report della vista, perché `BuildReport` della vista storica chiede un
+  calcolo.
+- Con queste fixture passano `ui/f3-equivalence` (stesse transizioni F4) e `ui/f3-report-chapters`.
+- In `expected/esito.txt` è cambiato solo il numero delle fixture (61 → 66).
+- Impronte nel manifest, sezione `fixture_aggiunte_f5_6b` (input, attesi ed `esito.txt`), sulla forma conservata da git (fine
   riga LF).

@@ -1,4 +1,3 @@
-using System.Net.Http;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,14 +6,20 @@ using Microsoft.Win32;
 
 namespace X.Desktop;
 
+/// <summary>
+/// The window of the AI import (STRAT-2, disabled in the Release). Since F5.6b the import itself is in Application
+/// (<see cref="StratigraphyImport"/>: the extraction with its HTTP client, texts, errors, application of the draft); the window keeps only
+/// the state of its controls. The extraction is injectable (<see cref="IStratigraphyDraftSource"/>): the checks never call the network.
+/// </summary>
 internal sealed class StratigraphyImportWindow : Window
 {
+    private readonly IStratigraphyDraftSource source;
     private readonly TextBox file = new() { IsReadOnly = true, MinWidth = 250 };
-    private readonly TextBox model = new() { Text = Environment.GetEnvironmentVariable("ANTHEA_AI_MODEL") ?? "", MinWidth = 180 };
-    private readonly PasswordBox key = new() { Password = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? "", MinWidth = 180 };
+    private readonly TextBox model = new() { Text = StratigraphyImport.EnvironmentDefaults().Model, MinWidth = 180 };
+    private readonly PasswordBox key = new() { Password = StratigraphyImport.EnvironmentDefaults().ApiKey, MinWidth = 180 };
     private readonly ComboBox profiles = new() { MinWidth = 200 };
     private readonly ContentControl preview = new();
-    private readonly TextBlock message = Ui.Text("Selezionare il PDF, indicare il modello e la propria chiave API.", 12);
+    private readonly TextBlock message = Ui.Text(StratigraphyImport.Ready, 12);
     private readonly CheckBox reviewed = new() { Content = "Ho confrontato dati, unità e pagine della bozza con la relazione", Margin = new Thickness(6) };
     private readonly Button extract;
     private readonly Button apply;
@@ -24,9 +29,12 @@ internal sealed class StratigraphyImportWindow : Window
     private CancellationTokenSource? running;
     internal JsonObject? Result { get; private set; }
 
-    internal StratigraphyImportWindow()
+    internal StratigraphyImportWindow() : this(StratigraphyImport.OpenAi()) { }
+
+    internal StratigraphyImportWindow(IStratigraphyDraftSource source)
     {
-        Title = "Importa relazione geologica · bozza AI"; Width = 1200; Height = 850;
+        this.source = source;
+        Title = StratigraphyImport.Title; Width = 1200; Height = 850;
         MinWidth = 850; MinHeight = 600; WindowStartupLocation = WindowStartupLocation.CenterOwner;
         Background = Appearance.Paper; Foreground = Appearance.Ink;
         browse = Ui.Button("Scegli PDF…", () =>
@@ -56,17 +64,14 @@ internal sealed class StratigraphyImportWindow : Window
         if (running is not null) return;
         ResetDrafts(); running = new CancellationTokenSource();
         extract.IsEnabled = browse.IsEnabled = model.IsEnabled = key.IsEnabled = false; cancel.IsEnabled = true;
-        message.Text = "Lettura della relazione in corso…";
+        message.Text = StratigraphyImport.Reading;
         try
         {
-            using var http = new HttpClient(new HttpClientHandler { AllowAutoRedirect = false }) { Timeout = Timeout.InfiniteTimeSpan };
-            drafts = await new StratigraphyAiImporter(http).ExtractAsync(file.Text, key.Password, model.Text, running.Token);
+            drafts = await source.ExtractAsync(file.Text, key.Password, model.Text, running.Token);
             if (!IsVisible || running.IsCancellationRequested) return;
-            profiles.ItemsSource = drafts.Select((d, i) => $"{i + 1} · {d["name"]}").ToArray(); profiles.SelectedIndex = 0;
+            profiles.ItemsSource = StratigraphyImport.ProfileNames(drafts); profiles.SelectedIndex = 0;
         }
-        catch (OperationCanceledException) { message.Text = "Importazione interrotta o tempo massimo raggiunto. Nessun dato applicato."; }
-        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or HttpRequestException or System.IO.IOException or UnauthorizedAccessException or FormatException)
-        { message.Text = ex is HttpRequestException ? "Connessione al servizio non riuscita. Nessun dato applicato." : ex is FormatException ? "Formato della chiave o della configurazione non valido." : ex.Message; }
+        catch (Exception ex) when (StratigraphyImport.Shown(ex)) { message.Text = StratigraphyImport.Failure(ex); }
         finally
         {
             running.Dispose(); running = null; extract.IsEnabled = browse.IsEnabled = model.IsEnabled = key.IsEnabled = true; cancel.IsEnabled = false;
@@ -77,7 +82,7 @@ internal sealed class StratigraphyImportWindow : Window
         reviewed.IsChecked = false; apply.IsEnabled = false;
         if (profiles.SelectedIndex < 0 || profiles.SelectedIndex >= drafts.Count) return;
         var draft = drafts[profiles.SelectedIndex];
-        message.Text = "Bozza AI da controllare · " + draft["import_source"]!["warnings"];
+        message.Text = StratigraphyImport.DraftMessage(draft);
         var editor = new StratigraphyWorkspace(draft, allowImport: false);
         editor.Modified += () => { reviewed.IsChecked = false; UpdateApply(); };
         preview.Content = editor;
@@ -88,10 +93,9 @@ internal sealed class StratigraphyImportWindow : Window
         if (reviewed.IsChecked != true || profiles.SelectedIndex < 0) return;
         try
         {
-            var draft = drafts[profiles.SelectedIndex]; StratigraphyDocument.Validate(draft);
-            Result = draft.DeepClone().AsObject(); Result["import_source"]!["reviewed"] = true;
+            Result = StratigraphyImport.Apply(drafts[profiles.SelectedIndex]);
             DialogResult = true;
         }
-        catch (ArgumentException ex) { message.Text = "Correggere la bozza prima di applicarla: " + ex.Message; }
+        catch (ArgumentException ex) { message.Text = StratigraphyImport.ApplyFailure(ex); }
     }
 }
