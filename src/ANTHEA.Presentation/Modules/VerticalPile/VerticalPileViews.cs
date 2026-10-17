@@ -32,6 +32,9 @@ public sealed class VerticalPileSurveyViewModel
     /// <summary>The tooltips of the cells, by column key (the help of the field, as StratigraphyTable; null when there is none).</summary>
     public IReadOnlyDictionary<string, string?> Help { get; }
 
+    /// <summary>A stratigraphy of the micropile (columns «Terreno», «α adottato», «Aderenza τ»).</summary>
+    public bool IsMicro => Columns.Any(c => c.Key == "terreno");
+
     /// <summary>The items of the choice cells, by column key.</summary>
     public IReadOnlyDictionary<string, IReadOnlyList<string>> Choices { get; }
 

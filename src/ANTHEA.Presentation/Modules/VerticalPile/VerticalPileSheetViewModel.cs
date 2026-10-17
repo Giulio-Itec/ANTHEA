@@ -475,13 +475,14 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
 
     /// <summary>
     /// The three forms on the current data, read-only when the sheet is (<see cref="FormViewModel.IsReadOnly"/>, decision T2: no detached
-    /// copies); the «?» labels and F1 of the fields open the Wiki through the navigator of the services.
+    /// copies); the «?» labels and F1 of the fields open the topics of the module (the module of the historic view, inherited by its
+    /// InputForm) through the navigator of the services.
     /// </summary>
     private void BuildForms()
     {
         var general = Data["generali"]!.AsObject();
         FormViewModel Form(JsonObject values, FieldSpec[] fields, Action<string> changed, bool compact) =>
-            new(values, fields, changed, compact: compact, symbolColumns: true) { InheritedWikiModule = ModuleId, IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
+            new(values, fields, changed, compact: compact, symbolColumns: true, wikiModule: ModuleId) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
         generalForm = Form(general, VerticalPileFields.General(IsMicro), OnGeneralChanged, false);
         generalForm.ShowField(VerticalPileFields.HiddenMethod(IsMicro), false);
         efficiencyForm = Form(Data["efficienza"]!.AsObject(), VerticalPileFields.Efficiency(), _ => UserChanged(), true);

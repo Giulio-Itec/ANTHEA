@@ -101,6 +101,21 @@ public partial class App
             return;
         }
 
+        // F5.6: the XAML view of the vertical pile and micropile hosted by MvvmSheetEditor, off screen (tests/Desktop/VerticalPileViewChecks.cs);
+        // the bench opens the two modules with the MVVM view, the Release keeps the historic one until the user has tried it.
+        if (e.Args.Length == 3 && e.Args[0] == "--check-palo-verticale-view")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0;
+                try { await VerticalPileViewChecks.Run(e.Args[1], e.Args[2]); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            }));
+            return;
+        }
+
         // F5.5: traces of the historic material views (tests/Desktop/MaterialHistoricTrace.cs); the check also compares them
         // with the frozen ones of tests/fixtures/f5-materiali/storica.
         if (e.Args.Length == 3 && e.Args[0] is "--check-materials-historic" or "--check-materials-historic-capture")

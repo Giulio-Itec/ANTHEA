@@ -116,6 +116,7 @@
    <Setter Property="TextWrapping" Value="Wrap"/>
    <Setter Property="VerticalAlignment" Value="Center"/>
   </Style>
+  <!-- On every column (HeaderStyle): the implicit header style of the theme wins over DataGrid.ColumnHeaderStyle. -->
   <Style x:Key="LayerColumnHeader" TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
    <Setter Property="Background" Value="{DynamicResource Token.CommandBar}"/>
    <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
@@ -144,7 +145,6 @@
    <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource Token.Border}"/>
    <Setter Property="AlternationCount" Value="6"/>
    <Setter Property="RowStyle" Value="{StaticResource LayerRow}"/>
-   <Setter Property="ColumnHeaderStyle" Value="{StaticResource LayerColumnHeader}"/>
    <Setter Property="CellStyle" Value="{StaticResource LayerCell}"/>
    <Setter Property="ItemsSource" Value="{Binding Rows}"/>
    <Setter Property="IsReadOnly" Value="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=views:VerticalPileSheetView}, Converter={StaticResource Not}}"/>
@@ -215,30 +215,30 @@
     <StackPanel>
      <DataGrid Style="{StaticResource LayerGrid}">
       <DataGrid.Columns>
-       <DataGridTemplateColumn Width="100" CellTemplate="{StaticResource LayerName}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Strato"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="130">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="100" CellTemplate="{StaticResource LayerName}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Strato"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="130">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Tipologia"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><ComboBox Style="{StaticResource LayerChoice}" AutomationProperties.Name="Tipologia"
          ItemsSource="{Binding DataContext.Choices[tipologia], RelativeSource={RelativeSource AncestorType=DataGrid}}" SelectedItem="{Binding [tipologia], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[tipologia], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="130">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="130">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Addensamento"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><ComboBox Style="{StaticResource LayerChoice}" AutomationProperties.Name="Addensamento"
          ItemsSource="{Binding DataContext.Choices[addensamento], RelativeSource={RelativeSource AncestorType=DataGrid}}" SelectedItem="{Binding [addensamento], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[addensamento], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="125">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Spessore&#10;S [m]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="Spessore S [m]" Text="{Binding [spessore], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[spessore], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="125">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Peso specifico&#10;γ [kN/m³]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="γ [kN/m³]" Text="{Binding [peso_specifico], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[peso_specifico], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="125">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Peso specifico saturo&#10;γsat [kN/m³]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate>
          <Grid ToolTip="Se vuoto, si usa automaticamente γ dello stesso strato (valore in grigio). Per tornare al valore automatico, cancellare γsat.">
@@ -248,47 +248,47 @@
          </Grid>
         </DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="125">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Angolo di attrito&#10;φ′ [°]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="φ′ [°]" Text="{Binding [angolo_attrito], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[angolo_attrito], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="125">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coesione efficace&#10;c′ [kPa]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="c′ [kPa]" Text="{Binding [coesione_efficace], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[coesione_efficace], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="125">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coesione non drenata&#10;Cu [kPa]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="Cu [kPa]" Text="{Binding [coesione_non_drenata], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[coesione_non_drenata], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="125">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coefficiente&#10;k [-]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerOutput}" AutomationProperties.Name="Coeff. k [-]" Text="{Binding [__k], Mode=OneWay}"
          ToolTip="{Binding DataContext.Help[__k], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="125">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coefficiente&#10;μ [-]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerOutput}" AutomationProperties.Name="Coeff. μ [-]" Text="{Binding [__mu], Mode=OneWay}"
          ToolTip="{Binding DataContext.Help[__mu], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="125">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coefficiente&#10;α [-]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerOutput}" AutomationProperties.Name="Coeff. α [-]" Text="{Binding [__alfa], Mode=OneWay}"
          ToolTip="{Binding DataContext.Help[__alfa], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="125">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Fattore&#10;Nq [-]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerOutput}" AutomationProperties.Name="Fattore Nq [-]" Text="{Binding [__nq], Mode=OneWay}"
          ToolTip="{Binding DataContext.Help[__nq], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="125">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Fattore&#10;Nc [−]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="Fattore Nc [-]" Text="{Binding [nc], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[nc], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="60" CellTemplate="{StaticResource LayerDelete}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Elimina"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="60" CellTemplate="{StaticResource LayerDelete}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Elimina"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
       </DataGrid.Columns>
      </DataGrid>
      <Button Content="Aggiungi strato" FontSize="{DynamicResource Font.Small}" HorizontalAlignment="Left" Style="{StaticResource Command}" Command="{Binding AddLayerCommand}"/>
@@ -302,29 +302,29 @@
     <StackPanel>
      <DataGrid Style="{StaticResource LayerGrid}" MaxWidth="650" HorizontalAlignment="Left">
       <DataGrid.Columns>
-       <DataGridTemplateColumn Width="100" CellTemplate="{StaticResource LayerName}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Strato"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="200">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="100" CellTemplate="{StaticResource LayerName}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Strato"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="200">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Terreno"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><ComboBox Style="{StaticResource LayerChoice}" AutomationProperties.Name="Terreno"
          ItemsSource="{Binding DataContext.Choices[terreno], RelativeSource={RelativeSource AncestorType=DataGrid}}" SelectedItem="{Binding [terreno], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[terreno], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="110">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="110">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Spessore verticale&#10;S [m]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="Spessore verticale [m]" Text="{Binding [spessore], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[spessore], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="80">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="80">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="α adottato"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="α adottato" Text="{Binding [alpha], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[alpha], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="90">
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="90">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Aderenza&#10;τ [kPa]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerOutput}" AutomationProperties.Name="Aderenza τ [kPa]" Text="{Binding [__tau], Mode=OneWay}"
          ToolTip="{Binding DataContext.Help[__tau], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
-       <DataGridTemplateColumn Width="60" CellTemplate="{StaticResource LayerDelete}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Elimina"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="60" CellTemplate="{StaticResource LayerDelete}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Elimina"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
       </DataGrid.Columns>
      </DataGrid>
      <Button Content="Aggiungi strato" FontSize="{DynamicResource Font.Small}" HorizontalAlignment="Left" Style="{StaticResource Command}" Command="{Binding AddLayerCommand}"/>
@@ -447,12 +447,19 @@
          </WrapPanel>
         </DataTemplate>
        </TabControl.ItemTemplate>
-       <TabControl.Style>
-        <Style TargetType="TabControl" BasedOn="{StaticResource {x:Type TabControl}}">
-         <Setter Property="ContentTemplate" Value="{StaticResource PileLayers}"/>
-         <Style.Triggers><DataTrigger Binding="{Binding IsMicro}" Value="True"><Setter Property="ContentTemplate" Value="{StaticResource MicroLayers}"/></DataTrigger></Style.Triggers>
-        </Style>
-       </TabControl.Style>
+       <TabControl.ContentTemplate>
+        <!-- The table of the pile or of the micropile, chosen by the stratigraphy (the TabItems keep the template they were prepared with). -->
+        <DataTemplate DataType="{x:Type pile:VerticalPileSurveyViewModel}">
+         <ContentControl Content="{Binding}" Focusable="False" IsTabStop="False">
+          <ContentControl.Style>
+           <Style TargetType="ContentControl">
+            <Setter Property="ContentTemplate" Value="{StaticResource PileLayers}"/>
+            <Style.Triggers><DataTrigger Binding="{Binding IsMicro}" Value="True"><Setter Property="ContentTemplate" Value="{StaticResource MicroLayers}"/></DataTrigger></Style.Triggers>
+           </Style>
+          </ContentControl.Style>
+         </ContentControl>
+        </DataTemplate>
+       </TabControl.ContentTemplate>
       </TabControl>
      </DockPanel>
     </Border>
@@ -522,6 +529,10 @@
         <DockPanel>
          <ComboBox x:Name="TableChoice" DockPanel.Dock="Top" ItemsSource="{Binding TableTitles}" SelectedIndex="{Binding SelectedTableIndex}"/>
          <ContentControl x:Name="TableHost" Content="{Binding ShownTable}" Focusable="False" IsTabStop="False">
+          <ContentControl.Style>
+           <!-- Nothing after an edit, as the historic table host. -->
+           <Style TargetType="ContentControl"><Style.Triggers><DataTrigger Binding="{Binding ShownTable}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style>
+          </ContentControl.Style>
           <ContentControl.ContentTemplate>
            <DataTemplate DataType="{x:Type pile:VerticalPileTableView}">
             <ContentControl Content="{Binding}" Focusable="False" IsTabStop="False">
