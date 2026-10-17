@@ -372,12 +372,12 @@ terreno e finestra storica nello stesso stato. `ui/check-contrast` non è stata 
 - **S16 · Finestra del dialogo IA.** Dimensione fissa 1200×850 come per i dialoghi di F5.6 (domanda già aperta lì). Alternativa:
   finestra ridimensionabile con minimo 850×600 in `WpfDialogService`.
 - **S17 · Pulsanti del dialogo condiviso.** Corretti con `BasedOn` (sezione 5.2). Da confermare insieme alla stessa correzione per la
-  vista del palo verticale (`VerticalPileSheetView.xaml`, stile `Command`), non fatta qui perché fuori dal modulo.
+  vista del palo verticale (`VerticalPileSheetView.xaml`, stile `Command`), fatta dal coordinatore dopo l'unione.
 
 Segnalazioni, senza correzioni:
 - **Muri, vista storica.** «Angolo di attrito caratteristico» (chiave «phi» di `RetainingWallFields`, `InputForm`) ha come
   suggerimento dell'etichetta l'aiuto della viscosità φ del calcestruzzo (`CalculationHelp.Field("phi")`). Stessa causa di S14.
-- **Vista del palo verticale.** Pulsanti senza lo stile del tema (S17).
+- **Vista del palo verticale.** Pulsanti senza lo stile del tema (S17): corretti dal coordinatore dopo l'unione.
 - **Finestra storica dell'importazione.** Legge la chiave dall'ambiente (`OPENAI_API_KEY`) già alla costruzione, nei suoi campi: le
   prove della vista nuova non la costruiscono mai; la vista nuova riceve la chiave solo dalle opzioni del modulo all'apertura del
   dialogo.

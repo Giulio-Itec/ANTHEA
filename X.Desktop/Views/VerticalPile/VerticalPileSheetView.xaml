@@ -52,8 +52,8 @@
    <Setter Property="Margin" Value="0,0,0,8"/>
    <Setter Property="MinHeight" Value="28"/>
   </Style>
-  <!-- Ui.Button: a light button. -->
-  <Style x:Key="Command" TargetType="Button">
+  <!-- Ui.Button: a light button, with the implicit style of the theme (padding, margin, height) as the historic Ui.Button (F5.6b, S17). -->
+  <Style x:Key="Command" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
    <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
    <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
   </Style>
