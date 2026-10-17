@@ -156,6 +156,20 @@ public static class ElasticPilePresentation
         return message;
     }
 
+    /// <summary>The stratigraphy chosen for the response («elastico.stratigrafia», −1 when none).</summary>
+    public static int SurveyChoice(JsonObject elastic) => (int)elastic.D("stratigrafia", -1);
+
+    /// <summary>
+    /// The point of the response at a click at <paramref name="depth"/> from the head (ElasticPileDrawing.SelectDepth): the nearest point; at
+    /// an interface, where two points share the depth, the other side when the first one is <paramref name="selected"/>.
+    /// </summary>
+    public static JsonNode PointAt(JsonObject shown, double depth, JsonNode? selected)
+    {
+        var points = shown["risposta"]!.Array("Points"); var nearest = points.OrderBy(p => Math.Abs(p.D("Depth") - depth)).First();
+        var pair = points.Where(p => Math.Abs(p.D("Depth") - nearest.D("Depth")) < 1e-9).ToArray();
+        return pair.Length > 1 && ReferenceEquals(selected, pair[0]) ? pair[1] : pair[0]!;
+    }
+
     /// <summary>The choices of the stratigraphy of the response.</summary>
     public static IReadOnlyList<string> SurveyChoices(int count) => Enumerable.Range(0, count).Select(i => $"Stratigrafia {i + 1}").ToArray();
 

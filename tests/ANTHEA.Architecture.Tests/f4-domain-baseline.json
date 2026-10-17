@@ -7877,35 +7877,11 @@
     },
     {
       "File": "X.Desktop/Wpf/ElasticPileDrawing.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileDrawing.SelectDepth",
-      "Fingerprint": "4A71F09BF6C864BBE9E795D6E015B1FFFFBEC828A426D9DCEB611E0676587F71",
-      "Count": 1,
-      "Example": "nearest . D ( \"Depth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileDrawing.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileDrawing.SelectDepth",
-      "Fingerprint": "A17A439135304E9625E8306D3F39B5F7B60A2A9EDF231FA86C00BA332EF4E502",
-      "Count": 2,
-      "Example": "p . D ( \"Depth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileDrawing.cs",
       "Rule": "R6-unit-factor",
       "Owner": "ElasticPileDrawing.OnRender",
       "Fingerprint": "344AA3B3A47F0950B4FB4B2BC08564013C8B04C984FF66A41C2E62F2188925BD",
       "Count": 2,
       "Example": "1e-9"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.BuildHeader",
-      "Fingerprint": "F383B086612067996FF08E833A7BBA79A354FD159299608E049A2B2EB9209EFD",
-      "Count": 1,
-      "Example": "e . D ( \"stratigrafia\" , - 1 )"
     },
     {
       "File": "X.Desktop/Wpf/ErrorLog.cs",
@@ -14962,6 +14938,30 @@
       "Fingerprint": "D7F817D013780E4484F76C496F88355C617DD283E784EE2A3671D7ED355FB67E",
       "Count": 1,
       "Example": "record . D ( \"inizio\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.PointAt",
+      "Fingerprint": "23504739AE7892EBB56286E0D8C09DC8022BD6ADA5B9E3B3B520F456B1C717D1",
+      "Count": 2,
+      "Example": "p . D ( \"Depth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.PointAt",
+      "Fingerprint": "D7C43C75A12DC8C6187BE1F5221662884C97620DE0575043B671A788C2949D3C",
+      "Count": 1,
+      "Example": "nearest . D ( \"Depth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SurveyChoice",
+      "Fingerprint": "A5E621EEF4C381211F9D916A1A3903BE3DFCE9E04FA73590E67CA7F57B092921",
+      "Count": 1,
+      "Example": "elastic . D ( \"stratigrafia\" , - 1 )"
     },
     {
       "File": "src/ANTHEA.Application/Projects/ProjectConcreteFields.cs",

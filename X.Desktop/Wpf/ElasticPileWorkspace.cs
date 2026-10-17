@@ -55,7 +55,7 @@ internal sealed partial class ElasticPileWorkspace : UserControl,IDisposable
             migration.Content=Ui.Paper(Ui.Stack(Ui.Text(ElasticPileFields.MigrationTitle,17,true),text,Ui.Bar(Ui.Button("Usa dati comuni e conserva legacy",()=>Resolve(false)),Ui.Button("Importa legacy nei dati comuni",()=>Resolve(true))),Ui.Button("Mostra confronto completo",()=>Info("Confronto completo",parent.ToJsonString(J.Options)))),14);return;
         }
         var e=parent["elastico"]!.AsObject();var view=Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareElasticView(parent);drawing.Options=view;
-        var choice=new ComboBox{ItemsSource=ElasticPilePresentation.SurveyChoices(surveyCount),SelectedIndex=(int)e.D("stratigrafia",-1),MinWidth=180,Margin=new Thickness(8,0,10,0)};
+        var choice=new ComboBox{ItemsSource=ElasticPilePresentation.SurveyChoices(surveyCount),SelectedIndex=ElasticPilePresentation.SurveyChoice(e),MinWidth=180,Margin=new Thickness(8,0,10,0)};
         choice.SelectionChanged+=(_,_)=>{e["stratigrafia"]=choice.SelectedIndex;InvalidateShared();};
         options=new InputForm(e,ElasticPileFields.Options(),_=>InvalidateShared(),compact:true);
         options.MaxWidth=540;options.HorizontalAlignment=HorizontalAlignment.Left;
