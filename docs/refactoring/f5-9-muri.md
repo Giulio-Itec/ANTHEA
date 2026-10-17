@@ -384,6 +384,7 @@ La Release resta **storica**: la vista nuova si sceglie solo nel banco UiTests (
 | `ui/f3-scheduling` con MVVM (`ui/f3-scheduling-muri-mvvm`) | PASS 47 controlli, come la storica |
 | `Presentation.Tests`, `Architecture.Tests` | PASS 1818; PASS 523 (P1–P7, F4 3335, P3 126 invariate) |
 | Profilo quick | `20261017-202443-f59v-c1` (ViewModel) e `20261017-213346-f59v-c3` (vista e prove): PASS 52, NEW-FAIL 0 |
+| Corsa finale | `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `17d75297`, `20261017-214434-f59v-finale`: PASS 125, NEW-FAIL 0; nessun file tracciato modificato, `transitions-f4.json` invariato; `ui/check-muri-view` PASS 187, `ui/f3-scheduling-muri-mvvm` PASS 47, `ui/check-muri-historic` e `ui/f3-equivalence` PASS; `Presentation.Tests` 1818, `Application.Tests` 2657, `Architecture.Tests` 523 |
 
 Le schermate sono a 144 DPI (schermo al 150%), in `vista/schermate` della suite: «Input», «Verifiche» e la stabilità globale nei
 tre aspetti; la disposizione stretta (sotto i 1450 px); la scheda della stabilità globale aperta dal pulsante dell'intestazione.
@@ -437,6 +438,11 @@ Usano `RetainingWallWorkspace` o i rami `retainingWall` di `SheetEditor`; vanno 
 - `Architecture.Tests` (`tests/ANTHEA.Architecture.Tests/Program.cs`, righe 123–124): due controlli leggono
   `RetainingWallWorkspace.Advanced.cs` e `.Results.cs`, da spostare sui file nuovi o togliere con l'archiviazione;
 - `ui/check-muri-historic` resta finché la vista storica esiste; `ui/check-muri-view` resta, con le tracce congelate.
+
+Per l'archiviazione (non è una suite): i disegni che restano usano ancora due funzioni statiche della vista storica,
+`RetainingWallWorkspace.F` (in `RetainingWallDrawing.cs`) e `RetainingWallWorkspace.RebarLabel` (in
+`RetainingWallDrawing.Inspection.cs`). Sono già alias di `WallSheetPresentation.Number` e `WallModel.RebarLabel`: con
+l'archiviazione i disegni chiameranno direttamente queste.
 
 ### 5.6 Da provare a mano (versione portatile con le viste attive)
 
