@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -22,6 +21,7 @@ using Anthea.Presentation.Forms;
 using Anthea.Presentation.Modules.PileGroup;
 using Anthea.Presentation.Services;
 using Anthea.Presentation.Tests;
+using Anthea.Reports;
 using Anthea.Testing.Normalization;
 using X.Core;
 using X.Desktop.Services;
@@ -37,21 +37,45 @@ namespace X.Desktop;
 /// <item>Traces through the view: the scenarios of tests/Shared/PileGroupTrace.cs driven through the controls of the view (text
 /// boxes, check boxes and choices of the FieldForm, combo boxes, comparison table, cancelled cell edit) and read back from the
 /// controls, equal line by line to the traces of the historic view frozen in tests/fixtures/f5-palificata/storica.</item>
-/// <item>For each F3 fixture of the module: the visit (layout, expanders) writes nothing and raises no Modified; the exports
-/// (Word + PDF report and JSON of the result) are the same files as those of the historic view.</item>
+/// <item>For each F3 fixture of the module: data at the opening and after the calculation equal to those of the frozen trace of
+/// the historic view (scenario fixture-&lt;id&gt;); the visit (layout, expanders) writes nothing and raises no Modified; the exports
+/// are the files the historic view wrote: JSON of the result as SheetEditor wrote it, Word + PDF report written by the recipe of
+/// the historic view (ReportPileGroup on the result, ReportFiles), the result being the one of the frozen trace.</item>
 /// <item>The UI part of HorizontalPileGroup.Checks (before F5.4 on the historic view by reflection): PNG 1400×1050, result
 /// calculated, the selection of the comparison through SelectedComparison drives the result shown.</item>
-/// <item>Screenshots of the new and the historic view in Chiara, Scuro and Molto scuro (folder schermate).</item>
+/// <item>Screenshots of the view in Chiara, Scuro and Molto scuro (folder schermate).</item>
 /// <item>Help: the «?» labels shown are those of the historic view and open their section, F1 on a field opens its section
 /// (or the guide of the module), F1 elsewhere the guide of the module, all through the IWikiNavigator of the services.</item>
 /// <item>AutomationProperties.Name of the historic view kept by the new one.</item>
 /// <item>Read-only revision: the same controls refuse the edits as in the historic view; the comparison and the «?» stay usable.</item>
 /// </list>
+/// The historic view is archived (F5.4, Q11: supporto/SUPERATI/ui-storica/palificata): what the checks compared with it before
+/// the archiving is compared with the values it gave, recorded here (<see cref="HistoricHelpLabels"/>,
+/// <see cref="HistoricAutomationNames"/>, <see cref="HistoricReadOnly"/>, <see cref="HistoricNoResult"/>) or frozen in its traces.
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
 internal static class PileGroupViewChecks
 {
     private const string Module = PileGroupScenarios.Module;
+
+    // ---------------------------------------------------------------- values of the historic view (archived in F5.4)
+    // Recorded by ui/check-pile-group-view on the historic view before its archiving, the same in every run up to the F5.4 checkpoint
+    // (last one: supporto/artefatti/ci/20261017-060301-f5-int13 of the integration worktree, dettaglio.txt).
+
+    /// <summary>The «?» labels shown by the historic view (fixture default, expanders open).</summary>
+    private static readonly string[] HistoricHelpLabels = ["Wiki: Diametro comune D [m]"];
+
+    /// <summary>The AutomationProperties.Name of the historic view (fixtures default, quinconce-direzioni and legacy-pile-group, expanders open).</summary>
+    private static readonly string[] HistoricAutomationNames = ["Wiki: Diametro comune D [m]"];
+
+    /// <summary>The controls of the historic view that accept the user after InspectRevision (fixture legacy-pile-group), with the keys of <see cref="ReadOnly"/>.</summary>
+    private const string HistoricReadOnly = "scelta basamento bloccata scelta disposizione bloccata scelta interassi bloccata spunta X bloccata spunta X- bloccata "
+        + "spunta Y bloccata spunta Y- bloccata spunta custom bloccata spunta estrapolazioni bloccata spunta file_proiettate bloccata "
+        + "tabella confronto sola lettura selezionabile tabella coordinate sola lettura selezionabile tabella dettagli sola lettura selezionabile "
+        + "testo angolo_custom bloccato testo bordo_d bloccato testo diametro bloccato testo interasse_parallelo bloccato testo interasse_trasversale bloccato";
+
+    /// <summary>The message of SheetEditor.ExportResult without a result, for the historic view of the pile group.</summary>
+    private const string HistoricNoResult = "Premere Calcola prima di esportare.";
 
     /// <summary>The Wiki of the services of the check: it records the sections opened, in order.</summary>
     private sealed class RecordingWiki : IWikiNavigator
@@ -349,40 +373,64 @@ internal static class PileGroupViewChecks
         var normalizer = new TextNormalizer();
         foreach (string id in PileGroupScenarios.Fixtures(root))
         {
+            // The frozen trace of the historic view on the path of the F3 capture: apertura, conferma, calcola, conferma, riapri, conferma.
+            var historic = HistoricBlocks(root, id);
+            Check(historic.Length == 6 && historic[0][0] == "== apertura" && historic[2][0] == "== " + PileGroupStep.Calculate && historic[3][0] == "== " + PileGroupStep.Commit,
+                id + ": traccia congelata della vista storica (fixture-" + id + ") sul percorso della cattura F3");
             var data = PileGroupScenarios.FixtureData(root, id);
             using var mvvm = new Hosted(editors.Open(Module, data));
-            using var historic = new Hosted(new SheetEditor(Module, data));
-            Check(mvvm.Editor is MvvmSheetEditor && historic.Editor is SheetEditor, id + ": editor MVVM e storico");
+            Check(mvvm.Editor is MvvmSheetEditor, id + ": editor MVVM");
             string opened = mvvm.Editor.Data.ToJsonString(J.Options);
-            Check(opened == historic.Editor.Data.ToJsonString(J.Options), id + ": dati all'apertura uguali alla vista storica, nell'ordine in memoria");
+            Check(TraceLine("dati", PileGroupTrace.Compact(mvvm.Editor.Data)) == Line(historic[0], "dati"),
+                id + ": dati all'apertura uguali a quelli della vista storica (traccia congelata), nell'ordine in memoria");
             await mvvm.Expand();
             foreach (var mode in new[] { AppAppearance.Dark, AppAppearance.VeryDark, AppAppearance.Light }) { Appearance.Set(mode, false); await mvvm.Settle(); }
             Check(mvvm.Editor.Data.ToJsonString(J.Options) == opened && mvvm.Modified == 0, id + ": la visita (espansori, tre aspetti) non scrive e non solleva Modified");
-            await historic.Expand();
-            foreach (var host in new[] { mvvm, historic }) { await host.Editor.CalculateAsync(); host.Editor.Commit(); }
-            Check(mvvm.Editor.Data.ToJsonString(J.Options) == historic.Editor.Data.ToJsonString(J.Options) && mvvm.Editor.HasResults == historic.Editor.HasResults,
-                id + ": dati e stato dopo il calcolo uguali");
-            if (!historic.Editor.HasResults)
+            mvvm.Editor.Commit(); await mvvm.Editor.CalculateAsync(); mvvm.Editor.Commit();
+            var result = mvvm.Editor.Result;
+            Check(TraceLine("dati", PileGroupTrace.Compact(mvvm.Editor.Data)) == Line(historic[3], "dati")
+                && TraceLine("risultato", result is null ? "-" : PileGroupTrace.Hash(result) + " · selezionato " + PileGroupTrace.Selection(result["selezionato"])) == Line(historic[3], "risultato")
+                && mvvm.Editor.HasResults == (result is not null),
+                id + ": dati e risultato dopo il calcolo uguali a quelli della vista storica (traccia congelata)");
+            if (!mvvm.Editor.HasResults)
             {
-                Check(Fails(() => mvvm.Editor.ExportResult(Path.Combine(folder, id + "-mvvm.json")), out string a)
-                    && Fails(() => historic.Editor.ExportResult(Path.Combine(folder, id + "-storica.json")), out string b) && a == b,
-                    id + ": senza risultato l'esportazione è rifiutata con lo stesso messaggio («" + a + "»)");
+                Check(Fails(() => mvvm.Editor.ExportResult(Path.Combine(folder, id + "-mvvm.json")), out string message) && message == HistoricNoResult,
+                    id + ": senza risultato l'esportazione è rifiutata con il messaggio della vista storica («" + message + "»)");
                 continue;
             }
             string title = "Fixture F3 · " + Module + " · " + id;
-            foreach (var (host, name) in new[] { (mvvm, "mvvm"), (historic, "storica") })
-            {
-                host.Editor.ExportResult(Path.Combine(folder, $"{id}-{name}.json"));
-                host.Editor.ExportReport(Path.Combine(folder, $"{id}-{name}.docx"), title, []);
-            }
-            Check(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.json")).SequenceEqual(File.ReadAllBytes(Path.Combine(folder, id + "-storica.json"))),
-                id + ": JSON del risultato uguale byte per byte");
-            string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, id + "-storica.docx")), normalizer);
-            Check(part is null, id + ": report Word uguale in ogni parte (date del documento normalizzate)" + (part is null ? "" : ", diversa " + part));
-            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, id + "-storica.pdf"))),
-                id + ": PDF affiancato uguale (date del documento normalizzate)");
+            mvvm.Editor.ExportResult(Path.Combine(folder, id + "-mvvm.json"));
+            mvvm.Editor.ExportReport(Path.Combine(folder, id + "-mvvm.docx"), title, []);
+            // The exports of the historic view: SheetEditor.ExportResult wrote the result with J.Options, SheetEditor.ExportReport the report
+            // of ReportPileGroup on the result through ReportFiles (Word and PDF side by side); the result is the one of the frozen trace.
+            File.WriteAllBytes(Path.Combine(folder, id + "-attesa.json"), Encoding.UTF8.GetBytes(result!.ToJsonString(J.Options)));
+            ReportFiles.Write(Path.Combine(folder, id + "-attesa.docx"), DocxWriter.Write(ReportPileGroup.CreateDocument(title, result)), title);
+            Check(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.json")).SequenceEqual(File.ReadAllBytes(Path.Combine(folder, id + "-attesa.json"))),
+                id + ": JSON del risultato uguale byte per byte a quello della vista storica");
+            string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, id + "-attesa.docx")), normalizer);
+            Check(part is null, id + ": report Word uguale in ogni parte a quello della vista storica (date del documento normalizzate)" + (part is null ? "" : ", diversa " + part));
+            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, id + "-attesa.pdf"))),
+                id + ": PDF affiancato uguale a quello della vista storica (date del documento normalizzate)");
         }
     }
+
+    /// <summary>The frozen trace of the historic view for the F3 fixture <paramref name="id"/> (scenario fixture-&lt;id&gt;), split at its steps.</summary>
+    private static string[][] HistoricBlocks(string root, string id)
+    {
+        var blocks = new List<List<string>>();
+        foreach (string line in PileGroupTrace.Read(Path.Combine(PileGroupScenarios.Reference(root), "fixture-" + id + ".txt")))
+        {
+            if (line.StartsWith("== ", StringComparison.Ordinal)) blocks.Add([]);
+            if (blocks.Count == 0) throw new InvalidOperationException("Traccia congelata senza intestazione: fixture-" + id);
+            blocks[^1].Add(line);
+        }
+        return blocks.Select(b => b.ToArray()).ToArray();
+    }
+
+    /// <summary>The line of a step of a trace that starts with <paramref name="name"/>, as <see cref="PileGroupTraceState.Lines"/> writes it.</summary>
+    private static string Line(string[] block, string name) => block.Single(l => l.StartsWith(name + " ", StringComparison.Ordinal));
+
+    private static string TraceLine(string name, string value) => name + " " + value;
 
     private static bool Fails(Action action, out string message)
     {
@@ -465,17 +513,16 @@ internal static class PileGroupViewChecks
             Appearance.Set(mode, false);
             string suffix = mode switch { AppAppearance.Light => "chiara", AppAppearance.Dark => "scuro", _ => "molto-scuro" };
             foreach (var (name, data) in cases)
-                foreach (var (kind, open) in new (string, Func<ISheetEditor>)[] { ("vista", () => editors.Open(Module, data)), ("storica", () => new SheetEditor(Module, data)) })
-                {
-                    using var host = new Hosted(open(), mode != AppAppearance.Light);
-                    await host.Expand();
-                    await host.Settle();
-                    File.WriteAllBytes(Path.Combine(folder, $"{kind}-{name}-{suffix}.png"), host.Png());
-                    written++;
-                }
+            {
+                using var host = new Hosted(editors.Open(Module, data), mode != AppAppearance.Light);
+                await host.Expand();
+                await host.Settle();
+                File.WriteAllBytes(Path.Combine(folder, $"vista-{name}-{suffix}.png"), host.Png());
+                written++;
+            }
         }
         Appearance.Set(AppAppearance.Light, false);
-        Check(written == 12, "Schermate della vista nuova e della storica nei tre aspetti: " + written + " PNG in " + folder);
+        Check(written == 6, "Schermate della vista nei tre aspetti: " + written + " PNG in " + folder);
     }
 
     // ---------------------------------------------------------------- 5. help
@@ -485,13 +532,12 @@ internal static class PileGroupViewChecks
         var data = PileGroupScenarios.FixtureData(root, "default");
         string guide = Anthea.Wiki.WikiCatalog.ForModule(Module)?.Id ?? throw new InvalidOperationException("Guida della palificata assente nella Wiki");
         var topic = Anthea.Presentation.Help.HelpTopics.ForField("diametro", Module) ?? throw new InvalidOperationException("Argomento del diametro assente");
-        using var historic = new Hosted(new SheetEditor(Module, data));
         using var host = new Hosted(editors.Open(Module, data));
-        await historic.Expand(); await host.Expand();
+        await host.Expand();
         static string[] Labels(DependencyObject root) => Visual(root).OfType<Button>().Where(b => b.IsVisible && b.Content as string == "?")
             .Select(b => AutomationProperties.GetName(b)).Order(StringComparer.Ordinal).ToArray();
-        string[] before = Labels(historic.Root), after = Labels(host.Root);
-        Check(before.SequenceEqual(after) && after.SequenceEqual(["Wiki: Diametro comune D [m]"]), "Etichette «?» visibili uguali alla vista storica: " + string.Join(", ", after));
+        string[] after = Labels(host.Root);
+        Check(after.SequenceEqual(HistoricHelpLabels), "Etichette «?» visibili uguali a quelle della vista storica: " + string.Join(", ", after));
         var help = Visual(host.Root).OfType<Button>().Single(b => b.IsVisible && AutomationProperties.GetName(b) == "Wiki: Diametro comune D [m]");
         Check(help.ToolTip as string == topic.Title + "\nApri questa sezione della Wiki", "«?» del diametro: suggerimento dell'argomento");
         wiki.Shown.Clear();
@@ -510,7 +556,7 @@ internal static class PileGroupViewChecks
         help.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, help));
         F1(side.Box("diametro"));
         Check(wiki.Shown.SequenceEqual([topic.Uri, topic.Uri]), "«?» e F1 anche in sola lettura");
-        Check(host.Modified == 0 && historic.Modified == 0, "L'aiuto non modifica il foglio");
+        Check(host.Modified == 0, "L'aiuto non modifica il foglio");
     }
 
     private static void F1(UIElement target)
@@ -526,12 +572,11 @@ internal static class PileGroupViewChecks
         foreach (string id in new[] { "default", "quinconce-direzioni", "legacy-pile-group" })
         {
             var data = PileGroupScenarios.FixtureData(root, id);
-            using var historic = new Hosted(new SheetEditor(Module, data));
             using var host = new Hosted(editors.Open(Module, data));
-            await historic.Expand(); await host.Expand();
+            await host.Expand();
             static HashSet<string> Names(DependencyObject root) => Visual(root).OfType<UIElement>().Where(e => e.IsVisible)
                 .Select(e => AutomationProperties.GetName(e)).Where(n => !string.IsNullOrEmpty(n)).ToHashSet(StringComparer.Ordinal);
-            var before = Names(historic.Root); var after = Names(host.Root);
+            var before = HistoricAutomationNames.ToHashSet(StringComparer.Ordinal); var after = Names(host.Root);
             var missing = before.Except(after).Order(StringComparer.Ordinal).ToArray();
             Check(missing.Length == 0, $"{id}: nomi di automazione della vista storica conservati ({before.Count}: {string.Join(", ", before.Order(StringComparer.Ordinal))})"
                 + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
@@ -562,17 +607,16 @@ internal static class PileGroupViewChecks
 
     // ---------------------------------------------------------------- 7. read-only
 
-    /// <summary>Which controls accept the user after InspectRevision, in the historic and in the new view (types and keys).</summary>
+    /// <summary>Which controls accept the user after InspectRevision in the new view (types and keys), as in the historic view.</summary>
     private static async Task ReadOnly(string root, SheetEditorFactory editors)
     {
         var data = PileGroupScenarios.FixtureData(root, "legacy-pile-group");
-        using var historic = new Hosted(new SheetEditor(Module, data));
         using var host = new Hosted(editors.Open(Module, data));
-        await historic.Expand(); await host.Expand();
+        await host.Expand();
         var side = new ViewSide(host);
         var diameterBackground = side.Box("diametro").Background;
-        historic.Editor.InspectRevision(); host.Editor.InspectRevision();
-        await historic.Settle(); await host.Settle();
+        host.Editor.InspectRevision();
+        await host.Settle();
         static string State(DependencyObject root, Func<FrameworkElement, string?> key) => string.Join(" ", Visual(root).OfType<FrameworkElement>().Where(e => e.IsVisible)
             .Select(e => e switch
             {
@@ -582,22 +626,17 @@ internal static class PileGroupViewChecks
                 DataGrid g => "tabella " + key(g) + (g.IsReadOnly && !g.CanUserAddRows && !g.CanUserDeleteRows ? " sola lettura" : " modificabile") + (g.IsEnabled ? " selezionabile" : ""),
                 _ => null
             }).Where(s => s is not null).Order(StringComparer.Ordinal));
-        static string? HistoricKey(FrameworkElement e) => e switch
-        {
-            DataGrid g => g.Columns.Count == 3 ? "coordinate" : g.Columns.Count == 7 ? "confronto" : "dettagli",
-            ComboBox c => c.ItemsSource is IEnumerable items && items.Cast<object>().Contains("Personalizzata") ? "interassi" : c.ItemsSource is IEnumerable caps && caps.Cast<object>().Contains("Contorno palificata") ? "basamento" : "disposizione",
-            _ => e.Tag as string
-        };
+        // The keys of the historic view were the Tag of its fields and the content of its tables and combo boxes (HistoricReadOnly).
         static string? NewKey(FrameworkElement e) => e switch
         {
             DataGrid g => g.Name switch { "Coordinates" => "coordinate", "ComparisonGrid" => "confronto", _ => "dettagli" },
             ComboBox c => BoundPath(c, ItemsControl.ItemsSourceProperty) switch { "SpacingDirections" => "interassi", "CapShapes" => "basamento", _ => "disposizione" },
             _ => e.DataContext is FieldViewModel f ? f.Key : null
         };
-        string before = State(historic.Root, HistoricKey), after = State(host.Root, NewKey);
-        Log.Add("   sola lettura, storica: " + before);
+        string after = State(host.Root, NewKey);
+        Log.Add("   sola lettura, storica: " + HistoricReadOnly);
         Log.Add("   sola lettura, nuova:   " + after);
-        Check(before == after, "Sola lettura: stessi controlli bloccati e liberi della vista storica");
+        Check(after == HistoricReadOnly, "Sola lettura: stessi controlli bloccati e liberi della vista storica");
         Check(ReferenceEquals(side.Box("diametro").Background, diameterBackground), "Sola lettura: fondo dei campi invariato (non è un campo calcolato)");
         string data0 = host.Editor.Data.ToJsonString(J.Options), shown = side.Box("diametro").Text;
         side.Box("diametro").Text = "9";
