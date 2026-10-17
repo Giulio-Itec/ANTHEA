@@ -263,7 +263,8 @@ dell'utente.
 | --- | --- |
 | `03b48dae` | ViewModel allineati alle decisioni: T2, Wiki dei servizi, stato del diagramma (M6), `CanEditDeviationValue` |
 | `08d5517e` | viste XAML in `X.Desktop/Views/Materials`, `FieldForm` con i campi bloccati dall'ospite (M6), due token, `MvvmSheetEditor` (T8, capitolo, Wiki), suite `ui/check-materials-view`, passi del contrasto |
-| `@@C3@@` | questa sezione 4 |
+| `2148fddc` | questa sezione 4 |
+| (successivo) | passo del contrasto dei materiali reso autonomo in `ContrastAudit` (richiesta del coordinatore), esito della corsa finale |
 
 ### 4.2 Decisioni applicate
 
@@ -312,7 +313,7 @@ Cartelle non versionate in `supporto/artefatti/refactoring/f5/f5-5-vista/` del w
 | Sola lettura | stessi controlli bloccati e liberi della vista storica, prima e dopo; digitazione e scelte rifiutate |
 | `ui/check-materials-view` | PASS 214 controlli |
 | Profilo quick | PASS 52 su `03b48dae` e su `08d5517e`, NEW-FAIL 0 |
-| Corsa finale `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` | @@FINALE@@ |
+| Corsa finale `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` | PASS 120, KNOWN 0, NEW-FAIL 0 su `2148fddc` (`supporto/artefatti/ci/20261017-101806-f55v-finale`); nessun file tracciato modificato; `ui/f3-equivalence` con le viste storiche PASS 104 fixture e lo stesso `transitions-f4.json`; `ui/f3-report-chapters` PASS; `Presentation.Tests` PASS; una suite nuova, `ui/check-materials-view` |
 
 ### 4.4 Schermate e differenze visibili
 
@@ -328,7 +329,7 @@ Differenze visibili:
   ΔE 1,5). In Chiara non si distingue; negli aspetti scuri le caselle prendono il fondo dei campi calcolati invece di quello
   dei campi modificabili.
 - **Campi liberi dell'acciaio**: il fondo `Paper` che la vista storica assegnava alle proprietà libere diventa quello dei campi
-  modificabili del `FieldForm` (`Token.Field.Background`, ΔE circa 1 in Chiara).
+  modificabili del `FieldForm` (`Token.Field.Background`, ΔE 2,2 in Chiara).
 - **Stato dell'acciaio**: stessi colori, con due token nuovi (`Status.Coherent` `#18794E`, `Status.Caution` `#9A6700`), perché
   nessun token è entro ΔE 5. La tabella congelata dei colori ha le due voci (D10).
 - **Tabella delle proprietà**: colonne in proporzione (45/18/23/14) sulla stessa larghezza, invece delle larghezze in pixel di
@@ -338,7 +339,14 @@ Differenze visibili:
 
 `--check-contrast` ha i passi `mvvm-mat_calcestruzzo` e `mvvm-mat_acciaio_armatura`, con la regola della palificata: con
 `--baseline` solo Scuro e Molto scuro, la Chiara delle viste MVVM è dichiarata fra le finestre non coperte. Non sono stati
-eseguiti: lo schermo è a 144 DPI e la baseline a 96 DPI (T10). Vanno eseguiti a 96 DPI prima dell'unione.
+eseguiti nella corsa: lo schermo è a 144 DPI e la baseline a 96 DPI (T10). Vanno eseguiti a 96 DPI prima dell'unione.
+
+Il blocco è autonomo (richiesta del coordinatore dopo la chiusura del pilota, che ha tolto il passo `mvvm-` della palificata):
+`ContrastAudit.AuditMvvmMaterials` apre una finestra con i due fogli MVVM e `MainWindow.AuditMvvmMaterialViews` esplora i due
+moduli come i passi dei moduli, fra commenti «F5.5 (f5-5-vista)». Si toglie al passaggio della Release dei materiali.
+
+Solo per controllare che il passo funzioni, non per giudicare: `--check-contrast <cartella> --viste ^mvvm-mat`, senza
+`--baseline`, a 144 DPI, ha fatto 27 catture nei tre aspetti senza difetti (`supporto/artefatti/refactoring/f5/f5-5-vista/contrasto-prova`).
 
 ### 4.6 Domande nuove
 
