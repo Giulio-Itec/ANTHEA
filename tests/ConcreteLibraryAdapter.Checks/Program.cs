@@ -483,7 +483,7 @@ try
             ("sintetica", r => X.Core.ReportConcreteShort.Create("Prova adattatore", (JsonObject)r["dati"]!.DeepClone(), (JsonObject)r.DeepClone()))
         })
         {
-            string a = DocxText(make(legacy)), b = DocxText(make(library));
+            string a = GenerationTime(DocxText(make(legacy))), b = GenerationTime(DocxText(make(library)));
             Check(a.Contains("Taglio") && a == b, $"{norm}: relazione {kind} diversa fra legacy e libreria: " + FirstDifference(a, b));
             reports++;
         }
@@ -673,6 +673,11 @@ try
     return 0;
 }
 catch (Exception ex) { Console.Error.WriteLine("FAIL: " + ex.Message); Console.Error.WriteLine(ex); return 1; }
+
+// Ora di generazione della relazione tolta dal confronto: le due relazioni si creano una dopo l'altra e possono cadere in
+// minuti diversi (come ServiceabilityChecks.GenerationTime).
+static string GenerationTime(string text) =>
+    System.Text.RegularExpressions.Regex.Replace(text, @"\b\d{2}/\d{2}/\d{4} \d{2}:\d{2}\b", "<data e ora>");
 
 // Testo di un DOCX: un paragrafo per riga, dalle sequenze w:t di word/document.xml.
 static string DocxText(byte[] docx)
