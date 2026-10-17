@@ -35,7 +35,7 @@ internal sealed class DesktopComposition
         SheetEditors = new SheetEditorFactory(ModuleImplementations.Release, Modules, Services, Limiter);
     }
 
-    /// <summary>Application-wide services; the sheets of the modules migrated to MVVM receive them (the Release opens none yet).</summary>
+    /// <summary>Application-wide services; the sheets of the modules migrated to MVVM receive them (in the Release the pile group since F5.4).</summary>
     internal PresentationServices Services { get; }
 
     /// <summary>Limit of the calculations running at the same time, shared by the sheets (proposal 4.6).</summary>
@@ -52,7 +52,7 @@ internal sealed class DesktopComposition
     /// and reinforcing steel (F5.5), the vertical pile and micropile (F5.6, second pilot, with the WPF figures of their report) and the
     /// horizontal pile and micropile (F5.7, the tab of the capacity, with the WPF diagrams of their report), the shallow
     /// foundations (F5.9b), the stratigraphy (F5.6b) and the retaining walls (F5.9, with the WPF figures of their report).
-    /// The window opens them only when <see cref="ModuleImplementations"/> says so: until their checkpoints the Release keeps the
+    /// The window opens them only when <see cref="ModuleImplementations"/> says so (the pile group since F5.4): until their checkpoints the Release keeps the
     /// historic views and the MVVM sheets are chosen only in the UiTests bench (--module-impl). The WPF checks build the same registry
     /// (tests/Desktop/ModuleHostBench.cs).
     /// </summary>

@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Anthea.Application.Modules;
 using Anthea.Presentation.Modules;
+using Anthea.Presentation.Modules.PileGroup;
 using Anthea.Presentation.Tests;
 using X.Core;
 using X.Desktop.Services;
@@ -17,8 +18,9 @@ namespace X.Desktop;
 
 /// <summary>
 /// --check-module-host-offscreen &lt;cartella&gt; (UiTests, F5.2): the ModuleHost in the WPF layer, off screen. ModuleImplementations
-/// lists exactly the modules of ModuleDirectory, all historic; the composition root opens historic editors; the bench argument
-/// chooses an MVVM implementation and fails clearly without one; MvvmSheetEditor hosting the test-only probe module
+/// lists exactly the modules of ModuleDirectory, the pile group MVVM since F5.4 and the others historic; the composition root opens
+/// the editors of the Release; the bench argument chooses an MVVM implementation and fails clearly without one or for an archived
+/// historic view; MvvmSheetEditor hosting the test-only probe module
 /// (tests/Shared/ProbeSheetModule.cs, here in place of a migrated module) shows the view of its DataTemplate, raises Modified,
 /// invalidates the results at a change, returns Data and Result and translates the ISheetHost commands into the ISheetEditor
 /// events; MainWindow hosts it as a historic sheet. Writes test.txt, a PNG of the view and esito.txt («PASS n controlli»).
@@ -27,6 +29,9 @@ internal static class ModuleHostWpfChecks
 {
     /// <summary>The module the probe stands for: a small module of ModuleDirectory, with a sheet opened full size by MainWindow.</summary>
     internal const string ProbeModule = "mat_acciaio_armatura";
+
+    /// <summary>The horizontal pile group, MVVM in the Release since the F5.4 checkpoint.</summary>
+    private const string PileGroupModule = "geo_efficienza_orizzontale";
 
     private const string ProbeView = """
         <DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
@@ -49,14 +54,16 @@ internal static class ModuleHostWpfChecks
             throw new InvalidOperationException(message + ": nessun errore chiaro con «" + text + "»");
         }
 
-        // The versioned choice of the Release: exactly the modules of ModuleDirectory, in its order, all historic (F5.2).
+        // The versioned choice of the Release: exactly the modules of ModuleDirectory, in its order (F5.2); since the F5.4 checkpoint the
+        // pile group with the MVVM view, every other module with the historic one.
         Check(ModuleImplementations.Declared.Select(d => d.Module).SequenceEqual(ModuleDirectory.All.Select(m => m.Id)),
             "ModuleImplementations elenca esattamente i moduli di ModuleDirectory, nel suo ordine");
-        Check(ModuleImplementations.Declared.All(d => d.Implementation == SheetImplementation.Historic) && ModuleImplementations.Release.Mvvm.Count == 0,
-            "Release: tutti i moduli con la vista storica");
+        Check(ModuleImplementations.Declared.All(d => d.Implementation == (d.Module == PileGroupModule ? SheetImplementation.Mvvm : SheetImplementation.Historic))
+            && ModuleImplementations.Release.Mvvm.SequenceEqual([PileGroupModule]),
+            "Release: la palificata con la vista MVVM (F5.4), tutti gli altri moduli con la vista storica");
 
         // The composition root of the product: registry of ModuleDirectory with the MVVM pile group (F5.4), materials (F5.5) and vertical
-        // piles (F5.6), historic editors.
+        // piles (F5.6), the editors of the Release.
         var composition = new DesktopComposition(() => null);
         Check(composition.Modules.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
             && composition.Modules.SheetModuleIds.SequenceEqual(ModuleDirectory.All.Select(m => m.Id)
@@ -65,8 +72,8 @@ internal static class ModuleHostWpfChecks
             "Radice di composizione: registro uguale a ModuleDirectory, con la palificata, i pali verticali e orizzontali, i materiali, le fondazioni, la stratigrafia e i muri MVVM");
         using (var historic = composition.SheetEditors.Open(ProbeModule, ModuleDirectory.CreateData(ProbeModule)))
             Check(historic is SheetEditor, "Radice di composizione: la fabbrica apre la vista storica");
-        using (var pileGroup = composition.SheetEditors.Open("geo_efficienza_orizzontale", ModuleDirectory.CreateData("geo_efficienza_orizzontale")))
-            Check(pileGroup is SheetEditor, "Radice di composizione: la Release apre la palificata con la vista storica");
+        using (var pileGroup = composition.SheetEditors.Open(PileGroupModule, ModuleDirectory.CreateData(PileGroupModule)))
+            Check(pileGroup is MvvmSheetEditor { Sheet: PileGroupSheetViewModel { HasResults: true } }, "Radice di composizione: la Release apre la palificata con la vista MVVM");
         foreach (string migrated in new[] { "geo_palo_verticale", "geo_micropalo_verticale", "mat_calcestruzzo", "mat_acciaio_armatura",
             "geo_fondazioni_superficiali", "geo_palo_orizzontale", "geo_micropalo_orizzontale", "geo_stratigrafia", "geo_muri_sostegno" })
             using (var sheet = composition.SheetEditors.Open(migrated, ModuleDirectory.CreateData(migrated)))
@@ -76,10 +83,12 @@ internal static class ModuleHostWpfChecks
         // The bench argument (UiTests only).
         Check(ModuleHostBench.WithoutBench(["--check-f3-equivalence", "radice", "uscita", ModuleHostBench.Argument, "str_palo=mvvm"])
             .SequenceEqual(["--check-f3-equivalence", "radice", "uscita"]), "Banco: argomenti posizionali senza le coppie --module-impl");
-        Check(ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm"]).Mvvm.SequenceEqual(["str_palo"])
-            && ModuleHostBench.Implementations(["--check-f3-equivalence"]).Mvvm.Count == 0
-            && ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm", ModuleHostBench.Argument, "str_palo=historic"]).Mvvm.Count == 0,
+        Check(ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm"]).Mvvm.SequenceEqual([PileGroupModule, "str_palo"])
+            && ModuleHostBench.Implementations(["--check-f3-equivalence"]).Mvvm.SequenceEqual([PileGroupModule])
+            && ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm", ModuleHostBench.Argument, "str_palo=historic"]).Mvvm.SequenceEqual([PileGroupModule]),
             "Banco: scelte applicate in ordine sulla Release");
+        Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, PileGroupModule + "=historic"]), "archiviata",
+            "Banco: vista storica della palificata archiviata (Q11), «historic» rifiutato");
         Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "str_palo=mvvm"]), "str_palo",
             "Banco: modulo senza implementazione MVVM");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, "inesistente=mvvm"]), "inesistente", "Banco: modulo sconosciuto");
@@ -87,9 +96,12 @@ internal static class ModuleHostWpfChecks
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo"]), "str_palo", "Banco: coppia incompleta");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument]), ModuleHostBench.Argument, "Banco: valore mancante");
 
-        // The probe stands for a migrated module: registered for ProbeModule and chosen with the bench argument.
+        // The probe stands for a migrated module: registered for ProbeModule and chosen with the bench argument; the registry has also the
+        // pile group, MVVM in the Release since F5.4 (the factory refuses a Release whose MVVM modules are not registered).
         var probe = new ProbeSheetModule(ModuleDirectory.Get(ProbeModule));
-        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry([probe]));
+        Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry([probe])), PileGroupModule,
+            "Banco: registro senza la palificata, MVVM nella Release, rifiutato");
+        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry([probe, new PileGroupSheetModule()]));
         var echo = new EchoService();
         var data = new JsonObject { ["etichetta"] = "iniziale" };
         Fails<InvalidOperationException>(() => factory.Open(ProbeModule, data, echo), nameof(ProbeSheetViewModel), "Foglio senza DataTemplate rifiutato con il tipo del ViewModel");

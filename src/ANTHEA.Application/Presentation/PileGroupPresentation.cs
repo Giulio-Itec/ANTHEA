@@ -5,7 +5,7 @@ namespace Anthea.Application.Presentation;
 
 /// <summary>
 /// Presentation of the pile group sheet (geo_efficienza_orizzontale), shared by the historic view HorizontalPileGroupWorkspace
-/// and by the ViewModel of ANTHEA.Presentation (refactoring F5.4): the readings of the rows of the comparison and the
+/// (archived at the F5.4 switch) and by the ViewModel of ANTHEA.Presentation (refactoring F5.4): the readings of the rows of the comparison and the
 /// derivations that the view computed itself, moved here unchanged. No calculation of the group: the values come from the
 /// result of the pile group adapter; these are the rules and the arithmetic of what the sheet shows.
 /// </summary>

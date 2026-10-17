@@ -24,6 +24,9 @@ il calcolo breve resta sincrono sul thread dell'interfaccia, come oggi.
 sezione 2: vista XAML, banco, confronto diretto e `HorizontalPileGroup.Checks`. La sezione 4 contiene gli esiti e il materiale
 per il punto di controllo; i passi 5–7 vengono dopo.
 
+**Chiusura del 17/10, ramo `refactoring/f5-4-chiusura`.** Punto di controllo accettato dall'utente; passi 6 e 7 eseguiti:
+la Release apre la palificata con la vista MVVM e la vista storica è archiviata. Esiti nella sezione 5.
+
 ## 1. Che cosa esiste dopo la preparazione
 
 | Commit | Contenuto |
@@ -161,7 +164,8 @@ Restano espliciti nel ViewModel, perché i componenti di F5.2 non li esprimono:
 
 L'ordine è vincolante: ogni passo parte con le prove del precedente verdi.
 
-Stato al 16/10: passi 1–4 fatti (sezione 4.1); passo 5 in corso; passi 6 e 7 dopo l'ok dell'utente.
+Stato al 16/10: passi 1–4 fatti (sezione 4.1); passo 5 in corso; passi 6 e 7 dopo l'ok dell'utente. Stato al 17/10: tutti i
+passi fatti (sezione 5).
 
 1. **Vista XAML**, dopo l'unione di F5.3: `X.Desktop/Views/PileGroup/PileGroupSheetView.xaml` più un DataTemplate per
    `PileGroupSheetViewModel`.
@@ -452,3 +456,108 @@ X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe --interactive --module-impl geo_
 6. Aspetto Scuro e Molto scuro dal menu, con la scheda aperta.
 7. In un progetto, aprire una revisione precedente: campi e scelte bloccati, confronto selezionabile.
 8. Salvare, chiudere e riaprire l'archivio: stessi dati e stesso risultato selezionato.
+
+## 5. Chiusura (17/10/2026, passi 5–7)
+
+Ramo `refactoring/f5-4-chiusura`, da `refactoring/f5` `7979f79d`. Il punto di controllo è chiuso: l'utente ha accettato tutte le
+proposte ([decisioni](decisioni.md), sezione «17 ottobre (mattina)»), compresi D8–D12 e il bordo `Token.Border`.
+
+| Commit | Contenuto |
+| --- | --- |
+| `832af117` | `ui/check-pile-group-view` non apre più la vista storica: confronta con i valori che dava (sotto) |
+| `e8855058` | passaggio della Release e archiviazione della vista storica (passo 6) |
+| commit dei documenti | piano e questa nota |
+
+### 5.1 Passaggio e archiviazione
+
+- **Release.** `ModuleImplementations.Declared` ha `geo_efficienza_orizzontale` = `Mvvm`; gli altri moduli restano `Historic`.
+  `ui/check-module-host-offscreen` e il banco interattivo di `ui/check-pile-group-view` lo provano: la radice di composizione
+  apre la palificata con `MvvmSheetEditor` e gli altri moduli con `SheetEditor`.
+- **Vista storica (Q11).** `HorizontalPileGroupWorkspace.cs` e `PileGroupHistoricTrace.cs` sono in
+  `supporto/SUPERATI/ui-storica/palificata/`, con il percorso originale sotto la cartella, non compilati. `README.md` e
+  `registro.json` riportano origine, ultimo commit, SHA-256, motivo e sostituzione. Le tracce congelate restano in
+  `tests/fixtures/f5-palificata`.
+- **Tolti:**
+  - i rami `pileGroup` di `SheetEditor`: campo, `Result`, costruttore, `Dispose`, `Commit`, `CalculateAsync`, `BuildReportDocument`;
+  - il comando `--check-pile-group-historic[-capture]` dell'harness;
+  - la suite `ui/check-pile-group-historic`.
+- **Invariati.** `MainWindow.ExportReport` propone `Relazione_palificata_orizzontale.docx` e `LoadSheetEditor` usa ancora
+  `DisplayAdaptation.Viewport(…, 1120, 600)`: entrambi dipendono dal modulo. `PileGroupPlan` resta con le sue 32 voci F4 (37 occorrenze).
+- **Banco.** `--module-impl geo_efficienza_orizzontale=historic` è rifiutato con un messaggio chiaro: la vista storica non
+  esiste più e `SheetEditor` aprirebbe il ramo generico.
+- **Prove della vista** (`ui/check-pile-group-view`). Le parti che aprivano la vista storica ora confrontano con i valori che
+  essa dava:
+  - dati all'apertura, dati e risultato dopo il calcolo uguali alla traccia congelata `fixture-<id>`;
+  - JSON del risultato uguale byte per byte a quello di `SheetEditor.ExportResult`;
+  - report Word e PDF uguali a quelli della ricetta storica (`ReportPileGroup` sul risultato, `ReportFiles`);
+  - messaggio senza risultato, etichette «?», nomi di automazione e controlli bloccati in sola lettura registrati nella prova,
+    uguali in tutte le corse fino a `20261017-060301-f5-int13`;
+  - schermate della sola vista nuova.
+
+  Le tracce attraverso i controlli della vista non cambiano.
+
+### 5.2 Baseline
+
+- **F4.** Nessuna voce da togliere: il file archiviato non ne aveva più dopo `ceb344d0`. Restano 3320 occorrenze.
+- **P3 e `limits.json`.** Invariati (AsyncVoid 2, DispatcherTimer 4).
+- **`tests/fixtures/f3/architecture.json`.** Sono le soglie iniziali di F3.1 e non sono state toccate. Elencano ancora un
+  DispatcherTimer di `HorizontalPileGroupWorkspace.cs`, già assente prima dell'archiviazione: il tetto resta rispettato.
+- **Contrasto (D12).** Nella baseline della Chiara la voce del passo `modulo-geo_efficienza_orizzontale` (4 occorrenze) passa
+  dalla chiave della vista storica a quella della vista nuova:
+
+  ```
+  contrasto-testo|TextBlock|MainWindow > PileGroupSheetView|TextBlock #64748B Style|Border #F3F5F8 Style
+  ```
+
+  La chiave è quella misurata a 96 DPI dalla corsa `contrasto-mvvm-tre-aspetti` di f5-4-vista (sezione 4.3). Il totale resta 699
+  in 187 voci. Il passo `mvvm-geo_efficienza_orizzontale` è tolto: il passo del modulo mostra ora la vista nuova.
+
+**Da fare alla prima corsa a 96 DPI** (schermo al 100%). `ui/check-contrast` non è stata eseguita: lo schermo è al 150%.
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/check-contrast$' -Tag contrasto-96"
+```
+
+Atteso: Scuro 0, Molto scuro 0, Chiara uguale alla baseline (699 occorrenze in 187 voci), con le 4 occorrenze di
+`modulo-geo_efficienza_orizzontale` sulla chiave nuova.
+
+Se `ui/check-contrast` segnala per quel passo solo una chiave diversa, a parità di occorrenze, si sostituisce quella voce con
+quella di `baseline-chiara.json` della corsa, a totale invariato, in un commit dedicato. Qualunque altra differenza è una
+regressione da spiegare.
+
+### 5.3 Equivalenza
+
+| Corsa | Esito |
+| --- | --- |
+| `ui/f3-equivalence` con la Release MVVM (`20261017-095320-f54c-b-mirata`) | PASS 104 fixture, 1066 file, 0 differenze non ammesse, `transitions-f4.json` invariato, nessuna voce nuova |
+| confronto diretto con la cattura di `20261017-060301-f5-int13` (Release storica), `tools/qa/f5_confronto_diretto.py` | identiche: 1063 file uguali byte per byte, 3 JSON uguali in forma canonica (tempi del palo elastico) |
+| `ui/f3-report-chapters` | PASS 105 capitoli autonomi |
+| `ui/check-pile-group-view` | PASS 97 controlli |
+| `HorizontalPileGroup.Checks` | PASS |
+| corsa finale `build,fast,wiki,ui` senza `ui/check-contrast` | PASS 118, KNOWN 0, NEW-FAIL 0 su `e8855058` (`20261017-095952-f54c-finale`): build 25, fast 31, wiki 2, ui 60; nessun file tracciato modificato; `qa/no-test-code` (Release senza codice di prova) PASS |
+
+### 5.4 Guida pratica (passo 7)
+
+La sezione «Efficienza orizzontale della palificata» di `supporto/docs/guida-pratica-anthea.md` non descrive le differenze
+accettate (titoli a 22 punti, form compatto, direzioni in due colonne). Per F1, la frase generale della sezione sull'aiuto
+contestuale descrive già il comportamento nuovo: F1 apre l'aiuto del dato quando esiste, altrimenti la guida del modulo. Il
+passaggio non richiede quindi modifiche alla guida, e Word e PDF non vanno rigenerati.
+
+Resta l'errore già presente prima del passaggio, nel paragrafo «Metodo e applicabilità». La guida dice «Aprire Applicabilità e
+interassi rappresentativi», ma l'espansore si chiama «Opzioni di calcolo e applicabilità», nella vista storica come nella nuova.
+Non è stato corretto in questo passo.
+
+Il motivo: la guida alimenta la Wiki, e il testo della Wiki è nel riferimento F3 (`expected/wiki/_wiki_guide_palificata-orizzontale.md`
+e `.txt`; `wiki/search.json` va ricontrollato nella cattura). La correzione richiede quindi un aggiornamento editoriale F3-06: Wiki rigenerata con
+`build-wiki-index.py`, file del riferimento copiati dalla cattura, chiave `editorial_updates` del manifest e voce di registro.
+Sono modifiche del riferimento F3 escluse da questo passo.
+
+Proposta per un passo documentale:
+1. sostituire «Aprire Applicabilità e interassi rappresentativi e,» con «Aprire Opzioni di calcolo e applicabilità e,»;
+2. aggiornare la revisione delle guide e rigenerare Word e PDF;
+3. aggiornare il riferimento della Wiki come in `64b7a16c`.
+
+### 5.5 Suite dello stadio ui
+
+La suite `ui/check-pile-group-historic` è tolta, senza suite nuove. `HorizontalPileGroup.Checks` e `ui/check-pile-group-view`
+restano.

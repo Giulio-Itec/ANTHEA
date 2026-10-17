@@ -164,18 +164,8 @@ internal sealed class ContrastAudit
                     var window = await audit.OpenMain(mode);
                     try { await window.AuditContrastViews(audit); }
                     finally { await audit.CloseMain(window); }
-                    // Views of the modules migrated to MVVM before their Release switch (F5.4: the pile group), in a window whose editors open
-                    // them. With --baseline (runner) only Scuro and Molto scuro: until the Release opens the new view, the Chiara of the module is
-                    // the one of the historic view, whose defects are in the baseline (modulo-geo_efficienza_orizzontale); without --baseline also Chiara.
-                    if (audit.Want(MainWindow.MvvmPileGroupView) && (mode != AppAppearance.Light || audit.baselineFile is null))
-                    {
-                        var mvvm = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "geo_efficienza_orizzontale=mvvm"]));
-                        try { await mvvm.AuditMvvmViews(audit); }
-                        finally { await audit.CloseMain(mvvm); }
-                    }
-                    else if (mode == AppAppearance.Light && audit.baselineFile is not null && audit.Want(MainWindow.MvvmPileGroupView))
-                        audit.Uncovered("Vista MVVM della palificata (F5.4) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre la vista storica, " +
-                            "la cui Chiara è nella baseline (modulo-geo_efficienza_orizzontale); la Chiara della vista MVVM si misura senza --baseline");
+                    // F5.4: since the Release switch the step modulo-geo_efficienza_orizzontale shows the MVVM view of the pile group, in the three
+                    // appearances; its own step mvvm-geo_efficienza_orizzontale is removed with the historic view (D12).
                     var start = mode == AppAppearance.Light ? AppAppearance.VeryDark : AppAppearance.Light;
                     if (audit.Want("cambio"))
                     {
@@ -1896,13 +1886,6 @@ public sealed partial class MainWindow
         }
         await AuditModuleState(a, module, complete, prefix + module + (complete is null ? "" : "-dati"), full: true);
     }
-
-    /// <summary>Step of the MVVM view of the pile group (F5.4): the same exploration as the module steps, in a window that opens the MVVM sheet.</summary>
-    internal const string MvvmPileGroupView = "mvvm-geo_efficienza_orizzontale";
-
-    /// <summary>The views of the modules migrated to MVVM and not yet switched in the Release (F5.4: the pile group), with the steps of the modules.</summary>
-    internal async Task AuditMvvmViews(ContrastAudit a) =>
-        await a.Step(MvvmPileGroupView, () => AuditModule(a, "geo_efficienza_orizzontale", "mvvm-"));
 
     private async Task AuditModuleState(ContrastAudit a, string module, JsonObject? data, string name, bool full)
     {
