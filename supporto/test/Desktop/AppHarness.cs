@@ -128,6 +128,19 @@ public partial class App
             }));
             return;
         }
+        // F5.5: the XAML views of the materials hosted by MvvmSheetEditor, off screen (tests/Desktop/MaterialSheetViewChecks.cs).
+        if (e.Args.Length == 3 && e.Args[0] == "--check-materials-view")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0;
+                try { await MaterialSheetViewChecks.Run(e.Args[1], e.Args[2]); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            }));
+            return;
+        }
 
         // F5.7: traces and drawings of the historic horizontal pile and micropile view (tests/Desktop/HorizontalPileHistoricTrace.cs);
         // the check also compares them with the frozen ones of tests/fixtures/f5-palo-orizzontale.

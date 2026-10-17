@@ -78,6 +78,9 @@ internal static class ThemeTokens
         new("Status.Ok", "#006400", ThemeRole.Foreground, "esito soddisfatto", "Brushes.DarkGreen (vicino: ForestGreen)"),
         new("Status.Fail", "#B22222", ThemeRole.Foreground, "esito non soddisfatto", "Brushes.Firebrick"),
         new("Status.Warn", "#FF8C00", ThemeRole.Foreground, "esito con riserva, avviso", "Brushes.DarkOrange"),
+        // F5.5: the two colours of the status of the steel sheet, tints of their own (ΔE from Status.Ok 27.8, from Warning.Foreground 17.5).
+        new("Status.Coherent", "#18794E", ThemeRole.Foreground, "esito coerente di una scheda materiale", "Appearance.Foreground(Ui.Brush(\"#18794E\")) di RebarMaterialView"),
+        new("Status.Caution", "#9A6700", ThemeRole.Foreground, "valori da verificare o dati incompleti di una scheda materiale", "Appearance.Foreground(Ui.Brush(\"#9A6700\")) di RebarMaterialView"),
         new("Badge.Ok", "#EAF5ED", ThemeRole.Background, "badge di coerenza", "Appearance.Background(\"#EAF5ED\")"),
         new("Badge.Warn", "#FFF0D8", ThemeRole.Background, "badge di coerenza con avviso", "Appearance.Background(\"#FFF0D8\")"),
         // Series: curves and legends (the hue identifies the curve; lightened in the dark appearances).

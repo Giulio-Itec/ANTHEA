@@ -1,0 +1,376 @@
+<!--
+  View of the concrete material sheet (F5.5, decision Q3): ConcreteMaterialSheetViewModel shown with the layout of the historic
+  Materiali.MaterialView. Three columns of the same width (properties; exposure and cover; composition) on at least 1140 px, each with
+  its heading and its own vertical scrolling; the footer with the class and the standards. The fields keep the layout of the historic
+  view (decision M11): ConcreteFieldRow, label and «?» in the free column, editor of 136 px, unit of 44 px. The expanders stay
+  Expander, so that the visit of the F3 capture does not change; there are no exposure check boxes (decision M10: the exposure is the
+  one of the menu). Colours and font sizes are theme tokens only (rule P7): {DynamicResource Token.<nome>} and
+  {DynamicResource Font.<nome>}; the sizes 15 and 23 of the historic view go to Font.Heading and Font.Title, the read-only values
+  (#EDF5FF) to Token.Calculated (docs/refactoring/f5-5-materiali.md, section 4). No code-behind: every write into the sheet goes through
+  the ViewModel, which keeps the edits until Commit (decision M3). Read-only revision: the class, the exposure and the deviation value are
+  disabled, the fields refuse the edits (FormViewModel.IsReadOnly, decision T2).
+-->
+<UserControl x:Class="X.Desktop.Views.Materials.ConcreteMaterialSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:views="clr-namespace:X.Desktop.Views.Materials"
+ xmlns:forms="clr-namespace:Anthea.Presentation.Forms;assembly=ANTHEA.Presentation">
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="Visible"/>
+  <views:ConcreteLayoutConverter x:Key="Layout"/>
+
+  <!-- Texts: Materiali.MaterialView.Text (ink, wrapping, margin 0,3) in the sizes 13, 12, 11 and, bold, 15 → 16, 14, 22, 23 → 22. -->
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="Margin" Value="0,3,0,3"/>
+  </Style>
+  <Style x:Key="Small" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+  </Style>
+  <Style x:Key="SmallBold" TargetType="TextBlock" BasedOn="{StaticResource Small}">
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style x:Key="Muted" TargetType="TextBlock" BasedOn="{StaticResource Small}">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+  </Style>
+  <Style x:Key="Caption" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Caption}"/>
+  </Style>
+  <Style x:Key="Heading" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Heading}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style x:Key="ColumnHeading" TargetType="TextBlock" BasedOn="{StaticResource Heading}">
+   <Setter Property="HorizontalAlignment" Value="Center"/>
+   <Setter Property="Margin" Value="0,4,0,10"/>
+   <Setter Property="DockPanel.Dock" Value="Top"/>
+  </Style>
+  <Style x:Key="Emphasis" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style x:Key="Large" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Title}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <!-- Paper of the historic view: white card with a thin border. -->
+  <Style x:Key="Paper" TargetType="Border">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+   <Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Padding" Value="10"/>
+   <Setter Property="Margin" Value="0,0,0,8"/>
+  </Style>
+  <!-- AddColumn of the historic view: the frame of a column and its scrolling. -->
+  <Style x:Key="Column" TargetType="Border">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+   <Setter Property="BorderThickness" Value="1"/>
+  </Style>
+  <Style x:Key="ColumnScroll" TargetType="ScrollViewer">
+   <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+   <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+   <Setter Property="Padding" Value="6"/>
+  </Style>
+  <!-- Options: a check box with its label of 12 points. -->
+  <Style x:Key="Option" TargetType="CheckBox">
+   <Setter Property="Margin" Value="0,3,0,3"/>
+   <Setter Property="IsChecked" Value="{Binding IsChecked}"/>
+   <Setter Property="IsEnabled" Value="{Binding CanChange, Mode=OneWay}"/>
+   <Setter Property="AutomationProperties.Name" Value="{Binding Label, Mode=OneWay}"/>
+   <Setter Property="ContentTemplate">
+    <Setter.Value>
+     <DataTemplate><TextBlock Style="{StaticResource Small}" Text="{Binding Label}"/></DataTemplate>
+    </Setter.Value>
+   </Setter>
+   <Setter Property="Content" Value="{Binding}"/>
+  </Style>
+  <!-- Values shown in read-only boxes (minimum class, composition): the calculated fields. -->
+  <Style x:Key="Value" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+   <Setter Property="IsReadOnly" Value="True"/>
+   <Setter Property="IsReadOnlyCaretVisible" Value="False"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Calculated}"/>
+  </Style>
+
+  <!-- Editors of the fields of the form, by kind. -->
+  <DataTemplate x:Key="TextEditor" DataType="{x:Type forms:FieldViewModel}">
+   <TextBox Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsInputReadOnly, Mode=OneWay}" AutomationProperties.Name="{Binding Label, Mode=OneWay}"/>
+  </DataTemplate>
+  <DataTemplate x:Key="ChoiceEditor" DataType="{x:Type forms:FieldViewModel}">
+   <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}" IsEnabled="{Binding CanChange, Mode=OneWay}" AutomationProperties.Name="{Binding Label, Mode=OneWay}"/>
+  </DataTemplate>
+
+  <!-- Row of a field (decision M11): Materiali.MaterialView.Field, label and «?» | editor 136 | unit 44. -->
+  <Style TargetType="views:ConcreteFieldRow">
+   <Setter Property="Focusable" Value="False"/>
+   <Setter Property="IsTabStop" Value="False"/>
+   <Setter Property="Label" Value="{Binding Field.Label, RelativeSource={RelativeSource Self}}"/>
+   <Setter Property="Unit" Value="{Binding Field.Unit, RelativeSource={RelativeSource Self}}"/>
+   <Setter Property="Content" Value="{Binding Field, RelativeSource={RelativeSource Self}}"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="views:ConcreteFieldRow">
+      <Grid Margin="0,2,0,2">
+       <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="136"/>
+        <ColumnDefinition Width="44"/>
+       </Grid.ColumnDefinitions>
+       <DockPanel>
+        <Button x:Name="PART_Help" DockPanel.Dock="Right" Content="?" Style="{DynamicResource ProjectButton}" Background="{DynamicResource Token.Paper}"
+         Foreground="{DynamicResource Token.Ink}" Padding="2" Margin="1" MinHeight="20" Width="20"
+         Visibility="{Binding Field.HasHelp, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Visible}, FallbackValue=Collapsed}"
+         ToolTip="{Binding Field.HelpToolTip, RelativeSource={RelativeSource TemplatedParent}}"
+         AutomationProperties.Name="{Binding Label, RelativeSource={RelativeSource TemplatedParent}, StringFormat='Wiki: {0}'}"/>
+        <TextBlock x:Name="LabelText" Style="{StaticResource Small}" Margin="0,0,12,0" Text="{TemplateBinding Label}"
+         ToolTip="{Binding Field.HelpToolTip, RelativeSource={RelativeSource TemplatedParent}}"/>
+       </DockPanel>
+       <ContentPresenter x:Name="PART_Editor" Grid.Column="1" Margin="0,0,8,0" MinHeight="25"/>
+       <TextBlock Grid.Column="2" Style="{StaticResource Small}" Text="{TemplateBinding Unit}"/>
+      </Grid>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding Field.Kind, RelativeSource={RelativeSource Self}}" Value="{x:Static forms:FieldKind.Text}">
+     <Setter Property="ContentTemplate" Value="{StaticResource TextEditor}"/>
+    </DataTrigger>
+    <DataTrigger Binding="{Binding Field.Kind, RelativeSource={RelativeSource Self}}" Value="{x:Static forms:FieldKind.Choice}">
+     <Setter Property="ContentTemplate" Value="{StaticResource ChoiceEditor}"/>
+    </DataTrigger>
+   </Style.Triggers>
+  </Style>
+
+  <!-- The table of the mechanical properties: header centred, cells wrapped and centred. -->
+  <Style x:Key="CenteredHeader" TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+   <Setter Property="HorizontalContentAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Cell" TargetType="TextBlock">
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="TextAlignment" Value="Center"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+   <Setter Property="Margin" Value="3,4,3,4"/>
+  </Style>
+ </UserControl.Resources>
+
+ <DockPanel Background="{DynamicResource Token.Surface}">
+  <!-- Footer: class and standards. -->
+  <Border DockPanel.Dock="Bottom" Padding="24,8,24,8" Background="{DynamicResource Token.Paper}">
+   <TextBlock Style="{StaticResource Small}" Text="{Binding Status}"/>
+  </Border>
+
+  <ScrollViewer x:Name="Outer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+   <Grid x:Name="Sections" MinWidth="1140" Margin="10"
+    Width="{Binding ActualWidth, ElementName=Outer, Converter={StaticResource Layout}, ConverterParameter=sections}">
+    <Grid.ColumnDefinitions>
+     <ColumnDefinition/>
+     <ColumnDefinition/>
+     <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+
+    <!-- ============================================================ Mechanical properties -->
+    <DockPanel Margin="5,0,5,0">
+     <TextBlock Style="{StaticResource ColumnHeading}" Text="PROPRIETÀ MECCANICHE"/>
+     <Border Style="{StaticResource Column}">
+      <ScrollViewer Style="{StaticResource ColumnScroll}">
+       <StackPanel>
+        <Border Style="{StaticResource Paper}">
+         <views:ConcreteFieldRow Label="Classe del calcestruzzo">
+          <ComboBox ItemsSource="{Binding Classes}" SelectedItem="{Binding SelectedClass}" IsEnabled="{Binding CanEdit, Mode=OneWay}" MinWidth="130"
+           AutomationProperties.Name="Classe del calcestruzzo"/>
+         </views:ConcreteFieldRow>
+        </Border>
+        <Border Style="{StaticResource Paper}">
+         <DataGrid x:Name="PropertiesTable" ItemsSource="{Binding Properties}" IsReadOnly="True" CanUserSortColumns="False" RowHeight="NaN" MinRowHeight="34"
+          HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" ColumnHeaderStyle="{StaticResource CenteredHeader}"
+          Width="{Binding ActualWidth, ElementName=Outer, Converter={StaticResource Layout}, ConverterParameter=table}">
+          <DataGrid.Columns>
+           <DataGridTextColumn Header="Proprietà" Binding="{Binding Nome, Mode=OneWay}" Width="45*" MinWidth="38" ElementStyle="{StaticResource Cell}"/>
+           <DataGridTextColumn Header="Simbolo" Binding="{Binding Simbolo, Mode=OneWay}" Width="18*" MinWidth="38" ElementStyle="{StaticResource Cell}"/>
+           <DataGridTextColumn Header="Valore" Binding="{Binding Valore, Mode=OneWay}" Width="23*" MinWidth="38" ElementStyle="{StaticResource Cell}"/>
+           <DataGridTextColumn Header="Unità" Binding="{Binding Unita, Mode=OneWay}" Width="14*" MinWidth="38" ElementStyle="{StaticResource Cell}"/>
+          </DataGrid.Columns>
+         </DataGrid>
+        </Border>
+        <!-- Bond strength. -->
+        <Border Style="{StaticResource Paper}">
+         <StackPanel>
+          <TextBlock Style="{StaticResource Heading}" Text="Resistenza di aderenza"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[bondCondition]}"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[bondAlpha]}"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[bondGamma]}"/>
+          <TextBlock Style="{StaticResource Large}" TextAlignment="Center" Text="{Binding BondValue}"/>
+          <TextBlock Style="{StaticResource Small}" TextAlignment="Center" Text="{Binding BondDetails}"/>
+          <Expander Header="Formula e campo di applicazione">
+           <TextBlock Style="{StaticResource Small}" Text="EN 1992-1-1:2004, §8.4.2, eq. (8.2): fbd = 2,25 η₁ η₂ fctd; fctd = αct fctk,0.05 / γc (§3.1.6). Diametro condiviso con il copriferro. η₂ = 1 per φ ≤32 mm, altrimenti (132−φ)/100. Per l'aderenza, fctk,0.05 è limitata al valore C60/75. Barre nervate, calcestruzzo normale, carichi prevalentemente statici. Le condizioni buone vanno accertate secondo figura 8.2; in altri casi η₁ = 0,7 (anche casseri scorrevoli salvo dimostrazione). αct = 1 e γc = 1,5 sono i valori iniziali per situazioni persistenti/transitorie; verificare annesso nazionale e situazione di progetto. Non è un calcolo della lunghezza di ancoraggio."/>
+          </Expander>
+         </StackPanel>
+        </Border>
+        <Expander Header="Riferimenti delle proprietà">
+         <TextBlock Style="{StaticResource Muted}" Text="Proprietà derivate dal materiale EN1992 della libreria Checker già utilizzata da ANTHEA. Deformazioni riferite al diagramma parabola-rettangolo. Resistenze e deformazioni di compressione mostrate in valore assoluto."/>
+        </Expander>
+       </StackPanel>
+      </ScrollViewer>
+     </Border>
+    </DockPanel>
+
+    <!-- ============================================================ Exposure and cover -->
+    <DockPanel Grid.Column="1" Margin="5,0,5,0">
+     <TextBlock Style="{StaticResource ColumnHeading}" Text="ESPOSIZIONE E COPRIFERRO"/>
+     <Border Style="{StaticResource Column}">
+      <ScrollViewer Style="{StaticResource ColumnScroll}">
+       <StackPanel>
+        <!-- Exposure class: the menu only (decision M10). -->
+        <Border Style="{StaticResource Paper}">
+         <StackPanel>
+          <TextBlock Style="{StaticResource Heading}" Text="Classe di esposizione"/>
+          <Grid Margin="0,5,0,8">
+           <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition/>
+           </Grid.ColumnDefinitions>
+           <ComboBox ItemsSource="{Binding Exposures}" SelectedItem="{Binding SelectedExposure}" IsEnabled="{Binding CanEdit, Mode=OneWay}" MinWidth="72"
+            VerticalAlignment="Top" AutomationProperties.Name="Classe di esposizione"/>
+           <StackPanel Grid.Column="1" Margin="12,0,0,0">
+            <TextBlock Style="{StaticResource SmallBold}" Text="Descrizione dell’ambiente"/>
+            <TextBlock Style="{StaticResource Text}" Text="{Binding ExposureDetails}"/>
+            <TextBlock Style="{StaticResource SmallBold}" Text="Esempi informativi"/>
+            <TextBlock Style="{StaticResource Small}" Text="{Binding ExposureExamples}"/>
+           </StackPanel>
+          </Grid>
+          <TextBlock Style="{StaticResource Emphasis}" Text="{Binding Aggressiveness}"/>
+          <TextBlock Style="{StaticResource Small}" Text="{Binding CombinedExposure}" Visibility="{Binding IsCombinedExposureVisible, Converter={StaticResource Visible}}"/>
+          <TextBlock Style="{StaticResource Caption}" Text="Descrizioni ed esempi di ANTHEA secondo la classificazione di UNI EN 206, prospetto 1.&#10;Aggressività: NTC 2018, tab. 4.1.III."/>
+         </StackPanel>
+        </Border>
+        <!-- Data of the cover. -->
+        <Border Style="{StaticResource Paper}">
+         <StackPanel>
+          <TextBlock Style="{StaticResource Heading}" Text="Dati per il copriferro"/>
+          <TextBlock Style="{StaticResource Small}" Text="Armatura ordinaria a barre isolate · calcestruzzo normale"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[coverMethod]}"/>
+          <!-- NTC + Circolare: element, minimum class and quality control. -->
+          <StackPanel x:Name="NtcOptions" Visibility="{Binding IsNtcCover, Converter={StaticResource Visible}}">
+           <views:ConcreteFieldRow Field="{Binding Inputs[ntcElement]}"/>
+           <views:ConcreteFieldRow Label="Classe minima del calcestruzzo">
+            <TextBox Style="{StaticResource Value}" FontWeight="SemiBold" Text="{Binding MinimumConcreteClass, Mode=OneWay}"/>
+           </views:ConcreteFieldRow>
+           <TextBlock Style="{StaticResource Small}" Text="{Binding MinimumConcreteNote}"/>
+           <CheckBox Style="{StaticResource Option}" Margin="0" DataContext="{Binding Inputs[ntcQuality]}"/>
+          </StackPanel>
+          <views:ConcreteFieldRow Field="{Binding Inputs[life]}"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[diameter]}"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[aggregate]}"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[deviationControl]}"/>
+          <!-- The deviation value: its items follow the deviation control (explicit in the ViewModel). -->
+          <views:ConcreteFieldRow Label="Tolleranza di posa · Δcdev">
+           <ComboBox x:Name="DeviationValue" ItemsSource="{Binding DeviationValues}" SelectedItem="{Binding SelectedDeviationValue}"
+            IsEnabled="{Binding CanEditDeviationValue, Mode=OneWay}" AutomationProperties.Name="Tolleranza di posa · Δcdev"/>
+          </views:ConcreteFieldRow>
+          <TextBlock Style="{StaticResource Small}" Text="{Binding DeviationNote}" ToolTip="{Binding DeviationToolTip}"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[ground]}"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[abrasion]}"/>
+          <CheckBox Style="{StaticResource Option}" DataContext="{Binding Inputs[rough]}"/>
+          <!-- EC2: reductions of the structural class. -->
+          <Expander x:Name="Ec2Options" Header="Riduzioni della classe strutturale EC2" Margin="0,6,0,6">
+           <Expander.Style>
+            <Style TargetType="Expander">
+             <Style.Triggers>
+              <DataTrigger Binding="{Binding IsNtcCover}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+             </Style.Triggers>
+            </Style>
+           </Expander.Style>
+           <StackPanel>
+            <CheckBox Style="{StaticResource Option}" DataContext="{Binding Inputs[highStrength]}"/>
+            <CheckBox Style="{StaticResource Option}" DataContext="{Binding Inputs[slab]}"/>
+            <CheckBox Style="{StaticResource Option}" DataContext="{Binding Inputs[quality]}"/>
+            <TextBlock Style="{StaticResource Small}" Text="Base S4 per 50 anni; +2 per 100 anni. Riduzioni di una classe, con minimo S1."/>
+           </StackPanel>
+          </Expander>
+         </StackPanel>
+        </Border>
+        <!-- Nominal cover. -->
+        <Border Style="{StaticResource Paper}">
+         <StackPanel>
+          <TextBlock Style="{StaticResource Heading}" Text="Copriferro nominale"/>
+          <TextBlock x:Name="CoverHeadline" Text="{Binding CoverHeadline}">
+           <TextBlock.Style>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource Large}">
+             <Style.Triggers>
+              <DataTrigger Binding="{Binding CoverError}" Value="True"><Setter Property="Foreground" Value="{DynamicResource Token.Warning.Foreground}"/></DataTrigger>
+             </Style.Triggers>
+            </Style>
+           </TextBlock.Style>
+          </TextBlock>
+          <TextBlock Style="{StaticResource Text}" Text="{Binding CoverSteps}"/>
+          <Expander Header="Riferimenti e applicabilità">
+           <TextBlock Style="{StaticResource Small}" Text="{Binding CoverNotes}"/>
+          </Expander>
+          <Image Source="pack://application:,,,/ANTHEA;component/Assets/Materials/copriferro.png" Stretch="Uniform" HorizontalAlignment="Stretch" Margin="0,12,0,4"
+           ToolTip="Schema del copriferro nominale e della posizione delle armature"
+           AutomationProperties.Name="Schema del copriferro: cnom, diametro delle staffe, semidiametro delle barre longitudinali e distanza d′"/>
+         </StackPanel>
+        </Border>
+       </StackPanel>
+      </ScrollViewer>
+     </Border>
+    </DockPanel>
+
+    <!-- ============================================================ Composition -->
+    <DockPanel Grid.Column="2" Margin="5,0,5,0">
+     <TextBlock Style="{StaticResource ColumnHeading}" Text="COMPOSIZIONE"/>
+     <Border Style="{StaticResource Column}">
+      <ScrollViewer Style="{StaticResource ColumnScroll}">
+       <StackPanel>
+        <Border Style="{StaticResource Paper}">
+         <StackPanel>
+          <TextBlock Style="{StaticResource Heading}" Text="Prescrizione del calcestruzzo"/>
+          <TextBlock Style="{StaticResource Small}" Text="Valori aggiornati dalle esposizioni selezionate · UNI 11104:2016, prospetto 5"/>
+          <views:ConcreteFieldRow Label="Classe di contenuto in ioni cloruro" Tag="chloride">
+           <TextBox Style="{StaticResource Value}" Text="{Binding Composition[chloride], Mode=OneWay, FallbackValue=—}"/>
+          </views:ConcreteFieldRow>
+          <TextBlock Style="{StaticResource Small}" Text="{Binding CompositionChlorideNote, Mode=OneWay}"/>
+          <views:ConcreteFieldRow Label="Rapporto A/C massimo" Tag="ratio">
+           <TextBox Style="{StaticResource Value}" Text="{Binding Composition[ratio], Mode=OneWay, FallbackValue=—}"/>
+          </views:ConcreteFieldRow>
+          <views:ConcreteFieldRow Label="Dosaggio minimo di cemento" Unit="kg/m³" Tag="cement">
+           <TextBox Style="{StaticResource Value}" Text="{Binding Composition[cement], Mode=OneWay, FallbackValue=—}"/>
+          </views:ConcreteFieldRow>
+          <views:ConcreteFieldRow Label="Contenuto minimo di aria" Unit="%" Tag="air">
+           <TextBox Style="{StaticResource Value}" Text="{Binding Composition[air], Mode=OneWay, FallbackValue=—}"/>
+          </views:ConcreteFieldRow>
+          <TextBlock Style="{StaticResource Small}" Text="{Binding CompositionAirNote}"/>
+          <views:ConcreteFieldRow Label="Dmax aggregati (condiviso)" Unit="mm" Tag="dmax">
+           <TextBox Style="{StaticResource Value}" Text="{Binding Composition[dmax], Mode=OneWay, FallbackValue=—}"/>
+          </views:ConcreteFieldRow>
+          <TextBlock Style="{StaticResource Small}" Text="Dmax ripreso dai dati del copriferro. Nella prescrizione corrisponde a Dupper, il diametro massimo nominale degli aggregati di UNI EN 206."/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[consistency]}"/>
+          <TextBlock Style="{StaticResource Small}" Text="{Binding ConsistencyInfo}"/>
+         </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Paper}">
+         <StackPanel>
+          <TextBlock Style="{StaticResource Heading}" Text="Definizione del cemento"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[cement]}"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[cementName]}"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[cementClass]}"/>
+          <views:ConcreteFieldRow Field="{Binding Inputs[cementEarly]}"/>
+          <TextBlock Style="{StaticResource Small}" Text="{Binding CompositionRequirements}"/>
+         </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Paper}">
+         <StackPanel>
+          <TextBlock Style="{StaticResource Heading}" Text="Riferimenti e criteri"/>
+          <TextBlock Style="{StaticResource Small}" Text="{Binding CompositionSource}"/>
+         </StackPanel>
+        </Border>
+       </StackPanel>
+      </ScrollViewer>
+     </Border>
+    </DockPanel>
+   </Grid>
+  </ScrollViewer>
+ </DockPanel>
+</UserControl>

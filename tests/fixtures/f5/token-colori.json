@@ -205,6 +205,18 @@
       "Dark": "#FECB8C",
       "VeryDark": "#FECB8C"
     },
+    "Status.Coherent": {
+      "ruolo": "foreground",
+      "Light": "#18794E",
+      "Dark": "#96C2AF",
+      "VeryDark": "#96C2AF"
+    },
+    "Status.Caution": {
+      "ruolo": "foreground",
+      "Light": "#9A6700",
+      "Dark": "#D1BA8C",
+      "VeryDark": "#D1BA8C"
+    },
     "Badge.Ok": {
       "ruolo": "background",
       "Light": "#EAF5ED",
