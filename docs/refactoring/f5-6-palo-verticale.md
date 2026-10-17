@@ -351,7 +351,7 @@ sezione 3, punto 3).
 | `ui/f3-figures` con MVVM (`ui/f3-figures-palo-verticale-mvvm`) | PASS 13 fixture, serie della capacità confrontate esattamente |
 | `ui/f3-scheduling` con MVVM (`ui/f3-scheduling-palo-verticale-mvvm`) | PASS 47 controlli |
 | `ui/f3-report-chapters` con MVVM | PASS 105 capitoli autonomi, 246 immagini e tutte le parti XML confrontate con la vista |
-| Corse del runner | `quick` e corsa finale `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'`: CORSE-DA-COMPLETARE |
+| Corse del runner | corsa `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` (comprende gli stadi di `quick`), `20261017-162101-f56v-finale`: PASS 121, NEW-FAIL 0; `transitions-f4.json` invariato; `Presentation.Tests` 1790 controlli, `Architecture.Tests` 523 |
 
 Le schermate sono a 144 DPI (schermo al 150%), in `vista/schermate` della suite: tre aspetti per palo e micropalo,
 impaginazione larga, grafici estesi, stratigrafie del micropalo estese. `ui/check-contrast` non è stata eseguita (T10: va
