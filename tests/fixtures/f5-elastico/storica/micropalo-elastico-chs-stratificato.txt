@@ -1,0 +1,802 @@
+== apertura
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.3","lunghezza":"10","eccentricita":"0","vincolo":"Impedita","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"60","presenza_falda":true,"profondita_falda":"1,5","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"200","passo":"0.10","tolleranza":"1e-8","tratto_libero":"1","gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 168.3 × 10","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","gamma_iniezione":"22","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Coesivo","spessore":"4","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"0","coesione_non_drenata":"35","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh da tabella 14.6 · coesivi","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","nh_tabella":1.85,"origine_scelta":"Media iniziale del software","scelta_per":"nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956","media_iniziale":1.85,"categoria":"Argilla n.c. o lievemente o.c."}},{"tipologia":"Granulare","spessore":"8","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"33","coesione_non_drenata":"0","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c.","override":true,"nh_override":"6000","motivo_override":"Prova di carico laterale in sito"}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Cerniera","passo":"0.25","visualizzazione":{"sisma":false,"tratti":false,"N":false},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"elastico"}
+modificato 0 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=3284,366 kNm² · E=210000 MPa · J=1,563984E+07 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione assente
+intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
+  comando "Modifica dati e strati" attivo
+  comando "Info" attivo
+  opzioni
+    campo passo "Passo iniziale FEM" = "0.25"
+    scelta punta "Vincolo alla punta" = "Cerniera" voci "Libera|Cerniera|Incastro"
+  viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=no,k=sì,y=sì,theta=sì,q=sì,N=no,V=sì,M=sì,tratti=no
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature
+  fase "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+  messaggio ""
+  comando "Approva tutto · ipotesi" attivo
+  comando "NTC §7.2.5" attivo
+  comando "Proponi suddivisione…" spento
+  comando "Info sezioni" attivo
+  trasversale "Staffe singole" di "Da definire|Staffe singole|Spirale" · attiva
+  tratto "T1 · 0 → 11 m · L=11 m"
+    fine "" · nota "Quota di taglio finale dalla testa, in metri; vuoto = punta. La barra successiva inizia a questa quota meno l₀."
+    principale sì · spenta
+    campo longitudinal_bar_count "Numero barre" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo longitudinal_bar_diameter_mm "φ barre [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_bar_diameter_mm "φ staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_spacing_mm "Passo staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    anello no · spento · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    tipo "Staffe singole" di "Da definire|Staffe singole|Spirale" · spento
+    comando "Verifiche →" attivo
+    comando "Apri verificatore c.a." attivo
+    comando "Dimensiona…" spento
+    comando "Dividi…" attivo
+    comando "Distinta ferri" attivo
+    distinta aperta "Distinta in aggiornamento · vedere avanzamento sopra i tratti."
+  form ipotesi · chiuso
+    scelta elemento "Regole di dettaglio adottate" = "Pilastro" voci "Pilastro|Trave|Solo controlli comuni"
+    opzione barre_trattenute "Confermo disposizione staffe a trattenimento delle barre compresse" = "no"
+    opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
+    opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
+    opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    opzione aderenza_buona "Condizioni di buona aderenza" = "no"
+    campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
+    campo distanza_barre "Distanza libera barre sovrapposte" = "0"
+    campo lunghezza_barra "Lunghezza commerciale delle barre" = "12"
+    campo lunghezza_gabbia "Lunghezza massima gabbia da proporre" = "12"
+    campo lunghezza_minima "Lunghezza minima desiderata tratto" = "3"
+  form sisma · chiuso
+    opzione sisma_testa "Controlla zona dissipativa presso la testa · capacità non esclusa" = "no"
+    campo sisma_lunghezza "Estensione dalla testa · vuoto = 10D" = "" · nascosto
+    opzione sisma_azioni "N e V assegnati appartengono alla combinazione sismica da verificare" = "no" · nascosto
+    opzione sisma_elastico "M assegnato è elastico non ridotto (q=1), con N sismico concomitante" = "no" · nascosto
+    comando "Approva tutto · sisma" spento
+    comando "NTC §7.2.5 · finestra interna" attivo
+  form sovrapposizioni · chiuso
+    campo fattore_sovrapposizione "Sovrapposizione iniziale: moltiplicatore φ" = "60"
+    campo aggregato "Diametro massimo aggregato" = "20"
+    opzione copriferro_override "Override esplicito cmin,dur (altrimenti usa esposizione principale)" = "no"
+    campo cmin_dur "cmin,dur manuale · solo se override attivo" = "" · nascosto
+    campo delta_c "Tolleranza di copriferro Δcdev" = "10"
+  minimi sì · attivo
+  riepilogo
+    testo blu "Sezione e verifiche"
+    scelta "T1" di "T1" · attiva
+    scelta "Riepilogo" di "Riepilogo|N–M|Taglio|Interferro|Minimi armatura|Dettagli pilastro / trave|Sisma · testa palo|Copriferro|Sviluppo / sovrapposizioni|Distinta ferri" · attiva
+    testo blu "Verifiche da aggiornare. I diagrammi FEM validi rimangono disponibili."
+    comando "Apri verificatore c.a." attivo
+    testo attenuato "Controlli distinti. Giunti, confinamento, SLE e dettagli esecutivi da completare nel campo applicabile."
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.3","lunghezza":"10","eccentricita":"0","vincolo":"Impedita","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"60","presenza_falda":true,"profondita_falda":"1,5","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"200","passo":"0.10","tolleranza":"1e-8","tratto_libero":"1","gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 168.3 × 10","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","gamma_iniezione":"22","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Coesivo","spessore":"4","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"0","coesione_non_drenata":"35","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh da tabella 14.6 · coesivi","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","nh_tabella":1.85,"origine_scelta":"Media iniziale del software","scelta_per":"nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956","media_iniziale":1.85,"categoria":"Argilla n.c. o lievemente o.c."}},{"tipologia":"Granulare","spessore":"8","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"33","coesione_non_drenata":"0","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c.","override":true,"nh_override":"6000","motivo_override":"Prova di carico laterale in sito"}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Cerniera","passo":"0.25","visualizzazione":{"sisma":false,"tratti":false,"N":false},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"elastico"}
+modificato 0 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=3284,366 kNm² · E=210000 MPa · J=1,563984E+07 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione assente
+intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
+  comando "Modifica dati e strati" attivo
+  comando "Info" attivo
+  opzioni
+    campo passo "Passo iniziale FEM" = "0.25"
+    scelta punta "Vincolo alla punta" = "Cerniera" voci "Libera|Cerniera|Incastro"
+  viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=no,k=sì,y=sì,theta=sì,q=sì,N=no,V=sì,M=sì,tratti=no
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature
+  fase "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+  messaggio ""
+  comando "Approva tutto · ipotesi" attivo
+  comando "NTC §7.2.5" attivo
+  comando "Proponi suddivisione…" spento
+  comando "Info sezioni" attivo
+  trasversale "Staffe singole" di "Da definire|Staffe singole|Spirale" · attiva
+  tratto "T1 · 0 → 11 m · L=11 m"
+    fine "" · nota "Quota di taglio finale dalla testa, in metri; vuoto = punta. La barra successiva inizia a questa quota meno l₀."
+    principale sì · spenta
+    campo longitudinal_bar_count "Numero barre" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo longitudinal_bar_diameter_mm "φ barre [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_bar_diameter_mm "φ staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_spacing_mm "Passo staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    anello no · spento · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    tipo "Staffe singole" di "Da definire|Staffe singole|Spirale" · spento
+    comando "Verifiche →" attivo
+    comando "Apri verificatore c.a." attivo
+    comando "Dimensiona…" spento
+    comando "Dividi…" attivo
+    comando "Distinta ferri" attivo
+    distinta aperta "Distinta in aggiornamento · vedere avanzamento sopra i tratti."
+  form ipotesi · chiuso
+    scelta elemento "Regole di dettaglio adottate" = "Pilastro" voci "Pilastro|Trave|Solo controlli comuni"
+    opzione barre_trattenute "Confermo disposizione staffe a trattenimento delle barre compresse" = "no"
+    opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
+    opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
+    opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    opzione aderenza_buona "Condizioni di buona aderenza" = "no"
+    campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
+    campo distanza_barre "Distanza libera barre sovrapposte" = "0"
+    campo lunghezza_barra "Lunghezza commerciale delle barre" = "12"
+    campo lunghezza_gabbia "Lunghezza massima gabbia da proporre" = "12"
+    campo lunghezza_minima "Lunghezza minima desiderata tratto" = "3"
+  form sisma · chiuso
+    opzione sisma_testa "Controlla zona dissipativa presso la testa · capacità non esclusa" = "no"
+    campo sisma_lunghezza "Estensione dalla testa · vuoto = 10D" = "" · nascosto
+    opzione sisma_azioni "N e V assegnati appartengono alla combinazione sismica da verificare" = "no" · nascosto
+    opzione sisma_elastico "M assegnato è elastico non ridotto (q=1), con N sismico concomitante" = "no" · nascosto
+    comando "Approva tutto · sisma" spento
+    comando "NTC §7.2.5 · finestra interna" attivo
+  form sovrapposizioni · chiuso
+    campo fattore_sovrapposizione "Sovrapposizione iniziale: moltiplicatore φ" = "60"
+    campo aggregato "Diametro massimo aggregato" = "20"
+    opzione copriferro_override "Override esplicito cmin,dur (altrimenti usa esposizione principale)" = "no"
+    campo cmin_dur "cmin,dur manuale · solo se override attivo" = "" · nascosto
+    campo delta_c "Tolleranza di copriferro Δcdev" = "10"
+  minimi sì · attivo
+  riepilogo
+    testo blu "Sezione e verifiche"
+    scelta "T1" di "T1" · attiva
+    scelta "Riepilogo" di "Riepilogo|N–M|Taglio|Interferro|Minimi armatura|Dettagli pilastro / trave|Sisma · testa palo|Copriferro|Sviluppo / sovrapposizioni|Distinta ferri" · attiva
+    testo blu "Verifiche da aggiornare. I diagrammi FEM validi rimangono disponibili."
+    comando "Apri verificatore c.a." attivo
+    testo attenuato "Controlli distinti. Giunti, confinamento, SLE e dettagli esecutivi da completare nel campo applicabile."
+== scheda [0]
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.3","lunghezza":"10","eccentricita":"0","vincolo":"Impedita","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"60","presenza_falda":true,"profondita_falda":"1,5","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"200","passo":"0.10","tolleranza":"1e-8","tratto_libero":"1","gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 168.3 × 10","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","gamma_iniezione":"22","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Coesivo","spessore":"4","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"0","coesione_non_drenata":"35","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh da tabella 14.6 · coesivi","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","nh_tabella":1.85,"origine_scelta":"Media iniziale del software","scelta_per":"nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956","media_iniziale":1.85,"categoria":"Argilla n.c. o lievemente o.c."}},{"tipologia":"Granulare","spessore":"8","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"33","coesione_non_drenata":"0","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c.","override":true,"nh_override":"6000","motivo_override":"Prova di carico laterale in sito"}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Cerniera","passo":"0.25","visualizzazione":{"sisma":false,"tratti":false,"N":false},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"capacita"}
+modificato 1 · modificabile sì · scheda 0 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=3284,366 kNm² · E=210000 MPa · J=1,563984E+07 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione assente
+intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
+  comando "Modifica dati e strati" attivo
+  comando "Info" attivo
+  opzioni
+    campo passo "Passo iniziale FEM" = "0.25"
+    scelta punta "Vincolo alla punta" = "Cerniera" voci "Libera|Cerniera|Incastro"
+  viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=no,k=sì,y=sì,theta=sì,q=sì,N=no,V=sì,M=sì,tratti=no
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature
+  fase "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+  messaggio ""
+  comando "Approva tutto · ipotesi" attivo
+  comando "NTC §7.2.5" attivo
+  comando "Proponi suddivisione…" spento
+  comando "Info sezioni" attivo
+  trasversale "Staffe singole" di "Da definire|Staffe singole|Spirale" · attiva
+  tratto "T1 · 0 → 11 m · L=11 m"
+    fine "" · nota "Quota di taglio finale dalla testa, in metri; vuoto = punta. La barra successiva inizia a questa quota meno l₀."
+    principale sì · spenta
+    campo longitudinal_bar_count "Numero barre" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo longitudinal_bar_diameter_mm "φ barre [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_bar_diameter_mm "φ staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_spacing_mm "Passo staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    anello no · spento · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    tipo "Staffe singole" di "Da definire|Staffe singole|Spirale" · spento
+    comando "Verifiche →" attivo
+    comando "Apri verificatore c.a." attivo
+    comando "Dimensiona…" spento
+    comando "Dividi…" attivo
+    comando "Distinta ferri" attivo
+    distinta aperta "Distinta in aggiornamento · vedere avanzamento sopra i tratti."
+  form ipotesi · chiuso
+    scelta elemento "Regole di dettaglio adottate" = "Pilastro" voci "Pilastro|Trave|Solo controlli comuni"
+    opzione barre_trattenute "Confermo disposizione staffe a trattenimento delle barre compresse" = "no"
+    opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
+    opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
+    opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    opzione aderenza_buona "Condizioni di buona aderenza" = "no"
+    campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
+    campo distanza_barre "Distanza libera barre sovrapposte" = "0"
+    campo lunghezza_barra "Lunghezza commerciale delle barre" = "12"
+    campo lunghezza_gabbia "Lunghezza massima gabbia da proporre" = "12"
+    campo lunghezza_minima "Lunghezza minima desiderata tratto" = "3"
+  form sisma · chiuso
+    opzione sisma_testa "Controlla zona dissipativa presso la testa · capacità non esclusa" = "no"
+    campo sisma_lunghezza "Estensione dalla testa · vuoto = 10D" = "" · nascosto
+    opzione sisma_azioni "N e V assegnati appartengono alla combinazione sismica da verificare" = "no" · nascosto
+    opzione sisma_elastico "M assegnato è elastico non ridotto (q=1), con N sismico concomitante" = "no" · nascosto
+    comando "Approva tutto · sisma" spento
+    comando "NTC §7.2.5 · finestra interna" attivo
+  form sovrapposizioni · chiuso
+    campo fattore_sovrapposizione "Sovrapposizione iniziale: moltiplicatore φ" = "60"
+    campo aggregato "Diametro massimo aggregato" = "20"
+    opzione copriferro_override "Override esplicito cmin,dur (altrimenti usa esposizione principale)" = "no"
+    campo cmin_dur "cmin,dur manuale · solo se override attivo" = "" · nascosto
+    campo delta_c "Tolleranza di copriferro Δcdev" = "10"
+  minimi sì · attivo
+  riepilogo
+    testo blu "Sezione e verifiche"
+    scelta "T1" di "T1" · attiva
+    scelta "Riepilogo" di "Riepilogo|N–M|Taglio|Interferro|Minimi armatura|Dettagli pilastro / trave|Sisma · testa palo|Copriferro|Sviluppo / sovrapposizioni|Distinta ferri" · attiva
+    testo blu "Verifiche da aggiornare. I diagrammi FEM validi rimangono disponibili."
+    comando "Apri verificatore c.a." attivo
+    testo attenuato "Controlli distinti. Giunti, confinamento, SLE e dettagli esecutivi da completare nel campo applicabile."
+== scheda [1]
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.3","lunghezza":"10","eccentricita":"0","vincolo":"Impedita","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"60","presenza_falda":true,"profondita_falda":"1,5","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"200","passo":"0.10","tolleranza":"1e-8","tratto_libero":"1","gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 168.3 × 10","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","gamma_iniezione":"22","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Coesivo","spessore":"4","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"0","coesione_non_drenata":"35","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh da tabella 14.6 · coesivi","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","nh_tabella":1.85,"origine_scelta":"Media iniziale del software","scelta_per":"nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956","media_iniziale":1.85,"categoria":"Argilla n.c. o lievemente o.c."}},{"tipologia":"Granulare","spessore":"8","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"33","coesione_non_drenata":"0","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c.","override":true,"nh_override":"6000","motivo_override":"Prova di carico laterale in sito"}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Cerniera","passo":"0.25","visualizzazione":{"sisma":false,"tratti":false,"N":false},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"elastico"}
+modificato 2 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=3284,366 kNm² · E=210000 MPa · J=1,563984E+07 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione assente
+intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
+  comando "Modifica dati e strati" attivo
+  comando "Info" attivo
+  opzioni
+    campo passo "Passo iniziale FEM" = "0.25"
+    scelta punta "Vincolo alla punta" = "Cerniera" voci "Libera|Cerniera|Incastro"
+  viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=no,k=sì,y=sì,theta=sì,q=sì,N=no,V=sì,M=sì,tratti=no
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature
+  fase "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+  messaggio ""
+  comando "Approva tutto · ipotesi" attivo
+  comando "NTC §7.2.5" attivo
+  comando "Proponi suddivisione…" spento
+  comando "Info sezioni" attivo
+  trasversale "Staffe singole" di "Da definire|Staffe singole|Spirale" · attiva
+  tratto "T1 · 0 → 11 m · L=11 m"
+    fine "" · nota "Quota di taglio finale dalla testa, in metri; vuoto = punta. La barra successiva inizia a questa quota meno l₀."
+    principale sì · spenta
+    campo longitudinal_bar_count "Numero barre" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo longitudinal_bar_diameter_mm "φ barre [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_bar_diameter_mm "φ staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_spacing_mm "Passo staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    anello no · spento · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    tipo "Staffe singole" di "Da definire|Staffe singole|Spirale" · spento
+    comando "Verifiche →" attivo
+    comando "Apri verificatore c.a." attivo
+    comando "Dimensiona…" spento
+    comando "Dividi…" attivo
+    comando "Distinta ferri" attivo
+    distinta aperta "Distinta in aggiornamento · vedere avanzamento sopra i tratti."
+  form ipotesi · chiuso
+    scelta elemento "Regole di dettaglio adottate" = "Pilastro" voci "Pilastro|Trave|Solo controlli comuni"
+    opzione barre_trattenute "Confermo disposizione staffe a trattenimento delle barre compresse" = "no"
+    opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
+    opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
+    opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    opzione aderenza_buona "Condizioni di buona aderenza" = "no"
+    campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
+    campo distanza_barre "Distanza libera barre sovrapposte" = "0"
+    campo lunghezza_barra "Lunghezza commerciale delle barre" = "12"
+    campo lunghezza_gabbia "Lunghezza massima gabbia da proporre" = "12"
+    campo lunghezza_minima "Lunghezza minima desiderata tratto" = "3"
+  form sisma · chiuso
+    opzione sisma_testa "Controlla zona dissipativa presso la testa · capacità non esclusa" = "no"
+    campo sisma_lunghezza "Estensione dalla testa · vuoto = 10D" = "" · nascosto
+    opzione sisma_azioni "N e V assegnati appartengono alla combinazione sismica da verificare" = "no" · nascosto
+    opzione sisma_elastico "M assegnato è elastico non ridotto (q=1), con N sismico concomitante" = "no" · nascosto
+    comando "Approva tutto · sisma" spento
+    comando "NTC §7.2.5 · finestra interna" attivo
+  form sovrapposizioni · chiuso
+    campo fattore_sovrapposizione "Sovrapposizione iniziale: moltiplicatore φ" = "60"
+    campo aggregato "Diametro massimo aggregato" = "20"
+    opzione copriferro_override "Override esplicito cmin,dur (altrimenti usa esposizione principale)" = "no"
+    campo cmin_dur "cmin,dur manuale · solo se override attivo" = "" · nascosto
+    campo delta_c "Tolleranza di copriferro Δcdev" = "10"
+  minimi sì · attivo
+  riepilogo
+    testo blu "Sezione e verifiche"
+    scelta "T1" di "T1" · attiva
+    scelta "Riepilogo" di "Riepilogo|N–M|Taglio|Interferro|Minimi armatura|Dettagli pilastro / trave|Sisma · testa palo|Copriferro|Sviluppo / sovrapposizioni|Distinta ferri" · attiva
+    testo blu "Verifiche da aggiornare. I diagrammi FEM validi rimangono disponibili."
+    comando "Apri verificatore c.a." attivo
+    testo attenuato "Controlli distinti. Giunti, confinamento, SLE e dettagli esecutivi da completare nel campo applicabile."
+== attendi
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.3","lunghezza":"10","eccentricita":"0","vincolo":"Impedita","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"60","presenza_falda":true,"profondita_falda":"1,5","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"200","passo":"0.10","tolleranza":"1e-8","tratto_libero":"1","gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 168.3 × 10","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","gamma_iniezione":"22","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Coesivo","spessore":"4","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"0","coesione_non_drenata":"35","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh da tabella 14.6 · coesivi","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","nh_tabella":1.85,"origine_scelta":"Media iniziale del software","scelta_per":"nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956","media_iniziale":1.85,"categoria":"Argilla n.c. o lievemente o.c."}},{"tipologia":"Granulare","spessore":"8","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"33","coesione_non_drenata":"0","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c.","override":true,"nh_override":"6000","motivo_override":"Prova di carico laterale in sito"}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Cerniera","passo":"0.25","visualizzazione":{"sisma":false,"tratti":false,"N":false},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"elastico"}
+modificato 2 · modificabile sì · scheda 1 · esportabile sì
+risposta 34E7C8FCE0B029E4 · risultato 8AE78971A715560E
+stato "Stratigrafia 1 · 88 elementi · convergenza ≤ 0,1% · y testa 0,0539712 m · θ testa 0 rad" · avanzamento nascosto
+rigidezza "EJ=3284,366 kNm² · E=210000 MPa · J=1,563984E+07 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione assente
+intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
+  comando "Modifica dati e strati" attivo
+  comando "Info" attivo
+  opzioni
+    campo passo "Passo iniziale FEM" = "0.25"
+    scelta punta "Vincolo alla punta" = "Cerniera" voci "Libera|Cerniera|Incastro"
+  viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=no,k=sì,y=sì,theta=sì,q=sì,N=no,V=sì,M=sì,tratti=no
+disegno risultato · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Nessuna quota selezionata. Fare clic sul profilo o su un diagramma: la linea arancione identifica la sezione trasversale."
+estremi "Residui ΣF=1,653E-10 kN, ΣM=6,014E-10 kNm; reazioni C testa=31,048 kNm, H punta=-0,0046837 kNm, C punta=0 kNm.\nMesh 44 / 88 · Δy=0,0001%, ΔM=0,0000%, ΔV=0,0000%\ny [m]: min -0,000787103 a x=4,7741; max 0,0539712 a x=0; |max|=0,0539712 a x=0 m.\ntheta [rad]: min -0,0211071 a x=1,55; max 0,00061399 a x=5,4395; |max|=0,0211071 a x=1,55 m.\nN [kN]: min 200 a x=0; max 220,197 a x=11; |max|=220,197 a x=11 m.\nV [kN]: min -16,5651 a x=4,0742; max 60 a x=0,5; |max|=60 a x=0,5 m.\nM [kNm]: min -91,0483 a x=0; max 31,9279 a x=2,8538; |max|=91,0483 a x=0 m.\nq [kN/m]: min -42,2716 a x=2,0919; max 17,7667 a x=5; |max|=42,2716 a x=2,0919 m."
+tabella righe 811 9353087768857A8B · csv sì
+  0 | -1 | 0 | "Below" | 0 | 0 | 0.05397120266130186 | 0 | 200 | 60.00000000025739 | -91.04826457281018 | 0
+  0.015625 | -0.984375 | 0 | "Interior" | 0 | 0 | 0.05396783027755258 | -0.0004309217782361236 | 200.02868860686982 | 60.00000000025739 | -90.11076457280616 | 0
+verifiche ""
+tavola "Distinta non disponibile\nNon applicabile: il verificatore c.a. non si applica ai CHS." · pezzi 0 · risultato
+armature
+  fase "Stratigrafia 1 · 88 elementi · convergenza ≤ 0,1% · y testa 0,0539712 m · θ testa 0 rad" · avanzamento nascosto
+  messaggio ""
+  comando "Approva tutto · ipotesi" attivo
+  comando "NTC §7.2.5" attivo
+  comando "Proponi suddivisione…" attivo
+  comando "Info sezioni" attivo
+  trasversale "Staffe singole" di "Da definire|Staffe singole|Spirale" · attiva
+  tratto "T1 · 0 → 11 m · L=11 m"
+    fine "" · nota "Quota di taglio finale dalla testa, in metri; vuoto = punta. La barra successiva inizia a questa quota meno l₀."
+    principale sì · spenta
+    campo longitudinal_bar_count "Numero barre" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo longitudinal_bar_diameter_mm "φ barre [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_bar_diameter_mm "φ staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_spacing_mm "Passo staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    anello no · spento · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    tipo "Staffe singole" di "Da definire|Staffe singole|Spirale" · spento
+    comando "Verifiche →" attivo
+    comando "Apri verificatore c.a." attivo
+    comando "Dimensiona…" attivo
+    comando "Dividi…" attivo
+    comando "Distinta ferri" attivo
+    distinta aperta "Distinta non disponibile: Non applicabile: il verificatore c.a. non si applica ai CHS."
+  form ipotesi · chiuso
+    scelta elemento "Regole di dettaglio adottate" = "Pilastro" voci "Pilastro|Trave|Solo controlli comuni"
+    opzione barre_trattenute "Confermo disposizione staffe a trattenimento delle barre compresse" = "no"
+    opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
+    opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
+    opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    opzione aderenza_buona "Condizioni di buona aderenza" = "no"
+    campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
+    campo distanza_barre "Distanza libera barre sovrapposte" = "0"
+    campo lunghezza_barra "Lunghezza commerciale delle barre" = "12"
+    campo lunghezza_gabbia "Lunghezza massima gabbia da proporre" = "12"
+    campo lunghezza_minima "Lunghezza minima desiderata tratto" = "3"
+  form sisma · chiuso
+    opzione sisma_testa "Controlla zona dissipativa presso la testa · capacità non esclusa" = "no"
+    campo sisma_lunghezza "Estensione dalla testa · vuoto = 10D" = "" · nascosto
+    opzione sisma_azioni "N e V assegnati appartengono alla combinazione sismica da verificare" = "no" · nascosto
+    opzione sisma_elastico "M assegnato è elastico non ridotto (q=1), con N sismico concomitante" = "no" · nascosto
+    comando "Approva tutto · sisma" spento
+    comando "NTC §7.2.5 · finestra interna" attivo
+  form sovrapposizioni · chiuso
+    campo fattore_sovrapposizione "Sovrapposizione iniziale: moltiplicatore φ" = "60"
+    campo aggregato "Diametro massimo aggregato" = "20"
+    opzione copriferro_override "Override esplicito cmin,dur (altrimenti usa esposizione principale)" = "no"
+    campo cmin_dur "cmin,dur manuale · solo se override attivo" = "" · nascosto
+    campo delta_c "Tolleranza di copriferro Δcdev" = "10"
+  minimi sì · attivo
+  riepilogo
+    testo blu "Sezione e verifiche"
+    testo verde "PALO · 0 tratti\n0 non verificati · 0 incompleti · 0 con controlli soddisfatti"
+    scelta "T1" di "T1" · attiva
+    scelta "Riepilogo" di "Riepilogo|N–M|Taglio|Interferro|Minimi armatura|Dettagli pilastro / trave|Sisma · testa palo|Copriferro|Sviluppo / sovrapposizioni|Distinta ferri" · attiva
+    testo blu "Verifiche da aggiornare. I diagrammi FEM validi rimangono disponibili."
+    comando "Apri verificatore c.a." attivo
+    testo attenuato "Controlli distinti. Giunti, confinamento, SLE e dettagli esecutivi da completare nel campo applicabile."
+== calcola
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.3","lunghezza":"10","eccentricita":"0","vincolo":"Impedita","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"60","presenza_falda":true,"profondita_falda":"1,5","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"200","passo":"0.10","tolleranza":"1e-8","tratto_libero":"1","gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 168.3 × 10","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","gamma_iniezione":"22","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Coesivo","spessore":"4","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"0","coesione_non_drenata":"35","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh da tabella 14.6 · coesivi","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","nh_tabella":1.85,"origine_scelta":"Media iniziale del software","scelta_per":"nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956","media_iniziale":1.85,"categoria":"Argilla n.c. o lievemente o.c."}},{"tipologia":"Granulare","spessore":"8","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"33","coesione_non_drenata":"0","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c.","override":true,"nh_override":"6000","motivo_override":"Prova di carico laterale in sito"}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Cerniera","passo":"0.25","visualizzazione":{"sisma":false,"tratti":false,"N":false},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"elastico"}
+modificato 2 · modificabile sì · scheda 1 · esportabile sì
+risposta 34E7C8FCE0B029E4 · risultato 8AE78971A715560E
+stato "Stratigrafia 1 · 88 elementi · convergenza ≤ 0,1% · y testa 0,0539712 m · θ testa 0 rad" · avanzamento nascosto
+rigidezza "EJ=3284,366 kNm² · E=210000 MPa · J=1,563984E+07 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione assente
+intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
+  comando "Modifica dati e strati" attivo
+  comando "Info" attivo
+  opzioni
+    campo passo "Passo iniziale FEM" = "0.25"
+    scelta punta "Vincolo alla punta" = "Cerniera" voci "Libera|Cerniera|Incastro"
+  viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=no,k=sì,y=sì,theta=sì,q=sì,N=no,V=sì,M=sì,tratti=no
+disegno risultato · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Nessuna quota selezionata. Fare clic sul profilo o su un diagramma: la linea arancione identifica la sezione trasversale."
+estremi "Residui ΣF=1,653E-10 kN, ΣM=6,014E-10 kNm; reazioni C testa=31,048 kNm, H punta=-0,0046837 kNm, C punta=0 kNm.\nMesh 44 / 88 · Δy=0,0001%, ΔM=0,0000%, ΔV=0,0000%\ny [m]: min -0,000787103 a x=4,7741; max 0,0539712 a x=0; |max|=0,0539712 a x=0 m.\ntheta [rad]: min -0,0211071 a x=1,55; max 0,00061399 a x=5,4395; |max|=0,0211071 a x=1,55 m.\nN [kN]: min 200 a x=0; max 220,197 a x=11; |max|=220,197 a x=11 m.\nV [kN]: min -16,5651 a x=4,0742; max 60 a x=0,5; |max|=60 a x=0,5 m.\nM [kNm]: min -91,0483 a x=0; max 31,9279 a x=2,8538; |max|=91,0483 a x=0 m.\nq [kN/m]: min -42,2716 a x=2,0919; max 17,7667 a x=5; |max|=42,2716 a x=2,0919 m."
+tabella righe 811 9353087768857A8B · csv sì
+  0 | -1 | 0 | "Below" | 0 | 0 | 0.05397120266130186 | 0 | 200 | 60.00000000025739 | -91.04826457281018 | 0
+  0.015625 | -0.984375 | 0 | "Interior" | 0 | 0 | 0.05396783027755258 | -0.0004309217782361236 | 200.02868860686982 | 60.00000000025739 | -90.11076457280616 | 0
+verifiche ""
+tavola "Distinta non disponibile\nNon applicabile: il verificatore c.a. non si applica ai CHS." · pezzi 0 · risultato
+armature
+  fase "Stratigrafia 1 · 88 elementi · convergenza ≤ 0,1% · y testa 0,0539712 m · θ testa 0 rad" · avanzamento nascosto
+  messaggio ""
+  comando "Approva tutto · ipotesi" attivo
+  comando "NTC §7.2.5" attivo
+  comando "Proponi suddivisione…" attivo
+  comando "Info sezioni" attivo
+  trasversale "Staffe singole" di "Da definire|Staffe singole|Spirale" · attiva
+  tratto "T1 · 0 → 11 m · L=11 m"
+    fine "" · nota "Quota di taglio finale dalla testa, in metri; vuoto = punta. La barra successiva inizia a questa quota meno l₀."
+    principale sì · spenta
+    campo longitudinal_bar_count "Numero barre" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo longitudinal_bar_diameter_mm "φ barre [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_bar_diameter_mm "φ staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_spacing_mm "Passo staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    anello no · spento · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    tipo "Staffe singole" di "Da definire|Staffe singole|Spirale" · spento
+    comando "Verifiche →" attivo
+    comando "Apri verificatore c.a." attivo
+    comando "Dimensiona…" attivo
+    comando "Dividi…" attivo
+    comando "Distinta ferri" attivo
+    distinta aperta "Distinta non disponibile: Non applicabile: il verificatore c.a. non si applica ai CHS."
+  form ipotesi · chiuso
+    scelta elemento "Regole di dettaglio adottate" = "Pilastro" voci "Pilastro|Trave|Solo controlli comuni"
+    opzione barre_trattenute "Confermo disposizione staffe a trattenimento delle barre compresse" = "no"
+    opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
+    opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
+    opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    opzione aderenza_buona "Condizioni di buona aderenza" = "no"
+    campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
+    campo distanza_barre "Distanza libera barre sovrapposte" = "0"
+    campo lunghezza_barra "Lunghezza commerciale delle barre" = "12"
+    campo lunghezza_gabbia "Lunghezza massima gabbia da proporre" = "12"
+    campo lunghezza_minima "Lunghezza minima desiderata tratto" = "3"
+  form sisma · chiuso
+    opzione sisma_testa "Controlla zona dissipativa presso la testa · capacità non esclusa" = "no"
+    campo sisma_lunghezza "Estensione dalla testa · vuoto = 10D" = "" · nascosto
+    opzione sisma_azioni "N e V assegnati appartengono alla combinazione sismica da verificare" = "no" · nascosto
+    opzione sisma_elastico "M assegnato è elastico non ridotto (q=1), con N sismico concomitante" = "no" · nascosto
+    comando "Approva tutto · sisma" spento
+    comando "NTC §7.2.5 · finestra interna" attivo
+  form sovrapposizioni · chiuso
+    campo fattore_sovrapposizione "Sovrapposizione iniziale: moltiplicatore φ" = "60"
+    campo aggregato "Diametro massimo aggregato" = "20"
+    opzione copriferro_override "Override esplicito cmin,dur (altrimenti usa esposizione principale)" = "no"
+    campo cmin_dur "cmin,dur manuale · solo se override attivo" = "" · nascosto
+    campo delta_c "Tolleranza di copriferro Δcdev" = "10"
+  minimi sì · attivo
+  riepilogo
+    testo blu "Sezione e verifiche"
+    testo verde "PALO · 0 tratti\n0 non verificati · 0 incompleti · 0 con controlli soddisfatti"
+    scelta "T1" di "T1" · attiva
+    scelta "Riepilogo" di "Riepilogo|N–M|Taglio|Interferro|Minimi armatura|Dettagli pilastro / trave|Sisma · testa palo|Copriferro|Sviluppo / sovrapposizioni|Distinta ferri" · attiva
+    testo blu "Verifiche da aggiornare. I diagrammi FEM validi rimangono disponibili."
+    comando "Apri verificatore c.a." attivo
+    testo attenuato "Controlli distinti. Giunti, confinamento, SLE e dettagli esecutivi da completare nel campo applicabile."
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.3","lunghezza":"10","eccentricita":"0","vincolo":"Impedita","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"60","presenza_falda":true,"profondita_falda":"1,5","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"200","passo":"0.10","tolleranza":"1e-8","tratto_libero":"1","gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 168.3 × 10","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","gamma_iniezione":"22","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Coesivo","spessore":"4","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"0","coesione_non_drenata":"35","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh da tabella 14.6 · coesivi","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","nh_tabella":1.85,"origine_scelta":"Media iniziale del software","scelta_per":"nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956","media_iniziale":1.85,"categoria":"Argilla n.c. o lievemente o.c."}},{"tipologia":"Granulare","spessore":"8","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"33","coesione_non_drenata":"0","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c.","override":true,"nh_override":"6000","motivo_override":"Prova di carico laterale in sito"}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Cerniera","passo":"0.25","visualizzazione":{"sisma":false,"tratti":false,"N":false},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"elastico"}
+modificato 2 · modificabile sì · scheda 1 · esportabile sì
+risposta 34E7C8FCE0B029E4 · risultato 8AE78971A715560E
+stato "Stratigrafia 1 · 88 elementi · convergenza ≤ 0,1% · y testa 0,0539712 m · θ testa 0 rad" · avanzamento nascosto
+rigidezza "EJ=3284,366 kNm² · E=210000 MPa · J=1,563984E+07 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione assente
+intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
+  comando "Modifica dati e strati" attivo
+  comando "Info" attivo
+  opzioni
+    campo passo "Passo iniziale FEM" = "0.25"
+    scelta punta "Vincolo alla punta" = "Cerniera" voci "Libera|Cerniera|Incastro"
+  viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=no,k=sì,y=sì,theta=sì,q=sì,N=no,V=sì,M=sì,tratti=no
+disegno risultato · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Nessuna quota selezionata. Fare clic sul profilo o su un diagramma: la linea arancione identifica la sezione trasversale."
+estremi "Residui ΣF=1,653E-10 kN, ΣM=6,014E-10 kNm; reazioni C testa=31,048 kNm, H punta=-0,0046837 kNm, C punta=0 kNm.\nMesh 44 / 88 · Δy=0,0001%, ΔM=0,0000%, ΔV=0,0000%\ny [m]: min -0,000787103 a x=4,7741; max 0,0539712 a x=0; |max|=0,0539712 a x=0 m.\ntheta [rad]: min -0,0211071 a x=1,55; max 0,00061399 a x=5,4395; |max|=0,0211071 a x=1,55 m.\nN [kN]: min 200 a x=0; max 220,197 a x=11; |max|=220,197 a x=11 m.\nV [kN]: min -16,5651 a x=4,0742; max 60 a x=0,5; |max|=60 a x=0,5 m.\nM [kNm]: min -91,0483 a x=0; max 31,9279 a x=2,8538; |max|=91,0483 a x=0 m.\nq [kN/m]: min -42,2716 a x=2,0919; max 17,7667 a x=5; |max|=42,2716 a x=2,0919 m."
+tabella righe 811 9353087768857A8B · csv sì
+  0 | -1 | 0 | "Below" | 0 | 0 | 0.05397120266130186 | 0 | 200 | 60.00000000025739 | -91.04826457281018 | 0
+  0.015625 | -0.984375 | 0 | "Interior" | 0 | 0 | 0.05396783027755258 | -0.0004309217782361236 | 200.02868860686982 | 60.00000000025739 | -90.11076457280616 | 0
+verifiche ""
+tavola "Distinta non disponibile\nNon applicabile: il verificatore c.a. non si applica ai CHS." · pezzi 0 · risultato
+armature
+  fase "Stratigrafia 1 · 88 elementi · convergenza ≤ 0,1% · y testa 0,0539712 m · θ testa 0 rad" · avanzamento nascosto
+  messaggio ""
+  comando "Approva tutto · ipotesi" attivo
+  comando "NTC §7.2.5" attivo
+  comando "Proponi suddivisione…" attivo
+  comando "Info sezioni" attivo
+  trasversale "Staffe singole" di "Da definire|Staffe singole|Spirale" · attiva
+  tratto "T1 · 0 → 11 m · L=11 m"
+    fine "" · nota "Quota di taglio finale dalla testa, in metri; vuoto = punta. La barra successiva inizia a questa quota meno l₀."
+    principale sì · spenta
+    campo longitudinal_bar_count "Numero barre" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo longitudinal_bar_diameter_mm "φ barre [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_bar_diameter_mm "φ staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_spacing_mm "Passo staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    anello no · spento · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    tipo "Staffe singole" di "Da definire|Staffe singole|Spirale" · spento
+    comando "Verifiche →" attivo
+    comando "Apri verificatore c.a." attivo
+    comando "Dimensiona…" attivo
+    comando "Dividi…" attivo
+    comando "Distinta ferri" attivo
+    distinta aperta "Distinta non disponibile: Non applicabile: il verificatore c.a. non si applica ai CHS."
+  form ipotesi · chiuso
+    scelta elemento "Regole di dettaglio adottate" = "Pilastro" voci "Pilastro|Trave|Solo controlli comuni"
+    opzione barre_trattenute "Confermo disposizione staffe a trattenimento delle barre compresse" = "no"
+    opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
+    opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
+    opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    opzione aderenza_buona "Condizioni di buona aderenza" = "no"
+    campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
+    campo distanza_barre "Distanza libera barre sovrapposte" = "0"
+    campo lunghezza_barra "Lunghezza commerciale delle barre" = "12"
+    campo lunghezza_gabbia "Lunghezza massima gabbia da proporre" = "12"
+    campo lunghezza_minima "Lunghezza minima desiderata tratto" = "3"
+  form sisma · chiuso
+    opzione sisma_testa "Controlla zona dissipativa presso la testa · capacità non esclusa" = "no"
+    campo sisma_lunghezza "Estensione dalla testa · vuoto = 10D" = "" · nascosto
+    opzione sisma_azioni "N e V assegnati appartengono alla combinazione sismica da verificare" = "no" · nascosto
+    opzione sisma_elastico "M assegnato è elastico non ridotto (q=1), con N sismico concomitante" = "no" · nascosto
+    comando "Approva tutto · sisma" spento
+    comando "NTC §7.2.5 · finestra interna" attivo
+  form sovrapposizioni · chiuso
+    campo fattore_sovrapposizione "Sovrapposizione iniziale: moltiplicatore φ" = "60"
+    campo aggregato "Diametro massimo aggregato" = "20"
+    opzione copriferro_override "Override esplicito cmin,dur (altrimenti usa esposizione principale)" = "no"
+    campo cmin_dur "cmin,dur manuale · solo se override attivo" = "" · nascosto
+    campo delta_c "Tolleranza di copriferro Δcdev" = "10"
+  minimi sì · attivo
+  riepilogo
+    testo blu "Sezione e verifiche"
+    testo verde "PALO · 0 tratti\n0 non verificati · 0 incompleti · 0 con controlli soddisfatti"
+    scelta "T1" di "T1" · attiva
+    scelta "Riepilogo" di "Riepilogo|N–M|Taglio|Interferro|Minimi armatura|Dettagli pilastro / trave|Sisma · testa palo|Copriferro|Sviluppo / sovrapposizioni|Distinta ferri" · attiva
+    testo blu "Verifiche da aggiornare. I diagrammi FEM validi rimangono disponibili."
+    comando "Apri verificatore c.a." attivo
+    testo attenuato "Controlli distinti. Giunti, confinamento, SLE e dettagli esecutivi da completare nel campo applicabile."
+== riapri
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.3","lunghezza":"10","eccentricita":"0","vincolo":"Impedita","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"60","presenza_falda":true,"profondita_falda":"1,5","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"200","passo":"0.10","tolleranza":"1e-8","tratto_libero":"1","gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 168.3 × 10","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","gamma_iniezione":"22","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Coesivo","spessore":"4","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"0","coesione_non_drenata":"35","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh da tabella 14.6 · coesivi","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","nh_tabella":1.85,"origine_scelta":"Media iniziale del software","scelta_per":"nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956","media_iniziale":1.85,"categoria":"Argilla n.c. o lievemente o.c."}},{"tipologia":"Granulare","spessore":"8","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"33","coesione_non_drenata":"0","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c.","override":true,"nh_override":"6000","motivo_override":"Prova di carico laterale in sito"}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Cerniera","passo":"0.25","visualizzazione":{"sisma":false,"tratti":false,"N":false},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"elastico"}
+modificato 0 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=3284,366 kNm² · E=210000 MPa · J=1,563984E+07 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione assente
+intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
+  comando "Modifica dati e strati" attivo
+  comando "Info" attivo
+  opzioni
+    campo passo "Passo iniziale FEM" = "0.25"
+    scelta punta "Vincolo alla punta" = "Cerniera" voci "Libera|Cerniera|Incastro"
+  viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=no,k=sì,y=sì,theta=sì,q=sì,N=no,V=sì,M=sì,tratti=no
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature
+  fase "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+  messaggio ""
+  comando "Approva tutto · ipotesi" attivo
+  comando "NTC §7.2.5" attivo
+  comando "Proponi suddivisione…" spento
+  comando "Info sezioni" attivo
+  trasversale "Staffe singole" di "Da definire|Staffe singole|Spirale" · attiva
+  tratto "T1 · 0 → 11 m · L=11 m"
+    fine "" · nota "Quota di taglio finale dalla testa, in metri; vuoto = punta. La barra successiva inizia a questa quota meno l₀."
+    principale sì · spenta
+    campo longitudinal_bar_count "Numero barre" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo longitudinal_bar_diameter_mm "φ barre [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_bar_diameter_mm "φ staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_spacing_mm "Passo staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    anello no · spento · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    tipo "Staffe singole" di "Da definire|Staffe singole|Spirale" · spento
+    comando "Verifiche →" attivo
+    comando "Apri verificatore c.a." attivo
+    comando "Dimensiona…" spento
+    comando "Dividi…" attivo
+    comando "Distinta ferri" attivo
+    distinta aperta "Distinta in aggiornamento · vedere avanzamento sopra i tratti."
+  form ipotesi · chiuso
+    scelta elemento "Regole di dettaglio adottate" = "Pilastro" voci "Pilastro|Trave|Solo controlli comuni"
+    opzione barre_trattenute "Confermo disposizione staffe a trattenimento delle barre compresse" = "no"
+    opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
+    opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
+    opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    opzione aderenza_buona "Condizioni di buona aderenza" = "no"
+    campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
+    campo distanza_barre "Distanza libera barre sovrapposte" = "0"
+    campo lunghezza_barra "Lunghezza commerciale delle barre" = "12"
+    campo lunghezza_gabbia "Lunghezza massima gabbia da proporre" = "12"
+    campo lunghezza_minima "Lunghezza minima desiderata tratto" = "3"
+  form sisma · chiuso
+    opzione sisma_testa "Controlla zona dissipativa presso la testa · capacità non esclusa" = "no"
+    campo sisma_lunghezza "Estensione dalla testa · vuoto = 10D" = "" · nascosto
+    opzione sisma_azioni "N e V assegnati appartengono alla combinazione sismica da verificare" = "no" · nascosto
+    opzione sisma_elastico "M assegnato è elastico non ridotto (q=1), con N sismico concomitante" = "no" · nascosto
+    comando "Approva tutto · sisma" spento
+    comando "NTC §7.2.5 · finestra interna" attivo
+  form sovrapposizioni · chiuso
+    campo fattore_sovrapposizione "Sovrapposizione iniziale: moltiplicatore φ" = "60"
+    campo aggregato "Diametro massimo aggregato" = "20"
+    opzione copriferro_override "Override esplicito cmin,dur (altrimenti usa esposizione principale)" = "no"
+    campo cmin_dur "cmin,dur manuale · solo se override attivo" = "" · nascosto
+    campo delta_c "Tolleranza di copriferro Δcdev" = "10"
+  minimi sì · attivo
+  riepilogo
+    testo blu "Sezione e verifiche"
+    scelta "T1" di "T1" · attiva
+    scelta "Riepilogo" di "Riepilogo|N–M|Taglio|Interferro|Minimi armatura|Dettagli pilastro / trave|Sisma · testa palo|Copriferro|Sviluppo / sovrapposizioni|Distinta ferri" · attiva
+    testo blu "Verifiche da aggiornare. I diagrammi FEM validi rimangono disponibili."
+    comando "Apri verificatore c.a." attivo
+    testo attenuato "Controlli distinti. Giunti, confinamento, SLE e dettagli esecutivi da completare nel campo applicabile."
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.3","lunghezza":"10","eccentricita":"0","vincolo":"Impedita","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"60","presenza_falda":true,"profondita_falda":"1,5","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"200","passo":"0.10","tolleranza":"1e-8","tratto_libero":"1","gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 168.3 × 10","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","gamma_iniezione":"22","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Coesivo","spessore":"4","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"0","coesione_non_drenata":"35","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh da tabella 14.6 · coesivi","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","nh_tabella":1.85,"origine_scelta":"Media iniziale del software","scelta_per":"nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956","media_iniziale":1.85,"categoria":"Argilla n.c. o lievemente o.c."}},{"tipologia":"Granulare","spessore":"8","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"33","coesione_non_drenata":"0","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c.","override":true,"nh_override":"6000","motivo_override":"Prova di carico laterale in sito"}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Cerniera","passo":"0.25","visualizzazione":{"sisma":false,"tratti":false,"N":false},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"elastico"}
+modificato 0 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=3284,366 kNm² · E=210000 MPa · J=1,563984E+07 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione assente
+intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
+  comando "Modifica dati e strati" attivo
+  comando "Info" attivo
+  opzioni
+    campo passo "Passo iniziale FEM" = "0.25"
+    scelta punta "Vincolo alla punta" = "Cerniera" voci "Libera|Cerniera|Incastro"
+  viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=no,k=sì,y=sì,theta=sì,q=sì,N=no,V=sì,M=sì,tratti=no
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature
+  fase "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+  messaggio ""
+  comando "Approva tutto · ipotesi" attivo
+  comando "NTC §7.2.5" attivo
+  comando "Proponi suddivisione…" spento
+  comando "Info sezioni" attivo
+  trasversale "Staffe singole" di "Da definire|Staffe singole|Spirale" · attiva
+  tratto "T1 · 0 → 11 m · L=11 m"
+    fine "" · nota "Quota di taglio finale dalla testa, in metri; vuoto = punta. La barra successiva inizia a questa quota meno l₀."
+    principale sì · spenta
+    campo longitudinal_bar_count "Numero barre" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo longitudinal_bar_diameter_mm "φ barre [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_bar_diameter_mm "φ staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_spacing_mm "Passo staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    anello no · spento · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    tipo "Staffe singole" di "Da definire|Staffe singole|Spirale" · spento
+    comando "Verifiche →" attivo
+    comando "Apri verificatore c.a." attivo
+    comando "Dimensiona…" spento
+    comando "Dividi…" attivo
+    comando "Distinta ferri" attivo
+    distinta aperta "Distinta in aggiornamento · vedere avanzamento sopra i tratti."
+  form ipotesi · chiuso
+    scelta elemento "Regole di dettaglio adottate" = "Pilastro" voci "Pilastro|Trave|Solo controlli comuni"
+    opzione barre_trattenute "Confermo disposizione staffe a trattenimento delle barre compresse" = "no"
+    opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
+    opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
+    opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    opzione aderenza_buona "Condizioni di buona aderenza" = "no"
+    campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
+    campo distanza_barre "Distanza libera barre sovrapposte" = "0"
+    campo lunghezza_barra "Lunghezza commerciale delle barre" = "12"
+    campo lunghezza_gabbia "Lunghezza massima gabbia da proporre" = "12"
+    campo lunghezza_minima "Lunghezza minima desiderata tratto" = "3"
+  form sisma · chiuso
+    opzione sisma_testa "Controlla zona dissipativa presso la testa · capacità non esclusa" = "no"
+    campo sisma_lunghezza "Estensione dalla testa · vuoto = 10D" = "" · nascosto
+    opzione sisma_azioni "N e V assegnati appartengono alla combinazione sismica da verificare" = "no" · nascosto
+    opzione sisma_elastico "M assegnato è elastico non ridotto (q=1), con N sismico concomitante" = "no" · nascosto
+    comando "Approva tutto · sisma" spento
+    comando "NTC §7.2.5 · finestra interna" attivo
+  form sovrapposizioni · chiuso
+    campo fattore_sovrapposizione "Sovrapposizione iniziale: moltiplicatore φ" = "60"
+    campo aggregato "Diametro massimo aggregato" = "20"
+    opzione copriferro_override "Override esplicito cmin,dur (altrimenti usa esposizione principale)" = "no"
+    campo cmin_dur "cmin,dur manuale · solo se override attivo" = "" · nascosto
+    campo delta_c "Tolleranza di copriferro Δcdev" = "10"
+  minimi sì · attivo
+  riepilogo
+    testo blu "Sezione e verifiche"
+    scelta "T1" di "T1" · attiva
+    scelta "Riepilogo" di "Riepilogo|N–M|Taglio|Interferro|Minimi armatura|Dettagli pilastro / trave|Sisma · testa palo|Copriferro|Sviluppo / sovrapposizioni|Distinta ferri" · attiva
+    testo blu "Verifiche da aggiornare. I diagrammi FEM validi rimangono disponibili."
+    comando "Apri verificatore c.a." attivo
+    testo attenuato "Controlli distinti. Giunti, confinamento, SLE e dettagli esecutivi da completare nel campo applicabile."
+== attendi
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.3","lunghezza":"10","eccentricita":"0","vincolo":"Impedita","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"60","presenza_falda":true,"profondita_falda":"1,5","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"200","passo":"0.10","tolleranza":"1e-8","tratto_libero":"1","gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 168.3 × 10","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","gamma_iniezione":"22","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[{"tipologia":"Coesivo","spessore":"4","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"0","coesione_non_drenata":"35","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh da tabella 14.6 · coesivi","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","nh_tabella":1.85,"origine_scelta":"Media iniziale del software","scelta_per":"nh da tabella 14.6 · coesivi|Sciolto|clay-reese-1956","media_iniziale":1.85,"categoria":"Argilla n.c. o lievemente o.c."}},{"tipologia":"Granulare","spessore":"8","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"33","coesione_non_drenata":"0","coesione_efficace":"0","reazione_orizzontale":{"legge":"nh = A·γ/1,35 · incoerenti","densita":"Sciolto","riga_146":"clay-reese-1956","fonte":"Viggiani, parametri orientativi; verificare condizioni di impiego","A":200,"origine_scelta":"Media iniziale del software","scelta_per":"nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956","media_iniziale":200,"categoria":"Argilla n.c. o lievemente o.c.","override":true,"nh_override":"6000","motivo_override":"Prova di carico laterale in sito"}}]],"tipo_sezione":"CHS","elastico":{"versione":2,"stratigrafia":0,"punta":"Cerniera","passo":"0.25","visualizzazione":{"sisma":false,"tratti":false,"N":false},"tratti":[{"id":"T1","fine":null,"collegato":true}],"dettagli":{"azioni_progetto":false,"taglio_confermato":false,"z_d":0.9,"aderenza_buona":false,"percentuale_sovrapposta":100,"distanza_barre":0,"ancoraggio_testa":0,"ancoraggio_punta":0,"lunghezza_gabbia":12,"lunghezza_minima":3,"lunghezza_barra":12,"fattore_sovrapposizione":60,"aggregato":20,"delta_c":10,"elemento":"Pilastro","copriferro_override":false,"minimi_pali":true,"sisma_testa":false,"sisma_staffe":"Staffe singole"}},"vista_orizzontale":"elastico"}
+modificato 0 · modificabile sì · scheda 1 · esportabile sì
+risposta 34E7C8FCE0B029E4 · risultato 8AE78971A715560E
+stato "Stratigrafia 1 · 88 elementi · convergenza ≤ 0,1% · y testa 0,0539712 m · θ testa 0 rad" · avanzamento nascosto
+rigidezza "EJ=3284,366 kNm² · E=210000 MPa · J=1,563984E+07 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione assente
+intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
+  comando "Modifica dati e strati" attivo
+  comando "Info" attivo
+  opzioni
+    campo passo "Passo iniziale FEM" = "0.25"
+    scelta punta "Vincolo alla punta" = "Cerniera" voci "Libera|Cerniera|Incastro"
+  viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=no,k=sì,y=sì,theta=sì,q=sì,N=no,V=sì,M=sì,tratti=no
+disegno risultato · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Nessuna quota selezionata. Fare clic sul profilo o su un diagramma: la linea arancione identifica la sezione trasversale."
+estremi "Residui ΣF=1,653E-10 kN, ΣM=6,014E-10 kNm; reazioni C testa=31,048 kNm, H punta=-0,0046837 kNm, C punta=0 kNm.\nMesh 44 / 88 · Δy=0,0001%, ΔM=0,0000%, ΔV=0,0000%\ny [m]: min -0,000787103 a x=4,7741; max 0,0539712 a x=0; |max|=0,0539712 a x=0 m.\ntheta [rad]: min -0,0211071 a x=1,55; max 0,00061399 a x=5,4395; |max|=0,0211071 a x=1,55 m.\nN [kN]: min 200 a x=0; max 220,197 a x=11; |max|=220,197 a x=11 m.\nV [kN]: min -16,5651 a x=4,0742; max 60 a x=0,5; |max|=60 a x=0,5 m.\nM [kNm]: min -91,0483 a x=0; max 31,9279 a x=2,8538; |max|=91,0483 a x=0 m.\nq [kN/m]: min -42,2716 a x=2,0919; max 17,7667 a x=5; |max|=42,2716 a x=2,0919 m."
+tabella righe 811 9353087768857A8B · csv sì
+  0 | -1 | 0 | "Below" | 0 | 0 | 0.05397120266130186 | 0 | 200 | 60.00000000025739 | -91.04826457281018 | 0
+  0.015625 | -0.984375 | 0 | "Interior" | 0 | 0 | 0.05396783027755258 | -0.0004309217782361236 | 200.02868860686982 | 60.00000000025739 | -90.11076457280616 | 0
+verifiche ""
+tavola "Distinta non disponibile\nNon applicabile: il verificatore c.a. non si applica ai CHS." · pezzi 0 · risultato
+armature
+  fase "Stratigrafia 1 · 88 elementi · convergenza ≤ 0,1% · y testa 0,0539712 m · θ testa 0 rad" · avanzamento nascosto
+  messaggio ""
+  comando "Approva tutto · ipotesi" attivo
+  comando "NTC §7.2.5" attivo
+  comando "Proponi suddivisione…" attivo
+  comando "Info sezioni" attivo
+  trasversale "Staffe singole" di "Da definire|Staffe singole|Spirale" · attiva
+  tratto "T1 · 0 → 11 m · L=11 m"
+    fine "" · nota "Quota di taglio finale dalla testa, in metri; vuoto = punta. La barra successiva inizia a questa quota meno l₀."
+    principale sì · spenta
+    campo longitudinal_bar_count "Numero barre" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo longitudinal_bar_diameter_mm "φ barre [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_bar_diameter_mm "φ staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    campo transverse_spacing_mm "Passo staffe [mm]" = "" · sola lettura · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    anello no · spento · nota "Valore condiviso: modificare la sezione principale o scollegare questo tratto."
+    tipo "Staffe singole" di "Da definire|Staffe singole|Spirale" · spento
+    comando "Verifiche →" attivo
+    comando "Apri verificatore c.a." attivo
+    comando "Dimensiona…" attivo
+    comando "Dividi…" attivo
+    comando "Distinta ferri" attivo
+    distinta aperta "Distinta non disponibile: Non applicabile: il verificatore c.a. non si applica ai CHS."
+  form ipotesi · chiuso
+    scelta elemento "Regole di dettaglio adottate" = "Pilastro" voci "Pilastro|Trave|Solo controlli comuni"
+    opzione barre_trattenute "Confermo disposizione staffe a trattenimento delle barre compresse" = "no"
+    opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
+    opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
+    opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    opzione aderenza_buona "Condizioni di buona aderenza" = "no"
+    campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
+    campo distanza_barre "Distanza libera barre sovrapposte" = "0"
+    campo lunghezza_barra "Lunghezza commerciale delle barre" = "12"
+    campo lunghezza_gabbia "Lunghezza massima gabbia da proporre" = "12"
+    campo lunghezza_minima "Lunghezza minima desiderata tratto" = "3"
+  form sisma · chiuso
+    opzione sisma_testa "Controlla zona dissipativa presso la testa · capacità non esclusa" = "no"
+    campo sisma_lunghezza "Estensione dalla testa · vuoto = 10D" = "" · nascosto
+    opzione sisma_azioni "N e V assegnati appartengono alla combinazione sismica da verificare" = "no" · nascosto
+    opzione sisma_elastico "M assegnato è elastico non ridotto (q=1), con N sismico concomitante" = "no" · nascosto
+    comando "Approva tutto · sisma" spento
+    comando "NTC §7.2.5 · finestra interna" attivo
+  form sovrapposizioni · chiuso
+    campo fattore_sovrapposizione "Sovrapposizione iniziale: moltiplicatore φ" = "60"
+    campo aggregato "Diametro massimo aggregato" = "20"
+    opzione copriferro_override "Override esplicito cmin,dur (altrimenti usa esposizione principale)" = "no"
+    campo cmin_dur "cmin,dur manuale · solo se override attivo" = "" · nascosto
+    campo delta_c "Tolleranza di copriferro Δcdev" = "10"
+  minimi sì · attivo
+  riepilogo
+    testo blu "Sezione e verifiche"
+    testo verde "PALO · 0 tratti\n0 non verificati · 0 incompleti · 0 con controlli soddisfatti"
+    scelta "T1" di "T1" · attiva
+    scelta "Riepilogo" di "Riepilogo|N–M|Taglio|Interferro|Minimi armatura|Dettagli pilastro / trave|Sisma · testa palo|Copriferro|Sviluppo / sovrapposizioni|Distinta ferri" · attiva
+    testo blu "Verifiche da aggiornare. I diagrammi FEM validi rimangono disponibili."
+    comando "Apri verificatore c.a." attivo
+    testo attenuato "Controlli distinti. Giunti, confinamento, SLE e dettagli esecutivi da completare nel campo applicabile."

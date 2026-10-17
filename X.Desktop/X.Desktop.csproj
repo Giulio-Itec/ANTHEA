@@ -47,6 +47,8 @@
     <Compile Include="../tests/Shared/StratigraphyTrace.cs" Link="Tests/Shared/StratigraphyTrace.cs" />
     <!-- Scenarios and traces of the retaining wall sheet (F5.9), shared with tests/ANTHEA.Presentation.Tests. -->
     <Compile Include="../tests/Shared/RetainingWallTrace.cs" Link="Tests/Shared/RetainingWallTrace.cs" />
+    <!-- Scenarios and traces of the elastic response of the horizontal pile and of its reinforcement (F5.8), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../tests/Shared/ElasticPileTrace.cs" Link="Tests/Shared/ElasticPileTrace.cs" />
     <Compile Include="../tests/ANTHEA.Desktop.Equivalence/*.cs" Link="Tests/F3/%(Filename)%(Extension)" />
     <Compile Include="../supporto/test/Materiali/*.cs" Link="Tests/Materiali/%(Filename)%(Extension)" />
     <Compile Include="../supporto/test/Shared/DurabilityReferenceChecks.cs" Link="Tests/Materiali/DurabilityReferenceChecks.cs" />

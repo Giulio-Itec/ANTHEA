@@ -7,6 +7,7 @@ using Anthea.Application.Presentation;
 using Anthea.Calculations;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
+using Anthea.Presentation.Modules.HorizontalPile.Elastic;
 using Anthea.Presentation.Modules.VerticalPile;
 using Anthea.Presentation.Services;
 using Anthea.Reports;
@@ -17,9 +18,10 @@ namespace Anthea.Presentation.Modules.HorizontalPile;
 /// <summary>
 /// Sheet of the horizontal pile and of the horizontal micropile (geo_palo_orizzontale, geo_micropalo_orizzontale), F5.7: the tab of the
 /// capacity of the historic view HorizontalWorkspace («Dati comuni e capacità · Broms / stratificato») without WPF, on the same document
-/// and with the same writes, in the same order. The elastic response (ElasticPileWorkspace, the second tab) is F5.8: here only the part
-/// of it that acts on the data and on Modified from the tab of the capacity (preparation at opening, «elastico.stratigrafia» when the
-/// number of the stratigraphies changes, a second Modified for every edit) and the choice of the tab, saved in «vista_orizzontale».
+/// and with the same writes, in the same order. The second tab, the elastic response with the reinforcement of the pile (F5.8), is
+/// <see cref="ElasticPileViewModel"/> (<see cref="Elastic"/>): built with the sheet, told of every change of the shared data, with its own
+/// background calculation; the window sees the result, «Calcola» and the report of the tab shown (<see cref="ActiveResult"/>, as
+/// HorizontalWorkspace.ActiveResult). The choice of the tab is saved in «vista_orizzontale».
 /// <list type="bullet">
 /// <item>Opening: HorizontalSheetPresentation.PrepareGeneral, PrepareFactors, PrepareSection (c.a.), the forms
 /// (<see cref="HorizontalPileFields"/>), the stratigraphies, the preparation of the elastic data, then on the tab of the capacity the
@@ -41,7 +43,7 @@ namespace Anthea.Presentation.Modules.HorizontalPile;
 /// tests/ANTHEA.Presentation.Tests (HorizontalPileSheetChecks) against the traces of the historic view frozen in
 /// tests/fixtures/f5-palo-orizzontale and against the F3 reference.
 /// </summary>
-public sealed class HorizontalPileSheetViewModel : SheetViewModelBase
+public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetViewModel
 {
     /// <summary>The horizontal pile.</summary>
     public const string PileModule = "geo_palo_orizzontale";
@@ -57,8 +59,10 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase
 
     private readonly IHorizontalPileFigureRenderer figures;
     private readonly AnalysisService analyses;
+    private readonly Func<IElasticPileAnalysis> elasticAnalysis;
+    private ElasticPileViewModel elastic = null!;
     private bool building = true;
-    private int analysis, selectedSurvey = -1, elasticSurveys = -1;
+    private int analysis, selectedSurvey = -1;
     private FormViewModel generalForm = null!, modelForm = null!, factorsForm = null!, efficiencyForm = null!, momentForm = null!, sectionForm = null!, ejForm = null!;
     private IReadOnlyList<HorizontalPileSurveyViewModel> surveys = [];
     private string status = HorizontalPilePresentation.StatusToVerify, summary = HorizontalPilePresentation.SummaryInitial, momentText = HorizontalPilePresentation.MomentInitial;
@@ -71,14 +75,15 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase
     /// <param name="moduleId"><see cref="PileModule"/> or <see cref="MicropileModule"/>.</param>
     /// <param name="context">Data of the sheet (owned copy), host, services and the calculation service of the module.</param>
     /// <param name="figures">Draws the figures of the report.</param>
-    public HorizontalPileSheetViewModel(string moduleId, SheetContext context, IHorizontalPileFigureRenderer figures)
-        : this(moduleId, Check(moduleId, context), new AnalysisService(context.Calculation), figures) { }
+    /// <param name="elasticAnalysis">Creates the calculation of the elastic response (F5.8); null uses ElasticPileAnalysisSession (the barrier of a check otherwise).</param>
+    public HorizontalPileSheetViewModel(string moduleId, SheetContext context, IHorizontalPileFigureRenderer figures, Func<IElasticPileAnalysis>? elasticAnalysis = null)
+        : this(moduleId, Check(moduleId, context), new AnalysisService(context.Calculation), figures, elasticAnalysis ?? (() => new ElasticPileAnalysisSession())) { }
 
-    private HorizontalPileSheetViewModel(string moduleId, SheetContext context, AnalysisService analyses, IHorizontalPileFigureRenderer figures)
+    private HorizontalPileSheetViewModel(string moduleId, SheetContext context, AnalysisService analyses, IHorizontalPileFigureRenderer figures, Func<IElasticPileAnalysis> elasticAnalysis)
         : base(moduleId, new SheetContext(context.Data, context.ReadOnly, context.Host, context.Services, analyses, context.Limiter), RecalculationDelay, SheetCalculationMode.Background)
     {
         ArgumentNullException.ThrowIfNull(figures);
-        this.figures = figures; this.analyses = analyses;
+        this.figures = figures; this.analyses = analyses; this.elasticAnalysis = elasticAnalysis;
         Report = new HorizontalPileReport(this);
         Build();
         building = false;
@@ -96,6 +101,20 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase
     }
 
     public override IModuleReportSource Report { get; }
+
+    /// <summary>The tab of the elastic response with the reinforcement of the pile (F5.8).</summary>
+    public ElasticPileViewModel Elastic => elastic;
+
+    /// <summary>The result of the tab shown: the elastic one on the elastic tab, otherwise the capacity (HorizontalWorkspace.ActiveResult).</summary>
+    public JsonObject? ActiveResult => analysis == 1 ? elastic.Result : Result;
+
+    /// <summary>The window sees the result of the tab shown (SheetEditor.Result is HorizontalWorkspace.ActiveResult).</summary>
+    JsonObject? ISheetViewModel.Result => ActiveResult;
+
+    bool ISheetViewModel.HasResults => ActiveResult is not null;
+
+    /// <summary>«Calcola» of the window calculates the tab shown (HorizontalWorkspace.CalculateActiveAsync).</summary>
+    Task ISheetViewModel.CalculateAsync(CancellationToken cancellation) => analysis == 1 ? elastic.CalculateAsync() : CalculateAsync(cancellation);
 
     /// <summary>True for the micropile (CHS section), as the type of section of the data says.</summary>
     public bool IsMicro => Data.S("tipo_sezione") == "CHS";
@@ -115,6 +134,7 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase
             if (value == analysis || value is < 0 or > 1 || IsDisposed) return;
             analysis = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(ActiveResult));
             if (building) return;
             Commit();
             Data["vista_orizzontale"] = value == 1 ? "elastico" : "capacita";
@@ -315,6 +335,7 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase
     protected override void OnCommit()
     {
         foreach (var (_, form) in Forms) form.Commit();
+        elastic.Commit();
     }
 
     /// <summary>The data were replaced: the sheet is built again on them, as at opening; the results wait for the automatic recalculation.</summary>
@@ -364,12 +385,13 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase
         base.OnPropertyChanged(e);
         // The historic view shows «Calcolo di sezione ed equilibri in corso…» when the engine starts; a request that waits keeps its text.
         if (e.PropertyName == nameof(CalculationState) && CalculationState == CalculationState.Running) Status = HorizontalPilePresentation.StatusRunning;
-        if (e.PropertyName == nameof(CanEdit) && generalForm is not null) foreach (var (_, form) in Forms) form.IsReadOnly = !CanEdit;
+        if (e.PropertyName == nameof(CanEdit) && generalForm is not null) { foreach (var (_, form) in Forms) form.IsReadOnly = !CanEdit; elastic?.RefreshEditable(); }
     }
 
     protected override void OnDisposed()
     {
         base.OnDisposed();
+        elastic?.Dispose();
         building = true;
         foreach (var survey in Surveys) foreach (var soil in survey.Soils.Values) soil.Deactivate();
     }
@@ -399,11 +421,12 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase
             ShowInnerRing(false);
         }
         ejForm = new FormViewModel(section, HorizontalPileFields.Ej(), _ => UserChanged(), compact: true) { InheritedWikiModule = ModuleId, IsReadOnly = !CanEdit };
-        // The elastic response (F5.8) prepares its data when it is built, also on the tab of the capacity.
-        ElasticPileEditor.PrepareShared(Data);
-        if (!ElasticPileEditor.NeedsMigration(Data)) ElasticPileEditor.PrepareReinforcement(Data);
-        elasticSurveys = Data.Array("stratigrafie").Count;
-        if (!ElasticPileEditor.NeedsMigration(Data)) HorizontalSheetPresentation.PrepareElasticView(Data);
+        // The elastic response (F5.8), built after the capacity as HorizontalWorkspace builds its second tab: it prepares its data.
+        elastic?.Dispose();
+        elastic = new ElasticPileViewModel(Data, new ElasticPileSheet(() => CanEdit, ElasticModified, () => SelectedAnalysis = 0, RefreshAfterMigration, Context.Services, Context.Host, ModuleId),
+            elasticAnalysis());
+        elastic.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(ElasticPileViewModel.Result) && analysis == 1) OnPropertyChanged(nameof(ActiveResult)); };
+        OnPropertyChanged(nameof(Elastic));
         analysis = Data.S("vista_orizzontale") == "elastico" ? 1 : 0;
         OnPropertyChanged(nameof(SelectedAnalysis));
         foreach (string name in new[] { nameof(GeneralForm), nameof(ModelForm), nameof(FactorsForm), nameof(EfficiencyForm), nameof(MomentForm), nameof(SectionForm), nameof(EjForm), nameof(Forms) })
@@ -516,14 +539,14 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase
     // ---------------------------------------------------------------- edits and preview
 
     /// <summary>
-    /// Changed of the historic view: texts of a change, the shared data of the elastic response (with its Modified), preview,
-    /// verification without result, status, then the base (new revision, automatic recalculation, Modified).
+    /// Changed of the historic view: texts of a change, the shared data of the elastic response (InvalidateShared, with its Modified),
+    /// preview, verification without result, status, then the base (new revision, automatic recalculation, Modified).
     /// </summary>
     private void UserChanged()
     {
         if (building || IsDisposed) return;
         Summary = HorizontalPilePresentation.SummaryChanged; MomentText = HorizontalPilePresentation.MomentChanged; WarningText = "";
-        ElasticChanged();
+        elastic.InvalidateShared();
         Preview();
         Verification = HorizontalPilePresentation.Verification(null);
         if (analysis == 0) Status = HorizontalPilePresentation.StatusPending;
@@ -531,17 +554,35 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase
         OnPropertyChanged(nameof(CanShowResults)); OnPropertyChanged(nameof(Results));
     }
 
-    /// <summary>InvalidateShared of the elastic response: a new number of stratigraphies clears its choice; it raises Modified.</summary>
-    private void ElasticChanged()
+    /// <summary>The Modified of the elastic response (HorizontalWorkspace forwards it): the data changed, the capacity keeps its result.</summary>
+    private void ElasticModified()
     {
-        int count = Data.Array("stratigrafie").Count;
-        if (elasticSurveys != count)
+        if (!IsDisposed) ChangedKeepingResults();
+    }
+
+    /// <summary>
+    /// RefreshAfterMigration of the historic view: the shared data were replaced by the elastic response (an old archive resolved, the main
+    /// section from the c.a. verifier or from the design of the first segment). The fields of «Dati generali», of the section and of EJ show
+    /// the data again (a check box that changes writes, as the historic one), the stratigraphies are built again with the first selected,
+    /// then the change.
+    /// </summary>
+    private void RefreshAfterMigration()
+    {
+        if (IsDisposed) return;
+        building = true;
+        try
         {
-            if (elasticSurveys >= 0 && !ElasticPileEditor.NeedsMigration(Data)) Data["elastico"]!["stratigrafia"] = -1;
-            elasticSurveys = count;
-            if (!ElasticPileEditor.NeedsMigration(Data)) HorizontalSheetPresentation.PrepareElasticView(Data);
+            foreach (var (form, source) in new[] { (generalForm, Data["generali"]!), (sectionForm, Data["sezione"]!), (ejForm, Data["sezione"]!) })
+                foreach (var field in form.Fields)
+                {
+                    if (field.Kind == FieldKind.Bool) field.IsChecked = source.B(field.Key);
+                    else form.Set(field.Key, source.S(field.Key), display: true);
+                }
+            RebuildSurveys(0);
         }
-        ChangedKeepingResults();
+        finally { building = false; }
+        UserChanged();
+        RealizeRows();
     }
 
     /// <summary>Preview of the historic view: section values, model, field states, coefficients, efficiency, layer columns, section drawn.</summary>
@@ -611,12 +652,16 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase
         }
     }
 
-    /// <summary>Report of the sheet: ReportOrizzontale with the figures of the diagrams (reports frozen on 8/10).</summary>
+    /// <summary>
+    /// Report of the sheet, of the result of the tab shown (SheetEditor.BuildReportDocument): ReportElasticPile for the elastic response,
+    /// otherwise ReportOrizzontale with the figures of the diagrams (reports frozen on 8/10).
+    /// </summary>
     private sealed class HorizontalPileReport(HorizontalPileSheetViewModel sheet) : IModuleReportSource
     {
         public byte[] BuildReport(string title, IReadOnlySet<string> options, bool projectReport = false)
         {
-            var result = sheet.Result ?? throw new InvalidOperationException("Premere Calcola prima di esportare.");
+            var result = sheet.ActiveResult ?? throw new InvalidOperationException("Premere Calcola prima di esportare.");
+            if (result.S("tipo_risultato") == "palo_elastico") return DocxWriter.Write(ReportElasticPile.CreateDocument(title, result));
             return DocxWriter.Write(ReportOrizzontale.CreateDocument(title, result, !projectReport, sheet.figures.Render(result)));
         }
     }

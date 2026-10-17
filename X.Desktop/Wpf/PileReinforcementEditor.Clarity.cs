@@ -1,4 +1,5 @@
 using Anthea.Application.Modules;
+using Anthea.Application.Presentation;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,16 +35,13 @@ internal sealed partial class PileReinforcementEditor
         var tabs=new TabControl{Items={new TabItem{Header="Criteri e campo di applicazione",Content=new ScrollViewer{Content=Ui.Paper(explanation,20),VerticalScrollBarVisibility=ScrollBarVisibility.Auto}},new TabItem{Header="Pagina originale · 213",Content=original}}};
         return Ui.Dialog(this,"NTC 2018 · dettagli dei pali",tabs,1040,820);
     }
-    static Brush SummaryColor(JsonNode summary)=>summary.S("colore") switch{"rosso"=>Brushes.Firebrick,"verde"=>Brushes.DarkGreen,_=>Brushes.DarkGoldenrod};
-    void AddVerdict(StackPanel content,JsonNode record)
+    /// <summary>The colour of a tone of the texts of the editor.</summary>
+    static Brush Tone(ElasticTone tone)=>tone switch{ElasticTone.Failure=>Brushes.Firebrick,ElasticTone.Pending=>Brushes.DarkGoldenrod,ElasticTone.Satisfied=>Brushes.DarkGreen,ElasticTone.Excluded=>Brushes.SlateGray,ElasticTone.Muted=>Ui.Muted,_=>Ui.Navy};
+    static TextBlock Text(ElasticPileText text)=>Ui.Text(text.Text,text.Size,text.Bold,Tone(text.Tone));
+    void AddVerdict(StackPanel content,ElasticPileVerdict verdict)
     {
-        var value=record["riepilogo"]??ElasticPileEditor.ReinforcementSummary(record.AsObject());
-        content.Children.Add(new Border{BorderBrush=SummaryColor(value),BorderThickness=new Thickness(2),CornerRadius=new CornerRadius(4),Padding=new Thickness(8),Margin=new Thickness(0,6,0,6),Child=Ui.Text(value.S("stato"),13,true,SummaryColor(value))});
-        foreach(var (key,title,color) in new[]{("non_soddisfatti","NON SODDISFATTI",Brushes.Firebrick),("da_completare","DA COMPLETARE",Brushes.DarkGoldenrod),("esclusi","FUORI DAL PERIMETRO",Brushes.SlateGray)})
-        {
-            var items=value.Array(key);if(items.Count==0)continue;
-            content.Children.Add(new Expander{Header=$"{title} · {items.Count}",IsExpanded=key!="esclusi",Content=Ui.Text(string.Join("\n\n",items.Select(v=>"• "+v)),12,color:color),Margin=new Thickness(0,3,0,3)});
-        }
-        if(value.B("eseguiti_soddisfatti"))content.Children.Add(Ui.Text("Tutti i controlli eseguiti sul tratto sono soddisfatti. Le verifiche escluse restano elencate separatamente.",12,color:Brushes.DarkGreen));
+        content.Children.Add(new Border{BorderBrush=Tone(verdict.Tone),BorderThickness=new Thickness(2),CornerRadius=new CornerRadius(4),Padding=new Thickness(8),Margin=new Thickness(0,6,0,6),Child=Ui.Text(verdict.State,13,true,Tone(verdict.Tone))});
+        foreach(var group in verdict.Groups)content.Children.Add(new Expander{Header=group.Header,IsExpanded=group.Expanded,Content=Ui.Text(group.Text,12,color:Tone(group.Tone)),Margin=new Thickness(0,3,0,3)});
+        if(verdict.Satisfied is { } note)content.Children.Add(Ui.Text(note,12,color:Brushes.DarkGreen));
     }
 }

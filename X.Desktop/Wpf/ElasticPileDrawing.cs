@@ -17,8 +17,7 @@ internal sealed class ElasticPileDrawing : FrameworkElement
     internal void Set(JsonObject? value,bool preserveSelection=false){result=value;if(!preserveSelection){selected=null;retainedMomentMaximum=0;Selected?.Invoke(null);}InvalidateVisual();}
     internal void SelectDepth(double depth)
     {
-        if(result==null)return;var points=result["risposta"]!.Array("Points");var nearest=points.OrderBy(p=>Math.Abs(p.D("Depth")-depth)).First();
-        var pair=points.Where(p=>Math.Abs(p.D("Depth")-nearest.D("Depth"))<1e-9).ToArray();selected=pair.Length>1&&ReferenceEquals(selected,pair[0])?pair[1]:pair[0];Selected?.Invoke(selected);InvalidateVisual();
+        if(result==null)return;selected=Anthea.Application.Presentation.ElasticPilePresentation.PointAt(result,depth,selected);Selected?.Invoke(selected);InvalidateVisual();
     }
     protected override void OnMouseDown(MouseButtonEventArgs e){base.OnMouseDown(e);if(result!=null)SelectDepth(Math.Clamp((e.GetPosition(this).Y-Top)/(ActualHeight-Top-35),0,1)*result["input"].D("lunghezza"));}
     protected override void OnRender(DrawingContext dc)

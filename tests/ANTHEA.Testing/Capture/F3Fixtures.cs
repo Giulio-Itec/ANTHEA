@@ -82,6 +82,7 @@ public static class F3Fixtures
         HorizontalPileF57(cases);
         StratigraphyF56b(cases);
         RetainingWallF59(cases);
+        HorizontalPileF58(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -772,5 +773,120 @@ public static class F3Fixtures
         });
         // A family planned for future developments: the sheet opens, no calculation.
         Added("tipologia-prevista", d => d["family"] = "semigravity");
+    }
+
+    /// <summary>
+    /// Horizontal pile and micropile fixtures added before the F5.8 preparation (proposal F5, section 7.2: capture first, with the
+    /// historic view ElasticPileWorkspace), all on the tab of the elastic response, where only single-soil-elastic gave a result: the
+    /// reinforcement segments (linked, custom with spiral, custom with a second inner ring, one still «Da definire»), the seismic head
+    /// zone with an assigned extension longer than 10D, approved assumptions, covers and detailing rules, the head restrained and the
+    /// three tip constraints, a free length with eccentricity, groundwater, more stratigraphies with the one of the elastic response
+    /// chosen, every law of the horizontal soil reaction (assigned kh, nh and k, the tables and the correlation with an override of nh),
+    /// the options of the drawing, two micropiles (CHS of the catalogue, manual tube with an assigned EJ), and a calculation that stops
+    /// because the stratigraphy of the elastic response is not chosen. Documents as the sheet writes them: texts for the typed values
+    /// (also with a decimal comma), JSON booleans for the options. The identifiers never end in "default", which the F3 project report
+    /// collects.
+    /// </summary>
+    static void HorizontalPileF58(List<CaptureCase> cases)
+    {
+        void Added(string module, string id, Action<JsonObject, JsonObject, JsonObject> alter, Action<JsonObject, JsonObject> elastic)
+        {
+            var data = ModuleCatalog.CreateData(module);
+            alter(data, data["generali"]!.AsObject(), data["sezione"]!.AsObject());
+            // The shared elastic data as the view prepares them (soil reaction of every layer, segments, details), then the user's choices.
+            ElasticHorizontalPile.PrepareShared(data);
+            var e = data["elastico"]!.AsObject();
+            elastic(e, e["dettagli"]!.AsObject());
+            data["vista_orizzontale"] = "elastico";
+            cases.Add(new(module, id, "Fixture sintetica F5.8 (proposta F5 7.2, cattura prima con la vista storica)", null, data));
+        }
+        static JsonObject Layer(string type, string thickness, string gamma, string saturated, string phi, string undrained = "0") =>
+            J.Obj(("tipologia", type), ("spessore", thickness), ("peso_specifico", gamma), ("peso_specifico_saturo", saturated),
+                ("angolo_attrito", phi), ("coesione_non_drenata", undrained), ("coesione_efficace", "0"));
+        // A law of the soil reaction chosen in the editor of the layer, with its assigned value.
+        static JsonObject Reaction(JsonObject layer, int law, string? value = null)
+        {
+            var soil = ElasticHorizontalPile.EnsureSoil(layer);
+            soil["legge"] = ElasticHorizontalPile.Laws[law];
+            if (value is not null) soil["valore"] = value; else ElasticHorizontalPile.InitializeMean(soil);
+            return layer;
+        }
+        static JsonObject Segment(string id, string? end, Action<JsonObject>? custom = null)
+        {
+            var segment = J.Obj(("id", id), ("fine", end), ("collegato", custom is null));
+            custom?.Invoke(segment);
+            return segment;
+        }
+
+        // Three segments: the first with the main section, a custom one with a spiral, a custom one with a second inner ring; free length
+        // with eccentricity, two stratigraphies with the second chosen, hinged tip, a step with a decimal comma, approved assumptions,
+        // commercial bars of 8 m, springs shown and nodes, q hidden.
+        Added(PaloOrizzontale.Module, "elastico-tratti-anello-spirale", (d, g, s) => {
+            g["diametro"] = "1"; g["lunghezza"] = "14"; g["tratto_libero"] = "1.5"; g["eccentricita"] = "0.5";
+            g["azione_orizzontale"] = "300"; g["azione_assiale"] = "1200";
+            s["longitudinal_bar_count"] = "18"; s["longitudinal_bar_diameter_mm"] = "24"; s["cover_mm"] = "60";
+            s["transverse_bar_diameter_mm"] = "10"; s["transverse_spacing_mm"] = "200";
+            d["stratigrafie"] = new JsonArray(new JsonArray(Layer("Granulare", "16", "18", "20", "30")),
+                new JsonArray(Layer("Coesivo", "4", "18", "19", "0", "60"), Layer("Granulare", "12", "19", "21", "33")));
+        }, (e, details) => {
+            e["stratigrafia"] = 1; e["punta"] = "Cerniera"; e["passo"] = "0,25";
+            e["visualizzazione"] = J.Obj(("molle", true), ("mesh", false), ("q", false));
+            e["tratti"] = new JsonArray(Segment("T1", "5"),
+                Segment("T2", "10", t => { t["longitudinal_bar_count"] = "12"; t["longitudinal_bar_diameter_mm"] = "20"; t["transverse_bar_diameter_mm"] = "10";
+                    t["transverse_spacing_mm"] = "250"; t["tipo_trasversale"] = "Spirale"; }),
+                Segment("T3", null, t => { t["longitudinal_bar_count"] = "10"; t["longitudinal_bar_diameter_mm"] = "20"; t["transverse_bar_diameter_mm"] = "8";
+                    t["transverse_spacing_mm"] = "200"; t["tipo_trasversale"] = "Staffe singole"; t["second_inner_enabled"] = true;
+                    t["second_inner_count"] = "6"; t["second_inner_diameter"] = "20"; t["second_inner_gap"] = "30"; }));
+            ElasticHorizontalPile.ApproveReinforcementAssumptions(e.Root.AsObject(), false);
+            details["lunghezza_barra"] = "8";
+        });
+        // The seismic head zone with an extension of 9 m (10D = 8 m), its actions confirmed (Approva tutto · sisma); the head restrained, a
+        // fixed tip, groundwater with its unit weight; layers with assigned kh, with the table of the cohesive soils and with assigned nh;
+        // a second segment with the transverse reinforcement still to define; beam detailing, explicit cover, pile minima not checked; the
+        // seismic zone and the segments shown, kh hidden.
+        Added(PaloOrizzontale.Module, "elastico-sisma-testa-impedita", (d, g, s) => {
+            g["diametro"] = "0.8"; g["lunghezza"] = "12"; g["vincolo"] = "Impedita"; g["azione_orizzontale"] = "250"; g["azione_assiale"] = "600";
+            g["presenza_falda"] = true; g["profondita_falda"] = "2"; g["gamma_acqua"] = "10";
+            s["longitudinal_bar_count"] = "14"; s["longitudinal_bar_diameter_mm"] = "20"; s["cover_mm"] = "50";
+            s["transverse_bar_diameter_mm"] = "10"; s["transverse_spacing_mm"] = "150";
+            d["stratigrafie"] = new JsonArray(new JsonArray(Reaction(Layer("Granulare", "3", "18", "20", "30"), 0, "15000"),
+                Reaction(Layer("Coesivo", "5", "19", "20", "0", "70"), 4), Reaction(Layer("Granulare", "10", "19", "21", "34"), 1, "8000")));
+        }, (e, details) => {
+            e["punta"] = "Incastro"; e["passo"] = "0.5";
+            e["visualizzazione"] = J.Obj(("sisma", true), ("tratti", true), ("kh", false));
+            e["tratti"] = new JsonArray(Segment("T1", "8"),
+                Segment("T2", null, t => { t["longitudinal_bar_count"] = "12"; t["longitudinal_bar_diameter_mm"] = "20"; t["transverse_bar_diameter_mm"] = "10";
+                    t["transverse_spacing_mm"] = "200"; t["tipo_trasversale"] = "Da definire"; }));
+            details["sisma_testa"] = true; details["sisma_lunghezza"] = "9";
+            ElasticHorizontalPile.ApproveReinforcementAssumptions(e.Root.AsObject(), true);
+            details["elemento"] = "Trave"; details["copriferro_override"] = true; details["cmin_dur"] = "45"; details["minimi_pali"] = false;
+        });
+        // Two stratigraphies and none chosen for the elastic response: the calculation stops («Selezionare la stratigrafia…»).
+        Added(PaloOrizzontale.Module, "elastico-stratigrafia-da-scegliere", (d, g, s) => {
+            g["diametro"] = "1.2"; g["lunghezza"] = "15"; g["azione_orizzontale"] = "400";
+            d["stratigrafie"] = new JsonArray(new JsonArray(Layer("Granulare", "16", "18", "20", "32")), new JsonArray(Layer("Coesivo", "16", "19", "20", "0", "80")));
+        }, (e, details) => e["stratigrafia"] = -1);
+        // A CHS of the catalogue with grout weight, the head restrained, a free length, groundwater, a cohesive and a granular layer (the
+        // correlation of the sands with an override of nh and its reason), hinged tip, a fine step; the segments and the seismic zone hidden.
+        Added(MicropaloOrizzontale.Module, "elastico-chs-stratificato", (d, g, s) => {
+            g["diametro"] = "0.3"; g["lunghezza"] = "10"; g["tratto_libero"] = "1"; g["vincolo"] = "Impedita";
+            g["azione_orizzontale"] = "60"; g["azione_assiale"] = "200"; g["presenza_falda"] = true; g["profondita_falda"] = "1,5";
+            s["profilo_chs"] = "CHS 168.3 × 10"; s["gamma_iniezione"] = "22";
+            var sand = Reaction(Layer("Granulare", "8", "19", "21", "33"), 5);
+            var soil = sand["reazione_orizzontale"]!.AsObject(); soil["override"] = true; soil["nh_override"] = "6000"; soil["motivo_override"] = "Prova di carico laterale in sito";
+            d["stratigrafie"] = new JsonArray(new JsonArray(Reaction(Layer("Coesivo", "4", "18", "19", "0", "35"), 4), sand));
+        }, (e, details) => {
+            e["punta"] = "Cerniera"; e["passo"] = "0.25";
+            e["visualizzazione"] = J.Obj(("sisma", false), ("tratti", false), ("N", false));
+        });
+        // A manual CHS tube with an assigned EJ and its reason, two stratigraphies with the first chosen, an assigned distributed k and the
+        // table of the sands; free tip.
+        Added(MicropaloOrizzontale.Module, "elastico-chs-ej-assegnato", (d, g, s) => {
+            g["diametro"] = "0.25"; g["lunghezza"] = "9"; g["azione_orizzontale"] = "45"; g["eccentricita"] = "0.2";
+            s["modo_chs"] = "Manuale"; s["diametro_chs_mm"] = "139.7"; s["spessore_chs_mm"] = "8";
+            s["ej_override"] = true; s["ej_assegnato"] = "3500"; s["ej_motivo"] = "Rigidezza del tubo con l'iniezione, da prova";
+            d["stratigrafie"] = new JsonArray(new JsonArray(Reaction(Layer("Granulare", "4", "18", "20", "30"), 2, "9000"), Reaction(Layer("Granulare", "6", "19", "21", "35"), 3)),
+                new JsonArray(Layer("Granulare", "10", "18", "20", "31")));
+        }, (e, details) => e["stratigrafia"] = 0);
     }
 }

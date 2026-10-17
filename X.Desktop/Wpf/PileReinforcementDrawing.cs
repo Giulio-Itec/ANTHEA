@@ -21,17 +21,12 @@ internal sealed class PileReinforcementDrawing : DrawingView
     internal void Set(JsonObject? value, string? unavailableReason = null)
     {
         result = value;
-        EmptyMessage = unavailableReason ?? "Distinta in aggiornamento · vedere avanzamento sopra i tratti.";
         segments = value?["armature"]?.Array("tratti").OfType<JsonObject>().Cast<JsonNode>().ToArray() ?? [];
         runs = value?["armature"]?.Array("distinta").OfType<JsonObject>().Cast<JsonNode>().ToArray() ?? [];
         joints = value?["armature"]?.Array("giunti").OfType<JsonObject>().Cast<JsonNode>().ToArray() ?? [];
         int mark = 0;
         Pieces = runs.SelectMany((run, i) => run.Array("Pieces").OfType<JsonObject>().Select(bar => new Piece($"B{++mark:00}", bar, run, i))).ToArray();
-        if (value != null && Pieces.Count == 0)
-        {
-            var reasons = segments.Select(t => $"{t.S("id")}: {t.S("errore", t.S("stato", "Dati del tratto non disponibili."))}").ToArray();
-            EmptyMessage = "Distinta non disponibile\n" + (reasons.Length > 0 ? string.Join("\n", reasons) : value["armature"].S("stato", "Completare i dati della sezione e dei tratti."));
-        }
+        EmptyMessage = Anthea.Application.Presentation.ElasticPilePresentation.SheetMessage(value, unavailableReason);
         bodyHeight = Math.Max(680, segments.Length * 170 + 40);
         SheetSize = Pieces.Count == 0 ? new(1140, 320) : new(Math.Max(1140, 670 + Pieces.Count * 125), 190 + bodyHeight + 165 + (Pieces.Count + segments.Length) * 28 + segments.Length * 48 + runs.Length * 65 + joints.Length * 55);
         MinWidth = SheetSize.Width; Height = SheetSize.Height; InvalidateMeasure(); InvalidateVisual();

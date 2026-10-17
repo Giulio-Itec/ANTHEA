@@ -1295,5 +1295,78 @@
         "note": "Solo il numero delle fixture, conseguenza diretta dell'aggiunta: 69 -> 81 nel ramo F5.9, 80 -> 92 dopo l'unione con le fixture F5.7 e F5.6b (merge del coordinatore); il numero degli articoli resta quello del riferimento (71, transizione F4-51 invariata)."
       }
     ]
+  },
+  "fixture_aggiunte_f5_8": {
+    "record": "F5.8, proposta F5 sezione 7.2 (cattura prima)",
+    "date": "2026-10-17",
+    "source_commit": "4b6a59de15c005a9a0fcc7c4897f24652217048f",
+    "reason": "Cinque fixture del palo e del micropalo orizzontale aggiunte prima della preparazione di F5.8, catturate con la vista storica (ElasticPileWorkspace ospitata da HorizontalWorkspace), tutte aperte sulla scheda della risposta elastica, dove solo single-soil-elastic dava un risultato: tratti di armatura (collegato, personalizzato con spirale, personalizzato con secondo anello interno, trasversale da definire), zona sismica di testa con estensione assegnata e azioni confermate, ipotesi approvate, copriferro e regole di dettaglio, testa impedita e i tre vincoli alla punta, tratto libero con eccentricità, falda, più stratigrafie con quella della risposta elastica scelta, tutte le leggi della reazione orizzontale (kh, nh e k assegnati, tabelle, correlazione con override di nh), opzioni del disegno, due micropali (CHS del catalogo, tubo manuale con EJ assegnato) e un calcolo fermato perché la stratigrafia della risposta elastica non è scelta. Gli attesi delle 75 fixture esistenti e le transizioni F4 non cambiano.",
+    "generator": "tests/ANTHEA.Testing/Capture/F3Fixtures.cs (HorizontalPileF58), comando fixtures-f3: solo input, mai attesi",
+    "captures": [
+      "20261017-013441-f58-f3-cattura-a",
+      "20261017-013654-f58-f3-cattura-b"
+    ],
+    "comparison": "43 file nuovi identici nelle due catture F3, tranne i tempi misurati tempi_ms dei due result.json del palo con armature (chiave volatile di tests/ANTHEA.Testing/tolerances.json); ui/f3-equivalence e ui/f3-report-chapters PASS con le 80 fixture e le transizioni F4 invariate",
+    "inputs": 5,
+    "expected_files": 43,
+    "hash": "SHA-256 della forma conservata da git (fine riga LF)",
+    "files": {
+      "inputs/geo_palo_orizzontale--elastico-tratti-anello-spirale.json": "5895b4d7fe0d39a5e2316dd1b1f517051365cbe1711c5048bde0205c118eb99b",
+      "inputs/geo_palo_orizzontale--elastico-sisma-testa-impedita.json": "95cf5e75e9f974abd324e4591326c69cb79ad93ba9c23ce011588186c7a4ede7",
+      "inputs/geo_palo_orizzontale--elastico-stratigrafia-da-scegliere.json": "2e687c2e796ba02b661cf77e69360ac313b5a2bd2cd4c7ccc6d066fa3a42bbb0",
+      "inputs/geo_micropalo_orizzontale--elastico-chs-stratificato.json": "5a88208d197aa4c2428fc327e28dcb6e33afa5eb57f81222054faa8b6caba39a",
+      "inputs/geo_micropalo_orizzontale--elastico-chs-ej-assegnato.json": "ae0227eff1ec358595ecafc735d23447d2a9898d4ebddb132faede1302bdd3da",
+      "expected/sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/calculated-data.json": "303eed8ec428730e14ce33f7041cfa8d4cfdd777cdf0f2f48972ce9c879c2d02",
+      "expected/sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/exported-data.json": "303eed8ec428730e14ce33f7041cfa8d4cfdd777cdf0f2f48972ce9c879c2d02",
+      "expected/sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/opened.json": "303eed8ec428730e14ce33f7041cfa8d4cfdd777cdf0f2f48972ce9c879c2d02",
+      "expected/sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/reopened.json": "303eed8ec428730e14ce33f7041cfa8d4cfdd777cdf0f2f48972ce9c879c2d02",
+      "expected/sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/report-structure.json": "a5c2d651bc39e84b68132513b28150772ff554ee2508a55862a9ef282f8c803e",
+      "expected/sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/report.txt": "a0863fe984fdb651b3e0f611181cb955be8c85d72b8b7399ad7de6e108f7c5be",
+      "expected/sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json": "793f0efaa167e02084b985468ed75f885e4a308c0d4a209db39f8ff4599f5d52",
+      "expected/sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/status.json": "3d7ea763e0aa835bc0d92ca56694511521be222c9d1cb6fbc3865f53315523cc",
+      "expected/sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/visited.json": "303eed8ec428730e14ce33f7041cfa8d4cfdd777cdf0f2f48972ce9c879c2d02",
+      "expected/sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/calculated-data.json": "db75795b3050ad2f28268798dd12c0c1b8878b266809855ac1db361b6319946b",
+      "expected/sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/exported-data.json": "db75795b3050ad2f28268798dd12c0c1b8878b266809855ac1db361b6319946b",
+      "expected/sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/opened.json": "db75795b3050ad2f28268798dd12c0c1b8878b266809855ac1db361b6319946b",
+      "expected/sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/reopened.json": "db75795b3050ad2f28268798dd12c0c1b8878b266809855ac1db361b6319946b",
+      "expected/sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/report-structure.json": "5eedeacb121eb2669668799ae1779800f42c290feb07eb8abd07074178697c2b",
+      "expected/sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/report.txt": "ceebd4becef2d7b8e5782c87be4dbee04660c441ae19cd131d74d967d2f841ec",
+      "expected/sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json": "be875fd8262001055cfd17fa21f052681826bcda5431066f298337707b20c31e",
+      "expected/sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/status.json": "3d7ea763e0aa835bc0d92ca56694511521be222c9d1cb6fbc3865f53315523cc",
+      "expected/sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/visited.json": "db75795b3050ad2f28268798dd12c0c1b8878b266809855ac1db361b6319946b",
+      "expected/sheets/geo_palo_orizzontale/elastico-stratigrafia-da-scegliere/calculated-data.json": "72fa5f5570deef16bdb4f5d715ac7bb98b05a69a7932eef85095dd53ddd55752",
+      "expected/sheets/geo_palo_orizzontale/elastico-stratigrafia-da-scegliere/exported-data.json": "72fa5f5570deef16bdb4f5d715ac7bb98b05a69a7932eef85095dd53ddd55752",
+      "expected/sheets/geo_palo_orizzontale/elastico-stratigrafia-da-scegliere/opened.json": "72fa5f5570deef16bdb4f5d715ac7bb98b05a69a7932eef85095dd53ddd55752",
+      "expected/sheets/geo_palo_orizzontale/elastico-stratigrafia-da-scegliere/reopened.json": "72fa5f5570deef16bdb4f5d715ac7bb98b05a69a7932eef85095dd53ddd55752",
+      "expected/sheets/geo_palo_orizzontale/elastico-stratigrafia-da-scegliere/result.json": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+      "expected/sheets/geo_palo_orizzontale/elastico-stratigrafia-da-scegliere/status.json": "02763bd95d11e06302305e17cec466421706c25ac0fcf52588518cd55dd65795",
+      "expected/sheets/geo_palo_orizzontale/elastico-stratigrafia-da-scegliere/visited.json": "72fa5f5570deef16bdb4f5d715ac7bb98b05a69a7932eef85095dd53ddd55752",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-stratificato/calculated-data.json": "81c0fa6f165cc0533855af4327b859232b47e82df73de27ce6203bbf64c35e30",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-stratificato/exported-data.json": "81c0fa6f165cc0533855af4327b859232b47e82df73de27ce6203bbf64c35e30",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-stratificato/opened.json": "81c0fa6f165cc0533855af4327b859232b47e82df73de27ce6203bbf64c35e30",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-stratificato/reopened.json": "81c0fa6f165cc0533855af4327b859232b47e82df73de27ce6203bbf64c35e30",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-stratificato/report-structure.json": "bab0d73d8de98c834cbbe56d72dc176051c895ccb5d6abcf47d86118abae3a6d",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-stratificato/report.txt": "a6e31e11c929098f968be7443e5c015253242a8d2fd59010260629a6ff40e49e",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-stratificato/result.json": "051f9255252349af3b1cb5adbb673088c2266876e00f1397d789412328c9ed8c",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-stratificato/status.json": "3d7ea763e0aa835bc0d92ca56694511521be222c9d1cb6fbc3865f53315523cc",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-stratificato/visited.json": "81c0fa6f165cc0533855af4327b859232b47e82df73de27ce6203bbf64c35e30",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-ej-assegnato/calculated-data.json": "3f9eb3c272eecf29e38bf1a230c65b861d81f616e82ffe41f104d548397e61c0",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-ej-assegnato/exported-data.json": "3f9eb3c272eecf29e38bf1a230c65b861d81f616e82ffe41f104d548397e61c0",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-ej-assegnato/opened.json": "3f9eb3c272eecf29e38bf1a230c65b861d81f616e82ffe41f104d548397e61c0",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-ej-assegnato/reopened.json": "3f9eb3c272eecf29e38bf1a230c65b861d81f616e82ffe41f104d548397e61c0",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-ej-assegnato/report-structure.json": "2b101a8d89d1200d1efd69977e3b7aca1331158eeafb19fdb122c87f5abb3c07",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-ej-assegnato/report.txt": "801ae1af8cb86fd44ef35851e3cb559c7876cfa3ea5dea5762491de25461355b",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-ej-assegnato/result.json": "2036cee753e403efd9e40ba04f229aace41fd2e0c67c20cc317ae5a69e77b75c",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-ej-assegnato/status.json": "3d7ea763e0aa835bc0d92ca56694511521be222c9d1cb6fbc3865f53315523cc",
+      "expected/sheets/geo_micropalo_orizzontale/elastico-chs-ej-assegnato/visited.json": "3f9eb3c272eecf29e38bf1a230c65b861d81f616e82ffe41f104d548397e61c0"
+    },
+    "updated": [
+      {
+        "file": "expected/esito.txt",
+        "before_sha256": "2fc043613c5b5517bc9e512a0c5933648306c57fdcfa01a6d9811f12139b87b6",
+        "after_sha256": "f4a842e46a8df621bc2ced465b12ebb40c328fe13600affa8b8b190b4242bcf4",
+        "note": "Solo il numero delle fixture, conseguenza diretta dell'aggiunta: 75 -> 80 nel ramo F5.8, 92 -> 97 dopo l'unione con le fixture degli altri passi (merge del coordinatore); il numero degli articoli resta quello del riferimento (71, transizione F4-51 invariata)."
+      }
+    ]
   }
 }
