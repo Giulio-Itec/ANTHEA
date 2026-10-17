@@ -256,4 +256,12 @@ diretto a zero, `ui/f3-equivalence` con i due moduli MVVM, conteggio delle suite
 
 ## 5. Corsa finale
 
-(in corso)
+`-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `837026cb`: `supporto/artefatti/ci/20261017-035316-f58-finale`,
+PASS 116 (build 25, fast 31, wiki 2, ui 58), KNOWN 0, NEW-FAIL 0, nessun file tracciato modificato, 26 minuti.
+- `ui/f3-equivalence` PASS con 80 fixture e `transitions-f4.json` invariato; `ui/f3-report-chapters` PASS con 81 capitoli;
+- `ui/check-palo-elastico-historic` (nuova) 20 scenari, 28884 righe, 49 disegni uguali; `ui/check-palo-orizzontale-historic` 27
+  scenari; `ui/f3-scheduling` (con `F3PileSegmentChecks`), `ui/smoke-horizontal`, `ElasticPile.UiChecks` e le due varianti PASS;
+- `Presentation.Tests` PASS 1485, `Architecture.Tests` PASS (baseline F4 3334).
+
+`ui/check-contrast` è escluso: lo schermo è al 150% (144 DPI) e il controllo non può confrontarsi con la sua baseline a 96 DPI
+(decisione D6); il coordinatore lo ripete a 96 DPI. Nessuna vista nuova è entrata nel controllo del contrasto.
