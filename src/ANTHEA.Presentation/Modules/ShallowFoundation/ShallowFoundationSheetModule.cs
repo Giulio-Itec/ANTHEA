@@ -11,7 +11,9 @@ namespace Anthea.Presentation.Modules.ShallowFoundation;
 /// </summary>
 /// <param name="libraryAvailable">Whether the approved release of the GPC library is installed; by default
 /// <see cref="FoundationLibrary.Available"/>, read when a sheet is created.</param>
-public sealed class ShallowFoundationSheetModule(Func<bool>? libraryAvailable = null) : ISheetModule
+/// <param name="transfer">The soil transfer dialog of «Invia / carica terreno…» (the desktop passes the historic window behind
+/// <see cref="Stratigraphy.ISoilTransferDialog"/>, decision T5); without it the sheets have no transfer command.</param>
+public sealed class ShallowFoundationSheetModule(Func<bool>? libraryAvailable = null, Stratigraphy.ISoilTransferDialog? transfer = null) : ISheetModule
 {
     private readonly Func<bool> available = libraryAvailable ?? (() => new FoundationLibrary().Available);
 
@@ -23,8 +25,8 @@ public sealed class ShallowFoundationSheetModule(Func<bool>? libraryAvailable = 
     /// <summary>vista_fondazioni (groups and collapsed inputs); the lazy migration is FoundationMaterials.Complete at every opening.</summary>
     public ModulePersistence Persistence { get; } = new(ShallowFoundationSheetViewModel.UiStateKeys);
 
-    /// <summary>One report (FoundationReport, Word with the PDF beside it), no short report.</summary>
+    /// <summary>One report (FoundationReport, Word with the PDF of MigraDoc beside it, <see cref="IModuleReportPdf"/>), no short report.</summary>
     public ModuleReportCapabilities Reports { get; } = new(false);
 
-    public ISheetViewModel CreateSheet(SheetContext context) => new ShallowFoundationSheetViewModel(context, available());
+    public ISheetViewModel CreateSheet(SheetContext context) => new ShallowFoundationSheetViewModel(context, available(), transfer);
 }

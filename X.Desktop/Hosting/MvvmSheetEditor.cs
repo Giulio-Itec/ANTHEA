@@ -26,7 +26,8 @@ namespace X.Desktop;
 /// <item>Help: F1 not handled by a field opens the guide of the module (<see cref="IModuleDescriptor.Help"/>) with the
 /// <see cref="IWikiNavigator"/> of the services, as SheetEditor opens it; the «?» labels and F1 of the fields go through the same
 /// navigator, given by the ViewModel to its forms.</item>
-/// <item>Results and reports: the generic path of SheetEditor (JSON of the result, Word document of the sheet); the short
+/// <item>Results and reports: the generic path of SheetEditor (JSON of the result, Word document of the sheet, PDF rendered from it),
+/// or the PDF of the generator of the module where the historic sheet writes it so (<see cref="IModuleReportPdf"/>, T8); the short
 /// report and the material chapter come with the modules that have them (F5.5, F5.10).</item>
 /// </list>
 /// </summary>
@@ -110,8 +111,22 @@ internal sealed class MvvmSheetEditor : ISheetEditor
         Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(Result!.ToJsonString(J.Options)));
     }
 
-    public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false) =>
+    /// <summary>
+    /// The DOCX of the report and the PDF beside it. A module whose historic sheet writes the PDF with its own generator
+    /// (<see cref="IModuleReportPdf"/>, the shallow foundations) gets both files written as SheetEditor.ExportReport writes them
+    /// (decision T8 of 17/10/2026); the others the PDF rendered from the DOCX (<see cref="ReportFiles.Write"/>).
+    /// </summary>
+    public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
+    {
+        if (Sheet.Report is IModuleReportPdf edition)
+        {
+            byte[] word = BuildReport(title, options, projectReport), pdf = edition.BuildPdf(title, options, projectReport);
+            Archivio.ScriviAtomico(filename, word);
+            Archivio.ScriviAtomico(ReportFiles.PdfPath(filename), pdf);
+            return;
+        }
         ReportFiles.Write(filename, BuildReport(title, options, projectReport), title);
+    }
 
     public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => Sheet.Report.BuildReport(title, options, projectReport);
 

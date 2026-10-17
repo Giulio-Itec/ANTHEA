@@ -5,8 +5,11 @@ using Anthea.Application.Modules;
 using Anthea.Application.Presentation;
 using Anthea.FoundationWorkspace;
 using Anthea.Presentation.Forms;
+using Anthea.Presentation.Modules.Stratigraphy;
+using Anthea.Presentation.Mvvm;
 using Anthea.Reports;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Anthea.Presentation.Modules.ShallowFoundation;
 
@@ -28,8 +31,15 @@ namespace Anthea.Presentation.Modules.ShallowFoundation;
 /// <item>Surveys and layers: the table shows a copy of each layer of the survey examined with its letter (the colour is a token of
 /// the view); a cell writes its value into the layer. Removing a survey asks <see cref="Services.IConfirmationService.ConfirmDelete"/>;
 /// the last survey stays («Conservare almeno un sondaggio.»).</item>
-/// <item>Read-only (a previous revision): fields, choices, surveys, layers and the section of the failure mechanism refuse the
-/// changes, as the controls of the historic view protected by RevisionInspection.</item>
+/// <item>Read-only (a previous revision, <see cref="SheetViewModelBase.IsReadOnly"/>, decision T2): fields, choices, surveys, layers,
+/// the soil transfer and the section of the failure mechanism refuse the changes, as the controls of the historic view protected by
+/// RevisionInspection (decision FN4: the section is always refused); groups, «Raccogli input», report, guide and calculation stay
+/// available (FN3: groups and collapsed inputs still write vista_fondazioni, as today).</item>
+/// <item>Commands of the view (F5.9b): «Calcola» commits and calculates (decision D7), «Raccogli input», «Report Word e PDF», «Guida»,
+/// «+ Sondaggio», «− Sondaggio», «Invia / carica terreno…» (the historic dialog behind <see cref="ISoilTransferDialog"/>, decision T5
+/// until its shared ViewModel), «Aggiungi strato» and the [−] of a layer; their errors go through the guard of the sheet (Q19).</item>
+/// <item>Help (decision FN9, as today): the «?» labels and F1 of the fields only for the groundwater and the concrete, the forms of the
+/// historic view built with InputForm; F1 elsewhere opens the guide of the module through the host.</item>
 /// <item>The six graphic tabs are plain data: the drawings of the geometry and of the stratigraphy read <see cref="InputDrawing"/>,
 /// those of the results <see cref="Graphics"/> and <see cref="Mechanism"/>; without them <see cref="GraphicsMessage"/>.</item>
 /// </list>
@@ -44,6 +54,7 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
 
     private const string CollapsedKey = "input_raccolti";
     private readonly bool libraryAvailable;
+    private readonly ISoilTransferDialog? transfer;
     private readonly JsonObject[] concreteCatalog = MaterialInputCatalog.Concrete();
     private bool loading = true, inputsCollapsed;
     private FormViewModel? geometryForm, actionsForm, surchargeForm, waterForm, combinationForm, confirmationForm, relativeDensityForm, methodOptionsForm,
@@ -66,18 +77,61 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
     /// <param name="context">Data of the sheet (owned copy), host, services and the calculation service of the module.</param>
     /// <param name="libraryAvailable">The approved release of the GPC library is installed (FoundationLibrary.Available): only the
     /// text of the results without a result depends on it.</param>
-    public ShallowFoundationSheetViewModel(SheetContext context, bool libraryAvailable = true)
+    /// <param name="transfer">The soil transfer dialog of «Invia / carica terreno…»; without it the command is not available.</param>
+    public ShallowFoundationSheetViewModel(SheetContext context, bool libraryAvailable = true, ISoilTransferDialog? transfer = null)
         : base(FoundationDocument.Module, context, null, SheetCalculationMode.Synchronous)
     {
         this.libraryAvailable = libraryAvailable;
+        this.transfer = transfer;
         Report = new FoundationReportSource(this);
         Build();
         loading = false;
         RefreshVisibility();
         ClearResults();
+        CalculateCommand = GuardedCommands.CreateAsync(Guard, CalculateFromViewAsync, Lifetime, () => !IsDisposed);
+        CollectCommand = GuardedCommands.Create(Guard, ToggleInputs, () => !IsDisposed);
+        ReportCommand = GuardedCommands.Create(Guard, RequestReport, () => !IsDisposed);
+        GuideCommand = GuardedCommands.Create(Guard, OpenGuide);
+        AddSurveyCommand = GuardedCommands.Create(Guard, AddSurvey, () => CanEdit);
+        RemoveSurveyCommand = GuardedCommands.Create(Guard, RemoveSurvey, () => CanEdit);
+        TransferSoilCommand = GuardedCommands.CreateAsync(Guard, TransferSoilAsync, Lifetime, () => CanEdit && transfer is not null);
+        AddLayerCommand = GuardedCommands.Create(Guard, AddLayer, () => CanEdit);
+        RemoveLayerCommand = new RelayCommand<JsonRowViewModel?>(row => Guard.Run(() => RemoveLayer(row is null ? -1 : Layers.IndexOf(row))), _ => CanEdit);
     }
 
     public override IModuleReportSource Report { get; }
+
+    // ---------------------------------------------------------------- commands of the view
+
+    /// <summary>«Calcola»: the drafts are committed, then the sheet is calculated now (synchronous, Q8 a); allowed when read-only.</summary>
+    public IAsyncRelayCommand CalculateCommand { get; }
+
+    /// <summary>«Raccogli input» / «Mostra input» (<see cref="ToggleInputs"/>); allowed when read-only.</summary>
+    public IRelayCommand CollectCommand { get; }
+
+    /// <summary>«Report Word e PDF» (<see cref="RequestReport"/>); allowed when read-only.</summary>
+    public IRelayCommand ReportCommand { get; }
+
+    /// <summary>«Guida» (<see cref="OpenGuide"/>).</summary>
+    public IRelayCommand GuideCommand { get; }
+
+    /// <summary>«+ Sondaggio» (<see cref="AddSurvey"/>).</summary>
+    public IRelayCommand AddSurveyCommand { get; }
+
+    /// <summary>«− Sondaggio» (<see cref="RemoveSurvey"/>).</summary>
+    public IRelayCommand RemoveSurveyCommand { get; }
+
+    /// <summary>
+    /// «Invia / carica terreno…»: the sheet commits, then the soil transfer dialog receives its module, its data and the soil sheets
+    /// of the project; a copy goes to the window as a new sheet, a replacement as the soil of this sheet (SheetEditor.OpenSoilTransfer).
+    /// </summary>
+    public IAsyncRelayCommand TransferSoilCommand { get; }
+
+    /// <summary>«Aggiungi strato» (<see cref="AddLayer"/>).</summary>
+    public IRelayCommand AddLayerCommand { get; }
+
+    /// <summary>The [−] of a layer: the parameter is the row of <see cref="Layers"/>.</summary>
+    public IRelayCommand<JsonRowViewModel?> RemoveLayerCommand { get; }
 
     // ---------------------------------------------------------------- input
 
@@ -287,6 +341,25 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
     /// <summary>«Guida»: the guide of the module in the Wiki.</summary>
     public void OpenGuide() { if (ModuleHelp.For(ModuleId).GuideId is { } guide) Context.Services.Wiki.Show(guide); }
 
+    /// <summary>«Calcola» of the view: as TryCalculate of the historic view, which commits the table of the layers first (D7).</summary>
+    private async Task CalculateFromViewAsync(CancellationToken cancellation)
+    {
+        if (IsDisposed) return;
+        Commit();
+        await CalculateAsync(cancellation);
+    }
+
+    /// <summary>«Invia / carica terreno…» (see <see cref="TransferSoilCommand"/>); refused when read-only, as the historic button.</summary>
+    private async Task TransferSoilAsync(CancellationToken cancellation)
+    {
+        if (!CanEdit || transfer is null) return;
+        Commit();
+        var choice = await transfer.ShowAsync(ModuleId, Data, Context.Host.SoilSources());
+        if (choice is null || IsDisposed) return;
+        if (choice.Module is null) Context.Host.ReplaceSoil(choice.Data);
+        else Context.Host.OpenModuleCopy(choice.Module, choice.Data, choice.Name);
+    }
+
     // ---------------------------------------------------------------- sheet
 
     /// <summary>The data were replaced: the sheet is built again on them, as at opening, without a result.</summary>
@@ -319,6 +392,9 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
         if (e.PropertyName != nameof(CanEdit) || IsDisposed) return;
         foreach (var form in Forms) form.IsReadOnly = !CanEdit;
         foreach (var choice in MethodChoices.Append(compression).OfType<ShallowFoundationChoiceViewModel>()) choice.Refresh();
+        // The commands exist after the construction (the base can raise CanEdit before).
+        foreach (var command in new IRelayCommand?[] { AddSurveyCommand, RemoveSurveyCommand, TransferSoilCommand, AddLayerCommand, RemoveLayerCommand })
+            command?.NotifyCanExecuteChanged();
     }
 
     protected override void OnDisposed()
@@ -334,25 +410,25 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
         FoundationDocument.ValidateShape(Data); FoundationMaterials.Complete(Data);
         var input = Data["input"]!.AsObject();
         MethodChoices = ShallowFoundationFields.MethodChoices.Select(c => new ShallowFoundationChoiceViewModel(this, input, c)).ToArray();
-        Set(ref geometryForm, Form(input, ShallowFoundationFields.Geometry), nameof(GeometryForm));
-        Set(ref actionsForm, Form(input, ShallowFoundationFields.Actions), nameof(ActionsForm));
-        Set(ref surchargeForm, Form(input, [ShallowFoundationFields.Surcharge]), nameof(SurchargeForm));
+        Set(ref geometryForm, Form(input, ShallowFoundationFields.Geometry, compact: true), nameof(GeometryForm));
+        Set(ref actionsForm, Form(input, ShallowFoundationFields.Actions, compact: true), nameof(ActionsForm));
+        Set(ref surchargeForm, Form(input, [ShallowFoundationFields.Surcharge], compact: true), nameof(SurchargeForm));
         var general = Data["generali"]!.AsObject();
         Set(ref waterForm, Form(general, ShallowFoundationFields.Water, help: true), nameof(WaterForm));
-        Set(ref combinationForm, Form(Data, [new FieldSpec("nome_combinazione", ShallowFoundationFields.CombinationLabel)]), nameof(CombinationForm));
+        Set(ref combinationForm, Form(Data, [new FieldSpec("nome_combinazione", ShallowFoundationFields.CombinationLabel)], compact: true), nameof(CombinationForm));
         Set(ref confirmationForm, Form(Data, [new FieldSpec("azioni_confermate", ShallowFoundationPresentation.ConfirmationLabel, Bool: true)]), nameof(ConfirmationForm));
         compression = new ShallowFoundationChoiceViewModel(this, input, ShallowFoundationFields.Compression);
         OnPropertyChanged(nameof(Compression));
-        Set(ref relativeDensityForm, Form(input, [ShallowFoundationFields.RelativeDensity]), nameof(RelativeDensityForm));
+        Set(ref relativeDensityForm, Form(input, [ShallowFoundationFields.RelativeDensity], compact: true), nameof(RelativeDensityForm));
         Set(ref methodOptionsForm, Form(input, ShallowFoundationFields.MethodOptions), nameof(MethodOptionsForm));
-        Set(ref waterUnitWeightForm, Form(input, [ShallowFoundationFields.WaterUnitWeight]), nameof(WaterUnitWeightForm));
+        Set(ref waterUnitWeightForm, Form(input, [ShallowFoundationFields.WaterUnitWeight], compact: true), nameof(WaterUnitWeightForm));
         var section = Data["sezione"]!.AsObject();
         FormViewModel? concrete = null;
         concrete = new FormViewModel(section, ShallowFoundationFields.Concrete(section, concreteCatalog), key =>
         {
             ShallowFoundationPresentation.ConcreteChanged(section, key, concreteCatalog, (k, v) => concrete!.Set(k, v, true));
             Edited();
-        }) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki, InheritedWikiModule = ModuleId };
+        }, wikiModule: ModuleId) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
         Set(ref concreteForm, concrete, nameof(ConcreteForm));
         foreach (var group in groups) group.Changed = null;
         Groups = new[] { ShallowFoundationFields.MethodGroup, ShallowFoundationFields.GeometryGroup, ShallowFoundationFields.ActionsGroup, ShallowFoundationFields.SoilGroup }
@@ -368,14 +444,15 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
         OnPropertyChanged(name);
     }
 
-    /// <summary>A form that writes the raw text and clears the result at every change; read-only while the sheet cannot be edited.</summary>
-    private FormViewModel Form(JsonObject values, IEnumerable<FieldSpec> fields, bool help = false)
-    {
-        var form = new FormViewModel(values, fields, _ => Edited()) { IsReadOnly = !CanEdit };
-        // The forms of the historic view built with InputForm (groundwater, concrete) inherit the module for the «?» and F1.
-        if (help) { form.WikiNavigator = Context.Services.Wiki; form.InheritedWikiModule = ModuleId; }
-        return form;
-    }
+    /// <summary>
+    /// A form that writes the raw text and clears the result at every change; read-only while the sheet cannot be edited. Compact: the
+    /// 12-point rows of the historic view (decision D10). With <paramref name="help"/> the forms of the historic view built with
+    /// InputForm (groundwater, concrete), which had the «?» and F1 of the module (FN9): the module is explicit, so that the module
+    /// inherited by the view (WikiContextHelp.Module, not set by MvvmSheetEditor) does not replace it.
+    /// </summary>
+    private FormViewModel Form(JsonObject values, IEnumerable<FieldSpec> fields, bool help = false, bool compact = false) => help
+        ? new FormViewModel(values, fields, _ => Edited(), compact, wikiModule: ModuleId) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki }
+        : new FormViewModel(values, fields, _ => Edited(), compact) { IsReadOnly = !CanEdit };
 
     private void RefreshSurveys()
     {
@@ -481,11 +558,18 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
         State = ShallowFoundationPresentation.CalculatedState(selectedSurvey, Data);
     }
 
-    /// <summary>Report of the sheet: the existing generator of the foundations on the result (reports frozen on 8/10).</summary>
-    private sealed class FoundationReportSource(ShallowFoundationSheetViewModel sheet) : IModuleReportSource
+    /// <summary>
+    /// Report of the sheet: the existing generator of the foundations on the result (reports frozen on 8/10), the Word document and,
+    /// beside it, the PDF of MigraDoc (FoundationReport.Pdf), as SheetEditor.ExportReport writes them (decision T8, FN6).
+    /// </summary>
+    private sealed class FoundationReportSource(ShallowFoundationSheetViewModel sheet) : IModuleReportSource, IModuleReportPdf
     {
         public byte[] BuildReport(string title, IReadOnlySet<string> options, bool projectReport = false) =>
-            DocxWriter.Write(FoundationReport.WordDocument(title, sheet.Result ?? throw new InvalidOperationException("Calcolare prima di esportare.")));
+            DocxWriter.Write(FoundationReport.WordDocument(title, Calculated()));
+
+        public byte[] BuildPdf(string title, IReadOnlySet<string> options, bool projectReport = false) => FoundationReport.Pdf(title, Calculated());
+
+        private JsonObject Calculated() => sheet.Result ?? throw new InvalidOperationException("Calcolare prima di esportare.");
     }
 }
 
