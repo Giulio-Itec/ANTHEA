@@ -367,6 +367,11 @@ Add-Suite @{ Name = 'ui/check-palo-orizzontale-historic'; Stage = 'ui'; Kind = '
 # (message boxes answered and soil transfer dialog driven off screen), which Presentation.Tests compares with the ViewModel; off screen,
 # until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-stratigrafia-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-stratigrafia-historic', '{root}', '{out}\traccia'); Timeout = 300; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
+# F5.6b: the XAML view of the stratigraphy hosted by MvvmSheetEditor off screen (bench --module-impl, Release still historic): the 15 traces
+# through its controls and through the view of the shared soil dialog equal to those frozen in tests/fixtures/f5-stratigrafia, visit without
+# writes, exports equal to those of the historic view, screenshots, F1, automation names, read-only, AI import with a scripted source (never
+# the network), the view of the shared soil dialog against the historic window.
+Add-Suite @{ Name = 'ui/check-stratigrafia-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-stratigrafia-view', '{root}', '{out}\vista'); Timeout = 600; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 # F5.9 (proposal 7.2, capture first): the historic retaining wall view still gives the traces frozen in tests/fixtures/f5-muri,
 # which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-muri-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-muri-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
