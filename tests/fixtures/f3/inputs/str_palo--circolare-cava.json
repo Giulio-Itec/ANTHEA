@@ -1,0 +1,191 @@
+{
+  "module": "str_palo",
+  "id": "circolare-cava",
+  "origin": "Fixture sintetica F5.10 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_sezione": 2,
+    "input": {
+      "shape": "Circolare",
+      "diameter_mm": "1000",
+      "circular_sides": "48",
+      "width_mm": "600",
+      "height_mm": "800",
+      "flange_width_mm": "1200",
+      "web_width_mm": "400",
+      "flange_thickness_mm": "250",
+      "cover_mm": "60",
+      "longitudinal_bar_count": "20",
+      "longitudinal_bar_diameter_mm": "24",
+      "top_bar_count": "4",
+      "top_bar_diameter_mm": "20",
+      "bottom_bar_count": "6",
+      "bottom_bar_diameter_mm": "24",
+      "side_bar_count_per_side": "2",
+      "side_bar_diameter_mm": "16",
+      "transverse_bar_diameter_mm": "12",
+      "transverse_spacing_mm": "150",
+      "apply_pile_requirements": false,
+      "dissipative_zone": false,
+      "fck_mpa": 40,
+      "fyk_mpa": 450,
+      "alpha_cc": "0.85",
+      "gamma_c": "1.50",
+      "gamma_s": "1.15",
+      "steel_modulus_mpa": 200000,
+      "axial_force_kn": "2500",
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "apply_minimum_eccentricity": false,
+      "minimum_eccentricity_mm": "0",
+      "classe_cls": "C40/50",
+      "n": "",
+      "materiale_cls_nome": "C40/50",
+      "cls_diagramma": "Parabola-rettangolo",
+      "classe_acciaio": "B450C",
+      "materiale_acciaio_nome": "B450C",
+      "steel_fu_mpa": 540,
+      "steel_eps_u": 75,
+      "steel_diagramma": "Elastoplastico",
+      "foro_presente": true,
+      "inner_diameter_mm": "400",
+      "second_inner_enabled": true,
+      "second_inner_count": "12",
+      "second_inner_diameter": "20",
+      "second_inner_gap": "40"
+    },
+    "n_automatico": true,
+    "combinazioni": {
+      "SLU": [
+        {
+          "id": "510000010f514a008000000000000001",
+          "nome": "SLU pressoflessione",
+          "azioni": [
+            "-3500",
+            "600",
+            "150"
+          ],
+          "visible": true
+        },
+        {
+          "id": "510000020f514a008000000000000002",
+          "nome": "SLU trazione",
+          "azioni": [
+            "400",
+            "120",
+            "0"
+          ],
+          "visible": true
+        }
+      ],
+      "SLV": [
+        {
+          "id": "510000030f514a008000000000000003",
+          "nome": "SLV sisma X",
+          "azioni": [
+            "-2500",
+            "900",
+            "300"
+          ],
+          "visible": true
+        }
+      ],
+      "SLE": [
+        {
+          "id": "510000040f514a008000000000000004",
+          "nome": "Rara",
+          "azioni": [
+            "-2600",
+            "350",
+            "80"
+          ],
+          "visible": true
+        }
+      ],
+      "SLE_FREQ": [
+        {
+          "id": "510000050f514a008000000000000005",
+          "nome": "Frequente",
+          "azioni": [
+            "-2400",
+            "260",
+            "60"
+          ],
+          "visible": true
+        }
+      ],
+      "SLE_QP": [
+        {
+          "id": "510000060f514a008000000000000006",
+          "nome": "Quasi permanente",
+          "azioni": [
+            "-2200",
+            "180",
+            "40"
+          ],
+          "visible": true
+        }
+      ]
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "NTC 2018",
+      "tab": 2,
+      "quote_interferro": false,
+      "taglio": {
+        "tipo_staffa": "Spirale",
+        "rami_x": "2",
+        "rami_y": "2",
+        "rami_interni": "2",
+        "schema_interno": "Staffe chiuse sovrapposte",
+        "rotazione_staffa": "30",
+        "modello_circolare": "Pile · NTC §7.9.5.2",
+        "z_d": "0.75",
+        "azioni": [
+          {
+            "id": "510000140f514a008000000000000014",
+            "nome": "V1 pila",
+            "N": "-2000",
+            "Mx": "300",
+            "My": "0",
+            "Vx": "350",
+            "Vy": "150",
+            "T": "0"
+          },
+          {
+            "id": "510000150f514a008000000000000015",
+            "nome": "V2 con torsione",
+            "N": "-1500",
+            "Mx": "0",
+            "My": "0",
+            "Vx": "200",
+            "Vy": "200",
+            "T": "80"
+          }
+        ]
+      },
+      "dominio2d": {
+        "stato": "SLU",
+        "tipo": "N–M",
+        "theta": "30",
+        "N": "-1000",
+        "proietta": "Sì",
+        "filtro": "Tutte"
+      },
+      "resistenze_rapide": {
+        "N": "-1500",
+        "tipo": "Elastico"
+      },
+      "dettagli_costruttivi": {
+        "elemento": "Pilastro",
+        "barre_trattenute": "Confermato"
+      },
+      "sle": {
+        "SLE": {
+          "modello": "Lineare",
+          "esposizione": "XC2"
+        }
+      }
+    }
+  }
+}

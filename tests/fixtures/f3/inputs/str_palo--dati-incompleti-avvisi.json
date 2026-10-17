@@ -1,0 +1,150 @@
+{
+  "module": "str_palo",
+  "id": "dati-incompleti-avvisi",
+  "origin": "Fixture sintetica F5.10 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_sezione": 2,
+    "input": {
+      "shape": "Rettangolare",
+      "diameter_mm": "1000",
+      "circular_sides": "32",
+      "width_mm": "600",
+      "height_mm": "800",
+      "flange_width_mm": "1200",
+      "web_width_mm": "400",
+      "flange_thickness_mm": "250",
+      "longitudinal_bar_count": "16",
+      "longitudinal_bar_diameter_mm": "24",
+      "top_bar_count": "4",
+      "top_bar_diameter_mm": "20",
+      "bottom_bar_count": "6",
+      "bottom_bar_diameter_mm": "24",
+      "side_bar_diameter_mm": "16",
+      "transverse_bar_diameter_mm": "10",
+      "transverse_spacing_mm": "200",
+      "apply_pile_requirements": false,
+      "dissipative_zone": false,
+      "fck_mpa": 35,
+      "fyk_mpa": 450,
+      "alpha_cc": "0.85",
+      "gamma_c": "1.50",
+      "gamma_s": "1.15",
+      "steel_modulus_mpa": 200000,
+      "axial_force_kn": "2500",
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "apply_minimum_eccentricity": false,
+      "minimum_eccentricity_mm": "0",
+      "classe_cls": "C35/45",
+      "n": "",
+      "materiale_cls_nome": "C35/45",
+      "cls_diagramma": "Parabola-rettangolo",
+      "classe_acciaio": "B450C",
+      "materiale_acciaio_nome": "B450C",
+      "steel_fu_mpa": 540,
+      "steel_eps_u": 75,
+      "steel_diagramma": "Elastoplastico"
+    },
+    "n_automatico": true,
+    "combinazioni": {
+      "SLU": [
+        {
+          "id": "510000010f514a008000000000000001",
+          "nome": "SLU completa",
+          "azioni": [
+            "-1000",
+            "200",
+            "50"
+          ],
+          "visible": true
+        },
+        {
+          "id": "510000020f514a008000000000000002",
+          "nome": "SLU senza N",
+          "azioni": [
+            "",
+            "150",
+            "20"
+          ],
+          "visible": true
+        },
+        {
+          "id": "510000030f514a008000000000000003",
+          "nome": "SLU testo",
+          "azioni": [
+            "-500",
+            "abc",
+            "0"
+          ],
+          "visible": true
+        }
+      ],
+      "SLV": [],
+      "SLE": [
+        {
+          "id": "510000040f514a008000000000000004",
+          "nome": "Rara",
+          "azioni": [
+            "-800",
+            "100",
+            "0"
+          ],
+          "visible": true
+        }
+      ],
+      "SLE_FREQ": [],
+      "SLE_QP": []
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "NTC 2018",
+      "dominio3d": {
+        "stato": "SLU",
+        "angoli": "16",
+        "criterio": "N costante",
+        "filtro": "Tutte"
+      },
+      "resistenze_rapide": {
+        "N": "abc",
+        "tipo": "Plastico"
+      },
+      "taglio": {
+        "chiusura_torsione": "Confermato",
+        "as_torsione": "600",
+        "azioni": [
+          {
+            "id": "510000140f514a008000000000000014",
+            "nome": "Taglio completo",
+            "N": "-800",
+            "Mx": "100",
+            "My": "0",
+            "Vx": "150",
+            "Vy": "80",
+            "T": "0"
+          },
+          {
+            "id": "510000150f514a008000000000000015",
+            "nome": "Taglio senza Vx",
+            "N": "-800",
+            "Mx": "0",
+            "My": "0",
+            "Vx": "",
+            "Vy": "80",
+            "T": "0"
+          },
+          {
+            "id": "510000160f514a008000000000000016",
+            "nome": "Taglio e torsione",
+            "N": "-600",
+            "Mx": "50",
+            "My": "0",
+            "Vx": "120",
+            "Vy": "60",
+            "T": "35"
+          }
+        ]
+      }
+    }
+  }
+}

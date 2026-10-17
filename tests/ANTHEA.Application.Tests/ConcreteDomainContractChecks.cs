@@ -72,7 +72,8 @@ internal static class ConcreteDomainContractChecks
         Check(mesh.Vertices.Count > 0 && mesh.Triangles.Count > 0, "Mesh di prova vuota");
         var vertex = mesh.Source.Vertices[0]; mesh.Vertices[0] = new ConcreteResults.Action(99, 88, 77);
         Check(mesh.Source.Vertices[0] == vertex, "Vertici condivisi con il motore");
-        Check(states == 4 && limits > 0 && cracks > 0 && details > 0 && comparison.Values > 10000, $"Copertura domini/stati insufficiente: {states}, {limits}, {cracks}, {details}");
+        // 4 fixtures str_palo before F5.10; 11 with the seven added in F5.10 (section fixture_aggiunte_f5_10 of the F3 manifest).
+        Check(states == 11 && limits > 0 && cracks > 0 && details > 0 && comparison.Values > 10000, $"Copertura domini/stati insufficiente: {states}, {limits}, {cracks}, {details}");
         Console.WriteLine($"Contratti domini e tensioni: {comparison.Values} valori esatti, {states} raster, {limits} piani limite, {cracks} fessurazioni e {details} dettagli");
         return checks;
     }

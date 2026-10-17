@@ -1,0 +1,191 @@
+{
+  "module": "str_palo",
+  "id": "sle-fessurazione-assi",
+  "origin": "Fixture sintetica F5.10 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_sezione": 2,
+    "input": {
+      "shape": "Rettangolare",
+      "diameter_mm": "1000",
+      "circular_sides": "32",
+      "width_mm": "400",
+      "height_mm": "600",
+      "flange_width_mm": "1200",
+      "web_width_mm": "400",
+      "flange_thickness_mm": "250",
+      "cover_mm": "50",
+      "longitudinal_bar_count": "16",
+      "longitudinal_bar_diameter_mm": "24",
+      "top_bar_count": "4",
+      "top_bar_diameter_mm": "20",
+      "bottom_bar_count": "6",
+      "bottom_bar_diameter_mm": "24",
+      "side_bar_count_per_side": "2",
+      "side_bar_diameter_mm": "16",
+      "transverse_bar_diameter_mm": "10",
+      "transverse_spacing_mm": "200",
+      "apply_pile_requirements": false,
+      "dissipative_zone": false,
+      "fck_mpa": 30,
+      "fyk_mpa": 450,
+      "alpha_cc": "0.85",
+      "gamma_c": "1.50",
+      "gamma_s": "1.15",
+      "steel_modulus_mpa": 200000,
+      "axial_force_kn": "2500",
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "apply_minimum_eccentricity": false,
+      "minimum_eccentricity_mm": "0",
+      "classe_cls": "C30/37",
+      "n": "",
+      "materiale_cls_nome": "C30/37",
+      "cls_diagramma": "Parabola-rettangolo",
+      "classe_acciaio": "B450C",
+      "materiale_acciaio_nome": "B450C",
+      "steel_fu_mpa": 540,
+      "steel_eps_u": 75,
+      "steel_diagramma": "Elastoplastico"
+    },
+    "n_automatico": true,
+    "combinazioni": {
+      "SLU": [
+        {
+          "id": "510000010f514a008000000000000001",
+          "nome": "SLU",
+          "azioni": [
+            "-500",
+            "260",
+            "30"
+          ],
+          "visible": true
+        }
+      ],
+      "SLV": [],
+      "SLE": [
+        {
+          "id": "510000020f514a008000000000000002",
+          "nome": "Rara 1",
+          "azioni": [
+            "-350",
+            "180",
+            "10"
+          ],
+          "visible": true
+        },
+        {
+          "id": "510000030f514a008000000000000003",
+          "nome": "Rara 2",
+          "azioni": [
+            "-100",
+            "210",
+            "40"
+          ],
+          "visible": true
+        }
+      ],
+      "SLE_FREQ": [
+        {
+          "id": "510000040f514a008000000000000004",
+          "nome": "Frequente 1",
+          "azioni": [
+            "-350",
+            "150",
+            "10"
+          ],
+          "visible": true
+        },
+        {
+          "id": "510000050f514a008000000000000005",
+          "nome": "Frequente trazione",
+          "azioni": [
+            "200",
+            "60",
+            "0"
+          ],
+          "visible": true
+        }
+      ],
+      "SLE_QP": [
+        {
+          "id": "510000060f514a008000000000000006",
+          "nome": "Quasi permanente",
+          "azioni": [
+            "-350",
+            "120",
+            "5"
+          ],
+          "visible": true
+        }
+      ]
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "Model Code 2010",
+      "tab": 3,
+      "sle": {
+        "SLE": {
+          "modello": "Lineare",
+          "phi": "1.8",
+          "assi": "Personalizzati",
+          "origine_x": "20",
+          "origine_y": "-40",
+          "rotazione": "10",
+          "esposizione": "XD3",
+          "sensibilita": "Sensibile",
+          "durata": "Breve",
+          "copriferro_fessure": "55",
+          "spaziatura_fessure": "180",
+          "limite_fessure": "0.2",
+          "contour": "Barre · tasso resistenza",
+          "testi_barre": true,
+          "asse_neutro": false
+        },
+        "SLE_FREQ": {
+          "modello": "Lineare",
+          "phi": "1.8",
+          "assi": "Personalizzati",
+          "origine_x": "20",
+          "origine_y": "-40",
+          "rotazione": "10",
+          "esposizione": "XD3",
+          "sensibilita": "Sensibile",
+          "durata": "Breve",
+          "copriferro_fessure": "55",
+          "spaziatura_fessure": "180",
+          "limite_fessure": "0.2",
+          "contour": "CLS · deformazioni",
+          "testi_cls": true
+        },
+        "SLE_QP": {
+          "modello": "Lineare",
+          "phi": "1.8",
+          "assi": "Personalizzati",
+          "origine_x": "20",
+          "origine_y": "-40",
+          "rotazione": "10",
+          "esposizione": "XD3",
+          "sensibilita": "Sensibile",
+          "durata": "Breve",
+          "copriferro_fessure": "55",
+          "spaziatura_fessure": "180",
+          "limite_fessure": "0.2",
+          "contour": "Sezione · tasso resistenza"
+        }
+      },
+      "dominio2d": {
+        "stato": "SLU",
+        "tipo": "Mx–My",
+        "N": "-300",
+        "assi": "Principali",
+        "proietta": "Sì",
+        "filtro": "Tutte"
+      },
+      "resistenze_rapide": {
+        "N": "-300",
+        "tipo": "Plastico"
+      }
+    }
+  }
+}

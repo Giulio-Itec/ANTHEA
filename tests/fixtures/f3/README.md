@@ -226,3 +226,53 @@ aveva fixture. Il 17/10/2026 ne ha ricevute cinque (66 in tutto), catturate con 
 - In `expected/esito.txt` è cambiato solo il numero delle fixture (61 → 66).
 - Impronte nel manifest, sezione `fixture_aggiunte_f5_6b` (input, attesi ed `esito.txt`), sulla forma conservata da git (fine
   riga LF).
+
+## Fixture aggiunte in F5.10 (sezione c.a.)
+
+Stessa regola di F5.4 (proposta F5, sezione 7.2). Prima della preparazione di F5.10 la sezione c.a. (`str_palo`) aveva quattro
+fixture, tutte rettangolari, con le azioni nel formato storico e le opzioni predefinite. Il 17/10/2026 ne ha ricevute sette (87 in
+tutto), catturate con la vista storica (`ConcreteWorkspace` in `SheetEditor`), che coprono i sottopassi di F5.10. Gli attesi delle 80
+fixture esistenti, le figure CA congelate e le transizioni F4 non cambiano.
+
+| Fixture | Cosa copre |
+| --- | --- |
+| `circolare-cava` | sezione circolare cava (NTC 2018, C40/50 di catalogo) con secondo anello interno; spirale con due staffe interne sovrapposte ruotate di 30°; modello di taglio circolare delle pile, due righe di taglio (una con torsione e staffe chiuse da confermare); dominio 2D N–M a θ = 30° con le azioni proiettate; resistenze rapide elastiche; pilastro con le barre compresse trattenute; quota dell'interferro spenta; la scheda si apre sul dominio 2D |
+| `sezione-a-t-sollecitazioni-uniche` | sezione a T con le barre sotto l'ala (EN 1992-1-1, C30/37 e B500B di catalogo); sollecitazioni uniche con stato limite ed elemento per riga, taglio e torsione nella stessa riga (le righe con T si fermano con il messaggio del modello NTC), una riga nascosta; criterio resistente per dominio (plastico 3D a eccentricità costante, elastico 2D su SLV); trave con appoggi e barre trattenute confermati; sovrapposizione del 50 % delle barre; la scheda si apre sul dominio 3D |
+| `rettangolare-materiali-utente` | materiali definiti dall'utente (DIN EN 1992-1-1): calcestruzzo con legge bilineare, acciaio incrudente, elenco salvato (calcestruzzo, acciaio, trefolo) e legge scelta per un trefolo di catalogo; αcc e γc cambiati, piano gettato sottile; barre per coordinate; criterio Mx–My costanti con il metodo delle intersezioni; SLE non lineare; percorso M–χ a 45° con tension stiffening; opzioni delle proprietà, nota del foglio e percorso del file delle sollecitazioni |
+| `sle-fessurazione-assi` | SLE con Model Code 2010: esposizione XD3, armatura sensibile, carico breve, copriferro e interasse per l'apertura e limite di progetto; assi personalizzati con origine e rotazione, φ assegnato; contorni ed etichette delle tre mappe, asse neutro spento; una riga frequente in trazione; dominio 2D sugli assi principali con le azioni proiettate; la scheda si apre sulle SLE |
+| `taglio-senza-staffe-manuali` | taglio senza staffe (UNI EN 1992-1-1): sezione senza staffe, modello senza staffe, parametri geometrici manuali con Asl ancorata confermata; tre righe di taglio storiche (completa, senza Vy, con torsione); pilastro |
+| `soletta-dettagli-ricerca` | striscia di soletta (NTC 2018): dettagli della soletta con zona critica, armatura ortogonale, zona di sovrapposizione, 100 anni, controllo dei copriferri, sovrapposizione di metà delle barre; una riga SLU nel dominio e una fuori, una rara oltre i limiti tensionali; opzioni della ricerca delle armature (compromesso con i pesi, senza staffe, barre ortogonali, ricerca a campione, due calcoli contemporanei, prime cinque, limite SLU); la scheda si apre sulla ricerca |
+| `dati-incompleti-avvisi` | dati incompleti che fermano singole righe o le resistenze rapide, con gli avvisi della scheda: archivio senza due valori di ingresso (la scheda li integra e li mostra), un'azione senza N e una con testo in Mx, una riga di taglio senza Vx, N delle resistenze rapide non numerico; esposizione, elemento e ancoraggio da scegliere; meno direzioni del dominio 3D; una riga di taglio con torsione e staffe chiuse confermate |
+
+- Gli input vengono da `fixtures-f3` (`F3Fixtures.ConcreteSectionF510`). Sono documenti come li scrive la scheda prima della sua
+  preparazione: area di lavoro di versione 2 con la normativa, le chiavi che la scheda scriverebbe, testi per i valori digitati;
+  identificativi fissi; archivi validi. Nessun identificativo finisce con `default`. Prima della cattura ogni input è stato calcolato
+  con le sessioni di Application per verificare l'esito descritto.
+- **Limiti voluti.** Nessuna fixture ha trefoli: la curva M–χ con trefoli non è disponibile («definire prima il criterio di
+  snervamento/predeformazione») e `ui/f3-report-chapters` la calcola per ogni fixture c.a. con risultati. Nessuna ferma l'intero
+  calcolo: `ConcreteDomainContractChecks` (Application.Tests) calcola la sezione di ogni fixture `str_palo`, e una geometria o un
+  materiale non validi la fermerebbero. Trefoli e calcolo bloccato sono nelle tracce di F5.10 (`tests/fixtures/f5-sezione`).
+- **Ordine delle righe.** Le azioni di ogni stato limite sono scritte nell'ordine dei nomi. Con un ordine diverso
+  `ui/f3-report-chapters` falliva (prima versione di `rettangolare-materiali-utente`): le figure dei domini del report della vista
+  evidenziano la combinazione selezionata nella tabella, mentre il capitolo autonomo evidenzia la prima per nome. La differenza è
+  della vista storica ed è descritta in `docs/refactoring/f5-10-sezione.md`; non è stata corretta.
+- **Nessuna verifica fermata per intero.** La prima versione di `dati-incompleti-avvisi` aveva direzioni del dominio 3D rifiutate
+  dal motore: le due verifiche 3D (SLU e SLV) si fermavano insieme e l'ordine dei loro errori nel risultato e nel report
+  dipendeva dal thread che finiva prima (catture `…-f510-f3-cattura-3` e `-4` diverse, `ui/f3-report-chapters` «Errori parziali
+  diversi»). Anche questa differenza è della vista storica (descritta nello stesso documento); la fixture ferma solo singole righe.
+- Gli attesi (77 file) vengono dalle catture `20261017-030549-f510-f3-cattura-3` (sei fixture) e `…-031445-f510-f3-cattura-5`
+  (`dati-incompleti-avvisi`), sul codice di produzione di `743d7aec`: senza attesi, le sole differenze erano i file aggiunti. La
+  corsa di controllo `…-031805-f510-f3-cattura-6` dà gli stessi 77 file byte per byte (le sei fixture sono uguali anche nelle catture
+  3 e 5) e passa con le transizioni F4 invariate. Le catture `…-025535-f510-f3-cattura-1`, `…-f510-f3-cattura-2` e
+  `…-f510-f3-cattura-4` sono delle prime versioni degli input, scartate (punti seguenti).
+- `ui/f3-concrete-figures` confronta i dati dei grafici del dominio 2D di ogni fixture c.a.: le 7 figure nuove di
+  `tests/fixtures/f3-concrete-figures` vengono dalle catture 3 e 5 (`-CaptureConcreteFigures`), nelle quali le 4 esistenti sono
+  uguali al riferimento congelato; la corsa 6 le confronta. `F3ConcreteFigureChecks` conta ora 11 figure invece di 4.
+- Con queste fixture passano `ui/f3-equivalence` (stesse transizioni F4), `ui/f3-report-chapters` e `ui/f3-concrete-figures`.
+- Prove di Application che leggono ogni fixture `str_palo`: `ConcreteDomainContractChecks` conta 11 fixture invece di 4;
+  `ConcretePresentationChecks` ricalcola i dettagli costruttivi con le righe di tutti gli stati limite, come la scheda e il report
+  (`ConcreteSheetPreparation.PrepareReport`), e non con la sola N delle righe SLU e SLV: con un elemento scelto il riepilogo nomina la
+  riga della compressione più gravosa, e prima di F5.10 nessuna fixture sceglieva l'elemento.
+- In `expected/esito.txt` è cambiato solo il numero delle fixture (80 → 87).
+- Impronte nel manifest, sezione `fixture_aggiunte_f5_10` (input, attesi, figure ed `esito.txt`), sulla forma conservata da git
+  (fine riga LF).

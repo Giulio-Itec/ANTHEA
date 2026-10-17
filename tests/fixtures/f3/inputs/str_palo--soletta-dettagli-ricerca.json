@@ -1,0 +1,165 @@
+{
+  "module": "str_palo",
+  "id": "soletta-dettagli-ricerca",
+  "origin": "Fixture sintetica F5.10 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_sezione": 2,
+    "input": {
+      "shape": "Rettangolare",
+      "diameter_mm": "1000",
+      "circular_sides": "32",
+      "width_mm": "1000",
+      "height_mm": "250",
+      "flange_width_mm": "1200",
+      "web_width_mm": "400",
+      "flange_thickness_mm": "250",
+      "cover_mm": "30",
+      "longitudinal_bar_count": "16",
+      "longitudinal_bar_diameter_mm": "24",
+      "top_bar_count": "5",
+      "top_bar_diameter_mm": "12",
+      "bottom_bar_count": "5",
+      "bottom_bar_diameter_mm": "14",
+      "side_bar_count_per_side": "0",
+      "side_bar_diameter_mm": "16",
+      "transverse_bar_diameter_mm": "10",
+      "transverse_spacing_mm": "200",
+      "apply_pile_requirements": false,
+      "dissipative_zone": false,
+      "fck_mpa": 35,
+      "fyk_mpa": 450,
+      "alpha_cc": "0.85",
+      "gamma_c": "1.50",
+      "gamma_s": "1.15",
+      "steel_modulus_mpa": 200000,
+      "axial_force_kn": "2500",
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "apply_minimum_eccentricity": false,
+      "minimum_eccentricity_mm": "0",
+      "classe_cls": "C35/45",
+      "n": "",
+      "materiale_cls_nome": "C35/45",
+      "cls_diagramma": "Parabola-rettangolo",
+      "classe_acciaio": "B450C",
+      "materiale_acciaio_nome": "B450C",
+      "steel_fu_mpa": 540,
+      "steel_eps_u": 75,
+      "steel_diagramma": "Elastoplastico",
+      "staffe_presenti": "No"
+    },
+    "n_automatico": true,
+    "combinazioni": {
+      "SLU": [
+        {
+          "id": "510000010f514a008000000000000001",
+          "nome": "SLU appoggio",
+          "azioni": [
+            "0",
+            "-110",
+            "0"
+          ],
+          "visible": true
+        },
+        {
+          "id": "510000020f514a008000000000000002",
+          "nome": "SLU campata",
+          "azioni": [
+            "0",
+            "50",
+            "0"
+          ],
+          "visible": true
+        }
+      ],
+      "SLV": [],
+      "SLE": [
+        {
+          "id": "510000030f514a008000000000000003",
+          "nome": "Rara",
+          "azioni": [
+            "0",
+            "65",
+            "0"
+          ],
+          "visible": true
+        }
+      ],
+      "SLE_FREQ": [],
+      "SLE_QP": [
+        {
+          "id": "510000040f514a008000000000000004",
+          "nome": "Quasi permanente",
+          "azioni": [
+            "0",
+            "45",
+            "0"
+          ],
+          "visible": true
+        }
+      ]
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "NTC 2018",
+      "tab": 7,
+      "taglio": {
+        "modello": "Senza staffe",
+        "azioni": []
+      },
+      "dettagli_costruttivi": {
+        "elemento": "Soletta piena",
+        "zona_critica": "Sì",
+        "as_secondaria": "565",
+        "passo_secondaria": "200",
+        "vita_durabilita": "100",
+        "qualita_copriferro": "Sì",
+        "aggregato": "16",
+        "delta_c": "5",
+        "zona_sovrapposizione": "Sì"
+      },
+      "ancoraggi": {
+        "schema_versione": 1,
+        "tipo": "Sovrapposizione rettilinea",
+        "lunghezza": "600",
+        "percentuale": "50",
+        "interferro": "20"
+      },
+      "calcola_armature": {
+        "obiettivo": "Compromesso",
+        "peso_peso": "2",
+        "peso_barre": "1",
+        "peso_diametri": "0.5",
+        "diametri": "10;12;14",
+        "n_superiori": "4;5",
+        "n_inferiori": "5;6;7",
+        "n_laterali": "0",
+        "staffe": "Senza staffe",
+        "diametri_ortogonali": "8;10",
+        "passi_ortogonali": "150;200",
+        "max_diametri": "2",
+        "ricerca_completa": false,
+        "max_tentativi": "300",
+        "parallelismo": "2",
+        "mostra": "5",
+        "ancoraggio_confermato": true,
+        "riserva_torsione": "0",
+        "slu": "0.95"
+      },
+      "sle": {
+        "SLE": {
+          "modello": "Lineare",
+          "esposizione": "XS1"
+        }
+      },
+      "dominio2d": {
+        "stato": "SLU",
+        "tipo": "Mx–My",
+        "theta": "0",
+        "N": "0",
+        "filtro": "Tutte"
+      }
+    }
+  }
+}

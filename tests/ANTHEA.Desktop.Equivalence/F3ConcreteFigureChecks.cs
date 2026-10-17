@@ -48,7 +48,8 @@ internal sealed partial class ConcreteWorkspace
             }
             count++;
         }
-        if (count != 4) throw new InvalidOperationException("Corpus grafico CA incompleto");
+        // 4 fixtures before F5.10; 11 with the seven added in F5.10 (section fixture_aggiunte_f5_10 of the F3 manifest).
+        if (count != 11) throw new InvalidOperationException("Corpus grafico CA incompleto");
         File.WriteAllText(Path.Combine(output, "esito.txt"), (capture ? "CAPTURE " : "PASS ") + count + " figure CA, filtri e punti resistenti esatti.");
     }
 }

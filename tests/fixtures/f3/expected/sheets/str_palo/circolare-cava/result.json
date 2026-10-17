@@ -1,0 +1,2378 @@
+{
+  "ancoraggio": null,
+  "ancoraggio_esito": "Ancoraggi e giunzioni\nDA COMPLETARE\nDati da completare\nInserire la lunghezza disponibile per eseguire la verifica.\nNTC capitolo 4 / EC2 §§8.4 e 8.7\n\n",
+  "avvisi": [
+    "Compressione negativa; azioni in kN e kNm",
+    "Taglio e fessurazione: vedere esiti specifici e limiti di applicabilità"
+  ],
+  "dati": {
+    "combinazioni": {
+      "SLE": [
+        {
+          "azioni": [
+            "-2600",
+            "350",
+            "80"
+          ],
+          "id": "<GUID-4>",
+          "nome": "Rara",
+          "visible": true
+        }
+      ],
+      "SLE_FREQ": [
+        {
+          "azioni": [
+            "-2400",
+            "260",
+            "60"
+          ],
+          "id": "<GUID-5>",
+          "nome": "Frequente",
+          "visible": true
+        }
+      ],
+      "SLE_QP": [
+        {
+          "azioni": [
+            "-2200",
+            "180",
+            "40"
+          ],
+          "id": "<GUID-6>",
+          "nome": "Quasi permanente",
+          "visible": true
+        }
+      ],
+      "SLU": [
+        {
+          "azioni": [
+            "-3500",
+            "600",
+            "150"
+          ],
+          "id": "<GUID-1>",
+          "nome": "SLU pressoflessione",
+          "visible": true
+        },
+        {
+          "azioni": [
+            "400",
+            "120",
+            "0"
+          ],
+          "id": "<GUID-2>",
+          "nome": "SLU trazione",
+          "visible": true
+        }
+      ],
+      "SLV": [
+        {
+          "azioni": [
+            "-2500",
+            "900",
+            "300"
+          ],
+          "id": "<GUID-3>",
+          "nome": "SLV sisma X",
+          "visible": true
+        }
+      ]
+    },
+    "input": {
+      "alpha_cc": "0.85",
+      "apply_minimum_eccentricity": false,
+      "apply_pile_requirements": false,
+      "axial_force_kn": "2500",
+      "bottom_bar_count": "6",
+      "bottom_bar_diameter_mm": "24",
+      "circular_sides": "48",
+      "classe_acciaio": "B450C",
+      "classe_cls": "C40/50",
+      "cls_diagramma": "Parabola-rettangolo",
+      "cover_mm": "60",
+      "diameter_mm": "1000",
+      "dissipative_zone": false,
+      "fck_mpa": 40,
+      "flange_bottom_count": "0",
+      "flange_bottom_diameter_mm": "20",
+      "flange_bottom_offset_mm": "82",
+      "flange_thickness_mm": "250",
+      "flange_width_mm": "1200",
+      "foro_presente": true,
+      "fyk_mpa": 450,
+      "gamma_c": "1.50",
+      "gamma_s": "1.15",
+      "gettato_sottile": "No",
+      "height_mm": "800",
+      "inner_diameter_mm": "400",
+      "inner_height_mm": "400",
+      "inner_width_mm": "300",
+      "longitudinal_bar_count": "20",
+      "longitudinal_bar_diameter_mm": "24",
+      "materiale_acciaio_nome": "B450C",
+      "materiale_cls_nome": "C40/50",
+      "minimum_eccentricity_mm": "0",
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "n": "",
+      "second_bottom_count": "6",
+      "second_bottom_diameter": "24",
+      "second_bottom_gap": "30",
+      "second_inner_count": "12",
+      "second_inner_diameter": "20",
+      "second_inner_enabled": true,
+      "second_inner_gap": "40",
+      "second_top_count": "4",
+      "second_top_diameter": "20",
+      "second_top_gap": "30",
+      "shape": "Circolare",
+      "side_bar_count_per_side": "2",
+      "side_bar_diameter_mm": "16",
+      "staffe_presenti": "Sì",
+      "steel_diagramma": "Elastoplastico",
+      "steel_eps_u": 75,
+      "steel_fu_mpa": 540,
+      "steel_modulus_mpa": 200000,
+      "top_bar_count": "4",
+      "top_bar_diameter_mm": "20",
+      "transverse_bar_diameter_mm": "12",
+      "transverse_spacing_mm": "150",
+      "web_width_mm": "400",
+      "width_mm": "600"
+    },
+    "n_automatico": true,
+    "versione_sezione": 2,
+    "workspace_ca": {
+      "ancoraggi": {
+        "aderenza": "Buona",
+        "cautele": "Da verificare",
+        "confinamento": "Da verificare",
+        "diametro": "",
+        "interferro": "0",
+        "lunghezza": "",
+        "percentuale": "100",
+        "posizione": "Da verificare",
+        "schema_versione": 1,
+        "sigma": "",
+        "tipo": "Ancoraggio rettilineo"
+      },
+      "calcola_armature": {
+        "ancoraggio": "1",
+        "ancoraggio_confermato": false,
+        "diametri": "12;16;20;24",
+        "diametri_ortogonali": "8;10;12;16",
+        "diametri_staffe": "8;10",
+        "ganci_phi": "20",
+        "max_diametri": "3",
+        "max_tentativi": "2000",
+        "mostra": "10",
+        "n_circolari": "8;12;16;20;24",
+        "n_inferiori": "2;4;6;8",
+        "n_laterali": "0;2;4",
+        "n_superiori": "2;4;6",
+        "obiettivo": "Peso",
+        "parallelismo": "Automatico",
+        "passi_ortogonali": "100;150;200;250",
+        "passi_staffe": "100;150;200;250",
+        "peso_barre": "1",
+        "peso_diametri": "1",
+        "peso_peso": "1",
+        "ricerca_completa": true,
+        "riserva_torsione": "25",
+        "sigma_c_qp": "1",
+        "sigma_c_rara": "1",
+        "sigma_s_rara": "1",
+        "simmetrica": false,
+        "slu": "1",
+        "slv": "1",
+        "staffe": "Ottimizza",
+        "torsione": "1",
+        "torsione_confermata": false,
+        "vt_cls": "1",
+        "vt_staffe": "1",
+        "vx": "1",
+        "vy": "1",
+        "wk_freq": "1",
+        "wk_qp": "1"
+      },
+      "coefficienti": {
+        "AlphaCC": "0.85",
+        "AlphaCT": "1",
+        "GammaC": "1.50",
+        "GammaCAccidental": "1",
+        "GammaCE": "1.2",
+        "GammaF": "1.5",
+        "GammaS": "1.15",
+        "GammaSAccidental": "1",
+        "GammaSPrestress": "1.15",
+        "GammaSPrestressAccidental": "1",
+        "ServiceabilityStressConcreteCoefficientForCharacteristicCombination": "0.6",
+        "ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination": "0.45",
+        "ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination": "0.8",
+        "ServiceabilityStressSteelCoefficientForCharacteristicCombination": "0.8",
+        "SteelCoefficientStrainTension": "0.9"
+      },
+      "dettagli_costruttivi": {
+        "aggregato": "20",
+        "ancoraggio_appoggi": "Da confermare",
+        "as_secondaria": "0",
+        "barre_trattenute": "Confermato",
+        "cmin_dur": 20,
+        "delta_c": "10",
+        "elemento": "Pilastro",
+        "esposizione_sle": "XC2",
+        "passo_secondaria": "0",
+        "qualita_copriferro": "No",
+        "vita_durabilita": "50",
+        "zona_critica": "No",
+        "zona_sovrapposizione": "No"
+      },
+      "dominio2d": {
+        "N": "-1000",
+        "angoli": "64",
+        "assi": "Locali",
+        "criterio": "N costante",
+        "filtro": "Tutte",
+        "interpolazione": "Quadratica",
+        "origine_x": "0",
+        "origine_y": "0",
+        "proietta": "Sì",
+        "rotazione": "0",
+        "stato": "SLU",
+        "strategia": "Iterativo",
+        "suddivisioni_n": "50",
+        "theta": "30",
+        "tipo": "N–M",
+        "trazione_cls": "No"
+      },
+      "dominio3d": {
+        "angoli": "32",
+        "assi": "Locali",
+        "criterio": "N costante",
+        "filtro": "Tutte",
+        "interpolazione": "Quadratica",
+        "origine_x": "0",
+        "origine_y": "0",
+        "proietta": "No",
+        "rotazione": "0",
+        "stato": "SLU",
+        "strategia": "Iterativo",
+        "suddivisioni_n": "50",
+        "trazione_cls": "No"
+      },
+      "layout": {},
+      "materiale_trefolo": {
+        "Ep": 195000,
+        "diagramma": "Elastoplastico",
+        "eps_u": 75,
+        "fpk": 1860,
+        "fpyk": 1640,
+        "id": "EN1992:Y1860",
+        "nome": "Y1860",
+        "tipo": "Trefoli"
+      },
+      "materiali_custom": [],
+      "momento_curvatura": {
+        "N": "0",
+        "angoli": "64",
+        "campionamento": "Quadratico",
+        "frazione": "1",
+        "passi": "60",
+        "raffina_snervamento": "12",
+        "theta": "0",
+        "tolleranza_n": "1",
+        "trazione_cls": "No"
+      },
+      "normativa": "NTC 2018",
+      "nota": "",
+      "quote_interferro": false,
+      "resistenze_rapide": {
+        "N": "-1500",
+        "tipo": "Elastico"
+      },
+      "sle": {
+        "SLE": {
+          "aderenza": "Migliorata",
+          "assi": "Locali",
+          "contour": "CLS · gradiente tensioni",
+          "copriferro_fessure": "",
+          "durata": "Lunga",
+          "esposizione": "XC2",
+          "limite_fessure": "",
+          "modello": "Lineare",
+          "n_armature": "5.6785171744561715",
+          "n_trefoli": "5.5365542450947673",
+          "origine_x": "0",
+          "origine_y": "0",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "rotazione": "0",
+          "sensibilita": "Poco sensibile",
+          "spaziatura_fessure": "",
+          "trazione_cls": "No"
+        },
+        "SLE_FREQ": {
+          "aderenza": "Migliorata",
+          "assi": "Locali",
+          "contour": "CLS · gradiente tensioni",
+          "copriferro_fessure": "",
+          "durata": "Lunga",
+          "esposizione": "XC2",
+          "limite_fessure": "",
+          "modello": "Lineare",
+          "n_armature": "5.6785171744561715",
+          "n_trefoli": "5.5365542450947673",
+          "origine_x": "0",
+          "origine_y": "0",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "rotazione": "0",
+          "sensibilita": "Poco sensibile",
+          "sigma_c_lim": "",
+          "sigma_s_lim": "",
+          "spaziatura_fessure": "",
+          "trazione_cls": "No",
+          "wk_lim": ""
+        },
+        "SLE_QP": {
+          "aderenza": "Migliorata",
+          "assi": "Locali",
+          "contour": "CLS · gradiente tensioni",
+          "copriferro_fessure": "",
+          "durata": "Lunga",
+          "esposizione": "XC2",
+          "limite_fessure": "",
+          "modello": "Lineare",
+          "n_armature": "5.6785171744561715",
+          "n_trefoli": "5.5365542450947673",
+          "origine_x": "0",
+          "origine_y": "0",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "rotazione": "0",
+          "sensibilita": "Poco sensibile",
+          "sigma_c_lim": "",
+          "sigma_s_lim": "",
+          "spaziatura_fessure": "",
+          "trazione_cls": "No",
+          "wk_lim": ""
+        }
+      },
+      "sle_comuni": {
+        "aderenza": "Migliorata",
+        "assi": "Locali",
+        "copriferro_fessure": "",
+        "durata": "Lunga",
+        "esposizione": "XC2",
+        "limite_fessure": "",
+        "modello": "Lineare",
+        "n_armature": "5.6785171744561715",
+        "n_trefoli": "5.5365542450947673",
+        "origine_x": "0",
+        "origine_y": "0",
+        "phi": "0",
+        "phi_trefoli": "0",
+        "rotazione": "0",
+        "sensibilita": "Poco sensibile",
+        "spaziatura_fessure": "",
+        "trazione_cls": "No"
+      },
+      "sle_precedenti_unificazione": {
+        "SLE": {
+          "aderenza": "Migliorata",
+          "assi": "Locali",
+          "copriferro_fessure": "",
+          "durata": "Lunga",
+          "esposizione": "XC2",
+          "limite_fessure": "",
+          "modello": "Lineare",
+          "origine_x": "0",
+          "origine_y": "0",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "rotazione": "0",
+          "sensibilita": "Poco sensibile",
+          "spaziatura_fessure": "",
+          "trazione_cls": "No"
+        },
+        "SLE_FREQ": {
+          "aderenza": "Migliorata",
+          "assi": "Locali",
+          "copriferro_fessure": "",
+          "durata": "Lunga",
+          "esposizione": "Da scegliere",
+          "limite_fessure": "",
+          "modello": "Lineare",
+          "origine_x": "0",
+          "origine_y": "0",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "rotazione": "0",
+          "sensibilita": "Poco sensibile",
+          "sigma_c_lim": "",
+          "sigma_s_lim": "",
+          "spaziatura_fessure": "",
+          "trazione_cls": "No",
+          "wk_lim": ""
+        },
+        "SLE_QP": {
+          "aderenza": "Migliorata",
+          "assi": "Locali",
+          "copriferro_fessure": "",
+          "durata": "Lunga",
+          "esposizione": "Da scegliere",
+          "limite_fessure": "",
+          "modello": "Lineare",
+          "origine_x": "0",
+          "origine_y": "0",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "rotazione": "0",
+          "sensibilita": "Poco sensibile",
+          "sigma_c_lim": "",
+          "sigma_s_lim": "",
+          "spaziatura_fessure": "",
+          "trazione_cls": "No",
+          "wk_lim": ""
+        }
+      },
+      "tab": 2,
+      "taglio": {
+        "alpha_x": "90",
+        "alpha_y": "90",
+        "ancoraggio": "Da verificare",
+        "as_torsione": "0",
+        "asl_x": "5642.3004058472688",
+        "asl_y": "5642.3004058472688",
+        "azioni": [
+          {
+            "Mx": "300",
+            "My": "0",
+            "N": "-2000",
+            "T": "0",
+            "Vx": "350",
+            "Vy": "150",
+            "id": "<GUID-7>",
+            "nome": "V1 pila"
+          },
+          {
+            "Mx": "0",
+            "My": "0",
+            "N": "-1500",
+            "T": "80",
+            "Vx": "200",
+            "Vy": "200",
+            "id": "<GUID-8>",
+            "nome": "V2 con torsione"
+          }
+        ],
+        "bw_x": "600",
+        "bw_y": "600",
+        "chiusura_torsione": "Da confermare",
+        "cot_torsione": "1",
+        "cot_x": "",
+        "cot_y": "",
+        "d_x": "784.15009427785753",
+        "d_y": "784.15009427785753",
+        "eccentricita_mc_x": "0",
+        "eccentricita_mc_y": "0",
+        "modello": "Con staffe",
+        "modello_circolare": "Pile · NTC §7.9.5.2",
+        "parametri": "Automatici da sezione",
+        "parametri_precedenti": {
+          "asl_x": "",
+          "asl_y": "",
+          "bw_x": "",
+          "bw_y": "",
+          "d_x": "",
+          "d_y": ""
+        },
+        "rami_interni": "2",
+        "rami_x": "2",
+        "rami_y": "2",
+        "rotazione_staffa": "30",
+        "schema_interno": "Staffe chiuse sovrapposte",
+        "tipo_staffa": "Spirale",
+        "z_d": "0.75"
+      },
+      "trefoli": [],
+      "versione": 2
+    }
+  },
+  "dettagli_costruttivi": [
+    {
+      "Actual": 40,
+      "Explanation": "max(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.",
+      "Limit": 25,
+      "Name": "Interferro minimo",
+      "Passed": true,
+      "Reference": "NTC 2018 §4.1.6.1.3 / EC2 §8.2",
+      "Unit": "mm"
+    },
+    {
+      "Actual": 60,
+      "Explanation": "max(10; cmin,dur; cmin,b) + Δcdev. cmin,dur proviene dal progetto di durabilità.",
+      "Limit": 30,
+      "Name": "Copriferro nominale",
+      "Passed": true,
+      "Reference": "NTC 2018 §4.1.6.1.3 / EC2 §4.4",
+      "Unit": "mm"
+    },
+    {
+      "Actual": 36.96510134851481,
+      "Explanation": "Minimo (copriferro geometrico della barra − copriferro richiesto), su contorno esterno e foro. Stessa classe di esposizione per tutte le superfici.",
+      "Limit": 0,
+      "Name": "Margine copriferro barre longitudinali",
+      "Passed": true,
+      "Reference": "NTC 2018 §4.1.6.1.3 / EC2 §4.4",
+      "Unit": "mm"
+    },
+    {
+      "Actual": 20,
+      "Explanation": "Ømin ≥ 12 mm",
+      "Limit": 12,
+      "Name": "Diametro longitudinale",
+      "Passed": true,
+      "Reference": "NTC 2018 §4.1.6.1.2",
+      "Unit": "mm"
+    },
+    {
+      "Actual": 185.35396656179802,
+      "Explanation": "Interasse sulle facce / sul perimetro ≤ 300 mm.",
+      "Limit": 300,
+      "Name": "Interasse longitudinale",
+      "Passed": true,
+      "Reference": "NTC 2018 §4.1.6.1.2",
+      "Unit": "mm"
+    },
+    {
+      "Actual": 12817.698026646362,
+      "Explanation": "max(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.",
+      "Limit": 1979.2033717615698,
+      "Name": "Armatura longitudinale minima",
+      "Passed": true,
+      "Reference": "NTC 2018 §4.1.6.1.2",
+      "Unit": "mm²"
+    },
+    {
+      "Actual": 12817.698026646362,
+      "Explanation": "As ≤ 0,04 Ac fuori dalle sovrapposizioni.",
+      "Limit": 26389.378290154265,
+      "Name": "Armatura longitudinale massima",
+      "Passed": true,
+      "Reference": "NTC 2018 §4.1.6.1.2",
+      "Unit": "mm²"
+    },
+    {
+      "Actual": 12,
+      "Explanation": "max(6 mm; Ølong,max/4)",
+      "Limit": 6,
+      "Name": "Diametro staffe",
+      "Passed": true,
+      "Reference": "NTC 2018 §4.1.6.1.2",
+      "Unit": "mm"
+    },
+    {
+      "Actual": 150,
+      "Explanation": "min(250 mm; 12 Ølong,min)",
+      "Limit": 240,
+      "Name": "Passo staffe",
+      "Passed": true,
+      "Reference": "NTC 2018 §4.1.6.1.2",
+      "Unit": "mm"
+    }
+  ],
+  "dettagli_esito": "Pilastro · NEd,max compressione = 3500 kN (SLU pressoflessione · SLU)\n9 soddisfatti · 0 non soddisfatti · 0 da completare\n\r\nInterferro minimo\nVERIFICATA\nValore: 40 mm · limite: 25 mm\nmax(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.\nNTC 2018 §4.1.6.1.3 / EC2 §8.2\n\nCopriferro nominale\nVERIFICATA\nValore: 60 mm · limite: 30 mm\nmax(10; cmin,dur; cmin,b) + Δcdev. cmin,dur proviene dal progetto di durabilità.\nNTC 2018 §4.1.6.1.3 / EC2 §4.4\n\nMargine copriferro barre longitudinali\nVERIFICATA\nValore: 36,965 mm · limite: 0 mm\nMinimo (copriferro geometrico della barra − copriferro richiesto), su contorno esterno e foro. Stessa classe di esposizione per tutte le superfici.\nNTC 2018 §4.1.6.1.3 / EC2 §4.4\n\n\nDiametro longitudinale\nVERIFICATA\nValore: 20 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nVERIFICATA\nValore: 185,354 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 12817,698 mm² · limite: 1979,203 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 12817,698 mm² · limite: 26389,378 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n\nDiametro staffe\nVERIFICATA\nValore: 12 mm · limite: 6 mm\nmax(6 mm; Ølong,max/4)\nNTC 2018 §4.1.6.1.2\n\nPasso staffe\nVERIFICATA\nValore: 150 mm · limite: 240 mm\nmin(250 mm; 12 Ølong,min)\nNTC 2018 §4.1.6.1.2\n\n\n",
+  "domini": {
+    "2D:SLU": {
+      "<GUID-1>": {
+        "Resistance": {
+          "Length": 12445.253248954814,
+          "Mx": 1805.1927136001802,
+          "My": 1042.2293998204634,
+          "N": -12269.448462564853
+        },
+        "Response": {
+          "CMax": 0,
+          "CMin": -22.666666666666664,
+          "EcMax": 0.8506977581674204,
+          "EcMin": -3.5,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 0.47540130791154334,
+          "EsMin": -3.1247035497441233,
+          "NeutralAngle": 30.023298596672856,
+          "NeutralDistance": 804.4685945054154,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 95.08026158230865,
+          "SMin": -391.304347826087,
+          "UsefulDepth": 925.7387150773095
+        },
+        "Status": "Entro il dominio · azione proiettata",
+        "Utilization": 0.28526139627857344
+      },
+      "<GUID-2>": {
+        "Resistance": {
+          "Length": 3163.4219364743267,
+          "Mx": 688.8950945292435,
+          "My": 397.74331425819446,
+          "N": 3061.7743471496115
+        },
+        "Response": {
+          "CMax": 0,
+          "CMin": -22.666666666666664,
+          "EcMax": 24.11982765062031,
+          "EcMin": -3.5,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 21.740880593838796,
+          "EsMin": -1.1210529432184846,
+          "NeutralAngle": 30.193736393106445,
+          "NeutralDistance": 126.71983459713957,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 391.304347826087,
+          "SMin": -224.21058864369692,
+          "UsefulDepth": 925.8629182678255
+        },
+        "Status": "Entro il dominio · azione proiettata",
+        "Utilization": 0.13064320052608655
+      }
+    },
+    "2D:SLV": {
+      "<GUID-3>": {
+        "Resistance": {
+          "Length": 6234.019581147732,
+          "Mx": 1881.3103771531148,
+          "My": 1086.1755433396652,
+          "N": -5843.277683971569
+        },
+        "Response": {
+          "CMax": 0,
+          "CMin": -22.666666666666664,
+          "EcMax": 1.5904827593529707,
+          "EcMin": -2,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 1.2806938322782322,
+          "EsMin": -1.6902110729252613,
+          "NeutralAngle": 29.997778103212195,
+          "NeutralDistance": 557.0281582013666,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 256.1387664556465,
+          "SMin": -338.0422145850523,
+          "UsefulDepth": 925.7194215082685
+        },
+        "Status": "Entro il dominio · azione proiettata",
+        "Utilization": 0.4278420665951392
+      }
+    },
+    "3D:SLU": {
+      "<GUID-1>": {
+        "Resistance": {
+          "Length": 4335.4269336257885,
+          "Mx": 2481.6112516093735,
+          "My": 620.4019624730889,
+          "N": -3500.3762223014264
+        },
+        "Response": {
+          "CMax": 0,
+          "CMin": -22.666666666666664,
+          "EcMax": 5.576218568870363,
+          "EcMin": -3.5,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 4.804894281229424,
+          "EsMin": -2.7286757123590606,
+          "NeutralAngle": 13.91355361121321,
+          "NeutralDistance": 385.5538253460134,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 391.304347826087,
+          "SMin": -391.304347826087,
+          "UsefulDepth": 926.8525026349298
+        },
+        "Status": "Entro il dominio",
+        "Utilization": 0.24177842036739677
+      },
+      "<GUID-2>": {
+        "Resistance": {
+          "Length": 1739.1926957774526,
+          "Mx": 1692.6789914804453,
+          "My": 0.00045320035029087374,
+          "N": 399.5360620096517
+        },
+        "Response": {
+          "CMax": 0,
+          "CMin": -22.666666666666664,
+          "EcMax": 11.910349542460864,
+          "EcMin": -3.5,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 10.615880180894152,
+          "EsMin": -2.205530638433288,
+          "NeutralAngle": 0.00044470137065954894,
+          "NeutralDistance": 227.12009161446102,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 391.304347826087,
+          "SMin": -391.304347826087,
+          "UsefulDepth": 927.9999999724097
+        },
+        "Status": "Entro il dominio",
+        "Utilization": 0.07089353657957419
+      }
+    },
+    "3D:SLV": {
+      "<GUID-3>": {
+        "Resistance": {
+          "Length": 3110.1328589231944,
+          "Mx": 1754.8635568024174,
+          "My": 584.9541063604704,
+          "N": -2500.241786430375
+        },
+        "Response": {
+          "CMax": 0,
+          "CMin": -21.57970254084434,
+          "EcMax": 2.2276049419015442,
+          "EcMin": -1.5775770684339632,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 1.910777231005623,
+          "EsMin": -1.2607493575380415,
+          "NeutralAngle": 18.437926092848553,
+          "NeutralDistance": 413.8403842829666,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 382.1554462011246,
+          "SMin": -252.1498715076083,
+          "UsefulDepth": 927.0880249725515
+        },
+        "Status": "Entro il dominio",
+        "Utilization": 0.5128604215348258
+      }
+    }
+  },
+  "errore": "",
+  "errori_calcolo": {},
+  "momento_curvatura": null,
+  "motore": "GPCChecker.Concrete.dll",
+  "normativa_riferimento": "NTC 2018",
+  "riepilogo_verifiche": {
+    "2D:SLU": {
+      "Completed": 2,
+      "Governing": "SLU pressoflessione",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0.28526139627857344,
+      "Status": "VERIFICATA",
+      "Title": "2D · Plastico",
+      "Total": 2
+    },
+    "2D:SLV": {
+      "Completed": 1,
+      "Governing": "SLV sisma X",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0.4278420665951392,
+      "Status": "VERIFICATA",
+      "Title": "2D · Elastico",
+      "Total": 1
+    },
+    "3D:SLU": {
+      "Completed": 2,
+      "Governing": "SLU pressoflessione",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0.24177842036739677,
+      "Status": "VERIFICATA",
+      "Title": "3D · Plastico",
+      "Total": 2
+    },
+    "3D:SLV": {
+      "Completed": 1,
+      "Governing": "SLV sisma X",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0.5128604215348258,
+      "Status": "VERIFICATA",
+      "Title": "3D · Elastico",
+      "Total": 1
+    },
+    "SLE:tensioni": {
+      "Completed": 1,
+      "Governing": "Rara",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0.29376585363560276,
+      "Status": "VERIFICATA",
+      "Title": "Rara · tensioni",
+      "Total": 1
+    },
+    "SLE_FREQ:fessurazione": {
+      "Completed": 1,
+      "Governing": "Frequente",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0,
+      "Status": "VERIFICATA",
+      "Title": "Frequente · fessurazione",
+      "Total": 1
+    },
+    "SLE_QP:fessurazione": {
+      "Completed": 1,
+      "Governing": "Quasi permanente",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0,
+      "Status": "VERIFICATA",
+      "Title": "Quasi permanente · fessurazione",
+      "Total": 1
+    },
+    "SLE_QP:tensioni": {
+      "Completed": 1,
+      "Governing": "Quasi permanente",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0.2680630805076947,
+      "Status": "VERIFICATA",
+      "Title": "Quasi permanente · tensioni",
+      "Total": 1
+    },
+    "Taglio:torsione": {
+      "Completed": 0,
+      "Governing": "—",
+      "Missing": 1,
+      "Passed": null,
+      "Ratio": null,
+      "Status": "DA COMPLETARE",
+      "Title": "Torsione e interazione V–T",
+      "Total": 1
+    },
+    "Taglio:x": {
+      "Completed": 1,
+      "Governing": "V1 pila",
+      "Missing": 1,
+      "Passed": null,
+      "Ratio": 0.5042800680819908,
+      "Status": "DA COMPLETARE",
+      "Title": "Taglio Vx",
+      "Total": 2
+    },
+    "Taglio:y": {
+      "Completed": 1,
+      "Governing": "V1 pila",
+      "Missing": 1,
+      "Passed": null,
+      "Ratio": 0.21612002917799605,
+      "Status": "DA COMPLETARE",
+      "Title": "Taglio Vy",
+      "Total": 2
+    }
+  },
+  "taglio": {
+    "<GUID-7>": [
+      {
+        "CotTheta": 2.5,
+        "Details": [],
+        "Model": "NTC · traliccio a inclinazione variabile",
+        "Ratio": 0.5042800680819908,
+        "Reference": "NTC 2018 §§4.1.2.3.5.1–2",
+        "Status": "Resistenza sufficiente · dettagli da verificare",
+        "VRcd": 1250.766473876982,
+        "VRd": 694.0587624873042,
+        "VRsd": 694.0587624873042
+      },
+      {
+        "CotTheta": 2.5,
+        "Details": [],
+        "Model": "NTC · traliccio a inclinazione variabile",
+        "Ratio": 0.21612002917799605,
+        "Reference": "NTC 2018 §§4.1.2.3.5.1–2",
+        "Status": "Resistenza sufficiente · dettagli da verificare",
+        "VRcd": 1250.766473876982,
+        "VRd": 694.0587624873042,
+        "VRsd": 694.0587624873042
+      }
+    ]
+  },
+  "tensioni": {
+    "SLE": {
+      "<GUID-4>": {
+        "CrackResult": {
+          "BarSpacing": null,
+          "Details": [
+            {
+              "Expression": "Rara · XC2 · Poco sensibile · durata Lunga · aderenza Migliorata",
+              "Note": "",
+              "Symbol": "Verifica",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Lineare · CLS teso: No",
+              "Note": "Tensioni e piano di deformazione provenienti da Checker; compressione negativa.",
+              "Symbol": "Modello",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Azione negli assi Locali",
+              "Note": "",
+              "Symbol": "N",
+              "Unit": "kN",
+              "Value": -2600
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "Mx",
+              "Unit": "kNm",
+              "Value": 350
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "My",
+              "Unit": "kNm",
+              "Value": 80
+            },
+            {
+              "Expression": "Coefficiente utilizzato nell'analisi tensionale",
+              "Note": "",
+              "Symbol": "φ",
+              "Unit": "−",
+              "Value": 0
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non compare direttamente nella formula wk: qui si usa fctm, non fctd.",
+              "Symbol": "γc (input)",
+              "Unit": "−",
+              "Value": 1.5
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non è applicato come divisore aggiuntivo di σs nella formula wk.",
+              "Symbol": "γs (input)",
+              "Unit": "−",
+              "Value": 1.15
+            },
+            {
+              "Expression": "NTC 2018",
+              "Note": "",
+              "Symbol": "Normativa fessurazione",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Non richiesta nella rara",
+              "Note": "Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilità.",
+              "Symbol": "Criterio",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Limite di apertura selezionato",
+              "Note": "Nessun limite di apertura numerico per questo ramo.",
+              "Symbol": "wlim",
+              "Unit": "mm",
+              "Value": null
+            }
+          ],
+          "EffectiveArea": null,
+          "EffectiveSteel": null,
+          "Limit": null,
+          "Passed": null,
+          "Ratio": null,
+          "Regions": [],
+          "SpacingSource": null,
+          "Status": "Non richiesta nella rara",
+          "Width": null
+        },
+        "Cracking": "Non richiesta nella rara",
+        "Ratio": 0.29376585363560276,
+        "State": {
+          "BarStrains": [-0.08478219726888438,-0.11007951544656112,-0.13466819802263047,-0.15614133342712141,-0.17239698155451058,-0.1818439263063289,-0.18355743490953386,-0.17736977720332733,-0.16388664423593913,-0.14442785900472851,-0.1208981829854552,-0.09560086480777846,-0.0710121822317091,-0.04953904682721817,-0.03328339869982897,-0.023836453948010684,-0.02212294534480572,-0.028310603051012222,-0.04179373601840042,-0.06125252124961104,-0.08747353274295577,-0.12314684490280207,-0.15337900531454013,-0.1700693310103965,-0.16874566269875416,-0.14976267623476422,-0.11820684751138381,-0.0825335353515375,-0.052301374939799465,-0.03561104924394305,-0.03693471755558543,-0.05591770401957531
+          ],
+          "ConcreteStressLimit": 24,
+          "ConcreteVertices": [
+            {
+              "Id": "C1",
+              "Strain": -0.08113587178788445,
+              "Stress": -2.857642912585002,
+              "X": 500,
+              "Y": 0
+            },
+            {
+              "Id": "C2",
+              "Strain": -0.09371585434417837,
+              "Stress": -3.3007157138044048,
+              "X": 495.72243068690517,
+              "Y": 65.26309611002578
+            },
+            {
+              "Id": "C3",
+              "Strain": -0.10645195681546307,
+              "Stress": -3.7492871306022924,
+              "X": 482.9629131445342,
+              "Y": 129.40952255126038
+            },
+            {
+              "Id": "C4",
+              "Strain": -0.11912626095734016,
+              "Stress": -4.19568198166976,
+              "X": 461.93976625564335,
+              "Y": 191.3417161825449
+            },
+            {
+              "Id": "C5",
+              "Strain": -0.13152190591196114,
+              "Stress": -4.632262327341008,
+              "X": 433.01270189221935,
+              "Y": 249.99999999999997
+            },
+            {
+              "Id": "C6",
+              "Strain": -0.14342679875743045,
+              "Stress": -5.051558156858665,
+              "X": 396.6766701456176,
+              "Y": 304.38071450436036
+            },
+            {
+              "Id": "C7",
+              "Strain": -0.15463724347650215,
+              "Stress": -5.4463952023289135,
+              "X": 353.5533905932738,
+              "Y": 353.5533905932738
+            },
+            {
+              "Id": "C8",
+              "Strain": -0.16496142625191054,
+              "Stress": -5.8100176924342515,
+              "X": 304.38071450436036,
+              "Y": 396.6766701456176
+            },
+            {
+              "Id": "C9",
+              "Strain": -0.17422269745396401,
+              "Stress": -6.1362039455537705,
+              "X": 250.00000000000006,
+              "Y": 433.0127018922193
+            },
+            {
+              "Id": "C10",
+              "Strain": -0.18226259416468613,
+              "Stress": -6.4193728244606865,
+              "X": 191.34171618254493,
+              "Y": 461.93976625564335
+            },
+            {
+              "Id": "C11",
+              "Strain": -0.18894355152227585,
+              "Stress": -6.654679231127654,
+              "X": 129.40952255126038,
+              "Y": 482.9629131445342
+            },
+            {
+              "Id": "C12",
+              "Strain": -0.1941512564940335,
+              "Stress": -6.83809700769734,
+              "X": 65.26309611002586,
+              "Y": 495.72243068690517
+            },
+            {
+              "Id": "C13",
+              "Strain": -0.1977966038040437,
+              "Stress": -6.966487825159623,
+              "X": 3.061616997868383E-14,
+              "Y": 500
+            },
+            {
+              "Id": "C14",
+              "Strain": -0.199817220549151,
+              "Stress": -7.037654881031064,
+              "X": -65.2630961100258,
+              "Y": 495.72243068690517
+            },
+            {
+              "Id": "C15",
+              "Strain": -0.20017853341662578,
+              "Stress": -7.050380487254467,
+              "X": -129.40952255126032,
+              "Y": 482.9629131445342
+            },
+            {
+              "Id": "C16",
+              "Strain": -0.1988743602431307,
+              "Stress": -7.004446905179144,
+              "X": -191.34171618254476,
+              "Y": 461.9397662556434
+            },
+            {
+              "Id": "C17",
+              "Strain": -0.1959270157932494,
+              "Stress": -6.900640071129598,
+              "X": -249.9999999999999,
+              "Y": 433.01270189221935
+            },
+            {
+              "Id": "C18",
+              "Strain": -0.1913869299476776,
+              "Stress": -6.740736148817112,
+              "X": -304.38071450436036,
+              "Y": 396.6766701456176
+            },
+            {
+              "Id": "C19",
+              "Strain": -0.18533178483398258,
+              "Stress": -6.527471138686191,
+              "X": -353.5533905932737,
+              "Y": 353.5533905932738
+            },
+            {
+              "Id": "C20",
+              "Strain": -0.17786518566386314,
+              "Stress": -6.26449406418841,
+              "X": -396.67667014561755,
+              "Y": 304.3807145043604
+            },
+            {
+              "Id": "C21",
+              "Strain": -0.1691148880192523,
+              "Stress": -5.956304535979443,
+              "X": -433.01270189221935,
+              "Y": 249.99999999999997
+            },
+            {
+              "Id": "C22",
+              "Strain": -0.15923061191889035,
+              "Stress": -5.608175762333229,
+              "X": -461.93976625564335,
+              "Y": 191.34171618254496
+            },
+            {
+              "Id": "C23",
+              "Strain": -0.14838148006729343,
+              "Stress": -5.226064323086382,
+              "X": -482.9629131445341,
+              "Y": 129.40952255126052
+            },
+            {
+              "Id": "C24",
+              "Strain": -0.13675312411839,
+              "Stress": -4.816508250905723,
+              "X": -495.72243068690517,
+              "Y": 65.263096110026
+            },
+            {
+              "Id": "C25",
+              "Strain": -0.12454450846645512,
+              "Stress": -4.3865151637366555,
+              "X": -500,
+              "Y": 6.123233995736766E-14
+            },
+            {
+              "Id": "C26",
+              "Strain": -0.11196452591016119,
+              "Stress": -3.9434423625172528,
+              "X": -495.72243068690517,
+              "Y": -65.26309611002588
+            },
+            {
+              "Id": "C27",
+              "Strain": -0.0992284234388765,
+              "Stress": -3.4948709457193656,
+              "X": -482.9629131445342,
+              "Y": -129.4095225512604
+            },
+            {
+              "Id": "C28",
+              "Strain": -0.0865541192969994,
+              "Stress": -3.0484760946518983,
+              "X": -461.9397662556434,
+              "Y": -191.34171618254484
+            },
+            {
+              "Id": "C29",
+              "Strain": -0.07415847434237842,
+              "Stress": -2.6118957489806496,
+              "X": -433.0127018922194,
+              "Y": -249.99999999999986
+            },
+            {
+              "Id": "C30",
+              "Strain": -0.06225358149690913,
+              "Stress": -2.1925999194629933,
+              "X": -396.6766701456176,
+              "Y": -304.38071450436036
+            },
+            {
+              "Id": "C31",
+              "Strain": -0.051043136777837464,
+              "Stress": -1.7977628739927458,
+              "X": -353.55339059327395,
+              "Y": -353.55339059327355
+            },
+            {
+              "Id": "C32",
+              "Strain": -0.04071895400242908,
+              "Stress": -1.4341403838874087,
+              "X": -304.3807145043604,
+              "Y": -396.6766701456175
+            },
+            {
+              "Id": "C33",
+              "Strain": -0.03145768280037556,
+              "Stress": -1.1079541307678882,
+              "X": -250.00000000000023,
+              "Y": -433.01270189221924
+            },
+            {
+              "Id": "C34",
+              "Strain": -0.023417786089653423,
+              "Stress": -0.8247852518609713,
+              "X": -191.34171618254476,
+              "Y": -461.9397662556434
+            },
+            {
+              "Id": "C35",
+              "Strain": -0.01673682873206371,
+              "Stress": -0.589478845194004,
+              "X": -129.40952255126032,
+              "Y": -482.9629131445342
+            },
+            {
+              "Id": "C36",
+              "Strain": -0.01152912376030607,
+              "Stress": -0.40606106862431773,
+              "X": -65.26309611002581,
+              "Y": -495.72243068690517
+            },
+            {
+              "Id": "C37",
+              "Strain": -0.007883776450295855,
+              "Stress": -0.2776702511620344,
+              "X": -9.184850993605149E-14,
+              "Y": -500
+            },
+            {
+              "Id": "C38",
+              "Strain": -0.0058631597051885895,
+              "Stress": -0.20650319529059455,
+              "X": 65.26309611002563,
+              "Y": -495.7224306869052
+            },
+            {
+              "Id": "C39",
+              "Strain": -0.005501846837713804,
+              "Stress": -0.1937775890671921,
+              "X": 129.40952255126015,
+              "Y": -482.9629131445342
+            },
+            {
+              "Id": "C40",
+              "Strain": -0.006806020011208865,
+              "Stress": -0.23971117114251483,
+              "X": 191.3417161825446,
+              "Y": -461.93976625564346
+            },
+            {
+              "Id": "C41",
+              "Strain": -0.009753364461090186,
+              "Stress": -0.34351800519206005,
+              "X": 250.00000000000006,
+              "Y": -433.0127018922193
+            },
+            {
+              "Id": "C42",
+              "Strain": -0.014293450306661975,
+              "Stress": -0.5034219275045462,
+              "X": 304.38071450435996,
+              "Y": -396.67667014561783
+            },
+            {
+              "Id": "C43",
+              "Strain": -0.020348595420356982,
+              "Stress": -0.7166869376354668,
+              "X": 353.55339059327366,
+              "Y": -353.55339059327383
+            },
+            {
+              "Id": "C44",
+              "Strain": -0.027815194590476426,
+              "Stress": -0.9796640121332476,
+              "X": 396.6766701456175,
+              "Y": -304.38071450436047
+            },
+            {
+              "Id": "C45",
+              "Strain": -0.03656549223508719,
+              "Stress": -1.2878535403422127,
+              "X": 433.0127018922192,
+              "Y": -250.00000000000023
+            },
+            {
+              "Id": "C46",
+              "Strain": -0.04644976833544925,
+              "Stress": -1.6359823139884302,
+              "X": 461.9397662556434,
+              "Y": -191.3417161825448
+            },
+            {
+              "Id": "C47",
+              "Strain": -0.05729890018704609,
+              "Stress": -2.018093753235274,
+              "X": 482.96291314453407,
+              "Y": -129.40952255126078
+            },
+            {
+              "Id": "C48",
+              "Strain": -0.06892725613594959,
+              "Stress": -2.427649825415936,
+              "X": 495.72243068690517,
+              "Y": -65.26309611002584
+            }
+          ],
+          "Response": {
+            "CMax": -0.1937775890671921,
+            "CMin": -7.050380487254467,
+            "EcMax": -0.005501846837713804,
+            "EcMin": -0.20017853341662578,
+            "EpMax": null,
+            "EpMin": null,
+            "EsMax": -0.02212294534480572,
+            "EsMin": -0.18355743490953386,
+            "NeutralAngle": 12.874998814677992,
+            "NeutralDistance": 1027.5543310600801,
+            "PMax": null,
+            "PMin": null,
+            "SMax": -4.4245890689611445,
+            "SMin": -36.71148698190677,
+            "UsefulDepth": 925.9930619426358
+          },
+          "SteelStressLimit": 360,
+          "sigma_acciaio": 36.71148698190677,
+          "sigma_cls": -7.050380487254467,
+          "tensioni_barre": [-16.956439453776877,-22.015903089312225,-26.933639604526093,-31.22826668542428,-34.47939631090212,-36.36878526126578,-36.71148698190677,-35.47395544066546,-32.77732884718783,-28.885571800945705,-24.17963659709104,-19.120172961555692,-14.20243644634182,-9.907809365443635,-6.656679739965794,-4.767290789602137,-4.4245890689611445,-5.662120610202444,-8.358747203680084,-12.250504249922207,-17.494706548591154,-24.629368980560415,-30.675801062908025,-34.013866202079306,-33.74913253975083,-29.95253524695284,-23.641369502276763,-16.506707070307503,-10.460274987959892,-7.122209848788611,-7.386943511117085,-11.183540803915061
+          ]
+        },
+        "Status": "Entro limiti tensionali"
+      }
+    },
+    "SLE_FREQ": {
+      "<GUID-5>": {
+        "CrackResult": {
+          "BarSpacing": null,
+          "Details": [
+            {
+              "Expression": "Frequente · XC2 · Poco sensibile · durata Lunga · aderenza Migliorata",
+              "Note": "",
+              "Symbol": "Verifica",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Lineare · CLS teso: No",
+              "Note": "Tensioni e piano di deformazione provenienti da Checker; compressione negativa.",
+              "Symbol": "Modello",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Azione negli assi Locali",
+              "Note": "",
+              "Symbol": "N",
+              "Unit": "kN",
+              "Value": -2400
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "Mx",
+              "Unit": "kNm",
+              "Value": 260
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "My",
+              "Unit": "kNm",
+              "Value": 60
+            },
+            {
+              "Expression": "Coefficiente utilizzato nell'analisi tensionale",
+              "Note": "",
+              "Symbol": "φ",
+              "Unit": "−",
+              "Value": 0
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non compare direttamente nella formula wk: qui si usa fctm, non fctd.",
+              "Symbol": "γc (input)",
+              "Unit": "−",
+              "Value": 1.5
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non è applicato come divisore aggiuntivo di σs nella formula wk.",
+              "Symbol": "γs (input)",
+              "Unit": "−",
+              "Value": 1.15
+            },
+            {
+              "Expression": "NTC 2018",
+              "Note": "",
+              "Symbol": "Normativa fessurazione",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Apertura fessure",
+              "Note": "Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilità.",
+              "Symbol": "Criterio",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Limite di apertura selezionato",
+              "Note": "Confronto wk ≤ wlim",
+              "Symbol": "wlim",
+              "Unit": "mm",
+              "Value": 0.4
+            },
+            {
+              "Expression": "Conteggio σs < 0 su tutte le armature ordinarie, anche fuori dall'area efficace",
+              "Note": "Informativo: k₂ dipende dalla posizione dell'asse neutro, non dalle barre.",
+              "Symbol": "Barre compresse",
+              "Unit": "−",
+              "Value": 32
+            },
+            {
+              "Expression": "Conteggio σs > 0",
+              "Note": "",
+              "Symbol": "Barre tese",
+              "Unit": "−",
+              "Value": 0
+            },
+            {
+              "Expression": "Conteggio σs = 0",
+              "Note": "",
+              "Symbol": "Barre a tensione nulla",
+              "Unit": "−",
+              "Value": 0
+            },
+            {
+              "Expression": "min ε ai vertici, prima dei criteri di applicabilità",
+              "Note": "",
+              "Symbol": "εc,min",
+              "Unit": "−",
+              "Value": -0.00016727798902737553
+            },
+            {
+              "Expression": "max ε ai vertici",
+              "Note": "",
+              "Symbol": "εc,max",
+              "Unit": "−",
+              "Value": -2.2580809539011E-05
+            },
+            {
+              "Expression": "Se εc,max ≤ tolleranza, wk = 0",
+              "Note": "",
+              "Symbol": "Tolleranza compressione",
+              "Unit": "−",
+              "Value": 1E-12
+            }
+          ],
+          "EffectiveArea": null,
+          "EffectiveSteel": null,
+          "Limit": 0.4,
+          "Passed": true,
+          "Ratio": 0,
+          "Regions": [],
+          "SpacingSource": null,
+          "Status": "Sezione interamente compressa",
+          "Width": 0
+        },
+        "Cracking": "Sezione interamente compressa",
+        "Ratio": null,
+        "State": {
+          "BarStrains": [-0.08138589763804377,-0.10018449891405101,-0.1184686944237578,-0.13444869971719303,-0.14656028053699144,-0.15361787096616558,-0.15493062488038395,-0.15037004078002844,-0.1403825404122998,-0.12594576990019815,-0.10847290092834275,-0.08967429965233552,-0.07139010414262872,-0.05541009884919349,-0.043298518029395085,-0.03624092760022093,-0.034928173686002574,-0.039488757786358054,-0.04947625815408669,-0.06391302866618837,-0.08340440028708046,-0.1099192734506187,-0.13241762193635118,-0.14487103143649183,-0.14394262093246396,-0.12988115726906635,-0.10645439827930604,-0.07993952511576781,-0.05744117663003536,-0.04498776712989469,-0.04591617763392257,-0.05997764129732012
+          ],
+          "ConcreteStressLimit": null,
+          "ConcreteVertices": [
+            {
+              "Id": "C1",
+              "Strain": -0.07865115211354243,
+              "Stress": -2.7701299369962658,
+              "X": 500,
+              "Y": 0
+            },
+            {
+              "Id": "C2",
+              "Strain": -0.08799760556312293,
+              "Stress": -3.0993163482524966,
+              "X": 495.72243068690517,
+              "Y": 65.26309611002578
+            },
+            {
+              "Id": "C3",
+              "Strain": -0.09746266392511013,
+              "Stress": -3.43268007935343,
+              "X": 482.9629131445342,
+              "Y": 129.40952255126038
+            },
+            {
+              "Id": "C4",
+              "Strain": -0.10688437742672051,
+              "Stress": -3.764517184434043,
+              "X": 461.93976625564335,
+              "Y": 191.3417161825449
+            },
+            {
+              "Id": "C5",
+              "Strain": -0.11610153793774897,
+              "Stress": -4.089149838623777,
+              "X": 433.01270189221935,
+              "Y": 249.99999999999997
+            },
+            {
+              "Id": "C6",
+              "Strain": -0.12495643728637222,
+              "Stress": -4.401023487204271,
+              "X": 396.6766701456176,
+              "Y": 304.38071450436036
+            },
+            {
+              "Id": "C7",
+              "Strain": -0.1332975656896933,
+              "Stress": -4.694801885580601,
+              "X": 353.5533905932738,
+              "Y": 353.5533905932738
+            },
+            {
+              "Id": "C8",
+              "Strain": -0.14098220412813378,
+              "Stress": -4.96545840390579,
+              "X": 304.38071450436036,
+              "Y": 396.6766701456176
+            },
+            {
+              "Id": "C9",
+              "Strain": -0.14787886630742758,
+              "Stress": -5.208362034111127,
+              "X": 250.00000000000006,
+              "Y": 433.0127018922193
+            },
+            {
+              "Id": "C10",
+              "Strain": -0.15386954842557105,
+              "Stress": -5.4193566277381935,
+              "X": 191.34171618254493,
+              "Y": 461.93976625564335
+            },
+            {
+              "Id": "C11",
+              "Strain": -0.15885174825059187,
+              "Stress": -5.594832008791275,
+              "X": 129.40952255126038,
+              "Y": 482.9629131445342
+            },
+            {
+              "Id": "C12",
+              "Strain": -0.16274021896215712,
+              "Stress": -5.731785744849584,
+              "X": 65.26309611002586,
+              "Y": 495.72243068690517
+            },
+            {
+              "Id": "C13",
+              "Strain": -0.16546842774830423,
+              "Stress": -5.827874519518418,
+              "X": 3.061616997868383E-14,
+              "Y": 500
+            },
+            {
+              "Id": "C14",
+              "Strain": -0.16698969420029983,
+              "Stress": -5.88145422722235,
+              "X": -65.2630961100258,
+              "Y": 495.72243068690517
+            },
+            {
+              "Id": "C15",
+              "Strain": -0.16727798902737553,
+              "Stress": -5.8916081043074655,
+              "X": -129.40952255126032,
+              "Y": 482.9629131445342
+            },
+            {
+              "Id": "C16",
+              "Strain": -0.1663283794251096,
+              "Stress": -5.858162415121648,
+              "X": -191.34171618254476,
+              "Y": 461.9397662556434
+            },
+            {
+              "Id": "C17",
+              "Strain": -0.1641571134770784,
+              "Stress": -5.781689424679768,
+              "X": -249.9999999999999,
+              "Y": 433.01270189221935
+            },
+            {
+              "Id": "C18",
+              "Strain": -0.16080134214564137,
+              "Stress": -5.663497607050602,
+              "X": -304.38071450436036,
+              "Y": 396.6766701456176
+            },
+            {
+              "Id": "C19",
+              "Strain": -0.15631848360867492,
+              "Stress": -5.505609257002749,
+              "X": -353.5533905932737,
+              "Y": 353.5533905932738
+            },
+            {
+              "Id": "C20",
+              "Strain": -0.15078524081862987,
+              "Stress": -5.310725887980448,
+              "X": -396.67667014561755,
+              "Y": 304.3807145043604
+            },
+            {
+              "Id": "C21",
+              "Strain": -0.14429628909374848,
+              "Stress": -5.082182008459547,
+              "X": -433.01270189221935,
+              "Y": 249.99999999999997
+            },
+            {
+              "Id": "C22",
+              "Strain": -0.1369626561971209,
+              "Stress": -4.823888067582986,
+              "X": -461.93976625564335,
+              "Y": 191.34171618254496
+            },
+            {
+              "Id": "C23",
+              "Strain": -0.1289098226208755,
+              "Stress": -4.54026354629177,
+              "X": -482.9629131445341,
+              "Y": 129.40952255126052
+            },
+            {
+              "Id": "C24",
+              "Strain": -0.12027557458016915,
+              "Stress": -4.236161338780766,
+              "X": -495.72243068690517,
+              "Y": 65.263096110026
+            },
+            {
+              "Id": "C25",
+              "Strain": -0.11120764645284409,
+              "Stress": -3.9167847181335467,
+              "X": -500,
+              "Y": 6.123233995736766E-14
+            },
+            {
+              "Id": "C26",
+              "Strain": -0.10186119300326356,
+              "Stress": -3.5875983068773145,
+              "X": -495.72243068690517,
+              "Y": -65.26309611002588
+            },
+            {
+              "Id": "C27",
+              "Strain": -0.09239613464127636,
+              "Stress": -3.254234575776381,
+              "X": -482.9629131445342,
+              "Y": -129.4095225512604
+            },
+            {
+              "Id": "C28",
+              "Strain": -0.08297442113966601,
+              "Stress": -2.9223974706957696,
+              "X": -461.9397662556434,
+              "Y": -191.34171618254484
+            },
+            {
+              "Id": "C29",
+              "Strain": -0.07375726062863755,
+              "Stress": -2.597764816506036,
+              "X": -433.0127018922194,
+              "Y": -249.99999999999986
+            },
+            {
+              "Id": "C30",
+              "Strain": -0.06490236128001431,
+              "Stress": -2.2858911679255414,
+              "X": -396.6766701456176,
+              "Y": -304.38071450436036
+            },
+            {
+              "Id": "C31",
+              "Strain": -0.056561232876693256,
+              "Stress": -1.9921127695492122,
+              "X": -353.55339059327395,
+              "Y": -353.55339059327355
+            },
+            {
+              "Id": "C32",
+              "Strain": -0.04887659443825276,
+              "Stress": -1.721456251224023,
+              "X": -304.3807145043604,
+              "Y": -396.6766701456175
+            },
+            {
+              "Id": "C33",
+              "Strain": -0.041979932258958956,
+              "Stress": -1.4785526210186852,
+              "X": -250.00000000000023,
+              "Y": -433.01270189221924
+            },
+            {
+              "Id": "C34",
+              "Strain": -0.03598925014081548,
+              "Stress": -1.2675580273916192,
+              "X": -191.34171618254476,
+              "Y": -461.9397662556434
+            },
+            {
+              "Id": "C35",
+              "Strain": -0.031007050315794673,
+              "Stress": -1.0920826463385382,
+              "X": -129.40952255126032,
+              "Y": -482.9629131445342
+            },
+            {
+              "Id": "C36",
+              "Strain": -0.027118579604229406,
+              "Stress": -0.9551289102802278,
+              "X": -65.26309611002581,
+              "Y": -495.72243068690517
+            },
+            {
+              "Id": "C37",
+              "Strain": -0.024390370818082284,
+              "Stress": -0.8590401356113936,
+              "X": -9.184850993605149E-14,
+              "Y": -500
+            },
+            {
+              "Id": "C38",
+              "Strain": -0.022869104366086697,
+              "Stress": -0.805460427907462,
+              "X": 65.26309611002563,
+              "Y": -495.7224306869052
+            },
+            {
+              "Id": "C39",
+              "Strain": -0.022580809539011,
+              "Stress": -0.7953065508223475,
+              "X": 129.40952255126015,
+              "Y": -482.9629131445342
+            },
+            {
+              "Id": "C40",
+              "Strain": -0.02353041914127689,
+              "Stress": -0.8287522400081633,
+              "X": 191.3417161825446,
+              "Y": -461.93976625564346
+            },
+            {
+              "Id": "C41",
+              "Strain": -0.025701685089308094,
+              "Stress": -0.9052252304500438,
+              "X": 250.00000000000006,
+              "Y": -433.0127018922193
+            },
+            {
+              "Id": "C42",
+              "Strain": -0.02905745642074513,
+              "Stress": -1.023417048079209,
+              "X": 304.38071450435996,
+              "Y": -396.67667014561783
+            },
+            {
+              "Id": "C43",
+              "Strain": -0.03354031495771155,
+              "Stress": -1.1813053981270627,
+              "X": 353.55339059327366,
+              "Y": -353.55339059327383
+            },
+            {
+              "Id": "C44",
+              "Strain": -0.03907355774775663,
+              "Stress": -1.3761887671493636,
+              "X": 396.6766701456175,
+              "Y": -304.38071450436047
+            },
+            {
+              "Id": "C45",
+              "Strain": -0.045562509472637985,
+              "Stress": -1.6047326466702632,
+              "X": 433.0127018922192,
+              "Y": -250.00000000000023
+            },
+            {
+              "Id": "C46",
+              "Strain": -0.052896142369265646,
+              "Stress": -1.8630265875468266,
+              "X": 461.9397662556434,
+              "Y": -191.3417161825448
+            },
+            {
+              "Id": "C47",
+              "Strain": -0.060948975945510984,
+              "Stress": -2.1466511088380407,
+              "X": 482.96291314453407,
+              "Y": -129.40952255126078
+            },
+            {
+              "Id": "C48",
+              "Strain": -0.06958322398621739,
+              "Stress": -2.4507533163490463,
+              "X": 495.72243068690517,
+              "Y": -65.26309611002584
+            }
+          ],
+          "Response": {
+            "CMax": -0.7953065508223475,
+            "CMin": -5.8916081043074655,
+            "EcMax": -0.022580809539011,
+            "EcMin": -0.16727798902737553,
+            "EpMax": null,
+            "EpMin": null,
+            "EsMax": -0.034928173686002574,
+            "EsMin": -0.15493062488038395,
+            "NeutralAngle": 12.994624373881319,
+            "NeutralDistance": 1155.3476019655989,
+            "PMax": null,
+            "PMin": null,
+            "SMax": -6.985634737200515,
+            "SMin": -30.986124976076788,
+            "UsefulDepth": 926.1073650175285
+          },
+          "SteelStressLimit": 360,
+          "sigma_acciaio": 30.986124976076788,
+          "sigma_cls": -5.8916081043074655,
+          "tensioni_barre": [-16.27717952760875,-20.036899782810202,-23.69373888475156,-26.889739943438606,-29.312056107398288,-30.723574193233116,-30.986124976076788,-30.07400815600569,-28.07650808245996,-25.18915398003963,-21.69458018566855,-17.934859930467105,-14.278020828525744,-11.082019769838698,-8.659703605879017,-7.248185520044186,-6.985634737200515,-7.8977515572716115,-9.895251630817338,-12.782605733237673,-16.680880057416093,-21.983854690123742,-26.483524387270236,-28.97420628729837,-28.788524186492793,-25.97623145381327,-21.290879655861207,-15.987905023153562,-11.488235326007072,-8.997553425978937,-9.183235526784514,-11.995528259464024
+          ]
+        },
+        "Status": "Stato tensionale calcolato"
+      }
+    },
+    "SLE_QP": {
+      "<GUID-6>": {
+        "CrackResult": {
+          "BarSpacing": null,
+          "Details": [
+            {
+              "Expression": "Quasi permanente · XC2 · Poco sensibile · durata Lunga · aderenza Migliorata",
+              "Note": "",
+              "Symbol": "Verifica",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Lineare · CLS teso: No",
+              "Note": "Tensioni e piano di deformazione provenienti da Checker; compressione negativa.",
+              "Symbol": "Modello",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Azione negli assi Locali",
+              "Note": "",
+              "Symbol": "N",
+              "Unit": "kN",
+              "Value": -2200
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "Mx",
+              "Unit": "kNm",
+              "Value": 180
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "My",
+              "Unit": "kNm",
+              "Value": 40
+            },
+            {
+              "Expression": "Coefficiente utilizzato nell'analisi tensionale",
+              "Note": "",
+              "Symbol": "φ",
+              "Unit": "−",
+              "Value": 0
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non compare direttamente nella formula wk: qui si usa fctm, non fctd.",
+              "Symbol": "γc (input)",
+              "Unit": "−",
+              "Value": 1.5
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non è applicato come divisore aggiuntivo di σs nella formula wk.",
+              "Symbol": "γs (input)",
+              "Unit": "−",
+              "Value": 1.15
+            },
+            {
+              "Expression": "NTC 2018",
+              "Note": "",
+              "Symbol": "Normativa fessurazione",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Apertura fessure",
+              "Note": "Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilità.",
+              "Symbol": "Criterio",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Limite di apertura selezionato",
+              "Note": "Confronto wk ≤ wlim",
+              "Symbol": "wlim",
+              "Unit": "mm",
+              "Value": 0.3
+            },
+            {
+              "Expression": "Conteggio σs < 0 su tutte le armature ordinarie, anche fuori dall'area efficace",
+              "Note": "Informativo: k₂ dipende dalla posizione dell'asse neutro, non dalle barre.",
+              "Symbol": "Barre compresse",
+              "Unit": "−",
+              "Value": 32
+            },
+            {
+              "Expression": "Conteggio σs > 0",
+              "Note": "",
+              "Symbol": "Barre tese",
+              "Unit": "−",
+              "Value": 0
+            },
+            {
+              "Expression": "Conteggio σs = 0",
+              "Note": "",
+              "Symbol": "Barre a tensione nulla",
+              "Unit": "−",
+              "Value": 0
+            },
+            {
+              "Expression": "min ε ai vertici, prima dei criteri di applicabilità",
+              "Note": "",
+              "Symbol": "εc,min",
+              "Unit": "−",
+              "Value": -0.00013699807258505143
+            },
+            {
+              "Expression": "max ε ai vertici",
+              "Note": "",
+              "Symbol": "εc,max",
+              "Unit": "−",
+              "Value": -3.703913749238349E-05
+            },
+            {
+              "Expression": "Se εc,max ≤ tolleranza, wk = 0",
+              "Note": "",
+              "Symbol": "Tolleranza compressione",
+              "Unit": "−",
+              "Value": 1E-12
+            }
+          ],
+          "EffectiveArea": null,
+          "EffectiveSteel": null,
+          "Limit": 0.3,
+          "Passed": true,
+          "Ratio": 0,
+          "Regions": [],
+          "SpacingSource": null,
+          "Status": "Sezione interamente compressa",
+          "Width": 0
+        },
+        "Cracking": "Sezione interamente compressa",
+        "Ratio": 0.2680630805076947,
+        "State": {
+          "BarStrains": [-0.07798960572074405,-0.09098702842662311,-0.1035959942016624,-0.1145822496239707,-0.12287038346706997,-0.12764909544357356,-0.12845061192997714,-0.12519647490809785,-0.118205221982543,-0.10816120570058935,-0.09604760435669087,-0.08305018165081182,-0.07044121587577251,-0.05945496045346422,-0.05116682661036496,-0.046388114633861374,-0.04558659814745775,-0.04884073516933707,-0.05583198809489189,-0.06587600437684556,-0.07933527388832662,-0.09765213738847223,-0.11311975448281084,-0.12159358966208059,-0.12080308563320168,-0.11096005731232579,-0.09470193618910829,-0.0763850726889627,-0.06091745559462408,-0.052443620415354344,-0.053234124444233234,-0.06307715276510911
+          ],
+          "ConcreteStressLimit": 18,
+          "ConcreteVertices": [
+            {
+              "Id": "C1",
+              "Strain": -0.07616644239692248,
+              "Stress": -2.682617312123104,
+              "X": 500,
+              "Y": 0
+            },
+            {
+              "Id": "C2",
+              "Strain": -0.08263349473033624,
+              "Stress": -2.9103898849526684,
+              "X": 495.72243068690517,
+              "Y": 65.26309611002578
+            },
+            {
+              "Id": "C3",
+              "Strain": -0.08917557751690866,
+              "Stress": -3.1408050650282293,
+              "X": 482.9629131445342,
+              "Y": 129.40952255126038
+            },
+            {
+              "Id": "C4",
+              "Strain": -0.09568075390635347,
+              "Stress": -3.369920384735537,
+              "X": 461.93976625564335,
+              "Y": 191.3417161825449
+            },
+            {
+              "Id": "C5",
+              "Strain": -0.10203771852707166,
+              "Stress": -3.5938156174316322,
+              "X": 433.01270189221935,
+              "Y": 249.99999999999997
+            },
+            {
+              "Id": "C6",
+              "Strain": -0.10813770195191916,
+              "Stress": -3.8086598536095986,
+              "X": 396.6766701456176,
+              "Y": 304.38071450436036
+            },
+            {
+              "Id": "C7",
+              "Strain": -0.1138763317732619,
+              "Stress": -4.010777048822354,
+              "X": 353.5533905932738,
+              "Y": 353.5533905932738
+            },
+            {
+              "Id": "C8",
+              "Strain": -0.11915541844380796,
+              "Stress": -4.196708921822339,
+              "X": 304.38071450436036,
+              "Y": 396.6766701456176
+            },
+            {
+              "Id": "C9",
+              "Strain": -0.12388463532698495,
+              "Stress": -4.363274126712466,
+              "X": 250.00000000000006,
+              "Y": 433.0127018922193
+            },
+            {
+              "Id": "C10",
+              "Strain": -0.12798306421073505,
+              "Stress": -4.507622686656466,
+              "X": 191.34171618254493,
+              "Y": 461.93976625564335
+            },
+            {
+              "Id": "C11",
+              "Strain": -0.1313805798405582,
+              "Stress": -4.627284757772717,
+              "X": 129.40952255126038,
+              "Y": 482.9629131445342
+            },
+            {
+              "Id": "C12",
+              "Strain": -0.13401904978205878,
+              "Stress": -4.720212888847826,
+              "X": 65.26309611002586,
+              "Y": 495.72243068690517
+            },
+            {
+              "Id": "C13",
+              "Strain": -0.13585332908301564,
+              "Stress": -4.7848170537945505,
+              "X": 3.061616997868383E-14,
+              "Y": 500
+            },
+            {
+              "Id": "C14",
+              "Strain": -0.13685203271603114,
+              "Stress": -4.8199918574389935,
+              "X": -65.2630961100258,
+              "Y": 495.72243068690517
+            },
+            {
+              "Id": "C15",
+              "Strain": -0.13699807258505142,
+              "Stress": -4.825135449138504,
+              "X": -129.40952255126032,
+              "Y": 482.9629131445342
+            },
+            {
+              "Id": "C16",
+              "Strain": -0.13628894990742765,
+              "Stress": -4.800159820613027,
+              "X": -191.34171618254476,
+              "Y": 461.9397662556434
+            },
+            {
+              "Id": "C17",
+              "Strain": -0.1347367979687799,
+              "Stress": -4.745492311791188,
+              "X": -249.9999999999999,
+              "Y": 433.01270189221935
+            },
+            {
+              "Id": "C18",
+              "Strain": -0.13236817451911628,
+              "Stress": -4.662068298905624,
+              "X": -304.38071450436036,
+              "Y": 396.6766701456176
+            },
+            {
+              "Id": "C19",
+              "Strain": -0.12922360736236702,
+              "Stress": -4.551315189946315,
+              "X": -353.5533905932737,
+              "Y": 353.5533905932738
+            },
+            {
+              "Id": "C20",
+              "Strain": -0.12535690091442275,
+              "Stress": -4.415128001314115,
+              "X": -396.67667014561755,
+              "Y": 304.3807145043604
+            },
+            {
+              "Id": "C21",
+              "Strain": -0.12083421559466143,
+              "Stress": -4.255836933564744,
+              "X": -433.01270189221935,
+              "Y": 249.99999999999997
+            },
+            {
+              "Id": "C22",
+              "Strain": -0.11573293580282945,
+              "Stress": -4.076167501031223,
+              "X": -461.93976625564335,
+              "Y": 191.34171618254496
+            },
+            {
+              "Id": "C23",
+              "Strain": -0.110140345850507,
+              "Stress": -3.8791938975179763,
+              "X": -482.9629131445341,
+              "Y": 129.40952255126052
+            },
+            {
+              "Id": "C24",
+              "Strain": -0.10415213650233718,
+              "Stress": -3.6682863959925163,
+              "X": -495.72243068690517,
+              "Y": 65.263096110026
+            },
+            {
+              "Id": "C25",
+              "Strain": -0.09787076768051244,
+              "Stress": -3.4470536822805493,
+              "X": -500,
+              "Y": 6.123233995736766E-14
+            },
+            {
+              "Id": "C26",
+              "Strain": -0.09140371534709867,
+              "Stress": -3.2192811094509843,
+              "X": -495.72243068690517,
+              "Y": -65.26309611002588
+            },
+            {
+              "Id": "C27",
+              "Strain": -0.08486163256052626,
+              "Stress": -2.9888659293754243,
+              "X": -482.9629131445342,
+              "Y": -129.4095225512604
+            },
+            {
+              "Id": "C28",
+              "Strain": -0.07835645617108143,
+              "Stress": -2.7597506096681164,
+              "X": -461.9397662556434,
+              "Y": -191.34171618254484
+            },
+            {
+              "Id": "C29",
+              "Strain": -0.07199949155036327,
+              "Stress": -2.535855376972022,
+              "X": -433.0127018922194,
+              "Y": -249.99999999999986
+            },
+            {
+              "Id": "C30",
+              "Strain": -0.06589950812551576,
+              "Stress": -2.321011140794055,
+              "X": -396.6766701456176,
+              "Y": -304.38071450436036
+            },
+            {
+              "Id": "C31",
+              "Strain": -0.060160878304173035,
+              "Stress": -2.1188939455812994,
+              "X": -353.55339059327395,
+              "Y": -353.55339059327355
+            },
+            {
+              "Id": "C32",
+              "Strain": -0.05488179163362696,
+              "Stress": -1.9329620725813148,
+              "X": -304.3807145043604,
+              "Y": -396.6766701456175
+            },
+            {
+              "Id": "C33",
+              "Strain": -0.050152574750449985,
+              "Stress": -1.766396867691188,
+              "X": -250.00000000000023,
+              "Y": -433.01270189221924
+            },
+            {
+              "Id": "C34",
+              "Strain": -0.046054145866699855,
+              "Stress": -1.622048307747187,
+              "X": -191.34171618254476,
+              "Y": -461.9397662556434
+            },
+            {
+              "Id": "C35",
+              "Strain": -0.04265663023687672,
+              "Stress": -1.5023862366309362,
+              "X": -129.40952255126032,
+              "Y": -482.9629131445342
+            },
+            {
+              "Id": "C36",
+              "Strain": -0.04001816029537615,
+              "Stress": -1.4094581055558284,
+              "X": -65.26309611002581,
+              "Y": -495.72243068690517
+            },
+            {
+              "Id": "C37",
+              "Strain": -0.03818388099441928,
+              "Stress": -1.3448539406091038,
+              "X": -9.184850993605149E-14,
+              "Y": -500
+            },
+            {
+              "Id": "C38",
+              "Strain": -0.03718517736140377,
+              "Stress": -1.3096791369646592,
+              "X": 65.26309611002563,
+              "Y": -495.7224306869052
+            },
+            {
+              "Id": "C39",
+              "Strain": -0.03703913749238349,
+              "Stress": -1.3045355452651495,
+              "X": 129.40952255126015,
+              "Y": -482.9629131445342
+            },
+            {
+              "Id": "C40",
+              "Strain": -0.03774826017000726,
+              "Stress": -1.3295111737906256,
+              "X": 191.3417161825446,
+              "Y": -461.93976625564346
+            },
+            {
+              "Id": "C41",
+              "Strain": -0.039300412108654995,
+              "Stress": -1.3841786826124647,
+              "X": 250.00000000000006,
+              "Y": -433.0127018922193
+            },
+            {
+              "Id": "C42",
+              "Strain": -0.04166903555831862,
+              "Stress": -1.4676026954980284,
+              "X": 304.38071450435996,
+              "Y": -396.67667014561783
+            },
+            {
+              "Id": "C43",
+              "Strain": -0.04481360271506792,
+              "Stress": -1.578355804457339,
+              "X": 353.55339059327366,
+              "Y": -353.55339059327383
+            },
+            {
+              "Id": "C44",
+              "Strain": -0.04868030916301216,
+              "Stress": -1.7145429930895382,
+              "X": 396.6766701456175,
+              "Y": -304.38071450436047
+            },
+            {
+              "Id": "C45",
+              "Strain": -0.05320299448277344,
+              "Stress": -1.873834060838908,
+              "X": 433.0127018922192,
+              "Y": -250.00000000000023
+            },
+            {
+              "Id": "C46",
+              "Strain": -0.058304274274605467,
+              "Stress": -2.053503493372431,
+              "X": 461.9397662556434,
+              "Y": -191.3417161825448
+            },
+            {
+              "Id": "C47",
+              "Strain": -0.06389686422692788,
+              "Stress": -2.250477096885676,
+              "X": 482.96291314453407,
+              "Y": -129.40952255126078
+            },
+            {
+              "Id": "C48",
+              "Strain": -0.06988507357509775,
+              "Stress": -2.4613845984111378,
+              "X": 495.72243068690517,
+              "Y": -65.26309611002584
+            }
+          ],
+          "Response": {
+            "CMax": -1.3045355452651495,
+            "CMin": -4.825135449138504,
+            "EcMax": -0.03703913749238349,
+            "EcMin": -0.13699807258505142,
+            "EpMax": null,
+            "EpMin": null,
+            "EsMax": -0.04558659814745775,
+            "EsMin": -0.12845061192997714,
+            "NeutralAngle": 12.528809657976458,
+            "NeutralDistance": 1369.2689713523296,
+            "PMax": null,
+            "PMin": null,
+            "SMax": -9.11731962949155,
+            "SMin": -25.69012238599543,
+            "UsefulDepth": 925.6398287301287
+          },
+          "SteelStressLimit": 360,
+          "sigma_acciaio": 25.69012238599543,
+          "sigma_cls": -4.825135449138504,
+          "tensioni_barre": [-15.59792114414881,-18.19740568532462,-20.71919884033248,-22.91644992479414,-24.574076693413993,-25.529819088714714,-25.69012238599543,-25.03929498161957,-23.6410443965086,-21.63224114011787,-19.209520871338174,-16.610036330162366,-14.088243175154503,-11.890992090692844,-10.233365322072991,-9.277622926772274,-9.11731962949155,-9.768147033867415,-11.166397618978378,-13.17520087536911,-15.867054777665324,-19.530427477694445,-22.623950896562167,-24.318717932416117,-24.160617126640336,-22.192011462465157,-18.940387237821657,-15.27701453779254,-12.183491118924815,-10.488724083070869,-10.646824888846648,-12.615430553021822
+          ]
+        },
+        "Status": "Entro limiti tensionali"
+      }
+    }
+  },
+  "torsione": {},
+  "verifica_normativa_completa": false
+}
