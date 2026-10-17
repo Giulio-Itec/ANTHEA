@@ -19,6 +19,7 @@ using Anthea.FoundationWorkspace;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Modules;
+using Anthea.Presentation.Modules.PileGroup;
 using Anthea.Presentation.Modules.ShallowFoundation;
 using Anthea.Presentation.Modules.Stratigraphy;
 using Anthea.Presentation.Services;
@@ -908,7 +909,8 @@ internal static class ShallowFoundationViewChecks
     private static async Task SoilTransfer(string root)
     {
         var transfer = new ScriptedTransfer();
-        var editors = Editors(new RecordingWiki(), modules: new ModuleRegistry([new ShallowFoundationSheetModule(transfer: transfer)]));
+        // The pile group is in the registry because the Release already opens it in MVVM (F5.4).
+        var editors = Editors(new RecordingWiki(), modules: new ModuleRegistry([new ShallowFoundationSheetModule(transfer: transfer), new PileGroupSheetModule()]));
         var data = ShallowFoundationScenarios.FixtureData(root, "vesic-circolare-due-sondaggi");
         using var host = new Hosted(editors.Open(Module, data));
         await host.Settle();
