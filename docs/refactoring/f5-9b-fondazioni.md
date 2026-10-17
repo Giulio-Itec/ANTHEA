@@ -286,6 +286,8 @@ apre solo nella build UiTests, con `--module-impl geo_fondazioni_superficiali=mv
 | `66182043` | `tests/Desktop/ShallowFoundationViewChecks.cs`, comando `--check-fondazioni-view`, suite `ui/check-fondazioni-view` |
 | `b022bf6d` | passo `mvvm-geo_fondazioni_superficiali` di `--check-contrast` (non eseguito: 144 DPI) |
 | `9cf2ced7` | dettagli della verifica chiusi a ogni calcolo, come nella vista storica (stato di vista `DetailsExpanded`) |
+| `4c1fdc38` | questa sezione |
+| `4fbc3397` | passo del contrasto in un blocco a sé (`ShallowFoundationContrastStep`), senza il meccanismo `mvvm-` tolto dalla chiusura del pilota |
 
 ### 5.2 Decisioni applicate
 
@@ -360,8 +362,11 @@ Sono le stesse in tutti gli aspetti (schermate di `ui/check-fondazioni-view`, ca
 ### 5.5 Domande e note
 
 - **Contrasto (T10).** Il passo `mvvm-geo_fondazioni_superficiali` è aggiunto ma non eseguito: lo schermo è al 150%. Con
-  `--baseline` il passo misura solo Scuro e Molto scuro; la Chiara della vista MVVM si misura senza `--baseline`. Da ripetere a 96 DPI
-  prima dell'unione; al passaggio della Release le voci della Chiara passano dal passo storico a quello del modulo (D12).
+  `--baseline` il passo misura solo Scuro e Molto scuro; la Chiara della vista MVVM si misura senza `--baseline`. È un blocco a sé in
+  fondo a `ContrastAudit.cs` (`ShallowFoundationContrastStep`, chiamato fra i commenti «F5.9b begin/end»), perché la chiusura del
+  pilota toglie il meccanismo dei passi `mvvm-`; il coordinatore riconcilia il file all'unione. Da ripetere a 96 DPI prima
+  dell'unione; al passaggio della Release il blocco si toglie e le voci della Chiara passano dal passo storico a quello del modulo
+  (D12).
 - **Suite storiche.** `FoundationWorkspace.UiChecks` (metodo `Ui` di `tests/FoundationWorkspace.Checks/Program.cs`, con la parte
   `--ui` di `ContractChecks` e `--candidate`) apre ancora per riflessione la vista storica. Al passaggio della Release diventa la vista
   XAML ospitata fuori schermo, con la libreria candidata iniettata nel servizio del contesto per `--candidate`; i suoi controlli della
@@ -394,4 +399,17 @@ X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe --interactive --module-impl geo_
 
 ### 5.7 Corsa finale
 
-Da completare dopo la corsa `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'`.
+Corsa `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `4c1fdc38`:
+`supporto/artefatti/ci/20261017-102232-f59bv-finale`, **PASS 120**, KNOWN 0, NEW-FAIL 0 (build 25, fast 31, wiki 2, ui 62: una suite in più della base
+`20261017-060301-f5-int13`, `ui/check-fondazioni-view`). La corsa non ha modificato file tracciati (l'unico segnalato è
+`ContrastAudit.cs`, cambiato durante la corsa per il commit `4fbc3397`); `transitions-f4.json`, le fixture F3 e le baseline di
+architettura invariati.
+- `ui/f3-equivalence` (vista storica) PASS 104 fixture; `ui/f3-report-chapters` PASS; `ui/check-fondazioni-historic` PASS;
+  `ui/check-fondazioni-view` PASS 294 controlli; `FoundationWorkspace.Checks` e `FoundationWorkspace.UiChecks` PASS (suite storiche
+  invariate); `ui/check-module-host-offscreen` PASS; Presentation.Tests 1790; Architecture.Tests PASS.
+- Con gli stessi binari: cattura F3 con `--module-impl geo_fondazioni_superficiali=mvvm` PASS 104 fixture contro il riferimento e le
+  transizioni F4; confronto diretto con la cattura storica della corsa **identiche** (1066 file, 0 differenze);
+  `--check-f3-report-chapters` con il modulo MVVM PASS 105 capitoli autonomi, 246 immagini.
+- Dopo il blocco del contrasto (`4fbc3397`, solo codice di prova UiTests): build UiTests e `ui/check-fondazioni-view` PASS
+  (`supporto/artefatti/ci/20261017-110211-f59bv-c7-vista`).
+- `ui/check-contrast` esclusa (144 DPI, T10). Le schermate sono a 144 DPI.
