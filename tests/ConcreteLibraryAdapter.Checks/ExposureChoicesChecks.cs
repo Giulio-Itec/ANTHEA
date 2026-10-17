@@ -21,11 +21,13 @@ internal static class ExposureChoicesChecks
         var applicationCopy = Anthea.Application.Concrete.ConcreteEditor.ExposureChoices; applicationCopy[1] = "alterato";
         check(Anthea.Application.Concrete.ConcreteEditor.ExposureChoices.SequenceEqual(expected), "7c: la vista modifica il catalogo tramite il contratto");
         check(File.ReadAllText(Path.Combine(root, "src/ANTHEA.Application/Concrete/ConcreteEditor.cs")).Contains("ConcreteLibraryMapping.ExposureChoices.ToArray()"), "7c: contratto applicativo senza fonte condivisa");
+        // F5.9: the fields of the wall (exposure included) moved from RetainingWallWorkspace.Materials.cs to RetainingWallFields, shared by
+        // the historic view and its ViewModel; the same check follows them.
         foreach (var file in new[] { "X.Desktop/Wpf/ConcreteStress.cs", "X.Desktop/Wpf/HorizontalWorkspace.cs",
-            "X.Desktop/Wpf/RetainingWallWorkspace.Materials.cs", "X.Calculations/RetainingWall.cs" })
+            "src/ANTHEA.Presentation/Modules/RetainingWall/RetainingWallFields.cs", "X.Calculations/RetainingWall.cs" })
         {
             string source = File.ReadAllText(Path.Combine(root, file));
-            check(source.Contains(file.StartsWith("X.Desktop/") ? "ConcreteEditor.ExposureChoices" : "ConcreteLibraryMapping.ExposureChoices") && !source.Contains("LegacyNtc2018Checks.Exposures"),
+            check(source.Contains(file.StartsWith("X.Calculations/") ? "ConcreteLibraryMapping.ExposureChoices" : "ConcreteEditor.ExposureChoices") && !source.Contains("LegacyNtc2018Checks.Exposures"),
                 "7c: la vista o validazione usa ancora il catalogo legacy: " + file);
         }
     }

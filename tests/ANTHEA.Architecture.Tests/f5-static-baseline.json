@@ -652,14 +652,6 @@
       "Example": "internal static readonly string [ ] LayerColors"
     },
     {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalGuidance.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "RetainingWallWorkspace.GlobalSearchLimits",
-      "Fingerprint": "4D0EBEE6EEB5330AFE4D7E4422B0D48D4542820B91035EAA125238CDC5A875CB",
-      "Count": 1,
-      "Example": "private static readonly string [ ] GlobalSearchLimits"
-    },
-    {
       "File": "X.Desktop/Wpf/WikiVector.cs",
       "Rule": "P3-static-setter",
       "Owner": "WikiPalette.Dark",
