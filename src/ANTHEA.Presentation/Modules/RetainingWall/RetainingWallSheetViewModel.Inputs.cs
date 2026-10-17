@@ -111,6 +111,8 @@ public sealed partial class RetainingWallSheetViewModel
         cards.TryGetValue("Combinazioni", out var matrixCard);
         forms.Clear(); cards.Clear(); formVisibility.Clear();
         cards["Combinazioni"] = matrixCard ?? new WallCardViewModel("Combinazioni", true);
+        // The choice of the type of a new action is built with the inputs: back to the first type, as the historic combo box.
+        NewActionType = WallModel.ActionTypes[0];
         BuildSoilColumns();
         BuildAdvancedSoil();
         Card("Terreno", true);
@@ -330,8 +332,17 @@ public sealed partial class RetainingWallSheetViewModel
 
     // ---------------------------------------------------------------- actions
 
-    /// <summary>The type of a new action («+ Azione»).</summary>
-    public string NewActionType { get; set; } = WallModel.ActionTypes[0];
+    private string newActionType = WallModel.ActionTypes[0];
+
+    /// <summary>The type of a new action («+ Azione»): one of <see cref="WallModel.ActionTypes"/>.</summary>
+    public string NewActionType
+    {
+        get => newActionType;
+        set { if (value is not null && WallModel.ActionTypes.Contains(value)) SetProperty(ref newActionType, value); }
+    }
+
+    /// <summary>The types of a new action.</summary>
+    public IReadOnlyList<string> ActionTypes { get; } = WallModel.ActionTypes;
 
     /// <summary>«+ Azione» (at most 30): a new action of <see cref="NewActionType"/>, selected.</summary>
     public void AddAction()
@@ -407,7 +418,13 @@ public sealed partial class RetainingWallSheetViewModel
     public void ShowSeismic()
     {
         Page = 0; cards["Azioni"].IsExpanded = true; cards["Sisma"].IsExpanded = true;
+        CardShown?.Invoke(this, "Sisma");
     }
+
+    /// <summary>A command opened a card for the user («Sisma», «Stabilità globale»): the view scrolls to it, as the historic view.</summary>
+    public event EventHandler<string>? CardShown;
+
+    private void ShowCard(string key) => CardShown?.Invoke(this, key);
 
     // ---------------------------------------------------------------- accelerograms
 
@@ -474,7 +491,20 @@ public sealed partial class RetainingWallSheetViewModel
         foreach (var (key, visible) in rules.Cards) if (cards.TryGetValue(key, out var card)) card.IsVisible = visible;
         foreach (var (key, field, visible) in rules.Fields) if (forms.TryGetValue(key, out var form)) form.ShowField(field, visible);
         foreach (var (key, field, enabled, dim) in rules.Enabled) if (forms.TryGetValue(key, out var form)) form.Enable(field, enabled, dim);
+        if (formVisibility.Count != shownForms.Count || formVisibility.Any(p => !shownForms.TryGetValue(p.Key, out bool shown) || shown != p.Value))
+        {
+            shownForms = new Dictionary<string, bool>(formVisibility, StringComparer.Ordinal);
+            OnPropertyChanged(nameof(FormVisibility));
+        }
     }
+
+    private IReadOnlyDictionary<string, bool> shownForms = new Dictionary<string, bool>(StringComparer.Ordinal);
+
+    /// <summary>
+    /// The forms that the rules of the fields show or hide (the InputForm collapsed by ApplyRules of the historic view), by key; a form not
+    /// listed is shown. A new copy, notified, every time it changes (for the view; the cards that hold a form are in <see cref="Cards"/>).
+    /// </summary>
+    public IReadOnlyDictionary<string, bool> FormVisibility => shownForms;
 }
 
 /// <summary>An accelerogram of the serviceability: its name (the title of its group), the samples saved and the key of its form.</summary>

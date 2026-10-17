@@ -3,6 +3,7 @@ using Anthea.Application.Presentation;
 using Anthea.Application.Walls;
 using Anthea.Calculations;
 using Anthea.Presentation.Forms;
+using Anthea.Presentation.Services;
 
 namespace Anthea.Presentation.Modules.RetainingWall;
 
@@ -80,6 +81,12 @@ public sealed partial class RetainingWallSheetViewModel
 
     /// <summary>The case drawn in the inputs, for the drawing of the view.</summary>
     public WallModel.LoadCase? DrawingCase => drawingCase;
+
+    /// <summary>The result drawn in the inputs (the result of the combination shown, null after an edit), for the drawing of the view.</summary>
+    public WallModel.Result? DrawingCalculation => drawingCalculation;
+
+    /// <summary>The result drawn in the diagrams of the results, for the drawing of the view.</summary>
+    public WallModel.Result? DiagramCalculation => diagramCalculation;
 
     /// <summary>The drawing of the results (the diagrams).</summary>
     public WallDiagramState Diagrams => new(diagramsVisible, diagramMode, diagramDiagrams, diagramMember, diagramCase?.Name, diagramShowRebar, diagramShowLoads, !diagramWide);
@@ -341,6 +348,35 @@ public sealed partial class RetainingWallSheetViewModel
         Commit();
         if (calculationResult is null || IsBusy) throw new ArgumentException("Attendere il calcolo aggiornato prima di aprire la distinta.");
         return WallModel.CalculateBarSchedule(calculationResult);
+    }
+
+    /// <summary>Title of the message of «Distinta ferri…» refused, as the historic message box.</summary>
+    public const string BarScheduleTitle = "Distinta ferri";
+
+    /// <summary>
+    /// «Distinta ferri…» and «Tavola armature e distinta ferri…» (also when read-only): the bar schedule of the current result for the
+    /// dialog of the view (decision MU10: pages, zoom and exports are of the view); without a result or while busy the refusal is shown
+    /// as a message, as the historic view, and the result is null.
+    /// </summary>
+    public WallModel.BarSchedule? OpenBarSchedule()
+    {
+        try { return CreateBarSchedule(); }
+        catch (ArgumentException error) { Context.Services.Messages.Inform(BarScheduleTitle, error.Message); return null; }
+    }
+
+    /// <summary>
+    /// An export of the dialog of the bar schedule («PDF completo», «Word completo», «CSV distinta», «PNG pagina»): the file chosen in the
+    /// dialog of the services («Muro_distinta_ferri.&lt;estensione&gt;») receives <paramref name="contents"/>, written atomically; nothing
+    /// when the user cancels; a failure is shown as «Esportazione non riuscita: …», as the historic dialog.
+    /// </summary>
+    public void SaveBarSchedule(string extension, Func<byte[]> contents)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(extension);
+        ArgumentNullException.ThrowIfNull(contents);
+        string? path = Context.Services.Files.SaveFile(new SaveFileRequest([new FileFilter(extension.ToUpperInvariant(), "*." + extension)], "Muro_distinta_ferri." + extension));
+        if (path is null) return;
+        try { X.Core.Archivio.ScriviAtomico(path, contents()); }
+        catch (Exception error) when (error is not OutOfMemoryException) { Context.Services.Messages.Inform("", "Esportazione non riuscita: " + error.Message); }
     }
 
     // ---------------------------------------------------------------- background works

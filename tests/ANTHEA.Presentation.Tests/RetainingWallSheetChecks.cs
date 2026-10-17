@@ -42,8 +42,8 @@ internal static class RetainingWallSheetChecks
     private static readonly RetainingWallSheetModule Module = new(new PlanFigures());
 
     private static RetainingWallSheetViewModel Open(JsonObject data, IModuleService? service = null, Host? host = null, bool readOnly = false,
-        PresentationServices? services = null) =>
-        (RetainingWallSheetViewModel)Module.CreateSheet(new SheetContext((JsonObject)data.DeepClone(), readOnly, host ?? new Host(),
+        PresentationServices? services = null, ISheetHost? routing = null) =>
+        (RetainingWallSheetViewModel)Module.CreateSheet(new SheetContext((JsonObject)data.DeepClone(), readOnly, routing ?? host ?? new Host(),
             services ?? Scripted.Services(), service ?? ModuleServices.Get(RetainingWallScenarios.Module), new CalculationLimiter(CalculationLimiter.DefaultMaximum)));
 
     private static async Task<int> RunAsync(string root, string output)
@@ -78,6 +78,7 @@ internal static class RetainingWallSheetChecks
             await ReadOnlyAsync(root, expect);
             await ReloadAsync(root, expect);
             await ExportsAsync(root, output, expect);
+            await ViewContractAsync(root, output, expect);
             return expect.Count;
         }
         finally { CultureInfo.CurrentCulture = culture; CultureInfo.CurrentUICulture = uiCulture; }
@@ -116,7 +117,8 @@ internal static class RetainingWallSheetChecks
         private readonly HeldModuleService engine;
         private readonly RetainingWallIds ids;
         private Host host = new();
-        private int modified, soils;
+        private SoilDialogs soils = new();
+        private int modified;
         private RetainingWallParametersViewModel? parameters;
         private Task parametersApplying = Task.CompletedTask;
 
@@ -127,10 +129,12 @@ internal static class RetainingWallSheetChecks
         private void Attach(JsonObject data)
         {
             host = new Host();
-            Sheet = Open(data, engine, host);
-            modified = 0; soils = 0;
+            // «Invia / carica terreno…» opens the shared soil transfer dialog (MU9, T5): the trace counts the dialogs shown, closed without a choice.
+            soils = new SoilDialogs();
+            Sheet = Open(data, engine, host, services: new PresentationServices(new ScriptedMessages(), new ScriptedConfirmations(), new ScriptedFileDialogs(), soils,
+                new RecordingClipboard(), new RecordingLinks(), new RecordingWiki()));
+            modified = 0;
             Sheet.Modified += (_, _) => modified++;
-            Sheet.SoilTransferRequested += (_, _) => soils++;
         }
 
         private void CloseParameters() { parameters?.Close(); parameters = null; }
@@ -280,7 +284,7 @@ internal static class RetainingWallSheetChecks
                     if (s.ProposalPanel?.Any(b => b.Command == RetainingWallSheetViewModel.ApplyProposalCommand) == true) s.ApplyProposal();
                     break;
                 case "Relazione Word": s.RequestReport(); break;
-                case "Invia / carica terreno…": s.RequestSoilTransfer(); break;
+                case "Invia / carica terreno…": await s.TransferSoilAsync(); break;
                 case "Apri sezione in c.a.": s.SendSelectedSection(); break;
                 case "+ Accelerogramma": s.AddHistory(); break;
                 case "Modifica profilo, strati e ricerca":
@@ -302,7 +306,7 @@ internal static class RetainingWallSheetChecks
             string YN(bool value) => RetainingWallTrace.YesNo(value);
             t.Data(s.Data);
             t.Add("foglio", "modificato " + N(modified) + " · sola lettura " + YN(s.IsReadOnly) + " · occupato " + YN(s.IsBusy) + " · report " + N(host.Reports)
-                + " · terreno " + N(soils));
+                + " · terreno " + N(soils.Shown));
             t.Add("sezioni", string.Join(" | ", host.Sections.Select(c => Q(c.Name) + " " + t.Hash(c.Data))));
             t.Add("risultato", s.Calculation is null ? "-" : t.Hash(s.Calculation.Json()));
             t.Add("globale", s.GlobalResult is null ? "-" : (s.HasIndependentGlobal ? "indipendente" : "dal calcolo") + " · casi " + N(s.GlobalResult.Cases.Length));
@@ -573,7 +577,7 @@ internal static class RetainingWallSheetChecks
         sheet.Family = "gravity"; sheet.LoadExample("gravity");
         sheet.AddSoilLayer(false); sheet.RemoveSoilLayer(false); sheet.MoveSoilLayer(false, 1); sheet.AddAction(); sheet.RemoveAction(); sheet.AddServiceLayer();
         sheet.GenerateMatrix(); sheet.ConfirmMatrix(); sheet.CopyCombination(); sheet.RemoveCombination(); sheet.PrepareGlobal(); sheet.GenerateGlobalMatrix();
-        sheet.AddGlobalLayer(false); sheet.AddProfilePoint("punti-valle"); sheet.AdoptMinimumCover(); sheet.AddHistory(); sheet.RequestSoilTransfer();
+        sheet.AddGlobalLayer(false); sheet.AddProfilePoint("punti-valle"); sheet.AdoptMinimumCover(); sheet.AddHistory(); await sheet.TransferSoilAsync();
         await sheet.DesignRebarAsync();
         sheet.Page = 1; sheet.SelectedFilter = "Sollecitazioni numeriche"; sheet.SelectResultRow(3); sheet.SendSelectedSection();
         expect.That(sheet.Data.ToJsonString() == before && modified == 0 && host.Sections.Count == 0 && !sheet.CanSendSection, "Sola lettura: modifica scritta nel documento");
@@ -656,6 +660,177 @@ internal static class RetainingWallSheetChecks
             "Importazione dell'accelerogramma");
     }
 
+    // ---------------------------------------------------------------- the contract of the view (F5.9, decisions of 17/10)
+
+    /// <summary>
+    /// What the XAML view needs from the sheet, decided on 17/10: every form with the navigator of the Wiki of the services and read-only
+    /// through <see cref="FormViewModel.IsReadOnly"/> (T2, also for the forms built after the opening), the window of the values as a modal
+    /// dialog of the services (MU10), the shared soil transfer dialog (MU9, T5), the commands of the buttons, the visibility of the forms
+    /// notified, the cards shown, the bar schedule of the view and the type of a new action back to the first one at every rebuild.
+    /// </summary>
+    private static async Task ViewContractAsync(string root, string output, Expect expect)
+    {
+        var dialogs = new ModelessDialogs();
+        var wiki = new RecordingWiki();
+        var messages = new ScriptedMessages();
+        string folder = Path.Combine(output, "muri-vista");
+        Directory.CreateDirectory(folder);
+        string schedule = Path.Combine(folder, "distinta.csv");
+        var files = new ScriptedFileDialogs().Then(schedule).Then(null).Then(Path.Combine(folder, "manca", "distinta.pdf"));
+        var host = new RoutingHost();
+        var services = new PresentationServices(messages, new ScriptedConfirmations().Then(true), files, dialogs, new RecordingClipboard(), new RecordingLinks(), wiki);
+        using var sheet = Open(RetainingWallScenarios.FixtureData(root, "default"), services: services, routing: host);
+        bool Forms() => sheet.Forms.Values.All(f => ReferenceEquals(f.WikiNavigator, wiki) && f.IsReadOnly == !sheet.CanEdit);
+        expect.That(Forms() && sheet.Forms.Count > 20, "Tutti i form con il navigatore della Wiki dei servizi e la sola lettura del foglio: " + sheet.Forms.Count);
+        await Expect.Within(sheet.PendingWork);
+        // Forms built after the opening: the action selected, a deep layer, an accelerogram, a prepared profile.
+        sheet.Actions.SelectedIndex = 0; sheet.AddHistory(); sheet.PrepareGlobal(); sheet.GlobalRearLayers.SelectedIndex = 0;
+        expect.That(Forms() && sheet.Forms.ContainsKey("action") && sheet.Forms.ContainsKey("history_0") && sheet.Forms.ContainsKey("global_soil_rear"),
+            "Form costruiti dopo l'apertura con il navigatore della Wiki");
+        sheet.IsReadOnly = true;
+        expect.That(Forms(), "Form in sola lettura con IsReadOnly");
+        string[] allowed = ["Recalculate", "Report", "ExportCsv", "ShowSeismic", "ShowGlobalSetup", "Parameters", "CalculateGlobal", "ExportGlobalWord"];
+        var commands = typeof(RetainingWallSheetViewModel).GetProperties().Where(p => p.Name.EndsWith("Command", StringComparison.Ordinal)
+            && typeof(System.Windows.Input.ICommand).IsAssignableFrom(p.PropertyType)).ToArray();
+        static object? Parameter(string name) => name switch
+        {
+            "LoadExample" => "gravity",
+            "AddSoilLayer" or "RemoveSoilLayer" or "MoveSoilLayerUp" or "MoveSoilLayerDown" or "AddGlobalLayer" or "RemoveGlobalLayer" => "monte",
+            "AddProfilePoint" or "RemoveProfilePoint" => "punti-valle",
+            _ => null
+        };
+        string? Wrong(bool readOnly) => commands.Select(p => (Name: p.Name[..^"Command".Length], Command: (System.Windows.Input.ICommand)p.GetValue(sheet)!))
+            .Where(c => c.Name is not ("DesignRebar" or "SendSection" or "Panel" or "ImportHistory" or "RemoveHistory"))
+            .Where(c => c.Command.CanExecute(Parameter(c.Name)) != (!readOnly || allowed.Contains(c.Name))).Select(c => c.Name).FirstOrDefault();
+        expect.That(commands.Length == 37 && Wrong(true) is null && !sheet.DesignRebarCommand.CanExecute(null) && !sheet.ImportHistoryCommand.CanExecute(sheet.Histories[0])
+            && sheet.PanelCommand.CanExecute(RetainingWallSheetViewModel.EditGlobalSetupCommand) && !sheet.PanelCommand.CanExecute(RetainingWallSheetViewModel.ApplyProposalCommand),
+            "Comandi in sola lettura: spenti quelli che modificano i dati, attivi quelli ammessi dalla vista storica (" + commands.Length + "): " + Wrong(true));
+        string before = sheet.Data.ToJsonString();
+        await sheet.TransferSoilAsync();
+        expect.That(dialogs.Shown.Count == 0 && sheet.Data.ToJsonString() == before, "Sola lettura: «Invia / carica terreno…» rifiutato");
+        sheet.IsReadOnly = false;
+        expect.That(Wrong(false) is null && Forms() && sheet.RemoveHistoryCommand.CanExecute(sheet.Histories[0]), "Comandi e form di nuovo modificabili: " + Wrong(false));
+        // The soil transfer dialog (MU9): a copy to the window, then the replacement of the soil of the sheet.
+        dialogs.Answer = dialog =>
+        {
+            var transfer = (Modules.Shared.SoilTransferDialogViewModel)dialog;
+            transfer.SelectedDestination = "geo_stratigrafia";
+            transfer.SendCommand.Execute(null);
+        };
+        await sheet.TransferSoilCommand.ExecuteAsync(null);
+        expect.That(dialogs.Shown.LastOrDefault() is Modules.Shared.SoilTransferDialogViewModel && host.Copies.Count == 1 && host.Copies[0].Module == "geo_stratigrafia"
+            && host.Copies[0].Name.StartsWith("Terreno da ", StringComparison.Ordinal), "«Invia / carica terreno…»: dialogo condiviso, copia inviata alla finestra");
+        dialogs.Answer = dialog => ((Modules.Shared.SoilTransferDialogViewModel)dialog).ApplyCommand.Execute(null);
+        await sheet.TransferSoilCommand.ExecuteAsync(null);
+        expect.That(host.Replacements.Count == 1 && host.Replacements[0]["family"] is not null, "«Invia / carica terreno…»: sostituzione del terreno del foglio");
+        // The window of the values as a modal dialog (on a sheet whose data the engine accepts, as the trace «valori-di-calcolo»): values
+        // applied, the dialog closed with true and the sheet calculated.
+        using var values = Open(RetainingWallScenarios.FixtureData(root, "gravita-cls-passiva"), services: services, routing: host);
+        await Expect.Within(values.PendingWork);
+        dialogs.Answer = dialog =>
+        {
+            var window = (RetainingWallParametersViewModel)dialog;
+            window.Rows.Single(r => r.Values.S("path") == "geometry/height")["value"] = "3,4";
+            window.ApplyCommand.Execute(null);
+        };
+        await Expect.Within(values.ShowParametersAsync());
+        var shown = (RetainingWallParametersViewModel)dialogs.Shown[^1];
+        await Expect.Within(shown.Applying);
+        expect.That(shown.IsClosed && shown.Result && dialogs.Results[^1] is true && values.Data["geometry"].D("height") == 3.4 && values.ParameterWindows.Count == 0
+            && shown.Title == RetainingWallPresentation.ParametersTitle, "«Valori di calcolo…»: dialogo modale dei servizi, valori applicati e finestra chiusa");
+        dialogs.Answer = dialog => ((RetainingWallParametersViewModel)dialog).CloseCommand.Execute(null);
+        string current = values.Data.ToJsonString();
+        await Expect.Within(values.ShowParametersAsync());
+        expect.That(dialogs.Results[^1] is false && values.Data.ToJsonString() == current && values.ParameterWindows.Count == 0, "«Valori di calcolo…»: «Chiudi» senza applicare");
+        // The window closed by its title bar during the check: the dialog returns and the check is cancelled.
+        dialogs.Answer = dialog =>
+        {
+            var window = (RetainingWallParametersViewModel)dialog;
+            window.ApplyCommand.Execute(null);
+            dialogs.CloseFromTitleBar();
+        };
+        await Expect.Within(values.ShowParametersAsync());
+        var cancelled = (RetainingWallParametersViewModel)dialogs.Shown[^1];
+        await Expect.Within(cancelled.Applying);
+        expect.That(cancelled.IsClosed && !cancelled.Result && values.Data.ToJsonString() == current, "«Valori di calcolo…»: finestra chiusa durante il controllo, niente applicato");
+        values.IsReadOnly = true;
+        bool refused = false;
+        dialogs.Answer = dialog =>
+        {
+            var window = (RetainingWallParametersViewModel)dialog;
+            refused = window.IsReadOnly && !window.ApplyCommand.CanExecute(null);
+            window.CloseCommand.Execute(null);
+        };
+        await Expect.Within(values.ShowParametersAsync());
+        expect.That(refused, "Sola lettura: «Applica e ricalcola» spento (MU3)");
+        values.IsReadOnly = false;
+        // The visibility of the forms, notified with a new copy; the cards shown; the type of a new action.
+        var notified = new List<string?>();
+        sheet.PropertyChanged += (_, e) => notified.Add(e.PropertyName);
+        var visibility = sheet.FormVisibility;
+        sheet.Family = "gravity";
+        expect.That(notified.Contains(nameof(sheet.FormVisibility)) && !ReferenceEquals(visibility, sheet.FormVisibility) && !sheet.FormVisibility["material_cover"]
+            && sheet.FormVisibility["gravity_design"] && !sheet.FormVisibility["detailing"] && visibility["detailing"], "Visibilità dei form notificata con una copia nuova");
+        var cards = new List<string>();
+        sheet.CardShown += (_, card) => cards.Add(card);
+        sheet.NewActionType = WallModel.ActionTypes[^1];
+        sheet.ShowSeismicCommand.Execute(null); sheet.ShowGlobalSetupCommand.Execute(null); sheet.PrepareGlobalCommand.Execute(null);
+        expect.That(cards.SequenceEqual(["Sisma", "Stabilità globale", "Stabilità globale"]) && sheet.Page == 0, "Schede mostrate per lo scorrimento della vista: " + string.Join(", ", cards));
+        expect.That(sheet.NewActionType == WallModel.ActionTypes[0] && sheet.ActionTypes.SequenceEqual(WallModel.ActionTypes), "Tipo della nuova azione di nuovo il primo dopo la ricostruzione degli input");
+        sheet.NewActionType = "nessuno";
+        expect.That(sheet.NewActionType == WallModel.ActionTypes[0], "Tipo di azione sconosciuto rifiutato");
+        // The bar schedule of the view: refused without a result, then exported, cancelled and failed.
+        using var bars = Open(RetainingWallScenarios.FixtureData(root, "default"), services: services, routing: host);
+        expect.That(bars.OpenBarSchedule() is null && messages.Shown[^1] == (RetainingWallSheetViewModel.BarScheduleTitle, "Attendere il calcolo aggiornato prima di aprire la distinta.", false),
+            "Distinta ferri senza risultato: messaggio della vista storica");
+        await Expect.Within(bars.PendingWork);
+        expect.That(bars.OpenBarSchedule() is not null, "Distinta ferri del risultato");
+        bars.SaveBarSchedule("csv", () => [1, 2, 3]);
+        bars.SaveBarSchedule("png", () => throw new InvalidOperationException("mai"));
+        bars.SaveBarSchedule("pdf", () => [4]);
+        var requests = files.Requests.Cast<SaveFileRequest>().ToArray();
+        expect.That(File.ReadAllBytes(schedule).SequenceEqual(new byte[] { 1, 2, 3 }) && requests.Length == 3 && requests[0].FileName == "Muro_distinta_ferri.csv"
+            && requests[0].Filters[0].Name == "CSV" && requests[0].Filters[0].Patterns.SequenceEqual(["*.csv"])
+            && messages.Shown[^1].Message.StartsWith("Esportazione non riuscita: ", StringComparison.Ordinal),
+            "Esportazioni della distinta: file scelto, annullamento, errore mostrato");
+    }
+
+    /// <summary>
+    /// A dialog service whose dialog stays open (as the modal window) until it closes: <see cref="Answer"/> acts on it as the user,
+    /// <see cref="CloseFromTitleBar"/> closes the window without a result, as WpfDialogService when the user closes it.
+    /// </summary>
+    private sealed class ModelessDialogs : IDialogService
+    {
+        private Action? close;
+        internal List<object> Shown { get; } = [];
+        internal List<object?> Results { get; } = [];
+        internal Action<object>? Answer { get; set; }
+
+        internal void CloseFromTitleBar() => close?.Invoke();
+
+        public Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog)
+        {
+            Shown.Add(dialog);
+            var done = new TaskCompletionSource<TResult?>(TaskCreationOptions.RunContinuationsAsynchronously);
+            void Closed(object? sender, EventArgs e) { dialog.CloseRequested -= Closed; Results.Add(dialog.Result); done.TrySetResult(dialog.Result); }
+            dialog.CloseRequested += Closed;
+            close = () => { dialog.CloseRequested -= Closed; Results.Add(default(TResult)); done.TrySetResult(default); };
+            Answer?.Invoke(dialog);
+            return done.Task;
+        }
+    }
+
+    /// <summary>The window side for the soil transfer: copies and replacements recorded.</summary>
+    private sealed class RoutingHost : ISheetHost
+    {
+        internal List<(string Module, JsonObject Data, string Name)> Copies { get; } = [];
+        internal List<JsonObject> Replacements { get; } = [];
+        public void OpenModuleCopy(string module, JsonObject data, string name) => Copies.Add((module, data, name));
+        public void ReplaceSoil(JsonObject data) => Replacements.Add(data);
+        public IReadOnlyList<SoilSource> SoilSources() => [];
+        public void RequestReport() { }
+    }
+
     // ---------------------------------------------------------------- services of the checks
 
     /// <summary>Figures of the report as RetainingWallPresentation.Figures plans them: only the aspect ratio enters the report (extent of the images).</summary>
@@ -692,6 +867,18 @@ internal static class RetainingWallSheetChecks
         {
             Threads.Enqueue(Environment.CurrentManagedThreadId);
             return inner.Calculate(source, cancellation);
+        }
+    }
+
+    /// <summary>The dialog service of the traces: the soil transfer dialogs are counted and closed without a choice; any other dialog fails.</summary>
+    private sealed class SoilDialogs : IDialogService
+    {
+        internal int Shown { get; private set; }
+        public Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog)
+        {
+            if (dialog is not Modules.Shared.SoilTransferDialogViewModel) throw new InvalidOperationException("Dialogo non previsto: " + dialog.Title);
+            Shown++;
+            return Task.FromResult<TResult?>(default);
         }
     }
 
