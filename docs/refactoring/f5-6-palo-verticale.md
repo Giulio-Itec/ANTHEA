@@ -204,10 +204,12 @@ Stato al 17/10: punti 1 e 2 fatti, con i dialoghi condivisi di V9/T5 (sezione 5)
 3. **Suite UI riscritte** sul ViewModel o sulla vista ospitata da `MvvmSheetEditor`, prima del passaggio della Release.
    Il palo verticale è il documento predefinito della finestra (`Archivio.Documento("geo_palo_verticale")`), quindi molte
    suite aprono un foglio verticale:
-   - `ui/smoke`: `SmokeChecks` (`VerifyWpf`, `WaitForAutomatic`, `SetGeometryForSmoke`);
+   - `ui/smoke`: `SmokeChecks` (`VerifyWpf`, `WaitForAutomatic`, `SetGeometryForSmoke`). **Fatto** (f5-suite-ui, `8aece8fe`): `OpenSheet`
+     e `VerticalPileSmoke`, duplicato `ui/smoke-mvvm` ([f5-suite-ui.md](f5-suite-ui.md));
    - `ui/smoke-display`: `DisplaySmokeChecks`, la partial più grande (41 accessi ai membri dei pali verticali: layout,
      scorrimento, digitazione nella tabella durante il ricalcolo, esiti, presentazione, report, navigazione, copia ed
-     eliminazione delle stratigrafie);
+     eliminazione delle stratigrafie). **Fatto** (f5-suite-ui, `8aece8fe`): tutti i controlli sulla vista XAML, duplicato
+     `ui/smoke-display-mvvm`;
    - `ui/f3-figures`: `F3FigureChecks` legge `allSeries`, `capacityView`, `plot`, `sondages` e `reference` della vista
      storica. La parte di contratto passa a `Curves`, `CapacityChart`, `SelectedSurveyIndex` e `ReferenceChart`; le figure
      congelate restano;
@@ -215,7 +217,8 @@ Stato al 17/10: punti 1 e 2 fatti, con i dialoghi condivisi di V9/T5 (sezione 5)
      Passa a `GeneralForm`, con la barriera già prevista dal `SheetContext`;
    - le suite di progetto che chiamano `historicEditor.SetGeometryForSmoke` o `WaitForAutomatic` su un foglio verticale:
      `ProjectSmokeChecks`, `ProjectRevisionNavigationSmokeChecks`, `ProjectRevisionDeletionSmokeChecks`,
-     `AppearanceChecks`;
+     `AppearanceChecks`. **Fatto** (f5-suite-ui, `8aece8fe`): `openSheet.SetGeometryForSmoke`/`WaitForAutomatic`, duplicati
+     `ui/smoke-projects-mvvm`, `ui/smoke-project-workspace-mvvm` e `ui/check-appearance-mvvm`;
    - `ContrastAudit`, che legge il foglio attivo;
    - le suite che usano solo la superficie di `ISheetEditor` (dati, risultato, report, copia del modulo) non vanno
      riscritte, ma girano con il foglio MVVM e vanno ripetute: `ReportAppearanceChecks`, `RetainingWallSmokeChecks`
