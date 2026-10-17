@@ -1,0 +1,124 @@
+<!--
+  Resources of the views of the retaining wall sheet (F5.9), merged by RetainingWallSheetView and by the dialog of the values: the texts of
+  Ui.Text in their sizes (10 and 11 → Font.Caption, 12 → Font.Small, 13 → Font.Body, 14 and 15 → Font.Subheading, 18 → Font.Heading, the title
+  → Font.Title, decision D8), Ui.Paper, the groups (expanders) and the light buttons of the historic view, the compact headers of the tables, the
+  converters and the templates of the blocks of the panels of results (WallBlockTemplateSelector). Theme tokens only (P7).
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:views="clr-namespace:X.Desktop.Views.RetainingWall"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ xmlns:wall="clr-namespace:Anthea.Presentation.Modules.RetainingWall;assembly=ANTHEA.Presentation">
+ <common:NegationConverter x:Key="Not"/>
+ <BooleanToVisibilityConverter x:Key="Visible"/>
+ <views:WallFormConverter x:Key="FormOf"/>
+ <views:WallFormOfConverter x:Key="FormOfItem"/>
+ <views:WallFormPresentConverter x:Key="HasForm"/>
+ <views:WallFormShownConverter x:Key="FormShown"/>
+ <views:WallCardConverter x:Key="CardOf"/>
+ <views:WallPointsConverter x:Key="PointsOf"/>
+ <views:WallBlockTemplateSelector x:Key="Blocks"/>
+
+ <!-- Texts: Ui.Text of the historic view (wrapping, vertically centred, ink). -->
+ <Style x:Key="T12" TargetType="TextBlock">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  <Setter Property="TextWrapping" Value="Wrap"/>
+  <Setter Property="VerticalAlignment" Value="Center"/>
+ </Style>
+ <Style x:Key="T11" TargetType="TextBlock" BasedOn="{StaticResource T12}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Caption}"/>
+ </Style>
+ <Style x:Key="T11Muted" TargetType="TextBlock" BasedOn="{StaticResource T11}">
+  <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+ </Style>
+ <Style x:Key="T13Bold" TargetType="TextBlock" BasedOn="{StaticResource T12}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <Style x:Key="T15Bold" TargetType="TextBlock" BasedOn="{StaticResource T12}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <Style x:Key="T18Bold" TargetType="TextBlock" BasedOn="{StaticResource T12}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Heading}"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <Style x:Key="Title" TargetType="TextBlock" BasedOn="{StaticResource T12}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Title}"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <!-- Ui.Paper: paper with the border of the cards. -->
+ <Style x:Key="Paper" TargetType="Border">
+  <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+  <Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+  <Setter Property="BorderThickness" Value="1"/>
+  <Setter Property="Padding" Value="12"/>
+ </Style>
+ <Style x:Key="CardPaper" TargetType="Border" BasedOn="{StaticResource Paper}">
+  <Setter Property="Padding" Value="10"/>
+  <Setter Property="Margin" Value="0,0,0,8"/>
+ </Style>
+ <!-- Group of the historic view: an Expander with the title as header, 13 points. -->
+ <Style x:Key="Group" TargetType="Expander">
+  <Setter Property="Margin" Value="0,3,0,6"/>
+  <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+ </Style>
+ <!-- Ui.Button: light buttons (paper and ink). -->
+ <Style x:Key="Command" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+  <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+ </Style>
+ <!-- The switches of the drawings (Toggle of the historic view). -->
+ <Style x:Key="Switch" TargetType="CheckBox">
+  <Setter Property="Margin" Value="8,4,2,4"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  <Setter Property="VerticalAlignment" Value="Center"/>
+ </Style>
+ <!-- Host of a FieldForm (DataTemplate of FormViewModel, Views/Common/FieldFormTemplates.xaml). -->
+ <Style x:Key="Form" TargetType="ContentControl">
+  <Setter Property="Focusable" Value="False"/>
+  <Setter Property="IsTabStop" Value="False"/>
+  <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+ </Style>
+ <!-- Ui.Choice: a combo box with a margin of 2. -->
+ <Style x:Key="Choice" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+  <Setter Property="Margin" Value="2"/>
+ </Style>
+ <!-- CompactHeaders of the historic view: padding 5,3 and 11 points, on every column. -->
+ <Style x:Key="CompactHeader" TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+  <Setter Property="Padding" Value="5,3,5,3"/>
+  <Setter Property="FontSize" Value="{DynamicResource Font.Caption}"/>
+ </Style>
+ <Style x:Key="Panel" TargetType="ItemsControl">
+  <Setter Property="Focusable" Value="False"/>
+  <Setter Property="ItemTemplateSelector" Value="{StaticResource Blocks}"/>
+ </Style>
+
+ <!-- The blocks of the panels of results (WallBlockTemplateSelector): text (Ui.Text), table (Ui.Table), button, group (expander). -->
+ <DataTemplate x:Key="WallBlockText" DataType="{x:Type wall:WallPanelBlock}">
+  <TextBlock x:Name="BlockText" Style="{StaticResource T12}" Text="{Binding Text}"/>
+  <DataTemplate.Triggers>
+   <DataTrigger Binding="{Binding Style}" Value="Small"><Setter TargetName="BlockText" Property="FontSize" Value="{DynamicResource Font.Caption}"/></DataTrigger>
+   <DataTrigger Binding="{Binding Style}" Value="SmallMuted">
+    <Setter TargetName="BlockText" Property="FontSize" Value="{DynamicResource Font.Caption}"/><Setter TargetName="BlockText" Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding Style}" Value="NormalBold"><Setter TargetName="BlockText" Property="FontWeight" Value="SemiBold"/></DataTrigger>
+   <DataTrigger Binding="{Binding Style}" Value="Large"><Setter TargetName="BlockText" Property="FontSize" Value="{DynamicResource Font.Body}"/></DataTrigger>
+  </DataTemplate.Triggers>
+ </DataTemplate>
+ <DataTemplate x:Key="WallBlockTable" DataType="{x:Type wall:WallPanelBlock}">
+  <views:WallBlockGrid Block="{Binding}"/>
+ </DataTemplate>
+ <!-- A button of a panel: «Applica proposta», «Modifica profilo, strati e ricerca» (RetainingWallSheetViewModel.PanelCommand). -->
+ <DataTemplate x:Key="WallBlockButton" DataType="{x:Type wall:WallPanelBlock}">
+  <Button Style="{StaticResource Command}" HorizontalAlignment="Left" Content="{Binding Text}" CommandParameter="{Binding Command}"
+   Command="{Binding DataContext.PanelCommand, RelativeSource={RelativeSource AncestorType=views:RetainingWallSheetView}}"/>
+ </DataTemplate>
+ <DataTemplate x:Key="WallBlockGroup" DataType="{x:Type wall:WallPanelBlock}">
+  <Expander Style="{StaticResource Group}" Header="{Binding Text}" IsExpanded="{Binding Expanded, Mode=OneTime}">
+   <ItemsControl Style="{StaticResource Panel}" ItemsSource="{Binding Children}"/>
+  </Expander>
+ </DataTemplate>
+</ResourceDictionary>

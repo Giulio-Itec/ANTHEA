@@ -375,6 +375,13 @@ Add-Suite @{ Name = 'ui/check-stratigrafia-view'; Stage = 'ui'; Kind = 'check'; 
 # F5.9 (proposal 7.2, capture first): the historic retaining wall view still gives the traces frozen in tests/fixtures/f5-muri,
 # which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-muri-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-muri-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
+# F5.9: the XAML view of the retaining walls hosted by MvvmSheetEditor off screen (bench --module-impl, Release still historic): the 24 traces
+# through its controls equal to those frozen in tests/fixtures/f5-muri, visit without writes, exports equal to those of the historic view (Word,
+# PDF, CSV, Word globale, bar schedule), screenshots, help, automation names, read-only, the dialog of the values and the shared soil dialog.
+Add-Suite @{ Name = 'ui/check-muri-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-muri-view', '{root}', '{out}\vista'); Timeout = 1800; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
+# F5.9: ui/f3-scheduling with the MVVM view of the walls (bench --module-impl): the probes of the recalculation, of the closing and of the window
+# of the values on the MVVM sheet and the view of its dialog.
+Add-Suite @{ Name = 'ui/f3-scheduling-muri-mvvm'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-scheduling', '{root}', '{out}', '--module-impl', 'geo_muri_sostegno=mvvm'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.8 (proposal 7.2, capture first): the historic view of the elastic response of the horizontal pile and of its reinforcement still gives
 # the traces and the drawings frozen in tests/fixtures/f5-elastico, which Presentation.Tests compares with the ViewModel; off screen, until the
 # historic view is archived (Q11).

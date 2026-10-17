@@ -81,6 +81,14 @@ public sealed partial class RetainingWallSheetViewModel
     /// <summary>The preview of the global stability in the inputs (the search area shown).</summary>
     public WallGlobalPreviewState GlobalPreview => new(previewCase?.Factors.Name, previewResult is not null && ReferenceEquals(previewResult, GlobalResult), previewSoil, previewColumn);
 
+    /// <summary>The result and the case drawn by the drawing of the global stability in the results, for the drawing of the view.</summary>
+    public SlopeResult? GlobalDrawingResult => globalDrawingResult;
+    public SlopeCaseResult? GlobalDrawingCase => globalDrawingCase;
+
+    /// <summary>The result and the case drawn by the preview of the global stability in the inputs, for the drawing of the view.</summary>
+    public SlopeResult? GlobalPreviewResult => previewResult;
+    public SlopeCaseResult? GlobalPreviewCase => previewCase;
+
     // ---------------------------------------------------------------- the card of the inputs
 
     private void BuildGlobalCard()
@@ -108,6 +116,7 @@ public sealed partial class RetainingWallSheetViewModel
         if (!CanEdit) return;
         Commit(); WallModel.PrepareGlobalProfile(Data); Data["global_stability"]!["enabled"] = true; BuildInputs(); UpdateFields(); UserChanged();
         cards["Stabilità globale"].IsExpanded = true;
+        ShowCard("Stabilità globale");
     }
 
     /// <summary>
@@ -119,6 +128,7 @@ public sealed partial class RetainingWallSheetViewModel
         var g = Data["global_stability"]!;
         if (g.Array("valley").Count == 0 && g.Array("uphill").Count == 0 && g.Array("layers").Count == 0 && g.Array("valley_layers").Count == 0) PrepareGlobal();
         Page = 0; cards["Terreno"].IsExpanded = true; cards["Stabilità globale"].IsExpanded = true;
+        ShowCard("Stabilità globale");
     }
 
     private void InvalidateGlobalConfirmation()

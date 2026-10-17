@@ -43,8 +43,9 @@ internal sealed partial class SheetEditor
         Check(!editor.Busy && service.Calls == 3, $"Chiusura lascia un lavoro in coda (occupato {editor.Busy}, calcoli {service.Calls})");
         Check(data["generali"].D("diametro") != 1.35, "Vista ha modificato il documento di ingresso");
         checks += await BridgeWorkspace.CheckF3Scheduling();
-        checks += await RetainingWallWorkspace.CheckF3Scheduling();
-        checks += await RetainingWallWorkspace.CheckParameterRevision();
+        // F5.9: with --module-impl geo_muri_sostegno=mvvm the walls run the same probes on the MVVM sheet and the view of its dialog of the values.
+        if (F3WallMvvmSchedulingChecks.Active) { checks += await F3WallMvvmSchedulingChecks.CheckF3Scheduling(); checks += await F3WallMvvmSchedulingChecks.CheckParameterRevision(); }
+        else { checks += await RetainingWallWorkspace.CheckF3Scheduling(); checks += await RetainingWallWorkspace.CheckParameterRevision(); }
         checks += await PileReinforcementEditor.CheckSegmentProposals(root);
         checks += await BridgeDesignWorkspace.CheckF3Scheduling();
         checks += await ConcreteWorkspace.CheckF3Scheduling();

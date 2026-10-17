@@ -1,0 +1,556 @@
+<!--
+  View of the retaining wall sheet (F5.9, decision Q3): RetainingWallSheetViewModel shown with the layout of the historic RetainingWallWorkspace.
+  Header (typology, examples, «Ricalcola», «Relazione Word», «CSV»), bar of the combination («Sisma», «Stabilità globale · imposta», «Valori
+  di calcolo…»), the pages «Input» and «Verifiche», the status line at the bottom. «Input»: the column of the cards (its own scrolling, at
+  most 605 px high) beside the drawing of the inputs, which goes under the cards below 1450 px (code-behind); the combination matrix at the
+  end. The cards are Expanders bound to Cards[...] (IsExpanded, IsVisible); the forms are FieldForm (compact, symbol column) chosen by key
+  among Forms and hidden by FormVisibility, as ApplyRules of the historic view; the tables are WallInputGrid on WallTableViewModel (columns,
+  heights and widths of the historic JsonGrid, coloured border of the layers by index and of the deep layers by name); the panels of the
+  results are lists of WallPanelBlock shown by a small DataTemplateSelector (text, table, button, group). The technical drawings
+  (RetainingWallDrawing, GlobalStabilityDrawing) are hosted unchanged and fed from the plain data of the ViewModel by the code-behind (Q3),
+  which also keeps the state of the view only: the text under the pointer, the scrolling to a card, the layout below 1450 px, the default
+  state of the inner groups when the inputs are rebuilt, the dialog of the bar schedule. Colours and font sizes are theme tokens only (P7).
+  Read-only revision (T2): the forms are read-only, the tables locked, the commands that change the data disabled; combinations, views,
+  filters, switches, cards, «Ricalcola», «Relazione Word», «CSV», «Valori di calcolo…», «Calcola globale», «Word globale», «Distinta
+  ferri…» and «Modifica profilo, strati e ricerca» stay usable, as under RevisionInspection.
+-->
+<UserControl x:Class="X.Desktop.Views.RetainingWall.RetainingWallSheetView"
+ x:Name="Root"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ xmlns:views="clr-namespace:X.Desktop.Views.RetainingWall"
+ xmlns:wall="clr-namespace:Anthea.Presentation.Modules.RetainingWall;assembly=ANTHEA.Presentation"
+ xmlns:app="clr-namespace:Anthea.Application.Presentation;assembly=ANTHEA.Application"
+ xmlns:walls="clr-namespace:Anthea.Application.Walls;assembly=ANTHEA.Application"
+ Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <ResourceDictionary>
+   <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="RetainingWallResources.xaml"/></ResourceDictionary.MergedDictionaries>
+   <!-- A table of the inputs: compact headers, locked when read-only (the historic grids protected by RevisionInspection). -->
+   <Style x:Key="InputGrid" TargetType="views:WallInputGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+    <Setter Property="HeaderStyle" Value="{StaticResource CompactHeader}"/>
+    <Setter Property="IsReadOnly" Value="{Binding DataContext.CanEdit, ElementName=Root, Converter={StaticResource Not}}"/>
+   </Style>
+   <!-- GridFor of the historic view: row 31, header 40, alternate rows in the colour of the page. -->
+   <Style x:Key="FieldGrid" TargetType="views:WallInputGrid" BasedOn="{StaticResource InputGrid}">
+    <Setter Property="RowHeight" Value="31"/>
+    <Setter Property="ColumnHeaderHeight" Value="40"/>
+    <Setter Property="AlternatingRowBackground" Value="{DynamicResource Token.Surface}"/>
+   </Style>
+  </ResourceDictionary>
+ </UserControl.Resources>
+
+ <DockPanel>
+  <StackPanel DockPanel.Dock="Top">
+   <!-- Header: the title, the typology, the examples, «Ricalcola», «Relazione Word», «CSV». -->
+   <WrapPanel Margin="14,8,14,4">
+    <TextBlock Style="{StaticResource Title}" Text="{x:Static wall:RetainingWallFields.Title}"/>
+    <ComboBox x:Name="FamilyChoice" MinWidth="180" ItemsSource="{Binding Families}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Family}"
+     IsEnabled="{Binding CanEdit}">
+     <ComboBox.ItemContainerStyle>
+      <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}"><Setter Property="IsEnabled" Value="{Binding Available}"/></Style>
+     </ComboBox.ItemContainerStyle>
+    </ComboBox>
+    <Button Style="{StaticResource Command}" Content="Mensola esempio" CommandParameter="cantilever" Command="{Binding LoadExampleCommand}"/>
+    <Button Style="{StaticResource Command}" Content="Gravità esempio" CommandParameter="gravity" Command="{Binding LoadExampleCommand}"/>
+    <Button Style="{StaticResource Command}" Content="Ricalcola" Command="{Binding RecalculateCommand}"/>
+    <Button Style="{StaticResource Command}" Content="Relazione Word" Command="{Binding ReportCommand}"/>
+    <Button Style="{StaticResource Command}" Content="CSV" Command="{Binding ExportCsvCommand}"/>
+   </WrapPanel>
+   <!-- Bar of the combination. -->
+   <WrapPanel Margin="14,0,14,4">
+    <TextBlock Style="{StaticResource T12}" Text="Combinazione visualizzata"/>
+    <ComboBox x:Name="CombinationChoice" Style="{StaticResource Choice}" MinWidth="210" MaxWidth="380" ItemsSource="{Binding Combinations}" SelectedItem="{Binding SelectedCombination}"/>
+    <Button x:Name="SeismicButton" Content="{Binding SeismicButton}" ToolTip="{Binding SeismicToolTip}" Command="{Binding ShowSeismicCommand}">
+     <Button.Style>
+      <Style TargetType="Button" BasedOn="{StaticResource Command}">
+       <Style.Triggers><DataTrigger Binding="{Binding SeismicWarning}" Value="True"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger></Style.Triggers>
+      </Style>
+     </Button.Style>
+    </Button>
+    <Button x:Name="GlobalSetupButton" Style="{StaticResource Command}" Content="{Binding GlobalSetupText}" ToolTip="{x:Static app:RetainingWallPresentation.GlobalSetupToolTip}"
+     Command="{Binding ShowGlobalSetupCommand}"/>
+    <Button Style="{StaticResource Command}" Content="Valori di calcolo…" Command="{Binding ParametersCommand}"/>
+   </WrapPanel>
+  </StackPanel>
+
+  <!-- Status line: navy, or the colour of the outcome when a calculation is published without errors. -->
+  <TextBlock x:Name="StatusText" DockPanel.Dock="Bottom" Margin="15,4,15,8" Text="{Binding Status}">
+   <TextBlock.Style>
+    <Style TargetType="TextBlock" BasedOn="{StaticResource T12}">
+     <Style.Triggers>
+      <DataTrigger Binding="{Binding StatusSeverity}" Value="Failure"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger>
+      <DataTrigger Binding="{Binding StatusSeverity}" Value="Warning"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Caution}"/></DataTrigger>
+     </Style.Triggers>
+    </Style>
+   </TextBlock.Style>
+  </TextBlock>
+
+  <TabControl x:Name="Pages" Margin="12,4,12,6" SelectedIndex="{Binding Page}" BorderBrush="{DynamicResource Token.Border}">
+   <!-- ================================================================ Input -->
+   <TabItem Header="Input" Background="{DynamicResource Token.Paper}">
+    <local:ChainedScrollViewer x:Name="InputScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+     <StackPanel>
+      <Grid x:Name="InputLayout">
+       <Grid.ColumnDefinitions><ColumnDefinition Width="1.05*"/><ColumnDefinition x:Name="DrawingColumn" Width="*"/></Grid.ColumnDefinitions>
+       <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+
+       <!-- The column of the cards, with its own scrolling (inputHost of the historic view). -->
+       <local:ChainedScrollViewer x:Name="CardsScroll" MaxHeight="605" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel x:Name="CardsPanel">
+
+         <!-- ............................................................ Terreno -->
+         <Border Style="{StaticResource CardPaper}">
+          <Expander Style="{StaticResource Group}" Header="Terreno" DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter=Terreno}"
+           IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+           <StackPanel DataContext="{Binding DataContext, ElementName=Root}">
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=valley}"
+             Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=valley}"/>
+            <Grid>
+             <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+             <StackPanel Margin="0,0,8,0">
+              <TextBlock Style="{StaticResource T13Bold}" Text="VALLE · z dalla superficie a valle"/>
+              <views:WallInputGrid x:Name="ValleyGrid" Style="{StaticResource FieldGrid}" Table="{Binding ValleyLayers}" FitRows="True" ColumnWidths="2*/80,1*/40…" RowMark="LayerIndex"/>
+              <WrapPanel>
+               <Button Style="{StaticResource Command}" Content="+ Strato" CommandParameter="valle" Command="{Binding AddSoilLayerCommand}"/>
+               <Button Style="{StaticResource Command}" Content="−" CommandParameter="valle" Command="{Binding RemoveSoilLayerCommand}"/>
+               <Button Style="{StaticResource Command}" Content="↑" CommandParameter="valle" Command="{Binding MoveSoilLayerUpCommand}"/>
+               <Button Style="{StaticResource Command}" Content="↓" CommandParameter="valle" Command="{Binding MoveSoilLayerDownCommand}"/>
+              </WrapPanel>
+             </StackPanel>
+             <StackPanel Grid.Column="1">
+              <TextBlock Style="{StaticResource T13Bold}" Text="MONTE · z dalla sommità"/>
+              <views:WallInputGrid x:Name="MountainGrid" Style="{StaticResource FieldGrid}" Table="{Binding MountainLayers}" FitRows="True" ColumnWidths="2*/80,1*/40…" RowMark="LayerIndex"/>
+              <WrapPanel>
+               <Button Style="{StaticResource Command}" Content="+ Strato" CommandParameter="monte" Command="{Binding AddSoilLayerCommand}"/>
+               <Button Style="{StaticResource Command}" Content="−" CommandParameter="monte" Command="{Binding RemoveSoilLayerCommand}"/>
+               <Button Style="{StaticResource Command}" Content="↑" CommandParameter="monte" Command="{Binding MoveSoilLayerUpCommand}"/>
+               <Button Style="{StaticResource Command}" Content="↓" CommandParameter="monte" Command="{Binding MoveSoilLayerDownCommand}"/>
+              </WrapPanel>
+             </StackPanel>
+            </Grid>
+            <TextBlock x:Name="LayerStatusText" Text="{Binding LayerStatus}">
+             <TextBlock.Style>
+              <Style TargetType="TextBlock" BasedOn="{StaticResource T11Muted}">
+               <Style.Triggers><DataTrigger Binding="{Binding LayerStatusValid}" Value="False"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger></Style.Triggers>
+              </Style>
+             </TextBlock.Style>
+            </TextBlock>
+            <WrapPanel><Button Style="{StaticResource Command}" Content="Invia / carica terreno…" Command="{Binding TransferSoilCommand}"/></WrapPanel>
+            <TextBlock Style="{StaticResource T11Muted}" Text="{x:Static walls:WallModel.SoilHelp}"/>
+            <Expander Style="{StaticResource Group}" Header="Attriti e terreno di fondazione" IsExpanded="False">
+             <StackPanel>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=interfaces}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=interfaces}"/>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=foundation}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=foundation}"/>
+              <TextBlock Style="{StaticResource T11Muted}" Text="{x:Static walls:WallModel.FrictionHelp}"/>
+             </StackPanel>
+            </Expander>
+            <Expander Style="{StaticResource Group}" Header="Falda e sottospinta" IsExpanded="False">
+             <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=water}"
+              Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=water}"/>
+            </Expander>
+
+            <!-- ...................................................... card «Stabilità globale» (GlobalCard of the historic view) -->
+            <Expander x:Name="GlobalCard" Style="{StaticResource Group}" Header="Stabilità globale · profilo, strati e ricerca"
+             DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter='Stabilità globale'}"
+             IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+             <StackPanel DataContext="{Binding DataContext, ElementName=Root}">
+              <TextBlock Style="{StaticResource T12}" Text="Verifica il possibile scivolamento del muro insieme al terreno sottostante."/>
+              <TextBlock x:Name="GlobalReadinessText" Text="{Binding GlobalReadiness}" ToolTip="{Binding GlobalReadinessToolTip}" ToolTipService.ShowDuration="30000">
+               <TextBlock.Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource T12}">
+                 <Style.Triggers><DataTrigger Binding="{Binding GlobalReady}" Value="False"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Caution}"/></DataTrigger></Style.Triggers>
+                </Style>
+               </TextBlock.Style>
+              </TextBlock>
+              <WrapPanel>
+               <Button Style="{StaticResource Command}" Content="Prepara dal muro" Command="{Binding PrepareGlobalCommand}"/>
+               <Button Style="{StaticResource Command}" Content="Calcola globale" Command="{Binding CalculateGlobalCommand}"/>
+              </WrapPanel>
+              <TextBlock Style="{StaticResource T11Muted}" Text="Prepara dal muro sostituisce la proposta con i dati locali. Non aggiunge terreni profondi non conosciuti."/>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=global}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=global}"/>
+              <ContentControl x:Name="GlobalPreviewHost" Focusable="False" IsTabStop="False"/>
+              <TextBlock Style="{StaticResource T13Bold}" Text="1 · Controlla gli strati, anche sotto la fondazione"/>
+              <TextBlock Style="{StaticResource T11Muted}" Text="Inserisci gli spessori dall’alto verso il basso. Il fondo y si calcola da solo: 0 = piano di posa; −5 = 5 m sotto. Seleziona uno strato per modificarne le proprietà."/>
+              <Expander Style="{StaticResource Group}" Header="Colonna di MONTE / profilo unico" IsExpanded="True">
+               <StackPanel>
+                <views:WallInputGrid x:Name="GlobalRearGrid" Style="{StaticResource InputGrid}" Height="135" RowHeight="29" ColumnHeaderHeight="32" Stretch="True" ColumnWidths="1.8*"
+                 RowMark="GlobalLayer" SheetData="{Binding Data}" Table="{Binding GlobalRearLayers}"/>
+                <WrapPanel>
+                 <Button Style="{StaticResource Command}" Content="+ Strato" CommandParameter="monte" Command="{Binding AddGlobalLayerCommand}"/>
+                 <Button Style="{StaticResource Command}" Content="− Strato" CommandParameter="monte" Command="{Binding RemoveGlobalLayerCommand}"/>
+                </WrapPanel>
+                <StackPanel Visibility="{Binding Forms, Converter={StaticResource HasForm}, ConverterParameter=global_soil_rear}">
+                 <TextBlock Style="{StaticResource T11}" FontWeight="SemiBold" Text="Proprietà dello strato selezionato"/>
+                 <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=global_soil_rear}"
+                  Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=global_soil_rear}"/>
+                </StackPanel>
+               </StackPanel>
+              </Expander>
+              <Expander Style="{StaticResource Group}" Header="Colonna di VALLE" DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter='Strati globali valle'}"
+               IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+               <StackPanel DataContext="{Binding DataContext, ElementName=Root}">
+                <views:WallInputGrid x:Name="GlobalValleyGrid" Style="{StaticResource InputGrid}" Height="135" RowHeight="29" ColumnHeaderHeight="32" Stretch="True" ColumnWidths="1.8*"
+                 RowMark="GlobalLayer" SheetData="{Binding Data}" Table="{Binding GlobalValleyLayers}"/>
+                <WrapPanel>
+                 <Button Style="{StaticResource Command}" Content="+ Strato" CommandParameter="valle" Command="{Binding AddGlobalLayerCommand}"/>
+                 <Button Style="{StaticResource Command}" Content="− Strato" CommandParameter="valle" Command="{Binding RemoveGlobalLayerCommand}"/>
+                </WrapPanel>
+                <StackPanel Visibility="{Binding Forms, Converter={StaticResource HasForm}, ConverterParameter=global_soil_valley}">
+                 <TextBlock Style="{StaticResource T11}" FontWeight="SemiBold" Text="Proprietà dello strato selezionato"/>
+                 <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=global_soil_valley}"
+                  Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=global_soil_valley}"/>
+                </StackPanel>
+               </StackPanel>
+              </Expander>
+              <Expander Style="{StaticResource Group}" Header="2 · Rilievo e falda · modifica se diversi dalla proposta" IsExpanded="False">
+               <StackPanel>
+                <TextBlock Style="{StaticResource T11}" Text="Origine (0;0) al bordo di valle del piano di posa. x cresce verso monte, y verso l’alto. Il profilo proposto è orizzontale sui due lati; adattarlo al rilievo."/>
+                <Expander Style="{StaticResource Group}" Header="Superficie a valle · punti x, y" IsExpanded="False">
+                 <StackPanel>
+                  <views:WallInputGrid Style="{StaticResource FieldGrid}" Height="120" Table="{Binding ProfilePoints, Converter={StaticResource PointsOf}, ConverterParameter=punti-valle}"/>
+                  <WrapPanel>
+                   <Button Style="{StaticResource Command}" Content="+ Punto" CommandParameter="punti-valle" Command="{Binding AddProfilePointCommand}"/>
+                   <Button Style="{StaticResource Command}" Content="− Punto" CommandParameter="punti-valle" Command="{Binding RemoveProfilePointCommand}"/>
+                  </WrapPanel>
+                 </StackPanel>
+                </Expander>
+                <Expander Style="{StaticResource Group}" Header="Superficie a monte · punti x, y" IsExpanded="False">
+                 <StackPanel>
+                  <views:WallInputGrid Style="{StaticResource FieldGrid}" Height="120" Table="{Binding ProfilePoints, Converter={StaticResource PointsOf}, ConverterParameter=punti-monte}"/>
+                  <WrapPanel>
+                   <Button Style="{StaticResource Command}" Content="+ Punto" CommandParameter="punti-monte" Command="{Binding AddProfilePointCommand}"/>
+                   <Button Style="{StaticResource Command}" Content="− Punto" CommandParameter="punti-monte" Command="{Binding RemoveProfilePointCommand}"/>
+                  </WrapPanel>
+                 </StackPanel>
+                </Expander>
+                <Expander Style="{StaticResource Group}" Header="Linea di falda · quote y, non profondità" IsExpanded="False">
+                 <StackPanel>
+                  <views:WallInputGrid Style="{StaticResource FieldGrid}" Height="120" Table="{Binding ProfilePoints, Converter={StaticResource PointsOf}, ConverterParameter=punti-falda}"/>
+                  <WrapPanel>
+                   <Button Style="{StaticResource Command}" Content="+ Punto" CommandParameter="punti-falda" Command="{Binding AddProfilePointCommand}"/>
+                   <Button Style="{StaticResource Command}" Content="− Punto" CommandParameter="punti-falda" Command="{Binding RemoveProfilePointCommand}"/>
+                  </WrapPanel>
+                 </StackPanel>
+                </Expander>
+               </StackPanel>
+              </Expander>
+              <TextBlock Style="{StaticResource T13Bold}" Text="3 · Ricerca delle superfici"/>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=global_search_mode}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=global_search_mode}"/>
+              <TextBlock x:Name="GlobalSearchText" Style="{StaticResource T11Muted}" Text="{Binding GlobalSearchSummary}"/>
+              <Expander Style="{StaticResource Group}" Header="Limiti e precisione · dettagli modificabili" IsExpanded="False">
+               <StackPanel>
+                <TextBlock Style="{StaticResource T11Muted}" Text="In Automatica i limiti seguono il profilo e gli strati noti, fino a 2(H+t). Passa ad Assegnata per modificarli. Il minimo sul bordo richiede una ricerca più ampia, sempre coperta dalle indagini."/>
+                <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=global_search}"
+                 Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=global_search}"/>
+               </StackPanel>
+              </Expander>
+              <Expander Style="{StaticResource Group}" Header="Combinazioni globali · A2–M2–R2 in statica" IsExpanded="False">
+               <StackPanel>
+                <WrapPanel>
+                 <Button Style="{StaticResource Command}" Content="Genera globali" Command="{Binding GenerateGlobalMatrixCommand}"/>
+                 <Button Style="{StaticResource Command}" Content="Conferma matrice globale" Command="{Binding ConfirmGlobalMatrixCommand}"/>
+                </WrapPanel>
+                <TextBlock x:Name="GlobalMessageText" Style="{StaticResource T11}" Text="{Binding GlobalMessage}"/>
+                <views:WallInputGrid x:Name="GlobalMatrixGrid" Style="{StaticResource InputGrid}" Height="180" RowHeight="31" Table="{Binding GlobalMatrix}"/>
+               </StackPanel>
+              </Expander>
+              <TextBlock Style="{StaticResource T11}" Text="Dopo il controllo, spunta la conferma dei dati in alto e calcola. Il risultato si apre in Verifiche → Stabilità globale."/>
+              <WrapPanel>
+               <Button Style="{StaticResource Command}" Content="Calcola globale" Command="{Binding CalculateGlobalCommand}"/>
+               <Button Style="{StaticResource Command}" Content="Word globale" Command="{Binding ExportGlobalWordCommand}"/>
+              </WrapPanel>
+              <Expander Style="{StaticResource Group}" Header="Metodo e coefficienti utilizzati" IsExpanded="False">
+               <TextBlock Style="{StaticResource T11}" Text="{x:Static walls:WallModel.GlobalHelp}"/>
+              </Expander>
+             </StackPanel>
+            </Expander>
+
+            <!-- BuildAdvancedSoil of the historic view. -->
+            <Expander Style="{StaticResource Group}" Header="Portanza sismica · inerzia del terreno di fondazione" IsExpanded="False">
+             <StackPanel>
+              <TextBlock Style="{StaticResource T11Muted}" Text="EN 1998-5 allegato F · fondazione nastriforme su terreno granulare asciutto e base ruvida. L’accelerazione è quella del terreno, prima della riduzione β del muro. Non include liquefazione."/>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=bearing_seismic}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=bearing_seismic}"/>
+              <TextBlock Style="{StaticResource T11}" Text="Da sito: ah/g=ag/g·Ss·St, |av|/g=0,5 ah/g. γRD: 1 per sabbia medio densa; 1,15 per sabbia sciolta asciutta. γR della combinazione applicato separatamente alle azioni normalizzate. Ricoprimento favorevole trascurato."/>
+             </StackPanel>
+            </Expander>
+            <Expander Style="{StaticResource Group}" Header="Cedimenti e spostamenti in esercizio" IsExpanded="False">
+             <StackPanel>
+              <TextBlock Style="{StaticResource T11}" Text="1. Attivare la verifica. 2. Inserire gli strati sotto il piano di posa e M da indagini geotecniche. 3. Assegnare il peso di terreno rimosso. Le righe non vengono riempite con moduli inventati."/>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=serviceability}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=serviceability}"/>
+              <views:WallInputGrid x:Name="ServiceGrid" Style="{StaticResource FieldGrid}" Height="140" Table="{Binding ServiceLayers}"/>
+              <WrapPanel>
+               <Button Style="{StaticResource Command}" Content="+ Strato" Command="{Binding AddServiceLayerCommand}"/>
+               <Button Style="{StaticResource Command}" Content="− Strato" Command="{Binding RemoveServiceLayerCommand}"/>
+              </WrapPanel>
+              <TextBlock Style="{StaticResource T11Muted}" Text="Modello edometrico: s=∫Δσz/M dz; tensioni da fondazione nastriforme. Integrare fino a Δσz ≤10% del carico netto o substrato rigido. Rotazione stimata dal profilo libero; spostamento totale disaccoppiato = flessione + H/K − rotazione·(H + t), con la rotazione rigida della fondazione attorno alla base. Limiti modificabili dal progettista."/>
+             </StackPanel>
+            </Expander>
+           </StackPanel>
+          </Expander>
+         </Border>
+
+         <!-- ............................................................ Materiali -->
+         <Border Style="{StaticResource CardPaper}">
+          <Expander Style="{StaticResource Group}" Header="Materiali" DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter=Materiali}"
+           IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+           <StackPanel DataContext="{Binding DataContext, ElementName=Root}">
+            <TextBlock Style="{StaticResource T11Muted}" Text="Stessi cataloghi GPC, legami e proprietà del verificatore delle sezioni in calcestruzzo. Nei progetti i materiali e la durabilità seguono i dati comuni del ramo; le differenze sono segnalate nel confronto."/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=materials}"
+             Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=materials}"/>
+            <Expander Style="{StaticResource Group}" Header="Durabilità e copriferro · scheda Materiali" IsExpanded="False">
+             <StackPanel>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=material_cover}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=material_cover}"/>
+              <TextBlock x:Name="CoverStatusText" Style="{StaticResource T11Muted}" Text="{Binding CoverStatus}"/>
+              <Button Style="{StaticResource Command}" HorizontalAlignment="Left" Content="Adotta copriferro minimo" Command="{Binding AdoptMinimumCoverCommand}"/>
+             </StackPanel>
+            </Expander>
+            <Expander Style="{StaticResource Group}" Header="Materiale del muro a gravità" IsExpanded="False">
+             <StackPanel>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=gravity_design}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=gravity_design}"/>
+              <TextBlock Style="{StaticResource T11Muted}" Text="CLS: proprietà dal materiale GPC e NTC 4.1.11. Muratura: blocco compresso 0,85 fk/(γM·FC), scorrimento dei giunti. Mensola libera: EI minimo e amplificazione 1/(1−N/Ncr); calcolo disponibile in assenza di trazione. Fessurazione o N≥0,8Ncr richiedono un modello non lineare. Fondazione dello stesso materiale."/>
+             </StackPanel>
+            </Expander>
+           </StackPanel>
+          </Expander>
+         </Border>
+
+         <!-- ............................................................ Geometria -->
+         <Border Style="{StaticResource CardPaper}">
+          <Expander Style="{StaticResource Group}" Header="Geometria" DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter=Geometria}"
+           IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+           <StackPanel DataContext="{Binding DataContext, ElementName=Root}">
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=geometry}"
+             Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=geometry}"/>
+            <Expander Style="{StaticResource Group}" Header="Armature inserite" IsExpanded="True">
+             <StackPanel>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=zones}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=zones}"/>
+              <Expander Style="{StaticResource Group}" Header="Fusto · zona inferiore / intera altezza" DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter=rebar_stem}"
+               IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+               <ContentControl Style="{StaticResource Form}" DataContext="{Binding DataContext, ElementName=Root}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=rebar_stem}"
+                Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=rebar_stem}"/>
+              </Expander>
+              <Expander Style="{StaticResource Group}" Header="Fusto · zona superiore" DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter=rebar_stem_upper}"
+               IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+               <ContentControl Style="{StaticResource Form}" DataContext="{Binding DataContext, ElementName=Root}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=rebar_stem_upper}"
+                Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=rebar_stem_upper}"/>
+              </Expander>
+              <Expander Style="{StaticResource Group}" Header="Mensola a valle" DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter=rebar_toe}"
+               IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+               <ContentControl Style="{StaticResource Form}" DataContext="{Binding DataContext, ElementName=Root}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=rebar_toe}"
+                Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=rebar_toe}"/>
+              </Expander>
+              <Expander Style="{StaticResource Group}" Header="Mensola a monte" DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter=rebar_heel}"
+               IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+               <ContentControl Style="{StaticResource Form}" DataContext="{Binding DataContext, ElementName=Root}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=rebar_heel}"
+                Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=rebar_heel}"/>
+              </Expander>
+             </StackPanel>
+            </Expander>
+            <!-- BuildDetailing of the historic view. -->
+            <Expander Style="{StaticResource Group}" Header="Distinta ferri del tratto di muro" IsExpanded="False">
+             <StackPanel>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=bar_schedule}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=bar_schedule}"/>
+              <TextBlock Style="{StaticResource T11}" Text="La lunghezza serve al conteggio dei pezzi; il calcolo strutturale resta per metro. Per i collegamenti delle due zone assegnare lo sviluppo dopo aver definito sagoma e ganci."/>
+              <WrapPanel><Button Style="{StaticResource Command}" Content="Tavola armature e distinta ferri…" Click="BarSchedule_Click"/></WrapPanel>
+             </StackPanel>
+            </Expander>
+            <Expander Style="{StaticResource Group}" Header="Ancoraggi, sovrapposizioni e predimensionamento" IsExpanded="False">
+             <StackPanel>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=detailing}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=detailing}"/>
+              <TextBlock Style="{StaticResource T11}" Text="Il pulsante ricerca barre simmetriche per zona e le verifica con GPC in SLU e SLE. La proposta resta separata finché si preme Applica. Diametri, numero barre e facce restano modificabili. Controllare ingombro delle pieghe e giunzioni."/>
+              <WrapPanel>
+               <Button x:Name="DesignButton" Style="{StaticResource Command}" Content="Calcola armature" Command="{Binding DesignRebarCommand}"/>
+               <Button Style="{StaticResource Command}" Content="Interrompi ricerca" Command="{Binding InterruptSearchCommand}"/>
+              </WrapPanel>
+              <ItemsControl x:Name="ProposalPanel" Style="{StaticResource Panel}" ItemsSource="{Binding ProposalPanel}"/>
+             </StackPanel>
+            </Expander>
+            <TextBlock Style="{StaticResource T11Muted}" Text="Facce simmetriche oppure indipendenti. h₁ separa le due zone del fusto; la vista Armature mostra ancoraggi e sovrapposizioni. La distinta è un predimensionamento, da completare con il disegno esecutivo."/>
+           </StackPanel>
+          </Expander>
+         </Border>
+
+         <!-- ............................................................ Azioni -->
+         <Border Style="{StaticResource CardPaper}">
+          <Expander x:Name="ActionsCard" Style="{StaticResource Group}" Header="Azioni" DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter=Azioni}"
+           IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+           <StackPanel DataContext="{Binding DataContext, ElementName=Root}">
+            <!-- card «Sisma» (BuildSeismicCard of the historic view). -->
+            <Expander x:Name="SeismicCard" Style="{StaticResource Group}" Header="Sisma · dai dati del sito alle spinte" DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter=Sisma}"
+             IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+             <StackPanel DataContext="{Binding DataContext, ElementName=Root}">
+              <TextBlock Style="{StaticResource T11Muted}" Text="Mononobe–Okabe: muro libero di spostarsi, spinta attiva. Wood semplificato: muro rigido vincolato, spinta a riposo. Scegliere in base ai vincoli effettivi dell’opera."/>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=seismic}"
+               Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=seismic}"/>
+              <TextBlock x:Name="SeismicAuditText" Text="{Binding SeismicAudit}">
+               <TextBlock.Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource T12}">
+                 <Style.Triggers><DataTrigger Binding="{Binding SeismicAuditError}" Value="True"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger></Style.Triggers>
+                </Style>
+               </TextBlock.Style>
+              </TextBlock>
+              <TextBlock Style="{StaticResource T11Muted}" Text="ag/g è un rapporto: per 0,20 g scrivere 0,20. ag/g e F₀ provengono dai parametri sismici SLV del progetto; non vengono ricavati dalla località. A–E richiede la classificazione geotecnica, non il solo φ′. Cresta stretta: larghezza in sommità molto minore di quella alla base; topografia semplice prevalentemente bidimensionale."/>
+              <TextBlock Style="{StaticResource T11Muted}" Text="Le combinazioni automatiche usano i coefficienti ricavati qui, con casi separati per ribaltamento. Una matrice personalizzata conserva i valori delle proprie righe: rigenerarla o aggiornarla e confermarla dopo una modifica dei dati del sito."/>
+              <Expander Style="{StaticResource Group}" Header="Ipotesi e campo del modello sismico" IsExpanded="False">
+               <TextBlock Style="{StaticResource T11Muted}" Text="{x:Static walls:WallModel.SeismicHelp}"/>
+              </Expander>
+             </StackPanel>
+            </Expander>
+            <!-- BuildHistories of the historic view. -->
+            <Expander Style="{StaticResource Group}" Header="Spostamenti permanenti · Newmark SLD / SLV" IsExpanded="False">
+             <StackPanel>
+              <TextBlock Style="{StaticResource T11}" Text="Occorrono un accelerogramma e ky/g, cioè l’accelerazione alla quale inizia lo scorrimento, derivata da un’analisi di equilibrio del muro. Il solo ag/g non basta. Integrazione monodirezionale verso valle; modello non applicabile a Wood o a muri vincolati. La verifica della singola storia non sostituisce la selezione normativa dell’insieme di accelerogrammi."/>
+              <Button Style="{StaticResource Command}" HorizontalAlignment="Left" Content="+ Accelerogramma" Command="{Binding AddHistoryCommand}"/>
+              <ItemsControl x:Name="HistoryList" ItemsSource="{Binding Histories}" Focusable="False">
+               <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type wall:RetainingWallHistory}">
+                 <Expander Style="{StaticResource Group}" Header="{Binding Name}" IsExpanded="False">
+                  <StackPanel>
+                   <ContentControl Style="{StaticResource Form}">
+                    <ContentControl.Content>
+                     <MultiBinding Converter="{StaticResource FormOfItem}">
+                      <Binding Path="DataContext.Forms" ElementName="Root"/>
+                      <Binding Path="FormKey"/>
+                     </MultiBinding>
+                    </ContentControl.Content>
+                   </ContentControl>
+                   <TextBlock Style="{StaticResource T11}" Text="{Binding Samples}"/>
+                   <WrapPanel>
+                    <Button Style="{StaticResource Command}" Content="Importa CSV t; a/g" CommandParameter="{Binding}" Command="{Binding DataContext.ImportHistoryCommand, ElementName=Root}"/>
+                    <Button Style="{StaticResource Command}" Content="Elimina accelerogramma" CommandParameter="{Binding}" Command="{Binding DataContext.RemoveHistoryCommand, ElementName=Root}"/>
+                   </WrapPanel>
+                  </StackPanel>
+                 </Expander>
+                </DataTemplate>
+               </ItemsControl.ItemTemplate>
+              </ItemsControl>
+             </StackPanel>
+            </Expander>
+            <TextBlock Style="{StaticResource T11Muted}" Text="Valori per metro di muro. Calcola include/esclude l’azione; Disegna modifica soltanto la vista. G1: permanente strutturale, G2: permanente non strutturale, Q: variabile, A: eccezionale."/>
+            <views:WallInputGrid x:Name="ActionGrid" Style="{StaticResource FieldGrid}" Height="145" ColumnWidths="-,-,140,160,65,70" Table="{Binding Actions}"/>
+            <WrapPanel>
+             <ComboBox x:Name="ActionType" Style="{StaticResource Choice}" Width="190" ItemsSource="{Binding ActionTypes}" SelectedItem="{Binding NewActionType}" IsEnabled="{Binding CanEdit}"/>
+             <Button Style="{StaticResource Command}" Content="+ Azione" Command="{Binding AddActionCommand}"/>
+             <Button Style="{StaticResource Command}" Content="− Azione" Command="{Binding RemoveActionCommand}"/>
+            </WrapPanel>
+            <StackPanel Visibility="{Binding Forms, Converter={StaticResource HasForm}, ConverterParameter=action}">
+             <ContentControl Style="{StaticResource Form}" Content="{Binding Forms, Converter={StaticResource FormOf}, ConverterParameter=action}"
+              Visibility="{Binding FormVisibility, Converter={StaticResource FormShown}, ConverterParameter=action}"/>
+             <TextBlock Style="{StaticResource T11Muted}" Text="{x:Static app:RetainingWallPresentation.ActionHelp}"/>
+            </StackPanel>
+           </StackPanel>
+          </Expander>
+         </Border>
+        </StackPanel>
+       </local:ChainedScrollViewer>
+
+       <!-- The drawing of the inputs (inputView of the historic view): beside the cards, under them below 1450 px. -->
+       <Border x:Name="InputView" Grid.Column="1" Style="{StaticResource Paper}" Padding="10" Margin="10,0,0,0">
+        <StackPanel>
+         <WrapPanel>
+          <TextBlock Style="{StaticResource T15Bold}" Text="Sezione e azioni"/>
+          <CheckBox Style="{StaticResource Switch}" Content="Carichi" IsChecked="{Binding ShowLoads}"/>
+          <CheckBox Style="{StaticResource Switch}" Content="Dati" IsChecked="{Binding ShowLabels}"/>
+          <CheckBox Style="{StaticResource Switch}" Content="Armature" IsChecked="{Binding ShowRebar}"/>
+          <CheckBox Style="{StaticResource Switch}" Content="Spinte" IsChecked="{Binding ShowPressures}"/>
+         </WrapPanel>
+         <TextBlock Style="{StaticResource T11Muted}" Text="Carichi caratteristici inseriti · spinte e contatto della combinazione selezionata"/>
+         <ContentControl x:Name="InputDrawingHost" Focusable="False" IsTabStop="False"/>
+         <TextBlock x:Name="Probe" Style="{StaticResource T11Muted}" Text="Passare sul disegno per leggere i dati; clic per selezionare un carico."/>
+         <TextBlock x:Name="SummaryText" Style="{StaticResource T15Bold}" Text="{Binding Summary}"/>
+         <Expander Style="{StaticResource Group}" Header="Calcolo delle spinte · valori e coefficienti" IsExpanded="False">
+          <StackPanel>
+           <TextBlock Style="{StaticResource T11Muted}" Text="{x:Static app:RetainingWallPresentation.PressureHint}"/>
+           <ItemsControl x:Name="PressurePanel" Style="{StaticResource Panel}" ItemsSource="{Binding PressurePanel}" Selector.SelectionChanged="PressurePanel_SelectionChanged"/>
+          </StackPanel>
+         </Expander>
+        </StackPanel>
+       </Border>
+      </Grid>
+
+      <!-- The combination matrix (card «Combinazioni»). -->
+      <Border Style="{StaticResource Paper}" Padding="10">
+       <Expander Style="{StaticResource Group}" Header="Combinazioni · matrice modificabile" Margin="0,10,0,0" DataContext="{Binding Cards, Converter={StaticResource CardOf}, ConverterParameter=Combinazioni}"
+        IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+        <StackPanel DataContext="{Binding DataContext, ElementName=Root}">
+         <WrapPanel>
+          <Button Style="{StaticResource Command}" Content="Genera / ripristina automatiche" Command="{Binding GenerateMatrixCommand}"/>
+          <Button Style="{StaticResource Command}" Content="Copia riga" Command="{Binding CopyCombinationCommand}"/>
+          <Button Style="{StaticResource Command}" Content="Elimina riga" Command="{Binding RemoveCombinationCommand}"/>
+          <Button Style="{StaticResource Command}" Content="Conferma matrice" Command="{Binding ConfirmMatrixCommand}"/>
+         </WrapPanel>
+         <TextBlock x:Name="MatrixStatusText" Style="{StaticResource T11}" Text="{Binding MatrixStatus}"/>
+         <views:WallInputGrid x:Name="MatrixGrid" Style="{StaticResource InputGrid}" Height="205" RowHeight="30" ColumnHeaderHeight="43" AlternatingRowBackground="{DynamicResource Token.Surface}"
+          ColumnWidths="55,185,140,150,85…" Table="{Binding Matrix}"/>
+         <TextBlock Style="{StaticResource T11Muted}" Text="{x:Static walls:WallModel.ApproachHelp}"/>
+        </StackPanel>
+       </Expander>
+      </Border>
+     </StackPanel>
+    </local:ChainedScrollViewer>
+   </TabItem>
+
+   <!-- ================================================================ Verifiche -->
+   <TabItem Header="Verifiche" Background="{DynamicResource Token.Paper}">
+    <local:ChainedScrollViewer x:Name="ResultScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+     <StackPanel>
+      <!-- The drawing of the results. -->
+      <Border Style="{StaticResource Paper}">
+       <StackPanel>
+        <WrapPanel>
+         <TextBlock Style="{StaticResource T15Bold}" Text="Vista dei risultati"/>
+         <ComboBox x:Name="ViewChoice" Style="{StaticResource Choice}" ItemsSource="{x:Static wall:RetainingWallFields.ViewModes}" SelectedItem="{Binding SelectedView}"/>
+         <ComboBox x:Name="MemberChoice" Style="{StaticResource Choice}" ItemsSource="{x:Static wall:RetainingWallFields.Members}" SelectedItem="{Binding SelectedMember}"
+          Visibility="{Binding IsMemberShown, Converter={StaticResource Visible}}"/>
+         <ComboBox x:Name="GlobalCombinationChoice" MinWidth="250" ItemsSource="{Binding GlobalCombinations}" SelectedItem="{Binding SelectedGlobalCombination}"
+          Visibility="{Binding IsGlobalView, Converter={StaticResource Visible}}"/>
+         <CheckBox x:Name="FullProfileSwitch" Style="{StaticResource Switch}" Content="Intero profilo" IsChecked="{Binding GlobalFullProfile}"
+          Visibility="{Binding IsGlobalView, Converter={StaticResource Visible}}"/>
+         <Button Style="{StaticResource Command}" Content="Distinta ferri…" Click="BarSchedule_Click"/>
+        </WrapPanel>
+        <ContentControl x:Name="DiagramsHost" Focusable="False" IsTabStop="False"/>
+        <ContentControl x:Name="GlobalDrawingHost" Focusable="False" IsTabStop="False"/>
+       </StackPanel>
+      </Border>
+      <!-- «Riepilogo e dettagli». -->
+      <Border Style="{StaticResource Paper}" Margin="0,10,0,0">
+       <StackPanel>
+        <WrapPanel>
+         <TextBlock Style="{StaticResource T15Bold}" Text="Riepilogo e dettagli"/>
+         <ComboBox x:Name="FilterChoice" Style="{StaticResource Choice}" ItemsSource="{x:Static wall:RetainingWallFields.CheckFilters}" SelectedItem="{Binding SelectedFilter}"/>
+         <Button x:Name="SendSectionButton" Style="{StaticResource Command}" Content="Apri sezione in c.a." Command="{Binding SendSectionCommand}"
+          ToolTip="Copia geometria, materiali, armatura effettiva e combinazioni N/M/V della sezione selezionata nel modulo c.a. Il muro conserva i suoi dati."/>
+        </WrapPanel>
+        <TextBlock x:Name="SectionText" Style="{StaticResource T11Muted}" Text="{Binding SectionSelection}"/>
+        <ItemsControl x:Name="ChecksPanel" Style="{StaticResource Panel}" ItemsSource="{Binding ChecksPanel}" Selector.SelectionChanged="ChecksPanel_SelectionChanged"/>
+       </StackPanel>
+      </Border>
+      <Expander Style="{StaticResource Group}" Header="{x:Static app:RetainingWallPresentation.ApproachTitle}" IsExpanded="False">
+       <StackPanel>
+        <TextBlock Style="{StaticResource T12}" Text="{x:Static walls:WallModel.Scope}"/>
+        <TextBlock Style="{StaticResource T12}" Text="{x:Static walls:WallModel.Limits}"/>
+        <TextBlock Style="{StaticResource T12}" Text="{x:Static walls:WallModel.ApproachHelp}"/>
+        <TextBlock Style="{StaticResource T12}" Text="{x:Static walls:WallModel.SeismicHelp}"/>
+        <TextBlock Style="{StaticResource T12}" Text="{x:Static app:RetainingWallPresentation.PlannedFamilies}"/>
+       </StackPanel>
+      </Expander>
+     </StackPanel>
+    </local:ChainedScrollViewer>
+   </TabItem>
+  </TabControl>
+ </DockPanel>
+</UserControl>

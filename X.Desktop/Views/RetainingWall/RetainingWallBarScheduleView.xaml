@@ -1,0 +1,28 @@
+<!--
+  The dialog «Armature del muro · sezione e distinta ferri» of the wall sheet (F5.9, decision MU10: a dialog of the view, without a ViewModel of
+  its own), as ShowBarSchedule of the historic view: the page, the zoom (35–175 %, 90 % at the opening) and the exports PDF, Word, CSV and PNG of
+  the bar schedule of RetainingWallSheetViewModel.OpenBarSchedule, drawn by the historic RetainingWallBarDrawing (Q3). The exports write the file
+  chosen in the dialog of the services through RetainingWallSheetViewModel.SaveBarSchedule. Theme tokens only (P7).
+-->
+<UserControl x:Class="X.Desktop.Views.RetainingWall.RetainingWallBarScheduleView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <UserControl.Resources>
+  <ResourceDictionary>
+   <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="RetainingWallResources.xaml"/></ResourceDictionary.MergedDictionaries>
+  </ResourceDictionary>
+ </UserControl.Resources>
+ <DockPanel>
+  <WrapPanel DockPanel.Dock="Top">
+   <TextBlock Style="{StaticResource T12}" Text="Pagina"/>
+   <ComboBox x:Name="PageChoice" Style="{StaticResource Choice}" SelectionChanged="Page_SelectionChanged"/>
+   <TextBlock Style="{StaticResource T12}" Text="Zoom"/>
+   <Slider x:Name="Zoom" Minimum="35" Maximum="175" Value="90" Width="150" Margin="8" ValueChanged="Zoom_ValueChanged"/>
+   <Button Style="{StaticResource Command}" Content="PDF completo" Click="Pdf_Click"/>
+   <Button Style="{StaticResource Command}" Content="Word completo" Click="Word_Click"/>
+   <Button Style="{StaticResource Command}" Content="CSV distinta" Click="Csv_Click"/>
+   <Button Style="{StaticResource Command}" Content="PNG pagina" Click="Png_Click"/>
+  </WrapPanel>
+  <ScrollViewer x:Name="SheetScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
+ </DockPanel>
+</UserControl>

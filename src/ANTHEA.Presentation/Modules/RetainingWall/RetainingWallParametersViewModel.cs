@@ -2,14 +2,16 @@ using System.Text.Json.Nodes;
 using Anthea.Application.Presentation;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
-using Anthea.Presentation.Mvvm;
+using Anthea.Presentation.Services;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Anthea.Presentation.Modules.RetainingWall;
 
 /// <summary>
 /// The window «Valori di calcolo…» of the wall sheet (F5.9), the CalculationParametersWindow of the historic view: the editable inputs of
 /// the data as rows (<see cref="WallParameterTable"/>, path, group, meaning, value, unit), the values used by the calculation for a
-/// combination of the result, and «Applica e ricalcola».
+/// combination of the result, and «Applica e ricalcola». A modal dialog shown through <see cref="IDialogService"/> (decision MU10 of
+/// 17/10, <see cref="RetainingWallSheetViewModel.ShowParametersAsync"/>); its result is true when the values were applied.
 /// <list type="bullet">
 /// <item>«Applica e ricalcola»: the values written into a copy of the data (an invalid value is reported at once), then the copy checked by
 /// the engine of the module on a background thread with its own calculation (<see cref="SheetCalculation{TResult}"/>, independent from
@@ -20,19 +22,20 @@ namespace Anthea.Presentation.Modules.RetainingWall;
 /// docs/refactoring/f5-9-muri.md).</item>
 /// </list>
 /// </summary>
-public sealed class RetainingWallParametersViewModel : ViewModelBase
+public sealed class RetainingWallParametersViewModel : DialogViewModel<bool>
 {
     private readonly RetainingWallSheetViewModel sheet;
     private readonly WallParameterTable table;
     private readonly SheetCalculation<JsonObject> validation;
     private readonly int openedRevision;
     private string message = RetainingWallPresentation.ParametersHint;
-    private bool messageError, closed;
+    private bool messageError, closed, applied;
     private string? selectedCombination;
     private IReadOnlyList<WallPanelBlock> derived = [];
     private Task applying = Task.CompletedTask;
 
     internal RetainingWallParametersViewModel(RetainingWallSheetViewModel sheet, int openedRevision, IReadOnlyList<string> combinations, string? selected)
+        : base(RetainingWallPresentation.ParametersTitle)
     {
         this.sheet = sheet; this.openedRevision = openedRevision;
         table = new WallParameterTable(sheet.Data);
@@ -42,10 +45,17 @@ public sealed class RetainingWallParametersViewModel : ViewModelBase
         validation.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(SheetCalculation<JsonObject>.State)) OnPropertyChanged(nameof(IsEnabled)); };
         Combinations = combinations.Where(c => !string.IsNullOrWhiteSpace(c)).Distinct().ToArray();
         selectedCombination = selected is not null && Combinations.Contains(selected) ? selected : null;
+        // «Applica e ricalcola» starts the check and returns, as the button of the historic window; refused when read-only (MU3).
+        ApplyCommand = new RelayCommand(() => _ = ApplyAsync(), () => !IsReadOnly);
+        CloseCommand = new RelayCommand(Close);
         Display();
     }
 
-    public string Title => RetainingWallPresentation.ParametersTitle;
+    /// <summary>«Applica e ricalcola» (<see cref="ApplyAsync"/>, not awaited); disabled when the sheet is read-only (MU3).</summary>
+    public IRelayCommand ApplyCommand { get; }
+
+    /// <summary>«Chiudi» (<see cref="Close"/>).</summary>
+    public IRelayCommand CloseCommand { get; }
 
     /// <summary>The columns of the rows (only «Valore assegnato» can be edited).</summary>
     public IReadOnlyList<FieldSpec> Columns => RetainingWallFields.ParameterColumns;
@@ -120,6 +130,7 @@ public sealed class RetainingWallParametersViewModel : ViewModelBase
             if (sheet.EditRevision != openedRevision) throw new ArgumentException(RetainingWallPresentation.ParametersChanged);
             if (validation.State != CalculationState.Completed || validation.Result is not { } values) throw new ArgumentException(validation.Message);
             sheet.ApplyParameters(values);
+            applied = true;
         }
         catch (Exception error) when (error is not OutOfMemoryException) { Fail(error.Message); return; }
         Close();
@@ -132,17 +143,21 @@ public sealed class RetainingWallParametersViewModel : ViewModelBase
         Message = text; IsMessageError = true;
     }
 
-    /// <summary>«Chiudi» (also while checking: the check is cancelled and nothing is applied).</summary>
+    /// <summary>
+    /// «Chiudi» (also while checking: the check is cancelled and nothing is applied); also after the values were applied. The window
+    /// shown by the dialog service closes (<see cref="IDialogViewModel{TResult}.CloseRequested"/>), with the result true when applied.
+    /// </summary>
     public void Close()
     {
         if (closed) return;
         closed = true; validation.Dispose();
         OnPropertyChanged(nameof(IsEnabled)); OnPropertyChanged(nameof(IsClosed));
         Closed?.Invoke(this, EventArgs.Empty); Closed = null;
+        base.Close(applied);
     }
 
     /// <summary>The sheet became read-only or was closed.</summary>
-    internal void Refresh() => OnPropertyChanged(nameof(IsReadOnly));
+    internal void Refresh() { OnPropertyChanged(nameof(IsReadOnly)); ApplyCommand.NotifyCanExecuteChanged(); }
 
     protected override void OnDisposed() => Close();
 }

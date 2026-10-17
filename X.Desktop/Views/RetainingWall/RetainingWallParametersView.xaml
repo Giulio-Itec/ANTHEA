@@ -1,0 +1,41 @@
+<!--
+  The dialog «Muro · valori utilizzati nel calcolo» (F5.9, decision MU10): RetainingWallParametersViewModel shown by IDialogService with the
+  layout of CalculationParametersWindow of the historic view (1150×780, borders excluded, as the other dialogs of WpfDialogService: decision
+  of F5.6). The editable inputs as rows (Gruppo, Parametro, Valore assegnato, Unità; 270, 340 and 190 px), the combination and the values used
+  by the calculation, «Applica e ricalcola» and «Chiudi». While the values are checked the whole content is disabled, as the historic window;
+  in a read-only revision the rows and «Applica e ricalcola» are locked (MU3, declared difference). Theme tokens only (P7).
+-->
+<UserControl x:Class="X.Desktop.Views.RetainingWall.RetainingWallParametersView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:views="clr-namespace:X.Desktop.Views.RetainingWall"
+ Width="1134" Height="741" Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <ResourceDictionary>
+   <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="RetainingWallResources.xaml"/></ResourceDictionary.MergedDictionaries>
+  </ResourceDictionary>
+ </UserControl.Resources>
+ <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+  <StackPanel x:Name="Body" Margin="15" IsEnabled="{Binding IsEnabled}">
+   <TextBlock Style="{StaticResource T18Bold}" Text="Input modificabili e valori effettivamente utilizzati"/>
+   <TextBlock x:Name="MessageText" Text="{Binding Message}">
+    <TextBlock.Style>
+     <Style TargetType="TextBlock" BasedOn="{StaticResource T11}">
+      <Style.Triggers><DataTrigger Binding="{Binding IsMessageError}" Value="True"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger></Style.Triggers>
+     </Style>
+    </TextBlock.Style>
+   </TextBlock>
+   <views:WallInputGrid x:Name="RowsGrid" Height="230" ColumnWidths="270,340,190" Fields="{Binding Columns}" Rows="{Binding Rows}" IsReadOnly="{Binding IsReadOnly}"/>
+   <WrapPanel>
+    <TextBlock Style="{StaticResource T12}" Text="Combinazione"/>
+    <ComboBox x:Name="CombinationChoice" Style="{StaticResource Choice}" ItemsSource="{Binding Combinations}" SelectedItem="{Binding SelectedCombination}"/>
+   </WrapPanel>
+   <ItemsControl x:Name="DerivedPanel" Style="{StaticResource Panel}" ItemsSource="{Binding Derived}"/>
+   <WrapPanel>
+    <Button Style="{StaticResource Command}" Content="Applica e ricalcola" Command="{Binding ApplyCommand}"/>
+    <Button Style="{StaticResource Command}" Content="Chiudi" Command="{Binding CloseCommand}"/>
+   </WrapPanel>
+  </StackPanel>
+ </local:ChainedScrollViewer>
+</UserControl>

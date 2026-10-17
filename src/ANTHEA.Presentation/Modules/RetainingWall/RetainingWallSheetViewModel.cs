@@ -9,6 +9,7 @@ using Anthea.Application.Walls;
 using Anthea.Calculations;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
+using Anthea.Presentation.Modules.Shared;
 using Anthea.Presentation.Services;
 using Anthea.Reports;
 using X.Core;
@@ -34,7 +35,11 @@ namespace Anthea.Presentation.Modules.RetainingWall;
 /// running engine returns.</item>
 /// <item>Results: combinations, views, members, filters, the panels as plain blocks (<see cref="WallPanelBlock"/>), the section that can be
 /// sent to the module c.a. (<see cref="ISheetHost.OpenModuleCopy"/>), the drawings as plain data.</item>
-/// <item>The window of the values used in the calculation: <see cref="RetainingWallParametersViewModel"/>, with its own calculation.</item>
+/// <item>The window of the values used in the calculation: <see cref="RetainingWallParametersViewModel"/>, with its own calculation, shown as
+/// a modal dialog of the services (decision MU10 of 17/10); the bar schedule is a dialog of the view on <see cref="OpenBarSchedule"/>.</item>
+/// <item>«Invia / carica terreno…»: the shared soil transfer dialog (decisions T5 and MU9 of 17/10).</item>
+/// <item>The buttons of the view are commands (RetainingWallSheetViewModel.Commands.cs); the drawings are plain data and the objects they
+/// draw, redrawn by the view at <see cref="DrawingsChanged"/>.</item>
 /// <item>Read-only (a previous revision): forms, tables and the commands that change the data are refused; combinations, views, filters,
 /// switches, the global calculation, the report and the calculation stay available. The window of the values is read-only too (the
 /// historic one is not: a defect, see docs/refactoring/f5-9-muri.md).</item>
@@ -78,6 +83,7 @@ public sealed partial class RetainingWallSheetViewModel : SheetViewModelBase
         ArgumentNullException.ThrowIfNull(figures);
         this.figures = figures; this.engine = engine;
         Service = context.Calculation;
+        CreateCommands();
         engine.Ended += () => { if (!engineBusy) return; engineBusy = false; OnPropertyChanged(nameof(IsBusy)); };
         PropertyChanged += OnStateChanged;
         Report = new RetainingWallReport(this);
@@ -195,6 +201,19 @@ public sealed partial class RetainingWallSheetViewModel : SheetViewModelBase
         return child;
     }
 
+    /// <summary>
+    /// The button «Valori di calcolo…» (decision MU10 of 17/10): <see cref="OpenParametersAsync"/>, then the window as a modal dialog of the
+    /// services (<see cref="IDialogService"/>, view in X.Desktop/Views/RetainingWall). When the dialog returns, also because its window was
+    /// closed during the check, the window is closed: nothing more is applied.
+    /// </summary>
+    public async Task ShowParametersAsync()
+    {
+        var child = await OpenParametersAsync();
+        if (child is null) return;
+        try { await Context.Services.Dialogs.ShowDialogAsync(child); }
+        finally { child.Close(); }
+    }
+
     /// <summary>The values checked by the window replace the data: the inputs and the matrix rebuilt, the edit of the user.</summary>
     internal void ApplyParameters(JsonObject values)
     {
@@ -229,12 +248,16 @@ public sealed partial class RetainingWallSheetViewModel : SheetViewModelBase
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
+        // The buttons of the view follow the commands: «Calcola armature» and «Apri sezione in c.a.» their own state.
+        if (e.PropertyName == nameof(CanDesign)) DesignRebarCommand?.NotifyCanExecuteChanged();
+        if (e.PropertyName == nameof(CanSendSection)) SendSectionCommand?.NotifyCanExecuteChanged();
         if (e.PropertyName != nameof(CanEdit)) return;
         // A read-only revision (or the closing): the forms refuse what the user types, the commands that change the data are refused.
         foreach (var form in forms.Values) form.IsReadOnly = !CanEdit;
         foreach (var child in parameters) child.Refresh();
         if (!IsDisposed) SelectSection(selectedSection);
         OnPropertyChanged(nameof(CanDesign));
+        NotifyCommands();
     }
 
     private void OnStateChanged(object? sender, PropertyChangedEventArgs e)
@@ -295,10 +318,21 @@ public sealed partial class RetainingWallSheetViewModel : SheetViewModelBase
     /// <summary>«Relazione Word» (also when read-only): the window exports the report.</summary>
     public void RequestReport() => Context.Host.RequestReport();
 
-    /// <summary>«Invia / carica terreno…»: the window opens the transfer of the soil (the historic SheetEditor.OpenSoilTransfer).</summary>
-    public event EventHandler? SoilTransferRequested;
-
-    public void RequestSoilTransfer() { if (CanEdit) SoilTransferRequested?.Invoke(this, EventArgs.Empty); }
+    /// <summary>
+    /// «Invia / carica terreno…» (refused when read-only, as the historic button protected by the revision): the sheet commits, then the
+    /// shared soil transfer dialog (<see cref="SoilTransferDialogViewModel"/> on the dialog service, decisions T5 and MU9 of 17/10) receives
+    /// its module, its data and the soil sheets of the project; a copy goes to the window as <see cref="ISheetHost.OpenModuleCopy"/>, a
+    /// replacement as <see cref="ISheetHost.ReplaceSoil"/>, as SheetEditor.OpenSoilTransfer of the historic view.
+    /// </summary>
+    public async Task TransferSoilAsync()
+    {
+        if (!CanEdit) return;
+        Commit();
+        var choice = await new SoilTransferDialogService(Context.Services).ShowAsync(ModuleId, Data, Context.Host.SoilSources());
+        if (choice is null || IsDisposed) return;
+        if (choice.Module is null) Context.Host.ReplaceSoil(choice.Data);
+        else Context.Host.OpenModuleCopy(choice.Module, choice.Data, choice.Name);
+    }
 
     /// <summary>«CSV»: the checks, or the slices of the global stability shown; refused without a result or while busy, as today.</summary>
     public void ExportCsv()
