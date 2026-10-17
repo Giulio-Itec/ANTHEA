@@ -1,0 +1,557 @@
+== apertura
+dati EF031222386175BC · byte 8391
+  tutto = {"versione_sezione":2,"input":{"shape":"Rettangolare","diameter_mm":"1000","circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"-2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gettato_sottile":"No","staffe_presenti":"Sì","inner_diameter_mm":"500","inner_width_mm":"300","inner_height_mm":"400","flange_bottom_count":"0","flange_bottom_diameter_mm":"20","flange_bottom_offset_mm":"90","second_top_count":"4","second_top_diameter":"20","second_top_gap":"30","second_bottom_count":"6","second_bottom_diameter":"24","second_bottom_gap":"30","second_inner_count":"16","second_inner_diameter":"24","second_inner_gap":"30"},"n_automatico":true,"combinazioni":{"SLU":[{"nome":"Combo 1","azioni":["-2500","500","250"],"id":"<nuovo-1>"}],"SLV":[{"nome":"Combo 1","azioni":["-2500","500","250"],"id":"<nuovo-2>"}],"SLE":[{"nome":"Combo 1","azioni":["-2500","500","250"],"id":"<nuovo-3>"}],"SLE_FREQ":[],"SLE_QP":[]},"workspace_ca":{"versione":2,"normativa":"NTC 2018","nota":"","tab":0,"dominio3d":{"stato":"SLU","angoli":"32","criterio":"N costante","filtro":"Tutte","strategia":"Iterativo","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"dominio2d":{"stato":"SLU","tipo":"Mx–My","theta":"0","N":"-1000","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"trefoli":[],"sle":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"}},"convenzione":"N negativo a compressione","migrazione_segni":"N convertito dalla precedente convenzione ANTHEA; momenti invariati","sle_precedenti_unificazione":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Lineare","phi":"0","phi_trefoli":"0","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"0.85","AlphaCT":"1","GammaC":"1.50","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.8"},"taglio":{"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Automatici da sezione","tipo_staffa":"Staffa chiusa","rami_x":"2","rami_y":"2","rami_interni":"0","schema_interno":"Bracci paralleli","rotazione_staffa":"0","ancoraggio":"Da verificare","modello":"Con staffe","bw_x":"800","d_x":"509.91397849462362","asl_x":"1168.6724671354032","alpha_x":"90","cot_x":"","bw_y":"600","d_y":"708","asl_y":"1256.6370614359173","alpha_y":"90","cot_y":"","cot_torsione":"1","as_torsione":"0","chiusura_torsione":"Da confermare","modello_circolare":"Da scegliere","z_d":"0.75","eccentricita_mc_x":"0","eccentricita_mc_y":"0","azioni":[]},"momento_curvatura":{"N":"0","theta":"0","passi":"60","frazione":"1","campionamento":"Quadratico","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"dettagli_costruttivi":{"vita_durabilita":"50","qualita_copriferro":"No","elemento":"Da scegliere","aggregato":"20","cmin_dur":"","delta_c":"10","zona_sovrapposizione":"No","as_secondaria":"0","passo_secondaria":"0","zona_critica":"No","barre_trattenute":"Da confermare","ancoraggio_appoggi":"Da confermare"},"ancoraggi":{"schema_versione":1,"tipo":"Ancoraggio rettilineo","diametro":"","sigma":"","aderenza":"Buona","lunghezza":"","percentuale":"100","interferro":"0","confinamento":"Da verificare","posizione":"Da verificare","cautele":"Da verificare"},"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"materiali_custom":[],"layout":{},"resistenze_rapide":{"N":"0","tipo":"Plastico"},"calcola_armature":{"diametri":"12;16;20;24","n_superiori":"2;4;6","n_inferiori":"2;4;6;8","n_laterali":"0;2;4","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","staffe":"Ottimizza","obiettivo":"Peso","diametri_ortogonali":"8;10;12;16","passi_ortogonali":"100;150;200;250","max_diametri":"3","max_tentativi":"2000","ganci_phi":"20","riserva_torsione":"25","peso_peso":"1","peso_barre":"1","peso_diametri":"1","mostra":"10","simmetrica":false,"ancoraggio_confermato":false,"torsione_confermata":false,"ricerca_completa":true,"parallelismo":"Automatico","slu":"1","slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"}}}
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[armature] form ricerca
+[armature]   scelta obiettivo "Ottimizza" = "Peso" voci "Peso|Numero barre|Numero diametri|Compromesso"
+[armature]   opzione simmetrica "Armatura superiore e inferiore uguale" = "no"
+[armature]   campo diametri "Ø longitudinali ammessi · separati da ;" = "12;16;20;24"
+[armature]   campo n_superiori "Numeri barre superiori" = "2;4;6"
+[armature]   campo n_inferiori "Numeri barre inferiori" = "2;4;6;8"
+[armature]   campo n_laterali "Numeri barre laterali per lato" = "0;2;4"
+[armature]   campo n_circolari "Numeri barre circolari" = "8;12;16;20;24" · nascosto
+[armature]   scelta staffe "Staffe" = "Ottimizza" voci "Ottimizza|Mantieni|Senza staffe|Con e senza staffe"
+[armature]   campo diametri_staffe "Ø staffe ammessi" = "8;10"
+[armature]   campo passi_staffe "Passi staffe ammessi" = "100;150;200;250"
+[armature]   campo diametri_ortogonali "Ø ortogonali · entrambe le facce" = "8;10;12;16" · nascosto
+[armature]   campo passi_ortogonali "Passi ortogonali ammessi" = "100;150;200;250" · nascosto
+[armature]   campo max_diametri "Massimo Ø distinti" = "3"
+[armature]   opzione ricerca_completa "Esamina tutte le configurazioni ammesse" = "sì"
+[armature]   campo max_tentativi "Massimo tentativi (campione)" = "2000" · nascosto
+[armature]   scelta parallelismo "Calcoli contemporanei" = "Automatico" voci "Automatico|1|2|4|8"
+[armature]   campo ganci_phi "Extra sviluppo staffa / legatura" = "20"
+[armature]   campo riserva_torsione "Area riservata a torsione per barra" = "25"
+[armature]   campo peso_peso "Peso obiettivo · kg/m" = "1" · nascosto
+[armature]   campo peso_barre "Peso obiettivo · pezzi/m" = "1" · nascosto
+[armature]   campo peso_diametri "Peso obiettivo · Ø distinti" = "1" · nascosto
+[armature]   opzione ancoraggio_confermato "Confermo Asl ancorata per proposte senza staffe" = "no"
+[armature]   opzione torsione_confermata "Confermo schema periferico chiuso per torsione" = "no"
+[armature] form limiti
+[armature]   campo slu "N–Mx–My · SLU" = "1"
+[armature]   campo slv "N–Mx–My · SLV" = "1"
+[armature]   campo sigma_c_rara "Tensione CLS · rara" = "1"
+[armature]   campo sigma_s_rara "Tensione acciaio · rara" = "1"
+[armature]   campo sigma_c_qp "Tensione CLS · quasi permanente" = "1"
+[armature]   campo wk_freq "Fessurazione · frequente" = "1"
+[armature]   campo wk_qp "Fessurazione · quasi permanente" = "1"
+[armature]   campo vx "Taglio Vx" = "1"
+[armature]   campo vy "Taglio Vy" = "1"
+[armature]   campo torsione "Torsione" = "1"
+[armature]   campo vt_cls "Taglio–torsione · CLS" = "1"
+[armature]   campo vt_staffe "Taglio–torsione · staffe" = "1"
+[armature]   campo ancoraggio "Lunghezza ancoraggio / giunzione" = "1"
+[armature] form mostra
+[armature]   scelta mostra "Mostra le prime" = "10" voci "1|5|10|25|50|Tutte"
+[armature] ricerca comandi Calcola armature Ferma ricerca(spento) Applica configurazione(spento)
+[armature] ricerca stato "Impostare gli elenchi e avviare la ricerca sulle combinazioni del foglio."
+[armature] ricerca proposta "La configurazione proposta comparirà qui."
+[armature] ricerca ambito ""
+[armature] riquadri ricerca-metriche ""
+[armature] riquadri ricerca-verifiche ""
+[armature] ricerca scarti ""
+[armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
+[armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+== attendi
+dati EF031222386175BC · byte 8391
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato D9E22A4A92124E9D
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] invariata
+== scheda [7]
+dati 0BAB6C33D8FC88AF · byte 8436
+  combinazioni.SLU[0].visible = true
+  combinazioni.SLV[0].visible = true
+  combinazioni.SLE[0].visible = true
+  workspace_ca.tab = 7
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] invariata
+== attendi
+dati 0BAB6C33D8FC88AF · byte 8436
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] invariata
+== scelta ricerca obiettivo «Compromesso»
+dati 8317FBCA34ADF226 · byte 8443
+  workspace_ca.calcola_armature.obiettivo = "Compromesso"
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] form ricerca
+[armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
+[armature]   opzione simmetrica "Armatura superiore e inferiore uguale" = "no"
+[armature]   campo diametri "Ø longitudinali ammessi · separati da ;" = "12;16;20;24"
+[armature]   campo n_superiori "Numeri barre superiori" = "2;4;6"
+[armature]   campo n_inferiori "Numeri barre inferiori" = "2;4;6;8"
+[armature]   campo n_laterali "Numeri barre laterali per lato" = "0;2;4"
+[armature]   campo n_circolari "Numeri barre circolari" = "8;12;16;20;24" · nascosto
+[armature]   scelta staffe "Staffe" = "Ottimizza" voci "Ottimizza|Mantieni|Senza staffe|Con e senza staffe"
+[armature]   campo diametri_staffe "Ø staffe ammessi" = "8;10"
+[armature]   campo passi_staffe "Passi staffe ammessi" = "100;150;200;250"
+[armature]   campo diametri_ortogonali "Ø ortogonali · entrambe le facce" = "8;10;12;16" · nascosto
+[armature]   campo passi_ortogonali "Passi ortogonali ammessi" = "100;150;200;250" · nascosto
+[armature]   campo max_diametri "Massimo Ø distinti" = "3"
+[armature]   opzione ricerca_completa "Esamina tutte le configurazioni ammesse" = "sì"
+[armature]   campo max_tentativi "Massimo tentativi (campione)" = "2000" · nascosto
+[armature]   scelta parallelismo "Calcoli contemporanei" = "Automatico" voci "Automatico|1|2|4|8"
+[armature]   campo ganci_phi "Extra sviluppo staffa / legatura" = "20"
+[armature]   campo riserva_torsione "Area riservata a torsione per barra" = "25"
+[armature]   campo peso_peso "Peso obiettivo · kg/m" = "1"
+[armature]   campo peso_barre "Peso obiettivo · pezzi/m" = "1"
+[armature]   campo peso_diametri "Peso obiettivo · Ø distinti" = "1"
+[armature]   opzione ancoraggio_confermato "Confermo Asl ancorata per proposte senza staffe" = "no"
+[armature]   opzione torsione_confermata "Confermo schema periferico chiuso per torsione" = "no"
+[armature] form limiti
+[armature]   campo slu "N–Mx–My · SLU" = "1"
+[armature]   campo slv "N–Mx–My · SLV" = "1"
+[armature]   campo sigma_c_rara "Tensione CLS · rara" = "1"
+[armature]   campo sigma_s_rara "Tensione acciaio · rara" = "1"
+[armature]   campo sigma_c_qp "Tensione CLS · quasi permanente" = "1"
+[armature]   campo wk_freq "Fessurazione · frequente" = "1"
+[armature]   campo wk_qp "Fessurazione · quasi permanente" = "1"
+[armature]   campo vx "Taglio Vx" = "1"
+[armature]   campo vy "Taglio Vy" = "1"
+[armature]   campo torsione "Torsione" = "1"
+[armature]   campo vt_cls "Taglio–torsione · CLS" = "1"
+[armature]   campo vt_staffe "Taglio–torsione · staffe" = "1"
+[armature]   campo ancoraggio "Lunghezza ancoraggio / giunzione" = "1"
+[armature] form mostra
+[armature]   scelta mostra "Mostra le prime" = "10" voci "1|5|10|25|50|Tutte"
+[armature] ricerca comandi Calcola armature Ferma ricerca(spento) Applica configurazione(spento)
+[armature] ricerca stato "Impostare gli elenchi e avviare la ricerca sulle combinazioni del foglio."
+[armature] ricerca proposta "La configurazione proposta comparirà qui."
+[armature] ricerca ambito ""
+[armature] riquadri ricerca-metriche ""
+[armature] riquadri ricerca-verifiche ""
+[armature] ricerca scarti ""
+[armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
+[armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+== attendi
+dati 8317FBCA34ADF226 · byte 8443
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] invariata
+== scelta ricerca staffe «Mantieni»
+dati 1C28A8C493C4411A · byte 8442
+  workspace_ca.calcola_armature.staffe = "Mantieni"
+modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] form ricerca
+[armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
+[armature]   opzione simmetrica "Armatura superiore e inferiore uguale" = "no"
+[armature]   campo diametri "Ø longitudinali ammessi · separati da ;" = "12;16;20;24"
+[armature]   campo n_superiori "Numeri barre superiori" = "2;4;6"
+[armature]   campo n_inferiori "Numeri barre inferiori" = "2;4;6;8"
+[armature]   campo n_laterali "Numeri barre laterali per lato" = "0;2;4"
+[armature]   campo n_circolari "Numeri barre circolari" = "8;12;16;20;24" · nascosto
+[armature]   scelta staffe "Staffe" = "Mantieni" voci "Ottimizza|Mantieni|Senza staffe|Con e senza staffe"
+[armature]   campo diametri_staffe "Ø staffe ammessi" = "8;10" · nascosto
+[armature]   campo passi_staffe "Passi staffe ammessi" = "100;150;200;250" · nascosto
+[armature]   campo diametri_ortogonali "Ø ortogonali · entrambe le facce" = "8;10;12;16" · nascosto
+[armature]   campo passi_ortogonali "Passi ortogonali ammessi" = "100;150;200;250" · nascosto
+[armature]   campo max_diametri "Massimo Ø distinti" = "3"
+[armature]   opzione ricerca_completa "Esamina tutte le configurazioni ammesse" = "sì"
+[armature]   campo max_tentativi "Massimo tentativi (campione)" = "2000" · nascosto
+[armature]   scelta parallelismo "Calcoli contemporanei" = "Automatico" voci "Automatico|1|2|4|8"
+[armature]   campo ganci_phi "Extra sviluppo staffa / legatura" = "20"
+[armature]   campo riserva_torsione "Area riservata a torsione per barra" = "25"
+[armature]   campo peso_peso "Peso obiettivo · kg/m" = "1"
+[armature]   campo peso_barre "Peso obiettivo · pezzi/m" = "1"
+[armature]   campo peso_diametri "Peso obiettivo · Ø distinti" = "1"
+[armature]   opzione ancoraggio_confermato "Confermo Asl ancorata per proposte senza staffe" = "no"
+[armature]   opzione torsione_confermata "Confermo schema periferico chiuso per torsione" = "no"
+[armature] form limiti
+[armature]   campo slu "N–Mx–My · SLU" = "1"
+[armature]   campo slv "N–Mx–My · SLV" = "1"
+[armature]   campo sigma_c_rara "Tensione CLS · rara" = "1"
+[armature]   campo sigma_s_rara "Tensione acciaio · rara" = "1"
+[armature]   campo sigma_c_qp "Tensione CLS · quasi permanente" = "1"
+[armature]   campo wk_freq "Fessurazione · frequente" = "1"
+[armature]   campo wk_qp "Fessurazione · quasi permanente" = "1"
+[armature]   campo vx "Taglio Vx" = "1"
+[armature]   campo vy "Taglio Vy" = "1"
+[armature]   campo torsione "Torsione" = "1"
+[armature]   campo vt_cls "Taglio–torsione · CLS" = "1"
+[armature]   campo vt_staffe "Taglio–torsione · staffe" = "1"
+[armature]   campo ancoraggio "Lunghezza ancoraggio / giunzione" = "1"
+[armature] form mostra
+[armature]   scelta mostra "Mostra le prime" = "10" voci "1|5|10|25|50|Tutte"
+[armature] ricerca comandi Calcola armature Ferma ricerca(spento) Applica configurazione(spento)
+[armature] ricerca stato "Impostare gli elenchi e avviare la ricerca sulle combinazioni del foglio."
+[armature] ricerca proposta "La configurazione proposta comparirà qui."
+[armature] ricerca ambito ""
+[armature] riquadri ricerca-metriche ""
+[armature] riquadri ricerca-verifiche ""
+[armature] ricerca scarti ""
+[armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
+[armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+== attendi
+dati 1C28A8C493C4411A · byte 8442
+modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] invariata
+== opzione ricerca simmetrica
+dati 884EC583515EACED · byte 8441
+  workspace_ca.calcola_armature.simmetrica = true
+modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] form ricerca
+[armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
+[armature]   opzione simmetrica "Armatura superiore e inferiore uguale" = "sì"
+[armature]   campo diametri "Ø longitudinali ammessi · separati da ;" = "12;16;20;24"
+[armature]   campo n_superiori "Numeri barre superiori" = "2;4;6"
+[armature]   campo n_inferiori "Numeri barre inferiori" = "2;4;6;8"
+[armature]   campo n_laterali "Numeri barre laterali per lato" = "0;2;4"
+[armature]   campo n_circolari "Numeri barre circolari" = "8;12;16;20;24" · nascosto
+[armature]   scelta staffe "Staffe" = "Mantieni" voci "Ottimizza|Mantieni|Senza staffe|Con e senza staffe"
+[armature]   campo diametri_staffe "Ø staffe ammessi" = "8;10" · nascosto
+[armature]   campo passi_staffe "Passi staffe ammessi" = "100;150;200;250" · nascosto
+[armature]   campo diametri_ortogonali "Ø ortogonali · entrambe le facce" = "8;10;12;16" · nascosto
+[armature]   campo passi_ortogonali "Passi ortogonali ammessi" = "100;150;200;250" · nascosto
+[armature]   campo max_diametri "Massimo Ø distinti" = "3"
+[armature]   opzione ricerca_completa "Esamina tutte le configurazioni ammesse" = "sì"
+[armature]   campo max_tentativi "Massimo tentativi (campione)" = "2000" · nascosto
+[armature]   scelta parallelismo "Calcoli contemporanei" = "Automatico" voci "Automatico|1|2|4|8"
+[armature]   campo ganci_phi "Extra sviluppo staffa / legatura" = "20"
+[armature]   campo riserva_torsione "Area riservata a torsione per barra" = "25"
+[armature]   campo peso_peso "Peso obiettivo · kg/m" = "1"
+[armature]   campo peso_barre "Peso obiettivo · pezzi/m" = "1"
+[armature]   campo peso_diametri "Peso obiettivo · Ø distinti" = "1"
+[armature]   opzione ancoraggio_confermato "Confermo Asl ancorata per proposte senza staffe" = "no"
+[armature]   opzione torsione_confermata "Confermo schema periferico chiuso per torsione" = "no"
+[armature] form limiti
+[armature]   campo slu "N–Mx–My · SLU" = "1"
+[armature]   campo slv "N–Mx–My · SLV" = "1"
+[armature]   campo sigma_c_rara "Tensione CLS · rara" = "1"
+[armature]   campo sigma_s_rara "Tensione acciaio · rara" = "1"
+[armature]   campo sigma_c_qp "Tensione CLS · quasi permanente" = "1"
+[armature]   campo wk_freq "Fessurazione · frequente" = "1"
+[armature]   campo wk_qp "Fessurazione · quasi permanente" = "1"
+[armature]   campo vx "Taglio Vx" = "1"
+[armature]   campo vy "Taglio Vy" = "1"
+[armature]   campo torsione "Torsione" = "1"
+[armature]   campo vt_cls "Taglio–torsione · CLS" = "1"
+[armature]   campo vt_staffe "Taglio–torsione · staffe" = "1"
+[armature]   campo ancoraggio "Lunghezza ancoraggio / giunzione" = "1"
+[armature] form mostra
+[armature]   scelta mostra "Mostra le prime" = "10" voci "1|5|10|25|50|Tutte"
+[armature] ricerca comandi Calcola armature Ferma ricerca(spento) Applica configurazione(spento)
+[armature] ricerca stato "Impostare gli elenchi e avviare la ricerca sulle combinazioni del foglio."
+[armature] ricerca proposta "La configurazione proposta comparirà qui."
+[armature] ricerca ambito ""
+[armature] riquadri ricerca-metriche ""
+[armature] riquadri ricerca-verifiche ""
+[armature] ricerca scarti ""
+[armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
+[armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+== opzione ricerca ricerca_completa
+dati D187AD43A1A5299B · byte 8442
+  workspace_ca.calcola_armature.ricerca_completa = false
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] form ricerca
+[armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
+[armature]   opzione simmetrica "Armatura superiore e inferiore uguale" = "sì"
+[armature]   campo diametri "Ø longitudinali ammessi · separati da ;" = "12;16;20;24"
+[armature]   campo n_superiori "Numeri barre superiori" = "2;4;6"
+[armature]   campo n_inferiori "Numeri barre inferiori" = "2;4;6;8"
+[armature]   campo n_laterali "Numeri barre laterali per lato" = "0;2;4"
+[armature]   campo n_circolari "Numeri barre circolari" = "8;12;16;20;24" · nascosto
+[armature]   scelta staffe "Staffe" = "Mantieni" voci "Ottimizza|Mantieni|Senza staffe|Con e senza staffe"
+[armature]   campo diametri_staffe "Ø staffe ammessi" = "8;10" · nascosto
+[armature]   campo passi_staffe "Passi staffe ammessi" = "100;150;200;250" · nascosto
+[armature]   campo diametri_ortogonali "Ø ortogonali · entrambe le facce" = "8;10;12;16" · nascosto
+[armature]   campo passi_ortogonali "Passi ortogonali ammessi" = "100;150;200;250" · nascosto
+[armature]   campo max_diametri "Massimo Ø distinti" = "3"
+[armature]   opzione ricerca_completa "Esamina tutte le configurazioni ammesse" = "no"
+[armature]   campo max_tentativi "Massimo tentativi (campione)" = "2000"
+[armature]   scelta parallelismo "Calcoli contemporanei" = "Automatico" voci "Automatico|1|2|4|8"
+[armature]   campo ganci_phi "Extra sviluppo staffa / legatura" = "20"
+[armature]   campo riserva_torsione "Area riservata a torsione per barra" = "25"
+[armature]   campo peso_peso "Peso obiettivo · kg/m" = "1"
+[armature]   campo peso_barre "Peso obiettivo · pezzi/m" = "1"
+[armature]   campo peso_diametri "Peso obiettivo · Ø distinti" = "1"
+[armature]   opzione ancoraggio_confermato "Confermo Asl ancorata per proposte senza staffe" = "no"
+[armature]   opzione torsione_confermata "Confermo schema periferico chiuso per torsione" = "no"
+[armature] form limiti
+[armature]   campo slu "N–Mx–My · SLU" = "1"
+[armature]   campo slv "N–Mx–My · SLV" = "1"
+[armature]   campo sigma_c_rara "Tensione CLS · rara" = "1"
+[armature]   campo sigma_s_rara "Tensione acciaio · rara" = "1"
+[armature]   campo sigma_c_qp "Tensione CLS · quasi permanente" = "1"
+[armature]   campo wk_freq "Fessurazione · frequente" = "1"
+[armature]   campo wk_qp "Fessurazione · quasi permanente" = "1"
+[armature]   campo vx "Taglio Vx" = "1"
+[armature]   campo vy "Taglio Vy" = "1"
+[armature]   campo torsione "Torsione" = "1"
+[armature]   campo vt_cls "Taglio–torsione · CLS" = "1"
+[armature]   campo vt_staffe "Taglio–torsione · staffe" = "1"
+[armature]   campo ancoraggio "Lunghezza ancoraggio / giunzione" = "1"
+[armature] form mostra
+[armature]   scelta mostra "Mostra le prime" = "10" voci "1|5|10|25|50|Tutte"
+[armature] ricerca comandi Calcola armature Ferma ricerca(spento) Applica configurazione(spento)
+[armature] ricerca stato "Impostare gli elenchi e avviare la ricerca sulle combinazioni del foglio."
+[armature] ricerca proposta "La configurazione proposta comparirà qui."
+[armature] ricerca ambito ""
+[armature] riquadri ricerca-metriche ""
+[armature] riquadri ricerca-verifiche ""
+[armature] ricerca scarti ""
+[armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
+[armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+== attendi
+dati D187AD43A1A5299B · byte 8442
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] invariata
+== campo ricerca diametri «abc»
+dati EAFA718EF2E6EB98 · byte 8434
+  workspace_ca.calcola_armature.diametri = "abc"
+modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] form ricerca
+[armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
+[armature]   opzione simmetrica "Armatura superiore e inferiore uguale" = "sì"
+[armature]   campo diametri "Ø longitudinali ammessi · separati da ;" = "abc"
+[armature]   campo n_superiori "Numeri barre superiori" = "2;4;6"
+[armature]   campo n_inferiori "Numeri barre inferiori" = "2;4;6;8"
+[armature]   campo n_laterali "Numeri barre laterali per lato" = "0;2;4"
+[armature]   campo n_circolari "Numeri barre circolari" = "8;12;16;20;24" · nascosto
+[armature]   scelta staffe "Staffe" = "Mantieni" voci "Ottimizza|Mantieni|Senza staffe|Con e senza staffe"
+[armature]   campo diametri_staffe "Ø staffe ammessi" = "8;10" · nascosto
+[armature]   campo passi_staffe "Passi staffe ammessi" = "100;150;200;250" · nascosto
+[armature]   campo diametri_ortogonali "Ø ortogonali · entrambe le facce" = "8;10;12;16" · nascosto
+[armature]   campo passi_ortogonali "Passi ortogonali ammessi" = "100;150;200;250" · nascosto
+[armature]   campo max_diametri "Massimo Ø distinti" = "3"
+[armature]   opzione ricerca_completa "Esamina tutte le configurazioni ammesse" = "no"
+[armature]   campo max_tentativi "Massimo tentativi (campione)" = "2000"
+[armature]   scelta parallelismo "Calcoli contemporanei" = "Automatico" voci "Automatico|1|2|4|8"
+[armature]   campo ganci_phi "Extra sviluppo staffa / legatura" = "20"
+[armature]   campo riserva_torsione "Area riservata a torsione per barra" = "25"
+[armature]   campo peso_peso "Peso obiettivo · kg/m" = "1"
+[armature]   campo peso_barre "Peso obiettivo · pezzi/m" = "1"
+[armature]   campo peso_diametri "Peso obiettivo · Ø distinti" = "1"
+[armature]   opzione ancoraggio_confermato "Confermo Asl ancorata per proposte senza staffe" = "no"
+[armature]   opzione torsione_confermata "Confermo schema periferico chiuso per torsione" = "no"
+[armature] form limiti
+[armature]   campo slu "N–Mx–My · SLU" = "1"
+[armature]   campo slv "N–Mx–My · SLV" = "1"
+[armature]   campo sigma_c_rara "Tensione CLS · rara" = "1"
+[armature]   campo sigma_s_rara "Tensione acciaio · rara" = "1"
+[armature]   campo sigma_c_qp "Tensione CLS · quasi permanente" = "1"
+[armature]   campo wk_freq "Fessurazione · frequente" = "1"
+[armature]   campo wk_qp "Fessurazione · quasi permanente" = "1"
+[armature]   campo vx "Taglio Vx" = "1"
+[armature]   campo vy "Taglio Vy" = "1"
+[armature]   campo torsione "Torsione" = "1"
+[armature]   campo vt_cls "Taglio–torsione · CLS" = "1"
+[armature]   campo vt_staffe "Taglio–torsione · staffe" = "1"
+[armature]   campo ancoraggio "Lunghezza ancoraggio / giunzione" = "1"
+[armature] form mostra
+[armature]   scelta mostra "Mostra le prime" = "10" voci "1|5|10|25|50|Tutte"
+[armature] ricerca comandi Calcola armature Ferma ricerca(spento) Applica configurazione(spento)
+[armature] ricerca stato "Impostare gli elenchi e avviare la ricerca sulle combinazioni del foglio."
+[armature] ricerca proposta "La configurazione proposta comparirà qui."
+[armature] ricerca ambito ""
+[armature] riquadri ricerca-metriche ""
+[armature] riquadri ricerca-verifiche ""
+[armature] ricerca scarti ""
+[armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
+[armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+== pulsante ricerca Calcola armature
+dati EAFA718EF2E6EB98 · byte 8434
+modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] form ricerca
+[armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
+[armature]   opzione simmetrica "Armatura superiore e inferiore uguale" = "sì"
+[armature]   campo diametri "Ø longitudinali ammessi · separati da ;" = "abc"
+[armature]   campo n_superiori "Numeri barre superiori" = "2;4;6"
+[armature]   campo n_inferiori "Numeri barre inferiori" = "2;4;6;8"
+[armature]   campo n_laterali "Numeri barre laterali per lato" = "0;2;4"
+[armature]   campo n_circolari "Numeri barre circolari" = "8;12;16;20;24" · nascosto
+[armature]   scelta staffe "Staffe" = "Mantieni" voci "Ottimizza|Mantieni|Senza staffe|Con e senza staffe"
+[armature]   campo diametri_staffe "Ø staffe ammessi" = "8;10" · nascosto
+[armature]   campo passi_staffe "Passi staffe ammessi" = "100;150;200;250" · nascosto
+[armature]   campo diametri_ortogonali "Ø ortogonali · entrambe le facce" = "8;10;12;16" · nascosto
+[armature]   campo passi_ortogonali "Passi ortogonali ammessi" = "100;150;200;250" · nascosto
+[armature]   campo max_diametri "Massimo Ø distinti" = "3"
+[armature]   opzione ricerca_completa "Esamina tutte le configurazioni ammesse" = "no"
+[armature]   campo max_tentativi "Massimo tentativi (campione)" = "2000"
+[armature]   scelta parallelismo "Calcoli contemporanei" = "Automatico" voci "Automatico|1|2|4|8"
+[armature]   campo ganci_phi "Extra sviluppo staffa / legatura" = "20"
+[armature]   campo riserva_torsione "Area riservata a torsione per barra" = "25"
+[armature]   campo peso_peso "Peso obiettivo · kg/m" = "1"
+[armature]   campo peso_barre "Peso obiettivo · pezzi/m" = "1"
+[armature]   campo peso_diametri "Peso obiettivo · Ø distinti" = "1"
+[armature]   opzione ancoraggio_confermato "Confermo Asl ancorata per proposte senza staffe" = "no"
+[armature]   opzione torsione_confermata "Confermo schema periferico chiuso per torsione" = "no"
+[armature] form limiti
+[armature]   campo slu "N–Mx–My · SLU" = "1"
+[armature]   campo slv "N–Mx–My · SLV" = "1"
+[armature]   campo sigma_c_rara "Tensione CLS · rara" = "1"
+[armature]   campo sigma_s_rara "Tensione acciaio · rara" = "1"
+[armature]   campo sigma_c_qp "Tensione CLS · quasi permanente" = "1"
+[armature]   campo wk_freq "Fessurazione · frequente" = "1"
+[armature]   campo wk_qp "Fessurazione · quasi permanente" = "1"
+[armature]   campo vx "Taglio Vx" = "1"
+[armature]   campo vy "Taglio Vy" = "1"
+[armature]   campo torsione "Torsione" = "1"
+[armature]   campo vt_cls "Taglio–torsione · CLS" = "1"
+[armature]   campo vt_staffe "Taglio–torsione · staffe" = "1"
+[armature]   campo ancoraggio "Lunghezza ancoraggio / giunzione" = "1"
+[armature] form mostra
+[armature]   scelta mostra "Mostra le prime" = "10" voci "1|5|10|25|50|Tutte"
+[armature] ricerca comandi Calcola armature(spento) Ferma ricerca Applica configurazione(spento)
+[armature] ricerca stato "Impostare gli elenchi e avviare la ricerca sulle combinazioni del foglio."
+[armature] ricerca proposta "Ricerca in corso…"
+[armature] ricerca ambito ""
+[armature] riquadri ricerca-metriche ""
+[armature] riquadri ricerca-verifiche ""
+[armature] ricerca scarti ""
+[armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
+[armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+== attendi
+dati EAFA718EF2E6EB98 · byte 8434
+modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 223E02ECB95F30CB
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] form ricerca
+[armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
+[armature]   opzione simmetrica "Armatura superiore e inferiore uguale" = "sì"
+[armature]   campo diametri "Ø longitudinali ammessi · separati da ;" = "abc"
+[armature]   campo n_superiori "Numeri barre superiori" = "2;4;6"
+[armature]   campo n_inferiori "Numeri barre inferiori" = "2;4;6;8"
+[armature]   campo n_laterali "Numeri barre laterali per lato" = "0;2;4"
+[armature]   campo n_circolari "Numeri barre circolari" = "8;12;16;20;24" · nascosto
+[armature]   scelta staffe "Staffe" = "Mantieni" voci "Ottimizza|Mantieni|Senza staffe|Con e senza staffe"
+[armature]   campo diametri_staffe "Ø staffe ammessi" = "8;10" · nascosto
+[armature]   campo passi_staffe "Passi staffe ammessi" = "100;150;200;250" · nascosto
+[armature]   campo diametri_ortogonali "Ø ortogonali · entrambe le facce" = "8;10;12;16" · nascosto
+[armature]   campo passi_ortogonali "Passi ortogonali ammessi" = "100;150;200;250" · nascosto
+[armature]   campo max_diametri "Massimo Ø distinti" = "3"
+[armature]   opzione ricerca_completa "Esamina tutte le configurazioni ammesse" = "no"
+[armature]   campo max_tentativi "Massimo tentativi (campione)" = "2000"
+[armature]   scelta parallelismo "Calcoli contemporanei" = "Automatico" voci "Automatico|1|2|4|8"
+[armature]   campo ganci_phi "Extra sviluppo staffa / legatura" = "20"
+[armature]   campo riserva_torsione "Area riservata a torsione per barra" = "25"
+[armature]   campo peso_peso "Peso obiettivo · kg/m" = "1"
+[armature]   campo peso_barre "Peso obiettivo · pezzi/m" = "1"
+[armature]   campo peso_diametri "Peso obiettivo · Ø distinti" = "1"
+[armature]   opzione ancoraggio_confermato "Confermo Asl ancorata per proposte senza staffe" = "no"
+[armature]   opzione torsione_confermata "Confermo schema periferico chiuso per torsione" = "no"
+[armature] form limiti
+[armature]   campo slu "N–Mx–My · SLU" = "1"
+[armature]   campo slv "N–Mx–My · SLV" = "1"
+[armature]   campo sigma_c_rara "Tensione CLS · rara" = "1"
+[armature]   campo sigma_s_rara "Tensione acciaio · rara" = "1"
+[armature]   campo sigma_c_qp "Tensione CLS · quasi permanente" = "1"
+[armature]   campo wk_freq "Fessurazione · frequente" = "1"
+[armature]   campo wk_qp "Fessurazione · quasi permanente" = "1"
+[armature]   campo vx "Taglio Vx" = "1"
+[armature]   campo vy "Taglio Vy" = "1"
+[armature]   campo torsione "Torsione" = "1"
+[armature]   campo vt_cls "Taglio–torsione · CLS" = "1"
+[armature]   campo vt_staffe "Taglio–torsione · staffe" = "1"
+[armature]   campo ancoraggio "Lunghezza ancoraggio / giunzione" = "1"
+[armature] form mostra
+[armature]   scelta mostra "Mostra le prime" = "10" voci "1|5|10|25|50|Tutte"
+[armature] ricerca comandi Calcola armature Ferma ricerca(spento) Applica configurazione(spento)
+[armature] ricerca stato "Ricerca non avviata: diametri: inserire un numero finito."
+[armature] ricerca proposta "Completare i dati indicati e ripetere la ricerca."
+[armature] ricerca ambito ""
+[armature] riquadri ricerca-metriche ""
+[armature] riquadri ricerca-verifiche ""
+[armature] ricerca scarti ""
+[armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
+[armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+== scelta geometria shape «Circolare»
+dati 2E90C6C83A0B6096 · byte 8448
+  input.shape = "Circolare"
+  workspace_ca.taglio.bw_x = "1000"
+  workspace_ca.taglio.d_x = "793.02207325533527"
+  workspace_ca.taglio.asl_x = "3166.7253948185112"
+  workspace_ca.taglio.bw_y = "1000"
+  workspace_ca.taglio.d_y = "793.02207325533516"
+  workspace_ca.taglio.asl_y = "3166.7253948185112"
+modificato 7 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 7
+risultato -
+stato "Modifiche acquisite · aggiornamento automatico in attesa…"
+[armature] form ricerca
+[armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
+[armature]   opzione simmetrica "Armatura superiore e inferiore uguale" = "sì" · nascosto
+[armature]   campo diametri "Ø longitudinali ammessi · separati da ;" = "abc"
+[armature]   campo n_superiori "Numeri barre superiori" = "2;4;6" · nascosto
+[armature]   campo n_inferiori "Numeri barre inferiori" = "2;4;6;8" · nascosto
+[armature]   campo n_laterali "Numeri barre laterali per lato" = "0;2;4" · nascosto
+[armature]   campo n_circolari "Numeri barre circolari" = "8;12;16;20;24"
+[armature]   scelta staffe "Staffe" = "Mantieni" voci "Ottimizza|Mantieni|Senza staffe|Con e senza staffe"
+[armature]   campo diametri_staffe "Ø staffe ammessi" = "8;10" · nascosto
+[armature]   campo passi_staffe "Passi staffe ammessi" = "100;150;200;250" · nascosto
+[armature]   campo diametri_ortogonali "Ø ortogonali · entrambe le facce" = "8;10;12;16" · nascosto
+[armature]   campo passi_ortogonali "Passi ortogonali ammessi" = "100;150;200;250" · nascosto
+[armature]   campo max_diametri "Massimo Ø distinti" = "3"
+[armature]   opzione ricerca_completa "Esamina tutte le configurazioni ammesse" = "no"
+[armature]   campo max_tentativi "Massimo tentativi (campione)" = "2000"
+[armature]   scelta parallelismo "Calcoli contemporanei" = "Automatico" voci "Automatico|1|2|4|8"
+[armature]   campo ganci_phi "Extra sviluppo staffa / legatura" = "20"
+[armature]   campo riserva_torsione "Area riservata a torsione per barra" = "25"
+[armature]   campo peso_peso "Peso obiettivo · kg/m" = "1"
+[armature]   campo peso_barre "Peso obiettivo · pezzi/m" = "1"
+[armature]   campo peso_diametri "Peso obiettivo · Ø distinti" = "1"
+[armature]   opzione ancoraggio_confermato "Confermo Asl ancorata per proposte senza staffe" = "no"
+[armature]   opzione torsione_confermata "Confermo schema periferico chiuso per torsione" = "no"
+[armature] form limiti
+[armature]   campo slu "N–Mx–My · SLU" = "1"
+[armature]   campo slv "N–Mx–My · SLV" = "1"
+[armature]   campo sigma_c_rara "Tensione CLS · rara" = "1"
+[armature]   campo sigma_s_rara "Tensione acciaio · rara" = "1"
+[armature]   campo sigma_c_qp "Tensione CLS · quasi permanente" = "1"
+[armature]   campo wk_freq "Fessurazione · frequente" = "1"
+[armature]   campo wk_qp "Fessurazione · quasi permanente" = "1"
+[armature]   campo vx "Taglio Vx" = "1"
+[armature]   campo vy "Taglio Vy" = "1"
+[armature]   campo torsione "Torsione" = "1"
+[armature]   campo vt_cls "Taglio–torsione · CLS" = "1"
+[armature]   campo vt_staffe "Taglio–torsione · staffe" = "1"
+[armature]   campo ancoraggio "Lunghezza ancoraggio / giunzione" = "1"
+[armature] form mostra
+[armature]   scelta mostra "Mostra le prime" = "10" voci "1|5|10|25|50|Tutte"
+[armature] ricerca comandi Calcola armature Ferma ricerca(spento) Applica configurazione(spento)
+[armature] ricerca stato "Ricerca non avviata: diametri: inserire un numero finito."
+[armature] ricerca proposta "Completare i dati indicati e ripetere la ricerca."
+[armature] ricerca ambito ""
+[armature] riquadri ricerca-metriche ""
+[armature] riquadri ricerca-verifiche ""
+[armature] ricerca scarti ""
+[armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
+[armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+== scheda [7]
+dati 2E90C6C83A0B6096 · byte 8448
+modificato 7 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 7
+risultato -
+stato "Modifiche acquisite · aggiornamento automatico in attesa…"
+[armature] invariata
+== attendi
+dati 2E90C6C83A0B6096 · byte 8448
+modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato CFECCA86DBAFC4AA
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] invariata
+== conferma
+dati 2E90C6C83A0B6096 · byte 8448
+modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato CFECCA86DBAFC4AA
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[armature] invariata
