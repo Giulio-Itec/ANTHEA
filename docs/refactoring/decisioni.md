@@ -1511,3 +1511,19 @@ fermati quando arrivi a 85%» (quota settimanale).
   attive, come per la palificata.
 - **Contrasto.** `ui/check-contrast` resta da ripetere a 96 DPI: dalla notte del 16/10 lo schermo è al 150%. La baseline
   della Chiara si sposta, a totale invariato, alla prima corsa a 96 DPI dopo ogni passaggio (D12).
+
+## 17 ottobre (tarda mattina) — le scelte «da decidere» si rivedono a fine refactoring
+
+L'utente: «dove diceva "da decidere" a fine refactoring rivediamo tutte le scelte. va bene?». Il coordinatore ha risposto di
+sì.
+
+- **Scelte provvisorie.** Le scelte del coordinatore sulle voci senza proposta (sezione precedente, «da ratificare»)
+  valgono per andare avanti, ma restano provvisorie. In F5.15 si rivedono tutte con l'utente, insieme alle voci R4–R21 del
+  registro delle differenze.
+- **Domande nuove.** Lo stesso vale per le domande senza proposta nate dopo il 17/10 mattina nei documenti dei moduli. Il
+  coordinatore sceglie con lo stesso criterio prudente e le aggiunge all'elenco di F5.15. Esempi: M15–M20 dei materiali in
+  [f5-5-materiali.md](f5-5-materiali.md) e FN9 delle fondazioni in [f5-9b-fondazioni.md](f5-9b-fondazioni.md).
+- **Elenco.** L'elenco da rivedere è fatto da tre parti:
+  - questa sezione e la precedente;
+  - le domande «da decidere» dei documenti `f5-*.md`;
+  - la [pagina dei punti di controllo](f5-punti-di-controllo.md).
