@@ -10372,38 +10372,6 @@
       "Example": "1000d"
     },
     {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.Wall.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ModuleFigureRenderer.BarFigures",
-      "Fingerprint": "D8D65C3062C3B6A99DACAC32F222A20A6276EC6307D17D61C17EC646D966B0F3",
-      "Count": 1,
-      "Example": "1120d"
-    },
-    {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.Wall.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ModuleFigureRenderer.BarFigures",
-      "Fingerprint": "FD1A1E830E596C7E1E00CA68EE85D1A9389092A2B65123F11EFBC6781819690A",
-      "Count": 1,
-      "Example": "790"
-    },
-    {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.Wall.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ModuleFigureRenderer.WallFigures",
-      "Fingerprint": "0C62D6C2C956E2699C2EDDC5ADCFEC635974CF65FF52D3DE61ED56D764D0AC65",
-      "Count": 1,
-      "Example": "460"
-    },
-    {
-      "File": "X.Desktop/Wpf/ModuleFigureRenderer.Wall.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ModuleFigureRenderer.WallFigures",
-      "Fingerprint": "A03BEC72D4D0E17435F1F4A92C95773441CFAD1CD5BBB964E82770DB8B4772CB",
-      "Count": 1,
-      "Example": "1100d"
-    },
-    {
       "File": "X.Desktop/Wpf/NeutralAxisOverlay.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "NeutralAxisOverlay.Draw",
@@ -12286,14 +12254,6 @@
     {
       "File": "X.Desktop/Wpf/RetainingWallBarDrawing.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.PageCount",
-      "Fingerprint": "C6D8247368F04E9D2FB54C9613A0A3F0EC9E76046775928C60339356A6C88A21",
-      "Count": 1,
-      "Example": "8d"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
       "Owner": "RetainingWallBarDrawing.Render",
       "Fingerprint": "51510A98D0370F6757422E877FC2197A51C3CCDF3EC120473FCFA914A01228F4",
       "Count": 1,
@@ -12418,14 +12378,6 @@
       "Fingerprint": "F7EEFD667E548C6A15E95A5EAD64AA18D975E91624271EDB0FD7EC4EA9688372",
       "Count": 1,
       "Example": "390"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.ShapePages",
-      "Fingerprint": "EF818BA81C0CD7831F4AEA31B21E07AB96709EAAB2ED741496F04F1812B95128",
-      "Count": 1,
-      "Example": "4d"
     },
     {
       "File": "X.Desktop/Wpf/RetainingWallBarDrawing.cs",

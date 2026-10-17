@@ -61,13 +61,13 @@ internal static class ModuleHostWpfChecks
         Check(composition.Modules.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
             && composition.Modules.SheetModuleIds.SequenceEqual(ModuleDirectory.All.Select(m => m.Id)
                 .Where(m => m is "geo_efficienza_orizzontale" or "geo_palo_verticale" or "geo_micropalo_verticale" or "mat_calcestruzzo" or "mat_acciaio_armatura"
-                    or "geo_fondazioni_superficiali")),
-            "Radice di composizione: registro uguale a ModuleDirectory, con la palificata, i pali verticali, i materiali e le fondazioni MVVM");
+                    or "geo_fondazioni_superficiali" or "geo_muri_sostegno")),
+            "Radice di composizione: registro uguale a ModuleDirectory, con la palificata, i pali verticali, i materiali, le fondazioni e i muri MVVM");
         using (var historic = composition.SheetEditors.Open(ProbeModule, ModuleDirectory.CreateData(ProbeModule)))
             Check(historic is SheetEditor, "Radice di composizione: la fabbrica apre la vista storica");
         using (var pileGroup = composition.SheetEditors.Open("geo_efficienza_orizzontale", ModuleDirectory.CreateData("geo_efficienza_orizzontale")))
             Check(pileGroup is SheetEditor, "Radice di composizione: la Release apre la palificata con la vista storica");
-        foreach (string migrated in new[] { "geo_palo_verticale", "geo_micropalo_verticale", "mat_calcestruzzo", "mat_acciaio_armatura", "geo_fondazioni_superficiali" })
+        foreach (string migrated in new[] { "geo_palo_verticale", "geo_micropalo_verticale", "mat_calcestruzzo", "mat_acciaio_armatura", "geo_fondazioni_superficiali", "geo_muri_sostegno" })
             using (var sheet = composition.SheetEditors.Open(migrated, ModuleDirectory.CreateData(migrated)))
                 Check(sheet is SheetEditor, "Radice di composizione: la Release apre " + migrated + " con la vista storica");
         Fails<ArgumentException>(() => composition.SheetEditors.Open("inesistente", new JsonObject()), "inesistente", "Modulo sconosciuto rifiutato come oggi");

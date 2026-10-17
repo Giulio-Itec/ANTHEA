@@ -13,8 +13,9 @@ internal sealed class RetainingWallBarDrawing : DrawingView
     internal JsonObject Data { get; }
     internal WallModel.BarSchedule Schedule { get; }
     internal int Page { get; set; }
-    int ShapePages => (int)Math.Ceiling(Schedule.Bars.Count / 4d);
-    internal int PageCount => 1 + ShapePages + Math.Max(1, (int)Math.Ceiling(Schedule.Warnings.Count / 8d));
+    // The pagination is the plan of the figures of the report (RetainingWallPresentation, F5.9), shared with the ViewModel.
+    int ShapePages => Anthea.Application.Presentation.RetainingWallPresentation.BarShapePages(Schedule);
+    internal int PageCount => Anthea.Application.Presentation.RetainingWallPresentation.BarSchedulePages(Schedule);
     static readonly Brush Ink = Brushes.Black, Blue = Ui.Brush("#165DA0"), Red = Ui.Brush("#AA3E26");
     static readonly Pen Thin = new(Brushes.Gray, .7), Outline = new(Ink, 1.3);
     static string N(double v) => v.ToString("0.###", CultureInfo.GetCultureInfo("it-IT"));

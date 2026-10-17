@@ -144,6 +144,19 @@ public sealed class SheetCalculation<TResult> : ObservableObject, IDisposable wh
         Result = null; Message = ""; Warnings = []; State = CalculationState.Idle;
     }
 
+    /// <summary>
+    /// Cancels the request not yet published (waiting for its delay or running) and keeps the published result: another work of the
+    /// sheet takes the place of the calculation (F5.9, the searches of the walls share the scheduler of the calculation in the historic
+    /// view). A late completion is never published; the state goes back to the published result, or to Cancelled without one.
+    /// </summary>
+    public void Cancel()
+    {
+        if (disposed) return;
+        request++;
+        scheduler.Invalidate();
+        if (State is CalculationState.Pending or CalculationState.Running) State = Result is null ? CalculationState.Cancelled : CalculationState.Completed;
+    }
+
     /// <summary>Sheet closed: cancels the running request; a late completion is never published.</summary>
     public void Dispose()
     {

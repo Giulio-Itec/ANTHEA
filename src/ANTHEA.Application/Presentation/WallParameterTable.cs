@@ -58,6 +58,22 @@ public sealed class WallParameterTable
         if (globalEdit) { snapshot["global_stability"]!["combination_mode"] = "Personalizzate"; snapshot["global_stability"]!["combination_signature"] = RetainingWall.GlobalSignature(snapshot); }
         return snapshot;
     }
+    /// <summary>
+    /// The check of <see cref="ValidateAsync"/> on a snapshot already created (<see cref="CreateSnapshot"/>), on the calling thread: the
+    /// engine of the module calculates it; missing data or an error of the global stability are thrown as ArgumentException. Used by the
+    /// ViewModel of the window of the values (F5.9), which runs it on a background thread with its own calculation.
+    /// </summary>
+    public static JsonObject Validate(IModuleService service, JsonObject snapshot, CancellationToken cancellation = default)
+    {
+        ArgumentNullException.ThrowIfNull(service);
+        ArgumentNullException.ThrowIfNull(snapshot);
+        if (service.ModuleId != RetainingWall.Module) throw new ArgumentException("Servizio del muro richiesto.");
+        var calculation = service.Calculate(snapshot, cancellation);
+        cancellation.ThrowIfCancellationRequested();
+        if (calculation.HasError) throw new ArgumentException(calculation.Values.S("errore"));
+        if (calculation.NativeAs<RetainingWall.Result>().GlobalError is { } error) throw new ArgumentException(error);
+        return snapshot;
+    }
     public async Task<JsonObject> ValidateAsync(IModuleService service, CancellationToken cancellation = default)
     {
         if (service.ModuleId != RetainingWall.Module) throw new ArgumentException("Servizio del muro richiesto.");

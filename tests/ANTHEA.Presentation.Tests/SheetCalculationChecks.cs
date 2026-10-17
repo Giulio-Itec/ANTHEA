@@ -100,6 +100,25 @@ internal static class SheetCalculationChecks
             expect.That(!await Expect.Within(running) && calculation.State == CalculationState.Cancelled && published == before, "Annullamento");
         }
 
+        // Cancel (F5.9): another work of the sheet takes the place of the calculation; the published result and its state stay,
+        // the engine is cancelled and its completion never published.
+        service.Hold = false;
+        await Expect.Within(calculation.CalculateAsync(Data(15)));
+        service.Hold = true;
+        before = published;
+        running = calculation.CalculateAsync(Data(16));
+        await service.EnteredAsync();
+        calculation.Cancel();
+        expect.That(calculation.State == CalculationState.Completed && calculation.HasResult && Echo(calculation) == 15, "Cancel: risultato pubblicato perso");
+        expect.That(!await Expect.Within(running) && published == before && Echo(calculation) == 15 && calculation.State == CalculationState.Completed,
+            "Cancel: pubblicato il calcolo annullato");
+        calculation.Invalidate();
+        running = calculation.CalculateAsync(Data(17));
+        await service.EnteredAsync();
+        calculation.Cancel();
+        expect.That(calculation.State == CalculationState.Cancelled && !calculation.HasResult && !await Expect.Within(running) && published == before,
+            "Cancel senza risultato pubblicato");
+
         // Closed during the calculation: no publication, no error, resources released once.
         int released = 0;
         var closing = Uncached(service, release: () => released++);

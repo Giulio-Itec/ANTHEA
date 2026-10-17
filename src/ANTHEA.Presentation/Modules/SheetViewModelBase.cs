@@ -86,7 +86,8 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     /// <summary>Where the module calculates (decision Q8).</summary>
     public SheetCalculationMode CalculationMode { get; }
 
-    public bool IsBusy => calculation.IsBusy;
+    /// <summary>True while the engine of the module runs; a module with other work of its own (the searches of the walls) adds it.</summary>
+    public virtual bool IsBusy => calculation.IsBusy;
 
     public JsonObject? Result => calculation.Result?.Values;
 
@@ -224,6 +225,19 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     /// did in the same call; an exception is published as the error of the calculation.
     /// </summary>
     protected virtual ModuleCalculation CalculateSynchronously() => CalculateModule(Data);
+
+    /// <summary>The calculation of the module published for the current data (with its typed result), or null.</summary>
+    protected ModuleCalculation? PublishedCalculation => calculation.Result;
+
+    /// <summary>
+    /// Cancels the calculation requested and not yet published, keeping the published result (<see cref="SheetCalculation{TResult}.Cancel"/>):
+    /// a module whose other work takes the place of the calculation, as the searches of the walls in their historic view.
+    /// </summary>
+    protected void CancelCalculation()
+    {
+        ThrowIfDisposed();
+        calculation.Cancel();
+    }
 
     /// <summary>The calculation service of the module on <paramref name="data"/>, through the per-document cache of the sheet (the session copies the data).</summary>
     protected ModuleCalculation CalculateModule(JsonObject data) => session.Calculate(data);
