@@ -657,6 +657,21 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
     - merge della sezione `20261017-060301-f5-int13`: PASS 119, 0 NEW-FAIL.
     Dalla notte del 16/10 lo schermo è al 150%: per la decisione D6 la prova del contrasto si confronta solo a 96 DPI e va ripetuta.
   - **Domande e difetti** delle viste storiche, raccolti per modulo: [f5-punti-di-controllo.md](f5-punti-di-controllo.md).
+  - **Viste XAML del 17/10** (Release ancora storica; il passaggio viene dopo la prova dell'utente). Per ogni modulo il
+    confronto diretto fra vista storica e vista nuova dà zero differenze su 1066 file:
+    - **F5.9b, fondazioni superficiali** (merge ecf227fc): `ui/check-fondazioni-view` con 294 controlli; il PDF si scrive con
+      il generatore del modulo (`IModuleReportPdf`, T8).
+    - **F5.5, materiali** (merge 43170c9d): `ui/check-materials-view` con 214 controlli; domande nuove M15–M20.
+    - **F5.6, palo e micropalo verticale** (merge b9458f85): `ui/check-palo-verticale-view` con 377 controlli. Arrivano anche il
+      dialogo condiviso del trasferimento del terreno (`Modules/Shared`, T5) e la voce F5-01 del registro (V3).
+    - **Correzioni di integrazione.**
+      - 842239dc: il registro di prova delle fondazioni contiene anche la palificata, che nella Release è già MVVM.
+      - 9fea83ba: tutti i form delle fondazioni hanno il navigatore della Wiki dei servizi, perché da F5.5 i form ereditano
+        il modulo dalla vista.
+      - Per le viste future vale la stessa regola: ogni `FormViewModel` ha `WikiNavigator`.
+    - **Corsa** sul merge `20261017-171818-f5-int16`: PASS 123, 0 NEW-FAIL, senza `ui/check-contrast`.
+    - **Versione di prova** 1.11.0-prova.f5b (ramo locale `prova/f5-viste`): palificata, fondazioni, calcestruzzo e acciaio
+      con la vista nuova. Consegnata all'utente il 17/10; `ui/f3-equivalence` passa con le quattro viste attive.
 - [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. Requisito
   dell'utente dell'8/10 («considera le opzioni 1 e 3. non multi progetto. però dai la possibilità di staccare la
   finestra per più monitor»):
