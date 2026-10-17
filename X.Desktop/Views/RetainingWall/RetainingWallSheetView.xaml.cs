@@ -50,6 +50,8 @@ public partial class RetainingWallSheetView : UserControl
     public RetainingWallSheetView()
     {
         InitializeComponent();
+        // As the historic view: the numbers of the forms and of the tables with the numeric presentation.
+        SetValue(NumericPresentation.EnabledProperty, true);
         InputDrawingHost.Content = InputDrawing; DiagramsHost.Content = DiagramsDrawing; GlobalDrawingHost.Content = GlobalDrawing; GlobalPreviewHost.Content = GlobalPreview;
         InputDrawing.Inspected += text => Probe.Text = text;
         DiagramsDrawing.Inspected += text => Probe.Text = text;
