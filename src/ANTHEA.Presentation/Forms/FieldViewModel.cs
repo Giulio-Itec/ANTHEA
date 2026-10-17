@@ -74,6 +74,8 @@ public sealed class FieldViewModel : ObservableObject
     public bool HasUnit => Spec.Unit != "";
     public FieldKind Kind { get; }
     public FieldLayout Layout { get; }
+    /// <summary>A text on more lines (<see cref="FieldSpec.Multiline"/>, S7): the editor wraps and accepts the Enter key.</summary>
+    public bool Multiline => Spec.Multiline && Kind == FieldKind.Text;
     /// <summary>Calculated or linked value: typing never writes it (the form can still set it).</summary>
     public bool IsReadOnly => Spec.ReadOnly;
     /// <summary>The text box refuses the typing: a calculated field (<see cref="IsReadOnly"/>) or a read-only form
@@ -198,7 +200,7 @@ public sealed class FieldViewModel : ObservableObject
             return FixedHelp?.Uri ?? HelpTopics.ForField(Key, module)?.Uri ?? (module is null ? null : WikiCatalog.ForModule(module)?.Id);
         }
     }
-    public string LabelToolTip => HelpToolTip ?? CalculationHelp.Field(Key) ?? Label;
+    public string LabelToolTip => HelpToolTip ?? Spec.ToolTip ?? CalculationHelp.Field(Key) ?? Label;
 
     /// <summary>
     /// The «?» label: opens the topic of the field with <see cref="FormViewModel.WikiNavigator"/>. False when the field has no
@@ -216,7 +218,7 @@ public sealed class FieldViewModel : ObservableObject
         return true;
     }
     /// <summary>Tooltip of the editor; as in InputForm it looks up the topic only in the module given to the form.</summary>
-    public string EditorToolTip => FixedHelp?.Title ?? HelpTopics.Description(Key, Form.WikiModule) ?? CalculationHelp.Field(Key) ?? Label + (Unit != "" ? " [" + Unit + "]" : "");
+    public string EditorToolTip => FixedHelp?.Title ?? HelpTopics.Description(Key, Form.WikiModule) ?? Spec.ToolTip ?? CalculationHelp.Field(Key) ?? Label + (Unit != "" ? " [" + Unit + "]" : "");
 
     /// <summary>Sets the raw text without writing the document.</summary>
     internal void SetRaw(string value)

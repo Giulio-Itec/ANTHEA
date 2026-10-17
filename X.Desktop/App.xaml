@@ -15,6 +15,7 @@
    <ResourceDictionary Source="Views/Materials/MaterialTemplates.xaml"/>
    <ResourceDictionary Source="Views/VerticalPile/VerticalPileTemplates.xaml"/>
    <ResourceDictionary Source="Views/Shared/SoilTransferTemplates.xaml"/>
+   <ResourceDictionary Source="Views/Stratigraphy/StratigraphyTemplates.xaml"/>
   </ResourceDictionary.MergedDictionaries>
   </ResourceDictionary>
  </Application.Resources>

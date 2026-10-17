@@ -9,6 +9,7 @@
   read-only and disables choices and check boxes, as RevisionInspection does on InputForm; the background of a text box changes
   only for a calculated field. A host view can lock text fields by key (FieldForm.CalculatedKeys: read-only with the background of
   the calculated fields; FieldForm.ReadOnlyKeys: read-only only), a state of the view that the ViewModel does not enforce (F5.5, M6).
+  A text on more lines (FieldViewModel.Multiline, decision S7 of F5.6b) wraps, accepts the Enter key and scrolls beyond 110 px.
 -->
 <UserControl x:Class="X.Desktop.Views.Common.FieldForm"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -51,6 +52,14 @@
      <Setter TargetName="Box" Property="Background" Value="{DynamicResource Token.Calculated}"/>
     </DataTrigger>
     <DataTrigger Binding="{Binding Form.SymbolColumns}" Value="True"><Setter TargetName="Box" Property="TextAlignment" Value="Center"/></DataTrigger>
+    <!-- A text on more lines (FieldSpec.Multiline, decision S7 of F5.6b): the text box of the historic stratigraphy with AcceptsReturn. -->
+    <DataTrigger Binding="{Binding Multiline}" Value="True">
+     <Setter TargetName="Box" Property="AcceptsReturn" Value="True"/>
+     <Setter TargetName="Box" Property="TextWrapping" Value="Wrap"/>
+     <Setter TargetName="Box" Property="MaxHeight" Value="110"/>
+     <Setter TargetName="Box" Property="VerticalScrollBarVisibility" Value="Auto"/>
+     <Setter TargetName="Box" Property="TextAlignment" Value="Left"/>
+    </DataTrigger>
    </DataTemplate.Triggers>
   </DataTemplate>
   <DataTemplate x:Key="ChoiceEditor" DataType="{x:Type forms:FieldViewModel}">

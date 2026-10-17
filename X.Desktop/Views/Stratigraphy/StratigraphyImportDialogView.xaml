@@ -1,0 +1,58 @@
+<!--
+  View of the AI import of a PDF report (F5.6b, STRAT-2, disabled in the Release): StratigraphyImportDialogViewModel with the layout of the
+  historic StratigraphyImportWindow (1200×850 with the frame, margin 12): «Scegli PDF…» and the file, model and key of the service,
+  «Invia PDF a OpenAI e prepara bozze», «Interrompi», the draft to review and the message; at the bottom the review, «Sostituisci la
+  stratigrafia con il profilo revisionato» and the note; in the middle the preview of the draft, the editor of the stratigraphy without
+  the import button (StratigraphyEditorView). File, model and key are locked while the extraction runs. The key is in a PasswordBox passed
+  by the code-behind: it stays in memory only and is cleared when the dialog closes. Theme tokens only (rule P7).
+-->
+<UserControl x:Class="X.Desktop.Views.Stratigraphy.StratigraphyImportDialogView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ Width="1184" Height="811" Background="{DynamicResource Token.Paper}" Foreground="{DynamicResource Token.Ink}">
+ <UserControl.Resources>
+  <common:NegationConverter x:Key="Not"/>
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Command" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  </Style>
+ </UserControl.Resources>
+ <DockPanel Margin="12">
+  <StackPanel DockPanel.Dock="Top">
+   <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Title}" FontWeight="SemiBold" Text="Importazione assistita da relazione PDF"/>
+   <TextBlock Style="{StaticResource Text}" Text="Il pulsante di invio trasmette l’intero PDF a OpenAI tramite la tua chiave API; il servizio può comportare costi. Massimo 20 MiB. La chiave non viene salvata nel progetto."/>
+   <WrapPanel>
+    <Button Content="Scegli PDF…" Style="{StaticResource Command}" Command="{Binding BrowseCommand}"/>
+    <TextBox x:Name="FileBox" Text="{Binding File, Mode=OneWay}" IsReadOnly="True" MinWidth="250"/>
+   </WrapPanel>
+   <WrapPanel>
+    <TextBlock Style="{StaticResource Text}" Text="Modello API"/>
+    <TextBox x:Name="ModelBox" Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}" MinWidth="180"
+     IsEnabled="{Binding IsRunning, Converter={StaticResource Not}}"/>
+    <TextBlock Style="{StaticResource Text}" Text="Chiave API"/>
+    <PasswordBox x:Name="KeyBox" MinWidth="180" IsEnabled="{Binding IsRunning, Converter={StaticResource Not}}"/>
+   </WrapPanel>
+   <WrapPanel>
+    <Button Content="Invia PDF a OpenAI e prepara bozze" Style="{StaticResource Command}" Command="{Binding ExtractCommand}"/>
+    <Button Content="Interrompi" Style="{StaticResource Command}" Command="{Binding InterruptCommand}"/>
+    <TextBlock Style="{StaticResource Text}" Text="Profilo da revisionare"/>
+    <ComboBox x:Name="ProfileChoice" MinWidth="200" ItemsSource="{Binding Profiles}" SelectedIndex="{Binding SelectedProfileIndex}"/>
+   </WrapPanel>
+   <TextBlock x:Name="MessageText" Style="{StaticResource Text}" Text="{Binding Message}"/>
+  </StackPanel>
+  <StackPanel DockPanel.Dock="Bottom">
+   <CheckBox x:Name="ReviewedOption" Content="Ho confrontato dati, unità e pagine della bozza con la relazione" Margin="6" Foreground="{DynamicResource Token.Ink}"
+    IsChecked="{Binding Reviewed}"/>
+   <Button Content="Sostituisci la stratigrafia con il profilo revisionato" Style="{StaticResource Command}" Command="{Binding ApplyCommand}"/>
+   <TextBlock Style="{StaticResource Text}" Text="L’applicazione sostituisce i dati della scheda aperta. Chiudere questa finestra per conservare la stratigrafia attuale."/>
+  </StackPanel>
+  <ContentControl x:Name="PreviewHost" Content="{Binding Preview}" Focusable="False" IsTabStop="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+ </DockPanel>
+</UserControl>

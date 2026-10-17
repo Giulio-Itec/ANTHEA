@@ -24,9 +24,15 @@ namespace Anthea.Presentation.Forms;
 /// <param name="Write">Rule that writes the text of the field into the document. The historic InputForm always writes the raw
 /// text: the other rules are those of the views that write their fields by hand (proposal F5, section 3.2) and are never
 /// unified during F5.</param>
+/// <param name="Multiline">Text on more lines: the editor wraps, accepts the Enter key and scrolls beyond its maximum height
+/// (decision S7 of 17/10/2026, the descriptions, sources and notes of the stratigraphy). Additive: false keeps the editor of
+/// InputForm.</param>
+/// <param name="ToolTip">Tooltip of the label and of the editor in place of the calculation help of the key
+/// (<c>CalculationHelp.Field</c>), for a key whose help belongs to another quantity (the φ′ of the stratigraphy is not the creep
+/// coefficient φ of the concrete). Additive: null keeps the tooltips of InputForm.</param>
 public sealed record FieldSpec(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false,
     string Symbol = "", bool Wide = false, string? HelpTopic = null, Func<JsonObject, string?>? Note = null, string? Default = null,
-    FieldWriteRule Write = FieldWriteRule.RawText);
+    FieldWriteRule Write = FieldWriteRule.RawText, bool Multiline = false, string? ToolTip = null);
 
 /// <summary>How the text of a field goes into the document. The saved format is part of the equivalence: one rule per field.</summary>
 public enum FieldWriteRule

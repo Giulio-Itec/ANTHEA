@@ -1,0 +1,144 @@
+<!--
+  View of StratigraphyEditorViewModel (F5.6b, decision Q3): the editor of a stratigraphy document with the layout of the historic
+  StratigraphyWorkspace, used by the sheet (StratigraphySheetView) and by the preview of an AI draft (StratigraphyImportDialogView).
+  Two columns as today (3* with at least 430, 2* with at least 300; at least 730 wide, otherwise the viewport scrolls): on the left the
+  import button (sheet only, disabled with its tooltip in the Release), the general data, the buttons and the list of the layers, the
+  fields of the selected layer; on the right the profile and the status. The fields are FieldForm, one per block (D10, S8): general data;
+  name, family and behaviour; the note on mixed soils; description and colour; «Ultimo strato esteso indefinitamente»; thickness;
+  «Gestisci anche i valori minimi»; means and minima side by side (or the note of the missing minima); notes. Labels above the editors and
+  texts on more lines as today (StratigraphyFields, S7). Colours and font sizes are theme tokens only (rule P7). The code-behind draws the
+  profile (StratigraphyProfileView) and passes a click on a layer to the selection; every write into the document goes through the
+  ViewModel. Read-only revision: the forms are read-only (FormViewModel.IsReadOnly), the actions and the check boxes disabled; the list of
+  the layers and the profile stay usable, as in the historic view.
+-->
+<UserControl x:Class="X.Desktop.Views.Stratigraphy.StratigraphyEditorView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:views="clr-namespace:X.Desktop.Views.Stratigraphy"
+ xmlns:strat="clr-namespace:Anthea.Presentation.Modules.Stratigraphy;assembly=ANTHEA.Presentation">
+ <UserControl.Resources>
+  <views:LayoutWidthConverter x:Key="LayoutWidth"/>
+  <views:NullVisibilityConverter x:Key="WhenSet"/>
+  <views:TextToolTipConverter x:Key="TextToolTip"/>
+  <BooleanToVisibilityConverter x:Key="Visible"/>
+
+  <!-- Texts: Ui.Text of the historic view (wrapping, vertically centred, ink); 12 → Font.Small. -->
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <!-- Headings of the historic view: 23 → Font.Title (D9), 16 → Font.Heading, 14 → Font.Subheading, semibold. -->
+  <Style x:Key="Title" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Title}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style x:Key="Heading" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Heading}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style x:Key="Subheading" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <!-- Ui.Button: a light button. -->
+  <Style x:Key="Command" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  </Style>
+  <Style x:Key="Option" TargetType="CheckBox">
+   <Setter Property="Margin" Value="0,4,0,8"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  </Style>
+  <Style x:Key="Form" TargetType="ContentControl">
+   <Setter Property="Focusable" Value="False"/>
+   <Setter Property="IsTabStop" Value="False"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+  </Style>
+ </UserControl.Resources>
+
+ <ScrollViewer x:Name="Viewport" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Focusable="False">
+  <Grid x:Name="Columns" Margin="16" Width="{Binding ActualWidth, ElementName=Viewport, Converter={StaticResource LayoutWidth}, ConverterParameter='730|32'}">
+   <Grid.ColumnDefinitions>
+    <ColumnDefinition Width="3*" MinWidth="430"/>
+    <ColumnDefinition Width="2*" MinWidth="300"/>
+   </Grid.ColumnDefinitions>
+
+   <!-- Left: general data, layers, selected layer. -->
+   <ScrollViewer x:Name="Fields" VerticalScrollBarVisibility="Auto" Focusable="False">
+    <StackPanel>
+     <TextBlock Style="{StaticResource Title}" Text="Stratigrafia del terreno"/>
+     <StackPanel>
+      <Button x:Name="ImportButton" Content="Importa relazione PDF con AI…" Style="{StaticResource Command}"
+       Visibility="{Binding ImportVisible, Converter={StaticResource Visible}}"
+       Command="{Binding DataContext.ImportCommand, RelativeSource={RelativeSource AncestorType=views:StratigraphySheetView}, FallbackValue={x:Null}}"
+       ToolTip="{Binding DataContext.ImportToolTip, RelativeSource={RelativeSource AncestorType=views:StratigraphySheetView}, Converter={StaticResource TextToolTip}, FallbackValue={x:Null}}"
+       ToolTipService.ShowOnDisabled="True"/>
+      <ContentControl x:Name="GeneralForm" Style="{StaticResource Form}" Content="{Binding GeneralForm}"/>
+      <TextBlock Style="{StaticResource Text}" Text="Origine delle profondità: piano campagna (0 m). Un solo livello di falda; nessuna modellazione artesiana o di falde sospese."/>
+     </StackPanel>
+     <TextBlock Style="{StaticResource Heading}" Text="Strati · dall’alto verso il basso"/>
+     <WrapPanel x:Name="Actions">
+      <Button Content="+ Strato" Style="{StaticResource Command}" Command="{Binding AddLayerCommand}"/>
+      <Button Content="Duplica" Style="{StaticResource Command}" Command="{Binding DuplicateLayerCommand}"/>
+      <Button Content="Elimina" Style="{StaticResource Command}" Command="{Binding RemoveLayerCommand}"/>
+      <Button Content="↑" Style="{StaticResource Command}" Command="{Binding MoveLayerUpCommand}"/>
+      <Button Content="↓" Style="{StaticResource Command}" Command="{Binding MoveLayerDownCommand}"/>
+     </WrapPanel>
+     <ListBox x:Name="LayerList" MinHeight="140" MaxHeight="220" ItemsSource="{Binding Layers}" SelectedIndex="{Binding SelectedLayerIndex}"
+      Background="{DynamicResource Token.Paper}" Foreground="{DynamicResource Token.Ink}" VirtualizingPanel.IsVirtualizing="False">
+      <ListBox.ItemContainerStyle>
+       <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+        <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+        <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+        <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="{DynamicResource Token.Selection}"/></Trigger></Style.Triggers>
+       </Style>
+      </ListBox.ItemContainerStyle>
+      <ListBox.ItemTemplate>
+       <DataTemplate><TextBlock Text="{Binding [name], Mode=OneWay}"/></DataTemplate>
+      </ListBox.ItemTemplate>
+     </ListBox>
+
+     <!-- The selected layer (ShowLayer of the historic view); nothing when no layer is selected. -->
+     <StackPanel x:Name="LayerFields" Visibility="{Binding LayerForm, Converter={StaticResource WhenSet}}">
+      <TextBlock Style="{StaticResource Heading}" Text="Dati dello strato selezionato"/>
+      <ContentControl x:Name="IdentityForm" Style="{StaticResource Form}" Content="{Binding LayerForm}"/>
+      <TextBlock Style="{StaticResource Text}" Text="Per terreni misti scegli la componente prevalente e specifica la miscela nella descrizione. Il retino è una convenzione grafica, non assegna parametri."/>
+      <ContentControl x:Name="DescriptionForm" Style="{StaticResource Form}" Content="{Binding DescriptionForm}"/>
+      <CheckBox x:Name="InfiniteOption" Style="{StaticResource Option}" Content="{x:Static strat:StratigraphyFields.InfiniteLabel}"
+       IsChecked="{Binding IsInfinite, Mode=OneWay}" Command="{Binding ToggleInfiniteCommand}"/>
+      <ContentControl x:Name="ThicknessForm" Style="{StaticResource Form}" Content="{Binding ThicknessForm}"/>
+      <CheckBox x:Name="MinimaOption" Style="{StaticResource Option}" Content="{x:Static strat:StratigraphyFields.MinimaLabel}"
+       IsChecked="{Binding HasMinimum, Mode=OneWay}" Command="{Binding ToggleMinimumCommand}"/>
+      <Grid x:Name="Parameters">
+       <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+       <StackPanel Margin="0,0,8,0">
+        <TextBlock Style="{StaticResource Subheading}" Text="Valori medi · insieme principale"/>
+        <ContentControl x:Name="MeansForm" Style="{StaticResource Form}" Content="{Binding MeansForm}"/>
+       </StackPanel>
+       <StackPanel Grid.Column="1" Margin="8,0,0,0">
+        <TextBlock Style="{StaticResource Subheading}" Text="Valori minimi · opzionali"/>
+        <ContentControl x:Name="MinimaForm" Style="{StaticResource Form}" Content="{Binding MinimaForm}"/>
+        <TextBlock x:Name="MinimaNote" Style="{StaticResource Text}" Text="{Binding MinimaNote, Mode=OneWay}"
+         Visibility="{Binding MinimaForm, Converter={StaticResource WhenSet}, ConverterParameter=Invert}"/>
+       </StackPanel>
+      </Grid>
+      <TextBlock Style="{StaticResource Text}" Text="Vuoto = dato non disponibile. Nessuna correlazione automatica o applicazione di coefficienti parziali."/>
+      <ContentControl x:Name="NotesForm" Style="{StaticResource Form}" Content="{Binding NotesForm}"/>
+     </StackPanel>
+    </StackPanel>
+   </ScrollViewer>
+
+   <!-- Right: the profile, drawn by the code-behind, and the status. -->
+   <DockPanel Grid.Column="1" Margin="20,0,0,0">
+    <TextBlock DockPanel.Dock="Top" Style="{StaticResource Heading}" Text="Profilo verticale · profondità [m]"/>
+    <ScrollViewer DockPanel.Dock="Bottom" MaxHeight="170" VerticalScrollBarVisibility="Auto" Focusable="False">
+     <TextBlock x:Name="StatusText" Style="{StaticResource Text}" Text="{Binding Status}"/>
+    </ScrollViewer>
+    <ContentControl x:Name="ProfileHost" Focusable="False" IsTabStop="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+   </DockPanel>
+  </Grid>
+ </ScrollViewer>
+</UserControl>

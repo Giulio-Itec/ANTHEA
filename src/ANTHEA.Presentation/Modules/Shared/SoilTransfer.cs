@@ -9,9 +9,9 @@ namespace Anthea.Presentation.Modules.Shared;
 /// the project; the dialog returns what the user chose, or null when it is closed without a choice. Two implementations:
 /// <list type="bullet">
 /// <item><see cref="SoilTransferDialogService"/>: the shared ViewModel <see cref="SoilTransferDialogViewModel"/> shown through
-/// <see cref="IDialogService"/> (T5), used by the vertical pile since F5.6;</item>
-/// <item>X.Desktop/Wpf/WpfSoilTransferDialog.cs: the historic window SoilTransferDialog, still given to the stratigraphy by the
-/// composition root (its behaviour does not change in F5.6).</item>
+/// <see cref="IDialogService"/> (T5), used by the vertical pile since F5.6 and by the stratigraphy since its XAML view (F5.6b);</item>
+/// <item>X.Desktop/Wpf/WpfSoilTransferDialog.cs: the historic window SoilTransferDialog, still given to the shallow foundations by the
+/// composition root.</item>
 /// </list>
 /// </summary>
 public interface ISoilTransferDialog
