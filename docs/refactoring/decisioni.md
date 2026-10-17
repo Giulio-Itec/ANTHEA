@@ -1469,3 +1469,45 @@ alle domande a scelta multipla, tutte sulle raccomandazioni:
 
 L'utente ha chiesto anche una versione di prova a fine fase: si prepara una pubblicazione portatile con la palificata
 sulla vista nuova, dopo i passi 1–4 della ricetta di F5.4.
+
+## 17 ottobre (mattina) — punti di controllo F5.4–F5.10 (parte A)
+
+Sulla [pagina dei punti di controllo](f5-punti-di-controllo.md). L'utente: «accetto tutte le proposte, continua col piano;
+fermati quando arrivi a 85%» (quota settimanale).
+
+- **Proposte accettate.** Sono accettate tutte le proposte della pagina: le regole trasversali T1–T12 e le domande dei
+  moduli. Si chiude così il punto di controllo F5.4 del pilota: la palificata passa alla vista MVVM nella Release e la vista
+  storica si archivia (passi 5–7 della ricetta).
+- **Voci senza proposta («da decidere»).** Valgono queste scelte del coordinatore, da ratificare, prese con il criterio
+  prudente: si conserva il comportamento di oggi e non si aggiungono funzioni nuove.
+  - **T5, dialoghi condivisi.** Un ViewModel unico del trasferimento del terreno, su `IDialogService`, con la guida comune
+    aperta con `IWikiNavigator`. Si scrive con la prima vista che lo usa (F5.6) e si sposta in un posto comune (S3).
+  - **T6, chiavi di stato scritte in sola lettura** (V5, O3, FN3; E3 accettata). Si conserva il comportamento di oggi; FN4
+    segue la sua proposta.
+  - **T7, difetti senza proposta** (S6, O4, E4, E5). Si conservano come oggi.
+  - **T9 e T11.**
+    - O9: si accetta il peso dei diagrammi congelati.
+    - D14: il banco interattivo resta fino a F5.14.
+    - S11: `MessageBoxHook` diventa uno strumento comune dell'harness.
+  - **Palificata.** D3: `PreparePileGroup` resta com'è.
+  - **Materiali.** M9: nessun comando Reologia nuovo nelle schede dei materiali, perché sarebbe una funzione nuova.
+  - **Stratigrafia.** S7: proprietà `Multiline` additiva in `FieldSpec`/`FieldForm`, riusabile da altri moduli.
+  - **Muri.** MU10: la finestra dei valori diventa un dialogo modale sul suo ViewModel; la distinta ferri diventa un dialogo
+    della vista.
+  - **Fondazioni.** FN5: componente esplicito per le scelte a indice. FN9: l'aiuto dei campi resta com'è, senza estenderlo.
+  - **Sezione c.a.**
+    - C1: un coordinatore in Presentation, con il foglio in modalità `None`.
+    - C2: il taglio resta sul thread dell'interfaccia, come oggi.
+    - C3: `SectionActionsViewModel` passa in Presentation (Q17).
+    - C4: come E1, cioè fino a F5.10 l'ospite desktop mostra il foglio nel dialogo storico, con ritorno.
+    - C5: i comportamenti storici si conservano e diventano voci del registro.
+    - C7: le tracce lunghe vanno nello stadio ui.
+    - C8–C10: si accettano.
+  - **Muri e capitolo autonomo.** La differenza su kh e kv del capitolo autonomo resta da guardare in F5.15, perché riguarda
+    il calcolo.
+  - **F5.10.** I difetti storici senza proposta si conservano fino al rispettivo sottopasso.
+- **Passaggio della Release per gli altri moduli.** Un modulo passa solo dopo la sua vista XAML, il banco con confronto
+  diretto a differenza zero e le suite UI riscritte, e dopo che l'utente ha provato una versione portatile con le viste
+  attive, come per la palificata.
+- **Contrasto.** `ui/check-contrast` resta da ripetere a 96 DPI: dalla notte del 16/10 lo schermo è al 150%. La baseline
+  della Chiara si sposta, a totale invariato, alla prima corsa a 96 DPI dopo ogni passaggio (D12).
