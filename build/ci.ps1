@@ -320,6 +320,17 @@ foreach ($s in $smokes) {
 foreach ($c in 'check-appearance', 'check-global-guidance-offscreen', 'check-wall-advanced-offscreen', 'check-wall-materials-offscreen') {
     Add-Suite @{ Name = "ui/$c"; Stage = 'ui'; Kind = 'check'; Args = @("--$c", '{out}'); Timeout = 600 }
 }
+# f5-suite-ui: the UI suites that open sheets of the seven modules with a XAML view still historic in the Release (shallow foundations, concrete,
+# reinforcing steel, vertical pile and micropile, stratigraphy, retaining walls) run also with those seven modules MVVM (bench --module-impl):
+# ui/<suite>-mvvm. At the Release switch of a module its pair leaves $MvvmBench; a duplicate goes when every module it opens is MVVM in the
+# Release (docs/refactoring/f5-suite-ui.md).
+$MvvmBench = @('geo_fondazioni_superficiali', 'mat_calcestruzzo', 'mat_acciaio_armatura', 'geo_palo_verticale', 'geo_micropalo_verticale', 'geo_stratigrafia', 'geo_muri_sostegno') |
+    ForEach-Object { '--module-impl'; "$_=mvvm" }
+foreach ($s in 'smoke', 'smoke-display', 'smoke-projects', 'smoke-project-workspace') {
+    $smokeArgs = if ($s -eq 'smoke') { @("--$s", '{out}', '{cases}') } else { @("--$s", '{out}') }
+    Add-Suite @{ Name = "ui/$s-mvvm"; Stage = 'ui'; Kind = 'smoke'; Args = $smokeArgs + $MvvmBench; Timeout = 900; Proof = @{ File = '{out}\esito-smoke-completo.txt'; Pattern = "^Completato: --$s$" } }
+}
+Add-Suite @{ Name = 'ui/check-appearance-mvvm'; Stage = 'ui'; Kind = 'check'; Args = @('--check-appearance', '{out}') + $MvvmBench; Timeout = 600; Proof = @{ File = '{out}\completato.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-error-log-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-error-log-offscreen', '{out}'); Timeout = 300; Proof = @{ File = '{out}\test.txt'; Pattern = '^PASS ' } }
 # ModuleHost (F5.2): ModuleImplementations, composition root, bench --module-impl and MvvmSheetEditor with the test-only probe module, off screen.
 Add-Suite @{ Name = 'ui/check-module-host-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-module-host-offscreen', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }

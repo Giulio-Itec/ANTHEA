@@ -1,0 +1,76 @@
+using Anthea.Presentation.Modules;
+
+namespace X.Desktop;
+
+/// <summary>
+/// f5-suite-ui: the open sheet as the UI suites drive and read it, with either implementation of its module: the historic
+/// <see cref="SheetEditor"/> (the Release until the switch of the module) or <see cref="MvvmSheetEditor"/> (the bench
+/// <c>--module-impl</c> of the suites <c>ui/&lt;suite&gt;-mvvm</c>, and the Release after the switch). The suites call these members
+/// where they called the SheetEditor partials through <c>historicEditor</c>; each member keeps the checks of the historic one on the
+/// XAML view (VerticalPileSmoke, …). At the Release switch of a module its historic branch here, and the SheetEditor partial it
+/// calls, go away (docs/refactoring/f5-suite-ui.md).
+/// </summary>
+internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services)
+{
+    /// <summary>The vertical pile or micropile with the XAML view, null otherwise.</summary>
+    private VerticalPileSmoke? Pile => VerticalPileSmoke.Handles(editor) ? new((MvvmSheetEditor)editor, services) : null;
+
+    /// <summary>
+    /// The historic sheet; the message of <c>historicEditor</c> for a module without an MVVM branch here. A historic sheet of a module that the
+    /// bench of the command line opens with the XAML view fails too: a suite <c>-mvvm</c> never passes on the historic view by mistake.
+    /// </summary>
+    private SheetEditor Historic => editor switch
+    {
+        SheetEditor when ModuleHostBench.Implementations(Environment.GetCommandLineArgs()).For(editor.Module) == SheetImplementation.Mvvm =>
+            throw new InvalidOperationException("Il banco apre " + editor.Module + " con la vista MVVM, ma il foglio aperto usa SheetEditor."),
+        SheetEditor historic => historic,
+        _ => throw new InvalidOperationException("Il foglio aperto non usa SheetEditor: " + editor.Module)
+    };
+
+    /// <summary>The automatic recalculation finished (within 10 s, as SheetEditor.WaitForAutomatic).</summary>
+    internal Task WaitForAutomatic() => editor is MvvmSheetEditor mvvm ? MvvmSheets.WaitForAutomatic(mvvm) : Historic.WaitForAutomatic();
+
+    /// <summary>SetGeometryForSmoke: the diameter of a vertical pile, the geometry of a c.a. section, as the user types it.</summary>
+    internal void SetGeometryForSmoke(string value) { if (Pile is { } pile) pile.SetGeometry(value); else Historic.SetGeometryForSmoke(value); }
+
+    // ---------------------------------------------------------------- ui/smoke (SmokeChecks.cs)
+
+    internal Task VerifyWpf(string directory, string name) => Pile is { } pile ? pile.VerifyWpf(directory, name) : Historic.VerifyWpf(directory, name);
+
+    // ---------------------------------------------------------------- ui/smoke-display (DisplaySmokeChecks.cs)
+
+    internal void VerifyDisplayLayout() { if (Pile is { } pile) pile.VerifyDisplayLayout(); else Historic.VerifyDisplayLayout(); }
+
+    internal Task VerifyDisplayScrolling(string directory, string name) => Pile is { } pile ? pile.VerifyDisplayScrolling(directory, name) : Historic.VerifyDisplayScrolling(directory, name);
+
+    internal Task VerifyStratigraphyEditing() => Pile is { } pile ? pile.VerifyStratigraphyEditing() : Historic.VerifyStratigraphyEditing();
+
+    internal void VerifyPileOutcomes() { if (Pile is { } pile) pile.VerifyPileOutcomes(); else Historic.VerifyPileOutcomes(); }
+
+    internal Task VerifyPresentation(string directory) => Pile is { } pile ? pile.VerifyPresentation(directory) : Historic.VerifyPresentation(directory);
+
+    internal void VerifyReport(string directory) { if (Pile is { } pile) pile.VerifyReport(directory); else Historic.VerifyReport(directory); }
+
+    internal Task VerifyNavigationThrough(Action leave, Action resume) => Pile is { } pile ? pile.VerifyNavigationThrough(leave, resume) : Historic.VerifyNavigationThrough(leave, resume);
+}
+
+/// <summary>f5-suite-ui: what the UI suites need from any sheet with the XAML view.</summary>
+internal static class MvvmSheets
+{
+    /// <summary>
+    /// WaitForAutomatic of SheetEditor on a ViewModel: the pending automatic recalculation (scheduled at the opening and after each edit)
+    /// and any calculation under way finished, within 10 s; otherwise the message of the historic check.
+    /// </summary>
+    internal static async Task WaitForAutomatic(MvvmSheetEditor editor)
+    {
+        var sheet = (SheetViewModelBase)editor.Sheet;
+        for (int i = 0; i < 200 && (!sheet.PendingCalculation.IsCompleted || editor.Busy); i++) await Task.Delay(50);
+        if (!sheet.PendingCalculation.IsCompleted || editor.Busy) throw new Exception("Calcolo automatico non terminato");
+    }
+}
+
+public sealed partial class MainWindow
+{
+    /// <summary>f5-suite-ui: the open sheet for the UI suites, with either implementation of its module (<see cref="OpenSheet"/>).</summary>
+    private OpenSheet openSheet => new(editor ?? throw new InvalidOperationException("Nessun foglio aperto."), SheetServices);
+}

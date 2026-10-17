@@ -73,7 +73,7 @@ public sealed partial class MainWindow
             ShowHome(); await Capture(mode + "-home");
             ShowProjects(); await Capture(mode + "-projects");
             document = Archivio.Documento("geo_palo_verticale"); ShowSheet(document);
-            await historicEditor!.WaitForAutomatic();
+            await openSheet.WaitForAutomatic();
             var data = editor!.Data.ToJsonString(); var originalEditor = editor;
             Appearance.Set(mode == AppAppearance.Light ? AppAppearance.Dark : AppAppearance.Light, false);
             Check(ReferenceEquals(originalEditor, editor) && data == editor.Data.ToJsonString(), "Cambio aspetto non ricrea o modifica il calcolo " + mode);

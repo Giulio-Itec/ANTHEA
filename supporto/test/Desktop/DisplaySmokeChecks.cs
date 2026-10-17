@@ -38,20 +38,20 @@ public sealed partial class MainWindow
                     throw new Exception("Area di lavoro non valida: " + page);
                 if (page.StartsWith("geo_"))
                 {
-                    historicEditor!.VerifyDisplayLayout();
+                    openSheet.VerifyDisplayLayout();
                     var position = editor!.View.TranslatePoint(new Point(), root);
                     if (position.X < 0 || position.Y < 0 || position.X + editor.View.ActualWidth > root.ActualWidth + 1 || position.Y + editor.View.ActualHeight > root.ActualHeight + 1)
                         throw new Exception("Il modulo esce dalla finestra visibile");
-                    await historicEditor.VerifyDisplayScrolling(directory, $"{page}_{width}");
+                    await openSheet.VerifyDisplayScrolling(directory, $"{page}_{width}");
                     if (width == 1600)
                     {
                         string checksDirectory = Path.Combine(directory, page); Directory.CreateDirectory(checksDirectory);
-                        await historicEditor.VerifyStratigraphyEditing(); historicEditor.VerifyPileOutcomes(); await historicEditor.VerifyPresentation(checksDirectory);
-                        historicEditor.VerifyReport(checksDirectory);
+                        await openSheet.VerifyStratigraphyEditing(); openSheet.VerifyPileOutcomes(); await openSheet.VerifyPresentation(checksDirectory);
+                        openSheet.VerifyReport(checksDirectory);
                         var retainedEditor = editor;
-                        await historicEditor.VerifyNavigationThrough(() => { Commit(); ShowHome(); }, () =>
+                        await openSheet.VerifyNavigationThrough(() => { Commit(); ShowHome(); }, () =>
                             Ui.Descendants<Button>(dashboardBody).First(b => b.Content is string text && text.StartsWith("Riprendi ·")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)));
-                        await historicEditor.VerifyNavigationThrough(() => { Commit(); ShowHome(); ShowModules(); }, () =>
+                        await openSheet.VerifyNavigationThrough(() => { Commit(); ShowHome(); ShowModules(); }, () =>
                             Ui.Descendants<Button>(dashboardBody).First(b => Equals(b.Content, "Riprendi")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)));
                         if (!ReferenceEquals(editor, retainedEditor) || body.Content != moduleView) throw new Exception("Riprendi ha ricreato il modulo");
                     }
@@ -70,14 +70,7 @@ internal sealed partial class SheetEditor
     {
         string path=Path.Combine(directory,"relazione-prova.docx");
         ExportReport(path,"Verifica impaginazione",new HashSet<string>{"generali","efficienza","coefficienti","stratigrafia","nq","risultati","grafico_nq"});
-        using var zip=System.IO.Compression.ZipFile.OpenRead(path);
-        using var stream=zip.GetEntry("word/document.xml")!.Open();
-        var xml=System.Xml.Linq.XDocument.Load(stream);
-        System.Xml.Linq.XNamespace w="http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-        if(xml.Descendants(w+"t").Any(t=>t.Value=="Avvisi"||t.Value=="sottotipo_palo_battuto"))throw new Exception("Contenuti non richiesti nella relazione");
-        if(xml.Descendants(w+"tc").Any(c=>!c.Descendants(w+"jc").Any(j=>(string?)j.Attribute(w+"val")=="center")))throw new Exception("Celle della relazione non centrate");
-        if(zip.Entries.Count(e=>e.FullName.StartsWith("word/media/"))!=(Micro ? 2 * Data.Array("stratigrafie").Count : Data.Array("stratigrafie").Count+1))throw new Exception("Immagini dei sondaggi o abachi mancanti");
-        if(Micro && xml.Descendants(w+"t").Any(t=>new[]{"tipo_palo","metodo_nq","presenza_falda","considera_sottospinta","pressione_limite"}.Contains(t.Value)))throw new Exception("Dati non applicabili presenti nella relazione micropalo");
+        DisplayReportChecks.Verify(path, Micro, Data);
         File.WriteAllBytes(Path.Combine(directory,"profilo-palo.png"),stratigraphy.Png(720,900));
     }
     internal async Task VerifyNavigationThrough(Action leave, Action resume)

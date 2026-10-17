@@ -31,7 +31,7 @@ public sealed partial class MainWindow
         var thumbnail = ((Panel)fn.Header).Children.OfType<Button>().Single();
         thumbnail.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         Check(ReferenceEquals(currentSheet, sheet), "Miniatura non apre il foglio");
-        historicEditor!.SetGeometryForSmoke("1.25");
+        openSheet.SetGeometryForSmoke("1.25");
         Check(backToOverview.Content.ToString() == "← Torna al progetto", "Pulsante di ritorno non contestuale");
         backToOverview.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         Check(ReferenceEquals(body.Content, projectWorkspace) && !ReferenceEquals(projectContent.Content, moduleView) && ReferenceEquals(currentSheet, sheet), "Ritorno non conserva la scheda");
@@ -191,7 +191,7 @@ public sealed partial class MainWindow
         SectionEvent(first, targetNode, DragDrop.DragLeaveEvent);
         Check(projectSectionDrop is null && JsonNode.DeepEquals(beforeInvalid, document), "Annullamento lascia indicatore o cambia documento");
         // Pending edits are committed even if reordering while an editor is retained.
-        historicEditor!.SetGeometryForSmoke("1.35");
+        openSheet.SetGeometryForSmoke("1.35");
         await Reorder(other, first, false);
         Check(sheet["dati"]!["generali"].D("diametro") == 1.35, "Riordino perde modifiche in sospeso");
         DocumentService.Save(file, document); var expectedOrder = document.DeepClone(); dirty = false; LoadFile(file);

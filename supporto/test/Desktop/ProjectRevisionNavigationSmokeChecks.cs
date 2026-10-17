@@ -54,7 +54,7 @@ public sealed partial class MainWindow
         Check(section["revisione"].D("numero") == 1 && section.Array("revisioni").Count == 1, "Prima creazione non archivia Rev. 0 e seleziona Rev. 1");
         var working = document;
         ShowSheet(pile); SetProjectSheetTreeVisible(true); await Layout();
-        historicEditor!.SetGeometryForSmoke("1.2");
+        openSheet.SetGeometryForSmoke("1.2");
         int windows = Application.Current.Windows.Count;
         async Task Switch(int? number)
         {

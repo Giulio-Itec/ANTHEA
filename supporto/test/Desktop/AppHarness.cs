@@ -291,7 +291,8 @@ public partial class App
             return;
         }
 
-        if (e.Args.Length == 2 && e.Args[0] == "--check-appearance")
+        // f5-suite-ui: after the output, --module-impl pairs choose the MVVM views (ModuleHostBench, suite ui/check-appearance-mvvm).
+        if (e.Args.Length >= 2 && e.Args[0] == "--check-appearance" && ModuleHostBench.WithoutBench(e.Args).Length == 2)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>
@@ -396,7 +397,8 @@ public partial class App
         EventManager.RegisterClassHandler(typeof(FrameworkElement), System.Windows.Controls.ToolTipService.ToolTipOpeningEvent,
             new System.Windows.Controls.ToolTipEventHandler((_, args) => args.Handled = true));
         MainWindow = window;
-        if (e.Args.Length == (e.Args[0] == "--smoke" ? 3 : 2))
+        // f5-suite-ui: --module-impl pairs after the arguments of the smoke choose the MVVM views (ModuleHostBench, suites ui/<smoke>-mvvm).
+        if (ModuleHostBench.WithoutBench(e.Args).Length == (e.Args[0] == "--smoke" ? 3 : 2))
         {
             window.ContentRendered += RunSmoke;
             async void RunSmoke(object? sender, EventArgs args)
