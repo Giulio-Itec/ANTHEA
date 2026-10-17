@@ -73,8 +73,8 @@ internal sealed partial class ConcreteWorkspace
         outputStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
         ((DataGridTextColumn)shearGrid.Columns[^1]).ElementStyle = outputStyle;
         foreach (var row in SectionActionInputs.ShearRows(Data)) shearGrid.Rows.Add(ShearRow((JsonObject)row.DeepClone()));
-        void Store() { options["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Mx",r.Values.S("Mx","0")),("My",r.Values.S("My","0")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray()); }
-        var buttons = Ui.Bar(Ui.Button("+ Combinazione", () => { var row = ShearRow(J.Obj(("id",Guid.NewGuid().ToString("N")),("nome","Taglio "+(shearGrid.Rows.Count+1)),("N","0"),("Vx","0"),("Vy","0"))); shearGrid.Rows.Add(row); shearGrid.SelectedItem = row; Store(); InvalidateActions("Taglio"); }),
+        void Store() { options["azioni"] = ConcreteSheetPreparation.StoreShearRows(shearGrid.Rows.Select(r => r.Values)); }
+        var buttons = Ui.Bar(Ui.Button("+ Combinazione", () => { var row = ShearRow(ConcreteActionPresentation.NewShearRow(ConcreteActionPresentation.ShearName(shearGrid.Rows.Count))); shearGrid.Rows.Add(row); shearGrid.SelectedItem = row; Store(); InvalidateActions("Taglio"); }),
             Ui.Button("−", () => { shearGrid.Commit(); if (shearGrid.SelectedItem is JsonRow row) shearGrid.Rows.Remove(row); Store(); InvalidateActions("Taglio"); }));
         if (UnifiedActions)
         {
@@ -93,11 +93,10 @@ internal sealed partial class ConcreteWorkspace
     }
     private JsonRow ShearRow(JsonObject values)
     {
-        foreach (string key in new[] { "T", "Mx", "My" }) if(!values.ContainsKey(key)) values[key]="0";
-        return new(values, _ =>
+        return new(ConcreteActionPresentation.ShearRow(values), _ =>
         {
         if (shearGrid is null || synchronizing || UnifiedActions) return;
-        ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Mx",r.Values.S("Mx","0")),("My",r.Values.S("My","0")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray());
+        ShearOptions["azioni"] = ConcreteSheetPreparation.StoreShearRows(shearGrid.Rows.Select(r => r.Values));
         InvalidateActions("Taglio");
         });
     }

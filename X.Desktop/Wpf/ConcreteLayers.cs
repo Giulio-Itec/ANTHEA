@@ -9,7 +9,7 @@ internal sealed partial class ConcreteWorkspace
     private UIElement BuildAdditionalLayers()
     {
         var stack = new StackPanel();
-        foreach (var (key, title, source) in new[] { ("top", "Seconda fila superiore", "top"), ("bottom", "Seconda fila inferiore", "bottom"), ("inner", "Secondo anello interno", "longitudinal") })
+        foreach (var (key, title, source) in Anthea.Application.Concrete.ConcreteInputPresentation.Layers)
         {
             string prefix = "second_" + key;
             Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareLayer(Input, prefix, source);
@@ -24,11 +24,12 @@ internal sealed partial class ConcreteWorkspace
     {
         foreach (var (key, controls) in additionalLayers)
         {
-            controls.Body.Visibility = Input.S("shape") == (key == "inner" ? "Circolare" : "Rettangolare") ? Visibility.Visible : Visibility.Collapsed;
+            controls.Body.Visibility = Anthea.Application.Concrete.ConcreteInputPresentation.LayerShown(key, Input.S("shape")) ? Visibility.Visible : Visibility.Collapsed;
             bool enabled = Input.B("second_" + key + "_enabled");
-            controls.Toggle.IsEnabled = controls.Form.IsEnabled = !Input.ContainsKey("barre_manuali");
-            controls.Toggle.ToolTip = Input.ContainsKey("barre_manuali") ? "Ripristina le barre da wizard per modificare gli strati automatici." : "Distanza libera tra le superfici delle barre dei due strati.";
-            controls.Toggle.Content = (enabled ? "− Disattiva · " : "+ Attiva · ") + controls.Toggle.Tag;
+            bool locked = Anthea.Application.Concrete.ConcreteInputPresentation.LayersLocked(Input);
+            controls.Toggle.IsEnabled = controls.Form.IsEnabled = !locked;
+            controls.Toggle.ToolTip = Anthea.Application.Concrete.ConcreteInputPresentation.LayerToolTip(locked);
+            controls.Toggle.Content = Anthea.Application.Concrete.ConcreteInputPresentation.LayerToggleText(enabled, (string)controls.Toggle.Tag);
             controls.Form.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
         }
     }

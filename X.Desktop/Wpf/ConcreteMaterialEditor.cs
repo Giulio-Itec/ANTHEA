@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using Anthea.Application.Materials;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -9,12 +10,8 @@ internal sealed partial class ConcreteWorkspace
 {
     internal Window CreateMaterialDialog(string type, Action<JsonObject> save)
     {
-        var catalog = type == "Calcestruzzo" ? MaterialInputCatalog.Concrete(settings.S("normativa")) : MaterialInputCatalog.Steel(type == "Trefoli", settings.S("normativa"));
-        string current = type == "Calcestruzzo" ? Input.S("classe_cls") : type == "Acciaio" ? Input.S("classe_acciaio") : settings["materiale_trefolo"].S("nome");
-        var preset = catalog.FirstOrDefault(m => m.S("nome") == current) ?? catalog[0];
-        var value = (JsonObject)preset.DeepClone();
-        value["nome"] = type + " personalizzato"; value["tipo"] = type; value["id"] = Guid.NewGuid().ToString("N");
-        value["origine"] = "Personalizzato"; value["normativa_origine"] = settings.S("normativa");
+        var catalog = ConcreteInputPresentation.NewMaterialCatalog(type, settings.S("normativa"));
+        var value = ConcreteInputPresentation.NewMaterial(type, catalog, ConcreteInputPresentation.NewMaterialCurrent(type, Input, settings), settings.S("normativa"));
         Field[] parameters = type == "Calcestruzzo" ? [new("fck_mpa", "fck", "MPa"), new("cls_diagramma", "Diagramma", Choices: MaterialInputCatalog.ConcreteDiagrams, Note: FieldNotes.StressBlock)]
             : type == "Acciaio" ? [new("steel_modulus_mpa", "Es", "MPa"), new("fyk_mpa", "fyk", "MPa"), new("steel_fu_mpa", "fu", "MPa"), new("steel_eps_u", "εu", "‰"), new("steel_diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"])]
             : [new("Ep", "Ep", "MPa"), new("fpyk", "fpyk", "MPa"), new("fpk", "fpk", "MPa"), new("eps_u", "εpu", "‰"), new("diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"])];
@@ -44,9 +41,7 @@ internal sealed partial class ConcreteWorkspace
         {
             form.Commit(); Refresh("");
             if (!valid) return;
-            if (string.IsNullOrWhiteSpace(value.S("nome"))) { error.Text = "Inserire il nome del materiale."; return; }
-            if (catalog.Any(m => m.S("nome") == value.S("nome")) || settings.Array("materiali_custom").Any(m => m.S("tipo") == type && m.S("nome") == value.S("nome")))
-            { error.Text = "Usare un nome distinto dai materiali esistenti."; return; }
+            if (ConcreteInputPresentation.NewMaterialNameError(value, catalog, settings, type) is string refused) { error.Text = refused; return; }
             save((JsonObject)value.DeepClone()); dialog!.Close();
         });
         var help = Notice(settings.S("normativa") + " · inserire le proprietà caratteristiche del nuovo materiale. Le leggi della DLL ricavano il diagramma di progetto con i coefficienti del foglio. Nessuna modifica finché non si salva.");
