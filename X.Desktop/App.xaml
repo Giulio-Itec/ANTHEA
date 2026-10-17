@@ -11,6 +11,7 @@
    <ResourceDictionary Source="Themes/Controls.xaml"/>
    <ResourceDictionary Source="Views/Common/FieldFormTemplates.xaml"/>
    <ResourceDictionary Source="Views/PileGroup/PileGroupTemplates.xaml"/>
+   <ResourceDictionary Source="Views/ShallowFoundation/ShallowFoundationTemplates.xaml"/>
   </ResourceDictionary.MergedDictionaries>
   </ResourceDictionary>
  </Application.Resources>

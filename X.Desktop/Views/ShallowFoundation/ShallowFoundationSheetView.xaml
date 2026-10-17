@@ -1,0 +1,426 @@
+<!--
+  View of the shallow foundation sheet (F5.9b, decision Q3): ShallowFoundationSheetViewModel shown with the layout of the historic
+  FoundationWorkspace. Commands on top, status line at the bottom; input column (0.8*, at least 370 px) and graphic tabs (1.2*, at least
+  440 px), the stratigraphy below (at most 270 px), the results at the end; «Raccogli input» hides the input column and the
+  stratigraphy. The four groups whose state the sheet saves (vista_fondazioni) are Expanders bound to Groups[i].IsExpanded, in the order
+  of the historic view (the visit of ui/f3-equivalence opens them and writes vista_fondazioni, as today); «Opzioni del metodo»,
+  «Calcestruzzo» and the details of the results are Expanders without state. The numbers are compact FieldForms (decision D10), the
+  groundwater and the concrete FieldForms as the InputForms of the historic view; the five index choices are combo boxes bound to
+  ShallowFoundationChoiceViewModel (FN5); the table of the layers has the columns of StratigraphyTable. The technical drawings of
+  FoundationViews.cs are hosted unchanged and fed by the code-behind from the plain data of the ViewModel (Q3). Colours and font sizes
+  are theme tokens only (rule P7): {DynamicResource Token.<nome>} and {DynamicResource Font.<nome>}; the swatch of a layer is the token
+  Swatch.Soil<n> of its index. Read-only revision (T2): fields, choices, surveys, layers, soil transfer and the section of the failure
+  mechanism are locked; groups, «Raccogli input», tabs, report, guide and «Calcola» stay usable, as under RevisionInspection.
+-->
+<UserControl x:Class="X.Desktop.Views.ShallowFoundation.ShallowFoundationSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ xmlns:views="clr-namespace:X.Desktop.Views.ShallowFoundation"
+ xmlns:app="clr-namespace:Anthea.Application.Presentation;assembly=ANTHEA.Application"
+ xmlns:shallow="clr-namespace:Anthea.Presentation.Modules.ShallowFoundation;assembly=ANTHEA.Presentation"
+ Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <common:NegationConverter x:Key="Not"/>
+  <BooleanToVisibilityConverter x:Key="Visible"/>
+  <views:CollapsedConverter x:Key="Collapsed"/>
+  <views:PresentConverter x:Key="Present"/>
+  <views:BlankVisibilityConverter x:Key="Blank"/>
+  <views:CalculationHelpConverter x:Key="Help"/>
+  <views:SoilSwatchConverter x:Key="Swatch"/>
+  <local:NumericAlignmentConverter x:Key="NumericAlignment"/>
+
+  <!-- Texts: the Ui.Text of the historic view (wrapping, vertically centred, ink), in its sizes 12, 11, 13, 14, 16 and the title. -->
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Muted" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+  </Style>
+  <Style x:Key="Note" TargetType="TextBlock" BasedOn="{StaticResource Muted}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Caption}"/>
+  </Style>
+  <Style x:Key="Title" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Title}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <!-- The text of the four tabs of the results without a drawing (Ui.Text 14, muted); hidden when the tabs show the result. -->
+  <Style x:Key="GraphicsMessage" TargetType="TextBlock" BasedOn="{StaticResource Muted}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+   <Setter Property="Text" Value="{Binding GraphicsMessage}"/>
+   <Setter Property="Tag" Value="graphics-message"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding GraphicsMessage}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+   </Style.Triggers>
+  </Style>
+  <!-- Numbers aligned as Ui.NumericTextStyle of the historic tables. -->
+  <Style x:Key="Numeric" TargetType="TextBlock">
+   <Setter Property="TextAlignment" Value="{Binding Text, RelativeSource={RelativeSource Self}, Converter={StaticResource NumericAlignment}}"/>
+  </Style>
+  <Style x:Key="Drawing" TargetType="ContentControl">
+   <Setter Property="Focusable" Value="False"/>
+   <Setter Property="IsTabStop" Value="False"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+  </Style>
+  <!-- Host of a form: the FieldForm of the DataTemplate of FormViewModel (Views/Common/FieldFormTemplates.xaml). -->
+  <Style x:Key="Form" TargetType="ContentControl">
+   <Setter Property="Focusable" Value="False"/>
+   <Setter Property="IsTabStop" Value="False"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+  </Style>
+  <!-- Ui.Button: light buttons (paper and ink); «Calcola» is the primary one. -->
+  <Style x:Key="Command" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  </Style>
+  <Style x:Key="Primary" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Background" Value="{DynamicResource Token.Selected}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+  </Style>
+
+  <!-- A choice of the method that writes the index of its item (Row of the historic view: label of 215 px, combo box on the rest). -->
+  <DataTemplate x:Key="ChoiceRow" DataType="{x:Type shallow:ShallowFoundationChoiceViewModel}">
+   <Grid x:Name="ChoiceRow" Margin="0,2,0,2" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="215"/><ColumnDefinition/></Grid.ColumnDefinitions>
+    <TextBlock x:Name="ChoiceLabel" Style="{StaticResource Text}" Text="{Binding Label}"/>
+    <ComboBox Grid.Column="1" ItemsSource="{Binding Items}" SelectedIndex="{Binding SelectedIndex}" IsEnabled="{Binding CanChange, Mode=OneWay}"
+     Tag="{Binding Key}" AutomationProperties.Name="{Binding Label, Mode=OneWay}"/>
+   </Grid>
+  </DataTemplate>
+
+  <!-- Table of the layers: the cells of StratigraphyTable (12 points, 26 px editors, centred). -->
+  <Style x:Key="LayerHeader" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="TextAlignment" Value="Center"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="LayerBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+   <Setter Property="IsReadOnly" Value="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+   <Setter Property="TextAlignment" Value="Center"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+   <Setter Property="Margin" Value="3"/>
+   <Setter Property="Height" Value="26"/>
+  </Style>
+ </UserControl.Resources>
+
+ <DockPanel>
+  <!-- Commands (Ui.Bar of the historic view). -->
+  <WrapPanel DockPanel.Dock="Top">
+   <TextBlock Style="{StaticResource Title}" Text="{x:Static shallow:ShallowFoundationFields.Title}"/>
+   <Button Style="{StaticResource Primary}" Content="Calcola" Command="{Binding CalculateCommand}"/>
+   <Button Style="{StaticResource Command}" Content="{Binding CollectText}" Tag="raccogli-input" Command="{Binding CollectCommand}"/>
+   <Button Style="{StaticResource Command}" Content="Report Word e PDF" Command="{Binding ReportCommand}"/>
+   <Button Style="{StaticResource Command}" Content="Guida" Command="{Binding GuideCommand}"/>
+  </WrapPanel>
+  <TextBlock x:Name="Status" DockPanel.Dock="Bottom" Style="{StaticResource Muted}" Text="{Binding State}" Margin="16,3,16,7"/>
+
+  <Grid Margin="8">
+   <Grid.ColumnDefinitions>
+    <ColumnDefinition>
+     <ColumnDefinition.Style>
+      <Style TargetType="ColumnDefinition">
+       <Setter Property="Width" Value="0.8*"/>
+       <Setter Property="MinWidth" Value="370"/>
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding InputsCollapsed}" Value="True"><Setter Property="Width" Value="0"/><Setter Property="MinWidth" Value="0"/></DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </ColumnDefinition.Style>
+    </ColumnDefinition>
+    <ColumnDefinition Width="1.2*" MinWidth="440"/>
+   </Grid.ColumnDefinitions>
+   <Grid.RowDefinitions><RowDefinition/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+
+   <!-- Input -->
+   <ScrollViewer x:Name="InputScroll" Visibility="{Binding InputsCollapsed, Converter={StaticResource Collapsed}}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Margin="8">
+     <Expander Header="{Binding Groups[0].Title}" IsExpanded="{Binding Groups[0].IsExpanded}" Margin="0,2,0,2">
+      <ItemsControl ItemsSource="{Binding MethodChoices}" ItemTemplate="{StaticResource ChoiceRow}" Focusable="False"/>
+     </Expander>
+     <Expander Header="{Binding Groups[1].Title}" IsExpanded="{Binding Groups[1].IsExpanded}" Margin="0,2,0,2">
+      <ContentControl Style="{StaticResource Form}" Content="{Binding GeometryForm}"/>
+     </Expander>
+     <Expander Header="{Binding Groups[2].Title}" IsExpanded="{Binding Groups[2].IsExpanded}" Margin="0,2,0,2">
+      <ContentControl Style="{StaticResource Form}" Content="{Binding ActionsForm}"/>
+     </Expander>
+     <ContentControl Style="{StaticResource Form}" Content="{Binding SurchargeForm}"/>
+     <ContentControl Style="{StaticResource Form}" Content="{Binding WaterForm}"/>
+     <ContentControl Style="{StaticResource Form}" Content="{Binding CombinationForm}"/>
+     <ContentControl Style="{StaticResource Form}" Content="{Binding ConfirmationForm}"/>
+     <Expander Header="{x:Static shallow:ShallowFoundationFields.MethodOptionsTitle}">
+      <StackPanel>
+       <ContentControl Content="{Binding Compression}" ContentTemplate="{StaticResource ChoiceRow}" Focusable="False" IsTabStop="False" HorizontalContentAlignment="Stretch"/>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding RelativeDensityForm}"/>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding MethodOptionsForm}"/>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding WaterUnitWeightForm}"/>
+      </StackPanel>
+     </Expander>
+     <Expander Header="{x:Static shallow:ShallowFoundationFields.ConcreteTitle}">
+      <StackPanel>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding ConcreteForm}"/>
+       <TextBlock Style="{StaticResource Note}" Text="{x:Static app:ShallowFoundationPresentation.ConcreteNote}"/>
+      </StackPanel>
+     </Expander>
+     <TextBlock Style="{StaticResource Note}" Text="{x:Static app:ShallowFoundationPresentation.ActionsNote}"/>
+    </StackPanel>
+   </ScrollViewer>
+
+   <!-- Graphics: the six tabs of the historic view. -->
+   <TabControl x:Name="GraphicsTabs" Grid.Column="1">
+    <TabItem Header="Geometria" Background="{DynamicResource Token.Paper}">
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+      <local:FoundationSoilView x:Name="InputSoil" Height="NaN" MinWidth="220"/>
+      <local:FoundationInputPlan x:Name="InputPlan" Grid.Column="1" Height="NaN" MinWidth="220"/>
+     </Grid>
+    </TabItem>
+    <TabItem Header="Stratigrafia" Background="{DynamicResource Token.Paper}">
+     <ContentControl x:Name="SoilHost" Style="{StaticResource Drawing}"/>
+    </TabItem>
+    <TabItem Header="Area efficace" Background="{DynamicResource Token.Paper}">
+     <Grid>
+      <TextBlock Style="{StaticResource GraphicsMessage}"/>
+      <ContentControl x:Name="AreaHost" Style="{StaticResource Drawing}"/>
+     </Grid>
+    </TabItem>
+    <TabItem Header="Tensioni" Background="{DynamicResource Token.Paper}">
+     <Grid>
+      <TextBlock Style="{StaticResource GraphicsMessage}"/>
+      <DockPanel Visibility="{Binding Graphics, Converter={StaticResource Present}}">
+       <TextBlock x:Name="PressureText" DockPanel.Dock="Bottom" Style="{StaticResource Text}" FontWeight="SemiBold" Text="{Binding PressureSummary}"/>
+       <ContentControl x:Name="PressureHost" Style="{StaticResource Drawing}"/>
+      </DockPanel>
+     </Grid>
+    </TabItem>
+    <TabItem Header="Andamenti" Background="{DynamicResource Token.Paper}">
+     <Grid>
+      <TextBlock Style="{StaticResource GraphicsMessage}"/>
+      <DockPanel Visibility="{Binding Graphics, Converter={StaticResource Present}}">
+       <TextBlock x:Name="ContactText" DockPanel.Dock="Bottom" Style="{StaticResource Note}" Text="{Binding ContactDescription}"/>
+       <Grid>
+        <Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions>
+        <ContentControl x:Name="SectionXHost" Style="{StaticResource Drawing}"/>
+        <ContentControl x:Name="SectionYHost" Grid.Row="1" Style="{StaticResource Drawing}"/>
+       </Grid>
+      </DockPanel>
+     </Grid>
+    </TabItem>
+    <TabItem Header="Rottura" Background="{DynamicResource Token.Paper}">
+     <Grid>
+      <TextBlock Style="{StaticResource GraphicsMessage}"/>
+      <DockPanel Visibility="{Binding Graphics, Converter={StaticResource Present}}">
+       <!-- View state, not saved; always refused in a read-only revision (FN4). -->
+       <ComboBox x:Name="MechanismAxis" DockPanel.Dock="Top" Margin="2" ItemsSource="{Binding MechanismAxes}"
+        SelectedIndex="{Binding MechanismAxis}" IsEnabled="{Binding CanEdit, Mode=OneWay}"/>
+       <TextBlock x:Name="MechanismText" DockPanel.Dock="Bottom" Style="{StaticResource Note}" Text="{Binding MechanismDescription}"/>
+       <ContentControl x:Name="MechanismHost" Style="{StaticResource Drawing}"/>
+      </DockPanel>
+     </Grid>
+    </TabItem>
+   </TabControl>
+
+   <!-- Stratigraphy of the survey examined. -->
+   <Expander x:Name="SoilGroup" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,6,0,0" MaxHeight="270" Visibility="{Binding InputsCollapsed, Converter={StaticResource Collapsed}}"
+    Header="{Binding Groups[3].Title}" IsExpanded="{Binding Groups[3].IsExpanded}">
+    <DockPanel>
+     <WrapPanel DockPanel.Dock="Top">
+      <ComboBox x:Name="Survey" MinWidth="145" Tag="sondaggio_fondazione" ItemsSource="{Binding Surveys}" SelectedIndex="{Binding SelectedSurvey}"
+       IsEnabled="{Binding CanEdit, Mode=OneWay}"/>
+      <Button Style="{StaticResource Command}" Content="+ Sondaggio" Command="{Binding AddSurveyCommand}"/>
+      <Button Style="{StaticResource Command}" Content="− Sondaggio" Command="{Binding RemoveSurveyCommand}"/>
+      <Button Style="{StaticResource Command}" Content="Invia / carica terreno…" Command="{Binding TransferSoilCommand}"/>
+     </WrapPanel>
+     <ContentControl DockPanel.Dock="Bottom" Style="{StaticResource Form}" Content="{Binding HalfSpaceForm}"/>
+     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel>
+       <DataGrid x:Name="Layers" ItemsSource="{Binding Layers}" FontSize="{DynamicResource Font.Small}" RowHeight="32" ColumnHeaderHeight="54"
+        FrozenColumnCount="1" CanUserSortColumns="False" GridLinesVisibility="All" VerticalGridLinesBrush="{DynamicResource Token.Border}"
+        RowBackground="{DynamicResource Token.Paper}" AlternatingRowBackground="{DynamicResource Token.PaperAlt}"
+        IsReadOnly="{Binding CanEdit, Mode=OneWay, Converter={StaticResource Not}}">
+        <DataGrid.ColumnHeaderStyle>
+         <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+          <Setter Property="Background" Value="{DynamicResource Token.CommandBar}"/>
+          <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+          <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+          <Setter Property="Padding" Value="4"/>
+         </Style>
+        </DataGrid.ColumnHeaderStyle>
+        <DataGrid.CellStyle>
+         <Style TargetType="DataGridCell">
+          <Setter Property="Padding" Value="3"/>
+          <Setter Property="VerticalContentAlignment" Value="Center"/>
+         </Style>
+        </DataGrid.CellStyle>
+        <DataGrid.Columns>
+         <DataGridTemplateColumn Width="100">
+          <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Strato"/></DataGridTemplateColumn.Header>
+          <DataGridTemplateColumn.CellTemplate>
+           <DataTemplate>
+            <StackPanel HorizontalAlignment="Center">
+             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+              <TextBlock FontWeight="SemiBold" Text="{Binding [__strato], Mode=OneWay}"/>
+              <Border Width="18" Height="12" Margin="8,0,0,0" BorderBrush="{DynamicResource Token.Muted}" BorderThickness="1">
+               <Border.Background>
+                <MultiBinding Converter="{StaticResource Swatch}">
+                 <Binding/>
+                 <Binding Path="ItemsSource" RelativeSource="{RelativeSource AncestorType=DataGrid}"/>
+                 <Binding Path="[__strato]" Mode="OneWay"/>
+                </MultiBinding>
+               </Border.Background>
+              </Border>
+             </StackPanel>
+            </StackPanel>
+           </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+         </DataGridTemplateColumn>
+         <DataGridTemplateColumn Width="130">
+          <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Tipologia"/></DataGridTemplateColumn.Header>
+          <DataGridTemplateColumn.CellTemplate>
+           <DataTemplate>
+            <ComboBox ItemsSource="{Binding Source={x:Static shallow:ShallowFoundationFields.LayerColumns}, Path=[1].Choices}" SelectedItem="{Binding [tipologia], UpdateSourceTrigger=PropertyChanged}"
+             IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource Not}}" HorizontalContentAlignment="Center"
+             VerticalAlignment="Center" Margin="3" Height="26" AutomationProperties.Name="{Binding Source={x:Static shallow:ShallowFoundationFields.LayerColumns}, Path=[1].Label}"
+             ToolTip="{Binding Converter={StaticResource Help}, ConverterParameter=tipologia}"/>
+           </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+         </DataGridTemplateColumn>
+         <DataGridTemplateColumn Width="125">
+          <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Spessore&#10;S [m]"/></DataGridTemplateColumn.Header>
+          <DataGridTemplateColumn.CellTemplate>
+           <DataTemplate>
+            <TextBox Style="{StaticResource LayerBox}" Text="{Binding [spessore], UpdateSourceTrigger=PropertyChanged}"
+             AutomationProperties.Name="{Binding Source={x:Static shallow:ShallowFoundationFields.LayerColumns}, Path=[2].Label}"
+             ToolTip="{Binding Converter={StaticResource Help}, ConverterParameter=spessore}"/>
+           </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+         </DataGridTemplateColumn>
+         <DataGridTemplateColumn Width="125">
+          <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Peso specifico&#10;γ [kN/m³]"/></DataGridTemplateColumn.Header>
+          <DataGridTemplateColumn.CellTemplate>
+           <DataTemplate>
+            <TextBox Style="{StaticResource LayerBox}" Text="{Binding [peso_specifico], UpdateSourceTrigger=PropertyChanged}"
+             AutomationProperties.Name="{Binding Source={x:Static shallow:ShallowFoundationFields.LayerColumns}, Path=[3].Label}"
+             ToolTip="{Binding Converter={StaticResource Help}, ConverterParameter=peso_specifico}"/>
+           </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+         </DataGridTemplateColumn>
+         <DataGridTemplateColumn Width="125">
+          <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Peso specifico saturo&#10;γsat [kN/m³]"/></DataGridTemplateColumn.Header>
+          <DataGridTemplateColumn.CellTemplate>
+           <DataTemplate>
+            <!-- An empty γsat follows γ of the same layer: the value of γ is shown in grey (not input). -->
+            <Grid ToolTip="Se vuoto, si usa automaticamente γ dello stesso strato (valore in grigio). Per tornare al valore automatico, cancellare γsat.">
+             <TextBox Style="{StaticResource LayerBox}" Text="{Binding [peso_specifico_saturo], UpdateSourceTrigger=PropertyChanged}"
+              AutomationProperties.Name="{Binding Source={x:Static shallow:ShallowFoundationFields.LayerColumns}, Path=[4].Label}"
+              ToolTip="{Binding Converter={StaticResource Help}, ConverterParameter=peso_specifico_saturo}"/>
+             <TextBlock Tag="gamma-sat-automatico" Text="{Binding [peso_specifico], Mode=OneWay}" Foreground="{DynamicResource Token.Disabled}" TextAlignment="Center"
+              VerticalAlignment="Center" IsHitTestVisible="False" Visibility="{Binding [peso_specifico_saturo], Mode=OneWay, Converter={StaticResource Blank}}"/>
+            </Grid>
+           </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+         </DataGridTemplateColumn>
+         <DataGridTemplateColumn Width="125">
+          <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Angolo di attrito&#10;φ′ [°]"/></DataGridTemplateColumn.Header>
+          <DataGridTemplateColumn.CellTemplate>
+           <DataTemplate>
+            <TextBox Style="{StaticResource LayerBox}" Text="{Binding [angolo_attrito], UpdateSourceTrigger=PropertyChanged}"
+             AutomationProperties.Name="{Binding Source={x:Static shallow:ShallowFoundationFields.LayerColumns}, Path=[5].Label}"
+             ToolTip="{Binding Converter={StaticResource Help}, ConverterParameter=angolo_attrito}"/>
+           </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+         </DataGridTemplateColumn>
+         <DataGridTemplateColumn Width="125">
+          <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coesione efficace&#10;c′ [kPa]"/></DataGridTemplateColumn.Header>
+          <DataGridTemplateColumn.CellTemplate>
+           <DataTemplate>
+            <TextBox Style="{StaticResource LayerBox}" Text="{Binding [coesione_efficace], UpdateSourceTrigger=PropertyChanged}"
+             AutomationProperties.Name="{Binding Source={x:Static shallow:ShallowFoundationFields.LayerColumns}, Path=[6].Label}"
+             ToolTip="{Binding Converter={StaticResource Help}, ConverterParameter=coesione_efficace}"/>
+           </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+         </DataGridTemplateColumn>
+         <DataGridTemplateColumn Width="125">
+          <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coesione non drenata&#10;Cu [kPa]"/></DataGridTemplateColumn.Header>
+          <DataGridTemplateColumn.CellTemplate>
+           <DataTemplate>
+            <TextBox Style="{StaticResource LayerBox}" Text="{Binding [coesione_non_drenata], UpdateSourceTrigger=PropertyChanged}"
+             AutomationProperties.Name="{Binding Source={x:Static shallow:ShallowFoundationFields.LayerColumns}, Path=[7].Label}"
+             ToolTip="{Binding Converter={StaticResource Help}, ConverterParameter=coesione_non_drenata}"/>
+           </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+         </DataGridTemplateColumn>
+         <DataGridTemplateColumn Width="60">
+          <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Elimina"/></DataGridTemplateColumn.Header>
+          <DataGridTemplateColumn.CellTemplate>
+           <DataTemplate>
+            <Button Content="[−]" ToolTip="Elimina questo strato" VerticalAlignment="Center" Padding="4,1,4,1"
+             Command="{Binding DataContext.RemoveLayerCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}"/>
+           </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+         </DataGridTemplateColumn>
+        </DataGrid.Columns>
+       </DataGrid>
+       <Button Style="{StaticResource Command}" Content="Aggiungi strato" FontSize="{DynamicResource Font.Small}" HorizontalAlignment="Left" Command="{Binding AddLayerCommand}"/>
+      </StackPanel>
+     </ScrollViewer>
+    </DockPanel>
+   </Expander>
+
+   <!-- Results -->
+   <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="8">
+    <TextBlock x:Name="Headline" Text="{Binding ResultsText}">
+     <TextBlock.Style>
+      <Style TargetType="TextBlock" BasedOn="{StaticResource Text}">
+       <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
+       <Setter Property="FontWeight" Value="SemiBold"/>
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding HasDetails}" Value="True"><Setter Property="FontSize" Value="{DynamicResource Font.Heading}"/></DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </TextBlock.Style>
+    </TextBlock>
+    <Expander x:Name="Details" Header="Dettagli della verifica, coefficienti e limiti" Visibility="{Binding HasDetails, Converter={StaticResource Visible}}">
+     <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto">
+      <StackPanel>
+       <ItemsControl x:Name="Summary" ItemsSource="{Binding Summary}" Focusable="False">
+        <ItemsControl.ItemTemplate><DataTemplate><TextBlock Style="{StaticResource Text}" Text="{Binding}"/></DataTemplate></ItemsControl.ItemTemplate>
+       </ItemsControl>
+       <DataGrid x:Name="Coefficients" ItemsSource="{Binding Coefficients}" IsReadOnly="True">
+        <DataGrid.Columns>
+         <DataGridTextColumn Header="{Binding Source={x:Static app:ShallowFoundationPresentation.CoefficientColumns}, Path=[0]}" Binding="{Binding [0]}" ElementStyle="{StaticResource Numeric}" MinWidth="65" Width="SizeToCells"/>
+         <DataGridTextColumn Header="{Binding Source={x:Static app:ShallowFoundationPresentation.CoefficientColumns}, Path=[1]}" Binding="{Binding [1]}" ElementStyle="{StaticResource Numeric}" MinWidth="65" Width="SizeToCells"/>
+         <DataGridTextColumn Header="{Binding Source={x:Static app:ShallowFoundationPresentation.CoefficientColumns}, Path=[2]}" Binding="{Binding [2]}" ElementStyle="{StaticResource Numeric}" MinWidth="65" Width="SizeToCells"/>
+         <DataGridTextColumn Header="{Binding Source={x:Static app:ShallowFoundationPresentation.CoefficientColumns}, Path=[3]}" Binding="{Binding [3]}" ElementStyle="{StaticResource Numeric}" MinWidth="65" Width="SizeToCells"/>
+         <DataGridTextColumn Header="{Binding Source={x:Static app:ShallowFoundationPresentation.CoefficientColumns}, Path=[4]}" Binding="{Binding [4]}" ElementStyle="{StaticResource Numeric}" MinWidth="65" Width="SizeToCells"/>
+         <DataGridTextColumn Header="{Binding Source={x:Static app:ShallowFoundationPresentation.CoefficientColumns}, Path=[5]}" Binding="{Binding [5]}" ElementStyle="{StaticResource Numeric}" MinWidth="65" Width="SizeToCells"/>
+        </DataGrid.Columns>
+       </DataGrid>
+       <TextBlock x:Name="AdditiveTitle" Style="{StaticResource Text}" FontWeight="SemiBold" Text="{Binding AdditiveTitle}" Visibility="{Binding Additive, Converter={StaticResource Present}}"/>
+       <DataGrid x:Name="Additive" ItemsSource="{Binding Additive}" IsReadOnly="True" Visibility="{Binding Additive, Converter={StaticResource Present}}">
+        <DataGrid.Columns>
+         <DataGridTextColumn Header="{Binding Source={x:Static app:ShallowFoundationPresentation.AdditiveColumns}, Path=[0]}" Binding="{Binding [0]}" ElementStyle="{StaticResource Numeric}" MinWidth="65" Width="SizeToCells"/>
+         <DataGridTextColumn Header="{Binding Source={x:Static app:ShallowFoundationPresentation.AdditiveColumns}, Path=[1]}" Binding="{Binding [1]}" ElementStyle="{StaticResource Numeric}" MinWidth="65" Width="SizeToCells"/>
+         <DataGridTextColumn Header="{Binding Source={x:Static app:ShallowFoundationPresentation.AdditiveColumns}, Path=[2]}" Binding="{Binding [2]}" ElementStyle="{StaticResource Numeric}" MinWidth="65" Width="SizeToCells"/>
+         <DataGridTextColumn Header="{Binding Source={x:Static app:ShallowFoundationPresentation.AdditiveColumns}, Path=[3]}" Binding="{Binding [3]}" ElementStyle="{StaticResource Numeric}" MinWidth="65" Width="SizeToCells"/>
+         <DataGridTextColumn Header="{Binding Source={x:Static app:ShallowFoundationPresentation.AdditiveColumns}, Path=[4]}" Binding="{Binding [4]}" ElementStyle="{StaticResource Numeric}" MinWidth="65" Width="SizeToCells"/>
+        </DataGrid.Columns>
+       </DataGrid>
+       <ItemsControl x:Name="Notes" ItemsSource="{Binding Notes}" Focusable="False">
+        <ItemsControl.ItemTemplate><DataTemplate><TextBlock Style="{StaticResource Muted}" Text="{Binding}"/></DataTemplate></ItemsControl.ItemTemplate>
+       </ItemsControl>
+      </StackPanel>
+     </ScrollViewer>
+    </Expander>
+   </StackPanel>
+  </Grid>
+ </DockPanel>
+</UserControl>
