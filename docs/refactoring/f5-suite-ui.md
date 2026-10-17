@@ -115,6 +115,43 @@ Solo per il palo:
 - **`VerifyNavigationThrough`**: lo stato conservato è `ExpandedCard`, la scheda dei risultati e la vista del grafico. Uscire verso
   Home e riprendere conserva anche dati e risultato (lo stesso oggetto).
 
+### 2.2 Suite dei materiali (gruppo 2, commit `519acbf5`)
+
+Dove basta, le suite leggono il foglio attraverso `ISheetEditor`, in entrambi i modi:
+- `PreviewData` al posto di `MaterialView.CaptureState()`: in entrambe le viste è lo stato del calcestruzzo non ancora confermato;
+- una vista nuova (`new MaterialView()` + `RestoreState`) diventa un foglio aperto dalla fabbrica della finestra (`sheetEditors.Open`),
+  cioè il percorso di apertura di un documento (domanda S5);
+- l'identità della scheda («Riprendi perde la scheda») è quella dell'editor;
+- il testo mostrato dalla scheda del calcestruzzo si cerca nella vista dell'editor (`editor.View`).
+
+Il resto passa da `OpenSheet`, con il lato MVVM in `tests/Desktop/MaterialSmokeChecks.cs`:
+- `SetConcreteState`: `RestoreState` sulla vista storica; sulla vista XAML gli stessi valori impostati attraverso i controlli
+  (`ConcreteMaterialSmoke.Apply`: classe, campi, scelte, tolleranza dopo il suo controllo, opzioni, esposizione del menu);
+- `CheckConcrete`: `MaterialView.Check` sulla vista storica, `ConcreteMaterialSmoke.SelfCheck` sulla vista XAML;
+- `TypeConcreteNumber`: digitazione in un campo del calcestruzzo, al posto della riflessione su `numbers`;
+- `Steel` (`SteelSmoke`): tipo, campi, ingresso e riga di stato dell'acciaio, con l'una o l'altra vista.
+
+| Suite | Che cosa leggeva della vista storica | Ora |
+| --- | --- | --- |
+| `ui/smoke-materials` | `historicEditor.materials`: identità, `Check()`, `CaptureState`/`RestoreState`, `new MaterialView()` | identità dell'editor, `CheckConcrete`, `PreviewData`, `SetConcreteState`, fogli aperti dalla fabbrica |
+| `ui/smoke-hierarchy` | `CaptureState`/`RestoreState` (classe C40/50), `rebarMaterial.Selection` | `PreviewData` + `SetConcreteState`, `Steel.Type` |
+| `ui/smoke-sharing` | `CaptureState`/`RestoreState` (classi, stato con due esposizioni); in `CheckCoverWarnings` i `TextBlock` della vista storica e la riflessione su `numbers` | `PreviewData` + `SetConcreteState`; lo stato con due esposizioni aperto in un foglio nuovo; `TextBlock` di `editor.View`; `TypeConcreteNumber` |
+| `ui/smoke-steel` | `Selection`, `Properties.Editors`, `Properties.Set`, `Input`, `Status` | `Steel` |
+
+**`SelfCheck`** ripete `MaterialView.Check` (`supporto/test/Materiali/MaterialViewChecks.cs`) sulla vista XAML:
+- stessi benchmark delle librerie;
+- stesse modifiche attraverso i controlli: classe, esposizione dal menu, aderenza, composizione automatica, classe minima,
+  descrizioni, copriferro, tolleranze, criterio, diametro non valido, consistenza;
+- stesse attese.
+
+Differenze:
+- fck della classe dal ViewModel: la scheda di fck della vista storica era costruita e mai mostrata, come in `MaterialSheetViewChecks`;
+- XF2, spuntata a mano nella vista storica, si sceglie dal menu;
+- le combinazioni di esposizioni (domanda S4).
+
+**Domande e Modified.** `SetConcreteState` sulla vista XAML passa dai controlli, quindi solleva `Modified`; il `RestoreState` storico
+no. Nessuna suite ne dipende: la propagazione nel progetto si decide al `Commit` della finestra, sui dati.
+
 ## 3. Suite `-mvvm`
 
 Moduli fra i sette che ogni suite apre: servono a sapere quando un duplicato diventa superfluo (sezione 4).
@@ -126,6 +163,10 @@ Moduli fra i sette che ogni suite apre: servono a sapere quando un duplicato div
 | `ui/smoke-projects-mvvm` | palo verticale |
 | `ui/smoke-project-workspace-mvvm` | tutti e sette: acciaio, palo, e ogni modulo nella revisione in sola lettura |
 | `ui/check-appearance-mvvm` | palo verticale, muri di sostegno |
+| `ui/smoke-materials-mvvm` | calcestruzzo |
+| `ui/smoke-hierarchy-mvvm` | calcestruzzo, acciaio |
+| `ui/smoke-sharing-mvvm` | calcestruzzo |
+| `ui/smoke-steel-mvvm` | acciaio |
 
 ## 4. Che cosa resta da fare a ogni passaggio della Release
 
@@ -143,7 +184,15 @@ Per modulo:
     (`DisplayReportChecks` resta);
   - `ui/check-appearance-mvvm` resta finché i muri sono storici.
 - **Muri di sostegno**: `ui/check-appearance-mvvm` si toglie se anche i pali verticali sono passati.
-- **Fondazioni, calcestruzzo, acciaio, stratigrafia**: per il gruppo 1 basta togliere la coppia da `$MvvmBench`.
+- **Calcestruzzo**:
+  - si tolgono `ui/smoke-materials-mvvm` e `ui/smoke-sharing-mvvm`, e `ui/smoke-hierarchy-mvvm` se anche l'acciaio è passato;
+  - in `OpenSheet` si tolgono i rami storici di `SetConcreteState`, `CheckConcrete` e `TypeConcreteNumber`;
+  - `supporto/test/Materiali/MaterialViewChecks.cs` segue la vista storica in `supporto/SUPERATI`.
+- **Acciaio d'armatura**:
+  - si toglie `ui/smoke-steel-mvvm`, e `ui/smoke-hierarchy-mvvm` se anche il calcestruzzo è passato;
+  - in `SteelSmoke` si toglie il ramo di `RebarMaterialView`.
+- **Fondazioni, stratigrafia**: basta togliere la coppia da `$MvvmBench` (`ui/smoke-project-workspace-mvvm` resta fino all'ultimo dei
+  sette).
 - **Ultimo dei sette**: si tolgono `$MvvmBench` e tutte le suite `-mvvm` rimaste.
 
 Nessuna di queste suite ha bisogno di un'altra riscrittura.
@@ -166,6 +215,23 @@ Nessuna di queste suite ha bisogno di un'altra riscrittura.
   - Prima: le suite storiche saltavano le domande (`confirm: false`).
   - Scelta: sui fogli MVVM le domande arrivano a `BenchSheetServices.Confirmations`. Le suite rispondono «Sì» e controllano il testo
     della domanda. La risposta si imposta solo intorno al comando che la pone.
+- **S4 · Combinazioni di esposizioni nel controllo del calcestruzzo.**
+  - Prima: `MaterialView.Check` spuntava le caselle nascoste delle esposizioni e controllava i testi della vista storica:
+    - XF3+XS3 e X0+XC4 nella composizione;
+    - XC1+XS3: combinazione «molto aggressiva» e classe minima C35/45;
+    - XS3+XF4: copriferro 60 mm.
+  - Ostacolo: la vista XAML ha solo l'esposizione del menu (M10, accettata). Una combinazione non si può scegliere, e un archivio con più
+    esposizioni si apre con quella del menu.
+  - Scelta: le stesse attese sulle funzioni che le due viste mostrano (`MaterialSheetPresentation.Evaluate` con le esposizioni attive,
+    `MaterialExposurePresentation.Texts`), sullo stato del foglio in quel momento.
+  - Alternativa: togliere questi controlli, perché nessun utente può arrivare a quello stato.
+- **S5 · Vista nuova del calcestruzzo nelle suite dei materiali.**
+  - Prima: `new MaterialView()` + `RestoreState(stato)`. Serviva per tre controlli: un foglio nuovo non eredita le modifiche; gli
+    input incompleti si conservano alla riapertura; uno stato con due esposizioni ne tiene una.
+  - Scelta: un foglio aperto dalla fabbrica della finestra (`sheetEditors.Open(…).PreviewData`), in entrambi i modi. È il percorso di
+    apertura di un documento, con `NormalizeState` come all'apertura della vista storica.
+  - Cambia quindi anche la suite con la Release: passa dall'apertura di `SheetEditor` invece che dal solo `RestoreState`.
+  - Alternativa: tenere `RestoreState` per la vista storica e `Reload` del ViewModel per la vista XAML.
 
 ## 6. Esiti
 
@@ -173,13 +239,18 @@ Nessuna di queste suite ha bisogno di un'altra riscrittura.
 | --- | --- |
 | `-Stage build,ui -Only '^ui/(smoke\|smoke-display\|smoke-projects\|smoke-project-workspace\|check-appearance)(-mvvm)?$'`, `20261018-011024-suiteui-g1` | PASS 11, NEW-FAIL 0 (le 5 suite con la Release e le 5 `-mvvm`) |
 | profilo `quick` su `8aece8fe` (codice uguale), `suiteui-g1-quick` | PASS 52, NEW-FAIL 0 |
+| `-Stage build,ui -Only '^ui/(smoke-hierarchy\|smoke-materials\|smoke-sharing\|smoke-steel)(-mvvm)?$'`, `20261018-013746-suiteui-g2` | PASS 9, NEW-FAIL 0 (build e le 4 suite nei due modi) |
+| profilo `quick` (codice di `519acbf5`), `20261018-013852-suiteui-g2-quick` | PASS 52, NEW-FAIL 0 |
+
+Fuori dal compito, solo per informazione: `ui/smoke-material-report` e `ui/smoke-project-report`, lanciate a mano con i sette moduli MVVM,
+passano senza modifiche. Usano solo `ISheetEditor`.
 
 Schermo al 150% (144 DPI): le schermate delle suite valgono come documentazione.
 
 ## 7. Stato e ripresa
 
 - Gruppo 1 (suite generali): fatto.
-- Gruppo 2 (materiali: `ui/smoke-hierarchy`, `ui/smoke-materials`, `ui/smoke-sharing`, `ui/smoke-steel`): da fare.
+- Gruppo 2 (materiali: `ui/smoke-hierarchy`, `ui/smoke-materials`, `ui/smoke-sharing`, `ui/smoke-steel`): fatto.
 - Gruppo 3 (muri: `ui/smoke-retaining-wall`, `ui/smoke-global-stability`): da fare.
 
 Per riprendere: `dotnet build X.Desktop/X.Desktop.csproj -c UiTests`, poi una suite con o senza i sette moduli MVVM:
