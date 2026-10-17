@@ -65,7 +65,7 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
     private IReadOnlyList<string> surveys = [];
     private int selectedSurvey;
     private string state = ShallowFoundationPresentation.StateToVerify, resultsText = "";
-    private bool hasDetails;
+    private bool hasDetails, detailsExpanded;
     private IReadOnlyList<string> summary = [], notes = [];
     private IReadOnlyList<string[]> coefficients = [], additive = [];
     private string? graphicsMessage;
@@ -279,6 +279,12 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
 
     /// <summary>The details of the verification are shown (expander under the headline).</summary>
     public bool HasDetails { get => hasDetails; private set => SetProperty(ref hasDetails, value); }
+
+    /// <summary>
+    /// The details of the verification are open (view state, not saved): closed at every calculation, as the expander that the historic
+    /// view created again at every calculation.
+    /// </summary>
+    public bool DetailsExpanded { get => detailsExpanded; set => SetProperty(ref detailsExpanded, value); }
 
     /// <summary>The summary of the details, one line per value («label   value»).</summary>
     public IReadOnlyList<string> Summary { get => summary; private set => SetProperty(ref summary, value); }
@@ -528,7 +534,7 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
     private void ClearResults()
     {
         ResultsText = ShallowFoundationPresentation.ResultsPlaceholder(libraryAvailable);
-        HasDetails = false; Summary = []; Coefficients = []; Additive = []; Notes = [];
+        HasDetails = false; DetailsExpanded = false; Summary = []; Coefficients = []; Additive = []; Notes = [];
         Graphics = null; Mechanism = null; mechanismAxis = -1; OnPropertyChanged(nameof(MechanismAxis));
         PressureSummary = ContactDescription = MechanismDescription = "";
         GraphicsMessage = ShallowFoundationPresentation.ViewToCalculate;

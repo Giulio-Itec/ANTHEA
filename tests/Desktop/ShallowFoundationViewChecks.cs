@@ -754,6 +754,10 @@ internal static class ShallowFoundationViewChecks
             width.Text = "2,5"; await host.Settle();
             Check(host.Editor.Result is null, "UiChecks: una modifica invalida il risultato");
             width.Text = "2"; Click(side.Command("CalculateCommand")); await host.Settle();
+            host.View.Details.IsExpanded = true; await host.Settle();
+            Click(side.Command("CalculateCommand")); await host.Settle();
+            Check(host.View.Details.Visibility == Visibility.Visible && !host.View.Details.IsExpanded && host.Modified == 2,
+                "Dettagli della verifica chiusi a ogni calcolo, come l'espansore che la vista storica ricreava; stato della vista non salvato");
             var tabs = Visual(host.Root).OfType<TabControl>().First();
             Check(tabs.Items.Count == 6, "UiChecks: sei schede riservate ai grafici");
             for (int i = 0; i < tabs.Items.Count; i++)

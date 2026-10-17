@@ -388,7 +388,7 @@
       </Style>
      </TextBlock.Style>
     </TextBlock>
-    <Expander x:Name="Details" Header="Dettagli della verifica, coefficienti e limiti" Visibility="{Binding HasDetails, Converter={StaticResource Visible}}">
+    <Expander x:Name="Details" Header="Dettagli della verifica, coefficienti e limiti" IsExpanded="{Binding DetailsExpanded}" Visibility="{Binding HasDetails, Converter={StaticResource Visible}}">
      <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto">
       <StackPanel>
        <ItemsControl x:Name="Summary" ItemsSource="{Binding Summary}" Focusable="False">
