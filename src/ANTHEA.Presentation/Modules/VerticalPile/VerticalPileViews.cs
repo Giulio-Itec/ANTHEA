@@ -23,7 +23,14 @@ public sealed class VerticalPileSurveyViewModel
         // The items of the choice cells, as StratigraphyTable showed them: the choices of the column without empty or repeated values.
         Choices = columns.Where(c => c.Choices is not null).ToDictionary(c => c.Key,
             c => (IReadOnlyList<string>)c.Choices!.Where(v => !string.IsNullOrWhiteSpace(v)).Distinct().ToArray(), StringComparer.Ordinal);
+        Help = columns.ToDictionary(c => c.Key, c => c.Key == "__tau" ? TauHelp : Anthea.Calculations.CalculationHelp.Field(c.Key), StringComparer.Ordinal);
     }
+
+    /// <summary>The tooltip of the bond column of the micropile, as StratigraphyTable.</summary>
+    public const string TauHelp = "Aderenza dell’abaco (s), applicata al solo tratto aderente nel calcolo ΔRs = π ds Δl τ. Zero se la laterale è esclusa; — se i dati sono incompleti o fuori abaco.";
+
+    /// <summary>The tooltips of the cells, by column key (the help of the field, as StratigraphyTable; null when there is none).</summary>
+    public IReadOnlyDictionary<string, string?> Help { get; }
 
     /// <summary>The items of the choice cells, by column key.</summary>
     public IReadOnlyDictionary<string, IReadOnlyList<string>> Choices { get; }

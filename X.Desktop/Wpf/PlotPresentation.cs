@@ -38,3 +38,16 @@ internal static class PlotPresentation
         target.VerificationSegments = source.Lines; target.ToolTip = UtilizationColors.Legend; target.InvalidateVisual();
     }
 }
+
+/// <summary>
+/// The colour of a curve (#RRGGBB of the plain series) as the foreground of its check box in the MVVM views (F5.6): the same brush as the
+/// historic check boxes of the curves, Appearance.Series of the series colour, lightened in the dark appearances. It lives with the plain
+/// series conversion of the charts, not in the views (P7): the curve colours are the colours of the drawing.
+/// </summary>
+internal sealed class SeriesForegroundConverter : System.Windows.Data.IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) =>
+        value is string color && color.Length > 0 ? Appearance.Series(Ui.Brush(color)) : System.Windows.DependencyProperty.UnsetValue;
+
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotSupportedException();
+}

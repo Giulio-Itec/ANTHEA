@@ -12644,22 +12644,6 @@
       "Example": "28"
     },
     {
-      "File": "X.Desktop/Wpf/SoilTransferDialog.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SoilTransferDialog.SoilTransferDialog.Refresh",
-      "Fingerprint": "042C1A7896394EB79F4BDA997538CAD75F81275B9F1114F3ABACA303D9D27765",
-      "Count": 1,
-      "Example": "profile [ \"water\" ] . D ( \"depth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/SoilTransferDialog.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SoilTransferDialog.SoilTransferDialog.Refresh",
-      "Fingerprint": "A2585DDFAE8E952E69EC58FF6A024CC3FB87CB07BF4665AA5F783A3B9CDF3D82",
-      "Count": 1,
-      "Example": "r . D ( \"spessore\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/StratigraphyTable.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "StratigraphyTable.Build.Resize",
@@ -17482,6 +17466,22 @@
       "Fingerprint": "56707551531FF647EC8A5D829731238BE41B877BF93C53917B1654F65E63EA7B",
       "Count": 1,
       "Example": "seismic . D ( \"kv\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/SoilTransferPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "SoilTransferPresentation.Preview",
+      "Fingerprint": "025F6FB854F044EAF6261F72C6B6C719C1E44FBC221DA3284F7CB5077B06E506",
+      "Count": 1,
+      "Example": "profile [ \"water\" ] . D ( \"depth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/SoilTransferPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "SoilTransferPresentation.Preview",
+      "Fingerprint": "5059126A5107929F896C264577597311DBD87C56E55666B743CA7133878A94CB",
+      "Count": 1,
+      "Example": "r . D ( \"spessore\" )"
     }
   ]
 }

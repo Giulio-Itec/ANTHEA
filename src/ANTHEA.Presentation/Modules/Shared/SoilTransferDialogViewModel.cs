@@ -269,40 +269,16 @@ public sealed class SoilTransferDialogViewModel : DialogViewModel<SoilTransferCh
         ApplyCommand?.NotifyCanExecuteChanged();
     }
 
-    /// <summary>Refresh of the historic window: the preview table and the description of the profile (the description stays without a profile).</summary>
+    /// <summary>Refresh of the historic window: the preview table and the description of the profile (the description stays without a
+    /// profile), from <see cref="SoilTransferPresentation"/> as the historic window.</summary>
     private void Refresh()
     {
         HasPreview = profile is not null;
         if (profile is null) { PreviewRows = []; return; }
-        if (profile["stratigraphy"] is JsonObject document)
-        {
-            var rows = new List<string[]>(); double top = 0;
-            foreach (var layer in StratigraphyDocument.Layers(document).OfType<JsonObject>())
-            {
-                bool infinite = StratigraphyDocument.Infinite(layer);
-                double bottom = top + (StratigraphyDocument.Number(layer["thickness"], "Spessore") ?? 0);
-                string[] Values(JsonObject values, string set) => [layer.S("name") + " · " + set, layer.S("soil_type"), WallSheetPresentation.Number(top), infinite ? "Indefinito" : WallSheetPresentation.Number(bottom),
-                    values.S("gamma"), values.S("gamma_sat"), values.S("phi"), values.S("c"), values.S("cu")];
-                rows.Add(Values(layer, "Medi"));
-                if (layer["minimum"] is JsonObject minimum) rows.Add(Values(minimum, "Minimi"));
-                top = bottom;
-            }
-            PreviewIsStratigraphy = true;
-            PreviewRows = rows;
-            Description = "Stratigrafia completa: copia con medi, minimi, fonti e retini. Per i moduli di verifica scegliere un insieme; per entrambi inviare due fogli distinti. Falda e spessori devono essere definiti; nessuna sostituzione di dati mancanti."
-                + "\nFalda: " + document.S("water_state") + (document.S("water_state") == "Assegnata" ? " a " + document.S("water_depth") + " m" : "") + ". Pesi in kN/m³; angoli in gradi; coesioni in kPa. Stesso piano di riferimento, senza traslazione di quota.";
-            return;
-        }
-        double depth = 0;
-        var table = profile.Array("layers").Select((r, i) =>
-        {
-            double from = depth; depth += r.D("spessore");
-            return new[] { r.S("name", "Strato " + (i + 1)), r.S("tipologia"), WallSheetPresentation.Number(from), WallSheetPresentation.Number(depth), r.S("peso_specifico"), r.S("peso_specifico_saturo"), r.S("angolo_attrito"), r.S("coesione_efficace"), r.S("coesione_non_drenata") };
-        }).ToArray();
-        PreviewIsStratigraphy = false;
-        PreviewRows = table;
-        Description = profile.S("datum") + $". Profondità indagata: {depth:0.##} m. " + (profile["water"].B("enabled") ? $"Falda a z={profile["water"].D("depth"):0.##} m." : "Falda assente.")
-            + "\nPesi in kN/m³; angoli in gradi; coesioni in kPa. Le profondità vengono copiate senza traslazione: usare lo stesso riferimento geometrico nel foglio di destinazione.";
+        var shown = SoilTransferPresentation.Preview(profile);
+        PreviewIsStratigraphy = shown.Stratigraphy;
+        PreviewRows = shown.Rows;
+        Description = shown.Description;
     }
 
     /// <summary>Target of the historic window: the guidance for the chosen destination.</summary>
