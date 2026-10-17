@@ -263,3 +263,159 @@ L'ordine segue il passo 6 della ricetta di F5.4, dopo il punto di controllo F5.6
 - `ui/f3-equivalence` con il modulo MVVM;
 - conteggio delle suite `ui`;
 - questa nota con le risposte.
+
+## 5. Vista XAML (17/10)
+
+Ramo `refactoring/f5-6b-vista`, da `refactoring/f5` `11f48446`, con le decisioni del 17/10 (mattina e tarda mattina): tutte le
+proposte della sezione 4 e di [f5-punti-di-controllo.md](f5-punti-di-controllo.md), più le scelte prudenti del coordinatore in
+[decisioni.md](decisioni.md). La Release resta **storica**: `ModuleImplementations` non cambia, la vista storica non è archiviata e
+le suite storiche non sono riscritte (sezione 5.6). La vista nuova si apre solo nella build UiTests, con
+`--module-impl geo_stratigrafia=mvvm` (banco e `ANTHEA.exe --interactive`).
+
+### 5.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `f14f6617` | ViewModel allineato alle decisioni; `FieldSpec.Multiline` e `FieldSpec.ToolTip` additivi; dialogo condiviso del terreno nella radice di composizione |
+| `4b5e3960` | vista `X.Desktop/Views/Stratigraphy` (foglio, editor, dialogo dell'importazione IA), trigger `Multiline` di `FieldForm`, pulsanti del dialogo condiviso con lo stile del tema |
+| `98a93aca` | `tests/Desktop/StratigraphyViewChecks.cs`, comando `--check-stratigrafia-view`, suite `ui/check-stratigrafia-view` |
+| `f01698f4` | passo `mvvm-geo_stratigrafia` di `--check-contrast` in un blocco a sé (`StratigraphyContrastStep`), non eseguito |
+| (questo commit) | questa sezione |
+
+### 5.2 Decisioni applicate
+
+- **T2.** Sola lettura con `IsReadOnly` dei form dell'editor (già nel ViewModel). Azioni degli strati, caselle «Ultimo strato
+  esteso indefinitamente» e «Gestisci anche i valori minimi» e «Invia / importa terreno da ANTHEA…» sono comandi spenti in sola
+  lettura; l'elenco degli strati e il clic sul profilo restano ammessi, come nella vista storica protetta da `RevisionInspection`.
+- **S7.** Proprietà additiva `FieldSpec.Multiline` (`FieldViewModel.Multiline`), letta da `FieldForm`: invio accettato, testo a capo,
+  altezza massima 110 con scorrimento, testo a sinistra, come le caselle storiche con `AcceptsReturn`. In `StratigraphyFields` la
+  hanno descrizione (dati generali e strato), fonti (medi e minimi) e note (minimi e strato), le stesse chiavi della vista storica.
+  Con `false` (predefinito) `FieldForm` non cambia per gli altri moduli.
+- **S8, D10.** `FieldForm` compatti per blocco: dati generali; nome, famiglia e comportamento (`LayerForm`); la nota sui terreni
+  misti; descrizione e colore (`DescriptionForm`, blocco nuovo del ViewModel per mettere la nota fra i due); spessore; medi e minimi
+  affiancati, o la nota dei minimi assenti; note. Ogni etichetta sta sopra il suo editor, a tutta larghezza (`Wide`), come le
+  etichette storiche sopra le caselle.
+- **D8–D12.** Titolo «Stratigrafia del terreno» a 22 (`Font.Title`; storico 23); intestazioni 16 → `Font.Heading`, 14 →
+  `Font.Subheading`; testi 12 → `Font.Small`; solo token (P7). Nessuna scheda (D11 non si applica).
+- **Navigatore della Wiki (lezione delle unioni del 17/10).** Ogni `FormViewModel` dell'editor, anche dell'anteprima della bozza IA,
+  ha `WikiNavigator = Context.Services.Wiki`. La Wiki non ha argomenti per i campi della stratigrafia: nessun «?», come oggi; F1 su
+  un campo apre la guida del modulo dal navigatore (prima la apriva `SheetEditor` con `WikiContextHelp.Open`), F1 fuori dai campi la
+  apre `MvvmSheetEditor`. Nell'anteprima della bozza (finestra a sé) F1 non apre nulla, come nella finestra storica.
+- **T5, S3.** «Invia / importa terreno da ANTHEA…» passa dal dialogo condiviso: `StratigraphySheetOptions.Transfer` è facoltativo e
+  senza dialogo il foglio usa `SoilTransferDialogService` sui servizi del foglio. `DesktopComposition` non dà più
+  `WpfSoilTransferDialog` alla stratigrafia; vale solo per il foglio MVVM (il foglio storico usa ancora
+  `SheetEditor.OpenSoilTransfer`). Le fondazioni restano con `WpfSoilTransferDialog`.
+  - Equivalenza sulla stratigrafia: le 15 tracce congelate sono uguali anche guidando la vista del dialogo condiviso
+    (`SoilTransferTemplates.xaml`) attraverso i suoi controlli. Comprendono 14 trasferimenti (invii ai cinque moduli con «Medi» e
+    «Minimi», sostituzioni dal foglio stesso e da un altro foglio del progetto, errori del dialogo, una conferma non valida) e uno
+    rifiutato in sola lettura. Inoltre la vista del dialogo e la finestra storica mostrano lo stesso stato (profili, stato,
+    descrizione, anteprima, destinazioni, guida, pulsanti) su tutte le 5 fixture della stratigrafia, con e senza gli altri fogli
+    del progetto, per ogni destinazione, dopo l'importazione dal progetto e per i due insiemi di parametri (95 stati).
+  - Correzione nel dialogo condiviso (vista F5.6): gli stili `Command` e `Primary` dei pulsanti non ereditavano lo stile implicito
+    del tema, quindi i pulsanti perdevano padding, margine e altezza minima di `Ui.Button`. Ora hanno `BasedOn`, e le schermate del
+    dialogo nuovo e della finestra storica coincidono. Vale anche per il palo verticale.
+- **S5.** Importazione IA spenta nella Release, con il suggerimento storico; la vista del dialogo (`StratigraphyImportDialogView`,
+  1200×850 come la finestra storica, cornice compresa) è provata solo con il modulo che la attiva e una sorgente scritta dalla prova.
+  La chiave sta in un `PasswordBox` passato dal code-behind, solo in memoria, e si cancella quando il dialogo si chiude.
+- **S6, T7.** Il «No» alla rimozione dei minimi solleva ancora `Modified`; la casella torna spuntata (il ViewModel rinotifica le due
+  caselle dopo ogni clic, come i controlli ricostruiti dalla vista storica).
+- **S9, S10.** Accettate e invariate (voci delle scelte di `FieldViewModel`; `BuildReport` dà la scheda).
+- **Q19.** I comandi dell'editor passano dal guard dei comandi; gli errori previsti (`ArgumentException` delle azioni) restano
+  messaggi «Stratigrafia», come i `MessageBox` storici.
+- **Q3.** Code-behind solo per il disegno (`StratigraphyProfileView` storico riceve `Profile` e `ProfileSelection`; il clic su uno
+  strato lo seleziona) e per il `PasswordBox` della chiave.
+- **Selezione durante la ricostruzione.** L'elenco della vista perde la selezione quando le righe si ricostruiscono (reset della
+  collezione); l'editor la ignora mentre ricostruisce, come la vista storica ignorava `SelectionChanged` durante il refresh.
+
+### 5.3 Esiti
+
+| Prova | Esito |
+| --- | --- |
+| `ui/check-stratigrafia-view` | PASS 181 controlli (circa 2 minuti): 15 tracce attraverso i controlli della vista e del dialogo condiviso uguali a quelle congelate (7882 righe); 5 fixture con visita senza scritture, «Calcola», «Esporta risultati» rifiutato con lo stesso messaggio, report Word e PDF uguali alla vista storica; schermate; F1 (11 pressioni su 11, anche in sola lettura); nomi di automazione; sola lettura; importazione IA con sorgente scritta dalla prova; dialogo condiviso contro la finestra storica (95 stati); banco e Release |
+| Cattura F3 con il modulo MVVM (`--module-impl geo_stratigrafia=mvvm`) | PASS 104 fixture, uguale al riferimento `expected` (1066 file) con le transizioni F4 di sempre, nessuna per la stratigrafia; la cattura storica degli stessi binari dà lo stesso esito |
+| Confronto diretto (`tools/qa/f5_confronto_diretto.py`) con la cattura storica degli stessi binari | **0 differenze** su 1066 file (1063 uguali byte per byte, 3 JSON uguali in forma canonica; ignorati solo i 6 tempi del palo elastico) |
+| `--check-f3-report-chapters` con il modulo MVVM | PASS 105 capitoli autonomi, 246 immagini e tutte le parti XML confrontate con la vista (i 5 della stratigrafia con il report esportato dal foglio MVVM) |
+| `Presentation.Tests` | PASS 1813 controlli (da 1799): forme e comandi della vista, dialogo condiviso dal servizio dei dialoghi, navigatore nell'anteprima |
+| `Architecture.Tests` | PASS 523; baseline invariate (F4, P3, `f5-static-baseline.json`, `limits.json`) |
+
+Schermate a 144 DPI (schermo al 150%), nella cartella `vista\schermate` della suite: vista nuova e storica nei tre aspetti, ultimo
+strato indefinito, area stretta (730 px con scorrimento orizzontale), dialogo dell'importazione con una bozza, dialogo condiviso del
+terreno e finestra storica nello stesso stato. `ui/check-contrast` non è stata eseguita (T10: va ripetuta a 96 DPI).
+
+### 5.4 Differenze visibili fra le due viste
+
+- Titolo 23 → 22 (D9) e corpi dei testi portati ai token (sezione 5.2).
+- Campi `FieldForm` compatti: fondo `Token.Field.Background` invece del bianco, caselle un poco più basse, testo dei campi a una riga
+  allineato a destra come in `InputForm` (le caselle storiche lo allineavano a sinistra), suggerimento con l'etichetta su etichette
+  ed editor (φ′ compreso, vedi S14). I testi su più righe restano a sinistra.
+- Il pulsante dell'importazione e gli altri pulsanti hanno lo stile del tema come oggi; la riga selezionata dell'elenco usa
+  `Token.Selection` (il modello della riga mostra comunque il colore di selezione di sistema, come oggi).
+- «Invia / importa terreno da ANTHEA…» apre il dialogo condiviso (T5) invece della finestra storica: stesso contenuto, finestra a
+  dimensione fissa (`WpfDialogService` adatta la finestra al contenuto), piccole differenze di spaziatura.
+- Dialogo dell'importazione IA a dimensione fissa 1200×850 (la finestra storica era ridimensionabile, minimo 850×600).
+- Solo dove la vista storica fallisce: un errore imprevisto di un'azione o del trasferimento si vede come «Operazione non
+  completata» (guard, Q19) invece del gestore globale con il registro degli errori (S4 per la conferma non valida).
+
+### 5.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S13 · Allineamento del testo.** Campi a una riga allineati a destra, la convenzione di `FieldForm`/`InputForm` (anche i campi
+  `Wide` di altri moduli, per esempio il nome dell'acciaio). Alternativa: una proprietà additiva di `FieldSpec` per l'allineamento a
+  sinistra dei testi. **Scelta presa:** convenzione di `FieldForm`, nessuna API comune nuova.
+- **S14 · Suggerimento di φ′.** `FieldViewModel` usa `CalculationHelp.Field(chiave)` per etichetta ed editor; per la chiave «phi»
+  quel testo è il coefficiente di viscosità φ del calcestruzzo, non l'angolo di resistenza φ′ del terreno. **Scelta presa:** proprietà
+  additiva `FieldSpec.ToolTip`; la stratigrafia mette l'etichetta come suggerimento di φ′ (medi e minimi). Alternativa: suggerimenti
+  per modulo in `CalculationHelp`.
+- **S15 · Identità in due blocchi.** `LayerForm` ha ora nome, famiglia e comportamento; `DescriptionForm` descrizione e colore, per
+  la nota sui terreni misti fra i due (S8). **Scelta presa:** due form; le tracce e `Presentation.Tests` lo seguono. Alternativa: la
+  nota come `FieldSpec.Note` del comportamento (riquadro giallo delle note, diverso dal testo storico).
+- **S16 · Finestra del dialogo IA.** Dimensione fissa 1200×850 come per i dialoghi di F5.6 (domanda già aperta lì). Alternativa:
+  finestra ridimensionabile con minimo 850×600 in `WpfDialogService`.
+- **S17 · Pulsanti del dialogo condiviso.** Corretti con `BasedOn` (sezione 5.2). Da confermare insieme alla stessa correzione per la
+  vista del palo verticale (`VerticalPileSheetView.xaml`, stile `Command`), non fatta qui perché fuori dal modulo.
+
+Segnalazioni, senza correzioni:
+- **Muri, vista storica.** «Angolo di attrito caratteristico» (chiave «phi» di `RetainingWallFields`, `InputForm`) ha come
+  suggerimento dell'etichetta l'aiuto della viscosità φ del calcestruzzo (`CalculationHelp.Field("phi")`). Stessa causa di S14.
+- **Vista del palo verticale.** Pulsanti senza lo stile del tema (S17).
+- **Finestra storica dell'importazione.** Legge la chiave dall'ambiente (`OPENAI_API_KEY`) già alla costruzione, nei suoi campi: le
+  prove della vista nuova non la costruiscono mai; la vista nuova riceve la chiave solo dalle opzioni del modulo all'apertura del
+  dialogo.
+
+### 5.6 Suite storiche da riscrivere al passaggio della Release
+
+Nello stesso commit del passaggio (sezione 3, punto 5):
+- `Stratigraphy.UiChecks` (`tests/ModelViewer.UiChecks/StratigraphyRenderingChecks.cs`): apre il foglio dalla fabbrica ma legge la
+  vista storica per albero visuale e la finestra dell'importazione per riflessione (`drafts`, `profiles`, `reviewed`, `UpdateApply`).
+  Va riscritta sul ViewModel e sulla vista nuova; i testi e i nomi che legge esistono già nella vista nuova (provato da
+  `ui/check-stratigrafia-view`). La parte dei retini (`SoilHatchBrush`) e del dialogo del terreno resta.
+- `ui/check-stratigrafia-historic` (`tests/Desktop/StratigraphyHistoricTrace.cs`): segue la vista storica in `supporto/SUPERATI`; le
+  tracce congelate restano per `Presentation.Tests` e per `ui/check-stratigrafia-view`.
+- `ui/check-stratigrafia-view`: i confronti con `SheetEditor` (esportazioni, schermate storiche, nomi di automazione, sola lettura) e
+  il controllo «la Release resta storica» si tolgono o passano a dati congelati; il confronto del dialogo condiviso con la finestra
+  storica resta finché `SoilTransferDialog` serve alle fondazioni.
+- `ui/check-module-host-offscreen` (`tests/Desktop/ModuleHostWpfChecks.cs`): «la Release apre geo_stratigrafia con la vista storica»
+  diventa la vista MVVM.
+- `--check-contrast`: si toglie `StratigraphyContrastStep`; il passo `modulo-geo_stratigrafia` mostra la vista nuova e le voci della
+  Chiara passano al passo del modulo alla prima corsa a 96 DPI (D12).
+- Le suite F3 (`ui/f3-equivalence`, `ui/f3-report-chapters`) non cambiano: passano già con il modulo MVVM (sezione 5.3).
+
+### 5.7 Da provare a mano in una build di prova (versione portatile con la vista attiva)
+
+1. Aprire una stratigrafia di un progetto reale: dati generali, elenco degli strati, profilo e stato come oggi; selezionare gli
+   strati dall'elenco e con un clic sul profilo; restringere la finestra (scorrimento orizzontale sotto i 730 px).
+2. Modificare nome, descrizione su più righe (Invio), quota e falda; i campi dello strato (famiglia, comportamento, colore, spessore,
+   parametri, fonti e note); provare valori non validi e leggere lo stato.
+3. «+ Strato», «Duplica», «Elimina», «↑», «↓», anche sul primo e sull'ultimo strato e con l'ultimo indefinito (messaggi).
+4. «Ultimo strato esteso indefinitamente» sull'ultimo strato; «Gestisci anche i valori minimi» con la domanda (Sì e No).
+5. «Invia / importa terreno da ANTHEA…»: invio a un nuovo foglio di ogni modulo con «Medi» e «Minimi», «Carica terreno…» e «Salva
+   terreno…», importazione da un altro foglio del progetto, sostituzione del terreno del foglio.
+6. Una revisione precedente (sola lettura): campi e comandi bloccati, elenco e profilo utilizzabili.
+7. Report Word e PDF; «Esporta risultati» rifiutato come oggi.
+8. F1 su un campo e fuori dai campi (guida del modulo).
+9. Aspetti Scuro e Molto scuro.
+
+L'importazione IA resta spenta nella Release (S5): non si prova a mano.
+
+### 5.8 Corsa finale
+
+Corsa `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` sul commit di questa sezione: l'esito è nel commit successivo.
