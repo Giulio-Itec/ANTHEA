@@ -65,13 +65,12 @@ public sealed partial class MainWindow
             Check(sharedStatus.IsVisible && sharedStatus.Text.Contains("NON RISPETTATO") && sharedStatus.Text.Contains("50 mm"),
                 "Avviso Materiali non visibile in " + sheet.S("nome"));
             if (ReferenceEquals(sheet, material))
-                Check(Ui.Descendants<TextBlock>(historicEditor!.materials!).Any(t => t.Text == "cnom = 50 mm"), "Il riferimento non coincide con il valore mostrato in Materiali");
+                Check(Ui.Descendants<TextBlock>(editor!.View).Any(t => t.Text == "cnom = 50 mm"), "Il riferimento non coincide con il valore mostrato in Materiali");
         }
         // Editing the material must update the warning immediately, before saving/committing.
-        var numbers = (Dictionary<string, TextBox>)typeof(Materiali.MaterialView).GetField("numbers", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(historicEditor!.materials)!;
-        numbers["diameter"].Text = "16";
+        openSheet.TypeConcreteNumber("diameter", "16");
         Check(!sharedStatus.Text.Contains("NON RISPETTATO"), "Avviso obsoleto dopo riduzione del minimo");
-        numbers["diameter"].Text = "40";
+        openSheet.TypeConcreteNumber("diameter", "40");
         Check(sharedStatus.Text.Contains("NON RISPETTATO"), "Modifica del minimo non segnalata in tempo reale");
         Commit(); ShowProjects(); ShowProjectOverview(section);
         Check(SectionReportWarnings(section).Count(s => s.Contains("NON RISPETTATO")) == 2, "Avvisi assenti dal riepilogo/report");

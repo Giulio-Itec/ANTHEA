@@ -326,7 +326,7 @@ foreach ($c in 'check-appearance', 'check-global-guidance-offscreen', 'check-wal
 # Release (docs/refactoring/f5-suite-ui.md).
 $MvvmBench = @('geo_fondazioni_superficiali', 'mat_calcestruzzo', 'mat_acciaio_armatura', 'geo_palo_verticale', 'geo_micropalo_verticale', 'geo_stratigrafia', 'geo_muri_sostegno') |
     ForEach-Object { '--module-impl'; "$_=mvvm" }
-foreach ($s in 'smoke', 'smoke-display', 'smoke-projects', 'smoke-project-workspace') {
+foreach ($s in 'smoke', 'smoke-display', 'smoke-projects', 'smoke-project-workspace', 'smoke-hierarchy', 'smoke-materials', 'smoke-sharing', 'smoke-steel') {
     $smokeArgs = if ($s -eq 'smoke') { @("--$s", '{out}', '{cases}') } else { @("--$s", '{out}') }
     Add-Suite @{ Name = "ui/$s-mvvm"; Stage = 'ui'; Kind = 'smoke'; Args = $smokeArgs + $MvvmBench; Timeout = 900; Proof = @{ File = '{out}\esito-smoke-completo.txt'; Pattern = "^Completato: --$s$" } }
 }

@@ -52,6 +52,26 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     internal void VerifyReport(string directory) { if (Pile is { } pile) pile.VerifyReport(directory); else Historic.VerifyReport(directory); }
 
     internal Task VerifyNavigationThrough(Action leave, Action resume) => Pile is { } pile ? pile.VerifyNavigationThrough(leave, resume) : Historic.VerifyNavigationThrough(leave, resume);
+
+    // ---------------------------------------------------------------- materials (ui/smoke-materials, ui/smoke-hierarchy, ui/smoke-sharing, ui/smoke-steel)
+
+    /// <summary>The concrete with the XAML view, null otherwise.</summary>
+    private ConcreteMaterialSmoke? Concrete => ConcreteMaterialSmoke.Handles(editor) ? new((MvvmSheetEditor)editor) : null;
+
+    private Materiali.MaterialView HistoricConcrete => Historic.materials ?? throw new Exception("Scheda materiali non aperta");
+
+    /// <summary>RestoreState of the historic concrete view; on the XAML view the same state set through its controls (ConcreteMaterialSmoke.Apply).</summary>
+    internal void SetConcreteState(System.Text.Json.Nodes.JsonObject state) { if (Concrete is { } concrete) concrete.Apply(state); else HistoricConcrete.RestoreState(state); }
+
+    /// <summary>MaterialView.Check, the self-check of the concrete sheet (ui/smoke-materials).</summary>
+    internal void CheckConcrete() { if (Concrete is { } concrete) concrete.SelfCheck(); else HistoricConcrete.Check(); }
+
+    /// <summary>The user types in a field of the concrete (before the commit: the preview of the sheet follows).</summary>
+    internal void TypeConcreteNumber(string key, string text) { if (Concrete is { } concrete) concrete.Type(key, text); else HistoricConcrete.NumberBoxForChecks(key).Text = text; }
+
+    /// <summary>The reinforcing steel, with either view (SteelSmoke).</summary>
+    internal SteelSmoke Steel => editor.Module != RebarMaterial.Module ? throw new Exception("Modulo acciaio non aperto")
+        : new(editor is MvvmSheetEditor ? editor : Historic);
 }
 
 /// <summary>f5-suite-ui: what the UI suites need from any sheet with the XAML view.</summary>
