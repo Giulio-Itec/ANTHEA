@@ -584,8 +584,9 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - **Prove nuove:** `ui/check-theme-tokens` e `ui/check-contrast` nello stadio ui. Scuro e Molto scuro hanno 0 difetti; la
     Chiara ne ha 699 nella baseline a 96 DPI.
   - **Corsa** build, fast, wiki e ui sul merge con il pilota `20261016-123436-f5-int5`: PASS 111, 0 NEW-FAIL.
-- [ ] F5.4 [CP] Modulo pilota: palificata orizzontale. Passi 1–4 della ricetta fatti il 16/10; in attesa del punto di
-  controllo dell'utente ([ricetta e materiale](f5-4-pilota.md), sezione 4).
+- [x] F5.4 [CP] Modulo pilota: palificata orizzontale. Punto di controllo accettato dall'utente il 17/10 («accetto tutte le
+  proposte», [decisioni](decisioni.md), sezione «17 ottobre (mattina)»); chiusa lo stesso giorno sul ramo
+  `refactoring/f5-4-chiusura` ([ricetta, materiale e chiusura](f5-4-pilota.md), sezioni 4 e 5).
   - **Preparazione** (merge 826eb8ed):
     - 6 fixture F3 nuove catturate con la vista storica e 11 tracce congelate;
     - derivazioni spostate in Application;
@@ -599,6 +600,25 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
     - contrasto 0 in Scuro e Molto scuro.
   - **Versione di prova portatile `1.11.0-prova.f5`**, consegnata all'utente il 16/10. Ramo locale `prova/f5-palificata`, con la
     palificata MVVM anche nella Release.
+  - **Chiusura** (passi 6–7 della ricetta):
+    - `832af117`: `ui/check-pile-group-view` confronta con i valori della vista storica senza aprirla (tracce congelate, ricetta
+      delle esportazioni, valori registrati);
+    - `e8855058`: la Release apre la palificata con la vista MVVM e tutti gli altri moduli con quella storica. La vista storica
+      e la sua prova delle tracce sono in `supporto/SUPERATI/ui-storica/palificata`. Sono tolti i rami della palificata di
+      `SheetEditor` e la suite `ui/check-pile-group-historic`. La voce della Chiara del contrasto passa alla vista nuova (D12),
+      a totale invariato;
+    - baseline di architettura invariate (il file archiviato non aveva più voci F4 né P3).
+  - **Corse:**
+    - `ui/f3-equivalence` con la Release MVVM: PASS, 0 differenze non ammesse, `transitions-f4.json` invariato;
+    - cattura identica a quella della Release storica di `20261017-060301-f5-int13` (confronto diretto);
+    - corsa finale build, fast, wiki e ui senza `ui/check-contrast` su `e8855058` (`20261017-095952-f54c-finale`): PASS 118,
+      0 NEW-FAIL (build 25, fast 31, wiki 2, ui 60: una suite in meno, `ui/check-pile-group-historic`).
+  - **Restano:**
+    - `ui/check-contrast` alla prima corsa a 96 DPI (esito atteso nella sezione 5.2 della nota);
+    - la correzione del nome dell'espansore nella guida pratica, che è sbagliato già prima del passaggio («Applicabilità e
+      interassi rappresentativi» invece di «Opzioni di calcolo e applicabilità»). Va fatta in un passo documentale con
+      l'aggiornamento editoriale F3-06 della Wiki, poi PDF da rigenerare (sezione 5.4 della nota). Il passaggio in sé non cambia
+      la guida.
 - [ ] F5.5–F5.12 Materiali, palo verticale, orizzontale, elastico, muri, sezione c.a., sezione composta, Bridge Design.
   - **Preparazioni fatte il 16/10** (passi 1–5 della ricetta, Release storica). Per entrambe restano la vista XAML e il punto
     di controllo:
