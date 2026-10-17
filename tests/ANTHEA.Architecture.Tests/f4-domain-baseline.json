@@ -7908,470 +7908,6 @@
       "Example": "e . D ( \"stratigrafia\" , - 1 )"
     },
     {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ElasticPileWorkspace",
-      "Fingerprint": "30B6D255BE697FFB9890E2C750ABBC1D996404E2BDECF3F2AD0F778812676FBB",
-      "Count": 1,
-      "Example": "p . D ( \"DistributedStiffness\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ElasticPileWorkspace",
-      "Fingerprint": "4CEFA65045A88FA3DDAFBB5305BA3E45B3E3C6FA95E3A2A8299F277B89F35DCF",
-      "Count": 1,
-      "Example": "p . D ( \"Kh\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ElasticPileWorkspace",
-      "Fingerprint": "5EB3C71AE79FB7FA28F3E4AB084B1A66477F86B1D70A7D45E30F3EBE9E45B6A9",
-      "Count": 1,
-      "Example": "p . D ( \"Shear\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ElasticPileWorkspace",
-      "Fingerprint": "614FDE30B51BADB479BB3A08B42874F2CE99AF59615482D371EBEE1132D69876",
-      "Count": 1,
-      "Example": "p . D ( \"AxialForce\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ElasticPileWorkspace",
-      "Fingerprint": "693485BA39D621024C4F3B28ED525812EE2756378122D80F3359F90E51D77819",
-      "Count": 1,
-      "Example": "p . D ( \"Depth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ElasticPileWorkspace",
-      "Fingerprint": "8B1FEAD1F89071E4F43B6029D4068DE82BE0F93B23E86E0475325A41C1E0FB9B",
-      "Count": 1,
-      "Example": "p . D ( \"Rotation\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ElasticPileWorkspace",
-      "Fingerprint": "A216086B6F603444ED8B8B42B1B246160A8D5D3B3DCFC7302FB99DE7E36096DA",
-      "Count": 1,
-      "Example": "p . D ( \"Layer\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ElasticPileWorkspace",
-      "Fingerprint": "A233E14F8EC9E5C492343CFEFAE4F8560B44CDA071FB070167985178AC22BCF1",
-      "Count": 1,
-      "Example": "p . D ( \"GroundDepth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ElasticPileWorkspace",
-      "Fingerprint": "C6C4A9A21DEF94CEC640FA9AE1B93C0AEF90D1B8177AA9E3F1BCF0C4C0811BB1",
-      "Count": 1,
-      "Example": "p . D ( \"Displacement\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ElasticPileWorkspace",
-      "Fingerprint": "CE0C25F504DF18DB4721DDBB44D660806D45174B9BD90062A622C0FC19966B1B",
-      "Count": 1,
-      "Example": "p . D ( \"SoilReaction\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ElasticPileWorkspace",
-      "Fingerprint": "D1516333887308BF78B106B54ADD9D65459FF2682EAFBA4A3989621C24D554AF",
-      "Count": 1,
-      "Example": "p . D ( \"Moment\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "042BF1E7D35CA39C85E1E785E9E3919D8DD9A4F47568DB2ED6C070A7152BC291",
-      "Count": 1,
-      "Example": "p . D ( \"DistributedStiffness\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "1BCB45504BBE1A367943110E049AFBD5EC7B128A446B6EDAFCE950B9E9D93D76",
-      "Count": 1,
-      "Example": "ex . D ( \"MaximumDepth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "1D9DF0C7E25588CCF451489E2D36A0C03EBF414712A9A4A984E1D8EFEC99BDD0",
-      "Count": 1,
-      "Example": "r . D ( \"ComparisonElements\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "2C9977413D1191F765F4136FC2C98BA8A44C9EBC02723C65245919813C688B03",
-      "Count": 1,
-      "Example": "r [ \"RelativeMeshChanges\" ] . D ( \"y\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "31B388F87C387C7E56E72240410BFA40BDF8BF3C757DC09001C53984DBF8C508",
-      "Count": 1,
-      "Example": "p . D ( \"Kh\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "3BB863E10045551FD0F4C57AB8EA0B4B8758656FE987CC304A721B0BC70A9553",
-      "Count": 1,
-      "Example": "r . D ( \"HeadReactionMoment\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "4A629A2ECE905ACBBBF150C6C8772DFEA5C9591882CC43D03CDDD8926979700C",
-      "Count": 1,
-      "Example": "ex . D ( \"AbsoluteMaximumDepth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "4F5E3AD05A31AFF63CD95304B295599B6D6605DF3D67012E1B97EA2C7245EF11",
-      "Count": 1,
-      "Example": "r . D ( \"Elements\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "59367E0C5D5C62E1EFAE811F40FE9A503FC7D9361D9A78440888436B5471F9AB",
-      "Count": 1,
-      "Example": "p . D ( \"Rotation\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "6AEF21794F3A077A54E3C5880FCCB486346FB4874D14612A9915C0E7960A6926",
-      "Count": 1,
-      "Example": "p . D ( \"SoilReaction\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "717CF8C548CDA62286AABDFE80B15021750B21D2E6431D99A304474411A9E3AF",
-      "Count": 1,
-      "Example": "p . D ( \"Displacement\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "8B840A35D87059B11569DBD1C0658DB32B90C4EF3C704C54296D6A859A0D9960",
-      "Count": 1,
-      "Example": "ex . D ( \"Maximum\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "9063AF47463B101BDEF64FF1A56D86171EA59BD738507B21203E22D309F8012D",
-      "Count": 1,
-      "Example": "r . D ( \"MomentResidual\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "95E6882947F8636B1D098FDC25A455A965CF82B606045E5DE5335656F5A8F4B0",
-      "Count": 1,
-      "Example": "ex . D ( \"MinimumDepth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "AD41F229A64F3066418FE6A5A77A21A33381253E77A906676E783BBAB7D4A68D",
-      "Count": 1,
-      "Example": "r . D ( \"ForceResidual\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "AE0BE25CACAD728F1FB392983269C3F060492379777356D23C5E497A6E3E5104",
-      "Count": 1,
-      "Example": "p . D ( \"Moment\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "AEF17D21DB4A7E2A3967A223F33F34C9155108397734DDF4B6D6610C6A9E68C0",
-      "Count": 1,
-      "Example": "r . D ( \"TipReactionForce\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "B719E330AB6550048C9951A96A7F3B64812CB0BD9AA2A88793A5B62A3059C7A7",
-      "Count": 1,
-      "Example": "r [ \"RelativeMeshChanges\" ] . D ( \"V\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "BA4EDB598CE4D7551A65C2D049217F635AE70856DFBA26F6B2BE5C64635E4C92",
-      "Count": 1,
-      "Example": "p . D ( \"Layer\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "CEA6327B60EAECF445A9B4C4318F31EB23D0C9A35E25F0CDEF6BBF1177278C03",
-      "Count": 1,
-      "Example": "r [ \"RelativeMeshChanges\" ] . D ( \"M\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "D506962706FFF3AD4C3B6C87926B1C517CA2067AEEBA66893616899FD4DB90B9",
-      "Count": 1,
-      "Example": "ex . D ( \"AbsoluteMaximum\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "D5F6DFEA642EEA96459A31E57D3F49F8D58E5BDA244905611222C7B52817210A",
-      "Count": 1,
-      "Example": "r . D ( \"TipReactionMoment\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "DDB1BFCFCE072A7F30E4E1A2AF065A72D2E7B563400F2A042F6121F8FA24E058",
-      "Count": 1,
-      "Example": "p . D ( \"Shear\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "E4254B1E41DEA04A9F34A2E6412B2FBF2F93EC7E5250CE529FE6812B0052F0FE",
-      "Count": 1,
-      "Example": "ex . D ( \"Minimum\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "E9D5BED2737C6214C728DC4594338523449F757F48A3270161530494AA6A8C16",
-      "Count": 1,
-      "Example": "p . D ( \"AxialForce\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "F4227171F206C9ECF912FD10F14636B25722F9C79FEDC1C82F215E44000BA47F",
-      "Count": 1,
-      "Example": "p . D ( \"Depth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.PresentResponse",
-      "Fingerprint": "FFED40A5973C6A2405578D7C0AD2C33BDDC9140E8B8E8E013200A58248E3D1D3",
-      "Count": 1,
-      "Example": "p . D ( \"GroundDepth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.Present",
-      "Fingerprint": "06C7B497ECA5AC9CEDDF55318972932CD619ECEF6F5C6A52FDF8108A360E3130",
-      "Count": 1,
-      "Example": "r . D ( \"HeadDisplacement\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.Present",
-      "Fingerprint": "2F21406E5221C774C81D243383AC3260D41A7904B2C2394545702CD790FC816F",
-      "Count": 1,
-      "Example": "Result [ \"dati_condivisi\" ] . D ( \"stratigrafia\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.Present",
-      "Fingerprint": "66F50C687BA52EEEEFE4A608189CF7482C36FA0E7FB793F518AEA676594B7A44",
-      "Count": 1,
-      "Example": "t . D ( \"inizio\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.Present",
-      "Fingerprint": "756E8BDE5274D2D9DF16475E8DB2E7C58FDFDE09072831667F1987F2498EC0C0",
-      "Count": 1,
-      "Example": "a . D ( \"Depth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.Present",
-      "Fingerprint": "8CF9293A6D64BEDF0BA8D984615E48D32D79811C24D94E50DF6F3B04D1A25347",
-      "Count": 1,
-      "Example": "r . D ( \"HeadRotation\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.Present",
-      "Fingerprint": "986A84A0F34A018F45C7A3E7E4DA3E4120F8305A970C6DE0943F2431CBC04976",
-      "Count": 1,
-      "Example": "t . D ( \"fine\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.Present",
-      "Fingerprint": "9F22E07A639A1F5CBB3B217DA38F3C642B1D1A4C6EE10C92801B6F38F4E64307",
-      "Count": 1,
-      "Example": "r . D ( \"Elements\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.Present",
-      "Fingerprint": "B7AF60684050798996AF694320012004D52AE904D04B99C5C74B7ED29A3A6292",
-      "Count": 1,
-      "Example": "a . D ( \"M\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.Present",
-      "Fingerprint": "C7F0DDD43FB79D5CD4769AF6888486E47A33052A3DE8F55C9FBE4EAD69611992",
-      "Count": 1,
-      "Example": "a . D ( \"V\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.Present",
-      "Fingerprint": "F6168E5665AA54A08BEC6F09BE2FBA4F5C0E768D15C578FB4D2AEE80C89D254D",
-      "Count": 1,
-      "Example": "a . D ( \"N\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ShowSection",
-      "Fingerprint": "2E91F33E2F5DCBF74F7A64A6F2C650CF17E822C440AA950D05FF8804AE63657F",
-      "Count": 1,
-      "Example": "t . D ( \"fine\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ShowSection",
-      "Fingerprint": "4241805AF1B83F5ED492041E276FD0588BDD1BB92F19ABD2ECE9BC36E12C8E20",
-      "Count": 1,
-      "Example": "section . D ( \"transverse_spacing_mm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ShowSection",
-      "Fingerprint": "5F3C0FD3F68AC5F13F6CE6C2F00414D3890717EC70EDCFCB6886FA2652B4C97F",
-      "Count": 2,
-      "Example": "section . D ( \"transverse_bar_diameter_mm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ShowSection",
-      "Fingerprint": "73FABC9AA213DA76D299F74100328EA52132ED9AE85B526ECF44F69EF588A48C",
-      "Count": 1,
-      "Example": "t . D ( \"inizio\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ShowSection",
-      "Fingerprint": "887EF8A50D579AE85CC0DDF7BF933E59789D93AB441CB8013712ED7737999336",
-      "Count": 1,
-      "Example": "p . D ( \"Depth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ShowSection",
-      "Fingerprint": "91D225283C48FA2619FBA202CFBC54BEA4FFA618CB739FBFD2F5DD6A6FC131DA",
-      "Count": 1,
-      "Example": "section . D ( \"cover_mm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ShowSection",
-      "Fingerprint": "9B285363352B67AA0BD4B402672F235F8EFAF1B43F151DF4D00921CF85827474",
-      "Count": 1,
-      "Example": "section . D ( \"longitudinal_bar_count\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ShowSection",
-      "Fingerprint": "9ECB911BA8C112FCF209E685BB93696C82F12C612F2FDECE6CD9BA2EFFE79B82",
-      "Count": 1,
-      "Example": "p . D ( \"GroundDepth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ShowSection",
-      "Fingerprint": "DECBC372816391230952FAFB495D062D1EAD0F1AB38291633BC1784696701045",
-      "Count": 1,
-      "Example": "s . D ( \"staffa_raggio_mm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticPileWorkspace.ShowSection",
-      "Fingerprint": "E6B1BB1A17579EFFA5B334D8569D7D4095D5EA4351E5582993E18514B4ED87A6",
-      "Count": 1,
-      "Example": "section . D ( \"longitudinal_bar_diameter_mm\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/ErrorLog.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "ErrorLog",
@@ -11154,318 +10690,6 @@
       "Fingerprint": "360D2305E227D05DA0C23B19EA8195B1CFA59FF128FB74E1FAF438F0889282AC",
       "Count": 1,
       "Example": "6"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.Bill",
-      "Fingerprint": "0FEA205BAD9507908414395D5FE752DE096A8A62121E3424B5A7C25598C2789D",
-      "Count": 1,
-      "Example": "p . D ( \"Diameter\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.Bill",
-      "Fingerprint": "5C091C504656719812E9544C1F494B96BD4AF87608508C5DDBF128F283617D01",
-      "Count": 1,
-      "Example": "p . D ( \"Count\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.Bill",
-      "Fingerprint": "62D869DD4451D32727A560457AAE6BE558CC6AD381C35BF9DFC780C4FD8AECAE",
-      "Count": 1,
-      "Example": "p . D ( \"End\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.Bill",
-      "Fingerprint": "7F7E3D2E0FC6218375DA31EBCC3E81CBC0696B45DCB77A51655DA425B52C09F2",
-      "Count": 1,
-      "Example": "run . D ( \"Diameter\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.Bill",
-      "Fingerprint": "AA6A7A7F5BC5AA0B179DE1747E0E25B1B6FA6740F15544244ACD93DD82997142",
-      "Count": 1,
-      "Example": "p . D ( \"StockLength\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.Bill",
-      "Fingerprint": "C61A6AABF3A9EC2ABED9AF630C6B10823B3A6ADAB2B3336044085D6C7ABF782D",
-      "Count": 1,
-      "Example": "p . D ( \"CuttingLength\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.Bill",
-      "Fingerprint": "D644AFD432EE5F8E74F275DF14B8E5B564E2337EDA8076BBD238A48D448B53D4",
-      "Count": 1,
-      "Example": "run . D ( \"Count\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.Bill",
-      "Fingerprint": "E1054497D2DB30EA3C52CF5D765A1D25515334ACC8A78C67F1A2EC8162BC0C7E",
-      "Count": 1,
-      "Example": "p . D ( \"Start\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.Build",
-      "Fingerprint": "35E4F7A4028EC4D1B2D0C87B2DBE95238353D6C5833645647540BEFCFCBEE681",
-      "Count": 1,
-      "Example": "root [ \"generali\" ] . D ( \"tratto_libero\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.Build",
-      "Fingerprint": "A78CCD8DF2F5F3B5BF10208D0B6D2F4987DC8800A7BA6D097106979378E80B8F",
-      "Count": 1,
-      "Example": "root [ \"generali\" ] . D ( \"lunghezza\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.JointText",
-      "Fingerprint": "01405C74C4F86C994D811CE9848BC11BF50405D9D9A8ED8544AD0300C5FF9246",
-      "Count": 1,
-      "Example": "j . D ( \"End\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.JointText",
-      "Fingerprint": "3956F26DD2F4D27527080E2A755DB077E5FB85F6D295526181B9B5B2FD4952E1",
-      "Count": 1,
-      "Example": "j . D ( \"InitialLength\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.JointText",
-      "Fingerprint": "616294C6ADCCCCE7EEC830974AA90EEBD7AD7535E78A079E6F6FB9AE216AC27E",
-      "Count": 1,
-      "Example": "j . D ( \"ActualLength\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.JointText",
-      "Fingerprint": "8087151BA5171D1ACFB8491AC9D9B2AB12B0CF9F5E6E48C79FF2CDCAB1ED4826",
-      "Count": 1,
-      "Example": "j . D ( \"MatchedCount\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.JointText",
-      "Fingerprint": "8FF91E166D55883D499C2E4ED2117B7C15DB1706FE98DAEAEE93BAD89064DCD0",
-      "Count": 1,
-      "Example": "j . D ( \"AdoptedLength\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.JointText",
-      "Fingerprint": "BC088BE7B4D45EA6F64F7056A991B968759455D9E29F3F7464AAA3605B80FEA1",
-      "Count": 1,
-      "Example": "j . D ( \"Count\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.JointText",
-      "Fingerprint": "E793C6459ABC5E008F0B4AC4EA4726B5D4FFC94A4685B72A610779E5CD21B4B1",
-      "Count": 1,
-      "Example": "j . D ( \"RequiredLength\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.JointText",
-      "Fingerprint": "EB8475A5C9B7C3B62E7A464491273B0260E1D0AA815506830A4C6CB3A06A538F",
-      "Count": 1,
-      "Example": "j . D ( \"Start\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.LinkBill",
-      "Fingerprint": "2220FACB04EAA4EA885F83099F8840DC52FCB53B9766324870E41ED325C37848",
-      "Count": 1,
-      "Example": "links . D ( \"quantita\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.LinkBill",
-      "Fingerprint": "776D35874E05FC1D5AB44363BB930CF1C10B5A3807AFDB282F149BAD63ACC04C",
-      "Count": 1,
-      "Example": "links . D ( \"spire\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.LinkBill",
-      "Fingerprint": "96137D5F3006D3DBCF2320FD7A1407A796D0394FA6E7CA0D84642ECC8F3926E6",
-      "Count": 1,
-      "Example": "links . D ( \"diametro_mm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.LinkBill",
-      "Fingerprint": "9F41CCC0ADD5F142C16D673EB81B3BD36A8DC8B9998512BEE938B0460F9AEB22",
-      "Count": 1,
-      "Example": "links . D ( \"passo_massimo_mm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.LinkBill",
-      "Fingerprint": "D174EC3692490D15BAF1CA39FD9B038CFC088FCE18B04DE87613C308AEBAD845",
-      "Count": 1,
-      "Example": "links . D ( \"lunghezza_geometrica_m\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.LinkBill",
-      "Fingerprint": "D8F06565163E8FC7675CE09E58EB05CAE0E4F30369459F0DA3DECEFE14C0E8FA",
-      "Count": 1,
-      "Example": "links . D ( \"passo_effettivo_mm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "11A6861DD9EE08190A8AC2C65D39D7C31BE407EF16297DBDCE6B0E0A6ECDEADE",
-      "Count": 1,
-      "Example": "a . D ( \"N\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "187838E715BE83976FA92FDDB425E551EF4F64EC86D75F35D3726A08BD3773D8",
-      "Count": 1,
-      "Example": "run . D ( \"Shift\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "4047BB68E09869B005D33CEC81F3FD76A3400D9B1897EB0B76E355043DCC2B8B",
-      "Count": 1,
-      "Example": "seismic . D ( \"HeadEnd\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "68EE09074DA76595F4C8A48208651086B17FE8D1A74B03EA844857B746E3A8A7",
-      "Count": 1,
-      "Example": "a . D ( \"V\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "6A7D9E2076C7FBA33A1C922C03A752445886B731ACEE05551885411EEC552B6E",
-      "Count": 1,
-      "Example": "c . D ( \"Depth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "93878E02BF48675AD4BEF23848EC4A2D7E231A4FDEC15D4B4C5A9614C823A438",
-      "Count": 1,
-      "Example": "run . D ( \"Count\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "942F56CA8D40904DCB8554AF5CC0158C4097BFE155BB17C9F1D4B6835C10B6EB",
-      "Count": 1,
-      "Example": "a . D ( \"Depth\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "96175AA558DF33D558FCC1ADDD98F22A48533F145E7DBDB36A6309B1524C49A1",
-      "Count": 1,
-      "Example": "record . D ( \"fine\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "9C695D3D91DC6DDCEEB0878392617CE1965674C73C3019B2BC39972B9DB78CED",
-      "Count": 1,
-      "Example": "a . D ( \"M\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "A697E30965440BCDEC369C10CA387DF78C892570E1BFFA8A6C39DC1FE30BDB2C",
-      "Count": 1,
-      "Example": "run . D ( \"Diameter\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "B676610B558D76CF4594AED6C525672D35CA22F7CE9476B1E526AD3AC4D7411B",
-      "Count": 1,
-      "Example": "record . D ( \"inizio\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "B6A5EFACF32C4EDFB7BDD1E7BE8C06A27DBAA87F9996832A1A445F031C23E267",
-      "Count": 1,
-      "Example": "run . D ( \"Anchorage\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "D13C06C6544EEA82A9BF34284DB0FB21C1251FD61E2CCB5B22F230DCED44779F",
-      "Count": 1,
-      "Example": "record [ \"sezione\" ] . D ( \"transverse_bar_diameter_mm\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "DD18398C9B52CF5221E5CE3C546976C6F201743157E5B04187049060E5EC0B18",
-      "Count": 1,
-      "Example": "seismic . D ( \"RequiredHeadLength\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "PileReinforcementEditor.UpdateSummary",
-      "Fingerprint": "F0588D2CFAAFDB7921CE7D65290B9F50CCB19F34FDCBB14FA36129B8AB56B326",
-      "Count": 1,
-      "Example": "record . D ( \"staffa_raggio_mm\" )"
     },
     {
       "File": "X.Desktop/Wpf/ProjectCoverStatus.cs",
@@ -15018,6 +14242,726 @@
       "Fingerprint": "1EA41D15B4ADE4BBD2590F82D97BBCBB9707BE4D465E698F630F081F509C39CF",
       "Count": 1,
       "Example": "26"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Action",
+      "Fingerprint": "149183881A91668C4E39408DBEAFF520AC01CFC3DE2E26F1BCFF80CB7E3BF9C8",
+      "Count": 1,
+      "Example": "a . D ( \"M\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Action",
+      "Fingerprint": "C22605113E11486D8E425D4856FEC911306A64A137E4ADBB79786F8AC8DF5638",
+      "Count": 1,
+      "Example": "a . D ( \"Depth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Action",
+      "Fingerprint": "CBBDC0ED356A03402011B3D6C2E91CE309C023CF84B625C99C16EBA2F7234E44",
+      "Count": 1,
+      "Example": "a . D ( \"N\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Action",
+      "Fingerprint": "CBD8DA34B6760FE440AB779B3B45DB3C32A796216069C3E9BCBBD0317B4F41F1",
+      "Count": 1,
+      "Example": "a . D ( \"V\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Bill",
+      "Fingerprint": "1EEE840E38242E52085DC3597F63AE682CA4ABB0B1315F372E1049B6ABCE787A",
+      "Count": 1,
+      "Example": "p . D ( \"Diameter\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Bill",
+      "Fingerprint": "2CE105BC8DFF5839EBECB28B29F49F93454F56A60C66C061317E5FF9DEF398A6",
+      "Count": 1,
+      "Example": "p . D ( \"Count\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Bill",
+      "Fingerprint": "707A1B3140B31825C703EA5D8A0FD7A00638C2B65564C266F6675BF0146ADCA4",
+      "Count": 1,
+      "Example": "p . D ( \"Start\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Bill",
+      "Fingerprint": "A50B820A82EF9A39C453CA10FB770EC967354E71290047D5B02570202369387A",
+      "Count": 1,
+      "Example": "p . D ( \"End\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Bill",
+      "Fingerprint": "C91CDF8BB0200F1E99395F86BDD8040234C9E7165FB3BDF0AEBCA6195000B45C",
+      "Count": 1,
+      "Example": "p . D ( \"StockLength\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Bill",
+      "Fingerprint": "C94DB739B4A6D224E1F8D64B8FA7C557744C92264164A2E8F13145D81638FCD6",
+      "Count": 1,
+      "Example": "p . D ( \"CuttingLength\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Completed",
+      "Fingerprint": "303CBC06BBC6BDFAA256A53277BCBBDF09ED7DFC3FE450E600489DCDE9A298F2",
+      "Count": 1,
+      "Example": "r . D ( \"Elements\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Completed",
+      "Fingerprint": "62674E6E28339A7675CD24FFAF0661A6B21D967E3B8DA4B0A4DA0B29093F3E69",
+      "Count": 1,
+      "Example": "r . D ( \"HeadRotation\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Completed",
+      "Fingerprint": "C377E92F6B6CD68CBEA40A68D620A88BB3FAFCCC17A2A31678CBED37D8CD7FAA",
+      "Count": 1,
+      "Example": "r . D ( \"HeadDisplacement\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Completed",
+      "Fingerprint": "E6C0027A677ADE8B82EEC8E1085AD498764CE81349B8B2440660651BEB0B3A02",
+      "Count": 1,
+      "Example": "result [ \"dati_condivisi\" ] . D ( \"stratigrafia\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.JointText",
+      "Fingerprint": "15B833B0E2DFA4E42988F2525DA07EF7EFC5C7B28C2058CF8D9BC9A5ED7F52B3",
+      "Count": 1,
+      "Example": "j . D ( \"End\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.JointText",
+      "Fingerprint": "53C258038E1D014F3CAB19C6017C59BB1CAEEB62CCCA1A9DA8227EC1C760FA2C",
+      "Count": 1,
+      "Example": "j . D ( \"ActualLength\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.JointText",
+      "Fingerprint": "5CC180D9B38CF91D477408F0784EEB28F8C354D011D98CFC1F5EF474A489D652",
+      "Count": 1,
+      "Example": "j . D ( \"RequiredLength\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.JointText",
+      "Fingerprint": "661129AFD7B7A460211383CE9ACD8BCE2259DA260B886647B264FF3C33407924",
+      "Count": 1,
+      "Example": "j . D ( \"Start\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.JointText",
+      "Fingerprint": "8FEBFFF49EF317896477AFAC0E2E54FAF4E071EA78658DB19A68F0BC4CC8F818",
+      "Count": 1,
+      "Example": "j . D ( \"MatchedCount\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.JointText",
+      "Fingerprint": "9D4DE6DA7CCC8E526855A11E6ECAA6475EF91EAC635EFEFB07685103294F98EC",
+      "Count": 1,
+      "Example": "j . D ( \"Count\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.JointText",
+      "Fingerprint": "EBA23B6971A15F54A13FA2716CADCF3B01F6B48691CE152442957E2436315CEE",
+      "Count": 1,
+      "Example": "j . D ( \"AdoptedLength\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.JointText",
+      "Fingerprint": "FC2EA17008AC0A284D62AB11F5D18C9E6FD809E6F0585E747BB454ACB7B33585",
+      "Count": 1,
+      "Example": "j . D ( \"InitialLength\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.LinkBill",
+      "Fingerprint": "575EB83105923344C44ABA7E6EE7818956909D9507C6AE922C5C91075050958B",
+      "Count": 1,
+      "Example": "links . D ( \"passo_effettivo_mm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.LinkBill",
+      "Fingerprint": "B35654F72A8DC47BD8B9A8943D83160425A8DF35B25172360A89CF79A5611791",
+      "Count": 1,
+      "Example": "links . D ( \"diametro_mm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.LinkBill",
+      "Fingerprint": "BC71C9FC538E4D84216808E801F3530AE087B94EBC25D0C422F6054D89ED9FC3",
+      "Count": 1,
+      "Example": "links . D ( \"quantita\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.LinkBill",
+      "Fingerprint": "BEB5F9D8B9917E54DC4166D53C6CD28ACD11B1B44484BD5C7D4EAC7218F7A62F",
+      "Count": 1,
+      "Example": "links . D ( \"spire\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.LinkBill",
+      "Fingerprint": "D63A6ED85B4A532203723C0986F0E628B9BF3F7A71141EF60424CBFD1C62386C",
+      "Count": 1,
+      "Example": "links . D ( \"lunghezza_geometrica_m\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.LinkBill",
+      "Fingerprint": "FAC642150C322FD734F00955543C827A107EEE1531BC60F41E067847ED5BA7C7",
+      "Count": 1,
+      "Example": "links . D ( \"passo_massimo_mm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ModeLines",
+      "Fingerprint": "2162B1F0E490C59CA40AE1E95A4E31AA73FD1DEBD25DD7CC95EB4C4AEF371187",
+      "Count": 1,
+      "Example": "seismic . D ( \"HeadEnd\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ModeLines",
+      "Fingerprint": "97DF38D8AB9A62A989C8EBB7096F7B3E454122D599B0827CBF99F738321A434B",
+      "Count": 1,
+      "Example": "seismic . D ( \"RequiredHeadLength\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ModeLines",
+      "Fingerprint": "A7D87EFA221F3093D68CDDB268AD7DAED01E053A83097FC882E8C6DB32630659",
+      "Count": 1,
+      "Example": "run . D ( \"Anchorage\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ModeLines",
+      "Fingerprint": "B245B23252F2EF22168669A41CD954F0C460ADF2F407CF8C075D0520AF995A06",
+      "Count": 1,
+      "Example": "run . D ( \"Shift\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ModeLines",
+      "Fingerprint": "DFCB26FA1F94F89DF150C9DCC169FBD05C9DE2D1ACCDC7ED76C3ADCAFFAE5B7D",
+      "Count": 1,
+      "Example": "c . D ( \"Depth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Points",
+      "Fingerprint": "146B39AB1642A63D3779DC8022395D42BF510215278E9503BDDF4B7AD71EFBD2",
+      "Count": 1,
+      "Example": "p . D ( \"Displacement\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Points",
+      "Fingerprint": "32D255509D19E3900CE3BA408B699B95847494C0F161353E395B7F4452EB7D5C",
+      "Count": 1,
+      "Example": "p . D ( \"AxialForce\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Points",
+      "Fingerprint": "36D1DDF637667BEE138109F725F91637FB5BF2A9AFDC90BBBD6F6EEA3CAD02D1",
+      "Count": 1,
+      "Example": "p . D ( \"Moment\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Points",
+      "Fingerprint": "60F7A1FA1C8A1EB41287CFA0FA0BC656A7AEF4E65C5978220300D6BFCA54ACC6",
+      "Count": 1,
+      "Example": "p . D ( \"Rotation\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Points",
+      "Fingerprint": "655A63CDE0CE3CC3D5825381C59F4C289253A32F07660DAB09F7867D33C9EED0",
+      "Count": 1,
+      "Example": "p . D ( \"Shear\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Points",
+      "Fingerprint": "86AA965A55E0E9B4F472488A402091FB480488945D4EACD9F0FA6F3670D9E0D5",
+      "Count": 1,
+      "Example": "p . D ( \"Kh\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Points",
+      "Fingerprint": "B061041B24812F1320E9154AE095BD168FC91BF1D5706B04039964A957A62F8C",
+      "Count": 1,
+      "Example": "p . D ( \"GroundDepth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Points",
+      "Fingerprint": "B8576AB91CF251F7F7B07201AD207E602128741BFD8BE3A6D5764469294B4324",
+      "Count": 1,
+      "Example": "p . D ( \"Layer\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Points",
+      "Fingerprint": "CF067C3A90D6DA5B8677715E9FC60651E715415BBED9152407E633D93F157DE4",
+      "Count": 1,
+      "Example": "p . D ( \"DistributedStiffness\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Points",
+      "Fingerprint": "DC2C4C15A9C779652D4C710D3386A18D2F9B9F054574514E7EF8CDF2974FC346",
+      "Count": 1,
+      "Example": "p . D ( \"SoilReaction\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Points",
+      "Fingerprint": "E5F2EA7495017626029120F38F87BA2D2159059B963813219DF99EB306F99C33",
+      "Count": 1,
+      "Example": "p . D ( \"Depth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ReinforcementSummary",
+      "Fingerprint": "3762AE23B776E5734C0889D600DC59B1E6B182ECD8CF44B790BEA1A88ABF2748",
+      "Count": 1,
+      "Example": "t . D ( \"fine\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ReinforcementSummary",
+      "Fingerprint": "48D81DE40BAEFA60A74FA0B6520F1213A096729546807361F10F0C07E9E0A26E",
+      "Count": 1,
+      "Example": "t . D ( \"inizio\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "32810003EF4D4B6BD9CD52D44B1E1891B9A85A933D0DE31B13F8D9B834502DBB",
+      "Count": 1,
+      "Example": "ex . D ( \"AbsoluteMaximum\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "417D6F8C9E956F535B992AED5A169078028B00BE062D0BEB4727793CA88F1B50",
+      "Count": 1,
+      "Example": "r . D ( \"MomentResidual\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "44BB813838AFD33D506416B8688FD1BB7AB28F2EE85DFA08F15FFFE41452C9AD",
+      "Count": 1,
+      "Example": "r [ \"RelativeMeshChanges\" ] . D ( \"M\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "4EB5CE1452CA1F51B113308353F5C2B532A3C88F1D5D70E8D5C641EC6DD80F15",
+      "Count": 1,
+      "Example": "ex . D ( \"Maximum\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "5198F527970408267FD73440A88B08037BD5BB8ED7E091E1F2084ADD5F437CEE",
+      "Count": 1,
+      "Example": "r . D ( \"ComparisonElements\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "5BE56729F581DB0B38FA59FB29AA0AC5FC4543203A5BE22B4D582370515963F5",
+      "Count": 1,
+      "Example": "r [ \"RelativeMeshChanges\" ] . D ( \"V\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "66D3B0CFE9EFDB60BC7DC53F37BFE302E3017EF925E24DDF5D40B82C3990C2F8",
+      "Count": 1,
+      "Example": "ex . D ( \"Minimum\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "803DBCDC25F530E562B3F233450A9ED9D5B55B089AF5479AF26B1469A04FB899",
+      "Count": 1,
+      "Example": "r . D ( \"Elements\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "836155457AEEB5B9ABD3EF4138122E1348C8A36BDD9305FFC5E07F4895F1E5A6",
+      "Count": 1,
+      "Example": "r . D ( \"ForceResidual\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "8AC789D5E5EA55866618796A7DF171511542FAF41726172E6DDBCC5638806E6B",
+      "Count": 1,
+      "Example": "r . D ( \"HeadReactionMoment\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "8E841AE56105B31AF4C9B362B1F1CB1E7D62A5606C9C9BFF7C0A686A49C0A55A",
+      "Count": 1,
+      "Example": "ex . D ( \"MaximumDepth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "A2D2B217104F6331A2FECDA44B55FF5E964709FAD78783201C59A484BF14ED6B",
+      "Count": 1,
+      "Example": "r . D ( \"TipReactionForce\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "B0E95652477F8186F996FE33A50FE93A5DC7C73A77FFE1C594A238E58D7B72EE",
+      "Count": 1,
+      "Example": "r [ \"RelativeMeshChanges\" ] . D ( \"y\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "C07B6FD38DF98D09770D72BF9B0EDD5760B7F4A7C8157ABC67D51C3E4CC85F34",
+      "Count": 1,
+      "Example": "r . D ( \"TipReactionMoment\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "C6D83FA653F4F9CBCA4E167E3B08397C18A4D6E7F5EDBB87896F305C6B7FFC07",
+      "Count": 1,
+      "Example": "ex . D ( \"MinimumDepth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.ResponseSummary",
+      "Fingerprint": "D5DBEA9BCCCA719E2DF02B1ED2167D7E9DF578319310FB0E821B8422E55B2456",
+      "Count": 1,
+      "Example": "ex . D ( \"AbsoluteMaximumDepth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.RunTitle",
+      "Fingerprint": "88A797A010945149E4EF8AA163798517E0A6FC89A3AA1745A511F75D7B4C394B",
+      "Count": 1,
+      "Example": "run . D ( \"Diameter\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.RunTitle",
+      "Fingerprint": "E7DE9B6BA7090235CB30FE91FF782475064A52E71D1E352FBC598B4F309C8072",
+      "Count": 1,
+      "Example": "run . D ( \"Count\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SectionAt",
+      "Fingerprint": "3403979ABE56C5670ED4514FC0C31EB0FFAD288FEE6724C43747363AD98CD050",
+      "Count": 1,
+      "Example": "section . D ( \"cover_mm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SectionAt",
+      "Fingerprint": "35694AFDCE05CEAC02A12817CAFFD00EE21A0CEA5C780B03DB473A9169C14AE6",
+      "Count": 1,
+      "Example": "section . D ( \"longitudinal_bar_count\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SectionAt",
+      "Fingerprint": "3DF3D6D93A2A0AC16B7216D7FBEB87BAB7FA98067F7E074157419571565DA4A3",
+      "Count": 1,
+      "Example": "p . D ( \"Depth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SectionAt",
+      "Fingerprint": "5969A2690BE2646E2462798B9926DC2F2BFA1B45DAD533FD88FA1B4577E52383",
+      "Count": 1,
+      "Example": "section . D ( \"longitudinal_bar_diameter_mm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SectionAt",
+      "Fingerprint": "A5B8F173661FC99D992D80050F2E7FD07C492A95A452E521EE2402234398E69A",
+      "Count": 1,
+      "Example": "section . D ( \"transverse_bar_diameter_mm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SectionAt",
+      "Fingerprint": "A6B8382F4F01BB43C3B50840699E0A9D2957AF2D4ABCF68B71AF81F0DCB54B6A",
+      "Count": 1,
+      "Example": "t . D ( \"inizio\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SectionAt",
+      "Fingerprint": "C88519FCBE1BD52B191B15561E57568B0B1301411F464A2777B67E59DA9072C7",
+      "Count": 1,
+      "Example": "p . D ( \"GroundDepth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SectionAt",
+      "Fingerprint": "E1E8056AC75D3010978EF5A3673E1412C8E814ADB264BB6F1F5CE2E9D2AE4148",
+      "Count": 1,
+      "Example": "section . D ( \"transverse_spacing_mm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SectionAt",
+      "Fingerprint": "F0DE469D8CCDC90DD55A86B38C27124212CDC0072CC625A13EECD50B9E56A08B",
+      "Count": 1,
+      "Example": "t . D ( \"fine\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SegmentHeaders",
+      "Fingerprint": "CEFAA03A5B96875D000D9B355B233369F5F98A9EC0B3413E7DD074A50F09D8D5",
+      "Count": 1,
+      "Example": "root [ \"generali\" ] . D ( \"tratto_libero\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SegmentHeaders",
+      "Fingerprint": "F85272AD6E227551947F70A19E1BF1168FB81677B9C272D5A350068806CA4E12",
+      "Count": 1,
+      "Example": "root [ \"generali\" ] . D ( \"lunghezza\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SegmentSection",
+      "Fingerprint": "7B56BDD07D2C90A125699AF6D9474302CCC1A7852B4E7ED399BDFE18F6545951",
+      "Count": 1,
+      "Example": "section . D ( \"transverse_bar_diameter_mm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.SegmentSection",
+      "Fingerprint": "8A4DDEEC42C8D3207156C4C347BC8C1CF1D78FE033259A0DCD5CA517F46B9323",
+      "Count": 1,
+      "Example": "segment . D ( \"staffa_raggio_mm\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Selection",
+      "Fingerprint": "08A85E848C0998B94F6EA9ADD98C5A132F674E3AE1CB18E8DF6007C8A0B7028E",
+      "Count": 1,
+      "Example": "p . D ( \"Displacement\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Selection",
+      "Fingerprint": "09BB0943F8564CABCAAE441117B500FB0405CB8C457910E657EE354DC78F7AA3",
+      "Count": 1,
+      "Example": "p . D ( \"Shear\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Selection",
+      "Fingerprint": "0E3653A7B12BFEF1DFB89683E7D5D326E0238D2D5D88E443D1A945ACB5F671AE",
+      "Count": 1,
+      "Example": "p . D ( \"SoilReaction\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Selection",
+      "Fingerprint": "211A34A8114810A6AA0AE3A0C164F9FB272894AA15BC9CD451DF897C1FF9AE60",
+      "Count": 1,
+      "Example": "p . D ( \"Kh\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Selection",
+      "Fingerprint": "4B69EB5D98E0B8A041E6F84A4C7A573E93EB5C4E73317698E8AC2AB9FC8F4CE9",
+      "Count": 1,
+      "Example": "p . D ( \"Depth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Selection",
+      "Fingerprint": "4FD73568AAEB83907F0725EF63DDDE6A5EA0CDB8711C2D182DE6E86049F0333B",
+      "Count": 1,
+      "Example": "p . D ( \"Rotation\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Selection",
+      "Fingerprint": "6EAEE42F501E4B8DFCBF797B10A280EEC748C8E94075BA062C8D16C3E25DCF1F",
+      "Count": 1,
+      "Example": "p . D ( \"AxialForce\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Selection",
+      "Fingerprint": "A91E20E28B72A5FF9B8E879FB0C9F09932170C6C1BFE90BCA7EB6BBADA00A2FD",
+      "Count": 1,
+      "Example": "p . D ( \"GroundDepth\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Selection",
+      "Fingerprint": "C5CCFB38F90513682871FFE4800A77B00F1156D336114CA237EE1FCE7035685B",
+      "Count": 1,
+      "Example": "p . D ( \"DistributedStiffness\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Selection",
+      "Fingerprint": "DD3BBCC7A991B71E9C9BA90D5C6791E9F048936D0DBFEC943D260DB37EF33913",
+      "Count": 1,
+      "Example": "p . D ( \"Moment\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Selection",
+      "Fingerprint": "F3073C78123C30CCE70C1BE8D7FD52C52B344C046100B4F2FAA786E742633BB0",
+      "Count": 1,
+      "Example": "p . D ( \"Layer\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Summary",
+      "Fingerprint": "19F44F258D10FBAF8721D3B63ACD58B494C7198E5F2E04F21FA46021E2F9C182",
+      "Count": 1,
+      "Example": "record . D ( \"fine\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ElasticPilePresentation.Summary",
+      "Fingerprint": "D7F817D013780E4484F76C496F88355C617DD283E784EE2A3671D7ED355FB67E",
+      "Count": 1,
+      "Example": "record . D ( \"inizio\" )"
     },
     {
       "File": "src/ANTHEA.Application/Projects/ProjectConcreteFields.cs",
