@@ -84,7 +84,7 @@ public sealed class FieldViewModel : ObservableObject
     /// <summary>The choice or the check box accepts the user: false in a read-only form, where the view disables them.</summary>
     public bool CanChange => !Form.IsReadOnly;
     /// <summary>Items of the choice: the declared values plus the current one, without blanks and repetitions. Empty for the other kinds.</summary>
-    public IReadOnlyList<string> Choices { get; } = [];
+    public IReadOnlyList<string> Choices { get; private set; } = [];
 
     /// <summary>Raw text of a text field, as typed or set: what <see cref="FormViewModel.Get"/> returns.</summary>
     public string Text => text;
@@ -235,6 +235,20 @@ public sealed class FieldViewModel : ObservableObject
         if (IsReadOnly || Form.DisplayOnly) return;
         if (Form.CommitOnFocusLoss && isFocused) Form.AddDraft(Key);
         else Form.Store(this, text);
+    }
+
+    /// <summary>
+    /// Replaces the items of a choice, as a new ItemsSource of the historic combo box (F5.10, the classes of the materials of the RC section
+    /// after a change of the standard): the items are taken as given; the selection stays when it is still an item, otherwise it is
+    /// cleared without writing the document. Additive: the other forms never call it.
+    /// </summary>
+    public void ReplaceChoices(IEnumerable<string> choices)
+    {
+        ArgumentNullException.ThrowIfNull(choices);
+        if (Kind != FieldKind.Choice) throw new InvalidOperationException("Voci sostituite in un campo che non è una scelta: " + Key);
+        Choices = choices.ToArray();
+        OnPropertyChanged(nameof(Choices));
+        if (selectedChoice is not null && !Choices.Contains(selectedChoice)) { selectedChoice = null; OnPropertyChanged(nameof(SelectedChoice)); }
     }
 
     /// <summary>Selection set by the form: ignored when the value is not an item, written unless the form only displays.</summary>

@@ -1,6 +1,7 @@
 using System.Windows;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Modules;
+using Anthea.Presentation.Modules.ConcreteSection;
 using Anthea.Presentation.Modules.HorizontalPile;
 using Anthea.Presentation.Modules.Materials;
 using Anthea.Presentation.Modules.PileGroup;
@@ -67,7 +68,9 @@ internal sealed class DesktopComposition
             // F5.6b: the stratigraphy, with the AI import of Application (disabled, as the historic button) and, since its XAML view, the shared
             // soil transfer dialog on the dialog service (no dialog in the options: SoilTransferDialogService, decision T5).
             new StratigraphySheetModule(new(Anthea.Application.Stratigraphy.StratigraphyImport.OpenAi(), Anthea.Application.Stratigraphy.StratigraphyImport.EnvironmentDefaults)),
-            new RetainingWallSheetModule(new RetainingWallFigureRenderer())]);
+            new RetainingWallSheetModule(new RetainingWallFigureRenderer()),
+            // F5.10 S1: the RC section (shell, calculation, inputs); the Release keeps the historic view until S9 (C10).
+            new ConcreteSectionSheetModule()]);
     }
 
     /// <summary>Factory of the services of a main window, unchanged since F1.4 (the WPF checks pass TestServices.Create instead).</summary>
