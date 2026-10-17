@@ -49,6 +49,9 @@ public sealed class HorizontalPileSurveyViewModel : ObservableObject
     /// <summary>The columns of the table (the soil editor comes after the second).</summary>
     public IReadOnlyList<FieldSpec> Columns { get; } = HorizontalPileFields.Layers();
 
+    /// <summary>The tool tips of the cells of the columns, by key (the calculation help of the key, as StratigraphyTable; null without).</summary>
+    public IReadOnlyDictionary<string, string?> Help { get; } = HorizontalPileFields.Layers().ToDictionary(c => c.Key, c => Anthea.Calculations.CalculationHelp.Field(c.Key), StringComparer.Ordinal);
+
     /// <summary>The rows of the table, on display copies of the layers.</summary>
     public JsonRowCollection Rows { get; } = [];
 
@@ -95,7 +98,15 @@ public sealed class HorizontalSoilRowViewModel : ObservableObject
     internal HorizontalSoilRowViewModel(JsonRowViewModel row, JsonObject layer, Action changed, Func<bool> canEdit)
     {
         this.row = row; this.layer = layer; this.changed = changed; this.canEdit = canEdit;
+        AdoptMeanCommand = new RelayCommand(AdoptMean);
+        KeepValueCommand = new RelayCommand(KeepValue);
     }
+
+    /// <summary>«Adotta nuova media» of the details (its error stays in <see cref="DetailsText"/>, as the historic dialog).</summary>
+    public IRelayCommand AdoptMeanCommand { get; }
+
+    /// <summary>«Mantieni valore con nuova fonte» of the details.</summary>
+    public IRelayCommand KeepValueCommand { get; }
 
     /// <summary>Categories of the cohesive soils or densities of the granular ones.</summary>
     public IReadOnlyList<string> Categories => state.Categories;

@@ -1,0 +1,56 @@
+<!--
+  «Diagrammi e dettagli» of the horizontal pile (ResultsTabs of the historic view, F5.7): a dialog of the view, «Palo orizzontale · risultati»
+  (1280 × 900), on the result of the capacity of the sheet. One tab per survey (the line under its title, then «Terreno e tensioni»,
+  «Equilibrio del palo» with the diagrams drawn in the code-behind from the plain data of the ViewModel, and the tables), «Riferimenti» with
+  «Apri riferimento» (the link of the services) and «JSON». Theme tokens only (P7).
+-->
+<UserControl x:Class="X.Desktop.Views.HorizontalPile.HorizontalPileResultsView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:views="clr-namespace:X.Desktop.Views.HorizontalPile"
+ xmlns:presentation="clr-namespace:Anthea.Application.Presentation;assembly=ANTHEA.Application"
+ Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <views:CollapsedWhenNullConverter x:Key="CollapsedWhenNull"/>
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Command" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  </Style>
+  <!-- A table of a survey (CenteredTable, at most 920 wide). -->
+  <DataTemplate x:Key="Table" DataType="{x:Type presentation:HorizontalPileResultTable}">
+   <views:HorizontalPileTableGrid TableWidth="920" Headings="{Binding Columns}" ItemsSource="{Binding Rows}"/>
+  </DataTemplate>
+  <!-- A survey: the line under the title, then its tabs (built in the code-behind with the diagrams). -->
+  <DataTemplate x:Key="SurveyInfo" DataType="{x:Type presentation:HorizontalPileResultSurvey}">
+   <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Small}" Margin="12" Text="{Binding Info}"/>
+  </DataTemplate>
+  <!-- «Riferimenti e ruolo nel modello». -->
+  <DataTemplate x:Key="Reference" DataType="{x:Type views:HorizontalPileReference}">
+   <StackPanel Margin="0,18,0,4">
+    <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Body}" FontWeight="SemiBold" Text="{Binding Title}"/>
+    <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Detail}"/>
+    <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Small}" Text="{Binding Use}"/>
+    <Button Content="Apri riferimento" HorizontalAlignment="Left" Style="{StaticResource Command}" Visibility="{Binding Url, Converter={StaticResource CollapsedWhenNull}}"
+     Command="{Binding DataContext.OpenReferenceCommand, RelativeSource={RelativeSource AncestorType=views:HorizontalPileResultsView}}" CommandParameter="{Binding Url}"/>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+ <TabControl x:Name="Tabs">
+  <TabItem x:Name="ReferencesTab" Header="Riferimenti" Background="{DynamicResource Token.Paper}">
+   <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="18">
+     <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Heading}" FontWeight="SemiBold" Text="Riferimenti e ruolo nel modello"/>
+     <ItemsControl x:Name="References" ItemTemplate="{StaticResource Reference}" Focusable="False"/>
+    </StackPanel>
+   </ScrollViewer>
+  </TabItem>
+  <TabItem Header="JSON" Background="{DynamicResource Token.Paper}">
+   <TextBox x:Name="Json" IsReadOnly="True" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
+  </TabItem>
+ </TabControl>
+</UserControl>

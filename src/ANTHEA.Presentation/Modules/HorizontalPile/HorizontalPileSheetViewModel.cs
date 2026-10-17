@@ -263,9 +263,17 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
             if (value == selectedSurvey || value < 0 || value >= Surveys.Count) return;
             selectedSurvey = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(SelectedSurvey));
             RealizeRows();
         }
     }
+
+    /// <summary>
+    /// The selected stratigraphy, whose table the view shows (null without stratigraphies). The view shows it from here and not from the content
+    /// of its selected tab: when the stratigraphies are built again with the same tab selected (a copy into the selected one), the selection of
+    /// the tabs does not change and WPF would keep the content of the stratigraphy replaced.
+    /// </summary>
+    public HorizontalPileSurveyViewModel? SelectedSurvey => selectedSurvey >= 0 && selectedSurvey < Surveys.Count ? Surveys[selectedSurvey] : null;
 
     /// <summary>«+ Stratigrafia»: a new stratigraphy with one layer, selected.</summary>
     public void AddSurvey()
@@ -594,6 +602,7 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
         Surveys = list;
         selectedSurvey = list.Count > 0 ? Math.Clamp(selected, 0, list.Count - 1) : -1;
         OnPropertyChanged(nameof(SelectedSurveyIndex));
+        OnPropertyChanged(nameof(SelectedSurvey));
     }
 
     /// <summary>A row of the table on a display copy of <paramref name="layer"/>; an edit copies the cell into the layer.</summary>

@@ -1,0 +1,58 @@
+<!--
+  The details of the soil editor of a layer (ShowDetails of the historic HorizontalSoilEditor, F5.7): a dialog of the view on the
+  HorizontalSoilRowViewModel of the row, «Parametro dello strato · origine e applicabilità» (1080 × 760). The description (or the error of
+  «Adotta nuova media»), the tables 14.5 and 14.6 with their notes, the source of the value, the reason of the override when it is active,
+  «Adotta nuova media» and «Mantieni valore con nuova fonte» for the correlations of the tables. Every write goes through the ViewModel,
+  which refuses it when the sheet is read-only. Theme tokens only (P7); the titles of the tables at 14 points (Font.Subheading, historic 15).
+-->
+<UserControl x:Class="X.Desktop.Views.HorizontalPile.HorizontalSoilDetailsView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="Visible"/>
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Title" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style x:Key="Table" TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+   <Setter Property="IsReadOnly" Value="True"/>
+   <Setter Property="AutoGenerateColumns" Value="True"/>
+   <Setter Property="CanUserAddRows" Value="False"/>
+   <Setter Property="CanUserDeleteRows" Value="False"/>
+   <Setter Property="Margin" Value="0,5,0,12"/>
+   <Setter Property="MaxHeight" Value="260"/>
+  </Style>
+  <Style x:Key="Command" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  </Style>
+ </UserControl.Resources>
+ <ScrollViewer VerticalScrollBarVisibility="Auto">
+  <StackPanel>
+   <TextBlock x:Name="DetailsText" Style="{StaticResource Text}" FontSize="{DynamicResource Font.Body}" Text="{Binding DetailsText}"/>
+   <TextBlock Style="{StaticResource Title}" Text="Tabella 14.5 · terreni incoerenti"/>
+   <DataGrid x:Name="SandTable" Style="{StaticResource Table}"/>
+   <TextBlock Style="{StaticResource Text}" Text="A è adimensionale; nh=A·γ/1,35 (γ′ sotto falda). Le due ultime colonne sono la modalità distinta nh tabellato direttamente. La media software non è il valore consigliato bibliografico."/>
+   <TextBlock Style="{StaticResource Title}" Text="Tabella 14.6 · terreni coesivi"/>
+   <DataGrid x:Name="CohesiveTable" Style="{StaticResource Table}"/>
+   <TextBlock Style="{StaticResource Text}" Text="1 N/cm³ = 1000 kN/m³. Legge lineare: kh=nh·z/D. Argille sovraconsolidate: kh costante assegnato, fuori dalla tabella 14.6. Fonte: Viggiani, PDF 244, pp. stampate 478–479; le categorie e i valori visualizzati provengono dal catalogo Checker usato nel calcolo."/>
+   <TextBlock Style="{StaticResource Text}" Text="Fonte / condizioni / motivazione della scelta"/>
+   <TextBox x:Name="SourceBox" Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}" MinWidth="500" TextWrapping="Wrap" Height="75"/>
+   <StackPanel Visibility="{Binding Override, Mode=OneWay, Converter={StaticResource Visible}}">
+    <TextBlock Style="{StaticResource Text}" Text="Motivazione dell'override nh"/>
+    <TextBox x:Name="ReasonBox" Text="{Binding OverrideReason, UpdateSourceTrigger=PropertyChanged}" Height="50" TextWrapping="Wrap"/>
+   </StackPanel>
+   <WrapPanel Visibility="{Binding CanAdoptMean, Converter={StaticResource Visible}}">
+    <Button Content="Adotta nuova media" Style="{StaticResource Command}" Command="{Binding AdoptMeanCommand}"/>
+    <Button Content="Mantieni valore con nuova fonte" Style="{StaticResource Command}" Command="{Binding KeepValueCommand}"/>
+   </WrapPanel>
+  </StackPanel>
+ </ScrollViewer>
+</UserControl>
