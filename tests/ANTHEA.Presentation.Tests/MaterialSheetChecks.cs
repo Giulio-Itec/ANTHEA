@@ -341,17 +341,25 @@ internal static class MaterialSheetChecks
             sheet.Modified += (_, _) => modified++;
             sheet.Inputs["diameter"].EditText = "30";
             expect.That(modified == 1 && sheet.PreviewData["numeri"].S("diameter") == "30" && sheet.Data["numeri"].S("diameter") == "25", "Calcestruzzo: modifica prima della sola lettura");
+            var form = sheet.Inputs;
+            expect.That(!form.IsReadOnly && sheet.CanEditDeviationValue && form.WikiNavigator is RecordingWiki,
+                "Calcestruzzo: campi modificabili, con la Wiki dei servizi");
             sheet.IsReadOnly = true;
+            // T2: the same form, read-only (no detached copy); the deviation value is locked with it.
+            expect.That(ReferenceEquals(sheet.Inputs, form) && form.IsReadOnly && !form["diameter"].CanChange && form["diameter"].IsInputReadOnly && !sheet.CanEditDeviationValue,
+                "Calcestruzzo: sola lettura con FormViewModel.IsReadOnly sullo stesso form (T2)");
             string preview = sheet.PreviewData.ToJsonString();
             sheet.SelectedClass = "C20/25"; sheet.Inputs["diameter"].EditText = "12"; sheet.Inputs["coverMethod"].SelectedChoice = "NTC + Circ. 2019";
             sheet.Inputs["rough"].IsChecked = false; sheet.Inputs["deviationControl"].SelectedChoice = "Ordinario"; sheet.SelectedDeviationValue = "5 mm";
             sheet.SelectedExposure = "XA3";
             expect.That(sheet.PreviewData.ToJsonString() == preview && modified == 1 && !sheet.CanEdit && sheet.SelectedClass == "C32/40"
-                && sheet.SelectedExposure == "XD2" && sheet.Inputs["diameter"].Text == "12", "Calcestruzzo: modifica accettata in sola lettura");
+                && sheet.SelectedExposure == "XD2" && sheet.Inputs["diameter"].Text == "30" && sheet.Inputs["diameter"].EditText == "30"
+                && sheet.Inputs["rough"].IsChecked && sheet.Inputs["coverMethod"].SelectedChoice != "NTC + Circ. 2019", "Calcestruzzo: modifica accettata in sola lettura");
             await Expect.Within(sheet.CalculateAsync()); sheet.Commit();
             expect.That(sheet.Data.ToJsonString() == preview && !sheet.HasResults && modified == 1, "Calcestruzzo: conferma in sola lettura");
             sheet.IsReadOnly = false;
-            expect.That(sheet.Inputs["diameter"].Text == "12" && sheet.PreviewData["numeri"].S("diameter") == "30", "Calcestruzzo: testi mostrati al ritorno alla modifica");
+            expect.That(ReferenceEquals(sheet.Inputs, form) && !form.IsReadOnly && sheet.Inputs["diameter"].Text == "30" && sheet.PreviewData["numeri"].S("diameter") == "30",
+                "Calcestruzzo: testi mostrati al ritorno alla modifica");
             sheet.Inputs["diameter"].EditText = "14";
             expect.That(sheet.PreviewData["numeri"].S("diameter") == "14" && modified == 2, "Calcestruzzo: ritorno alla modifica");
         }
@@ -359,15 +367,37 @@ internal static class MaterialSheetChecks
         {
             int modified = 0;
             sheet.Modified += (_, _) => modified++;
+            var forms = new[] { sheet.IdentityForm, sheet.PropertiesForm, sheet.CoefficientForm };
+            expect.That(forms.All(f => !f.IsReadOnly && f.WikiNavigator is RecordingWiki && f.WikiModule is null),
+                "Acciaio: campi modificabili, con la Wiki dei servizi e il modulo della vista");
             sheet.IsReadOnly = true;
+            // T2: the same forms, read-only (no detached copies).
+            expect.That(forms.SequenceEqual([sheet.IdentityForm, sheet.PropertiesForm, sheet.CoefficientForm]) && forms.All(f => f.IsReadOnly),
+                "Acciaio: sola lettura con FormViewModel.IsReadOnly sugli stessi form (T2)");
             string before = sheet.Data.ToJsonString();
             sheet.SelectedType = "B450C"; sheet.PropertiesForm["fyk_mpa"].EditText = "999"; sheet.PropertiesForm["steel_diagramma"].SelectedChoice = "Elastoplastico";
             sheet.IdentityForm["materiale_acciaio_nome"].EditText = "Altro"; sheet.CoefficientForm["gamma_s"].EditText = "1"; sheet.Reference = "Altro";
-            expect.That(sheet.Data.ToJsonString() == before && modified == 0 && sheet.SelectedType == "Personalizzato" && sheet.Reference.StartsWith("Certificato", StringComparison.Ordinal),
+            expect.That(sheet.Data.ToJsonString() == before && modified == 0 && sheet.SelectedType == "Personalizzato" && sheet.Reference.StartsWith("Certificato", StringComparison.Ordinal)
+                && sheet.PropertiesForm["fyk_mpa"].Text == sheet.Data["input"].S("fyk_mpa") && sheet.IdentityForm["materiale_acciaio_nome"].Text == sheet.Data["input"].S("materiale_acciaio_nome"),
                 "Acciaio: modifica accettata in sola lettura");
             sheet.IsReadOnly = false;
+            expect.That(forms.All(f => !f.IsReadOnly) && forms.SequenceEqual([sheet.IdentityForm, sheet.PropertiesForm, sheet.CoefficientForm]), "Acciaio: stessi form al ritorno alla modifica");
             sheet.PropertiesForm["fyk_mpa"].EditText = "440";
             expect.That(sheet.Data["input"].S("fyk_mpa") == "440" && modified == 1, "Acciaio: ritorno alla modifica");
+        }
+        // M6: the fields fixed by the catalogue are a state of the view; the diagram is enabled on its form (the Enable of the historic
+        // view), without refusing a write.
+        using (var sheet = Steel(MaterialScenarios.FixtureData(root, MaterialScenarios.Steel, "default"), null))
+        {
+            var diagram = sheet.PropertiesForm["steel_diagramma"];
+            expect.That(!sheet.DiagramEnabled && !diagram.IsEnabled && diagram.CanChange && sheet.NameLocked && sheet.Locked.Values.All(v => v),
+                "Acciaio da catalogo: diagramma spento sul form, campi fissati come stato della vista");
+            sheet.SelectedType = "FeB44k";
+            expect.That(sheet.DiagramEnabled && diagram.IsEnabled && !sheet.Locked["steel_eps_u"] && sheet.Locked["fyk_mpa"], "Acciaio storico: diagramma acceso, εu libero");
+            sheet.SelectedType = "B450C";
+            expect.That(!diagram.IsEnabled && diagram.SelectedChoice == "Elastoplastico", "Acciaio da catalogo: diagramma spento di nuovo");
+            diagram.SelectedChoice = "Incrudente";
+            expect.That(sheet.Data["input"].S("steel_diagramma") == "Incrudente", "Acciaio: la scelta del diagramma spento non è rifiutata dal ViewModel (M6)");
         }
     }
 

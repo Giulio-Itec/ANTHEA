@@ -18,12 +18,17 @@ namespace Anthea.Presentation.Modules.Materials;
 /// properties with the diagram, partial coefficient. After every edit a sheet that no longer matches its catalogue steel
 /// becomes custom (<see cref="RebarPresentation.MarkCustom"/>). Which fields the catalogue fixes is <see cref="Locked"/>,
 /// <see cref="NameLocked"/> and <see cref="DiagramEnabled"/>, a state of the view as the read-only text boxes of the historic
-/// view: the ViewModel does not refuse those writes.</item>
+/// view (decision M6): the ViewModel does not refuse those writes. The diagram is enabled on its form as the historic view did
+/// (<see cref="FormViewModel.Enable"/>, a state of the row); the view shows the fixed text fields as calculated fields.</item>
 /// <item>Certificate or reference: written into «riferimento» at every change, with Modified.</item>
 /// <item>The values shown (fyd, εyd, fu / fyk, status and diagram) come from the calculation service of the context, on the UI
 /// thread, after every change, as the historic view; no calculation is published (<see cref="SheetCalculationMode.None"/>):
 /// «Calcola» only commits.</item>
-/// <item>Read-only (a previous revision): type, fields and reference refuse the changes; the forms are rebuilt on detached copies.</item>
+/// <item>Read-only (a previous revision): type, fields and reference refuse the changes; the fields with
+/// <see cref="FormViewModel.IsReadOnly"/> of the three forms (decision T2 of 17/10/2026, no detached copy).</item>
+/// <item>Help: the forms have no module of their own, as the InputForm of the historic view: the «?» labels and F1 take the module
+/// of the host (WikiContextHelp.Module, set by the host as SheetEditor does) and open the Wiki with the navigator of the services
+/// (<see cref="FormViewModel.WikiNavigator"/>).</item>
 /// </list>
 /// The rules of the texts and of the fixed fields come from <see cref="RebarPresentation"/>, shared with the historic view. The
 /// equivalence is proved without WPF by tests/ANTHEA.Presentation.Tests (MaterialSheetChecks) against the traces frozen in
@@ -146,11 +151,12 @@ public sealed class RebarMaterialSheetViewModel : SheetViewModelBase, IMaterialS
         OnPropertyChanged(nameof(Reference));
     }
 
+    /// <summary>Read-only revision and closing (T2): the same forms refuse the typing; nothing is rebuilt.</summary>
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if (e.PropertyName != nameof(CanEdit) || loading || IsDisposed) return;
-        BuildForms(keepTexts: true);
+        if (e.PropertyName != nameof(CanEdit) || loading || identityForm is null) return;
+        foreach (var form in new[] { identityForm, propertiesForm, coefficientForm }) form.IsReadOnly = !CanEdit;
     }
 
     // ---------------------------------------------------------------- construction
@@ -158,36 +164,28 @@ public sealed class RebarMaterialSheetViewModel : SheetViewModelBase, IMaterialS
     private void Build()
     {
         loading = true;
-        try { BuildForms(keepTexts: false); }
+        try { BuildForms(); }
         finally { loading = false; }
         Refresh();
     }
 
-    /// <summary>The three forms of the historic view on «input»; on detached copies when read-only, with the texts shown before when kept.</summary>
-    private void BuildForms(bool keepTexts)
+    /// <summary>The three forms of the historic view on «input» (at opening and after Reload).</summary>
+    private void BuildForms()
     {
-        var shown = keepTexts ? new[] { identityForm, propertiesForm, coefficientForm }.Where(f => f is not null).SelectMany(f => f.Fields)
-            .Where(f => f.Kind == FieldKind.Text).ToDictionary(f => f.Key, f => f.Text, StringComparer.Ordinal) : null;
-        identityForm = Form([new(NameKey, "Nome", Wide: true)], wideChoices: false, shown);
+        identityForm = Form([new(NameKey, "Nome", Wide: true)], wideChoices: false);
         propertiesForm = Form([new("fyk_mpa", "Snervamento fyk", "MPa"), new("steel_fu_mpa", "Rottura fu", "MPa"),
             new("steel_modulus_mpa", "Modulo elastico Es", "MPa"), new("steel_eps_u", "Deformazione ultima εu", "‰"),
-            new("steel_diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"])], wideChoices: true, shown);
-        coefficientForm = Form([new("gamma_s", "Coefficiente parziale γs")], wideChoices: false, shown);
+            new("steel_diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"])], wideChoices: true);
+        coefficientForm = Form([new("gamma_s", "Coefficiente parziale γs")], wideChoices: false);
         OnPropertyChanged(nameof(IdentityForm)); OnPropertyChanged(nameof(PropertiesForm)); OnPropertyChanged(nameof(CoefficientForm));
     }
 
     /// <summary>
-    /// A form of the historic view (compact, help of the module of the view): on «input» with the callback of the edits; when
-    /// read-only on a detached copy and without callback. <paramref name="shown"/>: texts shown again, without writing.
+    /// A form of the historic view (compact, help of the module of the host): on «input» with the callback of the edits, read-only
+    /// while the sheet cannot be edited (T2), with the Wiki of the services for «?» and F1.
     /// </summary>
-    private FormViewModel Form(FieldSpec[] fields, bool wideChoices, IReadOnlyDictionary<string, string>? shown)
-    {
-        var form = CanEdit ? new FormViewModel(Input, fields, OnFieldChanged, compact: true, wideChoices: wideChoices)
-            : new FormViewModel((JsonObject)Input.DeepClone(), fields, compact: true, wideChoices: wideChoices);
-        if (shown is not null)
-            foreach (var field in form.Fields.Where(f => f.Kind == FieldKind.Text && shown.ContainsKey(f.Key))) form.Set(field.Key, shown[field.Key], display: true);
-        return form;
-    }
+    private FormViewModel Form(FieldSpec[] fields, bool wideChoices) =>
+        new(Input, fields, OnFieldChanged, compact: true, wideChoices: wideChoices) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
 
     /// <summary>Changed of the historic view: a steel that no longer matches its catalogue becomes custom, then the values again and Modified.</summary>
     private void OnFieldChanged(string key)
@@ -219,6 +217,7 @@ public sealed class RebarMaterialSheetViewModel : SheetViewModelBase, IMaterialS
         finally { refreshing = false; }
         Locked = RebarPresentation.PropertyKeys.ToDictionary(k => k, state.Locked, StringComparer.Ordinal);
         DiagramEnabled = state.DiagramEnabled;
+        propertiesForm.Enable("steel_diagramma", state.DiagramEnabled);
         NameLocked = state.NameLocked;
         Description = state.Description; Source = state.Source;
         RebarResults values;
