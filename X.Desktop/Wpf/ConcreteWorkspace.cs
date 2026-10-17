@@ -69,7 +69,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             foreach (var item in ConcreteSheetPreparation.ReadActions(Data)[key])
             {
                 var row = CreateAction(key, item.S("nome"), item.S("N"), item.S("Mx"), item.S("My"), item.S("id"), item.B("visible", true));
-                if (UnifiedActions) foreach (string field in new[] { "elemento", "stato", "Vx", "Vy", "T" }) row.Values[field] = item[field]?.DeepClone();
+                if (UnifiedActions) foreach (string field in ConcreteActionPresentation.UnifiedFields) row.Values[field] = item[field]?.DeepClone();
                 rows.Add(row);
             }
         }
@@ -158,9 +158,9 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareHoles(Input);
         var holeToggle=new CheckBox{Content="Foro centrale",IsChecked=Input.B("foro_presente"),Margin=new Thickness(4)};
         var holeForm=new InputForm(Input,[new("inner_diameter_mm","Diametro foro","mm"),new("inner_width_mm","Larghezza foro","mm"),new("inner_height_mm","Altezza foro","mm")],_=>Invalidate(),true);
-        void UpdateHoleFields(){bool enabled=Input.B("foro_presente");holeForm.Visibility=enabled?Visibility.Visible:Visibility.Collapsed;holeForm.ShowField("inner_diameter_mm",Input.S("shape")=="Circolare");holeForm.ShowField("inner_width_mm",Input.S("shape")=="Rettangolare");holeForm.ShowField("inner_height_mm",Input.S("shape")=="Rettangolare");}
+        void UpdateHoleFields(){bool enabled=Input.B("foro_presente");holeForm.Visibility=enabled?Visibility.Visible:Visibility.Collapsed;foreach(string key in new[]{"inner_diameter_mm","inner_width_mm","inner_height_mm"})holeForm.ShowField(key,ConcreteInputPresentation.HoleFieldShown(key,Input.S("shape")));}
         holeToggle.Click+=(_,_)=>{Input["foro_presente"]=holeToggle.IsChecked==true;UpdateHoleFields();Invalidate();};
-        refreshHoleControls=()=>{holeToggle.IsChecked=Input.B("foro_presente");holeToggle.IsEnabled=Input.S("shape") is "Circolare" or "Rettangolare";UpdateHoleFields();};
+        refreshHoleControls=()=>{holeToggle.IsChecked=Input.B("foro_presente");holeToggle.IsEnabled=ConcreteInputPresentation.HoleAvailable(Input.S("shape"));UpdateHoleFields();};
         geometry.IsVisibleChanged+=(_,_)=>refreshHoleControls();UpdateHoleFields();
         BuildMaterialFields();
         Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareFlange(Input);
@@ -169,7 +169,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         grids.Add(tendons); grids.Add(barInventory);
         var tendonInput = BuildTendonInput();
         var materialGroups = Ui.Stack(materials,
-            Ui.Button("Reologia del calcestruzzo…", () => ConcreteTimeEffectsView.CreateWindow(this, Math.Abs(Input.D("fck_mpa"))).Show(), inspection: true),
+            Ui.Button("Reologia del calcestruzzo…", () => ConcreteTimeEffectsView.CreateWindow(this, ConcreteInputPresentation.RheologyStrength(Input)).Show(), inspection: true),
             BuildCustomMaterials()); materialGroups.Margin = new Thickness(14, 0, 0, 0);
         var inputStack = Ui.Stack(norm,
             settings["migrazione_input"] is JsonObject migratedInput ? Group("Valori integrati dal documento precedente",
@@ -214,7 +214,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     }
     private JsonRow CreateAction(string key, string name, string n, string mx, string my, string? id = null, bool visible = true)
     {
-        var values = J.Obj(("id", string.IsNullOrEmpty(id) ? Guid.NewGuid().ToString("N") : id), ("nome", name), ("N", n), ("Mx", mx), ("My", my), ("visible", visible), ("eta", "—"), ("esito", "Da calcolare"));
+        var values = ConcreteActionPresentation.NewRow(name, n, mx, my, id, visible);
         return new JsonRow(values, field =>
         {
             if (synchronizing) return;
@@ -291,13 +291,13 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private void RefreshPreview()
     {
         string shape = Input.S("shape");
-        if(shape is not("Rettangolare" or "Circolare"))Input["foro_presente"]=false;
+        ConcreteInputPresentation.NormalizeHole(Input);
         refreshHoleControls?.Invoke();
         RefreshAdditionalLayers();
-        reinforcement.IsEnabled = Input["barre_manuali"] is not JsonArray;
-        reinforcement.ToolTip = reinforcement.IsEnabled ? null : "Sono attive le coordinate delle barre. Ripristina le barre da wizard per usare questi parametri.";
-        foreach (string key in new[] { "diameter_mm", "circular_sides", "width_mm", "height_mm", "flange_width_mm", "web_width_mm", "flange_thickness_mm" }) geometry.ShowField(key, key switch { "diameter_mm" or "circular_sides" => shape == "Circolare", "width_mm" => shape == "Rettangolare", "height_mm" => shape != "Circolare", _ => shape == "A T" });
-        foreach (string key in reinforcement.Editors.Keys.Where(k => !k.StartsWith("transverse"))) reinforcement.ShowField(key, key.StartsWith("flange_bottom") ? shape == "A T" : key.StartsWith("longitudinal") ? shape == "Circolare" : shape != "Circolare");
+        reinforcement.IsEnabled = !ConcreteInputPresentation.ManualBars(Input);
+        reinforcement.ToolTip = ConcreteInputPresentation.ReinforcementToolTip(reinforcement.IsEnabled);
+        foreach (string key in ConcreteInputPresentation.ShapeFields) geometry.ShowField(key, ConcreteInputPresentation.GeometryFieldShown(key, shape));
+        foreach (string key in reinforcement.Editors.Keys.Where(k => !k.StartsWith("transverse"))) reinforcement.ShowField(key, ConcreteInputPresentation.ReinforcementFieldShown(key, shape));
         ConcreteGeometry? engine = null;
         try
         {
@@ -344,8 +344,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             return Ui.Dock(WithFilters(grid), bottom: Ui.Bar(Ui.Button("Gestisci sollecitazioni…", OpenActionEditor)));
         }
         string ActiveKey() => grid.Tag as string ?? key;
-        string NextName(string set)
-        { int n = 1; while (actions[set].Any(r => r.Values.S("nome") == "Combo " + n)) n++; return "Combo " + n; }
+        string NextName(string set) => ConcreteActionPresentation.NextName(actions[set].Select(r => r.Values.S("nome")));
         void Add()
         { string set = ActiveKey(); grid.Commit(); var row = CreateAction(set, NextName(set), "0", "0", "0"); actions[set].Add(row); SyncActions(set); InvalidateActions(set); grid.SelectedItem = row; grid.ScrollIntoView(row); }
         void Duplicate()

@@ -1,0 +1,224 @@
+{
+  "module": "str_palo",
+  "id": "rettangolare-materiali-utente",
+  "origin": "Fixture sintetica F5.10 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_sezione": 2,
+    "input": {
+      "shape": "Rettangolare",
+      "diameter_mm": "1000",
+      "circular_sides": "32",
+      "width_mm": "500",
+      "height_mm": "700",
+      "flange_width_mm": "1200",
+      "web_width_mm": "400",
+      "flange_thickness_mm": "250",
+      "cover_mm": "45",
+      "longitudinal_bar_count": "16",
+      "longitudinal_bar_diameter_mm": "24",
+      "top_bar_count": "4",
+      "top_bar_diameter_mm": "20",
+      "bottom_bar_count": "6",
+      "bottom_bar_diameter_mm": "24",
+      "side_bar_count_per_side": "2",
+      "side_bar_diameter_mm": "16",
+      "transverse_bar_diameter_mm": "10",
+      "transverse_spacing_mm": "200",
+      "apply_pile_requirements": false,
+      "dissipative_zone": false,
+      "fck_mpa": "32",
+      "fyk_mpa": "500",
+      "alpha_cc": "1",
+      "gamma_c": "1.4",
+      "gamma_s": "1.15",
+      "steel_modulus_mpa": "205000",
+      "axial_force_kn": "2500",
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "apply_minimum_eccentricity": false,
+      "minimum_eccentricity_mm": "0",
+      "classe_cls": "Personalizzato",
+      "n": "",
+      "materiale_cls_nome": "CLS prova 32",
+      "cls_diagramma": "Bilineare",
+      "classe_acciaio": "Personalizzato",
+      "materiale_acciaio_nome": "Acciaio prova",
+      "steel_fu_mpa": "560",
+      "steel_eps_u": "60",
+      "steel_diagramma": "Incrudente",
+      "gettato_sottile": "Sì",
+      "barre_manuali": [
+        {
+          "id": "B01",
+          "x": "-180",
+          "y": "-280",
+          "phi": "26"
+        },
+        {
+          "id": "B02",
+          "x": "0",
+          "y": "-280",
+          "phi": "26"
+        },
+        {
+          "id": "B03",
+          "x": "180",
+          "y": "-280",
+          "phi": "26"
+        },
+        {
+          "id": "B04",
+          "x": "-180",
+          "y": "282",
+          "phi": "20"
+        },
+        {
+          "id": "B05",
+          "x": "180",
+          "y": "282",
+          "phi": "20"
+        },
+        {
+          "id": "B06",
+          "x": "0",
+          "y": "0",
+          "phi": "16"
+        }
+      ]
+    },
+    "n_automatico": true,
+    "combinazioni": {
+      "SLU": [
+        {
+          "id": "510000010f514a008000000000000001",
+          "nome": "SLU deviata",
+          "azioni": [
+            "-900",
+            "300",
+            "120"
+          ],
+          "visible": true
+        },
+        {
+          "id": "510000020f514a008000000000000002",
+          "nome": "SLU flessione retta",
+          "azioni": [
+            "-600",
+            "420",
+            "0"
+          ],
+          "visible": true
+        },
+        {
+          "id": "510000030f514a008000000000000003",
+          "nome": "SLU trazione",
+          "azioni": [
+            "250",
+            "80",
+            "20"
+          ],
+          "visible": true
+        }
+      ],
+      "SLV": [],
+      "SLE": [
+        {
+          "id": "510000040f514a008000000000000004",
+          "nome": "Rara 1",
+          "azioni": [
+            "-450",
+            "240",
+            "0"
+          ],
+          "visible": true
+        },
+        {
+          "id": "510000050f514a008000000000000005",
+          "nome": "Rara 2",
+          "azioni": [
+            "-700",
+            "180",
+            "60"
+          ],
+          "visible": true
+        }
+      ],
+      "SLE_FREQ": [],
+      "SLE_QP": []
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "DIN EN 1992-1-1",
+      "nota": "Materiali definiti dall'utente, barre per coordinate",
+      "file_sollecitazioni": "Sollecitazioni\\pila-P3.xlsx",
+      "materiali_custom": [
+        {
+          "nome": "CLS prova 32",
+          "classe_cls": "C30/37",
+          "materiale_cls_nome": "C30/37",
+          "fck_mpa": "32",
+          "cls_diagramma": "Bilineare",
+          "tipo": "Calcestruzzo",
+          "id": "5100001e0f514a00800000000000001e",
+          "origine": "Personalizzato",
+          "normativa_origine": "DIN EN 1992-1-1"
+        },
+        {
+          "nome": "Acciaio prova",
+          "classe_acciaio": "B500B",
+          "materiale_acciaio_nome": "B500B",
+          "steel_modulus_mpa": "205000",
+          "fyk_mpa": "500",
+          "steel_fu_mpa": "560",
+          "steel_eps_u": "60",
+          "steel_diagramma": "Incrudente",
+          "tipo": "Acciaio",
+          "id": "5100001f0f514a00800000000000001f",
+          "origine": "Personalizzato",
+          "normativa_origine": "DIN EN 1992-1-1"
+        },
+        {
+          "id": "510000200f514a008000000000000020",
+          "tipo": "Trefoli",
+          "nome": "Trefolo prova",
+          "Ep": "190000",
+          "fpyk": "1500",
+          "fpk": "1700",
+          "eps_u": "35",
+          "diagramma": "Incrudente",
+          "origine": "Personalizzato",
+          "normativa_origine": "DIN EN 1992-1-1"
+        }
+      ],
+      "legami_trefoli": {
+        "EN1992:Y1770": "Incrudente"
+      },
+      "dominio3d": {
+        "stato": "SLU",
+        "angoli": "24",
+        "criterio": "Mx–My costanti",
+        "strategia": "Intersezione",
+        "filtro": "Tutte"
+      },
+      "sle": {
+        "SLE": {
+          "modello": "Non lineare",
+          "esposizione": "XC4"
+        }
+      },
+      "momento_curvatura": {
+        "N": "-500",
+        "theta": "45",
+        "passi": "40",
+        "campionamento": "Uniforme",
+        "cls_teso_risposte": "Tension stiffening"
+      },
+      "proprieta_sezione": {
+        "metodo": "Da n",
+        "phi": "0",
+        "n": "15"
+      }
+    }
+  }
+}

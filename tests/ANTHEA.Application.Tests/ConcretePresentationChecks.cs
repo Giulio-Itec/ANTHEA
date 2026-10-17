@@ -20,8 +20,10 @@ internal static class ConcretePresentationChecks
                 var data = result["dati"]!.AsObject();
                 var input = data["input"]!.AsObject();
                 var settings = data["workspace_ca"]!.AsObject();
-                var actions = new[] { "SLU", "SLV" }.SelectMany(key => data["combinazioni"]!.Array(key).OfType<JsonObject>())
-                    .Select(r => J.Obj(("N", r["azioni"]![0]))).ToArray();
+                // The rows of every limit state, as the sheet and the report pass them (ConcreteSheetPreparation.PrepareReport): with an
+                // element chosen the summary names the row of the most severe compression (fixtures of F5.10). Before F5.10 every
+                // fixture left the element to choose, and the N of the SLU and SLV rows was enough.
+                var actions = ConcreteDetailingAnalysis.AllRows(ConcreteSheetPreparation.ReadActions(data)).ToArray();
                 string before = data.ToJsonString();
                 var presentation = ConcreteDetailingPresentation.Calculate(input, settings, actions);
                 Check(before == data.ToJsonString(), "Presentazione dei dettagli modifica il documento");

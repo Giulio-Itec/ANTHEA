@@ -1,0 +1,912 @@
+== apertura
+dati 1BD290178310EFD5 · byte 8885
+  tutto = {"versione_sezione":2,"input":{"shape":"A T","diameter_mm":"1000","circular_sides":"32","width_mm":"600","height_mm":"900","flange_width_mm":"1400","web_width_mm":"400","flange_thickness_mm":"200","cover_mm":"40","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"6","top_bar_diameter_mm":"16","bottom_bar_count":"4","bottom_bar_diameter_mm":"25","side_bar_count_per_side":"2","side_bar_diameter_mm":"12","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":30,"fyk_mpa":500,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C30/37","n":"","materiale_cls_nome":"C30/37","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B500B","materiale_acciaio_nome":"B500B","steel_fu_mpa":550,"steel_eps_u":50,"steel_diagramma":"Elastoplastico","flange_bottom_count":"4","flange_bottom_diameter_mm":"14","flange_bottom_offset_mm":"70","gettato_sottile":"No","staffe_presenti":"Sì","inner_diameter_mm":"500","inner_width_mm":"300","inner_height_mm":"400","second_top_count":"6","second_top_diameter":"16","second_top_gap":"30","second_bottom_count":"4","second_bottom_diameter":"25","second_bottom_gap":"30","second_inner_count":"16","second_inner_diameter":"24","second_inner_gap":"30","foro_presente":false},"n_automatico":true,"combinazioni":{"SLU":[{"id":"510000010f514a008000000000000001","nome":"SLU 1","azioni":["-300","450","40","30","180","0"],"visible":true,"elemento":"Trave T1"},{"id":"510000020f514a008000000000000002","nome":"SLU 2","azioni":["-150","-120","10","10","90","5"],"visible":false,"elemento":"Trave T2"}],"SLV":[{"id":"510000030f514a008000000000000003","nome":"SLV 1","azioni":["-200","300","80","60","140","10"],"visible":true,"elemento":"Trave T1"}],"SLE":[{"id":"510000040f514a008000000000000004","nome":"Rara","azioni":["-200","260","20","0","0","0"],"visible":true,"elemento":"Trave T1"}],"SLE_FREQ":[{"id":"510000050f514a008000000000000005","nome":"Frequente","azioni":["-200","200","15","0","0","0"],"visible":true,"elemento":"Trave T1"}],"SLE_QP":[{"id":"510000060f514a008000000000000006","nome":"Quasi permanente","azioni":["-200","150","10","0","0","0"],"visible":true,"elemento":"Trave T1"}]},"workspace_ca":{"versione":2,"normativa":"EN 1992-1-1","sollecitazioni_versione":1,"tab":1,"dominio3d":{"stato":"SLU","modello_resistente":"Plastico","angoli":"32","criterio":"Eccentricità costante","filtro":"Tutte","strategia":"Iterativo","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"dominio2d":{"stato":"SLV","modello_resistente":"Elastico","tipo":"Mx–My","theta":"0","N":"-200","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"taglio":{"chiusura_torsione":"Confermato","as_torsione":"800","cot_torsione":"1.5","azioni":[],"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Automatici da sezione","tipo_staffa":"Staffa chiusa","rami_x":"2","rami_y":"2","rami_interni":"0","schema_interno":"Bracci paralleli","rotazione_staffa":"0","ancoraggio":"Da verificare","modello":"Con staffe","bw_x":"200","d_x":"1342.4336283185839","asl_x":"354.99996985564661","alpha_x":"90","cot_x":"","bw_y":"400","d_y":"837.5","asl_y":"1432.5662500369458","alpha_y":"90","cot_y":"","modello_circolare":"Da scegliere","z_d":"0.75","eccentricita_mc_x":"0","eccentricita_mc_y":"0"},"dettagli_costruttivi":{"elemento":"Trave","ancoraggio_appoggi":"Confermato","barre_trattenute":"Confermato","aggregato":"16","vita_durabilita":"50","qualita_copriferro":"No","cmin_dur":"","delta_c":"10","zona_sovrapposizione":"No","as_secondaria":"0","passo_secondaria":"0","zona_critica":"No"},"ancoraggi":{"schema_versione":1,"tipo":"Sovrapposizione rettilinea","diametro":"25","lunghezza":"900","percentuale":"50","interferro":"30","posizione":"Verificato sul disegno","sigma":"","aderenza":"Buona","confinamento":"Da verificare","cautele":"Da verificare"},"sle":{"SLE":{"modello":"Lineare","esposizione":"XC3","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"6.0907705034573452","n_trefoli":"5.9385012408709112","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC3","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"6.0907705034573452","n_trefoli":"5.9385012408709112","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC3","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"6.0907705034573452","n_trefoli":"5.9385012408709112","contour":"CLS · gradiente tensioni"}},"nota":"","trefoli":[],"sle_precedenti_unificazione":{"SLE":{"modello":"Lineare","esposizione":"XC3","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Lineare","phi":"0","phi_trefoli":"0","n_armature":"6.0907705034573452","n_trefoli":"5.9385012408709112","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC3","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"0.85","AlphaCT":"1","GammaC":"1.50","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1.2","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.75"},"momento_curvatura":{"N":"0","theta":"0","passi":"60","frazione":"1","campionamento":"Quadratico","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"materiali_custom":[],"layout":{},"resistenze_rapide":{"N":"0","tipo":"Plastico"},"calcola_armature":{"diametri":"12;16;20;24","n_superiori":"2;4;6","n_inferiori":"2;4;6;8","n_laterali":"0;2;4","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","staffe":"Ottimizza","obiettivo":"Peso","diametri_ortogonali":"8;10;12;16","passi_ortogonali":"100;150;200;250","max_diametri":"3","max_tentativi":"2000","ganci_phi":"20","riserva_torsione":"25","peso_peso":"1","peso_barre":"1","peso_diametri":"1","mostra":"10","simmetrica":false,"ancoraggio_confermato":false,"torsione_confermata":false,"ricerca_completa":true,"parallelismo":"Automatico","slu":"1","slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"}}}
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 1
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[azioni] sollecitazioni uniche sì · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"0","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[azioni] azioni SLV · 1
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"260","My":"20","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000040f514a008000000000000004","nome":"Rara","stato":"SLE","visible":true}
+[azioni] azioni SLE_FREQ · 1
+[azioni]   {"Mx":"200","My":"15","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000050f514a008000000000000005","nome":"Frequente","stato":"SLE_FREQ","visible":true}
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"150","My":"10","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000060f514a008000000000000006","nome":"Quasi permanente","stato":"SLE_QP","visible":true}
+[azioni] azioni taglio · 3
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"0","Vx":"30","Vy":"180","elemento":"Trave T1","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] form 3D
+[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta criterio "Ricerca resistenza" = "Eccentricità costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"450","My":"40","N":"-300","T":"0","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[domini] 3D dettaglio "SLU · Eccentricità costante / Iterativo\n\nAZIONI · Locali\nSLU 1\n\nNEd = -300,00 kN\nMx,Ed = 450,00 kNm\nMy,Ed = 40,00 kNm\n\nDa calcolare"
+[domini] riquadri 3D-riepilogo "3D · SLU\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n3D · SLV\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh -
+[domini] 3D vista azioni 1 20C562B6AA87D89E · selezionata 0 · Ed - · Rd -
+[domini] 3D vista opzioni 1011000 · criterio "Eccentricità costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio da calcolare · nessuna mesh valida"
+[domini] form 2D
+[domini]   scelta stato "Stato limite" = "SLV" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Elastico" voci "Plastico|Elastico"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "-200"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
+[domini]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · SLV\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "200,00" · spento
+[taglio]   campo d_x "d utile · x" = "1342,43" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "355,00" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "400,00" · spento
+[taglio]   campo d_y "d utile · y" = "837,50" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1432,57" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1.5"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "800"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Da scegliere" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
+[taglio] tabella taglio · colonne "Elemento=elemento|Stato limite=stato|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 3 · selezionata 0 · sola lettura
+[taglio]   {"Mx":"450","My":"40","N":"-300","T":"0","Vx":"30","Vy":"180","elemento":"Trave T1","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":true}
+[taglio]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[taglio]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[taglio] taglio comandi Gestisci sollecitazioni… ×
+[taglio] taglio dettaglio "Selezionare una combinazione"
+[taglio] taglio sintesi "Taglio · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== attendi
+dati 1BD290178310EFD5 · byte 8885
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+risultato 3B7F7E3785617C49
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[azioni] sollecitazioni uniche sì · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"0","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.49","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.09","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[azioni] azioni SLV · 1
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","esito2d":"Entro il dominio","eta":"—","eta2d":"0.43","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"260","My":"20","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"0.32","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-4.80","sigma_s":"129.40","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[azioni] azioni SLE_FREQ · 1
+[azioni]   {"Mx":"200","My":"15","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-3.71","sigma_s":"92.37","stato":"SLE_FREQ","stress_status":"Stato tensionale calcolato","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"150","My":"10","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"0.21","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-2.77","sigma_s":"61.76","stato":"SLE_QP","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.07 / 0.30 mm · η=0.23"}
+[azioni] azioni taglio · 3
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"0","VRdx":"851.25","VRdy":"643.47","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.04","eta_y":"0.28","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","VRdx":"—","VRdy":"—","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","VRdx":"—","VRdy":"—","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] form 3D
+[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta criterio "Ricerca resistenza" = "Eccentricità costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"450","My":"40","N":"-300","T":"0","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.49","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.09","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[domini] 3D dettaglio "SLU · Eccentricità costante / Iterativo\n\nAZIONI · Locali\nSLU 1\n\nNEd = -300.00 kN\nMx,Ed = 450.00 kNm\nMy,Ed = 40.00 kNm\n\nη = 0.49\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -614.63 kN\nMx,Rd = 921.94 kNm\nMy,Rd = 82.01 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -17.00 / 0.00 MPa\nσs min / max: -246.95 / 434.78 MPa\nεc min / max: -3.50 / 31.65 ‰\nεs min / max: -1.23 / 29.21 ‰\n\nd utile: 860.22 mm\nDistanza asse neutro dal lembo (GPC Engine): 90.70 mm\nInclinazione asse neutro: 0.70°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11143.16 … 1842.61 kN\nMx: -1652.64 … 1761.96 kNm\nMy: -1265.35 … 1265.35 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.49\nGoverna: Trave T1 · SLU 1\n2/2 combinazioni\n3D · SLV\nVERIFICATA\nη = 0.33\nGoverna: Trave T1 · SLV 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh Plastic vertici 1570 5DB59F0E71523236 triangoli 3136 EF5B97CED469EC60 scala E1114C7D23BF11C4
+[domini] 3D vista azioni 1 6039EB5A532717D6 · selezionata 0 · Ed 6AC4CAC28C6E87A0 · Rd 589B6D4E589C5899
+[domini] 3D vista opzioni 1011000 · criterio "Eccentricità costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+[domini] form 2D
+[domini]   scelta stato "Stato limite" = "SLV" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Elastico" voci "Plastico|Elastico"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "-200"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
+[domini]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","esito2d":"Entro il dominio","eta":"—","eta2d":"0.43","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · SLV\nVERIFICATA\nη = 0.43\nGoverna: Trave T1 · SLV 1\n1/1 combinazioni\n" · colori #FF9AA4AF #FF397BCC
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "200.00" · spento
+[taglio]   campo d_x "d utile · x" = "1342.43" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "355.00" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "400.00" · spento
+[taglio]   campo d_y "d utile · y" = "837.50" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1432.57" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1.5"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "800"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Da scegliere" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
+[taglio] tabella taglio · colonne "Elemento=elemento|Stato limite=stato|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 3 · selezionata 0 · sola lettura
+[taglio]   {"Mx":"450","My":"40","N":"-300","T":"0","VRdx":"851.25","VRdy":"643.47","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.04","eta_y":"0.28","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":true}
+[taglio]   {"Mx":"-120","My":"10","N":"-150","T":"5","VRdx":"—","VRdy":"—","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[taglio]   {"Mx":"300","My":"80","N":"-200","T":"10","VRdx":"—","VRdy":"—","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[taglio] taglio comandi Gestisci sollecitazioni… ×
+[taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
+[taglio] taglio sintesi "Taglio: 1/3 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.04\nGoverna: Trave T1 · SLU 1\n2/3 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.28\nGoverna: Trave T1 · SLU 1\n2/3 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== cella 3D visible [riga 0] «false»
+dati 337AA02CB375730E · byte 8886
+  combinazioni.SLU[0].visible = false
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+risultato 3B7F7E3785617C49
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[azioni] sollecitazioni uniche sì · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"0","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.49","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.09","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[azioni] azioni SLV · 1
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","esito2d":"Entro il dominio","eta":"—","eta2d":"0.43","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"260","My":"20","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"0.32","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-4.80","sigma_s":"129.40","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[azioni] azioni SLE_FREQ · 1
+[azioni]   {"Mx":"200","My":"15","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-3.71","sigma_s":"92.37","stato":"SLE_FREQ","stress_status":"Stato tensionale calcolato","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"150","My":"10","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"0.21","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-2.77","sigma_s":"61.76","stato":"SLE_QP","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.07 / 0.30 mm · η=0.23"}
+[azioni] azioni taglio · 3
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"0","VRdx":"851.25","VRdy":"643.47","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.04","eta_y":"0.28","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","VRdx":"—","VRdy":"—","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","VRdx":"—","VRdy":"—","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] form 3D
+[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta criterio "Ricerca resistenza" = "Eccentricità costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"450","My":"40","N":"-300","T":"0","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.49","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[domini]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.09","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[domini] 3D dettaglio "SLU · Eccentricità costante / Iterativo\n\nAZIONI · Locali\nSLU 1\n\nNEd = -300,00 kN\nMx,Ed = 450,00 kNm\nMy,Ed = 40,00 kNm\n\nη = 0,49\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -614,63 kN\nMx,Rd = 921,94 kNm\nMy,Rd = 82,01 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -17,00 / 0,00 MPa\nσs min / max: -246,95 / 434,78 MPa\nεc min / max: -3,50 / 31,65 ‰\nεs min / max: -1,23 / 29,21 ‰\n\nd utile: 860,22 mm\nDistanza asse neutro dal lembo (GPC Engine): 90,70 mm\nInclinazione asse neutro: 0,70°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11143,16 … 1842,61 kN\nMx: -1652,64 … 1761,96 kNm\nMy: -1265,35 … 1265,35 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.49\nGoverna: Trave T1 · SLU 1\n2/2 combinazioni\n3D · SLV\nVERIFICATA\nη = 0.33\nGoverna: Trave T1 · SLV 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh Plastic vertici 1570 5DB59F0E71523236 triangoli 3136 EF5B97CED469EC60 scala E1114C7D23BF11C4
+[domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata -1 · Ed - · Rd 589B6D4E589C5899
+[domini] 3D vista opzioni 1011000 · criterio "Eccentricità costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+[domini] form 2D
+[domini]   scelta stato "Stato limite" = "SLV" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Elastico" voci "Plastico|Elastico"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "-200"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
+[domini]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","esito2d":"Entro il dominio","eta":"—","eta2d":"0.43","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · SLV\nVERIFICATA\nη = 0.43\nGoverna: Trave T1 · SLV 1\n1/1 combinazioni\n" · colori #FF9AA4AF #FF397BCC
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[taglio] invariata
+== attendi
+dati 337AA02CB375730E · byte 8886
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+risultato 3B7F7E3785617C49
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[azioni] invariata
+[domini] invariata
+[taglio] invariata
+== cella 3D visible [riga 1] «true»
+dati 750F1D3B4CA27C95 · byte 8885
+  combinazioni.SLU[1].visible = true
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+risultato 3B7F7E3785617C49
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[azioni] sollecitazioni uniche sì · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"0","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.49","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.09","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":true}
+[azioni] azioni SLV · 1
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","esito2d":"Entro il dominio","eta":"—","eta2d":"0.43","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"260","My":"20","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"0.32","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-4.80","sigma_s":"129.40","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[azioni] azioni SLE_FREQ · 1
+[azioni]   {"Mx":"200","My":"15","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-3.71","sigma_s":"92.37","stato":"SLE_FREQ","stress_status":"Stato tensionale calcolato","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"150","My":"10","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"0.21","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-2.77","sigma_s":"61.76","stato":"SLE_QP","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.07 / 0.30 mm · η=0.23"}
+[azioni] azioni taglio · 3
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"0","VRdx":"851.25","VRdy":"643.47","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.04","eta_y":"0.28","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","VRdx":"—","VRdy":"—","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":false}
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","VRdx":"—","VRdy":"—","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] form 3D
+[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta criterio "Ricerca resistenza" = "Eccentricità costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"450","My":"40","N":"-300","T":"0","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.49","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[domini]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.09","id":"510000020f514a008000000000000002","nome":"SLU 2","stato":"SLU","visible":true}
+[domini] 3D dettaglio "SLU · Eccentricità costante / Iterativo\n\nAZIONI · Locali\nSLU 1\n\nNEd = -300,00 kN\nMx,Ed = 450,00 kNm\nMy,Ed = 40,00 kNm\n\nη = 0,49\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -614,63 kN\nMx,Rd = 921,94 kNm\nMy,Rd = 82,01 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -17,00 / 0,00 MPa\nσs min / max: -246,95 / 434,78 MPa\nεc min / max: -3,50 / 31,65 ‰\nεs min / max: -1,23 / 29,21 ‰\n\nd utile: 860,22 mm\nDistanza asse neutro dal lembo (GPC Engine): 90,70 mm\nInclinazione asse neutro: 0,70°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11143,16 … 1842,61 kN\nMx: -1652,64 … 1761,96 kNm\nMy: -1265,35 … 1265,35 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.49\nGoverna: Trave T1 · SLU 1\n2/2 combinazioni\n3D · SLV\nVERIFICATA\nη = 0.33\nGoverna: Trave T1 · SLV 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh Plastic vertici 1570 5DB59F0E71523236 triangoli 3136 EF5B97CED469EC60 scala E1114C7D23BF11C4
+[domini] 3D vista azioni 1 D582AC6C61B82AF0 · selezionata -1 · Ed - · Rd 589B6D4E589C5899
+[domini] 3D vista opzioni 1011000 · criterio "Eccentricità costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+[domini] form 2D
+[domini]   scelta stato "Stato limite" = "SLV" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Elastico" voci "Plastico|Elastico"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "-200"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
+[domini]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","esito2d":"Entro il dominio","eta":"—","eta2d":"0.43","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · SLV\nVERIFICATA\nη = 0.43\nGoverna: Trave T1 · SLV 1\n1/1 combinazioni\n" · colori #FF9AA4AF #FF397BCC
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[taglio] invariata
+== attendi
+dati 750F1D3B4CA27C95 · byte 8885
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+risultato 3B7F7E3785617C49
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[azioni] invariata
+[domini] invariata
+[taglio] invariata
+== apri sollecitazioni { cella dialogo T [riga 0] «5» ; cella dialogo Name [riga 1] «» ; pulsante dialogo Applica ; cella dialogo Name [riga 1] «SLU 2 bis» ; pulsante dialogo Applica }
+dati 85914A28C442D16D · byte 8889
+  combinazioni.SLU[0].azioni[5] = "5"
+  combinazioni.SLU[1].nome = "SLU 2 bis"
+modificato 3 · modificabile sì · occupato no · in coda no · risultati no · avanzamento no · scheda 1
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+messaggio "aperta · righe 6 · selezionata -1 · stato \"Le modifiche saranno applicate solo con Applica.\" · origini no · avviso no · precedente no · risultato -\n  \"510000010f514a008000000000000001\" | \"Trave T1\" | \"SLU 1\" | \"SLU\" | \"-300\" | \"30\" | \"180\" | \"0\" | \"450\" | \"40\" | \"\" · nascosta\n  \"510000020f514a008000000000000002\" | \"Trave T2\" | \"SLU 2\" | \"SLU\" | \"-150\" | \"10\" | \"90\" | \"5\" | \"-120\" | \"10\" | \"\"\n  \"510000030f514a008000000000000003\" | \"Trave T1\" | \"SLV 1\" | \"SLV\" | \"-200\" | \"60\" | \"140\" | \"10\" | \"300\" | \"80\" | \"\"\n  \"510000040f514a008000000000000004\" | \"Trave T1\" | \"Rara\" | \"Rara\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"260\" | \"20\" | \"\"\n  \"510000050f514a008000000000000005\" | \"Trave T1\" | \"Frequente\" | \"Frequente\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"200\" | \"15\" | \"\"\n  \"510000060f514a008000000000000006\" | \"Trave T1\" | \"Quasi permanente\" | \"Quasi permanente\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"150\" | \"10\" | \"\"\ncella dialogo T [riga 0] «5» · righe 6 · selezionata -1 · stato \"Le modifiche saranno applicate solo con Applica.\" · origini no · avviso no · precedente no · risultato -\n  \"510000010f514a008000000000000001\" | \"Trave T1\" | \"SLU 1\" | \"SLU\" | \"-300\" | \"30\" | \"180\" | \"5\" | \"450\" | \"40\" | \"\" · nascosta\n  \"510000020f514a008000000000000002\" | \"Trave T2\" | \"SLU 2\" | \"SLU\" | \"-150\" | \"10\" | \"90\" | \"5\" | \"-120\" | \"10\" | \"\"\n  \"510000030f514a008000000000000003\" | \"Trave T1\" | \"SLV 1\" | \"SLV\" | \"-200\" | \"60\" | \"140\" | \"10\" | \"300\" | \"80\" | \"\"\n  \"510000040f514a008000000000000004\" | \"Trave T1\" | \"Rara\" | \"Rara\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"260\" | \"20\" | \"\"\n  \"510000050f514a008000000000000005\" | \"Trave T1\" | \"Frequente\" | \"Frequente\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"200\" | \"15\" | \"\"\n  \"510000060f514a008000000000000006\" | \"Trave T1\" | \"Quasi permanente\" | \"Quasi permanente\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"150\" | \"10\" | \"\"\ncella dialogo Name [riga 1] «» · righe 6 · selezionata -1 · stato \"Le modifiche saranno applicate solo con Applica.\" · origini no · avviso no · precedente no · risultato -\n  \"510000010f514a008000000000000001\" | \"Trave T1\" | \"SLU 1\" | \"SLU\" | \"-300\" | \"30\" | \"180\" | \"5\" | \"450\" | \"40\" | \"\" · nascosta\n  \"510000020f514a008000000000000002\" | \"Trave T2\" | \"\" | \"SLU\" | \"-150\" | \"10\" | \"90\" | \"5\" | \"-120\" | \"10\" | \"\"\n  \"510000030f514a008000000000000003\" | \"Trave T1\" | \"SLV 1\" | \"SLV\" | \"-200\" | \"60\" | \"140\" | \"10\" | \"300\" | \"80\" | \"\"\n  \"510000040f514a008000000000000004\" | \"Trave T1\" | \"Rara\" | \"Rara\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"260\" | \"20\" | \"\"\n  \"510000050f514a008000000000000005\" | \"Trave T1\" | \"Frequente\" | \"Frequente\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"200\" | \"15\" | \"\"\n  \"510000060f514a008000000000000006\" | \"Trave T1\" | \"Quasi permanente\" | \"Quasi permanente\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"150\" | \"10\" | \"\"\npulsante dialogo Applica · righe 6 · selezionata -1 · stato \"Nome combinazione mancante.\" · origini no · avviso no · precedente no · risultato -\n  \"510000010f514a008000000000000001\" | \"Trave T1\" | \"SLU 1\" | \"SLU\" | \"-300\" | \"30\" | \"180\" | \"5\" | \"450\" | \"40\" | \"\" · nascosta\n  \"510000020f514a008000000000000002\" | \"Trave T2\" | \"\" | \"SLU\" | \"-150\" | \"10\" | \"90\" | \"5\" | \"-120\" | \"10\" | \"\"\n  \"510000030f514a008000000000000003\" | \"Trave T1\" | \"SLV 1\" | \"SLV\" | \"-200\" | \"60\" | \"140\" | \"10\" | \"300\" | \"80\" | \"\"\n  \"510000040f514a008000000000000004\" | \"Trave T1\" | \"Rara\" | \"Rara\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"260\" | \"20\" | \"\"\n  \"510000050f514a008000000000000005\" | \"Trave T1\" | \"Frequente\" | \"Frequente\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"200\" | \"15\" | \"\"\n  \"510000060f514a008000000000000006\" | \"Trave T1\" | \"Quasi permanente\" | \"Quasi permanente\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"150\" | \"10\" | \"\"\ncella dialogo Name [riga 1] «SLU 2 bis» · righe 6 · selezionata -1 · stato \"Nome combinazione mancante.\" · origini no · avviso no · precedente no · risultato -\n  \"510000010f514a008000000000000001\" | \"Trave T1\" | \"SLU 1\" | \"SLU\" | \"-300\" | \"30\" | \"180\" | \"5\" | \"450\" | \"40\" | \"\" · nascosta\n  \"510000020f514a008000000000000002\" | \"Trave T2\" | \"SLU 2 bis\" | \"SLU\" | \"-150\" | \"10\" | \"90\" | \"5\" | \"-120\" | \"10\" | \"\"\n  \"510000030f514a008000000000000003\" | \"Trave T1\" | \"SLV 1\" | \"SLV\" | \"-200\" | \"60\" | \"140\" | \"10\" | \"300\" | \"80\" | \"\"\n  \"510000040f514a008000000000000004\" | \"Trave T1\" | \"Rara\" | \"Rara\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"260\" | \"20\" | \"\"\n  \"510000050f514a008000000000000005\" | \"Trave T1\" | \"Frequente\" | \"Frequente\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"200\" | \"15\" | \"\"\n  \"510000060f514a008000000000000006\" | \"Trave T1\" | \"Quasi permanente\" | \"Quasi permanente\" | \"-200\" | \"0\" | \"0\" | \"0\" | \"150\" | \"10\" | \"\"\npulsante dialogo Applica · chiusa"
+[azioni] sollecitazioni uniche sì · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[azioni] azioni SLV · 1
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"260","My":"20","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000040f514a008000000000000004","nome":"Rara","stato":"SLE","visible":true}
+[azioni] azioni SLE_FREQ · 1
+[azioni]   {"Mx":"200","My":"15","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000050f514a008000000000000005","nome":"Frequente","stato":"SLE_FREQ","visible":true}
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"150","My":"10","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000060f514a008000000000000006","nome":"Quasi permanente","stato":"SLE_QP","visible":true}
+[azioni] azioni taglio · 3
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] form 3D
+[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta criterio "Ricerca resistenza" = "Eccentricità costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[domini]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[domini] 3D dettaglio "SLU · Eccentricità costante / Iterativo\n\nAZIONI · Locali\nSLU 1\n\nNEd = -300,00 kN\nMx,Ed = 450,00 kNm\nMy,Ed = 40,00 kNm\n\nDa calcolare"
+[domini] riquadri 3D-riepilogo "3D · SLU\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n3D · SLV\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh -
+[domini] 3D vista azioni 1 FBE618CD64AA637C · selezionata -1 · Ed - · Rd -
+[domini] 3D vista opzioni 1011000 · criterio "Eccentricità costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio da calcolare · nessuna mesh valida"
+[domini] form 2D
+[domini]   scelta stato "Stato limite" = "SLV" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Elastico" voci "Plastico|Elastico"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "-200"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
+[domini]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · SLV\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "200,00" · spento
+[taglio]   campo d_x "d utile · x" = "1342,43" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "355,00" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "400,00" · spento
+[taglio]   campo d_y "d utile · y" = "837,50" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1432,57" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1.5"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "800"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Da scegliere" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
+[taglio] tabella taglio · colonne "Elemento=elemento|Stato limite=stato|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 3 · selezionata 0 · sola lettura
+[taglio]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[taglio]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[taglio]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[taglio] taglio comandi Gestisci sollecitazioni… ×
+[taglio] taglio dettaglio "Selezionare una combinazione"
+[taglio] taglio sintesi "Taglio · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== attendi
+dati 85914A28C442D16D · byte 8889
+modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+risultato E688DF8222AB9339
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[azioni] sollecitazioni uniche sì · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.49","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.09","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[azioni] azioni SLV · 1
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","esito2d":"Entro il dominio","eta":"—","eta2d":"0.43","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"260","My":"20","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"0.32","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-4.80","sigma_s":"129.40","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[azioni] azioni SLE_FREQ · 1
+[azioni]   {"Mx":"200","My":"15","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-3.71","sigma_s":"92.37","stato":"SLE_FREQ","stress_status":"Stato tensionale calcolato","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"150","My":"10","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"0.21","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-2.77","sigma_s":"61.76","stato":"SLE_QP","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.07 / 0.30 mm · η=0.23"}
+[azioni] azioni taglio · 3
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"5","VRdx":"—","VRdy":"—","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","VRdx":"—","VRdy":"—","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","VRdx":"—","VRdy":"—","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] form 3D
+[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta criterio "Ricerca resistenza" = "Eccentricità costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.49","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[domini]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.09","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[domini] 3D dettaglio "SLU · Eccentricità costante / Iterativo\n\nAZIONI · Locali\nSLU 1\n\nNEd = -300.00 kN\nMx,Ed = 450.00 kNm\nMy,Ed = 40.00 kNm\n\nη = 0.49\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -614.63 kN\nMx,Rd = 921.94 kNm\nMy,Rd = 82.01 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -17.00 / 0.00 MPa\nσs min / max: -246.95 / 434.78 MPa\nεc min / max: -3.50 / 31.65 ‰\nεs min / max: -1.23 / 29.21 ‰\n\nd utile: 860.22 mm\nDistanza asse neutro dal lembo (GPC Engine): 90.70 mm\nInclinazione asse neutro: 0.70°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11143.16 … 1842.61 kN\nMx: -1652.64 … 1761.96 kNm\nMy: -1265.35 … 1265.35 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.49\nGoverna: Trave T1 · SLU 1\n2/2 combinazioni\n3D · SLV\nVERIFICATA\nη = 0.33\nGoverna: Trave T1 · SLV 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh Plastic vertici 1570 5DB59F0E71523236 triangoli 3136 EF5B97CED469EC60 scala E1114C7D23BF11C4
+[domini] 3D vista azioni 1 D582AC6C61B82AF0 · selezionata -1 · Ed - · Rd 589B6D4E589C5899
+[domini] 3D vista opzioni 1011000 · criterio "Eccentricità costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+[domini] form 2D
+[domini]   scelta stato "Stato limite" = "SLV" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Elastico" voci "Plastico|Elastico"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "-200"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
+[domini]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","esito2d":"Entro il dominio","eta":"—","eta2d":"0.43","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · SLV\nVERIFICATA\nη = 0.43\nGoverna: Trave T1 · SLV 1\n1/1 combinazioni\n" · colori #FF9AA4AF #FF397BCC
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "200.00" · spento
+[taglio]   campo d_x "d utile · x" = "1342.43" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "355.00" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "400.00" · spento
+[taglio]   campo d_y "d utile · y" = "837.50" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1432.57" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1.5"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "800"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Da scegliere" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
+[taglio] tabella taglio · colonne "Elemento=elemento|Stato limite=stato|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 3 · selezionata 0 · sola lettura
+[taglio]   {"Mx":"450","My":"40","N":"-300","T":"5","VRdx":"—","VRdy":"—","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[taglio]   {"Mx":"-120","My":"10","N":"-150","T":"5","VRdx":"—","VRdy":"—","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[taglio]   {"Mx":"300","My":"80","N":"-200","T":"10","VRdx":"—","VRdy":"—","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[taglio] taglio comandi Gestisci sollecitazioni… ×
+[taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
+[taglio] taglio sintesi "Taglio: 0/3 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== conferma
+dati 85914A28C442D16D · byte 8889
+modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+risultato E688DF8222AB9339
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[azioni] invariata
+[domini] invariata
+[taglio] invariata
+== riapri
+dati 85914A28C442D16D · byte 8889
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 1
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[azioni] sollecitazioni uniche sì · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[azioni] azioni SLV · 1
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"260","My":"20","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000040f514a008000000000000004","nome":"Rara","stato":"SLE","visible":true}
+[azioni] azioni SLE_FREQ · 1
+[azioni]   {"Mx":"200","My":"15","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000050f514a008000000000000005","nome":"Frequente","stato":"SLE_FREQ","visible":true}
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"150","My":"10","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000060f514a008000000000000006","nome":"Quasi permanente","stato":"SLE_QP","visible":true}
+[azioni] azioni taglio · 3
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] form 3D
+[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta criterio "Ricerca resistenza" = "Eccentricità costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[domini]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta3d":"—","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[domini] 3D dettaglio "SLU · Eccentricità costante / Iterativo\n\nAZIONI · Locali\nSLU 1\n\nNEd = -300,00 kN\nMx,Ed = 450,00 kNm\nMy,Ed = 40,00 kNm\n\nDa calcolare"
+[domini] riquadri 3D-riepilogo "3D · SLU\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n3D · SLV\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh -
+[domini] 3D vista azioni 1 FBE618CD64AA637C · selezionata -1 · Ed - · Rd -
+[domini] 3D vista opzioni 1011000 · criterio "Eccentricità costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio da calcolare · nessuna mesh valida"
+[domini] form 2D
+[domini]   scelta stato "Stato limite" = "SLV" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Elastico" voci "Plastico|Elastico"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "-200"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
+[domini]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · SLV\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "200,00" · spento
+[taglio]   campo d_x "d utile · x" = "1342,43" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "355,00" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "400,00" · spento
+[taglio]   campo d_y "d utile · y" = "837,50" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1432,57" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1.5"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "800"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Da scegliere" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
+[taglio] tabella taglio · colonne "Elemento=elemento|Stato limite=stato|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 3 · selezionata 0 · sola lettura
+[taglio]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[taglio]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[taglio]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[taglio] taglio comandi Gestisci sollecitazioni… ×
+[taglio] taglio dettaglio "Selezionare una combinazione"
+[taglio] taglio sintesi "Taglio · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== attendi
+dati 85914A28C442D16D · byte 8889
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+risultato E688DF8222AB9339
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[azioni] sollecitazioni uniche sì · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.49","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.09","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[azioni] azioni SLV · 1
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","esito2d":"Entro il dominio","eta":"—","eta2d":"0.43","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"260","My":"20","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"0.32","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-4.80","sigma_s":"129.40","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[azioni] azioni SLE_FREQ · 1
+[azioni]   {"Mx":"200","My":"15","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-3.71","sigma_s":"92.37","stato":"SLE_FREQ","stress_status":"Stato tensionale calcolato","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"150","My":"10","N":"-200","T":"0","Vx":"0","Vy":"0","elemento":"Trave T1","esito":"Da calcolare","eta":"—","eta_sigma":"0.21","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-2.77","sigma_s":"61.76","stato":"SLE_QP","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.07 / 0.30 mm · η=0.23"}
+[azioni] azioni taglio · 3
+[azioni]   {"Mx":"450","My":"40","N":"-300","T":"5","VRdx":"—","VRdy":"—","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[azioni]   {"Mx":"-120","My":"10","N":"-150","T":"5","VRdx":"—","VRdy":"—","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[azioni]   {"Mx":"300","My":"80","N":"-200","T":"10","VRdx":"—","VRdy":"—","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] form 3D
+[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta criterio "Ricerca resistenza" = "Eccentricità costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"450","My":"40","N":"-300","T":"5","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.49","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[domini]   {"Mx":"-120","My":"10","N":"-150","T":"5","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0.09","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[domini] 3D dettaglio "SLU · Eccentricità costante / Iterativo\n\nAZIONI · Locali\nSLU 1\n\nNEd = -300.00 kN\nMx,Ed = 450.00 kNm\nMy,Ed = 40.00 kNm\n\nη = 0.49\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -614.63 kN\nMx,Rd = 921.94 kNm\nMy,Rd = 82.01 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -17.00 / 0.00 MPa\nσs min / max: -246.95 / 434.78 MPa\nεc min / max: -3.50 / 31.65 ‰\nεs min / max: -1.23 / 29.21 ‰\n\nd utile: 860.22 mm\nDistanza asse neutro dal lembo (GPC Engine): 90.70 mm\nInclinazione asse neutro: 0.70°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11143.16 … 1842.61 kN\nMx: -1652.64 … 1761.96 kNm\nMy: -1265.35 … 1265.35 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.49\nGoverna: Trave T1 · SLU 1\n2/2 combinazioni\n3D · SLV\nVERIFICATA\nη = 0.33\nGoverna: Trave T1 · SLV 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh Plastic vertici 1570 5DB59F0E71523236 triangoli 3136 EF5B97CED469EC60 scala E1114C7D23BF11C4
+[domini] 3D vista azioni 1 D582AC6C61B82AF0 · selezionata -1 · Ed - · Rd 589B6D4E589C5899
+[domini] 3D vista opzioni 1011000 · criterio "Eccentricità costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+[domini] form 2D
+[domini]   scelta stato "Stato limite" = "SLV" voci "SLU|SLV"
+[domini]   scelta modello_resistente "Criterio resistente" = "Elastico" voci "Plastico|Elastico"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "-200"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
+[domini]   {"Mx":"300","My":"80","N":"-200","T":"10","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Da calcolare","esito2d":"Entro il dominio","eta":"—","eta2d":"0.43","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · SLV\nVERIFICATA\nη = 0.43\nGoverna: Trave T1 · SLV 1\n1/1 combinazioni\n" · colori #FF9AA4AF #FF397BCC
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "200.00" · spento
+[taglio]   campo d_x "d utile · x" = "1342.43" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "355.00" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "400.00" · spento
+[taglio]   campo d_y "d utile · y" = "837.50" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1432.57" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1.5"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "800"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Da scegliere" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
+[taglio] tabella taglio · colonne "Elemento=elemento|Stato limite=stato|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 3 · selezionata 0 · sola lettura
+[taglio]   {"Mx":"450","My":"40","N":"-300","T":"5","VRdx":"—","VRdy":"—","Vx":"30","Vy":"180","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000010f514a008000000000000001","nome":"SLU 1","stato":"SLU","visible":false}
+[taglio]   {"Mx":"-120","My":"10","N":"-150","T":"5","VRdx":"—","VRdy":"—","Vx":"10","Vy":"90","elemento":"Trave T2","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000020f514a008000000000000002","nome":"SLU 2 bis","stato":"SLU","visible":true}
+[taglio]   {"Mx":"300","My":"80","N":"-200","T":"10","VRdx":"—","VRdy":"—","Vx":"60","Vy":"140","elemento":"Trave T1","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000030f514a008000000000000003","nome":"SLV 1","stato":"SLV","visible":true}
+[taglio] taglio comandi Gestisci sollecitazioni… ×
+[taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
+[taglio] taglio sintesi "Taglio: 0/3 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""

@@ -83,6 +83,7 @@ public static class F3Fixtures
         StratigraphyF56b(cases);
         RetainingWallF59(cases);
         HorizontalPileF58(cases);
+        ConcreteSectionF510(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -888,5 +889,225 @@ public static class F3Fixtures
             d["stratigrafie"] = new JsonArray(new JsonArray(Reaction(Layer("Granulare", "4", "18", "20", "30"), 2, "9000"), Reaction(Layer("Granulare", "6", "19", "21", "35"), 3)),
                 new JsonArray(Layer("Granulare", "10", "18", "20", "31")));
         }, (e, details) => e["stratigrafia"] = 0);
+    }
+
+    /// <summary>
+    /// RC section fixtures (str_palo) added before the F5.10 preparation (proposal F5, section 7.2: capture first, with the historic view
+    /// ConcreteWorkspace in SheetEditor). The four existing fixtures are rectangular, with three actions in the historic format and the
+    /// default options. These cover the sub-steps of F5.10: the circular section with a hole, a second ring and a tendon, the T section
+    /// with the bars under the flange, manual bar coordinates; catalogue materials of every standard and materials defined by the user
+    /// (saved list, tendons, the law of a catalogue tendon); the unified actions (state and element per row, shear and torsion in the same
+    /// row, a hidden row) and the historic ones; the serviceability options (exposures, crack limit, custom axes, contours and labels of the
+    /// stress map, non-linear analysis); shear without stirrups and with manual parameters, the spiral and the circular model, torsion; the
+    /// detailing of beams, columns and slabs, laps and anchorages; the options of the reinforcement design; the M–χ path; and incomplete
+    /// data that stop single rows (a value missing or not numeric) or the quick resistances, with the warnings of the sheet. The documents are as the sheet writes them before its lazy preparation: a workspace of
+    /// version 2 with the standard, the keys the sheet would write, texts for the typed values; fixed identifiers; archive-valid. The
+    /// identifiers never end in "default", which the F3 project report collects. The rows of every limit state are written in the order of
+    /// their names: the domain figures of the view highlight the first row inserted, those of the standalone chapter the first by name
+    /// (difference reported in docs/refactoring/f5-10-sezione.md), and ui/f3-report-chapters compares the two reports.
+    /// </summary>
+    static void ConcreteSectionF510(List<CaptureCase> cases)
+    {
+        const string module = "str_palo";
+        const string origin = "Fixture sintetica F5.10 (proposta F5 7.2, cattura prima con la vista storica)";
+        static string Id(int n) => new Guid(0x51000000 + n, 0x0f51, 0x4a00, 0x80, 0, 0, 0, 0, 0, 0, (byte)n).ToString("N");
+        void Added(string id, string standard, Action<JsonObject, JsonObject, JsonObject> alter)
+        {
+            var data = ModuleCatalog.CreateData(module);
+            var settings = J.Obj(("versione", 2), ("normativa", standard));
+            data["workspace_ca"] = settings;
+            alter(data, data["input"]!.AsObject(), settings);
+            cases.Add(new(module, id, origin, null, data));
+        }
+        // An action of the historic format (N, Mx, My) or of the unified one (N, Mx, My, Vx, Vy, T, with the element).
+        static JsonObject Row(int id, string name, string[] forces, bool visible = true, string? element = null)
+        {
+            var row = J.Obj(("id", Id(id)), ("nome", name), ("azioni", forces), ("visible", visible));
+            if (element is not null) row["elemento"] = element;
+            return row;
+        }
+        static JsonObject Shear(int id, string name, string n, string mx, string my, string vx, string vy, string t) =>
+            J.Obj(("id", Id(id)), ("nome", name), ("N", n), ("Mx", mx), ("My", my), ("Vx", vx), ("Vy", vy), ("T", t));
+        static JsonObject Actions(params (string Set, JsonObject[] Rows)[] sets)
+        {
+            var actions = new JsonObject();
+            foreach (string set in new[] { "SLU", "SLV", "SLE", "SLE_FREQ", "SLE_QP" })
+                actions[set] = new JsonArray(sets.Where(s => s.Set == set).SelectMany(s => s.Rows).Select(r => (JsonNode)r).ToArray());
+            return actions;
+        }
+        // A material of the catalogue of the standard, written as the sheet writes it (every key but the name).
+        static void Material(JsonObject input, JsonObject material) { foreach (var (key, value) in material.Where(p => p.Key != "nome")) input[key] = value?.DeepClone(); }
+        static JsonObject Concrete(string standard, string name) => ConcreteMaterialCatalog.Concrete(standard).Single(m => m.S("nome") == name);
+        static JsonObject Steel(string standard, string name) => ConcreteMaterialCatalog.Steel(false, standard).Single(m => m.S("nome") == name);
+        static JsonObject Sle(params (string Key, object? Value)[] values) => J.Obj(values);
+
+        // Circular section with a central hole and a second inner ring; spiral with two inner closed links rotated by 30°, the circular
+        // shear model of the piers with two shear rows (one with torsion, closed links not confirmed); N–M section of the 2D domain with
+        // the projected actions, elastic quick resistances, no spacing dimension; a column with the compressed bars held; the sheet opens
+        // on the 2D domain. No tendon: the M–χ curve is not available with
+        // tendons, and ui/f3-report-chapters calculates it for every RC fixture with results (the tendons are in the traces of F5.10).
+        Added("circolare-cava", "NTC 2018", (d, i, s) =>
+        {
+            i["shape"] = "Circolare"; i["diameter_mm"] = "1000"; i["circular_sides"] = "48"; i["cover_mm"] = "60";
+            i["longitudinal_bar_count"] = "20"; i["longitudinal_bar_diameter_mm"] = "24";
+            i["foro_presente"] = true; i["inner_diameter_mm"] = "400";
+            i["second_inner_enabled"] = true; i["second_inner_count"] = "12"; i["second_inner_diameter"] = "20"; i["second_inner_gap"] = "40";
+            i["transverse_bar_diameter_mm"] = "12"; i["transverse_spacing_mm"] = "150";
+            Material(i, Concrete("NTC 2018", "C40/50"));
+            s["tab"] = 2;
+            s["quote_interferro"] = false;
+            s["taglio"] = J.Obj(("tipo_staffa", "Spirale"), ("rami_x", "2"), ("rami_y", "2"), ("rami_interni", "2"), ("schema_interno", "Staffe chiuse sovrapposte"),
+                ("rotazione_staffa", "30"), ("modello_circolare", "Pile · NTC §7.9.5.2"), ("z_d", "0.75"),
+                ("azioni", new JsonArray(Shear(20, "V1 pila", "-2000", "300", "0", "350", "150", "0"), Shear(21, "V2 con torsione", "-1500", "0", "0", "200", "200", "80"))));
+            s["dominio2d"] = J.Obj(("stato", "SLU"), ("tipo", "N–M"), ("theta", "30"), ("N", "-1000"), ("proietta", "Sì"), ("filtro", "Tutte"));
+            s["resistenze_rapide"] = J.Obj(("N", "-1500"), ("tipo", "Elastico"));
+            s["dettagli_costruttivi"] = J.Obj(("elemento", "Pilastro"), ("barre_trattenute", "Confermato"));
+            s["sle"] = J.Obj(("SLE", Sle(("modello", "Lineare"), ("esposizione", "XC2"))));
+            d["combinazioni"] = Actions(
+                ("SLU", [Row(1, "SLU pressoflessione", ["-3500", "600", "150"]), Row(2, "SLU trazione", ["400", "120", "0"])]),
+                ("SLV", [Row(3, "SLV sisma X", ["-2500", "900", "300"])]),
+                ("SLE", [Row(4, "Rara", ["-2600", "350", "80"])]), ("SLE_FREQ", [Row(5, "Frequente", ["-2400", "260", "60"])]),
+                ("SLE_QP", [Row(6, "Quasi permanente", ["-2200", "180", "40"])]));
+        });
+        // T section with the bars under the flange, catalogue materials of EN 1992-1-1 (C30/37, B500B); unified actions with the limit state
+        // and the element of every row, shear and torsion in the same rows (the coupled torsion model is the one of NTC 2018: the rows with
+        // T stop with its message), a hidden row; resistant criterion per domain (plastic 3D with constant eccentricity, elastic 2D on SLV);
+        // closed links confirmed for torsion; beam with supports and compressed bars confirmed; a lap of 50 % of the bars; the sheet opens
+        // on the 3D domain.
+        Added("sezione-a-t-sollecitazioni-uniche", "EN 1992-1-1", (d, i, s) =>
+        {
+            i["shape"] = "A T"; i["height_mm"] = "900"; i["flange_width_mm"] = "1400"; i["web_width_mm"] = "400"; i["flange_thickness_mm"] = "200"; i["cover_mm"] = "40";
+            i["top_bar_count"] = "6"; i["top_bar_diameter_mm"] = "16"; i["bottom_bar_count"] = "4"; i["bottom_bar_diameter_mm"] = "25";
+            i["side_bar_count_per_side"] = "2"; i["side_bar_diameter_mm"] = "12";
+            i["flange_bottom_count"] = "4"; i["flange_bottom_diameter_mm"] = "14"; i["flange_bottom_offset_mm"] = "70";
+            Material(i, Concrete("EN 1992-1-1", "C30/37")); Material(i, Steel("EN 1992-1-1", "B500B"));
+            s["sollecitazioni_versione"] = 1; s["tab"] = 1;
+            s["dominio3d"] = J.Obj(("stato", "SLU"), ("modello_resistente", "Plastico"), ("angoli", "32"), ("criterio", "Eccentricità costante"), ("filtro", "Tutte"));
+            s["dominio2d"] = J.Obj(("stato", "SLV"), ("modello_resistente", "Elastico"), ("tipo", "Mx–My"), ("theta", "0"), ("N", "-200"), ("filtro", "Tutte"));
+            s["taglio"] = J.Obj(("chiusura_torsione", "Confermato"), ("as_torsione", "800"), ("cot_torsione", "1.5"), ("azioni", new JsonArray()));
+            s["dettagli_costruttivi"] = J.Obj(("elemento", "Trave"), ("ancoraggio_appoggi", "Confermato"), ("barre_trattenute", "Confermato"), ("aggregato", "16"));
+            s["ancoraggi"] = J.Obj(("schema_versione", 1), ("tipo", "Sovrapposizione rettilinea"), ("diametro", "25"), ("lunghezza", "900"), ("percentuale", "50"),
+                ("interferro", "30"), ("posizione", "Verificato sul disegno"));
+            s["sle"] = J.Obj(("SLE", Sle(("modello", "Lineare"), ("esposizione", "XC3"))));
+            d["combinazioni"] = Actions(
+                ("SLU", [Row(1, "SLU 1", ["-300", "450", "40", "30", "180", "0"], element: "Trave T1"),
+                         Row(2, "SLU 2", ["-150", "-120", "10", "10", "90", "5"], visible: false, element: "Trave T2")]),
+                ("SLV", [Row(3, "SLV 1", ["-200", "300", "80", "60", "140", "10"], element: "Trave T1")]),
+                ("SLE", [Row(4, "Rara", ["-200", "260", "20", "0", "0", "0"], element: "Trave T1")]),
+                ("SLE_FREQ", [Row(5, "Frequente", ["-200", "200", "15", "0", "0", "0"], element: "Trave T1")]),
+                ("SLE_QP", [Row(6, "Quasi permanente", ["-200", "150", "10", "0", "0", "0"], element: "Trave T1")]));
+        });
+        // Materials defined by the user under DIN EN 1992-1-1: concrete with the bilinear law, hardening steel, the saved list (concrete,
+        // steel, tendon) and the law chosen for a catalogue tendon; coefficients changed in the input (αcc, γc) and a thin cast layer;
+        // manual coordinates of the bars; Mx–My constant criterion with the intersection method; non-linear serviceability analysis; the
+        // M–χ path at 45° with tension stiffening; the options of the properties dialog, a note and the path of the actions workbook.
+        Added("rettangolare-materiali-utente", "DIN EN 1992-1-1", (d, i, s) =>
+        {
+            i["width_mm"] = "500"; i["height_mm"] = "700"; i["cover_mm"] = "45";
+            i["classe_cls"] = "Personalizzato"; i["materiale_cls_nome"] = "CLS prova 32"; i["fck_mpa"] = "32"; i["cls_diagramma"] = "Bilineare";
+            i["classe_acciaio"] = "Personalizzato"; i["materiale_acciaio_nome"] = "Acciaio prova"; i["fyk_mpa"] = "500"; i["steel_modulus_mpa"] = "205000";
+            i["steel_fu_mpa"] = "560"; i["steel_eps_u"] = "60"; i["steel_diagramma"] = "Incrudente";
+            i["alpha_cc"] = "1"; i["gamma_c"] = "1.4"; i["gettato_sottile"] = "Sì";
+            i["barre_manuali"] = new JsonArray(
+                J.Obj(("id", "B01"), ("x", "-180"), ("y", "-280"), ("phi", "26")), J.Obj(("id", "B02"), ("x", "0"), ("y", "-280"), ("phi", "26")),
+                J.Obj(("id", "B03"), ("x", "180"), ("y", "-280"), ("phi", "26")), J.Obj(("id", "B04"), ("x", "-180"), ("y", "282"), ("phi", "20")),
+                J.Obj(("id", "B05"), ("x", "180"), ("y", "282"), ("phi", "20")), J.Obj(("id", "B06"), ("x", "0"), ("y", "0"), ("phi", "16")));
+            s["nota"] = "Materiali definiti dall'utente, barre per coordinate";
+            s["file_sollecitazioni"] = "Sollecitazioni\\pila-P3.xlsx";
+            s["materiali_custom"] = new JsonArray(
+                J.Obj(("nome", "CLS prova 32"), ("classe_cls", "C30/37"), ("materiale_cls_nome", "C30/37"), ("fck_mpa", "32"), ("cls_diagramma", "Bilineare"),
+                    ("tipo", "Calcestruzzo"), ("id", Id(30)), ("origine", "Personalizzato"), ("normativa_origine", "DIN EN 1992-1-1")),
+                J.Obj(("nome", "Acciaio prova"), ("classe_acciaio", "B500B"), ("materiale_acciaio_nome", "B500B"), ("steel_modulus_mpa", "205000"), ("fyk_mpa", "500"),
+                    ("steel_fu_mpa", "560"), ("steel_eps_u", "60"), ("steel_diagramma", "Incrudente"), ("tipo", "Acciaio"), ("id", Id(31)), ("origine", "Personalizzato"),
+                    ("normativa_origine", "DIN EN 1992-1-1")),
+                J.Obj(("id", Id(32)), ("tipo", "Trefoli"), ("nome", "Trefolo prova"), ("Ep", "190000"), ("fpyk", "1500"), ("fpk", "1700"), ("eps_u", "35"),
+                    ("diagramma", "Incrudente"), ("origine", "Personalizzato"), ("normativa_origine", "DIN EN 1992-1-1")));
+            s["legami_trefoli"] = J.Obj(("EN1992:Y1770", "Incrudente"));
+            s["dominio3d"] = J.Obj(("stato", "SLU"), ("angoli", "24"), ("criterio", "Mx–My costanti"), ("strategia", "Intersezione"), ("filtro", "Tutte"));
+            s["sle"] = J.Obj(("SLE", Sle(("modello", "Non lineare"), ("esposizione", "XC4"))));
+            s["momento_curvatura"] = J.Obj(("N", "-500"), ("theta", "45"), ("passi", "40"), ("campionamento", "Uniforme"), ("cls_teso_risposte", "Tension stiffening"));
+            s["proprieta_sezione"] = J.Obj(("metodo", "Da n"), ("phi", "0"), ("n", "15"));
+            d["combinazioni"] = Actions(
+                ("SLU", [Row(1, "SLU deviata", ["-900", "300", "120"]), Row(2, "SLU flessione retta", ["-600", "420", "0"]), Row(3, "SLU trazione", ["250", "80", "20"])]),
+                ("SLE", [Row(4, "Rara 1", ["-450", "240", "0"]), Row(5, "Rara 2", ["-700", "180", "60"])]));
+        });
+        // Serviceability under Model Code 2010: severe exposure (frequent crack check), sensitive reinforcement, short load, cover and spacing
+        // given for the crack width and the limit of the design, custom axes with origin and rotation, φ given; the contours and the labels
+        // of the three stress maps, neutral axis hidden; a row in tension; projected actions on principal axes in the 2D domain; the sheet
+        // opens on the serviceability tab.
+        Added("sle-fessurazione-assi", "Model Code 2010", (d, i, s) =>
+        {
+            i["width_mm"] = "400"; i["height_mm"] = "600"; i["cover_mm"] = "50";
+            Material(i, Concrete("Model Code 2010", "C30/37"));
+            s["tab"] = 3;
+            (string, object?)[] common = [("modello", "Lineare"), ("phi", "1.8"), ("assi", "Personalizzati"), ("origine_x", "20"), ("origine_y", "-40"), ("rotazione", "10"),
+                ("esposizione", "XD3"), ("sensibilita", "Sensibile"), ("durata", "Breve"), ("copriferro_fessure", "55"), ("spaziatura_fessure", "180"), ("limite_fessure", "0.2")];
+            s["sle"] = J.Obj(
+                ("SLE", Sle([.. common, ("contour", "Barre · tasso resistenza"), ("testi_barre", true), ("asse_neutro", false)])),
+                ("SLE_FREQ", Sle([.. common, ("contour", "CLS · deformazioni"), ("testi_cls", true)])),
+                ("SLE_QP", Sle([.. common, ("contour", "Sezione · tasso resistenza")])));
+            s["dominio2d"] = J.Obj(("stato", "SLU"), ("tipo", "Mx–My"), ("N", "-300"), ("assi", "Principali"), ("proietta", "Sì"), ("filtro", "Tutte"));
+            s["resistenze_rapide"] = J.Obj(("N", "-300"), ("tipo", "Plastico"));
+            d["combinazioni"] = Actions(
+                ("SLU", [Row(1, "SLU", ["-500", "260", "30"])]),
+                ("SLE", [Row(2, "Rara 1", ["-350", "180", "10"]), Row(3, "Rara 2", ["-100", "210", "40"])]),
+                ("SLE_FREQ", [Row(4, "Frequente 1", ["-350", "150", "10"]), Row(5, "Frequente trazione", ["200", "60", "0"])]),
+                ("SLE_QP", [Row(6, "Quasi permanente", ["-350", "120", "5"])]));
+        });
+        // Shear without links under UNI EN 1992-1-1: no links in the section, model without links, manual geometric parameters with the
+        // anchored Asl confirmed; three shear rows of the historic format: complete, without Vy, with torsion; a column for the detailing.
+        Added("taglio-senza-staffe-manuali", "UNI EN 1992-1-1", (d, i, s) =>
+        {
+            i["width_mm"] = "500"; i["height_mm"] = "300"; i["cover_mm"] = "35"; i["staffe_presenti"] = "No";
+            i["top_bar_count"] = "4"; i["top_bar_diameter_mm"] = "16"; i["bottom_bar_count"] = "5"; i["bottom_bar_diameter_mm"] = "20"; i["side_bar_count_per_side"] = "0";
+            s["tab"] = 4;
+            s["taglio"] = J.Obj(("modello", "Senza staffe"), ("parametri", "Manuali"), ("ancoraggio", "Confermato"),
+                ("bw_x", "300"), ("d_x", "450"), ("asl_x", "1200"), ("bw_y", "500"), ("d_y", "250"), ("asl_y", "800"),
+                ("azioni", new JsonArray(Shear(20, "Taglio 1", "-200", "40", "0", "30", "60", "0"), Shear(21, "Taglio senza Vy", "-150", "0", "0", "25", "", "0"),
+                    Shear(22, "Taglio e torsione", "-100", "0", "0", "20", "40", "15"))));
+            s["dettagli_costruttivi"] = J.Obj(("elemento", "Pilastro"));
+            s["dominio2d"] = J.Obj(("stato", "SLU"), ("tipo", "Mx–My"), ("theta", "0"), ("N", "-400"), ("filtro", "Tutte"));
+            d["combinazioni"] = Actions(("SLU", [Row(1, "SLU", ["-400", "60", "15"])]), ("SLE", [Row(2, "Rara", ["-300", "40", "10"])]));
+        });
+        // A slab strip (the detailing of the sheet is the one of NTC 2018): no links, model without links; slab with the critical zone, the
+        // orthogonal reinforcement and a lap zone, 100 years, quality control of the covers, a lap of half of the bars; a ULS row within and
+        // one outside the domain, a characteristic row over the stress limits; the options of the reinforcement design (compromise with
+        // weights, without links, orthogonal bars, sample search, two parallel calculations, five shown, limit of the ULS); the sheet opens
+        // on the design tab.
+        Added("soletta-dettagli-ricerca", "NTC 2018", (d, i, s) =>
+        {
+            i["width_mm"] = "1000"; i["height_mm"] = "250"; i["cover_mm"] = "30"; i["staffe_presenti"] = "No";
+            i["top_bar_count"] = "5"; i["top_bar_diameter_mm"] = "12"; i["bottom_bar_count"] = "5"; i["bottom_bar_diameter_mm"] = "14"; i["side_bar_count_per_side"] = "0";
+            s["tab"] = 7;
+            s["taglio"] = J.Obj(("modello", "Senza staffe"), ("azioni", new JsonArray()));
+            s["dettagli_costruttivi"] = J.Obj(("elemento", "Soletta piena"), ("zona_critica", "Sì"), ("as_secondaria", "565"), ("passo_secondaria", "200"),
+                ("vita_durabilita", "100"), ("qualita_copriferro", "Sì"), ("aggregato", "16"), ("delta_c", "5"), ("zona_sovrapposizione", "Sì"));
+            s["ancoraggi"] = J.Obj(("schema_versione", 1), ("tipo", "Sovrapposizione rettilinea"), ("lunghezza", "600"), ("percentuale", "50"), ("interferro", "20"));
+            s["calcola_armature"] = J.Obj(("obiettivo", "Compromesso"), ("peso_peso", "2"), ("peso_barre", "1"), ("peso_diametri", "0.5"), ("diametri", "10;12;14"),
+                ("n_superiori", "4;5"), ("n_inferiori", "5;6;7"), ("n_laterali", "0"), ("staffe", "Senza staffe"), ("diametri_ortogonali", "8;10"),
+                ("passi_ortogonali", "150;200"), ("max_diametri", "2"), ("ricerca_completa", false), ("max_tentativi", "300"), ("parallelismo", "2"), ("mostra", "5"),
+                ("ancoraggio_confermato", true), ("riserva_torsione", "0"), ("slu", "0.95"));
+            s["sle"] = J.Obj(("SLE", Sle(("modello", "Lineare"), ("esposizione", "XS1"))));
+            s["dominio2d"] = J.Obj(("stato", "SLU"), ("tipo", "Mx–My"), ("theta", "0"), ("N", "0"), ("filtro", "Tutte"));
+            d["combinazioni"] = Actions(
+                ("SLU", [Row(1, "SLU appoggio", ["0", "-110", "0"]), Row(2, "SLU campata", ["0", "50", "0"])]),
+                ("SLE", [Row(3, "Rara", ["0", "65", "0"])]), ("SLE_QP", [Row(4, "Quasi permanente", ["0", "45", "0"])]));
+        });
+        // Incomplete data that stop single rows, with the warnings of the sheet: an archive without two input values (the sheet adds them
+        // and shows them), an action without N and one with text in Mx, a shear row without Vx, the N of the quick resistances not
+        // numeric; exposure, element and anchorage left to choose; fewer directions of the 3D domain; a shear row with torsion and closed
+        // links confirmed (NTC 2018). No check stops as a whole: with two failed checks the order of their errors in the result and in
+        // the report depends on which thread ends first (difference reported in docs/refactoring/f5-10-sezione.md).
+        Added("dati-incompleti-avvisi", "NTC 2018", (d, i, s) =>
+        {
+            i.Remove("cover_mm"); i.Remove("side_bar_count_per_side");
+            s["dominio3d"] = J.Obj(("stato", "SLU"), ("angoli", "16"), ("criterio", "N costante"), ("filtro", "Tutte"));
+            s["resistenze_rapide"] = J.Obj(("N", "abc"), ("tipo", "Plastico"));
+            s["taglio"] = J.Obj(("chiusura_torsione", "Confermato"), ("as_torsione", "600"), ("azioni", new JsonArray(Shear(20, "Taglio completo", "-800", "100", "0", "150", "80", "0"),
+                Shear(21, "Taglio senza Vx", "-800", "0", "0", "", "80", "0"), Shear(22, "Taglio e torsione", "-600", "50", "0", "120", "60", "35"))));
+            d["combinazioni"] = Actions(
+                ("SLU", [Row(1, "SLU completa", ["-1000", "200", "50"]), Row(2, "SLU senza N", ["", "150", "20"]), Row(3, "SLU testo", ["-500", "abc", "0"])]),
+                ("SLE", [Row(4, "Rara", ["-800", "100", "0"])]));
+        });
     }
 }

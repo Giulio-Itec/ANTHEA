@@ -1,0 +1,871 @@
+== apertura
+dati DAC0E7EF90BC8060 · byte 8939
+  tutto = {"versione_sezione":2,"input":{"shape":"Circolare","diameter_mm":"1000","circular_sides":"48","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"60","longitudinal_bar_count":"20","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"12","transverse_spacing_mm":"150","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":40,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C40/50","n":"","materiale_cls_nome":"C40/50","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","foro_presente":true,"inner_diameter_mm":"400","second_inner_enabled":true,"second_inner_count":"12","second_inner_diameter":"20","second_inner_gap":"40","gettato_sottile":"No","staffe_presenti":"Sì","inner_width_mm":"300","inner_height_mm":"400","flange_bottom_count":"0","flange_bottom_diameter_mm":"20","flange_bottom_offset_mm":"82","second_top_count":"4","second_top_diameter":"20","second_top_gap":"30","second_bottom_count":"6","second_bottom_diameter":"24","second_bottom_gap":"30"},"n_automatico":true,"combinazioni":{"SLU":[{"id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","azioni":["-3500","600","150"],"visible":true},{"id":"510000020f514a008000000000000002","nome":"SLU trazione","azioni":["400","120","0"],"visible":true}],"SLV":[{"id":"510000030f514a008000000000000003","nome":"SLV sisma X","azioni":["-2500","900","300"],"visible":true}],"SLE":[{"id":"510000040f514a008000000000000004","nome":"Rara","azioni":["-2600","350","80"],"visible":true}],"SLE_FREQ":[{"id":"510000050f514a008000000000000005","nome":"Frequente","azioni":["-2400","260","60"],"visible":true}],"SLE_QP":[{"id":"510000060f514a008000000000000006","nome":"Quasi permanente","azioni":["-2200","180","40"],"visible":true}]},"workspace_ca":{"versione":2,"normativa":"NTC 2018","tab":2,"quote_interferro":false,"taglio":{"tipo_staffa":"Spirale","rami_x":"2","rami_y":"2","rami_interni":"2","schema_interno":"Staffe chiuse sovrapposte","rotazione_staffa":"30","modello_circolare":"Pile · NTC §7.9.5.2","z_d":"0.75","azioni":[{"id":"510000140f514a008000000000000014","nome":"V1 pila","N":"-2000","Mx":"300","My":"0","Vx":"350","Vy":"150","T":"0"},{"id":"510000150f514a008000000000000015","nome":"V2 con torsione","N":"-1500","Mx":"0","My":"0","Vx":"200","Vy":"200","T":"80"}],"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Automatici da sezione","ancoraggio":"Da verificare","modello":"Con staffe","bw_x":"600","d_x":"784.15009427785753","asl_x":"5642.3004058472688","alpha_x":"90","cot_x":"","bw_y":"600","d_y":"784.15009427785753","asl_y":"5642.3004058472688","alpha_y":"90","cot_y":"","cot_torsione":"1","as_torsione":"0","chiusura_torsione":"Da confermare","eccentricita_mc_x":"0","eccentricita_mc_y":"0"},"dominio2d":{"stato":"SLU","tipo":"N–M","theta":"30","N":"-1000","proietta":"Sì","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","interpolazione":"Quadratica","suddivisioni_n":"50"},"resistenze_rapide":{"N":"-1500","tipo":"Elastico"},"dettagli_costruttivi":{"elemento":"Pilastro","barre_trattenute":"Confermato","vita_durabilita":"50","qualita_copriferro":"No","aggregato":"20","cmin_dur":20,"delta_c":"10","zona_sovrapposizione":"No","as_secondaria":"0","passo_secondaria":"0","zona_critica":"No","ancoraggio_appoggi":"Da confermare","esposizione_sle":"XC2"},"sle":{"SLE":{"modello":"Lineare","esposizione":"XC2","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.6785171744561715","n_trefoli":"5.5365542450947673","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC2","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.6785171744561715","n_trefoli":"5.5365542450947673","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC2","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.6785171744561715","n_trefoli":"5.5365542450947673","contour":"CLS · gradiente tensioni"}},"nota":"","dominio3d":{"stato":"SLU","angoli":"32","criterio":"N costante","filtro":"Tutte","strategia":"Iterativo","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"trefoli":[],"sle_precedenti_unificazione":{"SLE":{"modello":"Lineare","esposizione":"XC2","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Lineare","phi":"0","phi_trefoli":"0","n_armature":"5.6785171744561715","n_trefoli":"5.5365542450947673","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC2","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"0.85","AlphaCT":"1","GammaC":"1.50","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.8"},"momento_curvatura":{"N":"0","theta":"0","passi":"60","frazione":"1","campionamento":"Quadratico","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"ancoraggi":{"schema_versione":1,"tipo":"Ancoraggio rettilineo","diametro":"","sigma":"","aderenza":"Buona","lunghezza":"","percentuale":"100","interferro":"0","confinamento":"Da verificare","posizione":"Da verificare","cautele":"Da verificare"},"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"materiali_custom":[],"layout":{},"calcola_armature":{"diametri":"12;16;20;24","n_superiori":"2;4;6","n_inferiori":"2;4;6;8","n_laterali":"0;2;4","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","staffe":"Ottimizza","obiettivo":"Peso","diametri_ortogonali":"8;10;12;16","passi_ortogonali":"100;150;200;250","max_diametri":"3","max_tentativi":"2000","ganci_phi":"20","riserva_torsione":"25","peso_peso":"1","peso_barre":"1","peso_diametri":"1","mostra":"10","simmetrica":false,"ancoraggio_confermato":false,"torsione_confermata":false,"ricerca_completa":true,"parallelismo":"Automatico","slu":"1","slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"}}}
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 2
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600,00" · spento
+[taglio]   campo d_x "d utile · x" = "784,15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642,30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "784,15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642,30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Da confermare" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Pile · NTC §7.9.5.2" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","Vx":"350","Vy":"150","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","Vx":"200","Vy":"200","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Selezionare una combinazione"
+[taglio] taglio sintesi "Taglio · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== attendi
+dati DAC0E7EF90BC8060 · byte 8939
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
+risultato 87FFF99315B7C01B
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600.00" · spento
+[taglio]   campo d_x "d utile · x" = "784.15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600.00" · spento
+[taglio]   campo d_y "d utile · y" = "784.15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Da confermare" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Pile · NTC §7.9.5.2" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694.06","VRdy":"694.06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.50","eta_y":"0.22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Confermare staffe chiuse e barre contenute nel profilo resistente, incluse quelle di spigolo.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
+[taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== scheda [4]
+dati 4C5FDB6B5EFDD2F9 · byte 8939
+  workspace_ca.tab = 4
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
+risultato F693871D50C5D5E1
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600.00" · spento
+[taglio]   campo d_x "d utile · x" = "784.15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600.00" · spento
+[taglio]   campo d_y "d utile · y" = "784.15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Da confermare" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Pile · NTC §7.9.5.2" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694.06","VRdy":"694.06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.50","eta_y":"0.22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Confermare staffe chiuse e barre contenute nel profilo resistente, incluse quelle di spigolo.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "V1 pila · Con staffe\nN = -2000,00 kN (compressione negativa)\nVx / Vy = 350,00 / 150,00 kN\n\nDIREZIONE Vx\nbw = 600,00 mm · d = 784,15 mm\nVRsd (staffe) = 694,06 kN\nVRcd (puntone) = 1250,77 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 694,06 kN · η = 0,50\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600,00 mm · d = 784,15 mm\nVRsd (staffe) = 694,06 kN\nVRcd (puntone) = 1250,77 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 694,06 kN · η = 0,22\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTaglio circolare · Pile · NTC §7.9.5.2 · verificare la schematizzazione assegnata."
+[taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== attendi
+dati 4C5FDB6B5EFDD2F9 · byte 8939
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
+risultato F693871D50C5D5E1
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] invariata
+== scelta torsione modello_circolare «Parametri assegnati»
+dati 93F27518A00048DB · byte 8937
+  workspace_ca.taglio.modello_circolare = "Parametri assegnati"
+modificato 3 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 4
+risultato -
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600.00" · spento
+[taglio]   campo d_x "d utile · x" = "784.15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600.00" · spento
+[taglio]   campo d_y "d utile · y" = "784.15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Da confermare" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Parametri assegnati" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"—","VRdy":"—","Vx":"350","Vy":"150","esito":"—","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"—","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
+[taglio] taglio sintesi "Taglio e torsione · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio e torsione · da calcolare"
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== campo torsione z_d «0.6»
+dati 5D5C3EBDCF7B8ECB · byte 8936
+  workspace_ca.taglio.z_d = "0.6"
+modificato 5 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 4
+risultato -
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600.00" · spento
+[taglio]   campo d_x "d utile · x" = "784.15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600.00" · spento
+[taglio]   campo d_y "d utile · y" = "784.15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Da confermare" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Parametri assegnati" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.6"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"—","VRdy":"—","Vx":"350","Vy":"150","esito":"—","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"—","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
+[taglio] taglio sintesi "Taglio e torsione · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio e torsione · da calcolare"
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== attendi
+dati 5D5C3EBDCF7B8ECB · byte 8936
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
+risultato 6BDF3E3EBE084AC6
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600.00" · spento
+[taglio]   campo d_x "d utile · x" = "784.15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600.00" · spento
+[taglio]   campo d_y "d utile · y" = "784.15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Da confermare" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Parametri assegnati" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.6"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694.06","VRdy":"694.06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.50","eta_y":"0.22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Confermare staffe chiuse e barre contenute nel profilo resistente, incluse quelle di spigolo.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "V1 pila · Con staffe\nN = -2000.00 kN (compressione negativa)\nVx / Vy = 350.00 / 150.00 kN\n\nDIREZIONE Vx\nbw = 600.00 mm · d = 784.15 mm\nVRsd (staffe) = 694.06 kN\nVRcd (puntone) = 1250.77 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 694.06 kN · η = 0.50\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 784.15 mm\nVRsd (staffe) = 694.06 kN\nVRcd (puntone) = 1250.77 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 694.06 kN · η = 0.22\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTaglio circolare · Parametri assegnati · verificare la schematizzazione assegnata."
+[taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== scelta torsione chiusura_torsione «Confermato»
+dati 0337A0DE41A2DB07 · byte 8933
+  workspace_ca.taglio.chiusura_torsione = "Confermato"
+modificato 7 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 4
+risultato -
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600.00" · spento
+[taglio]   campo d_x "d utile · x" = "784.15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600.00" · spento
+[taglio]   campo d_y "d utile · y" = "784.15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Parametri assegnati" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.6"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"—","VRdy":"—","Vx":"350","Vy":"150","esito":"—","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"—","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
+[taglio] taglio sintesi "Taglio e torsione · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio e torsione · da calcolare"
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== attendi
+dati 0337A0DE41A2DB07 · byte 8933
+modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
+risultato 247D3BA1C1266B62
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600.00" · spento
+[taglio]   campo d_x "d utile · x" = "784.15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600.00" · spento
+[taglio]   campo d_y "d utile · y" = "784.15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Parametri assegnati" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.6"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694.06","VRdy":"694.06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.50","eta_y":"0.22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Torsione: selezionare staffa chiusa; spirale non equivalente automaticamente.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "V1 pila · Con staffe\nN = -2000.00 kN (compressione negativa)\nVx / Vy = 350.00 / 150.00 kN\n\nDIREZIONE Vx\nbw = 600.00 mm · d = 784.15 mm\nVRsd (staffe) = 694.06 kN\nVRcd (puntone) = 1250.77 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 694.06 kN · η = 0.50\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 784.15 mm\nVRsd (staffe) = 694.06 kN\nVRcd (puntone) = 1250.77 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 694.06 kN · η = 0.22\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTaglio circolare · Parametri assegnati · verificare la schematizzazione assegnata."
+[taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== scelta staffe staffe_presenti «No»
+dati 73CE7FB95A540527 · byte 8934
+  input.staffe_presenti = "No"
+  workspace_ca.taglio.modello = "Senza staffe"
+  workspace_ca.taglio.d_x = "792.71837021685587"
+  workspace_ca.taglio.d_y = "792.71837021685587"
+modificato 8 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 4
+risultato -
+stato "Modifiche acquisite · aggiornamento automatico in attesa…"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato"
+[taglio]   campo bw_x "bw · x" = "600,00" · spento
+[taglio]   campo d_x "d utile · x" = "792,72" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642,30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "792,72" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642,30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Parametri assegnati" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.6"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · spento · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · spento · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · spento · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · spento · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · spento · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · spento · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · spento · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · spento · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · spento · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · spento · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"—","VRdy":"—","Vx":"350","Vy":"150","esito":"—","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"—","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
+[taglio] taglio sintesi "Taglio e torsione · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== scheda [4]
+dati 73CE7FB95A540527 · byte 8934
+modificato 8 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 4
+risultato -
+stato "Modifiche acquisite · aggiornamento automatico in attesa…"
+[taglio] invariata
+== attendi
+dati 73CE7FB95A540527 · byte 8934
+modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
+risultato 4B8A2D15A26798AC
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato"
+[taglio]   campo bw_x "bw · x" = "600.00" · spento
+[taglio]   campo d_x "d utile · x" = "792.72" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600.00" · spento
+[taglio]   campo d_y "d utile · y" = "792.72" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Parametri assegnati" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.6"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · spento · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · spento · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · spento · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · spento · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · spento · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · spento · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · spento · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · spento · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · spento · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · spento · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"—","VRdy":"—","Vx":"350","Vy":"150","esito":"Asl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Asl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "V1 pila · Senza staffe\nN = -2000.00 kN (compressione negativa)\nVx / Vy = 350.00 / 150.00 kN\n\nAsl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010."
+[taglio] taglio sintesi "Taglio: 0/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 B04FD4E0E40B75FE · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== scelta taglio modello «Con staffe»
+dati 0337A0DE41A2DB07 · byte 8933
+  input.staffe_presenti = "Sì"
+  workspace_ca.taglio.modello = "Con staffe"
+  workspace_ca.taglio.d_x = "784.15009427785753"
+  workspace_ca.taglio.d_y = "784.15009427785753"
+modificato 10 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 4
+risultato -
+stato "Modifiche acquisite · aggiornamento automatico in attesa…"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600,00" · spento
+[taglio]   campo d_x "d utile · x" = "784,15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642,30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "784,15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642,30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Parametri assegnati" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.6"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"—","VRdy":"—","Vx":"350","Vy":"150","esito":"—","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"—","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
+[taglio] taglio sintesi "Taglio e torsione · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio e torsione · da calcolare"
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 B04FD4E0E40B75FE · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== attendi
+dati 0337A0DE41A2DB07 · byte 8933
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
+risultato 247D3BA1C1266B62
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600.00" · spento
+[taglio]   campo d_x "d utile · x" = "784.15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600.00" · spento
+[taglio]   campo d_y "d utile · y" = "784.15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Parametri assegnati" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.6"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694.06","VRdy":"694.06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.50","eta_y":"0.22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Torsione: selezionare staffa chiusa; spirale non equivalente automaticamente.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "V1 pila · Con staffe\nN = -2000.00 kN (compressione negativa)\nVx / Vy = 350.00 / 150.00 kN\n\nDIREZIONE Vx\nbw = 600.00 mm · d = 784.15 mm\nVRsd (staffe) = 694.06 kN\nVRcd (puntone) = 1250.77 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 694.06 kN · η = 0.50\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 784.15 mm\nVRsd (staffe) = 694.06 kN\nVRcd (puntone) = 1250.77 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 694.06 kN · η = 0.22\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTaglio circolare · Parametri assegnati · verificare la schematizzazione assegnata."
+[taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== conferma
+dati 0337A0DE41A2DB07 · byte 8933
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
+risultato 247D3BA1C1266B62
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] invariata
+== riapri
+dati 0337A0DE41A2DB07 · byte 8933
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 4
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600,00" · spento
+[taglio]   campo d_x "d utile · x" = "784,15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642,30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "784,15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642,30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Parametri assegnati" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.6"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","Vx":"350","Vy":"150","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","Vx":"200","Vy":"200","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "V1 pila · Con staffe\nN = -2000,00 kN (compressione negativa)\nVx / Vy = 350,00 / 150,00 kN\n\nDa calcolare"
+[taglio] taglio sintesi "Taglio · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+== attendi
+dati 0337A0DE41A2DB07 · byte 8933
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
+risultato 247D3BA1C1266B62
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
+[taglio]   campo bw_x "bw · x" = "600.00" · spento
+[taglio]   campo d_x "d utile · x" = "784.15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90"
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
+[taglio]   campo bw_y "bw · y" = "600.00" · spento
+[taglio]   campo d_y "d utile · y" = "784.15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90"
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Confermato" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Parametri assegnati" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.6"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "Sì" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "12" · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "150" · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Spirale" · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Staffe chiuse sovrapposte" · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "2" · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
+[taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694.06","VRdy":"694.06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.50","eta_y":"0.22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Torsione: selezionare staffa chiusa; spirale non equivalente automaticamente.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "V1 pila · Con staffe\nN = -2000.00 kN (compressione negativa)\nVx / Vy = 350.00 / 150.00 kN\n\nDIREZIONE Vx\nbw = 600.00 mm · d = 784.15 mm\nVRsd (staffe) = 694.06 kN\nVRcd (puntone) = 1250.77 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 694.06 kN · η = 0.50\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 784.15 mm\nVRsd (staffe) = 694.06 kN\nVRcd (puntone) = 1250.77 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 694.06 kN · η = 0.22\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTaglio circolare · Parametri assegnati · verificare la schematizzazione assegnata."
+[taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""

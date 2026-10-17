@@ -1,0 +1,33 @@
+circolare-cava · mesh Plastic vertici 1570 BB328D17DF6BEE14 triangoli 3136 EF5B97CED469EC60 scala F8BD78BF3DF97F76
+circolare-cava · azioni 2 EADDB76BACFF10AB · selezionata 0 · Ed F59ACBE61EACED4E · Rd B21984295F3EC6E3
+circolare-cava · opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+corpus-sezione-ca-taglio-din-rettangolare · mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
+corpus-sezione-ca-taglio-din-rettangolare · azioni 1 E6C7888A45E2A2A8 · selezionata 0 · Ed F08A161E79B7883E · Rd EE3A1ED3592C3DE4
+corpus-sezione-ca-taglio-din-rettangolare · opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 1 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+dati-incompleti-avvisi · mesh Plastic vertici 786 8467B776F8D9E665 triangoli 1568 22AA25AB9DBB2DAD scala 0235D01714BEB01A
+dati-incompleti-avvisi · azioni 1 C865DCE9618CBBBF · selezionata 0 · Ed E786E90E0C32BFF6 · Rd 5A3F3F4DC089AE24
+dati-incompleti-avvisi · opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 3 · resistenze - · nota "1.568 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+default · mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
+default · azioni 1 1708F359478EE6DC · selezionata 0 · Ed 593A4C541CD95A3F · Rd C8BE70FDDB7C90CD
+default · opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 1 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+legacy-calculation-settings · mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
+legacy-calculation-settings · azioni 1 FC1D8AF50B8CA693 · selezionata 0 · Ed 4149F5348C98A581 · Rd C179476EAA9F4567
+legacy-calculation-settings · opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 1 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+legacy-workspace-segni · mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
+legacy-workspace-segni · azioni 1 6F9F1314859C05B5 · selezionata 0 · Ed CE9C7B7CFD1EB735 · Rd F7C2E76E00CF260D
+legacy-workspace-segni · opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 1 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+rettangolare-materiali-utente · mesh Plastic vertici 1178 6EDBAD4A04E1BB66 triangoli 2352 5E00798D8973639C scala D7956C408D59D1BD
+rettangolare-materiali-utente · azioni 3 E286ABA3F13E0C0C · selezionata 0 · Ed F35889228EBA775A · Rd FD3B1BB9FDC1A1E9
+rettangolare-materiali-utente · opzioni 1011000 · criterio "Mx–My costanti" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 3 · resistenze - · nota "2.352 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+sezione-a-t-sollecitazioni-uniche · mesh Plastic vertici 1570 5DB59F0E71523236 triangoli 3136 EF5B97CED469EC60 scala E1114C7D23BF11C4
+sezione-a-t-sollecitazioni-uniche · azioni 1 6039EB5A532717D6 · selezionata 0 · Ed 6AC4CAC28C6E87A0 · Rd 589B6D4E589C5899
+sezione-a-t-sollecitazioni-uniche · opzioni 1011000 · criterio "Eccentricità costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+sle-fessurazione-assi · mesh Plastic vertici 1570 E082293DAD94D11D triangoli 3136 EF5B97CED469EC60 scala B7C64A9A14BA27F0
+sle-fessurazione-assi · azioni 1 D75781DBD37691D5 · selezionata 0 · Ed E4B094F36A75EAB5 · Rd 62F38A481651324B
+sle-fessurazione-assi · opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 1 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+soletta-dettagli-ricerca · mesh Plastic vertici 1570 CEFCF7ABF2747469 triangoli 3136 EF5B97CED469EC60 scala 844E2DB3007FFC03
+soletta-dettagli-ricerca · azioni 2 14068ED8AF6FB7DA · selezionata 0 · Ed E0DE6056E1DC724A · Rd 68F9BEB5EFBF455F
+soletta-dettagli-ricerca · opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+taglio-senza-staffe-manuali · mesh Plastic vertici 1570 7431F3E97D309B2C triangoli 3136 EF5B97CED469EC60 scala 36074B9C9046B5DC
+taglio-senza-staffe-manuali · azioni 1 03CB96DFE2984ABA · selezionata 0 · Ed FE77996D70795D27 · Rd A04387C426ED4286
+taglio-senza-staffe-manuali · opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 1 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"

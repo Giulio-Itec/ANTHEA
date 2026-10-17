@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using Anthea.Application.Materials;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -14,17 +15,18 @@ internal sealed partial class ConcreteWorkspace
             var combo = (ComboBox)materials.Editors[key]; string current = Input.S(key);
             if (current != "Personalizzato")
             {
-                var standardMaterial = catalog.FirstOrDefault(m => m.S("nome") == current) ?? catalog.First(m => m.S("nome") == (key == "classe_cls" ? "C35/45" : "B450C"));
+                var standardMaterial = ConcreteInputPresentation.StandardMaterial(catalog, current, key);
                 ApplyStandardMaterial(standardMaterial); current = standardMaterial.S("nome");
             }
             bool previous = initializing; initializing = true;
-            combo.ItemsSource = catalog.Select(m => m.S("nome")).Append(current).Append("Personalizzato").Distinct().ToArray();
+            combo.ItemsSource = ConcreteInputPresentation.StandardChoices(catalog, current);
             materials.Set(key, current, true); initializing = previous;
         }
     }
     private void ApplyStandardMaterial(JsonObject material)
     {
-        foreach (var (key, value) in material.Where(p => p.Key != "nome" && p.Key is not ("cls_diagramma" or "steel_diagramma")))
+        // Each value is written and then shown, one at a time, as the sheet always did.
+        foreach (var (key, value) in ConcreteInputPresentation.StandardMaterialValues(material))
         {
             Input[key] = value?.DeepClone();
             materials.Set(key, Input.S(key), true);
@@ -36,8 +38,7 @@ internal sealed partial class ConcreteWorkspace
         var concreteCatalog = MaterialInputCatalog.Concrete(settings.S("normativa"));
         var steelCatalog = MaterialInputCatalog.Steel(false, settings.S("normativa"));
         Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareMaterials(Input);
-        string[] Choices(JsonObject[] catalog, string key) => catalog.Select(m => m.S("nome"))
-            .Append(Input.S(key)).Append("Personalizzato").Where(s => s.Length > 0).Distinct().ToArray();
+        string[] Choices(JsonObject[] catalog, string key) => ConcreteInputPresentation.MaterialChoices(catalog, Input.S(key));
         materials = new InputForm(Input, [
             new("classe_cls", "Calcestruzzo da normativa", Choices: Choices(concreteCatalog, "classe_cls")),
             new("fck_mpa", "fck", "MPa", ReadOnly: true), new("cls_diagramma", "Diagramma CLS", Choices: MaterialInputCatalog.ConcreteDiagrams, Note: FieldNotes.StressBlock),
@@ -59,12 +60,12 @@ internal sealed partial class ConcreteWorkspace
             }
             else if (key is "fck_mpa")
             {
-                Input["classe_cls"] = "Personalizzato"; Input["materiale_cls_nome"] = "CLS personalizzato";
+                ConcreteInputPresentation.CustomConcrete(Input);
                 materials.Set("classe_cls", "Personalizzato", true);
             }
-            else if (key is "fyk_mpa" or "steel_modulus_mpa" or "steel_fu_mpa" or "steel_eps_u" )
+            else if (ConcreteInputPresentation.SteelProperties.Contains(key))
             {
-                Input["classe_acciaio"] = "Personalizzato"; Input["materiale_acciaio_nome"] = "Acciaio personalizzato";
+                ConcreteInputPresentation.CustomSteel(Input);
                 materials.Set("classe_acciaio", "Personalizzato", true);
             }
             Invalidate();
@@ -79,24 +80,21 @@ internal sealed partial class ConcreteWorkspace
         if (settings["materiali_custom"] is not JsonArray) settings["materiali_custom"] = new JsonArray();
         var list = new ComboBox { MinWidth = 175, DisplayMemberPath = "" };
         Action? refreshDefaultTendon = null;
-        void Reload() { list.ItemsSource = settings.Array("materiali_custom").Select(m => m.S("tipo") + " · " + m.S("nome")).ToArray(); if (list.Items.Count > 0) list.SelectedIndex = list.Items.Count - 1; }
+        void Reload() { list.ItemsSource = settings.Array("materiali_custom").Select(ConcreteInputPresentation.SavedMaterialLabel).ToArray(); if (list.Items.Count > 0) list.SelectedIndex = list.Items.Count - 1; }
         void Apply(JsonObject material)
         {
-            string type = material.S("tipo");
+            string type = ConcreteInputPresentation.ApplySavedMaterial(Input, settings, material);
             if (type == "Calcestruzzo")
             {
-                Input["classe_cls"] = "Personalizzato"; Input["fck_mpa"] = material["fck_mpa"]?.DeepClone(); Input["cls_diagramma"] = material["cls_diagramma"]?.DeepClone(); Input["materiale_cls_nome"] = material.S("nome");
                 materials.Set("classe_cls", "Personalizzato", true); materials.Set("fck_mpa", Input.S("fck_mpa"), true); materials.Set("cls_diagramma", Input.S("cls_diagramma"), true);
             }
             else if (type == "Acciaio")
             {
-                foreach (var key in new[] { "steel_modulus_mpa", "fyk_mpa", "steel_fu_mpa", "steel_eps_u", "steel_diagramma" }) { Input[key] = material[key]?.DeepClone(); materials.Set(key, Input.S(key), true); }
-                Input["materiale_acciaio_nome"] = material.S("nome");
-                Input["classe_acciaio"] = "Personalizzato"; materials.Set("classe_acciaio", "Personalizzato", true);
+                foreach (var key in ConcreteInputPresentation.SavedSteelKeys) materials.Set(key, Input.S(key), true);
+                materials.Set("classe_acciaio", "Personalizzato", true);
             }
             else
             {
-                settings["materiale_trefolo"] = material.DeepClone();
                 refreshDefaultTendon?.Invoke();
                 // New material becomes the default for new cables; existing cables are unchanged.
                 reloadTendonMaterials?.Invoke();

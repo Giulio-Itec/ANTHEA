@@ -1,0 +1,600 @@
+# word/document.xml
+¶ Relazione della sezione in calcestruzzo armato
+¶ Fixture F3 · str_palo · sle-fessurazione-assi
+¶ ANTHEA · <DATA> <ORA>
+¶ Motore di calcolo: GPC Engine · libreria GPCChecker.Concrete.
+¶ Ambito e limiti
+¶ Normativa selezionata: Model Code 2010. Compressione negativa; geometria in mm, tensioni in MPa, deformazioni in ‰, azioni N e V in kN, momenti in kNm. Arrotondamenti solo di presentazione.
+¶ fib Model Code 2010: taglio livello II dipendente da N, M, V, Asl e aggregato; apertura fessure da lunghezza di trasferimento. Assegnare wlim di progetto. Non è Model Code 2020. Torsione e dettagli specifici MC non ancora coperti.
+¶ Questo report non attesta una verifica normativa completa. La presenza di un dominio o di tensioni calcolate non implica la conformità delle altre verifiche. I filtri e le opzioni grafiche non escludono combinazioni dai calcoli. Leggere gli esiti non determinati, fuori piano e non implementati.
+¶ Taglio nelle due direzioni secondo la norma selezionata; Model Code 2010 usa il livello II con N, M, V, Asl e granulometria. Per le circolari il modello e i parametri sono espliciti. Fessurazione lineare con CLS teso escluso: inviluppo delle superfici esterne e interne, comprese le sezioni interamente tese. Le superfici prive di armatura efficace restano senza verifica conclusa. Torsione accoppiata, dettagli costruttivi e ancoraggi automatici restano nel campo NTC documentato. Gerarchia sismica, appoggi e punzonamento richiedono il modello dell’elemento.
+¶ Riepilogo delle verifiche
+[T1 r1 c1] Verifica
+[T1 r1 c2] Esito
+[T1 r1 c3] η
+[T1 r1 c4] Governa
+[T1 r1 c5] Complete / totali
+[T1 r2 c1] 3D · Plastico
+[T1 r2 c2] VERIFICATA
+[T1 r2 c3] 0,45
+[T1 r2 c4] SLU
+[T1 r2 c5] 1 / 1
+[T1 r3 c1] 2D · Plastico
+[T1 r3 c2] VERIFICATA
+[T1 r3 c3] 0,46
+[T1 r3 c4] SLU
+[T1 r3 c5] 1 / 1
+[T1 r4 c1] 3D · Elastico
+[T1 r4 c2] NESSUNA AZIONE
+[T1 r4 c3] —
+[T1 r4 c4] —
+[T1 r4 c5] 0 / 0
+[T1 r5 c1] 2D · Elastico
+[T1 r5 c2] NESSUNA AZIONE
+[T1 r5 c3] —
+[T1 r5 c4] —
+[T1 r5 c5] 0 / 0
+[T1 r6 c1] Rara · tensioni
+[T1 r6 c2] VERIFICATA
+[T1 r6 c3] 0,79
+[T1 r6 c4] Rara 2
+[T1 r6 c5] 2 / 2
+[T1 r7 c1] Quasi permanente · tensioni
+[T1 r7 c2] VERIFICATA
+[T1 r7 c3] 0,46
+[T1 r7 c4] Quasi permanente
+[T1 r7 c5] 1 / 1
+[T1 r8 c1] Quasi permanente · fessurazione
+[T1 r8 c2] VERIFICATA
+[T1 r8 c3] 0,15
+[T1 r8 c4] Quasi permanente
+[T1 r8 c5] 1 / 1
+[T1 r9 c1] Taglio Vx
+[T1 r9 c2] NESSUNA AZIONE
+[T1 r9 c3] —
+[T1 r9 c4] —
+[T1 r9 c5] 0 / 0
+[T1 r10 c1] Taglio Vy
+[T1 r10 c2] NESSUNA AZIONE
+[T1 r10 c3] —
+[T1 r10 c4] —
+[T1 r10 c5] 0 / 0
+¶ Input
+¶ Geometria della sezione
+[T2 r1 c1] Parametro
+[T2 r1 c2] Valore
+[T2 r2 c1] Forma
+[T2 r2 c2] Rettangolare
+[T2 r3 c1] b [mm]
+[T2 r3 c2] 400,00
+[T2 r4 c1] h [mm]
+[T2 r4 c2] 600,00
+[T2 r5 c1] Copriferro netto [mm]
+[T2 r5 c2] 50,00
+¶ Sezione e schema indicativo delle staffe
+¶ Armature longitudinali
+[T3 r1 c1] ID
+[T3 r1 c2] x [mm]
+[T3 r1 c3] y [mm]
+[T3 r1 c4] Ø [mm]
+[T3 r2 c1] B01
+[T3 r2 c2] -130,00
+[T3 r2 c3] 230,00
+[T3 r2 c4] 20,00
+[T3 r3 c1] B02
+[T3 r3 c2] -43,33
+[T3 r3 c3] 230,00
+[T3 r3 c4] 20,00
+[T3 r4 c1] B03
+[T3 r4 c2] 43,33
+[T3 r4 c3] 230,00
+[T3 r4 c4] 20,00
+[T3 r5 c1] B04
+[T3 r5 c2] 130,00
+[T3 r5 c3] 230,00
+[T3 r5 c4] 20,00
+[T3 r6 c1] B05
+[T3 r6 c2] -128,00
+[T3 r6 c3] -228,00
+[T3 r6 c4] 24,00
+[T3 r7 c1] B06
+[T3 r7 c2] -76,80
+[T3 r7 c3] -228,00
+[T3 r7 c4] 24,00
+[T3 r8 c1] B07
+[T3 r8 c2] -25,60
+[T3 r8 c3] -228,00
+[T3 r8 c4] 24,00
+[T3 r9 c1] B08
+[T3 r9 c2] 25,60
+[T3 r9 c3] -228,00
+[T3 r9 c4] 24,00
+[T3 r10 c1] B09
+[T3 r10 c2] 76,80
+[T3 r10 c3] -228,00
+[T3 r10 c4] 24,00
+[T3 r11 c1] B10
+[T3 r11 c2] 128,00
+[T3 r11 c3] -228,00
+[T3 r11 c4] 24,00
+[T3 r12 c1] B11
+[T3 r12 c2] -132,00
+[T3 r12 c3] -77,33
+[T3 r12 c4] 16,00
+[T3 r13 c1] B12
+[T3 r13 c2] 132,00
+[T3 r13 c3] -77,33
+[T3 r13 c4] 16,00
+[T3 r14 c1] B13
+[T3 r14 c2] -132,00
+[T3 r14 c3] 77,33
+[T3 r14 c4] 16,00
+[T3 r15 c1] B14
+[T3 r15 c2] 132,00
+[T3 r15 c3] 77,33
+[T3 r15 c4] 16,00
+¶ Staffe
+[T4 r1 c1] Parametro
+[T4 r1 c2] Valore
+[T4 r2 c1] Presenti
+[T4 r2 c2] Sì
+[T4 r3 c1] Ø [mm]
+[T4 r3 c2] 10,00
+[T4 r4 c1] Passo [mm]
+[T4 r4 c2] 200,00
+[T5 r1 c1] Parametro
+[T5 r1 c2] Valore
+[T5 r2 c1] tipo staffa
+[T5 r2 c2] Staffa chiusa
+[T5 r3 c1] rami x
+[T5 r3 c2] 2
+[T5 r4 c1] rami y
+[T5 r4 c2] 2
+[T5 r5 c1] rami interni
+[T5 r5 c2] 0
+¶ Materiali
+¶ Calcestruzzo
+[T6 r1 c1] Parametro
+[T6 r1 c2] Valore
+[T6 r2 c1] Classe CLS
+[T6 r2 c2] C30/37
+[T6 r3 c1] Materiale CLS custom
+[T6 r3 c2] C30/37
+[T6 r4 c1] Diagramma CLS
+[T6 r4 c2] Parabola-rettangolo
+[T6 r5 c1] fck [MPa]
+[T6 r5 c2] 30,00
+[T6 r6 c1] Riduzione NTC per getto sottile
+[T6 r6 c2] No
+¶ Acciaio per armature
+[T7 r1 c1] Parametro
+[T7 r1 c2] Valore
+[T7 r2 c1] Acciaio custom
+[T7 r2 c2] B450C
+[T7 r3 c1] fyk [MPa]
+[T7 r3 c2] 450,00
+[T7 r4 c1] Es [MPa]
+[T7 r4 c2] 200000,00
+[T7 r5 c1] fu [MPa]
+[T7 r5 c2] 540,00
+[T7 r6 c1] εu [‰]
+[T7 r6 c2] 75,00
+[T7 r7 c1] Diagramma acciaio
+[T7 r7 c2] Elastoplastico
+¶ Coefficienti normativi
+[T8 r1 c1] Coefficiente
+[T8 r1 c2] Predefinito DLL
+[T8 r1 c3] Applicato
+[T8 r1 c4] Modifica
+[T8 r2 c1] αcc · compressione
+[T8 r2 c2] 1,00
+[T8 r2 c3] 0,85
+[T8 r2 c4] Personalizzato
+[T8 r3 c1] αct · trazione
+[T8 r3 c2] 1,00
+[T8 r3 c3] 1,00
+[T8 r3 c4] No
+[T8 r4 c1] γc · CLS
+[T8 r4 c2] 1,50
+[T8 r4 c3] 1,50
+[T8 r4 c4] No
+[T8 r5 c1] γs · armature
+[T8 r5 c2] 1,15
+[T8 r5 c3] 1,15
+[T8 r5 c4] No
+[T8 r6 c1] γp · trefoli
+[T8 r6 c2] 1,15
+[T8 r6 c3] 1,15
+[T8 r6 c4] No
+[T8 r7 c1] γc · accidentale
+[T8 r7 c2] 1,20
+[T8 r7 c3] 1,20
+[T8 r7 c4] No
+[T8 r8 c1] γcE · modulo
+[T8 r8 c2] 1,20
+[T8 r8 c3] 1,20
+[T8 r8 c4] No
+[T8 r9 c1] γs · accidentale
+[T8 r9 c2] 1,00
+[T8 r9 c3] 1,00
+[T8 r9 c4] No
+[T8 r10 c1] γp · accidentale
+[T8 r10 c2] 1,00
+[T8 r10 c3] 1,00
+[T8 r10 c4] No
+[T8 r11 c1] γF · fibre (predisposizione)
+[T8 r11 c2] 1,50
+[T8 r11 c3] 1,50
+[T8 r11 c4] No
+[T8 r12 c1] kε · deformazione acciaio
+[T8 r12 c2] 0,90
+[T8 r12 c3] 0,90
+[T8 r12 c4] No
+[T8 r13 c1] SLE rara · σc / fck
+[T8 r13 c2] 0,60
+[T8 r13 c3] 0,60
+[T8 r13 c4] No
+[T8 r14 c1] SLE QP · σc / fck
+[T8 r14 c2] 0,45
+[T8 r14 c3] 0,45
+[T8 r14 c4] No
+[T8 r15 c1] SLE rara · σs / fyk
+[T8 r15 c2] 0,80
+[T8 r15 c3] 0,80
+[T8 r15 c4] No
+[T8 r16 c1] SLE rara · σp / fpyk (DLL)
+[T8 r16 c2] 0,75
+[T8 r16 c3] 0,75
+[T8 r16 c4] No
+¶ I coefficienti accidentali/FRC esposti non attivano automaticamente verifiche accidentali o materiali fibrorinforzati. L’eventuale fattore NTC 0,80 per getti sottili è applicato separatamente ai parametri pertinenti.
+¶ Sollecitazioni
+¶ Plastico
+[T9 r1 c1] Combinazione
+[T9 r1 c2] N [kN]
+[T9 r1 c3] Mx [kNm]
+[T9 r1 c4] My [kNm]
+[T9 r2 c1] SLU
+[T9 r2 c2] -500,00
+[T9 r2 c3] 260,00
+[T9 r2 c4] 30,00
+¶ Elastico
+¶ Nessun dato inserito o risultato disponibile.
+¶ Rara
+[T10 r1 c1] Combinazione
+[T10 r1 c2] N [kN]
+[T10 r1 c3] Mx [kNm]
+[T10 r1 c4] My [kNm]
+[T10 r2 c1] Rara 1
+[T10 r2 c2] -350,00
+[T10 r2 c3] 180,00
+[T10 r2 c4] 10,00
+[T10 r3 c1] Rara 2
+[T10 r3 c2] -100,00
+[T10 r3 c3] 210,00
+[T10 r3 c4] 40,00
+¶ Frequente
+[T11 r1 c1] Combinazione
+[T11 r1 c2] N [kN]
+[T11 r1 c3] Mx [kNm]
+[T11 r1 c4] My [kNm]
+[T11 r2 c1] Frequente 1
+[T11 r2 c2] -350,00
+[T11 r2 c3] 150,00
+[T11 r2 c4] 10,00
+[T11 r3 c1] Frequente trazione
+[T11 r3 c2] 200,00
+[T11 r3 c3] 60,00
+[T11 r3 c4] 0,00
+¶ Quasi permanente
+[T12 r1 c1] Combinazione
+[T12 r1 c2] N [kN]
+[T12 r1 c3] Mx [kNm]
+[T12 r1 c4] My [kNm]
+[T12 r2 c1] Quasi permanente
+[T12 r2 c2] -350,00
+[T12 r2 c3] 120,00
+[T12 r2 c4] 5,00
+¶ Taglio e torsione
+¶ Nessun dato inserito o risultato disponibile.
+¶ Verifiche dominio 3D
+¶ Opzioni dominio 3D
+[T13 r1 c1] Parametro
+[T13 r1 c2] Valore
+[T13 r2 c1] Criterio
+[T13 r2 c2] N costante
+[T13 r3 c1] Strategia
+[T13 r3 c2] Iterativo
+[T13 r4 c1] Assi
+[T13 r4 c2] Locali
+[T13 r5 c1] Origine x [mm]
+[T13 r5 c2] 0,00
+[T13 r6 c1] Origine y [mm]
+[T13 r6 c2] 0,00
+[T13 r7 c1] Rotazione [°]
+[T13 r7 c2] 0,00
+[T13 r8 c1] Proiezione sul piano
+[T13 r8 c2] No
+[T13 r9 c1] CLS teso
+[T13 r9 c2] No
+[T13 r10 c1] Direzioni
+[T13 r10 c2] 32,00
+[T13 r11 c1] Interpolazione mesh
+[T13 r11 c2] Quadratica
+¶ Dominio 3D Plastico
+[T14 r1 c1] Combinazione
+[T14 r1 c2] NRd [kN]
+[T14 r1 c3] MxRd [kNm]
+[T14 r1 c4] MyRd [kNm]
+[T14 r1 c5] η [-]
+[T14 r1 c6] Esito
+[T14 r2 c1] SLU
+[T14 r2 c2] -500,10
+[T14 r2 c3] 583,12
+[T14 r2 c4] 67,28
+[T14 r2 c5] 0,45
+[T14 r2 c6] Entro il dominio
+¶ Dominio 3D Elastico
+¶ Nessun dato inserito o risultato disponibile.
+¶ Dominio 3D Plastico in vista isometrica con filtri e livelli correnti
+¶ Verifiche dominio 2D
+¶ Opzioni dominio 2D
+[T15 r1 c1] Parametro
+[T15 r1 c2] Valore
+[T15 r2 c1] Criterio
+[T15 r2 c2] N costante
+[T15 r3 c1] Strategia
+[T15 r3 c2] Iterativo
+[T15 r4 c1] Piano
+[T15 r4 c2] Mx–My
+[T15 r5 c1] N piano [kN]
+[T15 r5 c2] -300,00
+[T15 r6 c1] Assi
+[T15 r6 c2] Principali
+[T15 r7 c1] Origine x [mm]
+[T15 r7 c2] 0,00
+[T15 r8 c1] Origine y [mm]
+[T15 r8 c2] 0,00
+[T15 r9 c1] Rotazione [°]
+[T15 r9 c2] 0,00
+[T15 r10 c1] Proiezione sul piano
+[T15 r10 c2] Sì
+[T15 r11 c1] CLS teso
+[T15 r11 c2] No
+[T15 r12 c1] Direzioni
+[T15 r12 c2] 64,00
+[T15 r13 c1] Interpolazione mesh
+[T15 r13 c2] Quadratica
+¶ Dominio 2D Plastico
+[T16 r1 c1] Combinazione
+[T16 r1 c2] NRd [kN]
+[T16 r1 c3] MxRd [kNm]
+[T16 r1 c4] MyRd [kNm]
+[T16 r1 c5] η [-]
+[T16 r1 c6] Esito
+[T16 r2 c1] SLU
+[T16 r2 c2] -300,00
+[T16 r2 c3] 562,49
+[T16 r2 c4] 64,90
+[T16 r2 c5] 0,46
+[T16 r2 c6] Entro il dominio · azione proiettata
+¶ Dominio 2D Elastico
+¶ Nessun dato inserito o risultato disponibile.
+¶ Plastico · Mx–My, N = -300,00 kN nella configurazione grafica corrente
+¶ Impostazioni comuni SLE
+¶ Opzioni di verifica SLE
+[T17 r1 c1] Parametro
+[T17 r1 c2] Valore
+[T17 r2 c1] Analisi
+[T17 r2 c2] Lineare
+[T17 r3 c1] n armature
+[T17 r3 c2] 17,05
+[T17 r4 c1] φ armature
+[T17 r4 c2] 1,80
+[T17 r5 c1] CLS teso
+[T17 r5 c2] No
+[T17 r6 c1] Assi
+[T17 r6 c2] Personalizzati
+[T17 r7 c1] Origine x [mm]
+[T17 r7 c2] 20,00
+[T17 r8 c1] Origine y [mm]
+[T17 r8 c2] -40,00
+[T17 r9 c1] Rotazione [°]
+[T17 r9 c2] 10,00
+[T17 r10 c1] Esposizione
+[T17 r10 c2] XD3
+[T17 r11 c1] Durata
+[T17 r11 c2] Breve
+[T17 r12 c1] Sensibilità
+[T17 r12 c2] Sensibile
+[T17 r13 c1] Aderenza
+[T17 r13 c2] Migliorata
+¶ Questi parametri sono comuni alle famiglie SLE selezionate; le azioni e gli esiti restano distinti per combinazione.
+¶ SLE Rara
+¶ Inviluppo delle combinazioni calcolate: ogni estremo proviene dalla combinazione indicata. Gli estremi non costituiscono uno stato simultaneo e non sostituiscono le verifiche. Le combinazioni con esito non determinato sono riportate separatamente.
+¶ Tensioni · combinazione governante
+[T18 r1 c1] Combinazione
+[T18 r1 c2] σc,min [MPa]
+[T18 r1 c3] |σs|max [MPa]
+[T18 r1 c4] ησ [-]
+[T18 r1 c5] Esito tensioni
+[T18 r2 c1] Rara 2
+[T18 r2 c2] -14,18
+[T18 r2 c3] 229,52
+[T18 r2 c4] 0,79
+[T18 r2 c5] Entro limiti tensionali
+¶ Inviluppo tensioni e deformazioni
+[T19 r1 c1] Grandezza
+[T19 r1 c2] Estremo
+[T19 r1 c3] Combinazione di origine
+[T19 r2 c1] CLS · σmin [MPa]
+[T19 r2 c2] -14,18
+[T19 r2 c3] Rara 2
+[T19 r3 c1] CLS · σmax [MPa]
+[T19 r3 c2] 0,00
+[T19 r3 c3] Rara 2
+[T19 r4 c1] CLS · εmin [‰]
+[T19 r4 c2] -1,21
+[T19 r4 c3] Rara 2
+[T19 r5 c1] CLS · εmax [‰]
+[T19 r5 c2] 1,55
+[T19 r5 c3] Rara 2
+[T19 r6 c1] Acciaio · σmin [MPa]
+[T19 r6 c2] -162,73
+[T19 r6 c3] Rara 2
+[T19 r7 c1] Acciaio · σmax [MPa]
+[T19 r7 c2] 229,52
+[T19 r7 c3] Rara 2
+[T19 r8 c1] Acciaio · εmin [‰]
+[T19 r8 c2] -0,81
+[T19 r8 c3] Rara 2
+[T19 r9 c1] Acciaio · εmax [‰]
+[T19 r9 c2] 1,15
+[T19 r9 c3] Rara 2
+¶ Compressione negativa: min e max sono estremi algebrici. Le deformazioni sono quelle incrementali native di GPC Engine, senza la deformazione iniziale dei trefoli.
+¶ SLE Rara · governante tensioni · Rara 2 · Barre · tasso resistenza
+¶ SLE Frequente
+¶ Inviluppo delle combinazioni calcolate: ogni estremo proviene dalla combinazione indicata. Gli estremi non costituiscono uno stato simultaneo e non sostituiscono le verifiche. Le combinazioni con esito non determinato sono riportate separatamente.
+¶ SLE Quasi permanente
+¶ Inviluppo delle combinazioni calcolate: ogni estremo proviene dalla combinazione indicata. Gli estremi non costituiscono uno stato simultaneo e non sostituiscono le verifiche. Le combinazioni con esito non determinato sono riportate separatamente.
+¶ Tensioni · combinazione governante
+[T20 r1 c1] Combinazione
+[T20 r1 c2] σc,min [MPa]
+[T20 r1 c3] |σs|max [MPa]
+[T20 r1 c4] ησ [-]
+[T20 r1 c5] Esito tensioni
+[T20 r2 c1] Quasi permanente
+[T20 r2 c2] -6,17
+[T20 r2 c3] 81,36
+[T20 r2 c4] 0,46
+[T20 r2 c5] Entro limiti tensionali
+¶ Inviluppo tensioni e deformazioni
+[T21 r1 c1] Grandezza
+[T21 r1 c2] Estremo
+[T21 r1 c3] Combinazione di origine
+[T21 r2 c1] CLS · σmin [MPa]
+[T21 r2 c2] -6,17
+[T21 r2 c3] Quasi permanente
+[T21 r3 c1] CLS · σmax [MPa]
+[T21 r3 c2] 0,00
+[T21 r3 c3] Quasi permanente
+[T21 r4 c1] CLS · εmin [‰]
+[T21 r4 c2] -0,53
+[T21 r4 c3] Quasi permanente
+[T21 r5 c1] CLS · εmax [‰]
+[T21 r5 c2] 0,38
+[T21 r5 c3] Quasi permanente
+[T21 r6 c1] Acciaio · σmin [MPa]
+[T21 r6 c2] -81,36
+[T21 r6 c3] Quasi permanente
+[T21 r7 c1] Acciaio · σmax [MPa]
+[T21 r7 c2] 51,46
+[T21 r7 c3] Quasi permanente
+[T21 r8 c1] Acciaio · εmin [‰]
+[T21 r8 c2] -0,41
+[T21 r8 c3] Quasi permanente
+[T21 r9 c1] Acciaio · εmax [‰]
+[T21 r9 c2] 0,26
+[T21 r9 c3] Quasi permanente
+¶ Compressione negativa: min e max sono estremi algebrici. Le deformazioni sono quelle incrementali native di GPC Engine, senza la deformazione iniziale dei trefoli.
+¶ Fessurazione · combinazione governante
+[T22 r1 c1] Combinazione
+[T22 r1 c2] wk [mm]
+[T22 r1 c3] Limite [mm]
+[T22 r1 c4] ηw [-]
+[T22 r1 c5] Esito fessurazione
+[T22 r2 c1] Quasi permanente
+[T22 r2 c2] 0,03
+[T22 r2 c3] 0,20
+[T22 r2 c4] 0,15
+[T22 r2 c5] Apertura entro limite
+¶ SLE Quasi permanente · governante tensioni e fessurazione · Quasi permanente · Sezione · tasso resistenza
+¶ Verifiche a taglio
+¶ Azioni SLU già combinate e coefficientate dal progettista: il modulo non moltiplica nuovamente N, M, V e T. I coefficienti parziali dei materiali entrano nelle resistenze. Le due direzioni di taglio sono controlli separati; non costituiscono una verifica biassiale generale.
+¶ Granulometria comune ai dettagli
+[T23 r1 c1] Parametro
+[T23 r1 c2] Valore
+[T23 r2 c1] dg [mm]
+[T23 r2 c2] 20,00
+¶ Eccentricità della risultante MC2010 (Δe positiva verso il lembo teso)
+[T24 r1 c1] Parametro
+[T24 r1 c2] Valore
+[T24 r2 c1] Δe per Vx [mm]
+[T24 r2 c2] 0,00
+[T24 r3 c1] Δe per Vy [mm]
+[T24 r3 c2] 0,00
+¶ Modello a taglio
+[T25 r1 c1] Parametro
+[T25 r1 c2] Valore
+[T25 r2 c1] Modello
+[T25 r2 c2] Con staffe
+[T25 r3 c1] bw,x [mm]
+[T25 r3 c2] 600,00
+[T25 r4 c1] dx [mm]
+[T25 r4 c2] 329,91
+[T25 r5 c1] Asl,x [mm²]
+[T25 r5 c2] 1168,67
+[T25 r6 c1] αx [°]
+[T25 r6 c2] 90,00
+[T25 r7 c1] cot θx
+[T25 r7 c2]
+[T25 r8 c1] bw,y [mm]
+[T25 r8 c2] 400,00
+[T25 r9 c1] dy [mm]
+[T25 r9 c2] 528,00
+[T25 r10 c1] Asl,y [mm²]
+[T25 r10 c2] 1256,64
+[T25 r11 c1] αy [°]
+[T25 r11 c2] 90,00
+[T25 r12 c1] cot θy
+[T25 r12 c2]
+¶ Nessun dato inserito o risultato disponibile.
+¶ Torsione e modello circolare
+[T26 r1 c1] Parametro
+[T26 r1 c2] Valore
+[T26 r2 c1] Modello circolare
+[T26 r2 c2] Da scegliere
+[T26 r3 c1] Parametri geometrici
+[T26 r3 c2] Automatici da sezione
+[T26 r4 c1] z/d assegnato (modello manuale)
+[T26 r4 c2] 0,75
+[T26 r5 c1] cot θ comune
+[T26 r5 c2] 1,00
+[T26 r6 c1] As,l disponibile [mm²]
+[T26 r6 c2] 0,00
+[T26 r7 c1] Configurazione resistente confermata
+[T26 r7 c2] Da confermare
+¶ Modello pile NTC §7.9.5.2: z/d = 0,75 per piena, 0,60 per cava; per altre norme scegliere parametri assegnati. Torsione solo NTC: TRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ); TRsd = 2 Ak (Asta/s) fyd cot θ; TRld = 2 Ak (As,l/uk) fyd/cot θ. As,l aggiuntiva rispetto alla pressoflessione.
+¶ Nessun dato inserito o risultato disponibile.
+¶ Schema indicativo delle staffe · diametro rappresentato in scala
+¶ Dettagli costruttivi e ancoraggi
+¶ Controlli della sezione
+¶ DA COMPLETARE
+¶ Dati da completare
+¶ I dettagli implementati sono riferiti a NTC 2018 con integrazioni EC2.
+¶ NTC capitolo 4 / EC2
+¶ In attesa dei dati dell’elemento.
+¶ In attesa dei dati dell’elemento.
+¶ In attesa dei dati dell’elemento.
+¶ Ancoraggi e giunzioni
+¶ Ancoraggi e giunzioni
+¶ DA COMPLETARE
+¶ Dati da completare
+¶ Ancoraggi disponibili per NTC 2018 con integrazioni EC2.
+¶ NTC capitolo 4 / EC2 §§8.4 e 8.7
+¶ Diagramma momento–curvatura
+¶ Percorso di carico
+[T27 r1 c1] Parametro
+[T27 r1 c2] Valore
+[T27 r2 c1] N costante [kN]
+[T27 r2 c2] 0,00
+[T27 r3 c1] Direzione momento [°]
+[T27 r3 c2] 0,00
+[T27 r4 c1] Passi
+[T27 r4 c2] 60,00
+[T27 r5 c1] Frazione di MRd
+[T27 r5 c2] 1,00
+[T27 r6 c1] Campionamento
+[T27 r6 c2] Quadratico
+[T27 r7 c1] CLS a trazione
+[T27 r7 c2] No
+¶ Curva non calcolata con i dati correnti.

@@ -1,0 +1,1850 @@
+== apertura
+dati ED89461F03EDE4C8 · byte 8347
+  tutto = {"versione_sezione":2,"input":{"shape":"Rettangolare","diameter_mm":"1000","circular_sides":"32","width_mm":"1000","height_mm":"250","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"30","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"5","top_bar_diameter_mm":"12","bottom_bar_count":"5","bottom_bar_diameter_mm":"14","side_bar_count_per_side":"0","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","staffe_presenti":"No","gettato_sottile":"No","inner_diameter_mm":"500","inner_width_mm":"300","inner_height_mm":"400","flange_bottom_count":"0","flange_bottom_diameter_mm":"12","flange_bottom_offset_mm":"46","second_top_count":"5","second_top_diameter":"12","second_top_gap":"30","second_bottom_count":"5","second_bottom_diameter":"14","second_bottom_gap":"30","second_inner_count":"16","second_inner_diameter":"24","second_inner_gap":"30"},"n_automatico":true,"combinazioni":{"SLU":[{"id":"510000010f514a008000000000000001","nome":"SLU appoggio","azioni":["0","-110","0"],"visible":true},{"id":"510000020f514a008000000000000002","nome":"SLU campata","azioni":["0","50","0"],"visible":true}],"SLV":[],"SLE":[{"id":"510000030f514a008000000000000003","nome":"Rara","azioni":["0","65","0"],"visible":true}],"SLE_FREQ":[],"SLE_QP":[{"id":"510000040f514a008000000000000004","nome":"Quasi permanente","azioni":["0","45","0"],"visible":true}]},"workspace_ca":{"versione":2,"normativa":"NTC 2018","tab":7,"taglio":{"modello":"Senza staffe","azioni":[],"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Automatici da sezione","tipo_staffa":"Staffa chiusa","rami_x":"2","rami_y":"2","rami_interni":"0","schema_interno":"Bracci paralleli","rotazione_staffa":"0","ancoraggio":"Da verificare","bw_x":"250","d_x":"963.42352941176455","asl_x":"267.03537555513242","alpha_x":"90","cot_x":"","bw_y":"1000","d_y":"213","asl_y":"565.48667764616278","alpha_y":"90","cot_y":"","cot_torsione":"1","as_torsione":"0","chiusura_torsione":"Da confermare","modello_circolare":"Da scegliere","z_d":"0.75","eccentricita_mc_x":"0","eccentricita_mc_y":"0"},"dettagli_costruttivi":{"elemento":"Soletta piena","zona_critica":"Sì","as_secondaria":"565","passo_secondaria":"200","vita_durabilita":"100","qualita_copriferro":"Sì","aggregato":"16","delta_c":"5","zona_sovrapposizione":"Sì","cmin_dur":35,"barre_trattenute":"Da confermare","ancoraggio_appoggi":"Da confermare","esposizione_sle":"XS1"},"ancoraggi":{"schema_versione":1,"tipo":"Sovrapposizione rettilinea","lunghezza":"600","percentuale":"50","interferro":"20","diametro":"","sigma":"","aderenza":"Buona","confinamento":"Da verificare","posizione":"Da verificare","cautele":"Da verificare"},"calcola_armature":{"obiettivo":"Compromesso","peso_peso":"2","peso_barre":"1","peso_diametri":"0.5","diametri":"10;12;14","n_superiori":"4;5","n_inferiori":"5;6;7","n_laterali":"0","staffe":"Senza staffe","diametri_ortogonali":"8;10","passi_ortogonali":"150;200","max_diametri":"2","ricerca_completa":false,"max_tentativi":"300","parallelismo":"2","mostra":"5","ancoraggio_confermato":true,"riserva_torsione":"0","slu":"0.95","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","ganci_phi":"20","simmetrica":false,"torsione_confermata":false,"slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"},"sle":{"SLE":{"modello":"Lineare","esposizione":"XS1","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XS1","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XS1","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"}},"dominio2d":{"stato":"SLU","tipo":"Mx–My","theta":"0","N":"0","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"nota":"","dominio3d":{"stato":"SLU","angoli":"32","criterio":"N costante","filtro":"Tutte","strategia":"Iterativo","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"trefoli":[],"sle_precedenti_unificazione":{"SLE":{"modello":"Lineare","esposizione":"XS1","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Lineare","phi":"0","phi_trefoli":"0","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XS1","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"0.85","AlphaCT":"1","GammaC":"1.50","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.8"},"momento_curvatura":{"N":"0","theta":"0","passi":"60","frazione":"1","campionamento":"Quadratico","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"materiali_custom":[],"layout":{},"resistenze_rapide":{"N":"0","tipo":"Plastico"}}}
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 7
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "1000"
+[ingressi]   campo height_mm "Altezza h" = "250"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "30"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura attiva · nota ""
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "5"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "12"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "12" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "46" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "5"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "14"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "0"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "5"
+[ingressi]   campo second_top_diameter "Diametro" = "12"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "5"
+[ingressi]   campo second_bottom_diameter "Diametro" = "14"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "No" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento
+[ingressi]   campo transverse_spacing_mm "Passo" = "200" · spento
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · spento · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2" · spento
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2" · spento
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · spento · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Calcolo delle quattro direzioni…" · riquadri ""
+[ingressi] anteprima sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 10 · selezionata -1
+[ingressi]   {"id":"B01","phi":"12","x":"-464","y":"89"}
+[ingressi]   {"id":"B02","phi":"12","x":"-232","y":"89"}
+[ingressi]   {"id":"B03","phi":"12","x":"0","y":"89"}
+[ingressi]   {"id":"B04","phi":"12","x":"232","y":"89"}
+[ingressi]   {"id":"B05","phi":"12","x":"464","y":"89"}
+[ingressi]   {"id":"B06","phi":"14","x":"-463","y":"-88"}
+[ingressi]   {"id":"B07","phi":"14","x":"-231.5","y":"-88"}
+[ingressi]   {"id":"B08","phi":"14","x":"0","y":"-88"}
+[ingressi]   {"id":"B09","phi":"14","x":"231.5","y":"-88"}
+[ingressi]   {"id":"B10","phi":"14","x":"463","y":"-88"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nQuasi permanente · fessurazione\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[azioni] sollecitazioni uniche no · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[azioni]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[azioni] azioni SLV · 0
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"65","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"Rara","visible":true}
+[azioni] azioni SLE_FREQ · 0
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"45","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000040f514a008000000000000004","nome":"Quasi permanente","visible":true}
+[azioni] azioni taglio · 0
+[domini] form 3D
+[domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
+[domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[domini]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[domini] 3D dettaglio "Selezionare una combinazione"
+[domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh -
+[domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
+[domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio in attesa di aggiornamento automatico"
+[domini] form 2D
+[domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "0"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 2 · selezionata 0
+[domini]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[domini]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[sle] famiglia 0
+[sle] form SLE
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
+[sle]   {"Mx":"65","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"Rara","visible":true}
+[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE dettaglio "Selezionare una combinazione"
+[sle] SLE passaggi ""
+[sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE zone -1 di 0
+[sle] SLE mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nQuasi permanente · fessurazione\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] form SLE_FREQ
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
+[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ dettaglio "Selezionare una combinazione"
+[sle] SLE_FREQ passaggi ""
+[sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE_FREQ zone -1 di 0
+[sle] SLE_FREQ mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nQuasi permanente · fessurazione\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] form SLE_QP
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
+[sle]   {"Mx":"45","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000040f514a008000000000000004","nome":"Quasi permanente","visible":true}
+[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP dettaglio "Selezionare una combinazione"
+[sle] SLE_QP passaggi ""
+[sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE_QP zone -1 di 0
+[sle] SLE_QP mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nQuasi permanente · fessurazione\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato"
+[taglio]   campo bw_x "bw · x" = "250,00" · spento
+[taglio]   campo d_x "d utile · x" = "963,42" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "267,04" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90" · spento
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "" · spento
+[taglio]   campo bw_y "bw · y" = "1000,00" · spento
+[taglio]   campo d_y "d utile · y" = "213,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "565,49" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90" · spento
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = "" · spento
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Da confermare" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Da scegliere" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · spento · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · spento · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · spento · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · spento · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · spento · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · spento · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto · sola lettura
+[taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 0 · selezionata -1
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Selezionare una combinazione"
+[taglio] taglio sintesi "Taglio · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+[dettagli] form dettagli-0
+[dettagli]   scelta elemento "Elemento" = "Soletta piena" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
+[dettagli] form dettagli-1
+[dettagli]   campo aggregato "Inerte massimo dg" = "16"
+[dettagli]   campo esposizione_sle "Esposizione condivisa SLE" = "XS1" · sola lettura
+[dettagli]   scelta vita_durabilita "Vita utile di progetto" = "100" voci "50|100"
+[dettagli]   scelta qualita_copriferro "Controllo qualità dei copriferri" = "Sì" voci "No|Sì"
+[dettagli]   campo cmin_dur "cmin,dur calcolato" = "35" · sola lettura
+[dettagli]   campo delta_c "Tolleranza Δcdev" = "5"
+[dettagli] form dettagli-2
+[dettagli]   scelta zona_sovrapposizione "Sezione dentro una giunzione" = "Sì" voci "No|Sì"
+[dettagli]   campo as_secondaria "As ortogonale totale / m" = "565"
+[dettagli]   campo passo_secondaria "Interasse barre ortogonali" = "200"
+[dettagli]   scelta zona_critica "Zona di massimo momento / carico concentrato" = "Sì" voci "No|Sì"
+[dettagli] form dettagli-3
+[dettagli]   scelta barre_trattenute "Barre compresse trattenute" = "Da confermare" voci "Da confermare|Confermato"
+[dettagli] form dettagli-4
+[dettagli]   scelta ancoraggio_appoggi "Traslazione e ancoraggio agli appoggi" = "Da confermare" voci "Da confermare|Confermato" · nascosto
+[dettagli] form copriferro
+[dettagli]   campo cover_mm "Copriferro netto adottato" = "30" · sola lettura
+[dettagli] form ancoraggi
+[dettagli]   scelta tipo "Verifica" = "Sovrapposizione rettilinea" voci "Ancoraggio rettilineo|Sovrapposizione rettilinea"
+[dettagli]   campo diametro "Ø barra (vuoto: max sezione)" = ""
+[dettagli]   campo sigma "|σsd| (vuoto: fyd)" = ""
+[dettagli]   scelta aderenza "Condizioni di aderenza" = "Buona" voci "Buona|Altre condizioni"
+[dettagli]   campo lunghezza "Lunghezza disponibile" = "600"
+[dettagli]   campo percentuale "Barre sovrapposte" = "50"
+[dettagli]   campo interferro "Interferro fra barre giuntate" = "20"
+[dettagli]   scelta confinamento "Confinamento / armatura trasversale" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
+[dettagli]   scelta posizione "Posizione e sfalsamento giunzioni" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
+[dettagli]   scelta cautele "Cautele per barre Ø > 32 mm" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme" · nascosto
+[dettagli] riquadri dettagli "Soletta piena · NEd,max compressione = 0 kN\n6 soddisfatti · 2 non soddisfatti · 2 da completare\n\r\n"
+[dettagli] riquadri dettagli-cover "Interferro minimo\nVERIFICATA\nValore: 164 mm · limite: 21 mm\nmax(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.\nNTC 2018 §4.1.6.1.3 / EC2 §8.2\n\nCopriferro nominale\nNON VERIFICATA\nValore: 30 mm · limite: 40 mm\nmax(10; cmin,dur; cmin,b) + Δcdev. cmin,dur proviene dal progetto di durabilità.\nNTC 2018 §4.1.6.1.3 / EC2 §4.4\n\nMargine copriferro barre longitudinali\nNON VERIFICATA\nValore: -10 mm · limite: 0 mm\nMinimo (copriferro geometrico della barra − copriferro richiesto), su contorno esterno e foro. Stessa classe di esposizione per tutte le superfici.\nNTC 2018 §4.1.6.1.3 / EC2 §4.4\n\n" · colori #FF39A879 #FFCB3939 #FFCB3939
+[dettagli] riquadri dettagli-bars "As,min inferiore\nVERIFICATA\nValore: 769,69 mm² · limite: 395,039 mm²\nmax(0,26 fctm/fyk; 0,0013) bt d; entrambe le facce potenzialmente tese.\nNTC 2018 §4.1.6.1.1 / EC2 §9.3.1.1\n\nAs,min superiore\nVERIFICATA\nValore: 565,487 mm² · limite: 396,894 mm²\nmax(0,26 fctm/fyk; 0,0013) bt d; entrambe le facce potenzialmente tese.\nNTC 2018 §4.1.6.1.1 / EC2 §9.3.1.1\n\nInterasse armatura principale\nVERIFICATA\nValore: 232 mm · limite: 250 mm\nRegione critica: min(2h;250); altre zone: min(3h;400).\nEC2 §9.3.1.1\n\nArmatura secondaria\nVERIFICATA\nValore: 565 mm²/m · limite: 267,035 mm²/m\nAs,secondaria ≥ 20% As,principale; dati totali delle due facce per metro di larghezza.\nEC2 §9.3.1.1\n\nRipartizione armatura secondaria sulle facce\nDA COMPLETARE\nValore: —  · limite: — \nIl dato totale non verifica da solo il 20% su ciascuna faccia: controllare la distribuzione effettiva.\nEC2 §9.3.1.1\n\nInterasse armatura secondaria\nVERIFICATA\nValore: 200 mm · limite: 400 mm\nRegione critica: min(3h;400); altre zone: min(3,5h;450).\nEC2 §9.3.1.1\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FF39A879 #FF9AA4AF #FF39A879
+[dettagli] riquadri dettagli-stirrups "Nessuna verifica applicabile con i dati correnti."
+[dettagli] riquadri dettagli-anchors "Bordi, appoggi e punzonamento\nDA COMPLETARE\nValore: —  · limite: — \nVerifiche locali richiedono geometria dell’elemento e degli appoggi; non desumibili dalla striscia di sezione.\nEC2 §§9.3–9.4 / NTC §4.1.2.3.5.4\n\n" · colori #FF9AA4AF
+[dettagli] riquadri ancoraggi "Sovrapposizione rettilinea · Ø14\nVERIFICATA\nDisponibile: 600 mm · richiesta: 574,657 mm\nσsd = 391,304 MPa · fbd = 3,37 MPa · lb,rqd = 406,344 mm\nl0 = max[α6·lb,rqd; 0,3·α6·lb,rqd; 20Ø; 200 mm]; α6 = clamp(√(%/25),1,1,5). Interferro ≤ 4Ø. Barre rettilinee, α1…α5 = 1.\nη1 = 1; η2 = 1; fctk,0.05 = 2,247 MPa (limite C60/75); γc = 1,5. α1…α5 = 1; nessuna riduzione favorevole.\nNTC §§4.1.2.1.1.4, 4.1.2.3.10, 4.1.6.1.4 / EC2 §§8.4 e 8.7.\n\nInterferro della giunzione\nVERIFICATA\nInterferro: 20 mm · massimo: 56 mm\nα6 = 1,414; percentuale sovrapposta = 50%.\nNTC §4.1.6.1.4 / EC2 §8.7\n\nRiscontro manuale · Confinamento / armatura trasversale\nDA COMPLETARE\nDa verificare\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\nRiscontro manuale · Posizione e sfalsamento giunzioni\nDA COMPLETARE\nDa verificare\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\n" · colori #FF39A879 #FF39A879 #FF9AA4AF #FF9AA4AF
+[dettagli] durabilita "Circolare 2019, tab. C4.1.IV · XS1, aggressivo\nTabella 30 + vita 10 + classe bassa 0 − qualità 5 = 35 mm. Δcdev aggiunto nel copriferro nominale. Stesso motore del modulo Materiali."
+[armature] form ricerca
+[armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
+[armature]   opzione simmetrica "Armatura superiore e inferiore uguale" = "no"
+[armature]   campo diametri "Ø longitudinali ammessi · separati da ;" = "10;12;14"
+[armature]   campo n_superiori "Numeri barre superiori" = "4;5"
+[armature]   campo n_inferiori "Numeri barre inferiori" = "5;6;7"
+[armature]   campo n_laterali "Numeri barre laterali per lato" = "0"
+[armature]   campo n_circolari "Numeri barre circolari" = "8;12;16;20;24" · nascosto
+[armature]   scelta staffe "Staffe" = "Senza staffe" voci "Ottimizza|Mantieni|Senza staffe|Con e senza staffe"
+[armature]   campo diametri_staffe "Ø staffe ammessi" = "8;10" · nascosto
+[armature]   campo passi_staffe "Passi staffe ammessi" = "100;150;200;250" · nascosto
+[armature]   campo diametri_ortogonali "Ø ortogonali · entrambe le facce" = "8;10"
+[armature]   campo passi_ortogonali "Passi ortogonali ammessi" = "150;200"
+[armature]   campo max_diametri "Massimo Ø distinti" = "2"
+[armature]   opzione ricerca_completa "Esamina tutte le configurazioni ammesse" = "no"
+[armature]   campo max_tentativi "Massimo tentativi (campione)" = "300"
+[armature]   scelta parallelismo "Calcoli contemporanei" = "2" voci "Automatico|1|2|4|8"
+[armature]   campo ganci_phi "Extra sviluppo staffa / legatura" = "20"
+[armature]   campo riserva_torsione "Area riservata a torsione per barra" = "0"
+[armature]   campo peso_peso "Peso obiettivo · kg/m" = "2"
+[armature]   campo peso_barre "Peso obiettivo · pezzi/m" = "1"
+[armature]   campo peso_diametri "Peso obiettivo · Ø distinti" = "0.5"
+[armature]   opzione ancoraggio_confermato "Confermo Asl ancorata per proposte senza staffe" = "sì"
+[armature]   opzione torsione_confermata "Confermo schema periferico chiuso per torsione" = "no"
+[armature] form limiti
+[armature]   campo slu "N–Mx–My · SLU" = "0.95"
+[armature]   campo slv "N–Mx–My · SLV" = "1"
+[armature]   campo sigma_c_rara "Tensione CLS · rara" = "1"
+[armature]   campo sigma_s_rara "Tensione acciaio · rara" = "1"
+[armature]   campo sigma_c_qp "Tensione CLS · quasi permanente" = "1"
+[armature]   campo wk_freq "Fessurazione · frequente" = "1"
+[armature]   campo wk_qp "Fessurazione · quasi permanente" = "1"
+[armature]   campo vx "Taglio Vx" = "1"
+[armature]   campo vy "Taglio Vy" = "1"
+[armature]   campo torsione "Torsione" = "1"
+[armature]   campo vt_cls "Taglio–torsione · CLS" = "1"
+[armature]   campo vt_staffe "Taglio–torsione · staffe" = "1"
+[armature]   campo ancoraggio "Lunghezza ancoraggio / giunzione" = "1"
+[armature] form mostra
+[armature]   scelta mostra "Mostra le prime" = "5" voci "1|5|10|25|50|Tutte"
+[armature] ricerca comandi Calcola armature Ferma ricerca(spento) Applica configurazione(spento)
+[armature] ricerca stato "Impostare gli elenchi e avviare la ricerca sulle combinazioni del foglio."
+[armature] ricerca proposta "La configurazione proposta comparirà qui."
+[armature] ricerca ambito ""
+[armature] riquadri ricerca-metriche ""
+[armature] riquadri ricerca-verifiche ""
+[armature] ricerca scarti ""
+[armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
+[armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "0"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "60"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Trascurato" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo ""
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== attendi
+dati ED89461F03EDE4C8 · byte 8347
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 2C5418436428DB2E
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "1000"
+[ingressi]   campo height_mm "Altezza h" = "250"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "30"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura attiva · nota ""
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "5"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "12"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "12" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "46" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "5"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "14"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "0"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "5"
+[ingressi]   campo second_top_diameter "Diametro" = "12"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "5"
+[ingressi]   campo second_bottom_diameter "Diametro" = "14"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "No" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento
+[ingressi]   campo transverse_spacing_mm "Passo" = "200" · spento
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · spento · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2" · spento
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2" · spento
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · spento · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Mx+   63,96 kNm\nMx−   -50,18 kNm\nMy+   242,55 kNm\nMy−   -242,55 kNm" · nascosto · riquadri "Mx+ 63,96 kNm | Mx− -50,18 kNm | My+ 242,55 kNm | My− -242,55 kNm"
+[ingressi] anteprima sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 10 · selezionata -1
+[ingressi]   {"id":"B01","phi":"12","x":"-464","y":"89"}
+[ingressi]   {"id":"B02","phi":"12","x":"-232","y":"89"}
+[ingressi]   {"id":"B03","phi":"12","x":"0","y":"89"}
+[ingressi]   {"id":"B04","phi":"12","x":"232","y":"89"}
+[ingressi]   {"id":"B05","phi":"12","x":"464","y":"89"}
+[ingressi]   {"id":"B06","phi":"14","x":"-463","y":"-88"}
+[ingressi]   {"id":"B07","phi":"14","x":"-231.5","y":"-88"}
+[ingressi]   {"id":"B08","phi":"14","x":"0","y":"-88"}
+[ingressi]   {"id":"B09","phi":"14","x":"231.5","y":"-88"}
+[ingressi]   {"id":"B10","phi":"14","x":"463","y":"-88"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nNON VERIFICATA\nη = 2.19\nGoverna: SLU appoggio\n2/2 combinazioni\n2D · Plastico\nNON VERIFICATA\nη = 2.19\nGoverna: SLU appoggio\n2/2 combinazioni\n" · colori #FFCB3939 #FFCB3939
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.17\nGoverna: Rara\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nVERIFICATA\nη = 0.72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1.40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFE4C441 #FFCB3939
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[azioni] sollecitazioni uniche no · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dominio","esito3d":"Fuori dominio","eta":"—","eta2d":"2.19","eta3d":"2.19","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[azioni]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.78","eta3d":"0.78","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[azioni] azioni SLV · 0
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"65","My":"0","N":"0","esito":"Da calcolare","eta":"—","eta_sigma":"1.17","id":"510000030f514a008000000000000003","nome":"Rara","sigma_c":"-16.37","sigma_s":"422.97","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni] azioni SLE_FREQ · 0
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"45","My":"0","N":"0","esito":"Da calcolare","eta":"—","eta_sigma":"0.72","id":"510000040f514a008000000000000004","nome":"Quasi permanente","sigma_c":"-11.33","sigma_s":"292.82","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.28 / 0.20 mm · η=1.40"}
+[azioni] azioni taglio · 0
+[domini] form 3D
+[domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
+[domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dominio","esito3d":"Fuori dominio","eta":"—","eta2d":"2.19","eta3d":"2.19","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[domini]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.78","eta3d":"0.78","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[domini] 3D dettaglio "Selezionare una combinazione"
+[domini] riquadri 3D-riepilogo "3D · Plastico\nNON VERIFICATA\nη = 2.19\nGoverna: SLU appoggio\n2/2 combinazioni\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh -
+[domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
+[domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio in attesa di aggiornamento automatico"
+[domini] form 2D
+[domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "0"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 2 · selezionata 0
+[domini]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dominio","esito3d":"Fuori dominio","eta":"—","eta2d":"2.19","eta3d":"2.19","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[domini]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.78","eta3d":"0.78","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · Plastico\nNON VERIFICATA\nη = 2.19\nGoverna: SLU appoggio\n2/2 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[sle] famiglia 0
+[sle] form SLE
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
+[sle]   {"Mx":"65","My":"0","N":"0","esito":"Da calcolare","eta":"—","eta_sigma":"1.17","id":"510000030f514a008000000000000003","nome":"Rara","sigma_c":"-16.37","sigma_s":"422.97","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE dettaglio "Selezionare una combinazione"
+[sle] SLE passaggi ""
+[sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE zone -1 di 0
+[sle] SLE mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.17\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1.40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FFE4C441 #FFCB3939
+[sle] form SLE_FREQ
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
+[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ dettaglio "Selezionare una combinazione"
+[sle] SLE_FREQ passaggi ""
+[sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE_FREQ zone -1 di 0
+[sle] SLE_FREQ mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.17\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1.40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FFE4C441 #FFCB3939
+[sle] form SLE_QP
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
+[sle]   {"Mx":"45","My":"0","N":"0","esito":"Da calcolare","eta":"—","eta_sigma":"0.72","id":"510000040f514a008000000000000004","nome":"Quasi permanente","sigma_c":"-11.33","sigma_s":"292.82","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.28 / 0.20 mm · η=1.40"}
+[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP dettaglio "Selezionare una combinazione"
+[sle] SLE_QP passaggi ""
+[sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE_QP zone -1 di 0
+[sle] SLE_QP mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.17\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1.40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FFE4C441 #FFCB3939
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato"
+[taglio]   campo bw_x "bw · x" = "250.00" · spento
+[taglio]   campo d_x "d utile · x" = "963.42" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "267.04" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90" · spento
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "" · spento
+[taglio]   campo bw_y "bw · y" = "1000.00" · spento
+[taglio]   campo d_y "d utile · y" = "213.00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "565.49" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90" · spento
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = "" · spento
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Da confermare" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Da scegliere" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · spento · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · spento · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · spento · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · spento · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · spento · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · spento · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto · sola lettura
+[taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 0 · selezionata -1
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
+[taglio] taglio sintesi "Taglio: 0/0 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+[dettagli] invariata
+[armature] invariata
+[ispezione] invariata
+== conferma
+dati ED89461F03EDE4C8 · byte 8347
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 2C5418436428DB2E
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[azioni] invariata
+[domini] invariata
+[sle] invariata
+[taglio] invariata
+[dettagli] invariata
+[armature] invariata
+[ispezione] invariata
+== visita
+dati ED89461F03EDE4C8 · byte 8347
+modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 2C5418436428DB2E
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[azioni] invariata
+[domini] form 3D
+[domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
+[domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n · aperto
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
+[domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dominio","esito3d":"Fuori dominio","eta":"—","eta2d":"2.19","eta3d":"2.19","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[domini]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.78","eta3d":"0.78","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU appoggio\n\nNEd = 0,00 kN\nMx,Ed = -110,00 kNm\nMy,Ed = 0,00 kNm\n\nη = 2,19\nFuori dominio\n\nRESISTENZA · assi locali\nNRd = -0,09 kN\nMx,Rd = -50,18 kNm\nMy,Rd = 0,00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: 268,68 / 391,30 MPa\nεc min / max: -3,50 / 29,23 ‰\nεs min / max: 1,34 / 24,51 ‰\n\nd utile: 220,00 mm\nDistanza asse neutro dal lembo (GPC Engine): 26,74 mm\nInclinazione asse neutro: -180,00°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -5454,31 … 522,35 kN\nMx: -193,79 … 193,44 kNm\nMy: -729,22 … 729,22 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 3D-riepilogo "3D · Plastico\nNON VERIFICATA\nη = 2.19\nGoverna: SLU appoggio\n2/2 combinazioni\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh Plastic vertici 1570 CEFCF7ABF2747469 triangoli 3136 EF5B97CED469EC60 scala 844E2DB3007FFC03
+[domini] 3D vista azioni 2 14068ED8AF6FB7DA · selezionata 0 · Ed E0DE6056E1DC724A · Rd 68F9BEB5EFBF455F
+[domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
+[domini] form 2D
+[domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "0"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli · aperto
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
+[domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 2 · selezionata 0
+[domini]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dominio","esito3d":"Fuori dominio","eta":"—","eta2d":"2.19","eta3d":"2.19","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[domini]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.78","eta3d":"0.78","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[domini] 2D dettaglio "Plastico · Mx–My · senza proiezione\n\nAZIONI · Locali\nSLU appoggio\n\nNEd = 0,00 kN\nMx,Ed = -110,00 kNm\nMy,Ed = 0,00 kNm\n\nη = 2,19\nFuori dominio\n\nRESISTENZA · assi locali\nNRd = 0,00 kN\nMx,Rd = -50,17 kNm\nMy,Rd = -0,00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: 268,68 / 391,30 MPa\nεc min / max: -3,50 / 29,23 ‰\nεs min / max: 1,34 / 24,51 ‰\n\nd utile: 220,00 mm\nDistanza asse neutro dal lembo (GPC Engine): 26,74 mm\nInclinazione asse neutro: -180,00°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: 0,00 … 0,00 kN\nMx: -50,17 … 63,95 kNm\nMy: -243,06 … 243,06 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 2D-riepilogo "2D · Plastico\nNON VERIFICATA\nη = 2.19\nGoverna: SLU appoggio\n2/2 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Plastico · Mx–My, N = 0,00 kN" · "Mx [kNm]" · "My [kNm]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 64 7EFAE257BD1BDB88 · verifiche 2 BE0D1E6F546DA71F · punti 3 F3BE180BCCBE0CBF · scala 1/1
+[sle] famiglia 0
+[sle] form SLE
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
+[sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
+[sle]   {"Mx":"65","My":"0","N":"0","esito":"Da calcolare","eta":"—","eta_sigma":"1.17","id":"510000030f514a008000000000000003","nome":"Rara","sigma_c":"-16.37","sigma_s":"422.97","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE dettaglio "Rara · Lineare\nRara · assi Locali\nN = 0,00 kN\nMx / My = 65,00 / 0,00 kNm\n\nTENSIONI · NTC 2018\n|σc,comp| ≤ 21,00 MPa\nσs ≤ 360,00 MPa (armatura ordinaria)\nησ = 1,17\nOltre limiti tensionali\n\nSTATO ALL’AZIONE APPLICATA\nσc min / max: -16,37 / 0,00 MPa\nσs min / max: -8,35 / 422,97 MPa\nεc min / max: -0,48 / 2,57 ‰\nεs min / max: -0,04 / 2,11 ‰\n\nd utile: 220,00 mm\nDistanza asse neutro dal lembo (GPC Engine): 39,43 mm\nInclinazione asse neutro: 5,61E-7°\n— indica dato non disponibile (es. deformazione uniforme).\n\nOMOGENEIZZAZIONE\nn armature = 5,87 · φ = 0,00\nn = Eacciaio (1 + φ) / Ec. Deformazioni incrementali da GPC Engine."
+[sle] SLE passaggi "Rara · Rara\n\nNon richiesta nella rara\r\nRiepilogo essenziale · NTC 2018\r\nDue decimali; notazione scientifica per valori molto piccoli. Deformazioni adimensionali. Traccia completa nel JSON.\r\n\r\n"
+[sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 10 · selezionata -1
+[sle]   {"id":"B01","strain":"-0,04","stress":"-8,35","type":"Compressione"}
+[sle]   {"id":"B02","strain":"-0,04","stress":"-8,35","type":"Compressione"}
+[sle]   {"id":"B03","strain":"-0,04","stress":"-8,35","type":"Compressione"}
+[sle]   {"id":"B04","strain":"-0,04","stress":"-8,35","type":"Compressione"}
+[sle]   {"id":"B05","strain":"-0,04","stress":"-8,35","type":"Compressione"}
+[sle]   {"id":"B06","strain":"2,11","stress":"422,97","type":"Trazione"}
+[sle]   {"id":"B07","strain":"2,11","stress":"422,97","type":"Trazione"}
+[sle]   {"id":"B08","strain":"2,11","stress":"422,97","type":"Trazione"}
+[sle]   {"id":"B09","strain":"2,11","stress":"422,97","type":"Trazione"}
+[sle]   {"id":"B10","strain":"2,11","stress":"422,97","type":"Trazione"}
+[sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 4 · selezionata -1
+[sle]   {"id":"C1","strain":"2,57","stress":"0,00","x":"-500,00","y":"-125,00"}
+[sle]   {"id":"C2","strain":"2,57","stress":"0,00","x":"500,00","y":"-125,00"}
+[sle]   {"id":"C3","strain":"-0,48","stress":"-16,37","x":"500,00","y":"125,00"}
+[sle]   {"id":"C4","strain":"-0,48","stress":"-16,37","x":"-500,00","y":"125,00"}
+[sle] SLE zone -1 di 0
+[sle] SLE mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni 3D4C681AF687FCB4 · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda "-16,37 … 0,00 MPa"
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.17\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1.40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FFE4C441 #FFCB3939
+[sle] form SLE_FREQ
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
+[sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
+[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ dettaglio "Selezionare una combinazione"
+[sle] SLE_FREQ passaggi ""
+[sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE_FREQ zone -1 di 0
+[sle] SLE_FREQ mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.17\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1.40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FFE4C441 #FFCB3939
+[sle] form SLE_QP
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
+[sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
+[sle]   {"Mx":"45","My":"0","N":"0","esito":"Da calcolare","eta":"—","eta_sigma":"0.72","id":"510000040f514a008000000000000004","nome":"Quasi permanente","sigma_c":"-11.33","sigma_s":"292.82","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.28 / 0.20 mm · η=1.40"}
+[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP dettaglio "Selezionare una combinazione"
+[sle] SLE_QP passaggi ""
+[sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE_QP zone -1 di 0
+[sle] SLE_QP mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.17\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1.40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FFE4C441 #FFCB3939
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato"
+[taglio]   campo bw_x "bw · x" = "250.00" · spento
+[taglio]   campo d_x "d utile · x" = "963.42" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "267.04" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90" · spento
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "" · spento
+[taglio]   campo bw_y "bw · y" = "1000.00" · spento
+[taglio]   campo d_y "d utile · y" = "213.00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "565.49" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90" · spento
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = "" · spento
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Da confermare" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Da scegliere" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · spento · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · spento · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · spento · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · spento · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · spento · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · spento · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto · sola lettura
+[taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 0 · selezionata -1
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Inserire o selezionare una combinazione N–Vx–Vy."
+[taglio] taglio sintesi "Taglio: 0/0 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+[dettagli] invariata
+[armature] invariata
+[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Lettura del piano già calcolato al limite…"
+[ispezione] 3D ispezione valori "Nessuna soluzione aggiornata disponibile."
+[ispezione] 3D ispezione mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Lettura del piano già calcolato al limite…"
+[ispezione] 2D ispezione valori "Nessuna soluzione aggiornata disponibile."
+[ispezione] 2D ispezione mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "0"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "60"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Trascurato" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo ""
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== attendi
+dati ED89461F03EDE4C8 · byte 8347
+modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 2C5418436428DB2E
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[azioni] invariata
+[domini] invariata
+[sle] invariata
+[taglio] invariata
+[dettagli] invariata
+[armature] invariata
+[ispezione] invariata
+== conferma
+dati ED89461F03EDE4C8 · byte 8347
+modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 2C5418436428DB2E
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[azioni] invariata
+[domini] invariata
+[sle] invariata
+[taglio] invariata
+[dettagli] invariata
+[armature] invariata
+[ispezione] invariata
+== calcola
+dati ED89461F03EDE4C8 · byte 8347
+modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 2C5418436428DB2E
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[azioni] invariata
+[domini] invariata
+[sle] invariata
+[taglio] invariata
+[dettagli] invariata
+[armature] invariata
+[ispezione] invariata
+== conferma
+dati ED89461F03EDE4C8 · byte 8347
+modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 2C5418436428DB2E
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[azioni] invariata
+[domini] invariata
+[sle] invariata
+[taglio] invariata
+[dettagli] invariata
+[armature] invariata
+[ispezione] invariata
+== riapri
+dati ED89461F03EDE4C8 · byte 8347
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 7
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "1000"
+[ingressi]   campo height_mm "Altezza h" = "250"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "30"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura attiva · nota ""
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "5"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "12"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "12" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "46" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "5"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "14"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "0"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "5"
+[ingressi]   campo second_top_diameter "Diametro" = "12"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "5"
+[ingressi]   campo second_bottom_diameter "Diametro" = "14"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "No" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento
+[ingressi]   campo transverse_spacing_mm "Passo" = "200" · spento
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · spento · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2" · spento
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2" · spento
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · spento · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Calcolo delle quattro direzioni…" · riquadri ""
+[ingressi] anteprima sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 10 · selezionata -1
+[ingressi]   {"id":"B01","phi":"12","x":"-464","y":"89"}
+[ingressi]   {"id":"B02","phi":"12","x":"-232","y":"89"}
+[ingressi]   {"id":"B03","phi":"12","x":"0","y":"89"}
+[ingressi]   {"id":"B04","phi":"12","x":"232","y":"89"}
+[ingressi]   {"id":"B05","phi":"12","x":"464","y":"89"}
+[ingressi]   {"id":"B06","phi":"14","x":"-463","y":"-88"}
+[ingressi]   {"id":"B07","phi":"14","x":"-231.5","y":"-88"}
+[ingressi]   {"id":"B08","phi":"14","x":"0","y":"-88"}
+[ingressi]   {"id":"B09","phi":"14","x":"231.5","y":"-88"}
+[ingressi]   {"id":"B10","phi":"14","x":"463","y":"-88"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nQuasi permanente · fessurazione\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[azioni] sollecitazioni uniche no · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[azioni]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[azioni] azioni SLV · 0
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"65","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"Rara","visible":true}
+[azioni] azioni SLE_FREQ · 0
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"45","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000040f514a008000000000000004","nome":"Quasi permanente","visible":true}
+[azioni] azioni taglio · 0
+[domini] form 3D
+[domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
+[domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[domini]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[domini] 3D dettaglio "Selezionare una combinazione"
+[domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh -
+[domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
+[domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio in attesa di aggiornamento automatico"
+[domini] form 2D
+[domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "0"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 2 · selezionata 0
+[domini]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[domini]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[sle] famiglia 0
+[sle] form SLE
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
+[sle]   {"Mx":"65","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"Rara","visible":true}
+[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE dettaglio "Selezionare una combinazione"
+[sle] SLE passaggi ""
+[sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE zone -1 di 0
+[sle] SLE mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nQuasi permanente · fessurazione\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] form SLE_FREQ
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
+[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ dettaglio "Selezionare una combinazione"
+[sle] SLE_FREQ passaggi ""
+[sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE_FREQ zone -1 di 0
+[sle] SLE_FREQ mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nQuasi permanente · fessurazione\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] form SLE_QP
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
+[sle]   {"Mx":"45","My":"0","N":"0","esito":"Da calcolare","eta":"—","id":"510000040f514a008000000000000004","nome":"Quasi permanente","visible":true}
+[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP dettaglio "Selezionare una combinazione"
+[sle] SLE_QP passaggi ""
+[sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE_QP zone -1 di 0
+[sle] SLE_QP mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nQuasi permanente · fessurazione\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato"
+[taglio]   campo bw_x "bw · x" = "250,00" · spento
+[taglio]   campo d_x "d utile · x" = "963,42" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "267,04" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90" · spento
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "" · spento
+[taglio]   campo bw_y "bw · y" = "1000,00" · spento
+[taglio]   campo d_y "d utile · y" = "213,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "565,49" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90" · spento
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = "" · spento
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Da confermare" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Da scegliere" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · spento · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · spento · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · spento · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · spento · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · spento · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · spento · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto · sola lettura
+[taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 0 · selezionata -1
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Selezionare una combinazione"
+[taglio] taglio sintesi "Taglio · da calcolare"
+[taglio] riquadri taglio-peggiori "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+[dettagli] invariata
+[armature] invariata
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "0"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "60"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Trascurato" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo ""
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== attendi
+dati ED89461F03EDE4C8 · byte 8347
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 2C5418436428DB2E
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "1000"
+[ingressi]   campo height_mm "Altezza h" = "250"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "30"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura attiva · nota ""
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "5"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "12"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "12" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "46" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "5"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "14"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "0"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "5"
+[ingressi]   campo second_top_diameter "Diametro" = "12"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "5"
+[ingressi]   campo second_bottom_diameter "Diametro" = "14"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "No" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento
+[ingressi]   campo transverse_spacing_mm "Passo" = "200" · spento
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · spento · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2" · spento
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2" · spento
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · spento · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Mx+   63,96 kNm\nMx−   -50,18 kNm\nMy+   242,55 kNm\nMy−   -242,55 kNm" · nascosto · riquadri "Mx+ 63,96 kNm | Mx− -50,18 kNm | My+ 242,55 kNm | My− -242,55 kNm"
+[ingressi] anteprima sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 10 · selezionata -1
+[ingressi]   {"id":"B01","phi":"12","x":"-464","y":"89"}
+[ingressi]   {"id":"B02","phi":"12","x":"-232","y":"89"}
+[ingressi]   {"id":"B03","phi":"12","x":"0","y":"89"}
+[ingressi]   {"id":"B04","phi":"12","x":"232","y":"89"}
+[ingressi]   {"id":"B05","phi":"12","x":"464","y":"89"}
+[ingressi]   {"id":"B06","phi":"14","x":"-463","y":"-88"}
+[ingressi]   {"id":"B07","phi":"14","x":"-231.5","y":"-88"}
+[ingressi]   {"id":"B08","phi":"14","x":"0","y":"-88"}
+[ingressi]   {"id":"B09","phi":"14","x":"231.5","y":"-88"}
+[ingressi]   {"id":"B10","phi":"14","x":"463","y":"-88"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nNON VERIFICATA\nη = 2.19\nGoverna: SLU appoggio\n2/2 combinazioni\n2D · Plastico\nNON VERIFICATA\nη = 2.19\nGoverna: SLU appoggio\n2/2 combinazioni\n" · colori #FFCB3939 #FFCB3939
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.17\nGoverna: Rara\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nVERIFICATA\nη = 0.72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1.40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFE4C441 #FFCB3939
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[azioni] sollecitazioni uniche no · file ""
+[azioni] azioni SLU · 2
+[azioni]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dominio","esito3d":"Fuori dominio","eta":"—","eta2d":"2.19","eta3d":"2.19","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[azioni]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.78","eta3d":"0.78","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[azioni] azioni SLV · 0
+[azioni] azioni SLE · 1
+[azioni]   {"Mx":"65","My":"0","N":"0","esito":"Da calcolare","eta":"—","eta_sigma":"1.17","id":"510000030f514a008000000000000003","nome":"Rara","sigma_c":"-16.37","sigma_s":"422.97","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni] azioni SLE_FREQ · 0
+[azioni] azioni SLE_QP · 1
+[azioni]   {"Mx":"45","My":"0","N":"0","esito":"Da calcolare","eta":"—","eta_sigma":"0.72","id":"510000040f514a008000000000000004","nome":"Quasi permanente","sigma_c":"-11.33","sigma_s":"292.82","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.28 / 0.20 mm · η=1.40"}
+[azioni] azioni taglio · 0
+[domini] form 3D
+[domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
+[domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
+[domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
+[domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
+[domini]   campo suddivisioni_n "Suddivisioni N (mesh)" = "50"
+[domini]   campo angoli "Direzioni angolari" = "32"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
+[domini]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dominio","esito3d":"Fuori dominio","eta":"—","eta2d":"2.19","eta3d":"2.19","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[domini]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.78","eta3d":"0.78","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[domini] 3D dettaglio "Selezionare una combinazione"
+[domini] riquadri 3D-riepilogo "3D · Plastico\nNON VERIFICATA\nη = 2.19\nGoverna: SLU appoggio\n2/2 combinazioni\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF
+[domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
+[domini] 3D vista mesh -
+[domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
+[domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio in attesa di aggiornamento automatico"
+[domini] form 2D
+[domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
+[domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
+[domini]   campo theta "Direzione θ" = "0" · spento
+[domini]   campo N "N fissato" = "0"
+[domini]   campo angoli "Direzioni angolari" = "64"
+[domini]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[domini]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[domini]   campo origine_x "Origine x" = "0" · spento
+[domini]   campo origine_y "Origine y" = "0" · spento
+[domini]   campo rotazione "Rotazione assi" = "0" · spento
+[domini]   scelta proietta "Proietta azioni sul piano" = "No" voci "No|Sì"
+[domini]   scelta filtro "Filtro azioni" = "Tutte" voci "Tutte|Entro il dominio|Fuori dominio|Da controllare"
+[domini]   gruppo "Discretizzazione e interpolazione" angoli
+[domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
+[domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 2 · selezionata 0
+[domini]   {"Mx":"-110","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dominio","esito3d":"Fuori dominio","eta":"—","eta2d":"2.19","eta3d":"2.19","id":"510000010f514a008000000000000001","nome":"SLU appoggio","visible":true}
+[domini]   {"Mx":"50","My":"0","N":"0","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.78","eta3d":"0.78","id":"510000020f514a008000000000000002","nome":"SLU campata","visible":true}
+[domini] 2D dettaglio "Selezionare una combinazione"
+[domini] riquadri 2D-riepilogo "2D · Plastico\nNON VERIFICATA\nη = 2.19\nGoverna: SLU appoggio\n2/2 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF
+[domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
+[domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[sle] famiglia 0
+[sle] form SLE
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
+[sle]   {"Mx":"65","My":"0","N":"0","esito":"Da calcolare","eta":"—","eta_sigma":"1.17","id":"510000030f514a008000000000000003","nome":"Rara","sigma_c":"-16.37","sigma_s":"422.97","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE dettaglio "Selezionare una combinazione"
+[sle] SLE passaggi ""
+[sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE zone -1 di 0
+[sle] SLE mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.17\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1.40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FFE4C441 #FFCB3939
+[sle] form SLE_FREQ
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
+[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ dettaglio "Selezionare una combinazione"
+[sle] SLE_FREQ passaggi ""
+[sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE_FREQ zone -1 di 0
+[sle] SLE_FREQ mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.17\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1.40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FFE4C441 #FFCB3939
+[sle] form SLE_QP
+[sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
+[sle]   campo n_armature "n armature" = "5,87"
+[sle]   campo phi "Viscosità φ armature" = "0"
+[sle]   campo n_trefoli "n trefoli (Ep riferimento)" = "5,72" · nascosto
+[sle]   campo phi_trefoli "Viscosità φ trefoli" = "0" · nascosto
+[sle]   campo __ep_ref "Ep di riferimento" = "195000,00" · nascosto · sola lettura
+[sle]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[sle]   scelta assi "Assi delle azioni" = "Locali" voci "Locali|Principali|Personalizzati"
+[sle]   campo origine_x "Origine x" = "0" · spento
+[sle]   campo origine_y "Origine y" = "0" · spento
+[sle]   campo rotazione "Rotazione assi" = "0" · spento
+[sle]   scelta esposizione "Esposizione" = "XS1" voci "Da scegliere|X0|XC1|XC2|XC3|XF1|XC4|XD1|XS1|XA1|XA2|XF2|XF3|XD2|XD3|XS2|XS3|XA3|XF4"
+[sle]   scelta sensibilita "Armatura" = "Poco sensibile" voci "Poco sensibile|Sensibile"
+[sle]   scelta durata "Durata del carico" = "Lunga" voci "Lunga|Breve"
+[sle]   scelta aderenza "Barre" = "Migliorata" voci "Migliorata|Liscia"
+[sle]   campo copriferro_fessure "c barra (vuoto: dalle barre efficaci)" = ""
+[sle]   campo spaziatura_fessure "Interasse massimo (vuoto: auto)" = ""
+[sle]   campo limite_fessure "wlim di progetto (EC2/MC)" = ""
+[sle]   gruppo "Analisi e omogeneizzazione" modello|n_armature|phi|n_trefoli|phi_trefoli|__ep_ref · aperto
+[sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
+[sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
+[sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
+[sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
+[sle]   {"Mx":"45","My":"0","N":"0","esito":"Da calcolare","eta":"—","eta_sigma":"0.72","id":"510000040f514a008000000000000004","nome":"Quasi permanente","sigma_c":"-11.33","sigma_s":"292.82","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.28 / 0.20 mm · η=1.40"}
+[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP dettaglio "Selezionare una combinazione"
+[sle] SLE_QP passaggi ""
+[sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
+[sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
+[sle] SLE_QP zone -1 di 0
+[sle] SLE_QP mappa sezione Rettangolare 1000x250 · Ac 250000 · As 1335.176877775662 · contorno 4 0DD7C8F97ACEFDF2 · fori 0 · barre 10 A24F077757687C5B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.17\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1.40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FFE4C441 #FFCB3939
+[taglio] form taglio
+[taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
+[taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
+[taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato"
+[taglio]   campo bw_x "bw · x" = "250.00" · spento
+[taglio]   campo d_x "d utile · x" = "963.42" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "267.04" · spento
+[taglio]   campo alpha_x "α staffa · x" = "90" · spento
+[taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "" · spento
+[taglio]   campo bw_y "bw · y" = "1000.00" · spento
+[taglio]   campo d_y "d utile · y" = "213.00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "565.49" · spento
+[taglio]   campo alpha_y "α staffa · y" = "90" · spento
+[taglio]   campo cot_y "cot θ · y (vuoto: auto)" = "" · spento
+[taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
+[taglio]   campo eccentricita_mc_y "Δe MC · Vy" = "0" · nascosto
+[taglio]   gruppo "Direzione Vx" bw_x|d_x|asl_x|alpha_x|cot_x · aperto
+[taglio]   gruppo "Direzione Vy" bw_y|d_y|asl_y|alpha_y|cot_y · aperto
+[taglio] form torsione
+[taglio]   campo cot_torsione "cot θ comune (T ≠ 0)" = "1"
+[taglio]   campo as_torsione "As longitudinale disponibile per torsione" = "0"
+[taglio]   scelta chiusura_torsione "Staffe chiuse e barre sul profilo" = "Da confermare" voci "Da confermare|Confermato"
+[taglio]   scelta modello_circolare "Taglio circolare" = "Da scegliere" voci "Da scegliere|Pile · NTC §7.9.5.2|Parametri assegnati"
+[taglio]   campo z_d "z/d assegnato · circolare" = "0.75"
+[taglio] form staffe-2
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · spento · sola lettura
+[taglio] form staffe-3
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · spento · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · spento · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto · sola lettura
+[taglio] form staffe-4
+[taglio]   campo staffe_presenti "Staffe presenti" = "No" · sola lettura
+[taglio]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · spento · sola lettura
+[taglio]   campo transverse_spacing_mm "Passo" = "200" · spento · sola lettura
+[taglio] form staffe-5
+[taglio]   campo tipo_staffa "Circolare" = "Staffa chiusa" · spento · nascosto · sola lettura
+[taglio]   campo rami_x "Braccia resistenti a Vx" = "2" · spento · sola lettura
+[taglio]   campo rami_y "Braccia resistenti a Vy" = "2" · spento · sola lettura
+[taglio]   campo schema_interno "Schema interno" = "Bracci paralleli" · spento · nascosto · sola lettura
+[taglio]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · spento · nascosto · sola lettura
+[taglio]   campo rotazione_staffa "Rotazione schema" = "0" · spento · nascosto · sola lettura
+[taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
+[taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 0 · selezionata -1
+[taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
+[taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
+[taglio] taglio sintesi "Taglio: 0/0 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
+[taglio] riquadri taglio-peggiori "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
+[dettagli] invariata
+[armature] invariata
+[ispezione] invariata
+== conferma
+dati ED89461F03EDE4C8 · byte 8347
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+risultato 2C5418436428DB2E
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[azioni] invariata
+[domini] invariata
+[sle] invariata
+[taglio] invariata
+[dettagli] invariata
+[armature] invariata
+[ispezione] invariata

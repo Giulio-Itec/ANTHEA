@@ -1,0 +1,409 @@
+== apertura
+dati EF031222386175BC · byte 8391
+  tutto = {"versione_sezione":2,"input":{"shape":"Rettangolare","diameter_mm":"1000","circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"-2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gettato_sottile":"No","staffe_presenti":"Sì","inner_diameter_mm":"500","inner_width_mm":"300","inner_height_mm":"400","flange_bottom_count":"0","flange_bottom_diameter_mm":"20","flange_bottom_offset_mm":"90","second_top_count":"4","second_top_diameter":"20","second_top_gap":"30","second_bottom_count":"6","second_bottom_diameter":"24","second_bottom_gap":"30","second_inner_count":"16","second_inner_diameter":"24","second_inner_gap":"30"},"n_automatico":true,"combinazioni":{"SLU":[{"nome":"Combo 1","azioni":["-2500","500","250"],"id":"<nuovo-1>"}],"SLV":[{"nome":"Combo 1","azioni":["-2500","500","250"],"id":"<nuovo-2>"}],"SLE":[{"nome":"Combo 1","azioni":["-2500","500","250"],"id":"<nuovo-3>"}],"SLE_FREQ":[],"SLE_QP":[]},"workspace_ca":{"versione":2,"normativa":"NTC 2018","nota":"","tab":0,"dominio3d":{"stato":"SLU","angoli":"32","criterio":"N costante","filtro":"Tutte","strategia":"Iterativo","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"dominio2d":{"stato":"SLU","tipo":"Mx–My","theta":"0","N":"-1000","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"trefoli":[],"sle":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"}},"convenzione":"N negativo a compressione","migrazione_segni":"N convertito dalla precedente convenzione ANTHEA; momenti invariati","sle_precedenti_unificazione":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Lineare","phi":"0","phi_trefoli":"0","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"0.85","AlphaCT":"1","GammaC":"1.50","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.8"},"taglio":{"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Automatici da sezione","tipo_staffa":"Staffa chiusa","rami_x":"2","rami_y":"2","rami_interni":"0","schema_interno":"Bracci paralleli","rotazione_staffa":"0","ancoraggio":"Da verificare","modello":"Con staffe","bw_x":"800","d_x":"509.91397849462362","asl_x":"1168.6724671354032","alpha_x":"90","cot_x":"","bw_y":"600","d_y":"708","asl_y":"1256.6370614359173","alpha_y":"90","cot_y":"","cot_torsione":"1","as_torsione":"0","chiusura_torsione":"Da confermare","modello_circolare":"Da scegliere","z_d":"0.75","eccentricita_mc_x":"0","eccentricita_mc_y":"0","azioni":[]},"momento_curvatura":{"N":"0","theta":"0","passi":"60","frazione":"1","campionamento":"Quadratico","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"dettagli_costruttivi":{"vita_durabilita":"50","qualita_copriferro":"No","elemento":"Da scegliere","aggregato":"20","cmin_dur":"","delta_c":"10","zona_sovrapposizione":"No","as_secondaria":"0","passo_secondaria":"0","zona_critica":"No","barre_trattenute":"Da confermare","ancoraggio_appoggi":"Da confermare"},"ancoraggi":{"schema_versione":1,"tipo":"Ancoraggio rettilineo","diametro":"","sigma":"","aderenza":"Buona","lunghezza":"","percentuale":"100","interferro":"0","confinamento":"Da verificare","posizione":"Da verificare","cautele":"Da verificare"},"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"materiali_custom":[],"layout":{},"resistenze_rapide":{"N":"0","tipo":"Plastico"},"calcola_armature":{"diametri":"12;16;20;24","n_superiori":"2;4;6","n_inferiori":"2;4;6;8","n_laterali":"0;2;4","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","staffe":"Ottimizza","obiettivo":"Peso","diametri_ortogonali":"8;10;12;16","passi_ortogonali":"100;150;200;250","max_diametri":"3","max_tentativi":"2000","ganci_phi":"20","riserva_torsione":"25","peso_peso":"1","peso_barre":"1","peso_diametri":"1","mostra":"10","simmetrica":false,"ancoraggio_confermato":false,"torsione_confermata":false,"ricerca_completa":true,"parallelismo":"Automatico","slu":"1","slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"}}}
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "0"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "60"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Trascurato" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo ""
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== attendi
+dati EF031222386175BC · byte 8391
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato D9E22A4A92124E9D
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] invariata
+== scheda [6]
+dati F6F5707E523C2E58 · byte 8436
+  combinazioni.SLU[0].visible = true
+  combinazioni.SLV[0].visible = true
+  combinazioni.SLE[0].visible = true
+  workspace_ca.tab = 6
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 72A7C723096BF7D1
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] invariata
+== attendi
+dati F6F5707E523C2E58 · byte 8436
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 72A7C723096BF7D1
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] invariata
+== pulsante curvatura Calcola curva
+dati F6F5707E523C2E58 · byte 8436
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 72A7C723096BF7D1
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "0"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "60"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Trascurato" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Calcolo del dominio e dei punti M–χ…"
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== attendi
+dati F6F5707E523C2E58 · byte 8436
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato EF558A99C4553951
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "0"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "60"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Trascurato" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Ramo a momento crescente, N costante. Leggi e coefficienti dei materiali della sezione. Primo snervamento raffinato con 12 bisezioni, My = 710,2349 kNm. N del punto limite = -0,192485797 kN; residuo = -0,192486 kN (tolleranza assegnata 1 kN). χ è il modulo del gradiente [1/m]; la direzione del momento è imposta, quella della curvatura può differire nelle sezioni asimmetriche. Nessun ramo post-picco.\n\nMRd = 800,027 kNm\nχy = 0,00406697 1/m\nχu = 0,0288128 1/m\r\nμχ = 7,085\r\n\nM [kNm]   χ [1/m]   ε0 [‰]   εc,comp [‰]   |εs|max [‰]\r\n0   0   0   0   0\r\n0,2222298   1,114072E-06   0,000159403   0,000286334   0,000502612\r\n0,8889191   4,942561E-06   0,000887806   0,0010894   0,00241024\r\n2,000068   1,112057E-05   0,00199756   0,0024513   0,00542314\r\n3,555676   1,977015E-05   0,00355123   0,00435798   0,00964123\r\n5,555744   3,092094E-05   0,00561781   0,00675085   0,0151417\r\n8,000272   4,452686E-05   0,00808984   0,00972117   0,0218043\r\n10,88926   6,060634E-05   0,0110113   0,0132317   0,0296783\r\n14,22271   7,915928E-05   0,014382   0,0172823   0,0387635\r\n18,00061   0,000100186   0,0182023   0,0218728   0,0490601\r\n22,22298   0,0001236869   0,0224721   0,0270036   0,0605683\r\n26,8898   0,0001496607   0,0271911   0,0326742   0,0732874\r\n32,00109   0,0001781086   0,0323597   0,038885   0,087218\r\n37,55683   0,0002090299   0,0379776   0,0456358   0,10236\r\n43,55704   0,0002424252   0,044045   0,0529267   0,118713\r\n50,0017   0,0002782939   0,0505618   0,0607577   0,136278\r\n56,89082   0,0003166366   0,0575281   0,0691288   0,155054\r\n64,2244   0,0003574541   0,0649442   0,0780399   0,175042\r\n72,00245   0,0004007437   0,0728091   0,0874912   0,19624\r\n80,22495   0,0004465067   0,0811235   0,0974823   0,21865\r\n88,89191   0,0004947449   0,0898876   0,108014   0,242271\r\n98,00333   0,0005454559   0,0991012   0,119085   0,267104\r\n107,5592   0,0005986412   0,108764   0,130696   0,293149\r\n117,5596   0,0006543007   0,118877   0,142848   0,320404\r\n128,0044   0,0007124337   0,129439   0,15554   0,348872\r\n138,8936   0,0007730386   0,14045   0,168771   0,378549\r\n150,2273   0,0008361189   0,15191   0,182543   0,409439\r\n162,0055   0,0009016738   0,163821   0,196855   0,441541\r\n174,2281   0,0009697003   0,17618   0,211707   0,474852\r\n186,8952   0,001040198   0,188989   0,227098   0,509375\r\n200,0068   0,001113176   0,202249   0,243028   0,545111\r\n213,5628   0,001188689   0,215953   0,25953   0,582074\r\n227,5633   0,001267036   0,230078   0,276746   0,620332\r\n242,0082   0,001348208   0,244624   0,294668   0,659878\r\n256,8976   0,001432167   0,259587   0,313287   0,7007\r\n272,2315   0,001518875   0,274966   0,332589   0,742784\r\n288,0098   0,001608308   0,290762   0,352571   0,786128\r\n304,2326   0,001700438   0,306972   0,373232   0,830728\r\n320,8998   0,001795245   0,323594   0,394519   0,876539\r\n338,0115   0,001892714   0,340645   0,416458   0,923612\r\n355,5676   0,00199281   0,358118   0,439021   0,971913\r\n373,5683   0,002095528   0,376014   0,46222   1,02145\r\n392,0133   0,002200857   0,394332   0,486035   1,07221\r\n410,9029   0,002308857   0,413064   0,510503   1,12421\r\n430,2368   0,002419883   0,432192   0,535779   1,17753\r\n450,0153   0,002533936   0,451693   0,561912   1,23217\r\n470,2382   0,002651007   0,471592   0,588848   1,28813\r\n490,9056   0,00277107   0,491864   0,616586   1,34537\r\n512,0174   0,002894084   0,512526   0,645115   1,40391\r\n533,5737   0,003020007   0,533565   0,674451   1,46374\r\n555,5744   0,003148817   0,555   0,70454   1,52484\r\n578,0196   0,003280479   0,576815   0,735383   1,58721\r\n600,9093   0,003415057   0,599009   0,767042   1,65087\r\n624,2434   0,003553043   0,621539   0,799693   1,71589\r\n648,022   0,003694378   0,644419   0,833342   1,78229\r\n672,2451   0,003838991   0,667637   0,867977   1,85006\r\n696,9126   0,003986871   0,6912   0,903556   1,91916\r\n710,2349   0,004066973   0,703878   0,922957   1,95654\r\n722,0245   0,00460987   0,846411   0,997552   2,26626\r\n747,581   0,005873486   1,18239   1,16703   2,99143\r\n773,5818   0,009063041   2,09027   1,53503   4,88174\r\n800,0272   0,02881276   8,02642   3,5   16,9017 · limite\r\n"
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie "M–χ":62 858FEB9A2BA426CA · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== campo curvatura N «-1500»
+dati 08108A9ABFC787BE · byte 8440
+  workspace_ca.momento_curvatura.N = "-1500"
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 628852AB3A5F1F7B
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "-1500"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "60"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Trascurato" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Dati modificati · ricalcolare la curva."
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== attendi
+dati 08108A9ABFC787BE · byte 8440
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 628852AB3A5F1F7B
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] invariata
+== pulsante curvatura Calcola curva
+dati 08108A9ABFC787BE · byte 8440
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 628852AB3A5F1F7B
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "-1500"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "60"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Trascurato" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Calcolo del dominio e dei punti M–χ…"
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== attendi
+dati 08108A9ABFC787BE · byte 8440
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 9FBA5DDF46DD8712
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "-1500"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "60"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Trascurato" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Ramo a momento crescente, N costante. Leggi e coefficienti dei materiali della sezione. Primo snervamento raffinato con 12 bisezioni, My = 1080,701 kNm. N del punto limite = -1500,21921 kN; residuo = -0,219209 kN (tolleranza assegnata 1 kN). χ è il modulo del gradiente [1/m]; la direzione del momento è imposta, quella della curvatura può differire nelle sezioni asimmetriche. Nessun ramo post-picco.\n\nMRd = 1176,08 kNm\nχy = 0,00513224 1/m\nχu = 0,0145094 1/m\r\nμχ = 2,827\r\n\nM [kNm]   χ [1/m]   ε0 [‰]   εc,comp [‰]   |εs|max [‰]\r\n0   2,274418E-05   -0,153386   0,162484   0,160437\r\n0,3266888   2,334304E-05   -0,153391   0,162728   0,160627\r\n1,306755   2,513958E-05   -0,153406   0,163462   0,161199\r\n2,940199   2,813384E-05   -0,153431   0,164684   0,162152\r\n5,227021   3,23258E-05   -0,153465   0,166396   0,163486\r\n8,167221   3,771546E-05   -0,15351   0,168596   0,165202\r\n11,7608   4,43028E-05   -0,153564   0,171285   0,167298\r\n16,00775   5,208789E-05   -0,153629   0,174464   0,169776\r\n20,90808   6,107066E-05   -0,153703   0,178131   0,172635\r\n26,46179   7,125111E-05   -0,153787   0,182288   0,175875\r\n32,66888   8,262933E-05   -0,153881   0,186933   0,179497\r\n39,52935   9,520514E-05   -0,153985   0,192068   0,183499\r\n47,04319   0,0001089788   -0,154099   0,197691   0,187883\r\n55,21041   0,00012395   -0,154223   0,203803   0,192648\r\n64,03101   0,000140119   -0,154357   0,210405   0,197794\r\n73,50498   0,0001574856   -0,154501   0,217495   0,203321\r\n83,63234   0,0001760501   -0,154654   0,225074   0,20923\r\n94,41307   0,0001958122   -0,154818   0,233143   0,215519\r\n105,8472   0,0002167721   -0,154991   0,2417   0,22219\r\n117,9347   0,0002389295   -0,155174   0,250746   0,229243\r\n130,6755   0,0002624179   -0,155387   0,260354   0,236737\r\n144,0698   0,0002875352   -0,155676   0,270692   0,244814\r\n158,1174   0,0003142177   -0,156039   0,281727   0,253447\r\n172,8184   0,000342252   -0,156442   0,293342   0,26254\r\n188,1728   0,0003717017   -0,156896   0,305577   0,272124\r\n204,1805   0,0004026778   -0,157383   0,318455   0,282214\r\n220,8416   0,0004375101   -0,157593   0,332597   0,293221\r\n238,1562   0,0004775399   -0,157312   0,348328   0,30535\r\n256,124   0,0005232006   -0,156431   0,365711   0,318623\r\n274,7453   0,0005744157   -0,154861   0,384632   0,332933\r\n294,0199   0,000632753   -0,152374   0,405478   0,34853\r\n313,948   0,0006981756   -0,148845   0,428116   0,36528\r\n334,5294   0,0007714101   -0,144078   0,452642   0,383215\r\n355,7641   0,0008521074   -0,137999   0,47885   0,402158\r\n377,6523   0,000940622   -0,130497   0,50675   0,422093\r\n400,1938   0,001038049   -0,121519   0,536742   0,443316\r\n423,3887   0,001144354   -0,111073   0,568821   0,465828\r\n447,237   0,001258936   -0,0992044   0,602786   0,48948\r\n471,7387   0,001381443   -0,0858472   0,638434   0,514101\r\n496,8937   0,001511255   -0,0710772   0,675584   0,539569\r\n522,7021   0,001647788   -0,0549799   0,714101   0,565799\r\n549,1639   0,001790697   -0,0376128   0,753893   0,59273\r\n576,2791   0,001940849   -0,018968   0,795309   0,620633\r\n604,0476   0,002098049   0,00066892   0,838552   0,649727\r\n632,4696   0,002262443   0,0215538   0,883426   0,718388\r\n661,5449   0,002432837   0,0432989   0,929837   0,792614\r\n691,2735   0,00260925   0,0660409   0,977663   0,869693\r\n721,6556   0,002791436   0,0896687   1,02691   0,949432\r\n752,691   0,002980549   0,114026   1,07821   1,03205\r\n784,3799   0,0031767   0,139223   1,13148   1,11766\r\n816,7221   0,003379219   0,165095   1,18661   1,20591\r\n849,7176   0,003587966   0,191607   1,24362   1,29673\r\n883,3666   0,003803337   0,218647   1,30271   1,39009\r\n917,6689   0,004026674   0,246256   1,36446   1,4865\r\n952,6246   0,004257396   0,274358   1,42866   1,58568\r\n988,2337   0,004495273   0,302869   1,49527   1,68743\r\n1024,496   0,004741391   0,331715   1,56486   1,79208\r\n1061,412   0,004996851   0,360718   1,63807   1,89978\r\n1080,701   0,00513224   0,375733   1,67727   1,95653\r\n1098,981   0,005849626   0,517621   1,82231   2,31937\r\n1137,204   0,007789117   0,904618   2,21107   3,30369\r\n1176,08   0,01450937   2,30427   3,5   6,77353 · limite\r\n"
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie "M–χ":62 0ECFD3C19F40E0C9 · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== scelta curvatura cls_teso_risposte «Tension stiffening»
+dati 1C09B411316B5087 · byte 8481
+  workspace_ca.momento_curvatura.cls_teso_risposte = "Tension stiffening"
+modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato BEFA141024C70EB4
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "-1500"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "60"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Tension stiffening" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Dati modificati · ricalcolare la curva."
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== campo curvatura passi «30»
+dati E380ED76000A7B31 · byte 8481
+  workspace_ca.momento_curvatura.passi = "30"
+modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 07B3F1631A2DF78E
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "-1500"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "30"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Tension stiffening" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Dati modificati · ricalcolare la curva."
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== pulsante curvatura Calcola curva
+dati E380ED76000A7B31 · byte 8481
+modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 07B3F1631A2DF78E
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "-1500"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "30"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Tension stiffening" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Calcolo del dominio e dei punti M–χ…"
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== attendi
+dati E380ED76000A7B31 · byte 8481
+modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato C79B59BDC9BEBE57
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "-1500"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "30"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Tension stiffening" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Ramo a momento crescente, N costante. Leggi e coefficienti dei materiali della sezione. Primo snervamento raffinato con 12 bisezioni, My = 1176,08 kNm. N del punto limite = -1500,21921 kN; residuo = -0,219209 kN (tolleranza assegnata 1 kN). χ è il modulo del gradiente [1/m]; la direzione del momento è imposta, quella della curvatura può differire nelle sezioni asimmetriche. Nessun ramo post-picco. CLS teso nelle risposte: tension stiffening (Collins e Mitchell 1991, Ecm e fctm medi); punto limite dal dominio, senza trazione.\n\nMRd = 1176,08 kNm\nχy = 0,0145094 1/m\nχu = 0,0145094 1/m\r\nμχ = 1\r\n\nM [kNm]   χ [1/m]   ε0 [‰]   εc,comp [‰]   |εs|max [‰]\r\n0   2,274418E-05   -0,153386   0,162484   0,160437\r\n1,306755   2,513959E-05   -0,153406   0,163462   0,161199\r\n5,227021   3,23258E-05   -0,153465   0,166396   0,163486\r\n11,7608   4,430282E-05   -0,153564   0,171286   0,167298\r\n20,90808   6,107065E-05   -0,153703   0,178131   0,172635\r\n32,66888   8,262929E-05   -0,153881   0,186933   0,179496\r\n47,04319   0,0001089787   -0,154099   0,197691   0,187883\r\n64,03101   0,000140119   -0,154357   0,210405   0,197794\r\n83,63234   0,00017605   -0,154654   0,225074   0,20923\r\n105,8472   0,0002167719   -0,154991   0,2417   0,22219\r\n130,6755   0,0002624178   -0,155387   0,260354   0,236737\r\n158,1174   0,0003142176   -0,156039   0,281726   0,253447\r\n188,1728   0,0003717022   -0,156897   0,305577   0,272124\r\n220,8416   0,0004330072   -0,158175   0,331379   0,292408\r\n256,124   0,0004941605   -0,160393   0,358058   0,313583\r\n294,0199   0,0005572547   -0,163296   0,386198   0,336045\r\n334,5294   0,0006232693   -0,166757   0,416066   0,359972\r\n377,6523   0,0006981407   -0,170081   0,449398   0,386547\r\n423,3887   0,000794811   -0,171563   0,48949   0,417956\r\n471,7387   0,0009137981   -0,17108   0,536612   0,454366\r\n522,7021   0,001064327   -0,167492   0,593279   0,497473\r\n576,2791   0,001250989   -0,1595   0,659919   0,547323\r\n632,4696   0,001478536   -0,145483   0,737001   0,603902\r\n691,2735   0,001751873   -0,12424   0,825054   0,667366\r\n752,691   0,00207332   -0,0955364   0,924899   0,73829\r\n816,7221   0,002435402   -0,0599185   1,03408   0,814893\r\n883,3666   0,002841738   -0,0175981   1,15435   0,898576\r\n952,6246   0,00328632   0,0302442   1,2843   1,04244\r\n1024,496   0,003771028   0,0824796   1,42594   1,24396\r\n1098,981   0,004295433   0,138425   1,57976   1,46142\r\n1176,08   0,01450937   2,30427   3,5   6,77353 · limite\r\n"
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie "M–χ":31 6BC7706D0FF30868 · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== campo curvatura passi «abc»
+dati 96AB081F583F73B3 · byte 8482
+  workspace_ca.momento_curvatura.passi = "abc"
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 09637F262DD1282A
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "-1500"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "abc"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Tension stiffening" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Dati modificati · ricalcolare la curva."
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== pulsante curvatura Calcola curva
+dati 96AB081F583F73B3 · byte 8482
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 09637F262DD1282A
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "-1500"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "abc"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Tension stiffening" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Calcolo del dominio e dei punti M–χ…"
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== attendi
+dati 96AB081F583F73B3 · byte 8482
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 09637F262DD1282A
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "-1500"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "abc"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Tension stiffening" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo "Curva non disponibile: Passi: inserire un numero finito."
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== conferma
+dati 96AB081F583F73B3 · byte 8482
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 09637F262DD1282A
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] invariata
+== riapri
+dati 96AB081F583F73B3 · byte 8482
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 6
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione valori ""
+[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione piano -
+[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione valori ""
+[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione piano -
+[ispezione] form curvatura
+[ispezione]   campo N "N costante (− compressione)" = "-1500"
+[ispezione]   campo theta "Direzione del momento θ" = "0"
+[ispezione]   campo passi "Passi di carico" = "abc"
+[ispezione]   campo frazione "Frazione di MRd finale" = "1"
+[ispezione]   scelta campionamento "Distribuzione dei passi" = "Quadratico" voci "Quadratico|Uniforme"
+[ispezione]   scelta trazione_cls "CLS resistente a trazione" = "No" voci "No|Sì"
+[ispezione]   scelta cls_teso_risposte "CLS teso nelle risposte" = "Tension stiffening" voci "Trascurato|Tension stiffening"
+[ispezione]   campo angoli "Direzioni del dominio" = "64"
+[ispezione]   campo tolleranza_n "Residuo N massimo al limite" = "1"
+[ispezione]   campo raffina_snervamento "Bisezioni primo snervamento (0–30)" = "12"
+[ispezione] curvatura testo ""
+[ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+== attendi
+dati 96AB081F583F73B3 · byte 8482
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+risultato 09637F262DD1282A
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ispezione] invariata

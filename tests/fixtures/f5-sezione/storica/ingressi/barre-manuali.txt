@@ -1,0 +1,1897 @@
+== apertura
+dati EF031222386175BC · byte 8391
+  tutto = {"versione_sezione":2,"input":{"shape":"Rettangolare","diameter_mm":"1000","circular_sides":"32","width_mm":"600","height_mm":"800","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"70","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"-2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gettato_sottile":"No","staffe_presenti":"Sì","inner_diameter_mm":"500","inner_width_mm":"300","inner_height_mm":"400","flange_bottom_count":"0","flange_bottom_diameter_mm":"20","flange_bottom_offset_mm":"90","second_top_count":"4","second_top_diameter":"20","second_top_gap":"30","second_bottom_count":"6","second_bottom_diameter":"24","second_bottom_gap":"30","second_inner_count":"16","second_inner_diameter":"24","second_inner_gap":"30"},"n_automatico":true,"combinazioni":{"SLU":[{"nome":"Combo 1","azioni":["-2500","500","250"],"id":"<nuovo-1>"}],"SLV":[{"nome":"Combo 1","azioni":["-2500","500","250"],"id":"<nuovo-2>"}],"SLE":[{"nome":"Combo 1","azioni":["-2500","500","250"],"id":"<nuovo-3>"}],"SLE_FREQ":[],"SLE_QP":[]},"workspace_ca":{"versione":2,"normativa":"NTC 2018","nota":"","tab":0,"dominio3d":{"stato":"SLU","angoli":"32","criterio":"N costante","filtro":"Tutte","strategia":"Iterativo","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"dominio2d":{"stato":"SLU","tipo":"Mx–My","theta":"0","N":"-1000","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"trefoli":[],"sle":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"}},"convenzione":"N negativo a compressione","migrazione_segni":"N convertito dalla precedente convenzione ANTHEA; momenti invariati","sle_precedenti_unificazione":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Lineare","phi":"0","phi_trefoli":"0","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"0.85","AlphaCT":"1","GammaC":"1.50","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.8"},"taglio":{"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Automatici da sezione","tipo_staffa":"Staffa chiusa","rami_x":"2","rami_y":"2","rami_interni":"0","schema_interno":"Bracci paralleli","rotazione_staffa":"0","ancoraggio":"Da verificare","modello":"Con staffe","bw_x":"800","d_x":"509.91397849462362","asl_x":"1168.6724671354032","alpha_x":"90","cot_x":"","bw_y":"600","d_y":"708","asl_y":"1256.6370614359173","alpha_y":"90","cot_y":"","cot_torsione":"1","as_torsione":"0","chiusura_torsione":"Da confermare","modello_circolare":"Da scegliere","z_d":"0.75","eccentricita_mc_x":"0","eccentricita_mc_y":"0","azioni":[]},"momento_curvatura":{"N":"0","theta":"0","passi":"60","frazione":"1","campionamento":"Quadratico","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"dettagli_costruttivi":{"vita_durabilita":"50","qualita_copriferro":"No","elemento":"Da scegliere","aggregato":"20","cmin_dur":"","delta_c":"10","zona_sovrapposizione":"No","as_secondaria":"0","passo_secondaria":"0","zona_critica":"No","barre_trattenute":"Da confermare","ancoraggio_appoggi":"Da confermare"},"ancoraggi":{"schema_versione":1,"tipo":"Ancoraggio rettilineo","diametro":"","sigma":"","aderenza":"Buona","lunghezza":"","percentuale":"100","interferro":"0","confinamento":"Da verificare","posizione":"Da verificare","cautele":"Da verificare"},"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"materiali_custom":[],"layout":{},"resistenze_rapide":{"N":"0","tipo":"Plastico"},"calcola_armature":{"diametri":"12;16;20;24","n_superiori":"2;4;6","n_inferiori":"2;4;6;8","n_laterali":"0;2;4","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","staffe":"Ottimizza","obiettivo":"Peso","diametri_ortogonali":"8;10;12;16","passi_ortogonali":"100;150;200;250","max_diametri":"3","max_tentativi":"2000","ganci_phi":"20","riserva_torsione":"25","peso_peso":"1","peso_barre":"1","peso_diametri":"1","mostra":"10","simmetrica":false,"ancoraggio_confermato":false,"torsione_confermata":false,"ricerca_completa":true,"parallelismo":"Automatico","slu":"1","slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"}}}
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura attiva · nota ""
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "6"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Calcolo delle quattro direzioni…" · riquadri ""
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"20","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-124.8","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"124.80000000000001","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B11","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== attendi
+dati EF031222386175BC · byte 8391
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato D9E22A4A92124E9D
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura attiva · nota ""
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "6"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Mx+   800,03 kNm\nMx−   -447,89 kNm\nMy+   438,93 kNm\nMy−   -438,93 kNm" · nascosto · riquadri "Mx+ 800,03 kNm | Mx− -447,89 kNm | My+ 438,93 kNm | My− -438,93 kNm"
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"20","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-124.8","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"124.80000000000001","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B11","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== cella barre x [riga 0] «-200»
+dati 7B55122917A396EE · byte 9085
+  input.barre_manuali = [{"id":"B01","x":"-200","y":"310","phi":"20"},{"id":"B02","x":"-70","y":"310","phi":"20"},{"id":"B03","x":"70","y":"310","phi":"20"},{"id":"B04","x":"210","y":"310","phi":"20"},{"id":"B05","x":"-208","y":"-308","phi":"24"},{"id":"B06","x":"-124.8","y":"-308","phi":"24"},{"id":"B07","x":"-41.599999999999994","y":"-308","phi":"24"},{"id":"B08","x":"41.599999999999994","y":"-308","phi":"24"},{"id":"B09","x":"124.80000000000001","y":"-308","phi":"24"},{"id":"B10","x":"208","y":"-308","phi":"24"},{"id":"B11","x":"-212","y":"-104","phi":"16"},{"id":"B12","x":"212","y":"-104","phi":"16"},{"id":"B13","x":"-212","y":"104","phi":"16"},{"id":"B14","x":"212","y":"104","phi":"16"}]
+modificato 1 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
+risultato -
+stato "Modifiche acquisite · aggiornamento automatico in attesa…"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura attiva · nota ""
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "6"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Calcolo delle quattro direzioni…" · riquadri ""
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"-200","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"20","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-124.8","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"124.80000000000001","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B11","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== attendi
+dati C62B1C3E61F701BA · byte 9085
+  workspace_ca.taglio.d_x = "507.22580645161293"
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato 036562954C1859D5
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19.83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077.15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2.00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3.50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391.30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5.87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura spenta · nota "Sono attive le coordinate delle barre. Ripristina le barre da wizard per usare questi parametri."
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "6"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Mx+   800.05 kNm\nMx−   -447.91 kNm\nMy+   439.97 kNm\nMy−   -437.70 kNm" · nascosto · riquadri "Mx+ 800.05 kNm | Mx− -447.91 kNm | My+ 439.97 kNm | My− -437.70 kNm"
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 740752C2034CAC9B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"-200","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"20","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-124.8","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"124.80000000000001","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B11","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.70\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== cella barre phi [riga 2] «26»
+dati 796BAF904C0E5848 · byte 9085
+  input.barre_manuali[2].phi = "26"
+modificato 2 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
+risultato -
+stato "Modifiche acquisite · aggiornamento automatico in attesa…"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19.83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077.15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2.00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3.50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391.30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5.87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura spenta · nota "Sono attive le coordinate delle barre. Ripristina le barre da wizard per usare questi parametri."
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "6"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Calcolo delle quattro direzioni…" · riquadri ""
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 740752C2034CAC9B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"-200","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"26","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-124.8","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"124.80000000000001","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B11","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== attendi
+dati AA3EFC5CD38C27D2 · byte 9085
+  workspace_ca.taglio.asl_y = "1473.4069545336131"
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato EEB83DE274CA74F5
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19.83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077.15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2.00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3.50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391.30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5.87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura spenta · nota "Sono attive le coordinate delle barre. Ripristina le barre da wizard per usare questi parametri."
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "6"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Mx+   800.30 kNm\nMx−   -500.74 kNm\nMy+   466.92 kNm\nMy−   -453.02 kNm" · nascosto · riquadri "Mx+ 800.30 kNm | Mx− -500.74 kNm | My+ 466.92 kNm | My− -453.02 kNm"
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4991.9907265541815 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 E73717D9A1B9F28B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"-200","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"26","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-124.8","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"124.80000000000001","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B11","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== seleziona barre [3]
+dati AA3EFC5CD38C27D2 · byte 9085
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato EEB83DE274CA74F5
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19.83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077.15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2.00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3.50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391.30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5.87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura spenta · nota "Sono attive le coordinate delle barre. Ripristina le barre da wizard per usare questi parametri."
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "6"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Mx+   800.30 kNm\nMx−   -500.74 kNm\nMy+   466.92 kNm\nMy−   -453.02 kNm" · nascosto · riquadri "Mx+ 800.30 kNm | Mx− -500.74 kNm | My+ 466.92 kNm | My− -453.02 kNm"
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4991.9907265541815 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 E73717D9A1B9F28B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "B04" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata 3
+[ingressi]   {"id":"B01","phi":"20","x":"-200","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"26","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-124.8","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"124.80000000000001","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B11","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== campo armatura bottom_bar_count «8»
+dati 0DA46C9CFF200DD1 · byte 9085
+  input.bottom_bar_count = "8"
+modificato 3 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
+risultato -
+stato "Modifiche acquisite · aggiornamento automatico in attesa…"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura spenta · nota "Sono attive le coordinate delle barre. Ripristina le barre da wizard per usare questi parametri."
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "8"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Calcolo delle quattro direzioni…" · riquadri ""
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4991.9907265541815 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 E73717D9A1B9F28B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "B04" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata 3
+[ingressi]   {"id":"B01","phi":"20","x":"-200","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"26","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-124.8","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"124.80000000000001","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B11","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== attendi
+dati 0DA46C9CFF200DD1 · byte 9085
+modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato C654601AB218E116
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura spenta · nota "Sono attive le coordinate delle barre. Ripristina le barre da wizard per usare questi parametri."
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "8"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · spento · nota "Ripristina le barre da wizard per modificare gli strati automatici." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Mx+   800,30 kNm\nMx−   -500,74 kNm\nMy+   466,92 kNm\nMy−   -453,02 kNm" · nascosto · riquadri "Mx+ 800,30 kNm | Mx− -500,74 kNm | My+ 466,92 kNm | My− -453,02 kNm"
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4991.9907265541815 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 E73717D9A1B9F28B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "B04" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata 3
+[ingressi]   {"id":"B01","phi":"20","x":"-200","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"26","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-124.8","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"41.599999999999994","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"124.80000000000001","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B11","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== pulsante armatura Ripristina barre da wizard
+dati 8F83E9ECB1B6CF2F · byte 8391
+  input.barre_manuali rimosso
+  workspace_ca.taglio.d_x = "509.91397849462362"
+  workspace_ca.taglio.asl_y = "1256.6370614359173"
+modificato 4 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
+risultato -
+stato "Modifiche acquisite · aggiornamento automatico in attesa…"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura attiva · nota ""
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "8"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Calcolo delle quattro direzioni…" · riquadri ""
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 5679.999517690346 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 16 D90A63F6F39DF2A1 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 16 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"20","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-148.57142857142856","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-89.14285714285714","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"-29.714285714285722","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"29.714285714285722","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"89.14285714285717","y":"-308"}
+[ingressi]   {"id":"B11","phi":"24","x":"148.57142857142856","y":"-308"}
+[ingressi]   {"id":"B12","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B15","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B16","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== attendi
+dati 8F83E9ECB1B6CF2F · byte 8391
+modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato 17A9BB9B81D9979F
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura attiva · nota ""
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "8"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Mx+   1013,56 kNm\nMx−   -447,97 kNm\nMy+   492,28 kNm\nMy−   -492,29 kNm" · nascosto · riquadri "Mx+ 1013,56 kNm | Mx− -447,97 kNm | My+ 492,28 kNm | My− -492,29 kNm"
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 5679.999517690346 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 16 D90A63F6F39DF2A1 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 16 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"20","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-148.57142857142856","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-89.14285714285714","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"-29.714285714285722","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"29.714285714285722","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"89.14285714285717","y":"-308"}
+[ingressi]   {"id":"B11","phi":"24","x":"148.57142857142856","y":"-308"}
+[ingressi]   {"id":"B12","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B15","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B16","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.50\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.67\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.97\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== campo armatura bottom_bar_count «8»
+dati 8F83E9ECB1B6CF2F · byte 8391
+modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato 17A9BB9B81D9979F
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+== attendi
+dati 8F83E9ECB1B6CF2F · byte 8391
+modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato 17A9BB9B81D9979F
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+== conferma
+dati BE8D828171064C71 · byte 8436
+  combinazioni.SLU[0].visible = true
+  combinazioni.SLV[0].visible = true
+  combinazioni.SLE[0].visible = true
+modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato 17A9BB9B81D9979F
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+== riapri
+dati BE8D828171064C71 · byte 8436
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura attiva · nota ""
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "8"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Calcolo delle quattro direzioni…" · riquadri ""
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 5679.999517690346 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 16 D90A63F6F39DF2A1 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 16 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"20","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-148.57142857142856","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-89.14285714285714","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"-29.714285714285722","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"29.714285714285722","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"89.14285714285717","y":"-308"}
+[ingressi]   {"id":"B11","phi":"24","x":"148.57142857142856","y":"-308"}
+[ingressi]   {"id":"B12","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B15","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B16","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+== attendi
+dati BE8D828171064C71 · byte 8436
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato E06CA5BA27DE3423
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Rettangolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · nascosto
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "32" · nascosto
+[ingressi]   campo width_mm "Larghezza b" = "600"
+[ingressi]   campo height_mm "Altezza h" = "800"
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1200" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "400" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "250" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro no · campi nascosti
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "500" · nascosto
+[ingressi]   campo inner_width_mm "Larghezza foro" = "300"
+[ingressi]   campo inner_height_mm "Altezza foro" = "400"
+[ingressi] armatura attiva · nota ""
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "16" · nascosto
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "24" · nascosto
+[ingressi]   campo top_bar_count "Barre superiori" = "4"
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20"
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "8"
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "24"
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2"
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16"
+[ingressi] strato top · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato bottom · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "6"
+[ingressi]   campo second_bottom_diameter "Diametro" = "24"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "24"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "30"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "2"
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "2"
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Mx+   1013,56 kNm\nMx−   -447,97 kNm\nMy+   492,28 kNm\nMy−   -492,29 kNm" · nascosto · riquadri "Mx+ 1013,56 kNm | Mx− -447,97 kNm | My+ 492,28 kNm | My− -492,29 kNm"
+[ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 5679.999517690346 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 16 D90A63F6F39DF2A1 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 16 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
+[ingressi]   {"id":"B02","phi":"20","x":"-70","y":"310"}
+[ingressi]   {"id":"B03","phi":"20","x":"70","y":"310"}
+[ingressi]   {"id":"B04","phi":"20","x":"210","y":"310"}
+[ingressi]   {"id":"B05","phi":"24","x":"-208","y":"-308"}
+[ingressi]   {"id":"B06","phi":"24","x":"-148.57142857142856","y":"-308"}
+[ingressi]   {"id":"B07","phi":"24","x":"-89.14285714285714","y":"-308"}
+[ingressi]   {"id":"B08","phi":"24","x":"-29.714285714285722","y":"-308"}
+[ingressi]   {"id":"B09","phi":"24","x":"29.714285714285722","y":"-308"}
+[ingressi]   {"id":"B10","phi":"24","x":"89.14285714285717","y":"-308"}
+[ingressi]   {"id":"B11","phi":"24","x":"148.57142857142856","y":"-308"}
+[ingressi]   {"id":"B12","phi":"24","x":"208","y":"-308"}
+[ingressi]   {"id":"B13","phi":"16","x":"-212","y":"-104"}
+[ingressi]   {"id":"B14","phi":"16","x":"212","y":"-104"}
+[ingressi]   {"id":"B15","phi":"16","x":"-212","y":"104"}
+[ingressi]   {"id":"B16","phi":"16","x":"212","y":"104"}
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.50\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.67\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.97\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF

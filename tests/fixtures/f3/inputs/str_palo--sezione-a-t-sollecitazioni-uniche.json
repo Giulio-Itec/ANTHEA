@@ -1,0 +1,200 @@
+{
+  "module": "str_palo",
+  "id": "sezione-a-t-sollecitazioni-uniche",
+  "origin": "Fixture sintetica F5.10 (proposta F5 7.2, cattura prima con la vista storica)",
+  "source": null,
+  "data": {
+    "versione_sezione": 2,
+    "input": {
+      "shape": "A T",
+      "diameter_mm": "1000",
+      "circular_sides": "32",
+      "width_mm": "600",
+      "height_mm": "900",
+      "flange_width_mm": "1400",
+      "web_width_mm": "400",
+      "flange_thickness_mm": "200",
+      "cover_mm": "40",
+      "longitudinal_bar_count": "16",
+      "longitudinal_bar_diameter_mm": "24",
+      "top_bar_count": "6",
+      "top_bar_diameter_mm": "16",
+      "bottom_bar_count": "4",
+      "bottom_bar_diameter_mm": "25",
+      "side_bar_count_per_side": "2",
+      "side_bar_diameter_mm": "12",
+      "transverse_bar_diameter_mm": "10",
+      "transverse_spacing_mm": "200",
+      "apply_pile_requirements": false,
+      "dissipative_zone": false,
+      "fck_mpa": 30,
+      "fyk_mpa": 500,
+      "alpha_cc": "0.85",
+      "gamma_c": "1.50",
+      "gamma_s": "1.15",
+      "steel_modulus_mpa": 200000,
+      "axial_force_kn": "2500",
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "apply_minimum_eccentricity": false,
+      "minimum_eccentricity_mm": "0",
+      "classe_cls": "C30/37",
+      "n": "",
+      "materiale_cls_nome": "C30/37",
+      "cls_diagramma": "Parabola-rettangolo",
+      "classe_acciaio": "B500B",
+      "materiale_acciaio_nome": "B500B",
+      "steel_fu_mpa": 550,
+      "steel_eps_u": 50,
+      "steel_diagramma": "Elastoplastico",
+      "flange_bottom_count": "4",
+      "flange_bottom_diameter_mm": "14",
+      "flange_bottom_offset_mm": "70"
+    },
+    "n_automatico": true,
+    "combinazioni": {
+      "SLU": [
+        {
+          "id": "510000010f514a008000000000000001",
+          "nome": "SLU 1",
+          "azioni": [
+            "-300",
+            "450",
+            "40",
+            "30",
+            "180",
+            "0"
+          ],
+          "visible": true,
+          "elemento": "Trave T1"
+        },
+        {
+          "id": "510000020f514a008000000000000002",
+          "nome": "SLU 2",
+          "azioni": [
+            "-150",
+            "-120",
+            "10",
+            "10",
+            "90",
+            "5"
+          ],
+          "visible": false,
+          "elemento": "Trave T2"
+        }
+      ],
+      "SLV": [
+        {
+          "id": "510000030f514a008000000000000003",
+          "nome": "SLV 1",
+          "azioni": [
+            "-200",
+            "300",
+            "80",
+            "60",
+            "140",
+            "10"
+          ],
+          "visible": true,
+          "elemento": "Trave T1"
+        }
+      ],
+      "SLE": [
+        {
+          "id": "510000040f514a008000000000000004",
+          "nome": "Rara",
+          "azioni": [
+            "-200",
+            "260",
+            "20",
+            "0",
+            "0",
+            "0"
+          ],
+          "visible": true,
+          "elemento": "Trave T1"
+        }
+      ],
+      "SLE_FREQ": [
+        {
+          "id": "510000050f514a008000000000000005",
+          "nome": "Frequente",
+          "azioni": [
+            "-200",
+            "200",
+            "15",
+            "0",
+            "0",
+            "0"
+          ],
+          "visible": true,
+          "elemento": "Trave T1"
+        }
+      ],
+      "SLE_QP": [
+        {
+          "id": "510000060f514a008000000000000006",
+          "nome": "Quasi permanente",
+          "azioni": [
+            "-200",
+            "150",
+            "10",
+            "0",
+            "0",
+            "0"
+          ],
+          "visible": true,
+          "elemento": "Trave T1"
+        }
+      ]
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "EN 1992-1-1",
+      "sollecitazioni_versione": 1,
+      "tab": 1,
+      "dominio3d": {
+        "stato": "SLU",
+        "modello_resistente": "Plastico",
+        "angoli": "32",
+        "criterio": "Eccentricità costante",
+        "filtro": "Tutte"
+      },
+      "dominio2d": {
+        "stato": "SLV",
+        "modello_resistente": "Elastico",
+        "tipo": "Mx–My",
+        "theta": "0",
+        "N": "-200",
+        "filtro": "Tutte"
+      },
+      "taglio": {
+        "chiusura_torsione": "Confermato",
+        "as_torsione": "800",
+        "cot_torsione": "1.5",
+        "azioni": []
+      },
+      "dettagli_costruttivi": {
+        "elemento": "Trave",
+        "ancoraggio_appoggi": "Confermato",
+        "barre_trattenute": "Confermato",
+        "aggregato": "16"
+      },
+      "ancoraggi": {
+        "schema_versione": 1,
+        "tipo": "Sovrapposizione rettilinea",
+        "diametro": "25",
+        "lunghezza": "900",
+        "percentuale": "50",
+        "interferro": "30",
+        "posizione": "Verificato sul disegno"
+      },
+      "sle": {
+        "SLE": {
+          "modello": "Lineare",
+          "esposizione": "XC3"
+        }
+      }
+    }
+  }
+}

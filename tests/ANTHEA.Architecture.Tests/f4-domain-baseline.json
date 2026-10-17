@@ -5870,14 +5870,6 @@
     {
       "File": "X.Desktop/Wpf/ConcreteStress.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.BuildStressTabs",
-      "Fingerprint": "A9C1A6570EA11330F5A7F185B06A5CB4DECA5208BD2588217C9A2BED52A0DF3B",
-      "Count": 1,
-      "Example": "Input . D ( \"fck_mpa\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteStress.cs",
-      "Rule": "R4-implicit-number",
       "Owner": "ConcreteWorkspace.UpdateStressSelection",
       "Fingerprint": "121D862049AD40ECCFA96AF1FE8ABA6AB59C64A344BDBE385EAA71D1FB0F54AB",
       "Count": 1,
@@ -5906,14 +5898,6 @@
       "Fingerprint": "EEC87C6E2BDB9AAFA371050DFE6BB6CCB89F4A18BE8B051238CC305AA6970FAC",
       "Count": 1,
       "Example": "options . D ( \"n_trefoli\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteTendons.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.TendonRow",
-      "Fingerprint": "6037A051E795BC873C480D05126D16A45CF2D270F325498BB9E716EF6CF5512D",
-      "Count": 2,
-      "Example": "values . D ( \"area\" )"
     },
     {
       "File": "X.Desktop/Wpf/ConcreteTimeEffectsView.cs",
@@ -6698,14 +6682,6 @@
       "Fingerprint": "E131179A9B3578095A0102B6CE1E33680D6C3D32A2508342054D67706D854170",
       "Count": 1,
       "Example": "Stirrups . D ( \"rami_x\" , 2 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.BuildControlPanel",
-      "Fingerprint": "84107BF49992FEE4F36E8954FC47E8766E802ED7A95948BCE19F325C6A9CD535",
-      "Count": 1,
-      "Example": "Input . D ( \"fck_mpa\" )"
     },
     {
       "File": "X.Desktop/Wpf/ConcreteWorkspace.cs",
@@ -12762,6 +12738,22 @@
       "Fingerprint": "EF651CD0EA912A7E1931885FA8EA13C1FE5959664B4B352E5B2C30102744D21B",
       "Count": 1,
       "Example": "options . D ( \"dimensione_rd\" , 5 )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteInputPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ConcreteInputPresentation.RheologyStrength",
+      "Fingerprint": "60B7DD76905591A0A82C2C54FBC02B50F357F274612B2B39A55DB2273376582C",
+      "Count": 1,
+      "Example": "input . D ( \"fck_mpa\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteInputPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ConcreteInputPresentation.TendonDiameter",
+      "Fingerprint": "85B43446C02C9E906D65564BEC0CEAC5B05BABC18D57E3BFDAED6B3D4F875713",
+      "Count": 1,
+      "Example": "values . D ( \"area\" )"
     },
     {
       "File": "src/ANTHEA.Application/Concrete/ConcretePreview.cs",

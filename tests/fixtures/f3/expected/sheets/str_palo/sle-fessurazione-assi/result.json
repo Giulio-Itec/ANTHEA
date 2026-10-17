@@ -1,0 +1,2137 @@
+{
+  "ancoraggio": null,
+  "ancoraggio_esito": "Ancoraggi e giunzioni\nDA COMPLETARE\nDati da completare\nAncoraggi disponibili per NTC 2018 con integrazioni EC2.\nNTC capitolo 4 / EC2 §§8.4 e 8.7\n\n",
+  "avvisi": [
+    "Compressione negativa; azioni in kN e kNm",
+    "Taglio e fessurazione: vedere esiti specifici e limiti di applicabilità"
+  ],
+  "dati": {
+    "combinazioni": {
+      "SLE": [
+        {
+          "azioni": [
+            "-350",
+            "180",
+            "10"
+          ],
+          "id": "<GUID-2>",
+          "nome": "Rara 1",
+          "visible": true
+        },
+        {
+          "azioni": [
+            "-100",
+            "210",
+            "40"
+          ],
+          "id": "<GUID-3>",
+          "nome": "Rara 2",
+          "visible": true
+        }
+      ],
+      "SLE_FREQ": [
+        {
+          "azioni": [
+            "-350",
+            "150",
+            "10"
+          ],
+          "id": "<GUID-4>",
+          "nome": "Frequente 1",
+          "visible": true
+        },
+        {
+          "azioni": [
+            "200",
+            "60",
+            "0"
+          ],
+          "id": "<GUID-5>",
+          "nome": "Frequente trazione",
+          "visible": true
+        }
+      ],
+      "SLE_QP": [
+        {
+          "azioni": [
+            "-350",
+            "120",
+            "5"
+          ],
+          "id": "<GUID-6>",
+          "nome": "Quasi permanente",
+          "visible": true
+        }
+      ],
+      "SLU": [
+        {
+          "azioni": [
+            "-500",
+            "260",
+            "30"
+          ],
+          "id": "<GUID-1>",
+          "nome": "SLU",
+          "visible": true
+        }
+      ],
+      "SLV": []
+    },
+    "input": {
+      "alpha_cc": "0.85",
+      "apply_minimum_eccentricity": false,
+      "apply_pile_requirements": false,
+      "axial_force_kn": "2500",
+      "bottom_bar_count": "6",
+      "bottom_bar_diameter_mm": "24",
+      "circular_sides": "32",
+      "classe_acciaio": "B450C",
+      "classe_cls": "C30/37",
+      "cls_diagramma": "Parabola-rettangolo",
+      "cover_mm": "50",
+      "diameter_mm": "1000",
+      "dissipative_zone": false,
+      "fck_mpa": 30,
+      "flange_bottom_count": "0",
+      "flange_bottom_diameter_mm": "20",
+      "flange_bottom_offset_mm": "70",
+      "flange_thickness_mm": "250",
+      "flange_width_mm": "1200",
+      "fyk_mpa": 450,
+      "gamma_c": "1.50",
+      "gamma_s": "1.15",
+      "gettato_sottile": "No",
+      "height_mm": "600",
+      "inner_diameter_mm": "500",
+      "inner_height_mm": "400",
+      "inner_width_mm": "300",
+      "longitudinal_bar_count": "16",
+      "longitudinal_bar_diameter_mm": "24",
+      "materiale_acciaio_nome": "B450C",
+      "materiale_cls_nome": "C30/37",
+      "minimum_eccentricity_mm": "0",
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "n": "",
+      "second_bottom_count": "6",
+      "second_bottom_diameter": "24",
+      "second_bottom_gap": "30",
+      "second_inner_count": "16",
+      "second_inner_diameter": "24",
+      "second_inner_gap": "30",
+      "second_top_count": "4",
+      "second_top_diameter": "20",
+      "second_top_gap": "30",
+      "shape": "Rettangolare",
+      "side_bar_count_per_side": "2",
+      "side_bar_diameter_mm": "16",
+      "staffe_presenti": "Sì",
+      "steel_diagramma": "Elastoplastico",
+      "steel_eps_u": 75,
+      "steel_fu_mpa": 540,
+      "steel_modulus_mpa": 200000,
+      "top_bar_count": "4",
+      "top_bar_diameter_mm": "20",
+      "transverse_bar_diameter_mm": "10",
+      "transverse_spacing_mm": "200",
+      "web_width_mm": "400",
+      "width_mm": "400"
+    },
+    "n_automatico": true,
+    "versione_sezione": 2,
+    "workspace_ca": {
+      "ancoraggi": {
+        "aderenza": "Buona",
+        "cautele": "Da verificare",
+        "confinamento": "Da verificare",
+        "diametro": "",
+        "interferro": "0",
+        "lunghezza": "",
+        "percentuale": "100",
+        "posizione": "Da verificare",
+        "schema_versione": 1,
+        "sigma": "",
+        "tipo": "Ancoraggio rettilineo"
+      },
+      "calcola_armature": {
+        "ancoraggio": "1",
+        "ancoraggio_confermato": false,
+        "diametri": "12;16;20;24",
+        "diametri_ortogonali": "8;10;12;16",
+        "diametri_staffe": "8;10",
+        "ganci_phi": "20",
+        "max_diametri": "3",
+        "max_tentativi": "2000",
+        "mostra": "10",
+        "n_circolari": "8;12;16;20;24",
+        "n_inferiori": "2;4;6;8",
+        "n_laterali": "0;2;4",
+        "n_superiori": "2;4;6",
+        "obiettivo": "Peso",
+        "parallelismo": "Automatico",
+        "passi_ortogonali": "100;150;200;250",
+        "passi_staffe": "100;150;200;250",
+        "peso_barre": "1",
+        "peso_diametri": "1",
+        "peso_peso": "1",
+        "ricerca_completa": true,
+        "riserva_torsione": "25",
+        "sigma_c_qp": "1",
+        "sigma_c_rara": "1",
+        "sigma_s_rara": "1",
+        "simmetrica": false,
+        "slu": "1",
+        "slv": "1",
+        "staffe": "Ottimizza",
+        "torsione": "1",
+        "torsione_confermata": false,
+        "vt_cls": "1",
+        "vt_staffe": "1",
+        "vx": "1",
+        "vy": "1",
+        "wk_freq": "1",
+        "wk_qp": "1"
+      },
+      "coefficienti": {
+        "AlphaCC": "0.85",
+        "AlphaCT": "1",
+        "GammaC": "1.50",
+        "GammaCAccidental": "1.2",
+        "GammaCE": "1.2",
+        "GammaF": "1.5",
+        "GammaS": "1.15",
+        "GammaSAccidental": "1",
+        "GammaSPrestress": "1.15",
+        "GammaSPrestressAccidental": "1",
+        "ServiceabilityStressConcreteCoefficientForCharacteristicCombination": "0.6",
+        "ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination": "0.45",
+        "ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination": "0.75",
+        "ServiceabilityStressSteelCoefficientForCharacteristicCombination": "0.8",
+        "SteelCoefficientStrainTension": "0.9"
+      },
+      "dettagli_costruttivi": {
+        "aggregato": "20",
+        "ancoraggio_appoggi": "Da confermare",
+        "as_secondaria": "0",
+        "barre_trattenute": "Da confermare",
+        "cmin_dur": "",
+        "delta_c": "10",
+        "elemento": "Da scegliere",
+        "passo_secondaria": "0",
+        "qualita_copriferro": "No",
+        "vita_durabilita": "50",
+        "zona_critica": "No",
+        "zona_sovrapposizione": "No"
+      },
+      "dominio2d": {
+        "N": "-300",
+        "angoli": "64",
+        "assi": "Principali",
+        "criterio": "N costante",
+        "filtro": "Tutte",
+        "interpolazione": "Quadratica",
+        "origine_x": "0",
+        "origine_y": "0",
+        "proietta": "Sì",
+        "rotazione": "0",
+        "stato": "SLU",
+        "strategia": "Iterativo",
+        "suddivisioni_n": "50",
+        "tipo": "Mx–My",
+        "trazione_cls": "No"
+      },
+      "dominio3d": {
+        "angoli": "32",
+        "assi": "Locali",
+        "criterio": "N costante",
+        "filtro": "Tutte",
+        "interpolazione": "Quadratica",
+        "origine_x": "0",
+        "origine_y": "0",
+        "proietta": "No",
+        "rotazione": "0",
+        "stato": "SLU",
+        "strategia": "Iterativo",
+        "suddivisioni_n": "50",
+        "trazione_cls": "No"
+      },
+      "layout": {},
+      "materiale_trefolo": {
+        "Ep": 195000,
+        "diagramma": "Elastoplastico",
+        "eps_u": 75,
+        "fpk": 1860,
+        "fpyk": 1640,
+        "id": "EN1992:Y1860",
+        "nome": "Y1860",
+        "tipo": "Trefoli"
+      },
+      "materiali_custom": [],
+      "momento_curvatura": {
+        "N": "0",
+        "angoli": "64",
+        "campionamento": "Quadratico",
+        "frazione": "1",
+        "passi": "60",
+        "raffina_snervamento": "12",
+        "theta": "0",
+        "tolleranza_n": "1",
+        "trazione_cls": "No"
+      },
+      "normativa": "Model Code 2010",
+      "nota": "",
+      "resistenze_rapide": {
+        "N": "-300",
+        "tipo": "Plastico"
+      },
+      "sle": {
+        "SLE": {
+          "aderenza": "Migliorata",
+          "asse_neutro": false,
+          "assi": "Personalizzati",
+          "contour": "Barre · tasso resistenza",
+          "copriferro_fessure": "55",
+          "durata": "Breve",
+          "esposizione": "XD3",
+          "limite_fessure": "0.2",
+          "modello": "Lineare",
+          "n_armature": "17.054157409680567",
+          "n_trefoli": "5.9385012408709112",
+          "origine_x": "20",
+          "origine_y": "-40",
+          "phi": "1.8",
+          "phi_trefoli": "0",
+          "rotazione": "10",
+          "sensibilita": "Sensibile",
+          "spaziatura_fessure": "180",
+          "testi_barre": true,
+          "trazione_cls": "No"
+        },
+        "SLE_FREQ": {
+          "aderenza": "Migliorata",
+          "assi": "Personalizzati",
+          "contour": "CLS · deformazioni",
+          "copriferro_fessure": "55",
+          "durata": "Breve",
+          "esposizione": "XD3",
+          "limite_fessure": "0.2",
+          "modello": "Lineare",
+          "n_armature": "17.054157409680567",
+          "n_trefoli": "5.9385012408709112",
+          "origine_x": "20",
+          "origine_y": "-40",
+          "phi": "1.8",
+          "phi_trefoli": "0",
+          "rotazione": "10",
+          "sensibilita": "Sensibile",
+          "spaziatura_fessure": "180",
+          "testi_cls": true,
+          "trazione_cls": "No"
+        },
+        "SLE_QP": {
+          "aderenza": "Migliorata",
+          "assi": "Personalizzati",
+          "contour": "Sezione · tasso resistenza",
+          "copriferro_fessure": "55",
+          "durata": "Breve",
+          "esposizione": "XD3",
+          "limite_fessure": "0.2",
+          "modello": "Lineare",
+          "n_armature": "17.054157409680567",
+          "n_trefoli": "5.9385012408709112",
+          "origine_x": "20",
+          "origine_y": "-40",
+          "phi": "1.8",
+          "phi_trefoli": "0",
+          "rotazione": "10",
+          "sensibilita": "Sensibile",
+          "spaziatura_fessure": "180",
+          "trazione_cls": "No"
+        }
+      },
+      "sle_comuni": {
+        "aderenza": "Migliorata",
+        "assi": "Personalizzati",
+        "copriferro_fessure": "55",
+        "durata": "Breve",
+        "esposizione": "XD3",
+        "limite_fessure": "0.2",
+        "modello": "Lineare",
+        "n_armature": "17.054157409680567",
+        "n_trefoli": "5.9385012408709112",
+        "origine_x": "20",
+        "origine_y": "-40",
+        "phi": "1.8",
+        "phi_trefoli": "0",
+        "rotazione": "10",
+        "sensibilita": "Sensibile",
+        "spaziatura_fessure": "180",
+        "trazione_cls": "No"
+      },
+      "sle_precedenti_unificazione": {
+        "SLE": {
+          "aderenza": "Migliorata",
+          "asse_neutro": false,
+          "assi": "Personalizzati",
+          "contour": "Barre · tasso resistenza",
+          "copriferro_fessure": "55",
+          "durata": "Breve",
+          "esposizione": "XD3",
+          "limite_fessure": "0.2",
+          "modello": "Lineare",
+          "origine_x": "20",
+          "origine_y": "-40",
+          "phi": "1.8",
+          "phi_trefoli": "0",
+          "rotazione": "10",
+          "sensibilita": "Sensibile",
+          "spaziatura_fessure": "180",
+          "testi_barre": true,
+          "trazione_cls": "No"
+        },
+        "SLE_FREQ": {
+          "aderenza": "Migliorata",
+          "assi": "Personalizzati",
+          "contour": "CLS · deformazioni",
+          "copriferro_fessure": "55",
+          "durata": "Breve",
+          "esposizione": "XD3",
+          "limite_fessure": "0.2",
+          "modello": "Lineare",
+          "origine_x": "20",
+          "origine_y": "-40",
+          "phi": "1.8",
+          "phi_trefoli": "0",
+          "rotazione": "10",
+          "sensibilita": "Sensibile",
+          "spaziatura_fessure": "180",
+          "testi_cls": true,
+          "trazione_cls": "No"
+        },
+        "SLE_QP": {
+          "aderenza": "Migliorata",
+          "assi": "Personalizzati",
+          "contour": "Sezione · tasso resistenza",
+          "copriferro_fessure": "55",
+          "durata": "Breve",
+          "esposizione": "XD3",
+          "limite_fessure": "0.2",
+          "modello": "Lineare",
+          "origine_x": "20",
+          "origine_y": "-40",
+          "phi": "1.8",
+          "phi_trefoli": "0",
+          "rotazione": "10",
+          "sensibilita": "Sensibile",
+          "spaziatura_fessure": "180",
+          "trazione_cls": "No"
+        }
+      },
+      "tab": 3,
+      "taglio": {
+        "alpha_x": "90",
+        "alpha_y": "90",
+        "ancoraggio": "Da verificare",
+        "as_torsione": "0",
+        "asl_x": "1168.6724671354032",
+        "asl_y": "1256.6370614359173",
+        "azioni": [],
+        "bw_x": "600",
+        "bw_y": "400",
+        "chiusura_torsione": "Da confermare",
+        "cot_torsione": "1",
+        "cot_x": "",
+        "cot_y": "",
+        "d_x": "329.91397849462362",
+        "d_y": "528",
+        "eccentricita_mc_x": "0",
+        "eccentricita_mc_y": "0",
+        "modello": "Con staffe",
+        "modello_circolare": "Da scegliere",
+        "parametri": "Automatici da sezione",
+        "parametri_precedenti": {
+          "asl_x": "",
+          "asl_y": "",
+          "bw_x": "",
+          "bw_y": "",
+          "d_x": "",
+          "d_y": ""
+        },
+        "rami_interni": "0",
+        "rami_x": "2",
+        "rami_y": "2",
+        "rotazione_staffa": "0",
+        "schema_interno": "Bracci paralleli",
+        "tipo_staffa": "Staffa chiusa",
+        "z_d": "0.75"
+      },
+      "trefoli": [],
+      "versione": 2
+    }
+  },
+  "dettagli_costruttivi": [],
+  "dettagli_esito": "Controlli della sezione\nDA COMPLETARE\nDati da completare\nI dettagli implementati sono riferiti a NTC 2018 con integrazioni EC2.\nNTC capitolo 4 / EC2\n\nIn attesa dei dati dell’elemento.\nIn attesa dei dati dell’elemento.\nIn attesa dei dati dell’elemento.\n",
+  "domini": {
+    "2D:SLU": {
+      "<GUID-1>": {
+        "Resistance": {
+          "Length": 640.7853934389095,
+          "Mx": 562.4887375619812,
+          "My": 64.90254664176699,
+          "N": -300
+        },
+        "Response": {
+          "CMax": 0,
+          "CMin": -17,
+          "EcMax": 5.16405972950031,
+          "EcMin": -3.5,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 3.997646982816975,
+          "EsMin": -2.3659876073912023,
+          "NeutralAngle": 25.805634954490312,
+          "NeutralDistance": 288.5514526617248,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 391.304347826087,
+          "SMin": -391.304347826087,
+          "UsefulDepth": 630.8017421918887
+        },
+        "Status": "Entro il dominio · azione proiettata",
+        "Utilization": 0.46223147707264156
+      }
+    },
+    "2D:SLV": {},
+    "3D:SLU": {
+      "<GUID-1>": {
+        "Resistance": {
+          "Length": 771.1360234246417,
+          "Mx": 583.119180984025,
+          "My": 67.27650980397969,
+          "N": -500.0966492792013
+        },
+        "Response": {
+          "CMax": 0,
+          "CMin": -17,
+          "EcMax": 4.4756711450114475,
+          "EcMin": -3.5,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 3.397593488165938,
+          "EsMin": -2.451868944733531,
+          "NeutralAngle": 26.91321291976758,
+          "NeutralDistance": 314.2371478904734,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 391.304347826087,
+          "SMin": -391.304347826087,
+          "UsefulDepth": 631.9686970566837
+        },
+        "Status": "Entro il dominio",
+        "Utilization": 0.44587853922176074
+      }
+    },
+    "3D:SLV": {}
+  },
+  "errore": "",
+  "errori_calcolo": {},
+  "momento_curvatura": null,
+  "motore": "GPCChecker.Concrete.dll",
+  "normativa_riferimento": "Model Code 2010",
+  "riepilogo_verifiche": {
+    "2D:SLU": {
+      "Completed": 1,
+      "Governing": "SLU",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0.46223147707264156,
+      "Status": "VERIFICATA",
+      "Title": "2D · Plastico",
+      "Total": 1
+    },
+    "2D:SLV": {
+      "Completed": 0,
+      "Governing": "—",
+      "Missing": 0,
+      "Passed": null,
+      "Ratio": null,
+      "Status": "NESSUNA AZIONE",
+      "Title": "2D · Elastico",
+      "Total": 0
+    },
+    "3D:SLU": {
+      "Completed": 1,
+      "Governing": "SLU",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0.44587853922176074,
+      "Status": "VERIFICATA",
+      "Title": "3D · Plastico",
+      "Total": 1
+    },
+    "3D:SLV": {
+      "Completed": 0,
+      "Governing": "—",
+      "Missing": 0,
+      "Passed": null,
+      "Ratio": null,
+      "Status": "NESSUNA AZIONE",
+      "Title": "3D · Elastico",
+      "Total": 0
+    },
+    "SLE:tensioni": {
+      "Completed": 2,
+      "Governing": "Rara 2",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0.7877194524203648,
+      "Status": "VERIFICATA",
+      "Title": "Rara · tensioni",
+      "Total": 2
+    },
+    "SLE_QP:fessurazione": {
+      "Completed": 1,
+      "Governing": "Quasi permanente",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0.14915572823637946,
+      "Status": "VERIFICATA",
+      "Title": "Quasi permanente · fessurazione",
+      "Total": 1
+    },
+    "SLE_QP:tensioni": {
+      "Completed": 1,
+      "Governing": "Quasi permanente",
+      "Missing": 0,
+      "Passed": true,
+      "Ratio": 0.45715811246882865,
+      "Status": "VERIFICATA",
+      "Title": "Quasi permanente · tensioni",
+      "Total": 1
+    },
+    "Taglio:x": {
+      "Completed": 0,
+      "Governing": "—",
+      "Missing": 0,
+      "Passed": null,
+      "Ratio": null,
+      "Status": "NESSUNA AZIONE",
+      "Title": "Taglio Vx",
+      "Total": 0
+    },
+    "Taglio:y": {
+      "Completed": 0,
+      "Governing": "—",
+      "Missing": 0,
+      "Passed": null,
+      "Ratio": null,
+      "Status": "NESSUNA AZIONE",
+      "Title": "Taglio Vy",
+      "Total": 0
+    }
+  },
+  "taglio": {},
+  "tensioni": {
+    "SLE": {
+      "<GUID-2>": {
+        "CrackResult": {
+          "BarSpacing": null,
+          "Details": [
+            {
+              "Expression": "Rara · XD3 · Sensibile · durata Breve · aderenza Migliorata",
+              "Note": "",
+              "Symbol": "Verifica",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Lineare · CLS teso: No",
+              "Note": "Tensioni e piano di deformazione provenienti da Checker; compressione negativa.",
+              "Symbol": "Modello",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Azione negli assi Personalizzati",
+              "Note": "",
+              "Symbol": "N",
+              "Unit": "kN",
+              "Value": -350
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "Mx",
+              "Unit": "kNm",
+              "Value": 180
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "My",
+              "Unit": "kNm",
+              "Value": 10
+            },
+            {
+              "Expression": "Coefficiente utilizzato nell'analisi tensionale",
+              "Note": "",
+              "Symbol": "φ",
+              "Unit": "−",
+              "Value": 1.8
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non compare direttamente nella formula wk: qui si usa fctm, non fctd.",
+              "Symbol": "γc (input)",
+              "Unit": "−",
+              "Value": 1.5
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non è applicato come divisore aggiuntivo di σs nella formula wk.",
+              "Symbol": "γs (input)",
+              "Unit": "−",
+              "Value": 1.15
+            },
+            {
+              "Expression": "Model Code 2010",
+              "Note": "",
+              "Symbol": "Normativa fessurazione",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Non richiesta: verificare Quasi permanente",
+              "Note": "Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilità.",
+              "Symbol": "Criterio",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Limite di apertura selezionato",
+              "Note": "Nessun limite di apertura numerico per questo ramo.",
+              "Symbol": "wlim",
+              "Unit": "mm",
+              "Value": null
+            }
+          ],
+          "EffectiveArea": null,
+          "EffectiveSteel": null,
+          "Limit": null,
+          "Passed": null,
+          "Ratio": null,
+          "Regions": [],
+          "SpacingSource": null,
+          "Status": "Non richiesta: verificare Quasi permanente",
+          "Width": null
+        },
+        "Cracking": "Non richiesta: verificare Quasi permanente",
+        "Ratio": 0.5401427072252,
+        "State": {
+          "BarStrains": [-0.6137533943996201,-0.5107063526594388,-0.4076593109192572,-0.30461226917907586,0.25272268287468835,0.31359970445658014,0.374476726038472,0.43535374762036383,0.49623076920225556,0.5571077907841474,-0.03629266996454984,0.2776044725670797,-0.32809871351557407,-0.01420157098394452
+          ],
+          "ConcreteStressLimit": 18,
+          "ConcreteVertices": [
+            {
+              "Id": "C1",
+              "Strain": 0.30295511568683675,
+              "Stress": 0,
+              "X": -200,
+              "Y": -300
+            },
+            {
+              "Id": "C2",
+              "Strain": 0.7785568467953665,
+              "Stress": 0,
+              "X": 200,
+              "Y": -300
+            },
+            {
+              "Id": "C3",
+              "Strain": -0.3534493566353311,
+              "Stress": -4.145022801709339,
+              "X": 200,
+              "Y": 300
+            },
+            {
+              "Id": "C4",
+              "Strain": -0.8290510877438608,
+              "Stress": -9.722568730053599,
+              "X": -200,
+              "Y": 300
+            }
+          ],
+          "Response": {
+            "CMax": 0,
+            "CMin": -9.722568730053599,
+            "EcMax": 0.7785568467953665,
+            "EcMin": -0.8290510877438608,
+            "EpMax": null,
+            "EpMin": null,
+            "EsMax": 0.5571077907841474,
+            "EsMin": -0.6137533943996201,
+            "NeutralAngle": 32.219575385653116,
+            "NeutralDistance": 371.75753182472,
+            "PMax": null,
+            "PMin": null,
+            "SMax": 111.42155815682949,
+            "SMin": -122.75067887992402,
+            "UsefulDepth": 634.3304260169359
+          },
+          "SteelStressLimit": 360,
+          "sigma_acciaio": 122.75067887992402,
+          "sigma_cls": -9.722568730053599,
+          "tensioni_barre": [-122.75067887992402,-102.14127053188774,-81.53186218385144,-60.92245383581517,50.54453657493768,62.71994089131604,74.8953452076944,87.07074952407277,99.24615384045113,111.42155815682949,-7.258533992909969,55.520894513415946,-65.61974270311482,-2.840314196788904
+          ]
+        },
+        "Status": "Entro limiti tensionali"
+      },
+      "<GUID-3>": {
+        "CrackResult": {
+          "BarSpacing": null,
+          "Details": [
+            {
+              "Expression": "Rara · XD3 · Sensibile · durata Breve · aderenza Migliorata",
+              "Note": "",
+              "Symbol": "Verifica",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Lineare · CLS teso: No",
+              "Note": "Tensioni e piano di deformazione provenienti da Checker; compressione negativa.",
+              "Symbol": "Modello",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Azione negli assi Personalizzati",
+              "Note": "",
+              "Symbol": "N",
+              "Unit": "kN",
+              "Value": -100
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "Mx",
+              "Unit": "kNm",
+              "Value": 210
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "My",
+              "Unit": "kNm",
+              "Value": 40
+            },
+            {
+              "Expression": "Coefficiente utilizzato nell'analisi tensionale",
+              "Note": "",
+              "Symbol": "φ",
+              "Unit": "−",
+              "Value": 1.8
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non compare direttamente nella formula wk: qui si usa fctm, non fctd.",
+              "Symbol": "γc (input)",
+              "Unit": "−",
+              "Value": 1.5
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non è applicato come divisore aggiuntivo di σs nella formula wk.",
+              "Symbol": "γs (input)",
+              "Unit": "−",
+              "Value": 1.15
+            },
+            {
+              "Expression": "Model Code 2010",
+              "Note": "",
+              "Symbol": "Normativa fessurazione",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Non richiesta: verificare Quasi permanente",
+              "Note": "Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilità.",
+              "Symbol": "Criterio",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Limite di apertura selezionato",
+              "Note": "Nessun limite di apertura numerico per questo ramo.",
+              "Symbol": "wlim",
+              "Unit": "mm",
+              "Value": null
+            }
+          ],
+          "EffectiveArea": null,
+          "EffectiveSteel": null,
+          "Limit": null,
+          "Passed": null,
+          "Ratio": null,
+          "Regions": [],
+          "SpacingSource": null,
+          "Status": "Non richiesta: verificare Quasi permanente",
+          "Width": null
+        },
+        "Cracking": "Non richiesta: verificare Quasi permanente",
+        "Ratio": 0.7877194524203648,
+        "State": {
+          "BarStrains": [-0.8136572061369942,-0.54249763491777,-0.27133806369854585,-0.00017849247932182497,0.3466264051537217,0.5068191364586171,0.6670118677635125,0.827204599068408,0.9873973303733037,1.147590061678199,-0.04552459767911053,0.7804691731117568,-0.4352393737955522,0.39075439699531517
+          ],
+          "ConcreteStressLimit": 18,
+          "ConcreteVertices": [
+            {
+              "Id": "C1",
+              "Strain": 0.30277432425869377,
+              "Stress": 0,
+              "X": -200,
+              "Y": -300
+            },
+            {
+              "Id": "C2",
+              "Strain": 1.5542800375781896,
+              "Stress": 0,
+              "X": 200,
+              "Y": -300
+            },
+            {
+              "Id": "C3",
+              "Strain": 0.04245547505751081,
+              "Stress": 0,
+              "X": 200,
+              "Y": 300
+            },
+            {
+              "Id": "C4",
+              "Strain": -1.2090502382619854,
+              "Stress": -14.178950143566565,
+              "X": -200,
+              "Y": 300
+            }
+          ],
+          "Response": {
+            "CMax": 0,
+            "CMin": -14.178950143566565,
+            "EcMax": 1.5542800375781896,
+            "EcMin": -1.2090502382619854,
+            "EpMax": null,
+            "EpMin": null,
+            "EsMax": 1.147590061678199,
+            "EsMin": -0.8136572061369942,
+            "NeutralAngle": 51.154243353825215,
+            "NeutralDistance": 300.9665630360549,
+            "PMax": null,
+            "PMin": null,
+            "SMax": 229.51801233563984,
+            "SMin": -162.73144122739885,
+            "UsefulDepth": 599.4460884855322
+          },
+          "SteelStressLimit": 360,
+          "sigma_acciaio": 229.51801233563984,
+          "sigma_cls": -14.178950143566565,
+          "tensioni_barre": [-162.73144122739885,-108.49952698355402,-54.267612739709186,-0.035698495864365,69.32528103074434,101.36382729172342,133.40237355270253,165.44091981368163,197.47946607466073,229.51801233563984,-9.104919535822106,156.09383462235138,-87.04787475911046,78.15087939906303
+          ]
+        },
+        "Status": "Entro limiti tensionali"
+      }
+    },
+    "SLE_FREQ": {
+      "<GUID-4>": {
+        "CrackResult": {
+          "BarSpacing": null,
+          "Details": [
+            {
+              "Expression": "Frequente · XD3 · Sensibile · durata Breve · aderenza Migliorata",
+              "Note": "",
+              "Symbol": "Verifica",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Lineare · CLS teso: No",
+              "Note": "Tensioni e piano di deformazione provenienti da Checker; compressione negativa.",
+              "Symbol": "Modello",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Azione negli assi Personalizzati",
+              "Note": "",
+              "Symbol": "N",
+              "Unit": "kN",
+              "Value": -350
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "Mx",
+              "Unit": "kNm",
+              "Value": 150
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "My",
+              "Unit": "kNm",
+              "Value": 10
+            },
+            {
+              "Expression": "Coefficiente utilizzato nell'analisi tensionale",
+              "Note": "",
+              "Symbol": "φ",
+              "Unit": "−",
+              "Value": 1.8
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non compare direttamente nella formula wk: qui si usa fctm, non fctd.",
+              "Symbol": "γc (input)",
+              "Unit": "−",
+              "Value": 1.5
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non è applicato come divisore aggiuntivo di σs nella formula wk.",
+              "Symbol": "γs (input)",
+              "Unit": "−",
+              "Value": 1.15
+            },
+            {
+              "Expression": "Model Code 2010",
+              "Note": "",
+              "Symbol": "Normativa fessurazione",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Non richiesta: verificare Quasi permanente",
+              "Note": "Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilità.",
+              "Symbol": "Criterio",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Limite di apertura selezionato",
+              "Note": "Nessun limite di apertura numerico per questo ramo.",
+              "Symbol": "wlim",
+              "Unit": "mm",
+              "Value": null
+            }
+          ],
+          "EffectiveArea": null,
+          "EffectiveSteel": null,
+          "Limit": null,
+          "Passed": null,
+          "Ratio": null,
+          "Regions": [],
+          "SpacingSource": null,
+          "Status": "Non richiesta: verificare Quasi permanente",
+          "Width": null
+        },
+        "Cracking": "Non richiesta: verificare Quasi permanente",
+        "Ratio": null,
+        "State": {
+          "BarStrains": [-0.5194564863350857,-0.43566258138339886,-0.351868676431712,-0.26807477148002506,0.16883398143429296,0.21833684220575103,0.2678397029772091,0.3173425637486672,0.3668454245201253,0.41634828529158335,-0.060821825885357186,0.19442729996747354,-0.29260460441047287,-0.03735547855764217
+          ],
+          "ConcreteStressLimit": null,
+          "ConcreteVertices": [
+            {
+              "Id": "C1",
+              "Strain": 0.20711946313267357,
+              "Stress": 0,
+              "X": -200,
+              "Y": -300
+            },
+            {
+              "Id": "C2",
+              "Strain": 0.5938605629096898,
+              "Stress": 0,
+              "X": 200,
+              "Y": -300
+            },
+            {
+              "Id": "C3",
+              "Strain": -0.3052967675756729,
+              "Stress": -3.580320742229989,
+              "X": 200,
+              "Y": 300
+            },
+            {
+              "Id": "C4",
+              "Strain": -0.6920378673526891,
+              "Stress": -8.115767325565589,
+              "X": -200,
+              "Y": 300
+            }
+          ],
+          "Response": {
+            "CMax": 0,
+            "CMin": -8.115767325565589,
+            "EcMax": 0.5938605629096898,
+            "EcMin": -0.6920378673526891,
+            "EpMax": null,
+            "EpMin": null,
+            "EsMax": 0.41634828529158335,
+            "EsMin": -0.5194564863350857,
+            "NeutralAngle": 32.82899830136416,
+            "NeutralDistance": 388.03939516883986,
+            "PMax": null,
+            "PMin": null,
+            "SMax": 83.26965705831667,
+            "SMin": -103.89129726701714,
+            "UsefulDepth": 634.2590106704822
+          },
+          "SteelStressLimit": 360,
+          "sigma_acciaio": 103.89129726701714,
+          "sigma_cls": -8.115767325565589,
+          "tensioni_barre": [-103.89129726701714,-87.13251627667978,-70.3737352863424,-53.614954296005024,33.76679628685859,43.66736844115021,53.567940595441826,63.468512749733435,73.36908490402507,83.26965705831667,-12.164365177071438,38.88545999349471,-58.52092088209458,-7.471095711528435
+          ]
+        },
+        "Status": "Stato tensionale calcolato"
+      },
+      "<GUID-5>": {
+        "CrackResult": {
+          "BarSpacing": null,
+          "Details": [
+            {
+              "Expression": "Frequente · XD3 · Sensibile · durata Breve · aderenza Migliorata",
+              "Note": "",
+              "Symbol": "Verifica",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Lineare · CLS teso: No",
+              "Note": "Tensioni e piano di deformazione provenienti da Checker; compressione negativa.",
+              "Symbol": "Modello",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Azione negli assi Personalizzati",
+              "Note": "",
+              "Symbol": "N",
+              "Unit": "kN",
+              "Value": 200
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "Mx",
+              "Unit": "kNm",
+              "Value": 60
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "My",
+              "Unit": "kNm",
+              "Value": 0
+            },
+            {
+              "Expression": "Coefficiente utilizzato nell'analisi tensionale",
+              "Note": "",
+              "Symbol": "φ",
+              "Unit": "−",
+              "Value": 1.8
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non compare direttamente nella formula wk: qui si usa fctm, non fctd.",
+              "Symbol": "γc (input)",
+              "Unit": "−",
+              "Value": 1.5
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non è applicato come divisore aggiuntivo di σs nella formula wk.",
+              "Symbol": "γs (input)",
+              "Unit": "−",
+              "Value": 1.15
+            },
+            {
+              "Expression": "Model Code 2010",
+              "Note": "",
+              "Symbol": "Normativa fessurazione",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Non richiesta: verificare Quasi permanente",
+              "Note": "Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilità.",
+              "Symbol": "Criterio",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Limite di apertura selezionato",
+              "Note": "Nessun limite di apertura numerico per questo ramo.",
+              "Symbol": "wlim",
+              "Unit": "mm",
+              "Value": null
+            }
+          ],
+          "EffectiveArea": null,
+          "EffectiveSteel": null,
+          "Limit": null,
+          "Passed": null,
+          "Ratio": null,
+          "Regions": [],
+          "SpacingSource": null,
+          "Status": "Non richiesta: verificare Quasi permanente",
+          "Width": null
+        },
+        "Cracking": "Non richiesta: verificare Quasi permanente",
+        "Ratio": null,
+        "State": {
+          "BarStrains": [-0.15453196569614586,-0.07703029111854601,0.00047138345905383826,0.07797305803665364,0.3080461175868466,0.3538317222603824,0.39961732693391844,0.4454029316074542,0.49118853628099024,0.536974140954526,0.15288477110717383,0.38896679520509336,-0.0027239381785617144,0.2333580859193578
+          ],
+          "ConcreteStressLimit": null,
+          "ConcreteVertices": [
+            {
+              "Id": "C1",
+              "Strain": 0.3160986480959774,
+              "Stress": 0,
+              "X": -200,
+              "Y": -300
+            },
+            {
+              "Id": "C2",
+              "Strain": 0.6737986846079767,
+              "Stress": 0,
+              "X": 200,
+              "Y": -300
+            },
+            {
+              "Id": "C3",
+              "Strain": 0.07014420893055423,
+              "Stress": 0,
+              "X": 200,
+              "Y": 300
+            },
+            {
+              "Id": "C4",
+              "Strain": -0.287555827581445,
+              "Stress": -3.3722666054227664,
+              "X": -200,
+              "Y": 300
+            }
+          ],
+          "Response": {
+            "CMax": 0,
+            "CMin": -3.3722666054227664,
+            "EcMax": 0.6737986846079767,
+            "EcMin": -0.287555827581445,
+            "EpMax": null,
+            "EpMin": null,
+            "EsMax": 0.536974140954526,
+            "EsMin": -0.15453196569614586,
+            "NeutralAngle": 41.631858440545294,
+            "NeutralDistance": 213.62635583721112,
+            "PMax": null,
+            "PMin": null,
+            "SMax": 107.39482819090522,
+            "SMin": -30.906393139229174,
+            "UsefulDepth": 625.3700995769882
+          },
+          "SteelStressLimit": 360,
+          "sigma_acciaio": 107.39482819090522,
+          "sigma_cls": -3.3722666054227664,
+          "tensioni_barre": [-30.906393139229174,-15.406058223709202,0.09427669181076766,15.59461160733073,61.609223517369315,70.76634445207648,79.92346538678369,89.08058632149086,98.23770725619805,107.39482819090522,30.576954221434768,77.79335904101868,-0.5447876357123429,46.67161718387157
+          ]
+        },
+        "Status": "Stato tensionale calcolato"
+      }
+    },
+    "SLE_QP": {
+      "<GUID-6>": {
+        "CrackResult": {
+          "BarSpacing": 180,
+          "Details": [
+            {
+              "Expression": "Quasi permanente · XD3 · Sensibile · durata Breve · aderenza Migliorata",
+              "Note": "",
+              "Symbol": "Verifica",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Lineare · CLS teso: No",
+              "Note": "Tensioni e piano di deformazione provenienti da Checker; compressione negativa.",
+              "Symbol": "Modello",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Azione negli assi Personalizzati",
+              "Note": "",
+              "Symbol": "N",
+              "Unit": "kN",
+              "Value": -350
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "Mx",
+              "Unit": "kNm",
+              "Value": 120
+            },
+            {
+              "Expression": "Azione della combinazione",
+              "Note": "",
+              "Symbol": "My",
+              "Unit": "kNm",
+              "Value": 5
+            },
+            {
+              "Expression": "Coefficiente utilizzato nell'analisi tensionale",
+              "Note": "",
+              "Symbol": "φ",
+              "Unit": "−",
+              "Value": 1.8
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non compare direttamente nella formula wk: qui si usa fctm, non fctd.",
+              "Symbol": "γc (input)",
+              "Unit": "−",
+              "Value": 1.5
+            },
+            {
+              "Expression": "Coefficiente di materiale della sezione",
+              "Note": "Non è applicato come divisore aggiuntivo di σs nella formula wk.",
+              "Symbol": "γs (input)",
+              "Unit": "−",
+              "Value": 1.15
+            },
+            {
+              "Expression": "Model Code 2010",
+              "Note": "",
+              "Symbol": "Normativa fessurazione",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Apertura fessure",
+              "Note": "Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilità.",
+              "Symbol": "Criterio",
+              "Unit": "",
+              "Value": null
+            },
+            {
+              "Expression": "Limite di apertura selezionato",
+              "Note": "Confronto wk ≤ wlim",
+              "Symbol": "wlim",
+              "Unit": "mm",
+              "Value": 0.2
+            },
+            {
+              "Expression": "Conteggio σs < 0 su tutte le armature ordinarie, anche fuori dall'area efficace",
+              "Note": "Informativo: k₂ dipende dalla posizione dell'asse neutro, non dalle barre.",
+              "Symbol": "Barre compresse",
+              "Unit": "−",
+              "Value": 7
+            },
+            {
+              "Expression": "Conteggio σs > 0",
+              "Note": "",
+              "Symbol": "Barre tese",
+              "Unit": "−",
+              "Value": 7
+            },
+            {
+              "Expression": "Conteggio σs = 0",
+              "Note": "",
+              "Symbol": "Barre a tensione nulla",
+              "Unit": "−",
+              "Value": 0
+            },
+            {
+              "Expression": "min ε ai vertici, prima dei criteri di applicabilità",
+              "Note": "",
+              "Symbol": "εc,min",
+              "Unit": "−",
+              "Value": -0.00018795004741179296
+            },
+            {
+              "Expression": "max ε ai vertici",
+              "Note": "",
+              "Symbol": "εc,max",
+              "Unit": "−",
+              "Value": 0.00013577228575138944
+            },
+            {
+              "Expression": "Se εc,max ≤ tolleranza, wk = 0",
+              "Note": "",
+              "Symbol": "Tolleranza compressione",
+              "Unit": "−",
+              "Value": 1E-12
+            },
+            {
+              "Expression": "Asse neutro interno alla sezione: flessione, k₂ = 0,50 (Circolare 2019 C4.1.2.2.4.5; EN 1992-1-1 7.3.4(3))",
+              "Note": "Con Model Code 2010 sr,max non contiene k₂: valore solo informativo.",
+              "Symbol": "Criterio k₂",
+              "Unit": "−",
+              "Value": 0.5
+            },
+            {
+              "Expression": "Componente del gradiente di deformazione restituita da Checker",
+              "Note": "",
+              "Symbol": "χx",
+              "Unit": "1/mm",
+              "Value": 2.1000589141959133E-07
+            },
+            {
+              "Expression": "Componente del gradiente di deformazione restituita da Checker",
+              "Note": "",
+              "Symbol": "χy",
+              "Unit": "1/mm",
+              "Value": -3.9953329432557645E-07
+            },
+            {
+              "Expression": "sqrt(χx² + χy²)",
+              "Note": "",
+              "Symbol": "|∇ε|",
+              "Unit": "1/mm",
+              "Value": 4.513638529009439E-07
+            },
+            {
+              "Expression": "χx / |∇ε|",
+              "Note": "",
+              "Symbol": "qx",
+              "Unit": "−",
+              "Value": 0.46526962686504525
+            },
+            {
+              "Expression": "χy / |∇ε|",
+              "Note": "",
+              "Symbol": "qy",
+              "Unit": "−",
+              "Value": -0.8851690088999171
+            },
+            {
+              "Expression": "max(qx·x + qy·y) sui vertici",
+              "Note": "",
+              "Symbol": "Qmax",
+              "Unit": "mm",
+              "Value": 358.6046280429842
+            },
+            {
+              "Expression": "min(qx·x + qy·y) sui vertici",
+              "Note": "",
+              "Symbol": "Qmin",
+              "Unit": "mm",
+              "Value": -358.6046280429842
+            },
+            {
+              "Expression": "Qmax − Qmin; altezza proiettata lungo il gradiente",
+              "Note": "",
+              "Symbol": "h",
+              "Unit": "mm",
+              "Value": 717.2092560859684
+            },
+            {
+              "Expression": "εc,max / |∇ε|; profondità tesa",
+              "Note": "",
+              "Symbol": "h − x",
+              "Unit": "mm",
+              "Value": 300.8045169739943
+            },
+            {
+              "Expression": "h − profondità tesa; profondità compressa",
+              "Note": "",
+              "Symbol": "x",
+              "Unit": "mm",
+              "Value": 416.4047391119741
+            },
+            {
+              "Expression": "Barre con ε > 0",
+              "Note": "",
+              "Symbol": "Numero barre tese",
+              "Unit": "−",
+              "Value": 7
+            },
+            {
+              "Expression": "Σ(Qi·As,i) / ΣAs,i sulle barre tese",
+              "Note": "",
+              "Symbol": "QG,s",
+              "Unit": "mm",
+              "Value": 196.85647380425686
+            },
+            {
+              "Expression": "Qmax − QG,s",
+              "Note": "",
+              "Symbol": "h − d",
+              "Unit": "mm",
+              "Value": 161.74815423872732
+            },
+            {
+              "Expression": "h − (h − d)",
+              "Note": "",
+              "Symbol": "d",
+              "Unit": "mm",
+              "Value": 555.461101847241
+            },
+            {
+              "Expression": "2,5·(h − d)",
+              "Note": "",
+              "Symbol": "Candidato 1 hc,eff",
+              "Unit": "mm",
+              "Value": 404.3703855968183
+            },
+            {
+              "Expression": "(h − x) / 3",
+              "Note": "",
+              "Symbol": "Candidato 2 hc,eff",
+              "Unit": "mm",
+              "Value": 100.26817232466476
+            },
+            {
+              "Expression": "h / 2",
+              "Note": "",
+              "Symbol": "Candidato 3 hc,eff",
+              "Unit": "mm",
+              "Value": 358.6046280429842
+            },
+            {
+              "Expression": "min[2,5·(h − d); (h − x)/3; h/2]",
+              "Note": "",
+              "Symbol": "hc,eff",
+              "Unit": "mm",
+              "Value": 100.26817232466476
+            },
+            {
+              "Expression": "Qmax − hc,eff; fascia efficace Q ≥ Qtaglio",
+              "Note": "",
+              "Symbol": "Qtaglio",
+              "Unit": "mm",
+              "Value": 258.3364557183194
+            },
+            {
+              "Expression": "Somma delle aree delle facce della mesh tagliata nella fascia efficace",
+              "Note": "Integrazione geometrica sulla mesh Checker.",
+              "Symbol": "Ac,eff",
+              "Unit": "mm²",
+              "Value": 12205.773292908583
+            },
+            {
+              "Expression": "Barre tese con Q ≥ Qtaglio − 10⁻⁸ mm",
+              "Note": "",
+              "Symbol": "Numero barre efficaci",
+              "Unit": "−",
+              "Value": 1
+            },
+            {
+              "Expression": "ε(x,y) dal piano Checker",
+              "Note": "Tesa ma esclusa da As,eff",
+              "Symbol": "B05 · ε",
+              "Unit": "−",
+              "Value": 3.812395617432198E-05
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B05 · x",
+              "Unit": "mm",
+              "Value": -128
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B05 · y",
+              "Unit": "mm",
+              "Value": -228
+            },
+            {
+              "Expression": "qx·x + qy·y",
+              "Note": "",
+              "Symbol": "B05 · Q",
+              "Unit": "mm",
+              "Value": 142.26402179045533
+            },
+            {
+              "Expression": "Diametro della barra",
+              "Note": "",
+              "Symbol": "B05 · Ø",
+              "Unit": "mm",
+              "Value": 24
+            },
+            {
+              "Expression": "Area della barra",
+              "Note": "",
+              "Symbol": "B05 · As",
+              "Unit": "mm²",
+              "Value": 452.3893421169302
+            },
+            {
+              "Expression": "Tensione nativa nella barra",
+              "Note": "",
+              "Symbol": "B05 · σs",
+              "Unit": "MPa",
+              "Value": 21.349415457620307
+            },
+            {
+              "Expression": "ε(x,y) dal piano Checker",
+              "Note": "Tesa ma esclusa da As,eff",
+              "Symbol": "B06 · ε",
+              "Unit": "−",
+              "Value": 4.887625781500506E-05
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B06 · x",
+              "Unit": "mm",
+              "Value": -76.8
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B06 · y",
+              "Unit": "mm",
+              "Value": -228
+            },
+            {
+              "Expression": "qx·x + qy·y",
+              "Note": "",
+              "Symbol": "B06 · Q",
+              "Unit": "mm",
+              "Value": 166.08582668594562
+            },
+            {
+              "Expression": "Diametro della barra",
+              "Note": "",
+              "Symbol": "B06 · Ø",
+              "Unit": "mm",
+              "Value": 24
+            },
+            {
+              "Expression": "Area della barra",
+              "Note": "",
+              "Symbol": "B06 · As",
+              "Unit": "mm²",
+              "Value": 452.3893421169302
+            },
+            {
+              "Expression": "Tensione nativa nella barra",
+              "Note": "",
+              "Symbol": "B06 · σs",
+              "Unit": "MPa",
+              "Value": 27.370704376402834
+            },
+            {
+              "Expression": "ε(x,y) dal piano Checker",
+              "Note": "Tesa ma esclusa da As,eff",
+              "Symbol": "B07 · ε",
+              "Unit": "−",
+              "Value": 5.9628559455688135E-05
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B07 · x",
+              "Unit": "mm",
+              "Value": -25.599999999999994
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B07 · y",
+              "Unit": "mm",
+              "Value": -228
+            },
+            {
+              "Expression": "qx·x + qy·y",
+              "Note": "",
+              "Symbol": "B07 · Q",
+              "Unit": "mm",
+              "Value": 189.90763158143596
+            },
+            {
+              "Expression": "Diametro della barra",
+              "Note": "",
+              "Symbol": "B07 · Ø",
+              "Unit": "mm",
+              "Value": 24
+            },
+            {
+              "Expression": "Area della barra",
+              "Note": "",
+              "Symbol": "B07 · As",
+              "Unit": "mm²",
+              "Value": 452.3893421169302
+            },
+            {
+              "Expression": "Tensione nativa nella barra",
+              "Note": "",
+              "Symbol": "B07 · σs",
+              "Unit": "MPa",
+              "Value": 33.39199329518536
+            },
+            {
+              "Expression": "ε(x,y) dal piano Checker",
+              "Note": "Tesa ma esclusa da As,eff",
+              "Symbol": "B08 · ε",
+              "Unit": "−",
+              "Value": 7.038086109637121E-05
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B08 · x",
+              "Unit": "mm",
+              "Value": 25.599999999999994
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B08 · y",
+              "Unit": "mm",
+              "Value": -228
+            },
+            {
+              "Expression": "qx·x + qy·y",
+              "Note": "",
+              "Symbol": "B08 · Q",
+              "Unit": "mm",
+              "Value": 213.72943647692625
+            },
+            {
+              "Expression": "Diametro della barra",
+              "Note": "",
+              "Symbol": "B08 · Ø",
+              "Unit": "mm",
+              "Value": 24
+            },
+            {
+              "Expression": "Area della barra",
+              "Note": "",
+              "Symbol": "B08 · As",
+              "Unit": "mm²",
+              "Value": 452.3893421169302
+            },
+            {
+              "Expression": "Tensione nativa nella barra",
+              "Note": "",
+              "Symbol": "B08 · σs",
+              "Unit": "MPa",
+              "Value": 39.413282213967875
+            },
+            {
+              "Expression": "ε(x,y) dal piano Checker",
+              "Note": "Tesa ma esclusa da As,eff",
+              "Symbol": "B09 · ε",
+              "Unit": "−",
+              "Value": 8.113316273705428E-05
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B09 · x",
+              "Unit": "mm",
+              "Value": 76.80000000000001
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B09 · y",
+              "Unit": "mm",
+              "Value": -228
+            },
+            {
+              "Expression": "qx·x + qy·y",
+              "Note": "",
+              "Symbol": "B09 · Q",
+              "Unit": "mm",
+              "Value": 237.5512413724166
+            },
+            {
+              "Expression": "Diametro della barra",
+              "Note": "",
+              "Symbol": "B09 · Ø",
+              "Unit": "mm",
+              "Value": 24
+            },
+            {
+              "Expression": "Area della barra",
+              "Note": "",
+              "Symbol": "B09 · As",
+              "Unit": "mm²",
+              "Value": 452.3893421169302
+            },
+            {
+              "Expression": "Tensione nativa nella barra",
+              "Note": "",
+              "Symbol": "B09 · σs",
+              "Unit": "MPa",
+              "Value": 45.4345711327504
+            },
+            {
+              "Expression": "ε(x,y) dal piano Checker",
+              "Note": "Inclusa in As,eff",
+              "Symbol": "B10 · ε",
+              "Unit": "−",
+              "Value": 9.188546437773736E-05
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B10 · x",
+              "Unit": "mm",
+              "Value": 128
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B10 · y",
+              "Unit": "mm",
+              "Value": -228
+            },
+            {
+              "Expression": "qx·x + qy·y",
+              "Note": "",
+              "Symbol": "B10 · Q",
+              "Unit": "mm",
+              "Value": 261.3730462679069
+            },
+            {
+              "Expression": "Diametro della barra",
+              "Note": "",
+              "Symbol": "B10 · Ø",
+              "Unit": "mm",
+              "Value": 24
+            },
+            {
+              "Expression": "Area della barra",
+              "Note": "",
+              "Symbol": "B10 · As",
+              "Unit": "mm²",
+              "Value": 452.3893421169302
+            },
+            {
+              "Expression": "Tensione nativa nella barra",
+              "Note": "",
+              "Symbol": "B10 · σs",
+              "Unit": "MPa",
+              "Value": 51.45586005153292
+            },
+            {
+              "Expression": "ε(x,y) dal piano Checker",
+              "Note": "Tesa ma esclusa da As,eff",
+              "Symbol": "B12 · ε",
+              "Unit": "−",
+              "Value": 3.2529138265028875E-05
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B12 · x",
+              "Unit": "mm",
+              "Value": 132
+            },
+            {
+              "Expression": "Coordinata della barra",
+              "Note": "",
+              "Symbol": "B12 · y",
+              "Unit": "mm",
+              "Value": -77.33333333333334
+            },
+            {
+              "Expression": "qx·x + qy·y",
+              "Note": "",
+              "Symbol": "B12 · Q",
+              "Unit": "mm",
+              "Value": 129.86866076777957
+            },
+            {
+              "Expression": "Diametro della barra",
+              "Note": "",
+              "Symbol": "B12 · Ø",
+              "Unit": "mm",
+              "Value": 16
+            },
+            {
+              "Expression": "Area della barra",
+              "Note": "",
+              "Symbol": "B12 · As",
+              "Unit": "mm²",
+              "Value": 201.06192982974676
+            },
+            {
+              "Expression": "Tensione nativa nella barra",
+              "Note": "",
+              "Symbol": "B12 · σs",
+              "Unit": "MPa",
+              "Value": 18.21631742841617
+            },
+            {
+              "Expression": "ΣAs,i delle barre tese incluse nella fascia efficace",
+              "Note": "",
+              "Symbol": "As,eff",
+              "Unit": "mm²",
+              "Value": 452.3893421169302
+            },
+            {
+              "Expression": "Somma sulle barre efficaci",
+              "Note": "",
+              "Symbol": "ΣØ²",
+              "Unit": "mm²",
+              "Value": 576
+            },
+            {
+              "Expression": "Somma sulle barre efficaci",
+              "Note": "",
+              "Symbol": "ΣØ",
+              "Unit": "mm",
+              "Value": 24
+            },
+            {
+              "Expression": "ΣØ² / ΣØ",
+              "Note": "",
+              "Symbol": "Øeq",
+              "Unit": "mm",
+              "Value": 24
+            },
+            {
+              "Expression": "max σs delle barre efficaci",
+              "Note": "Si usa il massimo, non la tensione media pesata.",
+              "Symbol": "σs",
+              "Unit": "MPa",
+              "Value": 51.45586005153292
+            },
+            {
+              "Expression": "Override manuale per fessurazione",
+              "Note": "",
+              "Symbol": "c",
+              "Unit": "mm",
+              "Value": 55
+            },
+            {
+              "Expression": "Interasse massimo manuale",
+              "Note": "",
+              "Symbol": "s",
+              "Unit": "mm",
+              "Value": 180
+            },
+            {
+              "Expression": "Modulo del materiale nell'analisi Checker",
+              "Note": "",
+              "Symbol": "Ecls analisi",
+              "Unit": "MPa",
+              "Value": 32836.56803133079
+            },
+            {
+              "Expression": "Es·(1 + φ) / Ecls; distinto da αe usato nella formula di fessurazione",
+              "Note": "",
+              "Symbol": "n analisi",
+              "Unit": "−",
+              "Value": 17.054157409680567
+            },
+            {
+              "Expression": "As,eff / Ac,eff",
+              "Note": "",
+              "Symbol": "ρp,eff",
+              "Unit": "−",
+              "Value": 0.03706355437387677
+            },
+            {
+              "Expression": "Es/Ecm",
+              "Note": "",
+              "Symbol": "αe",
+              "Unit": "−",
+              "Value": 6.090770503457345
+            },
+            {
+              "Expression": "Coefficiente β di fib MC2010 Tab. 7.6-2, formazione della singola fessura",
+              "Note": "",
+              "Symbol": "β",
+              "Unit": "−",
+              "Value": 0.6
+            },
+            {
+              "Expression": "Distribuzione delle deformazioni; non entra in sr,max di Model Code 2010",
+              "Note": "",
+              "Symbol": "k₂",
+              "Unit": "−",
+              "Value": 0.5
+            },
+            {
+              "Expression": "Massima tensione nelle barre efficaci",
+              "Note": "",
+              "Symbol": "σs",
+              "Unit": "MPa",
+              "Value": 51.45586005153292
+            },
+            {
+              "Expression": "Copriferro delle barre efficaci",
+              "Note": "",
+              "Symbol": "c",
+              "Unit": "mm",
+              "Value": 55
+            },
+            {
+              "Expression": "Diametro equivalente",
+              "Note": "",
+              "Symbol": "Øeq",
+              "Unit": "mm",
+              "Value": 24
+            },
+            {
+              "Expression": "Interasse massimo adottato",
+              "Note": "",
+              "Symbol": "s",
+              "Unit": "mm",
+              "Value": 180
+            },
+            {
+              "Expression": "fctm/ρp,eff·(1 + αe·ρp,eff), tensione dell'acciaio alla formazione della fessura",
+              "Note": "Sceglie lo stadio di fib MC2010 Tab. 7.6-2: formazione della singola fessura.",
+              "Symbol": "σsr",
+              "Unit": "MPa",
+              "Value": 95.79041098114598
+            },
+            {
+              "Expression": "Tensione media di aderenza di fib MC2010 Tab. 7.6-2, formazione della singola fessura",
+              "Note": "",
+              "Symbol": "τbms/fctm",
+              "Unit": "−",
+              "Value": 1.8
+            },
+            {
+              "Expression": "2[c + fctm/(4 τbm) · Ø/ρeff]",
+              "Note": "",
+              "Symbol": "sr,max",
+              "Unit": "mm",
+              "Value": 289.87121794680013
+            },
+            {
+              "Expression": "(1 − β)·σs/Es, formazione della singola fessura",
+              "Note": "Stadio scelto perché σs < σsr; ritiro non considerato.",
+              "Symbol": "εsm − εcm",
+              "Unit": "−",
+              "Value": 0.00010291172010306586
+            },
+            {
+              "Expression": "1 − β, formazione della singola fessura",
+              "Note": "",
+              "Symbol": "β minimo deformazione",
+              "Unit": "−",
+              "Value": 0.4
+            },
+            {
+              "Expression": "sr,max (εsm−εcm)",
+              "Note": "",
+              "Symbol": "wk",
+              "Unit": "mm",
+              "Value": 0.029831145647275896
+            },
+            {
+              "Expression": "wk / wlim",
+              "Note": "",
+              "Symbol": "ηw",
+              "Unit": "−",
+              "Value": 0.14915572823637946
+            }
+          ],
+          "EffectiveArea": 12205.773292908583,
+          "EffectiveSteel": 452.3893421169302,
+          "Limit": 0.2,
+          "Passed": true,
+          "Ratio": 0.14915572823637946,
+          "Regions": [
+            {
+              "Area": 12205.773292908583,
+              "BarIndices": [9
+              ],
+              "Holes": [],
+              "Level": 258.3364557183194,
+              "Name": "Zona tesa efficace",
+              "Outline": [
+                [-15.50551881124241,-300
+                ],
+                [200,-300
+                ],
+                [200,-186.72426246680567
+                ]
+              ],
+              "Qx": 0.46526962686504525,
+              "Qy": -0.8851690088999171,
+              "SteelArea": 452.3893421169302,
+              "Width": 0.029831145647275896
+            }
+          ],
+          "SpacingSource": "Manuale",
+          "Status": "Apertura entro limite",
+          "Width": 0.029831145647275896
+        },
+        "Cracking": "Apertura entro limite",
+        "Ratio": 0.45715811246882865,
+        "State": {
+          "BarStrains": [-0.4067904523469674,-0.3558290226958133,-0.30486759304465905,-0.2539061633935049,0.10674707728810154,0.13685352188201416,0.16695996647592676,0.19706641106983938,0.22717285566375198,0.2572793002576646,-0.06415476779528106,0.09108158714208085,-0.23717931979121068,-0.08194296485384878
+          ],
+          "ConcreteStressLimit": 13.5,
+          "ConcreteVertices": [
+            {
+              "Id": "C1",
+              "Strain": 0.14495580171394812,
+              "Stress": 0,
+              "X": -200,
+              "Y": -300
+            },
+            {
+              "Id": "C2",
+              "Strain": 0.3801624001038904,
+              "Stress": 0,
+              "X": 200,
+              "Y": -300
+            },
+            {
+              "Id": "C3",
+              "Strain": -0.29105353436307796,
+              "Stress": -3.413285422097316,
+              "X": 200,
+              "Y": 300
+            },
+            {
+              "Id": "C4",
+              "Strain": -0.5262601327530202,
+              "Stress": -6.171634518329187,
+              "X": -200,
+              "Y": 300
+            }
+          ],
+          "Response": {
+            "CMax": 0,
+            "CMin": -6.171634518329187,
+            "EcMax": 0.3801624001038904,
+            "EcMin": -0.5262601327530202,
+            "EpMax": null,
+            "EpMin": null,
+            "EsMax": 0.2572793002576646,
+            "EsMin": -0.4067904523469674,
+            "NeutralAngle": 27.727673230858972,
+            "NeutralDistance": 416.4047391119741,
+            "PMax": null,
+            "PMin": null,
+            "SMax": 51.45586005153292,
+            "SMin": -81.35809046939349,
+            "UsefulDepth": 632.678551582421
+          },
+          "SteelStressLimit": 360,
+          "sigma_acciaio": 81.35809046939349,
+          "sigma_cls": -6.171634518329187,
+          "tensioni_barre": [-81.35809046939349,-71.16580453916265,-60.97351860893181,-50.78123267870099,21.349415457620307,27.370704376402834,33.39199329518536,39.413282213967875,45.4345711327504,51.45586005153292,-12.830953559056212,18.21631742841617,-47.43586395824214,-16.388592970769757
+          ]
+        },
+        "Status": "Entro limiti tensionali"
+      }
+    }
+  },
+  "torsione": {},
+  "verifica_normativa_completa": false
+}
