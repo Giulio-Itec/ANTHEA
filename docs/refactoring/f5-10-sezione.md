@@ -129,6 +129,17 @@ Restano nella vista, per i sottopassi: le derivazioni delle altre schede (domini
 vivono già in gran parte in Application (`ConcreteDomainChart`, `ConcreteResponsePresentation`, `ConcreteDetailingPresentation`,
 `ConcreteVerificationSummaries`…) e che i sottopassi chiameranno dal ViewModel.
 
+### 1.4 Corsa finale
+
+`-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `1d0d5c69`: `supporto/artefatti/ci/20261017-053643-f510-finale`,
+PASS 117 (build 25, fast 31, wiki 2, ui 59), NEW-FAIL 0, nessun file tracciato modificato prima della corsa;
+`transitions-f4.json` invariato.
+- `ui/check-contrast` è escluso: lo schermo è al 150% (144 DPI) e la baseline è misurata a 96 DPI (decisione D6); il coordinatore
+  lo ripete a 96 DPI.
+- `ui/f3-equivalence` 87 fixture; `ui/f3-report-chapters` 88 capitoli e 166 immagini; `ui/f3-concrete-figures` 11 figure;
+  `ui/check-sezione-historic` 37 scenari, 79 826 righe, 120 disegni e 33 righe 3D uguali ai congelati; Application.Tests 2 151,
+  Presentation.Tests 1 552, Architecture.Tests 517 controlli.
+
 ## 2. Comportamenti della vista storica trovati
 
 Nessuno è stato corretto; le tracce li fissano così come sono.
