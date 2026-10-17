@@ -54,7 +54,7 @@ public sealed partial class RetainingWallSheetViewModel
     public string SeismicToolTip { get => seismicTip; private set => SetProperty(ref seismicTip, value); }
 
     /// <summary>«Calcola armature» as the view enables it (cantilever, not busy at the last refresh of the rules).</summary>
-    public bool DesignEnabled { get => designEnabled; private set => SetProperty(ref designEnabled, value); }
+    public bool DesignEnabled { get => designEnabled; private set { if (SetProperty(ref designEnabled, value)) OnPropertyChanged(nameof(CanDesign)); } }
 
     /// <summary>«Calcola armature» usable: enabled and the sheet editable.</summary>
     public bool CanDesign => designEnabled && CanEdit;

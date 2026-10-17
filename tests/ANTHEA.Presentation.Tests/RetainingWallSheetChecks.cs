@@ -534,7 +534,11 @@ internal static class RetainingWallSheetChecks
         var first = sheet.RecalculateAsync();
         await engine.EnteredAsync();
         expect.That(sheet.IsBusy && sheet.Status == RetainingWallPresentation.StatusRunning && sheet.CalculationState == CalculationState.Running, "Occupato durante il calcolo");
+        var notified = new List<string?>();
+        sheet.PropertyChanged += (_, e) => notified.Add(e.PropertyName);
         sheet.Forms["geometry"].Set("height", "3,4");
+        expect.That(notified.Contains(nameof(sheet.CanDesign)) && notified.Contains(nameof(sheet.GlobalResult)) && notified.Contains(nameof(sheet.Calculation)),
+            "Notifiche di «Calcola armature», del risultato globale o del calcolo");
         expect.That(sheet.IsBusy && sheet.Calculation is null && sheet.Status == RetainingWallPresentation.StatusPending && !sheet.CanDesign,
             "Calcolo superato: occupato finché il motore non torna");
         engine.Release();

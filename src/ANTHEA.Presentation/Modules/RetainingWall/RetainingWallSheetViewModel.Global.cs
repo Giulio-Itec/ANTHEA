@@ -273,6 +273,7 @@ public sealed partial class RetainingWallSheetViewModel
         GlobalSetupText = RetainingWallPresentation.GlobalSetupText(Data, GlobalResult is not null);
         ApplyRules(RetainingWallPresentation.GlobalRules(Data));
         globalDrawingResult = GlobalResult; globalDrawingCase = GlobalCase;
+        OnPropertyChanged(nameof(GlobalResult)); OnPropertyChanged(nameof(GlobalCase)); OnPropertyChanged(nameof(HasIndependentGlobal));
         if (globalRear is not null) { previewResult = GlobalResult; previewCase = GlobalCase; }
         NotifyDrawings();
     }
