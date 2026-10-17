@@ -37,7 +37,8 @@ public partial class App
             }));
             return;
         }
-        if (e.Args.Length == 3 && e.Args[0] is "--check-f3-figures" or "--check-f3-figures-capture")
+        // F5.6: after root and output, --module-impl pairs choose the MVVM view of the vertical piles (ModuleHostBench).
+        if (e.Args.Length >= 3 && e.Args[0] is "--check-f3-figures" or "--check-f3-figures-capture" && ModuleHostBench.WithoutBench(e.Args).Length == 3)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>
@@ -61,7 +62,7 @@ public partial class App
             }));
             return;
         }
-        if (e.Args.Length == 3 && e.Args[0] == "--check-f3-scheduling")
+        if (e.Args.Length >= 3 && e.Args[0] == "--check-f3-scheduling" && ModuleHostBench.WithoutBench(e.Args).Length == 3)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>

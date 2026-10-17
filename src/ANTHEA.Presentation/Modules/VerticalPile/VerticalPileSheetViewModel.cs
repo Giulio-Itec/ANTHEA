@@ -115,6 +115,12 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
 
     public override IModuleReportSource Report { get; }
 
+    /// <summary>
+    /// A calculation runs. A closed sheet is never busy, as the historic view, whose Busy returned to false when the engine came back after
+    /// the closing (ui/f3-scheduling): the late completion is ignored by the closed sheet, so its state stays the one of the closing.
+    /// </summary>
+    public override bool IsBusy => !IsDisposed && base.IsBusy;
+
     /// <summary>True for the micropile.</summary>
     public bool IsMicro { get; }
 
