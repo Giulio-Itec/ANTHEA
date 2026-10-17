@@ -13,7 +13,8 @@ senza WPF del modulo stanno in `src/ANTHEA.FoundationWorkspace` (documento, mate
 - le domande per il punto di controllo dell'utente.
 
 La vista XAML, il passaggio in `ModuleImplementations` e l'archiviazione della vista storica vengono **dopo** il punto di
-controllo: non fanno parte di questa preparazione.
+controllo: non fanno parte di questa preparazione. La vista XAML, il banco e il confronto diretto sono stati fatti il 17/10, dopo
+le decisioni del punto di controllo: sezione 5. Restano la prova dell'utente, il passaggio della Release e l'archiviazione.
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7 e riga F5.9/F5.9b della sezione 8;
@@ -192,7 +193,11 @@ Nessun difetto nei risultati: tracce, F3 e capitoli autonomi coincidono.
 
 ## 3. Che cosa resta per finire F5.9b
 
-Passo 6 della ricetta, dopo il punto di controllo (l'ordine segue i passi 1–7 di F5.4):
+Passo 6 della ricetta, dopo il punto di controllo (l'ordine segue i passi 1–7 di F5.4).
+
+**Stato al 17/10** (ramo `refactoring/f5-9b-vista`, sezione 5): punti 1–4 fatti; del punto 5 c'è la suite nuova
+`ui/check-fondazioni-view`, mentre la riscrittura di `FoundationWorkspace.UiChecks` aspetta il passaggio della Release. Restano la
+riscrittura del punto 5 e i punti 6 e 7, dopo la prova dell'utente con la build di prova (sezione 5.6).
 1. **Vista XAML** `X.Desktop/Views/ShallowFoundation/ShallowFoundationSheetView.xaml` e il suo DataTemplate, solo token di F5.3
    (P7):
    - disposizione di oggi: colonna degli input (0,8*, minimo 370 px) e grafici (1,2*, minimo 440 px), stratigrafia sotto
@@ -260,3 +265,133 @@ Passo 6 della ricetta, dopo il punto di controllo (l'ordine segue i passi 1–7 
 
 **Materiale da mostrare** (dopo i passi 1–3 della sezione 3): schermate nei tre aspetti, `--check-contrast`, confronto diretto a
 zero, `ui/f3-equivalence` con il modulo MVVM, conteggio delle suite `ui`, questa nota con le risposte.
+
+**Risposte del 17/10** ([decisioni](decisioni.md), sezione «17 ottobre (mattina)»): proposte accettate (FN1, FN2 con T1, FN3 e FN4
+con T6, FN6 con T8, FN7 con T12, FN8 con T5, FN10 informativa, FN11 con T10); FN5: componente esplicito per le scelte a indice;
+FN9: l'aiuto dei campi resta com'è, senza estenderlo.
+
+## 5. Vista XAML (17/10)
+
+Ramo `refactoring/f5-9b-vista`, da `refactoring/f5` `7979f79d`, con le decisioni del 17/10. La Release resta **storica**:
+`ModuleImplementations` non cambia, la vista storica non è archiviata, `FoundationWorkspace.UiChecks` e le parti UI di
+`FoundationWorkspace.Checks` non sono riscritte (aspettano il passaggio della Release, dopo la prova dell'utente). La vista nuova si
+apre solo nella build UiTests, con `--module-impl geo_fondazioni_superficiali=mvvm`.
+
+### 5.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `e3f96a60` | ViewModel allineato alle decisioni, comandi della vista, «Invia / carica terreno…» dietro `ISoilTransferDialog`, `IModuleReportPdf` e PDF di MigraDoc in `MvvmSheetEditor` |
+| `51813834` | vista `X.Desktop/Views/ShallowFoundation` (`ShallowFoundationSheetView.xaml(.cs)`, convertitori, DataTemplate unito da `App.xaml`) |
+| `66182043` | `tests/Desktop/ShallowFoundationViewChecks.cs`, comando `--check-fondazioni-view`, suite `ui/check-fondazioni-view` |
+| `b022bf6d` | passo `mvvm-geo_fondazioni_superficiali` di `--check-contrast` (non eseguito: 144 DPI) |
+| `9cf2ced7` | dettagli della verifica chiusi a ogni calcolo, come nella vista storica (stato di vista `DetailsExpanded`) |
+
+### 5.2 Decisioni applicate
+
+- **FN1, T3.** «Calcola» (`CalculateCommand`) conferma le bozze (D7) e calcola subito sul thread dell'interfaccia; nessun ricalcolo
+  automatico. È ammesso anche in sola lettura, come oggi.
+- **FN3, T6.** Aprire o chiudere un gruppo e «Raccogli input» scrivono `vista_fondazioni` e sollevano `Modified` anche in sola
+  lettura, e conservano il risultato.
+- **FN4.** La scelta «Sezione X / Sezione Y» della scheda «Rottura» è sempre bloccata in sola lettura.
+- **FN5.** Le cinque scelte a indice restano `ShallowFoundationChoiceViewModel`; nella vista sono righe con l'etichetta di 215 px e
+  la combo sul resto, come le righe storiche.
+- **FN6, T8.** Interfaccia `IModuleReportPdf` in Presentation: la sorgente del report delle fondazioni dà il DOCX di
+  `FoundationReport.WordDocument` e il PDF di `FoundationReport.Pdf` (MigraDoc). `MvvmSheetEditor.ExportReport` li scrive come
+  `SheetEditor.ExportReport` (`Archivio.ScriviAtomico`, stesso nome con `.pdf`); gli altri moduli tengono il PDF ricavato dal DOCX
+  (`ReportFiles.Write`). Report invariati.
+- **FN8, T5.** «Invia / carica terreno…» apre la finestra storica `SoilTransferDialog` dietro `ISoilTransferDialog`
+  (`WpfSoilTransferDialog`, come la stratigrafia): il foglio conferma e passa modulo, dati e fogli terreno del progetto; una copia va
+  alla finestra come nuovo foglio, una sostituzione come terreno di questo foglio. Spento in sola lettura. Il ViewModel condiviso del
+  trasferimento arriva con F5.6.
+- **FN9.** Nessuna «?»: la Wiki non ha argomenti per i campi delle fondazioni, come nella vista storica. F1 su un campo, in una
+  cella degli strati o fuori dai campi e «Guida» aprono la guida del modulo dal navigatore della Wiki dei servizi. Falda e
+  calcestruzzo hanno il modulo esplicito nei loro form (gli `InputForm` storici lo ereditavano dalla scheda).
+- **FN10.** Invariata: solo il testo dei risultati senza calcolo dipende dalla libreria approvata.
+- **T2.** Sola lettura con `IsReadOnly`: campi, scelte, sondaggi, strati, trasferimento del terreno e sezione del meccanismo
+  bloccati; gruppi, «Raccogli input», schede, report, guida e «Calcola» liberi. Sono gli stessi controlli della vista storica sotto
+  `RevisionInspection` (provato).
+- **D9–D12.** Titolo a 22 punti (`Font.Title`); numeri in `FieldForm` compatti; solo token (P7): intestazioni della tabella degli
+  strati con `Token.CommandBar` e `Token.OnCommandBar`, campioni degli strati con `Swatch.Soil1…6`. Nella vista non ci sono schede
+  `Ui.Paper`.
+- **T7.** Nessun difetto storico corretto. L'espansore dei dettagli dei risultati si chiude a ogni calcolo, come quello che la
+  vista storica ricreava.
+- **Q3.** I disegni di `FoundationViews.cs` (geometria, stratigrafia, area efficace, pressioni, sezioni, meccanismo) sono ospitati
+  invariati; il code-behind li alimenta con i dati semplici del ViewModel (`InputDrawing`, `Graphics`, `Mechanism`). Il campione di
+  pressione sotto il puntatore resta nel disegno.
+
+### 5.3 Esiti
+
+| Criterio | Esito |
+| --- | --- |
+| Vista con la disposizione di oggi, solo token | sì; `Architecture.Tests` PASS, P6 e P7 attive anche su `Views/ShallowFoundation`, nessuna voce nuova nelle baseline (F4 3347, P3 invariata) |
+| Tracce della vista storica attraverso i controlli della vista XAML | 15 scenari, 8198 righe, uguali riga per riga alle tracce congelate (`ui/check-fondazioni-view`) |
+| Cattura F3 con `--module-impl geo_fondazioni_superficiali=mvvm` | PASS 104 fixture contro `expected` e `transitions-f4.json` invariato; le 4 transizioni F4 delle fondazioni (versione della libreria, F4-35) come oggi |
+| Confronto diretto storica/MVVM (`tools/qa/f5_confronto_diretto.py`) | **identiche**: 1066 file, 1063 uguali byte per byte, 3 JSON uguali in forma canonica (tempi volatili del palo elastico); 0 differenze, quindi anche sulle 11 fixture delle fondazioni |
+| `--check-f3-report-chapters` con il modulo MVVM | PASS 105 capitoli autonomi, 246 immagini |
+| Visita senza scritture | per le 11 fixture: schede, espansori senza stato e tre aspetti senza scritture né `Modified`; la visita F3 (gruppi aperti) scrive `vista_fondazioni` come la vista storica |
+| Disegni | per le 11 fixture, dopo «Calcola»: stessi tipi e stessi elenchi di disegno della vista storica a 640×420 e 900×600 (136 confronti) |
+| Esportazioni | per le 8 fixture con risultato: JSON uguale byte per byte, Word uguale in ogni parte, PDF uguale alla storica e uguale a `FoundationReport.Pdf` (date, identificativi e sigle dei font normalizzati); per le 3 senza risultato, stesso rifiuto |
+| Schermate | 18 PNG (vista nuova e storica, tre fixture, tre aspetti), a 144 DPI |
+| F1 e «?» | nessuna «?» in entrambe le viste; F1 e «Guida» aprono la guida del modulo, anche in sola lettura |
+| Controlli usati da `FoundationWorkspace.UiChecks` | campo Width (nome di automazione «Larghezza B [m]»), pulsante `raccogli-input`, sei schede grafiche, tabella degli strati; «Raccogli input» allarga i grafici di oltre 200 px, conserva il risultato e salva lo stato nel foglio |
+| Nomi di automazione | i 12 nomi della vista storica conservati su quattro fixture |
+| Sola lettura | stessi controlli bloccati e liberi della vista storica; FN3 e FN4 provati |
+| Profilo quick | PASS 52 (`supporto/artefatti/ci/20261017-100413-f59bv-c1-quick`), Presentation.Tests 1790 |
+
+Le catture e il confronto diretto sono nella cartella non versionata dell'agente (scratchpad `f5-agenti/f5-9b-vista`: `f3-storica1`,
+`f3-mvvm1`, `confronto-diretto1.json`, `capitoli-mvvm1`). La corsa finale è nella sezione 5.7.
+
+**Nota sulla prova.** La vista XAML costruisce il contenuto di un espansore chiuso, degli input raccolti, di una scheda non mostrata
+o di una riga nascosta solo quando lo mostra, mentre la vista storica costruisce tutti i controlli nel codice. Per leggere e guidare
+le tracce come la prova storica, `ui/check-fondazioni-view` misura quel contenuto fuori dall'albero visuale e applica i modelli
+(`Realize`); un controllo che l'utente non può usare continua a non fare nulla. Il prodotto non lo fa.
+
+### 5.4 Differenze visibili fra le due viste
+
+Sono le stesse in tutti gli aspetti (schermate di `ui/check-fondazioni-view`, cartella `vista/schermate` della corsa):
+- **Titolo.** 22 punti (`Font.Title`) invece di 19 (D9).
+- **Numeri.** `FieldForm` compatto (D10): etichetta a 12 punti su larghezza variabile invece di 215 px, casella di 82 px allineata a
+  destra invece di una casella fino al bordo, colonna dell'unità vuota (le etichette contengono già l'unità). Lo stesso per il nome
+  della combinazione, la densità relativa e il peso specifico dell'acqua. Falda e calcestruzzo erano già `InputForm`: invariati.
+- **Tabella degli strati.** L'altezza segue le righe: manca la striscia vuota che la vista storica lasciava sotto l'ultima riga.
+- Le scelte a indice, le schede, i disegni, i risultati e i colori sono quelli di oggi.
+
+### 5.5 Domande e note
+
+- **Contrasto (T10).** Il passo `mvvm-geo_fondazioni_superficiali` è aggiunto ma non eseguito: lo schermo è al 150%. Con
+  `--baseline` il passo misura solo Scuro e Molto scuro; la Chiara della vista MVVM si misura senza `--baseline`. Da ripetere a 96 DPI
+  prima dell'unione; al passaggio della Release le voci della Chiara passano dal passo storico a quello del modulo (D12).
+- **Suite storiche.** `FoundationWorkspace.UiChecks` (metodo `Ui` di `tests/FoundationWorkspace.Checks/Program.cs`, con la parte
+  `--ui` di `ContractChecks` e `--candidate`) apre ancora per riflessione la vista storica. Al passaggio della Release diventa la vista
+  XAML ospitata fuori schermo, con la libreria candidata iniettata nel servizio del contesto per `--candidate`; i suoi controlli della
+  disposizione sono già provati sulla vista nuova in `ui/check-fondazioni-view`.
+- Nessuna domanda nuova.
+
+### 5.6 Da provare a mano in una build di prova
+
+```
+dotnet build X.Desktop/X.Desktop.csproj -c UiTests
+X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe --interactive --module-impl geo_fondazioni_superficiali=mvvm
+```
+
+1. Nuovo foglio delle fondazioni superficiali: disposizione, campi, schede e stratigrafia come oggi. «Calcola»: titolo del
+   risultato, dettagli chiusi, sei schede grafiche.
+2. Cambiare metodo, geometria (nastriforme, circolare), drenaggio e verifica: i campi compaiono e scompaiono come oggi; i risultati
+   si azzerano («Dati modificati · premere Calcola») e nulla si ricalcola da solo.
+3. Aprire e chiudere i gruppi, «Raccogli input» / «Mostra input»: lo stato resta dopo il salvataggio, il risultato resta.
+4. Stratigrafia: «+ Sondaggio», «− Sondaggio» (con la domanda), scelta del sondaggio, modifica delle celle, γsat vuoto in grigio,
+   «Aggiungi strato», [−], semispazio.
+5. Calcestruzzo: scegliere una classe (fck si aggiorna); scrivere un fck (classe del catalogo o «Personalizzato»).
+6. Schede grafiche: campione di pressione sotto il puntatore; sezione X/Y della rottura.
+7. «Invia / carica terreno…»: invio a un palo e sostituzione del terreno da una stratigrafia del progetto.
+8. «Report Word e PDF»: nome proposto, DOCX e PDF affiancati come oggi; esportazione dei risultati in JSON.
+9. F1 su un campo e fuori dai campi, «Guida»: la guida del modulo.
+10. Aspetto Scuro e Molto scuro dal menu, con il foglio aperto.
+11. In un progetto, una revisione precedente: campi, scelte, strati, trasferimento e sezione del meccanismo bloccati; gruppi,
+    «Raccogli input», «Calcola» e report disponibili.
+12. Salvare, chiudere e riaprire l'archivio: stessi dati.
+
+### 5.7 Corsa finale
+
+Da completare dopo la corsa `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'`.
