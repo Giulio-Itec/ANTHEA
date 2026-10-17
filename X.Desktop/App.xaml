@@ -13,6 +13,8 @@
    <ResourceDictionary Source="Views/PileGroup/PileGroupTemplates.xaml"/>
    <ResourceDictionary Source="Views/ShallowFoundation/ShallowFoundationTemplates.xaml"/>
    <ResourceDictionary Source="Views/Materials/MaterialTemplates.xaml"/>
+   <ResourceDictionary Source="Views/VerticalPile/VerticalPileTemplates.xaml"/>
+   <ResourceDictionary Source="Views/Shared/SoilTransferTemplates.xaml"/>
   </ResourceDictionary.MergedDictionaries>
   </ResourceDictionary>
  </Application.Resources>

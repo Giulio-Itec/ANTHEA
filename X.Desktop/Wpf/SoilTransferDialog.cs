@@ -50,32 +50,12 @@ internal sealed class SoilTransferDialog : Window
         {
             SendButton.IsEnabled = apply.IsEnabled = profile is not null;
             if (profile is null) { preview.Content = null; return; }
-            if (profile["stratigraphy"] is JsonObject document)
-            {
-                var rows = new List<string[]>(); double top = 0;
-                foreach (var layer in Anthea.Application.Stratigraphy.StratigraphyDocument.Layers(document).OfType<JsonObject>())
-                {
-                    bool infinite = Anthea.Application.Stratigraphy.StratigraphyDocument.Infinite(layer);
-                    double bottom = top + (Anthea.Application.Stratigraphy.StratigraphyDocument.Number(layer["thickness"], "Spessore") ?? 0);
-                    string[] Values(JsonObject values, string set) => new[] { layer.S("name") + " · " + set, layer.S("soil_type"), RetainingWallWorkspace.F(top), infinite ? "Indefinito" : RetainingWallWorkspace.F(bottom), values.S("gamma"), values.S("gamma_sat"), values.S("phi"), values.S("c"), values.S("cu") };
-                    rows.Add(Values(layer, "Medi"));
-                    if (layer["minimum"] is JsonObject minimum) rows.Add(Values(minimum, "Minimi"));
-                    top = bottom;
-                }
-                var summary = Ui.Table(["Strato / insieme", "Famiglia", "Da z [m]", "A z [m]", "γ", "γsat", "φ′", "c′", "cu"], rows.ToArray());
-                summary.Columns[0].Width = new DataGridLength(220);
-                summary.Columns[1].Width = new DataGridLength(100);
-                summary.MinHeight = 130; summary.MaxHeight = 240; preview.Content = summary;
-                description.Text = "Stratigrafia completa: copia con medi, minimi, fonti e retini. Per i moduli di verifica scegliere un insieme; per entrambi inviare due fogli distinti. Falda e spessori devono essere definiti; nessuna sostituzione di dati mancanti.";
-                description.Text += "\nFalda: " + document.S("water_state") + (document.S("water_state") == "Assegnata" ? " a " + document.S("water_depth") + " m" : "") + ". Pesi in kN/m³; angoli in gradi; coesioni in kPa. Stesso piano di riferimento, senza traslazione di quota.";
-                return;
-            }
-            double depth = 0;
-            var table = Ui.Table(["Strato", "Tipo", "Da z [m]", "A z [m]", "γ", "γsat", "φ′", "c′", "cu"], profile.Array("layers").Select((r, i) =>
-            { double top = depth; depth += r.D("spessore"); return new[] { r.S("name", "Strato " + (i + 1)), r.S("tipologia"), RetainingWallWorkspace.F(top), RetainingWallWorkspace.F(depth), r.S("peso_specifico"), r.S("peso_specifico_saturo"), r.S("angolo_attrito"), r.S("coesione_efficace"), r.S("coesione_non_drenata") }; }).ToArray());
+            // F5.6: the rows and the description come from Application (SoilTransferPresentation), shared with SoilTransferDialogViewModel.
+            var shown = Anthea.Application.Presentation.SoilTransferPresentation.Preview(profile);
+            var table = Ui.Table([.. shown.Columns], shown.Rows.ToArray());
+            if (shown.Stratigraphy) { table.Columns[0].Width = new DataGridLength(220); table.Columns[1].Width = new DataGridLength(100); }
             table.MinHeight = 130; table.MaxHeight = 240; preview.Content = table;
-            description.Text = profile.S("datum") + $". Profondità indagata: {depth:0.##} m. " + (profile["water"].B("enabled") ? $"Falda a z={profile["water"].D("depth"):0.##} m." : "Falda assente.")
-                + "\nPesi in kN/m³; angoli in gradi; coesioni in kPa. Le profondità vengono copiate senza traslazione: usare lo stesso riferimento geometrico nel foglio di destinazione.";
+            description.Text = shown.Description;
         }
         void Current()
         {

@@ -14,12 +14,17 @@ internal sealed partial class SheetEditor
         var data = fixture["data"]!.AsObject();
         using var service = new GatedModuleService();
         using var editor = ModuleHostBench.SheetEditors().Open(service.ModuleId, data, service);
-        // Edits go through the general form of the historic vertical-pile view, outside the ISheetEditor contract until F5.6.
-        var historic = (SheetEditor)editor;
+        // Edits go through the general form of the vertical-pile view, outside the ISheetEditor contract: the historic InputForm, or with
+        // --module-impl geo_palo_verticale=mvvm (F5.6) the general form of VerticalPileSheetViewModel, the same Set of the module.
+        void SetDiameter(string value)
+        {
+            if (editor is MvvmSheetEditor mvvm) ((Anthea.Presentation.Modules.VerticalPile.VerticalPileSheetViewModel)mvvm.Sheet).GeneralForm.Set("diametro", value);
+            else ((SheetEditor)editor).generalForm.Set("diametro", value);
+        }
         var first = editor.CalculateAsync(commitEdits: false);
         await service.Started.Task.WaitAsync(TimeSpan.FromSeconds(15));
         Check(editor.Busy, "Stato Busy non attivato nella vista");
-        historic.generalForm.Set("diametro", "1.25");
+        SetDiameter("1.25");
         var last = editor.CalculateAsync(commitEdits: false);
         Check(editor.Result is null, "Risultato non invalidato dopo la modifica");
         Check(service.Calls == 1, "Motori verticali sovrapposti");
@@ -29,13 +34,13 @@ internal sealed partial class SheetEditor
         Check(editor.Result!.D("test_diametro_snapshot") == 1.25, "Pubblicato il risultato di una geometria precedente");
         Check(service.Calls == 2, "Richiesta automatica duplicata dopo il calcolo esplicito");
         service.Arm();
-        historic.generalForm.Set("diametro", "1.35");
+        SetDiameter("1.35");
         var closing = editor.CalculateAsync(commitEdits: false);
         await service.Started.Task.WaitAsync(TimeSpan.FromSeconds(15));
         editor.Dispose(); service.Release();
         await closing.WaitAsync(TimeSpan.FromSeconds(20));
         Check(editor.Result is null, "Vista chiusa aggiornata da un calcolo completato tardi");
-        Check(!editor.Busy && service.Calls == 3, "Chiusura lascia un lavoro in coda");
+        Check(!editor.Busy && service.Calls == 3, $"Chiusura lascia un lavoro in coda (occupato {editor.Busy}, calcoli {service.Calls})");
         Check(data["generali"].D("diametro") != 1.35, "Vista ha modificato il documento di ingresso");
         checks += await BridgeWorkspace.CheckF3Scheduling();
         checks += await RetainingWallWorkspace.CheckF3Scheduling();

@@ -1,0 +1,592 @@
+<!--
+  View of the vertical pile and micropile sheet (F5.6, decision Q3): VerticalPileSheetViewModel shown with the layout of the historic
+  view (the generic branch of SheetEditor with GeoEditor). Seven cards laid out by VerticalPileCardPanel (LayoutCards of the historic
+  view: wide or compact, «Estendi»/«Riduci»), the footer with the status, «Modello e dati comuni…», «Invia / carica terreno…» (pile
+  only) and the warnings. The forms are FieldForm (compact for «Efficienza» and «Coefficienti normativa», as the historic InputForm); the
+  stratigraphies are tabs with the table of StratigraphyTable (same columns, bindings with UpdateSourceTrigger=PropertyChanged, layer colour
+  from the tokens Swatch.Soil1–6 by row, V10); the verification, the tables and the JSON of the results keep the historic presentation.
+  Colours and font sizes are theme tokens only (rule P7). The code-behind draws the capacity chart, the reference chart and the profile
+  from the plain data of the ViewModel (Q3); every write into the document goes through the ViewModel. Read-only revision: the forms are
+  read-only (FormViewModel.IsReadOnly), the commands that change the data are disabled, the tables and the choices of the layers are
+  locked; capacity view, curves, «Tutte»/«Nessuna», tables, «Estendi» and the guide stay usable, as in the historic view.
+-->
+<UserControl x:Class="X.Desktop.Views.VerticalPile.VerticalPileSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ xmlns:views="clr-namespace:X.Desktop.Views.VerticalPile"
+ xmlns:pile="clr-namespace:Anthea.Presentation.Modules.VerticalPile;assembly=ANTHEA.Presentation"
+ Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <common:NegationConverter x:Key="Not"/>
+  <BooleanToVisibilityConverter x:Key="Visible"/>
+  <views:EmptyTextVisibilityConverter x:Key="WhenEmpty"/>
+  <views:CollapsedWhenConverter x:Key="CollapsedWhen"/>
+  <local:SeriesForegroundConverter x:Key="SeriesForeground"/>
+
+  <!-- Texts: Ui.Text of the historic view (wrapping, vertically centred, ink). -->
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Muted" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+  </Style>
+  <Style x:Key="CardTitle" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Heading}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <!-- AddCard: Ui.Paper with padding 14, clipped. -->
+  <Style x:Key="Card" TargetType="Border">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+   <Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Padding" Value="14"/>
+   <Setter Property="ClipToBounds" Value="True"/>
+  </Style>
+  <Style x:Key="CardHeader" TargetType="DockPanel">
+   <Setter Property="DockPanel.Dock" Value="Top"/>
+   <Setter Property="Margin" Value="0,0,0,8"/>
+   <Setter Property="MinHeight" Value="28"/>
+  </Style>
+  <!-- Ui.Button: a light button. -->
+  <Style x:Key="Command" TargetType="Button">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  </Style>
+  <Style x:Key="Expand" TargetType="Button" BasedOn="{StaticResource Command}">
+   <Setter Property="DockPanel.Dock" Value="Right"/>
+   <Setter Property="FontSize" Value="{DynamicResource Font.Caption}"/>
+   <Setter Property="Padding" Value="5,2,5,2"/>
+   <Setter Property="Content" Value="Estendi"/>
+   <Setter Property="Command" Value="{Binding ToggleCardCommand}"/>
+  </Style>
+  <Style x:Key="Form" TargetType="ContentControl">
+   <Setter Property="Focusable" Value="False"/>
+   <Setter Property="IsTabStop" Value="False"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+  </Style>
+
+  <!-- Verification: Ui.Table with the cell styles of UpdatePileVerification. -->
+  <Style x:Key="VerificationHeader" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+   <Setter Property="TextAlignment" Value="Center"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+  </Style>
+  <Style x:Key="VerificationCell" TargetType="TextBlock">
+   <Setter Property="TextAlignment" Value="Center"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="Margin" Value="3,5,3,5"/>
+  </Style>
+  <Style x:Key="VerificationValue" TargetType="TextBlock" BasedOn="{StaticResource VerificationCell}">
+   <Setter Property="TextWrapping" Value="NoWrap"/>
+   <Setter Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+  </Style>
+  <Style x:Key="VerificationMicroCondition" TargetType="TextBlock" BasedOn="{StaticResource VerificationCell}">
+   <Setter Property="TextWrapping" Value="NoWrap"/>
+   <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
+  </Style>
+  <Style x:Key="VerificationOutcome" TargetType="TextBlock" BasedOn="{StaticResource VerificationCell}">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding [4]}" Value="Verifica soddisfatta"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Ok}"/></DataTrigger>
+    <DataTrigger Binding="{Binding [4]}" Value="Verifica non soddisfatta"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger>
+   </Style.Triggers>
+  </Style>
+  <Style x:Key="VerificationGrid" TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+   <Setter Property="IsReadOnly" Value="True"/>
+   <Setter Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+   <Setter Property="RowHeight" Value="NaN"/>
+   <Setter Property="MinRowHeight" Value="52"/>
+  </Style>
+
+  <!-- Stratigraphy tables: StratigraphyTable of the historic view. -->
+  <Style x:Key="LayerHeader" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+   <Setter Property="TextAlignment" Value="Center"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <!-- On every column (HeaderStyle): the implicit header style of the theme wins over DataGrid.ColumnHeaderStyle. -->
+  <Style x:Key="LayerColumnHeader" TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+   <Setter Property="Background" Value="{DynamicResource Token.CommandBar}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="Padding" Value="4"/>
+  </Style>
+  <Style x:Key="LayerCell" TargetType="DataGridCell">
+   <Setter Property="Padding" Value="3"/>
+   <Setter Property="VerticalContentAlignment" Value="Center"/>
+  </Style>
+  <!-- RowBackground Paper and AlternatingRowBackground PaperAlt of the historic table; AlternationCount 6 gives the colour of the layer. -->
+  <Style x:Key="LayerRow" TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Style.Triggers>
+    <Trigger Property="ItemsControl.AlternationIndex" Value="1"><Setter Property="Background" Value="{DynamicResource Token.PaperAlt}"/></Trigger>
+    <Trigger Property="ItemsControl.AlternationIndex" Value="3"><Setter Property="Background" Value="{DynamicResource Token.PaperAlt}"/></Trigger>
+    <Trigger Property="ItemsControl.AlternationIndex" Value="5"><Setter Property="Background" Value="{DynamicResource Token.PaperAlt}"/></Trigger>
+   </Style.Triggers>
+  </Style>
+  <Style x:Key="LayerGrid" TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+   <Setter Property="CanUserSortColumns" Value="False"/>
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="RowHeight" Value="44"/>
+   <Setter Property="ColumnHeaderHeight" Value="54"/>
+   <Setter Property="GridLinesVisibility" Value="All"/>
+   <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource Token.Border}"/>
+   <Setter Property="AlternationCount" Value="6"/>
+   <Setter Property="RowStyle" Value="{StaticResource LayerRow}"/>
+   <Setter Property="CellStyle" Value="{StaticResource LayerCell}"/>
+   <Setter Property="ItemsSource" Value="{Binding Rows}"/>
+   <Setter Property="IsReadOnly" Value="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=views:VerticalPileSheetView}, Converter={StaticResource Not}}"/>
+  </Style>
+  <Style x:Key="LayerSwatch" TargetType="Border">
+   <Setter Property="Width" Value="18"/>
+   <Setter Property="Height" Value="12"/>
+   <Setter Property="Margin" Value="8,0,0,0"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource Token.Muted}"/>
+   <Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Swatch.Soil1}"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="1"><Setter Property="Background" Value="{DynamicResource Token.Swatch.Soil2}"/></DataTrigger>
+    <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="2"><Setter Property="Background" Value="{DynamicResource Token.Swatch.Soil3}"/></DataTrigger>
+    <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="3"><Setter Property="Background" Value="{DynamicResource Token.Swatch.Soil4}"/></DataTrigger>
+    <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="4"><Setter Property="Background" Value="{DynamicResource Token.Swatch.Soil5}"/></DataTrigger>
+    <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="5"><Setter Property="Background" Value="{DynamicResource Token.Swatch.Soil6}"/></DataTrigger>
+   </Style.Triggers>
+  </Style>
+  <Style x:Key="LayerControl" TargetType="Control">
+   <Setter Property="VerticalAlignment" Value="Center"/>
+   <Setter Property="Margin" Value="3"/>
+   <Setter Property="Height" Value="26"/>
+   <Setter Property="ToolTipService.ShowDuration" Value="20000"/>
+  </Style>
+  <Style x:Key="LayerText" TargetType="TextBox" BasedOn="{StaticResource LayerControl}">
+   <Setter Property="TextAlignment" Value="Center"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="IsReadOnly" Value="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=views:VerticalPileSheetView}, Converter={StaticResource Not}}"/>
+  </Style>
+  <Style x:Key="LayerOutput" TargetType="TextBox" BasedOn="{StaticResource LayerControl}">
+   <Setter Property="TextAlignment" Value="Center"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Calculated}"/>
+   <Setter Property="IsReadOnly" Value="True"/>
+  </Style>
+  <Style x:Key="LayerChoice" TargetType="ComboBox" BasedOn="{StaticResource LayerControl}">
+   <Setter Property="HorizontalContentAlignment" Value="Center"/>
+   <Setter Property="IsEnabled" Value="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=views:VerticalPileSheetView}}"/>
+  </Style>
+  <!-- γsat empty: the γ of the same layer shown in grey (not input). -->
+  <Style x:Key="GammaHint" TargetType="TextBlock">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Disabled}"/>
+   <Setter Property="TextAlignment" Value="Center"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+   <Setter Property="IsHitTestVisible" Value="False"/>
+   <Setter Property="Tag" Value="gamma-sat-automatico"/>
+  </Style>
+
+  <!-- The column «Strato»: name, colour swatch and «Laterale». -->
+  <DataTemplate x:Key="LayerName">
+   <StackPanel HorizontalAlignment="Center">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+     <TextBlock Text="{Binding [__strato], Mode=OneWay}" FontWeight="SemiBold" Foreground="{DynamicResource Token.Ink}"/>
+     <Border Style="{StaticResource LayerSwatch}"/>
+    </StackPanel>
+    <CheckBox Content="Laterale" Margin="0,2,0,0" IsChecked="{Binding [laterale_attiva], UpdateSourceTrigger=PropertyChanged}"
+     IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=views:VerticalPileSheetView}}"/>
+   </StackPanel>
+  </DataTemplate>
+  <DataTemplate x:Key="LayerDelete">
+   <Button Content="[−]" ToolTip="Elimina questo strato" VerticalAlignment="Center" Padding="4,1,4,1" Style="{StaticResource Command}"
+    Command="{Binding DataContext.RemoveLayerCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}"/>
+  </DataTemplate>
+
+  <!-- Stratigraphy of the pile: the columns of VerticalPileFields.Layers(false). -->
+  <DataTemplate x:Key="PileLayers" DataType="{x:Type pile:VerticalPileSurveyViewModel}">
+   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel>
+     <DataGrid Style="{StaticResource LayerGrid}">
+      <DataGrid.Columns>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="100" CellTemplate="{StaticResource LayerName}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Strato"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="130">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Tipologia"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><ComboBox Style="{StaticResource LayerChoice}" AutomationProperties.Name="Tipologia"
+         ItemsSource="{Binding DataContext.Choices[tipologia], RelativeSource={RelativeSource AncestorType=DataGrid}}" SelectedItem="{Binding [tipologia], UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="{Binding DataContext.Help[tipologia], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="130">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Addensamento"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><ComboBox Style="{StaticResource LayerChoice}" AutomationProperties.Name="Addensamento"
+         ItemsSource="{Binding DataContext.Choices[addensamento], RelativeSource={RelativeSource AncestorType=DataGrid}}" SelectedItem="{Binding [addensamento], UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="{Binding DataContext.Help[addensamento], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Spessore&#10;S [m]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="Spessore S [m]" Text="{Binding [spessore], UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="{Binding DataContext.Help[spessore], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Peso specifico&#10;γ [kN/m³]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="γ [kN/m³]" Text="{Binding [peso_specifico], UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="{Binding DataContext.Help[peso_specifico], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Peso specifico saturo&#10;γsat [kN/m³]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate>
+         <Grid ToolTip="Se vuoto, si usa automaticamente γ dello stesso strato (valore in grigio). Per tornare al valore automatico, cancellare γsat.">
+          <TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="γsat [kN/m³]" Text="{Binding [peso_specifico_saturo], UpdateSourceTrigger=PropertyChanged}"
+           ToolTip="{Binding DataContext.Help[peso_specifico_saturo], RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+          <TextBlock Style="{StaticResource GammaHint}" Text="{Binding [peso_specifico], Mode=OneWay}" Visibility="{Binding [peso_specifico_saturo], Mode=OneWay, Converter={StaticResource WhenEmpty}}"/>
+         </Grid>
+        </DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Angolo di attrito&#10;φ′ [°]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="φ′ [°]" Text="{Binding [angolo_attrito], UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="{Binding DataContext.Help[angolo_attrito], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coesione efficace&#10;c′ [kPa]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="c′ [kPa]" Text="{Binding [coesione_efficace], UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="{Binding DataContext.Help[coesione_efficace], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coesione non drenata&#10;Cu [kPa]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="Cu [kPa]" Text="{Binding [coesione_non_drenata], UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="{Binding DataContext.Help[coesione_non_drenata], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coefficiente&#10;k [-]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerOutput}" AutomationProperties.Name="Coeff. k [-]" Text="{Binding [__k], Mode=OneWay}"
+         ToolTip="{Binding DataContext.Help[__k], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coefficiente&#10;μ [-]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerOutput}" AutomationProperties.Name="Coeff. μ [-]" Text="{Binding [__mu], Mode=OneWay}"
+         ToolTip="{Binding DataContext.Help[__mu], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coefficiente&#10;α [-]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerOutput}" AutomationProperties.Name="Coeff. α [-]" Text="{Binding [__alfa], Mode=OneWay}"
+         ToolTip="{Binding DataContext.Help[__alfa], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Fattore&#10;Nq [-]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerOutput}" AutomationProperties.Name="Fattore Nq [-]" Text="{Binding [__nq], Mode=OneWay}"
+         ToolTip="{Binding DataContext.Help[__nq], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Fattore&#10;Nc [−]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="Fattore Nc [-]" Text="{Binding [nc], UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="{Binding DataContext.Help[nc], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="60" CellTemplate="{StaticResource LayerDelete}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Elimina"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
+      </DataGrid.Columns>
+     </DataGrid>
+     <Button Content="Aggiungi strato" FontSize="{DynamicResource Font.Small}" HorizontalAlignment="Left" Style="{StaticResource Command}" Command="{Binding AddLayerCommand}"/>
+    </StackPanel>
+   </ScrollViewer>
+  </DataTemplate>
+
+  <!-- Stratigraphy of the micropile: the columns of VerticalPileFields.Layers(true), the table at most 650 wide. -->
+  <DataTemplate x:Key="MicroLayers" DataType="{x:Type pile:VerticalPileSurveyViewModel}">
+   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel>
+     <DataGrid Style="{StaticResource LayerGrid}" MaxWidth="650" HorizontalAlignment="Left">
+      <DataGrid.Columns>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="100" CellTemplate="{StaticResource LayerName}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Strato"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="200">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Terreno"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><ComboBox Style="{StaticResource LayerChoice}" AutomationProperties.Name="Terreno"
+         ItemsSource="{Binding DataContext.Choices[terreno], RelativeSource={RelativeSource AncestorType=DataGrid}}" SelectedItem="{Binding [terreno], UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="{Binding DataContext.Help[terreno], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="110">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Spessore verticale&#10;S [m]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="Spessore verticale [m]" Text="{Binding [spessore], UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="{Binding DataContext.Help[spessore], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="80">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="α adottato"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="α adottato" Text="{Binding [alpha], UpdateSourceTrigger=PropertyChanged}"
+         ToolTip="{Binding DataContext.Help[alpha], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="90">
+        <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Aderenza&#10;τ [kPa]"/></DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerOutput}" AutomationProperties.Name="Aderenza τ [kPa]" Text="{Binding [__tau], Mode=OneWay}"
+         ToolTip="{Binding DataContext.Help[__tau], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="60" CellTemplate="{StaticResource LayerDelete}"><DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Elimina"/></DataGridTemplateColumn.Header></DataGridTemplateColumn>
+      </DataGrid.Columns>
+     </DataGrid>
+     <Button Content="Aggiungi strato" FontSize="{DynamicResource Font.Small}" HorizontalAlignment="Left" Style="{StaticResource Command}" Command="{Binding AddLayerCommand}"/>
+    </StackPanel>
+   </ScrollViewer>
+  </DataTemplate>
+
+  <!-- A table of «Tabelle e dettagli» (DetailTable of the historic view): columns built from the block. -->
+  <DataTemplate x:Key="TableBlock" DataType="{x:Type pile:VerticalPileTableBlock}">
+   <StackPanel>
+    <TextBlock Text="{Binding Title}" FontSize="{DynamicResource Font.Subheading}" FontWeight="SemiBold" Foreground="{DynamicResource Token.Ink}" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,12,0,5">
+     <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding Title}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+    </TextBlock>
+    <views:VerticalPileTableGrid Block="{Binding}"/>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+
+ <DockPanel>
+  <!-- Footer: status, «Modello e dati comuni…», «Invia / carica terreno…» (pile), warnings. -->
+  <StackPanel DockPanel.Dock="Bottom">
+   <DockPanel Margin="24,4,24,4">
+    <Button DockPanel.Dock="Right" Content="Invia / carica terreno…" Style="{StaticResource Command}" Command="{Binding TransferSoilCommand}"
+     Visibility="{Binding IsMicro, Converter={StaticResource CollapsedWhen}}"/>
+    <Button DockPanel.Dock="Right" Content="Modello e dati comuni…" Style="{StaticResource Command}" Command="{Binding CalculationGuideCommand}"/>
+    <TextBlock x:Name="StatusText" Style="{StaticResource Muted}" Text="{Binding Status}"/>
+   </DockPanel>
+   <TextBox x:Name="WarningsBox" Text="{Binding WarningText, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" MaxHeight="62"
+    Background="{DynamicResource Token.Warning.Background}" Visibility="{Binding WarningText, Converter={StaticResource WhenEmpty}, ConverterParameter=Invert}"/>
+  </StackPanel>
+
+  <ScrollViewer x:Name="Scroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+   <views:VerticalPileCardPanel x:Name="Cards" ExpandedCard="{Binding ExpandedCard}">
+    <!-- 0. Dati generali -->
+    <Border Style="{StaticResource Card}">
+     <DockPanel>
+      <DockPanel Style="{StaticResource CardHeader}"><TextBlock Style="{StaticResource CardTitle}" Text="Dati generali"/></DockPanel>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding GeneralForm}"/>
+     </DockPanel>
+    </Border>
+    <!-- 1. Efficienza -->
+    <Border Style="{StaticResource Card}">
+     <DockPanel>
+      <DockPanel Style="{StaticResource CardHeader}"><TextBlock Style="{StaticResource CardTitle}" Text="Efficienza"/></DockPanel>
+      <TextBlock x:Name="EfficiencyText" DockPanel.Dock="Bottom" Style="{StaticResource Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding EfficiencyText}"/>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding EfficiencyForm}"/>
+     </DockPanel>
+    </Border>
+    <!-- 2. Coefficienti normativa -->
+    <Border Style="{StaticResource Card}">
+     <DockPanel>
+      <DockPanel Style="{StaticResource CardHeader}">
+       <Button DockPanel.Dock="Right" Content="Reset" Style="{StaticResource Command}" Command="{Binding ResetNormativeCommand}"/>
+       <TextBlock Style="{StaticResource CardTitle}" Text="Coefficienti normativa"/>
+      </DockPanel>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding NormativeForm}"/>
+     </DockPanel>
+    </Border>
+    <!-- 3. Verifica -->
+    <Border Style="{StaticResource Card}">
+     <DockPanel>
+      <DockPanel Style="{StaticResource CardHeader}"><TextBlock Style="{StaticResource CardTitle}" Text="Verifica"/></DockPanel>
+      <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource Muted}" Text="Valori in kN · Util. = NEd / Rd"/>
+      <Grid>
+       <DataGrid x:Name="PileVerification" Style="{StaticResource VerificationGrid}" ItemsSource="{Binding Verification}"
+        Visibility="{Binding IsMicro, Converter={StaticResource CollapsedWhen}}">
+        <DataGrid.Columns>
+         <DataGridTextColumn Binding="{Binding [0]}" Width="1.4*" MinWidth="85" ElementStyle="{StaticResource VerificationCell}"><DataGridTextColumn.Header><TextBlock Style="{StaticResource VerificationHeader}" Text="Condizione"/></DataGridTextColumn.Header></DataGridTextColumn>
+         <DataGridTextColumn Binding="{Binding [1]}" Width="0.9*" MinWidth="52" ElementStyle="{StaticResource VerificationValue}"><DataGridTextColumn.Header><TextBlock Style="{StaticResource VerificationHeader}" Text="NEd [kN]"/></DataGridTextColumn.Header></DataGridTextColumn>
+         <DataGridTextColumn Binding="{Binding [2]}" Width="0.9*" MinWidth="52" ElementStyle="{StaticResource VerificationValue}"><DataGridTextColumn.Header><TextBlock Style="{StaticResource VerificationHeader}" Text="Rd [kN]"/></DataGridTextColumn.Header></DataGridTextColumn>
+         <DataGridTextColumn Binding="{Binding [3]}" Width="0.8*" MinWidth="48" ElementStyle="{StaticResource VerificationValue}"><DataGridTextColumn.Header><TextBlock Style="{StaticResource VerificationHeader}" Text="Util."/></DataGridTextColumn.Header></DataGridTextColumn>
+         <DataGridTextColumn Binding="{Binding [4]}" Width="1.8*" MinWidth="100" ElementStyle="{StaticResource VerificationOutcome}"><DataGridTextColumn.Header><TextBlock Style="{StaticResource VerificationHeader}" Text="Esito"/></DataGridTextColumn.Header></DataGridTextColumn>
+        </DataGrid.Columns>
+       </DataGrid>
+       <DataGrid x:Name="MicroVerification" Style="{StaticResource VerificationGrid}" ItemsSource="{Binding Verification}"
+        Visibility="{Binding IsMicro, Converter={StaticResource Visible}}">
+        <DataGrid.Columns>
+         <DataGridTextColumn Binding="{Binding [0]}" Width="1.8*" MinWidth="100" ElementStyle="{StaticResource VerificationMicroCondition}"><DataGridTextColumn.Header><TextBlock Style="{StaticResource VerificationHeader}" Text="Condizione"/></DataGridTextColumn.Header></DataGridTextColumn>
+         <DataGridTextColumn Binding="{Binding [1]}" Width="0.85*" MinWidth="48" ElementStyle="{StaticResource VerificationValue}"><DataGridTextColumn.Header><TextBlock Style="{StaticResource VerificationHeader}" Text="NEd [kN]"/></DataGridTextColumn.Header></DataGridTextColumn>
+         <DataGridTextColumn Binding="{Binding [2]}" Width="0.85*" MinWidth="48" ElementStyle="{StaticResource VerificationValue}"><DataGridTextColumn.Header><TextBlock Style="{StaticResource VerificationHeader}" Text="Rd [kN]"/></DataGridTextColumn.Header></DataGridTextColumn>
+         <DataGridTextColumn Binding="{Binding [3]}" Width="0.75*" MinWidth="44" ElementStyle="{StaticResource VerificationValue}"><DataGridTextColumn.Header><TextBlock Style="{StaticResource VerificationHeader}" Text="Util."/></DataGridTextColumn.Header></DataGridTextColumn>
+         <DataGridTextColumn Binding="{Binding [4]}" Width="1.9*" MinWidth="96" ElementStyle="{StaticResource VerificationOutcome}"><DataGridTextColumn.Header><TextBlock Style="{StaticResource VerificationHeader}" Text="Esito"/></DataGridTextColumn.Header></DataGridTextColumn>
+        </DataGrid.Columns>
+       </DataGrid>
+      </Grid>
+     </DockPanel>
+    </Border>
+    <!-- 4. Stratigrafia -->
+    <Border Style="{StaticResource Card}">
+     <DockPanel>
+      <DockPanel Style="{StaticResource CardHeader}">
+       <Button x:Name="ExpandSurveys" CommandParameter="stratigrafia">
+        <Button.Style>
+         <Style TargetType="Button" BasedOn="{StaticResource Expand}">
+          <Style.Triggers><DataTrigger Binding="{Binding ExpandedCard}" Value="stratigrafia"><Setter Property="Content" Value="Riduci"/></DataTrigger></Style.Triggers>
+         </Style>
+        </Button.Style>
+       </Button>
+       <WrapPanel DockPanel.Dock="Right">
+        <Button Content="+" Style="{StaticResource Command}" Command="{Binding AddSurveyCommand}"/>
+        <Button Content="−" Style="{StaticResource Command}" Command="{Binding RemoveSelectedSurveyCommand}"/>
+        <Button Content="Copia in…" Style="{StaticResource Command}" Command="{Binding CopySurveyIntoCommand}"/>
+        <Button Content="Copia da…" Style="{StaticResource Command}" Command="{Binding CopySurveyFromCommand}"/>
+       </WrapPanel>
+       <TextBlock Style="{StaticResource CardTitle}" Text="Stratigrafia"/>
+      </DockPanel>
+      <TabControl x:Name="Surveys" ItemsSource="{Binding Surveys}" SelectedIndex="{Binding SelectedSurveyIndex}">
+       <TabControl.ItemContainerStyle>
+        <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}"><Setter Property="Background" Value="{DynamicResource Token.Paper}"/></Style>
+       </TabControl.ItemContainerStyle>
+       <TabControl.ItemTemplate>
+        <DataTemplate DataType="{x:Type pile:VerticalPileSurveyViewModel}">
+         <WrapPanel>
+          <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Small}" Text="{Binding Header}"/>
+          <Button Content="[−]" FontSize="{DynamicResource Font.Caption}" MinHeight="20" Padding="3,0,3,0" Style="{StaticResource Command}"
+           Tag="elimina-stratigrafia"
+           Command="{Binding DataContext.RemoveSurveyCommand, RelativeSource={RelativeSource AncestorType=views:VerticalPileSheetView}}" CommandParameter="{Binding}">
+           <Button.ToolTip><TextBlock Text="{Binding Header, StringFormat='Elimina stratigrafia {0}'}"/></Button.ToolTip>
+          </Button>
+         </WrapPanel>
+        </DataTemplate>
+       </TabControl.ItemTemplate>
+       <TabControl.ContentTemplate>
+        <!-- The table of the pile or of the micropile, chosen by the stratigraphy (the TabItems keep the template they were prepared with). -->
+        <DataTemplate DataType="{x:Type pile:VerticalPileSurveyViewModel}">
+         <ContentControl Content="{Binding}" Focusable="False" IsTabStop="False">
+          <ContentControl.Style>
+           <Style TargetType="ContentControl">
+            <Setter Property="ContentTemplate" Value="{StaticResource PileLayers}"/>
+            <Style.Triggers><DataTrigger Binding="{Binding IsMicro}" Value="True"><Setter Property="ContentTemplate" Value="{StaticResource MicroLayers}"/></DataTrigger></Style.Triggers>
+           </Style>
+          </ContentControl.Style>
+         </ContentControl>
+        </DataTemplate>
+       </TabControl.ContentTemplate>
+      </TabControl>
+     </DockPanel>
+    </Border>
+    <!-- 5. Profilo stratigrafico -->
+    <Border Style="{StaticResource Card}">
+     <DockPanel>
+      <DockPanel Style="{StaticResource CardHeader}">
+       <Button x:Name="ExpandProfile" CommandParameter="profilo">
+        <Button.Style>
+         <Style TargetType="Button" BasedOn="{StaticResource Expand}">
+          <Style.Triggers><DataTrigger Binding="{Binding ExpandedCard}" Value="profilo"><Setter Property="Content" Value="Riduci"/></DataTrigger></Style.Triggers>
+         </Style>
+        </Button.Style>
+       </Button>
+       <TextBlock Style="{StaticResource CardTitle}" Text="Profilo stratigrafico"/>
+      </DockPanel>
+      <local:StratigraphyDrawing x:Name="ProfileDrawing"/>
+     </DockPanel>
+    </Border>
+    <!-- 6. Grafici capacità portante -->
+    <Border Style="{StaticResource Card}">
+     <DockPanel>
+      <DockPanel Style="{StaticResource CardHeader}">
+       <Button x:Name="ExpandCharts" CommandParameter="grafici">
+        <Button.Style>
+         <Style TargetType="Button" BasedOn="{StaticResource Expand}">
+          <Style.Triggers><DataTrigger Binding="{Binding ExpandedCard}" Value="grafici"><Setter Property="Content" Value="Riduci"/></DataTrigger></Style.Triggers>
+         </Style>
+        </Button.Style>
+       </Button>
+       <TextBlock Style="{StaticResource CardTitle}" Text="Grafici capacità portante"/>
+      </DockPanel>
+      <ComboBox x:Name="CapacityView" DockPanel.Dock="Top" ItemsSource="{Binding CapacityViews}" SelectedIndex="{Binding SelectedCapacityView}"/>
+      <TabControl x:Name="Outputs">
+       <TabItem Header="Grafico" Background="{DynamicResource Token.Paper}">
+        <DockPanel>
+         <StackPanel DockPanel.Dock="Bottom">
+          <WrapPanel>
+           <TextBlock x:Name="EndValues" Style="{StaticResource Text}" FontSize="{DynamicResource Font.Caption}" FontWeight="SemiBold" Text="{Binding EndValues}"/>
+           <Button Content="Tutte" Style="{StaticResource Command}" Command="{Binding ShowAllCurvesCommand}"/>
+           <Button Content="Nessuna" Style="{StaticResource Command}" Command="{Binding HideAllCurvesCommand}"/>
+          </WrapPanel>
+          <ScrollViewer MaxHeight="110" VerticalScrollBarVisibility="Auto">
+           <ItemsControl x:Name="CurveChoices" ItemsSource="{Binding CurveChoices}" Focusable="False">
+            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+             <DataTemplate DataType="{x:Type pile:VerticalPileCurveChoiceViewModel}">
+              <CheckBox Content="{Binding Label}" IsChecked="{Binding IsChecked}" Margin="2,4,8,4" FontSize="{DynamicResource Font.Caption}"
+               Foreground="{Binding Color, Converter={StaticResource SeriesForeground}}"/>
+             </DataTemplate>
+            </ItemsControl.ItemTemplate>
+           </ItemsControl>
+          </ScrollViewer>
+         </StackPanel>
+         <!-- The capacity chart (Plot, drawn from the code-behind) with its menu «Adatta» and «Salva PNG…», removed in a read-only revision. -->
+         <ContentControl x:Name="CapacityHost" Focusable="False" IsTabStop="False" ContextMenuService.IsEnabled="{Binding CanEdit}">
+          <ContentControl.ContextMenu>
+           <ContextMenu>
+            <MenuItem Header="Adatta" Click="Fit_Click"/>
+            <MenuItem Header="Salva PNG…" Click="SavePng_Click"/>
+           </ContextMenu>
+          </ContentControl.ContextMenu>
+         </ContentControl>
+        </DockPanel>
+       </TabItem>
+       <TabItem Header="Tabelle e dettagli" Background="{DynamicResource Token.Paper}">
+        <DockPanel>
+         <ComboBox x:Name="TableChoice" DockPanel.Dock="Top" ItemsSource="{Binding TableTitles}" SelectedIndex="{Binding SelectedTableIndex}"/>
+         <ContentControl x:Name="TableHost" Content="{Binding ShownTable}" Focusable="False" IsTabStop="False">
+          <ContentControl.Style>
+           <!-- Nothing after an edit, as the historic table host. -->
+           <Style TargetType="ContentControl"><Style.Triggers><DataTrigger Binding="{Binding ShownTable}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style>
+          </ContentControl.Style>
+          <ContentControl.ContentTemplate>
+           <DataTemplate DataType="{x:Type pile:VerticalPileTableView}">
+            <ContentControl Content="{Binding}" Focusable="False" IsTabStop="False">
+             <ContentControl.Style>
+              <Style TargetType="ContentControl">
+               <!-- One table of details. -->
+               <Setter Property="ContentTemplate">
+                <Setter.Value>
+                 <DataTemplate><views:VerticalPileTableGrid Block="{Binding Tables[0]}"/></DataTemplate>
+                </Setter.Value>
+               </Setter>
+               <Style.Triggers>
+                <!-- The capacity at the available depth: note, tables with their titles, footnote. -->
+                <DataTrigger Binding="{Binding Note, Converter={StaticResource WhenEmpty}}" Value="Collapsed">
+                 <Setter Property="ContentTemplate">
+                  <Setter.Value>
+                   <DataTemplate>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                     <StackPanel MaxWidth="620">
+                      <TextBlock Style="{StaticResource Muted}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Note}"/>
+                      <ItemsControl ItemsSource="{Binding Tables}" ItemTemplate="{StaticResource TableBlock}" Focusable="False"/>
+                      <TextBlock Style="{StaticResource Muted}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Footnote}"/>
+                     </StackPanel>
+                    </ScrollViewer>
+                   </DataTemplate>
+                  </Setter.Value>
+                 </Setter>
+                </DataTrigger>
+               </Style.Triggers>
+              </Style>
+             </ContentControl.Style>
+            </ContentControl>
+           </DataTemplate>
+          </ContentControl.ContentTemplate>
+         </ContentControl>
+        </DockPanel>
+       </TabItem>
+       <TabItem Background="{DynamicResource Token.Paper}">
+        <TabItem.Style>
+         <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+          <Setter Property="Header" Value="Nq"/>
+          <Style.Triggers><DataTrigger Binding="{Binding IsMicro}" Value="True"><Setter Property="Header" Value="Abachi"/></DataTrigger></Style.Triggers>
+         </Style>
+        </TabItem.Style>
+        <ContentControl x:Name="ReferenceHost" Focusable="False" IsTabStop="False"/>
+       </TabItem>
+       <TabItem Header="Risultati JSON" Background="{DynamicResource Token.Paper}">
+        <TextBox x:Name="RawResult" Text="{Binding RawResult, Mode=OneWay}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="NoWrap" FontFamily="Consolas"
+         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+       </TabItem>
+      </TabControl>
+     </DockPanel>
+    </Border>
+   </views:VerticalPileCardPanel>
+  </ScrollViewer>
+ </DockPanel>
+</UserControl>

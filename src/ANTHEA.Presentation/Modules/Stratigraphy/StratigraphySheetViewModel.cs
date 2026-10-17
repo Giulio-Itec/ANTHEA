@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Anthea.Application.Stratigraphy;
+using Anthea.Presentation.Modules.Shared;
 using Anthea.Presentation.Mvvm;
 using Anthea.Reports;
 using CommunityToolkit.Mvvm.Input;

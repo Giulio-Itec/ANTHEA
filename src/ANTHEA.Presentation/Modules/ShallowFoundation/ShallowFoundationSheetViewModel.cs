@@ -5,7 +5,7 @@ using Anthea.Application.Modules;
 using Anthea.Application.Presentation;
 using Anthea.FoundationWorkspace;
 using Anthea.Presentation.Forms;
-using Anthea.Presentation.Modules.Stratigraphy;
+using Anthea.Presentation.Modules.Shared;
 using Anthea.Presentation.Mvvm;
 using Anthea.Reports;
 using CommunityToolkit.Mvvm.ComponentModel;

@@ -37,7 +37,8 @@ public partial class App
             }));
             return;
         }
-        if (e.Args.Length == 3 && e.Args[0] is "--check-f3-figures" or "--check-f3-figures-capture")
+        // F5.6: after root and output, --module-impl pairs choose the MVVM view of the vertical piles (ModuleHostBench).
+        if (e.Args.Length >= 3 && e.Args[0] is "--check-f3-figures" or "--check-f3-figures-capture" && ModuleHostBench.WithoutBench(e.Args).Length == 3)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>
@@ -61,7 +62,7 @@ public partial class App
             }));
             return;
         }
-        if (e.Args.Length == 3 && e.Args[0] == "--check-f3-scheduling")
+        if (e.Args.Length >= 3 && e.Args[0] == "--check-f3-scheduling" && ModuleHostBench.WithoutBench(e.Args).Length == 3)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>
@@ -95,6 +96,21 @@ public partial class App
             {
                 int code = 0;
                 try { await PileGroupViewChecks.Run(e.Args[1], e.Args[2]); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            }));
+            return;
+        }
+
+        // F5.6: the XAML view of the vertical pile and micropile hosted by MvvmSheetEditor, off screen (tests/Desktop/VerticalPileViewChecks.cs);
+        // the bench opens the two modules with the MVVM view, the Release keeps the historic one until the user has tried it.
+        if (e.Args.Length == 3 && e.Args[0] == "--check-palo-verticale-view")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0;
+                try { await VerticalPileViewChecks.Run(e.Args[1], e.Args[2]); }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
                 finally { Shutdown(code); }
             }));

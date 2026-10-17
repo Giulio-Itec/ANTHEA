@@ -12,8 +12,8 @@ namespace Anthea.Presentation.Modules.ShallowFoundation;
 /// <param name="libraryAvailable">Whether the approved release of the GPC library is installed; by default
 /// <see cref="FoundationLibrary.Available"/>, read when a sheet is created.</param>
 /// <param name="transfer">The soil transfer dialog of «Invia / carica terreno…» (the desktop passes the historic window behind
-/// <see cref="Stratigraphy.ISoilTransferDialog"/>, decision T5); without it the sheets have no transfer command.</param>
-public sealed class ShallowFoundationSheetModule(Func<bool>? libraryAvailable = null, Stratigraphy.ISoilTransferDialog? transfer = null) : ISheetModule
+/// <see cref="Shared.ISoilTransferDialog"/>, decision T5); without it the sheets have no transfer command.</param>
+public sealed class ShallowFoundationSheetModule(Func<bool>? libraryAvailable = null, Shared.ISoilTransferDialog? transfer = null) : ISheetModule
 {
     private readonly Func<bool> available = libraryAvailable ?? (() => new FoundationLibrary().Available);
 

@@ -5,7 +5,11 @@ using Anthea.Application.Presentation;
 using Anthea.Calculations;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
+using Anthea.Presentation.Modules.Shared;
+using Anthea.Presentation.Mvvm;
+using Anthea.Presentation.Services;
 using Anthea.Reports;
+using CommunityToolkit.Mvvm.Input;
 using X.Core;
 
 namespace Anthea.Presentation.Modules.VerticalPile;
@@ -27,8 +31,11 @@ namespace Anthea.Presentation.Modules.VerticalPile;
 /// current data is published. Status texts, warnings, verification, curves, charts and tables as the historic view.</item>
 /// <item>Interface state saved in the data (<see cref="UiStateKeys"/>): the visibility of the curves, written with a result when a
 /// check box or «Tutte»/«Nessuna» changes it (also when read-only, as today): Modified without recalculation.</item>
-/// <item>Read-only (a previous revision): forms on detached copies, the table, the stratigraphies and «Reset» refuse the changes;
-/// survey selection, capacity view, curves, tables and calculation stay available.</item>
+/// <item>Read-only (a previous revision): the forms are read-only (<see cref="FormViewModel.IsReadOnly"/>, decision T2 of 17/10); the
+/// table, the stratigraphies and «Reset» refuse the changes and their commands are disabled; survey selection, capacity view, curves,
+/// tables, «Estendi», the guide and calculation stay available.</item>
+/// <item>Commands of the view (decision Q3: no code-behind but the drawings): the buttons of the historic cards and of the footer, through
+/// the guard of the sheet (Q19).</item>
 /// </list>
 /// Texts and rules come from <see cref="VerticalPilePresentation"/> and <see cref="VerticalPileFields"/>, shared with the historic
 /// view. The equivalence is proved without WPF by tests/ANTHEA.Presentation.Tests (VerticalPileSheetChecks) against the traces of the
@@ -68,6 +75,8 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
     private List<Tabella> tables = [];
     private IReadOnlyList<string> tableTitles = [];
     private VerticalPileTableView? shownTable;
+    private string expandedCard = "";
+    private readonly List<IRelayCommand> editCommands = [];
 
     /// <param name="moduleId"><see cref="PileModule"/> or <see cref="MicropileModule"/>.</param>
     /// <param name="context">Data of the sheet (owned copy), host, services and the calculation service of the module.</param>
@@ -81,6 +90,17 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
         IsMicro = moduleId == MicropileModule;
         Report = new VerticalPileReport(this);
         CapacityViews = VerticalPileFields.CapacityViews(IsMicro);
+        ResetNormativeCommand = EditCommand(ResetNormative);
+        AddSurveyCommand = EditCommand(AddSurvey);
+        RemoveSelectedSurveyCommand = EditCommand(RemoveSelectedSurvey);
+        RemoveSurveyCommand = Track(new RelayCommand<VerticalPileSurveyViewModel>(survey => Guard.Run(() => { if (survey is not null) RemoveSurvey(survey.Index); }), _ => CanEdit));
+        CopySurveyIntoCommand = Track(GuardedCommands.CreateAsync(Guard, _ => CopySurveyIntoAsync(), Lifetime, () => CanEdit));
+        CopySurveyFromCommand = Track(GuardedCommands.CreateAsync(Guard, _ => CopySurveyFromAsync(), Lifetime, () => CanEdit));
+        ShowAllCurvesCommand = GuardedCommands.Create(Guard, ShowAllCurves);
+        HideAllCurvesCommand = GuardedCommands.Create(Guard, HideAllCurves);
+        ToggleCardCommand = new RelayCommand<string>(card => Guard.Run(() => ToggleCard(card ?? "")));
+        TransferSoilCommand = Track(GuardedCommands.CreateAsync(Guard, TransferSoilAsync, Lifetime, () => CanEdit && !IsMicro));
+        CalculationGuideCommand = GuardedCommands.Create(Guard, () => CalculationGuide.Open(Context.Services.Wiki, ModuleId));
         ModuleSheetPreparation.PrepareVertical(Data, moduleId);
         defaults = Archivio.NuovoFoglio(moduleId);
         BuildForms();
@@ -94,6 +114,12 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
     }
 
     public override IModuleReportSource Report { get; }
+
+    /// <summary>
+    /// A calculation runs. A closed sheet is never busy, as the historic view, whose Busy returned to false when the engine came back after
+    /// the closing (ui/f3-scheduling): the late completion is ignored by the closed sheet, so its state stays the one of the closing.
+    /// </summary>
+    public override bool IsBusy => !IsDisposed && base.IsBusy;
 
     /// <summary>True for the micropile.</summary>
     public bool IsMicro { get; }
@@ -111,6 +137,9 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
 
     /// <summary>«Coefficienti normativa».</summary>
     public FormViewModel NormativeForm => normativeForm;
+
+    /// <summary>The «Reset» button of «Coefficienti normativa» (disabled when read-only).</summary>
+    public IRelayCommand ResetNormativeCommand { get; }
 
     /// <summary>«Reset» of the normative coefficients: γb of the technology and the coefficients of a new sheet; refused when read-only.</summary>
     public void ResetNormative()
@@ -146,6 +175,21 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
             if (!building) ReferenceChart = VerticalPileCharts.Reference(Data, Result, IsMicro, selectedSurvey);
         }
     }
+
+    /// <summary>«+» (disabled when read-only).</summary>
+    public IRelayCommand AddSurveyCommand { get; }
+
+    /// <summary>«−» (disabled when read-only).</summary>
+    public IRelayCommand RemoveSelectedSurveyCommand { get; }
+
+    /// <summary>The [−] of the tab of a stratigraphy, with the stratigraphy as parameter (disabled when read-only).</summary>
+    public IRelayCommand<VerticalPileSurveyViewModel> RemoveSurveyCommand { get; }
+
+    /// <summary>«Copia in…» (disabled when read-only).</summary>
+    public IAsyncRelayCommand CopySurveyIntoCommand { get; }
+
+    /// <summary>«Copia da…» (disabled when read-only).</summary>
+    public IAsyncRelayCommand CopySurveyFromCommand { get; }
 
     /// <summary>«+»: a new stratigraphy with one layer, selected.</summary>
     public void AddSurvey()
@@ -255,6 +299,12 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
     /// <summary>The check boxes of the curves of the chosen view.</summary>
     public IReadOnlyList<VerticalPileCurveChoiceViewModel> CurveChoices { get => curveChoices; private set => SetProperty(ref curveChoices, value); }
 
+    /// <summary>«Tutte» (available also when read-only, as today: V5, T6).</summary>
+    public IRelayCommand ShowAllCurvesCommand { get; }
+
+    /// <summary>«Nessuna» (available also when read-only, as today: V5, T6).</summary>
+    public IRelayCommand HideAllCurvesCommand { get; }
+
     /// <summary>«Tutte»: every curve shown (saved in the sheet).</summary>
     public void ShowAllCurves() => SetVisible(true);
 
@@ -287,6 +337,72 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
 
     /// <summary>«Risultati JSON»: the result as JSON, or the message of an edit.</summary>
     public string RawResult { get => raw; private set => SetProperty(ref raw, value); }
+
+    // ---------------------------------------------------------------- view state
+
+    /// <summary>The card «Stratigrafia».</summary>
+    public const string SurveysCard = "stratigrafia";
+
+    /// <summary>The card «Profilo stratigrafico».</summary>
+    public const string ProfileCard = "profilo";
+
+    /// <summary>The card «Grafici capacità portante».</summary>
+    public const string ChartsCard = "grafici";
+
+    /// <summary>
+    /// The card shown extended («Estendi»), view state of the historic layout: <see cref="SurveysCard"/>, <see cref="ProfileCard"/>,
+    /// <see cref="ChartsCard"/> or empty. With the profile extended the drawing shows every stratigraphy. Not saved; allowed when read-only.
+    /// </summary>
+    public string ExpandedCard { get => expandedCard; private set => SetProperty(ref expandedCard, value); }
+
+    /// <summary>«Estendi»/«Riduci» of a card, with its name as parameter.</summary>
+    public IRelayCommand<string> ToggleCardCommand { get; }
+
+    /// <summary>«Estendi» of a card when it is not extended, «Riduci» when it is.</summary>
+    public void ToggleCard(string card)
+    {
+        if (card is not (SurveysCard or ProfileCard or ChartsCard)) throw new ArgumentException("Scheda sconosciuta: " + card, nameof(card));
+        ExpandedCard = ExpandedCard == card ? "" : card;
+    }
+
+    /// <summary>
+    /// «Salva PNG…» of the capacity chart: the file chosen by the user («capacita.png», PNG images) receives the image that
+    /// <paramref name="png"/> draws, written atomically as today. Nothing when the user cancels; refused when read-only (the historic
+    /// view removes the menu of the chart in a revision).
+    /// </summary>
+    public void SaveCapacityImage(Func<byte[]> png)
+    {
+        ArgumentNullException.ThrowIfNull(png);
+        if (!CanEdit) return;
+        Guard.Run(() =>
+        {
+            string? file = Context.Services.Files.SaveFile(new SaveFileRequest([new FileFilter("Immagine PNG", "*.png")], "capacita.png"));
+            if (file is not null) Archivio.ScriviAtomico(file, png());
+        });
+    }
+
+    // ---------------------------------------------------------------- footer
+
+    /// <summary>
+    /// «Invia / carica terreno…» (pile only, disabled when read-only): the sheet commits, then the shared soil transfer dialog
+    /// (<see cref="SoilTransferDialogViewModel"/> on the dialog service, decision T5) receives its module, its data and the soil sheets
+    /// of the project; a copy goes to the window as <see cref="ISheetHost.OpenModuleCopy"/>, a replacement as
+    /// <see cref="ISheetHost.ReplaceSoil"/> (SheetEditor.OpenSoilTransfer of the historic view).
+    /// </summary>
+    public IAsyncRelayCommand TransferSoilCommand { get; }
+
+    /// <summary>«Modello e dati comuni…»: the theory page of the module in the Wiki (<see cref="CalculationGuide"/>), also when read-only.</summary>
+    public IRelayCommand CalculationGuideCommand { get; }
+
+    private async Task TransferSoilAsync(CancellationToken cancellation)
+    {
+        if (!CanEdit || IsMicro) return;
+        Commit();
+        var choice = await new SoilTransferDialogService(Context.Services).ShowAsync(ModuleId, Data, Context.Host.SoilSources());
+        if (choice is null || IsDisposed) return;
+        if (choice.Module is null) Context.Host.ReplaceSoil(choice.Data);
+        else Context.Host.OpenModuleCopy(choice.Module, choice.Data, choice.Name);
+    }
 
     /// <summary>Status line: waiting, running, completed, missing data or error.</summary>
     public string Status { get => status; private set => SetProperty(ref status, value); }
@@ -348,12 +464,13 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
         base.OnPropertyChanged(e);
         // The historic view shows «Calcolo in corso…» when the engine starts; a request that waits keeps the text it had.
         if (e.PropertyName == nameof(CalculationState) && CalculationState == CalculationState.Running) Status = VerticalPilePresentation.StatusRunning;
-        if (e.PropertyName != nameof(CanEdit) || building) return;
-        BuildForms();
-        PreviewForms();
+        if (e.PropertyName != nameof(CanEdit)) return;
+        // T2: the same forms, read-only; the commands that change the data are disabled.
+        foreach (var form in new[] { generalForm, efficiencyForm, normativeForm }) if (form is not null) form.IsReadOnly = !CanEdit;
+        foreach (var command in editCommands.Concat(Surveys.SelectMany(s => new IRelayCommand[] { s.AddLayerCommand, s.RemoveLayerCommand }))) command.NotifyCanExecuteChanged();
     }
 
-    /// <summary>Closing: the base raises CanEdit, so the forms are rebuilt on detached copies and a late edit never reaches the data.</summary>
+    /// <summary>Closing: the base raises CanEdit, so the forms become read-only and a late edit never reaches the data.</summary>
     protected override void OnDisposed()
     {
         base.OnDisposed();
@@ -362,21 +479,30 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
 
     // ---------------------------------------------------------------- construction
 
-    /// <summary>The three forms on the current data: on detached copies when read-only or closed, so that typing never reaches the data.</summary>
+    /// <summary>
+    /// The three forms on the current data, read-only when the sheet is (<see cref="FormViewModel.IsReadOnly"/>, decision T2: no detached
+    /// copies); the «?» labels and F1 of the fields open the topics of the module (the module of the historic view, inherited by its
+    /// InputForm) through the navigator of the services.
+    /// </summary>
     private void BuildForms()
     {
-        bool live = CanEdit;
         var general = Data["generali"]!.AsObject();
-        JsonObject Values(JsonObject values) => live ? values : (JsonObject)values.DeepClone();
-        generalForm = new FormViewModel(Values(general), VerticalPileFields.General(IsMicro), live ? OnGeneralChanged : null, symbolColumns: true) { InheritedWikiModule = ModuleId };
+        FormViewModel Form(JsonObject values, FieldSpec[] fields, Action<string> changed, bool compact) =>
+            new(values, fields, changed, compact: compact, symbolColumns: true, wikiModule: ModuleId) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
+        generalForm = Form(general, VerticalPileFields.General(IsMicro), OnGeneralChanged, false);
         generalForm.ShowField(VerticalPileFields.HiddenMethod(IsMicro), false);
-        efficiencyForm = new FormViewModel(Values(Data["efficienza"]!.AsObject()), VerticalPileFields.Efficiency(), live ? _ => UserChanged() : null, compact: true, symbolColumns: true) { InheritedWikiModule = ModuleId };
-        normativeForm = new FormViewModel(Values(general), VerticalPileFields.Normative(), live ? _ => UserChanged() : null, compact: true, symbolColumns: true) { InheritedWikiModule = ModuleId };
+        efficiencyForm = Form(Data["efficienza"]!.AsObject(), VerticalPileFields.Efficiency(), _ => UserChanged(), true);
+        normativeForm = Form(general, VerticalPileFields.Normative(), _ => UserChanged(), true);
         OnPropertyChanged(nameof(GeneralForm)); OnPropertyChanged(nameof(EfficiencyForm)); OnPropertyChanged(nameof(NormativeForm));
     }
 
+    private IRelayCommand EditCommand(Action action) => Track(GuardedCommands.Create(Guard, action, () => CanEdit));
+
+    private T Track<T>(T command) where T : IRelayCommand { editCommands.Add(command); return command; }
+
     private void OnGeneralChanged(string key)
     {
+        if (!CanEdit) return;
         if (IsMicro && key == "tipo_iniezione")
         {
             VerticalPilePreview.ResetAlphas(Data);
@@ -399,7 +525,10 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
         for (int i = 0; i < surveysData.Count; i++)
         {
             var layers = surveysData[i]!.AsArray();
-            var survey = new VerticalPileSurveyViewModel(i, layers, VerticalPileFields.Layers(IsMicro, layers));
+            int index = i;
+            var survey = new VerticalPileSurveyViewModel(i, layers, VerticalPileFields.Layers(IsMicro, layers),
+                new RelayCommand(() => Guard.Run(() => AddLayer(index)), () => CanEdit),
+                new RelayCommand<JsonRowViewModel>(row => Guard.Run(() => { if (row is not null) RemoveLayer(index, row); }), _ => CanEdit));
             foreach (var layer in layers.OfType<JsonObject>()) survey.Rows.Add(Bind(survey, layer));
             list.Add(survey);
         }

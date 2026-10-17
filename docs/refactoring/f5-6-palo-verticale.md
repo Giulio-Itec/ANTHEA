@@ -184,6 +184,8 @@ differenza c'è solo dove la vista storica fallisce.
 
 L'ordine segue i passi 6 della ricetta di F5.4, dopo il punto di controllo F5.6.
 
+Stato al 17/10: punti 1 e 2 fatti, con i dialoghi condivisi di V9/T5 (sezione 5). Il punto 3 resta per il passaggio della Release (V12).
+
 1. **Vista XAML** `X.Desktop/Views/VerticalPile/VerticalPileSheetView.xaml` e il suo DataTemplate. Solo token di F5.3.
    - Tre `FieldForm`.
    - Le stratigrafie in un `TabControl` (la visita di `ui/f3-equivalence` le scorre). Ogni intestazione ha il suo [−];
@@ -283,3 +285,105 @@ L'ordine segue i passi 6 della ricetta di F5.4, dopo il punto di controllo F5.6.
 - `ui/f3-equivalence` con i due moduli MVVM;
 - conteggio delle suite `ui`;
 - questa nota con le risposte.
+
+## 5. Vista XAML e banco (17/10/2026)
+
+Ramo `refactoring/f5-6-vista`, da `refactoring/f5` `7b4a2d9a`. Decisioni applicate: quelle del 17/10 (mattina), cioè tutte le
+proposte della sezione 4 e di [f5-punti-di-controllo.md](f5-punti-di-controllo.md), più le scelte prudenti del coordinatore
+in [decisioni.md](decisioni.md). La Release resta **storica** per i due moduli: la vista nuova si sceglie solo nel banco UiTests
+(`--module-impl geo_palo_verticale=mvvm --module-impl geo_micropalo_verticale=mvvm`) e con `ANTHEA.exe --interactive` più gli
+stessi argomenti, finché l'utente non prova una versione portatile (V12: il passaggio richiede le suite riscritte della
+sezione 3, punto 3).
+
+### 5.1 Che cosa è stato fatto
+
+| Commit | Contenuto |
+| --- | --- |
+| `87d2a25e` | ViewModel allineato alle decisioni; dialoghi condivisi (T5) in `src/ANTHEA.Presentation/Modules/Shared`; voce F5-01 del registro |
+| `f6258b51` | vista XAML `X.Desktop/Views/VerticalPile`, dialoghi «Copia in…»/«Copia da…» e «Terreno · invio e riutilizzo»; `SoilTransferPresentation` in Application |
+| `4c6e37cb` | `ui/check-palo-verticale-view` (`tests/Desktop/VerticalPileViewChecks.cs`) e correzioni trovate dalle prove |
+| (questo commit) | varianti MVVM di `ui/f3-figures` e `ui/f3-scheduling`, `IsBusy` di un foglio chiuso, questa sezione |
+
+**ViewModel.**
+- V1: calcolo sullo sfondo con il ritardo di 450 ms, invariato.
+- T2/V4: sola lettura con `FormViewModel.IsReadOnly` sugli stessi form, senza copie staccate. I comandi che cambiano i dati
+  sono spenti, come i pulsanti della vista storica protetti da `RevisionInspection`.
+- Comandi per la vista (Q3): Reset, «+», «−», [−] delle schede e degli strati, «Copia in…»/«Copia da…», «Aggiungi strato»,
+  «Tutte»/«Nessuna», «Estendi»/«Riduci» (`ExpandedCard`, stato della vista), «Salva PNG…», «Modello e dati comuni…»,
+  «Invia / carica terreno…». Gli errori passano dal guard del foglio (Q19).
+- V3: il cambio dell'iniezione del micropalo con un risultato non fallisce. È la voce **F5-01** di
+  `registro-differenze.json`, con la prova sulla vista nuova.
+- V5: le caselle delle curve e «Tutte»/«Nessuna» scrivono `visibilita_grafici` anche in sola lettura, come oggi (T6).
+- V7, V8 accettate; V10: colore degli strati dai token `Swatch.Soil1`–`6` per riga; V11: le sezioni del report restano a
+  `MainWindow`.
+- Un foglio chiuso non è mai «occupato», come la vista storica (prova di `ui/f3-scheduling`).
+
+**T5, dialoghi condivisi** (`src/ANTHEA.Presentation/Modules/Shared`).
+- `ISoilTransferDialog` e `SoilTransferChoice` spostati da `Modules/Stratigraphy`. La stratigrafia e `WpfSoilTransferDialog`
+  cambiano solo lo `using`: la radice di composizione dà ancora alla stratigrafia la finestra storica.
+- `SoilTransferDialogViewModel`: la finestra storica `SoilTransferDialog` senza WPF, mostrata con `IDialogService`
+  (`SoilTransferDialogService`). Usa `IFileDialogService` per «Carica terreno…» e «Salva terreno…», e la domanda di
+  sostituzione `IConfirmationService.ConfirmReplace` (membro nuovo con implementazione predefinita; in WPF Sì/No senza icona,
+  come oggi). L'anteprima viene da `SoilTransferPresentation` (Application), spostata senza modifiche dalla finestra storica,
+  che ora la chiama.
+- `CalculationGuide`: «Modello e dati comuni…» apre con `IWikiNavigator` la stessa pagina di
+  `MainWindow.ShowContextualWikiTheory`.
+- Prove: il dialogo nuovo e la finestra storica sugli stessi dati (palo, stratigrafia, muro, palo orizzontale, fondazioni;
+  con e senza fogli del progetto) danno gli stessi profili, stato, descrizione, anteprima, destinazioni, guida, invii e
+  sostituzioni. Le tracce della stratigrafia in `Presentation.Tests` guidano ora il ViewModel condiviso al posto della replica:
+  stesse tracce congelate.
+
+**Vista** (`X.Desktop/Views/VerticalPile`).
+- Sette schede come oggi, impaginate da `VerticalPileCardPanel`, che è `LayoutCards` spostato in un pannello: larga oltre
+  1450 px, compatta (due colonne, una sotto i 1000 px), scheda estesa.
+- Form `FieldForm` (compatti per «Efficienza» e «Coefficienti normativa»), tabelle degli strati con le colonne, i nomi di
+  automazione e i suggerimenti di `StratigraphyTable`, verifica, «Tabelle e dettagli», JSON, piede con stato e avvisi.
+- Solo token (P7). Il code-behind disegna soltanto: `Plot` della capacità e del riferimento dai dati semplici del ViewModel,
+  `StratigraphyDrawing` sui dati del foglio.
+
+### 5.2 Risultati
+
+| Prova | Esito |
+| --- | --- |
+| `ui/check-palo-verticale-view` | PASS 377 controlli: 18 tracce attraverso i controlli uguali a quelle congelate; 13 fixture con visita senza scritture e esportazioni (JSON, Word, PDF, «Salva PNG…») uguali alla vista storica; F5-01; schermate; aiuto; nomi di automazione; sola lettura; dialogo del terreno |
+| Cattura F3 con i due moduli MVVM | PASS 104 fixture, uguale al riferimento con le transizioni F4 di sempre |
+| Confronto diretto (`tools/qa/f5_confronto_diretto.py`) fra cattura storica e MVVM | **0 differenze** su 1066 file (1063 uguali byte per byte, 3 JSON uguali in forma canonica; ignorati solo i 6 tempi del palo elastico) |
+| `ui/f3-figures` con MVVM (`ui/f3-figures-palo-verticale-mvvm`) | PASS 13 fixture, serie della capacità confrontate esattamente |
+| `ui/f3-scheduling` con MVVM (`ui/f3-scheduling-palo-verticale-mvvm`) | PASS 47 controlli |
+| `ui/f3-report-chapters` con MVVM | PASS 105 capitoli autonomi, 246 immagini e tutte le parti XML confrontate con la vista |
+| Corse del runner | corsa `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` (comprende gli stadi di `quick`), `20261017-162101-f56v-finale`: PASS 121, NEW-FAIL 0; `transitions-f4.json` invariato; `Presentation.Tests` 1790 controlli, `Architecture.Tests` 523 |
+
+Le schermate sono a 144 DPI (schermo al 150%), in `vista/schermate` della suite: tre aspetti per palo e micropalo,
+impaginazione larga, grafici estesi, stratigrafie del micropalo estese. `ui/check-contrast` non è stata eseguita (T10: va
+ripetuta a 96 DPI).
+
+Baseline architetturali: F4 invariata nel totale (2185). Le 2 voci `R4-implicit-number` di `SoilTransferDialog.Refresh`
+passano a `SoilTransferPresentation.Preview` (codice spostato). Le altre baseline non cambiano.
+
+### 5.3 Scelte da confermare
+
+- **Colori dell'esito della verifica.** La vista storica usa #16703B e #B42318, che non hanno un token. La vista nuova usa
+  `Status.Ok` e `Status.Fail`: i colori cambiano di poco.
+- **Corpi 15, 18 e 10** della vista storica portati ai token vicini: `Font.Subheading` (14), `Font.Heading` (16),
+  `Font.Caption` (11).
+- **Finestre dei dialoghi.** `WpfDialogService` adatta la finestra al contenuto. La vista del dialogo ha quindi la dimensione
+  della finestra storica (940×660 e 430×210, bordi esclusi), invece di una finestra ridimensionabile con minimo 720×520.
+- **«Modello e dati comuni…» fuori dalla finestra principale.** La vista storica mostrava un testo in un dialogo;
+  `IWikiNavigator` apre la Wiki della finestra principale. I fogli del palo verticale sono sempre nella finestra principale.
+
+### 5.4 Da provare a mano (versione portatile con le viste attive)
+
+1. Aprire un palo e un micropalo verticale di un progetto reale: forme, stratigrafie, profilo, grafici e verifica come oggi;
+   ridimensionare la finestra (impaginazione larga e compatta) e provare «Estendi»/«Riduci» delle tre schede.
+2. Modificare campi, strati e stratigrafie (anche «Copia in…»/«Copia da…» e le eliminazioni con conferma): il ricalcolo parte
+   dopo mezzo secondo e lo stato passa da «in attesa» a «in corso» a «completato».
+3. Grafico della capacità: viste, caselle delle curve, «Tutte»/«Nessuna», rotella e trascinamento, menu «Adatta» e
+   «Salva PNG…».
+4. «Tabelle e dettagli», «Nq»/«Abachi» e «Risultati JSON».
+5. «Invia / carica terreno…» (solo palo): profilo corrente, carica e salva un file `.anthea-terreno.json`, importa da un altro
+   foglio del progetto, invia a un nuovo foglio, sostituisci il terreno.
+6. «Modello e dati comuni…», i «?» dei campi e F1.
+7. Una revisione precedente del progetto (sola lettura): campi e strati bloccati; viste, tabelle, curve e aiuto disponibili.
+8. Report Word/PDF ed esportazione del risultato.
+9. Micropalo con un risultato: cambiare l'iniezione IGU↔IRS (oggi dà un errore; con la vista nuova ricalcola, F5-01).
+10. Aspetti Scuro e Molto scuro.

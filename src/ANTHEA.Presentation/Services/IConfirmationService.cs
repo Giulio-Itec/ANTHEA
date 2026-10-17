@@ -26,6 +26,13 @@ public interface IConfirmationService
     /// <param name="title">Caption of the question, for example "Elimina" or "Stratigrafia".</param>
     /// <param name="question">The question, naming what is removed.</param>
     bool ConfirmDelete(string title, string question);
+
+    /// <summary>
+    /// A replacement of data of the sheet (the soil of «Sostituisci il terreno del foglio corrente», F5.6): true replaces, false keeps.
+    /// The historic question has the Yes and No buttons and no icon (WpfConfirmationService); the scripted services answer it as
+    /// <see cref="ConfirmDelete"/>, which is the default (additive member, F5.6).
+    /// </summary>
+    bool ConfirmReplace(string title, string question) => ConfirmDelete(title, question);
 }
 
 /// <summary>Answer to <see cref="IConfirmationService.AskSaveChanges"/>.</summary>

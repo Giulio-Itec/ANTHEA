@@ -9,6 +9,7 @@ using Anthea.Calculations;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Modules;
+using Anthea.Presentation.Modules.Shared;
 using Anthea.Presentation.Modules.Stratigraphy;
 using Anthea.Presentation.Services;
 using Anthea.Testing.Normalization;
@@ -22,9 +23,9 @@ namespace Anthea.Presentation.Tests;
 /// <list type="bullet">
 /// <item>every scenario of tests/Shared/StratigraphyTrace.cs gives the trace of the historic view frozen in tests/fixtures/f5-stratigrafia/storica,
 /// line by line: data in memory order, Modified, messages and questions, errors, import button, fields, actions, layers, status, profile
-/// and the transfer of the soil. The soil transfer dialog, shared and not migrated, is replaced by a replica of its two paths with the
-/// functions of Application it calls (<see cref="SoilProfileTransfer"/>): the trace proves what the sheet passes to it and what it does
-/// with its answer;</item>
+/// and the transfer of the soil. The soil transfer dialog is the shared ViewModel <see cref="SoilTransferDialogViewModel"/> (F5.6, decision
+/// T5), driven as the historic trace drives the historic window: the trace proves what the sheet passes to it, what the dialog does on its
+/// two paths and what the sheet does with its answer;</item>
 /// <item>for each F3 fixture of the module the data after opening, visit, calculation, export and reopening, the result, the status and
 /// the text and structure of the report are byte-identical to the F3 reference of the historic view;</item>
 /// <item>module and registry, persisted keys, read-only, Reload, closing, the AI import with a scripted source of the drafts (success,
@@ -115,7 +116,7 @@ internal static class StratigraphySheetChecks
     /// <summary>
     /// The ViewModel driven as its view would drive it, step by step. The side is also the services of the sheet: messages and questions
     /// are recorded in order (the questions answered as the scenario says), the window records the copies and the replacements of the soil,
-    /// and the soil transfer dialog is a replica of the shared historic dialog (the same calls of <see cref="SoilProfileTransfer"/>).
+    /// and the soil transfer dialog is the shared <see cref="SoilTransferDialogViewModel"/>, driven as the historic trace drives the window.
     /// </summary>
     private sealed class Side : IMessageService, IConfirmationService, ISheetHost, ISoilTransferDialog
     {
@@ -262,58 +263,36 @@ internal static class StratigraphySheetChecks
         public IReadOnlyList<SoilSource> SoilSources() { sourcesGiven = sources.Count; return sources; }
         public void RequestReport() => throw new InvalidOperationException("Report non previsto.");
 
-        // ------------------------------------------------ replica of the soil transfer dialog
+        // ------------------------------------------------ the shared soil transfer dialog (F5.6, T5)
 
         /// <summary>
-        /// The shared dialog SoilTransferDialog, as the step drives it: at opening the profile of the sheet (or the error in its status);
-        /// «Importa dal foglio selezionato» (first sheet of the project, when there is one); then «Invia a un nuovo foglio» (destination
-        /// and choice of the step, the name of the new sheet) or «Sostituisci il terreno del foglio corrente» (confirmed). The two buttons
-        /// work only with a profile; an error stays in the status and the dialog is closed without a choice.
+        /// The shared dialog <see cref="SoilTransferDialogViewModel"/> (the ViewModel of the historic SoilTransferDialog, F5.6), driven as the
+        /// historic trace drives the window (tests/Desktop/StratigraphyHistoricTrace.cs): at opening the profile of the sheet (or the error in
+        /// its status); «Importa dal foglio selezionato» (first sheet of the project, when there is one); the scenario of the step; then «Invia
+        /// a un nuovo foglio» (destination of the step) or «Sostituisci il terreno del foglio corrente» (the question answered yes). The two
+        /// buttons work only with a profile; an error stays in the status and the dialog is closed without a choice.
         /// </summary>
         public Task<SoilTransferChoice?> ShowAsync(string module, JsonObject data, IReadOnlyList<SoilSource> given)
         {
             var current = step ?? throw new InvalidOperationException("Dialogo del terreno fuori da un passo.");
-            var original = (JsonObject)data.DeepClone();
-            JsonObject? profile = null;
-            string status;
-            try { profile = SoilProfileTransfer.Extract(module, original, 0); status = "Profilo del foglio corrente. Puoi salvarlo oppure inviarlo a un altro modulo."; }
-            catch (Exception error) { status = error.Message; }
-            if (current.Kind == StratigraphyStep.Replace && current.Key == "progetto" && given.Count > 0)
-            {
-                try
-                {
-                    var source = given[0];
-                    var candidate = SoilProfileTransfer.Extract(source.Module, source.Data, 0);
-                    candidate["source_sheet"] = source.Label; candidate["source_id"] = source.Id;
-                    profile = candidate; status = "Sorgente: " + source.Label + ". Verificare l’anteprima prima di confermare la sostituzione o l’invio.";
-                }
-                catch (Exception error) { status = error.Message; }
-            }
-            SoilTransferChoice? choice = null;
-            if (profile is not null)
-            {
-                string scenario = current.Text!;
-                try
-                {
-                    if (current.Kind == StratigraphyStep.Send)
-                    {
-                        string target = current.Key!;
-                        var output = SoilProfileTransfer.Create(target, profile, scenario);
-                        string name = "Terreno da " + (profile["source_sheet"]?.ToString() ?? profile["stratigraphy"]?["name"]?.ToString() ?? ModuleDirectory.Get(module).Element)
-                            + (profile["stratigraphy"] is not null && target != StratigraphyDocument.Module ? " · " + scenario : "");
-                        choice = new(output, target, name);
-                    }
-                    else
-                    {
-                        var candidate = SoilProfileTransfer.Apply(module, original, profile, 0, scenario);
-                        messages.Add(StratigraphyTrace.Question("Importa terreno", "Sostituire il profilo selezionato e i dati di falda del foglio corrente con una copia indipendente?", true));
-                        choice = new(candidate);
-                    }
-                }
-                catch (Exception error) { status = error.Message; }
-            }
-            dialog = (module, JsonNode.DeepEquals(data, Sheet.Data), sourcesGiven, status);
+            var shared = new SoilTransferDialogViewModel(module, data, given, new ScriptedFileDialogs(), this);
+            bool closed = false;
+            shared.CloseRequested += (_, _) => closed = true;
+            static void Press(CommunityToolkit.Mvvm.Input.IRelayCommand command) { if (command.CanExecute(null)) command.Execute(null); }
+            if (current.Kind == StratigraphyStep.Replace && current.Key == "progetto") Press(shared.ImportSourceCommand);
+            shared.Scenario = current.Text!;
+            if (current.Kind == StratigraphyStep.Send) { shared.SelectedDestination = current.Key!; Press(shared.SendCommand); }
+            else Press(shared.ApplyCommand);
+            var choice = closed ? shared.Result : null;
+            dialog = (module, JsonNode.DeepEquals(data, Sheet.Data), sourcesGiven, closed ? "" : shared.Status);
             return Task.FromResult(choice);
+        }
+
+        /// <summary>The question of «Sostituisci il terreno del foglio corrente», answered yes as the historic trace answers it.</summary>
+        public bool ConfirmReplace(string title, string question)
+        {
+            messages.Add(StratigraphyTrace.Question(title, question, true));
+            return true;
         }
     }
 
