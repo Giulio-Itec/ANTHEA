@@ -22,8 +22,10 @@ namespace Anthea.Presentation.Modules.Materials;
 /// <item>No calculation is published (<see cref="SheetCalculationMode.None"/>): «Calcola» only commits, as the historic sheet; the
 /// values shown are the presentation of the state, <see cref="MaterialSheetPresentation"/> and
 /// <see cref="MaterialExposurePresentation"/>, computed again after every edit.</item>
-/// <item>Read-only (a previous revision): the edits are refused and the fields work on a detached copy; Commit still writes the
-/// state, as in the historic sheet.</item>
+/// <item>Read-only (a previous revision): the edits are refused; the fields with <see cref="FormViewModel.IsReadOnly"/> of
+/// <see cref="Inputs"/> (decision T2 of 17/10/2026, no detached copy). Commit still writes the state, as in the historic sheet.</item>
+/// <item>Help: the «?» labels and F1 of the fields open the Wiki with the navigator of the services
+/// (<see cref="FormViewModel.WikiNavigator"/>); the view places the fields with its own layout (decision M11).</item>
 /// </list>
 /// The equivalence with the historic view is proved without WPF by tests/ANTHEA.Presentation.Tests (MaterialSheetChecks) against
 /// its traces frozen in tests/fixtures/f5-materiali and against the F3 reference.
@@ -111,6 +113,9 @@ public sealed class ConcreteMaterialSheetViewModel : SheetViewModelBase, IMateri
 
     /// <summary>The deviation control allows a choice of the deviation value (not the ordinary execution).</summary>
     public bool CanChooseDeviationValue => MaterialSheetInput.DeviationChoosable(lastDeviationControl);
+
+    /// <summary>The choice of the deviation value accepts the user: the control allows a choice and the sheet can be edited.</summary>
+    public bool CanEditDeviationValue => CanEdit && CanChooseDeviationValue;
 
     /// <summary>Note under the deviation value, for the current deviation control.</summary>
     public string DeviationNote { get => deviationNote; private set => SetProperty(ref deviationNote, value); }
@@ -201,12 +206,13 @@ public sealed class ConcreteMaterialSheetViewModel : SheetViewModelBase, IMateri
     /// <summary>The data were replaced: the sheet reads them again as at opening, without Modified.</summary>
     protected override void OnReloaded() => Restore();
 
+    /// <summary>Read-only revision and closing (T2): the same form refuses the typing; nothing is rebuilt.</summary>
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if (e.PropertyName != nameof(CanEdit) || loading || IsDisposed) return;
-        BuildForm(keepTexts: true);
-        OnPropertyChanged(nameof(CanChooseDeviationValue));
+        if (e.PropertyName != nameof(CanEdit) || inputsForm is null) return;
+        inputsForm.IsReadOnly = !CanEdit;
+        OnPropertyChanged(nameof(CanEditDeviationValue));
     }
 
     // ---------------------------------------------------------------- state
@@ -246,23 +252,22 @@ public sealed class ConcreteMaterialSheetViewModel : SheetViewModelBase, IMateri
             if (!Exposures.Contains(selected)) throw new ArgumentException("Classe di esposizione non riconosciuta.");
             selectedExposure = selected;
             active.Clear(); active.Add(selected);
-            BuildForm(keepTexts: false);
+            BuildForm();
         }
         finally { loading = false; }
-        foreach (string property in new[] { nameof(SelectedClass), nameof(SelectedDeviationValue), nameof(CanChooseDeviationValue), nameof(SelectedExposure) })
+        foreach (string property in new[] { nameof(SelectedClass), nameof(SelectedDeviationValue), nameof(CanChooseDeviationValue), nameof(CanEditDeviationValue), nameof(SelectedExposure) })
             OnPropertyChanged(property);
         Refresh();
         lastState = CaptureState();
     }
 
-    /// <summary>The form of the fields on the state of the sheet; on a detached copy when read-only, so that typing never reaches it.</summary>
-    private void BuildForm(bool keepTexts)
+    /// <summary>
+    /// The form of the fields on the state of the sheet (at opening and after Reload): read-only while the sheet cannot be edited
+    /// (T2), with the Wiki of the services for «?» and F1.
+    /// </summary>
+    private void BuildForm()
     {
-        var shown = keepTexts ? inputsForm?.Fields.Where(f => f.Kind == FieldKind.Text).ToDictionary(f => f.Key, f => f.Text, StringComparer.Ordinal) : null;
-        var form = CanEdit ? new FormViewModel(inputs, Fields(), OnFieldChanged, wikiModule: Module) : new FormViewModel((JsonObject)inputs.DeepClone(), Fields(), wikiModule: Module);
-        if (shown is not null)
-            foreach (var field in form.Fields.Where(f => f.Kind == FieldKind.Text && shown.ContainsKey(f.Key))) form.Set(field.Key, shown[field.Key], display: true);
-        inputsForm = form;
+        inputsForm = new FormViewModel(inputs, Fields(), OnFieldChanged, wikiModule: Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
         OnPropertyChanged(nameof(Inputs));
     }
 
@@ -351,6 +356,7 @@ public sealed class ConcreteMaterialSheetViewModel : SheetViewModelBase, IMateri
             lastDeviationControl = mode;
             OnPropertyChanged(nameof(SelectedDeviationValue));
             OnPropertyChanged(nameof(CanChooseDeviationValue));
+            OnPropertyChanged(nameof(CanEditDeviationValue));
         }
         DeviationNote = MaterialSheetPresentation.DeviationNote(mode);
     }

@@ -7,7 +7,8 @@
   never literal colours (rule P7). Typing, focus, F1 and the «?» label are wired in FieldForm.xaml.cs; every write into the
   document goes through the ViewModel. A read-only form (FormViewModel.IsReadOnly, a previous revision) makes the text boxes
   read-only and disables choices and check boxes, as RevisionInspection does on InputForm; the background of a text box changes
-  only for a calculated field.
+  only for a calculated field. A host view can lock text fields by key (FieldForm.CalculatedKeys: read-only with the background of
+  the calculated fields; FieldForm.ReadOnlyKeys: read-only only), a state of the view that the ViewModel does not enforce (F5.5, M6).
 -->
 <UserControl x:Class="X.Desktop.Views.Common.FieldForm"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -17,17 +18,38 @@
  xmlns:forms="clr-namespace:Anthea.Presentation.Forms;assembly=ANTHEA.Presentation">
  <UserControl.Resources>
   <common:FlagValueConverter x:Key="Flag"/>
+  <common:FieldLockConverter x:Key="Lock"/>
+  <common:FieldKeyFlagConverter x:Key="KeyFlag"/>
   <BooleanToVisibilityConverter x:Key="Visible"/>
 
   <!-- Editors: the text box, the choice and the check box of InputForm. Margin and minimum height are also on the host
        of the editor in the row, so that the editor gets the same rounded layout slot as in InputForm. -->
   <DataTemplate x:Key="TextEditor" DataType="{x:Type forms:FieldViewModel}">
-   <TextBox x:Name="Box" Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsInputReadOnly, Mode=OneWay}" TextAlignment="Right"
+   <TextBox x:Name="Box" Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"
     Background="{DynamicResource Token.Field.Background}" MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}"
     ToolTip="{Binding EditorToolTip}" ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}"
-    IsKeyboardFocusWithinChanged="Editor_FocusChanged" KeyDown="Editor_KeyDown"/>
+    IsKeyboardFocusWithinChanged="Editor_FocusChanged" KeyDown="Editor_KeyDown">
+    <!-- Read-only: the field refuses the typing, or the host view locks its key (CalculatedKeys, ReadOnlyKeys: a state of the view). -->
+    <TextBox.IsReadOnly>
+     <MultiBinding Converter="{StaticResource Lock}" Mode="OneWay">
+      <Binding Path="IsInputReadOnly"/>
+      <Binding Path="Key"/>
+      <Binding Path="(common:FieldForm.CalculatedKeys)" RelativeSource="{RelativeSource Self}"/>
+      <Binding Path="(common:FieldForm.ReadOnlyKeys)" RelativeSource="{RelativeSource Self}"/>
+     </MultiBinding>
+    </TextBox.IsReadOnly>
+   </TextBox>
    <DataTemplate.Triggers>
     <DataTrigger Binding="{Binding IsReadOnly}" Value="True"><Setter TargetName="Box" Property="Background" Value="{DynamicResource Token.Calculated}"/></DataTrigger>
+    <DataTrigger Value="True">
+     <DataTrigger.Binding>
+      <MultiBinding Converter="{StaticResource KeyFlag}">
+       <Binding Path="Key"/>
+       <Binding Path="(common:FieldForm.CalculatedKeys)" ElementName="Box"/>
+      </MultiBinding>
+     </DataTrigger.Binding>
+     <Setter TargetName="Box" Property="Background" Value="{DynamicResource Token.Calculated}"/>
+    </DataTrigger>
     <DataTrigger Binding="{Binding Form.SymbolColumns}" Value="True"><Setter TargetName="Box" Property="TextAlignment" Value="Center"/></DataTrigger>
    </DataTemplate.Triggers>
   </DataTemplate>

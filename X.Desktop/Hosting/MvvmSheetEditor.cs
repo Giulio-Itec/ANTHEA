@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Anthea.Application.Modules;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Modules;
+using Anthea.Presentation.Modules.Materials;
 using Anthea.Reports;
 using X.Core;
 
@@ -25,10 +26,12 @@ namespace X.Desktop;
 /// <item>Revisions: <see cref="InspectRevision"/> sets <see cref="ISheetViewModel.IsReadOnly"/>.</item>
 /// <item>Help: F1 not handled by a field opens the guide of the module (<see cref="IModuleDescriptor.Help"/>) with the
 /// <see cref="IWikiNavigator"/> of the services, as SheetEditor opens it; the «?» labels and F1 of the fields go through the same
-/// navigator, given by the ViewModel to its forms.</item>
+/// navigator, given by the ViewModel to its forms. The view inherits the module of the Wiki (WikiContextHelp.Module), as the
+/// historic SheetEditor sets it: the forms without a module of their own take it (the steel, F5.5).</item>
 /// <item>Results and reports: the generic path of SheetEditor (JSON of the result, Word document of the sheet, PDF rendered from it),
-/// or the PDF of the generator of the module where the historic sheet writes it so (<see cref="IModuleReportPdf"/>, T8); the short
-/// report and the material chapter come with the modules that have them (F5.5, F5.10).</item>
+/// or the PDF of the generator of the module where the historic sheet writes it so (<see cref="IModuleReportPdf"/>, T8). A material
+/// sheet (<see cref="IMaterialSheetViewModel"/>, F5.5) gives the chapter of the material and writes its report as SheetEditor does,
+/// Word and PDF from the document (<c>MaterialReportChapter.Write</c>, T8); the short report comes with the c.a. section (F5.10).</item>
 /// </list>
 /// </summary>
 internal sealed class MvvmSheetEditor : ISheetEditor
@@ -52,6 +55,8 @@ internal sealed class MvvmSheetEditor : ISheetEditor
                 throw new InvalidOperationException($"Il modulo {module.Info.Id} ha creato un foglio del modulo {Sheet.ModuleId}.");
             view = new ContentControl { Focusable = false, IsTabStop = false, HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch };
             view.ContentTemplate = ViewOf(view, Sheet.GetType());
+            // As SheetEditor: the module of the Wiki inherited by the view (FieldForm reads it for the forms without a module).
+            view.SetValue(WikiContextHelp.ModuleProperty, Sheet.ModuleId);
             view.Content = Sheet;
             view.KeyDown += (_, e) =>
             {
@@ -112,12 +117,20 @@ internal sealed class MvvmSheetEditor : ISheetEditor
     }
 
     /// <summary>
-    /// The DOCX of the report and the PDF beside it. A module whose historic sheet writes the PDF with its own generator
-    /// (<see cref="IModuleReportPdf"/>, the shallow foundations) gets both files written as SheetEditor.ExportReport writes them
-    /// (decision T8 of 17/10/2026); the others the PDF rendered from the DOCX (<see cref="ReportFiles.Write"/>).
+    /// The DOCX of the report and the PDF beside it, written as SheetEditor.ExportReport writes them (decision T8 of 17/10/2026):
+    /// a material sheet from the document of its chapter (F5.5); a module whose historic sheet writes the PDF with its own generator
+    /// (<see cref="IModuleReportPdf"/>, the shallow foundations) with that generator; the others with the PDF rendered from the DOCX
+    /// (<see cref="ReportFiles.Write"/>).
     /// </summary>
     public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
     {
+        if (Sheet is IMaterialSheetViewModel)
+        {
+            // T8: the report of a material sheet written as SheetEditor writes it, DOCX and PDF from the same document.
+            Sheet.Commit();
+            Materiali.MaterialReportChapter.Write(filename, Module, title, Data);
+            return;
+        }
         if (Sheet.Report is IModuleReportPdf edition)
         {
             byte[] word = BuildReport(title, options, projectReport), pdf = edition.BuildPdf(title, options, projectReport);
@@ -133,8 +146,8 @@ internal sealed class MvvmSheetEditor : ISheetEditor
     public byte[] BuildShortReport(string title) =>
         throw new InvalidOperationException("Il report short è disponibile per le sezioni in calcestruzzo armato.");
 
-    public ReportProject.SheetContent MaterialReportContent() =>
-        throw new InvalidOperationException("Capitolo dei materiali non disponibile per il modulo " + Module + ".");
+    public ReportProject.SheetContent MaterialReportContent() => Sheet is IMaterialSheetViewModel material ? material.ReportContent()
+        : throw new InvalidOperationException("Capitolo dei materiali non disponibile per il modulo " + Module + ".");
 
     public void Dispose()
     {

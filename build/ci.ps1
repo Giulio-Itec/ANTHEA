@@ -339,6 +339,9 @@ Add-Suite @{ Name = 'ui/check-pile-group-view'; Stage = 'ui'; Kind = 'check'; Ar
 # tests/fixtures/f5-materiali, data and preview included, which Presentation.Tests compares with the ViewModels; off screen, until
 # the historic views are archived (Q11).
 Add-Suite @{ Name = 'ui/check-materials-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-materials-historic', '{root}', '{out}\traccia'); Timeout = 300; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
+# F5.5: the XAML views of the materials hosted by MvvmSheetEditor off screen: the 21 traces through their controls equal to those of the historic
+# views, visit without writes, exports equal to the historic ones, chapter of a project report, screenshots, help, automation names, read-only.
+Add-Suite @{ Name = 'ui/check-materials-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-materials-view', '{root}', '{out}\vista'); Timeout = 900; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 # F5.6 (proposal 7.2, capture first): the historic vertical pile and micropile view still gives the traces frozen in
 # tests/fixtures/f5-palo-verticale, which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-palo-verticale-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-verticale-historic', '{root}', '{out}\traccia'); Timeout = 600; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }

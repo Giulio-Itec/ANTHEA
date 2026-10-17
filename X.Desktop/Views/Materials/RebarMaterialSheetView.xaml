@@ -1,0 +1,141 @@
+<!--
+  View of the reinforcing steel sheet (F5.5, decision Q3): RebarMaterialSheetViewModel shown with the layout of the historic
+  RebarMaterialView. Three cards of 300, 320 and 360 px with a navy header (steel, mechanical properties, diagram); the three forms are
+  FieldForm, compact as the InputForm of the historic view. The fields fixed by the catalogue are a state of the view (decision M6): the
+  mechanical properties are shown as calculated fields (FieldForm.CalculatedKeys), the name is read-only (FieldForm.ReadOnlyKeys), the
+  diagram is enabled on its form by the ViewModel. Colours and font sizes are theme tokens only (rule P7); the two colours of the status
+  have tokens of their own (Status.Coherent, Status.Caution). The diagram of the material (Plot) is created and drawn by the code-behind
+  in DiagramHost (Q3); every
+  write into the sheet goes through the ViewModel. Read-only revision: type and reference refuse the changes, the forms are read-only
+  (FormViewModel.IsReadOnly, decision T2).
+-->
+<UserControl x:Class="X.Desktop.Views.Materials.RebarMaterialSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ xmlns:views="clr-namespace:X.Desktop.Views.Materials">
+ <UserControl.Resources>
+  <common:NegationConverter x:Key="Not"/>
+  <views:SingleKeyConverter x:Key="NameLock"/>
+
+  <!-- Texts: Ui.Text (wrapping, vertically centred, ink) in the sizes 13, 12, 11 and, bold, 14. -->
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="SmallBold" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style x:Key="Muted" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+  </Style>
+  <Style x:Key="Note" TargetType="TextBlock" BasedOn="{StaticResource Muted}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Caption}"/>
+  </Style>
+  <!-- A card: Ui.Paper without padding, a navy header with the title in white, the content with a padding of 12. -->
+  <Style x:Key="Card" TargetType="Border">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+   <Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Margin" Value="0,0,10,0"/>
+   <Setter Property="VerticalAlignment" Value="Top"/>
+  </Style>
+  <Style x:Key="CardHeader" TargetType="Border">
+   <Setter Property="Background" Value="{DynamicResource Token.CommandBar}"/>
+   <Setter Property="Padding" Value="12,9,12,9"/>
+  </Style>
+  <Style x:Key="CardTitle" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+  </Style>
+  <!-- Space of the historic view: a margin above the element. -->
+  <Style x:Key="Space" TargetType="Border">
+   <Setter Property="Margin" Value="0,10,0,0"/>
+  </Style>
+  <!-- Host of a form: the FieldForm of the DataTemplate of FormViewModel (Views/Common/FieldFormTemplates.xaml). -->
+  <Style x:Key="Form" TargetType="ContentControl">
+   <Setter Property="Focusable" Value="False"/>
+   <Setter Property="IsTabStop" Value="False"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+  </Style>
+ </UserControl.Resources>
+
+ <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="{DynamicResource Token.Surface}">
+  <Grid Margin="12" MaxWidth="1330" HorizontalAlignment="Left">
+   <Grid.ColumnDefinitions>
+    <ColumnDefinition Width="300"/>
+    <ColumnDefinition Width="320"/>
+    <ColumnDefinition Width="360"/>
+   </Grid.ColumnDefinitions>
+
+   <!-- Steel for reinforcement: type, name, description, certificate or reference, source. -->
+   <Border Style="{StaticResource Card}">
+    <StackPanel>
+     <Border Style="{StaticResource CardHeader}"><TextBlock Style="{StaticResource CardTitle}" Text="Acciaio per armature"/></Border>
+     <Border Padding="12">
+      <StackPanel>
+       <TextBlock Style="{StaticResource SmallBold}" Text="Tipo di acciaio"/>
+       <ComboBox x:Name="SteelType" ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType}" IsEnabled="{Binding CanEdit, Mode=OneWay}" Margin="2"
+        MinHeight="28" FontSize="{DynamicResource Font.Subheading}" AutomationProperties.Name="Tipo di acciaio" views:ChoiceWheel.ForwardWhenClosed="True"/>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding IdentityForm}"
+        common:FieldForm.ReadOnlyKeys="{Binding NameLocked, Converter={StaticResource NameLock}, ConverterParameter=materiale_acciaio_nome}"/>
+       <Border Style="{StaticResource Space}"><TextBlock Style="{StaticResource Muted}" Text="{Binding Description}"/></Border>
+       <Border Style="{StaticResource Space}" Margin="0,18,0,0"><TextBlock Style="{StaticResource SmallBold}" Text="Certificato / riferimento"/></Border>
+       <TextBox x:Name="Reference" Text="{Binding Reference, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding CanEdit, Mode=OneWay, Converter={StaticResource Not}}"
+        MinHeight="58" MaxHeight="90" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Certificato o riferimento"/>
+       <Border Style="{StaticResource Space}"><TextBlock Style="{StaticResource Note}" Text="{Binding Source}"/></Border>
+      </StackPanel>
+     </Border>
+    </StackPanel>
+   </Border>
+
+   <!-- Mechanical properties: fyk, fu, Es, εu and diagram; γs; values; status. -->
+   <Border Grid.Column="1" Style="{StaticResource Card}">
+    <StackPanel>
+     <Border Style="{StaticResource CardHeader}"><TextBlock Style="{StaticResource CardTitle}" Text="Proprietà meccaniche"/></Border>
+     <Border Padding="12">
+      <StackPanel>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding PropertiesForm}" common:FieldForm.CalculatedKeys="{Binding Locked}"/>
+       <Border Style="{StaticResource Space}" Margin="0,16,0,0"><ContentControl Style="{StaticResource Form}" Content="{Binding CoefficientForm}"/></Border>
+       <Border Style="{StaticResource Space}"><TextBlock Style="{StaticResource Text}" Text="{Binding Results}"/></Border>
+       <Border Style="{StaticResource Space}"><TextBlock Style="{StaticResource Note}" Text="fyd = fyk / γs   ·   εyd = fyd / Es&#10;Valori aggiornati automaticamente."/></Border>
+       <Border Style="{StaticResource Space}">
+        <Border Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Padding="9">
+         <TextBlock x:Name="StatusText" Text="{Binding Status}">
+          <TextBlock.Style>
+           <Style TargetType="TextBlock" BasedOn="{StaticResource Text}">
+            <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+            <Setter Property="Foreground" Value="{DynamicResource Token.Status.Caution}"/>
+            <Style.Triggers>
+             <DataTrigger Binding="{Binding StatusCoherent}" Value="True"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Coherent}"/></DataTrigger>
+            </Style.Triggers>
+           </Style>
+          </TextBlock.Style>
+         </TextBlock>
+        </Border>
+       </Border>
+      </StackPanel>
+     </Border>
+    </StackPanel>
+   </Border>
+
+   <!-- Diagram of the material: the historic Plot, drawn by the code-behind. -->
+   <Border Grid.Column="2" Style="{StaticResource Card}">
+    <StackPanel>
+     <Border Style="{StaticResource CardHeader}"><TextBlock Style="{StaticResource CardTitle}" Text="Diagramma del materiale"/></Border>
+     <Border Padding="12">
+      <StackPanel>
+       <Border x:Name="DiagramHost"/>
+       <TextBlock Style="{StaticResource Note}" Text="Curva caratteristica in trazione. Il coefficiente γs è riportato nelle proprietà di calcolo."/>
+      </StackPanel>
+     </Border>
+    </StackPanel>
+   </Border>
+  </Grid>
+ </ScrollViewer>
+</UserControl>

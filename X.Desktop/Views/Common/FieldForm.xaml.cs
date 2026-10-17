@@ -13,6 +13,26 @@ namespace X.Desktop.Views.Common;
 /// </summary>
 public partial class FieldForm : UserControl
 {
+    /// <summary>
+    /// Text fields locked by the host view, by key (true when locked): read-only with the background of the calculated fields. A state
+    /// of the view, as the read-only text boxes of a historic view (decision M6 of F5.5: the mechanical properties of a catalogue steel);
+    /// the ViewModel does not refuse a write. Inherited: set on the element that hosts the form.
+    /// </summary>
+    public static readonly DependencyProperty CalculatedKeysProperty = DependencyProperty.RegisterAttached("CalculatedKeys", typeof(IReadOnlyDictionary<string, bool>),
+        typeof(FieldForm), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
+
+    /// <summary>Text fields locked by the host view, by key: read-only, with their background (the name of a catalogue steel). Inherited.</summary>
+    public static readonly DependencyProperty ReadOnlyKeysProperty = DependencyProperty.RegisterAttached("ReadOnlyKeys", typeof(IReadOnlyDictionary<string, bool>),
+        typeof(FieldForm), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
+
+    public static IReadOnlyDictionary<string, bool>? GetCalculatedKeys(DependencyObject target) => (IReadOnlyDictionary<string, bool>?)target.GetValue(CalculatedKeysProperty);
+
+    public static void SetCalculatedKeys(DependencyObject target, IReadOnlyDictionary<string, bool>? value) => target.SetValue(CalculatedKeysProperty, value);
+
+    public static IReadOnlyDictionary<string, bool>? GetReadOnlyKeys(DependencyObject target) => (IReadOnlyDictionary<string, bool>?)target.GetValue(ReadOnlyKeysProperty);
+
+    public static void SetReadOnlyKeys(DependencyObject target, IReadOnlyDictionary<string, bool>? value) => target.SetValue(ReadOnlyKeysProperty, value);
+
     public FieldForm()
     {
         InitializeComponent();
