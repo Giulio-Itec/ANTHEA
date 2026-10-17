@@ -284,3 +284,174 @@ Passo 6 della ricetta, dopo il punto di controllo (l'ordine segue i passi 1–7 
 
 **Materiale da mostrare** (dopo i passi 1–4 della sezione 3): schermate nei tre aspetti, `--check-contrast`, confronto diretto a
 zero, `ui/f3-equivalence` con il modulo MVVM, conteggio delle suite `ui`, questa nota con le risposte.
+
+## 5. Vista XAML (17/10)
+
+Ramo `refactoring/f5-9-vista`, da `refactoring/f5` `11f48446`: passi 1–4 della sezione 3, senza il passaggio della Release. Decisioni
+applicate: quelle del 17/10 (mattina), cioè tutte le proposte della sezione 4 e di [f5-punti-di-controllo.md](f5-punti-di-controllo.md),
+più le scelte prudenti del coordinatore in [decisioni.md](decisioni.md):
+- MU1 e Q8 (b): il calcolo resta sullo sfondo, 450 ms dopo l'ultima modifica, sul servizio del contesto e con il limitatore;
+  `CancelCalculation(restorePublished: true)` riporta i muri al risultato pubblicato quando una ricerca prende il posto del
+  calcolo;
+- MU3 e MU4: differenze dichiarate, come proposto;
+- MU9 e T5: «Invia / carica terreno…» con il dialogo condiviso `SoilTransferDialogService` di `Modules/Shared`;
+- MU10: «Valori di calcolo…» è un dialogo modale su `RetainingWallParametersViewModel` (`IDialogService`); la distinta ferri è
+  un dialogo della vista;
+- T2: sola lettura con `FormViewModel.IsReadOnly`.
+
+La Release resta **storica**: la vista nuova si sceglie solo nel banco UiTests (`--module-impl geo_muri_sostegno=mvvm`) e con
+`ANTHEA.exe --interactive` più lo stesso argomento, finché l'utente non prova una versione portatile.
+
+### 5.1 Che cosa è stato fatto
+
+| Commit | Contenuto |
+| --- | --- |
+| `afad06d4` | ViewModel allineato alle decisioni: dialogo dei valori, dialogo del terreno, comandi della vista |
+| `e4e83b16` | vista XAML `X.Desktop/Views/RetainingWall` e il suo DataTemplate |
+| `61470a55` | `ui/check-muri-view`, `ui/f3-scheduling-muri-mvvm`, passo di contrasto autonomo, correzioni trovate dalle prove |
+| (questo commit) | questa sezione |
+
+**ViewModel** (`src/ANTHEA.Presentation/Modules/RetainingWall`).
+- MU10: `RetainingWallParametersViewModel` deriva da `DialogViewModel<bool>`. Ha `ApplyCommand` (spento in sola lettura, MU3) e
+  `CloseCommand`; il risultato è true quando i valori sono applicati. `ShowParametersAsync`, il pulsante, calcola, mostra il dialogo
+  con `IDialogService` e, quando il dialogo torna, chiude la finestra. Se la finestra è chiusa durante il controllo, il controllo è
+  annullato e niente è applicato. `OpenParametersAsync` resta per le tracce.
+- MU9: `TransferSoilAsync`, come il palo verticale: conferma i form, apre il dialogo condiviso con modulo, dati e fogli terreno del
+  progetto, manda la copia alla finestra (`OpenModuleCopy`) o sostituisce il terreno (`ReplaceSoil`); rifiutato in sola lettura.
+  L'evento `SoilTransferRequested` non c'è più.
+- Comandi dei pulsanti (`RetainingWallSheetViewModel.Commands.cs`), tutti con la guardia del foglio (Q19). Quelli che modificano i
+  dati sono spenti in sola lettura, come i pulsanti protetti da `RevisionInspection`. Quelli che la vista storica ammette in una
+  revisione restano attivi: calcolo, report, CSV, valori, «Sisma», «Stabilità globale», calcolo globale e il suo Word, «Modifica
+  profilo, strati e ricerca».
+- Per la vista: `FormVisibility` (i form nascosti dalle regole, una copia nuova a ogni cambiamento), `CardShown` (lo scorrimento
+  a «Sisma» e «Stabilità globale» è della vista), gli oggetti dei disegni (`DrawingCalculation`, `DiagramCalculation`,
+  `GlobalDrawingResult/Case`, `GlobalPreviewResult/Case`), `OpenBarSchedule` e `SaveBarSchedule` per il dialogo della distinta,
+  `NewActionType` validato e riportato al primo tipo a ogni ricostruzione degli input, come la combo storica.
+- T2 e lezione 1 del 17/10: tutti i form, anche quelli costruiti dopo l'apertura (azione scelta, strato profondo, accelerogramma,
+  profilo preparato), hanno `IsReadOnly` del foglio e `WikiNavigator` dei servizi. Lo provano `ViewContractAsync` di
+  `Presentation.Tests` e l'aiuto di `ui/check-muri-view` (157 pressioni su 157 al navigatore).
+
+**Vista** (`X.Desktop/Views/RetainingWall`).
+- `RetainingWallSheetView`: la disposizione di `RetainingWallWorkspace` (sezione 3.1). Intestazione, barra della combinazione,
+  pagine «Input» e «Verifiche», riga di stato. La colonna delle schede (scorrimento proprio, al massimo 605 px) sta accanto al
+  disegno degli input, che sotto i 1450 px va sotto le schede; la matrice delle combinazioni è in fondo.
+- Le schede sono `Expander` legati a `Cards[...]`. I form sono `FieldForm` compatti scelti per chiave fra `Forms` e nascosti da
+  `FormVisibility`. Le tabelle sono `WallInputGrid` sulle `WallTableViewModel`, con le colonne di `JsonGrid`, le altezze e le
+  larghezze storiche e il bordo colorato degli strati (per indice; per nome negli strati globali, `GlobalLayerColor`), con i token
+  `Swatch.Wall1–6`.
+- I pannelli dei risultati sono liste di `WallPanelBlock` mostrate da `WallBlockTemplateSelector` (testo, tabella `WallBlockGrid`,
+  pulsante, gruppo). La selezione della prima tabella di «Riepilogo e dettagli» va a `SelectResultRow`, quella dei conci a
+  `SelectSlice`, quella delle spinte degli input a `SelectPressure`.
+- Il code-behind fa solo ciò che Q3 ammette e ciò che è stato della vista: i disegni storici (`RetainingWallDrawing`,
+  `GlobalStabilityDrawing`) sui dati semplici del ViewModel a ogni `DrawingsChanged`; il testo sotto il puntatore; il clic su un
+  carico (riga di `Actions` e scheda «Azioni»); la disposizione sotto i 1450 px; lo scorrimento alle schede; i gruppi interni
+  riportati allo stato iniziale e la colonna delle schede in cima quando il foglio ricostruisce gli input, come la vista storica
+  che li ricostruisce; la presentazione dei numeri attiva sulla vista, come `RetainingWallWorkspace`.
+- Sola lettura (T2): form in sola lettura, tabelle bloccate, comandi di modifica spenti; combinazioni, viste, filtri,
+  interruttori, schede, «Distinta ferri…» e i comandi ammessi restano utilizzabili.
+- Dialoghi (MU10): `RetainingWallParametersView` è il DataTemplate del dialogo dei valori per `WpfDialogService` (1150×780 con i
+  bordi; tutto spento durante il controllo, come la finestra storica; senza la presentazione dei numeri, come la finestra storica;
+  righe e «Applica e ricalcola» bloccati in sola lettura, MU3). `RetainingWallBarScheduleView` è la distinta ferri come dialogo
+  della vista (pagina, zoom, «PDF completo», «Word completo», «CSV distinta», «PNG pagina»): i byte si costruiscono come nella
+  finestra storica, il foglio li scrive nel file scelto con il dialogo dei file dei servizi. Il dialogo del terreno è quello
+  condiviso di `Views/Shared` (T5).
+- Solo token (P7). I corpi seguono D8 e le scelte del palo verticale: titolo `Font.Title`, 15 → `Font.Subheading`, 18 →
+  `Font.Heading`, 10 → `Font.Caption`.
+
+**Prove.**
+- `ui/check-muri-view` (`tests/Desktop/RetainingWallViewChecks.cs`, comando `--check-muri-view`):
+  - le 24 tracce guidate attraverso i controlli della vista e rilette dai controlli. Il contenuto che WPF non ha ancora disposto
+    (gruppi chiusi, pagina non mostrata) è costruito fuori dall'albero visuale quando un passo lo usa; i campi e i blocchi non
+    disposti si leggono dal ViewModel, come nel palo verticale. Il valore di un campo di testo è il suo testo grezzo: l'editor
+    lo mostra formattato senza fuoco;
+  - per le 16 fixture: visita, dati, risultato ed esportazioni contro la vista storica;
+  - schermate, aiuto, nomi di automazione, sola lettura contro la storica, dialogo dei valori, dialogo del terreno, banco.
+- `ui/f3-scheduling-muri-mvvm`: le prove dei muri di `ui/f3-scheduling` (`F3WallMvvmSchedulingChecks`) sul foglio MVVM e sulla
+  vista del dialogo dei valori, quando il banco sceglie la vista MVVM.
+- Passo di contrasto autonomo `mvvm-geo_muri_sostegno` in fondo a `ContrastAudit.cs` (`RetainingWallContrastStep`, fra i commenti
+  «---- F5.9 begin/end»): con `--baseline` solo Scuro e Molto scuro. Non eseguito (T10).
+- `Presentation.Tests`: `ViewContractAsync` (19 controlli). Le tracce contano i dialoghi del terreno mostrati al posto dell'evento;
+  le tracce congelate non cambiano.
+
+### 5.2 Risultati
+
+| Prova | Esito |
+| --- | --- |
+| `ui/check-muri-view` | PASS 187 controlli: 24 tracce, 17 666 righe uguali a quelle congelate; 16 fixture con visita senza scritture e dati e risultato uguali alla vista storica; report Word e PDF, CSV delle verifiche uguali (13 fixture con un risultato; nelle altre 3 il CSV è rifiutato con il messaggio storico); CSV dei conci e «Word globale» (2); distinta ferri PDF, Word, CSV e PNG (10); 11 schermate; 16 etichette «?» uguali, 157 pressioni di «?» e F1 su 133 campi di 21 form al navigatore; nomi di automazione su 4 fixture; sola lettura uguale alla storica (152 e 157 controlli comuni); dialogo dei valori; dialogo del terreno |
+| Cattura F3 con `--module-impl geo_muri_sostegno=mvvm` | PASS 104 fixture, uguale al riferimento con le transizioni F4 di sempre (22 126 elencate e ammesse, 14 441 dei muri, come la cattura storica) |
+| Confronto diretto (`tools/qa/f5_confronto_diretto.py`) fra cattura storica e MVVM | **0 differenze** su 1066 file (1063 uguali byte per byte, 3 JSON uguali in forma canonica; ignorati solo i 6 tempi del palo elastico) |
+| `ui/f3-report-chapters` con MVVM | PASS 105 capitoli autonomi, 246 immagini e tutte le parti XML confrontate con la vista |
+| `ui/f3-scheduling` con MVVM (`ui/f3-scheduling-muri-mvvm`) | PASS 47 controlli, come la storica |
+| `Presentation.Tests`, `Architecture.Tests` | PASS 1818; PASS 523 (P1–P7, F4 3335, P3 126 invariate) |
+| Profilo quick | `20261017-202443-f59v-c1` (ViewModel) e `20261017-213346-f59v-c3` (vista e prove): PASS 52, NEW-FAIL 0 |
+
+Le schermate sono a 144 DPI (schermo al 150%), in `vista/schermate` della suite: «Input», «Verifiche» e la stabilità globale nei
+tre aspetti; la disposizione stretta (sotto i 1450 px); la scheda della stabilità globale aperta dal pulsante dell'intestazione.
+`ui/check-contrast` non è stata eseguita (T10: va ripetuta a 96 DPI, MU13).
+
+Baseline architetturali: nessuna cambiata. Le altezze delle colonne del terreno (`UpdateColumnDepths`) sono costanti con nome in
+`WallInputGrid`: nessuna voce F4 nuova.
+
+### 5.3 Differenze visibili
+
+- **MU3 e MU4** (differenze dichiarate): in una revisione precedente la finestra dei valori è in sola lettura e «Stabilità
+  globale» apre la scheda senza preparare il profilo.
+- **Righe alterne delle tabelle degli input.** La vista storica usa #F3F6FA, che non segue l'aspetto: in Scuro e Molto scuro le
+  righe alterne restano chiare. La vista nuova usa `Token.Surface` (#F3F5F8 in Chiara), che segue l'aspetto.
+- **Colori degli avvisi.** «DarkGoldenrod» (stato con avvisi, prontezza della stabilità globale) diventa `Token.Status.Caution`
+  (#9A6700). Firebrick e Navy hanno già i loro token (`Status.Fail`, `Ink`).
+- **Corpi**: titolo da 19 a 22 (D8), 15 → 14, 18 → 16, 10 → 11.
+- **Dialogo dei valori a dimensione fissa**: `WpfDialogService` adatta la finestra al contenuto. Il dialogo ha la dimensione
+  della finestra storica (1150×780) invece di una finestra ridimensionabile con minimo 780×530 (come i dialoghi del palo, F5.6).
+
+### 5.4 Scelte da confermare («da decidere»)
+
+- **MU14 · Comandi che avviano un lavoro sullo sfondo.** «Ricalcola», «Calcola globale», «Calcola armature» e «Valori di
+  calcolo…» sono comandi che avviano il lavoro e tornano, non `AsyncRelayCommand`: i pulsanti restano attivi durante il lavoro,
+  come nella vista storica, e un secondo clic non è rifiutato (gli scheduler del foglio decidono che cosa si pubblica). La
+  convenzione di `GuardedCommands` li spegnerebbe durante il lavoro. Scelta: conservare il comportamento storico.
+- **MU15 · Righe alterne** con `Token.Surface` (sezione 5.3). Alternativa: `Token.PaperAlt`, il token delle righe alterne
+  (#F8FAFC).
+- **MU16 · «DarkGoldenrod» → `Token.Status.Caution`.** Alternativa: un token nuovo con il colore storico.
+- **MU17 · Dimensione fissa del dialogo dei valori** (sezione 5.3), come le finestre del palo (F5.6).
+- **MU18 · Gruppi interni riportati allo stato iniziale** quando il foglio ricostruisce gli input («Mensola/Gravità esempio»,
+  «Prepara dal muro», «Applica proposta», valori applicati). È il comportamento storico, tenuto nel code-behind. Alternativa:
+  lasciarli come li ha messi l'utente.
+- **MU19 · Lettura delle tracce attraverso la vista.** I campi non ancora disposti e i blocchi dei pannelli non generati si
+  leggono dal ViewModel; il valore di un campo di testo è il testo grezzo del `FieldViewModel`. È la scelta del palo verticale.
+
+### 5.5 Suite storiche da riscrivere al passaggio della Release
+
+Usano `RetainingWallWorkspace` o i rami `retainingWall` di `SheetEditor`; vanno riscritte sulla vista XAML ospitata da
+`MvvmSheetEditor` prima del passaggio (punto 5 della sezione 3):
+- `ui/smoke-retaining-wall` (`supporto/test/Desktop/RetainingWallSmokeChecks.cs`) e `ui/smoke-global-stability`
+  (`GlobalStabilitySmokeChecks.cs`);
+- `ui/check-global-guidance-offscreen` (`GlobalGuidanceChecks.cs`), `ui/check-wall-advanced-offscreen` (`WallAdvancedChecks.cs`),
+  `ui/check-wall-materials-offscreen` (`WallMaterialChecks.cs`);
+- `ui/f3-scheduling`: `F3WallParameterChecks.cs` e `F3TypedSchedulingChecks.cs` (`RetainingWallWorkspace.CheckF3Scheduling`)
+  diventano superflui. Le stesse prove sulla vista MVVM ci sono già (`F3WallMvvmSchedulingChecks`, `ui/f3-scheduling-muri-mvvm`):
+  al passaggio basta togliere il ramo storico di `F3SchedulingChecks`;
+- `FieldFormParityChecks` (`tests/Desktop`), `ReportAppearanceChecks` (`supporto/test/Desktop`, `editor.retainingWall`) e
+  `ContrastAudit` (`supporto/test/Desktop`): il passo `mvvm-geo_muri_sostegno` si toglie e il passo del modulo mostra la vista
+  nuova;
+- `Architecture.Tests` (`tests/ANTHEA.Architecture.Tests/Program.cs`, righe 123–124): due controlli leggono
+  `RetainingWallWorkspace.Advanced.cs` e `.Results.cs`, da spostare sui file nuovi o togliere con l'archiviazione;
+- `ui/check-muri-historic` resta finché la vista storica esiste; `ui/check-muri-view` resta, con le tracce congelate.
+
+### 5.6 Da provare a mano (versione portatile con le viste attive)
+
+1. Aprire muri reali di un progetto, a mensola e a gravità: schede, disegno degli input, matrice, «Verifiche» come oggi;
+   ridimensionare la finestra sotto e sopra i 1450 px.
+2. Modificare geometria, terreni (anche colonne collegate, «↑», «↓», «−»), materiali, armature e azioni (anche il clic su un
+   carico nel disegno): il ricalcolo parte dopo mezzo secondo, lo stato passa da «in attesa» a «in corso» a «aggiornato».
+3. «Sisma» e «Stabilità globale · imposta»: pagina e scheda aperte e portate in vista; «Prepara dal muro», strati profondi,
+   punti, matrice globale, «Calcola globale», «Word globale», «CSV» dei conci.
+4. «Verifiche»: viste, elementi, filtri, interruttori, selezione di una riga e «Apri sezione in c.a.».
+5. «Calcola armature», «Interrompi ricerca», «Applica proposta».
+6. «Valori di calcolo…»: modificare un valore, «Applica e ricalcola»; chiudere la finestra durante il controllo.
+7. «Distinta ferri…»: pagine, zoom, PDF, Word, CSV e PNG.
+8. «Invia / carica terreno…»: invio a un nuovo foglio e sostituzione del terreno.
+9. I «?» dei campi e F1.
+10. Una revisione precedente (sola lettura): campi, tabelle e comandi di modifica bloccati; viste, valori (in sola lettura),
+    report, CSV, distinta e calcolo globale disponibili.
+11. Report Word/PDF e aspetti Scuro e Molto scuro.
