@@ -3,6 +3,7 @@ using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Modules;
 using Anthea.Presentation.Modules.Materials;
 using Anthea.Presentation.Modules.PileGroup;
+using Anthea.Presentation.Modules.Stratigraphy;
 using Anthea.Presentation.Modules.VerticalPile;
 
 namespace X.Desktop.Services;
@@ -55,7 +56,10 @@ internal sealed class DesktopComposition
         var verticalFigures = new VerticalPileFigureRenderer();
         return new([new PileGroupSheetModule(), new VerticalPileSheetModule(VerticalPileSheetViewModel.PileModule, verticalFigures),
             new VerticalPileSheetModule(VerticalPileSheetViewModel.MicropileModule, verticalFigures), new ConcreteMaterialSheetModule(),
-            new RebarMaterialSheetModule()]);
+            new RebarMaterialSheetModule(),
+            // F5.6b: the stratigraphy, with the AI import of Application (disabled, as the historic button) and the historic soil transfer dialog.
+            new StratigraphySheetModule(new(Anthea.Application.Stratigraphy.StratigraphyImport.OpenAi(), Anthea.Application.Stratigraphy.StratigraphyImport.EnvironmentDefaults,
+                new WpfSoilTransferDialog()))]);
     }
 
     /// <summary>Factory of the services of a main window, unchanged since F1.4 (the WPF checks pass TestServices.Create instead).</summary>

@@ -60,13 +60,14 @@ internal static class ModuleHostWpfChecks
         var composition = new DesktopComposition(() => null);
         Check(composition.Modules.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
             && composition.Modules.SheetModuleIds.SequenceEqual(ModuleDirectory.All.Select(m => m.Id)
-                .Where(m => m is "geo_efficienza_orizzontale" or "geo_palo_verticale" or "geo_micropalo_verticale" or "mat_calcestruzzo" or "mat_acciaio_armatura")),
+                .Where(m => m is "geo_efficienza_orizzontale" or "geo_palo_verticale" or "geo_micropalo_verticale" or "mat_calcestruzzo" or "mat_acciaio_armatura"
+                    or "geo_stratigrafia")),
             "Radice di composizione: registro uguale a ModuleDirectory, con la palificata, i pali verticali e i materiali MVVM");
         using (var historic = composition.SheetEditors.Open(ProbeModule, ModuleDirectory.CreateData(ProbeModule)))
             Check(historic is SheetEditor, "Radice di composizione: la fabbrica apre la vista storica");
         using (var pileGroup = composition.SheetEditors.Open("geo_efficienza_orizzontale", ModuleDirectory.CreateData("geo_efficienza_orizzontale")))
             Check(pileGroup is SheetEditor, "Radice di composizione: la Release apre la palificata con la vista storica");
-        foreach (string migrated in new[] { "geo_palo_verticale", "geo_micropalo_verticale", "mat_calcestruzzo", "mat_acciaio_armatura" })
+        foreach (string migrated in new[] { "geo_palo_verticale", "geo_micropalo_verticale", "mat_calcestruzzo", "mat_acciaio_armatura", "geo_stratigrafia" })
             using (var sheet = composition.SheetEditors.Open(migrated, ModuleDirectory.CreateData(migrated)))
                 Check(sheet is SheetEditor, "Radice di composizione: la Release apre " + migrated + " con la vista storica");
         Fails<ArgumentException>(() => composition.SheetEditors.Open("inesistente", new JsonObject()), "inesistente", "Modulo sconosciuto rifiutato come oggi");
