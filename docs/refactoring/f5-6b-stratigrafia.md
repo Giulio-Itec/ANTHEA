@@ -280,7 +280,8 @@ le suite storiche non sono riscritte (sezione 5.6). La vista nuova si apre solo 
 | `4b5e3960` | vista `X.Desktop/Views/Stratigraphy` (foglio, editor, dialogo dell'importazione IA), trigger `Multiline` di `FieldForm`, pulsanti del dialogo condiviso con lo stile del tema |
 | `98a93aca` | `tests/Desktop/StratigraphyViewChecks.cs`, comando `--check-stratigrafia-view`, suite `ui/check-stratigrafia-view` |
 | `f01698f4` | passo `mvvm-geo_stratigrafia` di `--check-contrast` in un blocco a sé (`StratigraphyContrastStep`), non eseguito |
-| (questo commit) | questa sezione |
+| `fc1b38e4` | questa sezione |
+| (questo commit) | esito della corsa finale (sezione 5.8) |
 
 ### 5.2 Decisioni applicate
 
@@ -331,7 +332,7 @@ le suite storiche non sono riscritte (sezione 5.6). La vista nuova si apre solo 
 
 | Prova | Esito |
 | --- | --- |
-| `ui/check-stratigrafia-view` | PASS 181 controlli (circa 2 minuti): 15 tracce attraverso i controlli della vista e del dialogo condiviso uguali a quelle congelate (7882 righe); 5 fixture con visita senza scritture, «Calcola», «Esporta risultati» rifiutato con lo stesso messaggio, report Word e PDF uguali alla vista storica; schermate; F1 (11 pressioni su 11, anche in sola lettura); nomi di automazione; sola lettura; importazione IA con sorgente scritta dalla prova; dialogo condiviso contro la finestra storica (95 stati); banco e Release |
+| `ui/check-stratigrafia-view` | PASS 181 controlli (19 s nella corsa finale): 15 tracce attraverso i controlli della vista e del dialogo condiviso uguali a quelle congelate (7882 righe); 5 fixture con visita senza scritture, «Calcola», «Esporta risultati» rifiutato con lo stesso messaggio, report Word e PDF uguali alla vista storica; schermate; F1 (11 pressioni su 11, anche in sola lettura); nomi di automazione; sola lettura; importazione IA con sorgente scritta dalla prova; dialogo condiviso contro la finestra storica (95 stati); banco e Release |
 | Cattura F3 con il modulo MVVM (`--module-impl geo_stratigrafia=mvvm`) | PASS 104 fixture, uguale al riferimento `expected` (1066 file) con le transizioni F4 di sempre, nessuna per la stratigrafia; la cattura storica degli stessi binari dà lo stesso esito |
 | Confronto diretto (`tools/qa/f5_confronto_diretto.py`) con la cattura storica degli stessi binari | **0 differenze** su 1066 file (1063 uguali byte per byte, 3 JSON uguali in forma canonica; ignorati solo i 6 tempi del palo elastico) |
 | `--check-f3-report-chapters` con il modulo MVVM | PASS 105 capitoli autonomi, 246 immagini e tutte le parti XML confrontate con la vista (i 5 della stratigrafia con il report esportato dal foglio MVVM) |
@@ -418,4 +419,17 @@ L'importazione IA resta spenta nella Release (S5): non si prova a mano.
 
 ### 5.8 Corsa finale
 
-Corsa `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` sul commit di questa sezione: l'esito è nel commit successivo.
+Corsa `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `fc1b38e4`: `supporto/artefatti/ci/20261017-202735-f56bv-finale`,
+PASS 123, KNOWN 0, NEW-FAIL 1; nessun file tracciato modificato, `transitions-f4.json` invariato. `Presentation.Tests` 1813,
+`Architecture.Tests` 523, `ui/f3-equivalence` 104 fixture, `ui/f3-report-chapters` 105 capitoli, `ui/check-stratigrafia-view` 181
+controlli (19 s), `ui/check-stratigrafia-historic` e `Stratigraphy.UiChecks` PASS. `ui/check-contrast` esclusa (T10).
+
+**NEW-FAIL `ui/check-palo-verticale-view`: ambientale, non del ramo.**
+- Il processo `ANTHEA.exe` avviato dal runner (`Start-Process`) termina con codice 0, senza `esito.txt` né `errore.txt`, mentre scrive
+  il terzo «Salva PNG…» delle esportazioni (resta il file temporaneo `.x_….tmp` di `Archivio.ScriviAtomico`). Ripetuta da sola
+  (`f56bv-rerun-pv`): stesso esito.
+- Si riproduce identica con i binari della base `refactoring/f5` `11f48446`, compilati a parte e avviati allo stesso modo.
+- Con i binari del ramo la suite passa (PASS 377) avviata con `dotnet ANTHEA.dll` (anche da `Start-Process`) e con `ANTHEA.exe` dalla
+  shell.
+- Nessun evento nei registri di Windows (Applicazione, Defender). Ipotesi: un controllo di sicurezza che ferma l'eseguibile non
+  firmato avviato da PowerShell mentre rinomina in fila file appena scritti. Da ripetere dal coordinatore.
