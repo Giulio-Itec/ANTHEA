@@ -495,6 +495,7 @@ internal sealed class HeldElasticAnalyses
     private readonly object sync = new();
     private readonly SemaphoreSlim entered = new(0);
     private TaskCompletionSource gate = Open();
+    private readonly List<Task> running = [];
     private int calls;
 
     internal int Calls => Volatile.Read(ref calls);
@@ -509,6 +510,24 @@ internal sealed class HeldElasticAnalyses
 
     /// <summary>Releases the held calculations; they are no longer held.</summary>
     internal void Release() { lock (sync) gate.TrySetResult(); }
+
+    /// <summary>
+    /// Completes when every calculation started so far has ended (at most 120 s), whatever its outcome: a closed sheet does not wait for
+    /// the engine, whose last continuations still run on the thread of the checks; they must end before that thread does.
+    /// </summary>
+    internal async Task DrainAsync()
+    {
+        while (true)
+        {
+            Task[] pending;
+            lock (sync) { pending = running.Where(t => !t.IsCompleted).ToArray(); running.RemoveAll(t => t.IsCompleted); }
+            if (pending.Length == 0) return;
+            try { await Task.WhenAll(pending).WaitAsync(TimeSpan.FromSeconds(120)); }
+            catch (Exception error) when (error is not TimeoutException) { }
+        }
+    }
+
+    private void Track(Task task) { lock (sync) running.Add(task); }
 
     /// <summary>Completes when one more calculation is held (at most 30 s).</summary>
     internal async Task EnteredAsync()
@@ -530,7 +549,14 @@ internal sealed class HeldElasticAnalyses
     {
         public int ResponseCalculations => inner.ResponseCalculations;
 
-        public async Task<JsonObject> CalculateAsync(JsonObject source, Action<JsonObject> responseReady, IProgress<PileProgress>? progress = null, CancellationToken cancellation = default)
+        public Task<JsonObject> CalculateAsync(JsonObject source, Action<JsonObject> responseReady, IProgress<PileProgress>? progress = null, CancellationToken cancellation = default)
+        {
+            var task = RunAsync(source, responseReady, progress, cancellation);
+            owner.Track(task);
+            return task;
+        }
+
+        private async Task<JsonObject> RunAsync(JsonObject source, Action<JsonObject> responseReady, IProgress<PileProgress>? progress, CancellationToken cancellation)
         {
             await owner.PassAsync();
             return await inner.CalculateAsync(source, responseReady, progress, cancellation);

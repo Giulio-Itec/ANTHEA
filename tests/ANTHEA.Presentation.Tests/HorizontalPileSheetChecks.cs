@@ -29,8 +29,8 @@ namespace Anthea.Presentation.Tests;
 /// tests/fixtures/f5-palo-orizzontale/storica, line by line;</item>
 /// <item>for each F3 fixture of the two modules on the tab of the capacity the data after opening, visit, calculation, export and
 /// reopening, the result, the status and the text and structure of the report equal the F3 reference byte for byte; for the fixtures on
-/// the tab of the elastic response (F5.8) the data (opened, visited, calculated, exported, reopened) equal it, and the F4 transitions of
-/// these modules concern only the files of the elastic response, which are not compared;</item>
+/// the tab of the elastic response (F5.8: result, «Calcola» and report of the tab shown) every file equals it as ui/f3-equivalence compares
+/// it, with the tolerances and exactly the F4 transitions of these modules admitted (all on single-soil-elastic);</item>
 /// <item>the diagrams of every survey equal those frozen in tests/fixtures/f5-palo-orizzontale/diagrammi, which the historic view draws
 /// (ui/check-palo-orizzontale-historic);</item>
 /// <item>module and keys of interface state; derivations of ANTHEA.Application with values written by hand; with the engine held by a
@@ -47,8 +47,11 @@ internal static class HorizontalPileSheetChecks
 
     private static readonly SameSizeFigures Figures = new();
 
+    /// <summary>The elastic responses of the sheets (F5.8), drained before the thread of the checks ends.</summary>
+    private static readonly HeldElasticAnalyses Elastic = new();
+
     private static HorizontalPileSheetViewModel Open(string module, JsonObject data, IModuleService? service = null, PresentationServices? services = null, bool readOnly = false) =>
-        (HorizontalPileSheetViewModel)new HorizontalPileSheetModule(module, Figures).CreateSheet(new SheetContext((JsonObject)data.DeepClone(), readOnly, new Host(),
+        (HorizontalPileSheetViewModel)new HorizontalPileSheetModule(module, Figures, Elastic.Create).CreateSheet(new SheetContext((JsonObject)data.DeepClone(), readOnly, new Host(),
             services ?? Scripted.Services(confirmations: null), service ?? ModuleServices.Get(module), new CalculationLimiter(1)));
 
     private static async Task<int> RunAsync(string root, string output)
@@ -87,6 +90,7 @@ internal static class HorizontalPileSheetChecks
             await SoilDetailsAsync(root, expect);
             await CsvAsync(root, expect);
             await SurveyCommandsAsync(root, expect);
+            await Elastic.DrainAsync();
             return expect.Count;
         }
         finally { CultureInfo.CurrentCulture = culture; CultureInfo.CurrentUICulture = uiCulture; }
@@ -313,9 +317,11 @@ internal static class HorizontalPileSheetChecks
         for (int i = 0; i < sheet.Surveys.Count; i++) sheet.SelectedSurveyIndex = i;
         sheet.SelectedSurveyIndex = survey;
         sheet.Commit(); Save("visited.json", sheet.Data);
-        sheet.Commit(); await Expect.Within(sheet.CalculateAsync()); sheet.Commit();
-        Save("calculated-data.json", sheet.Data); Save("result.json", sheet.Result);
-        var status = new JsonObject { ["hasResults"] = sheet.HasResults };
+        // The window calculates and reads the tab shown (F5.8: the elastic response for the fixtures that open on it).
+        ISheetViewModel window = sheet;
+        sheet.Commit(); await Expect.Within(window.CalculateAsync()); sheet.Commit();
+        Save("calculated-data.json", sheet.Data); Save("result.json", window.Result);
+        var status = new JsonObject { ["hasResults"] = window.HasResults };
         try
         {
             var options = ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
@@ -333,16 +339,17 @@ internal static class HorizontalPileSheetChecks
     }
 
     /// <summary>
-    /// The capture of the ViewModel against the F3 reference of the historic view, byte for byte (after the line endings): every file for
-    /// the fixtures on the tab of the capacity; the data for those on the tab of the elastic response (F5.8), whose result, status and
-    /// report are the elastic ones. The F4 transitions of these modules concern only the files not compared.
+    /// The capture of the ViewModel against the F3 reference of the historic view: every file byte for byte (after the line endings) for the
+    /// fixtures on the tab of the capacity; for those on the tab of the elastic response (F5.8) every file as ui/f3-equivalence compares it,
+    /// with the tolerances (the measured times tempi_ms are volatile) and exactly the F4 transitions of the two modules admitted.
     /// </summary>
     private static void CompareF3(string root, string capture, IReadOnlyList<(string Module, string Id)> fixtures, Expect expect)
     {
         string expected = Path.Combine(root, "tests", "fixtures", "f3", "expected");
-        string[] data = ["opened.json", "visited.json", "calculated-data.json", "exported-data.json", "reopened.json"];
         var transitions = Transition.Load(Path.Combine(root, "tests", "fixtures", "f3", "transitions-f4.json"))
             .Where(t => fixtures.Any(f => t.File.StartsWith("sheets/" + f.Module + "/", StringComparison.Ordinal))).ToList();
+        string reference = Path.Combine(capture, "..", "palo-orizzontale-f3-elastico-riferimento");
+        string candidate = Path.Combine(capture, "..", "palo-orizzontale-f3-elastico-cattura");
         int elastic = 0, compared = 0;
         foreach (var (module, id) in fixtures)
         {
@@ -350,24 +357,34 @@ internal static class HorizontalPileSheetChecks
             bool opensElastic = HorizontalPileScenarios.OpensElastic(HorizontalPileScenarios.FixtureData(root, module, id));
             if (opensElastic) elastic++;
             var names = Directory.EnumerateFiles(Path.Combine(expected, relative)).Select(f => Path.GetFileName(f)).Order(StringComparer.Ordinal).ToArray();
-            if (!opensElastic)
-            {
-                var produced = Directory.EnumerateFiles(Path.Combine(capture, relative)).Select(f => Path.GetFileName(f)).Order(StringComparer.Ordinal).ToArray();
-                expect.That(names.SequenceEqual(produced), module + "/" + id + ": file della cattura diversi dal riferimento F3 (" + string.Join(", ", produced) + ")");
-            }
+            var produced = Directory.EnumerateFiles(Path.Combine(capture, relative)).Select(f => Path.GetFileName(f)).Order(StringComparer.Ordinal).ToArray();
+            expect.That(names.SequenceEqual(produced), module + "/" + id + ": file della cattura diversi dal riferimento F3 (" + string.Join(", ", produced) + ")");
             foreach (string? name in names)
             {
                 string file = relative + "/" + name;
-                if (opensElastic && !data.Contains(name)) continue;
-                expect.That(transitions.All(t => t.File != file), file + ": transizione F4 su un file confrontato");
                 string a = File.ReadAllText(Path.Combine(expected, file), Encoding.UTF8).Replace("\r\n", "\n");
                 string b = File.ReadAllText(Path.Combine(capture, file), Encoding.UTF8).Replace("\r\n", "\n");
-                expect.That(a == b, file + " diverso dal riferimento F3 della vista storica");
                 compared++;
+                if (!opensElastic)
+                {
+                    expect.That(transitions.All(t => t.File != file), file + ": transizione F4 su un file della capacità");
+                    expect.That(a == b, file + " diverso dal riferimento F3 della vista storica");
+                    continue;
+                }
+                foreach (var (folder, text) in new[] { (reference, a), (candidate, b) })
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(Path.Combine(folder, file))!);
+                    File.WriteAllText(Path.Combine(folder, file), text, new UTF8Encoding(false));
+                }
             }
         }
-        expect.That(elastic == 11 && transitions.Count > 0 && transitions.All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal)),
-            "Transizioni F4 dei pali orizzontali fuori dai file della risposta elastica");
+        var comparer = new BaselineComparer(Tolerances.Load(Path.Combine(root, "tests", "ANTHEA.Testing", "tolerances.json")));
+        comparer.Admit(transitions);
+        var report = comparer.Compare(reference, candidate);
+        File.WriteAllText(Path.Combine(capture, "..", "palo-orizzontale-f3-elastico-confronto.json"), report.ToJsonString(J.Options));
+        expect.That(comparer.NotAdmitted == 0, "Fixture F3 della risposta elastica: " + comparer.NotAdmitted + " differenze non ammesse o transizioni F4 assenti");
+        expect.That(elastic == 11 && transitions.Count == 1117 && transitions.All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal)),
+            "Transizioni F4 dei pali orizzontali: " + transitions.Count + " (attese le 1117 della risposta elastica di single-soil-elastic)");
         expect.That(compared > 0, "Nessun file F3 confrontato");
     }
 
