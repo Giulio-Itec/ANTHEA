@@ -1,0 +1,200 @@
+== apertura
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[]],"tipo_sezione":"CHS","elastico":{"EI":"25000","strati":[],"migrazione_richiesta":true},"vista_orizzontale":"elastico","elastico_legacy":{"EI":"25000","strati":[]}}
+modificato 0 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=1512,607 kNm² · E=210000 MPa · J=7202889 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione "Questo archivio contiene input elastici separati. Confrontare prima di proseguire.\nDati comuni: D=0.24 m; L infissa=10 m; H=100 kN; e da p.c.=0 m.\nLegacy: D= m; L totale= m; libero= m; H= kN; C= kNm; e dalla testa= m; EJ=25000 kNm².\nGli originali vengono conservati. Importare aggiunge una stratigrafia e imposta EJ come override: completare poi la classificazione per Broms."
+  comando "Usa dati comuni e conserva legacy" attivo
+  comando "Importa legacy nei dati comuni" attivo
+  comando "Mostra confronto completo" attivo
+intestazione assente
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature assenti
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[]],"tipo_sezione":"CHS","elastico":{"EI":"25000","strati":[],"migrazione_richiesta":true},"vista_orizzontale":"elastico","elastico_legacy":{"EI":"25000","strati":[]}}
+modificato 0 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=1512,607 kNm² · E=210000 MPa · J=7202889 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione "Questo archivio contiene input elastici separati. Confrontare prima di proseguire.\nDati comuni: D=0.24 m; L infissa=10 m; H=100 kN; e da p.c.=0 m.\nLegacy: D= m; L totale= m; libero= m; H= kN; C= kNm; e dalla testa= m; EJ=25000 kNm².\nGli originali vengono conservati. Importare aggiunge una stratigrafia e imposta EJ come override: completare poi la classificazione per Broms."
+  comando "Usa dati comuni e conserva legacy" attivo
+  comando "Importa legacy nei dati comuni" attivo
+  comando "Mostra confronto completo" attivo
+intestazione assente
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature assenti
+== scheda [0]
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[]],"tipo_sezione":"CHS","elastico":{"EI":"25000","strati":[],"migrazione_richiesta":true},"vista_orizzontale":"capacita","elastico_legacy":{"EI":"25000","strati":[]}}
+modificato 1 · modificabile sì · scheda 0 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=1512,607 kNm² · E=210000 MPa · J=7202889 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione "Questo archivio contiene input elastici separati. Confrontare prima di proseguire.\nDati comuni: D=0.24 m; L infissa=10 m; H=100 kN; e da p.c.=0 m.\nLegacy: D= m; L totale= m; libero= m; H= kN; C= kNm; e dalla testa= m; EJ=25000 kNm².\nGli originali vengono conservati. Importare aggiunge una stratigrafia e imposta EJ come override: completare poi la classificazione per Broms."
+  comando "Usa dati comuni e conserva legacy" attivo
+  comando "Importa legacy nei dati comuni" attivo
+  comando "Mostra confronto completo" attivo
+intestazione assente
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature assenti
+== scheda [1]
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[]],"tipo_sezione":"CHS","elastico":{"EI":"25000","strati":[],"migrazione_richiesta":true},"vista_orizzontale":"elastico","elastico_legacy":{"EI":"25000","strati":[]}}
+modificato 2 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=1512,607 kNm² · E=210000 MPa · J=7202889 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione "Questo archivio contiene input elastici separati. Confrontare prima di proseguire.\nDati comuni: D=0.24 m; L infissa=10 m; H=100 kN; e da p.c.=0 m.\nLegacy: D= m; L totale= m; libero= m; H= kN; C= kNm; e dalla testa= m; EJ=25000 kNm².\nGli originali vengono conservati. Importare aggiunge una stratigrafia e imposta EJ come override: completare poi la classificazione per Broms."
+  comando "Usa dati comuni e conserva legacy" attivo
+  comando "Importa legacy nei dati comuni" attivo
+  comando "Mostra confronto completo" attivo
+intestazione assente
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature assenti
+== attendi
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[]],"tipo_sezione":"CHS","elastico":{"EI":"25000","strati":[],"migrazione_richiesta":true},"vista_orizzontale":"elastico","elastico_legacy":{"EI":"25000","strati":[]}}
+modificato 2 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=1512,607 kNm² · E=210000 MPa · J=7202889 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione "Questo archivio contiene input elastici separati. Confrontare prima di proseguire.\nDati comuni: D=0.24 m; L infissa=10 m; H=100 kN; e da p.c.=0 m.\nLegacy: D= m; L totale= m; libero= m; H= kN; C= kNm; e dalla testa= m; EJ=25000 kNm².\nGli originali vengono conservati. Importare aggiunge una stratigrafia e imposta EJ come override: completare poi la classificazione per Broms."
+  comando "Usa dati comuni e conserva legacy" attivo
+  comando "Importa legacy nei dati comuni" attivo
+  comando "Mostra confronto completo" attivo
+intestazione assente
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature assenti
+== calcola
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[]],"tipo_sezione":"CHS","elastico":{"EI":"25000","strati":[],"migrazione_richiesta":true},"vista_orizzontale":"elastico","elastico_legacy":{"EI":"25000","strati":[]}}
+modificato 2 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Calcolo non disponibile: Risolvere il confronto con i dati elastici legacy prima del calcolo." · avanzamento nascosto
+rigidezza "EJ=1512,607 kNm² · E=210000 MPa · J=7202889 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione "Questo archivio contiene input elastici separati. Confrontare prima di proseguire.\nDati comuni: D=0.24 m; L infissa=10 m; H=100 kN; e da p.c.=0 m.\nLegacy: D= m; L totale= m; libero= m; H= kN; C= kNm; e dalla testa= m; EJ=25000 kNm².\nGli originali vengono conservati. Importare aggiunge una stratigrafia e imposta EJ come override: completare poi la classificazione per Broms."
+  comando "Usa dati comuni e conserva legacy" attivo
+  comando "Importa legacy nei dati comuni" attivo
+  comando "Mostra confronto completo" attivo
+intestazione assente
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta non disponibile: Risolvere il confronto con i dati elastici legacy prima del calcolo." · pezzi 0 · -
+armature assenti
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[]],"tipo_sezione":"CHS","elastico":{"EI":"25000","strati":[],"migrazione_richiesta":true},"vista_orizzontale":"elastico","elastico_legacy":{"EI":"25000","strati":[]}}
+modificato 2 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Calcolo non disponibile: Risolvere il confronto con i dati elastici legacy prima del calcolo." · avanzamento nascosto
+rigidezza "EJ=1512,607 kNm² · E=210000 MPa · J=7202889 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione "Questo archivio contiene input elastici separati. Confrontare prima di proseguire.\nDati comuni: D=0.24 m; L infissa=10 m; H=100 kN; e da p.c.=0 m.\nLegacy: D= m; L totale= m; libero= m; H= kN; C= kNm; e dalla testa= m; EJ=25000 kNm².\nGli originali vengono conservati. Importare aggiunge una stratigrafia e imposta EJ come override: completare poi la classificazione per Broms."
+  comando "Usa dati comuni e conserva legacy" attivo
+  comando "Importa legacy nei dati comuni" attivo
+  comando "Mostra confronto completo" attivo
+intestazione assente
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta non disponibile: Risolvere il confronto con i dati elastici legacy prima del calcolo." · pezzi 0 · -
+armature assenti
+== riapri
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[]],"tipo_sezione":"CHS","elastico":{"EI":"25000","strati":[],"migrazione_richiesta":true},"vista_orizzontale":"elastico","elastico_legacy":{"EI":"25000","strati":[]}}
+modificato 0 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=1512,607 kNm² · E=210000 MPa · J=7202889 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione "Questo archivio contiene input elastici separati. Confrontare prima di proseguire.\nDati comuni: D=0.24 m; L infissa=10 m; H=100 kN; e da p.c.=0 m.\nLegacy: D= m; L totale= m; libero= m; H= kN; C= kNm; e dalla testa= m; EJ=25000 kNm².\nGli originali vengono conservati. Importare aggiunge una stratigrafia e imposta EJ come override: completare poi la classificazione per Broms."
+  comando "Usa dati comuni e conserva legacy" attivo
+  comando "Importa legacy nei dati comuni" attivo
+  comando "Mostra confronto completo" attivo
+intestazione assente
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature assenti
+== conferma
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[]],"tipo_sezione":"CHS","elastico":{"EI":"25000","strati":[],"migrazione_richiesta":true},"vista_orizzontale":"elastico","elastico_legacy":{"EI":"25000","strati":[]}}
+modificato 0 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=1512,607 kNm² · E=210000 MPa · J=7202889 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione "Questo archivio contiene input elastici separati. Confrontare prima di proseguire.\nDati comuni: D=0.24 m; L infissa=10 m; H=100 kN; e da p.c.=0 m.\nLegacy: D= m; L totale= m; libero= m; H= kN; C= kNm; e dalla testa= m; EJ=25000 kNm².\nGli originali vengono conservati. Importare aggiunge una stratigrafia e imposta EJ come override: completare poi la classificazione per Broms."
+  comando "Usa dati comuni e conserva legacy" attivo
+  comando "Importa legacy nei dati comuni" attivo
+  comando "Mostra confronto completo" attivo
+intestazione assente
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature assenti
+== attendi
+dati {"versione_orizzontale":1,"generali":{"diametro":"0.24","lunghezza":"10","eccentricita":"0","vincolo":"Libera","modalita":"Automatica","metodo_calcolo":"Broms","azione_orizzontale":"100","presenza_falda":false,"profondita_falda":"0","origine_momento":"Sezione CHS","momento_resistente":"1000","provenienza_momento":"","azione_assiale":"0","passo":"0.10","tolleranza":"1e-8","tratto_libero":0,"gamma_acqua":9.81},"sezione":{"modo_chs":"Catalogo","profilo_chs":"CHS 139.7 × 8","diametro_chs_mm":"139.7","spessore_chs_mm":"8","fy_chs_mpa":"355","gamma_m0":"1.05","modulo_chs_mpa":210000,"vita_durabilita":50,"gamma_ca":25,"gamma_acciaio":78.5,"gamma_iniezione":0},"verifica":{"verticali_indagate":"1","efficienza_metodo":"Manuale","efficienza_eta":"1","interasse_anteriore":"","interasse_posteriore":"","interasse_sinistro":"","interasse_destro":""},"stratigrafie":[[]],"tipo_sezione":"CHS","elastico":{"EI":"25000","strati":[],"migrazione_richiesta":true},"vista_orizzontale":"elastico","elastico_legacy":{"EI":"25000","strati":[]}}
+modificato 0 · modificabile sì · scheda 1 · esportabile no
+risposta - · risultato -
+stato "Dati modificati · analisi FEM e convergenza in coda" · avanzamento indeterminato
+rigidezza "EJ=1512,607 kNm² · E=210000 MPa · J=7202889 mm⁴\nSolo tubolare d'acciaio: EJ=Es·J. Malta, iniezione e terreno non contribuiscono alla rigidezza strutturale."
+migrazione "Questo archivio contiene input elastici separati. Confrontare prima di proseguire.\nDati comuni: D=0.24 m; L infissa=10 m; H=100 kN; e da p.c.=0 m.\nLegacy: D= m; L totale= m; libero= m; H= kN; C= kNm; e dalla testa= m; EJ=25000 kNm².\nGli originali vengono conservati. Importare aggiunge una stratigrafia e imposta EJ come override: completare poi la classificazione per Broms."
+  comando "Usa dati comuni e conserva legacy" attivo
+  comando "Importa legacy nei dati comuni" attivo
+  comando "Mostra confronto completo" attivo
+intestazione assente
+disegno - · quota -
+selezione ""
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+dettaglio "Sezione da verificare"
+estremi ""
+tabella righe 0 4F53CDA18C2BAA0C · csv no
+verifiche "Verifiche e armature da aggiornare"
+tavola "Distinta in aggiornamento · vedere avanzamento sopra i tratti." · pezzi 0 · -
+armature assenti

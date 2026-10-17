@@ -184,7 +184,7 @@ internal static class HorizontalPileHistoricTrace
         return list;
     }
 
-    static string Record(string output, string name, FrameworkElement drawing, int width, int height)
+    internal static string Record(string output, string name, FrameworkElement drawing, int width, int height)
     {
         drawing.Width = width; drawing.Height = height;
         drawing.Measure(new Size(width, height)); drawing.Arrange(new Rect(0, 0, width, height)); drawing.UpdateLayout();

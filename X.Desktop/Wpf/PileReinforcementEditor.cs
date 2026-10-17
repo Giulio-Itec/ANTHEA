@@ -145,6 +145,12 @@ internal sealed partial class PileReinforcementEditor : ContentControl
     }
     void OpenConcrete(int index)
     {
+        try{CreateConcreteWindow(index)?.ShowDialog();}
+        catch(ArgumentException ex){message.Text=ex.Message;}
+    }
+    /// <summary>The c.a. verifier of the segment in its dialog, not shown yet (F5.8 traces); an invalid segment writes the message and gives null.</summary>
+    internal Window? CreateConcreteWindow(int index)
+    {
         try
         {
             Commit();var sheet=ElasticPileEditor.CreateConcreteSheet(root,result(),index);var workspace=new ConcreteWorkspace(sheet);var row=root["elastico"]!.Array("tratti")[index]!.AsObject();
@@ -155,21 +161,29 @@ internal sealed partial class PileReinforcementEditor : ContentControl
             void Reload() { workspace.Dispose(); workspace = new ConcreteWorkspace(sheet); workspace.ReloadRequested += Reload; host.Content = workspace; }
             workspace.ReloadRequested += Reload;
             var dialog=Ui.Dialog(this,$"Verificatore c.a. · {row.S("id")}",Ui.Dock(host,Ui.Stack(note,apply)),1280,900);
-            dialog.Closed+=(_,_)=>{workspace.Commit();workspace.Dispose();row["foglio_cls"]=sheet.DeepClone();changed();Build();};dialog.ShowDialog();
+            dialog.Closed+=(_,_)=>{workspace.Commit();workspace.Dispose();row["foglio_cls"]=sheet.DeepClone();changed();Build();};return dialog;
         }
-        catch(ArgumentException ex){message.Text=ex.Message;}
+        catch(ArgumentException ex){message.Text=ex.Message;return null;}
     }
-    void Split(int index)
+    void Split(int index)=>CreateSplitWindow(index).ShowDialog();
+    /// <summary>The dialog «Dividi il tratto», not shown yet (F5.8 traces).</summary>
+    internal Window CreateSplitWindow(int index)
     {
         var edit=new TextBox{Text="",MinWidth=170};var dialog=Ui.Dialog(this,"Dividi il tratto",Ui.Stack(Ui.Text("Quota dalla testa [m]",13),edit),420,220);
-        ((StackPanel)dialog.Content).Children.Add(Ui.Button("Dividi",()=>{try{var cut=J.Number(JsonValue.Create(edit.Text))??throw new ArgumentException("Quota numerica richiesta.");root["elastico"]!["tratti"]=PileReinforcementOperations.Split(root,index,cut);changed();Build();dialog.Close();}catch(ArgumentException ex){edit.ToolTip=ex.Message;message.Text=ex.Message;}}));dialog.ShowDialog();
+        ((StackPanel)dialog.Content).Children.Add(Ui.Button("Dividi",()=>{try{var cut=J.Number(JsonValue.Create(edit.Text))??throw new ArgumentException("Quota numerica richiesta.");root["elastico"]!["tratti"]=PileReinforcementOperations.Split(root,index,cut);changed();Build();dialog.Close();}catch(ArgumentException ex){edit.ToolTip=ex.Message;message.Text=ex.Message;}}));return dialog;
     }
     void Propose()
     {
-        if(result() is not JsonObject r){message.Text=""+calculationState+"";return;}
-        try{var proposal=PileReinforcementOperations.Propose(root,r);var dialog=Ui.Dialog(this,"Proposta di suddivisione",Ui.Stack(Ui.Text("Quote su griglia di 0,5 m (punta esatta), tratti ≥3 m. Preferenza per barre 6/8/10/12 m comprensive dei giunti; arretramento per una sovrapposizione nei tratti successivi al primo, con domanda N–M–V. Il cambio di sezione cerca il primo attraversamento discendente di |M|max/2 dopo il massimo; oltre il cambio l’armatura principale è copiata come primo tentativo personalizzabile, da dimensionare. Le quote finali sono quote di taglio; l’inizio dei gruppi successivi arretra di l₀. Dettagli ancora preliminari.",13),Ui.Text(proposal.Segments.ToJsonString(J.Options),12)),700,500);
-            ((StackPanel)dialog.Content).Children.Add(Ui.Button("Applica e archivia i tratti precedenti",()=>{try{PileReinforcementOperations.ApplyProposal(root,proposal);changed();Build();dialog.Close();}catch(ArgumentException ex){message.Text=ex.Message;MessageBox.Show(dialog,ex.Message,"Proposta da aggiornare");}}));dialog.ShowDialog();}
+        try{CreateProposalWindow()?.ShowDialog();}
         catch(ArgumentException ex){message.Text=ex.Message;}
+    }
+    /// <summary>The dialog «Proposta di suddivisione», not shown yet (F5.8 traces); without result, or when the proposal fails, the message and null.</summary>
+    internal Window? CreateProposalWindow()
+    {
+        if(result() is not JsonObject r){message.Text=""+calculationState+"";return null;}
+        try{var proposal=PileReinforcementOperations.Propose(root,r);var dialog=Ui.Dialog(this,"Proposta di suddivisione",Ui.Stack(Ui.Text("Quote su griglia di 0,5 m (punta esatta), tratti ≥3 m. Preferenza per barre 6/8/10/12 m comprensive dei giunti; arretramento per una sovrapposizione nei tratti successivi al primo, con domanda N–M–V. Il cambio di sezione cerca il primo attraversamento discendente di |M|max/2 dopo il massimo; oltre il cambio l’armatura principale è copiata come primo tentativo personalizzabile, da dimensionare. Le quote finali sono quote di taglio; l’inizio dei gruppi successivi arretra di l₀. Dettagli ancora preliminari.",13),Ui.Text(proposal.Segments.ToJsonString(J.Options),12)),700,500);
+            ((StackPanel)dialog.Content).Children.Add(Ui.Button("Applica e archivia i tratti precedenti",()=>{try{PileReinforcementOperations.ApplyProposal(root,proposal);changed();Build();dialog.Close();}catch(ArgumentException ex){message.Text=ex.Message;MessageBox.Show(dialog,ex.Message,"Proposta da aggiornare");}}));return dialog;}
+        catch(ArgumentException ex){message.Text=ex.Message;return null;}
     }
     private Task segmentDesignTask = Task.CompletedTask;
     void Design(int index) => CreateSegmentDesignWindow(index)?.ShowDialog();

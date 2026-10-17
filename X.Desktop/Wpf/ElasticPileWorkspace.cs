@@ -10,7 +10,7 @@ using System.Threading;
 using X.Core;
 using Anthea.Application.Presentation;
 namespace X.Desktop;
-internal sealed class ElasticPileWorkspace : UserControl,IDisposable
+internal sealed partial class ElasticPileWorkspace : UserControl,IDisposable
 {
     readonly JsonObject parent;readonly Action? editInputs,migrated;
     readonly ContentControl header=new(),migration=new();
@@ -28,14 +28,15 @@ internal sealed class ElasticPileWorkspace : UserControl,IDisposable
     readonly Button csv;readonly RecalculationScheduler recalculation=new();
     Task scheduledCalculation=Task.CompletedTask;
     InputForm? options;bool busy,disposed;int surveyCount=-1;
-    readonly ElasticPileAnalysisSession analysis=new();
+    readonly IElasticPileAnalysis analysis;
     internal JsonObject? Response{get;private set;}
     internal int ResponseCalculations=>analysis.ResponseCalculations;
     internal JsonObject? Result{get;private set;}
     internal event Action? Modified;
-    internal ElasticPileWorkspace(JsonObject root,Action? editInputs=null,Action? migrated=null)
+    /// <param name="analysis">Calculation of the elastic response; null (production) uses a new ElasticPileAnalysisSession.</param>
+    internal ElasticPileWorkspace(JsonObject root,Action? editInputs=null,Action? migrated=null,IElasticPileAnalysis? analysis=null)
     {
-        parent=root;this.editInputs=editInputs;this.migrated=migrated;Background = Appearance.Surface;ElasticPileEditor.PrepareShared(root);SetValue(InputForm.CommitOnFocusLossProperty,false);
+        this.analysis=analysis??new ElasticPileAnalysisSession();parent=root;this.editInputs=editInputs;this.migrated=migrated;Background = Appearance.Surface;ElasticPileEditor.PrepareShared(root);SetValue(InputForm.CommitOnFocusLossProperty,false);
         csv=Ui.Button("Esporta CSV",Export,inspection:true);csv.IsEnabled=false;
         reinforcementEditor=new(root,InvalidateShared,()=>Result,()=>migrated?.Invoke());
         drawing.Selected+=p=>{selectedPoint=p;if(p==null){selection.Text="";return;}selection.Text=$"x={p.D("Depth"):G5} m · z={p.D("GroundDepth"):G5} m · strato {p.D("Layer")} · {p.S("Side")} · kh={p.D("Kh"):G6} kN/m³ · k={p.D("DistributedStiffness"):G6} kN/m²\ny={p.D("Displacement"):G6} m · θ={p.D("Rotation"):G6} rad · N={p.D("AxialForce"):G6} kN · V={p.D("Shear"):G6} kN · M={p.D("Moment"):G6} kNm · q={p.D("SoilReaction"):G6} kN/m.";};

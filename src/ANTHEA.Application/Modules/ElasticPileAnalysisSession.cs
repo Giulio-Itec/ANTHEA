@@ -1,8 +1,21 @@
 using System.Text.Json.Nodes;
 namespace Anthea.Application.Modules;
 
+/// <summary>
+/// The calculation of the elastic response of the horizontal pile (FEM, then the reinforcement), as the sheet uses it: implemented by
+/// <see cref="ElasticPileAnalysisSession"/>; the traces and the checks of the sheet (F5.8) hold it with a barrier.
+/// </summary>
+public interface IElasticPileAnalysis : IDisposable
+{
+    /// <summary>FEM responses calculated so far (the response is reused while the shared data do not change).</summary>
+    int ResponseCalculations { get; }
+
+    /// <summary>The response callback runs on the caller's context before the section checks start.</summary>
+    Task<JsonObject> CalculateAsync(JsonObject source, Action<JsonObject> responseReady, IProgress<PileProgress>? progress = null, CancellationToken cancellation = default);
+}
+
 /// <summary>Owns one FEM response and the existing section resistance cache. A reinforcement edit reuses the FEM; input/output JSON never aliases the cache.</summary>
-public sealed class ElasticPileAnalysisSession : IDisposable
+public sealed class ElasticPileAnalysisSession : IElasticPileAnalysis
 {
     private readonly SemaphoreSlim serial = new(1, 1);
     private readonly CancellationTokenSource lifetime = new();

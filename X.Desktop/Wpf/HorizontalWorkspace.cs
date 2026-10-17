@@ -53,7 +53,8 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     internal HorizontalWorkspace(JsonObject data) : this(data, null) { }
 
     /// <param name="capacityService">Calculation service of the capacity; null (production) uses the module service of the type of section.</param>
-    internal HorizontalWorkspace(JsonObject data, IModuleService? capacityService)
+    /// <param name="elasticAnalysis">Creates the calculation of the elastic response; null (production) uses ElasticPileAnalysisSession.</param>
+    internal HorizontalWorkspace(JsonObject data, IModuleService? capacityService, Func<IElasticPileAnalysis>? elasticAnalysis = null)
     {
         this.capacityService = capacityService;
         Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareGeneral(data);
@@ -109,7 +110,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         scroll.Content = layout;
         var warningPane = new Expander { Header = "Ipotesi e limiti del calcolo", Content = new ChainedScrollViewer { Content = warnings, MaxHeight = 90, VerticalScrollBarVisibility = ScrollBarVisibility.Auto } };
         var footer = Ui.Stack(Ui.Bar(status, Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, true), inspection: true)), warningPane); footer.Margin = new Thickness(16, 3, 16, 8);
-        elastic = new ElasticPileWorkspace(data, () => { analyses.SelectedIndex=0; expanded=4; LayoutCards(); }, RefreshAfterMigration); elastic.Modified += () => Modified?.Invoke();
+        elastic = new ElasticPileWorkspace(data, () => { analyses.SelectedIndex=0; expanded=4; LayoutCards(); }, RefreshAfterMigration, elasticAnalysis?.Invoke()); elastic.Modified += () => Modified?.Invoke();
         Ui.Tab(analyses, "Dati comuni e capacità · Broms / stratificato", Ui.Dock(scroll, bottom: footer));
         Ui.Tab(analyses, "Risposta elastica · trave su molle", elastic);
         analyses.SelectedIndex = data.S("vista_orizzontale") == "elastico" ? 1 : 0;

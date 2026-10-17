@@ -349,6 +349,10 @@ Add-Suite @{ Name = 'ui/check-fondazioni-historic'; Stage = 'ui'; Kind = 'check'
 # F5.7 (proposal 7.2, capture first): the historic horizontal pile and micropile view still gives the traces and the drawings frozen in
 # tests/fixtures/f5-palo-orizzontale, which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-palo-orizzontale-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-orizzontale-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
+# F5.8 (proposal 7.2, capture first): the historic view of the elastic response of the horizontal pile and of its reinforcement still gives
+# the traces and the drawings frozen in tests/fixtures/f5-elastico, which Presentation.Tests compares with the ViewModel; off screen, until the
+# historic view is archived (Q11).
+Add-Suite @{ Name = 'ui/check-palo-elastico-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-elastico-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
 # FieldForm (XAML + FormViewModel, F5.2) against the historic InputForm: same edit sequences on fields of real modules, same bytes of the document, same layout; windows outside the screen.
 Add-Suite @{ Name = 'ui/check-field-form-parity'; Stage = 'ui'; Kind = 'check'; Args = @('--check-field-form-parity', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # Theme tokens (F5.3): catalogue, colour equality with the palette in the three appearances, dictionaries of X.Desktop/Themes, light scope of the documents; off screen.

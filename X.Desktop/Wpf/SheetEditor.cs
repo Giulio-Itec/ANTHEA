@@ -79,7 +79,8 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     private List<Tabella> tables = [];
     private InputForm generalForm = null!, normativeForm = null!, efficiencyForm = null!;
 
-    internal SheetEditor(string module, JsonObject data, IModuleService? calculationService = null)
+    /// <param name="elasticAnalysis">Horizontal piles: creates the calculation of the elastic response; null (production) uses ElasticPileAnalysisSession (F5.8 traces).</param>
+    internal SheetEditor(string module, JsonObject data, IModuleService? calculationService = null, Func<IElasticPileAnalysis>? elasticAnalysis = null)
     {
         _ = ModuleDirectory.Get(module);
         calculationSession = new(calculationService ?? ModuleServices.Get(module));
@@ -121,7 +122,7 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
         }
         if (module is HorizontalPileEditor.Module or MicropaloOrizzontale.Module)
         {
-            horizontal = new HorizontalWorkspace(Data, calculationService); horizontal.Modified += () => Modified?.Invoke(); Content = Ui.Dock(horizontal, Ui.Bar(Ui.Button("Invia / carica terreno…", OpenSoilTransfer))); building = false; return;
+            horizontal = new HorizontalWorkspace(Data, calculationService, elasticAnalysis); horizontal.Modified += () => Modified?.Invoke(); Content = Ui.Dock(horizontal, Ui.Bar(Ui.Button("Invia / carica terreno…", OpenSoilTransfer))); building = false; return;
         }
         if (module == "mat_calcestruzzo")
         {
