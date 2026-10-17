@@ -11,9 +11,11 @@ internal enum SheetImplementation
 
 /// <summary>
 /// Which implementation opens the sheets of each module (F5.2, proposal 5.2). <see cref="Declared"/> is the versioned choice of
-/// the Release: one line per module of ModuleDirectory, today all <see cref="SheetImplementation.Historic"/>. A module passes to
+/// the Release: one line per module of ModuleDirectory, today <see cref="SheetImplementation.Mvvm"/> for the horizontal pile group
+/// (F5.4 checkpoint, 17/10/2026) and <see cref="SheetImplementation.Historic"/> for every other module. A module passes to
 /// <see cref="SheetImplementation.Mvvm"/> here only after its checkpoint (F5.4–F5.12), in the commit that retires its historic
-/// view (Q11); this file is the only point of contact between the parallel tracks of the migration (proposal, section 8).
+/// view (Q11): a module MVVM in the Release has no historic view any more (archived in supporto/SUPERATI/ui-storica); this file is
+/// the only point of contact between the parallel tracks of the migration (proposal, section 8).
 /// Before that checkpoint the MVVM sheet of a module can be chosen only in the UiTests build, with the bench argument of the
 /// WPF checks (tests/Desktop/ModuleHostBench.cs); never with an environment variable (as decision D3 for the fallback trace).
 /// </summary>
@@ -23,7 +25,7 @@ internal sealed partial class ModuleImplementations
     internal static IReadOnlyList<(string Module, SheetImplementation Implementation)> Declared { get; } =
     [
         ("geo_fondazioni_superficiali", SheetImplementation.Historic),
-        ("geo_efficienza_orizzontale", SheetImplementation.Historic),
+        ("geo_efficienza_orizzontale", SheetImplementation.Mvvm),
         ("geo_palo_verticale", SheetImplementation.Historic),
         ("geo_palo_orizzontale", SheetImplementation.Historic),
         ("geo_micropalo_verticale", SheetImplementation.Historic),

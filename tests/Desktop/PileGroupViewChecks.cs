@@ -31,7 +31,7 @@ namespace X.Desktop;
 
 /// <summary>
 /// --check-pile-group-view &lt;radice&gt; &lt;cartella&gt; (UiTests, F5.4, proposal F5 section 7.3): the XAML view of the horizontal pile
-/// group (PileGroupSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the window opens it with the MVVM implementation, in
+/// group (PileGroupSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the window of the Release opens it since F5.4, in
 /// windows outside the screen (never activated, no mouse). Parts:
 /// <list type="number">
 /// <item>Traces through the view: the scenarios of tests/Shared/PileGroupTrace.cs driven through the controls of the view (text
@@ -127,13 +127,12 @@ internal static class PileGroupViewChecks
         File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli della vista XAML della palificata (MvvmSheetEditor, fuori schermo)", new UTF8Encoding(false));
     }
 
-    /// <summary>The editors of the window with the MVVM pile group and a Wiki navigator that records what it opens.</summary>
+    /// <summary>The editors of the window as the Release chooses them (the MVVM pile group since F5.4) and a Wiki navigator that records what it opens.</summary>
     private static SheetEditorFactory Editors(IWikiNavigator wiki)
     {
         var bench = ModuleHostBench.Services();
         var services = new PresentationServices(bench.Messages, bench.Confirmations, bench.Files, bench.Dialogs, bench.Clipboard, bench.Links, wiki);
-        return new SheetEditorFactory(ModuleHostBench.Implementations([ModuleHostBench.Argument, Module + "=mvvm"]), DesktopComposition.CreateModules(), services,
-            new CalculationLimiter(CalculationLimiter.DefaultMaximum));
+        return new SheetEditorFactory(ModuleImplementations.Release, DesktopComposition.CreateModules(), services, new CalculationLimiter(CalculationLimiter.DefaultMaximum));
     }
 
     // ---------------------------------------------------------------- hosting
@@ -587,23 +586,24 @@ internal static class PileGroupViewChecks
     // ---------------------------------------------------------------- 8. interactive bench
 
     /// <summary>
-    /// ANTHEA.exe --interactive --module-impl geo_efficienza_orizzontale=mvvm (UiTests, manual tests before the checkpoint): the factory of
-    /// the composition root with the bench choice opens the MVVM pile group with the services of the product, the others stay historic.
+    /// ANTHEA.exe --interactive (UiTests, manual tests; D14: kept until F5.14) and the Release since the F5.4 checkpoint: the factory of the
+    /// composition root opens the MVVM pile group with the services of the product, without --module-impl; every other module stays historic.
     /// </summary>
     private static void InteractiveBench(string root)
     {
         var composition = new DesktopComposition(() => null);
-        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Interactive, ModuleHostBench.Argument, Module + "=mvvm"], composition);
+        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Interactive], composition);
         using (var pileGroup = factory.Open(Module, PileGroupScenarios.FixtureData(root, "default")))
             Check(pileGroup is MvvmSheetEditor { Sheet: PileGroupSheetViewModel sheet } && sheet.DiameterForm.WikiNavigator is WpfWikiNavigator && sheet.HasResults,
-                "Banco interattivo: palificata MVVM con i servizi del prodotto (Wiki della finestra)");
+                "Banco interattivo: palificata MVVM con i servizi del prodotto (Wiki della finestra), senza --module-impl");
         using (var other = factory.Open("geo_palo_verticale", Anthea.Application.Modules.ModuleDirectory.CreateData("geo_palo_verticale")))
             Check(other is SheetEditor, "Banco interattivo: gli altri moduli restano storici");
-        Check(composition.SheetEditors.Open(Module, PileGroupScenarios.FixtureData(root, "default")) is SheetEditor historic && Dispose(historic),
-            "Banco interattivo: la radice di composizione della Release apre ancora la vista storica");
+        using (var release = composition.SheetEditors.Open(Module, PileGroupScenarios.FixtureData(root, "default")))
+            Check(release is MvvmSheetEditor { Sheet: PileGroupSheetViewModel shown } && shown.DiameterForm.WikiNavigator is WpfWikiNavigator && shown.HasResults,
+                "Release: la radice di composizione apre la palificata con la vista MVVM");
+        Check(ModuleImplementations.Declared.All(d => d.Implementation == (d.Module == Module ? SheetImplementation.Mvvm : SheetImplementation.Historic)),
+            "Release: la palificata con la vista MVVM, tutti gli altri moduli con la vista storica");
     }
-
-    private static bool Dispose(IDisposable value) { value.Dispose(); return true; }
 
     // ---------------------------------------------------------------- 7. read-only
 

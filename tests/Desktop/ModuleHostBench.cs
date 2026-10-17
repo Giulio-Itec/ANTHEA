@@ -11,7 +11,8 @@ namespace X.Desktop;
 /// On the command line of the harness, <c>--module-impl &lt;module&gt;=mvvm|historic</c> (repeatable) chooses another
 /// implementation for a module: before its checkpoint a migrated module is selectable only here, never in the product and never
 /// with an environment variable (decision D3). Accepted after the arguments of --check-f3-equivalence and --check-f3-report-chapters
-/// (F5.4); a module without an MVVM implementation makes the factory fail with its name.
+/// (F5.4); a module without an MVVM implementation makes the factory fail with its name, a module already MVVM in the Release (the
+/// pile group since F5.4) refuses «historic».
 /// </summary>
 internal static class ModuleHostBench
 {
@@ -89,10 +90,15 @@ internal static class ModuleHostBench
 
 internal sealed partial class ModuleImplementations
 {
-    /// <summary>UiTests: these choices with <paramref name="module"/> opened by <paramref name="implementation"/>.</summary>
+    /// <summary>
+    /// UiTests: these choices with <paramref name="module"/> opened by <paramref name="implementation"/>. A module MVVM in the Release has no
+    /// historic view any more (archived with its switch, Q11): choosing it fails with the name of the module.
+    /// </summary>
     internal ModuleImplementations With(string module, SheetImplementation implementation)
     {
         if (!choices.ContainsKey(module)) throw new ArgumentException(ModuleHostBench.Argument + ": modulo sconosciuto " + module + ".");
+        if (implementation == SheetImplementation.Historic && Release.For(module) == SheetImplementation.Mvvm)
+            throw new ArgumentException(ModuleHostBench.Argument + ": la vista storica di " + module + " è archiviata (Q11); il modulo si apre solo con la vista MVVM.");
         return new(choices.Select(c => (c.Key, c.Key == module ? implementation : c.Value)));
     }
 }

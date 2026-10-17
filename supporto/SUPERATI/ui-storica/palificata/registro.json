@@ -1,0 +1,20 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/HorizontalPileGroupWorkspace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palificata/X.Desktop/Wpf/HorizontalPileGroupWorkspace.cs",
+    "commit": "ceb344d0 (ultimo che lo modifica), invariato fino a refactoring/f5 7979f79d",
+    "sha256": "cf146330ef3ac3a18533d4d68d42c93c7113a0f41730c1823608019802f3cc9f",
+    "sha256_lf": "ab8e3cfed978206e180c9f3a68c1456a8ded17796beef84030030ff4af3dfd27",
+    "motivo": "F5.4, punto di controllo del 17/10/2026 (decisione Q11): la Release apre la palificata orizzontale con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/PileGroup (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/PileGroup (ViewModel)"
+  },
+  {
+    "origine": "tests/Desktop/PileGroupHistoricTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palificata/tests/Desktop/PileGroupHistoricTrace.cs",
+    "commit": "b71a5221 (ultimo che lo modifica), invariato fino a refactoring/f5 7979f79d",
+    "sha256": "270252f9a795a830abb02b98d74ea36bb2d0e5812ce1820a23b730ab9814ce43",
+    "sha256_lf": "86bbe237f79d1d2fa658895a1cfa1c4d19ecf7da83efdf497b34909e4c6623f8",
+    "motivo": "F5.4: prova delle tracce della vista storica (suite ui/check-pile-group-historic), archiviata con la vista",
+    "sostituzione": "tests/fixtures/f5-palificata/storica (tracce congelate, invariate), confrontate da tests/ANTHEA.Presentation.Tests/PileGroupSheetChecks.cs con il ViewModel e da tests/Desktop/PileGroupViewChecks.cs (ui/check-pile-group-view) attraverso la vista nuova"
+  }
+]

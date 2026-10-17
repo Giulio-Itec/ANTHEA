@@ -5,8 +5,8 @@ namespace Anthea.Presentation.Modules.PileGroup;
 /// <summary>
 /// The horizontal pile group as a module migrated to MVVM (F5.4 pilot): identity from <see cref="ModuleDirectory"/>, guide of the
 /// module, the interface state its sheets save (the selected result) and its sheet, <see cref="PileGroupSheetViewModel"/>.
-/// Registered in the composition root of the desktop; the window opens it only when ModuleImplementations chooses the MVVM
-/// implementation, which before the F5.4 checkpoint happens only in the UiTests bench (--module-impl).
+/// Registered in the composition root of the desktop; since the F5.4 checkpoint (17/10/2026) ModuleImplementations chooses it in the
+/// Release, and the historic view is archived (supporto/SUPERATI/ui-storica/palificata).
 /// </summary>
 public sealed class PileGroupSheetModule : ISheetModule
 {

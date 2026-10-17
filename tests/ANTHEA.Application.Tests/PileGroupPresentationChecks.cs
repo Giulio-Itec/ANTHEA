@@ -6,7 +6,8 @@ using Anthea.Calculations;
 /// <summary>
 /// Presentation of the pile group sheet moved from the historic view in F5.4 (PileGroupPresentation): readings of the rows of the
 /// comparison, rules of the texts and arithmetic of the cap and of the reductions, with values written by hand. The identity of
-/// the historic view with these functions is proved by ui/check-pile-group-historic (traces frozen before the move).
+/// the historic view with these functions was proved by ui/check-pile-group-historic (traces frozen before the move) until its
+/// archiving in F5.4; the same frozen traces keep proving the ViewModel.
 /// </summary>
 internal static class PileGroupPresentationChecks
 {

@@ -63,7 +63,7 @@
     },
     {
       "vista": "modulo-geo_efficienza_orizzontale",
-      "chiave": "contrasto-testo|TextBlock|MainWindow > SheetEditor > HorizontalPileGroupWorkspace|TextBlock #64748B Local|Border #F3F5F8 Local",
+      "chiave": "contrasto-testo|TextBlock|MainWindow > PileGroupSheetView|TextBlock #64748B Style|Border #F3F5F8 Style",
       "occorrenze": 4
     },
     {

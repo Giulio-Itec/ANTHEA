@@ -15,8 +15,9 @@ l'apertura e dopo ogni passo di uno scenario:
 | Cosa | Dove |
 | --- | --- |
 | Scenari e formato | `tests/Shared/PileGroupTrace.cs` |
-| Vista storica | `tests/Desktop/PileGroupHistoricTrace.cs` (`HorizontalPileGroupWorkspace` aperta da `SheetEditor`, fuori schermo) |
+| Vista storica (archiviata il 17/10/2026) | `supporto/SUPERATI/ui-storica/palificata/tests/Desktop/PileGroupHistoricTrace.cs` (`HorizontalPileGroupWorkspace` aperta da `SheetEditor`, fuori schermo) |
 | ViewModel | `tests/ANTHEA.Presentation.Tests/PileGroupSheetChecks.cs` (`PileGroupSheetViewModel`, senza WPF) |
+| Vista XAML | `tests/Desktop/PileGroupViewChecks.cs` (`PileGroupSheetView` ospitata da `MvvmSheetEditor`, fuori schermo) |
 
 Gli scenari sono 11:
 - `fixture-<id>`, uno per ognuna delle 8 fixture F3 della palificata: apertura, conferma, calcolo, conferma, riapertura,
@@ -36,7 +37,9 @@ Gli scenari sono 11:
   ```
 
   Due catture (`supporto/artefatti/refactoring/f5-4/storica-1` e `-2`) sono uguali byte per byte.
-- La suite `ui/check-pile-group-historic` dello stadio `ui` ricattura la vista storica e la confronta con queste tracce,
-  finché la vista storica esiste.
+- Fino al passaggio della Release (F5.4, 17/10/2026) la suite `ui/check-pile-group-historic` dello stadio `ui` ricatturava la
+  vista storica e la confrontava con queste tracce. Al passaggio la vista storica e la sua prova sono state archiviate in
+  `supporto/SUPERATI/ui-storica/palificata` (Q11): il comando di cattura qui sopra vale solo riportandole al loro posto.
 - `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con il ViewModel.
+- `ui/check-pile-group-view`, nello stadio `ui`, le confronta attraverso i controlli della vista XAML.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.
