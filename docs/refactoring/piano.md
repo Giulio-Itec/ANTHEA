@@ -681,8 +681,28 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
       - sul merge del palo verticale `20261017-171818-f5-int16`: PASS 123, 0 NEW-FAIL;
       - sul merge della stratigrafia `20261017-211836-f5-int17`: PASS 124, 0 NEW-FAIL;
       - sul merge dei muri `20261017-222849-f5-int18`: PASS 126, 0 NEW-FAIL.
-    - **Versione di prova** 1.11.0-prova.f5b (ramo locale `prova/f5-viste`): palificata, fondazioni, calcestruzzo e acciaio
-      con la vista nuova. Consegnata all'utente il 17/10; `ui/f3-equivalence` passa con le quattro viste attive.
+    - **Versioni di prova** sul ramo locale `prova/f5-viste`, consegnate all'utente il 17/10. In ognuna `ui/f3-equivalence`
+      passa con le viste attive.
+      - 1.11.0-prova.f5b: palificata, fondazioni, calcestruzzo e acciaio con la vista nuova;
+      - f5c: in più palo e micropalo verticale;
+      - f5d: in più stratigrafia e muri, nove moduli.
+  - **Notte fra il 17 e il 18/10** (blocco 8, base 591272d8). Ogni lavoro è chiuso o fermo a un punto chiuso e documentato:
+    - **F5.7 + F5.8, palo orizzontale e scheda elastica** (merge d8a3b8cd):
+      - fatto: ViewModel, viste XAML e controlli delle due schede; `ui/check-palo-orizzontale-view` con 221 controlli;
+      - E1: verificatore c.a. del tratto come dialogo di `IDialogService` con la `ConcreteWorkspace` storica;
+      - O6: voce F5-02 del registro;
+      - **da fare: il banco** (cattura F3 MVVM, confronto diretto, transizioni F4, capitoli), descritto in
+        [f5-7-palo-orizzontale.md](f5-7-palo-orizzontale.md) sezione 5 e [f5-8-palo-elastico.md](f5-8-palo-elastico.md) sezione 6;
+      - poi la prova dell'utente e il passaggio dei due moduli insieme (O2/E2).
+    - **F5.10 S1, sezione c.a.** (merge eac4773c): guscio, coordinatore del calcolo (C1, C2), ingressi e materiali.
+      - 21 scenari uguali alle tracce congelate; 55 file dei dati F3 uguali al riferimento.
+      - S2 non è avviato: il punto di partenza è in [f5-10-sezione.md](f5-10-sezione.md), sezione 8.6.
+    - **Suite UI indipendenti dall'implementazione** (merge 35bba417, [f5-suite-ui.md](f5-suite-ui.md)):
+      - le 11 suite storiche generali, dei materiali e dei muri passano con la Release di oggi e, nelle varianti `-mvvm`, con
+        i sette moduli MVVM;
+      - al passaggio di un modulo si toglie solo il ramo storico.
+      - Domanda S6 per l'utente: l'antivirus chiude l'eseguibile non firmato quando `DocumentFile.Write` rinomina un PNG.
+    - **Corsa** sul merge della notte `20261018-035914-f5-int20`: PASS 139, 0 NEW-FAIL, senza `ui/check-contrast`.
 - [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. Requisito
   dell'utente dell'8/10 («considera le opzioni 1 e 3. non multi progetto. però dai la possibilità di staccare la
   finestra per più monitor»):
