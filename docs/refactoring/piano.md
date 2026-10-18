@@ -691,9 +691,10 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
       - fatto: ViewModel, viste XAML e controlli delle due schede; `ui/check-palo-orizzontale-view` con 221 controlli;
       - E1: verificatore c.a. del tratto come dialogo di `IDialogService` con la `ConcreteWorkspace` storica;
       - O6: voce F5-02 del registro;
-      - **da fare: il banco** (cattura F3 MVVM, confronto diretto, transizioni F4, capitoli), descritto in
-        [f5-7-palo-orizzontale.md](f5-7-palo-orizzontale.md) sezione 5 e [f5-8-palo-elastico.md](f5-8-palo-elastico.md) sezione 6;
-      - poi la prova dell'utente e il passaggio dei due moduli insieme (O2/E2).
+      - banco fatto (merge 89fade27): catture F3 storica e MVVM PASS 104, 22 126 transizioni F4 ammesse (comprese le 1 117
+        dell'elastico), confronto diretto 0 differenze su 1066 file, capitoli PASS 105
+        ([f5-7-palo-orizzontale.md](f5-7-palo-orizzontale.md) 5.8, [f5-8-palo-elastico.md](f5-8-palo-elastico.md) 6.8);
+      - restano la prova dell'utente e il passaggio dei due moduli insieme (O2/E2).
     - **F5.10 S1, sezione c.a.** (merge eac4773c): guscio, coordinatore del calcolo (C1, C2), ingressi e materiali.
       - 21 scenari uguali alle tracce congelate; 55 file dei dati F3 uguali al riferimento.
       - S2 non è avviato: il punto di partenza è in [f5-10-sezione.md](f5-10-sezione.md), sezione 8.6.

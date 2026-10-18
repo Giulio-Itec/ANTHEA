@@ -4,13 +4,13 @@ Questa nota serve a riprendere F5 da una sessione nuova, anche con un'altra lice
 fatto il lavoro. Si aggiorna a ogni chiusura di passo. Il piano è in [piano.md](piano.md), le decisioni in
 [decisioni.md](decisioni.md).
 
-## Stato al 18/10/2026, ore 4
+## Stato al 18/10/2026, ore 7
 
 **Rami e worktree.** Sono tutti locali e nessuno si spinge: l'utente ha detto «solo locale».
 
 | Ramo | Worktree | Uso |
 | --- | --- | --- |
-| `refactoring/f5` | `C:\Users\g.pacini\AppData\Local\Temp\aw-f5` | integrazione di F5; ultima corsa completa `20261018-035914-f5-int20`: PASS 139, 0 NEW-FAIL |
+| `refactoring/f5` | `C:\Users\g.pacini\AppData\Local\Temp\aw-f5` | integrazione di F5; ultima corsa completa `20261018-035914-f5-int20`: PASS 139, 0 NEW-FAIL; dopo, solo documenti |
 | `prova/f5-viste` | `Temp\aw-prova-f5b` | solo versioni di prova portatili, non si unisce mai |
 | `prova/f5-palificata` | nessuno | prima versione di prova, non si unisce mai |
 | `main` | `Temp\aw-main` (ae0e1df4) | non spinto |
@@ -30,7 +30,7 @@ fatto il lavoro. Si aggiorna a ogni chiusura di passo. Il piano è in [piano.md]
 | F5.6b | stratigrafia | vista, controlli e banco fatti |
 | F5.9 | muri | vista, controlli e banco fatti |
 | F5.9b | fondazioni superficiali | vista, controlli e banco fatti |
-| F5.7 + F5.8 | palo orizzontale e scheda elastica | vista e controlli fatti; **manca il banco** ([f5-7-palo-orizzontale.md](f5-7-palo-orizzontale.md) §5, [f5-8-palo-elastico.md](f5-8-palo-elastico.md) §6); i due moduli passano insieme (O2/E2) |
+| F5.7 + F5.8 | palo orizzontale e scheda elastica | vista, controlli e banco fatti ([f5-7-palo-orizzontale.md](f5-7-palo-orizzontale.md) §5, [f5-8-palo-elastico.md](f5-8-palo-elastico.md) §6); i due moduli passano insieme (O2/E2) |
 
 **Sezione c.a. (F5.10).** S1 è chiuso: guscio, coordinatore del calcolo, ingressi e materiali. S2–S9 sono da fare; la sezione
 8.6 di [f5-10-sezione.md](f5-10-sezione.md) dice da dove parte S2. La Release resta storica fino a S9.
@@ -39,20 +39,17 @@ fatto il lavoro. Si aggiorna a ogni chiusura di passo. Il piano è in [piano.md]
 `-mvvm` e si descrivono in [f5-suite-ui.md](f5-suite-ui.md).
 
 **Versioni di prova consegnate** in `Documents\Repository\ANTHEA-prova-f5`: f5b, f5c e f5d. La f5d è la più completa: nove moduli
-con la vista nuova (tutti i passi della tabella tranne F5.7 + F5.8). Ogni zip ha il suo `LEGGIMI-prova-*.md`.
+con la vista nuova (tutti i passi della tabella tranne F5.7 + F5.8, che non è in nessuna versione di prova). Ogni zip ha il suo
+`LEGGIMI-prova-*.md`.
 
 **Non avviati.** F5.11 (sezione composta), F5.12 (Bridge Design), F5.13, F5.14 e F5.15.
 
 ## Prossimi passi, in ordine
 
 1. **Risposte dell'utente sulla prova f5d.** Per ogni modulo approvato si fa il passaggio della Release (sezione sotto).
-2. **Banco di F5.7 + F5.8:**
-   - cattura F3 con `--module-impl geo_palo_orizzontale=mvvm --module-impl geo_micropalo_orizzontale=mvvm`;
-   - confronto diretto a differenza zero;
-   - le 1 117 transizioni F4 dell'elastico invariate;
-   - capitoli.
-
-   Poi una versione di prova per l'utente.
+2. **Versione di prova di F5.7 + F5.8.** È la f5d più `geo_palo_orizzontale` e `geo_micropalo_orizzontale` a Mvvm sul ramo
+   `prova/f5-viste`, con `strumenti\crea-prova-f5.ps1`. Le prove a mano sono in f5-7 §5.7 e f5-8 §6.7. Prima del passaggio
+   va riscritta `F3PileSegmentChecks` (`ui/f3-scheduling`).
 3. **F5.10 S2**, poi S3–S9, ognuno chiuso con le sue prove.
 4. F5.11, F5.12, poi F5.13–F5.15.
 
@@ -60,7 +57,9 @@ con la vista nuova (tutti i passi della tabella tranne F5.7 + F5.8). Ogni zip ha
 
 - **S6, antivirus.** `DocumentFile.Write` (`src/ANTHEA.Reports/DocumentFile.cs`) copia i documenti Office e i PDF, ma rinomina gli
   altri file con `File.Move`, PNG compresi. Sulla macchina delle prove la protezione dell'antivirus ha chiuso più volte
-  `ANTHEA.exe`, che non è firmato, durante «Salva PNG…» del palo verticale. Due strade:
+  `ANTHEA.exe`, che non è firmato, durante «Salva PNG…» del palo verticale e durante le esportazioni dei muri. Succede
+  negli eseguibili appena compilati nei worktree degli agenti; dal ramo di integrazione le stesse suite passano
+  (`20261018-062127-f5-int21-av`). Due strade:
   - copiare anche le immagini (una riga; tocca il codice dei report, che è congelato);
   - lanciare le suite con `dotnet`.
 
