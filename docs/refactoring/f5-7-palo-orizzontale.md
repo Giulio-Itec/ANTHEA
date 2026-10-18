@@ -216,9 +216,7 @@ L'ordine segue il passo 6 della ricetta di F5.4, dopo il punto di controllo F5.7
      dal modello (`HorizontalDiagrams(HorizontalDiagram)` esiste già);
    - le due schede delle analisi: la seconda ospita la vista elastica, storica fino a F5.8 (vedi O2);
    - piede: stato, «Ipotesi e limiti del calcolo», «Modello e dati comuni…» e, nel `SheetEditor`, «Invia / carica terreno…» (O7).
-2. **Banco e confronto diretto**: `--module-impl geo_palo_orizzontale=mvvm` e `geo_micropalo_orizzontale=mvvm`, cattura F3, poi
-   `tools/qa/f5_confronto_diretto.py` a differenza zero. Per le 6 fixture sulla risposta elastica serve F5.8 (o l'ospitata della vista
-   elastica storica, O2).
+2. **Banco e confronto diretto: fatto** il 18/10 con F5.8, a differenza zero (sezione 5.8).
 3. **Suite UI riscritte** sul ViewModel o sulla vista ospitata da `MvvmSheetEditor`, prima del passaggio della Release:
    - `ui/smoke-horizontal`: `HorizontalSmokeChecks`, `HorizontalLayoutChecks` (layout, diagrammi, cerniere, verifica),
      `HorizontalChsChecks`, `HorizontalStratifiedSmokeChecks`, tutte partial di `HorizontalWorkspace` con accesso ai campi privati;
@@ -265,12 +263,12 @@ L'ordine segue il passo 6 della ricetta di F5.4, dopo il punto di controllo F5.7
 **Materiale da mostrare** (dopo i passi 1–3 della sezione 3): schermate fuori schermo nei tre aspetti, `--check-contrast`, confronto
 diretto a zero, `ui/f3-equivalence` con i due moduli MVVM, conteggio delle suite `ui`, questa nota con le risposte.
 
-## 5. Vista XAML (18/10)
+## 5. Vista XAML e banco (18/10)
 
 Lavoro dell'agente f5-7-vista sul ramo `refactoring/f5-7-vista` (da `refactoring/f5` 591272d8), insieme alla vista della risposta
 elastica (F5.8, sezione 6 di `f5-8-palo-elastico.md`). La Release resta storica (O2/E2): i due moduli passano insieme dopo la
-prova dell'utente sulle due schede. **Stato reale:** vista della capacità e suoi controlli fatti; banco F3 con i moduli MVVM e
-confronto diretto **non ancora fatti** (chiusura anticipata chiesta dal coordinatore).
+prova dell'utente sulle due schede. **Stato reale:** vista della capacità e suoi controlli fatti; banco F3 con i due moduli MVVM e
+confronto diretto fatti dopo, dall'agente f5-7-banco, **a differenza zero** (sezione 5.8).
 
 ### 5.1 Commit
 
@@ -328,14 +326,13 @@ Le schermate (144 DPI) sono in `vista/schermate` della suite, con quelle della v
 
 ### 5.6 Che cosa resta e da dove si riparte
 
-1. **Banco F3** (non avviato): cattura con `dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-f3-equivalence <radice>
-   <uscita> --module-impl geo_palo_orizzontale=mvvm --module-impl geo_micropalo_orizzontale=mvvm` (atteso PASS 104), poi
-   `python -I tools/qa/f5_confronto_diretto.py --a <cattura storica> --b <cattura mvvm> --out <json>` a differenza zero (fixture
-   elastiche comprese), transizioni F4 (1 117) invariate, `--check-f3-report-chapters` con gli stessi `--module-impl`.
-2. `--check-contrast` a 96 DPI con il passo della vista nuova (coordinatore).
-3. Punto di controllo dell'utente con la prova a mano (5.7), poi passaggio della Release e archiviazione insieme a F5.8.
+Il banco F3 è fatto (5.8). Restano:
 
-### 5.7 Da provare a mano (banco UiTests: `ANTHEA.exe --interactive --module-impl geo_palo_orizzontale=mvvm --module-impl geo_micropalo_orizzontale=mvvm`)
+1. `--check-contrast` a 96 DPI con il passo della vista nuova (coordinatore).
+2. Punto di controllo dell'utente con la prova a mano (5.7) in una versione portatile con le due viste attive, poi le suite
+   storiche della 5.5 riscritte, il passaggio della Release e l'archiviazione insieme a F5.8.
+
+### 5.7 Da provare a mano (versione portatile con le viste attive; oppure banco UiTests: `ANTHEA.exe --interactive --module-impl geo_palo_orizzontale=mvvm --module-impl geo_micropalo_orizzontale=mvvm`)
 
 1. Aprire un palo e un micropalo orizzontale reali: schede, forme, stratigrafie, profilo, sezione c.a. o CHS e verifica come oggi;
    ridimensionare la finestra e provare «Estendi»/«Riduci» delle tre schede.
@@ -345,3 +342,31 @@ Le schermate (144 DPI) sono in `vista/schermate` della suite, con quelle della v
 4. «Diagrammi e dettagli», «Esporta CSV», i riferimenti bibliografici.
 5. «Invia / carica terreno…» e «Modello e dati comuni…»; i «?» dei campi e F1.
 6. Una revisione precedente (sola lettura); report Word/PDF; aspetti Scuro e Molto scuro.
+7. La scheda della risposta elastica: l'elenco della sezione 6.7 di `f5-8-palo-elastico.md`.
+
+### 5.8 Banco F3 con i due moduli MVVM (18/10)
+
+Agente f5-7-banco, ramo `refactoring/f5-7-banco` (da `refactoring/f5` 434380ce), insieme a F5.8: le due schede sono nella stessa
+vista, quindi un solo banco vale per la capacità e per la risposta elastica. Nessuna vista e nessun ViewModel cambiati. Le catture
+sono nella cartella di lavoro dell'agente (`scratchpad\f5-agenti\f5-7-banco\`), non nel repository.
+
+| Prova | Esito |
+| --- | --- |
+| Cattura F3 storica (`dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-f3-equivalence <radice> storica\cattura`) | PASS 104 fixture, 73 articoli, 30 ricerche, report di progetto; 1066 file uguali al riferimento entro le tolleranze, 0 differenze non ammesse; transizioni F4 22 126 elencate e ammesse, 1 117 del palo orizzontale elastico comprese; 2 min 13 s |
+| Cattura F3 MVVM (stesso comando in `mvvm\cattura` con `--module-impl geo_palo_orizzontale=mvvm --module-impl geo_micropalo_orizzontale=mvvm`) | PASS 104 fixture, come la storica: 1066 file, 0 differenze non ammesse, 22 126 transizioni elencate e ammesse; 2 min 14 s |
+| Confronto diretto (`python -I tools/qa/f5_confronto_diretto.py --a storica\cattura --b mvvm\cattura --out confronto-diretto.json`) | **0 differenze** su 1066 file (1063 uguali byte per byte, 3 JSON uguali in forma canonica; ignorati solo i 6 tempi del palo elastico, `ElasticHorizontalPile.Reinforcement.cs:52`); fixture elastiche comprese |
+| `--check-f3-report-chapters` con i due `--module-impl` (`capitoli-mvvm`) | PASS 105 capitoli autonomi, 246 immagini e tutte le parti XML confrontate con la vista |
+| `ui/f3-figures`, `ui/f3-scheduling` | nessuna variante MVVM aggiunta in `build/ci.ps1`: `F3FigureChecks` legge solo i pali verticali; in `ui/f3-scheduling` il palo orizzontale compare solo in `F3PileSegmentChecks`, che costruisce `PileReinforcementEditor` direttamente e non passa dal banco (`--module-impl` non cambierebbe nulla). Va riscritta prima del passaggio (5.5) |
+| Corsa finale | `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `837bf4dd`, `supporto/artefatti/ci/20261018-051443-f57b-finale`: PASS 137, KNOWN 0, **NEW-FAIL 2** (`ui/check-palo-verticale-view`, `ui/check-muri-view`, sotto), nessun file tracciato modificato, circa 50 minuti. Del palo orizzontale: `ui/check-palo-orizzontale-view` PASS 221, `ui/check-palo-orizzontale-historic`, `ui/check-palo-elastico-historic`, `ui/smoke-horizontal`, `ElasticPile.UiChecks` e le due varianti, `ui/f3-equivalence` (PASS 104), `ui/f3-report-chapters`, `ui/f3-scheduling`, `Presentation.Tests` e `Architecture.Tests` PASS |
+
+`tests/fixtures/f3/transitions-f4.json` è invariato (ultimo commit 4b34d890 del 16/10).
+
+**I due NEW-FAIL non vengono dal palo orizzontale né da questo ramo** (che cambia solo questi documenti). In tutte e due le suite
+`ANTHEA.exe` del runner finisce con codice 0 a metà delle esportazioni, senza `esito.txt`, senza `errore.txt` e senza
+`dettaglio.txt` (il `finally` delle prove non gira), con un file temporaneo `.x_….tmp` di una scrittura atomica
+rimasto in `vista/esportazioni`: il processo è terminato dall'esterno. Il fatto si ripete nella corsa separata
+`20261018-060452-f57b-ripeti` (le due suite sole) e avviando a mano `X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.exe
+--check-palo-verticale-view` (codice 0, nessun esito). Con la stessa build e gli stessi argomenti, ma con `dotnet ANTHEA.dll`, le due
+suite passano: `ui/check-palo-verticale-view` PASS 377, `ui/check-muri-view` PASS 187 (`pv-view` e `muri-view` nella cartella
+dell'agente). Causa probabile: l'antivirus della macchina sull'eseguibile appena compilato (già visto il 15/10: l'impronta di
+`ANTHEA.exe` cambia a ogni commit); da ripetere con il runner sul ramo d'integrazione. Nessuna correzione fatta.
