@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Xml.Linq;
+using Anthea.Application.Materials;
 using Anthea.Application.Modules;
 using Anthea.Application.Presentation;
 using Anthea.Calculations;
@@ -71,9 +72,14 @@ internal static class HorizontalPileSheetChecks
                 HorizontalPileTrace.Write(Path.Combine(traces, scenario.Name + ".txt"), lines);
                 string stored = Path.Combine(HorizontalPileScenarios.Reference(root), scenario.Name + ".txt");
                 expect.That(File.Exists(stored), "Traccia della vista storica assente: " + stored);
-                string? difference = HorizontalPileTrace.FirstDifference(HorizontalPileTrace.Read(stored), lines);
+                // F5-02 (O6): the historic trace with the declared difference of the new view (the choice «Acciaio» shows the class of the data).
+                var (expected, declared) = HorizontalPileTrace.WithDeclaredDifferences(HorizontalPileTrace.Read(stored));
+                expect.That(declared == 0 || scenario.Name == HorizontalPileTrace.CustomSteelScenario, "F5-02 solo nello scenario dell'acciaio personalizzato: " + scenario.Name);
+                string? difference = HorizontalPileTrace.FirstDifference(expected, lines);
                 expect.That(difference is null, "Palo orizzontale MVVM diverso dalla vista storica, scenario " + scenario.Name + ", " + difference);
+                if (scenario.Name == HorizontalPileTrace.CustomSteelScenario) expect.That(declared > 0, "F5-02: righe della scelta «Acciaio» con la classe dei dati: " + declared);
             }
+            CustomSteel(root, expect);
             var fixtures = new[] { Pile, Micro }.SelectMany(m => HorizontalPileScenarios.Fixtures(root, m).Select(id => (Module: m, Id: id))).ToArray();
             expect.That(fixtures.Length == 21, "Fixture F3 dei pali orizzontali: " + fixtures.Length);
             string capture = Path.Combine(output, "palo-orizzontale-f3");
@@ -422,6 +428,29 @@ internal static class HorizontalPileSheetChecks
             .SelectMany(i => new[] { true, false }.Select(soil => sheet.Diagram(i, soil))));
         expect.That(File.Exists(file) && File.ReadAllText(file).Replace("\r\n", "\n") == actual.Replace("\r\n", "\n"),
             "Diagrammi del ViewModel diversi da quelli della vista storica: " + module + "--" + id);
+    }
+
+    /// <summary>
+    /// F5-02 (O6, declared difference of the new view): a value of the steel that makes it custom shows «Personalizzato» in the choice «Acciaio»,
+    /// as the data say (the historic view kept the previous class); the note of a class of the catalogue is the one of the values of the catalogue.
+    /// </summary>
+    private static void CustomSteel(string root, Expect expect)
+    {
+        using var sheet = Open(Pile, HorizontalPileScenarios.FixtureData(root, Pile, "single-soil-layer"));
+        int modified = 0;
+        sheet.Modified += (_, _) => modified++;
+        var form = sheet.SectionForm;
+        var section = sheet.Data["sezione"]!.AsObject();
+        form["classe_acciaio"].SelectedChoice = "B450A";
+        expect.That(section.S("classe_acciaio") == "B450A" && form["classe_acciaio"].SelectedChoice == "B450A"
+            && form["classe_acciaio"].Note == MaterialInputCatalog.SteelDifference(section, "NTC 2018") && modified == 2,
+            "F5-02: classe dell'acciaio dal catalogo, nota sui valori del catalogo (" + (form["classe_acciaio"].Note ?? "nessuna") + ")");
+        form["steel_fu_mpa"].EditText = "560";
+        expect.That(section.S("classe_acciaio") == "Personalizzato" && form["classe_acciaio"].SelectedChoice == "Personalizzato" && modified == 4,
+            "F5-02: un valore dell'acciaio personalizzato mostra «Personalizzato» nella scelta «Acciaio»");
+        form["steel_diagramma"].SelectedChoice = "Incrudente";
+        expect.That(section.S("classe_acciaio") == "Personalizzato" && form["classe_acciaio"].SelectedChoice == "Personalizzato" && modified == 6,
+            "F5-02: anche il legame dell'acciaio");
     }
 
     // ---------------------------------------------------------------- contract and derivations

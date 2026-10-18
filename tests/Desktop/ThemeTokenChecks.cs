@@ -56,12 +56,14 @@ internal static class ThemeTokenChecks
             Check(catalogue.All(t => System.Text.RegularExpressions.Regex.IsMatch(t.Light, "^#[0-9A-F]{6}$")), "Colori della Chiara in #RRGGBB maiuscolo, opachi");
             Check(catalogue.All(t => roles.Contains(t.Role)), "Ruoli della tavolozza noti: " + string.Join(", ", roles));
             Check(catalogue.All(t => t.Use.Length > 0 && t.Historic.Length > 0), "Uso e corrispondenza storica per ogni token");
-            var groups = new[] { "Series.", "Drawing.", "Swatch.", "Utilization." };
+            // F5.8: Segment. (the cards of the segments of the elastic pile) is a group of its own, with the role background.
+            var groups = new[] { "Series.", "Drawing.", "Swatch.", "Utilization.", "Segment." };
             var semantic = catalogue.Where(t => !groups.Any(g => t.Name.StartsWith(g, StringComparison.Ordinal))).ToList();
             Check(semantic.Count is >= 30 and <= 40, $"Insieme semantico di circa 35 token: {semantic.Count}");
             Check(catalogue.Where(t => t.Name.StartsWith("Drawing.", StringComparison.Ordinal) || t.Name.StartsWith("Swatch.", StringComparison.Ordinal)
                 || t.Name.StartsWith("Utilization.", StringComparison.Ordinal)).All(t => t.Role == ThemeRole.Swatch), "Drawing, Swatch e Utilization con il ruolo identità (swatch)");
             Check(catalogue.Where(t => t.Name.StartsWith("Series.", StringComparison.Ordinal)).All(t => t.Role == ThemeRole.Series), "Series con il ruolo series");
+            Check(catalogue.Where(t => t.Name.StartsWith("Segment.", StringComparison.Ordinal)).All(t => t.Role == ThemeRole.Background), "Segment con il ruolo background (schede dei tratti, F5.8)");
 
             // Registration: the same palette brushes.
             foreach (var token in catalogue)

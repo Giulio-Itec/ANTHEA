@@ -8,9 +8,12 @@ using Anthea.Calculations;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Modules.HorizontalPile.Elastic;
+using Anthea.Presentation.Modules.Shared;
 using Anthea.Presentation.Modules.VerticalPile;
+using Anthea.Presentation.Mvvm;
 using Anthea.Presentation.Services;
 using Anthea.Reports;
+using CommunityToolkit.Mvvm.Input;
 using X.Core;
 
 namespace Anthea.Presentation.Modules.HorizontalPile;
@@ -37,6 +40,12 @@ namespace Anthea.Presentation.Modules.HorizontalPile;
 /// the pending calculation without clearing the result, as today.</item>
 /// <item>Read-only (a previous revision): forms, table, soil editors and stratigraphies refuse the changes; the selection of the
 /// stratigraphy, of the tab (which writes «vista_orizzontale» with Modified, as today) and the calculation stay available.</item>
+/// <item>Commands of the view (decision Q3: no code-behind but the drawings and the dialogs of the view): the buttons of the historic cards
+/// and of the footer through the guard of the sheet (Q19), those that change the data disabled when read-only; «Estendi»/«Riduci»
+/// (<see cref="ExpandedCard"/>, view state); «Invia / carica terreno…» with the shared soil dialog (T5, O7) and «Modello e dati comuni…»
+/// with the navigator of the Wiki (<see cref="CalculationGuide"/>); every form opens its help with the navigator of the services.</item>
+/// <item>F5-02 (O6, declared difference of the new view): after a value of the steel of the c.a. section that makes it custom, the choice
+/// «Acciaio» shows «Personalizzato» as the data say; after a class of the catalogue its note is computed on the values of the catalogue.</item>
 /// </list>
 /// Texts and rules come from <see cref="HorizontalPilePresentation"/>, <see cref="HorizontalPileDiagrams"/> and
 /// <see cref="HorizontalPileFields"/>, shared with the historic view. The equivalence is proved without WPF by
@@ -71,6 +80,8 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
     private HorizontalPileVerification verification = HorizontalPilePresentation.Verification(null);
     private HorizontalPileSectionDrawing sectionDrawing = HorizontalPileSectionDrawing.Empty;
     private JsonObject? chs;
+    private string expandedCard = "";
+    private readonly List<IRelayCommand> editCommands = [];
 
     /// <param name="moduleId"><see cref="PileModule"/> or <see cref="MicropileModule"/>.</param>
     /// <param name="context">Data of the sheet (owned copy), host, services and the calculation service of the module.</param>
@@ -85,6 +96,16 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
         ArgumentNullException.ThrowIfNull(figures);
         this.figures = figures; this.analyses = analyses; this.elasticAnalysis = elasticAnalysis;
         Report = new HorizontalPileReport(this);
+        AddSurveyCommand = EditCommand(AddSurvey);
+        RemoveSelectedSurveyCommand = EditCommand(RemoveSelectedSurvey);
+        RemoveSurveyCommand = Track(new RelayCommand<HorizontalPileSurveyViewModel>(survey => Guard.Run(() => { if (survey is not null) RemoveSurvey(survey.Index); }), _ => CanEdit));
+        CopySurveyIntoCommand = Track(GuardedCommands.CreateAsync(Guard, _ => CopySurveyIntoAsync(), Lifetime, () => CanEdit));
+        CopySurveyFromCommand = Track(GuardedCommands.CreateAsync(Guard, _ => CopySurveyFromAsync(), Lifetime, () => CanEdit));
+        ExportCsvCommand = GuardedCommands.Create(Guard, ExportCsv);
+        OpenReferenceCommand = new RelayCommand<string>(url => Guard.Run(() => { if (!string.IsNullOrEmpty(url)) Context.Services.Links.Open(new Uri(url)); }));
+        ToggleCardCommand = new RelayCommand<string>(card => Guard.Run(() => ToggleCard(card ?? "")));
+        TransferSoilCommand = Track(GuardedCommands.CreateAsync(Guard, TransferSoilAsync, Lifetime, () => CanEdit));
+        CalculationGuideCommand = GuardedCommands.Create(Guard, () => CalculationGuide.Open(Context.Services.Wiki, ModuleId));
         Build();
         building = false;
         Preview();
@@ -242,9 +263,17 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
             if (value == selectedSurvey || value < 0 || value >= Surveys.Count) return;
             selectedSurvey = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(SelectedSurvey));
             RealizeRows();
         }
     }
+
+    /// <summary>
+    /// The selected stratigraphy, whose table the view shows (null without stratigraphies). The view shows it from here and not from the content
+    /// of its selected tab: when the stratigraphies are built again with the same tab selected (a copy into the selected one), the selection of
+    /// the tabs does not change and WPF would keep the content of the stratigraphy replaced.
+    /// </summary>
+    public HorizontalPileSurveyViewModel? SelectedSurvey => selectedSurvey >= 0 && selectedSurvey < Surveys.Count ? Surveys[selectedSurvey] : null;
 
     /// <summary>«+ Stratigrafia»: a new stratigraphy with one layer, selected.</summary>
     public void AddSurvey()
@@ -303,6 +332,80 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
     /// <summary>«Copia da…»: replaces the selected stratigraphy with a copy of the one chosen in the dialog.</summary>
     public Task CopySurveyFromAsync() => ChooseSurveyCopyAsync(copyInto: false);
 
+    /// <summary>«+ Stratigrafia» (disabled when read-only).</summary>
+    public IRelayCommand AddSurveyCommand { get; }
+
+    /// <summary>«− Stratigrafia» (disabled when read-only).</summary>
+    public IRelayCommand RemoveSelectedSurveyCommand { get; }
+
+    /// <summary>The [−] of the tab of a stratigraphy, with the stratigraphy as parameter (disabled when read-only).</summary>
+    public IRelayCommand<HorizontalPileSurveyViewModel> RemoveSurveyCommand { get; }
+
+    /// <summary>«Copia in…» (disabled when read-only).</summary>
+    public IAsyncRelayCommand CopySurveyIntoCommand { get; }
+
+    /// <summary>«Copia da…» (disabled when read-only).</summary>
+    public IAsyncRelayCommand CopySurveyFromCommand { get; }
+
+    // ---------------------------------------------------------------- view state and footer
+
+    /// <summary>The card «Stratigrafia».</summary>
+    public const string SurveysCard = "stratigrafia";
+
+    /// <summary>The card «Profilo stratigrafico».</summary>
+    public const string ProfileCard = "profilo";
+
+    /// <summary>The card of the section («Momento plastico / resistente» or «Sezione resistente CHS»).</summary>
+    public const string SectionCard = "sezione";
+
+    /// <summary>
+    /// The card shown extended («Estendi»), view state of the historic layout (LayoutCards): <see cref="SurveysCard"/>, <see cref="ProfileCard"/>,
+    /// <see cref="SectionCard"/> or empty. With the profile extended the drawing shows every stratigraphy. Not saved; allowed when read-only.
+    /// «Modifica dati e strati» of the elastic response extends the stratigraphies, as the historic view.
+    /// </summary>
+    public string ExpandedCard { get => expandedCard; private set => SetProperty(ref expandedCard, value); }
+
+    /// <summary>«Estendi»/«Riduci» of a card, with its name as parameter.</summary>
+    public IRelayCommand<string> ToggleCardCommand { get; }
+
+    /// <summary>«Estendi» of a card when it is not extended, «Riduci» when it is.</summary>
+    public void ToggleCard(string card)
+    {
+        if (card is not (SurveysCard or ProfileCard or SectionCard)) throw new ArgumentException("Scheda sconosciuta: " + card, nameof(card));
+        ExpandedCard = ExpandedCard == card ? "" : card;
+    }
+
+    /// <summary>«Esporta CSV» of the card «Verifica» (enabled with a result: <see cref="CanShowResults"/>; also when read-only).</summary>
+    public IRelayCommand ExportCsvCommand { get; }
+
+    /// <summary>«Apri riferimento» of «Diagrammi e dettagli · Riferimenti»: the link of the reference with the program of the system.</summary>
+    public IRelayCommand<string> OpenReferenceCommand { get; }
+
+    /// <summary>
+    /// «Invia / carica terreno…» (the bar of the historic SheetEditor, for the pile and the micropile; disabled when read-only): the sheet commits,
+    /// then the shared soil transfer dialog (<see cref="SoilTransferDialogViewModel"/> on the dialog service, decision T5, O7) receives its module,
+    /// its data and the soil sheets of the project; a copy goes to the window as <see cref="ISheetHost.OpenModuleCopy"/>, a replacement as
+    /// <see cref="ISheetHost.ReplaceSoil"/> (SheetEditor.OpenSoilTransfer of the historic view).
+    /// </summary>
+    public IAsyncRelayCommand TransferSoilCommand { get; }
+
+    /// <summary>«Modello e dati comuni…»: the theory page of the module in the Wiki (<see cref="CalculationGuide"/>, O7), also when read-only.</summary>
+    public IRelayCommand CalculationGuideCommand { get; }
+
+    private async Task TransferSoilAsync(CancellationToken cancellation)
+    {
+        if (!CanEdit) return;
+        Commit();
+        var choice = await new SoilTransferDialogService(Context.Services).ShowAsync(ModuleId, Data, Context.Host.SoilSources());
+        if (choice is null || IsDisposed) return;
+        if (choice.Module is null) Context.Host.ReplaceSoil(choice.Data);
+        else Context.Host.OpenModuleCopy(choice.Module, choice.Data, choice.Name);
+    }
+
+    private IRelayCommand EditCommand(Action action) => Track(GuardedCommands.Create(Guard, action, () => CanEdit));
+
+    private T Track<T>(T command) where T : IRelayCommand { editCommands.Add(command); return command; }
+
     /// <summary>«Aggiungi strato» of the stratigraphy <paramref name="survey"/>.</summary>
     public void AddLayer(int survey)
     {
@@ -325,7 +428,7 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
         if (position < 0) return;
         target.Layers.RemoveAt(position);
         target.Rows.RemoveAt(position);
-        if (target.Soils.Remove(row, out var soil)) soil.Deactivate();
+        if (target.Soils.Remove(row, out var soil)) { soil.Deactivate(); target.SoilsChanged(); }
         UserChanged();
     }
 
@@ -353,6 +456,7 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
         Verification = HorizontalPilePresentation.Verification(null);
         RealizeRows();
         Status = HorizontalPilePresentation.StatusPending;
+        OnPropertyChanged(nameof(CanShowResults)); OnPropertyChanged(nameof(Results));
     }
 
     protected override void OnCalculationPublished()
@@ -385,7 +489,14 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
         base.OnPropertyChanged(e);
         // The historic view shows «Calcolo di sezione ed equilibri in corso…» when the engine starts; a request that waits keeps its text.
         if (e.PropertyName == nameof(CalculationState) && CalculationState == CalculationState.Running) Status = HorizontalPilePresentation.StatusRunning;
-        if (e.PropertyName == nameof(CanEdit) && generalForm is not null) { foreach (var (_, form) in Forms) form.IsReadOnly = !CanEdit; elastic?.RefreshEditable(); }
+        if (e.PropertyName == nameof(CanEdit) && generalForm is not null)
+        {
+            foreach (var (_, form) in Forms) form.IsReadOnly = !CanEdit;
+            elastic?.RefreshEditable();
+            // T2: the commands that change the data are disabled.
+            foreach (var command in editCommands.Concat(Surveys.SelectMany(s => new IRelayCommand?[] { s.AddLayerCommand, s.RemoveLayerCommand })).OfType<IRelayCommand>())
+                command.NotifyCanExecuteChanged();
+        }
     }
 
     protected override void OnDisposed()
@@ -420,11 +531,12 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
             foreach (string key in HorizontalPileFields.ConcreteSectionHidden()) sectionForm.ShowField(key, false);
             ShowInnerRing(false);
         }
-        ejForm = new FormViewModel(section, HorizontalPileFields.Ej(), _ => UserChanged(), compact: true) { InheritedWikiModule = ModuleId, IsReadOnly = !CanEdit };
+        ejForm = new FormViewModel(section, HorizontalPileFields.Ej(), _ => UserChanged(), compact: true) { InheritedWikiModule = ModuleId, IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
         // The elastic response (F5.8), built after the capacity as HorizontalWorkspace builds its second tab: it prepares its data.
+        // «Modifica dati e strati» brings the tab of the capacity with the stratigraphies extended, as the historic view.
         elastic?.Dispose();
-        elastic = new ElasticPileViewModel(Data, new ElasticPileSheet(() => CanEdit, ElasticModified, () => SelectedAnalysis = 0, RefreshAfterMigration, Context.Services, Context.Host, ModuleId),
-            elasticAnalysis());
+        elastic = new ElasticPileViewModel(Data, new ElasticPileSheet(() => CanEdit, ElasticModified, () => { SelectedAnalysis = 0; ExpandedCard = SurveysCard; }, RefreshAfterMigration,
+            Context.Services, Context.Host, ModuleId), elasticAnalysis());
         elastic.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(ElasticPileViewModel.Result) && analysis == 1) OnPropertyChanged(nameof(ActiveResult)); };
         OnPropertyChanged(nameof(Elastic));
         analysis = Data.S("vista_orizzontale") == "elastico" ? 1 : 0;
@@ -433,18 +545,30 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
             OnPropertyChanged(name);
     }
 
+    /// <summary>
+    /// A form of the sheet, read-only when the sheet is (T2); the «?» labels and F1 of its fields open the topics of the module (the module
+    /// of the historic view, inherited by its InputForm) through the navigator of the services (rule of 17/10 for every form).
+    /// </summary>
     private FormViewModel Form(JsonObject values, FieldSpec[] fields, Action<string> changed, IEnumerable<HorizontalPileFieldGroup>? groups = null)
     {
-        var form = new FormViewModel(values, fields, changed, compact: true, symbolColumns: true) { InheritedWikiModule = ModuleId, IsReadOnly = !CanEdit };
+        var form = new FormViewModel(values, fields, changed, compact: true, symbolColumns: true) { InheritedWikiModule = ModuleId, IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
         foreach (var group in groups ?? []) form.GroupFields(group.Title, [.. group.Keys], group.Expanded);
         return form;
     }
 
-    /// <summary>SectionMaterialChanged of the historic view: the materials of the catalogue, then the change.</summary>
+    /// <summary>The keys of the steel of the c.a. section whose change makes the steel custom (HorizontalPilePresentation.ApplySectionMaterial).</summary>
+    private static bool CustomSteel(string key) => key is "fyk_mpa" or "steel_modulus_mpa" or "steel_fu_mpa" or "steel_eps_u" or "steel_diagramma";
+
+    /// <summary>
+    /// SectionMaterialChanged of the historic view: the materials of the catalogue, then the change. F5-02 (O6, declared difference of the new
+    /// view): the choice «Acciaio» shows the class of the data again after the catalogue or a custom value wrote it (the historic view kept
+    /// showing the previous class after a custom value); its note is computed again on the values written (today the same as the historic one).
+    /// </summary>
     private void SectionMaterialChanged(string key)
     {
         var section = Data["sezione"]!.AsObject();
         foreach (string field in HorizontalPilePresentation.ApplySectionMaterial(section, key)) sectionForm.Set(field, section.S(field), display: true);
+        if (key == "classe_acciaio" || CustomSteel(key)) sectionForm.Set("classe_acciaio", section.S("classe_acciaio"), display: true);
         if (key == "second_inner_enabled") ShowInnerRing(true);
         UserChanged();
     }
@@ -466,13 +590,19 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
         var all = Data.Array("stratigrafie");
         for (int i = 0; i < all.Count; i++)
         {
-            var survey = new HorizontalPileSurveyViewModel(i, all[i]!.AsArray());
+            int index = i;
+            var survey = new HorizontalPileSurveyViewModel(i, all[i]!.AsArray())
+            {
+                AddLayerCommand = new RelayCommand(() => Guard.Run(() => AddLayer(index)), () => CanEdit),
+                RemoveLayerCommand = new RelayCommand<JsonRowViewModel>(row => Guard.Run(() => { if (row is not null) RemoveLayer(index, row); }), _ => CanEdit),
+            };
             foreach (var layer in survey.Layers.OfType<JsonObject>()) survey.Rows.Add(Bind(layer));
             list.Add(survey);
         }
         Surveys = list;
         selectedSurvey = list.Count > 0 ? Math.Clamp(selected, 0, list.Count - 1) : -1;
         OnPropertyChanged(nameof(SelectedSurveyIndex));
+        OnPropertyChanged(nameof(SelectedSurvey));
     }
 
     /// <summary>A row of the table on a display copy of <paramref name="layer"/>; an edit copies the cell into the layer.</summary>
@@ -514,7 +644,12 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
             foreach (var row in survey.Rows)
             {
                 if (!survey.Soils.TryGetValue(row, out var soil))
+                {
                     survey.Soils[row] = soil = new HorizontalSoilRowViewModel(row, (JsonObject)row.Context!, UserChanged, () => CanEdit);
+                    soil.Activate();
+                    survey.SoilsChanged();
+                    continue;
+                }
                 soil.Activate();
             }
         }

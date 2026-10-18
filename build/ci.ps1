@@ -398,6 +398,11 @@ Add-Suite @{ Name = 'ui/f3-scheduling-muri-mvvm'; Stage = 'ui'; Kind = 'check'; 
 # the traces and the drawings frozen in tests/fixtures/f5-elastico, which Presentation.Tests compares with the ViewModel; off screen, until the
 # historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-palo-elastico-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-elastico-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
+# F5.7/F5.8: the XAML views of the horizontal pile and micropile hosted by MvvmSheetEditor off screen (bench --module-impl, Release still historic):
+# the traces of the tab of the capacity through its controls equal to those frozen in tests/fixtures/f5-palo-orizzontale (with F5-02) and its drawings,
+# visit without writes, exports equal to those of the historic view (JSON, Word, PDF, CSV), F5-02, screenshots, help (every «?» and F1 to the
+# navigator), automation names, read-only, the shared soil dialog, the bench.
+Add-Suite @{ Name = 'ui/check-palo-orizzontale-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-orizzontale-view', '{root}', '{out}\vista'); Timeout = 1800; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 # F5.10 (proposal 7.2, capture first): the historic RC section view still gives the traces and the drawings frozen in tests/fixtures/f5-sezione,
 # grouped by the sub-steps of F5.10, which the ViewModels of the sub-steps will compare; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-sezione-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }

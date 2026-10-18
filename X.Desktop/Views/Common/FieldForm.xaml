@@ -21,6 +21,7 @@
   <common:FlagValueConverter x:Key="Flag"/>
   <common:FieldLockConverter x:Key="Lock"/>
   <common:FieldKeyFlagConverter x:Key="KeyFlag"/>
+  <common:EditorToolTipConverter x:Key="EditorTip"/>
   <BooleanToVisibilityConverter x:Key="Visible"/>
 
   <!-- Editors: the text box, the choice and the check box of InputForm. Margin and minimum height are also on the host
@@ -28,7 +29,7 @@
   <DataTemplate x:Key="TextEditor" DataType="{x:Type forms:FieldViewModel}">
    <TextBox x:Name="Box" Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"
     Background="{DynamicResource Token.Field.Background}" MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}"
-    ToolTip="{Binding EditorToolTip}" ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}"
+    ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}"
     IsKeyboardFocusWithinChanged="Editor_FocusChanged" KeyDown="Editor_KeyDown">
     <!-- Read-only: the field refuses the typing, or the host view locks its key (CalculatedKeys, ReadOnlyKeys: a state of the view). -->
     <TextBox.IsReadOnly>
@@ -39,6 +40,14 @@
       <Binding Path="(common:FieldForm.ReadOnlyKeys)" RelativeSource="{RelativeSource Self}"/>
      </MultiBinding>
     </TextBox.IsReadOnly>
+    <!-- The tool tip of the editor, or the one the host view gives for its key (FieldForm.EditorToolTips, F5.7: SectionToolTips). -->
+    <TextBox.ToolTip>
+     <MultiBinding Converter="{StaticResource EditorTip}" Mode="OneWay">
+      <Binding Path="EditorToolTip"/>
+      <Binding Path="Key"/>
+      <Binding Path="(common:FieldForm.EditorToolTips)" RelativeSource="{RelativeSource Self}"/>
+     </MultiBinding>
+    </TextBox.ToolTip>
    </TextBox>
    <DataTemplate.Triggers>
     <DataTrigger Binding="{Binding IsReadOnly}" Value="True"><Setter TargetName="Box" Property="Background" Value="{DynamicResource Token.Calculated}"/></DataTrigger>
@@ -65,13 +74,30 @@
   <DataTemplate x:Key="ChoiceEditor" DataType="{x:Type forms:FieldViewModel}">
    <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}" IsEnabled="{Binding CanChange, Mode=OneWay}"
     MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}"
-    ToolTip="{Binding EditorToolTip}" ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}"
-    KeyDown="Editor_KeyDown" PreviewMouseWheel="Choice_PreviewMouseWheel"/>
+    ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}"
+    KeyDown="Editor_KeyDown" PreviewMouseWheel="Choice_PreviewMouseWheel">
+    <!-- The tool tip of the editor, or the one the host view gives for its key (FieldForm.EditorToolTips, F5.7: SectionToolTips). -->
+    <ComboBox.ToolTip>
+     <MultiBinding Converter="{StaticResource EditorTip}" Mode="OneWay">
+      <Binding Path="EditorToolTip"/>
+      <Binding Path="Key"/>
+      <Binding Path="(common:FieldForm.EditorToolTips)" RelativeSource="{RelativeSource Self}"/>
+     </MultiBinding>
+    </ComboBox.ToolTip>
+   </ComboBox>
   </DataTemplate>
   <DataTemplate x:Key="BoolEditor" DataType="{x:Type forms:FieldViewModel}">
    <CheckBox x:Name="Check" IsChecked="{Binding IsChecked}" IsEnabled="{Binding CanChange, Mode=OneWay}" VerticalContentAlignment="Center"
     MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}"
-    ToolTip="{Binding EditorToolTip}" ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}" KeyDown="Editor_KeyDown">
+    ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}" KeyDown="Editor_KeyDown">
+    <!-- The tool tip of the editor, or the one the host view gives for its key (FieldForm.EditorToolTips, F5.7: SectionToolTips). -->
+    <CheckBox.ToolTip>
+     <MultiBinding Converter="{StaticResource EditorTip}" Mode="OneWay">
+      <Binding Path="EditorToolTip"/>
+      <Binding Path="Key"/>
+      <Binding Path="(common:FieldForm.EditorToolTips)" RelativeSource="{RelativeSource Self}"/>
+     </MultiBinding>
+    </CheckBox.ToolTip>
     <DockPanel>
      <Button DockPanel.Dock="Right" Content="?" Style="{DynamicResource ProjectButton}" Background="{DynamicResource Token.Paper}" Foreground="{DynamicResource Token.Ink}"
       Padding="2" Margin="1" MinHeight="20" Width="20" Visibility="{Binding HasHelp, Converter={StaticResource Visible}}" ToolTip="{Binding HelpToolTip}"

@@ -426,6 +426,42 @@
       "Light": "#CB3939",
       "Dark": "#CB3939",
       "VeryDark": "#CB3939"
+    },
+    "Segment.1": {
+      "ruolo": "background",
+      "Light": "#DBEAFE",
+      "Dark": "#2A3949",
+      "VeryDark": "#28313C"
+    },
+    "Segment.2": {
+      "ruolo": "background",
+      "Light": "#DCFCE7",
+      "Dark": "#1D402C",
+      "VeryDark": "#213528"
+    },
+    "Segment.3": {
+      "ruolo": "background",
+      "Light": "#F3E8FF",
+      "Dark": "#40344A",
+      "VeryDark": "#352E3C"
+    },
+    "Segment.4": {
+      "ruolo": "background",
+      "Light": "#FFEDD5",
+      "Dark": "#46371D",
+      "VeryDark": "#382F21"
+    },
+    "Segment.5": {
+      "ruolo": "background",
+      "Light": "#CFFAFE",
+      "Dark": "#1D3F41",
+      "VeryDark": "#213435"
+    },
+    "Segment.6": {
+      "ruolo": "background",
+      "Light": "#FCE7F3",
+      "Dark": "#493140",
+      "VeryDark": "#3C2C35"
     }
   }
 }

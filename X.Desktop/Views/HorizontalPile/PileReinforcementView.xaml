@@ -1,0 +1,244 @@
+<!--
+  The editor of the reinforcement of the pile (F5.8): PileReinforcementViewModel shown with the layout of the historic PileReinforcementEditor.
+  On the left: «Tratti di armatura» with its note, the state of the calculation and its progress, «Approva tutto · ipotesi» and «NTC §7.2.5»,
+  «Armatura trasversale principale», «Proponi suddivisione…» and «Info sezioni»; the cards of the segments (their colours are the tokens Segment.1–6,
+  role background: in Scuro and Molto scuro the same colours the historic Appearance.ApplyTree gave to the cards) with the end, «Usa principale», the fields of
+  the section, the second ring, the transverse kind, the commands and the bill; the three groups of assumptions (FieldForm), «Controlla minimi pali…»
+  and the message. On the right, 325 wide: the panel «Sezione e verifiche» (the segment and the view to choose, the section drawn in the code-behind,
+  the verdict with its groups, the lines, «Apri verificatore c.a.»). Nothing while the comparison with an old archive is pending, as the historic
+  editor. The tones of the texts are tokens (Status.Fail, Status.Caution, Status.Ok, Muted, Ink). The dialogs (NTC §7.2.5, «Info sezioni», the
+  proposal, the split, the design) are dialogs of the view; the c.a. verifier is the dialog of the ViewModel (E1). Read-only revision: the controls
+  that change the data are disabled, as the historic protection.
+-->
+<UserControl x:Class="X.Desktop.Views.HorizontalPile.PileReinforcementView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+ xmlns:views="clr-namespace:X.Desktop.Views.HorizontalPile"
+ xmlns:app="clr-namespace:Anthea.Application.Presentation;assembly=ANTHEA.Application"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ xmlns:elastic="clr-namespace:Anthea.Presentation.Modules.HorizontalPile.Elastic;assembly=ANTHEA.Presentation">
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="Visible"/>
+  <common:NegationConverter x:Key="Not"/>
+  <views:CollapsedWhenTrueConverter x:Key="CollapsedWhen"/>
+  <views:CollapsedWhenNullConverter x:Key="CollapsedWhenNull"/>
+  <sys:Boolean x:Key="False">False</sys:Boolean>
+  <sys:Boolean x:Key="True">True</sys:Boolean>
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Command" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  </Style>
+  <Style x:Key="Form" TargetType="ContentControl">
+   <Setter Property="Focusable" Value="False"/>
+   <Setter Property="IsTabStop" Value="False"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+  </Style>
+  <!-- The tone of a text (ElasticTone): the colour of the historic view as a token; the tone is the Tag of the text. -->
+  <Style x:Key="Toned" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="{x:Static app:ElasticTone.Muted}"><Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/></DataTrigger>
+    <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="{x:Static app:ElasticTone.Failure}"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger>
+    <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="{x:Static app:ElasticTone.Pending}"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Caution}"/></DataTrigger>
+    <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="{x:Static app:ElasticTone.Satisfied}"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Ok}"/></DataTrigger>
+    <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="{x:Static app:ElasticTone.Excluded}"><Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/></DataTrigger>
+   </Style.Triggers>
+  </Style>
+  <!-- A text of the panel with its size and weight. -->
+  <DataTemplate x:Key="PanelText" DataType="{x:Type app:ElasticPileText}">
+   <TextBlock Style="{StaticResource Toned}" Text="{Binding Text}" Tag="{Binding Tone}" FontSize="{Binding Size}">
+    <TextBlock.FontWeight>
+     <Binding Path="Bold"><Binding.Converter><views:BoldWeightConverter/></Binding.Converter></Binding>
+    </TextBlock.FontWeight>
+   </TextBlock>
+  </DataTemplate>
+  <!-- A field of a card (Field of the historic editor): its title at 11 points, bold, then the editor; margin 0,4,10,4. -->
+  <Style x:Key="FieldTitle" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Caption}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <Style x:Key="CardField" TargetType="StackPanel">
+   <Setter Property="Margin" Value="0,4,10,4"/>
+  </Style>
+  <!-- The card of a segment: the colour of the segment by its position. -->
+  <Style x:Key="SegmentCard" TargetType="Border">
+   <Setter Property="CornerRadius" Value="5"/>
+   <Setter Property="Padding" Value="10"/>
+   <Setter Property="Margin" Value="0,7,0,0"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Segment.1}"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding ColourIndex}" Value="1"><Setter Property="Background" Value="{DynamicResource Token.Segment.2}"/></DataTrigger>
+    <DataTrigger Binding="{Binding ColourIndex}" Value="2"><Setter Property="Background" Value="{DynamicResource Token.Segment.3}"/></DataTrigger>
+    <DataTrigger Binding="{Binding ColourIndex}" Value="3"><Setter Property="Background" Value="{DynamicResource Token.Segment.4}"/></DataTrigger>
+    <DataTrigger Binding="{Binding ColourIndex}" Value="4"><Setter Property="Background" Value="{DynamicResource Token.Segment.5}"/></DataTrigger>
+    <DataTrigger Binding="{Binding ColourIndex}" Value="5"><Setter Property="Background" Value="{DynamicResource Token.Segment.6}"/></DataTrigger>
+   </Style.Triggers>
+  </Style>
+  <!-- A field of the section of a segment: read-only (with the background of the linked values) when linked or read-only. -->
+  <Style x:Key="SegmentBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+   <Setter Property="Width" Value="95"/>
+   <Setter Property="IsReadOnly" Value="{Binding IsReadOnly, Mode=OneWay}"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding Linked}" Value="True"><Setter Property="Background" Value="{DynamicResource Token.Surface}"/></DataTrigger>
+   </Style.Triggers>
+  </Style>
+ </UserControl.Resources>
+ <Grid>
+  <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="325"/></Grid.ColumnDefinitions>
+  <StackPanel x:Name="Editor">
+   <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Heading}" FontWeight="SemiBold" Text="{x:Static elastic:ElasticPileFields.SegmentsTitle}"/>
+   <TextBlock Style="{StaticResource Text}" Text="{x:Static elastic:ElasticPileFields.SegmentsNote}"/>
+   <TextBlock x:Name="PhaseText" Style="{StaticResource Text}" Text="{Binding Phase}"/>
+   <ProgressBar x:Name="Progress" Height="7" Maximum="100" Margin="0,4,0,8" Visibility="{Binding ProgressVisible, Converter={StaticResource Visible}}"
+    IsIndeterminate="{Binding ProgressIndeterminate}" Value="{Binding ProgressValue, Mode=OneWay}"/>
+   <WrapPanel>
+    <Button Content="Approva tutto · ipotesi" Style="{StaticResource Command}" Command="{Binding ApproveCommand}" CommandParameter="{StaticResource False}"
+     ToolTip="Conferma azioni di progetto, modello di taglio, barre trattenute, zone di estremità e buona aderenza. Non modifica i valori numerici o gli esiti dei controlli."/>
+    <Button Content="NTC §7.2.5" Style="{StaticResource Command}" IsEnabled="{Binding Editable}" Click="Ntc_Click"/>
+   </WrapPanel>
+   <WrapPanel>
+    <TextBlock Style="{StaticResource Text}" Text="{x:Static elastic:ElasticPileFields.MainTransverseLabel}"/>
+    <ComboBox x:Name="MainTransverse" Width="160" Margin="2" ItemsSource="{Binding TransverseKinds}" SelectedItem="{Binding MainTransverse}" IsEnabled="{Binding Editable}"
+     AutomationProperties.Name="Armatura trasversale principale"/>
+   </WrapPanel>
+   <WrapPanel>
+    <Button Content="Proponi suddivisione…" Style="{StaticResource Command}" IsEnabled="{Binding CanPropose}" ToolTip="{x:Static app:ElasticPilePresentation.ResultCommandToolTip}" Click="Propose_Click"/>
+    <Button Content="Info sezioni" Style="{StaticResource Command}" IsEnabled="{Binding Editable}" Click="SectionsInfo_Click"/>
+   </WrapPanel>
+   <ItemsControl x:Name="Segments" ItemsSource="{Binding Segments}" Focusable="False">
+    <ItemsControl.ItemTemplate>
+     <DataTemplate DataType="{x:Type elastic:ElasticSegmentViewModel}">
+      <Border Style="{StaticResource SegmentCard}" Tag="tratto">
+       <StackPanel>
+        <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Subheading}" FontWeight="SemiBold" Text="{Binding Header}"/>
+        <WrapPanel>
+         <StackPanel Style="{StaticResource CardField}">
+          <TextBlock Style="{StaticResource FieldTitle}" Text="Fine tratto / barre [m]"/>
+          <TextBox Width="115" Text="{Binding End, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding EndToolTip}" Tag="tratto-fine"
+           IsReadOnly="{Binding CanEdit, Converter={StaticResource Not}}" AutomationProperties.Name="Fine tratto / barre [m]"/>
+         </StackPanel>
+         <StackPanel Style="{StaticResource CardField}">
+          <TextBlock Style="{StaticResource FieldTitle}" Text="Origine armatura"/>
+          <CheckBox Width="140" Content="Usa principale" IsChecked="{Binding IsLinked}" IsEnabled="{Binding CanChangeLinked}" VerticalAlignment="Center" Tag="tratto-principale"/>
+         </StackPanel>
+         <ItemsControl ItemsSource="{Binding Fields}" Focusable="False">
+          <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+           <DataTemplate DataType="{x:Type elastic:ElasticSegmentFieldViewModel}">
+            <StackPanel Style="{StaticResource CardField}">
+             <TextBlock Style="{StaticResource FieldTitle}" Text="{Binding Title}"/>
+             <TextBox Style="{StaticResource SegmentBox}" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding ToolTip}" Tag="tratto-campo"
+              AutomationProperties.Name="{Binding Title}"/>
+            </StackPanel>
+           </DataTemplate>
+          </ItemsControl.ItemTemplate>
+         </ItemsControl>
+         <StackPanel Style="{StaticResource CardField}">
+          <TextBlock Style="{StaticResource FieldTitle}" Text="Anello interno"/>
+          <CheckBox Width="170" Content="Secondo anello interno" IsChecked="{Binding HasRing}" IsEnabled="{Binding CanChangeRing}" VerticalAlignment="Center" ToolTip="{Binding RingToolTip}" Tag="tratto-anello"/>
+         </StackPanel>
+         <StackPanel Style="{StaticResource CardField}">
+          <TextBlock Style="{StaticResource FieldTitle}" Text="Tipo trasversale"/>
+          <ComboBox Width="145" Margin="2" ItemsSource="{Binding Kinds}" SelectedItem="{Binding Kind}" IsEnabled="{Binding CanChangeKind}" Tag="tratto-tipo" AutomationProperties.Name="Tipo trasversale"/>
+         </StackPanel>
+        </WrapPanel>
+        <WrapPanel Tag="tratto-comandi">
+         <Button Content="Verifiche →" Style="{StaticResource Command}" Command="{Binding DataContext.VerifyCommand, RelativeSource={RelativeSource AncestorType=views:PileReinforcementView}}" CommandParameter="{Binding Index}"/>
+         <Button Content="Apri verificatore c.a." Style="{StaticResource Command}" Command="{Binding DataContext.ConcreteVerifierCommand, RelativeSource={RelativeSource AncestorType=views:PileReinforcementView}}" CommandParameter="{Binding Index}"/>
+         <Button Content="Dimensiona…" Style="{StaticResource Command}" IsEnabled="{Binding ResultCommandsEnabled}" ToolTip="{x:Static app:ElasticPilePresentation.ResultCommandToolTip}" Click="Design_Click"/>
+         <Button Content="Dividi…" Style="{StaticResource Command}" IsEnabled="{Binding CanEdit}" Click="Split_Click"/>
+         <Button Content="Unisci ←" Style="{StaticResource Command}" Visibility="{Binding CanMerge, Converter={StaticResource Visible}}"
+          Command="{Binding DataContext.MergeCommand, RelativeSource={RelativeSource AncestorType=views:PileReinforcementView}}" CommandParameter="{Binding Index}"/>
+         <Button Content="Distinta ferri" Style="{StaticResource Command}" Command="{Binding DataContext.BillCommand, RelativeSource={RelativeSource AncestorType=views:PileReinforcementView}}" CommandParameter="{Binding Index}"/>
+        </WrapPanel>
+        <Expander Header="Distinta ferri · barre e staffe" IsExpanded="{Binding BillExpanded}">
+         <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Bill}" Tag="tratto-distinta"/>
+        </Expander>
+       </StackPanel>
+      </Border>
+     </DataTemplate>
+    </ItemsControl.ItemTemplate>
+   </ItemsControl>
+   <Expander x:Name="DetailsGroup" Header="{x:Static elastic:ElasticPileFields.DetailsHeader}" IsExpanded="{Binding DetailsExpanded}">
+    <ContentControl Style="{StaticResource Form}" Content="{Binding Details}"/>
+   </Expander>
+   <Expander x:Name="SeismicGroup" Header="{x:Static elastic:ElasticPileFields.SeismicHeader}" IsExpanded="{Binding SeismicExpanded}">
+    <StackPanel>
+     <TextBlock Style="{StaticResource Text}" Text="{x:Static elastic:ElasticPileFields.SeismicIntro}"/>
+     <ContentControl Style="{StaticResource Form}" Content="{Binding Seismic}"/>
+     <TextBlock Style="{StaticResource Text}" Text="{x:Static elastic:ElasticPileFields.SeismicNote}"/>
+     <WrapPanel>
+      <Button Content="Approva tutto · sisma" Style="{StaticResource Command}" Command="{Binding ApproveCommand}" CommandParameter="{StaticResource True}"
+       ToolTip="Conferma anche le ipotesi ordinarie, N/V sismici e M elastico q=1 con N concomitante. Non modifica azioni, staffe, coefficienti o risultati."/>
+      <Button Content="NTC §7.2.5 · finestra interna" Style="{StaticResource Command}" IsEnabled="{Binding Editable}" Click="Ntc_Click"/>
+     </WrapPanel>
+    </StackPanel>
+   </Expander>
+   <Expander x:Name="ExtraGroup" Header="{x:Static elastic:ElasticPileFields.ExtraHeader}" IsExpanded="{Binding ExtraExpanded}">
+    <StackPanel>
+     <TextBlock Style="{StaticResource Text}" Text="{Binding ExtraNote}"/>
+     <ContentControl Style="{StaticResource Form}" Content="{Binding Extra}"/>
+    </StackPanel>
+   </Expander>
+   <CheckBox x:Name="Minimum" Content="{x:Static elastic:ElasticPileFields.MinimumLabel}" IsChecked="{Binding Minimum}" IsEnabled="{Binding Editable}" Margin="4"/>
+   <TextBlock x:Name="MessageText" Style="{StaticResource Text}" Text="{Binding Message}"/>
+  </StackPanel>
+  <!-- «Sezione e verifiche». -->
+  <Border x:Name="SummaryPanel" Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Top" Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}"
+   BorderThickness="1" Padding="12" Visibility="{Binding Summary, Converter={StaticResource CollapsedWhenNull}}">
+   <StackPanel>
+    <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Subheading}" FontWeight="SemiBold" Text="Sezione e verifiche"/>
+    <ContentControl x:Name="SummaryHeader" Content="{Binding Summary.Header}" ContentTemplate="{StaticResource PanelText}" Focusable="False" IsTabStop="False"
+     Visibility="{Binding Summary.Header, Converter={StaticResource CollapsedWhenNull}}"/>
+    <ComboBox x:Name="SummarySegment" Margin="0,6,0,6" ItemsSource="{Binding Summary.Segments}" SelectedIndex="{Binding SummarySegment}" IsEnabled="{Binding SummaryEnabled}"
+     AutomationProperties.Name="Tratto"/>
+    <ComboBox x:Name="SummaryMode" Margin="2" ItemsSource="{x:Static app:ElasticPilePresentation.SummaryModes}" SelectedItem="{Binding SummaryMode}" IsEnabled="{Binding SummaryEnabled}"
+     AutomationProperties.Name="Verifiche"/>
+    <TextBlock x:Name="SegmentPending" Style="{StaticResource Text}" Text="{x:Static app:ElasticPilePresentation.SegmentPending}"
+     Visibility="{Binding Summary.Segment, Converter={StaticResource CollapsedWhenNull}, ConverterParameter=Invert}"/>
+    <StackPanel x:Name="SegmentChecks" DataContext="{Binding Summary.Segment}" Visibility="{Binding Converter={StaticResource CollapsedWhenNull}}">
+     <ContentControl x:Name="SummarySectionHost" Focusable="False" IsTabStop="False"/>
+     <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Details}"/>
+     <Border x:Name="Verdict" BorderThickness="2" CornerRadius="4" Padding="8" Margin="0,6,0,6" Tag="{Binding Verdict.Tone}">
+      <Border.Style>
+       <Style TargetType="Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource Token.Ink}"/>
+        <Style.Triggers>
+         <DataTrigger Binding="{Binding Verdict.Tone}" Value="{x:Static app:ElasticTone.Muted}"><Setter Property="BorderBrush" Value="{DynamicResource Token.Muted}"/></DataTrigger>
+         <DataTrigger Binding="{Binding Verdict.Tone}" Value="{x:Static app:ElasticTone.Failure}"><Setter Property="BorderBrush" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger>
+         <DataTrigger Binding="{Binding Verdict.Tone}" Value="{x:Static app:ElasticTone.Pending}"><Setter Property="BorderBrush" Value="{DynamicResource Token.Status.Caution}"/></DataTrigger>
+         <DataTrigger Binding="{Binding Verdict.Tone}" Value="{x:Static app:ElasticTone.Satisfied}"><Setter Property="BorderBrush" Value="{DynamicResource Token.Status.Ok}"/></DataTrigger>
+         <DataTrigger Binding="{Binding Verdict.Tone}" Value="{x:Static app:ElasticTone.Excluded}"><Setter Property="BorderBrush" Value="{DynamicResource Token.Muted}"/></DataTrigger>
+        </Style.Triggers>
+       </Style>
+      </Border.Style>
+      <TextBlock Style="{StaticResource Toned}" FontSize="{DynamicResource Font.Body}" FontWeight="SemiBold" Text="{Binding Verdict.State}" Tag="{Binding Verdict.Tone}"/>
+     </Border>
+     <ItemsControl x:Name="VerdictGroups" ItemsSource="{Binding Verdict.Groups}" Focusable="False">
+      <ItemsControl.ItemTemplate>
+       <DataTemplate DataType="{x:Type app:ElasticPileVerdictGroup}">
+        <Expander Header="{Binding Header}" IsExpanded="{Binding Expanded, Mode=OneTime}" Margin="0,3,0,3">
+         <TextBlock Style="{StaticResource Toned}" Text="{Binding Text}" Tag="{Binding Tone}"/>
+        </Expander>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+     <TextBlock x:Name="SatisfiedText" Style="{StaticResource Toned}" Text="{Binding Verdict.Satisfied}" Tag="{x:Static app:ElasticTone.Satisfied}"
+      Visibility="{Binding Verdict.Satisfied, Converter={StaticResource CollapsedWhenNull}}"/>
+     <ItemsControl x:Name="Lines" ItemsSource="{Binding Lines}" ItemTemplate="{StaticResource PanelText}" Focusable="False"/>
+     <TextBlock x:Name="ErrorText" Style="{StaticResource Toned}" Text="{Binding Error}" Tag="{x:Static app:ElasticTone.Failure}"/>
+    </StackPanel>
+    <Button x:Name="SummaryVerifier" Content="Apri verificatore c.a." Style="{StaticResource Command}" Command="{Binding ConcreteVerifierCommand}" CommandParameter="{Binding SummarySegment}"/>
+    <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Caption}" Foreground="{DynamicResource Token.Muted}" Text="{x:Static app:ElasticPilePresentation.SummaryNote}"/>
+   </StackPanel>
+  </Border>
+ </Grid>
+</UserControl>

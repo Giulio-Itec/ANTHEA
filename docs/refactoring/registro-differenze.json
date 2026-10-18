@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-17",
+  "aggiornato": "2026-10-18",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -7433,6 +7433,33 @@
         "data": "2026-10-17",
         "utente": "«accetto tutte le proposte» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, T7 e V3: differenza dichiarata con una prova sulla vista nuova)",
         "esito": "dichiarata; attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+      },
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-02",
+      "data": "2026-10-18",
+      "fase": "F5.7, vista XAML del palo e del micropalo orizzontale (punto di controllo F5.7, O6 e T7)",
+      "titolo": "Palo orizzontale: acciaio personalizzato non mostrato nella scelta «Acciaio» della sezione c.a.",
+      "famiglia": "interfaccia/pali orizzontali",
+      "categoria": "difetto-legacy",
+      "stato": "dichiarato",
+      "descrizione": "Vista storica (HorizontalWorkspace, SectionMaterialChanged): quando un valore dell'acciaio della sezione c.a. (fyk, Es, fu, εu, legame) lo rende personalizzato, i dati diventano classe_acciaio = «Personalizzato» ma la scelta «Acciaio» mostra ancora la classe precedente, fino alla riapertura del foglio (traccia congelata modifiche-palo, passi dalla scelta di steel_diagramma «Incrudente» alla riapertura). La parte «probabile, non provata» della nota (O6) non si presenta: la nota della classe scelta dal catalogo è calcolata prima che il catalogo scriva i suoi valori (InputForm.Store aggiorna la nota prima del callback), ma con il nome del materiale personalizzato ancora nei dati è vuota come quella finale (prova con fu, Es e legame personalizzati, poi B450A). Vista nuova (HorizontalPileSheetViewModel.SectionMaterialChanged): dopo la scrittura del catalogo o di un valore personalizzato la scelta «Acciaio» mostra di nuovo la classe dei dati, solo in visualizzazione (nessuna scrittura, nessun Modified in più), e la nota è ricalcolata sui valori scritti (oggi uguale a quella storica). Dati, calcolo, report e F3 invariati. La vista storica non si corregge (sarà archiviata).",
+      "codice": [
+        "src/ANTHEA.Presentation/Modules/HorizontalPile/HorizontalPileSheetViewModel.cs (SectionMaterialChanged, CustomSteel)",
+        "X.Desktop/Wpf/HorizontalMaterials.cs (SectionMaterialChanged)",
+        "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs (ApplySectionMaterial)",
+        "tests/Shared/HorizontalPileTrace.cs (WithDeclaredDifferences)"
+      ],
+      "segno": "Solo la scelta mostrata e la nota della classe dell'acciaio: nella traccia modifiche-palo cambiano soltanto le righe della scelta «Acciaio» fra la scelta del legame incrudente e la riapertura (la classe dei dati invece della precedente); nessuna differenza nelle altre tracce, nelle fixture F3 e nel confronto diretto.",
+      "test": [
+        "tests/ANTHEA.Presentation.Tests/HorizontalPileSheetChecks.cs: tracce con WithDeclaredDifferences (righe cambiate solo in modifiche-palo) e CustomSteel sul ViewModel",
+        "tests/Desktop/HorizontalPileViewChecks.cs (ui/check-palo-orizzontale-view): le stesse tracce attraverso la vista XAML e la scelta «Acciaio» della vista dopo un valore personalizzato, con la nota storica calcolata prima del catalogo"
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "«accetto tutte le proposte» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, T7 e O6: correggere nella vista nuova, differenza dichiarata, con una prova)",
+        "esito": "dichiarata; attiva solo con la vista MVVM (nella Release dopo il passaggio dei due moduli)"
       },
       "voci_collegate": []
     }

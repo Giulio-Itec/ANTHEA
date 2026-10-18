@@ -7,6 +7,7 @@ using Anthea.Presentation.Forms;
 using Anthea.Reports;
 using X.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Anthea.Presentation.Modules.HorizontalPile;
 
@@ -24,10 +25,13 @@ public sealed record HorizontalPileSectionDrawing(IReadOnlyList<double[]> Outlin
 /// <summary>
 /// A stratigraphy of the sheet: its layers (the JSON array of the document) and the rows of its table, on display copies of the layers
 /// (the calculated columns «__strato» and «__kp» only there); the soil editor of a row exists once the row is shown (the selected
-/// stratigraphy, as the cells of the historic table).
+/// stratigraphy, as the cells of the historic table). The view finds the soil editor of a row through <see cref="SoilOf"/>, again at every
+/// <see cref="SoilsVersion"/>.
 /// </summary>
-public sealed class HorizontalPileSurveyViewModel
+public sealed class HorizontalPileSurveyViewModel : ObservableObject
 {
+    private int soilsVersion;
+
     internal HorizontalPileSurveyViewModel(int index, JsonArray layers)
     {
         Index = index; Layers = layers;
@@ -36,17 +40,41 @@ public sealed class HorizontalPileSurveyViewModel
     /// <summary>Position, from 0 (the tab shows <see cref="Index"/> + 1).</summary>
     public int Index { get; }
 
+    /// <summary>The header of the tab: the number of the stratigraphy.</summary>
+    public string Header => (Index + 1).ToString(System.Globalization.CultureInfo.InvariantCulture);
+
     /// <summary>The layers in the document.</summary>
     public JsonArray Layers { get; }
 
     /// <summary>The columns of the table (the soil editor comes after the second).</summary>
     public IReadOnlyList<FieldSpec> Columns { get; } = HorizontalPileFields.Layers();
 
+    /// <summary>The tool tips of the cells of the columns, by key (the calculation help of the key, as StratigraphyTable; null without).</summary>
+    public IReadOnlyDictionary<string, string?> Help { get; } = HorizontalPileFields.Layers().ToDictionary(c => c.Key, c => Anthea.Calculations.CalculationHelp.Field(c.Key), StringComparer.Ordinal);
+
     /// <summary>The rows of the table, on display copies of the layers.</summary>
     public JsonRowCollection Rows { get; } = [];
 
     /// <summary>The soil editors of the rows, by row; a row without one is not shown yet.</summary>
     public Dictionary<JsonRowViewModel, HorizontalSoilRowViewModel> Soils { get; } = [];
+
+    /// <summary>The soil editor of <paramref name="row"/>, null while the row has none.</summary>
+    public HorizontalSoilRowViewModel? SoilOf(JsonRowViewModel? row) => row is not null && Soils.TryGetValue(row, out var soil) ? soil : null;
+
+    /// <summary>Changes when a soil editor is added to <see cref="Soils"/> or removed from it.</summary>
+    public int SoilsVersion => soilsVersion;
+
+    /// <summary>«Aggiungi strato» (disabled when read-only).</summary>
+    public IRelayCommand? AddLayerCommand { get; internal set; }
+
+    /// <summary>The [−] of a layer, with its row as parameter (disabled when read-only).</summary>
+    public IRelayCommand<JsonRowViewModel>? RemoveLayerCommand { get; internal set; }
+
+    internal void SoilsChanged()
+    {
+        soilsVersion++;
+        OnPropertyChanged(nameof(SoilsVersion));
+    }
 }
 
 /// <summary>
@@ -70,7 +98,15 @@ public sealed class HorizontalSoilRowViewModel : ObservableObject
     internal HorizontalSoilRowViewModel(JsonRowViewModel row, JsonObject layer, Action changed, Func<bool> canEdit)
     {
         this.row = row; this.layer = layer; this.changed = changed; this.canEdit = canEdit;
+        AdoptMeanCommand = new RelayCommand(AdoptMean);
+        KeepValueCommand = new RelayCommand(KeepValue);
     }
+
+    /// <summary>«Adotta nuova media» of the details (its error stays in <see cref="DetailsText"/>, as the historic dialog).</summary>
+    public IRelayCommand AdoptMeanCommand { get; }
+
+    /// <summary>«Mantieni valore con nuova fonte» of the details.</summary>
+    public IRelayCommand KeepValueCommand { get; }
 
     /// <summary>Categories of the cohesive soils or densities of the granular ones.</summary>
     public IReadOnlyList<string> Categories => state.Categories;

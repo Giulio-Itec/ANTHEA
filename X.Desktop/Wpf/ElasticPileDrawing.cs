@@ -19,7 +19,13 @@ internal sealed class ElasticPileDrawing : FrameworkElement
     {
         if(result==null)return;selected=Anthea.Application.Presentation.ElasticPilePresentation.PointAt(result,depth,selected);Selected?.Invoke(selected);InvalidateVisual();
     }
-    protected override void OnMouseDown(MouseButtonEventArgs e){base.OnMouseDown(e);if(result!=null)SelectDepth(Math.Clamp((e.GetPosition(this).Y-Top)/(ActualHeight-Top-35),0,1)*result["input"].D("lunghezza"));}
+    /// <summary>F5.8 (additive): the view of ElasticPileViewModel chooses the point itself (DepthClicked) and shows it (Selection); the historic view selects on the click.</summary>
+    internal bool SelectsOnClick{get;set;}=true;
+    /// <summary>F5.8: the depth [m] under a click, when <see cref="SelectsOnClick"/> is false.</summary>
+    internal event Action<double>? DepthClicked;
+    /// <summary>F5.8: the selected point shown, set by the view of the ViewModel (the drawing of the historic view sets it on the click).</summary>
+    internal JsonNode? Selection{get=>selected;set{selected=value;InvalidateVisual();}}
+    protected override void OnMouseDown(MouseButtonEventArgs e){base.OnMouseDown(e);if(result==null)return;double depth=Math.Clamp((e.GetPosition(this).Y-Top)/(ActualHeight-Top-35),0,1)*result["input"].D("lunghezza");if(SelectsOnClick)SelectDepth(depth);else DepthClicked?.Invoke(depth);}
     protected override void OnRender(DrawingContext dc)
     {
         base.OnRender(dc);dc.DrawRectangle(Brushes.White,null,new Rect(0,0,ActualWidth,ActualHeight));if(result==null)return;

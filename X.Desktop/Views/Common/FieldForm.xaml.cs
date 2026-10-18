@@ -25,6 +25,17 @@ public partial class FieldForm : UserControl
     public static readonly DependencyProperty ReadOnlyKeysProperty = DependencyProperty.RegisterAttached("ReadOnlyKeys", typeof(IReadOnlyDictionary<string, bool>),
         typeof(FieldForm), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
 
+    /// <summary>
+    /// Tool tips of the editors given by the host view, by key, in place of the tool tip of the field (F5.7: the tool tips of the c.a. section
+    /// of the horizontal pile, set on the editors by the historic view). A state of the view. Inherited: set on the element that hosts the form.
+    /// </summary>
+    public static readonly DependencyProperty EditorToolTipsProperty = DependencyProperty.RegisterAttached("EditorToolTips", typeof(IReadOnlyDictionary<string, string>),
+        typeof(FieldForm), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
+
+    public static IReadOnlyDictionary<string, string>? GetEditorToolTips(DependencyObject target) => (IReadOnlyDictionary<string, string>?)target.GetValue(EditorToolTipsProperty);
+
+    public static void SetEditorToolTips(DependencyObject target, IReadOnlyDictionary<string, string>? value) => target.SetValue(EditorToolTipsProperty, value);
+
     public static IReadOnlyDictionary<string, bool>? GetCalculatedKeys(DependencyObject target) => (IReadOnlyDictionary<string, bool>?)target.GetValue(CalculatedKeysProperty);
 
     public static void SetCalculatedKeys(DependencyObject target, IReadOnlyDictionary<string, bool>? value) => target.SetValue(CalculatedKeysProperty, value);

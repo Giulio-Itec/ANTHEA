@@ -386,4 +386,34 @@ internal static class HorizontalPileTrace
     internal static string[] Read(string path) => PileGroupTrace.Read(path);
 
     internal static string? FirstDifference(IReadOnlyList<string> expected, IReadOnlyList<string> actual) => PileGroupTrace.FirstDifference(expected, actual);
+
+    /// <summary>The line of the choice «Acciaio» of the c.a. section in a trace: prefix, shown value (quoted), items and the rest.</summary>
+    private static readonly System.Text.RegularExpressions.Regex SteelChoice =
+        new("^(  scelta classe_acciaio \"[^\"]*\" = )(\"(?:[^\"\\\\]|\\\\.)*\")( voci (\"(?:[^\"\\\\]|\\\\.)*\").*)$", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    /// <summary>
+    /// The trace of the historic view as the new view (ViewModel and XAML view) must give it, with the declared differences of the register:
+    /// F5-02 (O6), the choice «Acciaio» of the c.a. section shows the class of the data of the same step (the historic view kept showing the
+    /// previous class after a value of the steel that makes it «Personalizzato»). Only a line whose shown value differs from the class of
+    /// the data, and whose items contain it, changes. Gives the lines and how many changed.
+    /// </summary>
+    internal static (string[] Lines, int Changed) WithDeclaredDifferences(IReadOnlyList<string> historic)
+    {
+        var lines = historic.ToArray();
+        int changed = 0;
+        string? steel = null;
+        for (int i = 0; i < lines.Length; i++)
+        {
+            if (lines[i].StartsWith("dati ", StringComparison.Ordinal)) { steel = JsonNode.Parse(lines[i][5..])?["sezione"]?["classe_acciaio"]?.ToString(); continue; }
+            if (steel is null || SteelChoice.Match(lines[i]) is not { Success: true } match) continue;
+            var items = JsonSerializer.Deserialize<string>(match.Groups[4].Value)!.Split('|');
+            if (JsonSerializer.Deserialize<string>(match.Groups[2].Value) == steel || !items.Contains(steel)) continue;
+            lines[i] = match.Groups[1].Value + Quote(steel) + match.Groups[3].Value;
+            changed++;
+        }
+        return (lines, changed);
+    }
+
+    /// <summary>The scenario whose historic trace shows the defect of F5-02 (O6): the only one adjusted by <see cref="WithDeclaredDifferences"/>.</summary>
+    internal const string CustomSteelScenario = "modifiche-palo";
 }

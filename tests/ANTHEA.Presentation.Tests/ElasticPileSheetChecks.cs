@@ -20,10 +20,10 @@ namespace Anthea.Presentation.Tests;
 /// <see cref="PileReinforcementViewModel"/> inside <see cref="HorizontalPileSheetViewModel"/>) against its historic view, without WPF:
 /// <list type="bullet">
 /// <item>every scenario of tests/Shared/ElasticPileTrace.cs gives the trace of the historic view frozen in tests/fixtures/f5-elastico/storica,
-/// line by line (the dialogs through their ViewModels, the c.a. verifier through the request to the host and the writes of its dialog);</item>
+/// line by line (the dialogs through their ViewModels, the c.a. verifier through the dialog service and the writes of its dialog, E1);</item>
 /// <item>the sheet seen by the window (ISheetViewModel): the result, «Calcola» and the report of the tab shown;</item>
 /// <item>with the engine held by a barrier: only the current revision is published, closing during the calculation, the tab of the capacity
-/// does not cancel the elastic response; read-only refusals; Reload; the request of the c.a. verifier to the host.</item>
+/// does not cancel the elastic response; read-only refusals; Reload; the c.a. verifier shown through the dialog service (E1), not the host.</item>
 /// </list>
 /// The F3 fixtures on the elastic tab are compared with the F3 reference by HorizontalPileSheetChecks (result, status and report too, with the
 /// F4 transitions applied as ui/f3-equivalence applies them). One "UI" thread (SingleThreadContext), as on the dispatcher.
@@ -110,8 +110,14 @@ internal static class ElasticPileSheetChecks
         internal Side(string module, HeldElasticAnalyses engine, JsonObject data, IReadOnlyList<string> historic)
         {
             this.module = module; this.engine = engine; this.historic = historic;
-            Attach(Open(module, data, engine));
+            Attach(Open(module, data, engine, Services()));
         }
+
+        /// <summary>The dialog of the c.a. verifier (E1): what the desktop does in it, as the step of the trace says.</summary>
+        private readonly VerifierDialogs verifiers = new();
+
+        private PresentationServices Services() => new(new ScriptedMessages(), new AlwaysYes(), new ScriptedFileDialogs(), verifiers,
+            new RecordingClipboard(), new RecordingLinks(), new RecordingWiki());
 
         /// <summary>
         /// The sheet of the c.a. verifier as its host leaves it. Until F5.10 the host is the historic ConcreteWorkspace (WPF), which prepares
@@ -177,7 +183,7 @@ internal static class ElasticPileSheetChecks
                 case ElasticPileStep.Reopen:
                     var data = Sheet.Data;
                     Sheet.Dispose();
-                    Attach(Open(module, data, engine));
+                    Attach(Open(module, data, engine, Services()));
                     break;
                 case ElasticPileStep.Hold: engine.Hold(); break;
                 case ElasticPileStep.Entered: await engine.EnteredAsync(); break;
@@ -235,11 +241,15 @@ internal static class ElasticPileSheetChecks
                     break;
                 case ElasticPileStep.Concrete:
                     if (segment is null || !Enabled(segment.Commands, "Apri verificatore c.a.")) break;
-                    if (Reinforcement.OpenConcreteVerifier(step.Index) is not { } verifier) break;
-                    HostEdits(verifier, step, occurrence);
-                    if (step.Text == "applica") verifier.Apply();
-                    dialog = verifier.Note;
-                    verifier.Close();
+                    // E1: the verifier shown through the dialog service; the host of the desktop prepares and commits its sheet, then «Applica».
+                    verifiers.Next = verifier =>
+                    {
+                        HostEdits(verifier, step, occurrence);
+                        if (step.Text == "applica") verifier.Apply();
+                        dialog = verifier.Note;
+                    };
+                    await Reinforcement.ShowConcreteVerifierAsync(step.Index);
+                    verifiers.Next = null;
                     break;
                 case ElasticPileStep.Design:
                     if (segment is null || !Enabled(segment.Commands, "Dimensiona…")) break;
@@ -442,20 +452,45 @@ internal static class ElasticPileSheetChecks
         expect.That(sheet.Elastic.Result is not null && sheet.Elastic.SurveyChoice == 1, "Reload: calcolo dei dati nuovi");
     }
 
-    /// <summary>The c.a. verifier of a segment: requested to the host with the sheet of the segment; its dialog writes back as the historic one.</summary>
+    /// <summary>
+    /// The c.a. verifier of a segment (E1): shown through the dialog service with the sheet of the segment, not sent to the host; «Applica» and the
+    /// closing write back as the historic dialog; refused for the CHS.
+    /// </summary>
     private static async Task VerifierAsync(string root, Expect expect)
     {
         var host = new RecordingHost();
-        using var sheet = Open(HorizontalPileScenarios.Pile, HorizontalPileScenarios.FixtureData(root, HorizontalPileScenarios.Pile, "single-soil-elastic"), host: host);
+        var dialogs = new VerifierDialogs();
+        var services = new PresentationServices(new ScriptedMessages(), new AlwaysYes(), new ScriptedFileDialogs(), dialogs, new RecordingClipboard(), new RecordingLinks(), new RecordingWiki());
+        using var sheet = Open(HorizontalPileScenarios.Pile, HorizontalPileScenarios.FixtureData(root, HorizontalPileScenarios.Pile, "single-soil-elastic"), services: services, host: host);
         await Expect.Within(sheet.Elastic.PendingCalculation);
-        var verifier = sheet.Elastic.Reinforcement.OpenConcreteVerifier(0)!;
-        expect.That(host.Copies.Count == 1 && host.Copies[0].Module == "str_palo" && ReferenceEquals(host.Copies[0].Data, verifier.Sheet) && host.Copies[0].Name == "Verificatore c.a. · T1",
-            "Verificatore c.a. chiesto all'ospite (OpenModuleCopy)");
-        verifier.Close();
-        expect.That(sheet.Data["elastico"]!["tratti"]![0]!["foglio_cls"] is JsonObject, "Chiusura del verificatore: il foglio resta nel tratto");
-        using var micro = Open(HorizontalPileScenarios.Micro, HorizontalPileScenarios.FixtureData(root, HorizontalPileScenarios.Micro, "elastico-chs-stratificato"), host: host);
-        expect.That(micro.Elastic.Reinforcement.OpenConcreteVerifier(0) is null && micro.Elastic.Reinforcement.Message.Contains("CHS", StringComparison.Ordinal) && host.Copies.Count == 1,
+        PileConcreteVerifier? shown = null;
+        bool keptWhileOpen = true;
+        dialogs.Next = verifier => { shown = verifier; keptWhileOpen = sheet.Data["elastico"]!["tratti"]![0]!["foglio_cls"] is null; };
+        await sheet.Elastic.Reinforcement.ShowConcreteVerifierAsync(0);
+        expect.That(shown is { Title: "Verificatore c.a. · T1", Index: 0 } && shown.Sheet["input"] is JsonObject && host.Copies.Count == 0 && dialogs.Count == 1,
+            "Verificatore c.a. mostrato con il servizio dei dialoghi (E1), non come copia all'ospite");
+        expect.That(keptWhileOpen && sheet.Data["elastico"]!["tratti"]![0]!["foglio_cls"] is JsonObject kept && kept.ToJsonString() == shown!.Sheet.ToJsonString()
+            && ReferenceEquals(shown.Result, shown.Sheet), "Chiusura del verificatore: il foglio resta nel tratto");
+        using var micro = Open(HorizontalPileScenarios.Micro, HorizontalPileScenarios.FixtureData(root, HorizontalPileScenarios.Micro, "elastico-chs-stratificato"), services: services, host: host);
+        await micro.Elastic.Reinforcement.ShowConcreteVerifierAsync(0);
+        expect.That(micro.Elastic.Reinforcement.Message.Contains("CHS", StringComparison.Ordinal) && dialogs.Count == 1 && host.Copies.Count == 0,
             "Verificatore c.a. rifiutato per il CHS");
+    }
+
+    /// <summary>The dialog of the c.a. verifier as the check drives it: <see cref="Next"/> does what the desktop does in it; any other dialog is refused.</summary>
+    private sealed class VerifierDialogs : IDialogService
+    {
+        internal Action<PileConcreteVerifier>? Next { get; set; }
+
+        internal int Count { get; private set; }
+
+        public Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog)
+        {
+            if (dialog is not PileConcreteVerifier verifier || Next is not { } next) throw new InvalidOperationException("Dialogo non previsto: " + dialog.Title);
+            Count++;
+            next(verifier);
+            return Task.FromResult<TResult?>(default);
+        }
     }
 
     // ---------------------------------------------------------------- derivations

@@ -1,0 +1,43 @@
+<!--
+  «Dimensionamento del tratto · proposta da applicare» (CreateSegmentDesignWindow of the historic editor, F5.8): PileSegmentDesignViewModel in a dialog
+  of the view (740 × 650). The four catalogues, «Trova proposta», «Applica…», the progress and the status (the intro, the phase, the proposal or the
+  error). The catalogues reach the ViewModel at every keystroke (the search reads them when it starts). Theme tokens only (P7).
+-->
+<UserControl x:Class="X.Desktop.Views.HorizontalPile.PileSegmentDesignView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="Visible"/>
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Box" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+   <Setter Property="Margin" Value="5"/>
+  </Style>
+  <Style x:Key="Command" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  </Style>
+ </UserControl.Resources>
+ <StackPanel>
+  <TextBlock Style="{StaticResource Text}" Text="Quantità barre candidate (separate da ;)"/>
+  <TextBox x:Name="Counts" Style="{StaticResource Box}" Text="{Binding Counts, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Quantità barre candidate"/>
+  <TextBlock Style="{StaticResource Text}" Text="Diametri longitudinali [mm]"/>
+  <TextBox x:Name="Diameters" Style="{StaticResource Box}" Text="{Binding Diameters, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Diametri longitudinali [mm]"/>
+  <TextBlock Style="{StaticResource Text}" Text="Diametri staffe [mm]"/>
+  <TextBox x:Name="Links" Style="{StaticResource Box}" Text="{Binding Links, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Diametri staffe [mm]"/>
+  <TextBlock Style="{StaticResource Text}" Text="Passi staffe [mm]"/>
+  <TextBox x:Name="Spacings" Style="{StaticResource Box}" Text="{Binding Spacings, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Passi staffe [mm]"/>
+  <WrapPanel>
+   <Button x:Name="FindButton" Content="Trova proposta" Style="{StaticResource Command}" Command="{Binding FindCommand}"/>
+   <Button x:Name="ApplyButton" Content="{Binding ApplyLabel, Mode=OneTime}" Style="{StaticResource Command}" Command="{Binding ApplyCommand}"/>
+  </WrapPanel>
+  <ProgressBar x:Name="Progress" Height="8" Maximum="100" Visibility="{Binding ProgressVisible, Converter={StaticResource Visible}}"
+   IsIndeterminate="{Binding ProgressIndeterminate}" Value="{Binding ProgressValue, Mode=OneWay}"/>
+  <TextBlock x:Name="StatusText" Style="{StaticResource Text}" Text="{Binding Status}"/>
+ </StackPanel>
+</UserControl>
