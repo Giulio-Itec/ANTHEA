@@ -140,6 +140,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
     private void Open()
     {
         initializing = true;
+        ResetState();
         Settings = ConcreteEditor.PrepareWorkspace(Data);
         PrepareCoefficients();
         ConcreteEditor.PrepareParameters(Input, Settings);

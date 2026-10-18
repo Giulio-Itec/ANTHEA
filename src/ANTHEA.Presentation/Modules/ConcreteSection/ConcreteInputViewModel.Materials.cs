@@ -211,5 +211,5 @@ public sealed partial class ConcreteInputViewModel
     }
 
     /// <summary>The dialog «Nuovo materiale» of <paramref name="type"/> as the commands open it (the checks drive it without the service).</summary>
-    internal ConcreteMaterialDialogViewModel CreateMaterialDialog(string type) => new(type, Input, Settings, sheet.Wiki);
+    public ConcreteMaterialDialogViewModel CreateMaterialDialog(string type) => new(type, Input, Settings, sheet.Wiki);
 }

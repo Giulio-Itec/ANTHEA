@@ -71,6 +71,14 @@ public sealed partial class ConcreteSheetViewModel
         if (changed) { OnPropertyChanged(nameof(Result)); OnPropertyChanged(nameof(HasResults)); }
     }
 
+    // A new opening (also after Reload, as the historic view builds a new workspace): no results, no detailing, tabs not built yet.
+    private void ResetState()
+    {
+        ClearResults(); shearResults.Clear(); torsionResults.Clear(); domainOutputs.Clear();
+        detailing = null; curvatureResult = null; detailingBuilt = false; shearBuilt = false; synchronizing = false;
+        ResetResult();
+    }
+
     private void ClearResults()
     {
         checker3D.Clear(); checker2D.Clear(); domainResults.Clear(); stressResults.Clear();

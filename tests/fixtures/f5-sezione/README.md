@@ -59,6 +59,7 @@ Organizzati per sottopasso di F5.10, una cartella per sottopasso in `storica/`:
 | `ispezione` | sezione σ/ε al punto limite e all'azione inserita, contorni, momento–curvatura |
 | `report` | disponibilità del report completo e breve (con calcolo in coda o bloccato) |
 | `calcolo` | ricalcolo con il motore trattenuto (calcolo superato, «Calcola» durante un calcolo, chiusura durante un calcolo), revisione in sola lettura |
+| `muri` | le due sezioni che i muri mandano al modulo c.a. («Apri sezione in c.a.» dello scenario `risultati-sezione` di F5.9), aperte come le apre la richiesta dei muri: lo stesso percorso di `percorso-f3` (aggiunte nel sottopasso S1, 18/10) |
 
 Ogni passo è quello che fa l'utente con un controllo: un controllo che l'utente non può usare (spento, nascosto o protetto dalla
 revisione in sola lettura) non fa nulla. Il motore trattenuto è il cancello dei lotti della sessione di analisi
@@ -67,6 +68,15 @@ da un'operazione del dispatcher dentro il loro ciclo; ogni finestra resta fuori 
 
 Non sono nelle tracce: «Copia» e i comandi Excel (appunti e file del sistema), le finestre «Proprietà / report…», «Scala…» ed
 «Espandi», «PNG», gli spostamenti dei divisori e la navigazione con il mouse nei disegni.
+
+## Sezioni dei muri
+
+`muri/*.json` (sottopasso S1 di F5.10, sezione 5 di `docs/refactoring/f5-10-sezione.md`): i dati che il ViewModel dei muri manda al
+modulo c.a. con `ISheetHost.OpenModuleCopy("str_palo", …)` nello scenario `risultati-sezione` di F5.9, nel formato delle fixture F3
+(`data`). `Presentation.Tests --sezione-tracce` li produce di nuovo dal ViewModel dei muri e prova che sono uguali a questi file (a meno
+degli identificativi nuovi) e che i loro nomi e le loro impronte sono quelli della traccia congelata dei muri
+(`tests/fixtures/f5-muri/storica/risultati-sezione.txt`). Gli scenari `muri/…` li aprono nella vista storica (tracce in `storica/muri`,
+catturate il 18/10/2026 sul codice di `68668f1b`) e nel ViewModel della sezione.
 
 ## Disegni
 
@@ -92,6 +102,8 @@ Gli elenchi dipendono dai font installati (Segoe UI): valgono sulla macchina del
 
   Due catture (`supporto/artefatti/refactoring/f5/f5-10/traccia-18` e `traccia-19`) sono uguali byte per byte: 37 scenari,
   79826 righe, 120 disegni 2D, 33 righe dei domini 3D.
+- Il 18/10/2026 (sottopasso S1) si aggiungono i due scenari `muri/…`, catturati sul codice di `68668f1b` (vista storica invariata):
+  39 scenari, 84832 righe; la seconda cattura, in controllo, è uguale alla prima e ai 37 scenari e ai disegni già congelati.
 - La suite `ui/check-sezione-historic` dello stadio `ui` ricattura la vista storica e la confronta con queste tracce e con gli
   elenchi dei disegni, finché la vista storica esiste.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.

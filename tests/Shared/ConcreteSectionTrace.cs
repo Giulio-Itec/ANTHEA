@@ -110,10 +110,24 @@ internal static class ConcreteSectionScenarios
     /// <summary>Folder of the display lists of the 2D drawings and of the plain data of the 3D domain, frozen before the migration.</summary>
     internal static string Drawings(string root) => Path.Combine(root, "tests", "fixtures", "f5-sezione", "disegni");
 
-    internal static string FixturePath(string root, string id) => Path.Combine(root, "tests", "fixtures", "f3", "inputs", Module + "--" + id + ".json");
+    /// <summary>The file of a fixture: an F3 fixture of the module, or («muri/…») a section sent by the retaining walls (F5.10 S1, section 5).</summary>
+    internal static string FixturePath(string root, string id) => id.StartsWith(WallPrefix, StringComparison.Ordinal)
+        ? Path.Combine(WallSections(root), id[WallPrefix.Length..] + ".json") : Path.Combine(root, "tests", "fixtures", "f3", "inputs", Module + "--" + id + ".json");
 
-    /// <summary>The data of an F3 fixture, as the F3 capture reads them.</summary>
+    /// <summary>The data of a fixture, as the F3 capture reads them (the object «data» of the file).</summary>
     internal static JsonObject FixtureData(string root, string id) => JsonNode.Parse(System.IO.File.ReadAllText(FixturePath(root, id)))!["data"]!.AsObject();
+
+    internal const string WallPrefix = "muri/";
+
+    /// <summary>
+    /// Folder of the sections that the retaining walls send to the module c.a. («Apri sezione in c.a.» of the scenario «risultati-sezione» of
+    /// F5.9): the data that the request of the walls opens in a sheet of str_palo (section 5 of docs/refactoring/f5-10-sezione.md).
+    /// </summary>
+    internal static string WallSections(string root) => Path.Combine(root, "tests", "fixtures", "f5-sezione", "muri");
+
+    /// <summary>Identifiers («muri/…») of the sections of the walls, in ordinal order.</summary>
+    internal static IReadOnlyList<string> WallFixtures(string root) => Directory.Exists(WallSections(root))
+        ? Directory.EnumerateFiles(WallSections(root), "*.json").Select(f => WallPrefix + Path.GetFileNameWithoutExtension(f)).Order(StringComparer.Ordinal).ToArray() : [];
 
     /// <summary>Identifiers of the F3 fixtures of the module, in ordinal order.</summary>
     internal static IReadOnlyList<string> Fixtures(string root) => Directory.EnumerateFiles(Path.Combine(root, "tests", "fixtures", "f3", "inputs"), Module + "--*.json")
@@ -143,6 +157,9 @@ internal static class ConcreteSectionScenarios
         // The path of the F3 capture, every part of the sheet: opening, the automatic calculation of the opening, the visit, «Calcola», reopening.
         foreach (string id in Fixtures(root))
             list.Add(new("percorso-f3", id, id, all, [wait, commit, visit, wait, commit, calculate, commit, reopen, wait, commit]));
+        // The sections sent by the retaining walls, opened as the request of the walls opens them (F5.10 S1, section 5): the same path.
+        foreach (string id in WallFixtures(root))
+            list.Add(new("muri", id[WallPrefix.Length..], id, all, [wait, commit, visit, wait, commit, calculate, commit, reopen, wait, commit]));
 
         // ---------------------------------------------------------------- inputs and materials
         list.Add(new("ingressi", "geometria-forme", "default", ["ingressi", "taglio"], [
