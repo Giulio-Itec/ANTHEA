@@ -369,4 +369,7 @@ risultati, comandi e cartelle nella sezione 5.8 di `f5-7-palo-orizzontale.md`. N
 - `--check-f3-report-chapters` con i due moduli MVVM: PASS 105;
 - `ui/f3-scheduling`: `F3PileSegmentChecks` costruisce `PileReinforcementEditor` direttamente, fuori dal banco; nessuna variante MVVM
   aggiunta, la suite va riscritta su `PileSegmentDesignViewModel` prima del passaggio (6.5);
-- corsa finale: in corso (esito nel commit seguente).
+- corsa finale `supporto/artefatti/ci/20261018-051443-f57b-finale`: PASS 137, NEW-FAIL 2 fuori dal modulo
+  (`ui/check-palo-verticale-view` e `ui/check-muri-view`: `ANTHEA.exe` terminato dall'esterno a metà delle esportazioni; con
+  `dotnet ANTHEA.dll` PASS 377 e PASS 187; vedi 5.8 di `f5-7-palo-orizzontale.md`). Le suite elastiche (`ui/check-palo-orizzontale-view`
+  PASS 221, `ui/check-palo-elastico-historic`, `ElasticPile.UiChecks` e varianti, `ui/f3-equivalence`) PASS.

@@ -357,6 +357,16 @@ sono nella cartella di lavoro dell'agente (`scratchpad\f5-agenti\f5-7-banco\`), 
 | Confronto diretto (`python -I tools/qa/f5_confronto_diretto.py --a storica\cattura --b mvvm\cattura --out confronto-diretto.json`) | **0 differenze** su 1066 file (1063 uguali byte per byte, 3 JSON uguali in forma canonica; ignorati solo i 6 tempi del palo elastico, `ElasticHorizontalPile.Reinforcement.cs:52`); fixture elastiche comprese |
 | `--check-f3-report-chapters` con i due `--module-impl` (`capitoli-mvvm`) | PASS 105 capitoli autonomi, 246 immagini e tutte le parti XML confrontate con la vista |
 | `ui/f3-figures`, `ui/f3-scheduling` | nessuna variante MVVM aggiunta in `build/ci.ps1`: `F3FigureChecks` legge solo i pali verticali; in `ui/f3-scheduling` il palo orizzontale compare solo in `F3PileSegmentChecks`, che costruisce `PileReinforcementEditor` direttamente e non passa dal banco (`--module-impl` non cambierebbe nulla). Va riscritta prima del passaggio (5.5) |
-| Corsa finale | in corso (esito nel commit seguente) |
+| Corsa finale | `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `837bf4dd`, `supporto/artefatti/ci/20261018-051443-f57b-finale`: PASS 137, KNOWN 0, **NEW-FAIL 2** (`ui/check-palo-verticale-view`, `ui/check-muri-view`, sotto), nessun file tracciato modificato, circa 50 minuti. Del palo orizzontale: `ui/check-palo-orizzontale-view` PASS 221, `ui/check-palo-orizzontale-historic`, `ui/check-palo-elastico-historic`, `ui/smoke-horizontal`, `ElasticPile.UiChecks` e le due varianti, `ui/f3-equivalence` (PASS 104), `ui/f3-report-chapters`, `ui/f3-scheduling`, `Presentation.Tests` e `Architecture.Tests` PASS |
 
 `tests/fixtures/f3/transitions-f4.json` è invariato (ultimo commit 4b34d890 del 16/10).
+
+**I due NEW-FAIL non vengono dal palo orizzontale né da questo ramo** (che cambia solo questi documenti). In tutte e due le suite
+`ANTHEA.exe` del runner finisce con codice 0 a metà delle esportazioni, senza `esito.txt`, senza `errore.txt` e senza
+`dettaglio.txt` (il `finally` delle prove non gira), con un file temporaneo `.x_….tmp` di una scrittura atomica
+rimasto in `vista/esportazioni`: il processo è terminato dall'esterno. Il fatto si ripete nella corsa separata
+`20261018-060452-f57b-ripeti` (le due suite sole) e avviando a mano `X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.exe
+--check-palo-verticale-view` (codice 0, nessun esito). Con la stessa build e gli stessi argomenti, ma con `dotnet ANTHEA.dll`, le due
+suite passano: `ui/check-palo-verticale-view` PASS 377, `ui/check-muri-view` PASS 187 (`pv-view` e `muri-view` nella cartella
+dell'agente). Causa probabile: l'antivirus della macchina sull'eseguibile appena compilato (già visto il 15/10: l'impronta di
+`ANTHEA.exe` cambia a ogni commit); da ripetere con il runner sul ramo d'integrazione. Nessuna correzione fatta.
