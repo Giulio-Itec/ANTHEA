@@ -42,14 +42,17 @@
         "Checker/src/GPC.Design/Actions/NtcSpectra.cs",
         "src/ANTHEA.Application/Actions/SpectraDocument.cs"
       ],
-      "effetto_quantificato": "17.796 confronti con catture Excel indipendenti; massimo scarto assoluto 1,3322676295501878e-14. Tolleranza 1e-10 × max(1, |atteso|).",
+      "effetto_quantificato": "19.320 confronti con catture Excel indipendenti, inclusi nodi esatti e tutte le configurazioni triangolari; massimo scarto assoluto 1,3322676295501878e-14. Tolleranza 1e-10 × max(1, |atteso|).",
       "test": [
         "Design.Checks.SpectraTests",
-        "ANTHEA.Presentation.Tests.SpectraSheetChecks"
+      "ANTHEA.Presentation.Tests.SpectraSheetChecks",
+      "ANTHEA.Presentation.Tests.SpectraEdgeChecks"
       ],
       "evidenze": [
         "docs/refactoring/spettri-ntc.md",
-        "supporto/artefatti/spettri-ntc/excel-capture-01.json"
+      "supporto/artefatti/spettri-ntc/excel-capture-01.json",
+      "tests/fixtures/spettri/cslp103-grid-edges.json",
+      "tests/fixtures/spettri/cslp103-grid-kind1.json"
       ],
       "wiki": "spettri-isolamento"
     },

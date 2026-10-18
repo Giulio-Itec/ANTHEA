@@ -14,7 +14,7 @@ internal static class SpectraSheetChecks
 {
     internal static int Run(string root, string output) => SingleThreadContext.Run(async _ =>
     {
-        var expect = new Expect(); var data = SpectraDocument.Create(); var services = Scripted.Services();
+        var expect = new Expect(); SpectraEdgeChecks.Run(expect, root); var data = SpectraDocument.Create(); var services = Scripted.Services();
         using var sheet = new SpectraSheetViewModel(new(data, false, new Host(), services, ModuleServices.Get(SpectraDocument.Module), new CalculationLimiter(1)));
         expect.That(ModuleDirectory.Get(SpectraDocument.Module).Area == "Azioni", "Spettri nel sottogruppo Azioni");
         expect.That(await sheet.CalculateAsync() && sheet.HasResults, "Spettri: pubblicazione risultato");

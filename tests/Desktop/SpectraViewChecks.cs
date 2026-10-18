@@ -43,6 +43,8 @@ internal static class SpectraViewChecks
             }
             Check(modified == 0, "Visitare le fasi e i temi non deve modificare il documento");
             editor.InspectRevision(); Check(sheet.SiteForm.IsReadOnly && sheet.IsolationForm.IsReadOnly && !sheet.ImportCommand.CanExecute(null), "Sola lettura estesa a input e importazione");
+            window.UpdateLayout(); await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);
+            Check(Visual(editor.View).OfType<TextBox>().Where(t => t.IsVisible).All(t => t.IsReadOnly), "Tutti i campi visibili, inclusa la ricerca del comune, rispettano la sola lettura");
             Appearance.Set(AppAppearance.Light, false); window.Width = 900; sheet.Stage = 2; window.UpdateLayout(); await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle); File.WriteAllBytes(Path.Combine(output, "spettri-stretta.png"), Png(editor.View));
             listener.Flush(); Check(!bindings.ToString().Contains("Error:"), "Errori di binding: " + bindings);
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli vista Spettri, tre temi e finestra stretta");

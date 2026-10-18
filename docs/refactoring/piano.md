@@ -4,11 +4,13 @@
 
 Attività richiesta dall'utente su `refactoring/f5-azioni-spettri`, derivato da `refactoring/f5` b9c2d4b1. [Dettaglio ed evidenze](spettri-ntc.md).
 
-- [x] Riferimenti acquisiti, catture Excel indipendenti, motore Spettri in GPC.Design: 17796 confronti passati.
+- [x] Riferimenti acquisiti, catture Excel indipendenti, motore Spettri in GPC.Design: 19320 confronti passati, inclusi nodi esatti e tutte le configurazioni triangolari.
 - [x] Isolamento e pendolo, attesi dell'esempio e controllo analitico; differenze intenzionali esplicitate.
 - [x] Set candidato coerente verificato nelle librerie, senza push o merge.
 - [x] Collaudo mirato del nuovo modulo MVVM Azioni e guide globali Rev48 con Word/PDF e Wiki.
-- [ ] Runner full con set candidato e successivo rilascio definitivo autorizzato.
+- [x] Sola lettura della ricerca dei comuni allineata al contratto delle revisioni; due prove dei progetti e vista Spettri passate. Catture dei casi limite conservate nei test permanenti.
+- [~] Runner full con set candidato: prima esecuzione interrotta sul difetto della sola lettura, corretto e verificato; ripartenza completa su commit pulito.
+- [ ] Rilascio definitivo delle librerie dopo autorizzazione al merge/push di Checker su master.
 
 Piano approvato il 6 ottobre 2026. Decisioni e architettura: [decisioni.md](decisioni.md).
 Il dettaglio di ogni passo (file, comandi di verifica, criteri di uscita) è stato preparato

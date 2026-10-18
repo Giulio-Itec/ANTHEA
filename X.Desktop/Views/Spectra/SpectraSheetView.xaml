@@ -16,7 +16,7 @@
     <TextBlock Text="Catalogo comunale dell’edizione CSLP 1.0.3"/>
     <ComboBox ItemsSource="{Binding Regions}" SelectedItem="{Binding Region}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,6"/>
     <ComboBox ItemsSource="{Binding Provinces}" SelectedItem="{Binding Province}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,6"/>
-    <TextBox Text="{Binding Search,UpdateSourceTrigger=PropertyChanged}" ToolTip="Cerca comune o provincia" IsEnabled="{Binding CanEdit}" Margin="0,0,0,6"/>
+    <TextBox Text="{Binding Search,UpdateSourceTrigger=PropertyChanged}" ToolTip="Cerca comune o provincia" IsEnabled="{Binding CanEdit}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,6"/>
     <ComboBox ItemsSource="{Binding Towns}" SelectedItem="{Binding Town}" DisplayMemberPath="Label" IsEnabled="{Binding CanEdit}" MaxDropDownHeight="300" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" Margin="0,0,0,6"/>
     <TextBlock Text="{Binding Location}"/>
     <ContentControl Content="{Binding SiteForm}"/>
