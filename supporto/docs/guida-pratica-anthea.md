@@ -2,9 +2,56 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 16 ottobre 2026 — revisione documentale 47
+Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 48
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
+
+## Spettri NTC e isolamento sismico
+
+Aprire Moduli singoli → Azioni → Spettri NTC. Il foglio determina la pericolosità del sito, gli spettri dei quattro stati limite e, quando attivata, la risposta di un sistema equivalente con isolamento alla base. Può essere salvato autonomamente o aggiunto a un progetto.
+
+### Sito e spettri
+
+Selezionare regione, provincia e comune, eventualmente filtrando il nome, oppure inserire longitudine e latitudine in gradi decimali. Il catalogo comunale appartiene all’edizione del riferimento: per il sito effettivo controllare le coordinate. La modifica manuale delle coordinate sostituisce l’etichetta del comune con Coordinate assegnate. Scegliere Superficie rigata oppure Distanza inversa per l’interpolazione spaziale. Un sito esterno al reticolo genera un errore e non produce spettri.
+
+Assegnare vita nominale VN e coefficiente d’uso CU; quindi categoria di sottosuolo A–E, categoria topografica T1–T4 e quota relativa h/H, compresa tra 0 e 1. Per lo spettro orizzontale scegliere Elastico, con smorzamento ξ in percentuale, oppure Progetto con q, con q0 e regolarità in altezza. Il fattore q verticale è indipendente. Premere Calcola; le modifiche successive aggiornano automaticamente il calcolo. Un ingresso non valido invalida i risultati e mostra il motivo.
+
+Il selettore dei risultati presenta quattro fasi:
+
+| Fase | Contenuto |
+| --- | --- |
+| 1 · Pericolosità del sito | Reticolo locale, parametri ag, F0 e Tc* per nove tempi di ritorno, spettri parametrizzati e spettro tabulato per il TR selezionato |
+| 2 · Periodo di riferimento | Parametri e spettri su sottosuolo A dei quattro stati limite, con VR e TR adottati |
+| 3 · Spettro di progetto | Componenti orizzontale e verticale e spettro di riferimento per SLO, SLD, SLV o SLC |
+| 4 · Isolamento sismico | Spettro con due smorzamenti e risultati del sistema equivalente, quando attivato |
+
+I grafici riportano periodo T in secondi e accelerazione Sa in g. La tabella espone coefficienti e risultati; Ordinate degli spettri visualizzati mostra i punti delle curve. Esporta CSV e Copia ordinate includono tutte le fasi calcolate, con separatore punto e virgola e punto decimale. Il cambio di fase, stato limite, TR visualizzato o tema non modifica i dati del documento.
+
+La parte Spettri conserva le convenzioni numeriche del riferimento NTC 2008: VR minimo 35 anni, intervallo dei TR del reticolo, campionamento fino a 4 s e particolarità della componente verticale. L’identificazione del riferimento è visibile nel foglio e nel report. Per un impiego progettuale diverso verificare l’applicabilità delle prescrizioni; la coincidenza numerica con il riferimento non equivale a un aggiornamento normativo.
+
+### Isolatori e modello equivalente
+
+Espandere Isolamento sismico e selezionare Attiva isolamento. Inserire la massa sismica in kN·s²/m, gli smorzamenti della struttura e dell’isolamento in percentuale e i fattori di rigidezza per SLE e SLU. Sono previsti due gruppi di dispositivi in parallelo: ciascuno richiede nome, numero intero e rigidezza del singolo isolatore in kN/mm. Un numero nullo esclude il gruppo. La somma delle rigidezze attive deve essere positiva.
+
+La fase 4 mostra, per ogni stato limite, rigidezza totale K, periodo Tis, soglia 0,8 Tis, accelerazione a Tis, forza globale F e spostamento d. La forza per dispositivo è ripartita secondo la rigidezza del gruppo. SLO e SLD usano il fattore SLE; SLV e SLC quello SLU. Il ramo oltre la soglia adotta lo smorzamento dell’isolamento; quello precedente adotta lo smorzamento della struttura. Gli smorzamenti ammessi per questa estensione vanno dal 5% al 30%.
+
+Importa Excel di isolamento acquisisce i valori salvati nei fogli Isolatori, Modellazione_isolatori_pendolo e Catalogo FIP dell’esempio predisposto. Non esegue formule, macro o collegamenti esterni. Se manca un valore memorizzato, ricalcolare e salvare il file con Excel prima di importarlo. L’importazione sostituisce i dati dell’isolamento, attiva i parametri sismici assegnati e conserva nome e impronta del file. Le coordinate e la vita di riferimento del documento corrente restano da controllare: l’esempio non fornisce una geolocalizzazione verificata.
+
+Il catalogo acquisito serve a scegliere nome e rigidezza nei due gruppi. La corsa visualizzata è informativa; scegliere un dispositivo non verifica capacità, spostamenti, stabilità o carichi verticali. Il programma non aggiorna il catalogo attraverso servizi esterni.
+
+Il valore Sa campione Excel consente il confronto con la ricerca tabellare dell’esempio. Il risultato principale usa invece la valutazione analitica dello spettro esattamente a Tis. Nell’esempio, allo SLC, il campione vale circa 0,176284373 g, mentre Sa(Tis) vale 0,170127557 g: la conseguente differenza di forza e spostamento è esplicita. Oltre il campo dei campioni il confronto non è disponibile, mentre il calcolo analitico conserva la propria definizione.
+
+### Pendolo e parametri assegnati
+
+In Modellazione del pendolo inserire carico verticale N in kN, coefficiente d’attrito μ, spostamento d e raggio equivalente R in mm. Calcola pendolo restituisce forza d’attrito, rigidezza equivalente, smorzamento e periodo. R è un dato del dispositivo, da assegnare; non deriva automaticamente dalla corsa. Usa Ke e smorzamento nel gruppo 1 trasferisce esplicitamente i due risultati e invalida il calcolo precedente. Numero di dispositivi e massa restano quelli del foglio: verificarne la coerenza con N.
+
+Parametri sismici assegnati permette di indicare ag, F0 e Tc* per ciascuno dei quattro stati limite. Quando attivi, questi valori sostituiscono quelli interpolati nelle fasi 2–4; la fase 1 continua a descrivere il reticolo delle coordinate inserite. L’origine dei parametri è indicata accanto ai risultati. Disattivare l’opzione per tornare al calcolo dal sito.
+
+### Salvataggio e report
+
+Salva conserva input, catalogo importato e provenienza. Le revisioni di progetto in sola lettura impediscono modifiche e importazioni. Report Word produce DOCX e PDF con sito, nodi, pesi, parametri, ordinate dei quattro stati limite e risultati dell’isolamento e del pendolo, se attivi. Il capitolo è disponibile anche nel report di progetto.
+
+Il foglio non sostituisce il modello strutturale e le verifiche dei dispositivi. Restano da controllare, secondo il progetto, condizioni di applicabilità dell’analisi, distribuzione delle masse e rigidezze, torsione ed eccentricità, risposta verticale, spostamenti di progetto e requisiti dei singoli isolatori.
 
 ## Stratigrafia del terreno
 
