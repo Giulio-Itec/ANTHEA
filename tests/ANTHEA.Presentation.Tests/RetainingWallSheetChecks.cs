@@ -86,6 +86,26 @@ internal static class RetainingWallSheetChecks
 
     // ---------------------------------------------------------------- traces
 
+    /// <summary>
+    /// F5.10 (section 5 of f5-10-sezione.md): the sections that the scenario «risultati-sezione» sends to the module c.a. («Apri sezione in c.a.»),
+    /// with their hash in the trace of the walls, for the checks of the RC section. Runs on the UI thread of the checks (SingleThreadContext).
+    /// </summary>
+    internal static async Task<IReadOnlyList<(string Name, JsonObject Data, string Hash)>> SentSectionsAsync(string root)
+    {
+        var scenario = RetainingWallScenarios.All(root).Single(s => s.Name == "risultati-sezione");
+        var engine = new HeldModuleService(RetainingWallScenarios.Module);
+        var ids = new RetainingWallIds();
+        var side = new Side(RetainingWallScenarios.FixtureData(root, scenario.Fixture), engine, ids);
+        try
+        {
+            // The states of the trace, in order: the identifiers of the sections are named as the trace meets them.
+            side.State();
+            foreach (var step in scenario.Steps) { await side.ApplyAsync(step); side.State(); }
+            return side.SentSections();
+        }
+        finally { engine.Release(); side.Dispose(); }
+    }
+
     private static async Task<List<string>> TraceAsync(string root, RetainingWallScenario scenario)
     {
         var lines = new List<string>();
@@ -140,6 +160,10 @@ internal static class RetainingWallSheetChecks
         private void CloseParameters() { parameters?.Close(); parameters = null; }
 
         public void Dispose() { CloseParameters(); Sheet.Dispose(); }
+
+        /// <summary>F5.10: the sections sent to the module c.a., with their hash in the trace.</summary>
+        internal IReadOnlyList<(string Name, JsonObject Data, string Hash)> SentSections() =>
+            host.Sections.Select(c => (c.Name, c.Data, new RetainingWallTraceState(ids).Hash(c.Data))).ToArray();
 
         private static bool Usable(RetainingWallSheetViewModel s, string form, FieldViewModel field) => field.IsVisible && field.IsEnabled && s.IsFormShown(form);
 

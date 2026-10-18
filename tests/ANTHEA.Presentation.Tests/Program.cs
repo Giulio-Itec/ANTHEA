@@ -7,9 +7,21 @@ try
     var directory = new DirectoryInfo(AppContext.BaseDirectory);
     while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "ANTHEA.sln"))) directory = directory.Parent;
     string root = directory?.FullName ?? throw new DirectoryNotFoundException("ANTHEA.sln non trovato.");
+    // F5.10: --sezione-tracce runs only the long traces of the RC section (decision C7, ui stage), --sezione-rapide only its checks of the fast
+    // stage (to work on the module); the other arguments are positional.
+    bool sectionTraces = args.Contains("--sezione-tracce"), sectionFast = args.Contains("--sezione-rapide");
+    args = args.Where(a => a is not ("--sezione-tracce" or "--sezione-rapide")).ToArray();
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f5/presentation") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
     int checks = 0;
+    if (sectionTraces || sectionFast)
+    {
+        checks += ConcreteSectionSheetChecks.Run(root, output, full: sectionTraces);
+        string traces = $"PASS {checks} controlli della sezione c.a. (F5.10" + (sectionTraces ? ", tracce lunghe" : "") + ") senza WPF";
+        File.WriteAllText(Path.Combine(output, "esito.txt"), traces, new UTF8Encoding(false));
+        Console.WriteLine(traces);
+        return 0;
+    }
     checks += ViewModelBaseChecks.Run();
     checks += await CommandGuardChecks.RunAsync();
     checks += await ServicesChecks.RunAsync();
@@ -31,6 +43,7 @@ try
     checks += StratigraphySheetChecks.Run(root, output);
     checks += RetainingWallSheetChecks.Run(root, output);
     checks += ElasticPileSheetChecks.Run(root, output);
+    checks += ConcreteSectionSheetChecks.Run(root, output, full: false);
     string message = $"PASS {checks} controlli di Presentation senza WPF";
     File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
     Console.WriteLine(message);

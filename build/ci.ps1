@@ -389,6 +389,10 @@ Add-Suite @{ Name = 'ui/check-palo-elastico-historic'; Stage = 'ui'; Kind = 'che
 # F5.10 (proposal 7.2, capture first): the historic RC section view still gives the traces and the drawings frozen in tests/fixtures/f5-sezione,
 # grouped by the sub-steps of F5.10, which the ViewModels of the sub-steps will compare; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-sezione-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
+# F5.10 S1 (decision C7: the long traces in the ui stage): the ViewModel of the RC section without WPF against the traces frozen in
+# tests/fixtures/f5-sezione (common part and [ingressi] of ingressi/*, percorso-f3/*, calcolo/* and muri/*), the files of the data of the F3
+# capture and the sections sent by the walls; the fast stage keeps three scenarios in Presentation.Tests.
+Add-Suite @{ Name = 'Presentation.Tests/sezione-ca'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--sezione-tracce'); Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # FieldForm (XAML + FormViewModel, F5.2) against the historic InputForm: same edit sequences on fields of real modules, same bytes of the document, same layout; windows outside the screen.
 Add-Suite @{ Name = 'ui/check-field-form-parity'; Stage = 'ui'; Kind = 'check'; Args = @('--check-field-form-parity', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # Theme tokens (F5.3): catalogue, colour equality with the palette in the three appearances, dictionaries of X.Desktop/Themes, light scope of the documents; off screen.

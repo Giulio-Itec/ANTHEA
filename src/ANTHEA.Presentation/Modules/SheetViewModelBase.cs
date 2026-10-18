@@ -90,9 +90,11 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     /// <summary>True while the engine of the module runs; a module with other work of its own (the searches of the walls) adds it.</summary>
     public virtual bool IsBusy => calculation.IsBusy;
 
-    public JsonObject? Result => calculation.Result?.Values;
+    /// <summary>Result of the current data; a sheet that publishes its results without the common calculation (F5.10, mode None) gives its own.</summary>
+    public virtual JsonObject? Result => calculation.Result?.Values;
 
-    public bool HasResults => Result is not null;
+    /// <summary>True with a result of the current data; virtual with <see cref="Result"/> (F5.10).</summary>
+    public virtual bool HasResults => Result is not null;
 
     /// <summary>State of the calculation, for the status line of the view.</summary>
     public CalculationState CalculationState => calculation.State;
@@ -136,7 +138,8 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
     /// In synchronous mode the task is already completed when it is returned: the result is published on this thread. Without
     /// calculation (<see cref="SheetCalculationMode.None"/>) nothing is calculated: completed, false.
     /// </summary>
-    public Task<bool> CalculateAsync(CancellationToken cancellation = default)
+    /// <remarks>Virtual (F5.10): a sheet in mode <see cref="SheetCalculationMode.None"/> with a calculation of its own (the RC section, decision C1) runs it here.</remarks>
+    public virtual Task<bool> CalculateAsync(CancellationToken cancellation = default)
     {
         ThrowIfDisposed();
         return CalculationMode switch

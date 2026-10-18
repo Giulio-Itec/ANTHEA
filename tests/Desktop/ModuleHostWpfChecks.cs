@@ -68,14 +68,15 @@ internal static class ModuleHostWpfChecks
         Check(composition.Modules.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
             && composition.Modules.SheetModuleIds.SequenceEqual(ModuleDirectory.All.Select(m => m.Id)
                 .Where(m => m is "geo_efficienza_orizzontale" or "geo_palo_verticale" or "geo_micropalo_verticale" or "mat_calcestruzzo" or "mat_acciaio_armatura"
-                    or "geo_fondazioni_superficiali" or "geo_palo_orizzontale" or "geo_micropalo_orizzontale" or "geo_stratigrafia" or "geo_muri_sostegno")),
-            "Radice di composizione: registro uguale a ModuleDirectory, con la palificata, i pali verticali e orizzontali, i materiali, le fondazioni, la stratigrafia e i muri MVVM");
+                    or "geo_fondazioni_superficiali" or "geo_palo_orizzontale" or "geo_micropalo_orizzontale" or "geo_stratigrafia" or "geo_muri_sostegno"
+                    or "str_palo")),
+            "Radice di composizione: registro uguale a ModuleDirectory, con la palificata, i pali verticali e orizzontali, i materiali, le fondazioni, la stratigrafia, i muri e la sezione c.a. MVVM");
         using (var historic = composition.SheetEditors.Open(ProbeModule, ModuleDirectory.CreateData(ProbeModule)))
             Check(historic is SheetEditor, "Radice di composizione: la fabbrica apre la vista storica");
         using (var pileGroup = composition.SheetEditors.Open(PileGroupModule, ModuleDirectory.CreateData(PileGroupModule)))
             Check(pileGroup is MvvmSheetEditor { Sheet: PileGroupSheetViewModel { HasResults: true } }, "Radice di composizione: la Release apre la palificata con la vista MVVM");
         foreach (string migrated in new[] { "geo_palo_verticale", "geo_micropalo_verticale", "mat_calcestruzzo", "mat_acciaio_armatura",
-            "geo_fondazioni_superficiali", "geo_palo_orizzontale", "geo_micropalo_orizzontale", "geo_stratigrafia", "geo_muri_sostegno" })
+            "geo_fondazioni_superficiali", "geo_palo_orizzontale", "geo_micropalo_orizzontale", "geo_stratigrafia", "geo_muri_sostegno", "str_palo" })
             using (var sheet = composition.SheetEditors.Open(migrated, ModuleDirectory.CreateData(migrated)))
                 Check(sheet is SheetEditor, "Radice di composizione: la Release apre " + migrated + " con la vista storica");
         Fails<ArgumentException>(() => composition.SheetEditors.Open("inesistente", new JsonObject()), "inesistente", "Modulo sconosciuto rifiutato come oggi");
@@ -89,7 +90,8 @@ internal static class ModuleHostWpfChecks
             "Banco: scelte applicate in ordine sulla Release");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, PileGroupModule + "=historic"]), "archiviata",
             "Banco: vista storica della palificata archiviata (Q11), «historic» rifiutato");
-        Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "str_palo=mvvm"]), "str_palo",
+        // F5.10: the RC section has its ViewModel (S1); the bridge has none.
+        Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "str_mista_ponte=mvvm"]), "str_mista_ponte",
             "Banco: modulo senza implementazione MVVM");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, "inesistente=mvvm"]), "inesistente", "Banco: modulo sconosciuto");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=nuova"]), "nuova", "Banco: implementazione sconosciuta");

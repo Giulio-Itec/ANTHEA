@@ -96,7 +96,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         AddTab("06", "Dettagli costruttivi", BuildDetailingPanel());
         AddTab("07", "Momento–curvatura", BuildCurvaturePanel());
         AddTab("08", "Calcola armature", BuildDesignPanel());
-        tabs.SelectedIndex = Math.Clamp((int)settings.D("tab"), 0, 7);
+        tabs.SelectedIndex = ConcreteSheetPresentation.InitialTab(settings);
         tabs.SelectionChanged += (_, e) => { if (e.Source == tabs && !initializing) { Commit(); RefreshDetailing(); settings["tab"] = tabs.SelectedIndex; Modified?.Invoke(); } };
         initializing = false; RefreshPreview(); RefreshSummary();
     }

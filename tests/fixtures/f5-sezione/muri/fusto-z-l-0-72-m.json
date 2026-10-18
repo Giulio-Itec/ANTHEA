@@ -1,0 +1,776 @@
+{
+  "module": "str_palo",
+  "id": "muri/fusto-z-l-0-72-m",
+  "origin": "sezione inviata dal muro «Muro · Fusto · z/l 0,72 m» (F5.9, scenario risultati-sezione)",
+  "data": {
+    "versione_sezione": 2,
+    "input": {
+      "shape": "Rettangolare",
+      "diameter_mm": "1000",
+      "circular_sides": "32",
+      "width_mm": 1000,
+      "height_mm": 280,
+      "flange_width_mm": "1200",
+      "web_width_mm": "400",
+      "flange_thickness_mm": "250",
+      "cover_mm": 40,
+      "longitudinal_bar_count": "16",
+      "longitudinal_bar_diameter_mm": "24",
+      "top_bar_count": 5,
+      "top_bar_diameter_mm": 12,
+      "bottom_bar_count": 5,
+      "bottom_bar_diameter_mm": 12,
+      "side_bar_count_per_side": 0,
+      "side_bar_diameter_mm": "16",
+      "transverse_bar_diameter_mm": 0,
+      "transverse_spacing_mm": "200",
+      "apply_pile_requirements": false,
+      "dissipative_zone": false,
+      "fck_mpa": 30,
+      "fyk_mpa": 450,
+      "alpha_cc": "0.85",
+      "gamma_c": "1.50",
+      "gamma_s": "1.15",
+      "steel_modulus_mpa": 200000,
+      "axial_force_kn": -6.201,
+      "moment_x_knm": 0.32761799999999985,
+      "moment_y_knm": 0,
+      "apply_minimum_eccentricity": false,
+      "minimum_eccentricity_mm": "0",
+      "classe_cls": "C30/37",
+      "n": "",
+      "materiale_cls_nome": "C30/37",
+      "cls_diagramma": "Parabola-rettangolo",
+      "classe_acciaio": "B450C",
+      "materiale_acciaio_nome": "B450C",
+      "steel_fu_mpa": 540,
+      "steel_eps_u": 75,
+      "steel_diagramma": "Elastoplastico",
+      "staffe_presenti": "No",
+      "gettato_sottile": "No"
+    },
+    "n_automatico": true,
+    "combinazioni": {
+      "SLU": [
+        {
+          "id": "c380bc1af04f444ab0437a4d474fe8c1",
+          "nome": "SLU 5 [SLU]",
+          "azioni": [
+            -6.201,
+            0.32761799999999985,
+            0
+          ]
+        },
+        {
+          "id": "75655930034f4afeadf8de5ef32158c3",
+          "nome": "SLU 4 [SLU]",
+          "azioni": [
+            -4.77,
+            0.3381479999999999,
+            0
+          ]
+        },
+        {
+          "id": "8a52eaa099b14681862c6dae6719faee",
+          "nome": "SLU 6 [SLU]",
+          "azioni": [
+            -4.77,
+            0.4501224,
+            0
+          ]
+        },
+        {
+          "id": "b106933c82ca45f8970a148ebaaad8b1",
+          "nome": "SLU 7 [SLU]",
+          "azioni": [
+            -6.201,
+            0.43959239999999994,
+            0
+          ]
+        },
+        {
+          "id": "9986513ed86c4547b039c43f35030b5e",
+          "nome": "SLU 8 [SLU]",
+          "azioni": [
+            -4.77,
+            1.6341479999999995,
+            0
+          ]
+        },
+        {
+          "id": "8911eb822f9a479785f2bf488d91bf0b",
+          "nome": "SLU 8b [SLU]",
+          "azioni": [
+            -4.77,
+            1.6341479999999995,
+            0
+          ]
+        },
+        {
+          "id": "6e6595de5f5842ba9c6fd8324c0bf1e9",
+          "nome": "SLU 9 [SLU]",
+          "azioni": [
+            -6.201,
+            1.6236179999999996,
+            0
+          ]
+        },
+        {
+          "id": "a732ec93dc8745538f1c625581121ce7",
+          "nome": "SLU 9b [SLU]",
+          "azioni": [
+            -6.201,
+            1.6236179999999996,
+            0
+          ]
+        },
+        {
+          "id": "86998d1715ed427487d61feebb8518b8",
+          "nome": "SLU 10 [SLU]",
+          "azioni": [
+            -4.77,
+            1.7461223999999995,
+            0
+          ]
+        },
+        {
+          "id": "e1194da1082e4b1889b55c005c9cdc2b",
+          "nome": "SLU 10b [SLU]",
+          "azioni": [
+            -4.77,
+            1.7461223999999995,
+            0
+          ]
+        },
+        {
+          "id": "75222b8aa29a4b63b0691af1c88f8213",
+          "nome": "SLU 11 [SLU]",
+          "azioni": [
+            -6.201,
+            1.7355923999999996,
+            0
+          ]
+        },
+        {
+          "id": "a6b2a62509334a8bb8f76c58a5da9b44",
+          "nome": "SLU 11b [SLU]",
+          "azioni": [
+            -6.201,
+            1.7355923999999996,
+            0
+          ]
+        },
+        {
+          "id": "5ec6869e95bd4f80ab6f7d413920c482",
+          "nome": "SLV Generale kv− 12 [SISMA]",
+          "azioni": [
+            -5.061828599999999,
+            1.6428024174912161,
+            0
+          ]
+        },
+        {
+          "id": "188ce590074740c1b590b2e9061ab565",
+          "nome": "SLV Generale kv− 12b [SISMA]",
+          "azioni": [
+            -5.061828599999999,
+            1.6428024174912161,
+            0
+          ]
+        },
+        {
+          "id": "bf35095a4746454487eb3ae31d4c62c4",
+          "nome": "SLV Generale kv+ 13 [SISMA]",
+          "azioni": [
+            -4.4781714,
+            1.581611238947866,
+            0
+          ]
+        },
+        {
+          "id": "457b923bff0d43ffb89c03b16c487d83",
+          "nome": "SLV Generale kv+ 13b [SISMA]",
+          "azioni": [
+            -4.4781714,
+            1.581611238947866,
+            0
+          ]
+        },
+        {
+          "id": "d93d8ecf979e4319864a5269686a2453",
+          "nome": "SLV Ribaltamento kv− 14 [SISMA]",
+          "azioni": [
+            -5.2077428999999995,
+            2.230948465359547,
+            0
+          ]
+        },
+        {
+          "id": "607f038ae547402cbd7b30f1c5ab5b2d",
+          "nome": "SLV Ribaltamento kv− 14b [SISMA]",
+          "azioni": [
+            -5.2077428999999995,
+            2.230948465359547,
+            0
+          ]
+        },
+        {
+          "id": "6129dc6cd4764112a11b7d3156937cb6",
+          "nome": "SLV Ribaltamento kv+ 15 [SISMA]",
+          "azioni": [
+            -4.3322571,
+            2.1678246216811696,
+            0
+          ]
+        },
+        {
+          "id": "010c58d57a824f6e9cf7db5aa3cce4c5",
+          "nome": "SLV Ribaltamento kv+ 15b [SISMA]",
+          "azioni": [
+            -4.3322571,
+            2.1678246216811696,
+            0
+          ]
+        }
+      ],
+      "SLV": [],
+      "SLE": [
+        {
+          "id": "9648adf7bd5a45729d419ed23fc347cb",
+          "nome": "SLE 1 [SLE]",
+          "azioni": [
+            -4.77,
+            1.2021480000000002,
+            0
+          ]
+        }
+      ],
+      "SLE_FREQ": [
+        {
+          "id": "5a7464dce1714c189f08b57b6b7be4cf",
+          "nome": "SLE_FREQ 2 [SLE_FREQ]",
+          "azioni": [
+            -4.77,
+            0.770148,
+            0
+          ]
+        }
+      ],
+      "SLE_QP": [
+        {
+          "id": "80e81bedb1ae429c9757db5db1efe475",
+          "nome": "Quasi permanente 3 [SLE_QP]",
+          "azioni": [
+            -4.77,
+            0.597348,
+            0
+          ]
+        }
+      ]
+    },
+    "workspace_ca": {
+      "normativa": "NTC 2018",
+      "versione": 2,
+      "nota": "Da Muri di sostegno · Fusto · z/l=0,72 m · zona stem_upper. Fascia di 1 m. Combinazione selezionata: SLU 5. N convertito a compressione negativa; Mx associato a Vy. Copia indipendente, senza sincronizzazione col muro. SISMA ed ECCEZIONALE sono trasferite nel gruppo Plastico (SLU), conservando lo stato nel nome. Eventuali mensole prive di equilibrio sono escluse e annotate. Armature delle facce indipendenti conservate; ancoraggi e sovrapposizioni rimangono nel modulo muro e sono allegati ai dati di origine.",
+      "tab": 0,
+      "dominio3d": {
+        "stato": "SLU",
+        "angoli": "32",
+        "criterio": "N costante",
+        "filtro": "Tutte",
+        "strategia": "Iterativo",
+        "trazione_cls": "No",
+        "assi": "Locali",
+        "origine_x": "0",
+        "origine_y": "0",
+        "rotazione": "0",
+        "proietta": "No",
+        "interpolazione": "Quadratica",
+        "suddivisioni_n": "50"
+      },
+      "dominio2d": {
+        "stato": "SLU",
+        "tipo": "Mx–My",
+        "theta": "0",
+        "N": -6.201,
+        "filtro": "Tutte",
+        "angoli": "64",
+        "strategia": "Iterativo",
+        "criterio": "N costante",
+        "trazione_cls": "No",
+        "assi": "Locali",
+        "origine_x": "0",
+        "origine_y": "0",
+        "rotazione": "0",
+        "proietta": "No",
+        "interpolazione": "Quadratica",
+        "suddivisioni_n": "50"
+      },
+      "trefoli": [],
+      "sle": {
+        "SLE": {
+          "modello": "Lineare",
+          "sigma_c_lim": "",
+          "sigma_s_lim": "",
+          "wk_lim": "",
+          "phi": 2,
+          "phi_trefoli": "0",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "esposizione": "XC2",
+          "sensibilita": "Non sensibile",
+          "durata": "Lunga",
+          "aderenza": "Migliorata",
+          "copriferro_fessure": 40,
+          "spaziatura_fessure": 227,
+          "limite_fessure": "",
+          "n_armature": null,
+          "n_trefoli": null
+        },
+        "SLE_FREQ": {
+          "modello": "Lineare",
+          "sigma_c_lim": "",
+          "sigma_s_lim": "",
+          "wk_lim": "",
+          "phi": 2,
+          "phi_trefoli": "0",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "esposizione": "XC2",
+          "sensibilita": "Non sensibile",
+          "durata": "Lunga",
+          "aderenza": "Migliorata",
+          "copriferro_fessure": 40,
+          "spaziatura_fessure": 227,
+          "limite_fessure": "",
+          "n_armature": null,
+          "n_trefoli": null
+        },
+        "SLE_QP": {
+          "modello": "Lineare",
+          "sigma_c_lim": "",
+          "sigma_s_lim": "",
+          "wk_lim": "",
+          "phi": 2,
+          "phi_trefoli": "0",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "esposizione": "XC2",
+          "sensibilita": "Non sensibile",
+          "durata": "Lunga",
+          "aderenza": "Migliorata",
+          "copriferro_fessure": 40,
+          "spaziatura_fessure": 227,
+          "limite_fessure": "",
+          "n_armature": null,
+          "n_trefoli": null
+        }
+      },
+      "convenzione": "N negativo a compressione",
+      "migrazione_segni": "N convertito dalla precedente convenzione ANTHEA; momenti invariati",
+      "sle_precedenti_unificazione": {
+        "SLE": {
+          "modello": "Lineare",
+          "sigma_c_lim": "",
+          "sigma_s_lim": "",
+          "wk_lim": "",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "esposizione": "Da scegliere",
+          "sensibilita": "Poco sensibile",
+          "durata": "Lunga",
+          "aderenza": "Migliorata",
+          "copriferro_fessure": "",
+          "spaziatura_fessure": "",
+          "limite_fessure": ""
+        },
+        "SLE_FREQ": {
+          "modello": "Lineare",
+          "sigma_c_lim": "",
+          "sigma_s_lim": "",
+          "wk_lim": "",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "esposizione": "Da scegliere",
+          "sensibilita": "Poco sensibile",
+          "durata": "Lunga",
+          "aderenza": "Migliorata",
+          "copriferro_fessure": "",
+          "spaziatura_fessure": "",
+          "limite_fessure": ""
+        },
+        "SLE_QP": {
+          "modello": "Lineare",
+          "sigma_c_lim": "",
+          "sigma_s_lim": "",
+          "wk_lim": "",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "esposizione": "Da scegliere",
+          "sensibilita": "Poco sensibile",
+          "durata": "Lunga",
+          "aderenza": "Migliorata",
+          "copriferro_fessure": "",
+          "spaziatura_fessure": "",
+          "limite_fessure": ""
+        }
+      },
+      "sle_comuni": {
+        "modello": "Lineare",
+        "phi": 2,
+        "phi_trefoli": "0",
+        "n_armature": null,
+        "n_trefoli": null,
+        "trazione_cls": "No",
+        "assi": "Locali",
+        "origine_x": "0",
+        "origine_y": "0",
+        "rotazione": "0",
+        "esposizione": "XC2",
+        "sensibilita": "Non sensibile",
+        "durata": "Lunga",
+        "aderenza": "Migliorata",
+        "copriferro_fessure": 40,
+        "spaziatura_fessure": 227,
+        "limite_fessure": ""
+      },
+      "coefficienti": {
+        "AlphaCC": "0.85",
+        "AlphaCT": "1",
+        "GammaC": "1.50",
+        "GammaS": "1.15",
+        "GammaSPrestress": "1.15",
+        "GammaCAccidental": "1",
+        "GammaCE": "1.2",
+        "GammaSAccidental": "1",
+        "GammaSPrestressAccidental": "1",
+        "GammaF": "1.5",
+        "SteelCoefficientStrainTension": "0.9",
+        "ServiceabilityStressConcreteCoefficientForCharacteristicCombination": "0.6",
+        "ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination": "0.45",
+        "ServiceabilityStressSteelCoefficientForCharacteristicCombination": "0.8",
+        "ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination": "0.8"
+      },
+      "taglio": {
+        "parametri_precedenti": {
+          "bw_x": "",
+          "d_x": "",
+          "asl_x": "",
+          "bw_y": "",
+          "d_y": "",
+          "asl_y": ""
+        },
+        "parametri": "Automatici da sezione",
+        "tipo_staffa": "Staffa chiusa",
+        "rami_x": "2",
+        "rami_y": "2",
+        "rami_interni": "0",
+        "schema_interno": "Bracci paralleli",
+        "rotazione_staffa": "0",
+        "ancoraggio": "Da verificare",
+        "modello": "Senza staffe",
+        "bw_x": "",
+        "d_x": "",
+        "asl_x": "",
+        "alpha_x": "90",
+        "cot_x": "",
+        "bw_y": "",
+        "d_y": "",
+        "asl_y": "",
+        "alpha_y": "90",
+        "cot_y": "",
+        "cot_torsione": "1",
+        "as_torsione": "0",
+        "chiusura_torsione": "Da confermare",
+        "modello_circolare": "Da scegliere",
+        "z_d": "0.75",
+        "eccentricita_mc_x": "0",
+        "eccentricita_mc_y": "0",
+        "azioni": [
+          {
+            "id": "3076bec92bb943969f2ee2a9ddd0a257",
+            "nome": "SLU 5 [SLU]",
+            "N": -6.201,
+            "Mx": 0.32761799999999985,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 1.5552,
+            "T": 0
+          },
+          {
+            "id": "6101f16d901f495c8054bcb68bcc615b",
+            "nome": "SLU 4 [SLU]",
+            "N": -4.77,
+            "Mx": 0.3381479999999999,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 1.5552,
+            "T": 0
+          },
+          {
+            "id": "1cb0efe17978496495b4fbcf5b39678b",
+            "nome": "SLU 6 [SLU]",
+            "N": -4.77,
+            "Mx": 0.4501224,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 2.02176,
+            "T": 0
+          },
+          {
+            "id": "a65fb380935143a785f0b1a65f3aab92",
+            "nome": "SLU 7 [SLU]",
+            "N": -6.201,
+            "Mx": 0.43959239999999994,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 2.02176,
+            "T": 0
+          },
+          {
+            "id": "9632debf8847465f82e3ae2d31fa6993",
+            "nome": "SLU 8 [SLU]",
+            "N": -4.77,
+            "Mx": 1.6341479999999995,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 5.1552,
+            "T": 0
+          },
+          {
+            "id": "1eb74c979ca847119952aa464b735682",
+            "nome": "SLU 8b [SLU]",
+            "N": -4.77,
+            "Mx": 1.6341479999999995,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 5.1552,
+            "T": 0
+          },
+          {
+            "id": "92034c10293740858cbc065203caa29f",
+            "nome": "SLU 9 [SLU]",
+            "N": -6.201,
+            "Mx": 1.6236179999999996,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 5.1552,
+            "T": 0
+          },
+          {
+            "id": "ee8dab9b67ac4785ab4201f20f51f23c",
+            "nome": "SLU 9b [SLU]",
+            "N": -6.201,
+            "Mx": 1.6236179999999996,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 5.1552,
+            "T": 0
+          },
+          {
+            "id": "33bee2676a474587865397f1513fe325",
+            "nome": "SLU 10 [SLU]",
+            "N": -4.77,
+            "Mx": 1.7461223999999995,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 5.62176,
+            "T": 0
+          },
+          {
+            "id": "882d18f429794e6cb0dbcb772a9bae6f",
+            "nome": "SLU 10b [SLU]",
+            "N": -4.77,
+            "Mx": 1.7461223999999995,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 5.62176,
+            "T": 0
+          },
+          {
+            "id": "0ee0faee01504f43a5bcf6c6dd89435a",
+            "nome": "SLU 11 [SLU]",
+            "N": -6.201,
+            "Mx": 1.7355923999999996,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 5.62176,
+            "T": 0
+          },
+          {
+            "id": "2432f57271974f8d807b945af262f7e3",
+            "nome": "SLU 11b [SLU]",
+            "N": -6.201,
+            "Mx": 1.7355923999999996,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 5.62176,
+            "T": 0
+          },
+          {
+            "id": "ff748832cf3946d5838757f7c1e25d1f",
+            "nome": "SLV Generale kv− 12 [SISMA]",
+            "N": -5.061828599999999,
+            "Mx": 1.6428024174912161,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 5.227933210586712,
+            "T": 0
+          },
+          {
+            "id": "a660deae5cbb435b89db023c7835b16a",
+            "nome": "SLV Generale kv− 12b [SISMA]",
+            "N": -5.061828599999999,
+            "Mx": 1.6428024174912161,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 5.227933210586712,
+            "T": 0
+          },
+          {
+            "id": "4ba38e03093f43b6bb0e8cb48659f9ad",
+            "nome": "SLV Generale kv+ 13 [SISMA]",
+            "N": -4.4781714,
+            "Mx": 1.581611238947866,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 4.98259619063296,
+            "T": 0
+          },
+          {
+            "id": "70aae589807942f3b9a367b4e52e8e9b",
+            "nome": "SLV Generale kv+ 13b [SISMA]",
+            "N": -4.4781714,
+            "Mx": 1.581611238947866,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 4.98259619063296,
+            "T": 0
+          },
+          {
+            "id": "c158b1aa2fc445a0a1c7699fa51e0988",
+            "nome": "SLV Ribaltamento kv− 14 [SISMA]",
+            "N": -5.2077428999999995,
+            "Mx": 2.230948465359547,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 6.886018813443187,
+            "T": 0
+          },
+          {
+            "id": "a734a54dcdf3413f96c1c7be3558cebe",
+            "nome": "SLV Ribaltamento kv− 14b [SISMA]",
+            "N": -5.2077428999999995,
+            "Mx": 2.230948465359547,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 6.886018813443187,
+            "T": 0
+          },
+          {
+            "id": "b1a9b0411d0840bfb959f598ebe330c2",
+            "nome": "SLV Ribaltamento kv+ 15 [SISMA]",
+            "N": -4.3322571,
+            "Mx": 2.1678246216811696,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 6.597632517225471,
+            "T": 0
+          },
+          {
+            "id": "2a1a300d9cde40b2964c96bfcdbefde9",
+            "nome": "SLV Ribaltamento kv+ 15b [SISMA]",
+            "N": -4.3322571,
+            "Mx": 2.1678246216811696,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 6.597632517225471,
+            "T": 0
+          }
+        ]
+      },
+      "momento_curvatura": {
+        "N": "0",
+        "theta": "0",
+        "passi": "60",
+        "frazione": "1",
+        "campionamento": "Quadratico",
+        "trazione_cls": "No",
+        "angoli": "64",
+        "tolleranza_n": "1",
+        "raffina_snervamento": "12"
+      },
+      "dettagli_costruttivi": {
+        "vita_durabilita": 50,
+        "qualita_copriferro": "No",
+        "elemento": "Da scegliere",
+        "aggregato": 20,
+        "cmin_dur": "",
+        "delta_c": 10,
+        "zona_sovrapposizione": "No",
+        "as_secondaria": "0",
+        "passo_secondaria": "0",
+        "zona_critica": "No",
+        "barre_trattenute": "Da confermare",
+        "ancoraggio_appoggi": "Da confermare"
+      },
+      "ancoraggi": {
+        "schema_versione": 1,
+        "tipo": "Ancoraggio rettilineo",
+        "diametro": "",
+        "sigma": "",
+        "aderenza": "Buona",
+        "lunghezza": "",
+        "percentuale": "100",
+        "interferro": "0",
+        "confinamento": "Da verificare",
+        "posizione": "Da verificare",
+        "cautele": "Da verificare"
+      }
+    },
+    "origine_muro": {
+      "elemento": "Fusto",
+      "posizione": 0.72,
+      "combinazione": "SLU 5",
+      "zona_armatura": "stem_upper",
+      "stato": "SLU",
+      "taglio_selezionato": 1.5552,
+      "dettagli_armatura": {
+        "diameter": 12,
+        "count": 5,
+        "symmetric": true,
+        "opposite_diameter": 16,
+        "opposite_count": 6,
+        "secondary_diameter": 10,
+        "secondary_spacing": 200,
+        "anchor_length": 0,
+        "lap_length": 0,
+        "bend_diameter": 0
+      }
+    }
+  }
+}

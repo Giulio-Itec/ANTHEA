@@ -18,8 +18,7 @@ internal sealed partial class ConcreteWorkspace
         if(settings["layout"] is not JsonObject)settings["layout"]=new JsonObject();
         if(!workspaceSplits.TryGetValue(group,out var peers))workspaceSplits[group]=peers=[];
         peers.Add(grid);
-        double ratio=settings["layout"].D(group,initial);
-        if(!double.IsFinite(ratio)||ratio<.15||ratio>.85)ratio=initial;
+        double ratio=Anthea.Application.Concrete.ConcreteSheetPresentation.SplitRatio(settings,group,initial);
         ApplySplit(grid,rows,ratio);
         foreach(var splitter in grid.Children.OfType<GridSplitter>())
             splitter.DragCompleted+=(_,_)=>
@@ -31,7 +30,7 @@ internal sealed partial class ConcreteWorkspace
     }
     private void SynchronizeWorkspaceSplit(string group,bool rows,double ratio)
     {
-        ratio=Math.Clamp(ratio,.15,.85);
+        ratio=Anthea.Application.Concrete.ConcreteSheetPresentation.MovedSplitRatio(ratio);
         foreach(var grid in workspaceSplits[group])ApplySplit(grid,rows,ratio);
         settings["layout"]![group]=ratio;
         Modified?.Invoke();
