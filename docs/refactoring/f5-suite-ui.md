@@ -24,7 +24,9 @@ Ordine: suite generali, suite dei materiali, suite dei muri, chiudendo ogni grup
   - con `SheetEditor` chiama il metodo storico di oggi (le partial di prova di `SheetEditor`);
   - con `MvvmSheetEditor` esegue gli stessi controlli sulla vista XAML del modulo.
 
-  Le suite chiamano `openSheet.X(…)` dove chiamavano `historicEditor.X(…)`.
+  Le suite chiamano `openSheet.X(…)` dove chiamavano `historicEditor.X(…)`. Per l'acciaio e per i muri, di cui le suite usavano molte
+  parti della vista, `openSheet.Steel` e `openSheet.Wall` danno un adattatore con le operazioni usate e un'implementazione per vista
+  (`SteelSmoke`; `HistoricWallSmoke` e `MvvmWallSmoke`).
 - **Guardia del banco.** Se il banco della riga di comando apre un modulo con la vista MVVM ma il foglio aperto usa `SheetEditor`,
   `OpenSheet` fallisce con «Il banco apre <modulo> con la vista MVVM, ma il foglio aperto usa SheetEditor.». Una suite `-mvvm` non
   può quindi passare sulla vista storica per errore.
@@ -38,7 +40,8 @@ Ordine: suite generali, suite dei materiali, suite dei muri, chiudendo ogni grup
 - **Servizi dei fogli del banco** (`BenchSheetServices` in `tests/Desktop/ModuleHostBench.cs`). I fogli MVVM di una finestra di prova
   ricevono servizi propri, che le suite raggiungono con `MainWindow.SheetServices`:
   - domande (`Confirmations`, un `ScriptedConfirmations` proprio, come `Scripted` per la finestra);
-  - dialoghi (`Dialog`: guida il ViewModel del dialogo e ne restituisce il risultato);
+  - dialoghi (`Dialog`: guida il ViewModel del dialogo e ne restituisce il risultato; `DialogAsync` per un dialogo che resta aperto
+    mentre la suite ci lavora);
   - salvataggi (`SaveFile`).
 
   Senza copione si comportano come `ModuleHostBench.Services()`: una domanda, un dialogo, un file, gli appunti, un collegamento o la
@@ -152,6 +155,42 @@ Differenze:
 **Domande e Modified.** `SetConcreteState` sulla vista XAML passa dai controlli, quindi solleva `Modified`; il `RestoreState` storico
 no. Nessuna suite ne dipende: la propagazione nel progetto si decide al `Commit` della finestra, sui dati.
 
+### 2.3 Suite dei muri (gruppo 3, commit `a1bbb117`)
+
+Le due suite guidano il muro attraverso `openSheet.Wall` (`WallSmoke`, `tests/Desktop/WallSmoke.cs`), con i nomi della vista storica:
+form e campo («valley», «height_mode»), schede («Terreno», «Sisma»), tabelle con i nomi delle tracce di F5.9 («valle», «monte», «azioni»,
+«matrice», «matrice-globale»).
+- **`HistoricWallSmoke`** chiama gli stessi membri di `RetainingWallWorkspace` che le suite usavano: `Forms`, `Cards`, griglie, `Pages`,
+  pulsanti, `CalculateAsync`, `Example`, `AddAction`, `GenerateMatrix` e gli altri. Con la Release il comportamento non cambia.
+- **`MvvmWallSmoke`** usa i controlli di `RetainingWallSheetView` come `RetainingWallViewChecks`:
+  - editor dei `FieldForm` costruiti anche nei gruppi chiusi (`Realize`); per i numeri formattati si simula il fuoco, come nelle tracce;
+  - celle delle tabelle scritte attraverso la riga della griglia (`UpdateSourceTrigger=PropertyChanged`);
+  - pulsanti «Ricalcola», «Calcola globale», «Mensola esempio»/«Gravità esempio», «+ Azione», «Genera / ripristina automatiche»,
+    «Prepara dal muro», «Genera globali», «Sisma», «Apri sezione in c.a.»;
+  - scelte della combinazione, della vista, del filtro e della combinazione globale; la prima tabella di «Riepilogo e dettagli»;
+  - disegni della vista (`InputDrawing`, `DiagramsDrawing`, `GlobalDrawing`).
+
+I calcoli sul ViewModel si attendono con `PendingWork`, entro 120 s.
+
+**Dialoghi sulla vista XAML** (servizi dei fogli del banco):
+- «Valori di calcolo…» passa da `BenchSheetServices.DialogAsync`, perché la finestra resta aperta mentre la suite ci lavora:
+  - la vista di `RetainingWallParametersViewModel` va in una finestra fuori schermo (schermata `valori-di-calcolo.png`);
+  - si cambia il valore della riga e si preme «Applica e ricalcola»;
+  - si attende la chiusura, al più 15 s come la prova storica.
+- «Invia / carica terreno…» apre il dialogo condiviso `SoilTransferDialogViewModel` (T5):
+  - la sua vista si disegna fuori schermo per la schermata `trasferisci-terreno.png`;
+  - «Invia a un nuovo foglio» (`SendCommand`) usa la destinazione proposta, come il clic sulla finestra storica;
+  - la finestra principale apre poi la copia del palo come prima.
+
+**Equivalenze:**
+- «Invio terreno/sezione conserva il muro»: si controlla l'identità dell'editor invece di quella di `RetainingWallWorkspace`, che è
+  unico per editor.
+- Due zone d'armatura: la vista storica faceva `Forms["zones"].Set("two_zones", "true")` più una scrittura diretta nei dati; la vista
+  XAML spunta la casella, cioè l'azione dell'utente.
+- Didascalie del report: `WallAdvancedChecks.ReportFigureCaptions` ha un sovraccarico con il numero di tavole della distinta. Sulla
+  vista XAML le tavole vengono da `RetainingWallBarDrawing(Calculation.Input, Sheet.CreateBarSchedule())`.
+- `Forms["global"].BringIntoView()` diventa il `FieldForm` di quel form; serve solo per la schermata.
+
 ## 3. Suite `-mvvm`
 
 Moduli fra i sette che ogni suite apre: servono a sapere quando un duplicato diventa superfluo (sezione 4).
@@ -167,6 +206,8 @@ Moduli fra i sette che ogni suite apre: servono a sapere quando un duplicato div
 | `ui/smoke-hierarchy-mvvm` | calcestruzzo, acciaio |
 | `ui/smoke-sharing-mvvm` | calcestruzzo |
 | `ui/smoke-steel-mvvm` | acciaio |
+| `ui/smoke-retaining-wall-mvvm` | muri di sostegno, palo verticale (la copia del terreno e il foglio del progetto, letti con `ISheetEditor`) |
+| `ui/smoke-global-stability-mvvm` | muri di sostegno |
 
 ## 4. Che cosa resta da fare a ogni passaggio della Release
 
@@ -183,7 +224,12 @@ Per modulo:
   - in `SheetEditor` si tolgono il ramo geo di `VerifyWpf`, `WaitForAutomatic` e l'intera partial di `DisplaySmokeChecks.cs`
     (`DisplayReportChecks` resta);
   - `ui/check-appearance-mvvm` resta finché i muri sono storici.
-- **Muri di sostegno**: `ui/check-appearance-mvvm` si toglie se anche i pali verticali sono passati.
+- **Muri di sostegno**:
+  - si tolgono `ui/smoke-global-stability-mvvm` e `ui/smoke-retaining-wall-mvvm`. Il palo di quest'ultima si legge solo con
+    `ISheetEditor`, ed è già coperto dalle suite del gruppo 1;
+  - `ui/check-appearance-mvvm` si toglie se anche i pali verticali sono passati;
+  - si tolgono `HistoricWallSmoke` e il sovraccarico di `WallAdvancedChecks.ReportFigureCaptions` sul workspace storico, insieme alle
+    suite storiche dei muri elencate in [f5-9-muri.md](f5-9-muri.md), sezione 5.5.
 - **Calcestruzzo**:
   - si tolgono `ui/smoke-materials-mvvm` e `ui/smoke-sharing-mvvm`, e `ui/smoke-hierarchy-mvvm` se anche l'acciaio è passato;
   - in `OpenSheet` si tolgono i rami storici di `SetConcreteState`, `CheckConcrete` e `TypeConcreteNumber`;
@@ -241,6 +287,9 @@ Nessuna di queste suite ha bisogno di un'altra riscrittura.
 | profilo `quick` su `8aece8fe` (codice uguale), `suiteui-g1-quick` | PASS 52, NEW-FAIL 0 |
 | `-Stage build,ui -Only '^ui/(smoke-hierarchy\|smoke-materials\|smoke-sharing\|smoke-steel)(-mvvm)?$'`, `20261018-013746-suiteui-g2` | PASS 9, NEW-FAIL 0 (build e le 4 suite nei due modi) |
 | profilo `quick` (codice di `519acbf5`), `20261018-013852-suiteui-g2-quick` | PASS 52, NEW-FAIL 0 |
+| `-Stage build,ui -Only '^ui/(smoke-retaining-wall\|smoke-global-stability)(-mvvm)?$'`, `20261018-020144-suiteui-g3` | PASS 5, NEW-FAIL 0 |
+| `ui/check-wall-advanced-offscreen` (sovraccarico delle didascalie), `suiteui-g3-adv` | PASS |
+| profilo `quick` (codice di `a1bbb117`), `suiteui-g3-quick` | PASS 52, NEW-FAIL 0 |
 
 Fuori dal compito, solo per informazione: `ui/smoke-material-report` e `ui/smoke-project-report`, lanciate a mano con i sette moduli MVVM,
 passano senza modifiche. Usano solo `ISheetEditor`.
@@ -251,7 +300,7 @@ Schermo al 150% (144 DPI): le schermate delle suite valgono come documentazione.
 
 - Gruppo 1 (suite generali): fatto.
 - Gruppo 2 (materiali: `ui/smoke-hierarchy`, `ui/smoke-materials`, `ui/smoke-sharing`, `ui/smoke-steel`): fatto.
-- Gruppo 3 (muri: `ui/smoke-retaining-wall`, `ui/smoke-global-stability`): da fare.
+- Gruppo 3 (muri: `ui/smoke-retaining-wall`, `ui/smoke-global-stability`): fatto.
 
 Per riprendere: `dotnet build X.Desktop/X.Desktop.csproj -c UiTests`, poi una suite con o senza i sette moduli MVVM:
 
