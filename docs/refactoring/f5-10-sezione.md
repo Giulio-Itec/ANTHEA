@@ -24,7 +24,8 @@ dei sottopassi. Contiene:
 - l'inventario della vista per file, con i membri nominati dalle prove (sezione 3);
 - il piano dei sottopassi S1–S9 (sezione 4);
 - l'uso della sezione nuova da parte del palo elastico e dei muri (sezione 5);
-- che cosa resta e le domande per il punto di controllo (sezioni 6 e 7).
+- che cosa resta e le domande per il punto di controllo (sezioni 6 e 7);
+- il sottopasso S1 fatto il 18/10: ViewModel del guscio, del calcolo, degli ingressi e dei materiali, prove ed esiti (sezione 8).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -413,3 +414,144 @@ lasciare i dati completi nel `JsonObject` del contesto.
 
 **Materiale da mostrare**: questa nota; le tracce (`tests/fixtures/f5-sezione`) e un estratto per sottopasso; i disegni congelati;
 la corsa finale.
+
+## 8. S1 fatto (18/10)
+
+Sottopasso S1 «Guscio, calcolo, ingressi e materiali» (sezione 4, S1 e 4.0), ramo `refactoring/f5-10-s1` da `refactoring/f5`
+`591272d8`, notte del 18/10/2026. Decisioni applicate: C1 (coordinatore in Presentation, foglio in modalità `None`), C2 (taglio sul
+thread dell'interfaccia), C4 (il ViewModel funziona senza progetto e senza finestra), C5 (comportamenti storici conservati), C6 (ordine
+fisso degli errori), C7 (tracce lunghe nello stadio `ui`), C8–C10. La Release resta storica; nulla va all'utente prima di S9.
+
+### 8.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `1fa75d05` | derivazioni del guscio in Application (`ConcreteSheetPresentation`: scheda iniziale, divisori); baseline F4 spostata |
+| `68668f1b` | ViewModel S1 in `src/ANTHEA.Presentation/Modules/ConcreteSection`, modulo registrato (Release storica) |
+| `e763af44` | prove in `Presentation.Tests`, sezioni dei muri e loro tracce storiche, suite `Presentation.Tests/sezione-ca`, correzione di `Reload` |
+| (questo commit) | questa sezione, esito della corsa finale |
+
+### 8.2 Che cosa c'è
+
+- **`ConcreteSheetViewModel`** su `SheetViewModelBase` in modalità `None`: all'apertura prepara i dati con le stesse scritture e nello
+  stesso ordine della vista storica (costruttore e costruzione di ogni scheda: coefficienti, parametri, fori, materiali, ala, trefolo
+  predefinito, materiali salvati, strati, staffe, `layout`, resistenze rapide, omogeneizzazione e contorno di ogni famiglia SLE,
+  parametri automatici del taglio, `calcola_armature`, poi l'anteprima). Scheda principale (`SelectedTab`, salvata in `tab` con Commit,
+  dettagli e Modified, anche in sola lettura: C5), stato, avanzamento, `Commit` (form, righe delle azioni e del taglio nei dati del
+  contesto), `Reload` come un foglio nuovo, sola lettura con `IsReadOnly` su ogni form e sui comandi, chiusura.
+  `Result` è l'esportazione storica (`ConcreteResultExport`) costruita quando la si legge e conservata fino all'azzeramento successivo,
+  come la vista storica (vedi 8.4, punto 1).
+- **`ConcreteCalculation`** (C1): l'orchestrazione storica sopra `RecalculationScheduler` e `ConcreteAnalysisSession`; verifiche da rifare
+  per famiglia, ricalcolo in coda su un giro del thread dell'interfaccia, `CalculateBatchAsync`, poi il taglio sul thread dell'interfaccia
+  (C2); stessi stati e testi dello stato. C6: gli esiti dei passi paralleli di una fase (i domini, poi le tensioni) si applicano insieme,
+  quando arriva l'ultimo della fase, nell'ordine fisso `3D:SLU, 2D:SLU, 3D:SLV, 2D:SLV, SLE, SLE_FREQ, SLE_QP, Taglio`.
+- **`ConcreteInputViewModel`**: un `FormViewModel` per blocco (normativa e nota, coefficienti, materiali con i gruppi, geometria, foro,
+  armatura, tre secondi strati, staffe e schema, nuovo cavo, trefolo standard, resistenze rapide), tutti con `WikiNavigator` dei servizi,
+  conferma all'uscita dal campo e numeri formattati come la vista storica; tabelle delle barre e dei cavi (`ConcreteTableViewModel` su
+  `JsonRowCollection`, con i filtri e gli ordinamenti comuni di `ConcreteTables.cs` e la selezione che segue l'elemento corrente della
+  vista di raccolta storica); materiali salvati e trefolo standard (`ConcreteChoiceViewModel`); gruppi del pannello (aperti o chiusi come
+  oggi); resistenze rapide con il loro scheduler; dati semplici del disegno della sezione (`ConcreteSectionDrawingViewModel`, Q3 e C8).
+- **«Nuovo materiale»**: `ConcreteMaterialDialogViewModel` (`DialogViewModel<JsonObject>`) su `IDialogService`: bozza, form, curve della
+  libreria, valori derivati, errore, «Salva materiale e applica».
+- **Finestre non modali**: «Reologia del calcestruzzo…» (evento `RheologyRequested` con fck) e «Proprietà / report…»
+  (`ConcreteSectionPropertiesViewModel`, evento `PropertiesRequested`: φ e n scritti in `proprieta_sezione` con Modified, esportazione TXT
+  e copia). Senza vista non si apre nulla (domanda S1-a).
+- **Parti dei sottopassi successivi**: finché i loro ViewModel non esistono, il foglio conserva solo quello che la parte comune delle
+  tracce legge: righe delle azioni (una `JsonRowCollection` per famiglia, `SyncActions`, `InvalidateActions`, uscite dei domini e delle
+  tensioni), righe e risultati del taglio e della torsione, parametri automatici del taglio, valori derivati dei dettagli, riepiloghi del
+  pannello di controllo (`Summaries`, `ShearDashboard` su `ConcreteCardsViewModel`). File `ConcreteSheetViewModel.Checks.cs`.
+- **Modulo**: `ConcreteSectionSheetModule` (chiavi di stato S1 `tab`, `layout`, `quote_dimensioni`, `quote_copriferro`,
+  `quote_interferro`; report breve dichiarato) registrato in `DesktopComposition.CreateModules`. Nessuna vista XAML in S1 (sezione 4.0: la
+  vista per sottopasso o alla fine, domanda S1-d): con `--module-impl str_palo=mvvm` il banco seleziona il modulo e rifiuta l'apertura
+  («Vista del foglio non registrata»), come per la sonda senza DataTemplate.
+- **Report**: rinviato a S9; `BuildReport` rifiuta con un messaggio.
+- **Componenti comuni**, aggiunte additive: `SheetViewModelBase.Result`, `HasResults` e `CalculateAsync` virtuali;
+  `FieldViewModel.ReplaceChoices` (le classi dei materiali dopo il cambio di normativa, come il nuovo ItemsSource della combo storica).
+- **Application**: `ConcreteSheetPresentation` (scheda iniziale, divisori), chiamata anche dalla vista storica.
+
+### 8.3 Esiti
+
+- **Tracce** (`ConcreteSectionSheetChecks`, parte comune e `[ingressi]`; le parti degli altri sottopassi escluse per etichetta): 21
+  scenari uguali alle tracce congelate della vista storica, `ingressi/*` (6), `percorso-f3/*` (11), `calcolo/ricalcolo-revisione` (motore
+  trattenuto con il cancello dei lotti della sessione), `muri/*` (2). `calcolo/sola-lettura` è uguale fino al passo «scelta 3D filtro
+  «Fuori dominio»», il primo passo di un sottopasso non migrato (S3) con effetti sulla parte comune: lì il confronto si ferma, e il punto
+  d'arresto è esso stesso controllato (un arresto altrove è un fallimento). I passi degli altri sottopassi non fanno nulla nel ViewModel.
+- **File dei dati F3** (sezione 4.0, confronto diretto): per le 11 fixture `opened`, `visited`, `calculated-data`, `exported-data` e
+  `reopened` fatti dal ViewModel come li fa la cattura F3 sono uguali byte per byte al riferimento, tranne `report_sezioni` che scrive
+  l'esportazione del report (S9), tolta da `exported-data` e `reopened`: 55 file.
+- **Muri (sezione 5)**: il ViewModel dei muri, nello scenario `risultati-sezione` di F5.9, manda al modulo c.a. due sezioni con nomi e
+  impronte uguali alla traccia congelata dei muri; i loro dati sono conservati in `tests/fixtures/f5-sezione/muri` (provati uguali a
+  quelli prodotti, a meno degli identificativi nuovi) e due scenari `muri/…` li aprono come la richiesta dei muri: tracce della vista
+  storica catturate il 18/10 su `68668f1b` (due catture uguali), ViewModel uguale.
+- **Prove rapide** (`Presentation.Tests`, stadio `fast`): tre scenari (`calcolo/ricalcolo-revisione`, `ingressi/resistenze-rapide`,
+  `percorso-f3/default`), contratto del modulo, foglio senza finestra e senza richieste all'ospite con Commit nei dati del contesto, sola
+  lettura, chiusura durante il calcolo, ordine fisso degli errori di due domini 2D fermati insieme (C6, tre aperture uguali), F1 di ogni
+  campo di ogni form verso il navigatore registrato, finestre non modali, Reload.
+- **Tracce lunghe** (C7): suite `Presentation.Tests/sezione-ca` nello stadio `ui` (`--sezione-tracce`, circa 45 s): tutte le tracce S1, i
+  file dei dati F3, le sezioni dei muri.
+- **Baseline**: F4 solo spostamenti (2185 voci, 3320 occorrenze invariate; `settings.D("tab")` e `settings["layout"].D(group, initial)`
+  passano a `ConcreteSheetPresentation`); P3 invariata (nessuno stato statico mutabile in Presentation).
+- `ui/check-sezione-historic`: 39 scenari (37 + 2 `muri`), 84 832 righe, disegni invariati.
+- **Corsa finale**: `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `e763af44`:
+  `supporto/artefatti/ci/20261018-020253-f510s1-finale`, PASS 127 (i 126 della base più `Presentation.Tests/sezione-ca`), NEW-FAIL 0, circa
+  45 minuti; nessun file tracciato modificato durante la corsa. `ui/check-contrast` escluso (schermo al 150%, D6); nessun passo di contrasto
+  aggiunto, perché S1 non ha una vista. Presentation.Tests 1 955 controlli, Architecture.Tests 524, Application.Tests 2 660;
+  `ui/check-sezione-historic` 39 scenari, 84 832 righe, 120 disegni e 33 righe 3D uguali ai congelati; `ui/f3-equivalence` 104 fixture;
+  `ui/check-module-host-offscreen` con la sezione registrata.
+
+### 8.4 Comportamenti storici trovati in S1 (conservati, C5)
+
+1. **Causa del comportamento 7** (sezione 2): l'esportazione si costruisce quando la si legge e resta in cache finché non la azzera un
+   aggiornamento dei dettagli (ogni cambio di scheda, ogni modifica), una curva M–χ o un calcolo; `Commit` cambia i dati (righe delle
+   azioni con `visible`) ma non la azzera. Così l'impronta cambia al primo cambio di scheda dopo la conferma (la visita). Il ViewModel fa
+   lo stesso.
+2. **Trefolo standard invalidato due volte**: scegliere il trefolo standard (o applicare un materiale trefolo salvato) invalida il foglio
+   due volte (`TendonsChanged` e poi `Apply`): due Modified.
+3. **Selezione delle tabelle**: segue l'elemento corrente della vista di raccolta (la prima riga è selezionata quando la vista nasce
+   sopra righe già presenti, dopo «−» passa alla riga al suo posto o all'ultima).
+4. **Artefatto delle tracce, non della finestra**: WPF non passa lo stato disattivato di un form ai campi di un gruppo chiuso finché il
+   gruppo non è stato disposto. Nella traccia storica (finestra fuori schermo, gruppo «Armature» chiuso) `bottom_bar_count` si scrive con
+   le coordinate delle barre attive (`ingressi/barre-manuali`); dopo la visita i campi risultano spenti. Il driver delle prove lo
+   riproduce (stato «disposto» dei gruppi); il ViewModel espone `ReinforcementEnabled` e `FormEnabled` degli strati. Da ricordare per le
+   prove della vista XAML.
+
+### 8.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+Ogni voce è «da decidere»: la scelta indicata vale per andare avanti.
+
+- **S1-a · Finestre non modali.** «Reologia…» e «Proprietà / report…» sono richieste alla vista con eventi del ViewModel
+  (`RheologyRequested`, `PropertiesRequested`); non c'è un servizio comune di finestre non modali. Scelta prudente: nessun componente
+  comune nuovo. Alternativa: un servizio in `PresentationServices`.
+- **S1-b · «Calcola» dell'ospite.** `MvvmSheetEditor.CalculateAsync` conferma il foglio prima di calcolare; `SheetEditor` per la sezione
+  storica no. La conferma scrive le righe delle azioni e del taglio, che il calcolo legge comunque: nessun effetto sulle tracce. Da
+  decidere al passaggio (S9): conservare o dichiarare.
+- **S1-c · C6 per fasi.** Un calcolo annullato a metà di una fase non pubblica gli esiti già arrivati di quella fase (restano da
+  calcolare; la cache della sessione li rende rapidi). Si vede solo con il motore trattenuto; le tracce sono uguali.
+- **S1-d · Vista XAML.** S1 non ne scrive. Proposta: una vista unica dopo S9 (o per sottopasso, se l'utente vuole provare prima la
+  scheda degli ingressi); fino ad allora `--module-impl str_palo=mvvm` rifiuta l'apertura.
+- **S1-e · Chiavi di stato.** Dichiarate per S1 (`tab`, `layout`, `quote_*`); i sottopassi aggiungono le loro (filtri, contorni,
+  opzioni dei grafici).
+
+### 8.6 Da dove parte S2
+
+- Le righe delle azioni sono già nel foglio: `actions` (una `JsonRowCollection` per famiglia, in `ConcreteSheetViewModel.Checks.cs`) con
+  `CreateAction`, `SyncActions`, `InvalidateActions` e le uscite dei domini (`RefreshDomainOutputs`) e delle tensioni; le righe del taglio
+  in `shearRows`. S2 le espone con `ConcreteActionsViewModel` (sezione 4, S2), aggiunge «+ Riga», «Duplica», «− Riga», incolla
+  (`ConcreteActionPresentation.Plan`, con `synchronizing` come la vista storica), copia (servizio degli appunti), Excel
+  (`IFileDialogService`) e l'editor delle sollecitazioni su `IDialogService`, con `Reload` al posto di `ReloadRequested`.
+- C3: `SectionActionsViewModel` è ancora in Application; S2 la sposta in Presentation con il suo controllo di Application.
+- Tabelle: `ConcreteTableViewModel` ha già `BaseFilter` (il filtro degli esiti dei domini), `Attach` (lo stato SLU/SLV) e la barra dei
+  filtri; i messaggi dello stato di copia e incolla chiedono un metodo interno per scrivere `Status`.
+- Prove: in `ConcreteSectionSheetChecks` aggiungere `azioni` a `OwnParts`, i passi delle tabelle (cella, riga, incolla, finestra
+  «sollecitazioni») e gli scenari `azioni/*`; le tabelle delle azioni vivono nei pannelli dei domini, delle SLE e del taglio, quindi
+  molti passi di `azioni/*` toccano S3–S5: usare la stessa regola d'arresto (`ExpectedStops`).
+- Il driver delle tracce e i controlli rapidi sono in `tests/ANTHEA.Presentation.Tests/ConcreteSectionSheetChecks*.cs`.
+
+### 8.7 Come riprendere
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj
+dotnet tests/ANTHEA.Presentation.Tests/bin/Debug/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Debug/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
+```
