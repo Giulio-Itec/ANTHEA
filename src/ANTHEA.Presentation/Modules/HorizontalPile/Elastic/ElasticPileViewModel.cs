@@ -8,6 +8,7 @@ using Anthea.Application.Scheduling;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using X.Core;
 
 namespace Anthea.Presentation.Modules.HorizontalPile.Elastic;
@@ -64,6 +65,8 @@ public sealed class ElasticToggleViewModel : ObservableObject
 /// on a copy of the data, through the RecalculationScheduler of the application as the historic view (latest request wins, only the
 /// current one is published), with its intermediate states (the response, the phases of MRd).</item>
 /// <item>The drawing: what it shows (<see cref="DrawingSource"/>, the options of the data) and the selected point; the section at that depth.</item>
+/// <item>Commands of the view (Q3): «Modifica dati e strati», the comparison with an old archive, «Esporta CSV»; disabled when read-only but
+/// «Esporta CSV» (allowed in a revision, as the historic button). The options form opens its help with the navigator of the services.</item>
 /// </list>
 /// Texts and rules come from <see cref="ElasticPilePresentation"/> and <see cref="ElasticPileFields"/>, shared with the historic view. The
 /// equivalence is proved without WPF by tests/ANTHEA.Presentation.Tests against the traces of the historic view (tests/fixtures/f5-elastico).
@@ -93,6 +96,8 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
     private JsonNode? selectedPoint;
     private ElasticPileSectionView section = new([], [], 0, 0, "Staffa", false, null);
     private IReadOnlyList<ElasticPilePointRow> points = [];
+    private bool drawingKeepsSelection;
+    private string? sheetUnavailableReason;
 
     /// <param name="data">The data of the sheet (shared with the tab of the capacity).</param>
     /// <param name="sheet">The sheet that hosts the tab.</param>
@@ -103,6 +108,9 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
         ArgumentNullException.ThrowIfNull(sheet);
         ArgumentNullException.ThrowIfNull(analysis);
         this.data = data; this.sheet = sheet; this.analysis = analysis;
+        EditInputsCommand = new RelayCommand(EditInputs, () => CanEdit && HasHeader);
+        ResolveMigrationCommand = new RelayCommand<string>(legacy => ResolveMigration(legacy == "legacy"), _ => CanEdit && Migration is not null);
+        ExportCsvCommand = new RelayCommand(ExportCsv, () => CanExportCsv);
         ElasticPileEditor.PrepareShared(data);
         Reinforcement = new PileReinforcementViewModel(data, this, sheet);
         BuildHeader();
@@ -176,6 +184,12 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
     /// <summary>What the drawing shows.</summary>
     public IReadOnlyList<ElasticToggleViewModel> Toggles { get => toggles; private set => SetProperty(ref toggles, value); }
 
+    /// <summary>
+    /// The controls of the tab that change the data accept the user (the choice of the stratigraphy, the check boxes of the drawing, the buttons of the
+    /// comparison with an old archive): not when read-only, as the historic protection.
+    /// </summary>
+    public bool Editable => CanEdit;
+
     /// <summary>«Info · risposta elastica del palo».</summary>
     public string Info => ElasticPilePresentation.Info;
 
@@ -186,6 +200,12 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
 
     /// <summary>What the drawing shows: the response, the result, or nothing.</summary>
     public JsonObject? DrawingSource { get => drawingSource; private set => SetProperty(ref drawingSource, value); }
+
+    /// <summary>
+    /// The last change of <see cref="DrawingSource"/> kept the selection (ElasticPileDrawing.Set with preserveSelection): the drawing keeps the
+    /// scale of the moments it retains only then, as the historic one.
+    /// </summary>
+    public bool DrawingKeepsSelection => drawingKeepsSelection;
 
     /// <summary>The point of the response selected on the drawing (depth and side), or null.</summary>
     public JsonNode? SelectedPoint { get => selectedPoint; private set => SetProperty(ref selectedPoint, value); }
@@ -205,7 +225,7 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
     public IReadOnlyList<ElasticPilePointRow> Points { get => points; private set => SetProperty(ref points, value); }
 
     /// <summary>«Esporta CSV» is available (a result).</summary>
-    public bool CanExportCsv { get => canExportCsv; private set => SetProperty(ref canExportCsv, value); }
+    public bool CanExportCsv { get => canExportCsv; private set { if (SetProperty(ref canExportCsv, value)) ExportCsvCommand?.NotifyCanExecuteChanged(); } }
 
     /// <summary>«Verifiche per tratto e sezioni critiche».</summary>
     public string ReinforcementSummary { get => reinforcementSummary; private set => SetProperty(ref reinforcementSummary, value); }
@@ -215,6 +235,9 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
 
     /// <summary>The message of the sheet of the reinforcement when nothing is drawn.</summary>
     public string SheetMessage { get => sheetMessage; private set => SetProperty(ref sheetMessage, value); }
+
+    /// <summary>Why the sheet of the reinforcement is not available (the error of the calculation), null otherwise: PileReinforcementDrawing.Set.</summary>
+    public string? SheetUnavailableReason => sheetUnavailableReason;
 
     /// <summary>The pieces of bars drawn in the sheet.</summary>
     public int SheetPieces => ElasticPilePresentation.SheetPieces(SheetResult);
@@ -229,6 +252,15 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
     }
 
     // ---------------------------------------------------------------- commands
+
+    /// <summary>«Modifica dati e strati» (disabled when read-only or without header).</summary>
+    public IRelayCommand EditInputsCommand { get; }
+
+    /// <summary>«Usa dati comuni e conserva legacy» (parameter «comuni») and «Importa legacy nei dati comuni» («legacy»), disabled when read-only.</summary>
+    public IRelayCommand<string> ResolveMigrationCommand { get; }
+
+    /// <summary>«Esporta CSV» of «Valori per quota» (enabled with a result, also when read-only).</summary>
+    public IRelayCommand ExportCsvCommand { get; }
 
     /// <summary>«Modifica dati e strati».</summary>
     public void EditInputs()
@@ -256,6 +288,17 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
         string? path = sheet.Services.Files.SaveFile(new SaveFileRequest([new FileFilter("CSV", "*.csv")], "Palo_risposta_elastica.csv"));
         if (path is null) return;
         Archivio.ScriviAtomico(path, Encoding.UTF8.GetBytes(ElasticPileEditor.Csv(current)));
+    }
+
+    /// <summary>
+    /// «Esporta PNG…» of the sheet of the reinforcement (a dialog of the view, allowed also when read-only as the historic button): the file chosen by
+    /// the user («armature-palo.png», «Tavola PNG») receives the image that <paramref name="png"/> draws. Nothing when the user cancels.
+    /// </summary>
+    public void SaveSheetImage(Func<byte[]> png)
+    {
+        ArgumentNullException.ThrowIfNull(png);
+        string? path = sheet.Services.Files.SaveFile(new SaveFileRequest([new FileFilter("Tavola PNG", "*.png")], "armature-palo.png"));
+        if (path is not null) Archivio.ScriviAtomico(path, png());
     }
 
     /// <summary>The drafts of the fields (none: the fields write at every change).</summary>
@@ -293,6 +336,8 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
     internal void RefreshEditable()
     {
         if (Options is { } form) form.IsReadOnly = !CanEdit;
+        EditInputsCommand.NotifyCanExecuteChanged(); ResolveMigrationCommand.NotifyCanExecuteChanged();
+        OnPropertyChanged(nameof(Editable));
         foreach (var toggle in Toggles) toggle.Refresh();
         OnPropertyChanged(nameof(SurveyChoice));
         Reinforcement.RefreshEditable();
@@ -319,15 +364,22 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
     private void BuildHeader()
     {
         surveyCount = data.Array("stratigrafie").Count; HasHeader = false; Migration = null; Options = null; Toggles = []; SurveyChoices = [];
-        if (ElasticPileEditor.NeedsMigration(data)) { Migration = ElasticPilePresentation.MigrationText(data); return; }
+        if (ElasticPileEditor.NeedsMigration(data)) { Migration = ElasticPilePresentation.MigrationText(data); RefreshCommands(); return; }
         var e = data["elastico"]!.AsObject(); var view = HorizontalSheetPresentation.PrepareElasticView(data); DrawingOptions = view;
         SurveyChoices = ElasticPilePresentation.SurveyChoices(surveyCount);
         int chosen = ElasticPilePresentation.SurveyChoice(e);
         surveyChoice = chosen >= -1 && chosen < surveyCount ? chosen : -1;
         OnPropertyChanged(nameof(SurveyChoice));
-        Options = new FormViewModel(e, ElasticPileFields.Options(), _ => InvalidateShared(), compact: true) { InheritedWikiModule = sheet.ModuleId, IsReadOnly = !CanEdit };
+        Options = new FormViewModel(e, ElasticPileFields.Options(), _ => InvalidateShared(), compact: true)
+            { InheritedWikiModule = sheet.ModuleId, IsReadOnly = !CanEdit, WikiNavigator = sheet.Services.Wiki };
         Toggles = ElasticPilePresentation.Toggles.Select(t => new ElasticToggleViewModel(this, t.Key, t.Label, ElasticPilePresentation.Shown(view, t.Key))).ToArray();
         HasHeader = true;
+        RefreshCommands();
+    }
+
+    private void RefreshCommands()
+    {
+        EditInputsCommand?.NotifyCanExecuteChanged(); ResolveMigrationCommand?.NotifyCanExecuteChanged(); ExportCsvCommand?.NotifyCanExecuteChanged();
     }
 
     private void CalculationState(string text, bool running, int completed = 0, int total = 0)
@@ -389,6 +441,8 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
     /// <summary>ElasticPileDrawing.Set: a new source clears the selection unless it is preserved.</summary>
     private void SetDrawing(JsonObject? value, bool preserveSelection)
     {
+        drawingKeepsSelection = preserveSelection;
+        if (ReferenceEquals(drawingSource, value)) OnPropertyChanged(nameof(DrawingSource));
         DrawingSource = value;
         if (!preserveSelection) { SelectedPoint = null; OnSelected(null); }
     }
@@ -396,6 +450,8 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
     /// <summary>PileReinforcementDrawing.Set.</summary>
     private void SetSheet(JsonObject? value, string? unavailableReason = null)
     {
+        sheetUnavailableReason = unavailableReason;
+        if (ReferenceEquals(sheetResult, value)) OnPropertyChanged(nameof(SheetResult));
         SheetResult = value;
         SheetMessage = ElasticPilePresentation.SheetMessage(value, unavailableReason);
         OnPropertyChanged(nameof(SheetPieces));

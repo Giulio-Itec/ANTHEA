@@ -4,6 +4,8 @@ using Anthea.Calculations;
 using Anthea.Application.Presentation;
 using Anthea.Presentation.Forms;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Anthea.Presentation.Services;
 using X.Core;
 
 namespace Anthea.Presentation.Modules.HorizontalPile.Elastic;
@@ -88,7 +90,11 @@ public sealed class ElasticSegmentViewModel : ObservableObject
     /// <summary>The heading (identifier, start → end, length) of the data when the editor was built.</summary>
     public string Header { get; }
 
-    internal bool CanEdit => owner.CanEdit;
+    /// <summary>The commands and the end of the card accept the user (not in a read-only revision).</summary>
+    public bool CanEdit => owner.CanEdit;
+
+    /// <summary>The commands that need the result («Dimensiona…»).</summary>
+    public bool ResultCommandsEnabled => owner.ResultCommandsEnabled && CanEdit;
 
     /// <summary>«Fine tratto / barre [m]»: typing writes the end (empty: the tip).</summary>
     public string End
@@ -110,6 +116,13 @@ public sealed class ElasticSegmentViewModel : ObservableObject
     /// <summary>«Usa principale».</summary>
     public bool Linked { get; }
 
+    /// <summary>The check box «Usa principale»: the click of the user (<see cref="ToggleLinked"/>); the editor is built again.</summary>
+    public bool IsLinked
+    {
+        get => Linked;
+        set { if (value != Linked && CanChangeLinked) ToggleLinked(); else OnPropertyChanged(); }
+    }
+
     /// <summary>«Usa principale» can be clicked: not on the first segment.</summary>
     public bool CanChangeLinked => Index > 0 && CanEdit;
 
@@ -124,6 +137,13 @@ public sealed class ElasticSegmentViewModel : ObservableObject
 
     /// <summary>«Secondo anello interno».</summary>
     public bool Ring { get; }
+
+    /// <summary>The check box «Secondo anello interno»: the click of the user (<see cref="ToggleRing"/>); the editor is built again.</summary>
+    public bool HasRing
+    {
+        get => Ring;
+        set { if (value != Ring && CanChangeRing) ToggleRing(); else OnPropertyChanged(); }
+    }
 
     public bool CanChangeRing => !Linked && CanEdit;
 
@@ -183,19 +203,30 @@ public sealed class ElasticSegmentViewModel : ObservableObject
         owner.Changed();
     }
 
+    /// <summary>The first segment has no «Unisci ←».</summary>
+    public bool CanMerge => Index > 0;
+
+    /// <summary>The colours of the cards (the tokens Segment.1–6 of the desktop), as PileReinforcementEditor.SegmentColor.</summary>
+    public const int CardColours = 6;
+
+    /// <summary>The colour of the card, one of <see cref="CardColours"/> by position (PileReinforcementEditor.SegmentColor).</summary>
+    public int ColourIndex => Index % CardColours;
+
     internal void RefreshEditable()
     {
         foreach (var field in Fields) field.Refresh();
-        foreach (string name in new[] { nameof(CanChangeLinked), nameof(CanChangeRing), nameof(CanChangeKind), nameof(Commands) }) OnPropertyChanged(name);
+        foreach (string name in new[] { nameof(CanChangeLinked), nameof(CanChangeRing), nameof(CanChangeKind), nameof(Commands), nameof(CanEdit), nameof(ResultCommandsEnabled) }) OnPropertyChanged(name);
     }
 }
 
 /// <summary>
-/// The c.a. verifier of a segment (historic: a dialog with a ConcreteWorkspace on the sheet of the segment, until F5.10). The sheet is
-/// requested through <see cref="Modules.ISheetHost.OpenModuleCopy"/>; the host that shows it as the historic dialog reports
-/// «Applica armatura…» (<see cref="Apply"/>) and the closing (<see cref="Close"/>), which write into the pile as the historic dialog.
+/// The c.a. verifier of a segment (historic: a dialog with a ConcreteWorkspace on the sheet of the segment, until F5.10), a dialog shown through
+/// <see cref="IDialogService"/> (decision E1/C4 of 17/10): the desktop hosts the historic ConcreteWorkspace on <see cref="Sheet"/> in it, «Applica
+/// armatura…» calls <see cref="Apply"/>, and when the dialog is closed the sheet calls <see cref="Close"/>, which keeps the sheet in the segment, as
+/// the historic dialog. <see cref="Modules.ISheetHost"/> does not change: the return lives in the dialog (proposal C4 of f5-10-sezione.md, section 5).
+/// After S9 of F5.10 the same dialog will host the ViewModel of the section.
 /// </summary>
-public sealed class PileConcreteVerifier
+public sealed class PileConcreteVerifier : ObservableObject, IDialogViewModel<JsonObject>
 {
     private readonly PileReinforcementViewModel owner;
     private readonly JsonObject root, row;
@@ -203,7 +234,7 @@ public sealed class PileConcreteVerifier
 
     internal PileConcreteVerifier(PileReinforcementViewModel owner, JsonObject root, JsonObject row, int index, JsonObject sheet, string title, string note)
     {
-        this.owner = owner; this.root = root; this.row = row; Index = index; Sheet = sheet; Title = title; Note = note;
+        this.owner = owner; this.root = root; this.row = row; Index = index; Sheet = sheet; Title = title; this.note = note;
     }
 
     /// <summary>The c.a. module of the verifier.</summary>
@@ -217,7 +248,15 @@ public sealed class PileConcreteVerifier
     public string Title { get; }
 
     /// <summary>The note above the command: what the verifier does, then the outcome of «Applica».</summary>
-    public string Note { get; private set; }
+    public string Note { get => note; private set => SetProperty(ref note, value); }
+
+    private string note;
+
+    /// <summary>The sheet of the segment when the dialog is closed (the result of the dialog).</summary>
+    public JsonObject? Result => closed ? Sheet : null;
+
+    /// <summary>Never raised: the dialog is closed by its window, as the historic one.</summary>
+    public event EventHandler? CloseRequested { add { } remove { } }
 
     public string ApplyLabel => Index == 0 ? "Applica armatura alla sezione principale" : "Applica armatura al tratto";
 
@@ -279,9 +318,9 @@ public sealed class PileSegmentDesignViewModel : ObservableObject
 
     public string Status { get => status; private set => SetProperty(ref status, value); }
 
-    public bool CanRun { get => canRun; private set => SetProperty(ref canRun, value); }
+    public bool CanRun { get => canRun; private set { if (SetProperty(ref canRun, value)) findCommand?.NotifyCanExecuteChanged(); } }
 
-    public bool CanApply { get => canApply; private set => SetProperty(ref canApply, value); }
+    public bool CanApply { get => canApply; private set { if (SetProperty(ref canApply, value)) applyCommand?.NotifyCanExecuteChanged(); } }
 
     public bool ProgressVisible { get => progressVisible; private set => SetProperty(ref progressVisible, value); }
 
@@ -291,6 +330,15 @@ public sealed class PileSegmentDesignViewModel : ObservableObject
 
     /// <summary>The last search started.</summary>
     public Task Search { get; private set; } = Task.CompletedTask;
+
+    /// <summary>«Trova proposta» (disabled while a search runs).</summary>
+    public IAsyncRelayCommand FindCommand => findCommand ??= new AsyncRelayCommand(FindAsync, () => CanRun);
+
+    /// <summary>«Applica alla sezione principale» / «Applica al tratto» (with a proposal).</summary>
+    public IRelayCommand ApplyCommand => applyCommand ??= new RelayCommand(Apply, () => CanApply);
+
+    private IAsyncRelayCommand? findCommand;
+    private IRelayCommand? applyCommand;
 
     /// <summary>«Trova proposta».</summary>
     public Task FindAsync() => Search = RunAsync();
@@ -391,7 +439,13 @@ public sealed class PileReinforcementViewModel : ObservableObject, IDisposable
     public string Message { get => message; private set => SetProperty(ref message, value); }
 
     /// <summary>The commands that need the result («Proponi suddivisione…», «Dimensiona…»).</summary>
-    public bool ResultCommandsEnabled { get => resultCommandsEnabled; private set => SetProperty(ref resultCommandsEnabled, value); }
+    public bool ResultCommandsEnabled { get => resultCommandsEnabled; private set { if (SetProperty(ref resultCommandsEnabled, value)) OnPropertyChanged(nameof(CanPropose)); } }
+
+    /// <summary>The buttons of the editor that change the data accept the user (not in a read-only revision).</summary>
+    public bool Editable => CanEdit;
+
+    /// <summary>«Proponi suddivisione…» accepts the user: editable, with a result.</summary>
+    public bool CanPropose => CanEdit && ResultCommandsEnabled;
 
     /// <summary>The commands above the segments, in their order.</summary>
     public IReadOnlyList<ElasticCommand> Commands => [new("Approva tutto · ipotesi", CanEdit), new("NTC §7.2.5", CanEdit), new("Proponi suddivisione…", CanEdit && ResultCommandsEnabled), new("Info sezioni", CanEdit)];
@@ -474,6 +528,33 @@ public sealed class PileReinforcementViewModel : ObservableObject, IDisposable
 
     // ---------------------------------------------------------------- commands
 
+    /// <summary>«Approva tutto · ipotesi» (parameter false) and «Approva tutto · sisma» (true).</summary>
+    public IRelayCommand<bool> ApproveCommand => approveCommand ??= new RelayCommand<bool>(Approve, seismic => seismic ? SeismicCommands[0].IsEnabled : CanEdit);
+
+    /// <summary>«Verifiche →», «Unisci ←» and «Distinta ferri» of a card, with the index of the segment as parameter (disabled when read-only).</summary>
+    public IRelayCommand<int> VerifyCommand => verifyCommand ??= new RelayCommand<int>(Verify, _ => CanEdit);
+
+    public IRelayCommand<int> MergeCommand => mergeCommand ??= new RelayCommand<int>(Merge, _ => CanEdit);
+
+    public IRelayCommand<int> BillCommand => billCommand ??= new RelayCommand<int>(ShowBill, _ => CanEdit);
+
+    private IRelayCommand<bool>? approveCommand;
+    private IRelayCommand<int>? verifyCommand, mergeCommand, billCommand;
+
+    /// <summary>The segment chosen in the panel «Sezione e verifiche» (its choice; refused when read-only).</summary>
+    public int SummarySegment
+    {
+        get => Summary?.Selected ?? -1;
+        set { if (value >= 0 && value != SummarySegment) ChooseSegment(value); else OnPropertyChanged(); }
+    }
+
+    /// <summary>The view chosen in the panel «Sezione e verifiche» (its choice; refused when read-only).</summary>
+    public string? SummaryMode
+    {
+        get => Summary?.Mode;
+        set { if (value is not null && value != SummaryMode) ChooseMode(value); else OnPropertyChanged(); }
+    }
+
     /// <summary>«Verifiche →» of a segment.</summary>
     public void Verify(int index)
     {
@@ -537,8 +618,8 @@ public sealed class PileReinforcementViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
-    /// «Apri verificatore c.a.» of a segment: the sheet of the segment, requested through the host (<see cref="Modules.ISheetHost.OpenModuleCopy"/>);
-    /// null when the segment cannot have one (a CHS), with the message.
+    /// The c.a. verifier of a segment, not shown: the sheet of the segment (ElasticPileEditor.CreateConcreteSheet, after the drafts); null when the
+    /// segment cannot have one (a CHS), with the message.
     /// </summary>
     public PileConcreteVerifier? OpenConcreteVerifier(int index)
     {
@@ -549,12 +630,26 @@ public sealed class PileReinforcementViewModel : ObservableObject, IDisposable
             var sheetData = ElasticPileEditor.CreateConcreteSheet(root, elastic.Result, index);
             var row = root["elastico"]!.Array("tratti")[index]!.AsObject();
             string note = ElasticPileFields.ConcreteNote + (ElasticPileEditor.TransverseKind(root, row) == "Spirale" ? ElasticPileFields.ConcreteSpiralNote : "");
-            var verifier = new PileConcreteVerifier(this, root, row, index, sheetData, $"Verificatore c.a. · {row.S("id")}", note);
-            sheet.Host.OpenModuleCopy(PileConcreteVerifier.ConcreteModule, sheetData, verifier.Title);
-            return verifier;
+            return new PileConcreteVerifier(this, root, row, index, sheetData, $"Verificatore c.a. · {row.S("id")}", note);
         }
         catch (ArgumentException error) { Message = error.Message; return null; }
     }
+
+    /// <summary>
+    /// «Apri verificatore c.a.» of a segment (E1): the verifier shown through the dialog service (the desktop hosts the historic ConcreteWorkspace on
+    /// its sheet), then, when it is closed, the sheet kept in the segment and the editor built again, as the historic dialog.
+    /// </summary>
+    public async Task ShowConcreteVerifierAsync(int index)
+    {
+        if (OpenConcreteVerifier(index) is not { } verifier) return;
+        await sheet.Services.Dialogs.ShowDialogAsync(verifier);
+        verifier.Close();
+    }
+
+    /// <summary>«Apri verificatore c.a.» of a card or of the panel, with the index of the segment as parameter (disabled when read-only).</summary>
+    public IAsyncRelayCommand<int> ConcreteVerifierCommand => concreteVerifierCommand ??= new AsyncRelayCommand<int>(ShowConcreteVerifierAsync, _ => CanEdit);
+
+    private IAsyncRelayCommand<int>? concreteVerifierCommand;
 
     /// <summary>«Dimensiona…» of a segment: the dialog, or null without result (the message says why).</summary>
     public PileSegmentDesignViewModel? Design(int index)
@@ -639,7 +734,9 @@ public sealed class PileReinforcementViewModel : ObservableObject, IDisposable
 
     private void RaiseCommands()
     {
-        OnPropertyChanged(nameof(Commands)); OnPropertyChanged(nameof(SeismicCommands));
+        OnPropertyChanged(nameof(Commands)); OnPropertyChanged(nameof(SeismicCommands)); OnPropertyChanged(nameof(SummaryEnabled));
+        OnPropertyChanged(nameof(Editable)); OnPropertyChanged(nameof(CanPropose));
+        foreach (var command in new IRelayCommand?[] { approveCommand, verifyCommand, mergeCommand, billCommand, concreteVerifierCommand }) command?.NotifyCanExecuteChanged();
         foreach (var segment in Segments) segment.RefreshEditable();
     }
 
@@ -664,11 +761,14 @@ public sealed class PileReinforcementViewModel : ObservableObject, IDisposable
         var settings = e["dettagli"]!.AsObject();
         // The groups are built again closed (the seismic one open while the seismic head is checked), as the historic expanders.
         DetailsExpanded = false; ExtraExpanded = false;
-        Details = new FormViewModel(settings, ElasticPileFields.Details(), _ => Changed(), compact: true) { InheritedWikiModule = sheet.ModuleId, IsReadOnly = !CanEdit };
-        Seismic = new FormViewModel(settings, ElasticPileFields.Seismic(), _ => { SeismicVisibility(); Changed(); }, compact: true) { InheritedWikiModule = sheet.ModuleId, IsReadOnly = !CanEdit };
+        Details = new FormViewModel(settings, ElasticPileFields.Details(), _ => Changed(), compact: true)
+            { InheritedWikiModule = sheet.ModuleId, IsReadOnly = !CanEdit, WikiNavigator = sheet.Services.Wiki };
+        Seismic = new FormViewModel(settings, ElasticPileFields.Seismic(), _ => { SeismicVisibility(); Changed(); }, compact: true)
+            { InheritedWikiModule = sheet.ModuleId, IsReadOnly = !CanEdit, WikiNavigator = sheet.Services.Wiki };
         SeismicVisibility();
         SeismicExpanded = settings.B("sisma_testa");
-        Extra = new FormViewModel(settings, ElasticPileFields.Extra(), key => { Changed(); if (key == "copriferro_override") Extra!.ShowField("cmin_dur", root["elastico"]!["dettagli"].B("copriferro_override")); }, compact: true) { InheritedWikiModule = sheet.ModuleId, IsReadOnly = !CanEdit };
+        Extra = new FormViewModel(settings, ElasticPileFields.Extra(), key => { Changed(); if (key == "copriferro_override") Extra!.ShowField("cmin_dur", root["elastico"]!["dettagli"].B("copriferro_override")); }, compact: true)
+            { InheritedWikiModule = sheet.ModuleId, IsReadOnly = !CanEdit, WikiNavigator = sheet.Services.Wiki };
         Extra.ShowField("cmin_dur", settings.B("copriferro_override"));
         OnPropertyChanged(nameof(ExtraNote));
         UpdateSummary();
@@ -682,6 +782,7 @@ public sealed class PileReinforcementViewModel : ObservableObject, IDisposable
         bool active = root["elastico"]!["dettagli"].B("sisma_testa");
         if (Seismic is { } form) foreach (string key in ElasticPileFields.SeismicConditional) form.ShowField(key, active);
         OnPropertyChanged(nameof(SeismicCommands));
+        approveCommand?.NotifyCanExecuteChanged();
     }
 
     private void UpdateSummary()
@@ -689,5 +790,6 @@ public sealed class PileReinforcementViewModel : ObservableObject, IDisposable
         if (ElasticPilePresentation.Summary(root, elastic.Result, selected, checkMode, calculationState) is not { } shown) return;
         selected = shown.Selected;
         Summary = shown;
+        OnPropertyChanged(nameof(SummarySegment)); OnPropertyChanged(nameof(SummaryMode));
     }
 }
