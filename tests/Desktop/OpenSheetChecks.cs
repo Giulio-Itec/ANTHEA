@@ -69,6 +69,12 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     /// <summary>The user types in a field of the concrete (before the commit: the preview of the sheet follows).</summary>
     internal void TypeConcreteNumber(string key, string text) { if (Concrete is { } concrete) concrete.Type(key, text); else HistoricConcrete.NumberBoxForChecks(key).Text = text; }
 
+    // ---------------------------------------------------------------- retaining walls (ui/smoke-retaining-wall, ui/smoke-global-stability)
+
+    /// <summary>The retaining wall, with either view (WallSmoke).</summary>
+    internal WallSmoke Wall => MvvmWallSmoke.Handles(editor) ? new MvvmWallSmoke((MvvmSheetEditor)editor, services)
+        : new HistoricWallSmoke(Historic.retainingWall ?? throw new Exception("Muro di sostegno non aperto"));
+
     /// <summary>The reinforcing steel, with either view (SteelSmoke).</summary>
     internal SteelSmoke Steel => editor.Module != RebarMaterial.Module ? throw new Exception("Modulo acciaio non aperto")
         : new(editor is MvvmSheetEditor ? editor : Historic);

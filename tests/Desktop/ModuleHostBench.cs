@@ -121,13 +121,19 @@ internal sealed class BenchSheetServices : IDialogService, IFileDialogService, I
     /// <summary>Answer to a dialog of a sheet: the ViewModel of the dialog → its result; null fails the check.</summary>
     internal Func<object, object?>? Dialog { get; set; }
 
+    /// <summary>Answer to a dialog that stays open while the suite works in it (the values of the walls): the ViewModel → its result when it closes.</summary>
+    internal Func<object, Task<object?>>? DialogAsync { get; set; }
+
     /// <summary>Answer to the save dialog of a sheet: the path, or null as the user who cancels; unset fails the check.</summary>
     internal Func<SaveFileRequest, string?>? SaveFile { get; set; }
 
     internal PresentationServices Create() => new(Messages, Confirmations, this, this, unexpected.Clipboard, unexpected.Links, this);
 
-    public Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog) =>
-        Dialog is { } answer ? Task.FromResult((TResult?)answer(dialog)) : unexpected.Dialogs.ShowDialogAsync(dialog);
+    public async Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog)
+    {
+        if (DialogAsync is { } open) return (TResult?)await open(dialog);
+        return Dialog is { } answer ? (TResult?)answer(dialog) : await unexpected.Dialogs.ShowDialogAsync(dialog);
+    }
 
     public string? OpenFile(OpenFileRequest request) => unexpected.Files.OpenFile(request);
 
