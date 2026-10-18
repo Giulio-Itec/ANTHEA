@@ -64,11 +64,11 @@ public sealed partial class MainWindow
         Check(!CoverChecks(deep).Any(c => c.Text.Contains("aggiungere una scheda")), "Copriferro ignora il CLS superiore");
 
         // Editing the parent automatically propagates through all depths, including an empty group.
-        ShowSheet(cls); var material = historicEditor!.materials!.CaptureState(); material["classe"] = "C40/50";
-        historicEditor.materials.RestoreState(material); Scripted.SharedUpdate = () => throw new Exception("Richiesta conferma sulla propagazione del riferimento superiore"); Commit();
+        ShowSheet(cls); var material = (JsonObject)editor!.PreviewData.DeepClone(); material["classe"] = "C40/50";
+        openSheet.SetConcreteState(material); Scripted.SharedUpdate = () => throw new Exception("Richiesta conferma sulla propagazione del riferimento superiore"); Commit();
         foreach (var target in new[] { reference, ca, pile, independent }) Check(ProjectSharedData.Fields(target)["CLS · fck [MPa]"].Value!.GetValue<double>() == 40 || ProjectSharedData.Text(ProjectSharedData.Fields(target)["CLS · fck [MPa]"].Value) == "40", "CLS non propagato a " + target.S("nome"));
         Check(JsonNode.DeepEquals(untouchedBefore, untouched), "Aggiornamento oltre il progetto");
-        ShowSheet(steel); historicEditor!.rebarMaterial!.Selection.SelectedItem = "B450A"; Commit();
+        ShowSheet(steel); openSheet.Steel.Type = "B450A"; Commit();
         Check(ca["dati"]!["input"].S("classe_acciaio") == "B450A" && pile["dati"]!["sezione"].S("classe_acciaio") == "B450A" && independent["dati"]!["input"].S("classe_acciaio") == "B450C", "Acciaio non propagato solo al proprio ramo");
         ShowSheet(reference); editor!.Data["input"]!["diameter_mm"] = "1400"; editor.Data["input"]!["cover_mm"] = "65";
         editor.Data["input"]!["longitudinal_bar_count"] = "20"; Commit();

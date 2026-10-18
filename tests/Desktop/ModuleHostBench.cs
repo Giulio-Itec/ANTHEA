@@ -25,9 +25,23 @@ internal static class ModuleHostBench
     /// <summary>Factory of the checks with the bench choices of the command line of this process.</summary>
     internal static SheetEditorFactory SheetEditors() => SheetEditors(Environment.GetCommandLineArgs());
 
-    /// <summary>Factory of the checks with the bench choices of <paramref name="arguments"/> and the modules of <paramref name="modules"/>.</summary>
-    internal static SheetEditorFactory SheetEditors(IReadOnlyList<string> arguments, ModuleRegistry? modules = null) =>
-        new(Implementations(arguments), modules ?? DesktopComposition.CreateModules(), Services(), new CalculationLimiter(CalculationLimiter.DefaultMaximum));
+    /// <summary>
+    /// Factory of the checks with the bench choices of <paramref name="arguments"/> and the modules of <paramref name="modules"/>. Its sheets get
+    /// the services of <see cref="Services()"/>, but scriptable (f5-suite-ui): <see cref="ScriptedServices"/> gives them to the suites, which
+    /// answer the questions and the dialogs of an MVVM sheet as the historic suites answered those of the window.
+    /// </summary>
+    internal static SheetEditorFactory SheetEditors(IReadOnlyList<string> arguments, ModuleRegistry? modules = null)
+    {
+        var services = new BenchSheetServices();
+        var factory = new SheetEditorFactory(Implementations(arguments), modules ?? DesktopComposition.CreateModules(), services.Create(), new CalculationLimiter(CalculationLimiter.DefaultMaximum));
+        scripted.Add(factory, services);
+        return factory;
+    }
+
+    /// <summary>f5-suite-ui: the services of the sheets of a factory of <see cref="SheetEditors(IReadOnlyList{string}, ModuleRegistry?)"/>, null for any other factory.</summary>
+    internal static BenchSheetServices? ScriptedServices(SheetEditorFactory factory) => scripted.TryGetValue(factory, out var services) ? services : null;
+
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<SheetEditorFactory, BenchSheetServices> scripted = new();
 
     /// <summary>
     /// Factory of the interactive bench: the bench choices of <paramref name="arguments"/> with the modules, the services and the limiter of
@@ -86,6 +100,54 @@ internal static class ModuleHostBench
         public void Open(Uri target) => throw Fail("collegamento " + target);
         public void Show(string? uri = null) => throw Fail("Wiki " + uri);
     }
+}
+
+/// <summary>
+/// f5-suite-ui: the services of the MVVM sheets of the windows of the checks (<see cref="ModuleHostBench.SheetEditors(IReadOnlyList{string}, ModuleRegistry?)"/>).
+/// Without a script they behave as <see cref="ModuleHostBench.Services()"/>: errors rethrown, an unexpected question, dialog, file, clipboard,
+/// link or Wiki fails the check. A suite scripts the questions (<see cref="Confirmations"/>, as <see cref="MainWindow.Scripted"/> for the window)
+/// and the dialogs of the sheet (<see cref="Dialog"/>: it drives the ViewModel of the dialog and returns its result).
+/// </summary>
+internal sealed class BenchSheetServices : IDialogService, IFileDialogService, IWikiNavigator
+{
+    private readonly PresentationServices unexpected = ModuleHostBench.Services();
+
+    /// <summary>The questions of the sheets (removals, replacements), as the historic suites answered the message boxes of the historic views.</summary>
+    internal ScriptedConfirmations Confirmations { get; } = new();
+
+    /// <summary>The messages of the sheets: errors rethrown, notes and warnings recorded.</summary>
+    internal RethrowingMessages Messages => (RethrowingMessages)unexpected.Messages;
+
+    /// <summary>Answer to a dialog of a sheet: the ViewModel of the dialog → its result; null fails the check.</summary>
+    internal Func<object, object?>? Dialog { get; set; }
+
+    /// <summary>Answer to a dialog that stays open while the suite works in it (the values of the walls): the ViewModel → its result when it closes.</summary>
+    internal Func<object, Task<object?>>? DialogAsync { get; set; }
+
+    /// <summary>Answer to the save dialog of a sheet: the path, or null as the user who cancels; unset fails the check.</summary>
+    internal Func<SaveFileRequest, string?>? SaveFile { get; set; }
+
+    internal PresentationServices Create() => new(Messages, Confirmations, this, this, unexpected.Clipboard, unexpected.Links, this);
+
+    public async Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog)
+    {
+        if (DialogAsync is { } open) return (TResult?)await open(dialog);
+        return Dialog is { } answer ? (TResult?)answer(dialog) : await unexpected.Dialogs.ShowDialogAsync(dialog);
+    }
+
+    public string? OpenFile(OpenFileRequest request) => unexpected.Files.OpenFile(request);
+
+    string? IFileDialogService.SaveFile(SaveFileRequest request) => SaveFile is { } answer ? answer(request) : unexpected.Files.SaveFile(request);
+
+    public string? ChooseFolder(string? title = null) => unexpected.Files.ChooseFolder(title);
+
+    public void Show(string? uri = null) => unexpected.Wiki.Show(uri);
+}
+
+public sealed partial class MainWindow
+{
+    /// <summary>f5-suite-ui: the scriptable services of the MVVM sheets of this window (and of the copies it opens, which share its editors).</summary>
+    internal BenchSheetServices SheetServices => ModuleHostBench.ScriptedServices(sheetEditors) ?? throw new InvalidOperationException("Finestra senza i servizi dei fogli del banco.");
 }
 
 internal sealed partial class ModuleImplementations

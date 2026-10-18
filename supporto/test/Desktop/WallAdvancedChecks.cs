@@ -12,11 +12,13 @@ internal static class WallAdvancedChecks
 {
     // Figures of the full wall report, in order: section, stem/toe/heel diagrams, the reinforced section (cantilever, 895bf31),
     // the global stability surface when calculated, then every page of the bar schedule (cantilever, 2cdf9fd).
-    internal static string[] ReportFigureCaptions(RetainingWallWorkspace w, bool global)
+    internal static string[] ReportFigureCaptions(RetainingWallWorkspace w, bool global) => ReportFigureCaptions(w.CreateBarDrawing().PageCount, global);
+
+    /// <summary>f5-suite-ui: the captions with <paramref name="pages"/> sheets of the bar schedule, for either view of the walls.</summary>
+    internal static string[] ReportFigureCaptions(int pages, bool global)
     {
         var captions = new List<string> { "Sezione, terreno e armature", "Diagrammi Fusto", "Diagrammi Valle", "Diagrammi Monte", "Sezione armata con pieghe e sovrapposizioni" };
         if (global) captions.Add("Stabilità globale · superficie critica");
-        int pages = w.CreateBarDrawing().PageCount;
         for (int page = 1; page <= pages; page++) captions.Add("Tavola armature e distinta ferri · " + page);
         return captions.ToArray();
     }

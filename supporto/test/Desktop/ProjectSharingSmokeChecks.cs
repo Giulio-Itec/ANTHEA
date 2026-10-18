@@ -121,14 +121,14 @@ public sealed partial class MainWindow
         var actions = rc["dati"]!["combinazioni"]!.DeepClone(); var horizontalActions = horizontal["dati"]!["generali"]!["azione_orizzontale"]!.DeepClone();
         ShowProjects(); ShowSheet(material);
         int questions = 0; Scripted.SharedUpdate = () => { questions++; return true; };
-        var state = historicEditor!.materials!.CaptureState(); state["classe"] = "C40/50"; historicEditor.materials.RestoreState(state);
+        var state = (JsonObject)editor!.PreviewData.DeepClone(); state["classe"] = "C40/50"; openSheet.SetConcreteState(state);
         Commit();
         Check(questions == 1, "Conferma condivisa assente");
         Check(secondMaterial["dati"].S("classe") == "C40/50" && rc["dati"]!["input"].D("fck_mpa") == 40 && horizontal["dati"]!["sezione"].D("fck_mpa") == 40, "CLS non condiviso tra moduli");
         Check(outside["dati"].S("classe", "C30/37") == "C30/37", "Aggiornata altra sezione");
         Commit(); Check(questions == 1, "Conferma ripetuta senza modifiche");
         Scripted.SharedUpdate = () => { questions++; return false; };
-        state = historicEditor.materials.CaptureState(); state["classe"] = "C25/30"; historicEditor.materials.RestoreState(state); Commit();
+        state = (JsonObject)editor.PreviewData.DeepClone(); state["classe"] = "C25/30"; openSheet.SetConcreteState(state); Commit();
         Check(rc["dati"]!["input"].D("fck_mpa") == 40 && material["dati"].S("classe") == "C25/30", "Scelta locale non rispettata");
         Check(ProjectSharedData.Differences(section).Any(d => d.Group == "Materiali"), "Differenza locale non segnalata");
         var groups = new HashSet<string> { "Materiali" }; ProjectSharedData.Apply(material, section, groups);
@@ -163,9 +163,10 @@ public sealed partial class MainWindow
         horizontal["dati"]!["sezione"]!["longitudinal_bar_count"] = "28";
         ProjectSharedData.Apply(rc, section, new HashSet<string> { "Armatura" }, horizontal, ProjectSharedData.ChangedKeys(coverBefore, rc));
         Check(horizontal["dati"]!["sezione"].D("cover_mm") == 45 && horizontal["dati"]!["sezione"].D("longitudinal_bar_count") == 28, "Copriferro sovrascrive armatura locale");
-        state = historicEditor!.materials!.CaptureState(); state["esposizione_principale"] = "XC4";
-        state["esposizioni"] = new JsonArray("XC4", "XS3"); historicEditor.materials.RestoreState(state);
-        state = historicEditor.materials.CaptureState();
+        state = (JsonObject)editor!.PreviewData.DeepClone(); state["esposizione_principale"] = "XC4";
+        state["esposizioni"] = new JsonArray("XC4", "XS3");
+        // A state with two exposures (previous version) opens with the exposure of the menu only.
+        using (var reopened = sheetEditors.Open("mat_calcestruzzo", state)) state = (JsonObject)reopened.PreviewData.DeepClone();
         Check(state["esposizioni"]!.AsArray().Count == 1 && state["esposizioni"]![0]!.ToString() == "XC4", "Esposizione non unica");
         material["dati"] = state.DeepClone();
         ProjectSharedData.Apply(material, section, new HashSet<string> { "Materiali" });

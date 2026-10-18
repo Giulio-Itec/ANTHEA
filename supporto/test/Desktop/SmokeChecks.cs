@@ -17,7 +17,7 @@ public sealed partial class MainWindow
         Directory.CreateDirectory(directory); var log = new List<string>();
         async Task Capture(string name) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + ".png"), Ui.Snapshot(this)); }
         ShowHome(); await Capture("home"); ShowModules(); await Capture("moduli"); ShowProjects(); await Capture("progetti");
-        document = Archivio.Documento("geo_palo_verticale"); ShowSheet(document); await Capture("palo_vuoto"); await historicEditor!.WaitForAutomatic();
+        document = Archivio.Documento("geo_palo_verticale"); ShowSheet(document); await Capture("palo_vuoto"); await openSheet.WaitForAutomatic();
         foreach (var (kind, module, name) in new[] { ("palo", "geo_palo_verticale", "palo_storico_0"), ("micropalo", "geo_micropalo_verticale", "micropalo_IRS_45_Feld"), ("sezione", "str_palo", "") })
         {
             JsonObject data = kind == "sezione" ? SezioneCA.DefaultData() : cases.First(c => c.S("nome") == name)!["input"]!.AsObject();
@@ -41,7 +41,7 @@ public sealed partial class MainWindow
             if (!JsonNode.DeepEquals(DocumentService.Open(file), document)) throw new Exception("Round trip " + kind);
             editor.ExportResult(Path.Combine(directory, kind + ".json"));
             if (kind != "sezione") editor.ExportReport(Path.Combine(directory, kind + ".docx"), kind, ReportWord.Sezioni.Select(s => s.Key).ToHashSet());
-            await historicEditor.VerifyWpf(directory, kind); log.Add(kind + ": layout WPF, input, invalidazione, calcoli, archivi, export OK");
+            await openSheet.VerifyWpf(directory, kind); log.Add(kind + ": layout WPF, input, invalidazione, calcoli, archivi, export OK");
             double width = Width, height = Height; Width = 1366; Height = 850; await Capture(kind + "_1366"); Width = width; Height = height;
             ShowHome(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); body.Content = moduleView; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             if (editor.Result is null) throw new Exception("Navigazione ha perso i risultati " + kind);
@@ -56,7 +56,7 @@ public sealed partial class MainWindow
         second = document["progetti"]![0]!["strutture"]![0]!["fogli"]![1]!.AsObject();
         ShowProjects(); await Capture("progetti_popolati");
         var projectNode = (TreeViewItem)tree.Items[0]; var structureNode = (TreeViewItem)projectNode.Items[0]; ((TreeViewItem)structureNode.Items[0]).IsSelected = true; ShowSheet(first);
-        historicEditor!.SetGeometryForSmoke("1100"); ShowProjects(); ((TreeViewItem)((TreeViewItem)((TreeViewItem)tree.Items[0]).Items[0]).Items[1]).IsSelected = true; Commit(); ShowSheet(second);
+        openSheet.SetGeometryForSmoke("1100"); ShowProjects(); ((TreeViewItem)((TreeViewItem)((TreeViewItem)tree.Items[0]).Items[0]).Items[1]).IsSelected = true; Commit(); ShowSheet(second);
         if (first["dati"]?["input"].S("diameter_mm") != "1100" || currentSheet != second) throw new Exception("Cambio foglio non conserva i dati");
         Commit(); string archive = Path.Combine(directory, "progetti.programma"); DocumentService.Save(archive, document);
         if (!JsonNode.DeepEquals(DocumentService.Open(archive), document)) throw new Exception("Round trip progetti WPF");

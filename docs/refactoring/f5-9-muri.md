@@ -426,7 +426,9 @@ Baseline architetturali: nessuna cambiata. Le altezze delle colonne del terreno 
 Usano `RetainingWallWorkspace` o i rami `retainingWall` di `SheetEditor`; vanno riscritte sulla vista XAML ospitata da
 `MvvmSheetEditor` prima del passaggio (punto 5 della sezione 3):
 - `ui/smoke-retaining-wall` (`supporto/test/Desktop/RetainingWallSmokeChecks.cs`) e `ui/smoke-global-stability`
-  (`GlobalStabilitySmokeChecks.cs`);
+  (`GlobalStabilitySmokeChecks.cs`). **Fatto** (f5-suite-ui, `a1bbb117`): `openSheet.Wall` (`WallSmoke`, vista storica o XAML), duplicati
+  `ui/smoke-retaining-wall-mvvm` e `ui/smoke-global-stability-mvvm` ([f5-suite-ui.md](f5-suite-ui.md), sezione 2.3). Al passaggio si
+  tolgono `HistoricWallSmoke` e i duplicati;
 - `ui/check-global-guidance-offscreen` (`GlobalGuidanceChecks.cs`), `ui/check-wall-advanced-offscreen` (`WallAdvancedChecks.cs`),
   `ui/check-wall-materials-offscreen` (`WallMaterialChecks.cs`);
 - `ui/f3-scheduling`: `F3WallParameterChecks.cs` e `F3TypedSchedulingChecks.cs` (`RetainingWallWorkspace.CheckF3Scheduling`)

@@ -193,12 +193,20 @@ della Release, dalla suite `ui/check-materials-view`: le suite storiche restano 
    `IMaterialSheetViewModel.ReportContent`; `ExportReport` dei materiali con DOCX e PDF come `MaterialReportChapter.Write`
    (oggi `ReportFiles.Write` ricava il PDF dal DOCX riletto: va verificato che sia uguale).
 5. **Suite UI riscritte** sui ViewModel e sulla vista nuova, in `tests/ANTHEA.Desktop.UiTests`:
-   - `ui/smoke-materials` con `MaterialViewChecks` (oggi usa i campi privati e le caselle nascoste delle esposizioni);
-   - `ui/smoke-material-report`;
-   - `ui/smoke-steel` (`historicEditor.rebarMaterial`, `Properties.Editors`);
+   - `ui/smoke-materials` con `MaterialViewChecks` (oggi usa i campi privati e le caselle nascoste delle esposizioni).
+     **Fatto** (f5-suite-ui, `519acbf5`): `OpenSheet.CheckConcrete`/`SetConcreteState`, `PreviewData`, duplicato
+     `ui/smoke-materials-mvvm` ([f5-suite-ui.md](f5-suite-ui.md), sezione 2.2 e domande S4–S5);
+   - `ui/smoke-material-report`. Usa solo `ISheetEditor`: passa già con i due moduli MVVM (prova a mano del 18/10, f5-suite-ui), nessuna
+     riscrittura;
+   - `ui/smoke-steel` (`historicEditor.rebarMaterial`, `Properties.Editors`). **Fatto** (f5-suite-ui, `519acbf5`): `OpenSheet.Steel`,
+     duplicato `ui/smoke-steel-mvvm`;
    - le prove di progetto che aprono i materiali (`ProjectHierarchySmokeChecks`, `ProjectSharingSmokeChecks`,
      `ProjectCoverWarningSmokeChecks`, `ProjectReportSmokeChecks`, `ProjectWorkspaceSmokeChecks`) usano
-     `historicEditor.materials`/`rebarMaterial`: vanno portate sull'anteprima e sui ViewModel.
+     `historicEditor.materials`/`rebarMaterial`: vanno portate sull'anteprima e sui ViewModel. **Fatto** (f5-suite-ui):
+     - `ProjectHierarchySmokeChecks`, `ProjectSharingSmokeChecks` e `ProjectCoverWarningSmokeChecks` in `519acbf5`, duplicati
+       `ui/smoke-hierarchy-mvvm` e `ui/smoke-sharing-mvvm`;
+     - `ProjectWorkspaceSmokeChecks` passa invariata (`8aece8fe`, `ui/smoke-project-workspace-mvvm`);
+     - `ProjectReportSmokeChecks` usa solo `ISheetEditor` e passa già con i moduli MVVM.
 6. **Punto di controllo**, poi passaggio della Release e archiviazione delle viste storiche (Q11): `Materials/*` e
    `RebarMaterialView` in `supporto/SUPERATI/ui-storica/materiali/`; rami `materials`/`rebarMaterial` di `SheetEditor`
    (campi 25-26, `PreviewData` 48, costruttore 126-134, `Commit` 166, `CalculateAsync` 261, `ExportReport` 361-366,
