@@ -207,8 +207,7 @@ L'ordine segue il passo 6 della ricetta di F5.4, dopo il punto di controllo F5.8
    scheda della vista F5.7.
 2. **Passaggio insieme con F5.7**: il ViewModel copre ora le due schede, quindi i due moduli si possono passare insieme dopo le
    due viste (O2 di F5.7, E2).
-3. **Banco e confronto diretto**: `--module-impl geo_palo_orizzontale=mvvm` e `geo_micropalo_orizzontale=mvvm`, cattura F3,
-   `tools/qa/f5_confronto_diretto.py` a differenza zero sulle 21 fixture dei due moduli, elastiche comprese.
+3. **Banco e confronto diretto: fatto** il 18/10 con F5.7, a differenza zero, fixture elastiche comprese (sezione 6.8).
 4. **Suite UI riscritte** sul ViewModel o sulla vista ospitata da `MvvmSheetEditor`, prima del passaggio della Release:
    - `ElasticPile.UiChecks` (e le varianti `anello-interno` e `nota-stress-block`): 83 chiamate per riflessione su
      `HorizontalWorkspace`, `PileReinforcementEditor`, `ConcreteWorkspace`, `PileReinforcementDrawing`;
@@ -266,12 +265,12 @@ PASS 116 (build 25, fast 31, wiki 2, ui 58), KNOWN 0, NEW-FAIL 0, nessun file tr
 `ui/check-contrast` è escluso: lo schermo è al 150% (144 DPI) e il controllo non può confrontarsi con la sua baseline a 96 DPI
 (decisione D6); il coordinatore lo ripete a 96 DPI. Nessuna vista nuova è entrata nel controllo del contrasto.
 
-## 6. Vista XAML (18/10)
+## 6. Vista XAML e banco (18/10)
 
 Lavoro dell'agente f5-7-vista sul ramo `refactoring/f5-7-vista`, dopo la vista della capacità (sezione 5 di
 `f5-7-palo-orizzontale.md`). La Release resta storica (E2): i due moduli passano insieme dopo la prova dell'utente sulle due schede.
 **Stato reale:** ViewModel, vista e controlli della scheda elastica fatti (vedi 6.3 per le tracce); banco F3 con i moduli MVVM e
-confronto diretto **non ancora fatti** (chiusura anticipata chiesta dal coordinatore).
+confronto diretto fatti dopo, dall'agente f5-7-banco, **a differenza zero**, fixture elastiche comprese (sezione 6.8).
 
 ### 6.1 Commit
 
@@ -338,13 +337,13 @@ del modulo in `ContrastAudit`; `ui/check-palo-elastico-historic` resta finché e
 
 ### 6.6 Che cosa resta e da dove si riparte
 
-1. **Banco F3** (non avviato): cattura con `--check-f3-equivalence` e `--module-impl geo_palo_orizzontale=mvvm --module-impl
-   geo_micropalo_orizzontale=mvvm` (atteso PASS 104), `tools/qa/f5_confronto_diretto.py` a differenza zero sulle fixture elastiche
-   comprese, transizioni F4 (1 117) invariate, `--check-f3-report-chapters` con MVVM.
-2. `--check-contrast` a 96 DPI con il passo della vista nuova.
-3. Punto di controllo dell'utente (6.7), poi passaggio della Release con F5.7 e archiviazione (Q11).
+Il banco F3 è fatto (6.8). Restano:
 
-### 6.7 Da provare a mano (banco UiTests con i due `--module-impl`)
+1. `--check-contrast` a 96 DPI con il passo della vista nuova.
+2. Punto di controllo dell'utente (6.7) in una versione portatile con le due viste attive, poi le suite storiche della 6.5
+   riscritte, il passaggio della Release con F5.7 e l'archiviazione (Q11).
+
+### 6.7 Da provare a mano (versione portatile con le viste attive; oppure banco UiTests con i due `--module-impl`)
 
 1. Aprire un palo con risposta elastica: stratigrafia della risposta, opzioni (passo, punta), caselle del disegno, «Info», clic sul
    disegno (linea arancione, sezione alla quota, dettaglio).
@@ -355,3 +354,19 @@ del modulo in `ContrastAudit`; `ui/check-palo-elastico-historic` resta finché e
 4. «Apri tavola armature…» con zoom ed «Esporta PNG…»; «Esporta CSV».
 5. Un archivio con l'input elastico vecchio (confronto, «Usa dati comuni…», «Importa legacy…»).
 6. Revisione precedente (sola lettura), aspetti Scuro e Molto scuro (colori delle schede dei tratti).
+
+### 6.8 Banco F3 con i due moduli MVVM (18/10)
+
+Un solo banco per le due schede, fatto dall'agente f5-7-banco sul ramo `refactoring/f5-7-banco` (da `refactoring/f5` 434380ce):
+risultati, comandi e cartelle nella sezione 5.8 di `f5-7-palo-orizzontale.md`. Nessuna vista e nessun ViewModel cambiati. In breve:
+
+- cattura F3 storica e cattura con `--module-impl geo_palo_orizzontale=mvvm --module-impl geo_micropalo_orizzontale=mvvm`: PASS 104
+  fixture ciascuna, 22 126 transizioni F4 elencate e ammesse, le 1 117 del palo orizzontale elastico comprese, `transitions-f4.json`
+  invariato;
+- confronto diretto `tools/qa/f5_confronto_diretto.py`: **0 differenze** su 1066 file (1063 uguali byte per byte, 3 JSON uguali in
+  forma canonica), comprese le 6 fixture sulla risposta elastica; ignorati solo i 6 tempi volatili delle armature
+  (`ElasticHorizontalPile.Reinforcement.cs:52`);
+- `--check-f3-report-chapters` con i due moduli MVVM: PASS 105;
+- `ui/f3-scheduling`: `F3PileSegmentChecks` costruisce `PileReinforcementEditor` direttamente, fuori dal banco; nessuna variante MVVM
+  aggiunta, la suite va riscritta su `PileSegmentDesignViewModel` prima del passaggio (6.5);
+- corsa finale: in corso (esito nel commit seguente).
