@@ -265,3 +265,93 @@ PASS 116 (build 25, fast 31, wiki 2, ui 58), KNOWN 0, NEW-FAIL 0, nessun file tr
 
 `ui/check-contrast` è escluso: lo schermo è al 150% (144 DPI) e il controllo non può confrontarsi con la sua baseline a 96 DPI
 (decisione D6); il coordinatore lo ripete a 96 DPI. Nessuna vista nuova è entrata nel controllo del contrasto.
+
+## 6. Vista XAML (18/10)
+
+Lavoro dell'agente f5-7-vista sul ramo `refactoring/f5-7-vista`, dopo la vista della capacità (sezione 5 di
+`f5-7-palo-orizzontale.md`). La Release resta storica (E2): i due moduli passano insieme dopo la prova dell'utente sulle due schede.
+**Stato reale:** ViewModel, vista e controlli della scheda elastica fatti (vedi 6.3 per le tracce); banco F3 con i moduli MVVM e
+confronto diretto **non ancora fatti** (chiusura anticipata chiesta dal coordinatore).
+
+### 6.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `4064cab7` | ViewModel per la vista: comandi della scheda («Modifica dati e strati», migrazione, «Esporta CSV», `SaveSheetImage` per «Esporta PNG…»), comandi dei tratti e del riepilogo, `WikiNavigator` sui form Opzioni, Dettagli, Sisma, Altro; E1 con `IDialogService` |
+| `d026b081` | Vista XAML (`ElasticPileView`, `PileReinforcementView`, dialoghi della vista, `PileConcreteVerifierView`), token `Segment.1–6`, aggiunte additive a `ElasticPileDrawing` (`SelectsOnClick`, `DepthClicked`, `Selection`) |
+| `test(f5.8): controlli della vista XAML della risposta elastica…` (questo ramo, dopo `d026b081`) | Controlli della scheda elastica attraverso la vista in `ui/check-palo-orizzontale-view`; la vista elastica segue il ViewModel anche mentre è mostrata la scheda della capacità |
+
+### 6.2 Decisioni applicate
+
+- **E1/C4 · verificatore c.a. con ritorno.** Scelto il **dialogo di `IDialogService`**, non un membro nuovo di `ISheetHost`:
+  `PileConcreteVerifier` è un `IDialogViewModel<JsonObject>`; `ShowConcreteVerifierAsync` lo mostra con i servizi del foglio e alla
+  chiusura conserva il foglio in `foglio_cls` (come il dialogo storico). Nel desktop il `DataTemplate` di `PileConcreteVerifier` è
+  `PileConcreteVerifierView` (1264 × 861 come la finestra storica), che fino a F5.10 ospita la `ConcreteWorkspace` storica sul foglio
+  del tratto: conferma prima di «Applica armatura…» e alla chiusura, ricostruzione su `ReloadRequested`. Motivo: `ISheetHost` resta
+  uniforme per tutti i moduli (nessun membro con ritorni particolari), il ritorno vive nel dialogo (proposta C4 di
+  `f5-10-sezione.md`, sezione 5) e dopo S9 di F5.10 lo stesso dialogo ospiterà il ViewModel della sezione. `OpenConcreteVerifier`
+  non chiede più `OpenModuleCopy` all'ospite.
+- **E2.** Release storica; banco UiTests con `--module-impl` per le prove.
+- **Regola del blocco.** Ogni `FormViewModel` della scheda (Opzioni, Dettagli, Sisma, Altro) ha il navigatore della Wiki.
+
+### 6.3 Esiti
+
+| Prova | Esito |
+| --- | --- |
+| `Presentation.Tests` | PASS 1863: le tracce dei 20 scenari passano per il servizio dei dialoghi (E1), tracce storiche congelate invariate |
+| `ui/check-palo-orizzontale-view`, parti elastiche | 20 tracce attraverso i controlli della vista e dei suoi dialoghi uguali a quelle congelate (28884 righe); 18 disegni della vista (6 fixture) (risposta con le opzioni, quota scelta con un clic, tavola) uguali alle righe con lo stesso nome di `disegni/elenco.txt`; aiuto, nomi, sola lettura, verificatore E1, CSV e PNG (sotto) |
+| Aiuto | etichette «?» uguali alla scheda storica; ogni «?» e ogni F1 dei quattro form al navigatore, anche in sola lettura; F1 fuori dai campi apre la guida |
+| Nomi di automazione | quelli della scheda storica conservati; le caselle del disegno con il `Tag` della chiave, i verificatori, la scelta «Interferro», le distinte e gli anelli come li cerca `ElasticPile.UiChecks` |
+| Sola lettura | stessi controlli bloccati e liberi della scheda storica; digitazione, caselle, tratti, ipotesi e dialoghi rifiutati |
+| Verificatore c.a. (E1) | dialogo dei servizi con la vista del suo modello e la `ConcreteWorkspace` storica; «Applica» scrive il palo, la chiusura conserva il foglio, nessuna copia alla finestra; spento in sola lettura |
+| Esportazioni | «Esporta CSV» = file del bottone storico (risultato uguale tempi esclusi); «Esporta PNG…» = immagine del bottone storico, byte per byte |
+| `ui/check-theme-tokens` | PASS 139 (77 token, 38 semantici) |
+| `Architecture.Tests` | PASS 523 |
+
+La suite intera dà PASS 221 controlli (capacità ed elastica, circa 6 minuti). Schermate (144 DPI) della pagina intera nei tre
+aspetti, palo e micropalo: `vista/schermate/elastica-*.png` della suite.
+
+Trovato con le tracce attraverso la vista: «esportabile» dopo «attendi» sulla scheda elastica dipende anche dal calcolo della
+capacità, che parte 450 ms dopo una modifica contro i 300 ms della risposta: è una corsa (la vista storica ha lo stesso
+comportamento). Nelle tracce congelate il calcolo della capacità era sempre finito; la prova lo lascia finire (nessuna riga della
+capacità è nella traccia elastica).
+
+### 6.4 Differenze visibili e scelte da confermare («da decidere», con la scelta fatta)
+
+- **Titoli**: scheda 18 → 16 punti (`Font.Heading`), confronto con un archivio vecchio 17 → 16.
+- **Toni del pannello «Sezione e verifiche»**: rosso, verde, blu e attenuato → `Status.Fail`, `Status.Ok`, `Ink`, `Muted`; ambra
+  (#B8860B) → `Status.Caution`; grigio degli esclusi (#708090) → `Muted`.
+- **Colori delle schede dei tratti**: token `Segment.1–6` con ruolo background. In Chiara sono i pastelli storici; in Scuro e Molto
+  scuro sono i colori che `Appearance.ApplyTree` dava alle schede storiche (nessuna differenza). Scelta da confermare: un gruppo
+  nuovo «Segment.» nelle regole di `ThemeTokenChecks` (fuori dall'insieme semantico, che resta 38 ≤ 40) e 6 voci nuove in
+  `tests/fixtures/f5/token-colori.json`. I disegni (`ElasticPileDrawing`, `PileReinforcementDrawing`) usano ancora
+  `PileReinforcementEditor.SegmentColor`: al passaggio, quando l'editor storico si archivia, il metodo va spostato.
+- **«Esporta PNG…»** scritto in modo atomico (`Archivio.ScriviAtomico`) invece di `File.WriteAllBytes`.
+- **Dialoghi della vista** (NTC §7.2.5, «Info sezioni», proposta, divisione, dimensionamento, «Info», confronto, tavola): finestre
+  della vista con le misure storiche; il verificatore c.a. è il dialogo dei servizi (adatta la finestra al contenuto).
+- **Cataloghi del dimensionamento** passati al ViewModel a ogni tasto (`UpdateSourceTrigger=PropertyChanged`).
+
+### 6.5 Suite storiche da riscrivere prima del passaggio della Release
+
+`ElasticPile.UiChecks` e le varianti `anello-interno` e `nota-stress-block`; `F3PileSegmentChecks` in `ui/f3-scheduling`; il passo
+del modulo in `ContrastAudit`; `ui/check-palo-elastico-historic` resta finché esiste la vista storica.
+
+### 6.6 Che cosa resta e da dove si riparte
+
+1. **Banco F3** (non avviato): cattura con `--check-f3-equivalence` e `--module-impl geo_palo_orizzontale=mvvm --module-impl
+   geo_micropalo_orizzontale=mvvm` (atteso PASS 104), `tools/qa/f5_confronto_diretto.py` a differenza zero sulle fixture elastiche
+   comprese, transizioni F4 (1 117) invariate, `--check-f3-report-chapters` con MVVM.
+2. `--check-contrast` a 96 DPI con il passo della vista nuova.
+3. Punto di controllo dell'utente (6.7), poi passaggio della Release con F5.7 e archiviazione (Q11).
+
+### 6.7 Da provare a mano (banco UiTests con i due `--module-impl`)
+
+1. Aprire un palo con risposta elastica: stratigrafia della risposta, opzioni (passo, punta), caselle del disegno, «Info», clic sul
+   disegno (linea arancione, sezione alla quota, dettaglio).
+2. Tratti: fine, «Usa principale», campi, secondo anello, tipo trasversale; «Dividi…», «Unisci ←», «Proponi suddivisione…»,
+   «Dimensiona…», «Verifiche →», «Distinta ferri»; i tre gruppi di ipotesi e «Approva tutto».
+3. «Apri verificatore c.a.» (scheda e riepilogo): la sezione c.a. storica nel dialogo, «Applica armatura…», chiusura e riapertura
+   (il foglio resta nel tratto); micropalo CHS: rifiutato con il messaggio.
+4. «Apri tavola armature…» con zoom ed «Esporta PNG…»; «Esporta CSV».
+5. Un archivio con l'input elastico vecchio (confronto, «Usa dati comuni…», «Importa legacy…»).
+6. Revisione precedente (sola lettura), aspetti Scuro e Molto scuro (colori delle schede dei tratti).

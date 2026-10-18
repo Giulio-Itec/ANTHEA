@@ -22,12 +22,21 @@ public partial class PileConcreteVerifierView : UserControl
     {
         InitializeComponent();
         DataContextChanged += (_, _) => Open(DataContext as PileConcreteVerifier);
-        Loaded += (_, _) =>
-        {
-            if (window is not null) return;
-            window = Window.GetWindow(this);
-            if (window is not null) window.Closed += (_, _) => CloseWorkspace();
-        };
+        Loaded += (_, _) => HookWindow();
+    }
+
+    /// <summary>The window of the dialog, as soon as the view is in it (before it is loaded): its closing commits the workspace.</summary>
+    protected override void OnVisualParentChanged(DependencyObject oldParent)
+    {
+        base.OnVisualParentChanged(oldParent);
+        HookWindow();
+    }
+
+    private void HookWindow()
+    {
+        if (window is not null || Window.GetWindow(this) is not { } shown) return;
+        window = shown;
+        window.Closed += (_, _) => CloseWorkspace();
     }
 
     private void Open(PileConcreteVerifier? next)

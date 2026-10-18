@@ -264,3 +264,84 @@ L'ordine segue il passo 6 della ricetta di F5.4, dopo il punto di controllo F5.7
 
 **Materiale da mostrare** (dopo i passi 1–3 della sezione 3): schermate fuori schermo nei tre aspetti, `--check-contrast`, confronto
 diretto a zero, `ui/f3-equivalence` con i due moduli MVVM, conteggio delle suite `ui`, questa nota con le risposte.
+
+## 5. Vista XAML (18/10)
+
+Lavoro dell'agente f5-7-vista sul ramo `refactoring/f5-7-vista` (da `refactoring/f5` 591272d8), insieme alla vista della risposta
+elastica (F5.8, sezione 6 di `f5-8-palo-elastico.md`). La Release resta storica (O2/E2): i due moduli passano insieme dopo la
+prova dell'utente sulle due schede. **Stato reale:** vista della capacità e suoi controlli fatti; banco F3 con i moduli MVVM e
+confronto diretto **non ancora fatti** (chiusura anticipata chiesta dal coordinatore).
+
+### 5.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `3e9286d8` | ViewModel della capacità per la vista: comandi (stratigrafie, «Copia in…»/«Copia da…», CSV, riferimenti, «Estendi»/«Riduci», «Invia / carica terreno…», «Modello e dati comuni…»), `WikiNavigator` su ogni form, O6 come voce F5-02 del registro |
+| `31198665` | Vista XAML della capacità in `X.Desktop/Views/HorizontalPile` (`HorizontalPileSheetView`, pannello delle schede, tabella degli strati con l'editor del terreno, dialogo «Diagrammi e dettagli», dettagli del terreno); `FieldForm.EditorToolTips` (aggiunta) |
+| `4f5135cf` | Controlli della vista (`tests/Desktop/HorizontalPileViewChecks*.cs`), suite `ui/check-palo-orizzontale-view`, passo di contrasto autonomo in `ContrastAudit` (non eseguito) |
+| `4064cab7`, `d026b081`, `test(f5.8): controlli…` | ViewModel e vista della risposta elastica, controlli elastici (sezione 6 di `f5-8-palo-elastico.md`) |
+
+### 5.2 Decisioni applicate
+
+- **O2/E2.** La Release resta storica; con `--module-impl geo_palo_orizzontale=mvvm --module-impl geo_micropalo_orizzontale=mvvm`
+  il banco UiTests apre la vista nuova con le due schede.
+- **O6 → F5-02.** Nella vista nuova, dopo un valore dell'acciaio personalizzato (fyk, Es, fu, εu, diagramma) la scelta «Acciaio»
+  mostra «Personalizzato», come i dati. Voce F5-02 del registro (difetto-legacy, dichiarato); le tracce della vista storica si
+  confrontano con `HorizontalPileTrace.WithDeclaredDifferences`, che cambia solo le righe `scelta classe_acciaio` dello scenario
+  `modifiche-palo` (20 righe). La seconda parte probabile di O6 (nota della classe dal catalogo) non si presenta: anche la vista
+  storica mostra la nota giusta. Il coordinatore può dover rinumerare F5-02 se un altro agente ha usato lo stesso numero.
+- **O7/T5.** «Invia / carica terreno…» usa `SoilTransferDialogService` (dialogo condiviso); «Modello e dati comuni…» apre la pagina
+  di teoria con `IWikiNavigator` (`CalculationGuide`).
+- **Regola del blocco.** Ogni `FormViewModel` ha `WikiNavigator = Context.Services.Wiki`: ogni «?» e ogni F1 dei campi arriva al
+  navigatore (provato).
+
+### 5.3 Esiti
+
+| Prova | Esito |
+| --- | --- |
+| `ui/check-palo-orizzontale-view`, parti della capacità | 27 tracce attraverso i controlli uguali a quelle congelate (40277 righe, 20 righe F5-02); 40 disegni uguali; 21 fixture con visita senza scritture, schede delle analisi che scrivono come la storica, dati e risultato dopo «Calcola», JSON, Word, PDF e CSV uguali alla vista storica; F5-02; schermate; aiuto; nomi di automazione; sola lettura; dialogo del terreno; banco e Release |
+| `ui/check-palo-orizzontale-view`, suite intera | PASS 221 controlli con le parti elastiche (sezione 6 di `f5-8-palo-elastico.md`), circa 6 minuti |
+| `Presentation.Tests` | PASS 1863 |
+| `Architecture.Tests` | PASS 523 (P1–P7, F4 senza voci nuove) |
+| Profilo quick | `f57v-c3` su `4f5135cf` e `f57v-c5` su `d026b081`: PASS 52, NEW-FAIL 0 |
+
+Le schermate (144 DPI) sono in `vista/schermate` della suite, con quelle della vista storica alle stesse misure in
+`schermate/storica`.
+
+### 5.4 Differenze visibili e scelte da confermare («da decidere», con la scelta fatta)
+
+- **Colori dell'esito della verifica**: storici #16703C/#B42318 → token `Status.Ok`/`Status.Fail` (come F5.6).
+- **«Opzioni avanzate»** (metodo, passo, tolleranza): editor di 82 px del `FieldForm` compatto invece di 150 px (D10).
+- **Titoli delle tabelle 14.5/14.6** nel dialogo dei dettagli del terreno: 15 → 14 punti (`Font.Subheading`).
+- **F5-02** (sopra): la scelta «Acciaio» mostra «Personalizzato».
+- **Stili delle caselle della tabella degli strati** basati sullo stile del tipo (`BasedOn` del `TextBox`/`ComboBox` del tema): negli
+  aspetti scuri restano del tema. Probabile stesso difetto latente nella vista F5.6 (`LayerChoice`/`LayerText` basati su uno stile
+  senza tema): segnalato, non corretto.
+
+### 5.5 Suite storiche da riscrivere prima del passaggio della Release
+
+- `ui/smoke-horizontal`: `HorizontalSmokeChecks`, `HorizontalLayoutChecks`, `HorizontalChsChecks`, `HorizontalStratifiedSmokeChecks`;
+- le parti di `ElasticPile.UiChecks` (e varianti) che usano `HorizontalWorkspace` per riflessione;
+- `F3PileSegmentChecks` in `ui/f3-scheduling`;
+- i passi del modulo in `ContrastAudit` (`--check-contrast`); il passo nuovo della vista è pronto ma non eseguito (144 DPI);
+- `ui/check-palo-orizzontale-historic` e `ui/check-palo-elastico-historic` restano finché esiste la vista storica.
+
+### 5.6 Che cosa resta e da dove si riparte
+
+1. **Banco F3** (non avviato): cattura con `dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-f3-equivalence <radice>
+   <uscita> --module-impl geo_palo_orizzontale=mvvm --module-impl geo_micropalo_orizzontale=mvvm` (atteso PASS 104), poi
+   `python -I tools/qa/f5_confronto_diretto.py --a <cattura storica> --b <cattura mvvm> --out <json>` a differenza zero (fixture
+   elastiche comprese), transizioni F4 (1 117) invariate, `--check-f3-report-chapters` con gli stessi `--module-impl`.
+2. `--check-contrast` a 96 DPI con il passo della vista nuova (coordinatore).
+3. Punto di controllo dell'utente con la prova a mano (5.7), poi passaggio della Release e archiviazione insieme a F5.8.
+
+### 5.7 Da provare a mano (banco UiTests: `ANTHEA.exe --interactive --module-impl geo_palo_orizzontale=mvvm --module-impl geo_micropalo_orizzontale=mvvm`)
+
+1. Aprire un palo e un micropalo orizzontale reali: schede, forme, stratigrafie, profilo, sezione c.a. o CHS e verifica come oggi;
+   ridimensionare la finestra e provare «Estendi»/«Riduci» delle tre schede.
+2. Modificare campi, strati, editor del terreno (categoria, legge, valore, override, nh) e stratigrafie («+»/«−», «Copia in…»/«Copia
+   da…», eliminazione con conferma): ricalcolo e stato.
+3. Acciaio personalizzato (fu, Es…): la scelta «Acciaio» mostra «Personalizzato» (F5-02); poi una classe del catalogo.
+4. «Diagrammi e dettagli», «Esporta CSV», i riferimenti bibliografici.
+5. «Invia / carica terreno…» e «Modello e dati comuni…»; i «?» dei campi e F1.
+6. Una revisione precedente (sola lettura); report Word/PDF; aspetti Scuro e Molto scuro.

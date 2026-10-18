@@ -236,51 +236,7 @@ internal static partial class HorizontalPileViewChecks
             return state;
         }
 
-        /// <summary>The editors, the rows and the group expanders of the forms of the page, found in one walk of the page.</summary>
-        private sealed class FormControls
-        {
-            internal Dictionary<FieldViewModel, Control> Editors { get; } = [];
-            internal Dictionary<FieldViewModel, Grid> Rows { get; } = [];
-            internal List<Expander> Groups { get; } = [];
-        }
-
-        private FormControls Controls()
-        {
-            var found = new FormControls();
-            foreach (var node in Visual(Page))
-                switch (node)
-                {
-                    case Grid { Name: "Row", DataContext: FieldViewModel field } row: found.Rows.TryAdd(field, row); break;
-                    case Control { DataContext: FieldViewModel field } editor when editor is TextBox or ComboBox or CheckBox && editor.TemplatedParent is not ComboBox:
-                        found.Editors.TryAdd(field, editor); break;
-                    case Expander { DataContext: FieldGroupViewModel } group: found.Groups.Add(group); break;
-                }
-            return found;
-        }
-
-        /// <summary>The fields of a form as its FieldForm shows them (the line of the F5.6 and F5.7 traces).</summary>
-        private static List<VerticalPileFieldState> Fields(FormViewModel form, FormControls controls) => form.Fields.Select(f =>
-        {
-            var row = controls.Rows.GetValueOrDefault(f) ?? throw new InvalidOperationException("Riga della vista non disposta: " + f.Key);
-            bool enabled = row.IsEnabled, dimmed = row.Opacity < 1, visible = row.Visibility == Visibility.Visible;
-            // A check box without the symbol columns is the only element of its row (InputForm: the label of the row is the editor itself).
-            if (f.Layout == FieldLayout.EditorOnly) enabled &= controls.Editors.GetValueOrDefault(f)?.IsEnabled ?? f.CanChange;
-            // A row hidden since the opening has no editor yet (WPF lays out only what is shown): its value is the one of its field.
-            if (controls.Editors.GetValueOrDefault(f) is not { } editor)
-                return f.Kind switch
-                {
-                    FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.Text, null, enabled, dimmed, visible),
-                    FieldKind.Choice => new VerticalPileFieldState(f.Key, "scelta", f.Label, f.SelectedChoice ?? "", f.Choices, enabled, dimmed, visible),
-                    _ => new VerticalPileFieldState(f.Key, "opzione", f.Label, VerticalPileTrace.YesNo(f.IsChecked), null, enabled, dimmed, visible),
-                };
-            string label = AutomationProperties.GetName(editor);
-            return editor switch
-            {
-                TextBox t => new VerticalPileFieldState(f.Key, "campo", label, t.Text, null, enabled, dimmed, visible),
-                ComboBox c => new VerticalPileFieldState(f.Key, "scelta", label, c.SelectedItem as string ?? "", ((IEnumerable)c.ItemsSource).Cast<string>().ToArray(), enabled, dimmed, visible),
-                _ => new VerticalPileFieldState(f.Key, "opzione", label, VerticalPileTrace.YesNo(((CheckBox)editor).IsChecked == true), null, enabled, dimmed, visible),
-            };
-        }).ToList();
+        private FormControls Controls() => FormControlsOf(Page);
 
         /// <summary>The groups of a form as its FieldForm shows them: the title of the expander, the keys of its rows, open or closed.</summary>
         private static List<HorizontalPileGroupState> Groups(FormViewModel form, FormControls controls) =>
@@ -339,6 +295,55 @@ internal static partial class HorizontalPileViewChecks
             return states;
         }
     }
+
+    // ---------------------------------------------------------------- FieldForm readers (capacity and elastic response)
+
+    /// <summary>The editors, the rows and the group expanders of FieldForms.</summary>
+    private sealed class FormControls
+    {
+        internal Dictionary<FieldViewModel, Control> Editors { get; } = [];
+        internal Dictionary<FieldViewModel, Grid> Rows { get; } = [];
+        internal List<Expander> Groups { get; } = [];
+    }
+
+    /// <summary>The editors, the rows and the group expanders of the FieldForms under <paramref name="root"/>, found in one walk.</summary>
+    private static FormControls FormControlsOf(DependencyObject root)
+    {
+        var found = new FormControls();
+        foreach (var node in Visual(root))
+            switch (node)
+            {
+                case Grid { Name: "Row", DataContext: FieldViewModel field } row: found.Rows.TryAdd(field, row); break;
+                case Control { DataContext: FieldViewModel field } editor when editor is TextBox or ComboBox or CheckBox && editor.TemplatedParent is not ComboBox:
+                    found.Editors.TryAdd(field, editor); break;
+                case Expander { DataContext: FieldGroupViewModel } group: found.Groups.Add(group); break;
+            }
+        return found;
+    }
+
+    /// <summary>The fields of a form as its FieldForm shows them (the line of the F5.6 and F5.7 traces).</summary>
+    private static List<VerticalPileFieldState> Fields(FormViewModel form, FormControls controls) => form.Fields.Select(f =>
+    {
+        var row = controls.Rows.GetValueOrDefault(f) ?? throw new InvalidOperationException("Riga della vista non disposta: " + f.Key);
+        bool enabled = row.IsEnabled, dimmed = row.Opacity < 1, visible = row.Visibility == Visibility.Visible;
+        // A check box without the symbol columns is the only element of its row (InputForm: the label of the row is the editor itself).
+        if (f.Layout == FieldLayout.EditorOnly) enabled &= controls.Editors.GetValueOrDefault(f)?.IsEnabled ?? f.CanChange;
+        // A row hidden since the opening has no editor yet (WPF lays out only what is shown): its value is the one of its field.
+        if (controls.Editors.GetValueOrDefault(f) is not { } editor)
+            return f.Kind switch
+            {
+                FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.Text, null, enabled, dimmed, visible),
+                FieldKind.Choice => new VerticalPileFieldState(f.Key, "scelta", f.Label, f.SelectedChoice ?? "", f.Choices, enabled, dimmed, visible),
+                _ => new VerticalPileFieldState(f.Key, "opzione", f.Label, VerticalPileTrace.YesNo(f.IsChecked), null, enabled, dimmed, visible),
+            };
+        string label = AutomationProperties.GetName(editor);
+        return editor switch
+        {
+            TextBox t => new VerticalPileFieldState(f.Key, "campo", label, t.Text, null, enabled, dimmed, visible),
+            ComboBox c => new VerticalPileFieldState(f.Key, "scelta", label, c.SelectedItem as string ?? "", ((IEnumerable)c.ItemsSource).Cast<string>().ToArray(), enabled, dimmed, visible),
+            _ => new VerticalPileFieldState(f.Key, "opzione", label, VerticalPileTrace.YesNo(((CheckBox)editor).IsChecked == true), null, enabled, dimmed, visible),
+        };
+    }).ToList();
 
     // ---------------------------------------------------------------- 1. traces and drawings of the capacity
 

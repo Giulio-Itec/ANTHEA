@@ -39,8 +39,9 @@ public partial class ElasticPileView : UserControl
         DrawingHost.Content = Drawing; SheetHost.Content = SheetDrawing; SectionHost.Content = SectionDrawing;
         Drawing.DepthClicked += depth => sheet?.SelectDepth(depth);
         DataContextChanged += (_, _) => Attach(DataContext as ElasticPileViewModel);
+        // The drawings follow the ViewModel also while the tab of the capacity is shown (the tab is unloaded), as the historic tab: the view and its
+        // ViewModel live and end with the sheet.
         Loaded += (_, _) => Attach(DataContext as ElasticPileViewModel);
-        Unloaded += (_, _) => Attach(null);
     }
 
     private void Attach(ElasticPileViewModel? next)

@@ -57,7 +57,15 @@ namespace X.Desktop;
 /// <item>Read-only revision: the controls that accept the user are those of the historic view after InspectRevision.</item>
 /// <item>The shared soil transfer dialog (T5, O7): «Invia / carica terreno…» of the pile and of the micropile, a copy and a replacement sent to
 /// the window.</item>
-/// <item>Bench and Release: with --module-impl the two modules open the MVVM view; the Release keeps the historic view.</item>
+//// <item>Bench and Release: with --module-impl the two modules open the MVVM view; the Release keeps the historic view.</item>
+/// <item>Traces of the elastic response through the view (F5.8): the 20 scenarios of tests/Shared/ElasticPileTrace.cs driven through the controls of
+/// the view and of its dialogs (split, proposal, design shown outside the screen; the c.a. verifier as the dialog of the services with the historic
+/// ConcreteWorkspace of its view, E1), equal line by line to the traces of the historic view frozen in tests/fixtures/f5-elastico/storica; the
+/// drawings the view shows (the response with the options of the fixture, with a depth chosen by a click, the sheet of the reinforcement) equal to
+/// those frozen.</item>
+/// <item>The tab of the elastic response: every «?» and F1 of its four forms to the navigator, the automation names of the historic tab and the
+/// controls that ElasticPile.UiChecks finds, read-only against the historic tab, the c.a. verifier with its return (E1), «Esporta CSV» and «Esporta
+/// PNG…» of the sheet with the bytes of the historic buttons.</item>
 /// </list>
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
@@ -97,6 +105,9 @@ internal static partial class HorizontalPileViewChecks
             if (Part("sola-lettura")) await ReadOnly(root);
             if (Part("terreno")) await SoilDialog(root);
             if (Part("banco")) Bench(root);
+            if (Part("tracce-elastiche")) await ElasticTraces(root, output);
+            if (Part("disegni-elastici")) await ElasticDrawings(root, output);
+            if (Part("elastica")) await ElasticChecks(root, output);
         }
         finally
         {
@@ -222,7 +233,7 @@ internal static partial class HorizontalPileViewChecks
         /// <summary>The windows of the view shown by the last command (dialogs of the view), still open.</summary>
         internal List<Window> Dialogs { get; } = [];
 
-        private bool? ShowOffScreen(Window dialog)
+        internal bool? ShowOffScreen(Window dialog)
         {
             dialog.WindowStartupLocation = WindowStartupLocation.Manual; dialog.Left = -32000; dialog.Top = -32000; dialog.ShowActivated = false; dialog.ShowInTaskbar = false;
             dialog.Show(); dialog.UpdateLayout();
