@@ -546,6 +546,13 @@ Ogni voce è «da decidere»: la scelta indicata vale per andare avanti.
   «sollecitazioni») e gli scenari `azioni/*`; le tabelle delle azioni vivono nei pannelli dei domini, delle SLE e del taglio, quindi
   molti passi di `azioni/*` toccano S3–S5: usare la stessa regola d'arresto (`ExpectedStops`).
 - Il driver delle tracce e i controlli rapidi sono in `tests/ANTHEA.Presentation.Tests/ConcreteSectionSheetChecks*.cs`.
+- **Legame con S3–S5, perché S2 non è partito il 18/10.** I passi di `azioni/*` agiscono sulle tabelle dei pannelli: la tabella del
+  dominio 3D (filtro degli esiti e ordine per nome della vista storica, selezione di `AttachDomainRows`), quelle delle SLE e quella del
+  taglio. Con le sole tabelle delle azioni di S2 (un modello di tabella per pannello, con il filtro dei domini come funzione di
+  `ConcreteDomainChart.Includes`) si confrontano per intero `incolla`, `editor-sollecitazioni`, `sollecitazioni-uniche` e la parte
+  `[azioni]` di `percorso-f3`; `tabelle-storiche` si ferma a «menu 3D stato «SLV»», scelta del form del dominio (S3). Stima: circa sei
+  ore con la corsa finale, troppe per chiudere S2 nella stessa notte senza rischiare di lasciarlo a metà. Proposta: S2 insieme alle
+  tabelle dei pannelli (il modello di tabella di S3–S5), oppure S2 prima con l'arresto controllato su `tabelle-storiche`.
 
 ### 8.7 Come riprendere
 
