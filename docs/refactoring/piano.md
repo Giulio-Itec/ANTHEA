@@ -1,5 +1,15 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Spettri NTC e isolamento — 19 ottobre 2026
+
+Attività richiesta dall'utente su `refactoring/f5-azioni-spettri`, derivato da `refactoring/f5` b9c2d4b1. [Dettaglio ed evidenze](spettri-ntc.md).
+
+- [x] Riferimenti acquisiti, catture Excel indipendenti, motore Spettri in GPC.Design: 17796 confronti passati.
+- [x] Isolamento e pendolo, attesi dell'esempio e controllo analitico; differenze intenzionali esplicitate.
+- [x] Set candidato coerente verificato nelle librerie, senza push o merge.
+- [x] Collaudo mirato del nuovo modulo MVVM Azioni e guide globali Rev48 con Word/PDF e Wiki.
+- [ ] Runner full con set candidato e successivo rilascio definitivo autorizzato.
+
 Piano approvato il 6 ottobre 2026. Decisioni e architettura: [decisioni.md](decisioni.md).
 Il dettaglio di ogni passo (file, comandi di verifica, criteri di uscita) è stato preparato
 in `supporto/artefatti/refactoring/piano/` (cartella non versionata).

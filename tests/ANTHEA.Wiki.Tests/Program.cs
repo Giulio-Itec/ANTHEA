@@ -5,7 +5,8 @@ void Check(bool ok, string text) { if (!ok) throw new InvalidOperationException(
 try
 {
     string output = Path.GetFullPath(args[0]); Directory.CreateDirectory(output);
-    Check(WikiCatalog.Articles.Count(a => a.Key != "guida-stratigrafia" && a.Key != "modello-stratigrafia") == 71, "Articoli preesistenti persi nel trasferimento");
+    Check(WikiCatalog.Articles.Count(a => a.Key is not ("guida-stratigrafia" or "modello-stratigrafia" or "guida-spettri-ntc" or "spettri-isolamento")) == 71, "Articoli preesistenti persi nel trasferimento");
+    Check(WikiCatalog.Resolve("guida-spettri-ntc") is not null && WikiCatalog.Resolve("spettri-isolamento") is not null && WikiCatalog.ForModule("act_spettri_ntc") is not null,"Capitoli Spettri mancanti o non collegati");
     Check(WikiCatalog.Resolve("guida-stratigrafia") is not null && WikiCatalog.Resolve("modello-stratigrafia") is not null, "Capitoli stratigrafia mancanti");
     Check(WikiCatalog.ForModule("geo_stratigrafia") is not null, "Guida stratigrafia non collegata");
     foreach (var article in WikiCatalog.Articles)

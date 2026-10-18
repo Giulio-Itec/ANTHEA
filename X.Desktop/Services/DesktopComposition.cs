@@ -70,7 +70,7 @@ internal sealed class DesktopComposition
             new StratigraphySheetModule(new(Anthea.Application.Stratigraphy.StratigraphyImport.OpenAi(), Anthea.Application.Stratigraphy.StratigraphyImport.EnvironmentDefaults)),
             new RetainingWallSheetModule(new RetainingWallFigureRenderer()),
             // F5.10 S1: the RC section (shell, calculation, inputs); the Release keeps the historic view until S9 (C10).
-            new ConcreteSectionSheetModule()]);
+            new ConcreteSectionSheetModule(),new Anthea.Presentation.Modules.Spectra.SpectraSheetModule()]);
     }
 
     /// <summary>Factory of the services of a main window, unchanged since F1.4 (the WPF checks pass TestServices.Create instead).</summary>

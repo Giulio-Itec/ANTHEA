@@ -1,0 +1,67 @@
+<UserControl x:Class="X.Desktop.Views.Spectra.SpectraSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:views="clr-namespace:X.Desktop.Views.Spectra" Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="Visibility"/>
+  <Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/><Setter Property="TextWrapping" Value="Wrap"/><Setter Property="Margin" Value="0,4,0,6"/></Style>
+  <Style x:Key="Heading" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"><Setter Property="FontSize" Value="{DynamicResource Font.Heading}"/><Setter Property="FontWeight" Value="SemiBold"/><Setter Property="Margin" Value="0,14,0,8"/></Style>
+  <Style TargetType="ContentControl"><Setter Property="HorizontalContentAlignment" Value="Stretch"/></Style>
+  <Style TargetType="DataGrid"><Setter Property="IsReadOnly" Value="True"/><Setter Property="CanUserAddRows" Value="False"/><Setter Property="CanUserDeleteRows" Value="False"/><Setter Property="AutoGenerateColumns" Value="True"/></Style>
+ </UserControl.Resources>
+ <Grid>
+  <Grid.ColumnDefinitions><ColumnDefinition Width="370" MinWidth="300"/><ColumnDefinition Width="6"/><ColumnDefinition MinWidth="350"/></Grid.ColumnDefinitions>
+  <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource Token.Paper}">
+   <StackPanel Margin="14">
+    <TextBlock Text="Sito" Style="{StaticResource Heading}"/>
+    <TextBlock Text="Catalogo comunale dell’edizione CSLP 1.0.3"/>
+    <ComboBox ItemsSource="{Binding Regions}" SelectedItem="{Binding Region}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,6"/>
+    <ComboBox ItemsSource="{Binding Provinces}" SelectedItem="{Binding Province}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,6"/>
+    <TextBox Text="{Binding Search,UpdateSourceTrigger=PropertyChanged}" ToolTip="Cerca comune o provincia" IsEnabled="{Binding CanEdit}" Margin="0,0,0,6"/>
+    <ComboBox ItemsSource="{Binding Towns}" SelectedItem="{Binding Town}" DisplayMemberPath="Label" IsEnabled="{Binding CanEdit}" MaxDropDownHeight="300" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" Margin="0,0,0,6"/>
+    <TextBlock Text="{Binding Location}"/>
+    <ContentControl Content="{Binding SiteForm}"/>
+    <TextBlock Text="Vita di riferimento" Style="{StaticResource Heading}"/>
+    <ContentControl Content="{Binding LifeForm}"/>
+    <TextBlock Text="Spettro di progetto" Style="{StaticResource Heading}"/>
+    <ContentControl Content="{Binding DesignForm}"/>
+    <Expander Header="Isolamento sismico" IsExpanded="True" Margin="0,14,0,0">
+     <StackPanel>
+      <ContentControl Content="{Binding IsolationForm}"/>
+      <Button Content="Importa Excel di isolamento…" Command="{Binding ImportCommand}" Margin="0,8,0,4"/>
+      <TextBlock Text="{Binding ImportSource}"/>
+      <TextBlock Text="Catalogo importato → gruppo 1"/>
+      <ComboBox ItemsSource="{Binding Catalog}" SelectedItem="{Binding Bearing1}" DisplayMemberPath="Label" IsEnabled="{Binding CanEdit}"/>
+      <TextBlock Text="Catalogo importato → gruppo 2"/>
+      <ComboBox ItemsSource="{Binding Catalog}" SelectedItem="{Binding Bearing2}" DisplayMemberPath="Label" IsEnabled="{Binding CanEdit}"/>
+      <TextBlock Text="Il catalogo proviene dal file importato; controllare i parametri del dispositivo scelto."/>
+     </StackPanel>
+    </Expander>
+    <Expander Header="Modellazione del pendolo" Margin="0,12,0,0"><StackPanel><ContentControl Content="{Binding PendulumForm}"/><Button Content="Usa Ke e smorzamento nel gruppo 1" Command="{Binding ApplyPendulumCommand}" Margin="0,6,0,6"/><TextBlock Text="R è un dato del dispositivo; non viene dedotto automaticamente dalla corsa."/></StackPanel></Expander>
+    <Expander Header="Parametri sismici assegnati" Margin="0,12,0,0"><StackPanel><TextBlock Text="Per riprodurre un esempio o usare parametri già determinati. Se attivi, sostituiscono i parametri dei quattro stati limite; la fase 1 continua a mostrare il reticolo del sito."/><ContentControl Content="{Binding AssignedForm}"/></StackPanel></Expander>
+   </StackPanel>
+  </ScrollViewer>
+  <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{DynamicResource Token.Border}"/>
+  <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+   <StackPanel Margin="16">
+    <TextBlock Text="{Binding Reference}" Style="{StaticResource Heading}"/>
+    <TextBlock Text="{Binding Source}"/>
+    <TextBlock Text="{Binding CalculationMessage}"/>
+    <WrapPanel Margin="0,6,0,12">
+     <ComboBox Width="235" ItemsSource="{Binding Stages}" SelectedIndex="{Binding Stage}" Margin="0,0,8,6"/>
+     <ComboBox Width="85" ItemsSource="{Binding States}" SelectedIndex="{Binding State}" Margin="0,0,8,6" Visibility="{Binding ShowState,Converter={StaticResource Visibility}}"/>
+     <ComboBox Width="105" ItemsSource="{Binding Periods}" SelectedIndex="{Binding Period}" Margin="0,0,8,6" Visibility="{Binding ShowGrid,Converter={StaticResource Visibility}}"/>
+     <Button Content="Esporta CSV…" Command="{Binding ExportCommand}" Margin="0,0,8,6"/>
+     <Button Content="Copia ordinate" Command="{Binding CopyCommand}" Margin="0,0,8,6"/>
+    </WrapPanel>
+    <views:SpectraPlot Curves="{Binding Curves}" Caption="{Binding PlotTitle}" Height="420"/>
+    <views:SpectraGrid Nodes="{Binding Nodes}" Height="300" Visibility="{Binding ShowGrid,Converter={StaticResource Visibility}}"/>
+    <TextBlock Text="Parametri e risultati" Style="{StaticResource Heading}"/>
+    <DataGrid ItemsSource="{Binding Summary}" AutoGeneratingColumn="ResultColumn" MaxHeight="300" MinHeight="150"/>
+    <TextBlock Text="{Binding IsolationDetails}"/>
+    <TextBlock Text="{Binding PendulumDetails}"/>
+    <TextBlock Text="{Binding Note}"/>
+    <Expander Header="Ordinate degli spettri visualizzati" Margin="0,12,0,12"><DataGrid ItemsSource="{Binding Ordinates}" AutoGeneratingColumn="ResultColumn" Height="350" EnableRowVirtualization="True"/></Expander>
+   </StackPanel>
+  </ScrollViewer>
+ </Grid>
+</UserControl>

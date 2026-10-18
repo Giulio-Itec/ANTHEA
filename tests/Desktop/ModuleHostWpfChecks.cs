@@ -10,6 +10,7 @@ using System.Windows.Threading;
 using Anthea.Application.Modules;
 using Anthea.Presentation.Modules;
 using Anthea.Presentation.Modules.PileGroup;
+using Anthea.Presentation.Modules.Spectra;
 using Anthea.Presentation.Tests;
 using X.Core;
 using X.Desktop.Services;
@@ -32,6 +33,7 @@ internal static class ModuleHostWpfChecks
 
     /// <summary>The horizontal pile group, MVVM in the Release since the F5.4 checkpoint.</summary>
     private const string PileGroupModule = "geo_efficienza_orizzontale";
+    private const string SpectraModule = "act_spettri_ntc";
 
     private const string ProbeView = """
         <DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
@@ -58,9 +60,9 @@ internal static class ModuleHostWpfChecks
         // pile group with the MVVM view, every other module with the historic one.
         Check(ModuleImplementations.Declared.Select(d => d.Module).SequenceEqual(ModuleDirectory.All.Select(m => m.Id)),
             "ModuleImplementations elenca esattamente i moduli di ModuleDirectory, nel suo ordine");
-        Check(ModuleImplementations.Declared.All(d => d.Implementation == (d.Module == PileGroupModule ? SheetImplementation.Mvvm : SheetImplementation.Historic))
-            && ModuleImplementations.Release.Mvvm.SequenceEqual([PileGroupModule]),
-            "Release: la palificata con la vista MVVM (F5.4), tutti gli altri moduli con la vista storica");
+        Check(ModuleImplementations.Declared.All(d => d.Implementation == (d.Module is PileGroupModule or SpectraModule ? SheetImplementation.Mvvm : SheetImplementation.Historic))
+            && ModuleImplementations.Release.Mvvm.SequenceEqual([SpectraModule, PileGroupModule]),
+            "Release: palificata e nuovo modulo Spettri con la vista MVVM, gli altri moduli con la vista storica");
 
         // The composition root of the product: registry of ModuleDirectory with the MVVM pile group (F5.4), materials (F5.5) and vertical
         // piles (F5.6), the editors of the Release.
@@ -69,7 +71,7 @@ internal static class ModuleHostWpfChecks
             && composition.Modules.SheetModuleIds.SequenceEqual(ModuleDirectory.All.Select(m => m.Id)
                 .Where(m => m is "geo_efficienza_orizzontale" or "geo_palo_verticale" or "geo_micropalo_verticale" or "mat_calcestruzzo" or "mat_acciaio_armatura"
                     or "geo_fondazioni_superficiali" or "geo_palo_orizzontale" or "geo_micropalo_orizzontale" or "geo_stratigrafia" or "geo_muri_sostegno"
-                    or "str_palo")),
+                    or "str_palo" or SpectraModule)),
             "Radice di composizione: registro uguale a ModuleDirectory, con la palificata, i pali verticali e orizzontali, i materiali, le fondazioni, la stratigrafia, i muri e la sezione c.a. MVVM");
         using (var historic = composition.SheetEditors.Open(ProbeModule, ModuleDirectory.CreateData(ProbeModule)))
             Check(historic is SheetEditor, "Radice di composizione: la fabbrica apre la vista storica");
@@ -84,9 +86,9 @@ internal static class ModuleHostWpfChecks
         // The bench argument (UiTests only).
         Check(ModuleHostBench.WithoutBench(["--check-f3-equivalence", "radice", "uscita", ModuleHostBench.Argument, "str_palo=mvvm"])
             .SequenceEqual(["--check-f3-equivalence", "radice", "uscita"]), "Banco: argomenti posizionali senza le coppie --module-impl");
-        Check(ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm"]).Mvvm.SequenceEqual([PileGroupModule, "str_palo"])
-            && ModuleHostBench.Implementations(["--check-f3-equivalence"]).Mvvm.SequenceEqual([PileGroupModule])
-            && ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm", ModuleHostBench.Argument, "str_palo=historic"]).Mvvm.SequenceEqual([PileGroupModule]),
+        Check(ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm"]).Mvvm.SequenceEqual([SpectraModule, PileGroupModule, "str_palo"])
+            && ModuleHostBench.Implementations(["--check-f3-equivalence"]).Mvvm.SequenceEqual([SpectraModule, PileGroupModule])
+            && ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm", ModuleHostBench.Argument, "str_palo=historic"]).Mvvm.SequenceEqual([SpectraModule, PileGroupModule]),
             "Banco: scelte applicate in ordine sulla Release");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, PileGroupModule + "=historic"]), "archiviata",
             "Banco: vista storica della palificata archiviata (Q11), «historic» rifiutato");
@@ -103,7 +105,7 @@ internal static class ModuleHostWpfChecks
         var probe = new ProbeSheetModule(ModuleDirectory.Get(ProbeModule));
         Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry([probe])), PileGroupModule,
             "Banco: registro senza la palificata, MVVM nella Release, rifiutato");
-        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry([probe, new PileGroupSheetModule()]));
+        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry([probe, new PileGroupSheetModule(), new SpectraSheetModule()]));
         var echo = new EchoService();
         var data = new JsonObject { ["etichetta"] = "iniziale" };
         Fails<InvalidOperationException>(() => factory.Open(ProbeModule, data, echo), nameof(ProbeSheetViewModel), "Foglio senza DataTemplate rifiutato con il tipo del ViewModel");

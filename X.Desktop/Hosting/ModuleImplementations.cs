@@ -37,6 +37,7 @@ internal sealed partial class ModuleImplementations
         ("mat_calcestruzzo", SheetImplementation.Historic),
         ("mat_acciaio_armatura", SheetImplementation.Historic),
         ("geo_stratigrafia", SheetImplementation.Historic),
+        ("act_spettri_ntc", SheetImplementation.Mvvm),
     ];
 
     /// <summary>The implementations of the Release.</summary>

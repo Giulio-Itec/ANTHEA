@@ -25,6 +25,10 @@ public partial class App
         // Every check runs with the light theme; the later production call is ignored (Initialize is idempotent).
         Appearance.Initialize(false);
         handled = true;
+        if(e.Args.Length==3&&e.Args[0]=="--check-spettri-view"){
+            ShutdownMode=ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async()=>{int code=0;try{await SpectraViewChecks.Run(e.Args[1],e.Args[2]);}catch(Exception ex){Directory.CreateDirectory(e.Args[2]);File.WriteAllText(Path.Combine(e.Args[2],"errore.txt"),ex.ToString());code=1;}finally{Shutdown(code);}}));return;
+        }
         if (e.Args.Length == 3 && e.Args[0] is "--check-f3-concrete-figures" or "--check-f3-concrete-figures-capture")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
