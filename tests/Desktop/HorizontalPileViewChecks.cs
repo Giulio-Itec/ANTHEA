@@ -91,6 +91,7 @@ internal static partial class HorizontalPileViewChecks
             if (Part("esportazioni")) await FixturesAndExports(root, output);
             if (Part("acciaio")) await CustomSteel(root);
             if (Part("schermate")) await Screenshots(root, Path.Combine(output, "schermate"));
+            if (Part("schermate-elastica")) await ElasticScreenshots(root, Path.Combine(output, "schermate"));
             if (Part("aiuto")) await Help(root);
             if (Part("nomi")) await AutomationNames(root);
             if (Part("sola-lettura")) await ReadOnly(root);
@@ -293,6 +294,37 @@ internal static partial class HorizontalPileViewChecks
     }
 
     // ---------------------------------------------------------------- screenshots
+
+    /// <summary>The tab of the elastic response (F5.8) in the three appearances, the whole page (a window as high as the page), pile and micropile.</summary>
+    private static async Task ElasticScreenshots(string root, string folder)
+    {
+        Directory.CreateDirectory(folder);
+        var editors = Editors(new Services());
+        var cases = new[] { ("palo", Pile, "elastico-tratti-anello-spirale"), ("micropalo", Micro, "elastico-chs-stratificato") };
+        int written = 0;
+        foreach (var mode in new[] { AppAppearance.Light, AppAppearance.Dark, AppAppearance.VeryDark })
+        {
+            Appearance.Set(mode, false);
+            string suffix = mode switch { AppAppearance.Light => "chiara", AppAppearance.Dark => "scuro", _ => "molto-scuro" };
+            foreach (var (name, module, id) in cases)
+            {
+                using var host = new Hosted(editors.Open(module, HorizontalPileScenarios.FixtureData(root, module, id)), mode != AppAppearance.Light);
+                await host.Sheet.Elastic.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                await host.Settle();
+                // The whole page of the tab (the scroll viewer shows a part of it), on the background of the view.
+                var page = Visual(host.Root).OfType<ElasticPileView>().Single().Page;
+                var bitmap = new RenderTargetBitmap((int)Math.Ceiling(page.ActualWidth), (int)Math.Ceiling(page.ActualHeight), 96, 96, PixelFormats.Pbgra32);
+                var background = new DrawingVisual();
+                using (var context = background.RenderOpen()) context.DrawRectangle((Brush)page.FindResource("Token.Surface"), null, new Rect(0, 0, page.ActualWidth, page.ActualHeight));
+                bitmap.Render(background); bitmap.Render(page);
+                var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
+                using (var file = File.Create(Path.Combine(folder, $"elastica-{name}-{suffix}.png"))) encoder.Save(file);
+                written++;
+            }
+        }
+        Appearance.Set(AppAppearance.Light, false);
+        Check(written == 6, "Schermate della scheda elastica nei tre aspetti: " + written + " PNG in " + folder);
+    }
 
     private static async Task Screenshots(string root, string folder)
     {

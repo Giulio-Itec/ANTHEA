@@ -1,0 +1,7 @@
+<!-- A text of the elastic response in a dialog of the view (Info of the historic ElasticPileWorkspace): read-only, wrapping, 14 points, padding 18. -->
+<UserControl x:Class="X.Desktop.Views.HorizontalPile.ElasticTextView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Background="{DynamicResource Token.Surface}">
+ <TextBox x:Name="Box" IsReadOnly="True" TextWrapping="Wrap" Padding="18" FontSize="{DynamicResource Font.Subheading}" VerticalScrollBarVisibility="Auto"/>
+</UserControl>

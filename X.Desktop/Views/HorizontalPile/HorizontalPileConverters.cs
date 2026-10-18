@@ -26,10 +26,18 @@ internal sealed class CollapsedWhenTrueConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotSupportedException();
 }
 
-/// <summary>Collapsed for a null value, visible otherwise.</summary>
+/// <summary>Collapsed for a null value, visible otherwise; with the parameter «Invert» the opposite.</summary>
 internal sealed class CollapsedWhenNullConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is null ? Visibility.Collapsed : Visibility.Visible;
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => (value is null) != (parameter as string == "Invert") ? Visibility.Collapsed : Visibility.Visible;
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotSupportedException();
+}
+
+/// <summary>SemiBold for a bold text of the elastic response (ElasticPileText.Bold, Ui.Text of the historic view), Normal otherwise.</summary>
+internal sealed class BoldWeightConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is true ? FontWeights.SemiBold : FontWeights.Normal;
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotSupportedException();
 }

@@ -120,6 +120,15 @@ internal static class ThemeTokens
         new("Utilization.High", "#E4C441", ThemeRole.Swatch, "0,70 < η ≤ 0,90", "UtilizationColors.Color(≤ 0,90)"),
         new("Utilization.Critical", "#EF8C32", ThemeRole.Swatch, "0,90 < η ≤ 1,00", "UtilizationColors.Color(≤ 1,00)"),
         new("Utilization.Exceeded", "#CB3939", ThemeRole.Swatch, "η > 1,00", "UtilizationColors.Color(> 1,00)"),
+        // F5.8: the cards of the segments of the reinforcement of the elastic pile (PileReinforcementEditor.SegmentColor), backgrounds of texts and
+        // fields. Role background, as the historic Appearance.ApplyTree painted the local background of the cards in Scuro and Molto scuro; a group of
+        // its own (Segment.), outside the semantic set, as Series., Drawing., Swatch. and Utilization.
+        new("Segment.1", "#DBEAFE", ThemeRole.Background, "scheda del tratto 1, 7… dell’armatura del palo", "PileReinforcementEditor.SegmentColor(0)"),
+        new("Segment.2", "#DCFCE7", ThemeRole.Background, "scheda del tratto 2, 8… dell’armatura del palo", "PileReinforcementEditor.SegmentColor(1)"),
+        new("Segment.3", "#F3E8FF", ThemeRole.Background, "scheda del tratto 3, 9… dell’armatura del palo", "PileReinforcementEditor.SegmentColor(2)"),
+        new("Segment.4", "#FFEDD5", ThemeRole.Background, "scheda del tratto 4, 10… dell’armatura del palo", "PileReinforcementEditor.SegmentColor(3)"),
+        new("Segment.5", "#CFFAFE", ThemeRole.Background, "scheda del tratto 5, 11… dell’armatura del palo", "PileReinforcementEditor.SegmentColor(4)"),
+        new("Segment.6", "#FCE7F3", ThemeRole.Background, "scheda del tratto 6, 12… dell’armatura del palo", "PileReinforcementEditor.SegmentColor(5)"),
     ];
 
     /// <summary>The token with this name (without the prefix).</summary>

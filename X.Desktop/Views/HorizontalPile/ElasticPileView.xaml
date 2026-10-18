@@ -1,0 +1,133 @@
+<!--
+  View of the tab «Risposta elastica · trave su molle» of the horizontal pile and micropile (F5.8, decision Q3): ElasticPileViewModel shown with
+  the layout of the historic ElasticPileWorkspace. From the top: the comparison with an old archive (when pending), the header (title, choice of
+  the stratigraphy of the response, «Modifica dati e strati», «Info», the options of the response, the check boxes of the drawing and their note)
+  with the stiffness, the status and the progress; the drawing of the response (ElasticPileDrawing, 1750 × 650, drawn in the code-behind from
+  the plain data of the ViewModel) with the line of the selected depth; the editor of the reinforcement (PileReinforcementView); «Verifiche per
+  tratto e sezioni critiche», «Tavola armature e distinta ferri» (PileReinforcementDrawing, its dialog with zoom and «Esporta PNG…»), «Sezione
+  trasversale alla quota selezionata» (SectionDrawing 280 × 280), «Estremi, equilibrio e convergenza», «Valori per quota · N–V–M concomitanti»
+  with «Esporta CSV». Theme tokens only (P7); the title of the header at 16 points (Font.Heading, historic 18) and of the comparison at 16
+  (historic 17). Read-only revision: the controls that change the data are disabled; «Info», the drawing, «Apri tavola armature…», «Esporta CSV»
+  and the expanders stay usable, as in the historic view.
+-->
+<UserControl x:Class="X.Desktop.Views.HorizontalPile.ElasticPileView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:views="clr-namespace:X.Desktop.Views.HorizontalPile"
+ xmlns:elastic="clr-namespace:Anthea.Presentation.Modules.HorizontalPile.Elastic;assembly=ANTHEA.Presentation"
+ Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="Visible"/>
+  <views:CollapsedWhenNullConverter x:Key="CollapsedWhenNull"/>
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Small" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+  </Style>
+  <Style x:Key="Command" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  </Style>
+  <!-- Ui.Paper: the panels of the tab, padding 12 (14 the comparison). -->
+  <Style x:Key="Paper" TargetType="Border">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+   <Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Padding" Value="12"/>
+  </Style>
+  <Style x:Key="Form" TargetType="ContentControl">
+   <Setter Property="Focusable" Value="False"/>
+   <Setter Property="IsTabStop" Value="False"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+  </Style>
+ </UserControl.Resources>
+ <ScrollViewer x:Name="Scroll" VerticalScrollBarVisibility="Auto">
+  <StackPanel x:Name="Page">
+   <!-- The comparison with an archive of the old elastic input. -->
+   <Border x:Name="MigrationPanel" Style="{StaticResource Paper}" Padding="14" Visibility="{Binding Migration, Converter={StaticResource CollapsedWhenNull}}">
+    <StackPanel>
+     <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Heading}" FontWeight="SemiBold" Text="{x:Static elastic:ElasticPileFields.MigrationTitle}"/>
+     <TextBlock x:Name="MigrationText" Style="{StaticResource Text}" Text="{Binding Migration}"/>
+     <WrapPanel>
+      <Button Content="Usa dati comuni e conserva legacy" Style="{StaticResource Command}" Command="{Binding ResolveMigrationCommand}" CommandParameter="comuni"/>
+      <Button Content="Importa legacy nei dati comuni" Style="{StaticResource Command}" Command="{Binding ResolveMigrationCommand}" CommandParameter="legacy"/>
+     </WrapPanel>
+     <Button Content="Mostra confronto completo" HorizontalAlignment="Stretch" Style="{StaticResource Command}" IsEnabled="{Binding Editable}" Click="Comparison_Click"/>
+    </StackPanel>
+   </Border>
+   <!-- The header, the stiffness, the status and the progress. -->
+   <Border Style="{StaticResource Paper}">
+    <StackPanel>
+     <StackPanel x:Name="Header" Visibility="{Binding HasHeader, Converter={StaticResource Visible}}">
+      <WrapPanel>
+       <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Heading}" FontWeight="SemiBold" Text="{x:Static elastic:ElasticPileFields.Title}"/>
+       <ComboBox x:Name="SurveyChoice" MinWidth="180" Margin="8,0,10,0" ItemsSource="{Binding SurveyChoices}" SelectedIndex="{Binding SurveyChoice}" IsEnabled="{Binding Editable}"
+        AutomationProperties.Name="Stratigrafia della risposta"/>
+       <Button Content="Modifica dati e strati" Style="{StaticResource Command}" Command="{Binding EditInputsCommand}"/>
+       <Button Content="Info" Style="{StaticResource Command}" Click="Info_Click"/>
+      </WrapPanel>
+      <ContentControl x:Name="Options" Style="{StaticResource Form}" Content="{Binding Options}" MaxWidth="540" HorizontalAlignment="Left"/>
+      <ItemsControl x:Name="Toggles" ItemsSource="{Binding Toggles}" Focusable="False">
+       <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+       <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="{x:Type elastic:ElasticToggleViewModel}">
+         <CheckBox Content="{Binding Label}" Tag="{Binding Key}" IsChecked="{Binding IsChecked}" Margin="0,5,14,5"
+          IsEnabled="{Binding DataContext.Editable, RelativeSource={RelativeSource AncestorType=views:ElasticPileView}}"/>
+        </DataTemplate>
+       </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Caption}" Foreground="{DynamicResource Token.Muted}" Text="{x:Static elastic:ElasticPileFields.ToggleNote}"/>
+     </StackPanel>
+     <TextBlock x:Name="StiffnessText" Style="{StaticResource Text}" FontWeight="SemiBold" Text="{Binding Stiffness}"/>
+     <TextBlock x:Name="StatusText" Style="{StaticResource Text}" Text="{Binding Status}"/>
+     <ProgressBar x:Name="Progress" Height="8" Maximum="100" Margin="0,5,0,5" Visibility="{Binding ProgressVisible, Converter={StaticResource Visible}}"
+      IsIndeterminate="{Binding ProgressIndeterminate}" Value="{Binding ProgressValue, Mode=OneWay}"/>
+    </StackPanel>
+   </Border>
+   <!-- The drawing of the response and the line of the selected depth. -->
+   <Border Style="{StaticResource Paper}">
+    <StackPanel>
+     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+      <ContentControl x:Name="DrawingHost" Focusable="False" IsTabStop="False"/>
+     </ScrollViewer>
+     <TextBlock x:Name="SelectionText" Style="{StaticResource Small}" Text="{Binding Selection}"/>
+    </StackPanel>
+   </Border>
+   <!-- The editor of the reinforcement. -->
+   <Border Style="{StaticResource Paper}">
+    <views:PileReinforcementView x:Name="Reinforcement" DataContext="{Binding Reinforcement}" Visibility="{Binding IsBuilt, Converter={StaticResource Visible}}"/>
+   </Border>
+   <Expander Header="Verifiche per tratto e sezioni critiche" IsExpanded="True">
+    <TextBlock x:Name="ReinforcementSummaryText" Style="{StaticResource Small}" Text="{Binding ReinforcementSummary}"/>
+   </Expander>
+   <Expander Header="Tavola armature e distinta ferri" IsExpanded="True">
+    <StackPanel>
+     <WrapPanel><Button Content="Apri tavola armature…" Style="{StaticResource Command}" Click="Sheet_Click"/></WrapPanel>
+     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+      <ContentControl x:Name="SheetHost" Focusable="False" IsTabStop="False"/>
+     </ScrollViewer>
+    </StackPanel>
+   </Expander>
+   <Expander Header="Sezione trasversale alla quota selezionata" IsExpanded="True">
+    <WrapPanel>
+     <ContentControl x:Name="SectionHost" Focusable="False" IsTabStop="False"/>
+     <TextBlock x:Name="SectionDetailText" Style="{StaticResource Small}" Text="{Binding SectionDetail}"/>
+    </WrapPanel>
+   </Expander>
+   <Expander Header="Estremi, equilibrio e convergenza">
+    <TextBlock x:Name="ExtremesText" Style="{StaticResource Text}" Text="{Binding Extremes}"/>
+   </Expander>
+   <Expander Header="Valori per quota · N–V–M concomitanti">
+    <StackPanel>
+     <Button x:Name="CsvButton" Content="Esporta CSV" Style="{StaticResource Command}" Command="{Binding ExportCsvCommand}"/>
+     <DataGrid x:Name="PointsTable" IsReadOnly="True" AutoGenerateColumns="True" CanUserAddRows="False" Height="230" ItemsSource="{Binding Points}"/>
+    </StackPanel>
+   </Expander>
+  </StackPanel>
+ </ScrollViewer>
+</UserControl>

@@ -1,0 +1,52 @@
+<!--
+  «NTC 2018 · dettagli dei pali» (CreateNtcWindow of the historic PileReinforcementEditor, F5.8): a dialog of the view (1040 × 820) with the criteria
+  and the scope of the checks of NTC 2018 §7.2.5 and the local copy of the original page 213 with its zoom (600–1800, 1000 at the opening). Theme
+  tokens only (P7); the titles at 22 (Font.Title, historic 20) and 14 points (Font.Subheading, historic 15).
+-->
+<UserControl x:Class="X.Desktop.Views.HorizontalPile.ElasticNtcView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:app="clr-namespace:Anthea.Application.Modules;assembly=ANTHEA.Application"
+ Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <Style x:Key="Text" TargetType="TextBlock">
+   <Setter Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="TextWrapping" Value="Wrap"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Title" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+   <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+ </UserControl.Resources>
+ <TabControl>
+  <TabItem Header="Criteri e campo di applicazione" Background="{DynamicResource Token.Paper}">
+   <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <Border Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Padding="20">
+     <StackPanel>
+      <TextBlock Style="{StaticResource Title}" FontSize="{DynamicResource Font.Title}" Text="NTC 2018 · §7.2.5 · Fondazioni su pali"/>
+      <TextBlock Style="{StaticResource Title}" Text="Sintesi dei controlli disponibili in ANTHEA"/>
+      <TextBlock Style="{StaticResource Text}" Text="Palo: As ≥ 0,3% Ac; armatura trasversale φ ≥ 8 mm e passo ≤ 8φL. Zona dissipativa presso la testa, quando la capacità non è esclusa: estensione almeno 10D, As ≥ 1% Ac, staffe singole e passo ≤ 6φL."/>
+      <TextBlock Style="{StaticResource Text}" Text="Senza valutazione specifica di duttilità: VRd ≥ 1,3|VEd|; compressione media in zona dissipativa &lt; 0,45fcd; |Mel| &lt; 1,5MRd(N). Le azioni devono appartenere alla combinazione pertinente. Il momento elastico non ridotto deve essere confermato, non viene ricavato dal carico ultimo di Broms."/>
+      <TextBlock Style="{StaticResource Text}" Text="Il comando Approva tutto conferma le ipotesi selezionate: non rende soddisfatto un controllo fallito. La spirale è rappresentabile, ma non soddisfa la richiesta di staffe singole nella zona dissipativa e il suo modello resistente a taglio non è implementato."/>
+      <TextBlock Style="{StaticResource Title}" Text="Perimetro"/>
+      <TextBlock Style="{StaticResource Text}" Text="Restano separati: zone dissipative profonde (5D presso i contatti pertinenti), generazione delle azioni sismiche, interazione cinematica, duttilità esplicita, nodo palo-plinto, SLE, ganci e confinamento dei giunti. L'esito generale distingue controlli non soddisfatti, dati da completare e verifiche escluse."/>
+      <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Small}" Text="Fonte consultata: D.M. 17 gennaio 2018, G.U. 20 febbraio 2018, S.O. n.8. Pagina PDF 217, pagina stampata 213. La scheda Pagina originale contiene la copia locale della pagina consultata; è leggibile senza Internet."/>
+      <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Caption}" Foreground="{DynamicResource Token.Muted}" Text="{x:Static app:ElasticPileEditor.SeismicSourceUrl}"/>
+     </StackPanel>
+    </Border>
+   </ScrollViewer>
+  </TabItem>
+  <TabItem Header="Pagina originale · 213" Background="{DynamicResource Token.Paper}">
+   <DockPanel>
+    <WrapPanel DockPanel.Dock="Bottom">
+     <TextBlock Style="{StaticResource Text}" FontSize="{DynamicResource Font.Small}" Text="Zoom pagina originale"/>
+     <Slider x:Name="Zoom" Minimum="600" Maximum="1800" Value="1000" Width="210" TickFrequency="200" IsSnapToTickEnabled="True"/>
+    </WrapPanel>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+     <Image Source="pack://application:,,,/ANTHEA;component/Assets/ntc-pali-7-2-5.png" Width="{Binding Value, ElementName=Zoom}" Stretch="Uniform" HorizontalAlignment="Left"/>
+    </ScrollViewer>
+   </DockPanel>
+  </TabItem>
+ </TabControl>
+</UserControl>

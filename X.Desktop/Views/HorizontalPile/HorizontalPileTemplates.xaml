@@ -1,7 +1,8 @@
 <!--
-  Data templates of the horizontal pile and micropile sheet (F5.7): MvvmSheetEditor finds the view of HorizontalPileSheetViewModel here. The
-  dialog of «Copia in…»/«Copia da…» (SurveyCopyDialogViewModel) is the one of Views/VerticalPile/VerticalPileTemplates.xaml, the soil transfer
-  dialog the shared one of Views/Shared/SoilTransferTemplates.xaml (T5). The view of the elastic response comes with F5.8.
+  Data templates of the horizontal pile and micropile sheet (F5.7, F5.8): MvvmSheetEditor finds the view of HorizontalPileSheetViewModel here, the
+  second tab the view of the elastic response (ElasticPileViewModel), and WpfDialogService the dialog of the c.a. verifier of a segment
+  (PileConcreteVerifier, decision E1). The dialog of «Copia in…»/«Copia da…» (SurveyCopyDialogViewModel) is the one of
+  Views/VerticalPile/VerticalPileTemplates.xaml, the soil transfer dialog the shared one of Views/Shared/SoilTransferTemplates.xaml (T5).
 -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,7 +10,6 @@
  xmlns:pile="clr-namespace:Anthea.Presentation.Modules.HorizontalPile;assembly=ANTHEA.Presentation"
  xmlns:elastic="clr-namespace:Anthea.Presentation.Modules.HorizontalPile.Elastic;assembly=ANTHEA.Presentation">
  <DataTemplate DataType="{x:Type pile:HorizontalPileSheetViewModel}"><views:HorizontalPileSheetView/></DataTemplate>
- <DataTemplate DataType="{x:Type elastic:ElasticPileViewModel}">
-  <TextBlock Margin="16" Text="Risposta elastica · vista XAML in preparazione (F5.8)." Foreground="{DynamicResource Token.Muted}" FontSize="{DynamicResource Font.Body}"/>
- </DataTemplate>
+ <DataTemplate DataType="{x:Type elastic:ElasticPileViewModel}"><views:ElasticPileView/></DataTemplate>
+ <DataTemplate DataType="{x:Type elastic:PileConcreteVerifier}"><views:PileConcreteVerifierView/></DataTemplate>
 </ResourceDictionary>
