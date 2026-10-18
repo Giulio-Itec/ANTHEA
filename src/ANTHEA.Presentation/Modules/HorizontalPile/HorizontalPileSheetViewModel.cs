@@ -562,7 +562,7 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
     /// <summary>
     /// SectionMaterialChanged of the historic view: the materials of the catalogue, then the change. F5-02 (O6, declared difference of the new
     /// view): the choice «Acciaio» shows the class of the data again after the catalogue or a custom value wrote it (the historic view kept
-    /// showing the previous class after a custom value, and the note of a class of the catalogue computed before its values).
+    /// showing the previous class after a custom value); its note is computed again on the values written (today the same as the historic one).
     /// </summary>
     private void SectionMaterialChanged(string key)
     {

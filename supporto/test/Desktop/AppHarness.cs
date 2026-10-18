@@ -276,6 +276,22 @@ public partial class App
             return;
         }
 
+        // F5.7/F5.8: the XAML views of the horizontal pile and micropile (capacity, elastic response) hosted by MvvmSheetEditor, off screen
+        // (tests/Desktop/HorizontalPileViewChecks.cs); the bench opens the two modules with the MVVM view, the Release keeps the historic one
+        // until the user has tried it. A fourth argument (comma separated parts) runs only those parts, for the work on the view.
+        if (e.Args.Length is 3 or 4 && e.Args[0] == "--check-palo-orizzontale-view")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0;
+                try { await HorizontalPileViewChecks.Run(e.Args[1], e.Args[2], e.Args.Length == 4 ? e.Args[3] : null); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            }));
+            return;
+        }
+
         // F5.9: traces of the historic retaining wall view (tests/Desktop/RetainingWallHistoricTrace.cs); the check also compares them
         // with the frozen ones of tests/fixtures/f5-muri/storica.
         if (e.Args.Length == 3 && e.Args[0] is "--check-muri-historic" or "--check-muri-historic-capture")
