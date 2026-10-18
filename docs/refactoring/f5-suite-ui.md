@@ -290,6 +290,25 @@ Nessuna di queste suite ha bisogno di un'altra riscrittura.
 | `-Stage build,ui -Only '^ui/(smoke-retaining-wall\|smoke-global-stability)(-mvvm)?$'`, `20261018-020144-suiteui-g3` | PASS 5, NEW-FAIL 0 |
 | `ui/check-wall-advanced-offscreen` (sovraccarico delle didascalie), `suiteui-g3-adv` | PASS |
 | profilo `quick` (codice di `a1bbb117`), `suiteui-g3-quick` | PASS 52, NEW-FAIL 0 |
+| **corsa finale** `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `56d16879`, `20261018-021530-suiteui-finale` | PASS 136, KNOWN 0, **NEW-FAIL 1** (`ui/check-palo-verticale-view`, ambiente: vedi sotto); build 25, fast 31, wiki 2, ui 78 + 1. Le 11 suite `-mvvm` nuove PASS, le 11 suite riscritte PASS con la Release. `ui/f3-equivalence` PASS, `Presentation.Tests` e `Architecture.Tests` PASS; nessun file tracciato modificato dalla corsa |
+| `ui/check-palo-verticale-view` ripetuta da sola dal runner, `20261018-030247-suiteui-finale-pv` | FAIL come sopra |
+| la stessa suite con `dotnet ANTHEA.dll --check-palo-verticale-view …` (stessa build) | **PASS 377 controlli** |
+
+**`ui/check-palo-verticale-view` nella corsa finale: problema d'ambiente, non di questo ramo.**
+- Sintomo: la suite si interrompe senza `errore.txt`, `dettaglio.txt` né `esito.txt`, con codice d'uscita 0.
+  - Succede sempre allo stesso punto: «Salva PNG…» della quarta fixture (`elica-coesivo-avvisi`), dove l'immagine della capacità si scrive
+    con `DocumentFile.Write`.
+  - Nella cartella resta il file temporaneo `.x_<guid>.tmp`, già scritto.
+- Riproduzione: stessa cosa nel runner, da sola, e lanciando a mano `ANTHEA.exe` come fa il runner. Con `dotnet ANTHEA.dll` e la stessa
+  build passa: PASS 377 controlli.
+- Causa probabile: il commento di `src/ANTHEA.Reports/DocumentFile.cs` descrive proprio questo comportamento. Il monitoraggio del
+  comportamento dell'antivirus (Trend Micro, 27/09/2026) chiude senza errori un programma non firmato che rinomina file temporanei in
+  documenti.
+  - Per i documenti Office quel file copia invece di rinominare; per un PNG rinomina ancora (`File.Move`).
+  - `ANTHEA.exe`, appena compilato, non è firmato; `dotnet.exe` sì.
+- Questo ramo non tocca né `VerticalPileViewChecks` né `DocumentFile`; la suite usa servizi propri.
+- Da decidere (S6, fuori da questo compito): estendere la copia di `DocumentFile.Write` anche alle immagini, oppure far partire le
+  suite `check` con `dotnet`. Nessuna correzione è stata fatta qui (regola: segnalare, non correggere in silenzio).
 
 Fuori dal compito, solo per informazione: `ui/smoke-material-report` e `ui/smoke-project-report`, lanciate a mano con i sette moduli MVVM,
 passano senza modifiche. Usano solo `ISheetEditor`.
@@ -301,6 +320,17 @@ Schermo al 150% (144 DPI): le schermate delle suite valgono come documentazione.
 - Gruppo 1 (suite generali): fatto.
 - Gruppo 2 (materiali: `ui/smoke-hierarchy`, `ui/smoke-materials`, `ui/smoke-sharing`, `ui/smoke-steel`): fatto.
 - Gruppo 3 (muri: `ui/smoke-retaining-wall`, `ui/smoke-global-stability`): fatto.
+
+Tutte le 11 suite sono indipendenti dall'implementazione e hanno il loro duplicato `-mvvm`. Non resta nessuna riscrittura di queste
+suite. Ai passaggi della Release resta solo la pulizia della sezione 4.
+
+Non fanno parte di questo compito e restano come sono:
+- le suite storiche delle viste: `-historic`, `FoundationWorkspace.UiChecks`, `Stratigraphy.UiChecks`;
+- le prove offscreen dei muri: `ui/check-global-guidance-offscreen`, `ui/check-wall-advanced-offscreen`,
+  `ui/check-wall-materials-offscreen`;
+- `ReportAppearanceChecks` e `ContrastAudit`.
+
+Gli elenchi dei documenti dei moduli le riportano ancora.
 
 Per riprendere: `dotnet build X.Desktop/X.Desktop.csproj -c UiTests`, poi una suite con o senza i sette moduli MVVM:
 
