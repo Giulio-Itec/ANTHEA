@@ -1,7 +1,7 @@
 # Installer di ANTHEA
 
 L'installer è costruito con **NSIS 3** (`ANTHEA.nsi`) e contiene ANTHEA pubblicato
-*self-contained* per Windows x64: il runtime .NET 8 è incluso, quindi sul PC di destinazione
+self-contained per Windows x64: il runtime .NET 8 è incluso, quindi sul PC di destinazione
 non serve installare nulla oltre al setup (Windows 10 o 11 a 64 bit).
 
 ## Creare il setup
@@ -29,8 +29,8 @@ Opzioni: `-SkipPublish` riusa la pubblicazione già presente, aggiornando comunq
 ## Versione
 
 La versione è `<Version>` in `X.Desktop/X.Desktop.csproj`, formato `maggiore.minore.patch`
-(oggi `1.10.0`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
-«App installate». ANTHEA.exe riporta versione file `1.10.0.0` e prodotto `1.10.0+<commit>`.
+(oggi `1.11.0`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
+«App installate». ANTHEA.exe riporta versione file `1.11.0.0` e prodotto `1.11.0+<commit>`.
 
 A parità di versione il setup viene sovrascritto. Prima della distribuzione aumentare
 `patch` per correzioni, `minore` per funzioni, `maggiore` per cambi di formato degli archivi.
@@ -77,8 +77,8 @@ l'installazione reale, il registro o i collegamenti dell'utente. Richiede NSIS 3
 Riga di comando (installazioni silenziose o distribuite):
 
 ```bat
-ANTHEA-1.10.0-Setup-x64.exe /S /AllUsers
-ANTHEA-1.10.0-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
+ANTHEA-1.11.0-Setup-x64.exe /S /AllUsers
+ANTHEA-1.11.0-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
 "C:\Program Files\ANTHEA\Uninstall.exe" /S /AllUsers
 ```
 

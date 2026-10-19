@@ -1537,3 +1537,13 @@ revisioni e completa il rilascio». I nuovi rami di prosecuzione restano
 locali; nessuna autorizzazione aggiuntiva al push di ANTHEA o dei nuovi rami.
 Il rilascio dello snapshot non chiude la matrice paratie né il seguito
 sull'approfondimento dei pali/micropali. [Verbale](../paratie/rilascio-f5.md).
+
+## 19 ottobre — nuova versione e installer F5
+
+Durante il full l'utente aggiunge: «finito tutto cimmit, versione nuova e push»
+e «creami anche installer». È quindi autorizzato il push di ANTHEA
+`refactoring/f5` dopo la correzione dei rilievi e il collaudo della versione
+1.11.0, oltre alla creazione del setup Windows x64. Il ramo principale
+rimane F5; i kernel incompleti dei rami di prosecuzione restano locali.
+L'incremento minore riflette i nuovi moduli integrati, non la chiusura della
+matrice funzionale completa.

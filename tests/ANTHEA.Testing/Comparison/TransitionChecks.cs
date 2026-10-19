@@ -41,6 +41,20 @@ public static class TransitionChecks
             File.WriteAllText(file, """{"voci":[{"file":"x.json","percorso":"$.valore","classe":"numero","a":"1.5","b":"2.5","voce":""}]}""");
             try { Transition.Load(file); Check(false, "transizione senza voce del registro accettata"); }
             catch (InvalidDataException) { Check(true, ""); }
+
+            var historicCount = new Transition("esito.txt", "riga 1#2", "numero", "71", "75", "F4");
+            var currentCount = historicCount with { B = "77", Entry = "F5" };
+            var article = new Transition("wiki/new.md", "", "file-aggiunto", null, "wiki/new.md", "F5");
+            var engineering = listed[0];
+            var updated = Transition.WithEditorialUpdate([historicCount, engineering], [currentCount, article]);
+            Check(updated.Contains(engineering) && updated.Contains(currentCount) && updated.Contains(article) && updated.Count == 3,
+                "aggiornamento editoriale: conservare tutte le transizioni ingegneristiche");
+            foreach (var invalid in new[] { article with { File = "sheets/result.json" }, article with { Class = "numero" },
+                article with { Class = "file-rimosso" }, currentCount with { B = "78" } })
+            {
+                try { Transition.WithEditorialUpdate([historicCount, engineering], [currentCount, invalid]); Check(false, "aggiornamento editoriale non valido accettato"); }
+                catch (InvalidDataException) { Check(true, ""); }
+            }
         }
         finally { try { Directory.Delete(root, true); } catch (IOException) { } catch (UnauthorizedAccessException) { } }
         foreach (string error in errors) Console.Error.WriteLine("FAIL " + error);

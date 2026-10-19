@@ -51,3 +51,34 @@ La candidata precedente `candidata-integrata-01` resta conservata e
 utilizzabile. I nuovi rami `refactoring/f5-paratie-seguito` e
 `codex/paratie-seguito` non sono stati pubblicati o reintegrati nei master.
 L'approfondimento di pali/micropali resta in coda al modulo paratie.
+
+## Rilievi del primo full e versione 1.11.0
+
+Il primo full su `e39741c9` ha rilevato 155 differenze F3: 16 versioni
+Geotechnics e le relative 16 transizioni non riconosciute; 123 segnalazioni
+editoriali (122 differenze effettive e la vecchia transizione del conteggio
+articoli). Il dettaglio originale è troncato a 20000 voci: confronto Wiki
+separato conservato in `rilascio-f5/diagnostica-f3-01/`.
+
+Il driver F3 delle fondazioni usa ora la proiezione di sola provenienza già
+collaudata in Presentation, verificando prima la versione runtime. Il
+controllo della vista storica usa la proiezione F5; la modalità di cattura
+conserva la versione effettiva. DOCX/PDF prodotti conservano i metadati reali.
+
+Il file editoriale `transitions-f5-wiki.json` registra soltanto le differenze
+esatte dei nuovi articoli: quattro file dei due capitoli paratie, 115
+posizioni delle ricerche, due righe vuote finali e il conteggio 75 → 77.
+Verifica indipendente: rimuovendo soltanto i due ID paratie dai 30 elenchi,
+ogni ricerca storica è identica, compreso l'ordine. I due corpi Markdown
+storici differiscono esclusivamente per una riga vuota finale. Il registro
+F4 e gli attesi sono immutati; il compositore può sostituire solo il conteggio
+editoriale e non accetta transizioni numeriche del contenuto, file rimossi
+o percorsi esterni alla Wiki. Testing.Tests: 13 controlli delle transizioni
+superati, compresi cinque controlli aggiunti. WPF finale ancora da eseguire.
+
+L'utente autorizza anche commit, nuova versione, push ANTHEA e installer.
+Versione 1.11.0 per le nuove funzioni integrate; istruzioni installer
+aggiornate con PDF di tre pagine controllato visivamente e originali
+conservati in `supporto/SUPERATI/installer-1110-20261019/`. La suite della
+vista palo verticale si è interrotta senza attestazione: causa ancora da
+isolare; il rilascio non è dichiarato concluso.
