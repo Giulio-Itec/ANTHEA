@@ -7915,19 +7915,26 @@
         "src/ANTHEA.Application/Modules/ModuleDirectory.cs",
         "src/ANTHEA.Application/Reporting/ModuleReportService.cs",
         "tests/Desktop/ModuleHostWpfChecks.cs",
+        "X.Desktop/Wpf/WikiEditorial.cs",
+        "tests/Shared/ShallowFoundationTrace.cs",
+        "tests/ANTHEA.Presentation.Tests/ShallowFoundationSheetChecks.cs",
         "tools/paratie/New-LocalPreview.ps1"
       ],
-      "segno": "Nessuna formula riscritta nel merge, nessun atteso indipendente o fallimento ammesso modificato. Conservati entrambi i rami sorgenti e gli originali delle guide. Primo collaudo: 16 PASS e difetto Wiki sul grassetto vettoriale non supportato da WPF-Math. Correzione locale della resa q vettoriale con freccia equivalente, mantenendo il LaTeX originale copiabile; riesecuzione richiesta.",
+      "segno": "Nessuna formula riscritta nel merge, nessun atteso indipendente, transizione, tolleranza o fallimento ammesso modificato. Conservati rami sorgenti e originali delle guide. Corretta la resa del vettore q nella Wiki mantenendo il LaTeX copiabile. Il primo standard aveva 74 PASS e un errore del driver Presentation: proiettava F3 sulla versione congelata F5. Driver corretto in 0f989159 distinguendo F3 0.4.0.1 e F5 0.4.0.0, con controllo della versione runtime effettiva e test negativi; standard e UI finali superati.",
       "decisione": {
         "data": "2026-10-19",
         "utente": "Integrare ora tutti i rami sviluppati per paratie e spettri, riportare ANTHEA su refactoring/f5 e consegnare una versione testabile; proseguire poi su un nuovo ramo.",
-        "esito": "Model e Checker integrati in master; esclusi rami di prova e storici. Push non autorizzato; snapshot ufficiale invariato. Collaudo ANTHEA e confezionamento ancora aperti."
+        "esito": "Model e Checker integrati in master, ANTHEA su refactoring/f5; esclusi rami di prova e storici. Candidata locale collaudata e confezionata su 0f989159. Push richiesto separatamente, non eseguito; snapshot ufficiale invariato. Prosecuzione in rami dedicati, matrice e pali interrati ancora aperti."
       },
       "test": [
         "Release-Set integrato: 3172 PASS, 17 fallimenti Steel storici ammessi, due test Model ignorati",
         "Design 91 PASS, EmbeddedWalls 67 PASS; DLL Delaunay, Geometry e Utilities invariate",
         "Guide Rev52: 257 pagine e 387 formule; indici 10 pagine; controllo visivo e audit superati",
         "Archivio di integrazione: 32 originali identici per SHA-256",
+        "Archivi protetti da conversioni dei fine riga: 96 originali verificati con SHA preesistenti",
+        "ci/20261019-201522-f5-integrata-standard-02: 75 PASS, 0 NEW-FAIL, revisione 0f989159 pulita e invariata",
+        "ParatieWork/ANTHEA ci/20261019-201640-f5-integrata-ui-final: 10 PASS sulla stessa revisione e snapshot, 59 controlli Paratie e 43 della vista Spettri",
+        "Candidata integrata: 135 file, 13 DLL, nove esempi, dieci avviatori e quattro guide verificati per SHA-256",
         "docs/paratie/integrazione-rami.md"
       ],
       "voci_collegate": ["PARATIE-15"]

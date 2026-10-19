@@ -7,7 +7,9 @@ portanza verticale e orizzontale. Scopo: includere il terreno sovrastante nelle
 tensioni litostatiche. L'utente ha chiesto di rispiegare il comportamento, che
 è stato illustrato in chat e confermato esplicitamente dall'utente («perfetto.
 metti questa implementazione in coda al modulo di paratie»). L'implementazione
-è ancora da iniziare, dopo il modulo paratie e prima dei merge finali.
+è ancora da iniziare, dopo il modulo paratie. Il merge anticipato del 19/10
+per consegnare la candidata testabile non elimina né anticipa questo seguito:
+rimane nella coda dei nuovi rami di implementazione.
 
 ## Interpretazione operativa
 
