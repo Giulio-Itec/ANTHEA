@@ -7546,6 +7546,391 @@
         "esito": "dichiarata; attiva solo con la vista MVVM (nella Release dopo il passaggio dei due moduli)"
       },
       "voci_collegate": []
+    },
+    {
+      "id": "PARATIE-01",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie su base F5, incremento 1",
+      "titolo": "Nuovo modulo additivo per paratie con motore GPC e vista MVVM",
+      "famiglia": "geotecnica/paratie",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Primo incremento funzionante di un modulo nuovo: analisi per fasi, collegamento Concrete, documenti e risultati congelati, editor MVVM e report. Non sostituisce i moduli legacy né costituisce verifica completa della paratia. Matrice e limiti in docs/paratie.",
+      "codice": [
+        "src/ANTHEA.Application/EmbeddedWalls",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls",
+        "X.Desktop/Views/EmbeddedWalls",
+        "Checker/src/Geotechnics/EmbeddedWalls",
+        "Checker/src/GPC.Design/EmbeddedWalls"
+      ],
+      "segno": "Funzionalità additiva: nessuna modifica intenzionale ai risultati dei moduli esistenti; nessuna cattura legacy sovrascritta.",
+      "decisione": {
+        "data": "2026-10-18",
+        "utente": "Incarico esplicito di implementare il modulo completo GPC/ANTHEA per incrementi collaudabili.",
+        "esito": "Primo incremento implementato; ambito complessivo e rilascio ancora aperti."
+      },
+      "test": [
+        "tests/ANTHEA.Presentation.Tests/EmbeddedWallChecks.cs: 28 controlli eseguiti",
+        "tests/Desktop/EmbeddedWallViewChecks.cs: 7 controlli WPF eseguiti",
+        "Checker/tests/EmbeddedWalls.Tests: 11 test numerici",
+        "Checker/tests/GPC.Design.Tests: 2 test trasferimento Concrete",
+        "docs/paratie/incremento-01.md: evidenze e limiti"
+      ],
+      "voci_collegate": []
+    },
+    {
+      "id": "PARATIE-02",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, collaudo integrazione incremento 1",
+      "titolo": "Provenienza delle librerie distinta dall’equivalenza numerica nelle tracce Fondazioni",
+      "famiglia": "test/equivalenza e versioni GPC",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Il candidato Geotechnics 0.5.0.0 cambia il solo library_version nel risultato Fondazioni rispetto alla cattura F5 con 0.4.0.0. Audit integrale: hash attuale 65F0875D0F26BBCB, dopo la sola proiezione della versione 5C36AA943058382B, identico al congelato. I confronti F5 delle nuove viste e F3 della Presentation proiettano soltanto library_version e la sua esatta etichetta, verificando prima la versione caricata. Attesi, tolleranze, catture storiche e risultati di produzione invariati.",
+      "codice": [
+        "tests/Shared/ShallowFoundationTrace.cs: ShallowFoundationVersionProjection",
+        "tests/ANTHEA.Presentation.Tests/ShallowFoundationSheetChecks.cs",
+        "tests/Desktop/ShallowFoundationViewChecks.cs"
+      ],
+      "segno": "Nessuna differenza numerica ammessa; varia solo il metadato di provenienza nella proiezione usata dal confronto.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico paratie: versioni GPC delegate, conservare regressioni e attesi indipendenti.",
+        "esito": "Proiezione limitata al metadato, motivata dall’audit; nessuna modifica delle liste di fallimenti ammessi."
+      },
+      "test": [
+        "supporto/artefatti/paratie/foundation-version-audit: JSON integrali e hash prima/dopo",
+        "runner paratie-inc01-fix: Application.Tests PASS",
+        "runner paratie-inc01-fix2: Architecture.Tests e Presentation.Tests PASS"
+      ],
+      "voci_collegate": [
+        "PARATIE-01"
+      ]
+    },
+    {
+      "id": "PARATIE-03",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 2",
+      "titolo": "Filtrazione FEM stazionaria per fase e trasferimento delle pressioni",
+      "famiglia": "geotecnica/paratie/idraulica",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Nuova analisi Darcy/Richards in Geotechnics con contratti Model; ANTHEA orchestra fasi e conversioni, conserva il risultato idraulico insieme a quello meccanico e lo presenta nella vista e nel report. Migrazione schema 1→2 con idraulica disattivata e dati mancanti espliciti. Nessun campo non convergente viene utilizzato come pressione meccanica.",
+      "codice": [
+        "Checker/src/Geotechnics/Seepage",
+        "Model/Model/Geotechnics/Seepage",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallHydraulics.cs",
+        "X.Desktop/Views/EmbeddedWalls/SeepageDiagram.cs"
+      ],
+      "segno": "Funzione additiva attivata dall'utente; modalità idrostatica conservata. I casi FEM cambiano le pressioni e quindi le azioni come dichiarato. Nessun atteso legacy modificato.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico completo paratie: includere filtrazione FEM 2D, fasi, interfaccia e verifiche indipendenti.",
+        "esito": "Incremento collaudato nel campo dichiarato; verifiche idrauliche di sicurezza e altre funzioni della matrice ancora aperte."
+      },
+      "test": [
+        "Checker/tests/EmbeddedWalls.Tests/SeepageTests.cs: 12 nuove prove PASS",
+        "tests/ANTHEA.Presentation.Tests/EmbeddedWallChecks.cs: 43 controlli PASS",
+        "tests/Desktop/EmbeddedWallViewChecks.cs: 10 controlli PASS",
+        "docs/paratie/incremento-02.md: evidenze, fonti e limiti"
+      ],
+      "voci_collegate": ["PARATIE-01", "PARATIE-02"]
+    },
+    {
+      "id": "PARATIE-04",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, regressioni incremento 2",
+      "titolo": "Attesa del driver elastico coerente con la vista WPF",
+      "famiglia": "test/equivalenza asincrona",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "La traccia logica attende anche la capacità quando è selezionata la scheda elastica, come il driver WPF esistente. L'esportabilità dipende da entrambi i calcoli. Impronte numeriche coincidenti; attesi e produzione invariati. La prima attesa incondizionata è stata scartata perché alterava una osservazione intenzionale del calcolo in corso nella scheda capacità.",
+      "codice": ["tests/ANTHEA.Presentation.Tests/ElasticPileSheetChecks.cs"],
+      "segno": "Nessuna differenza numerica o funzionale di produzione; eliminata una corsa nel driver di confronto.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico paratie: conservare regressioni e attesi indipendenti.",
+        "esito": "Driver allineato a quello WPF già esistente, senza modificare fixture o fallimenti ammessi. Standard finale ancora aperto."
+      },
+      "test": ["ci/20261019-081614-paratie-inc02-standard: 73 PASS, 1 NEW-FAIL, sorgenti modificati durante la corsa", "ci/20261019-084846-paratie-inc02-presentation-fix: build e Presentation.Tests PASS"],
+      "voci_collegate": ["PARATIE-03"]
+    },
+    {
+      "id": "PARATIE-05",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 3",
+      "titolo": "Verifiche locali UPL/HYD e pesi del terreno dal campo FEM",
+      "famiglia": "geotecnica/paratie/idraulica",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Profilo normativo Model e criteri Geotechnics; ANTHEA mappa input e risultati, con dati assegnati o campionati dal FEM convergente della fase. Schema 3 conserva il criterio di saturazione precedente; il nuovo criterio da pressioni è esplicito. UI, CSV e report leggono lo stesso risultato congelato. Esiti indisponibili riconoscibili.",
+      "codice": ["Checker/src/Geotechnics/Seepage/HydraulicSafety.cs", "Checker/src/Geotechnics/Seepage/SeepageSampling.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallHydraulicChecks.cs", "X.Desktop/Views/EmbeddedWalls/EmbeddedWallSheetView.xaml"],
+      "segno": "Nuove verifiche additive; nessuna modifica ai casi legacy. Pesi meccanici da pressioni FEM soltanto su scelta esplicita. Nessun atteso cambiato.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: verifiche geotecniche/idrauliche e tracciabilità; merge locali paratie/spettri a lavoro concluso.", "esito": "Incremento collaudato nel campo dichiarato. Matrice e rilascio complessivo ancora aperti."},
+      "test": ["Geotechnics EmbeddedWalls.Tests: 30 PASS", "hyd-safety-app-02: 62 controlli PASS", "ci/20261019-093124-paratie-inc03-ui3: architettura e 14 controlli WPF PASS", "docs/paratie/incremento-03.md: fonti, attesi e limiti"],
+      "voci_collegate": ["PARATIE-03"]
+    },
+    {
+      "id": "PARATIE-06",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 4",
+      "titolo": "Stabilità globale per fase con riuso Bishop e campo FEM",
+      "famiglia": "geotecnica/paratie/stabilita",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Adattatore GPC per parete continua, azioni caratteristiche e combinazione globale distinta da quella locale. Campo FEM convergente per pressioni e pesi dei conci. Slopes senza campo conserva identici byte nella cattura di nove casi. Schema 4, editor, risultati, grafico e report sullo stesso snapshot; esiti non conclusivi riconoscibili.",
+      "codice": ["Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallGlobalStability.cs", "Checker/GPCChecker.Geotechnics/Slopes/SlopeStability.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallGlobalChecks.cs", "X.Desktop/Views/EmbeddedWalls/EmbeddedWallGlobalDiagram.cs"],
+      "segno": "Funzione additiva inattiva nei documenti precedenti. Nessuna fixture storica modificata. Corretto un nuovo atteso in bozza da fonte primaria, conservando bozza e fallimento. Risolta collisione del nuovo enum senza modificare il contratto storico.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: riutilizzare stabilità esistente e controllare geometria, fasi e azioni.", "esito": "Incremento collaudato per pareti continue senza sostegni esterni; matrice e rilascio complessivo ancora aperti."},
+      "test": ["global-adapter-04: 39 PASS", "slope-legacy-before/after-02: SHA256 81BC1F0B8878858D9AAADC734315F0AECFB23A73A13E2B0694F53C77CA2CF53A", "global-app-01: 80 PASS", "ci/20261019-101720-paratie-inc04-ui3: architettura e 19 controlli WPF PASS", "ci/20261019-102023-paratie-inc04-standard: 74 PASS, 0 NEW-FAIL", "docs/paratie/incremento-04.md"],
+      "voci_collegate": ["PARATIE-03", "PARATIE-05"]
+    },
+    {
+      "id": "PARATIE-07",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 5",
+      "titolo": "Verifiche Steel dei sostegni assiali e segno verticale dei puntoni",
+      "famiglia": "geotecnica/paratie/acciaio",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Percorso esplicito NTC 2018 in Checker Steel per aste circolari piene e CHS assiali, trasferimento Design senza rifattorizzazioni. Model conserva dati e fonti; schema ANTHEA 5, esiti e report sullo stesso snapshot. La componente verticale di Strut ora usa N positiva a trazione, invece della forza costitutiva positiva a compressione. Il puntone scarico mantiene i controlli d'instabilità.",
+      "codice": ["Checker/src/Steel/AxialMembers.cs", "Checker/src/GPC.Design/EmbeddedWalls/EmbeddedWallSteel.cs", "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallAnalysis.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallSteelChecks.cs", "X.Desktop/Views/EmbeddedWalls/EmbeddedWallSheetView.xaml", "tools/libs/Update-Snapshot.ps1"],
+      "segno": "Correzione fisica del segno per puntoni inclinati: 20 kN, 30 gradi, fascia/interasse 1.5/2 danno 7.5 kN con segno opposto al tirante. Verifiche additive inattive nei documenti precedenti. Nessun atteso storico, routine storica Steel o lista di fallimenti ammessi modificata.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: utilizzare Checker Steel, conservare azioni concomitanti e verificare ipotesi/unità.", "esito": "Incremento collaudato nel campo assiale dichiarato; N-M-V, altre sezioni, collegamenti e rilascio complessivo ancora aperti."},
+      "test": ["steel-projection-before: 2 PASS e 2 FAIL dei puntoni; steel-projection-after: 43 PASS", "steel-members-02: 9 PASS, attesi Python indipendenti", "candidate-12: 3119 PASS, 17 fallimenti storici ammessi", "steel-app-05: 103 PASS", "ci/20261019-111149-paratie-inc05-ui3: architettura e 23 controlli WPF PASS", "docs/paratie/incremento-05.md"],
+      "voci_collegate": ["PARATIE-01", "PARATIE-06"]
+    },
+    {
+      "id": "PARATIE-08",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 6",
+      "titolo": "Sfilamento dei tiranti con indagini e prove distinte",
+      "famiglia": "geotecnica/paratie/tiranti",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Percorso GPC per capacità del bulbo e sfilamento NTC 2018, con pressione limite pressiometrica distinta dalla pressione di iniezione. Indagini complete o prove preliminari, coefficienti applicati una volta, esiti per fase. Schema ANTHEA 6, editor, persistenza, CSV e report dallo stesso snapshot. Il percorso storico dei micropali continua a passare la pressione di iniezione come pl: rilievo aperto, non modificato silenziosamente.",
+      "codice": ["Checker/src/Geotechnics/Anchors/GroundAnchorPullout.cs", "Checker/src/GPC.Design/EmbeddedWalls/EmbeddedWallAnchors.cs", "Model/Model/Design/Standards/GroundAnchorResistanceProfile.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallAnchorChecks.cs", "src/ANTHEA.Reports/Generators/EmbeddedWallAnchorReport.cs"],
+      "segno": "Nuovo percorso additivo, inattivo nei documenti precedenti. Nessuna modifica al risultato storico BustamanteDoix.Segments o ai suoi attesi. Una predizione sufficiente senza conferma sperimentale resta Non valutato; un superamento resta Non soddisfatto.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: verificare ipotesi/unità di Bustamante-Doix prima dell'estensione, esiti riconoscibili e fonti primarie.", "esito": "Incremento collaudato per bulbi isolati e confinati nel campo dichiarato; dimensionamento automatico, ulteriori meccanismi e rilascio ancora aperti."},
+      "test": ["anchor-kernel-03: 50 PASS; anchor-design-01: 2 PASS", "candidate-13: 3128 PASS, 17 fallimenti storici ammessi", "anchor-app-02: 128 PASS", "ci/20261019-114029-paratie-inc06-ui1: architettura e 27 controlli WPF PASS", "docs/paratie/incremento-06.md"],
+      "voci_collegate": ["PARATIE-07"]
+    },
+    {
+      "id": "PARATIE-09",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 7",
+      "titolo": "Sezioni CHS N-M-V in Steel e fascia equivalente in Design",
+      "famiglia": "geotecnica/paratie/acciaio",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Resistenza plastica locale CHS classe 1-2, azioni concomitanti e taglio elevato con riduzione cautelativa dell'intera sezione. EI e trasferimento fascia/tubo nel coordinatore GPC. Schema ANTHEA 7, editor, persistenza, CSV e report dallo stesso risultato. Classe 3-4 e campi non supportati restano Non valutato.",
+      "codice": ["Checker/src/Steel/CircularHollowSections.cs", "Checker/src/GPC.Design/EmbeddedWalls/EmbeddedWallSteelTubes.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallTubeChecks.cs", "src/ANTHEA.Reports/Generators/EmbeddedWallTubeReport.cs"],
+      "segno": "Percorso additivo. EI derivato soltanto per scelta esplicita; migrazione conserva quello assegnato. Nessuna routine storica Steel, fixture o lista di fallimenti ammessi modificata.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico paratie: sezioni metalliche in Checker Steel, separazione dei calcoli e sollecitazioni concomitanti.", "esito": "Incremento collaudato nel campo dichiarato; altre famiglie, instabilità, matrice e rilascio ancora aperti."},
+      "test": ["tube-steel-03: 13 PASS; tube-design-02: 2 PASS", "candidate-14: 3134 PASS, 17 fallimenti storici ammessi", "tube-app-02: 303 PASS", "ci/20261019-121547-paratie-inc07-ui2: architettura e 31 controlli WPF PASS", "docs/paratie/incremento-07.md"],
+      "voci_collegate": ["PARATIE-07", "PARATIE-08"]
+    },
+    {
+      "id": "PARATIE-10",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 8",
+      "titolo": "Pali circolari in c.a. con SLU/SLE Concrete e dettagli separati",
+      "famiglia": "geotecnica/paratie/calcestruzzo",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Geometria circolare e corona di barre in Model, sessioni esclusive Concrete per resistenza nominale e SLE. EI e azioni concomitanti in Design con fattore interasse/fascia. Schema 8, vista, persistenza, CSV e report sullo stesso risultato; dettagli distinti dalla resistenza e campi non supportati Non valutato.",
+      "codice": ["Model/Model/Design/Concrete/CircularRcSection.cs", "Checker/GPCChecker.Concrete/Piles/CircularRcSectionSession.cs", "Checker/src/GPC.Design/EmbeddedWalls/EmbeddedWallRcPiles.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallRcPileChecks.cs", "src/ANTHEA.Reports/Generators/EmbeddedWallRcPileReport.cs"],
+      "segno": "Percorso additivo inattivo nei documenti precedenti; EI derivato solo per scelta esplicita. Nessuna mesh Delaunay, fixture storica o lista di fallimenti ammessi modificata. Corretta la resa delle etichette nel PDF senza modificare risultati.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico paratie: usare Checker Concrete e preservare sollecitazioni concomitanti, separazione architetturale e prove indipendenti.", "esito": "Incremento verificato nel campo dichiarato; progetto automatico, dettagli completi, matrice e rilascio ancora aperti."},
+      "test": ["rc-pile-design-04: 6 PASS", "candidate-15: 3140 PASS, 17 fallimenti storici ammessi", "rc-pile-app-03: 483 PASS", "ci/20261019-132026-paratie-inc08-standard: 94 PASS", "ci/20261019-134727-paratie-inc08-ui3-retry: build e 35 WPF PASS, eliminato falso positivo del driver booleano su risultati vuoti, schermata verificata", "docs/paratie/incremento-08.md"],
+      "voci_collegate": ["PARATIE-01", "PARATIE-09"]
+    },
+    {
+      "id": "PARATIE-11",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 9",
+      "titolo": "Carichi distribuiti variabili per fase e trasferimento alla stabilità globale",
+      "famiglia": "geotecnica/paratie/azioni",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Intervalli lineari con estremi nella mesh, forze consistenti e storia completa dei campi. Trasferimento globale mediante forza/coppia equivalente nel campo della parete continua. Schema 9, editor, q netto, persistenza, report e CSV dallo stesso risultato; nessun calcolo nella UI.",
+      "codice": ["Model/Model/Geotechnics/EmbeddedWalls/EmbeddedWallModel.cs", "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallDistributedLoads.cs", "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallGlobalStability.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallAdapter.cs", "src/ANTHEA.Reports/Generators/EmbeddedWallReport.cs"],
+      "segno": "Percorso additivo vuoto nei documenti precedenti. Sette storie numeriche preesistenti identiche byte per byte. Slopes, attesi storici e lista di fallimenti ammessi invariati. Notazione PDF compatta e tabella q aggiunta; CSV conserva tutte le cifre.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: carichi per fase, unità coerenti, verifiche indipendenti e stabilità globale esistente.", "esito": "Incremento collaudato per azioni sulla struttura; diffusione sul terreno, matrice, guide e rilascio ancora aperti."},
+      "test": ["distributed-global-01: 60 PASS", "candidate-17: 3150 PASS, 17 fallimenti storici ammessi", "distributed-app-03: 1206 PASS", "ci/20261019-135757-paratie-inc09-ui2: architettura e 39 WPF PASS", "docs/paratie/incremento-09.md"],
+      "voci_collegate": ["PARATIE-01", "PARATIE-06"]
+    },
+    {
+      "id": "PARATIE-12",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 10",
+      "titolo": "Guide globali Rev48 e aiuto contestuale delle paratie",
+      "famiglia": "documentazione/paratie",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Capitoli aggiuntivi nelle sole due guide globali, Word/PDF, Wiki e sette argomenti di aiuto tramite servizi MVVM; gli editor tabellari ricevono il navigatore del modulo.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "src/ANTHEA.Presentation/Help/HelpTopics.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallTable.cs"
+      ],
+      "segno": "Contenuto precedente conservato, salvo la riga di edizione; sedici file archiviati con SHA-256. Nessuna formula di calcolo o atteso storico modificato.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico completo paratie: integrare uso e teoria nelle guide globali, aggiornare Word/PDF e aiuto.",
+        "esito": "Documentati i campi collaudati 1–9. Collaudo applicativo/WPF concluso. Estensioni successive e matrice complessiva ancora aperte."
+      },
+      "test": [
+        "Audit Word/PDF: 89 e 156 pagine, 365 formule, nessun frammento mancante",
+        "Wiki: 75 capitoli, 12 prove PASS",
+        "ci/20261019-143438-paratie-guide48: 9 PASS, 0 NEW-FAIL; 3206 presentazione e 40 WPF",
+        "docs/paratie/incremento-10.md"
+      ],
+      "voci_collegate": [
+        "PARATIE-01",
+        "PARATIE-11"
+      ]
+    },
+    {
+      "id": "PARATIE-13",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 11",
+      "titolo": "Ricerca discreta dell'infissione con storie indipendenti",
+      "famiglia": "paratie/ricerca",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "GPC Design ricerca tutta la griglia senza monotonia presunta. Ogni candidato ricalcola fasi, filtrazione e verifiche richieste. Schema 10, editor MVVM, persistenza, criteri governanti, annullamento, CSV e relazione. Minimo dimostrato distinto da candidato accettabile.",
+      "codice": [
+        "Model/Model/Geotechnics/EmbeddedWalls/EmbeddedWallEmbedmentSearch.cs",
+        "Checker/src/GPC.Design/EmbeddedWalls/EmbeddedWallEmbedment.cs",
+        "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallGeometry.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallEmbedmentSearch.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallEmbedmentViewModel.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallEmbedmentReport.cs"
+      ],
+      "segno": "Nove CSV preesistenti, 5099 righe identiche esclusa impronta delle nuove librerie. Nuovo contratto applicativo schema 10 con limiti non assegnati; nessun atteso numerico o fallimento ammesso modificato.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico paratie: ricerca dell’infissione, indipendenza delle analisi, risultati e report coerenti.",
+        "esito": "Disponibile per la combinazione corrente nel foglio. GPC collauda più storie indipendenti; loro integrazione nel foglio, criteri ulteriori e matrice complessiva restano aperti."
+      },
+      "test": [
+        "10 nuovi test GPC, 24 Design paratie PASS",
+        "candidate-18: 3160 PASS, soli 17 fallimenti Steel storici ammessi",
+        "app-coupled: 1279 controlli PASS",
+        "ci/20261019-151810-paratie-inc11-ui: 5 PASS, 0 NEW-FAIL, 46 controlli WPF",
+        "ci/20261019-154122-paratie-inc11-consolidato: 93 PASS; nuovo fallimento Wiki per censimento delle due aggiunte",
+        "ci/20261019-160423-paratie-inc11-wiki-identita: 4 PASS, 331 controlli; 73 identità F5 conservate in fixture, attesi numerici invariati",
+        "docs/paratie/incremento-11.md"
+      ],
+      "voci_collegate": [
+        "PARATIE-01",
+        "PARATIE-12"
+      ]
+    },
+    {
+      "id": "PARATIE-14",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 12",
+      "titolo": "Inviluppi dei campi recuperati con azioni concomitanti",
+      "famiglia": "paratie/risultati",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "GPC conserva campi per elemento e fase, campiona entrambi i lati e gli estremi interni e seleziona osservazioni effettive. ANTHEA presenta otto grandezze, provenienza e azioni concomitanti; CSV, persistenza e relazione sullo stesso snapshot.",
+      "codice": [
+        "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallEnvelopes.cs",
+        "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallRecovery.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallEnvelopes.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallEnvelopeViewModel.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallEnvelopeReport.cs"
+      ],
+      "segno": "Sette catture GPC identiche nei campi originali; nove CSV con 5099 righe identiche esclusa impronta. Nessuna somma non lineare o terna artificiale. Attesi numerici e fallimenti ammessi invariati.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico paratie: confronto fra fasi e inviluppi con provenienza del caso governante.",
+        "esito": "Inviluppo delle fasi correnti collaudato; GPC ammette più storie indipendenti. Integrazione multi-caso nel foglio e matrice complessiva aperte."
+      },
+      "test": [
+        "7 nuovi test GPC; 67 EmbeddedWalls e 24 Design paratie PASS",
+        "candidate-19: 3167 PASS, stessi 17 fallimenti Steel storici",
+        "1305 controlli applicativi PASS; 52 WPF PASS",
+        "ci/20261019-161359-paratie-inc12-ui: 5 PASS, 0 NEW-FAIL",
+        "Guide Rev50: 249 pagine, 373 formule; archivio Rev49 byte per byte",
+        "docs/paratie/incremento-12.md"
+      ],
+      "voci_collegate": [
+        "PARATIE-01",
+        "PARATIE-13"
+      ]
+    },
+    {
+      "id": "PARATIE-15",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 13",
+      "titolo": "Storie indipendenti e ricerca multi-caso nel foglio",
+      "famiglia": "paratie/storie",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Schema 11: casi assegnati con fasi, carichi e verifiche indipendenti, inviluppi comuni e ricerca su tutti i casi. UI, persistenza, CSV e report conservano provenienza e completezza.",
+      "codice": [
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallHistories.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallEmbedmentSearch.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallHistoryViewModel.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallHistoryReport.cs"
+      ],
+      "segno": "Nove CSV precedenti, 5099 righe identiche esclusa impronta dello schema. Nessuna somma non lineare, rifattorizzazione delle azioni o terna artificiale; sorgenti GPC e attesi invariati.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Proseguire il modulo e anticipare una prima versione funzionante testabile, con limiti espliciti.",
+        "esito": "Integrazione multi-caso collaudata; candidata locale su 2f60b336 dopo standard e prova finale della vista. Nessuna esclusione dalla matrice complessiva."
+      },
+      "test": [
+        "26 stazioni razionali indipendenti; fixture SHA-256 nel verbale",
+        "1419 controlli applicativi e 58 WPF PASS",
+        "ci/20261019-170434-paratie-inc13-ui-final: 6 PASS, 0 NEW-FAIL",
+        "Guide Rev51: 251 pagine, 373 formule; archivio Rev50 byte per byte",
+        "Standard su 6425927e: 74 PASS, 0 NEW-FAIL, revisione pulita e invariata",
+        "UI finale su 2f60b336: 6 suite PASS e 59 controlli WPF, revisione pulita e invariata",
+        "Candidata locale 01: 133 file, 13 DLL, otto esempi e guide verificati per SHA-256",
+        "docs/paratie/incremento-13.md"
+      ],
+      "voci_collegate": [
+        "PARATIE-01",
+        "PARATIE-13",
+        "PARATIE-14"
+      ]
+    },
+    {
+      "id": "F5-INT-01",
+      "data": "2026-10-19",
+      "fase": "Integrazione F5",
+      "titolo": "Integrazione locale dei moduli paratie e spettri",
+      "famiglia": "moduli/integrazione",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Riuniti catalogo, servizi, composizione WPF, report e guide dei due rami. I controlli distinguono i moduli aggiunti dal catalogo legacy. Il pacchetto candidato richiede standard e UI sulla stessa revisione pulita con manifest GPC identico.",
+      "codice": [
+        "X.Desktop/Services/DesktopComposition.cs",
+        "src/ANTHEA.Application/Modules/ModuleDirectory.cs",
+        "src/ANTHEA.Application/Reporting/ModuleReportService.cs",
+        "tests/Desktop/ModuleHostWpfChecks.cs",
+        "tools/paratie/New-LocalPreview.ps1"
+      ],
+      "segno": "Nessuna formula riscritta nel merge, nessun atteso indipendente o fallimento ammesso modificato. Conservati entrambi i rami sorgenti e gli originali delle guide.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Integrare ora tutti i rami sviluppati per paratie e spettri, riportare ANTHEA su refactoring/f5 e consegnare una versione testabile; proseguire poi su un nuovo ramo.",
+        "esito": "Model e Checker integrati in master; esclusi rami di prova e storici. Push non autorizzato; snapshot ufficiale invariato. Collaudo ANTHEA e confezionamento ancora aperti."
+      },
+      "test": [
+        "Release-Set integrato: 3172 PASS, 17 fallimenti Steel storici ammessi, due test Model ignorati",
+        "Design 91 PASS, EmbeddedWalls 67 PASS; DLL Delaunay, Geometry e Utilities invariate",
+        "Guide Rev52: 257 pagine e 387 formule; indici 10 pagine; controllo visivo e audit superati",
+        "Archivio di integrazione: 32 originali identici per SHA-256",
+        "docs/paratie/integrazione-rami.md"
+      ],
+      "voci_collegate": ["PARATIE-15"]
     }
   ]
 }

@@ -1,4 +1,4 @@
-param([switch]$VerifyFinal, [string]$Revision = '48', [ValidateSet('pratica', 'teorica')] [string[]]$Kinds = @('pratica', 'teorica'))
+param([switch]$VerifyFinal, [string]$Revision = '52', [ValidateSet('pratica', 'teorica')] [string[]]$Kinds = @('pratica', 'teorica'), [string]$ArtifactRoot = $env:ANTHEA_GUIDE_ARTIFACTS)
 $ErrorActionPreference = 'Stop'
 $repoPath = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $wordForGuides = $null
@@ -11,7 +11,7 @@ try {
     foreach ($kind in $Kinds) {
         $sourcePath = Join-Path $repoPath "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_${kind}_ITEC_Rev${Revision}.docx"
         $artifactFolder = if ($Revision -eq '02') { 'guide_anthea_itec' } else { "guide_anthea_itec_rev${Revision}" }
-        $artifactPath = Join-Path $repoPath "supporto/artefatti/$artifactFolder/$kind"
+        $artifactPath = if ($ArtifactRoot) { Join-Path $ArtifactRoot $kind } else { Join-Path $repoPath "supporto/artefatti/$artifactFolder/$kind" }
         # COM paths as plain strings: in Windows PowerShell 5.1 the output of Join-Path reaches Word wrapped in a PSObject and
         # SaveAs2 waited on an invisible dialog (28/09/2026); with [string] the two guides take seconds
         $guideDoc = $wordForGuides.Documents.Open([string]$sourcePath, $false, $false)

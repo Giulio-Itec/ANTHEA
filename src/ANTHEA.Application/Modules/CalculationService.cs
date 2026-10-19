@@ -12,6 +12,8 @@ public static class CalculationService
     internal static ModuleCalculation CalculateModule(string module, JsonObject data, CancellationToken cancellation = default,
         Anthea.FoundationWorkspace.FoundationLibrary? foundation = null)
     {
+        if (module == Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module)
+            return new Anthea.Application.EmbeddedWalls.EmbeddedWallModule().Calculate(data, cancellation);
         ModuleCatalog.ValidateData(module, data);
         CalculationValidation.RequireValidCoefficients(module, data);
         cancellation.ThrowIfCancellationRequested();

@@ -31,6 +31,29 @@ namespace Anthea.Presentation.Tests;
 /// </summary>
 internal static class ShallowFoundationSheetChecks
 {
+    internal static int AuditLibraryVersion(string root, string output) => SingleThreadContext.Run(async _ =>
+    {
+        var culture = CultureInfo.CurrentCulture; CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("it-IT");
+        try
+        {
+            using var sheet = Open(ShallowFoundationScenarios.FixtureData(root, "confirmed-actions"));
+            await sheet.CalculateAsync();
+            var result = sheet.Result ?? throw new InvalidOperationException("Risultato dell'audit assente.");
+            Directory.CreateDirectory(output);
+            File.WriteAllText(Path.Combine(output, "foundation-current.json"), result.ToJsonString(new() { WriteIndented = true }));
+            var manifest = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "lib/Checker/manifest.json")))!;
+            string version = manifest["assemblies"]!.AsArray().Single(a => a!["file"]!.ToString() == "GPCChecker.Geotechnics.dll")!["assemblyVersion"]!.ToString();
+            var projected = result.DeepClone().AsObject(); projected["library_version"] = version;
+            File.WriteAllText(Path.Combine(output, "foundation-version-only.json"), projected.ToJsonString(new() { WriteIndented = true }));
+            var reference = PileGroupTrace.Read(Path.Combine(ShallowFoundationScenarios.Reference(root), "fixture-confirmed-actions.txt"));
+            string expected = reference.First(l => l.StartsWith("risultato ") && l != "risultato -")["risultato ".Length..];
+            string hash = PileGroupTrace.Hash(projected);
+            File.WriteAllText(Path.Combine(output, "foundation-version-audit.txt"), $"Runtime: {result["library_version"]}; riferimento: {version}\nHash originale: {PileGroupTrace.Hash(result)}\nHash cambiando solo library_version: {hash}\nHash congelato: {expected}\n");
+            if (hash != expected) throw new InvalidOperationException("La differenza non è limitata alla versione della libreria.");
+            return 1;
+        }
+        finally { CultureInfo.CurrentCulture = culture; }
+    });
     internal static int Run(string root, string output) => SingleThreadContext.Run(_ => RunAsync(root, output));
 
     private static readonly ShallowFoundationSheetModule Module = new(() => true);
@@ -103,11 +126,11 @@ internal static class ShallowFoundationSheetChecks
         var side = new Side(root, scenario.Fixture);
         try
         {
-            lines.AddRange(side.State().Lines("apertura"));
+            lines.AddRange(side.State().Lines("apertura", compareFrozenVersion: true));
             foreach (var step in scenario.Steps)
             {
                 await side.ApplyAsync(step);
-                lines.AddRange(side.State().Lines(step.ToString()));
+                lines.AddRange(side.State().Lines(step.ToString(), compareFrozenVersion: true));
             }
         }
         // A step the ViewModel cannot apply ends the trace: the comparison then shows the first different line before it.
@@ -263,12 +286,12 @@ internal static class ShallowFoundationSheetChecks
         foreach (var group in sheet.Groups) group.IsExpanded = true;
         sheet.Commit(); Same("visited.json", Canonical(sheet.Data));
         await Expect.Within(sheet.CalculateAsync()); sheet.Commit();
-        Same("calculated-data.json", Canonical(sheet.Data)); Same("result.json", Canonical(sheet.Result));
+        Same("calculated-data.json", Canonical(sheet.Data)); Same("result.json", Canonical(ShallowFoundationVersionProjection.Result(sheet.Result)));
         var status = new JsonObject { ["hasResults"] = sheet.HasResults };
         try
         {
             byte[] report = sheet.Report.BuildReport("Fixture F3 · " + ShallowFoundationScenarios.Module + " · " + id, new HashSet<string>());
-            Same("report.txt", DocxText.Extract(report, normalizer, new GuidMap()).Replace("\r\n", "\n"));
+            Same("report.txt", ShallowFoundationVersionProjection.Text(DocxText.Extract(report, normalizer, new GuidMap()).Replace("\r\n", "\n")));
             Same("report-structure.json", Canonical(Structure(report)));
             status["report"] = "available";
         }

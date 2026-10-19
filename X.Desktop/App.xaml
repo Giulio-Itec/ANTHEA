@@ -19,6 +19,7 @@
    <ResourceDictionary Source="Views/Spectra/SpectraTemplates.xaml"/>
    <ResourceDictionary Source="Views/RetainingWall/RetainingWallTemplates.xaml"/>
    <ResourceDictionary Source="Views/HorizontalPile/HorizontalPileTemplates.xaml"/>
+   <ResourceDictionary Source="Views/EmbeddedWalls/EmbeddedWallTemplates.xaml"/>
   </ResourceDictionary.MergedDictionaries>
   </ResourceDictionary>
  </Application.Resources>

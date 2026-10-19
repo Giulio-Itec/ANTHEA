@@ -200,14 +200,14 @@ internal sealed class ShallowFoundationTraceState
     public int MechanismAxis = -1;
     public JsonObject? Mechanism;
 
-    internal IEnumerable<string> Lines(string step)
+    internal IEnumerable<string> Lines(string step, bool compareFrozenVersion = false)
     {
         static string Q(string? text) => PileGroupTrace.Quote(text);
         static string N(int value) => value.ToString(CultureInfo.InvariantCulture);
         yield return "== " + step;
         yield return "dati " + PileGroupTrace.Compact(Data);
         yield return "modificato " + N(Modified) + " · modificabile " + PileGroupTrace.YesNo(Editable) + " · richieste report " + N(ReportRequests);
-        yield return "risultato " + (Result is null ? "-" : ResultFingerprint(Result));
+        yield return "risultato " + (Result is null ? "-" : PileGroupTrace.Hash(compareFrozenVersion ? ShallowFoundationVersionProjection.Result(Result)! : Result));
         yield return "stato " + Q(State);
         yield return "campi";
         foreach (var field in Fields) yield return "  " + field.Line();
@@ -226,7 +226,7 @@ internal sealed class ShallowFoundationTraceState
                 yield return "  additive " + Q(AdditiveTitle) + " " + Q(string.Join("|", AdditiveColumns)) + " " + N(Additive.Count);
                 foreach (var row in Additive) yield return "    " + string.Join(" | ", row.Select(Q));
             }
-            foreach (string note in Notes) yield return "  nota " + Q(note);
+            foreach (string note in Notes) yield return "  nota " + Q(compareFrozenVersion ? ShallowFoundationVersionProjection.Text(note) : note);
         }
         yield return "grafici geometria " + PileGroupTrace.YesNo(InputDrawings) + " · stratigrafia " + PileGroupTrace.YesNo(SoilDrawing);
         if (GraphicsMessage is not null) yield return "  risultati " + Q(GraphicsMessage);
@@ -257,4 +257,21 @@ internal sealed class ShallowFoundationTraceState
         foreach (var (key, value) in row) if (key != "__color") copy[key] = value?.DeepClone();
         return copy;
     }
+}
+
+/// <summary>PARATIE-02: compare numerical/UI content against the immutable F5 capture while checking
+/// runtime provenance separately. Only the declared library_version field and its exact label change.
+/// Historic captures use Lines without this projection and retain their real versions.</summary>
+internal static class ShallowFoundationVersionProjection
+{
+    internal const string FrozenVersion = "0.4.0.0";
+    private static string RuntimeVersion => typeof(GPC.Checkers.Geotechnics.Foundations.ShallowFoundationSeismic).Assembly.GetName().Version!.ToString();
+    internal static JsonObject? Result(JsonObject? value)
+    {
+        if (value is null) return null;
+        if (value["library_version"]?.ToString() != RuntimeVersion) throw new InvalidOperationException("Provenienza del risultato Fondazioni diversa dalla libreria caricata.");
+        var copy = value.DeepClone().AsObject(); copy["library_version"] = FrozenVersion; return copy;
+    }
+    internal static string Text(string value) => value.Replace("Libreria GPCChecker.Geotechnics " + RuntimeVersion,
+        "Libreria GPCChecker.Geotechnics " + FrozenVersion, StringComparison.Ordinal);
 }

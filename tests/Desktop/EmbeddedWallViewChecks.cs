@@ -1,0 +1,337 @@
+using System.IO;
+using System.Text.Json.Nodes;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using Anthea.Application.EmbeddedWalls;
+using Anthea.Presentation.Modules.EmbeddedWalls;
+using Anthea.Presentation.Forms;
+using Anthea.Presentation.Services;
+using X.Desktop.Views.EmbeddedWalls;
+
+namespace X.Desktop;
+
+internal static class EmbeddedWallViewChecks
+{
+    private sealed class CapturedWiki : IWikiNavigator
+    {
+        internal List<string?> Shown { get; } = [];
+        public void Show(string? uri = null) => Shown.Add(uri);
+    }
+    internal static async Task Run(string root, string output)
+    {
+        Directory.CreateDirectory(output);
+        int checks = 0;
+        void Check(bool value, string label) { if (!value) throw new InvalidOperationException(label); checks++; }
+        var data = EmbeddedWallDocument.Create(); data["name"] = "Paratia — esempio sintetico";
+        foreach (string side in new[] { "left_soils", "right_soils" })
+        {
+            var soil = data[side]![0]!.AsObject(); soil["name"] = "Sabbia di esempio"; soil["gamma"] = 18; soil["gamma_sat"] = 20; soil["phi"] = 30;
+            soil["c"] = 0; soil["k0"] = .5; soil["kh"] = .001; soil["source"] = "Dati sintetici per collaudo"; soil["stiffness_source"] = "Parametro assegnato nel collaudo";
+        }
+        data["segments"]![0]!["ei"] = 200000; data["segments"]![0]!["source"] = "EI assegnato nel collaudo";
+        var excavation = EmbeddedWallDocument.NewRow("stages"); excavation["id"] = "F2"; excavation["right_ground"] = -4; data["stages"]!.AsArray().Add(excavation);
+        var factory = ModuleHostBench.SheetEditors([]);
+        using var editor = factory.Open(EmbeddedWallDocument.Module, data);
+        Check(editor is MvvmSheetEditor, "Il nuovo modulo non apre il contenitore MVVM.");
+        var sheet = (EmbeddedWallSheetViewModel)((MvvmSheetEditor)editor).Sheet;
+        var window = new Window { Content = editor.View, Width = 1450, Height = 950, Left = -32000, Top = -32000,
+            WindowStartupLocation = WindowStartupLocation.Manual, WindowStyle = WindowStyle.None, ShowActivated = false, ShowInTaskbar = false };
+        Appearance.Watch(window); window.Show();
+        async Task Settle() { window.UpdateLayout(); await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle); window.UpdateLayout(); }
+        void Capture(string name)
+        {
+            var bitmap = new RenderTargetBitmap((int)editor.View.ActualWidth, (int)editor.View.ActualHeight, 96, 96, PixelFormats.Pbgra32); bitmap.Render(editor.View);
+            var png = new PngBitmapEncoder(); png.Frames.Add(BitmapFrame.Create(bitmap)); using var file = File.Create(Path.Combine(output, name + ".png")); png.Save(file);
+        }
+        try
+        {
+            await Settle(); Check(Visual(editor.View).OfType<EmbeddedWallSheetView>().Count() == 1, "Vista XAML non risolta."); Capture("modello");
+            var help = Visual(editor.View).OfType<Button>().First(b => b.IsVisible && b.Content as string == "?" && b.DataContext is FieldViewModel);
+            var helpField = (FieldViewModel)help.DataContext; var originalNavigator = helpField.Form.WikiNavigator;
+            var wiki = new CapturedWiki(); string beforeHelp = sheet.Data.ToJsonString();
+            helpField.Form.WikiNavigator = wiki;
+            help.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, help));
+            helpField.Form.WikiNavigator = originalNavigator;
+            Check(wiki.Shown.SequenceEqual([helpField.HelpUri]) && sheet.Data.ToJsonString() == beforeHelp,
+                "Il pulsante di aiuto non raggiunge la guida del campo o modifica gli input.");
+            await editor.CalculateAsync(); Check(sheet.Current?.Complete == true && sheet.Stages.Count == 2, "Scavo a due fasi non convergente nella vista.");
+            var tabs = Visual(editor.View).OfType<TabControl>().First(); tabs.SelectedIndex = 1; await Settle();
+            var tables = Visual(editor.View).OfType<TabControl>().Last(); tables.SelectedIndex = 4; await Settle(); Capture("fasi");
+            Check(Visual(editor.View).OfType<EmbeddedWallTableView>().Any(), "Editor tabellare assente.");
+            tabs.SelectedIndex = 3; sheet.Diagram = "Momento [kNm]"; sheet.ComparisonStage = sheet.Stages[0]; await Settle(); Capture("momenti");
+            var plot = Visual(editor.View).OfType<EmbeddedWallDiagram>().Single();
+            Check(ReferenceEquals(plot.Points, sheet.Points) && ReferenceEquals(plot.Comparison, sheet.Stages[0].Points), "Grafico non associato al risultato corrente.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("momenti-scuro");
+            Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.First(t => t.Key == "stages").Rows[1]["right_ground"] = "-3"; await Settle();
+            Check(plot.Points?.Count == 0 && sheet.Current is null, "Grafico superato rimasto visibile.");
+            var hydraulic = sheet.Data.DeepClone().AsObject(); hydraulic["hydraulic_mode"] = "FEM 2D";
+            hydraulic["hydraulic_left_extent"] = 12; hydraulic["hydraulic_right_extent"] = 12; hydraulic["hydraulic_bottom"] = -18;
+            hydraulic["hydraulic_thickness"] = .6; hydraulic["hydraulic_mesh"] = 1;
+            foreach (var stage in hydraulic["stages"]!.AsArray().Cast<JsonObject>()) { stage["left_water"] = stage["left_ground"]!.DeepClone(); stage["right_water"] = stage["right_ground"]!.DeepClone(); }
+            foreach (string side in new[] { "hydraulic_left", "hydraulic_right" })
+            {
+                var soil = EmbeddedWallDocument.NewRow(side); soil["kxx"] = 1e-5; soil["kzz"] = 1e-5; soil["source"] = "Prova grafica sintetica";
+                hydraulic[side]!.AsArray().Add(soil);
+            }
+            var body = EmbeddedWallDocument.NewRow("hydraulic_upl"); hydraulic["hydraulic_upl"]!.AsArray().Add(body);
+            foreach (var action in new[] { ("Acqua", 15d), ("Peso totale", -20d) })
+            {
+                var row = EmbeddedWallDocument.NewRow("hydraulic_actions"); row["id"] = action.Item1; row["upward_force"] = action.Item2; row["source"] = "Azione sintetica di collaudo";
+                hydraulic["hydraulic_actions"]!.AsArray().Add(row);
+            }
+            var hyd = EmbeddedWallDocument.NewRow("hydraulic_hyd"); hydraulic["hydraulic_hyd"]!.AsArray().Add(hyd);
+            sheet.Reload(hydraulic); await editor.CalculateAsync();
+            Check(sheet.Current?.Complete == true && sheet.HydraulicStages.Count == 2, "Filtrazione non disponibile nella vista.");
+            tabs.SelectedIndex = 5; await Settle(); Capture("filtrazione");
+            var field = Visual(editor.View).OfType<SeepageDiagram>().Single();
+            Check(ReferenceEquals(field.Field, sheet.SelectedHydraulicStage), "Campo idraulico non associato al risultato corrente.");
+            sheet.HydraulicDiagram = "Pressione interstiziale [kPa]"; Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("pressioni-scuro");
+            Appearance.Set(AppAppearance.Light, false);
+            tabs.SelectedIndex = 6; await Settle(); Capture("upl-hyd");
+            Check(sheet.HydraulicChecks.Count == 2 && sheet.HydraulicChecks[0].Demand == 16.5 && sheet.HydraulicChecks[0].Capacity == 18,
+                "Bilancio UPL non mostrato nella vista.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.HydraulicChecks)), "Tabella verifiche non associata allo snapshot.");
+            sheet.SelectedHydraulicCheck = sheet.HydraulicChecks[1]; Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("hyd-non-valutato-scuro");
+            Check(sheet.SelectedHydraulicCheck.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated, "Dati HYD mancanti presentati come soddisfatti.");
+            Appearance.Set(AppAppearance.Light, false);
+            var globalData = sheet.Data.DeepClone().AsObject(); globalData["segments"]![0]!["weight"] = 15;
+            var globalRow = EmbeddedWallDocument.NewRow("global_checks"); globalRow["stage"] = "F2";
+            globalRow["global_thickness"] = .6; globalRow["left_extent"] = 12; globalRow["right_extent"] = 12;
+            globalRow["characteristic_confirmed"] = true; globalRow["source"] = "Parete continua e dati caratteristici sintetici di collaudo";
+            globalRow["exit_min"] = -10; globalRow["exit_max"] = -1; globalRow["entry_min"] = 1; globalRow["entry_max"] = 10;
+            globalRow["depth_min"] = 12.5; globalRow["depth_max"] = 17; globalRow["grid"] = 3; globalRow["slices"] = 20; globalRow["refinements"] = 0;
+            globalData["global_checks"]!.AsArray().Add(globalRow);
+            sheet.Reload(globalData); await editor.CalculateAsync(); tabs.SelectedIndex = 7; await Settle(); Capture("stabilita-globale");
+            Check(sheet.GlobalChecks.Count == 1 && sheet.GlobalChecks[0].Surface.Count > 0, "Geometria globale non disponibile: " + sheet.GlobalChecks.FirstOrDefault()?.Diagnostic);
+            var globalPlot = Visual(editor.View).OfType<EmbeddedWallGlobalDiagram>().Single();
+            Check(ReferenceEquals(globalPlot.Check, sheet.SelectedGlobalCheck), "Grafico globale non associato allo snapshot corrente.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("stabilita-globale-scuro"); Appearance.Set(AppAppearance.Light, false);
+            Check(sheet.GlobalChecks[0].SearchStatus == "NoSurface" && sheet.GlobalChecks[0].Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated,
+                "Assenza di superficie non segnalata come verifica non valutata.");
+            var shorterWall = globalData.DeepClone().AsObject(); shorterWall["bottom"] = -6; shorterWall["segments"]![0]!["bottom"] = -6;
+            shorterWall["global_checks"]![0]!["depth_min"] = 6.5; shorterWall["global_checks"]![0]!["depth_max"] = 15;
+            sheet.Reload(shorterWall); await editor.CalculateAsync(); await Settle(); Capture("stabilita-globale-cerchio");
+            Check(sheet.GlobalChecks[0].Circle is not null && sheet.GlobalChecks[0].Slices.Count > 0, "Caso grafico con cerchio e conci non risolto.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("stabilita-globale-cerchio-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "hydraulic_right").Rows[0]["kzz"] = "0.00002"; await Settle();
+            Check(field.Field is null && sheet.HydraulicNodes.Count == 0, "Campo idraulico superato rimasto visibile.");
+            Check(sheet.HydraulicChecks.Count == 0 && sheet.SelectedHydraulicCheck is null && !sheet.HydraulicChecksCsvCommand.CanExecute(null), "Verifiche idrauliche superate ancora esportabili.");
+            Check(globalPlot.Check is null && sheet.GlobalChecks.Count == 0 && !sheet.GlobalCsvCommand.CanExecute(null), "Risultato globale superato ancora visibile o esportabile.");
+            var steelData = EmbeddedWallDocument.Create(); steelData["name"] = "Puntone metallico — collaudo grafico";
+            steelData["action_basis"] = "Forza di progetto sintetica, nessun coefficiente aggiuntivo";
+            steelData["steel_standard"] = "NTC 2018"; steelData["steel_check_kind"] = "StaticUltimate";
+            steelData["left_soils"] = new JsonArray(); steelData["right_soils"] = new JsonArray();
+            steelData["fix_top_u"] = true; steelData["fix_bottom_u"] = true; steelData["fix_bottom_rotation"] = true;
+            steelData["segments"]![0]!["ei"] = 200000; steelData["segments"]![0]!["source"] = "EI di collaudo";
+            steelData["stages"]![0]!["left_ground"] = -12; steelData["stages"]![0]!["right_ground"] = -12;
+            var steelSupport = EmbeddedWallDocument.NewRow("supports"); steelSupport["id"] = "P1"; steelSupport["kind"] = "Strut";
+            steelSupport["elevation"] = 0; steelSupport["stiffness"] = 10000; steelSupport["angle"] = 30; steelSupport["spacing"] = 2;
+            steelData["supports"]!.AsArray().Add(steelSupport);
+            var steelActivation = EmbeddedWallDocument.NewRow("activations"); steelActivation["support"] = "P1"; steelActivation["prestress"] = 75;
+            steelData["activations"]!.AsArray().Add(steelActivation);
+            var steelMember = EmbeddedWallDocument.NewRow("steel_members"); steelMember["support"] = "P1";
+            steelMember["diameter"] = 200; steelMember["thickness"] = 8; steelMember["nominal_grade"] = 355;
+            steelMember["fy"] = 355; steelMember["fu"] = 510; steelMember["elastic_modulus"] = 210000;
+            steelMember["material_source"] = "S355, resistenze assegnate per il collaudo"; steelMember["axial_only"] = true;
+            steelMember["length_1"] = 3; steelMember["length_2"] = 4; steelMember["length_source"] = "Schema ideale incernierato nei due piani";
+            steelData["steel_members"]!.AsArray().Add(steelMember);
+            sheet.Reload(steelData); await editor.CalculateAsync(); tabs.SelectedIndex = 8; await Settle(); Capture("sostegni-acciaio");
+            Check(sheet.SteelSupports.Count == 1 && Math.Abs(sheet.SteelSupports[0].NormalForce!.Value + 75) < 1e-8 && sheet.SteelChecks.Count == 3,
+                "Forza del puntone o verifiche Steel assenti dalla vista.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.SteelChecks)), "Tabella Steel non associata allo snapshot.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("sostegni-acciaio-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "steel_members").Rows[0]["length_2"] = "100"; await Settle();
+            Check(sheet.Current is null && sheet.SteelChecks.Count == 0 && sheet.SelectedSteelSupport is null && !sheet.SteelCsvCommand.CanExecute(null),
+                "Risultati Steel superati ancora visibili o esportabili.");
+            await editor.CalculateAsync(); await Settle(); Capture("puntone-instabile");
+            Check(sheet.SteelSupports[0].Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotSatisfied && sheet.SteelChecks[2].Ratio > 1,
+                "Puntone oltre capacità non segnalato come non soddisfatto.");
+            var anchorData = steelData.DeepClone().AsObject(); anchorData["name"] = "Sfilamento del tirante — collaudo grafico";
+            anchorData["steel_standard"] = "Non richieste"; anchorData["anchor_standard"] = "NTC 2018"; anchorData["anchor_a1m1"] = true;
+            anchorData["action_basis"] = "A1+M1, azione di progetto sintetica"; anchorData["supports"]![0]!["kind"] = "Anchor";
+            anchorData["activations"]![0]!["prestress"] = 400;
+            var anchorRow = EmbeddedWallDocument.NewRow("anchor_checks"); anchorRow["support"] = "P1";
+            anchorRow["free_length"] = 10; anchorRow["bond_length"] = 6; anchorRow["drill_diameter"] = 200; anchorRow["minimum_cover"] = 6;
+            anchorRow["execution_source"] = "IRS, quantità e qualità documentate nel caso sintetico";
+            anchorRow["applicability_source"] = "Bulbo isolato e confinato in zona stabile";
+            anchorRow["experimental_source"] = "Verbale sintetico di conferma in sito"; anchorRow["stage_source"] = "Geometria valida nella fase F1";
+            anchorData["anchor_checks"]!.AsArray().Add(anchorRow);
+            var anchorLayer = EmbeddedWallDocument.NewRow("anchor_layers"); anchorLayer["support"] = "P1"; anchorLayer["profile"] = "Indagine A";
+            anchorLayer["axis_start"] = 0; anchorLayer["axis_end"] = 20; anchorLayer["limit_pressure"] = 2;
+            anchorLayer["injection_pressure"] = 3; anchorLayer["diameter_factor"] = 1.5; anchorLayer["pressure_source"] = "Prova pressiometrica sintetica";
+            anchorData["anchor_layers"]!.AsArray().Add(anchorLayer);
+            sheet.Reload(anchorData); await editor.CalculateAsync(); tabs.SelectedIndex = 9; await Settle(); Capture("sfilamento-tirante");
+            Check(sheet.AnchorChecks.Count == 1 && Math.Abs(sheet.AnchorChecks[0].Demand!.Value - 400) < 1e-8
+                && sheet.AnchorChecks[0].Segments[0].LimitPressure == 2 && sheet.AnchorChecks[0].Segments[0].InjectionPressure == 3,
+                "Forza o pressioni distinte del bulbo non mostrate.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.AnchorChecks)), "Tabella sfilamento scollegata dallo snapshot.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("sfilamento-tirante-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "anchor_checks").Rows[0]["experimental_source"] = ""; await Settle();
+            Check(sheet.AnchorChecks.Count == 0 && sheet.SelectedAnchorCheck is null && !sheet.AnchorCsvCommand.CanExecute(null), "Sfilamento superato ancora visibile o esportabile.");
+            await editor.CalculateAsync(); await Settle(); Capture("sfilamento-preliminare");
+            Check(sheet.AnchorChecks[0].Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated && sheet.AnchorChecks[0].Capacity.HasValue,
+                "Capacità preliminare presentata come verifica conclusa.");
+            var tubeData = steelData.DeepClone().AsObject(); tubeData["name"] = "Paratia tubolare — collaudo grafico";
+            tubeData["steel_standard"] = "Non richieste"; tubeData["tube_standard"] = "NTC 2018"; tubeData["tube_check_kind"] = "StaticUltimate";
+            tubeData["width"] = 1.5; tubeData["fix_top_u"] = false; tubeData["supports"] = new JsonArray(); tubeData["activations"] = new JsonArray();
+            tubeData["segments"]![0]!["ei_mode"] = "Da tubo CHS"; tubeData["segments"]![0]!["ei"] = null;
+            var tubeRow = EmbeddedWallDocument.NewRow("steel_tubes"); tubeRow["diameter"] = 200; tubeRow["thickness"] = 8; tubeRow["spacing"] = 2;
+            tubeRow["nominal_grade"] = 355; tubeRow["fy"] = 355; tubeRow["fu"] = 510; tubeRow["elastic_modulus"] = 210000;
+            tubeRow["material_source"] = "Proprietà S355 del caso sintetico"; tubeRow["unperforated"] = true; tubeRow["single_row"] = true;
+            tubeRow["representation_source"] = "Fila unica, fronte con distribuzione uniforme ai tubi; nessun effetto arco";
+            tubeData["steel_tubes"]!.AsArray().Add(tubeRow);
+            var tubeLoad = EmbeddedWallDocument.NewRow("loads"); tubeLoad["horizontal"] = .2; tubeLoad["downward"] = 5;
+            tubeData["loads"] = new JsonArray(tubeLoad);
+            sheet.Reload(tubeData); await editor.CalculateAsync(); tabs.SelectedIndex = 10; sheet.SelectedTubeCheck = sheet.SteelTubes.LastOrDefault();
+            await Settle(); Capture("sezioni-tubolari");
+            Check(sheet.SteelTubes.Count > 0 && sheet.SteelTubes.All(r => r.SectionClass == 1 && r.Checks.Count == 3)
+                && Math.Abs(sheet.SelectedTubeCheck!.StripToMemberFactor!.Value - 4.0 / 3) < 1e-12, "Azioni o controlli N–M–V della sezione assenti.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.SteelTubes)), "Tabella sezioni tubolari scollegata dallo snapshot.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("sezioni-tubolari-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "steel_tubes").Rows[0]["thickness"] = "4"; await Settle();
+            Check(sheet.Current is null && sheet.SelectedTubeCheck is null && sheet.SteelTubes.Count == 0 && !sheet.TubeCsvCommand.CanExecute(null), "Risultati tubolari superati ancora esportabili.");
+            await editor.CalculateAsync(); await Settle(); Capture("sezione-tubolare-classe3");
+            Check(sheet.SteelTubes.All(r => r.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated && r.Checks.All(c => c.Capacity is null)),
+                "Classe 3 certificata dal percorso plastico limitato alle classi 1–2.");
+            var rcData = tubeData.DeepClone().AsObject(); rcData["name"] = "Paratia di pali in c.a. — collaudo grafico";
+            rcData["tube_standard"] = "Non richieste"; rcData["steel_tubes"] = new JsonArray();
+            rcData["rc_pile_standard"] = "NTC 2018"; rcData["rc_pile_check_kind"] = "Ultimate";
+            rcData["segments"]![0]!["ei_mode"] = "Da palo circolare c.a.";
+            var rcRow = EmbeddedWallDocument.NewRow("rc_piles"); rcRow["diameter"] = 800; rcRow["spacing"] = 1;
+            rcRow["cover"] = 50; rcRow["bar_count"] = 12; rcRow["bar_diameter"] = 20; rcRow["link_diameter"] = 10; rcRow["link_spacing"] = 150;
+            rcRow["fck"] = 30; rcRow["fyk"] = 450; rcRow["creep"] = 0; rcRow["material_source"] = "C30/B450, materiali del collaudo";
+            rcRow["single_row"] = true; rcRow["representation_source"] = "Fila unica e ripartizione uniforme sul fronte sintetico";
+            rcRow["shear_confirmed"] = true; rcRow["durability_cover"] = 35; rcRow["detailing_mode"] = "Beam";
+            rcRow["compression_restrained"] = true; rcRow["end_zones_confirmed"] = true; rcData["rc_piles"]!.AsArray().Add(rcRow);
+            sheet.Reload(rcData); await editor.CalculateAsync(); tabs.SelectedIndex = 11; sheet.SelectedRcPileCheck = sheet.RcPiles.LastOrDefault();
+            await Settle(); Capture("sezioni-pali-ca");
+            Check(sheet.RcPiles.Count > 0 && sheet.RcPiles.All(r => r.Checks.Count == 2 && r.Details.Count > 0)
+                && Math.Abs(sheet.SelectedRcPileCheck!.StripToMemberFactor!.Value - 2.0 / 3) < 1e-12, "Azioni o controlli del palo c.a. assenti.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.RcPiles))
+                && Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.SelectedRcPileCheck!.Details)), "Sezioni o dettagli c.a. scollegati dallo snapshot.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("sezioni-pali-ca-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "rc_piles").Editor!["shear_confirmed"].IsChecked = false; await Settle();
+            Check(sheet.Current is null && sheet.RcPiles.Count == 0 && sheet.SelectedRcPileCheck is null && !sheet.RcPileCsvCommand.CanExecute(null), "Risultati c.a. superati ancora esportabili.");
+            await editor.CalculateAsync(); await Settle(); Capture("sezioni-pali-ca-taglio-non-valutato");
+            Check(sheet.Current?.Complete == true && sheet.RcPiles.Count > 0
+                && sheet.RcPiles.All(r => r.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated
+                && r.Checks[1].Capacity is null), "Taglio del palo senza modello confermato certificato.");
+            var distributed = EmbeddedWallDocument.Create(); distributed["name"] = "Carico trapezoidale — mensola sintetica";
+            distributed["bottom"] = -6; distributed["width"] = 2.5; distributed["mesh"] = .5;
+            distributed["fix_bottom_u"] = true; distributed["fix_bottom_rotation"] = true;
+            distributed["left_soils"] = new JsonArray(); distributed["right_soils"] = new JsonArray();
+            distributed["action_basis"] = "Carichi assegnati per fascia 2.5 m; collaudo analitico";
+            distributed["segments"]![0]!["bottom"] = -6; distributed["segments"]![0]!["ei"] = 200000;
+            distributed["segments"]![0]!["source"] = "EI assegnato, 2e14 Nmm²";
+            distributed["stages"]![0]!["left_ground"] = -6; distributed["stages"]![0]!["right_ground"] = -6;
+            var q = EmbeddedWallDocument.NewRow("distributed_loads"); q["top"] = -1; q["bottom"] = -4.5;
+            q["q_top"] = 1; q["q_bottom"] = 4; q["source"] = "Atteso indipendente: u testa 0.9843932291666667 mm";
+            distributed["distributed_loads"]!.AsArray().Add(q); sheet.Reload(distributed);
+            tabs.SelectedIndex = 1; await Settle(); tables = Visual(editor.View).OfType<TabControl>().Last();
+            tables.SelectedItem = sheet.Tables.Single(t => t.Key == "distributed_loads"); await Settle();
+            ((TabItem)tables.ItemContainerGenerator.ContainerFromItem(tables.SelectedItem)).BringIntoView(); await Settle(); Capture("carichi-distribuiti-input");
+            Check(Visual(editor.View).OfType<EmbeddedWallTableView>().Any()
+                && sheet.Tables.Single(t => t.Key == "distributed_loads").Editor!["q_top"].Key == "q_top", "Editor carichi distribuiti non disponibile.");
+            await editor.CalculateAsync(); tabs.SelectedIndex = 3; sheet.Diagram = "Carico netto [kN/m]";
+            await Settle(); Capture("carichi-distribuiti-diagramma");
+            Check(sheet.Current?.Complete == true && sheet.Stages.Count == 1
+                && Math.Abs(sheet.Stages[0].Points[0].Displacement - .9843932291666667) < 5e-8
+                && sheet.Stages[0].Points.Any(p => Math.Abs(p.NetDistributedLoad - 4) < 1e-9), "Risultato distribuito analitico o diagramma assenti.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("carichi-distribuiti-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "distributed_loads").Rows[0]["q_top"] = "2";
+            Check(sheet.Current is null && sheet.Stages.Count == 0 && !sheet.CsvCommand.CanExecute(null), "Carichi modificati mantengono risultati correnti.");
+            await editor.CalculateAsync();
+            Check(sheet.Current?.Complete == true && sheet.Stages[0].Points[0].Displacement > .9843932291666667, "Modifica tabellare del carico non acquisita.");
+            var searchData = data.DeepClone().AsObject(); searchData["name"] = "Ricerca infissione — limite in testa 3,25 mm";
+            searchData["bottom"] = -10; searchData["mesh"] = .125; searchData["substeps"] = 2; searchData["segments"]![0]!["bottom"] = -10;
+            searchData["stages"] = new JsonArray(); searchData["loads"] = new JsonArray();
+            foreach (var pair in new[] { ("Initial", 0d), ("Loaded", 10d), ("Reversed", -5d) })
+            {
+                var stage = EmbeddedWallDocument.NewRow("stages"); stage["id"] = pair.Item1; stage["left_surcharge"] = 100; stage["right_surcharge"] = 100;
+                searchData["stages"]!.AsArray().Add(stage);
+                var load = EmbeddedWallDocument.NewRow("loads"); load["stage"] = pair.Item1; load["horizontal"] = pair.Item2; searchData["loads"]!.AsArray().Add(load);
+            }
+            searchData["embedment_reference"] = 0; searchData["embedment_minimum"] = 3.5; searchData["embedment_maximum"] = 10;
+            searchData["embedment_increment"] = .5; searchData["embedment_head_limit"] = 3.25; searchData["embedment_source"] = "Limite assegnato; atteso indipendente 6,50 m";
+            sheet.Reload(searchData); tabs.SelectedIndex = 2; await Settle();
+            Check(Visual(editor.View).OfType<TextBlock>().Any(t => t.Text == "Ricerca per tutti i casi assegnati"), "Titolo ricerca non aggiornato al campo multi-caso.");
+            var searchButton = Visual(editor.View).OfType<Button>().Single(b => b.Content as string == "Cerca infissione");
+            Check(ReferenceEquals(searchButton.Command, sheet.SearchEmbedmentCommand), "Comando di ricerca non collegato.");
+            await sheet.SearchEmbedmentCommand.ExecuteAsync(null); await Settle(); Capture("ricerca-infissione");
+            Check(sheet.Current?.EmbedmentSearch is { MinimumCertified: true, BestEmbedment: 6.5 } && sheet.EmbedmentCandidates.Count == 14,
+                "Ricerca grafica non conserva l'atteso indipendente.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.EmbedmentCandidates))
+                && Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.EmbedmentCriteria)), "Tabelle della ricerca scollegate.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("ricerca-infissione-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.SelectedEmbedment = sheet.EmbedmentCandidates[0]; await Settle();
+            Check(sheet.EmbedmentCriteria[0].Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotSatisfied, "Candidato non soddisfatto visualizzato accettabile.");
+            tabs.SelectedIndex = 3; await Settle(); Capture("ricerca-infissione-diagramma");
+            Check(sheet.Points.Min(p => p.Elevation) == -6.5, "Diagramma non riferito al candidato dichiarato.");
+            tabs.SelectedItem = tabs.Items.OfType<TabItem>().Single(t => t.Header as string == "Inviluppi");
+            sheet.SelectedEnvelopeSeries = sheet.EnvelopeSeries.Single(s => s.Quantity == "Moment"); await Settle(); Capture("inviluppi");
+            var envelopePlot = Visual(editor.View).OfType<EmbeddedWallDiagram>().Single();
+            Check(sheet.Current!.Envelope is { Complete: true, Bottom: -6.5 } && sheet.EnvelopeSeries.Count == 8,
+                "Inviluppo non riferito alle fasi del candidato accettabile.");
+            Check(ReferenceEquals(envelopePlot.Points, sheet.EnvelopeMinimum) && ReferenceEquals(envelopePlot.Comparison, sheet.EnvelopeMaximum)
+                && envelopePlot.PrimaryLabel == "minimo" && envelopePlot.ComparisonLabel == "massimo", "Curve dell'inviluppo scollegate o legenda errata.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.EnvelopeStations)), "Tabella delle stazioni dell'inviluppo assente.");
+            sheet.SelectedEnvelopeStation = sheet.EnvelopeStations[sheet.EnvelopeStations.Count / 2]; await Settle();
+            Check(sheet.EnvelopeConcomitant.Count == 2 && ReferenceEquals(sheet.EnvelopeConcomitant[1].Value, sheet.SelectedEnvelopeStation.Maximum),
+                "Selezione della quota perde le azioni concomitanti.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("inviluppi-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.SelectedEnvelopeSeries = sheet.EnvelopeSeries.Single(s => s.Quantity == "Rotation"); await Settle();
+            Check(envelopePlot.Quantity == "Rotazione [rad]" && ReferenceEquals(envelopePlot.Points, sheet.EnvelopeMinimum), "Selezione della grandezza non aggiorna l'inviluppo.");
+            tabs.SelectedIndex = 2; sheet.Embedment["embedment_head_limit"].EditText = "4"; await Settle();
+            Check(sheet.Current is null && sheet.EmbedmentCandidates.Count == 0 && !sheet.EmbedmentCsvCommand.CanExecute(null), "Limite modificato conserva la ricerca corrente.");
+            Check(sheet.EnvelopeSeries.Count == 0 && sheet.EnvelopeMinimum.Count == 0 && sheet.EnvelopeMaximum.Count == 0
+                && !sheet.EnvelopeCsvCommand.CanExecute(null), "Input modificati conservano inviluppi superati.");
+            var multi = searchData.DeepClone().AsObject(); multi["case_id"] = "C1";
+            multi["action_basis"] = "Storia indipendente con azioni assegnate 0, +10 e -5 kN; nessun coefficiente";
+            var secondCase = EmbeddedWallDocument.NewRow("cases"); secondCase["id"] = "C2";
+            secondCase["action_basis"] = "Storia indipendente H=15 kN"; secondCase["embedment_head_limit"] = 4.5;
+            secondCase["embedment_source"] = "Limite del secondo caso; minimo indipendente 7,50 m"; multi["cases"]!.AsArray().Add(secondCase);
+            foreach (string table in new[] { "stages", "loads" })
+            foreach (var originalRow in multi[table]!.AsArray().ToArray())
+            {
+                var row = originalRow!.DeepClone().AsObject(); row["case"] = "C2";
+                if (table == "loads" && row["stage"]!.ToString() == "Loaded") row["horizontal"] = 15;
+                multi[table]!.AsArray().Add(row);
+            }
+            sheet.Reload(multi); tabs.SelectedIndex = 1; await Settle();
+            var dataTabs = Visual(editor.View).OfType<TabControl>().Single(t => t.ItemsSource is not null);
+            dataTabs.SelectedItem = sheet.Tables.Single(t => t.Key == "cases"); await Settle(); Capture("casi-editor");
+            Check(sheet.Tables.Single(t => t.Key == "cases").Editor!["embedment_head_limit"].Key == "embedment_head_limit",
+                "Editor degli altri casi non disponibile.");
+            await sheet.SearchEmbedmentCommand.ExecuteAsync(null); tabs.SelectedIndex = 3; await Settle();
+            Check(sheet.Current?.EmbedmentSearch is { MinimumCertified: true, BestEmbedment: 7.5 } && sheet.ResultCases.Count == 2,
+                "La ricerca grafica non considera entrambi i casi.");
+            var caseSelector = Visual(editor.View).OfType<ComboBox>().Single(c => c.DisplayMemberPath == "CaseId");
+            Check(caseSelector.Items.Count == 2 && ReferenceEquals(caseSelector.SelectedItem, sheet.SelectedResultCase), "Selettore dei casi scollegato.");
+            caseSelector.SelectedItem = sheet.ResultCases.Single(c => c.CaseId == "C2"); await Settle(); Capture("casi-diagramma");
+            Check(sheet.SelectedResultCase?.CaseId == "C2" && ReferenceEquals(sheet.Stages, sheet.ResultCases[1].Stages)
+                && sheet.Points.Min(p => p.Elevation) == -7.5 && sheet.ResultCaseStatus.Contains("C2"), "Cambio caso conserva dati precedenti.");
+            tabs.SelectedItem = tabs.Items.OfType<TabItem>().Single(t => t.Header as string == "Inviluppi");
+            sheet.SelectedEnvelopeSeries = sheet.EnvelopeSeries.Single(s => s.Quantity == "Displacement"); await Settle(); Capture("casi-inviluppi");
+            Check(sheet.Current!.Envelope?.Histories.Count == 2 && sheet.SelectedEnvelopeSeries.Maximum.CaseId == "C2",
+                "Inviluppo multi-caso perde il caso governante.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("casi-inviluppi-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "cases").Rows[0]["action_basis"] = "Fonte aggiornata"; await Settle();
+            Check(sheet.Current is null && sheet.ResultCases.Count == 0 && sheet.Points.Count == 0 && sheet.EnvelopeSeries.Count == 0,
+                "Modifica di un caso conserva i risultati dell'insieme.");
+            editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
+            Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");
+            File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF paratie, senza attivare finestre sul desktop");
+        }
+        finally { window.Content = null; window.Close(); Appearance.Set(AppAppearance.Light, false); }
+    }
+    private static IEnumerable<DependencyObject> Visual(DependencyObject root)
+    {
+        yield return root;
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++) foreach (var item in Visual(VisualTreeHelper.GetChild(root, i))) yield return item;
+    }
+}

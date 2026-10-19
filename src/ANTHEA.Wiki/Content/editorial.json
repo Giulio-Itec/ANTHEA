@@ -1607,5 +1607,56 @@
     "title": "Spettri di risposta e isolamento sismico",
     "order": 150,
     "summary": "Reticolo, interpolazione, convenzioni numeriche e sistema equivalente con isolamento."
+  },
+  "guide:Paratie e sostegni flessibili": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/guida-paratie",
+    "modules": [
+      "geo_paratie"
+    ],
+    "related": [
+      "analisi-paratie",
+      "guida-stratigrafia"
+    ],
+    "key": "guida-paratie",
+    "chapterId": "geotecnica",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [
+      "guida-stratigrafia"
+    ],
+    "references": [
+      "ntc2018"
+    ],
+    "title": "Paratie e sostegni flessibili",
+    "order": 100,
+    "summary": "Geometria, terreni, fasi, carichi e sostegni: eseguire le analisi disponibili, leggere gli esiti e riconoscere i limiti."
+  },
+  "theory:Analisi per fasi delle paratie": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/geotecnica/analisi-paratie",
+    "modules": [
+      "geo_paratie"
+    ],
+    "related": [
+      "guida-paratie",
+      "modello-stratigrafia"
+    ],
+    "key": "analisi-paratie",
+    "chapterId": "geotecnica",
+    "status": "reviewed",
+    "level": "advanced",
+    "prerequisites": [
+      "modello-stratigrafia"
+    ],
+    "references": [
+      "ntc2018",
+      "van-genuchten1980",
+      "usace-seepage1986",
+      "viggiani-fondazioni"
+    ],
+    "title": "Analisi per fasi delle paratie",
+    "order": 100,
+    "summary": "Trave e molle elastoplastiche, storia costruttiva, filtrazione e verificatori GPC: ipotesi, unità, equilibrio e campo collaudato."
   }
 }

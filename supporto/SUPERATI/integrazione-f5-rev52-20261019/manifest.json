@@ -1,0 +1,198 @@
+{
+  "reason": "Unione guide paratie e spettri nella Rev52",
+  "replacement": "supporto/documentazione/Guide_ANTHEA/*Rev52*",
+  "files": [
+    {
+      "origin": "supporto/README.md",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/README.md",
+      "sha256": "a7532fb582776b84ea5e6780891f4834ae98ef98f36b48903e01c89b72dbca1c"
+    },
+    {
+      "origin": "supporto/README.pdf",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/README.pdf",
+      "sha256": "7dfef5848ccc27e5094380c4387b1a8f51d0e58604642c3dd1e9f1794baa8212"
+    },
+    {
+      "origin": "supporto/installer/README.md",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/installer/README.md",
+      "sha256": "5c1c6a926ef709ae66113ac46cc7f20c975de82b867798e915c3cd1b1d351dc6"
+    },
+    {
+      "origin": "supporto/installer/README.pdf",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/installer/README.pdf",
+      "sha256": "dcb12c4f64b9de2690eb30e19f788802d3d01ceeb679783ff05a8af93e4828c0"
+    },
+    {
+      "origin": "supporto/installer/Indice-guide.md",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/installer/Indice-guide.md",
+      "sha256": "2db1105e7f370d670fe0adc563905c4231042265abb223b8be2f128293911098"
+    },
+    {
+      "origin": "supporto/installer/Indice-guide.pdf",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/installer/Indice-guide.pdf",
+      "sha256": "2cea2fceb6d23e91edf4be10266ee79d8381061ba87e0da9d13f09ff47ef9fc2"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/README.md",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/documentazione/Guide_ANTHEA/README.md",
+      "sha256": "de70ee376615cb918c7915efdd7be0e759dcb2c2665c35f87b2a59c1a7435f61"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/documentazione/Guide_ANTHEA/README.pdf",
+      "sha256": "60607aaad1dbb22d7748ae521abee202a365dc1f46944b321022aa5271ca7ba7"
+    },
+    {
+      "origin": "supporto/docs/guida-pratica-anthea.md",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/docs/guida-pratica-anthea.md",
+      "sha256": "8fb64a8d9522b3a11bd40730261448c05062327054de1d83ee71fe29d5ca0881"
+    },
+    {
+      "origin": "supporto/docs/guida-pratica-anthea.pdf",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/docs/guida-pratica-anthea.pdf",
+      "sha256": "d1d1c901c9f65620299194fe57beac5dc6d11322d649489d7d211604aec3a806"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev51.docx",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev51.docx",
+      "sha256": "cf79d40ac5c9bae20dc2e15264cfe89e435bbbaf0fbf2f86a5731371bb60fe01"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev51.pdf",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev51.pdf",
+      "sha256": "d1d1c901c9f65620299194fe57beac5dc6d11322d649489d7d211604aec3a806"
+    },
+    {
+      "origin": "supporto/docs/guida-teorica-anthea.md",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/docs/guida-teorica-anthea.md",
+      "sha256": "d564ebac2c9dbf5bb75d8c8a2dd3b3d481a619c255be85efc629e9398e87a98d"
+    },
+    {
+      "origin": "supporto/docs/guida-teorica-anthea.pdf",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/docs/guida-teorica-anthea.pdf",
+      "sha256": "2348f6771cba41e8ab5ec87a22ce975a1ad3eac080befb34fc2bf7e031d6ac59"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev51.docx",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev51.docx",
+      "sha256": "941e79a482543cb6c2e379510d2c4fdac42190028d8030d8ebd15676b177e0a0"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev51.pdf",
+      "revision": "b789e246",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/paratie/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev51.pdf",
+      "sha256": "2348f6771cba41e8ab5ec87a22ce975a1ad3eac080befb34fc2bf7e031d6ac59"
+    },
+    {
+      "origin": "supporto/README.md",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/README.md",
+      "sha256": "4860f4f2dff4f1e5ab2191e2c85ef32ab1229e538b9da76b85904073c9456812"
+    },
+    {
+      "origin": "supporto/README.pdf",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/README.pdf",
+      "sha256": "527e9c63f5328a760c359decf22567e8e71cbb8cfa6379f543fcc7753aa510ec"
+    },
+    {
+      "origin": "supporto/installer/README.md",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/installer/README.md",
+      "sha256": "1d8a2e0fcd692e24387a521e199124132866f6260d299cc6adac5bcc8a244d72"
+    },
+    {
+      "origin": "supporto/installer/README.pdf",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/installer/README.pdf",
+      "sha256": "e67358c318b3193aa4a076c3cc855935d80a90e25284754c10bbe591bc017220"
+    },
+    {
+      "origin": "supporto/installer/Indice-guide.md",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/installer/Indice-guide.md",
+      "sha256": "c49eff0402997abd4c69a5ffca5ce32a466a21e632e3441d21d1df5b50297d9c"
+    },
+    {
+      "origin": "supporto/installer/Indice-guide.pdf",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/installer/Indice-guide.pdf",
+      "sha256": "014b7e6dbc6558118f69905495c4162e13e68aeff5fbca19fac2d5d7f39e4c51"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/README.md",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/documentazione/Guide_ANTHEA/README.md",
+      "sha256": "5534411f0eb21f8f63a9117fdb85a9d542564e614bb82e80bc3fbbc2ded321ec"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/documentazione/Guide_ANTHEA/README.pdf",
+      "sha256": "0f4a22c572783ad64c0b243e722f0cb7fb38ac904b67df70443589afc41fe871"
+    },
+    {
+      "origin": "supporto/docs/guida-pratica-anthea.md",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/docs/guida-pratica-anthea.md",
+      "sha256": "79cf35f0f92a25911e61c70f66fe61b0a30650021a8d0646826746c86036936b"
+    },
+    {
+      "origin": "supporto/docs/guida-pratica-anthea.pdf",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/docs/guida-pratica-anthea.pdf",
+      "sha256": "bac2574ec16283fa0addc6ec1d5882d6740418178e37c1d56effa85ada917d9d"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.docx",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.docx",
+      "sha256": "e180a16f6596d2b839dd3be24819ecbcd3e34913d43c4c8d8b586a12e815a5e4"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.pdf",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.pdf",
+      "sha256": "bac2574ec16283fa0addc6ec1d5882d6740418178e37c1d56effa85ada917d9d"
+    },
+    {
+      "origin": "supporto/docs/guida-teorica-anthea.md",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/docs/guida-teorica-anthea.md",
+      "sha256": "46ee9c18d3907e768686db1b1cecab66576864ebf0e591dba5a3db8fbcb78666"
+    },
+    {
+      "origin": "supporto/docs/guida-teorica-anthea.pdf",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/docs/guida-teorica-anthea.pdf",
+      "sha256": "beeb7d3b64298c7c7c7d66aceaae15d82f9db649ebe5f4e2119449272677862b"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.docx",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.docx",
+      "sha256": "9cb166a286084f9e6d2ac62b9cc90ddc2633ea32b79bd1ac7d3e1130c67ad53a"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.pdf",
+      "revision": "33919e8e",
+      "archive": "supporto/SUPERATI/integrazione-f5-rev52-20261019/spettri/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.pdf",
+      "sha256": "beeb7d3b64298c7c7c7d66aceaae15d82f9db649ebe5f4e2119449272677862b"
+    }
+  ]
+}

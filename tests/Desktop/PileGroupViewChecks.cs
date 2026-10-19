@@ -602,7 +602,7 @@ internal static class PileGroupViewChecks
             Check(release is MvvmSheetEditor { Sheet: PileGroupSheetViewModel shown } && shown.DiameterForm.WikiNavigator is WpfWikiNavigator && shown.HasResults,
                 "Release: la radice di composizione apre la palificata con la vista MVVM");
         Check(ModuleImplementations.Declared.All(d => d.Implementation ==
-            (d.Module is Module or Anthea.Application.Actions.SpectraDocument.Module ? SheetImplementation.Mvvm : SheetImplementation.Historic)),
+            (d.Module is Module or Anthea.Application.Actions.SpectraDocument.Module or Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module ? SheetImplementation.Mvvm : SheetImplementation.Historic)),
             "Release: palificata e nuovo modulo Spettri con la vista MVVM, gli altri moduli con la vista storica");
     }
 

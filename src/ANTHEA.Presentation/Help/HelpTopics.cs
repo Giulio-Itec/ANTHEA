@@ -43,7 +43,16 @@ public static class HelpTopics
         new("Fasi costruttive", "guida-sezione-composta-da-ponte#costruire-le-fasi", ["str_mista_ponte"], ["metodo", "ritiro", "tempo", "eta"]),
         new("Terreni, falda e sisma", "guida-muri-di-sostegno-con-stratigrafie-di-monte-e-valle#controllare-rilievo-falda-sisma-e-ricerca", ["geo_muri_sostegno"], ["kh", "kv", "ag", "ag_g", "f0", "ss", "st", "beta", "falda", "water_level"]),
         new("Muri: metodi, geometrie e limiti", "muri-metodi-perimetro", ["geo_muri_sostegno"], ["height", "stem_base", "stem_top", "toe", "heel", "slab"]),
-        new("Ricerca, obiettivi e limiti", "guida-bridge-design#scegliere-obiettivo-e-costanti", ["str_bridge_design"], ["obiettivo", "metodo", "objective"])
+        new("Ricerca, obiettivi e limiti", "guida-bridge-design#scegliere-obiettivo-e-costanti", ["str_bridge_design"], ["obiettivo", "metodo", "objective"]),
+        new("Paratia: quote, fascia e unità", "guida-paratie#definire-il-modello-e-le-unita", ["geo_paratie"], ["top", "bottom", "width", "ei", "ei_mode", "spacing", "representation_source"]),
+        new("Paratia: terreni, pressioni e memoria plastica", "analisi-paratie#stato-iniziale-e-pressioni-limite", ["geo_paratie"], ["gamma", "gamma_sat", "phi", "c", "cu", "k0", "kh", "drainage", "stiffness_source"]),
+        new("Paratia: storia delle fasi e sostegni", "guida-paratie#costruire-la-storia-delle-fasi", ["geo_paratie"], ["stage", "prestress", "left_ground", "right_ground", "left_water", "right_water", "stiffness_factor", "capacity", "stiffness", "angle"]),
+        new("Paratia: discretizzazione ed equilibrio", "analisi-paratie#discretizzazione-incrementi-ed-equilibrio", ["geo_paratie"], ["mesh", "substeps", "fix_top_u", "fix_top_rotation", "fix_bottom_u", "fix_bottom_rotation"]),
+        new("Paratia: carichi lineari sulla struttura", "analisi-paratie#carichi-distribuiti-per-intervalli", ["geo_paratie"], ["q_top", "q_bottom", "distributed_load"]),
+        new("Paratia: falda e filtrazione FEM", "guida-paratie#impostare-falda-e-filtrazione", ["geo_paratie"], ["hydraulic_mode", "hydraulic_left_extent", "hydraulic_right_extent", "hydraulic_bottom", "hydraulic_thickness", "hydraulic_mesh", "hydraulic_iterations", "hydraulic_weight_mode", "ignore_suction"]),
+        new("Paratia: verifiche e applicabilità", "guida-paratie#richiedere-le-verifiche", ["geo_paratie"], ["case_id", "action_basis", "check_kind", "steel_standard", "steel_check_kind", "anchor_standard", "anchor_situation", "anchor_a1m1", "tube_standard", "tube_check_kind", "rc_pile_standard", "rc_pile_check_kind", "hydraulic_standard", "hydraulic_situation", "shear_confirmed", "detailing_mode"]),
+        new("Paratia: ricerca dell'infissione", "guida-paratie#ricercare-l-infissione-sulla-griglia-assegnata", ["geo_paratie"],
+            ["embedment_reference", "embedment_minimum", "embedment_maximum", "embedment_increment", "embedment_head_limit", "embedment_source"])
     ];
     /// <summary>Type of stress analysis of the c.a. section («modello» of the SLE tab; the same key names the shear model).</summary>
     public static Topic StressAnalysis { get; } = new("Analisi tensionale di esercizio: lineare o non lineare", "sezione-in-calcestruzzo-armato#materiali-tendini-e-analisi-di-esercizio", ["str_palo"], []);

@@ -157,7 +157,11 @@ internal static class ModuleHostChecks
     private static void Registry(Expect expect)
     {
         var historic = new ModuleRegistry([]);
-        expect.That(historic.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All) && historic.All.Count == 14, "Il registro non copre ModuleDirectory");
+        expect.That(historic.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
+            && historic.All.Count(d => d.Info.Id is not (Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module or Anthea.Application.Actions.SpectraDocument.Module)) == 13
+            && historic.All.Count(d => d.Info.Id == Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module) == 1
+            && historic.All.Count(d => d.Info.Id == Anthea.Application.Actions.SpectraDocument.Module) == 1,
+            "Il registro deve conservare i 13 moduli precedenti e includere paratie e spettri una sola volta");
         expect.That(historic.SheetModuleIds.Count == 0 && historic.All.All(d => d is not ISheetModule), "Moduli MVVM nel registro storico");
         expect.That(historic.All.All(d => d.Help.GuideId == WikiCatalog.ForModule(d.Info.Id)?.Id && d.Persistence == ModulePersistence.Undeclared
             && d.Reports == ModuleReportCapabilities.Undeclared), "Guida, persistenza o report dei moduli storici");

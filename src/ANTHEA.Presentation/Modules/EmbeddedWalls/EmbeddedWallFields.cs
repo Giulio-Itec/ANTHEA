@@ -1,0 +1,182 @@
+using Anthea.Presentation.Forms;
+using Anthea.Application.EmbeddedWalls;
+
+namespace Anthea.Presentation.Modules.EmbeddedWalls;
+
+public static class EmbeddedWallFields
+{
+    public static FieldSpec[] Embedment() =>
+    [
+        new("embedment_reference", "Quota da cui misurare l'infissione", "m"),
+        new("embedment_minimum", "Infissione minima", "m"), new("embedment_maximum", "Infissione massima", "m"),
+        new("embedment_increment", "Passo costruttivo della ricerca", "m"),
+        new("embedment_head_limit", "Spostamento assoluto massimo in testa", "mm"),
+        new("embedment_source", "Fonte del limite e criteri della ricerca", Wide: true, Multiline: true,
+            ToolTip: "Criterio assegnato dal progettista, senza un limite normativo implicito. Si considerano tutte le fasi e le verifiche richieste nei casi assegnati.")
+    ];
+    public static FieldSpec[] General() =>
+    [
+        new("name", "Nome", Wide: true), new("case_id", "Caso / combinazione", Wide: true), new("action_basis", "Provenienza e coefficienti delle azioni", Wide: true, Multiline: true),
+        new("top", "Quota testa", "m"), new("bottom", "Quota piede", "m"), new("width", "Larghezza della fascia analizzata", "m"), new("mesh", "Lunghezza massima elemento", "m"),
+        new("substeps", "Incrementi iniziali per fase"), new("check_kind", "Verifiche delle fasce rettangolari in c.a.", Choices: ["Analisi", "Ultimate", "Characteristic", "Frequent", "QuasiPermanent"],
+            ToolTip: "Analisi: sole sollecitazioni. Ultimate: SLU; Characteristic, Frequent, QuasiPermanent: SLE della combinazione esplicitamente assegnata. Non sono applicati coefficienti alle azioni."),
+        new("steel_standard", "Verifiche dei sostegni metallici", Choices: ["Non richieste", "NTC 2018", "EN 1993-1-1 — profilo non disponibile"], Wide: true),
+        new("steel_check_kind", "Combinazione per i sostegni metallici", Choices: ["Analysis", "StaticUltimate", "SeismicUltimate", "Serviceability"], Wide: true,
+            ToolTip: "Percorso collaudato: StaticUltimate (SLU statico NTC 2018). La provenienza e i coefficienti delle azioni vanno dichiarati sopra. Le altre scelte producono Non valutato."),
+        new("anchor_standard", "Verifica sfilamento tiranti", Choices: ["Non richieste", "NTC 2018", "EN 1997-1 — profilo non disponibile"], Wide: true),
+        new("anchor_situation", "Situazione sfilamento", Choices: ["PersistentTransient", "Seismic"], Wide: true),
+        new("tube_standard", "Verifiche sezioni tubolari della parete", Choices: ["Non richieste", "NTC 2018", "EN 1993-1-1 — profilo non disponibile"], Wide: true),
+        new("tube_check_kind", "Combinazione per le sezioni tubolari", Choices: ["Analysis", "StaticUltimate", "SeismicUltimate", "Serviceability"], Wide: true,
+            ToolTip: "Resistenza locale N–M–V: SLU statici, CHS integre di classe 1–2. Azioni della storia già di progetto; nessuna rifattorizzazione."),
+        new("rc_pile_standard", "Verifiche pali circolari in c.a.", Choices: ["Non richieste", "NTC 2018", "EN 1992-1-1 — profilo non disponibile"], Wide: true),
+        new("rc_pile_check_kind", "Combinazione per i pali in c.a.", Choices: ["Analisi", "Ultimate", "Characteristic", "Frequent", "QuasiPermanent", "Seismic"], Wide: true,
+            ToolTip: "SLU statici o SLE della storia assegnata. Il sisma richiede verifiche distinte; nessun coefficiente è aggiunto alle azioni."),
+        new("anchor_a1m1", "Storia analizzata con azioni A1 e parametri M1 per i tiranti", Bool: true, Wide: true,
+            ToolTip: "Confermare la base della storia completa, documentandola nella provenienza delle azioni. Il verificatore non rifattorizza le reazioni non lineari."),
+        new("fix_top_u", "Blocca traslazione in testa", Bool: true), new("fix_top_rotation", "Blocca rotazione in testa", Bool: true),
+        new("fix_bottom_u", "Blocca traslazione al piede", Bool: true), new("fix_bottom_rotation", "Blocca rotazione al piede", Bool: true)
+    ];
+    public static FieldSpec[] Hydraulics() =>
+    [
+        new("hydraulic_mode", "Pressioni interstiziali", Choices: ["Idrostatica", "FEM 2D"], Wide: true),
+        new("hydraulic_left_extent", "Estensione a sinistra dall'asse", "m"), new("hydraulic_right_extent", "Estensione a destra dall'asse", "m"),
+        new("hydraulic_bottom", "Quota del fondo impermeabile", "m"), new("hydraulic_thickness", "Spessore parete impermeabile", "m"),
+        new("hydraulic_mesh", "Passo massimo della mesh", "m"),
+        new("hydraulic_iterations", "Numero massimo di iterazioni idrauliche"),
+        new("hydraulic_weight_mode", "Saturazione per i pesi del terreno", Choices: ["Quota di falda assegnata", "Pressioni FEM"], Wide: true,
+            ToolTip: "Pressioni FEM: peso saturo dove u>0, naturale altrove. Nessuna frangia capillare o interpolazione del grado di saturazione. Quota assegnata conserva il criterio dei documenti precedenti."),
+        new("hydraulic_standard", "Norma UPL/HYD", Choices: ["NTC 2018", "EN 1997-1 — profilo non disponibile"], Wide: true),
+        new("hydraulic_situation", "Situazione UPL/HYD", Choices: ["PersistentTransient", "Seismic"], Wide: true,
+            ToolTip: "Profilo idraulico implementato: NTC 2018 persistente/transitorio. Altri profili restituiscono Non valutato, senza coefficienti sostitutivi."),
+        new("ignore_suction", "Trascurare la suzione nel modello meccanico", Bool: true, Wide: true,
+            ToolTip: "Il campo FEM conserva le pressioni negative. Se selezionato, il trasferimento alla paratia limita le pressioni a zero; altrimenti rifiuta profili con suzione. Nessun aumento della resistenza del terreno è attribuito alla suzione.")
+    ];
+    public static string Title(string table) => table switch
+    {
+        "cases" => "Altri casi / combinazioni",
+        "segments" => "Tratti e rigidezze", "left_soils" => "Terreno a sinistra", "right_soils" => "Terreno a destra", "supports" => "Tiranti e puntoni",
+        "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi concentrati sulla struttura", "distributed_loads" => "Carichi distribuiti sulla struttura", "rc_sections" => "Fasce rettangolari in c.a.",
+        "hydraulic_left" => "Permeabilità a sinistra", "hydraulic_right" => "Permeabilità a destra", "hydraulic_upl" => "Corpi UPL",
+        "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", "global_checks" => "Stabilità globale", "global_actions" => "Combinazioni globali", "steel_members" => "Acciaio dei sostegni",
+        "anchor_checks" => "Sfilamento dei tiranti", "anchor_layers" => "Indagini dei bulbi", "anchor_tests" => "Prove preliminari tiranti", "steel_tubes" => "Sezioni tubolari della parete", "rc_piles" => "Pali circolari in c.a.", _ => table
+    };
+    public static FieldSpec[] Columns(string table)
+    {
+        if (table == "cases") return [new("id", "Identificativo del caso"),
+            .. General().Where(f => EmbeddedWallDocument.CaseOverrideKeys.Contains(f.Key)),
+            new("embedment_head_limit", "Limite in testa (vuoto: comune)", "mm"),
+            new("embedment_source", "Fonte del limite (vuoto: comune)", Multiline: true)];
+        var fields = BaseColumns(table);
+        return EmbeddedWallDocument.HistoryTables.Contains(table)
+            ? [new("case", "Caso (vuoto: principale)", ToolTip: "Identificativo definito in Altri casi / combinazioni. Ogni storia ha proprie fasi; i loro identificativi possono ripetersi fra casi diversi."), .. fields] : fields;
+    }
+    private static FieldSpec[] BaseColumns(string table) => table switch
+    {
+        "segments" => [new("section", "Sezione"), new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
+            new("ei_mode", "Origine EI", Choices: ["Assegnata", "Da tubo CHS", "Da palo circolare c.a."], ToolTip: "EI da sezione usa E·I·larghezza/interasse, calcolata da GPC. Il valore assegnato è ignorato quando si seleziona una sezione."),
+            new("ei", "EI assegnata", "kNm²"), new("weight", "Peso lineare della fascia", "kN/m"), new("source", "Fonte di EI")],
+        "steel_tubes" => [new("id", "Sezione nei tratti"), new("diameter", "Diametro esterno", "mm"), new("thickness", "Spessore", "mm"), new("spacing", "Interasse", "m"),
+            new("nominal_grade", "Grado nominale S"), new("fy", "fy per spessore effettivo", "MPa"), new("fu", "fu per spessore effettivo", "MPa"), new("elastic_modulus", "E", "MPa"),
+            new("material_source", "Fonte del materiale", Multiline: true), new("unperforated", "Sezione integra senza aperture o riduzioni", Bool: true),
+            new("single_row", "Fila unica di tubi identici, ripartizione uniforme confermata", Bool: true),
+            new("representation_source", "Trasferimento delle pressioni e validità della fascia equivalente", Multiline: true,
+                ToolTip: "Documentare come il fronte trasferisce le pressioni ai tubi. Nessun effetto arco o interazione tridimensionale è dedotto dall'interasse."),
+            new("is_bridge", "Elemento di ponte", Bool: true)],
+        "rc_piles" => [new("id", "Sezione nei tratti"), new("diameter", "Diametro palo", "mm"), new("spacing", "Interasse pali", "m"),
+            new("cover", "Copriferro esterno alla staffa", "mm"), new("bar_count", "Barre longitudinali (numero pari)"), new("bar_diameter", "Diametro longitudinale", "mm"),
+            new("link_diameter", "Diametro staffe singole", "mm"), new("link_spacing", "Passo staffe", "mm"), new("fck", "fck", "MPa"), new("fyk", "fyk", "MPa"),
+            new("es", "Es", "MPa"), new("eps_uk", "Deformazione ultima acciaio"), new("material_source", "Fonte materiali", Multiline: true),
+            new("outline_divisions", "Lati contorno numerico", ToolTip: "Da 32 a 256, multiplo di quattro. EI usa il cerchio analitico; resistenza e SLE il contorno dichiarato."),
+            new("single_row", "Fila unica e ripartizione uniforme confermate", Bool: true), new("representation_source", "Trasferimento pressioni ai pali", Multiline: true),
+            new("shear_confirmed", "Modello circolare di taglio con staffe singole confermato", Bool: true), new("lever_factor", "Rapporto z/d (≤0,9)"),
+            new("creep", "Viscosità SLE"), new("exposure", "Esposizione"), new("aggregate", "Diametro aggregato", "mm"),
+            new("durability_cover", "Copriferro minimo durabilità", "mm"), new("cover_deviation", "Tolleranza copriferro", "mm"),
+            new("detailing_mode", "Regole costruttive", Choices: ["CommonOnly", "Beam", "Column"], ToolTip: "Scelta ingegneristica esplicita. CommonOnly lascia aperte le regole specifiche dell'elemento."),
+            new("compression_restrained", "Barre compresse trattenute", Bool: true), new("end_zones_confirmed", "Dettagli zone di estremità confermati", Bool: true)],
+        "left_soils" or "right_soils" => [new("name", "Strato"), new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
+            new("gamma", "Peso naturale", "kN/m³"), new("gamma_sat", "Peso saturo", "kN/m³"), new("phi", "Attrito efficace", "°"), new("c", "Coesione efficace", "kPa"),
+            new("cu", "Resistenza non drenata", "kPa"), new("k0", "Coefficiente a riposo K0"), new("kh", "Modulo orizzontale kh", "N/mm³"),
+            new("drainage", "Condizione", Choices: ["Drained", "UndrainedTotalStress"], ToolTip: "Drained: tensioni efficaci. UndrainedTotalStress: analisi non drenata in tensioni totali, cu obbligatoria."),
+            new("source", "Fonte dei parametri"), new("stiffness_source", "Fonte di kh")],
+        "supports" => [new("id", "Identificativo"), new("elevation", "Quota", "m"), new("kind", "Tipo", Choices: ["Anchor", "Strut", "Bilateral"], ToolTip: "Anchor: tirante; Strut: puntone; Bilateral: vincolo bilaterale."),
+            new("stiffness", "Rigidezza assiale EA/L", "kN/m"), new("angle", "Inclinazione dalla parete all'altro estremo", "°", ToolTip: "Positiva in basso. Il tirante tira lungo l'asse; il puntone spinge in verso opposto. La verifica Steel conserva N positivo a trazione."), new("direction", "Verso resistente (+1 / −1)"),
+            new("spacing", "Interasse", "m"), new("capacity", "Capacità plastica per elemento (facoltativa)", "kN")],
+        "stages" => [new("id", "Fase"), new("left_ground", "Terreno sinistra", "m"), new("right_ground", "Terreno destra", "m"),
+            new("left_water", "Falda sinistra (vuoto: assente)", "m"), new("right_water", "Falda destra (vuoto: assente)", "m"),
+            new("left_surcharge", "Sovraccarico sinistra", "kPa"), new("right_surcharge", "Sovraccarico destra", "kPa"),
+            new("distributed_load", "Carico uniforme sull'intera fascia", "kN/m", ToolTip: "Positivo verso destra; si somma ai carichi distribuiti variabili definiti per questa fase."), new("stiffness_factor", "Moltiplicatore EI")],
+        "activations" => [new("stage", "Fase"), new("support", "Sostegno"), new("prestress", "Pretensione per elemento", "kN")],
+        "loads" => [new("stage", "Fase"), new("elevation", "Quota", "m"), new("horizontal", "Forza verso destra", "kN"), new("moment", "Coppia coniugata alla rotazione", "kNm"), new("downward", "Forza verso il basso", "kN")],
+        "distributed_loads" => [new("stage", "Fase", ToolTip: "Elencare tutti i carichi presenti nella fase. Un carico assente nella fase successiva viene rimosso."), new("id", "Identificativo nella fase"),
+            new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
+            new("q_top", "Carico all'estremo superiore", "kN/m", ToolTip: "Forza per lunghezza verticale, riferita all'intera fascia analizzata; positivo verso destra. Varia linearmente tra gli estremi; le sovrapposizioni si sommano."),
+            new("q_bottom", "Carico all'estremo inferiore", "kN/m", ToolTip: "Stessa convenzione del carico superiore. Ammessi valori negativi e cambio di segno nell'intervallo."), new("source", "Fonte del carico", Multiline: true)],
+        "rc_sections" => [new("id", "Sezione"), new("width", "Larghezza della fascia", "mm"), new("thickness", "Spessore", "mm"), new("cover", "Copriferro netto alle barre", "mm"),
+            new("back_bars", "Numero barre retro (sinistra)"), new("back_diameter", "Diametro retro", "mm"), new("front_bars", "Numero barre fronte (destra)"), new("front_diameter", "Diametro fronte", "mm"),
+            new("fck", "Resistenza cilindrica calcestruzzo", "MPa"), new("fyk", "Snervamento armatura", "MPa"), new("es", "Modulo armatura", "MPa"), new("eps_uk", "Deformazione ultima armatura"),
+            new("creep", "Coefficiente di viscosità"), new("exposure", "Classe di esposizione")],
+        "hydraulic_left" or "hydraulic_right" => [new("name", "Strato"), new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
+            new("kxx", "Permeabilità Kxx", "m/s"), new("kzz", "Permeabilità Kzz", "m/s"), new("kxz", "Permeabilità Kxz", "m/s"),
+            new("alpha", "Van Genuchten α (facoltativo)", "1/m"), new("n", "Van Genuchten n (facoltativo)"), new("source", "Fonte delle permeabilità e della curva")],
+        "hydraulic_upl" => [new("id", "Verifica UPL"), new("stage", "Fase"), new("water_resultant", "Risultante idraulica", Choices: ["Assegnata nelle azioni", "FEM 2D"]),
+            new("x_start", "Inizio faccia inferiore (FEM)", "m"), new("x_end", "Fine faccia inferiore (FEM)", "m"), new("z", "Quota faccia inferiore (FEM)", "m"),
+            new("body_width", "Larghezza ortogonale del corpo (FEM)", "m"), new("top_pressure", "Pressione uniforme sulla faccia superiore", "kPa"),
+            new("water_category", "Categoria della risultante netta FEM", Choices: ["PermanentStructural", "PermanentNonStructural", "Variable"]),
+            new("ignore_suction", "Trascurare suzione sulla faccia inferiore", Bool: true), new("source", "Fonte e ipotesi della risultante FEM", Multiline: true),
+            new("rd", "Resistenza aggiuntiva già di progetto Rd", "kN"), new("rd_source", "Metodo, M2 e coefficienti già applicati a Rd", Multiline: true)],
+        "hydraulic_actions" => [new("check", "Verifica UPL"), new("stage", "Fase"), new("id", "Azione"),
+            new("category", "Categoria", Choices: ["PermanentStructural", "PermanentNonStructural", "Variable"]),
+            new("upward_force", "Forza caratteristica (positiva in alto)", "kN", ToolTip: "Pesi totali negativi; pressioni correlate sulle due facce riunite in una sola risultante. Non reinserire la risultante acqua già ricavata dal FEM. Nessun coefficiente parziale già applicato."),
+            new("source", "Provenienza e combinazione", Multiline: true)],
+        "hydraulic_hyd" => [new("id", "Verifica HYD"), new("stage", "Fase"), new("method", "Criterio", Choices: ["Mean", "Exit", "Loaded"],
+                ToolTip: "Mean: gradiente medio verticale, efflusso libero. Exit: gradiente di uscita, efflusso libero. Loaded: sovrappressione, frontiera caricata."),
+            new("field_source", "Origine del dato", Choices: ["FEM 2D", "Assegnato"]), new("x", "Ascissa del punto/colonna (FEM)", "m"),
+            new("z", "Quota punto / sommità colonna (FEM)", "m"), new("z_bottom", "Quota inferiore colonna Mean (FEM)", "m"),
+            new("gradient", "Gradiente ascendente caratteristico assegnato"), new("gamma_sat", "Peso saturo rappresentativo (Mean/Exit)", "kN/m³"),
+            new("pressure", "Pressione interstiziale assegnata (Loaded)", "kPa"), new("hydrostatic_pressure", "Pressione idrostatica di riferimento (Loaded)", "kPa"),
+            new("effective_stress", "Tensione efficace senza filtrazione (Loaded)", "kPa"),
+            new("vertical_flow", "Terreno saturo e flusso prevalentemente verticale", Bool: true),
+            new("outflow_confirmed", "Efflusso libero (Mean/Exit) o frontiera caricata (Loaded) confermato", Bool: true),
+            new("source", "Motivazione di applicabilità e fonte dei dati", Multiline: true)],
+        "global_checks" => [new("id", "Verifica globale"), new("stage", "Fase"), new("standard", "Norma", Choices: ["NTC 2018", "EN 1997-1 — profilo non disponibile"]),
+            new("situation", "Situazione", Choices: ["PersistentTransient", "Seismic"]), new("global_thickness", "Spessore parete continua", "m"),
+            new("left_extent", "Estensione terreno sinistra", "m"), new("right_extent", "Estensione terreno destra", "m"),
+            new("valley_direction", "Verso valle (+1 destra, −1 sinistra)"),
+            new("characteristic_confirmed", "Dati caratteristici e parete continua confermati", Bool: true), new("source", "Fonte geometria e dati caratteristici", Multiline: true),
+            new("undrained", "Globale in tensioni totali non drenate", Bool: true), new("ignore_suction", "Trascurare suzione FEM sulla superficie", Bool: true),
+            new("exit_min", "Uscita minima, coordinata valle negativa", "m"), new("exit_max", "Uscita massima", "m"),
+            new("entry_min", "Ingresso minimo, monte positivo", "m"), new("entry_max", "Ingresso massimo", "m"),
+            new("depth_min", "Profondità minima sotto la testa", "m"), new("depth_max", "Profondità massima sotto la testa", "m"),
+            new("grid", "Nodi per direzione di ricerca"), new("slices", "Numero iniziale di conci"), new("refinements", "Livelli di raffinamento")],
+        "global_actions" => [new("check", "Verifica globale"), new("stage", "Fase"), new("id", "Azione nel modello", ToolTip: "LeftSurcharge, RightSurcharge, StructureDistributed, StructureInterval-<identificativo>, PointLoad-0, PointLoad-1, ... (carichi non nulli della fase, ordine da zero). Una riga per ogni azione presente."),
+            new("category", "Categoria", Choices: ["PermanentStructural", "PermanentNonStructural", "Variable"]), new("unfavourable", "Sfavorevole nella combinazione", Bool: true),
+            new("psi", "Fattore di combinazione ψ", ToolTip: "Da 0 a 1 per Q, esattamente 1 per G1/G2. Il fattore parziale proviene dalla norma, non inserirlo qui."),
+            new("source", "Fonte e ruolo nella combinazione", Multiline: true)],
+        "anchor_checks" => [new("support", "Tirante"), new("permanent", "Ancoraggio permanente", Bool: true),
+            new("evidence", "Origine resistenza", Choices: ["CalculatedProfiles", "MeasuredAnchorTests"], ToolTip: "CalculatedProfiles: capacità per indagini complete; MeasuredAnchorTests: capacità misurate su ancoraggi preliminari. Le popolazioni non si mescolano."),
+            new("free_length", "Tratto libero lungo asse", "m"), new("bond_length", "Tratto cementato lungo asse", "m"), new("drill_diameter", "Diametro di perforazione", "mm"),
+            new("minimum_cover", "Ricoprimento minimo del bulbo da ogni superficie libera", "m"), new("injection", "Iniezione", Choices: ["IRS", "IGU"]),
+            new("execution_source", "Tecnologia, quantità e qualità della miscela", Multiline: true),
+            new("applicability_source", "Zona stabile, confinamento e isolamento del bulbo", Multiline: true),
+            new("experimental_source", "Conferma sperimentale in sito (vuoto: predimensionamento)", Multiline: true),
+            new("stage_source", "Validità di geometria e indagini nelle fasi", Multiline: true)],
+        "anchor_layers" => [new("support", "Tirante"), new("profile", "Indagine completa"), new("axis_start", "Inizio strato lungo asse dalla testa", "m"),
+            new("axis_end", "Fine strato lungo asse dalla testa", "m"),
+            new("soil_kind", "Terreno abaco", Choices: ["Gravel", "SandyGravel", "GravellySand", "CoarseSand", "MediumSand", "FineSand", "SiltySand", "Silt", "Clay", "Marl", "MarlyLimestone", "WeatheredLimestone", "WeatheredRock"]),
+            new("limit_pressure", "Pressione limite pressiometrica pl", "MPa"), new("injection_pressure", "Pressione di iniezione pi", "MPa"),
+            new("diameter_factor", "Fattore del diametro α"), new("pressure_source", "Fonte di pl del terreno", Multiline: true)],
+        "anchor_tests" => [new("support", "Tirante"), new("test_id", "Prova preliminare"), new("resistance", "Resistenza misurata non fattorizzata", "kN"),
+            new("source", "Verbale e rappresentatività della prova", Multiline: true)],
+        "steel_members" => [new("support", "Sostegno"), new("family", "Sezione", Choices: ["CHS", "Tondo pieno"]),
+            new("diameter", "Diametro esterno", "mm"), new("thickness", "Spessore CHS", "mm"),
+            new("formation", "Formazione", Choices: ["HotFinished", "ColdFormed"], ToolTip: "HotFinished: a caldo. ColdFormed: a freddo."),
+            new("nominal_grade", "Grado nominale S (235/275/355/420/460)"), new("fy", "Snervamento per lo spessore effettivo", "MPa"),
+            new("fu", "Resistenza ultima per lo spessore effettivo", "MPa"), new("elastic_modulus", "Modulo elastico", "MPa"),
+            new("material_source", "Fonte del materiale e delle resistenze", Multiline: true),
+            new("net_area", "Area netta con fori (vuoto: sezione integra)", "mm²", ToolTip: "Fori per collegamenti ordinari; non barre filettate speciali o trefoli. In compressione la sezione forata richiede dettagli aggiuntivi."),
+            new("net_area_source", "Fonte dell'area netta", Multiline: true), new("length_1", "Lunghezza libera d'inflessione, piano 1", "m"),
+            new("length_2", "Lunghezza libera d'inflessione, piano 2", "m"), new("length_source", "Schema dei vincoli e fonte delle lunghezze", Multiline: true),
+            new("axial_only", "Sola azione assiale centrata confermata", Bool: true), new("is_bridge", "Elemento di ponte (profilo non disponibile)", Bool: true)],
+        _ => []
+    };
+}

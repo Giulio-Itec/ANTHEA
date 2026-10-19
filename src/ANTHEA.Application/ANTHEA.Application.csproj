@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
-    <RootNamespace>Anthea.Application</RootNamespace><GpcLibraries>GPCModel;GPCGeometry;GPCChecker.CompositeBridge;GPCChecker.Concrete;GPCChecker.Geotechnics;GPC.Design</GpcLibraries>
+    <RootNamespace>Anthea.Application</RootNamespace><GpcLibraries>GPCModel;GPCGeometry;GPCChecker.CompositeBridge;GPCChecker.Concrete;GPCChecker.Geotechnics;GPCChecker.Steel;GPC.Design</GpcLibraries>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />

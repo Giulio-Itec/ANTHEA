@@ -14,7 +14,7 @@
   <PropertyGroup>
     <_GpcProjectExcluded Condition="$(MSBuildProjectDirectory.Contains('\supporto\tmp')) or $(MSBuildProjectDirectory.Contains('\supporto\artefatti')) or $(MSBuildProjectDirectory.Contains('\supporto\SUPERATI'))">true</_GpcProjectExcluded>
     <GpcLibraries Condition="'$(GpcLibraries)' == '' and '$(_GpcProjectExcluded)' != 'true' and ('$(OutputType)' == 'Exe' or '$(OutputType)' == 'WinExe' or '$(IsTestProject)' == 'true')">all</GpcLibraries>
-    <GpcLibraries Condition="'$(GpcLibraries)' == 'all'">GPCUtilities;GPCGeometry;DelaunayMesh;GPCModel;GPCModelData;GPCChecker.Concrete;GPCChecker.Geotechnics;GPCChecker.CompositeBridge;GPCChecker.Masonry;GPC.Design</GpcLibraries>
+    <GpcLibraries Condition="'$(GpcLibraries)' == 'all'">GPCUtilities;GPCGeometry;DelaunayMesh;GPCModel;GPCModelData;GPCChecker.Concrete;GPCChecker.Steel;GPCChecker.Geotechnics;GPCChecker.CompositeBridge;GPCChecker.Masonry;GPC.Design</GpcLibraries>
     <_GpcEnabled Condition="'$(GpcLibraries)' != '' and '$(GpcLibraries)' != 'none'">true</_GpcEnabled>
     <GpcVerifyHashes Condition="'$(GpcVerifyHashes)' == ''">true</GpcVerifyHashes>
   </PropertyGroup>

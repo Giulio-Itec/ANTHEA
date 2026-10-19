@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 48
+Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 52
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -3310,3 +3310,229 @@ Per una sezione formata da materiali diversi, l'unione fisica delle parti consen
 Un riferimento superiore o inferiore può essere collocato sul contorno fisico se è univoco. Un riferimento al baricentro elastico della composta richiede invece la definizione meccanica pertinente; il baricentro geometrico non lo sostituisce. Le proprietà riportano la disponibilità dichiarata dalla libreria: assegnata, calcolata geometricamente, approssimata, numerica differita o assente. L'assenza è distinta dal valore zero.
 
 Il campo di colore sulle aste estruse conserva i campioni della sollecitazione lungo l'asse. La stessa ordinata è riportata sul perimetro a quella stazione; non è una ricostruzione della tensione nel materiale. Fra campioni si usa un'interpolazione grafica. Le zone non coperte dai risultati non ricevono valori estrapolati.
+
+## Analisi per fasi delle paratie
+
+Il modulo in sviluppo usa una trave piana di Eulero–Bernoulli a piccoli spostamenti, con rigidezza flessionale per tratti e due letti indipendenti di molle elastoplastiche. Questa revisione descrive i metodi collaudati e il loro campo di validità. La parete è verticale, gli strati e i piani campagna sono orizzontali per ciascun lato; non si attribuisce al modello monodimensionale una risposta tridimensionale.
+
+### Unità larghezza e convenzioni
+
+Le unità interne sono N, mm, MPa, N/mm³ e radianti. La quota z cresce verso l'alto, lo spostamento orizzontale è positivo verso destra. La larghezza b rappresentata dalla trave è esplicita. Una pressione p in MPa produce il carico lineare p·b in N/mm; l'integrazione con le funzioni di forma produce forze e coppie nodali generalizzate. Pressione, carico lineare e forza nodale non sono intercambiabili.
+
+Per una fila unica di elementi identici, di interasse s, si adotta una ripartizione uniforme esplicitamente confermata:
+
+```formula
+(EI)_{fascia}=EI_{elemento}\frac{b}{s}
+\{N,V,M\}_{elemento}=\frac{s}{b}\{N,V,M\}_{fascia}
+```
+
+L'ipotesi richiede un trasferimento delle pressioni al fronte rappresentato. Non dimostra il comportamento di pali distanziati senza collegamento, più file, pali secanti o effetto arco. Il sostegno restituisce la forza del singolo elemento; il suo contributo all'equilibrio della fascia è scalato con b/s.
+
+Nella parete N è positivo a compressione. Design conserva caso, fase, quota, sezione e lato e converte N e M nelle convenzioni di Concrete; nessuna terna resistente è costruita con massimi non concomitanti. La forza normale deriva dall'equilibrio dei carichi verticali, del peso lineare assegnato e delle componenti dei sostegni. Il nucleo attuale non calcola deformazioni assiali, attrito assiale terreno–parete o secondo ordine. Il peso lineare non riceve una correzione implicita per galleggiamento.
+
+### Stato iniziale e pressioni limite
+
+Per terreno drenato, parete liscia e sovraccarico uniforme si riusano i coefficienti di Rankine. Con tensione verticale efficace σ′v, coesione efficace c′ e coefficienti Ka, Kp:
+
+```formula
+p_a=\max(0,K_a\sigma'_v-2c'\sqrt{K_a})
+p_p=K_p\sigma'_v+2c'\sqrt{K_p}
+p_0=K_0\sigma'_v
+```
+
+La pressione interstiziale u si aggiunge una sola volta alle pressioni efficaci; l'acqua sopra il terreno contribuisce anche alla tensione verticale totale. K0 è un input positivo e documentato. Lo stato iniziale fuori dai limiti attivo/passivo è rifiutato senza correzioni silenziose.
+
+Nel caso non drenato in tensioni totali si usano φ=0 e cu assegnato: i limiti sono max(0,σv−2cu) e σv+2cu. La pressione iniziale è K0σ′v+u; l'acqua non viene riaggiunta alla legge totale. Non si simula la generazione o dissipazione delle sovrappressioni interstiziali durante lo scavo.
+
+Con v spostamento entrante nel terreno, vp offset plastico e kh modulo di reazione assegnato, la legge di ciascun punto è:
+
+```formula
+p_{trial}=p_0+k_h(v-v_p)
+p=\min(p_p,\max(p_a,p_{trial}))
+v_{p,new}=v-\frac{p-p_0}{k_h}
+```
+
+L'ultimo aggiornamento si applica quando si supera un limite; all'interno del dominio elastico vp resta invariato. Scarico e ricarico hanno lo stesso kh. Il modello conserva memoria plastica ma non rappresenta leggi avanzate di rigidezza a piccole deformazioni, dipendenza dalla storia geologica o isteresi della permeabilità.
+
+### Discretizzazione incrementi ed equilibrio
+
+Gli elementi Hermite hanno traslazione e rotazione nodale, con quattro punti di Gauss. La mesh include interfacce, sostegni, carichi concentrati ed estremi degli intervalli distribuiti di tutte le fasi. Rotazioni e matrice sono scalate per migliorare il condizionamento. Il solutore usa Newton, ricerca lineare e riduzione adattiva dell'incremento; stato di prova e stato confermato sono distinti. Non introduce molle fittizie per impedire un meccanismo.
+
+Ogni fase descrive una configurazione completa. Pressioni, limiti, rigidezze e carichi sono interpolati fra configurazioni: è un rilascio o un'applicazione incrementale, non la simulazione di un fronte di scavo continuamente mobile. La prima fase costruisce lo stato iniziale; le successive conservano spostamenti e offset dei punti ancora attivi. Un riporto nuovo prende come riferimento la deformata raggiunta.
+
+Un sostegno installato si riferisce allo spostamento della fase precedente; il bloccaggio o la pretensione si applicano progressivamente. La rimozione riduce il contributo e cancella la storia del sostegno; una reinstallazione è nuova. L'ordine di installazione e scavo richiede fasi separate quando fisicamente rilevante. Il semplice cambio di EI non introduce automaticamente fessurazione, plasticità o ridistribuzione dipendente dal materiale della sezione.
+
+La convergenza è controllata mediante residuo, equilibrio e incrementi; il mancato equilibrio o un sistema singolare producono esiti espliciti. Una fase fallita viene annullata interamente e il risultato conserva solo le fasi concluse. Ogni analisi possiede una storia indipendente. Il numero di incrementi e la mesh vanno sottoposti a sensibilità: una tolleranza algebrica stretta non dimostra convergenza rispetto alla discretizzazione.
+
+V e M sono recuperati integrando i carichi interpolati ai punti di Gauss. Si conservano i due lati dei nodi e si ricercano gli zeri di V per campionare gli estremi di M. L'interpolazione grafica fra campioni non è una nuova soluzione locale della legge costitutiva.
+
+### Carichi distribuiti per intervalli
+
+Un intervallo ha quote zt>zb e intensità qt, qb sull'intera fascia. Il campo è lineare fra gli estremi e nullo all'esterno:
+
+```formula
+q(z)=q_t+(q_b-q_t)\frac{z_t-z}{z_t-z_b}
+```
+
+Le sovrapposizioni si sommano. La quadratura integra il prodotto tra q lineare e funzioni cubiche di Hermite; il carico non viene concentrato nel nodo più vicino. Ogni fase assegna l'intero campo: un intervallo omesso è rimosso durante la transizione. Si interpola il carico della storia, senza sommare risultati di analisi non lineari.
+
+Il diagramma q netto comprende la differenza delle pressioni dei due letti di molle moltiplicata per b, oltre ai carichi strutturali distribuiti. Alle discontinuità restano distinti i valori unilaterali; V e M sono continui in assenza di forze o coppie concentrate.
+
+Per la prova indipendente: mensola lunga 6000 mm, EI=2·10¹⁴ Nmm², carico da 1 a 4 N/mm fra le profondità 1000 e 4500 mm. L'integrazione razionale della funzione di Green dà u in testa=0,9843932291666667 mm, V al piede=8750 N e M al piede=25375000 Nmm. La fascia di 2500 mm non moltiplica nuovamente queste intensità già assegnate alla struttura. Sono stati confrontati anche carichi uniformi, triangolari, sovrapposti e a risultante nulla, con tredici sezioni per caso.
+
+### Filtrazione stazionaria e trasferimento delle pressioni
+
+Il campo idraulico è bidimensionale, discretizzato con triangoli conformi P1. Carico h e coordinate sono in mm; il tensore simmetrico positivo definito K è in mm/s. Con γw peso per unità di volume dell'acqua:
+
+```formula
+\nabla\cdot(K\nabla h)=0
+\mathbf{q}=-K\nabla h
+u=\gamma_w(h-z)
+```
+
+Le portate sono per unità di lunghezza fuori piano. I bordi possono avere carico imposto, flusso imposto o drenaggio atmosferico; un bordo non assegnato è impermeabile. Sul bordo drenante attivo h=z e il flusso è uscente; quello asciutto ha flusso nullo. Ogni componente connessa deve avere un riferimento piezometrico.
+
+La legge non satura di van Genuchten–Mualem usa ψ=h−z, α>0, n>1 e m=1−1/n. Per ψ<0:
+
+```formula
+S_e=[1+(\alpha|\psi|)^n]^{-m}
+k_r=S_e^{1/2}[1-(1-S_e^{1/m})^m]^2
+```
+
+Per ψ≥0 si assume Se=kr=1; il tensore è moltiplicato per kr. Non si introduce una permeabilità minima nascosta. Picard con controllo del residuo e insieme attivo delle superfici drenanti risolve la non linearità; i sistemi lineari usano gradiente coniugato precondizionato. Il controllo comprende variazione di h, residuo nodale e bilancio globale. Un campo non convergente non viene pubblicato come pressione utilizzabile.
+
+Il dominio generato per la paratia contiene due colonne stratificate, parete impermeabile di spessore finito, lati esterni a carico imposto e fondo impermeabile. Si controllano distanza dei bordi, quota del fondo e mesh. Il trasferimento meccanico campiona il campo P1 senza estrapolare attraverso vuoti e conserva gli attraversamenti di u=0. La suzione può essere trascurata solo esplicitamente; non aumenta implicitamente la resistenza. I pesi possono seguire la falda assegnata oppure la classificazione binaria γsat per u>0 e γnaturale altrove. Non è un'analisi accoppiata di consolidazione.
+
+### Sollevamento idraulico e sifonamento
+
+Il profilo disponibile è quello nazionale italiano NTC 2018, D.M.17 gennaio 2018, §6.2.4.2, situazione persistente o transitoria. UPL confronta risultanti caratteristiche verso l'alto e verso il basso, con fattori espliciti per categoria e favorevolezza, ed eventuale resistenza già di progetto Rd documentata. Pesi e pressioni sulle facce del corpo devono evitare il doppio conteggio del galleggiamento. Rd non viene ridotta una seconda volta.
+
+HYD distingue efflusso libero e frontiera caricata. Il primo richiede terreno saturo e flusso prevalentemente verticale; il gradiente critico è:
+
+```formula
+i_c=\frac{\gamma_{sat}-\gamma_w}{\gamma_w}
+```
+
+Si confronta il gradiente ascendente con ic/γR: γR=3 per il gradiente medio e 2 per quello di efflusso, nel campo normativo implementato. Per frontiera caricata si confronta max(0,u−uidrostatica) con metà della tensione verticale efficace in assenza di filtrazione. La classificazione della frontiera e l'applicabilità sono input motivati, non deduzioni automatiche dal FEM.
+
+Agli spigoli il gradiente può essere singolare: occorrono percorso o volume fisico e controllo di sensibilità. UPL/HYD non sostituiscono instabilità non drenata del fondo, erosione interna o stabilità globale.
+
+### Stabilità globale del complesso terreno e parete
+
+Si riusa la ricerca circolare con equilibrio di Bishop delle librerie geotecniche. Il campo integrato corrente riguarda la parete continua rettangolare, con superfici passanti sotto tutto il corpo. Il volume della parete sostituisce quello del terreno e il suo peso deriva dai segmenti. Le reazioni delle molle locali non sono azioni esterne aggiuntive del complesso. Sostegni esterni, pali discontinui, acqua sopra il piano campagna e superfici che attraversano la parete richiedono estensioni distinte.
+
+Per NTC 2018 §6.5.3.1.2, la verifica globale usa A2+M2+R2; la resistenza locale della paratia ha il proprio campo A1+M1+R1 e A2+M2+R1. Le azioni globali devono essere caratteristiche, classificate e documentate. Categoria, favorevolezza e ψ sono espliciti; γ·ψ si applica una sola volta.
+
+Un carico lineare qt→qb su lunghezza L=zt−zb della parete continua viene trasferito, per unità di fronte, come forza H e coppia C al punto medio:
+
+```formula
+H=\frac{(q_t+q_b)L}{2b}
+C=\frac{(q_b-q_t)L^2}{12b}
+```
+
+Si conservano risultante e momento rispetto a ogni centro di scorrimento, senza dividere per H. Un campo a risultante nulla conserva quindi la sua coppia. Entrambi i segni vengono adattati alla direzione della valle. Il trasferimento vale perché l'intero tratto caricato resta nel corpo scivolante ammesso.
+
+Con pressioni FEM si campionano le basi dei conci e gli intervalli di peso, escludendo i corpi impermeabili dalle colonne di terreno. Una ricerca al bordo del dominio, non convergente o sensibile al numero di conci non viene trasformata in verifica soddisfatta. Fase, combinazione, geometria e diagnostica restano associate al risultato.
+
+### Verifiche delle sezioni e dei sostegni
+
+Concrete riceve le azioni concomitanti di ciascun taglio. Sono disponibili fasce rettangolari ordinarie e pali circolari con corona uniforme di barre; la geometria del palo usa copriferro esterno alla staffa e raggio delle barre R−c−φst−φL/2. EI usa il cerchio lordo analitico, mentre l'integrazione resistente usa un contorno poligonale dichiarato, predefinito a 64 lati. La sensibilità 64→128 è distinta dall'errore del solutore della paratia.
+
+Il percorso circolare copre calcestruzzo ordinario C16–C50, SLU statici N–M e taglio con modello equivalente confermato, oltre agli SLE caratteristico, frequente e quasi permanente previsti dal profilo. Il copriferro di fessurazione si riferisce alle barre longitudinali. Resistenza nominale e dettagli trave/pilastro sono controlli separati; i minimi sismici dei pali di fondazione non sono applicati automaticamente alla paratia. La rigidezza globale resta elastica anche quando si verificano sezioni fessurate o resistenti.
+
+Steel verifica sostegni assiali circolari pieni o CHS e resistenza locale N–M–V di sezioni CHS integre di classe 1–2, nel profilo statico NTC e campo di materiale dichiarato. La capacità plastica N–M dell'anello conserva N assegnato. Per taglio elevato si riduce cautelativamente la tensione resistente dell'intera sezione; non si dichiara la massima capacità teorica possibile. Instabilità della parete, collegamenti e classi non supportate restano distinti.
+
+Per lo sfilamento terreno–bulbo, Bustamante–Doix fornisce qs in funzione della pressione limite pressiometrica pl. La pressione d'iniezione pi resta un parametro tecnologico distinto. Per tratti cementati Li e diametro efficace Ds=αD:
+
+```formula
+R_{a,c}=\sum_i\pi D_{s,i}L_iq_{s,i}(p_l)
+R_{a,k}=\min\left(\frac{\overline{R_a}}{\xi_{medio}},\frac{\min(R_a)}{\xi_{minimo}}\right)
+R_{a,d}=\frac{R_{a,k}}{\gamma_R}
+```
+
+Il tratto libero è escluso, non si aggiunge portanza di punta e non si estrapolano gli abachi. I campioni sono profili completi o prove preliminari, con coefficienti distinti del profilo NTC §6.6; non si combinano minimi di strati appartenenti a indagini diverse. Il campo corrente è limitato a bulbi isolati e confinati, con almeno 5 m di ricoprimento da tutte le superfici libere e 4 m di tratto cementato: sono limiti dell'implementazione dichiarata. Una previsione sufficiente senza conferma sperimentale richiesta resta preliminare; un superamento della capacità resta non soddisfatto. Acciaio, aderenza acciaio–miscela, testa, gruppo, durabilità e collaudo richiedono controlli propri.
+
+### Ricerca discreta dell'infissione
+
+La variabile di ricerca d è positiva sotto la quota di riferimento zr; quote e profondità interne sono in mm. La quota del piede è:
+
+```formula
+z_{piede}=z_r-d
+```
+
+Si esplorano tutti i valori fra minimo e massimo con il passo costruttivo assegnato, includendo l'estremo superiore anche quando non coincide con un multiplo del passo. Non si assumono monotonia della risposta, unicità dell'intervallo ammissibile o equivalenza fra raffinamento della griglia e raffinamento della mesh strutturale. Il risultato dimostra eventualmente un minimo sulla griglia finita, non un ottimo continuo.
+
+Per ogni candidato si ricostruiscono geometria, fasi, pressioni e verifiche. Non si trasferisce lo stato plastico da un candidato al successivo; all'interno della singola storia si conserva invece tutta la memoria fra le fasi. Le pressioni FEM vengono ricalcolate perché il piede modifica il dominio di filtrazione. Non si spostano vincoli artificiali al piede e non si rimuovono sostegni o azioni incompatibili con la nuova geometria.
+
+Il criterio esplicito di spostamento considera il valore assoluto in testa di tutte le fasi concluse, con limite ulim assegnato e documentato:
+
+```formula
+u_{Ed}=\max_s|u_{testa,s}|
+\eta_u=\frac{u_{Ed}}{u_{lim}}
+```
+
+Non è un limite lungo tutta la deformata né una prescrizione normativa implicita. Le altre verifiche richieste vengono aggregate conservando fase, quota, domanda, capacità e metodo del controllo governante, senza ricalcolare coefficienti o resistenze. Una famiglia richiesta priva di esiti è Non valutata. Le verifiche di dettaglio del c.a. partecipano al giudizio separatamente dalla resistenza nominale.
+
+Un candidato è accettabile soltanto con storie complete e tutti i criteri assegnati soddisfatti. Un superamento dimostrato esclude il candidato; una mancata convergenza da sola non prova l'inammissibilità. Per dichiarare il minimo devono risultare sicuramente non soddisfatti tutti i candidati meno profondi. Un'incertezza a profondità maggiore non impedisce di dimostrare un minimo già individuato. L'annullamento rende il risultato non definitivo.
+
+Il coordinatore GPC e il foglio ricercano su tutte le storie indipendenti assegnate, con criteri e limiti espliciti per ciascun caso. La copertura di tutte le combinazioni necessarie e delle verifiche non richieste resta distinta. Non si combinano sollecitazioni non lineari di storie diverse.
+
+L'atteso indipendente è una trave libera alle estremità su fondazione elastica uniforme: EI=2·10¹⁴ Nmm², k=2 N/mm², forza in testa H=10000 N, momento nullo alle due estremità e taglio nullo al piede. Con x positivo dalla testa verso il basso:
+
+```formula
+EI\,u''''+ku=0
+\beta=\left(\frac{k}{4EI}\right)^{1/4}
+```
+
+La soluzione combina cosh(βx)cos(βx), cosh(βx)sin(βx), sinh(βx)cos(βx) e sinh(βx)sin(βx), imponendo le quattro condizioni al contorno. Il calcolo indipendente a 60 e 80 cifre produce gli stessi attesi arrotondati; l'integrazione separata delle reazioni controlla forze e momenti. Per L da 3500 a 10000 mm, passo 500 mm e limite 3,25 mm, il primo valore accettabile è 6500 mm. Una seconda storia H=15000 N con limite 4,5 mm sposta il minimo comune a 7500 mm.
+
+Il collaudo separa convergenza della discretizzazione da 6 a 24 elementi e accuratezza con 96 elementi, perché il recupero delle azioni può raggiungere prima il limite dell'arrotondamento. Tolleranze assolute del benchmark: u=2·10⁻⁶ mm, θ=2·10⁻⁹ rad, M=5 Nmm e V=0,01 N; equilibrio globale entro 0,01 N e 100 Nmm. Queste tolleranze verificano l'algoritmo su quel caso e non sono limiti di progetto.
+
+### Campi recuperati e inviluppi con provenienza
+
+Ogni fase conclusa conserva i campi polinomiali dei singoli elementi. La coordinata locale t cresce dalla sommità zt al fondo zb dell'elemento:
+
+```formula
+t=\frac{z_t-z}{z_t-z_b}
+```
+
+Lo spostamento di Hermite è cubico e la rotazione è la sua derivata rispetto alla profondità. Carico netto e pressioni sono recuperati con un polinomio cubico dai quattro punti di Gauss; l'integrazione con le azioni di estremità equilibrate restituisce taglio quartico e momento quintico. N è lineare nel tratto per il peso proprio; le azioni concentrate e i sostegni introducono salti ai nodi. Il campionamento usa questi campi conservati, senza interpolare le righe delle tabelle né rieseguire l'equilibrio. Gli indicatori plastici rimangono riferiti al punto d'integrazione più vicino, non a una frontiera continua ricostruita.
+
+Per la grandezza f, il minimo e il massimo alla stessa quota e sullo stesso lato sono selezionati fra osservazioni effettive del caso c e della fase s:
+
+```formula
+f_{min}(z)=\min_{c,s} f_{c,s}(z)
+f_{max}(z)=\max_{c,s} f_{c,s}(z)
+```
+
+Ogni valore selezionato conserva caso, fase, sezione, quota, lato e l'intera osservazione concomitante. L'inviluppo non è un nuovo caso di carico: non somma risposte non lineari e non costruisce una terna N–M–V con massimi di origini diverse. I verificatori continuano a usare le azioni delle fasi originarie. L'API GPC ammette più storie indipendenti con identici estremi geometrici e larghezza di fascia; il foglio riunisce le fasi di tutti i casi assegnati. Mesh differenti sono ammesse, piedi e larghezze differenti sono rifiutati.
+
+Il campionamento unisce i nodi di tutti i campi, entrambi i limiti sopra e sotto le discontinuità, suddivisioni regolari e le radici delle derivate dei polinomi della grandezza osservata. Conserva quindi gli estremi esterni globali del campo recuperato, anche se interni agli elementi. Il disegno interpola queste stazioni: non ricerca ogni intersezione fra curve di fasi diverse e non attribuisce una provenienza unica al segmento disegnato. La provenienza è quella del singolo punto. Il foglio usa due suddivisioni per intervallo comune oltre agli estremi interni; ciò non sostituisce la verifica di convergenza della mesh strutturale.
+
+L'inviluppo di storie incomplete è parziale e include soltanto le fasi concluse, con elenco dei casi interrotti. I dati non disponibili non vengono sostituiti da zeri o verifiche soddisfatte. I report leggono lo stesso risultato conservato dall'interfaccia.
+
+Il riferimento indipendente integra con numeri razionali la curvatura della mensola da 6000 mm, EI=2·10¹⁴ Nmm², con forze, coppie e azioni assiali concentrate. Si controllano 49 quote, i due lati interni, tre fasi in due casi e le azioni concomitanti. Le tolleranze assolute sono 2·10⁻⁸ mm, 2·10⁻¹¹ rad, 2·10⁻⁷ N su N, 2·10⁻⁵ N su V e 0,05 Nmm su M. Una prova distinta usa H=10000 N e q=−4 N/mm: M(x)=10000x−2x² raggiunge 12,5·10⁶ Nmm a x=2500 mm, fuori dai nodi e dalla griglia uniforme del disegno. Sono tolleranze di collaudo, non limiti di progetto.
+
+### Storie indipendenti e combinazioni assegnate
+
+Ogni caso parte dal proprio stato iniziale. La memoria elastoplastica, gli spostamenti, i riferimenti d'installazione e le pretensioni si trasferiscono fra le fasi dello stesso caso, senza passare a un'altra storia. La filtrazione e i verificatori ricevono le fasi e le azioni dello stesso caso. La diversa classificazione SLU/SLE seleziona il controllo richiesto, senza moltiplicare implicitamente le azioni.
+
+La modellazione comune comprende geometria, materiali, sezioni, terreni e definizione dei sostegni. Le righe associate al caso definiscono invece scavi, riporti, falde, carichi, attivazioni e verifiche geotecniche per fase. Non è ancora implementata la generazione automatica delle combinazioni normative o dei diversi insiemi di parametri geotecnici: le azioni sono assegnate dall'utente con fonte e coefficienti dichiarati; insiemi geotecnici differenti richiedono documenti distinti. Non si scalano né si sommano le risposte non lineari.
+
+La ricerca discreta richiede a ogni candidato tutte le storie e tutte le famiglie di verifica richieste. Il limite di spostamento può essere differente per caso. Il minimo comune di 7500 mm del benchmark precedente è verificato attraverso l'intero percorso applicativo, oltre al coordinatore numerico. L'isolamento è controllato confrontando ogni storia del gruppo con la sua esecuzione separata, anche dopo plasticizzazione e inversione del carico, e confrontando i risultati trasferiti a Concrete, Steel, tiranti, filtrazione, UPL/HYD e stabilità globale.
+
+Lo stato del gruppo distingue convergenza di tutte le storie da completezza delle verifiche progettuali. Un caso interrotto rende il gruppo incompleto e l'inviluppo parziale, anche se altri casi sono convergenti. Una storia senza soluzione meccanica non viene eliminata dal riepilogo. Le verifiche prive di dati o fuori dal proprio campo restano non valutate. I report leggono gli stessi risultati conservati; la selezione grafica di un caso non restringe la relazione complessiva.
+
+### Prove indipendenti e limiti residui
+
+Le prove comprendono trave analitica, fondazione elastica, memoria plastica e pretensione, pressioni con falda, equilibrio di forze e momenti, raffinamento della mesh e degli incrementi, Darcy affine e stratificato, campi idraulici non saturi, annullamento e mancata convergenza. Il trasferimento a Concrete e Steel è verificato separatamente. Gli attesi indipendenti non sono rigenerati dai risultati del motore; la corrispondenza numerica di un benchmark non estende il suo campo fisico.
+
+Restano da completare altre famiglie geometriche, interazione fra pareti, cedimenti ed effetto arco, cerniere e plasticità strutturale, stabilità geotecnica del fondo e tampone, generazione automatica delle combinazioni, criteri aggiuntivi, progetto automatico e procedure sismiche avanzate. Le norme non disponibili restituiscono un esito riconoscibile. Non è dichiarato un supporto generale di Eurocodici e annessi, ACI o AISC sulla sola presenza del nome nell'interfaccia.
+
+### Riferimenti del metodo
+
+Italia, D.M.17 gennaio 2018, Norme tecniche per le costruzioni, capitoli 4 e 6, G.U.20 febbraio 2018. I profili qui descritti sono nazionali; non sovrappongono coefficienti di altri annessi.
+
+M.Th. van Genuchten, 1980, A closed-form equation for predicting the hydraulic conductivity of unsaturated soils. USACE, EM 1110-2-1901, Seepage Analysis and Control for Dams, 1986, per i principi della filtrazione, senza assumerlo come profilo normativo italiano.
+
+C. Viggiani, Fondazioni, §13.1.6, per gli abachi e il campo documentato di Bustamante–Doix. La precisione numerica con cui sono lette le curve non rappresenta la precisione empirica del metodo.

@@ -9,8 +9,8 @@ namespace X.Desktop;
 /// Decides which editor opens a sheet (F5.2, proposal 5.2), as <see cref="ModuleImplementations"/> says: the historic
 /// <see cref="SheetEditor"/> or the <see cref="MvvmSheetEditor"/> of the module migrated to MVVM, from the
 /// <see cref="ModuleRegistry"/>. Created by the composition root (DesktopComposition) and passed to MainWindow; MainWindow and
-/// the F3 captures open sheets only through it. In the Release the pile group is MVVM since F5.4; the new Spectra module starts
-/// in MVVM, while the other modules keep the historic view.
+/// the F3 captures open sheets only through it. In the Release the pile group is MVVM since F5.4; the new Spectra
+/// and EmbeddedWalls modules start in MVVM, while the other modules keep the historic view.
 /// </summary>
 internal sealed class SheetEditorFactory
 {

@@ -972,3 +972,58 @@ Punto 5.2: implementato in `ANTHEA.DesignTools.Presentation` senza WPF e vista c
 - [x] EXCEL-SOL-REG: corretto il posizionamento delle voci 01/02 nel registro, intercettato dalla suite architetturale. Il collaudo standard ha 66 PASS e questo solo errore documentale; quattro suite WPF PASS. Nessun atteso o tolleranza modificato.
 
 Le voci F4 del 14/10 scritte in passato sotto questa sezione sono state spostate, senza togliere testo, nelle voci corrispondenti della sezione «Fase 4» (audit del 14/10).
+
+## Paratie — incarico del 18 ottobre 2026
+
+Base esplicita F5 `b9c2d4b1`, ramo isolato `refactoring/f5-paratie`. Registro
+PARATIE-01; [matrice completa](../paratie/requisiti.md).
+
+- [x] Censimento fonti e librerie; matrice con funzionalità avanzate e dipendenze esterne.
+- [x] Primo incremento numerico: trave, molle elastoplastiche, fasi, sostegni e Concrete; 14 prove GPC dedicate.
+- [x] Primo percorso applicativo MVVM, persistenza dei risultati, diagrammi e report; 28 controlli logici e 7 WPF.
+- [x] Set candidato locale coerente `candidate-04`, validato in staging `snapshot-04`; librerie distribuite invariate.
+- [ ] Completare le righe aperte della matrice, guide globali, collaudi complessivi e rilascio ufficiale autorizzato.
+
+I limiti e le evidenze sono nel [verbale di incremento](../paratie/incremento-01.md).
+Nessun motore legacy spostato o rimosso; nessun atteso indipendente modificato.
+
+- [x] PARATIE-02: chiusi i tre rilievi di integrazione del primo standard con riesecuzioni mirate del runner; attesi invariati, provenienza della libreria distinta dal contenuto numerico. Standard completo successivo ancora da eseguire.
+
+- [x] PARATIE-03: filtrazione FEM 2D stazionaria, trasferimento delle pressioni, schema 2, vista WPF e report. 23 test Geotechnics (12 idraulici), 43 controlli applicativi/MVVM, 10 WPF e architettura PASS. Set locale `candidate-05`/`snapshot-05`; [evidenze e limiti](../paratie/incremento-02.md). PAR-14 resta in corso per le estensioni dichiarate.
+- [x] PARATIE-04: corretto il solo driver logico della traccia elastica per allinearne l'attesa a quella WPF. Standard 73 PASS/1 rilievo; riesecuzione mirata Presentation PASS. Corsa standard segnalata con sorgente modificato: collaudo finale completo ancora aperto. Attesi e produzione invariati.
+- [x] PARATIE-05: verifiche locali UPL/HYD, campionamento FEM, criterio dei pesi da pressioni, schema 3, editor e report. 30 test Geotechnics, 62 controlli applicativi, 14 WPF; set candidato 3095 PASS e soli 17 fallimenti Steel già ammessi. [Evidenze e limiti](../paratie/incremento-03.md). Merge paratie/spettri autorizzati a lavoro concluso, non ancora eseguiti.
+- [x] PARATIE-06: stabilità globale per parete continua e fase, riuso Bishop con pressioni/pesi FEM; schema 4, azioni caratteristiche, risultati e report. 39 test Geotechnics, 80 controlli applicativi e 19 WPF PASS; cattura Slopes identica. Set candidato 3104 PASS, soli 17 fallimenti ammessi. Regressione standard sul commit 212ce340: 74 PASS, nessun nuovo fallimento. [Evidenze e limiti](../paratie/incremento-04.md). Estensioni a sostegni/geometrie, guide e collaudo complessivo restano aperti.
+- [x] PARATIE-07: sostegni circolari pieni/CHS assiali in Checker Steel, trasferimento Design per fase, schema 5, editor/esiti/report/CSV. Corretto il segno verticale dei puntoni inclinati con cattura prima/dopo. Nove test Steel, 43 Geotechnics, 103 applicativi/MVVM e 23 WPF PASS; candidato 3119 PASS e soli 17 fallimenti storici ammessi. [Evidenze e limiti](../paratie/incremento-05.md). N–M–V delle sezioni della parete e altre famiglie restano aperti.
+- [x] Regressione PARATIE-07 su 03afcfa4 con snapshot-12: profilo standard 74 PASS, nessun nuovo fallimento, sorgenti invariati durante la corsa. Rilascio e matrice complessiva ancora aperti.
+- [x] PARATIE-08: sfilamento dei tiranti, pressioni pl/pi distinte, profili NTC per indagini e prove, trasferimento per fase; schema 6, editor/esiti/report/CSV. 50 test Geotechnics, due nuovi Design, 128 controlli applicativi e 27 WPF PASS; candidato 3128 PASS, soli 17 fallimenti storici Steel ammessi. [Evidenze e limiti](../paratie/incremento-06.md). PAR-11 e il rilievo storico pl/pi dei micropali restano aperti.
+- [x] Regressione PARATIE-08 su 03da426c/snapshot-13: standard 74 PASS, 0 NEW-FAIL, sorgenti ANTHEA invariati durante tutta la corsa.
+- [x] PARATIE-09: sezioni tubolari CHS classe 1–2 N–M–V in Checker Steel, EI e azioni per interasse in Design; schema 7, editor/esiti/report/CSV. 13 test Steel, due Design, 303 controlli applicativi e 31 WPF PASS; candidato 3134 PASS, stessi 17 fallimenti storici ammessi. [Evidenze e limiti](../paratie/incremento-07.md). Altre famiglie/classi, instabilità della membratura e collaudo complessivo restano aperti.
+- [x] Regressione PARATIE-09 su f52db8d8/snapshot-14: standard 74 PASS, 0 NEW-FAIL, sorgenti ANTHEA invariati durante tutta la corsa.
+- [ ] Richiesta in coda del 19/10, confermata: approfondimento della testa di pali e micropali rispetto al piano di campagna, tensioni litostatiche comprensive del ricoprimento nelle verifiche verticali/orizzontali. [Interpretazione e accettazione](../paratie/seguito-pali-interrati.md). Da implementare dopo paratie, prima dell'integrazione finale.
+- [x] PARATIE-10: sezioni circolari in c.a., SLU/SLE in Checker Concrete e dettagli separati; EI e trasferimento in Design. Schema 8, editor, persistenza, report/CSV. Sei nuovi test Design, 483 controlli applicativi e 35 WPF PASS; candidato 3140 PASS, stessi 17 fallimenti storici Steel ammessi. [Evidenze e limiti](../paratie/incremento-08.md). Progetto automatico, matrice e rilascio restano aperti.
+- [x] Regressione PARATIE-10 su 6a84c4e9/snapshot-15: standard con stadio UI filtrato, 94 PASS e nessun nuovo fallimento. Corretto un falso positivo del driver WPF booleano (raccolta vuota); riesecuzione dedicata con 35 controlli PASS e schermata verificata, produzione e attesi numerici invariati.
+- [x] PARATIE-11: carichi distribuiti lineari per intervalli e fasi, integrazione consistente e trasferimento di forza/coppia alla stabilità globale. Schema 9, editor scorrevole, diagramma q netto, persistenza, CSV e report. 60 test Geotechnics, 1206 applicativi/MVVM, 39 WPF e architettura PASS; candidato 3150 PASS, stessi 17 fallimenti storici ammessi. Cattura numerica preesistente identica. [Evidenze e limiti](../paratie/incremento-09.md). Regressione standard su 8db29979/snapshot-17: 74 PASS, 0 NEW-FAIL, sorgenti invariati. Diffusione dei carichi sul terreno e matrice completa ancora aperte.
+
+- [x] PARATIE-12: guide globali Rev48 e aiuto contestuale; 245 pagine rasterizzate e controllate, 365 formule verificate, 16 file precedenti conservati con SHA-256. Runner filtrato: 9 PASS, nessun nuovo fallimento; 541 controlli architetturali, 3206 di presentazione, 40 WPF e 12 del manuale. Estensioni successive della matrice ancora aperte. [Evidenze e limiti](../paratie/incremento-10.md).
+
+- [x] PARATIE-13: ricerca discreta dell'infissione in GPC, con geometrie e storie indipendenti, ricalcolo FEM, aggregazione dei verificatori e distinzione fra minimo dimostrato e candidato accettabile. Schema 10, editor, persistenza, annullamento, report e CSV; 10 nuovi test GPC, 1279 controlli applicativi e 46 WPF PASS. Set candidato: 3160 PASS, stessi 17 fallimenti Steel storici. Guide Rev49 finalizzate e controllate: 247 pagine, 370 formule, archivio Rev48 con 16 file identici. Collaudo consolidato su 6e4b47f0/snapshot-18: 93 PASS, un falso allarme del censimento Wiki corretto preservando le 73 identità F5; riesecuzione mirata quattro suite e 331 controlli PASS. Combinazioni multiple nel foglio e criteri ulteriori restano aperti. [Evidenze e limiti](../paratie/incremento-11.md).
+
+- [x] PARATIE-14: campi recuperati e inviluppi GPC con provenienza e azioni concomitanti; otto grandezze nel foglio, diagrammi, persistenza, CSV/report. Sette nuovi test GPC, 1305 controlli applicativi e 52 WPF PASS; candidato 3167 PASS con soli 17 fallimenti Steel storici. Catture numeriche e 5099 righe CSV precedenti invariate esclusa impronta. Guide Rev50: 249 pagine e 373 formule controllate; 16 originali Rev49 archiviati identici. Multi-caso nel foglio e matrice completa restano aperti. [Evidenze e limiti](../paratie/incremento-12.md).
+
+- [x] Regressione PARATIE-14 su 84cee634/snapshot-19: profilo standard, 74 PASS e 0 NEW-FAIL, sorgenti invariati durante tutta la corsa.
+
+- [x] PARATIE-15: schema 11 e storie assegnate indipendenti, verifiche/FEM per caso, ricerca con minimo comune, selettore grafico, persistenza e report. 1419 controlli applicativi e 58 WPF PASS; 5099 righe precedenti invariate. Guide Rev51: 251 pagine e 373 formule conservate. Otto esempi apribili; candidata locale da confezionare dopo la regressione standard. [Evidenze e limiti](../paratie/incremento-13.md). Combinazioni automatiche, matrice e rilascio ufficiale ancora aperti.
+
+- [x] Regressione PARATIE-15 su 6425927e/snapshot-19: standard completo, 74 PASS e 0 NEW-FAIL, revisione pulita e sorgenti invariati. Corretto poi il solo titolo della ricerca multi-caso, con prova WPF dedicata; build e collaudo finale della vista precedono il confezionamento locale.
+
+- [x] Prima candidata locale paratie su 2f60b336: build e collaudo finale puliti, 6 suite PASS con 59 controlli WPF; `supporto/artefatti/paratie/candidata-01` contiene otto esempi e guide Rev51. Audit indipendente: 133 file e 13 DLL verificati per SHA-256. Standard riferito a 6425927e; differenze successive e revisione della vista registrate nel manifest. Pacchetto pronto per la prova utente; matrice completa, pali interrati, rilascio e merge finali ancora aperti.
+
+## Integrazione F5 richiesta il 19 ottobre 2026
+
+- [x] Autorizzazione aggiornata: integrare ora i soli rami paratie/spettri sviluppati per l'incarico, comprese le librerie; lasciare separati i rami di prova e storici. Model e Checker confluiti in master, versioni del set integrate; nessun push.
+- [x] Risolti i punti condivisi ANTHEA conservando entrambi i moduli, i cataloghi precedenti e gli attesi indipendenti. Riuniti i capitoli delle due guide globali in Rev52; 32 originali archiviati con impronte.
+- [x] Set GPC integrato collaudato: 3172 PASS, soli 17 fallimenti Steel storici ammessi; staging coerente pronto. Guide Rev52 finalizzate e controllate visivamente: 257 pagine, 387 formule e dieci pagine degli indici.
+- [ ] Concludere i collaudi del risultato unificato, riportare la cartella principale su `refactoring/f5` e consegnare la candidata testabile con esempi e manifest.
+- [ ] Riprendere l'implementazione paratie su un nuovo ramo dalla revisione integrata, mantenendo disponibile la candidata consegnata. La matrice completa e i pali interrati restano aperti.
+
+Revisioni, conflitti e collaudi nel [verbale di integrazione](../paratie/integrazione-rami.md).

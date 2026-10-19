@@ -8,6 +8,7 @@ from hashlib import sha256
 from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 import json
+import os
 import re
 import shutil
 import sys
@@ -24,15 +25,15 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '48'
+REVISION = '52'
 # edition data of the revision: date, contents and description in the revision table of the cover
 DATE = '19/10/2026'
 CONTENTS = '19 ottobre 2026'
 CONTENTS_ISO = '2026-10-19'
-REVISION_NOTE = 'SPETTRI NTC E ISOLAMENTO SISMICO'
-ART = ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'
+REVISION_NOTE = 'INTEGRAZIONE PARATIE E SPETTRI NTC'
+ART = Path(os.environ.get('ANTHEA_GUIDE_ARTIFACTS', ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'))
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
-TEMPLATE = Path('C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx')
+TEMPLATE = Path(os.environ.get('ANTHEA_GUIDE_TEMPLATE', 'C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx'))
 TEMPLATE_HASH = 'f6f3f04b0bafeea09e4cca1b19fa74e95fc540c264aa518f3d93dee9eebbcd92'
 GUIDES = {
     'pratica': ('Guida pratica di ANTHEA', 'Manuale operativo dei moduli disponibili',
@@ -375,7 +376,8 @@ if __name__ == '__main__':
     assert sha256(TEMPLATE.read_bytes()).hexdigest() == TEMPLATE_HASH
     assert (ART / 'artifact.md').is_file()
     (ART / 'template').mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(TEMPLATE, ART / 'template' / TEMPLATE.name)
+    if TEMPLATE.resolve() != (ART / 'template' / TEMPLATE.name).resolve():
+        shutil.copyfile(TEMPLATE, ART / 'template' / TEMPLATE.name)
     with ZipFile(TEMPLATE) as z:
         inventory = {n: {'bytes': len(z.read(n)), 'sha256': sha256(z.read(n)).hexdigest()} for n in z.namelist()}
     (ART / 'template/package-inventory.json').write_text(json.dumps(inventory, indent=2), encoding='utf-8')

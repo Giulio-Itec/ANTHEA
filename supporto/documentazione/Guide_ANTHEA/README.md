@@ -1,11 +1,19 @@
 # Guide globali ANTHEA
 
-Edizione 6, 19 ottobre 2026. Guide pratica e teorica Rev48. Aggiungono Spettri NTC, interpolazione della pericolosità, isolamento sismico, pendolo e confronto numerico con i dati di riferimento, conservando i capitoli dei moduli precedenti.
+Edizione 6, 19 ottobre 2026. Guide pratica e teorica Rev52. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev48.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev48.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev48.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev48.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev52.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev52.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev52.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev52.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+
+La Rev52 riunisce i capitoli paratie e Spettri NTC dei due rami, con le relative funzioni e i limiti documentati. Le due edizioni sorgente sono conservate in `supporto/SUPERATI/integrazione-f5-rev52-20261019/`.
+
+La Rev51 integra storie indipendenti nel foglio, verifiche e filtrazione per caso, inviluppi comuni, ricerca dell’infissione su tutti i casi e persistenza completa. Le azioni sono assegnate dall’utente; la generazione automatica delle combinazioni resta aperta. La Rev50 è conservata byte per byte in `supporto/SUPERATI/paratie-rev51-20261019/`.
+
+La Rev50 ha introdotto inviluppi delle fasi con provenienza, azioni concomitanti, diagrammi, persistenza e CSV, leggendo gli stessi risultati del report.
+
+La Rev49 integra la ricerca discreta dell'infissione: geometrie e storie indipendenti, ricalcolo FEM, criteri governanti, distinzione fra candidato accettabile e minimo dimostrato, annullamento e benchmark analitico. Il modulo è in sviluppo sul ramo dedicato; le funzioni residue e il rilascio ufficiale restano aperti.
 
 Le revisioni precedenti sono conservate in `supporto/SUPERATI/fondazioni-superficiali-rev34/` e `supporto/SUPERATI/merge-f4-modelli-rev35-20261012/`, con origine, motivo e impronte nel registro di archiviazione. Le edizioni pratica Rev35 e teorica Rev34 sono archiviate in `supporto/SUPERATI/rilascio-s-rev36-20261012/`. Il motore di portanza è disponibile con il rilascio approvato GPC S, distribuito con ANTHEA.
 
@@ -32,3 +40,8 @@ La Rev45 è conservata in `supporto/SUPERATI/stratigrafia-rev46-20261015/`. La R
 La Rev46 è conservata in `supporto/SUPERATI/correzioni-rev47-20261016/`, con origine e SHA-256. La Rev47 descrive le regole delle verifiche corrette il 15/10/2026: dominio N–M sul meridiano della direzione del momento ed esiti a N assegnato fuori campo, ε0 della curva M–χ, copriferro della fessurazione dalle barre, barre lisce negli ancoraggi, B450A con εu 25 ‰, segno di Δe di Model Code 2010, coefficienti unitari del palo, peso del palo nelle azioni, testa impedita di Broms, efficienza di Reese e Van Impe, passiva e gemelle dei muri, spostamento in testa dei muri, Meyerhof non drenato, tension stiffening della sezione composta, punto proiettato del grafico N–M, nota dell’acciaio salvato nei materiali dei muri e «CLS teso nelle risposte» della curva M–χ.
 
 La Rev47 è conservata in `supporto/SUPERATI/spettri-rev48-20261019/`, con origine e SHA-256. La Rev48 introduce il modulo Spettri NTC e isolamento sismico, le convenzioni di compatibilità numerica, i dati assegnati, il pendolo e la distinzione fra valutazione analitica e campione dell’esempio.
+La Rev47, i suoi sorgenti e gli indici sostituiti sono conservati in `supporto/SUPERATI/paratie-rev48-20261019/`, con origine e SHA-256.
+
+La Rev48, i sorgenti e gli indici sostituiti sono conservati in `supporto/SUPERATI/paratie-rev49-20261019/`, con origine e SHA-256.
+
+La Rev49, i sorgenti e gli indici sostituiti sono conservati in `supporto/SUPERATI/paratie-rev50-20261019/`, con origine e SHA-256.

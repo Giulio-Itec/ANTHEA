@@ -11,8 +11,10 @@ internal static class EditorContractChecks
         int checks = 0;
         void Check(bool ok, string text) { if (!ok) throw new InvalidOperationException(text); checks++; }
         var comparison = new OwnedProjectionComparison();
-        // New Application-owned modules have no counterpart in the frozen legacy catalog.
-        comparison.Compare(ModuleCatalog.All, ModuleDirectory.All.Where(m => m.Id != Anthea.Application.Stratigraphy.StratigraphyDocument.Module && m.Id != Anthea.Application.Actions.SpectraDocument.Module).ToArray(), "Catalogo");
+        // Keep the complete frozen legacy catalogue; the three Application-owned additions have dedicated suites.
+        comparison.Compare(ModuleCatalog.All, ModuleDirectory.All.Where(m => m.Id != Anthea.Application.Stratigraphy.StratigraphyDocument.Module
+            && m.Id != Anthea.Application.Actions.SpectraDocument.Module
+            && m.Id != Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module).ToArray(), "Catalogo");
         foreach (var module in ModuleDirectory.All)
         {
             Check(ReferenceEquals(module, ModuleDirectory.Get(module.Id)), "Identità dei metadati del catalogo");

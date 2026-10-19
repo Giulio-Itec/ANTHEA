@@ -1,0 +1,400 @@
+<UserControl x:Class="X.Desktop.Views.EmbeddedWalls.EmbeddedWallSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop.Views.EmbeddedWalls" Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}">
+ <DockPanel Margin="12">
+  <StackPanel DockPanel.Dock="Top">
+   <WrapPanel>
+    <Button Content="Calcola tutti i casi" Command="{Binding RunCommand}" Margin="0,0,8,4"/>
+    <Button Content="Annulla" Command="{Binding CancelCommand}" Margin="0,0,8,4"/>
+    <Button Content="Esporta tutti i casi CSV" Command="{Binding CsvCommand}" Margin="0,0,8,4"/>
+    <TextBlock Text="{Binding CalculationState}" VerticalAlignment="Center" Margin="12,0"/>
+   </WrapPanel>
+   <WrapPanel Margin="0,4">
+    <TextBlock Text="Caso nei diagrammi e nelle verifiche" VerticalAlignment="Center" Margin="0,0,8,0"/>
+    <ComboBox ItemsSource="{Binding ResultCases}" SelectedItem="{Binding SelectedResultCase}" DisplayMemberPath="CaseId" MinWidth="180" Margin="0,0,12,0"/>
+    <TextBlock Text="{Binding ResultCaseStatus}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+   </WrapPanel>
+   <TextBlock Text="{Binding ResultStatus}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,4"/>
+   <TextBlock Text="{Binding CalculationMessage}" TextWrapping="Wrap" Margin="0,2,0,8"/>
+   <TextBlock Text="{Binding Progress}" Margin="0,0,0,6"/>
+  </StackPanel>
+  <TabControl>
+   <TabItem Header="Modello">
+    <Grid Margin="8"><Grid.ColumnDefinitions><ColumnDefinition Width="420"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+     <ScrollViewer VerticalScrollBarVisibility="Auto"><ContentControl Content="{Binding General}"/></ScrollViewer>
+     <StackPanel Grid.Column="1" Margin="24,0,0,0">
+      <TextBlock Text="Convenzioni e ambito" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,12"/>
+      <TextBlock Text="Altri casi / combinazioni: definire ciascuna storia e assegnarle fasi, carichi, falde e verifiche con il campo Caso. Vuoto identifica il caso principale. Geometria e materiali sono condivisi; le azioni vanno già combinate. Gli inviluppi confrontano tutti i casi." TextWrapping="Wrap" Margin="0,0,0,12"/>
+      <TextBlock Text="Le quote crescono verso l'alto. Sinistra e destra sono i lati della sezione. Ogni forza strutturale si riferisce alla fascia assegnata; la forza del tirante o del puntone è riferita al singolo elemento." TextWrapping="Wrap" Margin="0,0,0,12"/>
+      <TextBlock Text="Separare installazione e scavo in fasi diverse quando il loro ordine influenza il risultato. Ogni fase contiene l'elenco completo dei sostegni presenti: un sostegno omesso viene rimosso." TextWrapping="Wrap" Margin="0,0,0,12"/>
+      <TextBlock Text="{Binding Scope}" TextWrapping="Wrap" Margin="0,0,0,20"/>
+      <TextBlock Text="Importa una stratigrafia del progetto" FontWeight="SemiBold" Margin="0,0,0,6"/>
+      <Button Content="Aggiorna elenco dei terreni" Command="{Binding RefreshSoilSourcesCommand}" HorizontalAlignment="Left" Margin="0,0,0,6"/>
+      <ComboBox ItemsSource="{Binding SoilSources}" SelectedItem="{Binding SelectedSoilSource}" DisplayMemberPath="Label"/>
+      <WrapPanel Margin="0,8"><ComboBox ItemsSource="{Binding ImportSides}" SelectedItem="{Binding ImportSide}" Width="120"/>
+       <ComboBox ItemsSource="{Binding ImportScenarios}" SelectedItem="{Binding ImportScenario}" Width="120" Margin="8,0"/>
+       <Button Content="Importa terreno" Command="{Binding ImportSoilCommand}"/></WrapPanel>
+      <TextBlock Text="K0 e kh devono essere assegnati con la fonte. I livelli di falda sono definiti esplicitamente nelle singole fasi." TextWrapping="Wrap"/>
+     </StackPanel>
+    </Grid>
+   </TabItem>
+   <TabItem Header="Dati e fasi">
+    <TabControl ItemsSource="{Binding Tables}" TabStripPlacement="Left" Margin="8">
+     <TabControl.Template><ControlTemplate TargetType="TabControl">
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="240"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+       <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
+        <TabPanel IsItemsHost="True" KeyboardNavigation.TabIndex="1"/>
+       </ScrollViewer>
+       <ContentPresenter Grid.Column="1" ContentSource="SelectedContent" Margin="8,0,0,0"/>
+      </Grid>
+     </ControlTemplate></TabControl.Template>
+     <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Title}" Padding="8"/></DataTemplate></TabControl.ItemTemplate>
+    </TabControl>
+   </TabItem>
+   <TabItem Header="Ricerca infissione">
+    <Grid Margin="8"><Grid.ColumnDefinitions><ColumnDefinition Width="350"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+     <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+      <TextBlock Text="Ricerca per tutti i casi assegnati" FontWeight="SemiBold" FontSize="18" TextWrapping="Wrap" Margin="0,0,0,12"/>
+      <TextBlock Text="Il modello deve descrivere tutta la parete più lunga. Si esplorano tutte le profondità della griglia, ricalcolando fasi, filtrazione e verifiche richieste. Quote positive verso l'alto; infissione positiva sotto il riferimento assegnato." TextWrapping="Wrap" Margin="0,0,0,12"/>
+      <ContentControl Content="{Binding Embedment}"/>
+      <WrapPanel Margin="0,12"><Button Content="Cerca infissione" Command="{Binding SearchEmbedmentCommand}" Margin="0,0,8,8"/>
+       <Button Content="Esporta ricerca CSV" Command="{Binding EmbedmentCsvCommand}" Margin="0,0,0,8"/></WrapPanel>
+      <TextBlock Text="Il limite riguarda lo spostamento in testa. Il minimo sulla griglia vale solo per i criteri elencati: altre combinazioni e verifiche dell'opera restano da eseguire. Un candidato più corto non valutabile impedisce di dimostrare il minimo." TextWrapping="Wrap"/>
+     </StackPanel></ScrollViewer>
+     <Grid Grid.Column="1" Margin="20,0,0,0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+      <TextBlock Text="{Binding EmbedmentStatus}" TextWrapping="Wrap" Margin="0,0,0,12"/>
+      <DataGrid Grid.Row="1" ItemsSource="{Binding EmbedmentCandidates}" SelectedItem="{Binding SelectedEmbedment}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+       <DataGrid.Columns><DataGridTextColumn Header="Infissione [m]" Binding="{Binding Embedment, StringFormat=G6}"/>
+        <DataGridTextColumn Header="Piede [m]" Binding="{Binding ToeElevation, StringFormat=G6}"/>
+        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
+      </DataGrid>
+      <TextBlock Grid.Row="2" Text="{Binding EmbedmentCandidateDiagnostic}" TextWrapping="Wrap" Margin="0,12"/>
+      <DataGrid Grid.Row="3" ItemsSource="{Binding EmbedmentCriteria}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+       <DataGrid.Columns><DataGridTextColumn Header="Criterio" Binding="{Binding Label}"/><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/>
+        <DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G6}"/><DataGridTextColumn Header="Limite" Binding="{Binding Limit, StringFormat=G6}"/>
+        <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
+        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Metodo / fonte" Binding="{Binding Method}"/></DataGrid.Columns>
+      </DataGrid>
+     </Grid>
+    </Grid>
+   </TabItem>
+   <TabItem Header="Diagrammi e risultati">
+    <DockPanel Margin="8">
+     <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+      <TextBlock Text="Fase" VerticalAlignment="Center"/><ComboBox ItemsSource="{Binding Stages}" SelectedItem="{Binding SelectedStage}" DisplayMemberPath="Id" Width="150" Margin="8,0,16,0"/>
+      <TextBlock Text="Confronta" VerticalAlignment="Center"/><ComboBox ItemsSource="{Binding Stages}" SelectedItem="{Binding ComparisonStage}" DisplayMemberPath="Id" Width="150" Margin="8,0,16,0"/>
+      <ComboBox ItemsSource="{Binding Diagrams}" SelectedItem="{Binding Diagram}" Width="210"/>
+     </WrapPanel>
+     <Grid><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="220"/></Grid.RowDefinitions>
+      <local:EmbeddedWallDiagram Points="{Binding Points}" Comparison="{Binding ComparisonStage.Points}" Quantity="{Binding Diagram}" MinHeight="240"/>
+      <DataGrid Grid.Row="1" ItemsSource="{Binding Points}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
+       <DataGrid.Columns>
+        <DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, StringFormat=G6}"/><DataGridTextColumn Header="Lato nodo" Binding="{Binding Side}"/>
+        <DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Displacement, StringFormat=G6}"/>
+        <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G6}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G6}"/>
+        <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G6}"/><DataGridTextColumn Header="p sx [kPa]" Binding="{Binding LeftPressure, StringFormat=G6}"/>
+        <DataGridTextColumn Header="p dx [kPa]" Binding="{Binding RightPressure, StringFormat=G6}"/>
+        <DataGridTextColumn Header="q netto [kN/m]" Binding="{Binding NetDistributedLoad, StringFormat=G6}"/>
+       </DataGrid.Columns>
+      </DataGrid>
+     </Grid>
+    </DockPanel>
+   </TabItem>
+   <TabItem Header="C.a. e sostegni">
+    <Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="170"/></Grid.RowDefinitions>
+     <TextBlock Text="Le verifiche si riferiscono alla fase selezionata nei risultati. N, V e M della stessa riga sono concomitanti. Non valutato non equivale a soddisfatto." TextWrapping="Wrap" Margin="0,0,0,8"/>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns>
+       <DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G5}"/><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/>
+       <DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G6}"/><DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G6}"/>
+       <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F3}"/>
+       <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/>
+      </DataGrid.Columns>
+     </DataGrid>
+     <DataGrid Grid.Row="2" ItemsSource="{Binding Supports}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,12,0,0">
+      <DataGrid.Columns><DataGridTextColumn Header="Sostegno" Binding="{Binding Id}"/><DataGridTextColumn Header="Forza elemento [kN]" Binding="{Binding AxialForce, StringFormat=G6}"/>
+       <DataGridTextColumn Header="Reazione fascia [kN]" Binding="{Binding HorizontalReaction, StringFormat=G6}"/><DataGridTextColumn Header="Riferimento [mm]" Binding="{Binding ReferenceDisplacement, StringFormat=G6}"/>
+       <DataGridCheckBoxColumn Header="Capacità raggiunta" Binding="{Binding AtCapacity}"/></DataGrid.Columns>
+     </DataGrid>
+    </Grid>
+   </TabItem>
+   <TabItem Header="Filtrazione">
+    <Grid Margin="8"><Grid.ColumnDefinitions><ColumnDefinition Width="320"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+     <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+      <ContentControl Content="{Binding Hydraulics}"/>
+      <TextBlock Text="Assegnare le permeabilità in Dati e fasi. I livelli di falda delle fasi diventano i carichi idraulici sui bordi laterali. Il fondo è impermeabile; il terreno affiorante è drenante, salvo eventuale battente d'acqua." TextWrapping="Wrap" Margin="0,12"/>
+      <TextBlock Text="La parete è impermeabile, centrata su x=0; i due terreni hanno superfici orizzontali. La soluzione è stazionaria per fase. HYD e UPL richiedono verifiche distinte." TextWrapping="Wrap"/>
+      <Button Content="Esporta idraulica CSV" Command="{Binding HydraulicCsvCommand}" Margin="0,16"/>
+     </StackPanel></ScrollViewer>
+     <DockPanel Grid.Column="1" Margin="16,0,0,0">
+      <StackPanel DockPanel.Dock="Top">
+       <WrapPanel><ComboBox ItemsSource="{Binding HydraulicStages}" SelectedItem="{Binding SelectedHydraulicStage}" DisplayMemberPath="Stage" Width="140" Margin="0,0,8,0"/>
+        <ComboBox ItemsSource="{Binding HydraulicDiagrams}" SelectedItem="{Binding HydraulicDiagram}" Width="235"/></WrapPanel>
+       <WrapPanel Margin="0,6"><TextBlock Text="{Binding SelectedHydraulicStage.Status}" FontWeight="SemiBold" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.InflowLitresPerSecondPerMetre, StringFormat='Entrante {0:G5} L/s/m'}" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.OutflowLitresPerSecondPerMetre, StringFormat='Uscente {0:G5} L/s/m'}" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.BalanceLitresPerSecondPerMetre, StringFormat='Bilancio {0:G3} L/s/m'}"/></WrapPanel>
+       <TextBlock Text="{Binding SelectedHydraulicStage.Diagnostic}" TextWrapping="Wrap"/>
+      </StackPanel>
+      <Grid><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="190"/></Grid.RowDefinitions>
+       <local:SeepageDiagram Field="{Binding SelectedHydraulicStage}" Quantity="{Binding HydraulicDiagram}" MinHeight="240"/>
+       <TabControl Grid.Row="1">
+        <TabItem Header="Nodi"><DataGrid ItemsSource="{Binding HydraulicNodes}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
+         <DataGrid.Columns><DataGridTextColumn Header="Nodo" Binding="{Binding Index}"/><DataGridTextColumn Header="x [m]" Binding="{Binding X, StringFormat=G5}"/>
+          <DataGridTextColumn Header="z [m]" Binding="{Binding Z, StringFormat=G5}"/><DataGridTextColumn Header="h [m]" Binding="{Binding Head, StringFormat=G6}"/>
+          <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, StringFormat=G6}"/><DataGridCheckBoxColumn Header="Drenante" Binding="{Binding Draining}"/></DataGrid.Columns>
+        </DataGrid></TabItem>
+        <TabItem Header="Flussi"><DataGrid ItemsSource="{Binding HydraulicElements}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
+         <DataGrid.Columns><DataGridTextColumn Header="A" Binding="{Binding A}"/><DataGridTextColumn Header="B" Binding="{Binding B}"/><DataGridTextColumn Header="C" Binding="{Binding C}"/>
+          <DataGridTextColumn Header="∂h/∂x" Binding="{Binding GradientX, StringFormat=G6}"/><DataGridTextColumn Header="∂h/∂z" Binding="{Binding GradientZ, StringFormat=G6}"/>
+          <DataGridTextColumn Header="qx [m/s]" Binding="{Binding FluxX, StringFormat=G6}"/><DataGridTextColumn Header="qz [m/s]" Binding="{Binding FluxZ, StringFormat=G6}"/>
+          <DataGridTextColumn Header="k relativa" Binding="{Binding RelativeConductivity, StringFormat=G5}"/></DataGrid.Columns>
+        </DataGrid></TabItem>
+       </TabControl>
+      </Grid>
+     </DockPanel>
+    </Grid>
+   </TabItem>
+   <TabItem Header="UPL / HYD">
+    <Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="2*"/><RowDefinition Height="3*"/></Grid.RowDefinitions>
+     <StackPanel>
+      <TextBlock Text="Definire corpi UPL, azioni caratteristiche e punti o colonne HYD in Dati e fasi. Norma e situazione sono nella scheda Filtrazione. I controlli sono locali e non sostituiscono la stabilità geotecnica del fondo. Non valutato non equivale a soddisfatto." TextWrapping="Wrap" Margin="0,0,0,8"/>
+      <Button Content="Esporta verifiche idrauliche CSV" Command="{Binding HydraulicChecksCsvCommand}" HorizontalAlignment="Left" Margin="0,0,0,8"/>
+     </StackPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding HydraulicChecks}" SelectedItem="{Binding SelectedHydraulicCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns>
+       <DataGridTextColumn Header="Caso" Binding="{Binding CaseId}"/><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Corpo / punto" Binding="{Binding Element}"/>
+       <DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
+       <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+       <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
+      </DataGrid.Columns>
+     </DataGrid>
+     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,12,0,0"><StackPanel>
+      <TextBlock Text="{Binding SelectedHydraulicCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+      <TextBlock Text="{Binding SelectedHydraulicCheck.Source}" TextWrapping="Wrap" Margin="0,6"/>
+      <TextBlock Text="{Binding SelectedHydraulicCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+      <DataGrid ItemsSource="{Binding SelectedHydraulicCheck.Values}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="150">
+       <DataGrid.Columns><DataGridTextColumn Header="Dato utilizzato" Binding="{Binding Name}"/><DataGridTextColumn Header="Valore" Binding="{Binding Value, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/></DataGrid.Columns>
+      </DataGrid>
+      <TextBlock Text="Azioni UPL positive in alto; pesi totali negativi. Rd è già di progetto." TextWrapping="Wrap" Margin="0,8"/>
+      <DataGrid ItemsSource="{Binding SelectedHydraulicCheck.Actions}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="180">
+       <DataGrid.Columns><DataGridTextColumn Header="Azione" Binding="{Binding Id}"/><DataGridTextColumn Header="Categoria" Binding="{Binding CategoryText}"/>
+        <DataGridTextColumn Header="Fk [kN]" Binding="{Binding CharacteristicUpwardForce, StringFormat=G7}"/><DataGridTextColumn Header="γ" Binding="{Binding Factor, StringFormat=G4}"/>
+        <DataGridTextColumn Header="Fd [kN]" Binding="{Binding DesignUpwardForce, StringFormat=G7}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
+      </DataGrid>
+      <ItemsControl ItemsSource="{Binding HydraulicCoefficients}" Margin="0,8"><ItemsControl.ItemTemplate><DataTemplate>
+       <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, StringFormat=G7}"/></WrapPanel>
+      </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+     </StackPanel></ScrollViewer>
+    </Grid>
+   </TabItem>
+   <TabItem Header="Stabilità globale">
+    <Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="180"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <StackPanel>
+      <TextBlock Text="Definire geometria e combinazioni nelle due tabelle globali di Dati e fasi. Coordinate di ricerca: valle a sinistra, testa a quota zero. La ricerca usa le azioni caratteristiche dichiarate; non somma le reazioni locali della paratia." TextWrapping="Wrap" Margin="0,0,0,8"/>
+      <Button Content="Esporta stabilità globale CSV" Command="{Binding GlobalCsvCommand}" HorizontalAlignment="Left" Margin="0,0,0,8"/>
+     </StackPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding GlobalChecks}" SelectedItem="{Binding SelectedGlobalCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Verifica" Binding="{Binding Id}"/>
+       <DataGridTextColumn Header="Combinazione" Binding="{Binding Combination}"/><DataGridTextColumn Header="Ricerca" Binding="{Binding SearchStatus}"/>
+       <DataGridTextColumn Header="γR" Binding="{Binding Demand, StringFormat=G5}"/><DataGridTextColumn Header="F" Binding="{Binding Capacity, StringFormat=G6}"/>
+       <DataGridTextColumn Header="Utilizzo conclusivo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
+      </DataGrid.Columns>
+     </DataGrid>
+     <TabControl Grid.Row="2" Margin="0,8,0,0">
+      <TabItem Header="Superficie critica"><local:EmbeddedWallGlobalDiagram Check="{Binding SelectedGlobalCheck}" MinHeight="240"/></TabItem>
+      <TabItem Header="Diagnostica e coefficienti"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="8">
+       <TextBlock Text="{Binding SelectedGlobalCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+       <TextBlock Text="{Binding SelectedGlobalCheck.Source}" TextWrapping="Wrap" Margin="0,8"/>
+       <TextBlock Text="{Binding SelectedGlobalCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+       <WrapPanel><TextBlock Text="Superfici provate / risolte / fallimenti: " /><TextBlock Text="{Binding SelectedGlobalCheck.Tried}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedGlobalCheck.Solved}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedGlobalCheck.Failures}"/></WrapPanel>
+       <ItemsControl ItemsSource="{Binding SelectedGlobalCheck.Coefficients}" Margin="0,8"><ItemsControl.ItemTemplate><DataTemplate>
+        <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, StringFormat=G7}"/></WrapPanel>
+       </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+       <DataGrid ItemsSource="{Binding SelectedGlobalCheck.Actions}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200">
+        <DataGrid.Columns><DataGridTextColumn Header="Azione" Binding="{Binding Id}"/><DataGridTextColumn Header="Categoria" Binding="{Binding Category}"/>
+         <DataGridCheckBoxColumn Header="Sfavorevole" Binding="{Binding Unfavourable}"/><DataGridTextColumn Header="γ" Binding="{Binding PartialFactor}"/>
+         <DataGridTextColumn Header="ψ" Binding="{Binding Psi}"/><DataGridTextColumn Header="γ·ψ" Binding="{Binding CombinedFactor}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
+       </DataGrid>
+      </StackPanel></ScrollViewer></TabItem>
+      <TabItem Header="Conci"><DataGrid ItemsSource="{Binding SelectedGlobalCheck.Slices}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+       <DataGrid.Columns><DataGridTextColumn Header="Concio" Binding="{Binding Index}"/><DataGridTextColumn Header="x sx [m]" Binding="{Binding Left, StringFormat=G6}"/>
+        <DataGridTextColumn Header="x dx [m]" Binding="{Binding Right, StringFormat=G6}"/><DataGridTextColumn Header="z base [m]" Binding="{Binding BaseY, StringFormat=G6}"/>
+        <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, StringFormat=G6}"/><DataGridTextColumn Header="W terreno [kN/m]" Binding="{Binding SoilWeight, StringFormat=G6}"/>
+        <DataGridTextColumn Header="W parete [kN/m]" Binding="{Binding BodyWeight, StringFormat=G6}"/><DataGridTextColumn Header="N′ [kN/m]" Binding="{Binding NormalEffective, StringFormat=G6}"/>
+        <DataGridTextColumn Header="R [kN/m]" Binding="{Binding Resistance, StringFormat=G6}"/><DataGridTextColumn Header="Mobilitata [kN/m]" Binding="{Binding Mobilized, StringFormat=G6}"/></DataGrid.Columns>
+      </DataGrid></TabItem>
+     </TabControl>
+    </Grid>
+   </TabItem>
+   <TabItem Header="Acciaio sostegni">
+    <Grid Margin="12"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="180"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <DockPanel Margin="0,0,0,8"><Button Content="Esporta CSV acciaio" Command="{Binding SteelCsvCommand}" DockPanel.Dock="Right"/>
+      <TextBlock Text="Forze per singolo elemento, N positivo a trazione. Verifiche delle aste: collegamenti, ancoraggi e bulbi sono distinti." TextWrapping="Wrap"/></DockPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding SteelSupports}" SelectedItem="{Binding SelectedSteelSupport}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sostegno" Binding="{Binding Support}"/>
+       <DataGridTextColumn Header="Tipo" Binding="{Binding Kind}"/><DataGridTextColumn Header="N [kN]" Binding="{Binding NormalForce, StringFormat=G7}"/>
+       <DataGridTextColumn Header="EA/L assegnato [kN/m]" Binding="{Binding AnalysedAxialStiffness, StringFormat=G7}"/>
+       <DataGridTextColumn Header="Classe" Binding="{Binding CompressionClass}"/><DataGridTextColumn Header="Esito asta" Binding="{Binding OutcomeText}"/>
+       <DataGridCheckBoxColumn Header="Limite costitutivo" Binding="{Binding AtModelCapacity}"/></DataGrid.Columns>
+     </DataGrid>
+     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
+      <TextBlock Text="{Binding SelectedSteelSupport.Source}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+      <TextBlock Text="{Binding SelectedSteelSupport.Diagnostic}" TextWrapping="Wrap" Margin="0,8"/>
+      <DataGrid ItemsSource="{Binding SteelChecks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="230">
+       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda [kN]" Binding="{Binding Demand, StringFormat=G7}"/>
+        <DataGridTextColumn Header="Capacità [kN]" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
+        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="γM" Binding="{Binding PartialFactor}"/>
+        <DataGridTextColumn Header="Ncr [kN]" Binding="{Binding CriticalForce, StringFormat=G7}"/><DataGridTextColumn Header="λbar" Binding="{Binding NormalizedSlenderness, StringFormat=F4}"/>
+        <DataGridTextColumn Header="Snellezza" Binding="{Binding GeometricSlenderness, StringFormat=F2}"/><DataGridTextColumn Header="χ" Binding="{Binding Reduction, StringFormat=F4}"/>
+        <DataGridTextColumn Header="Curva" Binding="{Binding Curve}"/></DataGrid.Columns>
+      </DataGrid>
+      <ItemsControl ItemsSource="{Binding SteelChecks}"><ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,8">
+       <TextBlock Text="{Binding Reference}" TextWrapping="Wrap"/><TextBlock Text="{Binding Diagnostic}" TextWrapping="Wrap"/>
+      </StackPanel></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+     </StackPanel></ScrollViewer>
+    </Grid>
+   </TabItem>
+   <TabItem Header="Sfilamento tiranti">
+    <Grid Margin="12"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="160"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <DockPanel Margin="0,0,0,8"><Button Content="Esporta CSV sfilamento" Command="{Binding AnchorCsvCommand}" DockPanel.Dock="Right"/>
+      <TextBlock Text="Capacità del singolo bulbo. pl è la pressione limite pressiometrica; pi è la pressione d'iniezione. La predizione empirica richiede conferma in sito." TextWrapping="Wrap"/></DockPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding AnchorChecks}" SelectedItem="{Binding SelectedAnchorCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Tirante" Binding="{Binding Support}"/>
+       <DataGridTextColumn Header="Ed [kN]" Binding="{Binding Demand, StringFormat=G7}"/><DataGridTextColumn Header="Rak [kN]" Binding="{Binding Characteristic, StringFormat=G7}"/>
+       <DataGridTextColumn Header="Rad [kN]" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
+       <DataGridTextColumn Header="ξ media" Binding="{Binding MeanFactor}"/><DataGridTextColumn Header="ξ minimo" Binding="{Binding MinimumFactor}"/>
+       <DataGridTextColumn Header="γR" Binding="{Binding ResistanceFactor}"/><DataGridTextColumn Header="Esito sfilamento" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+     </DataGrid>
+     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
+      <TextBlock Text="{Binding SelectedAnchorCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+      <TextBlock Text="{Binding SelectedAnchorCheck.Source}" TextWrapping="Wrap" Margin="0,8"/>
+      <TextBlock Text="{Binding SelectedAnchorCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+      <DataGrid ItemsSource="{Binding SelectedAnchorCheck.Samples}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="150">
+       <DataGrid.Columns><DataGridTextColumn Header="Profilo / prova" Binding="{Binding Id}"/><DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, StringFormat=G7}"/>
+        <DataGridCheckBoxColumn Header="Campo applicabile" Binding="{Binding Applicable}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/>
+        <DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
+      </DataGrid>
+      <DataGrid ItemsSource="{Binding SelectedAnchorCheck.Segments}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200" Margin="0,8,0,0">
+       <DataGrid.Columns><DataGridTextColumn Header="Indagine" Binding="{Binding Profile}"/><DataGridTextColumn Header="Strato" Binding="{Binding Layer}"/>
+        <DataGridTextColumn Header="Da [m]" Binding="{Binding Start}"/><DataGridTextColumn Header="A [m]" Binding="{Binding End}"/>
+        <DataGridTextColumn Header="pl [MPa]" Binding="{Binding LimitPressure}"/><DataGridTextColumn Header="pi [MPa]" Binding="{Binding InjectionPressure}"/>
+        <DataGridTextColumn Header="α" Binding="{Binding DiameterFactor}"/><DataGridTextColumn Header="Ds [mm]" Binding="{Binding BulbDiameter}"/>
+        <DataGridTextColumn Header="Curva" Binding="{Binding Curve}"/><DataGridTextColumn Header="qs [MPa]" Binding="{Binding UnitResistance}"/>
+        <DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, StringFormat=G7}"/></DataGrid.Columns>
+      </DataGrid>
+     </StackPanel></ScrollViewer>
+    </Grid>
+   </TabItem>
+   <TabItem Header="Sezioni acciaio">
+    <Grid Margin="12"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="220"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <DockPanel Margin="0,0,0,8"><Button Content="Esporta CSV N–M–V" Command="{Binding TubeCsvCommand}" DockPanel.Dock="Right"/>
+      <TextBlock Text="Resistenza locale CHS classe 1–2. Azioni concomitanti per singolo tubo; N positivo a trazione. Stabilità della membratura e del terreno separate." TextWrapping="Wrap"/></DockPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding SteelTubes}" SelectedItem="{Binding SelectedTubeCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G6}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
+       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G7}"/>
+       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G7}"/><DataGridTextColumn Header="Fattore fascia→tubo" Binding="{Binding StripToMemberFactor, StringFormat=G6}"/>
+       <DataGridTextColumn Header="Classe" Binding="{Binding SectionClass}"/><DataGridTextColumn Header="γM0" Binding="{Binding PartialFactor}"/>
+       <DataGridTextColumn Header="ρ" Binding="{Binding ShearReduction, StringFormat=G6}"/><DataGridTextColumn Header="Esito locale" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+     </DataGrid>
+     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
+      <TextBlock Text="{Binding SelectedTubeCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+      <TextBlock TextWrapping="Wrap" Margin="0,5"><Run Text="Taglio selezionato: "/><Run Text="{Binding SelectedTubeCheck.Stage}"/>
+       <Run Text=" · "/><Run Text="{Binding SelectedTubeCheck.Section}"/><Run Text=" · z="/><Run Text="{Binding SelectedTubeCheck.Elevation, StringFormat=G6}"/>
+       <Run Text=" m, "/><Run Text="{Binding SelectedTubeCheck.Side}"/><Run Text=" · N="/><Run Text="{Binding SelectedTubeCheck.Normal, StringFormat=G7}"/>
+       <Run Text=" kN, V="/><Run Text="{Binding SelectedTubeCheck.Shear, StringFormat=G7}"/><Run Text=" kN, M="/><Run Text="{Binding SelectedTubeCheck.Moment, StringFormat=G7}"/><Run Text=" kNm"/></TextBlock>
+      <TextBlock Text="{Binding SelectedTubeCheck.Properties.Source}" TextWrapping="Wrap" Margin="0,8"/>
+      <TextBlock Text="{Binding SelectedTubeCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+      <WrapPanel><TextBlock Text="EI lordo della fascia [kNm²]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.EquivalentRigidity, StringFormat=G7}"/>
+       <TextBlock Text="    D / t [mm]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Diameter}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Thickness}"/>
+       <TextBlock Text="    interasse [m]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Spacing}"/></WrapPanel>
+      <DataGrid ItemsSource="{Binding SelectedTubeCheck.Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200" Margin="0,8">
+       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
+        <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+      </DataGrid>
+      <ItemsControl ItemsSource="{Binding SelectedTubeCheck.Checks}"><ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,5">
+       <TextBlock Text="{Binding Reference}" TextWrapping="Wrap"/><TextBlock Text="{Binding Diagnostic}" TextWrapping="Wrap"/>
+      </StackPanel></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+     </StackPanel></ScrollViewer>
+    </Grid>
+   </TabItem>
+   <TabItem Header="Pali in c.a.">
+    <Grid Margin="10"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="180"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <DockPanel Margin="0,0,0,8"><Button DockPanel.Dock="Right" Content="Esporta CSV sezioni e dettagli" Command="{Binding RcPileCsvCommand}"/>
+      <TextBlock Text="Azioni per singolo palo, N positivo a trazione. Resistenza/SLE e dettagli costruttivi hanno esiti separati." TextWrapping="Wrap"/>
+     </DockPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding RcPiles}" SelectedItem="{Binding SelectedRcPileCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G7}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
+       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G7}"/>
+       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G7}"/><DataGridTextColumn Header="Fattore fascia→palo" Binding="{Binding StripToMemberFactor, StringFormat=G7}"/>
+       <DataGridTextColumn Header="Esito locale" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+     </DataGrid>
+     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
+      <TextBlock Text="{Binding SelectedRcPileCheck.Reference}" FontWeight="SemiBold"/>
+      <TextBlock Margin="0,5" TextWrapping="Wrap"><Run Text="Taglio selezionato: "/><Run Text="{Binding SelectedRcPileCheck.Stage}"/><Run Text=" · "/><Run Text="{Binding SelectedRcPileCheck.Section}"/>
+       <Run Text=" · z="/><Run Text="{Binding SelectedRcPileCheck.Elevation, StringFormat=G7}"/><Run Text=" m, "/><Run Text="{Binding SelectedRcPileCheck.Side}"/>
+       <Run Text=" · N="/><Run Text="{Binding SelectedRcPileCheck.Normal, StringFormat=G7}"/><Run Text=" kN; V="/><Run Text="{Binding SelectedRcPileCheck.Shear, StringFormat=G7}"/>
+       <Run Text=" kN; M="/><Run Text="{Binding SelectedRcPileCheck.Moment, StringFormat=G7}"/><Run Text=" kNm"/></TextBlock>
+      <TextBlock Text="{Binding SelectedRcPileCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,4"/>
+      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="D [mm]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.Diameter}"/>
+       <Run Text="; barre: "/><Run Text="{Binding SelectedRcPileCheck.Properties.BarCount}"/><Run Text="φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.BarDiameter}"/>
+       <Run Text="; staffe φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkDiameter}"/><Run Text="/"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkSpacing}"/>
+       <Run Text=" mm; EI lordo fascia [kNm²]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.EquivalentRigidity, StringFormat=G7}"/></TextBlock>
+      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="Coefficienti SLU del profilo: γc="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaC}"/>
+       <Run Text="; γs="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaS}"/><Run Text="; αcc="/><Run Text="{Binding SelectedRcPileCheck.Properties.AlphaCC}"/></TextBlock>
+      <DataGrid ItemsSource="{Binding SelectedRcPileCheck.Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+       <DataGrid.Columns><DataGridTextColumn Header="Controllo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
+        <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+      </DataGrid>
+      <ItemsControl ItemsSource="{Binding SelectedRcPileCheck.Checks}"><ItemsControl.ItemTemplate><DataTemplate>
+       <TextBlock Text="{Binding Diagnostic}" TextWrapping="Wrap" Margin="0,4"/>
+      </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+      <TextBlock Text="Dettagli costruttivi — esiti separati" FontWeight="SemiBold" Margin="0,8"/>
+      <DataGrid ItemsSource="{Binding SelectedRcPileCheck.Details}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+       <DataGrid.Columns><DataGridTextColumn Header="Regola" Binding="{Binding Label}"/><DataGridTextColumn Header="Valore" Binding="{Binding Actual, StringFormat=G7}"/>
+        <DataGridTextColumn Header="Limite" Binding="{Binding Limit, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Criterio" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
+      </DataGrid>
+      <TextBlock Text="{Binding SelectedRcPileCheck.Properties.Source}" TextWrapping="Wrap" Margin="0,8"/>
+     </StackPanel></ScrollViewer>
+    </Grid>
+   </TabItem>
+   <TabItem Header="Inviluppi">
+    <Grid Margin="10"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <DockPanel><Button DockPanel.Dock="Right" Content="Esporta CSV inviluppi" Command="{Binding EnvelopeCsvCommand}"/>
+      <StackPanel Orientation="Horizontal"><TextBlock Text="Grandezza" VerticalAlignment="Center"/>
+       <ComboBox ItemsSource="{Binding EnvelopeSeries}" SelectedItem="{Binding SelectedEnvelopeSeries}" DisplayMemberPath="Diagram" MinWidth="210" Margin="8,0"/>
+      </StackPanel></DockPanel>
+     <TextBlock Grid.Row="1" Text="{Binding EnvelopeStatus}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,8,0,4"/>
+     <StackPanel Grid.Row="2"><TextBlock Text="{Binding EnvelopeExtrema}" TextWrapping="Wrap" Margin="0,0,0,4"/>
+      <TextBlock Text="Selezionare una quota per leggere le azioni concomitanti. Minimo e massimo possono appartenere a fasi diverse; non formano una combinazione. La curva interpola le stazioni campionate, con estremi e discontinuità conservati." TextWrapping="Wrap" Margin="0,0,0,8"/>
+     </StackPanel>
+     <Grid Grid.Row="3"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <local:EmbeddedWallDiagram Points="{Binding EnvelopeMinimum}" Comparison="{Binding EnvelopeMaximum}" Quantity="{Binding SelectedEnvelopeSeries.Diagram, TargetNullValue='Spostamento [mm]'}" PrimaryLabel="minimo" ComparisonLabel="massimo"/>
+      <Grid Grid.Column="1" Margin="10,0,0,0"><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="210"/></Grid.RowDefinitions>
+       <DataGrid ItemsSource="{Binding EnvelopeStations}" SelectedItem="{Binding SelectedEnvelopeStation}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+        <DataGrid.Columns><DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, StringFormat=G7}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
+         <DataGridTextColumn Header="Minimo" Binding="{Binding Minimum.Value, StringFormat=G7}"/><DataGridTextColumn Header="Caso min" Binding="{Binding Minimum.CaseId}"/>
+         <DataGridTextColumn Header="Fase min" Binding="{Binding Minimum.Stage}"/><DataGridTextColumn Header="Massimo" Binding="{Binding Maximum.Value, StringFormat=G7}"/>
+         <DataGridTextColumn Header="Caso max" Binding="{Binding Maximum.CaseId}"/><DataGridTextColumn Header="Fase max" Binding="{Binding Maximum.Stage}"/></DataGrid.Columns>
+       </DataGrid>
+       <TextBlock Grid.Row="1" Text="Osservazioni concomitanti alla quota selezionata — azioni dell'intera fascia" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,8"/>
+       <DataGrid Grid.Row="2" ItemsSource="{Binding EnvelopeConcomitant}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+        <DataGrid.Columns><DataGridTextColumn Header="Estremo" Binding="{Binding Key}"/><DataGridTextColumn Header="Caso" Binding="{Binding Value.CaseId}"/>
+         <DataGridTextColumn Header="Fase" Binding="{Binding Value.Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Value.Point.Section}"/>
+         <DataGridTextColumn Header="N [kN]" Binding="{Binding Value.Point.Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Value.Point.Shear, StringFormat=G7}"/>
+         <DataGridTextColumn Header="M [kNm]" Binding="{Binding Value.Point.Moment, StringFormat=G7}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Value.Point.Displacement, StringFormat=G7}"/>
+         <DataGridTextColumn Header="Rotazione [rad]" Binding="{Binding Value.Point.Rotation, StringFormat=G7}"/></DataGrid.Columns>
+       </DataGrid>
+      </Grid>
+     </Grid>
+    </Grid>
+   </TabItem>
+  </TabControl>
+ </DockPanel>
+</UserControl>
