@@ -77,7 +77,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     public string ImportScenario { get => importScenario; set => SetProperty(ref importScenario, value); }
     public IReadOnlyList<string> ImportSides { get; } = ["Sinistra", "Destra"];
     public IReadOnlyList<string> ImportScenarios { get; } = ["Medi", "Minimi"];
-    public IReadOnlyList<string> Diagrams { get; } = ["Spostamento [mm]", "Momento [kNm]", "Taglio [kN]", "Normale [kN]", "Pressione sinistra [kPa]", "Pressione destra [kPa]"];
+    public IReadOnlyList<string> Diagrams { get; } = ["Spostamento [mm]", "Momento [kNm]", "Taglio [kN]", "Normale [kN]", "Pressione sinistra [kPa]", "Pressione destra [kPa]", "Carico netto [kN/m]"];
     public string Diagram { get => diagram; set => SetProperty(ref diagram, value); }
     public IReadOnlyList<string> HydraulicDiagrams { get; } = ["Carico idraulico [m]", "Pressione interstiziale [kPa]"];
     public string HydraulicDiagram { get => hydraulicDiagram; set => SetProperty(ref hydraulicDiagram, value); }

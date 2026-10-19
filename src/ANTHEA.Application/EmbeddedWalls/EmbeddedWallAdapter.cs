@@ -29,7 +29,8 @@ public static class EmbeddedWallAdapter
         EmbeddedWallDocument.Validate(data);
         var stages = EmbeddedWallDocument.Rows(data, "stages").ToArray();
         var ids = stages.Select(s => Text(s, "id")).ToHashSet(StringComparer.Ordinal);
-        foreach (var row in EmbeddedWallDocument.Rows(data, "activations").Concat(EmbeddedWallDocument.Rows(data, "loads")))
+        foreach (var row in EmbeddedWallDocument.Rows(data, "activations").Concat(EmbeddedWallDocument.Rows(data, "loads"))
+            .Concat(EmbeddedWallDocument.Rows(data, "distributed_loads")))
             if (!ids.Contains(Text(row, "stage"))) throw new ArgumentException("Carico o attivazione riferito a una fase inesistente.");
         var m = new EmbeddedWallModel
         {
@@ -55,6 +56,9 @@ public static class EmbeddedWallAdapter
                 Capacity = Optional(s, "capacity") * NewtonsPerKilonewton }).ToArray(),
             Stages = stages.Select(s => new EmbeddedWallStage { Id = Text(s, "id"), Left = Ground(s, "left"), Right = Ground(s, "right"),
                 DistributedLoad = Number(s, "distributed_load"), StiffnessFactor = Number(s, "stiffness_factor"),
+                DistributedLoads = EmbeddedWallDocument.Rows(data, "distributed_loads").Where(p => Text(p, "stage") == Text(s, "id")).Select(p => new EmbeddedWallDistributedLoad {
+                    Id = Text(p, "id"), Top = Number(p, "top") * SoilUnits.Metre, Bottom = Number(p, "bottom") * SoilUnits.Metre,
+                    TopLoad = Number(p, "q_top"), BottomLoad = Number(p, "q_bottom"), Source = Text(p, "source") }).ToArray(),
                 ActiveSupports = EmbeddedWallDocument.Rows(data, "activations").Where(a => Text(a, "stage") == Text(s, "id")).Select(a =>
                     new EmbeddedWallSupportActivation { SupportId = Text(a, "support"), Prestress = Number(a, "prestress") * NewtonsPerKilonewton }).ToArray(),
                 PointLoads = EmbeddedWallDocument.Rows(data, "loads").Where(p => Text(p, "stage") == Text(s, "id")).Select(p => new EmbeddedWallPointLoad {

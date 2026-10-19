@@ -44,7 +44,7 @@ public static class EmbeddedWallFields
     public static string Title(string table) => table switch
     {
         "segments" => "Tratti e rigidezze", "left_soils" => "Terreno a sinistra", "right_soils" => "Terreno a destra", "supports" => "Tiranti e puntoni",
-        "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi sulla struttura", "rc_sections" => "Fasce rettangolari in c.a.",
+        "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi concentrati sulla struttura", "distributed_loads" => "Carichi distribuiti sulla struttura", "rc_sections" => "Fasce rettangolari in c.a.",
         "hydraulic_left" => "Permeabilità a sinistra", "hydraulic_right" => "Permeabilità a destra", "hydraulic_upl" => "Corpi UPL",
         "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", "global_checks" => "Stabilità globale", "global_actions" => "Combinazioni globali", "steel_members" => "Acciaio dei sostegni",
         "anchor_checks" => "Sfilamento dei tiranti", "anchor_layers" => "Indagini dei bulbi", "anchor_tests" => "Prove preliminari tiranti", "steel_tubes" => "Sezioni tubolari della parete", "rc_piles" => "Pali circolari in c.a.", _ => table
@@ -83,9 +83,13 @@ public static class EmbeddedWallFields
         "stages" => [new("id", "Fase"), new("left_ground", "Terreno sinistra", "m"), new("right_ground", "Terreno destra", "m"),
             new("left_water", "Falda sinistra (vuoto: assente)", "m"), new("right_water", "Falda destra (vuoto: assente)", "m"),
             new("left_surcharge", "Sovraccarico sinistra", "kPa"), new("right_surcharge", "Sovraccarico destra", "kPa"),
-            new("distributed_load", "Carico orizzontale della fascia", "kN/m"), new("stiffness_factor", "Moltiplicatore EI")],
+            new("distributed_load", "Carico uniforme sull'intera fascia", "kN/m", ToolTip: "Positivo verso destra; si somma ai carichi distribuiti variabili definiti per questa fase."), new("stiffness_factor", "Moltiplicatore EI")],
         "activations" => [new("stage", "Fase"), new("support", "Sostegno"), new("prestress", "Pretensione per elemento", "kN")],
         "loads" => [new("stage", "Fase"), new("elevation", "Quota", "m"), new("horizontal", "Forza verso destra", "kN"), new("moment", "Coppia coniugata alla rotazione", "kNm"), new("downward", "Forza verso il basso", "kN")],
+        "distributed_loads" => [new("stage", "Fase", ToolTip: "Elencare tutti i carichi presenti nella fase. Un carico assente nella fase successiva viene rimosso."), new("id", "Identificativo nella fase"),
+            new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
+            new("q_top", "Carico all'estremo superiore", "kN/m", ToolTip: "Forza per lunghezza verticale, riferita all'intera fascia analizzata; positivo verso destra. Varia linearmente tra gli estremi; le sovrapposizioni si sommano."),
+            new("q_bottom", "Carico all'estremo inferiore", "kN/m", ToolTip: "Stessa convenzione del carico superiore. Ammessi valori negativi e cambio di segno nell'intervallo."), new("source", "Fonte del carico", Multiline: true)],
         "rc_sections" => [new("id", "Sezione"), new("width", "Larghezza della fascia", "mm"), new("thickness", "Spessore", "mm"), new("cover", "Copriferro netto alle barre", "mm"),
             new("back_bars", "Numero barre retro (sinistra)"), new("back_diameter", "Diametro retro", "mm"), new("front_bars", "Numero barre fronte (destra)"), new("front_diameter", "Diametro fronte", "mm"),
             new("fck", "Resistenza cilindrica calcestruzzo", "MPa"), new("fyk", "Snervamento armatura", "MPa"), new("es", "Modulo armatura", "MPa"), new("eps_uk", "Deformazione ultima armatura"),
@@ -123,7 +127,7 @@ public static class EmbeddedWallFields
             new("entry_min", "Ingresso minimo, monte positivo", "m"), new("entry_max", "Ingresso massimo", "m"),
             new("depth_min", "Profondità minima sotto la testa", "m"), new("depth_max", "Profondità massima sotto la testa", "m"),
             new("grid", "Nodi per direzione di ricerca"), new("slices", "Numero iniziale di conci"), new("refinements", "Livelli di raffinamento")],
-        "global_actions" => [new("check", "Verifica globale"), new("stage", "Fase"), new("id", "Azione nel modello", ToolTip: "LeftSurcharge, RightSurcharge, StructureDistributed, PointLoad-0, PointLoad-1, ... (carichi non nulli della fase, ordine da zero). Una riga per ogni azione presente."),
+        "global_actions" => [new("check", "Verifica globale"), new("stage", "Fase"), new("id", "Azione nel modello", ToolTip: "LeftSurcharge, RightSurcharge, StructureDistributed, StructureInterval-<identificativo>, PointLoad-0, PointLoad-1, ... (carichi non nulli della fase, ordine da zero). Una riga per ogni azione presente."),
             new("category", "Categoria", Choices: ["PermanentStructural", "PermanentNonStructural", "Variable"]), new("unfavourable", "Sfavorevole nella combinazione", Bool: true),
             new("psi", "Fattore di combinazione ψ", ToolTip: "Da 0 a 1 per Q, esattamente 1 per G1/G2. Il fattore parziale proviene dalla norma, non inserirlo qui."),
             new("source", "Fonte e ruolo nella combinazione", Multiline: true)],

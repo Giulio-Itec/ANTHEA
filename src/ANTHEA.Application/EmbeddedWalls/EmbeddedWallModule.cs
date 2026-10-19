@@ -53,6 +53,7 @@ public sealed class EmbeddedWallModule : IModuleService
         {
             "Modello piano di trave su molle elastoplastiche indipendenti; piccoli spostamenti, strati orizzontali e parete verticale liscia. Pressioni Rankine, carico uniforme sul terreno.",
             "Le fasi interpolano le pressioni fra configurazioni successive e conservano la memoria plastica. I sostegni sono installati sulla deformata precedente; le attivazioni elencano tutti i sostegni presenti in ciascuna fase.",
+            "Carichi distribuiti sulla struttura: andamento lineare per intervalli, positivo verso destra, in kN/m verticale sull'intera fascia. Gli intervalli sovrapposti e il carico uniforme si sommano. Ogni fase definisce l'intero campo presente; un intervallo non elencato viene rimosso nella transizione. Il diagramma q netto comprende anche le reazioni del terreno.",
             "N positivo a compressione; V e M riferiti alla sezione della fascia analizzata. I sostegni riportano la forza per singolo elemento. Quote positive verso l'alto.",
             "La convergenza numerica non costituisce una verifica completa dell'opera. Instabilità geotecnica del fondo scavo e sisma restano da verificare; i controlli locali disponibili sono elencati separatamente.",
             Text(data, "rc_pile_standard") == "Non richieste" ? "Verifiche dei pali circolari in c.a. non richieste."
@@ -76,7 +77,7 @@ public sealed class EmbeddedWallModule : IModuleService
             analysis.Status.ToString(), analysis.IsComplete, analysis.Diagnostic, data.ToJsonString(new() { WriteIndented = true }),
             Array.AsReadOnly(analysis.Stages.Select(s => new EmbeddedWallStageData(s.Id, s.AcceptedIncrements, s.Iterations, s.ForceResidual, s.MomentResidual,
                 Array.AsReadOnly(s.Points.Select(p => new EmbeddedWallPointData(p.Elevation / SoilUnits.Metre, p.Side, p.SectionId, p.Displacement, p.Rotation,
-                    p.NormalForce / NewtonsPerKilonewton, p.Shear / NewtonsPerKilonewton, p.Moment / NmmPerKilonewtonMetre, p.LeftPressure / SoilUnits.KiloPascal, p.RightPressure / SoilUnits.KiloPascal, p.LeftPlastic, p.RightPlastic)).ToArray()),
+                    p.NormalForce / NewtonsPerKilonewton, p.Shear / NewtonsPerKilonewton, p.Moment / NmmPerKilonewtonMetre, p.LeftPressure / SoilUnits.KiloPascal, p.RightPressure / SoilUnits.KiloPascal, p.LeftPlastic, p.RightPlastic, p.NetDistributedLoad)).ToArray()),
                 Array.AsReadOnly(s.Supports.Select(t => new EmbeddedWallSupportData(t.Id, t.AxialForce / NewtonsPerKilonewton, t.HorizontalReaction / NewtonsPerKilonewton, t.ReferenceDisplacement, t.AtCapacity)).ToArray()))).ToArray()),
             Array.AsReadOnly(checks.SelectMany(c => c.Checks.Count == 0 ? new[] { new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / SoilUnits.Metre, c.Side,
                 -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, "Sezione non definita", "", 0, null, null, EngineeringOutcome.NotEvaluated, c.Diagnostic) }

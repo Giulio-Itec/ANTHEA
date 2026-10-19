@@ -12,6 +12,8 @@ public static partial class EmbeddedWallReport
 {
     private const int TableWidthTwips = 9638;
     private static string F(double? value) => value?.ToString("G7", CultureInfo.GetCultureInfo("it-IT")) ?? "non disponibile";
+    private static string Compact(double value) => value != 0 && (Math.Abs(value) < .0001 || Math.Abs(value) >= 100000)
+        ? value.ToString("0.##E+0", CultureInfo.GetCultureInfo("it-IT")) : F(value);
     public static string DisplayLabel(string key) => Labels.GetValueOrDefault(key, key);
     public static string OutcomeText(EngineeringOutcome outcome) => outcome switch
     { EngineeringOutcome.Satisfied => "Soddisfatto", EngineeringOutcome.NotSatisfied => "Non soddisfatto", EngineeringOutcome.NotEvaluated => "Non valutato", _ => outcome.ToString() };
@@ -20,11 +22,11 @@ public static partial class EmbeddedWallReport
         ArgumentNullException.ThrowIfNull(result);
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         var body = new XElement(w + "body");
-        XElement Paragraph(string text, bool heading = false) => new(w + "p", new XElement(w + "pPr",
-            new XElement(w + "spacing", new XAttribute(w + "after", heading ? 140 : 60)), heading ? new XElement(w + "keepNext") : null),
+        XElement Paragraph(string text, bool heading = false, bool keepNext = false) => new(w + "p", new XElement(w + "pPr",
+            new XElement(w + "spacing", new XAttribute(w + "after", heading ? 140 : 60)), heading || keepNext ? new XElement(w + "keepNext") : null),
             new XElement(w + "r", new XElement(w + "rPr", new XElement(w + "rFonts", new XAttribute(w + "ascii", "Arial"), new XAttribute(w + "hAnsi", "Arial")),
                 new XElement(w + "sz", new XAttribute(w + "val", heading ? 24 : 18)), heading ? new XElement(w + "b") : null), new XElement(w + "t", text)));
-        void P(string text, bool heading = false) => body.Add(Paragraph(text, heading));
+        void P(string text, bool heading = false, bool keepNext = false) => body.Add(Paragraph(text, heading, keepNext));
         void Table(string[] headers, IEnumerable<string[]> rows)
         {
             var table = new XElement(w + "tbl", new XElement(w + "tblPr", new XElement(w + "tblW", new XAttribute(w + "w", TableWidthTwips), new XAttribute(w + "type", "dxa"))));
@@ -98,13 +100,14 @@ public static partial class EmbeddedWallReport
         foreach (var stage in result.Stages)
         {
             P("Fase " + stage.Id, true);
-            P($"Incrementi {stage.Increments}; iterazioni {stage.Iterations}. Residuo forze {F(stage.ForceResidualN)} N; residuo momenti {F(stage.MomentResidualNmm)} Nmm.");
-            P(allStations ? "Tutte le sezioni campionate." : "Estratto: estremi campionati e sezioni terminali. Ogni riga mantiene le azioni concomitanti; il CSV conserva tutte le sezioni.");
+            P($"Incrementi {stage.Increments}; iterazioni {stage.Iterations}. Residuo forze {F(stage.ForceResidualN)} N; residuo momenti {F(stage.MomentResidualNmm)} Nmm.", keepNext: true);
+            P(allStations ? "Tutte le sezioni campionate." : "Estratto: estremi campionati e sezioni terminali. Ogni riga mantiene le azioni concomitanti; il CSV conserva tutte le sezioni.", keepNext: true);
             IEnumerable<EmbeddedWallPointData> points = stage.Points;
             if (!allStations && stage.Points.Count > 0) points = new[] { stage.Points.First(), stage.Points.Last(), stage.Points.MinBy(p => p.Moment)!, stage.Points.MaxBy(p => p.Moment)!,
-                stage.Points.MinBy(p => p.Shear)!, stage.Points.MaxBy(p => p.Shear)!, stage.Points.MinBy(p => p.Displacement)!, stage.Points.MaxBy(p => p.Displacement)! }.Distinct().OrderByDescending(p => p.Elevation);
-            Table(["z [m] / lato", "N [kN]", "V [kN]", "M [kNm]", "u [mm]", "p sx / dx [kPa]"], points.Select(p =>
-                new[] { F(p.Elevation) + " " + p.Side, F(p.Normal), F(p.Shear), F(p.Moment), F(p.Displacement), F(p.LeftPressure) + " / " + F(p.RightPressure) }));
+                stage.Points.MinBy(p => p.Shear)!, stage.Points.MaxBy(p => p.Shear)!, stage.Points.MinBy(p => p.Displacement)!, stage.Points.MaxBy(p => p.Displacement)!,
+                stage.Points.MinBy(p => p.NetDistributedLoad)!, stage.Points.MaxBy(p => p.NetDistributedLoad)! }.Distinct().OrderByDescending(p => p.Elevation);
+            Table(["z [m] / lato", "N [kN]", "V [kN]", "M [kNm]", "u [mm]", "p sx / dx [kPa]", "q netto [kN/m]"], points.Select(p =>
+                new[] { F(p.Elevation) + " " + p.Side, Compact(p.Normal), Compact(p.Shear), Compact(p.Moment), Compact(p.Displacement), Compact(p.LeftPressure) + " / " + Compact(p.RightPressure), Compact(p.NetDistributedLoad) }));
             if (stage.Supports.Count > 0) Table(["Sostegno", "Forza elemento [kN]", "Reazione fascia [kN]", "Riferimento [mm]", "Limite plastico"], stage.Supports.Select(s =>
                 new[] { s.Id, F(s.AxialForce), F(s.HorizontalReaction), F(s.ReferenceDisplacement), s.AtCapacity ? "raggiunto" : "non raggiunto" }));
         }
@@ -123,9 +126,9 @@ public static partial class EmbeddedWallReport
             }
             foreach (string note in s.Checks.Select(c => c.Reference + ". " + c.Diagnostic).Distinct(StringComparer.Ordinal)) P(note);
         }
-        AppendAnchors(result, P, Table);
-        AppendTubes(result, allStations, P, Table);
-        AppendRcPiles(result, allStations, P, Table);
+        AppendAnchors(result, (text, heading) => P(text, heading), Table);
+        AppendTubes(result, allStations, (text, heading) => P(text, heading), Table);
+        AppendRcPiles(result, allStations, (text, heading) => P(text, heading), Table);
         P("Verifiche delle fasce rettangolari in c.a.", true);
         if (result.Checks.Count == 0) P("Nessuna verifica di fascia rettangolare in c.a. eseguita.");
         else
@@ -151,9 +154,9 @@ public static partial class EmbeddedWallReport
     public static string Csv(EmbeddedWallReportData result)
     {
         static string Cell(object? value) => "\"" + (value is double d ? d.ToString("G17", CultureInfo.InvariantCulture) : value?.ToString() ?? "").Replace("\"", "\"\"") + "\"";
-        var text = new StringBuilder("Caso;Fase;Sezione;Quota_m;Lato;u_mm;N_kN;V_kN;M_kNm;p_sx_kPa;p_dx_kPa;Stato;Impronta\r\n");
+        var text = new StringBuilder("Caso;Fase;Sezione;Quota_m;Lato;u_mm;N_kN;V_kN;M_kNm;p_sx_kPa;p_dx_kPa;Stato;Impronta;q_netto_kN_m\r\n");
         foreach (var s in result.Stages) foreach (var p in s.Points)
-            text.AppendLine(string.Join(";", new object[] { result.CaseId, s.Id, p.Section, p.Elevation, p.Side, p.Displacement, p.Normal, p.Shear, p.Moment, p.LeftPressure, p.RightPressure, result.Status, result.Fingerprint }.Select(Cell)));
+            text.AppendLine(string.Join(";", new object[] { result.CaseId, s.Id, p.Section, p.Elevation, p.Side, p.Displacement, p.Normal, p.Shear, p.Moment, p.LeftPressure, p.RightPressure, result.Status, result.Fingerprint, p.NetDistributedLoad }.Select(Cell)));
         return text.ToString();
     }
     public static string SteelCsv(EmbeddedWallReportData result)
@@ -210,7 +213,7 @@ public static partial class EmbeddedWallReport
         ["source"]="Fonte", ["gamma"]="γ [kN/m³]", ["gamma_sat"]="γsat [kN/m³]", ["phi"]="φ′ [°]", ["c"]="c′ [kPa]", ["cu"]="cu [kPa]", ["k0"]="K0", ["kh"]="kh [N/mm³]", ["drainage"]="Condizione", ["stiffness_source"]="Fonte kh",
         ["elevation"]="Quota [m]", ["kind"]="Tipo", ["stiffness"]="EA/L [kN/m]", ["angle"]="Inclinazione [°]", ["direction"]="Verso resistente", ["spacing"]="Interasse [m]", ["capacity"]="Capacità [kN]",
         ["id"]="Identificativo", ["left_ground"]="Terreno sx [m]", ["right_ground"]="Terreno dx [m]", ["left_water"]="Falda sx [m]", ["right_water"]="Falda dx [m]", ["left_surcharge"]="Sovraccarico sx [kPa]", ["right_surcharge"]="Sovraccarico dx [kPa]",
-        ["distributed_load"]="Carico distribuito [kN/m]", ["stiffness_factor"]="Fattore EI", ["stage"]="Fase", ["support"]="Sostegno", ["prestress"]="Pretensione [kN]", ["horizontal"]="Forza orizzontale [kN]", ["moment"]="Coppia [kNm]", ["downward"]="Forza verso il basso [kN]",
+        ["distributed_load"]="Carico uniforme [kN/m]", ["q_top"]="q superiore [kN/m]", ["q_bottom"]="q inferiore [kN/m]", ["distributed_loads"]="Carichi distribuiti sulla struttura", ["stiffness_factor"]="Fattore EI", ["stage"]="Fase", ["support"]="Sostegno", ["prestress"]="Pretensione [kN]", ["horizontal"]="Forza orizzontale [kN]", ["moment"]="Coppia [kNm]", ["downward"]="Forza verso il basso [kN]",
         ["fix_top_u"]="Traslazione testa bloccata", ["fix_top_rotation"]="Rotazione testa bloccata", ["fix_bottom_u"]="Traslazione piede bloccata", ["fix_bottom_rotation"]="Rotazione piede bloccata",
         ["thickness"]="Spessore [mm]", ["cover"]="Copriferro [mm]", ["back_bars"]="Barre retro", ["back_diameter"]="Diametro retro [mm]", ["front_bars"]="Barre fronte", ["front_diameter"]="Diametro fronte [mm]",
         ["fck"]="fck [MPa]", ["fyk"]="fyk [MPa]", ["es"]="Es [MPa]", ["eps_uk"]="εuk", ["creep"]="Viscosità", ["exposure"]="Esposizione",

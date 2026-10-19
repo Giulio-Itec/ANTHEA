@@ -49,12 +49,12 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-09 | P,H | Tiranti attivi/passivi, inclinazione, pretensione e rimozione | Geotechnics nuovo | editor sostegni | installazione sulla deformata, unilateralità | in corso |
 | PAR-10 | P,H | Puntoni, vincoli rigidi/elastoplastici, elementi interni | Geotechnics nuovo | vincoli/collegamenti | casi simmetrici e capacità limite | in corso |
 | PAR-11 | P | Dimensionamento geotecnico tiranti | Geotechnics.Anchors, curve BustamanteDoix, profilo NTC Model, Design | schema 6, indagini/prove, esiti per fase, CSV/report | attesi indipendenti e pl distinta da pi: incremento 6; dimensionamento automatico, superficie/gruppo aperti | in corso |
-| PAR-12 | P,H | Carichi terreno/struttura, concentrati/distribuiti/coppie | Geotechnics | editor carichi | integrali e salti di V/M | in corso |
+| PAR-12 | P,H | Carichi terreno/struttura, concentrati/distribuiti/coppie | Geotechnics, carichi consistenti Hermite | schema 9, intervalli lineari per fase, q netto e CSV/report | sei attesi razionali, memoria/rimozione, equilibrio e mesh: incremento 9; diffusione sul terreno e Culmann aperti | in corso |
 | PAR-13 | P,H | Falda per fase e per lato | SoilProfile, Geotechnics | falde | pressione idrostatica, equilibrio | in corso |
 | PAR-14 | H | Filtrazione FEM 2D stazionaria anche non lineare | Geotechnics.Seepage, Model.Seepage | dominio a due colonne, materiali, fasi e campo nodale | Darcy, bilancio, raffinamento, mancata convergenza: incremento 2 | in corso |
 | PAR-15 | H,U | Sifonamento e sollevamento idraulico | HydraulicSafety, SeepageSampling, profilo NTC Model | corpi UPL, azioni, punti/colonne HYD, snapshot e report | attesi manuali, campo affine, esiti indisponibili: incremento 3 | in corso |
 | PAR-16 | H,U | Instabilità del fondo e tampone | Geotechnics | fondo scavo | benchmark distinto da UPL/HYD | aperto |
-| PAR-17 | P,H,U | Stabilità globale per fase e combinazione | SlopeStability, BishopSolver, adattatore parete continua e campo FEM | schema 4, geometria/azioni globali, cerchi/conci, report | cattura legacy identica, unità, fattori, FEM, esiti e invalidazione: incremento 4 | in corso |
+| PAR-17 | P,H,U | Stabilità globale per fase e combinazione | SlopeStability, BishopSolver, adattatore parete continua e campo FEM | geometria/azioni globali, anche carichi variabili per fase, cerchi/conci, report | cattura legacy identica, FEM e fattori; forze/momenti dei carichi variabili conservati: incrementi 4/9; sostegni e altre geometrie aperti | in corso |
 | PAR-18 | P,H | Sisma e combinazioni pertinenti | profili normativi Model | combinazioni | coefficienti da fonte primaria | in corso |
 | PAR-19 | H | Pushover paratie affacciate | Geotechnics/Design nuovo | curva capacità/domanda | metodo e campo verificati | aperto |
 | PAR-20 | H | Interazione fra paratie attraverso il terreno | Geotechnics nuovo | sistema multi-paratia | simmetria e lavoro reciproco | aperto |
@@ -103,6 +103,8 @@ Il [settimo incremento](incremento-07.md) integra EI della fila di tubi CHS
 e resistenza locale N–M–V in Checker Steel, conservando le azioni concomitanti.
 L'[ottavo incremento](incremento-08.md) integra pali circolari in c.a.,
 SLU/SLE in Checker Concrete, controlli costruttivi separati ed EI equivalente.
+Il [nono incremento](incremento-09.md) integra carichi distribuiti lineari
+per intervalli e fasi, trasferimento globale, diagramma q netto e report.
 Le righe in corso non sono soddisfatte integralmente: tipi complessi, verifiche
 locali e globali complete, combinazioni automatiche, inviluppi e migrazioni
 richiedono ancora integrazioni. Nessuna funzione avanzata viene esclusa.

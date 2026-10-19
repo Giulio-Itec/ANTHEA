@@ -34,6 +34,14 @@
    </TabItem>
    <TabItem Header="Dati e fasi">
     <TabControl ItemsSource="{Binding Tables}" TabStripPlacement="Left" Margin="8">
+     <TabControl.Template><ControlTemplate TargetType="TabControl">
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="240"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+       <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
+        <TabPanel IsItemsHost="True" KeyboardNavigation.TabIndex="1"/>
+       </ScrollViewer>
+       <ContentPresenter Grid.Column="1" ContentSource="SelectedContent" Margin="8,0,0,0"/>
+      </Grid>
+     </ControlTemplate></TabControl.Template>
      <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Title}" Padding="8"/></DataTemplate></TabControl.ItemTemplate>
     </TabControl>
    </TabItem>
@@ -53,6 +61,7 @@
         <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G6}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G6}"/>
         <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G6}"/><DataGridTextColumn Header="p sx [kPa]" Binding="{Binding LeftPressure, StringFormat=G6}"/>
         <DataGridTextColumn Header="p dx [kPa]" Binding="{Binding RightPressure, StringFormat=G6}"/>
+        <DataGridTextColumn Header="q netto [kN/m]" Binding="{Binding NetDistributedLoad, StringFormat=G6}"/>
        </DataGrid.Columns>
       </DataGrid>
      </Grid>

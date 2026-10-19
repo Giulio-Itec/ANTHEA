@@ -2,6 +2,7 @@
   <!-- ViewModels and services of src/ANTHEA.Presentation without WPF (proposal F5, section 7.1): fast stage of build/ci.ps1. -->
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><RootNamespace>Anthea.Presentation.Tests</RootNamespace></PropertyGroup>
   <ItemGroup><ProjectReference Include="../../src/ANTHEA.Presentation/ANTHEA.Presentation.csproj" /></ItemGroup>
+  <ItemGroup><None Update="Fixtures/paratie-distributed-expected.json" CopyToOutputDirectory="PreserveNewest" /></ItemGroup>
   <!-- Test-only module of the ModuleHost contract (F5.2), shared with the WPF checks of the UiTests build of X.Desktop. -->
   <ItemGroup><Compile Include="../Shared/ProbeSheetModule.cs" Link="Shared/ProbeSheetModule.cs" /></ItemGroup>
   <!-- Scenarios and traces of the pile group sheet (F5.4), shared with the trace of the historic view in the UiTests build of X.Desktop. -->

@@ -28,7 +28,7 @@ public sealed class EmbeddedWallDiagram : FrameworkElement
             new Typeface("Segoe UI"), 12, ink, VisualTreeHelper.GetDpi(this).PixelsPerDip), new Point(x, y));
         if (Points is null || Points.Count == 0) { Text("Calcolare il modello e selezionare una fase.", 20, 20); return; }
         double Value(EmbeddedWallPointData p) => Quantity switch { "Momento [kNm]" => p.Moment, "Taglio [kN]" => p.Shear, "Normale [kN]" => p.Normal,
-            "Pressione sinistra [kPa]" => p.LeftPressure, "Pressione destra [kPa]" => p.RightPressure, _ => p.Displacement };
+            "Pressione sinistra [kPa]" => p.LeftPressure, "Pressione destra [kPa]" => p.RightPressure, "Carico netto [kN/m]" => p.NetDistributedLoad, _ => p.Displacement };
         var all = Points.Concat(Comparison ?? []).ToArray(); double top = all.Max(p => p.Elevation), bottom = all.Min(p => p.Elevation);
         double max = Math.Max(1e-10, all.Max(p => Math.Abs(Value(p))));
         double left = 90, right = Math.Max(left + MinimumPlotSize, ActualWidth - PlotRightMargin), h = Math.Max(50, ActualHeight - PlotBottomMargin), centre = (left + right) / 2;

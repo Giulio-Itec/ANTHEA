@@ -205,6 +205,32 @@ internal static class EmbeddedWallViewChecks
             Check(sheet.Current?.Complete == true && sheet.RcPiles.Count > 0
                 && sheet.RcPiles.All(r => r.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated
                 && r.Checks[1].Capacity is null), "Taglio del palo senza modello confermato certificato.");
+            var distributed = EmbeddedWallDocument.Create(); distributed["name"] = "Carico trapezoidale — mensola sintetica";
+            distributed["bottom"] = -6; distributed["width"] = 2.5; distributed["mesh"] = .5;
+            distributed["fix_bottom_u"] = true; distributed["fix_bottom_rotation"] = true;
+            distributed["left_soils"] = new JsonArray(); distributed["right_soils"] = new JsonArray();
+            distributed["action_basis"] = "Carichi assegnati per fascia 2.5 m; collaudo analitico";
+            distributed["segments"]![0]!["bottom"] = -6; distributed["segments"]![0]!["ei"] = 200000;
+            distributed["segments"]![0]!["source"] = "EI assegnato, 2e14 Nmm²";
+            distributed["stages"]![0]!["left_ground"] = -6; distributed["stages"]![0]!["right_ground"] = -6;
+            var q = EmbeddedWallDocument.NewRow("distributed_loads"); q["top"] = -1; q["bottom"] = -4.5;
+            q["q_top"] = 1; q["q_bottom"] = 4; q["source"] = "Atteso indipendente: u testa 0.9843932291666667 mm";
+            distributed["distributed_loads"]!.AsArray().Add(q); sheet.Reload(distributed);
+            tabs.SelectedIndex = 1; await Settle(); tables = Visual(editor.View).OfType<TabControl>().Last();
+            tables.SelectedItem = sheet.Tables.Single(t => t.Key == "distributed_loads"); await Settle();
+            ((TabItem)tables.ItemContainerGenerator.ContainerFromItem(tables.SelectedItem)).BringIntoView(); await Settle(); Capture("carichi-distribuiti-input");
+            Check(Visual(editor.View).OfType<EmbeddedWallTableView>().Any()
+                && sheet.Tables.Single(t => t.Key == "distributed_loads").Editor!["q_top"].Key == "q_top", "Editor carichi distribuiti non disponibile.");
+            await editor.CalculateAsync(); tabs.SelectedIndex = 2; sheet.Diagram = "Carico netto [kN/m]";
+            await Settle(); Capture("carichi-distribuiti-diagramma");
+            Check(sheet.Current?.Complete == true && sheet.Stages.Count == 1
+                && Math.Abs(sheet.Stages[0].Points[0].Displacement - .9843932291666667) < 5e-8
+                && sheet.Stages[0].Points.Any(p => Math.Abs(p.NetDistributedLoad - 4) < 1e-9), "Risultato distribuito analitico o diagramma assenti.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("carichi-distribuiti-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "distributed_loads").Rows[0]["q_top"] = "2";
+            Check(sheet.Current is null && sheet.Stages.Count == 0 && !sheet.CsvCommand.CanExecute(null), "Carichi modificati mantengono risultati correnti.");
+            await editor.CalculateAsync();
+            Check(sheet.Current?.Complete == true && sheet.Stages[0].Points[0].Displacement > .9843932291666667, "Modifica tabellare del carico non acquisita.");
             editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
             Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF paratie, senza attivare finestre sul desktop");

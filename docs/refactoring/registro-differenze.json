@@ -7660,6 +7660,21 @@
       "decisione": {"data": "2026-10-19", "utente": "Incarico paratie: usare Checker Concrete e preservare sollecitazioni concomitanti, separazione architetturale e prove indipendenti.", "esito": "Incremento verificato nel campo dichiarato; progetto automatico, dettagli completi, matrice e rilascio ancora aperti."},
       "test": ["rc-pile-design-04: 6 PASS", "candidate-15: 3140 PASS, 17 fallimenti storici ammessi", "rc-pile-app-03: 483 PASS", "ci/20261019-132026-paratie-inc08-standard: 94 PASS", "ci/20261019-134727-paratie-inc08-ui3-retry: build e 35 WPF PASS, eliminato falso positivo del driver booleano su risultati vuoti, schermata verificata", "docs/paratie/incremento-08.md"],
       "voci_collegate": ["PARATIE-01", "PARATIE-09"]
+    },
+    {
+      "id": "PARATIE-11",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 9",
+      "titolo": "Carichi distribuiti variabili per fase e trasferimento alla stabilità globale",
+      "famiglia": "geotecnica/paratie/azioni",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Intervalli lineari con estremi nella mesh, forze consistenti e storia completa dei campi. Trasferimento globale mediante forza/coppia equivalente nel campo della parete continua. Schema 9, editor, q netto, persistenza, report e CSV dallo stesso risultato; nessun calcolo nella UI.",
+      "codice": ["Model/Model/Geotechnics/EmbeddedWalls/EmbeddedWallModel.cs", "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallDistributedLoads.cs", "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallGlobalStability.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallAdapter.cs", "src/ANTHEA.Reports/Generators/EmbeddedWallReport.cs"],
+      "segno": "Percorso additivo vuoto nei documenti precedenti. Sette storie numeriche preesistenti identiche byte per byte. Slopes, attesi storici e lista di fallimenti ammessi invariati. Notazione PDF compatta e tabella q aggiunta; CSV conserva tutte le cifre.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: carichi per fase, unità coerenti, verifiche indipendenti e stabilità globale esistente.", "esito": "Incremento collaudato per azioni sulla struttura; diffusione sul terreno, matrice, guide e rilascio ancora aperti."},
+      "test": ["distributed-global-01: 60 PASS", "candidate-17: 3150 PASS, 17 fallimenti storici ammessi", "distributed-app-03: 1206 PASS", "ci/20261019-135757-paratie-inc09-ui2: architettura e 39 WPF PASS", "docs/paratie/incremento-09.md"],
+      "voci_collegate": ["PARATIE-01", "PARATIE-06"]
     }
   ]
 }
