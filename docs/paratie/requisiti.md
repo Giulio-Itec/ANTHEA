@@ -53,7 +53,7 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-13 | P,H | Falda per fase e per lato | SoilProfile, Geotechnics | falde | pressione idrostatica, equilibrio | in corso |
 | PAR-14 | H | Filtrazione FEM 2D stazionaria anche non lineare | Geotechnics.Seepage, Model.Seepage | dominio a due colonne, materiali, fasi e campo nodale | Darcy, bilancio, raffinamento, mancata convergenza: incremento 2 | in corso |
 | PAR-15 | H,U | Sifonamento e sollevamento idraulico | HydraulicSafety, SeepageSampling, profilo NTC Model | corpi UPL, azioni, punti/colonne HYD, snapshot e report | attesi manuali, campo affine, esiti indisponibili: incremento 3 | in corso |
-| PAR-16 | H,U | Instabilità del fondo e tampone | Geotechnics | fondo scavo | benchmark distinto da UPL/HYD | aperto |
+| PAR-16 | H,U | Instabilità del fondo e tampone | Geotechnics, primo kernel locale omogeneo non drenato | integrazione nel foglio ancora aperta | quattro bilanci indipendenti e sette nuovi test: incremento 14; fasi, UI, modelli generali e tampone aperti | in corso |
 | PAR-17 | P,H,U | Stabilità globale per fase e combinazione | SlopeStability, BishopSolver, adattatore parete continua e campo FEM | geometria/azioni globali, anche carichi variabili per fase, cerchi/conci, report | cattura legacy identica, FEM e fattori; forze/momenti dei carichi variabili conservati: incrementi 4/9; sostegni e altre geometrie aperti | in corso |
 | PAR-18 | P,H | Sisma e combinazioni pertinenti | profili normativi Model | combinazioni | coefficienti da fonte primaria | in corso |
 | PAR-19 | H | Pushover paratie affacciate | Geotechnics/Design nuovo | curva capacità/domanda | metodo e campo verificati | aperto |
@@ -121,3 +121,8 @@ su `2f60b336` è disponibile per la prova utente con otto esempi: standard
 Le righe in corso non sono soddisfatte integralmente: tipi complessi, verifiche
 locali e globali complete, combinazioni automatiche e funzioni avanzate
 richiedono ancora integrazioni. Nessuna funzione avanzata viene esclusa.
+
+Il [quattordicesimo incremento](incremento-14.md), sul nuovo ramo derivato
+dall'integrazione F5, avvia il verificatore locale dell'instabilità non drenata
+del fondo. Il kernel è collaudato; l'integrazione applicativa resta aperta e
+non fa parte della candidata integrata paratie/spettri.

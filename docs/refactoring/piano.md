@@ -1025,6 +1025,6 @@ Nessun motore legacy spostato o rimosso; nessun atteso indipendente modificato.
 - [x] Set GPC integrato collaudato: 3172 PASS, soli 17 fallimenti Steel storici ammessi; staging coerente pronto. Guide Rev52 finalizzate e controllate visivamente: 257 pagine, 387 formule e dieci pagine degli indici.
 - [x] Cartella principale riportata su `refactoring/f5`; corretto il difetto di resa del vettore di Darcy nella Wiki. Riesecuzione mirata su 48405d30: dieci suite PASS, nessun nuovo fallimento. Archivi protetti dalle conversioni dei fine riga, 96 originali verificati contro gli SHA preesistenti.
 - [ ] Concludere i collaudi del risultato unificato, riportare la cartella principale su `refactoring/f5` e consegnare la candidata testabile con esempi e manifest.
-- [ ] Riprendere l'implementazione paratie su un nuovo ramo dalla revisione integrata, mantenendo disponibile la candidata consegnata. La matrice completa e i pali interrati restano aperti.
+- [x] Ripresa l'implementazione in `refactoring/f5-paratie-seguito`, con Model/Checker in `codex/paratie-seguito`, dalle revisioni integrate. Primo kernel locale del fondo scavo collaudato: 74 EmbeddedWalls PASS e runner Model concluso; integrazione nel foglio ancora aperta. [Incremento 14](../paratie/incremento-14.md). La matrice completa e i pali interrati restano aperti.
 
 Revisioni, conflitti e collaudi nel [verbale di integrazione](../paratie/integrazione-rami.md).

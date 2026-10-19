@@ -7931,6 +7931,33 @@
         "docs/paratie/integrazione-rami.md"
       ],
       "voci_collegate": ["PARATIE-15"]
+    },
+    {
+      "id": "PARATIE-16",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 14, kernel",
+      "titolo": "Instabilità locale non drenata del fondo scavo",
+      "famiglia": "paratie/fondo",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Nuovo contratto Model e kernel Geotechnics per un meccanismo omogeneo piano, con Nc assegnato e fonti obbligatorie; combinazioni NTC dedicate, distinte da UPL/HYD. Integrazione nel foglio non ancora completata.",
+      "codice": [
+        "Model/Model/Geotechnics/EmbeddedWalls/UndrainedBasalHeaveInput.cs",
+        "Checker/src/Geotechnics/EmbeddedWalls/UndrainedBasalHeave.cs"
+      ],
+      "segno": "Attesi indipendenti congelati prima dell'implementazione in Checker a85600ed. Nessun calcolo o atteso preesistente modificato; candidata integrata F5 invariata.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Dopo il merge e il ritorno al ramo di partenza, ripartire con un nuovo ramo e continuare l'implementazione.",
+        "esito": "Kernel locale collaudato nei nuovi rami; integrazione ANTHEA, tampone e matrice completa ancora aperti."
+      },
+      "test": [
+        "Sette nuovi test e suite EmbeddedWalls: 74 PASS",
+        "Runner Model: 19 Core + 1249 UnitTest PASS, due ignorati preesistenti",
+        "Compatibilità API senza rimozioni inattese; audit uguaglianza concluso",
+        "docs/paratie/incremento-14.md"
+      ],
+      "voci_collegate": ["PARATIE-15", "F5-INT-01"]
     }
   ]
 }
