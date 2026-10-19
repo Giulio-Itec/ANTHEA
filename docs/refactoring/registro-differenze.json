@@ -7551,6 +7551,25 @@
         "docs/paratie/incremento-02.md: evidenze, fonti e limiti"
       ],
       "voci_collegate": ["PARATIE-01", "PARATIE-02"]
+    },
+    {
+      "id": "PARATIE-04",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, regressioni incremento 2",
+      "titolo": "Attesa del driver elastico coerente con la vista WPF",
+      "famiglia": "test/equivalenza asincrona",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "La traccia logica attende anche la capacità quando è selezionata la scheda elastica, come il driver WPF esistente. L'esportabilità dipende da entrambi i calcoli. Impronte numeriche coincidenti; attesi e produzione invariati. La prima attesa incondizionata è stata scartata perché alterava una osservazione intenzionale del calcolo in corso nella scheda capacità.",
+      "codice": ["tests/ANTHEA.Presentation.Tests/ElasticPileSheetChecks.cs"],
+      "segno": "Nessuna differenza numerica o funzionale di produzione; eliminata una corsa nel driver di confronto.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico paratie: conservare regressioni e attesi indipendenti.",
+        "esito": "Driver allineato a quello WPF già esistente, senza modificare fixture o fallimenti ammessi. Standard finale ancora aperto."
+      },
+      "test": ["ci/20261019-081614-paratie-inc02-standard: 73 PASS, 1 NEW-FAIL, sorgenti modificati durante la corsa", "ci/20261019-084846-paratie-inc02-presentation-fix: build e Presentation.Tests PASS"],
+      "voci_collegate": ["PARATIE-03"]
     }
   ]
 }

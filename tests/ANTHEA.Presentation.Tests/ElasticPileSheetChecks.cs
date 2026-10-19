@@ -178,7 +178,12 @@ internal static class ElasticPileSheetChecks
                 case ElasticPileStep.Commit: Window.Commit(); break;
                 case ElasticPileStep.Calculate: Window.Commit(); await Expect.Within(Window.CalculateAsync()); break;
                 case ElasticPileStep.Start: Window.Commit(); _ = Window.CalculateAsync(); break;
-                case ElasticPileStep.Wait: await Expect.Within(Elastic.PendingCalculation); break;
+                case ElasticPileStep.Wait:
+                    await Expect.Within(Elastic.PendingCalculation);
+                    // As in the WPF trace driver: on the elastic tab exportability also observes the capacity's IsBusy.
+                    // Await that task only on this tab; the capacity-tab trace deliberately observes its pending state.
+                    if (Sheet.SelectedAnalysis == 1) await Expect.Within(Sheet.PendingCalculation);
+                    break;
                 case ElasticPileStep.ReadOnly: Sheet.IsReadOnly = true; break;
                 case ElasticPileStep.Reopen:
                     var data = Sheet.Data;

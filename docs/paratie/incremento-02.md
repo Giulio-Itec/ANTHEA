@@ -78,6 +78,24 @@ corretti senza cambiare attesi indipendenti o liste dei fallimenti ammessi.
 La resa PDF è quella del generatore nativo ANTHEA; non è attestata una resa Word
 tramite LibreOffice, che non è disponibile nel runtime documentale configurato.
 
+## Regressioni e temporizzazione del driver
+
+Il runner standard `20261019-081614-paratie-inc02-standard` ha concluso con
+73 PASS e un nuovo fallimento in `Presentation.Tests`: nella traccia del palo
+elastico il driver attendeva la risposta elastica, ma non il calcolo della
+capacità ancora impegnato, dal quale dipende anche l'esportabilità. Le impronte
+numeriche della risposta coincidevano con quelle congelate. La modifica del
+driver durante quella corsa è segnalata dal verbale: non è uno standard finale
+su sorgente immutato.
+
+Il driver logico ora attende anche `Sheet.PendingCalculation` soltanto nella
+scheda elastica, come fa già il driver WPF. La prima correzione con attesa
+incondizionata alterava la temporizzazione intenzionale nella scheda capacità
+ed è stata scartata; nessun atteso è stato aggiornato. La riesecuzione mirata
+`20261019-084846-paratie-inc02-presentation-fix` conclude con build e
+`Presentation.Tests` PASS (538,6 s), senza nuovi fallimenti. Nessuna modifica
+al codice di produzione o alle liste dei fallimenti ammessi.
+
 ## Revisioni e rilascio
 
 Set locale da Model `7fdde1a09b395a66d0a740cbf844817c4770d20e` (Model 5.7.0.0)
