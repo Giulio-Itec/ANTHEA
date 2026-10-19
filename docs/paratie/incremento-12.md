@@ -90,3 +90,9 @@ Il recupero non elimina la necessità di verificare la convergenza della mesh.
 
 PAR-27, la matrice complessiva, l'approfondimento di pali/micropali e i
 merge finali autorizzati restano aperti. Nessuna esclusione implicita.
+
+Regressione standard conclusa su `84cee634` e snapshot-19:
+`ci/20261019-162900-paratie-inc12-standard`, 74 PASS, 0 NEW-FAIL,
+sorgenti invariati durante la corsa. Le suite specifiche del sorgente GPC
+sono coperte dal treno candidato; la misura prestazionale facoltativa non
+è stata eseguita dal runner ANTHEA.
