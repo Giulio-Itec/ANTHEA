@@ -35,6 +35,11 @@ conversioni `SoilUnits`. Le tolleranze sono 1e-12 MPa e 1e-11 sull'utilizzo.
 Eseguiti: sette nuovi test del kernel e suite completa EmbeddedWalls, 74 PASS;
 runner completo Model, 19 Core + 1249 UnitTest PASS, due ignorati preesistenti,
 compatibilità API senza rimozioni inattese e audit di uguaglianza concluso.
+Runner completo Checker eseguito su `56f48103`: 1912 test PASS e i soli
+17 fallimenti Steel storici ammessi; nessuna rimozione API inattesa. Concrete
+795, Geotechnics 191, EmbeddedWalls 74 e Design 91 test PASS. Il riepilogo
+è in `incremento-14/checker-full-01/summary.json`. Questo è il collaudo dei
+sorgenti del nuovo kernel, non un rilascio coerente né un collaudo del foglio.
 Il primo tentativo filtrato non includeva il nuovo file nel progetto; il
 secondo ha individuato l'esito EC7 mancante, poi corretto. Questi tentativi
 non vengono conteggiati come prove superate.
