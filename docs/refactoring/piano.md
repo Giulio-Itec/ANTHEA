@@ -12,7 +12,7 @@ Attività richiesta dall'utente su `refactoring/f5-azioni-spettri`, derivato da 
 - [x] Limite Tis ≤ 4 s verificato sul testo NTC 2018 §3.2.3.2 e imposto nel motore GPC.Design 0.22.0.1, con prove al bordo e aggiornamento delle guide.
 - [x] Rendering Wiki corretto e verificato; confronto completo F3 di 1070 file senza differenze non ammesse, dopo la classificazione puntuale dei soli metadati e delle aggiunte editoriali (SPETTRI-04).
 - [x] Tracce F5 Fondazioni conservate e banco adeguato al set: tutte le prove Presentation e le due viste Fondazioni passate (`spettri-f5-metadata-02`, 5 PASS).
-- [~] Runner full con set candidato: esecuzioni 01/02/03 interrotte per completare sola lettura, campo normativo e confronto dei metadati nelle tracce F5; ripartenza completa con set 03 su commit pulito.
+- [~] Runner full 04 completato sul set 03: 159 PASS, quattro NEW-FAIL. Corretto il contratto MVVM della prova Palificata; da ripetere questa e due esportazioni arrestate da Trend Micro. Contrasto senza difetti nei temi scuri, ma confronto Chiara da ripetere a 96 DPI secondo D6 (macchina a 144 DPI). Esiti ed evidenze in `spettri-ntc.md`.
 - [ ] Rilascio definitivo delle librerie dopo autorizzazione al merge/push di Checker su master.
 
 Piano approvato il 6 ottobre 2026. Decisioni e architettura: [decisioni.md](decisioni.md).

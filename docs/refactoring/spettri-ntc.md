@@ -38,7 +38,7 @@ Il catalogo è letto dal file scelto dall'utente, senza attribuirgli aggiornamen
 - [x] Set candidato completo da commit locali, senza installazione in lib/Checker.
 - [x] Collaudo mirato ANTHEA, salvataggio/riapertura, report e WPF.
 - [x] Guide globali Rev48, Word/PDF e indici verificati.
-- [~] Runner full: esecuzioni 01/02/03 interrotte per completare le correzioni; ripartenza completa con il set aggiornato.
+- [~] Runner full 04 completato: 159 PASS, quattro NEW-FAIL; chiusura mirata del banco e dei due arresti esterni, contrasto da ripetere a 96 DPI.
 - [ ] Pubblicazione del set definitivo, soggetta ad autorizzazione Git.
 
 Il primo treno si è fermato per GMsh.Net assente nei test del checkout isolato di Model. La dipendenza è stata predisposta soltanto nei percorsi di test; il secondo treno ha prodotto il primo set candidato completo. Il set finale 03 è preparato con `Update-Snapshot.ps1 -AllowCandidate -Staging`, senza `-Lib` né `-Install`: il controllo versione/impronta contro lo snapshot corrente è passato e `lib/Checker` rimane invariata.
@@ -62,3 +62,11 @@ Ripetizione del confronto completo sulla stessa cattura immutabile, con il regis
 Nel mirato `20261019-022636-spettri-f5-metadata-01` le 8198 righe dei 15 scenari della vista storica sono identiche alle tracce congelate. Il confronto dei file ha zero differenze non ammesse, ma la sua asserzione contava ancora quattro transizioni anziché le sedici versioni ora classificate: aggiornato il conteggio esatto. La prova del trasferimento terreno usava un registro incompleto costruito a mano, privo del nuovo Spettri MVVM; ora sostituisce soltanto Fondazioni nel registro completo della Release. Entrambe sono correzioni del banco, non dei risultati dei moduli.
 
 `20261019-022935-spettri-f5-metadata-02`, commit f2074c7f: 5 PASS, zero NEW-FAIL. Comprende entrambe le build, l'intera suite Presentation (317,7 s), le tracce storiche e la vista XAML Fondazioni, compresi trasferimento terreno e confronti diretti. Albero invariato dalle prove. Le correzioni del banco sono verificate; il successivo full deve completare tutti gli stadi sullo stesso set candidato 03.
+
+`20261019-023622-spettri-full-04`, commit 83221065, set 03: corsa completa di 4919 s, 159 PASS e quattro NEW-FAIL; albero pulito prima e invariato dopo. F3 conferma 1070 file senza differenze non ammesse; Spettri, interfaccia, applicazione, report, Presentation e tutte le altre suite non citate sotto sono passate. Restano le tre esclusioni strutturali del runner (due prove coperte dal treno librerie e una misura prestazionale).
+
+- Palificata: asserzione finale del banco ancora limitata a un solo modulo MVVM. Ora controlla esattamente palificata e nuovo Spettri, con gli altri moduli storici, come il contratto ModuleHost già verificato. Aggiornati i commenti dello stesso contratto; nessun comportamento di produzione né atteso numerico cambia.
+- Palo verticale e muri: processo terminato con codice 0 ma senza attestazione finale, dettaglio o eccezione gestita. I log Trend Micro identificano il binario UiTests e i file temporanei delle rispettive esportazioni, eventi del 19/10 alle 03:11:07 e 03:20:22, regola NON_POLICY_JUST_ADC. Evidenze conservate in `supporto/artefatti/spettri-ntc/diagnosi-full04`. I test e la scrittura dei file rimangono invariati: si ripetono integralmente.
+- Contrasto: 1057 catture, zero difetti in Scuro e Molto scuro, 693 in Chiara; confronto rifiutato a 144 DPI contro la baseline a 96. È la condizione ambientale già annotata nel piano F5 e nella decisione D6 dal 16/10. Il manifest del binario conserva PerMonitorV2. Baseline e controllo DPI non sono modificati; il confronto a 96 DPI rimane necessario prima del merge.
+
+Questa corsa non è dichiarata PASS. Le ripetizioni mirate sono registrate separatamente, senza cancellare i fallimenti originali né aggiungere esclusioni a `known-failures.json`.

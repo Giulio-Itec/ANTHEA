@@ -57,7 +57,7 @@ internal static class ModuleHostWpfChecks
         }
 
         // The versioned choice of the Release: exactly the modules of ModuleDirectory, in its order (F5.2); since the F5.4 checkpoint the
-        // pile group with the MVVM view, every other module with the historic one.
+        // pile group with the MVVM view; the new Spectra module starts in MVVM, the other modules keep the historic view.
         Check(ModuleImplementations.Declared.Select(d => d.Module).SequenceEqual(ModuleDirectory.All.Select(m => m.Id)),
             "ModuleImplementations elenca esattamente i moduli di ModuleDirectory, nel suo ordine");
         Check(ModuleImplementations.Declared.All(d => d.Implementation == (d.Module is PileGroupModule or SpectraModule ? SheetImplementation.Mvvm : SheetImplementation.Historic))

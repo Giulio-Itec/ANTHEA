@@ -12,7 +12,8 @@ internal enum SheetImplementation
 /// <summary>
 /// Which implementation opens the sheets of each module (F5.2, proposal 5.2). <see cref="Declared"/> is the versioned choice of
 /// the Release: one line per module of ModuleDirectory, today <see cref="SheetImplementation.Mvvm"/> for the horizontal pile group
-/// (F5.4 checkpoint, 17/10/2026) and <see cref="SheetImplementation.Historic"/> for every other module. A module passes to
+/// (F5.4 checkpoint, 17/10/2026) and the new Spectra module, which has no historic view. The other modules keep
+/// <see cref="SheetImplementation.Historic"/>. An existing module passes to
 /// <see cref="SheetImplementation.Mvvm"/> here only after its checkpoint (F5.4–F5.12), in the commit that retires its historic
 /// view (Q11): a module MVVM in the Release has no historic view any more (archived in supporto/SUPERATI/ui-storica); this file is
 /// the only point of contact between the parallel tracks of the migration (proposal, section 8).
