@@ -118,6 +118,18 @@ internal static class ShallowFoundationSheetChecks
         expect.That(ShallowFoundationTraceState.ResultFingerprint(current) != fingerprint, "Una differenza numerica resta rilevata");
         current["resistance"] = 100.0; current["library_version"] = "0.4.0.2";
         expect.That(ShallowFoundationTraceState.ResultFingerprint(current) != fingerprint, "Una versione non dichiarata resta rilevata");
+        string runtime = typeof(GPC.Checkers.Geotechnics.Foundations.ShallowFoundationSeismic).Assembly.GetName().Version!.ToString();
+        current["library_version"] = runtime;
+        var f3 = ShallowFoundationVersionProjection.Result(current, ShallowFoundationVersionProjection.F3TransitionVersion)!;
+        var f5 = ShallowFoundationVersionProjection.Result(current)!;
+        expect.That(f3["library_version"]!.ToString() == "0.4.0.1" && f5["library_version"]!.ToString() == "0.4.0.0",
+            "Le transizioni F3 e le tracce F5 conservano le rispettive versioni storiche");
+        expect.That(current["library_version"]!.ToString() == runtime && f3["resistance"]!.GetValue<double>() == 100,
+            "Provenienza runtime e contenuto numerico restano invariati");
+        current["library_version"] = "provenienza-errata";
+        bool rejected = false;
+        try { ShallowFoundationVersionProjection.Result(current); } catch (InvalidOperationException) { rejected = true; }
+        expect.That(rejected, "La proiezione rifiuta una provenienza diversa dalla DLL caricata");
     }
 
     private static async Task<List<string>> TraceAsync(string root, ShallowFoundationScenario scenario)
@@ -286,12 +298,12 @@ internal static class ShallowFoundationSheetChecks
         foreach (var group in sheet.Groups) group.IsExpanded = true;
         sheet.Commit(); Same("visited.json", Canonical(sheet.Data));
         await Expect.Within(sheet.CalculateAsync()); sheet.Commit();
-        Same("calculated-data.json", Canonical(sheet.Data)); Same("result.json", Canonical(ShallowFoundationVersionProjection.Result(sheet.Result)));
+        Same("calculated-data.json", Canonical(sheet.Data)); Same("result.json", Canonical(ShallowFoundationVersionProjection.Result(sheet.Result, ShallowFoundationVersionProjection.F3TransitionVersion)));
         var status = new JsonObject { ["hasResults"] = sheet.HasResults };
         try
         {
             byte[] report = sheet.Report.BuildReport("Fixture F3 · " + ShallowFoundationScenarios.Module + " · " + id, new HashSet<string>());
-            Same("report.txt", ShallowFoundationVersionProjection.Text(DocxText.Extract(report, normalizer, new GuidMap()).Replace("\r\n", "\n")));
+            Same("report.txt", ShallowFoundationVersionProjection.Text(DocxText.Extract(report, normalizer, new GuidMap()).Replace("\r\n", "\n"), ShallowFoundationVersionProjection.F3TransitionVersion));
             Same("report-structure.json", Canonical(Structure(report)));
             status["report"] = "available";
         }

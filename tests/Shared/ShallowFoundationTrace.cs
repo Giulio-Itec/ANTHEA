@@ -265,13 +265,15 @@ internal sealed class ShallowFoundationTraceState
 internal static class ShallowFoundationVersionProjection
 {
     internal const string FrozenVersion = "0.4.0.0";
+    // F3 keeps the explicitly approved SPETTRI-04 transition; F5 traces predate that metadata-only revision.
+    internal const string F3TransitionVersion = "0.4.0.1";
     private static string RuntimeVersion => typeof(GPC.Checkers.Geotechnics.Foundations.ShallowFoundationSeismic).Assembly.GetName().Version!.ToString();
-    internal static JsonObject? Result(JsonObject? value)
+    internal static JsonObject? Result(JsonObject? value, string comparisonVersion = FrozenVersion)
     {
         if (value is null) return null;
         if (value["library_version"]?.ToString() != RuntimeVersion) throw new InvalidOperationException("Provenienza del risultato Fondazioni diversa dalla libreria caricata.");
-        var copy = value.DeepClone().AsObject(); copy["library_version"] = FrozenVersion; return copy;
+        var copy = value.DeepClone().AsObject(); copy["library_version"] = comparisonVersion; return copy;
     }
-    internal static string Text(string value) => value.Replace("Libreria GPCChecker.Geotechnics " + RuntimeVersion,
-        "Libreria GPCChecker.Geotechnics " + FrozenVersion, StringComparison.Ordinal);
+    internal static string Text(string value, string comparisonVersion = FrozenVersion) => value.Replace("Libreria GPCChecker.Geotechnics " + RuntimeVersion,
+        "Libreria GPCChecker.Geotechnics " + comparisonVersion, StringComparison.Ordinal);
 }
