@@ -9,11 +9,17 @@ try
     string root = directory?.FullName ?? throw new DirectoryNotFoundException("ANTHEA.sln non trovato.");
     // F5.10: --sezione-tracce runs only the long traces of the RC section (decision C7, ui stage), --sezione-rapide only its checks of the fast
     // stage (to work on the module); the other arguments are positional.
-    bool sectionTraces = args.Contains("--sezione-tracce"), sectionFast = args.Contains("--sezione-rapide");
-    args = args.Where(a => a is not ("--sezione-tracce" or "--sezione-rapide")).ToArray();
+    bool sectionTraces = args.Contains("--sezione-tracce"), sectionFast = args.Contains("--sezione-rapide"), embeddedWalls = args.Contains("--paratie");
+    args = args.Where(a => a is not ("--sezione-tracce" or "--sezione-rapide" or "--paratie")).ToArray();
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f5/presentation") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
     int checks = 0;
+    if (embeddedWalls)
+    {
+        checks = EmbeddedWallChecks.Run(output);
+        string result = $"PASS {checks} controlli paratie, applicazione e MVVM";
+        File.WriteAllText(Path.Combine(output, "esito.txt"), result, new UTF8Encoding(false)); Console.WriteLine(result); return 0;
+    }
     if (sectionTraces || sectionFast)
     {
         checks += ConcreteSectionSheetChecks.Run(root, output, full: sectionTraces);
@@ -23,6 +29,7 @@ try
         return 0;
     }
     checks += ViewModelBaseChecks.Run();
+    checks += EmbeddedWallChecks.Run(output);
     checks += await CommandGuardChecks.RunAsync();
     checks += await ServicesChecks.RunAsync();
     checks += SheetCalculationChecks.Run();

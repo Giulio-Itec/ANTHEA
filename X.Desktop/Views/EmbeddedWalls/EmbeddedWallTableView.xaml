@@ -1,0 +1,12 @@
+<UserControl x:Class="X.Desktop.Views.EmbeddedWalls.EmbeddedWallTableView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <DockPanel Margin="8">
+  <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+   <Button Content="Aggiungi" Command="{Binding AddCommand}" Margin="0,0,8,0"/><Button Content="Rimuovi" Command="{Binding RemoveCommand}" Margin="0,0,8,0"/>
+   <Button Content="Sposta su" Command="{Binding UpCommand}" Margin="0,0,8,0"/><Button Content="Sposta giù" Command="{Binding DownCommand}"/>
+  </WrapPanel>
+  <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="340"/></Grid.ColumnDefinitions>
+   <DataGrid x:Name="RowsGrid" ItemsSource="{Binding Rows}" SelectedItem="{Binding Selected}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single"/>
+   <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Margin="16,0,0,0"><ContentControl Content="{Binding Editor}"/></ScrollViewer>
+  </Grid>
+ </DockPanel>
+</UserControl>

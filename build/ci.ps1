@@ -384,6 +384,7 @@ Add-Suite @{ Name = 'ui/check-stratigrafia-historic'; Stage = 'ui'; Kind = 'chec
 # writes, exports equal to those of the historic view, screenshots, F1, automation names, read-only, AI import with a scripted source (never
 # the network), the view of the shared soil dialog against the historic window.
 Add-Suite @{ Name = 'ui/check-stratigrafia-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-stratigrafia-view', '{root}', '{out}\vista'); Timeout = 600; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/check-paratie-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-paratie-view', '{root}', '{out}\vista'); Timeout = 180; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 # F5.9 (proposal 7.2, capture first): the historic retaining wall view still gives the traces frozen in tests/fixtures/f5-muri,
 # which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-muri-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-muri-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }

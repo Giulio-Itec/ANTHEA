@@ -955,3 +955,17 @@ Punto 5.2: implementato in `ANTHEA.DesignTools.Presentation` senza WPF e vista c
 - [x] EXCEL-SOL-REG: corretto il posizionamento delle voci 01/02 nel registro, intercettato dalla suite architetturale. Il collaudo standard ha 66 PASS e questo solo errore documentale; quattro suite WPF PASS. Nessun atteso o tolleranza modificato.
 
 Le voci F4 del 14/10 scritte in passato sotto questa sezione sono state spostate, senza togliere testo, nelle voci corrispondenti della sezione «Fase 4» (audit del 14/10).
+
+## Paratie — incarico del 18 ottobre 2026
+
+Base esplicita F5 `b9c2d4b1`, ramo isolato `refactoring/f5-paratie`. Registro
+PARATIE-01; [matrice completa](../paratie/requisiti.md).
+
+- [x] Censimento fonti e librerie; matrice con funzionalità avanzate e dipendenze esterne.
+- [x] Primo incremento numerico: trave, molle elastoplastiche, fasi, sostegni e Concrete; 14 prove GPC dedicate.
+- [x] Primo percorso applicativo MVVM, persistenza dei risultati, diagrammi e report; 28 controlli logici e 7 WPF.
+- [x] Set candidato locale coerente `candidate-04`, validato in staging `snapshot-04`; librerie distribuite invariate.
+- [ ] Completare le righe aperte della matrice, guide globali, collaudi complessivi e rilascio ufficiale autorizzato.
+
+I limiti e le evidenze sono nel [verbale di incremento](../paratie/incremento-01.md).
+Nessun motore legacy spostato o rimosso; nessun atteso indipendente modificato.

@@ -1,0 +1,82 @@
+<UserControl x:Class="X.Desktop.Views.EmbeddedWalls.EmbeddedWallSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop.Views.EmbeddedWalls" Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}">
+ <DockPanel Margin="12">
+  <StackPanel DockPanel.Dock="Top">
+   <WrapPanel>
+    <Button Content="Calcola le fasi" Command="{Binding RunCommand}" Margin="0,0,8,4"/>
+    <Button Content="Annulla" Command="{Binding CancelCommand}" Margin="0,0,8,4"/>
+    <Button Content="Esporta tabella CSV" Command="{Binding CsvCommand}" Margin="0,0,8,4"/>
+    <TextBlock Text="{Binding CalculationState}" VerticalAlignment="Center" Margin="12,0"/>
+   </WrapPanel>
+   <TextBlock Text="{Binding ResultStatus}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,4"/>
+   <TextBlock Text="{Binding CalculationMessage}" TextWrapping="Wrap" Margin="0,2,0,8"/>
+   <TextBlock Text="{Binding Progress}" Margin="0,0,0,6"/>
+  </StackPanel>
+  <TabControl>
+   <TabItem Header="Modello">
+    <Grid Margin="8"><Grid.ColumnDefinitions><ColumnDefinition Width="420"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+     <ScrollViewer VerticalScrollBarVisibility="Auto"><ContentControl Content="{Binding General}"/></ScrollViewer>
+     <StackPanel Grid.Column="1" Margin="24,0,0,0">
+      <TextBlock Text="Convenzioni e ambito" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,12"/>
+      <TextBlock Text="Le quote crescono verso l'alto. Sinistra e destra sono i lati della sezione. Ogni forza strutturale si riferisce alla fascia assegnata; la forza del tirante o del puntone è riferita al singolo elemento." TextWrapping="Wrap" Margin="0,0,0,12"/>
+      <TextBlock Text="Separare installazione e scavo in fasi diverse quando il loro ordine influenza il risultato. Ogni fase contiene l'elenco completo dei sostegni presenti: un sostegno omesso viene rimosso." TextWrapping="Wrap" Margin="0,0,0,12"/>
+      <TextBlock Text="{Binding Scope}" TextWrapping="Wrap" Margin="0,0,0,20"/>
+      <TextBlock Text="Importa una stratigrafia del progetto" FontWeight="SemiBold" Margin="0,0,0,6"/>
+      <Button Content="Aggiorna elenco dei terreni" Command="{Binding RefreshSoilSourcesCommand}" HorizontalAlignment="Left" Margin="0,0,0,6"/>
+      <ComboBox ItemsSource="{Binding SoilSources}" SelectedItem="{Binding SelectedSoilSource}" DisplayMemberPath="Label"/>
+      <WrapPanel Margin="0,8"><ComboBox ItemsSource="{Binding ImportSides}" SelectedItem="{Binding ImportSide}" Width="120"/>
+       <ComboBox ItemsSource="{Binding ImportScenarios}" SelectedItem="{Binding ImportScenario}" Width="120" Margin="8,0"/>
+       <Button Content="Importa terreno" Command="{Binding ImportSoilCommand}"/></WrapPanel>
+      <TextBlock Text="K0 e kh devono essere assegnati con la fonte. I livelli di falda sono definiti esplicitamente nelle singole fasi." TextWrapping="Wrap"/>
+     </StackPanel>
+    </Grid>
+   </TabItem>
+   <TabItem Header="Dati e fasi">
+    <TabControl ItemsSource="{Binding Tables}" TabStripPlacement="Left" Margin="8">
+     <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Title}" Padding="8"/></DataTemplate></TabControl.ItemTemplate>
+    </TabControl>
+   </TabItem>
+   <TabItem Header="Diagrammi e risultati">
+    <DockPanel Margin="8">
+     <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+      <TextBlock Text="Fase" VerticalAlignment="Center"/><ComboBox ItemsSource="{Binding Stages}" SelectedItem="{Binding SelectedStage}" DisplayMemberPath="Id" Width="150" Margin="8,0,16,0"/>
+      <TextBlock Text="Confronta" VerticalAlignment="Center"/><ComboBox ItemsSource="{Binding Stages}" SelectedItem="{Binding ComparisonStage}" DisplayMemberPath="Id" Width="150" Margin="8,0,16,0"/>
+      <ComboBox ItemsSource="{Binding Diagrams}" SelectedItem="{Binding Diagram}" Width="210"/>
+     </WrapPanel>
+     <Grid><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="220"/></Grid.RowDefinitions>
+      <local:EmbeddedWallDiagram Points="{Binding Points}" Comparison="{Binding ComparisonStage.Points}" Quantity="{Binding Diagram}" MinHeight="240"/>
+      <DataGrid Grid.Row="1" ItemsSource="{Binding Points}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
+       <DataGrid.Columns>
+        <DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, StringFormat=G6}"/><DataGridTextColumn Header="Lato nodo" Binding="{Binding Side}"/>
+        <DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Displacement, StringFormat=G6}"/>
+        <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G6}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G6}"/>
+        <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G6}"/><DataGridTextColumn Header="p sx [kPa]" Binding="{Binding LeftPressure, StringFormat=G6}"/>
+        <DataGridTextColumn Header="p dx [kPa]" Binding="{Binding RightPressure, StringFormat=G6}"/>
+       </DataGrid.Columns>
+      </DataGrid>
+     </Grid>
+    </DockPanel>
+   </TabItem>
+   <TabItem Header="Verifiche e sostegni">
+    <Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="170"/></Grid.RowDefinitions>
+     <TextBlock Text="Le verifiche si riferiscono alla fase selezionata nei risultati. N, V e M della stessa riga sono concomitanti. Non valutato non equivale a soddisfatto." TextWrapping="Wrap" Margin="0,0,0,8"/>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns>
+       <DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G5}"/><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/>
+       <DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G6}"/><DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G6}"/>
+       <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F3}"/>
+       <DataGridTextColumn Header="Esito" Binding="{Binding Outcome}"/><DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/>
+      </DataGrid.Columns>
+     </DataGrid>
+     <DataGrid Grid.Row="2" ItemsSource="{Binding Supports}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,12,0,0">
+      <DataGrid.Columns><DataGridTextColumn Header="Sostegno" Binding="{Binding Id}"/><DataGridTextColumn Header="Forza elemento [kN]" Binding="{Binding AxialForce, StringFormat=G6}"/>
+       <DataGridTextColumn Header="Reazione fascia [kN]" Binding="{Binding HorizontalReaction, StringFormat=G6}"/><DataGridTextColumn Header="Riferimento [mm]" Binding="{Binding ReferenceDisplacement, StringFormat=G6}"/>
+       <DataGridCheckBoxColumn Header="Capacità raggiunta" Binding="{Binding AtCapacity}"/></DataGrid.Columns>
+     </DataGrid>
+    </Grid>
+   </TabItem>
+  </TabControl>
+ </DockPanel>
+</UserControl>

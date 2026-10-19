@@ -1,0 +1,57 @@
+using System.Text.Json.Nodes;
+using Anthea.Application.Modules;
+using Anthea.Reports;
+using GPC.Checkers.Geotechnics.EmbeddedWalls;
+using GPC.Design.EmbeddedWalls;
+
+namespace Anthea.Application.EmbeddedWalls;
+
+public sealed record EmbeddedWallProgress(string Stage, double Fraction, int Iterations);
+
+public sealed class EmbeddedWallModule : IModuleService
+{
+    public event Action<EmbeddedWallProgress>? ProgressChanged;
+    public string ModuleId => EmbeddedWallDocument.Module;
+    public JsonObject Prepare(JsonObject source)
+    { var copy = EmbeddedWallDocument.Snapshot(source); copy.Remove("result_snapshot"); return copy; }
+    public ModuleCalculation Calculate(JsonObject source, CancellationToken cancellation = default) => Calculate(source, null, cancellation);
+    public ModuleCalculation Calculate(JsonObject source, IProgress<WallAnalysisProgress>? progress, CancellationToken cancellation = default)
+    {
+        var data = Prepare(source); var model = EmbeddedWallAdapter.ToModel(data);
+        string basis = EmbeddedWallAdapter.Text(data, "action_basis"), kindText = EmbeddedWallAdapter.Text(data, "check_kind");
+        EmbeddedWallSectionCheckKind? kind = kindText == "Analisi" ? null : Enum.TryParse<EmbeddedWallSectionCheckKind>(kindText, out var choice) && Enum.IsDefined(choice)
+            ? choice : throw new ArgumentException("Tipo di verifica delle sezioni non supportato.");
+        if (kind.HasValue && (string.IsNullOrWhiteSpace(basis) || basis == "Da definire"))
+            throw new ArgumentException("Dichiarare combinazione e provenienza delle azioni: nessun coefficiente viene applicato implicitamente.");
+        var rc = kind.HasValue ? EmbeddedWallAdapter.ConcreteSections(data) : [];
+        if (kind.HasValue && rc.Count == 0) throw new ArgumentException("Definire le sezioni in c.a. da verificare.");
+        foreach (var section in rc) section.Validate();
+        var analysis = EmbeddedWallAnalysis.Calculate(model, EmbeddedWallAdapter.Options(data), cancellation,
+            new ProgressRelay(p => { progress?.Report(p); ProgressChanged?.Invoke(new(p.StageId, p.Fraction, p.Iterations)); }));
+        var checks = analysis.IsComplete && kind.HasValue ? EmbeddedWallConcrete.Check(analysis, model.TributaryWidth, rc, kind.Value, cancellation) : [];
+        var scope = new List<string>
+        {
+            "Modello piano di trave su molle elastoplastiche indipendenti; piccoli spostamenti, strati orizzontali e parete verticale liscia. Pressioni Rankine, carico uniforme sul terreno.",
+            "Le fasi interpolano le pressioni fra configurazioni successive e conservano la memoria plastica. I sostegni sono installati sulla deformata precedente; le attivazioni elencano tutti i sostegni presenti in ciascuna fase.",
+            "N positivo a compressione; V e M riferiti alla sezione della fascia analizzata. I sostegni riportano la forza per singolo elemento. Quote positive verso l'alto.",
+            "La convergenza numerica non costituisce una verifica completa dell'opera. Stabilità globale, fondo scavo, filtrazione, dettagli, acciaio e sisma non sono ancora integrati in questo incremento.",
+            kind.HasValue ? "Verifiche di sezione NTC 2018 su azioni della combinazione dichiarata; rettangolo senza staffe. Nessun coefficiente parziale aggiunto dal servizio. Progetto delle armature e dettagli non eseguiti."
+                : "Analisi delle azioni e degli spostamenti; verifiche di resistenza ed esercizio delle sezioni non richieste."
+        };
+        var snapshot = new EmbeddedWallReportData(model.Name, EmbeddedWallDocument.Fingerprint(data), model.CaseId, basis,
+            analysis.Status.ToString(), analysis.IsComplete, analysis.Diagnostic, data.ToJsonString(new() { WriteIndented = true }),
+            Array.AsReadOnly(analysis.Stages.Select(s => new EmbeddedWallStageData(s.Id, s.AcceptedIncrements, s.Iterations, s.ForceResidual, s.MomentResidual,
+                Array.AsReadOnly(s.Points.Select(p => new EmbeddedWallPointData(p.Elevation / 1000, p.Side, p.SectionId, p.Displacement, p.Rotation,
+                    p.NormalForce / 1000, p.Shear / 1000, p.Moment / 1e6, p.LeftPressure * 1000, p.RightPressure * 1000, p.LeftPlastic, p.RightPlastic)).ToArray()),
+                Array.AsReadOnly(s.Supports.Select(t => new EmbeddedWallSupportData(t.Id, t.AxialForce / 1000, t.HorizontalReaction / 1000, t.ReferenceDisplacement, t.AtCapacity)).ToArray()))).ToArray()),
+            Array.AsReadOnly(checks.SelectMany(c => c.Checks.Count == 0 ? new[] { new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / 1000, c.Side,
+                -c.Actions.N / 1000, c.Actions.V / 1000, -c.Actions.M / 1e6, "Sezione non definita", "", 0, null, null, "NotEvaluated", c.Diagnostic) }
+                : c.Checks.Select(v => new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / 1000, c.Side,
+                    -c.Actions.N / 1000, c.Actions.V / 1000, -c.Actions.M / 1e6, v.Method, v.Unit, v.Demand, v.Capacity, v.Ratio, v.Outcome.ToString(), v.Diagnostic ?? c.Diagnostic))).ToArray()),
+            scope.AsReadOnly());
+        cancellation.ThrowIfCancellationRequested();
+        return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(snapshot), snapshot);
+    }
+    private sealed class ProgressRelay(Action<WallAnalysisProgress> report) : IProgress<WallAnalysisProgress>
+    { public void Report(WallAnalysisProgress value) => report(value); }
+}
