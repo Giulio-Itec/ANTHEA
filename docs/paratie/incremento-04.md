@@ -54,6 +54,13 @@ Artefatti sotto `supporto/artefatti/paratie/`:
   architettura e **19 controlli WPF PASS**. Le due corse precedenti hanno
   individuato un letterale grafico da nominare e colori fissi da sostituire con
   i token del tema. Corretta la vista; regole e fallimenti ammessi invariati.
+- Runner `ci/20261019-102023-paratie-inc04-standard`, sul commit `212ce340`
+  e set `snapshot-10`: **74 PASS, 0 KNOWN, 0 NEW-FAIL, 0 BLOCKED**.
+  Inclusa Presentation.Tests (336,8 s), con il driver corretto nell'incremento 2.
+  Le tre esclusioni infrastrutturali dichiarate dal runner sono ElasticPile.Checks,
+  BridgeValidationCurrent (coperte dai runner delle librerie) ed ElasticPile.Performance.
+  Sorgenti ANTHEA mantenuti invariati durante l'intera corsa; nessun atteso
+  o elenco dei fallimenti ammessi modificato.
 - PDF nativo `global-app-01/paratie/stabilita-globale.pdf`, tre pagine A4,
   renderizzato in `global-report-render-01`, tutte le pagine controllate.
   Grafici con nessuna superficie e con cerchio/conci controllati in chiaro/scuro.

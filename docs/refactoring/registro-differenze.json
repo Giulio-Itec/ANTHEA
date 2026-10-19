@@ -7598,7 +7598,7 @@
       "codice": ["Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallGlobalStability.cs", "Checker/GPCChecker.Geotechnics/Slopes/SlopeStability.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallGlobalChecks.cs", "X.Desktop/Views/EmbeddedWalls/EmbeddedWallGlobalDiagram.cs"],
       "segno": "Funzione additiva inattiva nei documenti precedenti. Nessuna fixture storica modificata. Corretto un nuovo atteso in bozza da fonte primaria, conservando bozza e fallimento. Risolta collisione del nuovo enum senza modificare il contratto storico.",
       "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: riutilizzare stabilità esistente e controllare geometria, fasi e azioni.", "esito": "Incremento collaudato per pareti continue senza sostegni esterni; matrice e rilascio complessivo ancora aperti."},
-      "test": ["global-adapter-04: 39 PASS", "slope-legacy-before/after-02: SHA256 81BC1F0B8878858D9AAADC734315F0AECFB23A73A13E2B0694F53C77CA2CF53A", "global-app-01: 80 PASS", "ci/20261019-101720-paratie-inc04-ui3: architettura e 19 controlli WPF PASS", "docs/paratie/incremento-04.md"],
+      "test": ["global-adapter-04: 39 PASS", "slope-legacy-before/after-02: SHA256 81BC1F0B8878858D9AAADC734315F0AECFB23A73A13E2B0694F53C77CA2CF53A", "global-app-01: 80 PASS", "ci/20261019-101720-paratie-inc04-ui3: architettura e 19 controlli WPF PASS", "ci/20261019-102023-paratie-inc04-standard: 74 PASS, 0 NEW-FAIL", "docs/paratie/incremento-04.md"],
       "voci_collegate": ["PARATIE-03", "PARATIE-05"]
     }
   ]
