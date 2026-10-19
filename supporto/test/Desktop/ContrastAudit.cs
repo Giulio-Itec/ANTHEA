@@ -1758,7 +1758,7 @@ public sealed partial class MainWindow
         });
         await a.Step("wiki", () => AuditWiki(a));
         await a.Step("progetti", () => AuditProjects(a));
-        foreach (var module in ModuleCatalog.All) await a.Step("modulo-" + module.Id, () => AuditModule(a, module.Id));
+        foreach (var module in Anthea.Application.Modules.ModuleDirectory.All) await a.Step("modulo-" + module.Id, () => AuditModule(a, module.Id));
         // Common components of the MVVM views (F5.2): FieldForm in a dialog.
         await a.Step("componenti-campi", () => FieldFormContrast.Audit(a, this));
     }
@@ -1900,6 +1900,12 @@ public sealed partial class MainWindow
             ? SmokeTestData.LoadCases().OfType<JsonObject>().FirstOrDefault(c => c.S("nome") == name)?["input"]?.DeepClone().AsObject() : null;
         JsonObject? Example(params string[] parts) { var file = Path.Combine([a.Root, "supporto", "esempi", .. parts]); return File.Exists(file) ? DocumentService.Open(file)["dati"]?.DeepClone().AsObject() : null; }
         JsonObject Layered(JsonObject data) { data.Array("stratigrafie")[0]!.AsArray().Add(PaloOrizzontale.Layer()); return data; }
+        static JsonObject SpectraData()
+        {
+            var data = Anthea.Application.Actions.SpectraDocument.Create();
+            data["isolation"] = true; data["pendulum"] = true;
+            return data;
+        }
         return module switch
         {
             "geo_palo_verticale" => Case("palo_storico_0"),
@@ -1908,6 +1914,7 @@ public sealed partial class MainWindow
             MicropaloOrizzontale.Module => Layered(MicropaloOrizzontale.Defaults()),
             RetainingWall.Module => Example("muri-sostegno", "mensola.anthea"),
             BridgeConcept.Module => Example("bridge-design.anthea"),
+            Anthea.Application.Actions.SpectraDocument.Module => SpectraData(),
             _ => null
         };
     }
@@ -1920,7 +1927,7 @@ public sealed partial class MainWindow
         try { complete = AuditCompleteData(a, module); } catch (Exception ex) { a.Note(prefix + module, "dati completi non disponibili: " + ex.Message); }
         if (complete is not null)
         {
-            ModuleCatalog.ValidateData(module, complete);
+            Anthea.Application.Modules.ModuleDirectory.ValidateData(module, complete);
             await AuditModuleState(a, module, null, prefix + module, full: false);
         }
         await AuditModuleState(a, module, complete, prefix + module + (complete is null ? "" : "-dati"), full: true);
@@ -1948,6 +1955,19 @@ public sealed partial class MainWindow
         await AuditWaitEditor(a, true);
         a.Context = name;
         if (!full) { await a.SnapStable(name, AuditRoot, "vista"); await a.SnapPages(sheetContent, name, AuditRoot); return; }
+        // Spectra uses a phase selector instead of TabControl: inspect all four phases, including isolation and pendulum inputs.
+        if (editor is MvvmSheetEditor { Sheet: Anthea.Presentation.Modules.Spectra.SpectraSheetViewModel spectra })
+        {
+            if (!editor.HasResults) throw new InvalidOperationException("Contrasto Spettri: risultato del calcolo assente");
+            int selected = spectra.Stage;
+            for (int stage = 0; stage < 4; stage++)
+            {
+                spectra.Stage = stage; await a.Settle(60);
+                await a.SnapStable(name + "-fase-" + (stage + 1), AuditRoot, "vista");
+                await a.SnapPages(sheetContent, name + "-fase-" + (stage + 1), AuditRoot);
+            }
+            spectra.Stage = selected; await a.Settle(60);
+        }
         a.TabDefaults.Clear();
         var routes = new Dictionary<string, List<(TabControl Tabs, int Index)>>();
         var routesEnabled = new HashSet<string>();
