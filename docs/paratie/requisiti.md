@@ -62,7 +62,7 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-22 | H | Cerniere plastiche e risposta strutturale non lineare | Concrete/Steel/Design | leggi/sezioni | cicli e bilancio energetico | aperto |
 | PAR-23 | H | Ottimizzazione infissione | Design | ricerca con limiti | ogni candidato ricalcolato | aperto |
 | PAR-24 | P,H,U | Verifiche e progetto c.a. SLU/SLE/dettagli | Concrete, Design | armature/esiti | azioni concomitanti, entrambi i segni | in corso |
-| PAR-25 | H,U | Acciaio, tiranti, puntoni | Steel | sezioni/esiti | capacità e instabilità pertinenti | aperto |
+| PAR-25 | H,U | Acciaio, tiranti, puntoni | Steel, trasferimento per fase in Design | schema 5, aste circolari piene/CHS assiali, esiti/report/CSV | attesi indipendenti, due piani d'instabilità, provenienza e unità: incremento 5; N–M–V/altre famiglie/collegamenti aperti | in corso |
 | PAR-26 | P,H,U | Altre norme dichiarate (storiche, EC, ACI, AISC) | profili Model/Checker | profilo esplicito | fonte e prove per ogni norma | aperto |
 | PAR-27 | P,H,U | Diagrammi, inviluppi, provenienza e stati risultato | risultati GPC | MVVM/XAML | UI/report corrispondenti | in corso |
 | PAR-28 | U | Persistenza, migrazioni, invalidazione, annullamento | Application/Serialization | flussi F5 | round trip, race e riapertura | in corso |
@@ -92,6 +92,10 @@ Il [secondo incremento](incremento-02.md) aggiunge filtrazione FEM stazionaria,
 trasferimento delle pressioni, persistenza, vista WPF e report collaudati.
 Il [terzo incremento](incremento-03.md) aggiunge UPL/HYD locali, dati assegnati
 o campionati dal FEM e criterio esplicito dei pesi da pressioni.
+Il [quarto incremento](incremento-04.md) integra la stabilità globale con il
+verificatore esistente e il campo idraulico FEM.
+Il [quinto incremento](incremento-05.md) collega le verifiche dei sostegni
+assiali circolari a Checker Steel, con azioni e risultati tracciati per fase.
 Le righe in corso non sono soddisfatte integralmente: tipi complessi, verifiche
 locali e globali complete, combinazioni automatiche, inviluppi e migrazioni
 richiedono ancora integrazioni. Nessuna funzione avanzata viene esclusa.

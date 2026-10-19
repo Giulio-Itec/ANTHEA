@@ -12,7 +12,7 @@ namespace Anthea.Application.EmbeddedWalls;
 public static class EmbeddedWallDocument
 {
     public const string Module = "geo_paratie";
-    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions" });
+    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions", "steel_members" });
     public static JsonObject Create() => Upgrade(new()
     {
         ["schema"] = 1, ["name"] = "Paratia", ["case_id"] = "Caso 1", ["action_basis"] = "Da definire",
@@ -52,6 +52,10 @@ public static class EmbeddedWallDocument
             ["depth_min"] = null, ["depth_max"] = null, ["grid"] = 9, ["slices"] = 60, ["refinements"] = 4 },
         "global_actions" => new() { ["check"] = "GLOB1", ["stage"] = "F1", ["id"] = "LeftSurcharge", ["category"] = "Variable",
             ["unfavourable"] = true, ["psi"] = null, ["source"] = "" },
+        "steel_members" => new() { ["support"] = "T1", ["family"] = "CHS", ["diameter"] = null, ["thickness"] = null,
+            ["formation"] = "HotFinished", ["nominal_grade"] = null, ["fy"] = null, ["fu"] = null, ["elastic_modulus"] = null,
+            ["material_source"] = "", ["net_area"] = null, ["net_area_source"] = "", ["length_1"] = null, ["length_2"] = null,
+            ["length_source"] = "", ["axial_only"] = false, ["is_bridge"] = false },
         _ => throw new ArgumentException("Tabella paratie sconosciuta: " + table)
     };
     public static JsonObject Snapshot(JsonObject source)
@@ -84,15 +88,23 @@ public static class EmbeddedWallDocument
             foreach (string key in new[] { "global_checks", "global_actions" }) if (!data.ContainsKey(key)) data[key] = new JsonArray();
             data["schema"] = 4;
         }
+        if (StratigraphyDocument.Number(data["schema"], "Versione paratie") == 4)
+        {
+            if (!data.ContainsKey("steel_members")) data["steel_members"] = new JsonArray();
+            if (!data.ContainsKey("steel_standard")) data["steel_standard"] = "Non richieste";
+            if (!data.ContainsKey("steel_check_kind")) data["steel_check_kind"] = "Analysis";
+            data["schema"] = 5;
+        }
         Validate(data);
         return data;
     }
     public static void Validate(JsonObject data)
     {
         var schema = StratigraphyDocument.Number(data["schema"], "Versione paratie");
-        if (schema is not (1 or 2 or 3 or 4)) throw new ArgumentException("Versione del documento paratie non supportata.");
+        if (schema is not (1 or 2 or 3 or 4 or 5)) throw new ArgumentException("Versione del documento paratie non supportata.");
         foreach (var name in Tables)
         {
+            if (schema < 5 && name == "steel_members") continue;
             if (schema < 4 && name is ("global_checks" or "global_actions")) continue;
             if (schema == 1 && name is ("hydraulic_left" or "hydraulic_right")) continue;
             if (schema < 3 && name is ("hydraulic_upl" or "hydraulic_actions" or "hydraulic_hyd")) continue;
@@ -106,6 +118,7 @@ public static class EmbeddedWallDocument
         string engine = typeof(GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallAnalysis).Assembly.GetName().Version + "/"
             + typeof(GPC.Design.EmbeddedWalls.EmbeddedWallConcrete).Assembly.GetName().Version + "/"
             + typeof(GPC.Checkers.Concrete.Walls.WallSectionSession).Assembly.GetName().Version + "/"
+            + typeof(GPC.Checkers.Steel.Members.Ntc2018AxialSteel).Assembly.GetName().Version + "/"
             + typeof(GPC.Model.Geotechnics.EmbeddedWalls.EmbeddedWallModel).Assembly.GetName().Version;
         return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(engine + "\n" + input.ToJsonString())));
     }

@@ -108,6 +108,21 @@ public static class EmbeddedWallReport
             if (stage.Supports.Count > 0) Table(["Sostegno", "Forza elemento [kN]", "Reazione fascia [kN]", "Riferimento [mm]", "Limite plastico"], stage.Supports.Select(s =>
                 new[] { s.Id, F(s.AxialForce), F(s.HorizontalReaction), F(s.ReferenceDisplacement), s.AtCapacity ? "raggiunto" : "non raggiunto" }));
         }
+        P("Verifiche dei sostegni metallici", true);
+        if ((result.SteelSupports?.Count ?? 0) == 0) P("Nessuna verifica dei sostegni metallici eseguita.");
+        var steelNotes = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var s in result.SteelSupports ?? [])
+        {
+            P($"{s.Stage} · {s.Support} · {s.Kind} · {s.OutcomeText}", true);
+            P($"N={F(s.NormalForce)} kN, positivo a trazione, per singolo elemento. Rigidezza assiale assegnata nell'analisi: {F(s.AnalysedAxialStiffness)} kN/m. Classe a compressione: {s.CompressionClass?.ToString() ?? "non applicabile/non disponibile"}. Limite costitutivo raggiunto: {(s.AtModelCapacity ? "sì" : "no")}.");
+            P(s.Source); if (steelNotes.Add(s.Diagnostic)) P(s.Diagnostic);
+            foreach (var c in s.Checks)
+            {
+                P($"{c.Method}: {c.OutcomeText}. Domanda {F(c.Demand)} kN, capacità {F(c.Capacity)} kN, utilizzo {F(c.Ratio)}, γM={F(c.PartialFactor)}.");
+                if (c.CriticalForce.HasValue) P($"Ncr={F(c.CriticalForce)} kN; λbar={F(c.NormalizedSlenderness)}, snellezza geometrica={F(c.GeometricSlenderness)}; curva {c.Curve}, χ={F(c.Reduction)}.");
+            }
+            foreach (string note in s.Checks.Select(c => c.Reference + ". " + c.Diagnostic).Distinct(StringComparer.Ordinal)) P(note);
+        }
         P("Verifiche delle sezioni", true);
         if (result.Checks.Count == 0) P("Nessuna verifica di sezione eseguita.");
         else
@@ -136,6 +151,20 @@ public static class EmbeddedWallReport
         var text = new StringBuilder("Caso;Fase;Sezione;Quota_m;Lato;u_mm;N_kN;V_kN;M_kNm;p_sx_kPa;p_dx_kPa;Stato;Impronta\r\n");
         foreach (var s in result.Stages) foreach (var p in s.Points)
             text.AppendLine(string.Join(";", new object[] { result.CaseId, s.Id, p.Section, p.Elevation, p.Side, p.Displacement, p.Normal, p.Shear, p.Moment, p.LeftPressure, p.RightPressure, result.Status, result.Fingerprint }.Select(Cell)));
+        return text.ToString();
+    }
+    public static string SteelCsv(EmbeddedWallReportData result)
+    {
+        static string Cell(object? value) => "\"" + (value is double d ? d.ToString("G17", CultureInfo.InvariantCulture) : value?.ToString() ?? "").Replace("\"", "\"\"") + "\"";
+        var text = new StringBuilder("Caso;Fase;Sostegno;Tipo;N_kN_trazione_positiva;Rigidezza_kN_m;LimiteCostitutivo;Classe;Metodo;Domanda_kN;Capacita_kN;Utilizzo;Esito;gammaM;Ncr_kN;LambdaBar;Snellezza;Chi;Curva;Riferimento;Fonte;Diagnostica;Impronta\r\n");
+        foreach (var s in result.SteelSupports ?? [])
+        {
+            var checks = s.Checks.Select(c => (EmbeddedWallSteelCheckData?)c).DefaultIfEmpty();
+            foreach (var c in checks) text.AppendLine(string.Join(";", new object?[] { s.CaseId, s.Stage, s.Support, s.Kind, s.NormalForce,
+                s.AnalysedAxialStiffness, s.AtModelCapacity, s.CompressionClass, c?.Method, c?.Demand, c?.Capacity, c?.Ratio,
+                c?.Outcome ?? s.Outcome, c?.PartialFactor, c?.CriticalForce, c?.NormalizedSlenderness, c?.GeometricSlenderness, c?.Reduction,
+                c?.Curve, c?.Reference, s.Source, s.Diagnostic + " " + c?.Diagnostic, result.Fingerprint }.Select(Cell)));
+        }
         return text.ToString();
     }
     public static string HydraulicCsv(EmbeddedWallReportData result)
@@ -202,6 +231,11 @@ public static class EmbeddedWallReport
         ["exit_min"]="Uscita minima [m]", ["exit_max"]="Uscita massima [m]", ["entry_min"]="Ingresso minimo [m]", ["entry_max"]="Ingresso massimo [m]",
         ["depth_min"]="Profondità minima sotto testa [m]", ["depth_max"]="Profondità massima sotto testa [m]", ["grid"]="Nodi di ricerca per direzione",
         ["slices"]="Conci", ["refinements"]="Raffinamenti", ["unfavourable"]="Sfavorevole", ["psi"]="Fattore di combinazione ψ",
-        ["gammaM_phi"]="γM tanφ", ["gammaM_c"]="γM c′", ["gammaM_cu"]="γM cu", ["soilWeightFactor"]="Fattore peso terreno", ["bodyWeightFactor"]="Fattore peso parete"
+        ["gammaM_phi"]="γM tanφ", ["gammaM_c"]="γM c′", ["gammaM_cu"]="γM cu", ["soilWeightFactor"]="Fattore peso terreno", ["bodyWeightFactor"]="Fattore peso parete",
+        ["steel_members"]="Acciaio dei sostegni", ["steel_standard"]="Norma acciaio sostegni", ["steel_check_kind"]="Combinazione acciaio sostegni",
+        ["family"]="Famiglia della sezione", ["diameter"]="Diametro [mm]", ["formation"]="Formazione", ["nominal_grade"]="Grado nominale S",
+        ["fy"]="fy per spessore effettivo [MPa]", ["fu"]="fu per spessore effettivo [MPa]", ["elastic_modulus"]="E [MPa]", ["material_source"]="Fonte materiale",
+        ["net_area"]="Area netta [mm²]", ["net_area_source"]="Fonte area netta", ["length_1"]="L0 piano 1 [m]", ["length_2"]="L0 piano 2 [m]",
+        ["length_source"]="Schema dei vincoli", ["axial_only"]="Sola azione assiale centrata confermata", ["is_bridge"]="Elemento di ponte"
     }.ToFrozenDictionary();
 }

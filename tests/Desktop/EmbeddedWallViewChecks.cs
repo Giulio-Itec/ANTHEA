@@ -106,6 +106,35 @@ internal static class EmbeddedWallViewChecks
             Check(field.Field is null && sheet.HydraulicNodes.Count == 0, "Campo idraulico superato rimasto visibile.");
             Check(sheet.HydraulicChecks.Count == 0 && sheet.SelectedHydraulicCheck is null && !sheet.HydraulicChecksCsvCommand.CanExecute(null), "Verifiche idrauliche superate ancora esportabili.");
             Check(globalPlot.Check is null && sheet.GlobalChecks.Count == 0 && !sheet.GlobalCsvCommand.CanExecute(null), "Risultato globale superato ancora visibile o esportabile.");
+            var steelData = EmbeddedWallDocument.Create(); steelData["name"] = "Puntone metallico — collaudo grafico";
+            steelData["action_basis"] = "Forza di progetto sintetica, nessun coefficiente aggiuntivo";
+            steelData["steel_standard"] = "NTC 2018"; steelData["steel_check_kind"] = "StaticUltimate";
+            steelData["left_soils"] = new JsonArray(); steelData["right_soils"] = new JsonArray();
+            steelData["fix_top_u"] = true; steelData["fix_bottom_u"] = true; steelData["fix_bottom_rotation"] = true;
+            steelData["segments"]![0]!["ei"] = 200000; steelData["segments"]![0]!["source"] = "EI di collaudo";
+            steelData["stages"]![0]!["left_ground"] = -12; steelData["stages"]![0]!["right_ground"] = -12;
+            var steelSupport = EmbeddedWallDocument.NewRow("supports"); steelSupport["id"] = "P1"; steelSupport["kind"] = "Strut";
+            steelSupport["elevation"] = 0; steelSupport["stiffness"] = 10000; steelSupport["angle"] = 30; steelSupport["spacing"] = 2;
+            steelData["supports"]!.AsArray().Add(steelSupport);
+            var steelActivation = EmbeddedWallDocument.NewRow("activations"); steelActivation["support"] = "P1"; steelActivation["prestress"] = 75;
+            steelData["activations"]!.AsArray().Add(steelActivation);
+            var steelMember = EmbeddedWallDocument.NewRow("steel_members"); steelMember["support"] = "P1";
+            steelMember["diameter"] = 200; steelMember["thickness"] = 8; steelMember["nominal_grade"] = 355;
+            steelMember["fy"] = 355; steelMember["fu"] = 510; steelMember["elastic_modulus"] = 210000;
+            steelMember["material_source"] = "S355, resistenze assegnate per il collaudo"; steelMember["axial_only"] = true;
+            steelMember["length_1"] = 3; steelMember["length_2"] = 4; steelMember["length_source"] = "Schema ideale incernierato nei due piani";
+            steelData["steel_members"]!.AsArray().Add(steelMember);
+            sheet.Reload(steelData); await editor.CalculateAsync(); tabs.SelectedIndex = 7; await Settle(); Capture("sostegni-acciaio");
+            Check(sheet.SteelSupports.Count == 1 && Math.Abs(sheet.SteelSupports[0].NormalForce!.Value + 75) < 1e-8 && sheet.SteelChecks.Count == 3,
+                "Forza del puntone o verifiche Steel assenti dalla vista.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.SteelChecks)), "Tabella Steel non associata allo snapshot.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("sostegni-acciaio-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "steel_members").Rows[0]["length_2"] = "100"; await Settle();
+            Check(sheet.Current is null && sheet.SteelChecks.Count == 0 && sheet.SelectedSteelSupport is null && !sheet.SteelCsvCommand.CanExecute(null),
+                "Risultati Steel superati ancora visibili o esportabili.");
+            await editor.CalculateAsync(); await Settle(); Capture("puntone-instabile");
+            Check(sheet.SteelSupports[0].Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotSatisfied && sheet.SteelChecks[2].Ratio > 1,
+                "Puntone oltre capacità non segnalato come non soddisfatto.");
             editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
             Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF paratie, senza attivare finestre sul desktop");

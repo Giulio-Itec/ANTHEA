@@ -7600,6 +7600,21 @@
       "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: riutilizzare stabilità esistente e controllare geometria, fasi e azioni.", "esito": "Incremento collaudato per pareti continue senza sostegni esterni; matrice e rilascio complessivo ancora aperti."},
       "test": ["global-adapter-04: 39 PASS", "slope-legacy-before/after-02: SHA256 81BC1F0B8878858D9AAADC734315F0AECFB23A73A13E2B0694F53C77CA2CF53A", "global-app-01: 80 PASS", "ci/20261019-101720-paratie-inc04-ui3: architettura e 19 controlli WPF PASS", "ci/20261019-102023-paratie-inc04-standard: 74 PASS, 0 NEW-FAIL", "docs/paratie/incremento-04.md"],
       "voci_collegate": ["PARATIE-03", "PARATIE-05"]
+    },
+    {
+      "id": "PARATIE-07",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 5",
+      "titolo": "Verifiche Steel dei sostegni assiali e segno verticale dei puntoni",
+      "famiglia": "geotecnica/paratie/acciaio",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Percorso esplicito NTC 2018 in Checker Steel per aste circolari piene e CHS assiali, trasferimento Design senza rifattorizzazioni. Model conserva dati e fonti; schema ANTHEA 5, esiti e report sullo stesso snapshot. La componente verticale di Strut ora usa N positiva a trazione, invece della forza costitutiva positiva a compressione. Il puntone scarico mantiene i controlli d'instabilità.",
+      "codice": ["Checker/src/Steel/AxialMembers.cs", "Checker/src/GPC.Design/EmbeddedWalls/EmbeddedWallSteel.cs", "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallAnalysis.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallSteelChecks.cs", "X.Desktop/Views/EmbeddedWalls/EmbeddedWallSheetView.xaml", "tools/libs/Update-Snapshot.ps1"],
+      "segno": "Correzione fisica del segno per puntoni inclinati: 20 kN, 30 gradi, fascia/interasse 1.5/2 danno 7.5 kN con segno opposto al tirante. Verifiche additive inattive nei documenti precedenti. Nessun atteso storico, routine storica Steel o lista di fallimenti ammessi modificata.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: utilizzare Checker Steel, conservare azioni concomitanti e verificare ipotesi/unità.", "esito": "Incremento collaudato nel campo assiale dichiarato; N-M-V, altre sezioni, collegamenti e rilascio complessivo ancora aperti."},
+      "test": ["steel-projection-before: 2 PASS e 2 FAIL dei puntoni; steel-projection-after: 43 PASS", "steel-members-02: 9 PASS, attesi Python indipendenti", "candidate-12: 3119 PASS, 17 fallimenti storici ammessi", "steel-app-05: 103 PASS", "ci/20261019-111149-paratie-inc05-ui3: architettura e 23 controlli WPF PASS", "docs/paratie/incremento-05.md"],
+      "voci_collegate": ["PARATIE-01", "PARATIE-06"]
     }
   ]
 }

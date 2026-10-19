@@ -10,6 +10,9 @@ public static class EmbeddedWallFields
         new("top", "Quota testa", "m"), new("bottom", "Quota piede", "m"), new("width", "Larghezza della fascia analizzata", "m"), new("mesh", "Lunghezza massima elemento", "m"),
         new("substeps", "Incrementi iniziali per fase"), new("check_kind", "Verifiche di sezione", Choices: ["Analisi", "Ultimate", "Characteristic", "Frequent", "QuasiPermanent"],
             ToolTip: "Analisi: sole sollecitazioni. Ultimate: SLU; Characteristic, Frequent, QuasiPermanent: SLE della combinazione esplicitamente assegnata. Non sono applicati coefficienti alle azioni."),
+        new("steel_standard", "Verifiche dei sostegni metallici", Choices: ["Non richieste", "NTC 2018", "EN 1993-1-1 — profilo non disponibile"], Wide: true),
+        new("steel_check_kind", "Combinazione per i sostegni metallici", Choices: ["Analysis", "StaticUltimate", "SeismicUltimate", "Serviceability"], Wide: true,
+            ToolTip: "Percorso collaudato: StaticUltimate (SLU statico NTC 2018). La provenienza e i coefficienti delle azioni vanno dichiarati sopra. Le altre scelte producono Non valutato."),
         new("fix_top_u", "Blocca traslazione in testa", Bool: true), new("fix_top_rotation", "Blocca rotazione in testa", Bool: true),
         new("fix_bottom_u", "Blocca traslazione al piede", Bool: true), new("fix_bottom_rotation", "Blocca rotazione al piede", Bool: true)
     ];
@@ -33,7 +36,7 @@ public static class EmbeddedWallFields
         "segments" => "Tratti e rigidezze", "left_soils" => "Terreno a sinistra", "right_soils" => "Terreno a destra", "supports" => "Tiranti e puntoni",
         "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi sulla struttura", "rc_sections" => "Sezioni e armature",
         "hydraulic_left" => "Permeabilità a sinistra", "hydraulic_right" => "Permeabilità a destra", "hydraulic_upl" => "Corpi UPL",
-        "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", "global_checks" => "Stabilità globale", "global_actions" => "Combinazioni globali", _ => table
+        "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", "global_checks" => "Stabilità globale", "global_actions" => "Combinazioni globali", "steel_members" => "Acciaio dei sostegni", _ => table
     };
     public static FieldSpec[] Columns(string table) => table switch
     {
@@ -44,7 +47,7 @@ public static class EmbeddedWallFields
             new("drainage", "Condizione", Choices: ["Drained", "UndrainedTotalStress"], ToolTip: "Drained: tensioni efficaci. UndrainedTotalStress: analisi non drenata in tensioni totali, cu obbligatoria."),
             new("source", "Fonte dei parametri"), new("stiffness_source", "Fonte di kh")],
         "supports" => [new("id", "Identificativo"), new("elevation", "Quota", "m"), new("kind", "Tipo", Choices: ["Anchor", "Strut", "Bilateral"], ToolTip: "Anchor: tirante; Strut: puntone; Bilateral: vincolo bilaterale."),
-            new("stiffness", "Rigidezza assiale EA/L", "kN/m"), new("angle", "Inclinazione (positiva in basso)", "°"), new("direction", "Verso resistente (+1 / −1)"),
+            new("stiffness", "Rigidezza assiale EA/L", "kN/m"), new("angle", "Inclinazione dalla parete all'altro estremo", "°", ToolTip: "Positiva in basso. Il tirante tira lungo l'asse; il puntone spinge in verso opposto. La verifica Steel conserva N positivo a trazione."), new("direction", "Verso resistente (+1 / −1)"),
             new("spacing", "Interasse", "m"), new("capacity", "Capacità plastica per elemento (facoltativa)", "kN")],
         "stages" => [new("id", "Fase"), new("left_ground", "Terreno sinistra", "m"), new("right_ground", "Terreno destra", "m"),
             new("left_water", "Falda sinistra (vuoto: assente)", "m"), new("right_water", "Falda destra (vuoto: assente)", "m"),
@@ -93,6 +96,16 @@ public static class EmbeddedWallFields
             new("category", "Categoria", Choices: ["PermanentStructural", "PermanentNonStructural", "Variable"]), new("unfavourable", "Sfavorevole nella combinazione", Bool: true),
             new("psi", "Fattore di combinazione ψ", ToolTip: "Da 0 a 1 per Q, esattamente 1 per G1/G2. Il fattore parziale proviene dalla norma, non inserirlo qui."),
             new("source", "Fonte e ruolo nella combinazione", Multiline: true)],
+        "steel_members" => [new("support", "Sostegno"), new("family", "Sezione", Choices: ["CHS", "Tondo pieno"]),
+            new("diameter", "Diametro esterno", "mm"), new("thickness", "Spessore CHS", "mm"),
+            new("formation", "Formazione", Choices: ["HotFinished", "ColdFormed"], ToolTip: "HotFinished: a caldo. ColdFormed: a freddo."),
+            new("nominal_grade", "Grado nominale S (235/275/355/420/460)"), new("fy", "Snervamento per lo spessore effettivo", "MPa"),
+            new("fu", "Resistenza ultima per lo spessore effettivo", "MPa"), new("elastic_modulus", "Modulo elastico", "MPa"),
+            new("material_source", "Fonte del materiale e delle resistenze", Multiline: true),
+            new("net_area", "Area netta con fori (vuoto: sezione integra)", "mm²", ToolTip: "Fori per collegamenti ordinari; non barre filettate speciali o trefoli. In compressione la sezione forata richiede dettagli aggiuntivi."),
+            new("net_area_source", "Fonte dell'area netta", Multiline: true), new("length_1", "Lunghezza libera d'inflessione, piano 1", "m"),
+            new("length_2", "Lunghezza libera d'inflessione, piano 2", "m"), new("length_source", "Schema dei vincoli e fonte delle lunghezze", Multiline: true),
+            new("axial_only", "Sola azione assiale centrata confermata", Bool: true), new("is_bridge", "Elemento di ponte (profilo non disponibile)", Bool: true)],
         _ => []
     };
 }

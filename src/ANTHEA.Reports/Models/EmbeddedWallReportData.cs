@@ -7,7 +7,8 @@ namespace Anthea.Reports;
 public sealed record EmbeddedWallReportData(string Name, string Fingerprint, string CaseId, string ActionBasis,
     string Status, bool Complete, string Diagnostic, string InputJson, IReadOnlyList<EmbeddedWallStageData> Stages,
     IReadOnlyList<EmbeddedWallCheckData> Checks, IReadOnlyList<string> Scope, IReadOnlyList<EmbeddedWallHydraulicData>? Hydraulics = null,
-    IReadOnlyList<EmbeddedWallHydraulicCheckData>? HydraulicChecks = null, IReadOnlyList<EmbeddedWallGlobalData>? GlobalChecks = null);
+    IReadOnlyList<EmbeddedWallHydraulicCheckData>? HydraulicChecks = null, IReadOnlyList<EmbeddedWallGlobalData>? GlobalChecks = null,
+    IReadOnlyList<EmbeddedWallSteelData>? SteelSupports = null);
 public sealed record EmbeddedWallStageData(string Id, int Increments, int Iterations, double ForceResidualN, double MomentResidualNmm,
     IReadOnlyList<EmbeddedWallPointData> Points, IReadOnlyList<EmbeddedWallSupportData> Supports);
 public sealed record EmbeddedWallPointData(double Elevation, string Side, string Section, double Displacement, double Rotation,
@@ -52,3 +53,16 @@ public sealed record EmbeddedWallGlobalCircle(double X, double Y, double Radius,
 public sealed record EmbeddedWallGlobalSlice(int Index, double Left, double Right, double BaseY, double TopY, string Soil,
     double SoilWeight, double BodyWeight, double VerticalLoad, double HorizontalLoad, double Pressure,
     double NormalEffective, double Resistance, double Mobilized);
+/// <summary>Member actions and resistances in kN, axial stiffness kN/m. N positive tension, per physical support.</summary>
+public sealed record EmbeddedWallSteelData(string CaseId, string Stage, string Support, string Kind, double? NormalForce,
+    double AnalysedAxialStiffness, bool AtModelCapacity, int? CompressionClass, EngineeringOutcome Outcome,
+    string Diagnostic, string Source, IReadOnlyList<EmbeddedWallSteelCheckData> Checks)
+{
+    [JsonIgnore] public string OutcomeText => EmbeddedWallReport.OutcomeText(Outcome);
+}
+public sealed record EmbeddedWallSteelCheckData(string Method, string Reference, double Demand, double? Capacity, double? Ratio,
+    EngineeringOutcome Outcome, double? PartialFactor, double? CriticalForce, double? NormalizedSlenderness,
+    double? GeometricSlenderness, double? Reduction, string Curve, string Diagnostic)
+{
+    [JsonIgnore] public string OutcomeText => EmbeddedWallReport.OutcomeText(Outcome);
+}

@@ -95,6 +95,7 @@ $libraries = @(
     # Model 4: archives (ModelArchive) in their own assembly; only the capture tools reference it, never the application.
     @{ File = 'GPC.Model.Persistence.dll'; Repo = 'Model'; Project = 'GPC.Model.Persistence\GPC.Model.Persistence.csproj'; Output = 'GPC.Model.Persistence\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCChecker.Concrete.dll'; Repo = 'Checker'; Project = 'GPCChecker.Concrete\GPCChecker.Concrete.csproj'; Output = 'GPCChecker.Concrete\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
+    @{ File = 'GPCChecker.Steel.dll'; Repo = 'Checker'; Project = 'GPCChecker.Steel\GPCChecker.Steel.csproj'; Output = 'GPCChecker.Steel\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCChecker.Geotechnics.dll'; Repo = 'Checker'; Project = 'GPCChecker.Geotechnics\GPCChecker.Geotechnics.csproj'; Output = 'GPCChecker.Geotechnics\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true; Doc = 'GPCChecker.Geotechnics.xml' },
     @{ File = 'GPCChecker.Masonry.dll'; Repo = 'Checker'; Project = 'src\GPCChecker.Masonry\GPCChecker.Masonry.csproj'; Output = 'src\GPCChecker.Masonry\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPC.Design.dll'; Repo = 'Checker'; Project = 'src\GPC.Design\GPC.Design.csproj'; Output = 'src\GPC.Design\bin\Release\net8.0'; TrackedBin = $false; Build = $true; Doc = 'GPC.Design.xml' },

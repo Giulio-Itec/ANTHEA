@@ -37,7 +37,7 @@ internal static partial class EmbeddedWallChecks
     {
         var old = HydraulicExample(); old["schema"] = 3; old.Remove("global_checks"); old.Remove("global_actions"); string before = old.ToJsonString();
         var upgraded = EmbeddedWallDocument.Snapshot(old);
-        e.That(old.ToJsonString() == before && upgraded["schema"]!.ToString() == "4" && upgraded["global_checks"]!.AsArray().Count == 0,
+        e.That(old.ToJsonString() == before && upgraded["schema"]!.ToString() == "5" && upgraded["global_checks"]!.AsArray().Count == 0,
             "Migrazione globale ha attivato verifiche o mutato l'originale.");
         var data = GlobalExample(); string original = data.ToJsonString(); using var sheet = Open(data);
         e.That(await Expect.Within(sheet.CalculateAsync()) && sheet.Current?.Complete == true, "Analisi globale/meccanica non completata.");

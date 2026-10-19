@@ -186,6 +186,34 @@
      </TabControl>
     </Grid>
    </TabItem>
+   <TabItem Header="Acciaio sostegni">
+    <Grid Margin="12"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="180"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <DockPanel Margin="0,0,0,8"><Button Content="Esporta CSV acciaio" Command="{Binding SteelCsvCommand}" DockPanel.Dock="Right"/>
+      <TextBlock Text="Forze per singolo elemento, N positivo a trazione. Verifiche delle aste: collegamenti, ancoraggi e bulbi sono distinti." TextWrapping="Wrap"/></DockPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding SteelSupports}" SelectedItem="{Binding SelectedSteelSupport}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sostegno" Binding="{Binding Support}"/>
+       <DataGridTextColumn Header="Tipo" Binding="{Binding Kind}"/><DataGridTextColumn Header="N [kN]" Binding="{Binding NormalForce, StringFormat=G7}"/>
+       <DataGridTextColumn Header="EA/L assegnato [kN/m]" Binding="{Binding AnalysedAxialStiffness, StringFormat=G7}"/>
+       <DataGridTextColumn Header="Classe" Binding="{Binding CompressionClass}"/><DataGridTextColumn Header="Esito asta" Binding="{Binding OutcomeText}"/>
+       <DataGridCheckBoxColumn Header="Limite costitutivo" Binding="{Binding AtModelCapacity}"/></DataGrid.Columns>
+     </DataGrid>
+     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
+      <TextBlock Text="{Binding SelectedSteelSupport.Source}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+      <TextBlock Text="{Binding SelectedSteelSupport.Diagnostic}" TextWrapping="Wrap" Margin="0,8"/>
+      <DataGrid ItemsSource="{Binding SteelChecks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="230">
+       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda [kN]" Binding="{Binding Demand, StringFormat=G7}"/>
+        <DataGridTextColumn Header="Capacità [kN]" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
+        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="γM" Binding="{Binding PartialFactor}"/>
+        <DataGridTextColumn Header="Ncr [kN]" Binding="{Binding CriticalForce, StringFormat=G7}"/><DataGridTextColumn Header="λbar" Binding="{Binding NormalizedSlenderness, StringFormat=F4}"/>
+        <DataGridTextColumn Header="Snellezza" Binding="{Binding GeometricSlenderness, StringFormat=F2}"/><DataGridTextColumn Header="χ" Binding="{Binding Reduction, StringFormat=F4}"/>
+        <DataGridTextColumn Header="Curva" Binding="{Binding Curve}"/></DataGrid.Columns>
+      </DataGrid>
+      <ItemsControl ItemsSource="{Binding SteelChecks}"><ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,8">
+       <TextBlock Text="{Binding Reference}" TextWrapping="Wrap"/><TextBlock Text="{Binding Diagnostic}" TextWrapping="Wrap"/>
+      </StackPanel></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+     </StackPanel></ScrollViewer>
+    </Grid>
+   </TabItem>
   </TabControl>
  </DockPanel>
 </UserControl>
