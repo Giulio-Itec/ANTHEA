@@ -50,6 +50,15 @@ attribuite al modello capacità tridimensionali o metodi proprietari.
 
 ## Passi ancora aperti
 
+La ricognizione dei contratti di fase individua due vincoli per il prossimo
+adattatore: la larghezza dello scavo non è `EmbeddedWallModel.TributaryWidth`
+(che rappresenta la fascia strutturale), e `EmbeddedWallGround.Surcharge` è
+già risolta per il caso di analisi. Questi campi non possono diventare
+automaticamente B e sovraccarico caratteristico del verificatore locale.
+Servono larghezza, classificazione e fonti proprie; H deve derivare dalle
+quote dei terreni della fase, conservando il lato di scavo. L'omogeneità deve
+essere verificata nel volume del meccanismo, non solo lungo il fusto.
+
 - Coordinamento con terreno, geometria e fasi reali, con modello omogeneo
   verificato esplicitamente e provenienza di Nc.
 - Documento, migrazione, editor, risultati per caso/fase/combinazione,
