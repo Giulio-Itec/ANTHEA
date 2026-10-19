@@ -15,9 +15,13 @@ public sealed class EmbeddedWallDiagram : FrameworkElement
     public static readonly DependencyProperty PointsProperty = DependencyProperty.Register(nameof(Points), typeof(IReadOnlyList<EmbeddedWallPointData>), typeof(EmbeddedWallDiagram), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
     public static readonly DependencyProperty ComparisonProperty = DependencyProperty.Register(nameof(Comparison), typeof(IReadOnlyList<EmbeddedWallPointData>), typeof(EmbeddedWallDiagram), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
     public static readonly DependencyProperty QuantityProperty = DependencyProperty.Register(nameof(Quantity), typeof(string), typeof(EmbeddedWallDiagram), new FrameworkPropertyMetadata("Spostamento [mm]", FrameworkPropertyMetadataOptions.AffectsRender));
+    public static readonly DependencyProperty PrimaryLabelProperty = DependencyProperty.Register(nameof(PrimaryLabel), typeof(string), typeof(EmbeddedWallDiagram), new FrameworkPropertyMetadata("fase selezionata", FrameworkPropertyMetadataOptions.AffectsRender));
+    public static readonly DependencyProperty ComparisonLabelProperty = DependencyProperty.Register(nameof(ComparisonLabel), typeof(string), typeof(EmbeddedWallDiagram), new FrameworkPropertyMetadata("confronto", FrameworkPropertyMetadataOptions.AffectsRender));
     public IReadOnlyList<EmbeddedWallPointData>? Points { get => (IReadOnlyList<EmbeddedWallPointData>?)GetValue(PointsProperty); set => SetValue(PointsProperty, value); }
     public IReadOnlyList<EmbeddedWallPointData>? Comparison { get => (IReadOnlyList<EmbeddedWallPointData>?)GetValue(ComparisonProperty); set => SetValue(ComparisonProperty, value); }
     public string Quantity { get => (string)GetValue(QuantityProperty); set => SetValue(QuantityProperty, value); }
+    public string PrimaryLabel { get => (string)GetValue(PrimaryLabelProperty); set => SetValue(PrimaryLabelProperty, value); }
+    public string ComparisonLabel { get => (string)GetValue(ComparisonLabelProperty); set => SetValue(ComparisonLabelProperty, value); }
     protected override void OnRender(DrawingContext dc)
     {
         base.OnRender(dc);
@@ -28,7 +32,7 @@ public sealed class EmbeddedWallDiagram : FrameworkElement
             new Typeface("Segoe UI"), 12, ink, VisualTreeHelper.GetDpi(this).PixelsPerDip), new Point(x, y));
         if (Points is null || Points.Count == 0) { Text("Calcolare il modello e selezionare una fase.", 20, 20); return; }
         double Value(EmbeddedWallPointData p) => Quantity switch { "Momento [kNm]" => p.Moment, "Taglio [kN]" => p.Shear, "Normale [kN]" => p.Normal,
-            "Pressione sinistra [kPa]" => p.LeftPressure, "Pressione destra [kPa]" => p.RightPressure, "Carico netto [kN/m]" => p.NetDistributedLoad, _ => p.Displacement };
+            "Pressione sinistra [kPa]" => p.LeftPressure, "Pressione destra [kPa]" => p.RightPressure, "Carico netto [kN/m]" => p.NetDistributedLoad, "Rotazione [rad]" => p.Rotation, _ => p.Displacement };
         var all = Points.Concat(Comparison ?? []).ToArray(); double top = all.Max(p => p.Elevation), bottom = all.Min(p => p.Elevation);
         double max = Math.Max(1e-10, all.Max(p => Math.Abs(Value(p))));
         double left = 90, right = Math.Max(left + MinimumPlotSize, ActualWidth - PlotRightMargin), h = Math.Max(50, ActualHeight - PlotBottomMargin), centre = (left + right) / 2;
@@ -36,7 +40,7 @@ public sealed class EmbeddedWallDiagram : FrameworkElement
         dc.DrawLine(new Pen(ink, 1), new Point(centre, 35), new Point(centre, PlotTop + h));
         for (int i = 0; i <= TickIntervals; i++)
         { double y = PlotTop + h * i / TickIntervals; Text((top - (top - bottom) * i / TickIntervals).ToString("G5") + " m", 5, y - TickTextOffset); dc.DrawLine(new Pen(ink, .2), new Point(left, y), new Point(right, y)); }
-        Text(Quantity + " — blu: fase selezionata; arancio: confronto", left, 8);
+        Text(Quantity + " — blu: " + PrimaryLabel + "; arancio: " + ComparisonLabel, left, 8);
         Text((-max).ToString("G5"), left, BottomLabelOffset + h); Text("0", centre, BottomLabelOffset + h); Text(max.ToString("G5"), right - RightLabelWidth, BottomLabelOffset + h);
         void Curve(IReadOnlyList<EmbeddedWallPointData>? points, Brush brush)
         {

@@ -7744,6 +7744,41 @@
         "PARATIE-01",
         "PARATIE-12"
       ]
+    },
+    {
+      "id": "PARATIE-14",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 12",
+      "titolo": "Inviluppi dei campi recuperati con azioni concomitanti",
+      "famiglia": "paratie/risultati",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "GPC conserva campi per elemento e fase, campiona entrambi i lati e gli estremi interni e seleziona osservazioni effettive. ANTHEA presenta otto grandezze, provenienza e azioni concomitanti; CSV, persistenza e relazione sullo stesso snapshot.",
+      "codice": [
+        "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallEnvelopes.cs",
+        "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallRecovery.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallEnvelopes.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallEnvelopeViewModel.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallEnvelopeReport.cs"
+      ],
+      "segno": "Sette catture GPC identiche nei campi originali; nove CSV con 5099 righe identiche esclusa impronta. Nessuna somma non lineare o terna artificiale. Attesi numerici e fallimenti ammessi invariati.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico paratie: confronto fra fasi e inviluppi con provenienza del caso governante.",
+        "esito": "Inviluppo delle fasi correnti collaudato; GPC ammette più storie indipendenti. Integrazione multi-caso nel foglio e matrice complessiva aperte."
+      },
+      "test": [
+        "7 nuovi test GPC; 67 EmbeddedWalls e 24 Design paratie PASS",
+        "candidate-19: 3167 PASS, stessi 17 fallimenti Steel storici",
+        "1305 controlli applicativi PASS; 52 WPF PASS",
+        "ci/20261019-161359-paratie-inc12-ui: 5 PASS, 0 NEW-FAIL",
+        "Guide Rev50: 249 pagine, 373 formule; archivio Rev49 byte per byte",
+        "docs/paratie/incremento-12.md"
+      ],
+      "voci_collegate": [
+        "PARATIE-01",
+        "PARATIE-13"
+      ]
     }
   ]
 }

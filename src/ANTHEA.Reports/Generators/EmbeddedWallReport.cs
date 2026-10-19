@@ -41,6 +41,7 @@ public static partial class EmbeddedWallReport
         if (!result.Complete) P(result.Diagnostic);
         foreach (string note in result.Scope) P(note);
         RenderEmbedment(result, (text, heading) => P(text, heading), Table);
+        RenderEnvelope(result, (text, heading) => P(text, heading), Table);
         P("Dati assegnati", true);
         var input = JsonNode.Parse(result.InputJson)!.AsObject();
         // Document keys are shown with their explicit unit contract, without recomputing derived data.

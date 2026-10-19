@@ -3380,6 +3380,31 @@ La soluzione combina cosh(βx)cos(βx), cosh(βx)sin(βx), sinh(βx)cos(βx) e s
 
 Il collaudo separa convergenza della discretizzazione da 6 a 24 elementi e accuratezza con 96 elementi, perché il recupero delle azioni può raggiungere prima il limite dell'arrotondamento. Tolleranze assolute del benchmark: u=2·10⁻⁶ mm, θ=2·10⁻⁹ rad, M=5 Nmm e V=0,01 N; equilibrio globale entro 0,01 N e 100 Nmm. Queste tolleranze verificano l'algoritmo su quel caso e non sono limiti di progetto.
 
+### Campi recuperati e inviluppi con provenienza
+
+Ogni fase conclusa conserva i campi polinomiali dei singoli elementi. La coordinata locale t cresce dalla sommità zt al fondo zb dell'elemento:
+
+```formula
+t=\frac{z_t-z}{z_t-z_b}
+```
+
+Lo spostamento di Hermite è cubico e la rotazione è la sua derivata rispetto alla profondità. Carico netto e pressioni sono recuperati con un polinomio cubico dai quattro punti di Gauss; l'integrazione con le azioni di estremità equilibrate restituisce taglio quartico e momento quintico. N è lineare nel tratto per il peso proprio; le azioni concentrate e i sostegni introducono salti ai nodi. Il campionamento usa questi campi conservati, senza interpolare le righe delle tabelle né rieseguire l'equilibrio. Gli indicatori plastici rimangono riferiti al punto d'integrazione più vicino, non a una frontiera continua ricostruita.
+
+Per la grandezza f, il minimo e il massimo alla stessa quota e sullo stesso lato sono selezionati fra osservazioni effettive del caso c e della fase s:
+
+```formula
+f_{min}(z)=\min_{c,s} f_{c,s}(z)
+f_{max}(z)=\max_{c,s} f_{c,s}(z)
+```
+
+Ogni valore selezionato conserva caso, fase, sezione, quota, lato e l'intera osservazione concomitante. L'inviluppo non è un nuovo caso di carico: non somma risposte non lineari e non costruisce una terna N–M–V con massimi di origini diverse. I verificatori continuano a usare le azioni delle fasi originarie. L'API GPC ammette più storie indipendenti con identici estremi geometrici e larghezza di fascia; il foglio corrente riunisce le fasi della combinazione assegnata. Mesh differenti sono ammesse, piedi e larghezze differenti sono rifiutati.
+
+Il campionamento unisce i nodi di tutti i campi, entrambi i limiti sopra e sotto le discontinuità, suddivisioni regolari e le radici delle derivate dei polinomi della grandezza osservata. Conserva quindi gli estremi esterni globali del campo recuperato, anche se interni agli elementi. Il disegno interpola queste stazioni: non ricerca ogni intersezione fra curve di fasi diverse e non attribuisce una provenienza unica al segmento disegnato. La provenienza è quella del singolo punto. Il foglio usa due suddivisioni per intervallo comune oltre agli estremi interni; ciò non sostituisce la verifica di convergenza della mesh strutturale.
+
+L'inviluppo di storie incomplete è parziale e include soltanto le fasi concluse, con elenco dei casi interrotti. I dati non disponibili non vengono sostituiti da zeri o verifiche soddisfatte. I report leggono lo stesso risultato conservato dall'interfaccia.
+
+Il riferimento indipendente integra con numeri razionali la curvatura della mensola da 6000 mm, EI=2·10¹⁴ Nmm², con forze, coppie e azioni assiali concentrate. Si controllano 49 quote, i due lati interni, tre fasi in due casi e le azioni concomitanti. Le tolleranze assolute sono 2·10⁻⁸ mm, 2·10⁻¹¹ rad, 2·10⁻⁷ N su N, 2·10⁻⁵ N su V e 0,05 Nmm su M. Una prova distinta usa H=10000 N e q=−4 N/mm: M(x)=10000x−2x² raggiunge 12,5·10⁶ Nmm a x=2500 mm, fuori dai nodi e dalla griglia uniforme del disegno. Sono tolleranze di collaudo, non limiti di progetto.
+
 ### Prove indipendenti e limiti residui
 
 Le prove comprendono trave analitica, fondazione elastica, memoria plastica e pretensione, pressioni con falda, equilibrio di forze e momenti, raffinamento della mesh e degli incrementi, Darcy affine e stratificato, campi idraulici non saturi, annullamento e mancata convergenza. Il trasferimento a Concrete e Steel è verificato separatamente. Gli attesi indipendenti non sono rigenerati dai risultati del motore; la corrispondenza numerica di un benchmark non estende il suo campo fisico.

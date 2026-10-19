@@ -64,10 +64,10 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-24 | P,H,U | Verifiche e progetto c.a. SLU/SLE/dettagli | Concrete, Design | fasce rettangolari; schema 8 pali circolari, controlli locali e dettagli separati, CSV/report | fibre indipendenti, azioni concomitanti, entrambi i segni e SLE: incremento 8; progetto automatico e dettagli completi aperti | in corso |
 | PAR-25 | H,U | Acciaio, tiranti, puntoni | Steel, trasferimento per fase in Design | aste circolari piene/CHS assiali; schema 7 CHS classe 1–2 N–M–V, esiti/report/CSV | attesi indipendenti e unità: incrementi 5/7; altre famiglie/classi, instabilità della parete e collegamenti aperti | in corso |
 | PAR-26 | P,H,U | Altre norme dichiarate (storiche, EC, ACI, AISC) | profili Model/Checker | profilo esplicito | fonte e prove per ogni norma | aperto |
-| PAR-27 | P,H,U | Diagrammi, inviluppi, provenienza e stati risultato | risultati GPC | MVVM/XAML | UI/report corrispondenti | in corso |
+| PAR-27 | P,H,U | Diagrammi, inviluppi, provenienza e stati risultato | campi recuperati e inviluppi GPC | otto grandezze, estremi con azioni concomitanti, CSV/report | atteso razionale indipendente, due lati e massimo interno: incremento 12; gestione multi-caso nel foglio aperta | in corso |
 | PAR-28 | U | Persistenza, migrazioni, invalidazione, annullamento | Application/Serialization | flussi F5 | round trip, race e riapertura | in corso |
 | PAR-29 | P,H | DXF, immagini, stampa e report personalizzabile/inglese | Application/Reports | export | round trip DXF e resa PDF | in corso |
-| PAR-30 | U | Guide globali DOCX/PDF, wiki | Reports/Wiki | aiuto contestuale | render e controllo collegamenti | in corso: Rev49, incrementi 1–11; ricerca infissione su griglia; estensioni successive aperte |
+| PAR-30 | U | Guide globali DOCX/PDF, wiki | Reports/Wiki | aiuto contestuale | render e controllo collegamenti | in corso: Rev50, incrementi 1–12; ricerca infissione e inviluppi con provenienza; estensioni successive aperte |
 | PAR-31 | H | Collegamento FLAC e analisi dinamica esterna | adattatore da specifica pubblica | interoperabilità | licenza e prova con eseguibile reale | dipendenza esterna |
 | PAR-32 | H | Monitoraggio Tokbo e confronto misura/calcolo | adattatore da API documentata | serie temporali | credenziali e dati reali autorizzati | dipendenza esterna |
 | PAR-33 | H | Assistenza chatbot e servizi esterni | da specificare rispetto all'incarico ingegneristico | supporto | servizio/documentazione necessari | dipendenza esterna |
@@ -110,6 +110,8 @@ la Wiki e l'aiuto contestuale degli editor, con collaudo applicativo e WPF.
 L'[undicesimo incremento](incremento-11.md) aggiunge ricerca esaustiva
 dell'infissione, ricalcolo indipendente dei candidati, verifiche governanti,
 distinzione fra minimo e accettabilità, editor, persistenza e guide Rev49.
+Il [dodicesimo incremento](incremento-12.md) aggiunge campi recuperati,
+inviluppi con azioni concomitanti, otto grandezze, CSV/report e guide Rev50.
 Le righe in corso non sono soddisfatte integralmente: tipi complessi, verifiche
-locali e globali complete, combinazioni automatiche, inviluppi e migrazioni
+locali e globali complete, combinazioni automatiche, inviluppi fra casi nel foglio e migrazioni
 richiedono ancora integrazioni. Nessuna funzione avanzata viene esclusa.

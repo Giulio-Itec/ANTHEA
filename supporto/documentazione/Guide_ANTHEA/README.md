@@ -1,11 +1,13 @@
 # Guide globali ANTHEA
 
-Edizione 6, 19 ottobre 2026. Guide pratica e teorica Rev49. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 19 ottobre 2026. Guide pratica e teorica Rev50. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev49.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev49.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev49.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev49.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev50.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev50.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev50.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev50.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+
+La Rev50 aggiunge inviluppi delle fasi con provenienza, azioni concomitanti, diagrammi, persistenza e CSV; il report usa gli stessi risultati. Il confronto tra combinazioni multiple nel foglio rimane aperto.
 
 La Rev49 integra la ricerca discreta dell'infissione: geometrie e storie indipendenti, ricalcolo FEM, criteri governanti, distinzione fra candidato accettabile e minimo dimostrato, annullamento e benchmark analitico. Il modulo è in sviluppo sul ramo dedicato; le funzioni residue e il rilascio ufficiale restano aperti.
 
@@ -36,3 +38,5 @@ La Rev46 è conservata in `supporto/SUPERATI/correzioni-rev47-20261016/`, con or
 La Rev47, i suoi sorgenti e gli indici sostituiti sono conservati in `supporto/SUPERATI/paratie-rev48-20261019/`, con origine e SHA-256.
 
 La Rev48, i sorgenti e gli indici sostituiti sono conservati in `supporto/SUPERATI/paratie-rev49-20261019/`, con origine e SHA-256.
+
+La Rev49, i sorgenti e gli indici sostituiti sono conservati in `supporto/SUPERATI/paratie-rev50-20261019/`, con origine e SHA-256.

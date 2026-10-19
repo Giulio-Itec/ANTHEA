@@ -1485,6 +1485,20 @@ Per riprodurre il benchmark, assegnare testa 0 m, piede iniziale −10 m, fascia
 
 ![Ricerca dell'infissione e criterio governante nel benchmark elastico](../../X.Desktop/Assets/Wiki/paratie-ricerca-infissione.png)
 
+### Leggere gli inviluppi delle fasi
+
+Dopo il calcolo aprire **Inviluppi** e scegliere spostamento, rotazione, N, V, M, pressioni o carico netto. Il foglio confronta tutte le fasi concluse della combinazione corrente. Dopo una ricerca dell'infissione, l'inviluppo principale riguarda il candidato accettabile dichiarato nello stato; non mescola pareti di lunghezza diversa.
+
+La curva blu rappresenta il minimo e quella arancio il massimo. La tabella indica quota, lato, valore, caso e fase di ciascun estremo. **Above** è il limite sopra la quota, **Below** quello sotto: i due valori rimangono separati in presenza di forze o coppie concentrate. **Interior** identifica una stazione interna al tratto. La rotazione è espressa in radianti.
+
+Selezionare una riga per leggere le due osservazioni concomitanti. N, V e M della stessa osservazione appartengono alla sua fase, sezione e quota. Il massimo di N può governare in una fase diversa dal massimo di M: non vanno riuniti in una terna artificiale. Le verifiche strutturali restano quelle delle singole fasi. I due estremi globali, con la loro provenienza, sono indicati sopra il grafico.
+
+Il grafico interpola le stazioni restituite dal calcolo, comprendendo discontinuità ed estremi interni. Una storia interrotta rende **parziale** l'inviluppo: le fasi mancanti non sono considerate soddisfatte. Una modifica degli input invalida grafico, tabelle ed esportazione; salvataggio e riapertura conservano lo stesso risultato mostrato. **Esporta CSV inviluppi** include tutte le stazioni e le azioni concomitanti. La relazione riporta gli estremi globali e le fasi incluse, senza ricalcolo.
+
+Per un controllo indipendente usare la mensola di 6 m, EI=200000 kNm², senza terreno, incastrata al piede. La fase A applica H=+10 kN in testa; la fase B sostituisce le azioni con H=−6 kN e coppia +12 kNm, positiva nel verso della rotazione du/d(profondità). Si ottengono spostamenti in testa +3,60 e −3,24 mm; gli estremi globali di M sono +60 kNm in A e −48 kNm in B, entrambi al piede. L'esempio verifica lettura e provenienza degli estremi, senza costituire una paratia progettata.
+
+![Inviluppi di momento delle fasi nel benchmark su fondazione elastica](../../X.Desktop/Assets/Wiki/paratie-inviluppi.png)
+
 ### Funzioni ancora da completare
 
 Restano aperti: sezioni complesse e più file; effetto arco e cedimenti; interazione tra pareti e strutture interne; cerniere plastiche; ricerca con combinazioni multiple integrate e altri criteri; instabilità del fondo e tampone; combinazioni automatiche e sisma avanzato; progetto automatico completo delle armature; DXF e integrazioni esterne. Le opzioni non disponibili non producono verifiche sostitutive. I successivi incrementi saranno documentati dopo il collaudo.

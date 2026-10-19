@@ -57,6 +57,8 @@ internal static partial class EmbeddedWallChecks
             var direct = service.Calculate(actual).NativeAs<EmbeddedWallReportData>();
             e.That(JsonSerializer.Serialize(saved) == JsonSerializer.Serialize(direct), "Ricerca diversa dal ricalcolo indipendente dello stesso candidato.");
             e.That(candidate.Criteria[0].Stage == "Loaded" && candidate.Criteria[0].Elevation == 0, "Provenienza del criterio di testa persa.");
+            e.That(saved.Envelope is { Complete: true } && saved.Envelope.Bottom == candidate.ToeElevation,
+                "Inviluppo del candidato calcolato con una geometria diversa.");
         }
         e.That(JsonSerializer.Serialize(report.Stages) == JsonSerializer.Serialize(search.Candidates.Single(c => c.Embedment == 6.5).Result!.Stages),
             "Diagrammi del risultato non riferiti al candidato selezionato.");

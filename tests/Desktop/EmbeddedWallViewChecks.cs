@@ -271,8 +271,24 @@ internal static class EmbeddedWallViewChecks
             Check(sheet.EmbedmentCriteria[0].Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotSatisfied, "Candidato non soddisfatto visualizzato accettabile.");
             tabs.SelectedIndex = 3; await Settle(); Capture("ricerca-infissione-diagramma");
             Check(sheet.Points.Min(p => p.Elevation) == -6.5, "Diagramma non riferito al candidato dichiarato.");
+            tabs.SelectedItem = tabs.Items.OfType<TabItem>().Single(t => t.Header as string == "Inviluppi");
+            sheet.SelectedEnvelopeSeries = sheet.EnvelopeSeries.Single(s => s.Quantity == "Moment"); await Settle(); Capture("inviluppi");
+            var envelopePlot = Visual(editor.View).OfType<EmbeddedWallDiagram>().Single();
+            Check(sheet.Current!.Envelope is { Complete: true, Bottom: -6.5 } && sheet.EnvelopeSeries.Count == 8,
+                "Inviluppo non riferito alle fasi del candidato accettabile.");
+            Check(ReferenceEquals(envelopePlot.Points, sheet.EnvelopeMinimum) && ReferenceEquals(envelopePlot.Comparison, sheet.EnvelopeMaximum)
+                && envelopePlot.PrimaryLabel == "minimo" && envelopePlot.ComparisonLabel == "massimo", "Curve dell'inviluppo scollegate o legenda errata.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.EnvelopeStations)), "Tabella delle stazioni dell'inviluppo assente.");
+            sheet.SelectedEnvelopeStation = sheet.EnvelopeStations[sheet.EnvelopeStations.Count / 2]; await Settle();
+            Check(sheet.EnvelopeConcomitant.Count == 2 && ReferenceEquals(sheet.EnvelopeConcomitant[1].Value, sheet.SelectedEnvelopeStation.Maximum),
+                "Selezione della quota perde le azioni concomitanti.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("inviluppi-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.SelectedEnvelopeSeries = sheet.EnvelopeSeries.Single(s => s.Quantity == "Rotation"); await Settle();
+            Check(envelopePlot.Quantity == "Rotazione [rad]" && ReferenceEquals(envelopePlot.Points, sheet.EnvelopeMinimum), "Selezione della grandezza non aggiorna l'inviluppo.");
             tabs.SelectedIndex = 2; sheet.Embedment["embedment_head_limit"].EditText = "4"; await Settle();
             Check(sheet.Current is null && sheet.EmbedmentCandidates.Count == 0 && !sheet.EmbedmentCsvCommand.CanExecute(null), "Limite modificato conserva la ricerca corrente.");
+            Check(sheet.EnvelopeSeries.Count == 0 && sheet.EnvelopeMinimum.Count == 0 && sheet.EnvelopeMaximum.Count == 0
+                && !sheet.EnvelopeCsvCommand.CanExecute(null), "Input modificati conservano inviluppi superati.");
             editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
             Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF paratie, senza attivare finestre sul desktop");

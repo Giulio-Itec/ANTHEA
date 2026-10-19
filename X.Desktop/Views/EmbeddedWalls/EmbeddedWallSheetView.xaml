@@ -358,6 +358,37 @@
      </StackPanel></ScrollViewer>
     </Grid>
    </TabItem>
+   <TabItem Header="Inviluppi">
+    <Grid Margin="10"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <DockPanel><Button DockPanel.Dock="Right" Content="Esporta CSV inviluppi" Command="{Binding EnvelopeCsvCommand}"/>
+      <StackPanel Orientation="Horizontal"><TextBlock Text="Grandezza" VerticalAlignment="Center"/>
+       <ComboBox ItemsSource="{Binding EnvelopeSeries}" SelectedItem="{Binding SelectedEnvelopeSeries}" DisplayMemberPath="Diagram" MinWidth="210" Margin="8,0"/>
+      </StackPanel></DockPanel>
+     <TextBlock Grid.Row="1" Text="{Binding EnvelopeStatus}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,8,0,4"/>
+     <StackPanel Grid.Row="2"><TextBlock Text="{Binding EnvelopeExtrema}" TextWrapping="Wrap" Margin="0,0,0,4"/>
+      <TextBlock Text="Selezionare una quota per leggere le azioni concomitanti. Minimo e massimo possono appartenere a fasi diverse; non formano una combinazione. La curva interpola le stazioni campionate, con estremi e discontinuità conservati." TextWrapping="Wrap" Margin="0,0,0,8"/>
+     </StackPanel>
+     <Grid Grid.Row="3"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <local:EmbeddedWallDiagram Points="{Binding EnvelopeMinimum}" Comparison="{Binding EnvelopeMaximum}" Quantity="{Binding SelectedEnvelopeSeries.Diagram, TargetNullValue='Spostamento [mm]'}" PrimaryLabel="minimo" ComparisonLabel="massimo"/>
+      <Grid Grid.Column="1" Margin="10,0,0,0"><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="210"/></Grid.RowDefinitions>
+       <DataGrid ItemsSource="{Binding EnvelopeStations}" SelectedItem="{Binding SelectedEnvelopeStation}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+        <DataGrid.Columns><DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, StringFormat=G7}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
+         <DataGridTextColumn Header="Minimo" Binding="{Binding Minimum.Value, StringFormat=G7}"/><DataGridTextColumn Header="Caso min" Binding="{Binding Minimum.CaseId}"/>
+         <DataGridTextColumn Header="Fase min" Binding="{Binding Minimum.Stage}"/><DataGridTextColumn Header="Massimo" Binding="{Binding Maximum.Value, StringFormat=G7}"/>
+         <DataGridTextColumn Header="Caso max" Binding="{Binding Maximum.CaseId}"/><DataGridTextColumn Header="Fase max" Binding="{Binding Maximum.Stage}"/></DataGrid.Columns>
+       </DataGrid>
+       <TextBlock Grid.Row="1" Text="Osservazioni concomitanti alla quota selezionata — azioni dell'intera fascia" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,8"/>
+       <DataGrid Grid.Row="2" ItemsSource="{Binding EnvelopeConcomitant}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+        <DataGrid.Columns><DataGridTextColumn Header="Estremo" Binding="{Binding Key}"/><DataGridTextColumn Header="Caso" Binding="{Binding Value.CaseId}"/>
+         <DataGridTextColumn Header="Fase" Binding="{Binding Value.Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Value.Point.Section}"/>
+         <DataGridTextColumn Header="N [kN]" Binding="{Binding Value.Point.Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Value.Point.Shear, StringFormat=G7}"/>
+         <DataGridTextColumn Header="M [kNm]" Binding="{Binding Value.Point.Moment, StringFormat=G7}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Value.Point.Displacement, StringFormat=G7}"/>
+         <DataGridTextColumn Header="Rotazione [rad]" Binding="{Binding Value.Point.Rotation, StringFormat=G7}"/></DataGrid.Columns>
+       </DataGrid>
+      </Grid>
+     </Grid>
+    </Grid>
+   </TabItem>
   </TabControl>
  </DockPanel>
 </UserControl>

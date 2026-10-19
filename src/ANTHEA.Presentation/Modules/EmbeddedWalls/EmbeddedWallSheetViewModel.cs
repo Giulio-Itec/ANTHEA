@@ -52,6 +52,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
         AnchorCsvCommand = GuardedCommands.Create(Guard, ExportAnchorCsv, () => AnchorChecks.Count > 0);
         TubeCsvCommand = GuardedCommands.Create(Guard, ExportTubeCsv, () => SteelTubes.Count > 0);
         RcPileCsvCommand = GuardedCommands.Create(Guard, ExportRcPileCsv, () => RcPiles.Count > 0);
+        EnvelopeCsvCommand = GuardedCommands.Create(Guard, ExportEnvelopeCsv, () => EnvelopeSeries.Count > 0);
         ImportSoilCommand = GuardedCommands.Create(Guard, ImportSoil, () => CanEdit && SelectedSoilSource is not null);
         RefreshSoilSourcesCommand = GuardedCommands.Create(Guard, RefreshSources);
         RefreshSources();
@@ -192,6 +193,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
         OnPropertyChanged(nameof(EmbedmentCandidates)); OnPropertyChanged(nameof(EmbedmentStatus));
         SelectedEmbedment = EmbedmentCandidates.FirstOrDefault(c => c.Embedment == current?.EmbedmentSearch?.BestEmbedment) ?? EmbedmentCandidates.FirstOrDefault();
         EmbedmentCsvCommand?.NotifyCanExecuteChanged();
+        NotifyEnvelope();
     }
     private void RestoreResult()
     { current = EmbeddedWallDocument.ReadCurrentResult(Data); SelectedStage = Stages.LastOrDefault(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult(); }
