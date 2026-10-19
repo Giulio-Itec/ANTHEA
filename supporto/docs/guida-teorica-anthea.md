@@ -47,7 +47,19 @@ ST = 1 + (ST,max − 1) h/H; ST,max vale 1, 1,2, 1,2 e 1,4 per T1–T4. Per lo s
 Posto A = ag SS ST, la forma elastica orizzontale senza soglia inferiore è:
 
 ```math
-S_a(T)=\begin{cases}A[1+(\eta F_0-1)T/T_B] & 0\leq T<T_B \\ A\eta F_0 & T_B\leq T<T_C \\ A\eta F_0 T_C/T & T_C\leq T<T_D \\ A\eta F_0 T_C T_D/T^2 & T\geq T_D\end{cases}
+S_a(T)=A[1+(\eta F_0-1)T/T_B] \quad (0\leq T<T_B)
+```
+
+```math
+S_a(T)=A\eta F_0 \quad (T_B\leq T<T_C)
+```
+
+```math
+S_a(T)=A\eta F_0 T_C/T \quad (T_C\leq T<T_D)
+```
+
+```math
+S_a(T)=A\eta F_0 T_C T_D/T^2 \quad (T\geq T_D)
 ```
 
 La parte compatibile conserva la soglia 0,2 ag per SLV e SLC, anche nella scelta Elastico, secondo le celle del riferimento. Per la componente verticale conserva TB = 0,05 s, TC = 0,15 s, TD = 1 s, Fv = 1,35 F0 √ag, valore iniziale ag Fv ST/F0 e plateau ag Fv ST/qv. La componente verticale del riferimento dipende dal proprio qv. Queste particolarità sono convenzioni di compatibilità, non prescrizioni da estendere ad altri profili normativi.
@@ -97,6 +109,8 @@ Un caso riproducibile usa M = 412,6 kN·s²/m, otto dispositivi da 1,01 kN/mm, �
 Il confronto campionato riproduce il campionamento dell’esempio, compreso il suo test del ramo di plateau sulla riga seguente; serve alla tracciabilità e non governa il risultato principale. Gli attesi indipendenti sono conservati separatamente dalle uscite del motore.
 
 ### Campo di applicazione
+
+Le NTC 2018 §3.2.3.2 limitano l’impiego di questi spettri a periodi fondamentali non superiori a 4 s. Il modulo ammette 0 < Tis ≤ 4 s in tutti gli stati limite e limita il grafico a 4 s. Se anche un solo periodo supera il limite, il calcolo viene rifiutato: servono apposite analisi oppure storie temporali del moto del terreno, non un’estrapolazione della formula.
 
 Sono calcolati domanda spettrale e risposta del sistema equivalente. Non sono verificate distribuzione spaziale e torsione, eccentricità accidentali, irregolarità, capacità e stabilità dei dispositivi, risposta verticale, spostamenti di progetto con relative amplificazioni o condizioni complessive di applicabilità dell’analisi. Il confronto numerico con un foglio di riferimento verifica le quantità confrontate, non l’idoneità del modello per una struttura reale.
 

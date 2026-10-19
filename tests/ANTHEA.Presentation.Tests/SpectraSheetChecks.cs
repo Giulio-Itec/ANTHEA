@@ -44,6 +44,10 @@ internal static class SpectraSheetChecks
             expect.That(sheet.Data["group1_name"]!.ToString() == "Pendolo" && !sheet.HasResults && JsonNode.DeepEquals(source, sheet.Data["import_source"]), "Trasferimento esplicito pendolo e provenienza");
             sheet.Reload(imported);
         }
+        var valid = (JsonObject)sheet.Data.DeepClone(); var aboveLimit = (JsonObject)valid.DeepClone(); aboveLimit["isolation"] = true; aboveLimit["mass"] = 1e9;
+        sheet.Reload(aboveLimit); await sheet.CalculateAsync();
+        expect.That(!sheet.HasResults && sheet.CalculationMessage.Contains("4 s"), "Tis oltre il campo convenzionale rifiuta il risultato e ne espone il motivo");
+        sheet.Reload(valid);
         expect.That(await sheet.CalculateAsync(), "Risultato finale disponibile");
         string csv = SpectraDocument.Csv(sheet.Result!); expect.That(csv.Contains("Verticale") && csv.Contains("Tabulato") && !csv.Contains("NaN"), "CSV con tutte le fasi"); File.WriteAllText(Path.Combine(folder, "spettri.csv"), csv);
         var report = SpectraReport.Create("Spettri e isolamento", sheet.Data, sheet.Result!); File.WriteAllBytes(Path.Combine(folder, "spettri.docx"), DocxWriter.Write(report)); var pdf = DocxPdf.Render(report, "Spettri e isolamento"); File.WriteAllBytes(Path.Combine(folder, "spettri.pdf"), pdf.Bytes); expect.That(pdf.Pages >= 4, "Report DOCX e PDF completo");

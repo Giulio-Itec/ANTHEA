@@ -26,6 +26,8 @@ Wiki e ricerca seguono invece la regola editoriale di F3-06: i file cambiati son
 
 Le impronte prima e dopo sono calcolate sulla forma conservata da git (fine riga LF).
 
+Rev48, Spettri NTC e isolamento (19/10/2026): `editorial_updates_rev48` conserva le impronte di quattro nuovi file dei due articoli e della ricerca. Registro SPETTRI-04. Il set candidato Geotechnics 0.4.0.1 cambia solo la versione esposta in otto risultati e otto report: cinque transizioni precedenti (quattro versioni e il numero degli articoli) sono sostituite e dodici aggiunte, per 22138 voci. Nessun atteso numerico, risultato o report storico è sostituito e nessuna tolleranza cambia.
+
 L'elenco e l'aggiornamento della Wiki si generano con `tools/qa/f3_transizioni.py`. Il programma parte dal confronto di
 una corsa e dalla classificazione puntuale delle differenze, in `docs/refactoring/f4-transizioni-ui-classificazione.md`.
 Le differenze senza voce lo fermano.

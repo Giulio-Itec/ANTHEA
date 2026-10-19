@@ -54,8 +54,16 @@
       "date": "2026-10-14",
       "reason": "Decisione dell'utente del 14/10 (audit, punto 2c): un foglio Sezione CA con area di lavoro ma senza normativa si rifiuta, perche' ANTHEA la scrive sempre dal 18/09/2026. Le due fixture sintetiche ricevono la normativa NTC 2018 che il programma avrebbe scritto; Prepare la assegnava gia', quindi gli attesi non cambiano.",
       "files": [
-        { "file": "inputs/str_palo--legacy-calculation-settings.json", "before_sha256": "280f7afd8d662f070054d3cdf7a84d24560963c1504b6fe0f99cdab7ee354332", "after_sha256": "a1760142ce3a39533d95340084e96014d96b13b9ffd409bc592b65940baa1be5" },
-        { "file": "inputs/str_palo--legacy-workspace-segni.json", "before_sha256": "f1b95f8323e3bccf729fd1225af4fde4810378871e7d3c01319986df4201e3d7", "after_sha256": "8922b2ea4cde0655690c827324a33c7c3a9b51a1356fe68a87f0ab14c18b3dd6" }
+        {
+          "file": "inputs/str_palo--legacy-calculation-settings.json",
+          "before_sha256": "280f7afd8d662f070054d3cdf7a84d24560963c1504b6fe0f99cdab7ee354332",
+          "after_sha256": "a1760142ce3a39533d95340084e96014d96b13b9ffd409bc592b65940baa1be5"
+        },
+        {
+          "file": "inputs/str_palo--legacy-workspace-segni.json",
+          "before_sha256": "f1b95f8323e3bccf729fd1225af4fde4810378871e7d3c01319986df4201e3d7",
+          "after_sha256": "8922b2ea4cde0655690c827324a33c7c3a9b51a1356fe68a87f0ab14c18b3dd6"
+        }
       ]
     }
   ],
@@ -339,8 +347,8 @@
   },
   "transitions": {
     "file": "tests/fixtures/f3/transitions-f4.json",
-    "sha256": "268b62e9fb30a830f188fb24ce8e2e5c3683216f733cf41598f6c7800a5b1276",
-    "entries": 22126,
+    "sha256": "6a2ac6fd11d6b9c30062f267d2ce69497c776c628935f7720c2f6e0fc02e9411",
+    "entries": 22138,
     "decision": "D2 del 15/10/2026"
   },
   "editorial_updates_rev45": {
@@ -1487,6 +1495,38 @@
         "before_sha256": "f4a842e46a8df621bc2ced465b12ebb40c328fe13600affa8b8b190b4242bcf4",
         "after_sha256": "a96823eac191d3d000e5e1f1047ed0d710cfcc5945efe79068f107cb72e85427",
         "note": "Solo il numero delle fixture, conseguenza diretta dell'aggiunta: 80 -> 87 nel ramo F5.10, 97 -> 104 dopo l'unione con le fixture degli altri passi (merge del coordinatore); il numero degli articoli resta quello del riferimento (71, transizione F4-51 invariata)."
+      }
+    ]
+  },
+  "editorial_updates_rev48": {
+    "data": "2026-10-19",
+    "cattura": "20261019-021157-spettri-wiki-final-01",
+    "reason": "Due articoli Spettri NTC e isolamento, guide Rev48; sola Wiki e ricerca, regola F3-06 e SPETTRI-04. Nessun atteso numerico sostituito.",
+    "files": [
+      {
+        "file": "expected/wiki/_wiki_guide_moduli_guida-spettri-ntc.md",
+        "before_sha256": null,
+        "after_sha256": "a06112c32cbf5b88643d3740c846834fc9c6f09b80c49cd84feddc0988f8c0ae"
+      },
+      {
+        "file": "expected/wiki/_wiki_guide_moduli_guida-spettri-ntc.txt",
+        "before_sha256": null,
+        "after_sha256": "2435302a80dc9f1f415b2c758f89b368759bd68276cfa1ab3622da9984b7d9f9"
+      },
+      {
+        "file": "expected/wiki/_wiki_manuale_dinamica_spettri-isolamento.md",
+        "before_sha256": null,
+        "after_sha256": "244ff7fe4ae12e938a5077076a3157e70e1ea42887e4959b722dde1c583c4781"
+      },
+      {
+        "file": "expected/wiki/_wiki_manuale_dinamica_spettri-isolamento.txt",
+        "before_sha256": null,
+        "after_sha256": "e3ad026b3ba443d6649c59ce5113a8d15288ac6d87c3dc904705a123fae569a1"
+      },
+      {
+        "file": "expected/wiki/search.json",
+        "before_sha256": "d5130274d6473134432552e6164efbeec9b93210794a90b40a31be35204a46aa",
+        "after_sha256": "a4302af3be15d0d5bbdaa8affc5546e00eeee7c13b455dc86b9b73887c0d9a98"
       }
     ]
   }

@@ -45,14 +45,14 @@
       "effetto_quantificato": "19.320 confronti con catture Excel indipendenti, inclusi nodi esatti e tutte le configurazioni triangolari; massimo scarto assoluto 1,3322676295501878e-14. Tolleranza 1e-10 × max(1, |atteso|).",
       "test": [
         "Design.Checks.SpectraTests",
-      "ANTHEA.Presentation.Tests.SpectraSheetChecks",
-      "ANTHEA.Presentation.Tests.SpectraEdgeChecks"
+        "ANTHEA.Presentation.Tests.SpectraSheetChecks",
+        "ANTHEA.Presentation.Tests.SpectraEdgeChecks"
       ],
       "evidenze": [
         "docs/refactoring/spettri-ntc.md",
-      "supporto/artefatti/spettri-ntc/excel-capture-01.json",
-      "tests/fixtures/spettri/cslp103-grid-edges.json",
-      "tests/fixtures/spettri/cslp103-grid-kind1.json"
+        "supporto/artefatti/spettri-ntc/excel-capture-01.json",
+        "tests/fixtures/spettri/cslp103-grid-edges.json",
+        "tests/fixtures/spettri/cslp103-grid-kind1.json"
       ],
       "wiki": "spettri-isolamento"
     },
@@ -78,6 +78,38 @@
         "docs/refactoring/spettri-ntc.md"
       ],
       "wiki": "spettri-isolamento"
+    },
+    {
+      "id": "SPETTRI-03",
+      "data": "2026-10-19",
+      "fase": "F5 — estensione isolamento",
+      "titolo": "Campo dello spettro convenzionale limitato a Tis non superiore a 4 s",
+      "famiglia": "Azioni",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "descrizione": "Il primo candidato estrapolava la forma spettrale oltre 4 s. GPC.Design 0.22.0.1 rifiuta il risultato se un Tis SLE o SLU supera 4 s e limita il grafico a 4 s. Il caso Excel fornito, con Tis circa 1,42 s, rimane invariato.",
+      "riferimento_normativo": "Italia, NTC 2018 §3.2.3.2; G.U. 42, S.O. 8 del 20 febbraio 2018, pagina 47 (pagina PDF 51), testo primario verificato.",
+      "decisione": "Correzione dell’agente durante il collaudo del nuovo modulo: impedire un’estrapolazione oltre il campo normativo, dichiarandone il motivo in libreria, interfaccia, report e guide.",
+      "codice": ["Checker/src/GPC.Design/Actions/IsolationSpectra.cs"],
+      "effetto_quantificato": "Per K = 1 kN/mm, M = 4000/π² = 405,2847345693511 kN·s²/m dà Tis = 4 s ed è ammesso; M = 406 è rifiutato. Verificato anche il superamento limitato agli SLU.",
+      "test": ["Design.Checks.SpectraTests.IsolationConventionalSpectrumStopsAtFourSeconds", "ANTHEA.Presentation.Tests.SpectraSheetChecks"],
+      "evidenze": ["docs/refactoring/spettri-ntc.md", "supporto/artefatti/spettri-ntc/library-tests/spettri-limite-4s.trx"],
+      "wiki": "spettri-isolamento"
+    },
+    {
+      "id": "SPETTRI-04",
+      "data": "2026-10-19",
+      "fase": "F5 — integrazione del nuovo modulo Azioni",
+      "titolo": "Metadati del set candidato e due articoli Wiki nel confronto F3",
+      "famiglia": "infrastruttura/test",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Il set coerente cambia Geotechnics da 0.4.0.0 a 0.4.0.1, solo per versione e metadati di build. Otto fixture espongono la versione in risultato e report: sedici differenze puntuali, senza cambiamenti di calcolo. La Wiki passa da 73 a 75 articoli. Aggiornati soltanto quattro file dei due nuovi articoli e la ricerca, secondo F3-06; gli attesi numerici sono conservati.",
+      "decisione": "Conseguenza della nuova funzionalità richiesta e delle regole sulle versioni del set coerente. Cinque transizioni precedenti sostituite e dodici aggiunte: valori prima/dopo esatti, nessuna tolleranza o esclusione nuova.",
+      "codice": ["tests/fixtures/f3/transitions-f4.json", "tests/fixtures/f3/manifest.json"],
+      "effetto_quantificato": "Confronto completo non troncato: 1066 file, 57 segnalazioni composte da 16 versioni, un conteggio articoli, 35 differenze editoriali e cinque vecchie transizioni non più corrispondenti. Nessuna nuova differenza numerica di calcolo.",
+      "test": ["ui/f3-equivalence", "ui/check-wiki-offscreen"],
+      "evidenze": ["docs/refactoring/spettri-ntc.md", "supporto/artefatti/spettri-ntc/f3-completo-prima.json"]
     },
     {
       "id": "STRAT-4",

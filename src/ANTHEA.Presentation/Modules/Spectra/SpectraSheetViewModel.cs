@@ -71,7 +71,7 @@ public sealed class SpectraSheetViewModel : SheetViewModelBase
     public bool ShowGrid => Stage == 0;
     public bool ShowState => Stage >= 2;
     public string PlotTitle => Stages[Stage] + (Stage >= 2 ? " · " + States[State] : "");
-    public string Note => Stage == 3 ? "NTC 2018 §7.10.5.3.2: smorzamento dell’isolamento da T ≥ 0,8 Tis. Forza e spostamento valutati a Tis. Il campione Excel è mostrato solo per confronto. Restano da verificare regolarità, eccentricità, azioni verticali, dispositivi e condizioni di applicabilità dell’analisi." :
+    public string Note => Stage == 3 ? "NTC 2018 §7.10.5.3.2: smorzamento dell’isolamento da T ≥ 0,8 Tis. Campo Tis ≤ 4 s (§3.2.3.2). Forza e spostamento valutati a Tis. Il campione Excel è mostrato solo per confronto. Restano da verificare regolarità, eccentricità, azioni verticali, dispositivi e condizioni di applicabilità dell’analisi." :
         "Coordinate in gradi decimali; catalogo comunale e reticolo dell’edizione CSLP 1.0.3. Accelerazioni in g; tempi in secondi. La modalità compatibile conserva le convenzioni numeriche del riferimento NTC 2008.";
     private JsonObject? SelectedState => Result?["states"]?.AsArray().ElementAtOrDefault(State)?.AsObject();
     private JsonObject? SelectedIsolation => Result?["isolation"]?.AsArray().ElementAtOrDefault(State)?.AsObject();

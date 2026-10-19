@@ -39,7 +39,7 @@ Importa Excel di isolamento acquisisce i valori salvati nei fogli Isolatori, Mod
 
 Il catalogo acquisito serve a scegliere nome e rigidezza nei due gruppi. La corsa visualizzata è informativa; scegliere un dispositivo non verifica capacità, spostamenti, stabilità o carichi verticali. Il programma non aggiorna il catalogo attraverso servizi esterni.
 
-Il valore Sa campione Excel consente il confronto con la ricerca tabellare dell’esempio. Il risultato principale usa invece la valutazione analitica dello spettro esattamente a Tis. Nell’esempio, allo SLC, il campione vale circa 0,176284373 g, mentre Sa(Tis) vale 0,170127557 g: la conseguente differenza di forza e spostamento è esplicita. Oltre il campo dei campioni il confronto non è disponibile, mentre il calcolo analitico conserva la propria definizione.
+Il valore Sa campione Excel consente il confronto con la ricerca tabellare dell’esempio. Il risultato principale usa invece la valutazione analitica dello spettro esattamente a Tis. Nell’esempio, allo SLC, il campione vale circa 0,176284373 g, mentre Sa(Tis) vale 0,170127557 g: la conseguente differenza di forza e spostamento è esplicita. Il calcolo richiede Tis non superiore a 4 s in ogni stato limite; oltre questo limite si interrompe, perché le NTC 2018 §3.2.3.2 richiedono una definizione specifica dell’azione sismica.
 
 ### Pendolo e parametri assegnati
 
