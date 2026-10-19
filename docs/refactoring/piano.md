@@ -1028,3 +1028,12 @@ Nessun motore legacy spostato o rimosso; nessun atteso indipendente modificato.
 - [x] Ripresa l'implementazione in `refactoring/f5-paratie-seguito`, con Model/Checker in `codex/paratie-seguito`, dalle revisioni integrate. Primo kernel locale del fondo scavo collaudato nelle librerie: 74 EmbeddedWalls PASS, runner completi Model e Checker conclusi; integrazione nel foglio ancora aperta. Il kernel nuovo non entra nella candidata consegnata. La matrice completa e i pali interrati restano aperti.
 
 Revisioni, conflitti e collaudi nel [verbale di integrazione](../paratie/integrazione-rami.md).
+
+## Rilascio F5 autorizzato il 19 ottobre 2026
+
+- [x] Pubblicati soltanto Model/master `e1e6e107` e Checker/master `dfb808c8`, con verifica delle revisioni remote.
+- [x] Release-Set non candidato, controllo versioni rispetto a Z e suite complete: 3172 PASS, stessi 17 fallimenti Steel ammessi. Installate tutte le 13 DLL ANTHEA con Update-Snapshot; set di 14 DLL identico alla candidata, Delaunay/Geometry/Utilities invariate. Aggiornati README e sola provenienza del rilascio, senza attesi numerici nuovi.
+- [ ] Concludere il profilo full dallo snapshot installato, risolvere eventuali regressioni e confezionare la prova locale con librerie pubblicate.
+
+[Verbale del rilascio](../paratie/rilascio-f5.md). ANTHEA principale resta su F5;
+nuovi rami di prosecuzione e codice ANTHEA non pubblicati.

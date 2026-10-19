@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "phase": "F4",
-  "release": "Z",
+  "release": "AA",
   "previous_manifest_sha256": "64dedf03c1df331cfaca79d044ed04c0975bccec0b53d23eac3f02d55adb14e0",
-  "library_manifest_sha256": "52db6d6291472ec01ac949a24c7123f8c6577f1f5553ab80f1650e777dfbde08",
-  "release_set_sha256": "df4f3c4de6877a91723b48f37678f54d065b721cc14f09daa8ff00db4f457ad4",
-  "note": "Provenance transition only. F3 numerical inputs, expected files and hashes remain frozen. Y (15/10/2026) follows X with Checker 6f15f185 (R1, R2, F2-25 as opt-in crack options). Z (16/10/2026) follows Y with Model bf8563f5 and Checker bce7aaae (bug fixes of 15/10, BUG-* entries; frozen library captures regenerated with user approval)."
+  "library_manifest_sha256": "397e9315c536de3954fc59b86f4589505e874343dcb341e1145b69c49573ac40",
+  "release_set_sha256": "b07095e0b1585bc0f6817e7380f8590ba0eb9fce0f734ad4eeed8bc3ca87b573",
+  "note": "Provenance transition only. F3 numerical inputs, expected files and hashes remain frozen. Y (15/10/2026) follows X with Checker 6f15f185 (R1, R2, F2-25 as opt-in crack options). Z (16/10/2026) follows Y with Model bf8563f5 and Checker bce7aaae (bug fixes of 15/10, BUG-* entries; frozen library captures regenerated with user approval). AA (19/10/2026) follows Z with published Model e1e6e107 and Checker dfb808c8: integrated paratie increments 1-13 and spectra. No numerical fixture or transition was changed for AA."
 }

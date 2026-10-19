@@ -791,6 +791,12 @@
         <member name="P:GPC.Checkers.Geotechnics.Slopes.SlopeSection.WaterUnitWeight">
             <summary>γw, N/mm³ (9.81 kN/m³ as the legacy calculation).</summary>
         </member>
+        <member name="P:GPC.Checkers.Geotechnics.Slopes.SlopeSection.Hydraulics">
+            <summary>Optional stationary field. When present it supplies pore pressures and saturation intervals instead of Water.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Slopes.SlopeSection.#ctor(System.Collections.Generic.IEnumerable{GPC.Checkers.Geotechnics.Slopes.SlopePoint},System.Collections.Generic.IEnumerable{GPC.Checkers.Geotechnics.Slopes.SlopeLayer},System.Collections.Generic.IEnumerable{GPC.Checkers.Geotechnics.Slopes.SlopePoint},System.Collections.Generic.IEnumerable{GPC.Checkers.Geotechnics.Slopes.SlopeBody},System.Collections.Generic.IEnumerable{GPC.Checkers.Geotechnics.Slopes.SlopeLoad},System.Double,System.Double,System.Collections.Generic.IEnumerable{GPC.Checkers.Geotechnics.Slopes.SlopeLayer},System.Double,System.Double,GPC.Checkers.Geotechnics.Slopes.ISlopeHydraulicField)">
+            <summary>Section with an explicit stationary field. The original constructor is retained for binary compatibility.</summary>
+        </member>
         <member name="M:GPC.Checkers.Geotechnics.Slopes.SlopeSection.LayersAt(System.Double)">
             <summary>The column at the abscissa: the valley column left of the split, otherwise the main one.</summary>
         </member>
@@ -901,6 +907,11 @@
             above it; exits left of the required abscissa, entries right of it, positive depths covered by the layers; 3-21 nodes, 20-200 slices,
             0-4 refinements; 1-256 combinations with positive factors, |kh|, |kv| ≤ 0.5; undrained analyses need cu in every layer.
             </summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Slopes.ISlopeHydraulicField">
+            <summary>Prescribed stationary field in slope coordinates (mm, MPa, N/mm³). Implementations must be immutable,
+            reject points outside the hydraulic domain and provide a complete nonoverlapping bottom-to-top column partition.
+            Body volumes are excluded before calling Column. Does not add hydraulic forces on exposed boundaries.</summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Walls.EarthPressure">
             <summary>
@@ -1379,6 +1390,166 @@
             Permanent sliding of the wall under an accelerogram (Newmark rigid block, <see cref="T:GPC.Checkers.Geotechnics.Seismic.NewmarkSliding"/>): the record must be confirmed
             compatible with the site at the SLD or SLV, and the wall must be free to slide (not with the Wood method).
             </summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Anchors.GroundAnchorBondPrediction">
+            <summary>Prediction, not a characteristic/design resistance or a complete anchor verification.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Anchors.GroundAnchorBondPrediction.#ctor(GPC.Model.Geotechnics.Anchors.GroundAnchorBond,System.Nullable{System.Double},System.Collections.Generic.IReadOnlyList{GPC.Checkers.Geotechnics.Anchors.GroundAnchorBondSegment},System.Boolean,System.Collections.Generic.IReadOnlyList{System.String})">
+            <summary>Prediction, not a characteristic/design resistance or a complete anchor verification.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Anchors.GroundAnchorPullout.Predict(GPC.Model.Geotechnics.Anchors.GroundAnchorBond,System.Threading.CancellationToken)">
+            <summary>Bounded Bustamante-Doix prediction from the existing digitised Viggiani charts. Static isolated,
+            sufficiently confined grouted anchors; no end-bearing term, no extrapolation, no safety factor here.
+            The deliberately bounded implementation requires >=5 m cover and >=4 m bonded axis; it does not assert
+            that these are universal geometric limits of the original method. Near-surface extensions remain separate.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Anchors.GroundAnchorPullout.Check(System.Double,System.Collections.Generic.IReadOnlyList{GPC.Checkers.Geotechnics.Anchors.GroundAnchorResistanceSample},GPC.Model.Standards.GroundAnchorResistanceProfile,System.String,System.Threading.CancellationToken)">
+            <summary>NTC2018 anchor pullout from complete unfactored samples. Demand is already a design action in N,
+            positive tension, from a separately analysed A1+M1 history. No pile factors, action factors or layer-wise
+            extrema are applied. ExperimentalSource documents the required site confirmation; an empty source keeps
+            a numerically sufficient analytical prediction NotEvaluated.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallAnalysis">
+            <summary>Incremental small-displacement Euler-Bernoulli beam with two-sided, distributed elastoplastic Winkler soil.
+            Four-point Gauss integration, consistent loads, band Cholesky, Newton with line search and adaptive load increments.
+            An entire failed stage is rolled back; only completed stages are returned. No artificial toe restraint.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallAnalysis.Sample(GPC.Checkers.Geotechnics.EmbeddedWalls.WallStageResult,System.Double,GPC.Checkers.Geotechnics.EmbeddedWalls.WallResultSide)">
+            <summary>Sample a committed phase at the requested one-sided limit. No new equilibrium solution and no
+            interpolation between table rows. Outside-domain and outward endpoint limits are rejected explicitly.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallAnalysis.Envelope(System.Collections.Generic.IEnumerable{GPC.Checkers.Geotechnics.EmbeddedWalls.WallAnalysisResult},System.Int32,System.Threading.CancellationToken)">
+            <summary>Pointwise min/max of actual completed phases from independent nonlinear histories, with concomitant
+            actions and provenance. Same wall bounds and tributary width required; different meshes are supported.
+            Includes all element boundaries on both sides and every stationary point of each recovered polynomial.
+            Global outer extrema are retained. The display grid uses additional equal subdivisions; curves between
+            stations are a drawing approximation, not an exact continuous envelope or a new structural load case.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallAnalysis.WithToe(GPC.Model.Geotechnics.EmbeddedWalls.EmbeddedWallModel,System.Double,System.Boolean)">
+            <summary>Independent shorter wall, cut from a fully defined longest template. No soil/property extrapolation,
+            support/load removal or artificial toe restraint. Soil profiles remain available below the new toe.
+            Assigned pore-pressure profiles can only be retained with explicit confirmation that they are prescribed
+            independently of wall geometry; a seepage solution must otherwise be recomputed for each candidate.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallAnalysis.Validate(GPC.Model.Geotechnics.EmbeddedWalls.EmbeddedWallModel)">
+            <summary>Validates the complete history before calculation; no silent truncation or default soil parameters.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallGlobalProfile">
+            <summary>Explicit global-stability geometry for a continuous rectangular wall. Lengths mm.
+            Search and optional water line use slope coordinates: valley on the left, y=0 at the wall top.
+            Fields can be transformed with SeepageSlopeField. Supplied soil parameters and loads must be characteristic.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallGlobalPrepared">
+            <summary>Prepared input in the legacy slope coordinate system. No soil reactions or anchor forces are added as external loads.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallGlobalStability">
+            <summary>Geometry and action adapter to the existing global stability engine. All factors remain explicit in SlopeFactors.
+            Continuous vertical wall, horizontal ground, two soil columns. External support systems require their global geometry and are not silently ignored.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.EmbeddedWalls.WallStageResult.Elements">
+            <summary>Frozen recovered fields for sampling without interpolation of tabulated extrema or a new analysis.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.WallPointResult">
+            <summary>Concomitant actions for the represented strip: N positive compression, V N, M Nmm; rotation = du/d(depth).
+            At a concentrated action both element-end values are retained (Above/Below).</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.EmbeddedWalls.WallSupportResult.AxialForce">
+            <summary>Force per individual support, not per strip. Positive: tension for Anchor/Bilateral, compression for Strut.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.EmbeddedWalls.WallSupportResult.NormalForce">
+            <summary>Signed physical axial force per individual support, N, positive tension.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.WallBandMatrix">
+            <summary>Symmetric bandwidth-three matrix for ordered Hermite beam dofs; no artificial diagonal stabilization.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.WallConstitutiveLaw">
+            <summary>Elastic-perfectly-plastic pressure law with return mapping. Pressure MPa, inward movement/plastic offset mm,
+            stiffness N/mm³. Trial evaluations never mutate committed history. Unloading uses the same declared elastic modulus.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.WallResultQuantity">
+            <summary>Units respectively mm, radians, N, N, Nmm, MPa, MPa and N/mm, on the declared strip.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.WallRecoveredElement">
+            <summary>Frozen polynomials in t=(Top-z)/(Top-Bottom), captured by the solver. Not an independent input model.
+            The pressure and line-load recovery is cubic; V quartic and M quintic. Displacement remains Hermite cubic.
+            Plastic flags report the nearest integration point, as in the original recovered table.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.WallEnvelopeObservation">
+            <summary>One complete concomitant observation from one actual phase and case; never assembled from separate maxima.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.WallSoilPressure">
+            <summary>Horizontal layers, vertical smooth wall, uniform surcharge. Drained Rankine in effective stresses;
+            undrained Rankine in total stresses (phi=0, cu) includes water in the pressure law itself. No seismic coefficients are inferred.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Seepage.EmbeddedWallSeepageMesh">
+            <summary>Structured conforming triangles around a finite impermeable cutoff. Layers, water levels,
+            excavation surfaces and wall toe are mesh lines; rectangular cells are split with alternating diagonals.
+            Domain extent and bottom are engineering inputs, not inferred boundaries.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Seepage.HydraulicSafety">
+            <summary>Local hydraulic UPL/HYD checks, separate from global slope stability and undrained basal failure.
+            Inputs are characteristic actions/gradients; only an explicitly identified additional Rd is already a design resistance.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Seepage.SeepageAnalysis">
+            <summary>Galerkin linear triangles, stationary Darcy/Richards equation. Picard iteration with
+            residual line search; active-set atmospheric faces; diagonally preconditioned conjugate gradients.
+            All input and iteration state is owned by one call. No outputs usable as pressures on failure.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Seepage.SeepageMesh">
+            <summary>Owned snapshot and precomputed linear triangle geometry. No mesh generation or Gmsh dependency.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Seepage.SeepageOptions.AbsoluteFlowTolerance">
+            <summary>Absolute nodal discharge residual per out-of-plane length, mm²/s.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Seepage.SeepageResult.Inflow">
+            <summary>Boundary flows, mm²/s, including prescribed fluxes and fixed-head reactions.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Seepage.SeepageResult.Nodes">
+            <summary>Empty on failure; failed iterates are never usable as pressures.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Seepage.SeepageNodeResult.Pressure">
+            <summary>Gauge pore pressure γw(h−z), MPa. Suction is negative, never silently truncated.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Seepage.SeepageNodeResult.BoundaryReaction">
+            <summary>Positive inward. Reaction at a fixed head or active seepage face, mm²/s.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Seepage.SeepageElementResult.GradientX">
+            <summary>Components of ∇h; Darcy flux = −K∇h, mm/s.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Seepage.SeepageSampling">
+            <summary>Sampling and integration of a converged P1 field. No extrapolation and no smoothing across material interfaces.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Seepage.SeepageSampling.MeanUpwardGradient(GPC.Checkers.Geotechnics.Seepage.SeepageResult,System.Double,System.Double,System.Double)">
+            <summary>Mean upward gradient along an explicit vertical segment, dimensionless. This alone does not establish HYD applicability.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Seepage.SeepageSampling.NetUpwardForce(GPC.Checkers.Geotechnics.Seepage.SeepageResult,System.Double,System.Double,System.Double,System.Double,System.Double,System.Boolean)">
+            <summary>Integral of net pressure below minus above a horizontal body, times its represented width (N).
+            The lower face must be inside the converged domain; topPressure is a uniform assigned pressure on the upper face.
+            Suction is retained unless ignoreSuction is selected; its zero crossings are inserted before integration.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Seepage.SeepageSampling.GradientsAt(GPC.Checkers.Geotechnics.Seepage.SeepageResult,System.Double,System.Double)">
+            <summary>All element gradients touching a point. Selects maximum upward gradient conservatively; no averaged interface gradient.
+            Boundary type, representative soil and predominant direction require a separate engineering assessment.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Seepage.SeepageSampling.Line(GPC.Checkers.Geotechnics.Seepage.SeepageResult,System.Double,System.Double,System.Double,System.Double)">
+            <summary>Exact breakpoints of a line through the piecewise-affine field. Returned pressure remains signed, MPa.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Seepage.SeepageSlopeField">
+            <summary>Immutable stationary field adapter for the existing Bishop solver. Coordinates:
+            field x = originX + xDirection*slopeX; field z = originZ + slopeY (mm).
+            Saturated weight where pressure is positive, natural weight elsewhere. No capillary density model.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Seepage.SeepageWallCoupling">
+            <summary>One-way stationary hydraulic-to-mechanical coupling. No consolidation or suction strengthening.
+            Unit-weight saturation zones remain explicit in the mechanical stage.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Seepage.SeepageWallCoupling.Profile(GPC.Checkers.Geotechnics.Seepage.SeepageResult,System.Double,System.Double,System.Double,System.Boolean)">
+            <summary>Exact piecewise-linear pressure along a vertical mesh cut, including zero crossings.
+            If ignoreSuction is true, negative pressures are explicitly replaced by zero for the wall soil law.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Seepage.UnsaturatedConductivity">
+            <summary>Van Genuchten (1980)–Mualem, m=1−1/n and pore-connectivity exponent 1/2.
+            No regularization floor or unreported residual conductivity.</summary>
         </member>
     </members>
 </doc>

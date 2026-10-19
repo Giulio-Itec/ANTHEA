@@ -4,6 +4,31 @@
         <name>GPC.Design</name>
     </assembly>
     <members>
+        <member name="T:GPC.Design.Actions.Cslp103Data">
+            <summary>Immutable numerical tables of the public CSLP Spettri-NTC 1.0.3 workbook.</summary>
+        </member>
+        <member name="T:GPC.Design.Actions.Cslp103Grid">
+            <summary>
+            Fixed, compiled compatibility calculation of the CSLP grid. Cell identities in the generated part are retained for audit.
+            Bulk nearest-node searches replace the workbook's identical 10751-row distance/MIN/MAX/MATCH operations.
+            No formulas or executable code are loaded from documents at runtime.
+            </summary>
+        </member>
+        <member name="T:GPC.Design.Actions.IsolationSpectra">
+            <summary>Equivalent linear isolation spectra, NTC 2018 §7.10.5.3.2. Does not verify the applicability of the structural analysis model.</summary>
+        </member>
+        <member name="F:GPC.Design.Actions.IsolationSpectra.MaximumConventionalPeriodSeconds">
+            <summary>NTC 2018 §3.2.3.2: longer fundamental periods require a site-specific action definition.</summary>
+        </member>
+        <member name="M:GPC.Design.Actions.IsolationSpectra.ExampleSamples(GPC.Design.Actions.SpectrumState,System.Double,System.Double,System.Double)">
+            <summary>The supplied spreadsheet's 45 samples, only for explicit comparison; includes its displaced breakpoint and one-sided threshold.</summary>
+        </member>
+        <member name="M:GPC.Design.Actions.IsolationSpectra.Pendulum(System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>Single friction pendulum: N in kN, radius/displacement in mm, friction dimensionless. Example uses g=9806 mm/s².</summary>
+        </member>
+        <member name="T:GPC.Design.Actions.NtcSpectra">
+            <summary>Numerical compatibility with CSLP Spettri-NTC 1.0.3 (NTC 2008). All accelerations are in g, periods in seconds.</summary>
+        </member>
         <member name="T:GPC.Design.Bridges.BeamTrafficEnvelope">
             <summary>
             Prismatic Euler–Bernoulli beam. Unit-load influence functions are piecewise cubics.
@@ -111,6 +136,117 @@
             Unit price = subtotal + general expenses + profit, with general expenses = subtotal · g/100 and profit = (subtotal + general
             expenses) · u/100.
             </summary>
+        </member>
+        <member name="T:GPC.Design.EmbeddedWalls.EmbeddedWallAnchor">
+            <summary>One physical anchor. Profile geometry must agree across investigations. StageScopeSource documents
+            the bonded zone's validity after all relevant excavations/groundwater changes. No reuse of factored local-wall
+            reactions is allowed unless the complete history was run with the anchor A1+M1 action basis.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallAnchor.#ctor(System.String,System.Boolean,GPC.Model.Standards.GroundAnchorEvidence,System.Collections.Generic.IReadOnlyList{GPC.Model.Geotechnics.Anchors.GroundAnchorBond},System.Collections.Generic.IReadOnlyList{GPC.Checkers.Geotechnics.Anchors.GroundAnchorResistanceSample},System.String,System.String)">
+            <summary>One physical anchor. Profile geometry must agree across investigations. StageScopeSource documents
+            the bonded zone's validity after all relevant excavations/groundwater changes. No reuse of factored local-wall
+            reactions is allowed unless the complete history was run with the anchor A1+M1 action basis.</summary>
+        </member>
+        <member name="T:GPC.Design.EmbeddedWalls.EmbeddedWallRcStrip">
+            <summary>A rectangular strip without shear links. All dimensions mm, material strengths MPa.
+            Front is the right-hand face of the wall (positive displacement direction); back is the left-hand face.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallRcStrip.#ctor(System.String,System.Double,System.Double,System.Double,System.Int32,System.Double,System.Int32,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.String)">
+            <summary>A rectangular strip without shear links. All dimensions mm, material strengths MPa.
+            Front is the right-hand face of the wall (positive displacement direction); back is the left-hand face.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallRcStrip.CreateSession">
+            <summary>Creates an independent section session. No shared mutable material, mesh or verifier between analyses.</summary>
+        </member>
+        <member name="T:GPC.Design.EmbeddedWalls.EmbeddedWallSectionResult">
+            <summary>One cut, one stage and one nonlinear history. Actions are never assembled from separate extrema.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallSectionResult.#ctor(System.String,System.String,System.String,System.Double,System.String,GPC.Checkers.Concrete.Walls.WallSectionActions,System.Collections.Generic.IReadOnlyList{GPC.Checkers.Concrete.Walls.WallSectionCheck},System.String)">
+            <summary>One cut, one stage and one nonlinear history. Actions are never assembled from separate extrema.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallConcrete.Actions(GPC.Checkers.Geotechnics.EmbeddedWalls.WallPointResult)">
+            <summary>Map the beam cut convention (compression positive; positive curvature tensions the left/back face)
+            to Concrete (compression negative; positive moment tensions its bottom/front face). No unit or width scaling.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallConcrete.Check(GPC.Checkers.Geotechnics.EmbeddedWalls.WallAnalysisResult,System.Double,System.Collections.Generic.IReadOnlyList{GPC.Design.EmbeddedWalls.EmbeddedWallRcStrip},GPC.Design.EmbeddedWalls.EmbeddedWallSectionCheckKind,System.Threading.CancellationToken)">
+            <summary>Check only a completed analysis of the explicitly classified combination. The caller must first run
+            a separate history for each factored combination; this method never factors or superposes nonlinear results.
+            Scope: exact NTC2018 profile, ordinary rectangular RC, no links. Detailing and global safety are separate.</summary>
+        </member>
+        <member name="T:GPC.Design.EmbeddedWalls.WallEmbedmentCriterion">
+            <summary>An aggregate criterion for the entire case history. Stage/elevation identify its governing observation,
+            when relevant. Demand, limit and utilization keep their declared units; this record applies no factors.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.WallEmbedmentCriterion.#ctor(System.String,System.String,GPC.Model.Checking.Contracts.EngineeringOutcome,System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.String,System.String,System.String,System.String,System.Nullable{System.Double})">
+            <summary>An aggregate criterion for the entire case history. Stage/elevation identify its governing observation,
+            when relevant. Demand, limit and utilization keep their declared units; this record applies no factors.</summary>
+        </member>
+        <member name="T:GPC.Design.EmbeddedWalls.WallEmbedmentEvaluation`1">
+            <summary>All independently computed histories and aggregate criteria at this toe. Payload carries the same
+            complete application result to the caller; the search never recalculates it for display or reporting.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.WallEmbedmentEvaluation`1.#ctor(System.Double,System.Collections.Generic.IReadOnlyList{GPC.Checkers.Geotechnics.EmbeddedWalls.WallAnalysisResult},System.Collections.Generic.IReadOnlyList{GPC.Design.EmbeddedWalls.WallEmbedmentCriterion},`0)">
+            <summary>All independently computed histories and aggregate criteria at this toe. Payload carries the same
+            complete application result to the caller; the search never recalculates it for display or reporting.</summary>
+        </member>
+        <member name="T:GPC.Design.EmbeddedWalls.EmbeddedWallEmbedment">
+            <summary>Exhaustive finite search over assigned constructible depths. No monotonicity, bisection,
+            interpolation of nonlinear results or continuation of one candidate's state into another candidate.
+            The evaluator must reconstruct the geometry, seepage and every complete history from the inputs.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallEmbedment.Depths(GPC.Model.Geotechnics.EmbeddedWalls.EmbeddedWallEmbedmentSearch)">
+            <summary>Upper endpoint included explicitly even when the increment does not divide the interval.
+            Returns an independent, read-only grid and validates the full history/check contract.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallEmbedment.Aggregate(System.String,System.String,System.Collections.Generic.IEnumerable{GPC.Design.EmbeddedWalls.WallEmbedmentCriterion})">
+            <summary>All requested checks in one family, across stages and sections. Empty/unsupported families never pass.
+            A demonstrated failure excludes a candidate even if another check is unavailable. No capacities or factors recomputed.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallEmbedment.HeadDisplacement(GPC.Checkers.Geotechnics.EmbeddedWalls.WallAnalysisResult,System.Double,System.String)">
+            <summary>Absolute displacement at the HEAD, maximum over all completed stages; mm.
+            This is not a maximum over the entire wall, and is not a normative limit selected by the library.</summary>
+        </member>
+        <member name="T:GPC.Design.EmbeddedWalls.EmbeddedWallRcPile">
+            <summary>One row of identical RC piles. Spacing/width in mm, other dimensions from the physical section.
+            A declared shear equivalent is required; a ring of single hoops is not replaced by a spiral.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallRcPile.#ctor(System.String,GPC.Model.Design.Concrete.CircularRcSection,System.Double,System.Boolean,System.String,System.Boolean,System.Double,System.Double,System.String,System.Double,System.Nullable{System.Double},System.Double,GPC.Checkers.Concrete.Piles.PileDetailingMode,System.Boolean,System.Boolean)">
+            <summary>One row of identical RC piles. Spacing/width in mm, other dimensions from the physical section.
+            A declared shear equivalent is required; a ring of single hoops is not replaced by a spiral.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallRcPiles.Check(GPC.Checkers.Geotechnics.EmbeddedWalls.WallAnalysisResult,System.Double,System.Collections.Generic.IReadOnlyList{GPC.Design.EmbeddedWalls.EmbeddedWallRcPile},GPC.Design.EmbeddedWalls.EmbeddedWallSectionCheckKind,System.Threading.CancellationToken)">
+            <summary>Concomitant N-M-V per physical pile, N positive tension. Each history owns its section sessions.
+            Nominal ULS/SLS checks remain distinct from construction, anchorage and member/global stability.</summary>
+        </member>
+        <member name="T:GPC.Design.EmbeddedWalls.EmbeddedWallSteelResult">
+            <summary>One physical support, one stage and one independently analysed design combination.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallSteelResult.#ctor(System.String,System.String,System.String,GPC.Model.Geotechnics.EmbeddedWalls.EmbeddedWallSupportKind,System.Double,System.Double,System.Boolean,GPC.Checkers.Steel.Members.AxialSteelResult,GPC.Model.Checking.Contracts.EngineeringOutcome,System.String)">
+            <summary>One physical support, one stage and one independently analysed design combination.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallSteel.CheckSupports(GPC.Checkers.Geotechnics.EmbeddedWalls.WallAnalysisResult,System.Collections.Generic.IReadOnlyList{GPC.Design.EmbeddedWalls.EmbeddedWallSteelSupport},GPC.Model.Standards.StandardEN1993p11,GPC.Design.EmbeddedWalls.EmbeddedWallSteelCheckKind,System.Threading.CancellationToken)">
+            <summary>Forces are already design values. No nonlinear superposition, partial action factor, spacing multiplier
+            or cosine projection is applied. Missing definitions remain explicit. These are checks of the steel axial member,
+            not of the anchorage, connection, ground bond or the complete retaining system.</summary>
+        </member>
+        <member name="T:GPC.Design.EmbeddedWalls.EmbeddedWallSteelTube">
+            <summary>One row of identical tubes with equal load sharing, spacing in mm. No implicit multirow/arching model.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallSteelTube.#ctor(System.String,GPC.Model.Design.Steel.CircularHollowSteelSection,System.Double,System.Boolean,System.String)">
+            <summary>One row of identical tubes with equal load sharing, spacing in mm. No implicit multirow/arching model.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallSteelTube.FlexuralRigidity(System.Double)">
+            <summary>Elastic EI for the represented strip, Nmm². Pressure acts on the declared strip width.</summary>
+        </member>
+        <member name="T:GPC.Design.EmbeddedWalls.EmbeddedWallSteelTubeResult">
+            <summary>Local section result at one cut, one stage and one case. Actions are per physical tube, N positive tension.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallSteelTubeResult.#ctor(System.String,System.String,System.String,System.Double,System.String,System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},GPC.Checkers.Steel.Sections.CircularHollowSectionResult,GPC.Model.Checking.Contracts.EngineeringOutcome,System.String)">
+            <summary>Local section result at one cut, one stage and one case. Actions are per physical tube, N positive tension.</summary>
+        </member>
+        <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallSteelTubes.Check(GPC.Checkers.Geotechnics.EmbeddedWalls.WallAnalysisResult,System.Double,System.Collections.Generic.IReadOnlyList{GPC.Design.EmbeddedWalls.EmbeddedWallSteelTube},GPC.Model.Standards.StandardEN1993p11,GPC.Design.EmbeddedWalls.EmbeddedWallSteelCheckKind,System.Threading.CancellationToken)">
+            <summary>All N-M-V components use the SAME cut and spacing/strip-width multiplier exactly once.
+            No action factors or envelope recombination. Section checks do not replace member/ground stability.</summary>
         </member>
         <member name="T:GPC.Design.Piles.PileSegmentDesign">
             <summary>Discrete segment design over the existing Concrete engines. Actions are concomitant kN/kNm at depths in m;
