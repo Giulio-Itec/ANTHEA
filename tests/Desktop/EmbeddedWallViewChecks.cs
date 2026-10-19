@@ -53,6 +53,24 @@ internal static class EmbeddedWallViewChecks
             Appearance.Set(AppAppearance.Light, false);
             sheet.Tables.First(t => t.Key == "stages").Rows[1]["right_ground"] = "-3"; await Settle();
             Check(plot.Points?.Count == 0 && sheet.Current is null, "Grafico superato rimasto visibile.");
+            var hydraulic = sheet.Data.DeepClone().AsObject(); hydraulic["hydraulic_mode"] = "FEM 2D";
+            hydraulic["hydraulic_left_extent"] = 12; hydraulic["hydraulic_right_extent"] = 12; hydraulic["hydraulic_bottom"] = -18;
+            hydraulic["hydraulic_thickness"] = .6; hydraulic["hydraulic_mesh"] = 1;
+            foreach (var stage in hydraulic["stages"]!.AsArray().Cast<JsonObject>()) { stage["left_water"] = stage["left_ground"]!.DeepClone(); stage["right_water"] = stage["right_ground"]!.DeepClone(); }
+            foreach (string side in new[] { "hydraulic_left", "hydraulic_right" })
+            {
+                var soil = EmbeddedWallDocument.NewRow(side); soil["kxx"] = 1e-5; soil["kzz"] = 1e-5; soil["source"] = "Prova grafica sintetica";
+                hydraulic[side]!.AsArray().Add(soil);
+            }
+            sheet.Reload(hydraulic); await editor.CalculateAsync();
+            Check(sheet.Current?.Complete == true && sheet.HydraulicStages.Count == 2, "Filtrazione non disponibile nella vista.");
+            tabs.SelectedIndex = 4; await Settle(); Capture("filtrazione");
+            var field = Visual(editor.View).OfType<SeepageDiagram>().Single();
+            Check(ReferenceEquals(field.Field, sheet.SelectedHydraulicStage), "Campo idraulico non associato al risultato corrente.");
+            sheet.HydraulicDiagram = "Pressione interstiziale [kPa]"; Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("pressioni-scuro");
+            Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "hydraulic_right").Rows[0]["kzz"] = "0.00002"; await Settle();
+            Check(field.Field is null && sheet.HydraulicNodes.Count == 0, "Campo idraulico superato rimasto visibile.");
             editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
             Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF paratie, senza attivare finestre sul desktop");

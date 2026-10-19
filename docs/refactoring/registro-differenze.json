@@ -7522,6 +7522,35 @@
       "voci_collegate": [
         "PARATIE-01"
       ]
+    },
+    {
+      "id": "PARATIE-03",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 2",
+      "titolo": "Filtrazione FEM stazionaria per fase e trasferimento delle pressioni",
+      "famiglia": "geotecnica/paratie/idraulica",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Nuova analisi Darcy/Richards in Geotechnics con contratti Model; ANTHEA orchestra fasi e conversioni, conserva il risultato idraulico insieme a quello meccanico e lo presenta nella vista e nel report. Migrazione schema 1→2 con idraulica disattivata e dati mancanti espliciti. Nessun campo non convergente viene utilizzato come pressione meccanica.",
+      "codice": [
+        "Checker/src/Geotechnics/Seepage",
+        "Model/Model/Geotechnics/Seepage",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallHydraulics.cs",
+        "X.Desktop/Views/EmbeddedWalls/SeepageDiagram.cs"
+      ],
+      "segno": "Funzione additiva attivata dall'utente; modalità idrostatica conservata. I casi FEM cambiano le pressioni e quindi le azioni come dichiarato. Nessun atteso legacy modificato.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico completo paratie: includere filtrazione FEM 2D, fasi, interfaccia e verifiche indipendenti.",
+        "esito": "Incremento collaudato nel campo dichiarato; verifiche idrauliche di sicurezza e altre funzioni della matrice ancora aperte."
+      },
+      "test": [
+        "Checker/tests/EmbeddedWalls.Tests/SeepageTests.cs: 12 nuove prove PASS",
+        "tests/ANTHEA.Presentation.Tests/EmbeddedWallChecks.cs: 43 controlli PASS",
+        "tests/Desktop/EmbeddedWallViewChecks.cs: 10 controlli PASS",
+        "docs/paratie/incremento-02.md: evidenze, fonti e limiti"
+      ],
+      "voci_collegate": ["PARATIE-01", "PARATIE-02"]
     }
   ]
 }

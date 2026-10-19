@@ -12,8 +12,8 @@ namespace Anthea.Application.EmbeddedWalls;
 public static class EmbeddedWallDocument
 {
     public const string Module = "geo_paratie";
-    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections" });
-    public static JsonObject Create() => new()
+    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right" });
+    public static JsonObject Create() => Upgrade(new()
     {
         ["schema"] = 1, ["name"] = "Paratia", ["case_id"] = "Caso 1", ["action_basis"] = "Da definire",
         ["top"] = 0, ["bottom"] = -12, ["width"] = 1, ["mesh"] = .25,
@@ -22,7 +22,7 @@ public static class EmbeddedWallDocument
         ["left_soils"] = new JsonArray(NewRow("left_soils")), ["right_soils"] = new JsonArray(NewRow("right_soils")),
         ["supports"] = new JsonArray(), ["stages"] = new JsonArray(NewRow("stages")),
         ["activations"] = new JsonArray(), ["loads"] = new JsonArray(), ["rc_sections"] = new JsonArray()
-    };
+    });
     public static JsonObject NewRow(string table) => table switch
     {
         "segments" => new() { ["section"] = "S1", ["top"] = 0, ["bottom"] = -12, ["ei"] = null, ["weight"] = 0, ["source"] = "" },
@@ -36,18 +36,37 @@ public static class EmbeddedWallDocument
         "rc_sections" => new() { ["id"] = "S1", ["width"] = 1000, ["thickness"] = 600, ["cover"] = 50,
             ["back_bars"] = 6, ["back_diameter"] = 20, ["front_bars"] = 6, ["front_diameter"] = 20,
             ["fck"] = 30, ["fyk"] = 450, ["es"] = 200000, ["eps_uk"] = .075, ["creep"] = 2, ["exposure"] = "XC2" },
+        "hydraulic_left" or "hydraulic_right" => new() { ["name"] = "Strato idraulico", ["top"] = 0, ["bottom"] = -20,
+            ["kxx"] = null, ["kzz"] = null, ["kxz"] = 0, ["alpha"] = null, ["n"] = null, ["source"] = "" },
         _ => throw new ArgumentException("Tabella paratie sconosciuta: " + table)
     };
     public static JsonObject Snapshot(JsonObject source)
     {
         ArgumentNullException.ThrowIfNull(source);
-        var copy = source.DeepClone().AsObject(); Validate(copy); return copy;
+        return Upgrade(source.DeepClone().AsObject());
+    }
+    /// <summary>Schema 1→2 adds an inactive hydraulic analysis, without inventing permeability or geometry.</summary>
+    public static JsonObject Upgrade(JsonObject data)
+    {
+        Validate(data);
+        if (StratigraphyDocument.Number(data["schema"], "Versione paratie") == 1)
+        {
+            var added = new JsonObject { ["hydraulic_mode"] = "Idrostatica", ["hydraulic_left_extent"] = null, ["hydraulic_right_extent"] = null,
+                ["hydraulic_bottom"] = null, ["hydraulic_thickness"] = null, ["hydraulic_mesh"] = null, ["ignore_suction"] = false,
+                ["hydraulic_iterations"] = new GPC.Checkers.Geotechnics.Seepage.SeepageOptions().MaximumIterations,
+                ["hydraulic_left"] = new JsonArray(), ["hydraulic_right"] = new JsonArray() };
+            foreach (var entry in added) if (!data.ContainsKey(entry.Key)) data[entry.Key] = entry.Value?.DeepClone();
+            data["schema"] = 2; Validate(data);
+        }
+        return data;
     }
     public static void Validate(JsonObject data)
     {
-        if (StratigraphyDocument.Number(data["schema"], "Versione paratie") != 1) throw new ArgumentException("Versione del documento paratie non supportata; nessuna migrazione implicita.");
+        var schema = StratigraphyDocument.Number(data["schema"], "Versione paratie");
+        if (schema is not (1 or 2)) throw new ArgumentException("Versione del documento paratie non supportata.");
         foreach (var name in Tables)
         {
+            if (schema == 1 && name is ("hydraulic_left" or "hydraulic_right")) continue;
             if (data[name] is not JsonArray rows || rows.Any(r => r is not JsonObject)) throw new ArgumentException("Tabella mancante o non valida: " + name);
             if (rows.Count > 10000) throw new ArgumentException("Tabella troppo estesa: " + name);
         }

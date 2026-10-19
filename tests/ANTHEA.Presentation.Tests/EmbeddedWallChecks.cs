@@ -94,7 +94,74 @@ internal static class EmbeddedWallChecks
         using var gate = new HeldModule(); using var cancellable = Open(Example(), false, gate); using var cancel = new CancellationTokenSource();
         var task = cancellable.CalculateAsync(cancel.Token); await Expect.Within(gate.Started.Task); cancel.Cancel(); await Expect.Within(task);
         e.That(cancellable.Current is null && !cancellable.IsBusy, "Annullamento ha pubblicato risultati.");
+        await HydraulicsAsync(e, output);
         return e.Count;
+    }
+    internal static JsonObject HydraulicExample()
+    {
+        var d = Example(); d["name"] = "Filtrazione — scavo a due fasi"; d["loads"] = new JsonArray();
+        foreach (string side in new[] { "left_soils", "right_soils" })
+        {
+            var soil = EmbeddedWallDocument.NewRow(side); soil["name"] = "Sabbia sintetica"; soil["gamma"] = 18; soil["gamma_sat"] = 20;
+            soil["phi"] = 30; soil["c"] = 0; soil["k0"] = .5; soil["kh"] = .001;
+            soil["source"] = "Valori di collaudo"; soil["stiffness_source"] = "Parametro di collaudo"; d[side] = new JsonArray(soil);
+        }
+        var first = d["stages"]![0]!.AsObject(); foreach (var key in new[] { "left_ground", "right_ground", "left_water", "right_water" }) first[key] = 0;
+        var second = first.DeepClone().AsObject(); second["id"] = "F2"; second["right_ground"] = -2; second["right_water"] = -2; d["stages"]!.AsArray().Add(second);
+        d["hydraulic_mode"] = "FEM 2D"; d["hydraulic_left_extent"] = 8; d["hydraulic_right_extent"] = 8;
+        d["hydraulic_bottom"] = -12; d["hydraulic_thickness"] = .6; d["hydraulic_mesh"] = 1;
+        foreach (string side in new[] { "hydraulic_left", "hydraulic_right" })
+        {
+            var soil = EmbeddedWallDocument.NewRow(side); soil["kxx"] = 1e-5; soil["kzz"] = 1e-5; soil["source"] = "Permeabilità sintetica";
+            d[side] = new JsonArray(soil);
+        }
+        return d;
+    }
+    private static async Task HydraulicsAsync(Expect e, string output)
+    {
+        var old = Example(); old["schema"] = 1;
+        foreach (string key in old.Select(p => p.Key).Where(k => k.StartsWith("hydraulic_", StringComparison.Ordinal) || k == "ignore_suction").ToArray()) old.Remove(key);
+        string oldJson = old.ToJsonString(); var migrated = EmbeddedWallDocument.Snapshot(old);
+        e.That(old.ToJsonString() == oldJson && migrated["schema"]!.ToString() == "2" && migrated["hydraulic_mode"]!.ToString() == "Idrostatica"
+            && migrated["hydraulic_left"]!.AsArray().Count == 0 && migrated["hydraulic_mesh"] is null, "Migrazione ha mutato l'originale o inventato dati idraulici.");
+        using (var legacy = Open(old)) e.That(legacy.Data["schema"]!.ToString() == "2" && legacy.Tables.Count == 10, "Documento precedente non apribile nell'editor.");
+        var data = HydraulicExample(); string original = data.ToJsonString(); using var sheet = Open(data);
+        e.That(await Expect.Within(sheet.CalculateAsync()), "Calcolo idraulico asincrono non pubblicato.");
+        var result = sheet.Current ?? throw new InvalidOperationException("Risultato idraulico assente.");
+        e.That(result.Complete && result.Hydraulics?.Count == 2 && result.Stages.Count == 2, "Storia idraulica/meccanica incompleta: " + result.Diagnostic);
+        var fields = result.Hydraulics!;
+        e.That(data.ToJsonString() == original && fields.All(h => h.Complete && h.Nodes.Count > 0), "Idraulica ha mutato gli input o prodotto campi vuoti.");
+        // Independent hydrostatic solution: h=0, u=-gamma_w*z; unit conversions m, kPa, L/s/m.
+        e.That(fields[0].Nodes.All(n => Math.Abs(n.Head) < 1e-9 && Math.Abs(n.Pressure + 9.81 * n.Z) < 1e-8)
+            && Math.Abs(fields[0].InflowLitresPerSecondPerMetre) < 1e-9, "Campo iniziale non idrostatico o unità errate.");
+        e.That(fields[1].InflowLitresPerSecondPerMetre > 0 && Math.Abs(fields[1].BalanceLitresPerSecondPerMetre) < 1e-8
+            && fields[1].Elements.All(x => x.RelativeConductivity == 1), "Filtrazione satura: portata, bilancio o permeabilità errati.");
+        var noFem = data.DeepClone().AsObject(); noFem["hydraulic_mode"] = "Idrostatica";
+        var hydrostatic = new EmbeddedWallModule().Calculate(noFem).NativeAs<EmbeddedWallReportData>();
+        e.That(Math.Abs(hydrostatic.Stages[1].Points[0].Displacement - result.Stages[1].Points[0].Displacement) > 1e-3, "Campo idraulico non trasferito alla paratia.");
+        var saved = JsonNode.Parse(sheet.Data.ToJsonString())!.AsObject(); using var reopened = Open(saved);
+        e.That(reopened.HydraulicStages[1].Nodes.SequenceEqual(fields[1].Nodes) && reopened.HydraulicStages[1].Elements.SequenceEqual(fields[1].Elements)
+            && reopened.SelectedHydraulicStage?.Stage == "F2", "Riapertura ha alterato il campo o la provenienza.");
+        string csv = EmbeddedWallReport.HydraulicCsv(result);
+        e.That(csv.Split('\n', StringSplitOptions.RemoveEmptyEntries).Length == 1 + fields.Sum(h => h.Nodes.Count + h.Elements.Count)
+            && csv.Contains(result.Fingerprint), "Esportazione idraulica incompleta.");
+        string before = sheet.Data.ToJsonString(); var report = sheet.Report.BuildReport("Filtrazione di collaudo", new HashSet<string>());
+        string dir = Path.Combine(output, "paratie"); ReportFiles.Write(Path.Combine(dir, "filtrazione.docx"), report, "Filtrazione");
+        File.WriteAllText(Path.Combine(dir, "filtrazione.csv"), csv, new UTF8Encoding(true));
+        File.WriteAllText(Path.Combine(dir, "filtrazione.json"), sheet.Data.ToJsonString(new() { WriteIndented = true }));
+        e.That(sheet.Data.ToJsonString() == before && DocxWriter.Read(report).GetXml("word/document.xml").ToString().Contains("L/s/m"), "Report idraulico incoerente o con ricalcolo.");
+        reopened.Tables.Single(t => t.Key == "hydraulic_left").Rows[0]["kxx"] = "0.00002";
+        e.That(reopened.Current is null && reopened.HydraulicNodes.Count == 0 && !reopened.HydraulicCsvCommand.CanExecute(null), "Permeabilità modificata senza invalidare tutti i risultati dipendenti.");
+        var failed = HydraulicExample(); failed["hydraulic_iterations"] = 1;
+        using var failedSheet = Open(failed); await Expect.Within(failedSheet.CalculateAsync());
+        e.That(failedSheet.Current is { Complete: false, Status: "HydraulicNonConvergent" } && failedSheet.Stages.Count == 0
+            && failedSheet.HydraulicStages[0].Complete && !failedSheet.HydraulicStages[1].Complete && failedSheet.HydraulicStages[1].Nodes.Count == 0
+            && !failedSheet.HasResults, "Mancata convergenza idraulica trasformata in risultati meccanici validi.");
+        var service = new EmbeddedWallModule(); using var cancelled = new CancellationTokenSource();
+        service.ProgressChanged += _ => cancelled.Cancel();
+        e.Throws<OperationCanceledException>(() => service.Calculate(data, cancelled.Token), "Annullamento durante la filtrazione ignorato.");
+        var invalid = HydraulicExample(); invalid["hydraulic_left"]![0]!["kxx"] = -1;
+        e.Throws<ArgumentException>(() => service.Calculate(invalid), "Permeabilità negativa accettata.");
     }
     private static EmbeddedWallSheetViewModel Open(JsonObject data, bool readOnly = false, IModuleService? module = null)
         => new(new(data.DeepClone().AsObject(), readOnly, new Host(), Scripted.Services(), module ?? ModuleServices.Get(EmbeddedWallDocument.Module), new CalculationLimiter(1)));

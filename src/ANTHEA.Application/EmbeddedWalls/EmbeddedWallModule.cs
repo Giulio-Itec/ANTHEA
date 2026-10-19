@@ -9,7 +9,7 @@ using static Anthea.Application.EmbeddedWalls.EmbeddedWallAdapter;
 
 namespace Anthea.Application.EmbeddedWalls;
 
-public sealed record EmbeddedWallProgress(string Stage, double Fraction, int Iterations);
+public sealed record EmbeddedWallProgress(string Stage, double? Fraction, int Iterations);
 
 public sealed class EmbeddedWallModule : IModuleService
 {
@@ -29,6 +29,16 @@ public sealed class EmbeddedWallModule : IModuleService
         var rc = kind.HasValue ? EmbeddedWallAdapter.ConcreteSections(data) : [];
         if (kind.HasValue && rc.Count == 0) throw new ArgumentException("Definire le sezioni in c.a. da verificare.");
         foreach (var section in rc) section.Validate();
+        var hydraulics = EmbeddedWallHydraulics.Calculate(data, model, cancellation, p => ProgressChanged?.Invoke(p));
+        var hydraulicFailure = hydraulics.FirstOrDefault(h => !h.Complete);
+        if (hydraulicFailure is not null)
+        {
+            var failed = new EmbeddedWallReportData(model.Name, EmbeddedWallDocument.Fingerprint(data), model.CaseId, basis,
+                "HydraulicNonConvergent", false, hydraulicFailure.Diagnostic, data.ToJsonString(new() { WriteIndented = true }), [], [],
+                ["Filtrazione non convergente nella fase " + hydraulicFailure.Stage + ": analisi meccanica e verifiche non eseguite. I campi delle sole fasi idrauliche convergenti restano consultabili."], hydraulics);
+            cancellation.ThrowIfCancellationRequested();
+            return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(failed), failed);
+        }
         var analysis = EmbeddedWallAnalysis.Calculate(model, EmbeddedWallAdapter.Options(data), cancellation,
             new ProgressRelay(p => { progress?.Report(p); ProgressChanged?.Invoke(new(p.StageId, p.Fraction, p.Iterations)); }));
         var checks = analysis.IsComplete && kind.HasValue ? EmbeddedWallConcrete.Check(analysis, model.TributaryWidth, rc, kind.Value, cancellation) : [];
@@ -37,7 +47,9 @@ public sealed class EmbeddedWallModule : IModuleService
             "Modello piano di trave su molle elastoplastiche indipendenti; piccoli spostamenti, strati orizzontali e parete verticale liscia. Pressioni Rankine, carico uniforme sul terreno.",
             "Le fasi interpolano le pressioni fra configurazioni successive e conservano la memoria plastica. I sostegni sono installati sulla deformata precedente; le attivazioni elencano tutti i sostegni presenti in ciascuna fase.",
             "N positivo a compressione; V e M riferiti alla sezione della fascia analizzata. I sostegni riportano la forza per singolo elemento. Quote positive verso l'alto.",
-            "La convergenza numerica non costituisce una verifica completa dell'opera. Stabilità globale, fondo scavo, filtrazione, dettagli, acciaio e sisma non sono ancora integrati in questo incremento.",
+            "La convergenza numerica non costituisce una verifica completa dell'opera. Stabilità globale, fondo scavo, dettagli, acciaio e sisma non sono ancora integrati in questo incremento.",
+            hydraulics.Count == 0 ? "Pressioni interstiziali idrostatiche dai livelli di falda assegnati."
+                : "Filtrazione stazionaria FEM 2D per ciascuna fase, terreno saturo/non saturo, parete impermeabile di spessore finito. Condizioni laterali a carico imposto, fondo impermeabile e superficie drenante. Le pressioni convergenti sulle due facce alimentano il modello meccanico; nessuna analisi transitoria o verifica HYD/UPL è implicita.",
             kind.HasValue ? "Verifiche di sezione NTC 2018 su azioni della combinazione dichiarata; rettangolo senza staffe. Nessun coefficiente parziale aggiunto dal servizio. Progetto delle armature e dettagli non eseguiti."
                 : "Analisi delle azioni e degli spostamenti; verifiche di resistenza ed esercizio delle sezioni non richieste."
         };
@@ -51,7 +63,7 @@ public sealed class EmbeddedWallModule : IModuleService
                 -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, "Sezione non definita", "", 0, null, null, EngineeringOutcome.NotEvaluated, c.Diagnostic) }
                 : c.Checks.Select(v => new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / SoilUnits.Metre, c.Side,
                     -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, v.Method, v.Unit, v.Demand, v.Capacity, v.Ratio, v.Outcome, v.Diagnostic ?? c.Diagnostic))).ToArray()),
-            scope.AsReadOnly());
+            scope.AsReadOnly(), hydraulics);
         cancellation.ThrowIfCancellationRequested();
         return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(snapshot), snapshot);
     }

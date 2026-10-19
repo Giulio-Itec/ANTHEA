@@ -13,10 +13,21 @@ public static class EmbeddedWallFields
         new("fix_top_u", "Blocca traslazione in testa", Bool: true), new("fix_top_rotation", "Blocca rotazione in testa", Bool: true),
         new("fix_bottom_u", "Blocca traslazione al piede", Bool: true), new("fix_bottom_rotation", "Blocca rotazione al piede", Bool: true)
     ];
+    public static FieldSpec[] Hydraulics() =>
+    [
+        new("hydraulic_mode", "Pressioni interstiziali", Choices: ["Idrostatica", "FEM 2D"], Wide: true),
+        new("hydraulic_left_extent", "Estensione a sinistra dall'asse", "m"), new("hydraulic_right_extent", "Estensione a destra dall'asse", "m"),
+        new("hydraulic_bottom", "Quota del fondo impermeabile", "m"), new("hydraulic_thickness", "Spessore parete impermeabile", "m"),
+        new("hydraulic_mesh", "Passo massimo della mesh", "m"),
+        new("hydraulic_iterations", "Numero massimo di iterazioni idrauliche"),
+        new("ignore_suction", "Trascurare la suzione nel modello meccanico", Bool: true, Wide: true,
+            ToolTip: "Il campo FEM conserva le pressioni negative. Se selezionato, il trasferimento alla paratia limita le pressioni a zero; altrimenti rifiuta profili con suzione. Nessun aumento della resistenza del terreno è attribuito alla suzione.")
+    ];
     public static string Title(string table) => table switch
     {
         "segments" => "Tratti e rigidezze", "left_soils" => "Terreno a sinistra", "right_soils" => "Terreno a destra", "supports" => "Tiranti e puntoni",
-        "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi sulla struttura", "rc_sections" => "Sezioni e armature", _ => table
+        "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi sulla struttura", "rc_sections" => "Sezioni e armature",
+        "hydraulic_left" => "Permeabilità a sinistra", "hydraulic_right" => "Permeabilità a destra", _ => table
     };
     public static FieldSpec[] Columns(string table) => table switch
     {
@@ -39,6 +50,9 @@ public static class EmbeddedWallFields
             new("back_bars", "Numero barre retro (sinistra)"), new("back_diameter", "Diametro retro", "mm"), new("front_bars", "Numero barre fronte (destra)"), new("front_diameter", "Diametro fronte", "mm"),
             new("fck", "Resistenza cilindrica calcestruzzo", "MPa"), new("fyk", "Snervamento armatura", "MPa"), new("es", "Modulo armatura", "MPa"), new("eps_uk", "Deformazione ultima armatura"),
             new("creep", "Coefficiente di viscosità"), new("exposure", "Classe di esposizione")],
+        "hydraulic_left" or "hydraulic_right" => [new("name", "Strato"), new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
+            new("kxx", "Permeabilità Kxx", "m/s"), new("kzz", "Permeabilità Kzz", "m/s"), new("kxz", "Permeabilità Kxz", "m/s"),
+            new("alpha", "Van Genuchten α (facoltativo)", "1/m"), new("n", "Van Genuchten n (facoltativo)"), new("source", "Fonte delle permeabilità e della curva")],
         _ => []
     };
 }

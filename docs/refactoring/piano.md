@@ -971,3 +971,5 @@ I limiti e le evidenze sono nel [verbale di incremento](../paratie/incremento-01
 Nessun motore legacy spostato o rimosso; nessun atteso indipendente modificato.
 
 - [x] PARATIE-02: chiusi i tre rilievi di integrazione del primo standard con riesecuzioni mirate del runner; attesi invariati, provenienza della libreria distinta dal contenuto numerico. Standard completo successivo ancora da eseguire.
+
+- [x] PARATIE-03: filtrazione FEM 2D stazionaria, trasferimento delle pressioni, schema 2, vista WPF e report. 23 test Geotechnics (12 idraulici), 43 controlli applicativi/MVVM, 10 WPF e architettura PASS. Set locale `candidate-05`/`snapshot-05`; [evidenze e limiti](../paratie/incremento-02.md). PAR-14 resta in corso per le estensioni dichiarate.

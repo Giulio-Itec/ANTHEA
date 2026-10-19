@@ -51,7 +51,7 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-11 | P | Dimensionamento geotecnico tiranti | BustamanteDoix da estendere con campo verificato | dettaglio tirante | attesi indipendenti per bulbo | aperto |
 | PAR-12 | P,H | Carichi terreno/struttura, concentrati/distribuiti/coppie | Geotechnics | editor carichi | integrali e salti di V/M | in corso |
 | PAR-13 | P,H | Falda per fase e per lato | SoilProfile, Geotechnics | falde | pressione idrostatica, equilibrio | in corso |
-| PAR-14 | H | Filtrazione FEM 2D stazionaria anche non lineare | Geotechnics nuovo | dominio idraulico | Darcy, bilancio, raffinamento | aperto |
+| PAR-14 | H | Filtrazione FEM 2D stazionaria anche non lineare | Geotechnics.Seepage, Model.Seepage | dominio a due colonne, materiali, fasi e campo nodale | Darcy, bilancio, raffinamento, mancata convergenza: incremento 2 | in corso |
 | PAR-15 | H,U | Sifonamento e sollevamento idraulico | Geotechnics, norme Model | verifiche idrauliche | gradiente/forze con fonte | aperto |
 | PAR-16 | H,U | Instabilità del fondo e tampone | Geotechnics | fondo scavo | benchmark distinto da UPL/HYD | aperto |
 | PAR-17 | P,H,U | Stabilità globale per fase e combinazione | SlopeStability, BishopSolver esistenti | profili/superfici | trasferimento azioni, non doppio conteggio | aperto |
@@ -88,6 +88,8 @@ collegamento all'evidenza eseguita e descrizione dei limiti.
 ## Avanzamento verificato
 
 Il [primo incremento](incremento-01.md) documenta implementazione, prove e limiti.
+Il [secondo incremento](incremento-02.md) aggiunge filtrazione FEM stazionaria,
+trasferimento delle pressioni, persistenza, vista WPF e report collaudati.
 Le righe in corso non sono soddisfatte integralmente: tipi complessi, verifiche
 locali e globali complete, combinazioni automatiche, inviluppi e migrazioni
 richiedono ancora integrazioni. Nessuna funzione avanzata viene esclusa.

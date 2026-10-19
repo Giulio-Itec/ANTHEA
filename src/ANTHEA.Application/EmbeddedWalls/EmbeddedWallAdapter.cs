@@ -18,7 +18,7 @@ public static class EmbeddedWallAdapter
     internal static double? Optional(JsonObject row, string key) => StratigraphyDocument.Number(row[key], key);
     private static bool Flag(JsonObject row, string key) => row[key] is JsonValue v && v.TryGetValue<bool>(out var b) ? b : throw new ArgumentException("Scelta non valida: " + key);
     private static T Choice<T>(JsonObject row, string key) where T : struct, Enum => Enum.TryParse<T>(Text(row, key), out var value) && Enum.IsDefined(value) ? value : throw new ArgumentException("Scelta non valida: " + key);
-    private static int Integer(JsonObject row, string key)
+    internal static int Integer(JsonObject row, string key)
     { double value = Number(row, key); return value == Math.Truncate(value) && value is >= int.MinValue and <= int.MaxValue ? (int)value : throw new ArgumentException("Numero intero richiesto: " + key); }
     public static IReadOnlyList<EmbeddedWallRcStrip> ConcreteSections(JsonObject data) => EmbeddedWallDocument.Rows(data, "rc_sections").Select(s => new EmbeddedWallRcStrip(
         Text(s, "id"), Number(s, "width"), Number(s, "thickness"), Number(s, "cover"), Integer(s, "back_bars"), Number(s, "back_diameter"),

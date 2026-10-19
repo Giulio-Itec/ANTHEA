@@ -47,6 +47,16 @@ public static class EmbeddedWallReport
             P(Label(entry.Key), true);
             for (int i = 0; i < rows.Length; i++) P((i + 1) + ". " + string.Join("; ", rows[i].Select(p => Label(p.Key) + ": " + (p.Value?.ToString() ?? "non assegnato"))));
         }
+        foreach (var hydraulic in result.Hydraulics ?? [])
+        {
+            P("Filtrazione — fase " + hydraulic.Stage, true);
+            P($"Esito {hydraulic.Status}; iterazioni {hydraulic.Iterations}; nodi {hydraulic.Nodes.Count}; elementi {hydraulic.Elements.Count}. {hydraulic.Diagnostic}");
+            if (!hydraulic.Complete) continue;
+            P($"Portata entrante {F(hydraulic.InflowLitresPerSecondPerMetre)} L/s/m; uscente {F(hydraulic.OutflowLitresPerSecondPerMetre)} L/s/m; bilancio {F(hydraulic.BalanceLitresPerSecondPerMetre)} L/s/m. Residuo nodale massimo {F(hydraulic.ResidualSquareMillimetresPerSecond)} mm²/s.");
+            P("Portate riferite a un metro ortogonale alla sezione. Il CSV idraulico conserva tutti i valori nodali e i flussi degli elementi; qui sono riportati gli estremi nodali con la loro posizione.");
+            var nodes = new[] { hydraulic.Nodes.MinBy(n => n.Head)!, hydraulic.Nodes.MaxBy(n => n.Head)!, hydraulic.Nodes.MinBy(n => n.Pressure)!, hydraulic.Nodes.MaxBy(n => n.Pressure)! }.Distinct();
+            Table(["Nodo", "x [m]", "z [m]", "h [m]", "u [kPa]"], nodes.Select(n => new[] { n.Index.ToString(), F(n.X), F(n.Z), F(n.Head), F(n.Pressure) }));
+        }
         foreach (var stage in result.Stages)
         {
             P("Fase " + stage.Id, true);
@@ -90,6 +100,17 @@ public static class EmbeddedWallReport
             text.AppendLine(string.Join(";", new object[] { result.CaseId, s.Id, p.Section, p.Elevation, p.Side, p.Displacement, p.Normal, p.Shear, p.Moment, p.LeftPressure, p.RightPressure, result.Status, result.Fingerprint }.Select(Cell)));
         return text.ToString();
     }
+    public static string HydraulicCsv(EmbeddedWallReportData result)
+    {
+        static string Cell(object? value) => "\"" + (value is double d ? d.ToString("G17", CultureInfo.InvariantCulture) : value?.ToString() ?? "").Replace("\"", "\"\"") + "\"";
+        var text = new StringBuilder("Caso;Fase;Tipo;Nodo_A;Nodo_B;Nodo_C;x_m;z_m;h_m;u_kPa;grad_h_x;grad_h_z;q_x_m_s;q_z_m_s;k_rel;Drenante;Stato;Impronta\r\n");
+        foreach (var h in result.Hydraulics ?? [])
+        {
+            foreach (var n in h.Nodes) text.AppendLine(string.Join(";", new object?[] { result.CaseId, h.Stage, "Nodo", n.Index, null, null, n.X, n.Z, n.Head, n.Pressure, null, null, null, null, null, n.Draining, h.Status, result.Fingerprint }.Select(Cell)));
+            foreach (var e in h.Elements) text.AppendLine(string.Join(";", new object?[] { result.CaseId, h.Stage, "Elemento", e.A, e.B, e.C, null, null, null, null, e.GradientX, e.GradientZ, e.FluxX, e.FluxZ, e.RelativeConductivity, null, h.Status, result.Fingerprint }.Select(Cell)));
+        }
+        return text.ToString();
+    }
     private static readonly FrozenDictionary<string, string> Labels = new Dictionary<string, string>()
     {
         ["name"]="Nome", ["case_id"]="Caso", ["action_basis"]="Origine delle azioni", ["top"]="Quota superiore [m]", ["bottom"]="Quota inferiore [m]", ["width"]="Larghezza (m generale, mm sezione c.a.)",
@@ -101,6 +122,10 @@ public static class EmbeddedWallReport
         ["distributed_load"]="Carico distribuito [kN/m]", ["stiffness_factor"]="Fattore EI", ["stage"]="Fase", ["support"]="Sostegno", ["prestress"]="Pretensione [kN]", ["horizontal"]="Forza orizzontale [kN]", ["moment"]="Coppia [kNm]", ["downward"]="Forza verso il basso [kN]",
         ["fix_top_u"]="Traslazione testa bloccata", ["fix_top_rotation"]="Rotazione testa bloccata", ["fix_bottom_u"]="Traslazione piede bloccata", ["fix_bottom_rotation"]="Rotazione piede bloccata",
         ["thickness"]="Spessore [mm]", ["cover"]="Copriferro [mm]", ["back_bars"]="Barre retro", ["back_diameter"]="Diametro retro [mm]", ["front_bars"]="Barre fronte", ["front_diameter"]="Diametro fronte [mm]",
-        ["fck"]="fck [MPa]", ["fyk"]="fyk [MPa]", ["es"]="Es [MPa]", ["eps_uk"]="εuk", ["creep"]="Viscosità", ["exposure"]="Esposizione"
+        ["fck"]="fck [MPa]", ["fyk"]="fyk [MPa]", ["es"]="Es [MPa]", ["eps_uk"]="εuk", ["creep"]="Viscosità", ["exposure"]="Esposizione",
+        ["hydraulic_mode"]="Pressioni interstiziali", ["hydraulic_left_extent"]="Estensione dominio sx [m]", ["hydraulic_right_extent"]="Estensione dominio dx [m]",
+        ["hydraulic_bottom"]="Quota fondo impermeabile [m]", ["hydraulic_thickness"]="Spessore parete impermeabile [m]", ["hydraulic_mesh"]="Passo mesh idraulica [m]", ["hydraulic_iterations"]="Limite iterazioni idrauliche",
+        ["ignore_suction"]="Suzione trascurata nel trasferimento meccanico", ["hydraulic_left"]="Strati idraulici sx", ["hydraulic_right"]="Strati idraulici dx",
+        ["kxx"]="Kxx [m/s]", ["kzz"]="Kzz [m/s]", ["kxz"]="Kxz [m/s]", ["alpha"]="Van Genuchten α [1/m]", ["n"]="Van Genuchten n"
     }.ToFrozenDictionary();
 }

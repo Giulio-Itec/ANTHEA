@@ -77,6 +77,43 @@
      </DataGrid>
     </Grid>
    </TabItem>
+   <TabItem Header="Filtrazione">
+    <Grid Margin="8"><Grid.ColumnDefinitions><ColumnDefinition Width="320"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+     <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+      <ContentControl Content="{Binding Hydraulics}"/>
+      <TextBlock Text="Assegnare le permeabilità in Dati e fasi. I livelli di falda delle fasi diventano i carichi idraulici sui bordi laterali. Il fondo è impermeabile; il terreno affiorante è drenante, salvo eventuale battente d'acqua." TextWrapping="Wrap" Margin="0,12"/>
+      <TextBlock Text="La parete è impermeabile, centrata su x=0; i due terreni hanno superfici orizzontali. La soluzione è stazionaria per fase. HYD e UPL richiedono verifiche distinte." TextWrapping="Wrap"/>
+      <Button Content="Esporta idraulica CSV" Command="{Binding HydraulicCsvCommand}" Margin="0,16"/>
+     </StackPanel></ScrollViewer>
+     <DockPanel Grid.Column="1" Margin="16,0,0,0">
+      <StackPanel DockPanel.Dock="Top">
+       <WrapPanel><ComboBox ItemsSource="{Binding HydraulicStages}" SelectedItem="{Binding SelectedHydraulicStage}" DisplayMemberPath="Stage" Width="140" Margin="0,0,8,0"/>
+        <ComboBox ItemsSource="{Binding HydraulicDiagrams}" SelectedItem="{Binding HydraulicDiagram}" Width="235"/></WrapPanel>
+       <WrapPanel Margin="0,6"><TextBlock Text="{Binding SelectedHydraulicStage.Status}" FontWeight="SemiBold" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.InflowLitresPerSecondPerMetre, StringFormat='Entrante {0:G5} L/s/m'}" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.OutflowLitresPerSecondPerMetre, StringFormat='Uscente {0:G5} L/s/m'}" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.BalanceLitresPerSecondPerMetre, StringFormat='Bilancio {0:G3} L/s/m'}"/></WrapPanel>
+       <TextBlock Text="{Binding SelectedHydraulicStage.Diagnostic}" TextWrapping="Wrap"/>
+      </StackPanel>
+      <Grid><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="190"/></Grid.RowDefinitions>
+       <local:SeepageDiagram Field="{Binding SelectedHydraulicStage}" Quantity="{Binding HydraulicDiagram}" MinHeight="240"/>
+       <TabControl Grid.Row="1">
+        <TabItem Header="Nodi"><DataGrid ItemsSource="{Binding HydraulicNodes}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
+         <DataGrid.Columns><DataGridTextColumn Header="Nodo" Binding="{Binding Index}"/><DataGridTextColumn Header="x [m]" Binding="{Binding X, StringFormat=G5}"/>
+          <DataGridTextColumn Header="z [m]" Binding="{Binding Z, StringFormat=G5}"/><DataGridTextColumn Header="h [m]" Binding="{Binding Head, StringFormat=G6}"/>
+          <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, StringFormat=G6}"/><DataGridCheckBoxColumn Header="Drenante" Binding="{Binding Draining}"/></DataGrid.Columns>
+        </DataGrid></TabItem>
+        <TabItem Header="Flussi"><DataGrid ItemsSource="{Binding HydraulicElements}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
+         <DataGrid.Columns><DataGridTextColumn Header="A" Binding="{Binding A}"/><DataGridTextColumn Header="B" Binding="{Binding B}"/><DataGridTextColumn Header="C" Binding="{Binding C}"/>
+          <DataGridTextColumn Header="∂h/∂x" Binding="{Binding GradientX, StringFormat=G6}"/><DataGridTextColumn Header="∂h/∂z" Binding="{Binding GradientZ, StringFormat=G6}"/>
+          <DataGridTextColumn Header="qx [m/s]" Binding="{Binding FluxX, StringFormat=G6}"/><DataGridTextColumn Header="qz [m/s]" Binding="{Binding FluxZ, StringFormat=G6}"/>
+          <DataGridTextColumn Header="k relativa" Binding="{Binding RelativeConductivity, StringFormat=G5}"/></DataGrid.Columns>
+        </DataGrid></TabItem>
+       </TabControl>
+      </Grid>
+     </DockPanel>
+    </Grid>
+   </TabItem>
   </TabControl>
  </DockPanel>
 </UserControl>
