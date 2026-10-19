@@ -75,5 +75,9 @@ ricombinare massimi; CSV e opzione estesa conservano tutti i tagli.
   non viene attestato un rendering Word non eseguito.
 
 Gli artefatti sono in `supporto/artefatti/paratie/`, salvo le corse CI
-indicate. Regressione standard sul commit conclusivo ancora da eseguire.
+indicate. Regressione standard `ci/20261019-122147-paratie-inc07-standard`
+sul commit `f52db8d832abe20daa92f48027c1d404520b43a6` e `snapshot-14`:
+**74 PASS, 0 KNOWN, 0 NEW-FAIL, 0 BLOCKED**, sorgenti ANTHEA invariati.
+Non eseguite le tre suite infrastrutturali dichiarate: ElasticPile.Checks,
+BridgeValidationCurrent (coperte dai runner GPC), ElasticPile.Performance.
 Guide globali, matrice completa, rilascio e merge restano aperti.
