@@ -12,7 +12,7 @@ namespace Anthea.Application.EmbeddedWalls;
 public static class EmbeddedWallDocument
 {
     public const string Module = "geo_paratie";
-    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd" });
+    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions" });
     public static JsonObject Create() => Upgrade(new()
     {
         ["schema"] = 1, ["name"] = "Paratia", ["case_id"] = "Caso 1", ["action_basis"] = "Da definire",
@@ -45,6 +45,13 @@ public static class EmbeddedWallDocument
         "hydraulic_hyd" => new() { ["id"] = "HYD1", ["stage"] = "F1", ["method"] = "Mean", ["field_source"] = "FEM 2D", ["x"] = null, ["z"] = null, ["z_bottom"] = null,
             ["gradient"] = null, ["gamma_sat"] = null, ["pressure"] = null, ["hydrostatic_pressure"] = null, ["effective_stress"] = null,
             ["vertical_flow"] = false, ["outflow_confirmed"] = false, ["source"] = "" },
+        "global_checks" => new() { ["id"] = "GLOB1", ["stage"] = "F1", ["standard"] = "NTC 2018", ["situation"] = "PersistentTransient",
+            ["global_thickness"] = null, ["left_extent"] = null, ["right_extent"] = null, ["valley_direction"] = 1,
+            ["characteristic_confirmed"] = false, ["source"] = "", ["undrained"] = false, ["ignore_suction"] = false,
+            ["exit_min"] = null, ["exit_max"] = null, ["entry_min"] = null, ["entry_max"] = null,
+            ["depth_min"] = null, ["depth_max"] = null, ["grid"] = 9, ["slices"] = 60, ["refinements"] = 4 },
+        "global_actions" => new() { ["check"] = "GLOB1", ["stage"] = "F1", ["id"] = "LeftSurcharge", ["category"] = "Variable",
+            ["unfavourable"] = true, ["psi"] = null, ["source"] = "" },
         _ => throw new ArgumentException("Tabella paratie sconosciuta: " + table)
     };
     public static JsonObject Snapshot(JsonObject source)
@@ -72,15 +79,21 @@ public static class EmbeddedWallDocument
             foreach (var entry in added) if (!data.ContainsKey(entry.Key)) data[entry.Key] = entry.Value?.DeepClone();
             data["schema"] = 3;
         }
+        if (StratigraphyDocument.Number(data["schema"], "Versione paratie") == 3)
+        {
+            foreach (string key in new[] { "global_checks", "global_actions" }) if (!data.ContainsKey(key)) data[key] = new JsonArray();
+            data["schema"] = 4;
+        }
         Validate(data);
         return data;
     }
     public static void Validate(JsonObject data)
     {
         var schema = StratigraphyDocument.Number(data["schema"], "Versione paratie");
-        if (schema is not (1 or 2 or 3)) throw new ArgumentException("Versione del documento paratie non supportata.");
+        if (schema is not (1 or 2 or 3 or 4)) throw new ArgumentException("Versione del documento paratie non supportata.");
         foreach (var name in Tables)
         {
+            if (schema < 4 && name is ("global_checks" or "global_actions")) continue;
             if (schema == 1 && name is ("hydraulic_left" or "hydraulic_right")) continue;
             if (schema < 3 && name is ("hydraulic_upl" or "hydraulic_actions" or "hydraulic_hyd")) continue;
             if (data[name] is not JsonArray rows || rows.Any(r => r is not JsonObject)) throw new ArgumentException("Tabella mancante o non valida: " + name);

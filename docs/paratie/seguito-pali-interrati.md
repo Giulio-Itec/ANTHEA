@@ -5,7 +5,9 @@ aggiungere, dopo il modulo paratie, uno strato di terreno sopra palo/micropalo
 mediante un «approfondimento del palo rispetto al piano di campagna», per
 portanza verticale e orizzontale. Scopo: includere il terreno sovrastante nelle
 tensioni litostatiche. L'utente ha chiesto di rispiegare il comportamento, che
-è stato illustrato in chat; l'implementazione è ancora da iniziare.
+è stato illustrato in chat e confermato esplicitamente dall'utente («perfetto.
+metti questa implementazione in coda al modulo di paratie»). L'implementazione
+è ancora da iniziare, dopo il modulo paratie e prima dei merge finali.
 
 ## Interpretazione operativa
 

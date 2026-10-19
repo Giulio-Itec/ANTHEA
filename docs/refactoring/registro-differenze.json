@@ -7585,6 +7585,21 @@
       "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: verifiche geotecniche/idrauliche e tracciabilità; merge locali paratie/spettri a lavoro concluso.", "esito": "Incremento collaudato nel campo dichiarato. Matrice e rilascio complessivo ancora aperti."},
       "test": ["Geotechnics EmbeddedWalls.Tests: 30 PASS", "hyd-safety-app-02: 62 controlli PASS", "ci/20261019-093124-paratie-inc03-ui3: architettura e 14 controlli WPF PASS", "docs/paratie/incremento-03.md: fonti, attesi e limiti"],
       "voci_collegate": ["PARATIE-03"]
+    },
+    {
+      "id": "PARATIE-06",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 4",
+      "titolo": "Stabilità globale per fase con riuso Bishop e campo FEM",
+      "famiglia": "geotecnica/paratie/stabilita",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Adattatore GPC per parete continua, azioni caratteristiche e combinazione globale distinta da quella locale. Campo FEM convergente per pressioni e pesi dei conci. Slopes senza campo conserva identici byte nella cattura di nove casi. Schema 4, editor, risultati, grafico e report sullo stesso snapshot; esiti non conclusivi riconoscibili.",
+      "codice": ["Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallGlobalStability.cs", "Checker/GPCChecker.Geotechnics/Slopes/SlopeStability.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallGlobalChecks.cs", "X.Desktop/Views/EmbeddedWalls/EmbeddedWallGlobalDiagram.cs"],
+      "segno": "Funzione additiva inattiva nei documenti precedenti. Nessuna fixture storica modificata. Corretto un nuovo atteso in bozza da fonte primaria, conservando bozza e fallimento. Risolta collisione del nuovo enum senza modificare il contratto storico.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: riutilizzare stabilità esistente e controllare geometria, fasi e azioni.", "esito": "Incremento collaudato per pareti continue senza sostegni esterni; matrice e rilascio complessivo ancora aperti."},
+      "test": ["global-adapter-04: 39 PASS", "slope-legacy-before/after-02: SHA256 81BC1F0B8878858D9AAADC734315F0AECFB23A73A13E2B0694F53C77CA2CF53A", "global-app-01: 80 PASS", "ci/20261019-101720-paratie-inc04-ui3: architettura e 19 controlli WPF PASS", "docs/paratie/incremento-04.md"],
+      "voci_collegate": ["PARATIE-03", "PARATIE-05"]
     }
   ]
 }

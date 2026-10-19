@@ -33,7 +33,7 @@ public static class EmbeddedWallFields
         "segments" => "Tratti e rigidezze", "left_soils" => "Terreno a sinistra", "right_soils" => "Terreno a destra", "supports" => "Tiranti e puntoni",
         "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi sulla struttura", "rc_sections" => "Sezioni e armature",
         "hydraulic_left" => "Permeabilità a sinistra", "hydraulic_right" => "Permeabilità a destra", "hydraulic_upl" => "Corpi UPL",
-        "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", _ => table
+        "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", "global_checks" => "Stabilità globale", "global_actions" => "Combinazioni globali", _ => table
     };
     public static FieldSpec[] Columns(string table) => table switch
     {
@@ -79,6 +79,20 @@ public static class EmbeddedWallFields
             new("vertical_flow", "Terreno saturo e flusso prevalentemente verticale", Bool: true),
             new("outflow_confirmed", "Efflusso libero (Mean/Exit) o frontiera caricata (Loaded) confermato", Bool: true),
             new("source", "Motivazione di applicabilità e fonte dei dati", Multiline: true)],
+        "global_checks" => [new("id", "Verifica globale"), new("stage", "Fase"), new("standard", "Norma", Choices: ["NTC 2018", "EN 1997-1 — profilo non disponibile"]),
+            new("situation", "Situazione", Choices: ["PersistentTransient", "Seismic"]), new("global_thickness", "Spessore parete continua", "m"),
+            new("left_extent", "Estensione terreno sinistra", "m"), new("right_extent", "Estensione terreno destra", "m"),
+            new("valley_direction", "Verso valle (+1 destra, −1 sinistra)"),
+            new("characteristic_confirmed", "Dati caratteristici e parete continua confermati", Bool: true), new("source", "Fonte geometria e dati caratteristici", Multiline: true),
+            new("undrained", "Globale in tensioni totali non drenate", Bool: true), new("ignore_suction", "Trascurare suzione FEM sulla superficie", Bool: true),
+            new("exit_min", "Uscita minima, coordinata valle negativa", "m"), new("exit_max", "Uscita massima", "m"),
+            new("entry_min", "Ingresso minimo, monte positivo", "m"), new("entry_max", "Ingresso massimo", "m"),
+            new("depth_min", "Profondità minima sotto la testa", "m"), new("depth_max", "Profondità massima sotto la testa", "m"),
+            new("grid", "Nodi per direzione di ricerca"), new("slices", "Numero iniziale di conci"), new("refinements", "Livelli di raffinamento")],
+        "global_actions" => [new("check", "Verifica globale"), new("stage", "Fase"), new("id", "Azione nel modello", ToolTip: "LeftSurcharge, RightSurcharge, StructureDistributed, PointLoad-0, PointLoad-1, ... (carichi non nulli della fase, ordine da zero). Una riga per ogni azione presente."),
+            new("category", "Categoria", Choices: ["PermanentStructural", "PermanentNonStructural", "Variable"]), new("unfavourable", "Sfavorevole nella combinazione", Bool: true),
+            new("psi", "Fattore di combinazione ψ", ToolTip: "Da 0 a 1 per Q, esattamente 1 per G1/G2. Il fattore parziale proviene dalla norma, non inserirlo qui."),
+            new("source", "Fonte e ruolo nella combinazione", Multiline: true)],
         _ => []
     };
 }

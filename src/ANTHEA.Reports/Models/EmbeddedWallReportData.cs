@@ -7,7 +7,7 @@ namespace Anthea.Reports;
 public sealed record EmbeddedWallReportData(string Name, string Fingerprint, string CaseId, string ActionBasis,
     string Status, bool Complete, string Diagnostic, string InputJson, IReadOnlyList<EmbeddedWallStageData> Stages,
     IReadOnlyList<EmbeddedWallCheckData> Checks, IReadOnlyList<string> Scope, IReadOnlyList<EmbeddedWallHydraulicData>? Hydraulics = null,
-    IReadOnlyList<EmbeddedWallHydraulicCheckData>? HydraulicChecks = null);
+    IReadOnlyList<EmbeddedWallHydraulicCheckData>? HydraulicChecks = null, IReadOnlyList<EmbeddedWallGlobalData>? GlobalChecks = null);
 public sealed record EmbeddedWallStageData(string Id, int Increments, int Iterations, double ForceResidualN, double MomentResidualNmm,
     IReadOnlyList<EmbeddedWallPointData> Points, IReadOnlyList<EmbeddedWallSupportData> Supports);
 public sealed record EmbeddedWallPointData(double Elevation, string Side, string Section, double Displacement, double Rotation,
@@ -35,3 +35,20 @@ public sealed record EmbeddedWallHydraulicActionData(string Id, string Category,
 {
     [JsonIgnore] public string CategoryText => Category switch { "PermanentStructural" => "G1", "PermanentNonStructural" => "G2", "Variable" => "Q", _ => Category };
 }
+/// <summary>Global coordinates: valley on left, y=0 at wall head. m, kN/m, kPa. All values supplied by GPC.</summary>
+public sealed record EmbeddedWallGlobalData(string Id, string CaseId, string Stage, string Combination, string SearchStatus,
+    EngineeringOutcome Outcome, string Reference, string Source, string Diagnostic, double? Demand, double? Capacity, double? Ratio,
+    double? TrialRatio, double? RefinedFactor, int Tried, int Valid, int Solved, int Failures, bool Boundary, double? Residual,
+    IReadOnlyDictionary<string, double> Coefficients, IReadOnlyList<EmbeddedWallGlobalActionData> Actions,
+    IReadOnlyList<EmbeddedWallGlobalPoint> Surface, IReadOnlyList<EmbeddedWallGlobalBody> Bodies, EmbeddedWallGlobalCircle? Circle,
+    IReadOnlyList<EmbeddedWallGlobalSlice> Slices)
+{
+    [JsonIgnore] public string OutcomeText => EmbeddedWallReport.OutcomeText(Outcome);
+}
+public sealed record EmbeddedWallGlobalActionData(string Id, string Category, bool Unfavourable, double PartialFactor, double Psi, double CombinedFactor, string Source);
+public sealed record EmbeddedWallGlobalPoint(double X, double Y);
+public sealed record EmbeddedWallGlobalBody(string Name, IReadOnlyList<EmbeddedWallGlobalPoint> Points);
+public sealed record EmbeddedWallGlobalCircle(double X, double Y, double Radius, double Left, double Right);
+public sealed record EmbeddedWallGlobalSlice(int Index, double Left, double Right, double BaseY, double TopY, string Soil,
+    double SoilWeight, double BodyWeight, double VerticalLoad, double HorizontalLoad, double Pressure,
+    double NormalEffective, double Resistance, double Mobilized);

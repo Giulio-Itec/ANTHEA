@@ -147,6 +147,45 @@
      </StackPanel></ScrollViewer>
     </Grid>
    </TabItem>
+   <TabItem Header="Stabilità globale">
+    <Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="180"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <StackPanel>
+      <TextBlock Text="Definire geometria e combinazioni nelle due tabelle globali di Dati e fasi. Coordinate di ricerca: valle a sinistra, testa a quota zero. La ricerca usa le azioni caratteristiche dichiarate; non somma le reazioni locali della paratia." TextWrapping="Wrap" Margin="0,0,0,8"/>
+      <Button Content="Esporta stabilità globale CSV" Command="{Binding GlobalCsvCommand}" HorizontalAlignment="Left" Margin="0,0,0,8"/>
+     </StackPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding GlobalChecks}" SelectedItem="{Binding SelectedGlobalCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Verifica" Binding="{Binding Id}"/>
+       <DataGridTextColumn Header="Combinazione" Binding="{Binding Combination}"/><DataGridTextColumn Header="Ricerca" Binding="{Binding SearchStatus}"/>
+       <DataGridTextColumn Header="γR" Binding="{Binding Demand, StringFormat=G5}"/><DataGridTextColumn Header="F" Binding="{Binding Capacity, StringFormat=G6}"/>
+       <DataGridTextColumn Header="Utilizzo conclusivo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
+      </DataGrid.Columns>
+     </DataGrid>
+     <TabControl Grid.Row="2" Margin="0,8,0,0">
+      <TabItem Header="Superficie critica"><local:EmbeddedWallGlobalDiagram Check="{Binding SelectedGlobalCheck}" MinHeight="240"/></TabItem>
+      <TabItem Header="Diagnostica e coefficienti"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="8">
+       <TextBlock Text="{Binding SelectedGlobalCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+       <TextBlock Text="{Binding SelectedGlobalCheck.Source}" TextWrapping="Wrap" Margin="0,8"/>
+       <TextBlock Text="{Binding SelectedGlobalCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+       <WrapPanel><TextBlock Text="Superfici provate / risolte / fallimenti: " /><TextBlock Text="{Binding SelectedGlobalCheck.Tried}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedGlobalCheck.Solved}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedGlobalCheck.Failures}"/></WrapPanel>
+       <ItemsControl ItemsSource="{Binding SelectedGlobalCheck.Coefficients}" Margin="0,8"><ItemsControl.ItemTemplate><DataTemplate>
+        <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, StringFormat=G7}"/></WrapPanel>
+       </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+       <DataGrid ItemsSource="{Binding SelectedGlobalCheck.Actions}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200">
+        <DataGrid.Columns><DataGridTextColumn Header="Azione" Binding="{Binding Id}"/><DataGridTextColumn Header="Categoria" Binding="{Binding Category}"/>
+         <DataGridCheckBoxColumn Header="Sfavorevole" Binding="{Binding Unfavourable}"/><DataGridTextColumn Header="γ" Binding="{Binding PartialFactor}"/>
+         <DataGridTextColumn Header="ψ" Binding="{Binding Psi}"/><DataGridTextColumn Header="γ·ψ" Binding="{Binding CombinedFactor}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
+       </DataGrid>
+      </StackPanel></ScrollViewer></TabItem>
+      <TabItem Header="Conci"><DataGrid ItemsSource="{Binding SelectedGlobalCheck.Slices}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+       <DataGrid.Columns><DataGridTextColumn Header="Concio" Binding="{Binding Index}"/><DataGridTextColumn Header="x sx [m]" Binding="{Binding Left, StringFormat=G6}"/>
+        <DataGridTextColumn Header="x dx [m]" Binding="{Binding Right, StringFormat=G6}"/><DataGridTextColumn Header="z base [m]" Binding="{Binding BaseY, StringFormat=G6}"/>
+        <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, StringFormat=G6}"/><DataGridTextColumn Header="W terreno [kN/m]" Binding="{Binding SoilWeight, StringFormat=G6}"/>
+        <DataGridTextColumn Header="W parete [kN/m]" Binding="{Binding BodyWeight, StringFormat=G6}"/><DataGridTextColumn Header="N′ [kN/m]" Binding="{Binding NormalEffective, StringFormat=G6}"/>
+        <DataGridTextColumn Header="R [kN/m]" Binding="{Binding Resistance, StringFormat=G6}"/><DataGridTextColumn Header="Mobilitata [kN/m]" Binding="{Binding Mobilized, StringFormat=G6}"/></DataGrid.Columns>
+      </DataGrid></TabItem>
+     </TabControl>
+    </Grid>
+   </TabItem>
   </TabControl>
  </DockPanel>
 </UserControl>

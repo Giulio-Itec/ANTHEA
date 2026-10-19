@@ -32,12 +32,13 @@ public sealed class EmbeddedWallModule : IModuleService
         var hydraulicAnalysis = EmbeddedWallHydraulics.Calculate(data, model, cancellation, p => ProgressChanged?.Invoke(p));
         var hydraulics = hydraulicAnalysis.Reports;
         var hydraulicChecks = EmbeddedWallHydraulicChecks.Calculate(data, model, hydraulicAnalysis.Fields, cancellation);
+        var globalChecks = EmbeddedWallGlobalChecks.Calculate(data, model, hydraulicAnalysis.Fields, cancellation, p => ProgressChanged?.Invoke(p));
         var hydraulicFailure = hydraulics.FirstOrDefault(h => !h.Complete);
         if (hydraulicFailure is not null)
         {
             var failed = new EmbeddedWallReportData(model.Name, EmbeddedWallDocument.Fingerprint(data), model.CaseId, basis,
                 "HydraulicNonConvergent", false, hydraulicFailure.Diagnostic, data.ToJsonString(new() { WriteIndented = true }), [], [],
-                ["Filtrazione non convergente nella fase " + hydraulicFailure.Stage + ": analisi meccanica non eseguita. I campi delle sole fasi idrauliche convergenti restano consultabili. Le verifiche dipendenti da campi assenti sono non valutate."], hydraulics, hydraulicChecks);
+                ["Filtrazione non convergente nella fase " + hydraulicFailure.Stage + ": analisi meccanica non eseguita. I campi delle sole fasi idrauliche convergenti restano consultabili. Le verifiche dipendenti da campi assenti sono non valutate."], hydraulics, hydraulicChecks, globalChecks);
             cancellation.ThrowIfCancellationRequested();
             return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(failed), failed);
         }
@@ -49,7 +50,8 @@ public sealed class EmbeddedWallModule : IModuleService
             "Modello piano di trave su molle elastoplastiche indipendenti; piccoli spostamenti, strati orizzontali e parete verticale liscia. Pressioni Rankine, carico uniforme sul terreno.",
             "Le fasi interpolano le pressioni fra configurazioni successive e conservano la memoria plastica. I sostegni sono installati sulla deformata precedente; le attivazioni elencano tutti i sostegni presenti in ciascuna fase.",
             "N positivo a compressione; V e M riferiti alla sezione della fascia analizzata. I sostegni riportano la forza per singolo elemento. Quote positive verso l'alto.",
-            "La convergenza numerica non costituisce una verifica completa dell'opera. Stabilità globale, instabilità geotecnica del fondo scavo, dettagli, acciaio e sisma non sono ancora integrati in questo incremento.",
+            "La convergenza numerica non costituisce una verifica completa dell'opera. Instabilità geotecnica del fondo scavo, dettagli, acciaio e sisma non sono ancora integrati in questo incremento.",
+            globalChecks.Count == 0 ? "Stabilità globale non richiesta." : "Stabilità globale: Bishop circolare del motore GPC esistente, parete continua e terreni orizzontali. Dati caratteristici confermati, combinazione statica distinta da quelle locali, selezione esplicita delle azioni. I sostegni esterni non modellati producono Non valutato; le reazioni locali non sono azioni esterne. Le ricerche non conclusive sono distinte dalle verifiche soddisfatte.",
             hydraulics.Count == 0 ? "Pressioni interstiziali idrostatiche dai livelli di falda assegnati."
                 : "Filtrazione stazionaria FEM 2D per ciascuna fase, terreno saturo/non saturo, parete impermeabile di spessore finito. Condizioni laterali a carico imposto, fondo impermeabile e superficie drenante. Le pressioni convergenti sulle due facce alimentano il modello meccanico; nessuna analisi transitoria o verifica HYD/UPL è implicita.",
             Text(data, "hydraulic_weight_mode") == "Pressioni FEM" ? "Pesi del terreno: γsat dove la pressione FEM è positiva, γ naturale altrove; nessun peso interpolato con il grado di saturazione né frangia capillare."
@@ -68,7 +70,7 @@ public sealed class EmbeddedWallModule : IModuleService
                 -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, "Sezione non definita", "", 0, null, null, EngineeringOutcome.NotEvaluated, c.Diagnostic) }
                 : c.Checks.Select(v => new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / SoilUnits.Metre, c.Side,
                     -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, v.Method, v.Unit, v.Demand, v.Capacity, v.Ratio, v.Outcome, v.Diagnostic ?? c.Diagnostic))).ToArray()),
-            scope.AsReadOnly(), hydraulics, hydraulicChecks);
+            scope.AsReadOnly(), hydraulics, hydraulicChecks, globalChecks);
         cancellation.ThrowIfCancellationRequested();
         return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(snapshot), snapshot);
     }

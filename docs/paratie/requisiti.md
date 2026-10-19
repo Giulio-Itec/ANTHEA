@@ -54,7 +54,7 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-14 | H | Filtrazione FEM 2D stazionaria anche non lineare | Geotechnics.Seepage, Model.Seepage | dominio a due colonne, materiali, fasi e campo nodale | Darcy, bilancio, raffinamento, mancata convergenza: incremento 2 | in corso |
 | PAR-15 | H,U | Sifonamento e sollevamento idraulico | HydraulicSafety, SeepageSampling, profilo NTC Model | corpi UPL, azioni, punti/colonne HYD, snapshot e report | attesi manuali, campo affine, esiti indisponibili: incremento 3 | in corso |
 | PAR-16 | H,U | Instabilità del fondo e tampone | Geotechnics | fondo scavo | benchmark distinto da UPL/HYD | aperto |
-| PAR-17 | P,H,U | Stabilità globale per fase e combinazione | SlopeStability, BishopSolver esistenti | profili/superfici | trasferimento azioni, non doppio conteggio | aperto |
+| PAR-17 | P,H,U | Stabilità globale per fase e combinazione | SlopeStability, BishopSolver, adattatore parete continua e campo FEM | schema 4, geometria/azioni globali, cerchi/conci, report | cattura legacy identica, unità, fattori, FEM, esiti e invalidazione: incremento 4 | in corso |
 | PAR-18 | P,H | Sisma e combinazioni pertinenti | profili normativi Model | combinazioni | coefficienti da fonte primaria | in corso |
 | PAR-19 | H | Pushover paratie affacciate | Geotechnics/Design nuovo | curva capacità/domanda | metodo e campo verificati | aperto |
 | PAR-20 | H | Interazione fra paratie attraverso il terreno | Geotechnics nuovo | sistema multi-paratia | simmetria e lavoro reciproco | aperto |

@@ -76,6 +76,25 @@ public static class EmbeddedWallReport
                 foreach (var action in check.Actions) P(action.Id + ": " + action.Source);
             }
         }
+        P("Stabilità globale", true);
+        if ((result.GlobalChecks?.Count ?? 0) == 0) P("Nessuna verifica globale richiesta.");
+        foreach (var g in result.GlobalChecks ?? [])
+        {
+            P($"{g.Stage} · {g.Id} · {g.Combination} · {g.OutcomeText}", true);
+            P($"Domanda γR={F(g.Demand)}; capacità F={F(g.Capacity)}; utilizzo conclusivo={F(g.Ratio)}. Stato della ricerca: {g.SearchStatus}.");
+            P(g.Reference); P(g.Source); P(g.Diagnostic);
+            P($"Superfici provate {g.Tried}, ammissibili {g.Valid}, risolte {g.Solved}; fallimenti numerici {g.Failures}. Minimo al bordo: {(g.Boundary ? "sì" : "no")}; F con doppio numero di conci: {F(g.RefinedFactor)}; residuo: {F(g.Residual)}.");
+            if (g.Coefficients.Count > 0) P("Coefficienti: " + string.Join("; ", g.Coefficients.Select(c => Label(c.Key) + "=" + F(c.Value))));
+            if (g.Actions.Count > 0)
+            {
+                Table(["Azione", "γ", "ψ", "γ·ψ"], g.Actions.Select(a => new[] { a.Id, F(a.PartialFactor), F(a.Psi), F(a.CombinedFactor) }));
+                foreach (var a in g.Actions) P(a.Id + " · " + a.Category + " · " + (a.Unfavourable ? "sfavorevole" : "favorevole") + ": " + a.Source);
+            }
+            if (g.Circle is { } circle) P($"Cerchio critico nelle coordinate globali (valle a sinistra, quota testa zero): centro ({F(circle.X)}; {F(circle.Y)}) m, raggio {F(circle.Radius)} m; estremi x={F(circle.Left)} / {F(circle.Right)} m.");
+            if (allStations && g.Slices.Count > 0)
+                Table(["Concio", "x sx / dx [m]", "z base [m]", "u [kPa]", "N′ [kN/m]", "R / mobil. [kN/m]"],
+                    g.Slices.Select(s => new[] { s.Index.ToString(), F(s.Left) + " / " + F(s.Right), F(s.BaseY), F(s.Pressure), F(s.NormalEffective), F(s.Resistance) + " / " + F(s.Mobilized) }));
+        }
         foreach (var stage in result.Stages)
         {
             P("Fase " + stage.Id, true);
@@ -138,6 +157,19 @@ public static class EmbeddedWallReport
             text.AppendLine(string.Join(";", new object?[] { c.CaseId, c.Stage, c.Element, c.Method, c.Demand, c.Capacity, c.Unit, c.Ratio, c.Outcome, c.Reference, c.Source, c.Diagnostic, result.Fingerprint }.Select(Cell)));
         return text.ToString();
     }
+    public static string GlobalCsv(EmbeddedWallReportData result)
+    {
+        static string Cell(object? value) => "\"" + (value is double d ? d.ToString("G17", CultureInfo.InvariantCulture) : value?.ToString() ?? "").Replace("\"", "\"\"") + "\"";
+        var text = new StringBuilder("Caso;Fase;Verifica;Combinazione;StatoRicerca;Esito;gammaR;F;UtilizzoConclusivo;UtilizzoTentativo;Concio;xSx_m;xDx_m;zBase_m;zTop_m;Wterreno_kN_m;Wparete_kN_m;V_kN_m;H_kN_m;u_kPa;N_eff_kN_m;R_kN_m;Mobilitata_kN_m;Diagnostica;Impronta\r\n");
+        foreach (var g in result.GlobalChecks ?? [])
+        {
+            object?[] Prefix() => [g.CaseId, g.Stage, g.Id, g.Combination, g.SearchStatus, g.Outcome, g.Demand, g.Capacity, g.Ratio, g.TrialRatio];
+            text.AppendLine(string.Join(";", Prefix().Concat(new object?[13]).Concat(new object?[] { g.Diagnostic, result.Fingerprint }).Select(Cell)));
+            foreach (var s in g.Slices) text.AppendLine(string.Join(";", Prefix().Concat(new object?[] { s.Index, s.Left, s.Right, s.BaseY, s.TopY, s.SoilWeight, s.BodyWeight,
+                s.VerticalLoad, s.HorizontalLoad, s.Pressure, s.NormalEffective, s.Resistance, s.Mobilized, g.Diagnostic, result.Fingerprint }).Select(Cell)));
+        }
+        return text.ToString();
+    }
     private static readonly FrozenDictionary<string, string> Labels = new Dictionary<string, string>()
     {
         ["name"]="Nome", ["case_id"]="Caso", ["action_basis"]="Origine delle azioni", ["top"]="Quota superiore [m]", ["bottom"]="Quota inferiore [m]", ["width"]="Larghezza (m generale, mm sezione c.a.)",
@@ -163,6 +195,13 @@ public static class EmbeddedWallReport
         ["vertical_flow"]="Terreno saturo e flusso prevalentemente verticale", ["outflow_confirmed"]="Frontiera di efflusso confermata",
         ["gammaG1_unfavourable"]="γG1 sfavorevole", ["gammaG1_favourable"]="γG1 favorevole", ["gammaG2_unfavourable"]="γG2 sfavorevole", ["gammaG2_favourable"]="γG2 favorevole",
         ["gammaQ_unfavourable"]="γQ sfavorevole", ["gammaQ_favourable"]="γQ favorevole", ["gammaM_phi_for_Rd"]="γM tanφ per Rd", ["gammaM_c_for_Rd"]="γM c per Rd", ["gammaM_cu_for_Rd"]="γM cu per Rd",
-        ["gammaR"]="γR", ["criticalGradient"]="Gradiente critico", ["waterUnitWeight"]="γw [N/mm³]"
+        ["gammaR"]="γR", ["criticalGradient"]="Gradiente critico", ["waterUnitWeight"]="γw [N/mm³]",
+        ["global_checks"]="Stabilità globale", ["global_actions"]="Selezione azioni globali", ["standard"]="Norma", ["situation"]="Situazione",
+        ["global_thickness"]="Spessore parete continua [m]", ["left_extent"]="Estensione terreno sx [m]", ["right_extent"]="Estensione terreno dx [m]",
+        ["valley_direction"]="Verso valle (+1 destra, −1 sinistra)", ["characteristic_confirmed"]="Dati caratteristici confermati", ["undrained"]="Non drenato",
+        ["exit_min"]="Uscita minima [m]", ["exit_max"]="Uscita massima [m]", ["entry_min"]="Ingresso minimo [m]", ["entry_max"]="Ingresso massimo [m]",
+        ["depth_min"]="Profondità minima sotto testa [m]", ["depth_max"]="Profondità massima sotto testa [m]", ["grid"]="Nodi di ricerca per direzione",
+        ["slices"]="Conci", ["refinements"]="Raffinamenti", ["unfavourable"]="Sfavorevole", ["psi"]="Fattore di combinazione ψ",
+        ["gammaM_phi"]="γM tanφ", ["gammaM_c"]="γM c′", ["gammaM_cu"]="γM cu", ["soilWeightFactor"]="Fattore peso terreno", ["bodyWeightFactor"]="Fattore peso parete"
     }.ToFrozenDictionary();
 }
