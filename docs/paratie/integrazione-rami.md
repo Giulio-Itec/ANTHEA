@@ -59,11 +59,18 @@ La candidata usa un set completo in staging con manifest e SHA-256.
 
 Merge ANTHEA completato in `5fda565c`; cartella principale riportata su
 `refactoring/f5`. Primo collaudo mirato: 16 suite PASS e un difetto della Wiki:
-WPF-Math 2.1 non supporta `\\mathbf{q}`. La vista usa ora la notazione vettoriale
+WPF-Math 2.1 non supporta `\mathbf{q}`. La vista usa ora la notazione vettoriale
 equivalente con freccia per il solo flusso di Darcy; sorgente copiabile, guide
 e formule di calcolo restano invariati. La suite esistente renderizza tutti i
 77 capitoli e viene rieseguita; nessun fallimento aggiunto alla lista ammessa.
 Evidenza iniziale: `ci/20261019-195405-f5-integrata-target-01`.
+
+Riesecuzione su `48405d30`: `ci/20261019-195800-f5-integrata-target-02`,
+10 suite PASS e nessun nuovo fallimento, comprese Wiki e viste dei due moduli.
+Gli archivi degli incrementi e dell'integrazione sono esclusi dalla conversione
+automatica dei fine riga in Git: controllo di 96 originali contro le impronte
+preesistenti, senza aggiornare gli SHA attesi. Ripristinati soltanto i dodici
+Markdown dell'ultimo archivio che il cambio di ramo aveva convertito in CRLF.
 
 ## Ricognizione iniziale, prima della richiesta aggiornata
 

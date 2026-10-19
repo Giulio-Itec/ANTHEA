@@ -1023,6 +1023,7 @@ Nessun motore legacy spostato o rimosso; nessun atteso indipendente modificato.
 - [x] Autorizzazione aggiornata: integrare ora i soli rami paratie/spettri sviluppati per l'incarico, comprese le librerie; lasciare separati i rami di prova e storici. Model e Checker confluiti in master, versioni del set integrate; nessun push.
 - [x] Risolti i punti condivisi ANTHEA conservando entrambi i moduli, i cataloghi precedenti e gli attesi indipendenti. Riuniti i capitoli delle due guide globali in Rev52; 32 originali archiviati con impronte.
 - [x] Set GPC integrato collaudato: 3172 PASS, soli 17 fallimenti Steel storici ammessi; staging coerente pronto. Guide Rev52 finalizzate e controllate visivamente: 257 pagine, 387 formule e dieci pagine degli indici.
+- [x] Cartella principale riportata su `refactoring/f5`; corretto il difetto di resa del vettore di Darcy nella Wiki. Riesecuzione mirata su 48405d30: dieci suite PASS, nessun nuovo fallimento. Archivi protetti dalle conversioni dei fine riga, 96 originali verificati contro gli SHA preesistenti.
 - [ ] Concludere i collaudi del risultato unificato, riportare la cartella principale su `refactoring/f5` e consegnare la candidata testabile con esempi e manifest.
 - [ ] Riprendere l'implementazione paratie su un nuovo ramo dalla revisione integrata, mantenendo disponibile la candidata consegnata. La matrice completa e i pali interrati restano aperti.
 
