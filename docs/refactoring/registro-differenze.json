@@ -7736,6 +7736,8 @@
         "candidate-18: 3160 PASS, soli 17 fallimenti Steel storici ammessi",
         "app-coupled: 1279 controlli PASS",
         "ci/20261019-151810-paratie-inc11-ui: 5 PASS, 0 NEW-FAIL, 46 controlli WPF",
+        "ci/20261019-154122-paratie-inc11-consolidato: 93 PASS; nuovo fallimento Wiki per censimento delle due aggiunte",
+        "ci/20261019-160423-paratie-inc11-wiki-identita: 4 PASS, 331 controlli; 73 identità F5 conservate in fixture, attesi numerici invariati",
         "docs/paratie/incremento-11.md"
       ],
       "voci_collegate": [

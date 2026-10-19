@@ -1,11 +1,22 @@
 using Anthea.Wiki;
 using System.Text;
+using System.Text.Json;
 int count = 0;
 void Check(bool ok, string text) { if (!ok) throw new InvalidOperationException(text); count++; }
 try
 {
     string output = Path.GetFullPath(args[0]); Directory.CreateDirectory(output);
-    Check(WikiCatalog.Articles.Count(a => a.Key != "guida-stratigrafia" && a.Key != "modello-stratigrafia") == 71, "Articoli preesistenti persi nel trasferimento");
+    // Preserve the actual identities from the requested F5 base, independently of new production chapters.
+    using var baseline = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "f5-articles.json")));
+    var historical = baseline.RootElement.GetProperty("articles").EnumerateArray().ToArray();
+    Check(historical.Length == 73, "La base F5 deve conservare i 71 articoli originari e i due della stratigrafia");
+    foreach (var expected in historical)
+        Check(WikiCatalog.Articles.Any(a => a.Id == expected.GetProperty("id").GetString() && a.Key == expected.GetProperty("key").GetString()),
+            "Articolo F5 perso o rinominato: " + expected.GetProperty("key").GetString());
+    string[] added = ["guida-paratie", "analisi-paratie"];
+    Check(WikiCatalog.Articles.Count(a => !added.Contains(a.Key)) == historical.Length, "Censimento storico F5 modificato");
+    foreach (string key in added) Check(WikiCatalog.Resolve(key) is not null, "Capitolo paratie mancante: " + key);
+    Check(WikiCatalog.ForModule("geo_paratie")?.Key == "guida-paratie", "Guida paratie non collegata");
     Check(WikiCatalog.Resolve("guida-stratigrafia") is not null && WikiCatalog.Resolve("modello-stratigrafia") is not null, "Capitoli stratigrafia mancanti");
     Check(WikiCatalog.ForModule("geo_stratigrafia") is not null, "Guida stratigrafia non collegata");
     foreach (var article in WikiCatalog.Articles)

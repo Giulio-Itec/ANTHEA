@@ -95,7 +95,21 @@ benchmark: nessuna riga isolata nella pagina finale. Sorgenti e PDF
 corrispondenti aggiornati; 16 file Rev48 conservati byte per byte in
 `supporto/SUPERATI/paratie-rev49-20261019/`, con origine e SHA-256.
 Wiki rigenerata: 75 capitoli, 7050 termini e otto destinazioni di aiuto
-del modulo. Regressione sul commit consolidato ancora da eseguire.
+del modulo.
+
+Regressione consolidata `ci/20261019-154122-paratie-inc11-consolidato`,
+commit `6e4b47f010153b0ebc950845751299578ecdbc83`, snapshot-18:
+93 PASS, un NEW-FAIL Wiki.Tests, sorgenti invariati durante la corsa.
+Il controllo storico contava anche i due nuovi capitoli e quindi falliva
+sul numero atteso degli articoli originari. Verificate le 73 identità
+(id/chiave) direttamente dalla base F5: nessuna persa, aggiunte soltanto
+`guida-paratie` e `analisi-paratie`. Il test ora conserva queste identità
+in una fixture derivata da F5 e controlla separatamente le due aggiunte.
+Non sono stati modificati attesi numerici o fallimenti ammessi.
+Riesecuzione `ci/20261019-160423-paratie-inc11-wiki-identita`: quattro
+suite PASS, 0 NEW-FAIL, 331 controlli Wiki; sorgenti invariati durante
+la corsa. Le altre 93 suite non sono state ripetute per la sola correzione
+del test Wiki.
 
 PAR-23 resta in corso: combinazioni multiple nel foglio e criteri ulteriori
 di infissione vanno integrati con le funzionalità ancora aperte. La matrice
