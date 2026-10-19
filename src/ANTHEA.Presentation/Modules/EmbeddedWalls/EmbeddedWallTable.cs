@@ -3,6 +3,7 @@ using System.Text.Json.Nodes;
 using Anthea.Application.EmbeddedWalls;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Mvvm;
+using Anthea.Presentation.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -26,9 +27,10 @@ public sealed class EmbeddedWallTable : ObservableObject
     private readonly Func<bool> editable;
     private EmbeddedWallRow? selected;
     private FormViewModel? editor;
-    public EmbeddedWallTable(string key, JsonArray data, Action changed, Func<bool> editable, CommandGuard guard)
+    private readonly IWikiNavigator? wikiNavigator;
+    public EmbeddedWallTable(string key, JsonArray data, Action changed, Func<bool> editable, CommandGuard guard, IWikiNavigator? wikiNavigator = null)
     {
-        Key = key; this.data = data; this.changed = changed; this.editable = editable;
+        Key = key; this.data = data; this.changed = changed; this.editable = editable; this.wikiNavigator = wikiNavigator;
         Columns = EmbeddedWallFields.Columns(key); Rows = new(data.Cast<JsonObject>().Select(Wrap));
         AddCommand = GuardedCommands.Create(guard, Add, editable); RemoveCommand = GuardedCommands.Create(guard, Remove, editable);
         UpCommand = GuardedCommands.Create(guard, () => Move(-1), editable); DownCommand = GuardedCommands.Create(guard, () => Move(1), editable);
@@ -45,7 +47,8 @@ public sealed class EmbeddedWallTable : ObservableObject
         set
         {
             if (!SetProperty(ref selected, value)) return;
-            editor = value is null ? null : new(value.Data, Columns, _ => { value.Refresh(); changed(); }) { IsReadOnly = IsReadOnly };
+            editor = value is null ? null : new(value.Data, Columns, _ => { value.Refresh(); changed(); }, wikiModule: EmbeddedWallDocument.Module)
+                { IsReadOnly = IsReadOnly, WikiNavigator = wikiNavigator };
             OnPropertyChanged(nameof(Editor));
         }
     }

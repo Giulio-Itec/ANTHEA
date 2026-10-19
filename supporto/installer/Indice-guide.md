@@ -1,10 +1,10 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 47 · 16 ottobre 2026
+ITEC Engineering · Revisione 48 · 19 ottobre 2026
 
 ## Guida pratica ANTHEA
 
-[Word Rev47](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev47.docx) · [PDF Rev47](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev47.pdf)
+[Word Rev48](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.docx) · [PDF Rev48](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.pdf)
 
 - Stratigrafia del terreno
 - Avvio e scelta del modulo
@@ -30,10 +30,11 @@ ITEC Engineering · Revisione 47 · 16 ottobre 2026
 - Modelli e importazione da MIDAS
 - Reologia del calcestruzzo
 - Esaminare le sezioni del modello
+- Paratie e sostegni flessibili
 
 ## Guida teorica ANTHEA
 
-[Word Rev47](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev47.docx) · [PDF Rev47](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev47.pdf)
+[Word Rev48](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.docx) · [PDF Rev48](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.pdf)
 
 - Modello della stratigrafia del terreno
 - Architettura del calcolo e convenzioni
@@ -84,3 +85,4 @@ ITEC Engineering · Revisione 47 · 16 ottobre 2026
 - Reologia del calcestruzzo
 - Risultati dei modelli per fasi
 - Geometria e rappresentazione delle sezioni
+- Analisi per fasi delle paratie

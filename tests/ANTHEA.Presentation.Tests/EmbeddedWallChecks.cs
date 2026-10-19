@@ -29,6 +29,22 @@ internal static partial class EmbeddedWallChecks
     private static async Task<int> CheckAsync(string output)
     {
         var e = new Expect(); var input = Example(); string original = input.ToJsonString();
+        var helpData = Example(); helpData["distributed_loads"]!.AsArray().Add(EmbeddedWallDocument.NewRow("distributed_loads"));
+        var helpServices = Scripted.Services();
+        using (var helpSheet = new EmbeddedWallSheetViewModel(new(helpData, false, new Host(), helpServices,
+            ModuleServices.Get(EmbeddedWallDocument.Module), new CalculationLimiter(1))))
+        {
+            string beforeHelp = helpData.ToJsonString();
+            var wiki = (RecordingWiki)helpServices.Wiki;
+            var distributedEditor = helpSheet.Tables.Single(t => t.Key == "distributed_loads").Editor!;
+            e.That(helpSheet.General["width"].OpenHelp() && helpSheet.Hydraulics["hydraulic_mode"].OpenHelp()
+                && distributedEditor["q_top"].OpenHelp(), "Il navigatore non raggiunge i tre editor della paratia.");
+            e.That(wiki.Shown.SequenceEqual(new[] { "guida-paratie#definire-il-modello-e-le-unita", "guida-paratie#impostare-falda-e-filtrazione",
+                "analisi-paratie#carichi-distribuiti-per-intervalli" }), "Destinazioni errate dell'aiuto contestuale.");
+            e.That(distributedEditor["source"].OpenContextHelp() && wiki.Shown.Last() == new EmbeddedWallSheetModule().Help.GuideId,
+                "F1 senza argomento specifico non raggiunge la guida del modulo.");
+            e.That(helpData.ToJsonString() == beforeHelp && helpSheet.Current is null, "Consultare l'aiuto modifica il documento o avvia un calcolo.");
+        }
         var service = ModuleServices.Get(EmbeddedWallDocument.Module);
         var calculation = service.Calculate(input); var result = calculation.NativeAs<EmbeddedWallReportData>();
         e.That(input.ToJsonString() == original, "Il servizio ha modificato gli input.");

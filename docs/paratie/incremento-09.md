@@ -81,7 +81,12 @@ le colonne precedenti e mantiene la precisione completa.
   Nessuna attestazione di rendering Word non eseguito.
 
 Artefatti in `supporto/artefatti/paratie/`, salvo le corse CI indicate.
-Regressione standard di questo incremento ancora da eseguire.
+Regressione standard `ci/20261019-140055-paratie-inc09-standard` eseguita
+su `8db299791c40e5861a88b465960db7e353c92338` con `snapshot-17`:
+74 PASS, 0 NEW-FAIL; sorgenti invariati durante la corsa. Le tre suite
+infrastrutturali che compilano direttamente Checker o misurano prestazioni
+non sono incluse in questo profilo con snapshot candidato; le suite GPC
+sono state eseguite dal produttore del set coerente.
 
 ## Ambito ancora aperto
 

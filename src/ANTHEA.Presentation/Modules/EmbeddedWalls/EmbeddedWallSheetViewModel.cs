@@ -127,9 +127,9 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     private void Rebuild()
     {
         EmbeddedWallDocument.Upgrade(Data);
-        General = new(Data, EmbeddedWallFields.General(), _ => Changed()) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
-        Hydraulics = new(Data, EmbeddedWallFields.Hydraulics(), _ => Changed()) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
-        Tables = EmbeddedWallDocument.Tables.Select(key => new EmbeddedWallTable(key, Data[key]!.AsArray(), Changed, () => CanEdit, Guard)).ToArray();
+        General = new(Data, EmbeddedWallFields.General(), _ => Changed(), wikiModule: EmbeddedWallDocument.Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
+        Hydraulics = new(Data, EmbeddedWallFields.Hydraulics(), _ => Changed(), wikiModule: EmbeddedWallDocument.Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
+        Tables = EmbeddedWallDocument.Tables.Select(key => new EmbeddedWallTable(key, Data[key]!.AsArray(), Changed, () => CanEdit, Guard, Context.Services.Wiki)).ToArray();
         OnPropertyChanged(nameof(General)); OnPropertyChanged(nameof(Hydraulics)); OnPropertyChanged(nameof(Tables));
     }
     public override async Task<bool> CalculateAsync(CancellationToken cancellation = default)

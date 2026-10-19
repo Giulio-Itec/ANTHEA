@@ -7675,6 +7675,38 @@
       "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: carichi per fase, unità coerenti, verifiche indipendenti e stabilità globale esistente.", "esito": "Incremento collaudato per azioni sulla struttura; diffusione sul terreno, matrice, guide e rilascio ancora aperti."},
       "test": ["distributed-global-01: 60 PASS", "candidate-17: 3150 PASS, 17 fallimenti storici ammessi", "distributed-app-03: 1206 PASS", "ci/20261019-135757-paratie-inc09-ui2: architettura e 39 WPF PASS", "docs/paratie/incremento-09.md"],
       "voci_collegate": ["PARATIE-01", "PARATIE-06"]
+    },
+    {
+      "id": "PARATIE-12",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 10",
+      "titolo": "Guide globali Rev48 e aiuto contestuale delle paratie",
+      "famiglia": "documentazione/paratie",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Capitoli aggiuntivi nelle sole due guide globali, Word/PDF, Wiki e sette argomenti di aiuto tramite servizi MVVM; gli editor tabellari ricevono il navigatore del modulo.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "src/ANTHEA.Presentation/Help/HelpTopics.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallTable.cs"
+      ],
+      "segno": "Contenuto precedente conservato, salvo la riga di edizione; sedici file archiviati con SHA-256. Nessuna formula di calcolo o atteso storico modificato.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico completo paratie: integrare uso e teoria nelle guide globali, aggiornare Word/PDF e aiuto.",
+        "esito": "Documentati i campi collaudati 1–9. Collaudo applicativo/WPF concluso. Estensioni successive e matrice complessiva ancora aperte."
+      },
+      "test": [
+        "Audit Word/PDF: 89 e 156 pagine, 365 formule, nessun frammento mancante",
+        "Wiki: 75 capitoli, 12 prove PASS",
+        "ci/20261019-143438-paratie-guide48: 9 PASS, 0 NEW-FAIL; 3206 presentazione e 40 WPF",
+        "docs/paratie/incremento-10.md"
+      ],
+      "voci_collegate": [
+        "PARATIE-01",
+        "PARATIE-11"
+      ]
     }
   ]
 }

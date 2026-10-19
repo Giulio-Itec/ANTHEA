@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 16 ottobre 2026 — revisione documentale 47
+Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 48
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1407,3 +1407,68 @@ In **Vista**, la rappresentazione **Volumi e offset** usa gli stessi contorni de
 Il contouring può essere riportato sul volume dell'asta. Il colore varia lungo i campioni importati della sollecitazione e non rappresenta una tensione distribuita sulla sezione. Le porzioni prive di campioni restano neutre; un unico campione rimane puntuale.
 
 La rappresentazione delle composte comprende il profilo a I con soletta centrata, senza raccordi verticali o irrigidimenti non interpretati. Le altre geometrie conservano gli attributi disponibili e dichiarano i propri limiti. La variazione della sezione per fase costruttiva non aggiorna ancora il volume della vista. Questa finestra è di ispezione e non modifica le sezioni del modello.
+
+## Paratie e sostegni flessibili
+
+Il modulo Paratie è in sviluppo. Questa revisione documenta le funzioni collaudate: analisi piana per fasi, sostegni assiali, carichi distribuiti variabili, falda e filtrazione stazionaria, verifiche idrauliche, stabilità globale per pareti continue e verifiche locali delle sezioni disponibili. La convergenza dell'analisi non certifica tutte le verifiche dell'opera. I campi non disponibili sono indicati negli esiti e nelle limitazioni seguenti.
+
+### Definire il modello e le unità
+
+Aprire il foglio Paratie nel catalogo Geotecnica o aggiungerlo al progetto. In **Modello**, assegnare nome del caso, provenienza delle azioni, quota superiore e inferiore della parete, larghezza della fascia rappresentata e lunghezza massima degli elementi. Le quote sono in metri e crescono verso l'alto. Sinistra e destra si riferiscono alla sezione disegnata. I blocchi di traslazione e rotazione alle estremità sono vincoli fisici assegnati: non usarli per eliminare un meccanismo che il progetto non contrasta.
+
+La tabella **Tratti e rigidezze** richiede quote contigue, identificativo della sezione, peso lineare e origine della rigidezza. EI assegnata è espressa in kNm² e deve riferirsi all'intera fascia. Per una fila unica di tubi CHS o pali circolari in c.a. si può scegliere EI dalla sezione, dopo avere assegnato materiale, geometria e interasse nelle tabelle corrispondenti. La ripartizione uniforme sul fronte deve essere confermata e motivata; l'equivalenza non rappresenta più file o effetto arco.
+
+Le forze concentrate sono in kN e le coppie in kNm. Il carico distribuito sulla struttura è in kN/m di lunghezza verticale, riferito all'intera fascia; il sovraccarico sul terreno è invece una pressione in kPa. Le azioni N, V e M della parete sono quelle della fascia. Le verifiche dei pali, tubi e sostegni mostrano le azioni del singolo elemento e il fattore di trasferimento adottato.
+
+### Riutilizzare la stratigrafia
+
+In **Modello**, aggiornare l'elenco dei terreni del progetto, scegliere la stratigrafia, il lato e lo scenario, quindi premere **Importa terreno**. Il trasferimento crea una copia indipendente con provenienza; una successiva modifica della stratigrafia sorgente non aggiorna silenziosamente la paratia.
+
+In **Dati e fasi**, completare le colonne del terreno a sinistra e a destra. Servono pesi naturale e saturo, parametri resistenti, condizioni drenate o non drenate, coefficiente a riposo K0 e modulo di reazione kh con fonte. K0 e kh non vengono dedotti dalla sola litologia. kh è in N/mm³; per l'analisi non drenata occorre cu esplicito. Un dato assente non equivale a zero. La falda è definita separatamente per lato e fase.
+
+### Costruire la storia delle fasi
+
+Ordinare le righe di **Fasi costruttive** secondo la sequenza reale. Ogni fase definisce piani campagna, falde, sovraccarichi, carico uniforme sulla struttura e moltiplicatore di EI. La prima fase costruisce lo stato iniziale idealizzato. Installazione di un contrasto e scavo devono occupare fasi distinte quando il loro ordine influenza il risultato.
+
+Definire geometria e rigidezza dei tiranti e puntoni in **Tiranti e puntoni**. L'inclinazione è positiva verso il basso; interasse e capacità plastica sono riferiti al singolo elemento. **Sostegni presenti nelle fasi** elenca tutti i sostegni attivi, con pretensione. Un sostegno omesso nella fase successiva viene rimosso; una reinstallazione assume un nuovo riferimento. Il sostegno appena installato si riferisce alla deformata già raggiunta, senza azzerare gli spostamenti della parete.
+
+**Carichi concentrati sulla struttura** contiene quota, forza orizzontale positiva verso destra, coppia e forza verticale positiva verso il basso. **Carichi distribuiti sulla struttura** contiene fase, identificativo, quota superiore e inferiore, intensità ai due estremi e fonte. L'andamento è lineare nell'intervallo; sono ammessi valori negativi e cambi di segno. Gli intervalli sovrapposti si sommano al carico uniforme della fase. Ogni fase deve elencare l'intero campo presente: gli intervalli omessi vengono rimossi. Scorrere l'elenco verticale per raggiungere tutte le tabelle.
+
+### Impostare falda e filtrazione
+
+Con **Idrostatica**, assegnare i livelli di falda nelle fasi; il campo vuoto indica falda assente nel modello. Con **FEM 2D**, completare le estensioni laterali, la quota del fondo impermeabile, lo spessore della parete e il passo della mesh. Il dominio deve estendersi sotto il piede; la posizione dei bordi va verificata mediante sensibilità.
+
+Le tabelle di permeabilità richiedono Kxx, Kzz e Kxz in m/s e la loro fonte. I parametri non saturi α in 1/m e n sono facoltativi, ma vanno forniti insieme quando si adotta quella legge. La scheda **Filtrazione** mostra pressioni, carichi, bilancio delle portate e diagnostica. Un calcolo idraulico non convergente non fornisce pressioni valide alla fase meccanica.
+
+La scelta **Trascurare la suzione** riguarda il trasferimento meccanico: il risultato idraulico conserva le pressioni negative. Per i pesi del terreno scegliere esplicitamente quota di falda assegnata oppure pressione FEM positiva. Quest'ultima opzione usa una classificazione naturale/satura; non simula una frangia capillare o la consolidazione nel tempo.
+
+### Richiedere le verifiche
+
+Ogni verifica richiede una norma disponibile, una situazione pertinente e dati con provenienza. Le azioni delle sezioni provengono dalla stessa storia non lineare: non si combinano i massimi N, V e M di casi diversi e non si applicano coefficienti alle reazioni già calcolate per trasformarle in un'altra combinazione.
+
+- **UPL / HYD**: definire corpi, azioni caratteristiche o punti e colonne di controllo. Distinguere sollevamento idraulico e sifonamento. Applicabilità del flusso verticale, frontiera e saturazione devono essere motivate. Queste verifiche non coprono l'instabilità geotecnica del fondo scavo.
+- **Stabilità globale**: assegnare parete continua, estensioni, dominio di ricerca e classificazione delle azioni caratteristiche. L'adattatore corrente esclude sostegni esterni e superfici che attraversano la parete. Per ogni carico variabile sulla struttura usare l'identificativo `StructureInterval-<Id>` nella tabella delle combinazioni globali. Il risultato espone cerchio, conci, coefficienti e limiti della ricerca.
+- **Acciaio sostegni**: completare materiale, sezione piena o CHS, area netta e lunghezze libere d'inflessione quando pertinenti. Il percorso corrente verifica aste assiali statiche; un parametro mancante resta Non valutato anche con forza nulla.
+- **Sfilamento tiranti**: definire tratto libero e cementato, indagini per profilo oppure prove preliminari, dati d'iniezione e fonti. Pressione limite pressiometrica pl e pressione d'iniezione pi sono distinte. Una predizione analitica sufficiente senza la conferma sperimentale richiesta resta preliminare.
+- **Sezioni acciaio**: le verifiche locali CHS riguardano classi 1 e 2 nel campo statico documentato. L'instabilità dell'intera membratura e i collegamenti sono controlli separati.
+- **Pali in c.a.**: scegliere SLU statico oppure combinazione SLE; definire corona di barre, staffe e materiali. Il modello circolare di taglio richiede conferma esplicita. Resistenza nominale e dettagli costruttivi hanno esiti separati: un controllo N–M soddisfatto non nasconde staffatura insufficiente. Restano distinti ancoraggi, giunti, instabilità e dettagli sismici.
+
+### Calcolare e leggere gli esiti
+
+Premere **Calcola le fasi**; l'avanzamento indica fase e iterazioni. **Annulla** interrompe cooperativamente il lavoro e impedisce la pubblicazione di un nuovo risultato incompleto. Una mancata convergenza conserva soltanto le fasi concluse, con diagnostica esplicita; non produce una verifica soddisfatta.
+
+In **Diagrammi e risultati**, scegliere fase e grandezza, poi l'eventuale fase di confronto. Il diagramma **Carico netto** comprende azioni distribuite e reazioni del terreno; non coincide in generale con il solo carico assegnato. I due lati di una discontinuità sono conservati nella tabella. N è positivo a compressione nella parete; nelle verifiche degli elementi il testo indica le convenzioni del verificatore.
+
+![Diagramma del carico trapezoidale e risultati della mensola di prova](../../X.Desktop/Assets/Wiki/paratie-carichi-distribuiti.png)
+
+Modificare un ingresso rende superati i risultati interessati e disabilita le esportazioni corrispondenti. Il salvataggio conserva input e risultato con la loro impronta; alla riapertura un risultato incompatibile non viene mostrato come corrente. Report Word, PDF e CSV leggono lo stesso risultato dell'interfaccia. Le tabelle sintetiche mantengono le azioni concomitanti; il CSV contiene tutte le sezioni campionate.
+
+### Esempio riproducibile del carico trapezoidale
+
+Assegnare testa a 0 m, piede a −6 m, fascia 2,5 m, EI=200000 kNm² e mesh 0,5 m. Bloccare traslazione e rotazione soltanto al piede; lasciare vuote le due stratigrafie e non assegnare altri carichi o pesi. Nella fase F1 impostare i piani campagna a −6 m e un carico da 1 a 4 kN/m fra −1 e −4,5 m.
+
+Si ottengono spostamento in testa 0,984393229 mm, taglio al piede 8,75 kN e momento al piede 25,375 kNm. La fase F2, senza intervalli di carico, torna elasticamente a zero; F3 con intensità −1 e −4 kN/m dà valori opposti. È una prova analitica del trasferimento delle azioni, non un esempio completo di dimensionamento geotecnico.
+
+### Funzioni ancora da completare
+
+Rimangono aperti, fra gli altri, famiglie complesse di sezioni e più file, effetto arco e cedimenti, interazione fra pareti e strutture interne, cerniere plastiche, ottimizzazione dell'infissione, instabilità del fondo e tampone, combinazioni automatiche e procedure sismiche avanzate, progetto automatico completo delle armature, importazione DXF e integrazioni esterne. Le opzioni non disponibili non certificano verifiche sostitutive. La guida sarà aggiornata con i successivi incrementi collaudati.

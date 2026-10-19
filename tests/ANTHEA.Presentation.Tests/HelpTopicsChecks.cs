@@ -1,4 +1,5 @@
 using Anthea.Presentation.Help;
+using Anthea.Wiki;
 
 namespace Anthea.Presentation.Tests;
 
@@ -8,7 +9,7 @@ internal static class HelpTopicsChecks
     internal static int Run()
     {
         var expect = new Expect();
-        expect.That(HelpTopics.Topics.Count == 30, "Tabella degli argomenti con 30 voci, come in WikiContextHelp");
+        expect.That(HelpTopics.Topics.Count == 37 && HelpTopics.Topics.Take(30).All(t => !t.Modules.Contains("geo_paratie")), "Trenta argomenti storici conservati e sette argomenti aggiunti per le paratie");
         expect.That(HelpTopics.Topics.Select(t => t.Uri).Distinct().Count() == HelpTopics.Topics.Count
             && !HelpTopics.Topics.Any(t => t.Uri == HelpTopics.StressAnalysis.Uri), "URI distinti: l'URI identifica l'argomento");
         expect.That(HelpTopics.ForField("cover_mm", "str_palo")?.Uri.EndsWith("#copriferro-minimo-e-nominale") == true, "Copriferro rinvia alla durabilità");
@@ -21,6 +22,15 @@ internal static class HelpTopicsChecks
         expect.That(ReferenceEquals(HelpTopics.Find(HelpTopics.StressAnalysis.Uri), HelpTopics.StressAnalysis), "Argomento fuori tabella trovato per identificativo");
         expect.That(ReferenceEquals(HelpTopics.Find(HelpTopics.Topics[3].Uri), HelpTopics.Topics[3]), "Argomento della tabella trovato per identificativo");
         expect.That(HelpTopics.Find(null) is null && HelpTopics.Find("sconosciuto") is null, "Identificativo assente o sconosciuto");
+        expect.That(HelpTopics.ForField("q_top", "geo_paratie")?.Uri == "analisi-paratie#carichi-distribuiti-per-intervalli", "Carico sulla fascia rinvia alle proprie unità");
+        expect.That(HelpTopics.ForField("kh", "geo_paratie")?.Uri == "analisi-paratie#stato-iniziale-e-pressioni-limite", "kh della paratia rinvia alla propria legge costitutiva");
+        expect.That(HelpTopics.ForField("kh", "geo_palo_orizzontale")?.Uri == "palo-elastico#modulo-di-reazione-e-conversioni", "Il palo conserva la propria spiegazione di kh");
+        foreach (var topic in HelpTopics.Topics.Where(t => t.Modules.Contains("geo_paratie")))
+        {
+            var target = topic.Uri.Split('#');
+            var article = WikiCatalog.Resolve(topic.Uri);
+            expect.That(article is not null && article.Sections.Contains(target[1]), "Destinazione reale della Wiki: " + topic.Uri);
+        }
         return expect.Count;
     }
 }

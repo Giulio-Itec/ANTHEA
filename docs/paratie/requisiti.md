@@ -67,7 +67,7 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-27 | P,H,U | Diagrammi, inviluppi, provenienza e stati risultato | risultati GPC | MVVM/XAML | UI/report corrispondenti | in corso |
 | PAR-28 | U | Persistenza, migrazioni, invalidazione, annullamento | Application/Serialization | flussi F5 | round trip, race e riapertura | in corso |
 | PAR-29 | P,H | DXF, immagini, stampa e report personalizzabile/inglese | Application/Reports | export | round trip DXF e resa PDF | in corso |
-| PAR-30 | U | Guide globali DOCX/PDF, wiki | Reports/Wiki | aiuto contestuale | render e controllo collegamenti | aperto |
+| PAR-30 | U | Guide globali DOCX/PDF, wiki | Reports/Wiki | aiuto contestuale | render e controllo collegamenti | in corso: Rev48, incrementi 1–9; estensioni successive aperte |
 | PAR-31 | H | Collegamento FLAC e analisi dinamica esterna | adattatore da specifica pubblica | interoperabilità | licenza e prova con eseguibile reale | dipendenza esterna |
 | PAR-32 | H | Monitoraggio Tokbo e confronto misura/calcolo | adattatore da API documentata | serie temporali | credenziali e dati reali autorizzati | dipendenza esterna |
 | PAR-33 | H | Assistenza chatbot e servizi esterni | da specificare rispetto all'incarico ingegneristico | supporto | servizio/documentazione necessari | dipendenza esterna |
@@ -105,6 +105,8 @@ L'[ottavo incremento](incremento-08.md) integra pali circolari in c.a.,
 SLU/SLE in Checker Concrete, controlli costruttivi separati ed EI equivalente.
 Il [nono incremento](incremento-09.md) integra carichi distribuiti lineari
 per intervalli e fasi, trasferimento globale, diagramma q netto e report.
+Il [decimo incremento](incremento-10.md) aggiorna le due guide globali Word/PDF,
+la Wiki e l'aiuto contestuale degli editor, con collaudo applicativo e WPF.
 Le righe in corso non sono soddisfatte integralmente: tipi complessi, verifiche
 locali e globali complete, combinazioni automatiche, inviluppi e migrazioni
 richiedono ancora integrazioni. Nessuna funzione avanzata viene esclusa.

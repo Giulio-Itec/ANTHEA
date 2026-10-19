@@ -2,17 +2,25 @@ using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Anthea.Application.EmbeddedWalls;
 using Anthea.Presentation.Modules.EmbeddedWalls;
+using Anthea.Presentation.Forms;
+using Anthea.Presentation.Services;
 using X.Desktop.Views.EmbeddedWalls;
 
 namespace X.Desktop;
 
 internal static class EmbeddedWallViewChecks
 {
+    private sealed class CapturedWiki : IWikiNavigator
+    {
+        internal List<string?> Shown { get; } = [];
+        public void Show(string? uri = null) => Shown.Add(uri);
+    }
     internal static async Task Run(string root, string output)
     {
         Directory.CreateDirectory(output);
@@ -42,6 +50,14 @@ internal static class EmbeddedWallViewChecks
         try
         {
             await Settle(); Check(Visual(editor.View).OfType<EmbeddedWallSheetView>().Count() == 1, "Vista XAML non risolta."); Capture("modello");
+            var help = Visual(editor.View).OfType<Button>().First(b => b.IsVisible && b.Content as string == "?" && b.DataContext is FieldViewModel);
+            var helpField = (FieldViewModel)help.DataContext; var originalNavigator = helpField.Form.WikiNavigator;
+            var wiki = new CapturedWiki(); string beforeHelp = sheet.Data.ToJsonString();
+            helpField.Form.WikiNavigator = wiki;
+            help.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, help));
+            helpField.Form.WikiNavigator = originalNavigator;
+            Check(wiki.Shown.SequenceEqual([helpField.HelpUri]) && sheet.Data.ToJsonString() == beforeHelp,
+                "Il pulsante di aiuto non raggiunge la guida del campo o modifica gli input.");
             await editor.CalculateAsync(); Check(sheet.Current?.Complete == true && sheet.Stages.Count == 2, "Scavo a due fasi non convergente nella vista.");
             var tabs = Visual(editor.View).OfType<TabControl>().First(); tabs.SelectedIndex = 1; await Settle();
             var tables = Visual(editor.View).OfType<TabControl>().Last(); tables.SelectedIndex = 4; await Settle(); Capture("fasi");
