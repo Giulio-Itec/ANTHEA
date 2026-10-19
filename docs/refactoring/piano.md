@@ -11,6 +11,7 @@ Attività richiesta dall'utente su `refactoring/f5-azioni-spettri`, derivato da 
 - [x] Sola lettura della ricerca dei comuni allineata al contratto delle revisioni; due prove dei progetti e vista Spettri passate. Catture dei casi limite conservate nei test permanenti.
 - [x] Limite Tis ≤ 4 s verificato sul testo NTC 2018 §3.2.3.2 e imposto nel motore GPC.Design 0.22.0.1, con prove al bordo e aggiornamento delle guide.
 - [x] Rendering Wiki corretto e verificato; confronto completo F3 di 1070 file senza differenze non ammesse, dopo la classificazione puntuale dei soli metadati e delle aggiunte editoriali (SPETTRI-04).
+- [x] Tracce F5 Fondazioni conservate e banco adeguato al set: tutte le prove Presentation e le due viste Fondazioni passate (`spettri-f5-metadata-02`, 5 PASS).
 - [~] Runner full con set candidato: esecuzioni 01/02/03 interrotte per completare sola lettura, campo normativo e confronto dei metadati nelle tracce F5; ripartenza completa con set 03 su commit pulito.
 - [ ] Rilascio definitivo delle librerie dopo autorizzazione al merge/push di Checker su master.
 
