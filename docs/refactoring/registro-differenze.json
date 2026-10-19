@@ -106,7 +106,8 @@
       "stato": "attuato",
       "descrizione": "Il set coerente cambia Geotechnics da 0.4.0.0 a 0.4.0.1, solo per versione e metadati di build. Otto fixture espongono la versione in risultato e report: sedici differenze puntuali, senza cambiamenti di calcolo. La Wiki passa da 73 a 75 articoli. Aggiornati soltanto quattro file dei due nuovi articoli e la ricerca, secondo F3-06; gli attesi numerici sono conservati.",
       "decisione": "Conseguenza della nuova funzionalità richiesta e delle regole sulle versioni del set coerente. Cinque transizioni precedenti sostituite e dodici aggiunte: valori prima/dopo esatti, nessuna tolleranza o esclusione nuova.",
-      "codice": ["tests/fixtures/f3/transitions-f4.json", "tests/fixtures/f3/manifest.json"],
+      "codice": ["tests/fixtures/f3/transitions-f4.json", "tests/fixtures/f3/manifest.json", "tests/Shared/ShallowFoundationTrace.cs", "tests/ANTHEA.Presentation.Tests/ShallowFoundationSheetChecks.cs"],
+      "tracce_f5": "La sola versione esatta 0.4.0.1 è ricondotta a 0.4.0.0 su una copia prima del fingerprint storico; nessuna traccia riscritta. Controlli negativi su valore numerico e versione non dichiarata, controllo di immutabilità. I risultati completi restano confrontati da F3.",
       "effetto_quantificato": "Confronto completo non troncato: 1066 file, 57 segnalazioni composte da 16 versioni, un conteggio articoli, 35 differenze editoriali e cinque vecchie transizioni non più corrispondenti. Nessuna nuova differenza numerica di calcolo.",
       "test": ["ui/f3-equivalence", "ui/check-wiki-offscreen"],
       "evidenze": ["docs/refactoring/spettri-ntc.md", "supporto/artefatti/spettri-ntc/f3-completo-prima.json"]

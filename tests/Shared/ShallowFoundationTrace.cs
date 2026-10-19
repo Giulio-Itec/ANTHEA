@@ -207,7 +207,7 @@ internal sealed class ShallowFoundationTraceState
         yield return "== " + step;
         yield return "dati " + PileGroupTrace.Compact(Data);
         yield return "modificato " + N(Modified) + " · modificabile " + PileGroupTrace.YesNo(Editable) + " · richieste report " + N(ReportRequests);
-        yield return "risultato " + (Result is null ? "-" : PileGroupTrace.Hash(Result));
+        yield return "risultato " + (Result is null ? "-" : ResultFingerprint(Result));
         yield return "stato " + Q(State);
         yield return "campi";
         foreach (var field in Fields) yield return "  " + field.Line();
@@ -237,6 +237,17 @@ internal sealed class ShallowFoundationTraceState
             yield return "  andamenti " + Q(ContactText);
             yield return "  rottura " + Q(string.Join("|", MechanismAxes)) + " [" + N(MechanismAxis) + "] " + (Mechanism is null ? "-" : PileGroupTrace.Hash(Mechanism)) + " " + Q(MechanismText);
         }
+    }
+
+    /// <summary>SPETTRI-04: Geotechnics 0.4.0.1 changes only assembly metadata, already checked by the full F3 comparison.
+    /// Preserve the frozen F5 traces by mapping that exact version to their 0.4.0.0. Every other field, and every other
+    /// version, still contributes unchanged to the fingerprint. Never mutate the actual result.</summary>
+    internal static string ResultFingerprint(JsonObject result)
+    {
+        if (result["library_version"]?.GetValue<string>() != "0.4.0.1") return PileGroupTrace.Hash(result);
+        var comparable = (JsonObject)result.DeepClone();
+        comparable["library_version"] = "0.4.0.0";
+        return PileGroupTrace.Hash(comparable);
     }
 
     /// <summary>The display row without «__color»: the colour of the layer is a token of the view.</summary>

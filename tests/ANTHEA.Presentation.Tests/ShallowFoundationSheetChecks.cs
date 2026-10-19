@@ -51,6 +51,7 @@ internal static class ShallowFoundationSheetChecks
         try
         {
             var expect = new Expect();
+            VersionFingerprint(expect);
             string traces = Path.Combine(output, "fondazioni");
             Directory.CreateDirectory(traces);
             foreach (var scenario in ShallowFoundationScenarios.All(root))
@@ -82,6 +83,19 @@ internal static class ShallowFoundationSheetChecks
     }
 
     // ---------------------------------------------------------------- traces
+
+    private static void VersionFingerprint(Expect expect)
+    {
+        var previous = new JsonObject { ["library_version"] = "0.4.0.0", ["resistance"] = 100.0 };
+        var current = (JsonObject)previous.DeepClone(); current["library_version"] = "0.4.0.1";
+        string fingerprint = ShallowFoundationTraceState.ResultFingerprint(previous);
+        expect.That(ShallowFoundationTraceState.ResultFingerprint(current) == fingerprint, "SPETTRI-04: sola versione nota nella traccia storica");
+        expect.That(current["library_version"]!.GetValue<string>() == "0.4.0.1", "La normalizzazione non modifica il risultato");
+        current["resistance"] = 101.0;
+        expect.That(ShallowFoundationTraceState.ResultFingerprint(current) != fingerprint, "Una differenza numerica resta rilevata");
+        current["resistance"] = 100.0; current["library_version"] = "0.4.0.2";
+        expect.That(ShallowFoundationTraceState.ResultFingerprint(current) != fingerprint, "Una versione non dichiarata resta rilevata");
+    }
 
     private static async Task<List<string>> TraceAsync(string root, ShallowFoundationScenario scenario)
     {

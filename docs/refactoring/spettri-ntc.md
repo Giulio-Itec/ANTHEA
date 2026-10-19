@@ -38,7 +38,7 @@ Il catalogo è letto dal file scelto dall'utente, senza attribuirgli aggiornamen
 - [x] Set candidato completo da commit locali, senza installazione in lib/Checker.
 - [x] Collaudo mirato ANTHEA, salvataggio/riapertura, report e WPF.
 - [x] Guide globali Rev48, Word/PDF e indici verificati.
-- [~] Runner full: esecuzioni 01/02 interrotte per completare le correzioni; ripartenza completa con il set aggiornato.
+- [~] Runner full: esecuzioni 01/02/03 interrotte per completare le correzioni; ripartenza completa con il set aggiornato.
 - [ ] Pubblicazione del set definitivo, soggetta ad autorizzazione Git.
 
 Il primo treno si è fermato per GMsh.Net assente nei test del checkout isolato di Model. La dipendenza è stata predisposta soltanto nei percorsi di test; il secondo treno ha prodotto il primo set candidato completo. Il set finale 03 è preparato con `Update-Snapshot.ps1 -AllowCandidate -Staging`, senza `-Lib` né `-Install`: il controllo versione/impronta contro lo snapshot corrente è passato e `lib/Checker` rimane invariata.
@@ -56,3 +56,5 @@ Guide: 87 e 153 pagine, indici Word aggiornati, 26 parti del template ITEC ident
 Il mirato finale `20261019-020547-spettri-final-target-03` ha 7 PASS e il solo errore Wiki della formula; Spettri conta 1572 controlli passati. Dopo la correzione, `20261019-021157-spettri-wiki-final-01` completa la cattura F3 ma segnala 57 differenze. Analisi completa con `f3_confronto_completo.py`: 16 numeri di versione Geotechnics, un conteggio articoli, 35 differenze editoriali e cinque transizioni precedenti da sostituire. Nessun nuovo cambiamento dei risultati di calcolo. Registro SPETTRI-04: sostituite cinque transizioni e aggiunte dodici, tutte con valori prima/dopo esatti; quattro nuovi file Wiki e ricerca aggiornati con impronte nel manifest (F3-06). Gli attesi numerici rimangono invariati.
 
 Ripetizione del confronto completo sulla stessa cattura immutabile, con il registro aggiornato: 1070 file, 107 gruppi, 22138 transizioni elencate e riscontrate, zero differenze non ammesse (`f3-completo-dopo.json`). Segue la corsa full su commit pulito con nuova cattura: questa verifica isolata non la sostituisce.
+
+`20261019-021839-spettri-full-03`, su 6dd9d824, è interrotto dopo un errore di Presentation.Tests: l'impronta del risultato nelle tracce Fondazioni F5 include anche `library_version`. I risultati F3 avevano già dimostrato l'assenza di altre differenze. Il generatore condiviso delle tracce riconduce soltanto il metadato esatto 0.4.0.1 alla versione 0.4.0.0 del riferimento, su una copia; ogni altro campo e ogni altra versione restano inclusi nell'impronta. Quattro controlli verificano corrispondenza, immutabilità e rilevazione di una variazione numerica o di una versione non dichiarata. Nessuna traccia congelata è riscritta. Anche questa esecuzione resta parziale.
