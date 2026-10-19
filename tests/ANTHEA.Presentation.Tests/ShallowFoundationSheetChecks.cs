@@ -51,6 +51,7 @@ internal static class ShallowFoundationSheetChecks
         try
         {
             var expect = new Expect();
+            VersionFingerprint(expect);
             string traces = Path.Combine(output, "fondazioni");
             Directory.CreateDirectory(traces);
             foreach (var scenario in ShallowFoundationScenarios.All(root))
@@ -82,6 +83,19 @@ internal static class ShallowFoundationSheetChecks
     }
 
     // ---------------------------------------------------------------- traces
+
+    private static void VersionFingerprint(Expect expect)
+    {
+        var previous = new JsonObject { ["library_version"] = "0.4.0.0", ["resistance"] = 100.0 };
+        var current = (JsonObject)previous.DeepClone(); current["library_version"] = "0.4.0.1";
+        string fingerprint = ShallowFoundationTraceState.ResultFingerprint(previous);
+        expect.That(ShallowFoundationTraceState.ResultFingerprint(current) == fingerprint, "SPETTRI-04: sola versione nota nella traccia storica");
+        expect.That(current["library_version"]!.GetValue<string>() == "0.4.0.1", "La normalizzazione non modifica il risultato");
+        current["resistance"] = 101.0;
+        expect.That(ShallowFoundationTraceState.ResultFingerprint(current) != fingerprint, "Una differenza numerica resta rilevata");
+        current["resistance"] = 100.0; current["library_version"] = "0.4.0.2";
+        expect.That(ShallowFoundationTraceState.ResultFingerprint(current) != fingerprint, "Una versione non dichiarata resta rilevata");
+    }
 
     private static async Task<List<string>> TraceAsync(string root, ShallowFoundationScenario scenario)
     {
@@ -218,7 +232,7 @@ internal static class ShallowFoundationSheetChecks
     /// <summary>
     /// The path of ui/f3-equivalence through the ViewModel (opened, visited with every group opened, calculated, result, report,
     /// exported, reopened), compared with the F3 reference of the historic view in the canonical form of the capture: byte for byte,
-    /// except the files with F4 transitions (the version of the library in two old fixtures), kept for <see cref="CompareTransitions"/>.
+    /// except the files with F4/SPETTRI-04 transitions (the library version in eight fixtures), kept for <see cref="CompareTransitions"/>.
     /// </summary>
     private static async Task F3Async(string root, string output, string id, IReadOnlySet<string> withTransitions, Expect expect)
     {
@@ -271,7 +285,8 @@ internal static class ShallowFoundationSheetChecks
         comparer.Admit(transitions);
         var report = comparer.Compare(Path.Combine(output, "f3-riferimento"), Path.Combine(output, "f3-transizioni"));
         File.WriteAllText(Path.Combine(output, "f3-confronto.json"), report.ToJsonString(J.Options));
-        expect.That(transitions.Count == 4 && comparer.NotAdmitted == 0, "File con transizioni F4: " + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
+        expect.That(transitions.Count == 16 && comparer.NotAdmitted == 0,
+            "Versioni F4/SPETTRI-04: " + transitions.Count + " transizioni (attese 16), " + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
     }
 
     /// <summary>Tables, rows, cells, images and styles of the report, as F3EquivalenceCapture.CaptureReport counts them.</summary>

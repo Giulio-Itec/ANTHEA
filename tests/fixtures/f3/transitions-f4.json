@@ -33,20 +33,13 @@
   "F4-28": 445,
   "F4-29": 22,
   "F4-31": 124,
-  "F4-35 / BUG-MUR-1 + BUG-MUR-2 + BUG-PV-1": 4,
+  "F4-35 / BUG-MUR-1 + BUG-MUR-2 + BUG-PV-1 / SPETTRI-04": 4,
   "F4-40": 384,
   "F4-47": 4,
-  "F4-51": 1
+  "F4-51 / SPETTRI-04": 1,
+  "SPETTRI-04": 12
  },
  "voci": [
-  {
-   "file": "esito.txt",
-   "percorso": "riga 1#2",
-   "classe": "numero",
-   "a": "71",
-   "b": "73",
-   "voce": "F4-51"
-  },
   {
    "file": "project/report-structure.json",
    "percorso": "$.cells",
@@ -39998,38 +39991,6 @@
    "a": null,
    "b": "\"Trascurato\"",
    "voce": "BUG-PON-2"
-  },
-  {
-   "file": "sheets/geo_fondazioni_superficiali/confirmed-actions/report.txt",
-   "percorso": "riga 52#1",
-   "classe": "numero",
-   "a": "0.1.3.3",
-   "b": "0.4.0.0",
-   "voce": "F4-35 / BUG-MUR-1 + BUG-MUR-2 + BUG-PV-1"
-  },
-  {
-   "file": "sheets/geo_fondazioni_superficiali/confirmed-actions/result.json",
-   "percorso": "$.library_version#1",
-   "classe": "numero",
-   "a": "0.1.3.3",
-   "b": "0.4.0.0",
-   "voce": "F4-35 / BUG-MUR-1 + BUG-MUR-2 + BUG-PV-1"
-  },
-  {
-   "file": "sheets/geo_fondazioni_superficiali/legacy-soil-profile/report.txt",
-   "percorso": "riga 52#1",
-   "classe": "numero",
-   "a": "0.1.3.3",
-   "b": "0.4.0.0",
-   "voce": "F4-35 / BUG-MUR-1 + BUG-MUR-2 + BUG-PV-1"
-  },
-  {
-   "file": "sheets/geo_fondazioni_superficiali/legacy-soil-profile/result.json",
-   "percorso": "$.library_version#1",
-   "classe": "numero",
-   "a": "0.1.3.3",
-   "b": "0.4.0.0",
-   "voce": "F4-35 / BUG-MUR-1 + BUG-MUR-2 + BUG-PV-1"
   },
   {
    "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/result.json",
@@ -177046,6 +177007,150 @@
    "a": "[T1 r9 c2] Lineare; n=5,87; φ=0,00; CLS teso=No; assi Locali. ⏎ Da scegliere; Poco sensibile; durata Lunga; aderenza Migliorata. c e interasse fessure: / mm (vuoto = automatico).",
    "b": "[T1 r9 c2] Lineare; n=5,87; φ=0,00; CLS teso=No; assi Locali. ⏎ Da scegliere; Poco sensibile; durata Lunga; aderenza Migliorata. c e interasse fessure: / mm (c vuoto: copriferro delle barre efficaci verso la faccia tesa; interasse vuoto: automatico).",
    "voce": "BUG-FES-2"
+  },
+  {
+   "file": "esito.txt",
+   "percorso": "riga 1#2",
+   "classe": "numero",
+   "a": "71",
+   "b": "75",
+   "voce": "F4-51 / SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/confirmed-actions/report.txt",
+   "percorso": "riga 52#1",
+   "classe": "numero",
+   "a": "0.1.3.3",
+   "b": "0.4.0.1",
+   "voce": "F4-35 / BUG-MUR-1 + BUG-MUR-2 + BUG-PV-1 / SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/confirmed-actions/result.json",
+   "percorso": "$.library_version#1",
+   "classe": "numero",
+   "a": "0.1.3.3",
+   "b": "0.4.0.1",
+   "voce": "F4-35 / BUG-MUR-1 + BUG-MUR-2 + BUG-PV-1 / SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/ec7-fuori-dominio/report.txt",
+   "percorso": "riga 51#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/ec7-fuori-dominio/result.json",
+   "percorso": "$.library_version#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/hansen-non-drenato-caratteristico/report.txt",
+   "percorso": "riga 53#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/hansen-non-drenato-caratteristico/result.json",
+   "percorso": "$.library_version#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/legacy-falda-piano-campagna/report.txt",
+   "percorso": "riga 53#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/legacy-falda-piano-campagna/result.json",
+   "percorso": "$.library_version#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/legacy-soil-profile/report.txt",
+   "percorso": "riga 52#1",
+   "classe": "numero",
+   "a": "0.1.3.3",
+   "b": "0.4.0.1",
+   "voce": "F4-35 / BUG-MUR-1 + BUG-MUR-2 + BUG-PV-1 / SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/legacy-soil-profile/result.json",
+   "percorso": "$.library_version#1",
+   "classe": "numero",
+   "a": "0.1.3.3",
+   "b": "0.4.0.1",
+   "voce": "F4-35 / BUG-MUR-1 + BUG-MUR-2 + BUG-PV-1 / SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/meyerhof-eccentrica-input-raccolti/report.txt",
+   "percorso": "riga 52#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/meyerhof-eccentrica-input-raccolti/result.json",
+   "percorso": "$.library_version#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/terzaghi-nastriforme-falda/report.txt",
+   "percorso": "riga 53#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/terzaghi-nastriforme-falda/result.json",
+   "percorso": "$.library_version#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/vesic-circolare-due-sondaggi/report.txt",
+   "percorso": "riga 52#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
+  },
+  {
+   "file": "sheets/geo_fondazioni_superficiali/vesic-circolare-due-sondaggi/result.json",
+   "percorso": "$.library_version#1",
+   "classe": "numero",
+   "a": "0.4.0.0",
+   "b": "0.4.0.1",
+   "voce": "SPETTRI-04"
   }
- ]
+ ],
+ "aggiornamento_spettri": {
+  "data": "2026-10-19",
+  "cattura": "20261019-021157-spettri-wiki-final-01",
+  "registro": "SPETTRI-04",
+  "sostituite": 5,
+  "aggiunte": 12,
+  "nota": "Solo versione libreria Geotechnics e numero articoli; altri valori prima/dopo invariati."
+ }
 }

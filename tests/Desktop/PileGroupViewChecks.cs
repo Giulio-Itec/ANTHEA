@@ -587,7 +587,7 @@ internal static class PileGroupViewChecks
 
     /// <summary>
     /// ANTHEA.exe --interactive (UiTests, manual tests; D14: kept until F5.14) and the Release since the F5.4 checkpoint: the factory of the
-    /// composition root opens the MVVM pile group with the services of the product, without --module-impl; every other module stays historic.
+    /// composition root opens the MVVM pile group with the services of the product, without --module-impl. The new Spectra module also starts in MVVM.
     /// </summary>
     private static void InteractiveBench(string root)
     {
@@ -597,12 +597,13 @@ internal static class PileGroupViewChecks
             Check(pileGroup is MvvmSheetEditor { Sheet: PileGroupSheetViewModel sheet } && sheet.DiameterForm.WikiNavigator is WpfWikiNavigator && sheet.HasResults,
                 "Banco interattivo: palificata MVVM con i servizi del prodotto (Wiki della finestra), senza --module-impl");
         using (var other = factory.Open("geo_palo_verticale", Anthea.Application.Modules.ModuleDirectory.CreateData("geo_palo_verticale")))
-            Check(other is SheetEditor, "Banco interattivo: gli altri moduli restano storici");
+            Check(other is SheetEditor, "Banco interattivo: il palo verticale conserva la vista storica");
         using (var release = composition.SheetEditors.Open(Module, PileGroupScenarios.FixtureData(root, "default")))
             Check(release is MvvmSheetEditor { Sheet: PileGroupSheetViewModel shown } && shown.DiameterForm.WikiNavigator is WpfWikiNavigator && shown.HasResults,
                 "Release: la radice di composizione apre la palificata con la vista MVVM");
-        Check(ModuleImplementations.Declared.All(d => d.Implementation == (d.Module == Module ? SheetImplementation.Mvvm : SheetImplementation.Historic)),
-            "Release: la palificata con la vista MVVM, tutti gli altri moduli con la vista storica");
+        Check(ModuleImplementations.Declared.All(d => d.Implementation ==
+            (d.Module is Module or Anthea.Application.Actions.SpectraDocument.Module ? SheetImplementation.Mvvm : SheetImplementation.Historic)),
+            "Release: palificata e nuovo modulo Spettri con la vista MVVM, gli altri moduli con la vista storica");
     }
 
     // ---------------------------------------------------------------- 7. read-only

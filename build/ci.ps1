@@ -134,6 +134,7 @@ Add-Suite @{ Name = 'Application.Tests'; Stage = 'fast'; Kind = 'run'; Project =
 Add-Suite @{ Name = 'Wiki.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Wiki.Tests\ANTHEA.Wiki.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # ViewModels, services and calculation scheduling of the MVVM interface without WPF (refactoring F5.1, proposal F5 section 7.1).
 Add-Suite @{ Name = 'Presentation.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'Spettri.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--spettri'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Architecture.F4.Inventory'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}', '--f4-inventory'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS F4 inventory:' } }
 Add-Suite @{ Name = 'Testing.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Testing.Tests\ANTHEA.Testing.Tests.csproj'; Args = @() }
 Add-Suite @{ Name = 'Headless/help'; Stage = 'fast'; Kind = 'run'; Project = 'tools\ANTHEA.Headless\ANTHEA.Headless.csproj'; Args = @('--help') }
@@ -384,6 +385,8 @@ Add-Suite @{ Name = 'ui/check-stratigrafia-historic'; Stage = 'ui'; Kind = 'chec
 # writes, exports equal to those of the historic view, screenshots, F1, automation names, read-only, AI import with a scripted source (never
 # the network), the view of the shared soil dialog against the historic window.
 Add-Suite @{ Name = 'ui/check-stratigrafia-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-stratigrafia-view', '{root}', '{out}\vista'); Timeout = 600; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/check-spettri-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-spettri-view', '{root}', '{out}\vista'); Timeout = 180; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/check-spettri-contrast'; Stage = 'ui'; Kind = 'check'; Args = @('--check-spettri-contrast', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.9 (proposal 7.2, capture first): the historic retaining wall view still gives the traces frozen in tests/fixtures/f5-muri,
 # which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-muri-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-muri-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }

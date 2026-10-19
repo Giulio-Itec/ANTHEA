@@ -185,11 +185,11 @@ public sealed partial class MainWindow : Window
     private void ShowModules(string discipline = "Tutti")
     {
         SelectNavigation("Moduli singoli"); var root = new DockPanel(); var intro = Ui.Stack(Ui.Text("Moduli singoli", 30, true), Ui.Text("Scegli disciplina, elemento e verifica. I dati restano indipendenti da un progetto.", color: Ui.Muted)); intro.Margin = new Thickness(0, 0, 0, 24); DockPanel.SetDock(intro, System.Windows.Controls.Dock.Top); root.Children.Add(intro);
-        var filters = Ui.Stack(Ui.Text("DISCIPLINE", 13, true)); filters.Width = 185; foreach (string name in new[] { "Tutti", "Geotecnica", "Strutture", "Materiali" }) filters.Children.Add(Ui.Button(name, () => ShowModules(name), discipline == name));
+        var filters = Ui.Stack(Ui.Text("DISCIPLINE", 13, true)); filters.Width = 185; foreach (string name in new[] { "Tutti", "Geotecnica", "Strutture", "Materiali", "Azioni" }) filters.Children.Add(Ui.Button(name, () => ShowModules(name), discipline == name));
         var fp = Ui.Paper(filters, 16); fp.Margin = new Thickness(0, 0, 16, 0); DockPanel.SetDock(fp, System.Windows.Controls.Dock.Left); root.Children.Add(fp);
         var list = new StackPanel();
         var modules = ModuleDirectory.All.Select(m => (m.Area, m.Element, m.Description, m.Id)).ToArray();
-        foreach (string area in new[] { "Geotecnica", "Strutture", "Materiali" }.Where(a => discipline == "Tutti" || a == discipline))
+        foreach (string area in new[] { "Geotecnica", "Strutture", "Materiali", "Azioni" }.Where(a => discipline == "Tutti" || a == discipline))
         {
             var label = Ui.Text(area, 21, true); label.Margin = new Thickness(0, 10, 0, 14); list.Children.Add(label);
             var groups = new Grid(); groups.ColumnDefinitions.Add(new ColumnDefinition()); groups.ColumnDefinitions.Add(new ColumnDefinition()); int col = 0;

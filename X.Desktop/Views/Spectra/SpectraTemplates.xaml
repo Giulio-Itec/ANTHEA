@@ -1,0 +1,3 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="clr-namespace:Anthea.Presentation.Modules.Spectra;assembly=ANTHEA.Presentation" xmlns:views="clr-namespace:X.Desktop.Views.Spectra">
+ <DataTemplate DataType="{x:Type vm:SpectraSheetViewModel}"><views:SpectraSheetView/></DataTemplate>
+</ResourceDictionary>

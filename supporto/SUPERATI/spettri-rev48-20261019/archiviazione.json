@@ -1,0 +1,62 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "667D9DA9C1E6A5D5B929F7591759A90BE077CC12FAACC4194C136C80EAEB1776",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "motivo": "Rev48: modulo Spettri NTC e isolamento; conserva la revisione precedente."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "DE7F0D1D884948EA64497D60A582DD7466580D3C73E75BFB35293A0236941E7F",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "motivo": "Rev48: modulo Spettri NTC e isolamento; conserva la revisione precedente."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "437A2D703ABFCFA365ED7D79CB240F730314622477759164175280609E2BB237",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.pdf",
+    "motivo": "Rev48: modulo Spettri NTC e isolamento; conserva la revisione precedente."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "B25E21390AE9EC059AFD0CE52B2109041C3750517A5BBE7A4B16418D21E70259",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.pdf",
+    "motivo": "Rev48: modulo Spettri NTC e isolamento; conserva la revisione precedente."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev47.docx",
+    "sha256": "4871D1E6E802C46D81303F16C004C09897F2F01CFCA54F2CD2BE7F4E3DDEE301",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.docx",
+    "motivo": "Rev48: modulo Spettri NTC e isolamento; conserva la revisione precedente."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev47.pdf",
+    "sha256": "437A2D703ABFCFA365ED7D79CB240F730314622477759164175280609E2BB237",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.pdf",
+    "motivo": "Rev48: modulo Spettri NTC e isolamento; conserva la revisione precedente."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev47.docx",
+    "sha256": "C3C002ABD9C71BB674E981726AFD5F530C04B04350501FF19B5B983974A724C5",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.docx",
+    "motivo": "Rev48: modulo Spettri NTC e isolamento; conserva la revisione precedente."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev47.pdf",
+    "sha256": "B25E21390AE9EC059AFD0CE52B2109041C3750517A5BBE7A4B16418D21E70259",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.pdf",
+    "motivo": "Rev48: modulo Spettri NTC e isolamento; conserva la revisione precedente."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "763156FA439DAD334DFD5CD1E19F450C65D38265D7605193561D3ECC4653A6D8",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "motivo": "Rev48: modulo Spettri NTC e isolamento; conserva la revisione precedente."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "1D5A56CC9D5C322E86CD73ACD22F57CC52F5CC73D5089E41D4C1785CA6E71787",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "motivo": "Rev48: modulo Spettri NTC e isolamento; conserva la revisione precedente."
+  }
+]

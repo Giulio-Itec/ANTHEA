@@ -1,5 +1,22 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Spettri NTC e isolamento — 19 ottobre 2026
+
+Attività richiesta dall'utente su `refactoring/f5-azioni-spettri`, derivato da `refactoring/f5` b9c2d4b1. [Dettaglio ed evidenze](spettri-ntc.md).
+
+- [x] Riferimenti acquisiti, catture Excel indipendenti, motore Spettri in GPC.Design: 19320 confronti passati, inclusi nodi esatti e tutte le configurazioni triangolari.
+- [x] Isolamento e pendolo, attesi dell'esempio e controllo analitico; differenze intenzionali esplicitate.
+- [x] Set candidato coerente verificato nelle librerie, senza push o merge.
+- [x] Collaudo mirato del nuovo modulo MVVM Azioni e guide globali Rev48 con Word/PDF e Wiki.
+- [x] Sola lettura della ricerca dei comuni allineata al contratto delle revisioni; due prove dei progetti e vista Spettri passate. Catture dei casi limite conservate nei test permanenti.
+- [x] Limite Tis ≤ 4 s verificato sul testo NTC 2018 §3.2.3.2 e imposto nel motore GPC.Design 0.22.0.1, con prove al bordo e aggiornamento delle guide.
+- [x] Rendering Wiki corretto e verificato; confronto completo F3 di 1070 file senza differenze non ammesse, dopo la classificazione puntuale dei soli metadati e delle aggiunte editoriali (SPETTRI-04).
+- [x] Tracce F5 Fondazioni conservate e banco adeguato al set: tutte le prove Presentation e le due viste Fondazioni passate (`spettri-f5-metadata-02`, 5 PASS).
+- [x] Contratto MVVM Palificata corretto e verificato nella ripetizione `spettri-final-rerun-01`.
+- [x] Collaudo di consegna Spettri sul set 03: 7 PASS, zero NEW-FAIL, inclusi 1572 controlli applicativi, 43 WPF e 45 catture del contrasto (quattro fasi nei tre temi, zero difetti a 144 DPI). Anteprima autonoma della Release bea5211b predisposta.
+- [~] Runner full 04 completato sul set 03: 159 PASS, quattro NEW-FAIL; Palificata risolta. Le due esportazioni arrestate da Trend Micro si fermano anche nella ripetizione e restano aperte. Contrasto generale da ripetere a 96 DPI secondo D6 (macchina a 144 DPI). Esiti ed evidenze in `spettri-ntc.md`.
+- [ ] Rilascio definitivo delle librerie dopo autorizzazione al merge/push di Checker su master.
+
 Piano approvato il 6 ottobre 2026. Decisioni e architettura: [decisioni.md](decisioni.md).
 Il dettaglio di ogni passo (file, comandi di verifica, criteri di uscita) è stato preparato
 in `supporto/artefatti/refactoring/piano/` (cartella non versionata).

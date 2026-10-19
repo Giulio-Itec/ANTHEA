@@ -7,6 +7,10 @@ try
     var directory = new DirectoryInfo(AppContext.BaseDirectory);
     while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "ANTHEA.sln"))) directory = directory.Parent;
     string root = directory?.FullName ?? throw new DirectoryNotFoundException("ANTHEA.sln non trovato.");
+    if(args.Contains("--spettri")){
+        string target=args.FirstOrDefault(a=>a!="--spettri")??Path.Combine(root,"supporto/artefatti/spettri-ntc/presentation");Directory.CreateDirectory(target);
+        int count=SpectraSheetChecks.Run(root,target);string spectraMessage=$"PASS {count} controlli Spettri";File.WriteAllText(Path.Combine(target,"esito.txt"),spectraMessage);Console.WriteLine(spectraMessage);return 0;
+    }
     // F5.10: --sezione-tracce runs only the long traces of the RC section (decision C7, ui stage), --sezione-rapide only its checks of the fast
     // stage (to work on the module); the other arguments are positional.
     bool sectionTraces = args.Contains("--sezione-tracce"), sectionFast = args.Contains("--sezione-rapide");

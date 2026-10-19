@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-18",
+  "aggiornato": "2026-10-19",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -28,6 +28,90 @@
   "nota_audit_14_10": "Audit indipendente del 14/10/2026 (piano.md, sezione iniziale). Le voci F4 indicate come «distribuite con il set W» sono attive in ANTHEA 1.8.0 con il set W installato in lib/Checker dal commit 3f9df6b8, sul ramo refactoring/f4-calcoli-residui: il ramo non è unito a main e il full conforme manca (F4.16). Dove la scelta è stata dell'agente la voce indica «decisione dell'utente da ratificare». Lo stato «da-ricostruire» segnala una voce prevista dai micro-piani e non scritta a suo tempo, ricostruita solo in parte: la descrizione dice cosa manca. La categoria «regressione» è aggiunta per F4-36 e F4-37.",
   "nota_analisi_bug_15_10": "Analisi dei bug del 15/10/2026 (docs/refactoring/analisi-bug-20261015.md, sezione «Esito delle correzioni»). Una voce BUG-<codice> per ogni codice dell'analisi, salvo SLU-2 (rettifica e correzione nella voce F2-17) e FES-1 (testo della voce F2-25). BUG-<codice>b e c: punti aperti dello stesso codice. BUG-N1…N7: difetti nuovi trovati durante le correzioni (decisione dell'utente «Correggili tutti»). BUG-TS-1 e BUG-TS-2: tension stiffening opzionale nelle analisi di risposta. TEST-05 e TEST-06: decisioni E3 ed E6 dei residui di F2. Le correzioni delle librerie sono sui rami di integrazione (Checker anthea-bug-1015; Model bugint-model con bug/model) e si distribuiscono con il rilascio Z: GPCModel 5.5.0.0, GPCModelData 0.0.2.14, GPCChecker.Concrete 0.11.0.0, GPCChecker.Steel 2.0.4.8, GPCChecker.CompositeBridge 1.7.0.0, GPCChecker.Geotechnics 0.4.0.0, GPCModelChecker 2.1.0.8, GPC.Design 0.21.0.0, GPCChecker.Masonry 0.1.0.3. Le parti di ANTHEA sono sui rami refactoring/bug-1015 e refactoring/bug-1015-geo, uniti in refactoring/integrazione-1016. Stato «corretto» anche per le correzioni non ancora distribuite; rilascio Z installato il 16/10 (ANTHEA 89545655; set non candidato da Model bf8563f5 e Checker bce7aaae, release_set_sha256 df4f3c4de6877a91723b48f37678f54d065b721cc14f09daa8ff00db4f457ad4 in tests/fixtures/f4/library-release.json); profilo full con tutti gli stadi sul commit 5c3f5baf: 142 PASS, 0 NEW-FAIL (supporto/artefatti/ci/20261016-022553-int1016-full2); transizioni del confronto UI F3 in tests/fixtures/f3/transitions-f4.json (classificazione in docs/refactoring/bug-1015-transizioni-ui-classificazione.md). Il campo voci_collegate lega le voci nei due versi.",
   "voci": [
+    {
+      "id": "SPETTRI-01",
+      "data": "2026-10-19",
+      "fase": "F5 — nuovo modulo Azioni",
+      "titolo": "Convenzioni numeriche CSLP 1.0.3 conservate",
+      "famiglia": "Azioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Il nuovo motore conserva VR minimo 35, soglie TR particolari, denominatore logaritmico quando ag2/ag1=1, soglia 0,2 ag SLV/SLC anche nel ramo elastico e convenzione verticale del foglio. Non è una sostituzione tacita con NTC 2018.",
+      "decisione": "Richiesta dell’utente: stesse funzioni e risultati del riferimento ufficiale. Riferimento e convenzioni espliciti in UI, report e guide.",
+      "codice": [
+        "Checker/src/GPC.Design/Actions/NtcSpectra.cs",
+        "src/ANTHEA.Application/Actions/SpectraDocument.cs"
+      ],
+      "effetto_quantificato": "19.320 confronti con catture Excel indipendenti, inclusi nodi esatti e tutte le configurazioni triangolari; massimo scarto assoluto 1,3322676295501878e-14. Tolleranza 1e-10 × max(1, |atteso|).",
+      "test": [
+        "Design.Checks.SpectraTests",
+        "ANTHEA.Presentation.Tests.SpectraSheetChecks",
+        "ANTHEA.Presentation.Tests.SpectraEdgeChecks"
+      ],
+      "evidenze": [
+        "docs/refactoring/spettri-ntc.md",
+        "supporto/artefatti/spettri-ntc/excel-capture-01.json",
+        "tests/fixtures/spettri/cslp103-grid-edges.json",
+        "tests/fixtures/spettri/cslp103-grid-kind1.json"
+      ],
+      "wiki": "spettri-isolamento"
+    },
+    {
+      "id": "SPETTRI-02",
+      "data": "2026-10-19",
+      "fase": "F5 — estensione isolamento",
+      "titolo": "Isolamento valutato analiticamente a Tis",
+      "famiglia": "Azioni",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "L’esempio cerca il campione precedente a Tis e sposta di 0,0001 s il cambio di smorzamento. Il nuovo risultato principale valuta la funzione a Tis con soglia 0,8 Tis; il campione originale resta in una colonna di confronto. Non è dichiarata equivalenza dei risultati principali dell’estensione.",
+      "decisione": "Scelta implementativa dell’agente per l’estensione richiesta: correzione esplicita con confronto conservato, da presentare all’utente. Nessuna approvazione specifica inventata.",
+      "riferimento_normativo": "Italia, NTC 2018 §7.10.5.3.2, distinzione degli smorzamenti; forza/spostamento dal sistema equivalente traslazionale.",
+      "codice": [
+        "Checker/src/GPC.Design/Actions/IsolationSpectra.cs"
+      ],
+      "effetto_quantificato": "Esempio SLC: Sa analitica 0,1701275566 g, F 688,6093189 kN, d 85,2239256 mm; campione Excel 0,1762843725 g, 713,5296840 kN, 88,3081292 mm.",
+      "test": [
+        "Design.Checks.SpectraTests — 45 campioni per stato contro file indipendente e valore analitico separato"
+      ],
+      "evidenze": [
+        "docs/refactoring/spettri-ntc.md"
+      ],
+      "wiki": "spettri-isolamento"
+    },
+    {
+      "id": "SPETTRI-03",
+      "data": "2026-10-19",
+      "fase": "F5 — estensione isolamento",
+      "titolo": "Campo dello spettro convenzionale limitato a Tis non superiore a 4 s",
+      "famiglia": "Azioni",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "descrizione": "Il primo candidato estrapolava la forma spettrale oltre 4 s. GPC.Design 0.22.0.1 rifiuta il risultato se un Tis SLE o SLU supera 4 s e limita il grafico a 4 s. Il caso Excel fornito, con Tis circa 1,42 s, rimane invariato.",
+      "riferimento_normativo": "Italia, NTC 2018 §3.2.3.2; G.U. 42, S.O. 8 del 20 febbraio 2018, pagina 47 (pagina PDF 51), testo primario verificato.",
+      "decisione": "Correzione dell’agente durante il collaudo del nuovo modulo: impedire un’estrapolazione oltre il campo normativo, dichiarandone il motivo in libreria, interfaccia, report e guide.",
+      "codice": ["Checker/src/GPC.Design/Actions/IsolationSpectra.cs"],
+      "effetto_quantificato": "Per K = 1 kN/mm, M = 4000/π² = 405,2847345693511 kN·s²/m dà Tis = 4 s ed è ammesso; M = 406 è rifiutato. Verificato anche il superamento limitato agli SLU.",
+      "test": ["Design.Checks.SpectraTests.IsolationConventionalSpectrumStopsAtFourSeconds", "ANTHEA.Presentation.Tests.SpectraSheetChecks"],
+      "evidenze": ["docs/refactoring/spettri-ntc.md", "supporto/artefatti/spettri-ntc/library-tests/spettri-limite-4s.trx"],
+      "wiki": "spettri-isolamento"
+    },
+    {
+      "id": "SPETTRI-04",
+      "data": "2026-10-19",
+      "fase": "F5 — integrazione del nuovo modulo Azioni",
+      "titolo": "Metadati del set candidato e due articoli Wiki nel confronto F3",
+      "famiglia": "infrastruttura/test",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Il set coerente cambia Geotechnics da 0.4.0.0 a 0.4.0.1, solo per versione e metadati di build. Otto fixture espongono la versione in risultato e report: sedici differenze puntuali, senza cambiamenti di calcolo. La Wiki passa da 73 a 75 articoli. Aggiornati soltanto quattro file dei due nuovi articoli e la ricerca, secondo F3-06; gli attesi numerici sono conservati.",
+      "decisione": "Conseguenza della nuova funzionalità richiesta e delle regole sulle versioni del set coerente. Cinque transizioni precedenti sostituite e dodici aggiunte: valori prima/dopo esatti, nessuna tolleranza o esclusione nuova.",
+      "codice": ["tests/fixtures/f3/transitions-f4.json", "tests/fixtures/f3/manifest.json", "tests/Shared/ShallowFoundationTrace.cs", "tests/ANTHEA.Presentation.Tests/ShallowFoundationSheetChecks.cs"],
+      "tracce_f5": "La sola versione esatta 0.4.0.1 è ricondotta a 0.4.0.0 su una copia prima del fingerprint storico; nessuna traccia riscritta. Controlli negativi su valore numerico e versione non dichiarata, controllo di immutabilità. I risultati completi restano confrontati da F3.",
+      "effetto_quantificato": "Confronto completo non troncato: 1066 file, 57 segnalazioni composte da 16 versioni, un conteggio articoli, 35 differenze editoriali e cinque vecchie transizioni non più corrispondenti. Nessuna nuova differenza numerica di calcolo.",
+      "test": ["ui/f3-equivalence", "ui/check-wiki-offscreen"],
+      "evidenze": ["docs/refactoring/spettri-ntc.md", "supporto/artefatti/spettri-ntc/f3-completo-prima.json"]
+    },
     {
       "id": "STRAT-4",
       "data": "2026-10-15",

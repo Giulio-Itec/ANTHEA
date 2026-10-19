@@ -157,7 +157,7 @@ internal static class ModuleHostChecks
     private static void Registry(Expect expect)
     {
         var historic = new ModuleRegistry([]);
-        expect.That(historic.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All) && historic.All.Count == 13, "Il registro non copre ModuleDirectory");
+        expect.That(historic.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All) && historic.All.Count == 14, "Il registro non copre ModuleDirectory");
         expect.That(historic.SheetModuleIds.Count == 0 && historic.All.All(d => d is not ISheetModule), "Moduli MVVM nel registro storico");
         expect.That(historic.All.All(d => d.Help.GuideId == WikiCatalog.ForModule(d.Info.Id)?.Id && d.Persistence == ModulePersistence.Undeclared
             && d.Reports == ModuleReportCapabilities.Undeclared), "Guida, persistenza o report dei moduli storici");

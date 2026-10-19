@@ -1565,5 +1565,47 @@
     "title": "Modello della stratigrafia del terreno",
     "order": 99,
     "summary": "Strati orizzontali, dati geotecnici e falda nel modulo autonomo di ANTHEA."
+  },
+  "guide:Spettri NTC e isolamento sismico": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/guida-spettri-ntc",
+    "modules": [
+      "act_spettri_ntc"
+    ],
+    "related": [
+      "spettri-isolamento"
+    ],
+    "key": "guida-spettri-ntc",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018"
+    ],
+    "title": "Spettri NTC e isolamento sismico",
+    "order": 150,
+    "summary": "Sito, spettri dei quattro stati limite, isolamento, pendolo, importazione e report."
+  },
+  "theory:Spettri di risposta e isolamento sismico": {
+    "area": "Dinamica e sisma",
+    "id": "/wiki/manuale/dinamica/spettri-isolamento",
+    "modules": [
+      "act_spettri_ntc"
+    ],
+    "related": [
+      "guida-spettri-ntc"
+    ],
+    "key": "spettri-isolamento",
+    "chapterId": "sismica",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018"
+    ],
+    "title": "Spettri di risposta e isolamento sismico",
+    "order": 150,
+    "summary": "Reticolo, interpolazione, convenzioni numeriche e sistema equivalente con isolamento."
   }
 }
