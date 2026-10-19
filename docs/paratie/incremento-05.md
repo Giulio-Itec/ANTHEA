@@ -94,5 +94,11 @@ Artefatti sotto `supporto/artefatti/paratie/`:
   `ci/20261019-111149-paratie-inc05-ui3`: nuove build Release/UiTests,
   architettura e **23 controlli WPF superati** sullo stesso set candidato.
 
-Guide globali, regressione standard di questo incremento, rilascio e funzioni
-residue della matrice non sono dichiarati conclusi da queste evidenze.
+- Regressione `paratie-inc05-standard`, sul commit ANTHEA `03afcfa4` e
+  `snapshot-12`: **74 PASS, 0 KNOWN, 0 NEW-FAIL, 0 BLOCKED**. Inclusa
+  Presentation.Tests (329.2 s), con sorgenti ANTHEA invariati durante tutta
+  l'esecuzione. Tre esclusioni infrastrutturali dichiarate: ElasticPile.Checks,
+  BridgeValidationCurrent (coperte nei runner GPC) ed ElasticPile.Performance.
+
+Guide globali, rilascio e funzioni residue della matrice non sono dichiarati
+conclusi da queste evidenze.
