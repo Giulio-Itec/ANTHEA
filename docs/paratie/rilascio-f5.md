@@ -82,3 +82,20 @@ aggiornate con PDF di tre pagine controllato visivamente e originali
 conservati in `supporto/SUPERATI/installer-1110-20261019/`. La suite della
 vista palo verticale si è interrotta senza attestazione: causa ancora da
 isolare; il rilascio non è dichiarato concluso.
+
+La diagnosi successiva identifica due eventi Trend Micro `NON_POLICY_JUST_ADC`
+con il percorso univoco della corsa e dei test palo verticale/muri:
+`rilascio-f5/diagnostica-protezione/trendmicro-eventi-full01.txt`.
+La protezione non viene modificata; non si cambiano esportazioni o test per
+evitarne l'intervento. Il desktop è a 144 DPI, come rilevato anche dal
+controllo Spettri (45 catture, zero difetti), mentre il confronto generale
+richiede 96 DPI. L'utente autorizza il rilascio della 1.11.0 documentando
+entrambi i vincoli; restano tre prove da completare nell'ambiente corretto.
+
+Verifiche della preparazione su `9994ded5`, revisione pulita e invariata:
+`ParatieWork/ANTHEA/supporto/artefatti/ci/20261019-225804-f5-release-1110-fast-01`,
+nove PASS (architettura, Wiki, Testing, indici e build). Build UiTests
+indipendente conclusa senza errori. Anche il compositore C# effettivo,
+applicato alla copia diagnostica della cattura, riconosce tutte le 22259
+transizioni esatte e zero differenze non ammesse; non sostituisce la nuova
+cattura WPF ancora da eseguire.

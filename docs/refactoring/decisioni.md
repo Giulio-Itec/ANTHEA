@@ -1547,3 +1547,18 @@ e «creami anche installer». È quindi autorizzato il push di ANTHEA
 rimane F5; i kernel incompleti dei rami di prosecuzione restano locali.
 L'incremento minore riflette i nuovi moduli integrati, non la chiusura della
 matrice funzionale completa.
+
+### Deroga ambientale esplicita per la versione 1.11.0
+
+L'utente farà verificare domani le segnalazioni Trend Micro e autorizza:
+«se manca solo quello rilascia pure la versione». Dopo avergli indicato
+anche il vincolo della baseline grafica a 96 DPI rispetto ai 144 DPI del
+desktop, conferma: «Rilascia documentando entrambi i vincoli».
+
+La deroga riguarda solo le due prove WPF interrotte dalla protezione
+(`ui/check-palo-verticale-view`, `ui/check-muri-view`) e il confronto generale
+del contrasto a 96 DPI. Gli esiti rimangono quelli realmente restituiti dal
+runner, senza nuove voci in `known-failures.json`, modifiche alla protezione,
+alla scrittura dei documenti o alla baseline. Gli altri errori vanno risolti
+prima della consegna. Questa autorizzazione non approva esclusioni dalla
+matrice paratie, né chiude le funzionalità ancora da implementare.
