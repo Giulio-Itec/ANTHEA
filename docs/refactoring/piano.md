@@ -1033,10 +1033,12 @@ Revisioni, conflitti e collaudi nel [verbale di integrazione](../paratie/integra
 
 - [x] Pubblicati soltanto Model/master `e1e6e107` e Checker/master `dfb808c8`, con verifica delle revisioni remote.
 - [x] Release-Set non candidato, controllo versioni rispetto a Z e suite complete: 3172 PASS, stessi 17 fallimenti Steel ammessi. Installate tutte le 13 DLL ANTHEA con Update-Snapshot; set di 14 DLL identico alla candidata, Delaunay/Geometry/Utilities invariate. Aggiornati README e sola provenienza del rilascio, senza attesi numerici nuovi.
-- [ ] Concludere il profilo full dallo snapshot installato, risolvere eventuali regressioni e confezionare la prova locale con librerie pubblicate.
+- [x] Eseguito tutto il full su e39741c9: 160 PASS e cinque rilievi; corretti e ricollaudati i due confronti F3/fondazioni. Le due prove interrotte da Trend Micro e il confronto a 96 DPI restano aperti con autorizzazione esplicita. Esiti originali conservati, nessuna lista di fallimenti ammessi modificata.
 
 [Verbale del rilascio](../paratie/rilascio-f5.md). ANTHEA principale resta su F5;
-nuovi rami di prosecuzione e codice ANTHEA non pubblicati.
+nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 
-- [x] F5-LIB-02: distinti i metadati F3/F5 nel driver WPF delle fondazioni; registrate separatamente 122 differenze editoriali Wiki esatte, con 30 ricerche storiche conservate. Testing.Tests: 13 controlli delle transizioni PASS, inclusi rifiuti di variazioni numeriche/non editoriali. Attesi numerici e transizioni F4 congelati. Collaudo WPF della correzione ancora da concludere.
+- [x] F5-LIB-02: distinti i metadati F3/F5 nel driver WPF delle fondazioni; registrate separatamente 122 differenze editoriali Wiki esatte, con 30 ricerche storiche conservate. Testing.Tests: 13 controlli delle transizioni PASS, inclusi rifiuti di variazioni numeriche/non editoriali. Attesi numerici e transizioni F4 congelati. Collaudo WPF finale su f82d7ae3 PASS: 104 fixture F3 e 8198 righe delle fondazioni invariate.
 - [x] Predisposta ANTHEA 1.11.0 per le nuove funzioni paratie/spettri; istruzioni installer aggiornate e PDF di tre pagine controllato. I due originali precedenti sono conservati con SHA-256. Commit/push di F5 e creazione installer autorizzati dall'utente, subordinati al collaudo finale.
+- [x] F5-LIB-03: collaudo mirato concluso su f82d7ae3: 18 PASS, più due suite installer rieseguite PASS dopo la diagnosi del percorso moduli PowerShell. Installer 1.11.0 creato, 325 file applicativi estratti e tre PDF verificati; tutte le 13 DLL identiche al set AA. Nove esempi apribili e ZIP con impronte. [Verbale](installer-1.11.0.md). Matrice completa e pali interrati ancora aperti.
+- [ ] Dopo la verifica dell'amministratore: ripetere `ui/check-palo-verticale-view` e `ui/check-muri-view`; ripetere `ui/check-contrast` nell'ambiente a 96 DPI, senza modificare la baseline.

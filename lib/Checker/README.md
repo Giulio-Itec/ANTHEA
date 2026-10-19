@@ -18,8 +18,13 @@ Geometry e DelaunayMesh restano identiche a Z; nessun Gmsh distribuito.
 Audit indipendente del set e delle 13 DLL installate superato. Manifest
 snapshot SHA-256 `397e9315c536de3954fc59b86f4589505e874343dcb341e1145b69c49573ac40`;
 set completo `b07095e0b1585bc0f6817e7380f8590ba0eb9fce0f734ad4eeed8bc3ca87b573`.
-Evidenze in `supporto/artefatti/paratie/rilascio-f5/`; profilo full ANTHEA
-da concludere prima della chiusura del rilascio. Provenienza aggiornata nel
+Evidenze in `supporto/artefatti/paratie/rilascio-f5/`: full ANTHEA eseguito,
+160 PASS e cinque rilievi; i due confronti F3/fondazioni sono stati corretti
+e ricollaudati. Le due prove interrotte da Trend Micro e il confronto generale
+a 96 DPI restano aperti, con rilascio 1.11.0 esplicitamente autorizzato.
+Installer verificato: 13 DLL identiche al manifest, tre PDF Rev52, nessun Gmsh.
+Il full non è dichiarato interamente superato; dettagli in
+`docs/refactoring/installer-1.11.0.md`. Provenienza aggiornata nel
 solo registro `tests/fixtures/f4/library-release.json`, con attesi F3 invariati.
 
 **Release Z (16 ottobre 2026).** Correzioni dell'analisi dei bug del 15/10 (voci BUG-* del registro): set non candidato da Model `bf8563f5` e Checker `bce7aaae`, pubblicati su master con l'autorizzazione dell'utente; Utilities, Geometry e DelaunayMesh identiche a Y. Versioni: GPCModel 5.5.0.0 (diagramma del tension stiffening per le sole analisi di risposta, `ConcreteMaterial.TensionResponseDiagrams`; legge non lineare con fcm a 28 giorni, SLU-5; tensione di progetto sulla deformazione totale e overload a quattro argomenti di acciai e FRP; ordine della classe del cemento), ModelData 0.0.2.14 (B450A/B500A con εuk 2,5 %, DET-3), Persistence 3.0.0.7, Converter 2.2.0.3, Concrete 0.11.0.0 (SLU, SLE, dettagli e opzione `SectionOptions.StressAnalysisConcreteTension`, mai nelle verifiche SLU), Steel 2.0.4.8, CompositeBridge 1.7.0.0 (PON-1…PON-5, CLS teso nello storico non lineare), Geotechnics 0.4.0.0 (muri, pali, Meyerhof), ModelChecker 2.1.0.8, Masonry 0.1.0.3, Design 0.21.0.0. Catture congelate del Checker rigenerate con l'ok dell'utente («Rigenera tutte»): M–χ (SLU-4), punti del dominio (SLU-5), solette e pareti (DET-1), muri e pali della geotecnica; K0 invariato. BridgeAudit di nuovo compilabile contro ANTHEA: 302/302, otto baseline identiche. Tutte le suite: Model Core 16 e UnitTest 1249 (2 ignorati), Concrete 795, Steel 88 con i 17 fallimenti già censiti, CompositeBridge 284, Geotechnics 191, Calculation 174, ShallowFoundation 28, Design 62, ModelChecker 174; API compatibili. Evidenze: supporto/artefatti/refactoring/bug-1015/release-z del checkout principale. Nessun Gmsh distribuito.

@@ -7976,6 +7976,28 @@
       "decisione": {"data": "2026-10-19", "utente": "Finito tutto, commit, versione nuova e push; creare anche installer.", "esito": "Preparazione 1.11.0 e correzioni dei driver; collaudo finale e installer ancora da concludere."},
       "test": ["Testing.Tests: 13 controlli transizioni PASS, cinque nuovi controlli positivi/negativi", "Audit indipendente delle 30 ricerche e di due righe vuote finali PASS", "PDF istruzioni installer: tre pagine controllate; due originali conservati con SHA-256", "docs/paratie/rilascio-f5.md"],
       "voci_collegate": ["F5-LIB-01"]
+    },
+    {
+      "id": "F5-LIB-03",
+      "data": "2026-10-19",
+      "fase": "Rilascio F5",
+      "titolo": "Installer 1.11.0 con esiti effettivi e deroghe ambientali",
+      "famiglia": "librerie/rilascio",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Installer NSIS costruito dal commit pulito f82d7ae3, tag v1.11.0, con set AA ufficiale, guide Rev52 e nove esempi separati. Chiusura dei due rilievi dei driver; tre prove ambientali restano aperte con autorizzazione esplicita.",
+      "codice": ["docs/refactoring/installer-1.11.0.md", "docs/paratie/rilascio-f5.md", "lib/Checker/README.md"],
+      "segno": "Full originale conservato: 160 PASS e 5 NEW-FAIL; due confronti corretti e ricollaudati, due prove WPF interrotte da Trend Micro e contrasto a 144 anziché 96 DPI ancora aperti. Nessuna modifica a numeri, baseline, protezioni o liste dei fallimenti ammessi. Il percorso moduli PowerShell dei test installer è stato corretto soltanto per il processo di riesecuzione.",
+      "decisione": {"data": "2026-10-19", "utente": "Rilascia documentando entrambi i vincoli; commit, versione nuova, push e installer.", "esito": "Versione testabile confezionata e collaudi mirati conclusi, con tre prove ambientali rinviate. Matrice completa e pali interrati aperti. Tag sul commit esatto della build; ramo F5 comprende anche il verbale."},
+      "test": [
+        "ci/20261019-220735-f5-release-aa-full-01: 160 PASS, cinque rilievi documentati, revisione e albero invariati",
+        "ci/20261019-233545-f5-release-1110-final-01: 18 PASS; F3 104 fixture/77 articoli/30 ricerche, fondazioni 8198 righe invariate; due errori PowerShell installer poi chiusi",
+        "ci/20261019-234146-f5-release-1110-installer-02: 2 PASS, 26 controlli sicurezza e 30 guide, stesso commit pulito",
+        "Audit del setup estratto: 325 file applicativi, tre PDF Rev52 e 13 DLL ufficiali identici per SHA-256; nessun Gmsh o assembly di test",
+        "Setup 68914134 byte, SHA256 9064DA5D2189D77E0738C2919DB721E42F8E1CAB646F7880C9E9BF8FDFA50654",
+        "docs/refactoring/installer-1.11.0.md"
+      ],
+      "voci_collegate": ["F5-LIB-01", "F5-LIB-02"]
     }
   ]
 }

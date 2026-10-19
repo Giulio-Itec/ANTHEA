@@ -2,7 +2,9 @@
 
 Il 19 ottobre 2026 l'utente ha autorizzato il push delle due revisioni già
 integrate e collaudate, l'aggiornamento ufficiale di `lib/Checker` e il profilo
-full. Questa autorizzazione non pubblica ANTHEA né i nuovi rami di prosecuzione.
+full. Successivamente ha autorizzato anche versione, commit, push di ANTHEA
+su F5 e installer, con le deroghe ambientali esplicite riportate sotto.
+I nuovi rami di prosecuzione restano locali.
 
 ## Revisioni pubblicate e set
 
@@ -41,11 +43,13 @@ tolleranze e liste dei fallimenti ammessi restano invariati.
 
 ## Collaudo ANTHEA e pacchetto
 
-Il profilo full deve ancora concludersi sullo snapshot installato. Il
-confezionatore locale accetta ora `-PublishedLibraries` soltanto con un
+Il profilo full è stato eseguito interamente sullo snapshot installato;
+gli esiti effettivi e le riesecuzioni sono riportati nella chiusura sotto.
+Il confezionatore locale accetta `-PublishedLibraries` soltanto con un
 full completo sulla revisione pulita, tutti gli stadi eseguiti, set non
 candidato e sorgenti pubblicate; copia anche il manifest del set completo.
-La versione ANTHEA rimane una prova locale F5, con la matrice paratie aperta.
+Questo controllo non è stato allentato: la 1.11.0 usa il flusso NSIS esistente,
+con le deroghe documentate. La matrice paratie rimane aperta.
 
 La candidata precedente `candidata-integrata-01` resta conservata e
 utilizzabile. I nuovi rami `refactoring/f5-paratie-seguito` e
@@ -99,3 +103,40 @@ indipendente conclusa senza errori. Anche il compositore C# effettivo,
 applicato alla copia diagnostica della cattura, riconosce tutte le 22259
 transizioni esatte e zero differenze non ammesse; non sostituisce la nuova
 cattura WPF ancora da eseguire.
+
+## Chiusura della versione testabile 1.11.0
+
+Il full `ci/20261019-220735-f5-release-aa-full-01` su `e39741c9`
+si è concluso con **160 PASS e 5 NEW-FAIL**, revisione pulita e nessuna
+modifica tracciata durante la corsa. I cinque esiti originali sono conservati:
+due confronti di provenienza/editoria corretti nei driver e tre prove aperte
+per i vincoli autorizzati. Il contrasto ha zero difetti in Scuro e Molto scuro;
+Chiara rileva 698 occorrenze in 184 voci, non confrontabili con la baseline
+di 699 a 96 DPI perché la corsa è a 144 DPI. Non è un PASS del full.
+
+Le correzioni sono state riportate su F5 nei commit `7684b993` e `f82d7ae3`.
+Sul secondo, pulito e invariato, il runner filtrato
+`ci/20261019-233545-f5-release-1110-final-01` ha **18 PASS** e due errori
+ambientali dei test installer. F3 supera 104 fixture, 77 articoli e 30
+ricerche; le fondazioni conservano 15 scenari e 8198 righe congelate.
+Passano anche viste fondazioni/paratie/spettri, contrasto Spettri,
+architettura, Testing, Wiki, indici e assenza di codice di test in Release.
+
+I due errori installer dipendevano da `PSModulePath`: il runner avviato da
+PowerShell 7 passava a Windows PowerShell 5 i moduli della versione 7,
+rendendo indisponibile `Get-FileHash`. Riproduzione separata confermata;
+nessuna modifica a sorgenti, protezioni o attesi. Riesecuzione con Windows
+PowerShell 5 e percorso dei moduli coerente:
+`ci/20261019-234146-f5-release-1110-installer-02`, **2 PASS, 0 NEW-FAIL**,
+26 controlli di sicurezza e 30 sulle guide. Stesso commit pulito e invariato.
+
+Installer self-contained win-x64 costruito da
+`f82d7ae35b67907d3fbc026b8b924da7b6618d3e`, identificato dal tag `v1.11.0`.
+Rispetto al full, il codice distribuito cambia soltanto il numero di versione;
+le altre modifiche riguardano driver, registro editoriale e documentazione.
+Audit del setup estratto: 325 file applicativi identici allo staging,
+tre PDF Rev52 e tutte le 13 DLL uguali al manifest AA; nessun Gmsh o assembly
+di test. Nove esempi forniti anche in ZIP, identici ai file collaudati.
+
+[Installer, impronte e limiti](../refactoring/installer-1.11.0.md).
+La consegna non chiude la matrice né la richiesta sui pali interrati.
