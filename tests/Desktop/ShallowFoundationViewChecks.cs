@@ -909,8 +909,10 @@ internal static class ShallowFoundationViewChecks
     private static async Task SoilTransfer(string root)
     {
         var transfer = new ScriptedTransfer();
-        // The pile group is in the registry because the Release already opens it in MVVM (F5.4).
-        var editors = Editors(new RecordingWiki(), modules: new ModuleRegistry([new ShallowFoundationSheetModule(transfer: transfer), new PileGroupSheetModule()]));
+        // Replace only the module under test; keep every module that the Release opens in MVVM, including Spettri.
+        var defaults = DesktopComposition.CreateModules();
+        var editors = Editors(new RecordingWiki(), modules: new ModuleRegistry(defaults.SheetModuleIds.Select(id =>
+            id == Module ? new ShallowFoundationSheetModule(transfer: transfer) : defaults.SheetModule(id))));
         var data = ShallowFoundationScenarios.FixtureData(root, "vesic-circolare-due-sondaggi");
         using var host = new Hosted(editors.Open(Module, data));
         await host.Settle();
