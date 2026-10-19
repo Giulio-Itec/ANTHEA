@@ -90,5 +90,12 @@ questo incremento**: richiede cattura preventiva, dati pressiometrici espliciti,
 migrazione dei documenti e confronto motivato. Il rilievo resta aperto e non
 viene nascosto né risolto cambiando gli attesi storici.
 
-Guide globali, regressione standard di questo incremento, rilascio e restante
-matrice non sono dichiarati conclusi da queste evidenze.
+Regressione standard `ci/20261019-114831-paratie-inc06-standard` sul commit
+ANTHEA `03da426c` e `snapshot-13`: **74 PASS, 0 KNOWN, 0 NEW-FAIL,
+0 BLOCKED**, sorgenti ANTHEA invariati durante tutta la corsa. Presentation:
+2114 controlli, 329.7 s; ConcreteLibraryAdapter: 314.9 s. Le sole tre suite
+non eseguite sono le esclusioni infrastrutturali dichiarate dal runner:
+ElasticPile.Checks e BridgeValidationCurrent (suite GPC), ElasticPile.Performance.
+
+Guide globali, rilascio e restante matrice non sono dichiarati conclusi da
+queste evidenze.
