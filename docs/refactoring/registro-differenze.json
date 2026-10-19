@@ -7917,7 +7917,7 @@
         "tests/Desktop/ModuleHostWpfChecks.cs",
         "tools/paratie/New-LocalPreview.ps1"
       ],
-      "segno": "Nessuna formula riscritta nel merge, nessun atteso indipendente o fallimento ammesso modificato. Conservati entrambi i rami sorgenti e gli originali delle guide.",
+      "segno": "Nessuna formula riscritta nel merge, nessun atteso indipendente o fallimento ammesso modificato. Conservati entrambi i rami sorgenti e gli originali delle guide. Primo collaudo: 16 PASS e difetto Wiki sul grassetto vettoriale non supportato da WPF-Math. Correzione locale della resa q vettoriale con freccia equivalente, mantenendo il LaTeX originale copiabile; riesecuzione richiesta.",
       "decisione": {
         "data": "2026-10-19",
         "utente": "Integrare ora tutti i rami sviluppati per paratie e spettri, riportare ANTHEA su refactoring/f5 e consegnare una versione testabile; proseguire poi su un nuovo ramo.",

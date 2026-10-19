@@ -12,7 +12,9 @@ namespace X.Desktop;
 internal static class WikiEditorial
 {
     // Equivalent spacing supported by WPF-Math; preserve the original LaTeX for copying.
-    private static string RenderLatex(string value) => value.Replace(@"\ ", @"\,").Replace(@"\qquad", @"\;\;\;\;\;\;").Replace(@"\quad", @"\;\;\;");
+    // WPF-Math 2.1 cannot render mathbf. Use the equivalent arrow notation for the Darcy flux vector only.
+    private static string RenderLatex(string value) => value.Replace(@"\ ", @"\,").Replace(@"\qquad", @"\;\;\;\;\;\;").Replace(@"\quad", @"\;\;\;")
+        .Replace(@"\mathbf{q}", @"\vec{q}");
     internal static void Render(StackPanel pane, string markdown, Action<string> navigate,
         Func<string, string, int, FrameworkElement> heading)
     {
