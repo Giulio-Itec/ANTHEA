@@ -112,6 +112,12 @@ dell'infissione, ricalcolo indipendente dei candidati, verifiche governanti,
 distinzione fra minimo e accettabilità, editor, persistenza e guide Rev49.
 Il [dodicesimo incremento](incremento-12.md) aggiunge campi recuperati,
 inviluppi con azioni concomitanti, otto grandezze, CSV/report e guide Rev50.
+Il [tredicesimo incremento](incremento-13.md) integra storie assegnate
+indipendenti nello stesso foglio, inviluppi comuni, ricerca su tutti i casi,
+selettore dei risultati, persistenza e guide Rev51. La prima candidata locale
+su `2f60b336` è disponibile per la prova utente con otto esempi: standard
+74 PASS sul codice applicativo `6425927e`, successivo collaudo della vista
+59 controlli WPF PASS, impronte e provenienza complete nel pacchetto.
 Le righe in corso non sono soddisfatte integralmente: tipi complessi, verifiche
-locali e globali complete, combinazioni automatiche, inviluppi fra casi nel foglio e migrazioni
+locali e globali complete, combinazioni automatiche e funzioni avanzate
 richiedono ancora integrazioni. Nessuna funzione avanzata viene esclusa.

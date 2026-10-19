@@ -108,7 +108,31 @@ e il loro elenco di differenze sono conservati nel manifest della candidata.
 
 Comprende avviatori, esempi, due guide globali e impronte dei file. Non
 installa DLL in `lib/Checker` e non costituisce un rilascio ufficiale.
-Collaudo finale WPF e confezionamento da registrare a conclusione.
+Collaudo finale `ci/20261019-173751-paratie-inc13-candidate-ui`: 6 suite
+PASS, 59 controlli WPF, 549 controlli architetturali, nessun nuovo fallimento.
+Commit pulito `2f60b336b630d9d553fc8fb454a36946d8dc60cc`, invariato durante
+la corsa; intestazione chiara/scura verificata anche nelle schermate.
+
+Prima candidata locale effettivamente preparata in
+`supporto/artefatti/paratie/candidata-01/`, da quel commit. Avvio generale:
+`Avvia-ANTHEA.cmd`; primo confronto analitico a due casi:
+`Apri-02-storie-indipendenti.cmd`. Gli otto esempi provengono dal salvataggio
+e riapertura eseguiti nella corsa standard. Il runtime richiesto è .NET
+Desktop 8 x64, presente sul computer di prova; la cartella non è un installer.
+
+Audit indipendente `incremento-13/preview-audit.json`: 133 file verificati
+per dimensione e SHA-256, 13 DLL identiche al set coerente, otto esempi
+identici agli originali collaudati, nove avviatori controllati e quattro
+guide Word/PDF identiche alle Rev51 verificate. Manifest candidata SHA-256:
+`2149ddd9663c3adc1eba7f87d37e2d6fdb6ce73ee1b2f54fcae16e5f68004dd6`.
+Le registrazioni documentali successive non cambiano questa revisione
+del pacchetto né attribuiscono i collaudi a commit diversi da quelli eseguiti.
+
+Il set GPC riutilizzato mantiene le evidenze dell'incremento 12: 3167 prove
+PASS e gli stessi 17 fallimenti storici Steel ammessi, non risolti da questo
+incremento applicativo. Non è stata eseguita una nuova corsa GPC senza
+modifiche ai relativi sorgenti. Il profilo completo WPF di ANTHEA e il
+rilascio ufficiale con commit pushati rimangono da eseguire.
 
 Restano aperti i requisiti avanzati della matrice, l'approfondimento di
 pali/micropali in coda e i merge finali condizionati al completamento.
