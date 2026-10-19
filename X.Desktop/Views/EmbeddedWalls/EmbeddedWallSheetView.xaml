@@ -58,7 +58,7 @@
      </Grid>
     </DockPanel>
    </TabItem>
-   <TabItem Header="Verifiche e sostegni">
+   <TabItem Header="C.a. e sostegni">
     <Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="170"/></Grid.RowDefinitions>
      <TextBlock Text="Le verifiche si riferiscono alla fase selezionata nei risultati. N, V e M della stessa riga sono concomitanti. Non valutato non equivale a soddisfatto." TextWrapping="Wrap" Margin="0,0,0,8"/>
      <DataGrid Grid.Row="1" ItemsSource="{Binding Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
@@ -242,6 +242,40 @@
         <DataGridTextColumn Header="Curva" Binding="{Binding Curve}"/><DataGridTextColumn Header="qs [MPa]" Binding="{Binding UnitResistance}"/>
         <DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, StringFormat=G7}"/></DataGrid.Columns>
       </DataGrid>
+     </StackPanel></ScrollViewer>
+    </Grid>
+   </TabItem>
+   <TabItem Header="Sezioni acciaio">
+    <Grid Margin="12"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="220"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <DockPanel Margin="0,0,0,8"><Button Content="Esporta CSV N–M–V" Command="{Binding TubeCsvCommand}" DockPanel.Dock="Right"/>
+      <TextBlock Text="Resistenza locale CHS classe 1–2. Azioni concomitanti per singolo tubo; N positivo a trazione. Stabilità della membratura e del terreno separate." TextWrapping="Wrap"/></DockPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding SteelTubes}" SelectedItem="{Binding SelectedTubeCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G6}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
+       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G7}"/>
+       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G7}"/><DataGridTextColumn Header="Fattore fascia→tubo" Binding="{Binding StripToMemberFactor, StringFormat=G6}"/>
+       <DataGridTextColumn Header="Classe" Binding="{Binding SectionClass}"/><DataGridTextColumn Header="γM0" Binding="{Binding PartialFactor}"/>
+       <DataGridTextColumn Header="ρ" Binding="{Binding ShearReduction, StringFormat=G6}"/><DataGridTextColumn Header="Esito locale" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+     </DataGrid>
+     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
+      <TextBlock Text="{Binding SelectedTubeCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+      <TextBlock TextWrapping="Wrap" Margin="0,5"><Run Text="Taglio selezionato: "/><Run Text="{Binding SelectedTubeCheck.Stage}"/>
+       <Run Text=" · "/><Run Text="{Binding SelectedTubeCheck.Section}"/><Run Text=" · z="/><Run Text="{Binding SelectedTubeCheck.Elevation, StringFormat=G6}"/>
+       <Run Text=" m, "/><Run Text="{Binding SelectedTubeCheck.Side}"/><Run Text=" · N="/><Run Text="{Binding SelectedTubeCheck.Normal, StringFormat=G7}"/>
+       <Run Text=" kN, V="/><Run Text="{Binding SelectedTubeCheck.Shear, StringFormat=G7}"/><Run Text=" kN, M="/><Run Text="{Binding SelectedTubeCheck.Moment, StringFormat=G7}"/><Run Text=" kNm"/></TextBlock>
+      <TextBlock Text="{Binding SelectedTubeCheck.Properties.Source}" TextWrapping="Wrap" Margin="0,8"/>
+      <TextBlock Text="{Binding SelectedTubeCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+      <WrapPanel><TextBlock Text="EI lordo della fascia [kNm²]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.EquivalentRigidity, StringFormat=G7}"/>
+       <TextBlock Text="    D / t [mm]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Diameter}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Thickness}"/>
+       <TextBlock Text="    interasse [m]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Spacing}"/></WrapPanel>
+      <DataGrid ItemsSource="{Binding SelectedTubeCheck.Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200" Margin="0,8">
+       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
+        <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+      </DataGrid>
+      <ItemsControl ItemsSource="{Binding SelectedTubeCheck.Checks}"><ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,5">
+       <TextBlock Text="{Binding Reference}" TextWrapping="Wrap"/><TextBlock Text="{Binding Diagnostic}" TextWrapping="Wrap"/>
+      </StackPanel></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
      </StackPanel></ScrollViewer>
     </Grid>
    </TabItem>

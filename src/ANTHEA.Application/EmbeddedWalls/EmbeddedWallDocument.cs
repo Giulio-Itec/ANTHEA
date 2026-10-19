@@ -12,7 +12,7 @@ namespace Anthea.Application.EmbeddedWalls;
 public static class EmbeddedWallDocument
 {
     public const string Module = "geo_paratie";
-    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions", "steel_members", "anchor_checks", "anchor_layers", "anchor_tests" });
+    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions", "steel_members", "anchor_checks", "anchor_layers", "anchor_tests", "steel_tubes" });
     public static JsonObject Create() => Upgrade(new()
     {
         ["schema"] = 1, ["name"] = "Paratia", ["case_id"] = "Caso 1", ["action_basis"] = "Da definire",
@@ -25,7 +25,7 @@ public static class EmbeddedWallDocument
     });
     public static JsonObject NewRow(string table) => table switch
     {
-        "segments" => new() { ["section"] = "S1", ["top"] = 0, ["bottom"] = -12, ["ei"] = null, ["weight"] = 0, ["source"] = "" },
+        "segments" => new() { ["section"] = "S1", ["top"] = 0, ["bottom"] = -12, ["ei_mode"] = "Assegnata", ["ei"] = null, ["weight"] = 0, ["source"] = "" },
         "left_soils" or "right_soils" => new() { ["name"] = "Strato", ["top"] = 0, ["bottom"] = -20, ["gamma"] = null, ["gamma_sat"] = null,
             ["phi"] = null, ["c"] = null, ["cu"] = null, ["k0"] = null, ["kh"] = null, ["drainage"] = "Drained", ["source"] = "", ["stiffness_source"] = "" },
         "supports" => new() { ["id"] = "T1", ["elevation"] = -1, ["kind"] = "Anchor", ["stiffness"] = null, ["angle"] = 0, ["direction"] = 1, ["spacing"] = 1, ["capacity"] = null },
@@ -62,6 +62,9 @@ public static class EmbeddedWallDocument
         "anchor_layers" => new() { ["support"] = "T1", ["profile"] = "P1", ["axis_start"] = null, ["axis_end"] = null,
             ["soil_kind"] = "MediumSand", ["limit_pressure"] = null, ["injection_pressure"] = null, ["diameter_factor"] = null, ["pressure_source"] = "" },
         "anchor_tests" => new() { ["support"] = "T1", ["test_id"] = "Prova 1", ["resistance"] = null, ["source"] = "" },
+        "steel_tubes" => new() { ["id"] = "S1", ["diameter"] = null, ["thickness"] = null, ["spacing"] = null,
+            ["nominal_grade"] = null, ["fy"] = null, ["fu"] = null, ["elastic_modulus"] = null, ["material_source"] = "",
+            ["unperforated"] = false, ["single_row"] = false, ["representation_source"] = "", ["is_bridge"] = false },
         _ => throw new ArgumentException("Tabella paratie sconosciuta: " + table)
     };
     public static JsonObject Snapshot(JsonObject source)
@@ -109,15 +112,24 @@ public static class EmbeddedWallDocument
             if (!data.ContainsKey("anchor_a1m1")) data["anchor_a1m1"] = false;
             data["schema"] = 6;
         }
+        if (StratigraphyDocument.Number(data["schema"], "Versione paratie") == 6)
+        {
+            if (!data.ContainsKey("steel_tubes")) data["steel_tubes"] = new JsonArray();
+            if (!data.ContainsKey("tube_standard")) data["tube_standard"] = "Non richieste";
+            if (!data.ContainsKey("tube_check_kind")) data["tube_check_kind"] = "Analysis";
+            foreach (var row in Rows(data, "segments")) if (!row.ContainsKey("ei_mode")) row["ei_mode"] = "Assegnata";
+            data["schema"] = 7;
+        }
         Validate(data);
         return data;
     }
     public static void Validate(JsonObject data)
     {
         var schema = StratigraphyDocument.Number(data["schema"], "Versione paratie");
-        if (schema is not (1 or 2 or 3 or 4 or 5 or 6)) throw new ArgumentException("Versione del documento paratie non supportata.");
+        if (schema is not (1 or 2 or 3 or 4 or 5 or 6 or 7)) throw new ArgumentException("Versione del documento paratie non supportata.");
         foreach (var name in Tables)
         {
+            if (schema < 7 && name == "steel_tubes") continue;
             if (schema < 6 && name is ("anchor_checks" or "anchor_layers" or "anchor_tests")) continue;
             if (schema < 5 && name == "steel_members") continue;
             if (schema < 4 && name is ("global_checks" or "global_actions")) continue;

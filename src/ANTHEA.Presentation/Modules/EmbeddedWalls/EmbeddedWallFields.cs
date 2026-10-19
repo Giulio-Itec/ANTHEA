@@ -8,13 +8,16 @@ public static class EmbeddedWallFields
     [
         new("name", "Nome", Wide: true), new("case_id", "Caso / combinazione", Wide: true), new("action_basis", "Provenienza e coefficienti delle azioni", Wide: true, Multiline: true),
         new("top", "Quota testa", "m"), new("bottom", "Quota piede", "m"), new("width", "Larghezza della fascia analizzata", "m"), new("mesh", "Lunghezza massima elemento", "m"),
-        new("substeps", "Incrementi iniziali per fase"), new("check_kind", "Verifiche di sezione", Choices: ["Analisi", "Ultimate", "Characteristic", "Frequent", "QuasiPermanent"],
+        new("substeps", "Incrementi iniziali per fase"), new("check_kind", "Verifiche di sezione in c.a.", Choices: ["Analisi", "Ultimate", "Characteristic", "Frequent", "QuasiPermanent"],
             ToolTip: "Analisi: sole sollecitazioni. Ultimate: SLU; Characteristic, Frequent, QuasiPermanent: SLE della combinazione esplicitamente assegnata. Non sono applicati coefficienti alle azioni."),
         new("steel_standard", "Verifiche dei sostegni metallici", Choices: ["Non richieste", "NTC 2018", "EN 1993-1-1 — profilo non disponibile"], Wide: true),
         new("steel_check_kind", "Combinazione per i sostegni metallici", Choices: ["Analysis", "StaticUltimate", "SeismicUltimate", "Serviceability"], Wide: true,
             ToolTip: "Percorso collaudato: StaticUltimate (SLU statico NTC 2018). La provenienza e i coefficienti delle azioni vanno dichiarati sopra. Le altre scelte producono Non valutato."),
         new("anchor_standard", "Verifica sfilamento tiranti", Choices: ["Non richieste", "NTC 2018", "EN 1997-1 — profilo non disponibile"], Wide: true),
         new("anchor_situation", "Situazione sfilamento", Choices: ["PersistentTransient", "Seismic"], Wide: true),
+        new("tube_standard", "Verifiche sezioni tubolari della parete", Choices: ["Non richieste", "NTC 2018", "EN 1993-1-1 — profilo non disponibile"], Wide: true),
+        new("tube_check_kind", "Combinazione per le sezioni tubolari", Choices: ["Analysis", "StaticUltimate", "SeismicUltimate", "Serviceability"], Wide: true,
+            ToolTip: "Resistenza locale N–M–V: SLU statici, CHS integre di classe 1–2. Azioni della storia già di progetto; nessuna rifattorizzazione."),
         new("anchor_a1m1", "Storia analizzata con azioni A1 e parametri M1 per i tiranti", Bool: true, Wide: true,
             ToolTip: "Confermare la base della storia completa, documentandola nella provenienza delle azioni. Il verificatore non rifattorizza le reazioni non lineari."),
         new("fix_top_u", "Blocca traslazione in testa", Bool: true), new("fix_top_rotation", "Blocca rotazione in testa", Bool: true),
@@ -41,11 +44,20 @@ public static class EmbeddedWallFields
         "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi sulla struttura", "rc_sections" => "Sezioni e armature",
         "hydraulic_left" => "Permeabilità a sinistra", "hydraulic_right" => "Permeabilità a destra", "hydraulic_upl" => "Corpi UPL",
         "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", "global_checks" => "Stabilità globale", "global_actions" => "Combinazioni globali", "steel_members" => "Acciaio dei sostegni",
-        "anchor_checks" => "Sfilamento dei tiranti", "anchor_layers" => "Indagini dei bulbi", "anchor_tests" => "Prove preliminari tiranti", _ => table
+        "anchor_checks" => "Sfilamento dei tiranti", "anchor_layers" => "Indagini dei bulbi", "anchor_tests" => "Prove preliminari tiranti", "steel_tubes" => "Sezioni tubolari della parete", _ => table
     };
     public static FieldSpec[] Columns(string table) => table switch
     {
-        "segments" => [new("section", "Sezione"), new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"), new("ei", "Rigidezza EI", "kNm²"), new("weight", "Peso lineare della fascia", "kN/m"), new("source", "Fonte di EI")],
+        "segments" => [new("section", "Sezione"), new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
+            new("ei_mode", "Origine EI", Choices: ["Assegnata", "Da tubo CHS"], ToolTip: "Da tubo CHS usa E·I·larghezza/interasse della sezione corrispondente, calcolata da GPC. Il valore EI assegnato è ignorato in questa modalità."),
+            new("ei", "EI assegnata", "kNm²"), new("weight", "Peso lineare della fascia", "kN/m"), new("source", "Fonte di EI")],
+        "steel_tubes" => [new("id", "Sezione nei tratti"), new("diameter", "Diametro esterno", "mm"), new("thickness", "Spessore", "mm"), new("spacing", "Interasse", "m"),
+            new("nominal_grade", "Grado nominale S"), new("fy", "fy per spessore effettivo", "MPa"), new("fu", "fu per spessore effettivo", "MPa"), new("elastic_modulus", "E", "MPa"),
+            new("material_source", "Fonte del materiale", Multiline: true), new("unperforated", "Sezione integra senza aperture o riduzioni", Bool: true),
+            new("single_row", "Fila unica di tubi identici, ripartizione uniforme confermata", Bool: true),
+            new("representation_source", "Trasferimento delle pressioni e validità della fascia equivalente", Multiline: true,
+                ToolTip: "Documentare come il fronte trasferisce le pressioni ai tubi. Nessun effetto arco o interazione tridimensionale è dedotto dall'interasse."),
+            new("is_bridge", "Elemento di ponte", Bool: true)],
         "left_soils" or "right_soils" => [new("name", "Strato"), new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
             new("gamma", "Peso naturale", "kN/m³"), new("gamma_sat", "Peso saturo", "kN/m³"), new("phi", "Attrito efficace", "°"), new("c", "Coesione efficace", "kPa"),
             new("cu", "Resistenza non drenata", "kPa"), new("k0", "Coefficiente a riposo K0"), new("kh", "Modulo orizzontale kh", "N/mm³"),

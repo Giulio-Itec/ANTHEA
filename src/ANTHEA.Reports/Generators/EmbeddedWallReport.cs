@@ -124,8 +124,9 @@ public static partial class EmbeddedWallReport
             foreach (string note in s.Checks.Select(c => c.Reference + ". " + c.Diagnostic).Distinct(StringComparer.Ordinal)) P(note);
         }
         AppendAnchors(result, P, Table);
-        P("Verifiche delle sezioni", true);
-        if (result.Checks.Count == 0) P("Nessuna verifica di sezione eseguita.");
+        AppendTubes(result, allStations, P, Table);
+        P("Verifiche delle sezioni in c.a.", true);
+        if (result.Checks.Count == 0) P("Nessuna verifica di sezione in c.a. eseguita.");
         else
         {
             P("Riepilogo per fase, sezione e metodo: tutti gli esiti non valutati e il controllo governante per utilizzo. Le unità di domanda e capacità sono quelle native dichiarate.");
@@ -240,6 +241,9 @@ public static partial class EmbeddedWallReport
         ["length_source"]="Schema dei vincoli", ["axial_only"]="Sola azione assiale centrata confermata", ["is_bridge"]="Elemento di ponte",
         ["anchor_checks"]="Sfilamento dei tiranti", ["anchor_layers"]="Indagini dei bulbi", ["anchor_tests"]="Prove preliminari dei tiranti",
         ["anchor_standard"]="Norma sfilamento", ["anchor_situation"]="Situazione sfilamento", ["anchor_a1m1"]="Storia con azioni A1 e terreno M1 confermata",
+        ["steel_tubes"]="Sezioni tubolari della parete", ["tube_standard"]="Norma sezioni tubolari", ["tube_check_kind"]="Combinazione sezioni tubolari",
+        ["ei_mode"]="Origine EI", ["unperforated"]="Sezione integra confermata", ["single_row"]="Fila unica e ripartizione uniforme confermate",
+        ["representation_source"]="Trasferimento delle pressioni e validità della fascia equivalente",
         ["permanent"]="Ancoraggio permanente", ["evidence"]="Origine della resistenza", ["free_length"]="Tratto libero lungo asse [m]",
         ["bond_length"]="Tratto cementato lungo asse [m]", ["drill_diameter"]="Diametro di perforazione [mm]", ["minimum_cover"]="Ricoprimento minimo del bulbo [m]",
         ["injection"]="Tecnologia di iniezione", ["execution_source"]="Documentazione esecutiva", ["applicability_source"]="Confinamento e applicabilità",

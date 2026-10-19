@@ -8,7 +8,8 @@ public sealed record EmbeddedWallReportData(string Name, string Fingerprint, str
     string Status, bool Complete, string Diagnostic, string InputJson, IReadOnlyList<EmbeddedWallStageData> Stages,
     IReadOnlyList<EmbeddedWallCheckData> Checks, IReadOnlyList<string> Scope, IReadOnlyList<EmbeddedWallHydraulicData>? Hydraulics = null,
     IReadOnlyList<EmbeddedWallHydraulicCheckData>? HydraulicChecks = null, IReadOnlyList<EmbeddedWallGlobalData>? GlobalChecks = null,
-    IReadOnlyList<EmbeddedWallSteelData>? SteelSupports = null, IReadOnlyList<EmbeddedWallAnchorData>? AnchorChecks = null);
+    IReadOnlyList<EmbeddedWallSteelData>? SteelSupports = null, IReadOnlyList<EmbeddedWallAnchorData>? AnchorChecks = null,
+    IReadOnlyList<EmbeddedWallTubeData>? SteelTubes = null);
 public sealed record EmbeddedWallStageData(string Id, int Increments, int Iterations, double ForceResidualN, double MomentResidualNmm,
     IReadOnlyList<EmbeddedWallPointData> Points, IReadOnlyList<EmbeddedWallSupportData> Supports);
 public sealed record EmbeddedWallPointData(double Elevation, string Side, string Section, double Displacement, double Rotation,
@@ -78,3 +79,18 @@ public sealed record EmbeddedWallAnchorData(string CaseId, string Stage, string 
 public sealed record EmbeddedWallAnchorSample(string Id, double? Resistance, bool Applicable, string Source, string Diagnostic);
 public sealed record EmbeddedWallAnchorSegment(string Profile, int Layer, double Start, double End, double LimitPressure,
     double InjectionPressure, double DiameterFactor, double BulbDiameter, string Curve, double UnitResistance, double Resistance, string Source);
+
+public sealed record EmbeddedWallTubeData(string CaseId, string Stage, string Section, double? Elevation, string Side,
+    double? Normal, double? Shear, double? Moment, double? StripToMemberFactor, int? SectionClass, double? PartialFactor,
+    double? ShearReduction, double? NeutralAxisDistance, double? EquilibriumResidualN, EngineeringOutcome Outcome,
+    string Diagnostic, string Reference, EmbeddedWallTubeProperties? Properties, IReadOnlyList<EmbeddedWallTubeCheckData> Checks)
+{
+    [JsonIgnore] public string OutcomeText => EmbeddedWallReport.OutcomeText(Outcome);
+}
+public sealed record EmbeddedWallTubeProperties(double Diameter, double Thickness, double Area, double Inertia, double Spacing,
+    double ElasticModulus, double YieldStrength, double? EquivalentRigidity, string Source);
+public sealed record EmbeddedWallTubeCheckData(string Method, string Reference, string Unit, double Demand, double? Capacity,
+    double? Ratio, EngineeringOutcome Outcome, string Diagnostic)
+{
+    [JsonIgnore] public string OutcomeText => EmbeddedWallReport.OutcomeText(Outcome);
+}

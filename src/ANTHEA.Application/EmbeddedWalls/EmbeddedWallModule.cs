@@ -47,12 +47,15 @@ public sealed class EmbeddedWallModule : IModuleService
         var checks = analysis.IsComplete && kind.HasValue ? EmbeddedWallConcrete.Check(analysis, model.TributaryWidth, rc, kind.Value, cancellation) : [];
         var steel = EmbeddedWallSteelChecks.Calculate(data, analysis, cancellation);
         var anchors = EmbeddedWallAnchorChecks.Calculate(data, analysis, cancellation);
+        var tubes = EmbeddedWallTubeChecks.Calculate(data, analysis, model.TributaryWidth, cancellation);
         var scope = new List<string>
         {
             "Modello piano di trave su molle elastoplastiche indipendenti; piccoli spostamenti, strati orizzontali e parete verticale liscia. Pressioni Rankine, carico uniforme sul terreno.",
             "Le fasi interpolano le pressioni fra configurazioni successive e conservano la memoria plastica. I sostegni sono installati sulla deformata precedente; le attivazioni elencano tutti i sostegni presenti in ciascuna fase.",
             "N positivo a compressione; V e M riferiti alla sezione della fascia analizzata. I sostegni riportano la forza per singolo elemento. Quote positive verso l'alto.",
-            "La convergenza numerica non costituisce una verifica completa dell'opera. Instabilità geotecnica del fondo scavo, dettagli, sezioni metalliche della parete e sisma non sono ancora integrati in questo incremento.",
+            "La convergenza numerica non costituisce una verifica completa dell'opera. Instabilità geotecnica del fondo scavo, dettagli e sisma non sono ancora integrati in questo incremento.",
+            Text(data, "tube_standard") == "Non richieste" ? "Verifiche delle sezioni tubolari non richieste."
+                : "Sezioni tubolari: Checker Steel, NTC 2018 SLU statici, CHS integre di classe 1–2. Le azioni N–M–V concomitanti sono riferite al singolo tubo, N positivo a trazione; EI lordo equivalente da GPC quando selezionato. Fila unica e ripartizione uniforme esplicite. Il taglio elevato riduce cautelativamente tutta la sezione. Instabilità della membratura, guscio, collegamenti e altre famiglie richiedono verifiche distinte.",
             Text(data, "steel_standard") == "Non richieste" ? "Verifiche dei sostegni metallici non richieste."
                 : "Sostegni metallici: verifiche Steel per aste circolari piene o CHS soggette alla sola azione assiale centrata, NTC 2018 SLU statici. N positivo a trazione, per singolo sostegno. Area netta e lunghezze libere d'inflessione esplicite; classe 4, profili non disponibili e dati mancanti producono Non valutato. La rigidezza assiale del modello resta quella assegnata. Collegamenti, ancoraggi, bulbi, durabilità e verifica dell'intero sistema sono distinti.",
             Text(data, "anchor_standard") == "Non richieste" ? "Sfilamento dei tiranti non richiesto."
@@ -63,8 +66,8 @@ public sealed class EmbeddedWallModule : IModuleService
             Text(data, "hydraulic_weight_mode") == "Pressioni FEM" ? "Pesi del terreno: γsat dove la pressione FEM è positiva, γ naturale altrove; nessun peso interpolato con il grado di saturazione né frangia capillare."
                 : "Pesi del terreno distinti dalla quota di falda assegnata, anche quando le pressioni provengono dal FEM.",
             hydraulicChecks.Count == 0 ? "Verifiche idrauliche UPL/HYD non richieste." : "UPL/HYD limitate ai corpi, punti e colonne esplicitamente assegnati. Azioni caratteristiche e coefficienti del profilo normativo dichiarato; Rd aggiuntiva già di progetto. Questi controlli non verificano erosione interna o instabilità non drenata del fondo. Le azioni variabili della combinazione devono essere definite dall'utente.",
-            kind.HasValue ? "Verifiche di sezione NTC 2018 su azioni della combinazione dichiarata; rettangolo senza staffe. Nessun coefficiente parziale aggiunto dal servizio. Progetto delle armature e dettagli non eseguiti."
-                : "Analisi delle azioni e degli spostamenti; verifiche di resistenza ed esercizio delle sezioni non richieste."
+            kind.HasValue ? "Sezioni in c.a.: verifiche NTC 2018 su azioni della combinazione dichiarata; rettangolo senza staffe. Nessun coefficiente parziale aggiunto dal servizio. Progetto delle armature e dettagli non eseguiti."
+                : "Verifiche di resistenza ed esercizio delle sezioni in c.a. non richieste."
         };
         var snapshot = new EmbeddedWallReportData(model.Name, EmbeddedWallDocument.Fingerprint(data), model.CaseId, basis,
             analysis.Status.ToString(), analysis.IsComplete, analysis.Diagnostic, data.ToJsonString(new() { WriteIndented = true }),
@@ -76,7 +79,7 @@ public sealed class EmbeddedWallModule : IModuleService
                 -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, "Sezione non definita", "", 0, null, null, EngineeringOutcome.NotEvaluated, c.Diagnostic) }
                 : c.Checks.Select(v => new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / SoilUnits.Metre, c.Side,
                     -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, v.Method, v.Unit, v.Demand, v.Capacity, v.Ratio, v.Outcome, v.Diagnostic ?? c.Diagnostic))).ToArray()),
-            scope.AsReadOnly(), hydraulics, hydraulicChecks, globalChecks, steel, anchors);
+            scope.AsReadOnly(), hydraulics, hydraulicChecks, globalChecks, steel, anchors, tubes);
         cancellation.ThrowIfCancellationRequested();
         return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(snapshot), snapshot);
     }

@@ -160,6 +160,28 @@ internal static class EmbeddedWallViewChecks
             await editor.CalculateAsync(); await Settle(); Capture("sfilamento-preliminare");
             Check(sheet.AnchorChecks[0].Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated && sheet.AnchorChecks[0].Capacity.HasValue,
                 "Capacità preliminare presentata come verifica conclusa.");
+            var tubeData = steelData.DeepClone().AsObject(); tubeData["name"] = "Paratia tubolare — collaudo grafico";
+            tubeData["steel_standard"] = "Non richieste"; tubeData["tube_standard"] = "NTC 2018"; tubeData["tube_check_kind"] = "StaticUltimate";
+            tubeData["width"] = 1.5; tubeData["fix_top_u"] = false; tubeData["supports"] = new JsonArray(); tubeData["activations"] = new JsonArray();
+            tubeData["segments"]![0]!["ei_mode"] = "Da tubo CHS"; tubeData["segments"]![0]!["ei"] = null;
+            var tubeRow = EmbeddedWallDocument.NewRow("steel_tubes"); tubeRow["diameter"] = 200; tubeRow["thickness"] = 8; tubeRow["spacing"] = 2;
+            tubeRow["nominal_grade"] = 355; tubeRow["fy"] = 355; tubeRow["fu"] = 510; tubeRow["elastic_modulus"] = 210000;
+            tubeRow["material_source"] = "Proprietà S355 del caso sintetico"; tubeRow["unperforated"] = true; tubeRow["single_row"] = true;
+            tubeRow["representation_source"] = "Fila unica, fronte con distribuzione uniforme ai tubi; nessun effetto arco";
+            tubeData["steel_tubes"]!.AsArray().Add(tubeRow);
+            var tubeLoad = EmbeddedWallDocument.NewRow("loads"); tubeLoad["horizontal"] = .2; tubeLoad["downward"] = 5;
+            tubeData["loads"] = new JsonArray(tubeLoad);
+            sheet.Reload(tubeData); await editor.CalculateAsync(); tabs.SelectedIndex = 9; sheet.SelectedTubeCheck = sheet.SteelTubes.LastOrDefault();
+            await Settle(); Capture("sezioni-tubolari");
+            Check(sheet.SteelTubes.Count > 0 && sheet.SteelTubes.All(r => r.SectionClass == 1 && r.Checks.Count == 3)
+                && Math.Abs(sheet.SelectedTubeCheck!.StripToMemberFactor!.Value - 4.0 / 3) < 1e-12, "Azioni o controlli N–M–V della sezione assenti.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.SteelTubes)), "Tabella sezioni tubolari scollegata dallo snapshot.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("sezioni-tubolari-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "steel_tubes").Rows[0]["thickness"] = "4"; await Settle();
+            Check(sheet.Current is null && sheet.SelectedTubeCheck is null && sheet.SteelTubes.Count == 0 && !sheet.TubeCsvCommand.CanExecute(null), "Risultati tubolari superati ancora esportabili.");
+            await editor.CalculateAsync(); await Settle(); Capture("sezione-tubolare-classe3");
+            Check(sheet.SteelTubes.All(r => r.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated && r.Checks.All(c => c.Capacity is null)),
+                "Classe 3 certificata dal percorso plastico limitato alle classi 1–2.");
             editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
             Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF paratie, senza attivare finestre sul desktop");

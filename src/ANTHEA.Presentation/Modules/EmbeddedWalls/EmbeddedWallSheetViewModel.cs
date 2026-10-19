@@ -30,6 +30,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     private EmbeddedWallGlobalData? globalCheck;
     private EmbeddedWallSteelData? steelSupport;
     private EmbeddedWallAnchorData? anchorCheck;
+    private EmbeddedWallTubeData? tubeCheck;
     private string hydraulicDiagram = "Carico idraulico [m]";
     private string diagram = "Spostamento [mm]", importSide = "Sinistra", importScenario = "Medi";
     private SoilSource? soilSource;
@@ -46,6 +47,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
         GlobalCsvCommand = GuardedCommands.Create(Guard, ExportGlobalCsv, () => GlobalChecks.Count > 0);
         SteelCsvCommand = GuardedCommands.Create(Guard, ExportSteelCsv, () => SteelSupports.Count > 0);
         AnchorCsvCommand = GuardedCommands.Create(Guard, ExportAnchorCsv, () => AnchorChecks.Count > 0);
+        TubeCsvCommand = GuardedCommands.Create(Guard, ExportTubeCsv, () => SteelTubes.Count > 0);
         ImportSoilCommand = GuardedCommands.Create(Guard, ImportSoil, () => CanEdit && SelectedSoilSource is not null);
         RefreshSoilSourcesCommand = GuardedCommands.Create(Guard, RefreshSources);
         RefreshSources();
@@ -63,6 +65,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     public IRelayCommand GlobalCsvCommand { get; }
     public IRelayCommand SteelCsvCommand { get; }
     public IRelayCommand AnchorCsvCommand { get; }
+    public IRelayCommand TubeCsvCommand { get; }
     public IRelayCommand ImportSoilCommand { get; }
     public IRelayCommand RefreshSoilSourcesCommand { get; }
     public IReadOnlyList<SoilSource> SoilSources { get; private set; } = [];
@@ -97,6 +100,8 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     public IReadOnlyList<EmbeddedWallSteelCheckData> SteelChecks => steelSupport?.Checks ?? [];
     public IReadOnlyList<EmbeddedWallAnchorData> AnchorChecks => current?.AnchorChecks ?? [];
     public EmbeddedWallAnchorData? SelectedAnchorCheck { get => anchorCheck; set => SetProperty(ref anchorCheck, value); }
+    public IReadOnlyList<EmbeddedWallTubeData> SteelTubes => current?.SteelTubes ?? [];
+    public EmbeddedWallTubeData? SelectedTubeCheck { get => tubeCheck; set => SetProperty(ref tubeCheck, value); }
     public override JsonObject? Result => current is null ? null : EmbeddedWallDocument.ResultValues(current);
     public string Progress { get => progress; private set => SetProperty(ref progress, value); }
     public override bool HasResults => current is not null && current.Complete;
@@ -112,7 +117,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     public IReadOnlyList<EmbeddedWallCheckData> Checks => current?.Checks.Where(c => c.Stage == selectedStage?.Id).ToArray() ?? [];
     public string ResultStatus => current is null ? "Risultati assenti o superati: eseguire il calcolo sui dati correnti."
         : current.Complete ? "Analisi convergente. Verifiche dell'opera: consultare ambito ed esiti." : "Analisi incompleta: sono visibili soltanto le fasi concluse.";
-    public string Scope => current is null ? "Incremento in sviluppo: trave su molle, fasi, sostegni assiali metallici circolari, filtrazione stazionaria 2D, UPL/HYD e stabilità globale per pareti continue senza sostegni esterni. Instabilità geotecnica del fondo scavo, sezioni metalliche della parete e sisma sono ancora da integrare."
+    public string Scope => current is null ? "Incremento in sviluppo: trave su molle, fasi, sostegni assiali metallici, sfilamento tiranti, sezioni tubolari CHS, filtrazione 2D, UPL/HYD e stabilità globale per pareti continue senza sostegni esterni. Campi di applicazione e verifiche residue sono indicati nei risultati."
         : string.Join(Environment.NewLine, current.Scope);
     private void Rebuild()
     {
@@ -169,6 +174,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
         OnPropertyChanged(nameof(GlobalChecks)); SelectedGlobalCheck = GlobalChecks.FirstOrDefault(); GlobalCsvCommand?.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(SteelSupports)); SelectedSteelSupport = SteelSupports.FirstOrDefault(); SteelCsvCommand?.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(AnchorChecks)); SelectedAnchorCheck = AnchorChecks.FirstOrDefault(); AnchorCsvCommand?.NotifyCanExecuteChanged();
+        OnPropertyChanged(nameof(SteelTubes)); SelectedTubeCheck = SteelTubes.FirstOrDefault(); TubeCsvCommand?.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(ResultStatus)); OnPropertyChanged(nameof(Scope)); CsvCommand?.NotifyCanExecuteChanged();
         HydraulicCsvCommand?.NotifyCanExecuteChanged(); HydraulicChecksCsvCommand?.NotifyCanExecuteChanged();
     }
@@ -221,6 +227,11 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     {
         var result = RequireCurrent(); var path = Context.Services.Files.SaveFile(new([new FileFilter("Sfilamento dei tiranti", "*.csv")], "sfilamento-tiranti.csv"));
         if (path is not null) File.WriteAllText(path, EmbeddedWallReport.AnchorCsv(result), new UTF8Encoding(true));
+    }
+    private void ExportTubeCsv()
+    {
+        var result = RequireCurrent(); var path = Context.Services.Files.SaveFile(new([new FileFilter("Sezioni tubolari N–M–V", "*.csv")], "sezioni-tubolari.csv"));
+        if (path is not null) File.WriteAllText(path, EmbeddedWallReport.TubeCsv(result), new UTF8Encoding(true));
     }
     private sealed class SheetReport(EmbeddedWallSheetViewModel sheet) : IModuleReportSource
     {

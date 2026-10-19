@@ -7630,6 +7630,21 @@
       "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: verificare ipotesi/unità di Bustamante-Doix prima dell'estensione, esiti riconoscibili e fonti primarie.", "esito": "Incremento collaudato per bulbi isolati e confinati nel campo dichiarato; dimensionamento automatico, ulteriori meccanismi e rilascio ancora aperti."},
       "test": ["anchor-kernel-03: 50 PASS; anchor-design-01: 2 PASS", "candidate-13: 3128 PASS, 17 fallimenti storici ammessi", "anchor-app-02: 128 PASS", "ci/20261019-114029-paratie-inc06-ui1: architettura e 27 controlli WPF PASS", "docs/paratie/incremento-06.md"],
       "voci_collegate": ["PARATIE-07"]
+    },
+    {
+      "id": "PARATIE-09",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 7",
+      "titolo": "Sezioni CHS N-M-V in Steel e fascia equivalente in Design",
+      "famiglia": "geotecnica/paratie/acciaio",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Resistenza plastica locale CHS classe 1-2, azioni concomitanti e taglio elevato con riduzione cautelativa dell'intera sezione. EI e trasferimento fascia/tubo nel coordinatore GPC. Schema ANTHEA 7, editor, persistenza, CSV e report dallo stesso risultato. Classe 3-4 e campi non supportati restano Non valutato.",
+      "codice": ["Checker/src/Steel/CircularHollowSections.cs", "Checker/src/GPC.Design/EmbeddedWalls/EmbeddedWallSteelTubes.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallTubeChecks.cs", "src/ANTHEA.Reports/Generators/EmbeddedWallTubeReport.cs"],
+      "segno": "Percorso additivo. EI derivato soltanto per scelta esplicita; migrazione conserva quello assegnato. Nessuna routine storica Steel, fixture o lista di fallimenti ammessi modificata.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico paratie: sezioni metalliche in Checker Steel, separazione dei calcoli e sollecitazioni concomitanti.", "esito": "Incremento collaudato nel campo dichiarato; altre famiglie, instabilità, matrice e rilascio ancora aperti."},
+      "test": ["tube-steel-03: 13 PASS; tube-design-02: 2 PASS", "candidate-14: 3134 PASS, 17 fallimenti storici ammessi", "tube-app-02: 303 PASS", "ci/20261019-121547-paratie-inc07-ui2: architettura e 31 controlli WPF PASS", "docs/paratie/incremento-07.md"],
+      "voci_collegate": ["PARATIE-07", "PARATIE-08"]
     }
   ]
 }
