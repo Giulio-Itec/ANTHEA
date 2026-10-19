@@ -12,6 +12,9 @@ public static class EmbeddedWallReport
 {
     private const int TableWidthTwips = 9638;
     private static string F(double? value) => value?.ToString("G7", CultureInfo.GetCultureInfo("it-IT")) ?? "non disponibile";
+    public static string DisplayLabel(string key) => Labels.GetValueOrDefault(key, key);
+    public static string OutcomeText(EngineeringOutcome outcome) => outcome switch
+    { EngineeringOutcome.Satisfied => "Soddisfatto", EngineeringOutcome.NotSatisfied => "Non soddisfatto", EngineeringOutcome.NotEvaluated => "Non valutato", _ => outcome.ToString() };
     public static DocxDocument Create(string title, EmbeddedWallReportData result, bool allStations = false)
     {
         ArgumentNullException.ThrowIfNull(result);
@@ -56,6 +59,22 @@ public static class EmbeddedWallReport
             P("Portate riferite a un metro ortogonale alla sezione. Il CSV idraulico conserva tutti i valori nodali e i flussi degli elementi; qui sono riportati gli estremi nodali con la loro posizione.");
             var nodes = new[] { hydraulic.Nodes.MinBy(n => n.Head)!, hydraulic.Nodes.MaxBy(n => n.Head)!, hydraulic.Nodes.MinBy(n => n.Pressure)!, hydraulic.Nodes.MaxBy(n => n.Pressure)! }.Distinct();
             Table(["Nodo", "x [m]", "z [m]", "h [m]", "u [kPa]"], nodes.Select(n => new[] { n.Index.ToString(), F(n.X), F(n.Z), F(n.Head), F(n.Pressure) }));
+        }
+        P("Verifiche idrauliche locali UPL / HYD", true);
+        if ((result.HydraulicChecks?.Count ?? 0) == 0) P("Nessuna verifica UPL/HYD richiesta.");
+        foreach (var check in result.HydraulicChecks ?? [])
+        {
+            P($"{check.Stage} · {check.Element} · {check.Method} · {check.OutcomeText}", true);
+            P($"Domanda {F(check.Demand)}, capacità {F(check.Capacity)} {check.Unit}; utilizzo {F(check.Ratio)}. {check.Diagnostic}");
+            P(check.Reference); P("Provenienza e applicabilità: " + check.Source);
+            if (check.Coefficients.Count > 0) P("Coefficienti e parametri: " + string.Join("; ", check.Coefficients.Select(p => Label(p.Key) + "=" + F(p.Value))));
+            if (check.Values.Count > 0) Table(["Dato utilizzato", "Valore", "Unità"], check.Values.Select(v => new[] { v.Name, F(v.Value), v.Unit }));
+            if (check.Actions.Count > 0)
+            {
+                P("Risultanti UPL positive verso l'alto; pesi totali negativi. La resistenza aggiuntiva Rd è già di progetto.");
+                Table(["Azione", "Categoria", "Fk [kN]", "γ", "Fd [kN]"], check.Actions.Select(a => new[] { a.Id, a.CategoryText, F(a.CharacteristicUpwardForce), F(a.Factor), F(a.DesignUpwardForce) }));
+                foreach (var action in check.Actions) P(action.Id + ": " + action.Source);
+            }
         }
         foreach (var stage in result.Stages)
         {
@@ -111,6 +130,14 @@ public static class EmbeddedWallReport
         }
         return text.ToString();
     }
+    public static string HydraulicChecksCsv(EmbeddedWallReportData result)
+    {
+        static string Cell(object? value) => "\"" + (value is double d ? d.ToString("G17", CultureInfo.InvariantCulture) : value?.ToString() ?? "").Replace("\"", "\"\"") + "\"";
+        var text = new StringBuilder("Caso;Fase;Elemento;Metodo;Domanda;Capacita;Unita;Utilizzo;Esito;Riferimento;Fonte;Diagnostica;Impronta\r\n");
+        foreach (var c in result.HydraulicChecks ?? [])
+            text.AppendLine(string.Join(";", new object?[] { c.CaseId, c.Stage, c.Element, c.Method, c.Demand, c.Capacity, c.Unit, c.Ratio, c.Outcome, c.Reference, c.Source, c.Diagnostic, result.Fingerprint }.Select(Cell)));
+        return text.ToString();
+    }
     private static readonly FrozenDictionary<string, string> Labels = new Dictionary<string, string>()
     {
         ["name"]="Nome", ["case_id"]="Caso", ["action_basis"]="Origine delle azioni", ["top"]="Quota superiore [m]", ["bottom"]="Quota inferiore [m]", ["width"]="Larghezza (m generale, mm sezione c.a.)",
@@ -126,6 +153,16 @@ public static class EmbeddedWallReport
         ["hydraulic_mode"]="Pressioni interstiziali", ["hydraulic_left_extent"]="Estensione dominio sx [m]", ["hydraulic_right_extent"]="Estensione dominio dx [m]",
         ["hydraulic_bottom"]="Quota fondo impermeabile [m]", ["hydraulic_thickness"]="Spessore parete impermeabile [m]", ["hydraulic_mesh"]="Passo mesh idraulica [m]", ["hydraulic_iterations"]="Limite iterazioni idrauliche",
         ["ignore_suction"]="Suzione trascurata nel trasferimento meccanico", ["hydraulic_left"]="Strati idraulici sx", ["hydraulic_right"]="Strati idraulici dx",
-        ["kxx"]="Kxx [m/s]", ["kzz"]="Kzz [m/s]", ["kxz"]="Kxz [m/s]", ["alpha"]="Van Genuchten α [1/m]", ["n"]="Van Genuchten n"
+        ["kxx"]="Kxx [m/s]", ["kzz"]="Kzz [m/s]", ["kxz"]="Kxz [m/s]", ["alpha"]="Van Genuchten α [1/m]", ["n"]="Van Genuchten n",
+        ["hydraulic_weight_mode"]="Criterio pesi del terreno", ["hydraulic_standard"]="Norma idraulica", ["hydraulic_situation"]="Situazione idraulica",
+        ["hydraulic_upl"]="Corpi UPL", ["hydraulic_actions"]="Azioni caratteristiche UPL", ["hydraulic_hyd"]="Punti e colonne HYD",
+        ["water_resultant"]="Origine risultante acqua", ["x_start"]="x iniziale [m]", ["x_end"]="x finale [m]", ["x"]="x [m]", ["z"]="z [m]", ["z_bottom"]="z inferiore [m]",
+        ["body_width"]="Larghezza corpo [m]", ["top_pressure"]="Pressione superiore [kPa]", ["water_category"]="Categoria acqua", ["rd"]="Rd già di progetto [kN]", ["rd_source"]="Fonte e coefficienti di Rd",
+        ["check"]="Verifica", ["category"]="Categoria", ["upward_force"]="Forza caratteristica positiva in alto [kN]", ["method"]="Metodo", ["field_source"]="Origine dato HYD", ["gradient"]="Gradiente ascendente",
+        ["pressure"]="Pressione interstiziale [kPa]", ["hydrostatic_pressure"]="Pressione idrostatica [kPa]", ["effective_stress"]="Tensione efficace senza filtrazione [kPa]",
+        ["vertical_flow"]="Terreno saturo e flusso prevalentemente verticale", ["outflow_confirmed"]="Frontiera di efflusso confermata",
+        ["gammaG1_unfavourable"]="γG1 sfavorevole", ["gammaG1_favourable"]="γG1 favorevole", ["gammaG2_unfavourable"]="γG2 sfavorevole", ["gammaG2_favourable"]="γG2 favorevole",
+        ["gammaQ_unfavourable"]="γQ sfavorevole", ["gammaQ_favourable"]="γQ favorevole", ["gammaM_phi_for_Rd"]="γM tanφ per Rd", ["gammaM_c_for_Rd"]="γM c per Rd", ["gammaM_cu_for_Rd"]="γM cu per Rd",
+        ["gammaR"]="γR", ["criticalGradient"]="Gradiente critico", ["waterUnitWeight"]="γw [N/mm³]"
     }.ToFrozenDictionary();
 }

@@ -12,7 +12,7 @@ namespace Anthea.Application.EmbeddedWalls;
 public static class EmbeddedWallDocument
 {
     public const string Module = "geo_paratie";
-    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right" });
+    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd" });
     public static JsonObject Create() => Upgrade(new()
     {
         ["schema"] = 1, ["name"] = "Paratia", ["case_id"] = "Caso 1", ["action_basis"] = "Da definire",
@@ -38,6 +38,13 @@ public static class EmbeddedWallDocument
             ["fck"] = 30, ["fyk"] = 450, ["es"] = 200000, ["eps_uk"] = .075, ["creep"] = 2, ["exposure"] = "XC2" },
         "hydraulic_left" or "hydraulic_right" => new() { ["name"] = "Strato idraulico", ["top"] = 0, ["bottom"] = -20,
             ["kxx"] = null, ["kzz"] = null, ["kxz"] = 0, ["alpha"] = null, ["n"] = null, ["source"] = "" },
+        "hydraulic_upl" => new() { ["id"] = "UPL1", ["stage"] = "F1", ["water_resultant"] = "Assegnata nelle azioni", ["x_start"] = null, ["x_end"] = null,
+            ["z"] = null, ["body_width"] = null, ["top_pressure"] = null, ["water_category"] = "PermanentStructural", ["source"] = "",
+            ["ignore_suction"] = false, ["rd"] = 0, ["rd_source"] = "" },
+        "hydraulic_actions" => new() { ["check"] = "UPL1", ["stage"] = "F1", ["id"] = "Peso", ["category"] = "PermanentStructural", ["upward_force"] = null, ["source"] = "" },
+        "hydraulic_hyd" => new() { ["id"] = "HYD1", ["stage"] = "F1", ["method"] = "Mean", ["field_source"] = "FEM 2D", ["x"] = null, ["z"] = null, ["z_bottom"] = null,
+            ["gradient"] = null, ["gamma_sat"] = null, ["pressure"] = null, ["hydrostatic_pressure"] = null, ["effective_stress"] = null,
+            ["vertical_flow"] = false, ["outflow_confirmed"] = false, ["source"] = "" },
         _ => throw new ArgumentException("Tabella paratie sconosciuta: " + table)
     };
     public static JsonObject Snapshot(JsonObject source)
@@ -45,7 +52,7 @@ public static class EmbeddedWallDocument
         ArgumentNullException.ThrowIfNull(source);
         return Upgrade(source.DeepClone().AsObject());
     }
-    /// <summary>Schema 1→2 adds an inactive hydraulic analysis, without inventing permeability or geometry.</summary>
+    /// <summary>Migrations add inactive analyses/checks without inventing engineering data. Existing saturation convention is retained.</summary>
     public static JsonObject Upgrade(JsonObject data)
     {
         Validate(data);
@@ -56,17 +63,26 @@ public static class EmbeddedWallDocument
                 ["hydraulic_iterations"] = new GPC.Checkers.Geotechnics.Seepage.SeepageOptions().MaximumIterations,
                 ["hydraulic_left"] = new JsonArray(), ["hydraulic_right"] = new JsonArray() };
             foreach (var entry in added) if (!data.ContainsKey(entry.Key)) data[entry.Key] = entry.Value?.DeepClone();
-            data["schema"] = 2; Validate(data);
+            data["schema"] = 2;
         }
+        if (StratigraphyDocument.Number(data["schema"], "Versione paratie") == 2)
+        {
+            var added = new JsonObject { ["hydraulic_weight_mode"] = "Quota di falda assegnata", ["hydraulic_standard"] = "NTC 2018",
+                ["hydraulic_situation"] = "PersistentTransient", ["hydraulic_upl"] = new JsonArray(), ["hydraulic_actions"] = new JsonArray(), ["hydraulic_hyd"] = new JsonArray() };
+            foreach (var entry in added) if (!data.ContainsKey(entry.Key)) data[entry.Key] = entry.Value?.DeepClone();
+            data["schema"] = 3;
+        }
+        Validate(data);
         return data;
     }
     public static void Validate(JsonObject data)
     {
         var schema = StratigraphyDocument.Number(data["schema"], "Versione paratie");
-        if (schema is not (1 or 2)) throw new ArgumentException("Versione del documento paratie non supportata.");
+        if (schema is not (1 or 2 or 3)) throw new ArgumentException("Versione del documento paratie non supportata.");
         foreach (var name in Tables)
         {
             if (schema == 1 && name is ("hydraulic_left" or "hydraulic_right")) continue;
+            if (schema < 3 && name is ("hydraulic_upl" or "hydraulic_actions" or "hydraulic_hyd")) continue;
             if (data[name] is not JsonArray rows || rows.Any(r => r is not JsonObject)) throw new ArgumentException("Tabella mancante o non valida: " + name);
             if (rows.Count > 10000) throw new ArgumentException("Tabella troppo estesa: " + name);
         }

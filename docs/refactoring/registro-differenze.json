@@ -7570,6 +7570,21 @@
       },
       "test": ["ci/20261019-081614-paratie-inc02-standard: 73 PASS, 1 NEW-FAIL, sorgenti modificati durante la corsa", "ci/20261019-084846-paratie-inc02-presentation-fix: build e Presentation.Tests PASS"],
       "voci_collegate": ["PARATIE-03"]
+    },
+    {
+      "id": "PARATIE-05",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 3",
+      "titolo": "Verifiche locali UPL/HYD e pesi del terreno dal campo FEM",
+      "famiglia": "geotecnica/paratie/idraulica",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Profilo normativo Model e criteri Geotechnics; ANTHEA mappa input e risultati, con dati assegnati o campionati dal FEM convergente della fase. Schema 3 conserva il criterio di saturazione precedente; il nuovo criterio da pressioni è esplicito. UI, CSV e report leggono lo stesso risultato congelato. Esiti indisponibili riconoscibili.",
+      "codice": ["Checker/src/Geotechnics/Seepage/HydraulicSafety.cs", "Checker/src/Geotechnics/Seepage/SeepageSampling.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallHydraulicChecks.cs", "X.Desktop/Views/EmbeddedWalls/EmbeddedWallSheetView.xaml"],
+      "segno": "Nuove verifiche additive; nessuna modifica ai casi legacy. Pesi meccanici da pressioni FEM soltanto su scelta esplicita. Nessun atteso cambiato.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: verifiche geotecniche/idrauliche e tracciabilità; merge locali paratie/spettri a lavoro concluso.", "esito": "Incremento collaudato nel campo dichiarato. Matrice e rilascio complessivo ancora aperti."},
+      "test": ["Geotechnics EmbeddedWalls.Tests: 30 PASS", "hyd-safety-app-02: 62 controlli PASS", "ci/20261019-093124-paratie-inc03-ui3: architettura e 14 controlli WPF PASS", "docs/paratie/incremento-03.md: fonti, attesi e limiti"],
+      "voci_collegate": ["PARATIE-03"]
     }
   ]
 }

@@ -67,7 +67,7 @@
        <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G5}"/><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/>
        <DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G6}"/><DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G6}"/>
        <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F3}"/>
-       <DataGridTextColumn Header="Esito" Binding="{Binding Outcome}"/><DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/>
+       <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/>
       </DataGrid.Columns>
      </DataGrid>
      <DataGrid Grid.Row="2" ItemsSource="{Binding Supports}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,12,0,0">
@@ -112,6 +112,39 @@
        </TabControl>
       </Grid>
      </DockPanel>
+    </Grid>
+   </TabItem>
+   <TabItem Header="UPL / HYD">
+    <Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="2*"/><RowDefinition Height="3*"/></Grid.RowDefinitions>
+     <StackPanel>
+      <TextBlock Text="Definire corpi UPL, azioni caratteristiche e punti o colonne HYD in Dati e fasi. Norma e situazione sono nella scheda Filtrazione. I controlli sono locali e non sostituiscono la stabilità geotecnica del fondo. Non valutato non equivale a soddisfatto." TextWrapping="Wrap" Margin="0,0,0,8"/>
+      <Button Content="Esporta verifiche idrauliche CSV" Command="{Binding HydraulicChecksCsvCommand}" HorizontalAlignment="Left" Margin="0,0,0,8"/>
+     </StackPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding HydraulicChecks}" SelectedItem="{Binding SelectedHydraulicCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns>
+       <DataGridTextColumn Header="Caso" Binding="{Binding CaseId}"/><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Corpo / punto" Binding="{Binding Element}"/>
+       <DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
+       <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+       <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
+      </DataGrid.Columns>
+     </DataGrid>
+     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,12,0,0"><StackPanel>
+      <TextBlock Text="{Binding SelectedHydraulicCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+      <TextBlock Text="{Binding SelectedHydraulicCheck.Source}" TextWrapping="Wrap" Margin="0,6"/>
+      <TextBlock Text="{Binding SelectedHydraulicCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+      <DataGrid ItemsSource="{Binding SelectedHydraulicCheck.Values}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="150">
+       <DataGrid.Columns><DataGridTextColumn Header="Dato utilizzato" Binding="{Binding Name}"/><DataGridTextColumn Header="Valore" Binding="{Binding Value, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/></DataGrid.Columns>
+      </DataGrid>
+      <TextBlock Text="Azioni UPL positive in alto; pesi totali negativi. Rd è già di progetto." TextWrapping="Wrap" Margin="0,8"/>
+      <DataGrid ItemsSource="{Binding SelectedHydraulicCheck.Actions}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="180">
+       <DataGrid.Columns><DataGridTextColumn Header="Azione" Binding="{Binding Id}"/><DataGridTextColumn Header="Categoria" Binding="{Binding CategoryText}"/>
+        <DataGridTextColumn Header="Fk [kN]" Binding="{Binding CharacteristicUpwardForce, StringFormat=G7}"/><DataGridTextColumn Header="γ" Binding="{Binding Factor, StringFormat=G4}"/>
+        <DataGridTextColumn Header="Fd [kN]" Binding="{Binding DesignUpwardForce, StringFormat=G7}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
+      </DataGrid>
+      <ItemsControl ItemsSource="{Binding HydraulicCoefficients}" Margin="0,8"><ItemsControl.ItemTemplate><DataTemplate>
+       <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, StringFormat=G7}"/></WrapPanel>
+      </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+     </StackPanel></ScrollViewer>
     </Grid>
    </TabItem>
   </TabControl>

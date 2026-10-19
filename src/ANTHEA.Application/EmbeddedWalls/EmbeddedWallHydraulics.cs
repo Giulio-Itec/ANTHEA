@@ -8,21 +8,30 @@ using static Anthea.Application.EmbeddedWalls.EmbeddedWallAdapter;
 
 namespace Anthea.Application.EmbeddedWalls;
 
+internal sealed record EmbeddedWallHydraulicAnalysis(IReadOnlyList<EmbeddedWallHydraulicData> Reports, IReadOnlyDictionary<string, SeepageResult> Fields);
+
 /// <summary>Application orchestration and unit conversion. Mesh, constitutive law, solution and pressure
 /// interpolation are supplied by Geotechnics. Each stage is an independent stationary hydraulic analysis.</summary>
 internal static class EmbeddedWallHydraulics
 {
     private const double CubicMillimetresPerLitre = 1e6;
     private const double LitresPerSecondPerMetreFromSquareMillimetresPerSecond = SoilUnits.Metre / CubicMillimetresPerLitre;
-    internal static IReadOnlyList<EmbeddedWallHydraulicData> Calculate(JsonObject data, EmbeddedWallModel model,
+    internal static EmbeddedWallHydraulicAnalysis Calculate(JsonObject data, EmbeddedWallModel model,
         CancellationToken cancellation, Action<EmbeddedWallProgress> progress)
     {
         string mode = Text(data, "hydraulic_mode");
-        if (mode == "Idrostatica") return [];
+        string weightMode = Text(data, "hydraulic_weight_mode");
+        if (weightMode is not ("Quota di falda assegnata" or "Pressioni FEM")) throw new ArgumentException("Scegliere il criterio di saturazione per i pesi.");
+        if (mode == "Idrostatica")
+        {
+            if (weightMode == "Pressioni FEM") throw new ArgumentException("Il criterio Pressioni FEM richiede la filtrazione FEM 2D.");
+            return new([], new Dictionary<string, SeepageResult>());
+        }
         if (mode != "FEM 2D") throw new ArgumentException("Scegliere pressione idrostatica o filtrazione FEM 2D.");
         var left = Layers(data, "hydraulic_left"); var right = Layers(data, "hydraulic_right");
         bool ignoreSuction = data["ignore_suction"] is JsonValue v && v.TryGetValue<bool>(out bool b) ? b : throw new ArgumentException("Dichiarare il trattamento della suzione.");
         var results = new List<EmbeddedWallHydraulicData>();
+        var fields = new Dictionary<string, SeepageResult>(StringComparer.Ordinal);
         foreach (var stage in model.Stages)
         {
             cancellation.ThrowIfCancellationRequested();
@@ -47,13 +56,15 @@ internal static class EmbeddedWallHydraulics
                 Array.AsReadOnly(result.Elements.Select(e => new EmbeddedWallHydraulicElement(e.A, e.B, e.C, e.GradientX, e.GradientZ,
                     e.FluxX / SoilUnits.Metre, e.FluxZ / SoilUnits.Metre, e.RelativeConductivity)).ToArray())));
             if (!result.IsComplete) break;
+            fields.Add(stage.Id, result);
             // The geometry adapter maps the declared centered wall thickness to its two face coordinates.
             // Interpolation, domain checks and the explicit suction policy stay in Geotechnics.
             stage.Left.PorePressures = SeepageWallCoupling.Profile(result, -domain.WallThickness / 2, stage.Left.Elevation, model.Bottom, ignoreSuction);
             stage.Right.PorePressures = SeepageWallCoupling.Profile(result, domain.WallThickness / 2, stage.Right.Elevation, model.Bottom, ignoreSuction);
             stage.Left.PorePressureSource = stage.Right.PorePressureSource = "FEM 2D " + result.CaseId + (ignoreSuction ? "; suzione trascurata nel modello meccanico" : "; pressioni non negative");
+            stage.Left.SaturationFromPorePressures = stage.Right.SaturationFromPorePressures = weightMode == "Pressioni FEM";
         }
-        return results.AsReadOnly();
+        return new(results.AsReadOnly(), new System.Collections.ObjectModel.ReadOnlyDictionary<string, SeepageResult>(fields));
     }
     private static SeepageLayer[] Layers(JsonObject data, string table) => EmbeddedWallDocument.Rows(data, table).Select(s =>
     {

@@ -62,6 +62,13 @@ internal static class EmbeddedWallViewChecks
                 var soil = EmbeddedWallDocument.NewRow(side); soil["kxx"] = 1e-5; soil["kzz"] = 1e-5; soil["source"] = "Prova grafica sintetica";
                 hydraulic[side]!.AsArray().Add(soil);
             }
+            var body = EmbeddedWallDocument.NewRow("hydraulic_upl"); hydraulic["hydraulic_upl"]!.AsArray().Add(body);
+            foreach (var action in new[] { ("Acqua", 15d), ("Peso totale", -20d) })
+            {
+                var row = EmbeddedWallDocument.NewRow("hydraulic_actions"); row["id"] = action.Item1; row["upward_force"] = action.Item2; row["source"] = "Azione sintetica di collaudo";
+                hydraulic["hydraulic_actions"]!.AsArray().Add(row);
+            }
+            var hyd = EmbeddedWallDocument.NewRow("hydraulic_hyd"); hydraulic["hydraulic_hyd"]!.AsArray().Add(hyd);
             sheet.Reload(hydraulic); await editor.CalculateAsync();
             Check(sheet.Current?.Complete == true && sheet.HydraulicStages.Count == 2, "Filtrazione non disponibile nella vista.");
             tabs.SelectedIndex = 4; await Settle(); Capture("filtrazione");
@@ -69,8 +76,16 @@ internal static class EmbeddedWallViewChecks
             Check(ReferenceEquals(field.Field, sheet.SelectedHydraulicStage), "Campo idraulico non associato al risultato corrente.");
             sheet.HydraulicDiagram = "Pressione interstiziale [kPa]"; Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("pressioni-scuro");
             Appearance.Set(AppAppearance.Light, false);
+            tabs.SelectedIndex = 5; await Settle(); Capture("upl-hyd");
+            Check(sheet.HydraulicChecks.Count == 2 && sheet.HydraulicChecks[0].Demand == 16.5 && sheet.HydraulicChecks[0].Capacity == 18,
+                "Bilancio UPL non mostrato nella vista.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.HydraulicChecks)), "Tabella verifiche non associata allo snapshot.");
+            sheet.SelectedHydraulicCheck = sheet.HydraulicChecks[1]; Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("hyd-non-valutato-scuro");
+            Check(sheet.SelectedHydraulicCheck.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated, "Dati HYD mancanti presentati come soddisfatti.");
+            Appearance.Set(AppAppearance.Light, false);
             sheet.Tables.Single(t => t.Key == "hydraulic_right").Rows[0]["kzz"] = "0.00002"; await Settle();
             Check(field.Field is null && sheet.HydraulicNodes.Count == 0, "Campo idraulico superato rimasto visibile.");
+            Check(sheet.HydraulicChecks.Count == 0 && sheet.SelectedHydraulicCheck is null && !sheet.HydraulicChecksCsvCommand.CanExecute(null), "Verifiche idrauliche superate ancora esportabili.");
             editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
             Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF paratie, senza attivare finestre sul desktop");

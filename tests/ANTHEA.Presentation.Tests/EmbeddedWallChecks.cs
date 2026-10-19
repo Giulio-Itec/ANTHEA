@@ -95,6 +95,7 @@ internal static class EmbeddedWallChecks
         var task = cancellable.CalculateAsync(cancel.Token); await Expect.Within(gate.Started.Task); cancel.Cancel(); await Expect.Within(task);
         e.That(cancellable.Current is null && !cancellable.IsBusy, "Annullamento ha pubblicato risultati.");
         await HydraulicsAsync(e, output);
+        await HydraulicSafetyAsync(e, output);
         return e.Count;
     }
     internal static JsonObject HydraulicExample()
@@ -122,9 +123,9 @@ internal static class EmbeddedWallChecks
         var old = Example(); old["schema"] = 1;
         foreach (string key in old.Select(p => p.Key).Where(k => k.StartsWith("hydraulic_", StringComparison.Ordinal) || k == "ignore_suction").ToArray()) old.Remove(key);
         string oldJson = old.ToJsonString(); var migrated = EmbeddedWallDocument.Snapshot(old);
-        e.That(old.ToJsonString() == oldJson && migrated["schema"]!.ToString() == "2" && migrated["hydraulic_mode"]!.ToString() == "Idrostatica"
+        e.That(old.ToJsonString() == oldJson && migrated["schema"]!.ToString() == "3" && migrated["hydraulic_mode"]!.ToString() == "Idrostatica"
             && migrated["hydraulic_left"]!.AsArray().Count == 0 && migrated["hydraulic_mesh"] is null, "Migrazione ha mutato l'originale o inventato dati idraulici.");
-        using (var legacy = Open(old)) e.That(legacy.Data["schema"]!.ToString() == "2" && legacy.Tables.Count == 10, "Documento precedente non apribile nell'editor.");
+        using (var legacy = Open(old)) e.That(legacy.Data["schema"]!.ToString() == "3" && legacy.Tables.Count == 13, "Documento precedente non apribile nell'editor.");
         var data = HydraulicExample(); string original = data.ToJsonString(); using var sheet = Open(data);
         e.That(await Expect.Within(sheet.CalculateAsync()), "Calcolo idraulico asincrono non pubblicato.");
         var result = sheet.Current ?? throw new InvalidOperationException("Risultato idraulico assente.");
@@ -162,6 +163,86 @@ internal static class EmbeddedWallChecks
         e.Throws<OperationCanceledException>(() => service.Calculate(data, cancelled.Token), "Annullamento durante la filtrazione ignorato.");
         var invalid = HydraulicExample(); invalid["hydraulic_left"]![0]!["kxx"] = -1;
         e.Throws<ArgumentException>(() => service.Calculate(invalid), "Permeabilità negativa accettata.");
+    }
+    private static async Task HydraulicSafetyAsync(Expect e, string output)
+    {
+        var old = HydraulicExample(); old["schema"] = 2;
+        foreach (string key in new[] { "hydraulic_weight_mode", "hydraulic_standard", "hydraulic_situation", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd" }) old.Remove(key);
+        string oldJson = old.ToJsonString(); var upgraded = EmbeddedWallDocument.Snapshot(old);
+        e.That(old.ToJsonString() == oldJson && upgraded["schema"]!.ToString() == "3" && upgraded["hydraulic_upl"]!.AsArray().Count == 0
+            && upgraded["hydraulic_weight_mode"]!.ToString() == "Quota di falda assegnata", "Migrazione 2→3 ha introdotto verifiche o mutato i pesi del terreno.");
+        var input = SafetyExample(); using var sheet = Open(input);
+        e.That(await Expect.Within(sheet.CalculateAsync()) && sheet.Current?.Complete == true, "Analisi con verifiche idrauliche non completata.");
+        var checks = sheet.HydraulicChecks;
+        // Independent characteristic balance: 1.1*15+1.5*1 = 18 kN; .9*20+.8*3+3 = 23.4 kN.
+        var upl = checks.Single(c => c.Method == "UPL");
+        e.That(Math.Abs(upl.Demand!.Value - 18) < 1e-10 && Math.Abs(upl.Capacity!.Value - 23.4) < 1e-10 && upl.Unit == "kN", "UPL: fattori o unità alterati dall'adattatore.");
+        e.That(upl.Actions.Count == 5 && upl.Actions.Last().Factor == 0 && upl.Coefficients["gammaG1_unfavourable"] == 1.1
+            && upl.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.Satisfied, "UPL: azioni, provenienza o esito mancanti.");
+        var mean = checks.Single(c => c.Method == "HYD-Mean"); var exit = checks.Single(c => c.Method == "HYD-Exit"); var loaded = checks.Single(c => c.Method == "HYD-loaded");
+        e.That(Math.Abs(mean.Ratio!.Value - 1.2) < 1e-12 && Math.Abs(exit.Ratio!.Value - .8) < 1e-12 && mean.Outcome != exit.Outcome,
+            "HYD: gradiente medio e di uscita non distinti.");
+        e.That(Math.Abs(loaded.Demand!.Value - 20) < 1e-10 && Math.Abs(loaded.Capacity!.Value - 15) < 1e-10 && loaded.Unit == "kPa", "HYD caricato: sovrappressioni o unità errate.");
+        e.That(checks.All(c => c.CaseId == input["case_id"]!.ToString() && c.Stage == "F1" && c.Reference.Contains("6.2.4.2")), "Provenienza normativa, combinazione o fase perduta.");
+        var saved = JsonNode.Parse(sheet.Data.ToJsonString())!.AsObject(); using var reopened = Open(saved);
+        e.That(System.Text.Json.JsonSerializer.Serialize(reopened.HydraulicChecks) == System.Text.Json.JsonSerializer.Serialize(checks), "Verifiche alterate nel salvataggio/riapertura.");
+        string beforeReport = sheet.Data.ToJsonString(); var report = sheet.Report.BuildReport("UPL e HYD — collaudo con attesi manuali", new HashSet<string>());
+        string xml = DocxWriter.Read(report).GetXml("word/document.xml").ToString();
+        e.That(xml.Contains("23,4") && xml.Contains("HYD-Mean") && xml.Contains("23.4") == false && sheet.Data.ToJsonString() == beforeReport,
+            "Report idraulico diverso dal risultato corrente o ricalcolo nascosto.");
+        string dir = Path.Combine(output, "paratie"); ReportFiles.Write(Path.Combine(dir, "upl-hyd.docx"), report, "Verifiche idrauliche");
+        string csv = EmbeddedWallReport.HydraulicChecksCsv(sheet.Current!); File.WriteAllText(Path.Combine(dir, "upl-hyd.csv"), csv, new UTF8Encoding(true));
+        e.That(csv.Split('\n', StringSplitOptions.RemoveEmptyEntries).Length == 5 && csv.Contains(sheet.Current!.Fingerprint), "CSV verifiche incompleto.");
+        reopened.Tables.Single(t => t.Key == "hydraulic_actions").Rows[0]["upward_force"] = "16";
+        e.That(reopened.Current is null && reopened.HydraulicChecks.Count == 0 && !reopened.HydraulicChecksCsvCommand.CanExecute(null), "Verifiche UPL superate ancora disponibili.");
+        var service = new EmbeddedWallModule();
+        foreach (bool seismic in new[] { true, false })
+        {
+            var unsupported = SafetyExample(); if (seismic) unsupported["hydraulic_situation"] = "Seismic"; else unsupported["hydraulic_standard"] = "EN 1997-1 — profilo non disponibile";
+            var result = service.Calculate(unsupported).NativeAs<EmbeddedWallReportData>();
+            e.That(result.HydraulicChecks!.All(c => c.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated && c.Capacity is null), "Profilo non disponibile dichiarato soddisfatto.");
+        }
+        var missing = SafetyExample(); missing["hydraulic_hyd"]![0]!["gamma_sat"] = null; missing["hydraulic_hyd"]![1]!["vertical_flow"] = false;
+        var unavailable = service.Calculate(missing).NativeAs<EmbeddedWallReportData>();
+        e.That(unavailable.HydraulicChecks!.Count(c => c.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated) == 2, "Dati mancanti o applicabilità non dichiarata ignorati.");
+        var invalid = SafetyExample(); invalid["hydraulic_actions"]![0]!["stage"] = "inesistente";
+        e.Throws<ArgumentException>(() => service.Calculate(invalid), "Azione di una fase inesistente ignorata.");
+        var fem = HydraulicExample(); fem["hydraulic_weight_mode"] = "Pressioni FEM";
+        var body = EmbeddedWallDocument.NewRow("hydraulic_upl"); body["water_resultant"] = "FEM 2D"; body["x_start"] = 1; body["x_end"] = 3;
+        body["z"] = -4; body["body_width"] = 1; body["top_pressure"] = 10; body["source"] = "Corpo sintetico per integrale idrostatico; acqua G1"; fem["hydraulic_upl"]!.AsArray().Add(body);
+        var weight = EmbeddedWallDocument.NewRow("hydraulic_actions"); weight["upward_force"] = -100; weight["source"] = "Peso totale sintetico"; fem["hydraulic_actions"]!.AsArray().Add(weight);
+        var point = EmbeddedWallDocument.NewRow("hydraulic_hyd"); point["method"] = "Mean"; point["x"] = 4; point["z"] = 0; point["z_bottom"] = -4; point["gamma_sat"] = 20;
+        point["vertical_flow"] = true; point["outflow_confirmed"] = true; point["source"] = "Colonna satura iniziale in quiete, frontiera libera"; fem["hydraulic_hyd"]!.AsArray().Add(point);
+        var coupled = service.Calculate(fem).NativeAs<EmbeddedWallReportData>();
+        e.That(coupled.Complete && Math.Abs(coupled.HydraulicChecks![0].Demand!.Value - 64.328) < 1e-8 && Math.Abs(coupled.HydraulicChecks[0].Capacity!.Value - 90) < 1e-8,
+            "Integrale FEM UPL: atteso (9.81*4-10)*2*1*1.1 = 64.328 kN, capacità 90 kN.");
+        e.That(Math.Abs(coupled.HydraulicChecks![1].Demand!.Value) < 1e-10 && coupled.Scope.Any(s => s.Contains("γsat dove")), "Gradiente idrostatico o criterio dei pesi incoerente.");
+        point["x"] = 100;
+        var outside = service.Calculate(fem).NativeAs<EmbeddedWallReportData>();
+        e.That(outside.HydraulicChecks![1].Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated, "Campionamento fuori dominio accettato.");
+        point["x"] = 4; point["stage"] = "F2"; fem["hydraulic_iterations"] = 1;
+        var partial = service.Calculate(fem).NativeAs<EmbeddedWallReportData>();
+        e.That(!partial.Complete && partial.HydraulicChecks!.Single(c => c.Stage == "F2").Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated,
+            "Campo non convergente trasformato in verifica soddisfatta.");
+    }
+    internal static JsonObject SafetyExample()
+    {
+        var d = Example(); var upl = EmbeddedWallDocument.NewRow("hydraulic_upl"); upl["rd"] = 3; upl["rd_source"] = "Rd sintetica già con M2";
+        d["hydraulic_upl"]!.AsArray().Add(upl);
+        foreach (var item in new[] { ("Acqua", "PermanentStructural", 15d), ("Peso", "PermanentStructural", -20d),
+            ("G2", "PermanentNonStructural", -3d), ("Qup", "Variable", 1d), ("Qdown", "Variable", -100d) })
+        {
+            var a = EmbeddedWallDocument.NewRow("hydraulic_actions"); a["id"] = item.Item1; a["category"] = item.Item2; a["upward_force"] = item.Item3; a["source"] = "Azione caratteristica sintetica";
+            d["hydraulic_actions"]!.AsArray().Add(a);
+        }
+        foreach (string method in new[] { "Mean", "Exit", "Loaded" })
+        {
+            var p = EmbeddedWallDocument.NewRow("hydraulic_hyd"); p["id"] = method; p["method"] = method; p["field_source"] = "Assegnato";
+            p["gradient"] = .4; p["gamma_sat"] = 19.62; p["pressure"] = 30; p["hydrostatic_pressure"] = 10; p["effective_stress"] = 30;
+            p["vertical_flow"] = true; p["outflow_confirmed"] = true; p["source"] = "Colonna omogenea satura e verticale; frontiera libera per Mean/Exit, caricata per Loaded. Esempio sintetico.";
+            d["hydraulic_hyd"]!.AsArray().Add(p);
+        }
+        return d;
     }
     private static EmbeddedWallSheetViewModel Open(JsonObject data, bool readOnly = false, IModuleService? module = null)
         => new(new(data.DeepClone().AsObject(), readOnly, new Host(), Scripted.Services(), module ?? ModuleServices.Get(EmbeddedWallDocument.Module), new CalculationLimiter(1)));

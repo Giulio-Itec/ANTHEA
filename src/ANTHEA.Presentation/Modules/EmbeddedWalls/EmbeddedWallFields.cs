@@ -20,6 +20,11 @@ public static class EmbeddedWallFields
         new("hydraulic_bottom", "Quota del fondo impermeabile", "m"), new("hydraulic_thickness", "Spessore parete impermeabile", "m"),
         new("hydraulic_mesh", "Passo massimo della mesh", "m"),
         new("hydraulic_iterations", "Numero massimo di iterazioni idrauliche"),
+        new("hydraulic_weight_mode", "Saturazione per i pesi del terreno", Choices: ["Quota di falda assegnata", "Pressioni FEM"], Wide: true,
+            ToolTip: "Pressioni FEM: peso saturo dove u>0, naturale altrove. Nessuna frangia capillare o interpolazione del grado di saturazione. Quota assegnata conserva il criterio dei documenti precedenti."),
+        new("hydraulic_standard", "Norma UPL/HYD", Choices: ["NTC 2018", "EN 1997-1 — profilo non disponibile"], Wide: true),
+        new("hydraulic_situation", "Situazione UPL/HYD", Choices: ["PersistentTransient", "Seismic"], Wide: true,
+            ToolTip: "Profilo idraulico implementato: NTC 2018 persistente/transitorio. Altri profili restituiscono Non valutato, senza coefficienti sostitutivi."),
         new("ignore_suction", "Trascurare la suzione nel modello meccanico", Bool: true, Wide: true,
             ToolTip: "Il campo FEM conserva le pressioni negative. Se selezionato, il trasferimento alla paratia limita le pressioni a zero; altrimenti rifiuta profili con suzione. Nessun aumento della resistenza del terreno è attribuito alla suzione.")
     ];
@@ -27,7 +32,8 @@ public static class EmbeddedWallFields
     {
         "segments" => "Tratti e rigidezze", "left_soils" => "Terreno a sinistra", "right_soils" => "Terreno a destra", "supports" => "Tiranti e puntoni",
         "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi sulla struttura", "rc_sections" => "Sezioni e armature",
-        "hydraulic_left" => "Permeabilità a sinistra", "hydraulic_right" => "Permeabilità a destra", _ => table
+        "hydraulic_left" => "Permeabilità a sinistra", "hydraulic_right" => "Permeabilità a destra", "hydraulic_upl" => "Corpi UPL",
+        "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", _ => table
     };
     public static FieldSpec[] Columns(string table) => table switch
     {
@@ -53,6 +59,26 @@ public static class EmbeddedWallFields
         "hydraulic_left" or "hydraulic_right" => [new("name", "Strato"), new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
             new("kxx", "Permeabilità Kxx", "m/s"), new("kzz", "Permeabilità Kzz", "m/s"), new("kxz", "Permeabilità Kxz", "m/s"),
             new("alpha", "Van Genuchten α (facoltativo)", "1/m"), new("n", "Van Genuchten n (facoltativo)"), new("source", "Fonte delle permeabilità e della curva")],
+        "hydraulic_upl" => [new("id", "Verifica UPL"), new("stage", "Fase"), new("water_resultant", "Risultante idraulica", Choices: ["Assegnata nelle azioni", "FEM 2D"]),
+            new("x_start", "Inizio faccia inferiore (FEM)", "m"), new("x_end", "Fine faccia inferiore (FEM)", "m"), new("z", "Quota faccia inferiore (FEM)", "m"),
+            new("body_width", "Larghezza ortogonale del corpo (FEM)", "m"), new("top_pressure", "Pressione uniforme sulla faccia superiore", "kPa"),
+            new("water_category", "Categoria della risultante netta FEM", Choices: ["PermanentStructural", "PermanentNonStructural", "Variable"]),
+            new("ignore_suction", "Trascurare suzione sulla faccia inferiore", Bool: true), new("source", "Fonte e ipotesi della risultante FEM", Multiline: true),
+            new("rd", "Resistenza aggiuntiva già di progetto Rd", "kN"), new("rd_source", "Metodo, M2 e coefficienti già applicati a Rd", Multiline: true)],
+        "hydraulic_actions" => [new("check", "Verifica UPL"), new("stage", "Fase"), new("id", "Azione"),
+            new("category", "Categoria", Choices: ["PermanentStructural", "PermanentNonStructural", "Variable"]),
+            new("upward_force", "Forza caratteristica (positiva in alto)", "kN", ToolTip: "Pesi totali negativi; pressioni correlate sulle due facce riunite in una sola risultante. Non reinserire la risultante acqua già ricavata dal FEM. Nessun coefficiente parziale già applicato."),
+            new("source", "Provenienza e combinazione", Multiline: true)],
+        "hydraulic_hyd" => [new("id", "Verifica HYD"), new("stage", "Fase"), new("method", "Criterio", Choices: ["Mean", "Exit", "Loaded"],
+                ToolTip: "Mean: gradiente medio verticale, efflusso libero. Exit: gradiente di uscita, efflusso libero. Loaded: sovrappressione, frontiera caricata."),
+            new("field_source", "Origine del dato", Choices: ["FEM 2D", "Assegnato"]), new("x", "Ascissa del punto/colonna (FEM)", "m"),
+            new("z", "Quota punto / sommità colonna (FEM)", "m"), new("z_bottom", "Quota inferiore colonna Mean (FEM)", "m"),
+            new("gradient", "Gradiente ascendente caratteristico assegnato"), new("gamma_sat", "Peso saturo rappresentativo (Mean/Exit)", "kN/m³"),
+            new("pressure", "Pressione interstiziale assegnata (Loaded)", "kPa"), new("hydrostatic_pressure", "Pressione idrostatica di riferimento (Loaded)", "kPa"),
+            new("effective_stress", "Tensione efficace senza filtrazione (Loaded)", "kPa"),
+            new("vertical_flow", "Terreno saturo e flusso prevalentemente verticale", Bool: true),
+            new("outflow_confirmed", "Efflusso libero (Mean/Exit) o frontiera caricata (Loaded) confermato", Bool: true),
+            new("source", "Motivazione di applicabilità e fonte dei dati", Multiline: true)],
         _ => []
     };
 }
