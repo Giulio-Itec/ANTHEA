@@ -68,6 +68,10 @@ benchmark. Non sono limiti di progetto. Fixture immutabile, SHA-256:
 - Nove CSV, 5099 righe precedenti identiche esclusa l'impronta dello schema.
 - Relazione multi-caso di otto pagine e PDF delle guide controllati
   visivamente; nessun ricalcolo introdotto nei report.
+- Regressione `ci/20261019-171818-paratie-inc13-standard`: 74 suite PASS,
+  0 NEW-FAIL sul commit pulito `6425927eb5ecf7af3df2f5620e716a5c7ca03dcd`,
+  sorgenti invariati durante tutta la corsa. Manifest snapshot-19 SHA-256
+  `985a155616dcbd682b4d90916d523ab9a8d141dafa8148a1102c8205546886ab`.
 
 Rilievi incontrati e risolti: prefisso del caso applicato inizialmente anche
 al vecchio avanzamento singolo (ripristinato il contratto); conversione di
@@ -92,11 +96,19 @@ PDF teoria SHA-256:
 `2348f6771cba41e8ab5ec87a22ce975a1ad3eac080befb34fc2bf7e031d6ac59`.
 
 `tools/paratie/New-LocalPreview.ps1` prepara la cartella di prova soltanto
-da revisione pulita, standard completato sulla medesima revisione e DLL
-identiche al manifest candidato. Comprende avviatori, esempi, due guide
-globali e impronte dei file. Non installa DLL in `lib/Checker` e non
-costituisce un rilascio ufficiale. Regressione standard e confezionamento
-di questo incremento da registrare a conclusione.
+da revisione pulita, standard completato e DLL identiche al manifest
+candidato. Dopo lo standard è corretta la sola intestazione della ricerca
+in «Ricerca per tutti i casi assegnati», con un controllo WPF aggiuntivo.
+Il confezionamento ammette soltanto questa vista, la relativa prova e tre
+file esplicitamente elencati di preparazione/documentazione come differenze
+successive allo standard; esige una corsa finale pulita con build Release,
+architettura, assenza di codice di test e vista WPF sulla revisione corrente.
+Ogni altro sorgente cambiato richiede uno standard nuovo. Le due revisioni
+e il loro elenco di differenze sono conservati nel manifest della candidata.
+
+Comprende avviatori, esempi, due guide globali e impronte dei file. Non
+installa DLL in `lib/Checker` e non costituisce un rilascio ufficiale.
+Collaudo finale WPF e confezionamento da registrare a conclusione.
 
 Restano aperti i requisiti avanzati della matrice, l'approfondimento di
 pali/micropali in coda e i merge finali condizionati al completamento.

@@ -996,3 +996,5 @@ Nessun motore legacy spostato o rimosso; nessun atteso indipendente modificato.
 - [x] Regressione PARATIE-14 su 84cee634/snapshot-19: profilo standard, 74 PASS e 0 NEW-FAIL, sorgenti invariati durante tutta la corsa.
 
 - [x] PARATIE-15: schema 11 e storie assegnate indipendenti, verifiche/FEM per caso, ricerca con minimo comune, selettore grafico, persistenza e report. 1419 controlli applicativi e 58 WPF PASS; 5099 righe precedenti invariate. Guide Rev51: 251 pagine e 373 formule conservate. Otto esempi apribili; candidata locale da confezionare dopo la regressione standard. [Evidenze e limiti](../paratie/incremento-13.md). Combinazioni automatiche, matrice e rilascio ufficiale ancora aperti.
+
+- [x] Regressione PARATIE-15 su 6425927e/snapshot-19: standard completo, 74 PASS e 0 NEW-FAIL, revisione pulita e sorgenti invariati. Corretto poi il solo titolo della ricerca multi-caso, con prova WPF dedicata; build e collaudo finale della vista precedono il confezionamento locale.

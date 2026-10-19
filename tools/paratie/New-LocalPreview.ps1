@@ -6,7 +6,8 @@ param(
     [Parameter(Mandatory)][string]$Examples,
     [Parameter(Mandatory)][string]$Output,
     [Parameter(Mandatory)][string]$GuideRevision,
-    [Parameter(Mandatory)][string]$CiSummary
+    [Parameter(Mandatory)][string]$CiSummary,
+    [Parameter(Mandatory)][string]$UiSummary
 )
 $ErrorActionPreference = 'Stop'
 $repositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
@@ -22,10 +23,27 @@ $snapshot = (Resolve-Path -LiteralPath $GpcSnapshot).Path
 $examplesDirectory = (Resolve-Path -LiteralPath $Examples).Path
 $ciPath = (Resolve-Path -LiteralPath $CiSummary).Path
 $ci = Get-Content -LiteralPath $ciPath -Raw | ConvertFrom-Json
+$uiPath = (Resolve-Path -LiteralPath $UiSummary).Path
+$ui = Get-Content -LiteralPath $uiPath -Raw | ConvertFrom-Json
 $commit = (& git -C $repositoryRoot rev-parse HEAD).Trim()
 if ($LASTEXITCODE) { throw 'Revisione Git non disponibile.' }
 if (& git -C $repositoryRoot status --porcelain) { throw 'Committare il lavoro prima di creare la candidata riproducibile.' }
-if ($ci.commit -ne $commit -or $ci.dirtyBefore -or $ci.trackedModified.Count -gt 0) { throw 'La corsa CI deve riferirsi alla revisione corrente invariata.' }
+if ($ci.dirtyBefore -or $ci.trackedModified.Count -gt 0 -or $ui.dirtyBefore -or $ui.trackedModified.Count -gt 0 -or $ui.commit -ne $commit) {
+    throw 'Le corse CI richiedono revisioni pulite e invariate; la prova UI deve riferirsi alla revisione corrente.'
+}
+# After the standard run, only this sheet's presentation and release notes may change.
+# Their current build, architecture and actual WPF view are covered by a separate frozen run.
+& git -C $repositoryRoot merge-base --is-ancestor $ci.commit $commit
+if ($LASTEXITCODE) { throw 'La revisione standard non e antenata della candidata.' }
+$delta = @(& git -C $repositoryRoot diff --name-only $ci.commit $commit)
+if ($LASTEXITCODE) { throw 'Impossibile confrontare le revisioni verificate.' }
+$allowed = @('X.Desktop/Views/EmbeddedWalls/EmbeddedWallSheetView.xaml', 'tests/Desktop/EmbeddedWallViewChecks.cs',
+    'tools/paratie/New-LocalPreview.ps1', 'docs/paratie/incremento-13.md', 'docs/refactoring/piano.md')
+if (@($delta | Where-Object { $_ -notin $allowed }).Count) { throw 'Sorgenti cambiati dopo lo standard: ripetere la regressione completa.' }
+foreach ($suite in @('build/X.Desktop', 'Architecture.Tests', 'qa/no-test-code', 'ui/check-paratie-view')) {
+    if (-not ($ui.results | Where-Object { $_.Suite -eq $suite -and $_.Status -eq 'PASS' })) { throw "Prova finale mancante: $suite" }
+}
+if (@($ui.results | Where-Object { $_.Status -notin @('PASS','KNOWN','FIXED') }).Count) { throw 'La prova finale UI contiene fallimenti.' }
 if ($ci.profile -ne 'standard' -or $ci.only -or -not ($ci.results | Where-Object { $_.Suite -eq 'Presentation.Tests' -and $_.Status -eq 'PASS' })) {
     throw 'Serve il profilo standard completo, con Presentation.Tests superata.'
 }
@@ -34,7 +52,7 @@ if (@($ci.results | Where-Object { $_.Status -notin @('PASS','KNOWN','FIXED') })
 }
 if (-not (Test-Path -LiteralPath (Join-Path $buildDirectory 'ANTHEA.exe'))) { throw 'Build Release mancante.' }
 $manifestPath = Join-Path $snapshot 'manifest.json'
-if ((Get-FileHash -LiteralPath $manifestPath -Algorithm SHA256).Hash -ne $ci.libManifestSha256) { throw 'Lo snapshot non coincide con quello verificato dal runner.' }
+if ((Get-FileHash -LiteralPath $manifestPath -Algorithm SHA256).Hash -ne $ci.libManifestSha256 -or $ui.libManifestSha256 -ne $ci.libManifestSha256) { throw 'Lo snapshot non coincide con quello verificato dal runner.' }
 $gpc = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
 if (-not $gpc.candidate) { throw 'Questo strumento prepara solo una candidata locale.' }
 foreach ($assembly in $gpc.assemblies) {
@@ -58,6 +76,7 @@ Copy-Item -LiteralPath $buildDirectory -Destination (Join-Path $destination 'app
 Copy-Item -LiteralPath $examplesDirectory -Destination (Join-Path $destination 'esempi') -Recurse
 Copy-Item -LiteralPath $manifestPath -Destination (Join-Path $destination 'gpc-manifest.json')
 Copy-Item -LiteralPath $ciPath -Destination (Join-Path $destination 'ci-summary.json')
+Copy-Item -LiteralPath $uiPath -Destination (Join-Path $destination 'ui-summary.json')
 $guideFolder = New-Item -ItemType Directory -Path (Join-Path $destination 'guide')
 foreach ($kind in @('pratica','teorica')) {
     foreach ($extension in @('docx','pdf')) {
@@ -76,6 +95,7 @@ $files = @(Get-ChildItem -LiteralPath $destination -File -Recurse | ForEach-Obje
 })
 [ordered]@{
     CreatedUtc=[DateTime]::UtcNow.ToString('o'); Commit=$commit; Candidate=$true; OfficialRelease=$false
+    StandardCommit=$ci.commit; UiCommit=$ui.commit; ChangesAfterStandard=$delta
     Runtime='.NET Desktop Runtime 8 x64'; GuideRevision=$GuideRevision; GpcSnapshot=$snapshot
     Scope='Incrementi paratie 1-13: funzioni collaudate e limiti nelle due guide globali; matrice complessiva ancora aperta.'
     Examples=$samples.Name; Files=$files

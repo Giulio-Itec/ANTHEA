@@ -259,6 +259,7 @@ internal static class EmbeddedWallViewChecks
             searchData["embedment_reference"] = 0; searchData["embedment_minimum"] = 3.5; searchData["embedment_maximum"] = 10;
             searchData["embedment_increment"] = .5; searchData["embedment_head_limit"] = 3.25; searchData["embedment_source"] = "Limite assegnato; atteso indipendente 6,50 m";
             sheet.Reload(searchData); tabs.SelectedIndex = 2; await Settle();
+            Check(Visual(editor.View).OfType<TextBlock>().Any(t => t.Text == "Ricerca per tutti i casi assegnati"), "Titolo ricerca non aggiornato al campo multi-caso.");
             var searchButton = Visual(editor.View).OfType<Button>().Single(b => b.Content as string == "Cerca infissione");
             Check(ReferenceEquals(searchButton.Command, sheet.SearchEmbedmentCommand), "Comando di ricerca non collegato.");
             await sheet.SearchEmbedmentCommand.ExecuteAsync(null); await Settle(); Capture("ricerca-infissione");
