@@ -8,7 +8,7 @@ using GPC.Model.Checking.Contracts;
 namespace Anthea.Reports;
 
 /// <summary>Rendering of the same immutable snapshot used by the sheet. No solver calls or engineering formulas.</summary>
-public static class EmbeddedWallReport
+public static partial class EmbeddedWallReport
 {
     private const int TableWidthTwips = 9638;
     private static string F(double? value) => value?.ToString("G7", CultureInfo.GetCultureInfo("it-IT")) ?? "non disponibile";
@@ -123,6 +123,7 @@ public static class EmbeddedWallReport
             }
             foreach (string note in s.Checks.Select(c => c.Reference + ". " + c.Diagnostic).Distinct(StringComparer.Ordinal)) P(note);
         }
+        AppendAnchors(result, P, Table);
         P("Verifiche delle sezioni", true);
         if (result.Checks.Count == 0) P("Nessuna verifica di sezione eseguita.");
         else
@@ -236,6 +237,15 @@ public static class EmbeddedWallReport
         ["family"]="Famiglia della sezione", ["diameter"]="Diametro [mm]", ["formation"]="Formazione", ["nominal_grade"]="Grado nominale S",
         ["fy"]="fy per spessore effettivo [MPa]", ["fu"]="fu per spessore effettivo [MPa]", ["elastic_modulus"]="E [MPa]", ["material_source"]="Fonte materiale",
         ["net_area"]="Area netta [mm²]", ["net_area_source"]="Fonte area netta", ["length_1"]="L0 piano 1 [m]", ["length_2"]="L0 piano 2 [m]",
-        ["length_source"]="Schema dei vincoli", ["axial_only"]="Sola azione assiale centrata confermata", ["is_bridge"]="Elemento di ponte"
+        ["length_source"]="Schema dei vincoli", ["axial_only"]="Sola azione assiale centrata confermata", ["is_bridge"]="Elemento di ponte",
+        ["anchor_checks"]="Sfilamento dei tiranti", ["anchor_layers"]="Indagini dei bulbi", ["anchor_tests"]="Prove preliminari dei tiranti",
+        ["anchor_standard"]="Norma sfilamento", ["anchor_situation"]="Situazione sfilamento", ["anchor_a1m1"]="Storia con azioni A1 e terreno M1 confermata",
+        ["permanent"]="Ancoraggio permanente", ["evidence"]="Origine della resistenza", ["free_length"]="Tratto libero lungo asse [m]",
+        ["bond_length"]="Tratto cementato lungo asse [m]", ["drill_diameter"]="Diametro di perforazione [mm]", ["minimum_cover"]="Ricoprimento minimo del bulbo [m]",
+        ["injection"]="Tecnologia di iniezione", ["execution_source"]="Documentazione esecutiva", ["applicability_source"]="Confinamento e applicabilità",
+        ["experimental_source"]="Conferma sperimentale in sito", ["stage_source"]="Validità nelle fasi", ["profile"]="Indagine completa",
+        ["axis_start"]="Inizio strato lungo asse [m]", ["axis_end"]="Fine strato lungo asse [m]", ["soil_kind"]="Famiglia del terreno",
+        ["limit_pressure"]="Pressione limite pressiometrica pl [MPa]", ["injection_pressure"]="Pressione di iniezione pi [MPa]",
+        ["diameter_factor"]="Fattore del diametro α", ["pressure_source"]="Fonte di pl", ["test_id"]="Prova preliminare", ["resistance"]="Resistenza non fattorizzata [kN]"
     }.ToFrozenDictionary();
 }

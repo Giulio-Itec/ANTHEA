@@ -8,7 +8,7 @@ public sealed record EmbeddedWallReportData(string Name, string Fingerprint, str
     string Status, bool Complete, string Diagnostic, string InputJson, IReadOnlyList<EmbeddedWallStageData> Stages,
     IReadOnlyList<EmbeddedWallCheckData> Checks, IReadOnlyList<string> Scope, IReadOnlyList<EmbeddedWallHydraulicData>? Hydraulics = null,
     IReadOnlyList<EmbeddedWallHydraulicCheckData>? HydraulicChecks = null, IReadOnlyList<EmbeddedWallGlobalData>? GlobalChecks = null,
-    IReadOnlyList<EmbeddedWallSteelData>? SteelSupports = null);
+    IReadOnlyList<EmbeddedWallSteelData>? SteelSupports = null, IReadOnlyList<EmbeddedWallAnchorData>? AnchorChecks = null);
 public sealed record EmbeddedWallStageData(string Id, int Increments, int Iterations, double ForceResidualN, double MomentResidualNmm,
     IReadOnlyList<EmbeddedWallPointData> Points, IReadOnlyList<EmbeddedWallSupportData> Supports);
 public sealed record EmbeddedWallPointData(double Elevation, string Side, string Section, double Displacement, double Rotation,
@@ -66,3 +66,15 @@ public sealed record EmbeddedWallSteelCheckData(string Method, string Reference,
 {
     [JsonIgnore] public string OutcomeText => EmbeddedWallReport.OutcomeText(Outcome);
 }
+
+/// <summary>Pullout forces kN, axis lengths m, diameters mm, pressures MPa. Only mapped GPC results.</summary>
+public sealed record EmbeddedWallAnchorData(string CaseId, string Stage, string Support, double? Demand, double? Mean,
+    double? Minimum, double? Characteristic, double? Capacity, double? Ratio, double? MeanFactor, double? MinimumFactor,
+    double? ResistanceFactor, EngineeringOutcome Outcome, string Reference, string Source, string Diagnostic,
+    IReadOnlyList<EmbeddedWallAnchorSample> Samples, IReadOnlyList<EmbeddedWallAnchorSegment> Segments)
+{
+    [JsonIgnore] public string OutcomeText => EmbeddedWallReport.OutcomeText(Outcome);
+}
+public sealed record EmbeddedWallAnchorSample(string Id, double? Resistance, bool Applicable, string Source, string Diagnostic);
+public sealed record EmbeddedWallAnchorSegment(string Profile, int Layer, double Start, double End, double LimitPressure,
+    double InjectionPressure, double DiameterFactor, double BulbDiameter, string Curve, double UnitResistance, double Resistance, string Source);

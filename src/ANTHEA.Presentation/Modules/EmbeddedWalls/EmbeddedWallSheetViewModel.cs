@@ -29,6 +29,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     private EmbeddedWallHydraulicCheckData? hydraulicCheck;
     private EmbeddedWallGlobalData? globalCheck;
     private EmbeddedWallSteelData? steelSupport;
+    private EmbeddedWallAnchorData? anchorCheck;
     private string hydraulicDiagram = "Carico idraulico [m]";
     private string diagram = "Spostamento [mm]", importSide = "Sinistra", importScenario = "Medi";
     private SoilSource? soilSource;
@@ -44,6 +45,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
         HydraulicChecksCsvCommand = GuardedCommands.Create(Guard, ExportHydraulicChecksCsv, () => HydraulicChecks.Count > 0);
         GlobalCsvCommand = GuardedCommands.Create(Guard, ExportGlobalCsv, () => GlobalChecks.Count > 0);
         SteelCsvCommand = GuardedCommands.Create(Guard, ExportSteelCsv, () => SteelSupports.Count > 0);
+        AnchorCsvCommand = GuardedCommands.Create(Guard, ExportAnchorCsv, () => AnchorChecks.Count > 0);
         ImportSoilCommand = GuardedCommands.Create(Guard, ImportSoil, () => CanEdit && SelectedSoilSource is not null);
         RefreshSoilSourcesCommand = GuardedCommands.Create(Guard, RefreshSources);
         RefreshSources();
@@ -60,6 +62,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     public IRelayCommand HydraulicChecksCsvCommand { get; }
     public IRelayCommand GlobalCsvCommand { get; }
     public IRelayCommand SteelCsvCommand { get; }
+    public IRelayCommand AnchorCsvCommand { get; }
     public IRelayCommand ImportSoilCommand { get; }
     public IRelayCommand RefreshSoilSourcesCommand { get; }
     public IReadOnlyList<SoilSource> SoilSources { get; private set; } = [];
@@ -92,6 +95,8 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     public EmbeddedWallSteelData? SelectedSteelSupport
     { get => steelSupport; set { if (SetProperty(ref steelSupport, value)) OnPropertyChanged(nameof(SteelChecks)); } }
     public IReadOnlyList<EmbeddedWallSteelCheckData> SteelChecks => steelSupport?.Checks ?? [];
+    public IReadOnlyList<EmbeddedWallAnchorData> AnchorChecks => current?.AnchorChecks ?? [];
+    public EmbeddedWallAnchorData? SelectedAnchorCheck { get => anchorCheck; set => SetProperty(ref anchorCheck, value); }
     public override JsonObject? Result => current is null ? null : EmbeddedWallDocument.ResultValues(current);
     public string Progress { get => progress; private set => SetProperty(ref progress, value); }
     public override bool HasResults => current is not null && current.Complete;
@@ -163,6 +168,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
         OnPropertyChanged(nameof(HydraulicStages)); OnPropertyChanged(nameof(HydraulicChecks)); SelectedHydraulicCheck = HydraulicChecks.FirstOrDefault();
         OnPropertyChanged(nameof(GlobalChecks)); SelectedGlobalCheck = GlobalChecks.FirstOrDefault(); GlobalCsvCommand?.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(SteelSupports)); SelectedSteelSupport = SteelSupports.FirstOrDefault(); SteelCsvCommand?.NotifyCanExecuteChanged();
+        OnPropertyChanged(nameof(AnchorChecks)); SelectedAnchorCheck = AnchorChecks.FirstOrDefault(); AnchorCsvCommand?.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(ResultStatus)); OnPropertyChanged(nameof(Scope)); CsvCommand?.NotifyCanExecuteChanged();
         HydraulicCsvCommand?.NotifyCanExecuteChanged(); HydraulicChecksCsvCommand?.NotifyCanExecuteChanged();
     }
@@ -210,6 +216,11 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     {
         var result = RequireCurrent(); var path = Context.Services.Files.SaveFile(new([new FileFilter("Verifiche sostegni metallici", "*.csv")], "sostegni-acciaio.csv"));
         if (path is not null) File.WriteAllText(path, EmbeddedWallReport.SteelCsv(result), new UTF8Encoding(true));
+    }
+    private void ExportAnchorCsv()
+    {
+        var result = RequireCurrent(); var path = Context.Services.Files.SaveFile(new([new FileFilter("Sfilamento dei tiranti", "*.csv")], "sfilamento-tiranti.csv"));
+        if (path is not null) File.WriteAllText(path, EmbeddedWallReport.AnchorCsv(result), new UTF8Encoding(true));
     }
     private sealed class SheetReport(EmbeddedWallSheetViewModel sheet) : IModuleReportSource
     {

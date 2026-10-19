@@ -48,7 +48,7 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-08 | H,U | Fasi, scavi, riporti, memoria plastica, scarico/ricarico | Geotechnics nuovo | sequenza fasi | percorso ciclico e rollback | in corso |
 | PAR-09 | P,H | Tiranti attivi/passivi, inclinazione, pretensione e rimozione | Geotechnics nuovo | editor sostegni | installazione sulla deformata, unilateralità | in corso |
 | PAR-10 | P,H | Puntoni, vincoli rigidi/elastoplastici, elementi interni | Geotechnics nuovo | vincoli/collegamenti | casi simmetrici e capacità limite | in corso |
-| PAR-11 | P | Dimensionamento geotecnico tiranti | BustamanteDoix da estendere con campo verificato | dettaglio tirante | attesi indipendenti per bulbo | aperto |
+| PAR-11 | P | Dimensionamento geotecnico tiranti | Geotechnics.Anchors, curve BustamanteDoix, profilo NTC Model, Design | schema 6, indagini/prove, esiti per fase, CSV/report | attesi indipendenti e pl distinta da pi: incremento 6; dimensionamento automatico, superficie/gruppo aperti | in corso |
 | PAR-12 | P,H | Carichi terreno/struttura, concentrati/distribuiti/coppie | Geotechnics | editor carichi | integrali e salti di V/M | in corso |
 | PAR-13 | P,H | Falda per fase e per lato | SoilProfile, Geotechnics | falde | pressione idrostatica, equilibrio | in corso |
 | PAR-14 | H | Filtrazione FEM 2D stazionaria anche non lineare | Geotechnics.Seepage, Model.Seepage | dominio a due colonne, materiali, fasi e campo nodale | Darcy, bilancio, raffinamento, mancata convergenza: incremento 2 | in corso |
@@ -96,6 +96,9 @@ Il [quarto incremento](incremento-04.md) integra la stabilità globale con il
 verificatore esistente e il campo idraulico FEM.
 Il [quinto incremento](incremento-05.md) collega le verifiche dei sostegni
 assiali circolari a Checker Steel, con azioni e risultati tracciati per fase.
+Il [sesto incremento](incremento-06.md) integra lo sfilamento geotecnico dei
+tiranti, indagini pressiometriche e prove preliminari, con esiti normativi
+distinti dal predimensionamento privo di conferma sperimentale.
 Le righe in corso non sono soddisfatte integralmente: tipi complessi, verifiche
 locali e globali complete, combinazioni automatiche, inviluppi e migrazioni
 richiedono ancora integrazioni. Nessuna funzione avanzata viene esclusa.

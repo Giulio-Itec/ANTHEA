@@ -135,6 +135,31 @@ internal static class EmbeddedWallViewChecks
             await editor.CalculateAsync(); await Settle(); Capture("puntone-instabile");
             Check(sheet.SteelSupports[0].Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotSatisfied && sheet.SteelChecks[2].Ratio > 1,
                 "Puntone oltre capacità non segnalato come non soddisfatto.");
+            var anchorData = steelData.DeepClone().AsObject(); anchorData["name"] = "Sfilamento del tirante — collaudo grafico";
+            anchorData["steel_standard"] = "Non richieste"; anchorData["anchor_standard"] = "NTC 2018"; anchorData["anchor_a1m1"] = true;
+            anchorData["action_basis"] = "A1+M1, azione di progetto sintetica"; anchorData["supports"]![0]!["kind"] = "Anchor";
+            anchorData["activations"]![0]!["prestress"] = 400;
+            var anchorRow = EmbeddedWallDocument.NewRow("anchor_checks"); anchorRow["support"] = "P1";
+            anchorRow["free_length"] = 10; anchorRow["bond_length"] = 6; anchorRow["drill_diameter"] = 200; anchorRow["minimum_cover"] = 6;
+            anchorRow["execution_source"] = "IRS, quantità e qualità documentate nel caso sintetico";
+            anchorRow["applicability_source"] = "Bulbo isolato e confinato in zona stabile";
+            anchorRow["experimental_source"] = "Verbale sintetico di conferma in sito"; anchorRow["stage_source"] = "Geometria valida nella fase F1";
+            anchorData["anchor_checks"]!.AsArray().Add(anchorRow);
+            var anchorLayer = EmbeddedWallDocument.NewRow("anchor_layers"); anchorLayer["support"] = "P1"; anchorLayer["profile"] = "Indagine A";
+            anchorLayer["axis_start"] = 0; anchorLayer["axis_end"] = 20; anchorLayer["limit_pressure"] = 2;
+            anchorLayer["injection_pressure"] = 3; anchorLayer["diameter_factor"] = 1.5; anchorLayer["pressure_source"] = "Prova pressiometrica sintetica";
+            anchorData["anchor_layers"]!.AsArray().Add(anchorLayer);
+            sheet.Reload(anchorData); await editor.CalculateAsync(); tabs.SelectedIndex = 8; await Settle(); Capture("sfilamento-tirante");
+            Check(sheet.AnchorChecks.Count == 1 && Math.Abs(sheet.AnchorChecks[0].Demand!.Value - 400) < 1e-8
+                && sheet.AnchorChecks[0].Segments[0].LimitPressure == 2 && sheet.AnchorChecks[0].Segments[0].InjectionPressure == 3,
+                "Forza o pressioni distinte del bulbo non mostrate.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.AnchorChecks)), "Tabella sfilamento scollegata dallo snapshot.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("sfilamento-tirante-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "anchor_checks").Rows[0]["experimental_source"] = ""; await Settle();
+            Check(sheet.AnchorChecks.Count == 0 && sheet.SelectedAnchorCheck is null && !sheet.AnchorCsvCommand.CanExecute(null), "Sfilamento superato ancora visibile o esportabile.");
+            await editor.CalculateAsync(); await Settle(); Capture("sfilamento-preliminare");
+            Check(sheet.AnchorChecks[0].Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated && sheet.AnchorChecks[0].Capacity.HasValue,
+                "Capacità preliminare presentata come verifica conclusa.");
             editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
             Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF paratie, senza attivare finestre sul desktop");

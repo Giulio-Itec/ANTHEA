@@ -46,6 +46,7 @@ public sealed class EmbeddedWallModule : IModuleService
             new ProgressRelay(p => { progress?.Report(p); ProgressChanged?.Invoke(new(p.StageId, p.Fraction, p.Iterations)); }));
         var checks = analysis.IsComplete && kind.HasValue ? EmbeddedWallConcrete.Check(analysis, model.TributaryWidth, rc, kind.Value, cancellation) : [];
         var steel = EmbeddedWallSteelChecks.Calculate(data, analysis, cancellation);
+        var anchors = EmbeddedWallAnchorChecks.Calculate(data, analysis, cancellation);
         var scope = new List<string>
         {
             "Modello piano di trave su molle elastoplastiche indipendenti; piccoli spostamenti, strati orizzontali e parete verticale liscia. Pressioni Rankine, carico uniforme sul terreno.",
@@ -54,6 +55,8 @@ public sealed class EmbeddedWallModule : IModuleService
             "La convergenza numerica non costituisce una verifica completa dell'opera. Instabilità geotecnica del fondo scavo, dettagli, sezioni metalliche della parete e sisma non sono ancora integrati in questo incremento.",
             Text(data, "steel_standard") == "Non richieste" ? "Verifiche dei sostegni metallici non richieste."
                 : "Sostegni metallici: verifiche Steel per aste circolari piene o CHS soggette alla sola azione assiale centrata, NTC 2018 SLU statici. N positivo a trazione, per singolo sostegno. Area netta e lunghezze libere d'inflessione esplicite; classe 4, profili non disponibili e dati mancanti producono Non valutato. La rigidezza assiale del modello resta quella assegnata. Collegamenti, ancoraggi, bulbi, durabilità e verifica dell'intero sistema sono distinti.",
+            Text(data, "anchor_standard") == "Non richieste" ? "Sfilamento dei tiranti non richiesto."
+                : "Sfilamento: capacità del singolo bulbo da indagini pressiometriche complete o prove preliminari, NTC 2018 statiche A1+M1+R3. Pressione limite del terreno distinta dalla pressione d'iniezione. La predizione empirica richiede conferma in sito; campo e limiti sono indicati negli esiti.",
             globalChecks.Count == 0 ? "Stabilità globale non richiesta." : "Stabilità globale: Bishop circolare del motore GPC esistente, parete continua e terreni orizzontali. Dati caratteristici confermati, combinazione statica distinta da quelle locali, selezione esplicita delle azioni. I sostegni esterni non modellati producono Non valutato; le reazioni locali non sono azioni esterne. Le ricerche non conclusive sono distinte dalle verifiche soddisfatte.",
             hydraulics.Count == 0 ? "Pressioni interstiziali idrostatiche dai livelli di falda assegnati."
                 : "Filtrazione stazionaria FEM 2D per ciascuna fase, terreno saturo/non saturo, parete impermeabile di spessore finito. Condizioni laterali a carico imposto, fondo impermeabile e superficie drenante. Le pressioni convergenti sulle due facce alimentano il modello meccanico; nessuna analisi transitoria o verifica HYD/UPL è implicita.",
@@ -73,7 +76,7 @@ public sealed class EmbeddedWallModule : IModuleService
                 -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, "Sezione non definita", "", 0, null, null, EngineeringOutcome.NotEvaluated, c.Diagnostic) }
                 : c.Checks.Select(v => new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / SoilUnits.Metre, c.Side,
                     -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, v.Method, v.Unit, v.Demand, v.Capacity, v.Ratio, v.Outcome, v.Diagnostic ?? c.Diagnostic))).ToArray()),
-            scope.AsReadOnly(), hydraulics, hydraulicChecks, globalChecks, steel);
+            scope.AsReadOnly(), hydraulics, hydraulicChecks, globalChecks, steel, anchors);
         cancellation.ThrowIfCancellationRequested();
         return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(snapshot), snapshot);
     }

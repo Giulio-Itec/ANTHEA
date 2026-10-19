@@ -214,6 +214,37 @@
      </StackPanel></ScrollViewer>
     </Grid>
    </TabItem>
+   <TabItem Header="Sfilamento tiranti">
+    <Grid Margin="12"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="160"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <DockPanel Margin="0,0,0,8"><Button Content="Esporta CSV sfilamento" Command="{Binding AnchorCsvCommand}" DockPanel.Dock="Right"/>
+      <TextBlock Text="Capacità del singolo bulbo. pl è la pressione limite pressiometrica; pi è la pressione d'iniezione. La predizione empirica richiede conferma in sito." TextWrapping="Wrap"/></DockPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding AnchorChecks}" SelectedItem="{Binding SelectedAnchorCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Tirante" Binding="{Binding Support}"/>
+       <DataGridTextColumn Header="Ed [kN]" Binding="{Binding Demand, StringFormat=G7}"/><DataGridTextColumn Header="Rak [kN]" Binding="{Binding Characteristic, StringFormat=G7}"/>
+       <DataGridTextColumn Header="Rad [kN]" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
+       <DataGridTextColumn Header="ξ media" Binding="{Binding MeanFactor}"/><DataGridTextColumn Header="ξ minimo" Binding="{Binding MinimumFactor}"/>
+       <DataGridTextColumn Header="γR" Binding="{Binding ResistanceFactor}"/><DataGridTextColumn Header="Esito sfilamento" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+     </DataGrid>
+     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
+      <TextBlock Text="{Binding SelectedAnchorCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+      <TextBlock Text="{Binding SelectedAnchorCheck.Source}" TextWrapping="Wrap" Margin="0,8"/>
+      <TextBlock Text="{Binding SelectedAnchorCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+      <DataGrid ItemsSource="{Binding SelectedAnchorCheck.Samples}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="150">
+       <DataGrid.Columns><DataGridTextColumn Header="Profilo / prova" Binding="{Binding Id}"/><DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, StringFormat=G7}"/>
+        <DataGridCheckBoxColumn Header="Campo applicabile" Binding="{Binding Applicable}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/>
+        <DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
+      </DataGrid>
+      <DataGrid ItemsSource="{Binding SelectedAnchorCheck.Segments}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200" Margin="0,8,0,0">
+       <DataGrid.Columns><DataGridTextColumn Header="Indagine" Binding="{Binding Profile}"/><DataGridTextColumn Header="Strato" Binding="{Binding Layer}"/>
+        <DataGridTextColumn Header="Da [m]" Binding="{Binding Start}"/><DataGridTextColumn Header="A [m]" Binding="{Binding End}"/>
+        <DataGridTextColumn Header="pl [MPa]" Binding="{Binding LimitPressure}"/><DataGridTextColumn Header="pi [MPa]" Binding="{Binding InjectionPressure}"/>
+        <DataGridTextColumn Header="α" Binding="{Binding DiameterFactor}"/><DataGridTextColumn Header="Ds [mm]" Binding="{Binding BulbDiameter}"/>
+        <DataGridTextColumn Header="Curva" Binding="{Binding Curve}"/><DataGridTextColumn Header="qs [MPa]" Binding="{Binding UnitResistance}"/>
+        <DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, StringFormat=G7}"/></DataGrid.Columns>
+      </DataGrid>
+     </StackPanel></ScrollViewer>
+    </Grid>
+   </TabItem>
   </TabControl>
  </DockPanel>
 </UserControl>

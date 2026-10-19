@@ -7615,6 +7615,21 @@
       "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: utilizzare Checker Steel, conservare azioni concomitanti e verificare ipotesi/unità.", "esito": "Incremento collaudato nel campo assiale dichiarato; N-M-V, altre sezioni, collegamenti e rilascio complessivo ancora aperti."},
       "test": ["steel-projection-before: 2 PASS e 2 FAIL dei puntoni; steel-projection-after: 43 PASS", "steel-members-02: 9 PASS, attesi Python indipendenti", "candidate-12: 3119 PASS, 17 fallimenti storici ammessi", "steel-app-05: 103 PASS", "ci/20261019-111149-paratie-inc05-ui3: architettura e 23 controlli WPF PASS", "docs/paratie/incremento-05.md"],
       "voci_collegate": ["PARATIE-01", "PARATIE-06"]
+    },
+    {
+      "id": "PARATIE-08",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 6",
+      "titolo": "Sfilamento dei tiranti con indagini e prove distinte",
+      "famiglia": "geotecnica/paratie/tiranti",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Percorso GPC per capacità del bulbo e sfilamento NTC 2018, con pressione limite pressiometrica distinta dalla pressione di iniezione. Indagini complete o prove preliminari, coefficienti applicati una volta, esiti per fase. Schema ANTHEA 6, editor, persistenza, CSV e report dallo stesso snapshot. Il percorso storico dei micropali continua a passare la pressione di iniezione come pl: rilievo aperto, non modificato silenziosamente.",
+      "codice": ["Checker/src/Geotechnics/Anchors/GroundAnchorPullout.cs", "Checker/src/GPC.Design/EmbeddedWalls/EmbeddedWallAnchors.cs", "Model/Model/Design/Standards/GroundAnchorResistanceProfile.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallAnchorChecks.cs", "src/ANTHEA.Reports/Generators/EmbeddedWallAnchorReport.cs"],
+      "segno": "Nuovo percorso additivo, inattivo nei documenti precedenti. Nessuna modifica al risultato storico BustamanteDoix.Segments o ai suoi attesi. Una predizione sufficiente senza conferma sperimentale resta Non valutato; un superamento resta Non soddisfatto.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico completo paratie: verificare ipotesi/unità di Bustamante-Doix prima dell'estensione, esiti riconoscibili e fonti primarie.", "esito": "Incremento collaudato per bulbi isolati e confinati nel campo dichiarato; dimensionamento automatico, ulteriori meccanismi e rilascio ancora aperti."},
+      "test": ["anchor-kernel-03: 50 PASS; anchor-design-01: 2 PASS", "candidate-13: 3128 PASS, 17 fallimenti storici ammessi", "anchor-app-02: 128 PASS", "ci/20261019-114029-paratie-inc06-ui1: architettura e 27 controlli WPF PASS", "docs/paratie/incremento-06.md"],
+      "voci_collegate": ["PARATIE-07"]
     }
   ]
 }

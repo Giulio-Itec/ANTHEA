@@ -13,6 +13,10 @@ public static class EmbeddedWallFields
         new("steel_standard", "Verifiche dei sostegni metallici", Choices: ["Non richieste", "NTC 2018", "EN 1993-1-1 — profilo non disponibile"], Wide: true),
         new("steel_check_kind", "Combinazione per i sostegni metallici", Choices: ["Analysis", "StaticUltimate", "SeismicUltimate", "Serviceability"], Wide: true,
             ToolTip: "Percorso collaudato: StaticUltimate (SLU statico NTC 2018). La provenienza e i coefficienti delle azioni vanno dichiarati sopra. Le altre scelte producono Non valutato."),
+        new("anchor_standard", "Verifica sfilamento tiranti", Choices: ["Non richieste", "NTC 2018", "EN 1997-1 — profilo non disponibile"], Wide: true),
+        new("anchor_situation", "Situazione sfilamento", Choices: ["PersistentTransient", "Seismic"], Wide: true),
+        new("anchor_a1m1", "Storia analizzata con azioni A1 e parametri M1 per i tiranti", Bool: true, Wide: true,
+            ToolTip: "Confermare la base della storia completa, documentandola nella provenienza delle azioni. Il verificatore non rifattorizza le reazioni non lineari."),
         new("fix_top_u", "Blocca traslazione in testa", Bool: true), new("fix_top_rotation", "Blocca rotazione in testa", Bool: true),
         new("fix_bottom_u", "Blocca traslazione al piede", Bool: true), new("fix_bottom_rotation", "Blocca rotazione al piede", Bool: true)
     ];
@@ -36,7 +40,8 @@ public static class EmbeddedWallFields
         "segments" => "Tratti e rigidezze", "left_soils" => "Terreno a sinistra", "right_soils" => "Terreno a destra", "supports" => "Tiranti e puntoni",
         "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi sulla struttura", "rc_sections" => "Sezioni e armature",
         "hydraulic_left" => "Permeabilità a sinistra", "hydraulic_right" => "Permeabilità a destra", "hydraulic_upl" => "Corpi UPL",
-        "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", "global_checks" => "Stabilità globale", "global_actions" => "Combinazioni globali", "steel_members" => "Acciaio dei sostegni", _ => table
+        "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", "global_checks" => "Stabilità globale", "global_actions" => "Combinazioni globali", "steel_members" => "Acciaio dei sostegni",
+        "anchor_checks" => "Sfilamento dei tiranti", "anchor_layers" => "Indagini dei bulbi", "anchor_tests" => "Prove preliminari tiranti", _ => table
     };
     public static FieldSpec[] Columns(string table) => table switch
     {
@@ -96,6 +101,21 @@ public static class EmbeddedWallFields
             new("category", "Categoria", Choices: ["PermanentStructural", "PermanentNonStructural", "Variable"]), new("unfavourable", "Sfavorevole nella combinazione", Bool: true),
             new("psi", "Fattore di combinazione ψ", ToolTip: "Da 0 a 1 per Q, esattamente 1 per G1/G2. Il fattore parziale proviene dalla norma, non inserirlo qui."),
             new("source", "Fonte e ruolo nella combinazione", Multiline: true)],
+        "anchor_checks" => [new("support", "Tirante"), new("permanent", "Ancoraggio permanente", Bool: true),
+            new("evidence", "Origine resistenza", Choices: ["CalculatedProfiles", "MeasuredAnchorTests"], ToolTip: "CalculatedProfiles: capacità per indagini complete; MeasuredAnchorTests: capacità misurate su ancoraggi preliminari. Le popolazioni non si mescolano."),
+            new("free_length", "Tratto libero lungo asse", "m"), new("bond_length", "Tratto cementato lungo asse", "m"), new("drill_diameter", "Diametro di perforazione", "mm"),
+            new("minimum_cover", "Ricoprimento minimo del bulbo da ogni superficie libera", "m"), new("injection", "Iniezione", Choices: ["IRS", "IGU"]),
+            new("execution_source", "Tecnologia, quantità e qualità della miscela", Multiline: true),
+            new("applicability_source", "Zona stabile, confinamento e isolamento del bulbo", Multiline: true),
+            new("experimental_source", "Conferma sperimentale in sito (vuoto: predimensionamento)", Multiline: true),
+            new("stage_source", "Validità di geometria e indagini nelle fasi", Multiline: true)],
+        "anchor_layers" => [new("support", "Tirante"), new("profile", "Indagine completa"), new("axis_start", "Inizio strato lungo asse dalla testa", "m"),
+            new("axis_end", "Fine strato lungo asse dalla testa", "m"),
+            new("soil_kind", "Terreno abaco", Choices: ["Gravel", "SandyGravel", "GravellySand", "CoarseSand", "MediumSand", "FineSand", "SiltySand", "Silt", "Clay", "Marl", "MarlyLimestone", "WeatheredLimestone", "WeatheredRock"]),
+            new("limit_pressure", "Pressione limite pressiometrica pl", "MPa"), new("injection_pressure", "Pressione di iniezione pi", "MPa"),
+            new("diameter_factor", "Fattore del diametro α"), new("pressure_source", "Fonte di pl del terreno", Multiline: true)],
+        "anchor_tests" => [new("support", "Tirante"), new("test_id", "Prova preliminare"), new("resistance", "Resistenza misurata non fattorizzata", "kN"),
+            new("source", "Verbale e rappresentatività della prova", Multiline: true)],
         "steel_members" => [new("support", "Sostegno"), new("family", "Sezione", Choices: ["CHS", "Tondo pieno"]),
             new("diameter", "Diametro esterno", "mm"), new("thickness", "Spessore CHS", "mm"),
             new("formation", "Formazione", Choices: ["HotFinished", "ColdFormed"], ToolTip: "HotFinished: a caldo. ColdFormed: a freddo."),
