@@ -1,8 +1,9 @@
 # Incremento 14: avvio dopo l'integrazione F5
 
 Il merge anticipato richiesto dall'utente è concluso. La cartella principale
-ANTHEA resta su `refactoring/f5`; la candidata integrata paratie/spettri viene
-collaudata separatamente. Il nuovo lavoro non entra implicitamente in quella
+ANTHEA resta su `refactoring/f5`; la candidata integrata paratie/spettri su
+`0f989159` ha concluso standard (75 PASS), UI (10 PASS) e audit dei 135 file.
+Il nuovo lavoro non entra implicitamente in quella
 candidata né in master delle librerie.
 
 | Repository | Ramo di prosecuzione | Base integrata |

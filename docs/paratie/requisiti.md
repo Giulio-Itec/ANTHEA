@@ -1,8 +1,9 @@
 # Paratie: requisiti e verifiche di accettazione
 
 Incarico del 18 ottobre 2026. Questa matrice conserva l'intero ambito richiesto; un
-incremento utilizzabile non costituisce la chiusura del modulo. Stato iniziale:
-**in sviluppo, non rilasciato**. Nessuna equivalenza numerica con prodotti esterni
+incremento utilizzabile non costituisce la chiusura del modulo. Stato attuale:
+**candidata locale integrata in F5, modulo ancora in sviluppo, rilascio ufficiale aperto**.
+Nessuna equivalenza numerica con prodotti esterni
 è dichiarata senza un confronto riproducibile a parità di ipotesi.
 
 ## Basi isolate
@@ -15,9 +16,12 @@ incremento utilizzabile non costituisce la chiusura del modulo. Stato iniziale:
 | Geometry | 6734eee1004142576b96759e34c15dec48776e23 | sola lettura |
 | Utilities | e57b440b16a0a311a7bf0af2f9cf4d2681b83491 | sola lettura |
 
-Cartelle sorelle in `C:/Users/g.pacini/Documents/Repository/ParatieWork`.
-I quattro master GPC coincidono con origin/master dopo fetch del 18/10/2026.
-Le cartelle originali non vengono usate per compilare o modificare il modulo.
+Ricognizione iniziale: cartelle sorelle in
+`C:/Users/g.pacini/Documents/Repository/ParatieWork`; i quattro master GPC
+coincidevano con origin/master dopo fetch del 18/10/2026. Il lavoro iniziale
+non usava le cartelle originali. Il merge anticipato autorizzato il 19/10 ha
+poi riportato ANTHEA su `refactoring/f5` e integrato Model/Checker in master;
+revisioni e collaudi sono nel [verbale di integrazione](integrazione-rami.md).
 
 ## Fonti funzionali
 
@@ -67,7 +71,7 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-27 | P,H,U | Diagrammi, inviluppi, provenienza e stati risultato | campi recuperati e inviluppi GPC | otto grandezze, estremi con azioni concomitanti, CSV/report | attesi razionali indipendenti, due lati e massimo interno; gestione multi-caso, inviluppi comuni e storie incomplete collaudati: incrementi 12–13 | in corso |
 | PAR-28 | U | Persistenza, migrazioni, invalidazione, annullamento | Application/Serialization | flussi F5 | round trip, race e riapertura | in corso |
 | PAR-29 | P,H | DXF, immagini, stampa e report personalizzabile/inglese | Application/Reports | export | round trip DXF e resa PDF | in corso |
-| PAR-30 | U | Guide globali DOCX/PDF, wiki | Reports/Wiki | aiuto contestuale | render e controllo collegamenti | in corso: Rev51, incrementi 1–13; storie indipendenti e ricerca multi-caso; estensioni successive aperte |
+| PAR-30 | U | Guide globali DOCX/PDF, wiki | Reports/Wiki | aiuto contestuale | render e controllo collegamenti | in corso: Rev52 integrata con Spettri, incrementi 1–13; 257 pagine e indici controllati; estensioni successive aperte |
 | PAR-31 | H | Collegamento FLAC e analisi dinamica esterna | adattatore da specifica pubblica | interoperabilità | licenza e prova con eseguibile reale | dipendenza esterna |
 | PAR-32 | H | Monitoraggio Tokbo e confronto misura/calcolo | adattatore da API documentata | serie temporali | credenziali e dati reali autorizzati | dipendenza esterna |
 | PAR-33 | H | Assistenza chatbot e servizi esterni | da specificare rispetto all'incarico ingegneristico | supporto | servizio/documentazione necessari | dipendenza esterna |
@@ -118,6 +122,10 @@ selettore dei risultati, persistenza e guide Rev51. La prima candidata locale
 su `2f60b336` è disponibile per la prova utente con otto esempi: standard
 74 PASS sul codice applicativo `6425927e`, successivo collaudo della vista
 59 controlli WPF PASS, impronte e provenienza complete nel pacchetto.
+La candidata integrata successiva su `0f989159` comprende anche Spettri e
+guide Rev52: standard 75 PASS e dieci suite UI PASS sulla medesima revisione
+pulita. Nove esempi e 135 file verificati per SHA-256; non sostituisce lo
+snapshot ufficiale. [Revisioni, evidenze e prosecuzione](integrazione-rami.md).
 Le righe in corso non sono soddisfatte integralmente: tipi complessi, verifiche
 locali e globali complete, combinazioni automatiche e funzioni avanzate
 richiedono ancora integrazioni. Nessuna funzione avanzata viene esclusa.

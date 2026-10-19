@@ -49,7 +49,7 @@ Guide Rev52 finalizzate: 94 pagine pratiche, 163 teoriche e 387 formule
 modificabili conservate. Tutte le pagine e le dieci pagine degli indici sono
 state rasterizzate e controllate visivamente. Audit del testo di entrambi i
 rami e dei 32 originali archiviati superato. Collaudi ANTHEA e pacchetto
-integrato sono da registrare alla conclusione delle rispettive esecuzioni.
+integrato sono conclusi, con le evidenze finali riportate sotto.
 Le evidenze risiedono in
 `supporto/artefatti/paratie/integrazione-f5/`.
 
@@ -71,6 +71,62 @@ Gli archivi degli incrementi e dell'integrazione sono esclusi dalla conversione
 automatica dei fine riga in Git: controllo di 96 originali contro le impronte
 preesistenti, senza aggiornare gli SHA attesi. Ripristinati soltanto i dodici
 Markdown dell'ultimo archivio che il cambio di ramo aveva convertito in CRLF.
+
+## Candidata integrata consegnabile
+
+Revisione applicativa `0f9891598c61efe40720366a8da55c2232d4c344`, pulita e
+invariata durante entrambe le corse finali:
+
+- Standard completo: `supporto/artefatti/ci/20261019-201522-f5-integrata-standard-02`,
+  75 suite PASS, nessun fallimento. I tre controlli non previsti dal profilo
+  sono riportati dal runner, senza attribuire loro un'esecuzione aggiuntiva.
+- UI finale nel worktree ParatieWork/ANTHEA:
+  `supporto/artefatti/ci/20261019-201640-f5-integrata-ui-final`, dieci suite
+  PASS, compresi 59 controlli Paratie, 43 della vista Spettri, contrasto,
+  host dei moduli e Wiki con 77 capitoli. Schermate controllate visivamente.
+- Entrambe usano lo snapshot con SHA-256 del manifest
+  `321e4ce4f3e7f239b543c25a54ccc4bd45ab73b91a338771c4247b003a830694`.
+
+La prima corsa standard su `e5441a0a` aveva 74 PASS e un errore nel driver
+di confronto Presentation: i metadati delle catture F3 erano proiettati
+sulla versione congelata F5 (0.4.0.0), mentre le transizioni F3 preesistenti
+richiedono 0.4.0.1. La correzione `0f989159` rende esplicita la distinzione,
+continuando a verificare la versione della DLL realmente caricata. Attesi,
+transizioni, valori numerici, tolleranze e liste di fallimenti ammessi sono
+invariati. Riesecuzione dedicata: 3411 controlli PASS; successiva corsa
+standard completa superata, come riportato sopra.
+
+Pacchetto locale: `supporto/artefatti/paratie/candidata-integrata-01/`,
+prodotto con `tools/paratie/New-LocalPreview.ps1`. Include 109 file applicativi,
+13 DLL GPC, otto esempi paratie, uno spettri, dieci avviatori, due guide Rev52
+in Word/PDF e i riepiloghi dei collaudi. Richiede .NET Desktop Runtime 8 x64.
+Il manifest registra 135 file; audit indipendente di byte, dimensioni,
+SHA-256, esempi, avviatori e provenienza superato. SHA-256 del manifest:
+`e1bfa725d324f0d468ba626b305b824df31fd760c2bd85c05e6b48609ef35482`.
+Evidenza: `integrazione-f5/preview-audit.json`. Il primo tentativo di audit
+era partito mentre la copia era ancora in corso e ha rilevato il manifest
+non ancora presente; l'esito PASS è della riesecuzione dopo il confezionamento.
+
+Questa è una candidata locale degli incrementi 1–13 e Spettri NTC, con i
+limiti descritti nella matrice e nelle guide. Non è il rilascio ufficiale:
+`lib/Checker` non è stato sostituito e il profilo full successivo alla sua
+installazione non è stato eseguito. La build dal checkout usa il set in
+staging tramite `-GpcLibDir`; la candidata contiene già il set completo.
+Push di Model/master `e1e6e107` e Checker/master `dfb808c8` richiesto
+separatamente all'utente; nessun push eseguito alla chiusura di questo verbale.
+
+## Prosecuzione separata
+
+ANTHEA resta su `refactoring/f5` nella cartella principale. Il lavoro riprende
+nel worktree ParatieWork/ANTHEA, ramo `refactoring/f5-paratie-seguito`;
+Model e Checker usano `codex/paratie-seguito`, dalle revisioni integrate.
+Primo passo implementato nelle sole librerie: kernel locale non drenato
+del fondo scavo, Model `8c1e79a9` e Checker `56f48103`, con attesi congelati
+prima del codice. EmbeddedWalls 74 PASS; runner Model completo e Checker
+completo (1912 PASS, stessi 17 fallimenti Steel ammessi) conclusi.
+Questo nuovo kernel non è incluso nella candidata e non ha ancora editor
+e persistenza ANTHEA. La matrice rimane aperta; l'approfondimento della testa
+di pali e micropali resta in coda al modulo paratie.
 
 ## Ricognizione iniziale, prima della richiesta aggiornata
 
