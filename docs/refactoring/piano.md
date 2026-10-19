@@ -1037,3 +1037,6 @@ Revisioni, conflitti e collaudi nel [verbale di integrazione](../paratie/integra
 
 [Verbale del rilascio](../paratie/rilascio-f5.md). ANTHEA principale resta su F5;
 nuovi rami di prosecuzione e codice ANTHEA non pubblicati.
+
+- [x] F5-LIB-02: distinti i metadati F3/F5 nel driver WPF delle fondazioni; registrate separatamente 122 differenze editoriali Wiki esatte, con 30 ricerche storiche conservate. Testing.Tests: 13 controlli delle transizioni PASS, inclusi rifiuti di variazioni numeriche/non editoriali. Attesi numerici e transizioni F4 congelati. Collaudo WPF della correzione ancora da concludere.
+- [x] Predisposta ANTHEA 1.11.0 per le nuove funzioni paratie/spettri; istruzioni installer aggiornate e PDF di tre pagine controllato. I due originali precedenti sono conservati con SHA-256. Commit/push di F5 e creazione installer autorizzati dall'utente, subordinati al collaudo finale.

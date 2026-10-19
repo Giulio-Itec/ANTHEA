@@ -7961,6 +7961,21 @@
         "docs/paratie/rilascio-f5.md"
       ],
       "voci_collegate": ["F5-INT-01"]
+    },
+    {
+      "id": "F5-LIB-02",
+      "data": "2026-10-19",
+      "fase": "Rilascio F5",
+      "titolo": "Confronto storico della provenienza e aggiornamento editoriale Wiki",
+      "famiglia": "test/provenienza",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Driver WPF delle fondazioni allineati alla proiezione di sola versione F3/F5 già verificata in Presentation. Registro editoriale separato per due nuovi articoli paratie; sostituzione esatta del conteggio, nessuna variazione delle transizioni ingegneristiche F4.",
+      "codice": ["tests/ANTHEA.Desktop.Equivalence/F3EquivalenceCapture.cs", "tests/Desktop/ShallowFoundationHistoricTrace.cs", "tests/ANTHEA.Testing/Comparison/Transitions.cs", "tests/fixtures/f3/transitions-f5-wiki.json", "X.Desktop/X.Desktop.csproj"],
+      "segno": "Attesi numerici, tolleranze e fallimenti ammessi invariati. DOCX/PDF conservano la versione reale. Le 30 ricerche storiche restano identiche per contenuto e ordine togliendo soltanto i due nuovi ID. ANTHEA 1.11.0 per le nuove funzioni paratie/spettri.",
+      "decisione": {"data": "2026-10-19", "utente": "Finito tutto, commit, versione nuova e push; creare anche installer.", "esito": "Preparazione 1.11.0 e correzioni dei driver; collaudo finale e installer ancora da concludere."},
+      "test": ["Testing.Tests: 13 controlli transizioni PASS, cinque nuovi controlli positivi/negativi", "Audit indipendente delle 30 ricerche e di due righe vuote finali PASS", "PDF istruzioni installer: tre pagine controllate; due originali conservati con SHA-256", "docs/paratie/rilascio-f5.md"],
+      "voci_collegate": ["F5-LIB-01"]
     }
   ]
 }

@@ -1,0 +1,983 @@
+{
+  "schema": 1,
+  "voce": "F5-LIB-02",
+  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo.",
+  "voci": [
+    {
+      "file": "esito.txt",
+      "percorso": "riga 1#2",
+      "classe": "numero",
+      "a": "71",
+      "b": "77",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_guida-paratie.md",
+      "percorso": "",
+      "classe": "file-aggiunto",
+      "a": null,
+      "b": "wiki/_wiki_guide_moduli_guida-paratie.md",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_guida-paratie.txt",
+      "percorso": "",
+      "classe": "file-aggiunto",
+      "a": null,
+      "b": "wiki/_wiki_guide_moduli_guida-paratie.txt",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fem_dettaglio-sezioni.md",
+      "percorso": "riga 24 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fem_geometria-sezioni.md",
+      "percorso": "riga 18 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/_wiki_manuale_geotecnica_analisi-paratie.md",
+      "percorso": "",
+      "classe": "file-aggiunto",
+      "a": null,
+      "b": "wiki/_wiki_manuale_geotecnica_analisi-paratie.md",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/_wiki_manuale_geotecnica_analisi-paratie.txt",
+      "percorso": "",
+      "classe": "file-aggiunto",
+      "a": null,
+      "b": "wiki/_wiki_manuale_geotecnica_analisi-paratie.txt",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[24]",
+      "classe": "testo",
+      "a": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[25]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[26]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-cassoni",
+      "b": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[27]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-deformazioni",
+      "b": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[28]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
+      "b": "/wiki/manuale/ponti/ponti-cassoni",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[29]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-deformazioni\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[30]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[22]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[23]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-solette",
+      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[24]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/ponti/ponti-solette",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[25]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[28]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[29]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[30]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-solette",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[31]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/ponti/ponti-solette",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[32]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
+      "b": "/wiki/manuale/ponti/ponti-precompressione",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[33]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[19]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[20]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[21]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[22]",
+      "classe": "testo",
+      "a": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[23]",
+      "classe": "testo",
+      "a": "/wiki/guide/strumenti/reologia-calcestruzzo",
+      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[24]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/meccanica/esempi-controlli-indipendenti\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[25]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/strumenti/reologia-calcestruzzo\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.copriferro[21]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-solette",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.copriferro[22]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/ponti/ponti-solette",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.copriferro[23]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.curvatura[8]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-stralli",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.curvatura[9]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-deformazioni",
+      "b": "/wiki/manuale/ponti/ponti-stralli",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.curvatura[10]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-deformazioni\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.dominio[11]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.dominio[12]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.dominio[13]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.dominio[14]",
+      "classe": "testo",
+      "a": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.dominio[15]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.dominio[16]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/meccanica/esempi-controlli-indipendenti\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.durabilità[10]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-solette",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.durabilità[11]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-solette\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fessurazione[15]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fessurazione[16]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fondazione[10]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fondazione[11]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fondazione[12]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fondazione[13]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/cedimenti-consolidazione",
+      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fondazione[14]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fondazione[15]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
+      "b": "/wiki/manuale/geotecnica/cedimenti-consolidazione",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fondazione[16]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fondazione[17]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[7]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fem/risultati-per-fasi",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[8]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/analisi-paratie\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[9]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fem/risultati-per-fasi\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.palo[20]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.palo[21]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.palo[22]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/geotecnica-gruppi",
+      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.palo[23]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/geotecnica-gruppi\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[25]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli/guida-spettri-ntc",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[26]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[27]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/guide/moduli/guida-spettri-ntc",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[28]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli-singoli/fondazioni-superficiali\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[29]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sezioni[25]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sezioni[26]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sezioni[27]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/taglio-traliccio",
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sezioni[28]",
+      "classe": "testo",
+      "a": "/wiki/guide/strumenti/reologia-calcestruzzo",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sezioni[29]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/calcestruzzo/taglio-traliccio\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sezioni[30]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/strumenti/reologia-calcestruzzo\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sisma[11]",
+      "classe": "testo",
+      "a": "/wiki/manuale/dinamica/spettri-isolamento",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sisma[12]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "b": "/wiki/manuale/dinamica/spettri-isolamento",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sisma[13]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sisma[14]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/geofisica-liquefazione",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sisma[15]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/taglio-traliccio",
+      "b": "/wiki/manuale/geotecnica/geofisica-liquefazione",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sisma[16]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-stralli",
+      "b": "/wiki/manuale/calcestruzzo/taglio-traliccio",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sisma[17]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-stralli\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[10]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli/guida-spettri-ntc",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[11]",
+      "classe": "testo",
+      "a": "/wiki/manuale/dinamica/spettri-isolamento",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[12]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "b": "/wiki/guide/moduli/guida-spettri-ntc",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[13]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "b": "/wiki/manuale/dinamica/spettri-isolamento",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[14]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[15]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[16]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-deformazioni",
+      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[17]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-acciaio-fasi\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[18]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-deformazioni\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[20]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[21]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[22]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-solette",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[23]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[24]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
+      "b": "/wiki/manuale/ponti/ponti-solette",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[25]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[26]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[19]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[20]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[21]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[22]",
+      "classe": "testo",
+      "a": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
+      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[23]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/taglio-traliccio",
+      "b": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[24]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "b": "/wiki/manuale/calcestruzzo/taglio-traliccio",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[25]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[26]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/reologia",
+      "b": "/wiki/manuale/ponti/ponti-precompressione",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[27]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/calcestruzzo/reologia\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.terreno[22]",
+      "classe": "testo",
+      "a": "/wiki/manuale/dinamica/spettri-isolamento",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.terreno[23]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.terreno[24]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "b": "/wiki/manuale/dinamica/spettri-isolamento",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.terreno[25]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.terreno[26]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/cedimenti-consolidazione",
+      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.terreno[27]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/geotecnica-gruppi",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.terreno[28]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/manuale/geotecnica/cedimenti-consolidazione",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.terreno[29]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/geotecnica-gruppi\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.terreno[30]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[10]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[11]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[12]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[13]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+      "b": "/wiki/manuale/ponti/ponti-precompressione",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[14]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli/sezione-ca",
+      "b": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[15]",
+      "classe": "testo",
+      "a": "/wiki/theory/palo-elastico",
+      "b": "/wiki/guide/moduli/sezione-ca",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[16]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/geotecnica-gruppi",
+      "b": "/wiki/theory/palo-elastico",
+      "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[17]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/geotecnica-gruppi\"",
+      "voce": "F5-LIB-02"
+    }
+  ]
+}

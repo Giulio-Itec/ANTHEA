@@ -37,7 +37,7 @@ internal static class ShallowFoundationHistoricTrace
         var differences = new List<string>();
         foreach (var scenario in scenarios)
         {
-            var trace = await Trace(root, scenario);
+            var trace = await Trace(root, scenario, compareFrozenVersion: check);
             PileGroupTrace.Write(Path.Combine(output, scenario.Name + ".txt"), trace);
             lines += trace.Count;
             if (!check) continue;
@@ -61,17 +61,17 @@ internal static class ShallowFoundationHistoricTrace
         await Task.CompletedTask;
     }
 
-    static Task<List<string>> Trace(string root, ShallowFoundationScenario scenario)
+    static Task<List<string>> Trace(string root, ShallowFoundationScenario scenario, bool compareFrozenVersion)
     {
         var lines = new List<string>();
         var side = new HistoricSide(ShallowFoundationScenarios.FixtureData(root, scenario.Fixture));
         try
         {
-            lines.AddRange(side.State().Lines("apertura"));
+            lines.AddRange(side.State().Lines("apertura", compareFrozenVersion));
             foreach (var step in scenario.Steps)
             {
                 side.Apply(step);
-                lines.AddRange(side.State().Lines(step.ToString()));
+                lines.AddRange(side.State().Lines(step.ToString(), compareFrozenVersion));
             }
         }
         finally { side.Dispose(); }

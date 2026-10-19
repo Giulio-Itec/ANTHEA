@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Xml.Linq;
 using Anthea.Testing.Normalization;
+using Anthea.Presentation.Tests;
 using X.Core;
 
 namespace X.Desktop;
@@ -47,7 +48,10 @@ internal static class F3EquivalenceCapture
             using var editor = editors.Open(module, data);
             editor.Commit(); Save("opened", editor.Data);
             Visit(editor.View); editor.Commit(); Save("visited", editor.Data);
-            await editor.CalculateAsync(); editor.Commit(); Save("calculated-data", editor.Data); Save("result", editor.Result);
+            await editor.CalculateAsync(); editor.Commit(); Save("calculated-data", editor.Data);
+            Save("result", module == ShallowFoundationScenarios.Module
+                ? ShallowFoundationVersionProjection.Result(editor.Result, ShallowFoundationVersionProjection.F3TransitionVersion)
+                : editor.Result);
             var status = new JsonObject { ["hasResults"] = editor.HasResults };
             string raw = Path.Combine(output, "raw", module, id); Directory.CreateDirectory(raw);
             try
@@ -58,6 +62,13 @@ internal static class F3EquivalenceCapture
                 string report = Path.Combine(raw, "report.docx");
                 editor.ExportReport(report, "Fixture F3 · " + module + " · " + id, options);
                 CaptureReport(report, folder, normalizer, guids);
+                if (module == ShallowFoundationScenarios.Module)
+                {
+                    // Only the comparison text uses the approved F3 metadata. The actual DOCX/PDF retain runtime provenance.
+                    string textPath = Path.Combine(folder, "report.txt");
+                    File.WriteAllText(textPath, ShallowFoundationVersionProjection.Text(File.ReadAllText(textPath),
+                        ShallowFoundationVersionProjection.F3TransitionVersion), new UTF8Encoding(false));
+                }
                 status["report"] = "available";
                 if (module == "str_palo")
                 {
@@ -96,7 +107,9 @@ internal static class F3EquivalenceCapture
             var comparer = new Anthea.Testing.Comparison.BaselineComparer(Anthea.Testing.Comparison.Tolerances.Load(Path.Combine(root, "tests/ANTHEA.Testing/tolerances.json")));
             // Transitions of F4 admitted one by one by the user (D2, 15/10/2026); any other difference, or a listed one that does not occur, fails.
             string transitions = Path.Combine(root, "tests/fixtures/f3/transitions-f4.json");
-            if (File.Exists(transitions)) comparer.Admit(Anthea.Testing.Comparison.Transition.Load(transitions));
+            if (File.Exists(transitions)) comparer.Admit(Anthea.Testing.Comparison.Transition.WithEditorialUpdate(
+                Anthea.Testing.Comparison.Transition.Load(transitions),
+                Anthea.Testing.Comparison.Transition.Load(Path.Combine(root, "tests/fixtures/f3/transitions-f5-wiki.json"))));
             var comparison = comparer.Compare(expected, output);
             File.WriteAllText(Path.Combine(output, "confronto.json"), comparison.ToJsonString(J.Options));
             if (comparer.NotAdmitted > 0) throw new InvalidOperationException($"Equivalenza F3: {comparer.NotAdmitted} differenze non ammesse. Leggere confronto.json.");

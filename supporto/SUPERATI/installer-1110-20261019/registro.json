@@ -1,0 +1,14 @@
+[
+  {
+    "sha256": "48C3462A6D1B0982A67243EAD71554DD0D34C45B138AF477A7E95669AC7B305D",
+    "archivio": "supporto\\SUPERATI\\installer-1110-20261019\\supporto\\installer\\README.md",
+    "origine": "supporto/installer/README.md",
+    "motivo": "Istruzioni installer 1.10.0 sostituite da 1.11.0; guide Rev52 invariate"
+  },
+  {
+    "sha256": "1F4FDBD9BEC8CA53672CAFF51F36E23FD1CECDF21DBF01C3C810FA2C3F9C0BD6",
+    "archivio": "supporto\\SUPERATI\\installer-1110-20261019\\supporto\\installer\\README.pdf",
+    "origine": "supporto/installer/README.pdf",
+    "motivo": "Istruzioni installer 1.10.0 sostituite da 1.11.0; guide Rev52 invariate"
+  }
+]
