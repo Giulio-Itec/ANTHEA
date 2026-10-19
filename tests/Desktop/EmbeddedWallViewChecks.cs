@@ -199,10 +199,11 @@ internal static class EmbeddedWallViewChecks
             Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.RcPiles))
                 && Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.SelectedRcPileCheck!.Details)), "Sezioni o dettagli c.a. scollegati dallo snapshot.");
             Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("sezioni-pali-ca-scuro"); Appearance.Set(AppAppearance.Light, false);
-            sheet.Tables.Single(t => t.Key == "rc_piles").Rows[0]["shear_confirmed"] = "False"; await Settle();
+            sheet.Tables.Single(t => t.Key == "rc_piles").Editor!["shear_confirmed"].IsChecked = false; await Settle();
             Check(sheet.Current is null && sheet.RcPiles.Count == 0 && sheet.SelectedRcPileCheck is null && !sheet.RcPileCsvCommand.CanExecute(null), "Risultati c.a. superati ancora esportabili.");
             await editor.CalculateAsync(); await Settle(); Capture("sezioni-pali-ca-taglio-non-valutato");
-            Check(sheet.RcPiles.All(r => r.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated
+            Check(sheet.Current?.Complete == true && sheet.RcPiles.Count > 0
+                && sheet.RcPiles.All(r => r.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated
                 && r.Checks[1].Capacity is null), "Taglio del palo senza modello confermato certificato.");
             editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
             Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");

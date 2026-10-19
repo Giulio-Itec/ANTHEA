@@ -7658,7 +7658,7 @@
       "codice": ["Model/Model/Design/Concrete/CircularRcSection.cs", "Checker/GPCChecker.Concrete/Piles/CircularRcSectionSession.cs", "Checker/src/GPC.Design/EmbeddedWalls/EmbeddedWallRcPiles.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallRcPileChecks.cs", "src/ANTHEA.Reports/Generators/EmbeddedWallRcPileReport.cs"],
       "segno": "Percorso additivo inattivo nei documenti precedenti; EI derivato solo per scelta esplicita. Nessuna mesh Delaunay, fixture storica o lista di fallimenti ammessi modificata. Corretta la resa delle etichette nel PDF senza modificare risultati.",
       "decisione": {"data": "2026-10-19", "utente": "Incarico paratie: usare Checker Concrete e preservare sollecitazioni concomitanti, separazione architetturale e prove indipendenti.", "esito": "Incremento verificato nel campo dichiarato; progetto automatico, dettagli completi, matrice e rilascio ancora aperti."},
-      "test": ["rc-pile-design-04: 6 PASS", "candidate-15: 3140 PASS, 17 fallimenti storici ammessi", "rc-pile-app-03: 483 PASS", "ci/20261019-131617-paratie-inc08-ui2: architettura e 35 WPF PASS", "docs/paratie/incremento-08.md"],
+      "test": ["rc-pile-design-04: 6 PASS", "candidate-15: 3140 PASS, 17 fallimenti storici ammessi", "rc-pile-app-03: 483 PASS", "ci/20261019-132026-paratie-inc08-standard: 94 PASS", "ci/20261019-134727-paratie-inc08-ui3-retry: build e 35 WPF PASS, eliminato falso positivo del driver booleano su risultati vuoti, schermata verificata", "docs/paratie/incremento-08.md"],
       "voci_collegate": ["PARATIE-01", "PARATIE-09"]
     }
   ]

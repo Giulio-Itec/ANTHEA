@@ -81,7 +81,22 @@ combinazioni non supportate sono Non valutato.
   etichette e pagina finale quasi vuota. PDF nativo ANTHEA, senza attestare
   un rendering Word non eseguito.
 
+- `ci/20261019-132026-paratie-inc08-standard`, commit `6a84c4e9`,
+  snapshot-15: profilo standard con stadi build/fast/regression/wiki/ui e
+  selezione della sola vista paratie nello stadio UI: 94 PASS, nessun
+  nuovo fallimento, sorgenti invariati durante la corsa. I tre controlli
+  infrastrutturali esclusi dal runner restano indicati nel riepilogo CI.
+- Revisione visiva del caso WPF di taglio non confermato: individuato un
+  falso positivo nel driver, che inseriva la stringa `False` e applicava
+  `All` a risultati vuoti. Corretto usando il campo booleano del form e
+  richiedendo un risultato completo e non vuoto. Produzione e attesi
+  numerici invariati. `ci/20261019-134727-paratie-inc08-ui3-retry`:
+  build e 35 controlli WPF PASS; schermata negativa controllata: analisi
+  convergente, N–M soddisfatto, taglio Non valutato e capacità assente.
+  Prima esecuzione fermata dall'accesso sandbox al Windows SDK; ripetuta
+  con accesso disponibile. La corsa non ripete l'intero standard.
+
 Tutti gli artefatti sono in `supporto/artefatti/paratie/`, salvo le corse
-CI indicate. Regressione standard dell'incremento ancora da eseguire.
+CI indicate. Regressione standard dell'incremento eseguita.
 Guide globali, righe residue della matrice, rilascio ufficiale e merge
 restano aperti. Approfondimento pali/micropali confermato in coda.
