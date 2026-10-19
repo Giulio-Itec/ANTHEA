@@ -8,10 +8,12 @@ namespace Anthea.Application.EmbeddedWalls;
 public sealed partial class EmbeddedWallModule
 {
     private static EmbeddedWallEnvelopeData Envelopes(WallAnalysisResult analysis, CancellationToken cancellation)
+        => Envelopes([analysis], cancellation);
+    private static EmbeddedWallEnvelopeData Envelopes(IReadOnlyList<WallAnalysisResult> analyses, CancellationToken cancellation)
     {
         // Two drawing subdivisions in each common mesh interval, plus every polynomial stationary point.
         // GPC alone selects extrema and concomitant actions. The application converts display units.
-        var native = EmbeddedWallAnalysis.Envelope([analysis], 2, cancellation);
+        var native = EmbeddedWallAnalysis.Envelope(analyses, 2, cancellation);
         return new(native.IsComplete, native.Diagnostic, native.Top / SoilUnits.Metre, native.Bottom / SoilUnits.Metre,
             native.TributaryWidth / SoilUnits.Metre, native.Subdivisions,
             Array.AsReadOnly(native.Histories.Select(h => new EmbeddedWallEnvelopeHistoryData(h.CaseId, h.Complete,

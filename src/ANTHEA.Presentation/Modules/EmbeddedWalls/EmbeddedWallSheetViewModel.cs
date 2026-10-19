@@ -45,13 +45,13 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
         SearchEmbedmentCommand = GuardedCommands.CreateAsync(Guard, async c => { await SearchEmbedmentAsync(c); }, Lifetime, () => !IsBusy);
         EmbedmentCsvCommand = GuardedCommands.Create(Guard, ExportEmbedmentCsv, () => current?.EmbedmentSearch is not null);
         CsvCommand = GuardedCommands.Create(Guard, ExportCsv, () => Current is not null);
-        HydraulicCsvCommand = GuardedCommands.Create(Guard, ExportHydraulicCsv, () => HydraulicStages.Count > 0);
-        HydraulicChecksCsvCommand = GuardedCommands.Create(Guard, ExportHydraulicChecksCsv, () => HydraulicChecks.Count > 0);
-        GlobalCsvCommand = GuardedCommands.Create(Guard, ExportGlobalCsv, () => GlobalChecks.Count > 0);
-        SteelCsvCommand = GuardedCommands.Create(Guard, ExportSteelCsv, () => SteelSupports.Count > 0);
-        AnchorCsvCommand = GuardedCommands.Create(Guard, ExportAnchorCsv, () => AnchorChecks.Count > 0);
-        TubeCsvCommand = GuardedCommands.Create(Guard, ExportTubeCsv, () => SteelTubes.Count > 0);
-        RcPileCsvCommand = GuardedCommands.Create(Guard, ExportRcPileCsv, () => RcPiles.Count > 0);
+        HydraulicCsvCommand = GuardedCommands.Create(Guard, ExportHydraulicCsv, () => ResultCases.Any(c => c.Hydraulics?.Count > 0));
+        HydraulicChecksCsvCommand = GuardedCommands.Create(Guard, ExportHydraulicChecksCsv, () => ResultCases.Any(c => c.HydraulicChecks?.Count > 0));
+        GlobalCsvCommand = GuardedCommands.Create(Guard, ExportGlobalCsv, () => ResultCases.Any(c => c.GlobalChecks?.Count > 0));
+        SteelCsvCommand = GuardedCommands.Create(Guard, ExportSteelCsv, () => ResultCases.Any(c => c.SteelSupports?.Count > 0));
+        AnchorCsvCommand = GuardedCommands.Create(Guard, ExportAnchorCsv, () => ResultCases.Any(c => c.AnchorChecks?.Count > 0));
+        TubeCsvCommand = GuardedCommands.Create(Guard, ExportTubeCsv, () => ResultCases.Any(c => c.SteelTubes?.Count > 0));
+        RcPileCsvCommand = GuardedCommands.Create(Guard, ExportRcPileCsv, () => ResultCases.Any(c => c.RcPiles?.Count > 0));
         EnvelopeCsvCommand = GuardedCommands.Create(Guard, ExportEnvelopeCsv, () => EnvelopeSeries.Count > 0);
         ImportSoilCommand = GuardedCommands.Create(Guard, ImportSoil, () => CanEdit && SelectedSoilSource is not null);
         RefreshSoilSourcesCommand = GuardedCommands.Create(Guard, RefreshSources);
@@ -84,7 +84,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     public string Diagram { get => diagram; set => SetProperty(ref diagram, value); }
     public IReadOnlyList<string> HydraulicDiagrams { get; } = ["Carico idraulico [m]", "Pressione interstiziale [kPa]"];
     public string HydraulicDiagram { get => hydraulicDiagram; set => SetProperty(ref hydraulicDiagram, value); }
-    public IReadOnlyList<EmbeddedWallHydraulicData> HydraulicStages => current?.Hydraulics ?? [];
+    public IReadOnlyList<EmbeddedWallHydraulicData> HydraulicStages => DisplayedCase?.Hydraulics ?? [];
     public EmbeddedWallHydraulicData? SelectedHydraulicStage
     {
         get => hydraulicStage;
@@ -92,28 +92,28 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     }
     public IReadOnlyList<EmbeddedWallHydraulicNode> HydraulicNodes => hydraulicStage?.Nodes ?? [];
     public IReadOnlyList<EmbeddedWallHydraulicElement> HydraulicElements => hydraulicStage?.Elements ?? [];
-    public IReadOnlyList<EmbeddedWallHydraulicCheckData> HydraulicChecks => current?.HydraulicChecks ?? [];
+    public IReadOnlyList<EmbeddedWallHydraulicCheckData> HydraulicChecks => DisplayedCase?.HydraulicChecks ?? [];
     public EmbeddedWallHydraulicCheckData? SelectedHydraulicCheck
     { get => hydraulicCheck; set { if (SetProperty(ref hydraulicCheck, value)) OnPropertyChanged(nameof(HydraulicCoefficients)); } }
     public IReadOnlyList<KeyValuePair<string, double>> HydraulicCoefficients => hydraulicCheck?.Coefficients
         .Select(p => new KeyValuePair<string, double>(EmbeddedWallReport.DisplayLabel(p.Key), p.Value)).ToArray() ?? [];
     public EmbeddedWallReportData? Current => current;
-    public IReadOnlyList<EmbeddedWallGlobalData> GlobalChecks => current?.GlobalChecks ?? [];
+    public IReadOnlyList<EmbeddedWallGlobalData> GlobalChecks => DisplayedCase?.GlobalChecks ?? [];
     public EmbeddedWallGlobalData? SelectedGlobalCheck { get => globalCheck; set => SetProperty(ref globalCheck, value); }
-    public IReadOnlyList<EmbeddedWallSteelData> SteelSupports => current?.SteelSupports ?? [];
+    public IReadOnlyList<EmbeddedWallSteelData> SteelSupports => DisplayedCase?.SteelSupports ?? [];
     public EmbeddedWallSteelData? SelectedSteelSupport
     { get => steelSupport; set { if (SetProperty(ref steelSupport, value)) OnPropertyChanged(nameof(SteelChecks)); } }
     public IReadOnlyList<EmbeddedWallSteelCheckData> SteelChecks => steelSupport?.Checks ?? [];
-    public IReadOnlyList<EmbeddedWallAnchorData> AnchorChecks => current?.AnchorChecks ?? [];
+    public IReadOnlyList<EmbeddedWallAnchorData> AnchorChecks => DisplayedCase?.AnchorChecks ?? [];
     public EmbeddedWallAnchorData? SelectedAnchorCheck { get => anchorCheck; set => SetProperty(ref anchorCheck, value); }
-    public IReadOnlyList<EmbeddedWallTubeData> SteelTubes => current?.SteelTubes ?? [];
+    public IReadOnlyList<EmbeddedWallTubeData> SteelTubes => DisplayedCase?.SteelTubes ?? [];
     public EmbeddedWallTubeData? SelectedTubeCheck { get => tubeCheck; set => SetProperty(ref tubeCheck, value); }
-    public IReadOnlyList<EmbeddedWallRcPileData> RcPiles => current?.RcPiles ?? [];
+    public IReadOnlyList<EmbeddedWallRcPileData> RcPiles => DisplayedCase?.RcPiles ?? [];
     public EmbeddedWallRcPileData? SelectedRcPileCheck { get => rcPileCheck; set => SetProperty(ref rcPileCheck, value); }
     public override JsonObject? Result => current is null ? null : EmbeddedWallDocument.ResultValues(current);
     public string Progress { get => progress; private set => SetProperty(ref progress, value); }
     public override bool HasResults => current is not null && current.Complete;
-    public IReadOnlyList<EmbeddedWallStageData> Stages => current?.Stages ?? [];
+    public IReadOnlyList<EmbeddedWallStageData> Stages => DisplayedCase?.Stages ?? [];
     public EmbeddedWallStageData? SelectedStage
     {
         get => selectedStage;
@@ -122,12 +122,13 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     public EmbeddedWallStageData? ComparisonStage { get => comparisonStage; set => SetProperty(ref comparisonStage, value); }
     public IReadOnlyList<EmbeddedWallPointData> Points => selectedStage?.Points ?? [];
     public IReadOnlyList<EmbeddedWallSupportData> Supports => selectedStage?.Supports ?? [];
-    public IReadOnlyList<EmbeddedWallCheckData> Checks => current?.Checks.Where(c => c.Stage == selectedStage?.Id).ToArray() ?? [];
+    public IReadOnlyList<EmbeddedWallCheckData> Checks => DisplayedCase?.Checks.Where(c => c.Stage == selectedStage?.Id).ToArray() ?? [];
     public string ResultStatus => current is null ? "Risultati assenti o superati: eseguire il calcolo sui dati correnti."
         : current.EmbedmentSearch is not null ? EmbedmentStatus
+        : current.Cases is not null ? current.Diagnostic + " Consultare gli esiti del caso selezionato."
         : current.Complete ? "Analisi convergente. Verifiche dell'opera: consultare ambito ed esiti." : "Analisi incompleta: sono visibili soltanto le fasi concluse.";
     public string Scope => current is null ? "Incremento in sviluppo: trave su molle, fasi, sostegni assiali metallici, sfilamento tiranti, sezioni tubolari CHS, filtrazione 2D, UPL/HYD e stabilità globale per pareti continue senza sostegni esterni. Campi di applicazione e verifiche residue sono indicati nei risultati."
-        : string.Join(Environment.NewLine, current.Scope);
+        : string.Join(Environment.NewLine, DisplayedCase?.Scope ?? current.Scope);
     private void Rebuild()
     {
         EmbeddedWallDocument.Upgrade(Data);
@@ -181,6 +182,9 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     }
     private void NotifyResult()
     {
+        selectedResultCase = ResultCases.FirstOrDefault();
+        OnPropertyChanged(nameof(ResultCases)); OnPropertyChanged(nameof(SelectedResultCase)); OnPropertyChanged(nameof(ResultCaseStatus));
+        SelectedStage = Stages.LastOrDefault(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault();
         OnPropertyChanged(nameof(Current)); OnPropertyChanged(nameof(Result)); OnPropertyChanged(nameof(HasResults)); OnPropertyChanged(nameof(Stages));
         OnPropertyChanged(nameof(HydraulicStages)); OnPropertyChanged(nameof(HydraulicChecks)); SelectedHydraulicCheck = HydraulicChecks.FirstOrDefault();
         OnPropertyChanged(nameof(GlobalChecks)); SelectedGlobalCheck = GlobalChecks.FirstOrDefault(); GlobalCsvCommand?.NotifyCanExecuteChanged();

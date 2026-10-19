@@ -4,10 +4,15 @@
  <DockPanel Margin="12">
   <StackPanel DockPanel.Dock="Top">
    <WrapPanel>
-    <Button Content="Calcola le fasi" Command="{Binding RunCommand}" Margin="0,0,8,4"/>
+    <Button Content="Calcola tutti i casi" Command="{Binding RunCommand}" Margin="0,0,8,4"/>
     <Button Content="Annulla" Command="{Binding CancelCommand}" Margin="0,0,8,4"/>
-    <Button Content="Esporta tabella CSV" Command="{Binding CsvCommand}" Margin="0,0,8,4"/>
+    <Button Content="Esporta tutti i casi CSV" Command="{Binding CsvCommand}" Margin="0,0,8,4"/>
     <TextBlock Text="{Binding CalculationState}" VerticalAlignment="Center" Margin="12,0"/>
+   </WrapPanel>
+   <WrapPanel Margin="0,4">
+    <TextBlock Text="Caso nei diagrammi e nelle verifiche" VerticalAlignment="Center" Margin="0,0,8,0"/>
+    <ComboBox ItemsSource="{Binding ResultCases}" SelectedItem="{Binding SelectedResultCase}" DisplayMemberPath="CaseId" MinWidth="180" Margin="0,0,12,0"/>
+    <TextBlock Text="{Binding ResultCaseStatus}" VerticalAlignment="Center" TextWrapping="Wrap"/>
    </WrapPanel>
    <TextBlock Text="{Binding ResultStatus}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,4"/>
    <TextBlock Text="{Binding CalculationMessage}" TextWrapping="Wrap" Margin="0,2,0,8"/>
@@ -19,6 +24,7 @@
      <ScrollViewer VerticalScrollBarVisibility="Auto"><ContentControl Content="{Binding General}"/></ScrollViewer>
      <StackPanel Grid.Column="1" Margin="24,0,0,0">
       <TextBlock Text="Convenzioni e ambito" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,12"/>
+      <TextBlock Text="Altri casi / combinazioni: definire ciascuna storia e assegnarle fasi, carichi, falde e verifiche con il campo Caso. Vuoto identifica il caso principale. Geometria e materiali sono condivisi; le azioni vanno già combinate. Gli inviluppi confrontano tutti i casi." TextWrapping="Wrap" Margin="0,0,0,12"/>
       <TextBlock Text="Le quote crescono verso l'alto. Sinistra e destra sono i lati della sezione. Ogni forza strutturale si riferisce alla fascia assegnata; la forza del tirante o del puntone è riferita al singolo elemento." TextWrapping="Wrap" Margin="0,0,0,12"/>
       <TextBlock Text="Separare installazione e scavo in fasi diverse quando il loro ordine influenza il risultato. Ogni fase contiene l'elenco completo dei sostegni presenti: un sostegno omesso viene rimosso." TextWrapping="Wrap" Margin="0,0,0,12"/>
       <TextBlock Text="{Binding Scope}" TextWrapping="Wrap" Margin="0,0,0,20"/>

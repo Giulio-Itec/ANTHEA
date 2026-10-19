@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 49
+Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 51
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1475,7 +1475,7 @@ In **Ricerca infissione** assegnare quota di riferimento, infissioni minima e ma
 
 Il modello deve coprire la parete più lunga. Ogni candidato taglia i tratti, conserva il terreno sottostante e non estrapola proprietà. Carichi o sostegni sotto il nuovo piede impediscono la valutazione; non vengono eliminati. I vincoli al piede sono esclusi per evitare lo spostamento di un vincolo artificiale.
 
-**Cerca infissione** ricalcola per ciascun candidato tutte le fasi della combinazione corrente, filtrazione FEM e verifiche richieste. Le storie sono indipendenti. Si esplora l'intera griglia senza presumere miglioramenti monotoni; l'estremo superiore è incluso anche quando il passo non divide l'intervallo.
+**Cerca infissione** ricalcola per ciascun candidato tutte le fasi dei casi assegnati, filtrazione FEM e verifiche richieste. Le storie sono indipendenti. Si esplora l'intera griglia senza presumere miglioramenti monotoni; l'estremo superiore è incluso anche quando il passo non divide l'intervallo.
 
 Selezionare una riga per leggere criteri e fase governante. Diagrammi e verifiche principali restano riferiti al candidato accettabile meno profondo, dichiarato nello stato. Il **minimo dimostrato sulla griglia** richiede che tutti i candidati meno profondi abbiano un criterio sicuramente non soddisfatto: una quota inferiore non convergente o non valutabile impedisce questa conclusione. Le verifiche non richieste restano aperte.
 
@@ -1487,7 +1487,7 @@ Per riprodurre il benchmark, assegnare testa 0 m, piede iniziale −10 m, fascia
 
 ### Leggere gli inviluppi delle fasi
 
-Dopo il calcolo aprire **Inviluppi** e scegliere spostamento, rotazione, N, V, M, pressioni o carico netto. Il foglio confronta tutte le fasi concluse della combinazione corrente. Dopo una ricerca dell'infissione, l'inviluppo principale riguarda il candidato accettabile dichiarato nello stato; non mescola pareti di lunghezza diversa.
+Dopo il calcolo aprire **Inviluppi** e scegliere spostamento, rotazione, N, V, M, pressioni o carico netto. Il foglio confronta tutte le fasi concluse dei casi assegnati. Dopo una ricerca dell'infissione, l'inviluppo principale riguarda il candidato accettabile dichiarato nello stato; non mescola pareti di lunghezza diversa.
 
 La curva blu rappresenta il minimo e quella arancio il massimo. La tabella indica quota, lato, valore, caso e fase di ciascun estremo. **Above** è il limite sopra la quota, **Below** quello sotto: i due valori rimangono separati in presenza di forze o coppie concentrate. **Interior** identifica una stazione interna al tratto. La rotazione è espressa in radianti.
 
@@ -1499,6 +1499,18 @@ Per un controllo indipendente usare la mensola di 6 m, EI=200000 kNm², senza te
 
 ![Inviluppi di momento delle fasi nel benchmark su fondazione elastica](../../X.Desktop/Assets/Wiki/paratie-inviluppi.png)
 
+### Gestire casi e combinazioni assegnate
+
+Il caso principale si definisce in **Modello**. In **Dati e fasi → Altri casi / combinazioni** si aggiungono identificativo, provenienza delle azioni e verifiche richieste di ciascun altro caso. Sono ammesse fino a 32 storie indipendenti. Geometria, materiali, sezioni, definizione dei sostegni e parametri del terreno sono comuni; per parametri geotecnici differenti occorrono fogli distinti. Il comando non genera automaticamente combinazioni normative: assegnare azioni e coefficienti già definiti per ogni storia, documentandone l'origine.
+
+Nelle tabelle delle fasi, delle attivazioni, dei carichi e delle verifiche per fase, il campo **Caso** associa la riga alla storia scelta. Vuoto significa caso principale. Ciascun caso richiede tutte le proprie fasi nell'ordine costruttivo; gli identificativi delle fasi possono ripetersi in casi differenti. Una riga non viene copiata automaticamente negli altri casi. Installazione, pretensione, scavo, falda e rimozione dei sostegni seguono esclusivamente la storia dichiarata.
+
+**Calcola tutti i casi** esegue le storie separatamente. Il selettore dei risultati cambia fasi, diagrammi, pressioni e verifiche visualizzati; il confronto fra fasi rimane interno al caso selezionato. **Inviluppi** riunisce invece i casi calcolati mantenendo la provenienza di ogni estremo e le azioni concomitanti. **Esporta tutti i casi CSV** e la relazione includono tutte le storie, indipendentemente dalla selezione corrente.
+
+La ricerca dell'infissione esamina tutte le storie a ogni profondità. Il limite in testa del singolo caso, se compilato, sostituisce quello comune; richiede una fonte esplicita. Le tabelle dei criteri identificano caso e fase governanti. Nel benchmark su fondazione elastica, il caso H=10 kN con limite 3,25 mm richiede 6,50 m; aggiungendo H=15 kN con limite 4,50 mm il minimo comune sulla griglia è 7,50 m.
+
+Un caso non convergente rende incompleto il gruppo e parziale l'inviluppo; gli altri casi possono comunque concludersi. Anche un caso senza fasi meccaniche concluse compare esplicitamente nel CSV. L'annullamento del calcolo ordinario non pubblica un gruppo incompleto; l'annullamento della ricerca conserva soltanto i candidati già conclusi. Una modifica degli input invalida l'intero risultato. Il salvataggio conserva insieme tutti i casi e le rispettive verifiche.
+
 ### Funzioni ancora da completare
 
-Restano aperti: sezioni complesse e più file; effetto arco e cedimenti; interazione tra pareti e strutture interne; cerniere plastiche; ricerca con combinazioni multiple integrate e altri criteri; instabilità del fondo e tampone; combinazioni automatiche e sisma avanzato; progetto automatico completo delle armature; DXF e integrazioni esterne. Le opzioni non disponibili non producono verifiche sostitutive. I successivi incrementi saranno documentati dopo il collaudo.
+Restano aperti: sezioni complesse e più file; effetto arco e cedimenti; interazione tra pareti e strutture interne; cerniere plastiche; criteri aggiuntivi per la ricerca dell’infissione; instabilità del fondo e tampone; combinazioni automatiche e sisma avanzato; progetto automatico completo delle armature; DXF e integrazioni esterne. Le opzioni non disponibili non producono verifiche sostitutive. I successivi incrementi saranno documentati dopo il collaudo.

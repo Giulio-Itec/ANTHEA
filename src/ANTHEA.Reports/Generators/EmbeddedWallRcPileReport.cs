@@ -51,6 +51,7 @@ public static partial class EmbeddedWallReport
 
     public static string RcPileCsv(EmbeddedWallReportData result)
     {
+        if (result.Cases is not null) return HistoriesCsv(result, RcPileCsv);
         static string Cell(object? value) => "\"" + (value is double d ? d.ToString("G17", CultureInfo.InvariantCulture) : value?.ToString() ?? "").Replace("\"", "\"\"") + "\"";
         var text = new StringBuilder("caso;fase;sezione;z_m;lato;N_kN;V_kN;M_kNm;fattore_fascia_palo;tipo;metodo;domanda_o_valore;capacita_o_limite;unita;utilizzo;esito;fonte;diagnostica;impronta\n");
         foreach (var r in result.RcPiles ?? [])

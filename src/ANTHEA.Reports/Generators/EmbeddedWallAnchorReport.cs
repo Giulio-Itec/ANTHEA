@@ -40,6 +40,7 @@ public static partial class EmbeddedWallReport
 
     public static string AnchorCsv(EmbeddedWallReportData result)
     {
+        if (result.Cases is not null) return HistoriesCsv(result, AnchorCsv);
         static string Cell(object? value) => "\"" + (value is double d ? d.ToString("G17", CultureInfo.InvariantCulture) : value?.ToString() ?? "").Replace("\"", "\"\"") + "\"";
         var text = new StringBuilder("tipo;caso;fase;tirante;Ed_kN;media_kN;minimo_kN;Rak_kN;Rad_kN;utilizzo;xi_media;xi_minimo;gammaR;esito;profilo;strato;inizio_m;fine_m;pl_MPa;pi_MPa;alpha;Ds_mm;curva;qs_MPa;Ra_kN;applicabile;fonte;diagnostica;impronta\n");
         void Row(object?[] values) => text.AppendLine(string.Join(";", values.Select(Cell)));

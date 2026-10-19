@@ -1,4 +1,5 @@
 using Anthea.Presentation.Forms;
+using Anthea.Application.EmbeddedWalls;
 
 namespace Anthea.Presentation.Modules.EmbeddedWalls;
 
@@ -11,7 +12,7 @@ public static class EmbeddedWallFields
         new("embedment_increment", "Passo costruttivo della ricerca", "m"),
         new("embedment_head_limit", "Spostamento assoluto massimo in testa", "mm"),
         new("embedment_source", "Fonte del limite e criteri della ricerca", Wide: true, Multiline: true,
-            ToolTip: "Criterio assegnato dal progettista, senza un limite normativo implicito. Si considerano tutte le fasi e le verifiche richieste nella combinazione corrente.")
+            ToolTip: "Criterio assegnato dal progettista, senza un limite normativo implicito. Si considerano tutte le fasi e le verifiche richieste nei casi assegnati.")
     ];
     public static FieldSpec[] General() =>
     [
@@ -52,13 +53,24 @@ public static class EmbeddedWallFields
     ];
     public static string Title(string table) => table switch
     {
+        "cases" => "Altri casi / combinazioni",
         "segments" => "Tratti e rigidezze", "left_soils" => "Terreno a sinistra", "right_soils" => "Terreno a destra", "supports" => "Tiranti e puntoni",
         "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi concentrati sulla struttura", "distributed_loads" => "Carichi distribuiti sulla struttura", "rc_sections" => "Fasce rettangolari in c.a.",
         "hydraulic_left" => "Permeabilità a sinistra", "hydraulic_right" => "Permeabilità a destra", "hydraulic_upl" => "Corpi UPL",
         "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", "global_checks" => "Stabilità globale", "global_actions" => "Combinazioni globali", "steel_members" => "Acciaio dei sostegni",
         "anchor_checks" => "Sfilamento dei tiranti", "anchor_layers" => "Indagini dei bulbi", "anchor_tests" => "Prove preliminari tiranti", "steel_tubes" => "Sezioni tubolari della parete", "rc_piles" => "Pali circolari in c.a.", _ => table
     };
-    public static FieldSpec[] Columns(string table) => table switch
+    public static FieldSpec[] Columns(string table)
+    {
+        if (table == "cases") return [new("id", "Identificativo del caso"),
+            .. General().Where(f => EmbeddedWallDocument.CaseOverrideKeys.Contains(f.Key)),
+            new("embedment_head_limit", "Limite in testa (vuoto: comune)", "mm"),
+            new("embedment_source", "Fonte del limite (vuoto: comune)", Multiline: true)];
+        var fields = BaseColumns(table);
+        return EmbeddedWallDocument.HistoryTables.Contains(table)
+            ? [new("case", "Caso (vuoto: principale)", ToolTip: "Identificativo definito in Altri casi / combinazioni. Ogni storia ha proprie fasi; i loro identificativi possono ripetersi fra casi diversi."), .. fields] : fields;
+    }
+    private static FieldSpec[] BaseColumns(string table) => table switch
     {
         "segments" => [new("section", "Sezione"), new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
             new("ei_mode", "Origine EI", Choices: ["Assegnata", "Da tubo CHS", "Da palo circolare c.a."], ToolTip: "EI da sezione usa E·I·larghezza/interasse, calcolata da GPC. Il valore assegnato è ignorato quando si seleziona una sezione."),

@@ -33,7 +33,7 @@ public sealed partial class EmbeddedWallSheetViewModel
     }
     public IReadOnlyList<KeyValuePair<string, EmbeddedWallEnvelopeObservationData>> EnvelopeConcomitant => envelopeStation is null ? []
         : [new("Minimo", envelopeStation.Minimum), new("Massimo", envelopeStation.Maximum)];
-    public string EnvelopeStatus => current?.Envelope?.Diagnostic ?? "Inviluppi assenti o superati: ricalcolare le fasi.";
+    public string EnvelopeStatus => current?.Envelope?.Diagnostic ?? (current is null ? "Inviluppi assenti o superati: ricalcolare le fasi." : "Inviluppi non disponibili: nessuna analisi meccanica disponibile. " + current.Diagnostic);
     public string EnvelopeExtrema => envelopeSeries is not { } s ? "" :
         $"Minimo globale: {s.Minimum.Value:G7} {s.Unit}, {s.Minimum.CaseId} / {s.Minimum.Stage}, z={s.Minimum.Point.Elevation:G7} m. "
         + $"Massimo globale: {s.Maximum.Value:G7} {s.Unit}, {s.Maximum.CaseId} / {s.Maximum.Stage}, z={s.Maximum.Point.Elevation:G7} m.";

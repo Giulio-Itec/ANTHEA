@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 49
+Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 51
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -3367,7 +3367,7 @@ Non è un limite lungo tutta la deformata né una prescrizione normativa implici
 
 Un candidato è accettabile soltanto con storie complete e tutti i criteri assegnati soddisfatti. Un superamento dimostrato esclude il candidato; una mancata convergenza da sola non prova l'inammissibilità. Per dichiarare il minimo devono risultare sicuramente non soddisfatti tutti i candidati meno profondi. Un'incertezza a profondità maggiore non impedisce di dimostrare un minimo già individuato. L'annullamento rende il risultato non definitivo.
 
-Il coordinatore GPC ammette più storie indipendenti; il percorso corrente del foglio ricerca sulla combinazione assegnata. La copertura di tutte le combinazioni necessarie e delle verifiche non richieste resta distinta. Non si combinano sollecitazioni non lineari di storie diverse.
+Il coordinatore GPC e il foglio ricercano su tutte le storie indipendenti assegnate, con criteri e limiti espliciti per ciascun caso. La copertura di tutte le combinazioni necessarie e delle verifiche non richieste resta distinta. Non si combinano sollecitazioni non lineari di storie diverse.
 
 L'atteso indipendente è una trave libera alle estremità su fondazione elastica uniforme: EI=2·10¹⁴ Nmm², k=2 N/mm², forza in testa H=10000 N, momento nullo alle due estremità e taglio nullo al piede. Con x positivo dalla testa verso il basso:
 
@@ -3397,7 +3397,7 @@ f_{min}(z)=\min_{c,s} f_{c,s}(z)
 f_{max}(z)=\max_{c,s} f_{c,s}(z)
 ```
 
-Ogni valore selezionato conserva caso, fase, sezione, quota, lato e l'intera osservazione concomitante. L'inviluppo non è un nuovo caso di carico: non somma risposte non lineari e non costruisce una terna N–M–V con massimi di origini diverse. I verificatori continuano a usare le azioni delle fasi originarie. L'API GPC ammette più storie indipendenti con identici estremi geometrici e larghezza di fascia; il foglio corrente riunisce le fasi della combinazione assegnata. Mesh differenti sono ammesse, piedi e larghezze differenti sono rifiutati.
+Ogni valore selezionato conserva caso, fase, sezione, quota, lato e l'intera osservazione concomitante. L'inviluppo non è un nuovo caso di carico: non somma risposte non lineari e non costruisce una terna N–M–V con massimi di origini diverse. I verificatori continuano a usare le azioni delle fasi originarie. L'API GPC ammette più storie indipendenti con identici estremi geometrici e larghezza di fascia; il foglio riunisce le fasi di tutti i casi assegnati. Mesh differenti sono ammesse, piedi e larghezze differenti sono rifiutati.
 
 Il campionamento unisce i nodi di tutti i campi, entrambi i limiti sopra e sotto le discontinuità, suddivisioni regolari e le radici delle derivate dei polinomi della grandezza osservata. Conserva quindi gli estremi esterni globali del campo recuperato, anche se interni agli elementi. Il disegno interpola queste stazioni: non ricerca ogni intersezione fra curve di fasi diverse e non attribuisce una provenienza unica al segmento disegnato. La provenienza è quella del singolo punto. Il foglio usa due suddivisioni per intervallo comune oltre agli estremi interni; ciò non sostituisce la verifica di convergenza della mesh strutturale.
 
@@ -3405,11 +3405,21 @@ L'inviluppo di storie incomplete è parziale e include soltanto le fasi concluse
 
 Il riferimento indipendente integra con numeri razionali la curvatura della mensola da 6000 mm, EI=2·10¹⁴ Nmm², con forze, coppie e azioni assiali concentrate. Si controllano 49 quote, i due lati interni, tre fasi in due casi e le azioni concomitanti. Le tolleranze assolute sono 2·10⁻⁸ mm, 2·10⁻¹¹ rad, 2·10⁻⁷ N su N, 2·10⁻⁵ N su V e 0,05 Nmm su M. Una prova distinta usa H=10000 N e q=−4 N/mm: M(x)=10000x−2x² raggiunge 12,5·10⁶ Nmm a x=2500 mm, fuori dai nodi e dalla griglia uniforme del disegno. Sono tolleranze di collaudo, non limiti di progetto.
 
+### Storie indipendenti e combinazioni assegnate
+
+Ogni caso parte dal proprio stato iniziale. La memoria elastoplastica, gli spostamenti, i riferimenti d'installazione e le pretensioni si trasferiscono fra le fasi dello stesso caso, senza passare a un'altra storia. La filtrazione e i verificatori ricevono le fasi e le azioni dello stesso caso. La diversa classificazione SLU/SLE seleziona il controllo richiesto, senza moltiplicare implicitamente le azioni.
+
+La modellazione comune comprende geometria, materiali, sezioni, terreni e definizione dei sostegni. Le righe associate al caso definiscono invece scavi, riporti, falde, carichi, attivazioni e verifiche geotecniche per fase. Non è ancora implementata la generazione automatica delle combinazioni normative o dei diversi insiemi di parametri geotecnici: le azioni sono assegnate dall'utente con fonte e coefficienti dichiarati; insiemi geotecnici differenti richiedono documenti distinti. Non si scalano né si sommano le risposte non lineari.
+
+La ricerca discreta richiede a ogni candidato tutte le storie e tutte le famiglie di verifica richieste. Il limite di spostamento può essere differente per caso. Il minimo comune di 7500 mm del benchmark precedente è verificato attraverso l'intero percorso applicativo, oltre al coordinatore numerico. L'isolamento è controllato confrontando ogni storia del gruppo con la sua esecuzione separata, anche dopo plasticizzazione e inversione del carico, e confrontando i risultati trasferiti a Concrete, Steel, tiranti, filtrazione, UPL/HYD e stabilità globale.
+
+Lo stato del gruppo distingue convergenza di tutte le storie da completezza delle verifiche progettuali. Un caso interrotto rende il gruppo incompleto e l'inviluppo parziale, anche se altri casi sono convergenti. Una storia senza soluzione meccanica non viene eliminata dal riepilogo. Le verifiche prive di dati o fuori dal proprio campo restano non valutate. I report leggono gli stessi risultati conservati; la selezione grafica di un caso non restringe la relazione complessiva.
+
 ### Prove indipendenti e limiti residui
 
 Le prove comprendono trave analitica, fondazione elastica, memoria plastica e pretensione, pressioni con falda, equilibrio di forze e momenti, raffinamento della mesh e degli incrementi, Darcy affine e stratificato, campi idraulici non saturi, annullamento e mancata convergenza. Il trasferimento a Concrete e Steel è verificato separatamente. Gli attesi indipendenti non sono rigenerati dai risultati del motore; la corrispondenza numerica di un benchmark non estende il suo campo fisico.
 
-Restano da completare altre famiglie geometriche, interazione fra pareti, cedimenti ed effetto arco, cerniere e plasticità strutturale, stabilità geotecnica del fondo e tampone, integrazione delle combinazioni multiple nella ricerca del foglio, criteri aggiuntivi, progetto automatico e procedure sismiche avanzate. Le norme non disponibili restituiscono un esito riconoscibile. Non è dichiarato un supporto generale di Eurocodici e annessi, ACI o AISC sulla sola presenza del nome nell'interfaccia.
+Restano da completare altre famiglie geometriche, interazione fra pareti, cedimenti ed effetto arco, cerniere e plasticità strutturale, stabilità geotecnica del fondo e tampone, generazione automatica delle combinazioni, criteri aggiuntivi, progetto automatico e procedure sismiche avanzate. Le norme non disponibili restituiscono un esito riconoscibile. Non è dichiarato un supporto generale di Eurocodici e annessi, ACI o AISC sulla sola presenza del nome nell'interfaccia.
 
 ### Riferimenti del metodo
 

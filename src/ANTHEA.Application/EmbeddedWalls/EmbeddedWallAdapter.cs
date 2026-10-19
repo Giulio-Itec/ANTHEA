@@ -27,6 +27,8 @@ public static class EmbeddedWallAdapter
     public static EmbeddedWallModel ToModel(JsonObject data)
     {
         EmbeddedWallDocument.Validate(data);
+        if (data["cases"] is JsonArray cases && cases.Count > 0)
+            throw new ArgumentException("Separare le storie prima di costruire il modello numerico.");
         var stages = EmbeddedWallDocument.Rows(data, "stages").ToArray();
         var ids = stages.Select(s => Text(s, "id")).ToHashSet(StringComparer.Ordinal);
         foreach (var row in EmbeddedWallDocument.Rows(data, "activations").Concat(EmbeddedWallDocument.Rows(data, "loads"))

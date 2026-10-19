@@ -47,6 +47,7 @@ public static partial class EmbeddedWallReport
     }
     public static string TubeCsv(EmbeddedWallReportData result)
     {
+        if (result.Cases is not null) return HistoriesCsv(result, TubeCsv);
         static string Cell(object? value) => "\"" + (value is double d ? d.ToString("G17", CultureInfo.InvariantCulture) : value?.ToString() ?? "").Replace("\"", "\"\"") + "\"";
         var text = new StringBuilder("caso;fase;sezione;z_m;lato;N_kN;V_kN;M_kNm;fattore_fascia_tubo;classe;gammaM0;rho;asse_neutro_mm;residuo_N;metodo;domanda;capacita;unita;utilizzo;esito;fonte;diagnostica;impronta\n");
         foreach (var r in result.SteelTubes ?? [])

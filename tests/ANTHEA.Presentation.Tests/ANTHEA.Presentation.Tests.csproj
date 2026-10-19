@@ -36,4 +36,5 @@
     <Compile Include="../ANTHEA.Testing/Normalization/TextNormalizer.cs" Link="Shared/TextNormalizer.cs" />
     <Compile Include="../ANTHEA.Testing/Normalization/DocxText.cs" Link="Shared/DocxText.cs" />
   </ItemGroup>
+  <ItemGroup><None Update="histories-independent.json" CopyToOutputDirectory="PreserveNewest" /></ItemGroup>
 </Project>

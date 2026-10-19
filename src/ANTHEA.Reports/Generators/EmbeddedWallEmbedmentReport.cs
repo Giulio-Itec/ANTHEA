@@ -21,7 +21,7 @@ public static partial class EmbeddedWallReport
             paragraph($"Infissione {F(c.Embedment)} m — {c.OutcomeText}", true);
             if (c.Result is { } result) paragraph("Analisi: " + result.Status + ". " + result.Diagnostic + "; impronta candidato: " + result.Fingerprint, false);
             table(["Criterio / fase", "Domanda", "Limite", "Unità", "Utilizzo", "Esito"], c.Criteria.Select(v => new[] {
-                v.Label + " / " + (v.Stage ?? "tutta la storia"), F(v.Demand), F(v.Limit), v.Unit, F(v.Ratio), v.OutcomeText }));
+                v.CaseId + " / " + v.Label + " / " + (v.Stage ?? "tutta la storia"), F(v.Demand), F(v.Limit), v.Unit, F(v.Ratio), v.OutcomeText }));
             foreach (var v in c.Criteria) paragraph(v.Label + ": " + v.Method + ". " + v.Diagnostic, false);
         }
     }
@@ -39,9 +39,10 @@ public static partial class EmbeddedWallReport
                 null, c.Diagnostic, c.Result?.Fingerprint);
             foreach (var v in c.Criteria) Row("Criterio", c.Embedment, c.ToeElevation, v.CaseId, v.Stage, v.Label, v.Outcome, v.Demand, v.Limit, v.Ratio, v.Unit,
                 v.Elevation, null, null, null, null, null, null, null, v.Method, v.Diagnostic, c.Result?.Fingerprint);
-            foreach (var stage in c.Result?.Stages ?? [])
-            foreach (var p in stage.Points) Row("Sezione", c.Embedment, c.ToeElevation, result.CaseId, stage.Id, null, c.Result!.Status, null, null, null, null,
-                p.Elevation, p.Side, p.Displacement, p.Normal, p.Shear, p.Moment, p.LeftPressure, p.RightPressure, null, null, c.Result.Fingerprint);
+            foreach (var history in c.Result is null ? Array.Empty<EmbeddedWallReportData>() : c.Result.Cases ?? new[] { c.Result })
+            foreach (var stage in history.Stages)
+            foreach (var p in stage.Points) Row("Sezione", c.Embedment, c.ToeElevation, history.CaseId, stage.Id, null, history.Status, null, null, null, null,
+                p.Elevation, p.Side, p.Displacement, p.Normal, p.Shear, p.Moment, p.LeftPressure, p.RightPressure, null, null, history.Fingerprint);
         }
         return text.ToString();
     }

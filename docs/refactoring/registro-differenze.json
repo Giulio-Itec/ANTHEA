@@ -7779,6 +7779,40 @@
         "PARATIE-01",
         "PARATIE-13"
       ]
+    },
+    {
+      "id": "PARATIE-15",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 13",
+      "titolo": "Storie indipendenti e ricerca multi-caso nel foglio",
+      "famiglia": "paratie/storie",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Schema 11: casi assegnati con fasi, carichi e verifiche indipendenti, inviluppi comuni e ricerca su tutti i casi. UI, persistenza, CSV e report conservano provenienza e completezza.",
+      "codice": [
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallHistories.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallEmbedmentSearch.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallHistoryViewModel.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallHistoryReport.cs"
+      ],
+      "segno": "Nove CSV precedenti, 5099 righe identiche esclusa impronta dello schema. Nessuna somma non lineare, rifattorizzazione delle azioni o terna artificiale; sorgenti GPC e attesi invariati.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Proseguire il modulo e anticipare una prima versione funzionante testabile, con limiti espliciti.",
+        "esito": "Integrazione multi-caso collaudata; candidata locale dopo standard. Nessuna esclusione dalla matrice complessiva."
+      },
+      "test": [
+        "26 stazioni razionali indipendenti; fixture SHA-256 nel verbale",
+        "1419 controlli applicativi e 58 WPF PASS",
+        "ci/20261019-170434-paratie-inc13-ui-final: 6 PASS, 0 NEW-FAIL",
+        "Guide Rev51: 251 pagine, 373 formule; archivio Rev50 byte per byte",
+        "docs/paratie/incremento-13.md"
+      ],
+      "voci_collegate": [
+        "PARATIE-01",
+        "PARATIE-13",
+        "PARATIE-14"
+      ]
     }
   ]
 }

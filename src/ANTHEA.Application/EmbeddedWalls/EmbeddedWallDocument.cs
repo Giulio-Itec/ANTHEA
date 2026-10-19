@@ -9,10 +9,10 @@ namespace Anthea.Application.EmbeddedWalls;
 
 /// <summary>Versioned editable input. Elevations m; forces kN; moments kNm; EI kNm²;
 /// pressures kPa; kh N/mm³. Numerical validation belongs to the GPC adapter/engine.</summary>
-public static class EmbeddedWallDocument
+public static partial class EmbeddedWallDocument
 {
     public const string Module = "geo_paratie";
-    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions", "steel_members", "anchor_checks", "anchor_layers", "anchor_tests", "steel_tubes", "rc_piles", "distributed_loads" });
+    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions", "steel_members", "anchor_checks", "anchor_layers", "anchor_tests", "steel_tubes", "rc_piles", "distributed_loads", "cases" });
     public static JsonObject Create() => Upgrade(new()
     {
         ["schema"] = 1, ["name"] = "Paratia", ["case_id"] = "Caso 1", ["action_basis"] = "Da definire",
@@ -25,6 +25,7 @@ public static class EmbeddedWallDocument
     });
     public static JsonObject NewRow(string table) => table switch
     {
+        "cases" => NewCase(),
         "segments" => new() { ["section"] = "S1", ["top"] = 0, ["bottom"] = -12, ["ei_mode"] = "Assegnata", ["ei"] = null, ["weight"] = 0, ["source"] = "" },
         "left_soils" or "right_soils" => new() { ["name"] = "Strato", ["top"] = 0, ["bottom"] = -20, ["gamma"] = null, ["gamma_sat"] = null,
             ["phi"] = null, ["c"] = null, ["cu"] = null, ["k0"] = null, ["kh"] = null, ["drainage"] = "Drained", ["source"] = "", ["stiffness_source"] = "" },
@@ -147,15 +148,21 @@ public static class EmbeddedWallDocument
             if (!data.ContainsKey("embedment_source")) data["embedment_source"] = "";
             data["schema"] = 10;
         }
+        if (StratigraphyDocument.Number(data["schema"], "Versione paratie") == 10)
+        {
+            if (!data.ContainsKey("cases")) data["cases"] = new JsonArray();
+            data["schema"] = 11;
+        }
         Validate(data);
         return data;
     }
     public static void Validate(JsonObject data)
     {
         var schema = StratigraphyDocument.Number(data["schema"], "Versione paratie");
-        if (schema is not (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10)) throw new ArgumentException("Versione del documento paratie non supportata.");
+        if (schema is not (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11)) throw new ArgumentException("Versione del documento paratie non supportata.");
         foreach (var name in Tables)
         {
+            if (schema < 11 && name == "cases") continue;
             if (schema < 9 && name == "distributed_loads") continue;
             if (schema < 8 && name == "rc_piles") continue;
             if (schema < 7 && name == "steel_tubes") continue;
@@ -185,7 +192,7 @@ public static class EmbeddedWallDocument
     }
     public static JsonObject ResultValues(EmbeddedWallReportData result) => new()
     {
-        ["stato"] = result.Status, ["impronta"] = result.Fingerprint, ["fasi_complete"] = result.Stages.Count,
+        ["stato"] = result.Status, ["impronta"] = result.Fingerprint, ["fasi_complete"] = result.Cases?.Sum(c => c.Stages.Count) ?? result.Stages.Count,
         ["errore"] = result.Complete ? "" : "Analisi incompleta: " + result.Diagnostic,
         ["risultato"] = JsonSerializer.SerializeToNode(result)
     };

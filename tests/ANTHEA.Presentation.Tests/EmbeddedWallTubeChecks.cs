@@ -26,7 +26,7 @@ internal static partial class EmbeddedWallChecks
     {
         var legacy = Example(); legacy["schema"] = 6; legacy.Remove("steel_tubes"); legacy.Remove("tube_standard"); legacy.Remove("tube_check_kind");
         legacy["segments"]![0]!.AsObject().Remove("ei_mode"); string before = legacy.ToJsonString(); var migrated = EmbeddedWallDocument.Snapshot(legacy);
-        e.That(legacy.ToJsonString() == before && migrated["schema"]!.ToString() == "10" && migrated["tube_standard"]!.ToString() == "Non richieste"
+        e.That(legacy.ToJsonString() == before && migrated["schema"]!.ToString() == "11" && migrated["tube_standard"]!.ToString() == "Non richieste"
             && migrated["segments"]![0]!["ei_mode"]!.ToString() == "Assegnata", "Migrazione 6→7 modifica dati o attiva nuove verifiche.");
         var data = TubeExample(); before = data.ToJsonString(); using var sheet = Open(data);
         e.That(await Expect.Within(sheet.CalculateAsync()), "Calcolo tubolare non pubblicato."); var result = sheet.Current!;

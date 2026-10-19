@@ -289,6 +289,39 @@ internal static class EmbeddedWallViewChecks
             Check(sheet.Current is null && sheet.EmbedmentCandidates.Count == 0 && !sheet.EmbedmentCsvCommand.CanExecute(null), "Limite modificato conserva la ricerca corrente.");
             Check(sheet.EnvelopeSeries.Count == 0 && sheet.EnvelopeMinimum.Count == 0 && sheet.EnvelopeMaximum.Count == 0
                 && !sheet.EnvelopeCsvCommand.CanExecute(null), "Input modificati conservano inviluppi superati.");
+            var multi = searchData.DeepClone().AsObject(); multi["case_id"] = "C1";
+            multi["action_basis"] = "Storia indipendente con azioni assegnate 0, +10 e -5 kN; nessun coefficiente";
+            var secondCase = EmbeddedWallDocument.NewRow("cases"); secondCase["id"] = "C2";
+            secondCase["action_basis"] = "Storia indipendente H=15 kN"; secondCase["embedment_head_limit"] = 4.5;
+            secondCase["embedment_source"] = "Limite del secondo caso; minimo indipendente 7,50 m"; multi["cases"]!.AsArray().Add(secondCase);
+            foreach (string table in new[] { "stages", "loads" })
+            foreach (var originalRow in multi[table]!.AsArray().ToArray())
+            {
+                var row = originalRow!.DeepClone().AsObject(); row["case"] = "C2";
+                if (table == "loads" && row["stage"]!.ToString() == "Loaded") row["horizontal"] = 15;
+                multi[table]!.AsArray().Add(row);
+            }
+            sheet.Reload(multi); tabs.SelectedIndex = 1; await Settle();
+            var dataTabs = Visual(editor.View).OfType<TabControl>().Single(t => t.ItemsSource is not null);
+            dataTabs.SelectedItem = sheet.Tables.Single(t => t.Key == "cases"); await Settle(); Capture("casi-editor");
+            Check(sheet.Tables.Single(t => t.Key == "cases").Editor!["embedment_head_limit"].Key == "embedment_head_limit",
+                "Editor degli altri casi non disponibile.");
+            await sheet.SearchEmbedmentCommand.ExecuteAsync(null); tabs.SelectedIndex = 3; await Settle();
+            Check(sheet.Current?.EmbedmentSearch is { MinimumCertified: true, BestEmbedment: 7.5 } && sheet.ResultCases.Count == 2,
+                "La ricerca grafica non considera entrambi i casi.");
+            var caseSelector = Visual(editor.View).OfType<ComboBox>().Single(c => c.DisplayMemberPath == "CaseId");
+            Check(caseSelector.Items.Count == 2 && ReferenceEquals(caseSelector.SelectedItem, sheet.SelectedResultCase), "Selettore dei casi scollegato.");
+            caseSelector.SelectedItem = sheet.ResultCases.Single(c => c.CaseId == "C2"); await Settle(); Capture("casi-diagramma");
+            Check(sheet.SelectedResultCase?.CaseId == "C2" && ReferenceEquals(sheet.Stages, sheet.ResultCases[1].Stages)
+                && sheet.Points.Min(p => p.Elevation) == -7.5 && sheet.ResultCaseStatus.Contains("C2"), "Cambio caso conserva dati precedenti.");
+            tabs.SelectedItem = tabs.Items.OfType<TabItem>().Single(t => t.Header as string == "Inviluppi");
+            sheet.SelectedEnvelopeSeries = sheet.EnvelopeSeries.Single(s => s.Quantity == "Displacement"); await Settle(); Capture("casi-inviluppi");
+            Check(sheet.Current!.Envelope?.Histories.Count == 2 && sheet.SelectedEnvelopeSeries.Maximum.CaseId == "C2",
+                "Inviluppo multi-caso perde il caso governante.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("casi-inviluppi-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "cases").Rows[0]["action_basis"] = "Fonte aggiornata"; await Settle();
+            Check(sheet.Current is null && sheet.ResultCases.Count == 0 && sheet.Points.Count == 0 && sheet.EnvelopeSeries.Count == 0,
+                "Modifica di un caso conserva i risultati dell'insieme.");
             editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
             Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF paratie, senza attivare finestre sul desktop");

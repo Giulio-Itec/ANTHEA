@@ -36,7 +36,7 @@ internal static partial class EmbeddedWallChecks
         var old = Example(); old["schema"] = 5;
         foreach (string key in new[] { "anchor_checks", "anchor_layers", "anchor_tests", "anchor_standard", "anchor_a1m1", "anchor_situation" }) old.Remove(key);
         string before = old.ToJsonString(); var migrated = EmbeddedWallDocument.Snapshot(old);
-        e.That(old.ToJsonString() == before && migrated["schema"]!.ToString() == "10" && migrated["anchor_standard"]!.ToString() == "Non richieste"
+        e.That(old.ToJsonString() == before && migrated["schema"]!.ToString() == "11" && migrated["anchor_standard"]!.ToString() == "Non richieste"
             && migrated["anchor_checks"]!.AsArray().Count == 0, "Migrazione 5→6 altera input o attiva sfilamento.");
         var data = AnchorExample(); before = data.ToJsonString(); using var sheet = Open(data);
         e.That(await Expect.Within(sheet.CalculateAsync()), "Calcolo tiranti non pubblicato."); var result = sheet.Current!; var checks = sheet.AnchorChecks;

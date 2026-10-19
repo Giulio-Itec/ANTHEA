@@ -19,39 +19,41 @@ public sealed partial class EmbeddedWallModule
     public EmbeddedWallReportData SearchEmbedment(JsonObject source, CancellationToken cancellation = default,
         IProgress<EmbeddedWallEmbedmentProgress>? progress = null)
     {
-        var data = Prepare(source); var longest = ToModel(data);
-        double limit = Number(data, "embedment_head_limit"); string provenance = Text(data, "embedment_source");
-        if (!double.IsFinite(limit) || limit <= 0) throw new ArgumentException("Assegnare un limite positivo di spostamento in testa, in mm.");
-        var families = new List<string> { "HeadDisplacement" };
-        if (Text(data, "check_kind") != "Analisi") families.Add("ConcreteStrips");
-        foreach (var pair in new[] { ("steel_standard", "SteelSupports"), ("anchor_standard", "Anchors"), ("tube_standard", "SteelTubes"), ("rc_pile_standard", "RcPiles") })
-            if (Text(data, pair.Item1) != "Non richieste") families.Add(pair.Item2);
-        if (EmbeddedWallDocument.Rows(data, "hydraulic_upl").Any() || EmbeddedWallDocument.Rows(data, "hydraulic_hyd").Any()) families.Add("HydraulicChecks");
-        if (EmbeddedWallDocument.Rows(data, "global_checks").Any()) families.Add("GlobalStability");
+        var data = Prepare(source); var inputs = EmbeddedWallDocument.SplitHistories(data);
+        var models = inputs.Select(ToModel).ToArray(); var longest = models[0];
+        var requested = inputs.ToDictionary(d => Text(d, "case_id"), RequiredFamilies, StringComparer.Ordinal);
+        var limits = inputs.ToDictionary(d => Text(d, "case_id"), d => Number(d, "embedment_head_limit"), StringComparer.Ordinal);
+        var sources = inputs.ToDictionary(d => Text(d, "case_id"), d => Text(d, "embedment_source"), StringComparer.Ordinal);
+        if (limits.Values.Any(v => !double.IsFinite(v) || v <= 0) || sources.Values.Any(string.IsNullOrWhiteSpace))
+            throw new ArgumentException("Assegnare un limite positivo in testa, in mm, e una fonte per ogni caso della ricerca.");
+        string provenance = Text(data, "embedment_source");
         var definition = new EmbeddedWallEmbedmentSearch
         {
             WallTop = longest.Top, ReferenceElevation = Number(data, "embedment_reference") * SoilUnits.Metre,
             MinimumEmbedment = Number(data, "embedment_minimum") * SoilUnits.Metre, MaximumEmbedment = Number(data, "embedment_maximum") * SoilUnits.Metre,
             Increment = Number(data, "embedment_increment") * SoilUnits.Metre, Source = provenance,
-            Histories = [new() { CaseId = longest.CaseId, StageIds = longest.Stages.Select(s => s.Id).ToArray(), RequiredCheckIds = families.ToArray() }]
+            Histories = models.Select(m => new EmbeddedWallSearchHistory { CaseId = m.CaseId, StageIds = m.Stages.Select(s => s.Id).ToArray(), RequiredCheckIds = requested[m.CaseId].ToArray() }).ToArray()
         };
         // These are only snapshots of computations already made, including failed hydraulic evaluations.
         var reports = new Dictionary<double, EmbeddedWallReportData>();
         var search = EmbeddedWallEmbedment.Run(definition, (toe, token) =>
         {
-            var cut = EmbeddedWallAnalysis.WithToe(longest, toe);
+            var cuts = models.Select(m => EmbeddedWallAnalysis.WithToe(m, toe)).ToArray();
+            var cut = cuts[0];
             var candidate = data.DeepClone().AsObject(); candidate["bottom"] = cut.Bottom / SoilUnits.Metre;
             var originalSegments = EmbeddedWallDocument.Rows(data, "segments").ToArray();
             candidate["segments"] = new JsonArray(cut.Segments.Select((s, i) =>
             {
                 var row = originalSegments[i].DeepClone().AsObject(); row["bottom"] = s.Bottom / SoilUnits.Metre; return (JsonNode)row;
             }).ToArray());
-            WallAnalysisResult? native = null;
-            var result = CalculateSingle(candidate, null, token, value => native = value).NativeAs<EmbeddedWallReportData>();
+            var native = new List<WallAnalysisResult>();
+            var result = CalculateHistories(candidate, null, token, native.Add).NativeAs<EmbeddedWallReportData>();
             reports.Add(toe, result);
-            var criteria = Criteria(result, families);
-            if (native is not null) criteria.Insert(0, EmbeddedWallEmbedment.HeadDisplacement(native, limit, provenance));
-            return new WallEmbedmentEvaluation<EmbeddedWallReportData>(toe, native is null ? [] : [native], criteria.AsReadOnly(), result);
+            var caseReports = result.Cases ?? new[] { result };
+            var criteria = caseReports.SelectMany(r => Criteria(r, requested[r.CaseId])).ToList();
+            foreach (var analysis in native)
+                criteria.Add(EmbeddedWallEmbedment.HeadDisplacement(analysis, limits[analysis.CaseId], sources[analysis.CaseId]));
+            return new WallEmbedmentEvaluation<EmbeddedWallReportData>(toe, native.AsReadOnly(), criteria.AsReadOnly(), result);
         }, cancellation, new EmbedmentProgressRelay(p => progress?.Report(new(p.Evaluated, p.Planned))));
         var mapped = new EmbeddedWallEmbedmentData(search.Completed, search.Cancelled, search.MinimumCertified,
             search.ReferenceElevation / SoilUnits.Metre, search.Increment / SoilUnits.Metre, search.Source,
@@ -65,7 +67,7 @@ public sealed partial class EmbeddedWallModule
         var selected = search.Best?.Evaluation?.Payload;
         var scope = new List<string>
         {
-            "Ricerca esaustiva sulla griglia assegnata: ogni quota ricalcola tutte le fasi della combinazione corrente e le verifiche richieste. Nessuna ipotesi di monotonia o fattorizzazione aggiuntiva.",
+            "Ricerca esaustiva sulla griglia assegnata: ogni quota ricalcola tutte le fasi di ogni caso richiesto e le verifiche richieste. Nessuna ipotesi di monotonia o fattorizzazione aggiuntiva.",
             "Il criterio di spostamento riguarda la testa, con limite e fonte assegnati. Il minimo è riferito soltanto alla griglia e ai criteri elencati; combinazioni ulteriori e verifiche non richieste restano distinte.",
             "Il modello iniziale deve coprire la parete più lunga: si tagliano i tratti senza estrapolare sezioni o terreno. Carichi o sostegni sotto il candidato e vincoli al piede impediscono la valutazione.",
             "Le tabelle e i diagrammi principali si riferiscono al candidato accettabile meno profondo, quando disponibile; dati e risultati di tutti i candidati sono conservati nello snapshot e nel CSV della ricerca."
@@ -75,6 +77,17 @@ public sealed partial class EmbeddedWallModule
         return root with { Fingerprint = EmbeddedWallDocument.Fingerprint(data), InputJson = data.ToJsonString(new() { WriteIndented = true }),
             Complete = search.Completed && selected is not null, Status = search.Cancelled ? "EmbedmentCancelled" : search.MinimumCertified ? "EmbedmentMinimum" : "EmbedmentUncertified",
             Diagnostic = search.Diagnostic, Scope = scope.AsReadOnly(), EmbedmentSearch = mapped };
+    }
+
+    private static List<string> RequiredFamilies(JsonObject data)
+    {
+        var families = new List<string> { "HeadDisplacement" };
+        if (Text(data, "check_kind") != "Analisi") families.Add("ConcreteStrips");
+        foreach (var pair in new[] { ("steel_standard", "SteelSupports"), ("anchor_standard", "Anchors"), ("tube_standard", "SteelTubes"), ("rc_pile_standard", "RcPiles") })
+            if (Text(data, pair.Item1) != "Non richieste") families.Add(pair.Item2);
+        if (EmbeddedWallDocument.Rows(data, "hydraulic_upl").Any() || EmbeddedWallDocument.Rows(data, "hydraulic_hyd").Any()) families.Add("HydraulicChecks");
+        if (EmbeddedWallDocument.Rows(data, "global_checks").Any()) families.Add("GlobalStability");
+        return families;
     }
 
     private sealed class EmbedmentProgressRelay(Action<WallEmbedmentSearchProgress> update) : IProgress<WallEmbedmentSearchProgress>

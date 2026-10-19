@@ -120,6 +120,7 @@ internal static partial class EmbeddedWallChecks
         await DistributedLoadsAsync(e, output);
         await EmbedmentAsync(e, output);
         await EnvelopesAsync(e, output);
+        await HistoriesAsync(e, output);
         return e.Count;
     }
     internal static JsonObject HydraulicExample()
@@ -147,9 +148,9 @@ internal static partial class EmbeddedWallChecks
         var old = Example(); old["schema"] = 1;
         foreach (string key in old.Select(p => p.Key).Where(k => k.StartsWith("hydraulic_", StringComparison.Ordinal) || k == "ignore_suction").ToArray()) old.Remove(key);
         string oldJson = old.ToJsonString(); var migrated = EmbeddedWallDocument.Snapshot(old);
-        e.That(old.ToJsonString() == oldJson && migrated["schema"]!.ToString() == "10" && migrated["hydraulic_mode"]!.ToString() == "Idrostatica"
+        e.That(old.ToJsonString() == oldJson && migrated["schema"]!.ToString() == "11" && migrated["hydraulic_mode"]!.ToString() == "Idrostatica"
             && migrated["hydraulic_left"]!.AsArray().Count == 0 && migrated["hydraulic_mesh"] is null, "Migrazione ha mutato l'originale o inventato dati idraulici.");
-        using (var legacy = Open(old)) e.That(legacy.Data["schema"]!.ToString() == "10" && legacy.Tables.Count == 22, "Documento precedente non apribile nell'editor.");
+        using (var legacy = Open(old)) e.That(legacy.Data["schema"]!.ToString() == "11" && legacy.Tables.Count == 23, "Documento precedente non apribile nell'editor.");
         var data = HydraulicExample(); string original = data.ToJsonString(); using var sheet = Open(data);
         e.That(await Expect.Within(sheet.CalculateAsync()), "Calcolo idraulico asincrono non pubblicato.");
         var result = sheet.Current ?? throw new InvalidOperationException("Risultato idraulico assente.");
@@ -193,7 +194,7 @@ internal static partial class EmbeddedWallChecks
         var old = HydraulicExample(); old["schema"] = 2;
         foreach (string key in new[] { "hydraulic_weight_mode", "hydraulic_standard", "hydraulic_situation", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd" }) old.Remove(key);
         string oldJson = old.ToJsonString(); var upgraded = EmbeddedWallDocument.Snapshot(old);
-        e.That(old.ToJsonString() == oldJson && upgraded["schema"]!.ToString() == "10" && upgraded["hydraulic_upl"]!.AsArray().Count == 0
+        e.That(old.ToJsonString() == oldJson && upgraded["schema"]!.ToString() == "11" && upgraded["hydraulic_upl"]!.AsArray().Count == 0
             && upgraded["hydraulic_weight_mode"]!.ToString() == "Quota di falda assegnata", "Migrazione 2→3 ha introdotto verifiche o mutato i pesi del terreno.");
         var input = SafetyExample(); using var sheet = Open(input);
         e.That(await Expect.Within(sheet.CalculateAsync()) && sheet.Current?.Complete == true, "Analisi con verifiche idrauliche non completata.");
