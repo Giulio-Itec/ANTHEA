@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 48
+Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 49
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -3344,11 +3344,47 @@ R_{a,d}=\frac{R_{a,k}}{\gamma_R}
 
 Il tratto libero è escluso, non si aggiunge portanza di punta e non si estrapolano gli abachi. I campioni sono profili completi o prove preliminari, con coefficienti distinti del profilo NTC §6.6; non si combinano minimi di strati appartenenti a indagini diverse. Il campo corrente è limitato a bulbi isolati e confinati, con almeno 5 m di ricoprimento da tutte le superfici libere e 4 m di tratto cementato: sono limiti dell'implementazione dichiarata. Una previsione sufficiente senza conferma sperimentale richiesta resta preliminare; un superamento della capacità resta non soddisfatto. Acciaio, aderenza acciaio–miscela, testa, gruppo, durabilità e collaudo richiedono controlli propri.
 
+### Ricerca discreta dell'infissione
+
+La variabile di ricerca d è positiva sotto la quota di riferimento zr; quote e profondità interne sono in mm. La quota del piede è:
+
+```formula
+z_{piede}=z_r-d
+```
+
+Si esplorano tutti i valori fra minimo e massimo con il passo costruttivo assegnato, includendo l'estremo superiore anche quando non coincide con un multiplo del passo. Non si assumono monotonia della risposta, unicità dell'intervallo ammissibile o equivalenza fra raffinamento della griglia e raffinamento della mesh strutturale. Il risultato dimostra eventualmente un minimo sulla griglia finita, non un ottimo continuo.
+
+Per ogni candidato si ricostruiscono geometria, fasi, pressioni e verifiche. Non si trasferisce lo stato plastico da un candidato al successivo; all'interno della singola storia si conserva invece tutta la memoria fra le fasi. Le pressioni FEM vengono ricalcolate perché il piede modifica il dominio di filtrazione. Non si spostano vincoli artificiali al piede e non si rimuovono sostegni o azioni incompatibili con la nuova geometria.
+
+Il criterio esplicito di spostamento considera il valore assoluto in testa di tutte le fasi concluse, con limite ulim assegnato e documentato:
+
+```formula
+u_{Ed}=\max_s|u_{testa,s}|
+\eta_u=\frac{u_{Ed}}{u_{lim}}
+```
+
+Non è un limite lungo tutta la deformata né una prescrizione normativa implicita. Le altre verifiche richieste vengono aggregate conservando fase, quota, domanda, capacità e metodo del controllo governante, senza ricalcolare coefficienti o resistenze. Una famiglia richiesta priva di esiti è Non valutata. Le verifiche di dettaglio del c.a. partecipano al giudizio separatamente dalla resistenza nominale.
+
+Un candidato è accettabile soltanto con storie complete e tutti i criteri assegnati soddisfatti. Un superamento dimostrato esclude il candidato; una mancata convergenza da sola non prova l'inammissibilità. Per dichiarare il minimo devono risultare sicuramente non soddisfatti tutti i candidati meno profondi. Un'incertezza a profondità maggiore non impedisce di dimostrare un minimo già individuato. L'annullamento rende il risultato non definitivo.
+
+Il coordinatore GPC ammette più storie indipendenti; il percorso corrente del foglio ricerca sulla combinazione assegnata. La copertura di tutte le combinazioni necessarie e delle verifiche non richieste resta distinta. Non si combinano sollecitazioni non lineari di storie diverse.
+
+L'atteso indipendente è una trave libera alle estremità su fondazione elastica uniforme: EI=2·10¹⁴ Nmm², k=2 N/mm², forza in testa H=10000 N, momento nullo alle due estremità e taglio nullo al piede. Con x positivo dalla testa verso il basso:
+
+```formula
+EI\,u''''+ku=0
+\beta=\left(\frac{k}{4EI}\right)^{1/4}
+```
+
+La soluzione combina cosh(βx)cos(βx), cosh(βx)sin(βx), sinh(βx)cos(βx) e sinh(βx)sin(βx), imponendo le quattro condizioni al contorno. Il calcolo indipendente a 60 e 80 cifre produce gli stessi attesi arrotondati; l'integrazione separata delle reazioni controlla forze e momenti. Per L da 3500 a 10000 mm, passo 500 mm e limite 3,25 mm, il primo valore accettabile è 6500 mm. Una seconda storia H=15000 N con limite 4,5 mm sposta il minimo comune a 7500 mm.
+
+Il collaudo separa convergenza della discretizzazione da 6 a 24 elementi e accuratezza con 96 elementi, perché il recupero delle azioni può raggiungere prima il limite dell'arrotondamento. Tolleranze assolute del benchmark: u=2·10⁻⁶ mm, θ=2·10⁻⁹ rad, M=5 Nmm e V=0,01 N; equilibrio globale entro 0,01 N e 100 Nmm. Queste tolleranze verificano l'algoritmo su quel caso e non sono limiti di progetto.
+
 ### Prove indipendenti e limiti residui
 
 Le prove comprendono trave analitica, fondazione elastica, memoria plastica e pretensione, pressioni con falda, equilibrio di forze e momenti, raffinamento della mesh e degli incrementi, Darcy affine e stratificato, campi idraulici non saturi, annullamento e mancata convergenza. Il trasferimento a Concrete e Steel è verificato separatamente. Gli attesi indipendenti non sono rigenerati dai risultati del motore; la corrispondenza numerica di un benchmark non estende il suo campo fisico.
 
-Restano da completare altre famiglie geometriche, interazione fra pareti, cedimenti ed effetto arco, cerniere e plasticità strutturale, stabilità geotecnica del fondo e tampone, ottimizzazione, progetto automatico e procedure sismiche avanzate. Le norme non disponibili restituiscono un esito riconoscibile. Non è dichiarato un supporto generale di Eurocodici e annessi, ACI o AISC sulla sola presenza del nome nell'interfaccia.
+Restano da completare altre famiglie geometriche, interazione fra pareti, cedimenti ed effetto arco, cerniere e plasticità strutturale, stabilità geotecnica del fondo e tampone, integrazione delle combinazioni multiple nella ricerca del foglio, criteri aggiuntivi, progetto automatico e procedure sismiche avanzate. Le norme non disponibili restituiscono un esito riconoscibile. Non è dichiarato un supporto generale di Eurocodici e annessi, ACI o AISC sulla sola presenza del nome nell'interfaccia.
 
 ### Riferimenti del metodo
 

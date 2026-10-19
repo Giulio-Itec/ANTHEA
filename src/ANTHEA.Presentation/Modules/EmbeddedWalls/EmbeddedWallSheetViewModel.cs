@@ -21,7 +21,7 @@ public sealed class EmbeddedWallSheetModule : ISheetModule
     public ISheetViewModel CreateSheet(SheetContext context) => new EmbeddedWallSheetViewModel(context);
 }
 
-public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
+public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
 {
     private EmbeddedWallReportData? current;
     private EmbeddedWallStageData? selectedStage, comparisonStage;
@@ -41,7 +41,9 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     {
         Rebuild(); Report = new SheetReport(this);
         RunCommand = GuardedCommands.CreateAsync(Guard, async c => { await CalculateAsync(c); }, Lifetime, () => !IsBusy);
-        CancelCommand = GuardedCommands.Create(Guard, () => CancelCalculation(), () => IsBusy);
+        CancelCommand = GuardedCommands.Create(Guard, () => { searchCancellation?.Cancel(); CancelCalculation(); }, () => IsBusy);
+        SearchEmbedmentCommand = GuardedCommands.CreateAsync(Guard, async c => { await SearchEmbedmentAsync(c); }, Lifetime, () => !IsBusy);
+        EmbedmentCsvCommand = GuardedCommands.Create(Guard, ExportEmbedmentCsv, () => current?.EmbedmentSearch is not null);
         CsvCommand = GuardedCommands.Create(Guard, ExportCsv, () => Current is not null);
         HydraulicCsvCommand = GuardedCommands.Create(Guard, ExportHydraulicCsv, () => HydraulicStages.Count > 0);
         HydraulicChecksCsvCommand = GuardedCommands.Create(Guard, ExportHydraulicChecksCsv, () => HydraulicChecks.Count > 0);
@@ -121,6 +123,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     public IReadOnlyList<EmbeddedWallSupportData> Supports => selectedStage?.Supports ?? [];
     public IReadOnlyList<EmbeddedWallCheckData> Checks => current?.Checks.Where(c => c.Stage == selectedStage?.Id).ToArray() ?? [];
     public string ResultStatus => current is null ? "Risultati assenti o superati: eseguire il calcolo sui dati correnti."
+        : current.EmbedmentSearch is not null ? EmbedmentStatus
         : current.Complete ? "Analisi convergente. Verifiche dell'opera: consultare ambito ed esiti." : "Analisi incompleta: sono visibili soltanto le fasi concluse.";
     public string Scope => current is null ? "Incremento in sviluppo: trave su molle, fasi, sostegni assiali metallici, sfilamento tiranti, sezioni tubolari CHS, filtrazione 2D, UPL/HYD e stabilità globale per pareti continue senza sostegni esterni. Campi di applicazione e verifiche residue sono indicati nei risultati."
         : string.Join(Environment.NewLine, current.Scope);
@@ -129,11 +132,13 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
         EmbeddedWallDocument.Upgrade(Data);
         General = new(Data, EmbeddedWallFields.General(), _ => Changed(), wikiModule: EmbeddedWallDocument.Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
         Hydraulics = new(Data, EmbeddedWallFields.Hydraulics(), _ => Changed(), wikiModule: EmbeddedWallDocument.Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
+        Embedment = new(Data, EmbeddedWallFields.Embedment(), _ => Changed(), wikiModule: EmbeddedWallDocument.Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
         Tables = EmbeddedWallDocument.Tables.Select(key => new EmbeddedWallTable(key, Data[key]!.AsArray(), Changed, () => CanEdit, Guard, Context.Services.Wiki)).ToArray();
-        OnPropertyChanged(nameof(General)); OnPropertyChanged(nameof(Hydraulics)); OnPropertyChanged(nameof(Tables));
+        OnPropertyChanged(nameof(General)); OnPropertyChanged(nameof(Hydraulics)); OnPropertyChanged(nameof(Embedment)); OnPropertyChanged(nameof(Tables));
     }
     public override async Task<bool> CalculateAsync(CancellationToken cancellation = default)
     {
+        if (searching) return false;
         Commit(); long started = Revision; var ui = SynchronizationContext.Current;
         void Show(EmbeddedWallProgress p)
         {
@@ -148,7 +153,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
         finally { if (service is not null) service.ProgressChanged -= Show; Progress = ""; }
     }
     protected override void OnReloaded() => Rebuild();
-    protected override void OnCommit() { General.Commit(); Hydraulics.Commit(); foreach (var table in Tables) table.Editor?.Commit(); EmbeddedWallDocument.Validate(Data); }
+    protected override void OnCommit() { General.Commit(); Hydraulics.Commit(); Embedment.Commit(); foreach (var table in Tables) table.Editor?.Commit(); EmbeddedWallDocument.Validate(Data); }
     protected override void OnCalculationPublished()
     {
         current = PublishedCalculation?.Native as EmbeddedWallReportData;
@@ -163,14 +168,15 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if (e.PropertyName == nameof(Revision) && !storingResult) RestoreResult();
+        if (e.PropertyName == nameof(Revision) && !storingResult) { searchCancellation?.Cancel(); RestoreResult(); }
         if (e.PropertyName == nameof(CanEdit))
         {
             if (General is not null) General.IsReadOnly = !CanEdit;
             if (Hydraulics is not null) Hydraulics.IsReadOnly = !CanEdit;
+            if (Embedment is not null) Embedment.IsReadOnly = !CanEdit;
             foreach (var table in Tables) table.RefreshAccess(); ImportSoilCommand?.NotifyCanExecuteChanged();
         }
-        if (e.PropertyName == nameof(IsBusy)) { RunCommand?.NotifyCanExecuteChanged(); CancelCommand?.NotifyCanExecuteChanged(); }
+        if (e.PropertyName == nameof(IsBusy)) { RunCommand?.NotifyCanExecuteChanged(); CancelCommand?.NotifyCanExecuteChanged(); SearchEmbedmentCommand?.NotifyCanExecuteChanged(); }
     }
     private void NotifyResult()
     {
@@ -183,6 +189,9 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
         OnPropertyChanged(nameof(RcPiles)); SelectedRcPileCheck = RcPiles.FirstOrDefault(); RcPileCsvCommand?.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(ResultStatus)); OnPropertyChanged(nameof(Scope)); CsvCommand?.NotifyCanExecuteChanged();
         HydraulicCsvCommand?.NotifyCanExecuteChanged(); HydraulicChecksCsvCommand?.NotifyCanExecuteChanged();
+        OnPropertyChanged(nameof(EmbedmentCandidates)); OnPropertyChanged(nameof(EmbedmentStatus));
+        SelectedEmbedment = EmbedmentCandidates.FirstOrDefault(c => c.Embedment == current?.EmbedmentSearch?.BestEmbedment) ?? EmbedmentCandidates.FirstOrDefault();
+        EmbedmentCsvCommand?.NotifyCanExecuteChanged();
     }
     private void RestoreResult()
     { current = EmbeddedWallDocument.ReadCurrentResult(Data); SelectedStage = Stages.LastOrDefault(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult(); }

@@ -51,7 +51,7 @@ internal static partial class EmbeddedWallChecks
         }
         var legacy = Example(); legacy["schema"] = 8; legacy.Remove("distributed_loads");
         string before = legacy.ToJsonString(); var upgraded = EmbeddedWallDocument.Snapshot(legacy);
-        e.That(legacy.ToJsonString() == before && upgraded["schema"]!.ToString() == "9"
+        e.That(legacy.ToJsonString() == before && upgraded["schema"]!.ToString() == "10"
             && upgraded["distributed_loads"]!.AsArray().Count == 0, "Migrazione 8→9 cambia gli input o aggiunge carichi.");
         e.That(Math.Abs(service.Calculate(legacy).NativeAs<EmbeddedWallReportData>().Stages[0].Points[0].Displacement - 3.6) < 1e-7,
             "Migrazione modifica la mensola storica.");

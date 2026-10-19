@@ -11,7 +11,7 @@ namespace Anthea.Application.EmbeddedWalls;
 
 public sealed record EmbeddedWallProgress(string Stage, double? Fraction, int Iterations);
 
-public sealed class EmbeddedWallModule : IModuleService
+public sealed partial class EmbeddedWallModule : IModuleService
 {
     public event Action<EmbeddedWallProgress>? ProgressChanged;
     public string ModuleId => EmbeddedWallDocument.Module;
@@ -19,6 +19,9 @@ public sealed class EmbeddedWallModule : IModuleService
     { var copy = EmbeddedWallDocument.Snapshot(source); copy.Remove("result_snapshot"); return copy; }
     public ModuleCalculation Calculate(JsonObject source, CancellationToken cancellation = default) => Calculate(source, null, cancellation);
     public ModuleCalculation Calculate(JsonObject source, IProgress<WallAnalysisProgress>? progress, CancellationToken cancellation = default)
+        => CalculateSingle(source, progress, cancellation);
+    private ModuleCalculation CalculateSingle(JsonObject source, IProgress<WallAnalysisProgress>? progress, CancellationToken cancellation,
+        Action<WallAnalysisResult>? capture = null)
     {
         var data = Prepare(source); var model = EmbeddedWallAdapter.ToModel(data);
         string basis = EmbeddedWallAdapter.Text(data, "action_basis"), kindText = EmbeddedWallAdapter.Text(data, "check_kind");
@@ -44,6 +47,7 @@ public sealed class EmbeddedWallModule : IModuleService
         }
         var analysis = EmbeddedWallAnalysis.Calculate(model, EmbeddedWallAdapter.Options(data), cancellation,
             new ProgressRelay(p => { progress?.Report(p); ProgressChanged?.Invoke(new(p.StageId, p.Fraction, p.Iterations)); }));
+        capture?.Invoke(analysis);
         var checks = analysis.IsComplete && kind.HasValue ? EmbeddedWallConcrete.Check(analysis, model.TributaryWidth, rc, kind.Value, cancellation) : [];
         var steel = EmbeddedWallSteelChecks.Calculate(data, analysis, cancellation);
         var anchors = EmbeddedWallAnchorChecks.Calculate(data, analysis, cancellation);

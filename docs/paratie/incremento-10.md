@@ -69,3 +69,5 @@ Nessuna nuova revisione GPC o installazione in `lib/Checker`.
 PAR-30 resta in corso: le guide vanno estese con le funzioni ancora aperte.
 Restano da completare e collaudare le altre righe della matrice, il seguito
 pali/micropali interrati, il rilascio coerente ufficiale e i merge finali.
+
+Riesecuzione dopo il commit f5b3d5d2: `ci/20261019-144824-paratie-guide48-final`, architettura e Wiki filtrate, tre PASS e nessun nuovo fallimento, albero pulito e invariato.

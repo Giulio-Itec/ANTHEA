@@ -1,0 +1,119 @@
+{
+  "date": "2026-10-19",
+  "reason": "Guide globali e indici aggiornati alla Rev49 con ricerca discreta dell infissione collaudata; conservazione integrale della Rev48.",
+  "replacement": "supporto/documentazione/Guide_ANTHEA/README.md",
+  "files": [
+    {
+      "source": "supporto/docs/guida-pratica-anthea.md",
+      "sha256": "1f86c95edc1cb48367277f355e1f08001ef65c25c8f37c044fac943ed5d1d3a9",
+      "bytes": 211395,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/docs/guida-pratica-anthea.md",
+      "replacement": "supporto/docs/guida-pratica-anthea.md"
+    },
+    {
+      "source": "supporto/docs/guida-pratica-anthea.pdf",
+      "sha256": "762f158427fce532a452e7272fa116798a21fb2aede1cb6b82d67db472427e7e",
+      "bytes": 1893388,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/docs/guida-pratica-anthea.pdf",
+      "replacement": "supporto/docs/guida-pratica-anthea.pdf"
+    },
+    {
+      "source": "supporto/docs/guida-teorica-anthea.md",
+      "sha256": "2d24684459cdd239c59a7dfd10734508d0bbaaf2378dc89975e92ff4020575a1",
+      "bytes": 353726,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/docs/guida-teorica-anthea.md",
+      "replacement": "supporto/docs/guida-teorica-anthea.md"
+    },
+    {
+      "source": "supporto/docs/guida-teorica-anthea.pdf",
+      "sha256": "3362fe9791f83e39a323b5edd8b8fe8edcad468bd340b927b1609f89c133e989",
+      "bytes": 2235998,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/docs/guida-teorica-anthea.pdf",
+      "replacement": "supporto/docs/guida-teorica-anthea.pdf"
+    },
+    {
+      "source": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.docx",
+      "sha256": "d7334aba09304f5d5ceca7afdbad9eb80d678dd7cd590d06ae9b6e930b4e96f0",
+      "bytes": 1814924,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.docx",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev49.docx"
+    },
+    {
+      "source": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.pdf",
+      "sha256": "762f158427fce532a452e7272fa116798a21fb2aede1cb6b82d67db472427e7e",
+      "bytes": 1893388,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev48.pdf",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev49.pdf"
+    },
+    {
+      "source": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.docx",
+      "sha256": "9de2e630a5e1c5035d094f4f67fe8c72d30dd730ea0dffa4fb53875f4c585e45",
+      "bytes": 618808,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.docx",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev49.docx"
+    },
+    {
+      "source": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.pdf",
+      "sha256": "3362fe9791f83e39a323b5edd8b8fe8edcad468bd340b927b1609f89c133e989",
+      "bytes": 2235998,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev48.pdf",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev49.pdf"
+    },
+    {
+      "source": "supporto/documentazione/Guide_ANTHEA/README.md",
+      "sha256": "f7188ccdb94840592db82032aa50852244e899043c0847fff530c3691e122132",
+      "bytes": 4590,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/documentazione/Guide_ANTHEA/README.md",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/README.md"
+    },
+    {
+      "source": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+      "sha256": "6aa62713c10b237264504c4eb4edd5c470448f382040fabf2d15430ac102a73f",
+      "bytes": 101312,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/documentazione/Guide_ANTHEA/README.pdf",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/README.pdf"
+    },
+    {
+      "source": "supporto/installer/Indice-guide.md",
+      "sha256": "80b5a60ae18e380b3920c62c07402038498dadd9ca626dc14fc1f11595e5224d",
+      "bytes": 3495,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/installer/Indice-guide.md",
+      "replacement": "supporto/installer/Indice-guide.md"
+    },
+    {
+      "source": "supporto/installer/Indice-guide.pdf",
+      "sha256": "27bc8762344dabd7718666e5d4e065541180fd68280a1bfff9086aafbe4b4029",
+      "bytes": 77510,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/installer/Indice-guide.pdf",
+      "replacement": "supporto/installer/Indice-guide.pdf"
+    },
+    {
+      "source": "supporto/README.md",
+      "sha256": "2336c51906519644ec17f1113b393dbf92bd186e09ac32903f551d88ecf67cbb",
+      "bytes": 7048,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/README.md",
+      "replacement": "supporto/README.md"
+    },
+    {
+      "source": "supporto/README.pdf",
+      "sha256": "e490119d40c572244f249d7de26993bce8c271b7eb5915142a151fdc316555e2",
+      "bytes": 102603,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/README.pdf",
+      "replacement": "supporto/README.pdf"
+    },
+    {
+      "source": "supporto/installer/README.md",
+      "sha256": "99c393b656a7fa4f6e56ce8bae31d27206e87500abbb05cc920bef14be9bc21c",
+      "bytes": 6772,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/installer/README.md",
+      "replacement": "supporto/installer/README.md"
+    },
+    {
+      "source": "supporto/installer/README.pdf",
+      "sha256": "1e778c056047c419fb3006a1885a8659b65c4147be7fc01e6c272e0e4504ee1e",
+      "bytes": 102636,
+      "archived": "supporto/SUPERATI/paratie-rev49-20261019/supporto/installer/README.pdf",
+      "replacement": "supporto/installer/README.pdf"
+    }
+  ]
+}

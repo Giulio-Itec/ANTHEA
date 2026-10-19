@@ -45,6 +45,33 @@
      <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Title}" Padding="8"/></DataTemplate></TabControl.ItemTemplate>
     </TabControl>
    </TabItem>
+   <TabItem Header="Ricerca infissione">
+    <Grid Margin="8"><Grid.ColumnDefinitions><ColumnDefinition Width="350"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+     <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+      <TextBlock Text="Ricerca per la combinazione corrente" FontWeight="SemiBold" FontSize="18" TextWrapping="Wrap" Margin="0,0,0,12"/>
+      <TextBlock Text="Il modello deve descrivere tutta la parete più lunga. Si esplorano tutte le profondità della griglia, ricalcolando fasi, filtrazione e verifiche richieste. Quote positive verso l'alto; infissione positiva sotto il riferimento assegnato." TextWrapping="Wrap" Margin="0,0,0,12"/>
+      <ContentControl Content="{Binding Embedment}"/>
+      <WrapPanel Margin="0,12"><Button Content="Cerca infissione" Command="{Binding SearchEmbedmentCommand}" Margin="0,0,8,8"/>
+       <Button Content="Esporta ricerca CSV" Command="{Binding EmbedmentCsvCommand}" Margin="0,0,0,8"/></WrapPanel>
+      <TextBlock Text="Il limite riguarda lo spostamento in testa. Il minimo sulla griglia vale solo per i criteri elencati: altre combinazioni e verifiche dell'opera restano da eseguire. Un candidato più corto non valutabile impedisce di dimostrare il minimo." TextWrapping="Wrap"/>
+     </StackPanel></ScrollViewer>
+     <Grid Grid.Column="1" Margin="20,0,0,0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+      <TextBlock Text="{Binding EmbedmentStatus}" TextWrapping="Wrap" Margin="0,0,0,12"/>
+      <DataGrid Grid.Row="1" ItemsSource="{Binding EmbedmentCandidates}" SelectedItem="{Binding SelectedEmbedment}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+       <DataGrid.Columns><DataGridTextColumn Header="Infissione [m]" Binding="{Binding Embedment, StringFormat=G6}"/>
+        <DataGridTextColumn Header="Piede [m]" Binding="{Binding ToeElevation, StringFormat=G6}"/>
+        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
+      </DataGrid>
+      <TextBlock Grid.Row="2" Text="{Binding EmbedmentCandidateDiagnostic}" TextWrapping="Wrap" Margin="0,12"/>
+      <DataGrid Grid.Row="3" ItemsSource="{Binding EmbedmentCriteria}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+       <DataGrid.Columns><DataGridTextColumn Header="Criterio" Binding="{Binding Label}"/><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/>
+        <DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G6}"/><DataGridTextColumn Header="Limite" Binding="{Binding Limit, StringFormat=G6}"/>
+        <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
+        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Metodo / fonte" Binding="{Binding Method}"/></DataGrid.Columns>
+      </DataGrid>
+     </Grid>
+    </Grid>
+   </TabItem>
    <TabItem Header="Diagrammi e risultati">
     <DockPanel Margin="8">
      <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,8">

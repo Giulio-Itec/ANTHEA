@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 48
+Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 49
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1469,6 +1469,22 @@ Assegnare testa a 0 m, piede a −6 m, fascia 2,5 m, EI=200000 kNm² e mesh 0,5 
 
 Si ottengono spostamento in testa 0,984393229 mm, taglio al piede 8,75 kN e momento al piede 25,375 kNm. La fase F2, senza intervalli di carico, torna elasticamente a zero; F3 con intensità −1 e −4 kN/m dà valori opposti. È una prova analitica del trasferimento delle azioni, non un esempio completo di dimensionamento geotecnico.
 
+### Ricercare l'infissione sulla griglia assegnata
+
+In **Ricerca infissione** assegnare quota di riferimento, infissioni minima e massima, passo, limite dello spostamento assoluto in testa in mm e fonte. L'infissione è positiva sotto il riferimento. Il limite è assegnato dal progettista, senza prescrizioni normative implicite.
+
+Il modello deve coprire la parete più lunga. Ogni candidato taglia i tratti, conserva il terreno sottostante e non estrapola proprietà. Carichi o sostegni sotto il nuovo piede impediscono la valutazione; non vengono eliminati. I vincoli al piede sono esclusi per evitare lo spostamento di un vincolo artificiale.
+
+**Cerca infissione** ricalcola per ciascun candidato tutte le fasi della combinazione corrente, filtrazione FEM e verifiche richieste. Le storie sono indipendenti. Si esplora l'intera griglia senza presumere miglioramenti monotoni; l'estremo superiore è incluso anche quando il passo non divide l'intervallo.
+
+Selezionare una riga per leggere criteri e fase governante. Diagrammi e verifiche principali restano riferiti al candidato accettabile meno profondo, dichiarato nello stato. Il **minimo dimostrato sulla griglia** richiede che tutti i candidati meno profondi abbiano un criterio sicuramente non soddisfatto: una quota inferiore non convergente o non valutabile impedisce questa conclusione. Le verifiche non richieste restano aperte.
+
+**Annulla** conserva solo i candidati conclusi, come risultato parziale senza minimo definitivo. Modificare gli input o chiudere il foglio impedisce pubblicazioni tardive. Salvataggio, riapertura e report usano gli stessi snapshot: il CSV contiene criteri e sezioni di ogni candidato; la relazione include griglia, diagnostica, criteri e risultati del candidato selezionato.
+
+Per riprodurre il benchmark, assegnare testa 0 m, piede iniziale −10 m, fascia 1 m, EI=200000 kNm², peso nullo e nessun vincolo strutturale. Su entrambi i lati: terreno da 0 a −20 m, γ=18 e γsat=20 kN/m³, φ=30°, c′=0, K0=0,5 e kh=0,001 N/mm³, con fonti esplicite; piano campagna 0 m, sovraccarico 100 kPa e falda assente. Tre fasi con forza in testa 0, +10 e −5 kN; mesh 0,125 m, due incrementi iniziali per fase. Ricercare da 3,5 a 10 m sotto quota 0, passo 0,5 m, limite 3,25 mm. Governa la fase +10 kN: u=3,433970786 mm a 6 m e 3,203845845 mm a 6,5 m, primo candidato accettabile. È un benchmark elastico con sola verifica dello spostamento in testa, non un progetto completo di paratia.
+
+![Ricerca dell'infissione e criterio governante nel benchmark elastico](../../X.Desktop/Assets/Wiki/paratie-ricerca-infissione.png)
+
 ### Funzioni ancora da completare
 
-Rimangono aperti, fra gli altri, famiglie complesse di sezioni e più file, effetto arco e cedimenti, interazione fra pareti e strutture interne, cerniere plastiche, ottimizzazione dell'infissione, instabilità del fondo e tampone, combinazioni automatiche e procedure sismiche avanzate, progetto automatico completo delle armature, importazione DXF e integrazioni esterne. Le opzioni non disponibili non certificano verifiche sostitutive. La guida sarà aggiornata con i successivi incrementi collaudati.
+Restano aperti: sezioni complesse e più file; effetto arco e cedimenti; interazione tra pareti e strutture interne; cerniere plastiche; ricerca con combinazioni multiple integrate e altri criteri; instabilità del fondo e tampone; combinazioni automatiche e sisma avanzato; progetto automatico completo delle armature; DXF e integrazioni esterne. Le opzioni non disponibili non producono verifiche sostitutive. I successivi incrementi saranno documentati dopo il collaudo.

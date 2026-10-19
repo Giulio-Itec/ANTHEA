@@ -9,7 +9,8 @@ public sealed record EmbeddedWallReportData(string Name, string Fingerprint, str
     IReadOnlyList<EmbeddedWallCheckData> Checks, IReadOnlyList<string> Scope, IReadOnlyList<EmbeddedWallHydraulicData>? Hydraulics = null,
     IReadOnlyList<EmbeddedWallHydraulicCheckData>? HydraulicChecks = null, IReadOnlyList<EmbeddedWallGlobalData>? GlobalChecks = null,
     IReadOnlyList<EmbeddedWallSteelData>? SteelSupports = null, IReadOnlyList<EmbeddedWallAnchorData>? AnchorChecks = null,
-    IReadOnlyList<EmbeddedWallTubeData>? SteelTubes = null, IReadOnlyList<EmbeddedWallRcPileData>? RcPiles = null);
+    IReadOnlyList<EmbeddedWallTubeData>? SteelTubes = null, IReadOnlyList<EmbeddedWallRcPileData>? RcPiles = null,
+    EmbeddedWallEmbedmentData? EmbedmentSearch = null);
 public sealed record EmbeddedWallStageData(string Id, int Increments, int Iterations, double ForceResidualN, double MomentResidualNmm,
     IReadOnlyList<EmbeddedWallPointData> Points, IReadOnlyList<EmbeddedWallSupportData> Supports);
 public sealed record EmbeddedWallPointData(double Elevation, string Side, string Section, double Displacement, double Rotation,

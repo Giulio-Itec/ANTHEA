@@ -7707,6 +7707,41 @@
         "PARATIE-01",
         "PARATIE-11"
       ]
+    },
+    {
+      "id": "PARATIE-13",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 11",
+      "titolo": "Ricerca discreta dell'infissione con storie indipendenti",
+      "famiglia": "paratie/ricerca",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "GPC Design ricerca tutta la griglia senza monotonia presunta. Ogni candidato ricalcola fasi, filtrazione e verifiche richieste. Schema 10, editor MVVM, persistenza, criteri governanti, annullamento, CSV e relazione. Minimo dimostrato distinto da candidato accettabile.",
+      "codice": [
+        "Model/Model/Geotechnics/EmbeddedWalls/EmbeddedWallEmbedmentSearch.cs",
+        "Checker/src/GPC.Design/EmbeddedWalls/EmbeddedWallEmbedment.cs",
+        "Checker/src/Geotechnics/EmbeddedWalls/EmbeddedWallGeometry.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallEmbedmentSearch.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallEmbedmentViewModel.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallEmbedmentReport.cs"
+      ],
+      "segno": "Nove CSV preesistenti, 5099 righe identiche esclusa impronta delle nuove librerie. Nuovo contratto applicativo schema 10 con limiti non assegnati; nessun atteso numerico o fallimento ammesso modificato.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico paratie: ricerca dell’infissione, indipendenza delle analisi, risultati e report coerenti.",
+        "esito": "Disponibile per la combinazione corrente nel foglio. GPC collauda più storie indipendenti; loro integrazione nel foglio, criteri ulteriori e matrice complessiva restano aperti."
+      },
+      "test": [
+        "10 nuovi test GPC, 24 Design paratie PASS",
+        "candidate-18: 3160 PASS, soli 17 fallimenti Steel storici ammessi",
+        "app-coupled: 1279 controlli PASS",
+        "ci/20261019-151810-paratie-inc11-ui: 5 PASS, 0 NEW-FAIL, 46 controlli WPF",
+        "docs/paratie/incremento-11.md"
+      ],
+      "voci_collegate": [
+        "PARATIE-01",
+        "PARATIE-12"
+      ]
     }
   ]
 }

@@ -140,13 +140,20 @@ public static class EmbeddedWallDocument
             if (!data.ContainsKey("distributed_loads")) data["distributed_loads"] = new JsonArray();
             data["schema"] = 9;
         }
+        if (StratigraphyDocument.Number(data["schema"], "Versione paratie") == 9)
+        {
+            foreach (string key in new[] { "embedment_reference", "embedment_minimum", "embedment_maximum", "embedment_increment", "embedment_head_limit" })
+                if (!data.ContainsKey(key)) data[key] = null;
+            if (!data.ContainsKey("embedment_source")) data["embedment_source"] = "";
+            data["schema"] = 10;
+        }
         Validate(data);
         return data;
     }
     public static void Validate(JsonObject data)
     {
         var schema = StratigraphyDocument.Number(data["schema"], "Versione paratie");
-        if (schema is not (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9)) throw new ArgumentException("Versione del documento paratie non supportata.");
+        if (schema is not (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10)) throw new ArgumentException("Versione del documento paratie non supportata.");
         foreach (var name in Tables)
         {
             if (schema < 9 && name == "distributed_loads") continue;

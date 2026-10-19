@@ -60,14 +60,14 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-20 | H | Interazione fra paratie attraverso il terreno | Geotechnics nuovo | sistema multi-paratia | simmetria e lavoro reciproco | aperto |
 | PAR-21 | H | Effetto arco, cedimenti a tergo | Geotechnics nuovo | diagrammi terreno | modello e benchmark specifici | aperto |
 | PAR-22 | H | Cerniere plastiche e risposta strutturale non lineare | Concrete/Steel/Design | leggi/sezioni | cicli e bilancio energetico | aperto |
-| PAR-23 | H | Ottimizzazione infissione | Design | ricerca con limiti | ogni candidato ricalcolato | aperto |
+| PAR-23 | H | Ottimizzazione infissione | Design | ricerca con limiti | ogni candidato ricalcolato | in corso: ricerca esaustiva per combinazione corrente, FEM e verificatori ricalcolati; minimo distinto da candidato accettabile; restano combinazioni multiple nel foglio e criteri ulteriori |
 | PAR-24 | P,H,U | Verifiche e progetto c.a. SLU/SLE/dettagli | Concrete, Design | fasce rettangolari; schema 8 pali circolari, controlli locali e dettagli separati, CSV/report | fibre indipendenti, azioni concomitanti, entrambi i segni e SLE: incremento 8; progetto automatico e dettagli completi aperti | in corso |
 | PAR-25 | H,U | Acciaio, tiranti, puntoni | Steel, trasferimento per fase in Design | aste circolari piene/CHS assiali; schema 7 CHS classe 1–2 N–M–V, esiti/report/CSV | attesi indipendenti e unità: incrementi 5/7; altre famiglie/classi, instabilità della parete e collegamenti aperti | in corso |
 | PAR-26 | P,H,U | Altre norme dichiarate (storiche, EC, ACI, AISC) | profili Model/Checker | profilo esplicito | fonte e prove per ogni norma | aperto |
 | PAR-27 | P,H,U | Diagrammi, inviluppi, provenienza e stati risultato | risultati GPC | MVVM/XAML | UI/report corrispondenti | in corso |
 | PAR-28 | U | Persistenza, migrazioni, invalidazione, annullamento | Application/Serialization | flussi F5 | round trip, race e riapertura | in corso |
 | PAR-29 | P,H | DXF, immagini, stampa e report personalizzabile/inglese | Application/Reports | export | round trip DXF e resa PDF | in corso |
-| PAR-30 | U | Guide globali DOCX/PDF, wiki | Reports/Wiki | aiuto contestuale | render e controllo collegamenti | in corso: Rev48, incrementi 1–9; estensioni successive aperte |
+| PAR-30 | U | Guide globali DOCX/PDF, wiki | Reports/Wiki | aiuto contestuale | render e controllo collegamenti | in corso: Rev49, incrementi 1–11; ricerca infissione su griglia; estensioni successive aperte |
 | PAR-31 | H | Collegamento FLAC e analisi dinamica esterna | adattatore da specifica pubblica | interoperabilità | licenza e prova con eseguibile reale | dipendenza esterna |
 | PAR-32 | H | Monitoraggio Tokbo e confronto misura/calcolo | adattatore da API documentata | serie temporali | credenziali e dati reali autorizzati | dipendenza esterna |
 | PAR-33 | H | Assistenza chatbot e servizi esterni | da specificare rispetto all'incarico ingegneristico | supporto | servizio/documentazione necessari | dipendenza esterna |
@@ -107,6 +107,9 @@ Il [nono incremento](incremento-09.md) integra carichi distribuiti lineari
 per intervalli e fasi, trasferimento globale, diagramma q netto e report.
 Il [decimo incremento](incremento-10.md) aggiorna le due guide globali Word/PDF,
 la Wiki e l'aiuto contestuale degli editor, con collaudo applicativo e WPF.
+L'[undicesimo incremento](incremento-11.md) aggiunge ricerca esaustiva
+dell'infissione, ricalcolo indipendente dei candidati, verifiche governanti,
+distinzione fra minimo e accettabilità, editor, persistenza e guide Rev49.
 Le righe in corso non sono soddisfatte integralmente: tipi complessi, verifiche
 locali e globali complete, combinazioni automatiche, inviluppi e migrazioni
 richiedono ancora integrazioni. Nessuna funzione avanzata viene esclusa.

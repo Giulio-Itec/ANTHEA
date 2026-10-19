@@ -62,7 +62,7 @@ internal static class EmbeddedWallViewChecks
             var tabs = Visual(editor.View).OfType<TabControl>().First(); tabs.SelectedIndex = 1; await Settle();
             var tables = Visual(editor.View).OfType<TabControl>().Last(); tables.SelectedIndex = 4; await Settle(); Capture("fasi");
             Check(Visual(editor.View).OfType<EmbeddedWallTableView>().Any(), "Editor tabellare assente.");
-            tabs.SelectedIndex = 2; sheet.Diagram = "Momento [kNm]"; sheet.ComparisonStage = sheet.Stages[0]; await Settle(); Capture("momenti");
+            tabs.SelectedIndex = 3; sheet.Diagram = "Momento [kNm]"; sheet.ComparisonStage = sheet.Stages[0]; await Settle(); Capture("momenti");
             var plot = Visual(editor.View).OfType<EmbeddedWallDiagram>().Single();
             Check(ReferenceEquals(plot.Points, sheet.Points) && ReferenceEquals(plot.Comparison, sheet.Stages[0].Points), "Grafico non associato al risultato corrente.");
             Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("momenti-scuro");
@@ -87,12 +87,12 @@ internal static class EmbeddedWallViewChecks
             var hyd = EmbeddedWallDocument.NewRow("hydraulic_hyd"); hydraulic["hydraulic_hyd"]!.AsArray().Add(hyd);
             sheet.Reload(hydraulic); await editor.CalculateAsync();
             Check(sheet.Current?.Complete == true && sheet.HydraulicStages.Count == 2, "Filtrazione non disponibile nella vista.");
-            tabs.SelectedIndex = 4; await Settle(); Capture("filtrazione");
+            tabs.SelectedIndex = 5; await Settle(); Capture("filtrazione");
             var field = Visual(editor.View).OfType<SeepageDiagram>().Single();
             Check(ReferenceEquals(field.Field, sheet.SelectedHydraulicStage), "Campo idraulico non associato al risultato corrente.");
             sheet.HydraulicDiagram = "Pressione interstiziale [kPa]"; Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("pressioni-scuro");
             Appearance.Set(AppAppearance.Light, false);
-            tabs.SelectedIndex = 5; await Settle(); Capture("upl-hyd");
+            tabs.SelectedIndex = 6; await Settle(); Capture("upl-hyd");
             Check(sheet.HydraulicChecks.Count == 2 && sheet.HydraulicChecks[0].Demand == 16.5 && sheet.HydraulicChecks[0].Capacity == 18,
                 "Bilancio UPL non mostrato nella vista.");
             Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.HydraulicChecks)), "Tabella verifiche non associata allo snapshot.");
@@ -106,7 +106,7 @@ internal static class EmbeddedWallViewChecks
             globalRow["exit_min"] = -10; globalRow["exit_max"] = -1; globalRow["entry_min"] = 1; globalRow["entry_max"] = 10;
             globalRow["depth_min"] = 12.5; globalRow["depth_max"] = 17; globalRow["grid"] = 3; globalRow["slices"] = 20; globalRow["refinements"] = 0;
             globalData["global_checks"]!.AsArray().Add(globalRow);
-            sheet.Reload(globalData); await editor.CalculateAsync(); tabs.SelectedIndex = 6; await Settle(); Capture("stabilita-globale");
+            sheet.Reload(globalData); await editor.CalculateAsync(); tabs.SelectedIndex = 7; await Settle(); Capture("stabilita-globale");
             Check(sheet.GlobalChecks.Count == 1 && sheet.GlobalChecks[0].Surface.Count > 0, "Geometria globale non disponibile: " + sheet.GlobalChecks.FirstOrDefault()?.Diagnostic);
             var globalPlot = Visual(editor.View).OfType<EmbeddedWallGlobalDiagram>().Single();
             Check(ReferenceEquals(globalPlot.Check, sheet.SelectedGlobalCheck), "Grafico globale non associato allo snapshot corrente.");
@@ -140,7 +140,7 @@ internal static class EmbeddedWallViewChecks
             steelMember["material_source"] = "S355, resistenze assegnate per il collaudo"; steelMember["axial_only"] = true;
             steelMember["length_1"] = 3; steelMember["length_2"] = 4; steelMember["length_source"] = "Schema ideale incernierato nei due piani";
             steelData["steel_members"]!.AsArray().Add(steelMember);
-            sheet.Reload(steelData); await editor.CalculateAsync(); tabs.SelectedIndex = 7; await Settle(); Capture("sostegni-acciaio");
+            sheet.Reload(steelData); await editor.CalculateAsync(); tabs.SelectedIndex = 8; await Settle(); Capture("sostegni-acciaio");
             Check(sheet.SteelSupports.Count == 1 && Math.Abs(sheet.SteelSupports[0].NormalForce!.Value + 75) < 1e-8 && sheet.SteelChecks.Count == 3,
                 "Forza del puntone o verifiche Steel assenti dalla vista.");
             Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.SteelChecks)), "Tabella Steel non associata allo snapshot.");
@@ -165,7 +165,7 @@ internal static class EmbeddedWallViewChecks
             anchorLayer["axis_start"] = 0; anchorLayer["axis_end"] = 20; anchorLayer["limit_pressure"] = 2;
             anchorLayer["injection_pressure"] = 3; anchorLayer["diameter_factor"] = 1.5; anchorLayer["pressure_source"] = "Prova pressiometrica sintetica";
             anchorData["anchor_layers"]!.AsArray().Add(anchorLayer);
-            sheet.Reload(anchorData); await editor.CalculateAsync(); tabs.SelectedIndex = 8; await Settle(); Capture("sfilamento-tirante");
+            sheet.Reload(anchorData); await editor.CalculateAsync(); tabs.SelectedIndex = 9; await Settle(); Capture("sfilamento-tirante");
             Check(sheet.AnchorChecks.Count == 1 && Math.Abs(sheet.AnchorChecks[0].Demand!.Value - 400) < 1e-8
                 && sheet.AnchorChecks[0].Segments[0].LimitPressure == 2 && sheet.AnchorChecks[0].Segments[0].InjectionPressure == 3,
                 "Forza o pressioni distinte del bulbo non mostrate.");
@@ -187,7 +187,7 @@ internal static class EmbeddedWallViewChecks
             tubeData["steel_tubes"]!.AsArray().Add(tubeRow);
             var tubeLoad = EmbeddedWallDocument.NewRow("loads"); tubeLoad["horizontal"] = .2; tubeLoad["downward"] = 5;
             tubeData["loads"] = new JsonArray(tubeLoad);
-            sheet.Reload(tubeData); await editor.CalculateAsync(); tabs.SelectedIndex = 9; sheet.SelectedTubeCheck = sheet.SteelTubes.LastOrDefault();
+            sheet.Reload(tubeData); await editor.CalculateAsync(); tabs.SelectedIndex = 10; sheet.SelectedTubeCheck = sheet.SteelTubes.LastOrDefault();
             await Settle(); Capture("sezioni-tubolari");
             Check(sheet.SteelTubes.Count > 0 && sheet.SteelTubes.All(r => r.SectionClass == 1 && r.Checks.Count == 3)
                 && Math.Abs(sheet.SelectedTubeCheck!.StripToMemberFactor!.Value - 4.0 / 3) < 1e-12, "Azioni o controlli N–M–V della sezione assenti.");
@@ -208,7 +208,7 @@ internal static class EmbeddedWallViewChecks
             rcRow["single_row"] = true; rcRow["representation_source"] = "Fila unica e ripartizione uniforme sul fronte sintetico";
             rcRow["shear_confirmed"] = true; rcRow["durability_cover"] = 35; rcRow["detailing_mode"] = "Beam";
             rcRow["compression_restrained"] = true; rcRow["end_zones_confirmed"] = true; rcData["rc_piles"]!.AsArray().Add(rcRow);
-            sheet.Reload(rcData); await editor.CalculateAsync(); tabs.SelectedIndex = 10; sheet.SelectedRcPileCheck = sheet.RcPiles.LastOrDefault();
+            sheet.Reload(rcData); await editor.CalculateAsync(); tabs.SelectedIndex = 11; sheet.SelectedRcPileCheck = sheet.RcPiles.LastOrDefault();
             await Settle(); Capture("sezioni-pali-ca");
             Check(sheet.RcPiles.Count > 0 && sheet.RcPiles.All(r => r.Checks.Count == 2 && r.Details.Count > 0)
                 && Math.Abs(sheet.SelectedRcPileCheck!.StripToMemberFactor!.Value - 2.0 / 3) < 1e-12, "Azioni o controlli del palo c.a. assenti.");
@@ -237,7 +237,7 @@ internal static class EmbeddedWallViewChecks
             ((TabItem)tables.ItemContainerGenerator.ContainerFromItem(tables.SelectedItem)).BringIntoView(); await Settle(); Capture("carichi-distribuiti-input");
             Check(Visual(editor.View).OfType<EmbeddedWallTableView>().Any()
                 && sheet.Tables.Single(t => t.Key == "distributed_loads").Editor!["q_top"].Key == "q_top", "Editor carichi distribuiti non disponibile.");
-            await editor.CalculateAsync(); tabs.SelectedIndex = 2; sheet.Diagram = "Carico netto [kN/m]";
+            await editor.CalculateAsync(); tabs.SelectedIndex = 3; sheet.Diagram = "Carico netto [kN/m]";
             await Settle(); Capture("carichi-distribuiti-diagramma");
             Check(sheet.Current?.Complete == true && sheet.Stages.Count == 1
                 && Math.Abs(sheet.Stages[0].Points[0].Displacement - .9843932291666667) < 5e-8
@@ -247,6 +247,32 @@ internal static class EmbeddedWallViewChecks
             Check(sheet.Current is null && sheet.Stages.Count == 0 && !sheet.CsvCommand.CanExecute(null), "Carichi modificati mantengono risultati correnti.");
             await editor.CalculateAsync();
             Check(sheet.Current?.Complete == true && sheet.Stages[0].Points[0].Displacement > .9843932291666667, "Modifica tabellare del carico non acquisita.");
+            var searchData = data.DeepClone().AsObject(); searchData["name"] = "Ricerca infissione — limite in testa 3,25 mm";
+            searchData["bottom"] = -10; searchData["mesh"] = .125; searchData["substeps"] = 2; searchData["segments"]![0]!["bottom"] = -10;
+            searchData["stages"] = new JsonArray(); searchData["loads"] = new JsonArray();
+            foreach (var pair in new[] { ("Initial", 0d), ("Loaded", 10d), ("Reversed", -5d) })
+            {
+                var stage = EmbeddedWallDocument.NewRow("stages"); stage["id"] = pair.Item1; stage["left_surcharge"] = 100; stage["right_surcharge"] = 100;
+                searchData["stages"]!.AsArray().Add(stage);
+                var load = EmbeddedWallDocument.NewRow("loads"); load["stage"] = pair.Item1; load["horizontal"] = pair.Item2; searchData["loads"]!.AsArray().Add(load);
+            }
+            searchData["embedment_reference"] = 0; searchData["embedment_minimum"] = 3.5; searchData["embedment_maximum"] = 10;
+            searchData["embedment_increment"] = .5; searchData["embedment_head_limit"] = 3.25; searchData["embedment_source"] = "Limite assegnato; atteso indipendente 6,50 m";
+            sheet.Reload(searchData); tabs.SelectedIndex = 2; await Settle();
+            var searchButton = Visual(editor.View).OfType<Button>().Single(b => b.Content as string == "Cerca infissione");
+            Check(ReferenceEquals(searchButton.Command, sheet.SearchEmbedmentCommand), "Comando di ricerca non collegato.");
+            await sheet.SearchEmbedmentCommand.ExecuteAsync(null); await Settle(); Capture("ricerca-infissione");
+            Check(sheet.Current?.EmbedmentSearch is { MinimumCertified: true, BestEmbedment: 6.5 } && sheet.EmbedmentCandidates.Count == 14,
+                "Ricerca grafica non conserva l'atteso indipendente.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.EmbedmentCandidates))
+                && Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.EmbedmentCriteria)), "Tabelle della ricerca scollegate.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("ricerca-infissione-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.SelectedEmbedment = sheet.EmbedmentCandidates[0]; await Settle();
+            Check(sheet.EmbedmentCriteria[0].Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotSatisfied, "Candidato non soddisfatto visualizzato accettabile.");
+            tabs.SelectedIndex = 3; await Settle(); Capture("ricerca-infissione-diagramma");
+            Check(sheet.Points.Min(p => p.Elevation) == -6.5, "Diagramma non riferito al candidato dichiarato.");
+            tabs.SelectedIndex = 2; sheet.Embedment["embedment_head_limit"].EditText = "4"; await Settle();
+            Check(sheet.Current is null && sheet.EmbedmentCandidates.Count == 0 && !sheet.EmbedmentCsvCommand.CanExecute(null), "Limite modificato conserva la ricerca corrente.");
             editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
             Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF paratie, senza attivare finestre sul desktop");

@@ -9,7 +9,7 @@ internal static class HelpTopicsChecks
     internal static int Run()
     {
         var expect = new Expect();
-        expect.That(HelpTopics.Topics.Count == 37 && HelpTopics.Topics.Take(30).All(t => !t.Modules.Contains("geo_paratie")), "Trenta argomenti storici conservati e sette argomenti aggiunti per le paratie");
+        expect.That(HelpTopics.Topics.Count == 38 && HelpTopics.Topics.Take(30).All(t => !t.Modules.Contains("geo_paratie")), "Trenta argomenti storici conservati e otto argomenti aggiunti per le paratie");
         expect.That(HelpTopics.Topics.Select(t => t.Uri).Distinct().Count() == HelpTopics.Topics.Count
             && !HelpTopics.Topics.Any(t => t.Uri == HelpTopics.StressAnalysis.Uri), "URI distinti: l'URI identifica l'argomento");
         expect.That(HelpTopics.ForField("cover_mm", "str_palo")?.Uri.EndsWith("#copriferro-minimo-e-nominale") == true, "Copriferro rinvia alla durabilità");

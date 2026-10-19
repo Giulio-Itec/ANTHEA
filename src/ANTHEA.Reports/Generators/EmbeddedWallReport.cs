@@ -40,6 +40,7 @@ public static partial class EmbeddedWallReport
         P(result.Complete ? "Storia completata. La convergenza non attesta tutte le verifiche dell'opera." : "ANALISI INCOMPLETA — sono riportate soltanto le fasi concluse.", true);
         if (!result.Complete) P(result.Diagnostic);
         foreach (string note in result.Scope) P(note);
+        RenderEmbedment(result, (text, heading) => P(text, heading), Table);
         P("Dati assegnati", true);
         var input = JsonNode.Parse(result.InputJson)!.AsObject();
         // Document keys are shown with their explicit unit contract, without recomputing derived data.
@@ -253,6 +254,9 @@ public static partial class EmbeddedWallReport
         ["outline_divisions"]="Lati contorno numerico", ["shear_confirmed"]="Modello circolare di taglio confermato", ["lever_factor"]="z/d",
         ["aggregate"]="Diametro aggregato [mm]", ["durability_cover"]="Copriferro minimo durabilità [mm]", ["cover_deviation"]="Tolleranza copriferro [mm]",
         ["detailing_mode"]="Regole costruttive", ["compression_restrained"]="Barre compresse trattenute", ["end_zones_confirmed"]="Zone estremità confermate",
+        ["embedment_reference"]="Quota di riferimento infissione [m]", ["embedment_minimum"]="Infissione minima [m]",
+        ["embedment_maximum"]="Infissione massima [m]", ["embedment_increment"]="Passo ricerca infissione [m]",
+        ["embedment_head_limit"]="Limite spostamento testa [mm]", ["embedment_source"]="Fonte e criteri della ricerca",
         ["permanent"]="Ancoraggio permanente", ["evidence"]="Origine della resistenza", ["free_length"]="Tratto libero lungo asse [m]",
         ["bond_length"]="Tratto cementato lungo asse [m]", ["drill_diameter"]="Diametro di perforazione [mm]", ["minimum_cover"]="Ricoprimento minimo del bulbo [m]",
         ["injection"]="Tecnologia di iniezione", ["execution_source"]="Documentazione esecutiva", ["applicability_source"]="Confinamento e applicabilità",

@@ -4,6 +4,15 @@ namespace Anthea.Presentation.Modules.EmbeddedWalls;
 
 public static class EmbeddedWallFields
 {
+    public static FieldSpec[] Embedment() =>
+    [
+        new("embedment_reference", "Quota da cui misurare l'infissione", "m"),
+        new("embedment_minimum", "Infissione minima", "m"), new("embedment_maximum", "Infissione massima", "m"),
+        new("embedment_increment", "Passo costruttivo della ricerca", "m"),
+        new("embedment_head_limit", "Spostamento assoluto massimo in testa", "mm"),
+        new("embedment_source", "Fonte del limite e criteri della ricerca", Wide: true, Multiline: true,
+            ToolTip: "Criterio assegnato dal progettista, senza un limite normativo implicito. Si considerano tutte le fasi e le verifiche richieste nella combinazione corrente.")
+    ];
     public static FieldSpec[] General() =>
     [
         new("name", "Nome", Wide: true), new("case_id", "Caso / combinazione", Wide: true), new("action_basis", "Provenienza e coefficienti delle azioni", Wide: true, Multiline: true),
