@@ -46,7 +46,7 @@ internal static partial class EmbeddedWallChecks
     {
         var old = Example(); old["schema"] = 4; old.Remove("steel_members"); old.Remove("steel_standard"); old.Remove("steel_check_kind");
         string before = old.ToJsonString(); var upgraded = EmbeddedWallDocument.Snapshot(old);
-        e.That(old.ToJsonString() == before && upgraded["schema"]!.ToString() == "7" && upgraded["steel_standard"]!.ToString() == "Non richieste"
+        e.That(old.ToJsonString() == before && upgraded["schema"]!.ToString() == "8" && upgraded["steel_standard"]!.ToString() == "Non richieste"
             && upgraded["steel_members"]!.AsArray().Count == 0, "Migrazione 4→5 attiva verifiche o modifica gli input originali.");
         var data = SteelExample(); before = data.ToJsonString(); using var sheet = Open(data);
         e.That(await Expect.Within(sheet.CalculateAsync()), "Calcolo con sostegni metallici non pubblicato.");

@@ -12,7 +12,7 @@ namespace Anthea.Application.EmbeddedWalls;
 public static class EmbeddedWallDocument
 {
     public const string Module = "geo_paratie";
-    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions", "steel_members", "anchor_checks", "anchor_layers", "anchor_tests", "steel_tubes" });
+    public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions", "steel_members", "anchor_checks", "anchor_layers", "anchor_tests", "steel_tubes", "rc_piles" });
     public static JsonObject Create() => Upgrade(new()
     {
         ["schema"] = 1, ["name"] = "Paratia", ["case_id"] = "Caso 1", ["action_basis"] = "Da definire",
@@ -65,6 +65,13 @@ public static class EmbeddedWallDocument
         "steel_tubes" => new() { ["id"] = "S1", ["diameter"] = null, ["thickness"] = null, ["spacing"] = null,
             ["nominal_grade"] = null, ["fy"] = null, ["fu"] = null, ["elastic_modulus"] = null, ["material_source"] = "",
             ["unperforated"] = false, ["single_row"] = false, ["representation_source"] = "", ["is_bridge"] = false },
+        "rc_piles" => new() { ["id"] = "S1", ["diameter"] = null, ["spacing"] = null, ["cover"] = null,
+            ["bar_count"] = null, ["bar_diameter"] = null, ["link_diameter"] = null, ["link_spacing"] = null,
+            ["fck"] = null, ["fyk"] = null, ["es"] = 200000, ["eps_uk"] = .075, ["material_source"] = "",
+            ["outline_divisions"] = 64, ["single_row"] = false, ["representation_source"] = "", ["shear_confirmed"] = false,
+            ["lever_factor"] = .9, ["creep"] = 2, ["exposure"] = "XC2", ["aggregate"] = 20,
+            ["durability_cover"] = null, ["cover_deviation"] = 10, ["detailing_mode"] = "CommonOnly",
+            ["compression_restrained"] = false, ["end_zones_confirmed"] = false },
         _ => throw new ArgumentException("Tabella paratie sconosciuta: " + table)
     };
     public static JsonObject Snapshot(JsonObject source)
@@ -120,15 +127,23 @@ public static class EmbeddedWallDocument
             foreach (var row in Rows(data, "segments")) if (!row.ContainsKey("ei_mode")) row["ei_mode"] = "Assegnata";
             data["schema"] = 7;
         }
+        if (StratigraphyDocument.Number(data["schema"], "Versione paratie") == 7)
+        {
+            if (!data.ContainsKey("rc_piles")) data["rc_piles"] = new JsonArray();
+            if (!data.ContainsKey("rc_pile_standard")) data["rc_pile_standard"] = "Non richieste";
+            if (!data.ContainsKey("rc_pile_check_kind")) data["rc_pile_check_kind"] = "Analisi";
+            data["schema"] = 8;
+        }
         Validate(data);
         return data;
     }
     public static void Validate(JsonObject data)
     {
         var schema = StratigraphyDocument.Number(data["schema"], "Versione paratie");
-        if (schema is not (1 or 2 or 3 or 4 or 5 or 6 or 7)) throw new ArgumentException("Versione del documento paratie non supportata.");
+        if (schema is not (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8)) throw new ArgumentException("Versione del documento paratie non supportata.");
         foreach (var name in Tables)
         {
+            if (schema < 8 && name == "rc_piles") continue;
             if (schema < 7 && name == "steel_tubes") continue;
             if (schema < 6 && name is ("anchor_checks" or "anchor_layers" or "anchor_tests")) continue;
             if (schema < 5 && name == "steel_members") continue;

@@ -7645,6 +7645,21 @@
       "decisione": {"data": "2026-10-19", "utente": "Incarico paratie: sezioni metalliche in Checker Steel, separazione dei calcoli e sollecitazioni concomitanti.", "esito": "Incremento collaudato nel campo dichiarato; altre famiglie, instabilità, matrice e rilascio ancora aperti."},
       "test": ["tube-steel-03: 13 PASS; tube-design-02: 2 PASS", "candidate-14: 3134 PASS, 17 fallimenti storici ammessi", "tube-app-02: 303 PASS", "ci/20261019-121547-paratie-inc07-ui2: architettura e 31 controlli WPF PASS", "docs/paratie/incremento-07.md"],
       "voci_collegate": ["PARATIE-07", "PARATIE-08"]
+    },
+    {
+      "id": "PARATIE-10",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, incremento 8",
+      "titolo": "Pali circolari in c.a. con SLU/SLE Concrete e dettagli separati",
+      "famiglia": "geotecnica/paratie/calcestruzzo",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Geometria circolare e corona di barre in Model, sessioni esclusive Concrete per resistenza nominale e SLE. EI e azioni concomitanti in Design con fattore interasse/fascia. Schema 8, vista, persistenza, CSV e report sullo stesso risultato; dettagli distinti dalla resistenza e campi non supportati Non valutato.",
+      "codice": ["Model/Model/Design/Concrete/CircularRcSection.cs", "Checker/GPCChecker.Concrete/Piles/CircularRcSectionSession.cs", "Checker/src/GPC.Design/EmbeddedWalls/EmbeddedWallRcPiles.cs", "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallRcPileChecks.cs", "src/ANTHEA.Reports/Generators/EmbeddedWallRcPileReport.cs"],
+      "segno": "Percorso additivo inattivo nei documenti precedenti; EI derivato solo per scelta esplicita. Nessuna mesh Delaunay, fixture storica o lista di fallimenti ammessi modificata. Corretta la resa delle etichette nel PDF senza modificare risultati.",
+      "decisione": {"data": "2026-10-19", "utente": "Incarico paratie: usare Checker Concrete e preservare sollecitazioni concomitanti, separazione architetturale e prove indipendenti.", "esito": "Incremento verificato nel campo dichiarato; progetto automatico, dettagli completi, matrice e rilascio ancora aperti."},
+      "test": ["rc-pile-design-04: 6 PASS", "candidate-15: 3140 PASS, 17 fallimenti storici ammessi", "rc-pile-app-03: 483 PASS", "ci/20261019-131617-paratie-inc08-ui2: architettura e 35 WPF PASS", "docs/paratie/incremento-08.md"],
+      "voci_collegate": ["PARATIE-01", "PARATIE-09"]
     }
   ]
 }

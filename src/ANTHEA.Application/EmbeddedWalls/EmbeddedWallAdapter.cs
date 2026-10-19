@@ -42,8 +42,12 @@ public static class EmbeddedWallAdapter
                 FlexuralRigidity = (s["ei_mode"] is null ? "Assegnata" : Text(s, "ei_mode")) switch {
                     "Assegnata" => Number(s, "ei") * NmmSquaredPerKilonewtonMetreSquared,
                     "Da tubo CHS" => EmbeddedWallTubeChecks.Rigidity(data, Text(s, "section"), Number(data, "width") * SoilUnits.Metre),
+                    "Da palo circolare c.a." => EmbeddedWallRcPileChecks.Rigidity(data, Text(s, "section"), Number(data, "width") * SoilUnits.Metre),
                     _ => throw new ArgumentException("Origine della rigidezza non riconosciuta.") },
-                WeightPerLength = Number(s, "weight"), Source = Text(s, "ei_mode") == "Da tubo CHS" ? "EI lordo CHS da GPC Design; " + Text(s, "source") : Text(s, "source") }).ToArray(),
+                WeightPerLength = Number(s, "weight"), Source = Text(s, "ei_mode") switch {
+                    "Da tubo CHS" => "EI lordo CHS da GPC Design; " + Text(s, "source"),
+                    "Da palo circolare c.a." => "EI lordo palo circolare da GPC Design; " + Text(s, "source"),
+                    _ => Text(s, "source") } }).ToArray(),
             LeftSoils = Soils(data, "left_soils"), RightSoils = Soils(data, "right_soils"),
             Supports = EmbeddedWallDocument.Rows(data, "supports").Select(s => new EmbeddedWallSupport { Id = Text(s, "id"),
                 Elevation = Number(s, "elevation") * SoilUnits.Metre, Kind = Choice<EmbeddedWallSupportKind>(s, "kind"), AxialStiffness = Number(s, "stiffness"),

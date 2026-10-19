@@ -125,8 +125,9 @@ public static partial class EmbeddedWallReport
         }
         AppendAnchors(result, P, Table);
         AppendTubes(result, allStations, P, Table);
-        P("Verifiche delle sezioni in c.a.", true);
-        if (result.Checks.Count == 0) P("Nessuna verifica di sezione in c.a. eseguita.");
+        AppendRcPiles(result, allStations, P, Table);
+        P("Verifiche delle fasce rettangolari in c.a.", true);
+        if (result.Checks.Count == 0) P("Nessuna verifica di fascia rettangolare in c.a. eseguita.");
         else
         {
             P("Riepilogo per fase, sezione e metodo: tutti gli esiti non valutati e il controllo governante per utilizzo. Le unità di domanda e capacità sono quelle native dichiarate.");
@@ -204,7 +205,7 @@ public static partial class EmbeddedWallReport
     private static readonly FrozenDictionary<string, string> Labels = new Dictionary<string, string>()
     {
         ["name"]="Nome", ["case_id"]="Caso", ["action_basis"]="Origine delle azioni", ["top"]="Quota superiore [m]", ["bottom"]="Quota inferiore [m]", ["width"]="Larghezza (m generale, mm sezione c.a.)",
-        ["mesh"]="Lunghezza massima elemento [m]", ["check_kind"]="Tipo verifica", ["substeps"]="Incrementi", ["segments"]="Tratti e rigidezze", ["left_soils"]="Terreno a sinistra", ["right_soils"]="Terreno a destra",
+        ["mesh"]="Lunghezza massima elemento [m]", ["check_kind"]="Combinazione fasce rettangolari c.a.", ["substeps"]="Incrementi", ["segments"]="Tratti e rigidezze", ["left_soils"]="Terreno a sinistra", ["right_soils"]="Terreno a destra",
         ["supports"]="Sostegni", ["stages"]="Fasi", ["activations"]="Attivazioni", ["loads"]="Carichi", ["rc_sections"]="Armature", ["section"]="Sezione", ["ei"]="EI [kNm²]", ["weight"]="Peso lineare [kN/m]",
         ["source"]="Fonte", ["gamma"]="γ [kN/m³]", ["gamma_sat"]="γsat [kN/m³]", ["phi"]="φ′ [°]", ["c"]="c′ [kPa]", ["cu"]="cu [kPa]", ["k0"]="K0", ["kh"]="kh [N/mm³]", ["drainage"]="Condizione", ["stiffness_source"]="Fonte kh",
         ["elevation"]="Quota [m]", ["kind"]="Tipo", ["stiffness"]="EA/L [kN/m]", ["angle"]="Inclinazione [°]", ["direction"]="Verso resistente", ["spacing"]="Interasse [m]", ["capacity"]="Capacità [kN]",
@@ -244,6 +245,11 @@ public static partial class EmbeddedWallReport
         ["steel_tubes"]="Sezioni tubolari della parete", ["tube_standard"]="Norma sezioni tubolari", ["tube_check_kind"]="Combinazione sezioni tubolari",
         ["ei_mode"]="Origine EI", ["unperforated"]="Sezione integra confermata", ["single_row"]="Fila unica e ripartizione uniforme confermate",
         ["representation_source"]="Trasferimento delle pressioni e validità della fascia equivalente",
+        ["rc_piles"]="Pali circolari in c.a.", ["rc_pile_standard"]="Norma pali circolari c.a.", ["rc_pile_check_kind"]="Combinazione pali circolari c.a.",
+        ["bar_count"]="Numero barre longitudinali", ["bar_diameter"]="Diametro barre [mm]", ["link_diameter"]="Diametro staffe [mm]", ["link_spacing"]="Passo staffe [mm]",
+        ["outline_divisions"]="Lati contorno numerico", ["shear_confirmed"]="Modello circolare di taglio confermato", ["lever_factor"]="z/d",
+        ["aggregate"]="Diametro aggregato [mm]", ["durability_cover"]="Copriferro minimo durabilità [mm]", ["cover_deviation"]="Tolleranza copriferro [mm]",
+        ["detailing_mode"]="Regole costruttive", ["compression_restrained"]="Barre compresse trattenute", ["end_zones_confirmed"]="Zone estremità confermate",
         ["permanent"]="Ancoraggio permanente", ["evidence"]="Origine della resistenza", ["free_length"]="Tratto libero lungo asse [m]",
         ["bond_length"]="Tratto cementato lungo asse [m]", ["drill_diameter"]="Diametro di perforazione [mm]", ["minimum_cover"]="Ricoprimento minimo del bulbo [m]",
         ["injection"]="Tecnologia di iniezione", ["execution_source"]="Documentazione esecutiva", ["applicability_source"]="Confinamento e applicabilità",

@@ -40,7 +40,7 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | --- | --- | --- | --- | --- | --- | --- |
 | PAR-01 | U | Contratti condivisi, unità e convenzioni | Model.Geotechnics | documento/adattatore | round trip, input invalidi | in corso |
 | PAR-02 | P,H | Paratia a mensola, tirantata, puntellata | Geotechnics nuovo | geometria e sostegni | mensola analitica, reazioni | in corso |
-| PAR-03 | P | Diaframmi, pali, micropali, T, berlinesi e palancole | sezioni Model, Steel, Concrete | schema 7: fila di tubi CHS, EI e azioni per interasse | mensola analitica e fattore fascia/tubo: incremento 7; altre famiglie e rappresentazioni aperte | in corso |
+| PAR-03 | P | Diaframmi, pali, micropali, T, berlinesi e palancole | sezioni Model, Steel, Concrete | schema 8: file singole CHS e pali circolari c.a., EI e azioni per interasse | mensola analitica e fattore fascia/elemento: incrementi 7/8; altre famiglie e rappresentazioni aperte | in corso |
 | PAR-04 | P,H | Più file, quinconce, rigidezza variabile, muro in testa | Model/Geotechnics | geometria | casi limite e riduzioni documentate | in corso |
 | PAR-05 | P,H | Stratigrafia, K0, attiva/passiva, drenato/ND | Soil, SoilProfile, EarthPressure | scambio terreno F5 | pressioni analitiche e falda | in corso |
 | PAR-06 | P | Culmann; rottura statica/cinematica | Geotechnics nuovo | scelta metodo | casi indipendenti | aperto |
@@ -61,7 +61,7 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-21 | H | Effetto arco, cedimenti a tergo | Geotechnics nuovo | diagrammi terreno | modello e benchmark specifici | aperto |
 | PAR-22 | H | Cerniere plastiche e risposta strutturale non lineare | Concrete/Steel/Design | leggi/sezioni | cicli e bilancio energetico | aperto |
 | PAR-23 | H | Ottimizzazione infissione | Design | ricerca con limiti | ogni candidato ricalcolato | aperto |
-| PAR-24 | P,H,U | Verifiche e progetto c.a. SLU/SLE/dettagli | Concrete, Design | armature/esiti | azioni concomitanti, entrambi i segni | in corso |
+| PAR-24 | P,H,U | Verifiche e progetto c.a. SLU/SLE/dettagli | Concrete, Design | fasce rettangolari; schema 8 pali circolari, controlli locali e dettagli separati, CSV/report | fibre indipendenti, azioni concomitanti, entrambi i segni e SLE: incremento 8; progetto automatico e dettagli completi aperti | in corso |
 | PAR-25 | H,U | Acciaio, tiranti, puntoni | Steel, trasferimento per fase in Design | aste circolari piene/CHS assiali; schema 7 CHS classe 1–2 N–M–V, esiti/report/CSV | attesi indipendenti e unità: incrementi 5/7; altre famiglie/classi, instabilità della parete e collegamenti aperti | in corso |
 | PAR-26 | P,H,U | Altre norme dichiarate (storiche, EC, ACI, AISC) | profili Model/Checker | profilo esplicito | fonte e prove per ogni norma | aperto |
 | PAR-27 | P,H,U | Diagrammi, inviluppi, provenienza e stati risultato | risultati GPC | MVVM/XAML | UI/report corrispondenti | in corso |
@@ -101,6 +101,8 @@ tiranti, indagini pressiometriche e prove preliminari, con esiti normativi
 distinti dal predimensionamento privo di conferma sperimentale.
 Il [settimo incremento](incremento-07.md) integra EI della fila di tubi CHS
 e resistenza locale N–M–V in Checker Steel, conservando le azioni concomitanti.
+L'[ottavo incremento](incremento-08.md) integra pali circolari in c.a.,
+SLU/SLE in Checker Concrete, controlli costruttivi separati ed EI equivalente.
 Le righe in corso non sono soddisfatte integralmente: tipi complessi, verifiche
 locali e globali complete, combinazioni automatiche, inviluppi e migrazioni
 richiedono ancora integrazioni. Nessuna funzione avanzata viene esclusa.

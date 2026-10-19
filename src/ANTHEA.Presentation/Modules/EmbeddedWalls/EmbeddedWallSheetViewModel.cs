@@ -31,6 +31,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     private EmbeddedWallSteelData? steelSupport;
     private EmbeddedWallAnchorData? anchorCheck;
     private EmbeddedWallTubeData? tubeCheck;
+    private EmbeddedWallRcPileData? rcPileCheck;
     private string hydraulicDiagram = "Carico idraulico [m]";
     private string diagram = "Spostamento [mm]", importSide = "Sinistra", importScenario = "Medi";
     private SoilSource? soilSource;
@@ -48,6 +49,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
         SteelCsvCommand = GuardedCommands.Create(Guard, ExportSteelCsv, () => SteelSupports.Count > 0);
         AnchorCsvCommand = GuardedCommands.Create(Guard, ExportAnchorCsv, () => AnchorChecks.Count > 0);
         TubeCsvCommand = GuardedCommands.Create(Guard, ExportTubeCsv, () => SteelTubes.Count > 0);
+        RcPileCsvCommand = GuardedCommands.Create(Guard, ExportRcPileCsv, () => RcPiles.Count > 0);
         ImportSoilCommand = GuardedCommands.Create(Guard, ImportSoil, () => CanEdit && SelectedSoilSource is not null);
         RefreshSoilSourcesCommand = GuardedCommands.Create(Guard, RefreshSources);
         RefreshSources();
@@ -66,6 +68,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     public IRelayCommand SteelCsvCommand { get; }
     public IRelayCommand AnchorCsvCommand { get; }
     public IRelayCommand TubeCsvCommand { get; }
+    public IRelayCommand RcPileCsvCommand { get; }
     public IRelayCommand ImportSoilCommand { get; }
     public IRelayCommand RefreshSoilSourcesCommand { get; }
     public IReadOnlyList<SoilSource> SoilSources { get; private set; } = [];
@@ -102,6 +105,8 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     public EmbeddedWallAnchorData? SelectedAnchorCheck { get => anchorCheck; set => SetProperty(ref anchorCheck, value); }
     public IReadOnlyList<EmbeddedWallTubeData> SteelTubes => current?.SteelTubes ?? [];
     public EmbeddedWallTubeData? SelectedTubeCheck { get => tubeCheck; set => SetProperty(ref tubeCheck, value); }
+    public IReadOnlyList<EmbeddedWallRcPileData> RcPiles => current?.RcPiles ?? [];
+    public EmbeddedWallRcPileData? SelectedRcPileCheck { get => rcPileCheck; set => SetProperty(ref rcPileCheck, value); }
     public override JsonObject? Result => current is null ? null : EmbeddedWallDocument.ResultValues(current);
     public string Progress { get => progress; private set => SetProperty(ref progress, value); }
     public override bool HasResults => current is not null && current.Complete;
@@ -175,6 +180,7 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
         OnPropertyChanged(nameof(SteelSupports)); SelectedSteelSupport = SteelSupports.FirstOrDefault(); SteelCsvCommand?.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(AnchorChecks)); SelectedAnchorCheck = AnchorChecks.FirstOrDefault(); AnchorCsvCommand?.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(SteelTubes)); SelectedTubeCheck = SteelTubes.FirstOrDefault(); TubeCsvCommand?.NotifyCanExecuteChanged();
+        OnPropertyChanged(nameof(RcPiles)); SelectedRcPileCheck = RcPiles.FirstOrDefault(); RcPileCsvCommand?.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(ResultStatus)); OnPropertyChanged(nameof(Scope)); CsvCommand?.NotifyCanExecuteChanged();
         HydraulicCsvCommand?.NotifyCanExecuteChanged(); HydraulicChecksCsvCommand?.NotifyCanExecuteChanged();
     }
@@ -232,6 +238,11 @@ public sealed class EmbeddedWallSheetViewModel : SheetViewModelBase
     {
         var result = RequireCurrent(); var path = Context.Services.Files.SaveFile(new([new FileFilter("Sezioni tubolari N–M–V", "*.csv")], "sezioni-tubolari.csv"));
         if (path is not null) File.WriteAllText(path, EmbeddedWallReport.TubeCsv(result), new UTF8Encoding(true));
+    }
+    private void ExportRcPileCsv()
+    {
+        var result = RequireCurrent(); var path = Context.Services.Files.SaveFile(new([new FileFilter("Sezioni circolari in c.a.", "*.csv")], "sezioni-pali-ca.csv"));
+        if (path is not null) File.WriteAllText(path, EmbeddedWallReport.RcPileCsv(result), new UTF8Encoding(true));
     }
     private sealed class SheetReport(EmbeddedWallSheetViewModel sheet) : IModuleReportSource
     {

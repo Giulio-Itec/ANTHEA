@@ -9,7 +9,7 @@ public sealed record EmbeddedWallReportData(string Name, string Fingerprint, str
     IReadOnlyList<EmbeddedWallCheckData> Checks, IReadOnlyList<string> Scope, IReadOnlyList<EmbeddedWallHydraulicData>? Hydraulics = null,
     IReadOnlyList<EmbeddedWallHydraulicCheckData>? HydraulicChecks = null, IReadOnlyList<EmbeddedWallGlobalData>? GlobalChecks = null,
     IReadOnlyList<EmbeddedWallSteelData>? SteelSupports = null, IReadOnlyList<EmbeddedWallAnchorData>? AnchorChecks = null,
-    IReadOnlyList<EmbeddedWallTubeData>? SteelTubes = null);
+    IReadOnlyList<EmbeddedWallTubeData>? SteelTubes = null, IReadOnlyList<EmbeddedWallRcPileData>? RcPiles = null);
 public sealed record EmbeddedWallStageData(string Id, int Increments, int Iterations, double ForceResidualN, double MomentResidualNmm,
     IReadOnlyList<EmbeddedWallPointData> Points, IReadOnlyList<EmbeddedWallSupportData> Supports);
 public sealed record EmbeddedWallPointData(double Elevation, string Side, string Section, double Displacement, double Rotation,
@@ -93,4 +93,38 @@ public sealed record EmbeddedWallTubeCheckData(string Method, string Reference, 
     double? Ratio, EngineeringOutcome Outcome, string Diagnostic)
 {
     [JsonIgnore] public string OutcomeText => EmbeddedWallReport.OutcomeText(Outcome);
+}
+
+public sealed record EmbeddedWallRcPileData(string CaseId, string Stage, string Section, double? Elevation, string Side,
+    double? Normal, double? Shear, double? Moment, double? StripToMemberFactor, EngineeringOutcome Outcome,
+    string Diagnostic, string Reference, EmbeddedWallRcPileProperties? Properties,
+    IReadOnlyList<EmbeddedWallRcCheckData> Checks, IReadOnlyList<EmbeddedWallRcDetailData> Details)
+{
+    [JsonIgnore] public string OutcomeText => EmbeddedWallReport.OutcomeText(Outcome);
+}
+public sealed record EmbeddedWallRcPileProperties(double Diameter, double Spacing, double Cover, int BarCount, double BarDiameter,
+    double LinkDiameter, double LinkSpacing, double BarRadius, double ElasticModulus, double Inertia, double? EquivalentRigidity,
+    int OutlineDivisions, string Source, double GammaC, double GammaS, double AlphaCC);
+public sealed record EmbeddedWallRcCheckData(string Method, string Unit, double Demand, double? Capacity, double? Ratio,
+    EngineeringOutcome Outcome, string Diagnostic)
+{
+    [JsonIgnore] public string OutcomeText => EmbeddedWallReport.OutcomeText(Outcome);
+}
+public sealed record EmbeddedWallRcDetailData(string Method, double? Actual, double? Limit, string Unit,
+    EngineeringOutcome Outcome, string Reference, string Diagnostic)
+{
+    [JsonIgnore] public string OutcomeText => EmbeddedWallReport.OutcomeText(Outcome);
+    [JsonIgnore] public string Label
+    {
+        get
+        {
+            string[] parts = Method.Split(':', 2);
+            string name = parts[0] switch {
+                "ClearSpacing" => "Interferro", "NominalCover" => "Copriferro nominale", "BarCoverMargin" => "Margine copriferro",
+                "MinimumTension" => "As minima", "MaximumTension" => "As massima", "MinimumLinks" => "Staffe minime",
+                "LinkSpacing" => "Passo staffe", "CompressionBarRestraint" => "Ritegno barre", "PileSteelArea" => "Minimo As palo",
+                "PileLinkDiameter" => "Minimo φ staffe palo", "PileLinkSpacing" => "Passo staffe palo", _ => parts[0] };
+            return parts.Length == 2 ? name + " (" + parts[1] + ")" : name;
+        }
+    }
 }

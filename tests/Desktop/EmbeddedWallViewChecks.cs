@@ -182,6 +182,28 @@ internal static class EmbeddedWallViewChecks
             await editor.CalculateAsync(); await Settle(); Capture("sezione-tubolare-classe3");
             Check(sheet.SteelTubes.All(r => r.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated && r.Checks.All(c => c.Capacity is null)),
                 "Classe 3 certificata dal percorso plastico limitato alle classi 1–2.");
+            var rcData = tubeData.DeepClone().AsObject(); rcData["name"] = "Paratia di pali in c.a. — collaudo grafico";
+            rcData["tube_standard"] = "Non richieste"; rcData["steel_tubes"] = new JsonArray();
+            rcData["rc_pile_standard"] = "NTC 2018"; rcData["rc_pile_check_kind"] = "Ultimate";
+            rcData["segments"]![0]!["ei_mode"] = "Da palo circolare c.a.";
+            var rcRow = EmbeddedWallDocument.NewRow("rc_piles"); rcRow["diameter"] = 800; rcRow["spacing"] = 1;
+            rcRow["cover"] = 50; rcRow["bar_count"] = 12; rcRow["bar_diameter"] = 20; rcRow["link_diameter"] = 10; rcRow["link_spacing"] = 150;
+            rcRow["fck"] = 30; rcRow["fyk"] = 450; rcRow["creep"] = 0; rcRow["material_source"] = "C30/B450, materiali del collaudo";
+            rcRow["single_row"] = true; rcRow["representation_source"] = "Fila unica e ripartizione uniforme sul fronte sintetico";
+            rcRow["shear_confirmed"] = true; rcRow["durability_cover"] = 35; rcRow["detailing_mode"] = "Beam";
+            rcRow["compression_restrained"] = true; rcRow["end_zones_confirmed"] = true; rcData["rc_piles"]!.AsArray().Add(rcRow);
+            sheet.Reload(rcData); await editor.CalculateAsync(); tabs.SelectedIndex = 10; sheet.SelectedRcPileCheck = sheet.RcPiles.LastOrDefault();
+            await Settle(); Capture("sezioni-pali-ca");
+            Check(sheet.RcPiles.Count > 0 && sheet.RcPiles.All(r => r.Checks.Count == 2 && r.Details.Count > 0)
+                && Math.Abs(sheet.SelectedRcPileCheck!.StripToMemberFactor!.Value - 2.0 / 3) < 1e-12, "Azioni o controlli del palo c.a. assenti.");
+            Check(Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.RcPiles))
+                && Visual(editor.View).OfType<DataGrid>().Any(g => ReferenceEquals(g.ItemsSource, sheet.SelectedRcPileCheck!.Details)), "Sezioni o dettagli c.a. scollegati dallo snapshot.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("sezioni-pali-ca-scuro"); Appearance.Set(AppAppearance.Light, false);
+            sheet.Tables.Single(t => t.Key == "rc_piles").Rows[0]["shear_confirmed"] = "False"; await Settle();
+            Check(sheet.Current is null && sheet.RcPiles.Count == 0 && sheet.SelectedRcPileCheck is null && !sheet.RcPileCsvCommand.CanExecute(null), "Risultati c.a. superati ancora esportabili.");
+            await editor.CalculateAsync(); await Settle(); Capture("sezioni-pali-ca-taglio-non-valutato");
+            Check(sheet.RcPiles.All(r => r.Outcome == GPC.Model.Checking.Contracts.EngineeringOutcome.NotEvaluated
+                && r.Checks[1].Capacity is null), "Taglio del palo senza modello confermato certificato.");
             editor.InspectRevision(); var original = sheet.Data.ToJsonString(); sheet.Tables[0].AddCommand.Execute(null);
             Check(sheet.Data.ToJsonString() == original, "Editor in sola lettura modificato.");
             File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF paratie, senza attivare finestre sul desktop");

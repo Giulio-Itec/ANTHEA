@@ -279,6 +279,49 @@
      </StackPanel></ScrollViewer>
     </Grid>
    </TabItem>
+   <TabItem Header="Pali in c.a.">
+    <Grid Margin="10"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="180"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <DockPanel Margin="0,0,0,8"><Button DockPanel.Dock="Right" Content="Esporta CSV sezioni e dettagli" Command="{Binding RcPileCsvCommand}"/>
+      <TextBlock Text="Azioni per singolo palo, N positivo a trazione. Resistenza/SLE e dettagli costruttivi hanno esiti separati." TextWrapping="Wrap"/>
+     </DockPanel>
+     <DataGrid Grid.Row="1" ItemsSource="{Binding RcPiles}" SelectedItem="{Binding SelectedRcPileCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+      <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G7}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
+       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G7}"/>
+       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G7}"/><DataGridTextColumn Header="Fattore fascia→palo" Binding="{Binding StripToMemberFactor, StringFormat=G7}"/>
+       <DataGridTextColumn Header="Esito locale" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+     </DataGrid>
+     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
+      <TextBlock Text="{Binding SelectedRcPileCheck.Reference}" FontWeight="SemiBold"/>
+      <TextBlock Margin="0,5" TextWrapping="Wrap"><Run Text="Taglio selezionato: "/><Run Text="{Binding SelectedRcPileCheck.Stage}"/><Run Text=" · "/><Run Text="{Binding SelectedRcPileCheck.Section}"/>
+       <Run Text=" · z="/><Run Text="{Binding SelectedRcPileCheck.Elevation, StringFormat=G7}"/><Run Text=" m, "/><Run Text="{Binding SelectedRcPileCheck.Side}"/>
+       <Run Text=" · N="/><Run Text="{Binding SelectedRcPileCheck.Normal, StringFormat=G7}"/><Run Text=" kN; V="/><Run Text="{Binding SelectedRcPileCheck.Shear, StringFormat=G7}"/>
+       <Run Text=" kN; M="/><Run Text="{Binding SelectedRcPileCheck.Moment, StringFormat=G7}"/><Run Text=" kNm"/></TextBlock>
+      <TextBlock Text="{Binding SelectedRcPileCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,4"/>
+      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="D [mm]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.Diameter}"/>
+       <Run Text="; barre: "/><Run Text="{Binding SelectedRcPileCheck.Properties.BarCount}"/><Run Text="φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.BarDiameter}"/>
+       <Run Text="; staffe φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkDiameter}"/><Run Text="/"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkSpacing}"/>
+       <Run Text=" mm; EI lordo fascia [kNm²]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.EquivalentRigidity, StringFormat=G7}"/></TextBlock>
+      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="Coefficienti SLU del profilo: γc="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaC}"/>
+       <Run Text="; γs="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaS}"/><Run Text="; αcc="/><Run Text="{Binding SelectedRcPileCheck.Properties.AlphaCC}"/></TextBlock>
+      <DataGrid ItemsSource="{Binding SelectedRcPileCheck.Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+       <DataGrid.Columns><DataGridTextColumn Header="Controllo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
+        <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+      </DataGrid>
+      <ItemsControl ItemsSource="{Binding SelectedRcPileCheck.Checks}"><ItemsControl.ItemTemplate><DataTemplate>
+       <TextBlock Text="{Binding Diagnostic}" TextWrapping="Wrap" Margin="0,4"/>
+      </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+      <TextBlock Text="Dettagli costruttivi — esiti separati" FontWeight="SemiBold" Margin="0,8"/>
+      <DataGrid ItemsSource="{Binding SelectedRcPileCheck.Details}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
+       <DataGrid.Columns><DataGridTextColumn Header="Regola" Binding="{Binding Label}"/><DataGridTextColumn Header="Valore" Binding="{Binding Actual, StringFormat=G7}"/>
+        <DataGridTextColumn Header="Limite" Binding="{Binding Limit, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Criterio" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
+      </DataGrid>
+      <TextBlock Text="{Binding SelectedRcPileCheck.Properties.Source}" TextWrapping="Wrap" Margin="0,8"/>
+     </StackPanel></ScrollViewer>
+    </Grid>
+   </TabItem>
   </TabControl>
  </DockPanel>
 </UserControl>

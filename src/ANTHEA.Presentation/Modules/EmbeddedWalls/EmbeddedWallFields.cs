@@ -8,7 +8,7 @@ public static class EmbeddedWallFields
     [
         new("name", "Nome", Wide: true), new("case_id", "Caso / combinazione", Wide: true), new("action_basis", "Provenienza e coefficienti delle azioni", Wide: true, Multiline: true),
         new("top", "Quota testa", "m"), new("bottom", "Quota piede", "m"), new("width", "Larghezza della fascia analizzata", "m"), new("mesh", "Lunghezza massima elemento", "m"),
-        new("substeps", "Incrementi iniziali per fase"), new("check_kind", "Verifiche di sezione in c.a.", Choices: ["Analisi", "Ultimate", "Characteristic", "Frequent", "QuasiPermanent"],
+        new("substeps", "Incrementi iniziali per fase"), new("check_kind", "Verifiche delle fasce rettangolari in c.a.", Choices: ["Analisi", "Ultimate", "Characteristic", "Frequent", "QuasiPermanent"],
             ToolTip: "Analisi: sole sollecitazioni. Ultimate: SLU; Characteristic, Frequent, QuasiPermanent: SLE della combinazione esplicitamente assegnata. Non sono applicati coefficienti alle azioni."),
         new("steel_standard", "Verifiche dei sostegni metallici", Choices: ["Non richieste", "NTC 2018", "EN 1993-1-1 — profilo non disponibile"], Wide: true),
         new("steel_check_kind", "Combinazione per i sostegni metallici", Choices: ["Analysis", "StaticUltimate", "SeismicUltimate", "Serviceability"], Wide: true,
@@ -18,6 +18,9 @@ public static class EmbeddedWallFields
         new("tube_standard", "Verifiche sezioni tubolari della parete", Choices: ["Non richieste", "NTC 2018", "EN 1993-1-1 — profilo non disponibile"], Wide: true),
         new("tube_check_kind", "Combinazione per le sezioni tubolari", Choices: ["Analysis", "StaticUltimate", "SeismicUltimate", "Serviceability"], Wide: true,
             ToolTip: "Resistenza locale N–M–V: SLU statici, CHS integre di classe 1–2. Azioni della storia già di progetto; nessuna rifattorizzazione."),
+        new("rc_pile_standard", "Verifiche pali circolari in c.a.", Choices: ["Non richieste", "NTC 2018", "EN 1992-1-1 — profilo non disponibile"], Wide: true),
+        new("rc_pile_check_kind", "Combinazione per i pali in c.a.", Choices: ["Analisi", "Ultimate", "Characteristic", "Frequent", "QuasiPermanent", "Seismic"], Wide: true,
+            ToolTip: "SLU statici o SLE della storia assegnata. Il sisma richiede verifiche distinte; nessun coefficiente è aggiunto alle azioni."),
         new("anchor_a1m1", "Storia analizzata con azioni A1 e parametri M1 per i tiranti", Bool: true, Wide: true,
             ToolTip: "Confermare la base della storia completa, documentandola nella provenienza delle azioni. Il verificatore non rifattorizza le reazioni non lineari."),
         new("fix_top_u", "Blocca traslazione in testa", Bool: true), new("fix_top_rotation", "Blocca rotazione in testa", Bool: true),
@@ -41,15 +44,15 @@ public static class EmbeddedWallFields
     public static string Title(string table) => table switch
     {
         "segments" => "Tratti e rigidezze", "left_soils" => "Terreno a sinistra", "right_soils" => "Terreno a destra", "supports" => "Tiranti e puntoni",
-        "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi sulla struttura", "rc_sections" => "Sezioni e armature",
+        "stages" => "Fasi costruttive", "activations" => "Sostegni presenti nelle fasi", "loads" => "Carichi sulla struttura", "rc_sections" => "Fasce rettangolari in c.a.",
         "hydraulic_left" => "Permeabilità a sinistra", "hydraulic_right" => "Permeabilità a destra", "hydraulic_upl" => "Corpi UPL",
         "hydraulic_actions" => "Azioni caratteristiche UPL", "hydraulic_hyd" => "Punti e colonne HYD", "global_checks" => "Stabilità globale", "global_actions" => "Combinazioni globali", "steel_members" => "Acciaio dei sostegni",
-        "anchor_checks" => "Sfilamento dei tiranti", "anchor_layers" => "Indagini dei bulbi", "anchor_tests" => "Prove preliminari tiranti", "steel_tubes" => "Sezioni tubolari della parete", _ => table
+        "anchor_checks" => "Sfilamento dei tiranti", "anchor_layers" => "Indagini dei bulbi", "anchor_tests" => "Prove preliminari tiranti", "steel_tubes" => "Sezioni tubolari della parete", "rc_piles" => "Pali circolari in c.a.", _ => table
     };
     public static FieldSpec[] Columns(string table) => table switch
     {
         "segments" => [new("section", "Sezione"), new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
-            new("ei_mode", "Origine EI", Choices: ["Assegnata", "Da tubo CHS"], ToolTip: "Da tubo CHS usa E·I·larghezza/interasse della sezione corrispondente, calcolata da GPC. Il valore EI assegnato è ignorato in questa modalità."),
+            new("ei_mode", "Origine EI", Choices: ["Assegnata", "Da tubo CHS", "Da palo circolare c.a."], ToolTip: "EI da sezione usa E·I·larghezza/interasse, calcolata da GPC. Il valore assegnato è ignorato quando si seleziona una sezione."),
             new("ei", "EI assegnata", "kNm²"), new("weight", "Peso lineare della fascia", "kN/m"), new("source", "Fonte di EI")],
         "steel_tubes" => [new("id", "Sezione nei tratti"), new("diameter", "Diametro esterno", "mm"), new("thickness", "Spessore", "mm"), new("spacing", "Interasse", "m"),
             new("nominal_grade", "Grado nominale S"), new("fy", "fy per spessore effettivo", "MPa"), new("fu", "fu per spessore effettivo", "MPa"), new("elastic_modulus", "E", "MPa"),
@@ -58,6 +61,17 @@ public static class EmbeddedWallFields
             new("representation_source", "Trasferimento delle pressioni e validità della fascia equivalente", Multiline: true,
                 ToolTip: "Documentare come il fronte trasferisce le pressioni ai tubi. Nessun effetto arco o interazione tridimensionale è dedotto dall'interasse."),
             new("is_bridge", "Elemento di ponte", Bool: true)],
+        "rc_piles" => [new("id", "Sezione nei tratti"), new("diameter", "Diametro palo", "mm"), new("spacing", "Interasse pali", "m"),
+            new("cover", "Copriferro esterno alla staffa", "mm"), new("bar_count", "Barre longitudinali (numero pari)"), new("bar_diameter", "Diametro longitudinale", "mm"),
+            new("link_diameter", "Diametro staffe singole", "mm"), new("link_spacing", "Passo staffe", "mm"), new("fck", "fck", "MPa"), new("fyk", "fyk", "MPa"),
+            new("es", "Es", "MPa"), new("eps_uk", "Deformazione ultima acciaio"), new("material_source", "Fonte materiali", Multiline: true),
+            new("outline_divisions", "Lati contorno numerico", ToolTip: "Da 32 a 256, multiplo di quattro. EI usa il cerchio analitico; resistenza e SLE il contorno dichiarato."),
+            new("single_row", "Fila unica e ripartizione uniforme confermate", Bool: true), new("representation_source", "Trasferimento pressioni ai pali", Multiline: true),
+            new("shear_confirmed", "Modello circolare di taglio con staffe singole confermato", Bool: true), new("lever_factor", "Rapporto z/d (≤0,9)"),
+            new("creep", "Viscosità SLE"), new("exposure", "Esposizione"), new("aggregate", "Diametro aggregato", "mm"),
+            new("durability_cover", "Copriferro minimo durabilità", "mm"), new("cover_deviation", "Tolleranza copriferro", "mm"),
+            new("detailing_mode", "Regole costruttive", Choices: ["CommonOnly", "Beam", "Column"], ToolTip: "Scelta ingegneristica esplicita. CommonOnly lascia aperte le regole specifiche dell'elemento."),
+            new("compression_restrained", "Barre compresse trattenute", Bool: true), new("end_zones_confirmed", "Dettagli zone di estremità confermati", Bool: true)],
         "left_soils" or "right_soils" => [new("name", "Strato"), new("top", "Quota superiore", "m"), new("bottom", "Quota inferiore", "m"),
             new("gamma", "Peso naturale", "kN/m³"), new("gamma_sat", "Peso saturo", "kN/m³"), new("phi", "Attrito efficace", "°"), new("c", "Coesione efficace", "kPa"),
             new("cu", "Resistenza non drenata", "kPa"), new("k0", "Coefficiente a riposo K0"), new("kh", "Modulo orizzontale kh", "N/mm³"),
