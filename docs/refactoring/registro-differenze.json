@@ -7966,6 +7966,29 @@
         "docs/paratie/incremento-14.md"
       ],
       "voci_collegate": ["PARATIE-15", "F5-INT-01"]
+    },
+    {
+      "id": "F5-LIB-01",
+      "data": "2026-10-19",
+      "fase": "Rilascio F5",
+      "titolo": "Snapshot ufficiale delle librerie paratie e spettri",
+      "famiglia": "librerie/rilascio",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Set AA non candidato dalle revisioni Model e Checker pubblicate con autorizzazione; 13 DLL installate in ANTHEA tramite Update-Snapshot, con manifest completo e provenienza aggiornata. Confezionamento locale con librerie pubblicate subordinato al full completo.",
+      "codice": ["lib/Checker", "tests/fixtures/f4/library-release.json", "tools/paratie/New-LocalPreview.ps1"],
+      "segno": "Tutte le 14 DLL del set sono identiche alla candidata collaudata. Nessun atteso numerico, transizione, tolleranza o fallimento ammesso modificato; il registro F4 cambia soltanto la provenienza del set ufficiale, conservando il riferimento F3.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Sì, pubblica queste revisioni e completa il rilascio: Model e1e6e107 e Checker dfb808c8; i nuovi rami di prosecuzione restano locali.",
+        "esito": "Revisioni pubblicate, set ufficiale verificato e installato. Full ANTHEA ancora da concludere."
+      },
+      "test": [
+        "Release-Set: 3172 PASS, soli 17 fallimenti Steel storici ammessi, due test Model ignorati; API compatibili",
+        "Audit SHA-256: 14 DLL identiche alla candidata, 13 DLL installate coerenti; Delaunay/Geometry/Utilities invariate",
+        "docs/paratie/rilascio-f5.md"
+      ],
+      "voci_collegate": ["F5-INT-01"]
     }
   ]
 }

@@ -1527,3 +1527,13 @@ sì.
   - questa sezione e la precedente;
   - le domande «da decidere» dei documenti `f5-*.md`;
   - la [pagina dei punti di controllo](f5-punti-di-controllo.md).
+
+## 19 ottobre — pubblicazione delle librerie integrate paratie/spettri
+
+L'utente autorizza il push di Model/master `e1e6e107` e Checker/master
+`dfb808c8`, già integrati e collaudati, per completare il set coerente,
+aggiornare `lib/Checker` ed eseguire il profilo full: «Sì, pubblica queste
+revisioni e completa il rilascio». I nuovi rami di prosecuzione restano
+locali; nessuna autorizzazione aggiuntiva al push di ANTHEA o dei nuovi rami.
+Il rilascio dello snapshot non chiude la matrice paratie né il seguito
+sull'approfondimento dei pali/micropali. [Verbale](../paratie/rilascio-f5.md).

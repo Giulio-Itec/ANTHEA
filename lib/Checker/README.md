@@ -1,5 +1,27 @@
 # DLL Checker
 
+**Release AA — F5 paratie e spettri (19 ottobre 2026).** Set non candidato
+prodotto da `Checker/build/Release-Set.ps1` dopo il push autorizzato di Model
+`e1e6e107` e Checker `dfb808c8` su master. Installato integralmente con
+`tools/libs/Update-Snapshot.ps1 -ReleaseSet ... -Install`: 13 DLL, incluso
+Checker Steel; il set completo conserva anche ModelChecker, non distribuito
+con ANTHEA. Versioni: Model 5.15.0.1, Data 0.0.2.26, Persistence 3.0.0.19,
+Converter 2.2.0.15, Concrete 0.12.0.4, Steel 2.2.0.5, Geotechnics 0.13.0.1,
+CompositeBridge 1.7.0.14, ModelChecker 2.1.0.22, Masonry 0.1.0.17,
+Design 0.28.0.0. Gli incrementi paratie 1–13 e Spettri sono integrati;
+il nuovo kernel del fondo scavo sui rami di prosecuzione non è incluso.
+
+Suite GPC rieseguite dai commit pubblicati: 3172 PASS, stessi 17 fallimenti
+Steel censiti e due test Model nativi ignorati; API compatibili. Tutte le
+14 DLL del set sono identiche alla candidata per SHA-256. Utilities,
+Geometry e DelaunayMesh restano identiche a Z; nessun Gmsh distribuito.
+Audit indipendente del set e delle 13 DLL installate superato. Manifest
+snapshot SHA-256 `397e9315c536de3954fc59b86f4589505e874343dcb341e1145b69c49573ac40`;
+set completo `b07095e0b1585bc0f6817e7380f8590ba0eb9fce0f734ad4eeed8bc3ca87b573`.
+Evidenze in `supporto/artefatti/paratie/rilascio-f5/`; profilo full ANTHEA
+da concludere prima della chiusura del rilascio. Provenienza aggiornata nel
+solo registro `tests/fixtures/f4/library-release.json`, con attesi F3 invariati.
+
 **Release Z (16 ottobre 2026).** Correzioni dell'analisi dei bug del 15/10 (voci BUG-* del registro): set non candidato da Model `bf8563f5` e Checker `bce7aaae`, pubblicati su master con l'autorizzazione dell'utente; Utilities, Geometry e DelaunayMesh identiche a Y. Versioni: GPCModel 5.5.0.0 (diagramma del tension stiffening per le sole analisi di risposta, `ConcreteMaterial.TensionResponseDiagrams`; legge non lineare con fcm a 28 giorni, SLU-5; tensione di progetto sulla deformazione totale e overload a quattro argomenti di acciai e FRP; ordine della classe del cemento), ModelData 0.0.2.14 (B450A/B500A con εuk 2,5 %, DET-3), Persistence 3.0.0.7, Converter 2.2.0.3, Concrete 0.11.0.0 (SLU, SLE, dettagli e opzione `SectionOptions.StressAnalysisConcreteTension`, mai nelle verifiche SLU), Steel 2.0.4.8, CompositeBridge 1.7.0.0 (PON-1…PON-5, CLS teso nello storico non lineare), Geotechnics 0.4.0.0 (muri, pali, Meyerhof), ModelChecker 2.1.0.8, Masonry 0.1.0.3, Design 0.21.0.0. Catture congelate del Checker rigenerate con l'ok dell'utente («Rigenera tutte»): M–χ (SLU-4), punti del dominio (SLU-5), solette e pareti (DET-1), muri e pali della geotecnica; K0 invariato. BridgeAudit di nuovo compilabile contro ANTHEA: 302/302, otto baseline identiche. Tutte le suite: Model Core 16 e UnitTest 1249 (2 ignorati), Concrete 795, Steel 88 con i 17 fallimenti già censiti, CompositeBridge 284, Geotechnics 191, Calculation 174, ShallowFoundation 28, Design 62, ModelChecker 174; API compatibili. Evidenze: supporto/artefatti/refactoring/bug-1015/release-z del checkout principale. Nessun Gmsh distribuito.
 
 **Release Y (15 ottobre 2026).** Residui di F2: set non candidato da Checker `6f15f185`, pubblicato su master con l'ok dell'utente; Utilities, Geometry e Model identici a X (stesse impronte). Concrete 0.10.0.0 aggiunge a `SectionCrackOptions` tre opzioni spente per default, quindi ModelChecker e il contratto K0 non cambiano: `ModelCode2010BondStages` (stadi della Tab. 7.6-2 di fib MC2010, R1), `DinKtByDuration` (kt di DIN secondo la durata, R2) e `UnreinforcedTensileZoneFails` (zona tesa senza armatura non soddisfatta, F2-25); ANTHEA le attiva nell'adattatore SLE. Revisioni tecniche per il nuovo commit (SourceLink): Steel 2.0.4.7, CompositeBridge 1.6.0.2, Geotechnics 0.3.0.2, ModelChecker 2.1.0.7, Masonry 0.1.0.2, Design 0.20.0.1. Tutte le suite: Model Core 16 e UnitTest 1222, Concrete 764, Steel 88 con i 17 fallimenti già censiti, CompositeBridge 263, Geotechnics 179, Calculation 174, ShallowFoundation 27, Design 60, ModelChecker 168; API compatibili. Candidato e rilascio con le stesse impronte. Collaudo ANTHEA con il profilo baseline: 83 PASS; fallivano solo i due controlli del wiki per le figure non versionate assenti nel worktree e la provenienza del rilascio, aggiornata in tests/fixtures/f4/library-release.json. Il full è rinviato al rilascio delle correzioni dell'analisi dei bug, su richiesta dell'utente. Evidenze: supporto/artefatti/refactoring/f2/release-y. Nessun Gmsh distribuito.
