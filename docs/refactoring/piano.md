@@ -969,3 +969,5 @@ PARATIE-01; [matrice completa](../paratie/requisiti.md).
 
 I limiti e le evidenze sono nel [verbale di incremento](../paratie/incremento-01.md).
 Nessun motore legacy spostato o rimosso; nessun atteso indipendente modificato.
+
+- [x] PARATIE-02: chiusi i tre rilievi di integrazione del primo standard con riesecuzioni mirate del runner; attesi invariati, provenienza della libreria distinta dal contenuto numerico. Standard completo successivo ancora da eseguire.

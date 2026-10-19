@@ -62,3 +62,25 @@ interazione fra pareti, cedimenti, progetto completo delle armature, DXF, guide
 globali e connettori. La discretizzazione monodimensionale non dimostra effetti 3D.
 L'interpolazione degli incrementi di scavo è una variazione delle azioni e delle
 molle fra gli stati di fase, non una simulazione geometrica continua del fronte.
+
+## Collaudo generale e correzioni di integrazione
+
+Il runner standard `20261019-073158-paratie-inc01` ha eseguito 71 suite PASS e
+segnalato tre NEW-FAIL, senza modifiche agli attesi o ai fallimenti ammessi:
+
+- cataloghi nei test Application/Presentation: preservato il confronto integrale
+  dei moduli storici, verificando separatamente i nuovi moduli applicativi;
+- regole architetturali: conversioni con unità nominate, esiti `EngineeringOutcome`
+  tipizzati, collezioni statiche immutabili e colori esclusivamente dai token;
+- tracciato Fondazioni: la versione Geotechnics è un metadato incluso nell'hash.
+  L'audit ha provato che cambiare soltanto `library_version` da 0.5.0.0 a 0.4.0.0
+  restituisce esattamente l'hash congelato `5C36AA943058382B`.
+
+Nel confronto con le catture F5 si proietta esclusivamente quel metadato e la
+sua etichetta, dopo avere verificato la versione realmente caricata. Gli attesi,
+le tolleranze e i risultati di produzione restano invariati. Le catture storiche
+non usano la proiezione. Registro PARATIE-02.
+
+Riesecuzioni mirate con il runner: Application.Tests PASS (`paratie-inc01-fix`);
+Architecture.Tests e Presentation.Tests PASS (`paratie-inc01-fix2`, 0 NEW-FAIL).
+Il profilo standard completo sulla revisione successiva resta da eseguire.

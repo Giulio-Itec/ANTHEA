@@ -450,7 +450,7 @@ internal static class ShallowFoundationViewChecks
                 await host.Settle();
                 Check(host.Modified == 0, scenario.Name + ": apertura senza Modified");
                 var side = new ViewSide(host);
-                trace.AddRange(side.State().Lines("apertura"));
+                trace.AddRange(side.State().Lines("apertura", compareFrozenVersion: true));
                 foreach (var step in scenario.Steps)
                 {
                     if (step.Kind == ShallowFoundationStep.Reopen)
@@ -462,7 +462,7 @@ internal static class ShallowFoundationViewChecks
                         side = new ViewSide(host);
                     }
                     else await side.Apply(step);
-                    trace.AddRange(side.State().Lines(step.ToString()));
+                    trace.AddRange(side.State().Lines(step.ToString(), compareFrozenVersion: true));
                 }
             }
             finally { host.Dispose(); }

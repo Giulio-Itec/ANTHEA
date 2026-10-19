@@ -1,3 +1,5 @@
+using GPC.Model.Checking.Contracts;
+
 namespace Anthea.Reports;
 
 /// <summary>Immutable presentation/report snapshot. Display units: m, mm, kN, kNm, kPa. No calculation methods.</summary>
@@ -11,4 +13,4 @@ public sealed record EmbeddedWallPointData(double Elevation, string Side, string
 public sealed record EmbeddedWallSupportData(string Id, double AxialForce, double HorizontalReaction, double ReferenceDisplacement, bool AtCapacity);
 public sealed record EmbeddedWallCheckData(string CaseId, string Stage, string Section, double Elevation, string Side,
     double Normal, double Shear, double Moment, string Method, string Unit, double Demand, double? Capacity, double? Ratio,
-    string Outcome, string Diagnostic);
+    EngineeringOutcome Outcome, string Diagnostic);

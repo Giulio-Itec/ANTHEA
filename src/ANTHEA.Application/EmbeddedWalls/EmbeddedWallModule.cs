@@ -3,6 +3,9 @@ using Anthea.Application.Modules;
 using Anthea.Reports;
 using GPC.Checkers.Geotechnics.EmbeddedWalls;
 using GPC.Design.EmbeddedWalls;
+using GPC.Model.Checking.Contracts;
+using GPC.Model.Geotechnics;
+using static Anthea.Application.EmbeddedWalls.EmbeddedWallAdapter;
 
 namespace Anthea.Application.EmbeddedWalls;
 
@@ -41,13 +44,13 @@ public sealed class EmbeddedWallModule : IModuleService
         var snapshot = new EmbeddedWallReportData(model.Name, EmbeddedWallDocument.Fingerprint(data), model.CaseId, basis,
             analysis.Status.ToString(), analysis.IsComplete, analysis.Diagnostic, data.ToJsonString(new() { WriteIndented = true }),
             Array.AsReadOnly(analysis.Stages.Select(s => new EmbeddedWallStageData(s.Id, s.AcceptedIncrements, s.Iterations, s.ForceResidual, s.MomentResidual,
-                Array.AsReadOnly(s.Points.Select(p => new EmbeddedWallPointData(p.Elevation / 1000, p.Side, p.SectionId, p.Displacement, p.Rotation,
-                    p.NormalForce / 1000, p.Shear / 1000, p.Moment / 1e6, p.LeftPressure * 1000, p.RightPressure * 1000, p.LeftPlastic, p.RightPlastic)).ToArray()),
-                Array.AsReadOnly(s.Supports.Select(t => new EmbeddedWallSupportData(t.Id, t.AxialForce / 1000, t.HorizontalReaction / 1000, t.ReferenceDisplacement, t.AtCapacity)).ToArray()))).ToArray()),
-            Array.AsReadOnly(checks.SelectMany(c => c.Checks.Count == 0 ? new[] { new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / 1000, c.Side,
-                -c.Actions.N / 1000, c.Actions.V / 1000, -c.Actions.M / 1e6, "Sezione non definita", "", 0, null, null, "NotEvaluated", c.Diagnostic) }
-                : c.Checks.Select(v => new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / 1000, c.Side,
-                    -c.Actions.N / 1000, c.Actions.V / 1000, -c.Actions.M / 1e6, v.Method, v.Unit, v.Demand, v.Capacity, v.Ratio, v.Outcome.ToString(), v.Diagnostic ?? c.Diagnostic))).ToArray()),
+                Array.AsReadOnly(s.Points.Select(p => new EmbeddedWallPointData(p.Elevation / SoilUnits.Metre, p.Side, p.SectionId, p.Displacement, p.Rotation,
+                    p.NormalForce / NewtonsPerKilonewton, p.Shear / NewtonsPerKilonewton, p.Moment / NmmPerKilonewtonMetre, p.LeftPressure / SoilUnits.KiloPascal, p.RightPressure / SoilUnits.KiloPascal, p.LeftPlastic, p.RightPlastic)).ToArray()),
+                Array.AsReadOnly(s.Supports.Select(t => new EmbeddedWallSupportData(t.Id, t.AxialForce / NewtonsPerKilonewton, t.HorizontalReaction / NewtonsPerKilonewton, t.ReferenceDisplacement, t.AtCapacity)).ToArray()))).ToArray()),
+            Array.AsReadOnly(checks.SelectMany(c => c.Checks.Count == 0 ? new[] { new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / SoilUnits.Metre, c.Side,
+                -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, "Sezione non definita", "", 0, null, null, EngineeringOutcome.NotEvaluated, c.Diagnostic) }
+                : c.Checks.Select(v => new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / SoilUnits.Metre, c.Side,
+                    -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, v.Method, v.Unit, v.Demand, v.Capacity, v.Ratio, v.Outcome, v.Diagnostic ?? c.Diagnostic))).ToArray()),
             scope.AsReadOnly());
         cancellation.ThrowIfCancellationRequested();
         return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(snapshot), snapshot);

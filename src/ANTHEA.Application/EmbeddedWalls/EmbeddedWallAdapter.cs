@@ -10,6 +10,9 @@ namespace Anthea.Application.EmbeddedWalls;
 /// <summary>Unit conversion and contracts only. No constitutive, section or normative equations.</summary>
 public static class EmbeddedWallAdapter
 {
+    internal const double NewtonsPerKilonewton = 1000;
+    internal const double NmmPerKilonewtonMetre = 1e6;
+    internal const double NmmSquaredPerKilonewtonMetreSquared = 1e9;
     internal static string Text(JsonObject row, string key) => row[key]?.ToString() ?? "";
     internal static double Number(JsonObject row, string key) => Optional(row, key) ?? throw new ArgumentException("Dato obbligatorio: " + key);
     internal static double? Optional(JsonObject row, string key) => StratigraphyDocument.Number(row[key], key);
@@ -35,20 +38,20 @@ public static class EmbeddedWallAdapter
             FixTopDisplacement = Flag(data, "fix_top_u"), FixTopRotation = Flag(data, "fix_top_rotation"),
             FixBottomDisplacement = Flag(data, "fix_bottom_u"), FixBottomRotation = Flag(data, "fix_bottom_rotation"),
             Segments = EmbeddedWallDocument.Rows(data, "segments").Select(s => new EmbeddedWallSegment { SectionId = Text(s, "section"),
-                Top = Number(s, "top") * SoilUnits.Metre, Bottom = Number(s, "bottom") * SoilUnits.Metre, FlexuralRigidity = Number(s, "ei") * 1e9,
+                Top = Number(s, "top") * SoilUnits.Metre, Bottom = Number(s, "bottom") * SoilUnits.Metre, FlexuralRigidity = Number(s, "ei") * NmmSquaredPerKilonewtonMetreSquared,
                 WeightPerLength = Number(s, "weight"), Source = Text(s, "source") }).ToArray(),
             LeftSoils = Soils(data, "left_soils"), RightSoils = Soils(data, "right_soils"),
             Supports = EmbeddedWallDocument.Rows(data, "supports").Select(s => new EmbeddedWallSupport { Id = Text(s, "id"),
                 Elevation = Number(s, "elevation") * SoilUnits.Metre, Kind = Choice<EmbeddedWallSupportKind>(s, "kind"), AxialStiffness = Number(s, "stiffness"),
                 Inclination = Number(s, "angle") * SoilUnits.Degree, ResistingDirection = Integer(s, "direction"), Spacing = Number(s, "spacing") * SoilUnits.Metre,
-                Capacity = Optional(s, "capacity") * 1000 }).ToArray(),
+                Capacity = Optional(s, "capacity") * NewtonsPerKilonewton }).ToArray(),
             Stages = stages.Select(s => new EmbeddedWallStage { Id = Text(s, "id"), Left = Ground(s, "left"), Right = Ground(s, "right"),
                 DistributedLoad = Number(s, "distributed_load"), StiffnessFactor = Number(s, "stiffness_factor"),
                 ActiveSupports = EmbeddedWallDocument.Rows(data, "activations").Where(a => Text(a, "stage") == Text(s, "id")).Select(a =>
-                    new EmbeddedWallSupportActivation { SupportId = Text(a, "support"), Prestress = Number(a, "prestress") * 1000 }).ToArray(),
+                    new EmbeddedWallSupportActivation { SupportId = Text(a, "support"), Prestress = Number(a, "prestress") * NewtonsPerKilonewton }).ToArray(),
                 PointLoads = EmbeddedWallDocument.Rows(data, "loads").Where(p => Text(p, "stage") == Text(s, "id")).Select(p => new EmbeddedWallPointLoad {
-                    Elevation = Number(p, "elevation") * SoilUnits.Metre, HorizontalForce = Number(p, "horizontal") * 1000, Moment = Number(p, "moment") * 1e6,
-                    DownwardForce = Number(p, "downward") * 1000 }).ToArray() }).ToArray()
+                    Elevation = Number(p, "elevation") * SoilUnits.Metre, HorizontalForce = Number(p, "horizontal") * NewtonsPerKilonewton, Moment = Number(p, "moment") * NmmPerKilonewtonMetre,
+                    DownwardForce = Number(p, "downward") * NewtonsPerKilonewton }).ToArray() }).ToArray()
         };
         EmbeddedWallAnalysis.Validate(m); return m;
     }

@@ -1,13 +1,16 @@
 using System.Globalization;
+using System.Collections.Frozen;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Xml.Linq;
+using GPC.Model.Checking.Contracts;
 
 namespace Anthea.Reports;
 
 /// <summary>Rendering of the same immutable snapshot used by the sheet. No solver calls or engineering formulas.</summary>
 public static class EmbeddedWallReport
 {
+    private const int TableWidthTwips = 9638;
     private static string F(double? value) => value?.ToString("G7", CultureInfo.GetCultureInfo("it-IT")) ?? "non disponibile";
     public static DocxDocument Create(string title, EmbeddedWallReportData result, bool allStations = false)
     {
@@ -21,10 +24,10 @@ public static class EmbeddedWallReport
         void P(string text, bool heading = false) => body.Add(Paragraph(text, heading));
         void Table(string[] headers, IEnumerable<string[]> rows)
         {
-            var table = new XElement(w + "tbl", new XElement(w + "tblPr", new XElement(w + "tblW", new XAttribute(w + "w", 9638), new XAttribute(w + "type", "dxa"))));
-            table.Add(new XElement(w + "tblGrid", headers.Select(_ => new XElement(w + "gridCol", new XAttribute(w + "w", 9638 / headers.Length)))));
+            var table = new XElement(w + "tbl", new XElement(w + "tblPr", new XElement(w + "tblW", new XAttribute(w + "w", TableWidthTwips), new XAttribute(w + "type", "dxa"))));
+            table.Add(new XElement(w + "tblGrid", headers.Select(_ => new XElement(w + "gridCol", new XAttribute(w + "w", TableWidthTwips / headers.Length)))));
             void Row(string[] values, bool header) => table.Add(new XElement(w + "tr", new XElement(w + "trPr", new XElement(w + "cantSplit"), header ? new XElement(w + "tblHeader") : null),
-                values.Select(v => new XElement(w + "tc", new XElement(w + "tcPr", new XElement(w + "tcW", new XAttribute(w + "w", 9638 / headers.Length), new XAttribute(w + "type", "dxa"))), Paragraph(v)))));
+                values.Select(v => new XElement(w + "tc", new XElement(w + "tcPr", new XElement(w + "tcW", new XAttribute(w + "w", TableWidthTwips / headers.Length), new XAttribute(w + "type", "dxa"))), Paragraph(v)))));
             Row(headers, true); foreach (var row in rows) Row(row, false); body.Add(table);
         }
         P(title, true);
@@ -64,8 +67,8 @@ public static class EmbeddedWallReport
             P("Riepilogo per fase, sezione e metodo: tutti gli esiti non valutati e il controllo governante per utilizzo. Le unità di domanda e capacità sono quelle native dichiarate.");
             foreach (var group in result.Checks.GroupBy(c => (c.Stage, c.Section, c.Method)))
             {
-                var governing = group.OrderByDescending(c => c.Outcome == "NotSatisfied").ThenByDescending(c => c.Ratio).First();
-                foreach (var c in group.Where(c => c.Outcome == "NotEvaluated").Take(1).Append(governing).Distinct())
+                var governing = group.OrderByDescending(c => c.Outcome == EngineeringOutcome.NotSatisfied).ThenByDescending(c => c.Ratio).First();
+                foreach (var c in group.Where(c => c.Outcome == EngineeringOutcome.NotEvaluated).Take(1).Append(governing).Distinct())
                     P($"{c.Stage} · {c.Section} · z={F(c.Elevation)} m ({c.Side}) · {c.Method}: {c.Outcome}; domanda {F(c.Demand)}, capacità {F(c.Capacity)} {c.Unit}; utilizzo {F(c.Ratio)}. N={F(c.Normal)} kN, V={F(c.Shear)} kN, M={F(c.Moment)} kNm. {c.Diagnostic}");
             }
         }
@@ -87,7 +90,7 @@ public static class EmbeddedWallReport
             text.AppendLine(string.Join(";", new object[] { result.CaseId, s.Id, p.Section, p.Elevation, p.Side, p.Displacement, p.Normal, p.Shear, p.Moment, p.LeftPressure, p.RightPressure, result.Status, result.Fingerprint }.Select(Cell)));
         return text.ToString();
     }
-    private static readonly Dictionary<string, string> Labels = new()
+    private static readonly FrozenDictionary<string, string> Labels = new Dictionary<string, string>()
     {
         ["name"]="Nome", ["case_id"]="Caso", ["action_basis"]="Origine delle azioni", ["top"]="Quota superiore [m]", ["bottom"]="Quota inferiore [m]", ["width"]="Larghezza (m generale, mm sezione c.a.)",
         ["mesh"]="Lunghezza massima elemento [m]", ["check_kind"]="Tipo verifica", ["substeps"]="Incrementi", ["segments"]="Tratti e rigidezze", ["left_soils"]="Terreno a sinistra", ["right_soils"]="Terreno a destra",
@@ -99,5 +102,5 @@ public static class EmbeddedWallReport
         ["fix_top_u"]="Traslazione testa bloccata", ["fix_top_rotation"]="Rotazione testa bloccata", ["fix_bottom_u"]="Traslazione piede bloccata", ["fix_bottom_rotation"]="Rotazione piede bloccata",
         ["thickness"]="Spessore [mm]", ["cover"]="Copriferro [mm]", ["back_bars"]="Barre retro", ["back_diameter"]="Diametro retro [mm]", ["front_bars"]="Barre fronte", ["front_diameter"]="Diametro fronte [mm]",
         ["fck"]="fck [MPa]", ["fyk"]="fyk [MPa]", ["es"]="Es [MPa]", ["eps_uk"]="εuk", ["creep"]="Viscosità", ["exposure"]="Esposizione"
-    };
+    }.ToFrozenDictionary();
 }

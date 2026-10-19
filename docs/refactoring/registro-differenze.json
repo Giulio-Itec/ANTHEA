@@ -7493,6 +7493,35 @@
         "docs/paratie/incremento-01.md: evidenze e limiti"
       ],
       "voci_collegate": []
+    },
+    {
+      "id": "PARATIE-02",
+      "data": "2026-10-19",
+      "fase": "Modulo paratie, collaudo integrazione incremento 1",
+      "titolo": "Provenienza delle librerie distinta dall’equivalenza numerica nelle tracce Fondazioni",
+      "famiglia": "test/equivalenza e versioni GPC",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Il candidato Geotechnics 0.5.0.0 cambia il solo library_version nel risultato Fondazioni rispetto alla cattura F5 con 0.4.0.0. Audit integrale: hash attuale 65F0875D0F26BBCB, dopo la sola proiezione della versione 5C36AA943058382B, identico al congelato. I confronti F5 delle nuove viste e F3 della Presentation proiettano soltanto library_version e la sua esatta etichetta, verificando prima la versione caricata. Attesi, tolleranze, catture storiche e risultati di produzione invariati.",
+      "codice": [
+        "tests/Shared/ShallowFoundationTrace.cs: ShallowFoundationVersionProjection",
+        "tests/ANTHEA.Presentation.Tests/ShallowFoundationSheetChecks.cs",
+        "tests/Desktop/ShallowFoundationViewChecks.cs"
+      ],
+      "segno": "Nessuna differenza numerica ammessa; varia solo il metadato di provenienza nella proiezione usata dal confronto.",
+      "decisione": {
+        "data": "2026-10-19",
+        "utente": "Incarico paratie: versioni GPC delegate, conservare regressioni e attesi indipendenti.",
+        "esito": "Proiezione limitata al metadato, motivata dall’audit; nessuna modifica delle liste di fallimenti ammessi."
+      },
+      "test": [
+        "supporto/artefatti/paratie/foundation-version-audit: JSON integrali e hash prima/dopo",
+        "runner paratie-inc01-fix: Application.Tests PASS",
+        "runner paratie-inc01-fix2: Architecture.Tests e Presentation.Tests PASS"
+      ],
+      "voci_collegate": [
+        "PARATIE-01"
+      ]
     }
   ]
 }
