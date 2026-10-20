@@ -691,8 +691,11 @@ internal static class StratigraphyViewChecks
         {
             await narrow.Settle();
             File.WriteAllBytes(Path.Combine(folder, "vista-profilo-medi-falda-stretta.png"), narrow.Png());
-            Check(narrow.View.Columns.ActualWidth >= 730 && narrow.View.Viewport.ExtentWidth > narrow.View.Viewport.ViewportWidth,
-                "Area stretta: almeno 730 px per le due colonne, con lo scorrimento orizzontale come la vista storica (" + narrow.View.Columns.ActualWidth.ToString("0", CultureInfo.InvariantCulture) + ")");
+            // WPF layout rounding at 125% maps 730 DIP to 729.6 DIP (half a physical pixel).
+            double halfPixel = .5 / VisualTreeHelper.GetDpi(narrow.View).DpiScaleX;
+            Check(narrow.View.Columns.Width >= 730 && narrow.View.Columns.ActualWidth >= 730 - halfPixel - 1e-7
+                && narrow.View.Viewport.ExtentWidth > narrow.View.Viewport.ViewportWidth,
+                "Area stretta: minimo 730 DIP; width=" + narrow.View.Columns.Width.ToString("R", CultureInfo.InvariantCulture) + "; actual=" + narrow.View.Columns.ActualWidth.ToString("R", CultureInfo.InvariantCulture) + "; extent=" + narrow.View.Viewport.ExtentWidth.ToString("R", CultureInfo.InvariantCulture) + "; viewport=" + narrow.View.Viewport.ViewportWidth.ToString("R", CultureInfo.InvariantCulture) + "; dpi=" + VisualTreeHelper.GetDpi(narrow.View).DpiScaleX.ToString("R", CultureInfo.InvariantCulture));
             written++;
         }
         using (var wide = new Hosted(editors.Open(Module, StratigraphyScenarios.FixtureData(root, "profilo-medi-falda")), width: 1700, height: 1000))

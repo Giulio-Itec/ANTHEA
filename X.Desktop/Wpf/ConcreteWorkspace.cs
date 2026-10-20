@@ -162,7 +162,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         var holeForm=new InputForm(Input,[new("inner_diameter_mm","Diametro foro","mm"),new("inner_width_mm","Larghezza foro","mm"),new("inner_height_mm","Altezza foro","mm")],_=>Invalidate(),true);
         void UpdateHoleFields(){bool enabled=Input.B("foro_presente");holeForm.Visibility=enabled?Visibility.Visible:Visibility.Collapsed;foreach(string key in new[]{"inner_diameter_mm","inner_width_mm","inner_height_mm"})holeForm.ShowField(key,ConcreteInputPresentation.HoleFieldShown(key,Input.S("shape")));}
         holeToggle.Click+=(_,_)=>{Input["foro_presente"]=holeToggle.IsChecked==true;UpdateHoleFields();Invalidate();};
-        refreshHoleControls=()=>{holeToggle.IsChecked=Input.B("foro_presente");holeToggle.IsEnabled=ConcreteInputPresentation.HoleAvailable(Input.S("shape")) && !Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(Input);foreach (string k in holeForm.Editors.Keys) holeForm.Set(k,Input.S(k),true);holeForm.IsEnabled=holeToggle.IsEnabled;UpdateHoleFields();};
+        refreshHoleControls=()=>{holeToggle.IsChecked=Input.B("foro_presente");holeToggle.IsEnabled=ConcreteInputPresentation.HoleAvailable(Input.S("shape")) && !Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(Input);foreach (string k in holeForm.Editors.Keys) holeForm.Set(k,Input.S(k),true);holeForm.IsEnabled=!Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(Input);UpdateHoleFields();};
         geometry.IsVisibleChanged+=(_,_)=>refreshHoleControls();UpdateHoleFields();
         BuildMaterialFields();
         Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareFlange(Input);

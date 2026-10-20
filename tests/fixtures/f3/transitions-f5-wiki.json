@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "voce": "F5-LIB-02",
-  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo.",
+  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo.",
   "voci": [
     {
       "file": "esito.txt",
@@ -445,30 +445,6 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.inviluppo[7]",
-      "classe": "testo",
-      "a": "/wiki/manuale/fem/risultati-per-fasi",
-      "b": "/wiki/guide/moduli/guida-paratie",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.inviluppo[8]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/geotecnica/analisi-paratie\"",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.inviluppo[9]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/fem/risultati-per-fasi\"",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.palo[20]",
       "classe": "testo",
       "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
@@ -717,62 +693,6 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.taglio[20]",
-      "classe": "testo",
-      "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
-      "b": "/wiki/guide/moduli/guida-paratie",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.taglio[21]",
-      "classe": "testo",
-      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "b": "/wiki/manuale/geotecnica/analisi-paratie",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.taglio[22]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-solette",
-      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.taglio[23]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-precompressione",
-      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.taglio[24]",
-      "classe": "testo",
-      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
-      "b": "/wiki/manuale/ponti/ponti-solette",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.taglio[25]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.taglio[26]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.tensioni[19]",
       "classe": "testo",
       "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
@@ -978,6 +898,1166 @@
       "a": null,
       "b": "\"/wiki/manuale/geotecnica/geotecnica-gruppi\"",
       "voce": "F5-LIB-02"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 18 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Salvataggio e riapertura della sezione",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 19 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 20 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il documento conserva il modello della sezione con geometria, materiali, barre e trefoli, insieme ai parametri necessari a modificarlo. Le combinazioni e le impostazioni delle verifiche rimangono nel foglio; le mesh e i risultati temporanei vengono ricalcolati. Una modifica della ricetta geometrica …",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 21 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 22 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "I documenti precedenti restano apribili e vengono convertiti al nuovo formato al salvataggio. Conserva una copia se devi riaprirli con una versione precedente di ANTHEA. I dati incompleti si salvano come bozza: il foglio mantiene i valori digitati e il motivo per cui non può ancora costruire una sez…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 23 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 24 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Wizard delle tipologie e delle armature",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 25 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 26 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nel pannello di controllo apri **Wizard tipologie / modifica disposizione…**. Scegli la tipologia, assegna dimensioni e armature e controlla l'anteprima affiancata. **Applica sezione** valida anche la compatibilità con i trefoli già presenti nel foglio. **Annulla** lascia invariati i dati. Per modif…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 27 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 28 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Tipologia | Disposizione iniziale |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 29 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| --- | --- |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 30 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Rettangolare | Due file superiori e due inferiori; numero, diametro e interferro delle seconde file indipendenti |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 31 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Rettangolare cava | Barre sui contorni esterno e interno; staffe nelle quattro pareti |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 32 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Circolare | Due anelli con numero, diametro e interferro radiale assegnati |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 33 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Circolare cava | Anello esterno e interno rispetto al foro; due staffe circolari |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 34 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| A T | Barre superiori, inferiori e laterali; staffe di anima e ala |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 35 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| A I | Ali superiore e inferiore anche diverse; armatura perimetrale e staffe distinte di anima e ali |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 36 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Ellittica | Barre a incrementi angolari uguali, sul contorno interno utile |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 37 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Capsula | Due semicirconferenze unite da tratti rettilinei; barre radiali rispetto al centro |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 38 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| A L | Due bracci ortogonali; armatura perimetrale e staffe dei singoli bracci |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 39 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| A C | Canale aperto, anima e due ali sullo stesso lato |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 40 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Trapezoidale | Basi parallele centrate; barre perimetrali e staffa aderente |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 41 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Poligonale regolare | Da 3 a 32 lati; diametro circoscritto, barre perimetrali e staffa aderente |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 42 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 43 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Per le armature perimetrali assegna il passo massimo tra gli assi; il generatore inserisce le barre agli spigoli e suddivide i lati. Per le disposizioni radiali assegna il numero di barre. Il copriferro è netto, misurato alla superficie esterna della staffa. Il disegno verifica la collocazione geome…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 44 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 45 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le nuove tipologie e le disposizioni cave a doppio contorno richiedono **parametri manuali del taglio**: assegnare bw, d e, quando richiesto, Asl, oltre ai bracci efficaci nelle due direzioni. Il wizard svuota i valori della sezione precedente. Ripartizione del taglio tra pareti, ancoraggio e tratte…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 46 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 22",
+      "classe": "testo",
+      "a": "| Sezione | scelta | Circolare, Rettangolare, A T; la sezione generica richiede un contorno definito |",
+      "b": "| Sezione | scelta | Sezioni usuali e dodici tipologie da wizard; contorno e armatura devono essere compatibili |",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 8 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: salvataggio-e-riapertura-della-sezione",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 9 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il documento conserva il modello della sezione con geometria, materiali, barre e trefoli, insieme ai parametri necessari a modificarlo. Le combinazioni e le impostazioni delle verifiche rimangono nel foglio; le mesh e i risultati temporanei vengono ricalcolati. Una modifica della ricetta geome…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 10 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: I documenti precedenti restano apribili e vengono convertiti al nuovo formato al salvataggio. Conserva una copia se devi riaprirli con una versione precedente di ANTHEA. I dati incompleti si salvano come bozza: il foglio mantiene i valori digitati e il motivo per cui non può ancora costruire u…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 11 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: wizard-delle-tipologie-e-delle-armature",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 12 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nel pannello di controllo apri Wizard tipologie / modifica disposizione…. Scegli la tipologia, assegna dimensioni e armature e controlla l'anteprima affiancata. Applica sezione valida anche la compatibilità con i trefoli già presenti nel foglio. Annulla lascia invariati i dati. Per modificare …",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 13 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Tipologia",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 14 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Disposizione iniziale",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 15 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Rettangolare",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 16 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Due file superiori e due inferiori; numero, diametro e interferro delle seconde file indipendenti",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 17 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Rettangolare cava",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 18 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Barre sui contorni esterno e interno; staffe nelle quattro pareti",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 19 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Circolare",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 20 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Due anelli con numero, diametro e interferro radiale assegnati",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 21 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Circolare cava",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 22 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Anello esterno e interno rispetto al foro; due staffe circolari",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 23 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: A T",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 24 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Barre superiori, inferiori e laterali; staffe di anima e ala",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 25 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: A I",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 26 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Ali superiore e inferiore anche diverse; armatura perimetrale e staffe distinte di anima e ali",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 27 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Ellittica",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 28 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Barre a incrementi angolari uguali, sul contorno interno utile",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 29 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Capsula",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 30 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Due semicirconferenze unite da tratti rettilinei; barre radiali rispetto al centro",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 31 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: A L",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 32 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Due bracci ortogonali; armatura perimetrale e staffe dei singoli bracci",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 33 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: A C",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 34 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Canale aperto, anima e due ali sullo stesso lato",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 35 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Trapezoidale",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 36 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Basi parallele centrate; barre perimetrali e staffa aderente",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 37 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Poligonale regolare",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 38 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Da 3 a 32 lati; diametro circoscritto, barre perimetrali e staffa aderente",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 39 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Per le armature perimetrali assegna il passo massimo tra gli assi; il generatore inserisce le barre agli spigoli e suddivide i lati. Per le disposizioni radiali assegna il numero di barre. Il copriferro è netto, misurato alla superficie esterna della staffa. Il disegno verifica la collocazione…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 40 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le nuove tipologie e le disposizioni cave a doppio contorno richiedono parametri manuali del taglio: assegnare bw, d e, quando richiesto, Asl, oltre ai bracci efficaci nelle due direzioni. Il wizard svuota i valori della sezione precedente. Ripartizione del taglio tra pareti, ancoraggio e trat…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 14",
+      "classe": "testo",
+      "a": "text: Circolare, Rettangolare, A T; la sezione generica richiede un contorno definito",
+      "b": "text: Sezioni usuali e dodici tipologie da wizard; contorno e armatura devono essere compatibili",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 37 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Esempi organizzati per modulo",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 38 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 39 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Aprire **Esempi** dalla barra laterale oppure **File → Apri esempio…**. La colonna sinistra raggruppa i file per modulo; quella destra mostra i casi disponibili. Selezionare un caso e leggere la descrizione prima di premere **Apri una copia**. Il catalogo comprende almeno due casi per ognuno dei qui…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 40 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 41 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il documento aperto è una copia indipendente senza percorso di salvataggio. **Salva** richiede una destinazione nella cartella dei propri lavori. Anche il doppio clic su un esempio installato apre una copia; il programma impedisce di salvare dentro la cartella degli esempi distribuiti. Prima di sost…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 42 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 43 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Gli esempi di calcolo illustrano gli input e i risultati del relativo modulo: un controllo non soddisfatto resta visibile e non viene trasformato in un esito positivo. Le stratigrafie sono esempi di dati. I casi **Wizard** sono modelli geometrici con barre e staffe schematiche: completare le azioni,…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 44 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 45 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nell’installer il componente **Esempi per tutti i moduli** è selezionato inizialmente e può essere escluso. I file sono raccolti nella cartella **Esempi**, suddivisi per modulo, accanto al programma; il menu Start contiene il collegamento alla cartella. Se il componente è assente, la pagina indica d…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 46 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+      "percorso": "riga 47 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: esempi-organizzati-per-modulo",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+      "percorso": "riga 48 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Aprire Esempi dalla barra laterale oppure File → Apri esempio…. La colonna sinistra raggruppa i file per modulo; quella destra mostra i casi disponibili. Selezionare un caso e leggere la descrizione prima di premere Apri una copia. Il catalogo comprende almeno due casi per ognuno dei quindici …",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+      "percorso": "riga 49 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il documento aperto è una copia indipendente senza percorso di salvataggio. Salva richiede una destinazione nella cartella dei propri lavori. Anche il doppio clic su un esempio installato apre una copia; il programma impedisce di salvare dentro la cartella degli esempi distribuiti. Prima di so…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+      "percorso": "riga 50 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Gli esempi di calcolo illustrano gli input e i risultati del relativo modulo: un controllo non soddisfatto resta visibile e non viene trasformato in un esito positivo. Le stratigrafie sono esempi di dati. I casi Wizard sono modelli geometrici con barre e staffe schematiche: completare le azion…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+      "percorso": "riga 51 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nell’installer il componente Esempi per tutti i moduli è selezionato inizialmente e può essere escluso. I file sono raccolti nella cartella Esempi, suddivisi per modulo, accanto al programma; il menu Start contiene il collegamento alla cartella. Se il componente è assente, la pagina indica di …",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 3 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Geometrie tipologiche e costruzione delle armature",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 4 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 5 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "I wizard aggiungono sezioni a I, L e C aperta, ellittiche, a capsula, trapezoidali e poligonali regolari, oltre alle disposizioni a doppia fila o doppio anello e ai due contorni delle sezioni cave. Per i profili aperti il calcestruzzo segue il contorno reale: l'inviluppo rettangolare non è una regio…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 6 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 7 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "L'asse delle barre viene costruito sul contorno arretrato di copriferro netto, diametro della staffa e raggio della barra. Presso un foro l'arretramento è diretto verso il calcestruzzo. Sugli spigoli vengono mantenute barre di vertice, mentre ogni lato viene suddiviso rispettando il passo massimo as…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 8 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 9 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La capsula è composta da due semicirconferenze e due tratti rettilinei, con estremità lungo la dimensione maggiore. La sezione a C è aperta, con anima e ali dallo stesso lato; la I ammette larghezze e spessori diversi delle due ali. Il poligono regolare è definito mediante numero di lati e diametro …",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 10 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 11 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le staffe seguono percorsi contenuti nel calcestruzzo. Nei profili composti da pareti rettangolari vengono proposti anelli distinti per anima e ali o per le quattro pareti cave. Il controllo geometrico del copriferro non dimostra il corretto ancoraggio, la piegatura, il trattenimento di ogni barra o…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 12 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 13 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il modello nativo salvato conserva materiali, geometria e armature discrete. La ricetta editabile e gli input delle verifiche restano separati. Le mesh non sono archiviate come risultati permanenti: vengono ricostruite dal motore. Una bozza incompleta non contiene una precedente sezione valida, che …",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 14 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 5",
+      "classe": "testo",
+      "a": "Sono disponibili sezioni rettangolari, circolari e a T, con fori centrali per le forme supportate. Il contorno circolare è discretizzato mediante un poligono con numero di lati configurabile. Le aree dei vuoti sono escluse e le barre incompatibili con il contorno o interne ai vuoti vengono rifiutate.",
+      "b": "Sono disponibili le sezioni usuali e le tipologie guidate descritte sopra, con fori centrali per le forme supportate. Il contorno circolare è discretizzato mediante un poligono con numero di lati configurabile. Le aree dei vuoti sono escluse e le barre incompatibili con il contorno o interne ai vuoti vengono rifiutate.",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 1 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: geometrie-tipologiche-e-costruzione-delle-armature",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 2 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: I wizard aggiungono sezioni a I, L e C aperta, ellittiche, a capsula, trapezoidali e poligonali regolari, oltre alle disposizioni a doppia fila o doppio anello e ai due contorni delle sezioni cave. Per i profili aperti il calcestruzzo segue il contorno reale: l'inviluppo rettangolare non è una…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 3 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: L'asse delle barre viene costruito sul contorno arretrato di copriferro netto, diametro della staffa e raggio della barra. Presso un foro l'arretramento è diretto verso il calcestruzzo. Sugli spigoli vengono mantenute barre di vertice, mentre ogni lato viene suddiviso rispettando il passo mass…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 4 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La capsula è composta da due semicirconferenze e due tratti rettilinei, con estremità lungo la dimensione maggiore. La sezione a C è aperta, con anima e ali dallo stesso lato; la I ammette larghezze e spessori diversi delle due ali. Il poligono regolare è definito mediante numero di lati e dia…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 5 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le staffe seguono percorsi contenuti nel calcestruzzo. Nei profili composti da pareti rettangolari vengono proposti anelli distinti per anima e ali o per le quattro pareti cave. Il controllo geometrico del copriferro non dimostra il corretto ancoraggio, la piegatura, il trattenimento di ogni b…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 6 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il modello nativo salvato conserva materiali, geometria e armature discrete. La ricetta editabile e gli input delle verifiche restano separati. Le mesh non sono archiviate come risultati permanenti: vengono ricostruite dal motore. Una bozza incompleta non contiene una precedente sezione valida…",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 2",
+      "classe": "testo",
+      "a": "text: Sono disponibili sezioni rettangolari, circolari e a T, con fori centrali per le forme supportate. Il contorno circolare è discretizzato mediante un poligono con numero di lati configurabile. Le aree dei vuoti sono escluse e le barre incompatibili con il contorno o interne ai vuoti vengono rifiutate.",
+      "b": "text: Sono disponibili le sezioni usuali e le tipologie guidate descritte sopra, con fori centrali per le forme supportate. Il contorno circolare è discretizzato mediante un poligono con numero di lati configurabile. Le aree dei vuoti sono escluse e le barre incompatibili con il contorno o interne ai vuoti vengono rifiutate.",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[1]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "b": "/wiki/guide/moduli/sezione-ca",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[2]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[3]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/bridge-design",
+      "b": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[4]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "b": "/wiki/manuale/ponti/bridge-design",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[5]",
+      "classe": "testo",
+      "a": "/wiki/theory/palo-elastico",
+      "b": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[6]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "b": "/wiki/theory/palo-elastico",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[7]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/taglio-traliccio",
+      "b": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[8]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-solette",
+      "b": "/wiki/manuale/calcestruzzo/taglio-traliccio",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[9]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/ponti/ponti-solette",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[10]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-stralli",
+      "b": "/wiki/manuale/ponti/ponti-precompressione",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[11]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-stralli\"",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[2]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[3]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+      "b": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[4]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/bridge-design",
+      "b": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[5]",
+      "classe": "testo",
+      "a": "/wiki/manuale/azioni-e-combinazioni/azioni-e-combinazioni-del-modello",
+      "b": "/wiki/manuale/ponti/bridge-design",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[6]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "b": "/wiki/manuale/azioni-e-combinazioni/azioni-e-combinazioni-del-modello",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[7]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fem/risultati-per-fasi",
+      "b": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[8]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli/guida-paratie\"",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[9]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/analisi-paratie\"",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[10]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fem/risultati-per-fasi\"",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[2]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente",
+      "b": "/wiki/guide/primi-passi/avvio-e-scelta-del-modulo",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[3]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+      "b": "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[4]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/bridge-design",
+      "b": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[5]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "b": "/wiki/guide/moduli-singoli/bridge-design",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[6]",
+      "classe": "testo",
+      "a": "/wiki/guide/palo-elastico",
+      "b": "/wiki/guide/moduli-singoli/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[7]",
+      "classe": "testo",
+      "a": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
+      "b": "/wiki/guide/palo-elastico",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[8]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli/sezione-ca",
+      "b": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[9]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+      "b": "/wiki/guide/moduli/sezione-ca",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[10]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+      "b": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[11]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "b": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[12]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[13]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/bridge-design",
+      "b": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[14]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+      "b": "/wiki/manuale/ponti/bridge-design",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[15]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[16]",
+      "classe": "testo",
+      "a": "/wiki/theory/palo-elastico",
+      "b": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[17]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fem/elementi-beam",
+      "b": "/wiki/theory/palo-elastico",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[18]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/bridge",
+      "b": "/wiki/manuale/fem/elementi-beam",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[19]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "b": "/wiki/manuale/ponti/bridge",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[20]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "b": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[21]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[22]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-solette",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[23]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[24]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
+      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[25]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-solette\"",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[26]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[27]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
+      "voce": "F5-REL-112-01"
     }
   ]
 }

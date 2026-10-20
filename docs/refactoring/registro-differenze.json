@@ -8114,6 +8114,30 @@
         "Guide Rev55: 263 pagine, 387 formule Word invariate e 18 originali archiviati con SHA-256",
         "docs/refactoring/esempi.md"
       ]
+    },
+    {
+      "id": "F5-REL-112-01",
+      "data": "2026-10-20",
+      "fase": "Rilascio F5",
+      "titolo": "Impaginazione wizard, registro editoriale e confronti grafici a 125%",
+      "famiglia": "report/interfaccia/collaudo",
+      "categoria": "correzione",
+      "stato": "dichiarato",
+      "descrizione": "Coordinate complete nei report sintetici dei wizard; registro Wiki esatto aggiornato; catture DIP indipendenti dal rounding del contenitore e limite della stratigrafia a mezzo pixel fisico; stato storico dei campi foro ripristinato per la T.",
+      "codice": [
+        "src/ANTHEA.Reports/Generators/ReportConcreteShort.cs",
+        "tests/fixtures/f3/transitions-f5-wiki.json",
+        "tests/Desktop/HorizontalPileHistoricTrace.cs",
+        "tests/Desktop/StratigraphyViewChecks.cs",
+        "X.Desktop/Wpf/ConcreteWorkspace.cs"
+      ],
+      "segno": "Calcoli, attesi numerici, transizioni F4 e librerie AB invariati. 24 report conservano tutto il contenuto; 30 ricerche Wiki controllate indipendentemente.",
+      "test": [
+        "Full 2a7740a7: 157 PASS, 15 rilievi conservati",
+        "Correzioni: Reports 475, Architecture, Wiki e Testing PASS",
+        "Diagnosi UI: 12 PASS incluse tre build; tre cause isolate",
+        "docs/refactoring/installer-1.12.0.md"
+      ]
     }
   ]
 }

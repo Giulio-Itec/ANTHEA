@@ -187,9 +187,21 @@ internal static class HorizontalPileHistoricTrace
     internal static string Record(string output, string name, FrameworkElement drawing, int width, int height)
     {
         drawing.Width = width; drawing.Height = height;
-        drawing.Measure(new Size(width, height)); drawing.Arrange(new Rect(0, 0, width, height)); drawing.UpdateLayout();
+        // Frozen display lists describe exact DIP sizes, independent of the host's pixel rounding.
+        // At 125%, inherited rounding would turn 1750 × 650 into 1750.4 × 649.6.
+        object rounding = drawing.ReadLocalValue(FrameworkElement.UseLayoutRoundingProperty);
         var lines = new List<string>();
-        if (VisualTreeHelper.GetDrawing(drawing) is { } content) DisplayList(content, lines);
+        try
+        {
+            drawing.UseLayoutRounding = false;
+            drawing.Measure(new Size(width, height)); drawing.Arrange(new Rect(0, 0, width, height)); drawing.UpdateLayout();
+            if (VisualTreeHelper.GetDrawing(drawing) is { } content) DisplayList(content, lines);
+        }
+        finally
+        {
+            if (rounding == DependencyProperty.UnsetValue) drawing.ClearValue(FrameworkElement.UseLayoutRoundingProperty);
+            else drawing.SetValue(FrameworkElement.UseLayoutRoundingProperty, rounding);
+        }
         string file = string.Concat(name.Select(c => char.IsLetterOrDigit(c) || c is '-' or '_' ? c : '_')) + ".txt";
         File.WriteAllLines(Path.Combine(output, file), lines, new UTF8Encoding(false));
         return name + " · primitivi " + lines.Count.ToString(CultureInfo.InvariantCulture) + " " + HorizontalPileTrace.Hash((object)lines);

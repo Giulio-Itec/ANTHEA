@@ -1069,3 +1069,5 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] Autorizzazione esplicita ricevuta per Checker/master, ANTHEA/refactoring/f5 e tag v1.12.0. Checker pubblicato, set AB non candidato prodotto e installato; 14 DLL identiche al candidato collaudato, 13 distribuite in ANTHEA.
 - [x] Catalogo unico di 52 esempi per 15 moduli, organizzati in sottocartelle e pagina MVVM Esempi. Apertura come copia indipendente, anche da Explorer; componente NSIS facoltativo selezionato inizialmente. 249 controlli del catalogo e 37 calcoli completi PASS, WPF 20 e installer 120; guide Rev55 controllate, 263 pagine e 387 formule conservate. [Dettaglio](esempi.md).
 - [ ] Collaudo completo, creazione e audit del setup self-contained e degli esempi; tag della revisione esatta della build. Nessun esito della 1.11.1 viene esteso automaticamente a questo rilascio.
+
+- [x] F5-REL-112-01: completato il full (157 PASS, 15 rilievi); isolate e corrette impaginazione dei wizard, transizioni Wiki, due confronti DPI e stato dei campi foro. Collaudo conclusivo e setup in corso; blocco Trend Micro del palo verticale ancora aperto. [Verbale](installer-1.12.0.md).

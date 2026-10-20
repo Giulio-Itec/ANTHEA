@@ -111,7 +111,7 @@ public static class ReportConcreteShort
         var dataRows=new List<string[]>{
             new[]{"Normativa e convenzioni",ws.S("normativa")+". N negativo a compressione. Geometria mm; N e V kN; M kNm; σ MPa. Azioni già combinate."},
             new[]{"Geometria",section.Shape+$"; b={N(section.Width)}; h={N(section.Height)}; c netto={input.S("cover_mm")}; Ac={N(section.AreaCls)} mm²"+(section.Shape=="Circolare"?$"; {section.CircularSides} lati":"")+(input.B("foro_presente")?"; foro: "+fields(input,"inner_diameter_mm","inner_width_mm","inner_height_mm"):"")+(section.Shape=="A T"?"; "+fields(input,"flange_width_mm","web_width_mm","flange_thickness_mm"):"")},
-            new[]{"Armature longitudinali",$"As={N(section.AreaSteel)} mm²; coordinate nel riferimento geometrico della sezione.\n"+string.Join("\n",bars)},
+            new[]{"Armature longitudinali",$"As={N(section.AreaSteel)} mm²; coordinate nel riferimento geometrico della sezione.\n"+string.Join(section.Template is null ? "\n" : " · ",bars)},
             new[]{"Staffe",input.S("staffe_presenti")+"; Ø"+input.S("transverse_bar_diameter_mm")+" / "+input.S("transverse_spacing_mm")+" mm; "+shear.S("tipo_staffa")+$"; rami x/y={shear.S("rami_x")}/{shear.S("rami_y")}; interni={shear.S("rami_interni")}"},
             new[]{"Materiali",$"CLS {input.S("classe_cls")}: fck={input.S("fck_mpa")}; {input.S("cls_diagramma")}.\nAcciaio {input.S("classe_acciaio")}: fyk={input.S("fyk_mpa")}; Es={input.S("steel_modulus_mpa")}; fu={input.S("steel_fu_mpa")}; εu={input.S("steel_eps_u")} ‰; {input.S("steel_diagramma")}."},
             new[]{"Resistenze NMM",$"SLU plastico; SLV elastico. {domain.S("strategia")}; {domain.S("criterio")}; CLS teso={domain.S("trazione_cls")}; assi {axes(domain)}."},
@@ -129,8 +129,18 @@ public static class ReportConcreteShort
             Math.Abs((double)coefficients.GetType().GetProperty(c.Key)!.GetValue(coefficients)!-ConcreteStandards.Defaults(ws.S("normativa")).D(c.Key))>1e-12).Select(c=>CoefficientLabel(c.Key)+"="+N((double)coefficients.GetType().GetProperty(c.Key)!.GetValue(coefficients)!)))+"; getto sottile="+input.S("gettato_sottile")});
         if(ws.Array("trefoli").Count>0)dataRows.Add(new[]{"Trefoli",string.Join("\n",ws.Array("trefoli").Select(t=>fields(t,"id","x","y","area","Ep","fpyk","fpk","eps_u","sigma0")))+$"; φp={sle.S("phi_trefoli")}"});
         Table(["Dati essenziali","Valori utilizzati"],[2100,7260],dataRows);
-        body.Add(new XElement(w+"p",new XElement(w+"r",new XElement(w+"br",new XAttribute(w+"type","page")))));
-        body.Add(P("Combinazioni governanti","Heading1"),P("Una combinazione per verifica, scelta sul tasso non arrotondato fra tutte le azioni inserite, incluse quelle nascoste. Gli esiti incompleti impediscono una conclusione complessiva.","Normal"));
+        if (section.Template is null)
+        {
+            body.Add(new XElement(w+"p",new XElement(w+"r",new XElement(w+"br",new XAttribute(w+"type","page")))));
+            body.Add(P("Combinazioni governanti", "Heading1"));
+        }
+        else
+        {
+            var governingHeading = P("Combinazioni governanti", "Heading1");
+            governingHeading.Element(w + "pPr")!.Add(new XElement(w + "pageBreakBefore"));
+            body.Add(governingHeading);
+        }
+        body.Add(P("Una combinazione per verifica, scelta sul tasso non arrotondato fra tutte le azioni inserite, incluse quelle nascoste. Gli esiti incompleti impediscono una conclusione complessiva.","Normal"));
         Table(["Verifica e azioni","Risultati e limiti","η","Esito"],[2900,4200,800,1460],rows.Select(r=>new[]{r.Check+"\n"+r.Combination+"\n"+r.Actions,r.Values,r.Ratio?.ToString("0.000",System.Globalization.CultureInfo.InvariantCulture)??"—",r.Outcome}));
         body.Add(P("η ≤ 1: verifica numerica soddisfatta. NMM: tasso secondo il criterio indicato; taglio: max(|Vx|/VRd,x; |Vy|/VRd,y); tensioni rara: max(|σc,comp|/σc,lim; |σs|max/σs,lim); quasi permanente: solo CLS; fessurazione: wk/wlim.","Normal"));
         body.Add(P("Ambito: le sette verifiche riportate. Torsione e interazioni, dettagli costruttivi, ancoraggi, domini 2D e momento–curvatura sono nel report completo. Valori arrotondati solo per la stampa.","Normal"));

@@ -1665,3 +1665,7 @@ WPF; le viste aprono copie indipendenti. Gli originali installati non sono
 destinazioni di salvataggio. Il componente NSIS è facoltativo e selezionato
 inizialmente. Le guide passano alla Rev55; teoria e formule restano invariate.
 I modelli geometrici da wizard dichiarano i dati e le verifiche da completare.
+
+### Chiusura 1.12.0: correzioni di report e collaudo
+
+F5-REL-112-01 conserva tutte le coordinate nelle sintesi dei wizard e lo schema storico delle altre sezioni. I confronti grafici separano i DIP dalle coordinate arrotondate sullo schermo al 125%; non cambiano baseline o calcoli. Il registro editoriale ammette soltanto le variazioni Wiki esatte, dopo controllo delle trenta ricerche. Le prove interrotte rimangono aperte. [Verbale](installer-1.12.0.md).
