@@ -1575,3 +1575,17 @@ da PowerShell 7 verso Windows PowerShell 5, passano con ambiente coerente:
 Setup e nove esempi sono locali in `supporto/artefatti/paratie/rilascio-f5/`;
 il push autorizzato riguarda ramo F5 e tag, non i rami incompleti di seguito.
 [Verbale e impronte](installer-1.11.0.md).
+
+### Interfaccia grafica delle paratie del 20 ottobre 2026
+
+Su richiesta dell'utente la sezione degli input e i campi di modifica sono
+affiancati nella stessa scheda. La navigazione di caso e fase non avvia il
+calcolo né modifica il documento; i risultati mantengono la loro provenienza
+e invalidazione. La vista tabellare resta un'alternativa. Identificativi
+delle nuove righe e riferimenti caso/fase sono assegnati in Application;
+nessun valore ingegneristico viene dedotto dall'anteprima.
+
+Lo spessore disegnato e le lunghezze dei simboli sono esplicitamente
+schematici. Rendering e selezione sono WPF; proiezione e navigazione sono
+Presentation. Le verifiche Concrete/Steel e il set GPC AA non cambiano.
+[Implementazione e prove](../paratie/interfaccia-grafica.md).

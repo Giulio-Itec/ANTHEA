@@ -139,3 +139,10 @@ non fa parte della candidata integrata paratie/spettri.
 La versione testabile 1.11.0 usa ora il set AA ufficiale: [collaudi e deroghe
 ambientali](rilascio-f5.md), [installer e impronte](../refactoring/installer-1.11.0.md).
 La deroga sul rilascio non approva esclusioni funzionali dalla matrice.
+
+Il 20 ottobre 2026 l'utente richiede una modellazione più intuitiva con
+disegno sempre visibile durante la modifica e aggiornamento alla selezione
+o aggiunta delle fasi. La [sezione grafica con editor affiancato](interfaccia-grafica.md)
+avanza l'integrazione di PAR-02, PAR-05, PAR-08, PAR-09, PAR-12, PAR-28 e
+PAR-30. Non chiude i requisiti numerici o le rappresentazioni avanzate
+ancora aperte; il kernel del fondo scavo resta separato.

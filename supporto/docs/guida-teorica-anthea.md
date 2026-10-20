@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 52
+Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 53
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -3312,6 +3312,10 @@ Un riferimento superiore o inferiore può essere collocato sul contorno fisico s
 Il campo di colore sulle aste estruse conserva i campioni della sollecitazione lungo l'asse. La stessa ordinata è riportata sul perimetro a quella stazione; non è una ricostruzione della tensione nel materiale. Fra campioni si usa un'interpolazione grafica. Le zone non coperte dai risultati non ricevono valori estrapolati.
 
 ## Analisi per fasi delle paratie
+
+L'anteprima grafica della sezione legge gli input del caso e della fase selezionati. Rappresenta le quote verticali e ritaglia gli strati alla quota corrente del terreno; mostra soltanto i sostegni e le azioni esplicitamente appartenenti alla fase. Non integra pressioni, non calcola deformazioni e non trasferisce risultati fra storie indipendenti. La geometria resta modificabile nello stesso pannello che mostra il disegno.
+
+Spessore grafico della parete, lunghezza dei sostegni e lunghezza delle frecce sono simbolici. L'angolo del sostegno orienta un simbolo e non ne determina la lunghezza fisica. La linea d'acqua del modello è un livello assegnato: con filtrazione FEM identifica il carico idraulico imposto, non una superficie freatica ricostruita. Questi simboli non attestano l'applicabilità dei modelli di terreno, della fascia equivalente o delle verifiche strutturali. La validazione ingegneristica appartiene al calcolo GPC; il disegno segnala separatamente i dati geometrici non rappresentabili.
 
 Il modulo in sviluppo usa una trave piana di Eulero–Bernoulli a piccoli spostamenti, con rigidezza flessionale per tratti e due letti indipendenti di molle elastoplastiche. Questa revisione descrive i metodi collaudati e il loro campo di validità. La parete è verticale, gli strati e i piani campagna sono orizzontali per ciascun lato; non si attribuisce al modello monodimensionale una risposta tridimensionale.
 

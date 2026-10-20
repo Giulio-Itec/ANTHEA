@@ -1,11 +1,13 @@
 # Guide globali ANTHEA
 
-Edizione 6, 19 ottobre 2026. Guide pratica e teorica Rev52. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 20 ottobre 2026. Guide pratica e teorica Rev53. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev52.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev52.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev52.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev52.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev53.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev53.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev53.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev53.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+
+La Rev53 aggiunge la sezione grafica modificabile delle paratie, con navigazione per caso e fase ed editor affiancato. I 18 originali sostituiti sono conservati con SHA-256 in `supporto/SUPERATI/paratie-grafica-rev53-20261020/`.
 
 La Rev52 riunisce i capitoli paratie e Spettri NTC dei due rami, con le relative funzioni e i limiti documentati. Le due edizioni sorgente sono conservate in `supporto/SUPERATI/integrazione-f5-rev52-20261019/`.
 

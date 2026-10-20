@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 19 ottobre 2026 — revisione documentale 52
+Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 53
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1461,7 +1461,19 @@ Il modulo Paratie è in sviluppo. Questa revisione documenta le funzioni collaud
 
 ### Definire il modello e le unità
 
+La scheda **Modello** affianca la sezione grafica e il pannello di modifica: il disegno rimane visibile mentre si cambiano i dati. I pulsanti numerati accompagnano la preparazione: **Geometria**, **Terreno sx/dx**, **Fasi e falda**, **Sostegni**, **Carichi**, **Risultati**. **Tratti / EI** apre le rigidezze della parete; **Presenza nelle fasi** apre installazione e pretensione dei sostegni. Il menu **Altri dati e verifiche** permette di raggiungere anche gli altri editor mantenendo la sezione a fianco. La scheda **Dati e fasi** conserva la vista tabellare completa.
+
+Scegliere caso e fase sopra il disegno oppure usare le frecce precedente e successiva. La sezione mostra strati, quote dei terreni, falde, sostegni presenti e azioni di quella fase, anche prima di calcolare. Fare clic su uno strato, un tratto della parete, un sostegno o un carico per aprirne la riga nel pannello laterale. Le linee del terreno e della falda aprono i dati della fase. Le stesse operazioni sono accessibili con i pulsanti e gli elenchi, senza usare il disegno.
+
+In **Fasi e falda**, **Aggiungi** crea e seleziona una fase del caso corrente con identificativo disponibile. Compilare i suoi livelli: ad esempio, cambiando **Terreno destra** da 0 a −4 m, il disegno rimuove il terreno corrispondente a destra della parete. La nuova fase parte dai valori iniziali del modulo; non duplica automaticamente azioni e sostegni della precedente. Assegnare tutti gli elementi presenti in quella fase. I nuovi carichi e le nuove attivazioni vengono riferiti al caso e alla fase visibili; controllare i riferimenti nell'editor.
+
+![Modifica delle fasi con sezione grafica sempre visibile](../../X.Desktop/Assets/Wiki/paratie-modello-fasi.png)
+
+La sezione è un'anteprima degli **input**, non un risultato numerico. Quote verticali in scala; spessore della parete, lunghezze dei sostegni e frecce sono simbolici. La linea blu tratteggiata indica la falda assegnata oppure, nel modo FEM, il carico idraulico imposto al bordo: non rappresenta la superficie freatica calcolata. Gli input geometrici non validi sono segnalati e non diventano quote zero. Le deformate e le sollecitazioni richiedono **Calcola tutti i casi**; modificare un input invalida i risultati precedenti.
+
 Aprire il foglio Paratie nel catalogo Geotecnica o aggiungerlo al progetto. In **Modello**, assegnare nome del caso, provenienza delle azioni, quota superiore e inferiore della parete, larghezza della fascia rappresentata e lunghezza massima degli elementi. Le quote sono in metri e crescono verso l'alto. Sinistra e destra si riferiscono alla sezione disegnata. I blocchi di traslazione e rotazione alle estremità sono vincoli fisici assegnati: non usarli per eliminare un meccanismo che il progetto non contrasta.
+
+I campi specialistici sono raccolti nei pannelli **Discretizzazione e vincoli** e **Verifiche e combinazioni**. Per tornare ai dati generali premere **Geometria**. Il divisore fra disegno ed editor è ridimensionabile; il pannello dei campi scorre senza nascondere la sezione.
 
 La tabella **Tratti e rigidezze** richiede quote contigue, identificativo della sezione, peso lineare e origine della rigidezza. EI assegnata è espressa in kNm² e deve riferirsi all'intera fascia. Per una fila unica di tubi CHS o pali circolari in c.a. si può scegliere EI dalla sezione, dopo avere assegnato materiale, geometria e interasse nelle tabelle corrispondenti. La ripartizione uniforme sul fronte deve essere confermata e motivata; l'equivalenza non rappresenta più file o effetto arco.
 
@@ -1469,7 +1481,7 @@ Le forze concentrate sono in kN e le coppie in kNm. Il carico distribuito sulla 
 
 ### Riutilizzare la stratigrafia
 
-In **Modello**, aggiornare l'elenco dei terreni del progetto, scegliere la stratigrafia, il lato e lo scenario, quindi premere **Importa terreno**. Il trasferimento crea una copia indipendente con provenienza; una successiva modifica della stratigrafia sorgente non aggiorna silenziosamente la paratia.
+In **Modello**, aprire **Importa stratigrafia del progetto** nel pannello laterale, aggiornare l'elenco dei terreni, scegliere la stratigrafia, il lato e lo scenario, quindi premere **Importa terreno**. Il trasferimento crea una copia indipendente con provenienza; una successiva modifica della stratigrafia sorgente non aggiorna silenziosamente la paratia.
 
 In **Dati e fasi**, completare le colonne del terreno a sinistra e a destra. Servono pesi naturale e saturo, parametri resistenti, condizioni drenate o non drenate, coefficiente a riposo K0 e modulo di reazione kh con fonte. K0 e kh non vengono dedotti dalla sola litologia. kh è in N/mm³; per l'analisi non drenata occorre cu esplicito. Un dato assente non equivale a zero. La falda è definita separatamente per lato e fase.
 

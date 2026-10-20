@@ -1,0 +1,110 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "B9267C62768643118A02C836BED002C51040EB6D40F157310C9215DD08481416",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "57E0342990B46BD15D801BA4DF59244FD22D15258E495FFFE74E3693DE573D0F",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "0B77F732F8F865B279E657F2AD863D634F21F033CC7CAB5E0B2C2ECD94987827",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "5C593D0260DCD9D222927C6EA095D15B0F1AE8891D8B7DA8ABB47B3F381EB16E",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "B96219893E583D6F8616CDB9DB0F20019C2A5CCC7C1B68AC06E746BDB08BB342",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "29A307942BB5C21B342D2B41497D3F5EC4484B3CE035E65B77FAA47D76248E29",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/README.md",
+    "sha256": "FA949FF3AF6B8A6A8C2821C6C2B0094EC91E0E974AFC947280BB4203995CCDBB",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "sha256": "75BF27F61976E4D42D9F9C0A695685094C9D89A82968C84ECC4264D8C6699123",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "sha256": "707800BDF46979C9AD8FBCE8C2F503767C9CCEA853FCD124FBB6F1BF936AF8F9",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "sha256": "7F02D20218D59F720F0F5F57A7829C4F1C0E216CC247A5E774922A9C6DD6A819",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "sha256": "8A277D0350F2D300FC48999641AD6B2C07C61CE867068FCA8109AFCF85A90022",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "sha256": "3312B989FD2C02BC7DFA52C35A10C22865FD6DB90914C4821FA726E0CF97BBFD",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/scripts/Build-AntheaGuides-Itec.py",
+    "sha256": "3C41903AC661CF568854EDDB56943B2E43FD196B59E145F4B991FD443F68630D",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto/scripts/Render-AntheaGuides-Itec.ps1",
+    "sha256": "527863C4C5542F7A149CD365664F92850447D7B9DCCDC08EBB627540ECD0721B",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev52.docx",
+    "sha256": "C304665E0C0602F115F1407E9D22D51D4FB3E94244581031E1325FE2E7D8D1FF",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev52.pdf",
+    "sha256": "57E0342990B46BD15D801BA4DF59244FD22D15258E495FFFE74E3693DE573D0F",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev52.docx",
+    "sha256": "53B41659AF5729778A2C64291A1FAB815869FDDE4642B170C79B638EEF20F0E3",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev52.pdf",
+    "sha256": "5C593D0260DCD9D222927C6EA095D15B0F1AE8891D8B7DA8ABB47B3F381EB16E",
+    "sostituzione": "Rev53",
+    "motivo": "Modellazione grafica interattiva paratie"
+  }
+]

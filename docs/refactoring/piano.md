@@ -1042,3 +1042,9 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] Predisposta ANTHEA 1.11.0 per le nuove funzioni paratie/spettri; istruzioni installer aggiornate e PDF di tre pagine controllato. I due originali precedenti sono conservati con SHA-256. Commit/push di F5 e creazione installer autorizzati dall'utente, subordinati al collaudo finale.
 - [x] F5-LIB-03: collaudo mirato concluso su f82d7ae3: 18 PASS, più due suite installer rieseguite PASS dopo la diagnosi del percorso moduli PowerShell. Installer 1.11.0 creato, 325 file applicativi estratti e tre PDF verificati; tutte le 13 DLL identiche al set AA. Nove esempi apribili e ZIP con impronte. [Verbale](installer-1.11.0.md). Matrice completa e pali interrati ancora aperti.
 - [ ] Dopo la verifica dell'amministratore: ripetere `ui/check-palo-verticale-view` e `ui/check-muri-view`; ripetere `ui/check-contrast` nell'ambiente a 96 DPI, senza modificare la baseline.
+
+## Interfaccia paratie richiesta il 20 ottobre 2026
+
+- [x] PARATIE-17: disegno degli input ed editor affiancati in Modello, navigazione per caso/fase, selezione grafica e aggiunta contestuale delle righe. Modifiche di scavo e falda visibili senza cambiare scheda. Collaudati reload, fasi omonime, input geometrici invalidi, tema scuro e finestra compatta; invariati nove JSON numerici. [Dettaglio](../paratie/interfaccia-grafica.md).
+- [x] Guide globali Rev53 aggiornate: 260 pagine PDF, 387 formule modificabili conservate, indici e Wiki rigenerati. Controllo visivo delle pagine variate e confronto delle restanti; 18 originali Rev52 conservati con SHA-256.
+- [ ] Collaudo finale della revisione pulita con guide e indici aggiornati.
