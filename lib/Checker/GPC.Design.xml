@@ -253,6 +253,21 @@
             layout dimensions are mm. Each factory call transfers a new, exclusive section/solver to the search.
             Geometrical ordering is PileReinforcement.Layouts; no assumption of monotone resistance is made.</summary>
         </member>
+        <member name="T:GPC.Design.Sections.ConcreteTemplateInput">
+            <summary>Lengths in mm. Cover is measured to the outside of the transverse reinforcement.
+            PerimeterSpacing is an upper bound for centre spacing; radial layouts use the assigned counts.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.ConcreteTemplateInput.#ctor(GPC.Design.Sections.ConcreteTemplateKind,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Int32,System.Int32,System.Double,System.Double,System.Int32,System.Int32)">
+            <summary>Lengths in mm. Cover is measured to the outside of the transverse reinforcement.
+            PerimeterSpacing is an upper bound for centre spacing; radial layouts use the assigned counts.</summary>
+        </member>
+        <member name="T:GPC.Design.Sections.ConcreteSectionTemplates">
+            <summary>
+            Constructive layouts, not reinforcement design or certification of anchorage/bend radii.
+            New templates have their own path: established section meshes and their builders are untouched.
+            Shapes are centred on the concrete centroid; bars and transverse paths share that origin.
+            </summary>
+        </member>
         <member name="T:GPC.Design.Sections.DesignActionFamily">
             <summary>Family of an action row: ultimate, seismic and shear rows are design values, the others serviceability values.</summary>
         </member>

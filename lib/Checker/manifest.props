@@ -3,13 +3,13 @@
   <ItemGroup>
     <GpcLibraryFile Include="$(MSBuildThisFileDirectory)DelaunayMesh.dll" Sha256="D18BB08255D23239271C197130515758767291F75CE1A9996F1A92DB55F114BB" AssemblyVersion="2.0.0.14" />
     <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPC.Converter.dll" Sha256="3CBF0DA3BEAAE19DD1B6D4584ABC7CD725E49AA75DA0B83F6263AC4186FD6494" AssemblyVersion="2.2.0.15" />
-    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPC.Design.dll" Sha256="34B69CC45378FEE81DF8C4671B539A37D0ED71BA20BF3DD0292E7BE314A10FDF" AssemblyVersion="0.28.0.0" />
+    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPC.Design.dll" Sha256="AB409A159B9073C83C8EC5C0DB3D6FC58763C93931D121C8E763BA5A47C776E3" AssemblyVersion="0.29.0.0" />
     <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPC.Model.Persistence.dll" Sha256="4B0A1A3615F44B39EC5A52E5375F44DB066E222304DEE80DB356EC23E91F94A7" AssemblyVersion="3.0.0.19" />
-    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCChecker.CompositeBridge.dll" Sha256="70FE35D2DBF4C486094668D9F65BA883AFF5CD715557AEE4C839334A451E95D7" AssemblyVersion="1.7.0.14" />
-    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCChecker.Concrete.dll" Sha256="89411DA9CB994C25B8689BF254D9DC0FC712018140FFAA22A5E60B86B314763D" AssemblyVersion="0.12.0.4" />
-    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCChecker.Geotechnics.dll" Sha256="AD4E848CE812C0193CDFEF39148B08C6C8B0DD2EA2A2DC2A616C4ECC6088C972" AssemblyVersion="0.13.0.1" />
-    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCChecker.Masonry.dll" Sha256="26445462EC551AF5314F4C93E1C16383AD7442E640AD070A0A000A01C272B9DD" AssemblyVersion="0.1.0.17" />
-    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCChecker.Steel.dll" Sha256="0D1A7479D431410A573D1F3D0EFF9BFDCA26AFA23ABC0C6E97E21C80BEA4F7DD" AssemblyVersion="2.2.0.5" />
+    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCChecker.CompositeBridge.dll" Sha256="E252E33BAA2EDB2307CE3A2D3A64895531D4EF04CB8FDD07ACEAB97B226D38AA" AssemblyVersion="1.7.0.15" />
+    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCChecker.Concrete.dll" Sha256="28BC88CB26CEA549B1BA1512B3516A29637A9A81508047EFD9451C75E2B7396A" AssemblyVersion="0.12.0.5" />
+    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCChecker.Geotechnics.dll" Sha256="9B2131E009140C19D4B88FBD18ED2878A74A0BE47507CB61B9B2281F829578D9" AssemblyVersion="0.13.0.2" />
+    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCChecker.Masonry.dll" Sha256="A88420D5A13F978D46B1F2082F789F9FA28F924F6AAB7DCE348DE61F3A57541C" AssemblyVersion="0.1.0.18" />
+    <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCChecker.Steel.dll" Sha256="7DA15BD73F9A1ADF33D94B0D0ECC5E8D33AC17033526CFAAA42F3DF784DFC963" AssemblyVersion="2.2.0.6" />
     <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCGeometry.dll" Sha256="7EF76EDFB4C3736AAE7B6F66B2F3CE30A8BB8DE031C492B03BD52289D6E9D29E" AssemblyVersion="2.3.0.0" />
     <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCModel.dll" Sha256="2C0B384200066F78D95292089B96651255D83434168E8F24D02193DA33BDD02B" AssemblyVersion="5.15.0.1" />
     <GpcLibraryFile Include="$(MSBuildThisFileDirectory)GPCModelData.dll" Sha256="6AD502AC66BFD5948923969B157A2CB6852C78F3A0B6EDCFCD3A425229133DDC" AssemblyVersion="0.0.2.26" />

@@ -1,5 +1,21 @@
 # DLL Checker
 
+**Release AB — wizard sezioni (20 ottobre 2026).** Set ufficiale da Checker
+`894892c1`, integrato e pushato su master con l'autorizzazione dell'utente
+per ANTHEA 1.12.0. Model `e1e6e107`, Geometry e Utilities invariati.
+GPC.Design 0.29.0.0 introduce le tipologie; le DLL ricompilate hanno versione
+di fix nuova: Concrete 0.12.0.5, Steel 2.2.0.6, Geotechnics 0.13.0.2,
+CompositeBridge 1.7.0.15, Masonry 0.1.0.18 e ModelChecker 2.1.0.23.
+Il set completo è in `supporto/artefatti/rilascio-1.12.0/gpc-release-ab`.
+
+Tutte le suite Model e Checker rieseguite: 3176 PASS, soltanto i 17
+fallimenti Steel già censiti e due test Model nativi ignorati; API compatibili.
+Le 14 DLL del rilascio coincidono per SHA-256 con il candidato collaudato;
+le 13 destinate ad ANTHEA sono installate come insieme coerente mediante
+`Update-Snapshot.ps1 -ReleaseSet ... -Install`. DelaunayMesh resta identica.
+Provenienza F4 aggiornata senza toccare attesi numerici. Collaudo full e
+confezionamento della 1.12.0 in corso.
+
 **Release AA — F5 paratie e spettri (19 ottobre 2026).** Set non candidato
 prodotto da `Checker/build/Release-Set.ps1` dopo il push autorizzato di Model
 `e1e6e107` e Checker `dfb808c8` su master. Installato integralmente con
