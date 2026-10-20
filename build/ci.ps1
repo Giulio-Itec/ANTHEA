@@ -125,12 +125,14 @@ Add-Suite @{ Name = 'CalculationLibrary.Checks'; Stage = 'fast'; Kind = 'run'; P
 if ($Installer) {
     Add-Suite @{ Name = 'installer/safety'; Stage = 'fast'; Kind = 'powershell'; Script = 'tests\Installer\Test-Safety.ps1'; Args = @('-Output', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
     Add-Suite @{ Name = 'installer/guides'; Stage = 'fast'; Kind = 'powershell'; Script = 'supporto\test\installer\Test-Guide.ps1'; Args = @(); Timeout = 180 }
+    Add-Suite @{ Name = 'installer/examples'; Stage = 'fast'; Kind = 'powershell'; Script = 'tests\Installer\Test-Examples.ps1'; Args = @('-Output', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 }
 Add-Suite @{ Name = 'ModelWorkspace.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelWorkspace.Checks\ModelWorkspace.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ModelViewer.CombinationBench.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelViewer.CombinationBench.Checks\ModelViewer.CombinationBench.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Architecture.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}') + $(if ($GpcLibDir) { @('--gpc-snapshot', [IO.Path]::GetFullPath($GpcLibDir)) }); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' }; Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
 Add-Suite @{ Name = 'Reports.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Reports.Tests\ANTHEA.Reports.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Application.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Application.Tests\ANTHEA.Application.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'Examples.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Examples.Tests\ANTHEA.Examples.Tests.csproj'; Args = @('{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Wiki.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Wiki.Tests\ANTHEA.Wiki.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # ViewModels, services and calculation scheduling of the MVVM interface without WPF (refactoring F5.1, proposal F5 section 7.1).
 Add-Suite @{ Name = 'Presentation.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
@@ -430,6 +432,7 @@ Add-Suite @{ Name = 'ElasticPile.UiChecks/anello-interno'; Stage = 'ui'; Kind = 
 Add-Suite @{ Name = 'ElasticPile.UiChecks/nota-stress-block'; Stage = 'ui'; Kind = 'run'; Project = (TestProject 'ElasticPile.UiChecks'); Args = @('{out}', '--stress-block-note-only'); Timeout = 300 }
 # Formerly ConcreteDesign.DesktopChecks (moved to supporto/SUPERATI/test in F1.6): ConcreteDesign.Checks writes ui-fixture.json first.
 Add-Suite @{ Name = 'ui/check-concrete-template-wizard'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-template-wizard', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/check-examples'; Stage = 'ui'; Kind = 'check'; Args = @('--check-examples', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-concrete-design'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-design', '{out}'); Timeout = 900
     Before = @{ Project = (TestProject 'ConcreteDesign.Checks'); Args = @('{out}') }; Builds = @(@{ Project = (TestProject 'ConcreteDesign.Checks'); Configuration = 'Release' })
     Proof = @{ File = '{out}\ui-pass.txt'; Pattern = '^PASS' } }

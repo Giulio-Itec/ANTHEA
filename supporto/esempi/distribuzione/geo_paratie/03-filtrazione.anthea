@@ -1,0 +1,160 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "geo_paratie",
+  "dati": {
+    "schema": 11,
+    "name": "Filtrazione — scavo a due fasi",
+    "case_id": "Caso 1",
+    "action_basis": "Azioni assegnate senza coefficienti; esempio analitico di collaudo",
+    "top": 0,
+    "bottom": -6,
+    "width": 1,
+    "mesh": 0.5,
+    "fix_top_u": false,
+    "fix_top_rotation": false,
+    "fix_bottom_u": true,
+    "fix_bottom_rotation": true,
+    "check_kind": "Analisi",
+    "substeps": 8,
+    "segments": [
+      {
+        "section": "S1",
+        "top": 0,
+        "bottom": -6,
+        "ei_mode": "Assegnata",
+        "ei": 200000,
+        "weight": 0,
+        "source": "EI assegnato: 2e14 Nmm²"
+      }
+    ],
+    "left_soils": [
+      {
+        "name": "Sabbia sintetica",
+        "top": 0,
+        "bottom": -20,
+        "gamma": 18,
+        "gamma_sat": 20,
+        "phi": 30,
+        "c": 0,
+        "cu": null,
+        "k0": 0.5,
+        "kh": 0.001,
+        "drainage": "Drained",
+        "source": "Valori di collaudo",
+        "stiffness_source": "Parametro di collaudo"
+      }
+    ],
+    "right_soils": [
+      {
+        "name": "Sabbia sintetica",
+        "top": 0,
+        "bottom": -20,
+        "gamma": 18,
+        "gamma_sat": 20,
+        "phi": 30,
+        "c": 0,
+        "cu": null,
+        "k0": 0.5,
+        "kh": 0.001,
+        "drainage": "Drained",
+        "source": "Valori di collaudo",
+        "stiffness_source": "Parametro di collaudo"
+      }
+    ],
+    "supports": [],
+    "stages": [
+      {
+        "id": "F1",
+        "left_ground": 0,
+        "right_ground": 0,
+        "left_water": 0,
+        "right_water": 0,
+        "left_surcharge": 0,
+        "right_surcharge": 0,
+        "distributed_load": 0,
+        "stiffness_factor": 1
+      },
+      {
+        "id": "F2",
+        "left_ground": 0,
+        "right_ground": -2,
+        "left_water": 0,
+        "right_water": -2,
+        "left_surcharge": 0,
+        "right_surcharge": 0,
+        "distributed_load": 0,
+        "stiffness_factor": 1
+      }
+    ],
+    "activations": [],
+    "loads": [],
+    "rc_sections": [],
+    "hydraulic_mode": "FEM 2D",
+    "hydraulic_left_extent": 8,
+    "hydraulic_right_extent": 8,
+    "hydraulic_bottom": -12,
+    "hydraulic_thickness": 0.6,
+    "hydraulic_mesh": 1,
+    "ignore_suction": false,
+    "hydraulic_iterations": 250,
+    "hydraulic_left": [
+      {
+        "name": "Strato idraulico",
+        "top": 0,
+        "bottom": -20,
+        "kxx": 1E-05,
+        "kzz": 1E-05,
+        "kxz": 0,
+        "alpha": null,
+        "n": null,
+        "source": "Permeabilità sintetica"
+      }
+    ],
+    "hydraulic_right": [
+      {
+        "name": "Strato idraulico",
+        "top": 0,
+        "bottom": -20,
+        "kxx": 1E-05,
+        "kzz": 1E-05,
+        "kxz": 0,
+        "alpha": null,
+        "n": null,
+        "source": "Permeabilità sintetica"
+      }
+    ],
+    "hydraulic_weight_mode": "Quota di falda assegnata",
+    "hydraulic_standard": "NTC 2018",
+    "hydraulic_situation": "PersistentTransient",
+    "hydraulic_upl": [],
+    "hydraulic_actions": [],
+    "hydraulic_hyd": [],
+    "global_checks": [],
+    "global_actions": [],
+    "steel_members": [],
+    "steel_standard": "Non richieste",
+    "steel_check_kind": "Analysis",
+    "anchor_checks": [],
+    "anchor_layers": [],
+    "anchor_tests": [],
+    "anchor_standard": "Non richieste",
+    "anchor_situation": "PersistentTransient",
+    "anchor_a1m1": false,
+    "steel_tubes": [],
+    "tube_standard": "Non richieste",
+    "tube_check_kind": "Analysis",
+    "rc_piles": [],
+    "rc_pile_standard": "Non richieste",
+    "rc_pile_check_kind": "Analisi",
+    "distributed_loads": [],
+    "embedment_reference": null,
+    "embedment_minimum": null,
+    "embedment_maximum": null,
+    "embedment_increment": null,
+    "embedment_head_limit": null,
+    "embedment_source": "",
+    "cases": []
+  }
+}

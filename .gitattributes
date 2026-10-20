@@ -10,6 +10,9 @@ supporto/SUPERATI/integrazione-f5-rev52-20261019/** -text
 supporto/SUPERATI/installer-1110-20261019/** -text
 supporto/SUPERATI/paratie-grafica-rev53-20261020/** -text
 supporto/SUPERATI/installer-1111-20261020/** -text
+supporto/SUPERATI/esempi-rev55-20261020/** -text
+# Example hashes describe the shipped bytes, preserved on every checkout.
+supporto/esempi/distribuzione/** -text
 
 *.sln text eol=crlf
 *.cmd text eol=crlf

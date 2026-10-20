@@ -1,0 +1,473 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "path": "geo_fondazioni_superficiali/confirmed-actions.anthea",
+      "module": "geo_fondazioni_superficiali",
+      "title": "Fondazione rettangolare · azioni assegnate",
+      "description": "Portanza e scorrimento con azioni confermate.",
+      "kind": "calcolo",
+      "sha256": "f702e7e4edda43c906482aa2ab1eeb2133f2ec53766159d196e7adc8941ea39f",
+      "origin": "tests/fixtures/f3/inputs/geo_fondazioni_superficiali--confirmed-actions.json"
+    },
+    {
+      "path": "geo_fondazioni_superficiali/terzaghi-nastriforme-falda.anthea",
+      "module": "geo_fondazioni_superficiali",
+      "title": "Fondazione nastriforme con falda",
+      "description": "Confronto del caso Terzaghi con profilo e falda assegnati.",
+      "kind": "calcolo",
+      "sha256": "f24e185521818f914232a1d227978b7d9780ea3c77667ce8a45b9b80b3d2008c",
+      "origin": "tests/fixtures/f3/inputs/geo_fondazioni_superficiali--terzaghi-nastriforme-falda.json"
+    },
+    {
+      "path": "geo_fondazioni_superficiali/vesic-circolare-due-sondaggi.anthea",
+      "module": "geo_fondazioni_superficiali",
+      "title": "Fondazione circolare · due sondaggi",
+      "description": "Portanza con metodo Vesic e due profili geotecnici.",
+      "kind": "calcolo",
+      "sha256": "b2865686366c65d0c977f757396fdf29d08cfcaff9686d5b0808d6ea16e2bb61",
+      "origin": "tests/fixtures/f3/inputs/geo_fondazioni_superficiali--vesic-circolare-due-sondaggi.json"
+    },
+    {
+      "path": "geo_efficienza_orizzontale/esagonale-interassi.anthea",
+      "module": "geo_efficienza_orizzontale",
+      "title": "Palificata esagonale",
+      "description": "Efficienza orizzontale al variare degli interassi.",
+      "kind": "calcolo",
+      "sha256": "a5f7ee51218eda129447e85518d1d6513c64e3af9f80ecc58b4f647eba298dea",
+      "origin": "tests/fixtures/f3/inputs/geo_efficienza_orizzontale--esagonale-interassi.json"
+    },
+    {
+      "path": "geo_efficienza_orizzontale/quinconce-direzioni.anthea",
+      "module": "geo_efficienza_orizzontale",
+      "title": "Palificata a quinconce",
+      "description": "Esame delle direzioni di carico e dei fattori di gruppo.",
+      "kind": "calcolo",
+      "sha256": "eb23398d9a273e2495d692ab7a8995bb4b604715bae2f96d89e4302f3324c9ed",
+      "origin": "tests/fixtures/f3/inputs/geo_efficienza_orizzontale--quinconce-direzioni.json"
+    },
+    {
+      "path": "geo_palo_verticale/regressione-palo_storico_0.anthea",
+      "module": "geo_palo_verticale",
+      "title": "Palo trivellato · profilo stratificato",
+      "description": "Resistenza verticale con azioni di compressione e trazione assegnate.",
+      "kind": "calcolo",
+      "sha256": "27908075e7ca2587387b73b95d285fa7f539f3bbb67880ecf5a2ff3705c60eeb",
+      "origin": "tests/fixtures/f3/inputs/geo_palo_verticale--regressione-palo_storico_0.json"
+    },
+    {
+      "path": "geo_palo_verticale/battuto-falda-sondaggi.anthea",
+      "module": "geo_palo_verticale",
+      "title": "Palo battuto con falda",
+      "description": "Resistenza verticale su più sondaggi con falda.",
+      "kind": "calcolo",
+      "sha256": "d59944ce09ef37c347fe8dc25f4f9db2246be014ed15c37335f882ed3a43176d",
+      "origin": "tests/fixtures/f3/inputs/geo_palo_verticale--battuto-falda-sondaggi.json"
+    },
+    {
+      "path": "geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione.anthea",
+      "module": "geo_micropalo_verticale",
+      "title": "Micropalo IGU",
+      "description": "Resistenza verticale senza riduzione di gruppo.",
+      "kind": "calcolo",
+      "sha256": "3d4bb2c8c582fd3faf4b244dbe2a8ec0c794e569ac60e5f5bc82b9fd726d49be",
+      "origin": "tests/fixtures/f3/inputs/geo_micropalo_verticale--regressione-micropalo_igu_0_nessuna-riduzione.json"
+    },
+    {
+      "path": "geo_micropalo_verticale/irs-punta-inclinato.anthea",
+      "module": "geo_micropalo_verticale",
+      "title": "Micropalo IRS inclinato",
+      "description": "Contributo di punta e inclinazione del micropalo.",
+      "kind": "calcolo",
+      "sha256": "fc7ada4b50f56232563e7183920200121ac8c2565f51afb227c67f46bb6865c7",
+      "origin": "tests/fixtures/f3/inputs/geo_micropalo_verticale--irs-punta-inclinato.json"
+    },
+    {
+      "path": "geo_palo_orizzontale/stratificato-misto-manuale.anthea",
+      "module": "geo_palo_orizzontale",
+      "title": "Palo in terreno stratificato",
+      "description": "Resistenza orizzontale con momento resistente assegnato da una verifica esterna.",
+      "kind": "calcolo",
+      "sha256": "8d6fc7212ee3cc09ebe71db45cfc06922fab05a432962ebd34a07ffeb012f4ca",
+      "origin": "tests/fixtures/f3/inputs/geo_palo_orizzontale--stratificato-misto-manuale.json"
+    },
+    {
+      "path": "geo_palo_orizzontale/broms-coesivo-impedita.anthea",
+      "module": "geo_palo_orizzontale",
+      "title": "Palo in terreno coesivo · testa impedita",
+      "description": "Resistenza orizzontale secondo il modello di Broms.",
+      "kind": "calcolo",
+      "sha256": "2ec54ae51643061ce5d4c6f72566f86c0ef8a51a5328090cdc224ea287cb13b1",
+      "origin": "tests/fixtures/f3/inputs/geo_palo_orizzontale--broms-coesivo-impedita.json"
+    },
+    {
+      "path": "geo_micropalo_orizzontale/stratificato-chs-catalogo.anthea",
+      "module": "geo_micropalo_orizzontale",
+      "title": "Micropalo CHS · terreno stratificato",
+      "description": "Resistenza orizzontale con tubolare scelto dal catalogo.",
+      "kind": "calcolo",
+      "sha256": "24c66b38486fec1d7444119b2cf6a9c4ceea936b27c03677c1dd849e8aee973c",
+      "origin": "tests/fixtures/f3/inputs/geo_micropalo_orizzontale--stratificato-chs-catalogo.json"
+    },
+    {
+      "path": "geo_micropalo_orizzontale/chs-manuale-impedita.anthea",
+      "module": "geo_micropalo_orizzontale",
+      "title": "Micropalo CHS · testa impedita",
+      "description": "Tubolare assegnato manualmente e rotazione impedita.",
+      "kind": "calcolo",
+      "sha256": "dd7d16640b62586d96809f212402e573d4c8753ad13e64a0b3735d779a211fb3",
+      "origin": "tests/fixtures/f3/inputs/geo_micropalo_orizzontale--chs-manuale-impedita.json"
+    },
+    {
+      "path": "geo_muri_sostegno/example-cantilever.anthea",
+      "module": "geo_muri_sostegno",
+      "title": "Muro a mensola",
+      "description": "Geometria, terreno, azioni e verifiche del muro a mensola.",
+      "kind": "calcolo",
+      "sha256": "13cd705af79e31da7103f8d2420c64ac7f16e8329c873e54b26bd80c36c887b9",
+      "origin": "tests/fixtures/f3/inputs/geo_muri_sostegno--example-cantilever.json"
+    },
+    {
+      "path": "geo_muri_sostegno/example-gravity.anthea",
+      "module": "geo_muri_sostegno",
+      "title": "Muro a gravità",
+      "description": "Confronto con una tipologia resistente a gravità.",
+      "kind": "calcolo",
+      "sha256": "b6a0917a78f7f2aa8a6a351f8824934731b22841f6fe6f7ad1859ddf1c5d5650",
+      "origin": "tests/fixtures/f3/inputs/geo_muri_sostegno--example-gravity.json"
+    },
+    {
+      "path": "str_palo/rettangolare-materiali-utente.anthea",
+      "module": "str_palo",
+      "title": "Rettangolare · materiali assegnati (DIN EN 1992-1-1)",
+      "description": "Materiali personalizzati nel contesto DIN EN 1992-1-1. Il diagramma 2D proietta le sollecitazioni sul piano N = −500 kN; esaminare anche il dominio 3D.",
+      "kind": "calcolo",
+      "sha256": "ab444d15f5cda0efa30b26c96d7530383406a3cae6f7ec13523ee0fbde90f0a5",
+      "origin": "tests/fixtures/f3/inputs/str_palo--rettangolare-materiali-utente.json; esempio adattato: proiezione 2D esplicita.; salvato nel formato 3 con modello GPC nativo."
+    },
+    {
+      "path": "str_palo/circolare-cava.anthea",
+      "module": "str_palo",
+      "title": "Sezione circolare cava · verifiche",
+      "description": "Sezione circolare cava con spirale, pressoflessione e taglio nelle due direzioni. Torsione nulla nelle azioni dell’esempio.",
+      "kind": "calcolo",
+      "sha256": "5ba9937e951087e44c6715753f39b6799b2f702a5b6b5b3d31d4c20b4de89a92",
+      "origin": "tests/fixtures/f3/inputs/str_palo--circolare-cava.json; esempio adattato: T = 0 con armatura a spirale.; salvato nel formato 3 con modello GPC nativo."
+    },
+    {
+      "path": "str_palo/sle-fessurazione-assi.anthea",
+      "module": "str_palo",
+      "title": "Sezione · fessurazione e assi",
+      "description": "Verifiche di esercizio e convenzioni degli assi locali.",
+      "kind": "calcolo",
+      "sha256": "209f574cb03ff886fb6936d60ec5c65ef3e4cf837409add3e2f87ba5b7ecdd5f",
+      "origin": "tests/fixtures/f3/inputs/str_palo--sle-fessurazione-assi.json; salvato nel formato 3 con modello GPC nativo."
+    },
+    {
+      "path": "str_mista_ponte/default.anthea",
+      "module": "str_mista_ponte",
+      "title": "Sezione composta · caso introduttivo",
+      "description": "Sezione acciaio-calcestruzzo e fasi costruttive.",
+      "kind": "calcolo",
+      "sha256": "dcff652df849c4e4a41007fcda9d11cb23d22a500fc68b59ccb168403c0bbe33",
+      "origin": "tests/fixtures/f3/inputs/str_mista_ponte--default.json"
+    },
+    {
+      "path": "str_bridge_design/default.anthea",
+      "module": "str_bridge_design",
+      "title": "Bridge Design · caso introduttivo",
+      "description": "Dati di progetto, alternative e valutazioni del modulo.",
+      "kind": "calcolo",
+      "sha256": "89756e7ed9ac47192a5a0951f14675b96bcab2d665a10a0466c7fce113d69395",
+      "origin": "tests/fixtures/f3/inputs/str_bridge_design--default.json"
+    },
+    {
+      "path": "mat_calcestruzzo/default.anthea",
+      "module": "mat_calcestruzzo",
+      "title": "Calcestruzzo · scheda di base",
+      "description": "Proprietà e parametri del materiale.",
+      "kind": "calcolo",
+      "sha256": "dedb96e017cde27830f1f8e0728a9b362f45f6db7efa3d026217f3a42f06bd2d",
+      "origin": "tests/fixtures/f3/inputs/mat_calcestruzzo--default.json"
+    },
+    {
+      "path": "mat_calcestruzzo/gelo-aria-xf4.anthea",
+      "module": "mat_calcestruzzo",
+      "title": "Calcestruzzo · gelo e aria inglobata",
+      "description": "Esempio di esposizione XF4 e impostazioni di durabilità.",
+      "kind": "calcolo",
+      "sha256": "930e93a90eb274b19823ba2a2417affe8e4fb8216fd428e208847f0d4576a7a3",
+      "origin": "tests/fixtures/f3/inputs/mat_calcestruzzo--gelo-aria-xf4.json"
+    },
+    {
+      "path": "mat_acciaio_armatura/default.anthea",
+      "module": "mat_acciaio_armatura",
+      "title": "Acciaio B450C",
+      "description": "Proprietà e diagramma del materiale.",
+      "kind": "calcolo",
+      "sha256": "ecf1ad48b49da5d1fd374b4fc5f12d89302eb149e5bf6ac54eac5a23a7c148ab",
+      "origin": "tests/fixtures/f3/inputs/mat_acciaio_armatura--default.json"
+    },
+    {
+      "path": "mat_acciaio_armatura/b450a.anthea",
+      "module": "mat_acciaio_armatura",
+      "title": "Acciaio B450A",
+      "description": "Confronto della classe e del diagramma dell'acciaio.",
+      "kind": "calcolo",
+      "sha256": "f12ba551d53a6fb96cbf3bef87ebac850833dbe1108e468ff7462a8f46ad0653",
+      "origin": "tests/fixtures/f3/inputs/mat_acciaio_armatura--b450a.json"
+    },
+    {
+      "path": "geo_stratigrafia/profilo-medi-falda.anthea",
+      "module": "geo_stratigrafia",
+      "title": "Stratigrafia con falda",
+      "description": "Profilo con parametri medi e livello di falda.",
+      "kind": "dati",
+      "sha256": "a96f58b89f0cbbded2a80d88a72052750d98cf8f14c503913519728368a660d4",
+      "origin": "tests/fixtures/f3/inputs/geo_stratigrafia--profilo-medi-falda.json"
+    },
+    {
+      "path": "geo_stratigrafia/trasferita-da-palo.anthea",
+      "module": "geo_stratigrafia",
+      "title": "Stratigrafia condivisa da un palo",
+      "description": "Dati geotecnici riutilizzabili nei moduli; nessun calcolo autonomo.",
+      "kind": "dati",
+      "sha256": "8e464d7db55d02c1acd0f7ea0487c530450bc33ecd69b7438e027536a6007c76",
+      "origin": "tests/fixtures/f3/inputs/geo_stratigrafia--trasferita-da-palo.json"
+    },
+    {
+      "path": "str_mista_ponte/esempio-progetto.anthea",
+      "module": "str_mista_ponte",
+      "title": "Sezione composta · geometria e fasi",
+      "description": "Esempio applicativo con dati assegnati; esaminare ipotesi e risultati prima di adattarlo.",
+      "kind": "calcolo",
+      "sha256": "0d534d217ac8e3d87cc9d9a948ab68914de5e44c77721ac677dea389ec20e094",
+      "origin": "supporto/esempi/sezione_mista_ponte.json"
+    },
+    {
+      "path": "str_bridge_design/esempio-progetto.anthea",
+      "module": "str_bridge_design",
+      "title": "Bridge Design · alternative di progetto",
+      "description": "Esempio applicativo con dati assegnati; esaminare ipotesi e risultati prima di adattarlo.",
+      "kind": "calcolo",
+      "sha256": "73683b40ae4b0e3c676c9440c72fd3c42d1f86f8dca318c90962d545e43ffa9a",
+      "origin": "supporto/esempi/bridge-design.anthea"
+    },
+    {
+      "path": "geo_paratie/01-mensola-analitica.anthea",
+      "module": "geo_paratie",
+      "title": "Mensola analitica",
+      "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
+      "kind": "calcolo",
+      "sha256": "50e59fabfc9697ab1f7510e9d02e93627e136791aab50b702d807f5c8caf7c2f",
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/01-mensola-analitica.anthea"
+    },
+    {
+      "path": "geo_paratie/02-storie-indipendenti.anthea",
+      "module": "geo_paratie",
+      "title": "Storie indipendenti",
+      "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
+      "kind": "calcolo",
+      "sha256": "5f0d2ac2d01d90d827aaaa40b4b1a7eb3c017c5b5e640b8ed7067d83cd0d9202",
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/02-storie-indipendenti.anthea"
+    },
+    {
+      "path": "geo_paratie/03-filtrazione.anthea",
+      "module": "geo_paratie",
+      "title": "Filtrazione",
+      "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
+      "kind": "calcolo",
+      "sha256": "df3e58c7164aaa1b69aae36b62bc21cfe55cea44328da7aa26d72fa6416e86d1",
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/03-filtrazione.anthea"
+    },
+    {
+      "path": "geo_paratie/04-pali-ca.anthea",
+      "module": "geo_paratie",
+      "title": "Pali ca",
+      "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
+      "kind": "calcolo",
+      "sha256": "b49c7dca960c5fdab7f6301889e7e324773147f919ed5bc76a9cca314aef2bc3",
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/04-pali-ca.anthea"
+    },
+    {
+      "path": "geo_paratie/05-tubolari-acciaio.anthea",
+      "module": "geo_paratie",
+      "title": "Tubolari acciaio",
+      "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
+      "kind": "calcolo",
+      "sha256": "05beecb23a91a79fa4b7f2904917031edcfb64a92e020b657cfe522a19e18436",
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/05-tubolari-acciaio.anthea"
+    },
+    {
+      "path": "geo_paratie/06-sostegni-acciaio.anthea",
+      "module": "geo_paratie",
+      "title": "Sostegni acciaio",
+      "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
+      "kind": "calcolo",
+      "sha256": "db6fa2f4eb512b107c5eea6ac9586756a6c66e6df75dc5eb1f9375904d6940c2",
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/06-sostegni-acciaio.anthea"
+    },
+    {
+      "path": "geo_paratie/07-sfilamento-tiranti.anthea",
+      "module": "geo_paratie",
+      "title": "Sfilamento tiranti",
+      "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
+      "kind": "calcolo",
+      "sha256": "3dd67a6278ab46d8fadf5e32be1dd088d6c1964d7004dc9ed6d8cf5fe0db825c",
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/07-sfilamento-tiranti.anthea"
+    },
+    {
+      "path": "geo_paratie/08-ricerca-infissione.anthea",
+      "module": "geo_paratie",
+      "title": "Ricerca infissione",
+      "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
+      "kind": "calcolo",
+      "sha256": "fa6c6a73a3f7aab5f60f294427a332c1a1acaf5ad91535bd667717ed8ba911c0",
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/08-ricerca-infissione.anthea"
+    },
+    {
+      "path": "act_spettri_ntc/09-spettri.anthea",
+      "module": "act_spettri_ntc",
+      "title": "Spettri",
+      "description": "Spettri per i quattro stati limite, con componenti orizzontale e verticale.",
+      "kind": "calcolo",
+      "sha256": "909f2fc471e5b92f07770e013cfec92c61246d9603bf3bfb8e2b0e0a0f1af112",
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/09-spettri.anthea"
+    },
+    {
+      "path": "act_spettri_ntc/isolamento.anthea",
+      "module": "act_spettri_ntc",
+      "title": "Spettri · isolamento sismico",
+      "description": "Gruppi di isolatori, rigidezza equivalente, smorzamento e spostamenti; ipotesi modificabili nel foglio.",
+      "kind": "calcolo",
+      "sha256": "7d17e0a04aee2e08055ca9a3318f3b4c6d512dfc55f20bdb83be908e7877fd32",
+      "origin": "Derivato dall'esempio Spettri, con isolamento attivato."
+    },
+    {
+      "path": "act_spettri_ntc/pendolo.anthea",
+      "module": "act_spettri_ntc",
+      "title": "Isolamento · pendolo ad attrito",
+      "description": "Esempio del modello di pendolo ad attrito con forza normale, raggio e spostamento assegnati.",
+      "kind": "calcolo",
+      "sha256": "a59d6f63478cd5581233677332978816b78c47c0c074940518b98da4df129613",
+      "origin": "Derivato dall'esempio isolamento, con pendolo attivato."
+    },
+    {
+      "path": "geo_paratie/10-paratia-grafica.anthea",
+      "module": "geo_paratie",
+      "title": "Paratia grafica",
+      "description": "Progetto con paratia e vista grafica.",
+      "kind": "calcolo",
+      "sha256": "9cf263ed5a33488b557b03e7b89a9fe501a0d7c8a916b0fa2863de3ce1de2d52",
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/10-paratia-grafica.anthea"
+    },
+    {
+      "path": "str_palo/wizard-rettangolare-doppia-fila.anthea",
+      "module": "str_palo",
+      "title": "Wizard · rettangolare doppia fila",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "0ba394c8a28836f86996986cd5fc45577fe51b48c131dd77e7cdfd26bedea856",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-0.json"
+    },
+    {
+      "path": "str_palo/wizard-rettangolare-cava.anthea",
+      "module": "str_palo",
+      "title": "Wizard · rettangolare cava",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "3607e54f459d0c145efe9bcf1e7a84b488f4bcfc00966f5177be6379791f9b74",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-1.json"
+    },
+    {
+      "path": "str_palo/wizard-circolare-due-anelli.anthea",
+      "module": "str_palo",
+      "title": "Wizard · circolare due anelli",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "fba5bd0c9ceda3601719e211158ec3b217dc943ca39513ee91a41e5b3f6dc1ce",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-2.json"
+    },
+    {
+      "path": "str_palo/wizard-circolare-cava.anthea",
+      "module": "str_palo",
+      "title": "Wizard · circolare cava",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "3f7d1ab3abfc98775835896c605a5766aeb4ad292cd4e49dda5bb5877019edc4",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-3.json"
+    },
+    {
+      "path": "str_palo/wizard-sezione-t.anthea",
+      "module": "str_palo",
+      "title": "Wizard · sezione t",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "c3a62c995a19497d46dde1fca1ae4ded4b88050868ee658577b6c865913d9751",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-4.json"
+    },
+    {
+      "path": "str_palo/wizard-sezione-i.anthea",
+      "module": "str_palo",
+      "title": "Wizard · sezione i",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "47c835d6243ac80d75592dbd50c91b5dda711ed7dc66733cb0f17795eeaec0a2",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-5.json"
+    },
+    {
+      "path": "str_palo/wizard-ellittica.anthea",
+      "module": "str_palo",
+      "title": "Wizard · ellittica",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "42456a4d6978dcff93c5b15fd776e2f45717383ebbb65185a2df700c6817d18f",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-6.json"
+    },
+    {
+      "path": "str_palo/wizard-capsula.anthea",
+      "module": "str_palo",
+      "title": "Wizard · capsula",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "c5c59026c59a37a8104a539dfd2864e07e1f6deace01cf7f491f444cc87ef43f",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-7.json"
+    },
+    {
+      "path": "str_palo/wizard-sezione-l.anthea",
+      "module": "str_palo",
+      "title": "Wizard · sezione l",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "ed74ec88b7fe492fc3376fcba6fc35d67a81207be05860824db8dc1a7b133603",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-8.json"
+    },
+    {
+      "path": "str_palo/wizard-sezione-c.anthea",
+      "module": "str_palo",
+      "title": "Wizard · sezione c",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "78acafec0d1ddec60864c85c470b21cf9de6278ba476b4de00e17abab1e27cb8",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-9.json"
+    },
+    {
+      "path": "str_palo/wizard-trapezoidale.anthea",
+      "module": "str_palo",
+      "title": "Wizard · trapezoidale",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "4736856f8cd349b0caa890b749191afe90034050dac8fc20c0a55c6af7e060de",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-10.json"
+    },
+    {
+      "path": "str_palo/wizard-poligonale-regolare.anthea",
+      "module": "str_palo",
+      "title": "Wizard · poligonale regolare",
+      "description": "Modello geometrico con armature longitudinali e staffe schematiche. Completare azioni e parametri manuali del taglio; non è una verifica strutturale completa.",
+      "kind": "geometria",
+      "sha256": "c54cbbe43a3c9b668659af7a2d8cfa31a8b7d6b09c450babb4e7fcd3270fbb0c",
+      "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-11.json"
+    }
+  ]
+}

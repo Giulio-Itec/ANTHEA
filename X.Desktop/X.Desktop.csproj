@@ -21,6 +21,13 @@
   <ItemGroup><ProjectReference Include="../src/ANTHEA.Presentation/ANTHEA.Presentation.csproj" /></ItemGroup>
   <ItemGroup><Resource Include="Assets/*.png" /><Resource Include="Assets/anthea.ico" /></ItemGroup>
   <ItemGroup>
+    <Content Include="../supporto/esempi/distribuzione/**/*">
+      <Link>Esempi/%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Wiki/Licenses/*.txt"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><TargetPath>Licenses/%(Filename)%(Extension)</TargetPath></Content>
     <Resource Include="Assets/Wiki/*.png" />
     <Resource Include="Assets/Materials/*.png" />

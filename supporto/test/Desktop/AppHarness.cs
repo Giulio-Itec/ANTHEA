@@ -398,13 +398,17 @@ public partial class App
             }));
             return;
         }
-        if (e.Args.Length == 2 && e.Args[0] == "--check-concrete-template-wizard")
+        if (e.Args.Length == 2 && e.Args[0] is "--check-concrete-template-wizard" or "--check-examples")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.InvokeAsync(async () =>
             {
                 int code = 0;
-                try { await ConcreteTemplateViewChecks.Run(e.Args[1]); }
+                try
+                {
+                    if (e.Args[0] == "--check-examples") await ExampleLibraryChecks.Run(e.Args[1]);
+                    else await ConcreteTemplateViewChecks.Run(e.Args[1]);
+                }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }
                 finally { Shutdown(code); }
             });

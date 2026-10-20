@@ -1,0 +1,169 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "geo_paratie",
+  "dati": {
+    "schema": 11,
+    "name": "Infissione — benchmark elastico indipendente",
+    "case_id": "Caso 1",
+    "action_basis": "Azioni assegnate senza coefficienti; esempio analitico di collaudo",
+    "top": 0,
+    "bottom": -10,
+    "width": 1,
+    "mesh": 0.125,
+    "fix_top_u": false,
+    "fix_top_rotation": false,
+    "fix_bottom_u": false,
+    "fix_bottom_rotation": false,
+    "check_kind": "Analisi",
+    "substeps": 2,
+    "segments": [
+      {
+        "section": "S1",
+        "top": 0,
+        "bottom": -10,
+        "ei_mode": "Assegnata",
+        "ei": 200000,
+        "weight": 0,
+        "source": "EI assegnato: 2e14 Nmm²"
+      }
+    ],
+    "left_soils": [
+      {
+        "name": "Sabbia sintetica",
+        "top": 0,
+        "bottom": -20,
+        "gamma": 18,
+        "gamma_sat": 20,
+        "phi": 30,
+        "c": 0,
+        "cu": null,
+        "k0": 0.5,
+        "kh": 0.001,
+        "drainage": "Drained",
+        "source": "Benchmark",
+        "stiffness_source": "Winkler k=2 N/mm2 sulle due facce"
+      }
+    ],
+    "right_soils": [
+      {
+        "name": "Sabbia sintetica",
+        "top": 0,
+        "bottom": -20,
+        "gamma": 18,
+        "gamma_sat": 20,
+        "phi": 30,
+        "c": 0,
+        "cu": null,
+        "k0": 0.5,
+        "kh": 0.001,
+        "drainage": "Drained",
+        "source": "Benchmark",
+        "stiffness_source": "Winkler k=2 N/mm2 sulle due facce"
+      }
+    ],
+    "supports": [],
+    "stages": [
+      {
+        "id": "Initial",
+        "left_ground": 0,
+        "right_ground": 0,
+        "left_water": null,
+        "right_water": null,
+        "left_surcharge": 100,
+        "right_surcharge": 100,
+        "distributed_load": 0,
+        "stiffness_factor": 1
+      },
+      {
+        "id": "Loaded",
+        "left_ground": 0,
+        "right_ground": 0,
+        "left_water": null,
+        "right_water": null,
+        "left_surcharge": 100,
+        "right_surcharge": 100,
+        "distributed_load": 0,
+        "stiffness_factor": 1
+      },
+      {
+        "id": "Reversed",
+        "left_ground": 0,
+        "right_ground": 0,
+        "left_water": null,
+        "right_water": null,
+        "left_surcharge": 100,
+        "right_surcharge": 100,
+        "distributed_load": 0,
+        "stiffness_factor": 1
+      }
+    ],
+    "activations": [],
+    "loads": [
+      {
+        "stage": "Initial",
+        "elevation": 0,
+        "horizontal": 0,
+        "moment": 0,
+        "downward": 0
+      },
+      {
+        "stage": "Loaded",
+        "elevation": 0,
+        "horizontal": 10,
+        "moment": 0,
+        "downward": 0
+      },
+      {
+        "stage": "Reversed",
+        "elevation": 0,
+        "horizontal": -5,
+        "moment": 0,
+        "downward": 0
+      }
+    ],
+    "rc_sections": [],
+    "hydraulic_mode": "Idrostatica",
+    "hydraulic_left_extent": null,
+    "hydraulic_right_extent": null,
+    "hydraulic_bottom": null,
+    "hydraulic_thickness": null,
+    "hydraulic_mesh": null,
+    "ignore_suction": false,
+    "hydraulic_iterations": 250,
+    "hydraulic_left": [],
+    "hydraulic_right": [],
+    "hydraulic_weight_mode": "Quota di falda assegnata",
+    "hydraulic_standard": "NTC 2018",
+    "hydraulic_situation": "PersistentTransient",
+    "hydraulic_upl": [],
+    "hydraulic_actions": [],
+    "hydraulic_hyd": [],
+    "global_checks": [],
+    "global_actions": [],
+    "steel_members": [],
+    "steel_standard": "Non richieste",
+    "steel_check_kind": "Analysis",
+    "anchor_checks": [],
+    "anchor_layers": [],
+    "anchor_tests": [],
+    "anchor_standard": "Non richieste",
+    "anchor_situation": "PersistentTransient",
+    "anchor_a1m1": false,
+    "steel_tubes": [],
+    "tube_standard": "Non richieste",
+    "tube_check_kind": "Analysis",
+    "rc_piles": [],
+    "rc_pile_standard": "Non richieste",
+    "rc_pile_check_kind": "Analisi",
+    "distributed_loads": [],
+    "embedment_reference": 0,
+    "embedment_minimum": 3.5,
+    "embedment_maximum": 10,
+    "embedment_increment": 0.5,
+    "embedment_head_limit": 3.25,
+    "embedment_source": "Limite assegnato per confronto con la soluzione chiusa EI u'''' + k u = 0",
+    "cases": []
+  }
+}

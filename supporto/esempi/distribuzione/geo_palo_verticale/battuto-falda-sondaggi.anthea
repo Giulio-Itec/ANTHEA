@@ -1,0 +1,104 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "geo_palo_verticale",
+  "dati": {
+    "generali": {
+      "tipo_palo": "Battuto",
+      "sottotipo_palo_battuto": "Calcestruzzo prefabbricato",
+      "diametro": "0.6",
+      "lunghezza": "15",
+      "peso_specifico_palo": "25",
+      "azione_compressione": "1200",
+      "azione_trazione": "250",
+      "presenza_falda": true,
+      "considera_sottospinta": true,
+      "profondita_falda": "2,5",
+      "verticali_indagate": "3",
+      "sicurezza_laterale_compressione": "1.15",
+      "sicurezza_laterale_trazione": "1.25",
+      "sicurezza_base": "1.15",
+      "peso_palo_sfavorevole": "1.30",
+      "peso_palo_favorevole": "1.00",
+      "metodo_nq": "Parametrizzata"
+    },
+    "efficienza": {
+      "metodo": "Converse-Labarre",
+      "numero_pali_x": "3",
+      "numero_pali_y": "2",
+      "interasse_x": "1.8",
+      "interasse_y": "2.1",
+      "eta_compressione": "1",
+      "eta_trazione": "1"
+    },
+    "stratigrafie": [
+      [
+        {
+          "spessore": "4",
+          "tipologia": "Granulare",
+          "addensamento": "Sciolto",
+          "peso_specifico": "18",
+          "peso_specifico_saturo": "20",
+          "angolo_attrito": "30",
+          "coesione_efficace": "0",
+          "coesione_non_drenata": "0",
+          "nc": "9",
+          "laterale_attiva": true
+        },
+        {
+          "spessore": "6",
+          "tipologia": "Coesivo",
+          "addensamento": "Denso",
+          "peso_specifico": "19",
+          "peso_specifico_saturo": "20",
+          "angolo_attrito": "24",
+          "coesione_efficace": "10",
+          "coesione_non_drenata": "80",
+          "nc": "9",
+          "laterale_attiva": true
+        },
+        {
+          "spessore": "10",
+          "tipologia": "Granulare",
+          "addensamento": "Denso",
+          "peso_specifico": "20",
+          "peso_specifico_saturo": "22",
+          "angolo_attrito": "36",
+          "coesione_efficace": "0",
+          "coesione_non_drenata": "0",
+          "nc": "9",
+          "laterale_attiva": true
+        }
+      ],
+      [
+        {
+          "spessore": "8",
+          "tipologia": "Granulare",
+          "addensamento": "Denso",
+          "peso_specifico": "19.5",
+          "peso_specifico_saturo": "21",
+          "angolo_attrito": "34",
+          "coesione_efficace": "0",
+          "coesione_non_drenata": "0",
+          "nc": "9",
+          "laterale_attiva": true
+        },
+        {
+          "spessore": "12",
+          "tipologia": "Coesivo",
+          "addensamento": "Sciolto",
+          "peso_specifico": "18.5",
+          "peso_specifico_saturo": "19.5",
+          "angolo_attrito": "22",
+          "coesione_efficace": "5",
+          "coesione_non_drenata": "60",
+          "nc": "7",
+          "laterale_attiva": true
+        }
+      ]
+    ],
+    "visibilita_grafici": {},
+    "versione": 2
+  }
+}

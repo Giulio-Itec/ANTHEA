@@ -1,0 +1,234 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "geo_paratie",
+  "dati": {
+    "schema": 11,
+    "name": "Sfilamento tirante — prova sintetica",
+    "case_id": "Caso 1",
+    "action_basis": "Storia A1+M1, forze di progetto assegnate per collaudo",
+    "top": 0,
+    "bottom": -6,
+    "width": 1.5,
+    "mesh": 0.5,
+    "fix_top_u": true,
+    "fix_top_rotation": false,
+    "fix_bottom_u": true,
+    "fix_bottom_rotation": true,
+    "check_kind": "Analisi",
+    "substeps": 8,
+    "segments": [
+      {
+        "section": "S1",
+        "top": 0,
+        "bottom": -6,
+        "ei_mode": "Assegnata",
+        "ei": 200000,
+        "weight": 0,
+        "source": "EI assegnato: 2e14 Nmm²"
+      }
+    ],
+    "left_soils": [],
+    "right_soils": [],
+    "supports": [
+      {
+        "id": "A",
+        "elevation": 0,
+        "kind": "Anchor",
+        "stiffness": 10000,
+        "angle": 30,
+        "direction": 1,
+        "spacing": 2,
+        "capacity": null
+      },
+      {
+        "id": "S",
+        "elevation": 0,
+        "kind": "Strut",
+        "stiffness": 10000,
+        "angle": 60,
+        "direction": 1,
+        "spacing": 3,
+        "capacity": null
+      }
+    ],
+    "stages": [
+      {
+        "id": "F1",
+        "left_ground": -6,
+        "right_ground": -6,
+        "left_water": null,
+        "right_water": null,
+        "left_surcharge": 0,
+        "right_surcharge": 0,
+        "distributed_load": 0,
+        "stiffness_factor": 1
+      },
+      {
+        "id": "F2",
+        "left_ground": -6,
+        "right_ground": -6,
+        "left_water": null,
+        "right_water": null,
+        "left_surcharge": 0,
+        "right_surcharge": 0,
+        "distributed_load": 0,
+        "stiffness_factor": 1
+      },
+      {
+        "id": "F3",
+        "left_ground": -6,
+        "right_ground": -6,
+        "left_water": null,
+        "right_water": null,
+        "left_surcharge": 0,
+        "right_surcharge": 0,
+        "distributed_load": 0,
+        "stiffness_factor": 1
+      }
+    ],
+    "activations": [
+      {
+        "stage": "F1",
+        "support": "A",
+        "prestress": 400
+      },
+      {
+        "stage": "F1",
+        "support": "S",
+        "prestress": 30
+      },
+      {
+        "stage": "F2",
+        "support": "A",
+        "prestress": 800
+      },
+      {
+        "stage": "F2",
+        "support": "S",
+        "prestress": 40
+      }
+    ],
+    "loads": [],
+    "rc_sections": [],
+    "hydraulic_mode": "Idrostatica",
+    "hydraulic_left_extent": null,
+    "hydraulic_right_extent": null,
+    "hydraulic_bottom": null,
+    "hydraulic_thickness": null,
+    "hydraulic_mesh": null,
+    "ignore_suction": false,
+    "hydraulic_iterations": 250,
+    "hydraulic_left": [],
+    "hydraulic_right": [],
+    "hydraulic_weight_mode": "Quota di falda assegnata",
+    "hydraulic_standard": "NTC 2018",
+    "hydraulic_situation": "PersistentTransient",
+    "hydraulic_upl": [],
+    "hydraulic_actions": [],
+    "hydraulic_hyd": [],
+    "global_checks": [],
+    "global_actions": [],
+    "steel_members": [
+      {
+        "support": "A",
+        "family": "CHS",
+        "diameter": 200,
+        "thickness": 8,
+        "formation": "HotFinished",
+        "nominal_grade": 355,
+        "fy": 355,
+        "fu": 510,
+        "elastic_modulus": 210000,
+        "material_source": "S355, proprietà assegnate per il collaudo",
+        "net_area": null,
+        "net_area_source": "",
+        "length_1": 3,
+        "length_2": 4,
+        "length_source": "Vincoli ideali di collaudo, due piani",
+        "axial_only": true,
+        "is_bridge": false
+      },
+      {
+        "support": "S",
+        "family": "CHS",
+        "diameter": 200,
+        "thickness": 8,
+        "formation": "HotFinished",
+        "nominal_grade": 355,
+        "fy": 355,
+        "fu": 510,
+        "elastic_modulus": 210000,
+        "material_source": "S355, proprietà assegnate per il collaudo",
+        "net_area": null,
+        "net_area_source": "",
+        "length_1": 3,
+        "length_2": 4,
+        "length_source": "Vincoli ideali di collaudo, due piani",
+        "axial_only": true,
+        "is_bridge": false
+      }
+    ],
+    "steel_standard": "Non richieste",
+    "steel_check_kind": "StaticUltimate",
+    "anchor_checks": [
+      {
+        "support": "A",
+        "permanent": true,
+        "evidence": "CalculatedProfiles",
+        "free_length": 10,
+        "bond_length": 6,
+        "drill_diameter": 200,
+        "minimum_cover": 6,
+        "injection": "IRS",
+        "execution_source": "IRS, volumi e qualità della miscela documentati nel caso sintetico",
+        "applicability_source": "Bulbo isolato, confinato in terreno stabile",
+        "experimental_source": "Conferma sperimentale sintetica di collaudo",
+        "stage_source": "Geometria e indagini valide in F1/F2"
+      }
+    ],
+    "anchor_layers": [
+      {
+        "support": "A",
+        "profile": "Indagine A",
+        "axis_start": 0,
+        "axis_end": 12,
+        "soil_kind": "MediumSand",
+        "limit_pressure": 2,
+        "injection_pressure": 3,
+        "diameter_factor": 1.5,
+        "pressure_source": "Pressiometria sintetica, distinto dato d'iniezione"
+      },
+      {
+        "support": "A",
+        "profile": "Indagine A",
+        "axis_start": 12,
+        "axis_end": 20,
+        "soil_kind": "Clay",
+        "limit_pressure": 1,
+        "injection_pressure": 2,
+        "diameter_factor": 1.8,
+        "pressure_source": "Pressiometria sintetica, distinto dato d'iniezione"
+      }
+    ],
+    "anchor_tests": [],
+    "anchor_standard": "NTC 2018",
+    "anchor_situation": "PersistentTransient",
+    "anchor_a1m1": true,
+    "steel_tubes": [],
+    "tube_standard": "Non richieste",
+    "tube_check_kind": "Analysis",
+    "rc_piles": [],
+    "rc_pile_standard": "Non richieste",
+    "rc_pile_check_kind": "Analisi",
+    "distributed_loads": [],
+    "embedment_reference": null,
+    "embedment_minimum": null,
+    "embedment_maximum": null,
+    "embedment_increment": null,
+    "embedment_head_limit": null,
+    "embedment_source": "",
+    "cases": []
+  }
+}

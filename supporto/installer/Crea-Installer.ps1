@@ -33,6 +33,7 @@ $project = Join-Path $root 'X.Desktop\X.Desktop.csproj'
 $icon = Join-Path $root 'X.Desktop\Assets\anthea.ico'
 $logo = Join-Path $root 'X.Desktop\Assets\logo.png'
 . (Join-Path $PSScriptRoot 'Documentazione.ps1')
+. (Join-Path $PSScriptRoot 'Esempi.ps1')
 if (-not $OutputDirectory) { $OutputDirectory = $PSScriptRoot }
 $OutputDirectory = [string]$ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputDirectory)
 $work = Join-Path $root 'supporto\artefatti\installer'
@@ -162,12 +163,14 @@ $makensisPath = Find-MakeNsis
 $version = Get-ProjectVersion
 # Validate the complete documentation before publishing or replacing an existing setup.
 $guideCatalog = Get-InstallerGuides $root
+$exampleFiles = @(Get-InstallerExamples $root)
 Write-Host "ANTHEA $version - makensis: $makensisPath"
 
 if ($SkipPublish) {
     if (-not (Test-Path (Join-Path $app 'ANTHEA.exe'))) { throw "Nessuna pubblicazione in $app" }
     Get-ChildItem $stage -File | Remove-Item -Force
     Remove-StageDirectory (Join-Path $stage 'guide')
+    Remove-StageDirectory (Join-Path $stage 'esempi')
 }
 else {
     Remove-StageDirectory $stage
@@ -184,6 +187,7 @@ else {
 if ($LASTEXITCODE -ne 0) { throw "La pubblicazione in $app contiene codice di prova: setup non creato." }
 
 Write-InstallerGuides $guideCatalog $stage
+Write-InstallerExamples $exampleFiles $stage
 New-InstallerImages
 $files = Write-FileLists
 $bytes = ($files | Measure-Object Length -Sum).Sum

@@ -75,7 +75,7 @@ public sealed partial class MainWindow : Window
         Add("Nuovo palo orizzontale", () => NewCalculation(HorizontalPileEditor.Module));
         Add("Nuova palificata orizzontale", () => NewCalculation(HorizontalPileGroupEditor.Module));
         Add("Nuovo micropalo orizzontale", () => NewCalculation(MicropaloOrizzontale.Module));
-        file.Items.Add(new Separator()); Add("Apri…", Open, Key.O); Add("Salva", () => Save(false), Key.S); Add("Salva con nome…", () => Save(true), Key.S, ModifierKeys.Control | ModifierKeys.Shift);
+        file.Items.Add(new Separator()); Add("Apri…", Open, Key.O); Add("Apri esempio…", ShowExamples); Add("Salva", () => Save(false), Key.S); Add("Salva con nome…", () => Save(true), Key.S, ModifierKeys.Control | ModifierKeys.Shift);
         Add("Esporta foglio selezionato…", ExportSheet); file.Items.Add(new Separator()); Add("Report Word…", ExportReport); Add("Report short CLS…", () => _ = ExportShortReport()); Add("Risultati JSON…", ExportJson); Add("Esci", Close);
         var appearanceMenu = new MenuItem { Header = "_Aspetto" };
         foreach (var (label, mode) in new[] { ("Chiaro", AppAppearance.Light), ("Scuro", AppAppearance.Dark), ("Molto scuro", AppAppearance.VeryDark) })
@@ -101,7 +101,7 @@ public sealed partial class MainWindow : Window
         dashboard.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(250) }); dashboard.ColumnDefinitions.Add(new ColumnDefinition());
         var nav = new StackPanel { Margin = new Thickness(20, 22, 20, 22) }; var logo = Ui.Logo(150); logo.Margin = new Thickness(0, 0, 0, 16); nav.Children.Add(logo);
         nav.Children.Add(Ui.Text("Strumenti di calcolo", color: Ui.Muted));
-        foreach (var (title, action) in new (string, Action)[] { ("Home", ShowHome), ("Progetti", ShowProjects), ("Modelli", ShowModelsHub), ("Moduli singoli", () => ShowModules()), ("Wiki", () => ShowWiki()) })
+        foreach (var (title, action) in new (string, Action)[] { ("Home", ShowHome), ("Progetti", ShowProjects), ("Modelli", ShowModelsHub), ("Moduli singoli", () => ShowModules()), ("Esempi", ShowExamples), ("Wiki", () => ShowWiki()) })
         {
             var b = Ui.Button(title, () => Safe(() => { Commit(); action(); })); b.Height = 45; b.HorizontalContentAlignment = HorizontalAlignment.Left; b.FontWeight = FontWeights.SemiBold; nav.Children.Add(b); navigation[title] = b;
         }
@@ -391,6 +391,11 @@ public sealed partial class MainWindow : Window
     private void Open() { var d = new OpenFileDialog { Filter = "File ANTHEA|*.programma;*.anthea|Tutti i file|*.*" }; if (d.ShowDialog(this) == true) LoadFile(d.FileName); }
     internal void LoadFile(string filename)
     {
+        if (IsInExamplesFolder(filename))
+        {
+            var examples = InstalledExamples();
+            if (examples.FindFile(filename) is { } example) { OpenExampleCopy(examples.OpenCopy(example)); return; }
+        }
         var loaded = DocumentService.Open(filename); if (!ConfirmDiscard()) return;
         ExitRevisionPreview();
         editor?.Dispose(); editor = null; currentSheet = null; document = loaded; path = filename; dirty = false; sheetContent.Content = null;
@@ -400,7 +405,11 @@ public sealed partial class MainWindow : Window
     {
         Commit(); string? target = path;
         if (asNew || target is null) { var d = new SaveFileDialog { Filter = "File ANTHEA|*.programma", FileName = path is null ? "Calcolo.programma" : Path.GetFileName(path) }; if (d.ShowDialog(this) != true) return false; target = d.FileName; }
-        try { DocumentService.Save(target, WorkingProjectDocument); path = target; dirty = false; UpdateTitle(); return true; }
+        try
+        {
+            if (IsInExamplesFolder(target)) throw new InvalidOperationException("Salva la copia nella cartella dei tuoi lavori, fuori dagli esempi installati.");
+            DocumentService.Save(target, WorkingProjectDocument); path = target; dirty = false; UpdateTitle(); return true;
+        }
         catch (Exception ex) { MessageBox.Show(this, ex.Message, "Salvataggio non riuscito", MessageBoxButton.OK, MessageBoxImage.Error); return false; }
     }
     private void ExportSheet()

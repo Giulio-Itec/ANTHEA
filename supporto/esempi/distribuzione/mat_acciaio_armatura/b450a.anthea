@@ -1,0 +1,20 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "mat_acciaio_armatura",
+  "dati": {
+    "versione_acciaio": 1,
+    "input": {
+      "classe_acciaio": "B450A",
+      "materiale_acciaio_nome": "B450A",
+      "steel_modulus_mpa": 200000,
+      "fyk_mpa": 450,
+      "steel_fu_mpa": 540,
+      "steel_eps_u": 25,
+      "steel_diagramma": "Elastoplastico",
+      "gamma_s": "1.15"
+    },
+    "riferimento": "DDT 45 del 12/10/2026"
+  }
+}

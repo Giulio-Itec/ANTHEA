@@ -1,0 +1,9 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "mat_calcestruzzo",
+  "dati": {
+    "versione_materiali": 1
+  }
+}

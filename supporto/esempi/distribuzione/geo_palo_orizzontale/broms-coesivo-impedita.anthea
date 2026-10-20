@@ -1,0 +1,116 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "geo_palo_orizzontale",
+  "dati": {
+    "versione_orizzontale": 1,
+    "generali": {
+      "diametro": "0.8",
+      "lunghezza": "3",
+      "eccentricita": "0",
+      "vincolo": "Impedita",
+      "modalita": "Automatica",
+      "metodo_calcolo": "Broms",
+      "azione_orizzontale": "350",
+      "presenza_falda": true,
+      "profondita_falda": "2",
+      "origine_momento": "Sezione c.a.",
+      "momento_resistente": "1000",
+      "provenienza_momento": "",
+      "azione_assiale": "800",
+      "passo": "0.10",
+      "tolleranza": "1e-8",
+      "gamma_acqua": "10"
+    },
+    "sezione": {
+      "shape": "Rettangolare",
+      "diameter_mm": "1000",
+      "circular_sides": "32",
+      "width_mm": "600",
+      "height_mm": "800",
+      "flange_width_mm": "1200",
+      "web_width_mm": "400",
+      "flange_thickness_mm": "250",
+      "cover_mm": "60",
+      "longitudinal_bar_count": "18",
+      "longitudinal_bar_diameter_mm": "26",
+      "top_bar_count": "4",
+      "top_bar_diameter_mm": "20",
+      "bottom_bar_count": "6",
+      "bottom_bar_diameter_mm": "24",
+      "side_bar_count_per_side": "2",
+      "side_bar_diameter_mm": "16",
+      "transverse_bar_diameter_mm": "10",
+      "transverse_spacing_mm": "200",
+      "apply_pile_requirements": false,
+      "dissipative_zone": false,
+      "fck_mpa": 35,
+      "fyk_mpa": 450,
+      "alpha_cc": "0.85",
+      "gamma_c": "1.50",
+      "gamma_s": "1.15",
+      "steel_modulus_mpa": 200000,
+      "axial_force_kn": "2500",
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "apply_minimum_eccentricity": false,
+      "minimum_eccentricity_mm": "0",
+      "classe_cls": "C35/45",
+      "n": "",
+      "materiale_cls_nome": "C35/45",
+      "cls_diagramma": "Parabola-rettangolo",
+      "classe_acciaio": "B450C",
+      "materiale_acciaio_nome": "B450C",
+      "steel_fu_mpa": 540,
+      "steel_eps_u": 75,
+      "steel_diagramma": "Elastoplastico",
+      "second_inner_enabled": true,
+      "second_inner_count": "8",
+      "second_inner_diameter": "20",
+      "second_inner_gap": "30"
+    },
+    "verifica": {
+      "verticali_indagate": "3",
+      "efficienza_metodo": "Reese & Van Impe (foglio)",
+      "efficienza_eta": "1",
+      "interasse_anteriore": "2.4",
+      "interasse_posteriore": "2,4",
+      "interasse_sinistro": "3",
+      "interasse_destro": "3"
+    },
+    "stratigrafie": [
+      [
+        {
+          "tipologia": "Coesivo",
+          "spessore": "4",
+          "peso_specifico": "18",
+          "peso_specifico_saturo": "19",
+          "angolo_attrito": "0",
+          "coesione_non_drenata": "40",
+          "coesione_efficace": "0"
+        },
+        {
+          "tipologia": "Coesivo",
+          "spessore": "10",
+          "peso_specifico": "19",
+          "peso_specifico_saturo": "20",
+          "angolo_attrito": "0",
+          "coesione_non_drenata": "90",
+          "coesione_efficace": "0"
+        }
+      ],
+      [
+        {
+          "tipologia": "Coesivo",
+          "spessore": "14",
+          "peso_specifico": "18.5",
+          "peso_specifico_saturo": "19.5",
+          "angolo_attrito": "0",
+          "coesione_non_drenata": "60",
+          "coesione_efficace": "0"
+        }
+      ]
+    ]
+  }
+}

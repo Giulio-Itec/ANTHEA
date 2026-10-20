@@ -228,6 +228,16 @@ Section "Documentazione e guide in PDF" SecGuides
   SetOutPath "$INSTDIR"
 SectionEnd
 
+Section "Esempi per tutti i moduli" SecExamples
+  ClearErrors
+  !include "${STAGE}\install-examples.nsh"
+  ${If} ${Errors}
+    Abort "Gli esempi non sono stati scritti in $INSTDIR\Esempi: installazione incompleta."
+  ${EndIf}
+  !include "${STAGE}\example-shortcuts.nsh"
+  SetOutPath "$INSTDIR"
+SectionEnd
+
 Section "Collegamento sul desktop" SecDesktop
   CreateShortcut "$DESKTOP\${APP}.lnk" "$INSTDIR\${EXE}"
 SectionEnd
@@ -250,6 +260,7 @@ SectionEnd
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SecApp} "Programma ${APP} ${VERSION} con il runtime .NET 8 incluso."
   !insertmacro MUI_DESCRIPTION_TEXT ${SecGuides} "Documentazione inclusa: uso e teoria di tutti i moduli documentati (Rev${GUIDE_REV}), approfondimenti e indice. Consultabile offline dal menu Start."
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecExamples} "Esempi organizzati per modulo, disponibili nella pagina Esempi di ANTHEA e nel menu Start. Si aprono come copie di lavoro."
   !insertmacro MUI_DESCRIPTION_TEXT ${SecDesktop} "Collegamento ad ${APP} sul desktop."
   !insertmacro MUI_DESCRIPTION_TEXT ${SecAssociations} "Apre gli archivi .anthea e .programma con un doppio clic."
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
@@ -258,11 +269,13 @@ Section "Uninstall"
   Call un.CheckNotRunning
   !include "${STAGE}\uninstall-files.nsh"
   !include "${STAGE}\uninstall-guides.nsh"
+  !include "${STAGE}\uninstall-examples.nsh"
   Delete "$INSTDIR\Uninstall.exe"
   RMDir "$INSTDIR"
 
   Delete "$SMPROGRAMS\${APP}\${APP}.lnk"
   !include "${STAGE}\uninstall-guide-shortcuts.nsh"
+  !include "${STAGE}\uninstall-example-shortcuts.nsh"
   RMDir "$SMPROGRAMS\${APP}"
   Delete "$DESKTOP\${APP}.lnk"
 
