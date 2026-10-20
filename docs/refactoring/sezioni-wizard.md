@@ -148,6 +148,15 @@ e CA-WIZARD-01. I controlli delle mesh usuali dello standard e le impronte
 in `sezioni-wizard/librerie-geometria-invariate.json` confermano l'assenza
 di modifiche alle librerie geometriche.
 
+Controllo finale su `e9f8e36d` pulito:
+`ci/20261020-135306-sezioni-wizard-finale`, Reports 328 e Wiki 340
+controlli superati. I due smoke WPF hanno identificato ulteriori confronti
+del vecchio formato dentro il salvataggio delle impostazioni c.a. e il
+riordino dei progetti. Lo stesso confronto circoscritto è stato esteso a
+questi punti e agli analoghi roundtrip di gerarchia e condivisione;
+rimangono esatti i confronti tra stati in memoria e tutti i campi diversi
+dall'archivio nativo verificato separatamente.
+
 ## Guide
 
 Guide globali Rev54: pratica 98 pagine, teoria 164 pagine. Word, PDF,

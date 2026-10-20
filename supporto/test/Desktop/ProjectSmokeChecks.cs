@@ -100,7 +100,7 @@ public sealed partial class MainWindow
         LabelClick(sectionLabel, UIElement.MouseLeftButtonUpEvent, 1);
         await Task.Delay((int)GetDoubleClickTime() + 50);
         Check(selectedProjectId == main.S("id"), "Clic singolo non apre il riepilogo");
-        DocumentService.Save(file, document); Check(JsonNode.DeepEquals(DocumentService.Open(file), document), "Nomi e gerarchia non persistono");
+        DocumentService.Save(file, document); Check(ConcretePersistenceComparison.Equivalent(DocumentService.Open(file), document), "Nomi e gerarchia non persistono");
         AddSheetTo("str_palo", other, false);
         AddSheetTo("str_palo", other, false);
         var ca1 = other.Array("fogli")[1]!.AsObject(); var ca2 = other.Array("fogli")[2]!.AsObject();
@@ -124,7 +124,7 @@ public sealed partial class MainWindow
         Check(rowDrop.Effects == DragDropEffects.Move && ReferenceEquals(other.Array("fogli")[1], ca2), "Drop riga non riordina");
         MoveProjectSheet(ca2, deep, null);
         Check(ReferenceEquals(deep.Array("fogli")[0], ca2), "Spostamento tra gruppi dopo riordino");
-        DocumentService.Save(file, document); Check(JsonNode.DeepEquals(DocumentService.Open(file), document), "Ordine non conservato nel file");
+        DocumentService.Save(file, document); Check(ConcretePersistenceComparison.Equivalent(DocumentService.Open(file), document), "Ordine non conservato nel file");
         ShowProjects(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         // Drag the group header in both directions, retaining complete subtrees and data.
         TreeViewItem Find(JsonObject value)
@@ -195,7 +195,7 @@ public sealed partial class MainWindow
         await Reorder(other, first, false);
         Check(sheet["dati"]!["generali"].D("diametro") == 1.35, "Riordino perde modifiche in sospeso");
         DocumentService.Save(file, document); var expectedOrder = document.DeepClone(); dirty = false; LoadFile(file);
-        Check(JsonNode.DeepEquals(expectedOrder, document), "Ordine sezioni o contenuti persi alla riapertura");
+        Check(ConcretePersistenceComparison.Equivalent(expectedOrder, document), "Ordine sezioni o contenuti persi alla riapertura");
         ShowProjects(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         File.WriteAllBytes(Path.Combine(directory, "progetti.png"), Ui.Snapshot(this));
         File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK: inserimento senza dialoghi, riordino e drop sulle righe, miniatura CA scalata, menu gruppi, creazione immediata, gerarchia visiva, rinomina inline e annullamento, miniature, ritorno al progetto, sottosezioni, selezione, drop, conservazione input, spostamenti senza duplicati, salvataggio/riapertura, validazione ricorsiva e archivi precedenti. Riordino sezioni e progetti tramite eventi WPF: prima/dopo, livelli annidati, indicatore e annullamento, drop non validi, contenuti e scheda attiva conservati, conflitti invariati, modifiche in sospeso, ordine persistente.");

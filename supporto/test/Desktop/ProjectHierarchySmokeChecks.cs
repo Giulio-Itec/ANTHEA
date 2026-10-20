@@ -128,7 +128,7 @@ public sealed partial class MainWindow
         ShowProjects(); await Capture("progetti-gerarchici");
         string archive = Path.Combine(directory, "gerarchia.programma"); DocumentService.Save(archive, document);
         var expected = document.DeepClone(); dirty = false; LoadFile(archive);
-        Check(JsonNode.DeepEquals(expected, document), "Salvataggio/riapertura cambia gerarchia o dati");
+        Check(ConcretePersistenceComparison.Equivalent(expected, document), "Salvataggio/riapertura cambia gerarchia o dati");
         var restoredRoot = document.Array("progetti")[0]!.AsObject();
         Check(ProjectSharedData.AncestorReferences(ProjectSharedData.SubtreeSheets(restoredRoot).Single(s => s.S("nome") == "Verifica fondazione"), "CLS · fck [MPa]").Single().S("nome") == "CLS di progetto", "Autorità non ripristinata");
 

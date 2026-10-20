@@ -385,7 +385,7 @@ internal sealed partial class ConcreteWorkspace
             Assert(blocks.Any(b => b.Descendants(w + "t").Any(t => t.Value.Contains("governante tensioni"))), "Contouring report riferito alla combinazione governante");
         }
         Commit(); string archivePath = Path.Combine(directory, "ca_impostazioni.programma"); var archive = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", "str_palo"), ("dati", Data)); DocumentService.Save(archivePath, archive);
-        Assert(System.Text.Json.Nodes.JsonNode.DeepEquals(DocumentService.Open(archivePath)["dati"], Data), "Salvataggio integrale opzioni, normativa, staffe, Excel e report");
+        Assert(ConcretePersistenceComparison.Equivalent(DocumentService.Open(archivePath)["dati"], Data), "Salvataggio integrale opzioni, normativa, staffe, Excel e report");
         var reopened = new ConcreteWorkspace((JsonObject)Data.DeepClone()); reopened.Commit();
         Assert(reopened.settings.S("file_sollecitazioni") == settings.S("file_sollecitazioni") && reopened.ShearOptions.S("rami_x") == "4" && reopened.domainPanels.All(p => p.Options.B("colora_eta")), "Riapertura delle nuove impostazioni"); reopened.Dispose();
         owner.Width = 1366; owner.Height = 850;

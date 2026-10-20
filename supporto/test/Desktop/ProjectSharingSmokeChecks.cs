@@ -290,7 +290,7 @@ public sealed partial class MainWindow
         ShowCoherence(section);
         Check(compared, "Finestra confronto non aperta");
         string archive = Path.Combine(directory, "condivisione.programma"); DocumentService.Save(archive, document);
-        Check(JsonNode.DeepEquals(document, DocumentService.Open(archive)), "Salvataggio condivisione non riuscito");
+        Check(ConcretePersistenceComparison.Equivalent(document, DocumentService.Open(archive)), "Salvataggio condivisione non riuscito");
         File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK: scelta tutti/locale, nessuna richiesta ripetuta, CLS tra materiali e verifiche, mm/m in entrambe le direzioni, geometrie incompatibili, armatura e reset, carichi invariati, sezioni indipendenti, ereditarietà nuovi fogli, confronto e persistenza.");
     }
 }
