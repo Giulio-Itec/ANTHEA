@@ -542,6 +542,8 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
 
 ## Fase 5: interfaccia MVVM
 
+Stato e passi da fare aggiornati al 20/10 sera (librerie, rilasci 1.11-1.12, moduli F5, paratie, code): [f5-ripresa.md](f5-ripresa.md).
+
 - [x] F5.0 [CP] Ripianificazione sul codice dopo F4; `ANTHEA.Presentation` senza WPF. Decisa il 16/10 mattina: tutte le
   raccomandazioni di Q1–Q5, Q7, Q11, Q12, Q15, Q16, Q19 e Q20 ([decisioni](decisioni.md), sezione del 16 ottobre mattina).
   Documenti: [nota per il punto di controllo](f5-ripianificazione.md), [inventario dell'interfaccia](f5-inventario-ui.md),
