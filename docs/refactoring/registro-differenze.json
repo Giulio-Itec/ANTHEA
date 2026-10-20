@@ -8053,8 +8053,8 @@
       "descrizione": "Numero di versione 1.11.1 richiesto esplicitamente dall'utente. Distribuzione della sezione grafica affiancata all'editor, con evoluzione per fase e guide Rev53.",
       "codice": ["X.Desktop/X.Desktop.csproj", "supporto/installer/README.md"],
       "segno": "Solo versione applicativa e documentazione di rilascio rispetto a PARATIE-17; set AA e verifiche Concrete/Steel invariati.",
-      "decisione": {"data": "2026-10-20", "utente": "Ricompila, pusha, versione 1.11.1 e crea installer.", "esito": "Preparazione della versione e autorizzazione alla pubblicazione; collaudi e confezionamento da registrare."},
-      "test": ["Istruzioni installer: PDF di tre pagine aggiornato e controllato visivamente; due originali archiviati con SHA-256"],
+      "decisione": {"data": "2026-10-20", "utente": "Ricompila, pusha, versione 1.11.1 e crea installer.", "esito": "Ricompilazione e confezionamento conclusi su 5f85ea81 pulito; tag della build v1.11.1 e pubblicazione F5 autorizzata."},
+      "test": ["Standard completo con installer: 77 PASS; WPF mirate: 5 PASS, stessa revisione pulita e invariata", "Presentation 3433, Spettri 1566, paratie WPF 69, Wiki WPF 3439, ospite MVVM 51; F3 104 fixture, 77 articoli e 30 ricerche", "26 controlli sicurezza e 30 guide installer PASS; 325 file, 13 DLL AA e tre PDF Rev53 verificati nel setup estratto", "Nove JSON numerici identici; dieci esempi verificati per SHA-256 nello ZIP", "Istruzioni installer: PDF di tre pagine aggiornato e controllato visivamente; due originali archiviati con SHA-256", "docs/refactoring/installer-1.11.1.md"],
       "voci_collegate": ["PARATIE-17", "F5-LIB-03"]
     }
   ]

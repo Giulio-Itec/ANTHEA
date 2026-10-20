@@ -1604,3 +1604,8 @@ prove isolate di sicurezza/documentazione dell'installer e audit del
 contenuto estratto. Non si modifica l'installazione dell'utente.
 Le tre prove ambientali aperte della 1.11.0 non vengono dichiarate superate
 da questo collaudo; non si amplia la lista dei fallimenti ammessi.
+
+Collaudi conclusi su `5f85ea81` pulito: standard 77 PASS e WPF mirate
+5 PASS. Installer costruito e verificato, con dieci esempi separati;
+il tag `v1.11.1` identifica la build e il verbale successivo resta separato.
+[Rilascio 1.11.1](installer-1.11.1.md).

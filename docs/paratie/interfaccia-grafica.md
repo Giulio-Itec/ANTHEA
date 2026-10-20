@@ -119,3 +119,6 @@ L'incremento resta locale in `refactoring/f5-paratie-seguito`.
 La matrice complessiva del modulo e i vincoli del rilascio 1.11.0
 rimangono aperti dove già dichiarato. Questo incremento non produce
 un nuovo set GPC né sostituisce l'installer 1.11.0.
+
+Successivamente l'utente ha richiesto il rilascio 1.11.1, con ricompilazione,
+push e installer: [verbale della nuova distribuzione](../refactoring/installer-1.11.1.md).

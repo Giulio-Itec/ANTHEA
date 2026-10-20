@@ -1052,5 +1052,5 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 ## Rilascio 1.11.1 richiesto il 20 ottobre 2026
 
 - [x] Versione applicativa 1.11.1 assegnata come richiesto dall'utente, con vista grafica paratie e guide Rev53; set GPC AA invariato. Istruzioni installer aggiornate, originali archiviati con SHA-256.
-- [ ] Ricompilazione, profilo standard, collaudi WPF mirati e prove installer sulla revisione pulita.
-- [ ] Installer self-contained, verifica del contenuto, integrazione in F5, tag e push autorizzati.
+- [x] Ricompilazione e collaudi su `5f85ea81`, pulito e invariato: standard completo con installer 77 PASS; WPF mirate 5 PASS. Presentation 3433, Spettri 1566, paratie WPF 69; nove JSON numerici invariati.
+- [x] Installer self-contained 1.11.1 creato: 325 file applicativi, 13 DLL AA e tre PDF Rev53 verificati per SHA-256; dieci esempi nello ZIP. [Verbale e impronte](installer-1.11.1.md). Tag della build `v1.11.1`; integrazione e pubblicazione in F5 autorizzate. Le tre prove ambientali precedenti e la matrice funzionale restano aperte.
