@@ -15,9 +15,13 @@ public sealed class EmbeddedWallRow(JsonObject data, Action changed, Func<bool> 
     public string this[string key]
     {
         get => Data[key]?.ToString() ?? "";
-        set { if (!editable() || this[key] == value) return; Data[key] = value; OnPropertyChanged("Item[]"); changed(); }
+        set { if (!editable() || this[key] == value) return; Data[key] = value; Refresh(); changed(); }
     }
-    internal void Refresh() => OnPropertyChanged("Item[]");
+    public string Label => Data.ContainsKey("left_ground")
+        ? $"{this["id"]} · sx {this["left_ground"]} / dx {this["right_ground"]} m"
+        : Data["name"]?.ToString() ?? Data["id"]?.ToString() ?? Data["section"]?.ToString()
+            ?? (Data.ContainsKey("support") ? $"{this["support"]} · fase {this["stage"]}" : $"Fase {this["stage"]} · quota {this["elevation"]}");
+    internal void Refresh() { OnPropertyChanged("Item[]"); OnPropertyChanged(nameof(Label)); }
 }
 
 public sealed class EmbeddedWallTable : ObservableObject
@@ -28,9 +32,12 @@ public sealed class EmbeddedWallTable : ObservableObject
     private EmbeddedWallRow? selected;
     private FormViewModel? editor;
     private readonly IWikiNavigator? wikiNavigator;
-    public EmbeddedWallTable(string key, JsonArray data, Action changed, Func<bool> editable, CommandGuard guard, IWikiNavigator? wikiNavigator = null)
+    private readonly Func<JsonObject>? createRow;
+    public EmbeddedWallTable(string key, JsonArray data, Action changed, Func<bool> editable, CommandGuard guard, IWikiNavigator? wikiNavigator = null,
+        Func<JsonObject>? createRow = null)
     {
         Key = key; this.data = data; this.changed = changed; this.editable = editable; this.wikiNavigator = wikiNavigator;
+        this.createRow = createRow;
         Columns = EmbeddedWallFields.Columns(key); Rows = new(data.Cast<JsonObject>().Select(Wrap));
         AddCommand = GuardedCommands.Create(guard, Add, editable); RemoveCommand = GuardedCommands.Create(guard, Remove, editable);
         UpCommand = GuardedCommands.Create(guard, () => Move(-1), editable); DownCommand = GuardedCommands.Create(guard, () => Move(1), editable);
@@ -60,7 +67,7 @@ public sealed class EmbeddedWallTable : ObservableObject
     private EmbeddedWallRow Wrap(JsonObject row) => new(row, changed, editable);
     private void Add()
     {
-        if (!editable()) return; var row = EmbeddedWallDocument.NewRow(Key); data.Add(row);
+        if (!editable()) return; var row = createRow?.Invoke() ?? EmbeddedWallDocument.NewRow(Key); data.Add(row);
         var vm = Wrap(row); Rows.Add(vm); Selected = vm; changed();
     }
     private void Remove()

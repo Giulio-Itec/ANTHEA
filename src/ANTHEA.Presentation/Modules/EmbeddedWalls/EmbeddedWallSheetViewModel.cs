@@ -39,7 +39,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     private string progress = "";
     public EmbeddedWallSheetViewModel(SheetContext context) : base(EmbeddedWallDocument.Module, context)
     {
-        Rebuild(); Report = new SheetReport(this);
+        Rebuild(); InitializeSketch(); Report = new SheetReport(this);
         RunCommand = GuardedCommands.CreateAsync(Guard, async c => { await CalculateAsync(c); }, Lifetime, () => !IsBusy);
         CancelCommand = GuardedCommands.Create(Guard, () => { searchCancellation?.Cancel(); CancelCalculation(); }, () => IsBusy);
         SearchEmbedmentCommand = GuardedCommands.CreateAsync(Guard, async c => { await SearchEmbedmentAsync(c); }, Lifetime, () => !IsBusy);
@@ -133,9 +133,19 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     {
         EmbeddedWallDocument.Upgrade(Data);
         General = new(Data, EmbeddedWallFields.General(), _ => Changed(), wikiModule: EmbeddedWallDocument.Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
+        General.GroupFields("Discretizzazione e vincoli", ["mesh", "substeps", "fix_top_u", "fix_top_rotation", "fix_bottom_u", "fix_bottom_rotation"]);
+        General.GroupFields("Verifiche e combinazioni", ["action_basis", "check_kind", "steel_standard", "steel_check_kind",
+            "anchor_standard", "anchor_situation", "tube_standard", "tube_check_kind", "rc_pile_standard", "rc_pile_check_kind", "anchor_a1m1"]);
         Hydraulics = new(Data, EmbeddedWallFields.Hydraulics(), _ => Changed(), wikiModule: EmbeddedWallDocument.Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
         Embedment = new(Data, EmbeddedWallFields.Embedment(), _ => Changed(), wikiModule: EmbeddedWallDocument.Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
-        Tables = EmbeddedWallDocument.Tables.Select(key => new EmbeddedWallTable(key, Data[key]!.AsArray(), Changed, () => CanEdit, Guard, Context.Services.Wiki)).ToArray();
+        string? selectedTableKey = InspectorTable?.Key;
+        foreach (var table in Tables) table.PropertyChanged -= OnSketchTableSelection;
+        Tables = EmbeddedWallDocument.Tables.Select(key => new EmbeddedWallTable(key, Data[key]!.AsArray(), Changed, () => CanEdit, Guard, Context.Services.Wiki,
+            () => EmbeddedWallDocument.NewEditingRow(Data, key, InputCase, InputStage?["id"]))).ToArray();
+        foreach (var table in Tables) table.PropertyChanged += OnSketchTableSelection;
+        inputStage = null;
+        RefreshSketch();
+        InspectorTable = Tables.FirstOrDefault(t => t.Key == selectedTableKey);
         OnPropertyChanged(nameof(General)); OnPropertyChanged(nameof(Hydraulics)); OnPropertyChanged(nameof(Embedment)); OnPropertyChanged(nameof(Tables));
     }
     public override async Task<bool> CalculateAsync(CancellationToken cancellation = default)
@@ -170,7 +180,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if (e.PropertyName == nameof(Revision) && !storingResult) { searchCancellation?.Cancel(); RestoreResult(); }
+        if (e.PropertyName == nameof(Revision) && !storingResult) { searchCancellation?.Cancel(); RestoreResult(); RefreshSketch(); }
         if (e.PropertyName == nameof(CanEdit))
         {
             if (General is not null) General.IsReadOnly = !CanEdit;

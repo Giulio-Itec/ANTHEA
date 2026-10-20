@@ -7,36 +7,112 @@
     <Button Content="Calcola tutti i casi" Command="{Binding RunCommand}" Margin="0,0,8,4"/>
     <Button Content="Annulla" Command="{Binding CancelCommand}" Margin="0,0,8,4"/>
     <Button Content="Esporta tutti i casi CSV" Command="{Binding CsvCommand}" Margin="0,0,8,4"/>
-    <TextBlock Text="{Binding CalculationState}" VerticalAlignment="Center" Margin="12,0"/>
    </WrapPanel>
    <WrapPanel Margin="0,4">
+    <WrapPanel.Style><Style TargetType="WrapPanel"><Style.Triggers><DataTrigger Binding="{Binding ResultCases.Count}" Value="0"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></WrapPanel.Style>
     <TextBlock Text="Caso nei diagrammi e nelle verifiche" VerticalAlignment="Center" Margin="0,0,8,0"/>
     <ComboBox ItemsSource="{Binding ResultCases}" SelectedItem="{Binding SelectedResultCase}" DisplayMemberPath="CaseId" MinWidth="180" Margin="0,0,12,0"/>
     <TextBlock Text="{Binding ResultCaseStatus}" VerticalAlignment="Center" TextWrapping="Wrap"/>
    </WrapPanel>
    <TextBlock Text="{Binding ResultStatus}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,4"/>
-   <TextBlock Text="{Binding CalculationMessage}" TextWrapping="Wrap" Margin="0,2,0,8"/>
-   <TextBlock Text="{Binding Progress}" Margin="0,0,0,6"/>
+   <TextBlock Text="{Binding CalculationMessage}" TextWrapping="Wrap" Margin="0,2,0,8">
+    <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding CalculationMessage}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger><DataTrigger Binding="{Binding CalculationMessage}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+   </TextBlock>
+   <TextBlock Text="{Binding Progress}" Margin="0,0,0,6">
+    <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding Progress}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+   </TextBlock>
   </StackPanel>
-  <TabControl>
+  <TabControl SelectedIndex="{Binding WorkspaceTab}">
    <TabItem Header="Modello">
-    <Grid Margin="8"><Grid.ColumnDefinitions><ColumnDefinition Width="420"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-     <ScrollViewer VerticalScrollBarVisibility="Auto"><ContentControl Content="{Binding General}"/></ScrollViewer>
-     <StackPanel Grid.Column="1" Margin="24,0,0,0">
-      <TextBlock Text="Convenzioni e ambito" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,12"/>
-      <TextBlock Text="Altri casi / combinazioni: definire ciascuna storia e assegnarle fasi, carichi, falde e verifiche con il campo Caso. Vuoto identifica il caso principale. Geometria e materiali sono condivisi; le azioni vanno già combinate. Gli inviluppi confrontano tutti i casi." TextWrapping="Wrap" Margin="0,0,0,12"/>
-      <TextBlock Text="Le quote crescono verso l'alto. Sinistra e destra sono i lati della sezione. Ogni forza strutturale si riferisce alla fascia assegnata; la forza del tirante o del puntone è riferita al singolo elemento." TextWrapping="Wrap" Margin="0,0,0,12"/>
-      <TextBlock Text="Separare installazione e scavo in fasi diverse quando il loro ordine influenza il risultato. Ogni fase contiene l'elenco completo dei sostegni presenti: un sostegno omesso viene rimosso." TextWrapping="Wrap" Margin="0,0,0,12"/>
-      <TextBlock Text="{Binding Scope}" TextWrapping="Wrap" Margin="0,0,0,20"/>
-      <TextBlock Text="Importa una stratigrafia del progetto" FontWeight="SemiBold" Margin="0,0,0,6"/>
-      <Button Content="Aggiorna elenco dei terreni" Command="{Binding RefreshSoilSourcesCommand}" HorizontalAlignment="Left" Margin="0,0,0,6"/>
-      <ComboBox ItemsSource="{Binding SoilSources}" SelectedItem="{Binding SelectedSoilSource}" DisplayMemberPath="Label"/>
-      <WrapPanel Margin="0,8"><ComboBox ItemsSource="{Binding ImportSides}" SelectedItem="{Binding ImportSide}" Width="120"/>
-       <ComboBox ItemsSource="{Binding ImportScenarios}" SelectedItem="{Binding ImportScenario}" Width="120" Margin="8,0"/>
-       <Button Content="Importa terreno" Command="{Binding ImportSoilCommand}"/></WrapPanel>
-      <TextBlock Text="K0 e kh devono essere assegnati con la fonte. I livelli di falda sono definiti esplicitamente nelle singole fasi." TextWrapping="Wrap"/>
-     </StackPanel>
-    </Grid>
+    <DockPanel Margin="8">
+     <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+      <Button Content="1  Geometria" Command="{Binding EditModelCommand}" CommandParameter="general" Margin="0,0,6,4"/>
+      <Button Content="Tratti / EI" Command="{Binding EditModelCommand}" CommandParameter="segments" Margin="0,0,12,4"/>
+      <Button Content="2  Terreno sx" Command="{Binding EditModelCommand}" CommandParameter="left_soils" Margin="0,0,6,4"/>
+      <Button Content="Terreno dx" Command="{Binding EditModelCommand}" CommandParameter="right_soils" Margin="0,0,12,4"/>
+      <Button Content="3  Fasi e falda" Command="{Binding EditModelCommand}" CommandParameter="stages" Margin="0,0,12,4"/>
+      <Button Content="4  Sostegni" Command="{Binding EditModelCommand}" CommandParameter="supports" Margin="0,0,6,4"/>
+      <Button Content="Presenza nelle fasi" Command="{Binding EditModelCommand}" CommandParameter="activations" Margin="0,0,12,4"/>
+      <Button Content="5  Carichi" Command="{Binding EditModelCommand}" CommandParameter="loads" Margin="0,0,12,4"/>
+      <Button Content="6  Risultati" Command="{Binding OpenResultsCommand}" Margin="0,0,6,4"/>
+     </WrapPanel>
+     <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="380" MinWidth="320" MaxWidth="520"/></Grid.ColumnDefinitions>
+      <Grid Grid.Column="0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+       <StackPanel Margin="0,0,8,8">
+        <TextBlock Text="Sezione della fase" FontSize="18" FontWeight="SemiBold"/>
+        <TextBlock Text="Anteprima degli input · seleziona un elemento per modificarlo" TextWrapping="Wrap" Margin="0,2,0,8"/>
+        <WrapPanel>
+         <TextBlock Text="Caso" VerticalAlignment="Center" Margin="0,0,6,0"/>
+         <ComboBox ItemsSource="{Binding InputCases}" SelectedItem="{Binding InputCase}" MinWidth="110" MaxWidth="220" Margin="0,0,12,4" AutomationProperties.Name="Caso dell'anteprima"/>
+         <Button Content="‹" Command="{Binding PreviousInputStageCommand}" ToolTip="Fase precedente" Margin="0,0,4,4"/>
+         <ComboBox x:Name="InputStageSelector" ItemsSource="{Binding InputStages}" SelectedIndex="{Binding InputStagePosition}" DisplayMemberPath="Label" MinWidth="180" MaxWidth="300" Margin="0,0,4,4" AutomationProperties.Name="Fase dell'anteprima"/>
+         <Button Content="›" Command="{Binding NextInputStageCommand}" ToolTip="Fase successiva" Margin="0,0,0,4"/>
+        </WrapPanel>
+        <TextBlock Text="{Binding PhaseSummary}" TextWrapping="Wrap"/>
+       </StackPanel>
+       <Border Grid.Row="1" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Margin="0,0,8,0">
+        <local:EmbeddedWallModelSketch Model="{Binding Sketch}" PickCommand="{Binding PickModelCommand}" ClipToBounds="True" AutomationProperties.Name="Sezione grafica degli input della paratia"/>
+       </Border>
+       <StackPanel Grid.Row="2" Margin="0,6,8,0">
+        <TextBlock Text="Quote in scala · spessore parete, lunghezze sostegni e frecce schematici" TextWrapping="Wrap" FontSize="11"/>
+        <TextBlock Text="{Binding Sketch.WaterLabel, StringFormat=Linea blu tratteggiata: {0}}" TextWrapping="Wrap" FontSize="11"/>
+        <ScrollViewer MaxHeight="90" VerticalScrollBarVisibility="Auto"><TextBlock Text="{Binding SketchStatus}" TextWrapping="Wrap" Margin="0,4" Foreground="{DynamicResource Token.Series.Orange}"/></ScrollViewer>
+       </StackPanel>
+      </Grid>
+      <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+      <DockPanel Grid.Column="2" Margin="10,0,0,0">
+       <StackPanel DockPanel.Dock="Top">
+        <TextBlock Text="{Binding InspectorTitle}" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap"/>
+        <TextBlock Text="{Binding InspectorHint}" TextWrapping="Wrap" Margin="0,6,0,10"/>
+        <TextBlock Text="Altri dati e verifiche" FontSize="11" Margin="0,0,0,3"/>
+        <ComboBox ItemsSource="{Binding Tables}" SelectedItem="{Binding InspectorTable}" DisplayMemberPath="Title" Margin="0,0,0,10" AutomationProperties.Name="Dati da modificare"/>
+       </StackPanel>
+       <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+         <ContentControl Content="{Binding General}">
+          <ContentControl.Style><Style TargetType="ContentControl"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding ShowGeneral}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></ContentControl.Style>
+         </ContentControl>
+         <StackPanel DataContext="{Binding InspectorTable}">
+          <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Visible"/><Style.Triggers><DataTrigger Binding="{Binding}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></StackPanel.Style>
+          <ListBox ItemsSource="{Binding Rows}" SelectedItem="{Binding Selected}" DisplayMemberPath="Label" MaxHeight="125" Margin="0,0,0,6" AutomationProperties.Name="Elementi della tabella" Background="{DynamicResource Token.Paper}" Foreground="{DynamicResource Token.Ink}" BorderBrush="{DynamicResource Token.Border}">
+           <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/><Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem"><Border Background="{TemplateBinding Background}" Padding="6,4"><ContentPresenter/></Border></ControlTemplate></Setter.Value></Setter>
+            <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="{DynamicResource Token.Selection}"/></Trigger></Style.Triggers>
+           </Style></ListBox.ItemContainerStyle>
+          </ListBox>
+          <WrapPanel Margin="0,0,0,8">
+           <Button Content="Aggiungi" Command="{Binding AddCommand}" Margin="0,0,6,4"/>
+           <Button Content="Rimuovi" Command="{Binding RemoveCommand}" Margin="0,0,6,4"/>
+           <Button Content="↑" Command="{Binding UpCommand}" ToolTip="Sposta prima" Margin="0,0,6,4"/>
+           <Button Content="↓" Command="{Binding DownCommand}" ToolTip="Sposta dopo" Margin="0,0,6,4"/>
+          </WrapPanel>
+          <ContentControl Content="{Binding Editor}"/>
+         </StackPanel>
+         <Button Content="Apri tutte le tabelle" Command="{Binding OpenDataCommand}" HorizontalAlignment="Left" Margin="0,12,0,8"/>
+         <Expander Header="Importa stratigrafia del progetto" Margin="0,8">
+          <StackPanel Margin="0,8">
+           <Button Content="Aggiorna elenco dei terreni" Command="{Binding RefreshSoilSourcesCommand}" HorizontalAlignment="Left" Margin="0,0,0,6"/>
+           <ComboBox ItemsSource="{Binding SoilSources}" SelectedItem="{Binding SelectedSoilSource}" DisplayMemberPath="Label"/>
+           <WrapPanel Margin="0,8"><ComboBox ItemsSource="{Binding ImportSides}" SelectedItem="{Binding ImportSide}" Width="100"/>
+            <ComboBox ItemsSource="{Binding ImportScenarios}" SelectedItem="{Binding ImportScenario}" Width="100" Margin="8,0"/>
+            <Button Content="Importa terreno" Command="{Binding ImportSoilCommand}" Margin="0,4"/></WrapPanel>
+           <TextBlock Text="Assegna K0 e kh con la fonte. La falda si definisce in ciascuna fase." TextWrapping="Wrap"/>
+          </StackPanel>
+         </Expander>
+         <Expander Header="Convenzioni e ambito" Margin="0,8">
+          <StackPanel Margin="0,8">
+           <TextBlock Text="Quote positive verso l'alto. Le forze strutturali si riferiscono alla fascia; quelle dei sostegni al singolo elemento. Il disegno è una sezione del modello piano, non una ricostruzione tridimensionale." TextWrapping="Wrap" Margin="0,0,0,8"/>
+           <TextBlock Text="Separare installazione e scavo in fasi diverse quando l'ordine influenza il risultato. Ogni fase elenca tutti i sostegni presenti: quelli omessi vengono rimossi." TextWrapping="Wrap" Margin="0,0,0,8"/>
+           <TextBlock Text="Altri casi / combinazioni: definire storie indipendenti e assegnare caso a fasi, carichi e verifiche. Caso vuoto identifica il principale. Geometria e materiali sono condivisi; le azioni sono già combinate." TextWrapping="Wrap" Margin="0,0,0,8"/>
+           <TextBlock Text="{Binding Scope}" TextWrapping="Wrap"/>
+          </StackPanel>
+         </Expander>
+        </StackPanel>
+       </ScrollViewer>
+      </DockPanel>
+     </Grid>
+    </DockPanel>
    </TabItem>
    <TabItem Header="Dati e fasi">
     <TabControl ItemsSource="{Binding Tables}" TabStripPlacement="Left" Margin="8">

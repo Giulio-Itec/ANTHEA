@@ -7,6 +7,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Anthea.Application.EmbeddedWalls;
+using Anthea.Application.Documents;
+using X.Core;
 using Anthea.Presentation.Modules.EmbeddedWalls;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Services;
@@ -58,6 +60,55 @@ internal static class EmbeddedWallViewChecks
             helpField.Form.WikiNavigator = originalNavigator;
             Check(wiki.Shown.SequenceEqual([helpField.HelpUri]) && sheet.Data.ToJsonString() == beforeHelp,
                 "Il pulsante di aiuto non raggiunge la guida del campo o modifica gli input.");
+            var sketch = Visual(editor.View).OfType<EmbeddedWallModelSketch>().Single();
+            Check(ReferenceEquals(sketch.Model, sheet.Sketch) && sheet.Sketch?.RightGround == -4, "Sezione degli input assente o non aggiornata.");
+            var soilPick = sketch.PickAt(new Point(85, sketch.ActualHeight * .6));
+            Check(soilPick?.Table == "left_soils", "Selezione della stratigrafia nel disegno errata.");
+            sketch.PickCommand!.Execute(soilPick); await Settle(); Capture("modello-terreno");
+            Check(sheet.InspectorTable?.Key == "left_soils" && sheet.Data.ToJsonString() == beforeHelp, "Il disegno non apre l'editor o modifica gli input.");
+            sheet.EditModelCommand.Execute("stages"); await Settle(); Capture("modello-fasi");
+            var stageEditor = sheet.InspectorTable!;
+            stageEditor.AddCommand.Execute(null); await Settle();
+            Check(sheet.InputStage?["id"] == "F3" && ReferenceEquals(sheet.InputStage, stageEditor.Selected),
+                "Nuova fase non selezionata o identificativo duplicato.");
+            var groundField = stageEditor.Editor!["right_ground"];
+            var groundBox = Visual(editor.View).OfType<TextBox>().First(t => t.IsVisible && ReferenceEquals(t.DataContext, groundField));
+            groundBox.Text = "-6"; groundBox.GetBindingExpression(TextBox.TextProperty)!.UpdateSource(); await Settle(); Capture("modello-fase-aggiunta");
+            Check(sketch.Model?.RightGround == -6 && sketch.IsVisible && sheet.WorkspaceTab == 0,
+                "Modifica nel campo WPF non aggiorna il disegno nella stessa schermata.");
+            stageEditor.RemoveCommand.Execute(null); await Settle();
+            sheet.PreviousInputStageCommand.Execute(null); await Settle();
+            Check(sketch.Model?.RightGround == 0, "Navigazione grafica delle fasi non aggiornata.");
+            sheet.NextInputStageCommand.Execute(null);
+            var visualData = sheet.Data.DeepClone().AsObject();
+            visualData["stages"]![1]!["left_water"] = -1; visualData["stages"]![1]!["right_water"] = -5;
+            visualData["stages"]![1]!["left_surcharge"] = 15;
+            foreach (string side in new[] { "left_soils", "right_soils" })
+            {
+                visualData[side]![0]!["bottom"] = -6;
+                var lower = visualData[side]![0]!.DeepClone().AsObject(); lower["top"] = -6; lower["bottom"] = -20; lower["name"] = "Ghiaia";
+                visualData[side]!.AsArray().Add(lower);
+            }
+            var tie = EmbeddedWallDocument.NewRow("supports"); tie["angle"] = 20; tie["elevation"] = -2;
+            tie["stiffness"] = 10000; tie["capacity"] = 500;
+            visualData["supports"]!.AsArray().Add(tie);
+            var tiePhase = EmbeddedWallDocument.NewRow("activations"); tiePhase["stage"] = "F2"; tiePhase["prestress"] = 80;
+            visualData["activations"]!.AsArray().Add(tiePhase);
+            sheet.Reload(visualData); sheet.EditModelCommand.Execute("supports"); await Settle(); Capture("modello-tirante-falda");
+            Check(sketch.Model?.Supports.Count == 1 && sketch.Model.LeftWater == -1, "Tirante e falda assenti dall'anteprima.");
+            var inputPhaseCombo = Visual(editor.View).OfType<ComboBox>().Single(c => c.Name == "InputStageSelector");
+            Check(inputPhaseCombo.SelectedIndex == sheet.InputStagePosition && inputPhaseCombo.SelectedItem is EmbeddedWallRow,
+                $"Il selettore della fase resta vuoto dopo Reload: righe={inputPhaseCombo.Items.Count}, indice={inputPhaseCombo.SelectedIndex}, VM={sheet.InputStagePosition}, selezione={inputPhaseCombo.SelectedItem?.GetType().FullName}/{inputPhaseCombo.SelectedItem}, elemento={inputPhaseCombo.Items[1]?.GetType().FullName}, binding={inputPhaseCombo.GetBindingExpression(Selector.SelectedIndexProperty)?.Status}.");
+            Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("modello-scuro");
+            window.Width = 1100; window.Height = 760; await Settle(); Capture("modello-compatto");
+            Check(sketch.ActualWidth > 310 && sketch.ActualHeight > 200, "Sezione illeggibile alla dimensione compatta.");
+            Appearance.Set(AppAppearance.Light, false); window.Width = 1450; window.Height = 950;
+            await editor.CalculateAsync();
+            Check(sheet.Current?.Complete == true, "L'esempio grafico con tirante e falda non è calcolabile.");
+            var exampleArchive = ProjectDocuments.CreateArchive(); var exampleProject = ProjectDocuments.AddProject(exampleArchive, "Esempio grafico paratia");
+            ProjectDocuments.AddSheet(exampleProject, EmbeddedWallDocument.Module)["dati"] = sheet.Data.DeepClone();
+            DocumentService.Save(Path.Combine(output, "paratia-grafica.anthea"), exampleArchive);
+            sheet.Reload(JsonNode.Parse(beforeHelp)!.AsObject()); sheet.EditModelCommand.Execute("general"); await Settle();
             await editor.CalculateAsync(); Check(sheet.Current?.Complete == true && sheet.Stages.Count == 2, "Scavo a due fasi non convergente nella vista.");
             var tabs = Visual(editor.View).OfType<TabControl>().First(); tabs.SelectedIndex = 1; await Settle();
             var tables = Visual(editor.View).OfType<TabControl>().Last(); tables.SelectedIndex = 4; await Settle(); Capture("fasi");
