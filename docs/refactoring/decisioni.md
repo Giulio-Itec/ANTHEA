@@ -1562,3 +1562,16 @@ runner, senza nuove voci in `known-failures.json`, modifiche alla protezione,
 alla scrittura dei documenti o alla baseline. Gli altri errori vanno risolti
 prima della consegna. Questa autorizzazione non approva esclusioni dalla
 matrice paratie, né chiude le funzionalità ancora da implementare.
+
+### Confezionamento e tracciabilità della 1.11.0
+
+Il tag `v1.11.0` identifica il commit esatto della build `f82d7ae3`;
+la chiusura documentale segue sul ramo `refactoring/f5`, senza modificare
+il pacchetto. Full 160 PASS e cinque rilievi, poi confronti F3/fondazioni
+superati; restano soltanto le tre prove oggetto della deroga sopra.
+I due test installer, inizialmente impediti dal percorso moduli ereditato
+da PowerShell 7 verso Windows PowerShell 5, passano con ambiente coerente:
+26 controlli sicurezza e 30 guide. Nessuna nuova deroga.
+Setup e nove esempi sono locali in `supporto/artefatti/paratie/rilascio-f5/`;
+il push autorizzato riguarda ramo F5 e tag, non i rami incompleti di seguito.
+[Verbale e impronte](installer-1.11.0.md).

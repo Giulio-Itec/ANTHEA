@@ -2,7 +2,8 @@
 
 Incarico del 18 ottobre 2026. Questa matrice conserva l'intero ambito richiesto; un
 incremento utilizzabile non costituisce la chiusura del modulo. Stato attuale:
-**candidata locale integrata in F5, modulo ancora in sviluppo, rilascio ufficiale aperto**.
+**versione testabile 1.11.0 integrata in F5 con set GPC ufficiale AA;
+modulo ancora in sviluppo e tre prove ambientali aperte autorizzate**.
 Nessuna equivalenza numerica con prodotti esterni
 è dichiarata senza un confronto riproducibile a parità di ipotesi.
 
@@ -75,7 +76,7 @@ riuso significa candidato verificato nei sorgenti, non integrazione già collaud
 | PAR-31 | H | Collegamento FLAC e analisi dinamica esterna | adattatore da specifica pubblica | interoperabilità | licenza e prova con eseguibile reale | dipendenza esterna |
 | PAR-32 | H | Monitoraggio Tokbo e confronto misura/calcolo | adattatore da API documentata | serie temporali | credenziali e dati reali autorizzati | dipendenza esterna |
 | PAR-33 | H | Assistenza chatbot e servizi esterni | da specificare rispetto all'incarico ingegneristico | supporto | servizio/documentazione necessari | dipendenza esterna |
-| PAR-34 | U | Set coerente, test completi e rilascio | runner GPC e ANTHEA | build candidata | manifest, tutte le suite, autorizzazione push | in corso |
+| PAR-34 | U | Set coerente, test completi e rilascio | runner GPC e ANTHEA | installer 1.11.0 con set AA ufficiale | manifest e payload verificati; full e riesecuzioni documentati nel verbale, tre prove ambientali rinviate con autorizzazione | in corso: versione testabile consegnata; chiusura integrale ancora aperta |
 
 ## Sequenza e chiusura
 
@@ -134,3 +135,7 @@ Il [quattordicesimo incremento](incremento-14.md), sul nuovo ramo derivato
 dall'integrazione F5, avvia il verificatore locale dell'instabilità non drenata
 del fondo. Il kernel è collaudato; l'integrazione applicativa resta aperta e
 non fa parte della candidata integrata paratie/spettri.
+
+La versione testabile 1.11.0 usa ora il set AA ufficiale: [collaudi e deroghe
+ambientali](rilascio-f5.md), [installer e impronte](../refactoring/installer-1.11.0.md).
+La deroga sul rilascio non approva esclusioni funzionali dalla matrice.
