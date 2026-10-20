@@ -1669,3 +1669,20 @@ I modelli geometrici da wizard dichiarano i dati e le verifiche da completare.
 ### Chiusura 1.12.0: correzioni di report e collaudo
 
 F5-REL-112-01 conserva tutte le coordinate nelle sintesi dei wizard e lo schema storico delle altre sezioni. I confronti grafici separano i DIP dalle coordinate arrotondate sullo schermo al 125%; non cambiano baseline o calcoli. Il registro editoriale ammette soltanto le variazioni Wiki esatte, dopo controllo delle trenta ricerche. Le prove interrotte rimangono aperte. [Verbale](installer-1.12.0.md).
+
+### Albero Paratie e capsula del pilastro
+
+L'albero richiesto è una navigazione verso gli editor esistenti, senza copie dei
+dati né effetti sul calcolo. Casi e fasi sono distinti; riferimenti non validi
+rimangono visibili e correggibili. Stato dei rami e larghezza sopravvivono alla
+chiusura del pannello. Regole e stato sono nel ViewModel.
+
+Per la capsula 5000 × 2500 l'utente precisa «Pilastro / pila». Si abilita il
+controllo generale NTC del pilastro con riconoscimento degli interassi lungo
+il percorso chiuso delle barre, in GPC. Il wizard separa conteggio e diametro
+degli archi da quelli dei rettilinei; i punti di tangenza appartengono agli
+archi. I documenti precedenti conservano la disposizione radiale originaria.
+Staffe e legature richiedono conferma, parametri efficaci del taglio rimangono
+manuali; non si dichiara coperto il confinamento sismico specifico della pila.
+Le guide globali passano alla Rev56. Il set AC resta candidato fino
+all'autorizzazione alla pubblicazione dei nuovi commit.

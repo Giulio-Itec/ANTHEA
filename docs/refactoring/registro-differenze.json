@@ -8138,6 +8138,82 @@
         "Diagnosi UI: 12 PASS incluse tre build; tre cause isolate",
         "docs/refactoring/installer-1.12.0.md"
       ]
+    },
+    {
+      "id": "CA-CAPSULA-01",
+      "data": "2026-10-20",
+      "fase": "Presentazione F5 / sezioni",
+      "titolo": "Capsula con armature per tratti e dettagli generali del pilastro",
+      "famiglia": "sezioni/geometria/dettagli",
+      "categoria": "correzione",
+      "stato": "dichiarato",
+      "descrizione": "Rimosso il rifiuto globale dei dettagli per la capsula come pilastro; nuovo riconoscimento GPC degli interassi sul percorso chiuso e conteggi/diametri indipendenti nel wizard.",
+      "codice": [
+        "X.Calculations/ConcreteDetailing.cs",
+        "src/ANTHEA.ConcreteWorkspace/ConcreteTemplateAdapter.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteTemplateWizard.cs",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteTemplateWizardViewModel.cs"
+      ],
+      "segno": "Geometrie preesistenti bit-identiche; modo precedente conservato nei file storici. Il nuovo modo cambia soltanto le armature richieste. Staffe, legature, taglio e confinamento mantengono gli ambiti espliciti.",
+      "decisione": {
+        "data": "2026-10-20",
+        "utente": "Capsula 5000 × 2500: dettagli non calcolati e armature curve/rettilinee da separare; elemento Pilastro / pila.",
+        "esito": "Implementato con set GPC AC candidato; pubblicazione del nuovo set da autorizzare."
+      },
+      "test": [
+        "Checker 8bf4af33: 3181 PASS, 17 fallimenti Steel già ammessi, due Model ignorati",
+        "Nove geometrie preesistenti: impronte binarie identiche",
+        "Application 3057, Presentation 3523, WPF wizard 84 PASS",
+        "docs/refactoring/capsula-pilastro.md"
+      ]
+    },
+    {
+      "id": "F5-PAR-TREE-01",
+      "data": "2026-10-20",
+      "fase": "Presentazione F5 / paratie",
+      "titolo": "Albero di lavoro laterale richiudibile",
+      "famiglia": "interfaccia/paratie",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Navigazione MVVM dei dati impostati, apertura degli editor e selezione del caso e della fase; righe prive di riferimento univoco sempre visibili.",
+      "codice": [
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallSheetViewModel.WorkTree.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallWorkNode.cs",
+        "X.Desktop/Views/EmbeddedWalls/EmbeddedWallSheetView.xaml"
+      ],
+      "segno": "Nessuna modifica dei dati ingegneristici, delle revisioni o del calcolo durante la navigazione. Catture prima/dopo conservate.",
+      "decisione": {
+        "data": "2026-10-20",
+        "utente": "Dopo l’installer aggiungere una tab laterale richiudibile con l’albero dei dati impostati nel modulo Paratie.",
+        "esito": "Implementato nel branch F5 successivo alla pubblicazione della 1.12.0."
+      },
+      "test": [
+        "82 controlli nuovi del ViewModel; Presentation 3523 PASS",
+        "WPF 79 PASS, inclusi dieci nuovi controlli di navigazione e chiusura",
+        "docs/refactoring/paratie-albero.md"
+      ]
+    },
+    {
+      "id": "F5-REL-1121-01",
+      "data": "2026-10-20",
+      "fase": "Rilascio F5",
+      "titolo": "Guide Rev56 e transizioni editoriali per capsula e albero Paratie",
+      "famiglia": "documentazione/collaudo",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Tre articoli Wiki aggiornati dalle guide globali. Il registro editoriale contiene 275 voci: aggiunte 22 differenze esatte e sostituite quattro righe superate.",
+      "codice": [
+        "tests/fixtures/f3/transitions-f5-wiki.json",
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md"
+      ],
+      "segno": "Nessuna modifica agli attesi numerici o alle transizioni F4. Tutte le 30 ricerche restano identiche alla 1.12.0.",
+      "test": [
+        "Audit puntuale dei sei file dei tre articoli; nessuna differenza di calcolo nella cattura F3",
+        "301420 valori numerici identici nei 37 esempi; 20 impronte riprodotte con i manifest AB/AC",
+        "Guide Rev56: 264 pagine, 387 formule conservate, 18 originali archiviati",
+        "docs/refactoring/installer-1.12.1.md"
+      ]
     }
   ]
 }

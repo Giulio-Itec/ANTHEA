@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "voce": "F5-LIB-02",
-  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo.",
+  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo.",
   "voci": [
     {
       "file": "esito.txt",
@@ -1053,14 +1053,6 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 37 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "| Capsula | Due semicirconferenze unite da tratti rettilinei; barre radiali rispetto al centro |",
-      "voce": "F5-REL-112-01"
-    },
-    {
-      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
       "percorso": "riga 38 (b)",
       "classe": "riga-aggiunta",
       "a": null,
@@ -1313,14 +1305,6 @@
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Capsula",
-      "voce": "F5-REL-112-01"
-    },
-    {
-      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 30 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Due semicirconferenze unite da tratti rettilinei; barre radiali rispetto al centro",
       "voce": "F5-REL-112-01"
     },
     {
@@ -1613,14 +1597,6 @@
     },
     {
       "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
-      "percorso": "riga 13 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Il modello nativo salvato conserva materiali, geometria e armature discrete. La ricetta editabile e gli input delle verifiche restano separati. Le mesh non sono archiviate come risultati permanenti: vengono ricostruite dal motore. Una bozza incompleta non contiene una precedente sezione valida, che …",
-      "voce": "F5-REL-112-01"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
       "percorso": "riga 14 (b)",
       "classe": "riga-aggiunta",
       "a": null,
@@ -1673,14 +1649,6 @@
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Le staffe seguono percorsi contenuti nel calcestruzzo. Nei profili composti da pareti rettangolari vengono proposti anelli distinti per anima e ali o per le quattro pareti cave. Il controllo geometrico del copriferro non dimostra il corretto ancoraggio, la piegatura, il trattenimento di ogni b…",
-      "voce": "F5-REL-112-01"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
-      "percorso": "riga 6 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Il modello nativo salvato conserva materiali, geometria e armature discrete. La ricetta editabile e gli input delle verifiche restano separati. Le mesh non sono archiviate come risultati permanenti: vengono ricostruite dal motore. Una bozza incompleta non contiene una precedente sezione valida…",
       "voce": "F5-REL-112-01"
     },
     {
@@ -2058,6 +2026,182 @@
       "a": null,
       "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
       "voce": "F5-REL-112-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 37 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Capsula | Numero e diametro distinti per i due archi e per i due rettilinei; disponibile anche la disposizione radiale precedente |",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 47 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Armature della capsula",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 48 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 49 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Scegliere **Curve e rettilinei separati**. Il numero per semicirconferenza comprende le due barre agli estremi di tangenza; il numero per rettilineo comprende soltanto le barre interne. I conteggi valgono per ciascuno dei due archi e per ciascuno dei due rettilinei: 17 barre per arco e 8 interne per…",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 50 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 51 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La dimensione maggiore orienta la capsula: b = 5000 mm e h = 2500 mm danno due semicirconferenze laterali e due rettilinei orizzontali. Per b = h usare la sezione circolare. Le capsule già salvate conservano **Radiale dal centro (precedente)**; aprire il wizard non cambia automaticamente le loro arm…",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 52 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 53 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nella scheda dei dettagli selezionare **Pilastro**. Sono disponibili i controlli generali su armatura longitudinale, interassi, copriferro e staffe; una barra spostata manualmente fuori dal percorso lascia l'interasse da verificare, mantenendo gli altri controlli. La staffa perimetrale disegnata non…",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 54 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 30 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Numero e diametro distinti per i due archi e per i due rettilinei; disponibile anche la disposizione radiale precedente",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 41 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: armature-della-capsula",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 42 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Scegliere Curve e rettilinei separati. Il numero per semicirconferenza comprende le due barre agli estremi di tangenza; il numero per rettilineo comprende soltanto le barre interne. I conteggi valgono per ciascuno dei due archi e per ciascuno dei due rettilinei: 17 barre per arco e 8 interne p…",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 43 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La dimensione maggiore orienta la capsula: b = 5000 mm e h = 2500 mm danno due semicirconferenze laterali e due rettilinei orizzontali. Per b = h usare la sezione circolare. Le capsule già salvate conservano Radiale dal centro (precedente); aprire il wizard non cambia automaticamente le loro a…",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 44 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nella scheda dei dettagli selezionare Pilastro. Sono disponibili i controlli generali su armatura longitudinale, interassi, copriferro e staffe; una barra spostata manualmente fuori dal percorso lascia l'interasse da verificare, mantenendo gli altri controlli. La staffa perimetrale disegnata n…",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 13 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La capsula con armature separate usa n_c barre per ciascuna semicirconferenza, estremi di tangenza inclusi, e n_r barre interne per ciascun rettilineo. Il totale è 2n_c + 2n_r. Gli angoli delle barre curve sono equidistanti rispetto al centro del relativo arco; gli assi intersecano il contorno arret…",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 15 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nei dettagli del pilastro l'interasse massimo viene misurato mediante le ascisse curvilinee delle barre su un percorso chiuso. Si considerano tutti gli intervalli consecutivi, incluso quello di chiusura; i tratti curvi seguono la discretizzazione poligonale. Non si collegano come barre adiacenti que…",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 16 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 17 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il modello nativo salvato conserva materiali, geometria e armature discrete. La ricetta editabile e gli input delle verifiche restano separati. Le mesh non sono archiviate come risultati permanenti: vengono ricostruite dal motore. Una bozza incompleta non contiene una precedente sezione valida, che …",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 18 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 6 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La capsula con armature separate usa n_c barre per ciascuna semicirconferenza, estremi di tangenza inclusi, e n_r barre interne per ciascun rettilineo. Il totale è 2n_c + 2n_r. Gli angoli delle barre curve sono equidistanti rispetto al centro del relativo arco; gli assi intersecano il contorno…",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 7 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nei dettagli del pilastro l'interasse massimo viene misurato mediante le ascisse curvilinee delle barre su un percorso chiuso. Si considerano tutti gli intervalli consecutivi, incluso quello di chiusura; i tratti curvi seguono la discretizzazione poligonale. Non si collegano come barre adiacen…",
+      "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 8 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il modello nativo salvato conserva materiali, geometria e armature discrete. La ricetta editabile e gli input delle verifiche restano separati. Le mesh non sono archiviate come risultati permanenti: vengono ricostruite dal motore. Una bozza incompleta non contiene una precedente sezione valida…",
+      "voce": "F5-REL-1121-01"
     }
   ]
 }

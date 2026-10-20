@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 55
+Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 56
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1102,7 +1102,7 @@ Nel pannello di controllo apri **Wizard tipologie / modifica disposizione…**. 
 | A T | Barre superiori, inferiori e laterali; staffe di anima e ala |
 | A I | Ali superiore e inferiore anche diverse; armatura perimetrale e staffe distinte di anima e ali |
 | Ellittica | Barre a incrementi angolari uguali, sul contorno interno utile |
-| Capsula | Due semicirconferenze unite da tratti rettilinei; barre radiali rispetto al centro |
+| Capsula | Numero e diametro distinti per i due archi e per i due rettilinei; disponibile anche la disposizione radiale precedente |
 | A L | Due bracci ortogonali; armatura perimetrale e staffe dei singoli bracci |
 | A C | Canale aperto, anima e due ali sullo stesso lato |
 | Trapezoidale | Basi parallele centrate; barre perimetrali e staffa aderente |
@@ -1110,7 +1110,15 @@ Nel pannello di controllo apri **Wizard tipologie / modifica disposizione…**. 
 
 Per le armature perimetrali assegna il passo massimo tra gli assi; il generatore inserisce le barre agli spigoli e suddivide i lati. Per le disposizioni radiali assegna il numero di barre. Il copriferro è netto, misurato alla superficie esterna della staffa. Il disegno verifica la collocazione geometrica; i tratti di staffa sono schematici e non rappresentano ganci e raggi di piegatura esecutivi.
 
-Le nuove tipologie e le disposizioni cave a doppio contorno richiedono **parametri manuali del taglio**: assegnare bw, d e, quando richiesto, Asl, oltre ai bracci efficaci nelle due direzioni. Il wizard svuota i valori della sezione precedente. Ripartizione del taglio tra pareti, ancoraggio e trattenimento delle barre vanno verificati esplicitamente. I dettagli automatici e la ricerca automatica delle armature delle sezioni usuali non vengono applicati a queste disposizioni. Il modello torsionale automatico rimane limitato a rettangolo e cerchio; un profilo aperto richiede un modello dedicato.
+Le nuove tipologie e le disposizioni cave a doppio contorno richiedono **parametri manuali del taglio**: assegnare bw, d e, quando richiesto, Asl, oltre ai bracci efficaci nelle due direzioni. Il wizard svuota i valori della sezione precedente. Ripartizione del taglio tra pareti, ancoraggio e trattenimento delle barre vanno verificati esplicitamente. Per la capsula impostata come **Pilastro** sono disponibili i dettagli generali NTC, con interasse misurato lungo il contorno delle barre. Per le altre tipologie avanzate i dettagli automatici restano fuori campo; la ricerca automatica delle armature non si applica alle disposizioni avanzate. Il modello torsionale automatico rimane limitato a rettangolo e cerchio; un profilo aperto richiede un modello dedicato.
+
+### Armature della capsula
+
+Scegliere **Curve e rettilinei separati**. Il numero per semicirconferenza comprende le due barre agli estremi di tangenza; il numero per rettilineo comprende soltanto le barre interne. I conteggi valgono per ciascuno dei due archi e per ciascuno dei due rettilinei: 17 barre per arco e 8 interne per rettilineo producono 50 barre complessive. Diametri delle barre curve e rettilinee sono indipendenti. Le barre curve sono radiali rispetto al centro della rispettiva semicirconferenza.
+
+La dimensione maggiore orienta la capsula: b = 5000 mm e h = 2500 mm danno due semicirconferenze laterali e due rettilinei orizzontali. Per b = h usare la sezione circolare. Le capsule già salvate conservano **Radiale dal centro (precedente)**; aprire il wizard non cambia automaticamente le loro armature. Il passaggio alla nuova disposizione richiede la scelta del modo e **Applica sezione**.
+
+Nella scheda dei dettagli selezionare **Pilastro**. Sono disponibili i controlli generali su armatura longitudinale, interassi, copriferro e staffe; una barra spostata manualmente fuori dal percorso lascia l'interasse da verificare, mantenendo gli altri controlli. La staffa perimetrale disegnata non conferma il trattenimento delle barre: progettare e controllare anche le legature. Il confinamento sismico specifico della pila non è verificato da questi controlli generali. Le grandezze resistenti e i bracci delle staffe per il taglio restano da assegnare nelle due direzioni.
 
 ### Input geometria e unità
 
@@ -1497,6 +1505,16 @@ La rappresentazione delle composte comprende il profilo a I con soletta centrata
 ## Paratie e sostegni flessibili
 
 Il modulo Paratie è in sviluppo. Questa revisione documenta le funzioni collaudate: analisi piana per fasi, sostegni assiali, carichi distribuiti variabili, falda e filtrazione stazionaria, verifiche idrauliche, stabilità globale per pareti continue e verifiche locali delle sezioni disponibili. La convergenza dell'analisi non certifica tutte le verifiche dell'opera. I campi non disponibili sono indicati negli esiti e nelle limitazioni seguenti.
+
+### Navigare nell’albero di lavoro
+
+L’**Albero di lavoro** sul lato sinistro raccoglie i dati presenti nel foglio: parete e sezioni, terreni, sostegni e relative verifiche, casi e fasi, falda e filtrazione. I gruppi mostrano le righe effettivamente inserite. Passando il puntatore su una voce si leggono i valori e le unità dei suoi campi.
+
+Selezionare una riga per aprirla nell’editor. Se la riga appartiene a una fase, si aggiornano anche il caso e la fase del disegno. Le fasi con lo stesso nome in casi diversi rimangono separate. Sotto ciascuna fase compaiono sostegni presenti, carichi e verifiche riferiti a quella fase. Le righe con fase mancante, inesistente o duplicata sono raccolte in **Riferimenti di fase da completare**: selezionarle per correggere i dati. Un caso citato dalle righe ma assente dalle definizioni è indicato come **non definito**.
+
+Il pulsante **‹** richiude il pannello in una barra sottile; **›** lo riapre. Trascinare il separatore per cambiarne la larghezza. I rami si possono espandere o richiudere singolarmente; modificare o riordinare una riga conserva il ramo e la sua apertura. L’albero si aggiorna anche dopo aggiunte, eliminazioni e riapertura dei dati. La navigazione non modifica gli input né avvia il calcolo.
+
+I nodi **Falda e filtrazione** e **Ricerca dell’infissione** aprono i rispettivi parametri. Il pannello è disponibile anche nelle altre schede del modulo e nei documenti in sola lettura; in questi ultimi gli editor mantengono il blocco delle modifiche.
 
 ### Definire il modello e le unità
 

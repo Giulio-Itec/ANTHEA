@@ -43,3 +43,6 @@ src/ANTHEA.Wiki/Content/sources.props text eol=crlf
 *.zip binary
 *.gz binary
 *.nupkg binary
+
+# Archived predecessor guides must preserve their original bytes and SHA-256.
+supporto/SUPERATI/paratie-albero-rev56-20261020/** -text

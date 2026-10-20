@@ -1,0 +1,92 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "fa70e55bd9bd11b7a7877b25fe70484863bba0cfc5923d964b184b19b9e6b695",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "e5a1b65e1af5e810f3c4ac283fbf83c37e670fd1f98a6b789d8f1cdcd2be1e18",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "ae5b11286cdeb928613556ae5ce8b92f38435235ab0afb8bbab93e4b0c188a15",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "772895c6c40b536fb3e731be7939842c1ec61bb15249056b5560f3183dd9b0d0",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev55.docx",
+    "sha256": "994e9a815d5ebbbd217cff3fb0f80979af925ff17777e72e0c8afdd6074db4f4",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev55.pdf",
+    "sha256": "e5a1b65e1af5e810f3c4ac283fbf83c37e670fd1f98a6b789d8f1cdcd2be1e18",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev55.docx",
+    "sha256": "6aa3ede7af4b5135d56387f2ffbffffadfe9e65246b301b4a0ab8682d38ac5bd",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev55.pdf",
+    "sha256": "772895c6c40b536fb3e731be7939842c1ec61bb15249056b5560f3183dd9b0d0",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/README.md",
+    "sha256": "98ce0d4ff483b00f0d95c5c64ffb602bd404e61eda5ad71b2c7a6ee27a4b1588",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "sha256": "66502939c37a5bc535dd32c9c46c4160353552842149cea475b9a4b73cf8675e",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "sha256": "2e3f1d07dca4168cb5bfd0a90d0ecb3f15cf40d471f1aafd7010ac58b73e7af9",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "sha256": "bb1dfa3bccab26b4b41e71e0558656200aeb1ca7abc6b038904d7b6d10bcd3e3",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "sha256": "4c30c1ec65636f0ec91841897657ee6dee66e8e4408bca0f2c8064ae63da3ca8",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "sha256": "bd2beeba5ed50b15570dd3d6d6d3e04bbeb0e3d9a4999fd8c19a498a1481f56e",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "381767be038646d1fa4ffc1b5bed4544852e8362e0fc4aae4d26be16eadd0ef4",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "306f39c48db80952deca923d4dc65e548463b1dd8cccfee84548e78ab34eea5d",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/scripts/Build-AntheaGuides-Itec.py",
+    "sha256": "bda3f3d356ea1e597baefb816b47bbb6a6f22f94c905865734db0e9c6df912bc",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  },
+  {
+    "origine": "supporto/scripts/Render-AntheaGuides-Itec.ps1",
+    "sha256": "7351095a1c9e4e3dfd8278eec02cf5ffa1a56113ad15ece112ae5064b5305c56",
+    "motivo": "Sostituito dalla Rev56: albero Paratie e capsula con armature per tratti."
+  }
+]

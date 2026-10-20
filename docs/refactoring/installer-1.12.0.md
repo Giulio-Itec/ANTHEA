@@ -97,3 +97,8 @@ al catalogo. Nessun file Gmsh o assembly di test nel pacchetto.
 Evidenze: `installer/audit-payload.json` ed `esiti-consolidati.json`.
 Il setup precedente e il suo audit sono conservati in
 `installer/precedente-2a7740a7/`.
+
+L'utente ha autorizzato esplicitamente la riserva il 20 ottobre 2026.
+Pubblicazione completata: `origin/refactoring/f5` a 9b242761 e tag annotato
+`v1.12.0` (oggetto 90bcf9ea, commit della build 810b62a6). L'annotazione
+riporta SHA-256 del setup e prova interrotta; il remoto è stato ricontrollato.

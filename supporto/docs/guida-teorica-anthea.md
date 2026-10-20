@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 55
+Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 56
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -464,11 +464,15 @@ L'ultimo rapporto va valutato con N e Npl nelle stesse unità; i risultati di fo
 
 I wizard aggiungono sezioni a I, L e C aperta, ellittiche, a capsula, trapezoidali e poligonali regolari, oltre alle disposizioni a doppia fila o doppio anello e ai due contorni delle sezioni cave. Per i profili aperti il calcestruzzo segue il contorno reale: l'inviluppo rettangolare non è una regione resistente. L'origine delle nuove geometrie coincide con il baricentro del calcestruzzo.
 
-L'asse delle barre viene costruito sul contorno arretrato di copriferro netto, diametro della staffa e raggio della barra. Presso un foro l'arretramento è diretto verso il calcestruzzo. Sugli spigoli vengono mantenute barre di vertice, mentre ogni lato viene suddiviso rispettando il passo massimo assegnato. Ellisse, capsula e anelli cavi usano intersezioni tra raggi a incrementi angolari uguali e contorno utile: l'interasse lungo la curva non è necessariamente costante.
+L'asse delle barre viene costruito sul contorno arretrato di copriferro netto, diametro della staffa e raggio della barra. Presso un foro l'arretramento è diretto verso il calcestruzzo. Sugli spigoli vengono mantenute barre di vertice, mentre ogni lato viene suddiviso rispettando il passo massimo assegnato. Ellisse, capsula nella disposizione radiale precedente e anelli cavi usano intersezioni tra raggi a incrementi angolari uguali e contorno utile: l'interasse lungo la curva non è necessariamente costante.
 
 La capsula è composta da due semicirconferenze e due tratti rettilinei, con estremità lungo la dimensione maggiore. La sezione a C è aperta, con anima e ali dallo stesso lato; la I ammette larghezze e spessori diversi delle due ali. Il poligono regolare è definito mediante numero di lati e diametro circoscritto. Le curve vengono discretizzate in poligoni dal modello geometrico; la verifica della discretizzazione resta distinta da quella degli equilibri della sezione.
 
-Le staffe seguono percorsi contenuti nel calcestruzzo. Nei profili composti da pareti rettangolari vengono proposti anelli distinti per anima e ali o per le quattro pareti cave. Il controllo geometrico del copriferro non dimostra il corretto ancoraggio, la piegatura, il trattenimento di ogni barra o la ripartizione del taglio. I percorsi disegnati non determinano automaticamente i bracci efficaci del modello resistente. Per le nuove disposizioni tali quantità e i parametri bw, d e Asl devono essere assegnati e giustificati; dettagli automatici e ottimizzazione delle armature restano fuori campo.
+Le staffe seguono percorsi contenuti nel calcestruzzo. Nei profili composti da pareti rettangolari vengono proposti anelli distinti per anima e ali o per le quattro pareti cave. Il controllo geometrico del copriferro non dimostra il corretto ancoraggio, la piegatura, il trattenimento di ogni barra o la ripartizione del taglio. I percorsi disegnati non determinano automaticamente i bracci efficaci del modello resistente. Per le nuove disposizioni tali quantità e i parametri bw, d e Asl devono essere assegnati e giustificati; l'ottimizzazione delle armature resta fuori campo. Per la capsula come pilastro sono disponibili i controlli generali descritti di seguito.
+
+La capsula con armature separate usa n_c barre per ciascuna semicirconferenza, estremi di tangenza inclusi, e n_r barre interne per ciascun rettilineo. Il totale è 2n_c + 2n_r. Gli angoli delle barre curve sono equidistanti rispetto al centro del relativo arco; gli assi intersecano il contorno arretrato in funzione del diametro delle barre curve. Per i rettilinei, lunghi L = |b − h|, le ascisse interne sono suddivise in n_r + 1 intervalli; l'ordinata rispetta il copriferro e il diametro delle barre rettilinee. Diametri diversi possono quindi produrre piccoli raccordi tra gli assi delle barre nelle zone di tangenza.
+
+Nei dettagli del pilastro l'interasse massimo viene misurato mediante le ascisse curvilinee delle barre su un percorso chiuso. Si considerano tutti gli intervalli consecutivi, incluso quello di chiusura; i tratti curvi seguono la discretizzazione poligonale. Non si collegano come barre adiacenti quelle appartenenti ai lati opposti. Il limite NTC 2018 §4.1.6.1.2 e gli altri controlli generali già implementati restano invariati. Barre manuali fuori dal percorso non consentono il riconoscimento automatico dell'interasse. Il metodo non dimostra trattenimento con legature, ancoraggi o confinamento sismico delle pile: queste verifiche sono distinte.
 
 Il modello nativo salvato conserva materiali, geometria e armature discrete. La ricetta editabile e gli input delle verifiche restano separati. Le mesh non sono archiviate come risultati permanenti: vengono ricostruite dal motore. Una bozza incompleta non contiene una precedente sezione valida, che potrebbe risultare incoerente con gli input mostrati.
 
