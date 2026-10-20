@@ -16,6 +16,8 @@ public static partial class ConcreteReinforcementDesign
     {
         if (workspace.S("normativa") != "NTC 2018") throw new ArgumentException("Calcola armature: dettagli costruttivi disponibili per NTC 2018 con integrazioni EC2.");
         if (workspace.Array("trefoli").Count > 0) throw new ArgumentException("Calcola armature: attualmente disponibile per armatura ordinaria senza trefoli.");
+        if (Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(data["input"]!.AsObject()))
+            throw new ArgumentException("Disposizione tipologica: modificare le barre dal wizard o dalle coordinate. La ricerca automatica non comprende queste staffature.");
         if (data["input"].S("shape") is not ("Rettangolare" or "Circolare" or "A T")) throw new ArgumentException("Ricerca disponibile per rettangoli, sezioni a T e circolari, anche con foro centrale.");
         if (workspace["dettagli_costruttivi"].S("elemento") == "Da scegliere") throw new ArgumentException("Scegliere trave, pilastro, soletta o parete nei dettagli costruttivi.");
         if (workspace["dettagli_costruttivi"].S("zona_sovrapposizione") == "Sì") throw new ArgumentException("Ricerca sulla sezione fuori dalle giunzioni: le barre sovrapposte richiedono una disposizione locale esplicita.");

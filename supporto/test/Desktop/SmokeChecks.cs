@@ -38,7 +38,7 @@ public sealed partial class MainWindow
             var expected = kind == "sezione" ? null : Calcolo.Calcola(editor.Data, kind == "micropalo");
             if (kind != "sezione" && !JsonNode.DeepEquals(expected, editor.Result)) throw new Exception(kind + ": risultato WPF diverso dal Core");
             await Capture(kind); Commit(); string file = Path.Combine(directory, kind + ".programma"); DocumentService.Save(file, document);
-            if (!JsonNode.DeepEquals(DocumentService.Open(file), document)) throw new Exception("Round trip " + kind);
+            if (!ConcretePersistenceComparison.Equivalent(DocumentService.Open(file), document)) throw new Exception("Round trip " + kind);
             editor.ExportResult(Path.Combine(directory, kind + ".json"));
             if (kind != "sezione") editor.ExportReport(Path.Combine(directory, kind + ".docx"), kind, ReportWord.Sezioni.Select(s => s.Key).ToHashSet());
             await openSheet.VerifyWpf(directory, kind); log.Add(kind + ": layout WPF, input, invalidazione, calcoli, archivi, export OK");
@@ -59,7 +59,7 @@ public sealed partial class MainWindow
         openSheet.SetGeometryForSmoke("1100"); ShowProjects(); ((TreeViewItem)((TreeViewItem)((TreeViewItem)tree.Items[0]).Items[0]).Items[1]).IsSelected = true; Commit(); ShowSheet(second);
         if (first["dati"]?["input"].S("diameter_mm") != "1100" || currentSheet != second) throw new Exception("Cambio foglio non conserva i dati");
         Commit(); string archive = Path.Combine(directory, "progetti.programma"); DocumentService.Save(archive, document);
-        if (!JsonNode.DeepEquals(DocumentService.Open(archive), document)) throw new Exception("Round trip progetti WPF");
+        if (!ConcretePersistenceComparison.Equivalent(DocumentService.Open(archive), document)) throw new Exception("Round trip progetti WPF");
         log.Add("Progetti: selezione, cambio foglio, conservazione input e salvataggio OK");
         File.WriteAllLines(Path.Combine(directory, "smoke.txt"), log); dirty = false;
     }

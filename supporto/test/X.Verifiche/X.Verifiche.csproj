@@ -5,4 +5,5 @@
   <!-- Formato Excel storico delle azioni, solo per le prove della lettura (decisione D3 del 15/10/2026). -->
   <ItemGroup><Compile Include="../../../tests/Shared/LegacySectionActionsExcel.cs" Link="Shared/LegacySectionActionsExcel.cs" /><EmbeddedResource Include="../../../tests/Shared/ANTHEA_Sollecitazioni_legacy.xlsx" LogicalName="ANTHEA.Sollecitazioni.Legacy.xlsx" Link="Shared/ANTHEA_Sollecitazioni_legacy.xlsx" /></ItemGroup>
   <ItemGroup><Compile Include="../../../tests/ProjectCalculationChecks/*.cs" Link="ProjectCalculationChecks/%(Filename)%(Extension)" /></ItemGroup>
+  <ItemGroup><Compile Include="../../../tests/Shared/ConcretePersistenceComparison.cs" Link="Shared/ConcretePersistenceComparison.cs" /></ItemGroup>
 </Project>

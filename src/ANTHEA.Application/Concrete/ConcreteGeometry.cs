@@ -20,6 +20,7 @@ public sealed class ConcreteGeometry
     public List<double[]> Outline { get; }
     public List<double[][]> Holes { get; }
     public List<ReinforcementBar> Bars { get; }
+    public IReadOnlyList<double[][]> TemplateLinks { get; }
 
     internal ConcreteGeometry(SezioneCA source)
     {
@@ -30,5 +31,6 @@ public sealed class ConcreteGeometry
         Outline = source.Outline.Select(p => p.ToArray()).ToList();
         Holes = source.Holes.Select(h => h.Select(p => p.ToArray()).ToArray()).ToList();
         Bars = source.Bars.Select(b => new ReinforcementBar(b.X, b.Y, b.Area, b.Diametro)).ToList();
+        TemplateLinks = source.Template?.Links.Select(l => l.Points.Select(p => new[] { p.X, p.Y }).ToArray()).ToArray() ?? [];
     }
 }

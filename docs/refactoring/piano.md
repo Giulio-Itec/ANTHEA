@@ -1052,8 +1052,9 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 ## Sezioni c.a.: persistenza e wizard, richiesta del 20 ottobre 2026
 
 - [x] Persistenza nativa GPC con ricetta editabile, bozze e migrazione dei file precedenti/revisioni storiche. Sette confronti numerici esatti; Application 2870 controlli, Presentation e adattatore rapido PASS. Corretti e ricollaudati i tre rilievi architetturali senza deroghe. [Contratto ed evidenze](sezioni-persistenza.md).
-- [ ] Wizard delle dieci tipologie richieste, compresi doppi strati/anelli, capsula e canale aperto a C; armature trasversali esplicite.
-- [ ] Collaudo consolidato e aggiornamento delle due guide globali con Word/PDF.
+- [x] Wizard delle dieci tipologie richieste, compresi doppi strati/anelli, capsula e canale aperto a C; aggiunti trapezio e poligono regolare. Generatori in GPC.Design, anteprima MVVM e staffe esplicite. Per le tipologie avanzate i parametri efficaci del taglio sono manuali e azzerati alla conferma. [Implementazione, limiti ed evidenze](sezioni-wizard.md).
+- [x] Collaudo consolidato: standard 72 PASS e tre confronti documentali corretti e rieseguiti; successiva esecuzione 11 PASS, Application 3045 e WPF 82 controlli. Dodici confronti esatti delle tensioni prima/dopo il reload; guide globali Rev54, 262 pagine PDF, Word e indici controllati, 18 originali archiviati.
+- [ ] Distribuzione ufficiale delle nuove librerie: per ora set candidato coerente locale a Checker `894892c1`, selezionato tramite `-GpcLibDir`. Set AA ufficiale invariato; push, merge e nuovo installer non richiesti in questa attività.
 
 ## Rilascio 1.11.1 richiesto il 20 ottobre 2026
 

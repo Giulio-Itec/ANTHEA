@@ -9,20 +9,7 @@ internal static class ConcretePersistenceChecks
 {
     // Compare the editing contract in old fixtures without changing those fixtures. The native graph has its own tests below.
     internal static JsonNode? EditorData(JsonNode? node)
-    {
-        var copy = node?.DeepClone();
-        void Strip(JsonNode? value)
-        {
-            if (value is JsonObject obj)
-            {
-                obj.Remove(ConcreteSectionArchive.Key);
-                foreach (var pair in obj) Strip(pair.Value);
-            }
-            else if (value is JsonArray array) foreach (var item in array) Strip(item);
-        }
-        Strip(copy);
-        return copy;
-    }
+        => ConcretePersistenceComparison.EditorData(node);
 
     internal static int Run(string root, string output)
     {
@@ -35,6 +22,14 @@ internal static class ConcretePersistenceChecks
             throw new InvalidOperationException(message);
         }
         string path = Path.Combine(output, "sezione-gpc.anth");
+        var comparison = DocumentService.CreateDocument("str_palo");
+        var extra = comparison.DeepClone().AsObject();
+        extra["dati"]!["input"]![ConcreteSectionArchive.Key] = new JsonObject();
+        Check(ConcretePersistenceComparison.Equivalent(comparison, extra), "Il confronto deve isolare il solo archivio nativo");
+        extra["dati"]!["input"]!["width_mm"] = "999";
+        Check(!ConcretePersistenceComparison.Equivalent(comparison, extra), "Il confronto nasconde una differenza geometrica");
+        extra = comparison.DeepClone().AsObject(); extra[ConcreteSectionArchive.Key] = "campo estraneo";
+        Check(!ConcretePersistenceComparison.Equivalent(comparison, extra), "Il confronto ignora omonimi fuori dagli input c.a.");
         var evidence = new JsonArray();
         foreach (string shape in new[] { "Rettangolare", "Circolare", "A T", "Foro rettangolare", "Foro circolare", "Manuale", "Trefolo" })
         {

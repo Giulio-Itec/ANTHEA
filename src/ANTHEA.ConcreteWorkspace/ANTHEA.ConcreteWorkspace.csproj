@@ -3,7 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <GpcLibraries>GPCModel;GPC.Model.Persistence</GpcLibraries>
+    <GpcLibraries>GPCModel;GPC.Model.Persistence;GPC.Design;GPCGeometry</GpcLibraries>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../ANTHEA.Serialization/ANTHEA.Serialization.csproj" />

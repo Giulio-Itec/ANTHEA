@@ -100,7 +100,7 @@ internal static class ProjectCalculationChecks
             Check(!ProjectSharedData.SubtreeSheets(duplicate).Select(s => s.S("id")).Intersect(ProjectSharedData.SubtreeSheets(section).Select(s => s.S("id"))).Any(), "Duplica conserva gli ID");
             string path = Path.Combine(directory, "progetti.programma");
             DocumentService.Save(path, document); var restored = DocumentService.Open(path);
-            Check(JsonNode.DeepEquals(restored, document), "Salvataggio/riapertura cambia il progetto");
+            Check(ConcretePersistenceComparison.Equivalent(restored, document), "Salvataggio/riapertura cambia il progetto");
         });
 
         log.Group("Validazione c.a.", () =>

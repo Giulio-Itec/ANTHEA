@@ -60,7 +60,8 @@ internal sealed partial class ConcreteWorkspace
         {
             foreach (var key in form.Editors.Keys) form.Set(key, key.StartsWith("transverse_") || key=="staffe_presenti" ? Input.S(key) : ShearOptions.S(key), true);
             foreach(var key in form.Editors.Keys.Where(k=>k!="staffe_presenti"))form.Enable(key,Input.S("staffe_presenti","Sì")=="Sì");
-            form.ShowField("tipo_staffa", Input.S("shape") == "Circolare"); form.ShowField("rami_interni", Input.S("shape") == "Circolare"); form.ShowField("schema_interno", Input.S("shape") == "Circolare"); form.ShowField("rotazione_staffa", Input.S("shape") == "Circolare");
+            bool circularScheme = Input.S("shape") == "Circolare" && !Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(Input);
+            foreach (string key in new[] { "tipo_staffa", "rami_interni", "schema_interno", "rotazione_staffa" }) form.ShowField(key, circularScheme);
             foreach (var key in new[] { "rami_x", "rami_y" }) form.ShowField(key, true);
         }
         foreach (var key in new[] { "transverse_bar_diameter_mm", "transverse_spacing_mm" }) reinforcement?.Set(key, Input.S(key), true);

@@ -86,7 +86,7 @@ public static partial class ConcreteLibraryMapping
     /// del modello parametrico, mai con le barre manuali.</summary>
     public static CrackBarLayout BarLayout(string shape, JsonObject sectionInput)
         => shape != "Circolare" ? CrackBarLayout.Rows
-         : !sectionInput.ContainsKey("barre_manuali") && sectionInput.B("second_inner_enabled") ? CrackBarLayout.ConcentricRings : CrackBarLayout.Ring;
+         : !sectionInput.ContainsKey("barre_manuali") && (sectionInput.B("second_inner_enabled") || sectionInput.S("wizard_layout") == "Doppio contorno") ? CrackBarLayout.ConcentricRings : CrackBarLayout.Ring;
 
     /// <summary>
     /// Geometria della fessurazione dal costruttore esplicito della libreria (CrackSectionGeometry.cs:46): contorno, fori e barre ordinarie della

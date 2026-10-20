@@ -51,13 +51,13 @@ public static class SoftwareChecks
             {
                 progress?.Invoke("Archivio: " + module);
                 var d=module=="geo_palo_verticale"?data:module=="geo_micropalo_verticale"?cases.First(c=>c.S("tipo")=="micropalo")!["input"]!.AsObject():Archivio.NuovoFoglio(module);
-                var doc=J.Obj(("formato","X"),("versione",1),("tipo","calcolo"),("modulo_id",module),("dati",d));string file=Path.Combine(temp,module+".programma");DocumentService.Save(file,doc);Assert(JsonNode.DeepEquals(doc,DocumentService.Open(file)),"Round trip "+module);
+                var doc=J.Obj(("formato","X"),("versione",1),("tipo","calcolo"),("modulo_id",module),("dati",d));string file=Path.Combine(temp,module+".programma");DocumentService.Save(file,doc);Assert(ConcretePersistenceComparison.Equivalent(doc,DocumentService.Open(file)),"Round trip "+module);
                 sheets.Add(J.Obj(("id",module),("nome",module),("modulo_id",module),("dati",d)));
             }
             var structure=J.Obj(("id","S1"),("nome","Struttura"),("fogli",sheets));
             var projectData=J.Obj(("id","P1"),("nome","Prova"),("strutture",new JsonArray(structure)));
             var project=J.Obj(("formato","X"),("versione",1),("tipo","progetti"),("progetti",new JsonArray(projectData)));
-            string projectPath=Path.Combine(temp,"progetti.programma");DocumentService.Save(projectPath,project);Assert(JsonNode.DeepEquals(project,DocumentService.Open(projectPath)),"Round trip progetti");
+            string projectPath=Path.Combine(temp,"progetti.programma");DocumentService.Save(projectPath,project);Assert(ConcretePersistenceComparison.Equivalent(project,DocumentService.Open(projectPath)),"Round trip progetti");
             var legacy=(JsonObject)project.DeepClone();legacy["formato"]=System.Text.Encoding.ASCII.GetString(Convert.FromHexString("414E54484541"));File.WriteAllText(projectPath,legacy.ToJsonString());Assert(DocumentService.Open(projectPath).S("formato")=="X","Migrazione identificatore storico");
             foreach(bool micro in new[]{false,true})
             {

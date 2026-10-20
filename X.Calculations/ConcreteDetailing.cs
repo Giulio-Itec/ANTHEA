@@ -64,6 +64,8 @@ public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
     public IReadOnlyList<DetailingCheck> Calculate(ConcreteDetailingInput p)
     {
         var s = p.Section;
+        if (s.Template is not null)
+            throw new ArgumentException("Dettagli della tipologia da wizard: verificare separatamente pareti, ali, ancoraggi e trattenimento delle barre. Le regole automatiche delle sezioni usuali non sono applicate a questa disposizione.");
         int legs = p.Kind == ConcreteMemberKind.Beam && p.HasStirrups
             ? SectionWorkspace.Subdivisions(p.StirrupLegs.ToString(), "rami_y", 2, 100) : 0;
         if (p.Kind == ConcreteMemberKind.Slab && (s.Shape != "Rettangolare" || s.Holes.Count > 0))

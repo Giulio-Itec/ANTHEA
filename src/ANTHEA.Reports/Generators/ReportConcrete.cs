@@ -99,7 +99,9 @@ public static class ReportConcrete
         if (includeInputs && options.Contains("geometria"))
         {
             Heading("Input");
-            Parameters("Geometria della sezione", input, new (string, string)[] { ("shape", "Forma"), ("diameter_mm", "D [mm]"), ("width_mm", "b [mm]"), ("height_mm", "h [mm]"), ("flange_width_mm", "bf [mm]"), ("web_width_mm", "bw [mm]"), ("flange_thickness_mm", "hf [mm]"), ("cover_mm", "Copriferro netto [mm]") }.Where(f => f.Item1 switch { "diameter_mm" => input.S("shape") == "Circolare", "width_mm" => input.S("shape") == "Rettangolare", "height_mm" => input.S("shape") != "Circolare", "flange_width_mm" or "web_width_mm" or "flange_thickness_mm" => input.S("shape") == "A T", _ => true }).ToArray());
+            Parameters("Geometria della sezione", input, Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(input.AsObject())
+                ? ConcreteTemplateReportFields.Geometry(input.AsObject())
+                : new (string, string)[] { ("shape", "Forma"), ("diameter_mm", "D [mm]"), ("width_mm", "b [mm]"), ("height_mm", "h [mm]"), ("flange_width_mm", "bf [mm]"), ("web_width_mm", "bw [mm]"), ("flange_thickness_mm", "hf [mm]"), ("cover_mm", "Copriferro netto [mm]") }.Where(f => f.Item1 switch { "diameter_mm" => input.S("shape") == "Circolare", "width_mm" => input.S("shape") == "Rettangolare", "height_mm" => input.S("shape") != "Circolare", "flange_width_mm" or "web_width_mm" or "flange_thickness_mm" => input.S("shape") == "A T", _ => true }).ToArray());
             var geometry = new SezioneCA(input.AsObject());
             if(geometry.Shape=="Circolare")P($"Discretizzazione circolare: {geometry.CircularSides} lati per contorno, compreso l’eventuale foro. Poligoni inscritti nelle circonferenze assegnate.");
             if(input.B("foro_presente"))Parameters("Foro centrale",input,input.S("shape")=="Circolare"?[("inner_diameter_mm","Diametro interno [mm]")]:[("inner_width_mm","Larghezza interna [mm]"),("inner_height_mm","Altezza interna [mm]")]);
@@ -107,6 +109,12 @@ public static class ReportConcrete
             Subheading("Armature longitudinali"); Table(["ID", "x [mm]", "y [mm]", "Ø [mm]"], geometry.Bars.Select((b, i) => new[] { "B" + (i + 1).ToString("D2"), EngineeringFormat.Number(b.X), EngineeringFormat.Number(b.Y), EngineeringFormat.Number(b.Diametro) }));
             Parameters("Staffe", input, [("staffe_presenti","Presenti"),("transverse_bar_diameter_mm", "Ø [mm]"), ("transverse_spacing_mm", "Passo [mm]")]);
             if (settings["taglio"] is JsonObject stirrups) Table(["Parametro", "Valore"], new[] { "tipo_staffa", "rami_x", "rami_y", "rami_interni" }.Select(k => new[] { k.Replace('_', ' '), stirrups.S(k) }));
+            if (geometry.Template is { } template)
+            {
+                Subheading("Staffature tipologiche");
+                P(string.Join("; ", template.Links.Select(link => link.Name)));
+                P(template.ShearNote);
+            }
             if (settings.Array("trefoli").Count > 0) { Subheading("Trefoli"); Table(["ID", "x [mm]", "y [mm]", "Ap [mm²]", "σp0 [MPa]"], settings.Array("trefoli").Select(t => new[] { t.S("id"), F(t?["x"]), F(t?["y"]), F(t?["area"]), F(t?["sigma0"]) })); }
         }
         if (includeInputs && options.Contains("materiali"))

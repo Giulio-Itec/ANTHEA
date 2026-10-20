@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
-    <GpcLibraries>GPCChecker.CompositeBridge;GPCModel</GpcLibraries>
+    <GpcLibraries>GPCChecker.CompositeBridge;GPCModel;GPC.Design</GpcLibraries>
     <RootNamespace>Anthea.Reports</RootNamespace>
   </PropertyGroup>
   <ItemGroup>

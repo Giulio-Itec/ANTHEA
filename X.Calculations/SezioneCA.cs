@@ -21,6 +21,7 @@ public sealed class SezioneCA
     public List<double[][]> Holes { get; } = [];
     public List<Fibra> Fibers { get; } = [];
     public List<Barra> Bars { get; } = [];
+    public GPC.Design.Sections.ConcreteTemplateGeometry? Template { get; }
     public double NAutomatico => GPC.Checkers.Concrete.Serviceability.Homogenization.ModularRatio(Es,
         GPC.Model.Materials.EuropeanConcreteElasticity.SecantModulusMpa(ConcreteMaterials.Concrete(Input).Fcm), 0);
     public static JsonObject DefaultInput() => J.Obj(
@@ -49,8 +50,20 @@ public sealed class SezioneCA
         Shape=Input.S("shape").Trim().ToLowerInvariant().Replace('-',' ') switch {"circolare"=>"Circolare","rettangolare"=>"Rettangolare","a t" or "t"=>"A T",_=>Input.S("shape")};
         Validate();Fcd=V("alpha_cc")*V("fck_mpa")/V("gamma_c");Fyd=V("fyk_mpa")/V("gamma_s");Es=V("steel_modulus_mpa");
         Radius=Shape=="Circolare"?V("diameter_mm")/2:0;
-        Geometry(Math.Max(12,radialDivisions),Math.Max(36,angularDivisions));
-        if(Input.B("foro_presente"))BuildHole(Math.Max(12,radialDivisions),Math.Max(36,angularDivisions));
+        if (Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(Input))
+            Template = Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Create(Input);
+        if (Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.CustomShape(Shape))
+        {
+            Outline.AddRange(Template!.Shape.Fill2d.Points.Select(p => new[] { p.X, p.Y }));
+            Holes.AddRange((Template.Shape.Holes2d ?? []).Select(h => h.Points.Select(p => new[] { p.X, p.Y }).ToArray()));
+            Fibers.AddRange(Template.Fibers.Select(f => new Fibra(f.X, f.Y, f.Area)));
+            AreaCls = Template.Area;
+        }
+        else
+        {
+            Geometry(Math.Max(12,radialDivisions),Math.Max(36,angularDivisions));
+            if(Input.B("foro_presente"))BuildHole(Math.Max(12,radialDivisions),Math.Max(36,angularDivisions));
+        }
         Width=Outline.Max(p=>p[0])-Outline.Min(p=>p[0]);Height=Outline.Max(p=>p[1])-Outline.Min(p=>p[1]);
         BuildBars();AreaSteel=LegacyNumerics.Sum(Bars.Select(b=>b.Area));
         if(Holes.Count>0&&Bars.Any(b=>SectionRegions.BarCover(this,b)<-1e-8))throw new ArgumentException("Una barra interseca il foro o il contorno della sezione.");
@@ -89,9 +102,14 @@ public sealed class SezioneCA
     {
         _ = ConcreteCalculationSettings.HasStirrups(Input);
         if(Shape.StartsWith("Generica"))throw new ArgumentException("Sezione generica: predisposizione salvabile; definizione del contorno e delle armature ancora da implementare. Calcolo non disponibile.");
-        if(Shape is not ("Circolare" or "Rettangolare" or "A T"))throw new ArgumentException("Tipo di sezione non riconosciuto.");
+        if(Shape is not ("Circolare" or "Rettangolare" or "A T") && !Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.CustomShape(Shape))throw new ArgumentException("Tipo di sezione non riconosciuto.");
         string[] common=["cover_mm","transverse_bar_diameter_mm","transverse_spacing_mm","fck_mpa","fyk_mpa","alpha_cc","gamma_c","gamma_s","steel_modulus_mpa","minimum_eccentricity_mm"];
         foreach(var k in common)if(Input.S("staffe_presenti","Sì")!="No"||k is not("transverse_bar_diameter_mm" or "transverse_spacing_mm"))Input.Required(k,strict:k is not ("cover_mm" or "minimum_eccentricity_mm"));
+        if (Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.CustomShape(Shape))
+        {
+            if(V("fck_mpa")<12||V("fck_mpa")>90)throw new ArgumentException("fck deve essere compreso tra 12 e 90 MPa.");
+            return; // Template dimensions and bar layouts are validated by GPC.
+        }
         void Count(string k,int min){double value=Input.Required(k,min);if(value!=Math.Truncate(value)||value>int.MaxValue)throw new ArgumentException("Il numero delle barre deve essere intero.");}
         bool automaticBars = Input["barre_manuali"] is not JsonArray;
         if(Shape=="Circolare")
@@ -171,6 +189,11 @@ public sealed class SezioneCA
                 double x = SectionWorkspace.Number(row.S("x"), "x barra"), y = SectionWorkspace.Number(row.S("y"), "y barra"), diameter = row!.Required("phi", strict: true);
                 Bars.Add(new(x, y, Math.PI * diameter * diameter / 4, diameter));
             }
+            return;
+        }
+        if (Template is not null)
+        {
+            Bars.AddRange(Template.Bars.Select(b => new Barra(b.X, b.Y, b.Area, b.Diameter)));
             return;
         }
         double cover=V("cover_mm"),transverse=V("transverse_bar_diameter_mm");

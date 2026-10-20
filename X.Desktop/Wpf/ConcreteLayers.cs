@@ -24,7 +24,8 @@ internal sealed partial class ConcreteWorkspace
     {
         foreach (var (key, controls) in additionalLayers)
         {
-            controls.Body.Visibility = Anthea.Application.Concrete.ConcreteInputPresentation.LayerShown(key, Input.S("shape")) ? Visibility.Visible : Visibility.Collapsed;
+            controls.Body.Visibility = !Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(Input) &&
+                Anthea.Application.Concrete.ConcreteInputPresentation.LayerShown(key, Input.S("shape")) ? Visibility.Visible : Visibility.Collapsed;
             bool enabled = Input.B("second_" + key + "_enabled");
             bool locked = Anthea.Application.Concrete.ConcreteInputPresentation.LayersLocked(Input);
             controls.Toggle.IsEnabled = controls.Form.IsEnabled = !locked;

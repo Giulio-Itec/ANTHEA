@@ -56,5 +56,11 @@ Le fixture indipendenti non sono state modificate. Le comparazioni dei
 metadati storici ignorano esclusivamente il nuovo campo `sezione_gpc`;
 il contenuto nativo è verificato separatamente.
 
-Collaudo esteso e documentazione utente da consolidare insieme all'estensione
-dei wizard richiesta nella stessa attività. Nessun push o merge eseguito.
+Collaudo esteso concluso insieme ai [wizard tipologici](sezioni-wizard.md):
+standard completo seguito dalla correzione dei tre confronti del formato
+documentale e dalla loro riesecuzione, 3.045 controlli Application e 82 WPF.
+Dodici ulteriori confronti esatti di geometrie, barre e tensioni SLE e
+riapertura nel vero editor con identità native conservate. Il confronto
+condiviso esclude solo `input.sezione_gpc` nei workspace c.a., non campi
+omonimi generici. Guide globali Word/PDF Rev54 aggiornate e controllate.
+Nessun push o merge eseguito.

@@ -7,6 +7,8 @@ public static class SectionShearGeometry
     public sealed record Direction(double Bw, double Depth, double SteelArea);
     public static Direction Derive(SezioneCA section, bool alongX)
     {
+        if (section.Template is not null)
+            throw new ArgumentException("Tipologia da wizard: assegnare i parametri manuali del taglio e i bracci efficaci per direzione.");
         var shape = section.Shape switch
         {
             "Rettangolare" => ShearSectionShape.Rectangle, "Circolare" => ShearSectionShape.Circle, "A T" => ShearSectionShape.Tee,

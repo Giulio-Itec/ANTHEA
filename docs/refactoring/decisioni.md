@@ -1626,3 +1626,15 @@ generazioni geometriche e di armatura appartengono a GPC; l'applicazione
 gestisce parametri, presentazione e persistenza. Le armature a taglio
 richiedono schemi espliciti; non si estendono implicitamente a sezioni aperte
 le verifiche torsionali dei rettangoli e dei cerchi.
+
+Implementate dodici tipologie, incluse trapezio e poligono regolare
+nell'autonomia concessa dall'utente. I profili avanzati azzerano i parametri
+efficaci del taglio e richiedono assegnazione manuale: i percorsi delle staffe
+non determinano automaticamente bracci efficaci, ancoraggi o trattenimento.
+La conferma valida anche il modello completo prima di modificare l'editor.
+
+GPC.Design 0.29.0.0 e set candidato completo a Checker `894892c1`,
+con versioni di fix delle altre DLL ricompilate. Le prove ANTHEA selezionano
+lo staging con `-GpcLibDir`; il set AA ufficiale rimane invariato. Guide
+Rev54 e confronti indipendenti consolidati; nessun push o merge autorizzato
+per questa attività. [Verbale e limiti](sezioni-wizard.md).

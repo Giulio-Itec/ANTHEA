@@ -53,6 +53,8 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private readonly JsonGrid barInventory = new([new("id", "Barra", ReadOnly: true), new("x", "x [mm]"), new("y", "y [mm]"), new("phi", "Ø [mm]")], true);
     private readonly JsonGrid tendons = new([new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"), new("diametro", "Øeq cavo [mm]"), new("area", "Ap totale [mm²]"), new("materiale", "Materiale", Choices: MaterialInputCatalog.Steel(true).Select(m => m.S("nome")).ToArray()), new("diagramma", "Diagramma", Choices: ["Elastoplastico","Incrudente"]), new("sigma0", "σp0 [MPa]"), new("Ep", "Ep [MPa]", ReadOnly: true), new("fpyk", "fpyk [MPa]", ReadOnly: true), new("fpk", "fpk [MPa]", ReadOnly: true), new("eps_u", "εpu [‰]", ReadOnly: true)]);
     private InputForm geometry = null!, materials = null!, reinforcement = null!;
+    private readonly TextBlock templateGeometryNote = Ui.Text("Geometria e copriferro si modificano nel wizard.", 11);
+    private readonly TextBlock templateReinforcementNote = Ui.Text("Disposizione definita nel wizard. Le singole barre si modificano nella tabella delle coordinate.", 11);
     private Action? refreshHoleControls;
     private readonly List<DomainPanel> domainPanels = [];
     private readonly Dictionary<string, StressPanel> stressPanels = new();
@@ -160,7 +162,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         var holeForm=new InputForm(Input,[new("inner_diameter_mm","Diametro foro","mm"),new("inner_width_mm","Larghezza foro","mm"),new("inner_height_mm","Altezza foro","mm")],_=>Invalidate(),true);
         void UpdateHoleFields(){bool enabled=Input.B("foro_presente");holeForm.Visibility=enabled?Visibility.Visible:Visibility.Collapsed;foreach(string key in new[]{"inner_diameter_mm","inner_width_mm","inner_height_mm"})holeForm.ShowField(key,ConcreteInputPresentation.HoleFieldShown(key,Input.S("shape")));}
         holeToggle.Click+=(_,_)=>{Input["foro_presente"]=holeToggle.IsChecked==true;UpdateHoleFields();Invalidate();};
-        refreshHoleControls=()=>{holeToggle.IsChecked=Input.B("foro_presente");holeToggle.IsEnabled=ConcreteInputPresentation.HoleAvailable(Input.S("shape"));UpdateHoleFields();};
+        refreshHoleControls=()=>{holeToggle.IsChecked=Input.B("foro_presente");holeToggle.IsEnabled=ConcreteInputPresentation.HoleAvailable(Input.S("shape")) && !Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(Input);foreach (string k in holeForm.Editors.Keys) holeForm.Set(k,Input.S(k),true);holeForm.IsEnabled=holeToggle.IsEnabled;UpdateHoleFields();};
         geometry.IsVisibleChanged+=(_,_)=>refreshHoleControls();UpdateHoleFields();
         BuildMaterialFields();
         Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareFlange(Input);
@@ -173,7 +175,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             BuildCustomMaterials()); materialGroups.Margin = new Thickness(14, 0, 0, 0);
         var inputStack = Ui.Stack(norm,
             settings["migrazione_input"] is JsonObject migratedInput ? Group("Valori integrati dal documento precedente",
-                Ui.Text("Valori storici iniziali aggiunti ai campi assenti; controllarli prima dell’uso.\n" + string.Join("\n", migratedInput.Select(p => p.Key + " = " + p.Value)), 11)) : Ui.Text(""), standardNote, Group("Coefficienti da normativa", BuildCoefficients()), Group("Materiali", materialGroups, true), Group("Geometria", Ui.Stack(geometry,holeToggle,holeForm), true), Group("Armature", Ui.Stack(reinforcement, BuildAdditionalLayers())), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
+                Ui.Text("Valori storici iniziali aggiunti ai campi assenti; controllarli prima dell’uso.\n" + string.Join("\n", migratedInput.Select(p => p.Key + " = " + p.Value)), 11)) : Ui.Text(""), standardNote, Group("Coefficienti da normativa", BuildCoefficients()), Group("Materiali", materialGroups, true), Group("Geometria", Ui.Stack(Ui.Button("Wizard tipologie / modifica disposizione…", OpenTemplateWizard), templateGeometryNote,geometry,holeToggle,holeForm), true), Group("Armature", Ui.Stack(reinforcement, templateReinforcementNote, BuildAdditionalLayers())), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
         var left = Panel("Definizione della sezione", Scroller(inputStack), "Dati comuni a tutte le verifiche · mm, MPa");
         var viewport = new ViewportFrame("Sezione geometrica", preview, preview.ResetView);
         var axes = new CheckBox { Content = "Assi", IsChecked = true, Margin = new Thickness(7, 3, 5, 3), VerticalAlignment = VerticalAlignment.Center };
@@ -211,6 +213,20 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         summary.Children.Add(SummaryBlock("Taglio", shearDashboard, Ui.Button("Apri →", () => tabs.SelectedIndex = 4, inspection: true)));
         summary.Children.Add(Ui.Text("Colori η come nei domini · grigio: esito mancante. Ogni verifica resta distinta.", 10, color: Ui.Muted));
         return WorkspaceLayout(left, ResultColumns(middle, Scroller(summary)));
+    }
+    private void OpenTemplateWizard()
+    {
+        Commit();
+        var window = new ConcreteTemplateWizardWindow(Data) { Owner = Window.GetWindow(this) };
+        if (window.ShowDialog() != true) return;
+        if (geometry.Editors["shape"] is ComboBox choices && !choices.Items.Contains(Input.S("shape")))
+            choices.ItemsSource = choices.Items.Cast<string>().Append(Input.S("shape")).ToArray();
+        foreach (var form in new[] { geometry, reinforcement }.Concat(additionalLayers.Values.Select(v => v.Form)))
+            foreach (string key in form.Editors.Keys) form.Set(key, Input.S(key), true);
+        if (shearForm is not null)
+            foreach (string key in shearForm.Editors.Keys) shearForm.Set(key, ShearOptions.S(key), true);
+        refreshHoleControls?.Invoke();
+        Invalidate();
     }
     private JsonRow CreateAction(string key, string name, string n, string mx, string my, string? id = null, bool visible = true)
     {
@@ -294,8 +310,13 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         ConcreteInputPresentation.NormalizeHole(Input);
         refreshHoleControls?.Invoke();
         RefreshAdditionalLayers();
-        reinforcement.IsEnabled = !ConcreteInputPresentation.ManualBars(Input);
-        reinforcement.ToolTip = ConcreteInputPresentation.ReinforcementToolTip(reinforcement.IsEnabled);
+        geometry.IsEnabled = !Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(Input);
+        geometry.Visibility = reinforcement.Visibility = geometry.IsEnabled ? Visibility.Visible : Visibility.Collapsed;
+        templateGeometryNote.Visibility = templateReinforcementNote.Visibility = geometry.IsEnabled ? Visibility.Collapsed : Visibility.Visible;
+        reinforcement.IsEnabled = !ConcreteInputPresentation.ManualBars(Input) && geometry.IsEnabled;
+        reinforcement.ToolTip = Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(Input)
+            ? "Modificare la disposizione da Wizard tipologie oppure dalla tabella delle coordinate delle barre."
+            : ConcreteInputPresentation.ReinforcementToolTip(reinforcement.IsEnabled);
         foreach (string key in ConcreteInputPresentation.ShapeFields) geometry.ShowField(key, ConcreteInputPresentation.GeometryFieldShown(key, shape));
         foreach (string key in reinforcement.Editors.Keys.Where(k => !k.StartsWith("transverse"))) reinforcement.ShowField(key, ConcreteInputPresentation.ReinforcementFieldShown(key, shape));
         ConcreteGeometry? engine = null;

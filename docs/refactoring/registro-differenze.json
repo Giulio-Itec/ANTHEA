@@ -8053,9 +8053,9 @@
       "descrizione": "Formato file 3 con modello ReinforcedConcreteSection serializzato da ModelArchive e ricetta editabile; migrazione dei file precedenti e delle revisioni storiche; bozze senza modello obsoleto.",
       "codice": ["src/ANTHEA.ConcreteWorkspace/ConcreteSectionArchive.cs", "src/ANTHEA.Application/Documents/ConcreteDocumentPersistence.cs", "X.Calculations/CheckerSection.cs"],
       "segno": "Nuovo campo input.sezione_gpc escluso soltanto dal confronto dei metadati legacy, verificato separatamente con sette confronti numerici esatti. Fixture e DLL del set AA invariate.",
-      "decisione": {"data": "2026-10-20", "utente": "Riscrivere il salvataggio delle sezioni in cemento armato salvando le classi GPC.", "esito": "Persistenza implementata e prove mirate superate; collaudo esteso e guide da consolidare con i wizard."},
-      "test": ["ci/20261020-122913-sezioni-persistenza-prima: quattro suite PASS", "ci/20261020-123909-sezioni-persistenza-02: Application, Presentation, ca-data, ca-module e adattatore rapido PASS; tre rilievi architetturali poi corretti", "ci/20261020-124814-sezioni-persistenza-03: cinque suite PASS, Application 2870 controlli", "docs/refactoring/sezioni-persistenza.md"],
-      "voci_collegate": []
+      "decisione": {"data": "2026-10-20", "utente": "Riscrivere il salvataggio delle sezioni in cemento armato salvando le classi GPC.", "esito": "Persistenza, collaudo esteso e guide Rev54 completati localmente; confronto del formato separato dalla verifica esatta del grafo nativo."},
+      "test": ["ci/20261020-122913-sezioni-persistenza-prima: quattro suite PASS", "ci/20261020-123909-sezioni-persistenza-02: Application, Presentation, ca-data, ca-module e adattatore rapido PASS; tre rilievi architetturali poi corretti", "ci/20261020-124814-sezioni-persistenza-03: cinque suite PASS, Application 2870 controlli", "ci/20261020-132024-sezioni-wizard-standard: 72 PASS, tre confronti del formato corretti senza modificare fixture o attesi", "ci/20261020-134337-sezioni-wizard-03: 11 PASS, Application 3045, WPF 82; dodici geometrie e tensioni SLE esatte dopo reload nel vero editor", "docs/refactoring/sezioni-persistenza.md"],
+      "voci_collegate": ["CA-WIZARD-01"]
     },
     {
       "id": "PARATIE-18",
@@ -8071,6 +8071,21 @@
       "decisione": {"data": "2026-10-20", "utente": "Ricompila, pusha, versione 1.11.1 e crea installer.", "esito": "Ricompilazione e confezionamento conclusi su 5f85ea81 pulito; tag della build v1.11.1 e pubblicazione F5 autorizzata."},
       "test": ["Standard completo con installer: 77 PASS; WPF mirate: 5 PASS, stessa revisione pulita e invariata", "Presentation 3433, Spettri 1566, paratie WPF 69, Wiki WPF 3439, ospite MVVM 51; F3 104 fixture, 77 articoli e 30 ricerche", "26 controlli sicurezza e 30 guide installer PASS; 325 file, 13 DLL AA e tre PDF Rev53 verificati nel setup estratto", "Nove JSON numerici identici; dieci esempi verificati per SHA-256 nello ZIP", "Istruzioni installer: PDF di tre pagine aggiornato e controllato visivamente; due originali archiviati con SHA-256", "docs/refactoring/installer-1.11.1.md"],
       "voci_collegate": ["PARATIE-17", "F5-LIB-03"]
+    },
+    {
+      "id": "CA-WIZARD-01",
+      "data": "2026-10-20",
+      "fase": "Presentazione F5 / sezioni",
+      "titolo": "Dodici wizard geometrici e di armatura in GPC.Design",
+      "famiglia": "sezioni/geometria",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Dieci tipologie richieste, trapezio e poligono regolare aggiuntivi; nuovi generatori in GPC.Design, anteprima MVVM, conferma transazionale, report delle dimensioni pertinenti e persistenza nativa.",
+      "codice": ["Checker/src/GPC.Design/Sections/ConcreteSectionTemplates.cs", "src/ANTHEA.Application/Concrete/ConcreteTemplateWizard.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteTemplateWizardViewModel.cs", "X.Desktop/Wpf/ConcreteTemplateWizardWindow.cs"],
+      "segno": "Nuove geometrie disponibili solo con il set candidato coerente selezionato tramite GpcLibDir. Generatori ordinari, DelaunayMesh, Geometry e Utilities invariati. Staffe geometriche esplicite; nessuna estensione automatica del modello di taglio/torsione o dei dettagli costruttivi ai profili avanzati.",
+      "decisione": {"data": "2026-10-20", "utente": "Aggiungere le dieci tipologie; capsula con semicirconferenze e tratti rettilinei, C aperta; libertà di aggiungere altre sezioni utili.", "esito": "Implementazione e collaudi locali completati. Parametri efficaci del taglio azzerati e manuali per le tipologie avanzate. Set ufficiale AA invariato; nessun push, merge o installer."},
+      "test": ["Checker 894892c1, candidate-02: 3176 PASS, 17 fallimenti Steel preesistenti ammessi; Design 95 e Concrete 795 PASS", "ci/20261020-132024-sezioni-wizard-standard: 72 PASS, tre confronti documentali successivamente corretti; 942254 valori numerici entro tolleranza", "ci/20261020-134337-sezioni-wizard-03: 11 PASS, Application 3045 e WPF 82; dodici roundtrip con geometrie, barre e tensioni SLE identiche", "Dodici DOCX/PDF geometrici controllati, 29 pagine; guide Rev54 262 pagine e indici verificati, 18 originali archiviati con SHA-256", "docs/refactoring/sezioni-wizard.md"],
+      "voci_collegate": ["CA-PERSIST-01"]
     }
   ]
 }

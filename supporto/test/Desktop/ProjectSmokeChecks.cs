@@ -46,7 +46,7 @@ public sealed partial class MainWindow
         MoveProjectSheet(sheet, other); MoveProjectSheet(sheet, other);
         Check(other.Array("fogli").Count == 1 && deep.Array("fogli").Count == 0, "Spostamento duplica il foglio");
         string file = Path.Combine(directory, "progetti.programma"); DocumentService.Save(file, document);
-        Check(JsonNode.DeepEquals(DocumentService.Open(file), document), "Round trip gerarchia non riuscito");
+        Check(ConcretePersistenceComparison.Equivalent(DocumentService.Open(file), document), "Round trip gerarchia non riuscito");
         sheet["modulo_id"] = "inesistente";
         bool rejected = false; try { Archivio.Valida(document); } catch (ArgumentException) { rejected = true; }
         Check(rejected, "Validazione non controlla i fogli annidati"); sheet["modulo_id"] = "geo_palo_verticale";

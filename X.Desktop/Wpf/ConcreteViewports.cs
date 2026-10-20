@@ -228,6 +228,12 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         if (!double.IsFinite(phi) || phi <= 0) return;
         // The centreline is offset by cover + Ø/2; draw the actual diameter in section units.
         var pen = new Pen(Ui.Brush("#687C86"), phi * scale);
+        if (section.TemplateLinks.Count > 0)
+        {
+            foreach (var loop in section.TemplateLinks)
+                dc.DrawGeometry(null, pen, Path(loop.Select(v => p(v[0], v[1])).ToArray(), true));
+            return;
+        }
         double xmin = section.Outline.Min(v => v[0]) + inset, xmax = section.Outline.Max(v => v[0]) - inset, ymin = section.Outline.Min(v => v[1]) + inset, ymax = section.Outline.Max(v => v[1]) - inset;
         if (xmax <= xmin || ymax <= ymin) return;
         if (section.Shape == "Circolare")

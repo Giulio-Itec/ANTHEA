@@ -119,6 +119,11 @@ public static class ReportConcreteShort
             new[]{"Parametri a taglio",$"{shear.S("modello")}; {shear.S("parametri")}; Asl in mm².\nx: bw={F(shear["bw_x"])}; d={F(shear["d_x"])}; Asl={F(shear["asl_x"])}; α={F(shear["alpha_x"])}°.\ny: bw={F(shear["bw_y"])}; d={F(shear["d_y"])}; Asl={F(shear["asl_y"])}; α={F(shear["alpha_y"])}°."+(section.Shape=="Circolare"?$" {shear.S("modello_circolare")}; z/d={N(circularLever)}":"")}
         };
         var coefficients=ConcreteStandards.Effective(input,ws);
+        if (section.Template is { } template)
+        {
+            dataRows.Insert(2, ["Dimensioni del wizard", ConcreteTemplateReportFields.Describe(input)]);
+            dataRows.Add(["Staffature tipologiche", string.Join("; ", template.Links.Select(link => link.Name)) + ". " + template.ShearNote]);
+        }
         string CoefficientLabel(string key)=>key switch{"AlphaCC"=>"αcc","GammaC"=>"γc","GammaS"=>"γs","SteelCoefficientStrainTension"=>"εud/εuk",_=>key};
         dataRows.Insert(5,new[]{"Coefficienti",string.Join("; ",ConcreteStandards.Coefficients.Where(c=>c.Key is "AlphaCC" or "GammaC" or "GammaS" or "SteelCoefficientStrainTension" ||
             Math.Abs((double)coefficients.GetType().GetProperty(c.Key)!.GetValue(coefficients)!-ConcreteStandards.Defaults(ws.S("normativa")).D(c.Key))>1e-12).Select(c=>CoefficientLabel(c.Key)+"="+N((double)coefficients.GetType().GetProperty(c.Key)!.GetValue(coefficients)!)))+"; getto sottile="+input.S("gettato_sottile")});
