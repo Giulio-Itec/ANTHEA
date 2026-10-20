@@ -42,6 +42,27 @@ Guide Rev56: 264 pagine e 387 formule modificabili; parti immutabili
 ITEC, testi e stili controllati. Le 18 revisioni sostituite sono archiviate
 con impronte. PDF e indici renderizzati e controllati.
 
+## Candidata locale e collaudo conclusivo
+
+Setup locale costruito dal commit pulito `fd755c8a424a19f74eda3769ad3c179db38def55`,
+usando il set AC candidato senza modificare `lib/Checker`:
+`supporto/artefatti/rilascio-1.12.1/installer-candidato/ANTHEA-1.12.1-Setup-x64.exe`.
+Dimensione 69.396.917 byte; SHA-256
+`8346DDBAFAA0929B818A638CF3348ED83F79028FDD238125B7D322BC14424997`.
+L'audit dell'estrazione supera il confronto SHA-256 di 382 file distribuiti,
+13 DLL GPC e 52 esempi; 326 file applicativi e tre PDF. Nessun Gmsh
+o assembly di test nel pacchetto. È una candidata locale, non una
+distribuzione ufficiale.
+
+`ci/20261020-171913-rilascio-1.12.1-candidata` conferma equivalenza F3
+senza differenze residue, Architecture e Testing. La nuova prova PDF
+non compila per un `using Anthea.Calculations` mancante; corretto nel
+solo test. Le tre suite NSIS si interrompono perché il processo figlio
+Windows PowerShell non eredita il percorso dei moduli 5.1 e non trova
+`Get-FileHash`: si ripetono con `PSModulePath` assegnato al processo
+di collaudo. Esiti originali conservati, nessuna eccezione aggiunta
+ai fallimenti ammessi. La ripetizione deve essere registrata a conclusione.
+
 ## Passi residui
 
 Pubblicazione autorizzata delle GPC, set ufficiale coerente, collaudo completo
