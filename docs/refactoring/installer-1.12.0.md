@@ -69,3 +69,31 @@ Restano tre rilievi con causa individuata, per i quali sono preparate correzioni
 Il collaudo conclusivo e l’audit del setup devono essere registrati prima della
 pubblicazione. Le modifiche successive della capsula e dell’albero Paratie sono
 attività separate dal contenuto di questo installer.
+
+## Setup pronto e riserva residua
+
+Il collaudo conclusivo `ci/20261020-161800-rilascio-1.12.0-finale` sul commit
+pulito 810b62a6 supera tutte le 15 prove selezionate, comprese equivalenza F3,
+Stratigrafia, palo orizzontale e sezione storica. Il consolidamento delle
+quattro esecuzioni dà 171 PASS e un solo NEW-FAIL:
+`ui/check-palo-verticale-view`, interrotto durante l'esportazione da Trend Micro.
+Non sono modificati gli attesi indipendenti né la lista dei fallimenti ammessi.
+La pubblicazione con questa riserva richiede una deroga esplicita dell'utente
+alla regola del collaudo completo; il normale push era già autorizzato.
+
+Setup compilato dai sorgenti puliti
+`810b62a6f2b7a249396f248fd993ee380f03d6ac`:
+
+- `supporto/artefatti/rilascio-1.12.0/installer/ANTHEA-1.12.0-Setup-x64.exe`;
+- 69.356.728 byte;
+- SHA-256 `5864C3EE58F66F1F41D9E78CC4C9A132B6BE109D4AC1C37846639A00847EA298`;
+- versione prodotto `1.12.0+810b62a6f2b7a249396f248fd993ee380f03d6ac`.
+
+Integrità dell'archivio superata. L'estrazione contiene 387 file, inclusi i
+componenti NSIS; 382 file distribuiti sono confrontati con lo staging mediante
+SHA-256. Comprendono 326 file applicativi, tre PDF, 52 esempi e il catalogo.
+Tutte le 13 DLL GPC corrispondono al manifest AB; tutti gli esempi corrispondono
+al catalogo. Nessun file Gmsh o assembly di test nel pacchetto.
+Evidenze: `installer/audit-payload.json` ed `esiti-consolidati.json`.
+Il setup precedente e il suo audit sono conservati in
+`installer/precedente-2a7740a7/`.
