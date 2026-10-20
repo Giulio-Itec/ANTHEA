@@ -1698,3 +1698,19 @@ Il setup comprende le due modifiche richieste, guide Rev56 e 52 esempi.
 Audit del payload e collaudi mirati superati; il profilo ANTHEA full non
 è stato eseguito sulla candidata. Il rilascio ufficiale resta differito.
 [Verbale e impronta dell'installer](installer-1.12.1.md).
+
+### Integrazione locale dei branch ANTHEA
+
+L'utente chiede successivamente il merge dei branch ANTHEA in sviluppo.
+Si mantiene `refactoring/f5` come ramo di integrazione della fase.
+L'unico ramo di sviluppo non ancora incluso è `refactoring/f5-paratie-capsula`:
+cinque commit integrati mediante fast-forward, senza risoluzioni manuali.
+I rami `prova/f5-viste` e `prova/f5-palificata` conservano le modifiche
+sperimentali alla selezione delle viste e rimangono esclusi.
+
+L'utente segnala che un altro agente sta integrando Model e Checker.
+Questa attività non modifica quei repository né pubblica commit.
+Il collaudo del merge ANTHEA usa il precedente set candidato AC,
+con tutte le sette suite selezionate superate. Per il raccordo finale
+serviranno il nuovo set coerente e i controlli previsti dopo il suo
+aggiornamento. [Verbale](merge-f5-sviluppo-20261020.md).

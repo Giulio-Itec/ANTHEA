@@ -14,8 +14,12 @@ ANTHEA: ramo `refactoring/f5-paratie-capsula`, derivato da
 Checker: commit locale `8bf4af33`; candidato AC completo, 3.181 PASS,
 17 fallimenti Steel già ammessi e due prove Model ignorate.
 Alla richiesta di pubblicazione l'utente ha risposto il 20 ottobre 2026:
-«Mantieni per ora il commit solo in locale». Checker e ANTHEA restano
-quindi sui rispettivi rami locali, senza integrazione, push o tag nuovi.
+«Mantieni per ora il commit solo in locale». La preparazione del pacchetto
+è stata quindi conclusa sui rami locali, senza push o tag nuovi.
+Alla successiva richiesta di merge dei branch ANTHEA, il ramo
+`refactoring/f5-paratie-capsula` è integrato localmente in `refactoring/f5`.
+L'utente segnala che un altro agente sta integrando Model e Checker:
+il raccordo con il nuovo set GPC è un passaggio successivo.
 Il set ufficiale AB in `lib/Checker` è invariato.
 
 ## Prove già eseguite
@@ -88,3 +92,10 @@ pubblicazione dei nuovi commit GPC, il set ufficiale coerente e il
 collaudo completo previsto dal repository, quindi un installer riferito
 a quella revisione. La riserva sul test del palo verticale della 1.12.0
 non è assunta automaticamente per questo aggiornamento.
+
+Il successivo merge locale di ANTHEA conserva esattamente il contenuto
+del candidato e aggiunge solo la documentazione dell'integrazione.
+La ripetizione di build, Architecture, Application e Presentation è
+conclusa con sette suite PASS sul set AC. Non si ricostruisce l'installer:
+il pacchetto sopra indicato conserva il suo commit e la sua impronta.
+[Verbale del merge](merge-f5-sviluppo-20261020.md).
