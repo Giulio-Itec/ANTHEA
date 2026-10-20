@@ -89,7 +89,33 @@ motivo e SHA-256 verificato; archivio escluso dalla conversione dei fine
 riga. Le copie correnti dei PDF globali coincidono con l'edizione ITEC.
 Evidenze in `supporto/artefatti/paratie/grafica-guide53/`.
 
-Il collaudo finale della revisione pulita con gli indici aggiornati resta
-da registrare. La matrice complessiva del modulo e i vincoli del rilascio
-1.11.0 rimangono aperti dove già dichiarato. Questo incremento non produce
+## Chiusura del collaudo locale
+
+Commit di implementazione `7a06492c`; guide e indici `b60d5aa4`.
+Su quest'ultima revisione pulita e invariata è stato eseguito:
+
+```powershell
+./build/ci.ps1 -Profile full `
+  -Only '^(Presentation.Tests|Architecture.Tests|Wiki.Tests|wiki/indice|wiki/manuale|qa/no-test-code|ui/check-paratie-view|ui/check-wiki-offscreen)$' `
+  -Tag paratie-grafica-finale -Output supporto/artefatti/paratie/grafica-finale
+```
+
+13 suite PASS, nessun fallimento nuovo o ammesso. È un collaudo mirato,
+non l'esecuzione dell'intero profilo full. Include build UiTests e Release,
+3433 controlli Presentation (22 nuove asserzioni), 557 architetturali,
+340 Wiki senza WPF, 3439 Wiki WPF e 69 WPF paratie.
+Nove JSON paratie identici byte per byte rispetto a `grafica-prima`;
+le 13 DLL nella build Release coincidono per SHA-256 con il set AA.
+Baseline numeriche e lista dei fallimenti ammessi invariate.
+
+La build locale è `X.Desktop/bin/Release/net8.0-windows/ANTHEA.exe`.
+`supporto/artefatti/paratie/grafica-finale/Apri-Paratia.cmd` apre questa
+build con l'esempio `ui_check-paratie-view/vista/paratia-grafica.anthea`,
+prodotto dalla prova WPF dopo un calcolo convergente.
+Il collegamento non installa pacchetti né modifica associazioni di file.
+
+Il checkout principale resta pulito su `refactoring/f5`, SHA `5010b46e`.
+L'incremento resta locale in `refactoring/f5-paratie-seguito`.
+La matrice complessiva del modulo e i vincoli del rilascio 1.11.0
+rimangono aperti dove già dichiarato. Questo incremento non produce
 un nuovo set GPC né sostituisce l'installer 1.11.0.

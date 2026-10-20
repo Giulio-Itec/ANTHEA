@@ -8039,7 +8039,7 @@
       "codice": ["src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallEditing.cs", "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallSketch.cs", "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallSheetViewModel.Sketch.cs", "X.Desktop/Views/EmbeddedWalls/EmbeddedWallModelSketch.cs", "X.Desktop/Views/EmbeddedWalls/EmbeddedWallSheetView.xaml"],
       "segno": "Nessuna modifica al calcolo GPC, a Concrete/Steel, agli attesi numerici o al set AA. Nove JSON di calcolo identici byte per byte prima e dopo.",
       "decisione": {"data": "2026-10-20", "utente": "Modulo poco intuitivo; modificare i dati vedendo il disegno e la sua evoluzione per fasi.", "esito": "Editor e disegno affiancati, vista tabellare aggiuntiva; anteprima distinta dal calcolo."},
-      "test": ["grafica-check02: Presentation 3430 controlli PASS", "grafica-check04: Architecture 557 e WPF paratie 69 controlli PASS", "docs/paratie/interfaccia-grafica.md"],
+      "test": ["grafica-check02: Presentation 3430 controlli PASS", "grafica-check04: Architecture 557 e WPF paratie 69 controlli PASS", "grafica-finale su b60d5aa4 pulito e invariato: 13 suite PASS, Presentation 3433, Architecture 557, Wiki 340, Wiki WPF 3439 e WPF paratie 69", "Nove JSON numerici identici; 13 DLL identiche al set AA; guide Rev53 260 pagine e 387 formule, 18 originali archiviati con SHA-256", "docs/paratie/interfaccia-grafica.md"],
       "voci_collegate": ["PARATIE-16", "F5-LIB-03"]
     }
   ]
