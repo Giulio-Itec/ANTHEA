@@ -13,9 +13,10 @@ ANTHEA: ramo `refactoring/f5-paratie-capsula`, derivato da
 `refactoring/f5` dopo la pubblicazione della 1.12.0.
 Checker: commit locale `8bf4af33`; candidato AC completo, 3.181 PASS,
 17 fallimenti Steel già ammessi e due prove Model ignorate.
-La pubblicazione di questo nuovo commit è richiesta separatamente
-per poter produrre e installare il set ufficiale.
-Il set ufficiale AB in `lib/Checker` è per ora invariato.
+Alla richiesta di pubblicazione l'utente ha risposto il 20 ottobre 2026:
+«Mantieni per ora il commit solo in locale». Checker e ANTHEA restano
+quindi sui rispettivi rami locali, senza integrazione, push o tag nuovi.
+Il set ufficiale AB in `lib/Checker` è invariato.
 
 ## Prove già eseguite
 
@@ -61,11 +62,29 @@ solo test. Le tre suite NSIS si interrompono perché il processo figlio
 Windows PowerShell non eredita il percorso dei moduli 5.1 e non trova
 `Get-FileHash`: si ripetono con `PSModulePath` assegnato al processo
 di collaudo. Esiti originali conservati, nessuna eccezione aggiunta
-ai fallimenti ammessi. La ripetizione deve essere registrata a conclusione.
+ai fallimenti ammessi.
 
-## Passi residui
+`ci/20261020-172428-rilascio-1.12.1-pacchetto`, commit pulito
+`cba43e82101ecd198cf5b88e5bc40cc4ca371505`: cinque suite PASS,
+nessun fallimento o blocco. Reports supera 476 controlli, compreso il
+nuovo PDF della capsula; NSIS supera 26 controlli di sicurezza,
+30 sulle guide e 120 sugli esempi. Le tre pagine del nuovo PDF sono
+renderizzate e controllate: parametri distinti, 50 barre e staffe leggibili,
+intestazioni delle tabelle ripetute, nessun taglio del contenuto.
+Evidenze visive in `supporto/artefatti/rilascio-1.12.1/capsula-pdf/`.
+Tra il commit del setup e quello di questo collaudo cambiano solo il
+`using` del test e il verbale: il codice di produzione è identico.
 
-Pubblicazione autorizzata delle GPC, set ufficiale coerente, collaudo completo
-ANTHEA, installer con audit di tutti i file distribuiti e pubblicazione
-finale da autorizzare. La riserva sul test del palo verticale della 1.12.0
-non è assunta automaticamente come autorizzazione per questo rilascio.
+## Stato conclusivo e ambito della verifica
+
+Installer candidato locale 1.12.1 completato e verificato con le suite
+mirate riportate sopra. Il profilo ANTHEA `full` non è stato eseguito
+su questa candidata: non si dichiara concluso il rilascio ufficiale.
+L'utente ha scelto di mantenere locale il commit Checker; non si rinnova
+la richiesta di pubblicazione e non si aggiorna lo snapshot ufficiale.
+
+Un eventuale rilascio ufficiale richiederà l'autorizzazione alla
+pubblicazione dei nuovi commit GPC, il set ufficiale coerente e il
+collaudo completo previsto dal repository, quindi un installer riferito
+a quella revisione. La riserva sul test del palo verticale della 1.12.0
+non è assunta automaticamente per questo aggiornamento.

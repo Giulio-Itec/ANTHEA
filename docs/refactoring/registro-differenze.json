@@ -8158,12 +8158,13 @@
       "decisione": {
         "data": "2026-10-20",
         "utente": "Capsula 5000 × 2500: dettagli non calcolati e armature curve/rettilinee da separare; elemento Pilastro / pila.",
-        "esito": "Implementato con set GPC AC candidato; pubblicazione del nuovo set da autorizzare."
+        "esito": "Implementato nell'installer candidato locale 1.12.1 con set GPC AC. L'utente ha scelto di mantenere il commit Checker solo in locale; pubblicazione ufficiale differita e snapshot AB invariato."
       },
       "test": [
         "Checker 8bf4af33: 3181 PASS, 17 fallimenti Steel già ammessi, due Model ignorati",
         "Nove geometrie preesistenti: impronte binarie identiche",
         "Application 3057, Presentation 3523, WPF wizard 84 PASS",
+        "Reports 476 PASS, compreso PDF capsula 5000 × 2500 con 50 barre; tre pagine renderizzate e controllate",
         "docs/refactoring/capsula-pilastro.md"
       ]
     },

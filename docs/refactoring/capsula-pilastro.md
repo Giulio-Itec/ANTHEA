@@ -58,9 +58,12 @@ dell'utente.
 
 Il primo collaudo integrato supera Application (3.057 controlli),
 Presentation (3.523) e Architecture. WPF wizard: 84 PASS; WPF Paratie: 79 PASS.
-Reports supera i 475 controlli del corpus preesistente; aggiunto poi un caso
-PDF dedicato alla capsula 5000 × 2500 con 50 barre, da includere nella
-riesecuzione conclusiva.
+Reports supera 476 controlli nella riesecuzione conclusiva
+`ci/20261020-172428-rilascio-1.12.1-pacchetto`, compreso il caso PDF
+dedicato alla capsula 5000 × 2500 con 50 barre. Le tre pagine sono
+renderizzate e controllate: parametri, coordinate e staffe leggibili,
+senza contenuti tagliati. Il caso copre la relazione geometrica,
+non una verifica completa della pila.
 
 Guide globali Rev56: 99 e 165 pagine; 3.229 frammenti conservati,
 387 formule Word modificabili e 26 parti del modello ITEC identiche per
@@ -76,7 +79,9 @@ e impronte: 20 impronte sono riprodotte separatamente a partire dagli
 input salvati e dai manifest AB/AC.
 
 Il set candidato è consumato da `-GpcLibDir` senza installarlo in
-`lib/Checker`. Per distribuire le nuove DLL occorre pubblicare i nuovi
-commit GPC con autorizzazione, produrre il set ufficiale e ripetere il
-collaudo prescritto. Il setup 1.12.0 già pubblicato è antecedente a questa
-correzione.
+`lib/Checker`. L'utente ha scelto di mantenere il commit Checker solo
+in locale: la correzione è disponibile nell'installer candidato locale
+1.12.1, con audit del contenuto e collaudi mirati. La distribuzione
+ufficiale richiederà pubblicazione autorizzata dei nuovi commit GPC,
+set ufficiale e collaudo completo prescritto. Il setup 1.12.0 già
+pubblicato è antecedente a questa correzione.

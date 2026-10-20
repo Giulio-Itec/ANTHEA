@@ -1686,3 +1686,15 @@ Staffe e legature richiedono conferma, parametri efficaci del taglio rimangono
 manuali; non si dichiara coperto il confinamento sismico specifico della pila.
 Le guide globali passano alla Rev56. Il set AC resta candidato fino
 all'autorizzazione alla pubblicazione dei nuovi commit.
+
+### Installer 1.12.1 locale
+
+L'utente conferma 1.12.1 come numero successivo alla 1.12.0 pubblicata.
+Alla richiesta di integrare e pubblicare Checker `8bf4af33` risponde
+«Mantieni per ora il commit solo in locale». Si completa quindi il
+pacchetto candidato locale con il set AC selezionato tramite `GpcLibDir`,
+senza modificare lo snapshot ufficiale AB e senza push, merge o tag nuovi.
+Il setup comprende le due modifiche richieste, guide Rev56 e 52 esempi.
+Audit del payload e collaudi mirati superati; il profilo ANTHEA full non
+è stato eseguito sulla candidata. Il rilascio ufficiale resta differito.
+[Verbale e impronta dell'installer](installer-1.12.1.md).
