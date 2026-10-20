@@ -29,6 +29,12 @@ public sealed class ConcreteTemplateWizardViewModel : ObservableObject
             new("cover_mm","Copriferro netto alle staffe","mm"), new("wizard_bar_diameter_mm","Diametro barre perimetrali","mm"),
             new("wizard_bar_spacing_mm","Passo massimo lungo il contorno","mm"),
             new("wizard_radial_count","Barre radiali / anello esterno"), new("wizard_inner_count","Barre anello interno"),
+            new("wizard_stadium_layout","Armature della capsula", Choices: [
+                ConcreteTemplateAdapter.StadiumSeparate, ConcreteTemplateAdapter.StadiumLegacy], Wide: true),
+            new("wizard_stadium_curve_count","Barre per arco (2 tangenti incluse)"),
+            new("wizard_stadium_curve_diameter_mm","Ø barre dei tratti curvi","mm"),
+            new("wizard_stadium_straight_count","Barre interne per rettilineo"),
+            new("wizard_stadium_straight_diameter_mm","Ø barre dei rettilinei","mm"),
             new("wizard_polygon_sides","Numero lati poligono (3–32)"),
             new("top_bar_count","Barre prima fila superiore"), new("top_bar_diameter_mm","Ø prima fila superiore","mm"),
             new("bottom_bar_count","Barre prima fila inferiore"), new("bottom_bar_diameter_mm","Ø prima fila inferiore","mm"),
@@ -68,6 +74,7 @@ public sealed class ConcreteTemplateWizardViewModel : ObservableObject
         string shape = Draft.S("shape");
         bool circle = shape == "Circolare", hole = Draft.B("foro_presente");
         bool extended = ConcreteTemplateAdapter.Uses(Draft), profile = shape is "A I" or "A L" or "A C" or "A T";
+        bool separateStadium = ConcreteTemplateAdapter.SeparateStadium(Draft);
         foreach (var field in Form.Fields)
         {
             string k = field.Key;
@@ -79,9 +86,11 @@ public sealed class ConcreteTemplateWizardViewModel : ObservableObject
                 "bottom_flange_width_mm" => shape is "A I" or "A C" or "Trapezoidale",
                 "bottom_flange_thickness_mm" => shape is "A I" or "A C",
                 "wizard_polygon_sides" => shape == "Poligonale regolare",
-                "wizard_bar_diameter_mm" => extended,
+                "wizard_stadium_layout" => shape == "Capsula",
+                _ when k.StartsWith("wizard_stadium_") => separateStadium,
+                "wizard_bar_diameter_mm" => extended && !separateStadium,
                 "wizard_bar_spacing_mm" => extended && shape is not ("Circolare" or "Ellittica" or "Capsula"),
-                "wizard_radial_count" => extended && shape is "Circolare" or "Ellittica" or "Capsula",
+                "wizard_radial_count" => extended && !separateStadium && shape is "Circolare" or "Ellittica" or "Capsula",
                 "wizard_inner_count" => circle && hole,
                 _ when k.StartsWith("second_top") || k.StartsWith("second_bottom") => shape == "Rettangolare" && !hole,
                 _ when k.StartsWith("second_inner") || k.StartsWith("longitudinal") => circle && !hole,

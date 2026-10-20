@@ -11,7 +11,7 @@ public static class ConcreteTemplateWizard
     [
         "Rettangolare · doppia fila sopra e sotto", "Rettangolare cava · due contorni",
         "Circolare · due anelli", "Circolare cava · anello interno ed esterno",
-        "A T", "A I", "Ellittica · armatura radiale", "Capsula · armatura radiale", "A L", "A C · canale aperto",
+        "A T", "A I", "Ellittica · armatura radiale", "Capsula · curve e rettilinei", "A L", "A C · canale aperto",
         "Trapezoidale", "Poligonale regolare"
     ];
     public static JsonObject Draft(JsonObject input)
@@ -19,7 +19,11 @@ public static class ConcreteTemplateWizard
         var draft = input.DeepClone().AsObject();
         draft.Remove(ConcreteSectionArchive.Key);
         draft.Remove("barre_manuali");
+        if (draft.S("wizard_type") == "Capsula · armatura radiale") draft["wizard_type"] = Choices[7];
         if (!Choices.Contains(draft.S("wizard_type"))) Select(draft, Choices[0]);
+        if (draft.S("shape") == "Capsula" && !draft.ContainsKey("wizard_stadium_layout"))
+            draft["wizard_stadium_layout"] = ConcreteTemplateAdapter.StadiumLegacy;
+        StadiumDefaults(draft);
         return draft;
     }
 
@@ -33,6 +37,7 @@ public static class ConcreteTemplateWizard
         input["wizard_layout"] = index is 1 or 3 ? "Doppio contorno" : "Perimetro";
         input["second_top_enabled"] = index == 0; input["second_bottom_enabled"] = index == 0;
         input["second_inner_enabled"] = index == 2;
+        if (index == 7) input["wizard_stadium_layout"] = ConcreteTemplateAdapter.StadiumSeparate;
         input.Remove("barre_manuali"); input.Remove(ConcreteSectionArchive.Key);
         foreach (var (key, value) in new[] {
             ("width_mm","1000"), ("height_mm", index is 6 or 7 ? "1600" : "1200"),
@@ -49,11 +54,24 @@ public static class ConcreteTemplateWizard
             ("second_top_diameter","20"), ("second_bottom_diameter","20"), ("second_inner_diameter","20"),
             ("second_top_gap","40"), ("second_bottom_gap","40"), ("second_inner_gap","60") })
             input[key] = value;
+        StadiumDefaults(input, reset: true);
+    }
+
+    private static void StadiumDefaults(JsonObject input, bool reset = false)
+    {
+        foreach (var (key, value) in new[] { ("wizard_stadium_curve_count", "9"),
+            ("wizard_stadium_curve_diameter_mm", "20"), ("wizard_stadium_straight_count", "4"),
+            ("wizard_stadium_straight_diameter_mm", "20") })
+            if (reset || !input.ContainsKey(key)) input[key] = value;
     }
 
     public static ConcreteGeometry Preview(JsonObject draft) => new(new SezioneCA(draft));
     public static string Note(JsonObject draft) => ConcreteTemplateAdapter.Uses(draft)
-        ? "Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. " +
+        ? (draft.S("shape") == "Capsula" ? (ConcreteTemplateAdapter.SeparateStadium(draft)
+          ? "Capsula: conteggi per ciascuna semicirconferenza e per ciascun rettilineo; le barre di tangenza appartengono agli archi. "
+          : "Capsula: disposizione radiale precedente, riferita al centro della sezione. ") +
+          "Disponibili i dettagli generali del pilastro; il confinamento sismico della pila richiede una verifica separata. " : "") +
+          "Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. " +
           "Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. " +
           "L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio."
         : "Disposizione geometrica iniziale. Confermare ancoraggi, bracci efficaci delle staffe e dettagli costruttivi nelle rispettive schede.";

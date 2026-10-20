@@ -28,6 +28,14 @@ internal static class ConcreteTemplateReportFields
             fields.Add(("bottom_flange_width_mm", shape == "Trapezoidale" ? "Base inferiore [mm]" : "Larghezza ala inferiore [mm]"));
         if (shape is "A I" or "A C") fields.Add(("bottom_flange_thickness_mm", "Spessore ala inferiore [mm]"));
         if (shape == "Poligonale regolare") fields.Add(("wizard_polygon_sides", "Numero lati"));
+        if (Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.SeparateStadium(input))
+        {
+            fields.Add(("wizard_stadium_layout", "Disposizione armature"));
+            fields.Add(("wizard_stadium_curve_count", "Barre per arco, tangenti incluse"));
+            fields.Add(("wizard_stadium_curve_diameter_mm", "Ø barre curve [mm]"));
+            fields.Add(("wizard_stadium_straight_count", "Barre interne per rettilineo"));
+            fields.Add(("wizard_stadium_straight_diameter_mm", "Ø barre rettilinei [mm]"));
+        }
         fields.Add(("cover_mm", "Copriferro netto [mm]"));
         return fields.ToArray();
     }

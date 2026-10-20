@@ -64,7 +64,8 @@ public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
     public IReadOnlyList<DetailingCheck> Calculate(ConcreteDetailingInput p)
     {
         var s = p.Section;
-        if (s.Template is not null)
+        var capsulePath = s.Shape == "Capsula" && p.Kind == ConcreteMemberKind.Column ? s.Template?.ColumnBarPath : null;
+        if (s.Template is not null && capsulePath is null)
             throw new ArgumentException("Dettagli della tipologia da wizard: verificare separatamente pareti, ali, ancoraggi e trattenimento delle barre. Le regole automatiche delle sezioni usuali non sono applicate a questa disposizione.");
         int legs = p.Kind == ConcreteMemberKind.Beam && p.HasStirrups
             ? SectionWorkspace.Subdivisions(p.StirrupLegs.ToString(), "rami_y", 2, 100) : 0;
@@ -89,8 +90,17 @@ public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
             new(new(p.SecondarySteelPerMetre, p.SecondarySpacing, p.CriticalSlabRegion), legacyNegativeLinkLegs: false));
         try
         {
-            return NativeDetailing.MemberDetailingCalculator.Calculate(NativeDetailing.DetailingProfile.Ntc2018, input)
-                .Checks.Select(ConcreteDetailingTexts.Translate).ToArray();
+            var result = capsulePath is null
+                ? NativeDetailing.MemberDetailingCalculator.Calculate(NativeDetailing.DetailingProfile.Ntc2018, input)
+                : NativeDetailing.MemberDetailingCalculator.CalculateColumnOnPerimeter(NativeDetailing.DetailingProfile.Ntc2018, input, capsulePath);
+            return result.Checks.Select(c => {
+                var translated = ConcreteDetailingTexts.Translate(c);
+                if (capsulePath is not null && c.Key == "LongitudinalSpacing")
+                    translated = translated with { Explanation = c.Passed.HasValue
+                        ? "Interasse lungo il percorso chiuso degli assi barra, inclusi i tratti curvi discretizzati e la chiusura, ≤ 300 mm."
+                        : "Una o più barre sono fuori dal percorso perimetrale: verificare separatamente l’interasse longitudinale." };
+                return translated;
+            }).ToArray();
         }
         catch (ArgumentException e)
         {

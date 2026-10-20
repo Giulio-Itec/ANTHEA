@@ -37,6 +37,7 @@ internal static class PdfChecks
         }
         foreach (string file in files)
             Compare(Path.ChangeExtension(Path.GetRelativePath(Path.Combine(capture, "raw", "docx"), file), null)!.Replace('\\', '/'), DocxWriter.Read(File.ReadAllBytes(file)));
+        checks += ConcreteStadiumReportChecks.Run(output, Compare);
         File.WriteAllLines(Path.Combine(output, "pdf-report.tsv"), lines);
         // Both files or neither: a page limit exceeded writes nothing
         string folderOut = Path.Combine(output, "pdf-files"); if (Directory.Exists(folderOut)) Directory.Delete(folderOut, true); Directory.CreateDirectory(folderOut);

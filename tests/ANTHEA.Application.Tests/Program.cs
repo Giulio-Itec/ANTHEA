@@ -83,6 +83,7 @@ try
     checks += DocumentFileChecks.Run(output);
     checks += ConcretePersistenceChecks.Run(root, output);
     checks += ConcreteTemplateChecks.Run(output);
+    checks += ConcreteStadiumChecks.Run(output);
     checks += SectionActionInputsChecks.Run();
     checks += DesignActionChecks.Run();
     checks += PileCriticalChecks.Run();

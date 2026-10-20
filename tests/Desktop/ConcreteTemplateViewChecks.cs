@@ -36,6 +36,25 @@ internal static class ConcreteTemplateViewChecks
                 var field = window.Model.Form.Fields.Single(f => f.Key == "wizard_type");
                 var selector = Ui.Descendants<ComboBox>(window).Single(c => c.DataContext is FieldViewModel f && f.Key == "wizard_type");
                 selector.SelectedItem = choice;
+                if (choice == ConcreteTemplateWizard.Choices[7])
+                {
+                    foreach (var (key, value) in new[] {
+                        ("width_mm", "5000"), ("height_mm", "2500"), ("cover_mm", "50"),
+                        ("transverse_bar_diameter_mm", "12"), ("transverse_spacing_mm", "150"),
+                        ("wizard_stadium_curve_count", "17"), ("wizard_stadium_curve_diameter_mm", "32"),
+                        ("wizard_stadium_straight_count", "8"), ("wizard_stadium_straight_diameter_mm", "25") })
+                        window.Model.Form[key].EditText = value;
+                    window.Model.Form.Commit();
+                    window.UpdateLayout();
+                    await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);
+                    Check(window.Model.CanApply && window.Model.Geometry!.Bars.Count == 50,
+                        "Capsula 5000 × 2500: anteprima delle due armature non disponibile.");
+                    Check(Ui.Descendants<TextBox>(window).Any(t => t.IsVisible &&
+                        t.DataContext is FieldViewModel f && f.Key == "wizard_stadium_curve_diameter_mm") &&
+                        Ui.Descendants<TextBox>(window).Any(t => t.IsVisible &&
+                        t.DataContext is FieldViewModel f && f.Key == "wizard_stadium_straight_diameter_mm"),
+                        "Capsula: diametri distinti non modificabili nella vista.");
+                }
                 window.Model.Refresh();
                 window.UpdateLayout();
                 await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);

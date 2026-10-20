@@ -48,6 +48,7 @@ internal static partial class ConcreteSectionSheetChecks
         try
         {
             var expect = new Expect();
+            if (!full) StadiumWizardChecks(expect);
             if (full)
             {
                 await WallSectionsAsync(root, output, expect);
