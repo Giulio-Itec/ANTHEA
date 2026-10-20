@@ -1071,3 +1071,11 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [ ] Collaudo completo, creazione e audit del setup self-contained e degli esempi; tag della revisione esatta della build. Nessun esito della 1.11.1 viene esteso automaticamente a questo rilascio.
 
 - [x] F5-REL-112-01: completato il full (157 PASS, 15 rilievi); isolate e corrette impaginazione dei wizard, transizioni Wiki, due confronti DPI e stato dei campi foro. Ripetizioni concluse: 171 PASS consolidati, solo il blocco Trend Micro del palo verticale rimane aperto. Setup e audit del payload completati da 810b62a6; pubblicazione con riserva subordinata a deroga esplicita. [Verbale](installer-1.12.0.md).
+- [x] Deroga puntuale autorizzata dall'utente il 20 ottobre: pubblicati `refactoring/f5` a 9b242761 e tag annotato `v1.12.0` a 810b62a6, con riserva sul test interrotto da Trend Micro. Installer e tag identificano la stessa build.
+
+## Albero Paratie e capsula come pilastro
+
+- [x] Albero di lavoro MVVM richiudibile: gruppi, navigazione verso editor/caso/fase, aggiornamento delle righe e riferimenti ambigui visibili. 82 controlli aggiunti in Presentation; WPF Paratie 79 PASS. [Dettaglio](paratie-albero.md).
+- [x] Capsula: armature distinte per archi e rettilinei, compatibilità dei documenti precedenti e dettagli generali del pilastro tramite GPC. Cattura del rifiuto precedente, nove geometrie bit-identiche; 3181 PASS nelle librerie, Application 3057, Presentation 3523 e wizard WPF 84. [Dettaglio](capsula-pilastro.md).
+- [x] Guide Rev56 finalizzate e controllate: 264 pagine, 387 formule conservate; 18 originali archiviati. Esempi: 301.420 valori numerici identici e sole versioni/impronte differenti, riprodotte separatamente. Reports 475, Examples 249 e Wiki PASS. Registro F3 editoriale aggiornato dopo diagnosi puntuale; 30 ricerche identiche.
+- [ ] Rilascio 1.12.1 richiesto dall'utente, compreso installer: collaudo conclusivo e confezionamento. Set GPC AC candidato locale: richiesto il permesso di pubblicare Checker 8bf4af33, necessario per produrre lo snapshot ufficiale.

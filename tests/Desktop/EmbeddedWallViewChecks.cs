@@ -16,7 +16,7 @@ using X.Desktop.Views.EmbeddedWalls;
 
 namespace X.Desktop;
 
-internal static class EmbeddedWallViewChecks
+internal static partial class EmbeddedWallViewChecks
 {
     private sealed class CapturedWiki : IWikiNavigator
     {
@@ -52,6 +52,7 @@ internal static class EmbeddedWallViewChecks
         try
         {
             await Settle(); Check(Visual(editor.View).OfType<EmbeddedWallSheetView>().Count() == 1, "Vista XAML non risolta."); Capture("modello");
+            await CheckWorkTree(editor.View, sheet, Settle, Check, Capture);
             var help = Visual(editor.View).OfType<Button>().First(b => b.IsVisible && b.Content as string == "?" && b.DataContext is FieldViewModel);
             var helpField = (FieldViewModel)help.DataContext; var originalNavigator = helpField.Form.WikiNavigator;
             var wiki = new CapturedWiki(); string beforeHelp = sheet.Data.ToJsonString();

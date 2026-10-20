@@ -39,7 +39,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     private string progress = "";
     public EmbeddedWallSheetViewModel(SheetContext context) : base(EmbeddedWallDocument.Module, context)
     {
-        Rebuild(); InitializeSketch(); Report = new SheetReport(this);
+        Rebuild(); InitializeSketch(); InitializeWorkTree(); Report = new SheetReport(this);
         RunCommand = GuardedCommands.CreateAsync(Guard, async c => { await CalculateAsync(c); }, Lifetime, () => !IsBusy);
         CancelCommand = GuardedCommands.Create(Guard, () => { searchCancellation?.Cancel(); CancelCalculation(); }, () => IsBusy);
         SearchEmbedmentCommand = GuardedCommands.CreateAsync(Guard, async c => { await SearchEmbedmentAsync(c); }, Lifetime, () => !IsBusy);
@@ -144,7 +144,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
             () => EmbeddedWallDocument.NewEditingRow(Data, key, InputCase, InputStage?["id"]))).ToArray();
         foreach (var table in Tables) table.PropertyChanged += OnSketchTableSelection;
         inputStage = null;
-        RefreshSketch();
+        RefreshSketch(); RefreshWorkTree();
         InspectorTable = Tables.FirstOrDefault(t => t.Key == selectedTableKey);
         OnPropertyChanged(nameof(General)); OnPropertyChanged(nameof(Hydraulics)); OnPropertyChanged(nameof(Embedment)); OnPropertyChanged(nameof(Tables));
     }
@@ -180,7 +180,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if (e.PropertyName == nameof(Revision) && !storingResult) { searchCancellation?.Cancel(); RestoreResult(); RefreshSketch(); }
+        if (e.PropertyName == nameof(Revision) && !storingResult) { searchCancellation?.Cancel(); RestoreResult(); RefreshSketch(); RefreshWorkTree(); }
         if (e.PropertyName == nameof(CanEdit))
         {
             if (General is not null) General.IsReadOnly = !CanEdit;

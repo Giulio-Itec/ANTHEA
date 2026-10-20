@@ -49,6 +49,7 @@ public sealed partial class EmbeddedWallSheetViewModel
             if (!SetProperty(ref inspectorTable, value)) return;
             if (value?.Key == "stages" && inputStage is not null) value.Selected = inputStage;
             OnPropertyChanged(nameof(ShowGeneral)); OnPropertyChanged(nameof(InspectorTitle)); OnPropertyChanged(nameof(InspectorHint));
+            SyncWorkTreeSelection();
         }
     }
     public bool ShowGeneral => InspectorTable is null;
@@ -91,6 +92,7 @@ public sealed partial class EmbeddedWallSheetViewModel
     private void MoveInputStage(int delta) => InputStage = InputStages.ElementAtOrDefault(InputStageIndex + delta);
     private void OnSketchTableSelection(object? sender, PropertyChangedEventArgs e)
     {
+        if (ReferenceEquals(sender, InspectorTable) && e.PropertyName == nameof(EmbeddedWallTable.Selected)) SyncWorkTreeSelection();
         if (refreshingSketch || sender is not EmbeddedWallTable { Key: "stages", Selected: { } row } || e.PropertyName != nameof(EmbeddedWallTable.Selected)) return;
         string principal = Data["case_id"]?.ToString() ?? "";
         inputCase = string.IsNullOrWhiteSpace(row["case"]) ? principal : row["case"];
