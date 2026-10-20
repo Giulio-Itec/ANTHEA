@@ -12,7 +12,7 @@ public static class DocumentService
     {
         var doc=JsonNode.Parse(File.ReadAllText(path,Encoding.UTF8)) as JsonObject??throw new ArgumentException("Contenuto non riconosciuto.");
         if(doc.S("formato")==Encoding.ASCII.GetString(Convert.FromHexString("414E54484541")))doc["formato"]="X";
-        ProjectRevisions.Unpack(doc); Validate(doc); ProjectRevisions.Validate(doc); return doc;
+        ConcreteDocumentPersistence.Unpack(doc); ProjectRevisions.Unpack(doc); Validate(doc); ProjectRevisions.Validate(doc); return doc;
     }
     public static void Validate(JsonObject doc)
     {
@@ -53,7 +53,7 @@ public static class DocumentService
     }
     public static void Save(string path,JsonObject document)
     {
-        Validate(document); ProjectRevisions.Validate(document); Anthea.Reports.DocumentFile.Write(path,Encoding.UTF8.GetBytes(ProjectRevisions.Pack(document).ToJsonString(J.Options)));
+        Validate(document); ProjectRevisions.Validate(document); Anthea.Reports.DocumentFile.Write(path,Encoding.UTF8.GetBytes(ConcreteDocumentPersistence.Pack(document).ToJsonString(J.Options)));
     }
     public static JsonObject CreateSheet(string module) => Anthea.Application.Modules.ModuleDirectory.CreateData(module);
     public static JsonObject CreateMicropileLayer() => CalculationDefaults.NuovoStratoMicropalo();

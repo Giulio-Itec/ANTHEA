@@ -31,7 +31,7 @@ try
         Check(JsonNode.DeepEquals(original, opened), "Apertura ha migrato la fixture " + fixturePath);
         DocumentService.Save(path, opened);
         Check(before == opened.ToJsonString(), "Salvataggio ha mutato i dati in memoria");
-        Check(JsonNode.DeepEquals(original, DocumentService.Open(path)), "Round trip fixture " + fixturePath);
+        Check(JsonNode.DeepEquals(original, ConcretePersistenceChecks.EditorData(DocumentService.Open(path))), "Round trip fixture " + fixturePath);
     }
     var document = DocumentService.CreateDocument("geo_efficienza_orizzontale");
     DocumentService.Save(path, document);
@@ -81,6 +81,7 @@ try
     Check(rows.SequenceEqual(imported.Rows), "Segni, valori o campi opzionali Excel alterati");
     Check(imported.FormulaCells == 0, "Export a valori contiene formule");
     checks += DocumentFileChecks.Run(output);
+    checks += ConcretePersistenceChecks.Run(root, output);
     checks += SectionActionInputsChecks.Run();
     checks += DesignActionChecks.Run();
     checks += PileCriticalChecks.Run();

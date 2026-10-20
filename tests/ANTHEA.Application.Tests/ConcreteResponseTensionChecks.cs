@@ -22,7 +22,7 @@ internal static class ConcreteResponseTensionChecks
             var document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", "str_palo"), ("dati", data.DeepClone()));
             DocumentService.Save(path, document);
             var opened = DocumentService.Open(path)["dati"]!.AsObject();
-            Check(JsonNode.DeepEquals(opened, document["dati"]), "Round trip del foglio c.a. con «CLS teso nelle risposte» alterato");
+            Check(JsonNode.DeepEquals(ConcretePersistenceChecks.EditorData(opened), document["dati"]), "Round trip del foglio c.a. con «CLS teso nelle risposte» alterato");
             var settings = ConcreteEditor.PrepareWorkspace(opened);
             ConcreteEditor.PrepareParameters(opened["input"]!.AsObject(), settings);
             return (opened, settings["momento_curvatura"]!.AsObject());

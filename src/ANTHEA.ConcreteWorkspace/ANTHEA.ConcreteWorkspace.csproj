@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GpcLibraries>GPCModel;GPC.Model.Persistence</GpcLibraries>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../ANTHEA.Serialization/ANTHEA.Serialization.csproj" />
+  </ItemGroup>
+</Project>

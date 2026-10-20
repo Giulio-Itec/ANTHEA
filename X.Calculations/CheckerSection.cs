@@ -47,6 +47,8 @@ public sealed partial class CheckerSection
     public static CheckerSectionModel PrepareModel(JsonObject input, JsonObject workspace)
     {
         var geometry = new SezioneCA(input);
+        if (Anthea.ConcreteWorkspace.ConcreteSectionArchive.Restore(input, workspace) is { } stored)
+            return new(stored, new CoordinateSystem(stored.Centroid, new Vector3d(-1, 0, 0), new Vector3d(0, -1, 0)), geometry);
         var concrete = ConcreteMaterials.Concrete(input);
         var steel = ConcreteMaterials.Rebar(input);
         var shape = SectionGeometry.Shape(geometry);

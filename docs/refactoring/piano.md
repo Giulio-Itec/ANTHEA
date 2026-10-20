@@ -1049,6 +1049,12 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] Guide globali Rev53 aggiornate: 260 pagine PDF, 387 formule modificabili conservate, indici e Wiki rigenerati. Controllo visivo delle pagine variate e confronto delle restanti; 18 originali Rev52 conservati con SHA-256.
 - [x] Collaudo finale su `b60d5aa4`, albero pulito e invariato: 13 suite mirate PASS, 3433 controlli Presentation, 557 architetturali, 340 Wiki e 3439 Wiki WPF, 69 WPF paratie. Nove JSON numerici e tutte le 13 DLL del set AA identici. Build Release locale ed esempio grafico pronti; nessun nuovo installer o push.
 
+## Sezioni c.a.: persistenza e wizard, richiesta del 20 ottobre 2026
+
+- [x] Persistenza nativa GPC con ricetta editabile, bozze e migrazione dei file precedenti/revisioni storiche. Sette confronti numerici esatti; Application 2870 controlli, Presentation e adattatore rapido PASS. Corretti e ricollaudati i tre rilievi architetturali senza deroghe. [Contratto ed evidenze](sezioni-persistenza.md).
+- [ ] Wizard delle dieci tipologie richieste, compresi doppi strati/anelli, capsula e canale aperto a C; armature trasversali esplicite.
+- [ ] Collaudo consolidato e aggiornamento delle due guide globali con Word/PDF.
+
 ## Rilascio 1.11.1 richiesto il 20 ottobre 2026
 
 - [x] Versione applicativa 1.11.1 assegnata come richiesto dall'utente, con vista grafica paratie e guide Rev53; set GPC AA invariato. Istruzioni installer aggiornate, originali archiviati con SHA-256.

@@ -1609,3 +1609,20 @@ Collaudi conclusi su `5f85ea81` pulito: standard 77 PASS e WPF mirate
 5 PASS. Installer costruito e verificato, con dieci esempi separati;
 il tag `v1.11.1` identifica la build e il verbale successivo resta separato.
 [Rilascio 1.11.1](installer-1.11.1.md).
+
+### Persistenza nativa delle sezioni e wizard, 20 ottobre 2026
+
+Su richiesta dell'utente, il salvataggio conserva le classi GPC della sezione
+mediante il serializer versionato già disponibile, insieme alla ricetta
+editabile. Non si serializza il ViewModel e non si modifica il contratto
+delle librerie. Il file versione 3 distingue modelli validi e bozze;
+la lettura delle versioni precedenti rimane disponibile.
+[Contratto e prove](sezioni-persistenza.md).
+
+Segue l'estensione delle tipologie guidate. L'utente precisa che la forma
+circolare con tratto rettilineo è una capsula, con due semicirconferenze,
+e che la C è un canale aperto con due ali sullo stesso lato. Le nuove
+generazioni geometriche e di armatura appartengono a GPC; l'applicazione
+gestisce parametri, presentazione e persistenza. Le armature a taglio
+richiedono schemi espliciti; non si estendono implicitamente a sezioni aperte
+le verifiche torsionali dei rettangoli e dei cerchi.

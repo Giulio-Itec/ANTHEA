@@ -8043,6 +8043,21 @@
       "voci_collegate": ["PARATIE-16", "F5-LIB-03"]
     },
     {
+      "id": "CA-PERSIST-01",
+      "data": "2026-10-20",
+      "fase": "Presentazione F5 / documenti",
+      "titolo": "Salvataggio nativo GPC delle sezioni in cemento armato",
+      "famiglia": "documenti/sezioni",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Formato file 3 con modello ReinforcedConcreteSection serializzato da ModelArchive e ricetta editabile; migrazione dei file precedenti e delle revisioni storiche; bozze senza modello obsoleto.",
+      "codice": ["src/ANTHEA.ConcreteWorkspace/ConcreteSectionArchive.cs", "src/ANTHEA.Application/Documents/ConcreteDocumentPersistence.cs", "X.Calculations/CheckerSection.cs"],
+      "segno": "Nuovo campo input.sezione_gpc escluso soltanto dal confronto dei metadati legacy, verificato separatamente con sette confronti numerici esatti. Fixture e DLL del set AA invariate.",
+      "decisione": {"data": "2026-10-20", "utente": "Riscrivere il salvataggio delle sezioni in cemento armato salvando le classi GPC.", "esito": "Persistenza implementata e prove mirate superate; collaudo esteso e guide da consolidare con i wizard."},
+      "test": ["ci/20261020-122913-sezioni-persistenza-prima: quattro suite PASS", "ci/20261020-123909-sezioni-persistenza-02: Application, Presentation, ca-data, ca-module e adattatore rapido PASS; tre rilievi architetturali poi corretti", "ci/20261020-124814-sezioni-persistenza-03: cinque suite PASS, Application 2870 controlli", "docs/refactoring/sezioni-persistenza.md"],
+      "voci_collegate": []
+    },
+    {
       "id": "PARATIE-18",
       "data": "2026-10-20",
       "fase": "Rilascio F5",

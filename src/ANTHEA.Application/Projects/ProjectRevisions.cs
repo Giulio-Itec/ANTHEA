@@ -22,6 +22,7 @@ public static class ProjectRevisions
         JsonArray arr => new JsonArray(arr.Select(Canonical).ToArray()), _ => node?.DeepClone()
     };
     private static string Key(JsonNode node) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(Canonical(node)!.ToJsonString())));
+    internal static string DataKey(JsonObject data) => Key(data);
     private static void StoreSheets(JsonObject root, JsonObject pool)
     {
         foreach (var sheet in ProjectSharedData.SubtreeSheets(root))
