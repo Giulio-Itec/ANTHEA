@@ -8086,6 +8086,34 @@
       "decisione": {"data": "2026-10-20", "utente": "Aggiungere le dieci tipologie; capsula con semicirconferenze e tratti rettilinei, C aperta; libertà di aggiungere altre sezioni utili.", "esito": "Implementazione e collaudi locali completati. Parametri efficaci del taglio azzerati e manuali per le tipologie avanzate. Set ufficiale AA invariato; nessun push, merge o installer."},
       "test": ["Checker 894892c1, candidate-02: 3176 PASS, 17 fallimenti Steel preesistenti ammessi; Design 95 e Concrete 795 PASS", "ci/20261020-132024-sezioni-wizard-standard: 72 PASS, tre confronti documentali successivamente corretti; 942254 valori numerici entro tolleranza", "ci/20261020-134337-sezioni-wizard-03: 11 PASS, Application 3045 e WPF 82; dodici roundtrip con geometrie, barre e tensioni SLE identiche", "ci/20261020-135306-sezioni-wizard-finale: Reports 328 e Wiki 340 PASS; due smoke WPF con confronti del formato da adeguare", "ci/20261020-135713-sezioni-wizard-wpf-finale su 0fa316d3 pulito e invariato: build e quattro smoke WPF PASS dopo adeguamento circoscritto dei confronti, 204 controlli workspace c.a.", "Dodici DOCX/PDF geometrici controllati, 29 pagine; guide Rev54 262 pagine e indici verificati, 18 originali archiviati con SHA-256", "docs/refactoring/sezioni-wizard.md"],
       "voci_collegate": ["CA-PERSIST-01"]
+    },
+    {
+      "id": "F5-EXAMPLES-01",
+      "data": "2026-10-20",
+      "fase": "Presentazione F5 / distribuzione",
+      "titolo": "Catalogo esempi per modulo e copie di lavoro",
+      "famiglia": "interfaccia/distribuzione",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "52 esempi versionati in 15 sottocartelle, catalogo unico con SHA-256, pagina MVVM Esempi e componente NSIS facoltativo selezionato inizialmente. Apertura come copia senza percorso, anche da Explorer; salvataggio escluso nella cartella distribuita.",
+      "codice": [
+        "src/ANTHEA.Application/Examples/ExampleCatalog.cs",
+        "src/ANTHEA.Presentation/Examples/ExampleLibraryViewModel.cs",
+        "X.Desktop/Wpf/MainWindow.Examples.cs",
+        "supporto/installer/Esempi.ps1"
+      ],
+      "segno": "Nessuna modifica ai calcoli GPC o agli attesi. Esempi derivati da casi esistenti con adattamenti dichiarati nel catalogo; dodici modelli da wizard distinti dalle verifiche complete.",
+      "decisione": {
+        "data": "2026-10-20",
+        "utente": "Includere esempi nell’installer e alcuni casi per ogni modulo, separati correttamente dentro ANTHEA.",
+        "esito": "Catalogo, copie di lavoro, installer e guide Rev55."
+      },
+      "test": [
+        "ci/20261020-144818-esempi-07: architettura 562, Wiki 340, WPF 20 e installer 120 controlli PASS",
+        "ci/20261020-144954-esempi-08: tutti i 52 esempi apribili e salvabili; 37 calcoli completi senza errori; rifiuti del catalogo e ViewModel PASS",
+        "Guide Rev55: 263 pagine, 387 formule Word invariate e 18 originali archiviati con SHA-256",
+        "docs/refactoring/esempi.md"
+      ]
     }
   ]
 }

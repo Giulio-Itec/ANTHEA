@@ -1651,3 +1651,17 @@ eseguite. Per il rilascio ufficiale servono merge/push del Checker su master,
 set coerente non candidato e collaudo full dopo l'aggiornamento delle DLL.
 Il numero di versione non costituisce autorizzazione esplicita al push;
 le operazioni Git esterne restano soggette alle regole del repository.
+
+L'utente ha successivamente autorizzato esplicitamente integrazione e push
+di Checker/master e ANTHEA/refactoring/f5, con tag v1.12.0. Checker `894892c1`
+è pubblicato; il set ufficiale AB è stato prodotto con tutte le suite e
+installato, con SHA identici al candidato. Nessuna autorizzazione ulteriore
+è necessaria per queste operazioni.
+
+L'utente chiede anche esempi nell'installer e alcuni casi per ciascun modulo,
+ordinati dentro ANTHEA. Un catalogo unico versionato raccoglie 52 file in
+15 sottocartelle. La pagina Esempi usa metadati Application e ViewModel senza
+WPF; le viste aprono copie indipendenti. Gli originali installati non sono
+destinazioni di salvataggio. Il componente NSIS è facoltativo e selezionato
+inizialmente. Le guide passano alla Rev55; teoria e formule restano invariate.
+I modelli geometrici da wizard dichiarano i dati e le verifiche da completare.

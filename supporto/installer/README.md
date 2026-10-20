@@ -23,7 +23,7 @@ Lo script:
 
 5. compila `ANTHEA.nsi` con makensis.
 
-Opzioni: `-SkipPublish` riusa la pubblicazione già presente, aggiornando comunque guide e collegamenti,
+Opzioni: `-SkipPublish` riusa la pubblicazione già presente, aggiornando comunque guide, esempi e collegamenti,
 `-MakeNsis <percorso>` indica makensis, `-OutputDirectory <cartella>` sposta il risultato.
 
 ## Versione
@@ -39,12 +39,20 @@ Il setup sostituisce anche una versione installata più recente, senza conferma.
 ## Cosa fa il setup
 
 - **Per tutti gli utenti** in `C:\Program Files\ANTHEA` (richiede l'amministratore) oppure **solo per l'utente corrente** in `%LOCALAPPDATA%\Programs\ANTHEA`, senza diritti di amministratore. Un utente senza diritti installa direttamente per sé.
-- Componenti obbligatori: programma e documentazione completa in PDF con collegamenti nel menu Start. Componenti selezionabili: collegamento sul desktop, apertura dei file `.anthea` e `.programma` con doppio clic. Un'eventuale associazione precedente viene salvata e ripristinata alla disinstallazione.
+- Componenti obbligatori: programma e documentazione completa in PDF con collegamenti nel menu Start. Componenti selezionabili: esempi per tutti i moduli (selezionati inizialmente), collegamento sul desktop, apertura dei file `.anthea` e `.programma` con doppio clic. Un'eventuale associazione precedente viene salvata e ripristinata alla disinstallazione.
 - Se ANTHEA è aperta, anche da un'altra cartella, il setup si blocca prima di disinstallare o cancellare file. Chiudere tutte le finestre e riavviare il setup. Il blocco vale anche in modalità silenziosa (codice 10); il setup non chiude forzatamente l'applicazione.
 - Aggiornamento: una versione già installata viene rimossa con il suo disinstallatore; prima della copia, viene poi eliminato **tutto il contenuto della cartella di destinazione**, comprese vecchie DLL, sottocartelle e file aggiunti dall'utente. Conservare progetti, modelli e report fuori dalla cartella del programma.
 - La destinazione deve essere una cartella locale dedicata di nome ANTHEA, una cartella nuova oppure un'installazione precedente riconosciuta. Il setup rifiuta percorsi di sistema o profilo e collegamenti nelle cartelle da attraversare o pulire (codice 11). Una pulizia incompleta blocca la copia dei nuovi file (codice 12).
 - Se un file non può essere scritto, l'installazione si interrompe con un errore (codice 2) invece di risultare riuscita.
 - La disinstallazione, da «App installate» o `Uninstall.exe`, elimina soltanto i file installati, i collegamenti e le chiavi di registro scritte dal setup. Altri file salvati dall'utente nella cartella del programma non vengono eliminati.
+
+## Esempi distribuiti
+
+Il componente **Esempi per tutti i moduli** installa 52 file nella cartella `Esempi`, suddivisi per modulo, e il collegamento Esempi nel menu Start. Dentro ANTHEA si consultano dalla pagina **Esempi** e si aprono come copie senza percorso; il primo salvataggio richiede una destinazione personale. Il componente è facoltativo, selezionato per impostazione iniziale.
+
+La fonte unica è `supporto/esempi/distribuzione/catalogo.json`, con percorso, modulo, descrizione, provenienza e SHA-256 di ciascun file. `Esempi.ps1` verifica integrità e percorsi prima della build e genera elenchi espliciti per installazione e rimozione. I file sono versionati insieme al catalogo. I casi geometrici da wizard indicano nella descrizione le verifiche ancora da completare.
+
+`tests/Installer/Test-Examples.ps1` collauda la sezione reale NSIS in una destinazione isolata, inclusi collegamento, integrità e rimozione che conserva i file personali. Il runner lo esegue con `-Installer`.
 
 ## Documentazione distribuita
 
@@ -54,7 +62,7 @@ La cartella `Guide` accanto ad `ANTHEA.exe` contiene tre PDF:
 - `Guida pratica ANTHEA.pdf`: uso e UI di tutti i moduli;
 - `Guida teorica ANTHEA.pdf`: teoria, formule, ipotesi e limiti di tutti i moduli.
 
-Tutti gli approfondimenti sono incorporati nelle due guide globali Rev54. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
+Tutti gli approfondimenti sono incorporati nelle due guide globali Rev55. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
 
 Per i nuovi argomenti aggiornare i due volumi, i PDF corrispondenti e l’indice. Per casi particolari chiedere all’utente prima di creare un documento autonomo. `Guide.json` contiene soltanto l’indice; i due manuali sono selezionati automaticamente alla revisione più recente.
 

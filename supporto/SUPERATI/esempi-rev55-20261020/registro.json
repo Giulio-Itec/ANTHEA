@@ -1,0 +1,92 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "17221fc51d674a0fc58b2527cb80a4c0b5ca77fbb677a5560e735a699f2ac152",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "1d0fa0c69e9fe43855ab5aa1b570a1b9b856b6eee93bf90065a3decef2ce2b4a",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "412b58b4c97c8a98c33a42be990ef1b6905b5dcade777bd7b025b243e928bc33",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "59216d5cd9df6ed6d39291e594aeac209345a58ec18838ae5403da8cf3d6bb3f",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev54.docx",
+    "sha256": "3c25fde681fe88260d1123dad535a12fc7caa908b156b3e8567fc187f53a7f3a",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev54.pdf",
+    "sha256": "1d0fa0c69e9fe43855ab5aa1b570a1b9b856b6eee93bf90065a3decef2ce2b4a",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev54.docx",
+    "sha256": "0b15aeba93bd590b65ac8003f20fc7406f30cbb7d070f0fe2eff80a1c49b7910",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev54.pdf",
+    "sha256": "59216d5cd9df6ed6d39291e594aeac209345a58ec18838ae5403da8cf3d6bb3f",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/README.md",
+    "sha256": "88e3dd111c91b90950c38b78aa0e4f0232e266c05383eb65c6cd492c75bb3705",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "sha256": "5432c2cea9580c0a3500a0aa5d26330a575b6e460b50a751cb9ce08faff3cd2d",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "sha256": "70f54cf28e5f92908209ec4e12d63069ecc8e20b0e70e11890cd54ba426d2ebe",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "sha256": "f3c5040f2bb4679e60a55c330574e6ca31ec8f518052c7f8860a9f508a9a2f1f",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "sha256": "a59b57354b3c017caa77a4b23be605d81bf9cf910f647afa54bcc5063e169825",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "sha256": "a75710283113ebc26ade228a2196ba568070d02a39b15762135a123f0a4f5e88",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "ac19ea668a4cc7cb855cf235c2916da6360dcd013f2af0e3341e90685e45bdae",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "e48681f0cffdc1e4baac31c6e671896b33e728bdfb1c0c32ba4eb8e2b4a6d386",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/scripts/Build-AntheaGuides-Itec.py",
+    "sha256": "62c78b6d97df9845e91a44364a3e9b611e37e8f151d9fe86e72bf370283a9e76",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  },
+  {
+    "origine": "supporto/scripts/Render-AntheaGuides-Itec.ps1",
+    "sha256": "fa53438e4f12c392341b7d4fcf4209d67ff93ab9b27abf51110b218de0966eaf",
+    "motivo": "Sostituito dalla Rev55: catalogo esempi e distribuzione."
+  }
+]

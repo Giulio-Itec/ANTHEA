@@ -1055,7 +1055,7 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] Wizard delle dieci tipologie richieste, compresi doppi strati/anelli, capsula e canale aperto a C; aggiunti trapezio e poligono regolare. Generatori in GPC.Design, anteprima MVVM e staffe esplicite. Per le tipologie avanzate i parametri efficaci del taglio sono manuali e azzerati alla conferma. [Implementazione, limiti ed evidenze](sezioni-wizard.md).
 - [x] Collaudo consolidato: standard 72 PASS e tre confronti documentali corretti e rieseguiti; successiva esecuzione 11 PASS, Application 3045 e WPF 82 controlli. Dodici confronti esatti delle tensioni prima/dopo il reload; guide globali Rev54, 262 pagine PDF, Word e indici controllati, 18 originali archiviati.
 - [x] Chiusura su revisione pulita: Reports 328 e Wiki 340 controlli; ulteriori confronti WPF adeguati al nuovo formato e quattro smoke superati su `0fa316d3` (generale, gerarchia, riordino, condivisione), compresi 204 controlli del workspace c.a. Nessun nuovo fallimento ammesso.
-- [ ] Distribuzione ufficiale delle nuove librerie: per ora set candidato coerente locale a Checker `894892c1`, selezionato tramite `-GpcLibDir`. Set AA ufficiale invariato; push, merge e nuovo installer non richiesti in questa attività.
+- [x] Distribuzione delle librerie autorizzata con la richiesta successiva della 1.12.0: Checker `894892c1` integrato e pushato su master; set ufficiale AB installato dopo tutte le suite Model/Checker (3176 PASS, stessi 17 fallimenti Steel censiti). Collaudo ANTHEA full nella chiusura del rilascio.
 
 ## Rilascio 1.11.1 richiesto il 20 ottobre 2026
 
@@ -1066,5 +1066,6 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 ## Rilascio 1.12.0 richiesto il 20 ottobre 2026
 
 - [x] Versione 1.12.0 assegnata su richiesta dell'utente, comprendente persistenza nativa GPC, dodici wizard delle sezioni e guide Rev54; istruzioni installer e PDF aggiornati, predecessori archiviati con SHA-256.
-- [ ] Pubblicazione delle nuove librerie da Checker `894892c1`, set coerente e aggiornamento ufficiale di `lib/Checker`. Merge/push richiedono l'autorizzazione esplicita prevista da AGENTS.md.
+- [x] Autorizzazione esplicita ricevuta per Checker/master, ANTHEA/refactoring/f5 e tag v1.12.0. Checker pubblicato, set AB non candidato prodotto e installato; 14 DLL identiche al candidato collaudato, 13 distribuite in ANTHEA.
+- [x] Catalogo unico di 52 esempi per 15 moduli, organizzati in sottocartelle e pagina MVVM Esempi. Apertura come copia indipendente, anche da Explorer; componente NSIS facoltativo selezionato inizialmente. 249 controlli del catalogo e 37 calcoli completi PASS, WPF 20 e installer 120; guide Rev55 controllate, 263 pagine e 387 formule conservate. [Dettaglio](esempi.md).
 - [ ] Collaudo completo, creazione e audit del setup self-contained e degli esempi; tag della revisione esatta della build. Nessun esito della 1.11.1 viene esteso automaticamente a questo rilascio.

@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 54
+Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 55
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -138,6 +138,16 @@ La scelta è salvata nel profilo Windows e ripristinata al prossimo avvio. Non f
 | Acciaio per armature | Quali proprietà e diagramma usare per l'armatura | Classe o dati personalizzati e coefficienti |
 
 Le altre voci eventualmente presenti nel catalogo possono essere predisposizioni. Una scheda di materiali non verifica una sezione. La sezione composta non analizza un intero ponte; Bridge Design non trasferisce automaticamente un modello verificato alla sezione composta. Per passare dall'uno all'altro occorre scegliere la sezione locale, assegnare le azioni da un'analisi appropriata e controllare nuovamente le unità.
+
+### Esempi organizzati per modulo
+
+Aprire **Esempi** dalla barra laterale oppure **File → Apri esempio…**. La colonna sinistra raggruppa i file per modulo; quella destra mostra i casi disponibili. Selezionare un caso e leggere la descrizione prima di premere **Apri una copia**. Il catalogo comprende almeno due casi per ognuno dei quindici moduli, tre casi Spettri con isolamento e pendolo, nove esempi di paratie e dodici modelli geometrici da wizard per le sezioni in calcestruzzo armato.
+
+Il documento aperto è una copia indipendente senza percorso di salvataggio. **Salva** richiede una destinazione nella cartella dei propri lavori. Anche il doppio clic su un esempio installato apre una copia; il programma impedisce di salvare dentro la cartella degli esempi distribuiti. Prima di sostituire un documento modificato viene chiesta la conferma consueta.
+
+Gli esempi di calcolo illustrano gli input e i risultati del relativo modulo: un controllo non soddisfatto resta visibile e non viene trasformato in un esito positivo. Le stratigrafie sono esempi di dati. I casi **Wizard** sono modelli geometrici con barre e staffe schematiche: completare le azioni, i parametri manuali del taglio e le verifiche dei dettagli secondo le indicazioni del capitolo sulle sezioni. Non sono progetti esecutivi.
+
+Nell’installer il componente **Esempi per tutti i moduli** è selezionato inizialmente e può essere escluso. I file sono raccolti nella cartella **Esempi**, suddivisi per modulo, accanto al programma; il menu Start contiene il collegamento alla cartella. Se il componente è assente, la pagina indica di rieseguire l’installer selezionandolo. Gli esempi e le due guide sono utilizzabili senza connessione.
 
 ### Leggere e compilare i campi
 
