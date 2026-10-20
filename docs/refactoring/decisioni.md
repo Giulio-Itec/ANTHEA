@@ -1589,3 +1589,18 @@ Lo spessore disegnato e le lunghezze dei simboli sono esplicitamente
 schematici. Rendering e selezione sono WPF; proiezione e navigazione sono
 Presentation. Le verifiche Concrete/Steel e il set GPC AA non cambiano.
 [Implementazione e prove](../paratie/interfaccia-grafica.md).
+
+### Versione 1.11.1 richiesta il 20 ottobre 2026
+
+L'utente autorizza «ricompila, pusha, versione 1.11.1 e crea installer».
+Si usa il numero richiesto, includendo l'interfaccia grafica già collaudata
+e le guide Rev53. Non cambia alcuna DLL del set GPC AA: il rilascio non
+include i kernel ancora locali delle librerie. Integrazione sul ramo F5
+già autorizzata; il tag della versione identificherà il commit esatto della
+build, con eventuale verbale successivo separato.
+
+Controlli previsti: standard completo, WPF mirate su paratie e Wiki,
+prove isolate di sicurezza/documentazione dell'installer e audit del
+contenuto estratto. Non si modifica l'installazione dell'utente.
+Le tre prove ambientali aperte della 1.11.0 non vengono dichiarate superate
+da questo collaudo; non si amplia la lista dei fallimenti ammessi.

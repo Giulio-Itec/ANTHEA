@@ -1,0 +1,14 @@
+[
+  {
+    "origine": "supporto/installer/README.md",
+    "sha256": "266A9FB427F1999D4B73AF2CA76BC1A98655C36E51B660C9441808F819708D86",
+    "motivo": "Aggiornamento istruzioni installer alla versione 1.11.1 richiesta dall utente",
+    "sostituzione": "Stesso percorso, versione 1.11.1 del 20 ottobre 2026"
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "sha256": "CB861F4AE63F0EAF359E96BE8FC30F291BCD4134BF92F4E132D5724C15D04D33",
+    "motivo": "Aggiornamento istruzioni installer alla versione 1.11.1 richiesta dall utente",
+    "sostituzione": "Stesso percorso, versione 1.11.1 del 20 ottobre 2026"
+  }
+]

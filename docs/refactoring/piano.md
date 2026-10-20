@@ -1048,3 +1048,9 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] PARATIE-17: disegno degli input ed editor affiancati in Modello, navigazione per caso/fase, selezione grafica e aggiunta contestuale delle righe. Modifiche di scavo e falda visibili senza cambiare scheda. Collaudati reload, fasi omonime, input geometrici invalidi, tema scuro e finestra compatta; invariati nove JSON numerici. [Dettaglio](../paratie/interfaccia-grafica.md).
 - [x] Guide globali Rev53 aggiornate: 260 pagine PDF, 387 formule modificabili conservate, indici e Wiki rigenerati. Controllo visivo delle pagine variate e confronto delle restanti; 18 originali Rev52 conservati con SHA-256.
 - [x] Collaudo finale su `b60d5aa4`, albero pulito e invariato: 13 suite mirate PASS, 3433 controlli Presentation, 557 architetturali, 340 Wiki e 3439 Wiki WPF, 69 WPF paratie. Nove JSON numerici e tutte le 13 DLL del set AA identici. Build Release locale ed esempio grafico pronti; nessun nuovo installer o push.
+
+## Rilascio 1.11.1 richiesto il 20 ottobre 2026
+
+- [x] Versione applicativa 1.11.1 assegnata come richiesto dall'utente, con vista grafica paratie e guide Rev53; set GPC AA invariato. Istruzioni installer aggiornate, originali archiviati con SHA-256.
+- [ ] Ricompilazione, profilo standard, collaudi WPF mirati e prove installer sulla revisione pulita.
+- [ ] Installer self-contained, verifica del contenuto, integrazione in F5, tag e push autorizzati.

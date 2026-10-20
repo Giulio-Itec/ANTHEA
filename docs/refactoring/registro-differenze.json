@@ -8041,6 +8041,21 @@
       "decisione": {"data": "2026-10-20", "utente": "Modulo poco intuitivo; modificare i dati vedendo il disegno e la sua evoluzione per fasi.", "esito": "Editor e disegno affiancati, vista tabellare aggiuntiva; anteprima distinta dal calcolo."},
       "test": ["grafica-check02: Presentation 3430 controlli PASS", "grafica-check04: Architecture 557 e WPF paratie 69 controlli PASS", "grafica-finale su b60d5aa4 pulito e invariato: 13 suite PASS, Presentation 3433, Architecture 557, Wiki 340, Wiki WPF 3439 e WPF paratie 69", "Nove JSON numerici identici; 13 DLL identiche al set AA; guide Rev53 260 pagine e 387 formule, 18 originali archiviati con SHA-256", "docs/paratie/interfaccia-grafica.md"],
       "voci_collegate": ["PARATIE-16", "F5-LIB-03"]
+    },
+    {
+      "id": "PARATIE-18",
+      "data": "2026-10-20",
+      "fase": "Rilascio F5",
+      "titolo": "Versione 1.11.1 con interfaccia grafica delle paratie",
+      "famiglia": "interfaccia/rilascio",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Numero di versione 1.11.1 richiesto esplicitamente dall'utente. Distribuzione della sezione grafica affiancata all'editor, con evoluzione per fase e guide Rev53.",
+      "codice": ["X.Desktop/X.Desktop.csproj", "supporto/installer/README.md"],
+      "segno": "Solo versione applicativa e documentazione di rilascio rispetto a PARATIE-17; set AA e verifiche Concrete/Steel invariati.",
+      "decisione": {"data": "2026-10-20", "utente": "Ricompila, pusha, versione 1.11.1 e crea installer.", "esito": "Preparazione della versione e autorizzazione alla pubblicazione; collaudi e confezionamento da registrare."},
+      "test": ["Istruzioni installer: PDF di tre pagine aggiornato e controllato visivamente; due originali archiviati con SHA-256"],
+      "voci_collegate": ["PARATIE-17", "F5-LIB-03"]
     }
   ]
 }
