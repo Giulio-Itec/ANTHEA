@@ -9,7 +9,7 @@
     <AssemblyName>ANTHEA</AssemblyName>
     <Product>ANTHEA</Product>
     <Title>ANTHEA</Title>
-    <Version>1.11.1</Version>
+    <Version>1.12.0</Version>
     <Company>ITEC Engineering</Company>
     <Copyright>© 2026 ITEC Engineering</Copyright>
     <ApplicationManifest>app.manifest</ApplicationManifest>

@@ -1062,3 +1062,9 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] Versione applicativa 1.11.1 assegnata come richiesto dall'utente, con vista grafica paratie e guide Rev53; set GPC AA invariato. Istruzioni installer aggiornate, originali archiviati con SHA-256.
 - [x] Ricompilazione e collaudi su `5f85ea81`, pulito e invariato: standard completo con installer 77 PASS; WPF mirate 5 PASS. Presentation 3433, Spettri 1566, paratie WPF 69; nove JSON numerici invariati.
 - [x] Installer self-contained 1.11.1 creato: 325 file applicativi, 13 DLL AA e tre PDF Rev53 verificati per SHA-256; dieci esempi nello ZIP. [Verbale e impronte](installer-1.11.1.md). Tag della build `v1.11.1`; integrazione e pubblicazione in F5 autorizzate. Le tre prove ambientali precedenti e la matrice funzionale restano aperte.
+
+## Rilascio 1.12.0 richiesto il 20 ottobre 2026
+
+- [x] Versione 1.12.0 assegnata su richiesta dell'utente, comprendente persistenza nativa GPC, dodici wizard delle sezioni e guide Rev54; istruzioni installer e PDF aggiornati, predecessori archiviati con SHA-256.
+- [ ] Pubblicazione delle nuove librerie da Checker `894892c1`, set coerente e aggiornamento ufficiale di `lib/Checker`. Merge/push richiedono l'autorizzazione esplicita prevista da AGENTS.md.
+- [ ] Collaudo completo, creazione e audit del setup self-contained e degli esempi; tag della revisione esatta della build. Nessun esito della 1.11.1 viene esteso automaticamente a questo rilascio.

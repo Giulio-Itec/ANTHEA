@@ -1638,3 +1638,16 @@ con versioni di fix delle altre DLL ricompilate. Le prove ANTHEA selezionano
 lo staging con `-GpcLibDir`; il set AA ufficiale rimane invariato. Guide
 Rev54 e confronti indipendenti consolidati; nessun push o merge autorizzato
 per questa attività. [Verbale e limiti](sezioni-wizard.md).
+
+### Versione 1.12.0 richiesta il 20 ottobre 2026
+
+L'utente chiede «crea versione 1.12.0 di anthea». Si usa il numero richiesto,
+includendo la persistenza GPC e i dodici wizard collaudati sul ramo derivato
+da F5. Le guide restano Rev54. La migrazione dei documenti è documentata:
+il salvataggio nel formato nuovo non è leggibile dalle versioni precedenti.
+
+Il candidato delle librerie è Checker `894892c1`, con tutte le suite già
+eseguite. Per il rilascio ufficiale servono merge/push del Checker su master,
+set coerente non candidato e collaudo full dopo l'aggiornamento delle DLL.
+Il numero di versione non costituisce autorizzazione esplicita al push;
+le operazioni Git esterne restano soggette alle regole del repository.
