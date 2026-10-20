@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 53
+Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 54
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1073,11 +1073,40 @@ Usalo quando disponi delle terne N, Mx e My per le combinazioni rilevanti e vuoi
 
 [Teoria del modello Beam e trasferimento delle azioni](/wiki/manuale/fem/elementi-beam)
 
+### Salvataggio e riapertura della sezione
+
+Il documento conserva il modello della sezione con geometria, materiali, barre e trefoli, insieme ai parametri necessari a modificarlo. Le combinazioni e le impostazioni delle verifiche rimangono nel foglio; le mesh e i risultati temporanei vengono ricalcolati. Una modifica della ricetta geometrica o dei trefoli richiede l'aggiornamento del modello.
+
+I documenti precedenti restano apribili e vengono convertiti al nuovo formato al salvataggio. Conserva una copia se devi riaprirli con una versione precedente di ANTHEA. I dati incompleti si salvano come bozza: il foglio mantiene i valori digitati e il motivo per cui non può ancora costruire una sezione valida. Anche le revisioni storiche conservano la propria sezione.
+
+### Wizard delle tipologie e delle armature
+
+Nel pannello di controllo apri **Wizard tipologie / modifica disposizione…**. Scegli la tipologia, assegna dimensioni e armature e controlla l'anteprima affiancata. **Applica sezione** valida anche la compatibilità con i trefoli già presenti nel foglio. **Annulla** lascia invariati i dati. Per modificare una disposizione tipologica riapri lo stesso wizard; le coordinate delle barre restano modificabili nella tabella.
+
+| Tipologia | Disposizione iniziale |
+| --- | --- |
+| Rettangolare | Due file superiori e due inferiori; numero, diametro e interferro delle seconde file indipendenti |
+| Rettangolare cava | Barre sui contorni esterno e interno; staffe nelle quattro pareti |
+| Circolare | Due anelli con numero, diametro e interferro radiale assegnati |
+| Circolare cava | Anello esterno e interno rispetto al foro; due staffe circolari |
+| A T | Barre superiori, inferiori e laterali; staffe di anima e ala |
+| A I | Ali superiore e inferiore anche diverse; armatura perimetrale e staffe distinte di anima e ali |
+| Ellittica | Barre a incrementi angolari uguali, sul contorno interno utile |
+| Capsula | Due semicirconferenze unite da tratti rettilinei; barre radiali rispetto al centro |
+| A L | Due bracci ortogonali; armatura perimetrale e staffe dei singoli bracci |
+| A C | Canale aperto, anima e due ali sullo stesso lato |
+| Trapezoidale | Basi parallele centrate; barre perimetrali e staffa aderente |
+| Poligonale regolare | Da 3 a 32 lati; diametro circoscritto, barre perimetrali e staffa aderente |
+
+Per le armature perimetrali assegna il passo massimo tra gli assi; il generatore inserisce le barre agli spigoli e suddivide i lati. Per le disposizioni radiali assegna il numero di barre. Il copriferro è netto, misurato alla superficie esterna della staffa. Il disegno verifica la collocazione geometrica; i tratti di staffa sono schematici e non rappresentano ganci e raggi di piegatura esecutivi.
+
+Le nuove tipologie e le disposizioni cave a doppio contorno richiedono **parametri manuali del taglio**: assegnare bw, d e, quando richiesto, Asl, oltre ai bracci efficaci nelle due direzioni. Il wizard svuota i valori della sezione precedente. Ripartizione del taglio tra pareti, ancoraggio e trattenimento delle barre vanno verificati esplicitamente. I dettagli automatici e la ricerca automatica delle armature delle sezioni usuali non vengono applicati a queste disposizioni. Il modello torsionale automatico rimane limitato a rettangolo e cerchio; un profilo aperto richiede un modello dedicato.
+
 ### Input geometria e unità
 
 | Dato | Unità | Significato e controllo |
 | --- | --- | --- |
-| Sezione | scelta | Circolare, Rettangolare, A T; la sezione generica richiede un contorno definito |
+| Sezione | scelta | Sezioni usuali e dodici tipologie da wizard; contorno e armatura devono essere compatibili |
 | b e h | mm | Larghezza e altezza positive della sezione rettangolare |
 | D | mm | Diametro positivo della sezione circolare |
 | bf, bw, hf | mm | Ala, anima e spessore ala della T; bw non supera bf e hf è inferiore a h |

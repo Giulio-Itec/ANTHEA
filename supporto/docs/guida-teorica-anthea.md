@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 53
+Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 54
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -460,9 +460,21 @@ L'ultimo rapporto va valutato con N e Npl nelle stesse unità; i risultati di fo
 
 ## Sezione in calcestruzzo armato
 
+### Geometrie tipologiche e costruzione delle armature
+
+I wizard aggiungono sezioni a I, L e C aperta, ellittiche, a capsula, trapezoidali e poligonali regolari, oltre alle disposizioni a doppia fila o doppio anello e ai due contorni delle sezioni cave. Per i profili aperti il calcestruzzo segue il contorno reale: l'inviluppo rettangolare non è una regione resistente. L'origine delle nuove geometrie coincide con il baricentro del calcestruzzo.
+
+L'asse delle barre viene costruito sul contorno arretrato di copriferro netto, diametro della staffa e raggio della barra. Presso un foro l'arretramento è diretto verso il calcestruzzo. Sugli spigoli vengono mantenute barre di vertice, mentre ogni lato viene suddiviso rispettando il passo massimo assegnato. Ellisse, capsula e anelli cavi usano intersezioni tra raggi a incrementi angolari uguali e contorno utile: l'interasse lungo la curva non è necessariamente costante.
+
+La capsula è composta da due semicirconferenze e due tratti rettilinei, con estremità lungo la dimensione maggiore. La sezione a C è aperta, con anima e ali dallo stesso lato; la I ammette larghezze e spessori diversi delle due ali. Il poligono regolare è definito mediante numero di lati e diametro circoscritto. Le curve vengono discretizzate in poligoni dal modello geometrico; la verifica della discretizzazione resta distinta da quella degli equilibri della sezione.
+
+Le staffe seguono percorsi contenuti nel calcestruzzo. Nei profili composti da pareti rettangolari vengono proposti anelli distinti per anima e ali o per le quattro pareti cave. Il controllo geometrico del copriferro non dimostra il corretto ancoraggio, la piegatura, il trattenimento di ogni barra o la ripartizione del taglio. I percorsi disegnati non determinano automaticamente i bracci efficaci del modello resistente. Per le nuove disposizioni tali quantità e i parametri bw, d e Asl devono essere assegnati e giustificati; dettagli automatici e ottimizzazione delle armature restano fuori campo.
+
+Il modello nativo salvato conserva materiali, geometria e armature discrete. La ricetta editabile e gli input delle verifiche restano separati. Le mesh non sono archiviate come risultati permanenti: vengono ricostruite dal motore. Una bozza incompleta non contiene una precedente sezione valida, che potrebbe risultare incoerente con gli input mostrati.
+
 ### Geometria e deformazioni piane
 
-Sono disponibili sezioni rettangolari, circolari e a T, con fori centrali per le forme supportate. Il contorno circolare è discretizzato mediante un poligono con numero di lati configurabile. Le aree dei vuoti sono escluse e le barre incompatibili con il contorno o interne ai vuoti vengono rifiutate.
+Sono disponibili le sezioni usuali e le tipologie guidate descritte sopra, con fori centrali per le forme supportate. Il contorno circolare è discretizzato mediante un poligono con numero di lati configurabile. Le aree dei vuoti sono escluse e le barre incompatibili con il contorno o interne ai vuoti vengono rifiutate.
 
 L'ipotesi cinematica è una distribuzione piana delle deformazioni. Indicando con ε0 la deformazione al riferimento e con kx e ky i gradienti, la deformazione in un punto è una funzione affine delle coordinate. Le convenzioni dei gradienti e dei momenti sono trasformate nel sistema di riferimento esposto dal foglio.
 

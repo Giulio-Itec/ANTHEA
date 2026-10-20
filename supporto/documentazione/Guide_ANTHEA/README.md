@@ -1,11 +1,13 @@
 # Guide globali ANTHEA
 
-Edizione 6, 20 ottobre 2026. Guide pratica e teorica Rev53. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 20 ottobre 2026. Guide pratica e teorica Rev54. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev53.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev53.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev53.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev53.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev54.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev54.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev54.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev54.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+
+La Rev54 integra salvataggio nativo GPC delle sezioni e dodici tipologie da wizard, con limiti delle staffature e del taglio espliciti. Gli originali Rev53 sono in `supporto/SUPERATI/sezioni-rev54-20261020/`.
 
 La Rev53 aggiunge la sezione grafica modificabile delle paratie, con navigazione per caso e fase ed editor affiancato. I 18 originali sostituiti sono conservati con SHA-256 in `supporto/SUPERATI/paratie-grafica-rev53-20261020/`.
 

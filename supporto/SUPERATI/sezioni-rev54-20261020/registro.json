@@ -1,0 +1,92 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "1fb37a3db112b944065e51580a8de6b0da0b1323ca1da842bc0eef8513aaec51",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "a9a6e4e9424ca6fbab8e0fe5581b57f2c18c039c0755a92ab79ad8de5ed09178",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "651dc6b2579ab8d377e164727f176fa0189b0bb33c696211e11ef01a49f1bc24",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "9334337b6eed7c76ddb151460a82564aef114c429f70c839b7da747aa0621b18",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev53.docx",
+    "sha256": "690cbba8ef42f734df9fc6498fe08eb65927baa287ede6e77a5ad465ae2759b7",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev53.pdf",
+    "sha256": "a9a6e4e9424ca6fbab8e0fe5581b57f2c18c039c0755a92ab79ad8de5ed09178",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev53.docx",
+    "sha256": "e1444008b0bf972fb91fb3bf924211deed7f1c12c0ea837b39bb41619bd62892",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev53.pdf",
+    "sha256": "9334337b6eed7c76ddb151460a82564aef114c429f70c839b7da747aa0621b18",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/README.md",
+    "sha256": "2354da5ca30c809ecc68799823e33cd946e5e2f37b9aff8c516c79b187fd9222",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "sha256": "921b5b4a223346cf4bdfa556bdb62cdae9f3f55854813f53ee876e508442adc0",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "sha256": "6272f9fe69223a7623b094c369c14e3ebd8007c995828c567ab4b6930350e576",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "sha256": "db0452f12d4c77fe6c742590a7401d61f9f9bc2556e209f65b8f7bb6513af5cb",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "sha256": "b0f3567869a26c5d8f9a1c289aeee8bce9bf3dbe6bd18eda8e4fe506c2860b01",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "sha256": "390d66c00a762da594202496481a3dddb4574b98b6cd6fd57147d8106083a0f7",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "52885024b881dd9d34910701f1017de34a4ec1a23ddb4d48158af22bc91cb6d6",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "11f41964702aed82fbfd935b488e5373aac323fd1ec3e1eb30d23e387a2de73b",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/scripts/Build-AntheaGuides-Itec.py",
+    "sha256": "42fbb41deaed60808bb210f41fac0f76051b4c237aa71065e4df9e2476d0b64f",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  },
+  {
+    "origine": "supporto/scripts/Render-AntheaGuides-Itec.ps1",
+    "sha256": "a2813ca28c79e2de2ec59773062d41353a8bfafd7f4106fa5460e8a69959c582",
+    "motivo": "Sostituzione con Rev54: persistenza e wizard sezioni c.a."
+  }
+]
