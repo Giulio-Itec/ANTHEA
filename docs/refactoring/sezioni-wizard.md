@@ -157,6 +157,15 @@ questi punti e agli analoghi roundtrip di gerarchia e condivisione;
 rimangono esatti i confronti tra stati in memoria e tutti i campi diversi
 dall'archivio nativo verificato separatamente.
 
+Riesecuzione conclusiva:
+`ci/20261020-135713-sezioni-wizard-wpf-finale`, commit `0fa316d3`,
+albero pulito prima e invariato durante le prove. Build e quattro flussi WPF
+PASS: smoke generale (inclusi 204 controlli del workspace c.a.), gerarchia,
+riordino progetti e condivisione. Nessun nuovo fallimento o deroga.
+I 18 originali archiviati sono stati ricontrollati per SHA-256; le 13 DLL
+nella build Release corrispondono esattamente allo staging candidato.
+I commit successivi a questo collaudo aggiornano soltanto il verbale.
+
 ## Guide
 
 Guide globali Rev54: pratica 98 pagine, teoria 164 pagine. Word, PDF,
