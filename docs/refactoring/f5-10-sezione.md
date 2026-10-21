@@ -28,7 +28,8 @@ dei sottopassi. Contiene:
 - il sottopasso S1 fatto il 18/10: ViewModel del guscio, del calcolo, degli ingressi e dei materiali, prove ed esiti (sezione 8);
 - il riallineamento del 21/10 al codice dopo persistenza nativa, wizard e capsula (sezione 9);
 - il sottopasso S2 fatto il 21/10: le azioni, il modello di tabella dei pannelli, prove ed esiti (sezione 10);
-- il sottopasso S1b fatto il 21/10: sezioni da wizard e persistenza nativa nel ViewModel, con le tracce nuove (sezione 11).
+- il sottopasso S1b fatto il 21/10: sezioni da wizard e persistenza nativa nel ViewModel, con le tracce nuove (sezione 11);
+- il sottopasso S3 fatto il 21/10: i pannelli dei domini 3D e 2D nel ViewModel, disegni come dati, prove ed esiti (sezione 12).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -907,4 +908,110 @@ dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c
 dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
 dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
 dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-sezione-historic . <cartella>
+```
+
+## 12. S3 fatto (21/10)
+
+Sottopasso S3 «Domini 3D e 2D» (sezione 4, S3; sezione 10.6), stesso ramo `refactoring/f5-10-s1b`, 21/10/2026, dopo S1b. Decisioni
+applicate: S2-a (lo stato limite passa dal campo del form del pannello), C5 (comportamenti storici conservati, compresa la sola lettura che
+scrive), C7 (tracce lunghe nello stadio `ui`), C8 (il viewport 3D resta WPF e si confronta come dati). La Release resta storica; nessuna vista
+XAML (S1-d).
+
+### 12.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `4e657c4a` | pannelli dei domini nel ViewModel, derivazioni in Application chiamate anche dalla vista storica, baseline F4 spostata, prove |
+| (questo commit) | questa sezione, riga di `piano.md`, esito della corsa finale |
+
+### 12.2 Che cosa c'è
+
+- **`ConcreteDomainPanelViewModel`** (`Domain3D`, `Domain2D` del foglio, creati all'apertura dopo le tabelle delle azioni, senza scritture),
+  da `DomainPanel`, `BuildDomainPanel`, `AttachDomainRows`, `RefreshDomainPanel` e `UpdateSelection` della vista storica:
+  - form «Opzioni di calcolo» sulle opzioni `dominio3d` / `dominio2d`, con i gruppi e le invalidazioni storiche: stato e filtro riattaccano le
+    righe; interpolazione e suddivisioni ridisegnano solo la mesh (su un thread di lavoro, con il suo stato); ricerca, metodo e proiezione
+    ricalcolano punti resistenti e tassi conservando il dominio; le altre opzioni ridisegnano il dominio. Stato e filtro restano usabili in
+    sola lettura (`FormViewModel.AllowWhenReadOnly`, aggiunta);
+  - la tabella del pannello è quella di S2 (`ConcreteActionTableViewModel`); lo stato limite passa dal campo «stato» del form anche quando lo
+    sceglie la tabella (S2-a);
+  - dettaglio della riga selezionata, riepilogo delle verifiche, barra del disegno (forze, cinque caselle, «Mesh», dimensioni dei punti,
+    trasparenza, «Scala…» come `ConcreteDomainScaleDialogViewModel` su `IDialogService`, «Adatta»), «Sezione sull’azione selezionata» per il 2D;
+    le due caselle della sezione σ/ε che stanno nella stessa barra della traccia («Asse neutro», «Valori σ/ε sulle barre»), la scheda
+    interna «Dominio» / «Sezione σ / ε» (il resto della sezione σ/ε è S7);
+  - disegno e dettaglio seguono la selezione solo mentre la tabella è visibile (scheda principale e scheda interna «Dominio»), come la
+    griglia storica: altrimenti aspettano (`NeedsVisualRefresh`).
+- **Disegni come dati** (Q3, C8): `ConcreteDomain3DViewModel` (mesh, punti delle azioni con l'esito, selezione, azione e resistenza
+  selezionate, opzioni, fattori degli assi, tassi, resistenze, nota: le regole di `SetMesh`, `SetActions` e `SetAxisScale` del viewport
+  storico) e `ConcreteDomain2DViewModel` (titoli, segmenti, punti e linee di verifica di `ConcreteDomainChart`, fattori degli assi).
+- **Application** (`ConcreteDomainChart`): dettaglio della riga, piano sull'azione selezionata, dimensioni dei punti, trasparenza, fattori
+  degli assi e lettura della finestra «Scala…», triangoli della mesh; la vista storica li chiama al posto delle sue espressioni.
+- **Modello di tabella**: una riga selezionata che il filtro nasconde passa la selezione alla prima riga mostrata (l'elemento corrente della
+  vista di raccolta dopo il suo Refresh), come la griglia storica (`domini/filtri-tabelle`); prima la selezione si azzerava.
+- **Baseline F4**, solo spostamenti: 13 voci della vista (`BuildDomainPanel` 4, `UpdateSelection` 2, `AddDomainScaleControls` 6,
+  `DomainViewport3D.TriangleCount` 1) diventano 6 voci di `ConcreteDomainChart`; 2 185 → 2 178 voci, 3 320 → 3 313 occorrenze, nessuna
+  aggiunta. P3 invariata.
+
+### 12.3 Esiti
+
+- **Tracce** (`Presentation.Tests/sezione-ca`, parte comune, `[ingressi]`, `[azioni]`, `[domini]` e `[wizard]`): 45 scenari uguali alle tracce
+  congelate (i 43 di S1b più `domini/opzioni-domini` e `domini/filtri-tabelle`; la parte `[domini]` è confrontata anche in `percorso-f3/*`,
+  `muri/*`, `esempi/*`, `azioni/*`, `report/dati-incompleti` e `calcolo/*`). `calcolo/sola-lettura` è uguale fino al nuovo arresto atteso,
+  «menu SLE contorno «Solo geometria»» (S4). Domini 3D come dati: le 33 righe di `disegni/domini-3d.txt` uguali (ogni fixture F3 aperta,
+  calcolata e mostrata come nei disegni della traccia storica). 57 controlli con le tracce lunghe.
+- **Prove rapide** (`--sezione-rapide`): 280 controlli; in più la sola lettura dei pannelli (stato e filtro usabili, opzioni e dimensioni
+  rifiutate, barra che scrive), il punto scelto nel disegno 3D, «Scala…» con un fattore rifiutato e poi applicato, annullata, «Adatta», il
+  ripristino del grafico 2D, F1 dei form dei pannelli e della finestra «Scala…».
+- **Application.Tests**: 11 controlli di `ConcreteDomainChart` con valori scritti a mano (3 050).
+- **Vista storica**: `ui/check-sezione-historic` 57 scenari e disegni uguali ai congelati dopo il passaggio della vista alle derivazioni
+  di Application.
+- **Corse**: mirata `ci/20261021-125445-s3-mirata` (PASS 10: Architecture.Tests con la baseline spostata, Application.Tests,
+  Presentation.Tests 3 672, `ui/check-sezione-historic`, `Presentation.Tests/sezione-ca`); `ci/20261021-143555-f510-s1b-s3-finale2` su
+  `4e657c4a` (build, fast, wiki e ui senza `ui/check-contrast`): PASS 144, KNOWN 0, NEW-FAIL 3, tutte di ambiente e ripetute da sole:
+  `Architecture.Tests` (AccessViolationException nel parser di Roslyn, censimento F4 già passato senza aggiunte; da sola PASS,
+  `ci/20261021-154230-f510-s1b-s3-finale2-arch`), `ui/check-muri-view` (da sola PASS, `ci/20261021-154248-f510-s1b-s3-finale2-ui`) e
+  `ui/check-palo-verticale-view` (antivirus, domanda S6: il programma si chiude sempre allo stesso salvataggio dell'esempio
+  `elica-coesivo-avvisi` e resta il file `.x_<guid>.tmp`; da sola fallisce allo stesso punto, con `dotnet ANTHEA.dll` PASS 377 controlli).
+  Una prima corsa finale (`ci/20261021-131034-f510-s1b-s3-finale`) è stata interrotta dal riavvio della sessione prima del riepilogo.
+
+### 12.4 Comportamenti storici trovati in S3 (conservati, C5)
+
+1. **Cultura dei numeri del dettaglio.** Il dettaglio scritto durante un passo dell'utente usa la cultura della traccia (virgola), quello
+   scritto dalla pubblicazione di un calcolo la cultura del thread dell'interfaccia (sulla macchina del banco, punto decimale). Il ViewModel
+   segue gli stessi percorsi e dà gli stessi testi; la vista XAML dovrà fissare la cultura (da decidere in F5.15).
+2. **Sola lettura che scrive** (famiglia del comportamento 5): filtro e stato del pannello, caselle e forze della barra, trasparenza, «Scala…»
+   e «Adatta» scrivono le opzioni con Modified anche nella revisione in sola lettura.
+3. **«Adatta» del 2D** scrive due volte i fattori x e y (il pulsante e il ripristino della vista del grafico) con due Modified.
+
+### 12.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S3-a · Stato limite.** Il campo «stato» del form è l'unico che scrive `dominio3d.stato` / `dominio2d.stato`; `ConcreteActionTableViewModel.State`
+  passa da lì (chiude S2-a).
+- **S3-b · Esenzioni della sola lettura.** `FormViewModel.AllowWhenReadOnly` è un'aggiunta al componente comune, usata solo dai pannelli dei
+  domini. Alternativa: due form separati.
+- **S3-c · Zoom e camera.** Lo zoom resta della vista (`Zoom`, `FitRequested`, `ZoomRequested`); la vista del 3D («Isometrica», «N–Mx»…) non
+  passa dal ViewModel.
+- **S3-d · Disegni del 2D.** Gli elenchi di disegno del dominio 2D (`disegni/elenco.txt`) si confrontano solo con la vista XAML (S9); qui il
+  grafico è confrontato come dati nella parte `[domini]`.
+
+### 12.6 Che cosa resta e come riprendere
+
+Piano di S4–S9 aggiornato (ordine invariato: S4, S5, poi S6, S7, S8, S9):
+- **S4 · SLE e tensioni.** È il primo arresto delle tracce: `calcolo/sola-lettura` si ferma a «menu SLE contorno «Solo geometria»» (il
+  contorno della mappa si scrive anche in sola lettura). `StressPanelViewModel` per famiglia sul modello di tabella di S2
+  (`Actions.Stress[...]`), con le opzioni comuni (`SynchronizeSharedSle`) e la mappa come dati; gli esempi da wizard sono già nelle tracce
+  `esempi/…` per la parte `[sle]`.
+- **S5 · Taglio e torsione.** `Actions.Shear`; la nota del wizard è già nel foglio (S1b). Campi della staffa circolare nascosti anche nel form
+  delle staffe in sola lettura del taglio.
+- **S6 · Dettagli.** La capsula come pilastro è nella traccia `esempi/wizard-capsula` (parte `[dettagli]`).
+- **S7 · Ispezione e momento–curvatura.** Il pannello dei domini ha già la scheda interna (`InspectionTab`) e le due caselle della barra
+  della sezione σ/ε (`NeutralAxis`, `BarValues`); S7 aggiunge la sessione dell'ispezione in `UpdateSelection` (il punto è segnato nel codice)
+  e il resto della scheda «Sezione σ / ε».
+- **S8, S9** come nella sezione 4. Al passaggio (S9) la vista XAML dei domini lega il viewport 3D e il grafico 2D ai dati dei ViewModel
+  (`Changed`, `FitRequested`, `ZoomRequested`, `ActionPicked`, `ChartViewReset`) e confronta gli elenchi di disegno del dominio 2D.
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
 ```
