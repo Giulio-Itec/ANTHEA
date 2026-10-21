@@ -1,0 +1,510 @@
+<!--
+  View of the composite bridge section sheet (F5.11, decision Q3): CompositeSectionSheetViewModel shown with the layout of the historic view
+  (BridgeWorkspace inside SheetEditor). At the top the reference to the engine, the three pages and «Info modello…», the notice over the drawing;
+  at the bottom the progress of the calculation and the status line. The page of the inputs and of the results (pages 01 and 02) has the column
+  of the inputs (control panel or phases, with the situations of the page of the phases), the drawing with its toolbar and the local sketch, the
+  side panel (summary of the situation, or the properties of the section on the control panel) and, on the page of the phases, the table of the
+  actions and the tabs of the results; the page of the curves (03) has the path, the two charts, the points and their table. The forms are compact
+  FieldForm (D10) with the tool tips of the editors of CompositeSectionFields (SM7); the panels of results are the blocks of the sheet (BridgePanel).
+  Colours and font sizes are theme tokens only (rule P7). The code-behind draws the section, the local sketch and the curves from the plain data of
+  the sheet (Q3), keeps the splitters, shows only the page shown in the tree (as the historic view), hosts the detached view in a window of its
+  own (SM3) and shows the dialogs of the view; every write into the document goes through the ViewModel.
+  Read-only revision: forms read-only, table locked, commands that change the data disabled; pages, situations, display, neutral axis, tabs, the
+  local sketch, «Stacca vista», «Esporta CSV…», «Esporta punti e fibre CSV…» and «Info modello…» stay usable, as in the historic view.
+-->
+<UserControl x:Class="X.Desktop.Views.CompositeSection.CompositeSectionSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ xmlns:views="clr-namespace:X.Desktop.Views.CompositeSection"
+ xmlns:cs="clr-namespace:Anthea.Presentation.Modules.CompositeSection;assembly=ANTHEA.Presentation"
+ xmlns:presentation="clr-namespace:Anthea.Application.Presentation;assembly=ANTHEA.Application"
+ xmlns:bridge="clr-namespace:Anthea.Application.Bridge;assembly=ANTHEA.Application"
+ Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <ResourceDictionary>
+   <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="CompositeSectionResources.xaml"/></ResourceDictionary.MergedDictionaries>
+   <!-- The card of a phase on the page of the phases (BuildPhases of the historic view): an open group with its form, the notes, the homogenization
+        with its text and its note, and «↑», «↓», «Elimina». -->
+   <DataTemplate x:Key="PhaseCard" DataType="{x:Type cs:CompositeSectionPhaseCard}">
+    <Expander Style="{StaticResource Group}" IsExpanded="True">
+     <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="{Binding Header}"/></Expander.Header>
+     <StackPanel>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding Form}" common:FieldForm.EditorToolTips="{x:Static views:CompositeSectionSheetView.PhaseToolTips}"/>
+      <ItemsControl Focusable="False" ItemsSource="{Binding Notes}">
+       <ItemsControl.ItemTemplate><DataTemplate><TextBlock Style="{StaticResource T11Muted}" Text="{Binding}"/></DataTemplate></ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <StackPanel Visibility="{Binding Homogenization, Converter={StaticResource PresentShown}}">
+       <TextBlock Style="{StaticResource BlockTitle}" Text="Omogeneizzazione"/>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding Homogenization}"/>
+       <TextBlock Style="{StaticResource T11Muted}" Text="{Binding HomogenizationInfo}"/>
+       <TextBlock Style="{StaticResource T11Muted}" Text="{Binding HomogenizationNote}"/>
+      </StackPanel>
+      <WrapPanel>
+       <Button Style="{StaticResource Command}" Content="↑" Command="{Binding MoveUpCommand}"/>
+       <Button Style="{StaticResource Command}" Content="↓" Command="{Binding MoveDownCommand}"/>
+       <Button Style="{StaticResource Command}" Content="Elimina" Command="{Binding DeleteCommand}"/>
+      </WrapPanel>
+     </StackPanel>
+    </Expander>
+   </DataTemplate>
+  </ResourceDictionary>
+ </UserControl.Resources>
+
+ <local:ChainedScrollViewer x:Name="Scroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+  <DockPanel x:Name="Body">
+   <StackPanel DockPanel.Dock="Top">
+    <TextBlock Style="{StaticResource T12BoldMuted}" Text="Motore di calcolo: GPC Engine" Margin="16,8,16,0" HorizontalAlignment="Right"/>
+    <DockPanel>
+     <Button x:Name="InformationButton" DockPanel.Dock="Right" Style="{StaticResource Command}" Content="Info modello…" Margin="8,8,16,0" VerticalAlignment="Center"
+      Click="Information_Click"/>
+     <TabControl x:Name="Pages" Margin="12,8,12,0" BorderThickness="0" Background="{DynamicResource Token.Surface}" SelectedIndex="{Binding Page}">
+      <TabItem Padding="14,9,14,9">
+       <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="01"/><TextBlock Style="{StaticResource T14Bold}" Text="  Pannello di controllo"/></WrapPanel></TabItem.Header>
+      </TabItem>
+      <TabItem Padding="14,9,14,9">
+       <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="02"/><TextBlock Style="{StaticResource T14Bold}" Text="  Fasi e tensioni"/></WrapPanel></TabItem.Header>
+      </TabItem>
+      <TabItem Padding="14,9,14,9">
+       <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="03"/><TextBlock Style="{StaticResource T14Bold}" Text="  Curve della sezione"/></WrapPanel></TabItem.Header>
+      </TabItem>
+     </TabControl>
+    </DockPanel>
+    <TextBlock x:Name="NoticeText" Style="{StaticResource T12BoldWarning}" Margin="10,6,10,6" Text="{Binding ResultNotice}"
+     Visibility="{Binding ResultNotice, Converter={StaticResource TextShown}}"/>
+   </StackPanel>
+   <StackPanel DockPanel.Dock="Bottom">
+    <ProgressBar Height="3" IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource Visible}}"/>
+    <DockPanel Margin="16,4,16,8"><TextBlock x:Name="StatusText" Style="{StaticResource T12}" Text="{Binding Status}"/></DockPanel>
+   </StackPanel>
+
+   <!-- The page shown: the inputs with the results (pages 01 and 02) or the curves (03). The code-behind keeps only the page shown in the tree. -->
+   <Grid x:Name="WorkspaceHost">
+
+    <!-- ================================================================ pages 01 and 02 -->
+    <Grid x:Name="MainWorkspace" Margin="12,10,12,0">
+     <Grid.ColumnDefinitions><ColumnDefinition MinWidth="285"/><ColumnDefinition Width="8"/><ColumnDefinition MinWidth="710"/></Grid.ColumnDefinitions>
+     <!-- The column of the inputs. -->
+     <Border Style="{StaticResource Paper}">
+      <DockPanel>
+       <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+        <TextBlock x:Name="InputTitle" Style="{StaticResource T14Bold}" Text="{Binding InputTitle}"/>
+        <TextBlock Style="{StaticResource T11Muted}" Margin="0,5,0,10" Text="{Binding InputSubtitle}"/>
+        <StackPanel x:Name="StageControls" Visibility="{Binding StageControlsShown, Converter={StaticResource Visible}}">
+         <TextBlock Style="{StaticResource T12Bold}" Margin="0,3,0,3" Text="Risultati cumulati fino alla fase"/>
+         <ComboBox x:Name="StageChoice" Margin="4" MinWidth="200" HorizontalAlignment="Stretch" ItemsSource="{Binding Situations}" SelectedIndex="{Binding SelectedSituation}"/>
+         <Button x:Name="LatestButton" Style="{StaticResource Command}" Content="Mostra tutte le fasi → ultima situazione" Command="{Binding LatestSituationCommand}"/>
+         <TextBlock Style="{StaticResource T11Muted}" Text="Grafico e risultati includono le fasi attive fino alla situazione scelta."/>
+        </StackPanel>
+       </StackPanel>
+       <Grid x:Name="InputHost" common:FieldForm.EditorToolTips="{x:Static cs:CompositeSectionFields.EditorToolTips}">
+        <!-- Page 01: the definition of the section. -->
+        <local:ChainedScrollViewer x:Name="ControlPanelInputs" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+         Visibility="{Binding InputPage, Converter={StaticResource PageShown}, ConverterParameter=0}">
+         <StackPanel>
+          <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[normativa]}"/>
+          <TextBlock Style="{StaticResource T11Muted}" Text="Dati comuni a tutte le situazioni. Coefficienti modificabili per l’Appendice Nazionale applicabile."/>
+          <Expander Style="{StaticResource Group}" Tag="coefficienti">
+           <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Coefficienti da normativa"/></Expander.Header>
+           <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[coefficienti]}"/>
+          </Expander>
+          <Expander Style="{StaticResource Group}" Tag="materiali">
+           <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Materiali"/></Expander.Header>
+           <StackPanel>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[materiali]}"/>
+            <TextBlock Style="{StaticResource BlockTitle}" Text="Proprietà adottate"/>
+            <TextBlock Style="{StaticResource T12}" Text="{Binding MaterialText}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="Se attivo, il valore assegnato sostituisce fy di catalogo per anima e tutte le piattabande."/>
+           </StackPanel>
+          </Expander>
+          <Expander Style="{StaticResource Group}" Tag="geometria" IsExpanded="True">
+           <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Geometria"/></Expander.Header>
+           <StackPanel>
+            <TextBlock Style="{StaticResource BlockTitle}" Text="Soletta"/>
+            <TextBlock Style="{StaticResource BlockSubtitle}" Text="b_eff già comprensiva della larghezza collaborante adottata."/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[soletta]}"/>
+            <TextBlock Style="{StaticResource BlockTitle}" Text="Predalle · geometria"/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[predalle]}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="{Binding SlabLayoutText}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="{x:Static bridge:BridgeEditor.PredalleScope}"/>
+            <TextBlock Style="{StaticResource BlockTitle}" Text="Tipo di sezione"/>
+            <TextBlock Style="{StaticResource BlockSubtitle}" Text="{x:Static views:CompositeSectionSheetView.SectionTypeNote}"/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[sezione]}"/>
+            <TextBlock Style="{StaticResource BlockTitle}" Text="Carpenteria saldata"/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[carpenteria]}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="{Binding SteelHeightText}"/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[piastra]}" Visibility="{Binding PlateShown, Converter={StaticResource Visible}}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="{Binding PlateNote}" Visibility="{Binding PlateShown, Converter={StaticResource Visible}}"/>
+           </StackPanel>
+          </Expander>
+          <Expander Style="{StaticResource Group}" Tag="armature">
+           <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Armature"/></Expander.Header>
+           <StackPanel>
+            <TextBlock Style="{StaticResource BlockTitle}" Text="Armatura superiore"/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[armatura-sup]}"/>
+            <TextBlock Style="{StaticResource BlockTitle}" Text="Armatura inferiore"/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[armatura-inf]}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="Le file possono essere entrambe assenti. Le barre sono distribuite e centrate secondo il passo; la distanza inserita è all’asse, non il copriferro netto."/>
+           </StackPanel>
+          </Expander>
+          <Expander Style="{StaticResource Group}" Tag="irrigidimenti">
+           <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Taglio e irrigidimenti intermedi"/></Expander.Header>
+           <StackPanel>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[irrigidimenti]}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="Piatti continui senza intagli. La verifica considera eccentricità, II ordine, rigidezza e instabilità. Un irrigidimento non idoneo non aumenta la resistenza a taglio."/>
+           </StackPanel>
+          </Expander>
+          <Expander Style="{StaticResource Group}" Tag="appoggio">
+           <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Appoggi e montanti terminali"/></Expander.Header>
+           <StackPanel>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[appoggio]}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="R è un dato del modello globale. Piatti a contatto con la flangia inferiore e impronta interamente sottostante; piastra di ripartizione e apparecchio d’appoggio restano verifiche distinte. x=0 sul piano dell’anima, z=0 sull’asse dei piatti."/>
+           </StackPanel>
+          </Expander>
+          <Expander Style="{StaticResource Group}" Tag="pioli">
+           <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Connessione a pioli"/></Expander.Header>
+           <StackPanel>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[pioli]}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="File uniformi e centrate sulla piattabanda. Soletta piena, pioli Ø16–25 mm. q = Σ(V·S/I + Δq); gli effetti locali richiedono Δq assegnato per fase."/>
+            <Expander Style="{StaticResource Group}" Tag="trasversale" Visibility="{Binding TransverseShown, Converter={StaticResource Visible}}">
+             <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Soletta · armatura trasversale e splitting"/></Expander.Header>
+             <StackPanel>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[trasversale]}"/>
+              <TextBlock Style="{StaticResource T11Muted}" Text="Barre ortogonali alla trave, distinte dalle due file longitudinali della sezione. Materiale e γs sono comuni. Ø=0 esclude la fila. Si controllano superfici a–a, gruppi b–b, puntoni e ancoraggi. I bordi sono fisici: b_eff non definisce il bordo della soletta."/>
+             </StackPanel>
+            </Expander>
+            <Expander Style="{StaticResource Group}" Tag="fatica" Visibility="{Binding FatigueShown, Converter={StaticResource Visible}}">
+             <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Fatica · pioli e flangia collegata"/></Expander.Header>
+             <StackPanel>
+              <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[fatica]}"/>
+              <TextBlock Style="{StaticResource T11Muted}" Text="ΔqE,2 = λv · φfat · (qmax − qmin). Dati della combinazione di fatica dal modello globale, indipendenti dalle fasi. Pioli: categoria 90; flangia tesa: categoria 80 e interazione. Coefficienti da confermare per la classe di affidabilità adottata."/>
+             </StackPanel>
+            </Expander>
+           </StackPanel>
+          </Expander>
+          <Expander Style="{StaticResource Group}" Tag="cassoncino" Visibility="{Binding BoxShown, Converter={StaticResource Visible}}">
+           <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Cassoncino · torsione, distorsione e diaframmi"/></Expander.Header>
+           <StackPanel>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[cassoncino]}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="{x:Static views:CompositeSectionSheetView.BoxNote}"/>
+           </StackPanel>
+          </Expander>
+         </StackPanel>
+        </local:ChainedScrollViewer>
+        <!-- Page 02: the options, the limits and the cards of the phases. -->
+        <local:ChainedScrollViewer x:Name="PhaseInputs" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+         Visibility="{Binding InputPage, Converter={StaticResource PageShown}, ConverterParameter=1}">
+         <StackPanel>
+          <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[metodo]}"/>
+          <TextBlock Style="{StaticResource T12Muted}" Text="{Binding MethodNotice}"/>
+          <Expander Style="{StaticResource Group}" Tag="discretizzazione" Visibility="{Binding MeshShown, Converter={StaticResource Visible}}">
+           <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Discretizzazione e sottopassi"/></Expander.Header>
+           <StackPanel>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[discretizzazione]}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="Due fibre per striscia. Aumentare i valori per verificare la sensibilità dei risultati."/>
+           </StackPanel>
+          </Expander>
+          <ContentControl Style="{StaticResource Form}" Content="{Binding Forms[limiti]}"/>
+          <TextBlock Style="{StaticResource T11Muted}" Text="Con la classe 4 attiva, una parte con instabilità esclusa resta interamente efficace (ρ = 1): giustificarlo, ad esempio con la classe 1–3 o con il vincolo della soletta connessa."/>
+          <TextBlock Style="{StaticResource T11Muted}" Text="y = 0 all’interfaccia; positivo verso l’alto. La quota comune si usa solo per le fasi che la selezionano; ogni fase può applicare N al proprio baricentro."/>
+          <Border Style="{StaticResource Notice}">
+           <TextBlock Style="{StaticResource NoticeText}" Text="N &gt; 0 trazione; Mx &gt; 0 comprime la parte superiore. Inserire i soli incrementi di carico già combinati: le fasi precedenti sono sommate automaticamente."/>
+          </Border>
+          <ItemsControl x:Name="PhaseCards" Focusable="False" ItemsSource="{Binding Phases}" ItemTemplate="{StaticResource PhaseCard}"/>
+          <WrapPanel>
+           <Button x:Name="AddPhaseButton" Style="{StaticResource Command}" Content="+ Aggiungi fase" Command="{Binding AddLoadCommand}"/>
+           <Button x:Name="AddShrinkageButton" Style="{StaticResource Command}" Content="+ Ritiro" Command="{Binding AddShrinkageCommand}"/>
+          </WrapPanel>
+         </StackPanel>
+        </local:ChainedScrollViewer>
+       </Grid>
+      </DockPanel>
+     </Border>
+     <GridSplitter Style="{StaticResource ColumnSplitter}" Tag="ingressi"/>
+
+     <!-- The right side: the drawing and the side panel, then the table of the actions and the results. -->
+     <Grid x:Name="RightPanels" Grid.Column="2">
+      <Grid.RowDefinitions><RowDefinition MinHeight="290"/><RowDefinition Height="8"/><RowDefinition MinHeight="250"/></Grid.RowDefinitions>
+      <Grid x:Name="UpperPanels">
+       <Grid.ColumnDefinitions><ColumnDefinition MinWidth="460"/><ColumnDefinition Width="8"/><ColumnDefinition MinWidth="250"/></Grid.ColumnDefinitions>
+       <DockPanel>
+        <!-- The local sketch under the drawing (BuildDetailSketch of the historic view). -->
+        <Expander x:Name="DetailExpander" DockPanel.Dock="Bottom" Style="{StaticResource Group}" Margin="10,0,10,4" IsExpanded="{Binding DetailExpanded}"
+         Visibility="{Binding DetailShown, Converter={StaticResource Visible}}">
+         <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Prospetto locale · pannelli e appoggio"/></Expander.Header>
+         <StackPanel>
+          <WrapPanel>
+           <TextBlock Style="{StaticResource T11Bold}" Text="Sezione in vista"/>
+           <ComboBox x:Name="DetailSectionChoice" Style="{StaticResource Choice}" MaxWidth="180" ItemsSource="{x:Static cs:CompositeSectionFields.DetailSections}"
+            SelectedIndex="{Binding DetailSection}" IsEnabled="{Binding CanEdit}"/>
+          </WrapPanel>
+          <ContentControl x:Name="DetailSketchHost" Style="{StaticResource Form}"/>
+         </StackPanel>
+        </Expander>
+        <Grid>
+         <!-- The drawing with its toolbar (ViewportFrame of the historic view); in the window of the detached view while detached. -->
+         <ContentControl x:Name="ViewportHost" Style="{StaticResource Form}" VerticalContentAlignment="Stretch">
+          <Border x:Name="Viewport" Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Padding="8">
+           <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Margin="2,0,2,6">
+             <TextBlock Style="{StaticResource T14Bold}" Text="{x:Static cs:CompositeSectionSheetViewModel.DrawingTitle}"/>
+             <WrapPanel x:Name="Toolbar">
+              <ComboBox x:Name="DisplayChoice" Style="{StaticResource Choice}" Width="170" ItemsSource="{x:Static cs:CompositeSectionFields.Displays}"
+               SelectedIndex="{Binding DisplayIndex}" Visibility="{Binding DisplayShown, Converter={StaticResource Visible}}"/>
+              <Button Style="{StaticResource Command}" Content="Adatta" Click="Fit_Click"/>
+              <Button Style="{StaticResource Command}" Content="PNG" Click="Png_Click"/>
+              <Button Style="{StaticResource Command}" Content="Espandi" Click="Expand_Click"/>
+              <Button Style="{StaticResource Command}" Content="−" Click="ZoomOut_Click"/>
+              <Button Style="{StaticResource Command}" Content="+" Click="ZoomIn_Click"/>
+              <CheckBox x:Name="GeometryLabelsSwitch" Style="{StaticResource Switch}" Content="Quote sezione" IsChecked="{Binding GeometryLabels}" IsEnabled="{Binding CanEdit}"
+               Visibility="{Binding LabelsShown, Converter={StaticResource Visible}}"/>
+              <CheckBox x:Name="RebarLabelsSwitch" Style="{StaticResource Switch}" Content="Info armature" IsChecked="{Binding RebarLabels}" IsEnabled="{Binding CanEdit}"
+               Visibility="{Binding LabelsShown, Converter={StaticResource Visible}}"/>
+              <CheckBox x:Name="NeutralAxisSwitch" Style="{StaticResource Switch}" Content="Asse neutro" IsChecked="{Binding NeutralAxis}" ToolTip="{Binding NeutralAxisToolTip}"
+               Visibility="{Binding NeutralAxisShown, Converter={StaticResource Visible}}"/>
+              <WrapPanel x:Name="ScaleControls" Margin="8,3,0,3" Visibility="{Binding ScaleShown, Converter={StaticResource Visible}}">
+               <TextBlock Style="{StaticResource T12Bold}" Text="CLS ×"/>
+               <TextBox x:Name="ScaleEditor" Width="66" TextAlignment="Right" Margin="4,2,4,2" Padding="4,2,4,2" IsReadOnly="{Binding CanEdit, Converter={StaticResource Not}}"
+                AutomationProperties.Name="Amplificazione grafica delle tensioni CLS" PreviewKeyDown="Scale_PreviewKeyDown" LostKeyboardFocus="Scale_LostKeyboardFocus">
+                <TextBox.Style>
+                 <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                  <Setter Property="ToolTip" Value="{x:Static presentation:BridgeInputPresentation.ScaleHelp}"/>
+                  <Style.Triggers>
+                   <DataTrigger Binding="{Binding ScaleError}" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource Token.Status.Fail}"/>
+                    <Setter Property="ToolTip" Value="{x:Static presentation:BridgeInputPresentation.ScaleRefused}"/>
+                   </DataTrigger>
+                  </Style.Triggers>
+                 </Style>
+                </TextBox.Style>
+               </TextBox>
+               <CheckBox x:Name="ScaleAutoSwitch" Content="Auto n" VerticalAlignment="Center" Margin="4,0,2,0" Foreground="{DynamicResource Token.Ink}"
+                IsChecked="{Binding ScaleAuto}" IsEnabled="{Binding CanEdit}" ToolTip="{Binding ScaleToolTip}"/>
+              </WrapPanel>
+              <Button x:Name="ChecksMenuButton" Style="{StaticResource Command}" Content="Verifiche ▾" IsEnabled="{Binding CanEdit}" Click="ChecksMenu_Click">
+               <Button.ContextMenu>
+                <ContextMenu Placement="Bottom">
+                 <MenuItem Header="Colora la sezione · σ/limite" IsCheckable="True" IsChecked="{Binding ContourSection, Mode=TwoWay}"/>
+                 <MenuItem Header="Colora le tensioni disegnate · σ/limite" IsCheckable="True" IsChecked="{Binding ContourDiagram, Mode=TwoWay}"/>
+                 <MenuItem Header="Mostra le rette dei limiti tensionali" IsCheckable="True" IsChecked="{Binding StressLimits, Mode=TwoWay}"/>
+                </ContextMenu>
+               </Button.ContextMenu>
+              </Button>
+              <Button x:Name="DetachButton" Style="{StaticResource Command}" Content="Stacca vista" Click="Detach_Click"/>
+             </WrapPanel>
+            </StackPanel>
+            <ContentControl x:Name="DrawingHost" Style="{StaticResource Form}" VerticalContentAlignment="Stretch"/>
+           </DockPanel>
+          </Border>
+         </ContentControl>
+         <!-- In place of the drawing while it is in the window of the detached view. -->
+         <StackPanel x:Name="DetachedPlaceholder" Visibility="{Binding IsDetached, Converter={StaticResource Visible}}">
+          <TextBlock Style="{StaticResource T14Bold}" Text="Vista aperta in una finestra indipendente"/>
+          <Button Style="{StaticResource Command}" Content="Porta in primo piano" Click="BringToFront_Click"/>
+          <Button Style="{StaticResource Command}" Content="Riaggancia vista" Click="Reattach_Click"/>
+         </StackPanel>
+        </Grid>
+       </DockPanel>
+       <GridSplitter Style="{StaticResource ColumnSplitter}" Tag="risultati"/>
+       <!-- The side panel: the summary of the situation (page of the phases) or the properties of the section (control panel). -->
+       <Grid x:Name="SidebarHost" Grid.Column="2">
+        <Border x:Name="SummaryPanel" Style="{StaticResource Paper}" Visibility="{Binding AnalysisPanelsShown, Converter={StaticResource Visible}}">
+         <DockPanel>
+          <StackPanel Style="{StaticResource PanelHeading}">
+           <TextBlock Style="{StaticResource T14Bold}" Text="Riepilogo della situazione"/>
+           <TextBlock Style="{StaticResource PanelSubtitle}" Text="Compressione − · trazione +"/>
+          </StackPanel>
+          <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+           <StackPanel>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding SummaryCards}" ContentTemplate="{StaticResource SummaryCards}"/>
+            <TextBlock x:Name="OverviewText" Style="{StaticResource T12}" Margin="0,12,0,10" Text="{Binding Overview}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="Rapporti locali σ/limite · non rappresentano la verifica completa del ponte."/>
+            <TextBlock x:Name="WarningsText" Style="{StaticResource T12Warning}" Margin="0,8,0,0" Text="{Binding WarningText}"/>
+            <Button Style="{StaticResource Command}" Content="Dettagli sezione efficace ↓" Command="{Binding EffectiveDetailsCommand}"/>
+           </StackPanel>
+          </local:ChainedScrollViewer>
+         </DockPanel>
+        </Border>
+        <Border x:Name="PropertiesPanel" Style="{StaticResource Paper}" Visibility="{Binding AnalysisPanelsShown, Converter={StaticResource Collapsed}}">
+         <DockPanel>
+          <StackPanel Style="{StaticResource PanelHeading}">
+           <TextBlock Style="{StaticResource T14Bold}" Text="Proprietà della sezione"/>
+           <TextBlock Style="{StaticResource PanelSubtitle}" Text="Sezione lorda · quote rispetto a y = 0"/>
+          </StackPanel>
+          <TextBlock DockPanel.Dock="Top" Style="{StaticResource T11Muted}" Text="{Binding PropertyNotice}"/>
+          <TabControl x:Name="PropertyTabs" ItemsSource="{Binding PropertyTabs}" SelectedIndex="{Binding SelectedPropertyTab}" ContentTemplateSelector="{StaticResource PropertyTabs}">
+           <TabControl.Template>
+            <ControlTemplate TargetType="TabControl">
+             <DockPanel>
+              <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+               <TabPanel IsItemsHost="True"/>
+              </ScrollViewer>
+              <ContentPresenter ContentSource="SelectedContent"/>
+             </DockPanel>
+            </ControlTemplate>
+           </TabControl.Template>
+           <TabControl.ItemTemplate><DataTemplate DataType="{x:Type cs:CompositeSectionPropertyTab}"><TextBlock Text="{Binding Header}"/></DataTemplate></TabControl.ItemTemplate>
+          </TabControl>
+         </DockPanel>
+        </Border>
+       </Grid>
+      </Grid>
+      <GridSplitter x:Name="RowsSplitter" Style="{StaticResource RowSplitter}" Tag="righe"/>
+      <!-- The table of the actions and the results of the situation (page of the phases). -->
+      <Border x:Name="ResultsPanel" Grid.Row="2" Style="{StaticResource Paper}">
+       <DockPanel>
+        <StackPanel Style="{StaticResource PanelHeading}">
+         <TextBlock Style="{StaticResource T14Bold}" Text="Sollecitazioni e risultati"/>
+         <TextBlock Style="{StaticResource PanelSubtitle}" Text="Sollecitazioni: tutte le fasi · risultati: situazione selezionata · mm, MPa, kN, kNm"/>
+        </StackPanel>
+        <WrapPanel DockPanel.Dock="Bottom">
+         <Button Style="{StaticResource Command}" Content="Esporta CSV…" Command="{Binding ExportCsvCommand}"/>
+        </WrapPanel>
+        <TabControl x:Name="Results" SelectedIndex="{Binding ResultsTab}">
+         <TabItem Header="Sollecitazioni" Background="{DynamicResource Token.Paper}">
+          <DockPanel>
+           <StackPanel DockPanel.Dock="Top">
+            <TextBlock Style="{StaticResource T11Bold}" Text="{Binding PhaseCountText}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="{Binding LoadConvention}"/>
+            <TextBlock Style="{StaticResource T11Muted}" Text="{x:Static views:CompositeSectionSheetView.ActionsNote}"/>
+           </StackPanel>
+           <WrapPanel DockPanel.Dock="Bottom">
+            <Button Style="{StaticResource Command}" Content="+ Carico" Command="{Binding AddLoadCommand}" Click="TableCommand_Click"/>
+            <Button Style="{StaticResource Command}" Content="+ Ritiro" Command="{Binding AddShrinkageCommand}" Click="TableCommand_Click"/>
+            <Button Style="{StaticResource Command}" Content="↑" Command="{Binding MoveSelectedUpCommand}" Click="TableCommand_Click"/>
+            <Button Style="{StaticResource Command}" Content="↓" Command="{Binding MoveSelectedDownCommand}" Click="TableCommand_Click"/>
+            <Button Style="{StaticResource Command}" Content="Elimina" Command="{Binding DeleteSelectedCommand}" Click="TableCommand_Click"/>
+           </WrapPanel>
+           <views:CompositeSectionActionsGrid x:Name="ActionsGrid" ItemsSource="{Binding ActionRows}" SelectedIndex="{Binding SelectedActionIndex}"
+            IsReadOnly="{Binding ActionsReadOnly}" TorqueShown="{Binding TorqueColumnShown}"/>
+          </DockPanel>
+         </TabItem>
+         <TabItem Header="Fasi e proprietà" Background="{DynamicResource Token.Paper}">
+          <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+           <StackPanel>
+            <TextBlock Style="{StaticResource BlockTitle}" Text="Omogeneizzazione e proprietà per fase"/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding HomogenizationPanel}" ContentTemplateSelector="{StaticResource Panels}"/>
+            <TextBlock Style="{StaticResource BlockTitle}" Text="Azioni ed equilibrio"/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding EquilibriumPanel}" ContentTemplateSelector="{StaticResource Panels}"/>
+           </StackPanel>
+          </local:ChainedScrollViewer>
+         </TabItem>
+         <TabItem Header="Sezione efficace" Background="{DynamicResource Token.Paper}">
+          <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+           <StackPanel>
+            <TextBlock Style="{StaticResource BlockTitle}" Text="Pannelli di classe 4"/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding Class4Panel}" ContentTemplateSelector="{StaticResource Panels}"/>
+            <Expander Style="{StaticResource Group}" IsExpanded="True">
+             <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Proprietà geometriche · lorda ed efficace"/></Expander.Header>
+             <ContentControl Style="{StaticResource Form}" Content="{Binding GeometryPanel}" ContentTemplateSelector="{StaticResource Panels}"/>
+            </Expander>
+            <Expander Style="{StaticResource Group}">
+             <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Convergenza ed equilibrio"/></Expander.Header>
+             <TextBox x:Name="ConvergenceText" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" BorderThickness="0" Padding="12" Text="{Binding ConvergenceText, Mode=OneWay}"/>
+            </Expander>
+           </StackPanel>
+          </local:ChainedScrollViewer>
+         </TabItem>
+         <TabItem Header="Tensioni" Background="{DynamicResource Token.Paper}">
+          <DockPanel>
+           <TextBlock DockPanel.Dock="Top" Style="{StaticResource T11Muted}" Text="La trave accumula anche G1, portato dal solo acciaio. Le armature accumulano le fasi in cui partecipano; il confronto va fatto per contributo e quota, tenendo conto di Es/Ea."/>
+           <ContentControl Style="{StaticResource Form}" VerticalContentAlignment="Stretch" Content="{Binding StressPanel}" ContentTemplateSelector="{StaticResource Panels}"/>
+          </DockPanel>
+         </TabItem>
+         <TabItem Header="Verifiche" Background="{DynamicResource Token.Paper}">
+          <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+           <StackPanel>
+            <TextBlock Style="{StaticResource T11Muted}" Text="Esiti locali della sezione. Leggere anche i controlli da completare: i controlli disattivati o privi di dati restano da verificare; fatica e reazione d’appoggio usano inviluppi dedicati."/>
+            <ContentControl Style="{StaticResource Form}" Content="{Binding VerificationPanel}" ContentTemplateSelector="{StaticResource Panels}"/>
+            <Expander Style="{StaticResource Group}" IsExpanded="True">
+             <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Taglio · parametri e resistenze"/></Expander.Header>
+             <ContentControl Style="{StaticResource Form}" Content="{Binding ShearPanel}" ContentTemplateSelector="{StaticResource Panels}"/>
+            </Expander>
+            <Expander Style="{StaticResource Group}" IsExpanded="True">
+             <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Pioli · flusso per fase e resistenze"/></Expander.Header>
+             <ContentControl Style="{StaticResource Form}" Content="{Binding StudsPanel}" ContentTemplateSelector="{StaticResource Panels}"/>
+            </Expander>
+            <Expander x:Name="TorsionGroup" Style="{StaticResource Group}" IsExpanded="True" Visibility="{Binding TorsionResultsShown, Converter={StaticResource Visible}}">
+             <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Cassoncino · torsione, distorsione e diaframmi"/></Expander.Header>
+             <ContentControl Style="{StaticResource Form}" Content="{Binding TorsionPanel}" ContentTemplateSelector="{StaticResource Panels}"/>
+            </Expander>
+           </StackPanel>
+          </local:ChainedScrollViewer>
+         </TabItem>
+        </TabControl>
+       </DockPanel>
+      </Border>
+     </Grid>
+    </Grid>
+
+    <!-- ================================================================ page 03: the curves of the section -->
+    <Grid x:Name="ResponsePage" Margin="12,10,12,0">
+     <Grid.ColumnDefinitions><ColumnDefinition MinWidth="300"/><ColumnDefinition Width="8"/><ColumnDefinition MinWidth="720"/></Grid.ColumnDefinitions>
+     <Border Style="{StaticResource Paper}">
+      <DockPanel>
+       <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="Percorso di deformazione"/></StackPanel>
+       <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel>
+         <ContentControl Style="{StaticResource Form}" Content="{Binding CurveForm}"/>
+         <ComboBox x:Name="CurvePhaseChoice" Margin="2,4,2,8" ItemsSource="{Binding CurvePhases}" SelectedIndex="{Binding CurvePhaseIndex}" IsEnabled="{Binding CanEdit}"
+          Visibility="{Binding CurvePhaseShown, Converter={StaticResource Visible}}"/>
+         <TextBlock Style="{StaticResource T11Muted}" Text="Rampa con segno a partire dallo stato iniziale: il punto finale è iniziale + Δ. N positivo a trazione. κ positivo comprime le fibre a y maggiore. ε è misurata alla quota di riferimento; M alla stessa quota."/>
+         <WrapPanel>
+          <Button x:Name="CurveButton" Style="{StaticResource Primary}" Content="Calcola curva" Command="{Binding CalculateCurveCommand}"/>
+          <Button Style="{StaticResource Command}" Content="Annulla" Command="{Binding CancelCurveCommand}"/>
+         </WrapPanel>
+         <Expander Style="{StaticResource Group}" IsExpanded="True">
+          <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Ipotesi e limiti"/></Expander.Header>
+          <TextBlock Style="{StaticResource T11}" Text="{x:Static views:CompositeSectionSheetView.CurveHypotheses}"/>
+         </Expander>
+        </StackPanel>
+       </local:ChainedScrollViewer>
+      </DockPanel>
+     </Border>
+     <GridSplitter Style="{StaticResource ColumnSplitter}" Tag="curve_colonne"/>
+     <Grid x:Name="CurveRows" Grid.Column="2">
+      <Grid.RowDefinitions><RowDefinition MinHeight="300"/><RowDefinition Height="8"/><RowDefinition MinHeight="170"/></Grid.RowDefinitions>
+      <DockPanel>
+       <TextBlock x:Name="CurveNoticeText" DockPanel.Dock="Top" Style="{StaticResource T12Bold}" Text="{Binding CurveNotice}"/>
+       <StackPanel DockPanel.Dock="Bottom">
+        <Slider x:Name="PointSlider" Margin="12,3,12,3" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" Maximum="{Binding PointMaximum}" Value="{Binding PointValue}"
+         IsEnabled="{Binding CanEdit}"/>
+        <TextBlock Style="{StaticResource T12}" Text="{Binding PointInfo}"/>
+       </StackPanel>
+       <Grid>
+        <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+        <Border Style="{StaticResource Paper}" Margin="0,0,6,0">
+         <DockPanel>
+          <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="Risposta della sezione"/></StackPanel>
+          <ContentControl x:Name="SectionPlotHost" Style="{StaticResource Form}" VerticalContentAlignment="Stretch"/>
+         </DockPanel>
+        </Border>
+        <Border Grid.Column="1" Style="{StaticResource Paper}">
+         <DockPanel>
+          <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="Tensione e deformazione della fibra"/></StackPanel>
+          <ComboBox x:Name="FiberChoice" DockPanel.Dock="Top" Margin="8,3,8,8" ItemsSource="{Binding FiberChoices}" SelectedIndex="{Binding FiberIndex}" IsEnabled="{Binding CanEdit}"/>
+          <ContentControl x:Name="FiberPlotHost" Style="{StaticResource Form}" VerticalContentAlignment="Stretch"/>
+         </DockPanel>
+        </Border>
+       </Grid>
+      </DockPanel>
+      <GridSplitter Style="{StaticResource RowSplitter}" Tag="curve_righe"/>
+      <Border Grid.Row="2" Style="{StaticResource Paper}">
+       <DockPanel>
+        <StackPanel Style="{StaticResource PanelHeading}">
+         <TextBlock Style="{StaticResource T14Bold}" Text="Punti accettati del percorso"/>
+         <TextBlock Style="{StaticResource PanelSubtitle}" Text="ε in µε · κ in 1/m · forze in kN · momenti in kNm · tensioni in MPa"/>
+        </StackPanel>
+        <WrapPanel DockPanel.Dock="Bottom">
+         <Button x:Name="CurveExportButton" Style="{StaticResource Command}" Content="Esporta punti e fibre CSV…" Command="{Binding ExportCurveCommand}"/>
+        </WrapPanel>
+        <ContentControl Style="{StaticResource Form}" VerticalContentAlignment="Stretch" Content="{Binding CurveTable}" ContentTemplateSelector="{StaticResource Panels}"/>
+       </DockPanel>
+      </Border>
+     </Grid>
+    </Grid>
+   </Grid>
+  </DockPanel>
+ </local:ChainedScrollViewer>
+</UserControl>

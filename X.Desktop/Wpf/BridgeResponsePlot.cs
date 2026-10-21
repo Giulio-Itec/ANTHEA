@@ -6,6 +6,8 @@ namespace X.Desktop;
 
 internal sealed class BridgeResponsePlot : FrameworkElement
 {
+    /// <summary>The colour of the curve of the fibre (fiberPlot of the historic view), for the XAML view of F5.11.</summary>
+    internal static readonly Brush FiberBrush = Ui.Brush("#A35320");
     internal Point[] Points = [];
     internal string XLabel = "", YLabel = "";
     internal int Selected;

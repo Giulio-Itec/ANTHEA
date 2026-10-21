@@ -205,13 +205,15 @@ public sealed partial class CompositeSectionSheetViewModel
     /// <summary>
     /// The situation of the results (also when read-only, also from the detached view): the results and the drawing of that situation, the
     /// phase kept for the next calculation, with Modified. During a calculation the choice changes and nothing else, as in the historic view.
+    /// No situation (−1) is never chosen from outside: a choice of the view that loses its item when the situations are replaced writes −1, and
+    /// the sheet then chooses the situation of the publication, as the historic view, whose handler is mute while it publishes.
     /// </summary>
     public int SelectedSituation
     {
         get => selectedSituation;
         set
         {
-            if (value == selectedSituation || value < -1 || value >= situations.Count || IsDisposed) return;
+            if (value == selectedSituation || value < 0 || value >= situations.Count || IsDisposed) return;
             selectedSituation = value; OnPropertyChanged();
             if (IsBusy) return;
             if (value >= 0 && value < displayedPhases.Length) selectedPhase = displayedPhases[value];
@@ -430,6 +432,24 @@ public sealed partial class CompositeSectionSheetViewModel
         drawing = value; OnPropertyChanged(nameof(Drawing));
         if (labels) OnPropertyChanged(nameof(LabelsShown));
     }
+
+    /// <summary>
+    /// «PNG» of the toolbar of the drawing (also when read-only, as the historic button): the file chosen by the user («ANTHEA_» and the title of the
+    /// drawing) receives the image that <paramref name="png"/> draws; nothing when the user cancels; an error of the writing is shown as the historic
+    /// message «Esportazione immagine».
+    /// </summary>
+    public void SaveDrawingImage(Func<byte[]> png)
+    {
+        ArgumentNullException.ThrowIfNull(png);
+        string? path = Context.Services.Files.SaveFile(new Anthea.Presentation.Services.SaveFileRequest([new Anthea.Presentation.Services.FileFilter("Immagine PNG", "*.png")],
+            "ANTHEA_" + DrawingTitle.Replace(' ', '_') + ".png"));
+        if (path is null) return;
+        try { X.Core.Archivio.ScriviAtomico(path, png()); }
+        catch (Exception error) when (error is not OutOfMemoryException) { Context.Services.Messages.Inform("Esportazione immagine", error.Message); }
+    }
+
+    /// <summary>The title of the frame of the drawing (and of its expanded window).</summary>
+    public const string DrawingTitle = "Sezione composta · geometria e tensioni";
 
     /// <summary>The notice over the drawing: the error of the geometry, or the results «DA AGGIORNARE»; empty without notice.</summary>
     public string ResultNotice { get => resultNotice; private set => SetProperty(ref resultNotice, value); }
