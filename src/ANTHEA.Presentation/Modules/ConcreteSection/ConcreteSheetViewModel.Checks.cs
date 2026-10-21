@@ -6,8 +6,8 @@ using Anthea.Presentation.Forms;
 namespace Anthea.Presentation.Modules.ConcreteSection;
 
 /// <summary>
-/// What the tabs of the later sub-steps (S5 shear, S6 detailing, S7 M–χ, S9 summaries) do to the data and to the results
-/// that the common part of the traces reads, until their ViewModels, and what the sheet keeps for the panels of S2, S3 and S4: the rows of the
+/// What the tabs of the later sub-steps (S6 detailing, S7 M–χ, S9 summaries) do to the data and to the results
+/// that the common part of the traces reads, until their ViewModels, and what the sheet keeps for the panels of S2–S5: the rows of the
 /// actions and of the shear with their outputs, the results published by the calculation, the automatic shear parameters, the derived values
 /// of the detailing, the summaries of the control panel and the export. Every write and its order are those of the historic view; the controls of those tabs
 /// are not here.
@@ -115,6 +115,7 @@ public sealed partial class ConcreteSheetViewModel
             Fill(cards, k => key is "SLU" or "SLV" ? k.EndsWith(":" + key, StringComparison.Ordinal) : k.StartsWith(key + ":", StringComparison.Ordinal));
         foreach (var panel in DomainPanels) Fill(panel.Summary, k => k.StartsWith(panel.Prefix, StringComparison.Ordinal));
         foreach (var panel in StressPanels) Fill(panel.Summary, k => k.StartsWith("SLE", StringComparison.Ordinal));
+        if (Shear is not null) Fill(Shear.Worst, k => k.StartsWith("Taglio:", StringComparison.Ordinal));
         Fill(ShearDashboard, k => k.StartsWith("Taglio:", StringComparison.Ordinal));
     }
 
@@ -304,35 +305,44 @@ public sealed partial class ConcreteSheetViewModel
         InvalidateActions("Taglio");
     });
 
-    // The geometric parameters of the shear computed from the section (bw, d, Asl of both axes), or emptied when the section is not valid.
+    // RefreshAutomaticShear of the historic view: the fields of the panel of the shear (S5) follow the parameters; the geometric parameters
+    // computed from the section (bw, d, Asl of both axes) and shown, or emptied when the section is not valid.
     private void RefreshAutomaticShear()
     {
         if (!shearBuilt) return;
+        Shear?.EnableAutomaticFields();
         // With manual parameters, the note written by the wizard for its sections (S1b), otherwise the default one.
-        if (ShearOptions.S("parametri", "Automatici da sezione") != "Automatici da sezione") { ShearAutomaticNote = ConcreteInputPresentation.ManualShearNote(ShearOptions); return; }
+        if (!ConcreteShearPresentation.Automatic(ShearOptions)) { ShowShearNote(ConcreteInputPresentation.ManualShearNote(ShearOptions)); return; }
         try
         {
             var geometry = ConcreteSheetPreparation.UpdateAutomaticShear(Input, ShearOptions);
-            ShearAutomaticNote = geometry.Shape == "Circolare"
-                ? "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
-                : "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare.";
+            AutomaticShearFailed = false;
+            Shear?.ShowAutomaticValues();
+            ShowShearNote(ConcreteShearPresentation.AutomaticNote(geometry.Shape));
         }
         catch (ArgumentException failure)
         {
+            AutomaticShearFailed = true;
             foreach (string axis in new[] { "x", "y" }) foreach (string field in new[] { "bw_", "d_", "asl_" }) ShearOptions[field + axis] = "";
-            ShearAutomaticNote = failure.Message;
+            Shear?.ClearAutomaticValues();
+            ShowShearNote(failure.Message);
         }
     }
+
+    private void ShowShearNote(string note) { ShearAutomaticNote = note; Shear?.RefreshNote(); }
 
     private void InvalidateShear()
     {
         using var notifications = JsonRowViewModel.DeferNotifications(shearRows);
         shearResults.Clear(); torsionResults.Clear();
-        ShearDashboard.Text = "Taglio e torsione · da calcolare";
+        ShearDashboard.Text = ConcreteShearPresentation.Pending;
+        Shear?.Invalidated();
         foreach (var row in shearRows) foreach (string key in new[] { "VRdx", "VRdy", "eta_x", "eta_y", "eta_t", "eta_vt", "esito" }) row.Output(key, "—");
     }
 
-    // The shear and torsion of every row, on the UI thread inside the batch (decision C2); an error of the links stops the step.
+    // The shear and torsion of every row, on the UI thread inside the batch (decision C2); an error of the links stops the step. Then the
+    // summaries of the tab, the first row selected when none is, the detail and the summaries of the checks (CalculateShear of the historic
+    // view; its text of the worst checks is replaced at once by the summaries of the checks, and is not written).
     private void CalculateShear()
     {
         if (!shearBuilt) return;
@@ -341,39 +351,25 @@ public sealed partial class ConcreteSheetViewModel
         InvalidateShear();
         ConcreteShearBatch.Calculate(Input, Settings, shearRows.Select(r => r.Values).ToArray(), (index, calculated, error) =>
         {
-            var row = shearRows[index];
+            var row = shearRows[index]; string id = row.Values.S("id");
             if (calculated is not null)
             {
-                var results = calculated.Shear;
-                shearResults[row.Values.S("id")] = results;
-                for (int i = 0; i < results.Length; i++)
-                {
-                    string axis = i == 0 ? "x" : "y";
-                    row.Output("VRd" + axis, results[i].VRd.ToString("0.00"));
-                    row.Output("eta_" + axis, results[i].Ratio?.ToString("0.00") ?? "—");
-                }
-                row.Output("esito", string.Join(" · ", results.Select((r, i) => (i == 0 ? "x: " : "y: ") + r.Status)));
-                ShowTorsion(row, calculated.Torsion);
+                shearResults[id] = calculated.Shear;
+                if (calculated.Torsion is not null) torsionResults[id] = calculated.Torsion;
+                foreach (var (key, value) in ConcreteShearPresentation.Outputs(calculated.Shear, calculated.Torsion)) row.Output(key, value);
             }
             else
             {
-                shearResults.Remove(row.Values.S("id")); torsionResults.Remove(row.Values.S("id"));
-                foreach (string key in new[] { "VRdx", "VRdy", "eta_x", "eta_y", "eta_t", "eta_vt" }) row.Output(key, "—");
-                row.Output("esito", error);
+                shearResults.Remove(id); torsionResults.Remove(id);
+                foreach (var (key, value) in ConcreteShearPresentation.FailedOutputs(error)) row.Output(key, value);
             }
         });
+        ShearDashboard.Text = ConcreteShearPresentation.ShearSummary(shearRows.Count, shearResults.Values);
+        if (Shear is not null) Shear.Summary = ConcreteShearPresentation.Summary(shearRows.Count, shearResults.Values, torsionResults.Values);
         // The table of the shear selects its first row after a calculation, when none is selected (CalculateShear of the historic view).
         if (Actions?.Shear.Table is { Selected: null } table && shearRows.Count > 0) table.SelectedIndex = 0;
+        Shear?.UpdateSelection();
         RefreshSummary();
-    }
-
-    private void ShowTorsion(JsonRowViewModel row, ConcreteResults.TorsionResult? result)
-    {
-        if (result is null) { row.Output("eta_t", "—"); row.Output("eta_vt", "—"); return; }
-        torsionResults[row.Values.S("id")] = result;
-        row.Output("eta_t", result.TorsionRatio?.ToString("0.00") ?? "∞");
-        row.Output("eta_vt", result.ConcreteCombinedRatio is double ec && result.SteelCombinedRatio is double es ? Math.Max(ec, es).ToString("0.00") : "∞");
-        row.Output("esito", row.Values.S("esito") + " · " + result.Status);
     }
 
     // ---------------------------------------------------------------- detailing (S6): derived values and export

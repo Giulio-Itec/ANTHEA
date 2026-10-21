@@ -17,10 +17,10 @@ namespace Anthea.Presentation.Tests;
 
 /// <summary>
 /// The ViewModel of the RC section (F5.10, sub-steps S1: shell, calculation, inputs and materials; S2: actions; S1b: sections made by the
-/// wizard; S3: domains; S4: serviceability) against the traces of the historic view frozen in tests/fixtures/f5-sezione/storica, without WPF.
-/// Each scenario of the sub-steps (ingressi/*, azioni/*, domini/*, sle/*, percorso-f3/*, calcolo/*, muri/*, esempi/*) is driven on the ViewModel
-/// as the user drives the historic controls; the common part of every state and the parts «[ingressi]», «[azioni]», «[domini]», «[sle]» and
-/// «[wizard]» are compared line by
+/// wizard; S3: domains; S4: serviceability; S5: shear and torsion) against the traces of the historic view frozen in
+/// tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the sub-steps (ingressi/*, azioni/*, domini/*, sle/*, taglio/*, percorso-f3/*,
+/// calcolo/*, muri/*, esempi/*) is driven on the ViewModel as the user drives the historic controls; the common part of every state and the parts
+/// «[ingressi]», «[azioni]», «[domini]», «[sle]», «[taglio]» and «[wizard]» are compared line by
 /// line, the parts of the sub-steps not migrated yet are left out by their label (section 4.0
 /// of docs/refactoring/f5-10-sezione.md). A step that belongs to a sub-step not migrated (the options of the domains, the stresses, the M–χ…)
 /// does nothing here: when the historic trace shows its effect, the comparison of that scenario stops there, at the place listed in
@@ -29,7 +29,7 @@ namespace Anthea.Presentation.Tests;
 /// </summary>
 internal static partial class ConcreteSectionSheetChecks
 {
-    private static readonly string[] OwnParts = ["ingressi", "azioni", "domini", "sle", ConcreteSectionScenarios.WizardSection];
+    private static readonly string[] OwnParts = ["ingressi", "azioni", "domini", "sle", "taglio", ConcreteSectionScenarios.WizardSection];
     private static readonly string[] OtherParts = ConcreteSectionScenarios.AllSections.Except(OwnParts).ToArray();
 
     /// <summary>
@@ -44,7 +44,7 @@ internal static partial class ConcreteSectionSheetChecks
 
     /// <summary>The scenarios of the fast stage (decision C7: the long traces run in the ui stage, with --sezione-tracce).</summary>
     private static readonly string[] FastScenarios = ["calcolo/ricalcolo-revisione.txt", "ingressi/resistenze-rapide.txt", "percorso-f3/default.txt", "azioni/incolla.txt",
-        "ingressi/wizard-tipologie.txt", "sle/fessurazione.txt"];
+        "ingressi/wizard-tipologie.txt", "sle/fessurazione.txt", "taglio/circolare-senza-staffe.txt"];
 
     internal static int Run(string root, string output, bool full) => SingleThreadContext.Run(_ => RunAsync(root, output, full));
 
@@ -80,6 +80,7 @@ internal static partial class ConcreteSectionSheetChecks
                 await WizardAsync(root, expect);
                 await DomainsAsync(root, expect);
                 await ServiceabilityAsync(root, expect);
+                await ShearAsync(root, expect);
             }
             return expect.Count;
         }
@@ -91,9 +92,9 @@ internal static partial class ConcreteSectionSheetChecks
     private static async Task TracesAsync(string root, string output, bool full, Expect expect)
     {
         string folder = Path.Combine(output, "sezione-ca");
-        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "domini" or "sle" or "percorso-f3" or "calcolo" or "muri" or "esempi")
+        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "domini" or "sle" or "taglio" or "percorso-f3" or "calcolo" or "muri" or "esempi")
             .Where(s => full || FastScenarios.Contains(s.File.Replace('\\', '/'))).ToList();
-        expect.That(scenarios.Count == (full ? 47 : FastScenarios.Length), "Scenari S1, S2, S1b, S3 e S4 della sezione c.a.: " + scenarios.Count);
+        expect.That(scenarios.Count == (full ? 49 : FastScenarios.Length), "Scenari S1, S2, S1b, S3, S4 e S5 della sezione c.a.: " + scenarios.Count);
         var failures = new List<string>();
         var report = new List<string>();
         foreach (var scenario in scenarios)
@@ -294,7 +295,7 @@ internal static partial class ConcreteSectionSheetChecks
         {
             foreach (var group in Inputs.Groups) group.IsExpanded = true;
             Inputs.TendonGroup.IsExpanded = true;
-            foreach (var form in Inputs.AllForms.Concat([Sheet.Domain3D.Form, Sheet.Domain2D.Form]).Concat(Sheet.StressPanels.Select(p => p.Form)))
+            foreach (var form in Inputs.AllForms.Concat([Sheet.Domain3D.Form, Sheet.Domain2D.Form]).Concat(Sheet.StressPanels.Select(p => p.Form)).Append(Sheet.Shear.Form))
                 foreach (var group in form.Groups) group.IsExpanded = true;
             int selected = Sheet.SelectedTab;
             for (int i = 0; i < ConcreteSheetViewModel.TabTitles.Length; i++) { Sheet.SelectedTab = i; Observe(); }
@@ -308,6 +309,10 @@ internal static partial class ConcreteSectionSheetChecks
             }
             // The tab 04 (S4): the families, the columns of the results and the tabs of the details.
             VisitServiceability();
+            // The tab 05 (S5): the column of the results, selected and restored.
+            int shearTab = Sheet.Shear.DetailTab;
+            for (int i = 0; i < 2; i++) Sheet.Shear.DetailTab = i;
+            Sheet.Shear.DetailTab = shearTab;
         }
 
         // ---------------------------------------------------------------- controls of the inputs
@@ -329,6 +334,8 @@ internal static partial class ConcreteSectionSheetChecks
             "3D" => Sheet.Domain3D.Form,
             "2D" => Sheet.Domain2D.Form,
             "SLE" or "SLE_FREQ" or "SLE_QP" => Sheet.StressPanel(target).Form,
+            "taglio" => Sheet.Shear.Form,
+            "torsione" => Sheet.Shear.Torsion,
             _ => null
         };
 
@@ -568,6 +575,7 @@ internal static partial class ConcreteSectionSheetChecks
                 if (section == "azioni") TraceActions(block);
                 else if (section == "domini") TraceDomains(block);
                 else if (section == "sle") TraceServiceability(block);
+                else if (section == "taglio") TraceShear(block);
                 else if (section == ConcreteSectionScenarios.WizardSection) TraceWizard(block);
                 else TraceInputs(block);
                 state.Blocks.Add(block);

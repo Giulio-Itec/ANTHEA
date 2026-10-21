@@ -94,7 +94,8 @@ public sealed partial class ConcreteSheetViewModel
     private void ShowPanel(int shown)
     {
         foreach (var panel in DomainPanels) panel.Shown();
-        // The family of the serviceability on screen fills its detail and its map again (S4).
+        // The family of the serviceability on screen fills its detail and its map again (S4); the shear its detail and its section (S5).
         if (shown == StressTab && stressFamily < stressPanels.Count) StressPanels[stressFamily].Shown();
+        if (shown == ShearTab) Shear?.Shown();
     }
 }

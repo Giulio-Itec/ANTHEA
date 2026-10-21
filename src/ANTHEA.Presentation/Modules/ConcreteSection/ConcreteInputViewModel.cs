@@ -321,14 +321,21 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
     /// <summary>The links shown in the panel: values, fields enabled by «Staffe presenti», fields of the circular scheme.</summary>
     internal void SynchronizeStirrups(JsonObject shear)
     {
-        foreach (var form in new[] { Stirrups, StirrupScheme })
-        {
-            foreach (var field in form.Fields) form.Set(field.Key, field.Key.StartsWith("transverse_", StringComparison.Ordinal) || field.Key == "staffe_presenti" ? Input.S(field.Key) : shear.S(field.Key), true);
-            foreach (var field in form.Fields.Where(f => f.Key != "staffe_presenti")) form.Enable(field.Key, Input.S("staffe_presenti", "Sì") == "Sì");
-            bool circular = ConcreteInputPresentation.CircularLinkScheme(Input);
-            form.ShowField("tipo_staffa", circular); form.ShowField("rami_interni", circular); form.ShowField("schema_interno", circular); form.ShowField("rotazione_staffa", circular);
-            foreach (string key in new[] { "rami_x", "rami_y" }) form.ShowField(key, true);
-        }
+        foreach (var form in new[] { Stirrups, StirrupScheme }) SynchronizeStirrupForm(form, Input, shear);
+    }
+
+    /// <summary>
+    /// A form of the links (SynchronizeStirrups of the historic view, for every form of the links, also those shown read-only in the tabs of the
+    /// shear and of the detailing): the values shown from the inputs and from the shear options, every field but «Staffe presenti» enabled only
+    /// with links, the fields of the circular scheme shown only for circular links (not for the sections of the wizard).
+    /// </summary>
+    internal static void SynchronizeStirrupForm(FormViewModel form, JsonObject input, JsonObject shear)
+    {
+        foreach (var field in form.Fields) form.Set(field.Key, field.Key.StartsWith("transverse_", StringComparison.Ordinal) || field.Key == "staffe_presenti" ? input.S(field.Key) : shear.S(field.Key), true);
+        foreach (var field in form.Fields.Where(f => f.Key != "staffe_presenti")) form.Enable(field.Key, input.S("staffe_presenti", "Sì") == "Sì");
+        bool circular = ConcreteInputPresentation.CircularLinkScheme(input);
+        form.ShowField("tipo_staffa", circular); form.ShowField("rami_interni", circular); form.ShowField("schema_interno", circular); form.ShowField("rotazione_staffa", circular);
+        foreach (string key in new[] { "rami_x", "rami_y" }) form.ShowField(key, true);
     }
 
     /// <summary>The coefficients of the tendons are shown only with cables.</summary>
@@ -408,6 +415,8 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
         if (ConcreteInputPresentation.ShapeChoicesAfterWizard(shape.Choices, Input.S("shape")) is { } choices) shape.ReplaceChoices(choices);
         foreach (var form in new[] { Geometry, Reinforcement }.Concat(Layers.Select(l => l.Form)))
             foreach (var field in form.Fields) form.Set(field.Key, Input.S(field.Key), true);
+        // The wizard rewrites the parameters of the shear (S5): the form of the shear shows them again.
+        sheet.Shear?.ReloadFields();
         RefreshHoleControls();
         sheet.Invalidate();
     }
