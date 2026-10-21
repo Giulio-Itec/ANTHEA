@@ -39,8 +39,7 @@ internal sealed partial class ConcreteWorkspace
         foreach (var (key, panel) in stressPanels)
         {
             var o = settings["sle"]![key]!;
-            foreach (string field in new[] { "phi", "phi_trefoli", "n_armature", "n_trefoli" }) panel.Options.Enable(field, o.S("modello") == "Lineare");
-            foreach (string field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Options.Enable(field, o.S("assi") == "Personalizzati");
+            foreach (string field in ConcreteStressPresentation.SwitchedFields) panel.Options.Enable(field, ConcreteStressPresentation.FieldEnabled(o, field));
             stressResults.Remove(key);
             foreach (var row in actions[key]) foreach (string field in new[] { "sigma_c", "sigma_s", "stress_status", "eta_sigma", "wk" }) row.Output(field, "Da calcolare");
             UpdateStressSelection(key);

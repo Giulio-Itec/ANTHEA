@@ -41,9 +41,8 @@ internal sealed partial class ConcreteWorkspace
             System.Windows.Automation.AutomationProperties.SetName(nonLinearWarning, "Avviso analisi non lineare");
             void EnableOptions()
             {
-                nonLinearWarning.Visibility = options.S("modello") == "Non lineare" ? Visibility.Visible : Visibility.Collapsed;
-                foreach (var field in new[] { "phi", "phi_trefoli", "n_armature", "n_trefoli" }) panel.Options.Enable(field, options.S("modello") == "Lineare");
-                foreach (var field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Options.Enable(field, options.S("assi") == "Personalizzati");
+                nonLinearWarning.Visibility = ConcreteStressPresentation.NonLinear(options) ? Visibility.Visible : Visibility.Collapsed;
+                foreach (var field in ConcreteStressPresentation.SwitchedFields) panel.Options.Enable(field, ConcreteStressPresentation.FieldEnabled(options, field));
             }
             panel.Options = new InputForm(options, [new("modello", "Analisi", Choices: ["Lineare", "Non lineare"], HelpTopic: WikiContextHelp.StressAnalysis.Uri), new("n_armature", "n armature", Note: _ => homogenizationErrors.GetValueOrDefault("n_armature")), new("phi", "Viscosità φ armature", Note: _ => homogenizationErrors.GetValueOrDefault("phi")), new("n_trefoli", "n trefoli (Ep riferimento)", Note: _ => homogenizationErrors.GetValueOrDefault("n_trefoli")), new("phi_trefoli", "Viscosità φ trefoli", Note: _ => homogenizationErrors.GetValueOrDefault("phi_trefoli")), new("__ep_ref", "Ep di riferimento", "MPa", ReadOnly: true), new("trazione_cls", "CLS resistente a trazione", Choices: ["No", "Sì"]), new("assi", "Assi delle azioni", Choices: ["Locali", "Principali", "Personalizzati"]), new("origine_x", "Origine x", "mm"), new("origine_y", "Origine y", "mm"), new("rotazione", "Rotazione assi", "°"), new("esposizione", "Esposizione", Choices: ConcreteEditor.ExposureChoices.ToArray()), new("sensibilita", "Armatura", Choices: ["Poco sensibile", "Sensibile"]), new("durata", "Durata del carico", Choices: ["Lunga", "Breve"]), new("aderenza", "Barre", Choices: ["Migliorata", "Liscia"]), new("copriferro_fessure", "c barra (vuoto: dalle barre efficaci)", "mm"), new("spaziatura_fessure", "Interasse massimo (vuoto: auto)", "mm"), new("limite_fessure", "wlim di progetto (EC2/MC)", "mm")], field =>
             {
@@ -113,7 +112,7 @@ internal sealed partial class ConcreteWorkspace
         using var notifications = JsonRow.DeferNotifications(actions[key]);
         foreach (var row in actions[key])
         {
-            var outcome = outcomes[row.Values.S("id")]; row.Output("sigma_c", EngineeringFormat.Number(outcome.State?.sigma_cls)); row.Output("sigma_s", EngineeringFormat.Number(outcome.State?.sigma_acciaio)); row.Output("eta_sigma", EngineeringFormat.Number(outcome.Ratio)); row.Output("stress_status", outcome.Status); row.Output("wk", outcome.CrackResult?.Width is double width ? $"{EngineeringFormat.Number(width)} / {EngineeringFormat.Number(outcome.CrackResult.Limit)} mm · η={EngineeringFormat.Number(outcome.CrackResult.Ratio)}" : outcome.Cracking);
+            foreach (var (field, value) in ConcreteStressPresentation.Outputs(outcomes[row.Values.S("id")])) row.Output(field, value);
         }
         UpdateStressSelection(key);
     }
@@ -127,43 +126,18 @@ internal sealed partial class ConcreteWorkspace
         using var barsRefresh = panel.Bars.Rows.DeferRefresh();
         using var concreteRefresh = panel.Concrete.Rows.DeferRefresh();
         var row = panel.Grid.SelectedItem as JsonRow; var outcome = row is null ? null : stressResults.GetValueOrDefault(key)?.GetValueOrDefault(row.Values.S("id"));
-        panel.CrackDetail.Text = (row is null ? "" : ConcreteEditor.Label(key) + " · " + row.Values.S("nome") + "\n\n") + ConcreteEditor.CrackSummary(outcome?.CrackResult, outcome?.Cracking ?? "Selezionare una combinazione calcolata.");
-        if(outcome?.CrackResult is { } crackTrace && crackTrace.Regions.Length>0)
-            panel.CrackDetail.Text+="\n\nZONE EFFICACI\n"+string.Join("\n",crackTrace.Regions.Select(r=>$"{r.Name}: Ac,eff={r.Area:0.###} mm²; As,eff={r.SteelArea:0.###} mm²; wk={r.Width:0.######} mm · "+string.Join(", ",r.BarIndices.Select(i=>$"B{i+1:00}"))))+"\n\nPASSAGGI COMPLETI\n"+string.Join("\n\n",crackTrace.Details.Select(d=>d.Format()));
+        panel.CrackDetail.Text = ConcreteStressPresentation.CrackSteps(key, row?.Values, outcome);
         panel.View.Stress = outcome?.State;
         panel.Regions.ItemsSource=outcome?.CrackResult?.Regions??[];
         panel.Regions.SelectedIndex=panel.Regions.Items.Count>0?0:-1;
         panel.View.EffectiveRegion=panel.Regions.SelectedItem as ConcreteResults.EffectiveRegion;
         panel.View.InvalidateVisual(); panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear();
+        panel.Detail.Text = ConcreteStressPresentation.Detail(key, settings, row?.Values, outcome, tendons.Rows.Count > 0);
         if (outcome?.State is ConcreteResults.StressState state)
         {
-            panel.Detail.Text = $"{row!.Values.S("nome")}\n\nσc,min = {state.sigma_cls:0.00} MPa\n|σs|max = {state.sigma_acciaio:0.00} MPa\nησ = {outcome.Ratio?.ToString("0.00") ?? "—"}\n\n{outcome.Status}\n\n{outcome.Cracking}\nwk = {outcome.CrackResult?.Width?.ToString("0.00") ?? "—"} mm\nLimite = {outcome.CrackResult?.Limit?.ToString("0.00") ?? "—"} mm\nηw = {outcome.CrackResult?.Ratio?.ToString("0.00") ?? "—"}";
-            var options = settings["sle"]![key]!; var force = ReadAction(row);
-            string limits = state.ConcreteStressLimit is double limit ? $"|σc,comp| ≤ {limit:0.00} MPa" : "Nessun limite tensionale automatico";
-            if (key == "SLE") limits += $"\nσs ≤ {state.SteelStressLimit:0.00} MPa (armatura ordinaria)";
-            panel.Detail.Text = $"{ConcreteEditor.Label(key)} · {options.S("modello")}\n{row.Values.S("nome")} · assi {options.S("assi")}\nN = {force.N:0.00} kN\nMx / My = {force.Mx:0.00} / {force.My:0.00} kNm\n\nTENSIONI · NTC 2018\n{limits}\nησ = {outcome.Ratio?.ToString("0.00") ?? "—"}\n{outcome.Status}\n" + ResponseSummary(state.Response, "STATO ALL’AZIONE APPLICATA") +
-                $"\n\nFESSURAZIONE\n{options.S("esposizione")} · armatura {options.S("sensibilita").ToLowerInvariant()}\nCarico di durata {options.S("durata").ToLowerInvariant()}\n{outcome.Cracking}\nwk / limite = {outcome.CrackResult?.Width?.ToString("0.00") ?? "—"} / {outcome.CrackResult?.Limit?.ToString("0.00") ?? "—"} mm\nηw = {outcome.CrackResult?.Ratio?.ToString("0.00") ?? "—"}\nAc,eff = {outcome.CrackResult?.EffectiveArea?.ToString("0.00") ?? "—"} mm²\nAs,eff = {outcome.CrackResult?.EffectiveSteel?.ToString("0.00") ?? "—"} mm²";
-            panel.Detail.Text += "\nCoefficienti e formule: scheda «Fessurazione · passaggi» (testo selezionabile e copiabile).";
-            panel.Detail.Text += $"\nInterasse barre tese = {EngineeringFormat.Number(outcome.CrackResult?.BarSpacing)} mm · {outcome.CrackResult?.SpacingSource}";
-            if (!crackRequired) panel.Detail.Text = panel.Detail.Text.Split("\n\nFESSURAZIONE")[0];
-            if (!stressRequired)
-            {
-                int start = panel.Detail.Text.IndexOf("\n\nTENSIONI", StringComparison.Ordinal), end = panel.Detail.Text.IndexOf("\nSTATO ALL’AZIONE APPLICATA", StringComparison.Ordinal);
-                if (start >= 0 && end > start) panel.Detail.Text = panel.Detail.Text[..start] + "\n\nTensioni calcolate a supporto della fessurazione; verifica tensionale non richiesta.\n" + panel.Detail.Text[end..];
-            }
-            int ordinary = panel.View.Section?.Bars.Count ?? 0;
-            panel.Detail.Text = panel.Detail.Text.Replace("TENSIONI · NTC 2018", "TENSIONI · " + settings.S("normativa"));
-            panel.Detail.Text += $"\n\nOMOGENEIZZAZIONE\nn armature = {EngineeringFormat.Number(options.D("n_armature"))} · φ = {EngineeringFormat.Number(options.D("phi"))}";
-            if (tendons.Rows.Count > 0) panel.Detail.Text += $"\nn trefoli = {EngineeringFormat.Number(options.D("n_trefoli"))} · φp = {EngineeringFormat.Number(options.D("phi_trefoli"))}\nCon Ep diversi, n trefoli è riferito al primo materiale; φp è comune.";
-            panel.Detail.Text += "\nn = Eacciaio (1 + φ) / Ec. Deformazioni incrementali da GPC Engine.";
-            for (int i = 0; i < state.tensioni_barre.Length; i++)
-            {
-                double stress = state.tensioni_barre[i]; string id = i < ordinary ? "B" + (i + 1).ToString("D2") : settings.Array("trefoli").ElementAtOrDefault(i - ordinary).S("id", "T" + (i - ordinary + 1));
-                panel.Bars.Rows.Add(new JsonRow(J.Obj(("id", id), ("stress", EngineeringFormat.Number(stress)), ("strain", EngineeringFormat.Number(state.BarStrains.ElementAtOrDefault(i))), ("type", stress > 0 ? "Trazione" : stress < 0 ? "Compressione" : "Nullo"))));
-            }
-            foreach (var p in state.ConcreteVertices) panel.Concrete.Rows.Add(new JsonRow(J.Obj(("id", p.Id), ("x", EngineeringFormat.Number(p.X)), ("y", EngineeringFormat.Number(p.Y)), ("stress", EngineeringFormat.Number(p.Stress)), ("strain", EngineeringFormat.Number(p.Strain)))));
+            foreach (var bar in ConcreteStressPresentation.BarRows(state, panel.View.Section?.Bars.Count ?? 0, settings)) panel.Bars.Rows.Add(new JsonRow(bar));
+            foreach (var vertex in ConcreteStressPresentation.ConcreteRows(state)) panel.Concrete.Rows.Add(new JsonRow(vertex));
         }
-        else panel.Detail.Text = outcome?.Status ?? (row is null ? "Nessuna combinazione selezionata" : "Tensioni da calcolare");
     }
     private void SynchronizeHomogenization(string key, string? changed = null)
     {

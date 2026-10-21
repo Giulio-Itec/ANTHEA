@@ -5556,38 +5556,6 @@
       "Example": "1000"
     },
     {
-      "File": "X.Desktop/Wpf/ConcreteStress.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.UpdateStressSelection",
-      "Fingerprint": "121D862049AD40ECCFA96AF1FE8ABA6AB59C64A344BDBE385EAA71D1FB0F54AB",
-      "Count": 1,
-      "Example": "options . D ( \"phi_trefoli\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteStress.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.UpdateStressSelection",
-      "Fingerprint": "1F332CAB5C883852479697706D0FE5134C375AFA67B84E4613232F0DE304FCE5",
-      "Count": 1,
-      "Example": "options . D ( \"phi\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteStress.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.UpdateStressSelection",
-      "Fingerprint": "CD5AA9D4950DB8CED46F798C73FCB30F9E90EADCB76307E499DA5F7B5049E85B",
-      "Count": 1,
-      "Example": "options . D ( \"n_armature\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteStress.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.UpdateStressSelection",
-      "Fingerprint": "EEC87C6E2BDB9AAFA371050DFE6BB6CCB89F4A18BE8B051238CC305AA6970FAC",
-      "Count": 1,
-      "Example": "options . D ( \"n_trefoli\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/ConcreteTimeEffectsView.cs",
       "Rule": "R1-math",
       "Owner": "ConcreteTimeEffectsView.RefreshPlot.Tick",
@@ -12530,6 +12498,38 @@
       "Fingerprint": "12193A9155A43DE98C25DA112FD9285294905A4C8D720B40633A2D7382F26929",
       "Count": 1,
       "Example": "settings [ \"layout\" ] . D ( group , initial )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteStressPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ConcreteStressPresentation.Detail",
+      "Fingerprint": "747BF5AF4D80E9B562D071F982312E968C6F0527FB731E6E5C08DC06C6FF4C68",
+      "Count": 1,
+      "Example": "options . D ( \"phi_trefoli\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteStressPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ConcreteStressPresentation.Detail",
+      "Fingerprint": "876FDFEF2FA18A00397E50B57B473D33A04A77FD1570EF819EAE0650CCF83CE6",
+      "Count": 1,
+      "Example": "options . D ( \"phi\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteStressPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ConcreteStressPresentation.Detail",
+      "Fingerprint": "A2BC2168AFA99B98ADD57D2C39EAB2135065305CC922D0A5D97AACD951775C9F",
+      "Count": 1,
+      "Example": "options . D ( \"n_trefoli\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteStressPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ConcreteStressPresentation.Detail",
+      "Fingerprint": "E642F5E2B0BC8A1695855454BAEED29C60A7620B94663ACB9CF4F7918FC3B03F",
+      "Count": 1,
+      "Example": "options . D ( \"n_armature\" )"
     },
     {
       "File": "src/ANTHEA.Application/Documents/DocumentService.cs",

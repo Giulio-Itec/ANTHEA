@@ -103,6 +103,8 @@ try
     checks += ConcreteInputPresentationChecks.Run();
     // F5.10 S3: the derivations of the domain panels moved from the historic view (ConcreteDomainChart).
     checks += ConcreteDomainChartChecks.Run();
+    // F5.10 S4: the derivations of the serviceability tab moved from the historic view (ConcreteStressPresentation).
+    checks += await ConcreteStressPresentationChecks.Run(root);
     checks += await ConcretePropertyChecks.Run();
     checks += ConcreteGeometryChecks.Run();
     checks += ConcreteEditorChecks.Run(root);
