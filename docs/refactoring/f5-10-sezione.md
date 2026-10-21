@@ -30,7 +30,8 @@ dei sottopassi. Contiene:
 - il sottopasso S2 fatto il 21/10: le azioni, il modello di tabella dei pannelli, prove ed esiti (sezione 10);
 - il sottopasso S1b fatto il 21/10: sezioni da wizard e persistenza nativa nel ViewModel, con le tracce nuove (sezione 11);
 - il sottopasso S3 fatto il 21/10: i pannelli dei domini 3D e 2D nel ViewModel, disegni come dati, prove ed esiti (sezione 12);
-- il sottopasso S4 fatto il 21/10: le famiglie SLE nel ViewModel, la mappa delle tensioni come dati, prove ed esiti (sezione 13).
+- il sottopasso S4 fatto il 21/10: le famiglie SLE nel ViewModel, la mappa delle tensioni come dati, prove ed esiti (sezione 13);
+- il sottopasso S5 fatto il 21/10: taglio e torsione nel ViewModel, staffe in sola lettura, prove ed esiti (sezione 14).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -1119,6 +1120,103 @@ preparazione di F5.11 uniti), 21/10/2026. Decisioni applicate: C5 (comportamenti
   lettura (della scheda del taglio e di quella dei dettagli: la parte `[taglio]` della traccia li scrive tutti e quattro).
 - **S6–S9** come nella sezione 12.6. Al passaggio (S9) la vista XAML della scheda 04 lega la mappa (`ConcreteSectionViewport`) ai dati della
   famiglia (`Map.Changed`, `BarClicked`) e confronta gli elenchi di disegno delle mappe (`disegni/elenco.txt`).
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
+```
+
+## 14. S5 fatto (21/10)
+
+Sottopasso S5 «Taglio e torsione» (sezione 4, S5; sezione 12.6), stesso ramo `refactoring/f5-10-s4`, 21/10/2026, dopo S4. Decisioni applicate:
+C2 (il taglio resta sul thread dell'interfaccia, dentro il lotto del calcolo), C5 (comportamenti storici conservati), C7 (tracce lunghe nello
+stadio `ui`), C8 (la sezione del taglio resta un disegno WPF, confrontata come dati). La Release resta storica; nessuna vista XAML (S1-d).
+
+### 14.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `f7ea07dd` | derivazioni della scheda del taglio in Application (`ConcreteShearPresentation`), chiamate dalla vista storica; Application.Tests |
+| `5670695d` | taglio e torsione nel ViewModel (`ConcreteShearViewModel`), staffe in sola lettura delle schede 05 e 06, prove in `Presentation.Tests` |
+| (questo commit) | questa sezione, riga di `piano.md`, esito della corsa finale |
+
+### 14.2 Che cosa c'è
+
+- **`ConcreteShearViewModel`** (`Shear` del foglio), creato all'apertura dopo le famiglie SLE, senza scritture (da `BuildShearPanel`,
+  `RefreshAutomaticShear`, `UpdateShearSelection` e dai riepiloghi di `CalculateShear` di `ConcreteShear.cs`, da `BuildTorsionOptions` di
+  `ConcreteTorsion.cs`):
+  - le staffe in sola lettura («Staffe · dati comuni», `Stirrups`), il form del taglio su `taglio` (modello, parametri automatici o manuali,
+    direzioni Vx e Vy, eccentricità del Model Code) con i campi abilitati e mostrati come la vista storica, il form della torsione e del
+    modello circolare (`Torsion`), la nota dei parametri automatici;
+  - una modifica del taglio passa da `ShearOptionChanged` del foglio: il modello con staffe riporta le staffe negli ingressi (con
+    l'invalidazione del foglio), poi campi, parametri automatici, staffe dei disegni e ricalcolo del taglio; una modifica della torsione
+    ricalcola il taglio con due Modified (comportamento 2);
+  - la tabella è quella di S2 (`Actions.Shear`) con i suoi comandi;
+  - dettaglio della riga selezionata, sintesi sotto la tabella, riepilogo delle verifiche (`Worst`) e sezione disegnata come dati (`Drawing`):
+    il dettaglio e il disegno seguono la selezione solo mentre la scheda 05 è mostrata, come la griglia storica.
+- **Staffe in sola lettura** (`ConcreteStirrupsViewModel`): una coppia di form nella scheda del taglio e una nella scheda dei dettagli
+  (`DetailingStirrups` del foglio, che S6 prenderà nel suo ViewModel: la parte `[taglio]` della traccia scrive tutti e quattro i form). Ogni form
+  delle staffe, anche questi, passa da `ConcreteInputViewModel.SynchronizeStirrupForm`: valori dai dati, campi spenti senza staffe, campi della
+  staffa circolare nascosti per le sezioni da wizard.
+- **Calcolo** (C2): il taglio resta nel foglio (`CalculateShear` di `ConcreteSheetViewModel.Checks.cs`), sul thread dell'interfaccia dopo i
+  passi del lotto; il foglio scrive le uscite delle righe con `ConcreteShearPresentation.Outputs`, poi la sintesi, la prima riga selezionata,
+  il dettaglio e i riepiloghi. I parametri automatici (`RefreshAutomaticShear`) raggiungono il form del taglio.
+- **Wizard** (S1b): dopo «Applica sezione» il form del taglio mostra di nuovo le opzioni riscritte dal wizard, come `OpenTemplateWizard`.
+- **Application** (`ConcreteShearPresentation`): parametri automatici, modello con staffe e Model Code, nota dei parametri automatici, uscite
+  delle righe (taglio e torsione, o l'errore), sintesi, dettaglio della riga con la torsione. La vista storica le chiama al posto delle sue
+  espressioni (`ConcreteShear.cs`, `ConcreteTorsion.cs`).
+- **Baseline F4** e P3 invariate: il codice spostato non aveva voci.
+
+### 14.3 Esiti
+
+- **Tracce** (`Presentation.Tests/sezione-ca` lanciato a mano con `--sezione-tracce`, parte comune, `[ingressi]`, `[azioni]`, `[domini]`,
+  `[sle]`, `[taglio]` e `[wizard]`): 49 scenari uguali alle tracce congelate (i 47 di S4 più `taglio/taglio-torsione` e
+  `taglio/circolare-senza-staffe`; la parte `[taglio]` è confrontata anche in `percorso-f3/*`, `muri/*`, `esempi/*`, `ingressi/geometria-forme`,
+  `ingressi/staffe-trefoli`, `azioni/editor-sollecitazioni`, `azioni/sollecitazioni-uniche` e `calcolo/*`). `calcolo/sola-lettura` è uguale
+  fino all'arresto atteso di S4 (secondo «attendi», curva M–χ di S7). 61 controlli.
+- **Prove rapide** (`--sezione-rapide`): 407 controlli; in più lo scenario `taglio/circolare-senza-staffe` fra le tracce rapide, F1 dei form del
+  taglio, della torsione e delle staffe in sola lettura, la barriera del motore (il taglio aspetta il lotto trattenuto e mostra solo la
+  revisione corrente), la sola lettura con i comandi della tabella, le staffe in sola lettura di una sezione da wizard, i due Modified della
+  torsione, il modello con staffe, i parametri manuali, Reload.
+- **Application.Tests**: 8 controlli di `ConcreteShearPresentation` (3 127), con valori scritti a mano dalla traccia storica congelata.
+- **Vista storica**: `ui/check-sezione-historic` PASS dopo il passaggio della vista alle derivazioni di Application: 57 scenari e disegni uguali ai
+  congelati (`ci/20261021-170857-s5-storica`).
+- **Non verificato sullo stato finale** (fermo chiesto dal coordinatore il 21/10 sera): Architecture.Tests e l'intero Presentation.Tests (stadio
+  `fast`) su `5670695d`, e la **corsa finale** `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` del ramo, ancora da fare. Ultime
+  corse complete di queste due suite: `ci/20261021-164655-s4-b` su S4 (PASS 6).
+
+### 14.4 Comportamenti storici trovati in S5 (conservati, C5)
+
+1. **Valori dei parametri automatici con la cultura del percorso** (famiglia del comportamento 1 di S3): all'apertura il form mostra «800,00»,
+   dopo la pubblicazione di un calcolo «800.00» sulla macchina del banco.
+2. **Torsione con due Modified**: una modifica della torsione invalida il taglio (un Modified) e ne aggiunge un secondo.
+3. **Staffe assenti dal pannello di controllo**: il modello del taglio passa a «Senza staffe» solo come valore mostrato, senza ricalcolare i campi
+   abilitati del form del taglio (angolo e cot θ restano come erano finché il form non cambia).
+4. **Sezione del taglio senza messaggio**: il disegno della scheda 05 non riceve mai il messaggio della sezione, che resta «Inserire la geometria
+   della sezione» anche con una sezione valida (non è visibile perché la sezione c'è), e prende la sezione solo quando la scheda è mostrata.
+5. **Riepilogo delle verifiche scritto due volte**: dopo il calcolo la vista scrive il testo dei casi peggiori e lo sostituisce subito con le
+   schede dei riepiloghi; il ViewModel scrive solo le schede (nessuna differenza visibile).
+6. **Dettaglio «Dati modificati» dopo un calcolo**: il calcolo del taglio azzera il dettaglio e lo riscrive solo se la scheda 05 è mostrata;
+   con la scheda nascosta il dettaglio resta «Dati modificati · aggiornamento automatico in attesa» anche con i risultati correnti.
+
+### 14.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S5-d · Dettaglio dopo il calcolo dell'apertura.** Il calcolo azzera il dettaglio del taglio anche se la scheda è nascosta («Dati
+  modificati · aggiornamento automatico in attesa» finché la scheda non viene mostrata): conservato (comportamento 6).
+- **S5-a · Staffe in sola lettura della scheda 06.** Sono create con la scheda 05 (`DetailingStirrups` del foglio) perché la traccia del taglio le
+  scrive; S6 le sposterà nel suo ViewModel. Alternativa: una sola coppia condivisa dalle due schede (la vista storica ne ha due).
+- **S5-b · Sintesi del pannello di controllo.** Il foglio scrive ancora il testo del taglio nel riepilogo del pannello di controllo prima che i
+  riepiloghi lo sostituiscano, come la vista storica; il testo dei casi peggiori no (comportamento 5).
+- **S5-c · C2.** Confermato per F5.10: il calcolo del taglio resta sul thread dell'interfaccia. Spostarlo sullo sfondo è una differenza da
+  dichiarare dopo S9.
+
+### 14.6 Che cosa resta e come riprendere
+
+- **S6 · Dettagli** (sezione 12.6): prende `DetailingStirrups` e la capsula come pilastro (traccia `esempi/wizard-capsula`).
+- **S7, S8, S9** come nella sezione 12.6; `calcolo/sola-lettura` si ferma ancora al secondo «attendi» (curva M–χ, S7).
+- **Prima di unire il ramo**: la corsa finale (sopra) e la ripetizione da sole delle suite note per i tempi o l'antivirus, se cadono.
 
 ```
 dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
