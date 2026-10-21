@@ -1,0 +1,2466 @@
+{
+  "ambito": "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO.",
+  "avvisi": [
+    "Tipologia fuori dal campo usuale 6–15 m: campate 8,6–22,0 m.",
+    "Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico.",
+    "Appoggi: carico massimo d'inviluppo 10144 kN/dispositivo, prezzo 5000 €/cad. Verificare portata e corsa: il listino ANAS usa €/kN; nessun dimensionamento dei dispositivi.",
+    "Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo.",
+    "CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD.",
+    "Schema 1: massimi/minimi di sezioni e appoggi non concomitanti; non sommare le reazioni dell'inviluppo. G2 trattato come permanente portato ben definito col γG esplicito."
+  ],
+  "bridge_design": {
+    "Advanced": null,
+    "Area": 1212.0000000000002,
+    "Bottom": 0.22,
+    "Carbon": 4305.128725986738,
+    "Concrete": 7364.117807056435,
+    "CostHigh": 7027524.201760996,
+    "CostLow": 3784051.4932559207,
+    "Depth": 1.1611111111111112,
+    "Details": [
+      {
+        "Name": "Larghezza impalcato",
+        "Rule": "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere",
+        "Unit": "m",
+        "Value": 20.200000000000003
+      },
+      {
+        "Name": "Altezza in campata",
+        "Rule": "max(0,35; Lmax/18 × .95)",
+        "Unit": "m",
+        "Value": 1.1611111111111112
+      },
+      {
+        "Name": "Altezza sulle pile",
+        "Rule": "Altezza costante",
+        "Unit": "m",
+        "Value": 1.1611111111111112
+      },
+      {
+        "Name": "Area cls impalcato",
+        "Rule": "Soletta + componenti della famiglia selezionata",
+        "Unit": "m²",
+        "Value": 23.454444444444448
+      },
+      {
+        "Name": "Inerzia lorda equivalente",
+        "Rule": "Componenti rettangolari, acciaio omogeneizzato con Es/Ec; sezione non fessurata",
+        "Unit": "m⁴",
+        "Value": 2.635065812185643
+      },
+      {
+        "Name": "Modulo elastico cls",
+        "Rule": "22000 × ((fc + 8)/10)^0.3; stima, senza viscosità",
+        "Unit": "MPa",
+        "Value": 36283.18821891413
+      },
+      {
+        "Name": "Permanenti sull'intero impalcato",
+        "Rule": "25 Acls + 9.81 massa acciaio/m + g2 W + 8 per barriera",
+        "Unit": "kN/m",
+        "Value": 660.8611111111112
+      },
+      {
+        "Name": "Schema 1 · carico distribuito",
+        "Rule": "NTC 2018 §5.1.3.3, Tabelle 5.1.I e 5.1.II; parte rimanente EN 1991-2 Tabella 4.2; solo porzioni sfavorevoli",
+        "Unit": "kN/m",
+        "Value": 63.5
+      },
+      {
+        "Name": "Momento positivo indicativo",
+        "Rule": "Inviluppo massimo γG G + γQ Q, Schema 1, EI costante",
+        "Unit": "kNm",
+        "Value": 31362.350163237355
+      },
+      {
+        "Name": "Momento negativo indicativo",
+        "Rule": "Inviluppo minimo γG G + γQ Q, Schema 1, EI costante",
+        "Unit": "kNm",
+        "Value": -36936.07943546565
+      },
+      {
+        "Name": "Freccia elastica indicativa",
+        "Rule": "Massima assoluta dell'inviluppo G + Q; sezione lorda non fessurata, senza viscosità/precompressione",
+        "Unit": "mm",
+        "Value": 8.897090279542127
+      },
+      {
+        "Name": "Pressione terreno adottata",
+        "Rule": "Parametro editabile o classe convenzionale; nessuna indagine geotecnica",
+        "Unit": "kPa",
+        "Value": 100
+      },
+      {
+        "Name": "Carico assiale indicativo per palo",
+        "Rule": "π Ø L qs + π Ø² qb/4; valori di classe già convenzionalmente ridotti",
+        "Unit": "kN",
+        "Value": 2748.893571891069
+      },
+      {
+        "Name": "Rapporto carico / riferimento fondazione",
+        "Rule": "Assiale centrato con peso pila e plinto; esclusi momenti, azioni orizzontali, cedimenti",
+        "Unit": "—",
+        "Value": 0.9686631926066925
+      },
+      {
+        "Name": "Snellezza massima delle pile",
+        "Rule": "2H/r, schema a mensola; r = Ø/4 o t/√12",
+        "Unit": "—",
+        "Value": 87.01310056986759
+      },
+      {
+        "Name": "Compressione media pile / fc",
+        "Rule": "max [(R G+Q + peso pila) / A / fc sottostrutture]; carico centrato, senza armatura, non è una verifica di resistenza",
+        "Unit": "—",
+        "Value": 0.0302941165136329
+      },
+      {
+        "Name": "Calcestruzzo totale inclusi pali",
+        "Rule": "Pali inclusi nel prezzo al metro, senza duplicare il costo del cls",
+        "Unit": "m³",
+        "Value": 7364.117807056435
+      },
+      {
+        "Name": "Costo diretto",
+        "Rule": "Σ quantità × prezzo unitario",
+        "Unit": "€",
+        "Value": 4197040.254276753
+      },
+      {
+        "Name": "Costo totale indicativo",
+        "Rule": "Diretto × (1 + oneri/100) × (1 + imprevisti/100); IVA esclusa",
+        "Unit": "€",
+        "Value": 5405787.847508458
+      },
+      {
+        "Name": "Durata indicativa",
+        "Rule": "Avvio + campate × coeff. + pile × coeff. + fondazioni / conci; incertezza ±25%",
+        "Unit": "mesi",
+        "Value": 14
+      },
+      {
+        "Name": "Schema 1 · peso totale tandem",
+        "Rule": "4 corsie convenzionali, due assi a 1.20 m; massimo/minimo indipendente per ogni effetto",
+        "Unit": "kN",
+        "Value": 1200
+      },
+      {
+        "Name": "Moltiplicatore traffico adottato",
+        "Rule": "Valore esplicito del progetto; NTC 2018 Tabella 5.1.V, A1 sfavorevole: 1.35",
+        "Unit": "—",
+        "Value": 1.35
+      }
+    ],
+    "DirectCost": 4197040.254276753,
+    "Duration": 14,
+    "Family": {
+      "Id": "slab",
+      "MaxSpan": 15,
+      "MinDepth": 0.35,
+      "MinSpan": 6,
+      "Name": "Soletta piena in c.a.",
+      "Prestressed": false,
+      "Ratio": 18,
+      "Slab": 0,
+      "Spacing": 1,
+      "Steel": false
+    },
+    "Foundation": "Pali Ø 1,0 m",
+    "Girders": 1,
+    "Inertia": 2.635065812185643,
+    "Length": 60,
+    "PierDepth": 1.1611111111111112,
+    "PileDiameter": 1,
+    "PileLength": 30,
+    "Prestress": 0,
+    "Quantities": [
+      {
+        "Amount": 1407.2666666666669,
+        "Carbon": 450.3253333333334,
+        "Cost": 365889.3333333334,
+        "Group": "Impalcato",
+        "Item": "Calcestruzzo",
+        "Rate": 260,
+        "Unit": "m³"
+      },
+      {
+        "Amount": 197.01733333333337,
+        "Carbon": 275.8242666666667,
+        "Cost": 327048.7733333334,
+        "Group": "Impalcato",
+        "Item": "Armatura ordinaria",
+        "Rate": 1660,
+        "Unit": "t"
+      },
+      {
+        "Amount": 1212.0000000000002,
+        "Carbon": 0,
+        "Cost": 60600.000000000015,
+        "Group": "Impalcato",
+        "Item": "Casseforme equivalenti",
+        "Rate": 50,
+        "Unit": "m²"
+      },
+      {
+        "Amount": 2630.8866666666668,
+        "Carbon": 841.8837333333333,
+        "Cost": 631412.8,
+        "Group": "Sottostrutture",
+        "Item": "Calcestruzzo pile e spalle",
+        "Rate": 240,
+        "Unit": "m³"
+      },
+      {
+        "Amount": 394.633,
+        "Carbon": 552.4861999999999,
+        "Cost": 655090.7799999999,
+        "Group": "Sottostrutture",
+        "Item": "Armatura pile e spalle",
+        "Rate": 1660,
+        "Unit": "t"
+      },
+      {
+        "Amount": 3926.8488888888896,
+        "Carbon": 0,
+        "Cost": 196342.4444444445,
+        "Group": "Sottostrutture",
+        "Item": "Casseforme equivalenti pile e spalle",
+        "Rate": 50,
+        "Unit": "m²"
+      },
+      {
+        "Amount": 543.6,
+        "Carbon": 0,
+        "Cost": 27180,
+        "Group": "Fondazioni",
+        "Item": "Casseforme laterali plinti",
+        "Rate": 50,
+        "Unit": "m²"
+      },
+      {
+        "Amount": 1818.0000000000005,
+        "Carbon": 581.7600000000001,
+        "Cost": 436320.0000000001,
+        "Group": "Fondazioni",
+        "Item": "Calcestruzzo plinti",
+        "Rate": 240,
+        "Unit": "m³"
+      },
+      {
+        "Amount": 1920,
+        "Carbon": 482.5486315913922,
+        "Cost": 576000,
+        "Group": "Fondazioni",
+        "Item": "Pali trivellati Ø 1,0 m",
+        "Rate": 300,
+        "Unit": "m"
+      },
+      {
+        "Amount": 399.11573684677217,
+        "Carbon": 558.7620315854809,
+        "Cost": 662532.1231656418,
+        "Group": "Fondazioni",
+        "Item": "Armatura plinti e pali",
+        "Rate": 1660,
+        "Unit": "t"
+      },
+      {
+        "Amount": 12,
+        "Carbon": 0,
+        "Cost": 60000,
+        "Group": "Finiture",
+        "Item": "Apparecchi d'appoggio",
+        "Rate": 5000,
+        "Unit": "cad"
+      },
+      {
+        "Amount": 40.400000000000006,
+        "Carbon": 0,
+        "Cost": 96960.00000000001,
+        "Group": "Finiture",
+        "Item": "Giunti di dilatazione",
+        "Rate": 2400,
+        "Unit": "m"
+      },
+      {
+        "Amount": 180,
+        "Carbon": 0,
+        "Cost": 64800,
+        "Group": "Finiture",
+        "Item": "Barriere",
+        "Rate": 360,
+        "Unit": "m"
+      },
+      {
+        "Amount": 1152.0000000000002,
+        "Carbon": 0,
+        "Cost": 36864.00000000001,
+        "Group": "Finiture",
+        "Item": "Pavimentazione",
+        "Rate": 32,
+        "Unit": "m²"
+      }
+    ],
+    "Rebar": 990.7660701801055,
+    "Slab": 1.1611111111111112,
+    "Spacing": 1,
+    "Spans": [10.434782608695652,8.565217391304348,22,8.565217391304344,10.434782608695656
+    ],
+    "Stations": [
+      {
+        "DeflectionMinimumMm": 0,
+        "DeflectionMm": 0,
+        "Moment": 0,
+        "MomentMinimum": 0,
+        "Shear": 6253.4302524612085,
+        "ShearMinimum": 4176.389524142411,
+        "Span": 1,
+        "X": 0
+      },
+      {
+        "DeflectionMinimumMm": 0.09142735183134565,
+        "DeflectionMm": 0.1316266665849205,
+        "Moment": 1584.5539788891979,
+        "MomentMinimum": 1059.1357832356384,
+        "Shear": 5946.932220842951,
+        "ShearMinimum": 3943.2923020848634,
+        "Span": 1,
+        "X": 0.2608695652173913
+      },
+      {
+        "DeflectionMinimumMm": 0.18210442611012523,
+        "DeflectionMm": 0.2622402087602113,
+        "Moment": 3075.6311750821187,
+        "MomentMinimum": 2057.5572942595563,
+        "Shear": 5641.295080855984,
+        "ShearMinimum": 3709.47702161411,
+        "Span": 1,
+        "X": 0.5217391304347826
+      },
+      {
+        "DeflectionMinimumMm": 0.2713205595990047,
+        "DeflectionMm": 0.39087174738400055,
+        "Moment": 4473.377244587719,
+        "MomentMinimum": 2995.264533071754,
+        "Shear": 5336.5612190575675,
+        "ShearMinimum": 3474.9445789662523,
+        "Span": 1,
+        "X": 0.782608695652174
+      },
+      {
+        "DeflectionMinimumMm": 0.35840830467726664,
+        "DeflectionMm": 0.5166014227269106,
+        "Moment": 5777.983008068897,
+        "MomentMinimum": 3872.257499672232,
+        "Shear": 5032.7724245142235,
+        "ShearMinimum": 3239.6964678681265,
+        "Span": 1,
+        "X": 1.0434782608695652
+      },
+      {
+        "DeflectionMinimumMm": 0.44274342934081085,
+        "DeflectionMm": 0.6385592258059185,
+        "Moment": 6989.684450842489,
+        "MomentMinimum": 4688.53619406099,
+        "Shear": 4729.96988880174,
+        "ShearMinimum": 2963.773428793532,
+        "Span": 1,
+        "X": 1.3043478260869565
+      },
+      {
+        "DeflectionMinimumMm": 0.5237449172021535,
+        "DeflectionMm": 0.755925836507016,
+        "Moment": 8108.762722879273,
+        "MomentMinimum": 5444.100616238025,
+        "Shear": 4428.194206005172,
+        "ShearMinimum": 2675.3966680493236,
+        "Span": 1,
+        "X": 1.565217391304348
+      },
+      {
+        "DeflectionMinimumMm": 0.6008749674904279,
+        "DeflectionMm": 0.8679334707531626,
+        "Moment": 9135.544138803965,
+        "MomentMinimum": 6138.950766203343,
+        "Shear": 4127.485372718842,
+        "ShearMinimum": 2386.472451315192,
+        "Span": 1,
+        "X": 1.826086956521739
+      },
+      {
+        "DeflectionMinimumMm": 0.6736389950513835,
+        "DeflectionMm": 0.9738667389667409,
+        "Moment": 10070.400177895226,
+        "MomentMinimum": 6773.08664395694,
+        "Shear": 3827.8827880463323,
+        "ShearMinimum": 2097.047945074269,
+        "Span": 1,
+        "X": 2.0869565217391304
+      },
+      {
+        "DeflectionMinimumMm": 0.7415856303473877,
+        "DeflectionMm": 1.0730635180643813,
+        "Moment": 10913.747484085652,
+        "MomentMinimum": 7346.508249498816,
+        "Shear": 3529.425253600495,
+        "ShearMinimum": 1807.1709133004224,
+        "Span": 1,
+        "X": 2.347826086956522
+      },
+      {
+        "DeflectionMinimumMm": 0.8043067194574229,
+        "DeflectionMm": 1.1649158392050811,
+        "Moment": 11666.047865961782,
+        "MomentMinimum": 7859.215582828973,
+        "Shear": 3232.1509735034474,
+        "ShearMinimum": 1516.8897174582542,
+        "Span": 1,
+        "X": 2.608695652173913
+      },
+      {
+        "DeflectionMinimumMm": 0.8614373240770904,
+        "DeflectionMm": 1.2488707934881254,
+        "Moment": 12327.808296764091,
+        "MomentMinimum": 8311.20864394741,
+        "Shear": 2936.0975543865716,
+        "ShearMinimum": 1226.2533165031005,
+        "Span": 1,
+        "X": 2.869565217391304
+      },
+      {
+        "DeflectionMinimumMm": 0.9126557215186069,
+        "DeflectionMm": 1.3244314577631833,
+        "Moment": 12899.580914387,
+        "MomentMinimum": 8702.487432854123,
+        "Shear": 2641.3020053905148,
+        "ShearMinimum": 935.311266881031,
+        "Span": 1,
+        "X": 3.130434782608696
+      },
+      {
+        "DeflectionMinimumMm": 0.9576834047108058,
+        "DeflectionMm": 1.3911578426685958,
+        "Moment": 13381.963021378866,
+        "MomentMinimum": 9033.051949549117,
+        "Shear": 2347.8007381651923,
+        "ShearMinimum": 644.1137225288525,
+        "Span": 1,
+        "X": 3.391304347826087
+      },
+      {
+        "DeflectionMinimumMm": 0.9962850821991378,
+        "DeflectionMm": 1.4486678649524443,
+        "Moment": 13775.597084941992,
+        "MomentMinimum": 9302.902194032395,
+        "Shear": 2055.6295668697812,
+        "ShearMinimum": 352.7114348741036,
+        "Span": 1,
+        "X": 3.652173913043478
+      },
+      {
+        "DeflectionMinimumMm": 1.0282686781456707,
+        "DeflectionMm": 1.4966383460516024,
+        "Moment": 14081.17073693261,
+        "MomentMinimum": 9512.03816630395,
+        "Shear": 1764.823708172728,
+        "ShearMinimum": 61.155752835058365,
+        "Span": 1,
+        "X": 3.9130434782608696
+      },
+      {
+        "DeflectionMinimumMm": 1.053485332329089,
+        "DeflectionMm": 1.5348094962787902,
+        "Moment": 14299.416773860907,
+        "MomentMinimum": 9660.459866363786,
+        "Shear": 1475.4177812517419,
+        "ShearMinimum": -230.5013771792744,
+        "Span": 1,
+        "X": 4.173913043478261
+      },
+      {
+        "DeflectionMinimumMm": 1.0718294001446922,
+        "DeflectionMm": 1.5630112644624536,
+        "Moment": 14431.113156890991,
+        "MomentMinimum": 9748.167294211898,
+        "Shear": 1187.445807793798,
+        "ShearMinimum": -522.2074112691532,
+        "Span": 1,
+        "X": 4.434782608695652
+      },
+      {
+        "DeflectionMinimumMm": 1.0832384526043994,
+        "DeflectionMm": 1.5811467853285504,
+        "Moment": 14477.083011840934,
+        "MomentMinimum": 9775.160449848294,
+        "Shear": 900.9412119951397,
+        "ShearMinimum": -813.9092080440995,
+        "Span": 1,
+        "X": 4.695652173913044
+      },
+      {
+        "DeflectionMinimumMm": 1.0876932763367448,
+        "DeflectionMm": 1.589176403404332,
+        "Moment": 14471.147722167992,
+        "MomentMinimum": 9741.439333272967,
+        "Shear": 615.9368205612719,
+        "ShearMinimum": -1105.553028622903,
+        "Span": 1,
+        "X": 4.9565217391304355
+      },
+      {
+        "DeflectionMinimumMm": 1.0852178735868794,
+        "DeflectionMm": 1.5871172964586133,
+        "Moment": 14380.950477787279,
+        "MomentMinimum": 9647.003944485923,
+        "Shear": 332.46486270697017,
+        "ShearMinimum": -1397.084536633615,
+        "Span": 1,
+        "X": 5.217391304347826
+      },
+      {
+        "DeflectionMinimumMm": 1.075879462216572,
+        "DeflectionMm": 1.5750435361579544,
+        "Moment": 14204.650709582362,
+        "MomentMinimum": 9491.854283487155,
+        "Shear": 50.556970156270154,
+        "ShearMinimum": -1688.448798213558,
+        "Span": 1,
+        "X": 5.478260869565217
+      },
+      {
+        "DeflectionMinimumMm": 1.0597884757042064,
+        "DeflectionMm": 1.5530864513729306,
+        "Moment": 13943.096383930977,
+        "MomentMinimum": 9275.990350276672,
+        "Shear": -229.75582285752387,
+        "ShearMinimum": -1979.5902820093158,
+        "Span": 1,
+        "X": 5.739130434782608
+      },
+      {
+        "DeflectionMinimumMm": 1.037098563144785,
+        "DeflectionMm": 1.5214451561543247,
+        "Moment": 13597.180631864781,
+        "MomentMinimum": 8999.412144854463,
+        "Shear": -508.4430795918423,
+        "ShearMinimum": -2270.4528591767394,
+        "Span": 1,
+        "X": 6
+      },
+      {
+        "DeflectionMinimumMm": 1.008006589249926,
+        "DeflectionMm": 1.4804062316053863,
+        "Moment": 13167.841749069383,
+        "MomentMinimum": 8662.119667220531,
+        "Shear": -785.4749607948513,
+        "ShearMinimum": -2560.9798033809466,
+        "Span": 1,
+        "X": 6.260869565217392
+      },
+      {
+        "DeflectionMinimumMm": 0.9727526343478645,
+        "DeflectionMm": 1.4303193376358916,
+        "Moment": 12656.063195884337,
+        "MomentMinimum": 8264.112917374887,
+        "Shear": -1060.8222247054487,
+        "ShearMinimum": -2851.113790796317,
+        "Span": 1,
+        "X": 6.521739130434783
+      },
+      {
+        "DeflectionMinimumMm": 0.9316199943834537,
+        "DeflectionMm": 1.371591071317294,
+        "Moment": 12062.873597303127,
+        "MomentMinimum": 7805.391895317518,
+        "Shear": -1334.4562270532683,
+        "ShearMinimum": -3140.7969001064985,
+        "Span": 1,
+        "X": 6.782608695652174
+      },
+      {
+        "DeflectionMinimumMm": 0.8849351809181601,
+        "DeflectionMm": 1.3046842443769264,
+        "Moment": 11389.346742973177,
+        "MomentMinimum": 7285.956601048433,
+        "Shear": -1606.3489210586797,
+        "ShearMinimum": -3429.970612504405,
+        "Span": 1,
+        "X": 7.043478260869565
+      },
+      {
+        "DeflectionMinimumMm": 0.8330679211300721,
+        "DeflectionMm": 1.2301172276151862,
+        "Moment": 10636.601587195855,
+        "MomentMinimum": 6705.807034567624,
+        "Shear": -1876.4728574327846,
+        "ShearMinimum": -3718.575811692214,
+        "Span": 1,
+        "X": 7.304347826086956
+      },
+      {
+        "DeflectionMinimumMm": 0.7764311578138893,
+        "DeflectionMm": 1.1484633514641276,
+        "Moment": 9805.802248926468,
+        "MomentMinimum": 6064.943195875094,
+        "Shear": -2144.801184377422,
+        "ShearMinimum": -4006.5527838813723,
+        "Span": 1,
+        "X": 7.565217391304349
+      },
+      {
+        "DeflectionMinimumMm": 0.715481049380933,
+        "DeflectionMm": 1.0603503532131031,
+        "Moment": 8898.158011774267,
+        "MomentMinimum": 5363.365084970847,
+        "Shear": -2411.30764758516,
+        "ShearMinimum": -4293.841217792585,
+        "Span": 1,
+        "X": 7.826086956521739
+      },
+      {
+        "DeflectionMinimumMm": 0.6507169698591391,
+        "DeflectionMm": 0.9664598622858394,
+        "Moment": 7914.923324002431,
+        "MomentMinimum": 4601.072701854873,
+        "Shear": -2675.966590239308,
+        "ShearMinimum": -4580.380204655833,
+        "Span": 1,
+        "X": 8.08695652173913
+      },
+      {
+        "DeflectionMinimumMm": 0.5826815088930586,
+        "DeflectionMm": 0.8675269153930276,
+        "Moment": 6865.417402383933,
+        "MomentMinimum": 3770.046442671367,
+        "Shear": -2938.7529530139036,
+        "ShearMinimum": -4866.108238210352,
+        "Span": 1,
+        "X": 8.347826086956522
+      },
+      {
+        "DeflectionMinimumMm": 0.5119604717438618,
+        "DeflectionMm": 0.764339493391897,
+        "Moment": 5762.795060777652,
+        "MomentMinimum": 2858.476271132476,
+        "Shear": -3199.642274073724,
+        "ShearMinimum": -5150.963214704653,
+        "Span": 1,
+        "X": 8.608695652173912
+      },
+      {
+        "DeflectionMinimumMm": 0.43918287928933564,
+        "DeflectionMm": 0.6577380711988999,
+        "Moment": 4606.861122668803,
+        "MomentMinimum": 1867.947305977992,
+        "Shear": -3452.2923635453367,
+        "ShearMinimum": -5434.882432896507,
+        "Span": 1,
+        "X": 8.869565217391305
+      },
+      {
+        "DeflectionMinimumMm": 0.3650209680238825,
+        "DeflectionMm": 0.5486151709991578,
+        "Moment": 3567.7830727080463,
+        "MomentMinimum": 800.0233633282614,
+        "Shear": -3686.698458881333,
+        "ShearMinimum": -5717.8025940529515,
+        "Span": 1,
+        "X": 9.130434782608695
+      },
+      {
+        "DeflectionMinimumMm": 0.29019019005852165,
+        "DeflectionMm": 0.43791490706180514,
+        "Moment": 2545.783530334506,
+        "MomentMinimum": -343.9054980430967,
+        "Shear": -3920.752160133586,
+        "ShearMinimum": -5999.659801950287,
+        "Span": 1,
+        "X": 9.391304347826088
+      },
+      {
+        "DeflectionMinimumMm": 0.21544921312089257,
+        "DeflectionMm": 0.32663250734761,
+        "Moment": 1471.286742680593,
+        "MomentMinimum": -1612.9651188258126,
+        "Shear": -4154.474678223168,
+        "ShearMinimum": -6280.389562874087,
+        "Span": 1,
+        "X": 9.652173913043478
+      },
+      {
+        "DeflectionMinimumMm": 0.1415999205552456,
+        "DeflectionMm": 0.21581379220128505,
+        "Moment": 343.1834309809824,
+        "MomentMinimum": -3135.9060217447027,
+        "Shear": -4387.887821561887,
+        "ShearMinimum": -6559.926785619184,
+        "Span": 1,
+        "X": 9.913043478260871
+      },
+      {
+        "DeflectionMinimumMm": 0.06948741132245322,
+        "DeflectionMm": 0.10655458279337553,
+        "Moment": -839.5219113485177,
+        "MomentMinimum": -4745.453049689955,
+        "Shear": -4621.013996052277,
+        "ShearMinimum": -6838.205781489674,
+        "Span": 1,
+        "X": 10.173913043478262
+      },
+      {
+        "DeflectionMinimumMm": -8.099992936840649E-18,
+        "DeflectionMm": 4.87957546681517E-16,
+        "Moment": -2077.7252402337717,
+        "MomentMinimum": -6438.961439788566,
+        "Shear": -4853.876205087621,
+        "ShearMinimum": -7115.16026429893,
+        "Span": 1,
+        "X": 10.434782608695652
+      },
+      {
+        "DeflectionMinimumMm": 0,
+        "DeflectionMm": 0,
+        "Moment": -2077.72524023377,
+        "MomentMinimum": -6438.961439788566,
+        "Shear": 2768.1955107459207,
+        "ShearMinimum": -225.10566614453035,
+        "Span": 2,
+        "X": 10.434782608695652
+      },
+      {
+        "DeflectionMinimumMm": -0.08472923679038201,
+        "DeflectionMm": -0.05454747697473969,
+        "Moment": -2143.6616158920237,
+        "MomentMinimum": -6146.541567965978,
+        "Shear": 2527.3685770806874,
+        "ShearMinimum": -416.2998317086791,
+        "Span": 2,
+        "X": 10.648913043478261
+      },
+      {
+        "DeflectionMinimumMm": -0.1668935780750644,
+        "DeflectionMm": -0.10691067855112209,
+        "Moment": -2244.603160108426,
+        "MomentMinimum": -5904.861766774751,
+        "Shear": 2285.4884752150997,
+        "ShearMinimum": -607.8161010861227,
+        "Span": 2,
+        "X": 10.86304347826087
+      },
+      {
+        "DeflectionMinimumMm": -0.24653395123150335,
+        "DeflectionMm": -0.15727893345627308,
+        "Moment": -2379.8513698124852,
+        "MomentMinimum": -5714.620539285374,
+        "Shear": 2042.6451956036044,
+        "ShearMinimum": -799.6719491099518,
+        "Span": 2,
+        "X": 11.07717391304348
+      },
+      {
+        "DeflectionMinimumMm": -0.32367166536965924,
+        "DeflectionMm": -0.20581894351305124,
+        "Moment": -2475.4505977145172,
+        "MomentMinimum": -5576.488359918085,
+        "Shear": 1798.9279070211492,
+        "ShearMinimum": -991.8840289337589,
+        "Span": 2,
+        "X": 11.291304347826086
+      },
+      {
+        "DeflectionMinimumMm": -0.39830841133199657,
+        "DeflectionMm": -0.25267432503849147,
+        "Moment": -2365.7297564048395,
+        "MomentMinimum": -5491.039281983718,
+        "Shear": 1554.424956563183,
+        "ShearMinimum": -1184.4681720316394,
+        "Span": 2,
+        "X": 11.505434782608695
+      },
+      {
+        "DeflectionMinimumMm": -0.4704262616934844,
+        "DeflectionMm": -0.29796519883087486,
+        "Moment": -2296.402969447376,
+        "MomentMinimum": -5458.618490729572,
+        "Shear": 1309.2238696456593,
+        "ShearMinimum": -1377.4393881981912,
+        "Span": 2,
+        "X": 11.719565217391304
+      },
+      {
+        "DeflectionMinimumMm": -0.5412381366707935,
+        "DeflectionMm": -0.3417878144892618,
+        "Moment": -2268.5932026189807,
+        "MomentMinimum": -5479.044979700992,
+        "Shear": 1063.4113500050323,
+        "ShearMinimum": -1570.8118655485137,
+        "Span": 2,
+        "X": 11.933695652173913
+      },
+      {
+        "DeflectionMinimumMm": -0.6119141623537772,
+        "DeflectionMm": -0.3842141980046235,
+        "Moment": -2229.010265495026,
+        "MomentMinimum": -5606.4887874386795,
+        "Shear": 817.0732796982604,
+        "ShearMinimum": -1764.5989705182094,
+        "Span": 2,
+        "X": 12.147826086956522
+      },
+      {
+        "DeflectionMinimumMm": -0.6805345714438163,
+        "DeflectionMm": -0.4252918138460804,
+        "Moment": -2211.9222296018033,
+        "MomentMinimum": -5807.499579326304,
+        "Shear": 570.2947191028015,
+        "ShearMinimum": -1958.8132478633838,
+        "Span": 2,
+        "X": 12.361956521739131
+      },
+      {
+        "DeflectionMinimumMm": -0.7469187550851177,
+        "DeflectionMm": -0.4650432343979439,
+        "Moment": -2250.744409823218,
+        "MomentMinimum": -6049.4176661838,
+        "Shear": 323.1599069166198,
+        "ShearMinimum": -2153.466420660644,
+        "Span": 2,
+        "X": 12.576086956521738
+      },
+      {
+        "DeflectionMinimumMm": -0.810866486154392,
+        "DeflectionMm": -0.5034658107591012,
+        "Moment": -2346.1703206569982,
+        "MomentMinimum": -6332.243048011169,
+        "Shear": 75.75226015817793,
+        "ShearMinimum": -2348.569390307099,
+        "Span": 2,
+        "X": 12.790217391304349
+      },
+      {
+        "DeflectionMinimumMm": -0.8721579192608545,
+        "DeflectionMm": -0.5405313397158944,
+        "Moment": -2498.8313653947507,
+        "MomentMinimum": -6655.97572480841,
+        "Shear": -171.84562583355523,
+        "ShearMinimum": -2544.132236520362,
+        "Span": 2,
+        "X": 13.004347826086956
+      },
+      {
+        "DeflectionMinimumMm": -0.9305535907462248,
+        "DeflectionMm": -0.5761857222245972,
+        "Moment": -2709.296836121972,
+        "MomentMinimum": -7020.6156965755235,
+        "Shear": -419.55197739911205,
+        "ShearMinimum": -2740.164217338546,
+        "Span": 2,
+        "X": 13.218478260869565
+      },
+      {
+        "DeflectionMinimumMm": -0.9857944186847261,
+        "DeflectionMm": -0.6103486090442737,
+        "Moment": -2978.073913718031,
+        "MomentMinimum": -7426.16296331251,
+        "Shear": -667.28584255852,
+        "ShearMinimum": -2936.6737691202698,
+        "Span": 2,
+        "X": 13.432608695652174
+      },
+      {
+        "DeflectionMinimumMm": -1.0376017028830864,
+        "DeflectionMm": -0.6429130292794007,
+        "Moment": -3305.6076678561913,
+        "MomentMinimum": -7872.617525019368,
+        "Shear": -914.9670910113043,
+        "ShearMinimum": -3133.668506544651,
+        "Span": 2,
+        "X": 13.646739130434783
+      },
+      {
+        "DeflectionMinimumMm": -1.085677124880538,
+        "DeflectionMm": -0.6737449975425482,
+        "Moment": -3692.2810570035876,
+        "MomentMinimum": -8441.083896882006,
+        "Shear": -1162.516414136489,
+        "ShearMinimum": -3331.1552226113113,
+        "Span": 2,
+        "X": 13.860869565217392
+      },
+      {
+        "DeflectionMinimumMm": -1.129702747948817,
+        "DeflectionMm": -0.7026816535856957,
+        "Moment": -4138.41492842125,
+        "MomentMinimum": -9144.941247337454,
+        "Shear": -1409.8553249925953,
+        "ShearMinimum": -3529.1398886403767,
+        "Span": 2,
+        "X": 14.075
+      },
+      {
+        "DeflectionMinimumMm": -1.1693410170921643,
+        "DeflectionMm": -0.7295179154655179,
+        "Moment": -4644.268018164083,
+        "MomentMinimum": -9889.70589276278,
+        "Shear": -1656.9061583176417,
+        "ShearMinimum": -3727.627654272472,
+        "Span": 2,
+        "X": 14.289130434782608
+      },
+      {
+        "DeflectionMinimumMm": -1.2042347590473252,
+        "DeflectionMm": -0.7540129090939226,
+        "Moment": -5210.036951080875,
+        "MomentMinimum": -10675.377833157974,
+        "Shear": -1903.5920705291437,
+        "ShearMinimum": -3955.8791692567356,
+        "Span": 2,
+        "X": 14.503260869565217
+      },
+      {
+        "DeflectionMinimumMm": -1.2340071822835479,
+        "DeflectionMm": -0.7758987149913121,
+        "Moment": -5835.8562408143,
+        "MomentMinimum": -11501.957068523041,
+        "Shear": -2149.837039724116,
+        "ShearMinimum": -4199.374036452655,
+        "Span": 2,
+        "X": 14.717391304347826
+      },
+      {
+        "DeflectionMinimumMm": -1.258261877002587,
+        "DeflectionMm": -0.7948807729918207,
+        "Moment": -6506.101925924408,
+        "MomentMinimum": -12369.443598857984,
+        "Shear": -2395.56586567907,
+        "ShearMinimum": -4443.786379263673,
+        "Span": 2,
+        "X": 14.931521739130435
+      },
+      {
+        "DeflectionMinimumMm": -1.276582815138699,
+        "DeflectionMm": -0.8106380288428984,
+        "Moment": -7221.226428816061,
+        "MomentMinimum": -13277.837424162797,
+        "Shear": -2640.7041698500143,
+        "ShearMinimum": -4689.04554499107,
+        "Span": 2,
+        "X": 15.145652173913044
+      },
+      {
+        "DeflectionMinimumMm": -1.2885343503586468,
+        "DeflectionMm": -0.8228229236758694,
+        "Moment": -7996.2318764142765,
+        "MomentMinimum": -14227.13854443748,
+        "Shear": -2885.1783953724535,
+        "ShearMinimum": -4935.080059256628,
+        "Span": 2,
+        "X": 15.359782608695653
+      },
+      {
+        "DeflectionMinimumMm": -1.2936612180616962,
+        "DeflectionMm": -0.8310612233329026,
+        "Moment": -8831.265393774136,
+        "MomentMinimum": -15217.346959682038,
+        "Shear": -3128.9158070613944,
+        "ShearMinimum": -5181.8176260026385,
+        "Span": 2,
+        "X": 15.57391304347826
+      },
+      {
+        "DeflectionMinimumMm": -1.2914885353796177,
+        "DeflectionMm": -0.8349508081666646,
+        "Moment": -9726.411994744605,
+        "MomentMinimum": -16248.462669896464,
+        "Shear": -3371.844491411338,
+        "ShearMinimum": -5429.185127491886,
+        "Span": 2,
+        "X": 15.78804347826087
+      },
+      {
+        "DeflectionMinimumMm": -1.2815218011766856,
+        "DeflectionMm": -0.8340485165103013,
+        "Moment": -10681.694581968533,
+        "MomentMinimum": -17320.485675080767,
+        "Shear": -3613.893356596283,
+        "ShearMinimum": -5677.108624307663,
+        "Span": 2,
+        "X": 16.002173913043478
+      },
+      {
+        "DeflectionMinimumMm": -1.2632468960496788,
+        "DeflectionMm": -0.8278726665278147,
+        "Moment": -11697.073946882654,
+        "MomentMinimum": -18433.415975234944,
+        "Shear": -3854.992132469727,
+        "ShearMinimum": -5925.513355353763,
+        "Span": 2,
+        "X": 16.21630434782609
+      },
+      {
+        "DeflectionMinimumMm": -1.2361300823278816,
+        "DeflectionMm": -0.8159136838661761,
+        "Moment": -12772.448769717583,
+        "MomentMinimum": -19587.253570358993,
+        "Shear": -4095.071370564665,
+        "ShearMinimum": -6174.323737854481,
+        "Span": 2,
+        "X": 16.430434782608696
+      },
+      {
+        "DeflectionMinimumMm": -1.1996180040730804,
+        "DeflectionMm": -0.7976348329544523,
+        "Moment": -13907.655619497807,
+        "MomentMinimum": -20781.99846045291,
+        "Shear": -4334.062444093587,
+        "ShearMinimum": -6423.463367354615,
+        "Span": 2,
+        "X": 16.644565217391303
+      },
+      {
+        "DeflectionMinimumMm": -1.1531376870795673,
+        "DeflectionMm": -0.772472645467768,
+        "Moment": -15102.468954041717,
+        "MomentMinimum": -22017.650645516696,
+        "Shear": -4571.897547948483,
+        "ShearMinimum": -6672.855017719467,
+        "Span": 2,
+        "X": 16.858695652173914
+      },
+      {
+        "DeflectionMinimumMm": -1.0960965388741386,
+        "DeflectionMm": -0.7398373344316459,
+        "Moment": -16356.601119961566,
+        "MomentMinimum": -23294.210125550366,
+        "Shear": -4800.968171862559,
+        "ShearMinimum": -6922.420641134837,
+        "Span": 2,
+        "X": 17.07282608695652
+      },
+      {
+        "DeflectionMinimumMm": -1.0278823487160942,
+        "DeflectionMm": -0.6991131974994725,
+        "Moment": -17669.702352663517,
+        "MomentMinimum": -24611.676900553903,
+        "Shear": -4995.791059606116,
+        "ShearMinimum": -7172.081368107034,
+        "Span": 2,
+        "X": 17.28695652173913
+      },
+      {
+        "DeflectionMinimumMm": -0.9478632875972371,
+        "DeflectionMm": -0.6496590130192723,
+        "Moment": -19041.3607763476,
+        "MomentMinimum": -25970.05097052732,
+        "Shear": -5190.132204676956,
+        "ShearMinimum": -7421.757507462866,
+        "Span": 2,
+        "X": 17.50108695652174
+      },
+      {
+        "DeflectionMinimumMm": -0.8553879082418793,
+        "DeflectionMm": -0.5908084326832123,
+        "Moment": -20471.1024040077,
+        "MomentMinimum": -27369.332335470594,
+        "Shear": -5383.99960430641,
+        "ShearMinimum": -7671.368546349639,
+        "Span": 2,
+        "X": 17.71521739130435
+      },
+      {
+        "DeflectionMinimumMm": -0.7497851451068314,
+        "DeflectionMm": -0.5218703748339057,
+        "Moment": -21945.935928621842,
+        "MomentMinimum": -28821.976204193554,
+        "Shear": -5577.402077405315,
+        "ShearMinimum": -7920.83315023517,
+        "Span": 2,
+        "X": 17.929347826086957
+      },
+      {
+        "DeflectionMinimumMm": -0.630364314381411,
+        "DeflectionMm": -0.44212942290073615,
+        "Moment": -23458.967683687846,
+        "MomentMinimum": -30334.278033780014,
+        "Shear": -5770.349264563998,
+        "ShearMinimum": -8170.06916290777,
+        "Span": 2,
+        "X": 18.143478260869564
+      },
+      {
+        "DeflectionMinimumMm": -0.4964151139874398,
+        "DeflectionMm": -0.3508462339791448,
+        "Moment": -25014.289985489915,
+        "MomentMinimum": -31901.48518732136,
+        "Shear": -5962.851628052289,
+        "ShearMinimum": -8418.99360647626,
+        "Span": 2,
+        "X": 18.357608695652175
+      },
+      {
+        "DeflectionMinimumMm": -0.3472076235792446,
+        "DeflectionMm": -0.247257963276258,
+        "Moment": -26609.776217886923,
+        "MomentMinimum": -33524.364382292406,
+        "Shear": -6154.920451819512,
+        "ShearMinimum": -8667.52268136996,
+        "Span": 2,
+        "X": 18.571739130434782
+      },
+      {
+        "DeflectionMinimumMm": -0.18199230454365364,
+        "DeflectionMm": -0.13057871106799,
+        "Moment": -28008.290886752504,
+        "MomentMinimum": -35202.7640630579,
+        "Shear": -6346.56784149449,
+        "ShearMinimum": -8915.57176633869,
+        "Span": 2,
+        "X": 18.78586956521739
+      },
+      {
+        "DeflectionMinimumMm": -2.92223889960135E-16,
+        "DeflectionMm": 2.242298532166398E-16,
+        "Moment": -29402.553965799973,
+        "MomentMinimum": -36936.079435465625,
+        "Shear": -6537.806724385544,
+        "ShearMinimum": -9163.05541845278,
+        "Span": 2,
+        "X": 19
+      },
+      {
+        "DeflectionMinimumMm": 0,
+        "DeflectionMm": 0,
+        "Moment": -29402.553965799976,
+        "MomentMinimum": -36936.079435465625,
+        "Shear": 12374.042092739528,
+        "ShearMinimum": 9750.649832507343,
+        "Span": 3,
+        "X": 19
+      },
+      {
+        "DeflectionMinimumMm": 0.39971216600359494,
+        "DeflectionMm": 0.5442096403616798,
+        "Moment": -24154.69052898946,
+        "MomentMinimum": -30574.265218768618,
+        "Shear": 11814.53966713556,
+        "ShearMinimum": 9259.702436053592,
+        "Span": 3,
+        "X": 19.55
+      },
+      {
+        "DeflectionMinimumMm": 0.8799356846252976,
+        "DeflectionMm": 1.1842237802519577,
+        "Moment": -19159.86033012124,
+        "MomentMinimum": -24551.653415656416,
+        "Shear": 11252.403228099323,
+        "ShearMinimum": 8768.171901307898,
+        "Span": 3,
+        "X": 20.1
+      },
+      {
+        "DeflectionMinimumMm": 1.424797720870804,
+        "DeflectionMm": 1.9008489575696008,
+        "Moment": -14111.268956506754,
+        "MomentMinimum": -18875.704683005533,
+        "Shear": 10687.909135462196,
+        "ShearMinimum": 8275.961506352418,
+        "Span": 3,
+        "X": 20.65
+      },
+      {
+        "DeflectionMinimumMm": 2.0192793216591647,
+        "DeflectionMm": 2.67586190412525,
+        "Moment": -9287.659329664022,
+        "MomentMinimum": -13554.6613492405,
+        "Shear": 10121.328520843777,
+        "ShearMinimum": 7762.232309927973,
+        "Span": 3,
+        "X": 21.2
+      },
+      {
+        "DeflectionMinimumMm": 2.649215415822784,
+        "DeflectionMm": 3.49201867378129,
+        "Moment": -4692.193082196182,
+        "MomentMinimum": -8597.492851006115,
+        "Shear": 9552.927287651895,
+        "ShearMinimum": 7240.754867794494,
+        "Span": 3,
+        "X": 21.75
+      },
+      {
+        "DeflectionMinimumMm": 3.3012948141074223,
+        "DeflectionMm": 4.333061522764359,
+        "Moment": -297.533007089507,
+        "MomentMinimum": -4013.7078778393006,
+        "Shear": 8982.966111082596,
+        "ShearMinimum": 6715.448231632393,
+        "Span": 3,
+        "X": 22.3
+      },
+      {
+        "DeflectionMinimumMm": 3.9630602091721925,
+        "DeflectionMm": 5.183724699218303,
+        "Moment": 3867.7012667677673,
+        "MomentMinimum": 187.08000636797124,
+        "Shear": 8411.700438120157,
+        "ShearMinimum": 6186.416230284462,
+        "Span": 3,
+        "X": 22.85
+      },
+      {
+        "DeflectionMinimumMm": 4.622908175589563,
+        "DeflectionMm": 6.029739741128623,
+        "Moment": 7785.1851709665025,
+        "MomentMinimum": 3857.350486819972,
+        "Shear": 7839.380487537072,
+        "ShearMinimum": 5653.7679208052705,
+        "Span": 3,
+        "X": 23.4
+      },
+      {
+        "DeflectionMinimumMm": 5.2700891698453525,
+        "DeflectionMm": 6.857840615047586,
+        "Moment": 11448.36308320254,
+        "MomentMinimum": 7085.92076277698,
+        "Shear": 7266.251249894072,
+        "ShearMinimum": 5117.617588461166,
+        "Span": 3,
+        "X": 23.95
+      },
+      {
+        "DeflectionMinimumMm": 5.894707530338743,
+        "DeflectionMm": 7.655768893311468,
+        "Moment": 14846.034972671976,
+        "MomentMinimum": 9995.309894367967,
+        "Shear": 6692.552487540102,
+        "ShearMinimum": 4578.084746730267,
+        "Span": 3,
+        "X": 24.5
+      },
+      {
+        "DeflectionMinimumMm": 6.487721477382261,
+        "DeflectionMm": 8.412279096202829,
+        "Moment": 17960.5868920885,
+        "MomentMinimum": 12599.305541320962,
+        "Shear": 6118.518734612338,
+        "ShearMinimum": 4035.294137302471,
+        "Span": 3,
+        "X": 25.05
+      },
+      {
+        "DeflectionMinimumMm": 7.040943113201796,
+        "DeflectionMm": 9.117144286397487,
+        "Moment": 20769.190227306663,
+        "MomentMinimum": 14917.305233632876,
+        "Shear": 5544.379297036178,
+        "ShearMinimum": 3489.3757300794464,
+        "Span": 3,
+        "X": 25.6
+      },
+      {
+        "DeflectionMinimumMm": 7.547038421936586,
+        "DeflectionMm": 9.76116198084281,
+        "Moment": 23252.692299196664,
+        "MomentMinimum": 16965.4257696948,
+        "Shear": 4970.358252525245,
+        "ShearMinimum": 2940.4647231746403,
+        "Span": 3,
+        "X": 26.15
+      },
+      {
+        "DeflectionMinimumMm": 7.999527269639223,
+        "DeflectionMm": 10.336160432182886,
+        "Moment": 25408.452430429556,
+        "MomentMinimum": 18743.667149506728,
+        "Shear": 4396.674450581388,
+        "ShearMinimum": 2388.7015429132725,
+        "Span": 3,
+        "X": 26.7
+      },
+      {
+        "DeflectionMinimumMm": 8.392783404275658,
+        "DeflectionMm": 10.835005323806417,
+        "Moment": 27234.22514708612,
+        "MomentMinimum": 20252.029373068635,
+        "Shear": 3823.5415124946794,
+        "ShearMinimum": 1834.23184383234,
+        "Span": 3,
+        "X": 27.25
+      },
+      {
+        "DeflectionMinimumMm": 8.722034455725192,
+        "DeflectionMm": 11.251606917161766,
+        "Moment": 28728.160178657006,
+        "MomentMinimum": 21490.51244038057,
+        "Shear": 3251.167831343417,
+        "ShearMinimum": 1277.2065086806128,
+        "Span": 3,
+        "X": 27.8
+      },
+      {
+        "DeflectionMinimumMm": 8.983361935780483,
+        "DeflectionMm": 11.580927685682449,
+        "Moment": 29888.80245804252,
+        "MomentMinimum": 22459.11635144249,
+        "Shear": 2679.7565719941276,
+        "ShearMinimum": 717.7816484186405,
+        "Span": 3,
+        "X": 28.35
+      },
+      {
+        "DeflectionMinimumMm": 9.17370123814754,
+        "DeflectionMm": 11.818990465463727,
+        "Moment": 30715.092121552836,
+        "MomentMinimum": 23157.841106254404,
+        "Shear": 2109.5056711015523,
+        "ShearMinimum": 156.11860221873928,
+        "Span": 3,
+        "X": 28.9
+      },
+      {
+        "DeflectionMinimumMm": 9.290841638445732,
+        "DeflectionMm": 11.962919218613614,
+        "Moment": 31206.36450890789,
+        "MomentMinimum": 23586.686704816326,
+        "Shear": 1540.607837108671,
+        "ShearMinimum": -407.6160625349871,
+        "Span": 3,
+        "X": 29.45
+      },
+      {
+        "DeflectionMinimumMm": 9.33342629420778,
+        "DeflectionMm": 12.011071877381884,
+        "Moment": 31362.350163237355,
+        "MomentMinimum": 23745.653147128236,
+        "Shear": 973.2505502466739,
+        "ShearMinimum": -973.2505502466744,
+        "Span": 3,
+        "X": 30
+      },
+      {
+        "DeflectionMinimumMm": 9.290841638445736,
+        "DeflectionMm": 11.962919218613614,
+        "Moment": 31206.364508907885,
+        "MomentMinimum": 23586.68670481632,
+        "Shear": 407.6160625349885,
+        "ShearMinimum": -1540.6078371086694,
+        "Span": 3,
+        "X": 30.55
+      },
+      {
+        "DeflectionMinimumMm": 9.173701238147538,
+        "DeflectionMm": 11.818990465463726,
+        "Moment": 30715.092121552847,
+        "MomentMinimum": 23157.84110625441,
+        "Shear": -156.1186022187394,
+        "ShearMinimum": -2109.5056711015523,
+        "Span": 3,
+        "X": 31.1
+      },
+      {
+        "DeflectionMinimumMm": 8.983361935780488,
+        "DeflectionMm": 11.580927685682445,
+        "Moment": 29888.80245804252,
+        "MomentMinimum": 22459.11635144249,
+        "Shear": -717.781648418639,
+        "ShearMinimum": -2679.756571994126,
+        "Span": 3,
+        "X": 31.65
+      },
+      {
+        "DeflectionMinimumMm": 8.722034455725193,
+        "DeflectionMm": 11.25160691716177,
+        "Moment": 28728.160178656988,
+        "MomentMinimum": 21490.512440380557,
+        "Shear": -1277.2065086806128,
+        "ShearMinimum": -3251.1678313434168,
+        "Span": 3,
+        "X": 32.2
+      },
+      {
+        "DeflectionMinimumMm": 8.39278340427566,
+        "DeflectionMm": 10.835005323806412,
+        "Moment": 27234.225147086123,
+        "MomentMinimum": 20252.029373068643,
+        "Shear": -1834.2318438323387,
+        "ShearMinimum": -3823.5415124946776,
+        "Span": 3,
+        "X": 32.75
+      },
+      {
+        "DeflectionMinimumMm": 7.999527269639229,
+        "DeflectionMm": 10.336160432182893,
+        "Moment": 25408.45243042955,
+        "MomentMinimum": 18743.66714950673,
+        "Shear": -2388.701542913271,
+        "ShearMinimum": -4396.674450581386,
+        "Span": 3,
+        "X": 33.3
+      },
+      {
+        "DeflectionMinimumMm": 7.547038421936597,
+        "DeflectionMm": 9.761161980842829,
+        "Moment": 23252.692299196686,
+        "MomentMinimum": 16965.42576969482,
+        "Shear": -2940.464723174638,
+        "ShearMinimum": -4970.358252525243,
+        "Span": 3,
+        "X": 33.85
+      },
+      {
+        "DeflectionMinimumMm": 7.040943113201804,
+        "DeflectionMm": 9.1171442863975,
+        "Moment": 20769.190227306677,
+        "MomentMinimum": 14917.3052336329,
+        "Shear": -3489.375730079445,
+        "ShearMinimum": -5544.3792970361765,
+        "Span": 3,
+        "X": 34.4
+      },
+      {
+        "DeflectionMinimumMm": 6.4877214773822685,
+        "DeflectionMm": 8.412279096202825,
+        "Moment": 17960.5868920885,
+        "MomentMinimum": 12599.305541320966,
+        "Shear": -4035.2941373024696,
+        "ShearMinimum": -6118.518734612337,
+        "Span": 3,
+        "X": 34.95
+      },
+      {
+        "DeflectionMinimumMm": 5.8947075303387555,
+        "DeflectionMm": 7.655768893311478,
+        "Moment": 14846.034972671983,
+        "MomentMinimum": 9995.30989436798,
+        "Shear": -4578.0847467302665,
+        "ShearMinimum": -6692.552487540101,
+        "Span": 3,
+        "X": 35.5
+      },
+      {
+        "DeflectionMinimumMm": 5.270089169845357,
+        "DeflectionMm": 6.85784061504757,
+        "Moment": 11448.363083202532,
+        "MomentMinimum": 7085.920762776981,
+        "Shear": -5117.617588461166,
+        "ShearMinimum": -7266.251249894072,
+        "Span": 3,
+        "X": 36.05
+      },
+      {
+        "DeflectionMinimumMm": 4.622908175589571,
+        "DeflectionMm": 6.02973974112864,
+        "Moment": 7785.185170966506,
+        "MomentMinimum": 3857.3504868199793,
+        "Shear": -5653.7679208052705,
+        "ShearMinimum": -7839.380487537072,
+        "Span": 3,
+        "X": 36.6
+      },
+      {
+        "DeflectionMinimumMm": 3.963060209172189,
+        "DeflectionMm": 5.183724699218298,
+        "Moment": 3867.7012667678105,
+        "MomentMinimum": 187.08000636802421,
+        "Shear": -6186.416230284459,
+        "ShearMinimum": -8411.700438120153,
+        "Span": 3,
+        "X": 37.15
+      },
+      {
+        "DeflectionMinimumMm": 3.301294814107442,
+        "DeflectionMm": 4.333061522764378,
+        "Moment": -297.5330070894529,
+        "MomentMinimum": -4013.707877839246,
+        "Shear": -6715.44823163239,
+        "ShearMinimum": -8982.966111082595,
+        "Span": 3,
+        "X": 37.7
+      },
+      {
+        "DeflectionMinimumMm": 2.6492154158228014,
+        "DeflectionMm": 3.4920186737812995,
+        "Moment": -4692.193082196171,
+        "MomentMinimum": -8597.492851006096,
+        "Shear": -7240.754867794494,
+        "ShearMinimum": -9552.927287651895,
+        "Span": 3,
+        "X": 38.25
+      },
+      {
+        "DeflectionMinimumMm": 2.019279321659174,
+        "DeflectionMm": 2.67586190412527,
+        "Moment": -9287.659329664004,
+        "MomentMinimum": -13554.661349240483,
+        "Shear": -7762.232309927974,
+        "ShearMinimum": -10121.328520843781,
+        "Span": 3,
+        "X": 38.8
+      },
+      {
+        "DeflectionMinimumMm": 1.424797720870827,
+        "DeflectionMm": 1.9008489575696235,
+        "Moment": -14111.268956506738,
+        "MomentMinimum": -18875.704683005515,
+        "Shear": -8275.961506352416,
+        "ShearMinimum": -10687.909135462196,
+        "Span": 3,
+        "X": 39.35
+      },
+      {
+        "DeflectionMinimumMm": 0.8799356846253017,
+        "DeflectionMm": 1.1842237802519504,
+        "Moment": -19159.860330121213,
+        "MomentMinimum": -24551.653415656387,
+        "Shear": -8768.171901307895,
+        "ShearMinimum": -11252.40322809932,
+        "Span": 3,
+        "X": 39.9
+      },
+      {
+        "DeflectionMinimumMm": 0.3997121660036083,
+        "DeflectionMm": 0.5442096403616903,
+        "Moment": -24154.690528989464,
+        "MomentMinimum": -30574.265218768618,
+        "Shear": -9259.70243605359,
+        "ShearMinimum": -11814.539667135557,
+        "Span": 3,
+        "X": 40.45
+      },
+      {
+        "DeflectionMinimumMm": -1.3924527407956963E-16,
+        "DeflectionMm": 4.484597064332796E-16,
+        "Moment": -29402.55396579999,
+        "MomentMinimum": -36936.07943546565,
+        "Shear": -9750.64983250734,
+        "ShearMinimum": -12374.04209273953,
+        "Span": 3,
+        "X": 41
+      },
+      {
+        "DeflectionMinimumMm": 0,
+        "DeflectionMm": 0,
+        "Moment": -29402.55396579998,
+        "MomentMinimum": -36936.07943546564,
+        "Shear": 9163.055418452777,
+        "ShearMinimum": 6537.806724385544,
+        "Span": 4,
+        "X": 41
+      },
+      {
+        "DeflectionMinimumMm": -0.18199230454365178,
+        "DeflectionMm": -0.13057871106798838,
+        "Moment": -28008.29088675251,
+        "MomentMinimum": -35202.764063057904,
+        "Shear": 8915.571766338691,
+        "ShearMinimum": 6346.5678414944905,
+        "Span": 4,
+        "X": 41.21413043478261
+      },
+      {
+        "DeflectionMinimumMm": -0.34720762357924295,
+        "DeflectionMm": -0.24725796327625726,
+        "Moment": -26609.776217886934,
+        "MomentMinimum": -33524.36438229243,
+        "Shear": 8667.522681369961,
+        "ShearMinimum": 6154.920451819513,
+        "Span": 4,
+        "X": 41.428260869565214
+      },
+      {
+        "DeflectionMinimumMm": -0.49641511398743904,
+        "DeflectionMm": -0.35084623397914416,
+        "Moment": -25014.289985489922,
+        "MomentMinimum": -31901.485187321367,
+        "Shear": 8418.993606476262,
+        "ShearMinimum": 5962.85162805229,
+        "Span": 4,
+        "X": 41.642391304347825
+      },
+      {
+        "DeflectionMinimumMm": -0.6303643143814102,
+        "DeflectionMm": -0.44212942290073604,
+        "Moment": -23458.967683687853,
+        "MomentMinimum": -30334.27803378002,
+        "Shear": 8170.069162907771,
+        "ShearMinimum": 5770.349264563999,
+        "Span": 4,
+        "X": 41.856521739130436
+      },
+      {
+        "DeflectionMinimumMm": -0.7497851451068305,
+        "DeflectionMm": -0.5218703748339055,
+        "Moment": -21945.935928621846,
+        "MomentMinimum": -28821.97620419356,
+        "Shear": 7920.833150235169,
+        "ShearMinimum": 5577.402077405315,
+        "Span": 4,
+        "X": 42.07065217391305
+      },
+      {
+        "DeflectionMinimumMm": -0.8553879082418785,
+        "DeflectionMm": -0.5908084326832126,
+        "Moment": -20471.10240400771,
+        "MomentMinimum": -27369.332335470604,
+        "Shear": 7671.3685463496395,
+        "ShearMinimum": 5383.99960430641,
+        "Span": 4,
+        "X": 42.28478260869565
+      },
+      {
+        "DeflectionMinimumMm": -0.947863287597237,
+        "DeflectionMm": -0.6496590130192731,
+        "Moment": -19041.3607763476,
+        "MomentMinimum": -25970.05097052732,
+        "Shear": 7421.757507462865,
+        "ShearMinimum": 5190.132204676956,
+        "Span": 4,
+        "X": 42.49891304347826
+      },
+      {
+        "DeflectionMinimumMm": -1.027882348716093,
+        "DeflectionMm": -0.6991131974994728,
+        "Moment": -17669.70235266353,
+        "MomentMinimum": -24611.676900553914,
+        "Shear": 7172.081368107035,
+        "ShearMinimum": 4995.7910596061165,
+        "Span": 4,
+        "X": 42.71304347826087
+      },
+      {
+        "DeflectionMinimumMm": -1.096096538874138,
+        "DeflectionMm": -0.7398373344316449,
+        "Moment": -16356.601119961579,
+        "MomentMinimum": -23294.210125550373,
+        "Shear": 6922.420641134838,
+        "ShearMinimum": 4800.96817186256,
+        "Span": 4,
+        "X": 42.927173913043475
+      },
+      {
+        "DeflectionMinimumMm": -1.1531376870795669,
+        "DeflectionMm": -0.7724726454677677,
+        "Moment": -15102.468954041726,
+        "MomentMinimum": -22017.650645516715,
+        "Shear": 6672.855017719467,
+        "ShearMinimum": 4571.897547948485,
+        "Span": 4,
+        "X": 43.141304347826086
+      },
+      {
+        "DeflectionMinimumMm": -1.1996180040730802,
+        "DeflectionMm": -0.7976348329544536,
+        "Moment": -13907.655619497818,
+        "MomentMinimum": -20781.998460452924,
+        "Shear": 6423.463367354614,
+        "ShearMinimum": 4334.062444093587,
+        "Span": 4,
+        "X": 43.3554347826087
+      },
+      {
+        "DeflectionMinimumMm": -1.2361300823278814,
+        "DeflectionMm": -0.8159136838661772,
+        "Moment": -12772.44876971759,
+        "MomentMinimum": -19587.253570359004,
+        "Shear": 6174.323737854482,
+        "ShearMinimum": 4095.071370564666,
+        "Span": 4,
+        "X": 43.5695652173913
+      },
+      {
+        "DeflectionMinimumMm": -1.263246896049679,
+        "DeflectionMm": -0.8278726665278151,
+        "Moment": -11697.073946882665,
+        "MomentMinimum": -18433.415975234955,
+        "Shear": 5925.513355353763,
+        "ShearMinimum": 3854.992132469728,
+        "Span": 4,
+        "X": 43.78369565217391
+      },
+      {
+        "DeflectionMinimumMm": -1.2815218011766851,
+        "DeflectionMm": -0.8340485165103014,
+        "Moment": -10681.694581968544,
+        "MomentMinimum": -17320.48567508078,
+        "Shear": 5677.108624307664,
+        "ShearMinimum": 3613.893356596284,
+        "Span": 4,
+        "X": 43.99782608695652
+      },
+      {
+        "DeflectionMinimumMm": -1.2914885353796175,
+        "DeflectionMm": -0.8349508081666651,
+        "Moment": -9726.411994744618,
+        "MomentMinimum": -16248.46266989648,
+        "Shear": 5429.185127491887,
+        "ShearMinimum": 3371.8444914113397,
+        "Span": 4,
+        "X": 44.211956521739125
+      },
+      {
+        "DeflectionMinimumMm": -1.2936612180616969,
+        "DeflectionMm": -0.8310612233329037,
+        "Moment": -8831.265393774145,
+        "MomentMinimum": -15217.346959682047,
+        "Shear": 5181.817626002639,
+        "ShearMinimum": 3128.915807061396,
+        "Span": 4,
+        "X": 44.426086956521736
+      },
+      {
+        "DeflectionMinimumMm": -1.2885343503586473,
+        "DeflectionMm": -0.8228229236758706,
+        "Moment": -7996.231876414287,
+        "MomentMinimum": -14227.138544437494,
+        "Shear": 4935.08005925663,
+        "ShearMinimum": 2885.1783953724553,
+        "Span": 4,
+        "X": 44.64021739130435
+      },
+      {
+        "DeflectionMinimumMm": -1.2765828151386995,
+        "DeflectionMm": -0.8106380288428998,
+        "Moment": -7221.2264288160695,
+        "MomentMinimum": -13277.837424162806,
+        "Shear": 4689.04554499107,
+        "ShearMinimum": 2640.704169850015,
+        "Span": 4,
+        "X": 44.85434782608696
+      },
+      {
+        "DeflectionMinimumMm": -1.2582618770025875,
+        "DeflectionMm": -0.7948807729918221,
+        "Moment": -6506.1019259244185,
+        "MomentMinimum": -12369.443598857997,
+        "Shear": 4443.786379263674,
+        "ShearMinimum": 2395.565865679072,
+        "Span": 4,
+        "X": 45.06847826086956
+      },
+      {
+        "DeflectionMinimumMm": -1.234007182283548,
+        "DeflectionMm": -0.7758987149913127,
+        "Moment": -5835.856240814312,
+        "MomentMinimum": -11501.957068523054,
+        "Shear": 4199.374036452657,
+        "ShearMinimum": 2149.8370397241188,
+        "Span": 4,
+        "X": 45.28260869565217
+      },
+      {
+        "DeflectionMinimumMm": -1.2042347590473257,
+        "DeflectionMm": -0.7540129090939239,
+        "Moment": -5210.036951080883,
+        "MomentMinimum": -10675.377833157982,
+        "Shear": 3955.8791692567374,
+        "ShearMinimum": 1903.5920705291458,
+        "Span": 4,
+        "X": 45.49673913043478
+      },
+      {
+        "DeflectionMinimumMm": -1.169341017092166,
+        "DeflectionMm": -0.7295179154655199,
+        "Moment": -4644.268018164095,
+        "MomentMinimum": -9889.705892762793,
+        "Shear": 3727.6276542724745,
+        "ShearMinimum": 1656.906158317644,
+        "Span": 4,
+        "X": 45.710869565217386
+      },
+      {
+        "DeflectionMinimumMm": -1.1297027479488178,
+        "DeflectionMm": -0.7026816535856971,
+        "Moment": -4138.4149284212635,
+        "MomentMinimum": -9144.941247337469,
+        "Shear": 3529.139888640379,
+        "ShearMinimum": 1409.8553249925976,
+        "Span": 4,
+        "X": 45.925
+      },
+      {
+        "DeflectionMinimumMm": -1.0856771248805388,
+        "DeflectionMm": -0.6737449975425502,
+        "Moment": -3692.2810570035995,
+        "MomentMinimum": -8441.083896882019,
+        "Shear": 3331.1552226113154,
+        "ShearMinimum": 1162.5164141364924,
+        "Span": 4,
+        "X": 46.13913043478261
+      },
+      {
+        "DeflectionMinimumMm": -1.0376017028830877,
+        "DeflectionMm": -0.6429130292794024,
+        "Moment": -3305.607667856199,
+        "MomentMinimum": -7872.617525019377,
+        "Shear": 3133.668506544653,
+        "ShearMinimum": 914.9670910113064,
+        "Span": 4,
+        "X": 46.35326086956522
+      },
+      {
+        "DeflectionMinimumMm": -0.9857944186847267,
+        "DeflectionMm": -0.6103486090442751,
+        "Moment": -2978.0739137180444,
+        "MomentMinimum": -7426.162963312522,
+        "Shear": 2936.673769120272,
+        "ShearMinimum": 667.2858425585221,
+        "Span": 4,
+        "X": 46.56739130434782
+      },
+      {
+        "DeflectionMinimumMm": -0.9305535907462263,
+        "DeflectionMm": -0.5761857222245996,
+        "Moment": -2709.296836121984,
+        "MomentMinimum": -7020.615696575537,
+        "Shear": 2740.164217338549,
+        "ShearMinimum": 419.55197739911455,
+        "Span": 4,
+        "X": 46.78152173913043
+      },
+      {
+        "DeflectionMinimumMm": -0.8721579192608555,
+        "DeflectionMm": -0.5405313397158964,
+        "Moment": -2498.83136539476,
+        "MomentMinimum": -6655.975724808417,
+        "Shear": 2544.1322365203646,
+        "ShearMinimum": 171.84562583355773,
+        "Span": 4,
+        "X": 46.995652173913044
+      },
+      {
+        "DeflectionMinimumMm": -0.8108664861543946,
+        "DeflectionMm": -0.5034658107591043,
+        "Moment": -2346.1703206570055,
+        "MomentMinimum": -6332.243048011176,
+        "Shear": 2348.5693903071024,
+        "ShearMinimum": -75.75226015817566,
+        "Span": 4,
+        "X": 47.20978260869565
+      },
+      {
+        "DeflectionMinimumMm": -0.7469187550851194,
+        "DeflectionMm": -0.4650432343979466,
+        "Moment": -2250.744409823229,
+        "MomentMinimum": -6049.417666183811,
+        "Shear": 2153.466420660647,
+        "ShearMinimum": -323.15990691661705,
+        "Span": 4,
+        "X": 47.42391304347826
+      },
+      {
+        "DeflectionMinimumMm": -0.6805345714438186,
+        "DeflectionMm": -0.4252918138460835,
+        "Moment": -2211.922229601809,
+        "MomentMinimum": -5807.49957932631,
+        "Shear": 1958.8132478633884,
+        "ShearMinimum": -570.2947191027977,
+        "Span": 4,
+        "X": 47.63804347826087
+      },
+      {
+        "DeflectionMinimumMm": -0.6119141623537797,
+        "DeflectionMm": -0.38421419800462686,
+        "Moment": -2229.01026549503,
+        "MomentMinimum": -5606.488787438683,
+        "Shear": 1764.598970518213,
+        "ShearMinimum": -817.0732796982568,
+        "Span": 4,
+        "X": 47.85217391304347
+      },
+      {
+        "DeflectionMinimumMm": -0.541238136670794,
+        "DeflectionMm": -0.34178781448926343,
+        "Moment": -2268.59320261899,
+        "MomentMinimum": -5479.044979701001,
+        "Shear": 1570.8118655485164,
+        "ShearMinimum": -1063.411350005031,
+        "Span": 4,
+        "X": 48.06630434782608
+      },
+      {
+        "DeflectionMinimumMm": -0.47042626169348695,
+        "DeflectionMm": -0.29796519883087835,
+        "Moment": -2296.402969447383,
+        "MomentMinimum": -5458.618490729579,
+        "Shear": 1377.4393881981946,
+        "ShearMinimum": -1309.2238696456561,
+        "Span": 4,
+        "X": 48.280434782608694
+      },
+      {
+        "DeflectionMinimumMm": -0.39830841133199835,
+        "DeflectionMm": -0.25267432503849385,
+        "Moment": -2365.729756404843,
+        "MomentMinimum": -5491.039281983722,
+        "Shear": 1184.4681720316444,
+        "ShearMinimum": -1554.4249565631785,
+        "Span": 4,
+        "X": 48.4945652173913
+      },
+      {
+        "DeflectionMinimumMm": -0.3236716653696617,
+        "DeflectionMm": -0.20581894351305494,
+        "Moment": -2475.4505977145163,
+        "MomentMinimum": -5576.488359918085,
+        "Shear": 991.8840289337628,
+        "ShearMinimum": -1798.927907021146,
+        "Span": 4,
+        "X": 48.70869565217391
+      },
+      {
+        "DeflectionMinimumMm": -0.24653395123150557,
+        "DeflectionMm": -0.15727893345627558,
+        "Moment": -2379.851369812489,
+        "MomentMinimum": -5714.620539285381,
+        "Shear": 799.671949109955,
+        "ShearMinimum": -2042.645195603602,
+        "Span": 4,
+        "X": 48.92282608695652
+      },
+      {
+        "DeflectionMinimumMm": -0.16689357807506588,
+        "DeflectionMm": -0.1069106785511229,
+        "Moment": -2244.6031601084296,
+        "MomentMinimum": -5904.861766774755,
+        "Shear": 607.8161010861269,
+        "ShearMinimum": -2285.4884752150956,
+        "Span": 4,
+        "X": 49.13695652173912
+      },
+      {
+        "DeflectionMinimumMm": -0.08472923679038255,
+        "DeflectionMm": -0.05454747697473972,
+        "Moment": -2143.6616158920206,
+        "MomentMinimum": -6146.541567965978,
+        "Shear": 416.2998317086833,
+        "ShearMinimum": -2527.3685770806833,
+        "Span": 4,
+        "X": 49.35108695652173
+      },
+      {
+        "DeflectionMinimumMm": 2.90855529649103E-17,
+        "DeflectionMm": 1.2681328181735585E-15,
+        "Moment": -2077.7252402337704,
+        "MomentMinimum": -6438.961439788567,
+        "Shear": 225.10566614453467,
+        "ShearMinimum": -2768.195510745917,
+        "Span": 4,
+        "X": 49.565217391304344
+      },
+      {
+        "DeflectionMinimumMm": 0,
+        "DeflectionMm": 0,
+        "Moment": -2077.725240233773,
+        "MomentMinimum": -6438.961439788571,
+        "Shear": 7115.160264298932,
+        "ShearMinimum": 4853.876205087623,
+        "Span": 5,
+        "X": 49.565217391304344
+      },
+      {
+        "DeflectionMinimumMm": 0.06948741132245284,
+        "DeflectionMm": 0.10655458279337583,
+        "Moment": -839.5219113485186,
+        "MomentMinimum": -4745.453049689955,
+        "Shear": 6838.205781489676,
+        "ShearMinimum": 4621.013996052279,
+        "Span": 5,
+        "X": 49.826086956521735
+      },
+      {
+        "DeflectionMinimumMm": 0.14159992055524623,
+        "DeflectionMm": 0.2158137922012837,
+        "Moment": 343.18343098099626,
+        "MomentMinimum": -3135.9060217446877,
+        "Shear": 6559.926785619184,
+        "ShearMinimum": 4387.887821561887,
+        "Span": 5,
+        "X": 50.086956521739125
+      },
+      {
+        "DeflectionMinimumMm": 0.21544921312089305,
+        "DeflectionMm": 0.32663250734760957,
+        "Moment": 1471.2867426805924,
+        "MomentMinimum": -1612.9651188258138,
+        "Shear": 6280.3895628740875,
+        "ShearMinimum": 4154.474678223169,
+        "Span": 5,
+        "X": 50.347826086956516
+      },
+      {
+        "DeflectionMinimumMm": 0.29019019005852326,
+        "DeflectionMm": 0.4379149070618057,
+        "Moment": 2545.7835303345128,
+        "MomentMinimum": -343.9054980430881,
+        "Shear": 5999.659801950288,
+        "ShearMinimum": 3920.752160133587,
+        "Span": 5,
+        "X": 50.60869565217391
+      },
+      {
+        "DeflectionMinimumMm": 0.3650209680238832,
+        "DeflectionMm": 0.5486151709991582,
+        "Moment": 3567.7830727080536,
+        "MomentMinimum": 800.0233633282701,
+        "Shear": 5717.8025940529515,
+        "ShearMinimum": 3686.698458881334,
+        "Span": 5,
+        "X": 50.8695652173913
+      },
+      {
+        "DeflectionMinimumMm": 0.43918287928933636,
+        "DeflectionMm": 0.6577380711989002,
+        "Moment": 4606.861122668812,
+        "MomentMinimum": 1867.9473059780023,
+        "Shear": 5434.882432896507,
+        "ShearMinimum": 3452.2923635453376,
+        "Span": 5,
+        "X": 51.130434782608695
+      },
+      {
+        "DeflectionMinimumMm": 0.5119604717438627,
+        "DeflectionMm": 0.764339493391897,
+        "Moment": 5762.795060777653,
+        "MomentMinimum": 2858.476271132479,
+        "Shear": 5150.963214704655,
+        "ShearMinimum": 3199.6422740737257,
+        "Span": 5,
+        "X": 51.391304347826086
+      },
+      {
+        "DeflectionMinimumMm": 0.5826815088930594,
+        "DeflectionMm": 0.8675269153930275,
+        "Moment": 6865.417402383938,
+        "MomentMinimum": 3770.046442671374,
+        "Shear": 4866.108238210353,
+        "ShearMinimum": 2938.7529530139045,
+        "Span": 5,
+        "X": 51.65217391304348
+      },
+      {
+        "DeflectionMinimumMm": 0.65071696985914,
+        "DeflectionMm": 0.9664598622858406,
+        "Moment": 7914.923324002442,
+        "MomentMinimum": 4601.072701854887,
+        "Shear": 4580.380204655833,
+        "ShearMinimum": 2675.9665902393085,
+        "Span": 5,
+        "X": 51.91304347826087
+      },
+      {
+        "DeflectionMinimumMm": 0.7154810493809348,
+        "DeflectionMm": 1.0603503532131042,
+        "Moment": 8898.158011774274,
+        "MomentMinimum": 5363.365084970858,
+        "Shear": 4293.841217792586,
+        "ShearMinimum": 2411.307647585161,
+        "Span": 5,
+        "X": 52.17391304347826
+      },
+      {
+        "DeflectionMinimumMm": 0.7764311578138915,
+        "DeflectionMm": 1.14846335146413,
+        "Moment": 9805.802248926479,
+        "MomentMinimum": 6064.9431958751065,
+        "Shear": 4006.5527838813714,
+        "ShearMinimum": 2144.8011843774216,
+        "Span": 5,
+        "X": 52.43478260869565
+      },
+      {
+        "DeflectionMinimumMm": 0.8330679211300738,
+        "DeflectionMm": 1.2301172276151875,
+        "Moment": 10636.601587195866,
+        "MomentMinimum": 6705.807034567636,
+        "Shear": 3718.5758116922143,
+        "ShearMinimum": 1876.4728574327855,
+        "Span": 5,
+        "X": 52.69565217391304
+      },
+      {
+        "DeflectionMinimumMm": 0.8849351809181624,
+        "DeflectionMm": 1.3046842443769286,
+        "Moment": 11389.34674297319,
+        "MomentMinimum": 7285.956601048445,
+        "Shear": 3429.970612504405,
+        "ShearMinimum": 1606.3489210586804,
+        "Span": 5,
+        "X": 52.95652173913043
+      },
+      {
+        "DeflectionMinimumMm": 0.9316199943834556,
+        "DeflectionMm": 1.3715910713172959,
+        "Moment": 12062.873597303136,
+        "MomentMinimum": 7805.391895317531,
+        "Shear": 3140.7969001064994,
+        "ShearMinimum": 1334.4562270532692,
+        "Span": 5,
+        "X": 53.21739130434782
+      },
+      {
+        "DeflectionMinimumMm": 0.972752634347867,
+        "DeflectionMm": 1.4303193376358938,
+        "Moment": 12656.063195884353,
+        "MomentMinimum": 8264.112917374901,
+        "Shear": 2851.1137907963166,
+        "ShearMinimum": 1060.8222247054487,
+        "Span": 5,
+        "X": 53.47826086956522
+      },
+      {
+        "DeflectionMinimumMm": 1.0080065892499284,
+        "DeflectionMm": 1.480406231605389,
+        "Moment": 13167.841749069397,
+        "MomentMinimum": 8662.119667220548,
+        "Shear": 2560.9798033809466,
+        "ShearMinimum": 785.4749607948511,
+        "Span": 5,
+        "X": 53.73913043478261
+      },
+      {
+        "DeflectionMinimumMm": 1.0370985631447873,
+        "DeflectionMm": 1.5214451561543272,
+        "Moment": 13597.180631864792,
+        "MomentMinimum": 8999.412144854476,
+        "Shear": 2270.45285917674,
+        "ShearMinimum": 508.44307959184323,
+        "Span": 5,
+        "X": 54
+      },
+      {
+        "DeflectionMinimumMm": 1.0597884757042086,
+        "DeflectionMm": 1.5530864513729332,
+        "Moment": 13943.096383930984,
+        "MomentMinimum": 9275.990350276681,
+        "Shear": 1979.590282009317,
+        "ShearMinimum": 229.75582285752523,
+        "Span": 5,
+        "X": 54.26086956521739
+      },
+      {
+        "DeflectionMinimumMm": 1.075879462216574,
+        "DeflectionMm": 1.5750435361579562,
+        "Moment": 14204.650709582373,
+        "MomentMinimum": 9491.854283487168,
+        "Shear": 1688.4487982135581,
+        "ShearMinimum": -50.5569701562697,
+        "Span": 5,
+        "X": 54.52173913043478
+      },
+      {
+        "DeflectionMinimumMm": 1.0852178735868816,
+        "DeflectionMm": 1.5871172964586153,
+        "Moment": 14380.95047778729,
+        "MomentMinimum": 9647.003944485934,
+        "Shear": 1397.084536633615,
+        "ShearMinimum": -332.46486270696994,
+        "Span": 5,
+        "X": 54.78260869565217
+      },
+      {
+        "DeflectionMinimumMm": 1.0876932763367473,
+        "DeflectionMm": 1.5891764034043345,
+        "Moment": 14471.147722168007,
+        "MomentMinimum": 9741.43933327298,
+        "Shear": 1105.5530286229018,
+        "ShearMinimum": -615.9368205612726,
+        "Span": 5,
+        "X": 55.04347826086956
+      },
+      {
+        "DeflectionMinimumMm": 1.0832384526044019,
+        "DeflectionMm": 1.581146785328553,
+        "Moment": 14477.083011840947,
+        "MomentMinimum": 9775.160449848308,
+        "Shear": 813.9092080440982,
+        "ShearMinimum": -900.9412119951404,
+        "Span": 5,
+        "X": 55.30434782608695
+      },
+      {
+        "DeflectionMinimumMm": 1.071829400144695,
+        "DeflectionMm": 1.5630112644624565,
+        "Moment": 14431.113156891002,
+        "MomentMinimum": 9748.16729421191,
+        "Shear": 522.2074112691532,
+        "ShearMinimum": -1187.445807793798,
+        "Span": 5,
+        "X": 55.565217391304344
+      },
+      {
+        "DeflectionMinimumMm": 1.0534853323290905,
+        "DeflectionMm": 1.534809496278792,
+        "Moment": 14299.416773860918,
+        "MomentMinimum": 9660.459866363799,
+        "Shear": 230.5013771792743,
+        "ShearMinimum": -1475.4177812517419,
+        "Span": 5,
+        "X": 55.826086956521735
+      },
+      {
+        "DeflectionMinimumMm": 1.0282686781456736,
+        "DeflectionMm": 1.496638346051605,
+        "Moment": 14081.170736932625,
+        "MomentMinimum": 9512.038166303966,
+        "Shear": -61.15575283505791,
+        "ShearMinimum": -1764.823708172727,
+        "Span": 5,
+        "X": 56.086956521739125
+      },
+      {
+        "DeflectionMinimumMm": 0.99628508219914,
+        "DeflectionMm": 1.448667864952446,
+        "Moment": 13775.597084942005,
+        "MomentMinimum": 9302.902194032407,
+        "Shear": -352.71143487410427,
+        "ShearMinimum": -2055.6295668697817,
+        "Span": 5,
+        "X": 56.34782608695652
+      },
+      {
+        "DeflectionMinimumMm": 0.9576834047108078,
+        "DeflectionMm": 1.3911578426685978,
+        "Moment": 13381.96302137888,
+        "MomentMinimum": 9033.051949549133,
+        "Shear": -644.113722528854,
+        "ShearMinimum": -2347.8007381651933,
+        "Span": 5,
+        "X": 56.608695652173914
+      },
+      {
+        "DeflectionMinimumMm": 0.9126557215186095,
+        "DeflectionMm": 1.3244314577631857,
+        "Moment": 12899.580914387012,
+        "MomentMinimum": 8702.487432854135,
+        "Shear": -935.3112668810317,
+        "ShearMinimum": -2641.3020053905148,
+        "Span": 5,
+        "X": 56.869565217391305
+      },
+      {
+        "DeflectionMinimumMm": 0.8614373240770925,
+        "DeflectionMm": 1.248870793488128,
+        "Moment": 12327.808296764098,
+        "MomentMinimum": 8311.208643947415,
+        "Shear": -1226.2533165031002,
+        "ShearMinimum": -2936.0975543865707,
+        "Span": 5,
+        "X": 57.130434782608695
+      },
+      {
+        "DeflectionMinimumMm": 0.8043067194574243,
+        "DeflectionMm": 1.1649158392050827,
+        "Moment": 11666.047865961795,
+        "MomentMinimum": 7859.215582828987,
+        "Shear": -1516.8897174582553,
+        "ShearMinimum": -3232.150973503448,
+        "Span": 5,
+        "X": 57.391304347826086
+      },
+      {
+        "DeflectionMinimumMm": 0.741585630347389,
+        "DeflectionMm": 1.0730635180643824,
+        "Moment": 10913.747484085663,
+        "MomentMinimum": 7346.508249498826,
+        "Shear": -1807.1709133004244,
+        "ShearMinimum": -3529.425253600497,
+        "Span": 5,
+        "X": 57.65217391304348
+      },
+      {
+        "DeflectionMinimumMm": 0.673638995051385,
+        "DeflectionMm": 0.9738667389667419,
+        "Moment": 10070.400177895235,
+        "MomentMinimum": 6773.086643956949,
+        "Shear": -2097.047945074271,
+        "ShearMinimum": -3827.8827880463336,
+        "Span": 5,
+        "X": 57.91304347826087
+      },
+      {
+        "DeflectionMinimumMm": 0.6008749674904293,
+        "DeflectionMm": 0.8679334707531641,
+        "Moment": 9135.544138803984,
+        "MomentMinimum": 6138.950766203358,
+        "Shear": -2386.4724513151928,
+        "ShearMinimum": -4127.485372718842,
+        "Span": 5,
+        "X": 58.17391304347826
+      },
+      {
+        "DeflectionMinimumMm": 0.5237449172021553,
+        "DeflectionMm": 0.7559258365070175,
+        "Moment": 8108.762722879277,
+        "MomentMinimum": 5444.100616238034,
+        "Shear": -2675.3966680493263,
+        "ShearMinimum": -4428.194206005175,
+        "Span": 5,
+        "X": 58.434782608695656
+      },
+      {
+        "DeflectionMinimumMm": 0.4427434293408122,
+        "DeflectionMm": 0.6385592258059207,
+        "Moment": 6989.684450842495,
+        "MomentMinimum": 4688.536194060995,
+        "Shear": -2963.7734287935336,
+        "ShearMinimum": -4729.969888801741,
+        "Span": 5,
+        "X": 58.69565217391305
+      },
+      {
+        "DeflectionMinimumMm": 0.3584083046772679,
+        "DeflectionMm": 0.5166014227269129,
+        "Moment": 5777.983008068912,
+        "MomentMinimum": 3872.257499672243,
+        "Shear": -3239.696467868127,
+        "ShearMinimum": -5032.7724245142235,
+        "Span": 5,
+        "X": 58.95652173913044
+      },
+      {
+        "DeflectionMinimumMm": 0.2713205595990068,
+        "DeflectionMm": 0.3908717473840024,
+        "Moment": 4473.377244587731,
+        "MomentMinimum": 2995.2645330717623,
+        "Shear": -3474.9445789662527,
+        "ShearMinimum": -5336.5612190575675,
+        "Span": 5,
+        "X": 59.21739130434783
+      },
+      {
+        "DeflectionMinimumMm": 0.18210442611012692,
+        "DeflectionMm": 0.26224020876021303,
+        "Moment": 3075.631175082127,
+        "MomentMinimum": 2057.5572942595622,
+        "Shear": -3709.4770216141123,
+        "ShearMinimum": -5641.295080855986,
+        "Span": 5,
+        "X": 59.47826086956522
+      },
+      {
+        "DeflectionMinimumMm": 0.09142735183134641,
+        "DeflectionMm": 0.13162666658492267,
+        "Moment": 1584.5539788891983,
+        "MomentMinimum": 1059.1357832356416,
+        "Shear": -3943.2923020848652,
+        "ShearMinimum": -5946.932220842952,
+        "Span": 5,
+        "X": 59.73913043478261
+      },
+      {
+        "DeflectionMinimumMm": -2.242298532166398E-16,
+        "DeflectionMm": 5.442533064228219E-16,
+        "Moment": 1.8359598882086544E-13,
+        "MomentMinimum": 0,
+        "Shear": -4176.3895241424125,
+        "ShearMinimum": -6253.43025246121,
+        "Span": 5,
+        "X": 60
+      }
+    ],
+    "Steel": 0,
+    "Supports": [
+      {
+        "Columns": 1,
+        "FootingSize": 8,
+        "FootingWidth": 20.200000000000003,
+        "Index": 0,
+        "MinimumReaction": 3093.6218697351196,
+        "PierHeight": 7,
+        "PierSize": 1,
+        "Piles": 6,
+        "Reaction": 4632.170557378673,
+        "Type": "Spalla",
+        "X": 0
+      },
+      {
+        "Columns": 1,
+        "FootingSize": 11,
+        "FootingWidth": 20.200000000000003,
+        "Index": 1,
+        "MinimumReaction": 3428.718917735622,
+        "PierHeight": 18.83888888888889,
+        "PierSize": 1.5,
+        "Piles": 12,
+        "Reaction": 6235.563327772322,
+        "Type": "Setto",
+        "X": 10.434782608695652
+      },
+      {
+        "Columns": 1,
+        "FootingSize": 11,
+        "FootingWidth": 20.200000000000003,
+        "Index": 2,
+        "MinimumReaction": 12084.23715911349,
+        "PierHeight": 18.83888888888889,
+        "PierSize": 1.5,
+        "Piles": 14,
+        "Reaction": 15027.986662109572,
+        "Type": "Setto",
+        "X": 19
+      },
+      {
+        "Columns": 1,
+        "FootingSize": 11,
+        "FootingWidth": 20.200000000000003,
+        "Index": 3,
+        "MinimumReaction": 12084.237159113489,
+        "PierHeight": 18.83888888888889,
+        "PierSize": 1.5,
+        "Piles": 14,
+        "Reaction": 15027.986662109572,
+        "Type": "Setto",
+        "X": 41
+      },
+      {
+        "Columns": 1,
+        "FootingSize": 11,
+        "FootingWidth": 20.200000000000003,
+        "Index": 4,
+        "MinimumReaction": 3428.7189177356227,
+        "PierHeight": 18.83888888888889,
+        "PierSize": 1.5,
+        "Piles": 12,
+        "Reaction": 6235.563327772323,
+        "Type": "Setto",
+        "X": 49.565217391304344
+      },
+      {
+        "Columns": 1,
+        "FootingSize": 8,
+        "FootingWidth": 20.200000000000003,
+        "Index": 5,
+        "MinimumReaction": 3093.6218697351205,
+        "PierHeight": 7,
+        "PierSize": 1,
+        "Piles": 6,
+        "Reaction": 4632.170557378674,
+        "Type": "Spalla",
+        "X": 60
+      }
+    ],
+    "TotalCost": 5405787.847508458,
+    "Traffic": {
+      "GammaG": 1.35,
+      "GammaQ": 1.35,
+      "Lanes": 4,
+      "Model": "Schema 1 NTC 2018",
+      "Reference": "NTC 2018 §5.1.3.3, Tabelle 5.1.I e 5.1.II; parte rimanente EN 1991-2 Tabella 4.2",
+      "Scope": "Inviluppi longitudinali su trave prismatica a EI costante, 41 sezioni/campata. Estremi non concomitanti; nessuna ripartizione trasversale o verifica locale.",
+      "TandemKn": 1200,
+      "UniformKnPerMetre": 63.5
+    },
+    "Warnings": [
+      "Tipologia fuori dal campo usuale 6–15 m: campate 8,6–22,0 m.",
+      "Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico.",
+      "Appoggi: carico massimo d'inviluppo 10144 kN/dispositivo, prezzo 5000 €/cad. Verificare portata e corsa: il listino ANAS usa €/kN; nessun dimensionamento dei dispositivi.",
+      "Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo.",
+      "CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD.",
+      "Schema 1: massimi/minimi di sezioni e appoggi non concomitanti; non sommare le reazioni dell'inviluppo. G2 trattato come permanente portato ben definito col γG esplicito."
+    ],
+    "Web": 0.35,
+    "Width": 20.200000000000003
+  },
+  "errore": "",
+  "versione_motore": 1
+}

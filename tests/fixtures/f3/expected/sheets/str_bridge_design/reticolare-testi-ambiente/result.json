@@ -1,0 +1,1199 @@
+{
+  "ambito": "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO.",
+  "avvisi": [
+    "Archi, stralli, sospeso e reticolari: equilibrio ideale sotto carico uniforme e aree da tensioni di riferimento. Nessuna verifica di instabilità, fatica, deformabilità globale, fasi costruttive, sisma o vento. Diagrammi globali non disponibili.",
+    "Appoggi: carico massimo d'inviluppo 3555 kN/dispositivo, prezzo 5000 €/cad. Verificare portata e corsa: il listino ANAS usa €/kN; nessun dimensionamento dei dispositivi.",
+    "Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo.",
+    "Schema 1: massimi/minimi di sezioni e appoggi non concomitanti; non sommare le reazioni dell'inviluppo. G2 trattato come permanente portato ben definito col γG esplicito.",
+    "Strutture superiori: uniforme equivalente al momento per azioni globali, tandem locale ripartito a leva sui due piani. Per le antenne/cavi i limiti delle azioni sono separati e conservativi nello schema ideale; non sono linee di influenza della struttura reale.",
+    "Costi convenzionali, montaggio speciale esplicito; CO₂ parziale materiali e cantiere, senza EPD. Durata parametrica, non cronoprogramma."
+  ],
+  "bridge_design": {
+    "Advanced": {
+      "AnchorVolume": 0,
+      "CableSteel": 0,
+      "DeckSteel": 241.26038887500005,
+      "Dimensions": [
+        {
+          "Component": "Travi impalcato",
+          "Note": "Travi longitudinali secondarie sotto la soletta",
+          "Origin": "Adottato",
+          "Symbol": "h",
+          "Unit": "m",
+          "Value": 0.5475
+        },
+        {
+          "Component": "Travi impalcato",
+          "Note": "Larghezza piattabanda",
+          "Origin": "Adottato",
+          "Symbol": "b_f",
+          "Unit": "mm",
+          "Value": 550
+        },
+        {
+          "Component": "Travi impalcato",
+          "Note": "Spessore piattabande",
+          "Origin": "Adottato",
+          "Symbol": "t_f",
+          "Unit": "mm",
+          "Value": 24
+        },
+        {
+          "Component": "Travi impalcato",
+          "Note": "Spessore anima",
+          "Origin": "Adottato",
+          "Symbol": "t_w",
+          "Unit": "mm",
+          "Value": 12
+        },
+        {
+          "Component": "Impalcato",
+          "Note": "Travi o cassoni longitudinali",
+          "Origin": "Adottato",
+          "Symbol": "n",
+          "Unit": "n.",
+          "Value": 6
+        },
+        {
+          "Component": "Impalcato",
+          "Note": "Interasse di riferimento",
+          "Origin": "Adottato",
+          "Symbol": "s",
+          "Unit": "m",
+          "Value": 3
+        },
+        {
+          "Component": "Impalcato",
+          "Note": "Area netta di calcestruzzo usata nelle quantità",
+          "Origin": "Adottato",
+          "Symbol": "A_cls",
+          "Unit": "m²",
+          "Value": 4.9
+        },
+        {
+          "Component": "Impalcato",
+          "Note": "Area di acciaio longitudinale prima dell’aggiunta per collegamenti e traversi",
+          "Origin": "Adottato",
+          "Symbol": "A_acc",
+          "Unit": "m²",
+          "Value": 0.19436400000000004
+        },
+        {
+          "Component": "Impalcato",
+          "Note": "Maggiorazione di massa per accessori / traversi; esclusa dalla rigidezza",
+          "Origin": "Adottato",
+          "Symbol": "k_acc",
+          "Unit": "—",
+          "Value": 1.15
+        },
+        {
+          "Component": "Struttura principale",
+          "Note": "Luce massima delle campate indipendenti",
+          "Origin": "Predimensionato",
+          "Symbol": "L_princ",
+          "Unit": "m",
+          "Value": 79.75
+        },
+        {
+          "Component": "Struttura principale",
+          "Note": "Freccia arco o altezza reticolare",
+          "Origin": "Predimensionato",
+          "Symbol": "f / h",
+          "Unit": "m",
+          "Value": 11.9625
+        },
+        {
+          "Component": "Antenne",
+          "Note": "Altezza sopra impalcato; nulla senza antenne",
+          "Origin": "Predimensionato",
+          "Symbol": "h_sup",
+          "Unit": "m",
+          "Value": 0
+        },
+        {
+          "Component": "Struttura principale",
+          "Note": "Componente orizzontale di riferimento; due piani",
+          "Origin": "Predimensionato",
+          "Symbol": "H_rif",
+          "Unit": "kN",
+          "Value": 35532.819834123235
+        },
+        {
+          "Component": "Corrente inferiore",
+          "Note": "Sviluppo geometrico complessivo nei due piani",
+          "Origin": "Predimensionato",
+          "Symbol": "Σ n·l",
+          "Unit": "m",
+          "Value": 275
+        },
+        {
+          "Component": "Corrente inferiore",
+          "Note": "Area massima per singola asta o cavo = |N| / tensione di riferimento",
+          "Origin": "Predimensionato",
+          "Symbol": "A_max",
+          "Unit": "mm²",
+          "Value": 98702.27731700898
+        },
+        {
+          "Component": "Corrente inferiore",
+          "Note": "Massimo per singola asta/cavo: azioni globali equivalenti e tandem locali, estremi non concomitanti",
+          "Origin": "Predimensionato",
+          "Symbol": "N_max",
+          "Unit": "kN",
+          "Value": 17766.409917061617
+        },
+        {
+          "Component": "Corrente inferiore",
+          "Note": "Massa geometrica, prima di eventuali collegamenti",
+          "Origin": "Predimensionato",
+          "Symbol": "m_net",
+          "Unit": "t",
+          "Value": 190.1955287419236
+        },
+        {
+          "Component": "Corrente superiore",
+          "Note": "Sviluppo geometrico complessivo nei due piani",
+          "Origin": "Predimensionato",
+          "Symbol": "Σ n·l",
+          "Unit": "m",
+          "Value": 275
+        },
+        {
+          "Component": "Corrente superiore",
+          "Note": "Area massima per singola asta o cavo = |N| / tensione di riferimento",
+          "Origin": "Predimensionato",
+          "Symbol": "A_max",
+          "Unit": "mm²",
+          "Value": 177664.0991706162
+        },
+        {
+          "Component": "Corrente superiore",
+          "Note": "Massimo per singola asta/cavo: azioni globali equivalenti e tandem locali, estremi non concomitanti",
+          "Origin": "Predimensionato",
+          "Symbol": "N_max",
+          "Unit": "kN",
+          "Value": 17766.409917061617
+        },
+        {
+          "Component": "Corrente superiore",
+          "Note": "Massa geometrica, prima di eventuali collegamenti",
+          "Origin": "Predimensionato",
+          "Symbol": "m_net",
+          "Unit": "t",
+          "Value": 342.35195173546253
+        },
+        {
+          "Component": "Diagonale",
+          "Note": "Sviluppo geometrico complessivo nei due piani",
+          "Origin": "Predimensionato",
+          "Symbol": "Σ n·l",
+          "Unit": "m",
+          "Value": 467.9594817316967
+        },
+        {
+          "Component": "Diagonale",
+          "Note": "Area massima per singola asta o cavo = |N| / tensione di riferimento",
+          "Origin": "Predimensionato",
+          "Symbol": "A_max",
+          "Unit": "mm²",
+          "Value": 128188.09413445526
+        },
+        {
+          "Component": "Diagonale",
+          "Note": "Massimo per singola asta/cavo: azioni globali equivalenti e tandem locali, estremi non concomitanti",
+          "Origin": "Predimensionato",
+          "Symbol": "N_max",
+          "Unit": "kN",
+          "Value": 12818.809413445526
+        },
+        {
+          "Component": "Diagonale",
+          "Note": "Massa geometrica, prima di eventuali collegamenti",
+          "Origin": "Predimensionato",
+          "Symbol": "m_net",
+          "Unit": "t",
+          "Value": 435.78289595939185
+        },
+        {
+          "Component": "Montante",
+          "Note": "Sviluppo geometrico complessivo nei due piani",
+          "Origin": "Predimensionato",
+          "Symbol": "Σ n·l",
+          "Unit": "m",
+          "Value": 419.09999999999997
+        },
+        {
+          "Component": "Montante",
+          "Note": "Area massima per singola asta o cavo = |N| / tensione di riferimento",
+          "Origin": "Predimensionato",
+          "Symbol": "A_max",
+          "Unit": "mm²",
+          "Value": 31960.96117404906
+        },
+        {
+          "Component": "Montante",
+          "Note": "Massimo per singola asta/cavo: azioni globali equivalenti e tandem locali, estremi non concomitanti",
+          "Origin": "Predimensionato",
+          "Symbol": "N_max",
+          "Unit": "kN",
+          "Value": 3196.096117404906
+        },
+        {
+          "Component": "Montante",
+          "Note": "Massa geometrica, prima di eventuali collegamenti",
+          "Origin": "Predimensionato",
+          "Symbol": "m_net",
+          "Unit": "t",
+          "Value": 102.64420436160749
+        }
+      ],
+      "FoundationSchedule": [
+        {
+          "CapLength": 0,
+          "CapThickness": 0,
+          "CapWidth": 0,
+          "Columns": 0,
+          "FootingLength": 12,
+          "FootingThickness": 2.25,
+          "FootingWidth": 19.6,
+          "Height": 7,
+          "Number": 1,
+          "PileDiameter": 1.5,
+          "PileLength": 30,
+          "Piles": 8,
+          "Size": 1,
+          "Type": "Spalla",
+          "WallWidth": 0,
+          "X": 0
+        },
+        {
+          "CapLength": 19.6,
+          "CapThickness": 1.4,
+          "CapWidth": 1.5,
+          "Columns": 1,
+          "FootingLength": 16.5,
+          "FootingThickness": 2.25,
+          "FootingWidth": 19.6,
+          "Height": 19.2025,
+          "Number": 2,
+          "PileDiameter": 1.5,
+          "PileLength": 30,
+          "Piles": 14,
+          "Size": 1.5,
+          "Type": "Setto",
+          "WallWidth": 17.6,
+          "X": 79.75
+        },
+        {
+          "CapLength": 0,
+          "CapThickness": 0,
+          "CapWidth": 0,
+          "Columns": 0,
+          "FootingLength": 12,
+          "FootingThickness": 2.25,
+          "FootingWidth": 19.6,
+          "Height": 7,
+          "Number": 3,
+          "PileDiameter": 1.5,
+          "PileLength": 30,
+          "Piles": 8,
+          "Size": 1,
+          "Type": "Spalla",
+          "WallWidth": 0,
+          "X": 137.5
+        }
+      ],
+      "GlobalBeam": false,
+      "HorizontalForce": 35532.819834123235,
+      "MainSpan": 79.75,
+      "Members": [
+        {
+          "Area": 0.09870227731700898,
+          "Count": 2,
+          "Force": 17766.409917061617,
+          "Kind": "Corrente inferiore",
+          "Length": 79.75,
+          "Mass": 123.582653871694,
+          "X1": 0,
+          "X2": 79.75,
+          "Z1": 0,
+          "Z2": 0
+        },
+        {
+          "Area": 0.17766409917061618,
+          "Count": 2,
+          "Force": -17766.409917061617,
+          "Kind": "Corrente superiore",
+          "Length": 79.75,
+          "Mass": 222.44877696904925,
+          "X1": 0,
+          "X2": 79.75,
+          "Z1": 11.9625,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.12818809413445525,
+          "Count": 2,
+          "Force": -12818.809413445526,
+          "Kind": "Diagonale",
+          "Length": 14.377135710912658,
+          "Mass": 28.934748726540665,
+          "X1": 0,
+          "X2": 7.975,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.03196096117404906,
+          "Count": 2,
+          "Force": -3196.096117404906,
+          "Kind": "Montante",
+          "Length": 11.9625,
+          "Mass": 6.002628069299623,
+          "X1": 0,
+          "X2": 0,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.12818809413445525,
+          "Count": 2,
+          "Force": -12818.809413445526,
+          "Kind": "Diagonale",
+          "Length": 14.377135710912658,
+          "Mass": 28.934748726540665,
+          "X1": 7.975,
+          "X2": 15.95,
+          "Z1": 11.9625,
+          "Z2": 0
+        },
+        {
+          "Area": 0.03196096117404906,
+          "Count": 2,
+          "Force": -3196.096117404906,
+          "Kind": "Montante",
+          "Length": 11.9625,
+          "Mass": 6.002628069299623,
+          "X1": 7.975,
+          "X2": 7.975,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.12818809413445525,
+          "Count": 2,
+          "Force": -12818.809413445526,
+          "Kind": "Diagonale",
+          "Length": 14.377135710912656,
+          "Mass": 28.93474872654066,
+          "X1": 15.95,
+          "X2": 23.924999999999997,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.03196096117404906,
+          "Count": 2,
+          "Force": -3196.096117404906,
+          "Kind": "Montante",
+          "Length": 11.9625,
+          "Mass": 6.002628069299623,
+          "X1": 15.95,
+          "X2": 15.95,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.12818809413445525,
+          "Count": 2,
+          "Force": -12818.809413445526,
+          "Kind": "Diagonale",
+          "Length": 14.377135710912658,
+          "Mass": 28.934748726540665,
+          "X1": 23.924999999999997,
+          "X2": 31.9,
+          "Z1": 11.9625,
+          "Z2": 0
+        },
+        {
+          "Area": 0.03196096117404906,
+          "Count": 2,
+          "Force": -3196.096117404906,
+          "Kind": "Montante",
+          "Length": 11.9625,
+          "Mass": 6.002628069299623,
+          "X1": 23.924999999999997,
+          "X2": 23.924999999999997,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.12818809413445525,
+          "Count": 2,
+          "Force": -12818.809413445526,
+          "Kind": "Diagonale",
+          "Length": 14.377135710912658,
+          "Mass": 28.934748726540665,
+          "X1": 31.9,
+          "X2": 39.875,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.03196096117404906,
+          "Count": 2,
+          "Force": -3196.096117404906,
+          "Kind": "Montante",
+          "Length": 11.9625,
+          "Mass": 6.002628069299623,
+          "X1": 31.9,
+          "X2": 31.9,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.12818809413445525,
+          "Count": 2,
+          "Force": -12818.809413445526,
+          "Kind": "Diagonale",
+          "Length": 14.377135710912654,
+          "Mass": 28.934748726540658,
+          "X1": 39.875,
+          "X2": 47.849999999999994,
+          "Z1": 11.9625,
+          "Z2": 0
+        },
+        {
+          "Area": 0.03196096117404906,
+          "Count": 2,
+          "Force": -3196.096117404906,
+          "Kind": "Montante",
+          "Length": 11.9625,
+          "Mass": 6.002628069299623,
+          "X1": 39.875,
+          "X2": 39.875,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.12818809413445525,
+          "Count": 2,
+          "Force": -12818.809413445526,
+          "Kind": "Diagonale",
+          "Length": 14.377135710912658,
+          "Mass": 28.934748726540665,
+          "X1": 47.849999999999994,
+          "X2": 55.824999999999996,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.03196096117404906,
+          "Count": 2,
+          "Force": -3196.096117404906,
+          "Kind": "Montante",
+          "Length": 11.9625,
+          "Mass": 6.002628069299623,
+          "X1": 47.849999999999994,
+          "X2": 47.849999999999994,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.12818809413445525,
+          "Count": 2,
+          "Force": -12818.809413445526,
+          "Kind": "Diagonale",
+          "Length": 14.377135710912658,
+          "Mass": 28.934748726540665,
+          "X1": 55.824999999999996,
+          "X2": 63.8,
+          "Z1": 11.9625,
+          "Z2": 0
+        },
+        {
+          "Area": 0.03196096117404906,
+          "Count": 2,
+          "Force": -3196.096117404906,
+          "Kind": "Montante",
+          "Length": 11.9625,
+          "Mass": 6.002628069299623,
+          "X1": 55.824999999999996,
+          "X2": 55.824999999999996,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.12818809413445525,
+          "Count": 2,
+          "Force": -12818.809413445526,
+          "Kind": "Diagonale",
+          "Length": 14.377135710912654,
+          "Mass": 28.934748726540658,
+          "X1": 63.8,
+          "X2": 71.77499999999999,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.03196096117404906,
+          "Count": 2,
+          "Force": -3196.096117404906,
+          "Kind": "Montante",
+          "Length": 11.9625,
+          "Mass": 6.002628069299623,
+          "X1": 63.8,
+          "X2": 63.8,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.12818809413445525,
+          "Count": 2,
+          "Force": -12818.809413445526,
+          "Kind": "Diagonale",
+          "Length": 14.377135710912661,
+          "Mass": 28.934748726540672,
+          "X1": 71.77499999999999,
+          "X2": 79.75,
+          "Z1": 11.9625,
+          "Z2": 0
+        },
+        {
+          "Area": 0.03196096117404906,
+          "Count": 2,
+          "Force": -3196.096117404906,
+          "Kind": "Montante",
+          "Length": 11.9625,
+          "Mass": 6.002628069299623,
+          "X1": 71.77499999999999,
+          "X2": 71.77499999999999,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.03196096117404906,
+          "Count": 2,
+          "Force": -3196.096117404906,
+          "Kind": "Montante",
+          "Length": 11.9625,
+          "Mass": 6.002628069299623,
+          "X1": 79.75,
+          "X2": 79.75,
+          "Z1": 0,
+          "Z2": 11.9625
+        },
+        {
+          "Area": 0.07346940730717136,
+          "Count": 2,
+          "Force": 13224.493315290845,
+          "Kind": "Corrente inferiore",
+          "Length": 57.75,
+          "Mass": 66.61287487022959,
+          "X1": 79.75,
+          "X2": 137.5,
+          "Z1": 0,
+          "Z2": 0
+        },
+        {
+          "Area": 0.13224493315290844,
+          "Count": 2,
+          "Force": -13224.493315290845,
+          "Kind": "Corrente superiore",
+          "Length": 57.75,
+          "Mass": 119.90317476641326,
+          "X1": 79.75,
+          "X2": 137.5,
+          "Z1": 8.6625,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.10339500284488015,
+          "Count": 2,
+          "Force": -10339.500284488015,
+          "Kind": "Diagonale",
+          "Length": 11.276047969590232,
+          "Mass": 18.304426086748155,
+          "X1": 79.75,
+          "X2": 86.96875,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.02991418224245218,
+          "Count": 2,
+          "Force": -2991.418224245218,
+          "Kind": "Montante",
+          "Length": 8.6625,
+          "Mass": 4.068366177701299,
+          "X1": 79.75,
+          "X2": 79.75,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.10339500284488015,
+          "Count": 2,
+          "Force": -10339.500284488015,
+          "Kind": "Diagonale",
+          "Length": 11.276047969590232,
+          "Mass": 18.304426086748155,
+          "X1": 86.96875,
+          "X2": 94.1875,
+          "Z1": 8.6625,
+          "Z2": 0
+        },
+        {
+          "Area": 0.02991418224245218,
+          "Count": 2,
+          "Force": -2991.418224245218,
+          "Kind": "Montante",
+          "Length": 8.6625,
+          "Mass": 4.068366177701299,
+          "X1": 86.96875,
+          "X2": 86.96875,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.10339500284488015,
+          "Count": 2,
+          "Force": -10339.500284488015,
+          "Kind": "Diagonale",
+          "Length": 11.276047969590232,
+          "Mass": 18.304426086748155,
+          "X1": 94.1875,
+          "X2": 101.40625,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.02991418224245218,
+          "Count": 2,
+          "Force": -2991.418224245218,
+          "Kind": "Montante",
+          "Length": 8.6625,
+          "Mass": 4.068366177701299,
+          "X1": 94.1875,
+          "X2": 94.1875,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.10339500284488015,
+          "Count": 2,
+          "Force": -10339.500284488015,
+          "Kind": "Diagonale",
+          "Length": 11.276047969590232,
+          "Mass": 18.304426086748155,
+          "X1": 101.40625,
+          "X2": 108.625,
+          "Z1": 8.6625,
+          "Z2": 0
+        },
+        {
+          "Area": 0.02991418224245218,
+          "Count": 2,
+          "Force": -2991.418224245218,
+          "Kind": "Montante",
+          "Length": 8.6625,
+          "Mass": 4.068366177701299,
+          "X1": 101.40625,
+          "X2": 101.40625,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.10339500284488015,
+          "Count": 2,
+          "Force": -10339.500284488015,
+          "Kind": "Diagonale",
+          "Length": 11.276047969590232,
+          "Mass": 18.304426086748155,
+          "X1": 108.625,
+          "X2": 115.84375,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.02991418224245218,
+          "Count": 2,
+          "Force": -2991.418224245218,
+          "Kind": "Montante",
+          "Length": 8.6625,
+          "Mass": 4.068366177701299,
+          "X1": 108.625,
+          "X2": 108.625,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.10339500284488015,
+          "Count": 2,
+          "Force": -10339.500284488015,
+          "Kind": "Diagonale",
+          "Length": 11.276047969590232,
+          "Mass": 18.304426086748155,
+          "X1": 115.84375,
+          "X2": 123.0625,
+          "Z1": 8.6625,
+          "Z2": 0
+        },
+        {
+          "Area": 0.02991418224245218,
+          "Count": 2,
+          "Force": -2991.418224245218,
+          "Kind": "Montante",
+          "Length": 8.6625,
+          "Mass": 4.068366177701299,
+          "X1": 115.84375,
+          "X2": 115.84375,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.10339500284488015,
+          "Count": 2,
+          "Force": -10339.500284488015,
+          "Kind": "Diagonale",
+          "Length": 11.276047969590232,
+          "Mass": 18.304426086748155,
+          "X1": 123.0625,
+          "X2": 130.28125,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.02991418224245218,
+          "Count": 2,
+          "Force": -2991.418224245218,
+          "Kind": "Montante",
+          "Length": 8.6625,
+          "Mass": 4.068366177701299,
+          "X1": 123.0625,
+          "X2": 123.0625,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.10339500284488015,
+          "Count": 2,
+          "Force": -10339.500284488015,
+          "Kind": "Diagonale",
+          "Length": 11.276047969590232,
+          "Mass": 18.304426086748155,
+          "X1": 130.28125,
+          "X2": 137.5,
+          "Z1": 8.6625,
+          "Z2": 0
+        },
+        {
+          "Area": 0.02991418224245218,
+          "Count": 2,
+          "Force": -2991.418224245218,
+          "Kind": "Montante",
+          "Length": 8.6625,
+          "Mass": 4.068366177701299,
+          "X1": 130.28125,
+          "X2": 130.28125,
+          "Z1": 0,
+          "Z2": 8.6625
+        },
+        {
+          "Area": 0.02991418224245218,
+          "Count": 2,
+          "Force": -2991.418224245218,
+          "Kind": "Montante",
+          "Length": 8.6625,
+          "Mass": 4.068366177701299,
+          "X1": 137.5,
+          "X2": 137.5,
+          "Z1": 0,
+          "Z2": 8.6625
+        }
+      ],
+      "Orthotropic": false,
+      "Rise": 11.9625,
+      "StructureSteel": 1285.1694969580624,
+      "TowerHeight": 0,
+      "TowerVolume": 0
+    },
+    "Area": 2695,
+    "Bottom": 0.024,
+    "Carbon": 6241.99538178557,
+    "Concrete": 4990.337280879833,
+    "CostHigh": 16682408.521120233,
+    "CostLow": 8982835.357526278,
+    "Depth": 0.7975,
+    "Details": [
+      {
+        "Name": "Larghezza impalcato",
+        "Rule": "Corsie, banchine, spartitraffico e barriere",
+        "Unit": "m",
+        "Value": 19.6
+      },
+      {
+        "Name": "Altezza in campata",
+        "Rule": "Imposta o Lmax / rapporto convenzionale della famiglia",
+        "Unit": "m",
+        "Value": 0.7975
+      },
+      {
+        "Name": "Area cls impalcato",
+        "Rule": "Area netta; nulla per piastra ortotropa",
+        "Unit": "m²",
+        "Value": 4.9
+      },
+      {
+        "Name": "Inerzia lorda equivalente",
+        "Rule": "Sola sezione dell’impalcato, omogeneizzata a Ec; non rigidezza globale di archi / cavi / reticolari",
+        "Unit": "m⁴",
+        "Value": 0.22929143366764385
+      },
+      {
+        "Name": "Permanenti sull'intero impalcato",
+        "Rule": "Impalcato + struttura superiore distribuita uniformemente + finiture",
+        "Unit": "kN/m",
+        "Value": 304.4038340365262
+      },
+      {
+        "Name": "Schema 1 · carico distribuito",
+        "Rule": "NTC 2018 §5.1.3.3, Tabelle 5.1.I e 5.1.II; parte rimanente EN 1991-2 Tabella 4.2; solo porzioni sfavorevoli",
+        "Unit": "kN/m",
+        "Value": 62
+      },
+      {
+        "Name": "Permanenti verticali sull'impalcato",
+        "Rule": "Gli estremi di traffico hanno posizioni differenti: non costituiscono un caso di equilibrio unico",
+        "Unit": "kN",
+        "Value": 41855.52718002235
+      },
+      {
+        "Name": "Somma degli estremi di reazione (non concomitanti)",
+        "Rule": "Gli estremi di traffico hanno posizioni differenti: non costituiscono un caso di equilibrio unico",
+        "Unit": "kN",
+        "Value": 53950.00322122253
+      },
+      {
+        "Name": "Rapporto carico / riferimento fondazione",
+        "Rule": "Sola risultante verticale, inclusi pesi sottostrutture e blocchi",
+        "Unit": "—",
+        "Value": 0.9600600971971092
+      },
+      {
+        "Name": "Snellezza massima delle pile",
+        "Rule": "2H/r; per antenne H comprende l’altezza sopra impalcato",
+        "Unit": "—",
+        "Value": 88.69254835291031
+      },
+      {
+        "Name": "Compressione media pile / fc",
+        "Rule": "Soglia assiale orientativa, non verifica pressoflessionale",
+        "Unit": "—",
+        "Value": 0.043380828329918866
+      },
+      {
+        "Name": "Carico assiale indicativo per palo",
+        "Rule": "Attrito laterale + punta convenzionali",
+        "Unit": "kN",
+        "Value": 4417.864669110647
+      },
+      {
+        "Name": "Pressione terreno adottata",
+        "Rule": "Classe o valore imposto",
+        "Unit": "kPa",
+        "Value": 100
+      },
+      {
+        "Name": "Costo diretto",
+        "Rule": "Somma del computo",
+        "Unit": "€",
+        "Value": 9963215.791400043
+      },
+      {
+        "Name": "Costo totale indicativo",
+        "Rule": "Diretto con oneri e imprevisti",
+        "Unit": "€",
+        "Value": 12832621.939323256
+      },
+      {
+        "Name": "Iterazioni equilibrio peso struttura",
+        "Rule": "Aggiornamento massa superiore e carico fino a tolleranza relativa 10⁻⁸",
+        "Unit": "n.",
+        "Value": 14
+      },
+      {
+        "Name": "Schema 1 · peso totale tandem",
+        "Rule": "4 corsie convenzionali, due assi a 1.20 m; massimo/minimo indipendente per ogni effetto",
+        "Unit": "kN",
+        "Value": 1200
+      },
+      {
+        "Name": "Moltiplicatore traffico adottato",
+        "Rule": "Valore esplicito del progetto; NTC 2018 Tabella 5.1.V, A1 sfavorevole: 1.35",
+        "Unit": "—",
+        "Value": 1.35
+      },
+      {
+        "Name": "Traffico sul piano esterno · distribuito",
+        "Rule": "Ripartizione a leva fra i due piani; solo predimensionamento locale",
+        "Unit": "kN/m",
+        "Value": 38.76020408163265
+      },
+      {
+        "Name": "Traffico sul piano esterno · tandem",
+        "Rule": "Tandem locale su pendini, montanti e stralli; non spalmato sulla luce del ponte",
+        "Unit": "kN",
+        "Value": 913.265306122449
+      }
+    ],
+    "DirectCost": 9963215.791400043,
+    "Duration": 16,
+    "Family": {
+      "Id": "truss",
+      "MaxSpan": 150,
+      "MinDepth": 0.7,
+      "MinSpan": 30,
+      "Name": "Ponte reticolare metallico",
+      "Prestressed": false,
+      "Ratio": 100,
+      "Slab": 0.25,
+      "Spacing": 3,
+      "Steel": true
+    },
+    "Foundation": "Pali Ø 1,5 m",
+    "Girders": 6,
+    "Inertia": 0.22929143366764385,
+    "Length": 137.5,
+    "PierDepth": 0.7975,
+    "PileDiameter": 1.5,
+    "PileLength": 30,
+    "Prestress": 0,
+    "Quantities": [
+      {
+        "Amount": 673.75,
+        "Carbon": 202.125,
+        "Cost": 185618.125,
+        "Group": "Impalcato",
+        "Item": "Calcestruzzo",
+        "Rate": 275.5,
+        "Unit": "m³"
+      },
+      {
+        "Amount": 80.85,
+        "Carbon": 113.18999999999998,
+        "Cost": 134211,
+        "Group": "Impalcato",
+        "Item": "Armatura ordinaria",
+        "Rate": 1660,
+        "Unit": "t"
+      },
+      {
+        "Amount": 241.26038887500005,
+        "Carbon": 482.5207777500001,
+        "Cost": 844411.3610625002,
+        "Group": "Impalcato",
+        "Item": "Carpenteria metallica",
+        "Rate": 3500,
+        "Unit": "t"
+      },
+      {
+        "Amount": 2695,
+        "Carbon": 0,
+        "Cost": 134750,
+        "Group": "Impalcato",
+        "Item": "Casseforme equivalenti",
+        "Rate": 50,
+        "Unit": "m²"
+      },
+      {
+        "Amount": 1285.1694969580624,
+        "Carbon": 2570.3389939161248,
+        "Cost": 4498093.239353218,
+        "Group": "Struttura principale",
+        "Item": "Reticolari, inclusi collegamenti",
+        "Rate": 3500,
+        "Unit": "t"
+      },
+      {
+        "Amount": 1526.4298858330624,
+        "Carbon": 0,
+        "Cost": 1526429.8858330625,
+        "Group": "Costruzione",
+        "Item": "Montaggio aggiuntivo struttura speciale",
+        "Rate": 1000,
+        "Unit": "t"
+      },
+      {
+        "Amount": 940.1060000000001,
+        "Carbon": 282.03180000000003,
+        "Cost": 225625.44000000003,
+        "Group": "Sottostrutture",
+        "Item": "Calcestruzzo pile e spalle",
+        "Rate": 240,
+        "Unit": "m³"
+      },
+      {
+        "Amount": 141.01590000000002,
+        "Carbon": 197.42226000000002,
+        "Cost": 234086.39400000003,
+        "Group": "Sottostrutture",
+        "Item": "Armatura pile, antenne e spalle",
+        "Rate": 1660,
+        "Unit": "t"
+      },
+      {
+        "Amount": 1398.8155000000002,
+        "Carbon": 0,
+        "Cost": 69940.77500000001,
+        "Group": "Sottostrutture",
+        "Item": "Casseforme equivalenti pile e spalle",
+        "Rate": 50,
+        "Unit": "m²"
+      },
+      {
+        "Amount": 446.85,
+        "Carbon": 0,
+        "Cost": 22342.5,
+        "Group": "Fondazioni",
+        "Item": "Casseforme laterali plinti",
+        "Rate": 50,
+        "Unit": "m²"
+      },
+      {
+        "Amount": 1786.0500000000002,
+        "Carbon": 535.815,
+        "Cost": 428652.00000000006,
+        "Group": "Fondazioni",
+        "Item": "Calcestruzzo plinti",
+        "Rate": 240,
+        "Unit": "m³"
+      },
+      {
+        "Amount": 900,
+        "Carbon": 477.1293842639499,
+        "Cost": 495000,
+        "Group": "Fondazioni",
+        "Item": "Pali trivellati Ø 1,5 m",
+        "Rate": 550,
+        "Unit": "m"
+      },
+      {
+        "Amount": 405.17775370558,
+        "Carbon": 567.248855187812,
+        "Cost": 672595.0711512628,
+        "Group": "Fondazioni",
+        "Item": "Armatura plinti, ancoraggi e pali",
+        "Rate": 1660,
+        "Unit": "t"
+      },
+      {
+        "Amount": 24,
+        "Carbon": 0,
+        "Cost": 120000,
+        "Group": "Finiture",
+        "Item": "Apparecchi d'appoggio",
+        "Rate": 5000,
+        "Unit": "cad"
+      },
+      {
+        "Amount": 58.800000000000004,
+        "Carbon": 0,
+        "Cost": 141120,
+        "Group": "Finiture",
+        "Item": "Giunti di dilatazione",
+        "Rate": 2400,
+        "Unit": "m"
+      },
+      {
+        "Amount": 412.5,
+        "Carbon": 0,
+        "Cost": 148500,
+        "Group": "Finiture",
+        "Item": "Barriere",
+        "Rate": 360,
+        "Unit": "m"
+      },
+      {
+        "Amount": 2557.5,
+        "Carbon": 0,
+        "Cost": 81840,
+        "Group": "Finiture",
+        "Item": "Pavimentazione",
+        "Rate": 32,
+        "Unit": "m²"
+      }
+    ],
+    "Rebar": 627.04365370558,
+    "Slab": 0.25,
+    "Spacing": 3,
+    "Spans": [79.75,57.75
+    ],
+    "Stations": [],
+    "Steel": 1526.4298858330624,
+    "Supports": [
+      {
+        "Columns": 1,
+        "FootingSize": 12,
+        "FootingWidth": 19.6,
+        "Index": 0,
+        "MinimumReaction": 12138.102882206482,
+        "PierHeight": 7,
+        "PierSize": 1,
+        "Piles": 8,
+        "Reaction": 15801.324669040338,
+        "Type": "Spalla",
+        "X": 0
+      },
+      {
+        "Columns": 1,
+        "FootingSize": 16.5,
+        "FootingWidth": 19.6,
+        "Index": 1,
+        "MinimumReaction": 20927.763590011175,
+        "PierHeight": 19.2025,
+        "PierSize": 1.5,
+        "Piles": 14,
+        "Reaction": 26381.23537684503,
+        "Type": "Setto",
+        "X": 79.75
+      },
+      {
+        "Columns": 1,
+        "FootingSize": 12,
+        "FootingWidth": 19.6,
+        "Index": 2,
+        "MinimumReaction": 8789.660707804693,
+        "PierHeight": 7,
+        "PierSize": 1,
+        "Piles": 8,
+        "Reaction": 11767.443175337161,
+        "Type": "Spalla",
+        "X": 137.5
+      }
+    ],
+    "TotalCost": 12832621.939323256,
+    "Traffic": {
+      "GammaG": 1.35,
+      "GammaQ": 1.35,
+      "Lanes": 4,
+      "Model": "Schema 1 NTC 2018",
+      "Reference": "NTC 2018 §5.1.3.3, Tabelle 5.1.I e 5.1.II; parte rimanente EN 1991-2 Tabella 4.2",
+      "Scope": "Strutture superiori: azioni globali equivalenti e carichi locali sui due piani; stima parametrica, non analisi di arco/cavi.",
+      "TandemKn": 1200,
+      "UniformKnPerMetre": 62
+    },
+    "Warnings": [
+      "Archi, stralli, sospeso e reticolari: equilibrio ideale sotto carico uniforme e aree da tensioni di riferimento. Nessuna verifica di instabilità, fatica, deformabilità globale, fasi costruttive, sisma o vento. Diagrammi globali non disponibili.",
+      "Appoggi: carico massimo d'inviluppo 3555 kN/dispositivo, prezzo 5000 €/cad. Verificare portata e corsa: il listino ANAS usa €/kN; nessun dimensionamento dei dispositivi.",
+      "Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo.",
+      "Schema 1: massimi/minimi di sezioni e appoggi non concomitanti; non sommare le reazioni dell'inviluppo. G2 trattato come permanente portato ben definito col γG esplicito.",
+      "Strutture superiori: uniforme equivalente al momento per azioni globali, tandem locale ripartito a leva sui due piani. Per le antenne/cavi i limiti delle azioni sono separati e conservativi nello schema ideale; non sono linee di influenza della struttura reale.",
+      "Costi convenzionali, montaggio speciale esplicito; CO₂ parziale materiali e cantiere, senza EPD. Durata parametrica, non cronoprogramma."
+    ],
+    "Web": 0.012,
+    "Width": 19.6
+  },
+  "errore": "",
+  "versione_motore": 1
+}
