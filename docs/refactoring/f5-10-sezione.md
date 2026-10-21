@@ -25,7 +25,8 @@ dei sottopassi. Contiene:
 - il piano dei sottopassi S1–S9 (sezione 4);
 - l'uso della sezione nuova da parte del palo elastico e dei muri (sezione 5);
 - che cosa resta e le domande per il punto di controllo (sezioni 6 e 7);
-- il sottopasso S1 fatto il 18/10: ViewModel del guscio, del calcolo, degli ingressi e dei materiali, prove ed esiti (sezione 8).
+- il sottopasso S1 fatto il 18/10: ViewModel del guscio, del calcolo, degli ingressi e dei materiali, prove ed esiti (sezione 8);
+- il riallineamento del 21/10 al codice dopo persistenza nativa, wizard e capsula (sezione 9).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -562,3 +563,117 @@ dotnet tests/ANTHEA.Presentation.Tests/bin/Debug/net8.0/ANTHEA.Presentation.Test
 dotnet tests/ANTHEA.Presentation.Tests/bin/Debug/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
 ```
+
+## 9. Riallineamento 21/10 (S2, parte a)
+
+Ramo `refactoring/f5-10-s2`, da `refactoring/f5` `c7fe03dd` (set ufficiale AE in `lib/Checker`), 21/10/2026. Dopo S1 la sezione c.a.
+è cambiata il 20/10 in tre lavori fuori da F5: persistenza nativa GPC con formato 3 ([sezioni-persistenza.md](sezioni-persistenza.md)),
+dodici wizard delle tipologie ([sezioni-wizard.md](sezioni-wizard.md)), capsula con armature per tratti e dettagli del pilastro
+([capsula-pilastro.md](capsula-pilastro.md)). Prima di S2 si è controllato che le tracce congelate e il ViewModel S1 valgano ancora,
+e il piano dei sottopassi è stato aggiornato.
+
+### 9.1 Esito dei controlli
+
+| Controllo | Esito |
+| --- | --- |
+| `ui/check-sezione-historic`: la vista storica di oggi contro `tests/fixtures/f5-sezione` | PASS: 39 scenari, 84 832 righe, 120 disegni 2D e 33 righe dei domini 3D uguali ai congelati |
+| `Presentation.Tests/sezione-ca`: il ViewModel S1 contro le stesse tracce | PASS, 30 controlli: 21 scenari uguali, `calcolo/sola-lettura` uguale fino all'arresto atteso; file dei dati F3 e sezioni dei muri uguali |
+
+Corsa `supporto/artefatti/ci/20261021-074153-s2a-verifica` su `c7fe03dd`. **Nessuna traccia da ricatturare**: `tests/fixtures/f5-sezione`
+resta com'è.
+
+### 9.2 File e membri cambiati dopo S1
+
+Vista storica (`X.Desktop/Wpf`), commit `cf080886` (wizard), `810b62a6` (campi del foro, F5-REL-112-01) e `2ce55493` (capsula):
+
+| File | Membri | Che cosa |
+| --- | --- | --- |
+| `ConcreteWorkspace.cs` | campi `templateGeometryNote`, `templateReinforcementNote`; `BuildControlPanel` | nel gruppo «Geometria» il pulsante «Wizard tipologie / modifica disposizione…» e la nota; nel gruppo «Armature» la nota della disposizione da wizard |
+| `ConcreteWorkspace.cs` | `refreshHoleControls` | «Foro centrale» spento per le sezioni da wizard; i campi del foro rileggono `input` e sono spenti per le sezioni da wizard |
+| `ConcreteWorkspace.cs` | `OpenTemplateWizard` (nuovo) | `Commit`, finestra modale `ConcreteTemplateWizardWindow`; dopo «Applica sezione»: voce nuova in «Sezione», form della geometria, dell'armatura, degli strati e del taglio riletti, foro, `Invalidate` |
+| `ConcreteWorkspace.cs` | `RefreshPreview` | geometria e armatura nascoste e spente per le sezioni da wizard, note mostrate, suggerimento dell'armatura |
+| `ConcreteLayers.cs` | `RefreshAdditionalLayers` | secondi strati nascosti per le sezioni da wizard |
+| `ConcreteParameters.cs` | `SynchronizeStirrups` | campi della staffa circolare (`tipo_staffa`, `rami_interni`, `schema_interno`, `rotazione_staffa`) nascosti per le sezioni da wizard |
+| `ConcreteShear.cs` | `RefreshAutomaticShear` | con parametri manuali la nota è `taglio.nota_wizard`, se c'è |
+| `ConcreteViewports.cs` | `ConcreteSectionViewport.DrawStirrups` | disegna i percorsi chiusi delle staffe del wizard (`ConcreteGeometry.TemplateLinks`) |
+| `ConcreteTemplateWizardWindow.cs` (nuovo) | | finestra WPF che ospita `ConcreteTemplateWizardViewModel` e disegna l'anteprima |
+
+Tutti i cambiamenti dipendono da `ConcreteTemplateAdapter.Uses(input)` (forma avanzata, oppure foro con `wizard_layout` «Doppio contorno»), da
+`taglio.nota_wizard` o da `TemplateLinks`, tranne la rilettura dei campi del foro.
+
+Sotto la vista, senza effetti sul foglio:
+- **Persistenza nativa** (`37ab4295`): `DocumentService.Load/Save` passano per `ConcreteDocumentPersistence.Unpack/Pack`; `input.sezione_gpc`
+  (contratto, impronta della ricetta, XML di `ModelArchive`) si scrive su una copia al salvataggio; `CheckerSection.PrepareModel` riusa la
+  sezione archiviata se l'impronta della ricetta (`ConcreteSectionArchive.EditorStamp`: `input` senza `sezione_gpc`, più `workspace_ca.trefoli`)
+  è quella di oggi. Il foglio porta `input.sezione_gpc` come dato opaco.
+- **Wizard**: `ConcreteTemplateWizard` (Application: bozza, scelta, anteprima, nota, applicazione transazionale, che azzera i parametri del
+  taglio e scrive `taglio.nota_wizard`), progetto nuovo `ANTHEA.ConcreteWorkspace` (`ConcreteSectionArchive`, `ConcreteTemplateAdapter`),
+  `ConcreteGeometry.TemplateLinks`, `SezioneCA` e adattatori in X.Calculations, campi dei report (`ConcreteTemplateReportFields`).
+- **Capsula**: dettagli del pilastro in `X.Calculations/ConcreteDetailing.cs`, modo «Curve e rettilinei separati» del wizard.
+
+ViewModel di Presentation: `ConcreteTemplateWizardViewModel` è nuovo in `Modules/ConcreteSection` (nato MVVM, ospitato dalla finestra storica),
+ma **non è collegato** a `ConcreteSheetViewModel`. Nessun file del ViewModel S1 è cambiato; `ConcreteSectionSheetChecks` chiama in più
+`StadiumWizardChecks` (capsula, stadio `fast`).
+
+### 9.3 Perché le tracce non cambiano
+
+Le 11 fixture F3 e le 2 sezioni dei muri hanno forme ordinarie senza `wizard_layout`, nessuna `nota_wizard` e nessun percorso di staffe: ogni
+ramo nuovo resta spento. Il pulsante del wizard e le due note sono nel gruppo, fuori dai form: la parte `[ingressi]` scrive form, interruttori e
+tabelle, non i pulsanti dei gruppi né la visibilità di un form intero. La rilettura dei campi del foro dà gli stessi valori già mostrati. Le
+fixture sono documenti di versione 2: nessuna ha `input.sezione_gpc`.
+
+Conseguenza: **le tracce non coprono i wizard né la persistenza nativa**. Un errore del ViewModel su una sezione da wizard non si vedrebbe.
+
+### 9.4 Che cosa manca al ViewModel S1
+
+Differenze dalla vista storica di oggi, tutte sulle sezioni da wizard (nessuna nelle tracce):
+1. il comando «Wizard tipologie / modifica disposizione…» (`ConcreteTemplateWizardViewModel` su `IDialogService`, poi la rilettura dei form e
+   `Invalidate`, come `OpenTemplateWizard`);
+2. geometria e armatura nascoste e spente, le due note, il suggerimento dell'armatura (`RefreshPreview`);
+3. «Foro centrale» e campi del foro spenti; campi del foro riletti da `input` (`refreshHoleControls`);
+4. secondi strati nascosti (`RefreshAdditionalLayers`) e campi della staffa circolare nascosti (`SynchronizeStirrups`);
+5. `ShearAutomaticNote` da `taglio.nota_wizard` con parametri manuali (`RefreshAutomaticShear`);
+6. la voce nuova di «Sezione» dopo il wizard (`FieldViewModel.ReplaceChoices`, come per le classi dei materiali).
+
+I percorsi delle staffe (`TemplateLinks`) arrivano al disegno con `ConcreteGeometry`: il disegno resta WPF (Q3, C8) e li riceve senza
+modifiche al ViewModel.
+
+### 9.5 Wizard e persistenza nei sottopassi
+
+- **S1b · Sezioni da wizard (nuovo sottopasso, dopo S2 e prima di S3).** Chiude le lacune 1–6.
+  - Prima le tracce. Scenari nuovi in `ingressi/` sui 15 esempi `supporto/esempi/distribuzione/str_palo/*.anthea` (12 da wizard), aperti con
+    `DocumentService.Load` (codec di versione 3, `input.sezione_gpc` presente). Prefisso di fixture `esempi/`, come `muri/`.
+  - Parte nuova `[wizard]`, chiesta solo dai nuovi scenari: visibilità e stato dei form della geometria e dell'armatura, note, foro, comando del
+    wizard; finestra «Wizard · Sezione in cemento armato» guidata come le altre finestre modali, con lo stato del suo ViewModel dopo ogni passo
+    (form, nota, errore, `CanApply`, impronta dell'anteprima).
+  - Le 39 tracce congelate non cambiano: non chiedono la parte nuova.
+  - Le tracce nuove si catturano dalla vista storica (due catture uguali) in un commit a sé; poi il ViewModel.
+  - `ConcreteTemplateWizardViewModel` diventa un `IDialogViewModel` (aggiunta); la finestra storica resta fino a S9.
+- **S2 · Azioni.** Piano invariato (sezioni 4 e 8.6); è la parte b di questo ramo (sezione 10). Nessun legame con i wizard. L'editor delle
+  sollecitazioni copia nel foglio solo `combinazioni` e `workspace_ca`: `input.sezione_gpc` e la ricetta non cambiano. `workspace_ca.trefoli`
+  fa parte dell'impronta, ma l'editor non lo tocca.
+- **S3 · Domini, S4 · SLE.** Il calcolo riusa la sezione archiviata (`CheckerSection.PrepareModel`), sotto il ViewModel. Le mappe disegnano
+  i percorsi delle staffe con il disegno WPF. Scenario da aggiungere: una sezione da wizard per `domini` e `sle`.
+- **S5 · Taglio.** `nota_wizard` e i parametri azzerati dal wizard (lacuna 5 se S1b non l'ha già chiusa). Campi della staffa circolare nascosti
+  anche nel form delle staffe in sola lettura del taglio. Scenario da aggiungere: una sezione da wizard con taglio manuale.
+- **S6 · Dettagli.** La capsula come pilastro passa da `ConcreteDetailingPresentation` (calcolo in X.Calculations). Scenario da aggiungere:
+  `dettagli/capsula-pilastro` sull'esempio `wizard-capsula`.
+- **S8 · Progetto delle armature.** I rifiuti per le tipologie avanzate vengono dalla libreria. Scenario da aggiungere: rifiuto su una sezione
+  da wizard.
+- **S9 · Report e passaggio.** I campi del wizard nei report (`ConcreteTemplateReportFields`) sono sotto `ConcreteReportAnalysis`, nessun legame
+  col ViewModel. Prove storiche nuove da riscrivere al passaggio:
+  - `ui/check-concrete-template-wizard` (`tests/Desktop/ConcreteTemplateViewChecks.cs`);
+  - la parte `str_palo` di `ExampleLibraryChecks`;
+  - `HorizontalPileViewChecks.Elastic` e `PileConcreteVerifierView.xaml.cs` (vista XAML del verificatore c.a. del palo elastico, F5.8, unita il
+    18/10), che ospita la `ConcreteWorkspace` storica con `ReloadRequested`.
+
+  Al passaggio `ConcreteTemplateWizardWindow` va in `supporto/SUPERATI` con le altre viste. Il confronto F3 continua a escludere solo
+  `input.sezione_gpc` (`tests/Shared/ConcretePersistenceComparison.cs`).
+
+Ordine aggiornato: S1 → S2 → S1b → (S3, S4, S5) → S6 → S7 → S8 → S9.
+
+### 9.6 Domande «da decidere»
+
+- **S2a-1 · Copertura dei wizard.** Le tracce di S1b sono tracce nuove della vista storica, non una ricattura. Si aggiungono come scenari
+  nuovi con la parte `[wizard]`, lasciando invariate le 39 congelate. Scelta prudente: sì, in S1b. Alternativa: rinviare la copertura a S9,
+  con il rischio che il ViewModel cresca senza prove sulle sezioni da wizard.
