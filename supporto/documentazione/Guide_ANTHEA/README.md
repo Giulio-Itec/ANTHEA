@@ -1,11 +1,13 @@
 # Guide globali ANTHEA
 
-Edizione 6, 20 ottobre 2026. Guide pratica e teorica Rev56. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 21 ottobre 2026. Guide pratica e teorica Rev57. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev56.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev56.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev56.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev56.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev57.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev57.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev57.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev57.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+
+La Rev57 corregge la pretensione dei tiranti fra le fasi delle paratie: una cella vuota mantiene la pretensione della fase precedente, un valore la sostituisce e 0 la rilascia; le riduzioni sono segnalate. Nella guida teorica sono aggiunti la legge del sostegno e un esempio numerico. Gli originali Rev56 sono conservati in `supporto/SUPERATI/paratie-pretensione-rev57-20261021/`.
 
 La Rev56 documenta l’albero di lavoro richiudibile di Paratie e le armature separate della capsula, con dettagli generali del pilastro e limiti del riconoscimento automatico. Gli originali Rev55 sono conservati in `supporto/SUPERATI/paratie-albero-rev56-20261020/`.
 
