@@ -387,3 +387,6 @@ in `SheetEditor`). Gli attesi delle 104 fixture esistenti e le transizioni F4 no
 - Impronte nel manifest, sezione `fixture_aggiunte_f5_11` (input, attesi ed `esito.txt`), sulla forma conservata da git (fine
   riga LF).
 - Le tracce della vista storica (`tests/fixtures/f5-sezione-mista/storica`) hanno uno scenario per ognuna delle 9 fixture del modulo.
+- Vista XAML (F5.11, agente f5-11-vista): con il banco `--module-impl str_mista_ponte=mvvm` la cattura dà gli stessi file della vista
+  storica (confronto diretto a differenza zero). Le prove preliminari di nuovi input della sezione composta si fanno con la cattura F3
+  in una radice temporanea, con la vista della Release o con il banco (commento di `F3Fixtures.BridgeSectionF511`).

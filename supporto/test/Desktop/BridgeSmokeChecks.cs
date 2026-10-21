@@ -19,7 +19,8 @@ public sealed partial class MainWindow
             var legacyData = BridgeSection.Defaults();
             legacyData["ui_mista"] = J.Obj(("layout_version", 2), ("tab", oldPage), ("vista_0", 2), ("vista_1", 1), ("vista_2", 0),
                 ("risultato_0", 2), ("risultato_1", 1), ("risultato_2", 0), ("fase", 1), ("split_ingressi", .34));
-            using var legacy = new BridgeWorkspace(legacyData);
+            // F5.11: the composite section with either view (BridgeSmoke); on the XAML view the data are a copy, read back from the sheet.
+            using var legacy = OpenBridge(legacyData); legacyData = legacy.Data;
             if (legacy.Pages.SelectedIndex != Math.Min(oldPage, 1) || legacy.DisplayChoice.SelectedIndex != new[] { 2, 1, 0 }[oldPage] ||
                 legacy.Results.SelectedIndex != new[] { 2, 1, 3 }[oldPage] || legacyData["ui_mista"].D("fase") != 1 || legacyData["ui_mista"].D("split_ingressi") != .34)
                 throw new Exception("Migrazione dalle tre schede perde la vista attiva o le preferenze.");
@@ -27,7 +28,7 @@ public sealed partial class MainWindow
         document = Archivio.Documento(BridgeSection.Module); document["dati"]!["plate2"] = true;
         document["dati"]!["ui_mista"] = J.Obj(("tab", 2), ("vista_2", 1), ("risultato_2", 1));
         dirty = false; currentSheet = null; ShowSheet(document);
-        var bridge = historicEditor!.bridge!;
+        var bridge = openSheet.Bridge;
         async Task Wait()
         {
             var deadline = DateTime.UtcNow.AddSeconds(30);
@@ -56,7 +57,7 @@ public sealed partial class MainWindow
         }
         bridge.Pages.SelectedIndex = 1; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         if (bridge.InputForms.Count(f => f.Editors.ContainsKey("stato")) != 1 || bridge.InputForms.Count(f => f.Editors.ContainsKey("classe4")) != 1 ||
-            Ui.Descendants<Expander>(bridge).Any(e => (e.Header as TextBlock)?.Text is "Criteri di calcolo" or "Campo del modello"))
+            Ui.Descendants<Expander>(bridge.View).Any(e => (e.Header as TextBlock)?.Text is "Criteri di calcolo" or "Campo del modello"))
             throw new Exception("Opzioni duplicate o informazioni statiche ancora presenti nei pannelli operativi.");
         var stateChoice = (ComboBox)bridge.InputForms.Single(f => f.Editors.ContainsKey("stato")).Editors["stato"];
         if (!stateChoice.IsVisible) throw new Exception("Limiti tensionali assenti dalla scheda Fasi e tensioni.");
@@ -74,7 +75,7 @@ public sealed partial class MainWindow
             }
             info.Close();
         }));
-        Ui.Descendants<Button>(bridge).Single(b => b.Content?.ToString() == "Info modello…").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        Ui.Descendants<Button>(bridge.View).Single(b => b.Content?.ToString() == "Info modello…").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         if (!ReferenceEquals(initialCalculation, bridge.Calculation)) throw new Exception("Le informazioni sul modello modificano il risultato.");
         var lastMoment = (TextBox)bridge.InputForms.Last(f => f.Editors.ContainsKey("Mx")).Editors["Mx"];
         var oldMoment = bridge.Data.Array("fasi").Last().D("Mx");
@@ -109,14 +110,14 @@ public sealed partial class MainWindow
             var expanded = Application.Current.Windows.OfType<Window>().Single(w => w != this && w.Title == "Sezione composta · geometria e tensioni");
             expanded.UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, "mista_espansa.png"), Ui.Snapshot(expanded)); expanded.Close();
         }));
-        bridge.Viewport.Toolbar.Children.OfType<Button>().Single(b => b.Content?.ToString() == "Espandi").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-        if (!ReferenceEquals(bridge.Viewport.Host.Content, bridge.Drawing)) throw new Exception("Chiusura vista espansa perde la viewport.");
+        bridge.ViewportToolbar.Children.OfType<Button>().Single(b => b.Content?.ToString() == "Espandi").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        if (!ReferenceEquals(bridge.DrawingHost.Content, bridge.Drawing)) throw new Exception("Chiusura vista espansa perde la viewport.");
         File.WriteAllBytes(Path.Combine(directory, "mista_viewport.png"), Ui.Snapshot(bridge.Drawing));
         bridge.Pages.SelectedIndex = 1;
         for (int result = 0; result < bridge.Results.Items.Count; result++)
         {
             bridge.Results.SelectedIndex = result; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-            if (bridge.Drawing.ActualWidth > bridge.ActualWidth - 380) throw new Exception("La scheda risultati espande la viewport oltre il pannello.");
+            if (bridge.Drawing.ActualWidth > bridge.View.ActualWidth - 380) throw new Exception("La scheda risultati espande la viewport oltre il pannello.");
             File.WriteAllBytes(Path.Combine(directory, $"mista_risultati_{result}.png"), Ui.Snapshot(this));
         }
         bridge.Results.SelectedIndex = 3; bridge.DisplayChoice.SelectedIndex = 1;
@@ -154,7 +155,7 @@ public sealed partial class MainWindow
         await Task.Delay(650);
         if (bridge.Calculation is not null || bridge.Drawing.Stage is null || bridge.Drawing.Geometry is null || !bridge.Drawing.IsStale) throw new Exception("Dati invalidi perdono l'ultimo risultato o lo presentano come corrente.");
         ((TextBox)web.Editors["t_web"]).Text = "10"; await Wait();
-        var split = bridge.Splits["ingressi"];
+        var split = bridge.Split("ingressi");
         split.ColumnDefinitions[0].Width = new GridLength(.34, GridUnitType.Star); split.ColumnDefinitions[2].Width = new GridLength(.66, GridUnitType.Star); UpdateLayout();
         double splitRatio = split.ColumnDefinitions[0].ActualWidth / (split.ColumnDefinitions[0].ActualWidth + split.ColumnDefinitions[2].ActualWidth);
         split.Children.OfType<GridSplitter>().Single().RaiseEvent(new DragCompletedEventArgs(0, 0, false) { RoutedEvent = Thumb.DragCompletedEvent });
@@ -167,8 +168,9 @@ public sealed partial class MainWindow
         if (!JsonNode.DeepEquals(saved, editor!.Data)) throw new Exception("Riapertura perde dati delle fasi.");
         await editor.CalculateAsync();
         if (editor.Result is null) throw new Exception("Ricalcolo dopo riapertura fallito.");
-        if (historicEditor.bridge!.Pages.SelectedIndex != 1 || historicEditor.bridge.Results.SelectedIndex != 2 || Math.Abs(historicEditor.bridge.Splits["ingressi"].ColumnDefinitions[0].Width.Value - splitRatio) > 1e-9) throw new Exception("Riapertura perde scheda o disposizione pannelli.");
-        var reportCalculation = historicEditor.bridge.Calculation; int reportPage = historicEditor.bridge.Pages.SelectedIndex, reportStage = historicEditor.bridge.StageChoice.SelectedIndex;
+        bridge = openSheet.Bridge;
+        if (bridge.Pages.SelectedIndex != 1 || bridge.Results.SelectedIndex != 2 || Math.Abs(bridge.Split("ingressi").ColumnDefinitions[0].Width.Value - splitRatio) > 1e-9) throw new Exception("Riapertura perde scheda o disposizione pannelli.");
+        var reportCalculation = bridge.Calculation; int reportPage = bridge.Pages.SelectedIndex, reportStage = bridge.StageChoice.SelectedIndex;
         var report = editor.BuildReport("Esempio di sezione composta da ponte", ReportBridge.DefaultSections());
         File.WriteAllBytes(Path.Combine(directory, "Relazione_sezione_composta.docx"), report);
         using (var zip = new System.IO.Compression.ZipArchive(new MemoryStream(report)))
@@ -176,7 +178,7 @@ public sealed partial class MainWindow
             using var stream = zip.GetEntry("word/document.xml")!.Open(); var xml = System.Xml.Linq.XDocument.Load(stream);
             if (zip.Entries.Count(e => e.FullName.StartsWith("word/media/")) != 4 || !xml.ToString().Contains("Situazione 3 dopo")) throw new Exception("Report incompleto per situazioni o grafici.");
         }
-        if (!ReferenceEquals(reportCalculation, historicEditor.bridge.Calculation) || reportPage != historicEditor.bridge.Pages.SelectedIndex || reportStage != historicEditor.bridge.StageChoice.SelectedIndex) throw new Exception("Report modifica calcolo o selezione corrente.");
+        if (!ReferenceEquals(reportCalculation, bridge.Calculation) || reportPage != bridge.Pages.SelectedIndex || reportStage != bridge.StageChoice.SelectedIndex) throw new Exception("Report modifica calcolo o selezione corrente.");
         using (var selectedZip = new System.IO.Compression.ZipArchive(new MemoryStream(editor.BuildReport("Solo geometria", ["geometria"]))))
         {
             using var stream = selectedZip.GetEntry("word/document.xml")!.Open(); var xml = System.Xml.Linq.XDocument.Load(stream).ToString();

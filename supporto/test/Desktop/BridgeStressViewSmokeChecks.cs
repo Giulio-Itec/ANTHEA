@@ -12,7 +12,7 @@ namespace X.Desktop;
 
 public sealed partial class MainWindow
 {
-    private async Task CheckBridgeStressView(BridgeWorkspace bridge, Func<Task> wait, string directory)
+    private async Task CheckBridgeStressView(BridgeSmoke bridge, Func<Task> wait, string directory)
     {
         int count = 0;
         void Check(bool value, string message) { count++; if (!value) throw new Exception(message); }
@@ -39,7 +39,7 @@ public sealed partial class MainWindow
         Check(ReferenceEquals(result, bridge.Calculation) && !bridge.ResultsAreStale && physical.SequenceEqual(bridge.Calculation!.Stages.Last().Points.Select(p => p.Stress)), "Scala grafica modifica il calcolo o invalida le verifiche.");
         Check(bridge.Drawing.StressLabels.Any(p => p.Text == rawLabel), "Amplificazione applicata anche alle etichette numeriche.");
         Check(settings.D("amplificazione_cls") == 15.5 && !settings.B("amplificazione_cls_auto", true), "Scala manuale non salvata nelle preferenze.");
-        using (var reopened = new BridgeWorkspace((JsonObject)bridge.Data.DeepClone()))
+        using (var reopened = OpenBridge((JsonObject)bridge.Data.DeepClone()))
         {
             await reopened.CalculateAsync();
             Check(reopened.Drawing.ConcreteAmplification == 15.5 && reopened.ConcreteScaleAuto.IsChecked == false, "Riapertura dell’archivio perde la scala manuale.");

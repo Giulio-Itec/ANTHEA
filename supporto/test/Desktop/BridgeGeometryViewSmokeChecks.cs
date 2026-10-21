@@ -8,7 +8,7 @@ namespace X.Desktop;
 
 public sealed partial class MainWindow
 {
-    private async Task CheckBridgeGeometryView(BridgeWorkspace bridge, Func<Task> wait, string directory)
+    private async Task CheckBridgeGeometryView(BridgeSmoke bridge, Func<Task> wait, string directory)
     {
         int count = 0;
         void Check(bool value, string message) { count++; if (!value) throw new Exception(message); }
@@ -52,11 +52,11 @@ public sealed partial class MainWindow
         Check(bridge.Drawing.LoadPoints.Length == 3 && bridge.Drawing.LoadPoints[1].Y == iterative.LoadY, "Punti N della vista non allineati ai contributi.");
         File.WriteAllBytes(Path.Combine(directory, "riferimenti_N_per_fase.png"), Ui.Snapshot(this));
         var retained = bridge.Calculation; var retainedStage = bridge.Drawing.Stage; var retainedGeometry = bridge.Drawing.Geometry;
-        var oldTables = Ui.Descendants<DataGrid>(bridge).ToArray();
+        var oldTables = Ui.Descendants<DataGrid>(bridge.View).ToArray();
         second.Set("N", "incompleto");
         Check(bridge.Calculation is null && bridge.ResultsAreStale && bridge.Drawing.IsStale, "Modifica non segnala l'ultimo risultato come precedente.");
         Check(ReferenceEquals(bridge.Drawing.Stage, retainedStage) && ReferenceEquals(bridge.Drawing.Geometry, retainedGeometry) && ReferenceEquals(bridge.DisplayedCalculation, retained), "Modifica cancella o mescola geometria e tensioni.");
-        Check(oldTables.SequenceEqual(Ui.Descendants<DataGrid>(bridge)), "Modifica cancella le tabelle delle verifiche.");
+        Check(oldTables.SequenceEqual(Ui.Descendants<DataGrid>(bridge.View)), "Modifica cancella le tabelle delle verifiche.");
         await Task.Delay(850); await Layout();
         Check(bridge.Calculation is null && ReferenceEquals(bridge.Drawing.Stage, retainedStage), "Errore numerico svuota il grafico precedente.");
         bool rejected = false; try { bridge.BuildReport("Non aggiornato", ReportBridge.DefaultSections()); } catch (InvalidOperationException) { rejected = true; }

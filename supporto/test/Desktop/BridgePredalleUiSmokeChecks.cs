@@ -18,8 +18,8 @@ public sealed partial class MainWindow
     {
         int checks = 0;
         void Check(bool ok, string message) { if (!ok) throw new Exception("Predalle UI: " + message); checks++; }
-        var data = BridgeSection.Defaults(); using var bridge = new BridgeWorkspace(data);
-        var window = Ui.Dialog(this, "Predalle · geometria e offset delle armature", bridge, 1600, 990); window.Show();
+        var data = BridgeSection.Defaults(); using var bridge = OpenBridge(data); data = bridge.Data;
+        var window = Ui.Dialog(this, "Predalle · geometria e offset delle armature", bridge.View, 1600, 990); window.Show();
         try
         {
             async Task Layout() { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); window.UpdateLayout(); }
@@ -71,7 +71,7 @@ public sealed partial class MainWindow
             ((CheckBox)bottom.Editors["rebars_bottom"]).IsChecked = false; await Wait();
             Check(bridge.Drawing.Geometry!.Bars.Length == 20 && !bridge.Drawing.VisibleTags.Any(t => t.StartsWith("Armatura inferiore")), "fila assente disegnata");
             ((CheckBox)bottom.Editors["rebars_bottom"]).IsChecked = true; await Wait();
-            using (var reopened = new BridgeWorkspace((JsonObject)JsonNode.Parse(data.ToJsonString())!))
+            using (var reopened = OpenBridge((JsonObject)JsonNode.Parse(data.ToJsonString())!))
             {
                 await reopened.CalculateAsync();
                 Check(reopened.Calculation!.Geometry.Bars.Min(b => b.Y) == 105, "riapertura perde riferimento");

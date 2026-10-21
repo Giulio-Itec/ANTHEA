@@ -14,14 +14,14 @@ public sealed partial class MainWindow
     {
         var data = BridgeSection.Defaults();
         data["metodo_analisi"] = BridgeSection.CalculationMethods[1]; data["classe4"] = false;
-        using var bridge = new BridgeWorkspace(data);
-        var window = new Window { Title = "Test storico ponte", Owner = this, Width = 1600, Height = 1000, Content = bridge, Background = Ui.Bg };
+        using var bridge = OpenBridge(data); data = bridge.Data;
+        var window = new Window { Title = "Test storico ponte", Owner = this, Width = 1600, Height = 1000, Content = bridge.View, Background = Ui.Bg };
         int checks = 0;
         void Check(bool ok, string message) { checks++; if (!ok) throw new Exception("Storico UI: " + message); }
         async Task Ready()
         {
             var deadline = DateTime.UtcNow.AddSeconds(40);
-            while (bridge.Calculation is null || bridge.Busy) { if (DateTime.UtcNow > deadline) throw new Exception("Storico UI: " + string.Join(" | ", Ui.Descendants<TextBlock>(bridge).Select(t => t.Text).Where(t => t.Contains("Dati da verificare")))); await Task.Delay(80); }
+            while (bridge.Calculation is null || bridge.Busy) { if (DateTime.UtcNow > deadline) throw new Exception("Storico UI: " + string.Join(" | ", Ui.Descendants<TextBlock>(bridge.View).Select(t => t.Text).Where(t => t.Contains("Dati da verificare")))); await Task.Delay(80); }
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); window.UpdateLayout();
         }
         try
@@ -40,9 +40,9 @@ public sealed partial class MainWindow
             bridge.Results.SelectedIndex = 1;
             File.WriteAllBytes(Path.Combine(directory, "storico_non_lineare.png"), Ui.Snapshot(window));
             bridge.DetachView(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-            var detached = bridge.detachedWindow!; detached.UpdateLayout();
+            var detached = bridge.DetachedWindow!; detached.UpdateLayout();
             Check(detached.IsVisible && Ui.Descendants<BridgeDrawing>(detached).Single() == bridge.Drawing, "vista non staccata realmente");
-            Check(!Ui.Descendants<BridgeDrawing>(bridge).Any(), "duplicazione vista invece di distacco");
+            Check(!Ui.Descendants<BridgeDrawing>(bridge.View).Any(), "duplicazione vista invece di distacco");
             var selection = Ui.Descendants<ComboBox>(detached).First(c => c.Items.Count == result!.Stages.Count && c != bridge.DisplayChoice);
             selection.SelectedIndex = 0; Check(bridge.StageChoice.SelectedIndex == 0 && bridge.Drawing.Stage == result!.Stages[0], "fase non sincronizzata");
             selection.SelectedIndex = 2;
@@ -57,7 +57,7 @@ public sealed partial class MainWindow
             await bridge.CalculateAsync(false); await Ready();
             Check(!ReferenceEquals(result, bridge.Calculation) && bridge.Drawing.Stage == bridge.Calculation!.Stages.Last(), "ricalcolo non aggiorna finestra staccata");
             detached.Close(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); window.UpdateLayout();
-            Check(bridge.detachedWindow is null && Ui.Descendants<BridgeDrawing>(bridge).Single() == bridge.Drawing, "riaggancio");
+            Check(bridge.DetachedWindow is null && Ui.Descendants<BridgeDrawing>(bridge.View).Single() == bridge.Drawing, "riaggancio");
             byte[] report = Anthea.Reports.DocxWriter.Write(bridge.Calculation!.Report("Prova del metodo storico non lineare", ReportBridge.DefaultSections(), []));
             File.WriteAllBytes(Path.Combine(directory, "storico_non_lineare.docx"), report);
             using (var zip = new ZipArchive(new MemoryStream(report)))
@@ -67,7 +67,7 @@ public sealed partial class MainWindow
             Check(bridge.Calculation!.Stages.All(s => s.GetHistory() is null && s.Shear is not null), "ripristino cumulativo / accessori");
             choice.SelectedItem = BridgeSection.CalculationMethods[1]; await Ready();
             Check(bridge.Calculation!.Stages.All(s => s.GetHistory() is not null && s.Shear is null), "risultati accessori precedenti conservati nel metodo storico");
-            bridge.DetachView(); bridge.Dispose(); Check(bridge.detachedWindow is null, "chiusura modulo lascia finestra orfana");
+            bridge.DetachView(); var orphan = bridge.DetachedWindow; bridge.Dispose(); Check(orphan is { IsVisible: false } && Application.Current.Windows.OfType<Window>().All(w => !ReferenceEquals(w, orphan)), "chiusura modulo lascia finestra orfana");
             File.WriteAllText(Path.Combine(directory, "storico_ui.txt"), checks + " controlli superati");
         }
         finally { window.Close(); }
