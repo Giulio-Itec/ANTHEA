@@ -1,10 +1,12 @@
 using System.Globalization;
 using System.Text.Json.Nodes;
+using Anthea.Application.EmbeddedWalls;
 using Anthea.Application.Stratigraphy;
 
 namespace Anthea.Presentation.Modules.EmbeddedWalls;
 
-/// <summary>Input geometry for the editor, in metres. No pressures or structural responses are inferred.</summary>
+/// <summary>Input geometry for the editor, in metres. No pressures or structural responses are inferred.
+/// Support prestress is the lock-off in force in the stage, also when kept from the preceding stage.</summary>
 public sealed record EmbeddedWallSketch(
     double? Top, double? Bottom, double? LeftGround, double? RightGround,
     double? LeftWater, double? RightWater, double? LeftSurcharge, double? RightSurcharge,
@@ -53,6 +55,10 @@ public sealed record EmbeddedWallSketch(
             rw = Number(stage.Data, "right_water", "Falda a destra", true);
             lq = Number(stage.Data, "left_surcharge", "Sovraccarico a sinistra");
             rq = Number(stage.Data, "right_surcharge", "Sovraccarico a destra");
+            IReadOnlyList<EmbeddedWallLockOff> lockOffs;
+            try { lockOffs = EmbeddedWallDocument.LockOffs(data, caseId); }
+            catch (ArgumentException) { lockOffs = []; }
+            var shown = new List<EmbeddedWallLockOff>();
             foreach (var activation in tables.Single(t => t.Key == "activations").Rows.Where(Belongs))
             {
                 var definitions = tables.Single(t => t.Key == "supports").Rows.Where(r => r["id"] == activation["support"]).ToArray();
@@ -65,13 +71,16 @@ public sealed record EmbeddedWallSketch(
                 var z = Number(row.Data, "elevation", row["id"] + " / quota");
                 var angle = Number(row.Data, "angle", row["id"] + " / inclinazione");
                 var direction = Number(row.Data, "direction", row["id"] + " / verso");
-                var prestress = Number(activation.Data, "prestress", row["id"] + " / pretensione");
+                var prestress = Number(activation.Data, "prestress", row["id"] + " / pretensione", true);
+                var lockOff = lockOffs.FirstOrDefault(l => ReferenceEquals(l.Row, activation.Data));
+                if (lockOff is not null) shown.Add(lockOff);
                 if (z is null || angle is null || direction is null) continue;
                 if (direction is not (1 or -1) || Math.Abs(angle.Value) >= 90 ||
                     row["kind"] is not ("Anchor" or "Strut" or "Bilateral"))
                 { notices.Add(row["id"] + ": tipo, verso o inclinazione non validi."); continue; }
-                supports.Add(new(row, activation, row["id"], row["kind"], z.Value, angle.Value, (int)direction, prestress));
+                supports.Add(new(row, activation, row["id"], row["kind"], z.Value, angle.Value, (int)direction, lockOff?.Prestress ?? prestress));
             }
+            if (EmbeddedWallDocument.ReducedLockOffs(shown) is { } reduced) notices.Add(reduced);
             foreach (var row in tables.Single(t => t.Key == "loads").Rows.Where(Belongs))
             {
                 var z = Number(row.Data, "elevation", "Carico / quota");

@@ -34,6 +34,7 @@ public static class EmbeddedWallAdapter
         foreach (var row in EmbeddedWallDocument.Rows(data, "activations").Concat(EmbeddedWallDocument.Rows(data, "loads"))
             .Concat(EmbeddedWallDocument.Rows(data, "distributed_loads")))
             if (!ids.Contains(Text(row, "stage"))) throw new ArgumentException("Carico o attivazione riferito a una fase inesistente.");
+        var lockOffs = EmbeddedWallDocument.LockOffs(data, null);
         var m = new EmbeddedWallModel
         {
             Name = Text(data, "name"), CaseId = Text(data, "case_id"), Top = Number(data, "top") * SoilUnits.Metre, Bottom = Number(data, "bottom") * SoilUnits.Metre,
@@ -61,8 +62,8 @@ public static class EmbeddedWallAdapter
                 DistributedLoads = EmbeddedWallDocument.Rows(data, "distributed_loads").Where(p => Text(p, "stage") == Text(s, "id")).Select(p => new EmbeddedWallDistributedLoad {
                     Id = Text(p, "id"), Top = Number(p, "top") * SoilUnits.Metre, Bottom = Number(p, "bottom") * SoilUnits.Metre,
                     TopLoad = Number(p, "q_top"), BottomLoad = Number(p, "q_bottom"), Source = Text(p, "source") }).ToArray(),
-                ActiveSupports = EmbeddedWallDocument.Rows(data, "activations").Where(a => Text(a, "stage") == Text(s, "id")).Select(a =>
-                    new EmbeddedWallSupportActivation { SupportId = Text(a, "support"), Prestress = Number(a, "prestress") * NewtonsPerKilonewton }).ToArray(),
+                ActiveSupports = lockOffs.Where(a => a.Stage == Text(s, "id")).Select(a =>
+                    new EmbeddedWallSupportActivation { SupportId = a.Support, Prestress = a.Prestress * NewtonsPerKilonewton }).ToArray(),
                 PointLoads = EmbeddedWallDocument.Rows(data, "loads").Where(p => Text(p, "stage") == Text(s, "id")).Select(p => new EmbeddedWallPointLoad {
                     Elevation = Number(p, "elevation") * SoilUnits.Metre, HorizontalForce = Number(p, "horizontal") * NewtonsPerKilonewton, Moment = Number(p, "moment") * NmmPerKilonewtonMetre,
                     DownwardForce = Number(p, "downward") * NewtonsPerKilonewton }).ToArray() }).ToArray()

@@ -60,7 +60,7 @@ public sealed partial class EmbeddedWallSheetViewModel
         "left_soils" or "right_soils" => "Definisci gli strati tramite quote assolute. Lo scavo rimuove il terreno sopra la quota della fase.",
         "stages" => "Le fasi si eseguono nell'ordine dell'elenco. Abbassa la quota del terreno sul lato scavato; assegna qui falda e sovraccarichi.",
         "supports" => "Definisci il sostegno, poi inseriscilo in «Sostegni presenti nelle fasi». Non è attivo per la sola presenza in questo elenco.",
-        "activations" => "Elenco completo per ogni fase: un sostegno omesso viene rimosso. La pretensione appartiene al singolo elemento.",
+        "activations" => "Elenco completo per ogni fase: un sostegno omesso viene rimosso. La pretensione appartiene al singolo elemento; lasciata vuota mantiene quella della fase precedente.",
         "loads" or "distributed_loads" => "Assegna caso e fase. Le forze si riferiscono alla fascia analizzata; le azioni devono essere già combinate.",
         null => "Inizia dalle quote di testa e piede. Poi definisci tratti, terreni e fasi con i pulsanti sopra il disegno.",
         _ => "Seleziona una riga per modificarne i dati. I valori sono condivisi con la vista tabellare."

@@ -8,7 +8,8 @@ using Anthea.Reports;
 namespace Anthea.Application.EmbeddedWalls;
 
 /// <summary>Versioned editable input. Elevations m; forces kN; moments kNm; EI kNm²;
-/// pressures kPa; kh N/mm³. Numerical validation belongs to the GPC adapter/engine.</summary>
+/// pressures kPa; kh N/mm³. Numerical validation belongs to the GPC adapter/engine.
+/// An empty activation prestress keeps the lock-off of the preceding stage (<see cref="LockOffs"/>).</summary>
 public static partial class EmbeddedWallDocument
 {
     public const string Module = "geo_paratie";
@@ -32,7 +33,7 @@ public static partial class EmbeddedWallDocument
         "supports" => new() { ["id"] = "T1", ["elevation"] = -1, ["kind"] = "Anchor", ["stiffness"] = null, ["angle"] = 0, ["direction"] = 1, ["spacing"] = 1, ["capacity"] = null },
         "stages" => new() { ["id"] = "F1", ["left_ground"] = 0, ["right_ground"] = 0, ["left_water"] = null, ["right_water"] = null,
             ["left_surcharge"] = 0, ["right_surcharge"] = 0, ["distributed_load"] = 0, ["stiffness_factor"] = 1 },
-        "activations" => new() { ["stage"] = "F1", ["support"] = "T1", ["prestress"] = 0 },
+        "activations" => new() { ["stage"] = "F1", ["support"] = "T1", ["prestress"] = null },
         "loads" => new() { ["stage"] = "F1", ["elevation"] = 0, ["horizontal"] = 0, ["moment"] = 0, ["downward"] = 0 },
         "distributed_loads" => new() { ["stage"] = "F1", ["id"] = "Q1", ["top"] = 0, ["bottom"] = -12, ["q_top"] = null, ["q_bottom"] = null, ["source"] = "" },
         "rc_sections" => new() { ["id"] = "S1", ["width"] = 1000, ["thickness"] = 600, ["cover"] = 50,
