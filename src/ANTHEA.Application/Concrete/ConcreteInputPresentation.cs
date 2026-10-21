@@ -65,6 +65,43 @@ public static class ConcreteInputPresentation
 
     public static string LayerToolTip(bool locked) => locked ? "Ripristina le barre da wizard per modificare gli strati automatici." : "Distanza libera tra le superfici delle barre dei due strati.";
 
+    // ---------------------------------------------------------------- sections made by the wizard (F5.10 S1b)
+
+    /// <summary>
+    /// The section is made by the wizard of the types (a shape of the wizard, or a hole with two contours, ConcreteTemplateAdapter.Uses):
+    /// geometry, hole and number of bars are edited in the wizard, the single bars in the table of the coordinates.
+    /// </summary>
+    public static bool TemplateSection(JsonObject input) => Anthea.ConcreteWorkspace.ConcreteTemplateAdapter.Uses(input);
+
+    /// <summary>The note shown instead of the form of the geometry for a section of the wizard.</summary>
+    public const string TemplateGeometryNote = "Geometria e copriferro si modificano nel wizard.";
+
+    /// <summary>The note shown instead of the form of the reinforcement for a section of the wizard.</summary>
+    public const string TemplateReinforcementNote = "Disposizione definita nel wizard. Le singole barre si modificano nella tabella delle coordinate.";
+
+    /// <summary>«Foro centrale» accepts the user: a shape with a hole that is not a section of the wizard.</summary>
+    public static bool HoleToggleEnabled(JsonObject input) => HoleAvailable(input.S("shape")) && !TemplateSection(input);
+
+    /// <summary>The note of the fields of the reinforcement: the wizard for its sections, otherwise <see cref="ReinforcementToolTip(bool)"/>.</summary>
+    public static string? ReinforcementToolTip(JsonObject input, bool enabled) => TemplateSection(input)
+        ? "Modificare la disposizione da Wizard tipologie oppure dalla tabella delle coordinate delle barre." : ReinforcementToolTip(enabled);
+
+    /// <summary>A second layer is shown for its shape (<see cref="LayerShown"/>), never for a section of the wizard.</summary>
+    public static bool LayerVisible(string key, JsonObject input) => !TemplateSection(input) && LayerShown(key, input.S("shape"));
+
+    /// <summary>The fields of the circular scheme of the links (type, inner legs, inner scheme, rotation): an ordinary circular section only.</summary>
+    public static bool CircularLinkScheme(JsonObject input) => input.S("shape") == "Circolare" && !TemplateSection(input);
+
+    /// <summary>The choices of «Sezione» after the wizard: the shape of the wizard added when it is not among them; null when nothing changes.</summary>
+    public static string[]? ShapeChoicesAfterWizard(IEnumerable<string> choices, string shape)
+    {
+        var current = choices.ToArray();
+        return current.Contains(shape, StringComparer.Ordinal) ? null : [.. current, shape];
+    }
+
+    /// <summary>The note of the shear with manual parameters: the one written by the wizard (<c>taglio.nota_wizard</c>), otherwise the default.</summary>
+    public static string ManualShearNote(JsonObject shear) => shear.S("nota_wizard", "Parametri manuali: verificare geometria, armatura tesa e ancoraggio.");
+
     // ---------------------------------------------------------------- materials
 
     /// <summary>The choices of a class when the form is built: the catalogue, the current value, «Personalizzato», without empty texts.</summary>

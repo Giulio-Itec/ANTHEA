@@ -60,7 +60,7 @@ public sealed record ConcreteQuickResistanceCard(string Direction, string Value)
 public sealed partial class ConcreteInputViewModel : ObservableObject
 {
     private readonly ConcreteSheetViewModel sheet;
-    private bool holeChecked, holeEnabled = true, holeFieldsVisible, reinforcementEnabled = true;
+    private bool holeChecked, holeEnabled = true, holeFieldsVisible, reinforcementEnabled = true, holeFormEnabled = true, templateSection;
     private string? reinforcementToolTip;
 
     internal ConcreteInputViewModel(ConcreteSheetViewModel sheet)
@@ -123,6 +123,7 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
         ApplySavedMaterialCommand = new RelayCommand(ApplySavedMaterial, () => sheet.CanEdit);
         OpenRheologyCommand = new RelayCommand(() => sheet.RequestRheology(RheologyStrength));
         OpenPropertiesCommand = new RelayCommand(sheet.OpenProperties, () => sheet.CanEdit);
+        OpenWizardCommand = new AsyncRelayCommand(OpenWizardAsync, () => sheet.CanEdit);
     }
 
     private JsonObject Input => sheet.Input;
@@ -180,6 +181,40 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
     public string? ReinforcementToolTip { get => reinforcementToolTip; private set => SetProperty(ref reinforcementToolTip, value); }
     /// <summary>«Ripristina barre da wizard».</summary>
     public IRelayCommand RestoreBarsCommand { get; }
+    /// <summary>The fields of the hole accept the user: false for a section of the wizard (its hole is edited in the wizard).</summary>
+    public bool HoleFormEnabled { get => holeFormEnabled; private set => SetProperty(ref holeFormEnabled, value); }
+
+    // ---------------------------------------------------------------- sections made by the wizard (S1b)
+
+    /// <summary>The text of the command of the wizard in the group «Geometria».</summary>
+    public string WizardCommandText => "Wizard tipologie / modifica disposizione…";
+    /// <summary>
+    /// «Wizard tipologie / modifica disposizione…»: commits the sheet, shows <see cref="ConcreteTemplateWizardViewModel"/> on the dialog service
+    /// and, after «Applica sezione», shows the section of the wizard in the forms (the shape added to the choices of «Sezione» when missing),
+    /// then invalidates the sheet (OpenTemplateWizard of the historic view). Disabled in a read-only revision.
+    /// </summary>
+    public IAsyncRelayCommand OpenWizardCommand { get; }
+    /// <summary>The section is made by the wizard: the forms of the geometry and of the reinforcement are hidden and disabled, their notes shown.</summary>
+    public bool IsTemplateSection
+    {
+        get => templateSection;
+        private set
+        {
+            if (!SetProperty(ref templateSection, value)) return;
+            OnPropertyChanged(nameof(GeometryShown)); OnPropertyChanged(nameof(GeometryEnabled)); OnPropertyChanged(nameof(ReinforcementShown));
+            OnPropertyChanged(nameof(TemplateNotesShown));
+        }
+    }
+    /// <summary>The form of the geometry is shown (not for a section of the wizard).</summary>
+    public bool GeometryShown => !templateSection;
+    /// <summary>The form of the geometry accepts the user (not for a section of the wizard).</summary>
+    public bool GeometryEnabled => !templateSection;
+    /// <summary>The form of the reinforcement is shown (not for a section of the wizard).</summary>
+    public bool ReinforcementShown => !templateSection;
+    /// <summary>The two notes of the wizard are shown in place of the forms of the geometry and of the reinforcement.</summary>
+    public bool TemplateNotesShown => templateSection;
+    public string TemplateGeometryNote => ConcreteInputPresentation.TemplateGeometryNote;
+    public string TemplateReinforcementNote => ConcreteInputPresentation.TemplateReinforcementNote;
 
     // ---------------------------------------------------------------- drawing and bars
 
@@ -224,7 +259,10 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
     internal void RefreshHoleControls()
     {
         HoleChecked = Input.B("foro_presente");
-        HoleEnabled = ConcreteInputPresentation.HoleAvailable(Input.S("shape"));
+        HoleEnabled = ConcreteInputPresentation.HoleToggleEnabled(Input);
+        // The fields of the hole read the data again (only shown) and are disabled for a section of the wizard.
+        foreach (var field in Hole.Fields) Hole.Set(field.Key, Input.S(field.Key), true);
+        HoleFormEnabled = !ConcreteInputPresentation.TemplateSection(Input);
         UpdateHoleFields();
     }
 
@@ -232,8 +270,9 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
     internal void RefreshShapeFields()
     {
         string shape = Input.S("shape");
-        ReinforcementEnabled = !ConcreteInputPresentation.ManualBars(Input);
-        ReinforcementToolTip = ConcreteInputPresentation.ReinforcementToolTip(ReinforcementEnabled);
+        IsTemplateSection = ConcreteInputPresentation.TemplateSection(Input);
+        ReinforcementEnabled = !ConcreteInputPresentation.ManualBars(Input) && GeometryEnabled;
+        ReinforcementToolTip = ConcreteInputPresentation.ReinforcementToolTip(Input, ReinforcementEnabled);
         foreach (string key in ConcreteInputPresentation.ShapeFields) Geometry.ShowField(key, ConcreteInputPresentation.GeometryFieldShown(key, shape));
         foreach (var field in Reinforcement.Fields.Where(f => !f.Key.StartsWith("transverse", StringComparison.Ordinal)))
             Reinforcement.ShowField(field.Key, ConcreteInputPresentation.ReinforcementFieldShown(field.Key, shape));
@@ -244,7 +283,7 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
     {
         foreach (var layer in Layers)
         {
-            layer.IsShown = ConcreteInputPresentation.LayerShown(layer.Key, Input.S("shape"));
+            layer.IsShown = ConcreteInputPresentation.LayerVisible(layer.Key, Input);
             bool enabled = Input.B("second_" + layer.Key + "_enabled");
             bool locked = ConcreteInputPresentation.LayersLocked(Input);
             layer.ToggleEnabled = layer.FormEnabled = !locked;
@@ -286,7 +325,7 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
         {
             foreach (var field in form.Fields) form.Set(field.Key, field.Key.StartsWith("transverse_", StringComparison.Ordinal) || field.Key == "staffe_presenti" ? Input.S(field.Key) : shear.S(field.Key), true);
             foreach (var field in form.Fields.Where(f => f.Key != "staffe_presenti")) form.Enable(field.Key, Input.S("staffe_presenti", "Sì") == "Sì");
-            bool circular = Input.S("shape") == "Circolare";
+            bool circular = ConcreteInputPresentation.CircularLinkScheme(Input);
             form.ShowField("tipo_staffa", circular); form.ShowField("rami_interni", circular); form.ShowField("schema_interno", circular); form.ShowField("rotazione_staffa", circular);
             foreach (string key in new[] { "rami_x", "rami_y" }) form.ShowField(key, true);
         }
@@ -318,7 +357,7 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
     {
         foreach (var form in AllForms) form.IsReadOnly = readOnly;
         foreach (var command in new IRelayCommand[] { RestoreBarsCommand, ToggleHoleCommand, AddCableCommand, RemoveCableCommand, ResetCoefficientsCommand,
-            NewConcreteMaterialCommand, NewSteelMaterialCommand, NewTendonMaterialCommand, ApplySavedMaterialCommand, OpenPropertiesCommand }) command.NotifyCanExecuteChanged();
+            NewConcreteMaterialCommand, NewSteelMaterialCommand, NewTendonMaterialCommand, ApplySavedMaterialCommand, OpenPropertiesCommand, OpenWizardCommand }) command.NotifyCanExecuteChanged();
         foreach (var layer in Layers) layer.ToggleCommand.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(CanEditTables));
     }
@@ -354,6 +393,22 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
         HoleChecked = !HoleChecked;
         Input["foro_presente"] = HoleChecked;
         UpdateHoleFields();
+        sheet.Invalidate();
+    }
+
+    /// <summary>The wizard of the types on the data of the sheet, with the Wiki of the services.</summary>
+    public ConcreteTemplateWizardViewModel CreateWizardDialog() => new(sheet.Data, sheet.Wiki);
+
+    private async Task OpenWizardAsync()
+    {
+        if (!sheet.CanEdit) return;
+        sheet.CommitSheet();
+        if (!await sheet.Dialogs.ShowDialogAsync(CreateWizardDialog()) || sheet.IsDisposed) return;
+        var shape = Geometry["shape"];
+        if (ConcreteInputPresentation.ShapeChoicesAfterWizard(shape.Choices, Input.S("shape")) is { } choices) shape.ReplaceChoices(choices);
+        foreach (var form in new[] { Geometry, Reinforcement }.Concat(Layers.Select(l => l.Form)))
+            foreach (var field in form.Fields) form.Set(field.Key, Input.S(field.Key), true);
+        RefreshHoleControls();
         sheet.Invalidate();
     }
 

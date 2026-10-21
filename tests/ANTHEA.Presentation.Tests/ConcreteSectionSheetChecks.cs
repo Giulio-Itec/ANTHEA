@@ -16,10 +16,11 @@ using Anthea.Presentation.Services;
 namespace Anthea.Presentation.Tests;
 
 /// <summary>
-/// The ViewModel of the RC section (F5.10, sub-steps S1: shell, calculation, inputs and materials; S2: actions) against the traces of the
-/// historic view frozen in tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the sub-steps (ingressi/*, azioni/*, percorso-f3/*,
-/// calcolo/*, muri/*) is driven on the ViewModel as the user drives the historic controls; the common part of every state and the parts
-/// «[ingressi]» and «[azioni]» are compared line by line, the parts of the sub-steps not migrated yet are left out by their label (section 4.0
+/// The ViewModel of the RC section (F5.10, sub-steps S1: shell, calculation, inputs and materials; S2: actions; S1b: sections made by the
+/// wizard) against the traces of the historic view frozen in tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the sub-steps
+/// (ingressi/*, azioni/*, percorso-f3/*, calcolo/*, muri/*, esempi/*) is driven on the ViewModel as the user drives the historic controls; the
+/// common part of every state and the parts «[ingressi]», «[azioni]» and «[wizard]» are compared line by line, the parts of the sub-steps not
+/// migrated yet are left out by their label (section 4.0
 /// of docs/refactoring/f5-10-sezione.md). A step that belongs to a sub-step not migrated (the options of the domains, the stresses, the M–χ…)
 /// does nothing here: when the historic trace shows its effect, the comparison of that scenario stops there, at the place listed in
 /// <see cref="ExpectedStops"/> (any other stop is a failure).
@@ -27,7 +28,7 @@ namespace Anthea.Presentation.Tests;
 /// </summary>
 internal static partial class ConcreteSectionSheetChecks
 {
-    private static readonly string[] OwnParts = ["ingressi", "azioni"];
+    private static readonly string[] OwnParts = ["ingressi", "azioni", ConcreteSectionScenarios.WizardSection];
     private static readonly string[] OtherParts = ConcreteSectionScenarios.AllSections.Except(OwnParts).ToArray();
 
     /// <summary>The scenarios whose comparison stops at a step of a sub-step not migrated yet, with that step (S1, S2).</summary>
@@ -37,7 +38,8 @@ internal static partial class ConcreteSectionSheetChecks
     };
 
     /// <summary>The scenarios of the fast stage (decision C7: the long traces run in the ui stage, with --sezione-tracce).</summary>
-    private static readonly string[] FastScenarios = ["calcolo/ricalcolo-revisione.txt", "ingressi/resistenze-rapide.txt", "percorso-f3/default.txt", "azioni/incolla.txt"];
+    private static readonly string[] FastScenarios = ["calcolo/ricalcolo-revisione.txt", "ingressi/resistenze-rapide.txt", "percorso-f3/default.txt", "azioni/incolla.txt",
+        "ingressi/wizard-tipologie.txt"];
 
     internal static int Run(string root, string output, bool full) => SingleThreadContext.Run(_ => RunAsync(root, output, full));
 
@@ -55,6 +57,7 @@ internal static partial class ConcreteSectionSheetChecks
                 await WallSectionsAsync(root, output, expect);
                 await DataFilesAsync(root, output, expect);
                 await TracesAsync(root, output, full, expect);
+                await NativePersistenceAsync(root, expect);
             }
             else
             {
@@ -68,6 +71,7 @@ internal static partial class ConcreteSectionSheetChecks
                 await WindowsAsync(root, expect);
                 await ReloadAsync(root, expect);
                 await ActionsAsync(root, expect);
+                await WizardAsync(root, expect);
             }
             return expect.Count;
         }
@@ -79,11 +83,9 @@ internal static partial class ConcreteSectionSheetChecks
     private static async Task TracesAsync(string root, string output, bool full, Expect expect)
     {
         string folder = Path.Combine(output, "sezione-ca");
-        // The scenarios of the sections made by the wizard (part «[wizard]», S1b) are captured first and compared from the ViewModel of S1b.
-        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "percorso-f3" or "calcolo" or "muri")
-            .Where(s => !s.Sections.Contains(ConcreteSectionScenarios.WizardSection))
+        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "percorso-f3" or "calcolo" or "muri" or "esempi")
             .Where(s => full || FastScenarios.Contains(s.File.Replace('\\', '/'))).ToList();
-        expect.That(scenarios.Count == (full ? 25 : FastScenarios.Length), "Scenari S1 e S2 della sezione c.a.: " + scenarios.Count);
+        expect.That(scenarios.Count == (full ? 43 : FastScenarios.Length), "Scenari S1, S2 e S1b della sezione c.a.: " + scenarios.Count);
         var failures = new List<string>();
         var report = new List<string>();
         foreach (var scenario in scenarios)
@@ -170,10 +172,10 @@ internal static partial class ConcreteSectionSheetChecks
         private SemaphoreSlim? held;
         private Task? started;
         private ConcreteAnalysisSession session = null!;
-        // WPF does not pass the disabled state of a form to the fields of a closed expander until they are laid out (the historic trace runs
-        // off screen): the fields of the reinforcement and of the second layers count as disabled only once their group was shown.
-        private bool armatureShown;
-        private readonly HashSet<string> layersShown = new(StringComparer.Ordinal);
+        // WPF does not pass the disabled state of a form to its fields until the form is laid out once (the historic trace runs off screen):
+        // a form in a closed expander, in a tab not shown or hidden itself keeps its fields enabled. The forms laid out so far: «geometria»
+        // and «foro» (group «Geometria», open), «armatura» and the second layers (group «Armature», closed until the user opens it).
+        private readonly HashSet<string> laidOut = new(StringComparer.Ordinal);
 
         internal Side(JsonObject data) => Open(data);
 
@@ -190,7 +192,7 @@ internal static partial class ConcreteSectionSheetChecks
             Sheet = new ConcreteSheetViewModel(context, session);
             modified = 0;
             Sheet.Modified += (_, _) => modified++;
-            armatureShown = false; layersShown.Clear();
+            laidOut.Clear();
             Observe();
         }
 
@@ -203,13 +205,18 @@ internal static partial class ConcreteSectionSheetChecks
             Close();
         }
 
-        // What the layout of the historic window shows after a step: the groups opened while the control panel is shown.
+        // What the layout of the historic window lays out after a step: the forms shown in the open groups of the control panel.
         private void Observe()
         {
             if (Sheet.SelectedTab != 0) return;
-            if (Inputs.Groups.First(g => g.Title == "Armature").IsExpanded) armatureShown = true;
-            if (!armatureShown) return;
-            foreach (var layer in Inputs.Layers) if (layer.IsShown && layer.FormVisible) layersShown.Add(layer.Key);
+            if (Inputs.Groups.First(g => g.Title == "Geometria").IsExpanded)
+            {
+                if (Inputs.GeometryShown) laidOut.Add("geometria");
+                if (Inputs.HoleFieldsVisible) laidOut.Add("foro");
+            }
+            if (!Inputs.Groups.First(g => g.Title == "Armature").IsExpanded) return;
+            if (Inputs.ReinforcementShown) laidOut.Add("armatura");
+            foreach (var layer in Inputs.Layers) if (layer.IsShown && layer.FormVisible) laidOut.Add("strato-" + layer.Key);
         }
 
         /// <summary>Applies a step; returns the message the view shows and false for a step of a sub-step not migrated (it does nothing).</summary>
@@ -297,16 +304,23 @@ internal static partial class ConcreteSectionSheetChecks
         private bool FormShown(FormViewModel form)
         {
             if (ReferenceEquals(form, Inputs.Hole)) return Inputs.HoleFieldsVisible;
+            if (ReferenceEquals(form, Inputs.Geometry)) return Inputs.GeometryShown;
+            if (ReferenceEquals(form, Inputs.Reinforcement)) return Inputs.ReinforcementShown;
             var layer = Inputs.Layers.FirstOrDefault(l => ReferenceEquals(l.Form, form));
             return layer is null || layer.IsShown && layer.FormVisible;
         }
 
-        /// <summary>The fields of a form disabled as a whole (the reinforcement locked by the coordinates of the bars, the locked layers), once laid out.</summary>
+        /// <summary>
+        /// The fields of a form disabled as a whole, once laid out: the geometry and the hole of a section of the wizard, the reinforcement
+        /// locked by the coordinates of the bars or by the wizard, the locked layers.
+        /// </summary>
         private bool FormDisabled(FormViewModel form)
         {
-            if (ReferenceEquals(form, Inputs.Reinforcement)) return !Inputs.ReinforcementEnabled && armatureShown;
+            if (ReferenceEquals(form, Inputs.Geometry)) return !Inputs.GeometryEnabled && laidOut.Contains("geometria");
+            if (ReferenceEquals(form, Inputs.Hole)) return !Inputs.HoleFormEnabled && laidOut.Contains("foro");
+            if (ReferenceEquals(form, Inputs.Reinforcement)) return !Inputs.ReinforcementEnabled && laidOut.Contains("armatura");
             var layer = Inputs.Layers.FirstOrDefault(l => ReferenceEquals(l.Form, form));
-            return layer is not null && !layer.FormEnabled && layersShown.Contains(layer.Key);
+            return layer is not null && !layer.FormEnabled && laidOut.Contains("strato-" + layer.Key);
         }
 
         /// <summary>A field as the user sees it: enabled (choices and check boxes disabled in a read-only revision), visible.</summary>
@@ -395,6 +409,8 @@ internal static partial class ConcreteSectionSheetChecks
                 }
                 case ConcreteSectionStep.Open when step.Target is "materiale" or "materiale-acciaio" or "materiale-trefoli":
                     return (await OpenMaterialAsync(step), true);
+                case ConcreteSectionStep.Open when step.Target == "wizard":
+                    return (await OpenWizardAsync(step), true);
                 default:
                     // A control of a sub-step not migrated (domains, stresses, shear, detailing, design, inspection, reports).
                     return (null, false);
@@ -435,6 +451,49 @@ internal static partial class ConcreteSectionSheetChecks
             return string.Join("\n", log);
         }
 
+        // «Wizard tipologie / modifica disposizione…» (S1b): the wizard driven inside its window, its fields by the step shared with the historic
+        // trace, its buttons by its commands; its state after every step.
+        private async Task<string?> OpenWizardAsync(ConcreteSectionStep step)
+        {
+            if (!Inputs.OpenWizardCommand.CanExecute(null)) return "finestra non aperta: comando non disponibile";
+            var log = new List<string>();
+            bool opened = false;
+            dialogs.Next = dialog =>
+            {
+                opened = true;
+                var wizard = (ConcreteTemplateWizardViewModel)dialog;
+                bool closed = false;
+                void Closed(object? sender, EventArgs e) => closed = true;
+                wizard.CloseRequested += Closed;
+                try
+                {
+                    log.Add("aperta · " + ConcreteSectionTrace.WizardState(wizard));
+                    foreach (var inner in step.Dialog ?? [])
+                    {
+                        if (closed) { log.Add("chiusa: passo " + inner + " non eseguito"); continue; }
+                        if (!ConcreteSectionTrace.WizardStep(wizard, inner))
+                        {
+                            var command = (inner.Kind, inner.Key) switch
+                            {
+                                (ConcreteSectionStep.Button, "Applica sezione") => wizard.ApplyCommand,
+                                (ConcreteSectionStep.Button, "Annulla") => wizard.CancelCommand,
+                                _ => throw new ArgumentException("Passo del wizard sconosciuto: " + inner)
+                            };
+                            if (command.CanExecute(null)) command.Execute(null);
+                        }
+                        log.Add(inner + " · " + (closed ? "chiusa" : ConcreteSectionTrace.WizardState(wizard)));
+                    }
+                    if (!closed) log.Add("chiusa dalla traccia");
+                }
+                finally { wizard.CloseRequested -= Closed; }
+                return closed;
+            };
+            await Inputs.OpenWizardCommand.ExecuteAsync(null);
+            dialogs.Next = null;
+            if (!opened) throw new InvalidOperationException("Finestra del wizard non aperta.");
+            return string.Join("\n", log);
+        }
+
         private static void DialogStep(ConcreteMaterialDialogViewModel dialog, ConcreteSectionStep step)
         {
             switch (step.Kind)
@@ -472,7 +531,7 @@ internal static partial class ConcreteSectionSheetChecks
             foreach (string section in sections.Where(OwnParts.Contains))
             {
                 var block = new ConcreteSectionBlock(section);
-                if (section == "azioni") TraceActions(block); else TraceInputs(block);
+                if (section == "azioni") TraceActions(block); else if (section == ConcreteSectionScenarios.WizardSection) TraceWizard(block); else TraceInputs(block);
                 state.Blocks.Add(block);
             }
             return state;
@@ -523,6 +582,18 @@ internal static partial class ConcreteSectionSheetChecks
             + " · opzioni " + string.Concat(new[] { view.Labels, view.Axes, view.ShowNeutralAxis, view.BarValues, view.TendonValues, view.ConcreteValues, view.Dimensions, view.CoverDimensions,
                 view.SpacingDimensions, view.Stirrups is not null }.Select(b => b ? "1" : "0"))
             + " · barra " + ConcreteSectionTrace.Quote(view.SelectedBar) + " · zona " + ConcreteSectionTrace.Quote(null);
+
+        // The part «[wizard]» (S1b): the command, the editor hidden or disabled with the notes of the wizard, the hole, the note of the shear.
+        private void TraceWizard(ConcreteSectionBlock block)
+        {
+            block.Add("comando " + ConcreteSectionTrace.Quote(Inputs.WizardCommandText) + (Inputs.OpenWizardCommand.CanExecute(null) ? "" : " · spento"));
+            block.Add("geometria" + (Inputs.GeometryShown ? "" : " · nascosta") + (Inputs.GeometryEnabled ? "" : " · spenta") + " · nota "
+                + ConcreteSectionTrace.Quote(Inputs.TemplateGeometryNote) + (Inputs.TemplateNotesShown ? "" : " · nascosta"));
+            block.Add("armatura" + (Inputs.ReinforcementShown ? "" : " · nascosta") + " · nota " + ConcreteSectionTrace.Quote(Inputs.TemplateReinforcementNote)
+                + (Inputs.TemplateNotesShown ? "" : " · nascosta"));
+            block.Add("foro campi" + (Inputs.HoleFormEnabled ? "" : " · spenti"));
+            block.Text("nota-taglio", Sheet.ShearAutomaticNote);
+        }
 
         private void TraceInputs(ConcreteSectionBlock block)
         {

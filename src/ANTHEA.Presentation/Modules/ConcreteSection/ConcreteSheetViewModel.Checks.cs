@@ -279,7 +279,8 @@ public sealed partial class ConcreteSheetViewModel
     private void RefreshAutomaticShear()
     {
         if (!shearBuilt) return;
-        if (ShearOptions.S("parametri", "Automatici da sezione") != "Automatici da sezione") { ShearAutomaticNote = "Parametri manuali: verificare geometria, armatura tesa e ancoraggio."; return; }
+        // With manual parameters, the note written by the wizard for its sections (S1b), otherwise the default one.
+        if (ShearOptions.S("parametri", "Automatici da sezione") != "Automatici da sezione") { ShearAutomaticNote = ConcreteInputPresentation.ManualShearNote(ShearOptions); return; }
         try
         {
             var geometry = ConcreteSheetPreparation.UpdateAutomaticShear(Input, ShearOptions);

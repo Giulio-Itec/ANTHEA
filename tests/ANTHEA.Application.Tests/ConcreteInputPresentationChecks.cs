@@ -51,6 +51,30 @@ internal static class ConcreteInputPresentationChecks
                 "Testi dei secondi strati");
             Check(string.Join("|", ConcreteInputPresentation.Layers.Select(l => l.Key + ":" + l.Source)) == "top:top|bottom:bottom|inner:longitudinal", "Secondi strati e loro origine");
 
+            // Sections made by the wizard (F5.10 S1b): a shape of the wizard, or a hole with two contours; the ordinary shapes keep the editor.
+            var shapeI = J.Obj(("shape", "A I")); var hollow = J.Obj(("shape", "Rettangolare"), ("foro_presente", true), ("wizard_layout", "Doppio contorno"));
+            var holeOnly = J.Obj(("shape", "Rettangolare"), ("foro_presente", true), ("wizard_layout", "Perimetro"));
+            var ringOnly = J.Obj(("shape", "Circolare"), ("foro_presente", false), ("wizard_layout", "Doppio contorno"));
+            Check(ConcreteInputPresentation.TemplateSection(shapeI) && ConcreteInputPresentation.TemplateSection(hollow) && !ConcreteInputPresentation.TemplateSection(holeOnly)
+                && !ConcreteInputPresentation.TemplateSection(ringOnly) && !ConcreteInputPresentation.TemplateSection(J.Obj(("shape", "A T"))),
+                "Sezioni del wizard: forme del wizard e foro a doppio contorno");
+            Check(!ConcreteInputPresentation.HoleToggleEnabled(hollow) && ConcreteInputPresentation.HoleToggleEnabled(holeOnly) && !ConcreteInputPresentation.HoleToggleEnabled(shapeI),
+                "Foro centrale spento per le sezioni del wizard");
+            Check(ConcreteInputPresentation.ReinforcementToolTip(shapeI, true) == "Modificare la disposizione da Wizard tipologie oppure dalla tabella delle coordinate delle barre."
+                && ConcreteInputPresentation.ReinforcementToolTip(holeOnly, true) is null && ConcreteInputPresentation.ReinforcementToolTip(holeOnly, false)!.StartsWith("Sono attive"),
+                "Nota dell'armatura delle sezioni del wizard");
+            Check(!ConcreteInputPresentation.LayerVisible("top", hollow) && ConcreteInputPresentation.LayerVisible("top", holeOnly) && !ConcreteInputPresentation.LayerVisible("inner", holeOnly)
+                && ConcreteInputPresentation.LayerVisible("inner", ringOnly), "Secondi strati nascosti per le sezioni del wizard");
+            var hollowRing = J.Obj(("shape", "Circolare"), ("foro_presente", true), ("wizard_layout", "Doppio contorno"));
+            Check(ConcreteInputPresentation.CircularLinkScheme(ringOnly) && !ConcreteInputPresentation.CircularLinkScheme(hollowRing) && !ConcreteInputPresentation.CircularLinkScheme(holeOnly),
+                "Schema circolare delle staffe solo per il cerchio ordinario");
+            Check(string.Join("|", ConcreteInputPresentation.ShapeChoicesAfterWizard(["Circolare", "Rettangolare"], "A I")!) == "Circolare|Rettangolare|A I"
+                && ConcreteInputPresentation.ShapeChoicesAfterWizard(["Circolare", "Rettangolare"], "Rettangolare") is null, "Voci di «Sezione» dopo il wizard");
+            Check(ConcreteInputPresentation.ManualShearNote(J.Obj(("nota_wizard", "Nota del wizard"))) == "Nota del wizard"
+                && ConcreteInputPresentation.ManualShearNote(new JsonObject()) == "Parametri manuali: verificare geometria, armatura tesa e ancoraggio.", "Nota del taglio con parametri manuali");
+            Check(ConcreteInputPresentation.TemplateGeometryNote == "Geometria e copriferro si modificano nel wizard."
+                && ConcreteInputPresentation.TemplateReinforcementNote.StartsWith("Disposizione definita nel wizard."), "Note del wizard");
+
             // Materials: choices, the catalogue class, the materials of the user.
             JsonObject[] catalog = [J.Obj(("nome", "C30/37"), ("fck_mpa", 30)), J.Obj(("nome", "C35/45"), ("fck_mpa", 35))];
             Check(string.Join("|", ConcreteInputPresentation.MaterialChoices(catalog, "C30/37")) == "C30/37|C35/45|Personalizzato"
