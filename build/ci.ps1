@@ -415,6 +415,11 @@ Add-Suite @{ Name = 'ui/check-sezione-historic'; Stage = 'ui'; Kind = 'check'; A
 # F5.11 (proposal 7.2, capture first): the historic composite bridge section view still gives the traces and the drawing lists frozen in
 # tests/fixtures/f5-sezione-mista, which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-sezione-mista-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-mista-historic', '{root}', '{out}\traccia'); Timeout = 1200; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
+# F5.11: the XAML view of the composite bridge section hosted by MvvmSheetEditor off screen (bench --module-impl, Release still historic): the 20
+# traces through its controls equal to those frozen in tests/fixtures/f5-sezione-mista, the drawings of the view and the figures of the report,
+# the visit and the exports equal to those of the historic view, screenshots, help, automation names, read-only, the detached view and the
+# dialogs of the view, the bench and the Release.
+Add-Suite @{ Name = 'ui/check-sezione-mista-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-mista-view', '{root}', '{out}\vista'); Timeout = 1800; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 # F5.10 S1 (decision C7: the long traces in the ui stage): the ViewModel of the RC section without WPF against the traces frozen in
 # tests/fixtures/f5-sezione (common part and [ingressi] of ingressi/*, percorso-f3/*, calcolo/* and muri/*), the files of the data of the F3
 # capture and the sections sent by the walls; the fast stage keeps three scenarios in Presentation.Tests.
