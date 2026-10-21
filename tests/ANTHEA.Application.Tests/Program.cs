@@ -101,6 +101,8 @@ try
     checks += await ConcreteBatchChecks.Run(root);
     checks += ConcretePresentationChecks.Run(root);
     checks += ConcreteInputPresentationChecks.Run();
+    // F5.10 S3: the derivations of the domain panels moved from the historic view (ConcreteDomainChart).
+    checks += ConcreteDomainChartChecks.Run();
     checks += await ConcretePropertyChecks.Run();
     checks += ConcreteGeometryChecks.Run();
     checks += ConcreteEditorChecks.Run(root);

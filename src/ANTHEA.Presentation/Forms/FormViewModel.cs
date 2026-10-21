@@ -120,6 +120,23 @@ public sealed class FormViewModel : ObservableObject, INotifyDataErrorInfo
         }
     }
 
+    private readonly HashSet<string> allowedWhenReadOnly = new(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Fields that stay usable in a read-only form (F5.10 S3): the choices that the historic views leave enabled in a read-only revision
+    /// (RevisionInspection.Allow: the limit state and the filter of the actions of the domain panels of the RC section). Additive: no field
+    /// for every other form.
+    /// </summary>
+    public void AllowWhenReadOnly(params string[] keys)
+    {
+        ArgumentNullException.ThrowIfNull(keys);
+        foreach (string key in keys) allowedWhenReadOnly.Add(key);
+        foreach (var field in Fields) field.RefreshEditable();
+    }
+
+    /// <summary>The read-only state blocks the user on <paramref name="field"/> (not on the fields of <see cref="AllowWhenReadOnly"/>).</summary>
+    internal bool Blocks(FieldViewModel field) => isReadOnly && !allowedWhenReadOnly.Contains(field.Key);
+
     /// <summary>
     /// Where the «?» labels and F1 of the fields open the Wiki (<see cref="FieldViewModel.OpenHelp"/>): the navigator of the
     /// services of the sheet. Null for the forms of the historic views, whose FieldForm opens the Wiki of its window itself.

@@ -20,8 +20,9 @@ namespace Anthea.Presentation.Modules.ConcreteSection;
 /// <item>Calculation: <see cref="ConcreteCalculation"/> (decision C1); the sheet is in mode <see cref="SheetCalculationMode.None"/> and gives
 /// <see cref="Result"/>, <see cref="HasResults"/> and «Calcola» (<see cref="CalculateAsync"/>) of its own. The result is the historic export
 /// (ConcreteResultExport), built when read and kept until the next invalidation, as the historic view.</item>
-/// <item>Children: <see cref="Inputs"/> (inputs and materials); the tabs of the later sub-steps (S2–S9) keep, until their ViewModels, only the
-/// writes into the document and the results that the common part of the traces reads (ConcreteSheetViewModel.Checks.cs).</item>
+/// <item>Children: <see cref="Inputs"/> (inputs and materials, with the sections of the wizard: S1, S1b), <see cref="Actions"/> (S2), <see cref="Domain3D"/>
+/// and <see cref="Domain2D"/> (S3); the tabs of the later sub-steps (S4–S9) keep, until their ViewModels, only the writes into the document
+/// and the results that the common part of the traces reads (ConcreteSheetViewModel.Checks.cs).</item>
 /// </list>
 /// Works without a project and without a window (requirement of section 5 for the verifier of the elastic pile): the host is only asked for
 /// the report (not in S1) and the non modal windows are requests the view may ignore.
@@ -158,14 +159,17 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         PrepareStressOptions();
         // 05 · Taglio e torsione.
         PrepareShear();
-        // The tables of the actions of tabs 02–05 (S2): no write.
+        // The tables of the actions of tabs 02–05 (S2) and the panels of the domains (S3): no write.
         Actions = new ConcreteActionsViewModel(this);
+        Domain3D = new ConcreteDomainPanelViewModel(this, Actions.Domain3D, true);
+        Domain2D = new ConcreteDomainPanelViewModel(this, Actions.Domain2D, false);
         // 06 · Dettagli costruttivi: from here the detailing is refreshed.
         detailingBuilt = true;
         // 07 · Momento–curvatura: no write. 08 · Calcola armature.
         ConcreteEditor.PrepareDesign(Settings);
         tab = ConcreteSheetPresentation.InitialTab(Settings);
         OnPropertyChanged(nameof(SelectedTab)); OnPropertyChanged(nameof(Inputs)); OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(Actions));
+        OnPropertyChanged(nameof(Domain3D)); OnPropertyChanged(nameof(Domain2D));
         initializing = false; RefreshPreview(); RefreshSummary();
         // The view shown and loaded: the panel of the tab and the calculation of the opening (IsVisibleChanged and Loaded of the historic view).
         ViewLoaded();
@@ -198,6 +202,8 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
                     row.Output(key, key.StartsWith("esito", StringComparison.Ordinal) || key == "stress_status" || key == "wk" ? "Da calcolare" : "—");
         }
         finally { synchronizing = false; }
+        // The panels of the domains: no mesh, no chart, the detail waits for the calculation.
+        foreach (var panel in DomainPanels) panel.Invalidated();
         InvalidateCurvature();
         if (!geometryChanged) _ = Inputs.RefreshQuickResistanceAsync();
         if (geometryChanged) RefreshPreview();
@@ -264,6 +270,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
     internal void CommitSheet()
     {
         Inputs.Commit();
+        foreach (var panel in DomainPanels) panel.Form.Commit();
         foreach (string key in actions.Keys) SyncActions(key);
         if (!SectionActionInputs.Unified(Data)) ShearOptions["azioni"] = ConcreteSheetPreparation.StoreShearRows(shearRows.Select(r => r.Values));
     }
@@ -280,6 +287,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         if (e.PropertyName != nameof(IsReadOnly)) return;
         Inputs?.RefreshEditable(IsReadOnly);
         Actions?.RefreshEditable();
+        foreach (var panel in DomainPanels) panel.RefreshEditable(IsReadOnly);
     }
 
     private void OnCalculationChanged(object? sender, PropertyChangedEventArgs e)

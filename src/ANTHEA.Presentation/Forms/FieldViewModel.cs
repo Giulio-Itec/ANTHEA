@@ -80,9 +80,9 @@ public sealed class FieldViewModel : ObservableObject
     public bool IsReadOnly => Spec.ReadOnly;
     /// <summary>The text box refuses the typing: a calculated field (<see cref="IsReadOnly"/>) or a read-only form
     /// (<see cref="FormViewModel.IsReadOnly"/>, a previous revision). Only the first one changes the background.</summary>
-    public bool IsInputReadOnly => IsReadOnly || Form.IsReadOnly;
+    public bool IsInputReadOnly => IsReadOnly || Form.Blocks(this);
     /// <summary>The choice or the check box accepts the user: false in a read-only form, where the view disables them.</summary>
-    public bool CanChange => !Form.IsReadOnly;
+    public bool CanChange => !Form.Blocks(this);
     /// <summary>Items of the choice: the declared values plus the current one, without blanks and repetitions. Empty for the other kinds.</summary>
     public IReadOnlyList<string> Choices { get; private set; } = [];
 
@@ -101,7 +101,7 @@ public sealed class FieldViewModel : ObservableObject
             value ??= "";
             if (value == EditText) return;
             // A read-only form refuses the typing: the editor shows the text of the field again.
-            if (Form.IsReadOnly) { OnPropertyChanged(); return; }
+            if (Form.Blocks(this)) { OnPropertyChanged(); return; }
             SetRaw(value);
             OnEdited();
             RefreshText();
@@ -140,7 +140,7 @@ public sealed class FieldViewModel : ObservableObject
         set
         {
             if (Kind != FieldKind.Choice || selectedChoice == value) return;
-            if (value is not null && !Choices.Contains(value) || Form.IsReadOnly) { OnPropertyChanged(); return; }
+            if (value is not null && !Choices.Contains(value) || Form.Blocks(this)) { OnPropertyChanged(); return; }
             selectedChoice = value;
             OnPropertyChanged();
             Form.Store(this, value ?? "");
@@ -153,7 +153,7 @@ public sealed class FieldViewModel : ObservableObject
         set
         {
             if (Kind != FieldKind.Bool || isChecked == value) return;
-            if (Form.IsReadOnly) { OnPropertyChanged(); return; }
+            if (Form.Blocks(this)) { OnPropertyChanged(); return; }
             isChecked = value;
             OnPropertyChanged();
             Form.Store(this, value);

@@ -17,10 +17,10 @@ namespace Anthea.Presentation.Tests;
 
 /// <summary>
 /// The ViewModel of the RC section (F5.10, sub-steps S1: shell, calculation, inputs and materials; S2: actions; S1b: sections made by the
-/// wizard) against the traces of the historic view frozen in tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the sub-steps
-/// (ingressi/*, azioni/*, percorso-f3/*, calcolo/*, muri/*, esempi/*) is driven on the ViewModel as the user drives the historic controls; the
-/// common part of every state and the parts «[ingressi]», «[azioni]» and «[wizard]» are compared line by line, the parts of the sub-steps not
-/// migrated yet are left out by their label (section 4.0
+/// wizard; S3: domains) against the traces of the historic view frozen in tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the
+/// sub-steps (ingressi/*, azioni/*, domini/*, percorso-f3/*, calcolo/*, muri/*, esempi/*) is driven on the ViewModel as the user drives the
+/// historic controls; the common part of every state and the parts «[ingressi]», «[azioni]», «[domini]» and «[wizard]» are compared line by
+/// line, the parts of the sub-steps not migrated yet are left out by their label (section 4.0
 /// of docs/refactoring/f5-10-sezione.md). A step that belongs to a sub-step not migrated (the options of the domains, the stresses, the M–χ…)
 /// does nothing here: when the historic trace shows its effect, the comparison of that scenario stops there, at the place listed in
 /// <see cref="ExpectedStops"/> (any other stop is a failure).
@@ -28,13 +28,14 @@ namespace Anthea.Presentation.Tests;
 /// </summary>
 internal static partial class ConcreteSectionSheetChecks
 {
-    private static readonly string[] OwnParts = ["ingressi", "azioni", ConcreteSectionScenarios.WizardSection];
+    private static readonly string[] OwnParts = ["ingressi", "azioni", "domini", ConcreteSectionScenarios.WizardSection];
     private static readonly string[] OtherParts = ConcreteSectionScenarios.AllSections.Except(OwnParts).ToArray();
 
-    /// <summary>The scenarios whose comparison stops at a step of a sub-step not migrated yet, with that step (S1, S2).</summary>
+    /// <summary>The scenarios whose comparison stops at a step of a sub-step not migrated yet, with that step (S4: the contour of the map of the
+    /// serviceability, saved in the options also in a read-only revision).</summary>
     private static readonly Dictionary<string, string> ExpectedStops = new(StringComparer.Ordinal)
     {
-        ["calcolo/sola-lettura.txt"] = "scelta 3D filtro «Fuori dominio»",
+        ["calcolo/sola-lettura.txt"] = "menu SLE contorno «Solo geometria»",
     };
 
     /// <summary>The scenarios of the fast stage (decision C7: the long traces run in the ui stage, with --sezione-tracce).</summary>
@@ -58,6 +59,7 @@ internal static partial class ConcreteSectionSheetChecks
                 await DataFilesAsync(root, output, expect);
                 await TracesAsync(root, output, full, expect);
                 await NativePersistenceAsync(root, expect);
+                await DomainDataAsync(root, output, expect);
             }
             else
             {
@@ -72,6 +74,7 @@ internal static partial class ConcreteSectionSheetChecks
                 await ReloadAsync(root, expect);
                 await ActionsAsync(root, expect);
                 await WizardAsync(root, expect);
+                await DomainsAsync(root, expect);
             }
             return expect.Count;
         }
@@ -83,9 +86,9 @@ internal static partial class ConcreteSectionSheetChecks
     private static async Task TracesAsync(string root, string output, bool full, Expect expect)
     {
         string folder = Path.Combine(output, "sezione-ca");
-        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "percorso-f3" or "calcolo" or "muri" or "esempi")
+        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "domini" or "percorso-f3" or "calcolo" or "muri" or "esempi")
             .Where(s => full || FastScenarios.Contains(s.File.Replace('\\', '/'))).ToList();
-        expect.That(scenarios.Count == (full ? 43 : FastScenarios.Length), "Scenari S1, S2 e S1b della sezione c.a.: " + scenarios.Count);
+        expect.That(scenarios.Count == (full ? 45 : FastScenarios.Length), "Scenari S1, S2, S1b e S3 della sezione c.a.: " + scenarios.Count);
         var failures = new List<string>();
         var report = new List<string>();
         foreach (var scenario in scenarios)
@@ -254,7 +257,9 @@ internal static partial class ConcreteSectionSheetChecks
                 await Task.Yield();
                 await Task.Delay(20);
                 await Task.Yield();
-                quiet = !Sheet.IsBusy && !Sheet.IsCalculationQueued && !Inputs.IsQuickResistanceRunning ? quiet + 1 : 0;
+                // The mesh shown alone (S3) runs on a worker thread, as the historic view (its status says so).
+                quiet = !Sheet.IsBusy && !Sheet.IsCalculationQueued && !Inputs.IsQuickResistanceRunning
+                    && !Sheet.Status.StartsWith("Aggiornamento della sola mesh", StringComparison.Ordinal) ? quiet + 1 : 0;
                 if (watch.Elapsed > TimeSpan.FromMinutes(3)) throw new TimeoutException("La sezione c.a. non si ferma: " + Sheet.Status);
             }
         }
@@ -275,10 +280,17 @@ internal static partial class ConcreteSectionSheetChecks
         {
             foreach (var group in Inputs.Groups) group.IsExpanded = true;
             Inputs.TendonGroup.IsExpanded = true;
-            foreach (var form in Inputs.AllForms) foreach (var group in form.Groups) group.IsExpanded = true;
+            foreach (var form in Inputs.AllForms.Concat([Sheet.Domain3D.Form, Sheet.Domain2D.Form])) foreach (var group in form.Groups) group.IsExpanded = true;
             int selected = Sheet.SelectedTab;
             for (int i = 0; i < ConcreteSheetViewModel.TabTitles.Length; i++) { Sheet.SelectedTab = i; Observe(); }
             Sheet.SelectedTab = selected;
+            // The inner tabs of the domain panels («Dominio», «Sezione σ / ε»), selected and restored after the main tabs.
+            foreach (var panel in new[] { Sheet.Domain3D, Sheet.Domain2D })
+            {
+                int inner = panel.InspectionTab;
+                for (int i = 0; i < 2; i++) panel.InspectionTab = i;
+                panel.InspectionTab = inner;
+            }
         }
 
         // ---------------------------------------------------------------- controls of the inputs
@@ -297,6 +309,8 @@ internal static partial class ConcreteSectionSheetChecks
             "cavo" => Inputs.Cable,
             "trefolo" => Inputs.TendonProperties,
             "rapide" => Inputs.QuickResistance,
+            "3D" => Sheet.Domain3D.Form,
+            "2D" => Sheet.Domain2D.Form,
             _ => null
         };
 
@@ -330,6 +344,7 @@ internal static partial class ConcreteSectionSheetChecks
 
         private async Task<(string? Message, bool Own)> ApplyControlAsync(ConcreteSectionStep step)
         {
+            if (ApplyDomainStep(step) is { } domain) return domain;
             if (IsActionStep(step)) return await ApplyActionAsync(step);
             switch (step.Kind)
             {
@@ -531,7 +546,10 @@ internal static partial class ConcreteSectionSheetChecks
             foreach (string section in sections.Where(OwnParts.Contains))
             {
                 var block = new ConcreteSectionBlock(section);
-                if (section == "azioni") TraceActions(block); else if (section == ConcreteSectionScenarios.WizardSection) TraceWizard(block); else TraceInputs(block);
+                if (section == "azioni") TraceActions(block);
+                else if (section == "domini") TraceDomains(block);
+                else if (section == ConcreteSectionScenarios.WizardSection) TraceWizard(block);
+                else TraceInputs(block);
                 state.Blocks.Add(block);
             }
             return state;

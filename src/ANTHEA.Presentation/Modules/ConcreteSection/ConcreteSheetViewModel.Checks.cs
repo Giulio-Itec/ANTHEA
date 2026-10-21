@@ -6,10 +6,10 @@ using Anthea.Presentation.Forms;
 namespace Anthea.Presentation.Modules.ConcreteSection;
 
 /// <summary>
-/// What the tabs of the later sub-steps (S2 actions, S3 domains, S4 serviceability, S5 shear, S6 detailing, S7 M–χ, S9 summaries) do to the
-/// data and to the results that the common part of the traces reads, until their ViewModels: the rows of the actions and of the shear with
-/// their outputs, the results published by the calculation, the automatic shear parameters, the derived values of the detailing, the
-/// summaries of the control panel and the export. Every write and its order are those of the historic view; the controls of those tabs
+/// What the tabs of the later sub-steps (S4 serviceability, S5 shear, S6 detailing, S7 M–χ, S9 summaries) do to the data and to the results
+/// that the common part of the traces reads, until their ViewModels, and what the sheet keeps for the panels of S2 and S3: the rows of the
+/// actions and of the shear with their outputs, the results published by the calculation, the automatic shear parameters, the derived values
+/// of the detailing, the summaries of the control panel and the export. Every write and its order are those of the historic view; the controls of those tabs
 /// are not here.
 /// </summary>
 public sealed partial class ConcreteSheetViewModel
@@ -25,7 +25,6 @@ public sealed partial class ConcreteSheetViewModel
     private readonly Dictionary<string, Dictionary<string, StressOutcome>> stressResults = new(StringComparer.Ordinal);
     private readonly Dictionary<string, ConcreteResults.ShearResult[]> shearResults = new(StringComparer.Ordinal);
     private readonly Dictionary<string, ConcreteResults.TorsionResult> torsionResults = new(StringComparer.Ordinal);
-    private readonly Dictionary<string, (string Key, Dictionary<string, ConcreteResults.Check>? Checks)> domainOutputs = new(StringComparer.Ordinal);
     private readonly Dictionary<string, ConcreteCardsViewModel> summaries = new(StringComparer.Ordinal);
     private ConcreteDetailingPresentation? detailing;
     private ConcreteResults.CurvatureResult? curvatureResult;
@@ -74,7 +73,7 @@ public sealed partial class ConcreteSheetViewModel
     // A new opening (also after Reload, as the historic view builds a new workspace): no results, no detailing, tabs not built yet.
     private void ResetState()
     {
-        ClearResults(); shearResults.Clear(); torsionResults.Clear(); domainOutputs.Clear();
+        ClearResults(); shearResults.Clear(); torsionResults.Clear();
         detailing = null; curvatureResult = null; detailingBuilt = false; shearBuilt = false; synchronizing = false;
         ResetResult();
     }
@@ -114,6 +113,7 @@ public sealed partial class ConcreteSheetViewModel
         }
         foreach (var (key, cards) in summaries)
             Fill(cards, k => key is "SLU" or "SLV" ? k.EndsWith(":" + key, StringComparison.Ordinal) : k.StartsWith(key + ":", StringComparison.Ordinal));
+        foreach (var panel in DomainPanels) Fill(panel.Summary, k => k.StartsWith(panel.Prefix, StringComparison.Ordinal));
         Fill(ShearDashboard, k => k.StartsWith("Taglio:", StringComparison.Ordinal));
     }
 
@@ -128,7 +128,9 @@ public sealed partial class ConcreteSheetViewModel
         if (result.Three is not null) checker3D[key] = result.Three;
         if (result.Two is not null) checker2D[key] = result.Two;
         domainResults[prefix + key] = result.Checks;
-        if (key == DomainKey(prefix)) RefreshDomainOutputs(prefix);
+        // PublishDomain of the historic view: the panel of the limit state shown attaches its rows again and is drawn again.
+        var panel = DomainPanel(prefix);
+        if (key == panel.Key) { panel.Attach(); panel.RefreshPanel(); }
     }
 
     void IConcreteCalculationHost.PublishStress(string key, Dictionary<string, StressOutcome> outcomes)
@@ -149,7 +151,7 @@ public sealed partial class ConcreteSheetViewModel
 
     void IConcreteCalculationHost.Published()
     {
-        RefreshDomainOutputs("3D:"); RefreshDomainOutputs("2D:");
+        RefreshDomainViews();
         RefreshSummary();
         ResetExport();
         bool any = domainResults.Count != 0 || stressResults.Count != 0 || shearResults.Count != 0;
@@ -176,7 +178,6 @@ public sealed partial class ConcreteSheetViewModel
                 rows.Add(row);
             }
         }
-        domainOutputs.Clear();
     }
 
     private JsonRowViewModel CreateAction(string key, string name, string n, string mx, string my, string? id = null, bool visible = true)
@@ -186,7 +187,7 @@ public sealed partial class ConcreteSheetViewModel
         {
             if (synchronizing) return;
             SyncActions(key);
-            if (field == "visible") { RefreshDomainOutputs("3D:"); RefreshDomainOutputs("2D:"); RaiseModified(); }
+            if (field == "visible") { foreach (var panel in DomainPanels) panel.NeedsVisualRefresh = true; RefreshDomainViews(); RaiseModified(); }
             else InvalidateActions(key);
         });
     }
@@ -206,7 +207,7 @@ public sealed partial class ConcreteSheetViewModel
         {
             foreach (string prefix in new[] { "3D:", "2D:" }) domainResults.Remove(prefix + key);
             foreach (var row in actions[key]) foreach (string field in new[] { "eta3d", "eta2d", "esito3d", "esito2d" }) row.Output(field, "Da calcolare");
-            RefreshDomainOutputs("3D:"); RefreshDomainOutputs("2D:");
+            RefreshDomainViews();
             InvalidateChecks("3D:" + key, "2D:" + key);
         }
         else
@@ -218,26 +219,54 @@ public sealed partial class ConcreteSheetViewModel
         RefreshSummary();
     }
 
-    // ---------------------------------------------------------------- domains (S3): the outputs of the rows
+    // ---------------------------------------------------------------- domains (S3): the panels and their results
+
+    /// <summary>The panel of the 3D domain (tab 02).</summary>
+    public ConcreteDomainPanelViewModel Domain3D { get; private set; } = null!;
+    /// <summary>The panel of the 2D domain (tab 03).</summary>
+    public ConcreteDomainPanelViewModel Domain2D { get; private set; } = null!;
+
+    // The panels, once built (the sheet builds them after the tables of the actions).
+    private IEnumerable<ConcreteDomainPanelViewModel> DomainPanels => new[] { Domain3D, Domain2D }.Where(p => p is not null);
+
+    internal ConcreteDomainPanelViewModel DomainPanel(string prefix) => prefix == "3D:" ? Domain3D : Domain2D;
 
     // The limit state shown by the panel of the domain (its option «stato»).
     private string DomainKey(string prefix) => Settings[prefix == "3D:" ? "dominio3d" : "dominio2d"].S("stato", "SLU");
 
-    // The outputs of the rows of the domain shown, written again when the limit state or its results change (RefreshDomainPanel).
-    private void RefreshDomainOutputs(string prefix)
+    /// <summary>True while the sheet writes into its rows without their invalidations (the historic flag «synchronizing»).</summary>
+    internal bool IsSynchronizing => synchronizing;
+
+    /// <summary>The checks of a domain («3D:SLU», «2D:SLV»…), when calculated.</summary>
+    internal Dictionary<string, ConcreteResults.Check>? DomainChecks(string name) => domainResults.GetValueOrDefault(name);
+
+    /// <summary>The 3D domain of a limit state, when calculated.</summary>
+    internal ConcreteResults.Domain3D? Checker3D(string key) => checker3D.GetValueOrDefault(key);
+
+    /// <summary>The 2D domain of a limit state, when calculated.</summary>
+    internal ConcreteResults.Domain2D? Checker2D(string key) => checker2D.GetValueOrDefault(key);
+
+    // RefreshDomainViews of the historic view.
+    private void RefreshDomainViews() { foreach (var panel in DomainPanels) panel.RefreshPanel(); }
+
+    /// <summary>
+    /// InvalidateDomainForces of the historic view: the resistant points and the ratios of both limit states of a panel are calculated again,
+    /// the domain is kept; the outputs of its rows wait, the summaries follow, Modified.
+    /// </summary>
+    internal void InvalidateDomainForces(ConcreteDomainPanelViewModel panel)
     {
-        string key = DomainKey(prefix);
-        domainResults.TryGetValue(prefix + key, out var checks);
-        if (domainOutputs.TryGetValue(prefix, out var shown) && shown.Key == key && ReferenceEquals(shown.Checks, checks)) return;
-        using var notifications = JsonRowViewModel.DeferNotifications(actions[key]);
-        string eta = prefix == "3D:" ? "eta3d" : "eta2d", outcome = prefix == "3D:" ? "esito3d" : "esito2d";
-        foreach (var row in actions[key])
+        using var notifications = JsonRowViewModel.DeferNotifications(AllActionRows());
+        foreach (string key in new[] { "SLU", "SLV" })
         {
-            var check = checks?.GetValueOrDefault(row.Values.S("id"));
-            row.Output(eta, EngineeringFormat.Number(check?.Utilization)); row.Output(outcome, check?.Status ?? "Da calcolare");
+            domainResults.Remove(panel.Prefix + key);
+            foreach (var row in actions[key]) { row.Output(panel.ThreeD ? "eta3d" : "eta2d", "—"); row.Output(panel.ThreeD ? "esito3d" : "esito2d", "Da calcolare"); }
         }
-        domainOutputs[prefix] = (key, checks);
+        panel.UpdateSelection(); RefreshSummary(); Status = "Aggiornamento punti resistenti e tassi · dominio conservato";
+        InvalidateChecks(panel.Prefix + "SLU", panel.Prefix + "SLV");
     }
+
+    /// <summary>The cache of the export only (a new mesh of the 3D domain).</summary>
+    internal void ResetExportCache() => ResetExport();
 
     // ---------------------------------------------------------------- serviceability (S4): homogenization and contour at opening
 

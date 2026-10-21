@@ -79,4 +79,67 @@ public static class ConcreteDomainChart
         catch (ArgumentException) { }
         return new(markers, lines);
     }
+
+    // ---------------------------------------------------------------- the domain panels (F5.10 S3): read once for the historic view and the ViewModel
+
+    /// <summary>The size of the points of the actions («dimensione_ed») or of the resistances («dimensione_rd») of a domain panel; 5 by default.</summary>
+    public static double PointSize(JsonObject options, string key) => options.D(key, 5);
+
+    /// <summary>The transparency of the 3D domain, in percent; 35 by default.</summary>
+    public static double Transparency(JsonObject options) => options.D("trasparenza", 35);
+
+    /// <summary>A factor of the axes of a domain («scala_x», «scala_y», «scala_n», «scala_mx», «scala_my»); 1 by default.</summary>
+    public static double AxisScale(JsonObject options, string key) => options.D(key, 1);
+
+    /// <summary>The factors of the axes of the window «Scala…»: Mx, N, My for the 3D domain, x and y for the 2D one.</summary>
+    public static IReadOnlyList<string> ScaleKeys(bool threeD) => threeD ? ["scala_mx", "scala_n", "scala_my"] : ["scala_x", "scala_y"];
+
+    /// <summary>
+    /// «Applica» of the window «Scala…»: the factors of the axes (0.25–4) and the zoom (the text in percent, 10–2000 %, as a factor) read from
+    /// the draft of the window; a text that is not a number, or a value out of its range, is refused with its message.
+    /// </summary>
+    public static (Dictionary<string, double> Values, double Zoom) ReadScale(JsonObject draft, IReadOnlyList<string> keys)
+    {
+        var values = keys.ToDictionary(k => k, k => ConcreteEditor.Number(draft.S(k), k));
+        double zoom = ConcreteEditor.Number(draft.S("zoom"), "Zoom") / 100;
+        if (values.Values.Any(v => v < .25 || v > 4) || zoom < .1 || zoom > 20) throw new ArgumentException("Fattori ammessi 0,25–4; zoom 10–2000%.");
+        return (values, zoom);
+    }
+
+    /// <summary>The triangles of a mesh of the 3D domain (none without a mesh).</summary>
+    public static int TriangleCount(ConcreteResults.Mesh? mesh) => mesh is null ? 0 : mesh.Triangles.Count / 3;
+
+    /// <summary>
+    /// «Sezione sull’azione selezionata» of the 2D domain: the field of the plane through the action and its text, N for the section Mx–My, θ
+    /// in degrees (from Mx and My) for the section N–M.
+    /// </summary>
+    public static (string Key, string Value) PlaneThrough(JsonObject options, ConcreteResults.Action action) => options.S("tipo") == "Mx–My"
+        ? ("N", action.N.ToString("G12", System.Globalization.CultureInfo.InvariantCulture))
+        : ("theta", (Math.Atan2(action.My, action.Mx) * 180 / Math.PI).ToString("G12", System.Globalization.CultureInfo.InvariantCulture));
+
+    /// <summary>
+    /// «Dettagli combinazione» of a domain panel for the selected row: limit state and method, axes, forces of the row, outcome, resistance with
+    /// the state at the resistant point, extremes of the mesh (3D) or of the curve (2D), the error of the check. Numbers in the current culture,
+    /// as the historic text; a row that cannot be read gives its message.
+    /// </summary>
+    public static string Detail(string label, bool threeD, JsonObject options, JsonObject row, ConcreteResults.Check? check,
+        IEnumerable<ConcreteResults.Action>? extrema, string? error)
+    {
+        try
+        {
+            var a = ReadNamedAction(row);
+            string text = $"{row.S("nome")}\n\nNEd = {a.N:0.00} kN\nMx,Ed = {a.Mx:0.00} kNm\nMy,Ed = {a.My:0.00} kNm\n\n"
+                + (check is null ? "Da calcolare" : $"η = {check.Utilization?.ToString("0.00") ?? "—"}\n{check.Status}");
+            text = label + " · " + (threeD ? options.S("criterio") + " / " + options.S("strategia") : options.S("tipo") + (options.S("proietta") == "Sì" ? " · proiezione attiva" : " · senza proiezione"))
+                + "\n\nAZIONI · " + options.S("assi", "Locali") + "\n" + text;
+            if (check?.Resistance is ConcreteResults.Action r)
+                text += $"\n\nRESISTENZA · assi locali\nNRd = {r.N:0.00} kN\nMx,Rd = {r.Mx:0.00} kNm\nMy,Rd = {r.My:0.00} kNm\n"
+                    + ConcreteResponsePresentation.ResponseSummary(check.Response, "STATO AL PUNTO RESISTENTE");
+            if (extrema?.ToArray() is { Length: > 0 } points)
+                text += $"\n\nESTREMI {(threeD ? "MESH" : "CURVA")}\nN: {points.Min(p => p.N):0.00} … {points.Max(p => p.N):0.00} kN\nMx: {points.Min(p => p.Mx):0.00} … {points.Max(p => p.Mx):0.00} kNm\nMy: {points.Min(p => p.My):0.00} … {points.Max(p => p.My):0.00} kNm\nEstremi campionati; non sono resistenze al N della riga.";
+            if (error is not null) text += "\n\nDa correggere: " + error;
+            return text;
+        }
+        catch (ArgumentException failure) { return failure.Message; }
+    }
 }

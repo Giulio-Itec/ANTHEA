@@ -5628,102 +5628,6 @@
       "Example": "s . Input . D ( \"inner_width_mm\" )"
     },
     {
-      "File": "X.Desktop/Wpf/ConcreteDomains.cs",
-      "Rule": "R1-math",
-      "Owner": "ConcreteWorkspace.BuildDomainPanel",
-      "Fingerprint": "FCEC052B761A61D2F73834C0302FFD4241B0D0527C355B1EC7871CDFB32ED422",
-      "Count": 1,
-      "Example": "Math . Atan2 ( a . My , a . Mx )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteDomains.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ConcreteWorkspace.BuildDomainPanel",
-      "Fingerprint": "8837C6F0D99C08EB80BB3DA0AC5D2962A5DDC5E7B2E7B58E015E31B7D7C52620",
-      "Count": 1,
-      "Example": "180"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteDomains.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.BuildDomainPanel",
-      "Fingerprint": "504C2C030FFC35FCF2E8A7E900B75DC84A2D4A1516224F0E30DD8E81347ABB6B",
-      "Count": 1,
-      "Example": "panel . Options . D ( key , 5 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteDomains.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.BuildDomainPanel",
-      "Fingerprint": "A8C5C76E3233BDF49914685D880D6BAF9EEF6287DBBE69C97FBD32C3DE5EF1F5",
-      "Count": 1,
-      "Example": "panel . Options . D ( \"trasparenza\" , 35 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteDomains.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.UpdateSelection",
-      "Fingerprint": "3F6EE08468B8DBD16C3A51ACAD9383F477063290A295029A0A7D8105BF5B0999",
-      "Count": 1,
-      "Example": "panel . Options . D ( \"dimensione_ed\" , 5 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteDomains.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.UpdateSelection",
-      "Fingerprint": "E81D8E3A29BCA84901884DDB7E10A320ACDDC94CA9C9DEF727A3921DAD7E17E8",
-      "Count": 1,
-      "Example": "panel . Options . D ( \"dimensione_rd\" , 5 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteRefinements.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.AddDomainScaleControls.Apply",
-      "Fingerprint": "24233C564B244D8D73BA588B2CC135D5BB372DFAAFCB3A2A58E0AB3EBB26C8F5",
-      "Count": 1,
-      "Example": "panel . Options . D ( \"scala_mx\" , 1 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteRefinements.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.AddDomainScaleControls.Apply",
-      "Fingerprint": "6F0D5F51A8EA2D62827446BAEE483D53495F7AE5CB2556D36FD68C1498E4D198",
-      "Count": 1,
-      "Example": "panel . Options . D ( \"scala_x\" , 1 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteRefinements.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.AddDomainScaleControls.Apply",
-      "Fingerprint": "9567118C143FE90F97772388BAB5CB14D94CC1A2F99210ED1D9128905D67AEF1",
-      "Count": 1,
-      "Example": "panel . Options . D ( \"scala_n\" , 1 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteRefinements.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.AddDomainScaleControls.Apply",
-      "Fingerprint": "A8B26CDF325CB4C20B42C5897DD2876A6C1B2537800BA71C1B108D4812A36D8D",
-      "Count": 1,
-      "Example": "panel . Options . D ( \"scala_y\" , 1 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteRefinements.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.AddDomainScaleControls.Apply",
-      "Fingerprint": "B1F95EFD8E878B624562E329A68D1F15CC15BBAC8B8B67A05A9C121D4C5AF549",
-      "Count": 1,
-      "Example": "panel . Options . D ( \"scala_my\" , 1 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteRefinements.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.AddDomainScaleControls",
-      "Fingerprint": "18C8C9B5AB4097F6F2EE78CDE8C5DE4F772740F6D3EF75BDA4371A20943BD02B",
-      "Count": 1,
-      "Example": "panel . Options . D ( key , 1 )"
-    },
-    {
       "File": "X.Desktop/Wpf/ConcreteStrainPlane.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "ConcreteStrainPlaneView.Render.P",
@@ -6530,14 +6434,6 @@
       "Fingerprint": "B993CD82CE8BE65EFB7A19B3B5A0C8622602BD86E61A601C0C4522F870C179A4",
       "Count": 1,
       "Example": "8"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteViewports.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "DomainViewport3D.TriangleCount",
-      "Fingerprint": "4D7CE835F6CAE06FD3DE6CA5A7EBC1EDF07844DB209E6FC07ECA32EF70328578",
-      "Count": 1,
-      "Example": "3"
     },
     {
       "File": "X.Desktop/Wpf/ConcreteViewports.cs",
@@ -12706,6 +12602,54 @@
       "Fingerprint": "EF651CD0EA912A7E1931885FA8EA13C1FE5959664B4B352E5B2C30102744D21B",
       "Count": 1,
       "Example": "options . D ( \"dimensione_rd\" , 5 )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteDomainChart.cs",
+      "Rule": "R1-math",
+      "Owner": "ConcreteDomainChart.PlaneThrough",
+      "Fingerprint": "502B85520249A58905EEA1BE23C0167FC0A19DB942DC4AD8AD3DACCC552375A7",
+      "Count": 1,
+      "Example": "Math . Atan2 ( action . My , action . Mx )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteDomainChart.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "ConcreteDomainChart.PlaneThrough",
+      "Fingerprint": "7B94A4574B6D3EEB0C619CFED91DAF1910504D0B09812FA4DC471DD011638512",
+      "Count": 1,
+      "Example": "180"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteDomainChart.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "ConcreteDomainChart.TriangleCount",
+      "Fingerprint": "23D7F08A395B267F1A532323AC4FE799BDF13EE63E0A3E313D413013C87F6BD1",
+      "Count": 1,
+      "Example": "3"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteDomainChart.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ConcreteDomainChart.AxisScale",
+      "Fingerprint": "24B646AB266F834DDF2315052EE67A9A56686E25C9780D044B1DF1008E9AD1F1",
+      "Count": 1,
+      "Example": "options . D ( key , 1 )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteDomainChart.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ConcreteDomainChart.PointSize",
+      "Fingerprint": "013182E9BC7D2915C9C72B9023C4A48D1CD945EADCF8FA7A957F0DE31E539BBA",
+      "Count": 1,
+      "Example": "options . D ( key , 5 )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteDomainChart.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ConcreteDomainChart.Transparency",
+      "Fingerprint": "D1AF68B98D36ED0253DF36F56A4C70E53B335046DA2CB721F67ADEA0BE7A8D51",
+      "Count": 1,
+      "Example": "options . D ( \"trasparenza\" , 35 )"
     },
     {
       "File": "src/ANTHEA.Application/Concrete/ConcreteInputPresentation.cs",

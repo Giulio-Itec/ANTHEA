@@ -234,7 +234,7 @@ public sealed class ConcreteActionTableViewModel : ObservableObject
     /// The limit state of a domain panel (the choice «Stato limite» / «Tipo di dominio precedente» of the options of the panel, saved in
     /// <c>dominio3d.stato</c> or <c>dominio2d.stato</c>): the table shows its actions again (the row selected before when it is among them,
     /// otherwise the first), the outputs of the rows follow, Modified. Allowed also in a read-only revision (as the historic choice, which the
-    /// revision leaves enabled). Null for the other tables. Until the options of the panel (S3), the only place that changes it.
+    /// revision leaves enabled). Null for the other tables. Since S3 it goes through the field «stato» of the form of the panel.
     /// </summary>
     public string? State
     {
@@ -242,9 +242,8 @@ public sealed class ConcreteActionTableViewModel : ObservableObject
         set
         {
             if (options is null || value is null || !States.Contains(value) || sheet.IsDisposed || value == State) return;
-            options["stato"] = value;
-            Reattach();
-            sheet.DomainShown(prefix!);
+            // Through the field «stato» of the options of the panel (S3): its callback attaches the rows again, draws the panel, Modified.
+            sheet.ChooseDomainState(prefix!, value);
             OnPropertyChanged();
         }
     }
