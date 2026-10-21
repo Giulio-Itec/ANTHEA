@@ -1,0 +1,1382 @@
+== apertura
+dati: versione_bridge_design|input|rates|assumptions|scene|traffic_migration|environment
+dati.versione_bridge_design: 1
+dati.input: {"length":105,"height":20,"obstacle_width":20,"lanes":4,"lane_width":3.65,"shoulder":1.5,"median":1.6,"barrier_width":0.5,"spans":5,"depth":0,"slab":0,"spacing":0,"web":0,"bottom":0,"bottom_ratio":0.55,"cells":2,"boxes":0,"flange_width":0.55,"flange_mm":24,"web_mm":12,"web_slope":1,"haunch":0.05,"u_top":2.4,"u_bottom":1.4,"fc":45,"arch_rise":0.2,"tower_height":0,"cable_sag":0.1,"suspender_spacing":8,"truss_ratio":0.12,"embedded_cover":0.06,"deck_plate_mm":16,"rib_height":0.3,"rib_top":0.3,"rib_bottom":0.18,"rib_mm":8,"rib_spacing":0.6,"pile_length":0,"pier_size":0,"pile_count":0,"footing_size":0,"fc_sub":35,"deck_type":"Soletta in cls","family":"psc_i","obstacle":"Fiume","soil":"Argilla soffice","pier":"Setto","foundation":"Automatica","continuous":true,"start_pier":false,"end_pier":false,"low_carbon":false,"recycled":false,"traffic_model":"Uniforme equivalente (legacy)"}
+dati.rates: {"concrete_deck":260,"concrete_sub":240,"rebar":1660,"prestress":3600,"steel":3500,"steel_box":4000,"formwork":50,"pile_1":300,"pile_15":550,"bearing":5000,"joint":2400,"barrier":360,"surfacing":32,"steel_ortho":5000,"cables":16000,"erection_special":1000}
+dati.assumptions: {"prelims":12,"contingency":15,"uncertainty":30,"co2_concrete":320,"co2_rebar":1.4,"co2_steel":2,"co2_pt":2.5,"co2_site":15,"low_carbon_factor":0.6,"recycled_factor":0.35,"rebar_rc":140,"rebar_psc":110,"rebar_sub":150,"rebar_found":120,"pt_density":30,"wear_load":2.5,"traffic_load":9,"gamma_g":1.35,"gamma_q":1.5,"soil_pressure":0,"pile_skin":0,"pile_base":0,"months_base":4,"months_span":1.2,"months_pier":0.4,"concept_tension":180,"concept_compression":100,"concept_cable":600,"concept_tower":6,"anchor_friction":0.5,"special_connections":20,"co2_cable":2.5}
+dati.scene: 1
+dati.traffic_migration: "Archivio v1: mantenuti modello uniforme e gamma_q salvato"
+dati.environment: {"schema":1,"revision":"F1A8366F8814A7B46092956FF7FA4F2E86A63A8B51EC0B0CBB7BF50D3C7C991B","factors":{"co2_concrete":320,"co2_rebar":1.4,"co2_steel":2,"co2_pt":2.5,"co2_site":15,"co2_cable":2.5,"low_carbon_factor":0.6,"recycled_factor":0.35},"date":"<DATAORA>","source":"Fattori espliciti del progetto","history":[]}
+modificato: 0
+messaggio: 
+calcolo: occupato sì · risultato - · confronto - · alternative -
+stato: "Aggiornamento del ponte e delle alternative…"
+metrica.0: "—" · "Dati da completare"
+metrica.1: "—" · "Dati da completare"
+metrica.2: "—" · "Dati da completare"
+metrica.3: "—" · "Dati da completare"
+configurazione: ""
+pagina: 0 · ingressi 0 · risultati 0
+annulla: 0
+disegno: sezione no · dati - · risultato -
+ingressi: "1 · Sito|2 · Campate|3 · Sezione|4 · Pile|5 · Traffico"
+ingressi.0: 10 blocchi
+ingressi.0.0: scelta obstacle "Ostacolo da attraversare" = "Fiume" voci "Nessuno|Fiume|Strada / ferrovia"
+ingressi.0.1: scelta soil "Terreno convenzionale" = "Argilla soffice" voci "Roccia|Sabbia / ghiaia densa|Terreno medio|Argilla soffice"
+ingressi.0.2: campo input/length "Lunghezza totale" = "105" [m] · cursore 105
+ingressi.0.3: campo input/height "Quota impalcato sul terreno" = "20" [m] · cursore 20
+ingressi.0.4: campo input/obstacle_width "Larghezza ostacolo" = "20" [m] · cursore 20
+ingressi.0.5: campo input/lanes "Corsie complessive" = "4" [n.] · cursore 4
+ingressi.0.6: campo input/lane_width "Larghezza corsia" = "3.65" [m] · cursore 3.65
+ingressi.0.7: campo input/shoulder "Banchina per lato" = "1.5" [m] · cursore 1.5
+ingressi.0.8: campo input/median "Spartitraffico" = "1.6" [m] · cursore 1.6
+ingressi.0.9: campo input/barrier_width "Ingombro barriera per lato" = "0.5" [m] · cursore 0.5
+ingressi.1: 6 blocchi
+ingressi.1.0: campo input/spans "Numero campate · 0 = auto" = "5" [n.] · cursore 5
+ingressi.1.1: opzione continuous "Impalcato continuo" = sì
+ingressi.1.2: opzione start_pier "Inizio su pila · viadotto prosegue" = no
+ingressi.1.3: opzione end_pier "Fine su pila · viadotto prosegue" = no
+ingressi.1.4: testo [nota] "Campate terminali = 0,8 × interne per schemi continui con almeno 3 campate. Le pile vengono spostate fuori dall'ostacolo, ove possibile."
+ingressi.1.5: pulsante "Ripristina dimensioni automatiche"
+ingressi.2: 7 blocchi
+ingressi.2.0: tipologie "Soletta piena in c.a.|Travi a T in c.a.|Travi a I in c.a.p.*|Travi a U in c.a.p.|Cassone in c.a.p.|Cassone a conci · altezza variabile|Travi a I acciaio–cls|Cassone acciaio–cls|Travi incorporate nel calcestruzzo|Cassone con piastra ortotropa|Arco metallico con catena|Ponte strallato · due antenne|Ponte sospeso · ancoraggi a terra|Ponte reticolare metallico"
+ingressi.2.1: campo input/depth "Altezza totale · 0 = auto" = "0" [m] · cursore 0
+ingressi.2.2: campo input/slab "Spessore soletta · 0 = auto" = "0" [m] · cursore 0
+ingressi.2.3: campo input/spacing "Interasse travi · 0 = auto" = "0" [m] · cursore 0
+ingressi.2.4: campo input/haunch "Rialzo sotto soletta" = "0.05" [m] · cursore 0.05
+ingressi.2.5: campo input/fc "Resistenza cls impalcato" = "45" [MPa] · cursore 45
+ingressi.2.6: pulsante "Sezione automatica"
+ingressi.3: 8 blocchi
+ingressi.3.0: scelta pier "Tipologia pila" = "Setto" voci "Telaio a colonne|Colonna circolare|Setto|Testa a martello"
+ingressi.3.1: scelta foundation "Fondazioni" = "Automatica" voci "Automatica|Plinto diretto|Pali Ø 1,0 m|Pali Ø 1,5 m"
+ingressi.3.2: campo input/pile_length "Lunghezza pali · 0 = auto" = "0" [m] · cursore 0
+ingressi.3.3: campo input/pier_size "Diametro / spessore pila · 0 = auto" = "0" [m] · cursore 0
+ingressi.3.4: campo input/pile_count "Pali per appoggio · 0 = auto" = "0" [n.] · cursore 0
+ingressi.3.5: campo input/footing_size "Lato fondazione · 0 = auto" = "0" [m] · cursore 0
+ingressi.3.6: campo input/fc_sub "Resistenza cls sottostrutture" = "35" [MPa] · cursore 35
+ingressi.3.7: testo [nota] "0 mantiene il dimensionamento automatico. Le classi di terreno sono parametri convenzionali modificabili nelle ipotesi."
+ingressi.4: 5 blocchi
+ingressi.4.0: scelta traffic_model "Modello di traffico" = "Uniforme equivalente (legacy)" voci "Schema 1 NTC 2018|Uniforme equivalente (legacy)"
+ingressi.4.1: testo [nota] "Archivio compatibile: uniforme su tutte le campate, senza tandem. Il passaggio allo Schema 1 conserva il coefficiente impostato finché non applichi quello consigliato."
+ingressi.4.2: campo assumptions/gamma_q "Moltiplicatore traffico" = "1.5" [—]
+ingressi.4.3: campo assumptions/traffic_load "Traffico uniforme equivalente" = "9" [kN/m²]
+ingressi.4.4: testo [nota] "Il coefficiente adottato è registrato nel risultato. Le strutture superiori usano azioni globali equivalenti e tandem locali: restano modelli di predimensionamento."
+risultati: "Quantità e costi|Dettagli del predimensionamento|Confronto A / B|Prezzario|Ipotesi e coefficienti|Sezioni e quote"
+pannello.quantita: -
+pannello.dettagli: -
+pannello.confronto: -
+pannello.prezzario: 35 blocchi
+pannello.prezzario.0: pulsante "Gestisci prezzario…"
+pannello.prezzario.1: testo [nota] "Valori orientativi confrontati con ANAS NC-MP 2026 Rev.1 e Regione Emilia-Romagna 2026. Prezzi modificabili; gli archivi conservano il proprio listino. SG e utile già compresi nei riferimenti: la maggiorazione di cantiere copre soltanto oneri aggiuntivi non computati."
+pannello.prezzario.2: pulsante "Applica valori orientativi 2026"
+pannello.prezzario.3: campo rates/concrete_deck "Cls impalcato" = "260" [€/m³]
+pannello.prezzario.4: testo [nota] "260 €/m³: riferimento C45/55, ANAS B.03.040.b (260,21). Adeguare a classe, esposizione e prefabbricazione; armatura e casseri separati."
+pannello.prezzario.5: campo rates/concrete_sub "Cls sottostrutture e plinti" = "240" [€/m³]
+pannello.prezzario.6: testo [nota] "240 €/m³: valore aggregato C35/45 tra fondazioni ed elevazione; ANAS 226,38–241,07; RER fondazioni 257,28. Armatura e casseri separati."
+pannello.prezzario.7: campo rates/rebar "Armatura ordinaria" = "1660" [€/t]
+pannello.prezzario.8: testo [nota] "1.660 €/t = 1,66 €/kg; ANAS B.05.030, fornitura e posa B450C. RER gabbie pali A02.046.050: 1,59 €/kg."
+pannello.prezzario.9: campo rates/prestress "Acciaio da precompressione" = "3600" [€/t]
+pannello.prezzario.10: testo [nota] "3.600 €/t: accantonamento di sistema. ANAS B.05.057 trefoli 2.020 €/t con ancoraggi separati; non è una voce equivalente completa."
+pannello.prezzario.11: campo rates/steel "Carpenteria metallica" = "3500" [€/t]
+pannello.prezzario.12: testo [nota] "3.500 €/t: ANAS B.05.000.01.8.b, carpenteria e varo per sollevamento. Protezioni e opere provvisorie da valutare."
+pannello.prezzario.13: campo rates/steel_box "Carpenteria cassoni" = "4000" [€/t]
+pannello.prezzario.14: testo [nota] "4.000 €/t: ipotesi maggiorata per cassoni; ANAS base 3.500–3.750 €/t. Nessun automatismo per classe acciaio o protezione."
+pannello.prezzario.15: campo rates/formwork "Casseforme" = "50" [€/m²]
+pannello.prezzario.16: testo [nota] "50 €/m²: ordine di grandezza; ANAS casseforme piane 40,34, a perdere 50,74. Sostegni oltre 5 m e centine da valutare a parte."
+pannello.prezzario.17: campo rates/pile_1 "Palo Ø 1,0 · esclusa armatura" = "300" [€/m]
+pannello.prezzario.18: testo [nota] "300 €/m: ANAS B.02.040.b 280,67; perforazione e cls, armatura separata. Rivedere camicie, roccia, alveo e trasporto."
+pannello.prezzario.19: campo rates/pile_15 "Palo Ø 1,5 · esclusa armatura" = "550" [€/m]
+pannello.prezzario.20: testo [nota] "550 €/m: ANAS B.02.040.d 542,04; armatura separata. Sovrapprezzi dipendono dal sito."
+pannello.prezzario.21: campo rates/bearing "Apparecchio d'appoggio" = "5000" [€/cad]
+pannello.prezzario.22: testo [nota] "5.000 €/cad: sola indennità media. ANAS appoggi POT è in €/kN, dipende da carico e movimento; 1.000 kN multidirezionale ≈ 3.660 €, 2.000 kN ≈ 5.860 €."
+pannello.prezzario.23: campo rates/joint "Giunto di dilatazione" = "2400" [€/m]
+pannello.prezzario.24: testo [nota] "2.400 €/m: compatibile con giunti di corsa moderata; ANAS B.07.050.b.1 2.245,44. Per grandi luci/movimenti serve una voce specifica."
+pannello.prezzario.25: campo rates/barrier "Barriera" = "360" [€/m]
+pannello.prezzario.26: testo [nota] "360 €/m: ANAS bordo ponte H4 zincato G.02.005.3.a 362,73. Classe e configurazione vanno scelte nel progetto."
+pannello.prezzario.27: campo rates/surfacing "Pavimentazione" = "32" [€/m²]
+pannello.prezzario.28: testo [nota] "32 €/m²: pacchetto convenzionale, non una singola voce verificata; definire spessori, miscela, impermeabilizzazione e drenaggi."
+pannello.prezzario.29: campo rates/steel_ortho "Carpenteria impalcato ortotropo" = "5000" [€/t]
+pannello.prezzario.30: testo [nota] "5.000 €/t: ipotesi aggregata. ANAS aggiunge 460 €/t solo alla massa della lastra ortotropa; non a tutto il cassone."
+pannello.prezzario.31: campo rates/cables "Cavi e pendini installati, inclusi terminali" = "16000" [€/t]
+pannello.prezzario.32: testo [nota] "16.000 €/t: ipotesi per sistema installato. Pendini ANAS 14.400–15.530 €/t; terminali specifici e grandi cavi possono richiedere un preventivo specialistico."
+pannello.prezzario.33: campo rates/erection_special "Montaggio aggiuntivo strutture speciali" = "1000" [€/t]
+pannello.prezzario.34: testo [nota] "1.000 €/t: riserva aggiuntiva per complessità speciale; il varo ordinario è già compreso nella carpenteria. Azzerare se incluso nell'offerta."
+pannello.ipotesi: 31 blocchi
+pannello.ipotesi.0: testo [nota] "Ipotesi del modello di stima. I carichi sono equivalenti uniformi; i moltiplicatori non definiscono una combinazione normativa completa."
+pannello.ipotesi.1: campo assumptions/prelims "Oneri aggiuntivi non computati" = "12" [%]
+pannello.ipotesi.2: campo assumptions/contingency "Imprevisti" = "15" [%]
+pannello.ipotesi.3: campo assumptions/uncertainty "Intervallo indicativo costo ±" = "30" [%]
+pannello.ipotesi.4: campo assumptions/co2_concrete "CO₂ cls ordinario" = "320" [kg/m³]
+pannello.ipotesi.5: campo assumptions/co2_rebar "CO₂ armatura" = "1.4" [kg/kg]
+pannello.ipotesi.6: campo assumptions/co2_steel "CO₂ carpenteria" = "2" [kg/kg]
+pannello.ipotesi.7: campo assumptions/co2_pt "CO₂ precompressione" = "2.5" [kg/kg]
+pannello.ipotesi.8: campo assumptions/co2_site "Trasporti e cantiere / materiali" = "15" [%]
+pannello.ipotesi.9: campo assumptions/low_carbon_factor "Fattore cls a ridotta CO₂" = "0.6" [—]
+pannello.ipotesi.10: campo assumptions/recycled_factor "Fattore acciaio riciclato" = "0.35" [—]
+pannello.ipotesi.11: campo assumptions/rebar_rc "Armatura impalcato c.a." = "140" [kg/m³]
+pannello.ipotesi.12: campo assumptions/rebar_psc "Armatura impalcato c.a.p." = "110" [kg/m³]
+pannello.ipotesi.13: campo assumptions/rebar_sub "Armatura sottostrutture" = "150" [kg/m³]
+pannello.ipotesi.14: campo assumptions/rebar_found "Armatura fondazioni" = "120" [kg/m³]
+pannello.ipotesi.15: campo assumptions/pt_density "Precompressione" = "30" [kg/m³]
+pannello.ipotesi.16: campo assumptions/wear_load "Permanenti portati" = "2.5" [kN/m²]
+pannello.ipotesi.17: campo assumptions/gamma_g "Moltiplicatore permanenti" = "1.35" [—]
+pannello.ipotesi.18: campo assumptions/soil_pressure "Pressione terreno · 0 = classe" = "0" [kPa]
+pannello.ipotesi.19: campo assumptions/pile_skin "Resistenza laterale · 0 = classe" = "0" [kPa]
+pannello.ipotesi.20: campo assumptions/pile_base "Resistenza punta · 0 = classe" = "0" [kPa]
+pannello.ipotesi.21: campo assumptions/months_base "Durata: avvio cantiere" = "4" [mesi]
+pannello.ipotesi.22: campo assumptions/months_span "Durata per campata" = "1.2" [mesi]
+pannello.ipotesi.23: campo assumptions/months_pier "Durata per pila" = "0.4" [mesi]
+pannello.ipotesi.24: campo assumptions/concept_tension "Tensione di riferimento carpenteria" = "180" [MPa]
+pannello.ipotesi.25: campo assumptions/concept_compression "Compressione di riferimento archi / aste" = "100" [MPa]
+pannello.ipotesi.26: campo assumptions/concept_cable "Tensione di riferimento cavi" = "600" [MPa]
+pannello.ipotesi.27: campo assumptions/concept_tower "Compressione di riferimento antenne cls" = "6" [MPa]
+pannello.ipotesi.28: campo assumptions/anchor_friction "Attrito convenzionale blocchi ancoraggio" = "0.5" [—]
+pannello.ipotesi.29: campo assumptions/special_connections "Aggiunta collegamenti arco / reticolare" = "20" [%]
+pannello.ipotesi.30: campo assumptions/co2_cable "CO₂ cavi e pendini" = "2.5" [kg/kg]
+pannello.quote: -
+pannello.consigli: -
+ricerca: obiettivo 0 · blocchi family=no spans=no depth=no section=no continuous=sì pier=no foundation=no · limiti campate-min="1" campate-max="12" altezza-min="0" altezza-max="0" altezza-da="100" altezza-a="115" altezza-passo="15" pali-da="100" pali-a="150" pali-passo="25" prime="10"
+ricerca.stato: "Scegli le variabili libere e avvia la ricerca."
+ricerca.migliore: "L’ottimo verrà individuato fra le combinazioni esplorate."
+ricerca.selezione: "Anteprima delle alternative" · rango 0
+ricerca.avanzamento: 0/100
+ricerca.comandi: avvia sì · applica no
+ricerca.risultato: -
+ricerca.fonte: -
+pannello.ricerca: -
+pannello.variazioni: -
+ricerca.anteprima: sezione no · dati - · risultato -
+ricerca.nuvola: tentativi 0 · soluzioni 0 · riferimento - · scelto 0 · tipologia - · pareto no
+ricerca.traccia: tentativi 0 · soluzioni 0 · riferimento - · variabile 2
+== attendi
+~ calcolo: occupato no · risultato 440B422565F4233E · confronto nessuno · alternative Cls a ridotta impronta|Banchine a 1,0 m|Una campata in meno
+~ stato: "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
+~ metrica.0: "5,39 M€" · "2.541 €/m² · 3,77–7,01 M€"
+~ metrica.1: "3.914 tCO₂e" · "1.845 kgCO₂e/m² · stima parziale"
+~ metrica.2: "1,00 m" · "L/d ≈ 23 · 5 campate"
+~ metrica.3: "14 mesi" · "±25% · 4 pile · 2 spalle"
+~ configurazione: "L 105,0 m · W 20,2 m · Travi a I in c.a.p. · 8 elementi · Pali Ø 1,0 m × 30 m"
+~ disegno: sezione no · dati foglio · risultato 440B422565F4233E
+~ pannello.quantita: 2 blocchi
++ pannello.quantita.0: tabella "Voce|Parte|Quantità|Unità|Prezzo €|Importo €" · righe 15 572B46DFA29598E3
++ pannello.quantita.0.0: "Calcestruzzo" | "Impalcato" | "769,9" | "m³" | "260,0" | "200.164"
++ pannello.quantita.0.1: "Armatura ordinaria" | "Impalcato" | "84,7" | "t" | "1.660,0" | "140.576"
++ pannello.quantita.0.2: "Precompressione" | "Impalcato" | "23,1" | "t" | "3.600,0" | "83.145"
++ pannello.quantita.1: testo [evidenza] "Diretto 4.184.784 €   +   cantiere 502.174 €   +   imprevisti 703.044 €   =   5.390.001 €"
+~ pannello.dettagli: 10 blocchi
++ pannello.dettagli.0: testo [evidenza] "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
++ pannello.dettagli.1: testo [nota] "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico."
++ pannello.dettagli.2: grafico "momenti 440B422565F4233E"
++ pannello.dettagli.3: tabella "Grandezza|Valore|Unità|Regola / ipotesi" · righe 20 ACCCB62599D3483D
++ pannello.dettagli.3.0: "Larghezza impalcato" | "20,200" | "m" | "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere"
++ pannello.dettagli.3.1: "Altezza in campata" | "1,000" | "m" | "max(1,00; Lmax/22,22 × .95)"
++ pannello.dettagli.3.2: "Altezza sulle pile" | "1,000" | "m" | "Altezza costante"
++ pannello.dettagli.4: tabella "Appoggio|x [m]|Tipo|R G+Q [kN]|H [m]|Plinto B×W [m]|Pali" · righe 6 BD7FE849C904D5A2
++ pannello.dettagli.4.0: "1" | "0,0" | "Spalla" | "2.988,2" | "7,0" | "8,0×20,2" | "6"
++ pannello.dettagli.4.1: "2" | "18,3" | "Setto" | "10.037,6" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.4.2: "3" | "41,1" | "Setto" | "10.053,2" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.5: testo [avviso] "• Tipologia fuori dal campo usuale 20–50 m: campate 18,3–22,8 m."
++ pannello.dettagli.6: testo [avviso] "• Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico."
++ pannello.dettagli.7: testo [avviso] "• Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo."
++ pannello.dettagli.8: testo [avviso] "• CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD."
++ pannello.dettagli.9: testo [nota] "Esclusi: sismica, vento, frenatura, urti, fatica, fessurazione, viscosità, perdite di precompressione, instabilità locale, collegamenti, fasi costruttive e verifiche geotecniche complete."
+~ pannello.confronto: 1 blocchi
++ pannello.confronto.0: testo "Fissa una configurazione con “Fissa A”, poi modifica il ponte. Qui appariranno gli scostamenti della soluzione B corrente."
+~ pannello.quote: 9 blocchi
++ pannello.quote.0: testo [titolo] "Travi a I in c.a.p. · dimensioni adottate"
++ pannello.quote.1: testo [nota] "Quote del modello usato per calcolare quantità e costi. Le misure in mm identificano gli spessori; le lunghezze sono in m. Schema di predimensionamento, non distinta esecutiva."
++ pannello.quote.2: tabella "Componente|Simbolo|Valore|Unità|Origine|Significato" · righe 18 40526D4D103D153B
++ pannello.quote.2.0: "Geometria generale" | "L" | "105,000" | "m" | "Impostato" | "Lunghezza tra gli appoggi estremi"
++ pannello.quote.2.1: "Geometria generale" | "W" | "20,200" | "m" | "Derivato" | "Corsie, banchine, spartitraffico e barriere"
++ pannello.quote.2.2: "Geometria generale" | "N" | "5" | "n." | "Impostato" | "Numero campate"
++ pannello.quote.3: testo [titolo] "Campate · progressive e sviluppo longitudinale"
++ pannello.quote.4: tabella "Campata|Da x [m]|A x [m]|Luce Li [m]|Elementi n|n × Li [m]" · righe 5 74B928E10E2B8D05
++ pannello.quote.4.0: "1" | "0,000" | "18,261" | "18,261" | "8" | "146,087"
++ pannello.quote.4.1: "2" | "18,261" | "41,087" | "22,826" | "8" | "182,609"
++ pannello.quote.4.2: "3" | "41,087" | "63,913" | "22,826" | "8" | "182,609"
++ pannello.quote.5: testo [titolo] "Pile, spalle e fondazioni · un record per appoggio"
++ pannello.quote.6: testo [nota] "B = dimensione longitudinale, W = trasversale, t = spessore. I pali sono indicati con numero × diametro × lunghezza. I volumi delle spalle sono equivalenti: il modello non definisce una carpenteria completa."
++ pannello.quote.7: tabella "Appoggio / x|Tipo / fusto|H [m]|Pulvino W×B×t [m]|Fondazione B×W×t [m]|Pali n×Ø×L [m]" · righe 6 61A1D4FB7C43E09E
++ pannello.quote.7.0: "1 · 0,00 m" | "Spalla equivalente" | "7,00" | "—" | "8,00×20,20×1,50" | "6×Ø1,00×30,00"
++ pannello.quote.7.1: "2 · 18,26 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.7.2: "3 · 41,09 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.8: pulsante "Esporta sezioni e quote CSV"
+~ pannello.consigli: 5 blocchi
++ pannello.consigli.0: testo [titolo] "Alternative per ridurre le quantità e le emissioni"
++ pannello.consigli.1: pulsante "Cls a ridotta impronta   ·   −979 tCO₂e   ·   Δ 0 €"
++ pannello.consigli.2: pulsante "Banchine a 1,0 m   ·   −176 tCO₂e   ·   Δ -253.634 €"
++ pannello.consigli.3: pulsante "Una campata in meno   ·   −599 tCO₂e   ·   Δ -748.192 €"
++ pannello.consigli.4: testo [nota] "Confronti sul modello corrente: disponibilità dei materiali, resistenza iniziale e larghezze stradali vanno valutate per il progetto. I prezzi restano quelli del listino impostato."
+== campo rates/concrete_deck «480»
+~ dati.rates: {"concrete_deck":"480","concrete_sub":240,"rebar":1660,"prestress":3600,"steel":3500,"steel_box":4000,"formwork":50,"pile_1":300,"pile_15":550,"bearing":5000,"joint":2400,"barrier":360,"surfacing":32,"steel_ortho":5000,"cables":16000,"erection_special":1000}
+~ modificato: 1
+~ calcolo: occupato no · risultato - · confronto - · alternative -
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ metrica.0: "—" · "Dati da completare"
+~ metrica.1: "—" · "Dati da completare"
+~ metrica.2: "—" · "Dati da completare"
+~ metrica.3: "—" · "Dati da completare"
+~ configurazione: ""
+~ pagina: 0 · ingressi 0 · risultati 3
+~ annulla: 1
+~ disegno: sezione no · dati foglio · risultato -
+~ pannello.quantita: -
+~ pannello.dettagli: -
+~ pannello.confronto: -
+~ pannello.prezzario.3: campo rates/concrete_deck "Cls impalcato" = "480" [€/m³]
+~ pannello.quote: -
+~ pannello.consigli: -
+- pannello.quantita.0
+- pannello.quantita.0.0
+- pannello.quantita.0.1
+- pannello.quantita.0.2
+- pannello.quantita.1
+- pannello.dettagli.0
+- pannello.dettagli.1
+- pannello.dettagli.2
+- pannello.dettagli.3
+- pannello.dettagli.3.0
+- pannello.dettagli.3.1
+- pannello.dettagli.3.2
+- pannello.dettagli.4
+- pannello.dettagli.4.0
+- pannello.dettagli.4.1
+- pannello.dettagli.4.2
+- pannello.dettagli.5
+- pannello.dettagli.6
+- pannello.dettagli.7
+- pannello.dettagli.8
+- pannello.dettagli.9
+- pannello.confronto.0
+- pannello.quote.0
+- pannello.quote.1
+- pannello.quote.2
+- pannello.quote.2.0
+- pannello.quote.2.1
+- pannello.quote.2.2
+- pannello.quote.3
+- pannello.quote.4
+- pannello.quote.4.0
+- pannello.quote.4.1
+- pannello.quote.4.2
+- pannello.quote.5
+- pannello.quote.6
+- pannello.quote.7
+- pannello.quote.7.0
+- pannello.quote.7.1
+- pannello.quote.7.2
+- pannello.quote.8
+- pannello.consigli.0
+- pannello.consigli.1
+- pannello.consigli.2
+- pannello.consigli.3
+- pannello.consigli.4
+== attendi
+~ calcolo: occupato no · risultato FCAC44E7633357CC · confronto nessuno · alternative Cls a ridotta impronta|Banchine a 1,0 m|Una campata in meno
+~ stato: "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
+~ metrica.0: "5,61 M€" · "2.644 €/m² · 3,93–7,29 M€"
+~ metrica.1: "3.914 tCO₂e" · "1.845 kgCO₂e/m² · stima parziale"
+~ metrica.2: "1,00 m" · "L/d ≈ 23 · 5 campate"
+~ metrica.3: "14 mesi" · "±25% · 4 pile · 2 spalle"
+~ configurazione: "L 105,0 m · W 20,2 m · Travi a I in c.a.p. · 8 elementi · Pali Ø 1,0 m × 30 m"
+~ disegno: sezione no · dati foglio · risultato FCAC44E7633357CC
+~ pannello.quantita: 2 blocchi
++ pannello.quantita.0: tabella "Voce|Parte|Quantità|Unità|Prezzo €|Importo €" · righe 15 30E6B2381672CF26
++ pannello.quantita.0.0: "Calcestruzzo" | "Impalcato" | "769,9" | "m³" | "480,0" | "369.533"
++ pannello.quantita.0.1: "Armatura ordinaria" | "Impalcato" | "84,7" | "t" | "1.660,0" | "140.576"
++ pannello.quantita.0.2: "Precompressione" | "Impalcato" | "23,1" | "t" | "3.600,0" | "83.145"
++ pannello.quantita.1: testo [evidenza] "Diretto 4.354.153 €   +   cantiere 522.498 €   +   imprevisti 731.498 €   =   5.608.149 €"
+~ pannello.dettagli: 10 blocchi
++ pannello.dettagli.0: testo [evidenza] "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
++ pannello.dettagli.1: testo [nota] "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico."
++ pannello.dettagli.2: grafico "momenti FCAC44E7633357CC"
++ pannello.dettagli.3: tabella "Grandezza|Valore|Unità|Regola / ipotesi" · righe 20 453B08465E0AEEF2
++ pannello.dettagli.3.0: "Larghezza impalcato" | "20,200" | "m" | "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere"
++ pannello.dettagli.3.1: "Altezza in campata" | "1,000" | "m" | "max(1,00; Lmax/22,22 × .95)"
++ pannello.dettagli.3.2: "Altezza sulle pile" | "1,000" | "m" | "Altezza costante"
++ pannello.dettagli.4: tabella "Appoggio|x [m]|Tipo|R G+Q [kN]|H [m]|Plinto B×W [m]|Pali" · righe 6 BD7FE849C904D5A2
++ pannello.dettagli.4.0: "1" | "0,0" | "Spalla" | "2.988,2" | "7,0" | "8,0×20,2" | "6"
++ pannello.dettagli.4.1: "2" | "18,3" | "Setto" | "10.037,6" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.4.2: "3" | "41,1" | "Setto" | "10.053,2" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.5: testo [avviso] "• Tipologia fuori dal campo usuale 20–50 m: campate 18,3–22,8 m."
++ pannello.dettagli.6: testo [avviso] "• Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico."
++ pannello.dettagli.7: testo [avviso] "• Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo."
++ pannello.dettagli.8: testo [avviso] "• CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD."
++ pannello.dettagli.9: testo [nota] "Esclusi: sismica, vento, frenatura, urti, fatica, fessurazione, viscosità, perdite di precompressione, instabilità locale, collegamenti, fasi costruttive e verifiche geotecniche complete."
+~ pannello.confronto: 1 blocchi
++ pannello.confronto.0: testo "Fissa una configurazione con “Fissa A”, poi modifica il ponte. Qui appariranno gli scostamenti della soluzione B corrente."
+~ pannello.quote: 9 blocchi
++ pannello.quote.0: testo [titolo] "Travi a I in c.a.p. · dimensioni adottate"
++ pannello.quote.1: testo [nota] "Quote del modello usato per calcolare quantità e costi. Le misure in mm identificano gli spessori; le lunghezze sono in m. Schema di predimensionamento, non distinta esecutiva."
++ pannello.quote.2: tabella "Componente|Simbolo|Valore|Unità|Origine|Significato" · righe 18 40526D4D103D153B
++ pannello.quote.2.0: "Geometria generale" | "L" | "105,000" | "m" | "Impostato" | "Lunghezza tra gli appoggi estremi"
++ pannello.quote.2.1: "Geometria generale" | "W" | "20,200" | "m" | "Derivato" | "Corsie, banchine, spartitraffico e barriere"
++ pannello.quote.2.2: "Geometria generale" | "N" | "5" | "n." | "Impostato" | "Numero campate"
++ pannello.quote.3: testo [titolo] "Campate · progressive e sviluppo longitudinale"
++ pannello.quote.4: tabella "Campata|Da x [m]|A x [m]|Luce Li [m]|Elementi n|n × Li [m]" · righe 5 74B928E10E2B8D05
++ pannello.quote.4.0: "1" | "0,000" | "18,261" | "18,261" | "8" | "146,087"
++ pannello.quote.4.1: "2" | "18,261" | "41,087" | "22,826" | "8" | "182,609"
++ pannello.quote.4.2: "3" | "41,087" | "63,913" | "22,826" | "8" | "182,609"
++ pannello.quote.5: testo [titolo] "Pile, spalle e fondazioni · un record per appoggio"
++ pannello.quote.6: testo [nota] "B = dimensione longitudinale, W = trasversale, t = spessore. I pali sono indicati con numero × diametro × lunghezza. I volumi delle spalle sono equivalenti: il modello non definisce una carpenteria completa."
++ pannello.quote.7: tabella "Appoggio / x|Tipo / fusto|H [m]|Pulvino W×B×t [m]|Fondazione B×W×t [m]|Pali n×Ø×L [m]" · righe 6 61A1D4FB7C43E09E
++ pannello.quote.7.0: "1 · 0,00 m" | "Spalla equivalente" | "7,00" | "—" | "8,00×20,20×1,50" | "6×Ø1,00×30,00"
++ pannello.quote.7.1: "2 · 18,26 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.7.2: "3 · 41,09 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.8: pulsante "Esporta sezioni e quote CSV"
+~ pannello.consigli: 5 blocchi
++ pannello.consigli.0: testo [titolo] "Alternative per ridurre le quantità e le emissioni"
++ pannello.consigli.1: pulsante "Cls a ridotta impronta   ·   −979 tCO₂e   ·   Δ 0 €"
++ pannello.consigli.2: pulsante "Banchine a 1,0 m   ·   −176 tCO₂e   ·   Δ -270.921 €"
++ pannello.consigli.3: pulsante "Una campata in meno   ·   −599 tCO₂e   ·   Δ -714.045 €"
++ pannello.consigli.4: testo [nota] "Confronti sul modello corrente: disponibilità dei materiali, resistenza iniziale e larghezze stradali vanno valutate per il progetto. I prezzi restano quelli del listino impostato."
+== campo rates/rebar «1500,5»
+~ dati.rates: {"concrete_deck":"480","concrete_sub":240,"rebar":"1500,5","prestress":3600,"steel":3500,"steel_box":4000,"formwork":50,"pile_1":300,"pile_15":550,"bearing":5000,"joint":2400,"barrier":360,"surfacing":32,"steel_ortho":5000,"cables":16000,"erection_special":1000}
+~ modificato: 2
+~ calcolo: occupato no · risultato - · confronto - · alternative -
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ metrica.0: "—" · "Dati da completare"
+~ metrica.1: "—" · "Dati da completare"
+~ metrica.2: "—" · "Dati da completare"
+~ metrica.3: "—" · "Dati da completare"
+~ configurazione: ""
+~ annulla: 2
+~ disegno: sezione no · dati foglio · risultato -
+~ pannello.quantita: -
+~ pannello.dettagli: -
+~ pannello.confronto: -
+~ pannello.prezzario.7: campo rates/rebar "Armatura ordinaria" = "1500,5" [€/t]
+~ pannello.quote: -
+~ pannello.consigli: -
+- pannello.quantita.0
+- pannello.quantita.0.0
+- pannello.quantita.0.1
+- pannello.quantita.0.2
+- pannello.quantita.1
+- pannello.dettagli.0
+- pannello.dettagli.1
+- pannello.dettagli.2
+- pannello.dettagli.3
+- pannello.dettagli.3.0
+- pannello.dettagli.3.1
+- pannello.dettagli.3.2
+- pannello.dettagli.4
+- pannello.dettagli.4.0
+- pannello.dettagli.4.1
+- pannello.dettagli.4.2
+- pannello.dettagli.5
+- pannello.dettagli.6
+- pannello.dettagli.7
+- pannello.dettagli.8
+- pannello.dettagli.9
+- pannello.confronto.0
+- pannello.quote.0
+- pannello.quote.1
+- pannello.quote.2
+- pannello.quote.2.0
+- pannello.quote.2.1
+- pannello.quote.2.2
+- pannello.quote.3
+- pannello.quote.4
+- pannello.quote.4.0
+- pannello.quote.4.1
+- pannello.quote.4.2
+- pannello.quote.5
+- pannello.quote.6
+- pannello.quote.7
+- pannello.quote.7.0
+- pannello.quote.7.1
+- pannello.quote.7.2
+- pannello.quote.8
+- pannello.consigli.0
+- pannello.consigli.1
+- pannello.consigli.2
+- pannello.consigli.3
+- pannello.consigli.4
+== campo rates/steel «abc»
+~ dati.rates: {"concrete_deck":"480","concrete_sub":240,"rebar":"1500,5","prestress":3600,"steel":"abc","steel_box":4000,"formwork":50,"pile_1":300,"pile_15":550,"bearing":5000,"joint":2400,"barrier":360,"surfacing":32,"steel_ortho":5000,"cables":16000,"erection_special":1000}
+~ modificato: 3
+~ annulla: 3
+~ pannello.prezzario.11: campo rates/steel "Carpenteria metallica" = "abc" [€/t] · errore
+== attendi
+~ stato: "Dato numerico richiesto: rates.steel." · errore
+== pulsante «Applica valori orientativi 2026»
+~ dati.rates: {"concrete_deck":260,"concrete_sub":240,"rebar":1660,"prestress":3600,"steel":3500,"steel_box":4000,"formwork":50,"pile_1":300,"pile_15":550,"bearing":5000,"joint":2400,"barrier":360,"surfacing":32,"steel_ortho":5000,"cables":16000,"erection_special":1000}
+~ modificato: 4
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ annulla: 4
+~ pannello.prezzario.3: campo rates/concrete_deck "Cls impalcato" = "260" [€/m³]
+~ pannello.prezzario.7: campo rates/rebar "Armatura ordinaria" = "1660" [€/t]
+~ pannello.prezzario.11: campo rates/steel "Carpenteria metallica" = "3500" [€/t]
+== attendi
+~ calcolo: occupato no · risultato 440B422565F4233E · confronto nessuno · alternative Cls a ridotta impronta|Banchine a 1,0 m|Una campata in meno
+~ stato: "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
+~ metrica.0: "5,39 M€" · "2.541 €/m² · 3,77–7,01 M€"
+~ metrica.1: "3.914 tCO₂e" · "1.845 kgCO₂e/m² · stima parziale"
+~ metrica.2: "1,00 m" · "L/d ≈ 23 · 5 campate"
+~ metrica.3: "14 mesi" · "±25% · 4 pile · 2 spalle"
+~ configurazione: "L 105,0 m · W 20,2 m · Travi a I in c.a.p. · 8 elementi · Pali Ø 1,0 m × 30 m"
+~ disegno: sezione no · dati foglio · risultato 440B422565F4233E
+~ pannello.quantita: 2 blocchi
++ pannello.quantita.0: tabella "Voce|Parte|Quantità|Unità|Prezzo €|Importo €" · righe 15 572B46DFA29598E3
++ pannello.quantita.0.0: "Calcestruzzo" | "Impalcato" | "769,9" | "m³" | "260,0" | "200.164"
++ pannello.quantita.0.1: "Armatura ordinaria" | "Impalcato" | "84,7" | "t" | "1.660,0" | "140.576"
++ pannello.quantita.0.2: "Precompressione" | "Impalcato" | "23,1" | "t" | "3.600,0" | "83.145"
++ pannello.quantita.1: testo [evidenza] "Diretto 4.184.784 €   +   cantiere 502.174 €   +   imprevisti 703.044 €   =   5.390.001 €"
+~ pannello.dettagli: 10 blocchi
++ pannello.dettagli.0: testo [evidenza] "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
++ pannello.dettagli.1: testo [nota] "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico."
++ pannello.dettagli.2: grafico "momenti 440B422565F4233E"
++ pannello.dettagli.3: tabella "Grandezza|Valore|Unità|Regola / ipotesi" · righe 20 ACCCB62599D3483D
++ pannello.dettagli.3.0: "Larghezza impalcato" | "20,200" | "m" | "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere"
++ pannello.dettagli.3.1: "Altezza in campata" | "1,000" | "m" | "max(1,00; Lmax/22,22 × .95)"
++ pannello.dettagli.3.2: "Altezza sulle pile" | "1,000" | "m" | "Altezza costante"
++ pannello.dettagli.4: tabella "Appoggio|x [m]|Tipo|R G+Q [kN]|H [m]|Plinto B×W [m]|Pali" · righe 6 BD7FE849C904D5A2
++ pannello.dettagli.4.0: "1" | "0,0" | "Spalla" | "2.988,2" | "7,0" | "8,0×20,2" | "6"
++ pannello.dettagli.4.1: "2" | "18,3" | "Setto" | "10.037,6" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.4.2: "3" | "41,1" | "Setto" | "10.053,2" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.5: testo [avviso] "• Tipologia fuori dal campo usuale 20–50 m: campate 18,3–22,8 m."
++ pannello.dettagli.6: testo [avviso] "• Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico."
++ pannello.dettagli.7: testo [avviso] "• Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo."
++ pannello.dettagli.8: testo [avviso] "• CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD."
++ pannello.dettagli.9: testo [nota] "Esclusi: sismica, vento, frenatura, urti, fatica, fessurazione, viscosità, perdite di precompressione, instabilità locale, collegamenti, fasi costruttive e verifiche geotecniche complete."
+~ pannello.confronto: 1 blocchi
++ pannello.confronto.0: testo "Fissa una configurazione con “Fissa A”, poi modifica il ponte. Qui appariranno gli scostamenti della soluzione B corrente."
+~ pannello.quote: 9 blocchi
++ pannello.quote.0: testo [titolo] "Travi a I in c.a.p. · dimensioni adottate"
++ pannello.quote.1: testo [nota] "Quote del modello usato per calcolare quantità e costi. Le misure in mm identificano gli spessori; le lunghezze sono in m. Schema di predimensionamento, non distinta esecutiva."
++ pannello.quote.2: tabella "Componente|Simbolo|Valore|Unità|Origine|Significato" · righe 18 40526D4D103D153B
++ pannello.quote.2.0: "Geometria generale" | "L" | "105,000" | "m" | "Impostato" | "Lunghezza tra gli appoggi estremi"
++ pannello.quote.2.1: "Geometria generale" | "W" | "20,200" | "m" | "Derivato" | "Corsie, banchine, spartitraffico e barriere"
++ pannello.quote.2.2: "Geometria generale" | "N" | "5" | "n." | "Impostato" | "Numero campate"
++ pannello.quote.3: testo [titolo] "Campate · progressive e sviluppo longitudinale"
++ pannello.quote.4: tabella "Campata|Da x [m]|A x [m]|Luce Li [m]|Elementi n|n × Li [m]" · righe 5 74B928E10E2B8D05
++ pannello.quote.4.0: "1" | "0,000" | "18,261" | "18,261" | "8" | "146,087"
++ pannello.quote.4.1: "2" | "18,261" | "41,087" | "22,826" | "8" | "182,609"
++ pannello.quote.4.2: "3" | "41,087" | "63,913" | "22,826" | "8" | "182,609"
++ pannello.quote.5: testo [titolo] "Pile, spalle e fondazioni · un record per appoggio"
++ pannello.quote.6: testo [nota] "B = dimensione longitudinale, W = trasversale, t = spessore. I pali sono indicati con numero × diametro × lunghezza. I volumi delle spalle sono equivalenti: il modello non definisce una carpenteria completa."
++ pannello.quote.7: tabella "Appoggio / x|Tipo / fusto|H [m]|Pulvino W×B×t [m]|Fondazione B×W×t [m]|Pali n×Ø×L [m]" · righe 6 61A1D4FB7C43E09E
++ pannello.quote.7.0: "1 · 0,00 m" | "Spalla equivalente" | "7,00" | "—" | "8,00×20,20×1,50" | "6×Ø1,00×30,00"
++ pannello.quote.7.1: "2 · 18,26 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.7.2: "3 · 41,09 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.8: pulsante "Esporta sezioni e quote CSV"
+~ pannello.consigli: 5 blocchi
++ pannello.consigli.0: testo [titolo] "Alternative per ridurre le quantità e le emissioni"
++ pannello.consigli.1: pulsante "Cls a ridotta impronta   ·   −979 tCO₂e   ·   Δ 0 €"
++ pannello.consigli.2: pulsante "Banchine a 1,0 m   ·   −176 tCO₂e   ·   Δ -253.634 €"
++ pannello.consigli.3: pulsante "Una campata in meno   ·   −599 tCO₂e   ·   Δ -748.192 €"
++ pannello.consigli.4: testo [nota] "Confronti sul modello corrente: disponibilità dei materiali, resistenza iniziale e larghezze stradali vanno valutate per il progetto. I prezzi restano quelli del listino impostato."
+== campo assumptions/prelims «abc»
+~ dati.assumptions: {"prelims":"abc","contingency":15,"uncertainty":30,"co2_concrete":320,"co2_rebar":1.4,"co2_steel":2,"co2_pt":2.5,"co2_site":15,"low_carbon_factor":0.6,"recycled_factor":0.35,"rebar_rc":140,"rebar_psc":110,"rebar_sub":150,"rebar_found":120,"pt_density":30,"wear_load":2.5,"traffic_load":9,"gamma_g":1.35,"gamma_q":1.5,"soil_pressure":0,"pile_skin":0,"pile_base":0,"months_base":4,"months_span":1.2,"months_pier":0.4,"concept_tension":180,"concept_compression":100,"concept_cable":600,"concept_tower":6,"anchor_friction":0.5,"special_connections":20,"co2_cable":2.5}
+~ modificato: 5
+~ calcolo: occupato no · risultato - · confronto - · alternative -
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ metrica.0: "—" · "Dati da completare"
+~ metrica.1: "—" · "Dati da completare"
+~ metrica.2: "—" · "Dati da completare"
+~ metrica.3: "—" · "Dati da completare"
+~ configurazione: ""
+~ pagina: 0 · ingressi 0 · risultati 4
+~ annulla: 5
+~ disegno: sezione no · dati foglio · risultato -
+~ pannello.quantita: -
+~ pannello.dettagli: -
+~ pannello.confronto: -
+~ pannello.ipotesi.1: campo assumptions/prelims "Oneri aggiuntivi non computati" = "abc" [%] · errore
+~ pannello.quote: -
+~ pannello.consigli: -
+- pannello.quantita.0
+- pannello.quantita.0.0
+- pannello.quantita.0.1
+- pannello.quantita.0.2
+- pannello.quantita.1
+- pannello.dettagli.0
+- pannello.dettagli.1
+- pannello.dettagli.2
+- pannello.dettagli.3
+- pannello.dettagli.3.0
+- pannello.dettagli.3.1
+- pannello.dettagli.3.2
+- pannello.dettagli.4
+- pannello.dettagli.4.0
+- pannello.dettagli.4.1
+- pannello.dettagli.4.2
+- pannello.dettagli.5
+- pannello.dettagli.6
+- pannello.dettagli.7
+- pannello.dettagli.8
+- pannello.dettagli.9
+- pannello.confronto.0
+- pannello.quote.0
+- pannello.quote.1
+- pannello.quote.2
+- pannello.quote.2.0
+- pannello.quote.2.1
+- pannello.quote.2.2
+- pannello.quote.3
+- pannello.quote.4
+- pannello.quote.4.0
+- pannello.quote.4.1
+- pannello.quote.4.2
+- pannello.quote.5
+- pannello.quote.6
+- pannello.quote.7
+- pannello.quote.7.0
+- pannello.quote.7.1
+- pannello.quote.7.2
+- pannello.quote.8
+- pannello.consigli.0
+- pannello.consigli.1
+- pannello.consigli.2
+- pannello.consigli.3
+- pannello.consigli.4
+== attendi
+~ stato: "Dato numerico richiesto: assumptions.prelims." · errore
+== pulsante «Annulla»
+~ dati.assumptions: {"prelims":12,"contingency":15,"uncertainty":30,"co2_concrete":320,"co2_rebar":1.4,"co2_steel":2,"co2_pt":2.5,"co2_site":15,"low_carbon_factor":0.6,"recycled_factor":0.35,"rebar_rc":140,"rebar_psc":110,"rebar_sub":150,"rebar_found":120,"pt_density":30,"wear_load":2.5,"traffic_load":9,"gamma_g":1.35,"gamma_q":1.5,"soil_pressure":0,"pile_skin":0,"pile_base":0,"months_base":4,"months_span":1.2,"months_pier":0.4,"concept_tension":180,"concept_compression":100,"concept_cable":600,"concept_tower":6,"anchor_friction":0.5,"special_connections":20,"co2_cable":2.5}
+~ modificato: 6
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ annulla: 4
+~ pannello.ipotesi.1: campo assumptions/prelims "Oneri aggiuntivi non computati" = "12" [%] · errore
+== attendi
+~ calcolo: occupato no · risultato 440B422565F4233E · confronto nessuno · alternative Cls a ridotta impronta|Banchine a 1,0 m|Una campata in meno
+~ stato: "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
+~ metrica.0: "5,39 M€" · "2.541 €/m² · 3,77–7,01 M€"
+~ metrica.1: "3.914 tCO₂e" · "1.845 kgCO₂e/m² · stima parziale"
+~ metrica.2: "1,00 m" · "L/d ≈ 23 · 5 campate"
+~ metrica.3: "14 mesi" · "±25% · 4 pile · 2 spalle"
+~ configurazione: "L 105,0 m · W 20,2 m · Travi a I in c.a.p. · 8 elementi · Pali Ø 1,0 m × 30 m"
+~ disegno: sezione no · dati foglio · risultato 440B422565F4233E
+~ pannello.quantita: 2 blocchi
++ pannello.quantita.0: tabella "Voce|Parte|Quantità|Unità|Prezzo €|Importo €" · righe 15 572B46DFA29598E3
++ pannello.quantita.0.0: "Calcestruzzo" | "Impalcato" | "769,9" | "m³" | "260,0" | "200.164"
++ pannello.quantita.0.1: "Armatura ordinaria" | "Impalcato" | "84,7" | "t" | "1.660,0" | "140.576"
++ pannello.quantita.0.2: "Precompressione" | "Impalcato" | "23,1" | "t" | "3.600,0" | "83.145"
++ pannello.quantita.1: testo [evidenza] "Diretto 4.184.784 €   +   cantiere 502.174 €   +   imprevisti 703.044 €   =   5.390.001 €"
+~ pannello.dettagli: 10 blocchi
++ pannello.dettagli.0: testo [evidenza] "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
++ pannello.dettagli.1: testo [nota] "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico."
++ pannello.dettagli.2: grafico "momenti 440B422565F4233E"
++ pannello.dettagli.3: tabella "Grandezza|Valore|Unità|Regola / ipotesi" · righe 20 ACCCB62599D3483D
++ pannello.dettagli.3.0: "Larghezza impalcato" | "20,200" | "m" | "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere"
++ pannello.dettagli.3.1: "Altezza in campata" | "1,000" | "m" | "max(1,00; Lmax/22,22 × .95)"
++ pannello.dettagli.3.2: "Altezza sulle pile" | "1,000" | "m" | "Altezza costante"
++ pannello.dettagli.4: tabella "Appoggio|x [m]|Tipo|R G+Q [kN]|H [m]|Plinto B×W [m]|Pali" · righe 6 BD7FE849C904D5A2
++ pannello.dettagli.4.0: "1" | "0,0" | "Spalla" | "2.988,2" | "7,0" | "8,0×20,2" | "6"
++ pannello.dettagli.4.1: "2" | "18,3" | "Setto" | "10.037,6" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.4.2: "3" | "41,1" | "Setto" | "10.053,2" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.5: testo [avviso] "• Tipologia fuori dal campo usuale 20–50 m: campate 18,3–22,8 m."
++ pannello.dettagli.6: testo [avviso] "• Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico."
++ pannello.dettagli.7: testo [avviso] "• Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo."
++ pannello.dettagli.8: testo [avviso] "• CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD."
++ pannello.dettagli.9: testo [nota] "Esclusi: sismica, vento, frenatura, urti, fatica, fessurazione, viscosità, perdite di precompressione, instabilità locale, collegamenti, fasi costruttive e verifiche geotecniche complete."
+~ pannello.confronto: 1 blocchi
++ pannello.confronto.0: testo "Fissa una configurazione con “Fissa A”, poi modifica il ponte. Qui appariranno gli scostamenti della soluzione B corrente."
+~ pannello.quote: 9 blocchi
++ pannello.quote.0: testo [titolo] "Travi a I in c.a.p. · dimensioni adottate"
++ pannello.quote.1: testo [nota] "Quote del modello usato per calcolare quantità e costi. Le misure in mm identificano gli spessori; le lunghezze sono in m. Schema di predimensionamento, non distinta esecutiva."
++ pannello.quote.2: tabella "Componente|Simbolo|Valore|Unità|Origine|Significato" · righe 18 40526D4D103D153B
++ pannello.quote.2.0: "Geometria generale" | "L" | "105,000" | "m" | "Impostato" | "Lunghezza tra gli appoggi estremi"
++ pannello.quote.2.1: "Geometria generale" | "W" | "20,200" | "m" | "Derivato" | "Corsie, banchine, spartitraffico e barriere"
++ pannello.quote.2.2: "Geometria generale" | "N" | "5" | "n." | "Impostato" | "Numero campate"
++ pannello.quote.3: testo [titolo] "Campate · progressive e sviluppo longitudinale"
++ pannello.quote.4: tabella "Campata|Da x [m]|A x [m]|Luce Li [m]|Elementi n|n × Li [m]" · righe 5 74B928E10E2B8D05
++ pannello.quote.4.0: "1" | "0,000" | "18,261" | "18,261" | "8" | "146,087"
++ pannello.quote.4.1: "2" | "18,261" | "41,087" | "22,826" | "8" | "182,609"
++ pannello.quote.4.2: "3" | "41,087" | "63,913" | "22,826" | "8" | "182,609"
++ pannello.quote.5: testo [titolo] "Pile, spalle e fondazioni · un record per appoggio"
++ pannello.quote.6: testo [nota] "B = dimensione longitudinale, W = trasversale, t = spessore. I pali sono indicati con numero × diametro × lunghezza. I volumi delle spalle sono equivalenti: il modello non definisce una carpenteria completa."
++ pannello.quote.7: tabella "Appoggio / x|Tipo / fusto|H [m]|Pulvino W×B×t [m]|Fondazione B×W×t [m]|Pali n×Ø×L [m]" · righe 6 61A1D4FB7C43E09E
++ pannello.quote.7.0: "1 · 0,00 m" | "Spalla equivalente" | "7,00" | "—" | "8,00×20,20×1,50" | "6×Ø1,00×30,00"
++ pannello.quote.7.1: "2 · 18,26 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.7.2: "3 · 41,09 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.8: pulsante "Esporta sezioni e quote CSV"
+~ pannello.consigli: 5 blocchi
++ pannello.consigli.0: testo [titolo] "Alternative per ridurre le quantità e le emissioni"
++ pannello.consigli.1: pulsante "Cls a ridotta impronta   ·   −979 tCO₂e   ·   Δ 0 €"
++ pannello.consigli.2: pulsante "Banchine a 1,0 m   ·   −176 tCO₂e   ·   Δ -253.634 €"
++ pannello.consigli.3: pulsante "Una campata in meno   ·   −599 tCO₂e   ·   Δ -748.192 €"
++ pannello.consigli.4: testo [nota] "Confronti sul modello corrente: disponibilità dei materiali, resistenza iniziale e larghezze stradali vanno valutate per il progetto. I prezzi restano quelli del listino impostato."
+== campo assumptions/co2_concrete «300»
+~ dati.assumptions: {"prelims":12,"contingency":15,"uncertainty":30,"co2_concrete":"300","co2_rebar":1.4,"co2_steel":2,"co2_pt":2.5,"co2_site":15,"low_carbon_factor":0.6,"recycled_factor":0.35,"rebar_rc":140,"rebar_psc":110,"rebar_sub":150,"rebar_found":120,"pt_density":30,"wear_load":2.5,"traffic_load":9,"gamma_g":1.35,"gamma_q":1.5,"soil_pressure":0,"pile_skin":0,"pile_base":0,"months_base":4,"months_span":1.2,"months_pier":0.4,"concept_tension":180,"concept_compression":100,"concept_cable":600,"concept_tower":6,"anchor_friction":0.5,"special_connections":20,"co2_cable":2.5}
+~ dati.environment: {"schema":1,"revision":"EB3443BC08859A88E732C473F7A955542CDD7C265A5C890C32296304F34C4131","factors":{"co2_concrete":300,"co2_rebar":1.4,"co2_steel":2,"co2_pt":2.5,"co2_site":15,"co2_cable":2.5,"low_carbon_factor":0.6,"recycled_factor":0.35},"date":"<DATAORA>","source":"Fattori espliciti del progetto","history":[{"schema":1,"revision":"F1A8366F8814A7B46092956FF7FA4F2E86A63A8B51EC0B0CBB7BF50D3C7C991B","factors":{"co2_concrete":320,"co2_rebar":1.4,"co2_steel":2,"co2_pt":2.5,"co2_site":15,"co2_cable":2.5,"low_carbon_factor":0.6,"recycled_factor":0.35},"date":"<DATAORA>","source":"Fattori espliciti del progetto"}]}
+~ modificato: 7
+~ calcolo: occupato no · risultato - · confronto - · alternative -
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ metrica.0: "—" · "Dati da completare"
+~ metrica.1: "—" · "Dati da completare"
+~ metrica.2: "—" · "Dati da completare"
+~ metrica.3: "—" · "Dati da completare"
+~ configurazione: ""
+~ annulla: 5
+~ disegno: sezione no · dati foglio · risultato -
+~ pannello.quantita: -
+~ pannello.dettagli: -
+~ pannello.confronto: -
+~ pannello.ipotesi.4: campo assumptions/co2_concrete "CO₂ cls ordinario" = "300" [kg/m³]
+~ pannello.quote: -
+~ pannello.consigli: -
+- pannello.quantita.0
+- pannello.quantita.0.0
+- pannello.quantita.0.1
+- pannello.quantita.0.2
+- pannello.quantita.1
+- pannello.dettagli.0
+- pannello.dettagli.1
+- pannello.dettagli.2
+- pannello.dettagli.3
+- pannello.dettagli.3.0
+- pannello.dettagli.3.1
+- pannello.dettagli.3.2
+- pannello.dettagli.4
+- pannello.dettagli.4.0
+- pannello.dettagli.4.1
+- pannello.dettagli.4.2
+- pannello.dettagli.5
+- pannello.dettagli.6
+- pannello.dettagli.7
+- pannello.dettagli.8
+- pannello.dettagli.9
+- pannello.confronto.0
+- pannello.quote.0
+- pannello.quote.1
+- pannello.quote.2
+- pannello.quote.2.0
+- pannello.quote.2.1
+- pannello.quote.2.2
+- pannello.quote.3
+- pannello.quote.4
+- pannello.quote.4.0
+- pannello.quote.4.1
+- pannello.quote.4.2
+- pannello.quote.5
+- pannello.quote.6
+- pannello.quote.7
+- pannello.quote.7.0
+- pannello.quote.7.1
+- pannello.quote.7.2
+- pannello.quote.8
+- pannello.consigli.0
+- pannello.consigli.1
+- pannello.consigli.2
+- pannello.consigli.3
+- pannello.consigli.4
+== attendi
+~ calcolo: occupato no · risultato 46AF659D0E0E4B17 · confronto nessuno · alternative Cls a ridotta impronta|Banchine a 1,0 m|Una campata in meno
+~ stato: "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
+~ metrica.0: "5,39 M€" · "2.541 €/m² · 3,77–7,01 M€"
+~ metrica.1: "3.761 tCO₂e" · "1.773 kgCO₂e/m² · stima parziale"
+~ metrica.2: "1,00 m" · "L/d ≈ 23 · 5 campate"
+~ metrica.3: "14 mesi" · "±25% · 4 pile · 2 spalle"
+~ configurazione: "L 105,0 m · W 20,2 m · Travi a I in c.a.p. · 8 elementi · Pali Ø 1,0 m × 30 m"
+~ disegno: sezione no · dati foglio · risultato 46AF659D0E0E4B17
+~ pannello.quantita: 2 blocchi
++ pannello.quantita.0: tabella "Voce|Parte|Quantità|Unità|Prezzo €|Importo €" · righe 15 572B46DFA29598E3
++ pannello.quantita.0.0: "Calcestruzzo" | "Impalcato" | "769,9" | "m³" | "260,0" | "200.164"
++ pannello.quantita.0.1: "Armatura ordinaria" | "Impalcato" | "84,7" | "t" | "1.660,0" | "140.576"
++ pannello.quantita.0.2: "Precompressione" | "Impalcato" | "23,1" | "t" | "3.600,0" | "83.145"
++ pannello.quantita.1: testo [evidenza] "Diretto 4.184.784 €   +   cantiere 502.174 €   +   imprevisti 703.044 €   =   5.390.001 €"
+~ pannello.dettagli: 10 blocchi
++ pannello.dettagli.0: testo [evidenza] "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
++ pannello.dettagli.1: testo [nota] "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico."
++ pannello.dettagli.2: grafico "momenti 46AF659D0E0E4B17"
++ pannello.dettagli.3: tabella "Grandezza|Valore|Unità|Regola / ipotesi" · righe 20 ACCCB62599D3483D
++ pannello.dettagli.3.0: "Larghezza impalcato" | "20,200" | "m" | "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere"
++ pannello.dettagli.3.1: "Altezza in campata" | "1,000" | "m" | "max(1,00; Lmax/22,22 × .95)"
++ pannello.dettagli.3.2: "Altezza sulle pile" | "1,000" | "m" | "Altezza costante"
++ pannello.dettagli.4: tabella "Appoggio|x [m]|Tipo|R G+Q [kN]|H [m]|Plinto B×W [m]|Pali" · righe 6 BD7FE849C904D5A2
++ pannello.dettagli.4.0: "1" | "0,0" | "Spalla" | "2.988,2" | "7,0" | "8,0×20,2" | "6"
++ pannello.dettagli.4.1: "2" | "18,3" | "Setto" | "10.037,6" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.4.2: "3" | "41,1" | "Setto" | "10.053,2" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.5: testo [avviso] "• Tipologia fuori dal campo usuale 20–50 m: campate 18,3–22,8 m."
++ pannello.dettagli.6: testo [avviso] "• Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico."
++ pannello.dettagli.7: testo [avviso] "• Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo."
++ pannello.dettagli.8: testo [avviso] "• CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD."
++ pannello.dettagli.9: testo [nota] "Esclusi: sismica, vento, frenatura, urti, fatica, fessurazione, viscosità, perdite di precompressione, instabilità locale, collegamenti, fasi costruttive e verifiche geotecniche complete."
+~ pannello.confronto: 1 blocchi
++ pannello.confronto.0: testo "Fissa una configurazione con “Fissa A”, poi modifica il ponte. Qui appariranno gli scostamenti della soluzione B corrente."
+~ pannello.quote: 9 blocchi
++ pannello.quote.0: testo [titolo] "Travi a I in c.a.p. · dimensioni adottate"
++ pannello.quote.1: testo [nota] "Quote del modello usato per calcolare quantità e costi. Le misure in mm identificano gli spessori; le lunghezze sono in m. Schema di predimensionamento, non distinta esecutiva."
++ pannello.quote.2: tabella "Componente|Simbolo|Valore|Unità|Origine|Significato" · righe 18 40526D4D103D153B
++ pannello.quote.2.0: "Geometria generale" | "L" | "105,000" | "m" | "Impostato" | "Lunghezza tra gli appoggi estremi"
++ pannello.quote.2.1: "Geometria generale" | "W" | "20,200" | "m" | "Derivato" | "Corsie, banchine, spartitraffico e barriere"
++ pannello.quote.2.2: "Geometria generale" | "N" | "5" | "n." | "Impostato" | "Numero campate"
++ pannello.quote.3: testo [titolo] "Campate · progressive e sviluppo longitudinale"
++ pannello.quote.4: tabella "Campata|Da x [m]|A x [m]|Luce Li [m]|Elementi n|n × Li [m]" · righe 5 74B928E10E2B8D05
++ pannello.quote.4.0: "1" | "0,000" | "18,261" | "18,261" | "8" | "146,087"
++ pannello.quote.4.1: "2" | "18,261" | "41,087" | "22,826" | "8" | "182,609"
++ pannello.quote.4.2: "3" | "41,087" | "63,913" | "22,826" | "8" | "182,609"
++ pannello.quote.5: testo [titolo] "Pile, spalle e fondazioni · un record per appoggio"
++ pannello.quote.6: testo [nota] "B = dimensione longitudinale, W = trasversale, t = spessore. I pali sono indicati con numero × diametro × lunghezza. I volumi delle spalle sono equivalenti: il modello non definisce una carpenteria completa."
++ pannello.quote.7: tabella "Appoggio / x|Tipo / fusto|H [m]|Pulvino W×B×t [m]|Fondazione B×W×t [m]|Pali n×Ø×L [m]" · righe 6 61A1D4FB7C43E09E
++ pannello.quote.7.0: "1 · 0,00 m" | "Spalla equivalente" | "7,00" | "—" | "8,00×20,20×1,50" | "6×Ø1,00×30,00"
++ pannello.quote.7.1: "2 · 18,26 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.7.2: "3 · 41,09 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.8: pulsante "Esporta sezioni e quote CSV"
+~ pannello.consigli: 5 blocchi
++ pannello.consigli.0: testo [titolo] "Alternative per ridurre le quantità e le emissioni"
++ pannello.consigli.1: pulsante "Cls a ridotta impronta   ·   −918 tCO₂e   ·   Δ 0 €"
++ pannello.consigli.2: pulsante "Banchine a 1,0 m   ·   −169 tCO₂e   ·   Δ -253.634 €"
++ pannello.consigli.3: pulsante "Una campata in meno   ·   −575 tCO₂e   ·   Δ -748.192 €"
++ pannello.consigli.4: testo [nota] "Confronti sul modello corrente: disponibilità dei materiali, resistenza iniziale e larghezze stradali vanno valutate per il progetto. I prezzi restano quelli del listino impostato."
+== campo assumptions/contingency «20»
+~ dati.assumptions: {"prelims":12,"contingency":"20","uncertainty":30,"co2_concrete":"300","co2_rebar":1.4,"co2_steel":2,"co2_pt":2.5,"co2_site":15,"low_carbon_factor":0.6,"recycled_factor":0.35,"rebar_rc":140,"rebar_psc":110,"rebar_sub":150,"rebar_found":120,"pt_density":30,"wear_load":2.5,"traffic_load":9,"gamma_g":1.35,"gamma_q":1.5,"soil_pressure":0,"pile_skin":0,"pile_base":0,"months_base":4,"months_span":1.2,"months_pier":0.4,"concept_tension":180,"concept_compression":100,"concept_cable":600,"concept_tower":6,"anchor_friction":0.5,"special_connections":20,"co2_cable":2.5}
+~ modificato: 8
+~ calcolo: occupato no · risultato - · confronto - · alternative -
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ metrica.0: "—" · "Dati da completare"
+~ metrica.1: "—" · "Dati da completare"
+~ metrica.2: "—" · "Dati da completare"
+~ metrica.3: "—" · "Dati da completare"
+~ configurazione: ""
+~ annulla: 6
+~ disegno: sezione no · dati foglio · risultato -
+~ pannello.quantita: -
+~ pannello.dettagli: -
+~ pannello.confronto: -
+~ pannello.ipotesi.2: campo assumptions/contingency "Imprevisti" = "20" [%]
+~ pannello.quote: -
+~ pannello.consigli: -
+- pannello.quantita.0
+- pannello.quantita.0.0
+- pannello.quantita.0.1
+- pannello.quantita.0.2
+- pannello.quantita.1
+- pannello.dettagli.0
+- pannello.dettagli.1
+- pannello.dettagli.2
+- pannello.dettagli.3
+- pannello.dettagli.3.0
+- pannello.dettagli.3.1
+- pannello.dettagli.3.2
+- pannello.dettagli.4
+- pannello.dettagli.4.0
+- pannello.dettagli.4.1
+- pannello.dettagli.4.2
+- pannello.dettagli.5
+- pannello.dettagli.6
+- pannello.dettagli.7
+- pannello.dettagli.8
+- pannello.dettagli.9
+- pannello.confronto.0
+- pannello.quote.0
+- pannello.quote.1
+- pannello.quote.2
+- pannello.quote.2.0
+- pannello.quote.2.1
+- pannello.quote.2.2
+- pannello.quote.3
+- pannello.quote.4
+- pannello.quote.4.0
+- pannello.quote.4.1
+- pannello.quote.4.2
+- pannello.quote.5
+- pannello.quote.6
+- pannello.quote.7
+- pannello.quote.7.0
+- pannello.quote.7.1
+- pannello.quote.7.2
+- pannello.quote.8
+- pannello.consigli.0
+- pannello.consigli.1
+- pannello.consigli.2
+- pannello.consigli.3
+- pannello.consigli.4
+== attendi
+~ calcolo: occupato no · risultato 2833C691AEBBF2FB · confronto nessuno · alternative Cls a ridotta impronta|Banchine a 1,0 m|Una campata in meno
+~ stato: "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
+~ metrica.0: "5,62 M€" · "2.652 €/m² · 3,94–7,31 M€"
+~ metrica.1: "3.761 tCO₂e" · "1.773 kgCO₂e/m² · stima parziale"
+~ metrica.2: "1,00 m" · "L/d ≈ 23 · 5 campate"
+~ metrica.3: "14 mesi" · "±25% · 4 pile · 2 spalle"
+~ configurazione: "L 105,0 m · W 20,2 m · Travi a I in c.a.p. · 8 elementi · Pali Ø 1,0 m × 30 m"
+~ disegno: sezione no · dati foglio · risultato 2833C691AEBBF2FB
+~ pannello.quantita: 2 blocchi
++ pannello.quantita.0: tabella "Voce|Parte|Quantità|Unità|Prezzo €|Importo €" · righe 15 572B46DFA29598E3
++ pannello.quantita.0.0: "Calcestruzzo" | "Impalcato" | "769,9" | "m³" | "260,0" | "200.164"
++ pannello.quantita.0.1: "Armatura ordinaria" | "Impalcato" | "84,7" | "t" | "1.660,0" | "140.576"
++ pannello.quantita.0.2: "Precompressione" | "Impalcato" | "23,1" | "t" | "3.600,0" | "83.145"
++ pannello.quantita.1: testo [evidenza] "Diretto 4.184.784 €   +   cantiere 502.174 €   +   imprevisti 937.392 €   =   5.624.349 €"
+~ pannello.dettagli: 10 blocchi
++ pannello.dettagli.0: testo [evidenza] "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
++ pannello.dettagli.1: testo [nota] "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico."
++ pannello.dettagli.2: grafico "momenti 2833C691AEBBF2FB"
++ pannello.dettagli.3: tabella "Grandezza|Valore|Unità|Regola / ipotesi" · righe 20 F87E820F5B9D500D
++ pannello.dettagli.3.0: "Larghezza impalcato" | "20,200" | "m" | "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere"
++ pannello.dettagli.3.1: "Altezza in campata" | "1,000" | "m" | "max(1,00; Lmax/22,22 × .95)"
++ pannello.dettagli.3.2: "Altezza sulle pile" | "1,000" | "m" | "Altezza costante"
++ pannello.dettagli.4: tabella "Appoggio|x [m]|Tipo|R G+Q [kN]|H [m]|Plinto B×W [m]|Pali" · righe 6 BD7FE849C904D5A2
++ pannello.dettagli.4.0: "1" | "0,0" | "Spalla" | "2.988,2" | "7,0" | "8,0×20,2" | "6"
++ pannello.dettagli.4.1: "2" | "18,3" | "Setto" | "10.037,6" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.4.2: "3" | "41,1" | "Setto" | "10.053,2" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.5: testo [avviso] "• Tipologia fuori dal campo usuale 20–50 m: campate 18,3–22,8 m."
++ pannello.dettagli.6: testo [avviso] "• Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico."
++ pannello.dettagli.7: testo [avviso] "• Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo."
++ pannello.dettagli.8: testo [avviso] "• CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD."
++ pannello.dettagli.9: testo [nota] "Esclusi: sismica, vento, frenatura, urti, fatica, fessurazione, viscosità, perdite di precompressione, instabilità locale, collegamenti, fasi costruttive e verifiche geotecniche complete."
+~ pannello.confronto: 1 blocchi
++ pannello.confronto.0: testo "Fissa una configurazione con “Fissa A”, poi modifica il ponte. Qui appariranno gli scostamenti della soluzione B corrente."
+~ pannello.quote: 9 blocchi
++ pannello.quote.0: testo [titolo] "Travi a I in c.a.p. · dimensioni adottate"
++ pannello.quote.1: testo [nota] "Quote del modello usato per calcolare quantità e costi. Le misure in mm identificano gli spessori; le lunghezze sono in m. Schema di predimensionamento, non distinta esecutiva."
++ pannello.quote.2: tabella "Componente|Simbolo|Valore|Unità|Origine|Significato" · righe 18 40526D4D103D153B
++ pannello.quote.2.0: "Geometria generale" | "L" | "105,000" | "m" | "Impostato" | "Lunghezza tra gli appoggi estremi"
++ pannello.quote.2.1: "Geometria generale" | "W" | "20,200" | "m" | "Derivato" | "Corsie, banchine, spartitraffico e barriere"
++ pannello.quote.2.2: "Geometria generale" | "N" | "5" | "n." | "Impostato" | "Numero campate"
++ pannello.quote.3: testo [titolo] "Campate · progressive e sviluppo longitudinale"
++ pannello.quote.4: tabella "Campata|Da x [m]|A x [m]|Luce Li [m]|Elementi n|n × Li [m]" · righe 5 74B928E10E2B8D05
++ pannello.quote.4.0: "1" | "0,000" | "18,261" | "18,261" | "8" | "146,087"
++ pannello.quote.4.1: "2" | "18,261" | "41,087" | "22,826" | "8" | "182,609"
++ pannello.quote.4.2: "3" | "41,087" | "63,913" | "22,826" | "8" | "182,609"
++ pannello.quote.5: testo [titolo] "Pile, spalle e fondazioni · un record per appoggio"
++ pannello.quote.6: testo [nota] "B = dimensione longitudinale, W = trasversale, t = spessore. I pali sono indicati con numero × diametro × lunghezza. I volumi delle spalle sono equivalenti: il modello non definisce una carpenteria completa."
++ pannello.quote.7: tabella "Appoggio / x|Tipo / fusto|H [m]|Pulvino W×B×t [m]|Fondazione B×W×t [m]|Pali n×Ø×L [m]" · righe 6 61A1D4FB7C43E09E
++ pannello.quote.7.0: "1 · 0,00 m" | "Spalla equivalente" | "7,00" | "—" | "8,00×20,20×1,50" | "6×Ø1,00×30,00"
++ pannello.quote.7.1: "2 · 18,26 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.7.2: "3 · 41,09 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.8: pulsante "Esporta sezioni e quote CSV"
+~ pannello.consigli: 5 blocchi
++ pannello.consigli.0: testo [titolo] "Alternative per ridurre le quantità e le emissioni"
++ pannello.consigli.1: pulsante "Cls a ridotta impronta   ·   −918 tCO₂e   ·   Δ 0 €"
++ pannello.consigli.2: pulsante "Banchine a 1,0 m   ·   −169 tCO₂e   ·   Δ -264.662 €"
++ pannello.consigli.3: pulsante "Una campata in meno   ·   −575 tCO₂e   ·   Δ -780.722 €"
++ pannello.consigli.4: testo [nota] "Confronti sul modello corrente: disponibilità dei materiali, resistenza iniziale e larghezze stradali vanno valutate per il progetto. I prezzi restano quelli del listino impostato."
+== prezzario «annulla»
+~ messaggio: prezzario "Valori dell'archivio" "Conservati" · stato "Anteprima completa per questa geometria. 0 associazioni non risolte nel catalogo complessivo. Le alternative che le richiedono saranno escluse." · anteprima "Costo totale prima: 5.624.349,16 €   →   dopo: 5.624.349,16 €" · applica sì · A no · associazioni concrete_deck=concrete_deck//260/260/Da catalogo concrete_sub=concrete_sub//240/240/Da catalogo rebar=rebar//1660/1660/Da catalogo prestress=prestress//3600/3600/Da catalogo steel=steel//3500/3500/Da catalogo steel_box=steel_box//4000/4000/Da catalogo formwork=formwork//50/50/Da catalogo pile_1=pile_1//300/300/Da catalogo pile_15=pile_15//550/550/Da catalogo bearing=bearing//5000/5000/Da catalogo joint=joint//2400/2400/Da catalogo barrier=barrier//360/360/Da catalogo surfacing=surfacing//32/32/Da catalogo steel_ortho=steel_ortho//5000/5000/Da catalogo cables=cables//16000/16000/Da catalogo erection_special=erection_special//1000/1000/Da catalogo · analisi  · voci 16 · revisioni 0 · risultato -
+~ pagina: 0 · ingressi 0 · risultati 3
+== attendi
+~ messaggio: 
+== prezzario «applica»
+~ dati: versione_bridge_design|input|rates|assumptions|scene|traffic_migration|environment|pricing
++ dati.pricing: {"schema":1,"catalogue":{"Name":"Valori dell'archivio","Edition":"Conservati","Currency":"EUR","Entries":[{"Code":"concrete_deck","Description":"Cls impalcato","Unit":"m³","Price":260,"Includes":[]},{"Code":"concrete_sub","Description":"Cls sottostrutture e plinti","Unit":"m³","Price":240,"Includes":[]},{"Code":"rebar","Description":"Armatura ordinaria","Unit":"t","Price":1660,"Includes":[]},{"Code":"prestress","Description":"Acciaio da precompressione","Unit":"t","Price":3600,"Includes":[]},{"Code":"steel","Description":"Carpenteria metallica","Unit":"t","Price":3500,"Includes":[]},{"Code":"steel_box","Description":"Carpenteria cassoni","Unit":"t","Price":4000,"Includes":[]},{"Code":"formwork","Description":"Casseforme","Unit":"m²","Price":50,"Includes":[]},{"Code":"pile_1","Description":"Palo Ø 1,0 · esclusa armatura","Unit":"m","Price":300,"Includes":[]},{"Code":"pile_15","Description":"Palo Ø 1,5 · esclusa armatura","Unit":"m","Price":550,"Includes":[]},{"Code":"bearing","Description":"Apparecchio d'appoggio","Unit":"cad","Price":5000,"Includes":[]},{"Code":"joint","Description":"Giunto di dilatazione","Unit":"m","Price":2400,"Includes":[]},{"Code":"barrier","Description":"Barriera","Unit":"m","Price":360,"Includes":[]},{"Code":"surfacing","Description":"Pavimentazione","Unit":"m²","Price":32,"Includes":[]},{"Code":"steel_ortho","Description":"Carpenteria impalcato ortotropo","Unit":"t","Price":5000,"Includes":[]},{"Code":"cables","Description":"Cavi e pendini installati, inclusi terminali","Unit":"t","Price":16000,"Includes":[]},{"Code":"erection_special","Description":"Montaggio aggiuntivo strutture speciali","Unit":"t","Price":1000,"Includes":[]}]},"mappings":[{"WorkCode":"concrete_deck","EntryCode":"concrete_deck","Override":null,"Reason":""},{"WorkCode":"concrete_sub","EntryCode":"concrete_sub","Override":null,"Reason":""},{"WorkCode":"rebar","EntryCode":"rebar","Override":null,"Reason":""},{"WorkCode":"prestress","EntryCode":"prestress","Override":null,"Reason":""},{"WorkCode":"steel","EntryCode":"steel","Override":null,"Reason":""},{"WorkCode":"steel_box","EntryCode":"steel_box","Override":null,"Reason":""},{"WorkCode":"formwork","EntryCode":"formwork","Override":null,"Reason":""},{"WorkCode":"pile_1","EntryCode":"pile_1","Override":null,"Reason":""},{"WorkCode":"pile_15","EntryCode":"pile_15","Override":null,"Reason":""},{"WorkCode":"bearing","EntryCode":"bearing","Override":null,"Reason":""},{"WorkCode":"joint","EntryCode":"joint","Override":null,"Reason":""},{"WorkCode":"barrier","EntryCode":"barrier","Override":null,"Reason":""},{"WorkCode":"surfacing","EntryCode":"surfacing","Override":null,"Reason":""},{"WorkCode":"steel_ortho","EntryCode":"steel_ortho","Override":null,"Reason":""},{"WorkCode":"cables","EntryCode":"cables","Override":null,"Reason":""},{"WorkCode":"erection_special","EntryCode":"erection_special","Override":null,"Reason":""}],"snapshot":{"Revision":"BE304D260D4029A486C0B4935A749128D20F4F876CEF82BD0D2CCAC5A2AE5A1A","Currency":"EUR","Rates":[{"WorkCode":"concrete_deck","Unit":"m³","Price":260,"Reference":"Valori dell'archivio/Conservati/concrete_deck","Includes":[]},{"WorkCode":"concrete_sub","Unit":"m³","Price":240,"Reference":"Valori dell'archivio/Conservati/concrete_sub","Includes":[]},{"WorkCode":"rebar","Unit":"t","Price":1660,"Reference":"Valori dell'archivio/Conservati/rebar","Includes":[]},{"WorkCode":"prestress","Unit":"t","Price":3600,"Reference":"Valori dell'archivio/Conservati/prestress","Includes":[]},{"WorkCode":"steel","Unit":"t","Price":3500,"Reference":"Valori dell'archivio/Conservati/steel","Includes":[]},{"WorkCode":"steel_box","Unit":"t","Price":4000,"Reference":"Valori dell'archivio/Conservati/steel_box","Includes":[]},{"WorkCode":"formwork","Unit":"m²","Price":50,"Reference":"Valori dell'archivio/Conservati/formwork","Includes":[]},{"WorkCode":"pile_1","Unit":"m","Price":300,"Reference":"Valori dell'archivio/Conservati/pile_1","Includes":[]},{"WorkCode":"pile_15","Unit":"m","Price":550,"Reference":"Valori dell'archivio/Conservati/pile_15","Includes":[]},{"WorkCode":"bearing","Unit":"cad","Price":5000,"Reference":"Valori dell'archivio/Conservati/bearing","Includes":[]},{"WorkCode":"joint","Unit":"m","Price":2400,"Reference":"Valori dell'archivio/Conservati/joint","Includes":[]},{"WorkCode":"barrier","Unit":"m","Price":360,"Reference":"Valori dell'archivio/Conservati/barrier","Includes":[]},{"WorkCode":"surfacing","Unit":"m²","Price":32,"Reference":"Valori dell'archivio/Conservati/surfacing","Includes":[]},{"WorkCode":"steel_ortho","Unit":"t","Price":5000,"Reference":"Valori dell'archivio/Conservati/steel_ortho","Includes":[]},{"WorkCode":"cables","Unit":"t","Price":16000,"Reference":"Valori dell'archivio/Conservati/cables","Includes":[]},{"WorkCode":"erection_special","Unit":"t","Price":1000,"Reference":"Valori dell'archivio/Conservati/erection_special","Includes":[]}]},"history":[{"date":"<DATAORA>","catalogue":{"Name":"Valori dell'archivio","Edition":"Conservati","Currency":"EUR","Entries":[{"Code":"concrete_deck","Description":"Cls impalcato","Unit":"m³","Price":260,"Includes":[]},{"Code":"concrete_sub","Description":"Cls sottostrutture e plinti","Unit":"m³","Price":240,"Includes":[]},{"Code":"rebar","Description":"Armatura ordinaria","Unit":"t","Price":1660,"Includes":[]},{"Code":"prestress","Description":"Acciaio da precompressione","Unit":"t","Price":3600,"Includes":[]},{"Code":"steel","Description":"Carpenteria metallica","Unit":"t","Price":3500,"Includes":[]},{"Code":"steel_box","Description":"Carpenteria cassoni","Unit":"t","Price":4000,"Includes":[]},{"Code":"formwork","Description":"Casseforme","Unit":"m²","Price":50,"Includes":[]},{"Code":"pile_1","Description":"Palo Ø 1,0 · esclusa armatura","Unit":"m","Price":300,"Includes":[]},{"Code":"pile_15","Description":"Palo Ø 1,5 · esclusa armatura","Unit":"m","Price":550,"Includes":[]},{"Code":"bearing","Description":"Apparecchio d'appoggio","Unit":"cad","Price":5000,"Includes":[]},{"Code":"joint","Description":"Giunto di dilatazione","Unit":"m","Price":2400,"Includes":[]},{"Code":"barrier","Description":"Barriera","Unit":"m","Price":360,"Includes":[]},{"Code":"surfacing","Description":"Pavimentazione","Unit":"m²","Price":32,"Includes":[]},{"Code":"steel_ortho","Description":"Carpenteria impalcato ortotropo","Unit":"t","Price":5000,"Includes":[]},{"Code":"cables","Description":"Cavi e pendini installati, inclusi terminali","Unit":"t","Price":16000,"Includes":[]},{"Code":"erection_special","Description":"Montaggio aggiuntivo strutture speciali","Unit":"t","Price":1000,"Includes":[]}]},"mappings":[{"WorkCode":"concrete_deck","EntryCode":"concrete_deck","Override":null,"Reason":""},{"WorkCode":"concrete_sub","EntryCode":"concrete_sub","Override":null,"Reason":""},{"WorkCode":"rebar","EntryCode":"rebar","Override":null,"Reason":""},{"WorkCode":"prestress","EntryCode":"prestress","Override":null,"Reason":""},{"WorkCode":"steel","EntryCode":"steel","Override":null,"Reason":""},{"WorkCode":"steel_box","EntryCode":"steel_box","Override":null,"Reason":""},{"WorkCode":"formwork","EntryCode":"formwork","Override":null,"Reason":""},{"WorkCode":"pile_1","EntryCode":"pile_1","Override":null,"Reason":""},{"WorkCode":"pile_15","EntryCode":"pile_15","Override":null,"Reason":""},{"WorkCode":"bearing","EntryCode":"bearing","Override":null,"Reason":""},{"WorkCode":"joint","EntryCode":"joint","Override":null,"Reason":""},{"WorkCode":"barrier","EntryCode":"barrier","Override":null,"Reason":""},{"WorkCode":"surfacing","EntryCode":"surfacing","Override":null,"Reason":""},{"WorkCode":"steel_ortho","EntryCode":"steel_ortho","Override":null,"Reason":""},{"WorkCode":"cables","EntryCode":"cables","Override":null,"Reason":""},{"WorkCode":"erection_special","EntryCode":"erection_special","Override":null,"Reason":""}],"snapshot":{"Revision":"legacy:D0F867D8841AC00C9F0F9AC4641CE6A7AF0935220F3DA751D67BB701C131BE25","Currency":"EUR","Rates":[{"WorkCode":"concrete_deck","Unit":"m³","Price":260,"Reference":"Archivio/concrete_deck","Includes":[]},{"WorkCode":"concrete_sub","Unit":"m³","Price":240,"Reference":"Archivio/concrete_sub","Includes":[]},{"WorkCode":"rebar","Unit":"t","Price":1660,"Reference":"Archivio/rebar","Includes":[]},{"WorkCode":"prestress","Unit":"t","Price":3600,"Reference":"Archivio/prestress","Includes":[]},{"WorkCode":"steel","Unit":"t","Price":3500,"Reference":"Archivio/steel","Includes":[]},{"WorkCode":"steel_box","Unit":"t","Price":4000,"Reference":"Archivio/steel_box","Includes":[]},{"WorkCode":"formwork","Unit":"m²","Price":50,"Reference":"Archivio/formwork","Includes":[]},{"WorkCode":"pile_1","Unit":"m","Price":300,"Reference":"Archivio/pile_1","Includes":[]},{"WorkCode":"pile_15","Unit":"m","Price":550,"Reference":"Archivio/pile_15","Includes":[]},{"WorkCode":"bearing","Unit":"cad","Price":5000,"Reference":"Archivio/bearing","Includes":[]},{"WorkCode":"joint","Unit":"m","Price":2400,"Reference":"Archivio/joint","Includes":[]},{"WorkCode":"barrier","Unit":"m","Price":360,"Reference":"Archivio/barrier","Includes":[]},{"WorkCode":"surfacing","Unit":"m²","Price":32,"Reference":"Archivio/surfacing","Includes":[]},{"WorkCode":"steel_ortho","Unit":"t","Price":5000,"Reference":"Archivio/steel_ortho","Includes":[]},{"WorkCode":"cables","Unit":"t","Price":16000,"Reference":"Archivio/cables","Includes":[]},{"WorkCode":"erection_special","Unit":"t","Price":1000,"Reference":"Archivio/erection_special","Includes":[]}]}}]}
+~ modificato: 9
+~ messaggio: prezzario "Valori dell'archivio" "Conservati" · stato "Anteprima completa per questa geometria. 0 associazioni non risolte nel catalogo complessivo. Le alternative che le richiedono saranno escluse." · anteprima "Costo totale prima: 5.624.349,16 €   →   dopo: 5.624.349,16 €" · applica sì · A no · associazioni concrete_deck=concrete_deck//260/260/Da catalogo concrete_sub=concrete_sub//240/240/Da catalogo rebar=rebar//1660/1660/Da catalogo prestress=prestress//3600/3600/Da catalogo steel=steel//3500/3500/Da catalogo steel_box=steel_box//4000/4000/Da catalogo formwork=formwork//50/50/Da catalogo pile_1=pile_1//300/300/Da catalogo pile_15=pile_15//550/550/Da catalogo bearing=bearing//5000/5000/Da catalogo joint=joint//2400/2400/Da catalogo barrier=barrier//360/360/Da catalogo surfacing=surfacing//32/32/Da catalogo steel_ortho=steel_ortho//5000/5000/Da catalogo cables=cables//16000/16000/Da catalogo erection_special=erection_special//1000/1000/Da catalogo · analisi  · voci 16 · revisioni 0 · risultato 4997939158F56065
+~ calcolo: occupato no · risultato - · confronto - · alternative -
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ metrica.0: "—" · "Dati da completare"
+~ metrica.1: "—" · "Dati da completare"
+~ metrica.2: "—" · "Dati da completare"
+~ metrica.3: "—" · "Dati da completare"
+~ configurazione: ""
+~ annulla: 7
+~ disegno: sezione no · dati foglio · risultato -
+~ pannello.quantita: -
+~ pannello.dettagli: -
+~ pannello.confronto: -
+~ pannello.prezzario: 3 blocchi
+~ pannello.prezzario.1: testo [titolo] "Valori dell'archivio · Conservati"
+~ pannello.prezzario.2: testo "Listino e personalizzazioni sono conservati nel documento. Apri la gestione per cambiare catalogo, controllare le differenze o ripristinare una revisione."
+~ pannello.quote: -
+~ pannello.consigli: -
+- pannello.quantita.0
+- pannello.quantita.0.0
+- pannello.quantita.0.1
+- pannello.quantita.0.2
+- pannello.quantita.1
+- pannello.dettagli.0
+- pannello.dettagli.1
+- pannello.dettagli.2
+- pannello.dettagli.3
+- pannello.dettagli.3.0
+- pannello.dettagli.3.1
+- pannello.dettagli.3.2
+- pannello.dettagli.4
+- pannello.dettagli.4.0
+- pannello.dettagli.4.1
+- pannello.dettagli.4.2
+- pannello.dettagli.5
+- pannello.dettagli.6
+- pannello.dettagli.7
+- pannello.dettagli.8
+- pannello.dettagli.9
+- pannello.confronto.0
+- pannello.prezzario.3
+- pannello.prezzario.4
+- pannello.prezzario.5
+- pannello.prezzario.6
+- pannello.prezzario.7
+- pannello.prezzario.8
+- pannello.prezzario.9
+- pannello.prezzario.10
+- pannello.prezzario.11
+- pannello.prezzario.12
+- pannello.prezzario.13
+- pannello.prezzario.14
+- pannello.prezzario.15
+- pannello.prezzario.16
+- pannello.prezzario.17
+- pannello.prezzario.18
+- pannello.prezzario.19
+- pannello.prezzario.20
+- pannello.prezzario.21
+- pannello.prezzario.22
+- pannello.prezzario.23
+- pannello.prezzario.24
+- pannello.prezzario.25
+- pannello.prezzario.26
+- pannello.prezzario.27
+- pannello.prezzario.28
+- pannello.prezzario.29
+- pannello.prezzario.30
+- pannello.prezzario.31
+- pannello.prezzario.32
+- pannello.prezzario.33
+- pannello.prezzario.34
+- pannello.quote.0
+- pannello.quote.1
+- pannello.quote.2
+- pannello.quote.2.0
+- pannello.quote.2.1
+- pannello.quote.2.2
+- pannello.quote.3
+- pannello.quote.4
+- pannello.quote.4.0
+- pannello.quote.4.1
+- pannello.quote.4.2
+- pannello.quote.5
+- pannello.quote.6
+- pannello.quote.7
+- pannello.quote.7.0
+- pannello.quote.7.1
+- pannello.quote.7.2
+- pannello.quote.8
+- pannello.consigli.0
+- pannello.consigli.1
+- pannello.consigli.2
+- pannello.consigli.3
+- pannello.consigli.4
+== attendi
+~ messaggio: 
+~ calcolo: occupato no · risultato 4B5C5C3E63A31197 · confronto nessuno · alternative Cls a ridotta impronta|Banchine a 1,0 m|Una campata in meno
+~ stato: "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
+~ metrica.0: "5,62 M€" · "2.652 €/m² · 3,94–7,31 M€"
+~ metrica.1: "3.761 tCO₂e" · "1.773 kgCO₂e/m² · stima parziale"
+~ metrica.2: "1,00 m" · "L/d ≈ 23 · 5 campate"
+~ metrica.3: "14 mesi" · "±25% · 4 pile · 2 spalle"
+~ configurazione: "L 105,0 m · W 20,2 m · Travi a I in c.a.p. · 8 elementi · Pali Ø 1,0 m × 30 m"
+~ disegno: sezione no · dati foglio · risultato 4B5C5C3E63A31197
+~ pannello.quantita: 2 blocchi
++ pannello.quantita.0: tabella "Voce|Parte|Quantità|Unità|Prezzo €|Importo €" · righe 16 23301ABD1C890896
++ pannello.quantita.0.0: "Calcestruzzo" | "Impalcato" | "769,9" | "m³" | "260,0" | "200.164"
++ pannello.quantita.0.1: "Armatura ordinaria" | "Impalcato" | "84,7" | "t" | "1.660,0" | "140.576"
++ pannello.quantita.0.2: "Precompressione" | "Impalcato" | "23,1" | "t" | "3.600,0" | "83.145"
++ pannello.quantita.1: testo [evidenza] "Diretto 4.184.784 €   +   cantiere 502.174 €   +   imprevisti 937.392 €   =   5.624.349 €"
+~ pannello.dettagli: 10 blocchi
++ pannello.dettagli.0: testo [evidenza] "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
++ pannello.dettagli.1: testo [nota] "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico."
++ pannello.dettagli.2: grafico "momenti 4B5C5C3E63A31197"
++ pannello.dettagli.3: tabella "Grandezza|Valore|Unità|Regola / ipotesi" · righe 20 F87E820F5B9D500D
++ pannello.dettagli.3.0: "Larghezza impalcato" | "20,200" | "m" | "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere"
++ pannello.dettagli.3.1: "Altezza in campata" | "1,000" | "m" | "max(1,00; Lmax/22,22 × .95)"
++ pannello.dettagli.3.2: "Altezza sulle pile" | "1,000" | "m" | "Altezza costante"
++ pannello.dettagli.4: tabella "Appoggio|x [m]|Tipo|R G+Q [kN]|H [m]|Plinto B×W [m]|Pali" · righe 6 BD7FE849C904D5A2
++ pannello.dettagli.4.0: "1" | "0,0" | "Spalla" | "2.988,2" | "7,0" | "8,0×20,2" | "6"
++ pannello.dettagli.4.1: "2" | "18,3" | "Setto" | "10.037,6" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.4.2: "3" | "41,1" | "Setto" | "10.053,2" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.5: testo [avviso] "• Tipologia fuori dal campo usuale 20–50 m: campate 18,3–22,8 m."
++ pannello.dettagli.6: testo [avviso] "• Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico."
++ pannello.dettagli.7: testo [avviso] "• Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo."
++ pannello.dettagli.8: testo [avviso] "• CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD."
++ pannello.dettagli.9: testo [nota] "Esclusi: sismica, vento, frenatura, urti, fatica, fessurazione, viscosità, perdite di precompressione, instabilità locale, collegamenti, fasi costruttive e verifiche geotecniche complete."
+~ pannello.confronto: 1 blocchi
++ pannello.confronto.0: testo "Fissa una configurazione con “Fissa A”, poi modifica il ponte. Qui appariranno gli scostamenti della soluzione B corrente."
+~ pannello.quote: 9 blocchi
++ pannello.quote.0: testo [titolo] "Travi a I in c.a.p. · dimensioni adottate"
++ pannello.quote.1: testo [nota] "Quote del modello usato per calcolare quantità e costi. Le misure in mm identificano gli spessori; le lunghezze sono in m. Schema di predimensionamento, non distinta esecutiva."
++ pannello.quote.2: tabella "Componente|Simbolo|Valore|Unità|Origine|Significato" · righe 18 40526D4D103D153B
++ pannello.quote.2.0: "Geometria generale" | "L" | "105,000" | "m" | "Impostato" | "Lunghezza tra gli appoggi estremi"
++ pannello.quote.2.1: "Geometria generale" | "W" | "20,200" | "m" | "Derivato" | "Corsie, banchine, spartitraffico e barriere"
++ pannello.quote.2.2: "Geometria generale" | "N" | "5" | "n." | "Impostato" | "Numero campate"
++ pannello.quote.3: testo [titolo] "Campate · progressive e sviluppo longitudinale"
++ pannello.quote.4: tabella "Campata|Da x [m]|A x [m]|Luce Li [m]|Elementi n|n × Li [m]" · righe 5 74B928E10E2B8D05
++ pannello.quote.4.0: "1" | "0,000" | "18,261" | "18,261" | "8" | "146,087"
++ pannello.quote.4.1: "2" | "18,261" | "41,087" | "22,826" | "8" | "182,609"
++ pannello.quote.4.2: "3" | "41,087" | "63,913" | "22,826" | "8" | "182,609"
++ pannello.quote.5: testo [titolo] "Pile, spalle e fondazioni · un record per appoggio"
++ pannello.quote.6: testo [nota] "B = dimensione longitudinale, W = trasversale, t = spessore. I pali sono indicati con numero × diametro × lunghezza. I volumi delle spalle sono equivalenti: il modello non definisce una carpenteria completa."
++ pannello.quote.7: tabella "Appoggio / x|Tipo / fusto|H [m]|Pulvino W×B×t [m]|Fondazione B×W×t [m]|Pali n×Ø×L [m]" · righe 6 61A1D4FB7C43E09E
++ pannello.quote.7.0: "1 · 0,00 m" | "Spalla equivalente" | "7,00" | "—" | "8,00×20,20×1,50" | "6×Ø1,00×30,00"
++ pannello.quote.7.1: "2 · 18,26 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.7.2: "3 · 41,09 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.8: pulsante "Esporta sezioni e quote CSV"
+~ pannello.consigli: 5 blocchi
++ pannello.consigli.0: testo [titolo] "Alternative per ridurre le quantità e le emissioni"
++ pannello.consigli.1: pulsante "Cls a ridotta impronta   ·   −918 tCO₂e   ·   Δ 0 €"
++ pannello.consigli.2: pulsante "Banchine a 1,0 m   ·   −169 tCO₂e   ·   Δ -264.662 €"
++ pannello.consigli.3: pulsante "Una campata in meno   ·   −575 tCO₂e   ·   Δ -780.722 €"
++ pannello.consigli.4: testo [nota] "Confronti sul modello corrente: disponibilità dei materiali, resistenza iniziale e larghezze stradali vanno valutate per il progetto. I prezzi restano quelli del listino impostato."
+== prezzario «personalizza»
+~ dati.pricing: {"schema":1,"catalogue":{"Name":"Valori dell'archivio","Edition":"Conservati","Currency":"EUR","Entries":[{"Code":"concrete_deck","Description":"Cls impalcato","Unit":"m³","Price":260,"Includes":[]},{"Code":"concrete_sub","Description":"Cls sottostrutture e plinti","Unit":"m³","Price":240,"Includes":[]},{"Code":"rebar","Description":"Armatura ordinaria","Unit":"t","Price":1660,"Includes":[]},{"Code":"prestress","Description":"Acciaio da precompressione","Unit":"t","Price":3600,"Includes":[]},{"Code":"steel","Description":"Carpenteria metallica","Unit":"t","Price":3500,"Includes":[]},{"Code":"steel_box","Description":"Carpenteria cassoni","Unit":"t","Price":4000,"Includes":[]},{"Code":"formwork","Description":"Casseforme","Unit":"m²","Price":50,"Includes":[]},{"Code":"pile_1","Description":"Palo Ø 1,0 · esclusa armatura","Unit":"m","Price":300,"Includes":[]},{"Code":"pile_15","Description":"Palo Ø 1,5 · esclusa armatura","Unit":"m","Price":550,"Includes":[]},{"Code":"bearing","Description":"Apparecchio d'appoggio","Unit":"cad","Price":5000,"Includes":[]},{"Code":"joint","Description":"Giunto di dilatazione","Unit":"m","Price":2400,"Includes":[]},{"Code":"barrier","Description":"Barriera","Unit":"m","Price":360,"Includes":[]},{"Code":"surfacing","Description":"Pavimentazione","Unit":"m²","Price":32,"Includes":[]},{"Code":"steel_ortho","Description":"Carpenteria impalcato ortotropo","Unit":"t","Price":5000,"Includes":[]},{"Code":"cables","Description":"Cavi e pendini installati, inclusi terminali","Unit":"t","Price":16000,"Includes":[]},{"Code":"erection_special","Description":"Montaggio aggiuntivo strutture speciali","Unit":"t","Price":1000,"Includes":[]}]},"mappings":[{"WorkCode":"concrete_deck","EntryCode":"concrete_deck","Override":null,"Reason":""},{"WorkCode":"concrete_sub","EntryCode":"concrete_sub","Override":null,"Reason":""},{"WorkCode":"rebar","EntryCode":"rebar","Override":1750,"Reason":"Offerta aggiornata"},{"WorkCode":"prestress","EntryCode":"prestress","Override":null,"Reason":""},{"WorkCode":"steel","EntryCode":"steel","Override":null,"Reason":""},{"WorkCode":"steel_box","EntryCode":"steel_box","Override":null,"Reason":""},{"WorkCode":"formwork","EntryCode":"formwork","Override":null,"Reason":""},{"WorkCode":"pile_1","EntryCode":"pile_1","Override":null,"Reason":""},{"WorkCode":"pile_15","EntryCode":"pile_15","Override":null,"Reason":""},{"WorkCode":"bearing","EntryCode":"bearing","Override":null,"Reason":""},{"WorkCode":"joint","EntryCode":"joint","Override":null,"Reason":""},{"WorkCode":"barrier","EntryCode":"barrier","Override":null,"Reason":""},{"WorkCode":"surfacing","EntryCode":"surfacing","Override":null,"Reason":""},{"WorkCode":"steel_ortho","EntryCode":"steel_ortho","Override":null,"Reason":""},{"WorkCode":"cables","EntryCode":"cables","Override":null,"Reason":""},{"WorkCode":"erection_special","EntryCode":"erection_special","Override":null,"Reason":""}],"snapshot":{"Revision":"C200BF9EAA9A3A37D313220E3518D8602D6DEB0C5C997B569A01406096758037","Currency":"EUR","Rates":[{"WorkCode":"concrete_deck","Unit":"m³","Price":260,"Reference":"Valori dell'archivio/Conservati/concrete_deck","Includes":[]},{"WorkCode":"concrete_sub","Unit":"m³","Price":240,"Reference":"Valori dell'archivio/Conservati/concrete_sub","Includes":[]},{"WorkCode":"rebar","Unit":"t","Price":1750,"Reference":"Valori dell'archivio/Conservati/override:Offerta aggiornata","Includes":[]},{"WorkCode":"prestress","Unit":"t","Price":3600,"Reference":"Valori dell'archivio/Conservati/prestress","Includes":[]},{"WorkCode":"steel","Unit":"t","Price":3500,"Reference":"Valori dell'archivio/Conservati/steel","Includes":[]},{"WorkCode":"steel_box","Unit":"t","Price":4000,"Reference":"Valori dell'archivio/Conservati/steel_box","Includes":[]},{"WorkCode":"formwork","Unit":"m²","Price":50,"Reference":"Valori dell'archivio/Conservati/formwork","Includes":[]},{"WorkCode":"pile_1","Unit":"m","Price":300,"Reference":"Valori dell'archivio/Conservati/pile_1","Includes":[]},{"WorkCode":"pile_15","Unit":"m","Price":550,"Reference":"Valori dell'archivio/Conservati/pile_15","Includes":[]},{"WorkCode":"bearing","Unit":"cad","Price":5000,"Reference":"Valori dell'archivio/Conservati/bearing","Includes":[]},{"WorkCode":"joint","Unit":"m","Price":2400,"Reference":"Valori dell'archivio/Conservati/joint","Includes":[]},{"WorkCode":"barrier","Unit":"m","Price":360,"Reference":"Valori dell'archivio/Conservati/barrier","Includes":[]},{"WorkCode":"surfacing","Unit":"m²","Price":32,"Reference":"Valori dell'archivio/Conservati/surfacing","Includes":[]},{"WorkCode":"steel_ortho","Unit":"t","Price":5000,"Reference":"Valori dell'archivio/Conservati/steel_ortho","Includes":[]},{"WorkCode":"cables","Unit":"t","Price":16000,"Reference":"Valori dell'archivio/Conservati/cables","Includes":[]},{"WorkCode":"erection_special","Unit":"t","Price":1000,"Reference":"Valori dell'archivio/Conservati/erection_special","Includes":[]}]},"history":[{"date":"<DATAORA>","catalogue":{"Name":"Valori dell'archivio","Edition":"Conservati","Currency":"EUR","Entries":[{"Code":"concrete_deck","Description":"Cls impalcato","Unit":"m³","Price":260,"Includes":[]},{"Code":"concrete_sub","Description":"Cls sottostrutture e plinti","Unit":"m³","Price":240,"Includes":[]},{"Code":"rebar","Description":"Armatura ordinaria","Unit":"t","Price":1660,"Includes":[]},{"Code":"prestress","Description":"Acciaio da precompressione","Unit":"t","Price":3600,"Includes":[]},{"Code":"steel","Description":"Carpenteria metallica","Unit":"t","Price":3500,"Includes":[]},{"Code":"steel_box","Description":"Carpenteria cassoni","Unit":"t","Price":4000,"Includes":[]},{"Code":"formwork","Description":"Casseforme","Unit":"m²","Price":50,"Includes":[]},{"Code":"pile_1","Description":"Palo Ø 1,0 · esclusa armatura","Unit":"m","Price":300,"Includes":[]},{"Code":"pile_15","Description":"Palo Ø 1,5 · esclusa armatura","Unit":"m","Price":550,"Includes":[]},{"Code":"bearing","Description":"Apparecchio d'appoggio","Unit":"cad","Price":5000,"Includes":[]},{"Code":"joint","Description":"Giunto di dilatazione","Unit":"m","Price":2400,"Includes":[]},{"Code":"barrier","Description":"Barriera","Unit":"m","Price":360,"Includes":[]},{"Code":"surfacing","Description":"Pavimentazione","Unit":"m²","Price":32,"Includes":[]},{"Code":"steel_ortho","Description":"Carpenteria impalcato ortotropo","Unit":"t","Price":5000,"Includes":[]},{"Code":"cables","Description":"Cavi e pendini installati, inclusi terminali","Unit":"t","Price":16000,"Includes":[]},{"Code":"erection_special","Description":"Montaggio aggiuntivo strutture speciali","Unit":"t","Price":1000,"Includes":[]}]},"mappings":[{"WorkCode":"concrete_deck","EntryCode":"concrete_deck","Override":null,"Reason":""},{"WorkCode":"concrete_sub","EntryCode":"concrete_sub","Override":null,"Reason":""},{"WorkCode":"rebar","EntryCode":"rebar","Override":null,"Reason":""},{"WorkCode":"prestress","EntryCode":"prestress","Override":null,"Reason":""},{"WorkCode":"steel","EntryCode":"steel","Override":null,"Reason":""},{"WorkCode":"steel_box","EntryCode":"steel_box","Override":null,"Reason":""},{"WorkCode":"formwork","EntryCode":"formwork","Override":null,"Reason":""},{"WorkCode":"pile_1","EntryCode":"pile_1","Override":null,"Reason":""},{"WorkCode":"pile_15","EntryCode":"pile_15","Override":null,"Reason":""},{"WorkCode":"bearing","EntryCode":"bearing","Override":null,"Reason":""},{"WorkCode":"joint","EntryCode":"joint","Override":null,"Reason":""},{"WorkCode":"barrier","EntryCode":"barrier","Override":null,"Reason":""},{"WorkCode":"surfacing","EntryCode":"surfacing","Override":null,"Reason":""},{"WorkCode":"steel_ortho","EntryCode":"steel_ortho","Override":null,"Reason":""},{"WorkCode":"cables","EntryCode":"cables","Override":null,"Reason":""},{"WorkCode":"erection_special","EntryCode":"erection_special","Override":null,"Reason":""}],"snapshot":{"Revision":"legacy:D0F867D8841AC00C9F0F9AC4641CE6A7AF0935220F3DA751D67BB701C131BE25","Currency":"EUR","Rates":[{"WorkCode":"concrete_deck","Unit":"m³","Price":260,"Reference":"Archivio/concrete_deck","Includes":[]},{"WorkCode":"concrete_sub","Unit":"m³","Price":240,"Reference":"Archivio/concrete_sub","Includes":[]},{"WorkCode":"rebar","Unit":"t","Price":1660,"Reference":"Archivio/rebar","Includes":[]},{"WorkCode":"prestress","Unit":"t","Price":3600,"Reference":"Archivio/prestress","Includes":[]},{"WorkCode":"steel","Unit":"t","Price":3500,"Reference":"Archivio/steel","Includes":[]},{"WorkCode":"steel_box","Unit":"t","Price":4000,"Reference":"Archivio/steel_box","Includes":[]},{"WorkCode":"formwork","Unit":"m²","Price":50,"Reference":"Archivio/formwork","Includes":[]},{"WorkCode":"pile_1","Unit":"m","Price":300,"Reference":"Archivio/pile_1","Includes":[]},{"WorkCode":"pile_15","Unit":"m","Price":550,"Reference":"Archivio/pile_15","Includes":[]},{"WorkCode":"bearing","Unit":"cad","Price":5000,"Reference":"Archivio/bearing","Includes":[]},{"WorkCode":"joint","Unit":"m","Price":2400,"Reference":"Archivio/joint","Includes":[]},{"WorkCode":"barrier","Unit":"m","Price":360,"Reference":"Archivio/barrier","Includes":[]},{"WorkCode":"surfacing","Unit":"m²","Price":32,"Reference":"Archivio/surfacing","Includes":[]},{"WorkCode":"steel_ortho","Unit":"t","Price":5000,"Reference":"Archivio/steel_ortho","Includes":[]},{"WorkCode":"cables","Unit":"t","Price":16000,"Reference":"Archivio/cables","Includes":[]},{"WorkCode":"erection_special","Unit":"t","Price":1000,"Reference":"Archivio/erection_special","Includes":[]}]}},{"schema":1,"catalogue":{"Name":"Valori dell'archivio","Edition":"Conservati","Currency":"EUR","Entries":[{"Code":"concrete_deck","Description":"Cls impalcato","Unit":"m³","Price":260,"Includes":[]},{"Code":"concrete_sub","Description":"Cls sottostrutture e plinti","Unit":"m³","Price":240,"Includes":[]},{"Code":"rebar","Description":"Armatura ordinaria","Unit":"t","Price":1660,"Includes":[]},{"Code":"prestress","Description":"Acciaio da precompressione","Unit":"t","Price":3600,"Includes":[]},{"Code":"steel","Description":"Carpenteria metallica","Unit":"t","Price":3500,"Includes":[]},{"Code":"steel_box","Description":"Carpenteria cassoni","Unit":"t","Price":4000,"Includes":[]},{"Code":"formwork","Description":"Casseforme","Unit":"m²","Price":50,"Includes":[]},{"Code":"pile_1","Description":"Palo Ø 1,0 · esclusa armatura","Unit":"m","Price":300,"Includes":[]},{"Code":"pile_15","Description":"Palo Ø 1,5 · esclusa armatura","Unit":"m","Price":550,"Includes":[]},{"Code":"bearing","Description":"Apparecchio d'appoggio","Unit":"cad","Price":5000,"Includes":[]},{"Code":"joint","Description":"Giunto di dilatazione","Unit":"m","Price":2400,"Includes":[]},{"Code":"barrier","Description":"Barriera","Unit":"m","Price":360,"Includes":[]},{"Code":"surfacing","Description":"Pavimentazione","Unit":"m²","Price":32,"Includes":[]},{"Code":"steel_ortho","Description":"Carpenteria impalcato ortotropo","Unit":"t","Price":5000,"Includes":[]},{"Code":"cables","Description":"Cavi e pendini installati, inclusi terminali","Unit":"t","Price":16000,"Includes":[]},{"Code":"erection_special","Description":"Montaggio aggiuntivo strutture speciali","Unit":"t","Price":1000,"Includes":[]}]},"mappings":[{"WorkCode":"concrete_deck","EntryCode":"concrete_deck","Override":null,"Reason":""},{"WorkCode":"concrete_sub","EntryCode":"concrete_sub","Override":null,"Reason":""},{"WorkCode":"rebar","EntryCode":"rebar","Override":null,"Reason":""},{"WorkCode":"prestress","EntryCode":"prestress","Override":null,"Reason":""},{"WorkCode":"steel","EntryCode":"steel","Override":null,"Reason":""},{"WorkCode":"steel_box","EntryCode":"steel_box","Override":null,"Reason":""},{"WorkCode":"formwork","EntryCode":"formwork","Override":null,"Reason":""},{"WorkCode":"pile_1","EntryCode":"pile_1","Override":null,"Reason":""},{"WorkCode":"pile_15","EntryCode":"pile_15","Override":null,"Reason":""},{"WorkCode":"bearing","EntryCode":"bearing","Override":null,"Reason":""},{"WorkCode":"joint","EntryCode":"joint","Override":null,"Reason":""},{"WorkCode":"barrier","EntryCode":"barrier","Override":null,"Reason":""},{"WorkCode":"surfacing","EntryCode":"surfacing","Override":null,"Reason":""},{"WorkCode":"steel_ortho","EntryCode":"steel_ortho","Override":null,"Reason":""},{"WorkCode":"cables","EntryCode":"cables","Override":null,"Reason":""},{"WorkCode":"erection_special","EntryCode":"erection_special","Override":null,"Reason":""}],"snapshot":{"Revision":"BE304D260D4029A486C0B4935A749128D20F4F876CEF82BD0D2CCAC5A2AE5A1A","Currency":"EUR","Rates":[{"WorkCode":"concrete_deck","Unit":"m³","Price":260,"Reference":"Valori dell'archivio/Conservati/concrete_deck","Includes":[]},{"WorkCode":"concrete_sub","Unit":"m³","Price":240,"Reference":"Valori dell'archivio/Conservati/concrete_sub","Includes":[]},{"WorkCode":"rebar","Unit":"t","Price":1660,"Reference":"Valori dell'archivio/Conservati/rebar","Includes":[]},{"WorkCode":"prestress","Unit":"t","Price":3600,"Reference":"Valori dell'archivio/Conservati/prestress","Includes":[]},{"WorkCode":"steel","Unit":"t","Price":3500,"Reference":"Valori dell'archivio/Conservati/steel","Includes":[]},{"WorkCode":"steel_box","Unit":"t","Price":4000,"Reference":"Valori dell'archivio/Conservati/steel_box","Includes":[]},{"WorkCode":"formwork","Unit":"m²","Price":50,"Reference":"Valori dell'archivio/Conservati/formwork","Includes":[]},{"WorkCode":"pile_1","Unit":"m","Price":300,"Reference":"Valori dell'archivio/Conservati/pile_1","Includes":[]},{"WorkCode":"pile_15","Unit":"m","Price":550,"Reference":"Valori dell'archivio/Conservati/pile_15","Includes":[]},{"WorkCode":"bearing","Unit":"cad","Price":5000,"Reference":"Valori dell'archivio/Conservati/bearing","Includes":[]},{"WorkCode":"joint","Unit":"m","Price":2400,"Reference":"Valori dell'archivio/Conservati/joint","Includes":[]},{"WorkCode":"barrier","Unit":"m","Price":360,"Reference":"Valori dell'archivio/Conservati/barrier","Includes":[]},{"WorkCode":"surfacing","Unit":"m²","Price":32,"Reference":"Valori dell'archivio/Conservati/surfacing","Includes":[]},{"WorkCode":"steel_ortho","Unit":"t","Price":5000,"Reference":"Valori dell'archivio/Conservati/steel_ortho","Includes":[]},{"WorkCode":"cables","Unit":"t","Price":16000,"Reference":"Valori dell'archivio/Conservati/cables","Includes":[]},{"WorkCode":"erection_special","Unit":"t","Price":1000,"Reference":"Valori dell'archivio/Conservati/erection_special","Includes":[]}]},"date":"<DATAORA>"}]}
+~ modificato: 10
+~ messaggio: prezzario "Valori dell'archivio" "Conservati" · stato "Anteprima completa per questa geometria. 0 associazioni non risolte nel catalogo complessivo. Le alternative che le richiedono saranno escluse." · anteprima "Costo totale prima: 5.624.349,16 €   →   dopo: 5.729.555,64 €" · applica sì · A no · associazioni concrete_deck=concrete_deck//260/260/Da catalogo concrete_sub=concrete_sub//240/240/Da catalogo rebar=rebar/1750/1660/1750/Personalizzato · Offerta aggiornata prestress=prestress//3600/3600/Da catalogo steel=steel//3500/3500/Da catalogo steel_box=steel_box//4000/4000/Da catalogo formwork=formwork//50/50/Da catalogo pile_1=pile_1//300/300/Da catalogo pile_15=pile_15//550/550/Da catalogo bearing=bearing//5000/5000/Da catalogo joint=joint//2400/2400/Da catalogo barrier=barrier//360/360/Da catalogo surfacing=surfacing//32/32/Da catalogo steel_ortho=steel_ortho//5000/5000/Da catalogo cables=cables//16000/16000/Da catalogo erection_special=erection_special//1000/1000/Da catalogo · analisi  · voci 16 · revisioni 1 · risultato EC418254BFE9198C
+~ calcolo: occupato no · risultato - · confronto - · alternative -
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ metrica.0: "—" · "Dati da completare"
+~ metrica.1: "—" · "Dati da completare"
+~ metrica.2: "—" · "Dati da completare"
+~ metrica.3: "—" · "Dati da completare"
+~ configurazione: ""
+~ annulla: 8
+~ disegno: sezione no · dati foglio · risultato -
+~ pannello.quantita: -
+~ pannello.dettagli: -
+~ pannello.confronto: -
+~ pannello.quote: -
+~ pannello.consigli: -
+- pannello.quantita.0
+- pannello.quantita.0.0
+- pannello.quantita.0.1
+- pannello.quantita.0.2
+- pannello.quantita.1
+- pannello.dettagli.0
+- pannello.dettagli.1
+- pannello.dettagli.2
+- pannello.dettagli.3
+- pannello.dettagli.3.0
+- pannello.dettagli.3.1
+- pannello.dettagli.3.2
+- pannello.dettagli.4
+- pannello.dettagli.4.0
+- pannello.dettagli.4.1
+- pannello.dettagli.4.2
+- pannello.dettagli.5
+- pannello.dettagli.6
+- pannello.dettagli.7
+- pannello.dettagli.8
+- pannello.dettagli.9
+- pannello.confronto.0
+- pannello.quote.0
+- pannello.quote.1
+- pannello.quote.2
+- pannello.quote.2.0
+- pannello.quote.2.1
+- pannello.quote.2.2
+- pannello.quote.3
+- pannello.quote.4
+- pannello.quote.4.0
+- pannello.quote.4.1
+- pannello.quote.4.2
+- pannello.quote.5
+- pannello.quote.6
+- pannello.quote.7
+- pannello.quote.7.0
+- pannello.quote.7.1
+- pannello.quote.7.2
+- pannello.quote.8
+- pannello.consigli.0
+- pannello.consigli.1
+- pannello.consigli.2
+- pannello.consigli.3
+- pannello.consigli.4
+== attendi
+~ messaggio: 
+~ calcolo: occupato no · risultato 3D75790D86E6190F · confronto nessuno · alternative Cls a ridotta impronta|Banchine a 1,0 m|Una campata in meno
+~ stato: "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
+~ metrica.0: "5,73 M€" · "2.701 €/m² · 4,01–7,45 M€"
+~ metrica.1: "3.761 tCO₂e" · "1.773 kgCO₂e/m² · stima parziale"
+~ metrica.2: "1,00 m" · "L/d ≈ 23 · 5 campate"
+~ metrica.3: "14 mesi" · "±25% · 4 pile · 2 spalle"
+~ configurazione: "L 105,0 m · W 20,2 m · Travi a I in c.a.p. · 8 elementi · Pali Ø 1,0 m × 30 m"
+~ disegno: sezione no · dati foglio · risultato 3D75790D86E6190F
+~ pannello.quantita: 2 blocchi
++ pannello.quantita.0: tabella "Voce|Parte|Quantità|Unità|Prezzo €|Importo €" · righe 16 864C767760BD0C79
++ pannello.quantita.0.0: "Calcestruzzo" | "Impalcato" | "769,9" | "m³" | "260,0" | "200.164"
++ pannello.quantita.0.1: "Armatura ordinaria" | "Impalcato" | "84,7" | "t" | "1.750,0" | "148.198"
++ pannello.quantita.0.2: "Precompressione" | "Impalcato" | "23,1" | "t" | "3.600,0" | "83.145"
++ pannello.quantita.1: testo [evidenza] "Diretto 4.263.062 €   +   cantiere 511.567 €   +   imprevisti 954.926 €   =   5.729.556 €"
+~ pannello.dettagli: 10 blocchi
++ pannello.dettagli.0: testo [evidenza] "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
++ pannello.dettagli.1: testo [nota] "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico."
++ pannello.dettagli.2: grafico "momenti 3D75790D86E6190F"
++ pannello.dettagli.3: tabella "Grandezza|Valore|Unità|Regola / ipotesi" · righe 20 BFF18458EBCC1D70
++ pannello.dettagli.3.0: "Larghezza impalcato" | "20,200" | "m" | "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere"
++ pannello.dettagli.3.1: "Altezza in campata" | "1,000" | "m" | "max(1,00; Lmax/22,22 × .95)"
++ pannello.dettagli.3.2: "Altezza sulle pile" | "1,000" | "m" | "Altezza costante"
++ pannello.dettagli.4: tabella "Appoggio|x [m]|Tipo|R G+Q [kN]|H [m]|Plinto B×W [m]|Pali" · righe 6 BD7FE849C904D5A2
++ pannello.dettagli.4.0: "1" | "0,0" | "Spalla" | "2.988,2" | "7,0" | "8,0×20,2" | "6"
++ pannello.dettagli.4.1: "2" | "18,3" | "Setto" | "10.037,6" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.4.2: "3" | "41,1" | "Setto" | "10.053,2" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.5: testo [avviso] "• Tipologia fuori dal campo usuale 20–50 m: campate 18,3–22,8 m."
++ pannello.dettagli.6: testo [avviso] "• Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico."
++ pannello.dettagli.7: testo [avviso] "• Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo."
++ pannello.dettagli.8: testo [avviso] "• CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD."
++ pannello.dettagli.9: testo [nota] "Esclusi: sismica, vento, frenatura, urti, fatica, fessurazione, viscosità, perdite di precompressione, instabilità locale, collegamenti, fasi costruttive e verifiche geotecniche complete."
+~ pannello.confronto: 1 blocchi
++ pannello.confronto.0: testo "Fissa una configurazione con “Fissa A”, poi modifica il ponte. Qui appariranno gli scostamenti della soluzione B corrente."
+~ pannello.quote: 9 blocchi
++ pannello.quote.0: testo [titolo] "Travi a I in c.a.p. · dimensioni adottate"
++ pannello.quote.1: testo [nota] "Quote del modello usato per calcolare quantità e costi. Le misure in mm identificano gli spessori; le lunghezze sono in m. Schema di predimensionamento, non distinta esecutiva."
++ pannello.quote.2: tabella "Componente|Simbolo|Valore|Unità|Origine|Significato" · righe 18 40526D4D103D153B
++ pannello.quote.2.0: "Geometria generale" | "L" | "105,000" | "m" | "Impostato" | "Lunghezza tra gli appoggi estremi"
++ pannello.quote.2.1: "Geometria generale" | "W" | "20,200" | "m" | "Derivato" | "Corsie, banchine, spartitraffico e barriere"
++ pannello.quote.2.2: "Geometria generale" | "N" | "5" | "n." | "Impostato" | "Numero campate"
++ pannello.quote.3: testo [titolo] "Campate · progressive e sviluppo longitudinale"
++ pannello.quote.4: tabella "Campata|Da x [m]|A x [m]|Luce Li [m]|Elementi n|n × Li [m]" · righe 5 74B928E10E2B8D05
++ pannello.quote.4.0: "1" | "0,000" | "18,261" | "18,261" | "8" | "146,087"
++ pannello.quote.4.1: "2" | "18,261" | "41,087" | "22,826" | "8" | "182,609"
++ pannello.quote.4.2: "3" | "41,087" | "63,913" | "22,826" | "8" | "182,609"
++ pannello.quote.5: testo [titolo] "Pile, spalle e fondazioni · un record per appoggio"
++ pannello.quote.6: testo [nota] "B = dimensione longitudinale, W = trasversale, t = spessore. I pali sono indicati con numero × diametro × lunghezza. I volumi delle spalle sono equivalenti: il modello non definisce una carpenteria completa."
++ pannello.quote.7: tabella "Appoggio / x|Tipo / fusto|H [m]|Pulvino W×B×t [m]|Fondazione B×W×t [m]|Pali n×Ø×L [m]" · righe 6 61A1D4FB7C43E09E
++ pannello.quote.7.0: "1 · 0,00 m" | "Spalla equivalente" | "7,00" | "—" | "8,00×20,20×1,50" | "6×Ø1,00×30,00"
++ pannello.quote.7.1: "2 · 18,26 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.7.2: "3 · 41,09 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.8: pulsante "Esporta sezioni e quote CSV"
+~ pannello.consigli: 5 blocchi
++ pannello.consigli.0: testo [titolo] "Alternative per ridurre le quantità e le emissioni"
++ pannello.consigli.1: pulsante "Cls a ridotta impronta   ·   −918 tCO₂e   ·   Δ 0 €"
++ pannello.consigli.2: pulsante "Banchine a 1,0 m   ·   −169 tCO₂e   ·   Δ -269.364 €"
++ pannello.consigli.3: pulsante "Una campata in meno   ·   −575 tCO₂e   ·   Δ -798.161 €"
++ pannello.consigli.4: testo [nota] "Confronti sul modello corrente: disponibilità dei materiali, resistenza iniziale e larghezze stradali vanno valutate per il progetto. I prezzi restano quelli del listino impostato."
+== prezzario «prezzo-mancante»
+~ messaggio: prezzario "Valori dell'archivio" "Conservati" · stato "Computo incompleto: concrete_deck · MissingRate" · anteprima "Costo totale prima: 5.729.555,64 €   →   dopo: — €" · applica no · A no · associazioni concrete_deck=manca//260/—/Codice non associato concrete_sub=concrete_sub//240/240/Da catalogo rebar=rebar/1750/1750/1750/Personalizzato · Offerta aggiornata prestress=prestress//3600/3600/Da catalogo steel=steel//3500/3500/Da catalogo steel_box=steel_box//4000/4000/Da catalogo formwork=formwork//50/50/Da catalogo pile_1=pile_1//300/300/Da catalogo pile_15=pile_15//550/550/Da catalogo bearing=bearing//5000/5000/Da catalogo joint=joint//2400/2400/Da catalogo barrier=barrier//360/360/Da catalogo surfacing=surfacing//32/32/Da catalogo steel_ortho=steel_ortho//5000/5000/Da catalogo cables=cables//16000/16000/Da catalogo erection_special=erection_special//1000/1000/Da catalogo · analisi  · voci 16 · revisioni 2 · risultato -
+== attendi
+~ messaggio: 
+== pulsante «Annulla»
+~ dati.pricing: {"schema":1,"catalogue":{"Name":"Valori dell'archivio","Edition":"Conservati","Currency":"EUR","Entries":[{"Code":"concrete_deck","Description":"Cls impalcato","Unit":"m³","Price":260,"Includes":[]},{"Code":"concrete_sub","Description":"Cls sottostrutture e plinti","Unit":"m³","Price":240,"Includes":[]},{"Code":"rebar","Description":"Armatura ordinaria","Unit":"t","Price":1660,"Includes":[]},{"Code":"prestress","Description":"Acciaio da precompressione","Unit":"t","Price":3600,"Includes":[]},{"Code":"steel","Description":"Carpenteria metallica","Unit":"t","Price":3500,"Includes":[]},{"Code":"steel_box","Description":"Carpenteria cassoni","Unit":"t","Price":4000,"Includes":[]},{"Code":"formwork","Description":"Casseforme","Unit":"m²","Price":50,"Includes":[]},{"Code":"pile_1","Description":"Palo Ø 1,0 · esclusa armatura","Unit":"m","Price":300,"Includes":[]},{"Code":"pile_15","Description":"Palo Ø 1,5 · esclusa armatura","Unit":"m","Price":550,"Includes":[]},{"Code":"bearing","Description":"Apparecchio d'appoggio","Unit":"cad","Price":5000,"Includes":[]},{"Code":"joint","Description":"Giunto di dilatazione","Unit":"m","Price":2400,"Includes":[]},{"Code":"barrier","Description":"Barriera","Unit":"m","Price":360,"Includes":[]},{"Code":"surfacing","Description":"Pavimentazione","Unit":"m²","Price":32,"Includes":[]},{"Code":"steel_ortho","Description":"Carpenteria impalcato ortotropo","Unit":"t","Price":5000,"Includes":[]},{"Code":"cables","Description":"Cavi e pendini installati, inclusi terminali","Unit":"t","Price":16000,"Includes":[]},{"Code":"erection_special","Description":"Montaggio aggiuntivo strutture speciali","Unit":"t","Price":1000,"Includes":[]}]},"mappings":[{"WorkCode":"concrete_deck","EntryCode":"concrete_deck","Override":null,"Reason":""},{"WorkCode":"concrete_sub","EntryCode":"concrete_sub","Override":null,"Reason":""},{"WorkCode":"rebar","EntryCode":"rebar","Override":null,"Reason":""},{"WorkCode":"prestress","EntryCode":"prestress","Override":null,"Reason":""},{"WorkCode":"steel","EntryCode":"steel","Override":null,"Reason":""},{"WorkCode":"steel_box","EntryCode":"steel_box","Override":null,"Reason":""},{"WorkCode":"formwork","EntryCode":"formwork","Override":null,"Reason":""},{"WorkCode":"pile_1","EntryCode":"pile_1","Override":null,"Reason":""},{"WorkCode":"pile_15","EntryCode":"pile_15","Override":null,"Reason":""},{"WorkCode":"bearing","EntryCode":"bearing","Override":null,"Reason":""},{"WorkCode":"joint","EntryCode":"joint","Override":null,"Reason":""},{"WorkCode":"barrier","EntryCode":"barrier","Override":null,"Reason":""},{"WorkCode":"surfacing","EntryCode":"surfacing","Override":null,"Reason":""},{"WorkCode":"steel_ortho","EntryCode":"steel_ortho","Override":null,"Reason":""},{"WorkCode":"cables","EntryCode":"cables","Override":null,"Reason":""},{"WorkCode":"erection_special","EntryCode":"erection_special","Override":null,"Reason":""}],"snapshot":{"Revision":"BE304D260D4029A486C0B4935A749128D20F4F876CEF82BD0D2CCAC5A2AE5A1A","Currency":"EUR","Rates":[{"WorkCode":"concrete_deck","Unit":"m³","Price":260,"Reference":"Valori dell'archivio/Conservati/concrete_deck","Includes":[]},{"WorkCode":"concrete_sub","Unit":"m³","Price":240,"Reference":"Valori dell'archivio/Conservati/concrete_sub","Includes":[]},{"WorkCode":"rebar","Unit":"t","Price":1660,"Reference":"Valori dell'archivio/Conservati/rebar","Includes":[]},{"WorkCode":"prestress","Unit":"t","Price":3600,"Reference":"Valori dell'archivio/Conservati/prestress","Includes":[]},{"WorkCode":"steel","Unit":"t","Price":3500,"Reference":"Valori dell'archivio/Conservati/steel","Includes":[]},{"WorkCode":"steel_box","Unit":"t","Price":4000,"Reference":"Valori dell'archivio/Conservati/steel_box","Includes":[]},{"WorkCode":"formwork","Unit":"m²","Price":50,"Reference":"Valori dell'archivio/Conservati/formwork","Includes":[]},{"WorkCode":"pile_1","Unit":"m","Price":300,"Reference":"Valori dell'archivio/Conservati/pile_1","Includes":[]},{"WorkCode":"pile_15","Unit":"m","Price":550,"Reference":"Valori dell'archivio/Conservati/pile_15","Includes":[]},{"WorkCode":"bearing","Unit":"cad","Price":5000,"Reference":"Valori dell'archivio/Conservati/bearing","Includes":[]},{"WorkCode":"joint","Unit":"m","Price":2400,"Reference":"Valori dell'archivio/Conservati/joint","Includes":[]},{"WorkCode":"barrier","Unit":"m","Price":360,"Reference":"Valori dell'archivio/Conservati/barrier","Includes":[]},{"WorkCode":"surfacing","Unit":"m²","Price":32,"Reference":"Valori dell'archivio/Conservati/surfacing","Includes":[]},{"WorkCode":"steel_ortho","Unit":"t","Price":5000,"Reference":"Valori dell'archivio/Conservati/steel_ortho","Includes":[]},{"WorkCode":"cables","Unit":"t","Price":16000,"Reference":"Valori dell'archivio/Conservati/cables","Includes":[]},{"WorkCode":"erection_special","Unit":"t","Price":1000,"Reference":"Valori dell'archivio/Conservati/erection_special","Includes":[]}]},"history":[{"date":"<DATAORA>","catalogue":{"Name":"Valori dell'archivio","Edition":"Conservati","Currency":"EUR","Entries":[{"Code":"concrete_deck","Description":"Cls impalcato","Unit":"m³","Price":260,"Includes":[]},{"Code":"concrete_sub","Description":"Cls sottostrutture e plinti","Unit":"m³","Price":240,"Includes":[]},{"Code":"rebar","Description":"Armatura ordinaria","Unit":"t","Price":1660,"Includes":[]},{"Code":"prestress","Description":"Acciaio da precompressione","Unit":"t","Price":3600,"Includes":[]},{"Code":"steel","Description":"Carpenteria metallica","Unit":"t","Price":3500,"Includes":[]},{"Code":"steel_box","Description":"Carpenteria cassoni","Unit":"t","Price":4000,"Includes":[]},{"Code":"formwork","Description":"Casseforme","Unit":"m²","Price":50,"Includes":[]},{"Code":"pile_1","Description":"Palo Ø 1,0 · esclusa armatura","Unit":"m","Price":300,"Includes":[]},{"Code":"pile_15","Description":"Palo Ø 1,5 · esclusa armatura","Unit":"m","Price":550,"Includes":[]},{"Code":"bearing","Description":"Apparecchio d'appoggio","Unit":"cad","Price":5000,"Includes":[]},{"Code":"joint","Description":"Giunto di dilatazione","Unit":"m","Price":2400,"Includes":[]},{"Code":"barrier","Description":"Barriera","Unit":"m","Price":360,"Includes":[]},{"Code":"surfacing","Description":"Pavimentazione","Unit":"m²","Price":32,"Includes":[]},{"Code":"steel_ortho","Description":"Carpenteria impalcato ortotropo","Unit":"t","Price":5000,"Includes":[]},{"Code":"cables","Description":"Cavi e pendini installati, inclusi terminali","Unit":"t","Price":16000,"Includes":[]},{"Code":"erection_special","Description":"Montaggio aggiuntivo strutture speciali","Unit":"t","Price":1000,"Includes":[]}]},"mappings":[{"WorkCode":"concrete_deck","EntryCode":"concrete_deck","Override":null,"Reason":""},{"WorkCode":"concrete_sub","EntryCode":"concrete_sub","Override":null,"Reason":""},{"WorkCode":"rebar","EntryCode":"rebar","Override":null,"Reason":""},{"WorkCode":"prestress","EntryCode":"prestress","Override":null,"Reason":""},{"WorkCode":"steel","EntryCode":"steel","Override":null,"Reason":""},{"WorkCode":"steel_box","EntryCode":"steel_box","Override":null,"Reason":""},{"WorkCode":"formwork","EntryCode":"formwork","Override":null,"Reason":""},{"WorkCode":"pile_1","EntryCode":"pile_1","Override":null,"Reason":""},{"WorkCode":"pile_15","EntryCode":"pile_15","Override":null,"Reason":""},{"WorkCode":"bearing","EntryCode":"bearing","Override":null,"Reason":""},{"WorkCode":"joint","EntryCode":"joint","Override":null,"Reason":""},{"WorkCode":"barrier","EntryCode":"barrier","Override":null,"Reason":""},{"WorkCode":"surfacing","EntryCode":"surfacing","Override":null,"Reason":""},{"WorkCode":"steel_ortho","EntryCode":"steel_ortho","Override":null,"Reason":""},{"WorkCode":"cables","EntryCode":"cables","Override":null,"Reason":""},{"WorkCode":"erection_special","EntryCode":"erection_special","Override":null,"Reason":""}],"snapshot":{"Revision":"legacy:D0F867D8841AC00C9F0F9AC4641CE6A7AF0935220F3DA751D67BB701C131BE25","Currency":"EUR","Rates":[{"WorkCode":"concrete_deck","Unit":"m³","Price":260,"Reference":"Archivio/concrete_deck","Includes":[]},{"WorkCode":"concrete_sub","Unit":"m³","Price":240,"Reference":"Archivio/concrete_sub","Includes":[]},{"WorkCode":"rebar","Unit":"t","Price":1660,"Reference":"Archivio/rebar","Includes":[]},{"WorkCode":"prestress","Unit":"t","Price":3600,"Reference":"Archivio/prestress","Includes":[]},{"WorkCode":"steel","Unit":"t","Price":3500,"Reference":"Archivio/steel","Includes":[]},{"WorkCode":"steel_box","Unit":"t","Price":4000,"Reference":"Archivio/steel_box","Includes":[]},{"WorkCode":"formwork","Unit":"m²","Price":50,"Reference":"Archivio/formwork","Includes":[]},{"WorkCode":"pile_1","Unit":"m","Price":300,"Reference":"Archivio/pile_1","Includes":[]},{"WorkCode":"pile_15","Unit":"m","Price":550,"Reference":"Archivio/pile_15","Includes":[]},{"WorkCode":"bearing","Unit":"cad","Price":5000,"Reference":"Archivio/bearing","Includes":[]},{"WorkCode":"joint","Unit":"m","Price":2400,"Reference":"Archivio/joint","Includes":[]},{"WorkCode":"barrier","Unit":"m","Price":360,"Reference":"Archivio/barrier","Includes":[]},{"WorkCode":"surfacing","Unit":"m²","Price":32,"Reference":"Archivio/surfacing","Includes":[]},{"WorkCode":"steel_ortho","Unit":"t","Price":5000,"Reference":"Archivio/steel_ortho","Includes":[]},{"WorkCode":"cables","Unit":"t","Price":16000,"Reference":"Archivio/cables","Includes":[]},{"WorkCode":"erection_special","Unit":"t","Price":1000,"Reference":"Archivio/erection_special","Includes":[]}]}}]}
+~ modificato: 11
+~ calcolo: occupato no · risultato - · confronto - · alternative -
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ metrica.0: "—" · "Dati da completare"
+~ metrica.1: "—" · "Dati da completare"
+~ metrica.2: "—" · "Dati da completare"
+~ metrica.3: "—" · "Dati da completare"
+~ configurazione: ""
+~ annulla: 7
+~ disegno: sezione no · dati foglio · risultato -
+~ pannello.quantita: -
+~ pannello.dettagli: -
+~ pannello.confronto: -
+~ pannello.quote: -
+~ pannello.consigli: -
+- pannello.quantita.0
+- pannello.quantita.0.0
+- pannello.quantita.0.1
+- pannello.quantita.0.2
+- pannello.quantita.1
+- pannello.dettagli.0
+- pannello.dettagli.1
+- pannello.dettagli.2
+- pannello.dettagli.3
+- pannello.dettagli.3.0
+- pannello.dettagli.3.1
+- pannello.dettagli.3.2
+- pannello.dettagli.4
+- pannello.dettagli.4.0
+- pannello.dettagli.4.1
+- pannello.dettagli.4.2
+- pannello.dettagli.5
+- pannello.dettagli.6
+- pannello.dettagli.7
+- pannello.dettagli.8
+- pannello.dettagli.9
+- pannello.confronto.0
+- pannello.quote.0
+- pannello.quote.1
+- pannello.quote.2
+- pannello.quote.2.0
+- pannello.quote.2.1
+- pannello.quote.2.2
+- pannello.quote.3
+- pannello.quote.4
+- pannello.quote.4.0
+- pannello.quote.4.1
+- pannello.quote.4.2
+- pannello.quote.5
+- pannello.quote.6
+- pannello.quote.7
+- pannello.quote.7.0
+- pannello.quote.7.1
+- pannello.quote.7.2
+- pannello.quote.8
+- pannello.consigli.0
+- pannello.consigli.1
+- pannello.consigli.2
+- pannello.consigli.3
+- pannello.consigli.4
+== attendi
+~ calcolo: occupato no · risultato 4B5C5C3E63A31197 · confronto nessuno · alternative Cls a ridotta impronta|Banchine a 1,0 m|Una campata in meno
+~ stato: "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
+~ metrica.0: "5,62 M€" · "2.652 €/m² · 3,94–7,31 M€"
+~ metrica.1: "3.761 tCO₂e" · "1.773 kgCO₂e/m² · stima parziale"
+~ metrica.2: "1,00 m" · "L/d ≈ 23 · 5 campate"
+~ metrica.3: "14 mesi" · "±25% · 4 pile · 2 spalle"
+~ configurazione: "L 105,0 m · W 20,2 m · Travi a I in c.a.p. · 8 elementi · Pali Ø 1,0 m × 30 m"
+~ disegno: sezione no · dati foglio · risultato 4B5C5C3E63A31197
+~ pannello.quantita: 2 blocchi
++ pannello.quantita.0: tabella "Voce|Parte|Quantità|Unità|Prezzo €|Importo €" · righe 16 23301ABD1C890896
++ pannello.quantita.0.0: "Calcestruzzo" | "Impalcato" | "769,9" | "m³" | "260,0" | "200.164"
++ pannello.quantita.0.1: "Armatura ordinaria" | "Impalcato" | "84,7" | "t" | "1.660,0" | "140.576"
++ pannello.quantita.0.2: "Precompressione" | "Impalcato" | "23,1" | "t" | "3.600,0" | "83.145"
++ pannello.quantita.1: testo [evidenza] "Diretto 4.184.784 €   +   cantiere 502.174 €   +   imprevisti 937.392 €   =   5.624.349 €"
+~ pannello.dettagli: 10 blocchi
++ pannello.dettagli.0: testo [evidenza] "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
++ pannello.dettagli.1: testo [nota] "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico."
++ pannello.dettagli.2: grafico "momenti 4B5C5C3E63A31197"
++ pannello.dettagli.3: tabella "Grandezza|Valore|Unità|Regola / ipotesi" · righe 20 F87E820F5B9D500D
++ pannello.dettagli.3.0: "Larghezza impalcato" | "20,200" | "m" | "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere"
++ pannello.dettagli.3.1: "Altezza in campata" | "1,000" | "m" | "max(1,00; Lmax/22,22 × .95)"
++ pannello.dettagli.3.2: "Altezza sulle pile" | "1,000" | "m" | "Altezza costante"
++ pannello.dettagli.4: tabella "Appoggio|x [m]|Tipo|R G+Q [kN]|H [m]|Plinto B×W [m]|Pali" · righe 6 BD7FE849C904D5A2
++ pannello.dettagli.4.0: "1" | "0,0" | "Spalla" | "2.988,2" | "7,0" | "8,0×20,2" | "6"
++ pannello.dettagli.4.1: "2" | "18,3" | "Setto" | "10.037,6" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.4.2: "3" | "41,1" | "Setto" | "10.053,2" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.5: testo [avviso] "• Tipologia fuori dal campo usuale 20–50 m: campate 18,3–22,8 m."
++ pannello.dettagli.6: testo [avviso] "• Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico."
++ pannello.dettagli.7: testo [avviso] "• Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo."
++ pannello.dettagli.8: testo [avviso] "• CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD."
++ pannello.dettagli.9: testo [nota] "Esclusi: sismica, vento, frenatura, urti, fatica, fessurazione, viscosità, perdite di precompressione, instabilità locale, collegamenti, fasi costruttive e verifiche geotecniche complete."
+~ pannello.confronto: 1 blocchi
++ pannello.confronto.0: testo "Fissa una configurazione con “Fissa A”, poi modifica il ponte. Qui appariranno gli scostamenti della soluzione B corrente."
+~ pannello.quote: 9 blocchi
++ pannello.quote.0: testo [titolo] "Travi a I in c.a.p. · dimensioni adottate"
++ pannello.quote.1: testo [nota] "Quote del modello usato per calcolare quantità e costi. Le misure in mm identificano gli spessori; le lunghezze sono in m. Schema di predimensionamento, non distinta esecutiva."
++ pannello.quote.2: tabella "Componente|Simbolo|Valore|Unità|Origine|Significato" · righe 18 40526D4D103D153B
++ pannello.quote.2.0: "Geometria generale" | "L" | "105,000" | "m" | "Impostato" | "Lunghezza tra gli appoggi estremi"
++ pannello.quote.2.1: "Geometria generale" | "W" | "20,200" | "m" | "Derivato" | "Corsie, banchine, spartitraffico e barriere"
++ pannello.quote.2.2: "Geometria generale" | "N" | "5" | "n." | "Impostato" | "Numero campate"
++ pannello.quote.3: testo [titolo] "Campate · progressive e sviluppo longitudinale"
++ pannello.quote.4: tabella "Campata|Da x [m]|A x [m]|Luce Li [m]|Elementi n|n × Li [m]" · righe 5 74B928E10E2B8D05
++ pannello.quote.4.0: "1" | "0,000" | "18,261" | "18,261" | "8" | "146,087"
++ pannello.quote.4.1: "2" | "18,261" | "41,087" | "22,826" | "8" | "182,609"
++ pannello.quote.4.2: "3" | "41,087" | "63,913" | "22,826" | "8" | "182,609"
++ pannello.quote.5: testo [titolo] "Pile, spalle e fondazioni · un record per appoggio"
++ pannello.quote.6: testo [nota] "B = dimensione longitudinale, W = trasversale, t = spessore. I pali sono indicati con numero × diametro × lunghezza. I volumi delle spalle sono equivalenti: il modello non definisce una carpenteria completa."
++ pannello.quote.7: tabella "Appoggio / x|Tipo / fusto|H [m]|Pulvino W×B×t [m]|Fondazione B×W×t [m]|Pali n×Ø×L [m]" · righe 6 61A1D4FB7C43E09E
++ pannello.quote.7.0: "1 · 0,00 m" | "Spalla equivalente" | "7,00" | "—" | "8,00×20,20×1,50" | "6×Ø1,00×30,00"
++ pannello.quote.7.1: "2 · 18,26 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.7.2: "3 · 41,09 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.8: pulsante "Esporta sezioni e quote CSV"
+~ pannello.consigli: 5 blocchi
++ pannello.consigli.0: testo [titolo] "Alternative per ridurre le quantità e le emissioni"
++ pannello.consigli.1: pulsante "Cls a ridotta impronta   ·   −918 tCO₂e   ·   Δ 0 €"
++ pannello.consigli.2: pulsante "Banchine a 1,0 m   ·   −169 tCO₂e   ·   Δ -264.662 €"
++ pannello.consigli.3: pulsante "Una campata in meno   ·   −575 tCO₂e   ·   Δ -780.722 €"
++ pannello.consigli.4: testo [nota] "Confronti sul modello corrente: disponibilità dei materiali, resistenza iniziale e larghezze stradali vanno valutate per il progetto. I prezzi restano quelli del listino impostato."
+== calcola
+== conferma
+== riapri
+~ modificato: 0
+~ calcolo: occupato sì · risultato - · confronto - · alternative -
+~ stato: "Aggiornamento del ponte e delle alternative…"
+~ metrica.0: "—" · "Dati da completare"
+~ metrica.1: "—" · "Dati da completare"
+~ metrica.2: "—" · "Dati da completare"
+~ metrica.3: "—" · "Dati da completare"
+~ configurazione: ""
+~ pagina: 0 · ingressi 0 · risultati 0
+~ annulla: 0
+~ disegno: sezione no · dati - · risultato -
+~ pannello.quantita: -
+~ pannello.dettagli: -
+~ pannello.confronto: -
+~ pannello.ipotesi.1: campo assumptions/prelims "Oneri aggiuntivi non computati" = "12" [%]
+~ pannello.quote: -
+~ pannello.consigli: -
+- pannello.quantita.0
+- pannello.quantita.0.0
+- pannello.quantita.0.1
+- pannello.quantita.0.2
+- pannello.quantita.1
+- pannello.dettagli.0
+- pannello.dettagli.1
+- pannello.dettagli.2
+- pannello.dettagli.3
+- pannello.dettagli.3.0
+- pannello.dettagli.3.1
+- pannello.dettagli.3.2
+- pannello.dettagli.4
+- pannello.dettagli.4.0
+- pannello.dettagli.4.1
+- pannello.dettagli.4.2
+- pannello.dettagli.5
+- pannello.dettagli.6
+- pannello.dettagli.7
+- pannello.dettagli.8
+- pannello.dettagli.9
+- pannello.confronto.0
+- pannello.quote.0
+- pannello.quote.1
+- pannello.quote.2
+- pannello.quote.2.0
+- pannello.quote.2.1
+- pannello.quote.2.2
+- pannello.quote.3
+- pannello.quote.4
+- pannello.quote.4.0
+- pannello.quote.4.1
+- pannello.quote.4.2
+- pannello.quote.5
+- pannello.quote.6
+- pannello.quote.7
+- pannello.quote.7.0
+- pannello.quote.7.1
+- pannello.quote.7.2
+- pannello.quote.8
+- pannello.consigli.0
+- pannello.consigli.1
+- pannello.consigli.2
+- pannello.consigli.3
+- pannello.consigli.4
+== conferma
+== attendi
+~ calcolo: occupato no · risultato 4B5C5C3E63A31197 · confronto nessuno · alternative Cls a ridotta impronta|Banchine a 1,0 m|Una campata in meno
+~ stato: "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
+~ metrica.0: "5,62 M€" · "2.652 €/m² · 3,94–7,31 M€"
+~ metrica.1: "3.761 tCO₂e" · "1.773 kgCO₂e/m² · stima parziale"
+~ metrica.2: "1,00 m" · "L/d ≈ 23 · 5 campate"
+~ metrica.3: "14 mesi" · "±25% · 4 pile · 2 spalle"
+~ configurazione: "L 105,0 m · W 20,2 m · Travi a I in c.a.p. · 8 elementi · Pali Ø 1,0 m × 30 m"
+~ disegno: sezione no · dati foglio · risultato 4B5C5C3E63A31197
+~ pannello.quantita: 2 blocchi
++ pannello.quantita.0: tabella "Voce|Parte|Quantità|Unità|Prezzo €|Importo €" · righe 16 23301ABD1C890896
++ pannello.quantita.0.0: "Calcestruzzo" | "Impalcato" | "769,9" | "m³" | "260,0" | "200.164"
++ pannello.quantita.0.1: "Armatura ordinaria" | "Impalcato" | "84,7" | "t" | "1.660,0" | "140.576"
++ pannello.quantita.0.2: "Precompressione" | "Impalcato" | "23,1" | "t" | "3.600,0" | "83.145"
++ pannello.quantita.1: testo [evidenza] "Diretto 4.184.784 €   +   cantiere 502.174 €   +   imprevisti 937.392 €   =   5.624.349 €"
+~ pannello.dettagli: 10 blocchi
++ pannello.dettagli.0: testo [evidenza] "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
++ pannello.dettagli.1: testo [nota] "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico."
++ pannello.dettagli.2: grafico "momenti 4B5C5C3E63A31197"
++ pannello.dettagli.3: tabella "Grandezza|Valore|Unità|Regola / ipotesi" · righe 20 F87E820F5B9D500D
++ pannello.dettagli.3.0: "Larghezza impalcato" | "20,200" | "m" | "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere"
++ pannello.dettagli.3.1: "Altezza in campata" | "1,000" | "m" | "max(1,00; Lmax/22,22 × .95)"
++ pannello.dettagli.3.2: "Altezza sulle pile" | "1,000" | "m" | "Altezza costante"
++ pannello.dettagli.4: tabella "Appoggio|x [m]|Tipo|R G+Q [kN]|H [m]|Plinto B×W [m]|Pali" · righe 6 BD7FE849C904D5A2
++ pannello.dettagli.4.0: "1" | "0,0" | "Spalla" | "2.988,2" | "7,0" | "8,0×20,2" | "6"
++ pannello.dettagli.4.1: "2" | "18,3" | "Setto" | "10.037,6" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.4.2: "3" | "41,1" | "Setto" | "10.053,2" | "19,0" | "11,0×20,2" | "12"
++ pannello.dettagli.5: testo [avviso] "• Tipologia fuori dal campo usuale 20–50 m: campate 18,3–22,8 m."
++ pannello.dettagli.6: testo [avviso] "• Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico."
++ pannello.dettagli.7: testo [avviso] "• Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo."
++ pannello.dettagli.8: testo [avviso] "• CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD."
++ pannello.dettagli.9: testo [nota] "Esclusi: sismica, vento, frenatura, urti, fatica, fessurazione, viscosità, perdite di precompressione, instabilità locale, collegamenti, fasi costruttive e verifiche geotecniche complete."
+~ pannello.confronto: 1 blocchi
++ pannello.confronto.0: testo "Fissa una configurazione con “Fissa A”, poi modifica il ponte. Qui appariranno gli scostamenti della soluzione B corrente."
+~ pannello.quote: 9 blocchi
++ pannello.quote.0: testo [titolo] "Travi a I in c.a.p. · dimensioni adottate"
++ pannello.quote.1: testo [nota] "Quote del modello usato per calcolare quantità e costi. Le misure in mm identificano gli spessori; le lunghezze sono in m. Schema di predimensionamento, non distinta esecutiva."
++ pannello.quote.2: tabella "Componente|Simbolo|Valore|Unità|Origine|Significato" · righe 18 40526D4D103D153B
++ pannello.quote.2.0: "Geometria generale" | "L" | "105,000" | "m" | "Impostato" | "Lunghezza tra gli appoggi estremi"
++ pannello.quote.2.1: "Geometria generale" | "W" | "20,200" | "m" | "Derivato" | "Corsie, banchine, spartitraffico e barriere"
++ pannello.quote.2.2: "Geometria generale" | "N" | "5" | "n." | "Impostato" | "Numero campate"
++ pannello.quote.3: testo [titolo] "Campate · progressive e sviluppo longitudinale"
++ pannello.quote.4: tabella "Campata|Da x [m]|A x [m]|Luce Li [m]|Elementi n|n × Li [m]" · righe 5 74B928E10E2B8D05
++ pannello.quote.4.0: "1" | "0,000" | "18,261" | "18,261" | "8" | "146,087"
++ pannello.quote.4.1: "2" | "18,261" | "41,087" | "22,826" | "8" | "182,609"
++ pannello.quote.4.2: "3" | "41,087" | "63,913" | "22,826" | "8" | "182,609"
++ pannello.quote.5: testo [titolo] "Pile, spalle e fondazioni · un record per appoggio"
++ pannello.quote.6: testo [nota] "B = dimensione longitudinale, W = trasversale, t = spessore. I pali sono indicati con numero × diametro × lunghezza. I volumi delle spalle sono equivalenti: il modello non definisce una carpenteria completa."
++ pannello.quote.7: tabella "Appoggio / x|Tipo / fusto|H [m]|Pulvino W×B×t [m]|Fondazione B×W×t [m]|Pali n×Ø×L [m]" · righe 6 61A1D4FB7C43E09E
++ pannello.quote.7.0: "1 · 0,00 m" | "Spalla equivalente" | "7,00" | "—" | "8,00×20,20×1,50" | "6×Ø1,00×30,00"
++ pannello.quote.7.1: "2 · 18,26 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.7.2: "3 · 41,09 m" | "Setto · 1,50×18,20 m" | "19,00" | "20,20×1,50×1,40" | "11,00×20,20×1,50" | "12×Ø1,00×30,00"
++ pannello.quote.8: pulsante "Esporta sezioni e quote CSV"
+~ pannello.consigli: 5 blocchi
++ pannello.consigli.0: testo [titolo] "Alternative per ridurre le quantità e le emissioni"
++ pannello.consigli.1: pulsante "Cls a ridotta impronta   ·   −918 tCO₂e   ·   Δ 0 €"
++ pannello.consigli.2: pulsante "Banchine a 1,0 m   ·   −169 tCO₂e   ·   Δ -264.662 €"
++ pannello.consigli.3: pulsante "Una campata in meno   ·   −575 tCO₂e   ·   Δ -780.722 €"
++ pannello.consigli.4: testo [nota] "Confronti sul modello corrente: disponibilità dei materiali, resistenza iniziale e larghezze stradali vanno valutate per il progetto. I prezzi restano quelli del listino impostato."
