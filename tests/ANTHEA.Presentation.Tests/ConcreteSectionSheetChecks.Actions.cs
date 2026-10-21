@@ -18,7 +18,6 @@ internal static partial class ConcreteSectionSheetChecks
         private static bool IsActionStep(ConcreteSectionStep step) => step.Kind switch
         {
             ConcreteSectionStep.Cell or ConcreteSectionStep.Select or ConcreteSectionStep.RowCommand or ConcreteSectionStep.Paste => ActionTables.Contains(step.Target),
-            ConcreteSectionStep.Pick or ConcreteSectionStep.Choice => step.Target is "3D" or "2D" && step.Key == "stato",
             ConcreteSectionStep.Open => step.Target == "sollecitazioni",
             _ => false
         };
@@ -68,10 +67,7 @@ internal static partial class ConcreteSectionSheetChecks
                     command.Execute(null);
                     return (messages.Shown.Count > shown ? messages.Shown[^1].Title + ": " + messages.Shown[^1].Message : null, true);
                 }
-                default:
-                    // The limit state of a domain panel (allowed also in a read-only revision).
-                    actions.State = step.Text;
-                    return (null, true);
+                default: throw new ArgumentException("Passo della tabella sconosciuto: " + step);
             }
         }
 

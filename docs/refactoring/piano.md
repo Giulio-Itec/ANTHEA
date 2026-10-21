@@ -719,6 +719,12 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       - S2 (ramo `refactoring/f5-10-s2`, 21/10, da unire): riallineamento al codice del 20/10 (sezione 9: tracce congelate
         ancora valide, lacune del ViewModel sulle sezioni da wizard, sottopasso S1b proposto) e azioni (sezione 10:
         `SectionActionsViewModel` in Presentation, C3; tabelle dei pannelli e finestra delle sollecitazioni; 25 scenari uguali).
+      - S1b (ramo `refactoring/f5-10-s1b`, 21/10, da unire): sezioni da wizard e persistenza nativa (sezione 11 di
+        [f5-10-sezione.md](f5-10-sezione.md)): 18 tracce nuove della vista storica (15 esempi, 3 scenari del wizard), le sei lacune
+        chiuse nel ViewModel, 43 scenari uguali.
+      - S3 (stesso ramo, 21/10, da unire): domini 3D e 2D (sezione 12 di [f5-10-sezione.md](f5-10-sezione.md)):
+        `ConcreteDomainPanelViewModel` sul modello di tabella di S2, disegni come dati, derivazioni in `ConcreteDomainChart`
+        chiamate anche dalla vista storica; 45 scenari uguali, domini 3D come dati uguali ai congelati.
     - **Suite UI indipendenti dall'implementazione** (merge 35bba417, [f5-suite-ui.md](f5-suite-ui.md)):
       - le 11 suite storiche generali, dei materiali e dei muri passano con la Release di oggi e, nelle varianti `-mvvm`, con
         i sette moduli MVVM;

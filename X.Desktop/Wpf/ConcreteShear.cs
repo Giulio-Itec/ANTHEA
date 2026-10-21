@@ -27,7 +27,7 @@ internal sealed partial class ConcreteWorkspace
         bool mc = settings.S("normativa") == "Model Code 2010";
         shearForm.ShowField("ancoraggio", automatic && (!stirrups || mc));
         foreach (string axis in new[] { "x", "y" }) shearForm.ShowField("eccentricita_mc_" + axis, mc);
-        if (!automatic) { shearAutomaticNote.Text = ShearOptions.S("nota_wizard", "Parametri manuali: verificare geometria, armatura tesa e ancoraggio."); return; }
+        if (!automatic) { shearAutomaticNote.Text = Anthea.Application.Concrete.ConcreteInputPresentation.ManualShearNote(ShearOptions); return; }
         try
         {
             var geometry = Anthea.Application.Concrete.ConcreteSheetPreparation.UpdateAutomaticShear(Input, ShearOptions);

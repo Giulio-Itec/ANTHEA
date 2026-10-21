@@ -27,7 +27,9 @@ dei sottopassi. Contiene:
 - che cosa resta e le domande per il punto di controllo (sezioni 6 e 7);
 - il sottopasso S1 fatto il 18/10: ViewModel del guscio, del calcolo, degli ingressi e dei materiali, prove ed esiti (sezione 8);
 - il riallineamento del 21/10 al codice dopo persistenza nativa, wizard e capsula (sezione 9);
-- il sottopasso S2 fatto il 21/10: le azioni, il modello di tabella dei pannelli, prove ed esiti (sezione 10).
+- il sottopasso S2 fatto il 21/10: le azioni, il modello di tabella dei pannelli, prove ed esiti (sezione 10);
+- il sottopasso S1b fatto il 21/10: sezioni da wizard e persistenza nativa nel ViewModel, con le tracce nuove (sezione 11);
+- il sottopasso S3 fatto il 21/10: i pannelli dei domini 3D e 2D nel ViewModel, disegni come dati, prove ed esiti (sezione 12).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -783,5 +785,233 @@ Release resta storica; nulla va all'utente prima di S9.
 dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj
 dotnet tests/ANTHEA.Presentation.Tests/bin/Debug/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
 dotnet tests/ANTHEA.Presentation.Tests/bin/Debug/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
+```
+
+## 11. S1b fatto (21/10)
+
+Sottopasso S1b «Sezioni da wizard e persistenza nativa» (sezione 9.5), ramo `refactoring/f5-10-s1b` da `refactoring/f5` `3e1b86de`
+(S2 unito), 21/10/2026. Chiude le sei lacune della sezione 9.4. Decisioni applicate: S2a-1 (tracce nuove, le 39 congelate invariate), C5
+(comportamenti storici conservati), C7 (tracce lunghe nello stadio `ui`), C8 (disegni WPF alimentati dal ViewModel). La Release resta
+storica; nulla va all'utente prima di S9.
+
+### 11.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `ade9737c` | tracce nuove della vista storica: 15 scenari `esempi/…`, 3 scenari `ingressi/wizard-…`, parte `[wizard]` |
+| `0852f275` | lacune 1–6 nel ViewModel, derivazioni in Application chiamate anche dalla vista storica, prove |
+| (questo commit) | questa sezione e la riga di `piano.md` |
+
+### 11.2 Tracce nuove (prima le tracce)
+
+Catturate dalla vista storica sul codice di `3e1b86de`, in un commit a sé: due catture uguali byte per byte (57 scenari, 118 860 righe);
+nelle due catture i 39 scenari e i disegni già congelati sono uguali ai file del riferimento. README di `tests/fixtures/f5-sezione`
+aggiornato.
+
+- **`esempi/…` (15).** Gli esempi `supporto/esempi/distribuzione/str_palo/*.anthea` (documenti di versione 3 con `input.sezione_gpc`, 12
+  fatti dal wizard), aperti come la finestra apre un esempio (`DocumentService.Open`, poi i dati del foglio), con il percorso di
+  `percorso-f3` (apertura, calcolo, conferma, visita, «Calcola», riapertura) e tutte le parti, più `[wizard]`. Le parti dei sottopassi
+  successivi (domini, SLE, taglio, dettagli, armature, ispezione) sono già congelate anche per le sezioni da wizard: coprono gli «scenari
+  da aggiungere» della sezione 9.5 per S3, S4 e S6 (capsula come pilastro nell'esempio `wizard-capsula`).
+- **`ingressi/wizard-…` (3).** `wizard-tipologie` (dalla fixture `default`: finestra annullata; «A I» con un valore rifiutato,
+  «Applica sezione» spento, poi accettato; controlli dell'editor bloccati; «modifica disposizione»; rettangolo cavo a doppio contorno; di
+  nuovo un cerchio ordinario), `wizard-capsula` (barre per coordinate su una sezione da wizard, le due disposizioni della capsula con un
+  conteggio rifiutato, staffe assenti e di nuovo presenti), `wizard-sola-lettura` (cerchio cavo: foro e staffe circolari bloccati, wizard
+  riapplicato, poi la revisione in sola lettura con il wizard non disponibile).
+- **Parte `[wizard]`**, chiesta solo dagli scenari nuovi: comando del wizard (spento in sola lettura), form della geometria e
+  dell'armatura nascosti o spenti con le due note, campi del foro nel loro insieme, nota dei parametri del taglio.
+- **Finestra del wizard.** È un'isola MVVM dal 20/10 (`ConcreteTemplateWizardViewModel` ospitato da `ConcreteTemplateWizardWindow`): nella
+  traccia storica i suoi campi si leggono e si scrivono dal ViewModel (con la stessa regola dei controlli: un campo nascosto o spento non
+  fa nulla), i pulsanti si premono nella finestra; il suo stato dopo ogni passo è tipologia, «Applica sezione» disponibile, errore, nota,
+  ogni campo (valore, nascosto, spento), anteprima con i percorsi delle staffe, impronta della bozza.
+- **Righe dei valori cambiati.** L'archivio XML di `input.sezione_gpc` (centinaia di kB) è scritto come dimensione e impronta; l'impronta
+  della riga `dati` copre tutti i byte. Le tracce di S1 non hanno sezione nativa e non cambiano.
+
+### 11.3 Che cosa c'è nel ViewModel
+
+Le lacune della sezione 9.4, una per una:
+1. **Comando del wizard.** `ConcreteInputViewModel.OpenWizardCommand`: conferma del foglio, `ConcreteTemplateWizardViewModel` sul servizio
+   dei dialoghi (con il navigatore della Wiki dei servizi, `CreateWizardDialog`), e dopo «Applica sezione» i form della geometria,
+   dell'armatura e dei secondi strati riletti dai dati, i controlli del foro, l'invalidazione (come `OpenTemplateWizard`). Spento in sola
+   lettura. `ConcreteTemplateWizardViewModel` diventa un `IDialogViewModel<bool>` (aggiunta: titolo, risultato, `ApplyCommand`,
+   `CancelCommand`, navigatore opzionale); la finestra storica lo ospita come prima e ne prende il titolo.
+2. **Geometria e armatura.** `IsTemplateSection`, `GeometryShown`, `GeometryEnabled`, `ReinforcementShown`, `TemplateNotesShown` e le due
+   note; l'armatura spenta anche per le sezioni da wizard, con la sua nota.
+3. **Foro.** «Foro centrale» spento per le sezioni da wizard (`HoleEnabled`), campi del foro spenti (`HoleFormEnabled`) e riletti dai dati a
+   ogni aggiornamento dell'anteprima.
+4. **Secondi strati e staffa circolare** nascosti per le sezioni da wizard.
+5. **Nota del taglio** con parametri manuali: `taglio.nota_wizard`, se c'è.
+6. **Voce nuova di «Sezione»** dopo il wizard (`FieldViewModel.ReplaceChoices`).
+
+Le derivazioni sono in Application (`ConcreteInputPresentation`: `TemplateSection`, `HoleToggleEnabled`, `ReinforcementToolTip(input,
+enabled)`, `LayerVisible`, `CircularLinkScheme`, `ShapeChoicesAfterWizard`, `ManualShearNote`, le due note) e la vista storica le chiama al
+posto delle sue espressioni, come le derivazioni della parte A: le 57 tracce lo provano.
+
+**Persistenza nativa (versione 3).** Il foglio porta `input.sezione_gpc` come dato opaco: il ViewModel non lo scrive, il wizard lo toglie
+applicando una sezione nuova (`ConcreteTemplateWizard.Apply`), il salvataggio lo ricrea (`ConcreteDocumentPersistence.Pack`, sotto il
+ViewModel). Le tracce `esempi/…` provano che i dati del ViewModel sono quelli della vista storica byte per byte; un controllo delle tracce
+lunghe apre, calcola e conferma ogni esempio nel ViewModel e lo salva: quando l'apertura lascia la ricetta com'è, la sezione GPC resta
+corrente e il salvataggio conserva il suo archivio (tutti i 12 esempi del wizard).
+
+### 11.4 Esiti
+
+- **Tracce** (`Presentation.Tests/sezione-ca`, parte comune, `[ingressi]`, `[azioni]` e `[wizard]`): 43 scenari uguali alle tracce congelate
+  (i 25 di S2, i 15 `esempi/…` e i 3 `ingressi/wizard-…`); `calcolo/sola-lettura` uguale fino all'arresto atteso di S1 (S3). 54 controlli
+  con i file dei dati F3, le sezioni dei muri e la persistenza nativa.
+- **Prove rapide** (`--sezione-rapide`): 242 controlli; in più lo scenario `ingressi/wizard-tipologie` fra le tracce rapide, il wizard sul
+  servizio dei dialoghi (titolo, «Annulla», «Applica sezione» spento con un valore rifiutato, chiusura con la sezione applicata, editor nascosto,
+  voce nuova di «Sezione», calcolo in coda, nota del taglio), la bozza confermata prima del wizard, la sola lettura, F1 dei campi del wizard.
+- **Application.Tests**: 8 controlli delle derivazioni nuove di `ConcreteInputPresentation`, con valori scritti a mano.
+- **Vista storica**: `ui/check-sezione-historic` 57 scenari, 118 860 righe, 120 disegni e 33 righe 3D uguali ai congelati, dopo il passaggio
+  della vista alle derivazioni di Application; `ui/check-concrete-template-wizard` PASS.
+- **Corse**: tracce `ci/20261021-114512-s1b-tracce-quick` (quick PASS 55) e `ci/20261021-120025-s1b-tracce-sezione` (PASS 4); ViewModel
+  `ci/20261021-121807-s1b-vm` (PASS 10, suite mirate) e `ci/20261021-122849-s1b-vm-quick` (quick PASS 55, NEW-FAIL 0). La corsa finale del
+  ramo è nella sezione di S3 o in quella di chiusura.
+- **Baseline**: F4 e P3 invariate (le derivazioni spostate non avevano voci).
+
+### 11.5 Comportamenti storici trovati in S1b (conservati, C5)
+
+1. **Esempi ordinari salvati senza i valori dell'editor.** `circolare-cava`, `rettangolare-materiali-utente` e `sle-fessurazione-assi` non
+   hanno i valori predefiniti che l'editor scrive all'apertura (`gettato_sottile`, `staffe_presenti`, campi del foro, dell'ala e dei secondi
+   strati): aprirli cambia l'impronta della ricetta e la sezione GPC archiviata non viene riusata (il calcolo la ricostruisce, il
+   salvataggio ne cattura una nuova). Nessun effetto sui risultati; per riusare la sezione basterebbe salvarli di nuovo dall'editor
+   (fuori da F5, da proporre all'utente).
+2. **Taglio dopo il wizard.** Per le sezioni da wizard il wizard svuota i parametri del taglio (CA-WIZARD-01): ogni calcolo dopo
+   l'applicazione finisce con «Aggiornamento parziale · Taglio: rami_x: inserire un numero finito.» finché l'utente non li assegna.
+3. **Voci di «Sezione».** La tipologia del wizard resta fra le voci di «Sezione» anche dopo un ritorno a una sezione ordinaria (fino alla
+   chiusura del foglio): l'utente può sceglierla nell'editor ordinario.
+4. **Artefatto delle tracce, non della finestra** (seguito del punto 4 della sezione 8.4): un form mai disposto non passa ai campi il suo
+   stato spento. La geometria di un esempio da wizard è nascosta fin dall'apertura: nella traccia i suoi campi risultano attivi; i campi
+   del foro di una sezione da wizard senza foro, idem. Il driver delle prove estende la regola dei form disposti a geometria, foro e
+   armatura.
+
+### 11.6 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S1b-a · Cartella degli esempi.** I 15 esempi sono in una cartella `esempi/` (come `muri/`) con il percorso completo e tutte le parti,
+  non in `ingressi/` come proponeva la sezione 9.5: coprono anche i sottopassi successivi. Alternativa: solo la parte `[ingressi]`.
+- **S1b-b · Archivio nelle tracce.** Scritto come dimensione e impronta nelle righe dei valori cambiati.
+- **S1b-c · Finestra del wizard nella traccia storica.** Campi guidati dal ViewModel (isola MVVM), pulsanti premuti nella finestra.
+- **S1b-d · Disegni.** Nessun disegno nuovo congelato per le sezioni da wizard: i percorsi delle staffe (`TemplateLinks`) arrivano al disegno
+  con `ConcreteGeometry` e la sezione disegnata è nelle tracce come dati. Alternativa: elenchi di disegno degli esempi in un file a parte
+  di `disegni/`.
+
+### 11.7 Che cosa resta e come riprendere
+
+- **S3–S9** come nella sezione 9.5, con gli scenari degli esempi già congelati per le parti di ogni sottopasso.
+- **Vista XAML** (S9, o per sottopasso): il comando del wizard con `IDialogService`, la finestra del wizard come DataTemplate di
+  `ConcreteTemplateWizardViewModel` (la finestra storica va in `supporto/SUPERATI` al passaggio), la regola dei form disposti da ricordare
+  per le prove della vista.
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-sezione-historic . <cartella>
+```
+
+## 12. S3 fatto (21/10)
+
+Sottopasso S3 «Domini 3D e 2D» (sezione 4, S3; sezione 10.6), stesso ramo `refactoring/f5-10-s1b`, 21/10/2026, dopo S1b. Decisioni
+applicate: S2-a (lo stato limite passa dal campo del form del pannello), C5 (comportamenti storici conservati, compresa la sola lettura che
+scrive), C7 (tracce lunghe nello stadio `ui`), C8 (il viewport 3D resta WPF e si confronta come dati). La Release resta storica; nessuna vista
+XAML (S1-d).
+
+### 12.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `4e657c4a` | pannelli dei domini nel ViewModel, derivazioni in Application chiamate anche dalla vista storica, baseline F4 spostata, prove |
+| (questo commit) | questa sezione, riga di `piano.md`, esito della corsa finale |
+
+### 12.2 Che cosa c'è
+
+- **`ConcreteDomainPanelViewModel`** (`Domain3D`, `Domain2D` del foglio, creati all'apertura dopo le tabelle delle azioni, senza scritture),
+  da `DomainPanel`, `BuildDomainPanel`, `AttachDomainRows`, `RefreshDomainPanel` e `UpdateSelection` della vista storica:
+  - form «Opzioni di calcolo» sulle opzioni `dominio3d` / `dominio2d`, con i gruppi e le invalidazioni storiche: stato e filtro riattaccano le
+    righe; interpolazione e suddivisioni ridisegnano solo la mesh (su un thread di lavoro, con il suo stato); ricerca, metodo e proiezione
+    ricalcolano punti resistenti e tassi conservando il dominio; le altre opzioni ridisegnano il dominio. Stato e filtro restano usabili in
+    sola lettura (`FormViewModel.AllowWhenReadOnly`, aggiunta);
+  - la tabella del pannello è quella di S2 (`ConcreteActionTableViewModel`); lo stato limite passa dal campo «stato» del form anche quando lo
+    sceglie la tabella (S2-a);
+  - dettaglio della riga selezionata, riepilogo delle verifiche, barra del disegno (forze, cinque caselle, «Mesh», dimensioni dei punti,
+    trasparenza, «Scala…» come `ConcreteDomainScaleDialogViewModel` su `IDialogService`, «Adatta»), «Sezione sull’azione selezionata» per il 2D;
+    le due caselle della sezione σ/ε che stanno nella stessa barra della traccia («Asse neutro», «Valori σ/ε sulle barre»), la scheda
+    interna «Dominio» / «Sezione σ / ε» (il resto della sezione σ/ε è S7);
+  - disegno e dettaglio seguono la selezione solo mentre la tabella è visibile (scheda principale e scheda interna «Dominio»), come la
+    griglia storica: altrimenti aspettano (`NeedsVisualRefresh`).
+- **Disegni come dati** (Q3, C8): `ConcreteDomain3DViewModel` (mesh, punti delle azioni con l'esito, selezione, azione e resistenza
+  selezionate, opzioni, fattori degli assi, tassi, resistenze, nota: le regole di `SetMesh`, `SetActions` e `SetAxisScale` del viewport
+  storico) e `ConcreteDomain2DViewModel` (titoli, segmenti, punti e linee di verifica di `ConcreteDomainChart`, fattori degli assi).
+- **Application** (`ConcreteDomainChart`): dettaglio della riga, piano sull'azione selezionata, dimensioni dei punti, trasparenza, fattori
+  degli assi e lettura della finestra «Scala…», triangoli della mesh; la vista storica li chiama al posto delle sue espressioni.
+- **Modello di tabella**: una riga selezionata che il filtro nasconde passa la selezione alla prima riga mostrata (l'elemento corrente della
+  vista di raccolta dopo il suo Refresh), come la griglia storica (`domini/filtri-tabelle`); prima la selezione si azzerava.
+- **Baseline F4**, solo spostamenti: 13 voci della vista (`BuildDomainPanel` 4, `UpdateSelection` 2, `AddDomainScaleControls` 6,
+  `DomainViewport3D.TriangleCount` 1) diventano 6 voci di `ConcreteDomainChart`; 2 185 → 2 178 voci, 3 320 → 3 313 occorrenze, nessuna
+  aggiunta. P3 invariata.
+
+### 12.3 Esiti
+
+- **Tracce** (`Presentation.Tests/sezione-ca`, parte comune, `[ingressi]`, `[azioni]`, `[domini]` e `[wizard]`): 45 scenari uguali alle tracce
+  congelate (i 43 di S1b più `domini/opzioni-domini` e `domini/filtri-tabelle`; la parte `[domini]` è confrontata anche in `percorso-f3/*`,
+  `muri/*`, `esempi/*`, `azioni/*`, `report/dati-incompleti` e `calcolo/*`). `calcolo/sola-lettura` è uguale fino al nuovo arresto atteso,
+  «menu SLE contorno «Solo geometria»» (S4). Domini 3D come dati: le 33 righe di `disegni/domini-3d.txt` uguali (ogni fixture F3 aperta,
+  calcolata e mostrata come nei disegni della traccia storica). 57 controlli con le tracce lunghe.
+- **Prove rapide** (`--sezione-rapide`): 280 controlli; in più la sola lettura dei pannelli (stato e filtro usabili, opzioni e dimensioni
+  rifiutate, barra che scrive), il punto scelto nel disegno 3D, «Scala…» con un fattore rifiutato e poi applicato, annullata, «Adatta», il
+  ripristino del grafico 2D, F1 dei form dei pannelli e della finestra «Scala…».
+- **Application.Tests**: 11 controlli di `ConcreteDomainChart` con valori scritti a mano (3 050).
+- **Vista storica**: `ui/check-sezione-historic` 57 scenari e disegni uguali ai congelati dopo il passaggio della vista alle derivazioni
+  di Application.
+- **Corse**: mirata `ci/20261021-125445-s3-mirata` (PASS 10: Architecture.Tests con la baseline spostata, Application.Tests,
+  Presentation.Tests 3 672, `ui/check-sezione-historic`, `Presentation.Tests/sezione-ca`); `ci/20261021-143555-f510-s1b-s3-finale2` su
+  `4e657c4a` (build, fast, wiki e ui senza `ui/check-contrast`): PASS 144, KNOWN 0, NEW-FAIL 3, tutte di ambiente e ripetute da sole:
+  `Architecture.Tests` (AccessViolationException nel parser di Roslyn, censimento F4 già passato senza aggiunte; da sola PASS,
+  `ci/20261021-154230-f510-s1b-s3-finale2-arch`), `ui/check-muri-view` (da sola PASS, `ci/20261021-154248-f510-s1b-s3-finale2-ui`) e
+  `ui/check-palo-verticale-view` (antivirus, domanda S6: il programma si chiude sempre allo stesso salvataggio dell'esempio
+  `elica-coesivo-avvisi` e resta il file `.x_<guid>.tmp`; da sola fallisce allo stesso punto, con `dotnet ANTHEA.dll` PASS 377 controlli).
+  Una prima corsa finale (`ci/20261021-131034-f510-s1b-s3-finale`) è stata interrotta dal riavvio della sessione prima del riepilogo.
+
+### 12.4 Comportamenti storici trovati in S3 (conservati, C5)
+
+1. **Cultura dei numeri del dettaglio.** Il dettaglio scritto durante un passo dell'utente usa la cultura della traccia (virgola), quello
+   scritto dalla pubblicazione di un calcolo la cultura del thread dell'interfaccia (sulla macchina del banco, punto decimale). Il ViewModel
+   segue gli stessi percorsi e dà gli stessi testi; la vista XAML dovrà fissare la cultura (da decidere in F5.15).
+2. **Sola lettura che scrive** (famiglia del comportamento 5): filtro e stato del pannello, caselle e forze della barra, trasparenza, «Scala…»
+   e «Adatta» scrivono le opzioni con Modified anche nella revisione in sola lettura.
+3. **«Adatta» del 2D** scrive due volte i fattori x e y (il pulsante e il ripristino della vista del grafico) con due Modified.
+
+### 12.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S3-a · Stato limite.** Il campo «stato» del form è l'unico che scrive `dominio3d.stato` / `dominio2d.stato`; `ConcreteActionTableViewModel.State`
+  passa da lì (chiude S2-a).
+- **S3-b · Esenzioni della sola lettura.** `FormViewModel.AllowWhenReadOnly` è un'aggiunta al componente comune, usata solo dai pannelli dei
+  domini. Alternativa: due form separati.
+- **S3-c · Zoom e camera.** Lo zoom resta della vista (`Zoom`, `FitRequested`, `ZoomRequested`); la vista del 3D («Isometrica», «N–Mx»…) non
+  passa dal ViewModel.
+- **S3-d · Disegni del 2D.** Gli elenchi di disegno del dominio 2D (`disegni/elenco.txt`) si confrontano solo con la vista XAML (S9); qui il
+  grafico è confrontato come dati nella parte `[domini]`.
+
+### 12.6 Che cosa resta e come riprendere
+
+Piano di S4–S9 aggiornato (ordine invariato: S4, S5, poi S6, S7, S8, S9):
+- **S4 · SLE e tensioni.** È il primo arresto delle tracce: `calcolo/sola-lettura` si ferma a «menu SLE contorno «Solo geometria»» (il
+  contorno della mappa si scrive anche in sola lettura). `StressPanelViewModel` per famiglia sul modello di tabella di S2
+  (`Actions.Stress[...]`), con le opzioni comuni (`SynchronizeSharedSle`) e la mappa come dati; gli esempi da wizard sono già nelle tracce
+  `esempi/…` per la parte `[sle]`.
+- **S5 · Taglio e torsione.** `Actions.Shear`; la nota del wizard è già nel foglio (S1b). Campi della staffa circolare nascosti anche nel form
+  delle staffe in sola lettura del taglio.
+- **S6 · Dettagli.** La capsula come pilastro è nella traccia `esempi/wizard-capsula` (parte `[dettagli]`).
+- **S7 · Ispezione e momento–curvatura.** Il pannello dei domini ha già la scheda interna (`InspectionTab`) e le due caselle della barra
+  della sezione σ/ε (`NeutralAxis`, `BarValues`); S7 aggiunge la sessione dell'ispezione in `UpdateSelection` (il punto è segnato nel codice)
+  e il resto della scheda «Sezione σ / ε».
+- **S8, S9** come nella sezione 4. Al passaggio (S9) la vista XAML dei domini lega il viewport 3D e il grafico 2D ai dati dei ViewModel
+  (`Changed`, `FitRequested`, `ZoomRequested`, `ActionPicked`, `ChartViewReset`) e confronta gli elenchi di disegno del dominio 2D.
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
 ```

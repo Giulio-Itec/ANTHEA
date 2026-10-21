@@ -415,9 +415,10 @@ Add-Suite @{ Name = 'ui/check-sezione-historic'; Stage = 'ui'; Kind = 'check'; A
 # F5.11 (proposal 7.2, capture first): the historic composite bridge section view still gives the traces and the drawing lists frozen in
 # tests/fixtures/f5-sezione-mista, which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-sezione-mista-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-mista-historic', '{root}', '{out}\traccia'); Timeout = 1200; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
-# F5.10 S1 (decision C7: the long traces in the ui stage): the ViewModel of the RC section without WPF against the traces frozen in
-# tests/fixtures/f5-sezione (common part and [ingressi] of ingressi/*, percorso-f3/*, calcolo/* and muri/*), the files of the data of the F3
-# capture and the sections sent by the walls; the fast stage keeps three scenarios in Presentation.Tests.
+# F5.10 S1, S2, S1b, S3 (decision C7: the long traces in the ui stage): the ViewModel of the RC section without WPF against the traces frozen
+# in tests/fixtures/f5-sezione (common part, [ingressi], [azioni], [domini] and [wizard] of ingressi/*, azioni/*, domini/*, percorso-f3/*,
+# calcolo/*, muri/* and esempi/*) and the 3D domains as data (disegni/domini-3d.txt), the files of the data of the F3 capture, the sections
+# sent by the walls and the native GPC section of the examples; the fast stage keeps five scenarios in Presentation.Tests.
 Add-Suite @{ Name = 'Presentation.Tests/sezione-ca'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--sezione-tracce'); Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # FieldForm (XAML + FormViewModel, F5.2) against the historic InputForm: same edit sequences on fields of real modules, same bytes of the document, same layout; windows outside the screen.
 Add-Suite @{ Name = 'ui/check-field-form-parity'; Stage = 'ui'; Kind = 'check'; Args = @('--check-field-form-parity', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }

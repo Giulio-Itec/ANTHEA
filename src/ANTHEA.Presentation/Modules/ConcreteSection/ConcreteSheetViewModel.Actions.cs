@@ -51,12 +51,8 @@ public sealed partial class ConcreteSheetViewModel
     internal ConcreteResults.Check? DomainCheck(string prefix, string id) =>
         domainResults.TryGetValue(prefix + DomainKey(prefix), out var checks) ? checks.GetValueOrDefault(id) : null;
 
-    /// <summary>The limit state of a domain panel changed: the outputs of its rows, Modified (the callback of the option «stato»).</summary>
-    internal void DomainShown(string prefix)
-    {
-        RefreshDomainOutputs(prefix);
-        RaiseModified();
-    }
+    /// <summary>The limit state of a domain panel: chosen through the field «stato» of its form, whose callback attaches the rows again (S3).</summary>
+    internal void ChooseDomainState(string prefix, string state) => DomainPanel(prefix).Form.Set("stato", state);
 
     internal IFileDialogService Files => Context.Services.Files;
     internal IClipboardService Clipboard => Context.Services.Clipboard;
@@ -97,7 +93,6 @@ public sealed partial class ConcreteSheetViewModel
     /// </summary>
     private void ShowPanel(int shown)
     {
-        if (shown == 1) RefreshDomainOutputs("3D:");
-        else if (shown == 2) RefreshDomainOutputs("2D:");
+        foreach (var panel in DomainPanels) panel.Shown();
     }
 }

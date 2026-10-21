@@ -327,7 +327,7 @@ internal sealed partial class DomainViewport3D : Grid
     }
     internal event Action<string>? ActionSelected;
     internal bool Wireframe { get; private set; }
-    internal int TriangleCount => mesh?.Triangles.Count / 3 ?? 0;
+    internal int TriangleCount => Anthea.Application.Concrete.ConcreteDomainChart.TriangleCount(mesh);
     internal ConcreteResults.Action? SelectedAction { get; private set; }
     internal ConcreteResults.Action? SelectedResistance { get; private set; }
     internal DomainViewport3D()

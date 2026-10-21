@@ -78,14 +78,14 @@ internal sealed partial class ConcreteWorkspace
         if (!panel.ThreeD) panel.Plot.ViewReset += () => { panel.Options["scala_x"] = 1; panel.Options["scala_y"] = 1; Modified?.Invoke(); };
         void Apply()
         {
-            if (panel.ThreeD) panel.View3D!.SetAxisScale(panel.Options.D("scala_mx", 1), panel.Options.D("scala_n", 1), panel.Options.D("scala_my", 1));
-            else { panel.Plot.ScaleX = panel.Options.D("scala_x", 1); panel.Plot.ScaleY = panel.Options.D("scala_y", 1); panel.Plot.FitIncludesMarkers = panel.Options.B("fit_azioni"); panel.Plot.InvalidateVisual(); }
+            if (panel.ThreeD) panel.View3D!.SetAxisScale(ConcreteDomainChart.AxisScale(panel.Options, "scala_mx"), ConcreteDomainChart.AxisScale(panel.Options, "scala_n"), ConcreteDomainChart.AxisScale(panel.Options, "scala_my"));
+            else { panel.Plot.ScaleX = ConcreteDomainChart.AxisScale(panel.Options, "scala_x"); panel.Plot.ScaleY = ConcreteDomainChart.AxisScale(panel.Options, "scala_y"); panel.Plot.FitIncludesMarkers = panel.Options.B("fit_azioni"); panel.Plot.InvalidateVisual(); }
         }
         Apply();
         frame.Toolbar.Children.Add(Ui.Button("Scala…", () =>
         {
-            string[] keys = panel.ThreeD ? ["scala_mx", "scala_n", "scala_my"] : ["scala_x", "scala_y"];
-            var draft = new JsonObject(); foreach (string key in keys) draft[key] = panel.Options.D(key, 1).ToString("G12", CultureInfo.InvariantCulture);
+            var keys = ConcreteDomainChart.ScaleKeys(panel.ThreeD);
+            var draft = new JsonObject(); foreach (string key in keys) draft[key] = ConcreteDomainChart.AxisScale(panel.Options, key).ToString("G12", CultureInfo.InvariantCulture);
             draft["zoom"] = ((panel.ThreeD ? panel.View3D!.Zoom : panel.Plot.Zoom) * 100).ToString("0", CultureInfo.InvariantCulture);
             draft["fit_azioni"] = panel.Options.B("fit_azioni") ? "Sì" : "No";
             var fields = keys.Select(k => new Field(k, "Fattore " + k[6..].ToUpperInvariant(), "×")).ToList();
@@ -96,8 +96,7 @@ internal sealed partial class ConcreteWorkspace
             {
                 try
                 {
-                    form.Commit(); var values = keys.ToDictionary(k => k, k => ConcreteEditor.Number(draft.S(k), k)); double zoom = ConcreteEditor.Number(draft.S("zoom"), "Zoom") / 100;
-                    if (values.Values.Any(v => v < .25 || v > 4) || zoom < .1 || zoom > 20) throw new ArgumentException("Fattori ammessi 0,25–4; zoom 10–2000%.");
+                    form.Commit(); var (values, zoom) = ConcreteDomainChart.ReadScale(draft, keys);
                     foreach (var (key, value) in values) panel.Options[key] = value;
                     panel.Options["fit_azioni"] = draft.S("fit_azioni") == "Sì"; Apply();
                     if (panel.ThreeD) { panel.View3D!.FitIncludesActions = panel.Options.B("fit_azioni"); panel.View3D.FitView(); panel.View3D.Zoom = zoom; } else panel.Plot.Zoom = zoom;

@@ -129,8 +129,8 @@ public sealed class ConcreteTableFilterViewModel : ObservableObject
 /// A table of the RC section without WPF (the historic JsonGrid with its ListCollectionView, F5.10 S1): the rows of the document
 /// (<see cref="JsonRowCollection"/>), the rows shown (filter and order of <see cref="Filter"/>, plus an optional base filter), the selected row
 /// and whether the table accepts edits. As the collection view of the historic grid, an added row takes its place in the order, a removed
-/// selected row passes the selection to the row at its place (or to the last), a filtered one leaves it, and a change of the values of a row
-/// reorders the table only at <see cref="Refresh"/>.
+/// selected row passes the selection to the row at its place (or to the last), a filtered one to the first row shown, and a change of the
+/// values of a row reorders the table only at <see cref="Refresh"/>.
 /// </summary>
 public sealed class ConcreteTableViewModel : ObservableObject
 {
@@ -243,7 +243,9 @@ public sealed class ConcreteTableViewModel : ObservableObject
         var rows = Rows.Where(Passes).ToList();
         if (Filter.SortKey.Length > 0) rows = rows.Order(Comparer<JsonRowViewModel>.Create(Compare)).ToList();
         shown = rows;
-        if (selected is not null && !shown.Contains(selected)) Selected = null;
+        // A selected row that the filter hides passes the selection to the first row shown (the current item of the collection view after
+        // its Refresh, which the historic grid follows), or to none.
+        if (selected is not null && !shown.Contains(selected)) Selected = shown.FirstOrDefault();
     }
 
     private void OnRowsChanged(object? sender, NotifyCollectionChangedEventArgs e)

@@ -362,6 +362,7 @@ internal sealed partial class ConcreteWorkspace
             "materiale" => (TraceSingle<Button>(TraceTab(0), b => TraceContent(b.Content) == "Nuovo materiale CLS", "Nuovo materiale CLS"), "Nuovo materiale · Calcestruzzo"),
             "materiale-acciaio" => (TraceSingle<Button>(TraceTab(0), b => TraceContent(b.Content) == "Nuovo materiale acciaio", "Nuovo materiale acciaio"), "Nuovo materiale · Acciaio"),
             "materiale-trefoli" => (TraceSingle<Button>(TraceTab(0), b => TraceContent(b.Content) == "Nuovo materiale trefoli", "Nuovo materiale trefoli"), "Nuovo materiale · Trefoli"),
+            "wizard" => (TraceSingle<Button>(TraceTab(0), b => TraceContent(b.Content) == ConcreteSectionTrace.WizardCommand, "comando del wizard"), ConcreteSectionTrace.WizardTitle),
             _ => throw new ArgumentException("Finestra sconosciuta: " + step.Target)
         };
         if (!TraceUsable(button)) return "finestra non aperta: comando non disponibile";
@@ -394,6 +395,8 @@ internal sealed partial class ConcreteWorkspace
 
     private static void TraceDialogStep(Window dialog, ConcreteSectionStep step)
     {
+        // The fields of the wizard (F5.10 S1b) through its ViewModel, as its FieldForm writes them; its buttons are clicked below.
+        if (dialog is ConcreteTemplateWizardWindow wizard && ConcreteSectionTrace.WizardStep(wizard.Model, step)) return;
         switch (step.Kind)
         {
             case ConcreteSectionStep.Button:
@@ -425,6 +428,7 @@ internal sealed partial class ConcreteWorkspace
     /// <summary>What a dialog shows: the rows, selection, status and notice of the actions; the error, values and curves of a new material.</summary>
     private static string TraceDialogState(Window dialog)
     {
+        if (dialog is ConcreteTemplateWizardWindow wizard) return ConcreteSectionTrace.WizardState(wizard.Model);
         if (dialog.DataContext is SectionActionsViewModel vm)
         {
             var notice = TraceTree(dialog).OfType<TextBlock>().FirstOrDefault(t => t.Text == vm.MigrationNotice);
@@ -468,6 +472,7 @@ internal sealed partial class ConcreteWorkspace
                 case "dettagli": TraceDetailing(block); break;
                 case "armature": TraceDesign(block); break;
                 case "ispezione": TraceInspection(block); break;
+                case ConcreteSectionScenarios.WizardSection: TraceWizard(block); break;
                 default: throw new ArgumentException("Parte sconosciuta: " + section);
             }
             state.Blocks.Add(block);
@@ -591,6 +596,21 @@ internal sealed partial class ConcreteWorkspace
         foreach (string line in TraceTableState("barre", barInventory).Lines()) block.Add(line);
         foreach (var (key, cards) in summaries) block.Add(TraceCards("riepilogo-" + key, cards).Line());
         block.Add(TraceCards("riepilogo-taglio", shearDashboard).Line());
+    }
+
+    /// <summary>
+    /// The part «[wizard]» (F5.10 S1b): the command of the wizard, the geometry and the reinforcement hidden or disabled for a section of the
+    /// wizard with their notes, the fields of the hole as a whole, the note of the shear parameters.
+    /// </summary>
+    private void TraceWizard(ConcreteSectionBlock block)
+    {
+        static string Shown(UIElement element) => element.Visibility == Visibility.Visible ? "" : " · nascosta";
+        var command = TraceSingle<Button>(TraceTab(0), b => TraceContent(b.Content) == ConcreteSectionTrace.WizardCommand, "comando del wizard");
+        block.Add("comando " + ConcreteSectionTrace.Quote(ConcreteSectionTrace.WizardCommand) + (TraceUsable(command) ? "" : " · spento"));
+        block.Add("geometria" + Shown(geometry) + (geometry.IsEnabled ? "" : " · spenta") + " · nota " + ConcreteSectionTrace.Quote(templateGeometryNote.Text) + Shown(templateGeometryNote));
+        block.Add("armatura" + Shown(reinforcement) + " · nota " + ConcreteSectionTrace.Quote(templateReinforcementNote.Text) + Shown(templateReinforcementNote));
+        block.Add("foro campi" + (TraceFormWith("inner_diameter_mm").IsEnabled ? "" : " · spenti"));
+        block.Text("nota-taglio", shearAutomaticNote.Text);
     }
 
     private void TraceActions(ConcreteSectionBlock block)

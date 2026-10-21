@@ -64,9 +64,8 @@ internal sealed partial class ConcreteWorkspace
             if (panel.Grid.SelectedItem is not JsonRow row) return;
             try
             {
-                var a = ReadAction(row);
-                if (panel.Options.S("tipo") == "Mx–My") panel.Form.Set("N", a.N.ToString("G12", System.Globalization.CultureInfo.InvariantCulture));
-                else panel.Form.Set("theta", (Math.Atan2(a.My, a.Mx) * 180 / Math.PI).ToString("G12", System.Globalization.CultureInfo.InvariantCulture));
+                var (field, value) = Anthea.Application.Concrete.ConcreteDomainChart.PlaneThrough(panel.Options, ReadAction(row));
+                panel.Form.Set(field, value);
             }
             catch (ArgumentException ex) { status.Text = ex.Message; }
         }));
@@ -80,7 +79,7 @@ internal sealed partial class ConcreteWorkspace
             frame.Toolbar.Children.Insert(0, Ui.Button("Mesh", panel.View3D.ToggleWireframe, inspection: true));
             var view = Ui.Choice(["Isometrica", "N–Mx", "N–My", "Mx–My"], "Isometrica"); view.Width = 100; view.SelectionChanged += (_, _) => panel.View3D.StandardView(view.Text); frame.Toolbar.Children.Insert(0, view);
             panel.View3D.ActionSelected += id => { panel.Grid.SelectedItem = actions[panel.Key].FirstOrDefault(r => r.Values.S("id") == id); if (panel.Grid.SelectedItem is not null) panel.Grid.ScrollIntoView(panel.Grid.SelectedItem); };
-            panel.Transparency = new Slider { Minimum = 0, Maximum = 100, Value = Math.Clamp(panel.Options.D("trasparenza", 35), 0, 100), Width = 95, VerticalAlignment = VerticalAlignment.Center, ToolTip = "Trasparenza del dominio: 0% opaco, 100% trasparente", SmallChange = 5, LargeChange = 10 };
+            panel.Transparency = new Slider { Minimum = 0, Maximum = 100, Value = Math.Clamp(Anthea.Application.Concrete.ConcreteDomainChart.Transparency(panel.Options), 0, 100), Width = 95, VerticalAlignment = VerticalAlignment.Center, ToolTip = "Trasparenza del dominio: 0% opaco, 100% trasparente", SmallChange = 5, LargeChange = 10 };
             var percent = Ui.Text($"{panel.Transparency.Value:0}%", 11); percent.MinWidth = 32;
             panel.View3D.SurfaceOpacity = 1 - panel.Transparency.Value / 100;
             panel.Transparency.ValueChanged += (_, _) => { panel.Options["trasparenza"] = panel.Transparency.Value; percent.Text = $"{panel.Transparency.Value:0}%"; panel.View3D.SurfaceOpacity = 1 - panel.Transparency.Value / 100; Modified?.Invoke(); };
@@ -91,7 +90,7 @@ internal sealed partial class ConcreteWorkspace
         RevisionInspection.Allow(frame.Toolbar);
         foreach (var (key, label) in new[] { ("dimensione_ed", "Punti Ed"), ("dimensione_rd", "Punti Rd") })
             {
-                var slider = new Slider { Minimum = 2, Maximum = 14, Value = Math.Clamp(panel.Options.D(key, 5), 2, 14), Width = 70, ToolTip = label + " · raggio grafico" };
+                var slider = new Slider { Minimum = 2, Maximum = 14, Value = Math.Clamp(Anthea.Application.Concrete.ConcreteDomainChart.PointSize(panel.Options, key), 2, 14), Width = 70, ToolTip = label + " · raggio grafico" };
                 slider.ValueChanged += (_, _) => { panel.Options[key] = slider.Value; UpdateSelection(panel); Modified?.Invoke(); };
                 options.Children.Add(Ui.Bar(Ui.Text(label + " · dimensione", 12), slider));
             }
@@ -194,7 +193,7 @@ internal sealed partial class ConcreteWorkspace
         {
             var visible = Anthea.Application.Concrete.ConcreteDomainChart.VisibleActions(panel.Options,
                 panel.Grid.Items.OfType<JsonRow>().Select(r => r.Values), id, checks, checker3D.GetValueOrDefault(panel.Key));
-            panel.View3D!.ActionPointSize = panel.Options.D("dimensione_ed", 5); panel.View3D.ResistancePointSize = panel.Options.D("dimensione_rd", 5);
+            panel.View3D!.ActionPointSize = Anthea.Application.Concrete.ConcreteDomainChart.PointSize(panel.Options, "dimensione_ed"); panel.View3D.ResistancePointSize = Anthea.Application.Concrete.ConcreteDomainChart.PointSize(panel.Options, "dimensione_rd");
             panel.View3D.OnlySelectedActions = panel.Options.B("solo_selezionata"); panel.View3D.ShowActions = panel.Options.B("mostra_ed", true); panel.View3D.ShowResistance = panel.Options.B("mostra_rd", true); panel.View3D.ShowVerificationLines = panel.Options.B("mostra_linee", true); panel.View3D.ColorByRatio = panel.Options.B("colora_eta");
             panel.View3D.Ratios = checks?.ToDictionary(kv => kv.Key, kv => kv.Value.Utilization);
             panel.View3D.Resistances = panel.Options.B("tutte_rd") ? panel.Grid.Items.OfType<JsonRow>().Where(r => r.Values.B("visible", true))
@@ -210,17 +209,9 @@ internal sealed partial class ConcreteWorkspace
                 checker2D.GetValueOrDefault(panel.Key), panel.Grid.Items.OfType<JsonRow>().Select(r => r.Values).ToArray(), id, checks));
         }
         if (row is null) { panel.Detail.Text = "Nessuna combinazione selezionata"; return; }
-        try
-        {
-            var a = ReadAction(row); panel.Detail.Text = $"{row.Values.S("nome")}\n\nNEd = {a.N:0.00} kN\nMx,Ed = {a.Mx:0.00} kNm\nMy,Ed = {a.My:0.00} kNm\n\n" + (selectedCheck is null ? "Da calcolare" : $"η = {selectedCheck.Utilization?.ToString("0.00") ?? "—"}\n{selectedCheck.Status}");
-            panel.Detail.Text = ActionSetLabel(panel.Key) + " · " + (panel.ThreeD ? panel.Options.S("criterio") + " / " + panel.Options.S("strategia") : panel.Options.S("tipo") + (panel.Options.S("proietta") == "Sì" ? " · proiezione attiva" : " · senza proiezione")) + "\n\nAZIONI · " + panel.Options.S("assi", "Locali") + "\n" + panel.Detail.Text;
-            if (selectedCheck?.Resistance is ConcreteResults.Action r) panel.Detail.Text += $"\n\nRESISTENZA · assi locali\nNRd = {r.N:0.00} kN\nMx,Rd = {r.Mx:0.00} kNm\nMy,Rd = {r.My:0.00} kNm\n" + ResponseSummary(selectedCheck.Response, "STATO AL PUNTO RESISTENTE");
-            var vertices = panel.ThreeD ? meshes.GetValueOrDefault(panel.Key)?.Vertices.AsEnumerable() : checker2D.GetValueOrDefault(panel.Key)?.Segments.SelectMany(s => new[] { s.A, s.B });
-            if (vertices?.ToArray() is { Length: > 0 } extrema)
-                panel.Detail.Text += $"\n\nESTREMI {(panel.ThreeD ? "MESH" : "CURVA")}\nN: {extrema.Min(p => p.N):0.00} … {extrema.Max(p => p.N):0.00} kN\nMx: {extrema.Min(p => p.Mx):0.00} … {extrema.Max(p => p.Mx):0.00} kNm\nMy: {extrema.Min(p => p.My):0.00} … {extrema.Max(p => p.My):0.00} kNm\nEstremi campionati; non sono resistenze al N della riga.";
-            if (calculationErrors.TryGetValue(panel.Prefix + panel.Key, out var error)) panel.Detail.Text += "\n\nDa correggere: " + error;
-        }
-        catch (ArgumentException ex) { panel.Detail.Text = ex.Message; }
+        var vertices = panel.ThreeD ? meshes.GetValueOrDefault(panel.Key)?.Vertices.AsEnumerable() : checker2D.GetValueOrDefault(panel.Key)?.Segments.SelectMany(s => new[] { s.A, s.B });
+        panel.Detail.Text = Anthea.Application.Concrete.ConcreteDomainChart.Detail(ActionSetLabel(panel.Key), panel.ThreeD, panel.Options, row.Values, selectedCheck, vertices,
+            calculationErrors.GetValueOrDefault(panel.Prefix + panel.Key));
     }
     private static Brush RatioColor(double? ratio) => UtilizationPalette.Brush(ratio);
     private static string ResponseSummary(ConcreteResults.SectionState? r, string title)

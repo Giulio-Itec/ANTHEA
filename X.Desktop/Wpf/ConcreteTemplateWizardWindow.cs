@@ -14,7 +14,7 @@ internal sealed class ConcreteTemplateWizardWindow : Window
     internal ConcreteTemplateWizardWindow(JsonObject data)
     {
         Model = new(data);
-        Title = "Wizard · Sezione in cemento armato";
+        Title = Model.Title;
         Width = 1160; Height = 820; MinWidth = 780; MinHeight = 540;
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
         Background = Appearance.Surface;

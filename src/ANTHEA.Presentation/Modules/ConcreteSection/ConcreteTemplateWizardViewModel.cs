@@ -3,20 +3,30 @@ using Anthea.Application.Concrete;
 using Anthea.Calculations;
 using Anthea.ConcreteWorkspace;
 using Anthea.Presentation.Forms;
+using Anthea.Presentation.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Anthea.Presentation.Modules.ConcreteSection;
 
-/// <summary>Detached draft: selecting, previewing and cancelling never changes the document.</summary>
-public sealed class ConcreteTemplateWizardViewModel : ObservableObject
+/// <summary>
+/// Detached draft: selecting, previewing and cancelling never changes the document. The historic window
+/// (ConcreteTemplateWizardWindow) hosts it with its own buttons; the sheet of the RC section shows it on the dialog service
+/// (F5.10 S1b): «Applica sezione» closes with true when the section is applied, «Annulla» with false.
+/// </summary>
+public sealed class ConcreteTemplateWizardViewModel : ObservableObject, IDialogViewModel<bool>
 {
     private readonly JsonObject data;
     private bool selecting;
     private ConcreteGeometry? geometry;
     private string error = "", note = "";
-    public ConcreteTemplateWizardViewModel(JsonObject data)
+    /// <param name="data">The data of the sheet: «Applica sezione» writes the section of the wizard into them.</param>
+    /// <param name="wiki">Where F1 and «?» of the fields open the Wiki (the services of the sheet); null in the historic window.</param>
+    public ConcreteTemplateWizardViewModel(JsonObject data, IWikiNavigator? wiki = null)
     {
         this.data = data;
+        ApplyCommand = new RelayCommand(() => { if (Apply()) Close(true); }, () => CanApply);
+        CancelCommand = new RelayCommand(() => Close(false));
         Draft = ConcreteTemplateWizard.Draft(data["input"]!.AsObject());
         Form = new(Draft, [
             new("wizard_type", "Tipologia", Choices: ConcreteTemplateWizard.Choices.ToArray(), Wide: true),
@@ -44,13 +54,22 @@ public sealed class ConcreteTemplateWizardViewModel : ObservableObject
             new("longitudinal_bar_count","Barre anello esterno"), new("longitudinal_bar_diameter_mm","Ø anello esterno","mm"),
             new("second_inner_count","Barre secondo anello"), new("second_inner_diameter","Ø secondo anello","mm"), new("second_inner_gap","Interferro radiale","mm"),
             new("transverse_bar_diameter_mm","Diametro staffe","mm"), new("transverse_spacing_mm","Passo staffe","mm")
-        ], Changed, compact: true) { CommitOnFocusLoss = true };
+        ], Changed, compact: true) { CommitOnFocusLoss = true, WikiNavigator = wiki };
         Refresh();
     }
+    /// <summary>The caption of the window.</summary>
+    public string Title => "Wizard · Sezione in cemento armato";
+    /// <summary>True once «Applica sezione» applied the section to the document.</summary>
+    public bool Result { get; private set; }
+    public event EventHandler? CloseRequested;
+    /// <summary>«Applica sezione»: applies the draft and closes; available while the preview is valid.</summary>
+    public IRelayCommand ApplyCommand { get; }
+    /// <summary>«Annulla»: closes without changes.</summary>
+    public IRelayCommand CancelCommand { get; }
     public JsonObject Draft { get; }
     public FormViewModel Form { get; }
     public ConcreteGeometry? Geometry { get => geometry; private set => SetProperty(ref geometry, value); }
-    public string Error { get => error; private set { SetProperty(ref error, value); OnPropertyChanged(nameof(CanApply)); } }
+    public string Error { get => error; private set { SetProperty(ref error, value); OnPropertyChanged(nameof(CanApply)); ApplyCommand.NotifyCanExecuteChanged(); } }
     public string Note { get => note; private set => SetProperty(ref note, value); }
     public bool CanApply => Geometry is not null && Error.Length == 0;
     public event EventHandler? PreviewChanged;
@@ -102,6 +121,7 @@ public sealed class ConcreteTemplateWizardViewModel : ObservableObject
         try { Geometry = ConcreteTemplateWizard.Preview(Draft); Error = ""; }
         catch (ArgumentException exception) { Geometry = null; Error = exception.Message; }
         OnPropertyChanged(nameof(CanApply));
+        ApplyCommand.NotifyCanExecuteChanged();
         PreviewChanged?.Invoke(this, EventArgs.Empty);
     }
     public bool Apply()
@@ -110,5 +130,10 @@ public sealed class ConcreteTemplateWizardViewModel : ObservableObject
         if (!CanApply) return false;
         try { ConcreteTemplateWizard.Apply(data, Draft); return true; }
         catch (ArgumentException exception) { Error = exception.Message; return false; }
+    }
+    private void Close(bool applied)
+    {
+        Result = applied;
+        CloseRequested?.Invoke(this, EventArgs.Empty);
     }
 }
