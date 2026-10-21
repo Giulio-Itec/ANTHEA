@@ -8,7 +8,7 @@ namespace Anthea.Application.Concrete;
 /// (ConcreteWorkspace.cs, ConcreteExchange.cs and ConcreteShear.cs, preparation of F5.10): the values of a new row and its name, the new
 /// rows of the shear, the columns of the paste and of the copy, and the plan of a paste (validated before any row changes). The historic
 /// view calls them; the ViewModel of the sub-step «azioni» will call them too. The modal editor of the actions is already a ViewModel
-/// (SectionActionsViewModel).
+/// (SectionActionsViewModel, in ANTHEA.Presentation since F5.10 S2, decision C3).
 /// </summary>
 public static class ConcreteActionPresentation
 {

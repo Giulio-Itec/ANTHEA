@@ -28,6 +28,8 @@ try
     if (sectionTraces || sectionFast)
     {
         checks += ConcreteSectionSheetChecks.Run(root, output, full: sectionTraces);
+        // F5.10 S2 (decision C3): the editor of the actions moved from ANTHEA.Application with its check.
+        if (!sectionTraces) checks += SectionActionsEditorChecks.Run();
         string traces = $"PASS {checks} controlli della sezione c.a. (F5.10" + (sectionTraces ? ", tracce lunghe" : "") + ") senza WPF";
         File.WriteAllText(Path.Combine(output, "esito.txt"), traces, new UTF8Encoding(false));
         Console.WriteLine(traces);
@@ -56,6 +58,7 @@ try
     checks += RetainingWallSheetChecks.Run(root, output);
     checks += ElasticPileSheetChecks.Run(root, output);
     checks += ConcreteSectionSheetChecks.Run(root, output, full: false);
+    checks += SectionActionsEditorChecks.Run();
     string message = $"PASS {checks} controlli di Presentation senza WPF";
     File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
     Console.WriteLine(message);

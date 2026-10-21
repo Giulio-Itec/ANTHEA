@@ -87,7 +87,6 @@ try
     checks += SectionActionInputsChecks.Run();
     checks += DesignActionChecks.Run();
     checks += PileCriticalChecks.Run();
-    checks += SectionActionsEditorChecks.Run();
     checks += BridgePricesChecks.Run();
     checks += BridgePriceAnalysesChecks.Run();
     checks += BridgeTrafficChecks.Run();

@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using Anthea.Application.Concrete;
 using Anthea.Application.Documents;
 using Anthea.Calculations;
+using Anthea.Presentation.Modules.ConcreteSection;
 using X.Core;
 
 internal static class SectionActionsEditorChecks
