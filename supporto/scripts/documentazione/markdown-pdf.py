@@ -35,6 +35,8 @@ def inline(text):
     # Arial does not contain all Unicode subscript digits: use its ordinary glyphs.
     for digit, subscript in enumerate('₀₁₂₃₄₅₆₇₈₉'):
         text = text.replace(subscript, f'<sub>{digit}</sub>')
+    # Nor the superscript minus: raise negative exponents with ordinary glyphs.
+    text = re.sub('⁻[⁰¹²³⁴⁵⁶⁷⁸⁹]+', lambda m: '<super>-' + m.group(0)[1:].translate(str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹', '0123456789')) + '</super>', text)
     text = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', text)
     text = re.sub(r'`([^`]+)`',r'<font name="GuideMono">\1</font>',text)
     return text
