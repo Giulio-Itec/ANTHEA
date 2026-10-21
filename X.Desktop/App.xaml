@@ -20,6 +20,7 @@
    <ResourceDictionary Source="Views/RetainingWall/RetainingWallTemplates.xaml"/>
    <ResourceDictionary Source="Views/HorizontalPile/HorizontalPileTemplates.xaml"/>
    <ResourceDictionary Source="Views/EmbeddedWalls/EmbeddedWallTemplates.xaml"/>
+   <ResourceDictionary Source="Views/CompositeSection/CompositeSectionTemplates.xaml"/>
   </ResourceDictionary.MergedDictionaries>
   </ResourceDictionary>
  </Application.Resources>

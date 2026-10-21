@@ -249,6 +249,8 @@ public sealed partial class CompositeSectionSheetViewModel : SheetViewModelBase
         status = BridgeInputPresentation.StatusPreparing; OnPropertyChanged(nameof(Status));
         ResetInputs(); ResetLayout(); ResetResults(); ResetResponse();
         Open();
+        // The forms are new objects in the same dictionary: the view binds them again.
+        OnPropertyChanged(nameof(Forms));
         OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(DisplayedCalculation)); OnPropertyChanged(nameof(Result)); OnPropertyChanged(nameof(HasResults));
         OnPropertyChanged(nameof(ResultsAreStale)); OnPropertyChanged(nameof(CanExport)); OnPropertyChanged(nameof(IsDetached));
     }

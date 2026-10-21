@@ -21,8 +21,8 @@ public sealed partial class MainWindow
         d["terminale_rigido"] = true; d["e_term"] = 500; d["pioli"] = true;
         d["armatura_trasv"] = true; d["fatica_pioli"] = true; d["q_fat_min"] = -100; d["q_fat_max"] = 200;
         d["flangia_fat_tesa"] = true; d["dsigma_fat"] = 30;
-        using var bridge = new BridgeWorkspace(d);
-        var window = Ui.Dialog(this, "Verifica dettagli sezione da ponte", bridge, 1600, 990); window.Show();
+        using var bridge = OpenBridge(d); d = bridge.Data;
+        var window = Ui.Dialog(this, "Verifica dettagli sezione da ponte", bridge.View, 1600, 990); window.Show();
         try
         {
             async Task Layout() { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); window.UpdateLayout(); }
@@ -33,13 +33,13 @@ public sealed partial class MainWindow
                 { if (DateTime.UtcNow > deadline) throw new Exception("Aggiornamento dettagli non completato."); await Task.Delay(60); }
                 await Layout();
             }
-            InputForm Form(string key) => bridge.InputForms.Single(f => f.Editors.ContainsKey(key));
+            BridgeSmokeForm Form(string key) => bridge.InputForms.Single(f => f.Editors.ContainsKey(key));
             await Wait(); bridge.Pages.SelectedIndex = 0; await Layout();
             Check(bridge.Pages.Items.Count == 3 && bridge.Results.Items.Count == 5, "Schede ponte e nuova pagina curve.");
             Check(bridge.DetailSketch.Labels.Any(s => s.Contains("Solo sinistra")), "Prospetto intermedio non aggiornato.");
             Check(bridge.Drawing.VisibleTags.Any(s => s.Contains("SX 150×30") && s.Contains("DX assente")), "Piatti monolaterali non rappresentati.");
             Form("lati_irr").Set("lati_irr", "Bilaterali diversi"); await Wait();
-            Check(Form("b_irr_dx").Editors["b_irr_dx"].Visibility == Visibility.Visible, "Piatto destro non editabile.");
+            Check(Form("b_irr_dx").Shown("b_irr_dx"), "Piatto destro non editabile.");
             Form("b_irr_dx").Set("b_irr_dx", "180"); Form("t_irr_dx").Set("t_irr_dx", "25");
             ((CheckBox)Form("pannelli_uguali").Editors["pannelli_uguali"]).IsChecked = false;
             Form("a_irr_dx").Set("a_irr_dx", "4500"); await Wait();
@@ -48,8 +48,8 @@ public sealed partial class MainWindow
             bridge.DetailSectionChoice.SelectedIndex = 1; await Layout();
             Check(ReferenceEquals(previous, bridge.Calculation), "La scelta della sezione locale ricalcola le fasi.");
             Check(bridge.Drawing.DetailAtSupport && bridge.DetailSketch.Labels.Contains("2 coppie"), "Terminale non rappresentato.");
-            Check(Form("a_app_sx").Editors["a_app_sx"].Visibility == Visibility.Collapsed, "Pannello oltre l’estremità ancora modificabile.");
-            foreach (var expander in Ui.Descendants<Expander>(bridge).Where(e => (e.Header as TextBlock)?.Text == "Appoggi e montanti terminali"))
+            Check(!Form("a_app_sx").Shown("a_app_sx"), "Pannello oltre l’estremità ancora modificabile.");
+            foreach (var expander in Ui.Descendants<Expander>(bridge.View).Where(e => (e.Header as TextBlock)?.Text == "Appoggi e montanti terminali"))
             { expander.IsExpanded = true; expander.BringIntoView(); }
             await Layout(); File.WriteAllBytes(Path.Combine(directory, "dettagli_appoggio.png"), Ui.Snapshot(window));
             window.Width = 1366; window.Height = 900; await Layout();
@@ -58,10 +58,10 @@ public sealed partial class MainWindow
             File.WriteAllBytes(Path.Combine(directory, "dettagli_1366.png"), Ui.Snapshot(window));
             Form("pos_app").Set("pos_app", "Appoggio interno"); await Wait();
             Check(!bridge.Calculation!.Stages.Last().Shear!.RigidEndPost, "Appoggio interno eredita il terminale rigido nascosto.");
-            Check(Form("e_term").Editors["e_term"].Visibility == Visibility.Collapsed, "Interasse terminale visibile all’appoggio interno.");
+            Check(!Form("e_term").Shown("e_term"), "Interasse terminale visibile all’appoggio interno.");
             Form("pos_app").Set("pos_app", "Estremità sinistra"); await Wait();
             bridge.Commit();
-            using (var reopened = new BridgeWorkspace((JsonObject)d.DeepClone()))
+            using (var reopened = OpenBridge((JsonObject)d.DeepClone()))
             {
                 await reopened.CalculateAsync();
                 Check(reopened.DetailSectionChoice.SelectedIndex == 1 && reopened.Data.S("lati_irr") == "Bilaterali diversi", "Archivio perde dettaglio selezionato.");

@@ -84,8 +84,8 @@ public sealed partial class MainWindow
         }
         static string stageCaption(string method) => method == BridgeSection.CalculationMethods[0] ? "σa" : "ε totale";
         bridgeData["metodo_analisi"] = BridgeSection.CalculationMethods[0];
-        using var bridge = new BridgeWorkspace(bridgeData);
-        var window = new Window { Content = bridge, Width = 1600, Height = 1000, Owner = this };
+        using var bridge = OpenBridge(bridgeData);
+        var window = new Window { Content = bridge.View, Width = 1600, Height = 1000, Owner = this };
         try
         {
             window.Show(); bridge.Pages.SelectedIndex = 1; await bridge.CalculateAsync();
@@ -97,15 +97,15 @@ public sealed partial class MainWindow
             bridge.NeutralAxisToggle.IsChecked = false; bridge.NeutralAxisToggle.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             Check(ReferenceEquals(result, bridge.Calculation) && !bridge.ResultsAreStale && !bridge.Drawing.ShowNeutralAxis, "Comando grafico non invalida il calcolo");
-            using var reopened = new BridgeWorkspace((JsonObject)bridge.Data.DeepClone());
+            using var reopened = OpenBridge((JsonObject)bridge.Data.DeepClone());
             Check(reopened.NeutralAxisToggle.IsChecked == false, "Preferenza asse salvata alla riapertura");
             bridge.NeutralAxisToggle.IsChecked = true; bridge.NeutralAxisToggle.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
             bridge.Drawing.ContourSection = true; bridge.Drawing.ContourDiagram = true; bridge.Drawing.InvalidateVisual();
             bridge.DetachView();
-            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); bridge.detachedWindow!.UpdateLayout();
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); bridge.DetachedWindow!.UpdateLayout();
             Check(bridge.Drawing.NeutralAxisDisplay?.Start is not null && bridge.NeutralAxisToggle.IsVisible, "Vista staccata: asse e comando disponibili");
-            File.WriteAllBytes(Path.Combine(directory,"ponte_vista_staccata.png"),Ui.Snapshot(bridge.detachedWindow!));
-            bridge.detachedWindow!.Close();
+            File.WriteAllBytes(Path.Combine(directory,"ponte_vista_staccata.png"),Ui.Snapshot(bridge.DetachedWindow!));
+            bridge.DetachedWindow!.Close();
             bridge.Pages.SelectedIndex = 0;
             Check(bridge.NeutralAxisToggle.Visibility == Visibility.Collapsed && bridge.Drawing.Stage is null, "Pannello geometrico senza controlli tensionali");
         }

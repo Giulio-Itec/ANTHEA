@@ -14,8 +14,8 @@ public sealed partial class MainWindow
         int checks = 0;
         void Check(bool value, string message) { checks++; if (!value) throw new Exception(message); }
         var data = BridgeSection.Defaults(); data["plate2"] = true;
-        using var bridge = new BridgeWorkspace(data);
-        var window = Ui.Dialog(this, "Prova proprietà, tabella e ritiro", bridge, 1600, 990);
+        using var bridge = OpenBridge(data); data = bridge.Data;
+        var window = Ui.Dialog(this, "Prova proprietà, tabella e ritiro", bridge.View, 1600, 990);
         window.Show();
         try
         {
@@ -24,32 +24,32 @@ public sealed partial class MainWindow
             {
                 var end = DateTime.UtcNow.AddSeconds(30);
                 while (bridge.Calculation is null || bridge.Busy)
-                { if (DateTime.UtcNow > end) throw new Exception("Calcolo UI ritiro non disponibile: " + string.Join(" | ", Ui.Descendants<TextBlock>(bridge).Select(t => t.Text).Where(t => t.Contains("Errore")))); await Task.Delay(60); }
+                { if (DateTime.UtcNow > end) throw new Exception("Calcolo UI ritiro non disponibile: " + string.Join(" | ", Ui.Descendants<TextBlock>(bridge.View).Select(t => t.Text).Where(t => t.Contains("Errore")))); await Task.Delay(60); }
                 await Layout();
             }
             async Task Edit(int row, string key, string value)
             {
                 bridge.Pages.SelectedIndex = 1; bridge.Results.SelectedIndex = 0; await Layout();
-                var grid = bridge.ActionsTable; var item = grid.Rows[row]; var column = grid.Columns.Single(c => c.SortMemberPath == key);
+                var grid = bridge.ActionsTable; var item = bridge.ActionRows[row]; var column = grid.Columns.Single(c => c.SortMemberPath == key);
                 grid.ScrollIntoView(item, column); grid.CurrentCell = new DataGridCellInfo(item, column); grid.Focus();
                 Check(grid.BeginEdit(), "Tabella: impossibile modificare " + key); await Layout();
                 var editor = column.GetCellContent(item) as TextBox;
                 Check(editor is not null, "Editor numerico assente per " + key);
-                editor!.Focus(); editor.Text = value; grid.Commit(); bridge.Drawing.Focus();
+                editor!.Focus(); editor.Text = value; bridge.CommitTable(); bridge.Drawing.Focus();
                 await Layout(); await Wait();
                 Check(item.Values.S(key) == value, "Valore perso dalla tabella: " + key);
             }
             void ClickTable(string label)
             {
                 var content = (DependencyObject)((TabItem)bridge.Results.Items[0]).Content;
-                Ui.Descendants<Button>(content).Single(b => b.Content?.ToString() == label).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                BridgeSmoke.Press(Ui.Descendants<Button>(content).Single(b => b.Content?.ToString() == label));
             }
             await Wait(); bridge.Pages.SelectedIndex = 0; await Layout();
             Check(bridge.Results.Items.Count == 5, "Ordine delle cinque schede incompleto.");
             Check(bridge.SectionPropertyTabs.IsVisible && bridge.SectionPropertyTabs.Items.Count == 5, "Proprietà della geometria o schede per fase assenti.");
             File.WriteAllBytes(Path.Combine(directory, "proprieta_acciaio.png"), Ui.Snapshot(window));
             bridge.SectionPropertyTabs.SelectedIndex = 1; await Layout();
-            var slabForm = Ui.Descendants<InputForm>(bridge.SectionPropertyTabs).Single();
+            var slabForm = bridge.SlabPropertiesForm;
             var beforeSlab = bridge.Calculation; slabForm.Set("n", "16"); await Layout();
             Check(ReferenceEquals(beforeSlab, bridge.Calculation), "L’esplorazione della soletta modifica il calcolo delle fasi.");
             var slabSettings = data["ui_mista"]!["soletta_proprieta"]!;
@@ -65,7 +65,7 @@ public sealed partial class MainWindow
             Check(Math.Abs(bridge.Calculation!.Stages.Last().Contributions[1].Phi - 1.5) < 1e-10 && data.Array("fasi")[1].D("n") != 15, "φ tabellare non aggiorna n/calcolo.");
             var detail = bridge.InputForms.Where(f => f.Editors.ContainsKey("Mx")).ElementAt(1);
             detail.Set("Mx", "2300"); await Wait();
-            Check(bridge.ActionsTable.Rows[1].Values.D("Mx") == 2300 && bridge.ActionsTable.Rows[1]["Mx"]?.ToString() == "2300", "Dettaglio non aggiorna la tabella.");
+            Check(bridge.ActionRows[1].Values.D("Mx") == 2300 && bridge.ActionRows[1]["Mx"]?.ToString() == "2300", "Dettaglio non aggiorna la tabella.");
             var normalStresses = bridge.Calculation!.Stages.Last().Points.Select(p => p.Stress).ToArray();
             await Edit(1, "V", "175");
             Check(normalStresses.SequenceEqual(bridge.Calculation!.Stages.Last().Points.Select(p => p.Stress)) && bridge.Calculation.Stages.Last().Contributions.Sum(c => c.V) == 175, "V altera le tensioni normali o non viene registrato.");
@@ -84,11 +84,11 @@ public sealed partial class MainWindow
             var beforeInvalidOrder = bridge.Calculation;
             ClickTable("↑");
             var rejectEnd = DateTime.UtcNow.AddSeconds(30);
-            bool Rejected() => !bridge.Busy && bridge.Calculation is null && Ui.Descendants<TextBlock>(bridge).Any(t => t.Text.Contains("solo acciaio") && t.Text.Contains("precedere"));
+            bool Rejected() => !bridge.Busy && bridge.Calculation is null && Ui.Descendants<TextBlock>(bridge.View).Any(t => t.Text.Contains("solo acciaio") && t.Text.Contains("precedere"));
             while (!Rejected())
             {
                 if (DateTime.UtcNow > rejectEnd) throw new Exception("Ritiro prima della fase di solo acciaio: ordine non rifiutato o motivo non mostrato (PON-5): "
-                    + string.Join(" | ", Ui.Descendants<TextBlock>(bridge).Select(t => t.Text).Where(t => t.Contains("verificare") || t.Contains("Errore"))));
+                    + string.Join(" | ", Ui.Descendants<TextBlock>(bridge.View).Select(t => t.Text).Where(t => t.Contains("verificare") || t.Contains("Errore"))));
                 await Task.Delay(60);
             }
             await Layout();
@@ -98,12 +98,12 @@ public sealed partial class MainWindow
             ClickTable("+ Ritiro"); await Wait(); await Edit(4, "epsilon_cs", "-75"); await Edit(4, "phi", "3");
             Check(bridge.Calculation!.Stages.Last().Contributions.Count(c => c.IsShrinkage) == 2, "Più fasi di ritiro non conservate.");
             var lastValid = bridge.Calculation;
-            bridge.ActionsTable.Rows[4]["epsilon_cs"] = "invalido"; await Task.Delay(800); await Layout();
+            bridge.ActionRows[4]["epsilon_cs"] = "invalido"; await Task.Delay(800); await Layout();
             Check(bridge.Calculation is null && bridge.ResultsAreStale && ReferenceEquals(lastValid, bridge.DisplayedCalculation), "Ritiro non valido perde gli ultimi risultati o viene accettato.");
-            bridge.ActionsTable.Rows[4]["epsilon_cs"] = "-75"; await Wait();
-            bridge.ActionsTable.Rows[4]["attiva"] = false; await Wait();
+            bridge.ActionRows[4]["epsilon_cs"] = "-75"; await Wait();
+            bridge.ActionRows[4]["attiva"] = false; await Wait();
             Check(bridge.Calculation!.Stages.Count == 4, "Ritiro disattivato ancora incluso.");
-            bridge.ActionsTable.Rows[4]["attiva"] = true; await Wait();
+            bridge.ActionRows[4]["attiva"] = true; await Wait();
             bridge.StageChoice.SelectedIndex = bridge.Calculation.Stages.Count - 1; bridge.DisplayChoice.SelectedIndex = 1; await Layout();
             Check(bridge.Drawing.LoadPoints.Length == 3, "Il ritiro viene disegnato come carico assiale esterno.");
             foreach (int result in new[] { 0, 1, 3, 4 })
@@ -123,7 +123,7 @@ public sealed partial class MainWindow
             Check(bridge.SectionPropertyTabs.Items.Count == 7, "Proprietà non allineate alle nuove fasi.");
             File.WriteAllBytes(Path.Combine(directory, "proprieta_ritiro.png"), Ui.Snapshot(window));
             bridge.Commit();
-            using (var reopened = new BridgeWorkspace((JsonObject)data.DeepClone()))
+            using (var reopened = OpenBridge((JsonObject)data.DeepClone()))
             {
                 await reopened.CalculateAsync();
                 Check(reopened.Calculation is not null && JsonNode.DeepEquals(data["fasi"], reopened.Data["fasi"]), "Riapertura perde azioni/ritiro.");

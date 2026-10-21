@@ -1,0 +1,105 @@
+<!--
+  «Info modello…» of the composite bridge section sheet (F5.11): the window of the historic view (ShowModelInformation) as a dialog of the view,
+  with the same texts, the sketches of the method (BridgeMethodSketch, drawn in code: Q3) and «Chiudi». Fixed texts of the view, no member of the
+  ViewModel. Theme tokens only (rule P7): the title at 22 points (Font.Title, D8), the texts at 13, the notices with the colours of the notes.
+-->
+<UserControl x:Class="X.Desktop.Views.CompositeSection.CompositeSectionInformationView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:bridge="clr-namespace:Anthea.Application.Bridge;assembly=ANTHEA.Application">
+ <UserControl.Resources>
+  <ResourceDictionary>
+   <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="CompositeSectionResources.xaml"/></ResourceDictionary.MergedDictionaries>
+  </ResourceDictionary>
+ </UserControl.Resources>
+ <Border Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Padding="18">
+  <DockPanel>
+   <WrapPanel DockPanel.Dock="Bottom"><Button Style="{StaticResource Command}" Content="Chiudi" Click="Close_Click"/></WrapPanel>
+   <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel x:Name="Body">
+     <TextBlock Style="{StaticResource Title}" Text="Come viene analizzata la sezione da ponte"/>
+     <TextBlock Style="{StaticResource T13}" Text="Motore di calcolo: GPC Engine. Gli schemi sono illustrativi. I tre metodi risiedono nella libreria GPCChecker.CompositeBridge; ANTHEA gestisce i dati e la visualizzazione. I diagrammi di somma sottostanti descrivono il metodo cumulativo precedente."/>
+     <Expander Style="{StaticResource Group}" IsExpanded="True">
+      <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="Metodi con storico delle deformazioni"/></Expander.Header>
+      <StackPanel>
+       <TextBlock Style="{StaticResource T13}" Text="Storico lineare: a ogni fase si impone l’equilibrio sulla sezione attiva conservando il piano di deformazione al getto. εmecc = εtot − εgetto − Σεimposte. Ogni ritiro è un nuovo incremento sul solo CLS. φ/n agisce sul modulo dei nuovi incrementi, senza ricalcolare retroattivamente le tensioni già accumulate."/>
+       <TextBlock Style="{StaticResource T13}" Text="Storico non lineare: stesso equilibrio a fibre con acciaio elastoplastico a incrudimento isotropo e scarico elastico, CLS sull’inviluppo tabulato Model in compressione e, in trazione, secondo «CLS teso (non lineare)»: Trascurato (predefinito, nessuna resistenza a trazione) oppure Tension stiffening, σ = fctm/(1 + √(500 ε)) oltre la fessurazione (Collins e Mitchell 1991). La memoria plastica appartiene a ogni fibra; il CLS non possiede un modello di danno ciclico. Le tensioni sono curve campionate, non rette dedotte da My/I."/>
+       <TextBlock Style="{StaticResource T13}" Text="Non lineare su sezione lorda, senza instabilità locale: non è una verifica SLU di classe 4. Materiali caratteristici, senza riduzioni γM. La scelta istantanea applica φ=0 senza cancellare gli ingressi; l’alternativa richiede φ=0 assegnato in tutte le fasi con CLS. V e le verifiche accessorie non vengono calcolati dai metodi con storico."/>
+       <TextBlock Style="{StaticResource T13}" Text="I sottopassi risolvono variazioni di carico e ritiro; gli stati materiali sono accettati solo a convergenza. Aumentare strisce e sottopassi per studiare la sensibilità. Non convergenza e superamento del dominio dei materiali bloccano il risultato corrente. Non sono imposti limiti al numero delle fasi."/>
+      </StackPanel>
+     </Expander>
+     <Expander Style="{StaticResource Group}" IsExpanded="True">
+      <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="01 · Fasi di carico e somma delle tensioni"/></Expander.Header>
+      <StackPanel>
+       <ContentControl x:Name="Sketch0" Style="{StaticResource Form}"/>
+       <TextBlock Style="{StaticResource T13}" Text="Ogni riga contiene un incremento ΔN e ΔMx già combinato. La situazione «Dopo fase i» comprende quella riga e tutte le precedenti attive. Il tipo di sezione stabilisce quali materiali reagiscono: solo acciaio; composta non fessurata; oppure acciaio e armature con soletta esclusa."/>
+       <TextBlock Style="{StaticResource T13}" Text="Per ciascuna situazione si ricalcolano tutti i contributi sulla stessa carpenteria efficace. La somma si esegue sulle tensioni dei singoli materiali, non direttamente sui piani grezzi di deformazione di GPC Engine. Cambiando la situazione può cambiare anche la sezione efficace usata per i contributi precedenti."/>
+       <Border Style="{StaticResource Notice}"><TextBlock Style="{StaticResource NoticeText}" Text="Questo modello non congela le tensioni raggiunte durante la costruzione e non simula una redistribuzione viscosa nel tempo. È una sovrapposizione elastica per situazioni di verifica."/></Border>
+      </StackPanel>
+     </Expander>
+     <Expander Style="{StaticResource Group}" IsExpanded="True">
+      <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="02 · Omogeneizzazione e materiali"/></Expander.Header>
+      <StackPanel>
+       <ContentControl x:Name="Sketch1" Style="{StaticResource Form}"/>
+       <TextBlock Style="{StaticResource T13}" Text="Le proprietà A*, yG e Ix* sono riferite all’acciaio strutturale. La soletta contribuisce con Ec,eff = Ecm / (1 + ψL·φ); il suo rapporto modulare è n = Ea / Ec,eff. Le barre usano Es/Ea e sostituiscono l’area corrispondente di calcestruzzo."/>
+       <TextBlock Style="{StaticResource T13}" Text="φ, ψL e n sono modificabili in ogni fase composta: assegnare n aggiorna φ; assegnare φ o ψL aggiorna n. Il valore passato alle API di Model e GPC Engine è il prodotto ψL·φ. I due acciai possono avere moduli diversi. Il grafico usa ψL = 1,1 soltanto come esempio della relazione."/>
+      </StackPanel>
+     </Expander>
+     <Expander Style="{StaticResource Group}" IsExpanded="True">
+      <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="03 · Punto di applicazione N e riferimento dei momenti"/></Expander.Header>
+      <StackPanel>
+       <ContentControl x:Name="Sketch2" Style="{StaticResource Form}"/>
+       <TextBlock Style="{StaticResource T13}" Text="N è normale al piano della sezione e agisce sull’asse di simmetria. y = 0 è l’interfaccia tra soletta e carpenteria; y cresce verso l’alto. N positivo è trazione, Mx positivo comprime la parte superiore. ΔMx è riferito al punto N della stessa fase."/>
+       <TextBlock Style="{StaticResource T13}" Text="Quota comune: tutte le fasi che la selezionano usano il valore y inserito. Baricentro omogeneizzato lordo: yN è ricavato dai materiali reagenti e dal fattore n di quella fase, prima delle riduzioni locali, e resta fisso nel ciclo. È la scelta iniziale delle nuove fasi."/>
+       <TextBlock Style="{StaticResource T13}" Text="Baricentro efficace iterativo: yN segue il baricentro della fase a ogni aggiornamento della carpenteria efficace. È un’ipotesi di carico centrato sulla sezione efficace corrente; a geometria efficace diversa corrisponde un diverso punto di applicazione."/>
+       <TextBlock Style="{StaticResource T13}" Text="Trasporto al baricentro corrente: Mx,G = Mx + N·(yG − yN). Per sommare fasi con quote diverse si usa il riferimento comune y = 0: Mx,0 = Mx − N·yN. N in kN e y in mm richiedono la divisione per 1000 per ottenere kNm. Le tabelle espongono yN di ogni contributo e i momenti cumulati a y = 0."/>
+      </StackPanel>
+     </Expander>
+     <Expander Style="{StaticResource Group}" IsExpanded="True">
+      <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="04 · Classe 4 e convergenza"/></Expander.Header>
+      <StackPanel>
+       <ContentControl x:Name="Sketch3" Style="{StaticResource Form}"/>
+       <TextBlock Style="{StaticResource T13}" Text="Si parte dalla sezione lorda. Dalle tensioni totali nella carpenteria si calcolano le larghezze efficaci dell’anima e degli sbalzi, poi si risolve nuovamente l’equilibrio. La parte semitrasparente con bordo arancio è esclusa dalla sezione resistente; non rappresenta la deformata dell’anima né un’instabilità a taglio."/>
+       <TextBlock Style="{StaticResource T13}" Text="Il modulo usa EN 1993-1-5:2006, §4.4 e tabelle 4.1–4.2 per pannelli senza irrigidimenti longitudinali. Gli sbalzi usano la tensione più compressiva nello spessore. Per ψ inferiore a −3, kσ e la curva di riduzione sono valutati a −3, conservando la larghezza compressa effettiva."/>
+       <TextBlock Style="{StaticResource T13}" Text="Rilassamento 0,55; tolleranza relativa 1E−7 sulle larghezze; massimo 120 iterazioni. Non convergenza o residuo normalizzato dell’equilibrio maggiore di 1E−5 impediscono un nuovo risultato valido. L’ultimo risultato visibile resta segnalato come «da aggiornare» e non può essere esportato come corrente."/>
+      </StackPanel>
+     </Expander>
+     <Expander Style="{StaticResource Group}" IsExpanded="True">
+      <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="05 · Risultati, approssimazioni e librerie"/></Expander.Header>
+      <StackPanel>
+       <TextBlock Style="{StaticResource T13}" Text="SLU, SLE rara e SLE quasi permanente selezionano i limiti tensionali: a parità degli altri dati cambiano i rapporti di verifica, non il campo elastico. Un CLS teso è segnalato; non si cerca automaticamente la porzione compressa della soletta. Negli SLE le barre tese della soletta fessurata (fasi «Soletta esclusa») comprendono il tension stiffening Δσs = 0,4 fctm/(αst ρs) di EN 1994-1-1 §7.4.3(3): per queste barre Σσ supera la somma dei Δσ delle fasi."/>
+       <TextBlock Style="{StaticResource T13}" Text="Allo SLU gli incrementi N, Mx e V devono essere già combinati e coefficientati con γF e ψ: il modulo non li moltiplica nuovamente. I coefficienti γM0, γc e γs agiscono sulle resistenze. V è sommato per situazione e verificato sull’anima intera con EN 1993-1-5 §5. Gli irrigidimenti di appoggio usano un inviluppo di reazione R assegnato separatamente. I pioli usano q = Σ(V·S/I + Δq), seguendo le proprietà prescritte da NTC oppure EC4."/>
+       <TextBlock Style="{StaticResource T13}" Text="Le armature possono essere meno sollecitate dell’estradosso della trave perché non portano la fase iniziale di solo acciaio. Nelle fasi successive si confrontano i singoli contributi: le quote sono diverse e la tensione è E per la deformazione locale, con il modulo Es delle barre e Ea della carpenteria."/>
+       <TextBlock Style="{StaticResource T13}" Text="Le due piattabande inferiori sono disegnate separatamente. Nel calcolo si usa un rettangolo equivalente con area e spessore complessivi uguali: non conserva in generale baricentro e inerzia delle due piastre reali. Le proprietà di confronto restano disponibili nei risultati."/>
+       <TextBlock Style="{StaticResource T13}" Text="Model fornisce materiali, sezione da ponte, distribuzione delle barre e proprietà omogeneizzate. Tutti i metodi di calcolo, i riferimenti di N e le iterazioni efficaci risiedono in GPCChecker.CompositeBridge. ANTHEA presenta ingressi, risultati e report."/>
+       <TextBlock Style="{StaticResource T13}" Text="GPC Engine integra la carpenteria sulle linee medie delle pareti e le barre come aree concentrate. Per questo Ix geometrico completo e Ix di integrazione possono differire: sono entrambi esposti e l’audit dell’equilibrio usa le ipotesi di integrazione del solver."/>
+       <Border Style="{StaticResource Notice}"><TextBlock Style="{StaticResource NoticeText}" Text="{x:Static bridge:BridgeEditor.Scope}"/></Border>
+       <TextBlock Style="{StaticResource T12}" Text="Calcolo in GPCChecker.CompositeBridge: HSections per il metodo precedente, History per lo storico. Validazione e limiti sono descritti nella guida teorica (sezione composta da ponte) e nei test della libreria."/>
+      </StackPanel>
+     </Expander>
+     <Expander Style="{StaticResource Group}" IsExpanded="True">
+      <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="06 · Ritiro della soletta"/></Expander.Header>
+      <StackPanel>
+       <TextBlock Style="{StaticResource T13}" Text="Ogni fase Ritiro assegna un incremento uniforme Δεcs al solo CLS: negativo per accorciamento, in µε (−250 µε = −0,25‰). Puoi inserire più fasi e spostarle nell’ordine desiderato. Ogni fase possiede φ, ψL e n; il valore iniziale di ψL è 0,55, modificabile."/>
+       <TextBlock Style="{StaticResource T13}" Text="Compatibilità: acciaio e barre seguono la deformazione della sezione. Il CLS reagisce alla differenza tra questa deformazione e il proprio ritiro libero: σc = Ec,eff · (ε − Δεcs). La contrazione della soletta genera quindi tensioni anche senza forze esterne."/>
+       <TextBlock Style="{StaticResource T13}" Text="Calcolo: si risolve Neq = Ec,eff · Ac,netto · Δεcs applicato al baricentro del CLS netto; poi si aggiunge −Ec,eff · Δεcs soltanto alle tensioni del CLS. Applicare soltanto Neq e Meq senza questa correzione darebbe un risultato errato. Le azioni equivalenti sono mostrate separatamente: la fase ha N, Mx e V esterni nulli."/>
+       <Border Style="{StaticResource Notice}"><TextBlock Style="{StaticResource NoticeText}" Text="Sono inclusi gli effetti primari autoequilibrati sulla sezione. Eventuali effetti secondari da vincoli esterni vanno inseriti come azioni in una fase separata. Il modulo non calcola automaticamente ritiro da età/umidità né redistribuzione viscosa tra date."/></Border>
+      </StackPanel>
+     </Expander>
+     <Expander Style="{StaticResource Group}" IsExpanded="True">
+      <Expander.Header><TextBlock Style="{StaticResource T14Bold}" Text="07 · Taglio irrigidimenti e pioli"/></Expander.Header>
+      <StackPanel>
+       <TextBlock Style="{StaticResource T13}" Text="VRd = min(Vpl,Rd; Vbw,Rd). Instabilità a taglio dell’anima: kτ, λw e χw sono esposti nella scheda Verifiche. Le zone semitrasparenti della viewport sono inefficaci per tensioni normali, non sono una rappresentazione del modo di instabilità a taglio."/>
+       <TextBlock Style="{StaticResource T13}" Text="Gli irrigidimenti possono essere mono o bilaterali, simmetrici o diversi, con pannelli adiacenti distinti. Si richiede vincolo laterale alle flange. Baricentro ed eccentricità sono calcolati dalla geometria reale. Si verificano inerzia, instabilità flessionale, torsione, freccia e tensione del II ordine. Se non idonei, il calcolo non attribuisce alcun incremento della resistenza a taglio."/>
+       <TextBlock Style="{StaticResource T13}" Text="Pioli: NTC §4.3.4.3.3 usa le proprietà della fase tensionale; EN 1994-2 §6.6.2.1 usa il CLS non fessurato anche per una fase con soletta esclusa. In questo caso φ/n servono al solo scorrimento. Il contributo G1 del solo acciaio è nullo. Il ritiro uniforme non determina lo scorrimento alle estremità: inserire Δq da un’analisi longitudinale."/>
+       <TextBlock Style="{StaticResource T13}" Text="Appoggio interno e terminale sono distinti dagli intermedi. R non è ricavata dal taglio della sezione. Un terminale rigido richiede due coppie bilaterali simmetriche distanziate di e e tutti i controlli previsti; altrimenti si mantiene la curva non rigida. Le saldature sono continue, senza intagli."/>
+       <TextBlock Style="{StaticResource T13}" Text="Le armature trasversali della soletta sono ingressi distinti dalle file longitudinali. Per la fatica si assegnano qmin, qmax, λv, φfat e, se la flangia va in trazione, ΔσE,2. Sono inviluppi dal modello globale, indipendenti dalla sequenza di fasi. I controlli mancanti sono sempre indicati come da verificare."/>
+       <Border Style="{StaticResource Notice}"><TextBlock Style="{StaticResource NoticeText}" Text="Interazione M–V con capacità plastiche di riferimento per N=0, fy≤355 MPa e anima non tutta compressa. Negli altri casi, ad alto taglio, si applica un inviluppo elastico cautelativo senza riserva delle flange: ηnorm+(2ηV−1)²≤1. I controlli opzionali comprendono soletta a–a/b–b, ancoraggi, splitting al bordo e fatica pioli/flangia. Sollevamento e splitting nello spessore richiedono un modello dedicato. La colorazione σ/limite riguarda soltanto le tensioni normali."/></Border>
+      </StackPanel>
+     </Expander>
+    </StackPanel>
+   </local:ChainedScrollViewer>
+  </DockPanel>
+ </Border>
+</UserControl>

@@ -75,6 +75,9 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     internal WallSmoke Wall => MvvmWallSmoke.Handles(editor) ? new MvvmWallSmoke((MvvmSheetEditor)editor, services)
         : new HistoricWallSmoke(Historic.retainingWall ?? throw new Exception("Muro di sostegno non aperto"));
 
+    /// <summary>F5.11: the composite bridge section, with either view (BridgeSmoke).</summary>
+    internal BridgeSmoke Bridge => BridgeSmoke.Of(editor);
+
     /// <summary>The reinforcing steel, with either view (SteelSmoke).</summary>
     internal SteelSmoke Steel => editor.Module != RebarMaterial.Module ? throw new Exception("Modulo acciaio non aperto")
         : new(editor is MvvmSheetEditor ? editor : Historic);

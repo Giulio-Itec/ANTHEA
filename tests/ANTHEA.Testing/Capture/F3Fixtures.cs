@@ -1124,6 +1124,9 @@ public static class F3Fixtures
     /// local sketch, slab properties, the page of the curves); the legacy view settings and method name; a calculation stopped by data to
     /// complete. The documents are as the sheet writes them (raw texts for the typed values); the identifiers never end in "default",
     /// which the F3 project report collects.
+    /// <para>Preliminary check of new inputs: the F3 capture in a temporary root (--check-f3-equivalence) calculates every input with the view of
+    /// the Release; with the bench --module-impl str_mista_ponte=mvvm (UiTests) the same check runs on the XAML view (F5.11, f5-11-vista: the
+    /// seven inputs give the outcome described with both views, and the two captures are identical file by file).</para>
     /// </summary>
     static void BridgeSectionF511(List<CaptureCase> cases)
     {

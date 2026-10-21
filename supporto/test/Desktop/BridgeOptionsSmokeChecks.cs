@@ -10,12 +10,12 @@ namespace X.Desktop;
 
 public sealed partial class MainWindow
 {
-    private async Task CheckBridgeOptions(BridgeWorkspace bridge, Func<Task> wait, string directory)
+    private async Task CheckBridgeOptions(BridgeSmoke bridge, Func<Task> wait, string directory)
     {
         int checks = 0;
         void Check(bool condition, string message) { checks++; if (!condition) throw new Exception(message); }
         void Near(double a, double b, string message) => Check(Math.Abs(a - b) < 1e-10 * Math.Max(1, Math.Abs(b)), message);
-        void Edit(InputForm form, string key, double value)
+        void Edit(BridgeSmokeForm form, string key, double value)
         {
             // Bringing a newly rebuilt phase into a ScrollViewer queues layout. Complete it
             // before requesting keyboard focus, as a user click would do on the visible field.
@@ -40,8 +40,8 @@ public sealed partial class MainWindow
         var optionForm = bridge.InputForms.Single(f => f.Editors.ContainsKey("stato"));
         var state = (ComboBox)optionForm.Editors["stato"];
         var class4 = (CheckBox)optionForm.Editors["classe4"];
-        InputForm PhaseForm(int i) => bridge.InputForms.Where(f => f.Editors.ContainsKey("N")).ElementAt(i);
-        InputForm Homo(int i) => bridge.InputForms.Where(f => f.Editors.ContainsKey("n")).ElementAt(i);
+        BridgeSmokeForm PhaseForm(int i) => bridge.InputForms.Where(f => f.Editors.ContainsKey("N")).ElementAt(i);
+        BridgeSmokeForm Homo(int i) => bridge.InputForms.Where(f => f.Editors.ContainsKey("n")).ElementAt(i);
         bridge.Pages.SelectedIndex = 1; bridge.DisplayChoice.SelectedIndex = 0; bridge.StageChoice.SelectedIndex = 2;
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         foreach (int i in new[] { 0, 1, 2 }) ((ComboBox)PhaseForm(i).Editors["riferimento_N"]).SelectedItem = BridgeSection.CommonLoadReference;
@@ -103,13 +103,15 @@ public sealed partial class MainWindow
         Check(!effective.Points.Select(p => p.Stress).SequenceEqual(gross.Points.Select(p => p.Stress)), "Cambio classe 4 non aggiorna le tensioni.");
         foreach (string limit in new[] { "SLE rara", "SLE quasi permanente", "SLU" })
         {
-            bridge.Results.SelectedIndex = 4; var oldTables = Ui.Descendants<DataGrid>(bridge).ToArray();
+            // The tables of the checks show the new result: new tables (historic view), or the same tables with new rows (the XAML view reuses
+            // the table of a block of the same kind and gives it the rows of the new result).
+            bridge.Results.SelectedIndex = 4; var oldTables = Ui.Descendants<DataGrid>(bridge.View).ToDictionary(t => t, t => t.ItemsSource);
             state.SelectedItem = limit; Cleared(); await wait(); Current();
             var stage = bridge.Calculation!.Stages.Last();
             double expected = limit == "SLU" ? .85 * 35 / 1.5 : limit == "SLE rara" ? .6 * 35 : .45 * 35;
             Near(stage.Points.First(p => p.Material == "CLS").Limit, expected, "Limite CLS non aggiornato: " + limit);
             Check(stage.Points.Zip(gross.Points).All(p => Math.Abs(p.First.Stress - p.Second.Stress) < 1e-7), "Scelta limiti altera il campo elastico.");
-            Check(Ui.Descendants<DataGrid>(bridge).All(t => !oldTables.Contains(t)), "Tabelle non ricreate dopo cambio limiti.");
+            Check(Ui.Descendants<DataGrid>(bridge.View).All(t => !oldTables.TryGetValue(t, out var rows) || !ReferenceEquals(rows, t.ItemsSource)), "Tabelle non ricreate dopo cambio limiti.");
         }
         bridge.StageChoice.SelectedIndex = 1;
         ((CheckBox)PhaseForm(0).Editors["attiva"]).IsChecked = false; Cleared(); await wait();

@@ -1,0 +1,10 @@
+<!--
+  Data templates of the composite bridge section sheet (F5.11): MvvmSheetEditor finds the view of CompositeSectionSheetViewModel here. The window of
+  the detached view and «Info modello…» are dialogs of the view (CompositeSectionDetachedView, CompositeSectionInformationView).
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:views="clr-namespace:X.Desktop.Views.CompositeSection"
+ xmlns:cs="clr-namespace:Anthea.Presentation.Modules.CompositeSection;assembly=ANTHEA.Presentation">
+ <DataTemplate DataType="{x:Type cs:CompositeSectionSheetViewModel}"><views:CompositeSectionSheetView/></DataTemplate>
+</ResourceDictionary>

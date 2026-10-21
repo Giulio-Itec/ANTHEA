@@ -1,0 +1,27 @@
+<!--
+  The window of the detached view of the composite bridge section sheet (F5.11, SM3; BridgeDetachedView of the historic view): the situation of the
+  results, «Schermo intero · F11», «Riaggancia», the notice of the results to update, and the drawing with its toolbar, which CompositeSectionSheetView
+  moves here while the sheet is detached. Bound to the ViewModel of the sheet; theme tokens only (rule P7).
+-->
+<UserControl x:Class="X.Desktop.Views.CompositeSection.CompositeSectionDetachedView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Background="{DynamicResource Token.Surface}">
+ <UserControl.Resources>
+  <ResourceDictionary>
+   <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="CompositeSectionResources.xaml"/></ResourceDictionary.MergedDictionaries>
+  </ResourceDictionary>
+ </UserControl.Resources>
+ <DockPanel>
+  <StackPanel DockPanel.Dock="Top">
+   <WrapPanel>
+    <TextBlock Style="{StaticResource T12Bold}" Text="Situazione"/>
+    <ComboBox x:Name="SituationChoice" MinWidth="260" Margin="8" ItemsSource="{Binding Situations}" SelectedIndex="{Binding SelectedSituation}"/>
+    <Button Style="{StaticResource Command}" Content="Schermo intero · F11" Click="FullScreen_Click"/>
+    <Button Style="{StaticResource Command}" Content="Riaggancia" Click="Reattach_Click"/>
+   </WrapPanel>
+   <TextBlock Style="{StaticResource T12BoldWarning}" Text="{Binding ResultNotice}"/>
+  </StackPanel>
+  <ContentControl x:Name="Host" Focusable="False" IsTabStop="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+ </DockPanel>
+</UserControl>

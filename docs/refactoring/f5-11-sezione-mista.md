@@ -16,7 +16,8 @@ La nota segue i passi 1–5 della «Ricetta per i moduli successivi» di [f5-4-p
 - le domande per il punto di controllo dell'utente.
 
 La vista XAML, il passaggio in `ModuleImplementations` e l'archiviazione della vista storica vengono **dopo** il punto di
-controllo: non fanno parte di questa preparazione. La Release resta con la vista storica.
+controllo: non fanno parte di questa preparazione. La Release resta con la vista storica. La vista XAML, il banco e le suite
+riscritte sono fatti il 21/10 (sezione 5); restano il punto di controllo e il passaggio della Release.
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7 e riga F5.11 della sezione 8;
@@ -274,3 +275,210 @@ documenti: sono provvisorie, con l'opzione presa, da rivedere con l'utente a F5.
 
 **Materiale da mostrare** (dopo i passi 1–3 della sezione 3): schermate nei tre aspetti, `--check-contrast`, confronto diretto a
 zero, `ui/f3-equivalence` con il modulo MVVM, questa nota con le risposte.
+
+## 5. Vista fatta (21/10)
+
+Agente f5-11-vista, ramo `refactoring/f5-11-vista` da `refactoring/f5` `d1f0c4d6`: punti 1–4 della sezione 3. La Release resta
+**storica**: la vista nuova si apre solo con il banco UiTests (`--module-impl str_mista_ponte=mvvm`) e con
+`ANTHEA.exe --interactive --module-impl str_mista_ponte=mvvm`, finché l'utente non prova una versione portatile. Le scelte provvisorie
+della sezione 4 restano; le nuove scelte sono nella sezione 5.6.
+
+### 5.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `ea373fbe` | vista XAML `X.Desktop/Views/CompositeSection` e il suo DataTemplate; piccole aggiunte al ViewModel |
+| `d57ea875` | prove della vista `ui/check-sezione-mista-view`, passo di contrasto autonomo `mvvm-str_mista_ponte` |
+| `35a7e382` | suite del ponte indipendenti dalla vista (`BridgeSmoke`), varianti `-mvvm`, sonda MVVM di `ui/f3-scheduling` |
+| `8857eee4` | correzione trovata dalla corsa finale: i selettori dei modelli senza stato statico (regola P3) |
+| (questo commit) | questa sezione; f5-ripresa e piano dal 21/10 |
+
+### 5.2 Vista
+
+**File** (`X.Desktop/Views/CompositeSection`):
+- `CompositeSectionSheetView.xaml(.cs)`: la disposizione di `BridgeWorkspace`. In alto il motore, le tre pagine e «Info modello…»,
+  l'avviso sul disegno; in basso l'avanzamento del calcolo e la riga di stato. Pagine 01 e 02: colonna degli ingressi (pannello di
+  controllo o fasi, con le situazioni sulla pagina delle fasi), disegno con la barra e il prospetto locale, pannello laterale
+  (riepilogo, oppure proprietà della sezione sul pannello di controllo), tabella delle azioni e schede dei risultati. Pagina 03:
+  percorso, i due grafici, il cursore dei punti, la tabella dei punti.
+- `CompositeSectionResources.xaml`: stili dei testi, carta e pannelli, gruppi, pulsanti, nota; i modelli dei pannelli dei risultati
+  (`BridgePanel`: un blocco solo, una pila o una pila con lo scorrimento proprio, come `Render` della vista storica), dei blocchi
+  (testo, tabella, gruppo), delle tabelle delle proprietà (`PresentationTable`) e delle schede del riepilogo
+  (`ConcreteCardsViewModel`, SM4).
+- `CompositeSectionPanels.cs`: i selettori dei modelli, `CompositeSectionGrid` (le tabelle di `ResultTable`),
+  `CompositeSectionActionsGrid` (le colonne di `JsonGrid` con le larghezze, le prime due bloccate, ΔT con `TorqueColumnShown`, le
+  celle che non si applicano spente, attenuate e con il suggerimento), i convertitori.
+- `CompositeSectionDetachedView.xaml(.cs)`: la finestra della vista staccata (SM3); `CompositeSectionInformationView.xaml(.cs)`:
+  «Info modello…» con gli stessi testi della finestra storica e i quattro schemi del metodo; `CompositeSectionTemplates.xaml`: il
+  DataTemplate unito da `App.xaml`.
+
+**Che cosa fa il code-behind** (Q3 e stato della vista):
+- i disegni storici invariati (`BridgeDrawing`, `BridgeDetailSketch`, i due `BridgeResponsePlot`) sui dati semplici del ViewModel
+  (`Drawing`, `DetailAtSupport`, `SectionChart`, `FiberChart`); «Adatta», «−», «+», «PNG» (scritto dal foglio con il dialogo dei
+  file dei servizi, `SaveDrawingImage`), «Espandi» (dialogo della vista);
+- una sola pagina, una sola pagina di ingressi e un solo pannello laterale nell'albero, come la vista storica che li scambia: la
+  visita della cattura F3 e le suite vedono le stesse parti (SM11);
+- i divisori con `SplitRatio`/`SetSplit` e la disposizione del pannello di controllo (`SetAnalysisPanels`); la pagina almeno di
+  1120 × 700 con le barre di scorrimento sotto;
+- «CLS ×»: Invio conferma, Esc ripristina, l'uscita conferma; il testo non è sovrascritto mentre l'utente scrive (SM12);
+- la vista staccata: finestra 1400 × 900 (minimo 880 × 550) con la situazione, «Schermo intero · F11», «Riaggancia», l'avviso; il
+  disegno e la sua barra si spostano nella finestra, nel foglio resta il segnaposto con «Porta in primo piano» e «Riaggancia vista»;
+  la finestra si chiude con il foglio;
+- la cella in modifica confermata prima dei pulsanti sotto la tabella, come `ActionsTable.Commit`.
+
+**Sola lettura** (T2): form in sola lettura, tabella bloccata, «Quote sezione», «Info armature», «Auto n», «CLS ×», «Verifiche ▾»,
+«Sezione in vista», comandi delle fasi e della tabella, «Mostra tutte le fasi → ultima situazione», curva (fase, fibra, cursore,
+«Calcola curva», «Annulla») spenti; pagine, situazioni, vista, asse neutro, schede, «Dettagli sezione efficace ↓», «Stacca vista»,
+«Adatta», «PNG», «Espandi», zoom, «Esporta CSV…», «Esporta punti e fibre CSV…» e «Info modello…» disponibili: gli stessi controlli
+della vista storica dopo `InspectRevision` (sezione 5.4).
+
+**ViewModel** (`ea373fbe`): `SaveDrawingImage` per «PNG» (nome proposto `ANTHEA_Sezione_composta_·_geometria_e_tensioni.png`, errore
+come il messaggio storico «Esportazione immagine»); `SelectedSituation` rifiuta −1 dall'esterno (una scelta che perde la voce quando
+le situazioni cambiano scriverebbe −1: la vista storica ha il gestore muto durante la pubblicazione); `Forms` notificato dopo
+`Reload`. Le tracce senza WPF di `Presentation.Tests` non cambiano.
+
+**Solo token di F5.3** (P7, `Architecture.Tests` PASS). Corpi: titoli dei blocchi e dei pannelli 15 → 14 (`Font.Subheading`), 10 e
+11 → `Font.Caption`, 12 → `Font.Small`, 13 → `Font.Body`, titolo di «Info modello…» 20 → `Font.Title` (D8). Il colore della curva
+della fibra resta quello del disegno storico (`BridgeResponsePlot.FiberBrush`, Q3).
+
+### 5.3 Prove
+
+- `ui/check-sezione-mista-view` (`tests/Desktop/CompositeSectionViewChecks*.cs`, comando `--check-sezione-mista-view`; un quarto
+  argomento esegue solo alcune parti):
+  - i 20 scenari delle tracce guidati attraverso i controlli della vista e riletti dai controlli (stato, avvisi, pagine, scelte,
+    interruttori, scala, prospetto, tabella, schede delle proprietà, disegno, grafici e scelte delle curve); campi, schede e
+    pannelli dal ViewModel (MU19). Le continuazioni del foglio girano alla priorità di inattività, come nelle tracce storiche;
+  - i disegni della vista (sezione, prospetto, curve) e i pixel delle figure del report per le 9 fixture, contro
+    `tests/fixtures/f5-sezione-mista/disegni/elenco.txt`;
+  - per le 9 fixture: dopo il calcolo automatico, la visita della cattura F3 scrive come la vista storica (stesse scritture, stessi
+    `Modified`), i tre aspetti non scrivono, dati e risultato dopo il calcolo, report Word e PDF, sezioni del report salvate, CSV
+    delle tensioni (anche rifiutato senza risultato) e, per la fixture delle curve, la curva e il suo CSV uguali alla vista storica;
+  - schermate nei tre aspetti, aiuto, nomi di automazione, sola lettura, vista staccata, «Espandi», «PNG», «Info modello…», banco
+    e «la Release resta storica».
+- Contrasto: passo autonomo `mvvm-str_mista_ponte` in fondo a `supporto/test/Desktop/ContrastAudit.cs` (commenti `F5.11 begin/end`);
+  con `--baseline` solo Scuro e Molto scuro. **Non eseguito**: lo schermo è a 144 DPI e la baseline a 96 DPI (SM9).
+- Suite storiche del ponte riscritte (`35a7e382`): sezione 5.5.
+
+### 5.4 Esiti
+
+| Prova | Esito |
+| --- | --- |
+| `ui/check-sezione-mista-view` | PASS 114 controlli in circa 11 minuti: 20 tracce, 17 797 righe uguali a quelle congelate; 88 righe dei disegni uguali; 9 fixture (8 report Word e PDF, 1 curva); 10 schermate; 119 pressioni di «?» e F1 su 108 campi di 21 form al navigatore; nomi di automazione della vista storica conservati su 4 fixture; sola lettura uguale alla storica (83 e 132 controlli comuni); finestre della vista |
+| Cattura F3 con `--module-impl str_mista_ponte=mvvm` | PASS 111 fixture, 77 articoli, 30 ricerche, report di progetto: 1131 file uguali al riferimento entro le tolleranze, 0 differenze non ammesse; transizioni F4 22 412 elencate e ammesse, come la cattura storica |
+| Cattura F3 storica dello stesso codice | PASS 111 fixture, stessi conteggi |
+| Confronto diretto (`tools/qa/f5_confronto_diretto.py`) | **0 differenze** su 1135 file (1132 uguali byte per byte, 3 JSON uguali in forma canonica; ignorati solo i 6 tempi del palo elastico), le 9 fixture della sezione composta comprese |
+| `ui/f3-report-chapters` con MVVM | PASS 112 capitoli autonomi, 274 immagini e tutte le parti XML confrontate con la vista |
+| `ui/f3-scheduling` con MVVM (`ui/f3-scheduling-sezione-mista-mvvm`) | PASS 47 controlli, come la storica |
+| Smoke del ponte, vista storica e vista MVVM | `ui/smoke-bridge`, `-curves`, `-predalle`, `ui/smoke-neutral-axis` PASS con le due viste |
+| Profilo quick | `20261021-144648-f511v-c1-quick`: PASS 55, NEW-FAIL 0 (`Architecture.Tests` P1–P7, `Presentation.Tests` PASS) |
+| Corsa finale | `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `35a7e382`, `supporto/artefatti/ci/20261021-152044-f511v-finale`: PASS 153, KNOWN 0, **NEW-FAIL 1** (build 26, fast 33, wiki 2, ui 93), 74 minuti. Il NEW-FAIL è `Architecture.Tests`: regola P3, un dizionario delle risorse tenuto in un campo statico della vista; corretto in `8857eee4`. Tutte le suite `ui` PASS, anche `ui/check-field-form-parity` e `ui/check-palo-elastico-historic` al primo colpo; `ui/check-sezione-mista-view` 210 s, `ui/check-sezione-mista-historic`, `ui/f3-equivalence` (111 fixture), `ui/f3-report-chapters`, `ui/f3-scheduling`, gli smoke del ponte e le cinque varianti `-mvvm`; `Presentation.Tests` PASS |
+| Ripetizione sulla correzione | `8857eee4`, `supporto/artefatti/ci/20261021-163522-f511v-finale-p3`: `Architecture.Tests`, `ui/check-sezione-mista-view`, `ui/f3-equivalence`, i quattro smoke del ponte con le due viste e `ui/f3-scheduling-sezione-mista-mvvm`: PASS 15 (con i build), NEW-FAIL 0; nessun file tracciato modificato |
+
+Banco su `35a7e382` (codice di produzione di `ea373fbe`), cartella `supporto/artefatti/refactoring/f5-11-vista/banco-2` del worktree.
+Le schermate (144 DPI) sono nella cartella `vista/schermate` della suite: pagina delle fasi, pannello di controllo con i gruppi aperti
+e pagina delle curve nei tre aspetti, la vista storica alla stessa misura, la vista staccata, «Info modello…».
+
+Baseline architetturali: nessuna cambiata (F4 3221, P3 126). `transitions-f4.json` invariato.
+
+### 5.5 Suite storiche: riscritte e da togliere al passaggio della Release
+
+Riscritte (`35a7e382`), passano con le due viste:
+- gli smoke del ponte usano `BridgeSmoke` (`tests/Desktop/BridgeSmoke.cs`), con i membri della vista storica che usavano e gli stessi
+  nomi: `HistoricBridgeSmoke` (BridgeWorkspace) e `MvvmBridgeSmoke` (controlli di `CompositeSectionSheetView`, valori del ViewModel,
+  editori di `FieldForm` costruiti dove WPF non li ha ancora disposti). `OpenSheet.Bridge` dà il foglio della finestra,
+  `MainWindow.OpenBridge` un foglio aperto da solo con la fabbrica della finestra. File: `BridgeSmokeChecks.cs`,
+  `BridgeDetailsUiSmokeChecks.cs`, `BridgeGeometryViewSmokeChecks.cs`, `BridgeHistoryUiSmokeChecks.cs`, `BridgeOptionsSmokeChecks.cs`,
+  `BridgePredalleUiSmokeChecks.cs`, `BridgeResponseUiSmokeChecks.cs`, `BridgeSectionTypeSmokeChecks.cs`, `BridgeShearUiSmokeChecks.cs`,
+  `BridgeShrinkageUiSmokeChecks.cs`, `BridgeStressViewSmokeChecks.cs`, `NeutralAxisSmokeChecks.cs`. Equivalenze:
+  - i dati si rileggono dal foglio (la vista XAML lavora su una copia, la storica sui dati passati);
+  - `Shown(campo)` al posto della visibilità dell'editore (FieldForm nasconde la riga, InputForm l'editore);
+  - i pulsanti sotto la tabella si premono come l'utente (evento Click e comando);
+  - la finestra staccata chiusa con il foglio si controlla sulla finestra stessa;
+  - «Tabelle non ricreate dopo cambio limiti» ammette la tabella riusata con le righe del nuovo risultato: la vista XAML riusa la
+    tabella di un blocco dello stesso tipo e le dà le righe nuove (SM14);
+- `ui/f3-scheduling`: `F3CompositeSectionMvvmSchedulingChecks` al posto di `BridgeWorkspace.CheckF3Scheduling` quando il banco apre
+  la sezione con la vista MVVM;
+- `F3Fixtures`: le prove preliminari di nuovi input si fanno con la cattura F3 in una radice temporanea, anche con il banco
+  (commento di `BridgeSectionF511`, README del riferimento F3);
+- varianti in `build/ci.ps1` con `--module-impl str_mista_ponte=mvvm` (`$MvvmCompositeSection`): `ui/smoke-bridge-mvvm`,
+  `ui/smoke-bridge-curves-mvvm`, `ui/smoke-bridge-predalle-mvvm`, `ui/smoke-neutral-axis-mvvm`, `ui/f3-scheduling-sezione-mista-mvvm`.
+
+Al passaggio della Release (punto 5 della sezione 3), oltre a quanto già elencato:
+- togliere le cinque varianti `-mvvm` e `$MvvmCompositeSection`, `HistoricBridgeSmoke` (e `BridgeSmoke.Mvvm` diventa vero sempre),
+  il ramo storico di `F3SchedulingChecks` e `BridgeWorkspace.CheckF3Scheduling` (`F3TypedSchedulingChecks.cs`), le partial di prova
+  della vista storica `supporto/test/Desktop/BridgeWorkspace.Tests.cs` e `BridgeTorsionProbes.cs`;
+- `--capture-validation` (`AppHarness.StartValidationCapture`, illustrazioni di validazione, non è una suite) apre ancora
+  `BridgeWorkspace`: va riscritto su `MvvmSheetEditor` o archiviato con la vista;
+- `Architecture.Tests` (`Program.cs`, riga 122) legge `X.Desktop/Wpf/BridgeWorkspace.cs` («Regola cambio norma nella UI»): da
+  spostare sul ViewModel o togliere con l'archiviazione;
+- contrasto: togliere il blocco `F5.11` di `ContrastAudit.cs`, passare le voci della Chiara a `modulo-str_mista_ponte` con la chiave
+  della vista nuova (D12), ripetere a 96 DPI;
+- `ui/check-sezione-mista-view` resta (le tracce congelate); le parti che aprono la vista storica (esportazioni, aiuto, nomi, sola
+  lettura, testi di «Info modello…») passano al confronto con i valori attesi; `ui/check-sezione-mista-historic` va con la vista.
+
+### 5.6 Differenze visibili e scelte da confermare («da decidere», con la scelta fatta)
+
+Differenze visibili, le stesse nei tre aspetti:
+- **Corpi** (D8): titoli dei blocchi e dei pannelli da 15 a 14 punti; intestazioni delle schede del riepilogo da 10 a 11 (in una
+  colonna stretta il titolo di «Cassoncino · torsione e distorsione» si accorcia prima); titolo di «Info modello…» da 20 a 22.
+- **Colori**: il bordo delle carte `#D8E0EB` diventa `Token.Border` (D12); gli avvisi e l'avviso sul disegno `#8B5916` diventano
+  `Token.Note.Foreground` (#865D16 in Chiara); il bordo di «CLS ×» rifiutato `#B33A40` diventa `Token.Status.Fail`. Negli aspetti
+  scuri i colori seguono l'aspetto (la vista storica usava colori fissi).
+
+Scelte provvisorie della vista (da rivedere a F5.15):
+- **SM10 · Celle della tabella delle azioni scritte a ogni tasto** (`UpdateSourceTrigger=PropertyChanged`, la convenzione delle tabelle
+  MVVM di F5.4). La vista storica scriveva alla conferma della cella. Il risultato non cambia (ricalcolo 500 ms dopo l'ultima
+  modifica), ma le schede delle fasi si ricostruiscono a ogni tasto. Alternativa: scrittura alla conferma della cella, con un modo
+  per confermarla quando il foglio fa `Commit`.
+- **SM11 · Parti mostrate nell'albero.** Opzione presa: come la vista storica, nell'albero c'è solo la pagina mostrata (01–02 o 03),
+  la sua colonna degli ingressi e il suo pannello laterale (scambiati dal code-behind). La visita della cattura F3 e le suite vedono le
+  stesse parti; i gruppi aperti e lo scorrimento si conservano. Alternativa: tutto nell'albero con la visibilità, che cambierebbe la
+  visita F3 (la pagina delle curve aprirebbe anche il prospetto locale).
+- **SM12 · «CLS ×».** Opzione presa: la casella non è legata al ViewModel; il code-behind mostra il fattore del foglio quando la
+  casella non ha il fuoco, come la vista storica. Alternativa: un legame semplice, che sovrascriverebbe il testo mentre si scrive a
+  ogni ricalcolo.
+- **SM13 · «Calcola curva».** È un comando asincrono: resta spento fino alla fine del comando, un istante dopo la fine del calcolo
+  della curva. Non visibile all'utente.
+- **SM14 · Tabelle dei pannelli riusate.** I pannelli dei risultati riusano la tabella di un blocco dello stesso tipo e le danno le
+  righe nuove; la vista storica creava tabelle nuove a ogni risultato.
+- **SM15 · Schede delle proprietà.** Sono generate dall'elenco del ViewModel, che cambia a ogni modifica dei dati: si rigenerano
+  tutte (la vista storica teneva le prime due e rifaceva quelle delle fasi). La scheda scelta resta.
+- **SM16 · «Info modello…».** I testi fissi stanno nella vista XAML; la prova li confronta con quelli di
+  `X.Desktop/Wpf/BridgeInformation.cs` finché esiste. Alternativa: spostarli in Application con la vista storica che li legge.
+
+### 5.7 Che cosa resta e da dove si riparte
+
+1. `--check-contrast` a 96 DPI con il passo `mvvm-str_mista_ponte` (coordinatore, senza cambiare la baseline).
+2. **Versione di prova portatile**: il modulo è pronto per la prossima versione portatile con le viste attive (aggiunto all'elenco di
+   [f5-piano-dal-21-10.md](f5-piano-dal-21-10.md), sezione 1); prova a mano nella sezione 5.8.
+3. **Punto 5 della sezione 3**: punto di controllo dell'utente, poi passaggio della Release e archiviazione nello stesso commit, con la
+   pulizia della sezione 5.5. Poi il punto 6 (guida pratica e PDF, se la disposizione descritta cambia: non cambia).
+
+Per riprendere:
+
+```
+cd <worktree>
+dotnet build X.Desktop\X.Desktop.csproj -c UiTests
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-sezione-mista-view <radice> <cartella vuota> [tracce,disegni,...]
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-f3-equivalence <radice> <cartella> --module-impl str_mista_ponte=mvvm
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --smoke-bridge <cartella> --module-impl str_mista_ponte=mvvm
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(check-sezione-mista-view|smoke-bridge.*|smoke-neutral-axis.*|f3-scheduling.*)$' -Tag f511"
+```
+
+### 5.8 Da provare a mano (versione portatile con la vista attiva; oppure `ANTHEA.exe --interactive --module-impl str_mista_ponte=mvvm`)
+
+1. Aprire sezioni reali (H, anima inclinata, cassoncino): le tre pagine, i gruppi del pannello di controllo, le proprietà della
+   sezione (acciaio, soletta con φ/ψL/n, fasi), il prospetto locale e «Sezione in vista».
+2. Modificare geometria, materiali, armature, accessori e fasi (schede e tabella, anche «+ Carico», «+ Ritiro», «↑», «↓»,
+   «Elimina»): il ricalcolo parte dopo mezzo secondo, lo stato passa da «in attesa» a «in corso» ad «aggiornato», i risultati vecchi
+   restano segnati «da aggiornare».
+3. Situazioni, «Mostra tutte le fasi → ultima situazione», vista (tensioni totali, contributi, geometria), quote, armature, asse
+   neutro, «Verifiche ▾», «CLS ×» e «Auto n», schede dei risultati, «Dettagli sezione efficace ↓», divisori (anche dopo una
+   riapertura).
+4. «Stacca vista»: situazione nella finestra, «Schermo intero · F11» ed Esc, «Riaggancia», «Porta in primo piano», «Riaggancia vista».
+5. «Adatta», «−», «+», «PNG», «Espandi»; «Info modello…».
+6. Curve della sezione: percorso, fase di partenza, «Calcola curva», «Annulla», fibra, cursore, «Esporta punti e fibre CSV…».
+7. «Esporta CSV…», report Word e PDF; i «?» dei campi e F1.
+8. Una revisione precedente (sola lettura): campi, tabella, comandi di modifica, curva bloccati; pagine, situazioni, viste, schede,
+   esportazioni e report disponibili.
+9. Aspetti Scuro e Molto scuro.
