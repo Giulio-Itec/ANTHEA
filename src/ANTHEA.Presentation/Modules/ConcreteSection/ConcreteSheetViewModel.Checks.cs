@@ -193,7 +193,7 @@ public sealed partial class ConcreteSheetViewModel
 
     private IEnumerable<JsonRowViewModel> AllActionRows() => actions.Values.SelectMany(r => r);
 
-    private void SyncActions(string key) => Data["combinazioni"]![key] = ConcreteSheetPreparation.StoreActions(actions[key].Select(r => r.Values));
+    internal void SyncActions(string key) => Data["combinazioni"]![key] = ConcreteSheetPreparation.StoreActions(actions[key].Select(r => r.Values));
 
     /// <summary>The actions of <paramref name="key"/> changed (or the shear, «Taglio»): their checks are calculated again.</summary>
     internal void InvalidateActions(string key)
@@ -332,6 +332,8 @@ public sealed partial class ConcreteSheetViewModel
                 row.Output("esito", error);
             }
         });
+        // The table of the shear selects its first row after a calculation, when none is selected (CalculateShear of the historic view).
+        if (Actions?.Shear.Table is { Selected: null } table && shearRows.Count > 0) table.SelectedIndex = 0;
         RefreshSummary();
     }
 

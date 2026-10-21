@@ -16,27 +16,28 @@ using Anthea.Presentation.Services;
 namespace Anthea.Presentation.Tests;
 
 /// <summary>
-/// The ViewModel of the RC section (F5.10, sub-step S1: shell, calculation, inputs and materials) against the traces of the historic view
-/// frozen in tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the sub-step (ingressi/*, percorso-f3/*, calcolo/*) is driven
-/// on the ViewModel as the user drives the historic controls; the common part of every state and the part «[ingressi]» are compared line by
-/// line, the parts of the sub-steps not migrated yet are left out by their label (section 4.0 of docs/refactoring/f5-10-sezione.md). A step
-/// that belongs to a sub-step not migrated (the domains, the stresses, the M–χ…) does nothing here: when the historic trace shows its effect,
-/// the comparison of that scenario stops there, at the place listed in <see cref="ExpectedStops"/> (any other stop is a failure).
+/// The ViewModel of the RC section (F5.10, sub-steps S1: shell, calculation, inputs and materials; S2: actions) against the traces of the
+/// historic view frozen in tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the sub-steps (ingressi/*, azioni/*, percorso-f3/*,
+/// calcolo/*, muri/*) is driven on the ViewModel as the user drives the historic controls; the common part of every state and the parts
+/// «[ingressi]» and «[azioni]» are compared line by line, the parts of the sub-steps not migrated yet are left out by their label (section 4.0
+/// of docs/refactoring/f5-10-sezione.md). A step that belongs to a sub-step not migrated (the options of the domains, the stresses, the M–χ…)
+/// does nothing here: when the historic trace shows its effect, the comparison of that scenario stops there, at the place listed in
+/// <see cref="ExpectedStops"/> (any other stop is a failure).
 /// One "UI" thread (<see cref="SingleThreadContext"/>): the batches of the calculation publish there, as on the dispatcher.
 /// </summary>
 internal static partial class ConcreteSectionSheetChecks
 {
-    private static readonly string[] OwnParts = ["ingressi"];
+    private static readonly string[] OwnParts = ["ingressi", "azioni"];
     private static readonly string[] OtherParts = ConcreteSectionScenarios.AllSections.Except(OwnParts).ToArray();
 
-    /// <summary>The scenarios whose comparison stops at a step of a sub-step not migrated yet, with that step (S1).</summary>
+    /// <summary>The scenarios whose comparison stops at a step of a sub-step not migrated yet, with that step (S1, S2).</summary>
     private static readonly Dictionary<string, string> ExpectedStops = new(StringComparer.Ordinal)
     {
         ["calcolo/sola-lettura.txt"] = "scelta 3D filtro «Fuori dominio»",
     };
 
     /// <summary>The scenarios of the fast stage (decision C7: the long traces run in the ui stage, with --sezione-tracce).</summary>
-    private static readonly string[] FastScenarios = ["calcolo/ricalcolo-revisione.txt", "ingressi/resistenze-rapide.txt", "percorso-f3/default.txt"];
+    private static readonly string[] FastScenarios = ["calcolo/ricalcolo-revisione.txt", "ingressi/resistenze-rapide.txt", "percorso-f3/default.txt", "azioni/incolla.txt"];
 
     internal static int Run(string root, string output, bool full) => SingleThreadContext.Run(_ => RunAsync(root, output, full));
 
@@ -66,6 +67,7 @@ internal static partial class ConcreteSectionSheetChecks
                 await HelpAsync(root, expect);
                 await WindowsAsync(root, expect);
                 await ReloadAsync(root, expect);
+                await ActionsAsync(root, expect);
             }
             return expect.Count;
         }
@@ -77,9 +79,9 @@ internal static partial class ConcreteSectionSheetChecks
     private static async Task TracesAsync(string root, string output, bool full, Expect expect)
     {
         string folder = Path.Combine(output, "sezione-ca");
-        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "percorso-f3" or "calcolo" or "muri")
+        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "percorso-f3" or "calcolo" or "muri")
             .Where(s => full || FastScenarios.Contains(s.File.Replace('\\', '/'))).ToList();
-        expect.That(scenarios.Count == (full ? 21 : FastScenarios.Length), "Scenari S1 della sezione c.a.: " + scenarios.Count);
+        expect.That(scenarios.Count == (full ? 25 : FastScenarios.Length), "Scenari S1 e S2 della sezione c.a.: " + scenarios.Count);
         var failures = new List<string>();
         var report = new List<string>();
         foreach (var scenario in scenarios)
@@ -105,7 +107,7 @@ internal static partial class ConcreteSectionSheetChecks
         expect.That(failures.Count == 0, "Sezione c.a. MVVM diversa dalla vista storica: " + string.Join(" | ", failures));
     }
 
-    /// <summary>The lines of the common part and of the parts of S1: the parts of the other sub-steps are left out by their label.</summary>
+    /// <summary>The lines of the common part and of the parts of S1 and S2: the parts of the other sub-steps are left out by their label.</summary>
     private static List<string> Filter(IEnumerable<string> lines) =>
         lines.Where(l => !OtherParts.Any(p => l.StartsWith("[" + p + "] ", StringComparison.Ordinal))).ToList();
 
@@ -154,11 +156,14 @@ internal static partial class ConcreteSectionSheetChecks
     /// The ViewModel driven as its view would be driven: a control that the user cannot use (disabled, hidden, protected by the read-only
     /// revision) does nothing, as in the historic trace. The state is read from the ViewModel in the format of the historic trace.
     /// </summary>
-    private sealed class Side
+    private sealed partial class Side
     {
         private static readonly FieldInfo Batches = typeof(ConcreteAnalysisSession).GetField("batches", BindingFlags.Instance | BindingFlags.NonPublic)
             ?? throw new MissingFieldException(nameof(ConcreteAnalysisSession), "batches");
         private readonly DriverDialogs dialogs = new();
+        // The messages and the clipboard of the sheet: the paste reads the text of the step, a refused paste shows its warning (S2).
+        private readonly ScriptedMessages messages = new();
+        private readonly RecordingClipboard clipboard = new();
         private int modified;
         private SemaphoreSlim? held;
         private Task? started;
@@ -176,7 +181,7 @@ internal static partial class ConcreteSectionSheetChecks
         private void Open(JsonObject data)
         {
             session = new ConcreteAnalysisSession();
-            var services = new PresentationServices(new ScriptedMessages(), new ScriptedConfirmations(), new ScriptedFileDialogs(), dialogs, new RecordingClipboard(),
+            var services = new PresentationServices(messages, new ScriptedConfirmations(), new ScriptedFileDialogs(), dialogs, clipboard,
                 new RecordingLinks(), new RecordingWiki());
             var context = new SheetContext((JsonObject)data.DeepClone(), false, new Host(), services,
                 ModuleServices.Get(ConcreteSectionSheetModule.Id), new CalculationLimiter(1));
@@ -309,6 +314,7 @@ internal static partial class ConcreteSectionSheetChecks
 
         private async Task<(string? Message, bool Own)> ApplyControlAsync(ConcreteSectionStep step)
         {
+            if (IsActionStep(step)) return await ApplyActionAsync(step);
             switch (step.Kind)
             {
                 case ConcreteSectionStep.Field when Form(step.Target!) is { } form:
@@ -388,7 +394,7 @@ internal static partial class ConcreteSectionSheetChecks
                 case ConcreteSectionStep.Open when step.Target is "materiale" or "materiale-acciaio" or "materiale-trefoli":
                     return (await OpenMaterialAsync(step), true);
                 default:
-                    // A control of a sub-step not migrated (actions, domains, stresses, shear, detailing, design, inspection, reports).
+                    // A control of a sub-step not migrated (domains, stresses, shear, detailing, design, inspection, reports).
                     return (null, false);
             }
         }
@@ -464,7 +470,7 @@ internal static partial class ConcreteSectionSheetChecks
             foreach (string section in sections.Where(OwnParts.Contains))
             {
                 var block = new ConcreteSectionBlock(section);
-                TraceInputs(block);
+                if (section == "azioni") TraceActions(block); else TraceInputs(block);
                 state.Blocks.Add(block);
             }
             return state;

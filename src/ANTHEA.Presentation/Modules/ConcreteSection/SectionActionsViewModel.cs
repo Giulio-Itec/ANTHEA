@@ -65,8 +65,58 @@ public sealed partial class SectionActionsViewModel : ObservableObject, IDialogV
         if (Legacy) foreach (var row in SectionActionInputs.ShearRows(source)) Rows.Add(SectionActionRow.From(row, "", "Taglio"));
     }
 
+    /// <param name="data">The data of the sheet (a copy is edited).</param>
+    /// <param name="files">The file dialogs of «Template Excel», «Importa e sostituisci», «Importa e aggiungi» and «Esporta Excel» (the buttons of
+    /// the historic window, SectionActionsView).</param>
+    /// <param name="importPath">The file proposed by the import (<c>file_sollecitazioni</c> of the sheet).</param>
+    public SectionActionsViewModel(JsonObject data, IFileDialogService files, string importPath) : this(data)
+    {
+        ArgumentNullException.ThrowIfNull(files);
+        this.files = files; this.importPath = importPath ?? "";
+    }
+
+    private readonly IFileDialogService? files;
+    private readonly string importPath = "";
+
     /// <summary>The title of the window.</summary>
     public string Title => "Sollecitazioni della sezione";
+
+    private bool HasFiles() => files is not null;
+
+    /// <summary>«Template Excel»: the empty workbook of the actions.</summary>
+    [RelayCommand(CanExecute = nameof(HasFiles))] private void SaveTemplate() => Save(true);
+    /// <summary>«Esporta Excel»: the rows of the window (also those not valid yet are refused by the export).</summary>
+    [RelayCommand(CanExecute = nameof(HasFiles))] private void ExportWorkbook() => Save(false);
+    /// <summary>«Importa e sostituisci»: the rows of a workbook replace those of the window.</summary>
+    [RelayCommand(CanExecute = nameof(HasFiles))] private void ImportReplace() => ImportFile(true);
+    /// <summary>«Importa e aggiungi»: the rows of a workbook after those of the window.</summary>
+    [RelayCommand(CanExecute = nameof(HasFiles))] private void ImportAppend() => ImportFile(false);
+
+    // Import and Save of the historic window: an error of the file or of its rows goes to the status of the window.
+    private void ImportFile(bool replace)
+    {
+        string? path = files!.OpenFile(new OpenFileRequest([new FileFilter("Cartella Excel", "*.xlsx")], importPath));
+        if (path is null) return;
+        Run(() =>
+        {
+            if (new FileInfo(path).Length > 20_000_000) throw new ArgumentException("Massimo 20 MB.");
+            Import(File.ReadAllBytes(path), replace);
+        });
+    }
+
+    private void Save(bool template)
+    {
+        string? path = files!.SaveFile(new SaveFileRequest([new FileFilter("Cartella Excel", "*.xlsx")],
+            template ? "ANTHEA_Sollecitazioni.xlsx" : "ANTHEA_Sollecitazioni_compilate.xlsx"));
+        if (path is null) return;
+        Run(() => { Archivio.ScriviAtomico(path, template ? SectionActionsExcel.Template() : Export()); Status = "Excel salvato."; });
+    }
+
+    private void Run(Action action)
+    {
+        try { action(); }
+        catch (Exception error) when (error is ArgumentException or IOException or InvalidDataException) { Status = error.Message; }
+    }
 
     /// <summary>Raised by <see cref="ApplyAndCloseCommand"/> after a successful <see cref="Apply"/> and by <see cref="CancelCommand"/>.</summary>
     public event EventHandler? CloseRequested;
