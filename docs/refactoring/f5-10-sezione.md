@@ -26,7 +26,8 @@ dei sottopassi. Contiene:
 - l'uso della sezione nuova da parte del palo elastico e dei muri (sezione 5);
 - che cosa resta e le domande per il punto di controllo (sezioni 6 e 7);
 - il sottopasso S1 fatto il 18/10: ViewModel del guscio, del calcolo, degli ingressi e dei materiali, prove ed esiti (sezione 8);
-- il riallineamento del 21/10 al codice dopo persistenza nativa, wizard e capsula (sezione 9).
+- il riallineamento del 21/10 al codice dopo persistenza nativa, wizard e capsula (sezione 9);
+- il sottopasso S2 fatto il 21/10: le azioni, il modello di tabella dei pannelli, prove ed esiti (sezione 10).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -677,3 +678,110 @@ Ordine aggiornato: S1 → S2 → S1b → (S3, S4, S5) → S6 → S7 → S8 → S
 - **S2a-1 · Copertura dei wizard.** Le tracce di S1b sono tracce nuove della vista storica, non una ricattura. Si aggiungono come scenari
   nuovi con la parte `[wizard]`, lasciando invariate le 39 congelate. Scelta prudente: sì, in S1b. Alternativa: rinviare la copertura a S9,
   con il rischio che il ViewModel cresca senza prove sulle sezioni da wizard.
+
+## 10. S2 fatto (21/10)
+
+Sottopasso S2 «Azioni» (sezione 4, S2, e 8.6), ramo `refactoring/f5-10-s2`, 21/10/2026, sul riallineamento della sezione 9. Decisioni
+applicate: C3 (`SectionActionsViewModel` in Presentation), C5 (comportamenti storici conservati), C7 (tracce lunghe nello stadio `ui`). La
+Release resta storica; nulla va all'utente prima di S9.
+
+### 10.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `e35b2d98` | sezione 9, riallineamento |
+| `a5567277` | C3: `SectionActionsViewModel` e `SectionActionRow` in `src/ANTHEA.Presentation/Modules/ConcreteSection`, con il loro controllo (da Application.Tests a Presentation.Tests) |
+| `9be9f6c5` | ViewModel delle azioni e modello di tabella dei pannelli, prove in `Presentation.Tests` |
+| (questo commit) | questa sezione, esito della corsa finale |
+
+### 10.2 Che cosa c'è
+
+- **`ConcreteActionsViewModel`** (`ConcreteSheetViewModel.Actions`, creato all'apertura dopo il taglio, senza scritture): le tabelle delle
+  azioni dei pannelli nell'ordine delle schede (`Domain3D`, `Domain2D`, `Stress` per SLE, SLE_FREQ e SLE_QP, `Shear`), il file delle azioni
+  (`ExcelPath`, `file_sollecitazioni`, con Modified come `RememberExcel`) e la finestra «Sollecitazioni della sezione» (`EditCommand`: conferma
+  del foglio, `SectionActionsViewModel` su `IDialogService`, «Applica» che sostituisce `combinazioni` e `workspace_ca`).
+- **`ConcreteActionTableViewModel`**, il modello di tabella che S3–S5 riusano (`ActionTable`, `AttachClipboard` e `WithFilters` della vista
+  storica):
+  - righe, filtro, ordine e selezione su `ConcreteTableViewModel` di S1; colonne della vista storica, anche con le sollecitazioni uniche
+    (sola lettura tranne «Mostra», «Elemento» e, per il taglio, «Stato limite» e tabella in sola lettura);
+  - selezione come la vista di raccolta storica: prima riga inserita alla nascita, riga nuova dopo «+ Riga» e «Duplica», riga al suo posto
+    dopo «− Riga», prima riga del taglio dopo un calcolo se nessuna è selezionata;
+  - comandi «+ Riga», «Duplica», «− Riga» («+ Combinazione» e «−» per il taglio), «Copia» con la selezione estesa della vista
+    (`SetSelectedRows`), «Incolla» e «Aggiungi dagli appunti» (`ConcreteActionPresentation.Plan`, tutto convalidato prima di scrivere, righe
+    scritte senza invalidazioni riga per riga, poi conferma, invalidazione e stato; rifiuto con l'avviso «Incolla sollecitazioni» su
+    `IMessageService`), «Template Excel», «Importa Excel» / «Gestisci sollecitazioni…», «Esporta Excel», «Sfoglia…»;
+  - per i domini: righe dello stato limite del pannello (`State`, `dominio3d.stato` o `dominio2d.stato`), filtro degli esiti
+    (`ConcreteDomainChart.Includes`), di nuovo con la riga selezionata prima quando è fra quelle mostrate (`AttachDomainRows`) a ogni cambio
+    di stato e a ogni pubblicazione del dominio mostrato.
+- **`SectionActionsViewModel`**: spostato senza modifiche (C3), più i membri del servizio dei dialoghi (titolo, «Applica» che chiude solo
+  se riesce, «Annulla») e, con il costruttore che riceve `IFileDialogService`, i quattro comandi Excel della finestra storica.
+- **Foglio**: dopo «Applica» della finestra il foglio si apre di nuovo sui suoi dati (`Reload` al posto di `ReloadRequested`). Come la
+  `ConcreteWorkspace` nuova: lo stato torna quello dell'apertura, le uscite del dominio della scheda si scrivono subito, il calcolo
+  dell'apertura entra in coda un giro dopo (il `Loaded` della vista). A ogni apertura e a ogni cambio di scheda, la tabella del dominio
+  mostrato scrive le uscite delle sue righe se mancano (`IsVisibleChanged` della griglia storica, `RefreshDomainPanel`).
+- **Prove** (`tests/ANTHEA.Presentation.Tests`): `ConcreteSectionSheetChecks.Actions.cs` guida le tabelle e la finestra come la traccia
+  storica e scrive la parte `[azioni]`; `ConcreteSectionSheetChecks.ActionUnits.cs` (stadio `fast`) prova ciò che le tracce non vedono.
+
+### 10.3 Esiti
+
+- **Tracce** (parte comune, `[ingressi]` e `[azioni]`): 25 scenari uguali alle tracce congelate della vista storica. Sono `azioni/*` (4),
+  `ingressi/*` (6), `percorso-f3/*` (11, ora anche con `[azioni]`), `calcolo/ricalcolo-revisione` e `muri/*` (2). `calcolo/sola-lettura` resta
+  uguale fino al passo «scelta 3D filtro «Fuori dominio»» (S3), come in S1.
+- **Prove rapide**: `--sezione-rapide` 192 controlli (158 di S1, più 34 di S2): colonne e comandi delle tabelle storiche e uniche, righe e
+  taglio, prima riga del taglio dopo il calcolo, copia, incolla rifiutato con l'avviso, «Aggiungi dagli appunti» del taglio,
+  «Template Excel» e «Sfoglia…», finestra annullata, «Esporta Excel» delle azioni storiche, comandi Excel della finestra, «Applica» con la
+  nuova apertura e il calcolo un giro dopo, sola lettura, stato del dominio. Scenario `azioni/incolla` aggiunto alle tracce rapide.
+- **Conteggi**: con C3 i 26 controlli di `SectionActionsEditorChecks` passano da Application.Tests (3 057 → 3 031) a Presentation.Tests
+  (3 523 → 3 549); con S2 Presentation.Tests sale a 3 584 (34 controlli nuovi e lo scenario `azioni/incolla` fra le tracce rapide).
+  Corse intermedie: `supporto/artefatti/ci/20261021-080244-s2b-c3` e `20261021-082926-s2b-azioni` (quick più le suite della sezione),
+  PASS 76 ciascuna.
+- **Baseline**: F4 e P3 invariate (nessuna voce per Presentation; il file spostato non ne aveva).
+- **Corsa finale**: `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `9be9f6c5`:
+  `supporto/artefatti/ci/20261021-091429-s2-finale`, PASS 147 (build 26, fast 33, wiki 2, ui 86), NEW-FAIL 0; nessun file tracciato
+  modificato durante la corsa.
+  - `ui/check-contrast` è escluso: lo schermo è al 150% (D6). Nessun passo di contrasto aggiunto, perché S2 non ha una vista.
+  - Presentation.Tests 3 584, Application.Tests 3 031, Architecture.Tests 561.
+  - `ui/check-sezione-historic`: 39 scenari, 84 832 righe, 120 disegni e 33 righe 3D uguali ai congelati.
+  - `Presentation.Tests/sezione-ca` 34 controlli; `ui/f3-equivalence`, `ui/smoke-section-actions` e `ui/check-module-host-offscreen` PASS.
+
+### 10.4 Comportamenti storici trovati in S2 (conservati, C5)
+
+1. **«Esporta Excel» in sola lettura.** Il comando resta attivo nella revisione in sola lettura. Con le azioni storiche apre la finestra
+   delle sollecitazioni, dove «Applica» cambia i dati con Modified e riapre il foglio. È della stessa famiglia del comportamento 5 della
+   sezione 2.
+2. **«−» del taglio senza selezione.** Salva le righe e invalida il taglio lo stesso: Modified e ricalcolo.
+3. **«Duplica» non conferma la cella in modifica**, «+ Riga» e «− Riga» sì.
+4. **Righe nuove dell'incolla nel taglio.** Si chiamano «Combo n», non «Taglio n» come quelle di «+ Combinazione».
+5. **Riapertura dopo la finestra.** Subito dopo «Applica» il foglio non ha risultati e il calcolo non è ancora in coda: parte quando la vista
+   nuova è caricata. Il ViewModel lo riproduce con un giro del thread dell'interfaccia.
+
+### 10.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S2-a · Stato del dominio.** Fino al form delle opzioni di S3, `ConcreteActionTableViewModel.State` è l'unico punto che cambia
+  `dominio3d.stato` e `dominio2d.stato`: scrive, mostra le righe dello stato, scrive le uscite, Modified, anche in sola lettura. In S3 il
+  campo «stato» del form passerà da qui, perché la tabella deve seguire lo stato. Alternativa: il form scrive e chiama `Reattach`.
+- **S2-b · Calcolo dopo la finestra.** Il giro di ritardo vale solo per la riapertura dopo la finestra delle azioni. `Reload` per i dati
+  condivisi (S1) resta com'è, con il calcolo subito in coda: nessuna traccia lo copre. Da decidere al passaggio (S9): stessa regola per i due
+  casi o no.
+- **S2-c · Comandi Excel della finestra.** Sono nel `SectionActionsViewModel`, con un costruttore che riceve `IFileDialogService` e il file
+  proposto. Non c'è un ViewModel della finestra separato. La vista storica usa ancora i suoi pulsanti.
+- **S2-d · «Elimina» nella finestra.** `SectionActionsViewModel.Remove` lascia `Selected` sulla riga tolta; la griglia storica lo azzera con
+  il binding. Nelle tracce l'indice è −1 in tutti e due i casi. La vista XAML (S9) deve legare la selezione come la storica.
+
+### 10.6 Che cosa resta e come riprendere
+
+- **S1b** (sezione 9.5): le sezioni da wizard, prima con le tracce nuove.
+- **S3 · Domini.**
+  - Il form delle opzioni scrive `stato` attraverso `Domain3D.State` e `Domain2D.State` (S2-a).
+  - `filtro` richiama `Reattach` come `AttachDomainRows` e scrive anche in sola lettura (comportamento 5).
+  - I passi `filtro` di `domini/filtri-tabelle` usano `Table.Filter`; i pannelli seguono `Table.SelectionChanged` (`UpdateSelection`).
+  - Si toglie l'arresto atteso di `calcolo/sola-lettura`, se S3 copre il filtro.
+- **S4 e S5.** `Stress[...]` e `Shear` sono le tabelle dei pannelli; i dettagli seguono la selezione.
+- **Vista XAML** (S9 o per sottopasso): le note per la vista sono nel commento di `ConcreteActionTableViewModel`.
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj
+dotnet tests/ANTHEA.Presentation.Tests/bin/Debug/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Debug/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
+```
