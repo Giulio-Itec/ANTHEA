@@ -73,7 +73,8 @@ internal static class ModuleHostWpfChecks
             && composition.Modules.SheetModuleIds.SequenceEqual(ModuleDirectory.All.Select(m => m.Id)
                 .Where(m => m is "geo_efficienza_orizzontale" or "geo_palo_verticale" or "geo_micropalo_verticale" or "mat_calcestruzzo" or "mat_acciaio_armatura"
                     or "geo_fondazioni_superficiali" or "geo_palo_orizzontale" or "geo_micropalo_orizzontale" or "geo_stratigrafia" or "geo_muri_sostegno"
-                    or "str_palo" or SpectraModule or EmbeddedWallModule)),
+                    or "str_palo" or SpectraModule or EmbeddedWallModule
+                    or "str_mista_ponte")),
             "Radice di composizione: registro uguale a ModuleDirectory, con la palificata, i pali verticali e orizzontali, i materiali, le fondazioni, la stratigrafia, i muri e la sezione c.a. MVVM");
         using (var historic = composition.SheetEditors.Open(ProbeModule, ModuleDirectory.CreateData(ProbeModule)))
             Check(historic is SheetEditor, "Radice di composizione: la fabbrica apre la vista storica");
@@ -98,8 +99,8 @@ internal static class ModuleHostWpfChecks
             "Banco: scelte applicate in ordine sulla Release");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, PileGroupModule + "=historic"]), "archiviata",
             "Banco: vista storica della palificata archiviata (Q11), «historic» rifiutato");
-        // F5.10: the RC section has its ViewModel (S1); the bridge has none.
-        Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "str_mista_ponte=mvvm"]), "str_mista_ponte",
+        // F5.10: the RC section has its ViewModel (S1); F5.11: the composite bridge section too; the bridge design has none.
+        Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "str_bridge_design=mvvm"]), "str_bridge_design",
             "Banco: modulo senza implementazione MVVM");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, "inesistente=mvvm"]), "inesistente", "Banco: modulo sconosciuto");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=nuova"]), "nuova", "Banco: implementazione sconosciuta");

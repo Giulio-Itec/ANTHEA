@@ -14,7 +14,7 @@ internal sealed partial class BridgeWorkspace
     internal readonly CheckBox ConcreteScaleAuto = new() { Content = "Auto n", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(4, 0, 2, 0) };
     private UIElement concreteScaleControls = null!;
     private bool updatingStressScale;
-    private const string ScaleHelp = "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.";
+    private const string ScaleHelp = Anthea.Application.Presentation.BridgeInputPresentation.ScaleHelp;
 
     private void BuildStressScaleControls()
     {
@@ -44,11 +44,10 @@ internal sealed partial class BridgeWorkspace
     private void CommitStressScale()
     {
         if (updatingStressScale || viewSettings is null) return;
-        if (!double.TryParse(ConcreteScaleEditor.Text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double value)
-            || !double.IsFinite(value) || value < .01 || value > 1000)
+        if (!Anthea.Application.Presentation.BridgeInputPresentation.TryParseScale(ConcreteScaleEditor.Text, out double value))
         {
             ConcreteScaleEditor.BorderBrush = Appearance.Outline("#B33A40");
-            ConcreteScaleEditor.ToolTip = "Inserire un fattore fra 0,01 e 1000. Il diagramma conserva l’ultima scala valida. Esc ripristina il valore.";
+            ConcreteScaleEditor.ToolTip = Anthea.Application.Presentation.BridgeInputPresentation.ScaleRefused;
             return;
         }
         // A focus change without an edit must not turn a rounded automatic value into an override.

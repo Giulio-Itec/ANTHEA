@@ -97,6 +97,31 @@ public static class BridgeInputPresentation
     public static string HomogenizationInfo((double N0, double N, double PhiEffective, double Phi) h) =>
         $"n₀ = {BridgePropertyPresentation.Number(h.N0)}   ·   φeff = ψL · φ = {BridgePropertyPresentation.Number(h.PhiEffective)}";
 
+    /// <summary>The tabs of the steel and of the slab in the properties of the section.</summary>
+    public const string SteelPropertiesHeader = "Acciaio", SlabPropertiesHeader = "Soletta";
+
+    /// <summary>The note under the form of the slab in the properties of the section.</summary>
+    public const string SlabPropertiesNote = "Rapporti per esplorare la soletta; le fasi mantengono i propri φ/n. Omogeneizzazione al CLS, n delle barre = Es/Ec,eff.";
+
+    /// <summary>The note of the properties of the steel when the data stop them (the last valid tables stay).</summary>
+    public static string PropertiesStale(string message) => "Proprietà da aggiornare: " + message;
+
+    // ---------------------------------------------------------------- scale of the concrete diagram (F5.11, moved from the historic view)
+
+    /// <summary>The smallest and the largest manual factor of the concrete diagram.</summary>
+    public const double ScaleMinimum = .01, ScaleMaximum = 1000;
+
+    /// <summary>The help of «CLS ×» and «Auto n».</summary>
+    public const string ScaleHelp = "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.";
+
+    /// <summary>The tooltip of «CLS ×» when the factor typed is refused.</summary>
+    public const string ScaleRefused = "Inserire un fattore fra 0,01 e 1000. Il diagramma conserva l’ultima scala valida. Esc ripristina il valore.";
+
+    /// <summary>A factor typed in «CLS ×» (point or comma), finite and within <see cref="ScaleMinimum"/>–<see cref="ScaleMaximum"/>.</summary>
+    public static bool TryParseScale(string text, out double value) =>
+        double.TryParse(text.Replace(',', '.'), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out value)
+        && double.IsFinite(value) && value >= ScaleMinimum && value <= ScaleMaximum;
+
     /// <summary>The header of the tab of the phase <paramref name="index"/> in the properties of the section («01 · G1 …»).</summary>
     public static string PropertyTabHeader(int index, JsonObject phase) => $"{index + 1:00} · {phase.S("nome")}";
 
