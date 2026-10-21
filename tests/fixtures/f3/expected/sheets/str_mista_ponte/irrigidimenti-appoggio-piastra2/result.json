@@ -1,0 +1,2948 @@
+{
+  "Geometry": {
+    "Bars": [
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B1",
+        "X": 75,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B2",
+        "X": 225,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B3",
+        "X": 375,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B4",
+        "X": 525,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B5",
+        "X": 675,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B6",
+        "X": 825,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B7",
+        "X": 975,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B8",
+        "X": 1125,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B9",
+        "X": 1275,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B10",
+        "X": 1425,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B11",
+        "X": 1575,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B12",
+        "X": 1725,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B13",
+        "X": 1875,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B14",
+        "X": 2025,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B15",
+        "X": 2175,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B16",
+        "X": 2325,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B17",
+        "X": 2475,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B18",
+        "X": 2625,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B19",
+        "X": 2775,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B20",
+        "X": 2925,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B21",
+        "X": 75,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B22",
+        "X": 225,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B23",
+        "X": 375,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B24",
+        "X": 525,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B25",
+        "X": 675,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B26",
+        "X": 825,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B27",
+        "X": 975,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B28",
+        "X": 1125,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B29",
+        "X": 1275,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B30",
+        "X": 1425,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B31",
+        "X": 1575,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B32",
+        "X": 1725,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B33",
+        "X": 1875,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B34",
+        "X": 2025,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B35",
+        "X": 2175,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B36",
+        "X": 2325,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B37",
+        "X": 2475,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B38",
+        "X": 2625,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B39",
+        "X": 2775,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B40",
+        "X": 2925,
+        "Y": 45
+      }
+    ],
+    "Bottom1Thickness": 30,
+    "Bottom1Width": 700,
+    "Bottom2Thickness": 25,
+    "Bottom2Width": 550,
+    "BottomArea": 34750,
+    "BottomEquivalentThickness": 55,
+    "BottomEquivalentWidth": 631.8181818181819,
+    "BottomInternalWidth": 0,
+    "BottomOutstandWidth": 308.90909090909093,
+    "BottomRealCentroid": -1850.8812949640287,
+    "BottomRealInertia": 8575093.675059952,
+    "Height": 1880,
+    "PlateLength": 1800,
+    "PlateThickness": 14,
+    "SectionType": 0,
+    "SlabHeight": 250,
+    "SteelArea": 72450,
+    "SteelCentroid": -1211.6545893719808,
+    "SteelInertia": 41057802906.099014,
+    "TopFlangeCount": 1,
+    "TopFlangeWidth": 500,
+    "TopThickness": 25,
+    "TopWidth": 500,
+    "WebAngle": 0,
+    "WebCount": 1,
+    "WebHeight": 1800,
+    "WebHorizontalThickness": 14,
+    "WebLength": 1800,
+    "WebPlateThickness": 14,
+    "WebSpacingBottom": 0,
+    "WebSpacingTop": 0,
+    "WebThickness": 14,
+    "Width": 3000
+  },
+  "Input": {
+    "A_diagonale": 3000,
+    "As_m_trasv": 0,
+    "B_app": 400,
+    "L_campata": 0,
+    "N_irr": "200",
+    "R_app": "2500",
+    "T_app": 0,
+    "T_c_dist": 0,
+    "a_app_dx": 3000,
+    "a_app_sx": 3000,
+    "a_irr": "2800",
+    "a_irr_dx": "2400",
+    "acciaio": "S355",
+    "alpha_cc": "0.85",
+    "appoggio": true,
+    "armatura": "B450C",
+    "armatura_trasv": false,
+    "aw_app": 8,
+    "aw_irr": "6",
+    "b_app": 180,
+    "b_app_dx": 180,
+    "b_bottom": "700",
+    "b_bottom2": "550",
+    "b_cls": "3000",
+    "b_irr": "160",
+    "b_irr_dx": "120",
+    "b_top": "500",
+    "betaL_app": 1,
+    "betaL_irr": 1,
+    "beta_diagonale": 1,
+    "bordo_cls_dx": 500,
+    "bordo_cls_sx": 500,
+    "buona_aderenza_trasv": true,
+    "c_app": "180",
+    "classe4": true,
+    "classe_cls": "C35/45",
+    "cls_teso_nl": "Trascurato",
+    "copriferro_pioli": 35,
+    "cot_trasv": 1,
+    "cover_bottom": "45",
+    "cover_top": "45",
+    "curve_sezione": {
+      "N": 0,
+      "fase": 0,
+      "incremento_e": -2000,
+      "incremento_k": 0.003,
+      "k": 0,
+      "k_storico": true,
+      "n_storico": true,
+      "origine": "Sezione composta vergine",
+      "punti": 100,
+      "sottopassi": 4,
+      "tipo": "Momento–curvatura · N costante",
+      "y": 0
+    },
+    "d_bottom": "16",
+    "d_forcine": 12,
+    "d_pioli": 22,
+    "d_testa_pioli": 35,
+    "d_top": "16",
+    "d_trasv_inf": 16,
+    "d_trasv_sup": 16,
+    "dsigma_fat": "",
+    "e_appoggi": "",
+    "e_term": "300",
+    "eta_taglio": 1.2,
+    "fasi": [
+      {
+        "Mx": "1500",
+        "N": "0",
+        "T": "0",
+        "V": "400",
+        "attiva": true,
+        "epsilon_cs": "0",
+        "modo": "Da φ",
+        "n": "18",
+        "nome": "G1 · getto e carpenteria",
+        "phi": "0",
+        "psi": "1",
+        "q_conn": "0",
+        "riferimento_N": "Baricentro omogeneizzato lordo",
+        "tipo": "Solo acciaio"
+      },
+      {
+        "Mx": "2000",
+        "N": "0",
+        "T": "0",
+        "V": "500",
+        "attiva": true,
+        "epsilon_cs": "0",
+        "modo": "Da φ",
+        "n": "19.719961174917472",
+        "nome": "G2 · permanenti portati",
+        "phi": "2",
+        "psi": "1,1",
+        "q_conn": "0",
+        "riferimento_N": "Baricentro omogeneizzato lordo",
+        "tipo": "Composta"
+      },
+      {
+        "Mx": "3000",
+        "N": "0",
+        "T": "0",
+        "V": "700",
+        "attiva": true,
+        "epsilon_cs": "0",
+        "modo": "Da φ",
+        "n": "6.162487867161709",
+        "nome": "Q · variabili",
+        "phi": "0",
+        "psi": "1",
+        "q_conn": "0",
+        "riferimento_N": "Baricentro omogeneizzato lordo",
+        "tipo": "Composta"
+      }
+    ],
+    "fatica_pioli": false,
+    "fibre_anima": 160,
+    "fibre_cls": 64,
+    "fibre_flange": 8,
+    "flangia_fat_tesa": false,
+    "forcine_bordo": false,
+    "fu_pioli": 450,
+    "fy": "355",
+    "fy_override": false,
+    "gamma_c": "1.5",
+    "gamma_ff": 1,
+    "gamma_m0": "1.05",
+    "gamma_m1": 1.1,
+    "gamma_m2": 1.25,
+    "gamma_mf_flangia": 1.35,
+    "gamma_mf_pioli": 1.25,
+    "gamma_s": "1.15",
+    "gamma_v": 1.25,
+    "h_cls": "250",
+    "h_pioli": 150,
+    "h_predalle": "60",
+    "h_trave": "1880",
+    "h_web": "1800",
+    "i_diagonale": 30,
+    "instabilita_anima": true,
+    "instabilita_inf": true,
+    "instabilita_sup": true,
+    "interasse_anime": "1800",
+    "irrigidimenti": true,
+    "l_anc_trasv": 700,
+    "lambda_v": 1,
+    "lati_app": "Bilaterali simmetrici",
+    "lati_irr": "Bilaterali diversi",
+    "m_t_dist": 0,
+    "metodo_analisi": "Cumulativo lineare",
+    "n_pioli": 2,
+    "nome": "Sezione composta da ponte",
+    "normativa": "NTC 2018 / EN 1994-2:2005",
+    "offset_anima": "0",
+    "pannelli_uguali": false,
+    "passo_diaframmi": 0,
+    "passo_pioli": 200,
+    "passo_trasv_pioli": 150,
+    "phi_fat": 1,
+    "pioli": false,
+    "pioli_fatica": true,
+    "pitch_bottom": "150",
+    "pitch_top": "150",
+    "plate2": true,
+    "pos_app": "Estremità sinistra",
+    "predalle": false,
+    "q_fat_max": "",
+    "q_fat_min": "",
+    "quota_q_sx": 0.5,
+    "rebars_bottom": true,
+    "rebars_top": true,
+    "rif_ferri_inf": "Estradosso predalle",
+    "s_app": 300,
+    "s_trasv_inf": 150,
+    "s_trasv_sup": 150,
+    "saldature_app": true,
+    "saldature_irr": true,
+    "sezione": "H saldato",
+    "sottopassi": 8,
+    "stato": "SLU",
+    "t_app": 25,
+    "t_app_dx": 25,
+    "t_bottom": "30",
+    "t_bottom2": "25",
+    "t_controvento": 0,
+    "t_diaframma": 12,
+    "t_diaframma_app": 0,
+    "t_irr": "18",
+    "t_irr_dx": "14",
+    "t_testa_pioli": 12,
+    "t_top": "25",
+    "t_web": "14",
+    "terminale_rigido": true,
+    "tipo_diaframma": "Piastra",
+    "torsione_cassoncino": false,
+    "ui_mista": {
+      "armature_0": true,
+      "armature_1": false,
+      "dettaglio_sezione": 1,
+      "layout_version": 4,
+      "prospetto": true,
+      "quote_0": false,
+      "quote_1": false,
+      "risultato_0": 1,
+      "risultato_1": 0,
+      "segui_ultima_fase": true,
+      "soletta_proprieta": {
+        "modo": "Da φ",
+        "n": "16.330592847978533",
+        "phi": "1.5",
+        "psi": "1.1"
+      },
+      "split_ingressi": 0.35,
+      "tab": 0,
+      "vista_0": 2,
+      "vista_1": 0
+    },
+    "versione_mista": 1,
+    "viscosita_nl": "Istantaneo · φ = 0 nel calcolo",
+    "x_app": 0,
+    "x_irr": "20",
+    "y_ref": "0",
+    "z_app": 0
+  },
+  "Materials": {
+    "Concrete": "C35/45",
+    "Ea": 210000,
+    "Ec": 34077.14619918933,
+    "Es": 200000,
+    "Fck": 35,
+    "Fy": 355,
+    "Fys": 450,
+    "Rebar": "B450C",
+    "Steel": "S355"
+  },
+  "Method": "Sezione composta N–Mx · larghezze efficaci EN 1993-1-5:2006 · v1",
+  "Scope": "Analisi elastica N–Mx con connessione completa, sezione simmetrica e anima senza irrigidimenti longitudinali. b_eff della soletta è un dato di ingresso. Le fasi sono incrementi di carico già combinati; per ogni situazione la sezione efficace è comune ai contributi sommati. Il ritiro uniforme assegnato al CLS produce effetti primari locali. Non è un'analisi evolutiva con redistribuzione viscosa. Taglio e pioli hanno controlli locali dedicati. Irrigidimenti, appoggi, saldature continue, soletta trasversale e fatica dei pioli hanno verifiche opzionali con campo dichiarato. La torsione è verificata solo per il cassoncino (cella chiusa, distorsione e diaframmi, opzionali); l'instabilità globale del ponte resta esclusa.",
+  "Stages": [
+    {
+      "Contributions": [
+        {
+          "Area": 64946.0788053703,
+          "Centroid": -1284.3654458504711,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 0,
+          "EffectivePhi": 0,
+          "EquilibriumResidual": 0,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": false,
+          "HomogenizationN": 0,
+          "Inertia": 37563015033.12776,
+          "IsShrinkage": false,
+          "Kind": "Solo acciaio",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -1211.6545893719808,
+          "MomentAtInterface": 1500,
+          "Mx": 1500,
+          "N": 0,
+          "N0": 0,
+          "Name": "G1 · getto e carpenteria",
+          "NeutralAxis": -1284.3654458504711,
+          "Phi": 0,
+          "RebarArea": 0,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 37563015033.12776,
+          "StressSlope": -0.0399328967250662,
+          "UniformStress": 0,
+          "V": 400,
+          "WBottom": 63063861.50944811,
+          "WTop": 29246360.647965405
+        }
+      ],
+      "Effective": {
+        "Bottom": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 343,
+          "EndStress": 21.589103816855346,
+          "KSigma": 0.43,
+          "Lambda": 0.7545717517769946,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": 21.589103816855346,
+          "Thickness": 30,
+          "Width": 343
+        },
+        "BottomOutstand": null,
+        "BottomWidth": 700,
+        "SecondBottom": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 268,
+          "EndStress": 22.78709071860733,
+          "KSigma": 0.43,
+          "Lambda": 0.70749351420257,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": 22.78709071860733,
+          "Thickness": 25,
+          "Width": 268
+        },
+        "SecondBottomWidth": 550,
+        "Top": {
+          "CompressedWidth": 243,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 243,
+          "EndStress": -51.288432706390466,
+          "KSigma": 0.43,
+          "Lambda": 0.6414959848926287,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": -51.288432706390466,
+          "Thickness": 25,
+          "Width": 243
+        },
+        "TopWidth": 500,
+        "Web": {
+          "CompressedWidth": 1259.3654458504711,
+          "EffectiveAtEnd": 974.6571869201048,
+          "EffectiveAtStart": 289.34842184705064,
+          "EndStress": 21.589103816855346,
+          "KSigma": 12.312607577234107,
+          "Lambda": 1.5857377158559096,
+          "Psi": -0.429291240228073,
+          "Rho": 0.5743932843330648,
+          "StartStress": -50.29011028826381,
+          "Thickness": 14,
+          "Width": 1800
+        },
+        "WebBottom": 974.6572080193673,
+        "WebTop": 289.34842093565373
+      },
+      "EffectiveSteel": {
+        "Area": 64946.0788053703,
+        "Centroid": -1284.3654458504711,
+        "Inertia": 37563015033.12776
+      },
+      "Iterations": 9,
+      "MaxUtilization": 0.1516981812442535,
+      "Name": "G1 · getto e carpenteria",
+      "Points": [
+        {
+          "Active": false,
+          "Contributions": [0
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · estradosso",
+          "Stress": 0,
+          "Utilization": null,
+          "Y": 250
+        },
+        {
+          "Active": false,
+          "Contributions": [0
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · intradosso",
+          "Stress": 0,
+          "Utilization": null,
+          "Y": 0
+        },
+        {
+          "Active": false,
+          "Contributions": [0
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=205",
+          "Stress": 0,
+          "Utilization": null,
+          "Y": 205
+        },
+        {
+          "Active": false,
+          "Contributions": [0
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=45",
+          "Stress": 0,
+          "Utilization": null,
+          "Y": 45
+        },
+        {
+          "Active": true,
+          "Contributions": [-51.288432706390466
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · estradosso",
+          "Stress": -51.288432706390466,
+          "Utilization": 0.1516981812442535,
+          "Y": 0
+        },
+        {
+          "Active": true,
+          "Contributions": [-50.29011028826381
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · sommità",
+          "Stress": -50.29011028826381,
+          "Utilization": 0.14874539662725916,
+          "Y": -25
+        },
+        {
+          "Active": true,
+          "Contributions": [21.589103816855346
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · piede",
+          "Stress": 21.589103816855346,
+          "Utilization": 0.06385509579633272,
+          "Y": -1825
+        },
+        {
+          "Active": true,
+          "Contributions": [23.785413136733986
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · intradosso",
+          "Stress": 23.785413136733986,
+          "Utilization": 0.07035122195372025,
+          "Y": -1880
+        }
+      ],
+      "Residual": 1.1721812522106727E-08,
+      "Shear": {
+        "Checks": [
+          {
+            "Demand": 400,
+            "Name": "Anima · resistenza a taglio",
+            "Note": "min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido",
+            "Ratio": 0.16398449387787425,
+            "Resistance": 2439.2550206478413,
+            "Status": "Entro limite",
+            "Unit": "kN"
+          },
+          {
+            "Demand": 0.11725986082129874,
+            "Name": "Intermedio · rigidezza pannelli",
+            "Note": "EN 1993-1-5 §9.3.3; controllo di entrambi i pannelli",
+            "Ratio": 0.11725986082129874,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 68.10813799783226,
+            "Name": "Intermedio · stabilità e pressoflessione II ordine",
+            "Note": "EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica",
+            "Ratio": 0.2110393008383535,
+            "Resistance": 322.7272727272727,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.6039178769112765,
+            "Name": "Intermedio · freccia fuori piano",
+            "Note": "EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw",
+            "Ratio": 0.10065297948521275,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 0.7643243625021583,
+            "Name": "Intermedio · rigidezza torsionale",
+            "Note": "",
+            "Ratio": 0.7643243625021583,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 0.7803684222376861,
+            "Name": "Intermedio · piatti entro classe 3",
+            "Note": "Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli",
+            "Ratio": 0.7803684222376861,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 160,
+            "Name": "Intermedio · ingombro tra piattabande",
+            "Note": "",
+            "Ratio": 0.6584362139917695,
+            "Resistance": 243,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 5.534388230449422,
+            "Name": "Intermedio · saldature verticali all’anima",
+            "Note": "Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1",
+            "Ratio": 0.030465545134255746,
+            "Resistance": 181.66056789925955,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 102.1622069967484,
+            "Name": "Intermedio · saldature alle flange",
+            "Note": "",
+            "Ratio": 0.5623796522171106,
+            "Resistance": 181.66056789925955,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 3,
+            "Name": "Intermedio · gola minima",
+            "Note": "",
+            "Ratio": 0.5,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 36,
+            "Name": "Intermedio · lunghezza efficace cordone",
+            "Note": "",
+            "Ratio": 0.3333333333333333,
+            "Resistance": 108,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 354.73003670981564,
+            "Name": "Appoggio · stabilità e pressoflessione II ordine",
+            "Note": "EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica",
+            "Ratio": 1.0991634940304147,
+            "Resistance": 322.7272727272727,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.23890031155700683,
+            "Name": "Appoggio · freccia fuori piano",
+            "Note": "EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw",
+            "Ratio": 0.03981671859283447,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 0.5114538030006524,
+            "Name": "Appoggio · rigidezza torsionale",
+            "Note": "",
+            "Ratio": 0.5114538030006524,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 0.6320984220125258,
+            "Name": "Appoggio · piatti entro classe 3",
+            "Note": "Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli",
+            "Ratio": 0.6320984220125258,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 180,
+            "Name": "Appoggio · ingombro tra piattabande",
+            "Note": "",
+            "Ratio": 0.7407407407407407,
+            "Resistance": 243,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 46.77513336902932,
+            "Name": "Appoggio · saldature verticali all’anima",
+            "Note": "Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1",
+            "Ratio": 0.22896135654175412,
+            "Resistance": 204.29269845149287,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 554.2656823590869,
+            "Name": "Appoggio · saldature alle flange",
+            "Note": "",
+            "Ratio": 2.713095898974047,
+            "Resistance": 204.29269845149287,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 3,
+            "Name": "Appoggio · gola minima",
+            "Note": "",
+            "Ratio": 0.375,
+            "Resistance": 8,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 48,
+            "Name": "Appoggio · lunghezza efficace cordone",
+            "Note": "",
+            "Ratio": 0.2926829268292683,
+            "Resistance": 164,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 374,
+            "Name": "Appoggio · impronta trasversale sotto i piatti",
+            "Note": "",
+            "Ratio": 0.935,
+            "Resistance": 400,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 25,
+            "Name": "Appoggio · impronta longitudinale",
+            "Note": "",
+            "Ratio": 0.08333333333333333,
+            "Resistance": 300,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 150,
+            "Name": "Appoggio · impronta entro l’estremità",
+            "Note": "",
+            "Ratio": 0.8333333333333334,
+            "Resistance": 180,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 443.113875093654,
+            "Name": "Appoggio · contatto piatti/flangia",
+            "Note": "Piatti a contatto con la flangia inferiore; impronta interamente sottostante. Non comprende piastra di ripartizione o apparecchio d’appoggio.",
+            "Ratio": 1.3106185037981315,
+            "Resistance": 338.0952380952381,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 1,
+            "Name": "Terminale · due coppie bilaterali simmetriche",
+            "Note": "Seconda coppia identica verso l’interno, distanza e; EN 1993-1-5 §9.3.1",
+            "Ratio": 0,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 4704,
+            "Name": "Terminale · area di ciascuna coppia",
+            "Note": "A ≥ 4 hw tw²/e",
+            "Ratio": 0.5226666666666666,
+            "Resistance": 9000,
+            "Status": "Entro limite",
+            "Unit": "mm²"
+          },
+          {
+            "Demand": 180,
+            "Name": "Terminale · distanza e > 0,1 hw",
+            "Note": "",
+            "Ratio": 0.6,
+            "Resistance": 300,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 300,
+            "Name": "Terminale · e entro il pannello",
+            "Note": "",
+            "Ratio": 0.1,
+            "Resistance": 3000,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 354.8445591493661,
+            "Name": "Seconda coppia terminale · stabilità e pressoflessione II ordine",
+            "Note": "EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica",
+            "Ratio": 1.0995183522938106,
+            "Resistance": 322.7272727272727,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.043938083963704,
+            "Name": "Seconda coppia terminale · freccia fuori piano",
+            "Note": "EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw",
+            "Ratio": 0.007323013993950667,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 0.5114538030006524,
+            "Name": "Seconda coppia terminale · rigidezza torsionale",
+            "Note": "",
+            "Ratio": 0.5114538030006524,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 0.6320984220125258,
+            "Name": "Seconda coppia terminale · piatti entro classe 3",
+            "Note": "Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli",
+            "Ratio": 0.6320984220125258,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 180,
+            "Name": "Seconda coppia terminale · ingombro tra piattabande",
+            "Note": "",
+            "Ratio": 0.7407407407407407,
+            "Resistance": 243,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 46.77906782448814,
+            "Name": "Seconda coppia terminale · saldature verticali all’anima",
+            "Note": "Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1",
+            "Ratio": 0.2289806154555021,
+            "Resistance": 204.29269845149287,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 554.4446236708845,
+            "Name": "Seconda coppia terminale · saldature alle flange",
+            "Note": "",
+            "Ratio": 2.7139718055196744,
+            "Resistance": 204.29269845149287,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 3,
+            "Name": "Seconda coppia terminale · gola minima",
+            "Note": "",
+            "Ratio": 0.375,
+            "Resistance": 8,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 48,
+            "Name": "Seconda coppia terminale · lunghezza efficace cordone",
+            "Note": "",
+            "Ratio": 0.2926829268292683,
+            "Resistance": 164,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 1.6221850189604772,
+            "Name": "Terminale · reazione e ancoraggio combinati",
+            "Note": "Inviluppo cautelativo: utilizzo elastico della coppia + area richiesta dal §9.3.1 / area disponibile; R intera su ciascuna coppia",
+            "Ratio": 1.6221850189604772,
+            "Resistance": 1,
+            "Status": "Non verificato",
+            "Unit": "—"
+          },
+          {
+            "Demand": 58.53163695340862,
+            "Name": "Anima · tensione equivalente elastica (inviluppo)",
+            "Note": "√(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata",
+            "Ratio": 0.17312174310163114,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          }
+        ],
+        "Details": [
+          {
+            "Name": "Intermedio · A con anima",
+            "Unit": "mm²",
+            "Value": 9344.065099184943
+          },
+          {
+            "Name": "Intermedio · striscia anima",
+            "Unit": "mm",
+            "Value": 341.71893565606734
+          },
+          {
+            "Name": "Intermedio · xG",
+            "Unit": "mm",
+            "Value": -14.768732723409359
+          },
+          {
+            "Name": "Intermedio · eccentricità x−xG",
+            "Unit": "mm",
+            "Value": 34.76873272340936
+          },
+          {
+            "Name": "Intermedio · I fuori piano",
+            "Unit": "mm⁴",
+            "Value": 35540294.61412286
+          },
+          {
+            "Name": "Intermedio · I nel piano",
+            "Unit": "mm⁴",
+            "Value": 46658870.09897011
+          },
+          {
+            "Name": "Intermedio · Nst",
+            "Unit": "kN",
+            "Value": 200
+          },
+          {
+            "Name": "Intermedio · Ncr fuori piano",
+            "Unit": "kN",
+            "Value": 21757.27082623685
+          },
+          {
+            "Name": "Intermedio · M II ordine fuori piano",
+            "Unit": "kNm",
+            "Value": 9.319542752884686
+          },
+          {
+            "Name": "Intermedio · M II ordine nel piano",
+            "Unit": "kNm",
+            "Value": 1.852974235138902
+          },
+          {
+            "Name": "Appoggio · A con anima",
+            "Unit": "mm²",
+            "Value": 13200
+          },
+          {
+            "Name": "Appoggio · striscia anima",
+            "Unit": "mm",
+            "Value": 300
+          },
+          {
+            "Name": "Appoggio · xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Appoggio · eccentricità x−xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Appoggio · I fuori piano",
+            "Unit": "mm⁴",
+            "Value": 109049600
+          },
+          {
+            "Name": "Appoggio · I nel piano",
+            "Unit": "mm⁴",
+            "Value": 31968750
+          },
+          {
+            "Name": "Appoggio · Nst",
+            "Unit": "kN",
+            "Value": 2500
+          },
+          {
+            "Name": "Appoggio · Ncr fuori piano",
+            "Unit": "kN",
+            "Value": 66758.63851027208
+          },
+          {
+            "Name": "Appoggio · M II ordine fuori piano",
+            "Unit": "kNm",
+            "Value": 24.267193287968276
+          },
+          {
+            "Name": "Appoggio · M II ordine nel piano",
+            "Unit": "kNm",
+            "Value": 26.368320673319136
+          },
+          {
+            "Name": "Seconda coppia terminale · A con anima",
+            "Unit": "mm²",
+            "Value": 13200
+          },
+          {
+            "Name": "Seconda coppia terminale · striscia anima",
+            "Unit": "mm",
+            "Value": 300
+          },
+          {
+            "Name": "Seconda coppia terminale · xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Seconda coppia terminale · eccentricità x−xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Seconda coppia terminale · I fuori piano",
+            "Unit": "mm⁴",
+            "Value": 109049600
+          },
+          {
+            "Name": "Seconda coppia terminale · I nel piano",
+            "Unit": "mm⁴",
+            "Value": 31968750
+          },
+          {
+            "Name": "Seconda coppia terminale · Nst",
+            "Unit": "kN",
+            "Value": 2500
+          },
+          {
+            "Name": "Seconda coppia terminale · Ncr fuori piano",
+            "Unit": "kN",
+            "Value": 66758.63851027208
+          },
+          {
+            "Name": "Seconda coppia terminale · M II ordine fuori piano",
+            "Unit": "kNm",
+            "Value": 24.33397738542283
+          },
+          {
+            "Name": "Seconda coppia terminale · M II ordine nel piano",
+            "Unit": "kNm",
+            "Value": 26.368320673319136
+          }
+        ],
+        "EquivalentStressEnvelope": 58.53163695340862,
+        "RigidEndPost": false,
+        "Stiffener": null,
+        "TauAverage": 15.873015873015873,
+        "TauMaximum": 17.290241290391645,
+        "UsesStiffeners": true,
+        "V": 400,
+        "Web": {
+          "Area": 25200,
+          "BucklingResistance": 2439255.0206478415,
+          "Chi": 0.5194953041825939,
+          "KTau": 6.993061224489796,
+          "PlasticResistance": 4919024.293495612,
+          "Resistance": 2439255.0206478415,
+          "ShearArea": 25200,
+          "Slenderness": 1.597704528447997,
+          "TauCritical": 80.2924654339335
+        }
+      },
+      "SteelNeutralAxis": -1284.3654458504711,
+      "Studs": {
+        "Checks": [],
+        "Contributions": [
+          {
+            "AdditionalFlow": 0,
+            "Basis": "Nessuno scorrimento da V",
+            "Flow": 0,
+            "Inertia": 0,
+            "Kind": "Solo acciaio",
+            "Phase": "G1 · getto e carpenteria",
+            "StaticMoment": 0,
+            "V": 400
+          }
+        ],
+        "Details": null,
+        "Enabled": false,
+        "Flow": 0,
+        "ForcePerStud": 0,
+        "Resistance": null,
+        "ResistancePerLength": 0,
+        "ResistancePerStud": 0
+      },
+      "Torsion": null,
+      "Warnings": [
+        "Due piastre inferiori modellate con la geometria reale. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore, senza il beneficio dell'accoppiamento (a favore di sicurezza).",
+        "Montante terminale non qualificato come rigido: resta adottata la curva non rigida a taglio.",
+        "Appoggio: R è l’inviluppo SLU assegnato, indipendente dalle fasi. Piatti continui senza intagli, vincolati lateralmente alle flange. Apparecchio d’appoggio e flessione della piastra di ripartizione esclusi."
+      ]
+    },
+    {
+      "Contributions": [
+        {
+          "Area": 67891.19031003762,
+          "Centroid": -1261.3116264185685,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 0,
+          "EffectivePhi": 0,
+          "EquilibriumResidual": 0,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": false,
+          "HomogenizationN": 0,
+          "Inertia": 38357028360.614044,
+          "IsShrinkage": false,
+          "Kind": "Solo acciaio",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -1211.6545893719808,
+          "MomentAtInterface": 1500,
+          "Mx": 1500,
+          "N": 0,
+          "N0": 0,
+          "Name": "G1 · getto e carpenteria",
+          "NeutralAxis": -1261.3116264185685,
+          "Phi": 0,
+          "RebarArea": 0,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 38357028360.614044,
+          "StressSlope": -0.03910626198405499,
+          "UniformStress": 0,
+          "V": 400,
+          "WBottom": 61997331.77233451,
+          "WTop": 30410429.553818446
+        },
+        {
+          "Area": 113175.3873069387,
+          "Centroid": -706.6149712211363,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 0,
+          "EffectivePhi": 2.2,
+          "EquilibriumResidual": 4.2821493011718455E-15,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": true,
+          "HomogenizationN": 19.719961174917472,
+          "Inertia": 90808773123.81084,
+          "IsShrinkage": false,
+          "Kind": "Composta",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -697.5360810211241,
+          "MomentAtInterface": 2000,
+          "Mx": 2000,
+          "N": 0,
+          "N0": 6.162487867161709,
+          "Name": "G2 · permanenti portati",
+          "NeutralAxis": -706.6149712211347,
+          "Phi": 2,
+          "RebarArea": 8042.477193189877,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 90805714909.62672,
+          "StressSlope": -0.02202504547197797,
+          "UniformStress": 3.552713678800501E-14,
+          "V": 500,
+          "WBottom": 77390431.01505658,
+          "WTop": 128512382.02168247
+        }
+      ],
+      "Effective": {
+        "Bottom": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 343,
+          "EndStress": 46.67622632867522,
+          "KSigma": 0.43,
+          "Lambda": 0.7545717517769946,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": 46.67622632867522,
+          "Thickness": 30,
+          "Width": 343
+        },
+        "BottomOutstand": null,
+        "BottomWidth": 700,
+        "SecondBottom": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 268,
+          "EndStress": 48.51016555235621,
+          "KSigma": 0.43,
+          "Lambda": 0.70749351420257,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": 48.51016555235621,
+          "Thickness": 25,
+          "Width": 268
+        },
+        "SecondBottomWidth": 550,
+        "Top": {
+          "CompressedWidth": 243,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 243,
+          "EndStress": -64.88840977858493,
+          "KSigma": 0.43,
+          "Lambda": 0.6414959848926287,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": -64.88840977858493,
+          "Thickness": 25,
+          "Width": 243
+        },
+        "TopWidth": 500,
+        "Web": {
+          "CompressedWidth": 1036.4595446899964,
+          "EffectiveAtEnd": 1190.0386819845119,
+          "EffectiveAtStart": 284.33215111633876,
+          "EndStress": 46.67622632867522,
+          "KSigma": 17.751326708400445,
+          "Lambda": 1.3206598236863634,
+          "Psi": -0.7366813873457815,
+          "Rho": 0.6858254925940744,
+          "StartStress": -63.3601270921841,
+          "Thickness": 14,
+          "Width": 1800
+        },
+        "WebBottom": 1190.038584967995,
+        "WebTop": 284.33215146326376
+      },
+      "EffectiveSteel": {
+        "Area": 67891.19031003762,
+        "Centroid": -1261.3116264185685,
+        "Inertia": 38357028360.614044
+      },
+      "Iterations": 8,
+      "MaxUtilization": 0.19192346554229348,
+      "Name": "G2 · permanenti portati",
+      "Points": [
+        {
+          "Active": true,
+          "Contributions": [0,-1.0684345701004436
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · estradosso",
+          "Stress": -1.0684345701004436,
+          "Utilization": 0.05387065059329968,
+          "Y": 250
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-0.7892118414574428
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · intradosso",
+          "Stress": -0.7892118414574428,
+          "Utilization": 0.03979219368692989,
+          "Y": 0
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-19.122248756267982
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=205",
+          "Stress": -19.122248756267982,
+          "Utilization": 0.04886796904379595,
+          "Y": 205
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-15.766051351014196
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=45",
+          "Stress": -15.766051351014196,
+          "Utilization": 0.040291020119258496,
+          "Y": 45
+        },
+        {
+          "Active": true,
+          "Contributions": [-49.32518290625903,-15.563226872325897
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · estradosso",
+          "Stress": -64.88840977858493,
+          "Utilization": 0.19192346554229348,
+          "Y": 0
+        },
+        {
+          "Active": true,
+          "Contributions": [-48.34752635665765,-15.012600735526448
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · sommità",
+          "Stress": -63.3601270921841,
+          "Utilization": 0.1874031928078685,
+          "Y": -25
+        },
+        {
+          "Active": true,
+          "Contributions": [22.04374521464132,24.6324811140339
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · piede",
+          "Stress": 46.67622632867522,
+          "Utilization": 0.13805644407072953,
+          "Y": -1825
+        },
+        {
+          "Active": true,
+          "Contributions": [24.194589623764344,25.843858614992687
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · intradosso",
+          "Stress": 50.03844823875703,
+          "Utilization": 0.14800104408646444,
+          "Y": -1880
+        }
+      ],
+      "Residual": 5.3898064733301805E-08,
+      "Shear": {
+        "Checks": [
+          {
+            "Demand": 900,
+            "Name": "Anima · resistenza a taglio",
+            "Note": "min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido",
+            "Ratio": 0.3689651112252171,
+            "Resistance": 2439.2550206478413,
+            "Status": "Entro limite",
+            "Unit": "kN"
+          },
+          {
+            "Demand": 0.11725986082129874,
+            "Name": "Intermedio · rigidezza pannelli",
+            "Note": "EN 1993-1-5 §9.3.3; controllo di entrambi i pannelli",
+            "Ratio": 0.11725986082129874,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 68.17616352107261,
+            "Name": "Intermedio · stabilità e pressoflessione II ordine",
+            "Note": "EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica",
+            "Ratio": 0.21125008414980245,
+            "Resistance": 322.7272727272727,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.6094769031817127,
+            "Name": "Intermedio · freccia fuori piano",
+            "Note": "EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw",
+            "Ratio": 0.10157948386361877,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 0.7643243625021583,
+            "Name": "Intermedio · rigidezza torsionale",
+            "Note": "",
+            "Ratio": 0.7643243625021583,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 0.7803684222376861,
+            "Name": "Intermedio · piatti entro classe 3",
+            "Note": "Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli",
+            "Ratio": 0.7803684222376861,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 160,
+            "Name": "Intermedio · ingombro tra piattabande",
+            "Note": "",
+            "Ratio": 0.6584362139917695,
+            "Resistance": 243,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 5.535630151623356,
+            "Name": "Intermedio · saldature verticali all’anima",
+            "Note": "Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1",
+            "Ratio": 0.030472381627107747,
+            "Resistance": 181.66056789925955,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 102.26424528160891,
+            "Name": "Intermedio · saldature alle flange",
+            "Note": "",
+            "Ratio": 0.5629413497062272,
+            "Resistance": 181.66056789925955,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 3,
+            "Name": "Intermedio · gola minima",
+            "Note": "",
+            "Ratio": 0.5,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 36,
+            "Name": "Intermedio · lunghezza efficace cordone",
+            "Note": "",
+            "Ratio": 0.3333333333333333,
+            "Resistance": 108,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 354.7536162832453,
+            "Name": "Appoggio · stabilità e pressoflessione II ordine",
+            "Note": "EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica",
+            "Ratio": 1.09923655749738,
+            "Resistance": 322.7272727272727,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.23910225162754536,
+            "Name": "Appoggio · freccia fuori piano",
+            "Note": "EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw",
+            "Ratio": 0.03985037527125756,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 0.5114538030006524,
+            "Name": "Appoggio · rigidezza torsionale",
+            "Note": "",
+            "Ratio": 0.5114538030006524,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 0.6320984220125258,
+            "Name": "Appoggio · piatti entro classe 3",
+            "Note": "Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli",
+            "Ratio": 0.6320984220125258,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 180,
+            "Name": "Appoggio · ingombro tra piattabande",
+            "Note": "",
+            "Ratio": 0.7407407407407407,
+            "Resistance": 243,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 46.7759434529025,
+            "Name": "Appoggio · saldature verticali all’anima",
+            "Note": "Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1",
+            "Ratio": 0.22896532185172028,
+            "Resistance": 204.29269845149287,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 554.3025254425709,
+            "Name": "Appoggio · saldature alle flange",
+            "Note": "",
+            "Ratio": 2.7132762435666984,
+            "Resistance": 204.29269845149287,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 3,
+            "Name": "Appoggio · gola minima",
+            "Note": "",
+            "Ratio": 0.375,
+            "Resistance": 8,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 48,
+            "Name": "Appoggio · lunghezza efficace cordone",
+            "Note": "",
+            "Ratio": 0.2926829268292683,
+            "Resistance": 164,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 374,
+            "Name": "Appoggio · impronta trasversale sotto i piatti",
+            "Note": "",
+            "Ratio": 0.935,
+            "Resistance": 400,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 25,
+            "Name": "Appoggio · impronta longitudinale",
+            "Note": "",
+            "Ratio": 0.08333333333333333,
+            "Resistance": 300,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 150,
+            "Name": "Appoggio · impronta entro l’estremità",
+            "Note": "",
+            "Ratio": 0.8333333333333334,
+            "Resistance": 180,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 443.1374546670837,
+            "Name": "Appoggio · contatto piatti/flangia",
+            "Note": "Piatti a contatto con la flangia inferiore; impronta interamente sottostante. Non comprende piastra di ripartizione o apparecchio d’appoggio.",
+            "Ratio": 1.3106882461984166,
+            "Resistance": 338.0952380952381,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 1,
+            "Name": "Terminale · due coppie bilaterali simmetriche",
+            "Note": "Seconda coppia identica verso l’interno, distanza e; EN 1993-1-5 §9.3.1",
+            "Ratio": 0,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 4704,
+            "Name": "Terminale · area di ciascuna coppia",
+            "Note": "A ≥ 4 hw tw²/e",
+            "Ratio": 0.5226666666666666,
+            "Resistance": 9000,
+            "Status": "Entro limite",
+            "Unit": "mm²"
+          },
+          {
+            "Demand": 180,
+            "Name": "Terminale · distanza e > 0,1 hw",
+            "Note": "",
+            "Ratio": 0.6,
+            "Resistance": 300,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 300,
+            "Name": "Terminale · e entro il pannello",
+            "Note": "",
+            "Ratio": 0.1,
+            "Resistance": 3000,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 354.872481974994,
+            "Name": "Seconda coppia terminale · stabilità e pressoflessione II ordine",
+            "Note": "EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica",
+            "Ratio": 1.0996048737253337,
+            "Resistance": 322.7272727272727,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.04412469331458157,
+            "Name": "Seconda coppia terminale · freccia fuori piano",
+            "Note": "EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw",
+            "Ratio": 0.007354115552430262,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 0.5114538030006524,
+            "Name": "Seconda coppia terminale · rigidezza torsionale",
+            "Note": "",
+            "Ratio": 0.5114538030006524,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 0.6320984220125258,
+            "Name": "Seconda coppia terminale · piatti entro classe 3",
+            "Note": "Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli",
+            "Ratio": 0.6320984220125258,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 180,
+            "Name": "Seconda coppia terminale · ingombro tra piattabande",
+            "Note": "",
+            "Ratio": 0.7407407407407407,
+            "Resistance": 243,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 46.78002712219563,
+            "Name": "Seconda coppia terminale · saldature verticali all’anima",
+            "Note": "Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1",
+            "Ratio": 0.22898531115786816,
+            "Resistance": 204.29269845149287,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 554.4882530859281,
+            "Name": "Seconda coppia terminale · saldature alle flange",
+            "Note": "",
+            "Ratio": 2.7141853687814765,
+            "Resistance": 204.29269845149287,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 3,
+            "Name": "Seconda coppia terminale · gola minima",
+            "Note": "",
+            "Ratio": 0.375,
+            "Resistance": 8,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 48,
+            "Name": "Seconda coppia terminale · lunghezza efficace cordone",
+            "Note": "",
+            "Ratio": 0.2926829268292683,
+            "Resistance": 164,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 1.6222715403920003,
+            "Name": "Terminale · reazione e ancoraggio combinati",
+            "Note": "Inviluppo cautelativo: utilizzo elastico della coppia + area richiesta dal §9.3.1 / area disponibile; R intera su ciascuna coppia",
+            "Ratio": 1.6222715403920003,
+            "Resistance": 1,
+            "Status": "Non verificato",
+            "Unit": "—"
+          },
+          {
+            "Demand": 88.93125964709327,
+            "Name": "Anima · tensione equivalente elastica (inviluppo)",
+            "Note": "√(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata",
+            "Ratio": 0.26303612008295196,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          }
+        ],
+        "Details": [
+          {
+            "Name": "Intermedio · A con anima",
+            "Unit": "mm²",
+            "Value": 9344.065099184943
+          },
+          {
+            "Name": "Intermedio · striscia anima",
+            "Unit": "mm",
+            "Value": 341.71893565606734
+          },
+          {
+            "Name": "Intermedio · xG",
+            "Unit": "mm",
+            "Value": -14.768732723409359
+          },
+          {
+            "Name": "Intermedio · eccentricità x−xG",
+            "Unit": "mm",
+            "Value": 34.76873272340936
+          },
+          {
+            "Name": "Intermedio · I fuori piano",
+            "Unit": "mm⁴",
+            "Value": 35540294.61412286
+          },
+          {
+            "Name": "Intermedio · I nel piano",
+            "Unit": "mm⁴",
+            "Value": 46658870.09897011
+          },
+          {
+            "Name": "Intermedio · Nst",
+            "Unit": "kN",
+            "Value": 200
+          },
+          {
+            "Name": "Intermedio · Ncr fuori piano",
+            "Unit": "kN",
+            "Value": 21757.27082623685
+          },
+          {
+            "Name": "Intermedio · M II ordine fuori piano",
+            "Unit": "kNm",
+            "Value": 9.335424162666618
+          },
+          {
+            "Name": "Intermedio · M II ordine nel piano",
+            "Unit": "kNm",
+            "Value": 1.852974235138902
+          },
+          {
+            "Name": "Appoggio · A con anima",
+            "Unit": "mm²",
+            "Value": 13200
+          },
+          {
+            "Name": "Appoggio · striscia anima",
+            "Unit": "mm",
+            "Value": 300
+          },
+          {
+            "Name": "Appoggio · xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Appoggio · eccentricità x−xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Appoggio · I fuori piano",
+            "Unit": "mm⁴",
+            "Value": 109049600
+          },
+          {
+            "Name": "Appoggio · I nel piano",
+            "Unit": "mm⁴",
+            "Value": 31968750
+          },
+          {
+            "Name": "Appoggio · Nst",
+            "Unit": "kN",
+            "Value": 2500
+          },
+          {
+            "Name": "Appoggio · Ncr fuori piano",
+            "Unit": "kN",
+            "Value": 66758.63851027208
+          },
+          {
+            "Name": "Appoggio · M II ordine fuori piano",
+            "Unit": "kNm",
+            "Value": 24.280943785565476
+          },
+          {
+            "Name": "Appoggio · M II ordine nel piano",
+            "Unit": "kNm",
+            "Value": 26.368320673319136
+          },
+          {
+            "Name": "Seconda coppia terminale · A con anima",
+            "Unit": "mm²",
+            "Value": 13200
+          },
+          {
+            "Name": "Seconda coppia terminale · striscia anima",
+            "Unit": "mm",
+            "Value": 300
+          },
+          {
+            "Name": "Seconda coppia terminale · xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Seconda coppia terminale · eccentricità x−xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Seconda coppia terminale · I fuori piano",
+            "Unit": "mm⁴",
+            "Value": 109049600
+          },
+          {
+            "Name": "Seconda coppia terminale · I nel piano",
+            "Unit": "mm⁴",
+            "Value": 31968750
+          },
+          {
+            "Name": "Seconda coppia terminale · Nst",
+            "Unit": "kN",
+            "Value": 2500
+          },
+          {
+            "Name": "Seconda coppia terminale · Ncr fuori piano",
+            "Unit": "kN",
+            "Value": 66758.63851027208
+          },
+          {
+            "Name": "Seconda coppia terminale · M II ordine fuori piano",
+            "Unit": "kNm",
+            "Value": 24.350260663313694
+          },
+          {
+            "Name": "Seconda coppia terminale · M II ordine nel piano",
+            "Unit": "kNm",
+            "Value": 26.368320673319136
+          }
+        ],
+        "EquivalentStressEnvelope": 88.93125964709327,
+        "RigidEndPost": false,
+        "Stiffener": null,
+        "TauAverage": 35.714285714285715,
+        "TauMaximum": 36.02898480057873,
+        "UsesStiffeners": true,
+        "V": 900,
+        "Web": {
+          "Area": 25200,
+          "BucklingResistance": 2439255.0206478415,
+          "Chi": 0.5194953041825939,
+          "KTau": 6.993061224489796,
+          "PlasticResistance": 4919024.293495612,
+          "Resistance": 2439255.0206478415,
+          "ShearArea": 25200,
+          "Slenderness": 1.597704528447997,
+          "TauCritical": 80.2924654339335
+        }
+      },
+      "SteelNeutralAxis": -1061.4595446899964,
+      "Studs": {
+        "Checks": [],
+        "Contributions": [
+          {
+            "AdditionalFlow": 0,
+            "Basis": "Nessuno scorrimento da V",
+            "Flow": 0,
+            "Inertia": 0,
+            "Kind": "Solo acciaio",
+            "Phase": "G1 · getto e carpenteria",
+            "StaticMoment": 0,
+            "V": 400
+          },
+          {
+            "AdditionalFlow": 0,
+            "Basis": "NTC: proprietà della fase tensionale",
+            "Flow": 207.3534025782122,
+            "Inertia": 90808773123.81084,
+            "Kind": "Composta",
+            "Phase": "G2 · permanenti portati",
+            "StaticMoment": 37659016.18235017,
+            "V": 500
+          }
+        ],
+        "Details": null,
+        "Enabled": false,
+        "Flow": 207.3534025782122,
+        "ForcePerStud": 0,
+        "Resistance": null,
+        "ResistancePerLength": 0,
+        "ResistancePerStud": 0
+      },
+      "Torsion": null,
+      "Warnings": [
+        "Due piastre inferiori modellate con la geometria reale. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore, senza il beneficio dell'accoppiamento (a favore di sicurezza).",
+        "Montante terminale non qualificato come rigido: resta adottata la curva non rigida a taglio.",
+        "Appoggio: R è l’inviluppo SLU assegnato, indipendente dalle fasi. Piatti continui senza intagli, vincolati lateralmente alle flange. Apparecchio d’appoggio e flessione della piastra di ripartizione esclusi."
+      ]
+    },
+    {
+      "Contributions": [
+        {
+          "Area": 71078.736960477,
+          "Centroid": -1228.0818587214092,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 0,
+          "EffectivePhi": 0,
+          "EquilibriumResidual": 1.5894571940104166E-16,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": false,
+          "HomogenizationN": 0,
+          "Inertia": 40043289868.48562,
+          "IsShrinkage": false,
+          "Kind": "Solo acciaio",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -1211.6545893719808,
+          "MomentAtInterface": 1500,
+          "Mx": 1500,
+          "N": 0,
+          "N0": 0,
+          "Name": "G1 · getto e carpenteria",
+          "NeutralAxis": -1228.0818587214092,
+          "Phi": 0,
+          "RebarArea": 0,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 40043289868.48562,
+          "StressSlope": -0.03745945962298446,
+          "UniformStress": 0,
+          "V": 400,
+          "WBottom": 61423800.52493969,
+          "WTop": 32606368.691233516
+        },
+        {
+          "Area": 116362.93395737809,
+          "Centroid": -701.5118990320392,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 0,
+          "EffectivePhi": 2.2,
+          "EquilibriumResidual": 4.843030052763752E-15,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": true,
+          "HomogenizationN": 19.719961174917472,
+          "Inertia": 90930952579.54349,
+          "IsShrinkage": false,
+          "Kind": "Composta",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -697.5360810211241,
+          "MomentAtInterface": 2000,
+          "Mx": 2000,
+          "N": 0,
+          "N0": 6.162487867161709,
+          "Name": "G2 · permanenti portati",
+          "NeutralAxis": -701.5118990320374,
+          "Phi": 2,
+          "RebarArea": 8042.477193189877,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 90927894365.35938,
+          "StressSlope": -0.021995450504591608,
+          "UniformStress": 3.907985046680551E-14,
+          "V": 500,
+          "WBottom": 77158990.83313325,
+          "WTop": 129621397.30632071
+        },
+        {
+          "Area": 199137.26275530554,
+          "Centroid": -357.96008587920596,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 0,
+          "EffectivePhi": 0,
+          "EquilibriumResidual": 1.0046183018365223E-14,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": true,
+          "HomogenizationN": 6.162487867161709,
+          "Inertia": 124402201022.8324,
+          "IsShrinkage": false,
+          "Kind": "Composta",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -357.9750985207119,
+          "MomentAtInterface": 3000,
+          "Mx": 3000,
+          "N": 0,
+          "N0": 6.162487867161709,
+          "Name": "Q · variabili",
+          "NeutralAxis": -357.960085879203,
+          "Phi": 0,
+          "RebarArea": 8042.477193189877,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 124399157164.41678,
+          "StressSlope": -0.024115919017320454,
+          "UniformStress": 7.105427357601002E-14,
+          "V": 700,
+          "WBottom": 81733862.47540906,
+          "WTop": 347530928.531546
+        }
+      ],
+      "Effective": {
+        "Bottom": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 343,
+          "EndStress": 82.45087369290465,
+          "KSigma": 0.43,
+          "Lambda": 0.7545717517769946,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": 82.45087369290465,
+          "Thickness": 30,
+          "Width": 343
+        },
+        "BottomOutstand": null,
+        "BottomWidth": 700,
+        "SecondBottom": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 268,
+          "EndStress": 84.95799856725154,
+          "KSigma": 0.43,
+          "Lambda": 0.70749351420257,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": 84.95799856725154,
+          "Thickness": 25,
+          "Width": 268
+        },
+        "SecondBottomWidth": 550,
+        "Top": {
+          "CompressedWidth": 243,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 243,
+          "EndStress": -70.06588949653153,
+          "KSigma": 0.43,
+          "Lambda": 0.6414959848926287,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": -70.06588949653153,
+          "Thickness": 25,
+          "Width": 243
+        },
+        "TopWidth": 500,
+        "Web": {
+          "CompressedWidth": 813.401272470925,
+          "EffectiveAtEnd": 1415.8710997078274,
+          "EffectiveAtStart": 286.1815814525016,
+          "EndStress": 82.45087369290465,
+          "KSigma": 29.28441139132863,
+          "Lambda": 1.0282249198803337,
+          "Psi": -1.2129299042427315,
+          "Rho": 0.8795830272773858,
+          "StartStress": -67.9766187679091,
+          "Thickness": 14,
+          "Width": 1800
+        },
+        "WebBottom": 1415.8710589381162,
+        "WebTop": 286.18158109595544
+      },
+      "EffectiveSteel": {
+        "Area": 71078.736960477,
+        "Centroid": -1228.0818587214092,
+        "Inertia": 40043289868.48562
+      },
+      "Iterations": 9,
+      "MaxUtilization": 0.25746375425540186,
+      "Name": "Q · variabili",
+      "Points": [
+        {
+          "Active": true,
+          "Contributions": [0,-1.061307002283017,-2.3791553854334455
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · estradosso",
+          "Stress": -3.4404623877164626,
+          "Utilization": 0.17346869181763677,
+          "Y": 250
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-0.7824594641275108,-1.4008200305750653
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · intradosso",
+          "Stress": -2.183279494702576,
+          "Utilization": 0.11008131906063409,
+          "Y": 0
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-18.98965486379288,-12.92980937242536
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=205",
+          "Stress": -31.91946423621824,
+          "Utilization": 0.08157196415922438,
+          "Y": 205
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-15.63796716785511,-9.255002665024149
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=45",
+          "Stress": -24.89296983287926,
+          "Utilization": 0.06361536735069144,
+          "Y": 45
+        },
+        {
+          "Active": true,
+          "Contributions": [-46.00328280049434,-15.430070253541244,-8.632536442495935
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · estradosso",
+          "Stress": -70.06588949653153,
+          "Utilization": 0.20723713794748763,
+          "Y": 0
+        },
+        {
+          "Active": true,
+          "Contributions": [-45.066796309919724,-14.880183990926454,-8.029638467062924
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · sommità",
+          "Stress": -67.9766187679091,
+          "Utilization": 0.20105760480649174,
+          "Y": -25
+        },
+        {
+          "Active": true,
+          "Contributions": [22.36023101145231,24.71162691733844,35.379015764113895
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · piede",
+          "Stress": 82.45087369290465,
+          "Utilization": 0.24386878134521095,
+          "Y": -1825
+        },
+        {
+          "Active": true,
+          "Contributions": [24.420501290716455,25.921376695090977,36.70539131006652
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · intradosso",
+          "Stress": 87.04726929587395,
+          "Utilization": 0.25746375425540186,
+          "Y": -1880
+        }
+      ],
+      "Residual": 2.2649839037411664E-08,
+      "Shear": {
+        "Checks": [
+          {
+            "Demand": 1600,
+            "Name": "Anima · resistenza a taglio",
+            "Note": "min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido",
+            "Ratio": 0.655937975511497,
+            "Resistance": 2439.2550206478413,
+            "Status": "Entro limite",
+            "Unit": "kN"
+          },
+          {
+            "Demand": 0.11725986082129874,
+            "Name": "Intermedio · rigidezza pannelli",
+            "Note": "EN 1993-1-5 §9.3.3; controllo di entrambi i pannelli",
+            "Ratio": 0.11725986082129874,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 85.05799257816521,
+            "Name": "Intermedio · stabilità e pressoflessione II ordine",
+            "Note": "EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica",
+            "Ratio": 0.26355997700276546,
+            "Resistance": 322.7272727272727,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.6481767489227904,
+            "Name": "Intermedio · freccia fuori piano",
+            "Note": "EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw",
+            "Ratio": 0.1080294581537984,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 0.7643243625021583,
+            "Name": "Intermedio · rigidezza torsionale",
+            "Note": "",
+            "Ratio": 0.7643243625021583,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 0.7803684222376861,
+            "Name": "Intermedio · piatti entro classe 3",
+            "Note": "Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli",
+            "Ratio": 0.7803684222376861,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 160,
+            "Name": "Intermedio · ingombro tra piattabande",
+            "Note": "",
+            "Ratio": 0.6584362139917695,
+            "Resistance": 243,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 7.331083633950473,
+            "Name": "Intermedio · saldature verticali all’anima",
+            "Note": "Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1",
+            "Ratio": 0.0403559436080589,
+            "Resistance": 181.66056789925955,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 127.58698886724783,
+            "Name": "Intermedio · saldature alle flange",
+            "Note": "",
+            "Ratio": 0.7023372784896368,
+            "Resistance": 181.66056789925955,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 3,
+            "Name": "Intermedio · gola minima",
+            "Note": "",
+            "Ratio": 0.5,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 36,
+            "Name": "Intermedio · lunghezza efficace cordone",
+            "Note": "",
+            "Ratio": 0.3333333333333333,
+            "Resistance": 108,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 354.64889912731735,
+            "Name": "Appoggio · stabilità e pressoflessione II ordine",
+            "Note": "EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica",
+            "Ratio": 1.0989120818029554,
+            "Resistance": 322.7272727272727,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.23820543345915268,
+            "Name": "Appoggio · freccia fuori piano",
+            "Note": "EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw",
+            "Ratio": 0.03970090557652545,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 0.5114538030006524,
+            "Name": "Appoggio · rigidezza torsionale",
+            "Note": "",
+            "Ratio": 0.5114538030006524,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 0.6320984220125258,
+            "Name": "Appoggio · piatti entro classe 3",
+            "Note": "Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli",
+            "Ratio": 0.6320984220125258,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 180,
+            "Name": "Appoggio · ingombro tra piattabande",
+            "Note": "",
+            "Ratio": 0.7407407407407407,
+            "Resistance": 243,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 46.77234586113455,
+            "Name": "Appoggio · saldature verticali all’anima",
+            "Note": "Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1",
+            "Ratio": 0.2289477118647006,
+            "Resistance": 204.29269845149287,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 554.1389048864334,
+            "Name": "Appoggio · saldature alle flange",
+            "Note": "",
+            "Ratio": 2.7124753311631826,
+            "Resistance": 204.29269845149287,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 3,
+            "Name": "Appoggio · gola minima",
+            "Note": "",
+            "Ratio": 0.375,
+            "Resistance": 8,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 48,
+            "Name": "Appoggio · lunghezza efficace cordone",
+            "Note": "",
+            "Ratio": 0.2926829268292683,
+            "Resistance": 164,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 374,
+            "Name": "Appoggio · impronta trasversale sotto i piatti",
+            "Note": "",
+            "Ratio": 0.935,
+            "Resistance": 400,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 25,
+            "Name": "Appoggio · impronta longitudinale",
+            "Note": "",
+            "Ratio": 0.08333333333333333,
+            "Resistance": 300,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 150,
+            "Name": "Appoggio · impronta entro l’estremità",
+            "Note": "",
+            "Ratio": 0.8333333333333334,
+            "Resistance": 180,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 443.0327375111557,
+            "Name": "Appoggio · contatto piatti/flangia",
+            "Note": "Piatti a contatto con la flangia inferiore; impronta interamente sottostante. Non comprende piastra di ripartizione o apparecchio d’appoggio.",
+            "Ratio": 1.310378519399193,
+            "Resistance": 338.0952380952381,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 1,
+            "Name": "Terminale · due coppie bilaterali simmetriche",
+            "Note": "Seconda coppia identica verso l’interno, distanza e; EN 1993-1-5 §9.3.1",
+            "Ratio": 0,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 4704,
+            "Name": "Terminale · area di ciascuna coppia",
+            "Note": "A ≥ 4 hw tw²/e",
+            "Ratio": 0.5226666666666666,
+            "Resistance": 9000,
+            "Status": "Entro limite",
+            "Unit": "mm²"
+          },
+          {
+            "Demand": 180,
+            "Name": "Terminale · distanza e > 0,1 hw",
+            "Note": "",
+            "Ratio": 0.6,
+            "Resistance": 300,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 300,
+            "Name": "Terminale · e entro il pannello",
+            "Note": "",
+            "Ratio": 0.1,
+            "Resistance": 3000,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 354.7485388077996,
+            "Name": "Seconda coppia terminale · stabilità e pressoflessione II ordine",
+            "Note": "EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica",
+            "Ratio": 1.0992208244748722,
+            "Resistance": 322.7272727272727,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.04329637621358031,
+            "Name": "Seconda coppia terminale · freccia fuori piano",
+            "Note": "EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw",
+            "Ratio": 0.007216062702263385,
+            "Resistance": 6,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 0.5114538030006524,
+            "Name": "Seconda coppia terminale · rigidezza torsionale",
+            "Note": "",
+            "Ratio": 0.5114538030006524,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 0.6320984220125258,
+            "Name": "Seconda coppia terminale · piatti entro classe 3",
+            "Note": "Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli",
+            "Ratio": 0.6320984220125258,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 180,
+            "Name": "Seconda coppia terminale · ingombro tra piattabande",
+            "Note": "",
+            "Ratio": 0.7407407407407407,
+            "Resistance": 243,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 46.775769014591,
+            "Name": "Seconda coppia terminale · saldature verticali all’anima",
+            "Note": "Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1",
+            "Ratio": 0.22896446798707987,
+            "Resistance": 204.29269845149287,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 554.2945918871869,
+            "Name": "Seconda coppia terminale · saldature alle flange",
+            "Note": "",
+            "Ratio": 2.7132374093085776,
+            "Resistance": 204.29269845149287,
+            "Status": "Non verificato",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 3,
+            "Name": "Seconda coppia terminale · gola minima",
+            "Note": "",
+            "Ratio": 0.375,
+            "Resistance": 8,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 48,
+            "Name": "Seconda coppia terminale · lunghezza efficace cordone",
+            "Note": "",
+            "Ratio": 0.2926829268292683,
+            "Resistance": 164,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 1.6218874911415389,
+            "Name": "Terminale · reazione e ancoraggio combinati",
+            "Note": "Inviluppo cautelativo: utilizzo elastico della coppia + area richiesta dal §9.3.1 / area disponibile; R intera su ciascuna coppia",
+            "Ratio": 1.6218874911415389,
+            "Resistance": 1,
+            "Status": "Non verificato",
+            "Unit": "—"
+          },
+          {
+            "Demand": 135.4122505168176,
+            "Name": "Anima · tensione equivalente elastica (inviluppo)",
+            "Note": "√(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata",
+            "Ratio": 0.4005151071624183,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.2134004716668938,
+            "Name": "Interazione M–V · classe 4",
+            "Note": "EC4 §6.2.2.4(3), EC3 §7.1: Mpl=30459,16 kNm; Mf=23362,54 kNm. Sezione composta; armature omesse a favore di sicurezza; anima intera. N=0, fy≤355.",
+            "Ratio": 0.2134004716668938,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          }
+        ],
+        "Details": [
+          {
+            "Name": "Intermedio · A con anima",
+            "Unit": "mm²",
+            "Value": 9344.065099184943
+          },
+          {
+            "Name": "Intermedio · striscia anima",
+            "Unit": "mm",
+            "Value": 341.71893565606734
+          },
+          {
+            "Name": "Intermedio · xG",
+            "Unit": "mm",
+            "Value": -14.768732723409359
+          },
+          {
+            "Name": "Intermedio · eccentricità x−xG",
+            "Unit": "mm",
+            "Value": 29.621129400307407
+          },
+          {
+            "Name": "Intermedio · I fuori piano",
+            "Unit": "mm⁴",
+            "Value": 35540294.61412286
+          },
+          {
+            "Name": "Intermedio · I nel piano",
+            "Unit": "mm⁴",
+            "Value": 46658870.09897011
+          },
+          {
+            "Name": "Intermedio · Nst",
+            "Unit": "kN",
+            "Value": 269.3168036793512
+          },
+          {
+            "Name": "Intermedio · Ncr fuori piano",
+            "Unit": "kN",
+            "Value": 21757.27082623685
+          },
+          {
+            "Name": "Intermedio · M II ordine fuori piano",
+            "Unit": "kNm",
+            "Value": 10.99054959164502
+          },
+          {
+            "Name": "Intermedio · M II ordine nel piano",
+            "Unit": "kNm",
+            "Value": 2.5012982601329563
+          },
+          {
+            "Name": "Appoggio · A con anima",
+            "Unit": "mm²",
+            "Value": 13200
+          },
+          {
+            "Name": "Appoggio · striscia anima",
+            "Unit": "mm",
+            "Value": 300
+          },
+          {
+            "Name": "Appoggio · xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Appoggio · eccentricità x−xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Appoggio · I fuori piano",
+            "Unit": "mm⁴",
+            "Value": 109049600
+          },
+          {
+            "Name": "Appoggio · I nel piano",
+            "Unit": "mm⁴",
+            "Value": 31968750
+          },
+          {
+            "Name": "Appoggio · Nst",
+            "Unit": "kN",
+            "Value": 2500
+          },
+          {
+            "Name": "Appoggio · Ncr fuori piano",
+            "Unit": "kN",
+            "Value": 66758.63851027208
+          },
+          {
+            "Name": "Appoggio · M II ordine fuori piano",
+            "Unit": "kNm",
+            "Value": 24.219877668094448
+          },
+          {
+            "Name": "Appoggio · M II ordine nel piano",
+            "Unit": "kNm",
+            "Value": 26.368320673319136
+          },
+          {
+            "Name": "Seconda coppia terminale · A con anima",
+            "Unit": "mm²",
+            "Value": 13200
+          },
+          {
+            "Name": "Seconda coppia terminale · striscia anima",
+            "Unit": "mm",
+            "Value": 300
+          },
+          {
+            "Name": "Seconda coppia terminale · xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Seconda coppia terminale · eccentricità x−xG",
+            "Unit": "mm",
+            "Value": 0
+          },
+          {
+            "Name": "Seconda coppia terminale · I fuori piano",
+            "Unit": "mm⁴",
+            "Value": 109049600
+          },
+          {
+            "Name": "Seconda coppia terminale · I nel piano",
+            "Unit": "mm⁴",
+            "Value": 31968750
+          },
+          {
+            "Name": "Seconda coppia terminale · Nst",
+            "Unit": "kN",
+            "Value": 2500
+          },
+          {
+            "Name": "Seconda coppia terminale · Ncr fuori piano",
+            "Unit": "kN",
+            "Value": 66758.63851027208
+          },
+          {
+            "Name": "Seconda coppia terminale · M II ordine fuori piano",
+            "Unit": "kNm",
+            "Value": 24.27798284082555
+          },
+          {
+            "Name": "Seconda coppia terminale · M II ordine nel piano",
+            "Unit": "kNm",
+            "Value": 26.368320673319136
+          }
+        ],
+        "EquivalentStressEnvelope": 135.4122505168176,
+        "RigidEndPost": false,
+        "Stiffener": null,
+        "TauAverage": 63.492063492063494,
+        "TauMaximum": 62.01701652854657,
+        "UsesStiffeners": true,
+        "V": 1600,
+        "Web": {
+          "Area": 25200,
+          "BucklingResistance": 2439255.0206478415,
+          "Chi": 0.5194953041825939,
+          "KTau": 6.993061224489796,
+          "PlasticResistance": 4919024.293495612,
+          "Resistance": 2439255.0206478415,
+          "ShearArea": 25200,
+          "Slenderness": 1.597704528447997,
+          "TauCritical": 80.2924654339335
+        }
+      },
+      "SteelNeutralAxis": -838.4012724709252,
+      "Studs": {
+        "Checks": [],
+        "Contributions": [
+          {
+            "AdditionalFlow": 0,
+            "Basis": "Nessuno scorrimento da V",
+            "Flow": 0,
+            "Inertia": 0,
+            "Kind": "Solo acciaio",
+            "Phase": "G1 · getto e carpenteria",
+            "StaticMoment": 0,
+            "V": 400
+          },
+          {
+            "AdditionalFlow": 0,
+            "Basis": "NTC: proprietà della fase tensionale",
+            "Flow": 205.80411067017545,
+            "Inertia": 90930952579.54349,
+            "Kind": "Composta",
+            "Phase": "G2 · permanenti portati",
+            "StaticMoment": 37427927.65604968,
+            "V": 500
+          },
+          {
+            "AdditionalFlow": 0,
+            "Basis": "NTC: proprietà della fase tensionale",
+            "Flow": 348.0083895208458,
+            "Inertia": 124402201022.8324,
+            "Kind": "Composta",
+            "Phase": "Q · variabili",
+            "StaticMoment": 61847156.61543489,
+            "V": 700
+          }
+        ],
+        "Details": null,
+        "Enabled": false,
+        "Flow": 553.8125001910213,
+        "ForcePerStud": 0,
+        "Resistance": null,
+        "ResistancePerLength": 0,
+        "ResistancePerStud": 0
+      },
+      "Torsion": null,
+      "Warnings": [
+        "Due piastre inferiori modellate con la geometria reale. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore, senza il beneficio dell'accoppiamento (a favore di sicurezza).",
+        "Montante terminale non qualificato come rigido: resta adottata la curva non rigida a taglio.",
+        "Appoggio: R è l’inviluppo SLU assegnato, indipendente dalle fasi. Piatti continui senza intagli, vincolati lateralmente alle flange. Apparecchio d’appoggio e flessione della piastra di ripartizione esclusi."
+      ]
+    }
+  ]
+}

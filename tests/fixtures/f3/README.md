@@ -352,3 +352,38 @@ fixture esistenti, le figure CA congelate e le transizioni F4 non cambiano.
 - In `expected/esito.txt` è cambiato solo il numero delle fixture (80 → 87).
 - Impronte nel manifest, sezione `fixture_aggiunte_f5_10` (input, attesi, figure ed `esito.txt`), sulla forma conservata da git
   (fine riga LF).
+
+## Fixture aggiunte in F5.11 (sezione composta da ponte)
+
+Stessa regola di F5.4 (proposta F5, sezione 7.2). Prima della preparazione di F5.11 la sezione composta da ponte (`str_mista_ponte`)
+aveva due fixture: la trave a H predefinita con il metodo cumulativo, senza accessori, e la stessa in un archivio precedente
+(`legacy-web-and-accessories`). Il 21/10/2026 ne ha ricevute sette (111 in tutto), catturate con la vista storica (`BridgeWorkspace`
+in `SheetEditor`). Gli attesi delle 104 fixture esistenti e le transizioni F4 non cambiano: le 12 transizioni della sezione composta
+(`cls_teso_nl` aggiunto, BUG-PON-2) restano sulle due fixture precedenti.
+
+| Fixture | Cosa copre |
+| --- | --- |
+| `anima-inclinata-ec4-sle` | H con anima inclinata (scostamento 300 mm) con EN 1994-2 (coefficienti della normativa come li scrive la scheda), SLE rara, C40/50, fy assegnato; predalle con i ferri inferiori riferiti all'intradosso della soletta; fasi di solo acciaio, composta con n assegnato (modo «Da n»), ritiro, soletta esclusa con N alla quota comune (tension stiffening delle barre tese), una fase non attiva; la scheda si apre su «Fasi e tensioni» con i contributi, la scheda delle tensioni, la seconda situazione scelta, l'asse neutro spento, il contorno della sezione, le rette dei limiti e la scala del CLS manuale |
+| `cassoncino-torsione-pioli` | cassoncino con le verifiche a torsione: cella chiusa dal controvento superiore nelle fasi di solo acciaio, distorsione sulla campata con diaframmi a controvento a X, torcente d'appoggio con il diaframma d'appoggio; ΔT, ΔV e Δq sulle fasi; pioli su due piattabande con l'armatura trasversale, le forcine di bordo e la fatica di pioli e flangia; la scheda si apre sulle verifiche |
+| `irrigidimenti-appoggio-piastra2` | H con la seconda piattabanda inferiore; irrigidimenti intermedi con piatti diversi sui due lati, pannelli diversi, compressione esterna e saldature; irrigidimento d'appoggio all'estremità sinistra con montante terminale rigido; ΔV sulle fasi; la scheda si apre sulla geometria con il prospetto all'appoggio, le sole informazioni delle armature, un divisore spostato e le proprietà della soletta esplorate con φ |
+| `storico-lineare-ritiro` | storico lineare con una discretizzazione più grossolana: solo acciaio, due ritiri, una fase composta con N al baricentro efficace iterativo, una fase non attiva; la terza situazione scelta e conservata, la scheda delle fasi |
+| `storico-non-lineare-curve` | storico non lineare con il CLS teso (tension stiffening) e φ = 0 richiesto negli ingressi; la scheda si apre sulla pagina delle curve con un percorso N–ε da una fase dello storico (la cattura F3 non calcola le curve) |
+| `dati-incompleti` | spessore dell'anima vuoto (nessuna geometria: il disegno resta quello precedente, il calcolo si ferma) e classe del calcestruzzo fuori dal catalogo del Model: nessun risultato e nessun report |
+| `legacy-viste-metodo` | archivio delle prime disposizioni della vista: quattro pagine (la terza scelta) con le loro viste e schede dei risultati, il nome precedente del metodo cumulativo, nessuna curva e nessuna proprietà della soletta: la scheda li migra all'apertura |
+
+- Gli input vengono da `fixtures-f3` (`F3Fixtures.BridgeSectionF511`). Sono documenti come li scrive la scheda: testi per i valori
+  digitati, anche con la virgola; booleani JSON per le opzioni; coefficienti della normativa da `BridgeSection.ApplyStandardDefaults`.
+  Nessun identificativo finisce con `default`. Prima della cattura ogni input è stato calcolato con la vista storica in una radice
+  temporanea, per verificare l'esito descritto e contenere la dimensione dei risultati dello storico (le fibre di ogni situazione
+  sono nel risultato: per questo le due fixture dello storico hanno meno strisce e sottopassi dei valori predefiniti).
+- Si sono copiate solo le 7 fixture nuove: il generatore produce input diversi da quelli congelati per alcune fixture più vecchie
+  (muri, materiali, Bridge Design, sezione c.a.), come già in F5.4–F5.10; le due fixture della sezione composta sono uguali.
+- Gli attesi (61 file: la fixture `dati-incompleti` non ha report) vengono dalla cattura `20261021-081225-f511-f3-cattura-1`, sul
+  codice di produzione di `c7fe03dd`: senza attesi, le sole differenze erano i file aggiunti e il numero di `esito.txt`. La
+  seconda cattura (`…-081713-f511-f3-cattura-2`) dà gli stessi file byte per byte e passa con le transizioni F4 invariate.
+- Con queste fixture passano `ui/f3-equivalence`, `ui/f3-report-chapters` (112 capitoli autonomi uguali alla vista, anche per lo
+  stato della vista migrato e per la pagina delle curve), `ui/f3-scheduling` e `ui/f3-figures`.
+- In `expected/esito.txt` è cambiato solo il numero delle fixture (104 → 111).
+- Impronte nel manifest, sezione `fixture_aggiunte_f5_11` (input, attesi ed `esito.txt`), sulla forma conservata da git (fine
+  riga LF).
+- Le tracce della vista storica (`tests/fixtures/f5-sezione-mista/storica`) hanno uno scenario per ognuna delle 9 fixture del modulo.

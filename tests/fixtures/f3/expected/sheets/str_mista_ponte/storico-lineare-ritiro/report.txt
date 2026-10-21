@@ -1,0 +1,578 @@
+# word/document.xml
+¶ Analisi della sezione composta con storico
+¶ Fixture F3 · str_mista_ponte · storico-lineare-ritiro
+¶ ANTHEA · Storico lineare · deformazioni e ritiro incrementali
+¶ Motore di calcolo: GPC Engine · libreria GPCChecker.CompositeBridge.
+¶ Il report descrive gli stati successivi della sezione, conservando deformazioni al getto, deformazioni imposte e memoria plastica dell’acciaio. Le risultanti sono equilibrate a ogni fase. L’analisi non assegna un esito globale di verifica del ponte.
+¶ Modello e campo di applicazione
+¶ Compatibilità delle deformazioni con riferimento al getto; equilibrio N–Mx a ogni fase. Ritiri incrementali illimitati. Moduli efficaci del lineare applicati ai soli incrementi, senza integrazione della viscosità nel tempo. Non lineare: acciaio con memoria plastica isotropa, CLS sull’inviluppo Model in compressione, resistenza a trazione trascurata (soletta tesa fessurata; scarico sullo stesso inviluppo, senza danno ciclico). Legami caratteristici senza coefficienti di resistenza. Non lineare sulla sezione lorda: instabilità locale non inclusa. V è registrato; taglio, pioli, irrigidimenti e interazione N–M–V non verificati da questo metodo.
+¶ N positivo in trazione; M positivo comprime le fibre superiori. y=0 all’interfaccia, positivo verso la soletta. ε(y)=ε₀−κy. N e V in kN, M in kNm; tensioni in MPa. Gli ingressi sono incrementi già combinati e coefficientati. Nessun ulteriore γF è applicato.
+¶ Metodo con storico: V registrato; verifiche di taglio, connessione, irrigidimenti e N–M–V da completare. Nessun esito globale favorevole.
+¶ Tensioni alle facce: valore della fibra di integrazione più vicina; controllare la convergenza della discretizzazione.
+¶ φ/n modifica il modulo dei nuovi incrementi; non viene integrata una legge di viscosità dipendente dall’età.
+¶ Riduzioni di classe 4 disattivate: sezione lorda.
+¶ Riferimento degli ingressi: NTC 2018 / EN 1994-2:2005; confronto tensionale: SLU. Nel non lineare i legami sono caratteristici e i coefficienti di resistenza non modificano le curve. Una tensione inferiore al limite non attesta la capacità della sezione.
+[T1 r1 c1] Opzione numerica
+[T1 r1 c2] Valore
+[T1 r2 c1] Strisce anima / flange / CLS
+[T1 r2 c2] 40 / 4 / 16
+[T1 r3 c1] Punti di integrazione
+[T1 r3 c2] 2 per striscia
+[T1 r4 c1] Sottopassi per fase
+[T1 r4 c2] 2
+[T1 r5 c1] Viscosità non lineare
+[T1 r5 c2] Istantaneo · φ = 0 nel calcolo
+[T1 r6 c1] CLS teso (non lineare)
+[T1 r6 c2] Trascurato
+¶ Materiali da Model
+[T2 r1 c1] Materiale
+[T2 r1 c2] Classe
+[T2 r1 c3] f caratteristica [MPa]
+[T2 r1 c4] E iniziale [MPa]
+[T2 r2 c1] Carpenteria
+[T2 r2 c2] S355
+[T2 r2 c3] 355,00
+[T2 r2 c4] 210000,00
+[T2 r3 c1] Calcestruzzo
+[T2 r3 c2] C35/45
+[T2 r3 c3] 35,00
+[T2 r3 c4] 34077,15
+[T2 r4 c1] Armature
+[T2 r4 c2] B450C
+[T2 r4 c3] 450,00
+[T2 r4 c4] 200000,00
+¶ Geometria della sezione
+[T3 r1 c1] Parte
+[T3 r1 c2] Larghezza [mm]
+[T3 r1 c3] Spessore o altezza [mm]
+[T3 r2 c1] Soletta
+[T3 r2 c2] 3000,00
+[T3 r2 c3] 250,00
+[T3 r3 c1] Trave d'acciaio totale H
+[T3 r3 c2] —
+[T3 r3 c3] 1855,00
+[T3 r4 c1] Anima ricavata
+[T3 r4 c2] 14,00
+[T3 r4 c3] 1800,00
+[T3 r5 c1] Piattabanda superiore
+[T3 r5 c2] 500,00
+[T3 r5 c3] 25,00
+[T3 r6 c1] Piattabanda inferiore 1
+[T3 r6 c2] 700,00
+[T3 r6 c3] 30,00
+¶ CLS netto delle barre. Le due piastre inferiori, se presenti, sono modellate con la geometria reale.
+¶ Ferri inferiori: riferimento = Intradosso soletta; distanza riferimento–asse = 45,00 mm; quota effettiva y = 45,00 mm dall'intradosso soletta.
+¶ Ferri superiori: estradosso soletta–asse = 45,00 mm; quota effettiva y = 205,00 mm.
+[T4 r1 c1] Fila armature
+[T4 r1 c2] Barre
+[T4 r1 c3] Diametro [mm]
+[T4 r1 c4] Area [mm²]
+[T4 r2 c1] y = 205,00 mm
+[T4 r2 c2] 20
+[T4 r2 c3] 16,00
+[T4 r2 c4] 4021,24
+[T4 r3 c1] y = 45,00 mm
+[T4 r3 c2] 20
+[T4 r3 c3] 16,00
+[T4 r3 c4] 4021,24
+¶ Geometria della sezione e disposizione delle armature
+¶ Fase 1 G1 · getto
+[T5 r1 c1] Azioni
+[T5 r1 c2] N [kN]
+[T5 r1 c3] M a y=0 [kNm]
+[T5 r1 c4] V [kN]
+[T5 r2 c1] Incremento
+[T5 r2 c2] 0,00
+[T5 r2 c3] 1500,00
+[T5 r2 c4] 0,00
+[T5 r3 c1] Totale
+[T5 r3 c2] 0,00
+[T5 r3 c3] 1500,00
+[T5 r3 c4] 0,00
+¶ Quota applicazione incremento N: -1058,03 mm. Riferimento: Baricentro omogeneizzato lordo. Incremento di ritiro: 0,00 µε, applicato soltanto al CLS.
+[T6 r1 c1] Piano
+[T6 r1 c2] ε₀ [µε]
+[T6 r1 c3] κ [1/m]
+[T6 r2 c1] Totale
+[T6 r2 c2] -223,87
+[T6 r2 c3] 2,11594E-4
+[T6 r3 c1] Incremento
+[T6 r3 c2] -223,87
+[T6 r3 c3] 2,11594E-4
+¶ n applicato = —; φ applicato = 0,00. A*=58700,00 mm²; yG=-1058,03 mm; Ix*=3,37574E+10 mm⁴. Proprietà ai moduli elastici della fase, non rigidezza tangente non lineare.
+¶ Equilibrio: residuo N=1,30967E-10 N; residuo M=7,15256E-7 Nmm. Iterazioni Newton=2; iterazioni aree=2; variazione aree=0E+0.
+[T7 r1 c1] Punto
+[T7 r1 c2] y [mm]
+[T7 r1 c3] σ [MPa]
+[T7 r1 c4] Ultimo Δσ [MPa]
+[T7 r2 c1] Soletta · estradosso (fibra prossima)
+[T7 r2 c2] 250,00
+[T7 r2 c3] —
+[T7 r2 c4] 0,00
+[T7 r3 c1] Soletta · intradosso (fibra prossima)
+[T7 r3 c2] 0,00
+[T7 r3 c3] —
+[T7 r3 c4] 0,00
+[T7 r4 c1] Armatura · y=205
+[T7 r4 c2] 205,00
+[T7 r4 c3] —
+[T7 r4 c4] 0,00
+[T7 r5 c1] Armatura · y=45
+[T7 r5 c2] 45,00
+[T7 r5 c3] —
+[T7 r5 c4] 0,00
+[T7 r6 c1] Acciaio · estradosso (fibra prossima)
+[T7 r6 c2] 0,00
+[T7 r6 c3] -47,01
+[T7 r6 c4] -47,01
+[T7 r7 c1] Anima · sommità
+[T7 r7 c2] -25,00
+[T7 r7 c3] -45,90
+[T7 r7 c4] -45,90
+[T7 r8 c1] Anima · piede
+[T7 r8 c2] -1825,00
+[T7 r8 c3] 34,08
+[T7 r8 c4] 34,08
+[T7 r9 c1] Acciaio · intradosso (fibra prossima)
+[T7 r9 c2] -1855,00
+[T7 r9 c3] 35,41
+[T7 r9 c4] 35,41
+[T7 r10 c1] Steel.Top · estremo integrato
+[T7 r10 c2] -1,32
+[T7 r10 c3] -46,95
+[T7 r10 c4] -46,95
+[T7 r11 c1] Steel.Top · estremo integrato
+[T7 r11 c2] -23,68
+[T7 r11 c3] -45,96
+[T7 r11 c4] -45,96
+[T7 r12 c1] Steel.Web · estremo integrato
+[T7 r12 c2] -34,51
+[T7 r12 c3] -45,48
+[T7 r12 c4] -45,48
+[T7 r13 c1] Steel.Web · estremo integrato
+[T7 r13 c2] -1815,49
+[T7 r13 c3] 33,66
+[T7 r13 c4] 33,66
+[T7 r14 c1] Steel.Bottom · estremo integrato
+[T7 r14 c2] -1826,58
+[T7 r14 c3] 34,15
+[T7 r14 c4] 34,15
+[T7 r15 c1] Steel.Bottom · estremo integrato
+[T7 r15 c2] -1853,42
+[T7 r15 c3] 35,34
+[T7 r15 c4] 35,34
+¶ Deformazioni meccaniche e plastiche
+[T8 r1 c1] Componente
+[T8 r1 c2] εmecc min [µε]
+[T8 r1 c3] εmecc max [µε]
+[T8 r1 c4] |εpl|max [µε]
+[T8 r2 c1] Steel.Top
+[T8 r2 c2] -223,59
+[T8 r2 c3] -218,86
+[T8 r2 c4] 0,00
+[T8 r3 c1] Steel.Web
+[T8 r3 c2] -216,57
+[T8 r3 c3] 160,27
+[T8 r3 c4] 0,00
+[T8 r4 c1] Steel.Bottom
+[T8 r4 c2] 162,62
+[T8 r4 c3] 168,30
+[T8 r4 c4] 0,00
+¶ εmecc=εtot−εgetto−εimposta. Δσ è la differenza fra stati consecutivi, incluse le redistribuzioni. Valori alle facce da fibra prossima; estremi integrati riportati separatamente. Il JSON e il CSV delle fibre conservano lo storico completo.
+¶ Carpenteria efficace: A=58700,00 mm²; yG=-1058,03 mm; Ix=3,37574E+10 mm⁴.
+¶ Nessun dato applicabile.
+¶ V registrato. Taglio, pioli, irrigidimenti e interazione N–M–V non verificati dal metodo con storico.
+¶ Situazione 1 dopo G1 · getto. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×19,72 (n · G2 · permanenti); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Fase 2 Ritiro iniziale
+[T9 r1 c1] Azioni
+[T9 r1 c2] N [kN]
+[T9 r1 c3] M a y=0 [kNm]
+[T9 r1 c4] V [kN]
+[T9 r2 c1] Incremento
+[T9 r2 c2] 0,00
+[T9 r2 c3] 0,00
+[T9 r2 c4] 0,00
+[T9 r3 c1] Totale
+[T9 r3 c2] 0,00
+[T9 r3 c3] 1500,00
+[T9 r3 c4] 0,00
+¶ Quota applicazione incremento N: -436,42 mm. Riferimento: Baricentro omogeneizzato lordo. Incremento di ritiro: -150,00 µε, applicato soltanto al CLS.
+[T10 r1 c1] Piano
+[T10 r1 c2] ε₀ [µε]
+[T10 r1 c3] κ [1/m]
+[T10 r2 c1] Totale
+[T10 r2 c2] -320,67
+[T10 r2 c3] 2,74078E-4
+[T10 r3 c1] Incremento
+[T10 r3 c2] -96,80
+[T10 r3 c3] 6,2484E-5
+¶ n applicato = 12,94; φ applicato = 2,00. A*=123692,37 mm²; yG=-436,42 mm; Ix*=7,7271E+10 mm⁴. Proprietà ai moduli elastici della fase, non rigidezza tangente non lineare.
+¶ Equilibrio: residuo N=1,2833E-9 N; residuo M=5,00679E-6 Nmm. Iterazioni Newton=2; iterazioni aree=2; variazione aree=0E+0.
+[T11 r1 c1] Punto
+[T11 r1 c2] y [mm]
+[T11 r1 c3] σ [MPa]
+[T11 r1 c4] Ultimo Δσ [MPa]
+[T11 r2 c1] Soletta · estradosso (fibra prossima)
+[T11 r2 c2] 250,00
+[T11 r2 c3] 0,61
+[T11 r2 c4] 0,61
+[T11 r3 c1] Soletta · intradosso (fibra prossima)
+[T11 r3 c2] 0,00
+[T11 r3 c3] 0,86
+[T11 r3 c4] 0,86
+[T11 r4 c1] Armatura · y=205
+[T11 r4 c2] 205,00
+[T11 r4 c3] -21,92
+[T11 r4 c4] -21,92
+[T11 r5 c1] Armatura · y=45
+[T11 r5 c2] 45,00
+[T11 r5 c3] -19,92
+[T11 r5 c4] -19,92
+[T11 r6 c1] Acciaio · estradosso (fibra prossima)
+[T11 r6 c2] 0,00
+[T11 r6 c3] -67,34
+[T11 r6 c4] -20,33
+[T11 r7 c1] Anima · sommità
+[T11 r7 c2] -25,00
+[T11 r7 c3] -65,90
+[T11 r7 c4] -20,00
+[T11 r8 c1] Anima · piede
+[T11 r8 c2] -1825,00
+[T11 r8 c3] 37,70
+[T11 r8 c4] 3,62
+[T11 r9 c1] Acciaio · intradosso (fibra prossima)
+[T11 r9 c2] -1855,00
+[T11 r9 c3] 39,43
+[T11 r9 c4] 4,01
+[T11 r10 c1] Steel.Top · estremo integrato
+[T11 r10 c2] -1,32
+[T11 r10 c3] -67,26
+[T11 r10 c4] -20,31
+[T11 r11 c1] Steel.Top · estremo integrato
+[T11 r11 c2] -23,68
+[T11 r11 c3] -65,98
+[T11 r11 c4] -20,02
+[T11 r12 c1] Steel.Web · estremo integrato
+[T11 r12 c2] -34,51
+[T11 r12 c3] -65,35
+[T11 r12 c4] -19,87
+[T11 r13 c1] Steel.Web · estremo integrato
+[T11 r13 c2] -1815,49
+[T11 r13 c3] 37,15
+[T11 r13 c4] 3,50
+[T11 r14 c1] Steel.Bottom · estremo integrato
+[T11 r14 c2] -1826,58
+[T11 r14 c3] 37,79
+[T11 r14 c4] 3,64
+[T11 r15 c1] Steel.Bottom · estremo integrato
+[T11 r15 c2] -1853,42
+[T11 r15 c3] 39,34
+[T11 r15 c4] 3,99
+[T11 r16 c1] Concrete · estremo integrato
+[T11 r16 c2] 246,70
+[T11 r16 c3] 0,61
+[T11 r16 c4] 0,61
+[T11 r17 c1] Concrete · estremo integrato
+[T11 r17 c2] 3,30
+[T11 r17 c3] 0,86
+[T11 r17 c4] 0,86
+[T11 r18 c1] Rebars · estremo integrato
+[T11 r18 c2] 209,00
+[T11 r18 c3] -21,97
+[T11 r18 c4] -21,97
+[T11 r19 c1] Rebars · estremo integrato
+[T11 r19 c2] 41,00
+[T11 r19 c3] -19,87
+[T11 r19 c4] -19,87
+¶ Deformazioni meccaniche e plastiche
+[T12 r1 c1] Componente
+[T12 r1 c2] εmecc min [µε]
+[T12 r1 c3] εmecc max [µε]
+[T12 r1 c4] |εpl|max [µε]
+[T12 r2 c1] Steel.Top
+[T12 r2 c2] -320,31
+[T12 r2 c3] -314,18
+[T12 r2 c4] 0,00
+[T12 r3 c1] Steel.Web
+[T12 r3 c2] -311,21
+[T12 r3 c3] 176,92
+[T12 r3 c4] 0,00
+[T12 r4 c1] Steel.Bottom
+[T12 r4 c2] 179,96
+[T12 r4 c3] 187,31
+[T12 r4 c4] 0,00
+[T12 r5 c1] Concrete
+[T12 r5 c2] 37,79
+[T12 r5 c3] 53,00
+[T12 r5 c4] 0,00
+[T12 r6 c1] Rebars
+[T12 r6 c2] -109,86
+[T12 r6 c3] -99,36
+[T12 r6 c4] 0,00
+¶ εmecc=εtot−εgetto−εimposta. Δσ è la differenza fra stati consecutivi, incluse le redistribuzioni. Valori alle facce da fibra prossima; estremi integrati riportati separatamente. Il JSON e il CSV delle fibre conservano lo storico completo.
+¶ Carpenteria efficace: A=58700,00 mm²; yG=-1058,03 mm; Ix=3,37574E+10 mm⁴.
+¶ Nessun dato applicabile.
+¶ V registrato. Taglio, pioli, irrigidimenti e interazione N–M–V non verificati dal metodo con storico.
+¶ Situazione 2 dopo Ritiro iniziale. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×19,72 (n · G2 · permanenti); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Fase 3 G2 · permanenti
+[T13 r1 c1] Azioni
+[T13 r1 c2] N [kN]
+[T13 r1 c3] M a y=0 [kNm]
+[T13 r1 c4] V [kN]
+[T13 r2 c1] Incremento
+[T13 r2 c2] -200,00
+[T13 r2 c3] 1891,43
+[T13 r2 c4] 0,00
+[T13 r3 c1] Totale
+[T13 r3 c2] -200,00
+[T13 r3 c3] 3391,43
+[T13 r3 c4] 0,00
+¶ Quota applicazione incremento N: -542,83 mm. Riferimento: Baricentro efficace · iterativo. Incremento di ritiro: 0,00 µε, applicato soltanto al CLS.
+[T14 r1 c1] Piano
+[T14 r1 c2] ε₀ [µε]
+[T14 r1 c3] κ [1/m]
+[T14 r2 c1] Totale
+[T14 r2 c2] -403,92
+[T14 r2 c3] 4,10563E-4
+[T14 r3 c1] Incremento
+[T14 r3 c2] -83,25
+[T14 r3 c3] 1,36485E-4
+¶ n applicato = 19,72; φ applicato = 2,00. A*=103984,20 mm²; yG=-542,83 mm; Ix*=6,97793E+10 mm⁴. Proprietà ai moduli elastici della fase, non rigidezza tangente non lineare.
+¶ Equilibrio: residuo N=4,59841E-9 N; residuo M=-5,24521E-6 Nmm. Iterazioni Newton=2; iterazioni aree=2; variazione aree=0E+0.
+[T15 r1 c1] Punto
+[T15 r1 c2] y [mm]
+[T15 r1 c3] σ [MPa]
+[T15 r1 c4] Ultimo Δσ [MPa]
+[T15 r2 c1] Soletta · estradosso (fibra prossima)
+[T15 r2 c2] 250,00
+[T15 r2 c3] -0,64
+[T15 r2 c4] -1,25
+[T15 r3 c1] Soletta · intradosso (fibra prossima)
+[T15 r3 c2] 0,00
+[T15 r3 c3] -0,02
+[T15 r3 c4] -0,89
+[T15 r4 c1] Armatura · y=205
+[T15 r4 c2] 205,00
+[T15 r4 c3] -44,17
+[T15 r4 c4] -22,25
+[T15 r5 c1] Armatura · y=45
+[T15 r5 c2] 45,00
+[T15 r5 c3] -37,80
+[T15 r5 c4] -17,88
+[T15 r6 c1] Acciaio · estradosso (fibra prossima)
+[T15 r6 c2] 0,00
+[T15 r6 c3] -84,82
+[T15 r6 c4] -17,48
+[T15 r7 c1] Anima · sommità
+[T15 r7 c2] -25,00
+[T15 r7 c3] -82,67
+[T15 r7 c4] -16,77
+[T15 r8 c1] Anima · piede
+[T15 r8 c2] -1825,00
+[T15 r8 c3] 72,53
+[T15 r8 c4] 34,83
+[T15 r9 c1] Acciaio · intradosso (fibra prossima)
+[T15 r9 c2] -1855,00
+[T15 r9 c3] 75,11
+[T15 r9 c4] 35,69
+[T15 r10 c1] Steel.Top · estremo integrato
+[T15 r10 c2] -1,32
+[T15 r10 c3] -84,71
+[T15 r10 c4] -17,44
+[T15 r11 c1] Steel.Top · estremo integrato
+[T15 r11 c2] -23,68
+[T15 r11 c3] -82,78
+[T15 r11 c4] -16,80
+[T15 r12 c1] Steel.Web · estremo integrato
+[T15 r12 c2] -34,51
+[T15 r12 c3] -81,85
+[T15 r12 c4] -16,49
+[T15 r13 c1] Steel.Web · estremo integrato
+[T15 r13 c2] -1815,49
+[T15 r13 c3] 71,71
+[T15 r13 c4] 34,55
+[T15 r14 c1] Steel.Bottom · estremo integrato
+[T15 r14 c2] -1826,58
+[T15 r14 c3] 72,66
+[T15 r14 c4] 34,87
+[T15 r15 c1] Steel.Bottom · estremo integrato
+[T15 r15 c2] -1853,42
+[T15 r15 c3] 74,98
+[T15 r15 c4] 35,64
+[T15 r16 c1] Concrete · estremo integrato
+[T15 r16 c2] 246,70
+[T15 r16 c3] -0,63
+[T15 r16 c4] -1,25
+[T15 r17 c1] Concrete · estremo integrato
+[T15 r17 c2] 3,30
+[T15 r17 c3] -0,03
+[T15 r17 c4] -0,89
+[T15 r18 c1] Rebars · estremo integrato
+[T15 r18 c2] 209,00
+[T15 r18 c3] -44,33
+[T15 r18 c4] -22,35
+[T15 r19 c1] Rebars · estremo integrato
+[T15 r19 c2] 41,00
+[T15 r19 c3] -37,64
+[T15 r19 c4] -17,77
+¶ Deformazioni meccaniche e plastiche
+[T16 r1 c1] Componente
+[T16 r1 c2] εmecc min [µε]
+[T16 r1 c3] εmecc max [µε]
+[T16 r1 c4] |εpl|max [µε]
+[T16 r2 c1] Steel.Top
+[T16 r2 c2] -403,37
+[T16 r2 c3] -394,19
+[T16 r2 c4] 0,00
+[T16 r3 c1] Steel.Web
+[T16 r3 c2] -389,75
+[T16 r3 c3] 341,46
+[T16 r3 c4] 0,00
+[T16 r4 c1] Steel.Bottom
+[T16 r4 c2] 346,01
+[T16 r4 c3] 357,03
+[T16 r4 c4] 0,00
+[T16 r5 c1] Concrete
+[T16 r5 c2] -79,13
+[T16 r5 c3] -30,70
+[T16 r5 c4] 0,00
+[T16 r6 c1] Rebars
+[T16 r6 c2] -221,63
+[T16 r6 c3] -188,20
+[T16 r6 c4] 0,00
+¶ εmecc=εtot−εgetto−εimposta. Δσ è la differenza fra stati consecutivi, incluse le redistribuzioni. Valori alle facce da fibra prossima; estremi integrati riportati separatamente. Il JSON e il CSV delle fibre conservano lo storico completo.
+¶ Carpenteria efficace: A=58700,00 mm²; yG=-1058,03 mm; Ix=3,37574E+10 mm⁴.
+¶ Nessun dato applicabile.
+¶ V registrato. Taglio, pioli, irrigidimenti e interazione N–M–V non verificati dal metodo con storico.
+¶ Situazione 3 dopo G2 · permanenti. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×19,72 (n · G2 · permanenti); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Fase 4 Ritiro a lungo termine
+[T17 r1 c1] Azioni
+[T17 r1 c2] N [kN]
+[T17 r1 c3] M a y=0 [kNm]
+[T17 r1 c4] V [kN]
+[T17 r2 c1] Incremento
+[T17 r2 c2] 0,00
+[T17 r2 c3] 0,00
+[T17 r2 c4] 0,00
+[T17 r3 c1] Totale
+[T17 r3 c2] -200,00
+[T17 r3 c3] 3391,43
+[T17 r3 c4] 0,00
+¶ Quota applicazione incremento N: -436,42 mm. Riferimento: Baricentro omogeneizzato lordo. Incremento di ritiro: -100,00 µε, applicato soltanto al CLS.
+[T18 r1 c1] Piano
+[T18 r1 c2] ε₀ [µε]
+[T18 r1 c3] κ [1/m]
+[T18 r2 c1] Totale
+[T18 r2 c2] -468,45
+[T18 r2 c3] 4,52219E-4
+[T18 r3 c1] Incremento
+[T18 r3 c2] -64,53
+[T18 r3 c3] 4,1656E-5
+¶ n applicato = 12,94; φ applicato = 2,00. A*=123692,37 mm²; yG=-436,42 mm; Ix*=7,7271E+10 mm⁴. Proprietà ai moduli elastici della fase, non rigidezza tangente non lineare.
+¶ Equilibrio: residuo N=1,04774E-9 N; residuo M=-2,38419E-6 Nmm. Iterazioni Newton=2; iterazioni aree=2; variazione aree=0E+0.
+[T19 r1 c1] Punto
+[T19 r1 c2] y [mm]
+[T19 r1 c3] σ [MPa]
+[T19 r1 c4] Ultimo Δσ [MPa]
+[T19 r2 c1] Soletta · estradosso (fibra prossima)
+[T19 r2 c2] 250,00
+[T19 r2 c3] -0,23
+[T19 r2 c4] 0,41
+[T19 r3 c1] Soletta · intradosso (fibra prossima)
+[T19 r3 c2] 0,00
+[T19 r3 c3] 0,55
+[T19 r3 c4] 0,58
+[T19 r4 c1] Armatura · y=205
+[T19 r4 c2] 205,00
+[T19 r4 c3] -58,78
+[T19 r4 c4] -14,61
+[T19 r5 c1] Armatura · y=45
+[T19 r5 c2] 45,00
+[T19 r5 c3] -51,08
+[T19 r5 c4] -13,28
+[T19 r6 c1] Acciaio · estradosso (fibra prossima)
+[T19 r6 c2] 0,00
+[T19 r6 c3] -98,37
+[T19 r6 c4] -13,55
+[T19 r7 c1] Anima · sommità
+[T19 r7 c2] -25,00
+[T19 r7 c3] -96,00
+[T19 r7 c4] -13,33
+[T19 r8 c1] Anima · piede
+[T19 r8 c2] -1825,00
+[T19 r8 c3] 74,94
+[T19 r8 c4] 2,41
+[T19 r9 c1] Acciaio · intradosso (fibra prossima)
+[T19 r9 c2] -1855,00
+[T19 r9 c3] 77,79
+[T19 r9 c4] 2,68
+[T19 r10 c1] Steel.Top · estremo integrato
+[T19 r10 c2] -1,32
+[T19 r10 c3] -98,25
+[T19 r10 c4] -13,54
+[T19 r11 c1] Steel.Top · estremo integrato
+[T19 r11 c2] -23,68
+[T19 r11 c3] -96,13
+[T19 r11 c4] -13,34
+[T19 r12 c1] Steel.Web · estremo integrato
+[T19 r12 c2] -34,51
+[T19 r12 c3] -95,10
+[T19 r12 c4] -13,25
+[T19 r13 c1] Steel.Web · estremo integrato
+[T19 r13 c2] -1815,49
+[T19 r13 c3] 74,04
+[T19 r13 c4] 2,33
+[T19 r14 c1] Steel.Bottom · estremo integrato
+[T19 r14 c2] -1826,58
+[T19 r14 c3] 75,09
+[T19 r14 c4] 2,43
+[T19 r15 c1] Steel.Bottom · estremo integrato
+[T19 r15 c2] -1853,42
+[T19 r15 c3] 77,64
+[T19 r15 c4] 2,66
+[T19 r16 c1] Concrete · estremo integrato
+[T19 r16 c2] 246,70
+[T19 r16 c3] -0,22
+[T19 r16 c4] 0,41
+[T19 r17 c1] Concrete · estremo integrato
+[T19 r17 c2] 3,30
+[T19 r17 c3] 0,54
+[T19 r17 c4] 0,57
+[T19 r18 c1] Rebars · estremo integrato
+[T19 r18 c2] 209,00
+[T19 r18 c3] -58,97
+[T19 r18 c4] -14,65
+[T19 r19 c1] Rebars · estremo integrato
+[T19 r19 c2] 41,00
+[T19 r19 c3] -50,89
+[T19 r19 c4] -13,25
+¶ Deformazioni meccaniche e plastiche
+[T20 r1 c1] Componente
+[T20 r1 c2] εmecc min [µε]
+[T20 r1 c3] εmecc max [µε]
+[T20 r1 c4] |εpl|max [µε]
+[T20 r2 c1] Steel.Top
+[T20 r2 c2] -467,85
+[T20 r2 c3] -457,74
+[T20 r2 c4] 0,00
+[T20 r3 c1] Steel.Web
+[T20 r3 c2] -452,84
+[T20 r3 c3] 352,55
+[T20 r3 c4] 0,00
+[T20 r4 c1] Steel.Bottom
+[T20 r4 c2] 357,57
+[T20 r4 c3] 369,70
+[T20 r4 c4] 0,00
+[T20 r5 c1] Concrete
+[T20 r5 c2] -53,94
+[T20 r5 c3] 4,63
+[T20 r5 c4] 0,00
+[T20 r6 c1] Rebars
+[T20 r6 c2] -294,86
+[T20 r6 c3] -254,44
+[T20 r6 c4] 0,00
+¶ εmecc=εtot−εgetto−εimposta. Δσ è la differenza fra stati consecutivi, incluse le redistribuzioni. Valori alle facce da fibra prossima; estremi integrati riportati separatamente. Il JSON e il CSV delle fibre conservano lo storico completo.
+¶ Carpenteria efficace: A=58700,00 mm²; yG=-1058,03 mm; Ix=3,37574E+10 mm⁴.
+¶ Nessun dato applicabile.
+¶ V registrato. Taglio, pioli, irrigidimenti e interazione N–M–V non verificati dal metodo con storico.
+¶ Situazione 4 dopo Ritiro a lungo termine. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×19,72 (n · G2 · permanenti); valori indicati in MPa reali. Arancio: parte inefficace.

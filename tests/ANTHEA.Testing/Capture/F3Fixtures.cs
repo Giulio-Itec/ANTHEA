@@ -84,6 +84,7 @@ public static class F3Fixtures
         RetainingWallF59(cases);
         HorizontalPileF58(cases);
         ConcreteSectionF510(cases);
+        BridgeSectionF511(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -1108,6 +1109,131 @@ public static class F3Fixtures
             d["combinazioni"] = Actions(
                 ("SLU", [Row(1, "SLU completa", ["-1000", "200", "50"]), Row(2, "SLU senza N", ["", "150", "20"]), Row(3, "SLU testo", ["-500", "abc", "0"])]),
                 ("SLE", [Row(4, "Rara", ["-800", "100", "0"])]));
+        });
+    }
+
+    /// <summary>
+    /// Composite bridge section fixtures (str_mista_ponte) added before the F5.11 preparation (proposal F5, section 7.2: capture first, with
+    /// the historic view BridgeWorkspace in SheetEditor). The two existing fixtures are the default H girder with the cumulative method,
+    /// without accessories and with the view state written by the sheet. These cover: the H with an inclined web and the box girder, the
+    /// second bottom plate, the predalle with both references of the bottom bars, the fy override, both standards and the three limit
+    /// states; phases of every kind (steel only, composite with φ or with n, slab excluded, shrinkage), inactive phases and the three
+    /// references of N; shear with the intermediate and the support stiffeners (end post), studs with the transverse reinforcement and the
+    /// fatigue, the torsion, distortion and diaphragms of the box; the linear and the non-linear history with the mesh options; the view
+    /// state saved by the sheet (page, display, result tab, labels, contours, stress limits, scale of the concrete, selected situation,
+    /// local sketch, slab properties, the page of the curves); the legacy view settings and method name; a calculation stopped by data to
+    /// complete. The documents are as the sheet writes them (raw texts for the typed values); the identifiers never end in "default",
+    /// which the F3 project report collects.
+    /// </summary>
+    static void BridgeSectionF511(List<CaptureCase> cases)
+    {
+        const string origin = "Fixture sintetica F5.11 (proposta F5 7.2, cattura prima con la vista storica)";
+        void Added(string id, Action<JsonObject> alter)
+        {
+            var data = ModuleCatalog.CreateData(BridgeSection.Module);
+            alter(data);
+            cases.Add(new(BridgeSection.Module, id, origin, null, data));
+        }
+        static JsonObject Phase(string name, string kind, string n, string mx, string v = "0", string reference = BridgeSection.GrossLoadReference, bool active = true,
+            string phi = "0", string psi = "1", string mode = "Da φ", string homogenization = "18", string t = "0", string q = "0", string shrinkage = "0") =>
+            J.Obj(("nome", name), ("tipo", kind), ("attiva", active), ("N", n), ("Mx", mx), ("V", v), ("T", t), ("q_conn", q), ("epsilon_cs", shrinkage),
+                ("modo", mode), ("phi", phi), ("psi", psi), ("n", homogenization), ("riferimento_N", reference));
+        static void Values(JsonObject d, params (string Key, object? Value)[] values) { foreach (var (key, value) in values) d[key] = J.Node(value); }
+
+        // H with an inclined web under EN 1994-2 (coefficients of the standard as the sheet writes them), characteristic SLS, user fy, a
+        // predalle with the bottom bars from the slab soffit; phases: steel only, composite with n given, slab excluded with N at the common
+        // level, shrinkage, an inactive phase; the sheet opens on «Fasi e tensioni» with the contributions, the stress tab, the second
+        // situation chosen, the neutral axis hidden, the section contour, the stress limits and a manual scale of the concrete.
+        Added("anima-inclinata-ec4-sle", d =>
+        {
+            d["normativa"] = BridgeSection.Standards[1]; BridgeSection.ApplyStandardDefaults(d);
+            Values(d, ("stato", "SLE rara"), ("classe_cls", "C40/50"), ("acciaio", "S355"), ("fy_override", true), ("fy", "345"),
+                ("sezione", BridgeSection.SectionTypes[1]), ("offset_anima", "300"), ("b_cls", "2800"), ("h_cls", "280"),
+                ("predalle", true), ("h_predalle", "50"), ("rif_ferri_inf", BridgeSection.SlabBottomReference), ("d_bottom", "14"), ("cover_bottom", "40"),
+                ("h_trave", "1655"), ("t_web", "16"), ("b_top", "450"), ("t_top", "30"), ("b_bottom", "650"), ("t_bottom", "35"), ("y_ref", "-200"));
+            d["fasi"] = new JsonArray(Phase("G1 · acciaio", "Solo acciaio", "0", "1200"),
+                Phase("G2 · permanenti", "Composta", "0", "1800", phi: "2", psi: "1,1", mode: "Da n", homogenization: "16"),
+                Phase("Ritiro", BridgeSection.ShrinkageKind, "0", "0", phi: "2", psi: "0,55", shrinkage: "-250"),
+                Phase("Q · fessurata", "Soletta esclusa", "-500", "2600", reference: BridgeSection.CommonLoadReference),
+                Phase("Q · esclusa dalla somma", "Composta", "0", "900", active: false));
+            d["ui_mista"] = J.Obj(("layout_version", 4), ("tab", 1), ("vista_1", 1), ("risultato_1", 3), ("quote_1", true), ("armature_1", false),
+                ("segui_ultima_fase", false), ("fase", 1), ("asse_neutro", false), ("contour_sezione", true), ("limiti_tensioni", true),
+                ("amplificazione_cls_auto", false), ("amplificazione_cls", 5));
+        });
+        // Box girder with the torsion checks: closed steel cell through the top bracing, distortion on the span with X-braced diaphragms,
+        // torque at the support with the support diaphragm; torques, shears and an additional flow on the phases; studs on the two top
+        // flanges with the transverse reinforcement, the edge U bars and the fatigue of studs and flange. The sheet opens on the checks.
+        Added("cassoncino-torsione-pioli", d =>
+        {
+            Values(d, ("sezione", BridgeSection.SectionTypes[2]), ("interasse_anime", "1800"), ("offset_anima", "250"), ("b_top", "450"), ("b_bottom", "1400"),
+                ("t_bottom", "25"), ("b_cls", "3600"),
+                ("torsione_cassoncino", true), ("t_controvento", "4"), ("L_campata", "40000"), ("passo_diaframmi", "5000"),
+                ("tipo_diaframma", BridgeSection.DiaphragmKinds[1]), ("A_diagonale", "3200"), ("i_diagonale", "32"), ("beta_diagonale", "0,9"),
+                ("m_t_dist", "60"), ("T_c_dist", "600"), ("T_app", "800"), ("e_appoggi", "2000"), ("t_diaframma_app", "20"),
+                ("pioli", true), ("n_pioli", "3"), ("d_pioli", "22"), ("h_pioli", "175"), ("passo_pioli", "180"), ("passo_trasv_pioli", "120"),
+                ("armatura_trasv", true), ("d_trasv_sup", "16"), ("s_trasv_sup", "150"), ("d_trasv_inf", "14"), ("s_trasv_inf", "200"), ("forcine_bordo", true),
+                ("fatica_pioli", true), ("q_fat_min", "40"), ("q_fat_max", "260"), ("lambda_v", "1,2"), ("flangia_fat_tesa", true), ("dsigma_fat", "45"));
+            d["fasi"] = new JsonArray(Phase("G1 · getto", "Solo acciaio", "0", "1500", v: "300", t: "200"),
+                Phase("G2 · permanenti", "Composta", "0", "2000", v: "600", phi: "2", psi: "1,1", t: "300", q: "15"),
+                Phase("Q · traffico", "Composta", "0", "3000", v: "500", t: "1000"));
+            d["ui_mista"] = J.Obj(("layout_version", 4), ("tab", 1), ("vista_1", 0), ("risultato_1", 4), ("quote_1", false), ("armature_1", false), ("segui_ultima_fase", true));
+        });
+        // H with the second bottom plate: intermediate stiffeners with different plates and panels, an external compression and the welds;
+        // the support stiffener at the left end with the rigid end post; shears on the phases. The sheet opens on the geometry with the local
+        // sketch at the support, the labels of the rebars only, and the slab properties explored with φ.
+        Added("irrigidimenti-appoggio-piastra2", d =>
+        {
+            Values(d, ("plate2", true), ("b_bottom2", "550"), ("t_bottom2", "25"), ("h_trave", "1880"),
+                ("irrigidimenti", true), ("lati_irr", BridgeSection.StiffenerSides[3]), ("b_irr", "160"), ("t_irr", "18"), ("b_irr_dx", "120"), ("t_irr_dx", "14"),
+                ("pannelli_uguali", false), ("a_irr", "2800"), ("a_irr_dx", "2400"), ("N_irr", "200"), ("x_irr", "20"), ("saldature_irr", true), ("aw_irr", "6"),
+                ("appoggio", true), ("pos_app", BridgeSection.SupportLocations[1]), ("lati_app", BridgeSection.StiffenerSides[0]), ("R_app", "2500"),
+                ("terminale_rigido", true), ("e_term", "300"), ("c_app", "180"));
+            d["fasi"] = new JsonArray(Phase("G1 · getto e carpenteria", "Solo acciaio", "0", "1500", v: "400"),
+                Phase("G2 · permanenti portati", "Composta", "0", "2000", v: "500", phi: "2", psi: "1,1"),
+                Phase("Q · variabili", "Composta", "0", "3000", v: "700"));
+            d["ui_mista"] = J.Obj(("layout_version", 4), ("tab", 0), ("vista_0", 2), ("risultato_0", 1), ("quote_0", false), ("armature_0", true),
+                ("dettaglio_sezione", 1), ("prospetto", true), ("split_ingressi", .35),
+                ("soletta_proprieta", J.Obj(("phi", "1.5"), ("psi", "1.1"), ("n", "6"), ("modo", "Da φ"))));
+        });
+        // The linear history with a coarser mesh: steel only, composite, two shrinkages and an inactive phase, N at the effective centroid;
+        // the second situation chosen and kept, the phase table.
+        Added("storico-lineare-ritiro", d =>
+        {
+            Values(d, ("metodo_analisi", BridgeSection.CalculationMethods[1]), ("classe4", false), ("fibre_anima", "40"), ("fibre_flange", "4"), ("fibre_cls", "16"), ("sottopassi", "2"));
+            d["fasi"] = new JsonArray(Phase("G1 · getto", "Solo acciaio", "0", "1500"),
+                Phase("Ritiro iniziale", BridgeSection.ShrinkageKind, "0", "0", phi: "2", psi: "0,55", shrinkage: "-150"),
+                Phase("G2 · permanenti", "Composta", "-200", "2000", reference: BridgeSection.EffectiveLoadReference, phi: "2", psi: "1,1"),
+                Phase("Ritiro a lungo termine", BridgeSection.ShrinkageKind, "0", "0", phi: "2", psi: "0,55", shrinkage: "-100"),
+                Phase("Q · non attiva", "Composta", "0", "3000", active: false));
+            d["ui_mista"] = J.Obj(("layout_version", 4), ("tab", 1), ("vista_1", 0), ("risultato_1", 1), ("segui_ultima_fase", false), ("fase", 2));
+        });
+        // The non-linear history with the concrete in tension (tension stiffening) and φ = 0 required in the inputs; the sheet opens on the
+        // page of the curves with an N–ε path from a phase of the history.
+        Added("storico-non-lineare-curve", d =>
+        {
+            Values(d, ("metodo_analisi", BridgeSection.CalculationMethods[2]), ("viscosita_nl", BridgeSection.NonlinearCreepModes[1]),
+                ("cls_teso_nl", BridgeSection.ConcreteTensionModes[1]), ("fibre_anima", "30"), ("fibre_flange", "3"), ("fibre_cls", "12"), ("sottopassi", "3"));
+            d["fasi"] = new JsonArray(Phase("G1 · getto e carpenteria", "Solo acciaio", "0", "1500"),
+                Phase("G2 · permanenti portati", "Composta", "0", "2000"), Phase("Q · variabili", "Composta", "0", "3000"));
+            var response = BridgeSection.ResponseDefaults();
+            response["tipo"] = BridgeSection.ResponseModes[1]; response["origine"] = BridgeSection.ResponseOrigins[1]; response["fase"] = 1;
+            response["k_storico"] = false; response["k"] = "0.0005"; response["incremento_e"] = "-1500"; response["punti"] = "20";
+            d["curve_sezione"] = response;
+            d["ui_mista"] = J.Obj(("layout_version", 4), ("tab", 2), ("vista_1", 0), ("risultato_1", 0));
+        });
+        // Data to complete: the web thickness is empty (no geometry: the drawing keeps the previous one, the calculation stops) and a
+        // concrete class outside the Model catalogue; the report is not available.
+        Added("dati-incompleti", d =>
+        {
+            Values(d, ("t_web", ""), ("classe_cls", "C99/115"));
+        });
+        // An archive of the first layouts: the four pages of the former view (third page selected) with their displays and results, the
+        // former name of the cumulative method, no curves and no slab properties: the sheet migrates them when it opens.
+        Added("legacy-viste-metodo", d =>
+        {
+            d["metodo_analisi"] = BridgeSection.LegacyCumulativeMethod;
+            d["ui_mista"] = J.Obj(("tab", 2), ("vista_0", 2), ("vista_1", 0), ("vista_2", 1), ("vista_3", 0),
+                ("risultato_0", 4), ("risultato_1", 3), ("risultato_2", 5), ("risultato_3", 0), ("fase", 0));
         });
     }
 }
