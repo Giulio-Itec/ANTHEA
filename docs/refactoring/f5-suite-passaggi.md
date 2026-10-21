@@ -121,7 +121,7 @@ Stato delle prove (build UiTests verde):
   `HorizontalPilePresentation.Verification` con le stesse attese; in più la vista deve mostrare righe, testo e colore (token
   `Status.Ok`/`Status.Fail`/`Muted`, differenza dichiarata in `f5-7-palo-orizzontale.md` 5.4) per tre risultati veri: soddisfatta, non
   soddisfatta (HEd 100000 kN), dati incompleti.
-- **P3 · Larghezza del selettore del metodo stratificato.** La prova storica chiede almeno 180 px; la vista XAML ha la scelta compatta
+- **P3 · Larghezza del selettore del metodo stratificato. Decisa dall'utente il 21/10: 120 px come le altre scelte (decisioni.md).** La prova storica chiede almeno 180 px; la vista XAML ha la scelta compatta
   del `FieldForm` (120 px, D10, differenza dichiarata «Opzioni avanzate»), e «Stratificato» vi è intero (schermata
   `sh-mvvm-3/stratificato-opzioni.png`). Scelta: sulla vista XAML si controlla che il selettore sia largo come le altre scelte del form,
   che il testo scelto vi stia intero e che il bordo destro resti nella scheda (come prima). Il ramo storico tiene i 180 px. Alternativa:
