@@ -21,8 +21,8 @@ namespace Anthea.Presentation.Modules.ConcreteSection;
 /// <see cref="Result"/>, <see cref="HasResults"/> and «Calcola» (<see cref="CalculateAsync"/>) of its own. The result is the historic export
 /// (ConcreteResultExport), built when read and kept until the next invalidation, as the historic view.</item>
 /// <item>Children: <see cref="Inputs"/> (inputs and materials, with the sections of the wizard: S1, S1b), <see cref="Actions"/> (S2), <see cref="Domain3D"/>
-/// and <see cref="Domain2D"/> (S3); the tabs of the later sub-steps (S4–S9) keep, until their ViewModels, only the writes into the document
-/// and the results that the common part of the traces reads (ConcreteSheetViewModel.Checks.cs).</item>
+/// and <see cref="Domain2D"/> (S3), <see cref="StressPanels"/> (S4); the tabs of the later sub-steps (S5–S9) keep, until their ViewModels, only the
+/// writes into the document and the results that the common part of the traces reads (ConcreteSheetViewModel.Checks.cs).</item>
 /// </list>
 /// Works without a project and without a window (requirement of section 5 for the verifier of the elastic pile): the host is only asked for
 /// the report (not in S1) and the non modal windows are requests the view may ignore.
@@ -163,6 +163,8 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         Actions = new ConcreteActionsViewModel(this);
         Domain3D = new ConcreteDomainPanelViewModel(this, Actions.Domain3D, true);
         Domain2D = new ConcreteDomainPanelViewModel(this, Actions.Domain2D, false);
+        // 04 · Tensioni e fessurazione (S4): the families on the tables of the actions, the homogenization of the opening shown; no write.
+        CreateStressPanels();
         // 06 · Dettagli costruttivi: from here the detailing is refreshed.
         detailingBuilt = true;
         // 07 · Momento–curvatura: no write. 08 · Calcola armature.
@@ -202,8 +204,9 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
                     row.Output(key, key.StartsWith("esito", StringComparison.Ordinal) || key == "stress_status" || key == "wk" ? "Da calcolare" : "—");
         }
         finally { synchronizing = false; }
-        // The panels of the domains: no mesh, no chart, the detail waits for the calculation.
+        // The panels of the domains: no mesh, no chart, the detail waits for the calculation; the families of the serviceability: no stress state.
         foreach (var panel in DomainPanels) panel.Invalidated();
+        foreach (var panel in StressPanels) panel.Invalidated();
         InvalidateCurvature();
         if (!geometryChanged) _ = Inputs.RefreshQuickResistanceAsync();
         if (geometryChanged) RefreshPreview();
@@ -236,13 +239,16 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         catch (ArgumentException failure) { engine = null; Inputs.Drawing.Message = failure.Message; Inputs.ShowPreviewValues(null); }
         Inputs.Drawing.Section = engine; Inputs.Drawing.Tendons = Inputs.TendonPoints();
         SynchronizeStirrups();
-        foreach (string key in StressSets) ConcreteSheetPreparation.SynchronizeHomogenization(Input, Settings, key);
+        foreach (var panel in StressPanels) panel.SynchronizeHomogenization();
         foreach (string field in ConcreteEditor.SharedSleFields) Settings["sle_comuni"]![field] = Settings["sle"]!["SLE"]![field]?.DeepClone();
+        foreach (var panel in StressPanels) panel.ShowTendonOptions(Inputs.Tendons.Rows.Count > 0);
         Inputs.RefreshTendonOptions(); RefreshAutomaticShear();
         RefreshDetailing();
         Inputs.Drawing.Invalidate();
         _ = Inputs.RefreshQuickResistanceAsync();
         Inputs.RefreshBars(engine);
+        // The stress maps of the serviceability take the section of the preview (S4).
+        foreach (var panel in StressPanels) panel.ShowSection(Inputs.Drawing);
     }
 
     /// <summary>The preview refreshed one turn of the UI thread later (after the edit of a cell of the bars).</summary>
@@ -257,6 +263,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
     {
         Inputs.SynchronizeStirrups(ShearOptions);
         Inputs.Drawing.Stirrups = ShearOptions; Inputs.Drawing.Invalidate();
+        foreach (var panel in StressPanels) panel.ShowStirrups(ShearOptions);
     }
 
     /// <summary>«Staffe presenti» set to «No»: the shear model without links.</summary>
@@ -288,6 +295,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         Inputs?.RefreshEditable(IsReadOnly);
         Actions?.RefreshEditable();
         foreach (var panel in DomainPanels) panel.RefreshEditable(IsReadOnly);
+        foreach (var panel in StressPanels) panel.RefreshEditable(IsReadOnly);
     }
 
     private void OnCalculationChanged(object? sender, PropertyChangedEventArgs e)

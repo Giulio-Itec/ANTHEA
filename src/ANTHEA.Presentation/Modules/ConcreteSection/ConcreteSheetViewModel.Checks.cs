@@ -6,8 +6,8 @@ using Anthea.Presentation.Forms;
 namespace Anthea.Presentation.Modules.ConcreteSection;
 
 /// <summary>
-/// What the tabs of the later sub-steps (S4 serviceability, S5 shear, S6 detailing, S7 M–χ, S9 summaries) do to the data and to the results
-/// that the common part of the traces reads, until their ViewModels, and what the sheet keeps for the panels of S2 and S3: the rows of the
+/// What the tabs of the later sub-steps (S5 shear, S6 detailing, S7 M–χ, S9 summaries) do to the data and to the results
+/// that the common part of the traces reads, until their ViewModels, and what the sheet keeps for the panels of S2, S3 and S4: the rows of the
 /// actions and of the shear with their outputs, the results published by the calculation, the automatic shear parameters, the derived values
 /// of the detailing, the summaries of the control panel and the export. Every write and its order are those of the historic view; the controls of those tabs
 /// are not here.
@@ -114,6 +114,7 @@ public sealed partial class ConcreteSheetViewModel
         foreach (var (key, cards) in summaries)
             Fill(cards, k => key is "SLU" or "SLV" ? k.EndsWith(":" + key, StringComparison.Ordinal) : k.StartsWith(key + ":", StringComparison.Ordinal));
         foreach (var panel in DomainPanels) Fill(panel.Summary, k => k.StartsWith(panel.Prefix, StringComparison.Ordinal));
+        foreach (var panel in StressPanels) Fill(panel.Summary, k => k.StartsWith("SLE", StringComparison.Ordinal));
         Fill(ShearDashboard, k => k.StartsWith("Taglio:", StringComparison.Ordinal));
     }
 
@@ -138,13 +139,9 @@ public sealed partial class ConcreteSheetViewModel
         stressResults[key] = outcomes;
         using var notifications = JsonRowViewModel.DeferNotifications(actions[key]);
         foreach (var row in actions[key])
-        {
-            var outcome = outcomes[row.Values.S("id")];
-            row.Output("sigma_c", EngineeringFormat.Number(outcome.State?.sigma_cls)); row.Output("sigma_s", EngineeringFormat.Number(outcome.State?.sigma_acciaio));
-            row.Output("eta_sigma", EngineeringFormat.Number(outcome.Ratio)); row.Output("stress_status", outcome.Status);
-            row.Output("wk", outcome.CrackResult?.Width is double width
-                ? $"{EngineeringFormat.Number(width)} / {EngineeringFormat.Number(outcome.CrackResult.Limit)} mm · η={EngineeringFormat.Number(outcome.CrackResult.Ratio)}" : outcome.Cracking);
-        }
+            foreach (var (field, value) in ConcreteStressPresentation.Outputs(outcomes[row.Values.S("id")])) row.Output(field, value);
+        // PublishStress of the historic view: the family shows its selection again (S4).
+        if (stressPanels.TryGetValue(key, out var panel)) panel.UpdateSelection();
     }
 
     void IConcreteCalculationHost.CalculateShear() => CalculateShear();
@@ -214,6 +211,7 @@ public sealed partial class ConcreteSheetViewModel
         {
             stressResults.Remove(key);
             foreach (var row in actions[key]) foreach (string field in new[] { "sigma_c", "sigma_s", "eta_sigma", "stress_status", "wk" }) row.Output(field, "Da calcolare");
+            if (stressPanels.TryGetValue(key, out var panel)) panel.UpdateSelection();
             InvalidateChecks(key);
         }
         RefreshSummary();
@@ -272,9 +270,11 @@ public sealed partial class ConcreteSheetViewModel
 
     private void PrepareStressOptions()
     {
+        preparedHomogenization.Clear();
         foreach (string key in StressSets)
         {
-            ConcreteSheetPreparation.SynchronizeHomogenization(Input, Settings, key);
+            // The values and the errors are shown by the forms of the families, built later (S4).
+            preparedHomogenization[key] = ConcreteSheetPreparation.SynchronizeHomogenization(Input, Settings, key);
             var options = Settings["sle"]![key]!.AsObject();
             string contour = options.S("contour", ConcreteSectionDrawingViewModel.Contours[0]);
             options["contour"] = ConcreteSectionDrawingViewModel.Contours.Contains(contour) ? contour : ConcreteSectionDrawingViewModel.Contours[0];
