@@ -1,0 +1,92 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "bbb8963347b023027925e5c7a094f1946c54f7e9cc889cda1d361531a11f7437",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "5c2a5ab6f30387f5c92b7882497a08dca68b5b68e7428f46e787995a1bb84179",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "c03add17ce92f0c1940a811bd095cc9fde6eb63f7bc2e065d933afce553dde0b",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "0803bbb56688200afad3168221e48e6952ceaee7d1ff9b0e5196de3e113e6d43",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev56.docx",
+    "sha256": "d84bdf5fcb4c54df57ac8f4ebb8bb26a4ac6aef4d8a51bb61db19d396beb23eb",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev56.pdf",
+    "sha256": "5c2a5ab6f30387f5c92b7882497a08dca68b5b68e7428f46e787995a1bb84179",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev56.docx",
+    "sha256": "5f406bbecdce06575579b3358005eeb9efc5ee62deb3fdc283b10d69fee9579e",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev56.pdf",
+    "sha256": "0803bbb56688200afad3168221e48e6952ceaee7d1ff9b0e5196de3e113e6d43",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/README.md",
+    "sha256": "0fb17ed693e2f691f27c73c155c72f92a257e5c9b48953f80059325a0a6998ce",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "sha256": "9be679572f213ce2f4d94bd08f484c36ea4b3a56b2685694ef354daae6f6841a",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "sha256": "3118ed958401edcddbf66f68b89c1148275eaf41f0f547580653854be7fcea11",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "sha256": "cad82ebae4cf4bef8cf6ca0e29b6c220574b6376f888557af064fc896480a216",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "sha256": "7b1ad5e975c58938d2dd6a22df88ed27787006a8ecf0618b0375b18e7e17f5e3",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "sha256": "6acd947a7f8b661e053a8e6ec96df06c263b69dcdbfc25e6fe4a63871c0e8992",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "fc904211bc43017dafff093251450e1459cd12c24ee77fa164a7be4231ed4d40",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "a93f802a5fcb6a4e36592f2236d7b63b0e2891ce10402ec528cf487d0523e1c6",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/scripts/Build-AntheaGuides-Itec.py",
+    "sha256": "63cca98f20bc6ded90ac7e881daa2ca9d9a2a0d1aa2430d05a591d06148a656b",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  },
+  {
+    "origine": "supporto/scripts/Render-AntheaGuides-Itec.ps1",
+    "sha256": "a8d75d3fef0ecf8d703001f8f457a0acfd0da4bb09fba07ff1b6263c827aadde",
+    "motivo": "Sostituito dalla Rev57: pretensione dei tiranti mantenuta fra le fasi (rilievo A1 della revisione paratie del 21/10/2026)."
+  }
+]

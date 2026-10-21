@@ -176,7 +176,7 @@ public sealed partial class EmbeddedWallSheetViewModel
         "left_soils" or "right_soils" or "hydraulic_left" or "hydraulic_right" =>
             $"{row["name"]} · {row["top"]} → {row["bottom"]} m",
         "supports" => $"{row["id"]} · {(row["kind"] == "Anchor" ? "Tirante" : row["kind"] == "Strut" ? "Puntone" : row["kind"])} · z={row["elevation"]} m",
-        "activations" => $"{row["support"]} · pretensione {row["prestress"]} kN",
+        "activations" => string.IsNullOrWhiteSpace(row["prestress"]) ? $"{row["support"]} · pretensione mantenuta" : $"{row["support"]} · pretensione {row["prestress"]} kN",
         "loads" => $"z={row["elevation"]} m · H={row["horizontal"]} kN · M={row["moment"]} kNm",
         "distributed_loads" => $"{row["id"]} · {row["top"]} → {row["bottom"]} m · q={row["q_top"]} → {row["q_bottom"]} kN/m",
         _ => row.Label

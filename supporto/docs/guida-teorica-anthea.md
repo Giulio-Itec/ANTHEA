@@ -3382,6 +3382,24 @@ Ogni fase descrive una configurazione completa. Pressioni, limiti, rigidezze e c
 
 Un sostegno installato si riferisce allo spostamento della fase precedente; il bloccaggio o la pretensione si applicano progressivamente. La rimozione riduce il contributo e cancella la storia del sostegno; una reinstallazione è nuova. L'ordine di installazione e scavo richiede fasi separate quando fisicamente rilevante. Il semplice cambio di EI non introduce automaticamente fessurazione, plasticità o ridistribuzione dipendente dal materiale della sezione.
 
+Con s verso resistente, α inclinazione, u spostamento del nodo, uinst spostamento all'installazione, ep allungamento plastico ed Np capacità plastica, la forza assiale del singolo elemento è:
+
+```formula
+e=s\cdot\cos\alpha\cdot(u-u_{\text{inst}})
+N=P_0+\frac{EA}{L}(e-e_p)
+```
+
+N è limitata a [0, Np] per tiranti e puntoni e a [−Np, Np] per il vincolo bilaterale; la reazione sulla fascia è −s cos α N b/i, con b larghezza della fascia e i interasse. P₀ è la pretensione in vigore nella fase. Nella tabella delle presenze una cella vuota conserva il valore che il sostegno aveva nella fase precedente; all'installazione o alla reinstallazione dopo una rimozione vale 0. Un valore assegnato sostituisce P₀ e 0 la rilascia; nella transizione P₀ varia linearmente fra i valori delle due fasi. Una riduzione rispetto alla fase precedente è accettata come scelta esplicita ed è segnalata nel disegno e nei risultati.
+
+Esempio: mensola di 6 m incastrata al piede, EI=200 000 kNm², forza H=10 kN in testa in tutte le fasi, tirante orizzontale in testa con EA/L=10 000 kN/m e b=i=1 m. Con kc=3EI/L³=2777,8 kN/m e ka=EA/L, in F1 senza tirante u₁=H/kc=3,60 mm. In F2 il tirante è installato con P₀=50 kN:
+
+```formula
+u_2=\frac{H-P_0+k_a u_1}{k_c+k_a}=-0{,}313\ \text{mm}
+N_2=P_0+k_a(u_2-u_1)=10{,}87\ \text{kN}
+```
+
+In F3, con la cella vuota, P₀ resta 50 kN e lo stato non cambia. Con P₀=0 il tirante si scarica (N=0) e la testa torna a +3,60 mm; con 80 kN la testa arriva a −2,661 mm e N=17,39 kN.
+
 La convergenza è controllata mediante residuo, equilibrio e incrementi; il mancato equilibrio o un sistema singolare producono esiti espliciti. Una fase fallita viene annullata interamente e il risultato conserva solo le fasi concluse. Ogni analisi possiede una storia indipendente. Il numero di incrementi e la mesh vanno sottoposti a sensibilità: una tolleranza algebrica stretta non dimostra convergenza rispetto alla discretizzazione.
 
 V e M sono recuperati integrando i carichi interpolati ai punti di Gauss. Si conservano i due lati dei nodi e si ricercano gli zeri di V per campionare gli estremi di M. L'interpolazione grafica fra campioni non è una nuova soluzione locale della legge costitutiva.
@@ -3535,7 +3553,7 @@ Il riferimento indipendente integra con numeri razionali la curvatura della mens
 
 ### Storie indipendenti e combinazioni assegnate
 
-Ogni caso parte dal proprio stato iniziale. La memoria elastoplastica, gli spostamenti, i riferimenti d'installazione e le pretensioni si trasferiscono fra le fasi dello stesso caso, senza passare a un'altra storia. La filtrazione e i verificatori ricevono le fasi e le azioni dello stesso caso. La diversa classificazione SLU/SLE seleziona il controllo richiesto, senza moltiplicare implicitamente le azioni.
+Ogni caso parte dal proprio stato iniziale. La memoria elastoplastica, gli spostamenti e i riferimenti d'installazione si trasferiscono fra le fasi dello stesso caso, senza passare a un'altra storia. La pretensione di un sostegno che resta presente si trasferisce alla fase successiva quando la sua cella è vuota; un valore assegnato la sostituisce e 0 la rilascia. Un sostegno omesso viene rimosso e, se reinstallato, riparte senza pretensione. La filtrazione e i verificatori ricevono le fasi e le azioni dello stesso caso. La diversa classificazione SLU/SLE seleziona il controllo richiesto, senza moltiplicare implicitamente le azioni.
 
 La modellazione comune comprende geometria, materiali, sezioni, terreni e definizione dei sostegni. Le righe associate al caso definiscono invece scavi, riporti, falde, carichi, attivazioni e verifiche geotecniche per fase. Non è ancora implementata la generazione automatica delle combinazioni normative o dei diversi insiemi di parametri geotecnici: le azioni sono assegnate dall'utente con fonte e coefficienti dichiarati; insiemi geotecnici differenti richiedono documenti distinti. Non si scalano né si sommano le risposte non lineari.
 

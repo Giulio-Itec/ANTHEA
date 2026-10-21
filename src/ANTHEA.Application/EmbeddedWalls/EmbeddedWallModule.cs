@@ -56,7 +56,7 @@ public sealed partial class EmbeddedWallModule : IModuleService
         var scope = new List<string>
         {
             "Modello piano di trave su molle elastoplastiche indipendenti; piccoli spostamenti, strati orizzontali e parete verticale liscia. Pressioni Rankine, carico uniforme sul terreno.",
-            "Le fasi interpolano le pressioni fra configurazioni successive e conservano la memoria plastica. I sostegni sono installati sulla deformata precedente; le attivazioni elencano tutti i sostegni presenti in ciascuna fase.",
+            "Le fasi interpolano le pressioni fra configurazioni successive e conservano la memoria plastica. I sostegni sono installati sulla deformata precedente; le attivazioni elencano tutti i sostegni presenti in ciascuna fase. Una pretensione non assegnata conserva quella della fase precedente (0 all'installazione).",
             "Carichi distribuiti sulla struttura: andamento lineare per intervalli, positivo verso destra, in kN/m verticale sull'intera fascia. Gli intervalli sovrapposti e il carico uniforme si sommano. Ogni fase definisce l'intero campo presente; un intervallo non elencato viene rimosso nella transizione. Il diagramma q netto comprende anche le reazioni del terreno.",
             "N positivo a compressione; V e M riferiti alla sezione della fascia analizzata. I sostegni riportano la forza per singolo elemento. Quote positive verso l'alto.",
             "Inviluppi delle fasi: minimo e massimo con caso, fase e azioni concomitanti, calcolati sui campi recuperati da GPC. Il disegno interpola i punti campionati e include gli estremi interni; l'inviluppo non è una combinazione di carico e non alimenta i verificatori. Storie incomplete producono inviluppi parziali.",
@@ -78,6 +78,7 @@ public sealed partial class EmbeddedWallModule : IModuleService
             kind.HasValue ? "Sezioni in c.a.: verifiche NTC 2018 su azioni della combinazione dichiarata; rettangolo senza staffe. Nessun coefficiente parziale aggiunto dal servizio. Progetto delle armature e dettagli non eseguiti."
                 : "Verifiche di resistenza ed esercizio delle fasce rettangolari in c.a. non richieste."
         };
+        if (EmbeddedWallDocument.ReducedLockOffs(EmbeddedWallDocument.LockOffs(data, null)) is { } reduced) scope.Insert(2, reduced);
         var snapshot = new EmbeddedWallReportData(model.Name, EmbeddedWallDocument.Fingerprint(data), model.CaseId, basis,
             analysis.Status.ToString(), analysis.IsComplete, analysis.Diagnostic, data.ToJsonString(new() { WriteIndented = true }),
             Array.AsReadOnly(analysis.Stages.Select(s => new EmbeddedWallStageData(s.Id, s.AcceptedIncrements, s.Iterations, s.ForceResidual, s.MomentResidual,
