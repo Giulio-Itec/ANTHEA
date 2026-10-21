@@ -390,3 +390,37 @@ in `SheetEditor`). Gli attesi delle 104 fixture esistenti e le transizioni F4 no
 - Vista XAML (F5.11, agente f5-11-vista): con il banco `--module-impl str_mista_ponte=mvvm` la cattura dà gli stessi file della vista
   storica (confronto diretto a differenza zero). Le prove preliminari di nuovi input della sezione composta si fanno con la cattura F3
   in una radice temporanea, con la vista della Release o con il banco (commento di `F3Fixtures.BridgeSectionF511`).
+
+## Fixture aggiunte in F5.12 (Bridge Design)
+
+Stessa regola di F5.4 (proposta F5, sezione 7.2). Prima della preparazione di F5.12 Bridge Design (`str_bridge_design`) aveva due
+fixture: il ponte predefinito (travi a I in c.a.p., cinque campate continue, Schema 1) e un archivio senza i valori avanzati
+(`legacy-advanced-defaults`). Il 21/10/2026 ne ha ricevute otto (119 in tutto), catturate con la vista storica (`BridgeDesignWorkspace`
+in `SheetEditor`). Gli attesi delle 111 fixture esistenti e le transizioni F4 non cambiano: le transizioni di Bridge Design (fattori
+ambientali aggiunti all'apertura, valori dei risultati e stili del report) restano sulle due fixture precedenti.
+
+| Fixture | Cosa copre |
+| --- | --- |
+| `cassone-acciaio-prezzario` | cassone in acciaio–cls su strada o ferrovia, pile a martello su pali da 1,5 m in terreno medio; un documento prezzi scritto dall'editor dei prezzari: catalogo proprio (nome, edizione, un prezzo cambiato, i pali da 1,5 m che comprendono la loro armatura), un'analisi composta del calcestruzzo d'impalcato con spese generali e utile, un prezzo personalizzato motivato dell'armatura, la cronologia con le tariffe archiviate |
+| `strallato-ortotropo-fiume` | ponte strallato a due antenne con la piastra ortotropa su un fiume largo, sabbia densa, γQ consigliato dello Schema 1 applicato |
+| `sospeso-pali-imposti` | ponte sospeso su roccia con le sottostrutture imposte: pali da 1,0 m lunghi 30 m, dodici per appoggio, calcestruzzo delle sottostrutture, altezza delle antenne e freccia dei cavi |
+| `arco-traffico-uniforme` | arco con catena a campata unica semplicemente appoggiata, soletta in calcestruzzo, telaio a colonne; modello di traffico uniforme dell'archivio con il carico scritto con la virgola |
+| `confronto-alternativa-a` | cassone in c.a.p. a una cella, quattro campate indipendenti che iniziano e finiscono su pila, pile circolari su plinti diretti con dimensioni imposte, calcestruzzo a ridotta impronta e acciaio riciclato, banchine da 1 m, paesaggio 7; il ponte predefinito fissato come alternativa A |
+| `alternativa-a-non-calcolabile` | soletta piena con l'alternativa A fissata e la lunghezza svuotata: il confronto non è calcolabile |
+| `reticolare-testi-ambiente` | ponte reticolare con valori scritti con la virgola (lunghezza, corsia, una tariffa), argilla soffice, setti su fondazioni automatiche; fattori ambientali cambiati dopo un insieme salvato: la scheda archivia il precedente all'apertura |
+| `dati-incompleti` | lunghezza svuotata: nessun risultato e nessun report |
+
+- Gli input vengono da `fixtures-f3` (`F3Fixtures.BridgeDesignF512`). Sono documenti come li scrive la scheda: valori digitati come testi,
+  anche con la virgola; il documento prezzi dall'editor dei prezzari (`PriceCatalogueViewModel`, «Applica prezzario»); i documenti dei
+  fattori ambientali e dei prezzi con una data fissa (15/01/2026), lontana dalle catture, perché il normalizzatore delle date del giorno
+  non li tocchi. Nessun identificativo finisce con `default`.
+- Si sono copiate solo le 8 fixture nuove: il generatore produce input diversi da quelli congelati per le due fixture più vecchie di
+  Bridge Design, come già per altri moduli in F5.4–F5.11.
+- Gli attesi (70 file: la fixture `dati-incompleti` non ha report) vengono dalla cattura `20261021-134741-f512-f3-cattura-1`, sul
+  codice di produzione di `d1f0c4d6`: senza attesi, le sole differenze erano i file aggiunti e il numero di `esito.txt`. La seconda
+  cattura (`…-135322-f512-f3-cattura-2`) dà gli stessi file byte per byte e passa con le transizioni F4 invariate.
+- Con queste fixture passano `ui/f3-equivalence`, `ui/f3-report-chapters`, `ui/f3-scheduling` e `ui/f3-figures`.
+- In `expected/esito.txt` è cambiato solo il numero delle fixture (111 → 119).
+- Impronte nel manifest, sezione `fixture_aggiunte_f5_12` (input, attesi ed `esito.txt`), sulla forma conservata da git (fine riga
+  LF).
+- Le tracce della vista storica (`tests/fixtures/f5-bridge-design/storica`) hanno uno scenario per ognuna delle 10 fixture del modulo.

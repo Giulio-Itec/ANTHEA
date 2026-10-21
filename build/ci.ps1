@@ -404,6 +404,9 @@ Add-Suite @{ Name = 'ui/f3-scheduling-muri-mvvm'; Stage = 'ui'; Kind = 'check'; 
 # the traces and the drawings frozen in tests/fixtures/f5-elastico, which Presentation.Tests compares with the ViewModel; off screen, until the
 # historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-palo-elastico-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-elastico-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
+# F5.12 (proposal 7.2, capture first): the historic Bridge Design view still gives the traces and the drawing lists frozen in
+# tests/fixtures/f5-bridge-design, which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
+Add-Suite @{ Name = 'ui/check-bridge-design-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-bridge-design-historic', '{root}', '{out}\traccia'); Timeout = 1200; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
 # F5.7/F5.8: the XAML views of the horizontal pile and micropile hosted by MvvmSheetEditor off screen (bench --module-impl, Release still historic):
 # the traces of the tab of the capacity through its controls equal to those frozen in tests/fixtures/f5-palo-orizzontale (with F5-02) and its drawings,
 # visit without writes, exports equal to those of the historic view (JSON, Word, PDF, CSV), F5-02, screenshots, help (every «?» and F1 to the

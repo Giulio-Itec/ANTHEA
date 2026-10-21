@@ -5,7 +5,6 @@
     <RootNamespace>Anthea.Application</RootNamespace><GpcLibraries>GPCModel;GPCGeometry;GPCChecker.CompositeBridge;GPCChecker.Concrete;GPCChecker.Geotechnics;GPCChecker.Steel;GPC.Design</GpcLibraries>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
     <InternalsVisibleTo Include="ANTHEA.Application.Tests" />
     <ProjectReference Include="../ANTHEA.Reports/ANTHEA.Reports.csproj" />
     <ProjectReference Include="../../X.Calculations/X.Calculations.csproj" />

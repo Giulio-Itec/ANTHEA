@@ -1,0 +1,756 @@
+# word/document.xml
+¶ ANTHEA · Fixture F3 · str_bridge_design · strallato-ortotropo-fiume
+¶ Bridge Design · <DATA> <ORA>
+¶ Ambito e limiti
+¶ Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO.
+¶ Modello parametrico ANTHEA v1 di predimensionamento con regole proprie esplicitate; non costituisce verifica normativa.
+¶ Schema 1 NTC 2018. NTC 2018 §5.1.3.3, Tabelle 5.1.I e 5.1.II; parte rimanente EN 1991-2 Tabella 4.2
+¶ Strutture superiori: azioni globali equivalenti e carichi locali sui due piani; stima parametrica, non analisi di arco/cavi.
+¶ Corsie convenzionali: 4; distribuito 63,5 kN/m; tandem 1200 kN; γG 1,35, γQ 1,35.
+¶ Esclusi: analisi trasversale, Schemi 2/6, frenatura, fatica, fasi costruttive, sisma, vento, instabilità e verifiche geotecniche complete.
+¶ Revisione fattori CO₂ del calcolo: F1A8366F8814A7B46092956FF7FA4F2E86A63A8B51EC0B0CBB7BF50D3C7C991B
+¶ Riepilogo
+[T1 r1 c1] Indicatore
+[T1 r1 c2] Valore
+[T1 r2 c1] Tipologia
+[T1 r2 c2] Ponte strallato · due antenne
+[T1 r3 c1] Lunghezza / larghezza
+[T1 r3 c2] 600 / 20,2 m
+[T1 r4 c1] Campate
+[T1 r4 c2] 150 + 300 + 150 m
+[T1 r5 c1] Altezza in campata / sulle pile
+[T1 r5 c2] 2 / 2 m
+[T1 r6 c1] Costo totale, IVA esclusa
+[T1 r6 c2] 82.165.807 €
+[T1 r7 c1] Intervallo parametrico
+[T1 r7 c2] 57.516.065–106.815.550 €
+[T1 r8 c1] CO₂ materiali + cantiere
+[T1 r8 c2] 36.426 tCO₂e
+[T1 r9 c1] Durata indicativa ±25%
+[T1 r9 c2] 22 mesi
+¶ Prospetto schematico
+¶ Sezione schematica
+¶ Sezioni e dimensioni adottate
+¶ Le quote seguenti sono quelle effettivamente usate dal motore. Automatico identifica la regola di predimensionamento, impostato un dato esplicito, derivato una conseguenza geometrica. Spessori in mm, lunghezze in m. Non è una distinta esecutiva.
+[T2 r1 c1] Componente / simbolo
+[T2 r1 c2] Valore
+[T2 r1 c3] Origine
+[T2 r1 c4] Significato
+[T2 r2 c1] Geometria generale · L
+[T2 r2 c2] 600 m
+[T2 r2 c3] Impostato
+[T2 r2 c4] Lunghezza tra gli appoggi estremi
+[T2 r3 c1] Geometria generale · W
+[T2 r3 c2] 20,2 m
+[T2 r3 c3] Derivato
+[T2 r3 c4] Corsie, banchine, spartitraffico e barriere
+[T2 r4 c1] Geometria generale · N
+[T2 r4 c2] 3 n.
+[T2 r4 c3] Impostato
+[T2 r4 c4] Numero campate
+[T2 r5 c1] Geometria generale · Lmax
+[T2 r5 c2] 300 m
+[T2 r5 c3] Derivato
+[T2 r5 c4] Luce massima tra gli assi degli appoggi
+[T2 r6 c1] Impalcato · d
+[T2 r6 c2] 2 m
+[T2 r6 c3] Automatico
+[T2 r6 c4] Altezza totale in campata, inclusa soletta
+[T2 r7 c1] Impalcato · d_pila
+[T2 r7 c2] 2 m
+[T2 r7 c3] Derivato
+[T2 r7 c4] Altezza totale in corrispondenza delle pile
+[T2 r8 c1] Lamiera di impalcato · t_s
+[T2 r8 c2] 16 mm
+[T2 r8 c3] Impostato
+[T2 r8 c4] Spessore effettivamente usato nel calcolo
+[T2 r9 c1] Materiali · fc
+[T2 r9 c2] 45 MPa
+[T2 r9 c3] Impostato
+[T2 r9 c4] Resistenza convenzionale del cls impalcato
+[T2 r10 c1] Materiali · fc_sub
+[T2 r10 c2] 35 MPa
+[T2 r10 c3] Impostato
+[T2 r10 c4] Resistenza convenzionale del cls sottostrutture
+[T2 r11 c1] Piastra ortotropa · t_p
+[T2 r11 c2] 16 mm
+[T2 r11 c3] Adottato
+[T2 r11 c4] Lamiera carrabile; assenza di soletta in cls
+[T2 r12 c1] Canalette · n_r
+[T2 r12 c2] 33 n.
+[T2 r12 c3] Adottato
+[T2 r12 c4] Canalette longitudinali per sezione
+[T2 r13 c1] Canalette · s_r
+[T2 r13 c2] 0,612 m
+[T2 r13 c3] Adottato
+[T2 r13 c4] Interasse adottato W/n
+[T2 r14 c1] Canalette · h_r
+[T2 r14 c2] 0,3 m
+[T2 r14 c3] Adottato
+[T2 r14 c4] Altezza della canaletta
+[T2 r15 c1] Canalette · b_sup
+[T2 r15 c2] 0,3 m
+[T2 r15 c3] Adottato
+[T2 r15 c4] Larghezza alla lamiera carrabile
+[T2 r16 c1] Canalette · b_inf
+[T2 r16 c2] 0,18 m
+[T2 r16 c3] Adottato
+[T2 r16 c4] Larghezza inferiore
+[T2 r17 c1] Canalette · t_r
+[T2 r17 c2] 8 mm
+[T2 r17 c3] Adottato
+[T2 r17 c4] Spessore delle tre pareti
+[T2 r18 c1] Cassone · b_inf
+[T2 r18 c2] 5,555 m
+[T2 r18 c3] Adottato
+[T2 r18 c4] Fondo per cassone = 0,55 W/n
+[T2 r19 c1] Cassone · t_inf
+[T2 r19 c2] 24 mm
+[T2 r19 c3] Adottato
+[T2 r19 c4] Spessore lamiera inferiore
+[T2 r20 c1] Cassone · t_w
+[T2 r20 c2] 12 mm
+[T2 r20 c3] Adottato
+[T2 r20 c4] Due anime verticali per cassone
+[T2 r21 c1] Impalcato · n
+[T2 r21 c2] 2 n.
+[T2 r21 c3] Adottato
+[T2 r21 c4] Travi o cassoni longitudinali
+[T2 r22 c1] Impalcato · s
+[T2 r22 c2] 10,1 m
+[T2 r22 c3] Adottato
+[T2 r22 c4] Interasse di riferimento
+[T2 r23 c1] Impalcato · A_cls
+[T2 r23 c2] 0 m²
+[T2 r23 c3] Adottato
+[T2 r23 c4] Area netta di calcestruzzo usata nelle quantità
+[T2 r24 c1] Impalcato · A_acc
+[T2 r24 c2] 0,893 m²
+[T2 r24 c3] Adottato
+[T2 r24 c4] Area di acciaio longitudinale prima dell’aggiunta per collegamenti e traversi
+[T2 r25 c1] Impalcato · k_acc
+[T2 r25 c2] 1,15 —
+[T2 r25 c3] Adottato
+[T2 r25 c4] Maggiorazione di massa per accessori / traversi; esclusa dalla rigidezza
+[T2 r26 c1] Struttura principale · L_princ
+[T2 r26 c2] 300 m
+[T2 r26 c3] Predimensionato
+[T2 r26 c4] Luce centrale = L/2; campate di riva = L/4
+[T2 r27 c1] Struttura principale · f / h
+[T2 r27 c2] 0 m
+[T2 r27 c3] Predimensionato
+[T2 r27 c4] Freccia arco o altezza reticolare
+[T2 r28 c1] Antenne · h_sup
+[T2 r28 c2] 60 m
+[T2 r28 c3] Predimensionato
+[T2 r28 c4] Altezza sopra impalcato; nulla senza antenne
+[T2 r29 c1] Struttura principale · H_rif
+[T2 r29 c2] 117100,212 kN
+[T2 r29 c3] Predimensionato
+[T2 r29 c4] Componente orizzontale di riferimento; due piani
+[T2 r30 c1] Strallo · Σ n·l
+[T2 r30 c2] 15280,282 m
+[T2 r30 c3] Predimensionato
+[T2 r30 c4] Sviluppo geometrico complessivo nei due piani
+[T2 r31 c1] Strallo · A_max
+[T2 r31 c2] 10812,712 mm²
+[T2 r31 c3] Predimensionato
+[T2 r31 c4] Area massima per singola asta o cavo = |N| / tensione di riferimento
+[T2 r32 c1] Strallo · N_max
+[T2 r32 c2] 6487,627 kN
+[T2 r32 c3] Predimensionato
+[T2 r32 c4] Massimo per singola asta/cavo: azioni globali equivalenti e tandem locali, estremi non concomitanti
+[T2 r33 c1] Strallo · m_net
+[T2 r33 c2] 906,556 t
+[T2 r33 c3] Predimensionato
+[T2 r33 c4] Massa geometrica, prima di eventuali collegamenti
+¶ Campate e sviluppo longitudinale
+[T3 r1 c1] Campata
+[T3 r1 c2] x iniziale [m]
+[T3 r1 c3] x finale [m]
+[T3 r1 c4] Luce [m]
+[T3 r1 c5] Elementi
+[T3 r1 c6] Sviluppo [m]
+[T3 r2 c1] 1
+[T3 r2 c2] 0
+[T3 r2 c3] 150
+[T3 r2 c4] 150
+[T3 r2 c5] 2
+[T3 r2 c6] 300
+[T3 r3 c1] 2
+[T3 r3 c2] 150
+[T3 r3 c3] 450
+[T3 r3 c4] 300
+[T3 r3 c5] 2
+[T3 r3 c6] 600
+[T3 r4 c1] 3
+[T3 r4 c2] 450
+[T3 r4 c3] 600
+[T3 r4 c4] 150
+[T3 r4 c5] 2
+[T3 r4 c6] 300
+¶ Dimensioni delle sottostrutture e fondazioni
+¶ B longitudinale, W trasversale, t spessore. Le spalle sono equivalenti volumetrici; non è definita una carpenteria esecutiva.
+[T4 r1 c1] Appoggio / fusto
+[T4 r1 c2] H [m]
+[T4 r1 c3] Pulvino W×B×t [m]
+[T4 r1 c4] Fondazione B×W×t [m]
+[T4 r1 c5] Pali n×Ø×L [m]
+[T4 r2 c1] 1 · Spalla equivalente
+[T4 r2 c2] 7
+[T4 r2 c3] —
+[T4 r2 c4] 7,5×20,2×2,25
+[T4 r2 c5] 4×Ø1,5×15
+[T4 r3 c1] 2 · Antenna · 2 fusti quadrati · 2×(7,929×7,929) m
+[T4 r3 c2] 103
+[T4 r3 c3] 20,2×7,929×7,929
+[T4 r3 c4] 34,5×34,5×2,25
+[T4 r3 c5] 54×Ø1,5×15
+[T4 r4 c1] 3 · Antenna · 2 fusti quadrati · 2×(7,929×7,929) m
+[T4 r4 c2] 103
+[T4 r4 c3] 20,2×7,929×7,929
+[T4 r4 c4] 34,5×34,5×2,25
+[T4 r4 c5] 54×Ø1,5×15
+[T4 r5 c1] 4 · Spalla equivalente
+[T4 r5 c2] 7
+[T4 r5 c3] —
+[T4 r5 c4] 7,5×20,2×2,25
+[T4 r5 c5] 4×Ø1,5×15
+¶ Quantità e prezzi
+¶ Valori orientativi confrontati con ANAS NC-MP 2026 Rev.1 e Regione Emilia-Romagna 2026. Prezzi modificabili; gli archivi conservano il proprio listino. SG e utile già compresi nei riferimenti: la maggiorazione di cantiere copre soltanto oneri aggiuntivi non computati.
+¶ Impalcato
+[T5 r1 c1] Voce
+[T5 r1 c2] Quantità
+[T5 r1 c3] Unità
+[T5 r1 c4] Prezzo €
+[T5 r1 c5] Importo €
+[T5 r2 c1] Carpenteria metallica
+[T5 r2 c2] 4.836,8
+[T5 r2 c3] t
+[T5 r2 c4] 5.000,0
+[T5 r2 c5] 24.184.048
+¶ Struttura principale
+[T6 r1 c1] Voce
+[T6 r1 c2] Quantità
+[T6 r1 c3] Unità
+[T6 r1 c4] Prezzo €
+[T6 r1 c5] Importo €
+[T6 r2 c1] Cavi, stralli e pendini
+[T6 r2 c2] 906,6
+[T6 r2 c3] t
+[T6 r2 c4] 16.000,0
+[T6 r2 c5] 14.504.893
+¶ Costruzione
+[T7 r1 c1] Voce
+[T7 r1 c2] Quantità
+[T7 r1 c3] Unità
+[T7 r1 c4] Prezzo €
+[T7 r1 c5] Importo €
+[T7 r2 c1] Montaggio aggiuntivo struttura speciale
+[T7 r2 c2] 4.836,8
+[T7 r2 c3] t
+[T7 r2 c4] 1.000,0
+[T7 r2 c5] 4.836.810
+¶ Sottostrutture
+[T8 r1 c1] Voce
+[T8 r1 c2] Quantità
+[T8 r1 c3] Unità
+[T8 r1 c4] Prezzo €
+[T8 r1 c5] Importo €
+[T8 r2 c1] Calcestruzzo pile e spalle
+[T8 r2 c2] 404,0
+[T8 r2 c3] m³
+[T8 r2 c4] 240,0
+[T8 r2 c5] 96.960
+[T8 r3 c1] Calcestruzzo antenne e traversi
+[T8 r3 c2] 28.441,6
+[T8 r3 c3] m³
+[T8 r3 c4] 240,0
+[T8 r3 c5] 6.825.972
+[T8 r4 c1] Armatura pile, antenne e spalle
+[T8 r4 c2] 4.326,8
+[T8 r4 c3] t
+[T8 r4 c4] 1.660,0
+[T8 r4 c5] 7.182.542
+[T8 r5 c1] Casseforme equivalenti pile e spalle
+[T8 r5 c2] 14.873,0
+[T8 r5 c3] m²
+[T8 r5 c4] 50,0
+[T8 r5 c5] 743.648
+¶ Fondazioni
+[T9 r1 c1] Voce
+[T9 r1 c2] Quantità
+[T9 r1 c3] Unità
+[T9 r1 c4] Prezzo €
+[T9 r1 c5] Importo €
+[T9 r2 c1] Casseforme laterali plinti
+[T9 r2 c2] 870,3
+[T9 r2 c3] m²
+[T9 r2 c4] 50,0
+[T9 r2 c5] 43.515
+[T9 r3 c1] Calcestruzzo plinti
+[T9 r3 c2] 6.037,9
+[T9 r3 c3] m³
+[T9 r3 c4] 240,0
+[T9 r3 c5] 1.449.090
+[T9 r4 c1] Pali trivellati Ø 1,5 m
+[T9 r4 c2] 1.740,0
+[T9 r4 c3] m
+[T9 r4 c4] 550,0
+[T9 r4 c5] 957.000
+[T9 r5 c1] Armatura plinti, ancoraggi e pali
+[T9 r5 c2] 1.093,5
+[T9 r5 c3] t
+[T9 r5 c4] 1.660,0
+[T9 r5 c5] 1.815.252
+¶ Finiture
+[T10 r1 c1] Voce
+[T10 r1 c2] Quantità
+[T10 r1 c3] Unità
+[T10 r1 c4] Prezzo €
+[T10 r1 c5] Importo €
+[T10 r2 c1] Apparecchi d'appoggio
+[T10 r2 c2] 8,0
+[T10 r2 c3] cad
+[T10 r2 c4] 5.000,0
+[T10 r2 c5] 40.000
+[T10 r3 c1] Giunti di dilatazione
+[T10 r3 c2] 40,4
+[T10 r3 c3] m
+[T10 r3 c4] 2.400,0
+[T10 r3 c5] 96.960
+[T10 r4 c1] Barriere
+[T10 r4 c2] 1.800,0
+[T10 r4 c3] m
+[T10 r4 c4] 360,0
+[T10 r4 c5] 648.000
+[T10 r5 c1] Pavimentazione
+[T10 r5 c2] 11.520,0
+[T10 r5 c3] m²
+[T10 r5 c4] 32,0
+[T10 r5 c5] 368.640
+¶ Diretto 63.793.329 € × (1 + 12% oneri) × (1 + 15% imprevisti) = 82.165.807 €.
+¶ Regole e risultati intermedi
+[T11 r1 c1] Grandezza
+[T11 r1 c2] Valore
+[T11 r1 c3] Regola
+[T11 r2 c1] Larghezza impalcato
+[T11 r2 c2] 20,2 m
+[T11 r2 c3] Corsie, banchine, spartitraffico e barriere
+[T11 r3 c1] Altezza in campata
+[T11 r3 c2] 2 m
+[T11 r3 c3] Imposta o Lmax / rapporto convenzionale della famiglia
+[T11 r4 c1] Area cls impalcato
+[T11 r4 c2] 0 m²
+[T11 r4 c3] Area netta; nulla per piastra ortotropa
+[T11 r5 c1] Inerzia lorda equivalente
+[T11 r5 c2] 3,792 m⁴
+[T11 r5 c3] Sola sezione dell’impalcato, omogeneizzata a Ec; non rigidezza globale di archi / cavi / reticolari
+[T11 r6 c1] Permanenti sull'intero impalcato
+[T11 r6 c2] 168,404 kN/m
+[T11 r6 c3] Impalcato + struttura superiore distribuita uniformemente + finiture
+[T11 r7 c1] Schema 1 · carico distribuito
+[T11 r7 c2] 63,5 kN/m
+[T11 r7 c3] NTC 2018 §5.1.3.3, Tabelle 5.1.I e 5.1.II; parte rimanente EN 1991-2 Tabella 4.2; solo porzioni sfavorevoli
+[T11 r8 c1] Permanenti verticali sull'impalcato
+[T11 r8 c2] 101042,414 kN
+[T11 r8 c3] Gli estremi di traffico hanno posizioni differenti: non costituiscono un caso di equilibrio unico
+[T11 r9 c1] Somma degli estremi di reazione (non concomitanti)
+[T11 r9 c2] 141542,414 kN
+[T11 r9 c3] Gli estremi di traffico hanno posizioni differenti: non costituiscono un caso di equilibrio unico
+[T11 r10 c1] Rapporto carico / riferimento fondazione
+[T11 r10 c2] 0,975 —
+[T11 r10 c3] Sola risultante verticale, inclusi pesi sottostrutture e blocchi
+[T11 r11 c1] Snellezza massima delle pile
+[T11 r11 c2] 90 —
+[T11 r11 c3] 2H/r; per antenne H comprende l’altezza sopra impalcato
+[T11 r12 c1] Compressione media pile / fc
+[T11 r12 c2] 0,097 —
+[T11 r12 c3] Soglia assiale orientativa, non verifica pressoflessionale
+[T11 r13 c1] Carico assiale indicativo per palo
+[T11 r13 c2] 9365,873 kN
+[T11 r13 c3] Attrito laterale + punta convenzionali
+[T11 r14 c1] Pressione terreno adottata
+[T11 r14 c2] 400 kPa
+[T11 r14 c3] Classe o valore imposto
+[T11 r15 c1] Costo diretto
+[T11 r15 c2] 63793328,705 €
+[T11 r15 c3] Somma del computo
+[T11 r16 c1] Costo totale indicativo
+[T11 r16 c2] 82165807,372 €
+[T11 r16 c3] Diretto con oneri e imprevisti
+[T11 r17 c1] Compressione antenne / riferimento
+[T11 r17 c2] 0,763 —
+[T11 r17 c3] Reazione amplificata e peso proprio amplificato / area dei due fusti / tensione convenzionale
+[T11 r18 c1] Iterazioni equilibrio peso struttura
+[T11 r18 c2] 7 n.
+[T11 r18 c3] Aggiornamento massa superiore e carico fino a tolleranza relativa 10⁻⁸
+[T11 r19 c1] Schema 1 · peso totale tandem
+[T11 r19 c2] 1200 kN
+[T11 r19 c3] 4 corsie convenzionali, due assi a 1.20 m; massimo/minimo indipendente per ogni effetto
+[T11 r20 c1] Moltiplicatore traffico adottato
+[T11 r20 c2] 1,35 —
+[T11 r20 c3] Valore esplicito del progetto; NTC 2018 Tabella 5.1.V, A1 sfavorevole: 1.35
+[T11 r21 c1] Traffico sul piano esterno · distribuito
+[T11 r21 c2] 39,569 kN/m
+[T11 r21 c3] Ripartizione a leva fra i due piani; solo predimensionamento locale
+[T11 r22 c1] Traffico sul piano esterno · tandem
+[T11 r22 c2] 918,812 kN
+[T11 r22 c3] Tandem locale su pendini, montanti e stralli; non spalmato sulla luce del ponte
+¶ Appoggi e reazioni
+¶ Reazioni G+Q non fattorizzate sull'intero impalcato. Le fondazioni sono dimensionate con carico assiale centrato e valori convenzionali.
+[T12 r1 c1] Appoggio / tipo
+[T12 r1 c2] x [m]
+[T12 r1 c3] R [kN]
+[T12 r1 c4] H [m]
+[T12 r1 c5] Pali [n.]
+[T12 r2 c1] 1 · Spalla
+[T12 r2 c2] 0
+[T12 r2 c3] 0
+[T12 r2 c4] 7
+[T12 r2 c5] 4
+[T12 r3 c1] 2 · Antenna · 2 fusti quadrati
+[T12 r3 c2] 150
+[T12 r3 c3] 70771,207
+[T12 r3 c4] 103
+[T12 r3 c5] 54
+[T12 r4 c1] 3 · Antenna · 2 fusti quadrati
+[T12 r4 c2] 450
+[T12 r4 c3] 70771,207
+[T12 r4 c4] 103
+[T12 r4 c5] 54
+[T12 r5 c1] 4 · Spalla
+[T12 r5 c2] 600
+[T12 r5 c3] 0
+[T12 r5 c4] 7
+[T12 r5 c5] 4
+[T13 r1 c1] Appoggio
+[T13 r1 c2] R min G+Q [kN]
+[T13 r1 c3] R max G+Q [kN]
+[T13 r2 c1] 1
+[T13 r2 c2] 0
+[T13 r2 c3] 0
+[T13 r3 c1] 2
+[T13 r3 c2] 50521,207
+[T13 r3 c3] 70771,207
+[T13 r4 c1] 3
+[T13 r4 c2] 50521,207
+[T13 r4 c3] 70771,207
+[T13 r5 c1] 4
+[T13 r5 c2] 0
+[T13 r5 c3] 0
+¶ Avvisi del modello
+¶ Archi, stralli, sospeso e reticolari: equilibrio ideale sotto carico uniforme e aree da tensioni di riferimento. Nessuna verifica di instabilità, fatica, deformabilità globale, fasi costruttive, sisma o vento. Diagrammi globali non disponibili.
+¶ Piastra ortotropa: lamiera, canalette e cassone conteggiati geometricamente. La rigidezza locale ortotropa, i traversi e la fatica delle saldature richiedono un modello dedicato.
+¶ Appoggi: carico massimo d'inviluppo 47771 kN/dispositivo, prezzo 5000 €/cad. Verificare portata e corsa: il listino ANAS usa €/kN; nessun dimensionamento dei dispositivi.
+¶ Giunti: il prezzo fisso non segue corsa termica/sismica e lunghezza dilatabile. Per grandi opere può sottostimare il costo.
+¶ Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo.
+¶ Schema 1: massimi/minimi di sezioni e appoggi non concomitanti; non sommare le reazioni dell'inviluppo. G2 trattato come permanente portato ben definito col γG esplicito.
+¶ Lunghezza caricata oltre 200 m: richiede una valutazione specifica del traffico; Schemi 6 e grandi luci non trattati dal modello parametrico.
+¶ Strutture superiori: uniforme equivalente al momento per azioni globali, tandem locale ripartito a leva sui due piani. Per le antenne/cavi i limiti delle azioni sono separati e conservativi nello schema ideale; non sono linee di influenza della struttura reale.
+¶ Costi convenzionali, montaggio speciale esplicito; CO₂ parziale materiali e cantiere, senza EPD. Durata parametrica, non cronoprogramma.
+¶ Input e coefficienti conservati
+¶ Geometria e materiali (incluse opzioni delle altre famiglie)
+[T14 r1 c1] Parametro
+[T14 r1 c2] Valore
+[T14 r1 c3] Unità
+[T14 r2 c1] Lunghezza totale
+[T14 r2 c2] 600
+[T14 r2 c3] m
+[T14 r3 c1] Quota impalcato sul terreno
+[T14 r3 c2] 45
+[T14 r3 c3] m
+[T14 r4 c1] Larghezza ostacolo
+[T14 r4 c2] 200
+[T14 r4 c3] m
+[T14 r5 c1] Corsie complessive
+[T14 r5 c2] 4
+[T14 r5 c3] n.
+[T14 r6 c1] Larghezza corsia
+[T14 r6 c2] 3.65
+[T14 r6 c3] m
+[T14 r7 c1] Banchina per lato
+[T14 r7 c2] 1.5
+[T14 r7 c3] m
+[T14 r8 c1] Spartitraffico
+[T14 r8 c2] 1.6
+[T14 r8 c3] m
+[T14 r9 c1] Ingombro barriera per lato
+[T14 r9 c2] 0.5
+[T14 r9 c3] m
+[T14 r10 c1] Numero campate · 0 = auto
+[T14 r10 c2] 3
+[T14 r10 c3] n.
+[T14 r11 c1] Altezza totale · 0 = auto
+[T14 r11 c2] 0
+[T14 r11 c3] m
+[T14 r12 c1] Spessore soletta · 0 = auto
+[T14 r12 c2] 0
+[T14 r12 c3] m
+[T14 r13 c1] Interasse travi · 0 = auto
+[T14 r13 c2] 0
+[T14 r13 c3] m
+[T14 r14 c1] Spessore anima cls · 0 = auto
+[T14 r14 c2] 0
+[T14 r14 c3] m
+[T14 r15 c1] Soletta inferiore · 0 = auto
+[T14 r15 c2] 0
+[T14 r15 c3] m
+[T14 r16 c1] Larghezza fondo / impalcato
+[T14 r16 c2] 0.55
+[T14 r16 c3] —
+[T14 r17 c1] Celle del cassone
+[T14 r17 c2] 2
+[T14 r17 c3] n.
+[T14 r18 c1] Cassoni metallici · 0 = auto
+[T14 r18 c2] 0
+[T14 r18 c3] n.
+[T14 r19 c1] Larghezza piattabanda
+[T14 r19 c2] 0.55
+[T14 r19 c3] m
+[T14 r20 c1] Spessore piattabande
+[T14 r20 c2] 24
+[T14 r20 c3] mm
+[T14 r21 c1] Spessore anima acciaio
+[T14 r21 c2] 12
+[T14 r21 c3] mm
+[T14 r22 c1] Inclinazione anime · H per 4V
+[T14 r22 c2] 1
+[T14 r22 c3] —
+[T14 r23 c1] Rialzo sotto soletta
+[T14 r23 c2] 0.05
+[T14 r23 c3] m
+[T14 r24 c1] Larghezza superiore U
+[T14 r24 c2] 2.4
+[T14 r24 c3] m
+[T14 r25 c1] Larghezza inferiore U
+[T14 r25 c2] 1.4
+[T14 r25 c3] m
+[T14 r26 c1] Resistenza cls impalcato
+[T14 r26 c2] 45
+[T14 r26 c3] MPa
+[T14 r27 c1] Freccia arco / luce
+[T14 r27 c2] 0.2
+[T14 r27 c3] —
+[T14 r28 c1] Antenna sopra impalcato · 0 = auto
+[T14 r28 c2] 0
+[T14 r28 c3] m
+[T14 r29 c1] Freccia cavo / luce centrale
+[T14 r29 c2] 0.1
+[T14 r29 c3] —
+[T14 r30 c1] Passo indicativo pendini / stralli
+[T14 r30 c2] 8
+[T14 r30 c3] m
+[T14 r31 c1] Altezza reticolare / luce
+[T14 r31 c2] 0.12
+[T14 r31 c3] —
+[T14 r32 c1] Cls sopra e sotto trave incorporata
+[T14 r32 c2] 0.06
+[T14 r32 c3] m
+[T14 r33 c1] Lamiera piastra ortotropa
+[T14 r33 c2] 16
+[T14 r33 c3] mm
+[T14 r34 c1] Altezza canaletta ortotropa
+[T14 r34 c2] 0.3
+[T14 r34 c3] m
+[T14 r35 c1] Larghezza superiore canaletta
+[T14 r35 c2] 0.3
+[T14 r35 c3] m
+[T14 r36 c1] Larghezza inferiore canaletta
+[T14 r36 c2] 0.18
+[T14 r36 c3] m
+[T14 r37 c1] Spessore canaletta
+[T14 r37 c2] 8
+[T14 r37 c3] mm
+[T14 r38 c1] Interasse canalette
+[T14 r38 c2] 0.6
+[T14 r38 c3] m
+[T14 r39 c1] Lunghezza pali · 0 = auto
+[T14 r39 c2] 0
+[T14 r39 c3] m
+[T14 r40 c1] Diametro / spessore pila · 0 = auto
+[T14 r40 c2] 0
+[T14 r40 c3] m
+[T14 r41 c1] Pali per appoggio · 0 = auto
+[T14 r41 c2] 0
+[T14 r41 c3] n.
+[T14 r42 c1] Lato fondazione · 0 = auto
+[T14 r42 c2] 0
+[T14 r42 c3] m
+[T14 r43 c1] Resistenza cls sottostrutture
+[T14 r43 c2] 35
+[T14 r43 c3] MPa
+¶ Listino unitario EUR
+[T15 r1 c1] Parametro
+[T15 r1 c2] Valore
+[T15 r1 c3] Unità
+[T15 r2 c1] Cls impalcato
+[T15 r2 c2] 260
+[T15 r2 c3] €/m³
+[T15 r3 c1] Cls sottostrutture e plinti
+[T15 r3 c2] 240
+[T15 r3 c3] €/m³
+[T15 r4 c1] Armatura ordinaria
+[T15 r4 c2] 1660
+[T15 r4 c3] €/t
+[T15 r5 c1] Acciaio da precompressione
+[T15 r5 c2] 3600
+[T15 r5 c3] €/t
+[T15 r6 c1] Carpenteria metallica
+[T15 r6 c2] 3500
+[T15 r6 c3] €/t
+[T15 r7 c1] Carpenteria cassoni
+[T15 r7 c2] 4000
+[T15 r7 c3] €/t
+[T15 r8 c1] Casseforme
+[T15 r8 c2] 50
+[T15 r8 c3] €/m²
+[T15 r9 c1] Palo Ø 1,0 · esclusa armatura
+[T15 r9 c2] 300
+[T15 r9 c3] €/m
+[T15 r10 c1] Palo Ø 1,5 · esclusa armatura
+[T15 r10 c2] 550
+[T15 r10 c3] €/m
+[T15 r11 c1] Apparecchio d'appoggio
+[T15 r11 c2] 5000
+[T15 r11 c3] €/cad
+[T15 r12 c1] Giunto di dilatazione
+[T15 r12 c2] 2400
+[T15 r12 c3] €/m
+[T15 r13 c1] Barriera
+[T15 r13 c2] 360
+[T15 r13 c3] €/m
+[T15 r14 c1] Pavimentazione
+[T15 r14 c2] 32
+[T15 r14 c3] €/m²
+[T15 r15 c1] Carpenteria impalcato ortotropo
+[T15 r15 c2] 5000
+[T15 r15 c3] €/t
+[T15 r16 c1] Cavi e pendini installati, inclusi terminali
+[T15 r16 c2] 16000
+[T15 r16 c3] €/t
+[T15 r17 c1] Montaggio aggiuntivo strutture speciali
+[T15 r17 c2] 1000
+[T15 r17 c3] €/t
+¶ Ipotesi e coefficienti
+[T16 r1 c1] Parametro
+[T16 r1 c2] Valore
+[T16 r1 c3] Unità
+[T16 r2 c1] Oneri aggiuntivi non computati
+[T16 r2 c2] 12
+[T16 r2 c3] %
+[T16 r3 c1] Imprevisti
+[T16 r3 c2] 15
+[T16 r3 c3] %
+[T16 r4 c1] Intervallo indicativo costo ±
+[T16 r4 c2] 30
+[T16 r4 c3] %
+[T16 r5 c1] CO₂ cls ordinario
+[T16 r5 c2] 320
+[T16 r5 c3] kg/m³
+[T16 r6 c1] CO₂ armatura
+[T16 r6 c2] 1.4
+[T16 r6 c3] kg/kg
+[T16 r7 c1] CO₂ carpenteria
+[T16 r7 c2] 2
+[T16 r7 c3] kg/kg
+[T16 r8 c1] CO₂ precompressione
+[T16 r8 c2] 2.5
+[T16 r8 c3] kg/kg
+[T16 r9 c1] Trasporti e cantiere / materiali
+[T16 r9 c2] 15
+[T16 r9 c3] %
+[T16 r10 c1] Fattore cls a ridotta CO₂
+[T16 r10 c2] 0.6
+[T16 r10 c3] —
+[T16 r11 c1] Fattore acciaio riciclato
+[T16 r11 c2] 0.35
+[T16 r11 c3] —
+[T16 r12 c1] Armatura impalcato c.a.
+[T16 r12 c2] 140
+[T16 r12 c3] kg/m³
+[T16 r13 c1] Armatura impalcato c.a.p.
+[T16 r13 c2] 110
+[T16 r13 c3] kg/m³
+[T16 r14 c1] Armatura sottostrutture
+[T16 r14 c2] 150
+[T16 r14 c3] kg/m³
+[T16 r15 c1] Armatura fondazioni
+[T16 r15 c2] 120
+[T16 r15 c3] kg/m³
+[T16 r16 c1] Precompressione
+[T16 r16 c2] 30
+[T16 r16 c3] kg/m³
+[T16 r17 c1] Permanenti portati
+[T16 r17 c2] 2.5
+[T16 r17 c3] kN/m²
+[T16 r18 c1] Traffico uniforme equivalente
+[T16 r18 c2] 9
+[T16 r18 c3] kN/m²
+[T16 r19 c1] Moltiplicatore permanenti
+[T16 r19 c2] 1,35
+[T16 r19 c3] —
+[T16 r20 c1] Moltiplicatore traffico
+[T16 r20 c2] 1,35
+[T16 r20 c3] —
+[T16 r21 c1] Pressione terreno · 0 = classe
+[T16 r21 c2] 0
+[T16 r21 c3] kPa
+[T16 r22 c1] Resistenza laterale · 0 = classe
+[T16 r22 c2] 0
+[T16 r22 c3] kPa
+[T16 r23 c1] Resistenza punta · 0 = classe
+[T16 r23 c2] 0
+[T16 r23 c3] kPa
+[T16 r24 c1] Durata: avvio cantiere
+[T16 r24 c2] 4
+[T16 r24 c3] mesi
+[T16 r25 c1] Durata per campata
+[T16 r25 c2] 1.2
+[T16 r25 c3] mesi
+[T16 r26 c1] Durata per pila
+[T16 r26 c2] 0.4
+[T16 r26 c3] mesi
+[T16 r27 c1] Tensione di riferimento carpenteria
+[T16 r27 c2] 180
+[T16 r27 c3] MPa
+[T16 r28 c1] Compressione di riferimento archi / aste
+[T16 r28 c2] 100
+[T16 r28 c3] MPa
+[T16 r29 c1] Tensione di riferimento cavi
+[T16 r29 c2] 600
+[T16 r29 c3] MPa
+[T16 r30 c1] Compressione di riferimento antenne cls
+[T16 r30 c2] 6
+[T16 r30 c3] MPa
+[T16 r31 c1] Attrito convenzionale blocchi ancoraggio
+[T16 r31 c2] 0.5
+[T16 r31 c3] —
+[T16 r32 c1] Aggiunta collegamenti arco / reticolare
+[T16 r32 c2] 20
+[T16 r32 c3] %
+[T16 r33 c1] CO₂ cavi e pendini
+[T16 r33 c2] 2.5
+[T16 r33 c3] kg/kg
+[T17 r1 c1] Scelta
+[T17 r1 c2] Valore
+[T17 r2 c1] Ostacolo
+[T17 r2 c2] Fiume
+[T17 r3 c1] Terreno
+[T17 r3 c2] Sabbia / ghiaia densa
+[T17 r4 c1] Piano carrabile richiesto (applicato alle strutture superiori)
+[T17 r4 c2] Piastra ortotropa
+[T17 r5 c1] Pila richiesta (antenne a portale per i ponti a cavi)
+[T17 r5 c2] Setto
+[T17 r6 c1] Fondazione richiesta
+[T17 r6 c2] Automatica
+[T17 r7 c1] Continuità
+[T17 r7 c2] true
+[T17 r8 c1] Inizio su pila
+[T17 r8 c2] false
+[T17 r9 c1] Fine su pila
+[T17 r9 c2] false
+[T17 r10 c1] Cls ridotta CO₂
+[T17 r10 c2] false
+[T17 r11 c1] Acciaio riciclato
+[T17 r11 c2] false

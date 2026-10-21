@@ -1,0 +1,832 @@
+{
+  "assumptions": {
+    "anchor_friction": 0.5,
+    "co2_cable": 2.5,
+    "co2_concrete": 320,
+    "co2_pt": 2.5,
+    "co2_rebar": 1.4,
+    "co2_site": 15,
+    "co2_steel": 2,
+    "concept_cable": 600,
+    "concept_compression": 100,
+    "concept_tension": 180,
+    "concept_tower": 6,
+    "contingency": 15,
+    "gamma_g": 1.35,
+    "gamma_q": 1.35,
+    "low_carbon_factor": 0.6,
+    "months_base": 4,
+    "months_pier": 0.4,
+    "months_span": 1.2,
+    "pile_base": 0,
+    "pile_skin": 0,
+    "prelims": 12,
+    "pt_density": 30,
+    "rebar_found": 120,
+    "rebar_psc": 110,
+    "rebar_rc": 140,
+    "rebar_sub": 150,
+    "recycled_factor": 0.35,
+    "soil_pressure": 0,
+    "special_connections": 20,
+    "traffic_load": 9,
+    "uncertainty": 30,
+    "wear_load": 2.5
+  },
+  "environment": {
+    "date": "2026-01-15T09:30:00.0000000+00:00",
+    "factors": {
+      "co2_cable": 2.5,
+      "co2_concrete": 320,
+      "co2_pt": 2.5,
+      "co2_rebar": 1.4,
+      "co2_site": 15,
+      "co2_steel": 2,
+      "low_carbon_factor": 0.6,
+      "recycled_factor": 0.35
+    },
+    "history": [],
+    "revision": "F1A8366F8814A7B46092956FF7FA4F2E86A63A8B51EC0B0CBB7BF50D3C7C991B",
+    "schema": 1,
+    "source": "Fattori espliciti del progetto"
+  },
+  "input": {
+    "arch_rise": 0.2,
+    "barrier_width": 0.5,
+    "bottom": 0,
+    "bottom_ratio": 0.55,
+    "boxes": 0,
+    "cable_sag": 0.1,
+    "cells": 2,
+    "continuous": true,
+    "deck_plate_mm": 16,
+    "deck_type": "Soletta in cls",
+    "depth": 0,
+    "embedded_cover": 0.06,
+    "end_pier": false,
+    "family": "steel_box",
+    "fc": 45,
+    "fc_sub": 35,
+    "flange_mm": 24,
+    "flange_width": 0.55,
+    "footing_size": 0,
+    "foundation": "Pali Ø 1,5 m",
+    "haunch": 0.05,
+    "height": 25,
+    "lane_width": 3.65,
+    "lanes": 3,
+    "length": 240,
+    "low_carbon": false,
+    "median": 1.6,
+    "obstacle": "Strada / ferrovia",
+    "obstacle_width": 30,
+    "pier": "Testa a martello",
+    "pier_size": 0,
+    "pile_count": 0,
+    "pile_length": 0,
+    "recycled": false,
+    "rib_bottom": 0.18,
+    "rib_height": 0.3,
+    "rib_mm": 8,
+    "rib_spacing": 0.6,
+    "rib_top": 0.3,
+    "shoulder": 1.5,
+    "slab": 0,
+    "soil": "Terreno medio",
+    "spacing": 0,
+    "spans": 3,
+    "start_pier": false,
+    "suspender_spacing": 8,
+    "tower_height": 0,
+    "traffic_model": "Schema 1 NTC 2018",
+    "truss_ratio": 0.12,
+    "u_bottom": 1.4,
+    "u_top": 2.4,
+    "web": 0,
+    "web_mm": 12,
+    "web_slope": 1
+  },
+  "pricing": {
+    "catalogue": {
+      "Analyses": [
+        {
+          "Code": "AN-CLS-IMPALCATO",
+          "Components": [
+            {
+              "Code": "concrete_sub",
+              "Quantity": 1
+            },
+            {
+              "Code": "formwork",
+              "Quantity": 4
+            }
+          ],
+          "Description": "Calcestruzzo dell'impalcato con casseri",
+          "GeneralExpensesPercent": null,
+          "ProfitPercent": null,
+          "Unit": "m³"
+        }
+      ],
+      "Currency": "EUR",
+      "Edition": "2026 · aggiornamento 1",
+      "Entries": [
+        {
+          "Code": "concrete_deck",
+          "Description": "Cls impalcato",
+          "Includes": [],
+          "Price": 260,
+          "Unit": "m³"
+        },
+        {
+          "Code": "concrete_sub",
+          "Description": "Cls sottostrutture e plinti",
+          "Includes": [],
+          "Price": 240,
+          "Unit": "m³"
+        },
+        {
+          "Code": "rebar",
+          "Description": "Armatura ordinaria",
+          "Includes": [],
+          "Price": 1660,
+          "Unit": "t"
+        },
+        {
+          "Code": "prestress",
+          "Description": "Acciaio da precompressione",
+          "Includes": [],
+          "Price": 3600,
+          "Unit": "t"
+        },
+        {
+          "Code": "steel",
+          "Description": "Carpenteria metallica",
+          "Includes": [],
+          "Price": 3500,
+          "Unit": "t"
+        },
+        {
+          "Code": "steel_box",
+          "Description": "Carpenteria cassoni",
+          "Includes": [],
+          "Price": 4200,
+          "Unit": "t"
+        },
+        {
+          "Code": "formwork",
+          "Description": "Casseforme",
+          "Includes": [],
+          "Price": 50,
+          "Unit": "m²"
+        },
+        {
+          "Code": "pile_1",
+          "Description": "Palo Ø 1,0 · esclusa armatura",
+          "Includes": [],
+          "Price": 300,
+          "Unit": "m"
+        },
+        {
+          "Code": "pile_15",
+          "Description": "Palo Ø 1,5 · esclusa armatura",
+          "Includes": [
+            "rebar"
+          ],
+          "Price": 550,
+          "Unit": "m"
+        },
+        {
+          "Code": "bearing",
+          "Description": "Apparecchio d'appoggio",
+          "Includes": [],
+          "Price": 5000,
+          "Unit": "cad"
+        },
+        {
+          "Code": "joint",
+          "Description": "Giunto di dilatazione",
+          "Includes": [],
+          "Price": 2400,
+          "Unit": "m"
+        },
+        {
+          "Code": "barrier",
+          "Description": "Barriera",
+          "Includes": [],
+          "Price": 360,
+          "Unit": "m"
+        },
+        {
+          "Code": "surfacing",
+          "Description": "Pavimentazione",
+          "Includes": [],
+          "Price": 32,
+          "Unit": "m²"
+        },
+        {
+          "Code": "steel_ortho",
+          "Description": "Carpenteria impalcato ortotropo",
+          "Includes": [],
+          "Price": 5000,
+          "Unit": "t"
+        },
+        {
+          "Code": "cables",
+          "Description": "Cavi e pendini installati, inclusi terminali",
+          "Includes": [],
+          "Price": 16000,
+          "Unit": "t"
+        },
+        {
+          "Code": "erection_special",
+          "Description": "Montaggio aggiuntivo strutture speciali",
+          "Includes": [],
+          "Price": 1000,
+          "Unit": "t"
+        }
+      ],
+      "GeneralExpensesPercent": 15,
+      "Name": "Prezzario regionale di prova",
+      "ProfitPercent": 10
+    },
+    "history": [
+      {
+        "catalogue": {
+          "Currency": "EUR",
+          "Edition": "Conservati",
+          "Entries": [
+            {
+              "Code": "concrete_deck",
+              "Description": "Cls impalcato",
+              "Includes": [],
+              "Price": 260,
+              "Unit": "m³"
+            },
+            {
+              "Code": "concrete_sub",
+              "Description": "Cls sottostrutture e plinti",
+              "Includes": [],
+              "Price": 240,
+              "Unit": "m³"
+            },
+            {
+              "Code": "rebar",
+              "Description": "Armatura ordinaria",
+              "Includes": [],
+              "Price": 1660,
+              "Unit": "t"
+            },
+            {
+              "Code": "prestress",
+              "Description": "Acciaio da precompressione",
+              "Includes": [],
+              "Price": 3600,
+              "Unit": "t"
+            },
+            {
+              "Code": "steel",
+              "Description": "Carpenteria metallica",
+              "Includes": [],
+              "Price": 3500,
+              "Unit": "t"
+            },
+            {
+              "Code": "steel_box",
+              "Description": "Carpenteria cassoni",
+              "Includes": [],
+              "Price": 4000,
+              "Unit": "t"
+            },
+            {
+              "Code": "formwork",
+              "Description": "Casseforme",
+              "Includes": [],
+              "Price": 50,
+              "Unit": "m²"
+            },
+            {
+              "Code": "pile_1",
+              "Description": "Palo Ø 1,0 · esclusa armatura",
+              "Includes": [],
+              "Price": 300,
+              "Unit": "m"
+            },
+            {
+              "Code": "pile_15",
+              "Description": "Palo Ø 1,5 · esclusa armatura",
+              "Includes": [],
+              "Price": 550,
+              "Unit": "m"
+            },
+            {
+              "Code": "bearing",
+              "Description": "Apparecchio d'appoggio",
+              "Includes": [],
+              "Price": 5000,
+              "Unit": "cad"
+            },
+            {
+              "Code": "joint",
+              "Description": "Giunto di dilatazione",
+              "Includes": [],
+              "Price": 2400,
+              "Unit": "m"
+            },
+            {
+              "Code": "barrier",
+              "Description": "Barriera",
+              "Includes": [],
+              "Price": 360,
+              "Unit": "m"
+            },
+            {
+              "Code": "surfacing",
+              "Description": "Pavimentazione",
+              "Includes": [],
+              "Price": 32,
+              "Unit": "m²"
+            },
+            {
+              "Code": "steel_ortho",
+              "Description": "Carpenteria impalcato ortotropo",
+              "Includes": [],
+              "Price": 5000,
+              "Unit": "t"
+            },
+            {
+              "Code": "cables",
+              "Description": "Cavi e pendini installati, inclusi terminali",
+              "Includes": [],
+              "Price": 16000,
+              "Unit": "t"
+            },
+            {
+              "Code": "erection_special",
+              "Description": "Montaggio aggiuntivo strutture speciali",
+              "Includes": [],
+              "Price": 1000,
+              "Unit": "t"
+            }
+          ],
+          "Name": "Valori dell'archivio"
+        },
+        "date": "2026-01-15T09:30:00.0000000+00:00",
+        "mappings": [
+          {
+            "EntryCode": "concrete_deck",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "concrete_deck"
+          },
+          {
+            "EntryCode": "concrete_sub",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "concrete_sub"
+          },
+          {
+            "EntryCode": "rebar",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "rebar"
+          },
+          {
+            "EntryCode": "prestress",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "prestress"
+          },
+          {
+            "EntryCode": "steel",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "steel"
+          },
+          {
+            "EntryCode": "steel_box",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "steel_box"
+          },
+          {
+            "EntryCode": "formwork",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "formwork"
+          },
+          {
+            "EntryCode": "pile_1",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "pile_1"
+          },
+          {
+            "EntryCode": "pile_15",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "pile_15"
+          },
+          {
+            "EntryCode": "bearing",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "bearing"
+          },
+          {
+            "EntryCode": "joint",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "joint"
+          },
+          {
+            "EntryCode": "barrier",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "barrier"
+          },
+          {
+            "EntryCode": "surfacing",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "surfacing"
+          },
+          {
+            "EntryCode": "steel_ortho",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "steel_ortho"
+          },
+          {
+            "EntryCode": "cables",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "cables"
+          },
+          {
+            "EntryCode": "erection_special",
+            "Override": null,
+            "Reason": "",
+            "WorkCode": "erection_special"
+          }
+        ],
+        "snapshot": {
+          "Currency": "EUR",
+          "Rates": [
+            {
+              "Includes": [],
+              "Price": 260,
+              "Reference": "Archivio/concrete_deck",
+              "Unit": "m³",
+              "WorkCode": "concrete_deck"
+            },
+            {
+              "Includes": [],
+              "Price": 240,
+              "Reference": "Archivio/concrete_sub",
+              "Unit": "m³",
+              "WorkCode": "concrete_sub"
+            },
+            {
+              "Includes": [],
+              "Price": 1660,
+              "Reference": "Archivio/rebar",
+              "Unit": "t",
+              "WorkCode": "rebar"
+            },
+            {
+              "Includes": [],
+              "Price": 3600,
+              "Reference": "Archivio/prestress",
+              "Unit": "t",
+              "WorkCode": "prestress"
+            },
+            {
+              "Includes": [],
+              "Price": 3500,
+              "Reference": "Archivio/steel",
+              "Unit": "t",
+              "WorkCode": "steel"
+            },
+            {
+              "Includes": [],
+              "Price": 4000,
+              "Reference": "Archivio/steel_box",
+              "Unit": "t",
+              "WorkCode": "steel_box"
+            },
+            {
+              "Includes": [],
+              "Price": 50,
+              "Reference": "Archivio/formwork",
+              "Unit": "m²",
+              "WorkCode": "formwork"
+            },
+            {
+              "Includes": [],
+              "Price": 300,
+              "Reference": "Archivio/pile_1",
+              "Unit": "m",
+              "WorkCode": "pile_1"
+            },
+            {
+              "Includes": [],
+              "Price": 550,
+              "Reference": "Archivio/pile_15",
+              "Unit": "m",
+              "WorkCode": "pile_15"
+            },
+            {
+              "Includes": [],
+              "Price": 5000,
+              "Reference": "Archivio/bearing",
+              "Unit": "cad",
+              "WorkCode": "bearing"
+            },
+            {
+              "Includes": [],
+              "Price": 2400,
+              "Reference": "Archivio/joint",
+              "Unit": "m",
+              "WorkCode": "joint"
+            },
+            {
+              "Includes": [],
+              "Price": 360,
+              "Reference": "Archivio/barrier",
+              "Unit": "m",
+              "WorkCode": "barrier"
+            },
+            {
+              "Includes": [],
+              "Price": 32,
+              "Reference": "Archivio/surfacing",
+              "Unit": "m²",
+              "WorkCode": "surfacing"
+            },
+            {
+              "Includes": [],
+              "Price": 5000,
+              "Reference": "Archivio/steel_ortho",
+              "Unit": "t",
+              "WorkCode": "steel_ortho"
+            },
+            {
+              "Includes": [],
+              "Price": 16000,
+              "Reference": "Archivio/cables",
+              "Unit": "t",
+              "WorkCode": "cables"
+            },
+            {
+              "Includes": [],
+              "Price": 1000,
+              "Reference": "Archivio/erection_special",
+              "Unit": "t",
+              "WorkCode": "erection_special"
+            }
+          ],
+          "Revision": "legacy:D0F867D8841AC00C9F0F9AC4641CE6A7AF0935220F3DA751D67BB701C131BE25"
+        }
+      }
+    ],
+    "mappings": [
+      {
+        "EntryCode": "AN-CLS-IMPALCATO",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "concrete_deck"
+      },
+      {
+        "EntryCode": "concrete_sub",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "concrete_sub"
+      },
+      {
+        "EntryCode": "rebar",
+        "Override": 1700,
+        "Reason": "Offerta del fornitore",
+        "WorkCode": "rebar"
+      },
+      {
+        "EntryCode": "prestress",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "prestress"
+      },
+      {
+        "EntryCode": "steel",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "steel"
+      },
+      {
+        "EntryCode": "steel_box",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "steel_box"
+      },
+      {
+        "EntryCode": "formwork",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "formwork"
+      },
+      {
+        "EntryCode": "pile_1",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "pile_1"
+      },
+      {
+        "EntryCode": "pile_15",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "pile_15"
+      },
+      {
+        "EntryCode": "bearing",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "bearing"
+      },
+      {
+        "EntryCode": "joint",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "joint"
+      },
+      {
+        "EntryCode": "barrier",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "barrier"
+      },
+      {
+        "EntryCode": "surfacing",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "surfacing"
+      },
+      {
+        "EntryCode": "steel_ortho",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "steel_ortho"
+      },
+      {
+        "EntryCode": "cables",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "cables"
+      },
+      {
+        "EntryCode": "erection_special",
+        "Override": null,
+        "Reason": "",
+        "WorkCode": "erection_special"
+      }
+    ],
+    "schema": 1,
+    "snapshot": {
+      "Currency": "EUR",
+      "Rates": [
+        {
+          "Includes": [],
+          "Price": 556.6,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/AN-CLS-IMPALCATO",
+          "Unit": "m³",
+          "WorkCode": "concrete_deck"
+        },
+        {
+          "Includes": [],
+          "Price": 240,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/concrete_sub",
+          "Unit": "m³",
+          "WorkCode": "concrete_sub"
+        },
+        {
+          "Includes": [],
+          "Price": 1700,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/override:Offerta del fornitore",
+          "Unit": "t",
+          "WorkCode": "rebar"
+        },
+        {
+          "Includes": [],
+          "Price": 3600,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/prestress",
+          "Unit": "t",
+          "WorkCode": "prestress"
+        },
+        {
+          "Includes": [],
+          "Price": 3500,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/steel",
+          "Unit": "t",
+          "WorkCode": "steel"
+        },
+        {
+          "Includes": [],
+          "Price": 4200,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/steel_box",
+          "Unit": "t",
+          "WorkCode": "steel_box"
+        },
+        {
+          "Includes": [],
+          "Price": 50,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/formwork",
+          "Unit": "m²",
+          "WorkCode": "formwork"
+        },
+        {
+          "Includes": [],
+          "Price": 300,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/pile_1",
+          "Unit": "m",
+          "WorkCode": "pile_1"
+        },
+        {
+          "Includes": [
+            "rebar"
+          ],
+          "Price": 550,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/pile_15",
+          "Unit": "m",
+          "WorkCode": "pile_15"
+        },
+        {
+          "Includes": [],
+          "Price": 5000,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/bearing",
+          "Unit": "cad",
+          "WorkCode": "bearing"
+        },
+        {
+          "Includes": [],
+          "Price": 2400,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/joint",
+          "Unit": "m",
+          "WorkCode": "joint"
+        },
+        {
+          "Includes": [],
+          "Price": 360,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/barrier",
+          "Unit": "m",
+          "WorkCode": "barrier"
+        },
+        {
+          "Includes": [],
+          "Price": 32,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/surfacing",
+          "Unit": "m²",
+          "WorkCode": "surfacing"
+        },
+        {
+          "Includes": [],
+          "Price": 5000,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/steel_ortho",
+          "Unit": "t",
+          "WorkCode": "steel_ortho"
+        },
+        {
+          "Includes": [],
+          "Price": 16000,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/cables",
+          "Unit": "t",
+          "WorkCode": "cables"
+        },
+        {
+          "Includes": [],
+          "Price": 1000,
+          "Reference": "Prezzario regionale di prova/2026 · aggiornamento 1/erection_special",
+          "Unit": "t",
+          "WorkCode": "erection_special"
+        }
+      ],
+      "Revision": "2EFAA7C0FBFA95989D7EF091A2C2CE25A27EE412697C84F2837B1F8588CE2386"
+    }
+  },
+  "rates": {
+    "barrier": 360,
+    "bearing": 5000,
+    "cables": 16000,
+    "concrete_deck": 260,
+    "concrete_sub": 240,
+    "erection_special": 1000,
+    "formwork": 50,
+    "joint": 2400,
+    "pile_1": 300,
+    "pile_15": 550,
+    "prestress": 3600,
+    "rebar": 1660,
+    "steel": 3500,
+    "steel_box": 4000,
+    "steel_ortho": 5000,
+    "surfacing": 32
+  },
+  "scene": 1,
+  "versione_bridge_design": 1
+}

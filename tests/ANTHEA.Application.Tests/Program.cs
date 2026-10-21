@@ -87,8 +87,6 @@ try
     checks += SectionActionInputsChecks.Run();
     checks += DesignActionChecks.Run();
     checks += PileCriticalChecks.Run();
-    checks += BridgePricesChecks.Run();
-    checks += BridgePriceAnalysesChecks.Run();
     checks += BridgeTrafficChecks.Run();
     checks += await ModuleServiceChecks.Run();
     checks += await ElasticPileSessionChecks.Run(root);

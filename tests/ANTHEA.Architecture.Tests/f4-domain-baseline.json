@@ -4028,118 +4028,6 @@
       "Example": "1000"
     },
     {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeDesignWorkspace.CalculateScheduledAsync",
-      "Fingerprint": "5BE9F6E06160A4C9A99AB5E67E36CAB24CBB18BC3E7B0070B88B6ED75192DF26",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeDesignWorkspace.CalculateScheduledAsync",
-      "Fingerprint": "837EE6D5B7788D8EC26CC6143D9AB130BD00910C10C10267A401D30AFE068A04",
-      "Count": 3,
-      "Example": "1e6"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeDesignWorkspace.Randomize",
-      "Fingerprint": "12F375E90C1750EA669F65B6D8E9AE4F42DEBF8C58233252EA2C0936E34F10D9",
-      "Count": 2,
-      "Example": ".4"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeDesignWorkspace.Randomize",
-      "Fingerprint": "1F3222636E704D143FF5A098060C9939584E4DE8DA0DC3F2FD33C47B9AD0AC88",
-      "Count": 1,
-      "Example": "8"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeDesignWorkspace.Randomize",
-      "Fingerprint": "4369530B4A7A5B01F3B023D867C1E2E4076AD9C968D3320E3C733108C456B359",
-      "Count": 1,
-      "Example": ".45"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeDesignWorkspace.Randomize",
-      "Fingerprint": "5B4DD4F5ECD6BEF5689CD0464507EA32C8FFBB65C2737DC25DAA35C019B799CB",
-      "Count": 1,
-      "Example": ".2"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeDesignWorkspace.Randomize",
-      "Fingerprint": "700A937DEF6C60FBFBC1A209A562A600D3B25B93EB5E7B984A61A3DDE8C1F8D3",
-      "Count": 1,
-      "Example": "18"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeDesignWorkspace.Randomize",
-      "Fingerprint": "F5648083F16875A4CE913DE202F7CA71824877282D17935D8ECB5F45135E7C25",
-      "Count": 1,
-      "Example": "5"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeDesignWorkspace.BridgeDesignWorkspace",
-      "Fingerprint": "5429129E1B9D95D9F513F49154F391C739A0218896806976C2C61AD49A3E1228",
-      "Count": 1,
-      "Example": "Data . D ( \"scene\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeDesignWorkspace.Number",
-      "Fingerprint": "75E5CCC801EEEAEF0B0353C77FD7BFEFFA32DE1EBEBCE218B7BACD09DBC1A838",
-      "Count": 1,
-      "Example": "Data [ group ] . D ( p . Key )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeDesignWorkspace.Randomize",
-      "Fingerprint": "E680BA197F78F34D00E971F096A23A74785F5233406A8DC78D4E591E53140B10",
-      "Count": 2,
-      "Example": "Input . D ( \"length\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeDesignWorkspace.ShowQuantities",
-      "Fingerprint": "C068B21AF9804DAC49340B2863DD5A50777F9BB24317A91C366D1F4B9CCC8742",
-      "Count": 1,
-      "Example": "Data [ \"assumptions\" ] . D ( \"prelims\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeDesignWorkspace.CalculateScheduledAsync",
-      "Fingerprint": "5BE9F6E06160A4C9A99AB5E67E36CAB24CBB18BC3E7B0070B88B6ED75192DF26",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeDesignWorkspace.CalculateScheduledAsync",
-      "Fingerprint": "837EE6D5B7788D8EC26CC6143D9AB130BD00910C10C10267A401D30AFE068A04",
-      "Count": 3,
-      "Example": "1e6"
-    },
-    {
       "File": "X.Desktop/Wpf/BridgeDetailSketch.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "BridgeDetailSketch.OnRender.Dim",
@@ -12666,6 +12554,86 @@
       "Fingerprint": "549BA8A52981F65AEABCF7AB4D2A7F54DB0705805D4C8F9538B455C972D93845",
       "Count": 1,
       "Example": "selected . D ( \"Angle\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeDesignPresentation.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "BridgeDesignPresentation.Randomize",
+      "Fingerprint": "0C8E6911BDEA193E5164EA767066A11D5347D04438AD269C655D2418F266CE2F",
+      "Count": 1,
+      "Example": "8"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeDesignPresentation.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "BridgeDesignPresentation.Randomize",
+      "Fingerprint": "88D749D73D8500E948A4C2F145E2B1067F847B9E5AE1557D95DC3513531B3237",
+      "Count": 1,
+      "Example": "5"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeDesignPresentation.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "BridgeDesignPresentation.Randomize",
+      "Fingerprint": "94163B0DCA346B0C1924A718469F7031C59EB6A5C409499ADEBB0F7FC8B57F37",
+      "Count": 1,
+      "Example": ".45"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeDesignPresentation.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "BridgeDesignPresentation.Randomize",
+      "Fingerprint": "CA9E49BE46438C5E8F61B65B032C7C4FABFBB0355263F99BE90F1B03A3F310AF",
+      "Count": 1,
+      "Example": ".2"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeDesignPresentation.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "BridgeDesignPresentation.Randomize",
+      "Fingerprint": "CC2A0A93A8367679E5855F9CD9D22EF2AAB237BE3945A6F122F10982F10F8C81",
+      "Count": 2,
+      "Example": ".4"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeDesignPresentation.cs",
+      "Rule": "R2-numeric-literal",
+      "Owner": "BridgeDesignPresentation.Randomize",
+      "Fingerprint": "D6530D9C94899E162F87A4E2BDBC29EC742281323F0A02CC016112EAC3816BC4",
+      "Count": 1,
+      "Example": "18"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeDesignPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "BridgeDesignPresentation.CostSummary",
+      "Fingerprint": "520D9A9CF4C6398C923002FF227B675055221C1ABFD687CD69FB4CA3F5C514D4",
+      "Count": 1,
+      "Example": "data [ \"assumptions\" ] . D ( \"prelims\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeDesignPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "BridgeDesignPresentation.NewScene",
+      "Fingerprint": "3FADCE4C293BA70F243DB1DE90F96E519E9AC5C47CC24F317DFBBD8677F4825E",
+      "Count": 1,
+      "Example": "data . D ( \"scene\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeDesignPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "BridgeDesignPresentation.ParameterValue",
+      "Fingerprint": "C9D5DA794334592EEAA635F08455F36EBD01AB695863766EF1F6E663572E7C60",
+      "Count": 1,
+      "Example": "data [ group ] . D ( key )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeDesignPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "BridgeDesignPresentation.Randomize",
+      "Fingerprint": "CD84B051C8846B75E3CEC9C1F33B24953B5063F0C5B1EF304A955387DDA51F6B",
+      "Count": 2,
+      "Example": "input . D ( \"length\" )"
     },
     {
       "File": "src/ANTHEA.Application/Presentation/BridgePreview.cs",

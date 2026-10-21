@@ -1,4 +1,5 @@
 using Anthea.Application.BridgeDesign;
+using Anthea.Application.Presentation;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,13 +9,10 @@ internal sealed partial class BridgeDesignWorkspace
 {
     private FrameworkElement BuildOptimizationPanel()
     {
-        optimizationObjective = Ui.Choice(["Costo minimo", "CO₂ minima", "Compromesso costo / CO₂ (50 / 50)"], "Costo minimo");
+        optimizationObjective = Ui.Choice(BridgeDesignOptimizationPresentation.Objectives, BridgeDesignOptimizationPresentation.Objectives[0]);
         var setup = Ui.Stack(Ui.Text("1 · Imposta la ricerca", 17, true), Ui.Text("Obiettivo", 12, true), optimizationObjective,
             Ui.Text("Mantieni costante", 13, true));
-        foreach (var (key, label, value) in new[] {
-            ("family", "Tipologia", false), ("spans", "Numero campate", false), ("depth", "Altezza in campata", false),
-            ("section", "Dimensioni della sezione", false), ("continuous", "Continuità", true),
-            ("pier", "Schema pila e quote imposte", false), ("foundation", "Fondazione e lunghezza pali", false) })
+        foreach (var (key, label, value) in BridgeDesignOptimizationPresentation.Locks)
         {
             var check = new CheckBox { Content = label, IsChecked = value, Margin = new Thickness(4, 5, 4, 5) };
             optimizationLocks[key] = check; setup.Children.Add(check);
@@ -45,11 +43,11 @@ internal sealed partial class BridgeDesignWorkspace
         upperGrid.RowDefinitions.Add(new() { Height = GridLength.Auto }); upperGrid.RowDefinitions.Add(new() { Height = GridLength.Auto });
         var setupCard = Ui.Paper(setup); var previewCard = Ui.Paper(preview); upperGrid.Children.Add(setupCard); upperGrid.Children.Add(previewCard);
 
-        var variable = Ui.Choice(["Costo [M€]", "CO₂ [t]", "Altezza in campata [m]", "Numero campate", "Lunghezza pali [m]", "Tipologia", "Schema pila", "Fondazione", "Continuità"], "Altezza in campata [m]");
+        var variable = Ui.Choice(BridgeDesignOptimizationPresentation.Variables, BridgeDesignOptimizationPresentation.Variables[2]);
         variable.SelectionChanged += (_, _) => { OptimizationTrace.Variable = variable.SelectedIndex; OptimizationTrace.InvalidateVisual(); }; OptimizationTrace.Variable = 2;
         var traceCard = Ui.Paper(Ui.Stack(Ui.Text("2 · Variabili esplorate", 17, true), variable, OptimizationTrace,
             Ui.Text("Ogni punto è un tentativo calcolato. Grigio = escluso. Nei grafici costo e CO₂ la linea scura è il minimo progressivo. Le quote non calcolabili sono omesse.", 11, color: Ui.Muted)));
-        var filter = Ui.Choice(new[] { "Tutte le tipologie" }.Concat(BridgeDesignModel.Families.Select(f => f.Name)), "Tutte le tipologie");
+        var filter = Ui.Choice(BridgeDesignOptimizationPresentation.Filters(), BridgeDesignOptimizationPresentation.Filters()[0]);
         var pareto = new CheckBox { Content = "Solo frontiera Pareto", Margin = new Thickness(5) };
         void Filter() { OptimizationCloud.FamilyFilter = filter.SelectedIndex <= 0 ? null : BridgeDesignModel.Families[filter.SelectedIndex - 1].Id; OptimizationCloud.ParetoOnly = pareto.IsChecked == true; OptimizationCloud.InvalidateVisual(); }
         filter.SelectionChanged += (_, _) => Filter(); pareto.Checked += (_, _) => Filter(); pareto.Unchecked += (_, _) => Filter();
@@ -61,7 +59,7 @@ internal sealed partial class BridgeDesignWorkspace
         var chartGrid = new Grid(); chartGrid.ColumnDefinitions.Add(new()); chartGrid.ColumnDefinitions.Add(new());
         chartGrid.RowDefinitions.Add(new() { Height = GridLength.Auto }); chartGrid.RowDefinitions.Add(new() { Height = GridLength.Auto });
         chartGrid.Children.Add(traceCard); chartGrid.Children.Add(cloudCard);
-        var stack = Ui.Stack(Ui.Text("OTTIMIZZAZIONE · BRIDGE DESIGN", 24, true),
+        var stack = Ui.Stack(Ui.Text(BridgeDesignOptimizationPresentation.Title, 24, true),
             Ui.Text("La preview segue il migliore provvisorio, al massimo due volte al secondo. Il progetto cambia solo con Applica.", 12, color: Ui.Muted),
             upperGrid, chartGrid, legend, Ui.Text("4 · Alternative ordinate per l’obiettivo scelto", 17, true),
             Ui.Bar(Ui.Text("Mostra le prime N", 12, true), OptimizationTop, Ui.Button("Aggiorna elenco", RefreshOptimizationRanking, inspection: true)),

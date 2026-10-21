@@ -19,6 +19,8 @@
   <ItemGroup><Compile Include="../Shared/StratigraphyTrace.cs" Link="Shared/StratigraphyTrace.cs" /></ItemGroup>
   <!-- Scenarios and traces of the retaining wall sheet (F5.9), shared with the trace of the historic view in the UiTests build of X.Desktop. -->
   <ItemGroup><Compile Include="../Shared/RetainingWallTrace.cs" Link="Shared/RetainingWallTrace.cs" /></ItemGroup>
+  <!-- F5.12: scenarios and traces of the Bridge Design sheet, shared with the historic view (tests/Desktop/BridgeDesignHistoricTrace.cs). -->
+  <ItemGroup><Compile Include="../Shared/BridgeDesignTrace.cs" Link="Shared/BridgeDesignTrace.cs" /></ItemGroup>
   <!-- Scenarios and traces of the elastic response of the horizontal pile and of its reinforcement (F5.8), shared with the trace of the historic view in the UiTests build of X.Desktop. -->
   <ItemGroup><Compile Include="../Shared/ElasticPileTrace.cs" Link="Shared/ElasticPileTrace.cs" /></ItemGroup>
   <!-- Scenarios and traces of the RC section sheet (F5.10), shared with the trace of the historic view in the UiTests build of X.Desktop. -->

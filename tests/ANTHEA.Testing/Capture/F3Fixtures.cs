@@ -85,6 +85,7 @@ public static class F3Fixtures
         HorizontalPileF58(cases);
         ConcreteSectionF510(cases);
         BridgeSectionF511(cases);
+        BridgeDesignF512(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -1238,5 +1239,117 @@ public static class F3Fixtures
             d["ui_mista"] = J.Obj(("tab", 2), ("vista_0", 2), ("vista_1", 0), ("vista_2", 1), ("vista_3", 0),
                 ("risultato_0", 4), ("risultato_1", 3), ("risultato_2", 5), ("risultato_3", 0), ("fase", 0));
         });
+    }
+
+    /// <summary>
+    /// Bridge Design fixtures added before the preparation of F5.12 (proposal F5, section 7.2: capture first, with the historic view
+    /// BridgeDesignWorkspace): before F5.12 the module had the default bridge (prestressed I girders, five continuous spans, Schema 1) and an
+    /// archive without the advanced defaults. They cover the typologies with their own fields (steel box, cable-stayed and suspension bridges
+    /// with the orthotropic deck, tied arch, truss), the three obstacles, the four soils, every kind of pier and of foundation, imposed
+    /// substructure dimensions, the uniform legacy traffic model with its load, the start and the end on a pier, a price document written by
+    /// the price editor (a catalogue with an analysis, an override with its reason, an inclusion, the history), the alternative A pinned and an
+    /// alternative A that cannot be calculated, the environmental factors changed after a saved factor set, the low-carbon options, values
+    /// typed with the comma, and a calculation stopped by data to complete. The documents are as the sheet writes them (raw texts for the typed
+    /// values; the price and environment documents with a fixed date far from the captures, so that the normalizer of the dates of the day never
+    /// touches them); the identifiers never end in "default", which the F3 project report collects.
+    /// </summary>
+    static void BridgeDesignF512(List<CaptureCase> cases)
+    {
+        const string origin = "Fixture sintetica F5.12 (proposta F5 7.2, cattura prima con la vista storica)";
+        const string savedOn = "2026-01-15T09:30:00.0000000+00:00";
+        void Added(string id, Action<JsonObject> alter)
+        {
+            var data = ModuleCatalog.CreateData(BridgeConcept.Module);
+            alter(data);
+            cases.Add(new(BridgeConcept.Module, id, origin, null, data));
+        }
+        static void Input(JsonObject d, params (string Key, object? Value)[] values) { foreach (var (key, value) in values) d["input"]![key] = J.Node(value); }
+        // The document as the sheet saves it: prepared at the opening (advanced defaults, environmental factors), with the dates of the saved
+        // factor set and of the price history fixed.
+        static JsonObject Saved(JsonObject d)
+        {
+            Anthea.Application.Modules.ModuleSheetPreparation.PrepareBridgeDesign(d);
+            if (d["environment"] is JsonObject environment) environment["date"] = savedOn;
+            foreach (var entry in d["pricing"]?["history"]?.AsArray().OfType<JsonObject>() ?? []) entry["date"] = savedOn;
+            return d;
+        }
+
+        // Steel box girder over a road, hammerhead piers on 1.5 m piles in medium soil; a price document written by the price editor: a
+        // catalogue of its own (name, edition, a changed price, the piles of 1.5 m that include their reinforcement), an analysis of the deck
+        // concrete with general expenses and profit, an override of the reinforcement with its reason, and the history with the archived rates.
+        Added("cassone-acciaio-prezzario", d =>
+        {
+            Input(d, ("family", "steel_box"), ("length", 240), ("spans", 3), ("height", 25), ("obstacle", BridgeConcept.Obstacles[2]), ("obstacle_width", 30),
+                ("soil", BridgeConcept.Soils[2]), ("pier", BridgeConcept.Piers[3]), ("foundation", BridgeConcept.Foundations[3]), ("lanes", 3));
+            Saved(d);
+            // What the price editor writes with «Applica prezzario» (PriceCatalogueEditing, the editor without its rows).
+            var prices = new Anthea.Application.BridgeDesign.PriceCatalogueEditing(d);
+            var catalogue = prices.Catalogue with
+            {
+                Name = "Prezzario regionale di prova", Edition = "2026 · aggiornamento 1",
+                Entries = prices.Catalogue.Entries.Select(e => e.Code == "steel_box" ? e with { Price = "4200" } : e.Code == "pile_15" ? e with { Includes = "rebar" } : e).ToArray(),
+                GeneralExpenses = "15", Profit = "10",
+                Analyses = [.. prices.Catalogue.Analyses, new("AN-CLS-IMPALCATO", "Calcestruzzo dell'impalcato con casseri", "m³", "concrete_sub = 1; formwork = 4", "", "")]
+            };
+            var works = prices.Works.Select(w => new Anthea.Application.BridgeDesign.WorkPriceDraft(w.WorkCode, w.WorkCode == "concrete_deck" ? "AN-CLS-IMPALCATO" : w.EntryCode,
+                w.WorkCode == "rebar" ? "1700" : w.OverridePrice, w.WorkCode == "rebar" ? "Offerta del fornitore" : w.Reason)).ToArray();
+            var preview = prices.Preview(catalogue, works, false);
+            if (!preview.CanApply || preview.Proposal is null) throw new InvalidOperationException("Prezzario della fixture non applicabile: " + preview.Status);
+            prices.CommitTo(prices.Apply(catalogue, works, preview.Proposal), d, false);
+            Saved(d);
+        });
+        // Cable-stayed bridge with two towers and the orthotropic deck over a wide river, dense sand, the recommended γQ of Schema 1 applied.
+        Added("strallato-ortotropo-fiume", d =>
+        {
+            Input(d, ("family", "cable_stayed"), ("spans", 3), ("continuous", true), ("start_pier", false), ("end_pier", false), ("length", 600),
+                ("deck_type", BridgeConcept.DeckTypes[1]), ("obstacle", BridgeConcept.Obstacles[1]), ("obstacle_width", 200), ("height", 45), ("soil", BridgeConcept.Soils[1]));
+            BridgeConcept.ApplyRecommendedTrafficFactor(d);
+        });
+        // Suspension bridge on rock with imposed substructure: 1.0 m piles of 30 m, twelve piles per support, the concrete of the substructure.
+        Added("sospeso-pali-imposti", d =>
+        {
+            Input(d, ("family", "suspension"), ("spans", 3), ("continuous", true), ("length", 900), ("deck_type", BridgeConcept.DeckTypes[1]),
+                ("obstacle", BridgeConcept.Obstacles[0]), ("height", 30), ("soil", BridgeConcept.Soils[0]), ("foundation", BridgeConcept.Foundations[2]),
+                ("pile_length", 30), ("pile_count", 12), ("fc_sub", 40), ("tower_height", 90), ("cable_sag", 0.11));
+        });
+        // Tied arch with one simply supported span and the concrete deck, under the uniform legacy traffic model with a load typed with the comma.
+        Added("arco-traffico-uniforme", d =>
+        {
+            Input(d, ("family", "tied_arch"), ("spans", 1), ("length", 120), ("continuous", false), ("arch_rise", 0.18), ("suspender_spacing", 6),
+                ("traffic_model", BridgeConcept.UniformLegacy), ("obstacle", BridgeConcept.Obstacles[0]), ("height", 30), ("pier", BridgeConcept.Piers[0]));
+            d["assumptions"]!["traffic_load"] = "11,5";
+        });
+        // A prestressed box (one cell, four independent spans starting and ending on piers, circular piers on footings, imposed pier and footing
+        // sizes, low-carbon concrete and recycled steel, shoulders of 1 m) compared with the default bridge pinned as alternative A.
+        Added("confronto-alternativa-a", d =>
+        {
+            var pinned = Saved((JsonObject)d.DeepClone());
+            Input(d, ("family", "psc_box"), ("cells", 1), ("spans", 4), ("low_carbon", true), ("recycled", true), ("shoulder", 1.0), ("start_pier", true),
+                ("end_pier", true), ("continuous", false), ("pier", BridgeConcept.Piers[1]), ("foundation", BridgeConcept.Foundations[1]), ("pier_size", 2.5), ("footing_size", 8));
+            d["scene"] = 7;
+            Saved(d);
+            d["alternative_a"] = pinned;
+        });
+        // A solid slab whose pinned alternative A has the length emptied: the comparison cannot be calculated.
+        Added("alternativa-a-non-calcolabile", d =>
+        {
+            var pinned = Saved((JsonObject)d.DeepClone());
+            pinned["input"]!["length"] = "";
+            Input(d, ("family", "slab"), ("length", 60), ("spans", 5));
+            Saved(d);
+            d["alternative_a"] = pinned;
+        });
+        // A steel truss with values typed with the comma (length, lane, a rate) and the environmental factors changed after a saved factor set:
+        // the sheet archives the previous set when it opens.
+        Added("reticolare-testi-ambiente", d =>
+        {
+            Saved(d);
+            Input(d, ("family", "truss"), ("spans", 2), ("length", "137,5"), ("lane_width", "3,5"), ("continuous", false), ("truss_ratio", 0.15),
+                ("soil", BridgeConcept.Soils[3]), ("pier", BridgeConcept.Piers[2]), ("foundation", BridgeConcept.Foundations[0]));
+            d["rates"]!["concrete_deck"] = "275,5";
+            d["assumptions"]!["co2_concrete"] = "300";
+        });
+        // Data to complete: the total length emptied; no result and no report.
+        Added("dati-incompleti", d => Input(d, ("length", "")));
     }
 }
