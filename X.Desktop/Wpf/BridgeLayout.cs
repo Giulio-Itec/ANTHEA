@@ -134,15 +134,14 @@ internal sealed partial class BridgeWorkspace
         }
         if (page == 1) BuildPhases();
         inputHost.Content = pageInputs[page]; currentPage = page; viewSettings["tab"] = page;
-        inputTitle.Text = new[] { "Definizione della sezione", "Fasi, omogeneizzazione e limiti" }[page];
-        inputSubtitle.Text = new[] { "Geometria, materiali e armature · dimensioni in mm", "Carichi incrementali · φ, ψL e n sincronizzati" }[page];
+        (inputTitle.Text, inputSubtitle.Text) = Anthea.Application.Presentation.BridgeInputPresentation.InputHeading(page);
         stageControls.Visibility = page == 0 ? Visibility.Collapsed : Visibility.Visible;
         DisplayChoice.Visibility = page == 0 && detachedWindow is null ? Visibility.Collapsed : Visibility.Visible;
         if (detachedWindow is null) DisplayChoice.SelectedIndex = page == 0 ? 2 : Math.Clamp((int)viewSettings.D("vista_1", 0), 0, 2);
         GeometryLabels.IsChecked = viewSettings.B("quote_" + page, page == 0);
         RebarLabels.IsChecked = viewSettings.B("armature_" + page, page == 0);
         SetAnalysisPanels(page == 1);
-        detailExpander.Visibility = page == 0 && (Data.B("irrigidimenti") || Data.B("appoggio")) ? Visibility.Visible : Visibility.Collapsed;
+        detailExpander.Visibility = Anthea.Application.Presentation.BridgeInputPresentation.DetailSketchShown(page, Data) ? Visibility.Visible : Visibility.Collapsed;
         Results.SelectedIndex = Math.Clamp((int)viewSettings.D("risultato_" + page, new[] { 2, 0 }[page]), 0, 4);
         selectingPage = false;
         RefreshDrawing();

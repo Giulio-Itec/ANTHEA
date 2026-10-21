@@ -29,8 +29,8 @@ internal sealed partial class BridgeWorkspace
         var presenter = new FrameworkElementFactory(typeof(ContentPresenter)); presenter.SetValue(ContentPresenter.ContentSourceProperty, "SelectedContent"); dock.AppendChild(presenter);
         SectionPropertyTabs.Template = new ControlTemplate(typeof(TabControl)) { VisualTree = dock };
         slabPropertyOptions = Anthea.Application.Presentation.BridgeSheetPresentation.SlabOptions(viewSettings);
-        slabPropertyForm = new InputForm(slabPropertyOptions, [new("phi", "Viscosità φ"), new("psi", "Moltiplicatore ψL"), new("n", "n = Ea / Ec,eff")], key =>
-        { slabPropertyOptions["modo"] = key == "n" ? "Da n" : "Da φ"; RefreshSlabProperties(); Modified?.Invoke(); }, true);
+        slabPropertyForm = new InputForm(slabPropertyOptions, Anthea.Presentation.Modules.CompositeSection.CompositeSectionFields.SlabProperties, key =>
+        { Anthea.Application.Presentation.BridgeSheetPresentation.HomogenizationEdited(slabPropertyOptions, key); RefreshSlabProperties(); Modified?.Invoke(); }, true);
         SectionPropertyTabs.Items.Add(new TabItem { Header = "Acciaio", Content = Scroll(steelPropertyBody) });
         SectionPropertyTabs.Items.Add(new TabItem { Header = "Soletta", Content = Scroll(Ui.Stack(slabPropertyForm,
             Ui.Text("Rapporti per esplorare la soletta; le fasi mantengono i propri φ/n. Omogeneizzazione al CLS, n delle barre = Es/Ec,eff.", 11, color: Ui.Muted), slabPropertyBody)) });
@@ -79,7 +79,7 @@ internal sealed partial class BridgeWorkspace
                 body.Children.Add(PropertyTable(properties.Properties));
             }
             catch (Exception ex) { body.Children.Add(Ui.Text(ex.Message, 12, color: Ui.Muted)); }
-            var item = new TabItem { Header = $"{++i:00} · {phase.S("nome")}", Tag = phase, Content = Scroll(body) };
+            var item = new TabItem { Header = Anthea.Application.Presentation.BridgeInputPresentation.PropertyTabHeader(i++, phase), Tag = phase, Content = Scroll(body) };
             SectionPropertyTabs.Items.Add(item); if (ReferenceEquals(selection, phase)) selected = i + 1;
         }
         SectionPropertyTabs.SelectedIndex = Math.Clamp(selected, 0, SectionPropertyTabs.Items.Count - 1);

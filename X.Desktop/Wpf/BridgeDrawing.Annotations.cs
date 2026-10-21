@@ -5,8 +5,6 @@ using X.Core;
 
 namespace X.Desktop;
 
-internal sealed record BridgeLoadPoint(int Index, string Name, double Y, double Force);
-
 internal sealed partial class BridgeDrawing
 {
     private sealed record SectionTag(string Title, string Value, Point Anchor, bool Left, Brush Color);

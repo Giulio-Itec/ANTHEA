@@ -16,6 +16,25 @@ public static class BridgeSheetPresentation
         phase["riferimento_N"] ??= BridgeSection.CommonLoadReference;
         phase["V"] ??= 0; phase["T"] ??= 0; phase["epsilon_cs"] ??= 0; phase["q_conn"] ??= 0;
     }
+    /// <summary>A phase changed kind: a shrinkage starts with ψL 0,55 and φ given (F5.11, moved from the historic view).</summary>
+    public static void PrepareKind(JsonObject phase)
+    {
+        if (phase.S("tipo") == BridgeSection.ShrinkageKind) { phase["psi"] = .55; phase["modo"] = "Da φ"; }
+    }
+    /// <summary>φ, ψL or n of <paramref name="target"/> (a phase or the slab properties) edited: n edited is kept, otherwise φ.</summary>
+    public static void HomogenizationEdited(JsonObject target, string key) => target["modo"] = key == "n" ? "Da n" : "Da φ";
+    /// <summary>A cell of the table of the actions edited: the homogenization of the phase and the start of a shrinkage.</summary>
+    public static void CellEdited(JsonObject phase, string key)
+    {
+        if (key is "phi" or "psi" or "n") HomogenizationEdited(phase, key);
+        if (key == "tipo") PrepareKind(phase);
+    }
+    /// <summary>
+    /// The situation shown after a calculation: the last when the sheet follows the last phase, otherwise the previous one when it still
+    /// exists, else the last.
+    /// </summary>
+    public static int PublishedSituation(bool followLatest, int previous, int count) =>
+        followLatest ? count - 1 : previous >= 0 && previous < count ? previous : count - 1;
     public static bool PhaseHomogenizationNeeded(JsonObject data, string kind) => BridgeSection.HasConcrete(kind)
         || kind == "Soletta esclusa" && data.B("pioli") && BridgeSection.RequiredStandard(data) != GPC.Checkers.CompositeBridge.BridgeStandard.Ntc2018;
     public static (double N0, double N, double PhiEffective, double Phi) UpdateHomogenization(JsonObject data, JsonObject phase, bool requireFinite = true)
