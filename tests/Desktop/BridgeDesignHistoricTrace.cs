@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Anthea.Application.BridgeDesign;
+using Anthea.Presentation.Modules.BridgeDesign;
 using Anthea.Presentation.Tests;
 
 namespace X.Desktop;

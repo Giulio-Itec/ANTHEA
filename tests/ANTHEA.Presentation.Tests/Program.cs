@@ -67,6 +67,9 @@ try
     checks += ConcreteSectionSheetChecks.Run(root, output, full: false);
     checks += SectionActionsEditorChecks.Run();
     checks += CompositeSectionSheetChecks.Run(root, output);
+    // F5.12 (decision Q17 a): the price editor of Bridge Design moved from ANTHEA.Application with its checks.
+    checks += BridgePricesChecks.Run();
+    checks += BridgePriceAnalysesChecks.Run();
     string message = $"PASS {checks} controlli di Presentation senza WPF";
     File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
     Console.WriteLine(message);

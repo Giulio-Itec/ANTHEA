@@ -1279,19 +1279,20 @@ public static class F3Fixtures
             Input(d, ("family", "steel_box"), ("length", 240), ("spans", 3), ("height", 25), ("obstacle", BridgeConcept.Obstacles[2]), ("obstacle_width", 30),
                 ("soil", BridgeConcept.Soils[2]), ("pier", BridgeConcept.Piers[3]), ("foundation", BridgeConcept.Foundations[3]), ("lanes", 3));
             Saved(d);
-            var prices = new Anthea.Application.BridgeDesign.PriceCatalogueViewModel(d);
-            prices.CatalogueName = "Prezzario regionale di prova"; prices.Edition = "2026 · aggiornamento 1";
-            prices.Entries.Single(e => e.Code == "steel_box").Price = "4200";
-            prices.Entries.Single(e => e.Code == "pile_15").Includes = "rebar";
-            prices.GeneralExpensesPercent = "15"; prices.ProfitPercent = "10";
-            prices.Analyses.Add(new Anthea.Application.BridgeDesign.PriceAnalysisRow { Code = "AN-CLS-IMPALCATO", Description = "Calcestruzzo dell'impalcato con casseri",
-                Unit = "m³", Components = "concrete_sub = 1; formwork = 4" });
-            prices.Mappings.Single(m => m.WorkCode == "concrete_deck").EntryCode = "AN-CLS-IMPALCATO";
-            var rebar = prices.Mappings.Single(m => m.WorkCode == "rebar");
-            rebar.Reason = "Offerta del fornitore"; rebar.OverridePrice = "1700";
-            prices.ApplyCommand.Execute(null);
-            if (prices.Result is null) throw new InvalidOperationException("Prezzario della fixture non applicabile: " + prices.Status);
-            prices.CommitTo(d);
+            // What the price editor writes with «Applica prezzario» (PriceCatalogueEditing, the editor without its rows).
+            var prices = new Anthea.Application.BridgeDesign.PriceCatalogueEditing(d);
+            var catalogue = prices.Catalogue with
+            {
+                Name = "Prezzario regionale di prova", Edition = "2026 · aggiornamento 1",
+                Entries = prices.Catalogue.Entries.Select(e => e.Code == "steel_box" ? e with { Price = "4200" } : e.Code == "pile_15" ? e with { Includes = "rebar" } : e).ToArray(),
+                GeneralExpenses = "15", Profit = "10",
+                Analyses = [.. prices.Catalogue.Analyses, new("AN-CLS-IMPALCATO", "Calcestruzzo dell'impalcato con casseri", "m³", "concrete_sub = 1; formwork = 4", "", "")]
+            };
+            var works = prices.Works.Select(w => new Anthea.Application.BridgeDesign.WorkPriceDraft(w.WorkCode, w.WorkCode == "concrete_deck" ? "AN-CLS-IMPALCATO" : w.EntryCode,
+                w.WorkCode == "rebar" ? "1700" : w.OverridePrice, w.WorkCode == "rebar" ? "Offerta del fornitore" : w.Reason)).ToArray();
+            var preview = prices.Preview(catalogue, works, false);
+            if (!preview.CanApply || preview.Proposal is null) throw new InvalidOperationException("Prezzario della fixture non applicabile: " + preview.Status);
+            prices.CommitTo(prices.Apply(catalogue, works, preview.Proposal), d, false);
             Saved(d);
         });
         // Cable-stayed bridge with two towers and the orthotropic deck over a wide river, dense sand, the recommended γQ of Schema 1 applied.
