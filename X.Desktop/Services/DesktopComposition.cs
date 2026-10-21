@@ -72,7 +72,9 @@ internal sealed class DesktopComposition
             // F5.10 S1: the RC section (shell, calculation, inputs); the Release keeps the historic view until S9 (C10).
             new ConcreteSectionSheetModule(),
             new Anthea.Presentation.Modules.Spectra.SpectraSheetModule(),
-            new Anthea.Presentation.Modules.EmbeddedWalls.EmbeddedWallSheetModule()]);
+            new Anthea.Presentation.Modules.EmbeddedWalls.EmbeddedWallSheetModule(),
+            // F5.11: the composite bridge section, with the WPF figures of its report; the Release keeps the historic view until its checkpoint.
+            new Anthea.Presentation.Modules.CompositeSection.CompositeSectionSheetModule(new CompositeSectionFigureRenderer())]);
     }
 
     /// <summary>Factory of the services of a main window, unchanged since F1.4 (the WPF checks pass TestServices.Create instead).</summary>

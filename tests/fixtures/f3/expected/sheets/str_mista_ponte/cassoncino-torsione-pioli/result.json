@@ -1,0 +1,2861 @@
+{
+  "Geometry": {
+    "Bars": [
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B1",
+        "X": 75,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B2",
+        "X": 225,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B3",
+        "X": 375,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B4",
+        "X": 525,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B5",
+        "X": 675,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B6",
+        "X": 825,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B7",
+        "X": 975,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B8",
+        "X": 1125,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B9",
+        "X": 1275,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B10",
+        "X": 1425,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B11",
+        "X": 1575,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B12",
+        "X": 1725,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B13",
+        "X": 1875,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B14",
+        "X": 2025,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B15",
+        "X": 2175,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B16",
+        "X": 2325,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B17",
+        "X": 2475,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B18",
+        "X": 2625,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B19",
+        "X": 2775,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B20",
+        "X": 2925,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B21",
+        "X": 3075,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B22",
+        "X": 3225,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B23",
+        "X": 3375,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B24",
+        "X": 3525,
+        "Y": 205
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B25",
+        "X": 75,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B26",
+        "X": 225,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B27",
+        "X": 375,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B28",
+        "X": 525,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B29",
+        "X": 675,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B30",
+        "X": 825,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B31",
+        "X": 975,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B32",
+        "X": 1125,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B33",
+        "X": 1275,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B34",
+        "X": 1425,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B35",
+        "X": 1575,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B36",
+        "X": 1725,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B37",
+        "X": 1875,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B38",
+        "X": 2025,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B39",
+        "X": 2175,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B40",
+        "X": 2325,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B41",
+        "X": 2475,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B42",
+        "X": 2625,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B43",
+        "X": 2775,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B44",
+        "X": 2925,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B45",
+        "X": 3075,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B46",
+        "X": 3225,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B47",
+        "X": 3375,
+        "Y": 45
+      },
+      {
+        "Area": 201.06192982974676,
+        "Diameter": 16,
+        "Id": "B48",
+        "X": 3525,
+        "Y": 45
+      }
+    ],
+    "Bottom1Thickness": 25,
+    "Bottom1Width": 1400,
+    "Bottom2Thickness": 0,
+    "Bottom2Width": 0,
+    "BottomArea": 35000,
+    "BottomEquivalentThickness": 25,
+    "BottomEquivalentWidth": 1400,
+    "BottomInternalWidth": 1285.8663540940984,
+    "BottomOutstandWidth": 42.933177047049156,
+    "BottomRealCentroid": -1842.5,
+    "BottomRealInertia": 1822916.6666666667,
+    "Height": 1855,
+    "PlateLength": 1822.2307757251824,
+    "PlateThickness": 14,
+    "SectionType": 2,
+    "SlabHeight": 250,
+    "SteelArea": 108522.46172030449,
+    "SteelCentroid": -1032.8929280509494,
+    "SteelInertia": 60790705330.941956,
+    "TopFlangeCount": 2,
+    "TopFlangeWidth": 450,
+    "TopThickness": 25,
+    "TopWidth": 900,
+    "WebAngle": 0.137628551230936,
+    "WebCount": 2,
+    "WebHeight": 1805,
+    "WebHorizontalThickness": 14.133645905901693,
+    "WebLength": 1822.2307757251824,
+    "WebPlateThickness": 14,
+    "WebSpacingBottom": 1300,
+    "WebSpacingTop": 1800,
+    "WebThickness": 28.267291811803386,
+    "Width": 3600
+  },
+  "Input": {
+    "A_diagonale": "3200",
+    "As_m_trasv": 0,
+    "B_app": 400,
+    "L_campata": "40000",
+    "N_irr": 0,
+    "R_app": "",
+    "T_app": "800",
+    "T_c_dist": "600",
+    "a_app_dx": 3000,
+    "a_app_sx": 3000,
+    "a_irr": 3000,
+    "a_irr_dx": 3000,
+    "acciaio": "S355",
+    "alpha_cc": "0.85",
+    "appoggio": false,
+    "armatura": "B450C",
+    "armatura_trasv": true,
+    "aw_app": 8,
+    "aw_irr": 6,
+    "b_app": 180,
+    "b_app_dx": 180,
+    "b_bottom": "1400",
+    "b_bottom2": "500",
+    "b_cls": "3600",
+    "b_irr": 150,
+    "b_irr_dx": 150,
+    "b_top": "450",
+    "betaL_app": 1,
+    "betaL_irr": 1,
+    "beta_diagonale": "0,9",
+    "bordo_cls_dx": 500,
+    "bordo_cls_sx": 500,
+    "buona_aderenza_trasv": true,
+    "c_app": 150,
+    "classe4": true,
+    "classe_cls": "C35/45",
+    "cls_teso_nl": "Trascurato",
+    "copriferro_pioli": 35,
+    "cot_trasv": 1,
+    "cover_bottom": "45",
+    "cover_top": "45",
+    "curve_sezione": {
+      "N": 0,
+      "fase": 0,
+      "incremento_e": -2000,
+      "incremento_k": 0.003,
+      "k": 0,
+      "k_storico": true,
+      "n_storico": true,
+      "origine": "Sezione composta vergine",
+      "punti": 100,
+      "sottopassi": 4,
+      "tipo": "Momento–curvatura · N costante",
+      "y": 0
+    },
+    "d_bottom": "16",
+    "d_forcine": 12,
+    "d_pioli": "22",
+    "d_testa_pioli": 35,
+    "d_top": "16",
+    "d_trasv_inf": "14",
+    "d_trasv_sup": "16",
+    "dsigma_fat": "45",
+    "e_appoggi": "2000",
+    "e_term": 300,
+    "eta_taglio": 1.2,
+    "fasi": [
+      {
+        "Mx": "1500",
+        "N": "0",
+        "T": "200",
+        "V": "300",
+        "attiva": true,
+        "epsilon_cs": "0",
+        "modo": "Da φ",
+        "n": "18",
+        "nome": "G1 · getto",
+        "phi": "0",
+        "psi": "1",
+        "q_conn": "0",
+        "riferimento_N": "Baricentro omogeneizzato lordo",
+        "tipo": "Solo acciaio"
+      },
+      {
+        "Mx": "2000",
+        "N": "0",
+        "T": "300",
+        "V": "600",
+        "attiva": true,
+        "epsilon_cs": "0",
+        "modo": "Da φ",
+        "n": "19.719961174917472",
+        "nome": "G2 · permanenti",
+        "phi": "2",
+        "psi": "1,1",
+        "q_conn": "15",
+        "riferimento_N": "Baricentro omogeneizzato lordo",
+        "tipo": "Composta"
+      },
+      {
+        "Mx": "3000",
+        "N": "0",
+        "T": "1000",
+        "V": "500",
+        "attiva": true,
+        "epsilon_cs": "0",
+        "modo": "Da φ",
+        "n": "6.162487867161709",
+        "nome": "Q · traffico",
+        "phi": "0",
+        "psi": "1",
+        "q_conn": "0",
+        "riferimento_N": "Baricentro omogeneizzato lordo",
+        "tipo": "Composta"
+      }
+    ],
+    "fatica_pioli": true,
+    "fibre_anima": 160,
+    "fibre_cls": 64,
+    "fibre_flange": 8,
+    "flangia_fat_tesa": true,
+    "forcine_bordo": true,
+    "fu_pioli": 450,
+    "fy": "355",
+    "fy_override": false,
+    "gamma_c": "1.5",
+    "gamma_ff": 1,
+    "gamma_m0": "1.05",
+    "gamma_m1": 1.1,
+    "gamma_m2": 1.25,
+    "gamma_mf_flangia": 1.35,
+    "gamma_mf_pioli": 1.25,
+    "gamma_s": "1.15",
+    "gamma_v": 1.25,
+    "h_cls": "250",
+    "h_pioli": "175",
+    "h_predalle": "60",
+    "h_trave": "1855",
+    "h_web": "1805",
+    "i_diagonale": "32",
+    "instabilita_anima": true,
+    "instabilita_inf": true,
+    "instabilita_sup": true,
+    "interasse_anime": "1800",
+    "irrigidimenti": false,
+    "l_anc_trasv": 700,
+    "lambda_v": "1,2",
+    "lati_app": "Bilaterali simmetrici",
+    "lati_irr": "Bilaterali simmetrici",
+    "m_t_dist": "60",
+    "metodo_analisi": "Cumulativo lineare",
+    "n_pioli": "3",
+    "nome": "Sezione composta da ponte",
+    "normativa": "NTC 2018 / EN 1994-2:2005",
+    "offset_anima": "250",
+    "pannelli_uguali": true,
+    "passo_diaframmi": "5000",
+    "passo_pioli": "180",
+    "passo_trasv_pioli": "120",
+    "phi_fat": 1,
+    "pioli": true,
+    "pioli_fatica": true,
+    "pitch_bottom": "150",
+    "pitch_top": "150",
+    "plate2": false,
+    "pos_app": "Appoggio interno",
+    "predalle": false,
+    "q_fat_max": "260",
+    "q_fat_min": "40",
+    "quota_q_sx": 0.5,
+    "rebars_bottom": true,
+    "rebars_top": true,
+    "rif_ferri_inf": "Estradosso predalle",
+    "s_app": 300,
+    "s_trasv_inf": "200",
+    "s_trasv_sup": "150",
+    "saldature_app": true,
+    "saldature_irr": false,
+    "sezione": "Cassoncino",
+    "sottopassi": 8,
+    "stato": "SLU",
+    "t_app": 25,
+    "t_app_dx": 25,
+    "t_bottom": "25",
+    "t_bottom2": "20",
+    "t_controvento": "4",
+    "t_diaframma": 12,
+    "t_diaframma_app": "20",
+    "t_irr": 15,
+    "t_irr_dx": 15,
+    "t_testa_pioli": 12,
+    "t_top": "25",
+    "t_web": "14",
+    "terminale_rigido": false,
+    "tipo_diaframma": "Controvento a X",
+    "torsione_cassoncino": true,
+    "ui_mista": {
+      "armature_0": true,
+      "armature_1": false,
+      "dettaglio_sezione": 0,
+      "layout_version": 4,
+      "quote_0": true,
+      "quote_1": false,
+      "risultato_0": 2,
+      "risultato_1": 4,
+      "segui_ultima_fase": true,
+      "soletta_proprieta": {
+        "modo": "Da φ",
+        "n": "6.162487867161709",
+        "phi": "0",
+        "psi": "1"
+      },
+      "tab": 1,
+      "vista_0": 2,
+      "vista_1": 0
+    },
+    "versione_mista": 1,
+    "viscosita_nl": "Istantaneo · φ = 0 nel calcolo",
+    "x_app": 0,
+    "x_irr": 0,
+    "y_ref": "0",
+    "z_app": 0
+  },
+  "Materials": {
+    "Concrete": "C35/45",
+    "Ea": 210000,
+    "Ec": 34077.14619918933,
+    "Es": 200000,
+    "Fck": 35,
+    "Fy": 355,
+    "Fys": 450,
+    "Rebar": "B450C",
+    "Steel": "S355"
+  },
+  "Method": "Sezione composta N–Mx · larghezze efficaci EN 1993-1-5:2006 · v1",
+  "Scope": "Analisi elastica N–Mx con connessione completa, sezione simmetrica e anima senza irrigidimenti longitudinali. b_eff della soletta è un dato di ingresso. Le fasi sono incrementi di carico già combinati; per ogni situazione la sezione efficace è comune ai contributi sommati. Il ritiro uniforme assegnato al CLS produce effetti primari locali. Non è un'analisi evolutiva con redistribuzione viscosa. Taglio e pioli hanno controlli locali dedicati. Irrigidimenti, appoggi, saldature continue, soletta trasversale e fatica dei pioli hanno verifiche opzionali con campo dichiarato. La torsione è verificata solo per il cassoncino (cella chiusa, distorsione e diaframmi, opzionali); l'instabilità globale del ponte resta esclusa.",
+  "Stages": [
+    {
+      "Contributions": [
+        {
+          "Area": 98378.04495888471,
+          "Centroid": -1089.2270816677674,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 0,
+          "EffectivePhi": 0,
+          "EquilibriumResidual": 0,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": false,
+          "HomogenizationN": 0,
+          "Inertia": 57341923125.60799,
+          "IsShrinkage": false,
+          "Kind": "Solo acciaio",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -1032.8929280509494,
+          "MomentAtInterface": 1500,
+          "Mx": 1500,
+          "N": 0,
+          "N0": 0,
+          "Name": "G1 · getto",
+          "NeutralAxis": -1089.2270816677674,
+          "Phi": 0,
+          "RebarArea": 0,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 57341923125.60799,
+          "StressSlope": -0.02615887152431628,
+          "UniformStress": 0,
+          "V": 300,
+          "WBottom": 74881106.07318453,
+          "WTop": 52644599.17559986
+        }
+      ],
+      "Effective": {
+        "Bottom": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 642.9331770470492,
+          "EffectiveAtStart": 642.9331770470492,
+          "EndStress": 19.37778359934571,
+          "KSigma": 0,
+          "Lambda": 0,
+          "Psi": 0,
+          "Rho": 1,
+          "StartStress": 19.37778359934571,
+          "Thickness": 25,
+          "Width": 1285.8663540940984
+        },
+        "BottomOutstand": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 42.933177047049156,
+          "EndStress": 19.37778359934571,
+          "KSigma": 0.43,
+          "Lambda": 0.1133393444212609,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": 19.37778359934571,
+          "Thickness": 25,
+          "Width": 42.933177047049156
+        },
+        "BottomWidth": 1400,
+        "SecondBottom": null,
+        "SecondBottomWidth": 0,
+        "Top": {
+          "CompressedWidth": 217.93317704704916,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 217.93317704704916,
+          "EndStress": -28.492951290153083,
+          "KSigma": 0.43,
+          "Lambda": 0.5753220495908495,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": -28.492951290153083,
+          "Thickness": 25,
+          "Width": 217.93317704704916
+        },
+        "TopWidth": 900,
+        "Web": {
+          "CompressedWidth": 1074.3863382688105,
+          "EffectiveAtEnd": 1175.09578075927,
+          "EffectiveAtStart": 284.8342288685987,
+          "EndStress": 19.37778359934571,
+          "KSigma": 16.92675396356384,
+          "Lambda": 1.3691480305259132,
+          "Psi": -0.6960665924525765,
+          "Rho": 0.6627835321499905,
+          "StartStress": -27.838979502045177,
+          "Thickness": 14,
+          "Width": 1822.2307757251824
+        },
+        "WebBottom": 1163.9843960600779,
+        "WebTop": 282.14087236112704
+      },
+      "EffectiveSteel": {
+        "Area": 98378.04495888471,
+        "Centroid": -1089.2270816677674,
+        "Inertia": 57341923125.60799
+      },
+      "Iterations": 9,
+      "MaxUtilization": 0.084274926351157,
+      "Name": "G1 · getto",
+      "Points": [
+        {
+          "Active": false,
+          "Contributions": [0
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · estradosso",
+          "Stress": 0,
+          "Utilization": null,
+          "Y": 250
+        },
+        {
+          "Active": false,
+          "Contributions": [0
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · intradosso",
+          "Stress": 0,
+          "Utilization": null,
+          "Y": 0
+        },
+        {
+          "Active": false,
+          "Contributions": [0
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=205",
+          "Stress": 0,
+          "Utilization": null,
+          "Y": 205
+        },
+        {
+          "Active": false,
+          "Contributions": [0
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=45",
+          "Stress": 0,
+          "Utilization": null,
+          "Y": 45
+        },
+        {
+          "Active": true,
+          "Contributions": [-28.492951290153083
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · estradosso",
+          "Stress": -28.492951290153083,
+          "Utilization": 0.084274926351157,
+          "Y": 0
+        },
+        {
+          "Active": true,
+          "Contributions": [-27.838979502045177
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · sommità",
+          "Stress": -27.838979502045177,
+          "Utilization": 0.08234064359759842,
+          "Y": -25
+        },
+        {
+          "Active": true,
+          "Contributions": [19.37778359934571
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · piede",
+          "Stress": 19.37778359934571,
+          "Utilization": 0.05731457120933239,
+          "Y": -1830
+        },
+        {
+          "Active": true,
+          "Contributions": [20.031755387453618
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · intradosso",
+          "Stress": 20.031755387453618,
+          "Utilization": 0.059248853962890986,
+          "Y": -1855
+        }
+      ],
+      "Residual": 9.263677658908871E-08,
+      "Shear": {
+        "Checks": [
+          {
+            "Demand": 427.26952229860746,
+            "Name": "Anima · resistenza a taglio",
+            "Note": "min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido; anima più caricata con la torsione: V/(2 cos α) + q·hw/cos α, q = 35,25 kN/m (EN 1993-1-1 §6.2.7(9))",
+            "Ratio": 0.10118215376774875,
+            "Resistance": 4222.775523036921,
+            "Status": "Entro limite",
+            "Unit": "kN"
+          },
+          {
+            "Demand": 31.987114516445647,
+            "Name": "Anima · tensione equivalente elastica (inviluppo)",
+            "Note": "√(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata più q/tw della torsione",
+            "Ratio": 0.0946097753303322,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          }
+        ],
+        "Details": [],
+        "EquivalentStressEnvelope": 31.987114516445647,
+        "RigidEndPost": false,
+        "Stiffener": null,
+        "TauAverage": 5.93589236248516,
+        "TauMaximum": 9.09517665895714,
+        "UsesStiffeners": false,
+        "V": 300,
+        "Web": {
+          "Area": 50540.00000000001,
+          "BucklingResistance": 4222775.523036921,
+          "Chi": 0.4484228323037396,
+          "KTau": 5.34,
+          "PlasticResistance": 9865376.499732869,
+          "Resistance": 4222775.523036921,
+          "ShearArea": 50540.00000000001,
+          "Slenderness": 1.8509316212467049,
+          "TauCritical": 59.82558799701024
+        }
+      },
+      "SteelNeutralAxis": -1089.2270816677674,
+      "Studs": {
+        "Checks": [],
+        "Contributions": [
+          {
+            "AdditionalFlow": 0,
+            "Basis": "Nessuno scorrimento da V",
+            "Flow": 0,
+            "Inertia": 0,
+            "Kind": "Solo acciaio",
+            "Phase": "G1 · getto",
+            "StaticMoment": 0,
+            "V": 300
+          }
+        ],
+        "Details": null,
+        "Enabled": false,
+        "Flow": 0,
+        "ForcePerStud": 0,
+        "Resistance": null,
+        "ResistancePerLength": 0,
+        "ResistancePerStud": 0
+      },
+      "Torsion": {
+        "BottomFlow": 35.25471531817381,
+        "BracingFlow": 35.25471531817381,
+        "Checks": [
+          {
+            "Demand": 21.184131208788315,
+            "Name": "Fondo · tensione equivalente (σ, τ torsione + taglio)",
+            "Note": "√(σ² + 3τ²) al nodo con le anime: τ = q/tb + τ di taglio del fondo",
+            "Ratio": 0.06265728949078235,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 2.6945706019494553,
+            "Name": "Fondo · imbozzamento a taglio",
+            "Note": "EN 1993-1-5 §5 e §7.1(5): τ medio del pannello (≥ metà del massimo), η = 1, a = 5000,00 mm, χw = 1,00",
+            "Ratio": 0.014461539453165355,
+            "Resistance": 186.32667778392468,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.059248853962890986,
+            "Name": "Fondo · interazione σ–τ",
+            "Note": "EN 1993-1-5 §7.1(5): η1 + (2η3 − 1)² con Mf,Rd = 0, η1 = σ/(fy/γM0) sulla sezione efficace",
+            "Ratio": 0.059248853962890986,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 7.050943063634761,
+            "Name": "Diaframma d'appoggio · taglio da torsione",
+            "Note": "τ = T/(2 A0 tD), A0 della cella in acciaio (2,84 m²); EN 1993-1-5 §5 con η = 1, χw = 0,94; aperture non considerate",
+            "Ratio": 0.04009060031121701,
+            "Resistance": 175.87521785404562,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          }
+        ],
+        "Details": [
+          {
+            "Name": "Torsione · G1 · getto · T",
+            "Unit": "kNm",
+            "Value": 200
+          },
+          {
+            "Name": "Torsione · G1 · getto · A0",
+            "Unit": "m²",
+            "Value": 2.8365
+          },
+          {
+            "Name": "Torsione · G1 · getto · J (acciaio)",
+            "Unit": "m⁴",
+            "Value": 0.041978572083704604
+          },
+          {
+            "Name": "Torsione · G1 · getto · q = T/(2A0)",
+            "Unit": "kN/m",
+            "Value": 35.25471531817381
+          },
+          {
+            "Name": "Torsione · q anime e fondo",
+            "Unit": "kN/m",
+            "Value": 35.25471531817381
+          },
+          {
+            "Name": "Torsione · q soletta e connessione",
+            "Unit": "kN/m",
+            "Value": 0
+          },
+          {
+            "Name": "Torsione · τ anime",
+            "Unit": "MPa",
+            "Value": 2.5181939512981293
+          },
+          {
+            "Name": "Torsione · τ fondo",
+            "Unit": "MPa",
+            "Value": 1.4101886127269523
+          },
+          {
+            "Name": "Controvento superiore · q",
+            "Unit": "kN/m",
+            "Value": 35.25471531817381
+          },
+          {
+            "Name": "Appoggio · coppia degli apparecchi T/e_b",
+            "Unit": "kN",
+            "Value": 400
+          }
+        ],
+        "Distortion": null,
+        "Flows": [
+          {
+            "CellArea": 2836500,
+            "Closed": true,
+            "Flow": 35.25471531817381,
+            "Kind": "Solo acciaio",
+            "Phase": "G1 · getto",
+            "TorqueKNm": 200,
+            "TorsionConstant": 41978572083.704605
+          }
+        ],
+        "SlabFlow": 0,
+        "WebFlow": 35.25471531817381
+      },
+      "Warnings": [
+        "Cassoncino con due anime inclinate di 7.9° e due piattabande superiori: flessione retta, taglio ripartito in parti uguali sulle anime (V/(2 cos α) nel piano di ciascuna), fondo come lamiera interna tra le anime (kσ interno) più gli sbalzi esterni. Torsione della cella chiusa, distorsione e diaframmi verificati con le opzioni del cassoncino; irrigidimenti longitudinali del fondo e instabilità del fondo compresso come piastra irrigidita non sono verificati.",
+        "EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.",
+        "Controvento superiore: le aste vanno verificate con il flusso q delle fasi di solo acciaio (taglio del campo di controvento = q × lunghezza del campo); qui è solo riportato.",
+        "Distorsione analizzata solo nelle situazioni con la soletta: cella chiusa dalla soletta.",
+        "Apparecchi d'appoggio non allineati alle anime: flessione del diaframma d'appoggio tra apparecchio e anima non verificata.",
+        "Torsione del cassoncino: cella chiusa di Bredt, q = T/(2A0) tra i piani medi della soletta (del controvento nelle fasi di solo acciaio) e del fondo, indipendente dalla rigidezza delle pareti; J con la soletta hc/nG, dimezzata se fessurata (EN 1994-2 §§5.4.2.2(11), 5.4.2.3(6)). q si somma al taglio nelle anime (EN 1993-1-1 §6.2.7(9)), nel fondo, nei pioli e nelle superfici a–a/b–b interne alla cella (EN 1994-2 §6.6.2.1). Torsione non uniforme e distorsione della sezione aperta esclusa."
+      ]
+    },
+    {
+      "Contributions": [
+        {
+          "Area": 104096.55301176506,
+          "Centroid": -1060.361242317844,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 0,
+          "EffectivePhi": 0,
+          "EquilibriumResidual": 0,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": false,
+          "HomogenizationN": 0,
+          "Inertia": 58855835240.87146,
+          "IsShrinkage": false,
+          "Kind": "Solo acciaio",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -1032.8929280509494,
+          "MomentAtInterface": 1500,
+          "Mx": 1500,
+          "N": 0,
+          "N0": 0,
+          "Name": "G1 · getto",
+          "NeutralAxis": -1060.361242317844,
+          "Phi": 0,
+          "RebarArea": 0,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 58855835240.87146,
+          "StressSlope": -0.025486003110161453,
+          "UniformStress": 0,
+          "V": 300,
+          "WBottom": 74066152.2885509,
+          "WTop": 55505456.90657126
+        },
+        {
+          "Area": 158437.58940804636,
+          "Centroid": -653.8052056336359,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 15,
+          "EffectivePhi": 2.2,
+          "EquilibriumResidual": 1.1848695383205324E-15,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": true,
+          "HomogenizationN": 19.719961174917472,
+          "Inertia": 109315140954.34612,
+          "IsShrinkage": false,
+          "Kind": "Composta",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -646.5503621976044,
+          "MomentAtInterface": 2000,
+          "Mx": 2000,
+          "N": 0,
+          "N0": 6.162487867161709,
+          "Name": "G2 · permanenti",
+          "NeutralAxis": -653.8052056336355,
+          "Phi": 2,
+          "RebarArea": 9650.972631827846,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 109312006930.65852,
+          "StressSlope": -0.01829625176737163,
+          "UniformStress": 7.105427357601002E-15,
+          "V": 600,
+          "WBottom": 91005340.23876649,
+          "WTop": 167198333.71226105
+        }
+      ],
+      "Effective": {
+        "Bottom": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 642.9331770470492,
+          "EffectiveAtStart": 642.9331770470492,
+          "EndStress": 41.13497185718713,
+          "KSigma": 0,
+          "Lambda": 0,
+          "Psi": 0,
+          "Rho": 1,
+          "StartStress": 41.13497185718713,
+          "Thickness": 25,
+          "Width": 1285.8663540940984
+        },
+        "BottomOutstand": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 42.933177047049156,
+          "EndStress": 41.13497185718713,
+          "KSigma": 0.43,
+          "Lambda": 0.1133393444212609,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": 41.13497185718713,
+          "Thickness": 25,
+          "Width": 42.933177047049156
+        },
+        "BottomWidth": 1400,
+        "SecondBottom": null,
+        "SecondBottomWidth": 0,
+        "Top": {
+          "CompressedWidth": 217.93317704704916,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 217.93317704704916,
+          "EndStress": -38.98655456869841,
+          "KSigma": 0.43,
+          "Lambda": 0.5753220495908495,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": -38.98655456869841,
+          "Thickness": 25,
+          "Width": 217.93317704704916
+        },
+        "TopWidth": 900,
+        "Web": {
+          "CompressedWidth": 873.7265925888875,
+          "EffectiveAtEnd": 1377.8992614827207,
+          "EffectiveAtStart": 286.26338556428385,
+          "EndStress": 41.13497185718713,
+          "KSigma": 26.010986896397206,
+          "Lambda": 1.1044824812394654,
+          "Psi": -1.085584656781292,
+          "Rho": 0.8190874238933079,
+          "StartStress": -37.891998196760085,
+          "Thickness": 14,
+          "Width": 1822.2307757251824
+        },
+        "WebBottom": 1364.8699874121537,
+        "WebTop": 283.5565163361836
+      },
+      "EffectiveSteel": {
+        "Area": 104096.55301176506,
+        "Centroid": -1060.361242317844,
+        "Inertia": 58855835240.87146
+      },
+      "Iterations": 9,
+      "MaxUtilization": 0.12490423842417392,
+      "Name": "G2 · permanenti",
+      "Points": [
+        {
+          "Active": true,
+          "Contributions": [0,-0.8385537600331148
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · estradosso",
+          "Stress": -0.8385537600331148,
+          "Utilization": 0.0422800215142747,
+          "Y": 250
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-0.6066028499237772
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · intradosso",
+          "Stress": -0.6066028499237772,
+          "Utilization": 0.03058501764321566,
+          "Y": 0
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-14.96468215371653
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=205",
+          "Stress": -14.96468215371653,
+          "Utilization": 0.03824307661505335,
+          "Y": 205
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-12.17668188440276
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=45",
+          "Stress": -12.17668188440276,
+          "Utilization": 0.03111818703791816,
+          "Y": 45
+        },
+        {
+          "Active": true,
+          "Contributions": [-27.024369919607235,-11.962184649091176
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · estradosso",
+          "Stress": -38.98655456869841,
+          "Utilization": 0.11531234449896713,
+          "Y": 0
+        },
+        {
+          "Active": true,
+          "Contributions": [-26.3872198418532,-11.504778354906884
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · sommità",
+          "Stress": -37.891998196760085,
+          "Utilization": 0.11207492424393829,
+          "Y": -25
+        },
+        {
+          "Active": true,
+          "Contributions": [19.615015771988226,21.519956085198906
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · piede",
+          "Stress": 41.13497185718713,
+          "Utilization": 0.12166681816914504,
+          "Y": -1830
+        },
+        {
+          "Active": true,
+          "Contributions": [20.252165849742262,21.977362379383198
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · intradosso",
+          "Stress": 42.229528229125464,
+          "Utilization": 0.12490423842417392,
+          "Y": -1855
+        }
+      ],
+      "Residual": 2.1601553022048185E-08,
+      "Shear": {
+        "Checks": [
+          {
+            "Demand": 1202.677163538536,
+            "Name": "Anima · resistenza a taglio",
+            "Note": "min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido; anima più caricata con la torsione: V/(2 cos α) + q·hw/cos α, q = 83,84 kN/m (EN 1993-1-1 §6.2.7(9))",
+            "Ratio": 0.2848072688158424,
+            "Resistance": 4222.775523036921,
+            "Status": "Entro limite",
+            "Unit": "kN"
+          },
+          {
+            "Demand": 59.002180211567385,
+            "Name": "Anima · tensione equivalente elastica (inviluppo)",
+            "Note": "√(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata più q/tw della torsione",
+            "Ratio": 0.17451349076660777,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          }
+        ],
+        "Details": [],
+        "EquivalentStressEnvelope": 59.002180211567385,
+        "RigidEndPost": false,
+        "Stiffener": null,
+        "TauAverage": 17.80767708745548,
+        "TauMaximum": 24.42110671821063,
+        "UsesStiffeners": false,
+        "V": 900,
+        "Web": {
+          "Area": 50540.00000000001,
+          "BucklingResistance": 4222775.523036921,
+          "Chi": 0.4484228323037396,
+          "KTau": 5.34,
+          "PlasticResistance": 9865376.499732869,
+          "Resistance": 4222775.523036921,
+          "ShearArea": 50540.00000000001,
+          "Slenderness": 1.8509316212467049,
+          "TauCritical": 59.82558799701024
+        }
+      },
+      "SteelNeutralAxis": -890.4647482810303,
+      "Studs": {
+        "Checks": [
+          {
+            "Demand": 10.334017210025769,
+            "Name": "Piolo · taglio longitudinale",
+            "Note": "EN 1994-2 §6.6.3.1 / NTC §4.3.4.3.1; piattabanda più caricata: metà del flusso di flessione + q di torsione = 48,59 kN/m",
+            "Ratio": 0.09439336093734609,
+            "Resistance": 109.47822079229711,
+            "Status": "Entro limite",
+            "Unit": "kN"
+          },
+          {
+            "Demand": 110,
+            "Name": "Pioli · passo longitudinale minimo",
+            "Note": "",
+            "Ratio": 0.6111111111111112,
+            "Resistance": 180,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 180,
+            "Name": "Pioli · passo longitudinale massimo",
+            "Note": "",
+            "Ratio": 0.225,
+            "Resistance": 800,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 20,
+            "Name": "Pioli · bordo libero piattabanda",
+            "Note": "",
+            "Ratio": 0.2127659574468085,
+            "Resistance": 94,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 35,
+            "Name": "Pioli · copriferro superiore",
+            "Note": "",
+            "Ratio": 0.4666666666666667,
+            "Resistance": 75,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 33,
+            "Name": "Pioli · diametro testa",
+            "Note": "",
+            "Ratio": 0.9428571428571428,
+            "Resistance": 35,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 8.8,
+            "Name": "Pioli · spessore testa",
+            "Note": "",
+            "Ratio": 0.7333333333333334,
+            "Resistance": 12,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 22,
+            "Name": "Pioli · diametro/spessore piattabanda",
+            "Note": "Dettaglio per azioni ripetute, obbligatorio anche con verifica resistente a fatica attiva",
+            "Ratio": 0.5866666666666667,
+            "Resistance": 37.5,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 55,
+            "Name": "Pioli · passo trasversale minimo",
+            "Note": "",
+            "Ratio": 0.4583333333333333,
+            "Resistance": 120,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 30,
+            "Name": "Pioli · testa sopra armatura inferiore",
+            "Note": "EN 1994-2 §6.6.5.1",
+            "Ratio": 0.2727272727272727,
+            "Resistance": 110,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 282.16271515839253,
+            "Name": "Soletta a–a sinistra · armatura trasversale",
+            "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
+            "Ratio": 0.1337198735692962,
+            "Resistance": 2110.1030656611442,
+            "Status": "Entro limite",
+            "Unit": "mm²/m"
+          },
+          {
+            "Demand": 110.41149723589274,
+            "Name": "Soletta a–a sinistra · puntone CLS",
+            "Note": "",
+            "Ratio": 0.08630955421996696,
+            "Resistance": 1279.25,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 282.16271515839253,
+            "Name": "Soletta a–a destra · armatura trasversale",
+            "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
+            "Ratio": 0.1337198735692962,
+            "Resistance": 2110.1030656611442,
+            "Status": "Entro limite",
+            "Unit": "mm²/m"
+          },
+          {
+            "Demand": 110.41149723589274,
+            "Name": "Soletta a–a destra · puntone CLS",
+            "Note": "",
+            "Ratio": 0.08630955421996696,
+            "Resistance": 1279.25,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 404.92279404326257,
+            "Name": "Soletta b–b · gruppo 1 · armatura trasversale",
+            "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
+            "Ratio": 0.26304271119414985,
+            "Resistance": 1539.3804002589986,
+            "Status": "Entro limite",
+            "Unit": "mm²/m"
+          },
+          {
+            "Demand": 57.41120672236537,
+            "Name": "Soletta b–b · gruppo 1 · puntone CLS",
+            "Note": "",
+            "Ratio": 0.029142078847115355,
+            "Resistance": 1970.045,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 531.1324960827211,
+            "Name": "Soletta b–b · gruppo 2 · armatura trasversale",
+            "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
+            "Ratio": 0.3450300497481706,
+            "Resistance": 1539.3804002589986,
+            "Status": "Entro limite",
+            "Unit": "mm²/m"
+          },
+          {
+            "Demand": 114.82241344473074,
+            "Name": "Soletta b–b · gruppo 2 · puntone CLS",
+            "Note": "",
+            "Ratio": 0.04443445685599767,
+            "Resistance": 2584.085,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 657.3421981221795,
+            "Name": "Soletta b–b · gruppo 3 · armatura trasversale",
+            "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
+            "Ratio": 0.4270173883021913,
+            "Resistance": 1539.3804002589986,
+            "Status": "Entro limite",
+            "Unit": "mm²/m"
+          },
+          {
+            "Demand": 172.23362016709612,
+            "Name": "Soletta b–b · gruppo 3 · puntone CLS",
+            "Note": "",
+            "Ratio": 0.05385456170946918,
+            "Resistance": 3198.125,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 464.3927325911043,
+            "Name": "Ancoraggio trasversale sup",
+            "Note": "EN 1992-1-1 §8.4, minimo aggiuntivo NTC 20Ø/150 mm quando selezionate; barra a fyd, α1…α5=1; lunghezza disponibile minima oltre ogni superficie, entrambi i lati",
+            "Ratio": 0.6634181894158633,
+            "Resistance": 700,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 406.34364101721627,
+            "Name": "Ancoraggio trasversale inf",
+            "Note": "EN 1992-1-1 §8.4, minimo aggiuntivo NTC 20Ø/150 mm quando selezionate; barra a fyd, α1…α5=1; lunghezza disponibile minima oltre ogni superficie, entrambi i lati",
+            "Ratio": 0.5804909157388803,
+            "Resistance": 700,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 41.66965782769624,
+            "Name": "Fatica pioli · ΔτE,2",
+            "Note": "EN 1994-2 §§6.8.3, 6.8.7.2; inviluppo a 2 milioni di cicli indipendente dalle fasi",
+            "Ratio": 0.5787452476068923,
+            "Resistance": 72,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 45,
+            "Name": "Fatica flangia · categoria 80",
+            "Note": "",
+            "Ratio": 0.7593750000000001,
+            "Resistance": 59.25925925925925,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 1.3381202476068923,
+            "Name": "Fatica · interazione flangia/piolo",
+            "Note": "Intervalli assegnati come inviluppo dei casi fessurati/non fessurati e delle coppie concomitanti",
+            "Ratio": 1.029323267389917,
+            "Resistance": 1.3,
+            "Status": "Non verificato",
+            "Unit": "—"
+          }
+        ],
+        "Contributions": [
+          {
+            "AdditionalFlow": 0,
+            "Basis": "Nessuno scorrimento da V",
+            "Flow": 0,
+            "Inertia": 0,
+            "Kind": "Solo acciaio",
+            "Phase": "G1 · getto",
+            "StaticMoment": 0,
+            "V": 300
+          },
+          {
+            "AdditionalFlow": 15,
+            "Basis": "NTC: proprietà della fase tensionale",
+            "Flow": 232.28849172481353,
+            "Inertia": 109315140954.34612,
+            "Kind": "Composta",
+            "Phase": "G2 · permanenti",
+            "StaticMoment": 42321082.02495076,
+            "V": 600
+          }
+        ],
+        "Details": [
+          {
+            "Name": "Soletta a–a sinistra · superficie",
+            "Unit": "mm",
+            "Value": 250
+          },
+          {
+            "Name": "Soletta a–a sinistra · qEd",
+            "Unit": "kN/m",
+            "Value": 110.41149723589274
+          },
+          {
+            "Name": "Soletta a–a sinistra · As minimo",
+            "Unit": "mm²/m",
+            "Value": 262.93687924887183
+          },
+          {
+            "Name": "Soletta a–a destra · superficie",
+            "Unit": "mm",
+            "Value": 250
+          },
+          {
+            "Name": "Soletta a–a destra · qEd",
+            "Unit": "kN/m",
+            "Value": 110.41149723589274
+          },
+          {
+            "Name": "Soletta a–a destra · As minimo",
+            "Unit": "mm²/m",
+            "Value": 262.93687924887183
+          },
+          {
+            "Name": "Soletta · flusso torsionale sommato (a–a interne, b–b)",
+            "Unit": "kN/m",
+            "Value": 48.589374304689365
+          },
+          {
+            "Name": "Soletta b–b · gruppo 1 · superficie",
+            "Unit": "mm",
+            "Value": 385
+          },
+          {
+            "Name": "Soletta b–b · gruppo 1 · qEd",
+            "Unit": "kN/m",
+            "Value": 57.41120672236537
+          },
+          {
+            "Name": "Soletta b–b · gruppo 1 · As minimo",
+            "Unit": "mm²/m",
+            "Value": 404.92279404326257
+          },
+          {
+            "Name": "Soletta b–b · gruppo 2 · superficie",
+            "Unit": "mm",
+            "Value": 505
+          },
+          {
+            "Name": "Soletta b–b · gruppo 2 · qEd",
+            "Unit": "kN/m",
+            "Value": 114.82241344473074
+          },
+          {
+            "Name": "Soletta b–b · gruppo 2 · As minimo",
+            "Unit": "mm²/m",
+            "Value": 531.1324960827211
+          },
+          {
+            "Name": "Soletta b–b · gruppo 3 · superficie",
+            "Unit": "mm",
+            "Value": 625
+          },
+          {
+            "Name": "Soletta b–b · gruppo 3 · qEd",
+            "Unit": "kN/m",
+            "Value": 172.23362016709612
+          },
+          {
+            "Name": "Soletta b–b · gruppo 3 · As minimo",
+            "Unit": "mm²/m",
+            "Value": 657.3421981221795
+          },
+          {
+            "Name": "Fatica · ΔqE,2 = λv φ Δq",
+            "Unit": "kN/m",
+            "Value": 264
+          }
+        ],
+        "Enabled": true,
+        "Flow": 247.28849172481353,
+        "ForcePerStud": 10.334017210025769,
+        "Resistance": {
+          "Alpha": 1,
+          "ConcreteResistance": 122630.6350980727,
+          "Resistance": 109478.22079229711,
+          "SteelResistance": 109478.22079229711,
+          "UsedFu": 450
+        },
+        "ResistancePerLength": 3649.274026409904,
+        "ResistancePerStud": 109.47822079229711
+      },
+      "Torsion": {
+        "BottomFlow": 83.84408962286318,
+        "BracingFlow": 35.25471531817381,
+        "Checks": [
+          {
+            "Demand": 66.85289590839137,
+            "Name": "Distorsione · nodo anima–fondo (σx, σz, τ)",
+            "Note": "EN 1993-1-1 §6.2.1(5): σx con σdw, flessione trasversale σz = 6m/t² del telaio distorto (segno sfavorevole), τ di taglio e torsione; anima e fondo",
+            "Ratio": 0.1977339174755238,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 54.78707233990079,
+            "Name": "Distorsione · nodo anima–piattabanda superiore",
+            "Note": "Anima sotto la piattabanda superiore: σx con σdw, σz = 6m/tw² con il momento d'angolo al piano medio della soletta (cautelativo)",
+            "Ratio": 0.16204627030111501,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 116.49279214675931,
+            "Name": "Diaframma intermedio · diagonale compressa",
+            "Note": "EN 1993-1-1 §6.3.1, curva c, Lcr = 0,90·L = 2264,88 mm, λ̄ = 0,93; collegamenti non verificati",
+            "Ratio": 0.19323170080109933,
+            "Resistance": 602.8658427359687,
+            "Status": "Entro limite",
+            "Unit": "kN"
+          },
+          {
+            "Demand": 60.58119120389298,
+            "Name": "Fondo · tensione equivalente (σ, τ torsione + taglio)",
+            "Note": "√(σ² + 3τ²) al nodo con le anime: τ = q/tb + τ di taglio del fondo; σ con σdw",
+            "Ratio": 0.17918380496926092,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 6.742245937259636,
+            "Name": "Fondo · imbozzamento a taglio",
+            "Note": "EN 1993-1-5 §5 e §7.1(5): τ medio del pannello (≥ metà del massimo), η = 1, a = 5000,00 mm, χw = 1,00",
+            "Ratio": 0.036185081049308135,
+            "Resistance": 186.32667778392468,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.17150303039758452,
+            "Name": "Fondo · interazione σ–τ",
+            "Note": "EN 1993-1-5 §7.1(5): η1 + (2η3 − 1)² con Mf,Rd = 0, η1 = σ/(fy/γM0) sulla sezione efficace",
+            "Ratio": 0.17150303039758452,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 48.589374304689365,
+            "Name": "Soletta · armatura longitudinale per torsione",
+            "Note": "EN 1992-1-1 §6.3.2(3): trazione q·cotθ (cotθ = 1,00) contro la compressione disponibile del CLS e la capacità residua delle barre oltre la flessione",
+            "Ratio": 0.0395143716995084,
+            "Resistance": 1229.663340573725,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 7.050943063634761,
+            "Name": "Diaframma d'appoggio · taglio da torsione",
+            "Note": "τ = T/(2 A0 tD), A0 della cella in acciaio (2,84 m²); EN 1993-1-5 §5 con η = 1, χw = 0,94; aperture non considerate",
+            "Ratio": 0.04009060031121701,
+            "Resistance": 175.87521785404562,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          }
+        ],
+        "Details": [
+          {
+            "Name": "Torsione · G1 · getto · T",
+            "Unit": "kNm",
+            "Value": 200
+          },
+          {
+            "Name": "Torsione · G1 · getto · A0",
+            "Unit": "m²",
+            "Value": 2.8365
+          },
+          {
+            "Name": "Torsione · G1 · getto · J (acciaio)",
+            "Unit": "m⁴",
+            "Value": 0.041978572083704604
+          },
+          {
+            "Name": "Torsione · G1 · getto · q = T/(2A0)",
+            "Unit": "kN/m",
+            "Value": 35.25471531817381
+          },
+          {
+            "Name": "Torsione · G2 · permanenti · T",
+            "Unit": "kNm",
+            "Value": 300
+          },
+          {
+            "Name": "Torsione · G2 · permanenti · A0",
+            "Unit": "m²",
+            "Value": 3.0870947022160666
+          },
+          {
+            "Name": "Torsione · G2 · permanenti · J (acciaio)",
+            "Unit": "m⁴",
+            "Value": 0.08115890708023989
+          },
+          {
+            "Name": "Torsione · G2 · permanenti · q = T/(2A0)",
+            "Unit": "kN/m",
+            "Value": 48.589374304689365
+          },
+          {
+            "Name": "Torsione · q anime e fondo",
+            "Unit": "kN/m",
+            "Value": 83.84408962286318
+          },
+          {
+            "Name": "Torsione · q soletta e connessione",
+            "Unit": "kN/m",
+            "Value": 48.589374304689365
+          },
+          {
+            "Name": "Torsione · τ anime",
+            "Unit": "MPa",
+            "Value": 5.988863544490227
+          },
+          {
+            "Name": "Torsione · τ fondo",
+            "Unit": "MPa",
+            "Value": 3.3537635849145273
+          },
+          {
+            "Name": "Controvento superiore · q",
+            "Unit": "kN/m",
+            "Value": 35.25471531817381
+          },
+          {
+            "Name": "Distorsione · I_Dw",
+            "Unit": "m⁶",
+            "Value": 0.010775323872479495
+          },
+          {
+            "Name": "Distorsione · K telaio",
+            "Unit": "kN·m/m",
+            "Value": 605.7437097396053
+          },
+          {
+            "Name": "Distorsione · K_D diaframma",
+            "Unit": "MN·m",
+            "Value": 755.9382150658996
+          },
+          {
+            "Name": "Distorsione · carico generalizzato di T unitario",
+            "Unit": "—",
+            "Value": 0.34140484246912317
+          },
+          {
+            "Name": "Distorsione · diaframmi intermedi",
+            "Unit": "—",
+            "Value": 7
+          },
+          {
+            "Name": "Distorsione · λ·L_D",
+            "Unit": "—",
+            "Value": 0.45223568423318056
+          },
+          {
+            "Name": "Distorsione · ψ massimo",
+            "Unit": "rad",
+            "Value": 0.00046229629764796845
+          },
+          {
+            "Name": "Distorsione · σdw fondo",
+            "Unit": "MPa",
+            "Value": 15.754829667200731
+          },
+          {
+            "Name": "Distorsione · σdw piattabande superiori",
+            "Unit": "MPa",
+            "Value": 1.9923337850793654
+          },
+          {
+            "Name": "Distorsione · σdw soletta",
+            "Unit": "MPa",
+            "Value": 0.3233002365320657
+          },
+          {
+            "Name": "Distorsione · momento trasversale nodi inferiori",
+            "Unit": "kNm/m",
+            "Value": 0.07240016779480886
+          },
+          {
+            "Name": "Distorsione · momento trasversale nodi superiori",
+            "Unit": "kNm/m",
+            "Value": 0.06661090805564342
+          },
+          {
+            "Name": "Distorsione · σdw / σ flessione fondo",
+            "Unit": "—",
+            "Value": 0.373076146664947
+          },
+          {
+            "Name": "Diaframma intermedio · N diagonale",
+            "Unit": "kN",
+            "Value": 116.49279214675931
+          },
+          {
+            "Name": "Diaframma intermedio · ψ",
+            "Unit": "rad",
+            "Value": 0.0003666805625635767
+          },
+          {
+            "Name": "Appoggio · coppia degli apparecchi T/e_b",
+            "Unit": "kN",
+            "Value": 400
+          }
+        ],
+        "Distortion": {
+          "Amplitude": 0.00046229629764796845,
+          "BendingRatio": 0.373076146664947,
+          "CornerMomentBottom": 72.40016779480887,
+          "CornerMomentTop": 66.61090805564342,
+          "DiaphragmAmplitude": 0.0003666805625635767,
+          "DiaphragmStiffness": 755938215065.8997,
+          "Diaphragms": 7,
+          "FrameStiffness": 605743.7097396053,
+          "Included": true,
+          "Moment": 278629979436.81213,
+          "TorqueLoad": 0.34140484246912317,
+          "WarpingInertia": 10775323872479494,
+          "WarpingStressBottom": 15.754829667200731,
+          "WarpingStressTop": 1.9923337850793654
+        },
+        "Flows": [
+          {
+            "CellArea": 2836500,
+            "Closed": true,
+            "Flow": 35.25471531817381,
+            "Kind": "Solo acciaio",
+            "Phase": "G1 · getto",
+            "TorqueKNm": 200,
+            "TorsionConstant": 41978572083.704605
+          },
+          {
+            "CellArea": 3087094.7022160664,
+            "Closed": true,
+            "Flow": 48.589374304689365,
+            "Kind": "Composta",
+            "Phase": "G2 · permanenti",
+            "TorqueKNm": 300,
+            "TorsionConstant": 81158907080.23988
+          }
+        ],
+        "SlabFlow": 48.589374304689365,
+        "WebFlow": 83.84408962286318
+      },
+      "Warnings": [
+        "Cassoncino con due anime inclinate di 7.9° e due piattabande superiori: flessione retta, taglio ripartito in parti uguali sulle anime (V/(2 cos α) nel piano di ciascuna), fondo come lamiera interna tra le anime (kσ interno) più gli sbalzi esterni. Torsione della cella chiusa, distorsione e diaframmi verificati con le opzioni del cassoncino; irrigidimenti longitudinali del fondo e instabilità del fondo compresso come piastra irrigidita non sono verificati.",
+        "EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.",
+        "Controvento superiore: le aste vanno verificate con il flusso q delle fasi di solo acciaio (taglio del campo di controvento = q × lunghezza del campo); qui è solo riportato.",
+        "Distorsione: σdw = 37,31% della σ di flessione del fondo; oltre il 10% è sommata nelle verifiche del fondo (EN 1993-2 §6.2.7(3)).",
+        "Distorsione: analogia della trave su suolo elastico (Wright et al., 1968) sulla campata semplicemente appoggiata con diaframmi d'estremità rigidi; m_t su tutta la luce e T_c nella posizione più sfavorevole, dello stesso segno, applicati come coppie verticali alla sommità delle anime. Cella composta con la soletta a breve termine; accoppiamento con l'ingobbamento torsionale trascurato; inviluppi lungo la campata, indipendenti dalle fasi.",
+        "Apparecchi d'appoggio non allineati alle anime: flessione del diaframma d'appoggio tra apparecchio e anima non verificata.",
+        "Torsione del cassoncino: cella chiusa di Bredt, q = T/(2A0) tra i piani medi della soletta (del controvento nelle fasi di solo acciaio) e del fondo, indipendente dalla rigidezza delle pareti; J con la soletta hc/nG, dimezzata se fessurata (EN 1994-2 §§5.4.2.2(11), 5.4.2.3(6)). q si somma al taglio nelle anime (EN 1993-1-1 §6.2.7(9)), nel fondo, nei pioli e nelle superfici a–a/b–b interne alla cella (EN 1994-2 §6.6.2.1). Torsione non uniforme e distorsione della sezione aperta esclusa.",
+        "Connessione: soletta piena, pioli verticali standard. I controlli di armatura assumono barre effettivamente ancorate e superfici a–a/b–b. Sollevamento imposto, torsione e splitting attraverso lo spessore richiedono un modello dedicato.",
+        "Cassoncino: pioli e superfici della soletta per ciascuna delle due piattabande superiori, con metà del flusso di scorrimento più il flusso torsionale q (le superfici a–a interne alla cella e b–b); la fatica dei pioli usa i flussi assegnati per piattabanda."
+      ]
+    },
+    {
+      "Contributions": [
+        {
+          "Area": 108522.46172030512,
+          "Centroid": -1032.8929280509492,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 0,
+          "EffectivePhi": 0,
+          "EquilibriumResidual": 0,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": false,
+          "HomogenizationN": 0,
+          "Inertia": 60790705330.94203,
+          "IsShrinkage": false,
+          "Kind": "Solo acciaio",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -1032.8929280509494,
+          "MomentAtInterface": 1500,
+          "Mx": 1500,
+          "N": 0,
+          "N0": 0,
+          "Name": "G1 · getto",
+          "NeutralAxis": -1032.8929280509492,
+          "Phi": 0,
+          "RebarArea": 0,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 60790705330.94203,
+          "StressSlope": -0.02467482474227044,
+          "UniformStress": 0,
+          "V": 300,
+          "WBottom": 73944997.44032061,
+          "WTop": 58854798.672746286
+        },
+        {
+          "Area": 162863.49811658642,
+          "Centroid": -646.5503621976044,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 15,
+          "EffectivePhi": 2.2,
+          "EquilibriumResidual": 1.2179685297134824E-15,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": true,
+          "HomogenizationN": 19.719961174917472,
+          "Inertia": 109631039521.24893,
+          "IsShrinkage": false,
+          "Kind": "Composta",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -646.5503621976044,
+          "MomentAtInterface": 2000,
+          "Mx": 2000,
+          "N": 0,
+          "N0": 6.162487867161709,
+          "Name": "G2 · permanenti",
+          "NeutralAxis": -646.550362197604,
+          "Phi": 2,
+          "RebarArea": 9650.972631827846,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 109627905497.56134,
+          "StressSlope": -0.018243530157059245,
+          "UniformStress": 7.105427357601002E-15,
+          "V": 600,
+          "WBottom": 90720404.13750009,
+          "WTop": 169563031.6385818
+        },
+        {
+          "Area": 262192.69267409935,
+          "Centroid": -354.255884971634,
+          "ConcreteStressOffset": 0,
+          "ConnectionFlowExtra": 0,
+          "EffectivePhi": 0,
+          "EquilibriumResidual": 3.267996943154704E-15,
+          "EquivalentMomentAtInterface": 0,
+          "EquivalentN": 0,
+          "HasConcrete": true,
+          "HomogenizationN": 6.162487867161709,
+          "Inertia": 146876040202.91946,
+          "IsShrinkage": false,
+          "Kind": "Composta",
+          "LoadReference": "Baricentro omogeneizzato lordo",
+          "LoadY": -354.2558849716341,
+          "MomentAtInterface": 3000,
+          "Mx": 3000,
+          "N": 0,
+          "N0": 6.162487867161709,
+          "Name": "Q · traffico",
+          "NeutralAxis": -354.2558849716331,
+          "Phi": 0,
+          "RebarArea": 9650.972631827846,
+          "RebarRatio": 0.9523809523809523,
+          "ShrinkageStrain": 0,
+          "SolverInertia": 146872923406.15405,
+          "StressSlope": -0.020425820705590285,
+          "UniformStress": 1.7763568394002505E-14,
+          "V": 500,
+          "WBottom": 97868809.700542,
+          "WTop": 414604376.1973923
+        }
+      ],
+      "Effective": {
+        "Bottom": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 642.9331770470492,
+          "EffectiveAtStart": 642.9331770470492,
+          "EndStress": 71.40206115867547,
+          "KSigma": 0,
+          "Lambda": 0,
+          "Psi": 0,
+          "Rho": 1,
+          "StartStress": 71.40206115867547,
+          "Thickness": 25,
+          "Width": 1285.8663540940984
+        },
+        "BottomOutstand": {
+          "CompressedWidth": 0,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 42.933177047049156,
+          "EndStress": 71.40206115867547,
+          "KSigma": 0.43,
+          "Lambda": 0.1133393444212609,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": 71.40206115867547,
+          "Thickness": 25,
+          "Width": 42.933177047049156
+        },
+        "BottomWidth": 1400,
+        "SecondBottom": null,
+        "SecondBottomWidth": 0,
+        "Top": {
+          "CompressedWidth": 217.93317704704916,
+          "EffectiveAtEnd": 0,
+          "EffectiveAtStart": 217.93317704704916,
+          "EndStress": -44.51778019832808,
+          "KSigma": 0.43,
+          "Lambda": 0.5753220495908495,
+          "Psi": 1,
+          "Rho": 1,
+          "StartStress": -44.51778019832808,
+          "Thickness": 25,
+          "Width": 217.93317704704916
+        },
+        "TopWidth": 900,
+        "Web": {
+          "CompressedWidth": 684.2623000682565,
+          "EffectiveAtEnd": 1548.5258556978797,
+          "EffectiveAtStart": 273.70492002730265,
+          "EndStress": 71.40206115867547,
+          "KSigma": 42.40945706672126,
+          "Lambda": 0.8649796508524212,
+          "Psi": -1.6630588526408823,
+          "Rho": 1,
+          "StartStress": -42.93417580820508,
+          "Thickness": 14,
+          "Width": 1822.2307757251824
+        },
+        "WebBottom": 1533.8831978744997,
+        "WebTop": 271.1168021255005
+      },
+      "EffectiveSteel": {
+        "Area": 108522.46172030512,
+        "Centroid": -1032.8929280509492,
+        "Inertia": 60790705330.94203
+      },
+      "Iterations": 4,
+      "MaxUtilization": 0.21587309528517856,
+      "Name": "Q · traffico",
+      "Points": [
+        {
+          "Active": true,
+          "Contributions": [0,-0.8294257491175221,-2.0028311021102234
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · estradosso",
+          "Stress": -2.8322568512277453,
+          "Utilization": 0.14280286644845774,
+          "Y": 250
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-0.5981432177367829,-1.1741957706544748
+          ],
+          "Limit": 19.833333333333332,
+          "Material": "CLS",
+          "Name": "Soletta · intradosso",
+          "Stress": -1.7723389883912577,
+          "Utilization": 0.08936162966678611,
+          "Y": 0
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-14.795509250482581,-10.879295652358861
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=205",
+          "Stress": -25.674804902841444,
+          "Utilization": 0.06561339030726146,
+          "Y": 205
+        },
+        {
+          "Active": true,
+          "Contributions": [0,-12.015542750359268,-7.766789640078435
+          ],
+          "Limit": 391.304347826087,
+          "Material": "Armatura",
+          "Name": "Armatura · y=45",
+          "Stress": -19.782332390437702,
+          "Utilization": 0.050554849442229675,
+          "Y": 45
+        },
+        {
+          "Active": true,
+          "Contributions": [-25.486451977187723,-11.795361030809566,-7.235967190330793
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · estradosso",
+          "Stress": -44.51778019832808,
+          "Utilization": 0.13167230762885773,
+          "Y": 0
+        },
+        {
+          "Active": true,
+          "Contributions": [-24.869581358630963,-11.339272776883085,-6.725321672691036
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · sommità",
+          "Stress": -42.93417580820508,
+          "Utilization": 0.1269884073200432,
+          "Y": -25
+        },
+        {
+          "Active": true,
+          "Contributions": [19.668477301167183,21.59029915660885,30.143284700899425
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Anima · piede",
+          "Stress": 71.40206115867547,
+          "Utilization": 0.21118919497636407,
+          "Y": -1830
+        },
+        {
+          "Active": true,
+          "Contributions": [20.285347919723943,22.04638741053533,30.653930218539184
+          ],
+          "Limit": 338.0952380952381,
+          "Material": "Acciaio",
+          "Name": "Acciaio · intradosso",
+          "Stress": 72.98566554879847,
+          "Utilization": 0.21587309528517856,
+          "Y": -1855
+        }
+      ],
+      "Residual": 0,
+      "Shear": {
+        "Checks": [
+          {
+            "Demand": 2287.3693010049647,
+            "Name": "Anima · resistenza a taglio",
+            "Note": "min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido; anima più caricata con la torsione: V/(2 cos α) + q·hw/cos α, q = 245,81 kN/m (EN 1993-1-1 §6.2.7(9))",
+            "Ratio": 0.541674377083616,
+            "Resistance": 4222.775523036921,
+            "Status": "Entro limite",
+            "Unit": "kN"
+          },
+          {
+            "Demand": 106.6939973161734,
+            "Name": "Anima · tensione equivalente elastica (inviluppo)",
+            "Note": "√(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata più q/tw della torsione",
+            "Ratio": 0.31557379487882276,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.16924009625622044,
+            "Name": "Interazione M–V · classe 4",
+            "Note": "EC4 §6.2.2.4(3), EC3 §7.1: Mpl=38406,97 kNm; Mf=23779,60 kNm. Sezione composta; armature omesse a favore di sicurezza; anima intera. N=0, fy≤355.",
+            "Ratio": 0.16924009625622044,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          }
+        ],
+        "Details": [],
+        "EquivalentStressEnvelope": 106.6939973161734,
+        "RigidEndPost": false,
+        "Stiffener": null,
+        "TauAverage": 27.700831024930746,
+        "TauMaximum": 45.77246161028988,
+        "UsesStiffeners": false,
+        "V": 1400,
+        "Web": {
+          "Area": 50540.00000000001,
+          "BucklingResistance": 4222775.523036921,
+          "Chi": 0.4484228323037396,
+          "KTau": 5.34,
+          "PlasticResistance": 9865376.499732869,
+          "Resistance": 4222775.523036921,
+          "ShearArea": 50540.00000000001,
+          "Slenderness": 1.8509316212467049,
+          "TauCritical": 59.82558799701024
+        }
+      },
+      "SteelNeutralAxis": -702.7920053137508,
+      "Studs": {
+        "Checks": [
+          {
+            "Demand": 27.488463191857463,
+            "Name": "Piolo · taglio longitudinale",
+            "Note": "EN 1994-2 §6.6.3.1 / NTC §4.3.4.3.1; piattabanda più caricata: metà del flusso di flessione + q di torsione = 210,55 kN/m",
+            "Ratio": 0.25108613378005823,
+            "Resistance": 109.47822079229711,
+            "Status": "Entro limite",
+            "Unit": "kN"
+          },
+          {
+            "Demand": 110,
+            "Name": "Pioli · passo longitudinale minimo",
+            "Note": "",
+            "Ratio": 0.6111111111111112,
+            "Resistance": 180,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 180,
+            "Name": "Pioli · passo longitudinale massimo",
+            "Note": "",
+            "Ratio": 0.225,
+            "Resistance": 800,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 20,
+            "Name": "Pioli · bordo libero piattabanda",
+            "Note": "",
+            "Ratio": 0.2127659574468085,
+            "Resistance": 94,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 35,
+            "Name": "Pioli · copriferro superiore",
+            "Note": "",
+            "Ratio": 0.4666666666666667,
+            "Resistance": 75,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 33,
+            "Name": "Pioli · diametro testa",
+            "Note": "",
+            "Ratio": 0.9428571428571428,
+            "Resistance": 35,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 8.8,
+            "Name": "Pioli · spessore testa",
+            "Note": "",
+            "Ratio": 0.7333333333333334,
+            "Resistance": 12,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 22,
+            "Name": "Pioli · diametro/spessore piattabanda",
+            "Note": "Dettaglio per azioni ripetute, obbligatorio anche con verifica resistente a fatica attiva",
+            "Ratio": 0.5866666666666667,
+            "Resistance": 37.5,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 55,
+            "Name": "Pioli · passo trasversale minimo",
+            "Note": "",
+            "Ratio": 0.4583333333333333,
+            "Resistance": 120,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 30,
+            "Name": "Pioli · testa sopra armatura inferiore",
+            "Note": "EN 1994-2 §6.6.5.1",
+            "Ratio": 0.2727272727272727,
+            "Resistance": 110,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 854.443621995152,
+            "Name": "Soletta a–a sinistra · armatura trasversale",
+            "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
+            "Ratio": 0.40492980456735883,
+            "Resistance": 2110.1030656611442,
+            "Status": "Entro limite",
+            "Unit": "mm²/m"
+          },
+          {
+            "Demand": 334.3475042589725,
+            "Name": "Soletta a–a sinistra · puntone CLS",
+            "Note": "",
+            "Ratio": 0.2613621295751202,
+            "Resistance": 1279.25,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 854.443621995152,
+            "Name": "Soletta a–a destra · armatura trasversale",
+            "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
+            "Ratio": 0.40492980456735883,
+            "Resistance": 2110.1030656611442,
+            "Status": "Entro limite",
+            "Unit": "mm²/m"
+          },
+          {
+            "Demand": 334.3475042589725,
+            "Name": "Soletta a–a destra · puntone CLS",
+            "Note": "",
+            "Ratio": 0.2613621295751202,
+            "Resistance": 1279.25,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 404.92279404326257,
+            "Name": "Soletta b–b · gruppo 1 · armatura trasversale",
+            "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
+            "Ratio": 0.26304271119414985,
+            "Resistance": 1539.3804002589986,
+            "Status": "Entro limite",
+            "Unit": "mm²/m"
+          },
+          {
+            "Demand": 152.71368439920812,
+            "Name": "Soletta b–b · gruppo 1 · puntone CLS",
+            "Note": "",
+            "Ratio": 0.07751786603819107,
+            "Resistance": 1970.045,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 780.5366091515082,
+            "Name": "Soletta b–b · gruppo 2 · armatura trasversale",
+            "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
+            "Ratio": 0.5070459575944867,
+            "Resistance": 1539.3804002589986,
+            "Status": "Entro limite",
+            "Unit": "mm²/m"
+          },
+          {
+            "Demand": 305.42736879841624,
+            "Name": "Soletta b–b · gruppo 2 · puntone CLS",
+            "Note": "",
+            "Ratio": 0.11819555811763786,
+            "Resistance": 2584.085,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 1170.8049137272621,
+            "Name": "Soletta b–b · gruppo 3 · armatura trasversale",
+            "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
+            "Ratio": 0.7605689363917301,
+            "Resistance": 1539.3804002589986,
+            "Status": "Entro limite",
+            "Unit": "mm²/m"
+          },
+          {
+            "Demand": 458.1410531976244,
+            "Name": "Soletta b–b · gruppo 3 · puntone CLS",
+            "Note": "",
+            "Ratio": 0.1432530164385771,
+            "Resistance": 3198.125,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 464.3927325911043,
+            "Name": "Ancoraggio trasversale sup",
+            "Note": "EN 1992-1-1 §8.4, minimo aggiuntivo NTC 20Ø/150 mm quando selezionate; barra a fyd, α1…α5=1; lunghezza disponibile minima oltre ogni superficie, entrambi i lati",
+            "Ratio": 0.6634181894158633,
+            "Resistance": 700,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 406.34364101721627,
+            "Name": "Ancoraggio trasversale inf",
+            "Note": "EN 1992-1-1 §8.4, minimo aggiuntivo NTC 20Ø/150 mm quando selezionate; barra a fyd, α1…α5=1; lunghezza disponibile minima oltre ogni superficie, entrambi i lati",
+            "Ratio": 0.5804909157388803,
+            "Resistance": 700,
+            "Status": "Entro limite",
+            "Unit": "mm"
+          },
+          {
+            "Demand": 41.66965782769624,
+            "Name": "Fatica pioli · ΔτE,2",
+            "Note": "EN 1994-2 §§6.8.3, 6.8.7.2; inviluppo a 2 milioni di cicli indipendente dalle fasi",
+            "Ratio": 0.5787452476068923,
+            "Resistance": 72,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 45,
+            "Name": "Fatica flangia · categoria 80",
+            "Note": "",
+            "Ratio": 0.7593750000000001,
+            "Resistance": 59.25925925925925,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 1.3381202476068923,
+            "Name": "Fatica · interazione flangia/piolo",
+            "Note": "Intervalli assegnati come inviluppo dei casi fessurati/non fessurati e delle coppie concomitanti",
+            "Ratio": 1.029323267389917,
+            "Resistance": 1.3,
+            "Status": "Non verificato",
+            "Unit": "—"
+          }
+        ],
+        "Contributions": [
+          {
+            "AdditionalFlow": 0,
+            "Basis": "Nessuno scorrimento da V",
+            "Flow": 0,
+            "Inertia": 0,
+            "Kind": "Solo acciaio",
+            "Phase": "G1 · getto",
+            "StaticMoment": 0,
+            "V": 300
+          },
+          {
+            "AdditionalFlow": 15,
+            "Basis": "NTC: proprietà della fase tensionale",
+            "Flow": 229.4615457273906,
+            "Inertia": 109631039521.24893,
+            "Kind": "Composta",
+            "Phase": "G2 · permanenti",
+            "StaticMoment": 41926846.313744046,
+            "V": 600
+          },
+          {
+            "AdditionalFlow": 0,
+            "Basis": "NTC: proprietà della fase tensionale",
+            "Flow": 250.71265002721708,
+            "Inertia": 146876040202.91946,
+            "Kind": "Composta",
+            "Phase": "Q · traffico",
+            "StaticMoment": 73647362.52955604,
+            "V": 500
+          }
+        ],
+        "Details": [
+          {
+            "Name": "Soletta a–a sinistra · superficie",
+            "Unit": "mm",
+            "Value": 250
+          },
+          {
+            "Name": "Soletta a–a sinistra · qEd",
+            "Unit": "kN/m",
+            "Value": 334.3475042589725
+          },
+          {
+            "Name": "Soletta a–a sinistra · As minimo",
+            "Unit": "mm²/m",
+            "Value": 262.93687924887183
+          },
+          {
+            "Name": "Soletta a–a destra · superficie",
+            "Unit": "mm",
+            "Value": 250
+          },
+          {
+            "Name": "Soletta a–a destra · qEd",
+            "Unit": "kN/m",
+            "Value": 334.3475042589725
+          },
+          {
+            "Name": "Soletta a–a destra · As minimo",
+            "Unit": "mm²/m",
+            "Value": 262.93687924887183
+          },
+          {
+            "Name": "Soletta · flusso torsionale sommato (a–a interne, b–b)",
+            "Unit": "kN/m",
+            "Value": 210.55395532032057
+          },
+          {
+            "Name": "Soletta b–b · gruppo 1 · superficie",
+            "Unit": "mm",
+            "Value": 385
+          },
+          {
+            "Name": "Soletta b–b · gruppo 1 · qEd",
+            "Unit": "kN/m",
+            "Value": 152.71368439920812
+          },
+          {
+            "Name": "Soletta b–b · gruppo 1 · As minimo",
+            "Unit": "mm²/m",
+            "Value": 404.92279404326257
+          },
+          {
+            "Name": "Soletta b–b · gruppo 2 · superficie",
+            "Unit": "mm",
+            "Value": 505
+          },
+          {
+            "Name": "Soletta b–b · gruppo 2 · qEd",
+            "Unit": "kN/m",
+            "Value": 305.42736879841624
+          },
+          {
+            "Name": "Soletta b–b · gruppo 2 · As minimo",
+            "Unit": "mm²/m",
+            "Value": 531.1324960827211
+          },
+          {
+            "Name": "Soletta b–b · gruppo 3 · superficie",
+            "Unit": "mm",
+            "Value": 625
+          },
+          {
+            "Name": "Soletta b–b · gruppo 3 · qEd",
+            "Unit": "kN/m",
+            "Value": 458.1410531976244
+          },
+          {
+            "Name": "Soletta b–b · gruppo 3 · As minimo",
+            "Unit": "mm²/m",
+            "Value": 657.3421981221795
+          },
+          {
+            "Name": "Fatica · ΔqE,2 = λv φ Δq",
+            "Unit": "kN/m",
+            "Value": 264
+          }
+        ],
+        "Enabled": true,
+        "Flow": 495.1741957546077,
+        "ForcePerStud": 27.488463191857463,
+        "Resistance": {
+          "Alpha": 1,
+          "ConcreteResistance": 122630.6350980727,
+          "Resistance": 109478.22079229711,
+          "SteelResistance": 109478.22079229711,
+          "UsedFu": 450
+        },
+        "ResistancePerLength": 3649.274026409904,
+        "ResistancePerStud": 109.47822079229711
+      },
+      "Torsion": {
+        "BottomFlow": 245.8086706384944,
+        "BracingFlow": 35.25471531817381,
+        "Checks": [
+          {
+            "Demand": 109.16130438698332,
+            "Name": "Distorsione · nodo anima–fondo (σx, σz, τ)",
+            "Note": "EN 1993-1-1 §6.2.1(5): σx con σdw, flessione trasversale σz = 6m/t² del telaio distorto (segno sfavorevole), τ di taglio e torsione; anima e fondo",
+            "Ratio": 0.32287146367980984,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 86.75805785222875,
+            "Name": "Distorsione · nodo anima–piattabanda superiore",
+            "Note": "Anima sotto la piattabanda superiore: σx con σdw, σz = 6m/tw² con il momento d'angolo al piano medio della soletta (cautelativo)",
+            "Ratio": 0.2566083401263104,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 116.49279214675931,
+            "Name": "Diaframma intermedio · diagonale compressa",
+            "Note": "EN 1993-1-1 §6.3.1, curva c, Lcr = 0,90·L = 2264,88 mm, λ̄ = 0,93; collegamenti non verificati",
+            "Ratio": 0.19323170080109933,
+            "Resistance": 602.8658427359687,
+            "Status": "Entro limite",
+            "Unit": "kN"
+          },
+          {
+            "Demand": 95.1783768251433,
+            "Name": "Fondo · tensione equivalente (σ, τ torsione + taglio)",
+            "Note": "√(σ² + 3τ²) al nodo con le anime: τ = q/tb + τ di taglio del fondo; σ con σdw",
+            "Ratio": 0.28151350891943794,
+            "Resistance": 338.0952380952381,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 14.84948405545174,
+            "Name": "Fondo · imbozzamento a taglio",
+            "Note": "EN 1993-1-5 §5 e §7.1(5): τ medio del pannello (≥ metà del massimo), η = 1, a = 5000,00 mm, χw = 1,00",
+            "Ratio": 0.07969596319788447,
+            "Resistance": 186.32667778392468,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          },
+          {
+            "Demand": 0.2624718872585892,
+            "Name": "Fondo · interazione σ–τ",
+            "Note": "EN 1993-1-5 §7.1(5): η1 + (2η3 − 1)² con Mf,Rd = 0, η1 = σ/(fy/γM0) sulla sezione efficace",
+            "Ratio": 0.2624718872585892,
+            "Resistance": 1,
+            "Status": "Entro limite",
+            "Unit": "—"
+          },
+          {
+            "Demand": 210.55395532032057,
+            "Name": "Soletta · armatura longitudinale per torsione",
+            "Note": "EN 1992-1-1 §6.3.2(3): trazione q·cotθ (cotθ = 1,00) contro la compressione disponibile del CLS e la capacità residua delle barre oltre la flessione",
+            "Ratio": 0.1296041061733225,
+            "Resistance": 1624.5932442814892,
+            "Status": "Entro limite",
+            "Unit": "kN/m"
+          },
+          {
+            "Demand": 7.050943063634761,
+            "Name": "Diaframma d'appoggio · taglio da torsione",
+            "Note": "τ = T/(2 A0 tD), A0 della cella in acciaio (2,84 m²); EN 1993-1-5 §5 con η = 1, χw = 0,94; aperture non considerate",
+            "Ratio": 0.04009060031121701,
+            "Resistance": 175.87521785404562,
+            "Status": "Entro limite",
+            "Unit": "MPa"
+          }
+        ],
+        "Details": [
+          {
+            "Name": "Torsione · G1 · getto · T",
+            "Unit": "kNm",
+            "Value": 200
+          },
+          {
+            "Name": "Torsione · G1 · getto · A0",
+            "Unit": "m²",
+            "Value": 2.8365
+          },
+          {
+            "Name": "Torsione · G1 · getto · J (acciaio)",
+            "Unit": "m⁴",
+            "Value": 0.041978572083704604
+          },
+          {
+            "Name": "Torsione · G1 · getto · q = T/(2A0)",
+            "Unit": "kN/m",
+            "Value": 35.25471531817381
+          },
+          {
+            "Name": "Torsione · G2 · permanenti · T",
+            "Unit": "kNm",
+            "Value": 300
+          },
+          {
+            "Name": "Torsione · G2 · permanenti · A0",
+            "Unit": "m²",
+            "Value": 3.0870947022160666
+          },
+          {
+            "Name": "Torsione · G2 · permanenti · J (acciaio)",
+            "Unit": "m⁴",
+            "Value": 0.08115890708023989
+          },
+          {
+            "Name": "Torsione · G2 · permanenti · q = T/(2A0)",
+            "Unit": "kN/m",
+            "Value": 48.589374304689365
+          },
+          {
+            "Name": "Torsione · Q · traffico · T",
+            "Unit": "kNm",
+            "Value": 1000
+          },
+          {
+            "Name": "Torsione · Q · traffico · A0",
+            "Unit": "m²",
+            "Value": 3.0870947022160666
+          },
+          {
+            "Name": "Torsione · Q · traffico · J (acciaio)",
+            "Unit": "m⁴",
+            "Value": 0.10097684950030358
+          },
+          {
+            "Name": "Torsione · Q · traffico · q = T/(2A0)",
+            "Unit": "kN/m",
+            "Value": 161.9645810156312
+          },
+          {
+            "Name": "Torsione · q anime e fondo",
+            "Unit": "kN/m",
+            "Value": 245.8086706384944
+          },
+          {
+            "Name": "Torsione · q soletta e connessione",
+            "Unit": "kN/m",
+            "Value": 210.55395532032057
+          },
+          {
+            "Name": "Torsione · τ anime",
+            "Unit": "MPa",
+            "Value": 17.557762188463887
+          },
+          {
+            "Name": "Torsione · τ fondo",
+            "Unit": "MPa",
+            "Value": 9.832346825539776
+          },
+          {
+            "Name": "Controvento superiore · q",
+            "Unit": "kN/m",
+            "Value": 35.25471531817381
+          },
+          {
+            "Name": "Distorsione · I_Dw",
+            "Unit": "m⁶",
+            "Value": 0.010775323872479495
+          },
+          {
+            "Name": "Distorsione · K telaio",
+            "Unit": "kN·m/m",
+            "Value": 605.7437097396053
+          },
+          {
+            "Name": "Distorsione · K_D diaframma",
+            "Unit": "MN·m",
+            "Value": 755.9382150658996
+          },
+          {
+            "Name": "Distorsione · carico generalizzato di T unitario",
+            "Unit": "—",
+            "Value": 0.34140484246912317
+          },
+          {
+            "Name": "Distorsione · diaframmi intermedi",
+            "Unit": "—",
+            "Value": 7
+          },
+          {
+            "Name": "Distorsione · λ·L_D",
+            "Unit": "—",
+            "Value": 0.45223568423318056
+          },
+          {
+            "Name": "Distorsione · ψ massimo",
+            "Unit": "rad",
+            "Value": 0.00046229629764796845
+          },
+          {
+            "Name": "Distorsione · σdw fondo",
+            "Unit": "MPa",
+            "Value": 15.754829667200731
+          },
+          {
+            "Name": "Distorsione · σdw piattabande superiori",
+            "Unit": "MPa",
+            "Value": 1.9923337850793654
+          },
+          {
+            "Name": "Distorsione · σdw soletta",
+            "Unit": "MPa",
+            "Value": 0.3233002365320657
+          },
+          {
+            "Name": "Distorsione · momento trasversale nodi inferiori",
+            "Unit": "kNm/m",
+            "Value": 0.07240016779480886
+          },
+          {
+            "Name": "Distorsione · momento trasversale nodi superiori",
+            "Unit": "kNm/m",
+            "Value": 0.06661090805564342
+          },
+          {
+            "Name": "Distorsione · σdw / σ flessione fondo",
+            "Unit": "—",
+            "Value": 0.21586197164519927
+          },
+          {
+            "Name": "Diaframma intermedio · N diagonale",
+            "Unit": "kN",
+            "Value": 116.49279214675931
+          },
+          {
+            "Name": "Diaframma intermedio · ψ",
+            "Unit": "rad",
+            "Value": 0.0003666805625635767
+          },
+          {
+            "Name": "Appoggio · coppia degli apparecchi T/e_b",
+            "Unit": "kN",
+            "Value": 400
+          }
+        ],
+        "Distortion": {
+          "Amplitude": 0.00046229629764796845,
+          "BendingRatio": 0.21586197164519927,
+          "CornerMomentBottom": 72.40016779480887,
+          "CornerMomentTop": 66.61090805564342,
+          "DiaphragmAmplitude": 0.0003666805625635767,
+          "DiaphragmStiffness": 755938215065.8997,
+          "Diaphragms": 7,
+          "FrameStiffness": 605743.7097396053,
+          "Included": true,
+          "Moment": 278629979436.81213,
+          "TorqueLoad": 0.34140484246912317,
+          "WarpingInertia": 10775323872479494,
+          "WarpingStressBottom": 15.754829667200731,
+          "WarpingStressTop": 1.9923337850793654
+        },
+        "Flows": [
+          {
+            "CellArea": 2836500,
+            "Closed": true,
+            "Flow": 35.25471531817381,
+            "Kind": "Solo acciaio",
+            "Phase": "G1 · getto",
+            "TorqueKNm": 200,
+            "TorsionConstant": 41978572083.704605
+          },
+          {
+            "CellArea": 3087094.7022160664,
+            "Closed": true,
+            "Flow": 48.589374304689365,
+            "Kind": "Composta",
+            "Phase": "G2 · permanenti",
+            "TorqueKNm": 300,
+            "TorsionConstant": 81158907080.23988
+          },
+          {
+            "CellArea": 3087094.7022160664,
+            "Closed": true,
+            "Flow": 161.9645810156312,
+            "Kind": "Composta",
+            "Phase": "Q · traffico",
+            "TorqueKNm": 1000,
+            "TorsionConstant": 100976849500.30359
+          }
+        ],
+        "SlabFlow": 210.55395532032057,
+        "WebFlow": 245.8086706384944
+      },
+      "Warnings": [
+        "Cassoncino con due anime inclinate di 7.9° e due piattabande superiori: flessione retta, taglio ripartito in parti uguali sulle anime (V/(2 cos α) nel piano di ciascuna), fondo come lamiera interna tra le anime (kσ interno) più gli sbalzi esterni. Torsione della cella chiusa, distorsione e diaframmi verificati con le opzioni del cassoncino; irrigidimenti longitudinali del fondo e instabilità del fondo compresso come piastra irrigidita non sono verificati.",
+        "EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.",
+        "Controvento superiore: le aste vanno verificate con il flusso q delle fasi di solo acciaio (taglio del campo di controvento = q × lunghezza del campo); qui è solo riportato.",
+        "Distorsione: σdw = 21,59% della σ di flessione del fondo; oltre il 10% è sommata nelle verifiche del fondo (EN 1993-2 §6.2.7(3)).",
+        "Distorsione: analogia della trave su suolo elastico (Wright et al., 1968) sulla campata semplicemente appoggiata con diaframmi d'estremità rigidi; m_t su tutta la luce e T_c nella posizione più sfavorevole, dello stesso segno, applicati come coppie verticali alla sommità delle anime. Cella composta con la soletta a breve termine; accoppiamento con l'ingobbamento torsionale trascurato; inviluppi lungo la campata, indipendenti dalle fasi.",
+        "Apparecchi d'appoggio non allineati alle anime: flessione del diaframma d'appoggio tra apparecchio e anima non verificata.",
+        "Torsione del cassoncino: cella chiusa di Bredt, q = T/(2A0) tra i piani medi della soletta (del controvento nelle fasi di solo acciaio) e del fondo, indipendente dalla rigidezza delle pareti; J con la soletta hc/nG, dimezzata se fessurata (EN 1994-2 §§5.4.2.2(11), 5.4.2.3(6)). q si somma al taglio nelle anime (EN 1993-1-1 §6.2.7(9)), nel fondo, nei pioli e nelle superfici a–a/b–b interne alla cella (EN 1994-2 §6.6.2.1). Torsione non uniforme e distorsione della sezione aperta esclusa.",
+        "Connessione: soletta piena, pioli verticali standard. I controlli di armatura assumono barre effettivamente ancorate e superfici a–a/b–b. Sollevamento imposto, torsione e splitting attraverso lo spessore richiedono un modello dedicato.",
+        "Cassoncino: pioli e superfici della soletta per ciascuna delle due piattabande superiori, con metà del flusso di scorrimento più il flusso torsionale q (le superfici a–a interne alla cella e b–b); la fatica dei pioli usa i flussi assegnati per piattabanda."
+      ]
+    }
+  ]
+}

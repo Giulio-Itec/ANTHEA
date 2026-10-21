@@ -1,0 +1,1994 @@
+# word/document.xml
+¶ Relazione della sezione composta da ponte
+¶ Fixture F3 · str_mista_ponte · irrigidimenti-appoggio-piastra2
+¶ ANTHEA · <DATA> <ORA>
+¶ Motore di calcolo: GPC Engine · libreria GPCChecker.CompositeBridge.
+¶ Analisi delle tensioni normali di una soletta in calcestruzzo collegata a una trave in acciaio. La relazione riporta i dati e i risultati delle situazioni calcolate, senza eseguire un nuovo calcolo. I rapporti tensionali sono controlli locali della sezione.
+¶ Ambito e convenzioni
+¶ Analisi elastica N–Mx con connessione completa, sezione simmetrica e anima senza irrigidimenti longitudinali. b_eff della soletta è un dato di ingresso. Le fasi sono incrementi di carico già combinati; per ogni situazione la sezione efficace è comune ai contributi sommati. Il ritiro uniforme assegnato al CLS produce effetti primari locali. Non è un'analisi evolutiva con redistribuzione viscosa. Taglio e pioli hanno controlli locali dedicati. Irrigidimenti, appoggi, saldature continue, soletta trasversale e fatica dei pioli hanno verifiche opzionali con campo dichiarato. La torsione è verificata solo per il cassoncino (cella chiusa, distorsione e diaframmi, opzionali); l'instabilità globale del ponte resta esclusa.
+¶ Lunghezze in mm, tensioni in MPa, forze in kN e momenti in kNm. Compressione negativa e trazione positiva. L’asse y ha origine all’interfaccia acciaio soletta ed è positivo verso l’alto. Mx positivo comprime la parte superiore. Le azioni sono incrementi già combinati e, allo SLU, già coefficientati con γF e ψ. Il modulo non moltiplica nuovamente i carichi: il selettore SLU/SLE cambia limiti e resistenze. Arrotondamenti soltanto nella presentazione.
+¶ Model fornisce materiali e geometria. GPC Engine esegue il calcolo per fasi e le larghezze efficaci. ANTHEA gestisce ingressi e presentazione dei risultati.
+¶ Riepilogo delle situazioni
+[T1 r1 c1] Situazione
+[T1 r1 c2] ΣN [kN]
+[T1 r1 c3] ΣMx a y=0 [kNm]
+[T1 r1 c4] ΣV [kN]
+[T1 r1 c5] η max locale
+[T1 r1 c6] Stato locale
+[T1 r2 c1] 1 · Dopo G1 · getto e carpenteria
+[T1 r2 c2] 0,00
+[T1 r2 c3] 1500,00
+[T1 r2 c4] 400,00
+[T1 r2 c5] 2,71
+[T1 r2 c6] Non verificato
+[T1 r3 c1] 2 · Dopo G2 · permanenti portati
+[T1 r3 c2] 0,00
+[T1 r3 c3] 3500,00
+[T1 r3 c4] 900,00
+[T1 r3 c5] 2,71
+[T1 r3 c6] Non verificato
+[T1 r4 c1] 3 · Dopo Q · variabili
+[T1 r4 c2] 0,00
+[T1 r4 c3] 6500,00
+[T1 r4 c4] 1600,00
+[T1 r4 c5] 2,71
+[T1 r4 c6] Non verificato
+¶ η max locale include tensioni, taglio e controlli accessori attivati. Un controllo mancante non riceve un esito favorevole; leggere gli avvisi e il campo delle verifiche. Non è un esito globale del ponte.
+¶ Due piastre inferiori modellate con la geometria reale. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore, senza il beneficio dell'accoppiamento (a favore di sicurezza).
+¶ Montante terminale non qualificato come rigido: resta adottata la curva non rigida a taglio.
+¶ Appoggio: R è l’inviluppo SLU assegnato, indipendente dalle fasi. Piatti continui senza intagli, vincolati lateralmente alle flange. Apparecchio d’appoggio e flessione della piastra di ripartizione esclusi.
+¶ Taglio irrigidimenti e pioli
+¶ Riferimenti: NTC 2018 §§4.2.4.1.2, 4.3.4.2.2 e 4.3.4.3; EN 1993-1-5:2006 §§5, 7.1, 9; EN 1994-2:2005 §§6.2.2, 6.6 e 7.2.2. Valori modificabili: γM1 = 1,10, η = 1,20, γV = 1,25.
+¶ Taglio affidato all’anima intera: VRd = min(Vpl,Rd; Vbw,Rd), Vbw,Rd = χw hw tw fy/(√3 γM1). Contributo delle flange omesso. La curva del montante terminale è non rigida salvo qualificazione positiva del terminale inserito. Gli irrigidimenti di appoggio sono verificati se attivati. Le zone inefficaci nel grafico riguardano le tensioni normali.
+¶ Irrigidimenti intermedi: presenti. Pioli: verifica disattivata.
+[T2 r1 c1] Dato locale
+[T2 r1 c2] Valore
+[T2 r1 c3] Unità
+[T2 r2 c1] Intermedio · disposizione
+[T2 r2 c2] Bilaterali diversi
+[T2 r2 c3]
+[T2 r3 c1] Intermedio · sporgenza sinistra / unico
+[T2 r3 c2] 160,00
+[T2 r3 c3] mm
+[T2 r4 c1] Intermedio · spessore sinistro / unico
+[T2 r4 c2] 18,00
+[T2 r4 c3] mm
+[T2 r5 c1] Intermedio · sporgenza destra
+[T2 r5 c2] 120,00
+[T2 r5 c3] mm
+[T2 r6 c1] Intermedio · spessore destro
+[T2 r6 c2] 14,00
+[T2 r6 c3] mm
+[T2 r7 c1] Intermedio · Lcr / distanza fra flange
+[T2 r7 c2] 1,00
+[T2 r7 c3]
+[T2 r8 c1] Intermedio · verifica saldature
+[T2 r8 c2] Sì
+[T2 r8 c3]
+[T2 r9 c1] Intermedio · gola cordoni
+[T2 r9 c2] 6,00
+[T2 r9 c3] mm
+[T2 r10 c1] Intermedio · pannelli uguali
+[T2 r10 c2] No
+[T2 r10 c3]
+[T2 r11 c1] Intermedio · aL / passo
+[T2 r11 c2] 2800,00
+[T2 r11 c3] mm
+[T2 r12 c1] Intermedio · aR
+[T2 r12 c2] 2400,00
+[T2 r12 c3] mm
+[T2 r13 c1] Intermedio · compressione esterna SLU
+[T2 r13 c2] 200,00
+[T2 r13 c3] kN
+[T2 r14 c1] Intermedio · posizione compressione esterna x
+[T2 r14 c2] 20,00
+[T2 r14 c3] mm
+[T2 r15 c1] Appoggio · posizione
+[T2 r15 c2] Estremità sinistra
+[T2 r15 c3]
+[T2 r16 c1] Appoggio · disposizione
+[T2 r16 c2] Bilaterali simmetrici
+[T2 r16 c3]
+[T2 r17 c1] Appoggio · sporgenza sinistra / unico
+[T2 r17 c2] 180,00
+[T2 r17 c3] mm
+[T2 r18 c1] Appoggio · spessore sinistro / unico
+[T2 r18 c2] 25,00
+[T2 r18 c3] mm
+[T2 r19 c1] Appoggio · Lcr / distanza fra flange
+[T2 r19 c2] 1,00
+[T2 r19 c3]
+[T2 r20 c1] Appoggio · verifica saldature
+[T2 r20 c2] Sì
+[T2 r20 c3]
+[T2 r21 c1] Appoggio · gola cordoni
+[T2 r21 c2] 8,00
+[T2 r21 c3] mm
+[T2 r22 c1] Appoggio · pannello destro
+[T2 r22 c2] 3000,00
+[T2 r22 c3] mm
+[T2 r23 c1] Appoggio · distanza dall’estremità
+[T2 r23 c2] 180,00
+[T2 r23 c3] mm
+[T2 r24 c1] Terminale · richiesta curva rigida
+[T2 r24 c2] Sì
+[T2 r24 c3]
+[T2 r25 c1] Terminale · interasse due coppie
+[T2 r25 c2] 300,00
+[T2 r25 c3] mm
+[T2 r26 c1] Appoggio · R inviluppo SLU
+[T2 r26 c2] 2500,00
+[T2 r26 c3] kN
+[T2 r27 c1] Appoggio · posizione reazione x
+[T2 r27 c2] 0,00
+[T2 r27 c3] mm
+[T2 r28 c1] Appoggio · eccentricità longitudinale z
+[T2 r28 c2] 0,00
+[T2 r28 c3] mm
+[T2 r29 c1] Appoggio · lunghezza impronta
+[T2 r29 c2] 300,00
+[T2 r29 c3] mm
+[T2 r30 c1] Appoggio · larghezza impronta
+[T2 r30 c2] 400,00
+[T2 r30 c3] mm
+¶ Irrigidimenti mono o bilaterali: sezione con striscia simmetrica di anima limitata dal materiale disponibile, baricentro ed eccentricità reali. Analisi elastica del II ordine con imperfezione equivalente Lcr/200, EN 1993-1-1 §§5.2.2(7)a e 5.3.4. Controlli di rigidezza, torsione e piatti entro classe 3. Le saldature continue, quando attivate, usano fu da Model, βw=1 e γM2=1,25.
+¶ Appoggio: reazione R assegnata come inviluppo SLU indipendente dalle fasi, piatti a contatto e impronta interamente sottostante. Il terminale rigido è formato da due coppie bilaterali simmetriche identiche. La curva rigida è adottata soltanto dopo i controlli geometrici, di resistenza e dei collegamenti. Piastra di ripartizione e apparecchio d’appoggio esclusi.
+¶ Soletta: armature trasversali distinte dalle barre longitudinali. Superfici a–a sui due lati e b–b attorno ai gruppi di pioli, traliccio EN 1992-1-1 §6.2.4, armatura minima, interazione con flessione trasversale e ancoraggi. Cot θ limitata a 1–1,25 anche per soletta tesa. Il bordo fisico è un dato separato da b_eff.
+¶ Fatica pioli: ΔqE,2=λv φfat (qmax−qmin), ΔτE,2=ΔqE,2 p/(npioli Agambo). EN 1994-2 §§6.8.3 e 6.8.7.2: categoria 90 per i pioli; categoria 80 e interazione per flangia anche tesa. Gli intervalli sono inviluppi assegnati dal modello globale, comprensivi dei casi fessurati/non fessurati; non provengono dalle fasi costruttive. I controlli non attivati restano da verificare.
+¶ Irrigidimento intermedio e pannelli adiacenti schema locale
+¶ Appoggio e montante terminale schema locale
+¶ Pioli: q = Σ(Vi Si/Ii + Δqi), PEd = |q| p/npioli. NTC: proprietà della fase tensionale; EC4: CLS non fessurato con acciaio efficace. Il ritiro uniforme ha q(V)=0; gli effetti locali di estremità richiedono Δq assegnato da un modello longitudinale. PRd è il minore fra resistenza del gambo e del CLS; in combinazione SLE rara si usa 0,75 PRd. Per SLE quasi permanente non si assegna l’esito richiesto alla rara.
+¶ Interazione M–V per N=0, fy≤355 MPa e anima non tutta compressa: EN 1994-2 §6.2.2.4(3), con Mpl e Mf della sezione composta, flange efficaci e anima intera; armature omesse nelle capacità plastiche di riferimento. Negli altri casi, ad alto taglio, si adotta un inviluppo elastico cautelativo: ηnorm+(2ηV−1)²≤1, Mf=0 e CLS limitato a 0,85 fcd. Non si accredita redistribuzione plastica; il criterio può essere più gravoso della verifica con capacità plastiche ridotte per N. I controlli elastici e di classe 4 restano necessari.
+¶ Normativa e coefficienti
+¶ Riferimento selezionato: NTC 2018 / EN 1994-2:2005. Limiti tensionali: SLU.
+[T3 r1 c1] Coefficiente
+[T3 r1 c2] Applicato
+[T3 r2 c1] γM0 acciaio strutturale
+[T3 r2 c2] 1,05
+[T3 r3 c1] γc calcestruzzo
+[T3 r3 c2] 1,50
+[T3 r4 c1] αcc calcestruzzo
+[T3 r4 c2] 0,85
+[T3 r5 c1] γs armature
+[T3 r5 c2] 1,15
+¶ Riduzioni locali di classe 4: attive. Metodo: Sezione composta N–Mx · larghezze efficaci EN 1993-1-5:2006 · v1.
+¶ I coefficienti sono quelli assegnati nel foglio. Il rapporto delle larghezze efficaci usa fy caratteristico. SLU: limiti αcc fck/γc, fy/γM0 e fyk/γs. SLE: limite CLS 0,60 fck per la rara e 0,45 fck per la quasi permanente; limite armature 0,80 fyk e acciaio strutturale fy.
+¶ Materiali
+[T4 r1 c1] Materiale
+[T4 r1 c2] Classe
+[T4 r1 c3] Resistenza [MPa]
+[T4 r1 c4] Modulo E [MPa]
+[T4 r2 c1] Calcestruzzo
+[T4 r2 c2] C35/45
+[T4 r2 c3] fck = 35,00
+[T4 r2 c4] 34077,15
+[T4 r3 c1] Acciaio strutturale
+[T4 r3 c2] S355
+[T4 r3 c3] fy = 355,00
+[T4 r3 c4] 210000,00
+[T4 r4 c1] Armatura ordinaria
+[T4 r4 c2] B450C
+[T4 r4 c3] fyk = 450,00
+[T4 r4 c4] 200000,00
+¶ fy strutturale nominale da catalogo. Il calcolo non determina automaticamente la riduzione per lo spessore delle lamiere.
+¶ Geometria e armature
+[T5 r1 c1] Componente
+[T5 r1 c2] Larghezza [mm]
+[T5 r1 c3] Altezza o spessore [mm]
+[T5 r2 c1] Soletta collaborante
+[T5 r2 c2] 3000,00
+[T5 r2 c3] 250,00
+[T5 r3 c1] Trave d'acciaio totale H
+[T5 r3 c2] —
+[T5 r3 c3] 1880,00
+[T5 r4 c1] Anima libera ricavata
+[T5 r4 c2] 14,00
+[T5 r4 c3] 1800,00
+[T5 r5 c1] Piattabanda superiore
+[T5 r5 c2] 500,00
+[T5 r5 c3] 25,00
+[T5 r6 c1] Piattabanda inferiore 1
+[T5 r6 c2] 700,00
+[T5 r6 c3] 30,00
+[T5 r7 c1] Piattabanda inferiore 2
+[T5 r7 c2] 550,00
+[T5 r7 c3] 25,00
+[T5 r8 c1] Piattabanda inferiore equivalente (solo confronto)
+[T5 r8 c2] 631,82
+[T5 r8 c3] 55,00
+¶ La larghezza della soletta è la larghezza collaborante assegnata. La seconda piastra è centrata sotto la prima. Il calcolo usa le piastre reali. Il rettangolo equivalente (t = t1 + t2, b = (b1 t1 + b2 t2)/(t1 + t2)) conserva area e spessore complessivo, non in generale baricentro e inerzia: è riportato solo per confronto. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore.
+[T6 r1 c1] Proprietà delle piastre inferiori
+[T6 r1 c2] Reale (calcolo)
+[T6 r1 c3] Equivalente (confronto)
+[T6 r2 c1] Area [mm²]
+[T6 r2 c2] 34750,00
+[T6 r2 c3] 34750,00
+[T6 r3 c1] Baricentro y [mm]
+[T6 r3 c2] -1850,88
+[T6 r3 c3] -1852,50
+[T6 r4 c1] Ix al proprio baricentro [mm⁴]
+[T6 r4 c2] 8575093,68
+[T6 r4 c3] 8759895,83
+¶ Ferri inferiori: riferimento = Intradosso soletta; distanza riferimento–asse = 45,00 mm; quota effettiva y = 45,00 mm dall'intradosso soletta.
+¶ Ferri superiori: estradosso soletta–asse = 45,00 mm; quota effettiva y = 205,00 mm.
+[T7 r1 c1] Fila
+[T7 r1 c2] Presente
+[T7 r1 c3] Ø [mm]
+[T7 r1 c4] Passo [mm]
+[T7 r1 c5] y asse [mm]
+[T7 r1 c6] Barre
+[T7 r2 c1] Superiore
+[T7 r2 c2] Sì
+[T7 r2 c3] 16,00
+[T7 r2 c4] 150,00
+[T7 r2 c5] 205,00
+[T7 r2 c6] 20
+[T7 r3 c1] Inferiore
+[T7 r3 c2] Sì
+[T7 r3 c3] 16,00
+[T7 r3 c4] 150,00
+[T7 r3 c5] 45,00
+[T7 r3 c6] 20
+¶ La distanza inserita è misurata fino all’asse della barra. Le barre sono distribuite e centrate da Model; entrambe le file possono essere assenti. Area totale delle armature: 8042,48 mm².
+¶ Geometria della sezione e disposizione delle armature
+¶ Sollecitazioni per fase
+¶ Ogni fase sceglie il proprio punto N: quota comune, baricentro omogeneizzato lordo fisso o baricentro efficace aggiornato durante l’iterazione. La quota comune, quando selezionata, è y = 0,00 mm. Il momento assegnato è riferito al punto N della fase. Mx,G = Mx + N (yG − yN); i momenti cumulati sono riportati a y=0 mediante Mx,0 = Mx − N yN, con unità coerenti.
+[T8 r1 c1] Fase
+[T8 r1 c2] Sezione / azione
+[T8 r1 c3] Attiva
+[T8 r1 c4] ΔN [kN]
+[T8 r1 c5] ΔMx [kNm]
+[T8 r1 c6] ΔV [kN]
+[T8 r1 c7] Δεcs [µε]
+[T8 r2 c1] 1 · G1 · getto e carpenteria
+[T8 r2 c2] Solo acciaio
+[T8 r2 c3] Sì
+[T8 r2 c4] 0
+[T8 r2 c5] 1500
+[T8 r2 c6] 400,00
+[T8 r2 c7] —
+[T8 r3 c1] 2 · G2 · permanenti portati
+[T8 r3 c2] Composta
+[T8 r3 c3] Sì
+[T8 r3 c4] 0
+[T8 r3 c5] 2000
+[T8 r3 c6] 500,00
+[T8 r3 c7] —
+[T8 r4 c1] 3 · Q · variabili
+[T8 r4 c2] Composta
+[T8 r4 c3] Sì
+[T8 r4 c4] 0
+[T8 r4 c5] 3000
+[T8 r4 c6] 700,00
+[T8 r4 c7] —
+¶ Solo acciaio: soletta e barre non partecipano. Composta: soletta non fessurata, carpenteria e barre. Soletta esclusa: carpenteria e barre. Per ciascuna situazione la sezione efficace è comune ai contributi sommati. Non si simula la storia evolutiva di costruzione o la redistribuzione viscosa.
+¶ Criteri di omogeneizzazione
+¶ n0 = Ea/Ecm; n = n0 (1 + ψL φ); φ = (n/n0 − 1)/ψL. Il parametro passato a Model e GPC Engine è ψL φ. Il rapporto Es/Ea è conservato.
+[T9 r1 c1] Fase composta
+[T9 r1 c2] φ
+[T9 r1 c3] ψL
+[T9 r1 c4] n di calcolo
+[T9 r1 c5] Stato
+[T9 r2 c1] G2 · permanenti portati
+[T9 r2 c2] 2,00
+[T9 r2 c3] 1,1
+[T9 r2 c4] 19,72
+[T9 r2 c5] Inclusa
+[T9 r3 c1] Q · variabili
+[T9 r3 c2] 0,00
+[T9 r3 c3] 1
+[T9 r3 c4] 6,16
+[T9 r3 c5] Inclusa
+¶ Situazione 1 dopo G1 · getto e carpenteria
+¶ Avviso: Due piastre inferiori modellate con la geometria reale. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore, senza il beneficio dell'accoppiamento (a favore di sicurezza).
+¶ Avviso: Montante terminale non qualificato come rigido: resta adottata la curva non rigida a taglio.
+¶ Avviso: Appoggio: R è l’inviluppo SLU assegnato, indipendente dalle fasi. Piatti continui senza intagli, vincolati lateralmente alle flange. Apparecchio d’appoggio e flessione della piastra di ripartizione esclusi.
+¶ Convergenza in 9 iterazioni. Variazione relativa delle larghezze: 1,172E-008; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T10 r1 c1] Contributo
+[T10 r1 c2] Riferimento N
+[T10 r1 c3] yN [mm]
+[T10 r1 c4] ΔN [kN]
+[T10 r1 c5] ΔMx al punto N [kNm]
+[T10 r1 c6] ΔV [kN]
+[T10 r2 c1] 1 · G1 · getto e carpenteria
+[T10 r2 c2] Baricentro omogeneizzato lordo
+[T10 r2 c3] -1211,65
+[T10 r2 c4] 0,00
+[T10 r2 c5] 1500,00
+[T10 r2 c6] 400,00
+¶ Rapporti e proprietà per contributo
+[T11 r1 c1] Contributo
+[T11 r1 c2] n0
+[T11 r1 c3] n
+[T11 r1 c4] φ
+[T11 r1 c5] ψL φ
+[T11 r1 c6] Ec eff [MPa]
+[T11 r2 c1] 1 · G1 · getto e carpenteria
+[T11 r2 c2] —
+[T11 r2 c3] —
+[T11 r2 c4] —
+[T11 r2 c5] —
+[T11 r2 c6] —
+[T12 r1 c1] Contributo
+[T12 r1 c2] A* [mm²]
+[T12 r1 c3] yG [mm]
+[T12 r1 c4] Ix* [mm⁴]
+[T12 r1 c5] Ix integrazione [mm⁴]
+[T12 r2 c1] 1
+[T12 r2 c2] 64946,08
+[T12 r2 c3] -1284,37
+[T12 r2 c4] 37563015033,13
+[T12 r2 c5] 37563015033,13
+[T13 r1 c1] Contributo
+[T13 r1 c2] Wsup* [mm³]
+[T13 r1 c3] Winf* [mm³]
+[T13 r1 c4] yσ zero [mm]
+[T13 r1 c5] κ [1/m]
+[T13 r1 c6] Residuo equilibrio
+[T13 r2 c1] 1
+[T13 r2 c2] 29246360,65
+[T13 r2 c3] 63063861,51
+[T13 r2 c4] -1284,37
+[T13 r2 c5] 1,90E-4
+[T13 r2 c6] 0E+0
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T14 r1 c1] Punto
+[T14 r1 c2] y [mm]
+[T14 r1 c3] Σσ [MPa]
+[T14 r1 c4] Limite [MPa]
+[T14 r1 c5] η
+[T14 r1 c6] Esito locale
+[T14 r2 c1] Soletta · estradosso
+[T14 r2 c2] 250,00
+[T14 r2 c3] —
+[T14 r2 c4] —
+[T14 r2 c5] —
+[T14 r2 c6] Non attivo
+[T14 r3 c1] Soletta · intradosso
+[T14 r3 c2] 0,00
+[T14 r3 c3] —
+[T14 r3 c4] —
+[T14 r3 c5] —
+[T14 r3 c6] Non attivo
+[T14 r4 c1] Armatura · y=205
+[T14 r4 c2] 205,00
+[T14 r4 c3] —
+[T14 r4 c4] —
+[T14 r4 c5] —
+[T14 r4 c6] Non attivo
+[T14 r5 c1] Armatura · y=45
+[T14 r5 c2] 45,00
+[T14 r5 c3] —
+[T14 r5 c4] —
+[T14 r5 c5] —
+[T14 r5 c6] Non attivo
+[T14 r6 c1] Acciaio · estradosso
+[T14 r6 c2] 0,00
+[T14 r6 c3] -51,29
+[T14 r6 c4] 338,10
+[T14 r6 c5] 0,15
+[T14 r6 c6] Entro limite
+[T14 r7 c1] Anima · sommità
+[T14 r7 c2] -25,00
+[T14 r7 c3] -50,29
+[T14 r7 c4] 338,10
+[T14 r7 c5] 0,15
+[T14 r7 c6] Entro limite
+[T14 r8 c1] Anima · piede
+[T14 r8 c2] -1825,00
+[T14 r8 c3] 21,59
+[T14 r8 c4] 338,10
+[T14 r8 c5] 0,06
+[T14 r8 c6] Entro limite
+[T14 r9 c1] Acciaio · intradosso
+[T14 r9 c2] -1880,00
+[T14 r9 c3] 23,79
+[T14 r9 c4] 338,10
+[T14 r9 c5] 0,07
+[T14 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T15 r1 c1] Punto
+[T15 r1 c2] Δσ 1
+[T15 r2 c1] Soletta · estradosso
+[T15 r2 c2] 0,00
+[T15 r3 c1] Soletta · intradosso
+[T15 r3 c2] 0,00
+[T15 r4 c1] Armatura · y=205
+[T15 r4 c2] 0,00
+[T15 r5 c1] Armatura · y=45
+[T15 r5 c2] 0,00
+[T15 r6 c1] Acciaio · estradosso
+[T15 r6 c2] -51,29
+[T15 r7 c1] Anima · sommità
+[T15 r7 c2] -50,29
+[T15 r8 c1] Anima · piede
+[T15 r8 c2] 21,59
+[T15 r9 c1] Acciaio · intradosso
+[T15 r9 c2] 23,79
+¶ 1: G1 · getto e carpenteria.
+¶ Sezione efficace di classe 4
+[T16 r1 c1] Pannello
+[T16 r1 c2] b [mm]
+[T16 r1 c3] t [mm]
+[T16 r1 c4] ψ
+[T16 r1 c5] kσ
+[T16 r1 c6] λp
+[T16 r1 c7] ρ
+[T16 r2 c1] Anima
+[T16 r2 c2] 1800,00
+[T16 r2 c3] 14,00
+[T16 r2 c4] -0,43
+[T16 r2 c5] 12,31
+[T16 r2 c6] 1,59
+[T16 r2 c7] 0,57
+[T16 r3 c1] Sbalzo superiore
+[T16 r3 c2] 243,00
+[T16 r3 c3] 25,00
+[T16 r3 c4] 1,00
+[T16 r3 c5] 0,43
+[T16 r3 c6] 0,64
+[T16 r3 c7] 1,00
+[T16 r4 c1] Sbalzo inferiore · piastra 1
+[T16 r4 c2] 343,00
+[T16 r4 c3] 30,00
+[T16 r4 c4] 1,00
+[T16 r4 c5] 0,43
+[T16 r4 c6] 0,75
+[T16 r4 c7] 1,00
+[T16 r5 c1] Sbalzo inferiore · piastra 2
+[T16 r5 c2] 268,00
+[T16 r5 c3] 25,00
+[T16 r5 c4] 1,00
+[T16 r5 c5] 0,43
+[T16 r5 c6] 0,71
+[T16 r5 c7] 1,00
+[T17 r1 c1] Pannello
+[T17 r1 c2] σ1 [MPa]
+[T17 r1 c3] σ2 [MPa]
+[T17 r1 c4] bc [mm]
+[T17 r1 c5] b1 eff [mm]
+[T17 r1 c6] b2 eff [mm]
+[T17 r2 c1] Anima
+[T17 r2 c2] -50,29
+[T17 r2 c3] 21,59
+[T17 r2 c4] 1259,37
+[T17 r2 c5] 289,35
+[T17 r2 c6] 974,66
+[T17 r3 c1] Sbalzo superiore
+[T17 r3 c2] -51,29
+[T17 r3 c3] -51,29
+[T17 r3 c4] 243,00
+[T17 r3 c5] 243,00
+[T17 r3 c6] 0,00
+[T17 r4 c1] Sbalzo inferiore · piastra 1
+[T17 r4 c2] 21,59
+[T17 r4 c3] 21,59
+[T17 r4 c4] 0,00
+[T17 r4 c5] 343,00
+[T17 r4 c6] 0,00
+[T17 r5 c1] Sbalzo inferiore · piastra 2
+[T17 r5 c2] 22,79
+[T17 r5 c3] 22,79
+[T17 r5 c4] 0,00
+[T17 r5 c5] 268,00
+[T17 r5 c6] 0,00
+[T18 r1 c1] Carpenteria
+[T18 r1 c2] Area [mm²]
+[T18 r1 c3] yG [mm]
+[T18 r1 c4] Ix [mm⁴]
+[T18 r2 c1] Lorda
+[T18 r2 c2] 72450,00
+[T18 r2 c3] -1211,65
+[T18 r2 c4] 41057802906,10
+[T18 r3 c1] Efficace
+[T18 r3 c2] 64946,08
+[T18 r3 c3] -1284,37
+[T18 r3 c4] 37563015033,13
+¶ Anima inefficace: 535,99 mm, da y = -850,34 a y = -314,35 mm. Aeff/Alorda = 0,90; Ieff/Ilorda = 0,91.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T19 r1 c1] V [kN]
+[T19 r1 c2] kτ
+[T19 r1 c3] τcr [MPa]
+[T19 r1 c4] λw
+[T19 r1 c5] χw
+[T19 r1 c6] Vpl,Rd [kN]
+[T19 r1 c7] Vbw,Rd [kN]
+[T19 r2 c1] 400,00
+[T19 r2 c2] 6,99
+[T19 r2 c3] 80,29
+[T19 r2 c4] 1,60
+[T19 r2 c5] 0,52
+[T19 r2 c6] 4919,02
+[T19 r2 c7] 2439,26
+¶ τ nominale V/Av = 15,87 MPa; τ max elastica lorda = 17,29 MPa. Beneficio irrigidimenti: sì. Montante terminale adottato: non rigido.
+[T20 r1 c1] Parametro locale
+[T20 r1 c2] Valore
+[T20 r1 c3] Unità
+[T20 r2 c1] Intermedio · A con anima
+[T20 r2 c2] 9344,07
+[T20 r2 c3] mm²
+[T20 r3 c1] Intermedio · striscia anima
+[T20 r3 c2] 341,72
+[T20 r3 c3] mm
+[T20 r4 c1] Intermedio · xG
+[T20 r4 c2] -14,77
+[T20 r4 c3] mm
+[T20 r5 c1] Intermedio · eccentricità x−xG
+[T20 r5 c2] 34,77
+[T20 r5 c3] mm
+[T20 r6 c1] Intermedio · I fuori piano
+[T20 r6 c2] 35540294,61
+[T20 r6 c3] mm⁴
+[T20 r7 c1] Intermedio · I nel piano
+[T20 r7 c2] 46658870,10
+[T20 r7 c3] mm⁴
+[T20 r8 c1] Intermedio · Nst
+[T20 r8 c2] 200,00
+[T20 r8 c3] kN
+[T20 r9 c1] Intermedio · Ncr fuori piano
+[T20 r9 c2] 21757,27
+[T20 r9 c3] kN
+[T20 r10 c1] Intermedio · M II ordine fuori piano
+[T20 r10 c2] 9,32
+[T20 r10 c3] kNm
+[T20 r11 c1] Intermedio · M II ordine nel piano
+[T20 r11 c2] 1,85
+[T20 r11 c3] kNm
+[T20 r12 c1] Appoggio · A con anima
+[T20 r12 c2] 13200,00
+[T20 r12 c3] mm²
+[T20 r13 c1] Appoggio · striscia anima
+[T20 r13 c2] 300,00
+[T20 r13 c3] mm
+[T20 r14 c1] Appoggio · xG
+[T20 r14 c2] 0,00
+[T20 r14 c3] mm
+[T20 r15 c1] Appoggio · eccentricità x−xG
+[T20 r15 c2] 0,00
+[T20 r15 c3] mm
+[T20 r16 c1] Appoggio · I fuori piano
+[T20 r16 c2] 109049600,00
+[T20 r16 c3] mm⁴
+[T20 r17 c1] Appoggio · I nel piano
+[T20 r17 c2] 31968750,00
+[T20 r17 c3] mm⁴
+[T20 r18 c1] Appoggio · Nst
+[T20 r18 c2] 2500,00
+[T20 r18 c3] kN
+[T20 r19 c1] Appoggio · Ncr fuori piano
+[T20 r19 c2] 66758,64
+[T20 r19 c3] kN
+[T20 r20 c1] Appoggio · M II ordine fuori piano
+[T20 r20 c2] 24,27
+[T20 r20 c3] kNm
+[T20 r21 c1] Appoggio · M II ordine nel piano
+[T20 r21 c2] 26,37
+[T20 r21 c3] kNm
+[T20 r22 c1] Seconda coppia terminale · A con anima
+[T20 r22 c2] 13200,00
+[T20 r22 c3] mm²
+[T20 r23 c1] Seconda coppia terminale · striscia anima
+[T20 r23 c2] 300,00
+[T20 r23 c3] mm
+[T20 r24 c1] Seconda coppia terminale · xG
+[T20 r24 c2] 0,00
+[T20 r24 c3] mm
+[T20 r25 c1] Seconda coppia terminale · eccentricità x−xG
+[T20 r25 c2] 0,00
+[T20 r25 c3] mm
+[T20 r26 c1] Seconda coppia terminale · I fuori piano
+[T20 r26 c2] 109049600,00
+[T20 r26 c3] mm⁴
+[T20 r27 c1] Seconda coppia terminale · I nel piano
+[T20 r27 c2] 31968750,00
+[T20 r27 c3] mm⁴
+[T20 r28 c1] Seconda coppia terminale · Nst
+[T20 r28 c2] 2500,00
+[T20 r28 c3] kN
+[T20 r29 c1] Seconda coppia terminale · Ncr fuori piano
+[T20 r29 c2] 66758,64
+[T20 r29 c3] kN
+[T20 r30 c1] Seconda coppia terminale · M II ordine fuori piano
+[T20 r30 c2] 24,33
+[T20 r30 c3] kNm
+[T20 r31 c1] Seconda coppia terminale · M II ordine nel piano
+[T20 r31 c2] 26,37
+[T20 r31 c3] kNm
+[T21 r1 c1] Controllo
+[T21 r1 c2] Domanda
+[T21 r1 c3] Limite
+[T21 r1 c4] η
+[T21 r1 c5] Esito
+[T21 r2 c1] Anima · resistenza a taglio
+[T21 r2 c2] 400,00 kN
+[T21 r2 c3] 2439,26 kN
+[T21 r2 c4] 0,16
+[T21 r2 c5] Entro limite
+[T21 r3 c1] Intermedio · rigidezza pannelli
+[T21 r3 c2] 0,12 —
+[T21 r3 c3] 1,00 —
+[T21 r3 c4] 0,12
+[T21 r3 c5] Entro limite
+[T21 r4 c1] Intermedio · stabilità e pressoflessione II ordine
+[T21 r4 c2] 68,11 MPa
+[T21 r4 c3] 322,73 MPa
+[T21 r4 c4] 0,21
+[T21 r4 c5] Entro limite
+[T21 r5 c1] Intermedio · freccia fuori piano
+[T21 r5 c2] 0,60 mm
+[T21 r5 c3] 6,00 mm
+[T21 r5 c4] 0,10
+[T21 r5 c5] Entro limite
+[T21 r6 c1] Intermedio · rigidezza torsionale
+[T21 r6 c2] 0,76 —
+[T21 r6 c3] 1,00 —
+[T21 r6 c4] 0,76
+[T21 r6 c5] Entro limite
+[T21 r7 c1] Intermedio · piatti entro classe 3
+[T21 r7 c2] 0,78 —
+[T21 r7 c3] 1,00 —
+[T21 r7 c4] 0,78
+[T21 r7 c5] Entro limite
+[T21 r8 c1] Intermedio · ingombro tra piattabande
+[T21 r8 c2] 160,00 mm
+[T21 r8 c3] 243,00 mm
+[T21 r8 c4] 0,66
+[T21 r8 c5] Entro limite
+[T21 r9 c1] Intermedio · saldature verticali all’anima
+[T21 r9 c2] 5,53 MPa
+[T21 r9 c3] 181,66 MPa
+[T21 r9 c4] 0,03
+[T21 r9 c5] Entro limite
+[T21 r10 c1] Intermedio · saldature alle flange
+[T21 r10 c2] 102,16 MPa
+[T21 r10 c3] 181,66 MPa
+[T21 r10 c4] 0,56
+[T21 r10 c5] Entro limite
+[T21 r11 c1] Intermedio · gola minima
+[T21 r11 c2] 3,00 mm
+[T21 r11 c3] 6,00 mm
+[T21 r11 c4] 0,50
+[T21 r11 c5] Entro limite
+[T21 r12 c1] Intermedio · lunghezza efficace cordone
+[T21 r12 c2] 36,00 mm
+[T21 r12 c3] 108,00 mm
+[T21 r12 c4] 0,33
+[T21 r12 c5] Entro limite
+[T21 r13 c1] Appoggio · stabilità e pressoflessione II ordine
+[T21 r13 c2] 354,73 MPa
+[T21 r13 c3] 322,73 MPa
+[T21 r13 c4] 1,10
+[T21 r13 c5] Non verificato
+[T21 r14 c1] Appoggio · freccia fuori piano
+[T21 r14 c2] 0,24 mm
+[T21 r14 c3] 6,00 mm
+[T21 r14 c4] 0,04
+[T21 r14 c5] Entro limite
+[T21 r15 c1] Appoggio · rigidezza torsionale
+[T21 r15 c2] 0,51 —
+[T21 r15 c3] 1,00 —
+[T21 r15 c4] 0,51
+[T21 r15 c5] Entro limite
+[T21 r16 c1] Appoggio · piatti entro classe 3
+[T21 r16 c2] 0,63 —
+[T21 r16 c3] 1,00 —
+[T21 r16 c4] 0,63
+[T21 r16 c5] Entro limite
+[T21 r17 c1] Appoggio · ingombro tra piattabande
+[T21 r17 c2] 180,00 mm
+[T21 r17 c3] 243,00 mm
+[T21 r17 c4] 0,74
+[T21 r17 c5] Entro limite
+[T21 r18 c1] Appoggio · saldature verticali all’anima
+[T21 r18 c2] 46,78 MPa
+[T21 r18 c3] 204,29 MPa
+[T21 r18 c4] 0,23
+[T21 r18 c5] Entro limite
+[T21 r19 c1] Appoggio · saldature alle flange
+[T21 r19 c2] 554,27 MPa
+[T21 r19 c3] 204,29 MPa
+[T21 r19 c4] 2,71
+[T21 r19 c5] Non verificato
+[T21 r20 c1] Appoggio · gola minima
+[T21 r20 c2] 3,00 mm
+[T21 r20 c3] 8,00 mm
+[T21 r20 c4] 0,38
+[T21 r20 c5] Entro limite
+[T21 r21 c1] Appoggio · lunghezza efficace cordone
+[T21 r21 c2] 48,00 mm
+[T21 r21 c3] 164,00 mm
+[T21 r21 c4] 0,29
+[T21 r21 c5] Entro limite
+[T21 r22 c1] Appoggio · impronta trasversale sotto i piatti
+[T21 r22 c2] 374,00 mm
+[T21 r22 c3] 400,00 mm
+[T21 r22 c4] 0,94
+[T21 r22 c5] Entro limite
+[T21 r23 c1] Appoggio · impronta longitudinale
+[T21 r23 c2] 25,00 mm
+[T21 r23 c3] 300,00 mm
+[T21 r23 c4] 0,08
+[T21 r23 c5] Entro limite
+[T21 r24 c1] Appoggio · impronta entro l’estremità
+[T21 r24 c2] 150,00 mm
+[T21 r24 c3] 180,00 mm
+[T21 r24 c4] 0,83
+[T21 r24 c5] Entro limite
+[T21 r25 c1] Appoggio · contatto piatti/flangia
+[T21 r25 c2] 443,11 MPa
+[T21 r25 c3] 338,10 MPa
+[T21 r25 c4] 1,31
+[T21 r25 c5] Non verificato
+[T21 r26 c1] Terminale · due coppie bilaterali simmetriche
+[T21 r26 c2] 1,00 —
+[T21 r26 c3] 1,00 —
+[T21 r26 c4] 0,00
+[T21 r26 c5] Entro limite
+[T21 r27 c1] Terminale · area di ciascuna coppia
+[T21 r27 c2] 4704,00 mm²
+[T21 r27 c3] 9000,00 mm²
+[T21 r27 c4] 0,52
+[T21 r27 c5] Entro limite
+[T21 r28 c1] Terminale · distanza e > 0,1 hw
+[T21 r28 c2] 180,00 mm
+[T21 r28 c3] 300,00 mm
+[T21 r28 c4] 0,60
+[T21 r28 c5] Entro limite
+[T21 r29 c1] Terminale · e entro il pannello
+[T21 r29 c2] 300,00 mm
+[T21 r29 c3] 3000,00 mm
+[T21 r29 c4] 0,10
+[T21 r29 c5] Entro limite
+[T21 r30 c1] Seconda coppia terminale · stabilità e pressoflessione II ordine
+[T21 r30 c2] 354,84 MPa
+[T21 r30 c3] 322,73 MPa
+[T21 r30 c4] 1,10
+[T21 r30 c5] Non verificato
+[T21 r31 c1] Seconda coppia terminale · freccia fuori piano
+[T21 r31 c2] 0,04 mm
+[T21 r31 c3] 6,00 mm
+[T21 r31 c4] 7,32E-3
+[T21 r31 c5] Entro limite
+[T21 r32 c1] Seconda coppia terminale · rigidezza torsionale
+[T21 r32 c2] 0,51 —
+[T21 r32 c3] 1,00 —
+[T21 r32 c4] 0,51
+[T21 r32 c5] Entro limite
+[T21 r33 c1] Seconda coppia terminale · piatti entro classe 3
+[T21 r33 c2] 0,63 —
+[T21 r33 c3] 1,00 —
+[T21 r33 c4] 0,63
+[T21 r33 c5] Entro limite
+[T21 r34 c1] Seconda coppia terminale · ingombro tra piattabande
+[T21 r34 c2] 180,00 mm
+[T21 r34 c3] 243,00 mm
+[T21 r34 c4] 0,74
+[T21 r34 c5] Entro limite
+[T21 r35 c1] Seconda coppia terminale · saldature verticali all’anima
+[T21 r35 c2] 46,78 MPa
+[T21 r35 c3] 204,29 MPa
+[T21 r35 c4] 0,23
+[T21 r35 c5] Entro limite
+[T21 r36 c1] Seconda coppia terminale · saldature alle flange
+[T21 r36 c2] 554,44 MPa
+[T21 r36 c3] 204,29 MPa
+[T21 r36 c4] 2,71
+[T21 r36 c5] Non verificato
+[T21 r37 c1] Seconda coppia terminale · gola minima
+[T21 r37 c2] 3,00 mm
+[T21 r37 c3] 8,00 mm
+[T21 r37 c4] 0,38
+[T21 r37 c5] Entro limite
+[T21 r38 c1] Seconda coppia terminale · lunghezza efficace cordone
+[T21 r38 c2] 48,00 mm
+[T21 r38 c3] 164,00 mm
+[T21 r38 c4] 0,29
+[T21 r38 c5] Entro limite
+[T21 r39 c1] Terminale · reazione e ancoraggio combinati
+[T21 r39 c2] 1,62 —
+[T21 r39 c3] 1,00 —
+[T21 r39 c4] 1,62
+[T21 r39 c5] Non verificato
+[T21 r40 c1] Anima · tensione equivalente elastica (inviluppo)
+[T21 r40 c2] 58,53 MPa
+[T21 r40 c3] 338,10 MPa
+[T21 r40 c4] 0,17
+[T21 r40 c5] Entro limite
+¶ Anima · resistenza a taglio: min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido.
+¶ Intermedio · rigidezza pannelli: EN 1993-1-5 §9.3.3; controllo di entrambi i pannelli.
+¶ Intermedio · stabilità e pressoflessione II ordine: EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica.
+¶ Intermedio · freccia fuori piano: EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw.
+¶ Intermedio · piatti entro classe 3: Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli.
+¶ Intermedio · saldature verticali all’anima: Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1.
+¶ Appoggio · stabilità e pressoflessione II ordine: EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica.
+¶ Appoggio · freccia fuori piano: EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw.
+¶ Appoggio · piatti entro classe 3: Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli.
+¶ Appoggio · saldature verticali all’anima: Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1.
+¶ Appoggio · contatto piatti/flangia: Piatti a contatto con la flangia inferiore; impronta interamente sottostante. Non comprende piastra di ripartizione o apparecchio d’appoggio..
+¶ Terminale · due coppie bilaterali simmetriche: Seconda coppia identica verso l’interno, distanza e; EN 1993-1-5 §9.3.1.
+¶ Terminale · area di ciascuna coppia: A ≥ 4 hw tw²/e.
+¶ Seconda coppia terminale · stabilità e pressoflessione II ordine: EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica.
+¶ Seconda coppia terminale · freccia fuori piano: EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw.
+¶ Seconda coppia terminale · piatti entro classe 3: Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli.
+¶ Seconda coppia terminale · saldature verticali all’anima: Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1.
+¶ Terminale · reazione e ancoraggio combinati: Inviluppo cautelativo: utilizzo elastico della coppia + area richiesta dal §9.3.1 / area disponibile; R intera su ciascuna coppia.
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata.
+¶ Situazione 1 dopo G1 · getto e carpenteria. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Situazione 2 dopo G2 · permanenti portati
+¶ Avviso: Due piastre inferiori modellate con la geometria reale. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore, senza il beneficio dell'accoppiamento (a favore di sicurezza).
+¶ Avviso: Montante terminale non qualificato come rigido: resta adottata la curva non rigida a taglio.
+¶ Avviso: Appoggio: R è l’inviluppo SLU assegnato, indipendente dalle fasi. Piatti continui senza intagli, vincolati lateralmente alle flange. Apparecchio d’appoggio e flessione della piastra di ripartizione esclusi.
+¶ Convergenza in 8 iterazioni. Variazione relativa delle larghezze: 5,390E-008; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T22 r1 c1] Contributo
+[T22 r1 c2] Riferimento N
+[T22 r1 c3] yN [mm]
+[T22 r1 c4] ΔN [kN]
+[T22 r1 c5] ΔMx al punto N [kNm]
+[T22 r1 c6] ΔV [kN]
+[T22 r2 c1] 1 · G1 · getto e carpenteria
+[T22 r2 c2] Baricentro omogeneizzato lordo
+[T22 r2 c3] -1211,65
+[T22 r2 c4] 0,00
+[T22 r2 c5] 1500,00
+[T22 r2 c6] 400,00
+[T22 r3 c1] 2 · G2 · permanenti portati
+[T22 r3 c2] Baricentro omogeneizzato lordo
+[T22 r3 c3] -697,54
+[T22 r3 c4] 0,00
+[T22 r3 c5] 2000,00
+[T22 r3 c6] 500,00
+¶ Rapporti e proprietà per contributo
+[T23 r1 c1] Contributo
+[T23 r1 c2] n0
+[T23 r1 c3] n
+[T23 r1 c4] φ
+[T23 r1 c5] ψL φ
+[T23 r1 c6] Ec eff [MPa]
+[T23 r2 c1] 1 · G1 · getto e carpenteria
+[T23 r2 c2] —
+[T23 r2 c3] —
+[T23 r2 c4] —
+[T23 r2 c5] —
+[T23 r2 c6] —
+[T23 r3 c1] 2 · G2 · permanenti portati
+[T23 r3 c2] 6,16
+[T23 r3 c3] 19,72
+[T23 r3 c4] 2,00
+[T23 r3 c5] 2,20
+[T23 r3 c6] 10649,11
+[T24 r1 c1] Contributo
+[T24 r1 c2] A* [mm²]
+[T24 r1 c3] yG [mm]
+[T24 r1 c4] Ix* [mm⁴]
+[T24 r1 c5] Ix integrazione [mm⁴]
+[T24 r2 c1] 1
+[T24 r2 c2] 67891,19
+[T24 r2 c3] -1261,31
+[T24 r2 c4] 38357028360,61
+[T24 r2 c5] 38357028360,61
+[T24 r3 c1] 2
+[T24 r3 c2] 113175,39
+[T24 r3 c3] -706,61
+[T24 r3 c4] 90808773123,81
+[T24 r3 c5] 90805714909,63
+[T25 r1 c1] Contributo
+[T25 r1 c2] Wsup* [mm³]
+[T25 r1 c3] Winf* [mm³]
+[T25 r1 c4] yσ zero [mm]
+[T25 r1 c5] κ [1/m]
+[T25 r1 c6] Residuo equilibrio
+[T25 r2 c1] 1
+[T25 r2 c2] 30410429,55
+[T25 r2 c3] 61997331,77
+[T25 r2 c4] -1261,31
+[T25 r2 c5] 1,86E-4
+[T25 r2 c6] 0E+0
+[T25 r3 c1] 2
+[T25 r3 c2] 128512382,02
+[T25 r3 c3] 77390431,02
+[T25 r3 c4] -706,61
+[T25 r3 c5] 1,05E-4
+[T25 r3 c6] 4,282E-15
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T26 r1 c1] Punto
+[T26 r1 c2] y [mm]
+[T26 r1 c3] Σσ [MPa]
+[T26 r1 c4] Limite [MPa]
+[T26 r1 c5] η
+[T26 r1 c6] Esito locale
+[T26 r2 c1] Soletta · estradosso
+[T26 r2 c2] 250,00
+[T26 r2 c3] -1,07
+[T26 r2 c4] 19,83
+[T26 r2 c5] 0,05
+[T26 r2 c6] Entro limite
+[T26 r3 c1] Soletta · intradosso
+[T26 r3 c2] 0,00
+[T26 r3 c3] -0,79
+[T26 r3 c4] 19,83
+[T26 r3 c5] 0,04
+[T26 r3 c6] Entro limite
+[T26 r4 c1] Armatura · y=205
+[T26 r4 c2] 205,00
+[T26 r4 c3] -19,12
+[T26 r4 c4] 391,30
+[T26 r4 c5] 0,05
+[T26 r4 c6] Entro limite
+[T26 r5 c1] Armatura · y=45
+[T26 r5 c2] 45,00
+[T26 r5 c3] -15,77
+[T26 r5 c4] 391,30
+[T26 r5 c5] 0,04
+[T26 r5 c6] Entro limite
+[T26 r6 c1] Acciaio · estradosso
+[T26 r6 c2] 0,00
+[T26 r6 c3] -64,89
+[T26 r6 c4] 338,10
+[T26 r6 c5] 0,19
+[T26 r6 c6] Entro limite
+[T26 r7 c1] Anima · sommità
+[T26 r7 c2] -25,00
+[T26 r7 c3] -63,36
+[T26 r7 c4] 338,10
+[T26 r7 c5] 0,19
+[T26 r7 c6] Entro limite
+[T26 r8 c1] Anima · piede
+[T26 r8 c2] -1825,00
+[T26 r8 c3] 46,68
+[T26 r8 c4] 338,10
+[T26 r8 c5] 0,14
+[T26 r8 c6] Entro limite
+[T26 r9 c1] Acciaio · intradosso
+[T26 r9 c2] -1880,00
+[T26 r9 c3] 50,04
+[T26 r9 c4] 338,10
+[T26 r9 c5] 0,15
+[T26 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T27 r1 c1] Punto
+[T27 r1 c2] Δσ 1
+[T27 r1 c3] Δσ 2
+[T27 r2 c1] Soletta · estradosso
+[T27 r2 c2] 0,00
+[T27 r2 c3] -1,07
+[T27 r3 c1] Soletta · intradosso
+[T27 r3 c2] 0,00
+[T27 r3 c3] -0,79
+[T27 r4 c1] Armatura · y=205
+[T27 r4 c2] 0,00
+[T27 r4 c3] -19,12
+[T27 r5 c1] Armatura · y=45
+[T27 r5 c2] 0,00
+[T27 r5 c3] -15,77
+[T27 r6 c1] Acciaio · estradosso
+[T27 r6 c2] -49,33
+[T27 r6 c3] -15,56
+[T27 r7 c1] Anima · sommità
+[T27 r7 c2] -48,35
+[T27 r7 c3] -15,01
+[T27 r8 c1] Anima · piede
+[T27 r8 c2] 22,04
+[T27 r8 c3] 24,63
+[T27 r9 c1] Acciaio · intradosso
+[T27 r9 c2] 24,19
+[T27 r9 c3] 25,84
+¶ 1: G1 · getto e carpenteria; 2: G2 · permanenti portati.
+¶ Sezione efficace di classe 4
+[T28 r1 c1] Pannello
+[T28 r1 c2] b [mm]
+[T28 r1 c3] t [mm]
+[T28 r1 c4] ψ
+[T28 r1 c5] kσ
+[T28 r1 c6] λp
+[T28 r1 c7] ρ
+[T28 r2 c1] Anima
+[T28 r2 c2] 1800,00
+[T28 r2 c3] 14,00
+[T28 r2 c4] -0,74
+[T28 r2 c5] 17,75
+[T28 r2 c6] 1,32
+[T28 r2 c7] 0,69
+[T28 r3 c1] Sbalzo superiore
+[T28 r3 c2] 243,00
+[T28 r3 c3] 25,00
+[T28 r3 c4] 1,00
+[T28 r3 c5] 0,43
+[T28 r3 c6] 0,64
+[T28 r3 c7] 1,00
+[T28 r4 c1] Sbalzo inferiore · piastra 1
+[T28 r4 c2] 343,00
+[T28 r4 c3] 30,00
+[T28 r4 c4] 1,00
+[T28 r4 c5] 0,43
+[T28 r4 c6] 0,75
+[T28 r4 c7] 1,00
+[T28 r5 c1] Sbalzo inferiore · piastra 2
+[T28 r5 c2] 268,00
+[T28 r5 c3] 25,00
+[T28 r5 c4] 1,00
+[T28 r5 c5] 0,43
+[T28 r5 c6] 0,71
+[T28 r5 c7] 1,00
+[T29 r1 c1] Pannello
+[T29 r1 c2] σ1 [MPa]
+[T29 r1 c3] σ2 [MPa]
+[T29 r1 c4] bc [mm]
+[T29 r1 c5] b1 eff [mm]
+[T29 r1 c6] b2 eff [mm]
+[T29 r2 c1] Anima
+[T29 r2 c2] -63,36
+[T29 r2 c3] 46,68
+[T29 r2 c4] 1036,46
+[T29 r2 c5] 284,33
+[T29 r2 c6] 1190,04
+[T29 r3 c1] Sbalzo superiore
+[T29 r3 c2] -64,89
+[T29 r3 c3] -64,89
+[T29 r3 c4] 243,00
+[T29 r3 c5] 243,00
+[T29 r3 c6] 0,00
+[T29 r4 c1] Sbalzo inferiore · piastra 1
+[T29 r4 c2] 46,68
+[T29 r4 c3] 46,68
+[T29 r4 c4] 0,00
+[T29 r4 c5] 343,00
+[T29 r4 c6] 0,00
+[T29 r5 c1] Sbalzo inferiore · piastra 2
+[T29 r5 c2] 48,51
+[T29 r5 c3] 48,51
+[T29 r5 c4] 0,00
+[T29 r5 c5] 268,00
+[T29 r5 c6] 0,00
+[T30 r1 c1] Carpenteria
+[T30 r1 c2] Area [mm²]
+[T30 r1 c3] yG [mm]
+[T30 r1 c4] Ix [mm⁴]
+[T30 r2 c1] Lorda
+[T30 r2 c2] 72450,00
+[T30 r2 c3] -1211,65
+[T30 r2 c4] 41057802906,10
+[T30 r3 c1] Efficace
+[T30 r3 c2] 67891,19
+[T30 r3 c3] -1261,31
+[T30 r3 c4] 38357028360,61
+¶ Anima inefficace: 325,63 mm, da y = -634,96 a y = -309,33 mm. Aeff/Alorda = 0,94; Ieff/Ilorda = 0,93.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T31 r1 c1] V [kN]
+[T31 r1 c2] kτ
+[T31 r1 c3] τcr [MPa]
+[T31 r1 c4] λw
+[T31 r1 c5] χw
+[T31 r1 c6] Vpl,Rd [kN]
+[T31 r1 c7] Vbw,Rd [kN]
+[T31 r2 c1] 900,00
+[T31 r2 c2] 6,99
+[T31 r2 c3] 80,29
+[T31 r2 c4] 1,60
+[T31 r2 c5] 0,52
+[T31 r2 c6] 4919,02
+[T31 r2 c7] 2439,26
+¶ τ nominale V/Av = 35,71 MPa; τ max elastica lorda = 36,03 MPa. Beneficio irrigidimenti: sì. Montante terminale adottato: non rigido.
+[T32 r1 c1] Parametro locale
+[T32 r1 c2] Valore
+[T32 r1 c3] Unità
+[T32 r2 c1] Intermedio · A con anima
+[T32 r2 c2] 9344,07
+[T32 r2 c3] mm²
+[T32 r3 c1] Intermedio · striscia anima
+[T32 r3 c2] 341,72
+[T32 r3 c3] mm
+[T32 r4 c1] Intermedio · xG
+[T32 r4 c2] -14,77
+[T32 r4 c3] mm
+[T32 r5 c1] Intermedio · eccentricità x−xG
+[T32 r5 c2] 34,77
+[T32 r5 c3] mm
+[T32 r6 c1] Intermedio · I fuori piano
+[T32 r6 c2] 35540294,61
+[T32 r6 c3] mm⁴
+[T32 r7 c1] Intermedio · I nel piano
+[T32 r7 c2] 46658870,10
+[T32 r7 c3] mm⁴
+[T32 r8 c1] Intermedio · Nst
+[T32 r8 c2] 200,00
+[T32 r8 c3] kN
+[T32 r9 c1] Intermedio · Ncr fuori piano
+[T32 r9 c2] 21757,27
+[T32 r9 c3] kN
+[T32 r10 c1] Intermedio · M II ordine fuori piano
+[T32 r10 c2] 9,34
+[T32 r10 c3] kNm
+[T32 r11 c1] Intermedio · M II ordine nel piano
+[T32 r11 c2] 1,85
+[T32 r11 c3] kNm
+[T32 r12 c1] Appoggio · A con anima
+[T32 r12 c2] 13200,00
+[T32 r12 c3] mm²
+[T32 r13 c1] Appoggio · striscia anima
+[T32 r13 c2] 300,00
+[T32 r13 c3] mm
+[T32 r14 c1] Appoggio · xG
+[T32 r14 c2] 0,00
+[T32 r14 c3] mm
+[T32 r15 c1] Appoggio · eccentricità x−xG
+[T32 r15 c2] 0,00
+[T32 r15 c3] mm
+[T32 r16 c1] Appoggio · I fuori piano
+[T32 r16 c2] 109049600,00
+[T32 r16 c3] mm⁴
+[T32 r17 c1] Appoggio · I nel piano
+[T32 r17 c2] 31968750,00
+[T32 r17 c3] mm⁴
+[T32 r18 c1] Appoggio · Nst
+[T32 r18 c2] 2500,00
+[T32 r18 c3] kN
+[T32 r19 c1] Appoggio · Ncr fuori piano
+[T32 r19 c2] 66758,64
+[T32 r19 c3] kN
+[T32 r20 c1] Appoggio · M II ordine fuori piano
+[T32 r20 c2] 24,28
+[T32 r20 c3] kNm
+[T32 r21 c1] Appoggio · M II ordine nel piano
+[T32 r21 c2] 26,37
+[T32 r21 c3] kNm
+[T32 r22 c1] Seconda coppia terminale · A con anima
+[T32 r22 c2] 13200,00
+[T32 r22 c3] mm²
+[T32 r23 c1] Seconda coppia terminale · striscia anima
+[T32 r23 c2] 300,00
+[T32 r23 c3] mm
+[T32 r24 c1] Seconda coppia terminale · xG
+[T32 r24 c2] 0,00
+[T32 r24 c3] mm
+[T32 r25 c1] Seconda coppia terminale · eccentricità x−xG
+[T32 r25 c2] 0,00
+[T32 r25 c3] mm
+[T32 r26 c1] Seconda coppia terminale · I fuori piano
+[T32 r26 c2] 109049600,00
+[T32 r26 c3] mm⁴
+[T32 r27 c1] Seconda coppia terminale · I nel piano
+[T32 r27 c2] 31968750,00
+[T32 r27 c3] mm⁴
+[T32 r28 c1] Seconda coppia terminale · Nst
+[T32 r28 c2] 2500,00
+[T32 r28 c3] kN
+[T32 r29 c1] Seconda coppia terminale · Ncr fuori piano
+[T32 r29 c2] 66758,64
+[T32 r29 c3] kN
+[T32 r30 c1] Seconda coppia terminale · M II ordine fuori piano
+[T32 r30 c2] 24,35
+[T32 r30 c3] kNm
+[T32 r31 c1] Seconda coppia terminale · M II ordine nel piano
+[T32 r31 c2] 26,37
+[T32 r31 c3] kNm
+[T33 r1 c1] Controllo
+[T33 r1 c2] Domanda
+[T33 r1 c3] Limite
+[T33 r1 c4] η
+[T33 r1 c5] Esito
+[T33 r2 c1] Anima · resistenza a taglio
+[T33 r2 c2] 900,00 kN
+[T33 r2 c3] 2439,26 kN
+[T33 r2 c4] 0,37
+[T33 r2 c5] Entro limite
+[T33 r3 c1] Intermedio · rigidezza pannelli
+[T33 r3 c2] 0,12 —
+[T33 r3 c3] 1,00 —
+[T33 r3 c4] 0,12
+[T33 r3 c5] Entro limite
+[T33 r4 c1] Intermedio · stabilità e pressoflessione II ordine
+[T33 r4 c2] 68,18 MPa
+[T33 r4 c3] 322,73 MPa
+[T33 r4 c4] 0,21
+[T33 r4 c5] Entro limite
+[T33 r5 c1] Intermedio · freccia fuori piano
+[T33 r5 c2] 0,61 mm
+[T33 r5 c3] 6,00 mm
+[T33 r5 c4] 0,10
+[T33 r5 c5] Entro limite
+[T33 r6 c1] Intermedio · rigidezza torsionale
+[T33 r6 c2] 0,76 —
+[T33 r6 c3] 1,00 —
+[T33 r6 c4] 0,76
+[T33 r6 c5] Entro limite
+[T33 r7 c1] Intermedio · piatti entro classe 3
+[T33 r7 c2] 0,78 —
+[T33 r7 c3] 1,00 —
+[T33 r7 c4] 0,78
+[T33 r7 c5] Entro limite
+[T33 r8 c1] Intermedio · ingombro tra piattabande
+[T33 r8 c2] 160,00 mm
+[T33 r8 c3] 243,00 mm
+[T33 r8 c4] 0,66
+[T33 r8 c5] Entro limite
+[T33 r9 c1] Intermedio · saldature verticali all’anima
+[T33 r9 c2] 5,54 MPa
+[T33 r9 c3] 181,66 MPa
+[T33 r9 c4] 0,03
+[T33 r9 c5] Entro limite
+[T33 r10 c1] Intermedio · saldature alle flange
+[T33 r10 c2] 102,26 MPa
+[T33 r10 c3] 181,66 MPa
+[T33 r10 c4] 0,56
+[T33 r10 c5] Entro limite
+[T33 r11 c1] Intermedio · gola minima
+[T33 r11 c2] 3,00 mm
+[T33 r11 c3] 6,00 mm
+[T33 r11 c4] 0,50
+[T33 r11 c5] Entro limite
+[T33 r12 c1] Intermedio · lunghezza efficace cordone
+[T33 r12 c2] 36,00 mm
+[T33 r12 c3] 108,00 mm
+[T33 r12 c4] 0,33
+[T33 r12 c5] Entro limite
+[T33 r13 c1] Appoggio · stabilità e pressoflessione II ordine
+[T33 r13 c2] 354,75 MPa
+[T33 r13 c3] 322,73 MPa
+[T33 r13 c4] 1,10
+[T33 r13 c5] Non verificato
+[T33 r14 c1] Appoggio · freccia fuori piano
+[T33 r14 c2] 0,24 mm
+[T33 r14 c3] 6,00 mm
+[T33 r14 c4] 0,04
+[T33 r14 c5] Entro limite
+[T33 r15 c1] Appoggio · rigidezza torsionale
+[T33 r15 c2] 0,51 —
+[T33 r15 c3] 1,00 —
+[T33 r15 c4] 0,51
+[T33 r15 c5] Entro limite
+[T33 r16 c1] Appoggio · piatti entro classe 3
+[T33 r16 c2] 0,63 —
+[T33 r16 c3] 1,00 —
+[T33 r16 c4] 0,63
+[T33 r16 c5] Entro limite
+[T33 r17 c1] Appoggio · ingombro tra piattabande
+[T33 r17 c2] 180,00 mm
+[T33 r17 c3] 243,00 mm
+[T33 r17 c4] 0,74
+[T33 r17 c5] Entro limite
+[T33 r18 c1] Appoggio · saldature verticali all’anima
+[T33 r18 c2] 46,78 MPa
+[T33 r18 c3] 204,29 MPa
+[T33 r18 c4] 0,23
+[T33 r18 c5] Entro limite
+[T33 r19 c1] Appoggio · saldature alle flange
+[T33 r19 c2] 554,30 MPa
+[T33 r19 c3] 204,29 MPa
+[T33 r19 c4] 2,71
+[T33 r19 c5] Non verificato
+[T33 r20 c1] Appoggio · gola minima
+[T33 r20 c2] 3,00 mm
+[T33 r20 c3] 8,00 mm
+[T33 r20 c4] 0,38
+[T33 r20 c5] Entro limite
+[T33 r21 c1] Appoggio · lunghezza efficace cordone
+[T33 r21 c2] 48,00 mm
+[T33 r21 c3] 164,00 mm
+[T33 r21 c4] 0,29
+[T33 r21 c5] Entro limite
+[T33 r22 c1] Appoggio · impronta trasversale sotto i piatti
+[T33 r22 c2] 374,00 mm
+[T33 r22 c3] 400,00 mm
+[T33 r22 c4] 0,94
+[T33 r22 c5] Entro limite
+[T33 r23 c1] Appoggio · impronta longitudinale
+[T33 r23 c2] 25,00 mm
+[T33 r23 c3] 300,00 mm
+[T33 r23 c4] 0,08
+[T33 r23 c5] Entro limite
+[T33 r24 c1] Appoggio · impronta entro l’estremità
+[T33 r24 c2] 150,00 mm
+[T33 r24 c3] 180,00 mm
+[T33 r24 c4] 0,83
+[T33 r24 c5] Entro limite
+[T33 r25 c1] Appoggio · contatto piatti/flangia
+[T33 r25 c2] 443,14 MPa
+[T33 r25 c3] 338,10 MPa
+[T33 r25 c4] 1,31
+[T33 r25 c5] Non verificato
+[T33 r26 c1] Terminale · due coppie bilaterali simmetriche
+[T33 r26 c2] 1,00 —
+[T33 r26 c3] 1,00 —
+[T33 r26 c4] 0,00
+[T33 r26 c5] Entro limite
+[T33 r27 c1] Terminale · area di ciascuna coppia
+[T33 r27 c2] 4704,00 mm²
+[T33 r27 c3] 9000,00 mm²
+[T33 r27 c4] 0,52
+[T33 r27 c5] Entro limite
+[T33 r28 c1] Terminale · distanza e > 0,1 hw
+[T33 r28 c2] 180,00 mm
+[T33 r28 c3] 300,00 mm
+[T33 r28 c4] 0,60
+[T33 r28 c5] Entro limite
+[T33 r29 c1] Terminale · e entro il pannello
+[T33 r29 c2] 300,00 mm
+[T33 r29 c3] 3000,00 mm
+[T33 r29 c4] 0,10
+[T33 r29 c5] Entro limite
+[T33 r30 c1] Seconda coppia terminale · stabilità e pressoflessione II ordine
+[T33 r30 c2] 354,87 MPa
+[T33 r30 c3] 322,73 MPa
+[T33 r30 c4] 1,10
+[T33 r30 c5] Non verificato
+[T33 r31 c1] Seconda coppia terminale · freccia fuori piano
+[T33 r31 c2] 0,04 mm
+[T33 r31 c3] 6,00 mm
+[T33 r31 c4] 7,35E-3
+[T33 r31 c5] Entro limite
+[T33 r32 c1] Seconda coppia terminale · rigidezza torsionale
+[T33 r32 c2] 0,51 —
+[T33 r32 c3] 1,00 —
+[T33 r32 c4] 0,51
+[T33 r32 c5] Entro limite
+[T33 r33 c1] Seconda coppia terminale · piatti entro classe 3
+[T33 r33 c2] 0,63 —
+[T33 r33 c3] 1,00 —
+[T33 r33 c4] 0,63
+[T33 r33 c5] Entro limite
+[T33 r34 c1] Seconda coppia terminale · ingombro tra piattabande
+[T33 r34 c2] 180,00 mm
+[T33 r34 c3] 243,00 mm
+[T33 r34 c4] 0,74
+[T33 r34 c5] Entro limite
+[T33 r35 c1] Seconda coppia terminale · saldature verticali all’anima
+[T33 r35 c2] 46,78 MPa
+[T33 r35 c3] 204,29 MPa
+[T33 r35 c4] 0,23
+[T33 r35 c5] Entro limite
+[T33 r36 c1] Seconda coppia terminale · saldature alle flange
+[T33 r36 c2] 554,49 MPa
+[T33 r36 c3] 204,29 MPa
+[T33 r36 c4] 2,71
+[T33 r36 c5] Non verificato
+[T33 r37 c1] Seconda coppia terminale · gola minima
+[T33 r37 c2] 3,00 mm
+[T33 r37 c3] 8,00 mm
+[T33 r37 c4] 0,38
+[T33 r37 c5] Entro limite
+[T33 r38 c1] Seconda coppia terminale · lunghezza efficace cordone
+[T33 r38 c2] 48,00 mm
+[T33 r38 c3] 164,00 mm
+[T33 r38 c4] 0,29
+[T33 r38 c5] Entro limite
+[T33 r39 c1] Terminale · reazione e ancoraggio combinati
+[T33 r39 c2] 1,62 —
+[T33 r39 c3] 1,00 —
+[T33 r39 c4] 1,62
+[T33 r39 c5] Non verificato
+[T33 r40 c1] Anima · tensione equivalente elastica (inviluppo)
+[T33 r40 c2] 88,93 MPa
+[T33 r40 c3] 338,10 MPa
+[T33 r40 c4] 0,26
+[T33 r40 c5] Entro limite
+¶ Anima · resistenza a taglio: min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido.
+¶ Intermedio · rigidezza pannelli: EN 1993-1-5 §9.3.3; controllo di entrambi i pannelli.
+¶ Intermedio · stabilità e pressoflessione II ordine: EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica.
+¶ Intermedio · freccia fuori piano: EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw.
+¶ Intermedio · piatti entro classe 3: Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli.
+¶ Intermedio · saldature verticali all’anima: Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1.
+¶ Appoggio · stabilità e pressoflessione II ordine: EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica.
+¶ Appoggio · freccia fuori piano: EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw.
+¶ Appoggio · piatti entro classe 3: Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli.
+¶ Appoggio · saldature verticali all’anima: Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1.
+¶ Appoggio · contatto piatti/flangia: Piatti a contatto con la flangia inferiore; impronta interamente sottostante. Non comprende piastra di ripartizione o apparecchio d’appoggio..
+¶ Terminale · due coppie bilaterali simmetriche: Seconda coppia identica verso l’interno, distanza e; EN 1993-1-5 §9.3.1.
+¶ Terminale · area di ciascuna coppia: A ≥ 4 hw tw²/e.
+¶ Seconda coppia terminale · stabilità e pressoflessione II ordine: EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica.
+¶ Seconda coppia terminale · freccia fuori piano: EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw.
+¶ Seconda coppia terminale · piatti entro classe 3: Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli.
+¶ Seconda coppia terminale · saldature verticali all’anima: Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1.
+¶ Terminale · reazione e ancoraggio combinati: Inviluppo cautelativo: utilizzo elastico della coppia + area richiesta dal §9.3.1 / area disponibile; R intera su ciascuna coppia.
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata.
+¶ Situazione 2 dopo G2 · permanenti portati. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Situazione 3 dopo Q · variabili
+¶ Avviso: Due piastre inferiori modellate con la geometria reale. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore, senza il beneficio dell'accoppiamento (a favore di sicurezza).
+¶ Avviso: Montante terminale non qualificato come rigido: resta adottata la curva non rigida a taglio.
+¶ Avviso: Appoggio: R è l’inviluppo SLU assegnato, indipendente dalle fasi. Piatti continui senza intagli, vincolati lateralmente alle flange. Apparecchio d’appoggio e flessione della piastra di ripartizione esclusi.
+¶ Convergenza in 9 iterazioni. Variazione relativa delle larghezze: 2,265E-008; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T34 r1 c1] Contributo
+[T34 r1 c2] Riferimento N
+[T34 r1 c3] yN [mm]
+[T34 r1 c4] ΔN [kN]
+[T34 r1 c5] ΔMx al punto N [kNm]
+[T34 r1 c6] ΔV [kN]
+[T34 r2 c1] 1 · G1 · getto e carpenteria
+[T34 r2 c2] Baricentro omogeneizzato lordo
+[T34 r2 c3] -1211,65
+[T34 r2 c4] 0,00
+[T34 r2 c5] 1500,00
+[T34 r2 c6] 400,00
+[T34 r3 c1] 2 · G2 · permanenti portati
+[T34 r3 c2] Baricentro omogeneizzato lordo
+[T34 r3 c3] -697,54
+[T34 r3 c4] 0,00
+[T34 r3 c5] 2000,00
+[T34 r3 c6] 500,00
+[T34 r4 c1] 3 · Q · variabili
+[T34 r4 c2] Baricentro omogeneizzato lordo
+[T34 r4 c3] -357,98
+[T34 r4 c4] 0,00
+[T34 r4 c5] 3000,00
+[T34 r4 c6] 700,00
+¶ Rapporti e proprietà per contributo
+[T35 r1 c1] Contributo
+[T35 r1 c2] n0
+[T35 r1 c3] n
+[T35 r1 c4] φ
+[T35 r1 c5] ψL φ
+[T35 r1 c6] Ec eff [MPa]
+[T35 r2 c1] 1 · G1 · getto e carpenteria
+[T35 r2 c2] —
+[T35 r2 c3] —
+[T35 r2 c4] —
+[T35 r2 c5] —
+[T35 r2 c6] —
+[T35 r3 c1] 2 · G2 · permanenti portati
+[T35 r3 c2] 6,16
+[T35 r3 c3] 19,72
+[T35 r3 c4] 2,00
+[T35 r3 c5] 2,20
+[T35 r3 c6] 10649,11
+[T35 r4 c1] 3 · Q · variabili
+[T35 r4 c2] 6,16
+[T35 r4 c3] 6,16
+[T35 r4 c4] 0,00
+[T35 r4 c5] 0,00
+[T35 r4 c6] 34077,15
+[T36 r1 c1] Contributo
+[T36 r1 c2] A* [mm²]
+[T36 r1 c3] yG [mm]
+[T36 r1 c4] Ix* [mm⁴]
+[T36 r1 c5] Ix integrazione [mm⁴]
+[T36 r2 c1] 1
+[T36 r2 c2] 71078,74
+[T36 r2 c3] -1228,08
+[T36 r2 c4] 40043289868,49
+[T36 r2 c5] 40043289868,49
+[T36 r3 c1] 2
+[T36 r3 c2] 116362,93
+[T36 r3 c3] -701,51
+[T36 r3 c4] 90930952579,54
+[T36 r3 c5] 90927894365,36
+[T36 r4 c1] 3
+[T36 r4 c2] 199137,26
+[T36 r4 c3] -357,96
+[T36 r4 c4] 124402201022,83
+[T36 r4 c5] 124399157164,42
+[T37 r1 c1] Contributo
+[T37 r1 c2] Wsup* [mm³]
+[T37 r1 c3] Winf* [mm³]
+[T37 r1 c4] yσ zero [mm]
+[T37 r1 c5] κ [1/m]
+[T37 r1 c6] Residuo equilibrio
+[T37 r2 c1] 1
+[T37 r2 c2] 32606368,69
+[T37 r2 c3] 61423800,52
+[T37 r2 c4] -1228,08
+[T37 r2 c5] 1,78E-4
+[T37 r2 c6] 1,589E-16
+[T37 r3 c1] 2
+[T37 r3 c2] 129621397,31
+[T37 r3 c3] 77158990,83
+[T37 r3 c4] -701,51
+[T37 r3 c5] 1,05E-4
+[T37 r3 c6] 4,843E-15
+[T37 r4 c1] 3
+[T37 r4 c2] 347530928,53
+[T37 r4 c3] 81733862,48
+[T37 r4 c4] -357,96
+[T37 r4 c5] 1,15E-4
+[T37 r4 c6] 1,005E-14
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T38 r1 c1] Punto
+[T38 r1 c2] y [mm]
+[T38 r1 c3] Σσ [MPa]
+[T38 r1 c4] Limite [MPa]
+[T38 r1 c5] η
+[T38 r1 c6] Esito locale
+[T38 r2 c1] Soletta · estradosso
+[T38 r2 c2] 250,00
+[T38 r2 c3] -3,44
+[T38 r2 c4] 19,83
+[T38 r2 c5] 0,17
+[T38 r2 c6] Entro limite
+[T38 r3 c1] Soletta · intradosso
+[T38 r3 c2] 0,00
+[T38 r3 c3] -2,18
+[T38 r3 c4] 19,83
+[T38 r3 c5] 0,11
+[T38 r3 c6] Entro limite
+[T38 r4 c1] Armatura · y=205
+[T38 r4 c2] 205,00
+[T38 r4 c3] -31,92
+[T38 r4 c4] 391,30
+[T38 r4 c5] 0,08
+[T38 r4 c6] Entro limite
+[T38 r5 c1] Armatura · y=45
+[T38 r5 c2] 45,00
+[T38 r5 c3] -24,89
+[T38 r5 c4] 391,30
+[T38 r5 c5] 0,06
+[T38 r5 c6] Entro limite
+[T38 r6 c1] Acciaio · estradosso
+[T38 r6 c2] 0,00
+[T38 r6 c3] -70,07
+[T38 r6 c4] 338,10
+[T38 r6 c5] 0,21
+[T38 r6 c6] Entro limite
+[T38 r7 c1] Anima · sommità
+[T38 r7 c2] -25,00
+[T38 r7 c3] -67,98
+[T38 r7 c4] 338,10
+[T38 r7 c5] 0,20
+[T38 r7 c6] Entro limite
+[T38 r8 c1] Anima · piede
+[T38 r8 c2] -1825,00
+[T38 r8 c3] 82,45
+[T38 r8 c4] 338,10
+[T38 r8 c5] 0,24
+[T38 r8 c6] Entro limite
+[T38 r9 c1] Acciaio · intradosso
+[T38 r9 c2] -1880,00
+[T38 r9 c3] 87,05
+[T38 r9 c4] 338,10
+[T38 r9 c5] 0,26
+[T38 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T39 r1 c1] Punto
+[T39 r1 c2] Δσ 1
+[T39 r1 c3] Δσ 2
+[T39 r1 c4] Δσ 3
+[T39 r2 c1] Soletta · estradosso
+[T39 r2 c2] 0,00
+[T39 r2 c3] -1,06
+[T39 r2 c4] -2,38
+[T39 r3 c1] Soletta · intradosso
+[T39 r3 c2] 0,00
+[T39 r3 c3] -0,78
+[T39 r3 c4] -1,40
+[T39 r4 c1] Armatura · y=205
+[T39 r4 c2] 0,00
+[T39 r4 c3] -18,99
+[T39 r4 c4] -12,93
+[T39 r5 c1] Armatura · y=45
+[T39 r5 c2] 0,00
+[T39 r5 c3] -15,64
+[T39 r5 c4] -9,26
+[T39 r6 c1] Acciaio · estradosso
+[T39 r6 c2] -46,00
+[T39 r6 c3] -15,43
+[T39 r6 c4] -8,63
+[T39 r7 c1] Anima · sommità
+[T39 r7 c2] -45,07
+[T39 r7 c3] -14,88
+[T39 r7 c4] -8,03
+[T39 r8 c1] Anima · piede
+[T39 r8 c2] 22,36
+[T39 r8 c3] 24,71
+[T39 r8 c4] 35,38
+[T39 r9 c1] Acciaio · intradosso
+[T39 r9 c2] 24,42
+[T39 r9 c3] 25,92
+[T39 r9 c4] 36,71
+¶ 1: G1 · getto e carpenteria; 2: G2 · permanenti portati; 3: Q · variabili.
+¶ Sezione efficace di classe 4
+[T40 r1 c1] Pannello
+[T40 r1 c2] b [mm]
+[T40 r1 c3] t [mm]
+[T40 r1 c4] ψ
+[T40 r1 c5] kσ
+[T40 r1 c6] λp
+[T40 r1 c7] ρ
+[T40 r2 c1] Anima
+[T40 r2 c2] 1800,00
+[T40 r2 c3] 14,00
+[T40 r2 c4] -1,21
+[T40 r2 c5] 29,28
+[T40 r2 c6] 1,03
+[T40 r2 c7] 0,88
+[T40 r3 c1] Sbalzo superiore
+[T40 r3 c2] 243,00
+[T40 r3 c3] 25,00
+[T40 r3 c4] 1,00
+[T40 r3 c5] 0,43
+[T40 r3 c6] 0,64
+[T40 r3 c7] 1,00
+[T40 r4 c1] Sbalzo inferiore · piastra 1
+[T40 r4 c2] 343,00
+[T40 r4 c3] 30,00
+[T40 r4 c4] 1,00
+[T40 r4 c5] 0,43
+[T40 r4 c6] 0,75
+[T40 r4 c7] 1,00
+[T40 r5 c1] Sbalzo inferiore · piastra 2
+[T40 r5 c2] 268,00
+[T40 r5 c3] 25,00
+[T40 r5 c4] 1,00
+[T40 r5 c5] 0,43
+[T40 r5 c6] 0,71
+[T40 r5 c7] 1,00
+[T41 r1 c1] Pannello
+[T41 r1 c2] σ1 [MPa]
+[T41 r1 c3] σ2 [MPa]
+[T41 r1 c4] bc [mm]
+[T41 r1 c5] b1 eff [mm]
+[T41 r1 c6] b2 eff [mm]
+[T41 r2 c1] Anima
+[T41 r2 c2] -67,98
+[T41 r2 c3] 82,45
+[T41 r2 c4] 813,40
+[T41 r2 c5] 286,18
+[T41 r2 c6] 1415,87
+[T41 r3 c1] Sbalzo superiore
+[T41 r3 c2] -70,07
+[T41 r3 c3] -70,07
+[T41 r3 c4] 243,00
+[T41 r3 c5] 243,00
+[T41 r3 c6] 0,00
+[T41 r4 c1] Sbalzo inferiore · piastra 1
+[T41 r4 c2] 82,45
+[T41 r4 c3] 82,45
+[T41 r4 c4] 0,00
+[T41 r4 c5] 343,00
+[T41 r4 c6] 0,00
+[T41 r5 c1] Sbalzo inferiore · piastra 2
+[T41 r5 c2] 84,96
+[T41 r5 c3] 84,96
+[T41 r5 c4] 0,00
+[T41 r5 c5] 268,00
+[T41 r5 c6] 0,00
+[T42 r1 c1] Carpenteria
+[T42 r1 c2] Area [mm²]
+[T42 r1 c3] yG [mm]
+[T42 r1 c4] Ix [mm⁴]
+[T42 r2 c1] Lorda
+[T42 r2 c2] 72450,00
+[T42 r2 c3] -1211,65
+[T42 r2 c4] 41057802906,10
+[T42 r3 c1] Efficace
+[T42 r3 c2] 71078,74
+[T42 r3 c3] -1228,08
+[T42 r3 c4] 40043289868,49
+¶ Anima inefficace: 97,95 mm, da y = -409,13 a y = -311,18 mm. Aeff/Alorda = 0,98; Ieff/Ilorda = 0,98.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T43 r1 c1] V [kN]
+[T43 r1 c2] kτ
+[T43 r1 c3] τcr [MPa]
+[T43 r1 c4] λw
+[T43 r1 c5] χw
+[T43 r1 c6] Vpl,Rd [kN]
+[T43 r1 c7] Vbw,Rd [kN]
+[T43 r2 c1] 1600,00
+[T43 r2 c2] 6,99
+[T43 r2 c3] 80,29
+[T43 r2 c4] 1,60
+[T43 r2 c5] 0,52
+[T43 r2 c6] 4919,02
+[T43 r2 c7] 2439,26
+¶ τ nominale V/Av = 63,49 MPa; τ max elastica lorda = 62,02 MPa. Beneficio irrigidimenti: sì. Montante terminale adottato: non rigido.
+[T44 r1 c1] Parametro locale
+[T44 r1 c2] Valore
+[T44 r1 c3] Unità
+[T44 r2 c1] Intermedio · A con anima
+[T44 r2 c2] 9344,07
+[T44 r2 c3] mm²
+[T44 r3 c1] Intermedio · striscia anima
+[T44 r3 c2] 341,72
+[T44 r3 c3] mm
+[T44 r4 c1] Intermedio · xG
+[T44 r4 c2] -14,77
+[T44 r4 c3] mm
+[T44 r5 c1] Intermedio · eccentricità x−xG
+[T44 r5 c2] 29,62
+[T44 r5 c3] mm
+[T44 r6 c1] Intermedio · I fuori piano
+[T44 r6 c2] 35540294,61
+[T44 r6 c3] mm⁴
+[T44 r7 c1] Intermedio · I nel piano
+[T44 r7 c2] 46658870,10
+[T44 r7 c3] mm⁴
+[T44 r8 c1] Intermedio · Nst
+[T44 r8 c2] 269,32
+[T44 r8 c3] kN
+[T44 r9 c1] Intermedio · Ncr fuori piano
+[T44 r9 c2] 21757,27
+[T44 r9 c3] kN
+[T44 r10 c1] Intermedio · M II ordine fuori piano
+[T44 r10 c2] 10,99
+[T44 r10 c3] kNm
+[T44 r11 c1] Intermedio · M II ordine nel piano
+[T44 r11 c2] 2,50
+[T44 r11 c3] kNm
+[T44 r12 c1] Appoggio · A con anima
+[T44 r12 c2] 13200,00
+[T44 r12 c3] mm²
+[T44 r13 c1] Appoggio · striscia anima
+[T44 r13 c2] 300,00
+[T44 r13 c3] mm
+[T44 r14 c1] Appoggio · xG
+[T44 r14 c2] 0,00
+[T44 r14 c3] mm
+[T44 r15 c1] Appoggio · eccentricità x−xG
+[T44 r15 c2] 0,00
+[T44 r15 c3] mm
+[T44 r16 c1] Appoggio · I fuori piano
+[T44 r16 c2] 109049600,00
+[T44 r16 c3] mm⁴
+[T44 r17 c1] Appoggio · I nel piano
+[T44 r17 c2] 31968750,00
+[T44 r17 c3] mm⁴
+[T44 r18 c1] Appoggio · Nst
+[T44 r18 c2] 2500,00
+[T44 r18 c3] kN
+[T44 r19 c1] Appoggio · Ncr fuori piano
+[T44 r19 c2] 66758,64
+[T44 r19 c3] kN
+[T44 r20 c1] Appoggio · M II ordine fuori piano
+[T44 r20 c2] 24,22
+[T44 r20 c3] kNm
+[T44 r21 c1] Appoggio · M II ordine nel piano
+[T44 r21 c2] 26,37
+[T44 r21 c3] kNm
+[T44 r22 c1] Seconda coppia terminale · A con anima
+[T44 r22 c2] 13200,00
+[T44 r22 c3] mm²
+[T44 r23 c1] Seconda coppia terminale · striscia anima
+[T44 r23 c2] 300,00
+[T44 r23 c3] mm
+[T44 r24 c1] Seconda coppia terminale · xG
+[T44 r24 c2] 0,00
+[T44 r24 c3] mm
+[T44 r25 c1] Seconda coppia terminale · eccentricità x−xG
+[T44 r25 c2] 0,00
+[T44 r25 c3] mm
+[T44 r26 c1] Seconda coppia terminale · I fuori piano
+[T44 r26 c2] 109049600,00
+[T44 r26 c3] mm⁴
+[T44 r27 c1] Seconda coppia terminale · I nel piano
+[T44 r27 c2] 31968750,00
+[T44 r27 c3] mm⁴
+[T44 r28 c1] Seconda coppia terminale · Nst
+[T44 r28 c2] 2500,00
+[T44 r28 c3] kN
+[T44 r29 c1] Seconda coppia terminale · Ncr fuori piano
+[T44 r29 c2] 66758,64
+[T44 r29 c3] kN
+[T44 r30 c1] Seconda coppia terminale · M II ordine fuori piano
+[T44 r30 c2] 24,28
+[T44 r30 c3] kNm
+[T44 r31 c1] Seconda coppia terminale · M II ordine nel piano
+[T44 r31 c2] 26,37
+[T44 r31 c3] kNm
+[T45 r1 c1] Controllo
+[T45 r1 c2] Domanda
+[T45 r1 c3] Limite
+[T45 r1 c4] η
+[T45 r1 c5] Esito
+[T45 r2 c1] Anima · resistenza a taglio
+[T45 r2 c2] 1600,00 kN
+[T45 r2 c3] 2439,26 kN
+[T45 r2 c4] 0,66
+[T45 r2 c5] Entro limite
+[T45 r3 c1] Intermedio · rigidezza pannelli
+[T45 r3 c2] 0,12 —
+[T45 r3 c3] 1,00 —
+[T45 r3 c4] 0,12
+[T45 r3 c5] Entro limite
+[T45 r4 c1] Intermedio · stabilità e pressoflessione II ordine
+[T45 r4 c2] 85,06 MPa
+[T45 r4 c3] 322,73 MPa
+[T45 r4 c4] 0,26
+[T45 r4 c5] Entro limite
+[T45 r5 c1] Intermedio · freccia fuori piano
+[T45 r5 c2] 0,65 mm
+[T45 r5 c3] 6,00 mm
+[T45 r5 c4] 0,11
+[T45 r5 c5] Entro limite
+[T45 r6 c1] Intermedio · rigidezza torsionale
+[T45 r6 c2] 0,76 —
+[T45 r6 c3] 1,00 —
+[T45 r6 c4] 0,76
+[T45 r6 c5] Entro limite
+[T45 r7 c1] Intermedio · piatti entro classe 3
+[T45 r7 c2] 0,78 —
+[T45 r7 c3] 1,00 —
+[T45 r7 c4] 0,78
+[T45 r7 c5] Entro limite
+[T45 r8 c1] Intermedio · ingombro tra piattabande
+[T45 r8 c2] 160,00 mm
+[T45 r8 c3] 243,00 mm
+[T45 r8 c4] 0,66
+[T45 r8 c5] Entro limite
+[T45 r9 c1] Intermedio · saldature verticali all’anima
+[T45 r9 c2] 7,33 MPa
+[T45 r9 c3] 181,66 MPa
+[T45 r9 c4] 0,04
+[T45 r9 c5] Entro limite
+[T45 r10 c1] Intermedio · saldature alle flange
+[T45 r10 c2] 127,59 MPa
+[T45 r10 c3] 181,66 MPa
+[T45 r10 c4] 0,70
+[T45 r10 c5] Entro limite
+[T45 r11 c1] Intermedio · gola minima
+[T45 r11 c2] 3,00 mm
+[T45 r11 c3] 6,00 mm
+[T45 r11 c4] 0,50
+[T45 r11 c5] Entro limite
+[T45 r12 c1] Intermedio · lunghezza efficace cordone
+[T45 r12 c2] 36,00 mm
+[T45 r12 c3] 108,00 mm
+[T45 r12 c4] 0,33
+[T45 r12 c5] Entro limite
+[T45 r13 c1] Appoggio · stabilità e pressoflessione II ordine
+[T45 r13 c2] 354,65 MPa
+[T45 r13 c3] 322,73 MPa
+[T45 r13 c4] 1,10
+[T45 r13 c5] Non verificato
+[T45 r14 c1] Appoggio · freccia fuori piano
+[T45 r14 c2] 0,24 mm
+[T45 r14 c3] 6,00 mm
+[T45 r14 c4] 0,04
+[T45 r14 c5] Entro limite
+[T45 r15 c1] Appoggio · rigidezza torsionale
+[T45 r15 c2] 0,51 —
+[T45 r15 c3] 1,00 —
+[T45 r15 c4] 0,51
+[T45 r15 c5] Entro limite
+[T45 r16 c1] Appoggio · piatti entro classe 3
+[T45 r16 c2] 0,63 —
+[T45 r16 c3] 1,00 —
+[T45 r16 c4] 0,63
+[T45 r16 c5] Entro limite
+[T45 r17 c1] Appoggio · ingombro tra piattabande
+[T45 r17 c2] 180,00 mm
+[T45 r17 c3] 243,00 mm
+[T45 r17 c4] 0,74
+[T45 r17 c5] Entro limite
+[T45 r18 c1] Appoggio · saldature verticali all’anima
+[T45 r18 c2] 46,77 MPa
+[T45 r18 c3] 204,29 MPa
+[T45 r18 c4] 0,23
+[T45 r18 c5] Entro limite
+[T45 r19 c1] Appoggio · saldature alle flange
+[T45 r19 c2] 554,14 MPa
+[T45 r19 c3] 204,29 MPa
+[T45 r19 c4] 2,71
+[T45 r19 c5] Non verificato
+[T45 r20 c1] Appoggio · gola minima
+[T45 r20 c2] 3,00 mm
+[T45 r20 c3] 8,00 mm
+[T45 r20 c4] 0,38
+[T45 r20 c5] Entro limite
+[T45 r21 c1] Appoggio · lunghezza efficace cordone
+[T45 r21 c2] 48,00 mm
+[T45 r21 c3] 164,00 mm
+[T45 r21 c4] 0,29
+[T45 r21 c5] Entro limite
+[T45 r22 c1] Appoggio · impronta trasversale sotto i piatti
+[T45 r22 c2] 374,00 mm
+[T45 r22 c3] 400,00 mm
+[T45 r22 c4] 0,94
+[T45 r22 c5] Entro limite
+[T45 r23 c1] Appoggio · impronta longitudinale
+[T45 r23 c2] 25,00 mm
+[T45 r23 c3] 300,00 mm
+[T45 r23 c4] 0,08
+[T45 r23 c5] Entro limite
+[T45 r24 c1] Appoggio · impronta entro l’estremità
+[T45 r24 c2] 150,00 mm
+[T45 r24 c3] 180,00 mm
+[T45 r24 c4] 0,83
+[T45 r24 c5] Entro limite
+[T45 r25 c1] Appoggio · contatto piatti/flangia
+[T45 r25 c2] 443,03 MPa
+[T45 r25 c3] 338,10 MPa
+[T45 r25 c4] 1,31
+[T45 r25 c5] Non verificato
+[T45 r26 c1] Terminale · due coppie bilaterali simmetriche
+[T45 r26 c2] 1,00 —
+[T45 r26 c3] 1,00 —
+[T45 r26 c4] 0,00
+[T45 r26 c5] Entro limite
+[T45 r27 c1] Terminale · area di ciascuna coppia
+[T45 r27 c2] 4704,00 mm²
+[T45 r27 c3] 9000,00 mm²
+[T45 r27 c4] 0,52
+[T45 r27 c5] Entro limite
+[T45 r28 c1] Terminale · distanza e > 0,1 hw
+[T45 r28 c2] 180,00 mm
+[T45 r28 c3] 300,00 mm
+[T45 r28 c4] 0,60
+[T45 r28 c5] Entro limite
+[T45 r29 c1] Terminale · e entro il pannello
+[T45 r29 c2] 300,00 mm
+[T45 r29 c3] 3000,00 mm
+[T45 r29 c4] 0,10
+[T45 r29 c5] Entro limite
+[T45 r30 c1] Seconda coppia terminale · stabilità e pressoflessione II ordine
+[T45 r30 c2] 354,75 MPa
+[T45 r30 c3] 322,73 MPa
+[T45 r30 c4] 1,10
+[T45 r30 c5] Non verificato
+[T45 r31 c1] Seconda coppia terminale · freccia fuori piano
+[T45 r31 c2] 0,04 mm
+[T45 r31 c3] 6,00 mm
+[T45 r31 c4] 7,22E-3
+[T45 r31 c5] Entro limite
+[T45 r32 c1] Seconda coppia terminale · rigidezza torsionale
+[T45 r32 c2] 0,51 —
+[T45 r32 c3] 1,00 —
+[T45 r32 c4] 0,51
+[T45 r32 c5] Entro limite
+[T45 r33 c1] Seconda coppia terminale · piatti entro classe 3
+[T45 r33 c2] 0,63 —
+[T45 r33 c3] 1,00 —
+[T45 r33 c4] 0,63
+[T45 r33 c5] Entro limite
+[T45 r34 c1] Seconda coppia terminale · ingombro tra piattabande
+[T45 r34 c2] 180,00 mm
+[T45 r34 c3] 243,00 mm
+[T45 r34 c4] 0,74
+[T45 r34 c5] Entro limite
+[T45 r35 c1] Seconda coppia terminale · saldature verticali all’anima
+[T45 r35 c2] 46,78 MPa
+[T45 r35 c3] 204,29 MPa
+[T45 r35 c4] 0,23
+[T45 r35 c5] Entro limite
+[T45 r36 c1] Seconda coppia terminale · saldature alle flange
+[T45 r36 c2] 554,29 MPa
+[T45 r36 c3] 204,29 MPa
+[T45 r36 c4] 2,71
+[T45 r36 c5] Non verificato
+[T45 r37 c1] Seconda coppia terminale · gola minima
+[T45 r37 c2] 3,00 mm
+[T45 r37 c3] 8,00 mm
+[T45 r37 c4] 0,38
+[T45 r37 c5] Entro limite
+[T45 r38 c1] Seconda coppia terminale · lunghezza efficace cordone
+[T45 r38 c2] 48,00 mm
+[T45 r38 c3] 164,00 mm
+[T45 r38 c4] 0,29
+[T45 r38 c5] Entro limite
+[T45 r39 c1] Terminale · reazione e ancoraggio combinati
+[T45 r39 c2] 1,62 —
+[T45 r39 c3] 1,00 —
+[T45 r39 c4] 1,62
+[T45 r39 c5] Non verificato
+[T45 r40 c1] Anima · tensione equivalente elastica (inviluppo)
+[T45 r40 c2] 135,41 MPa
+[T45 r40 c3] 338,10 MPa
+[T45 r40 c4] 0,40
+[T45 r40 c5] Entro limite
+[T45 r41 c1] Interazione M–V · classe 4
+[T45 r41 c2] 0,21 —
+[T45 r41 c3] 1,00 —
+[T45 r41 c4] 0,21
+[T45 r41 c5] Entro limite
+¶ Anima · resistenza a taglio: min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido.
+¶ Intermedio · rigidezza pannelli: EN 1993-1-5 §9.3.3; controllo di entrambi i pannelli.
+¶ Intermedio · stabilità e pressoflessione II ordine: EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica.
+¶ Intermedio · freccia fuori piano: EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw.
+¶ Intermedio · piatti entro classe 3: Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli.
+¶ Intermedio · saldature verticali all’anima: Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1.
+¶ Appoggio · stabilità e pressoflessione II ordine: EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica.
+¶ Appoggio · freccia fuori piano: EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw.
+¶ Appoggio · piatti entro classe 3: Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli.
+¶ Appoggio · saldature verticali all’anima: Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1.
+¶ Appoggio · contatto piatti/flangia: Piatti a contatto con la flangia inferiore; impronta interamente sottostante. Non comprende piastra di ripartizione o apparecchio d’appoggio..
+¶ Terminale · due coppie bilaterali simmetriche: Seconda coppia identica verso l’interno, distanza e; EN 1993-1-5 §9.3.1.
+¶ Terminale · area di ciascuna coppia: A ≥ 4 hw tw²/e.
+¶ Seconda coppia terminale · stabilità e pressoflessione II ordine: EN 1993-1-1 §§5.2.2(7)a, 5.3.4: imperfezione equivalente Lcr/200, eccentricità effettive, due piani; nessuna riserva plastica.
+¶ Seconda coppia terminale · freccia fuori piano: EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw.
+¶ Seconda coppia terminale · piatti entro classe 3: Sbalzi uniformemente compressi c/t ≤ 14ε; nessuna riduzione automatica dei piatti snelli.
+¶ Seconda coppia terminale · saldature verticali all’anima: Cordoni continui su entrambi i bordi di ogni piatto; risultante cautelativa, EN 1993-1-8 §4.5.3.3; βw=1.
+¶ Terminale · reazione e ancoraggio combinati: Inviluppo cautelativo: utilizzo elastico della coppia + area richiesta dal §9.3.1 / area disponibile; R intera su ciascuna coppia.
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata.
+¶ Interazione M–V · classe 4: EC4 §6.2.2.4(3), EC3 §7.1: Mpl=30459,16 kNm; Mf=23362,54 kNm. Sezione composta; armature omesse a favore di sicurezza; anima intera. N=0, fy≤355..
+¶ Situazione 3 dopo Q · variabili. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace.

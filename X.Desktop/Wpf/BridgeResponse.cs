@@ -1,5 +1,7 @@
+using Anthea.Application.Presentation;
 using Anthea.Application.Scheduling;
 using Anthea.Application.Modules;
+using Anthea.Presentation.Modules.CompositeSection;
 using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -21,7 +23,7 @@ internal sealed partial class BridgeWorkspace
     internal readonly Slider ResponsePoint = new() { Minimum = 0, IsSnapToTickEnabled = true, TickFrequency = 1, Margin = new Thickness(12, 3, 12, 3) };
     private readonly BridgeResponsePlot responsePlot = new(), fiberPlot = new() { CurveBrush = Ui.Brush("#A35320") };
     private readonly ContentControl responseTable = new();
-    private readonly TextBlock responseNotice = Ui.Text("Nessuna curva calcolata", 12, true), responsePointInfo = Ui.Text("", 12);
+    private readonly TextBlock responseNotice = Ui.Text(BridgeResponsePresentation.NoCurve, 12, true), responsePointInfo = Ui.Text("", 12);
     private readonly RecalculationScheduler responseRecalculation = new();
     private CancellationTokenSource? responseCancellation;
     private Button responseRun = null!, responseExport = null!;
@@ -30,14 +32,9 @@ internal sealed partial class BridgeWorkspace
 
     private UIElement BuildResponsePage()
     {
-        ResponseData = Anthea.Application.Presentation.BridgeSheetPresentation.PrepareResponse(Data);
-        ResponseForm = new InputForm(ResponseData, [new("tipo", "Curva", Choices: BridgeEditor.ResponseModes, Wide: true),
-            new("origine", "Stato di partenza", Choices: BridgeEditor.ResponseOrigins, Wide: true),
-            new("y", "Quota di riferimento", "mm"), new("n_storico", "Mantieni N dello stato iniziale", Bool: true, Wide: true), new("N", "N costante", "kN"),
-            new("k_storico", "Mantieni κ dello stato iniziale", Bool: true, Wide: true), new("k", "κ costante", "1/m"),
-            new("incremento_k", "Incremento finale Δκ", "1/m"), new("incremento_e", "Incremento finale Δε", "µε"),
-            new("punti", "Punti della curva"), new("sottopassi", "Sottopassi per punto")], _ => { RefreshResponseFields(); InvalidateResponse(); Modified?.Invoke(); }, true, true);
-        foreach (string key in new[] { "k", "incremento_k" }) ResponseForm.Editors[key].SetValue(NumericPresentation.EnabledProperty, false);
+        ResponseData = BridgeSheetPresentation.PrepareResponse(Data);
+        ResponseForm = new InputForm(ResponseData, CompositeSectionFields.Curve, _ => { RefreshResponseFields(); InvalidateResponse(); Modified?.Invoke(); }, true, true);
+        foreach (string key in CompositeSectionFields.CurveRawKeys) ResponseForm.Editors[key].SetValue(NumericPresentation.EnabledProperty, false);
         ResponsePhase.Margin = new Thickness(2, 4, 2, 8); ResponsePhase.SelectionChanged += (_, _) => { if (responseBuilding) return; ResponseData["fase"] = Math.Max(0, ResponsePhase.SelectedIndex); InvalidateResponse(); Modified?.Invoke(); };
         ResponseFiber.Margin = new Thickness(8, 3, 8, 8); ResponseFiber.SelectionChanged += (_, _) => RefreshResponsePlots();
         ResponsePoint.ValueChanged += (_, _) => RefreshResponsePlots();
@@ -59,16 +56,13 @@ internal sealed partial class BridgeWorkspace
     }
     private void RefreshResponseFields()
     {
-        bool mc = ResponseData.S("tipo") == BridgeEditor.ResponseModes[0], history = ResponseData.S("origine") == BridgeEditor.ResponseOrigins[1];
-        ResponseForm.ShowField("n_storico", mc); ResponseForm.ShowField("N", mc && !ResponseData.B("n_storico"));
-        ResponseForm.ShowField("k_storico", !mc); ResponseForm.ShowField("k", !mc && !ResponseData.B("k_storico"));
-        ResponseForm.ShowField("incremento_k", mc); ResponseForm.ShowField("incremento_e", !mc);
-        ResponsePhase.Visibility = history ? Visibility.Visible : Visibility.Collapsed;
+        foreach (string key in ResponseForm.Editors.Keys) ResponseForm.ShowField(key, BridgeResponsePresentation.FieldShown(key, ResponseData));
+        ResponsePhase.Visibility = BridgeResponsePresentation.PhaseShown(ResponseData) ? Visibility.Visible : Visibility.Collapsed;
     }
     private void EnterResponsePage()
     {
         responseBuilding = true;
-        ResponsePhase.ItemsSource = Data.Array("fasi").OfType<JsonObject>().Where(p => p.B("attiva")).Select((p, i) => $"{i + 1:00} · Dopo {p.S("nome")}").ToArray();
+        ResponsePhase.ItemsSource = BridgeResponsePresentation.Phases(Data);
         ResponsePhase.SelectedIndex = Math.Clamp((int)ResponseData.D("fase"), 0, Math.Max(0, ResponsePhase.Items.Count - 1));
         ResponseData["fase"] = Math.Max(0, ResponsePhase.SelectedIndex); responseBuilding = false;
     }
@@ -76,7 +70,7 @@ internal sealed partial class BridgeWorkspace
     {
         responseRevision++; responseRecalculation.Invalidate(); responseCancellation?.Cancel();
         if (responseExport is not null) responseExport.IsEnabled = false;
-        if (ResponseCalculation is not null) responseNotice.Text = "Dati modificati · curva precedente da ricalcolare";
+        if (ResponseCalculation is not null) responseNotice.Text = BridgeResponsePresentation.Stale;
     }
     internal async Task CalculateResponseAsync()
     {
@@ -86,12 +80,12 @@ internal sealed partial class BridgeWorkspace
         int version = responseRevision; responseCancellation?.Dispose(); responseCancellation = new(); var token = responseCancellation.Token;
         var completed = await responseRecalculation.ScheduleAsync(async currentToken =>
         {
-            responseBusy = true; responseRun.IsEnabled = false; responseNotice.Text = "Calcolo del percorso e dello storico di partenza…";
+            responseBusy = true; responseRun.IsEnabled = false; responseNotice.Text = BridgeResponsePresentation.Running;
             try { return await Task.Run(() => StructuralQueries.BridgeResponse(data, request, currentToken), currentToken); }
             finally { responseBusy = false; if (!disposed) responseRun.IsEnabled = true; }
         }, cancellation: token);
         if (completed.Cancelled && !disposed && version == responseRevision)
-            responseNotice.Text = "Calcolo annullato · eventuale curva precedente da ricalcolare";
+            responseNotice.Text = BridgeResponsePresentation.Cancelled;
         completed.TryPublish(current =>
         {
             try
@@ -99,47 +93,40 @@ internal sealed partial class BridgeWorkspace
                 if (current.Error is not null) throw current.Error;
                 var result = current.Value!;
             ResponseCalculation = result; responseExport.IsEnabled = true;
-            responseNotice.Text = $"{result.Points.Count} stati accettati · " + result.Message;
+            responseNotice.Text = BridgeResponsePresentation.Calculated(result);
             ResponsePoint.Maximum = Math.Max(0, result.Points.Count - 1); ResponsePoint.Value = ResponsePoint.Maximum;
-            var fibers = result.Points.FirstOrDefault()?.State.Fibers.Where(f => f.Active).ToArray() ?? [];
-            ResponseFiber.ItemsSource = fibers.Select(f => new FiberChoice(f.Fiber.Id, $"{ComponentName(f.ComponentId)} · x = {f.Fiber.X:F1} · y = {f.Fiber.Y:F2} mm")).ToArray();
-            ResponseFiber.SelectedIndex = fibers.Length == 0 ? -1 : Array.FindIndex(fibers, f => f.Fiber.Y == fibers.Max(a => a.Fiber.Y));
-            responseTable.Content = ResultTable(["Punto", "ε rif", "κ", "N", "M rif", "εmecc min", "εmecc max", "σ min", "σ max", "Residuo N [N]"],
-                result.Points.Select(p => new[] { p.Index.ToString(), F(p.ReferenceStrain * 1e6), E(p.State.TotalPlane.Curvature * 1000), F(p.State.N / 1000), F(p.MomentAtReference / 1e6),
-                    F(p.State.Fibers.Where(f => f.Active).Min(f => f.MechanicalStrain) * 1e6), F(p.State.Fibers.Where(f => f.Active).Max(f => f.MechanicalStrain) * 1e6),
-                    F(p.State.Fibers.Where(f => f.Active).Min(f => f.Stress)), F(p.State.Fibers.Where(f => f.Active).Max(f => f.Stress)), E(p.State.ForceResidual) }));
+            var (fibers, selected) = BridgeResponsePresentation.Fibers(result);
+            ResponseFiber.ItemsSource = fibers;
+            ResponseFiber.SelectedIndex = selected;
+            responseTable.Content = Render(BridgeResponsePresentation.Table(result));
             RefreshResponsePlots();
             }
-            catch (Exception ex) { responseNotice.Text = "Curva non calcolata: " + ex.Message; responseExport.IsEnabled = false; }
+            catch (Exception ex) { responseNotice.Text = BridgeResponsePresentation.Failed(ex.Message); responseExport.IsEnabled = false; }
         });
     }
-    private sealed record FiberChoice(string Id, string Label) { public override string ToString() => Label; }
-    private static string ComponentName(string id) => BridgeEditor.ComponentName(id);
     private void RefreshResponsePlots()
     {
         if (ResponseCalculation is not { } r || r.Points.Count == 0)
         {
             responsePlot.Points = []; fiberPlot.Points = []; responsePlot.InvalidateVisual(); fiberPlot.InvalidateVisual();
-            responsePointInfo.Text = "Nessuno stato accettato per questa curva."; return;
+            responsePointInfo.Text = BridgeResponsePresentation.NoPoints; return;
         }
-        bool mc = r.Options.Control == SectionResponseControl.MomentCurvature; int selected = Math.Clamp((int)ResponsePoint.Value, 0, r.Points.Count - 1);
-        responsePlot.XLabel = mc ? "κ [1/m]" : "ε alla quota di riferimento [µε]"; responsePlot.YLabel = mc ? "M rif [kNm]" : "N [kN]";
-        responsePlot.Points = r.Points.Select(p => mc ? new Point(p.State.TotalPlane.Curvature * 1000, p.MomentAtReference / 1e6) : new Point(p.ReferenceStrain * 1e6, p.State.N / 1000)).ToArray();
+        int selected = Math.Clamp((int)ResponsePoint.Value, 0, r.Points.Count - 1);
+        var section = BridgeResponsePresentation.Section(r);
+        responsePlot.XLabel = section.XLabel; responsePlot.YLabel = section.YLabel;
+        responsePlot.Points = section.Points.Select(p => new Point(p.X, p.Y)).ToArray();
         responsePlot.Selected = selected; responsePlot.InvalidateVisual();
-        var p = r.Points[selected]; responsePointInfo.Text = $"Punto {selected} · ε rif {F(p.ReferenceStrain * 1e6)} µε · κ {E(p.State.TotalPlane.Curvature * 1000)} 1/m · N {F(p.State.N / 1000)} kN · M rif {F(p.MomentAtReference / 1e6)} kNm";
-        fiberPlot.Points = []; fiberPlot.XLabel = "ε meccanica [µε]"; fiberPlot.YLabel = "σ [MPa]";
-        if (ResponseFiber.SelectedItem is FiberChoice choice && p.State.Fibers.Any(f => f.Fiber.Id == choice.Id))
-        {
-            fiberPlot.Points = r.Points.Select(s => s.State.Fibers.Single(f => f.Fiber.Id == choice.Id)).Select(f => new Point(f.MechanicalStrain * 1e6, f.Stress)).ToArray();
-            var f = p.State.Fibers.Single(f => f.Fiber.Id == choice.Id); responsePointInfo.Text += $"\nFibra: σ {F(f.Stress)} MPa · εtot {F(f.TotalStrain * 1e6)} · εgetto {F(f.ActivationStrain * 1e6)} · εimposta {F(f.ImposedStrain * 1e6)} · εmecc {F(f.MechanicalStrain * 1e6)} µε";
-            if (f.MaterialState is HistoryPlasticState plastic) responsePointInfo.Text += $" · εpl {F(plastic.PlasticStrain * 1e6)} µε";
-        }
+        string? fiber = (ResponseFiber.SelectedItem as BridgeFiberChoice)?.Id;
+        responsePointInfo.Text = BridgeResponsePresentation.PointInfo(r, selected, fiber);
+        fiberPlot.Points = []; fiberPlot.XLabel = BridgeResponsePresentation.FiberXLabel; fiberPlot.YLabel = BridgeResponsePresentation.FiberYLabel;
+        if (fiber is not null && BridgeResponsePresentation.Fiber(r, selected, fiber) is { } chart)
+            fiberPlot.Points = chart.Points.Select(p => new Point(p.X, p.Y)).ToArray();
         fiberPlot.Selected = selected; fiberPlot.InvalidateVisual();
     }
     private void ExportResponse()
     {
         if (ResponseCalculation is not { } result || !responseExport.IsEnabled) return;
-        var dialog = new SaveFileDialog { Filter = "CSV|*.csv", FileName = "Curve_sezione_ponte.csv" };
+        var dialog = new SaveFileDialog { Filter = "CSV|*.csv", FileName = BridgeResponsePresentation.CsvFileName };
         if (dialog.ShowDialog(Window.GetWindow(this)) == true) File.WriteAllText(dialog.FileName, BridgeEditor.ResponseCsv(result), new UTF8Encoding(true));
     }
 }

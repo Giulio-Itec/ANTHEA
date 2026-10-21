@@ -1,3 +1,4 @@
+using Anthea.Application.Presentation;
 using Anthea.Application.Reporting;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -5,36 +6,29 @@ namespace X.Desktop;
 
 internal sealed partial class ModuleFigureRenderer
 {
+    /// <summary>The figures of the report of the composite bridge section, drawn as BridgeReportPresentation plans them.</summary>
     internal static IReadOnlyList<ReportFigure> BridgeFigures(BridgeResultView result, JsonObject viewSettings, IReadOnlySet<string> options)
     {
-        var images = new List<ReportFigure>();
-        var concreteScale = result.StressScale(viewSettings);
-        void Image(string caption, string category, BridgeStage? stage, int mode)
-        {
-            var drawing = new BridgeDrawing { Geometry = result.Geometry, Stage = stage, Input = result.Input,
-                LoadPoints = stage?.Contributions.Select((c, i) => (c, i)).Where(p => !p.c.IsShrinkage).Select(p => new BridgeLoadPoint(p.i + 1, p.c.Name, p.c.LoadY, p.c.N)).ToArray() ?? [],
-                ShowGeometryLabels = mode == 2, ShowRebarLabels = mode == 2, ConcreteAmplification = concreteScale.Factor,
-                ShowNeutralAxis = viewSettings.B("asse_neutro", true),
-                ContourSection = viewSettings.B("contour_sezione"), ContourDiagram = viewSettings.B("contour_tensioni"), ShowStressLimits = viewSettings.B("limiti_tensioni"),
-                Mode = mode, Width = 1200, Height = 640 };
-            drawing.Measure(new Size(1200, 640)); drawing.Arrange(new Rect(0, 0, 1200, 640)); drawing.UpdateLayout();
-            images.Add(new(caption, Ui.DocumentSnapshot(drawing), category));
-        }
-        if (options.Contains("grafici"))
-        {
-            if (options.Contains("taglio"))
-                foreach (bool support in new[] { false, true })
-                    if (result.Input.B(support ? "appoggio" : "irrigidimenti"))
-                    {
-                        var sketch = new BridgeDetailSketch { Input = result.Input, AtSupport = support, Width = 800 };
-                        sketch.Measure(new Size(800, 165)); sketch.Arrange(new Rect(0, 0, 800, 165)); sketch.UpdateLayout();
-                        images.Add(new(support ? "Appoggio e montante terminale schema locale" : "Irrigidimento intermedio e pannelli adiacenti schema locale", Ui.DocumentSnapshot(sketch), "dettagli"));
-                    }
-            if (options.Contains("geometria")) Image("Geometria della sezione e disposizione delle armature", "geometria", null, 2);
-            if (options.Overlaps(["tensioni", "classe4", "omogeneizzazione", "taglio"]))
-                for (int i = 0; i < result.Stages.Count; i++)
-                    Image($"Situazione {i + 1} dopo {result.Stages[i].Name}. {(viewSettings.B("contour_tensioni") ? "Campiture della somma secondo η: verde/ambra entro limite, rosso oltre limite, viola CLS teso." : "Campiture della somma: blu compressione, rosso trazione;")} contributi tratteggiati. CLS amplificato ×{concreteScale.Factor.ToString("0.###", System.Globalization.CultureInfo.GetCultureInfo("it-IT"))} ({concreteScale.Source}); valori indicati in MPa reali. Arancio: parte inefficace.", "fase_" + i, result.Stages[i], 1);
-        }
-        return images;
+        var style = BridgeReportPresentation.Style(result, viewSettings);
+        return BridgeReportPresentation.Figures(result, viewSettings, options).Select(plan => new ReportFigure(plan.Caption, plan.Sketch ? Sketch(result, plan) : Section(result, style, plan), plan.Category)).ToArray();
+    }
+
+    private static byte[] Sketch(BridgeResultView result, BridgeFigurePlan plan)
+    {
+        var sketch = new BridgeDetailSketch { Input = result.Input, AtSupport = plan.AtSupport, Width = plan.Width };
+        sketch.Measure(new Size(plan.Width, plan.Height)); sketch.Arrange(new Rect(0, 0, plan.Width, plan.Height)); sketch.UpdateLayout();
+        return Ui.DocumentSnapshot(sketch);
+    }
+
+    private static byte[] Section(BridgeResultView result, BridgeFigureStyle style, BridgeFigurePlan plan)
+    {
+        var stage = plan.Stage is int index ? result.Stages[index] : null;
+        var drawing = new BridgeDrawing { Geometry = result.Geometry, Stage = stage, Input = result.Input,
+            LoadPoints = stage is null ? [] : BridgeResultPresentation.LoadPoints(stage),
+            ShowGeometryLabels = plan.Mode == 2, ShowRebarLabels = plan.Mode == 2, ConcreteAmplification = style.ConcreteAmplification,
+            ShowNeutralAxis = style.NeutralAxis, ContourSection = style.ContourSection, ContourDiagram = style.ContourDiagram, ShowStressLimits = style.StressLimits,
+            Mode = plan.Mode, Width = plan.Width, Height = plan.Height };
+        drawing.Measure(new Size(plan.Width, plan.Height)); drawing.Arrange(new Rect(0, 0, plan.Width, plan.Height)); drawing.UpdateLayout();
+        return Ui.DocumentSnapshot(drawing);
     }
 }

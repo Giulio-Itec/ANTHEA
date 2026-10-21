@@ -3196,30 +3196,6 @@
       "Example": ".19"
     },
     {
-      "File": "X.Desktop/Wpf/BridgeAccessories.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeWorkspace.ShowAccessoryResults",
-      "Fingerprint": "84E5BE2ED181534E8CAB3FF47A972BA8EFACC55DCDB10E88D9C94B07D1C4171C",
-      "Count": 6,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeAccessories.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.BuildAccessories.UpdateStuds",
-      "Fingerprint": "7B2B29F72924933BB67FF97DAC020205881D3391546150B236189F85F3C8D209",
-      "Count": 1,
-      "Example": "Data . D ( \"n_pioli\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeAccessories.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeWorkspace.ShowAccessoryResults",
-      "Fingerprint": "84E5BE2ED181534E8CAB3FF47A972BA8EFACC55DCDB10E88D9C94B07D1C4171C",
-      "Count": 6,
-      "Example": "1000"
-    },
-    {
       "File": "X.Desktop/Wpf/BridgeDesignAdvancedDrawing.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "BridgeDesignDrawing.DrawExtendedSection",
@@ -4340,22 +4316,6 @@
       "Example": "viewSettings . D ( \"dettaglio_sezione\" , 0 )"
     },
     {
-      "File": "X.Desktop/Wpf/BridgeDetailsInputs.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.BuildTransverseInputs.Update",
-      "Fingerprint": "680B33B7FC2D127AC6E1DB80C1608CDB7512FE9C7C41E60A3E500C4F17B40364",
-      "Count": 1,
-      "Example": "Data . D ( \"d_trasv_sup\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeDetailsInputs.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.BuildTransverseInputs.Update",
-      "Fingerprint": "6EAA1C6950FADF8CFE8AA3F4AC91750312848F3085973EF446E9ED259F6B7A66",
-      "Count": 1,
-      "Example": "Data . D ( \"d_trasv_inf\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/BridgeDrawing.Annotations.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "BridgeDrawing.DrawTags.Text",
@@ -4852,38 +4812,6 @@
       "Example": "4"
     },
     {
-      "File": "X.Desktop/Wpf/BridgeHistory.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeWorkspace.ShowHistoryResults",
-      "Fingerprint": "7429F13988504CE315873D44DA340CE19155BD01528176FB82164B6FA277E75A",
-      "Count": 6,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeHistory.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeWorkspace.ShowHistoryResults",
-      "Fingerprint": "D9A31B8194A632DAEADF2A2A36A8F8E1A2319F13DE34CDD6850295F03768A3CE",
-      "Count": 14,
-      "Example": "1e6"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeHistory.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeWorkspace.ShowHistoryResults",
-      "Fingerprint": "7429F13988504CE315873D44DA340CE19155BD01528176FB82164B6FA277E75A",
-      "Count": 6,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeHistory.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeWorkspace.ShowHistoryResults",
-      "Fingerprint": "D9A31B8194A632DAEADF2A2A36A8F8E1A2319F13DE34CDD6850295F03768A3CE",
-      "Count": 14,
-      "Example": "1e6"
-    },
-    {
       "File": "X.Desktop/Wpf/BridgeLayout.cs",
       "Rule": "R4-implicit-number",
       "Owner": "BridgeWorkspace.BuildLayout",
@@ -5253,75 +5181,11 @@
     },
     {
       "File": "X.Desktop/Wpf/BridgeResponse.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeWorkspace.CalculateResponseAsync",
-      "Fingerprint": "5B50FA0E6CE31776D5E750E00F1E5F8808863FA001220EFE2375517ACE155CCE",
-      "Count": 2,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeResponse.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeWorkspace.CalculateResponseAsync",
-      "Fingerprint": "891B44162D55C822E977A60B784257A0FBB97AD2139D3AABF26023380E7E9398",
-      "Count": 4,
-      "Example": "1e6"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeResponse.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeWorkspace.RefreshResponsePlots",
-      "Fingerprint": "8D8C6B369344510F800A4A6DB355FE9B794BFB32D9CD521A140420DD077DEB22",
-      "Count": 4,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeResponse.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeWorkspace.RefreshResponsePlots",
-      "Fingerprint": "B80E475E7308B90447EC79F8381922D272F74158B6B4ECD19FB64A12C50A3C33",
-      "Count": 10,
-      "Example": "1e6"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeResponse.cs",
       "Rule": "R4-implicit-number",
       "Owner": "BridgeWorkspace.EnterResponsePage",
       "Fingerprint": "BE4A2C662AA5499EB53AD67F1A19D708867EE0496A0F7FDDD30BA43AC59F4165",
       "Count": 1,
       "Example": "ResponseData . D ( \"fase\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeResponse.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeWorkspace.CalculateResponseAsync",
-      "Fingerprint": "5B50FA0E6CE31776D5E750E00F1E5F8808863FA001220EFE2375517ACE155CCE",
-      "Count": 2,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeResponse.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeWorkspace.CalculateResponseAsync",
-      "Fingerprint": "891B44162D55C822E977A60B784257A0FBB97AD2139D3AABF26023380E7E9398",
-      "Count": 4,
-      "Example": "1e6"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeResponse.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeWorkspace.RefreshResponsePlots",
-      "Fingerprint": "8D8C6B369344510F800A4A6DB355FE9B794BFB32D9CD521A140420DD077DEB22",
-      "Count": 4,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeResponse.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeWorkspace.RefreshResponsePlots",
-      "Fingerprint": "B80E475E7308B90447EC79F8381922D272F74158B6B4ECD19FB64A12C50A3C33",
-      "Count": 10,
-      "Example": "1e6"
     },
     {
       "File": "X.Desktop/Wpf/BridgeResponsePlot.cs",
@@ -5412,84 +5276,12 @@
       "Example": "20"
     },
     {
-      "File": "X.Desktop/Wpf/BridgeTorsion.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeWorkspace.ShowTorsionResults",
-      "Fingerprint": "87F73D8A3A274AE19C3FA6310C75E9FD8D131E138327985E6D6D6528D57F23BB",
-      "Count": 1,
-      "Example": "1e6"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeTorsion.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeWorkspace.ShowTorsionResults",
-      "Fingerprint": "F43932A3999DEB8B0248DBFC3FAE7EFD21B6D0F636C30DCE32BFDDD371F10244",
-      "Count": 1,
-      "Example": "1e12"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeTorsion.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.BuildBoxInputs.Update",
-      "Fingerprint": "C8D29705EBEDF211FB6DFEB3CDD3439D85D7A8B1AEC005BA71E34E3402681F22",
-      "Count": 1,
-      "Example": "Data . D ( \"L_campata\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeTorsion.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.BuildBoxInputs.Update",
-      "Fingerprint": "C9810AB3F069CC52AA9CE1041341BA3D42E0BBAFBC5FC69BD84E00B7D7191FE4",
-      "Count": 1,
-      "Example": "Data . D ( \"passo_diaframmi\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeTorsion.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeWorkspace.ShowTorsionResults",
-      "Fingerprint": "87F73D8A3A274AE19C3FA6310C75E9FD8D131E138327985E6D6D6528D57F23BB",
-      "Count": 1,
-      "Example": "1e6"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeWorkspace.ShowResults",
-      "Fingerprint": "6906EFEA4F26B92E5BDC2B7D34B6BD0E7D02C1E818979E602D32E90893A919FA",
-      "Count": 1,
-      "Example": "1e6"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeWorkspace.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeWorkspace.ShowResults",
-      "Fingerprint": "919D82A7AFD96DD7E6BB03C68D2FBC5F6E1B01B18D8CC92F6C7405C154941C26",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
       "File": "X.Desktop/Wpf/BridgeWorkspace.cs",
       "Rule": "R4-implicit-number",
       "Owner": "BridgeWorkspace.CalculateScheduledAsync",
       "Fingerprint": "1A46588454A5F46B40D913B85534BBCE24D8318B2F4F51003545472A4B876E58",
       "Count": 1,
       "Example": "viewSettings . D ( \"fase\" , - 1 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeWorkspace.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeWorkspace.ShowResults",
-      "Fingerprint": "6906EFEA4F26B92E5BDC2B7D34B6BD0E7D02C1E818979E602D32E90893A919FA",
-      "Count": 1,
-      "Example": "1e6"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeWorkspace.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "BridgeWorkspace.ShowResults",
-      "Fingerprint": "919D82A7AFD96DD7E6BB03C68D2FBC5F6E1B01B18D8CC92F6C7405C154941C26",
-      "Count": 1,
-      "Example": "1000"
     },
     {
       "File": "X.Desktop/Wpf/ConcreteDesign.cs",
@@ -13130,6 +12922,46 @@
       "Fingerprint": "FD878909A118A970DA5A205FB9E667745441020241CE250BE2003F7F85B6B413",
       "Count": 1,
       "Example": "settings . D ( \"amplificazione_cls\" , 1 )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeInputPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "BridgeInputPresentation.FieldShown",
+      "Fingerprint": "124F423D64E548C246D2333EAFA59BC637C51E39B362FDDCE624C2E3D921FB15",
+      "Count": 1,
+      "Example": "data . D ( \"n_pioli\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeInputPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "BridgeInputPresentation.FieldShown",
+      "Fingerprint": "73ED70F48171420C9E48B37BC13510340736E8743283E1777835963BF3AF633C",
+      "Count": 1,
+      "Example": "data . D ( \"L_campata\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeInputPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "BridgeInputPresentation.FieldShown",
+      "Fingerprint": "7D025547997CDAFE43F77AE137C89CF67453D0EFBB4F6D263EE37895AB73D417",
+      "Count": 1,
+      "Example": "data . D ( \"passo_diaframmi\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeInputPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "BridgeInputPresentation.FieldShown",
+      "Fingerprint": "AD924CB12AF441795ACDE903F3CE980996A8B5E11CBFB607EA03D393DFFEC249",
+      "Count": 1,
+      "Example": "data . D ( \"d_trasv_sup\" )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Presentation/BridgeInputPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "BridgeInputPresentation.FieldShown",
+      "Fingerprint": "B5B4BAB47DE5C767F432E39C8BAFA03173414B8AFB4F52613395502B81AFB337",
+      "Count": 1,
+      "Example": "data . D ( \"d_trasv_inf\" )"
     },
     {
       "File": "src/ANTHEA.Application/Presentation/HorizontalPreview.cs",

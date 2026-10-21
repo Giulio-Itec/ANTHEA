@@ -1,3 +1,5 @@
+using Anthea.Application.Presentation;
+using Anthea.Presentation.Modules.CompositeSection;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,30 +11,21 @@ namespace X.Desktop;
 
 internal sealed partial class BridgeWorkspace
 {
-    internal readonly JsonGrid ActionsTable = new([
-        new("attiva", "Attiva", Bool: true), new("nome", "Fase"), new("tipo", "Sezione / azione", Choices: BridgeEditor.PhaseKinds),
-        new("N", "ΔN [kN]"), new("Mx", "ΔMx [kNm]"), new("V", "ΔV [kN]"), new("T", "ΔT [kNm]"),
-        new("riferimento_N", "Punto N / riferimento Mx", Choices: BridgeEditor.LoadReferences),
-        new("phi", "φ"), new("psi", "ψL"), new("n", "n = Ea/Ec,eff"), new("epsilon_cs", "Δεcs [µε]" ), new("q_conn", "Δq pioli [kN/m]")]);
+    internal readonly JsonGrid ActionsTable = new(CompositeSectionFields.Actions);
     private readonly TextBlock loadConvention = Ui.Text("", 11, color: Ui.Muted);
     private readonly TextBlock phaseCount = Ui.Text("", 11, true);
     private readonly ContentControl verificationTable = new();
     private bool refreshingActions;
     private UIElement BuildActionsTable()
     {
-        double[] widths = [60, 180, 130, 90, 100, 90, 95, 220, 70, 70, 110, 105, 120];
-        for (int i = 0; i < widths.Length; i++) ActionsTable.Columns[i].Width = widths[i];
+        for (int i = 0; i < CompositeSectionFields.ActionWidths.Count; i++) ActionsTable.Columns[i].Width = CompositeSectionFields.ActionWidths[i];
         ActionsTable.FrozenColumnCount = 2;
         ActionsTable.MinHeight = 110;
         ConfigureActionCells();
         ActionsTable.BeginningEdit += (_, e) =>
         {
             var row = (JsonRow)e.Row.Item; string key = e.Column.SortMemberPath;
-            bool shrinkage = row.Values.S("tipo") == BridgeEditor.ShrinkageKind;
-            e.Cancel = shrinkage && key is "N" or "Mx" or "V" or "T" or "riferimento_N"
-                || key == "T" && !BridgeEditor.TorsionEnabled(Data)
-                || row.Values.S("tipo") == "Solo acciaio" && key == "q_conn"
-                || !shrinkage && key == "epsilon_cs" || !PhaseHomogenizationNeeded(row.Values.S("tipo")) && key is "phi" or "psi" or "n";
+            e.Cancel = BridgeInputPresentation.CellInactive(Data, row.Values.S("tipo"), key);
         };
         var commands = Ui.Bar(Ui.Button("+ Carico", () => AddPhase(false)), Ui.Button("+ Ritiro", () => AddPhase(true)),
             Ui.Button("↑", () => MoveSelected(-1)), Ui.Button("↓", () => MoveSelected(1)), Ui.Button("Elimina", () =>
@@ -45,27 +38,21 @@ internal sealed partial class BridgeWorkspace
     private void ConfigureActionCells()
     {
         // ΔT only for the box girder, editable with the torsion checks
-        bool box = Data.S("sezione", BridgeEditor.SectionTypes[0]) == BridgeEditor.SectionTypes[2], torsion = BridgeEditor.TorsionEnabled(Data);
-        string styleKey = Data.S("normativa") + Data.B("pioli") + box + torsion;
+        string styleKey = BridgeInputPresentation.CellStyleKey(Data);
         if (actionStyleKey == styleKey) return;
         actionStyleKey = styleKey;
         foreach (var column in ActionsTable.Columns)
         {
             string key = column.SortMemberPath;
-            if (key == "T") column.Visibility = box ? Visibility.Visible : Visibility.Collapsed;
-            var inactiveKinds = BridgeEditor.PhaseKinds.Where(kind =>
-                kind == BridgeEditor.ShrinkageKind && key is "N" or "Mx" or "V" or "T" or "riferimento_N"
-                || key == "T" && !torsion
-                || kind != BridgeEditor.ShrinkageKind && key == "epsilon_cs"
-                || kind == "Solo acciaio" && key == "q_conn"
-                || !PhaseHomogenizationNeeded(kind) && key is "phi" or "psi" or "n");
+            if (key == "T") column.Visibility = BridgeInputPresentation.TorqueColumnShown(Data) ? Visibility.Visible : Visibility.Collapsed;
+            var inactiveKinds = BridgeEditor.PhaseKinds.Where(kind => BridgeInputPresentation.CellInactive(Data, kind, key));
             var style = new Style(typeof(DataGridCell), ActionsTable.TryFindResource(typeof(DataGridCell)) as Style);
             foreach (string kind in inactiveKinds)
             {
                 var trigger = new DataTrigger { Binding = new Binding("[tipo]"), Value = kind };
                 trigger.Setters.Add(new Setter(IsEnabledProperty, false));
                 trigger.Setters.Add(new Setter(OpacityProperty, .3));
-                trigger.Setters.Add(new Setter(ToolTipProperty, "Dato non applicabile a questo tipo di fase; non utilizzato nel calcolo."));
+                trigger.Setters.Add(new Setter(ToolTipProperty, BridgeInputPresentation.InactiveCellToolTip));
                 style.Triggers.Add(trigger);
             }
             column.CellStyle = style;
@@ -73,10 +60,9 @@ internal sealed partial class BridgeWorkspace
     }
     private void AddPhase(bool shrinkage)
     {
-        if (!BridgeEditor.IsHistory(Data) && Data.Array("fasi").Count >= 20)
-        { status.Text = "Il metodo cumulativo ammette 20 fasi. Selezionare un metodo con storico per aggiungerne altre."; return; }
+        if (!BridgeInputPresentation.CanAddPhase(Data)) { status.Text = BridgeInputPresentation.PhaseLimitReached; return; }
         ActionsTable.Commit();
-        var phase = shrinkage ? BridgeEditor.ShrinkagePhase() : BridgeEditor.Phase(reference: BridgeEditor.GrossLoadReference);
+        var phase = BridgeInputPresentation.NewPhase(shrinkage);
         Data.Array("fasi").Add(phase); selectedPhase = phase; followLatestStage = true;
         BuildPhases(); Changed(); ActionsTable.SelectedIndex = ActionsTable.Rows.Count - 1;
         ActionsTable.ScrollIntoView(ActionsTable.SelectedItem);
@@ -108,8 +94,7 @@ internal sealed partial class BridgeWorkspace
                 ActionsTable.Rows.Insert(i, new JsonRow(phase, key =>
                 {
                     if (refreshingActions) return;
-                    if (key is "phi" or "psi" or "n") phase["modo"] = key == "n" ? "Da n" : "Da φ";
-                    if (key == "tipo" && phase.S("tipo") == BridgeEditor.ShrinkageKind) { phase["psi"] = .55; phase["modo"] = "Da φ"; }
+                    BridgeSheetPresentation.CellEdited(phase, key);
                     Changed();
                     // Rebuild the detail editors after the grid has committed the current cell.
                     Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(BuildPhases));
@@ -119,11 +104,8 @@ internal sealed partial class BridgeWorkspace
             ActionsTable.SelectedItem = ActionsTable.Rows.FirstOrDefault(r => ReferenceEquals(r.Values, selected));
         }
         else foreach (var row in ActionsTable.Rows) row.Refresh();
-        phaseCount.Text = $"{phases.Length} fasi inserite · {phases.Count(p => p.B("attiva"))} attive · la tabella include sempre tutti gli ingressi";
-        loadConvention.Text = Data.S("stato") == "SLU"
-            ? "SLU: inserire incrementi di progetto già combinati e coefficientati (γF e ψ). Il modulo non applica altri coefficienti ai carichi; γM0, γc e γs riducono le resistenze."
-            : Data.S("stato") + ": inserire gli incrementi della corrispondente combinazione di esercizio, già con i relativi ψ. Il selettore cambia i limiti, non genera combinazioni di carico.";
-        if (BridgeEditor.IsNonlinear(Data)) loadConvention.Text = "Non lineare: carichi incrementali già combinati, legami caratteristici senza γM. SLU/SLE seleziona soltanto le linee di confronto tensionali: non assegna una verifica normativa. φ/n memorizzati: vedere l’opzione di viscosità sopra.";
+        phaseCount.Text = BridgeInputPresentation.PhaseCount(Data);
+        loadConvention.Text = BridgeInputPresentation.LoadConvention(Data);
         }
         finally { refreshingActions = false; }
     }

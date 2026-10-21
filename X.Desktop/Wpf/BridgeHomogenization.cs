@@ -21,7 +21,7 @@ internal sealed partial class BridgeWorkspace
                 var h = Anthea.Application.Presentation.BridgeSheetPresentation.UpdateHomogenization(Data, phase);
                 string raw = phase.S(derived);
                 form.Set(derived, raw, display: true);
-                info.Text = $"n₀ = {F(h.N0)}   ·   φeff = ψL · φ = {F(h.PhiEffective)}";
+                info.Text = Anthea.Application.Presentation.BridgeInputPresentation.HomogenizationInfo(h);
             }
             catch (ArgumentException ex)
             {

@@ -1,0 +1,1368 @@
+# word/document.xml
+¶ Relazione della sezione composta da ponte
+¶ Fixture F3 · str_mista_ponte · anima-inclinata-ec4-sle
+¶ ANTHEA · <DATA> <ORA>
+¶ Motore di calcolo: GPC Engine · libreria GPCChecker.CompositeBridge.
+¶ Analisi delle tensioni normali di una soletta in calcestruzzo collegata a una trave in acciaio. La relazione riporta i dati e i risultati delle situazioni calcolate, senza eseguire un nuovo calcolo. I rapporti tensionali sono controlli locali della sezione.
+¶ Ambito e convenzioni
+¶ Analisi elastica N–Mx con connessione completa, sezione simmetrica e anima senza irrigidimenti longitudinali. b_eff della soletta è un dato di ingresso. Le fasi sono incrementi di carico già combinati; per ogni situazione la sezione efficace è comune ai contributi sommati. Il ritiro uniforme assegnato al CLS produce effetti primari locali. Non è un'analisi evolutiva con redistribuzione viscosa. Taglio e pioli hanno controlli locali dedicati. Irrigidimenti, appoggi, saldature continue, soletta trasversale e fatica dei pioli hanno verifiche opzionali con campo dichiarato. La torsione è verificata solo per il cassoncino (cella chiusa, distorsione e diaframmi, opzionali); l'instabilità globale del ponte resta esclusa.
+¶ Lunghezze in mm, tensioni in MPa, forze in kN e momenti in kNm. Compressione negativa e trazione positiva. L’asse y ha origine all’interfaccia acciaio soletta ed è positivo verso l’alto. Mx positivo comprime la parte superiore. Le azioni sono incrementi già combinati e, allo SLU, già coefficientati con γF e ψ. Il modulo non moltiplica nuovamente i carichi: il selettore SLU/SLE cambia limiti e resistenze. Arrotondamenti soltanto nella presentazione.
+¶ Model fornisce materiali e geometria. GPC Engine esegue il calcolo per fasi e le larghezze efficaci. ANTHEA gestisce ingressi e presentazione dei risultati.
+¶ Riepilogo delle situazioni
+[T1 r1 c1] Situazione
+[T1 r1 c2] ΣN [kN]
+[T1 r1 c3] ΣMx a y=0 [kNm]
+[T1 r1 c4] ΣV [kN]
+[T1 r1 c5] η max locale
+[T1 r1 c6] Stato locale
+[T1 r2 c1] 1 · Dopo G1 · acciaio
+[T1 r2 c2] 0,00
+[T1 r2 c3] 1200,00
+[T1 r2 c4] 0,00
+[T1 r2 c5] 0,12
+[T1 r2 c6] Da completare
+[T1 r3 c1] 2 · Dopo G2 · permanenti
+[T1 r3 c2] 0,00
+[T1 r3 c3] 3000,00
+[T1 r3 c4] 0,00
+[T1 r3 c5] 0,19
+[T1 r3 c6] Da completare
+[T1 r4 c1] 3 · Dopo Ritiro
+[T1 r4 c2] 0,00
+[T1 r4 c3] 3000,00
+[T1 r4 c4] 0,00
+[T1 r4 c5] 0,26
+[T1 r4 c6] Da completare
+[T1 r5 c1] 4 · Dopo Q · fessurata
+[T1 r5 c2] -500,00
+[T1 r5 c3] 5500,00
+[T1 r5 c4] 0,00
+[T1 r5 c5] 0,49
+[T1 r5 c6] Da completare
+¶ η max locale include tensioni, taglio e controlli accessori attivati. Un controllo mancante non riceve un esito favorevole; leggere gli avvisi e il campo delle verifiche. Non è un esito globale del ponte.
+¶ Anima inclinata di 10.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.
+¶ EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ CLS teso nel modello non fessurato: valutare una situazione con soletta esclusa; non è attestata la verifica del CLS in trazione.
+¶ Ritiro uniforme imposto al solo CLS: effetti primari autoequilibrati. Eventuali azioni secondarie da vincoli esterni vanno inserite come fasi N–Mx separate.
+¶ SLE, armature della soletta fessurata (contributi «Soletta esclusa»): alle barre tese si somma il tension stiffening, σs = σs,0 + Δσs con Δσs = 0,4 fctm/(αst ρs) = 116,91 MPa; fctm = 3,51 MPa, ρs = As/Act = 0,86 %, αst = A I/(Aa Ia) = 1,40 (EN 1994-2 §7.2.1, EN 1994-1-1 §7.4.3(3)). I Δσ dei contributi sommano σs,0.
+¶ Taglio irrigidimenti e pioli
+¶ Riferimenti: NTC 2018 §§4.2.4.1.2, 4.3.4.2.2 e 4.3.4.3; EN 1993-1-5:2006 §§5, 7.1, 9; EN 1994-2:2005 §§6.2.2, 6.6 e 7.2.2. Valori modificabili: γM1 = 1,10, η = 1,20, γV = 1,25.
+¶ Taglio affidato all’anima intera: VRd = min(Vpl,Rd; Vbw,Rd), Vbw,Rd = χw hw tw fy/(√3 γM1). Contributo delle flange omesso. La curva del montante terminale è non rigida salvo qualificazione positiva del terminale inserito. Gli irrigidimenti di appoggio sono verificati se attivati. Le zone inefficaci nel grafico riguardano le tensioni normali.
+¶ Irrigidimenti intermedi: assenti. Pioli: verifica disattivata.
+¶ Irrigidimenti mono o bilaterali: sezione con striscia simmetrica di anima limitata dal materiale disponibile, baricentro ed eccentricità reali. Analisi elastica del II ordine con imperfezione equivalente Lcr/200, EN 1993-1-1 §§5.2.2(7)a e 5.3.4. Controlli di rigidezza, torsione e piatti entro classe 3. Le saldature continue, quando attivate, usano fu da Model, βw=1 e γM2=1,25.
+¶ Appoggio: reazione R assegnata come inviluppo SLU indipendente dalle fasi, piatti a contatto e impronta interamente sottostante. Il terminale rigido è formato da due coppie bilaterali simmetriche identiche. La curva rigida è adottata soltanto dopo i controlli geometrici, di resistenza e dei collegamenti. Piastra di ripartizione e apparecchio d’appoggio esclusi.
+¶ Soletta: armature trasversali distinte dalle barre longitudinali. Superfici a–a sui due lati e b–b attorno ai gruppi di pioli, traliccio EN 1992-1-1 §6.2.4, armatura minima, interazione con flessione trasversale e ancoraggi. Cot θ limitata a 1–1,25 anche per soletta tesa. Il bordo fisico è un dato separato da b_eff.
+¶ Fatica pioli: ΔqE,2=λv φfat (qmax−qmin), ΔτE,2=ΔqE,2 p/(npioli Agambo). EN 1994-2 §§6.8.3 e 6.8.7.2: categoria 90 per i pioli; categoria 80 e interazione per flangia anche tesa. Gli intervalli sono inviluppi assegnati dal modello globale, comprensivi dei casi fessurati/non fessurati; non provengono dalle fasi costruttive. I controlli non attivati restano da verificare.
+¶ Pioli: q = Σ(Vi Si/Ii + Δqi), PEd = |q| p/npioli. NTC: proprietà della fase tensionale; EC4: CLS non fessurato con acciaio efficace. Il ritiro uniforme ha q(V)=0; gli effetti locali di estremità richiedono Δq assegnato da un modello longitudinale. PRd è il minore fra resistenza del gambo e del CLS; in combinazione SLE rara si usa 0,75 PRd. Per SLE quasi permanente non si assegna l’esito richiesto alla rara.
+¶ Interazione M–V per N=0, fy≤355 MPa e anima non tutta compressa: EN 1994-2 §6.2.2.4(3), con Mpl e Mf della sezione composta, flange efficaci e anima intera; armature omesse nelle capacità plastiche di riferimento. Negli altri casi, ad alto taglio, si adotta un inviluppo elastico cautelativo: ηnorm+(2ηV−1)²≤1, Mf=0 e CLS limitato a 0,85 fcd. Non si accredita redistribuzione plastica; il criterio può essere più gravoso della verifica con capacità plastiche ridotte per N. I controlli elastici e di classe 4 restano necessari.
+¶ Normativa e coefficienti
+¶ Riferimento selezionato: EN 1994-2:2005. Limiti tensionali: SLE rara.
+[T2 r1 c1] Coefficiente
+[T2 r1 c2] Applicato
+[T2 r2 c1] γM0 acciaio strutturale
+[T2 r2 c2] 1,00
+[T2 r3 c1] γc calcestruzzo
+[T2 r3 c2] 1,50
+[T2 r4 c1] αcc calcestruzzo
+[T2 r4 c2] 1,00
+[T2 r5 c1] γs armature
+[T2 r5 c2] 1,15
+¶ Riduzioni locali di classe 4: attive. Metodo: Sezione composta N–Mx · larghezze efficaci EN 1993-1-5:2006 · v1.
+¶ I coefficienti sono quelli assegnati nel foglio. Il rapporto delle larghezze efficaci usa fy caratteristico. SLU: limiti αcc fck/γc, fy/γM0 e fyk/γs. SLE: limite CLS 0,60 fck per la rara e 0,45 fck per la quasi permanente; limite armature 0,80 fyk e acciaio strutturale fy.
+¶ Materiali
+[T3 r1 c1] Materiale
+[T3 r1 c2] Classe
+[T3 r1 c3] Resistenza [MPa]
+[T3 r1 c4] Modulo E [MPa]
+[T3 r2 c1] Calcestruzzo
+[T3 r2 c2] C40/50
+[T3 r2 c3] fck = 40,00
+[T3 r2 c4] 35220,46
+[T3 r3 c1] Acciaio strutturale
+[T3 r3 c2] S355
+[T3 r3 c3] fy = 345,00
+[T3 r3 c4] 210000,00
+[T3 r4 c1] Armatura ordinaria
+[T3 r4 c2] B450C
+[T3 r4 c3] fyk = 450,00
+[T3 r4 c4] 200000,00
+¶ fy strutturale assegnato dall’utente, comune a tutta la carpenteria.
+¶ Geometria e armature
+[T4 r1 c1] Componente
+[T4 r1 c2] Larghezza [mm]
+[T4 r1 c3] Altezza o spessore [mm]
+[T4 r2 c1] Soletta collaborante
+[T4 r2 c2] 2800,00
+[T4 r2 c3] 280,00
+[T4 r3 c1] Trave d'acciaio totale H
+[T4 r3 c2] —
+[T4 r3 c3] 1655,00
+[T4 r4 c1] Anima libera ricavata
+[T4 r4 c2] 16,28
+[T4 r4 c3] 1590,00
+[T4 r5 c1] Piattabanda superiore
+[T4 r5 c2] 450,00
+[T4 r5 c3] 30,00
+[T4 r6 c1] Piattabanda inferiore 1
+[T4 r6 c2] 650,00
+[T4 r6 c3] 35,00
+[T4 r7 c1] Piattabanda inferiore 2
+[T4 r7 c2] Assente
+[T4 r7 c3] —
+[T4 r8 c1] Piattabanda inferiore equivalente (solo confronto)
+[T4 r8 c2] 650,00
+[T4 r8 c3] 35,00
+¶ Sezione ad H con anima inclinata di 10,68° dalla verticale, piattabande centrate sulle estremità dell'anima. Flessione retta attorno all'asse orizzontale: la sezione è vincolata lateralmente da soletta e controventi. Nell'analisi N–Mx le anime sono verticali equivalenti di spessore complessivo n·tw/cos α e le piattabande superiori hanno la larghezza complessiva (valori della tabella precedente): area, baricentro e inerzia rispetto all'asse orizzontale sono quelli esatti. Instabilità locale, taglio (V/(n cos α) nel piano di ciascuna lamiera), irrigidimenti, saldature e pioli sono verificati sulle lamiere reali della tabella seguente.
+[T5 r1 c1] Lamiere reali
+[T5 r1 c2] Larghezza o lunghezza [mm]
+[T5 r1 c3] Spessore [mm]
+[T5 r2 c1] Piattabanda superiore
+[T5 r2 c2] 450,00
+[T5 r2 c3] 30,00
+[T5 r3 c1] Anima · lunghezza nel piano
+[T5 r3 c2] 1618,05
+[T5 r3 c3] 16,00
+[T5 r4 c1] Anima · altezza verticale e larghezza orizzontale tw/cos α
+[T5 r4 c2] 1590,00
+[T5 r4 c3] 16,28
+[T5 r5 c1] Piattabanda inferiore
+[T5 r5 c2] 650,00
+[T5 r5 c3] 35,00
+¶ La larghezza della soletta è la larghezza collaborante assegnata. La seconda piastra è centrata sotto la prima. Il calcolo usa le piastre reali. Il rettangolo equivalente (t = t1 + t2, b = (b1 t1 + b2 t2)/(t1 + t2)) conserva area e spessore complessivo, non in generale baricentro e inerzia: è riportato solo per confronto. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore.
+[T6 r1 c1] Proprietà delle piastre inferiori
+[T6 r1 c2] Reale (calcolo)
+[T6 r1 c3] Equivalente (confronto)
+[T6 r2 c1] Area [mm²]
+[T6 r2 c2] 22750,00
+[T6 r2 c3] 22750,00
+[T6 r3 c1] Baricentro y [mm]
+[T6 r3 c2] -1637,50
+[T6 r3 c3] -1637,50
+[T6 r4 c1] Ix al proprio baricentro [mm⁴]
+[T6 r4 c2] 2322395,83
+[T6 r4 c3] 2322395,83
+¶ La predalle è un riferimento geometrico compreso nello spessore totale della soletta. Il calcolo mantiene un'unica soletta omogenea: nessun materiale, armatura propria, peso, fase o verifica aggiuntivi della predalle.
+¶ Spessore totale soletta: 280,00 mm; predalle: 50,00 mm; getto sovrastante: 230,00 mm.
+¶ Ferri inferiori: riferimento = Intradosso soletta; distanza riferimento–asse = 40,00 mm; quota effettiva y = 40,00 mm dall'intradosso soletta.
+¶ Ferri superiori: estradosso soletta–asse = 45,00 mm; quota effettiva y = 235,00 mm.
+[T7 r1 c1] Fila
+[T7 r1 c2] Presente
+[T7 r1 c3] Ø [mm]
+[T7 r1 c4] Passo [mm]
+[T7 r1 c5] y asse [mm]
+[T7 r1 c6] Barre
+[T7 r2 c1] Superiore
+[T7 r2 c2] Sì
+[T7 r2 c3] 16,00
+[T7 r2 c4] 150,00
+[T7 r2 c5] 235,00
+[T7 r2 c6] 19
+[T7 r3 c1] Inferiore
+[T7 r3 c2] Sì
+[T7 r3 c3] 14,00
+[T7 r3 c4] 150,00
+[T7 r3 c5] 40,00
+[T7 r3 c6] 19
+¶ La distanza inserita è misurata fino all’asse della barra. Le barre sono distribuite e centrate da Model; entrambe le file possono essere assenti. Area totale delle armature: 6745,00 mm².
+¶ Geometria della sezione e disposizione delle armature
+¶ Sollecitazioni per fase
+¶ Ogni fase sceglie il proprio punto N: quota comune, baricentro omogeneizzato lordo fisso o baricentro efficace aggiornato durante l’iterazione. La quota comune, quando selezionata, è y = -200,00 mm. Il momento assegnato è riferito al punto N della fase. Mx,G = Mx + N (yG − yN); i momenti cumulati sono riportati a y=0 mediante Mx,0 = Mx − N yN, con unità coerenti.
+[T8 r1 c1] Fase
+[T8 r1 c2] Sezione / azione
+[T8 r1 c3] Attiva
+[T8 r1 c4] ΔN [kN]
+[T8 r1 c5] ΔMx [kNm]
+[T8 r1 c6] ΔV [kN]
+[T8 r1 c7] Δεcs [µε]
+[T8 r2 c1] 1 · G1 · acciaio
+[T8 r2 c2] Solo acciaio
+[T8 r2 c3] Sì
+[T8 r2 c4] 0
+[T8 r2 c5] 1200
+[T8 r2 c6] 0,00
+[T8 r2 c7] —
+[T8 r3 c1] 2 · G2 · permanenti
+[T8 r3 c2] Composta
+[T8 r3 c3] Sì
+[T8 r3 c4] 0
+[T8 r3 c5] 1800
+[T8 r3 c6] 0,00
+[T8 r3 c7] —
+[T8 r4 c1] 3 · Ritiro
+[T8 r4 c2] Ritiro
+[T8 r4 c3] Sì
+[T8 r4 c4] —
+[T8 r4 c5] —
+[T8 r4 c6] —
+[T8 r4 c7] -250
+[T8 r5 c1] 4 · Q · fessurata
+[T8 r5 c2] Soletta esclusa
+[T8 r5 c3] Sì
+[T8 r5 c4] -500
+[T8 r5 c5] 2600
+[T8 r5 c6] 0,00
+[T8 r5 c7] —
+[T8 r6 c1] 5 · Q · esclusa dalla somma
+[T8 r6 c2] Composta
+[T8 r6 c3] No
+[T8 r6 c4] 0
+[T8 r6 c5] 900
+[T8 r6 c6] 0,00
+[T8 r6 c7] —
+¶ Solo acciaio: soletta e barre non partecipano. Composta: soletta non fessurata, carpenteria e barre. Soletta esclusa: carpenteria e barre. Per ciascuna situazione la sezione efficace è comune ai contributi sommati. Non si simula la storia evolutiva di costruzione o la redistribuzione viscosa.
+¶ Ritiro: deformazione uniforme imposta al solo calcestruzzo, negativa per accorciamento (−250 µε = −0,25‰). Ogni fase ha propri φ, ψL e n; ψL iniziale = 0,55. Si usa Ac netto delle armature: Neq = Ec,eff Ac Δεcs al baricentro del CLS netto, Meq,0 = −Neq yc. Alla tensione del CLS ottenuta dal carico equivalente si aggiunge −Ec,eff Δεcs. Le tensioni risultano autoequilibrate: N e M esterni della fase sono nulli. Sono inclusi gli effetti primari locali; gli effetti di vincoli esterni richiedono azioni separate. Più fasi rappresentano incrementi assegnati, senza evoluzione temporale automatica.
+¶ Criteri di omogeneizzazione
+¶ n0 = Ea/Ecm; n = n0 (1 + ψL φ); φ = (n/n0 − 1)/ψL. Il parametro passato a Model e GPC Engine è ψL φ. Il rapporto Es/Ea è conservato.
+[T9 r1 c1] Fase composta
+[T9 r1 c2] φ
+[T9 r1 c3] ψL
+[T9 r1 c4] n di calcolo
+[T9 r1 c5] Stato
+[T9 r2 c1] G2 · permanenti
+[T9 r2 c2] 1,53
+[T9 r2 c3] 1,1
+[T9 r2 c4] 16,00
+[T9 r2 c5] Inclusa
+[T9 r3 c1] Ritiro
+[T9 r3 c2] 2,00
+[T9 r3 c3] 0,55
+[T9 r3 c4] 12,52
+[T9 r3 c5] Inclusa
+[T9 r4 c1] Q · esclusa dalla somma
+[T9 r4 c2] 0,00
+[T9 r4 c3] 1
+[T9 r4 c4] 5,96
+[T9 r4 c5] Esclusa
+¶ Situazione 1 dopo G1 · acciaio
+¶ Avviso: Anima inclinata di 10.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.
+¶ Avviso: EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Convergenza in 9 iterazioni. Variazione relativa delle larghezze: 4,030E-008; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T10 r1 c1] Contributo
+[T10 r1 c2] Riferimento N
+[T10 r1 c3] yN [mm]
+[T10 r1 c4] ΔN [kN]
+[T10 r1 c5] ΔMx al punto N [kNm]
+[T10 r1 c6] ΔV [kN]
+[T10 r2 c1] 1 · G1 · acciaio
+[T10 r2 c2] Baricentro omogeneizzato lordo
+[T10 r2 c3] -946,49
+[T10 r2 c4] 0,00
+[T10 r2 c5] 1200,00
+[T10 r2 c6] 0,00
+¶ Rapporti e proprietà per contributo
+[T11 r1 c1] Contributo
+[T11 r1 c2] n0
+[T11 r1 c3] n
+[T11 r1 c4] φ
+[T11 r1 c5] ψL φ
+[T11 r1 c6] Ec eff [MPa]
+[T11 r2 c1] 1 · G1 · acciaio
+[T11 r2 c2] —
+[T11 r2 c3] —
+[T11 r2 c4] —
+[T11 r2 c5] —
+[T11 r2 c6] —
+[T12 r1 c1] Contributo
+[T12 r1 c2] A* [mm²]
+[T12 r1 c3] yG [mm]
+[T12 r1 c4] Ix* [mm⁴]
+[T12 r1 c5] Ix integrazione [mm⁴]
+[T12 r2 c1] 1
+[T12 r2 c2] 59657,23
+[T12 r2 c3] -968,37
+[T12 r2 c4] 27696476201,90
+[T12 r2 c5] 27696476201,90
+[T13 r1 c1] Contributo
+[T13 r1 c2] Wsup* [mm³]
+[T13 r1 c3] Winf* [mm³]
+[T13 r1 c4] yσ zero [mm]
+[T13 r1 c5] κ [1/m]
+[T13 r1 c6] Residuo equilibrio
+[T13 r2 c1] 1
+[T13 r2 c2] 28601169,42
+[T13 r2 c3] 40336749,47
+[T13 r2 c4] -968,37
+[T13 r2 c5] 2,06E-4
+[T13 r2 c6] 0E+0
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T14 r1 c1] Punto
+[T14 r1 c2] y [mm]
+[T14 r1 c3] Σσ [MPa]
+[T14 r1 c4] Limite [MPa]
+[T14 r1 c5] η
+[T14 r1 c6] Esito locale
+[T14 r2 c1] Soletta · estradosso
+[T14 r2 c2] 280,00
+[T14 r2 c3] —
+[T14 r2 c4] —
+[T14 r2 c5] —
+[T14 r2 c6] Non attivo
+[T14 r3 c1] Soletta · intradosso
+[T14 r3 c2] 0,00
+[T14 r3 c3] —
+[T14 r3 c4] —
+[T14 r3 c5] —
+[T14 r3 c6] Non attivo
+[T14 r4 c1] Armatura · y=235
+[T14 r4 c2] 235,00
+[T14 r4 c3] —
+[T14 r4 c4] —
+[T14 r4 c5] —
+[T14 r4 c6] Non attivo
+[T14 r5 c1] Armatura · y=40
+[T14 r5 c2] 40,00
+[T14 r5 c3] —
+[T14 r5 c4] —
+[T14 r5 c5] —
+[T14 r5 c6] Non attivo
+[T14 r6 c1] Acciaio · estradosso
+[T14 r6 c2] 0,00
+[T14 r6 c3] -41,96
+[T14 r6 c4] 345,00
+[T14 r6 c5] 0,12
+[T14 r6 c6] Entro limite
+[T14 r7 c1] Anima · sommità
+[T14 r7 c2] -30,00
+[T14 r7 c3] -40,66
+[T14 r7 c4] 345,00
+[T14 r7 c5] 0,12
+[T14 r7 c6] Entro limite
+[T14 r8 c1] Anima · piede
+[T14 r8 c2] -1620,00
+[T14 r8 c3] 28,23
+[T14 r8 c4] 345,00
+[T14 r8 c5] 0,08
+[T14 r8 c6] Entro limite
+[T14 r9 c1] Acciaio · intradosso
+[T14 r9 c2] -1655,00
+[T14 r9 c3] 29,75
+[T14 r9 c4] 345,00
+[T14 r9 c5] 0,09
+[T14 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T15 r1 c1] Punto
+[T15 r1 c2] Δσ 1
+[T15 r2 c1] Soletta · estradosso
+[T15 r2 c2] 0,00
+[T15 r3 c1] Soletta · intradosso
+[T15 r3 c2] 0,00
+[T15 r4 c1] Armatura · y=235
+[T15 r4 c2] 0,00
+[T15 r5 c1] Armatura · y=40
+[T15 r5 c2] 0,00
+[T15 r6 c1] Acciaio · estradosso
+[T15 r6 c2] -41,96
+[T15 r7 c1] Anima · sommità
+[T15 r7 c2] -40,66
+[T15 r8 c1] Anima · piede
+[T15 r8 c2] 28,23
+[T15 r9 c1] Acciaio · intradosso
+[T15 r9 c2] 29,75
+¶ 1: G1 · acciaio.
+¶ Sezione efficace di classe 4
+[T16 r1 c1] Pannello
+[T16 r1 c2] b [mm]
+[T16 r1 c3] t [mm]
+[T16 r1 c4] ψ
+[T16 r1 c5] kσ
+[T16 r1 c6] λp
+[T16 r1 c7] ρ
+[T16 r2 c1] Anima
+[T16 r2 c2] 1618,05
+[T16 r2 c3] 16,00
+[T16 r2 c4] -0,69
+[T16 r2 c5] 16,89
+[T16 r2 c6] 1,05
+[T16 r2 c7] 0,84
+[T16 r3 c1] Sbalzo superiore
+[T16 r3 c2] 216,86
+[T16 r3 c3] 30,00
+[T16 r3 c4] 1,00
+[T16 r3 c5] 0,43
+[T16 r3 c6] 0,47
+[T16 r3 c7] 1,00
+[T16 r4 c1] Sbalzo inferiore
+[T16 r4 c2] 316,86
+[T16 r4 c3] 35,00
+[T16 r4 c4] 1,00
+[T16 r4 c5] 0,43
+[T16 r4 c6] 0,59
+[T16 r4 c7] 1,00
+[T17 r1 c1] Pannello
+[T17 r1 c2] σ1 [MPa]
+[T17 r1 c3] σ2 [MPa]
+[T17 r1 c4] bc [mm]
+[T17 r1 c5] b1 eff [mm]
+[T17 r1 c6] b2 eff [mm]
+[T17 r2 c1] Anima
+[T17 r2 c2] -40,66
+[T17 r2 c3] 28,23
+[T17 r2 c4] 954,93
+[T17 r2 c5] 319,93
+[T17 r2 c6] 1143,02
+[T17 r3 c1] Sbalzo superiore
+[T17 r3 c2] -41,96
+[T17 r3 c3] -41,96
+[T17 r3 c4] 216,86
+[T17 r3 c5] 216,86
+[T17 r3 c6] 0,00
+[T17 r4 c1] Sbalzo inferiore
+[T17 r4 c2] 28,23
+[T17 r4 c3] 28,23
+[T17 r4 c4] 0,00
+[T17 r4 c5] 316,86
+[T17 r4 c6] 0,00
+[T18 r1 c1] Carpenteria
+[T18 r1 c2] Area [mm²]
+[T18 r1 c3] yG [mm]
+[T18 r1 c4] Ix [mm⁴]
+[T18 r2 c1] Lorda
+[T18 r2 c2] 62138,87
+[T18 r2 c3] -946,49
+[T18 r2 c4] 28416188719,33
+[T18 r3 c1] Efficace
+[T18 r3 c2] 59657,23
+[T18 r3 c3] -968,37
+[T18 r3 c4] 27696476201,90
+¶ Anima inefficace: 152,41 mm, da y = -496,80 a y = -344,38 mm. Aeff/Alorda = 0,96; Ieff/Ilorda = 0,97.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T19 r1 c1] V [kN]
+[T19 r1 c2] kτ
+[T19 r1 c3] τcr [MPa]
+[T19 r1 c4] λw
+[T19 r1 c5] χw
+[T19 r1 c6] Vpl,Rd [kN]
+[T19 r1 c7] Vbw,Rd [kN]
+[T19 r2 c1] 0,00
+[T19 r2 c2] 5,34
+[T19 r2 c3] 99,10
+[T19 r2 c4] 1,42
+[T19 r2 c5] 0,59
+[T19 r2 c6] 6080,75
+[T19 r2 c7] 2696,98
+¶ τ nominale V/Av = 0,00 MPa; τ max elastica lorda = 0,00 MPa. Beneficio irrigidimenti: no. Montante terminale adottato: non rigido.
+[T20 r1 c1] Controllo
+[T20 r1 c2] Domanda
+[T20 r1 c3] Limite
+[T20 r1 c4] η
+[T20 r1 c5] Esito
+[T20 r2 c1] Anima · resistenza a taglio
+[T20 r2 c2] 0,00 kN
+[T20 r2 c3] 2696,98 kN
+[T20 r2 c4] —
+[T20 r2 c5] Da verificare
+[T20 r3 c1] Anima · tensione equivalente elastica (inviluppo)
+[T20 r3 c2] 40,66 MPa
+[T20 r3 c3] 345,00 MPa
+[T20 r3 c4] 0,12
+[T20 r3 c5] Entro limite
+¶ Anima · resistenza a taglio: Resistenza SLU di confronto: assegnare la combinazione SLU per l’esito.
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata.
+¶ Situazione 1 dopo G1 · acciaio. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×5 (manuale); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Situazione 2 dopo G2 · permanenti
+¶ Avviso: Anima inclinata di 10.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.
+¶ Avviso: EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Convergenza in 4 iterazioni. Variazione relativa delle larghezze: 0,000E+000; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T21 r1 c1] Contributo
+[T21 r1 c2] Riferimento N
+[T21 r1 c3] yN [mm]
+[T21 r1 c4] ΔN [kN]
+[T21 r1 c5] ΔMx al punto N [kNm]
+[T21 r1 c6] ΔV [kN]
+[T21 r2 c1] 1 · G1 · acciaio
+[T21 r2 c2] Baricentro omogeneizzato lordo
+[T21 r2 c3] -946,49
+[T21 r2 c4] 0,00
+[T21 r2 c5] 1200,00
+[T21 r2 c6] 0,00
+[T21 r3 c1] 2 · G2 · permanenti
+[T21 r3 c2] Baricentro omogeneizzato lordo
+[T21 r3 c3] -435,81
+[T21 r3 c4] 0,00
+[T21 r3 c5] 1800,00
+[T21 r3 c6] 0,00
+¶ Rapporti e proprietà per contributo
+[T22 r1 c1] Contributo
+[T22 r1 c2] n0
+[T22 r1 c3] n
+[T22 r1 c4] φ
+[T22 r1 c5] ψL φ
+[T22 r1 c6] Ec eff [MPa]
+[T22 r2 c1] 1 · G1 · acciaio
+[T22 r2 c2] —
+[T22 r2 c3] —
+[T22 r2 c4] —
+[T22 r2 c5] —
+[T22 r2 c6] —
+[T22 r3 c1] 2 · G2 · permanenti
+[T22 r3 c2] 5,96
+[T22 r3 c3] 16,00
+[T22 r3 c4] 1,53
+[T22 r3 c5] 1,68
+[T22 r3 c6] 13125,00
+[T23 r1 c1] Contributo
+[T23 r1 c2] A* [mm²]
+[T23 r1 c3] yG [mm]
+[T23 r1 c4] Ix* [mm⁴]
+[T23 r1 c5] Ix integrazione [mm⁴]
+[T23 r2 c1] 1
+[T23 r2 c2] 62138,87
+[T23 r2 c3] -946,49
+[T23 r2 c4] 28416188719,33
+[T23 r2 c5] 28416188719,33
+[T23 r3 c1] 2
+[T23 r3 c2] 117141,12
+[T23 r3 c3] -435,81
+[T23 r3 c4] 63307261018,12
+[T23 r3 c5] 63303839846,63
+[T24 r1 c1] Contributo
+[T24 r1 c2] Wsup* [mm³]
+[T24 r1 c3] Winf* [mm³]
+[T24 r1 c4] yσ zero [mm]
+[T24 r1 c5] κ [1/m]
+[T24 r1 c6] Residuo equilibrio
+[T24 r2 c1] 1
+[T24 r2 c2] 30022640,46
+[T24 r2 c3] 40107081,81
+[T24 r2 c4] -946,49
+[T24 r2 c5] 2,01E-4
+[T24 r2 c6] 0E+0
+[T24 r3 c1] 2
+[T24 r3 c2] 145264353,37
+[T24 r3 c3] 51925556,45
+[T24 r3 c4] -435,81
+[T24 r3 c5] 1,35E-4
+[T24 r3 c6] 3,579E-15
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T25 r1 c1] Punto
+[T25 r1 c2] y [mm]
+[T25 r1 c3] Σσ [MPa]
+[T25 r1 c4] Limite [MPa]
+[T25 r1 c5] η
+[T25 r1 c6] Esito locale
+[T25 r2 c1] Soletta · estradosso
+[T25 r2 c2] 280,00
+[T25 r2 c3] -1,27
+[T25 r2 c4] 24,00
+[T25 r2 c5] 0,05
+[T25 r2 c6] Entro limite
+[T25 r3 c1] Soletta · intradosso
+[T25 r3 c2] 0,00
+[T25 r3 c3] -0,77
+[T25 r3 c4] 24,00
+[T25 r3 c5] 0,03
+[T25 r3 c6] Entro limite
+[T25 r4 c1] Armatura · y=235
+[T25 r4 c2] 235,00
+[T25 r4 c3] -18,17
+[T25 r4 c4] 360,00
+[T25 r4 c5] 0,05
+[T25 r4 c6] Entro limite
+[T25 r5 c1] Armatura · y=40
+[T25 r5 c2] 40,00
+[T25 r5 c3] -12,88
+[T25 r5 c4] 360,00
+[T25 r5 c5] 0,04
+[T25 r5 c6] Entro limite
+[T25 r6 c1] Acciaio · estradosso
+[T25 r6 c2] 0,00
+[T25 r6 c3] -52,36
+[T25 r6 c4] 345,00
+[T25 r6 c5] 0,15
+[T25 r6 c6] Entro limite
+[T25 r7 c1] Anima · sommità
+[T25 r7 c2] -30,00
+[T25 r7 c3] -50,24
+[T25 r7 c4] 345,00
+[T25 r7 c5] 0,15
+[T25 r7 c6] Entro limite
+[T25 r8 c1] Anima · piede
+[T25 r8 c2] -1620,00
+[T25 r8 c3] 62,11
+[T25 r8 c4] 345,00
+[T25 r8 c5] 0,18
+[T25 r8 c6] Entro limite
+[T25 r9 c1] Acciaio · intradosso
+[T25 r9 c2] -1655,00
+[T25 r9 c3] 64,59
+[T25 r9 c4] 345,00
+[T25 r9 c5] 0,19
+[T25 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T26 r1 c1] Punto
+[T26 r1 c2] Δσ 1
+[T26 r1 c3] Δσ 2
+[T26 r2 c1] Soletta · estradosso
+[T26 r2 c2] 0,00
+[T26 r2 c3] -1,27
+[T26 r3 c1] Soletta · intradosso
+[T26 r3 c2] 0,00
+[T26 r3 c3] -0,77
+[T26 r4 c1] Armatura · y=235
+[T26 r4 c2] 0,00
+[T26 r4 c3] -18,17
+[T26 r5 c1] Armatura · y=40
+[T26 r5 c2] 0,00
+[T26 r5 c3] -12,88
+[T26 r6 c1] Acciaio · estradosso
+[T26 r6 c2] -39,97
+[T26 r6 c3] -12,39
+[T26 r7 c1] Anima · sommità
+[T26 r7 c2] -38,70
+[T26 r7 c3] -11,54
+[T26 r8 c1] Anima · piede
+[T26 r8 c2] 28,44
+[T26 r8 c3] 33,67
+[T26 r9 c1] Acciaio · intradosso
+[T26 r9 c2] 29,92
+[T26 r9 c3] 34,67
+¶ 1: G1 · acciaio; 2: G2 · permanenti.
+¶ Sezione efficace di classe 4
+[T27 r1 c1] Pannello
+[T27 r1 c2] b [mm]
+[T27 r1 c3] t [mm]
+[T27 r1 c4] ψ
+[T27 r1 c5] kσ
+[T27 r1 c6] λp
+[T27 r1 c7] ρ
+[T27 r2 c1] Anima
+[T27 r2 c2] 1618,05
+[T27 r2 c3] 16,00
+[T27 r2 c4] -1,24
+[T27 r2 c5] 29,91
+[T27 r2 c6] 0,79
+[T27 r2 c7] 1,00
+[T27 r3 c1] Sbalzo superiore
+[T27 r3 c2] 216,86
+[T27 r3 c3] 30,00
+[T27 r3 c4] 1,00
+[T27 r3 c5] 0,43
+[T27 r3 c6] 0,47
+[T27 r3 c7] 1,00
+[T27 r4 c1] Sbalzo inferiore
+[T27 r4 c2] 316,86
+[T27 r4 c3] 35,00
+[T27 r4 c4] 1,00
+[T27 r4 c5] 0,43
+[T27 r4 c6] 0,59
+[T27 r4 c7] 1,00
+[T28 r1 c1] Pannello
+[T28 r1 c2] σ1 [MPa]
+[T28 r1 c3] σ2 [MPa]
+[T28 r1 c4] bc [mm]
+[T28 r1 c5] b1 eff [mm]
+[T28 r1 c6] b2 eff [mm]
+[T28 r2 c1] Anima
+[T28 r2 c2] -50,24
+[T28 r2 c3] 62,11
+[T28 r2 c4] 723,54
+[T28 r2 c5] 289,42
+[T28 r2 c6] 1328,64
+[T28 r3 c1] Sbalzo superiore
+[T28 r3 c2] -52,36
+[T28 r3 c3] -52,36
+[T28 r3 c4] 216,86
+[T28 r3 c5] 216,86
+[T28 r3 c6] 0,00
+[T28 r4 c1] Sbalzo inferiore
+[T28 r4 c2] 62,11
+[T28 r4 c3] 62,11
+[T28 r4 c4] 0,00
+[T28 r4 c5] 316,86
+[T28 r4 c6] 0,00
+[T29 r1 c1] Carpenteria
+[T29 r1 c2] Area [mm²]
+[T29 r1 c3] yG [mm]
+[T29 r1 c4] Ix [mm⁴]
+[T29 r2 c1] Lorda
+[T29 r2 c2] 62138,87
+[T29 r2 c3] -946,49
+[T29 r2 c4] 28416188719,33
+[T29 r3 c1] Efficace
+[T29 r3 c2] 62138,87
+[T29 r3 c3] -946,49
+[T29 r3 c4] 28416188719,33
+¶ Anima inefficace: 4,55E-13 mm. Aeff/Alorda = 1,00; Ieff/Ilorda = 1,00.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T30 r1 c1] V [kN]
+[T30 r1 c2] kτ
+[T30 r1 c3] τcr [MPa]
+[T30 r1 c4] λw
+[T30 r1 c5] χw
+[T30 r1 c6] Vpl,Rd [kN]
+[T30 r1 c7] Vbw,Rd [kN]
+[T30 r2 c1] 0,00
+[T30 r2 c2] 5,34
+[T30 r2 c3] 99,10
+[T30 r2 c4] 1,42
+[T30 r2 c5] 0,59
+[T30 r2 c6] 6080,75
+[T30 r2 c7] 2696,98
+¶ τ nominale V/Av = 0,00 MPa; τ max elastica lorda = 0,00 MPa. Beneficio irrigidimenti: no. Montante terminale adottato: non rigido.
+[T31 r1 c1] Controllo
+[T31 r1 c2] Domanda
+[T31 r1 c3] Limite
+[T31 r1 c4] η
+[T31 r1 c5] Esito
+[T31 r2 c1] Anima · resistenza a taglio
+[T31 r2 c2] 0,00 kN
+[T31 r2 c3] 2696,98 kN
+[T31 r2 c4] —
+[T31 r2 c5] Da verificare
+[T31 r3 c1] Anima · tensione equivalente elastica (inviluppo)
+[T31 r3 c2] 62,11 MPa
+[T31 r3 c3] 345,00 MPa
+[T31 r3 c4] 0,18
+[T31 r3 c5] Entro limite
+¶ Anima · resistenza a taglio: Resistenza SLU di confronto: assegnare la combinazione SLU per l’esito.
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata.
+¶ Situazione 2 dopo G2 · permanenti. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×5 (manuale); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Situazione 3 dopo Ritiro
+¶ Avviso: CLS teso nel modello non fessurato: valutare una situazione con soletta esclusa; non è attestata la verifica del CLS in trazione.
+¶ Avviso: Ritiro uniforme imposto al solo CLS: effetti primari autoequilibrati. Eventuali azioni secondarie da vincoli esterni vanno inserite come fasi N–Mx separate.
+¶ Avviso: Anima inclinata di 10.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.
+¶ Avviso: EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Convergenza in 8 iterazioni. Variazione relativa delle larghezze: 2,595E-008; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T32 r1 c1] Contributo
+[T32 r1 c2] Riferimento N
+[T32 r1 c3] yN [mm]
+[T32 r1 c4] ΔN [kN]
+[T32 r1 c5] ΔMx al punto N [kNm]
+[T32 r1 c6] ΔV [kN]
+[T32 r2 c1] 1 · G1 · acciaio
+[T32 r2 c2] Baricentro omogeneizzato lordo
+[T32 r2 c3] -946,49
+[T32 r2 c4] 0,00
+[T32 r2 c5] 1200,00
+[T32 r2 c6] 0,00
+[T32 r3 c1] 2 · G2 · permanenti
+[T32 r3 c2] Baricentro omogeneizzato lordo
+[T32 r3 c3] -435,81
+[T32 r3 c4] 0,00
+[T32 r3 c5] 1800,00
+[T32 r3 c6] 0,00
+[T32 r4 c1] 3 · Ritiro
+[T32 r4 c2] Deformazione imposta
+[T32 r4 c3] —
+[T32 r4 c4] 0,00
+[T32 r4 c5] 0,00
+[T32 r4 c6] 0,00
+¶ Ritiro · azioni equivalenti interne al calcolo
+[T33 r1 c1] Fase
+[T33 r1 c2] Δεcs [µε]
+[T33 r1 c3] Neq [kN]
+[T33 r1 c4] Meq,0 [kNm]
+[T33 r1 c5] Correzione σc [MPa]
+[T33 r2 c1] Ritiro
+[T33 r2 c2] -250,00
+[T33 r2 c3] -3258,96
+[T33 r2 c4] 455,96
+[T33 r2 c5] 4,19
+¶ Neq e Meq,0 sono ausiliari e non vanno sommati ai carichi esterni. La correzione è applicata soltanto al CLS; le barre mantengono la tensione da compatibilità.
+¶ Rapporti e proprietà per contributo
+[T34 r1 c1] Contributo
+[T34 r1 c2] n0
+[T34 r1 c3] n
+[T34 r1 c4] φ
+[T34 r1 c5] ψL φ
+[T34 r1 c6] Ec eff [MPa]
+[T34 r2 c1] 1 · G1 · acciaio
+[T34 r2 c2] —
+[T34 r2 c3] —
+[T34 r2 c4] —
+[T34 r2 c5] —
+[T34 r2 c6] —
+[T34 r3 c1] 2 · G2 · permanenti
+[T34 r3 c2] 5,96
+[T34 r3 c3] 16,00
+[T34 r3 c4] 1,53
+[T34 r3 c5] 1,68
+[T34 r3 c6] 13125,00
+[T34 r4 c1] 3 · Ritiro
+[T34 r4 c2] 5,96
+[T34 r4 c3] 12,52
+[T34 r4 c4] 2,00
+[T34 r4 c5] 1,10
+[T34 r4 c6] 16771,65
+[T35 r1 c1] Contributo
+[T35 r1 c2] A* [mm²]
+[T35 r1 c3] yG [mm]
+[T35 r1 c4] Ix* [mm⁴]
+[T35 r1 c5] Ix integrazione [mm⁴]
+[T35 r2 c1] 1
+[T35 r2 c2] 60475,32
+[T35 r2 c3] -961,66
+[T35 r2 c4] 27895111680,53
+[T35 r2 c5] 27895111680,53
+[T35 r3 c1] 2
+[T35 r3 c2] 115477,57
+[T35 r3 c3] -436,39
+[T35 r3 c4] 63303021745,52
+[T35 r3 c5] 63299600574,03
+[T35 r4 c1] 3
+[T35 r4 c2] 128974,60
+[T35 r4 c3] -376,08
+[T35 r4 c4] 67404447445,75
+[T35 r4 c5] 67401027957,83
+[T36 r1 c1] Contributo
+[T36 r1 c2] Wsup* [mm³]
+[T36 r1 c3] Winf* [mm³]
+[T36 r1 c4] yσ zero [mm]
+[T36 r1 c5] κ [1/m]
+[T36 r1 c6] Residuo equilibrio
+[T36 r2 c1] 1
+[T36 r2 c2] 29007285,82
+[T36 r2 c3] 40232877,67
+[T36 r2 c4] -961,66
+[T36 r2 c5] 2,05E-4
+[T36 r2 c6] 0E+0
+[T36 r3 c1] 2
+[T36 r3 c2] 145059579,28
+[T36 r3 c3] 51947046,84
+[T36 r3 c4] -436,39
+[T36 r3 c5] 1,35E-4
+[T36 r3 c6] 3,528E-15
+[T36 r4 c1] 3
+[T36 r4 c2] 179227149,56
+[T36 r4 c3] 52704354,92
+[T36 r4 c4] -1388,87
+[T36 r4 c5] 1,19E-4
+[T36 r4 c6] 3,144E-15
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T37 r1 c1] Punto
+[T37 r1 c2] y [mm]
+[T37 r1 c3] Σσ [MPa]
+[T37 r1 c4] Limite [MPa]
+[T37 r1 c5] η
+[T37 r1 c6] Esito locale
+[T37 r2 c1] Soletta · estradosso
+[T37 r2 c2] 280,00
+[T37 r2 c3] -0,41
+[T37 r2 c4] 24,00
+[T37 r2 c5] 0,02
+[T37 r2 c6] Entro limite
+[T37 r3 c1] Soletta · intradosso
+[T37 r3 c2] 0,00
+[T37 r3 c3] 0,65
+[T37 r3 c4] 24,00
+[T37 r3 c5] —
+[T37 r3 c6] CLS teso
+[T37 r4 c1] Armatura · y=235
+[T37 r4 c2] 235,00
+[T37 r4 c3] -56,77
+[T37 r4 c4] 360,00
+[T37 r4 c5] 0,16
+[T37 r4 c6] Entro limite
+[T37 r5 c1] Armatura · y=40
+[T37 r5 c2] 40,00
+[T37 r5 c3] -46,85
+[T37 r5 c4] 360,00
+[T37 r5 c5] 0,13
+[T37 r5 c6] Entro limite
+[T37 r6 c1] Acciaio · estradosso
+[T37 r6 c2] 0,00
+[T37 r6 c3] -88,43
+[T37 r6 c4] 345,00
+[T37 r6 c5] 0,26
+[T37 r6 c6] Entro limite
+[T37 r7 c1] Anima · sommità
+[T37 r7 c2] -30,00
+[T37 r7 c3] -85,54
+[T37 r7 c4] 345,00
+[T37 r7 c5] 0,25
+[T37 r7 c6] Entro limite
+[T37 r8 c1] Anima · piede
+[T37 r8 c2] -1620,00
+[T37 r8 c3] 67,74
+[T37 r8 c4] 345,00
+[T37 r8 c5] 0,20
+[T37 r8 c6] Entro limite
+[T37 r9 c1] Acciaio · intradosso
+[T37 r9 c2] -1655,00
+[T37 r9 c3] 71,12
+[T37 r9 c4] 345,00
+[T37 r9 c5] 0,21
+[T37 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T38 r1 c1] Punto
+[T38 r1 c2] Δσ 1
+[T38 r1 c3] Δσ 2
+[T38 r1 c4] Δσ 3
+[T38 r2 c1] Soletta · estradosso
+[T38 r2 c2] 0,00
+[T38 r2 c3] -1,27
+[T38 r2 c4] 0,87
+[T38 r3 c1] Soletta · intradosso
+[T38 r3 c2] 0,00
+[T38 r3 c3] -0,78
+[T38 r3 c4] 1,43
+[T38 r4 c1] Armatura · y=235
+[T38 r4 c2] 0,00
+[T38 r4 c3] -18,18
+[T38 r4 c4] -38,59
+[T38 r5 c1] Armatura · y=40
+[T38 r5 c2] 0,00
+[T38 r5 c3] -12,90
+[T38 r5 c4] -33,95
+[T38 r6 c1] Acciaio · estradosso
+[T38 r6 c2] -41,37
+[T38 r6 c3] -12,41
+[T38 r6 c4] -34,65
+[T38 r7 c1] Anima · sommità
+[T38 r7 c2] -40,08
+[T38 r7 c3] -11,56
+[T38 r7 c4] -33,90
+[T38 r8 c1] Anima · piede
+[T38 r8 c2] 28,32
+[T38 r8 c3] 33,66
+[T38 r8 c4] 5,77
+[T38 r9 c1] Acciaio · intradosso
+[T38 r9 c2] 29,83
+[T38 r9 c3] 34,65
+[T38 r9 c4] 6,64
+¶ 1: G1 · acciaio; 2: G2 · permanenti; 3: Ritiro.
+¶ Sezione efficace di classe 4
+[T39 r1 c1] Pannello
+[T39 r1 c2] b [mm]
+[T39 r1 c3] t [mm]
+[T39 r1 c4] ψ
+[T39 r1 c5] kσ
+[T39 r1 c6] λp
+[T39 r1 c7] ρ
+[T39 r2 c1] Anima
+[T39 r2 c2] 1618,05
+[T39 r2 c3] 16,00
+[T39 r2 c4] -0,79
+[T39 r2 c5] 18,93
+[T39 r2 c6] 0,99
+[T39 r2 c7] 0,88
+[T39 r3 c1] Sbalzo superiore
+[T39 r3 c2] 216,86
+[T39 r3 c3] 30,00
+[T39 r3 c4] 1,00
+[T39 r3 c5] 0,43
+[T39 r3 c6] 0,47
+[T39 r3 c7] 1,00
+[T39 r4 c1] Sbalzo inferiore
+[T39 r4 c2] 316,86
+[T39 r4 c3] 35,00
+[T39 r4 c4] 1,00
+[T39 r4 c5] 0,43
+[T39 r4 c6] 0,59
+[T39 r4 c7] 1,00
+[T40 r1 c1] Pannello
+[T40 r1 c2] σ1 [MPa]
+[T40 r1 c3] σ2 [MPa]
+[T40 r1 c4] bc [mm]
+[T40 r1 c5] b1 eff [mm]
+[T40 r1 c6] b2 eff [mm]
+[T40 r2 c1] Anima
+[T40 r2 c2] -85,54
+[T40 r2 c3] 67,74
+[T40 r2 c4] 902,94
+[T40 r2 c5] 319,59
+[T40 r2 c6] 1194,50
+[T40 r3 c1] Sbalzo superiore
+[T40 r3 c2] -88,43
+[T40 r3 c3] -88,43
+[T40 r3 c4] 216,86
+[T40 r3 c5] 216,86
+[T40 r3 c6] 0,00
+[T40 r4 c1] Sbalzo inferiore
+[T40 r4 c2] 67,74
+[T40 r4 c3] 67,74
+[T40 r4 c4] 0,00
+[T40 r4 c5] 316,86
+[T40 r4 c6] 0,00
+[T41 r1 c1] Carpenteria
+[T41 r1 c2] Area [mm²]
+[T41 r1 c3] yG [mm]
+[T41 r1 c4] Ix [mm⁴]
+[T41 r2 c1] Lorda
+[T41 r2 c2] 62138,87
+[T41 r2 c3] -946,49
+[T41 r2 c4] 28416188719,33
+[T41 r3 c1] Efficace
+[T41 r3 c2] 60475,32
+[T41 r3 c3] -961,66
+[T41 r3 c4] 27895111680,53
+¶ Anima inefficace: 102,17 mm, da y = -446,21 a y = -344,05 mm. Aeff/Alorda = 0,97; Ieff/Ilorda = 0,98.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T42 r1 c1] V [kN]
+[T42 r1 c2] kτ
+[T42 r1 c3] τcr [MPa]
+[T42 r1 c4] λw
+[T42 r1 c5] χw
+[T42 r1 c6] Vpl,Rd [kN]
+[T42 r1 c7] Vbw,Rd [kN]
+[T42 r2 c1] 0,00
+[T42 r2 c2] 5,34
+[T42 r2 c3] 99,10
+[T42 r2 c4] 1,42
+[T42 r2 c5] 0,59
+[T42 r2 c6] 6080,75
+[T42 r2 c7] 2696,98
+¶ τ nominale V/Av = 0,00 MPa; τ max elastica lorda = 0,00 MPa. Beneficio irrigidimenti: no. Montante terminale adottato: non rigido.
+[T43 r1 c1] Controllo
+[T43 r1 c2] Domanda
+[T43 r1 c3] Limite
+[T43 r1 c4] η
+[T43 r1 c5] Esito
+[T43 r2 c1] Anima · resistenza a taglio
+[T43 r2 c2] 0,00 kN
+[T43 r2 c3] 2696,98 kN
+[T43 r2 c4] —
+[T43 r2 c5] Da verificare
+[T43 r3 c1] Anima · tensione equivalente elastica (inviluppo)
+[T43 r3 c2] 85,54 MPa
+[T43 r3 c3] 345,00 MPa
+[T43 r3 c4] 0,25
+[T43 r3 c5] Entro limite
+¶ Anima · resistenza a taglio: Resistenza SLU di confronto: assegnare la combinazione SLU per l’esito.
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata.
+¶ Situazione 3 dopo Ritiro. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×5 (manuale); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Situazione 4 dopo Q · fessurata
+¶ Avviso: SLE, armature della soletta fessurata (contributi «Soletta esclusa»): alle barre tese si somma il tension stiffening, σs = σs,0 + Δσs con Δσs = 0,4 fctm/(αst ρs) = 116,91 MPa; fctm = 3,51 MPa, ρs = As/Act = 0,86 %, αst = A I/(Aa Ia) = 1,40 (EN 1994-2 §7.2.1, EN 1994-1-1 §7.4.3(3)). I Δσ dei contributi sommano σs,0.
+¶ Avviso: CLS teso nel modello non fessurato: valutare una situazione con soletta esclusa; non è attestata la verifica del CLS in trazione.
+¶ Avviso: Ritiro uniforme imposto al solo CLS: effetti primari autoequilibrati. Eventuali azioni secondarie da vincoli esterni vanno inserite come fasi N–Mx separate.
+¶ Avviso: Anima inclinata di 10.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.
+¶ Avviso: EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Convergenza in 7 iterazioni. Variazione relativa delle larghezze: 4,455E-008; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T44 r1 c1] Contributo
+[T44 r1 c2] Riferimento N
+[T44 r1 c3] yN [mm]
+[T44 r1 c4] ΔN [kN]
+[T44 r1 c5] ΔMx al punto N [kNm]
+[T44 r1 c6] ΔV [kN]
+[T44 r2 c1] 1 · G1 · acciaio
+[T44 r2 c2] Baricentro omogeneizzato lordo
+[T44 r2 c3] -946,49
+[T44 r2 c4] 0,00
+[T44 r2 c5] 1200,00
+[T44 r2 c6] 0,00
+[T44 r3 c1] 2 · G2 · permanenti
+[T44 r3 c2] Baricentro omogeneizzato lordo
+[T44 r3 c3] -435,81
+[T44 r3 c4] 0,00
+[T44 r3 c5] 1800,00
+[T44 r3 c6] 0,00
+[T44 r4 c1] 3 · Ritiro
+[T44 r4 c2] Deformazione imposta
+[T44 r4 c3] —
+[T44 r4 c4] 0,00
+[T44 r4 c5] 0,00
+[T44 r4 c6] 0,00
+[T44 r5 c1] 4 · Q · fessurata
+[T44 r5 c2] Quota comune
+[T44 r5 c3] -200,00
+[T44 r5 c4] -500,00
+[T44 r5 c5] 2600,00
+[T44 r5 c6] 0,00
+¶ Ritiro · azioni equivalenti interne al calcolo
+[T45 r1 c1] Fase
+[T45 r1 c2] Δεcs [µε]
+[T45 r1 c3] Neq [kN]
+[T45 r1 c4] Meq,0 [kNm]
+[T45 r1 c5] Correzione σc [MPa]
+[T45 r2 c1] Ritiro
+[T45 r2 c2] -250,00
+[T45 r2 c3] -3258,96
+[T45 r2 c4] 455,96
+[T45 r2 c5] 4,19
+¶ Neq e Meq,0 sono ausiliari e non vanno sommati ai carichi esterni. La correzione è applicata soltanto al CLS; le barre mantengono la tensione da compatibilità.
+¶ Rapporti e proprietà per contributo
+[T46 r1 c1] Contributo
+[T46 r1 c2] n0
+[T46 r1 c3] n
+[T46 r1 c4] φ
+[T46 r1 c5] ψL φ
+[T46 r1 c6] Ec eff [MPa]
+[T46 r2 c1] 1 · G1 · acciaio
+[T46 r2 c2] —
+[T46 r2 c3] —
+[T46 r2 c4] —
+[T46 r2 c5] —
+[T46 r2 c6] —
+[T46 r3 c1] 2 · G2 · permanenti
+[T46 r3 c2] 5,96
+[T46 r3 c3] 16,00
+[T46 r3 c4] 1,53
+[T46 r3 c5] 1,68
+[T46 r3 c6] 13125,00
+[T46 r4 c1] 3 · Ritiro
+[T46 r4 c2] 5,96
+[T46 r4 c3] 12,52
+[T46 r4 c4] 2,00
+[T46 r4 c5] 1,10
+[T46 r4 c6] 16771,65
+[T46 r5 c1] 4 · Q · fessurata
+[T46 r5 c2] —
+[T46 r5 c3] —
+[T46 r5 c4] —
+[T46 r5 c5] —
+[T46 r5 c6] —
+[T47 r1 c1] Contributo
+[T47 r1 c2] A* [mm²]
+[T47 r1 c3] yG [mm]
+[T47 r1 c4] Ix* [mm⁴]
+[T47 r1 c5] Ix integrazione [mm⁴]
+[T47 r2 c1] 1
+[T47 r2 c2] 60246,51
+[T47 r2 c3] -963,59
+[T47 r2 c4] 27835791060,68
+[T47 r2 c5] 27835791060,68
+[T47 r3 c1] 2
+[T47 r3 c2] 115248,76
+[T47 r3 c3] -436,36
+[T47 r3 c4] 63302956049,10
+[T47 r3 c5] 63299534877,61
+[T47 r4 c1] 3
+[T47 r4 c2] 128745,79
+[T47 r4 c3] -375,95
+[T47 r4 c4] 67403076708,19
+[T47 r4 c5] 67399657220,28
+[T47 r5 c1] 4
+[T47 r5 c2] 66670,32
+[T47 r5 c3] -856,25
+[T47 r5 c4] 35100091723,80
+[T47 r5 c5] 35100091723,80
+[T48 r1 c1] Contributo
+[T48 r1 c2] Wsup* [mm³]
+[T48 r1 c3] Winf* [mm³]
+[T48 r1 c4] yσ zero [mm]
+[T48 r1 c5] κ [1/m]
+[T48 r1 c6] Residuo equilibrio
+[T48 r2 c1] 1
+[T48 r2 c2] 28887620,36
+[T48 r2 c3] 40259394,28
+[T48 r2 c4] -963,59
+[T48 r2 c5] 2,05E-4
+[T48 r2 c6] 0E+0
+[T48 r3 c1] 2
+[T48 r3 c2] 145070680,73
+[T48 r3 c3] 51945550,11
+[T48 r3 c4] -436,36
+[T48 r3 c5] 1,35E-4
+[T48 r3 c6] 4,402E-15
+[T48 r4 c1] 3
+[T48 r4 c2] 179289045,47
+[T48 r4 c3] 52697618,24
+[T48 r4 c4] -1390,78
+[T48 r4 c5] 1,19E-4
+[T48 r4 c6] 8,573E-16
+[T48 r5 c1] 4
+[T48 r5 c2] 40992810,83
+[T48 r5 c3] 43943773,39
+[T48 r5 c4] -946,15
+[T48 r5 c5] 3,97E-4
+[T48 r5 c6] 0E+0
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T49 r1 c1] Punto
+[T49 r1 c2] y [mm]
+[T49 r1 c3] Σσ [MPa]
+[T49 r1 c4] Limite [MPa]
+[T49 r1 c5] η
+[T49 r1 c6] Esito locale
+[T49 r2 c1] Soletta · estradosso
+[T49 r2 c2] 280,00
+[T49 r2 c3] -0,41
+[T49 r2 c4] 24,00
+[T49 r2 c5] 0,02
+[T49 r2 c6] Entro limite
+[T49 r3 c1] Soletta · intradosso
+[T49 r3 c2] 0,00
+[T49 r3 c3] 0,65
+[T49 r3 c4] 24,00
+[T49 r3 c5] —
+[T49 r3 c6] CLS teso
+[T49 r4 c1] Armatura · y=235
+[T49 r4 c2] 235,00
+[T49 r4 c3] -150,64
+[T49 r4 c4] 360,00
+[T49 r4 c5] 0,42
+[T49 r4 c6] Entro limite
+[T49 r5 c1] Armatura · y=40
+[T49 r5 c2] 40,00
+[T49 r5 c3] -125,24
+[T49 r5 c4] 360,00
+[T49 r5 c5] 0,35
+[T49 r5 c6] Entro limite
+[T49 r6 c1] Acciaio · estradosso
+[T49 r6 c2] 0,00
+[T49 r6 c3] -167,57
+[T49 r6 c4] 345,00
+[T49 r6 c5] 0,49
+[T49 r6 c6] Entro limite
+[T49 r7 c1] Anima · sommità
+[T49 r7 c2] -30,00
+[T49 r7 c3] -162,17
+[T49 r7 c4] 345,00
+[T49 r7 c5] 0,47
+[T49 r7 c6] Entro limite
+[T49 r8 c1] Anima · piede
+[T49 r8 c2] -1620,00
+[T49 r8 c3] 123,89
+[T49 r8 c4] 345,00
+[T49 r8 c5] 0,36
+[T49 r8 c6] Entro limite
+[T49 r9 c1] Acciaio · intradosso
+[T49 r9 c2] -1655,00
+[T49 r9 c3] 130,18
+[T49 r9 c4] 345,00
+[T49 r9 c5] 0,38
+[T49 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T50 r1 c1] Punto
+[T50 r1 c2] Δσ 1
+[T50 r1 c3] Δσ 2
+[T50 r1 c4] Δσ 3
+[T50 r1 c5] Δσ 4
+[T50 r2 c1] Soletta · estradosso
+[T50 r2 c2] 0,00
+[T50 r2 c3] -1,27
+[T50 r2 c4] 0,86
+[T50 r2 c5] 0,00
+[T50 r3 c1] Soletta · intradosso
+[T50 r3 c2] 0,00
+[T50 r3 c3] -0,78
+[T50 r3 c4] 1,42
+[T50 r3 c5] 0,00
+[T50 r4 c1] Armatura · y=235
+[T50 r4 c2] 0,00
+[T50 r4 c3] -18,18
+[T50 r4 c4] -38,62
+[T50 r4 c5] -93,84
+[T50 r5 c1] Armatura · y=40
+[T50 r5 c2] 0,00
+[T50 r5 c3] -12,90
+[T50 r5 c4] -33,99
+[T50 r5 c5] -78,35
+[T50 r6 c1] Acciaio · estradosso
+[T50 r6 c2] -41,54
+[T50 r6 c3] -12,41
+[T50 r6 c4] -34,69
+[T50 r6 c5] -78,93
+[T50 r7 c1] Anima · sommità
+[T50 r7 c2] -40,25
+[T50 r7 c3] -11,56
+[T50 r7 c4] -33,94
+[T50 r7 c5] -76,43
+[T50 r8 c1] Anima · piede
+[T50 r8 c2] 28,30
+[T50 r8 c3] 33,66
+[T50 r8 c4] 5,72
+[T50 r8 c5] 56,21
+[T50 r9 c1] Acciaio · intradosso
+[T50 r9 c2] 29,81
+[T50 r9 c3] 34,65
+[T50 r9 c4] 6,59
+[T50 r9 c5] 59,13
+¶ 1: G1 · acciaio; 2: G2 · permanenti; 3: Ritiro; 4: Q · fessurata.
+¶ Sezione efficace di classe 4
+[T51 r1 c1] Pannello
+[T51 r1 c2] b [mm]
+[T51 r1 c3] t [mm]
+[T51 r1 c4] ψ
+[T51 r1 c5] kσ
+[T51 r1 c6] λp
+[T51 r1 c7] ρ
+[T51 r2 c1] Anima
+[T51 r2 c2] 1618,05
+[T51 r2 c3] 16,00
+[T51 r2 c4] -0,76
+[T51 r2 c5] 18,32
+[T51 r2 c6] 1,01
+[T51 r2 c7] 0,87
+[T51 r3 c1] Sbalzo superiore
+[T51 r3 c2] 216,86
+[T51 r3 c3] 30,00
+[T51 r3 c4] 1,00
+[T51 r3 c5] 0,43
+[T51 r3 c6] 0,47
+[T51 r3 c7] 1,00
+[T51 r4 c1] Sbalzo inferiore
+[T51 r4 c2] 316,86
+[T51 r4 c3] 35,00
+[T51 r4 c4] 1,00
+[T51 r4 c5] 0,43
+[T51 r4 c6] 0,59
+[T51 r4 c7] 1,00
+[T52 r1 c1] Pannello
+[T52 r1 c2] σ1 [MPa]
+[T52 r1 c3] σ2 [MPa]
+[T52 r1 c4] bc [mm]
+[T52 r1 c5] b1 eff [mm]
+[T52 r1 c6] b2 eff [mm]
+[T52 r2 c1] Anima
+[T52 r2 c2] -162,17
+[T52 r2 c3] 123,89
+[T52 r2 c4] 917,30
+[T52 r2 c5] 319,61
+[T52 r2 c6] 1180,17
+[T52 r3 c1] Sbalzo superiore
+[T52 r3 c2] -167,57
+[T52 r3 c3] -167,57
+[T52 r3 c4] 216,86
+[T52 r3 c5] 216,86
+[T52 r3 c6] 0,00
+[T52 r4 c1] Sbalzo inferiore
+[T52 r4 c2] 123,89
+[T52 r4 c3] 123,89
+[T52 r4 c4] 0,00
+[T52 r4 c5] 316,86
+[T52 r4 c6] 0,00
+[T53 r1 c1] Carpenteria
+[T53 r1 c2] Area [mm²]
+[T53 r1 c3] yG [mm]
+[T53 r1 c4] Ix [mm⁴]
+[T53 r2 c1] Lorda
+[T53 r2 c2] 62138,87
+[T53 r2 c3] -946,49
+[T53 r2 c4] 28416188719,33
+[T53 r3 c1] Efficace
+[T53 r3 c2] 60246,51
+[T53 r3 c3] -963,59
+[T53 r3 c4] 27835791060,68
+¶ Anima inefficace: 116,22 mm, da y = -460,29 a y = -344,07 mm. Aeff/Alorda = 0,97; Ieff/Ilorda = 0,98.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T54 r1 c1] V [kN]
+[T54 r1 c2] kτ
+[T54 r1 c3] τcr [MPa]
+[T54 r1 c4] λw
+[T54 r1 c5] χw
+[T54 r1 c6] Vpl,Rd [kN]
+[T54 r1 c7] Vbw,Rd [kN]
+[T54 r2 c1] 0,00
+[T54 r2 c2] 5,34
+[T54 r2 c3] 99,10
+[T54 r2 c4] 1,42
+[T54 r2 c5] 0,59
+[T54 r2 c6] 6080,75
+[T54 r2 c7] 2696,98
+¶ τ nominale V/Av = 0,00 MPa; τ max elastica lorda = 0,00 MPa. Beneficio irrigidimenti: no. Montante terminale adottato: non rigido.
+[T55 r1 c1] Controllo
+[T55 r1 c2] Domanda
+[T55 r1 c3] Limite
+[T55 r1 c4] η
+[T55 r1 c5] Esito
+[T55 r2 c1] Anima · resistenza a taglio
+[T55 r2 c2] 0,00 kN
+[T55 r2 c3] 2696,98 kN
+[T55 r2 c4] —
+[T55 r2 c5] Da verificare
+[T55 r3 c1] Anima · tensione equivalente elastica (inviluppo)
+[T55 r3 c2] 162,17 MPa
+[T55 r3 c3] 345,00 MPa
+[T55 r3 c4] 0,47
+[T55 r3 c5] Entro limite
+¶ Anima · resistenza a taglio: Resistenza SLU di confronto: assegnare la combinazione SLU per l’esito.
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata.
+¶ Situazione 4 dopo Q · fessurata. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×5 (manuale); valori indicati in MPa reali. Arancio: parte inefficace.

@@ -1,0 +1,2053 @@
+# word/document.xml
+¶ Relazione della sezione composta da ponte
+¶ Fixture F3 · str_mista_ponte · cassoncino-torsione-pioli
+¶ ANTHEA · <DATA> <ORA>
+¶ Motore di calcolo: GPC Engine · libreria GPCChecker.CompositeBridge.
+¶ Analisi delle tensioni normali di una soletta in calcestruzzo collegata a una trave in acciaio. La relazione riporta i dati e i risultati delle situazioni calcolate, senza eseguire un nuovo calcolo. I rapporti tensionali sono controlli locali della sezione.
+¶ Ambito e convenzioni
+¶ Analisi elastica N–Mx con connessione completa, sezione simmetrica e anima senza irrigidimenti longitudinali. b_eff della soletta è un dato di ingresso. Le fasi sono incrementi di carico già combinati; per ogni situazione la sezione efficace è comune ai contributi sommati. Il ritiro uniforme assegnato al CLS produce effetti primari locali. Non è un'analisi evolutiva con redistribuzione viscosa. Taglio e pioli hanno controlli locali dedicati. Irrigidimenti, appoggi, saldature continue, soletta trasversale e fatica dei pioli hanno verifiche opzionali con campo dichiarato. La torsione è verificata solo per il cassoncino (cella chiusa, distorsione e diaframmi, opzionali); l'instabilità globale del ponte resta esclusa.
+¶ Lunghezze in mm, tensioni in MPa, forze in kN e momenti in kNm. Compressione negativa e trazione positiva. L’asse y ha origine all’interfaccia acciaio soletta ed è positivo verso l’alto. Mx positivo comprime la parte superiore. Le azioni sono incrementi già combinati e, allo SLU, già coefficientati con γF e ψ. Il modulo non moltiplica nuovamente i carichi: il selettore SLU/SLE cambia limiti e resistenze. Arrotondamenti soltanto nella presentazione.
+¶ Model fornisce materiali e geometria. GPC Engine esegue il calcolo per fasi e le larghezze efficaci. ANTHEA gestisce ingressi e presentazione dei risultati.
+¶ Riepilogo delle situazioni
+[T1 r1 c1] Situazione
+[T1 r1 c2] ΣN [kN]
+[T1 r1 c3] ΣMx a y=0 [kNm]
+[T1 r1 c4] ΣV [kN]
+[T1 r1 c5] η max locale
+[T1 r1 c6] Stato locale
+[T1 r2 c1] 1 · Dopo G1 · getto
+[T1 r2 c2] 0,00
+[T1 r2 c3] 1500,00
+[T1 r2 c4] 300,00
+[T1 r2 c5] 0,10
+[T1 r2 c6] Entro limiti
+[T1 r3 c1] 2 · Dopo G2 · permanenti
+[T1 r3 c2] 0,00
+[T1 r3 c3] 3500,00
+[T1 r3 c4] 900,00
+[T1 r3 c5] 1,03
+[T1 r3 c6] Non verificato
+[T1 r4 c1] 3 · Dopo Q · traffico
+[T1 r4 c2] 0,00
+[T1 r4 c3] 6500,00
+[T1 r4 c4] 1400,00
+[T1 r4 c5] 1,03
+[T1 r4 c6] Non verificato
+¶ η max locale include tensioni, taglio e controlli accessori attivati. Un controllo mancante non riceve un esito favorevole; leggere gli avvisi e il campo delle verifiche. Non è un esito globale del ponte.
+¶ Cassoncino con due anime inclinate di 7.9° e due piattabande superiori: flessione retta, taglio ripartito in parti uguali sulle anime (V/(2 cos α) nel piano di ciascuna), fondo come lamiera interna tra le anime (kσ interno) più gli sbalzi esterni. Torsione della cella chiusa, distorsione e diaframmi verificati con le opzioni del cassoncino; irrigidimenti longitudinali del fondo e instabilità del fondo compresso come piastra irrigidita non sono verificati.
+¶ EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Controvento superiore: le aste vanno verificate con il flusso q delle fasi di solo acciaio (taglio del campo di controvento = q × lunghezza del campo); qui è solo riportato.
+¶ Distorsione analizzata solo nelle situazioni con la soletta: cella chiusa dalla soletta.
+¶ Apparecchi d'appoggio non allineati alle anime: flessione del diaframma d'appoggio tra apparecchio e anima non verificata.
+¶ Torsione del cassoncino: cella chiusa di Bredt, q = T/(2A0) tra i piani medi della soletta (del controvento nelle fasi di solo acciaio) e del fondo, indipendente dalla rigidezza delle pareti; J con la soletta hc/nG, dimezzata se fessurata (EN 1994-2 §§5.4.2.2(11), 5.4.2.3(6)). q si somma al taglio nelle anime (EN 1993-1-1 §6.2.7(9)), nel fondo, nei pioli e nelle superfici a–a/b–b interne alla cella (EN 1994-2 §6.6.2.1). Torsione non uniforme e distorsione della sezione aperta esclusa.
+¶ Distorsione: σdw = 37,31% della σ di flessione del fondo; oltre il 10% è sommata nelle verifiche del fondo (EN 1993-2 §6.2.7(3)).
+¶ Distorsione: analogia della trave su suolo elastico (Wright et al., 1968) sulla campata semplicemente appoggiata con diaframmi d'estremità rigidi; m_t su tutta la luce e T_c nella posizione più sfavorevole, dello stesso segno, applicati come coppie verticali alla sommità delle anime. Cella composta con la soletta a breve termine; accoppiamento con l'ingobbamento torsionale trascurato; inviluppi lungo la campata, indipendenti dalle fasi.
+¶ Connessione: soletta piena, pioli verticali standard. I controlli di armatura assumono barre effettivamente ancorate e superfici a–a/b–b. Sollevamento imposto, torsione e splitting attraverso lo spessore richiedono un modello dedicato.
+¶ Cassoncino: pioli e superfici della soletta per ciascuna delle due piattabande superiori, con metà del flusso di scorrimento più il flusso torsionale q (le superfici a–a interne alla cella e b–b); la fatica dei pioli usa i flussi assegnati per piattabanda.
+¶ Distorsione: σdw = 21,59% della σ di flessione del fondo; oltre il 10% è sommata nelle verifiche del fondo (EN 1993-2 §6.2.7(3)).
+¶ Taglio irrigidimenti e pioli
+¶ Riferimenti: NTC 2018 §§4.2.4.1.2, 4.3.4.2.2 e 4.3.4.3; EN 1993-1-5:2006 §§5, 7.1, 9; EN 1994-2:2005 §§6.2.2, 6.6 e 7.2.2. Valori modificabili: γM1 = 1,10, η = 1,20, γV = 1,25.
+¶ Taglio affidato all’anima intera: VRd = min(Vpl,Rd; Vbw,Rd), Vbw,Rd = χw hw tw fy/(√3 γM1). Contributo delle flange omesso. La curva del montante terminale è non rigida salvo qualificazione positiva del terminale inserito. Gli irrigidimenti di appoggio sono verificati se attivati. Le zone inefficaci nel grafico riguardano le tensioni normali.
+¶ Irrigidimenti intermedi: assenti. Pioli: verifica attiva.
+[T2 r1 c1] Dato
+[T2 r1 c2] Valore
+[T2 r2 c1] Numero per fila
+[T2 r2 c2] 3,00
+[T2 r3 c1] Diametro gambo [mm]
+[T2 r3 c2] 22,00
+[T2 r4 c1] Altezza saldata [mm]
+[T2 r4 c2] 175,00
+[T2 r5 c1] Passo longitudinale [mm]
+[T2 r5 c2] 180,00
+[T2 r6 c1] Passo trasversale [mm]
+[T2 r6 c2] 120,00
+[T2 r7 c1] fu [MPa]
+[T2 r7 c2] 450,00
+[T2 r8 c1] Diametro testa [mm]
+[T2 r8 c2] 35,00
+[T2 r9 c1] Spessore testa [mm]
+[T2 r9 c2] 12,00
+[T2 r10 c1] Copriferro minimo di progetto [mm]
+[T2 r10 c2] 35,00
+[T3 r1 c1] Dato locale
+[T3 r1 c2] Valore
+[T3 r1 c3] Unità
+[T3 r2 c1] Cassoncino · controvento superiore t*
+[T3 r2 c2] 4,00
+[T3 r2 c3] mm
+[T3 r3 c1] Distorsione · luce della campata
+[T3 r3 c2] 40000,00
+[T3 r3 c3] mm
+[T3 r4 c1] Distorsione · passo dei diaframmi intermedi
+[T3 r4 c2] 5000,00
+[T3 r4 c3] mm
+[T3 r5 c1] Distorsione · torcente distribuito m_t
+[T3 r5 c2] 60,00
+[T3 r5 c3] kNm/m
+[T3 r6 c1] Distorsione · torcente concentrato T_c
+[T3 r6 c2] 600,00
+[T3 r6 c3] kNm
+[T3 r7 c1] Diaframmi intermedi · tipo
+[T3 r7 c2] Controvento a X
+[T3 r7 c3]
+[T3 r8 c1] Diaframmi intermedi · area diagonale
+[T3 r8 c2] 3200,00
+[T3 r8 c3] mm²
+[T3 r9 c1] Diaframmi intermedi · raggio d'inerzia diagonale
+[T3 r9 c2] 32,00
+[T3 r9 c3] mm
+[T3 r10 c1] Diaframmi intermedi · Lcr / L diagonale
+[T3 r10 c2] 0,90
+[T3 r10 c3]
+[T3 r11 c1] Diaframma d'appoggio · torcente trasferito
+[T3 r11 c2] 800,00
+[T3 r11 c3] kNm
+[T3 r12 c1] Appoggi · interasse trasversale degli apparecchi
+[T3 r12 c2] 2000,00
+[T3 r12 c3] mm
+[T3 r13 c1] Diaframma d'appoggio · spessore
+[T3 r13 c2] 20,00
+[T3 r13 c3] mm
+[T3 r14 c1] Soletta · verifica armatura trasversale
+[T3 r14 c2] Sì
+[T3 r14 c3]
+[T3 r15 c1] Pioli · verifica resistente a fatica
+[T3 r15 c2] Sì
+[T3 r15 c3]
+[T3 r16 c1] Barre trasversali sup · diametro
+[T3 r16 c2] 16,00
+[T3 r16 c3] mm
+[T3 r17 c1] Barre trasversali sup · passo
+[T3 r17 c2] 150,00
+[T3 r17 c3] mm
+[T3 r18 c1] Barre trasversali inf · diametro
+[T3 r18 c2] 14,00
+[T3 r18 c3] mm
+[T3 r19 c1] Barre trasversali inf · passo
+[T3 r19 c2] 200,00
+[T3 r19 c3] mm
+[T3 r20 c1] Soletta · cot θ
+[T3 r20 c2] 1,00
+[T3 r20 c3]
+[T3 r21 c1] Soletta · frazione q a sinistra
+[T3 r21 c2] 0,50
+[T3 r21 c3]
+[T3 r22 c1] Soletta · As per flessione trasversale
+[T3 r22 c2] 0,00
+[T3 r22 c3] mm²/m
+[T3 r23 c1] Soletta · ancoraggio disponibile
+[T3 r23 c2] 700,00
+[T3 r23 c3] mm
+[T3 r24 c1] Soletta · buona aderenza
+[T3 r24 c2] Sì
+[T3 r24 c3]
+[T3 r25 c1] Piolo esterno · distanza bordo reale SX
+[T3 r25 c2] 500,00
+[T3 r25 c3] mm
+[T3 r26 c1] Piolo esterno · distanza bordo reale DX
+[T3 r26 c2] 500,00
+[T3 r26 c3] mm
+[T3 r27 c1] Splitting · forcine ancorate a U
+[T3 r27 c2] Sì
+[T3 r27 c3]
+[T3 r28 c1] Splitting · diametro forcine
+[T3 r28 c2] 12,00
+[T3 r28 c3] mm
+[T3 r29 c1] Fatica · q minimo
+[T3 r29 c2] 40,00
+[T3 r29 c3] kN/m
+[T3 r30 c1] Fatica · q massimo
+[T3 r30 c2] 260,00
+[T3 r30 c3] kN/m
+[T3 r31 c1] Fatica · equivalenza λv
+[T3 r31 c2] 1,20
+[T3 r31 c3]
+[T3 r32 c1] Fatica · amplificazione φfat
+[T3 r32 c2] 1,00
+[T3 r32 c3]
+[T3 r33 c1] Fatica · flangia anche tesa
+[T3 r33 c2] Sì
+[T3 r33 c3]
+[T3 r34 c1] Fatica · ΔσE,2 flangia
+[T3 r34 c2] 45,00
+[T3 r34 c3] MPa
+[T3 r35 c1] Fatica · γMf flangia
+[T3 r35 c2] 1,35
+[T3 r35 c3]
+[T3 r36 c1] Fatica · γFf
+[T3 r36 c2] 1,00
+[T3 r36 c3]
+[T3 r37 c1] Fatica · γMf,s pioli
+[T3 r37 c2] 1,25
+[T3 r37 c3]
+¶ Irrigidimenti mono o bilaterali: sezione con striscia simmetrica di anima limitata dal materiale disponibile, baricentro ed eccentricità reali. Analisi elastica del II ordine con imperfezione equivalente Lcr/200, EN 1993-1-1 §§5.2.2(7)a e 5.3.4. Controlli di rigidezza, torsione e piatti entro classe 3. Le saldature continue, quando attivate, usano fu da Model, βw=1 e γM2=1,25.
+¶ Appoggio: reazione R assegnata come inviluppo SLU indipendente dalle fasi, piatti a contatto e impronta interamente sottostante. Il terminale rigido è formato da due coppie bilaterali simmetriche identiche. La curva rigida è adottata soltanto dopo i controlli geometrici, di resistenza e dei collegamenti. Piastra di ripartizione e apparecchio d’appoggio esclusi.
+¶ Soletta: armature trasversali distinte dalle barre longitudinali. Superfici a–a sui due lati e b–b attorno ai gruppi di pioli, traliccio EN 1992-1-1 §6.2.4, armatura minima, interazione con flessione trasversale e ancoraggi. Cot θ limitata a 1–1,25 anche per soletta tesa. Il bordo fisico è un dato separato da b_eff.
+¶ Fatica pioli: ΔqE,2=λv φfat (qmax−qmin), ΔτE,2=ΔqE,2 p/(npioli Agambo). EN 1994-2 §§6.8.3 e 6.8.7.2: categoria 90 per i pioli; categoria 80 e interazione per flangia anche tesa. Gli intervalli sono inviluppi assegnati dal modello globale, comprensivi dei casi fessurati/non fessurati; non provengono dalle fasi costruttive. I controlli non attivati restano da verificare.
+¶ Pioli: q = Σ(Vi Si/Ii + Δqi), PEd = |q| p/npioli. NTC: proprietà della fase tensionale; EC4: CLS non fessurato con acciaio efficace. Il ritiro uniforme ha q(V)=0; gli effetti locali di estremità richiedono Δq assegnato da un modello longitudinale. PRd è il minore fra resistenza del gambo e del CLS; in combinazione SLE rara si usa 0,75 PRd. Per SLE quasi permanente non si assegna l’esito richiesto alla rara.
+¶ Interazione M–V per N=0, fy≤355 MPa e anima non tutta compressa: EN 1994-2 §6.2.2.4(3), con Mpl e Mf della sezione composta, flange efficaci e anima intera; armature omesse nelle capacità plastiche di riferimento. Negli altri casi, ad alto taglio, si adotta un inviluppo elastico cautelativo: ηnorm+(2ηV−1)²≤1, Mf=0 e CLS limitato a 0,85 fcd. Non si accredita redistribuzione plastica; il criterio può essere più gravoso della verifica con capacità plastiche ridotte per N. I controlli elastici e di classe 4 restano necessari.
+¶ Torsione del cassoncino: cella chiusa di Bredt con q = T/(2A0), A0 tra i piani medi della soletta (fasi composte, anime prolungate) o del controvento superiore di spessore equivalente t* (fasi di solo acciaio) e del fondo. J = 4A0²/Σ(ℓ/t) con la soletta hc/nG, nG = n (1+νc)/(1+νa), dimezzata se fessurata (EN 1994-2 §§5.4.2.2(11), 5.4.2.3(6)). q si somma al taglio dell'anima più caricata (V/(2 cos α) + q hw/cos α, EN 1993-1-1 §6.2.7(9)) e all'inviluppo elastico, al fondo (tensione equivalente, imbozzamento e interazione EN 1993-1-5 §7.1(5)), ai pioli di una piattabanda e alle superfici a–a interne e b–b della soletta; l'armatura longitudinale della soletta richiede q cotθ (EN 1992-1-1 §6.3.2(3)). Distorsione con l'analogia della trave su suolo elastico (Wright et al., 1968): modo distorsivo della cella con deformazione a taglio nulla delle pareti, ingobbamento ortogonale a N, Mx e My, rigidezza a telaio con nodi rigidi, diaframmi intermedi come molle (piastra: elementi piani; controvento a X: diagonali), campata appoggiata con diaframmi d'estremità rigidi, m_t su tutta la luce e T_c nella posizione più sfavorevole. Diaframma d'appoggio a taglio τ = T/(2A0 tD) e coppia T/e_b degli apparecchi sull'irrigidimento d'appoggio dell'anima più caricata.
+¶ Normativa e coefficienti
+¶ Riferimento selezionato: NTC 2018 / EN 1994-2:2005. Limiti tensionali: SLU.
+[T4 r1 c1] Coefficiente
+[T4 r1 c2] Applicato
+[T4 r2 c1] γM0 acciaio strutturale
+[T4 r2 c2] 1,05
+[T4 r3 c1] γc calcestruzzo
+[T4 r3 c2] 1,50
+[T4 r4 c1] αcc calcestruzzo
+[T4 r4 c2] 0,85
+[T4 r5 c1] γs armature
+[T4 r5 c2] 1,15
+¶ Riduzioni locali di classe 4: attive. Metodo: Sezione composta N–Mx · larghezze efficaci EN 1993-1-5:2006 · v1.
+¶ I coefficienti sono quelli assegnati nel foglio. Il rapporto delle larghezze efficaci usa fy caratteristico. SLU: limiti αcc fck/γc, fy/γM0 e fyk/γs. SLE: limite CLS 0,60 fck per la rara e 0,45 fck per la quasi permanente; limite armature 0,80 fyk e acciaio strutturale fy.
+¶ Materiali
+[T5 r1 c1] Materiale
+[T5 r1 c2] Classe
+[T5 r1 c3] Resistenza [MPa]
+[T5 r1 c4] Modulo E [MPa]
+[T5 r2 c1] Calcestruzzo
+[T5 r2 c2] C35/45
+[T5 r2 c3] fck = 35,00
+[T5 r2 c4] 34077,15
+[T5 r3 c1] Acciaio strutturale
+[T5 r3 c2] S355
+[T5 r3 c3] fy = 355,00
+[T5 r3 c4] 210000,00
+[T5 r4 c1] Armatura ordinaria
+[T5 r4 c2] B450C
+[T5 r4 c3] fyk = 450,00
+[T5 r4 c4] 200000,00
+¶ fy strutturale nominale da catalogo. Il calcolo non determina automaticamente la riduzione per lo spessore delle lamiere.
+¶ Geometria e armature
+[T6 r1 c1] Componente
+[T6 r1 c2] Larghezza [mm]
+[T6 r1 c3] Altezza o spessore [mm]
+[T6 r2 c1] Soletta collaborante
+[T6 r2 c2] 3600,00
+[T6 r2 c3] 250,00
+[T6 r3 c1] Trave d'acciaio totale H
+[T6 r3 c2] —
+[T6 r3 c3] 1855,00
+[T6 r4 c1] Anima libera ricavata
+[T6 r4 c2] 28,27
+[T6 r4 c3] 1805,00
+[T6 r5 c1] Piattabanda superiore
+[T6 r5 c2] 900,00
+[T6 r5 c3] 25,00
+[T6 r6 c1] Piattabanda inferiore 1
+[T6 r6 c2] 1400,00
+[T6 r6 c3] 25,00
+[T6 r7 c1] Piattabanda inferiore 2
+[T6 r7 c2] Assente
+[T6 r7 c3] —
+[T6 r8 c1] Piattabanda inferiore equivalente (solo confronto)
+[T6 r8 c2] 1400,00
+[T6 r8 c3] 25,00
+¶ Cassoncino in acciaio aperto superiormente, chiuso dalla soletta: due anime simmetriche inclinate di 7,89° dalla verticale, due piattabande superiori e un fondo. Flessione retta attorno all'asse orizzontale: la sezione è vincolata lateralmente da soletta e controventi. Nell'analisi N–Mx le anime sono verticali equivalenti di spessore complessivo n·tw/cos α e le piattabande superiori hanno la larghezza complessiva (valori della tabella precedente): area, baricentro e inerzia rispetto all'asse orizzontale sono quelli esatti. Instabilità locale, taglio (V/(n cos α) nel piano di ciascuna lamiera), irrigidimenti, saldature e pioli sono verificati sulle lamiere reali della tabella seguente. Il fondo è una lamiera interna tra le anime (kσ interno) con gli sbalzi esterni; torsione della cella chiusa, distorsione e diaframmi sono verificati nel capitolo del taglio; irrigidimenti longitudinali del fondo non considerati.
+[T7 r1 c1] Lamiere reali
+[T7 r1 c2] Larghezza o lunghezza [mm]
+[T7 r1 c3] Spessore [mm]
+[T7 r2 c1] Piattabande superiori (ciascuna, 2)
+[T7 r2 c2] 450,00
+[T7 r2 c3] 25,00
+[T7 r3 c1] Anime (ciascuna, 2) · lunghezza nel piano
+[T7 r3 c2] 1822,23
+[T7 r3 c3] 14,00
+[T7 r4 c1] Anima · altezza verticale e larghezza orizzontale tw/cos α
+[T7 r4 c2] 1805,00
+[T7 r4 c3] 14,13
+[T7 r5 c1] Interasse anime · sommità / piede
+[T7 r5 c2] 1800,00 / 1300,00
+[T7 r5 c3] —
+[T7 r6 c1] Fondo · parte interna tra le anime
+[T7 r6 c2] 1285,87
+[T7 r6 c3] 25,00
+[T7 r7 c1] Fondo · sbalzo oltre ciascuna anima
+[T7 r7 c2] 42,93
+[T7 r7 c3] 25,00
+[T7 r8 c1] Piattabanda inferiore
+[T7 r8 c2] 1400,00
+[T7 r8 c3] 25,00
+¶ La larghezza della soletta è la larghezza collaborante assegnata. La seconda piastra è centrata sotto la prima. Il calcolo usa le piastre reali. Il rettangolo equivalente (t = t1 + t2, b = (b1 t1 + b2 t2)/(t1 + t2)) conserva area e spessore complessivo, non in generale baricentro e inerzia: è riportato solo per confronto. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore.
+[T8 r1 c1] Proprietà delle piastre inferiori
+[T8 r1 c2] Reale (calcolo)
+[T8 r1 c3] Equivalente (confronto)
+[T8 r2 c1] Area [mm²]
+[T8 r2 c2] 35000,00
+[T8 r2 c3] 35000,00
+[T8 r3 c1] Baricentro y [mm]
+[T8 r3 c2] -1842,50
+[T8 r3 c3] -1842,50
+[T8 r4 c1] Ix al proprio baricentro [mm⁴]
+[T8 r4 c2] 1822916,67
+[T8 r4 c3] 1822916,67
+¶ Ferri inferiori: riferimento = Intradosso soletta; distanza riferimento–asse = 45,00 mm; quota effettiva y = 45,00 mm dall'intradosso soletta.
+¶ Ferri superiori: estradosso soletta–asse = 45,00 mm; quota effettiva y = 205,00 mm.
+[T9 r1 c1] Fila
+[T9 r1 c2] Presente
+[T9 r1 c3] Ø [mm]
+[T9 r1 c4] Passo [mm]
+[T9 r1 c5] y asse [mm]
+[T9 r1 c6] Barre
+[T9 r2 c1] Superiore
+[T9 r2 c2] Sì
+[T9 r2 c3] 16,00
+[T9 r2 c4] 150,00
+[T9 r2 c5] 205,00
+[T9 r2 c6] 24
+[T9 r3 c1] Inferiore
+[T9 r3 c2] Sì
+[T9 r3 c3] 16,00
+[T9 r3 c4] 150,00
+[T9 r3 c5] 45,00
+[T9 r3 c6] 24
+¶ La distanza inserita è misurata fino all’asse della barra. Le barre sono distribuite e centrate da Model; entrambe le file possono essere assenti. Area totale delle armature: 9650,97 mm².
+¶ Geometria della sezione e disposizione delle armature
+¶ Sollecitazioni per fase
+¶ Ogni fase sceglie il proprio punto N: quota comune, baricentro omogeneizzato lordo fisso o baricentro efficace aggiornato durante l’iterazione. La quota comune, quando selezionata, è y = 0,00 mm. Il momento assegnato è riferito al punto N della fase. Mx,G = Mx + N (yG − yN); i momenti cumulati sono riportati a y=0 mediante Mx,0 = Mx − N yN, con unità coerenti.
+[T10 r1 c1] Fase
+[T10 r1 c2] Sezione / azione
+[T10 r1 c3] Attiva
+[T10 r1 c4] ΔN [kN]
+[T10 r1 c5] ΔMx [kNm]
+[T10 r1 c6] ΔV [kN]
+[T10 r1 c7] ΔT [kNm]
+[T10 r1 c8] Δεcs [µε]
+[T10 r2 c1] 1 · G1 · getto
+[T10 r2 c2] Solo acciaio
+[T10 r2 c3] Sì
+[T10 r2 c4] 0
+[T10 r2 c5] 1500
+[T10 r2 c6] 300,00
+[T10 r2 c7] 200,00
+[T10 r2 c8] —
+[T10 r3 c1] 2 · G2 · permanenti
+[T10 r3 c2] Composta
+[T10 r3 c3] Sì
+[T10 r3 c4] 0
+[T10 r3 c5] 2000
+[T10 r3 c6] 600,00
+[T10 r3 c7] 300,00
+[T10 r3 c8] —
+[T10 r4 c1] 3 · Q · traffico
+[T10 r4 c2] Composta
+[T10 r4 c3] Sì
+[T10 r4 c4] 0
+[T10 r4 c5] 3000
+[T10 r4 c6] 500,00
+[T10 r4 c7] 1000,00
+[T10 r4 c8] —
+¶ Solo acciaio: soletta e barre non partecipano. Composta: soletta non fessurata, carpenteria e barre. Soletta esclusa: carpenteria e barre. Per ciascuna situazione la sezione efficace è comune ai contributi sommati. Non si simula la storia evolutiva di costruzione o la redistribuzione viscosa.
+¶ Criteri di omogeneizzazione
+¶ n0 = Ea/Ecm; n = n0 (1 + ψL φ); φ = (n/n0 − 1)/ψL. Il parametro passato a Model e GPC Engine è ψL φ. Il rapporto Es/Ea è conservato.
+[T11 r1 c1] Fase composta
+[T11 r1 c2] φ
+[T11 r1 c3] ψL
+[T11 r1 c4] n di calcolo
+[T11 r1 c5] Stato
+[T11 r2 c1] G2 · permanenti
+[T11 r2 c2] 2,00
+[T11 r2 c3] 1,1
+[T11 r2 c4] 19,72
+[T11 r2 c5] Inclusa
+[T11 r3 c1] Q · traffico
+[T11 r3 c2] 0,00
+[T11 r3 c3] 1
+[T11 r3 c4] 6,16
+[T11 r3 c5] Inclusa
+¶ Situazione 1 dopo G1 · getto
+¶ Avviso: Cassoncino con due anime inclinate di 7.9° e due piattabande superiori: flessione retta, taglio ripartito in parti uguali sulle anime (V/(2 cos α) nel piano di ciascuna), fondo come lamiera interna tra le anime (kσ interno) più gli sbalzi esterni. Torsione della cella chiusa, distorsione e diaframmi verificati con le opzioni del cassoncino; irrigidimenti longitudinali del fondo e instabilità del fondo compresso come piastra irrigidita non sono verificati.
+¶ Avviso: EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Avviso: Controvento superiore: le aste vanno verificate con il flusso q delle fasi di solo acciaio (taglio del campo di controvento = q × lunghezza del campo); qui è solo riportato.
+¶ Avviso: Distorsione analizzata solo nelle situazioni con la soletta: cella chiusa dalla soletta.
+¶ Avviso: Apparecchi d'appoggio non allineati alle anime: flessione del diaframma d'appoggio tra apparecchio e anima non verificata.
+¶ Avviso: Torsione del cassoncino: cella chiusa di Bredt, q = T/(2A0) tra i piani medi della soletta (del controvento nelle fasi di solo acciaio) e del fondo, indipendente dalla rigidezza delle pareti; J con la soletta hc/nG, dimezzata se fessurata (EN 1994-2 §§5.4.2.2(11), 5.4.2.3(6)). q si somma al taglio nelle anime (EN 1993-1-1 §6.2.7(9)), nel fondo, nei pioli e nelle superfici a–a/b–b interne alla cella (EN 1994-2 §6.6.2.1). Torsione non uniforme e distorsione della sezione aperta esclusa.
+¶ Convergenza in 9 iterazioni. Variazione relativa delle larghezze: 9,264E-008; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T12 r1 c1] Contributo
+[T12 r1 c2] Riferimento N
+[T12 r1 c3] yN [mm]
+[T12 r1 c4] ΔN [kN]
+[T12 r1 c5] ΔMx al punto N [kNm]
+[T12 r1 c6] ΔV [kN]
+[T12 r2 c1] 1 · G1 · getto
+[T12 r2 c2] Baricentro omogeneizzato lordo
+[T12 r2 c3] -1032,89
+[T12 r2 c4] 0,00
+[T12 r2 c5] 1500,00
+[T12 r2 c6] 300,00
+¶ Rapporti e proprietà per contributo
+[T13 r1 c1] Contributo
+[T13 r1 c2] n0
+[T13 r1 c3] n
+[T13 r1 c4] φ
+[T13 r1 c5] ψL φ
+[T13 r1 c6] Ec eff [MPa]
+[T13 r2 c1] 1 · G1 · getto
+[T13 r2 c2] —
+[T13 r2 c3] —
+[T13 r2 c4] —
+[T13 r2 c5] —
+[T13 r2 c6] —
+[T14 r1 c1] Contributo
+[T14 r1 c2] A* [mm²]
+[T14 r1 c3] yG [mm]
+[T14 r1 c4] Ix* [mm⁴]
+[T14 r1 c5] Ix integrazione [mm⁴]
+[T14 r2 c1] 1
+[T14 r2 c2] 98378,04
+[T14 r2 c3] -1089,23
+[T14 r2 c4] 57341923125,61
+[T14 r2 c5] 57341923125,61
+[T15 r1 c1] Contributo
+[T15 r1 c2] Wsup* [mm³]
+[T15 r1 c3] Winf* [mm³]
+[T15 r1 c4] yσ zero [mm]
+[T15 r1 c5] κ [1/m]
+[T15 r1 c6] Residuo equilibrio
+[T15 r2 c1] 1
+[T15 r2 c2] 52644599,18
+[T15 r2 c3] 74881106,07
+[T15 r2 c4] -1089,23
+[T15 r2 c5] 1,25E-4
+[T15 r2 c6] 0E+0
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T16 r1 c1] Punto
+[T16 r1 c2] y [mm]
+[T16 r1 c3] Σσ [MPa]
+[T16 r1 c4] Limite [MPa]
+[T16 r1 c5] η
+[T16 r1 c6] Esito locale
+[T16 r2 c1] Soletta · estradosso
+[T16 r2 c2] 250,00
+[T16 r2 c3] —
+[T16 r2 c4] —
+[T16 r2 c5] —
+[T16 r2 c6] Non attivo
+[T16 r3 c1] Soletta · intradosso
+[T16 r3 c2] 0,00
+[T16 r3 c3] —
+[T16 r3 c4] —
+[T16 r3 c5] —
+[T16 r3 c6] Non attivo
+[T16 r4 c1] Armatura · y=205
+[T16 r4 c2] 205,00
+[T16 r4 c3] —
+[T16 r4 c4] —
+[T16 r4 c5] —
+[T16 r4 c6] Non attivo
+[T16 r5 c1] Armatura · y=45
+[T16 r5 c2] 45,00
+[T16 r5 c3] —
+[T16 r5 c4] —
+[T16 r5 c5] —
+[T16 r5 c6] Non attivo
+[T16 r6 c1] Acciaio · estradosso
+[T16 r6 c2] 0,00
+[T16 r6 c3] -28,49
+[T16 r6 c4] 338,10
+[T16 r6 c5] 0,08
+[T16 r6 c6] Entro limite
+[T16 r7 c1] Anima · sommità
+[T16 r7 c2] -25,00
+[T16 r7 c3] -27,84
+[T16 r7 c4] 338,10
+[T16 r7 c5] 0,08
+[T16 r7 c6] Entro limite
+[T16 r8 c1] Anima · piede
+[T16 r8 c2] -1830,00
+[T16 r8 c3] 19,38
+[T16 r8 c4] 338,10
+[T16 r8 c5] 0,06
+[T16 r8 c6] Entro limite
+[T16 r9 c1] Acciaio · intradosso
+[T16 r9 c2] -1855,00
+[T16 r9 c3] 20,03
+[T16 r9 c4] 338,10
+[T16 r9 c5] 0,06
+[T16 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T17 r1 c1] Punto
+[T17 r1 c2] Δσ 1
+[T17 r2 c1] Soletta · estradosso
+[T17 r2 c2] 0,00
+[T17 r3 c1] Soletta · intradosso
+[T17 r3 c2] 0,00
+[T17 r4 c1] Armatura · y=205
+[T17 r4 c2] 0,00
+[T17 r5 c1] Armatura · y=45
+[T17 r5 c2] 0,00
+[T17 r6 c1] Acciaio · estradosso
+[T17 r6 c2] -28,49
+[T17 r7 c1] Anima · sommità
+[T17 r7 c2] -27,84
+[T17 r8 c1] Anima · piede
+[T17 r8 c2] 19,38
+[T17 r9 c1] Acciaio · intradosso
+[T17 r9 c2] 20,03
+¶ 1: G1 · getto.
+¶ Sezione efficace di classe 4
+[T18 r1 c1] Pannello
+[T18 r1 c2] b [mm]
+[T18 r1 c3] t [mm]
+[T18 r1 c4] ψ
+[T18 r1 c5] kσ
+[T18 r1 c6] λp
+[T18 r1 c7] ρ
+[T18 r2 c1] Anima
+[T18 r2 c2] 1822,23
+[T18 r2 c3] 14,00
+[T18 r2 c4] -0,70
+[T18 r2 c5] 16,93
+[T18 r2 c6] 1,37
+[T18 r2 c7] 0,66
+[T18 r3 c1] Sbalzo superiore
+[T18 r3 c2] 217,93
+[T18 r3 c3] 25,00
+[T18 r3 c4] 1,00
+[T18 r3 c5] 0,43
+[T18 r3 c6] 0,58
+[T18 r3 c7] 1,00
+[T18 r4 c1] Fondo · lamiera interna
+[T18 r4 c2] 1285,87
+[T18 r4 c3] 25,00
+[T18 r4 c4] 0,00
+[T18 r4 c5] 0,00
+[T18 r4 c6] 0,00
+[T18 r4 c7] 1,00
+[T18 r5 c1] Fondo · sbalzi
+[T18 r5 c2] 42,93
+[T18 r5 c3] 25,00
+[T18 r5 c4] 1,00
+[T18 r5 c5] 0,43
+[T18 r5 c6] 0,11
+[T18 r5 c7] 1,00
+[T19 r1 c1] Pannello
+[T19 r1 c2] σ1 [MPa]
+[T19 r1 c3] σ2 [MPa]
+[T19 r1 c4] bc [mm]
+[T19 r1 c5] b1 eff [mm]
+[T19 r1 c6] b2 eff [mm]
+[T19 r2 c1] Anima
+[T19 r2 c2] -27,84
+[T19 r2 c3] 19,38
+[T19 r2 c4] 1074,39
+[T19 r2 c5] 284,83
+[T19 r2 c6] 1175,10
+[T19 r3 c1] Sbalzo superiore
+[T19 r3 c2] -28,49
+[T19 r3 c3] -28,49
+[T19 r3 c4] 217,93
+[T19 r3 c5] 217,93
+[T19 r3 c6] 0,00
+[T19 r4 c1] Fondo · lamiera interna
+[T19 r4 c2] 19,38
+[T19 r4 c3] 19,38
+[T19 r4 c4] 0,00
+[T19 r4 c5] 642,93
+[T19 r4 c6] 642,93
+[T19 r5 c1] Fondo · sbalzi
+[T19 r5 c2] 19,38
+[T19 r5 c3] 19,38
+[T19 r5 c4] 0,00
+[T19 r5 c5] 42,93
+[T19 r5 c6] 0,00
+[T20 r1 c1] Carpenteria
+[T20 r1 c2] Area [mm²]
+[T20 r1 c3] yG [mm]
+[T20 r1 c4] Ix [mm⁴]
+[T20 r2 c1] Lorda
+[T20 r2 c2] 108522,46
+[T20 r2 c3] -1032,89
+[T20 r2 c4] 60790705330,94
+[T20 r3 c1] Efficace
+[T20 r3 c2] 98378,04
+[T20 r3 c3] -1089,23
+[T20 r3 c4] 57341923125,61
+¶ Anima inefficace: 358,87 mm, da y = -666,02 a y = -307,14 mm. Aeff/Alorda = 0,91; Ieff/Ilorda = 0,94.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T21 r1 c1] V [kN]
+[T21 r1 c2] kτ
+[T21 r1 c3] τcr [MPa]
+[T21 r1 c4] λw
+[T21 r1 c5] χw
+[T21 r1 c6] Vpl,Rd [kN]
+[T21 r1 c7] Vbw,Rd [kN]
+[T21 r2 c1] 300,00
+[T21 r2 c2] 5,34
+[T21 r2 c3] 59,83
+[T21 r2 c4] 1,85
+[T21 r2 c5] 0,45
+[T21 r2 c6] 9865,38
+[T21 r2 c7] 4222,78
+¶ τ nominale V/Av = 5,94 MPa; τ max elastica lorda = 9,10 MPa. Beneficio irrigidimenti: no. Montante terminale adottato: non rigido.
+[T22 r1 c1] Controllo
+[T22 r1 c2] Domanda
+[T22 r1 c3] Limite
+[T22 r1 c4] η
+[T22 r1 c5] Esito
+[T22 r2 c1] Anima · resistenza a taglio
+[T22 r2 c2] 427,27 kN
+[T22 r2 c3] 4222,78 kN
+[T22 r2 c4] 0,10
+[T22 r2 c5] Entro limite
+[T22 r3 c1] Anima · tensione equivalente elastica (inviluppo)
+[T22 r3 c2] 31,99 MPa
+[T22 r3 c3] 338,10 MPa
+[T22 r3 c4] 0,09
+[T22 r3 c5] Entro limite
+¶ Anima · resistenza a taglio: min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido; anima più caricata con la torsione: V/(2 cos α) + q·hw/cos α, q = 35,25 kN/m (EN 1993-1-1 §6.2.7(9)).
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata più q/tw della torsione.
+¶ Cassoncino · torsione, distorsione e diaframmi
+¶ q anime e fondo = 35,25 kN/m; q soletta e connessione = 0,00 kN/m; q controvento superiore = 35,25 kN/m.
+[T23 r1 c1] Fase
+[T23 r1 c2] Sezione
+[T23 r1 c3] ΔT [kNm]
+[T23 r1 c4] A0 [m²]
+[T23 r1 c5] J [m⁴]
+[T23 r1 c6] q [kN/m]
+[T23 r1 c7] Cella
+[T23 r2 c1] G1 · getto
+[T23 r2 c2] Solo acciaio
+[T23 r2 c3] 200,00
+[T23 r2 c4] 2,84
+[T23 r2 c5] 0,04
+[T23 r2 c6] 35,25
+[T23 r2 c7] Chiusa
+[T24 r1 c1] Parametro
+[T24 r1 c2] Valore
+[T24 r1 c3] Unità
+[T24 r2 c1] Torsione · G1 · getto · T
+[T24 r2 c2] 200,00
+[T24 r2 c3] kNm
+[T24 r3 c1] Torsione · G1 · getto · A0
+[T24 r3 c2] 2,84
+[T24 r3 c3] m²
+[T24 r4 c1] Torsione · G1 · getto · J (acciaio)
+[T24 r4 c2] 0,04
+[T24 r4 c3] m⁴
+[T24 r5 c1] Torsione · G1 · getto · q = T/(2A0)
+[T24 r5 c2] 35,25
+[T24 r5 c3] kN/m
+[T24 r6 c1] Torsione · q anime e fondo
+[T24 r6 c2] 35,25
+[T24 r6 c3] kN/m
+[T24 r7 c1] Torsione · q soletta e connessione
+[T24 r7 c2] 0,00
+[T24 r7 c3] kN/m
+[T24 r8 c1] Torsione · τ anime
+[T24 r8 c2] 2,52
+[T24 r8 c3] MPa
+[T24 r9 c1] Torsione · τ fondo
+[T24 r9 c2] 1,41
+[T24 r9 c3] MPa
+[T24 r10 c1] Controvento superiore · q
+[T24 r10 c2] 35,25
+[T24 r10 c3] kN/m
+[T24 r11 c1] Appoggio · coppia degli apparecchi T/e_b
+[T24 r11 c2] 400,00
+[T24 r11 c3] kN
+[T25 r1 c1] Controllo
+[T25 r1 c2] Domanda
+[T25 r1 c3] Limite
+[T25 r1 c4] η
+[T25 r1 c5] Esito
+[T25 r2 c1] Fondo · tensione equivalente (σ, τ torsione + taglio)
+[T25 r2 c2] 21,18 MPa
+[T25 r2 c3] 338,10 MPa
+[T25 r2 c4] 0,06
+[T25 r2 c5] Entro limite
+[T25 r3 c1] Fondo · imbozzamento a taglio
+[T25 r3 c2] 2,69 MPa
+[T25 r3 c3] 186,33 MPa
+[T25 r3 c4] 0,01
+[T25 r3 c5] Entro limite
+[T25 r4 c1] Fondo · interazione σ–τ
+[T25 r4 c2] 0,06 —
+[T25 r4 c3] 1,00 —
+[T25 r4 c4] 0,06
+[T25 r4 c5] Entro limite
+[T25 r5 c1] Diaframma d'appoggio · taglio da torsione
+[T25 r5 c2] 7,05 MPa
+[T25 r5 c3] 175,88 MPa
+[T25 r5 c4] 0,04
+[T25 r5 c5] Entro limite
+¶ Fondo · tensione equivalente (σ, τ torsione + taglio): √(σ² + 3τ²) al nodo con le anime: τ = q/tb + τ di taglio del fondo.
+¶ Fondo · imbozzamento a taglio: EN 1993-1-5 §5 e §7.1(5): τ medio del pannello (≥ metà del massimo), η = 1, a = 5000,00 mm, χw = 1,00.
+¶ Fondo · interazione σ–τ: EN 1993-1-5 §7.1(5): η1 + (2η3 − 1)² con Mf,Rd = 0, η1 = σ/(fy/γM0) sulla sezione efficace.
+¶ Diaframma d'appoggio · taglio da torsione: τ = T/(2 A0 tD), A0 della cella in acciaio (2,84 m²); EN 1993-1-5 §5 con η = 1, χw = 0,94; aperture non considerate.
+¶ Situazione 1 dopo G1 · getto. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · traffico); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Situazione 2 dopo G2 · permanenti
+¶ Avviso: Cassoncino con due anime inclinate di 7.9° e due piattabande superiori: flessione retta, taglio ripartito in parti uguali sulle anime (V/(2 cos α) nel piano di ciascuna), fondo come lamiera interna tra le anime (kσ interno) più gli sbalzi esterni. Torsione della cella chiusa, distorsione e diaframmi verificati con le opzioni del cassoncino; irrigidimenti longitudinali del fondo e instabilità del fondo compresso come piastra irrigidita non sono verificati.
+¶ Avviso: EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Avviso: Controvento superiore: le aste vanno verificate con il flusso q delle fasi di solo acciaio (taglio del campo di controvento = q × lunghezza del campo); qui è solo riportato.
+¶ Avviso: Distorsione: σdw = 37,31% della σ di flessione del fondo; oltre il 10% è sommata nelle verifiche del fondo (EN 1993-2 §6.2.7(3)).
+¶ Avviso: Distorsione: analogia della trave su suolo elastico (Wright et al., 1968) sulla campata semplicemente appoggiata con diaframmi d'estremità rigidi; m_t su tutta la luce e T_c nella posizione più sfavorevole, dello stesso segno, applicati come coppie verticali alla sommità delle anime. Cella composta con la soletta a breve termine; accoppiamento con l'ingobbamento torsionale trascurato; inviluppi lungo la campata, indipendenti dalle fasi.
+¶ Avviso: Apparecchi d'appoggio non allineati alle anime: flessione del diaframma d'appoggio tra apparecchio e anima non verificata.
+¶ Avviso: Torsione del cassoncino: cella chiusa di Bredt, q = T/(2A0) tra i piani medi della soletta (del controvento nelle fasi di solo acciaio) e del fondo, indipendente dalla rigidezza delle pareti; J con la soletta hc/nG, dimezzata se fessurata (EN 1994-2 §§5.4.2.2(11), 5.4.2.3(6)). q si somma al taglio nelle anime (EN 1993-1-1 §6.2.7(9)), nel fondo, nei pioli e nelle superfici a–a/b–b interne alla cella (EN 1994-2 §6.6.2.1). Torsione non uniforme e distorsione della sezione aperta esclusa.
+¶ Avviso: Connessione: soletta piena, pioli verticali standard. I controlli di armatura assumono barre effettivamente ancorate e superfici a–a/b–b. Sollevamento imposto, torsione e splitting attraverso lo spessore richiedono un modello dedicato.
+¶ Avviso: Cassoncino: pioli e superfici della soletta per ciascuna delle due piattabande superiori, con metà del flusso di scorrimento più il flusso torsionale q (le superfici a–a interne alla cella e b–b); la fatica dei pioli usa i flussi assegnati per piattabanda.
+¶ Convergenza in 9 iterazioni. Variazione relativa delle larghezze: 2,160E-008; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T26 r1 c1] Contributo
+[T26 r1 c2] Riferimento N
+[T26 r1 c3] yN [mm]
+[T26 r1 c4] ΔN [kN]
+[T26 r1 c5] ΔMx al punto N [kNm]
+[T26 r1 c6] ΔV [kN]
+[T26 r2 c1] 1 · G1 · getto
+[T26 r2 c2] Baricentro omogeneizzato lordo
+[T26 r2 c3] -1032,89
+[T26 r2 c4] 0,00
+[T26 r2 c5] 1500,00
+[T26 r2 c6] 300,00
+[T26 r3 c1] 2 · G2 · permanenti
+[T26 r3 c2] Baricentro omogeneizzato lordo
+[T26 r3 c3] -646,55
+[T26 r3 c4] 0,00
+[T26 r3 c5] 2000,00
+[T26 r3 c6] 600,00
+¶ Rapporti e proprietà per contributo
+[T27 r1 c1] Contributo
+[T27 r1 c2] n0
+[T27 r1 c3] n
+[T27 r1 c4] φ
+[T27 r1 c5] ψL φ
+[T27 r1 c6] Ec eff [MPa]
+[T27 r2 c1] 1 · G1 · getto
+[T27 r2 c2] —
+[T27 r2 c3] —
+[T27 r2 c4] —
+[T27 r2 c5] —
+[T27 r2 c6] —
+[T27 r3 c1] 2 · G2 · permanenti
+[T27 r3 c2] 6,16
+[T27 r3 c3] 19,72
+[T27 r3 c4] 2,00
+[T27 r3 c5] 2,20
+[T27 r3 c6] 10649,11
+[T28 r1 c1] Contributo
+[T28 r1 c2] A* [mm²]
+[T28 r1 c3] yG [mm]
+[T28 r1 c4] Ix* [mm⁴]
+[T28 r1 c5] Ix integrazione [mm⁴]
+[T28 r2 c1] 1
+[T28 r2 c2] 104096,55
+[T28 r2 c3] -1060,36
+[T28 r2 c4] 58855835240,87
+[T28 r2 c5] 58855835240,87
+[T28 r3 c1] 2
+[T28 r3 c2] 158437,59
+[T28 r3 c3] -653,81
+[T28 r3 c4] 109315140954,35
+[T28 r3 c5] 109312006930,66
+[T29 r1 c1] Contributo
+[T29 r1 c2] Wsup* [mm³]
+[T29 r1 c3] Winf* [mm³]
+[T29 r1 c4] yσ zero [mm]
+[T29 r1 c5] κ [1/m]
+[T29 r1 c6] Residuo equilibrio
+[T29 r2 c1] 1
+[T29 r2 c2] 55505456,91
+[T29 r2 c3] 74066152,29
+[T29 r2 c4] -1060,36
+[T29 r2 c5] 1,21E-4
+[T29 r2 c6] 0E+0
+[T29 r3 c1] 2
+[T29 r3 c2] 167198333,71
+[T29 r3 c3] 91005340,24
+[T29 r3 c4] -653,81
+[T29 r3 c5] 8,71E-5
+[T29 r3 c6] 1,185E-15
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T30 r1 c1] Punto
+[T30 r1 c2] y [mm]
+[T30 r1 c3] Σσ [MPa]
+[T30 r1 c4] Limite [MPa]
+[T30 r1 c5] η
+[T30 r1 c6] Esito locale
+[T30 r2 c1] Soletta · estradosso
+[T30 r2 c2] 250,00
+[T30 r2 c3] -0,84
+[T30 r2 c4] 19,83
+[T30 r2 c5] 0,04
+[T30 r2 c6] Entro limite
+[T30 r3 c1] Soletta · intradosso
+[T30 r3 c2] 0,00
+[T30 r3 c3] -0,61
+[T30 r3 c4] 19,83
+[T30 r3 c5] 0,03
+[T30 r3 c6] Entro limite
+[T30 r4 c1] Armatura · y=205
+[T30 r4 c2] 205,00
+[T30 r4 c3] -14,96
+[T30 r4 c4] 391,30
+[T30 r4 c5] 0,04
+[T30 r4 c6] Entro limite
+[T30 r5 c1] Armatura · y=45
+[T30 r5 c2] 45,00
+[T30 r5 c3] -12,18
+[T30 r5 c4] 391,30
+[T30 r5 c5] 0,03
+[T30 r5 c6] Entro limite
+[T30 r6 c1] Acciaio · estradosso
+[T30 r6 c2] 0,00
+[T30 r6 c3] -38,99
+[T30 r6 c4] 338,10
+[T30 r6 c5] 0,12
+[T30 r6 c6] Entro limite
+[T30 r7 c1] Anima · sommità
+[T30 r7 c2] -25,00
+[T30 r7 c3] -37,89
+[T30 r7 c4] 338,10
+[T30 r7 c5] 0,11
+[T30 r7 c6] Entro limite
+[T30 r8 c1] Anima · piede
+[T30 r8 c2] -1830,00
+[T30 r8 c3] 41,13
+[T30 r8 c4] 338,10
+[T30 r8 c5] 0,12
+[T30 r8 c6] Entro limite
+[T30 r9 c1] Acciaio · intradosso
+[T30 r9 c2] -1855,00
+[T30 r9 c3] 42,23
+[T30 r9 c4] 338,10
+[T30 r9 c5] 0,12
+[T30 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T31 r1 c1] Punto
+[T31 r1 c2] Δσ 1
+[T31 r1 c3] Δσ 2
+[T31 r2 c1] Soletta · estradosso
+[T31 r2 c2] 0,00
+[T31 r2 c3] -0,84
+[T31 r3 c1] Soletta · intradosso
+[T31 r3 c2] 0,00
+[T31 r3 c3] -0,61
+[T31 r4 c1] Armatura · y=205
+[T31 r4 c2] 0,00
+[T31 r4 c3] -14,96
+[T31 r5 c1] Armatura · y=45
+[T31 r5 c2] 0,00
+[T31 r5 c3] -12,18
+[T31 r6 c1] Acciaio · estradosso
+[T31 r6 c2] -27,02
+[T31 r6 c3] -11,96
+[T31 r7 c1] Anima · sommità
+[T31 r7 c2] -26,39
+[T31 r7 c3] -11,50
+[T31 r8 c1] Anima · piede
+[T31 r8 c2] 19,62
+[T31 r8 c3] 21,52
+[T31 r9 c1] Acciaio · intradosso
+[T31 r9 c2] 20,25
+[T31 r9 c3] 21,98
+¶ 1: G1 · getto; 2: G2 · permanenti.
+¶ Sezione efficace di classe 4
+[T32 r1 c1] Pannello
+[T32 r1 c2] b [mm]
+[T32 r1 c3] t [mm]
+[T32 r1 c4] ψ
+[T32 r1 c5] kσ
+[T32 r1 c6] λp
+[T32 r1 c7] ρ
+[T32 r2 c1] Anima
+[T32 r2 c2] 1822,23
+[T32 r2 c3] 14,00
+[T32 r2 c4] -1,09
+[T32 r2 c5] 26,01
+[T32 r2 c6] 1,10
+[T32 r2 c7] 0,82
+[T32 r3 c1] Sbalzo superiore
+[T32 r3 c2] 217,93
+[T32 r3 c3] 25,00
+[T32 r3 c4] 1,00
+[T32 r3 c5] 0,43
+[T32 r3 c6] 0,58
+[T32 r3 c7] 1,00
+[T32 r4 c1] Fondo · lamiera interna
+[T32 r4 c2] 1285,87
+[T32 r4 c3] 25,00
+[T32 r4 c4] 0,00
+[T32 r4 c5] 0,00
+[T32 r4 c6] 0,00
+[T32 r4 c7] 1,00
+[T32 r5 c1] Fondo · sbalzi
+[T32 r5 c2] 42,93
+[T32 r5 c3] 25,00
+[T32 r5 c4] 1,00
+[T32 r5 c5] 0,43
+[T32 r5 c6] 0,11
+[T32 r5 c7] 1,00
+[T33 r1 c1] Pannello
+[T33 r1 c2] σ1 [MPa]
+[T33 r1 c3] σ2 [MPa]
+[T33 r1 c4] bc [mm]
+[T33 r1 c5] b1 eff [mm]
+[T33 r1 c6] b2 eff [mm]
+[T33 r2 c1] Anima
+[T33 r2 c2] -37,89
+[T33 r2 c3] 41,13
+[T33 r2 c4] 873,73
+[T33 r2 c5] 286,26
+[T33 r2 c6] 1377,90
+[T33 r3 c1] Sbalzo superiore
+[T33 r3 c2] -38,99
+[T33 r3 c3] -38,99
+[T33 r3 c4] 217,93
+[T33 r3 c5] 217,93
+[T33 r3 c6] 0,00
+[T33 r4 c1] Fondo · lamiera interna
+[T33 r4 c2] 41,13
+[T33 r4 c3] 41,13
+[T33 r4 c4] 0,00
+[T33 r4 c5] 642,93
+[T33 r4 c6] 642,93
+[T33 r5 c1] Fondo · sbalzi
+[T33 r5 c2] 41,13
+[T33 r5 c3] 41,13
+[T33 r5 c4] 0,00
+[T33 r5 c5] 42,93
+[T33 r5 c6] 0,00
+[T34 r1 c1] Carpenteria
+[T34 r1 c2] Area [mm²]
+[T34 r1 c3] yG [mm]
+[T34 r1 c4] Ix [mm⁴]
+[T34 r2 c1] Lorda
+[T34 r2 c2] 108522,46
+[T34 r2 c3] -1032,89
+[T34 r2 c4] 60790705330,94
+[T34 r3 c1] Efficace
+[T34 r3 c2] 104096,55
+[T34 r3 c3] -1060,36
+[T34 r3 c4] 58855835240,87
+¶ Anima inefficace: 156,57 mm, da y = -465,13 a y = -308,56 mm. Aeff/Alorda = 0,96; Ieff/Ilorda = 0,97.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T35 r1 c1] V [kN]
+[T35 r1 c2] kτ
+[T35 r1 c3] τcr [MPa]
+[T35 r1 c4] λw
+[T35 r1 c5] χw
+[T35 r1 c6] Vpl,Rd [kN]
+[T35 r1 c7] Vbw,Rd [kN]
+[T35 r2 c1] 900,00
+[T35 r2 c2] 5,34
+[T35 r2 c3] 59,83
+[T35 r2 c4] 1,85
+[T35 r2 c5] 0,45
+[T35 r2 c6] 9865,38
+[T35 r2 c7] 4222,78
+¶ τ nominale V/Av = 17,81 MPa; τ max elastica lorda = 24,42 MPa. Beneficio irrigidimenti: no. Montante terminale adottato: non rigido.
+¶ q = 247,29 kN/m; PEd = 10,33 kN/piolo; PRd adottato = 109,48 kN/piolo; qRd = 3649,27 kN/m.
+¶ Resistenze SLU del singolo piolo: acciaio = 109,48 kN; CLS = 122,63 kN; α = 1,00.
+[T36 r1 c1] Fase
+[T36 r1 c2] S* [mm³]
+[T36 r1 c3] I* [mm⁴]
+[T36 r1 c4] q(V) [kN/m]
+[T36 r1 c5] Δq [kN/m]
+[T36 r2 c1] G1 · getto
+[T36 r2 c2] 0E+0
+[T36 r2 c3] 0E+0
+[T36 r2 c4] 0,00
+[T36 r2 c5] 0,00
+[T36 r3 c1] G2 · permanenti
+[T36 r3 c2] 4,232E+7
+[T36 r3 c3] 1,093E+11
+[T36 r3 c4] 232,29
+[T36 r3 c5] 15,00
+[T37 r1 c1] Parametro locale
+[T37 r1 c2] Valore
+[T37 r1 c3] Unità
+[T37 r2 c1] Soletta a–a sinistra · superficie
+[T37 r2 c2] 250,00
+[T37 r2 c3] mm
+[T37 r3 c1] Soletta a–a sinistra · qEd
+[T37 r3 c2] 110,41
+[T37 r3 c3] kN/m
+[T37 r4 c1] Soletta a–a sinistra · As minimo
+[T37 r4 c2] 262,94
+[T37 r4 c3] mm²/m
+[T37 r5 c1] Soletta a–a destra · superficie
+[T37 r5 c2] 250,00
+[T37 r5 c3] mm
+[T37 r6 c1] Soletta a–a destra · qEd
+[T37 r6 c2] 110,41
+[T37 r6 c3] kN/m
+[T37 r7 c1] Soletta a–a destra · As minimo
+[T37 r7 c2] 262,94
+[T37 r7 c3] mm²/m
+[T37 r8 c1] Soletta · flusso torsionale sommato (a–a interne, b–b)
+[T37 r8 c2] 48,59
+[T37 r8 c3] kN/m
+[T37 r9 c1] Soletta b–b · gruppo 1 · superficie
+[T37 r9 c2] 385,00
+[T37 r9 c3] mm
+[T37 r10 c1] Soletta b–b · gruppo 1 · qEd
+[T37 r10 c2] 57,41
+[T37 r10 c3] kN/m
+[T37 r11 c1] Soletta b–b · gruppo 1 · As minimo
+[T37 r11 c2] 404,92
+[T37 r11 c3] mm²/m
+[T37 r12 c1] Soletta b–b · gruppo 2 · superficie
+[T37 r12 c2] 505,00
+[T37 r12 c3] mm
+[T37 r13 c1] Soletta b–b · gruppo 2 · qEd
+[T37 r13 c2] 114,82
+[T37 r13 c3] kN/m
+[T37 r14 c1] Soletta b–b · gruppo 2 · As minimo
+[T37 r14 c2] 531,13
+[T37 r14 c3] mm²/m
+[T37 r15 c1] Soletta b–b · gruppo 3 · superficie
+[T37 r15 c2] 625,00
+[T37 r15 c3] mm
+[T37 r16 c1] Soletta b–b · gruppo 3 · qEd
+[T37 r16 c2] 172,23
+[T37 r16 c3] kN/m
+[T37 r17 c1] Soletta b–b · gruppo 3 · As minimo
+[T37 r17 c2] 657,34
+[T37 r17 c3] mm²/m
+[T37 r18 c1] Fatica · ΔqE,2 = λv φ Δq
+[T37 r18 c2] 264,00
+[T37 r18 c3] kN/m
+[T38 r1 c1] Controllo
+[T38 r1 c2] Domanda
+[T38 r1 c3] Limite
+[T38 r1 c4] η
+[T38 r1 c5] Esito
+[T38 r2 c1] Anima · resistenza a taglio
+[T38 r2 c2] 1202,68 kN
+[T38 r2 c3] 4222,78 kN
+[T38 r2 c4] 0,28
+[T38 r2 c5] Entro limite
+[T38 r3 c1] Anima · tensione equivalente elastica (inviluppo)
+[T38 r3 c2] 59,00 MPa
+[T38 r3 c3] 338,10 MPa
+[T38 r3 c4] 0,17
+[T38 r3 c5] Entro limite
+[T38 r4 c1] Piolo · taglio longitudinale
+[T38 r4 c2] 10,33 kN
+[T38 r4 c3] 109,48 kN
+[T38 r4 c4] 0,09
+[T38 r4 c5] Entro limite
+[T38 r5 c1] Pioli · passo longitudinale minimo
+[T38 r5 c2] 110,00 mm
+[T38 r5 c3] 180,00 mm
+[T38 r5 c4] 0,61
+[T38 r5 c5] Entro limite
+[T38 r6 c1] Pioli · passo longitudinale massimo
+[T38 r6 c2] 180,00 mm
+[T38 r6 c3] 800,00 mm
+[T38 r6 c4] 0,23
+[T38 r6 c5] Entro limite
+[T38 r7 c1] Pioli · bordo libero piattabanda
+[T38 r7 c2] 20,00 mm
+[T38 r7 c3] 94,00 mm
+[T38 r7 c4] 0,21
+[T38 r7 c5] Entro limite
+[T38 r8 c1] Pioli · copriferro superiore
+[T38 r8 c2] 35,00 mm
+[T38 r8 c3] 75,00 mm
+[T38 r8 c4] 0,47
+[T38 r8 c5] Entro limite
+[T38 r9 c1] Pioli · diametro testa
+[T38 r9 c2] 33,00 mm
+[T38 r9 c3] 35,00 mm
+[T38 r9 c4] 0,94
+[T38 r9 c5] Entro limite
+[T38 r10 c1] Pioli · spessore testa
+[T38 r10 c2] 8,80 mm
+[T38 r10 c3] 12,00 mm
+[T38 r10 c4] 0,73
+[T38 r10 c5] Entro limite
+[T38 r11 c1] Pioli · diametro/spessore piattabanda
+[T38 r11 c2] 22,00 mm
+[T38 r11 c3] 37,50 mm
+[T38 r11 c4] 0,59
+[T38 r11 c5] Entro limite
+[T38 r12 c1] Pioli · passo trasversale minimo
+[T38 r12 c2] 55,00 mm
+[T38 r12 c3] 120,00 mm
+[T38 r12 c4] 0,46
+[T38 r12 c5] Entro limite
+[T38 r13 c1] Pioli · testa sopra armatura inferiore
+[T38 r13 c2] 30,00 mm
+[T38 r13 c3] 110,00 mm
+[T38 r13 c4] 0,27
+[T38 r13 c5] Entro limite
+[T38 r14 c1] Soletta a–a sinistra · armatura trasversale
+[T38 r14 c2] 282,16 mm²/m
+[T38 r14 c3] 2110,10 mm²/m
+[T38 r14 c4] 0,13
+[T38 r14 c5] Entro limite
+[T38 r15 c1] Soletta a–a sinistra · puntone CLS
+[T38 r15 c2] 110,41 kN/m
+[T38 r15 c3] 1279,25 kN/m
+[T38 r15 c4] 0,09
+[T38 r15 c5] Entro limite
+[T38 r16 c1] Soletta a–a destra · armatura trasversale
+[T38 r16 c2] 282,16 mm²/m
+[T38 r16 c3] 2110,10 mm²/m
+[T38 r16 c4] 0,13
+[T38 r16 c5] Entro limite
+[T38 r17 c1] Soletta a–a destra · puntone CLS
+[T38 r17 c2] 110,41 kN/m
+[T38 r17 c3] 1279,25 kN/m
+[T38 r17 c4] 0,09
+[T38 r17 c5] Entro limite
+[T38 r18 c1] Soletta b–b · gruppo 1 · armatura trasversale
+[T38 r18 c2] 404,92 mm²/m
+[T38 r18 c3] 1539,38 mm²/m
+[T38 r18 c4] 0,26
+[T38 r18 c5] Entro limite
+[T38 r19 c1] Soletta b–b · gruppo 1 · puntone CLS
+[T38 r19 c2] 57,41 kN/m
+[T38 r19 c3] 1970,05 kN/m
+[T38 r19 c4] 0,03
+[T38 r19 c5] Entro limite
+[T38 r20 c1] Soletta b–b · gruppo 2 · armatura trasversale
+[T38 r20 c2] 531,13 mm²/m
+[T38 r20 c3] 1539,38 mm²/m
+[T38 r20 c4] 0,35
+[T38 r20 c5] Entro limite
+[T38 r21 c1] Soletta b–b · gruppo 2 · puntone CLS
+[T38 r21 c2] 114,82 kN/m
+[T38 r21 c3] 2584,09 kN/m
+[T38 r21 c4] 0,04
+[T38 r21 c5] Entro limite
+[T38 r22 c1] Soletta b–b · gruppo 3 · armatura trasversale
+[T38 r22 c2] 657,34 mm²/m
+[T38 r22 c3] 1539,38 mm²/m
+[T38 r22 c4] 0,43
+[T38 r22 c5] Entro limite
+[T38 r23 c1] Soletta b–b · gruppo 3 · puntone CLS
+[T38 r23 c2] 172,23 kN/m
+[T38 r23 c3] 3198,13 kN/m
+[T38 r23 c4] 0,05
+[T38 r23 c5] Entro limite
+[T38 r24 c1] Ancoraggio trasversale sup
+[T38 r24 c2] 464,39 mm
+[T38 r24 c3] 700,00 mm
+[T38 r24 c4] 0,66
+[T38 r24 c5] Entro limite
+[T38 r25 c1] Ancoraggio trasversale inf
+[T38 r25 c2] 406,34 mm
+[T38 r25 c3] 700,00 mm
+[T38 r25 c4] 0,58
+[T38 r25 c5] Entro limite
+[T38 r26 c1] Fatica pioli · ΔτE,2
+[T38 r26 c2] 41,67 MPa
+[T38 r26 c3] 72,00 MPa
+[T38 r26 c4] 0,58
+[T38 r26 c5] Entro limite
+[T38 r27 c1] Fatica flangia · categoria 80
+[T38 r27 c2] 45,00 MPa
+[T38 r27 c3] 59,26 MPa
+[T38 r27 c4] 0,76
+[T38 r27 c5] Entro limite
+[T38 r28 c1] Fatica · interazione flangia/piolo
+[T38 r28 c2] 1,34 —
+[T38 r28 c3] 1,30 —
+[T38 r28 c4] 1,03
+[T38 r28 c5] Non verificato
+¶ Anima · resistenza a taglio: min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido; anima più caricata con la torsione: V/(2 cos α) + q·hw/cos α, q = 83,84 kN/m (EN 1993-1-1 §6.2.7(9)).
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata più q/tw della torsione.
+¶ Piolo · taglio longitudinale: EN 1994-2 §6.6.3.1 / NTC §4.3.4.3.1; piattabanda più caricata: metà del flusso di flessione + q di torsione = 48,59 kN/m.
+¶ Pioli · diametro/spessore piattabanda: Dettaglio per azioni ripetute, obbligatorio anche con verifica resistente a fatica attiva.
+¶ Pioli · testa sopra armatura inferiore: EN 1994-2 §6.6.5.1.
+¶ Soletta a–a sinistra · armatura trasversale: EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale.
+¶ Soletta a–a destra · armatura trasversale: EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale.
+¶ Soletta b–b · gruppo 1 · armatura trasversale: EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale.
+¶ Soletta b–b · gruppo 2 · armatura trasversale: EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale.
+¶ Soletta b–b · gruppo 3 · armatura trasversale: EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale.
+¶ Ancoraggio trasversale sup: EN 1992-1-1 §8.4, minimo aggiuntivo NTC 20Ø/150 mm quando selezionate; barra a fyd, α1…α5=1; lunghezza disponibile minima oltre ogni superficie, entrambi i lati.
+¶ Ancoraggio trasversale inf: EN 1992-1-1 §8.4, minimo aggiuntivo NTC 20Ø/150 mm quando selezionate; barra a fyd, α1…α5=1; lunghezza disponibile minima oltre ogni superficie, entrambi i lati.
+¶ Fatica pioli · ΔτE,2: EN 1994-2 §§6.8.3, 6.8.7.2; inviluppo a 2 milioni di cicli indipendente dalle fasi.
+¶ Fatica · interazione flangia/piolo: Intervalli assegnati come inviluppo dei casi fessurati/non fessurati e delle coppie concomitanti.
+¶ Cassoncino · torsione, distorsione e diaframmi
+¶ q anime e fondo = 83,84 kN/m; q soletta e connessione = 48,59 kN/m; q controvento superiore = 35,25 kN/m.
+[T39 r1 c1] Fase
+[T39 r1 c2] Sezione
+[T39 r1 c3] ΔT [kNm]
+[T39 r1 c4] A0 [m²]
+[T39 r1 c5] J [m⁴]
+[T39 r1 c6] q [kN/m]
+[T39 r1 c7] Cella
+[T39 r2 c1] G1 · getto
+[T39 r2 c2] Solo acciaio
+[T39 r2 c3] 200,00
+[T39 r2 c4] 2,84
+[T39 r2 c5] 0,04
+[T39 r2 c6] 35,25
+[T39 r2 c7] Chiusa
+[T39 r3 c1] G2 · permanenti
+[T39 r3 c2] Composta
+[T39 r3 c3] 300,00
+[T39 r3 c4] 3,09
+[T39 r3 c5] 0,08
+[T39 r3 c6] 48,59
+[T39 r3 c7] Chiusa
+¶ Distorsione: I_Dw = 0,01 m⁶; K = 605,74 kN·m/m; K_D = 755,94 MN·m; 7 diaframmi intermedi. σdw al fondo = 15,75 MPa, pari al 37,31% della σ di flessione: oltre il 10%, sommata nelle verifiche del fondo (EN 1993-2 §6.2.7(3)).
+[T40 r1 c1] Parametro
+[T40 r1 c2] Valore
+[T40 r1 c3] Unità
+[T40 r2 c1] Torsione · G1 · getto · T
+[T40 r2 c2] 200,00
+[T40 r2 c3] kNm
+[T40 r3 c1] Torsione · G1 · getto · A0
+[T40 r3 c2] 2,84
+[T40 r3 c3] m²
+[T40 r4 c1] Torsione · G1 · getto · J (acciaio)
+[T40 r4 c2] 0,04
+[T40 r4 c3] m⁴
+[T40 r5 c1] Torsione · G1 · getto · q = T/(2A0)
+[T40 r5 c2] 35,25
+[T40 r5 c3] kN/m
+[T40 r6 c1] Torsione · G2 · permanenti · T
+[T40 r6 c2] 300,00
+[T40 r6 c3] kNm
+[T40 r7 c1] Torsione · G2 · permanenti · A0
+[T40 r7 c2] 3,09
+[T40 r7 c3] m²
+[T40 r8 c1] Torsione · G2 · permanenti · J (acciaio)
+[T40 r8 c2] 0,08
+[T40 r8 c3] m⁴
+[T40 r9 c1] Torsione · G2 · permanenti · q = T/(2A0)
+[T40 r9 c2] 48,59
+[T40 r9 c3] kN/m
+[T40 r10 c1] Torsione · q anime e fondo
+[T40 r10 c2] 83,84
+[T40 r10 c3] kN/m
+[T40 r11 c1] Torsione · q soletta e connessione
+[T40 r11 c2] 48,59
+[T40 r11 c3] kN/m
+[T40 r12 c1] Torsione · τ anime
+[T40 r12 c2] 5,99
+[T40 r12 c3] MPa
+[T40 r13 c1] Torsione · τ fondo
+[T40 r13 c2] 3,35
+[T40 r13 c3] MPa
+[T40 r14 c1] Controvento superiore · q
+[T40 r14 c2] 35,25
+[T40 r14 c3] kN/m
+[T40 r15 c1] Distorsione · I_Dw
+[T40 r15 c2] 0,01
+[T40 r15 c3] m⁶
+[T40 r16 c1] Distorsione · K telaio
+[T40 r16 c2] 605,74
+[T40 r16 c3] kN·m/m
+[T40 r17 c1] Distorsione · K_D diaframma
+[T40 r17 c2] 755,94
+[T40 r17 c3] MN·m
+[T40 r18 c1] Distorsione · carico generalizzato di T unitario
+[T40 r18 c2] 0,34
+[T40 r18 c3] —
+[T40 r19 c1] Distorsione · diaframmi intermedi
+[T40 r19 c2] 7,00
+[T40 r19 c3] —
+[T40 r20 c1] Distorsione · λ·L_D
+[T40 r20 c2] 0,45
+[T40 r20 c3] —
+[T40 r21 c1] Distorsione · ψ massimo
+[T40 r21 c2] 4,62E-4
+[T40 r21 c3] rad
+[T40 r22 c1] Distorsione · σdw fondo
+[T40 r22 c2] 15,75
+[T40 r22 c3] MPa
+[T40 r23 c1] Distorsione · σdw piattabande superiori
+[T40 r23 c2] 1,99
+[T40 r23 c3] MPa
+[T40 r24 c1] Distorsione · σdw soletta
+[T40 r24 c2] 0,32
+[T40 r24 c3] MPa
+[T40 r25 c1] Distorsione · momento trasversale nodi inferiori
+[T40 r25 c2] 0,07
+[T40 r25 c3] kNm/m
+[T40 r26 c1] Distorsione · momento trasversale nodi superiori
+[T40 r26 c2] 0,07
+[T40 r26 c3] kNm/m
+[T40 r27 c1] Distorsione · σdw / σ flessione fondo
+[T40 r27 c2] 0,37
+[T40 r27 c3] —
+[T40 r28 c1] Diaframma intermedio · N diagonale
+[T40 r28 c2] 116,49
+[T40 r28 c3] kN
+[T40 r29 c1] Diaframma intermedio · ψ
+[T40 r29 c2] 3,67E-4
+[T40 r29 c3] rad
+[T40 r30 c1] Appoggio · coppia degli apparecchi T/e_b
+[T40 r30 c2] 400,00
+[T40 r30 c3] kN
+[T41 r1 c1] Controllo
+[T41 r1 c2] Domanda
+[T41 r1 c3] Limite
+[T41 r1 c4] η
+[T41 r1 c5] Esito
+[T41 r2 c1] Distorsione · nodo anima–fondo (σx, σz, τ)
+[T41 r2 c2] 66,85 MPa
+[T41 r2 c3] 338,10 MPa
+[T41 r2 c4] 0,20
+[T41 r2 c5] Entro limite
+[T41 r3 c1] Distorsione · nodo anima–piattabanda superiore
+[T41 r3 c2] 54,79 MPa
+[T41 r3 c3] 338,10 MPa
+[T41 r3 c4] 0,16
+[T41 r3 c5] Entro limite
+[T41 r4 c1] Diaframma intermedio · diagonale compressa
+[T41 r4 c2] 116,49 kN
+[T41 r4 c3] 602,87 kN
+[T41 r4 c4] 0,19
+[T41 r4 c5] Entro limite
+[T41 r5 c1] Fondo · tensione equivalente (σ, τ torsione + taglio)
+[T41 r5 c2] 60,58 MPa
+[T41 r5 c3] 338,10 MPa
+[T41 r5 c4] 0,18
+[T41 r5 c5] Entro limite
+[T41 r6 c1] Fondo · imbozzamento a taglio
+[T41 r6 c2] 6,74 MPa
+[T41 r6 c3] 186,33 MPa
+[T41 r6 c4] 0,04
+[T41 r6 c5] Entro limite
+[T41 r7 c1] Fondo · interazione σ–τ
+[T41 r7 c2] 0,17 —
+[T41 r7 c3] 1,00 —
+[T41 r7 c4] 0,17
+[T41 r7 c5] Entro limite
+[T41 r8 c1] Soletta · armatura longitudinale per torsione
+[T41 r8 c2] 48,59 kN/m
+[T41 r8 c3] 1229,66 kN/m
+[T41 r8 c4] 0,04
+[T41 r8 c5] Entro limite
+[T41 r9 c1] Diaframma d'appoggio · taglio da torsione
+[T41 r9 c2] 7,05 MPa
+[T41 r9 c3] 175,88 MPa
+[T41 r9 c4] 0,04
+[T41 r9 c5] Entro limite
+¶ Distorsione · nodo anima–fondo (σx, σz, τ): EN 1993-1-1 §6.2.1(5): σx con σdw, flessione trasversale σz = 6m/t² del telaio distorto (segno sfavorevole), τ di taglio e torsione; anima e fondo.
+¶ Distorsione · nodo anima–piattabanda superiore: Anima sotto la piattabanda superiore: σx con σdw, σz = 6m/tw² con il momento d'angolo al piano medio della soletta (cautelativo).
+¶ Diaframma intermedio · diagonale compressa: EN 1993-1-1 §6.3.1, curva c, Lcr = 0,90·L = 2264,88 mm, λ̄ = 0,93; collegamenti non verificati.
+¶ Fondo · tensione equivalente (σ, τ torsione + taglio): √(σ² + 3τ²) al nodo con le anime: τ = q/tb + τ di taglio del fondo; σ con σdw.
+¶ Fondo · imbozzamento a taglio: EN 1993-1-5 §5 e §7.1(5): τ medio del pannello (≥ metà del massimo), η = 1, a = 5000,00 mm, χw = 1,00.
+¶ Fondo · interazione σ–τ: EN 1993-1-5 §7.1(5): η1 + (2η3 − 1)² con Mf,Rd = 0, η1 = σ/(fy/γM0) sulla sezione efficace.
+¶ Soletta · armatura longitudinale per torsione: EN 1992-1-1 §6.3.2(3): trazione q·cotθ (cotθ = 1,00) contro la compressione disponibile del CLS e la capacità residua delle barre oltre la flessione.
+¶ Diaframma d'appoggio · taglio da torsione: τ = T/(2 A0 tD), A0 della cella in acciaio (2,84 m²); EN 1993-1-5 §5 con η = 1, χw = 0,94; aperture non considerate.
+¶ Situazione 2 dopo G2 · permanenti. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · traffico); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Situazione 3 dopo Q · traffico
+¶ Avviso: Cassoncino con due anime inclinate di 7.9° e due piattabande superiori: flessione retta, taglio ripartito in parti uguali sulle anime (V/(2 cos α) nel piano di ciascuna), fondo come lamiera interna tra le anime (kσ interno) più gli sbalzi esterni. Torsione della cella chiusa, distorsione e diaframmi verificati con le opzioni del cassoncino; irrigidimenti longitudinali del fondo e instabilità del fondo compresso come piastra irrigidita non sono verificati.
+¶ Avviso: EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Avviso: Controvento superiore: le aste vanno verificate con il flusso q delle fasi di solo acciaio (taglio del campo di controvento = q × lunghezza del campo); qui è solo riportato.
+¶ Avviso: Distorsione: σdw = 21,59% della σ di flessione del fondo; oltre il 10% è sommata nelle verifiche del fondo (EN 1993-2 §6.2.7(3)).
+¶ Avviso: Distorsione: analogia della trave su suolo elastico (Wright et al., 1968) sulla campata semplicemente appoggiata con diaframmi d'estremità rigidi; m_t su tutta la luce e T_c nella posizione più sfavorevole, dello stesso segno, applicati come coppie verticali alla sommità delle anime. Cella composta con la soletta a breve termine; accoppiamento con l'ingobbamento torsionale trascurato; inviluppi lungo la campata, indipendenti dalle fasi.
+¶ Avviso: Apparecchi d'appoggio non allineati alle anime: flessione del diaframma d'appoggio tra apparecchio e anima non verificata.
+¶ Avviso: Torsione del cassoncino: cella chiusa di Bredt, q = T/(2A0) tra i piani medi della soletta (del controvento nelle fasi di solo acciaio) e del fondo, indipendente dalla rigidezza delle pareti; J con la soletta hc/nG, dimezzata se fessurata (EN 1994-2 §§5.4.2.2(11), 5.4.2.3(6)). q si somma al taglio nelle anime (EN 1993-1-1 §6.2.7(9)), nel fondo, nei pioli e nelle superfici a–a/b–b interne alla cella (EN 1994-2 §6.6.2.1). Torsione non uniforme e distorsione della sezione aperta esclusa.
+¶ Avviso: Connessione: soletta piena, pioli verticali standard. I controlli di armatura assumono barre effettivamente ancorate e superfici a–a/b–b. Sollevamento imposto, torsione e splitting attraverso lo spessore richiedono un modello dedicato.
+¶ Avviso: Cassoncino: pioli e superfici della soletta per ciascuna delle due piattabande superiori, con metà del flusso di scorrimento più il flusso torsionale q (le superfici a–a interne alla cella e b–b); la fatica dei pioli usa i flussi assegnati per piattabanda.
+¶ Convergenza in 4 iterazioni. Variazione relativa delle larghezze: 0,000E+000; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T42 r1 c1] Contributo
+[T42 r1 c2] Riferimento N
+[T42 r1 c3] yN [mm]
+[T42 r1 c4] ΔN [kN]
+[T42 r1 c5] ΔMx al punto N [kNm]
+[T42 r1 c6] ΔV [kN]
+[T42 r2 c1] 1 · G1 · getto
+[T42 r2 c2] Baricentro omogeneizzato lordo
+[T42 r2 c3] -1032,89
+[T42 r2 c4] 0,00
+[T42 r2 c5] 1500,00
+[T42 r2 c6] 300,00
+[T42 r3 c1] 2 · G2 · permanenti
+[T42 r3 c2] Baricentro omogeneizzato lordo
+[T42 r3 c3] -646,55
+[T42 r3 c4] 0,00
+[T42 r3 c5] 2000,00
+[T42 r3 c6] 600,00
+[T42 r4 c1] 3 · Q · traffico
+[T42 r4 c2] Baricentro omogeneizzato lordo
+[T42 r4 c3] -354,26
+[T42 r4 c4] 0,00
+[T42 r4 c5] 3000,00
+[T42 r4 c6] 500,00
+¶ Rapporti e proprietà per contributo
+[T43 r1 c1] Contributo
+[T43 r1 c2] n0
+[T43 r1 c3] n
+[T43 r1 c4] φ
+[T43 r1 c5] ψL φ
+[T43 r1 c6] Ec eff [MPa]
+[T43 r2 c1] 1 · G1 · getto
+[T43 r2 c2] —
+[T43 r2 c3] —
+[T43 r2 c4] —
+[T43 r2 c5] —
+[T43 r2 c6] —
+[T43 r3 c1] 2 · G2 · permanenti
+[T43 r3 c2] 6,16
+[T43 r3 c3] 19,72
+[T43 r3 c4] 2,00
+[T43 r3 c5] 2,20
+[T43 r3 c6] 10649,11
+[T43 r4 c1] 3 · Q · traffico
+[T43 r4 c2] 6,16
+[T43 r4 c3] 6,16
+[T43 r4 c4] 0,00
+[T43 r4 c5] 0,00
+[T43 r4 c6] 34077,15
+[T44 r1 c1] Contributo
+[T44 r1 c2] A* [mm²]
+[T44 r1 c3] yG [mm]
+[T44 r1 c4] Ix* [mm⁴]
+[T44 r1 c5] Ix integrazione [mm⁴]
+[T44 r2 c1] 1
+[T44 r2 c2] 108522,46
+[T44 r2 c3] -1032,89
+[T44 r2 c4] 60790705330,94
+[T44 r2 c5] 60790705330,94
+[T44 r3 c1] 2
+[T44 r3 c2] 162863,50
+[T44 r3 c3] -646,55
+[T44 r3 c4] 109631039521,25
+[T44 r3 c5] 109627905497,56
+[T44 r4 c1] 3
+[T44 r4 c2] 262192,69
+[T44 r4 c3] -354,26
+[T44 r4 c4] 146876040202,92
+[T44 r4 c5] 146872923406,15
+[T45 r1 c1] Contributo
+[T45 r1 c2] Wsup* [mm³]
+[T45 r1 c3] Winf* [mm³]
+[T45 r1 c4] yσ zero [mm]
+[T45 r1 c5] κ [1/m]
+[T45 r1 c6] Residuo equilibrio
+[T45 r2 c1] 1
+[T45 r2 c2] 58854798,67
+[T45 r2 c3] 73944997,44
+[T45 r2 c4] -1032,89
+[T45 r2 c5] 1,17E-4
+[T45 r2 c6] 0E+0
+[T45 r3 c1] 2
+[T45 r3 c2] 169563031,64
+[T45 r3 c3] 90720404,14
+[T45 r3 c4] -646,55
+[T45 r3 c5] 8,69E-5
+[T45 r3 c6] 1,218E-15
+[T45 r4 c1] 3
+[T45 r4 c2] 414604376,20
+[T45 r4 c3] 97868809,70
+[T45 r4 c4] -354,26
+[T45 r4 c5] 9,73E-5
+[T45 r4 c6] 3,268E-15
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T46 r1 c1] Punto
+[T46 r1 c2] y [mm]
+[T46 r1 c3] Σσ [MPa]
+[T46 r1 c4] Limite [MPa]
+[T46 r1 c5] η
+[T46 r1 c6] Esito locale
+[T46 r2 c1] Soletta · estradosso
+[T46 r2 c2] 250,00
+[T46 r2 c3] -2,83
+[T46 r2 c4] 19,83
+[T46 r2 c5] 0,14
+[T46 r2 c6] Entro limite
+[T46 r3 c1] Soletta · intradosso
+[T46 r3 c2] 0,00
+[T46 r3 c3] -1,77
+[T46 r3 c4] 19,83
+[T46 r3 c5] 0,09
+[T46 r3 c6] Entro limite
+[T46 r4 c1] Armatura · y=205
+[T46 r4 c2] 205,00
+[T46 r4 c3] -25,67
+[T46 r4 c4] 391,30
+[T46 r4 c5] 0,07
+[T46 r4 c6] Entro limite
+[T46 r5 c1] Armatura · y=45
+[T46 r5 c2] 45,00
+[T46 r5 c3] -19,78
+[T46 r5 c4] 391,30
+[T46 r5 c5] 0,05
+[T46 r5 c6] Entro limite
+[T46 r6 c1] Acciaio · estradosso
+[T46 r6 c2] 0,00
+[T46 r6 c3] -44,52
+[T46 r6 c4] 338,10
+[T46 r6 c5] 0,13
+[T46 r6 c6] Entro limite
+[T46 r7 c1] Anima · sommità
+[T46 r7 c2] -25,00
+[T46 r7 c3] -42,93
+[T46 r7 c4] 338,10
+[T46 r7 c5] 0,13
+[T46 r7 c6] Entro limite
+[T46 r8 c1] Anima · piede
+[T46 r8 c2] -1830,00
+[T46 r8 c3] 71,40
+[T46 r8 c4] 338,10
+[T46 r8 c5] 0,21
+[T46 r8 c6] Entro limite
+[T46 r9 c1] Acciaio · intradosso
+[T46 r9 c2] -1855,00
+[T46 r9 c3] 72,99
+[T46 r9 c4] 338,10
+[T46 r9 c5] 0,22
+[T46 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T47 r1 c1] Punto
+[T47 r1 c2] Δσ 1
+[T47 r1 c3] Δσ 2
+[T47 r1 c4] Δσ 3
+[T47 r2 c1] Soletta · estradosso
+[T47 r2 c2] 0,00
+[T47 r2 c3] -0,83
+[T47 r2 c4] -2,00
+[T47 r3 c1] Soletta · intradosso
+[T47 r3 c2] 0,00
+[T47 r3 c3] -0,60
+[T47 r3 c4] -1,17
+[T47 r4 c1] Armatura · y=205
+[T47 r4 c2] 0,00
+[T47 r4 c3] -14,80
+[T47 r4 c4] -10,88
+[T47 r5 c1] Armatura · y=45
+[T47 r5 c2] 0,00
+[T47 r5 c3] -12,02
+[T47 r5 c4] -7,77
+[T47 r6 c1] Acciaio · estradosso
+[T47 r6 c2] -25,49
+[T47 r6 c3] -11,80
+[T47 r6 c4] -7,24
+[T47 r7 c1] Anima · sommità
+[T47 r7 c2] -24,87
+[T47 r7 c3] -11,34
+[T47 r7 c4] -6,73
+[T47 r8 c1] Anima · piede
+[T47 r8 c2] 19,67
+[T47 r8 c3] 21,59
+[T47 r8 c4] 30,14
+[T47 r9 c1] Acciaio · intradosso
+[T47 r9 c2] 20,29
+[T47 r9 c3] 22,05
+[T47 r9 c4] 30,65
+¶ 1: G1 · getto; 2: G2 · permanenti; 3: Q · traffico.
+¶ Sezione efficace di classe 4
+[T48 r1 c1] Pannello
+[T48 r1 c2] b [mm]
+[T48 r1 c3] t [mm]
+[T48 r1 c4] ψ
+[T48 r1 c5] kσ
+[T48 r1 c6] λp
+[T48 r1 c7] ρ
+[T48 r2 c1] Anima
+[T48 r2 c2] 1822,23
+[T48 r2 c3] 14,00
+[T48 r2 c4] -1,66
+[T48 r2 c5] 42,41
+[T48 r2 c6] 0,86
+[T48 r2 c7] 1,00
+[T48 r3 c1] Sbalzo superiore
+[T48 r3 c2] 217,93
+[T48 r3 c3] 25,00
+[T48 r3 c4] 1,00
+[T48 r3 c5] 0,43
+[T48 r3 c6] 0,58
+[T48 r3 c7] 1,00
+[T48 r4 c1] Fondo · lamiera interna
+[T48 r4 c2] 1285,87
+[T48 r4 c3] 25,00
+[T48 r4 c4] 0,00
+[T48 r4 c5] 0,00
+[T48 r4 c6] 0,00
+[T48 r4 c7] 1,00
+[T48 r5 c1] Fondo · sbalzi
+[T48 r5 c2] 42,93
+[T48 r5 c3] 25,00
+[T48 r5 c4] 1,00
+[T48 r5 c5] 0,43
+[T48 r5 c6] 0,11
+[T48 r5 c7] 1,00
+[T49 r1 c1] Pannello
+[T49 r1 c2] σ1 [MPa]
+[T49 r1 c3] σ2 [MPa]
+[T49 r1 c4] bc [mm]
+[T49 r1 c5] b1 eff [mm]
+[T49 r1 c6] b2 eff [mm]
+[T49 r2 c1] Anima
+[T49 r2 c2] -42,93
+[T49 r2 c3] 71,40
+[T49 r2 c4] 684,26
+[T49 r2 c5] 273,70
+[T49 r2 c6] 1548,53
+[T49 r3 c1] Sbalzo superiore
+[T49 r3 c2] -44,52
+[T49 r3 c3] -44,52
+[T49 r3 c4] 217,93
+[T49 r3 c5] 217,93
+[T49 r3 c6] 0,00
+[T49 r4 c1] Fondo · lamiera interna
+[T49 r4 c2] 71,40
+[T49 r4 c3] 71,40
+[T49 r4 c4] 0,00
+[T49 r4 c5] 642,93
+[T49 r4 c6] 642,93
+[T49 r5 c1] Fondo · sbalzi
+[T49 r5 c2] 71,40
+[T49 r5 c3] 71,40
+[T49 r5 c4] 0,00
+[T49 r5 c5] 42,93
+[T49 r5 c6] 0,00
+[T50 r1 c1] Carpenteria
+[T50 r1 c2] Area [mm²]
+[T50 r1 c3] yG [mm]
+[T50 r1 c4] Ix [mm⁴]
+[T50 r2 c1] Lorda
+[T50 r2 c2] 108522,46
+[T50 r2 c3] -1032,89
+[T50 r2 c4] 60790705330,94
+[T50 r3 c1] Efficace
+[T50 r3 c2] 108522,46
+[T50 r3 c3] -1032,89
+[T50 r3 c4] 60790705330,94
+¶ Anima inefficace: 0,00 mm. Aeff/Alorda = 1,00; Ieff/Ilorda = 1,00.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T51 r1 c1] V [kN]
+[T51 r1 c2] kτ
+[T51 r1 c3] τcr [MPa]
+[T51 r1 c4] λw
+[T51 r1 c5] χw
+[T51 r1 c6] Vpl,Rd [kN]
+[T51 r1 c7] Vbw,Rd [kN]
+[T51 r2 c1] 1400,00
+[T51 r2 c2] 5,34
+[T51 r2 c3] 59,83
+[T51 r2 c4] 1,85
+[T51 r2 c5] 0,45
+[T51 r2 c6] 9865,38
+[T51 r2 c7] 4222,78
+¶ τ nominale V/Av = 27,70 MPa; τ max elastica lorda = 45,77 MPa. Beneficio irrigidimenti: no. Montante terminale adottato: non rigido.
+¶ q = 495,17 kN/m; PEd = 27,49 kN/piolo; PRd adottato = 109,48 kN/piolo; qRd = 3649,27 kN/m.
+¶ Resistenze SLU del singolo piolo: acciaio = 109,48 kN; CLS = 122,63 kN; α = 1,00.
+[T52 r1 c1] Fase
+[T52 r1 c2] S* [mm³]
+[T52 r1 c3] I* [mm⁴]
+[T52 r1 c4] q(V) [kN/m]
+[T52 r1 c5] Δq [kN/m]
+[T52 r2 c1] G1 · getto
+[T52 r2 c2] 0E+0
+[T52 r2 c3] 0E+0
+[T52 r2 c4] 0,00
+[T52 r2 c5] 0,00
+[T52 r3 c1] G2 · permanenti
+[T52 r3 c2] 4,193E+7
+[T52 r3 c3] 1,096E+11
+[T52 r3 c4] 229,46
+[T52 r3 c5] 15,00
+[T52 r4 c1] Q · traffico
+[T52 r4 c2] 7,365E+7
+[T52 r4 c3] 1,469E+11
+[T52 r4 c4] 250,71
+[T52 r4 c5] 0,00
+[T53 r1 c1] Parametro locale
+[T53 r1 c2] Valore
+[T53 r1 c3] Unità
+[T53 r2 c1] Soletta a–a sinistra · superficie
+[T53 r2 c2] 250,00
+[T53 r2 c3] mm
+[T53 r3 c1] Soletta a–a sinistra · qEd
+[T53 r3 c2] 334,35
+[T53 r3 c3] kN/m
+[T53 r4 c1] Soletta a–a sinistra · As minimo
+[T53 r4 c2] 262,94
+[T53 r4 c3] mm²/m
+[T53 r5 c1] Soletta a–a destra · superficie
+[T53 r5 c2] 250,00
+[T53 r5 c3] mm
+[T53 r6 c1] Soletta a–a destra · qEd
+[T53 r6 c2] 334,35
+[T53 r6 c3] kN/m
+[T53 r7 c1] Soletta a–a destra · As minimo
+[T53 r7 c2] 262,94
+[T53 r7 c3] mm²/m
+[T53 r8 c1] Soletta · flusso torsionale sommato (a–a interne, b–b)
+[T53 r8 c2] 210,55
+[T53 r8 c3] kN/m
+[T53 r9 c1] Soletta b–b · gruppo 1 · superficie
+[T53 r9 c2] 385,00
+[T53 r9 c3] mm
+[T53 r10 c1] Soletta b–b · gruppo 1 · qEd
+[T53 r10 c2] 152,71
+[T53 r10 c3] kN/m
+[T53 r11 c1] Soletta b–b · gruppo 1 · As minimo
+[T53 r11 c2] 404,92
+[T53 r11 c3] mm²/m
+[T53 r12 c1] Soletta b–b · gruppo 2 · superficie
+[T53 r12 c2] 505,00
+[T53 r12 c3] mm
+[T53 r13 c1] Soletta b–b · gruppo 2 · qEd
+[T53 r13 c2] 305,43
+[T53 r13 c3] kN/m
+[T53 r14 c1] Soletta b–b · gruppo 2 · As minimo
+[T53 r14 c2] 531,13
+[T53 r14 c3] mm²/m
+[T53 r15 c1] Soletta b–b · gruppo 3 · superficie
+[T53 r15 c2] 625,00
+[T53 r15 c3] mm
+[T53 r16 c1] Soletta b–b · gruppo 3 · qEd
+[T53 r16 c2] 458,14
+[T53 r16 c3] kN/m
+[T53 r17 c1] Soletta b–b · gruppo 3 · As minimo
+[T53 r17 c2] 657,34
+[T53 r17 c3] mm²/m
+[T53 r18 c1] Fatica · ΔqE,2 = λv φ Δq
+[T53 r18 c2] 264,00
+[T53 r18 c3] kN/m
+[T54 r1 c1] Controllo
+[T54 r1 c2] Domanda
+[T54 r1 c3] Limite
+[T54 r1 c4] η
+[T54 r1 c5] Esito
+[T54 r2 c1] Anima · resistenza a taglio
+[T54 r2 c2] 2287,37 kN
+[T54 r2 c3] 4222,78 kN
+[T54 r2 c4] 0,54
+[T54 r2 c5] Entro limite
+[T54 r3 c1] Anima · tensione equivalente elastica (inviluppo)
+[T54 r3 c2] 106,69 MPa
+[T54 r3 c3] 338,10 MPa
+[T54 r3 c4] 0,32
+[T54 r3 c5] Entro limite
+[T54 r4 c1] Interazione M–V · classe 4
+[T54 r4 c2] 0,17 —
+[T54 r4 c3] 1,00 —
+[T54 r4 c4] 0,17
+[T54 r4 c5] Entro limite
+[T54 r5 c1] Piolo · taglio longitudinale
+[T54 r5 c2] 27,49 kN
+[T54 r5 c3] 109,48 kN
+[T54 r5 c4] 0,25
+[T54 r5 c5] Entro limite
+[T54 r6 c1] Pioli · passo longitudinale minimo
+[T54 r6 c2] 110,00 mm
+[T54 r6 c3] 180,00 mm
+[T54 r6 c4] 0,61
+[T54 r6 c5] Entro limite
+[T54 r7 c1] Pioli · passo longitudinale massimo
+[T54 r7 c2] 180,00 mm
+[T54 r7 c3] 800,00 mm
+[T54 r7 c4] 0,23
+[T54 r7 c5] Entro limite
+[T54 r8 c1] Pioli · bordo libero piattabanda
+[T54 r8 c2] 20,00 mm
+[T54 r8 c3] 94,00 mm
+[T54 r8 c4] 0,21
+[T54 r8 c5] Entro limite
+[T54 r9 c1] Pioli · copriferro superiore
+[T54 r9 c2] 35,00 mm
+[T54 r9 c3] 75,00 mm
+[T54 r9 c4] 0,47
+[T54 r9 c5] Entro limite
+[T54 r10 c1] Pioli · diametro testa
+[T54 r10 c2] 33,00 mm
+[T54 r10 c3] 35,00 mm
+[T54 r10 c4] 0,94
+[T54 r10 c5] Entro limite
+[T54 r11 c1] Pioli · spessore testa
+[T54 r11 c2] 8,80 mm
+[T54 r11 c3] 12,00 mm
+[T54 r11 c4] 0,73
+[T54 r11 c5] Entro limite
+[T54 r12 c1] Pioli · diametro/spessore piattabanda
+[T54 r12 c2] 22,00 mm
+[T54 r12 c3] 37,50 mm
+[T54 r12 c4] 0,59
+[T54 r12 c5] Entro limite
+[T54 r13 c1] Pioli · passo trasversale minimo
+[T54 r13 c2] 55,00 mm
+[T54 r13 c3] 120,00 mm
+[T54 r13 c4] 0,46
+[T54 r13 c5] Entro limite
+[T54 r14 c1] Pioli · testa sopra armatura inferiore
+[T54 r14 c2] 30,00 mm
+[T54 r14 c3] 110,00 mm
+[T54 r14 c4] 0,27
+[T54 r14 c5] Entro limite
+[T54 r15 c1] Soletta a–a sinistra · armatura trasversale
+[T54 r15 c2] 854,44 mm²/m
+[T54 r15 c3] 2110,10 mm²/m
+[T54 r15 c4] 0,40
+[T54 r15 c5] Entro limite
+[T54 r16 c1] Soletta a–a sinistra · puntone CLS
+[T54 r16 c2] 334,35 kN/m
+[T54 r16 c3] 1279,25 kN/m
+[T54 r16 c4] 0,26
+[T54 r16 c5] Entro limite
+[T54 r17 c1] Soletta a–a destra · armatura trasversale
+[T54 r17 c2] 854,44 mm²/m
+[T54 r17 c3] 2110,10 mm²/m
+[T54 r17 c4] 0,40
+[T54 r17 c5] Entro limite
+[T54 r18 c1] Soletta a–a destra · puntone CLS
+[T54 r18 c2] 334,35 kN/m
+[T54 r18 c3] 1279,25 kN/m
+[T54 r18 c4] 0,26
+[T54 r18 c5] Entro limite
+[T54 r19 c1] Soletta b–b · gruppo 1 · armatura trasversale
+[T54 r19 c2] 404,92 mm²/m
+[T54 r19 c3] 1539,38 mm²/m
+[T54 r19 c4] 0,26
+[T54 r19 c5] Entro limite
+[T54 r20 c1] Soletta b–b · gruppo 1 · puntone CLS
+[T54 r20 c2] 152,71 kN/m
+[T54 r20 c3] 1970,05 kN/m
+[T54 r20 c4] 0,08
+[T54 r20 c5] Entro limite
+[T54 r21 c1] Soletta b–b · gruppo 2 · armatura trasversale
+[T54 r21 c2] 780,54 mm²/m
+[T54 r21 c3] 1539,38 mm²/m
+[T54 r21 c4] 0,51
+[T54 r21 c5] Entro limite
+[T54 r22 c1] Soletta b–b · gruppo 2 · puntone CLS
+[T54 r22 c2] 305,43 kN/m
+[T54 r22 c3] 2584,09 kN/m
+[T54 r22 c4] 0,12
+[T54 r22 c5] Entro limite
+[T54 r23 c1] Soletta b–b · gruppo 3 · armatura trasversale
+[T54 r23 c2] 1170,80 mm²/m
+[T54 r23 c3] 1539,38 mm²/m
+[T54 r23 c4] 0,76
+[T54 r23 c5] Entro limite
+[T54 r24 c1] Soletta b–b · gruppo 3 · puntone CLS
+[T54 r24 c2] 458,14 kN/m
+[T54 r24 c3] 3198,13 kN/m
+[T54 r24 c4] 0,14
+[T54 r24 c5] Entro limite
+[T54 r25 c1] Ancoraggio trasversale sup
+[T54 r25 c2] 464,39 mm
+[T54 r25 c3] 700,00 mm
+[T54 r25 c4] 0,66
+[T54 r25 c5] Entro limite
+[T54 r26 c1] Ancoraggio trasversale inf
+[T54 r26 c2] 406,34 mm
+[T54 r26 c3] 700,00 mm
+[T54 r26 c4] 0,58
+[T54 r26 c5] Entro limite
+[T54 r27 c1] Fatica pioli · ΔτE,2
+[T54 r27 c2] 41,67 MPa
+[T54 r27 c3] 72,00 MPa
+[T54 r27 c4] 0,58
+[T54 r27 c5] Entro limite
+[T54 r28 c1] Fatica flangia · categoria 80
+[T54 r28 c2] 45,00 MPa
+[T54 r28 c3] 59,26 MPa
+[T54 r28 c4] 0,76
+[T54 r28 c5] Entro limite
+[T54 r29 c1] Fatica · interazione flangia/piolo
+[T54 r29 c2] 1,34 —
+[T54 r29 c3] 1,30 —
+[T54 r29 c4] 1,03
+[T54 r29 c5] Non verificato
+¶ Anima · resistenza a taglio: min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido; anima più caricata con la torsione: V/(2 cos α) + q·hw/cos α, q = 245,81 kN/m (EN 1993-1-1 §6.2.7(9)).
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata più q/tw della torsione.
+¶ Interazione M–V · classe 4: EC4 §6.2.2.4(3), EC3 §7.1: Mpl=38406,97 kNm; Mf=23779,60 kNm. Sezione composta; armature omesse a favore di sicurezza; anima intera. N=0, fy≤355..
+¶ Piolo · taglio longitudinale: EN 1994-2 §6.6.3.1 / NTC §4.3.4.3.1; piattabanda più caricata: metà del flusso di flessione + q di torsione = 210,55 kN/m.
+¶ Pioli · diametro/spessore piattabanda: Dettaglio per azioni ripetute, obbligatorio anche con verifica resistente a fatica attiva.
+¶ Pioli · testa sopra armatura inferiore: EN 1994-2 §6.6.5.1.
+¶ Soletta a–a sinistra · armatura trasversale: EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale.
+¶ Soletta a–a destra · armatura trasversale: EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale.
+¶ Soletta b–b · gruppo 1 · armatura trasversale: EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale.
+¶ Soletta b–b · gruppo 2 · armatura trasversale: EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale.
+¶ Soletta b–b · gruppo 3 · armatura trasversale: EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale.
+¶ Ancoraggio trasversale sup: EN 1992-1-1 §8.4, minimo aggiuntivo NTC 20Ø/150 mm quando selezionate; barra a fyd, α1…α5=1; lunghezza disponibile minima oltre ogni superficie, entrambi i lati.
+¶ Ancoraggio trasversale inf: EN 1992-1-1 §8.4, minimo aggiuntivo NTC 20Ø/150 mm quando selezionate; barra a fyd, α1…α5=1; lunghezza disponibile minima oltre ogni superficie, entrambi i lati.
+¶ Fatica pioli · ΔτE,2: EN 1994-2 §§6.8.3, 6.8.7.2; inviluppo a 2 milioni di cicli indipendente dalle fasi.
+¶ Fatica · interazione flangia/piolo: Intervalli assegnati come inviluppo dei casi fessurati/non fessurati e delle coppie concomitanti.
+¶ Cassoncino · torsione, distorsione e diaframmi
+¶ q anime e fondo = 245,81 kN/m; q soletta e connessione = 210,55 kN/m; q controvento superiore = 35,25 kN/m.
+[T55 r1 c1] Fase
+[T55 r1 c2] Sezione
+[T55 r1 c3] ΔT [kNm]
+[T55 r1 c4] A0 [m²]
+[T55 r1 c5] J [m⁴]
+[T55 r1 c6] q [kN/m]
+[T55 r1 c7] Cella
+[T55 r2 c1] G1 · getto
+[T55 r2 c2] Solo acciaio
+[T55 r2 c3] 200,00
+[T55 r2 c4] 2,84
+[T55 r2 c5] 0,04
+[T55 r2 c6] 35,25
+[T55 r2 c7] Chiusa
+[T55 r3 c1] G2 · permanenti
+[T55 r3 c2] Composta
+[T55 r3 c3] 300,00
+[T55 r3 c4] 3,09
+[T55 r3 c5] 0,08
+[T55 r3 c6] 48,59
+[T55 r3 c7] Chiusa
+[T55 r4 c1] Q · traffico
+[T55 r4 c2] Composta
+[T55 r4 c3] 1000,00
+[T55 r4 c4] 3,09
+[T55 r4 c5] 0,10
+[T55 r4 c6] 161,96
+[T55 r4 c7] Chiusa
+¶ Distorsione: I_Dw = 0,01 m⁶; K = 605,74 kN·m/m; K_D = 755,94 MN·m; 7 diaframmi intermedi. σdw al fondo = 15,75 MPa, pari al 21,59% della σ di flessione: oltre il 10%, sommata nelle verifiche del fondo (EN 1993-2 §6.2.7(3)).
+[T56 r1 c1] Parametro
+[T56 r1 c2] Valore
+[T56 r1 c3] Unità
+[T56 r2 c1] Torsione · G1 · getto · T
+[T56 r2 c2] 200,00
+[T56 r2 c3] kNm
+[T56 r3 c1] Torsione · G1 · getto · A0
+[T56 r3 c2] 2,84
+[T56 r3 c3] m²
+[T56 r4 c1] Torsione · G1 · getto · J (acciaio)
+[T56 r4 c2] 0,04
+[T56 r4 c3] m⁴
+[T56 r5 c1] Torsione · G1 · getto · q = T/(2A0)
+[T56 r5 c2] 35,25
+[T56 r5 c3] kN/m
+[T56 r6 c1] Torsione · G2 · permanenti · T
+[T56 r6 c2] 300,00
+[T56 r6 c3] kNm
+[T56 r7 c1] Torsione · G2 · permanenti · A0
+[T56 r7 c2] 3,09
+[T56 r7 c3] m²
+[T56 r8 c1] Torsione · G2 · permanenti · J (acciaio)
+[T56 r8 c2] 0,08
+[T56 r8 c3] m⁴
+[T56 r9 c1] Torsione · G2 · permanenti · q = T/(2A0)
+[T56 r9 c2] 48,59
+[T56 r9 c3] kN/m
+[T56 r10 c1] Torsione · Q · traffico · T
+[T56 r10 c2] 1000,00
+[T56 r10 c3] kNm
+[T56 r11 c1] Torsione · Q · traffico · A0
+[T56 r11 c2] 3,09
+[T56 r11 c3] m²
+[T56 r12 c1] Torsione · Q · traffico · J (acciaio)
+[T56 r12 c2] 0,10
+[T56 r12 c3] m⁴
+[T56 r13 c1] Torsione · Q · traffico · q = T/(2A0)
+[T56 r13 c2] 161,96
+[T56 r13 c3] kN/m
+[T56 r14 c1] Torsione · q anime e fondo
+[T56 r14 c2] 245,81
+[T56 r14 c3] kN/m
+[T56 r15 c1] Torsione · q soletta e connessione
+[T56 r15 c2] 210,55
+[T56 r15 c3] kN/m
+[T56 r16 c1] Torsione · τ anime
+[T56 r16 c2] 17,56
+[T56 r16 c3] MPa
+[T56 r17 c1] Torsione · τ fondo
+[T56 r17 c2] 9,83
+[T56 r17 c3] MPa
+[T56 r18 c1] Controvento superiore · q
+[T56 r18 c2] 35,25
+[T56 r18 c3] kN/m
+[T56 r19 c1] Distorsione · I_Dw
+[T56 r19 c2] 0,01
+[T56 r19 c3] m⁶
+[T56 r20 c1] Distorsione · K telaio
+[T56 r20 c2] 605,74
+[T56 r20 c3] kN·m/m
+[T56 r21 c1] Distorsione · K_D diaframma
+[T56 r21 c2] 755,94
+[T56 r21 c3] MN·m
+[T56 r22 c1] Distorsione · carico generalizzato di T unitario
+[T56 r22 c2] 0,34
+[T56 r22 c3] —
+[T56 r23 c1] Distorsione · diaframmi intermedi
+[T56 r23 c2] 7,00
+[T56 r23 c3] —
+[T56 r24 c1] Distorsione · λ·L_D
+[T56 r24 c2] 0,45
+[T56 r24 c3] —
+[T56 r25 c1] Distorsione · ψ massimo
+[T56 r25 c2] 4,62E-4
+[T56 r25 c3] rad
+[T56 r26 c1] Distorsione · σdw fondo
+[T56 r26 c2] 15,75
+[T56 r26 c3] MPa
+[T56 r27 c1] Distorsione · σdw piattabande superiori
+[T56 r27 c2] 1,99
+[T56 r27 c3] MPa
+[T56 r28 c1] Distorsione · σdw soletta
+[T56 r28 c2] 0,32
+[T56 r28 c3] MPa
+[T56 r29 c1] Distorsione · momento trasversale nodi inferiori
+[T56 r29 c2] 0,07
+[T56 r29 c3] kNm/m
+[T56 r30 c1] Distorsione · momento trasversale nodi superiori
+[T56 r30 c2] 0,07
+[T56 r30 c3] kNm/m
+[T56 r31 c1] Distorsione · σdw / σ flessione fondo
+[T56 r31 c2] 0,22
+[T56 r31 c3] —
+[T56 r32 c1] Diaframma intermedio · N diagonale
+[T56 r32 c2] 116,49
+[T56 r32 c3] kN
+[T56 r33 c1] Diaframma intermedio · ψ
+[T56 r33 c2] 3,67E-4
+[T56 r33 c3] rad
+[T56 r34 c1] Appoggio · coppia degli apparecchi T/e_b
+[T56 r34 c2] 400,00
+[T56 r34 c3] kN
+[T57 r1 c1] Controllo
+[T57 r1 c2] Domanda
+[T57 r1 c3] Limite
+[T57 r1 c4] η
+[T57 r1 c5] Esito
+[T57 r2 c1] Distorsione · nodo anima–fondo (σx, σz, τ)
+[T57 r2 c2] 109,16 MPa
+[T57 r2 c3] 338,10 MPa
+[T57 r2 c4] 0,32
+[T57 r2 c5] Entro limite
+[T57 r3 c1] Distorsione · nodo anima–piattabanda superiore
+[T57 r3 c2] 86,76 MPa
+[T57 r3 c3] 338,10 MPa
+[T57 r3 c4] 0,26
+[T57 r3 c5] Entro limite
+[T57 r4 c1] Diaframma intermedio · diagonale compressa
+[T57 r4 c2] 116,49 kN
+[T57 r4 c3] 602,87 kN
+[T57 r4 c4] 0,19
+[T57 r4 c5] Entro limite
+[T57 r5 c1] Fondo · tensione equivalente (σ, τ torsione + taglio)
+[T57 r5 c2] 95,18 MPa
+[T57 r5 c3] 338,10 MPa
+[T57 r5 c4] 0,28
+[T57 r5 c5] Entro limite
+[T57 r6 c1] Fondo · imbozzamento a taglio
+[T57 r6 c2] 14,85 MPa
+[T57 r6 c3] 186,33 MPa
+[T57 r6 c4] 0,08
+[T57 r6 c5] Entro limite
+[T57 r7 c1] Fondo · interazione σ–τ
+[T57 r7 c2] 0,26 —
+[T57 r7 c3] 1,00 —
+[T57 r7 c4] 0,26
+[T57 r7 c5] Entro limite
+[T57 r8 c1] Soletta · armatura longitudinale per torsione
+[T57 r8 c2] 210,55 kN/m
+[T57 r8 c3] 1624,59 kN/m
+[T57 r8 c4] 0,13
+[T57 r8 c5] Entro limite
+[T57 r9 c1] Diaframma d'appoggio · taglio da torsione
+[T57 r9 c2] 7,05 MPa
+[T57 r9 c3] 175,88 MPa
+[T57 r9 c4] 0,04
+[T57 r9 c5] Entro limite
+¶ Distorsione · nodo anima–fondo (σx, σz, τ): EN 1993-1-1 §6.2.1(5): σx con σdw, flessione trasversale σz = 6m/t² del telaio distorto (segno sfavorevole), τ di taglio e torsione; anima e fondo.
+¶ Distorsione · nodo anima–piattabanda superiore: Anima sotto la piattabanda superiore: σx con σdw, σz = 6m/tw² con il momento d'angolo al piano medio della soletta (cautelativo).
+¶ Diaframma intermedio · diagonale compressa: EN 1993-1-1 §6.3.1, curva c, Lcr = 0,90·L = 2264,88 mm, λ̄ = 0,93; collegamenti non verificati.
+¶ Fondo · tensione equivalente (σ, τ torsione + taglio): √(σ² + 3τ²) al nodo con le anime: τ = q/tb + τ di taglio del fondo; σ con σdw.
+¶ Fondo · imbozzamento a taglio: EN 1993-1-5 §5 e §7.1(5): τ medio del pannello (≥ metà del massimo), η = 1, a = 5000,00 mm, χw = 1,00.
+¶ Fondo · interazione σ–τ: EN 1993-1-5 §7.1(5): η1 + (2η3 − 1)² con Mf,Rd = 0, η1 = σ/(fy/γM0) sulla sezione efficace.
+¶ Soletta · armatura longitudinale per torsione: EN 1992-1-1 §6.3.2(3): trazione q·cotθ (cotθ = 1,00) contro la compressione disponibile del CLS e la capacità residua delle barre oltre la flessione.
+¶ Diaframma d'appoggio · taglio da torsione: τ = T/(2 A0 tD), A0 della cella in acciaio (2,84 m²); EN 1993-1-5 §5 con η = 1, χw = 0,94; aperture non considerate.
+¶ Situazione 3 dopo Q · traffico. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · traffico); valori indicati in MPa reali. Arancio: parte inefficace.

@@ -23,6 +23,8 @@
   <ItemGroup><Compile Include="../Shared/ElasticPileTrace.cs" Link="Shared/ElasticPileTrace.cs" /></ItemGroup>
   <!-- Scenarios and traces of the RC section sheet (F5.10), shared with the trace of the historic view in the UiTests build of X.Desktop. -->
   <ItemGroup><Compile Include="../Shared/ConcreteSectionTrace.cs" Link="Shared/ConcreteSectionTrace.cs" /></ItemGroup>
+  <!-- Scenarios and traces of the composite bridge section sheet (F5.11), shared with the trace of the historic view in the UiTests build of X.Desktop. -->
+  <ItemGroup><Compile Include="../Shared/CompositeSectionTrace.cs" Link="Shared/CompositeSectionTrace.cs" /></ItemGroup>
   <!-- F5.6: the comparison of ui/f3-equivalence (tolerances and F4 transitions) for the files of the vertical piles with transitions. -->
   <ItemGroup>
     <Compile Include="../ANTHEA.Testing/Comparison/BaselineComparer.cs" Link="Shared/BaselineComparer.cs" />

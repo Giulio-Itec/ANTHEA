@@ -25,6 +25,13 @@ try
         string result = $"PASS {checks} controlli paratie, applicazione e MVVM";
         File.WriteAllText(Path.Combine(output, "esito.txt"), result, new UTF8Encoding(false)); Console.WriteLine(result); return 0;
     }
+    // F5.11: --sezione-mista runs only the checks of the composite bridge section, traces and F3 included (to work on the module).
+    if (args.Contains("--sezione-mista"))
+    {
+        checks = CompositeSectionSheetChecks.Run(root, output);
+        string composite = $"PASS {checks} controlli della sezione mista (F5.11) senza WPF";
+        File.WriteAllText(Path.Combine(output, "esito.txt"), composite, new UTF8Encoding(false)); Console.WriteLine(composite); return 0;
+    }
     if (sectionTraces || sectionFast)
     {
         checks += ConcreteSectionSheetChecks.Run(root, output, full: sectionTraces);
@@ -59,6 +66,7 @@ try
     checks += ElasticPileSheetChecks.Run(root, output);
     checks += ConcreteSectionSheetChecks.Run(root, output, full: false);
     checks += SectionActionsEditorChecks.Run();
+    checks += CompositeSectionSheetChecks.Run(root, output);
     string message = $"PASS {checks} controlli di Presentation senza WPF";
     File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
     Console.WriteLine(message);

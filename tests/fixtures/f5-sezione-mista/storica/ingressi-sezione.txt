@@ -1,0 +1,2067 @@
+== apertura
+dati: versione_mista|nome|normativa|gamma_m0|gamma_c|alpha_cc|gamma_s|stato|classe4|classe_cls|acciaio|armatura|fy_override|fy|sezione|offset_anima|interasse_anime|b_cls|h_cls|predalle|h_predalle|rif_ferri_inf|h_trave|h_web|t_web|b_top|t_top|b_bottom|t_bottom|plate2|b_bottom2|t_bottom2|rebars_top|d_top|pitch_top|cover_top|rebars_bottom|d_bottom|pitch_bottom|cover_bottom|y_ref|fasi|gamma_m1|eta_taglio|irrigidimenti|a_irr|b_irr|t_irr|N_irr|pioli|n_pioli|d_pioli|h_pioli|passo_pioli|passo_trasv_pioli|fu_pioli|gamma_v|d_testa_pioli|t_testa_pioli|pioli_fatica|copriferro_pioli|lati_irr|pannelli_uguali|a_irr_dx|b_irr_dx|t_irr_dx|x_irr|betaL_irr|saldature_irr|aw_irr|appoggio|pos_app|lati_app|b_app|t_app|b_app_dx|t_app_dx|a_app_sx|a_app_dx|c_app|R_app|x_app|z_app|betaL_app|s_app|B_app|terminale_rigido|e_term|saldature_app|aw_app|gamma_m2|armatura_trasv|d_trasv_sup|s_trasv_sup|d_trasv_inf|s_trasv_inf|cot_trasv|quota_q_sx|As_m_trasv|l_anc_trasv|buona_aderenza_trasv|bordo_cls_sx|bordo_cls_dx|forcine_bordo|d_forcine|instabilita_sup|instabilita_inf|instabilita_anima|fatica_pioli|q_fat_min|q_fat_max|lambda_v|phi_fat|flangia_fat_tesa|dsigma_fat|gamma_ff|gamma_mf_pioli|gamma_mf_flangia|torsione_cassoncino|t_controvento|L_campata|passo_diaframmi|tipo_diaframma|t_diaframma|A_diagonale|i_diagonale|beta_diagonale|m_t_dist|T_c_dist|T_app|e_appoggi|t_diaframma_app|metodo_analisi|viscosita_nl|cls_teso_nl|fibre_anima|fibre_flange|fibre_cls|sottopassi|ui_mista|curve_sezione
+dati.versione_mista: 1
+dati.nome: "Sezione composta da ponte"
+dati.normativa: "NTC 2018 / EN 1994-2:2005"
+dati.gamma_m0: "1.05"
+dati.gamma_c: "1.5"
+dati.alpha_cc: "0.85"
+dati.gamma_s: "1.15"
+dati.stato: "SLU"
+dati.classe4: true
+dati.classe_cls: "C35/45"
+dati.acciaio: "S355"
+dati.armatura: "B450C"
+dati.fy_override: false
+dati.fy: "355"
+dati.sezione: "H saldato"
+dati.offset_anima: "0"
+dati.interasse_anime: "1800"
+dati.b_cls: "3000"
+dati.h_cls: "250"
+dati.predalle: false
+dati.h_predalle: "60"
+dati.rif_ferri_inf: "Estradosso predalle"
+dati.h_trave: "1855"
+dati.h_web: "1800"
+dati.t_web: "14"
+dati.b_top: "500"
+dati.t_top: "25"
+dati.b_bottom: "700"
+dati.t_bottom: "30"
+dati.plate2: false
+dati.b_bottom2: "500"
+dati.t_bottom2: "20"
+dati.rebars_top: true
+dati.d_top: "16"
+dati.pitch_top: "150"
+dati.cover_top: "45"
+dati.rebars_bottom: true
+dati.d_bottom: "16"
+dati.pitch_bottom: "150"
+dati.cover_bottom: "45"
+dati.y_ref: "0"
+dati.fasi: [{"nome":"G1 · getto e carpenteria","tipo":"Solo acciaio","attiva":true,"N":0,"Mx":1500,"V":0,"T":0,"q_conn":0,"epsilon_cs":0,"modo":"Da φ","phi":0,"psi":1,"n":"18","riferimento_N":"Baricentro omogeneizzato lordo"},{"nome":"G2 · permanenti portati","tipo":"Composta","attiva":true,"N":0,"Mx":2000,"V":0,"T":0,"q_conn":0,"epsilon_cs":0,"modo":"Da φ","phi":2,"psi":1.1,"n":"19.719961174917472","riferimento_N":"Baricentro omogeneizzato lordo"},{"nome":"Q · variabili","tipo":"Composta","attiva":true,"N":0,"Mx":3000,"V":0,"T":0,"q_conn":0,"epsilon_cs":0,"modo":"Da φ","phi":0,"psi":1,"n":"6.162487867161709","riferimento_N":"Baricentro omogeneizzato lordo"}]
+dati.gamma_m1: 1.1
+dati.eta_taglio: 1.2
+dati.irrigidimenti: false
+dati.a_irr: 3000
+dati.b_irr: 150
+dati.t_irr: 15
+dati.N_irr: 0
+dati.pioli: false
+dati.n_pioli: 2
+dati.d_pioli: 22
+dati.h_pioli: 150
+dati.passo_pioli: 200
+dati.passo_trasv_pioli: 150
+dati.fu_pioli: 450
+dati.gamma_v: 1.25
+dati.d_testa_pioli: 35
+dati.t_testa_pioli: 12
+dati.pioli_fatica: true
+dati.copriferro_pioli: 35
+dati.lati_irr: "Bilaterali simmetrici"
+dati.pannelli_uguali: true
+dati.a_irr_dx: 3000
+dati.b_irr_dx: 150
+dati.t_irr_dx: 15
+dati.x_irr: 0
+dati.betaL_irr: 1
+dati.saldature_irr: false
+dati.aw_irr: 6
+dati.appoggio: false
+dati.pos_app: "Appoggio interno"
+dati.lati_app: "Bilaterali simmetrici"
+dati.b_app: 180
+dati.t_app: 25
+dati.b_app_dx: 180
+dati.t_app_dx: 25
+dati.a_app_sx: 3000
+dati.a_app_dx: 3000
+dati.c_app: 150
+dati.R_app: ""
+dati.x_app: 0
+dati.z_app: 0
+dati.betaL_app: 1
+dati.s_app: 300
+dati.B_app: 400
+dati.terminale_rigido: false
+dati.e_term: 300
+dati.saldature_app: true
+dati.aw_app: 8
+dati.gamma_m2: 1.25
+dati.armatura_trasv: false
+dati.d_trasv_sup: 16
+dati.s_trasv_sup: 150
+dati.d_trasv_inf: 16
+dati.s_trasv_inf: 150
+dati.cot_trasv: 1
+dati.quota_q_sx: 0.5
+dati.As_m_trasv: 0
+dati.l_anc_trasv: 700
+dati.buona_aderenza_trasv: true
+dati.bordo_cls_sx: 500
+dati.bordo_cls_dx: 500
+dati.forcine_bordo: false
+dati.d_forcine: 12
+dati.instabilita_sup: true
+dati.instabilita_inf: true
+dati.instabilita_anima: true
+dati.fatica_pioli: false
+dati.q_fat_min: ""
+dati.q_fat_max: ""
+dati.lambda_v: 1
+dati.phi_fat: 1
+dati.flangia_fat_tesa: false
+dati.dsigma_fat: ""
+dati.gamma_ff: 1
+dati.gamma_mf_pioli: 1.25
+dati.gamma_mf_flangia: 1.35
+dati.torsione_cassoncino: false
+dati.t_controvento: 0
+dati.L_campata: 0
+dati.passo_diaframmi: 0
+dati.tipo_diaframma: "Piastra"
+dati.t_diaframma: 12
+dati.A_diagonale: 3000
+dati.i_diagonale: 30
+dati.beta_diagonale: 1
+dati.m_t_dist: 0
+dati.T_c_dist: 0
+dati.T_app: 0
+dati.e_appoggi: ""
+dati.t_diaframma_app: 0
+dati.metodo_analisi: "Cumulativo lineare"
+dati.viscosita_nl: "Istantaneo · φ = 0 nel calcolo"
+dati.cls_teso_nl: "Trascurato"
+dati.fibre_anima: 160
+dati.fibre_flange: 8
+dati.fibre_cls: 64
+dati.sottopassi: 8
+dati.ui_mista: {"layout_version":4,"soletta_proprieta":{"phi":"0","psi":"1","n":"6.162487867161709","modo":"Da φ"},"dettaglio_sezione":0,"tab":0}
+dati.curve_sezione: {"tipo":"Momento–curvatura · N costante","origine":"Sezione composta vergine","fase":0,"incremento_k":0.003,"incremento_e":-2000,"punti":100,"sottopassi":4,"n_storico":true,"k_storico":true,"N":0,"k":0,"y":0}
+modificato: 0
+messaggio: 
+calcolo: occupato no · risultato - · mostrato - · esportabile no
+stato: "Preparazione della sezione…"
+avviso: -
+avvisi: ""
+panoramica: ""
+riepilogo: ""
+materiali: "C35/45   fck = 35 MPa\nEcm = 34077,146 MPa\n\nS355   fy = 355 MPa\nEa = 210000 MPa\n\nB450C   fyk = 450 MPa\nEs = 200000 MPa"
+altezza: "H = 1855 mm · h anima = H − t sup − t inf = 1800 mm."
+soletta: "y = 0 all'intradosso della soletta.\nFerri inferiori: Intradosso soletta + 45 mm → y = 45 mm."
+metodo: "Metodo cumulativo precedente: ricalcola i contributi sulla stessa sezione efficace della situazione. Comprende le verifiche di taglio e connessione. Fino a 20 fasi."
+convenzione: "SLU: inserire incrementi di progetto già combinati e coefficientati (γF e ψ). Il modulo non applica altri coefficienti ai carichi; γM0, γc e γs riducono le resistenze."
+fasi: "3 fasi inserite · 3 attive · la tabella include sempre tutti gli ingressi"
+convergenza: ""
+pagina: 0 · titolo "Definizione della sezione" · "Geometria, materiali e armature · dimensioni in mm" · pannello proprietà · tabelle no · staccata no
+situazioni: "" · scelta -1 · visibile no · attiva sì
+vista: 2 · visibile no · risultati 2
+interruttori: quote sì · armature sì · asse neutro sì(nascosto) "Asse neutro del risultato selezionato." · contorno sezione no · contorno tensioni no · limiti no · menu sì
+scala: "1" · auto sì · visibile no · errore no · "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.\nRiferimento attuale: nessuna fase composta · ×1" · modificabile sì
+prospetto: visibile no · aperto sì · sezione 0 sì · schizzo appoggio no
+contenitori: piastra sì · nota piastra sì · trasversale no · fatica no · cassoncino no · discretizzazione no · torsione risultati sì
+form.normativa: nome|normativa
+form.normativa.nome: campo "Nome della sezione" = "Sezione composta da ponte"
+form.normativa.normativa: scelta "Normativa" = "NTC 2018 / EN 1994-2:2005" voci "NTC 2018 / EN 1994-2:2005|EN 1994-2:2005"
+form.coefficienti: gamma_m0|gamma_m1|eta_taglio|gamma_v|gamma_m2|gamma_c|alpha_cc|gamma_s
+form.coefficienti.gamma_m0: campo "Acciaio strutturale γM0" = "1.05"
+form.coefficienti.gamma_m1: campo "Instabilità γM1" = "1.1"
+form.coefficienti.eta_taglio: campo "Taglio η" = "1.2"
+form.coefficienti.gamma_v: campo "Pioli γV" = "1.25"
+form.coefficienti.gamma_m2: campo "Saldature γM2" = "1.25"
+form.coefficienti.gamma_c: campo "Calcestruzzo γc" = "1.5"
+form.coefficienti.alpha_cc: campo "Calcestruzzo αcc" = "0.85"
+form.coefficienti.gamma_s: campo "Armature γs" = "1.15"
+form.materiali: classe_cls|acciaio|armatura|fy_override|fy
+form.materiali.classe_cls: scelta "Calcestruzzo" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105"
+form.materiali.acciaio: scelta "Carpenteria" = "S355" voci "S235|S275|S355|S420"
+form.materiali.armatura: scelta "Armatura ordinaria" = "B450C" voci "B450A|B450C|B500A|B500B|B500C"
+form.materiali.fy_override: opzione "Sovrascrivi fy per tutta la carpenteria" = "no"
+form.materiali.fy: campo "fy assegnato" = "355" · nascosto
+form.soletta: b_cls|h_cls
+form.soletta.b_cls: campo "Larghezza collaborante" = "3000"
+form.soletta.h_cls: campo "Spessore totale soletta" = "250"
+form.predalle: predalle|h_predalle|rif_ferri_inf
+form.predalle.predalle: opzione "Predalle presente · solo geometria" = "no"
+form.predalle.h_predalle: campo "Spessore predalle" = "60" · nascosto
+form.predalle.rif_ferri_inf: scelta "Riferimento ferri inferiori" = "Estradosso predalle" voci "Estradosso predalle|Intradosso soletta" · nascosto
+form.carpenteria: h_trave|t_web|b_top|t_top|b_bottom|t_bottom
+form.carpenteria.h_trave: campo "Altezza totale H trave" = "1855"
+form.carpenteria.t_web: campo "Spessore anima" = "14"
+form.carpenteria.b_top: campo "Larghezza superiore" = "500"
+form.carpenteria.t_top: campo "Spessore superiore" = "25"
+form.carpenteria.b_bottom: campo "Larghezza inferiore 1" = "700"
+form.carpenteria.t_bottom: campo "Spessore inferiore 1" = "30"
+form.sezione: sezione|offset_anima|interasse_anime
+form.sezione.sezione: scelta "Tipo di sezione" = "H saldato" voci "H saldato|H con anima inclinata|Cassoncino"
+form.sezione.offset_anima: campo "Scostamento anima al piede" = "0" · nascosto
+form.sezione.interasse_anime: campo "Interasse anime in sommità" = "1800" · nascosto
+form.piastra: plate2|b_bottom2|t_bottom2
+form.piastra.plate2: opzione "Seconda piattabanda inferiore" = "no"
+form.piastra.b_bottom2: campo "Larghezza inferiore 2" = "500" · nascosto
+form.piastra.t_bottom2: campo "Spessore inferiore 2" = "20" · nascosto
+form.armatura-sup: rebars_top|d_top|pitch_top|cover_top
+form.armatura-sup.rebars_top: opzione "Fila presente" = "sì"
+form.armatura-sup.d_top: campo "Diametro barre" = "16"
+form.armatura-sup.pitch_top: campo "Passo" = "150"
+form.armatura-sup.cover_top: campo "Estradosso → asse barra" = "45"
+form.armatura-inf: rebars_bottom|d_bottom|pitch_bottom|cover_bottom
+form.armatura-inf.rebars_bottom: opzione "Fila presente" = "sì"
+form.armatura-inf.d_bottom: campo "Diametro barre" = "16"
+form.armatura-inf.pitch_bottom: campo "Passo" = "150"
+form.armatura-inf.cover_bottom: campo "Riferimento → asse barra" = "45"
+form.trasversale: armatura_trasv|d_trasv_sup|s_trasv_sup|d_trasv_inf|s_trasv_inf|cot_trasv|quota_q_sx|As_m_trasv|l_anc_trasv|buona_aderenza_trasv|bordo_cls_sx|bordo_cls_dx|forcine_bordo|d_forcine
+form.trasversale.armatura_trasv: opzione "Verifica taglio longitudinale della soletta" = "no"
+form.trasversale.d_trasv_sup: campo "Barre trasversali superiori · Ø (0 assenti)" = "16" · nascosto
+form.trasversale.s_trasv_sup: campo "Passo superiore lungo la trave" = "150" · nascosto
+form.trasversale.d_trasv_inf: campo "Barre trasversali inferiori · Ø (0 assenti)" = "16" · nascosto
+form.trasversale.s_trasv_inf: campo "Passo inferiore lungo la trave" = "150" · nascosto
+form.trasversale.cot_trasv: campo "Puntone · cot θ (1–1,25)" = "1" · nascosto
+form.trasversale.quota_q_sx: campo "Quota di q trasferita a sinistra (0–1)" = "0.5" · nascosto
+form.trasversale.As_m_trasv: campo "As richiesta per flessione trasversale" = "0" · nascosto
+form.trasversale.l_anc_trasv: campo "Ancoraggio disponibile oltre le superfici" = "700" · nascosto
+form.trasversale.buona_aderenza_trasv: opzione "Condizioni di buona aderenza" = "sì" · nascosto
+form.trasversale.bordo_cls_sx: campo "Piolo esterno → bordo reale sinistro" = "500" · nascosto
+form.trasversale.bordo_cls_dx: campo "Piolo esterno → bordo reale destro" = "500" · nascosto
+form.trasversale.forcine_bordo: opzione "Forcine a U ancorate attorno ai pioli" = "no" · nascosto
+form.trasversale.d_forcine: campo "Diametro forcine" = "12" · nascosto
+form.fatica: fatica_pioli|q_fat_min|q_fat_max|lambda_v|phi_fat|flangia_fat_tesa|dsigma_fat|gamma_ff|gamma_mf_pioli|gamma_mf_flangia
+form.fatica.fatica_pioli: opzione "Verifica resistente a fatica" = "no"
+form.fatica.q_fat_min: campo "Flusso minimo · combinazione di fatica" = "" · nascosto
+form.fatica.q_fat_max: campo "Flusso massimo · combinazione di fatica" = "" · nascosto
+form.fatica.lambda_v: campo "Equivalenza del danno λv" = "1" · nascosto
+form.fatica.phi_fat: campo "Amplificazione dinamica φfat" = "1" · nascosto
+form.fatica.flangia_fat_tesa: opzione "Flangia anche in trazione a fatica" = "no" · nascosto
+form.fatica.dsigma_fat: campo "Flangia · intervallo equivalente ΔσE,2" = "" · nascosto
+form.fatica.gamma_ff: campo "Azioni di fatica γFf" = "1" · nascosto
+form.fatica.gamma_mf_pioli: campo "Resistenza pioli γMf,s" = "1.25" · nascosto
+form.fatica.gamma_mf_flangia: campo "Resistenza flangia γMf" = "1.35" · nascosto
+form.pioli: pioli|n_pioli|d_pioli|h_pioli|passo_pioli|passo_trasv_pioli|fu_pioli|d_testa_pioli|t_testa_pioli|copriferro_pioli|pioli_fatica
+form.pioli.pioli: opzione "Verifica pioli a testa saldata" = "no"
+form.pioli.n_pioli: campo "Pioli per fila trasversale" = "2" · nascosto
+form.pioli.d_pioli: campo "Diametro gambo d" = "22" · nascosto
+form.pioli.h_pioli: campo "Altezza dopo saldatura" = "150" · nascosto
+form.pioli.passo_pioli: campo "Passo longitudinale" = "200" · nascosto
+form.pioli.passo_trasv_pioli: campo "Passo trasversale" = "150" · nascosto
+form.pioli.fu_pioli: campo "Resistenza ultima fu" = "450" · nascosto
+form.pioli.d_testa_pioli: campo "Diametro testa" = "35" · nascosto
+form.pioli.t_testa_pioli: campo "Spessore testa" = "12" · nascosto
+form.pioli.copriferro_pioli: campo "Copriferro minimo di progetto" = "35" · nascosto
+form.pioli.pioli_fatica: opzione "Dettagli per azioni ripetute / fatica" = "sì" · nascosto
+form.irrigidimenti: irrigidimenti|lati_irr|b_irr|t_irr|b_irr_dx|t_irr_dx|pannelli_uguali|a_irr|a_irr_dx|N_irr|x_irr|betaL_irr|saldature_irr|aw_irr
+form.irrigidimenti.irrigidimenti: opzione "Irrigidimenti intermedi" = "no"
+form.irrigidimenti.lati_irr: scelta "Piatti sulle facce dell’anima" = "Bilaterali simmetrici" voci "Bilaterali simmetrici|Solo sinistra|Solo destra|Bilaterali diversi" · nascosto
+form.irrigidimenti.b_irr: campo "Sporgenza sinistra / piatto unico" = "150" · nascosto
+form.irrigidimenti.t_irr: campo "Spessore sinistro / piatto unico" = "15" · nascosto
+form.irrigidimenti.b_irr_dx: campo "Sporgenza destra" = "150" · nascosto
+form.irrigidimenti.t_irr_dx: campo "Spessore destro" = "15" · nascosto
+form.irrigidimenti.pannelli_uguali: opzione "Pannelli adiacenti uguali" = "sì" · nascosto
+form.irrigidimenti.a_irr: campo "Pannello sinistro aL / passo" = "3000" · nascosto
+form.irrigidimenti.a_irr_dx: campo "Pannello destro aR" = "3000" · nascosto
+form.irrigidimenti.N_irr: campo "Compressione esterna · inviluppo SLU" = "0" · nascosto
+form.irrigidimenti.x_irr: campo "Posizione della compressione x" = "0" · nascosto
+form.irrigidimenti.betaL_irr: campo "Lcr / distanza fra flange" = "1" · nascosto
+form.irrigidimenti.saldature_irr: opzione "Verifica saldature continue" = "no" · nascosto
+form.irrigidimenti.aw_irr: campo "Gola dei cordoni" = "6" · nascosto
+form.appoggio: appoggio|pos_app|lati_app|b_app|t_app|b_app_dx|t_app_dx|a_app_sx|a_app_dx|c_app|R_app|x_app|z_app|s_app|B_app|betaL_app|terminale_rigido|e_term|saldature_app|aw_app
+form.appoggio.appoggio: opzione "Verifica irrigidimento d’appoggio" = "no"
+form.appoggio.pos_app: scelta "Posizione lungo la trave" = "Appoggio interno" voci "Appoggio interno|Estremità sinistra|Estremità destra" · nascosto
+form.appoggio.lati_app: scelta "Piatti sulle facce dell’anima" = "Bilaterali simmetrici" voci "Bilaterali simmetrici|Solo sinistra|Solo destra|Bilaterali diversi" · nascosto
+form.appoggio.b_app: campo "Sporgenza sinistra / piatto unico" = "180" · nascosto
+form.appoggio.t_app: campo "Spessore sinistro / piatto unico" = "25" · nascosto
+form.appoggio.b_app_dx: campo "Sporgenza destra" = "180" · nascosto
+form.appoggio.t_app_dx: campo "Spessore destro" = "25" · nascosto
+form.appoggio.a_app_sx: campo "Pannello a sinistra dell’appoggio" = "3000" · nascosto
+form.appoggio.a_app_dx: campo "Pannello a destra dell’appoggio" = "3000" · nascosto
+form.appoggio.c_app: campo "Asse appoggio → estremità trave" = "150" · nascosto
+form.appoggio.R_app: campo "Reazione R · inviluppo SLU" = "" · nascosto
+form.appoggio.x_app: campo "Posizione reazione x · trasversale" = "0" · nascosto
+form.appoggio.z_app: campo "Eccentricità z · longitudinale" = "0" · nascosto
+form.appoggio.s_app: campo "Impronta · lunghezza lungo trave" = "300" · nascosto
+form.appoggio.B_app: campo "Impronta · larghezza trasversale" = "400" · nascosto
+form.appoggio.betaL_app: campo "Lcr / distanza fra flange" = "1" · nascosto
+form.appoggio.terminale_rigido: opzione "Montante terminale rigido · due coppie" = "no" · nascosto
+form.appoggio.e_term: campo "Interasse fra le due coppie e" = "300" · nascosto
+form.appoggio.saldature_app: opzione "Verifica saldature continue" = "sì" · nascosto
+form.appoggio.aw_app: campo "Gola dei cordoni" = "8" · nascosto
+form.cassoncino: torsione_cassoncino|t_controvento|L_campata|m_t_dist|T_c_dist|passo_diaframmi|tipo_diaframma|t_diaframma|A_diagonale|i_diagonale|beta_diagonale|T_app|e_appoggi|t_diaframma_app
+form.cassoncino.torsione_cassoncino: opzione "Verifiche a torsione del cassoncino" = "no"
+form.cassoncino.t_controvento: campo "Controvento superiore · spessore equivalente t*" = "0" · nascosto
+form.cassoncino.L_campata: campo "Distorsione · luce della campata (0 = non analizzata)" = "0" · nascosto
+form.cassoncino.m_t_dist: campo "Distorsione · torcente distribuito m_t" = "0" · nascosto
+form.cassoncino.T_c_dist: campo "Distorsione · torcente concentrato T_c" = "0" · nascosto
+form.cassoncino.passo_diaframmi: campo "Diaframmi intermedi · passo (0 = assenti)" = "0" · nascosto
+form.cassoncino.tipo_diaframma: scelta "Diaframmi intermedi · tipo" = "Piastra" voci "Piastra|Controvento a X" · nascosto
+form.cassoncino.t_diaframma: campo "Piastra · spessore" = "12" · nascosto
+form.cassoncino.A_diagonale: campo "Controvento a X · area di una diagonale" = "3000" · nascosto
+form.cassoncino.i_diagonale: campo "Controvento a X · raggio d'inerzia minimo" = "30" · nascosto
+form.cassoncino.beta_diagonale: campo "Controvento a X · Lcr / L diagonale" = "1" · nascosto
+form.cassoncino.T_app: campo "Appoggio · torcente trasferito agli apparecchi" = "0" · nascosto
+form.cassoncino.e_appoggi: campo "Appoggio · interasse trasversale apparecchi" = "" · nascosto
+form.cassoncino.t_diaframma_app: campo "Diaframma d'appoggio · spessore (0 = non verificato)" = "0" · nascosto
+form.metodo: metodo_analisi|viscosita_nl|cls_teso_nl
+form.metodo.metodo_analisi: scelta "Metodo di calcolo" = "Cumulativo lineare" voci "Cumulativo lineare|Storico lineare|Storico non lineare"
+form.metodo.viscosita_nl: scelta "Viscosità nel non lineare" = "Istantaneo · φ = 0 nel calcolo" voci "Istantaneo · φ = 0 nel calcolo|Richiedi φ = 0 negli ingressi" · nascosto
+form.metodo.cls_teso_nl: scelta "CLS teso (non lineare)" = "Trascurato" voci "Trascurato|Tension stiffening" · nascosto
+form.discretizzazione: fibre_anima|fibre_flange|fibre_cls|sottopassi
+form.discretizzazione.fibre_anima: campo "Strisce anima" = "160"
+form.discretizzazione.fibre_flange: campo "Strisce per piattabanda" = "8"
+form.discretizzazione.fibre_cls: campo "Strisce soletta" = "64"
+form.discretizzazione.sottopassi: campo "Sottopassi per fase" = "8"
+form.limiti: stato|classe4|instabilita_sup|instabilita_inf|instabilita_anima|y_ref
+form.limiti.stato: scelta "Limiti tensionali" = "SLU" voci "SLU|SLE rara|SLE quasi permanente"
+form.limiti.classe4: opzione "Riduzioni locali · classe 4" = "sì"
+form.limiti.instabilita_sup: opzione "Instabilità locale · piattabanda superiore" = "sì"
+form.limiti.instabilita_inf: opzione "Instabilità locale · piattabanda inferiore" = "sì"
+form.limiti.instabilita_anima: opzione "Instabilità locale · anima" = "sì"
+form.limiti.y_ref: campo "Quota comune di N" = "0" · spento · attenuato · bloccato
+schede: 3
+scheda.0: "01  G1 · getto e carpenteria" · note "Calcestruzzo e armature non partecipano." · comandi ↑ ↓ Elimina
+form.fase.0: nome|attiva|tipo|N|Mx|V|T|q_conn|epsilon_cs|riferimento_N
+form.fase.0.nome: campo "Nome" = "G1 · getto e carpenteria"
+form.fase.0.attiva: opzione "Includi nella somma" = "sì"
+form.fase.0.tipo: scelta "Sezione reagente" = "Solo acciaio" voci "Solo acciaio|Composta|Soletta esclusa|Ritiro"
+form.fase.0.N: campo "Forza assiale N" = "0"
+form.fase.0.Mx: campo "Momento Mx" = "1500"
+form.fase.0.V: campo "Taglio V" = "0"
+form.fase.0.T: campo "Momento torcente T · cassoncino" = "0" · nascosto
+form.fase.0.q_conn: campo "Scorrimento aggiuntivo Δq" = "0" · nascosto
+form.fase.0.epsilon_cs: campo "Ritiro Δεcs · negativo = accorciamento" = "0" · nascosto
+form.fase.0.riferimento_N: scelta "Punto di applicazione N e riferimento Mx" = "Baricentro omogeneizzato lordo" voci "Baricentro omogeneizzato lordo|Baricentro efficace · iterativo|Quota comune"
+form.omogeneizzazione.0: -
+scheda.1: "02  G2 · permanenti portati" · note "" · comandi ↑ ↓ Elimina
+form.fase.1: nome|attiva|tipo|N|Mx|V|T|q_conn|epsilon_cs|riferimento_N
+form.fase.1.nome: campo "Nome" = "G2 · permanenti portati"
+form.fase.1.attiva: opzione "Includi nella somma" = "sì"
+form.fase.1.tipo: scelta "Sezione reagente" = "Composta" voci "Solo acciaio|Composta|Soletta esclusa|Ritiro"
+form.fase.1.N: campo "Forza assiale N" = "0"
+form.fase.1.Mx: campo "Momento Mx" = "2000"
+form.fase.1.V: campo "Taglio V" = "0"
+form.fase.1.T: campo "Momento torcente T · cassoncino" = "0" · nascosto
+form.fase.1.q_conn: campo "Scorrimento aggiuntivo Δq" = "0" · nascosto
+form.fase.1.epsilon_cs: campo "Ritiro Δεcs · negativo = accorciamento" = "0" · nascosto
+form.fase.1.riferimento_N: scelta "Punto di applicazione N e riferimento Mx" = "Baricentro omogeneizzato lordo" voci "Baricentro omogeneizzato lordo|Baricentro efficace · iterativo|Quota comune"
+form.omogeneizzazione.1: phi|psi|n
+form.omogeneizzazione.1.phi: campo "Viscosità φ" = "2"
+form.omogeneizzazione.1.psi: campo "Moltiplicatore ψL" = "1.1"
+form.omogeneizzazione.1.n: campo "Fattore di calcolo n" = "19.719961174917472"
+scheda.1.omogeneizzazione: "n₀ = 6,162   ·   φeff = ψL · φ = 2,2"
+scheda.2: "03  Q · variabili" · note "" · comandi ↑ ↓ Elimina
+form.fase.2: nome|attiva|tipo|N|Mx|V|T|q_conn|epsilon_cs|riferimento_N
+form.fase.2.nome: campo "Nome" = "Q · variabili"
+form.fase.2.attiva: opzione "Includi nella somma" = "sì"
+form.fase.2.tipo: scelta "Sezione reagente" = "Composta" voci "Solo acciaio|Composta|Soletta esclusa|Ritiro"
+form.fase.2.N: campo "Forza assiale N" = "0"
+form.fase.2.Mx: campo "Momento Mx" = "3000"
+form.fase.2.V: campo "Taglio V" = "0"
+form.fase.2.T: campo "Momento torcente T · cassoncino" = "0" · nascosto
+form.fase.2.q_conn: campo "Scorrimento aggiuntivo Δq" = "0" · nascosto
+form.fase.2.epsilon_cs: campo "Ritiro Δεcs · negativo = accorciamento" = "0" · nascosto
+form.fase.2.riferimento_N: scelta "Punto di applicazione N e riferimento Mx" = "Baricentro omogeneizzato lordo" voci "Baricentro omogeneizzato lordo|Baricentro efficace · iterativo|Quota comune"
+form.omogeneizzazione.2: phi|psi|n
+form.omogeneizzazione.2.phi: campo "Viscosità φ" = "0"
+form.omogeneizzazione.2.psi: campo "Moltiplicatore ψL" = "1"
+form.omogeneizzazione.2.n: campo "Fattore di calcolo n" = "6.162487867161709"
+scheda.2.omogeneizzazione: "n₀ = 6,162   ·   φeff = ψL · φ = 0"
+comandi-fasi: + Aggiungi fase + Ritiro
+azioni: righe 3 · selezione -1 · ΔT no · bloccata no · stessi oggetti sì
+azioni.0: spente T,phi,psi,n,epsilon_cs,q_conn
+azioni.1: spente T,epsilon_cs
+azioni.2: spente T,epsilon_cs
+comandi-azioni: + Carico + Ritiro ↑ ↓ Elimina
+pannello.tensioni: 0 blocchi
+pannello.verifiche: 0 blocchi
+pannello.omogeneizzazione: 0 blocchi
+pannello.equilibrio: 0 blocchi
+pannello.classe4: 0 blocchi
+pannello.geometria: 0 blocchi
+pannello.taglio: 0 blocchi
+pannello.pioli: 0 blocchi
+pannello.torsione: 0 blocchi
+proprieta: "Acciaio|Soletta|01 · G1 · getto e carpenteria|02 · G2 · permanenti portati|03 · Q · variabili" · scelta 0 · nota "Proprietà geometriche, indipendenti dai carichi. Le riduzioni efficaci dipendono dalle sollecitazioni e sono nella scheda Fasi e tensioni."
+proprieta.acciaio: 6 blocchi
+proprieta.acciaio.0: testo "Carpenteria reale"
+proprieta.acciaio.1: tabella "Proprietà|Valore|Unità" · righe 10 9F114007A9EE5944
+proprieta.acciaio.1.0: "A" | "587" | "cm²"
+proprieta.acciaio.1.1: "xG" | "1500" | "mm"
+proprieta.acciaio.1.2: "yG" | "-1058,028" | "mm"
+proprieta.acciaio.2: gruppo "Piattabanda superiore"
+proprieta.acciaio.2.0: tabella "Proprietà|Valore|Unità" · righe 10 3884522D6F50E6FE
+proprieta.acciaio.2.0.0: "A" | "125" | "cm²"
+proprieta.acciaio.2.0.1: "xG" | "1500" | "mm"
+proprieta.acciaio.2.0.2: "yG" | "-12,5" | "mm"
+proprieta.acciaio.3: gruppo "Anima"
+proprieta.acciaio.3.0: tabella "Proprietà|Valore|Unità" · righe 10 D30A8260C30436C8
+proprieta.acciaio.3.0.0: "A" | "252" | "cm²"
+proprieta.acciaio.3.0.1: "xG" | "1500" | "mm"
+proprieta.acciaio.3.0.2: "yG" | "-925" | "mm"
+proprieta.acciaio.4: gruppo "Piattabanda inferiore 1"
+proprieta.acciaio.4.0: tabella "Proprietà|Valore|Unità" · righe 10 03A7ED617C42736D
+proprieta.acciaio.4.0.0: "A" | "210" | "cm²"
+proprieta.acciaio.4.0.1: "xG" | "1500" | "mm"
+proprieta.acciaio.4.0.2: "yG" | "-1840" | "mm"
+proprieta.acciaio.5: gruppo "Carpenteria equivalente di calcolo"
+proprieta.acciaio.5.0: tabella "Proprietà|Valore|Unità" · righe 10 9F114007A9EE5944
+proprieta.acciaio.5.0.0: "A" | "587" | "cm²"
+proprieta.acciaio.5.0.1: "xG" | "1500" | "mm"
+proprieta.acciaio.5.0.2: "yG" | "-1058,028" | "mm"
+form.proprieta-soletta: phi|psi|n
+form.proprieta-soletta.phi: campo "Viscosità φ" = "0"
+form.proprieta-soletta.psi: campo "Moltiplicatore ψL" = "1"
+form.proprieta-soletta.n: campo "n = Ea / Ec,eff" = "6.162487867161709"
+proprieta.soletta: 7 blocchi
+proprieta.soletta.0: testo "Solo calcestruzzo · lordo"
+proprieta.soletta.1: tabella "Proprietà|Valore|Unità" · righe 10 CB8D04D1398005A7
+proprieta.soletta.1.0: "A" | "7500" | "cm²"
+proprieta.soletta.1.1: "xG" | "1500" | "mm"
+proprieta.soletta.1.2: "yG" | "125" | "mm"
+proprieta.soletta.2: testo "Armature"
+proprieta.soletta.3: tabella "Fila|As [cm²]|y [mm]" · righe 2 9693FC7C39ABC757
+proprieta.soletta.3.0: "20 barre" | "40,212" | "205"
+proprieta.soletta.3.1: "20 barre" | "40,212" | "45"
+proprieta.soletta.4: testo "Soletta omogeneizzata al CLS"
+proprieta.soletta.5: testo "n barre = 5,869 · Ec,eff = 34077,146 MPa"
+proprieta.soletta.6: tabella "Proprietà|Valore|Unità" · righe 10 8F8BE91DE22DDA16
+proprieta.soletta.6.0: "A" | "7891,591" | "cm²"
+proprieta.soletta.6.1: "xG" | "1500" | "mm"
+proprieta.soletta.6.2: "yG" | "125" | "mm"
+proprieta.fase.0: 5 blocchi
+proprieta.fase.0.0: testo "G1 · getto e carpenteria"
+proprieta.fase.0.1: testo "Solo acciaio · attiva"
+proprieta.fase.0.2: testo "Solo acciaio"
+proprieta.fase.0.3: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
+proprieta.fase.0.4: tabella "Proprietà|Valore|Unità" · righe 10 9F114007A9EE5944
+proprieta.fase.0.4.0: "A" | "587" | "cm²"
+proprieta.fase.0.4.1: "xG" | "1500" | "mm"
+proprieta.fase.0.4.2: "yG" | "-1058,028" | "mm"
+proprieta.fase.1: 6 blocchi
+proprieta.fase.1.0: testo "G2 · permanenti portati"
+proprieta.fase.1.1: testo "Composta · attiva"
+proprieta.fase.1.2: testo "φ = 2 · ψL = 1,1 · n = 19,72"
+proprieta.fase.1.3: testo "Sezione omogeneizzata all’acciaio"
+proprieta.fase.1.4: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
+proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 4FCFB071E3EF37E0
+proprieta.fase.1.5.0: "A" | "1039,842" | "cm²"
+proprieta.fase.1.5.1: "xG" | "1500" | "mm"
+proprieta.fase.1.5.2: "yG" | "-542,83" | "mm"
+proprieta.fase.2: 6 blocchi
+proprieta.fase.2.0: testo "Q · variabili"
+proprieta.fase.2.1: testo "Composta · attiva"
+proprieta.fase.2.2: testo "φ = 0 · ψL = 1 · n = 6,162"
+proprieta.fase.2.3: testo "Sezione omogeneizzata all’acciaio"
+proprieta.fase.2.4: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
+proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 9C3FDF9190307895
+proprieta.fase.2.5.0: "A" | "1867,585" | "cm²"
+proprieta.fase.2.5.1: "xG" | "1500" | "mm"
+proprieta.fase.2.5.2: "yG" | "-246,837" | "mm"
+disegno: modo 2 · da aggiornare no · quote sì · armature sì · asse neutro sì · contorni nono · limiti no · CLS × 1 · appoggio no
+disegno.geometria: anteprima E3DF680C03F44FC4
+disegno.ingresso: anteprima D5EE5D0A5037658D
+disegno.fase: -
+disegno.carichi: 
+form.curva: tipo|origine|y|n_storico|N|k_storico|k|incremento_k|incremento_e|punti|sottopassi
+form.curva.tipo: scelta "Curva" = "Momento–curvatura · N costante" voci "Momento–curvatura · N costante|Forza–deformazione · κ costante"
+form.curva.origine: scelta "Stato di partenza" = "Sezione composta vergine" voci "Sezione composta vergine|Dopo una fase dello storico"
+form.curva.y: campo "Quota di riferimento" = "0"
+form.curva.n_storico: opzione "Mantieni N dello stato iniziale" = "sì"
+form.curva.N: campo "N costante" = "0" · nascosto
+form.curva.k_storico: opzione "Mantieni κ dello stato iniziale" = "sì" · nascosto
+form.curva.k: campo "κ costante" = "0" · nascosto
+form.curva.incremento_k: campo "Incremento finale Δκ" = "0.003"
+form.curva.incremento_e: campo "Incremento finale Δε" = "-2000" · nascosto
+form.curva.punti: campo "Punti della curva" = "100"
+form.curva.sottopassi: campo "Sottopassi per punto" = "4"
+curva: fasi "" · scelta -1 · visibile no · calcola sì · esporta no · curva -
+curva.avviso: "Nessuna curva calcolata"
+curva.punto: "" · cursore 0/10
+curva.fibre: "" · scelta -1
+curva.grafico: "" "" · punti 0 4F53CDA18C2BAA0C · scelto 0
+curva.fibra: "" "" · punti 0 4F53CDA18C2BAA0C · scelto 0
+curva.tabella: 0 blocchi
+== attendi
+~ calcolo: occupato no · risultato E896A30951E7C06B · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ avvisi: "EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
+~ panoramica: "|σa|max = 126,179 MPa\nσc,min = -3,817 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,37\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,36\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 5,587E-015 · limite 1E−5."
+~ situazioni: "01 · Dopo G1 · getto e carpenteria|02 · Dopo G2 · permanenti portati|03 · Dopo Q · variabili" · scelta 2 · visibile no · attiva sì
+~ interruttori: quote sì · armature sì · asse neutro sì(nascosto) "Zero delle tensioni cumulate nell’acciaio; non è lo zero delle tensioni nella soletta." · contorno sezione no · contorno tensioni no · limiti no · menu sì
+~ scala: "6,162" · auto sì · visibile no · errore no · "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.\nRiferimento attuale: n · Q · variabili · ×6,162" · modificabile sì
+~ contenitori: piastra sì · nota piastra sì · trasversale no · fatica no · cassoncino no · discretizzazione no · torsione risultati no
+~ pannello.tensioni: 1 blocchi
++ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 44DF9811698206A0
++ pannello.tensioni.0.0: "Soletta · estradosso" | "250" | "0" | "-1,152" | "-2,665" | "-3,817"
++ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,789" | "-1,324" | "-2,113"
++ pannello.tensioni.0.2: "Armatura · y=205" | "205" | "0" | "-20,414" | "-14,224" | "-34,638"
+~ pannello.verifiche: 1 blocchi
++ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 4F75728704E10605
++ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,817" | "19,833" | "0,192" | "Entro limite locale" | "σ e limite in MPa"
++ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-2,113" | "19,833" | "0,107" | "Entro limite locale" | "σ e limite in MPa"
++ pannello.verifiche.0.2: "Armatura · y=205" | "SLU" | "-34,638" | "391,304" | "0,089" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione: 1 blocchi
++ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 3091108870375EE8
++ pannello.omogeneizzazione.0.0: "G1 · getto e carpenteria" | "—" | "—" | "—" | "—" | "—" | "58700" | "-1058,028" | "3,37574E+10" | "3,19059E+7" | "4,2357E+7" | "-1058,028" | "2,11594E-4"
++ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "6,162" | "19,72" | "2" | "2,2" | "10649,108" | "103984,197" | "-542,83" | "6,97793E+10" | "1,28547E+8" | "5,31785E+7" | "-542,83" | "1,36489E-4"
++ pannello.omogeneizzazione.0.2: "Q · variabili" | "6,162" | "6,162" | "0" | "0" | "34077,146" | "186758,526" | "-246,837" | "9,07642E+10" | "3,67709E+8" | "5,64397E+7" | "-246,837" | "1,57398E-4"
+~ pannello.equilibrio: 1 blocchi
++ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 6CAEFFCE83C09B3B
++ pannello.equilibrio.0.0: "G1 · getto e carpenteria" | "Solo acciaio" | "Baricentro omogeneizzato lordo" | "-1058,028" | "0" | "1500" | "0" | "0" | "1500" | "0" | "—" | "—" | "—" | "—" | "0" | "3,37574E+10" | "0E+0"
++ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-542,83" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "6,97769E+10" | "2,5034E-15"
++ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-246,837" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "9,07618E+10" | "5,58667E-15"
+~ pannello.classe4: 1 blocchi
++ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 91A76125CE827CF7
++ pannello.classe4.0.0: "Anima · sup → inf" | "1800" | "14" | "-68,077" | "122,995" | "-1,807" | "47,108" | "0,811" | "1" | "641,325" | "256,53" | "1543,47"
++ pannello.classe4.0.1: "Sbalzo superiore" | "243" | "25" | "-70,731" | "-70,731" | "1" | "0,43" | "0,641" | "1" | "243" | "243" | "0"
++ pannello.classe4.0.2: "Sbalzo inferiore" | "343" | "30" | "122,995" | "122,995" | "1" | "0,43" | "0,755" | "1" | "0" | "343" | "0"
+~ pannello.geometria: 1 blocchi
++ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 C1E1353557F927FB
++ pannello.geometria.0.0: "Area carpenteria lorda" | "58700" | "mm²"
++ pannello.geometria.0.1: "Baricentro carpenteria lorda" | "-1058,028" | "mm"
++ pannello.geometria.0.2: "Ix carpenteria lorda" | "3,37574E+10" | "mm⁴"
+~ pannello.taglio: 1 blocchi
++ pannello.taglio.0: tabella "Parametro|Valore|Unità" · righe 11 94CE137ABEE86ACF
++ pannello.taglio.0.0: "V cumulato" | "0" | "kN"
++ pannello.taglio.0.1: "kτ" | "5,34" | "—"
++ pannello.taglio.0.2: "τcr" | "61,312" | "MPa"
+~ pannello.pioli: 4 blocchi
++ pannello.pioli.0: testo "Verifica pioli disattivata; flussi riportati per consultazione."
++ pannello.pioli.1: testo ""
++ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 CBE76493CCBCF2C7
++ pannello.pioli.2.0: "G1 · getto e carpenteria" | "0" | "0E+0" | "0E+0" | "0" | "0" | "Nessuno scorrimento da V"
++ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "3,02421E+7" | "6,97793E+10" | "0" | "0" | "NTC: proprietà della fase tensionale"
++ pannello.pioli.2.2: "Q · variabili" | "0" | "4,76169E+7" | "9,07642E+10" | "0" | "0" | "NTC: proprietà della fase tensionale"
++ pannello.pioli.3: testo ""
+~ pannello.torsione: 1 blocchi
++ pannello.torsione.0: testo "Solo per il cassoncino."
+~ disegno: modo 2 · da aggiornare no · quote sì · armature sì · asse neutro sì · contorni nono · limiti no · CLS × 6.162487867161709 · appoggio no
+== pagina [0]
+== campo normativa nome «Trave di riva»
+~ dati.nome: "Trave di riva"
+~ modificato: 1
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ form.normativa.nome: campo "Nome della sezione" = "Trave di riva"
+~ disegno.ingresso: anteprima B59BDBF3E3120CD7
+== attendi
+~ calcolo: occupato no · risultato 9673194BA63EF310 · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+== scelta normativa normativa «EN 1994-2:2005»
+~ dati.normativa: "EN 1994-2:2005"
+~ dati.gamma_m0: "1.0"
+~ dati.alpha_cc: "1.0"
+~ dati.gamma_m1: "1.1"
+~ modificato: 2
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ form.normativa.normativa: scelta "Normativa" = "EN 1994-2:2005" voci "NTC 2018 / EN 1994-2:2005|EN 1994-2:2005"
+~ form.coefficienti.gamma_m0: campo "Acciaio strutturale γM0" = "1.0"
+~ form.coefficienti.alpha_cc: campo "Calcestruzzo αcc" = "1.0"
+~ disegno.ingresso: anteprima 2DD574904D09E052
+== attendi
+~ calcolo: occupato no · risultato 9D5366EE99CDF776 · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,36\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,16\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,35\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 C4555FD17A8D73FA
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,817" | "23,333" | "0,164" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-2,113" | "23,333" | "0,091" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.taglio.0: tabella "Parametro|Valore|Unità" · righe 11 774E1F1EB22DBE47
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 ADEA0E848609DB4D
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "3,02421E+7" | "6,97793E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "4,76169E+7" | "9,07642E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+== campo coefficienti gamma_c «1,4»
+~ dati.gamma_c: "1,4"
+~ modificato: 3
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ form.coefficienti.gamma_c: campo "Calcestruzzo γc" = "1,4"
+~ disegno.ingresso: anteprima D1B08CC7FB479538
+== attendi
+~ calcolo: occupato no · risultato FFF00D3B509B51AB · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,36\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,15\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,35\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 B85D2753CD1C37E9
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,817" | "25" | "0,153" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-2,113" | "25" | "0,085" | "Entro limite locale" | "σ e limite in MPa"
+== scelta materiali classe_cls «C45/55»
+~ dati.classe_cls: "C45/55"
+~ dati.fasi: [{"nome":"G1 · getto e carpenteria","tipo":"Solo acciaio","attiva":true,"N":0,"Mx":1500,"V":0,"T":0,"q_conn":0,"epsilon_cs":0,"modo":"Da φ","phi":0,"psi":1,"n":"18","riferimento_N":"Baricentro omogeneizzato lordo"},{"nome":"G2 · permanenti portati","tipo":"Composta","attiva":true,"N":0,"Mx":2000,"V":0,"T":0,"q_conn":0,"epsilon_cs":0,"modo":"Da φ","phi":2,"psi":1.1,"n":"18.520974395786197","riferimento_N":"Baricentro omogeneizzato lordo"},{"nome":"Q · variabili","tipo":"Composta","attiva":true,"N":0,"Mx":3000,"V":0,"T":0,"q_conn":0,"epsilon_cs":0,"modo":"Da φ","phi":0,"psi":1,"n":"5.787804498683187","riferimento_N":"Baricentro omogeneizzato lordo"}]
+~ dati.ui_mista: {"layout_version":4,"soletta_proprieta":{"phi":"0","psi":"1","n":"5.787804498683187","modo":"Da φ"},"dettaglio_sezione":0,"tab":0}
+~ modificato: 4
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ materiali: "C45/55   fck = 45 MPa\nEcm = 36283,188 MPa\n\nS355   fy = 355 MPa\nEa = 210000 MPa\n\nB450C   fyk = 450 MPa\nEs = 200000 MPa"
+~ form.materiali.classe_cls: scelta "Calcestruzzo" = "C45/55" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105"
+~ form.omogeneizzazione.1.n: campo "Fattore di calcolo n" = "18.520974395786197"
+~ scheda.1.omogeneizzazione: "n₀ = 5,788   ·   φeff = ψL · φ = 2,2"
+~ form.omogeneizzazione.2.n: campo "Fattore di calcolo n" = "5.787804498683187"
+~ scheda.2.omogeneizzazione: "n₀ = 5,788   ·   φeff = ψL · φ = 0"
+~ form.proprieta-soletta.n: campo "n = Ea / Ec,eff" = "5.787804498683187"
+~ proprieta.soletta.5: testo "n barre = 5,512 · Ec,eff = 36283,188 MPa"
+~ proprieta.soletta.6: tabella "Proprietà|Valore|Unità" · righe 10 9B47CC1619D56F55
+~ proprieta.soletta.6.0: "A" | "7862,892" | "cm²"
+~ proprieta.fase.1.2: testo "φ = 2 · ψL = 1,1 · n = 18,521"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 D9889C6DC6B83717
+~ proprieta.fase.1.5.0: "A" | "1064,199" | "cm²"
+~ proprieta.fase.1.5.2: "yG" | "-527,545" | "mm"
+~ proprieta.fase.2.2: testo "φ = 0 · ψL = 1 · n = 5,788"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 C65840024E94B28F
+~ proprieta.fase.2.5.0: "A" | "1945,528" | "cm²"
+~ proprieta.fase.2.5.2: "yG" | "-231,94" | "mm"
+~ disegno.ingresso: anteprima 0CAB235C8DF236FC
+== scelta materiali acciaio «S275»
+~ dati.acciaio: "S275"
+~ modificato: 5
+~ materiali: "C45/55   fck = 45 MPa\nEcm = 36283,188 MPa\n\nS275   fy = 275 MPa\nEa = 210000 MPa\n\nB450C   fyk = 450 MPa\nEs = 200000 MPa"
+~ form.materiali.acciaio: scelta "Carpenteria" = "S275" voci "S235|S275|S355|S420"
+~ disegno.ingresso: anteprima CEB5EC0E2AE06156
+== attendi
+~ calcolo: occupato no · risultato ED9E462367F4B613 · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ panoramica: "|σa|max = 125,905 MPa\nσc,min = -3,905 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,46\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,12\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,45\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 1,940E-015 · limite 1E−5."
+~ scala: "5,788" · auto sì · visibile no · errore no · "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.\nRiferimento attuale: n · Q · variabili · ×5,788" · modificabile sì
+~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 A5C1E1775E2DB01D
+~ pannello.tensioni.0.0: "Soletta · estradosso" | "250" | "0" | "-1,185" | "-2,72" | "-3,905"
+~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,804" | "-1,309" | "-2,113"
+~ pannello.tensioni.0.2: "Armatura · y=205" | "205" | "0" | "-19,694" | "-13,594" | "-33,287"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 832943E012E33A96
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,905" | "32,143" | "0,121" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-2,113" | "32,143" | "0,066" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.2: "Armatura · y=205" | "SLU" | "-33,287" | "391,304" | "0,085" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 B67F8E58AE972975
+~ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "106419,896" | "-527,545" | "7,08534E+10" | "1,34308E+8" | "5,33754E+7" | "-527,545" | "1,3442E-4"
+~ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "194552,761" | "-231,94" | "9,18391E+10" | "3,9596E+8" | "5,6584E+7" | "-231,94" | "1,55555E-4"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 4BF4DCD864E964EB
+~ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-527,545" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "7,0851E+10" | "1,3113E-15"
+~ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-231,94" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "9,18368E+10" | "1,93994E-15"
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 55B69B67474B81C9
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1800" | "14" | "-66,848" | "122,745" | "-1,836" | "48,102" | "0,706" | "1" | "634,659" | "253,863" | "1546,137"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "243" | "25" | "-69,482" | "-69,482" | "1" | "0,43" | "0,565" | "1" | "243" | "243" | "0"
+~ pannello.classe4.0.2: "Sbalzo inferiore" | "343" | "30" | "122,745" | "122,745" | "1" | "0,43" | "0,664" | "1" | "0" | "343" | "0"
+~ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 D56EF1006CCF0079
+~ pannello.taglio.0: tabella "Parametro|Valore|Unità" · righe 11 9FA779E2E96DDADD
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 BCD41E9432EE07CF
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "3,11394E+7" | "7,08534E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "4,84913E+7" | "9,18391E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ disegno: modo 2 · da aggiornare no · quote sì · armature sì · asse neutro sì · contorni nono · limiti no · CLS × 5.787804498683187 · appoggio no
+== opzione materiali fy_override
+~ dati.fy_override: true
+~ modificato: 6
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ materiali: "C45/55   fck = 45 MPa\nEcm = 36283,188 MPa\n\nS275   fy = 355 MPa\nEa = 210000 MPa\n\nB450C   fyk = 450 MPa\nEs = 200000 MPa"
+~ form.materiali.fy_override: opzione "Sovrascrivi fy per tutta la carpenteria" = "sì"
+~ form.materiali.fy: campo "fy assegnato" = "355"
+~ disegno.ingresso: anteprima 1BA82BD5292763E2
+== campo materiali fy «265»
+~ dati.fy: "265"
+~ modificato: 7
+~ materiali: "C45/55   fck = 45 MPa\nEcm = 36283,188 MPa\n\nS275   fy = 265 MPa\nEa = 210000 MPa\n\nB450C   fyk = 450 MPa\nEs = 200000 MPa"
+~ form.materiali.fy: campo "fy assegnato" = "265"
+~ disegno.ingresso: anteprima A26A27DB50935A70
+== attendi
+~ calcolo: occupato no · risultato 4A73F22CFD506E6A · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,48\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,12\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,46\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 31FED2212C9E6045
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 5A5F5910D3D2DE87
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1800" | "14" | "-66,848" | "122,745" | "-1,836" | "48,102" | "0,693" | "1" | "634,659" | "253,863" | "1546,137"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "243" | "25" | "-69,482" | "-69,482" | "1" | "0,43" | "0,554" | "1" | "243" | "243" | "0"
+~ pannello.classe4.0.2: "Sbalzo inferiore" | "343" | "30" | "122,745" | "122,745" | "1" | "0,43" | "0,652" | "1" | "0" | "343" | "0"
+~ pannello.taglio.0: tabella "Parametro|Valore|Unità" · righe 11 4B0F6F8BF29AC964
+== campo materiali fy «abc»
+~ dati.fy: "abc"
+~ modificato: 8
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ avviso: "Geometria precedente · fy: inserire un numero finito maggiore di 0."
+~ materiali: "fy: inserire un numero finito maggiore di 0."
+~ form.materiali.fy: campo "fy assegnato" = "abc"
+~ form.omogeneizzazione.1.n: campo "Fattore di calcolo n" = "—"
+~ scheda.1.omogeneizzazione: "fy: inserire un numero finito maggiore di 0."
+~ form.omogeneizzazione.2.n: campo "Fattore di calcolo n" = "—"
+~ scheda.2.omogeneizzazione: "fy: inserire un numero finito maggiore di 0."
+~ proprieta: "Acciaio|Soletta|01 · G1 · getto e carpenteria|02 · G2 · permanenti portati|03 · Q · variabili" · scelta 0 · nota "Proprietà da aggiornare: fy: inserire un numero finito maggiore di 0."
+~ proprieta.soletta: 1 blocchi
+~ proprieta.soletta.0: testo "fy: inserire un numero finito maggiore di 0."
+~ proprieta.fase.0: 1 blocchi
+~ proprieta.fase.0.0: testo "fy: inserire un numero finito maggiore di 0."
+~ proprieta.fase.1: 1 blocchi
+~ proprieta.fase.1.0: testo "fy: inserire un numero finito maggiore di 0."
+~ proprieta.fase.2: 1 blocchi
+~ proprieta.fase.2.0: testo "fy: inserire un numero finito maggiore di 0."
+- proprieta.soletta.1
+- proprieta.soletta.1.0
+- proprieta.soletta.1.1
+- proprieta.soletta.1.2
+- proprieta.soletta.2
+- proprieta.soletta.3
+- proprieta.soletta.3.0
+- proprieta.soletta.3.1
+- proprieta.soletta.4
+- proprieta.soletta.5
+- proprieta.soletta.6
+- proprieta.soletta.6.0
+- proprieta.soletta.6.1
+- proprieta.soletta.6.2
+- proprieta.fase.0.1
+- proprieta.fase.0.2
+- proprieta.fase.0.3
+- proprieta.fase.0.4
+- proprieta.fase.0.4.0
+- proprieta.fase.0.4.1
+- proprieta.fase.0.4.2
+- proprieta.fase.1.1
+- proprieta.fase.1.2
+- proprieta.fase.1.3
+- proprieta.fase.1.4
+- proprieta.fase.1.5
+- proprieta.fase.1.5.0
+- proprieta.fase.1.5.1
+- proprieta.fase.1.5.2
+- proprieta.fase.2.1
+- proprieta.fase.2.2
+- proprieta.fase.2.3
+- proprieta.fase.2.4
+- proprieta.fase.2.5
+- proprieta.fase.2.5.0
+- proprieta.fase.2.5.1
+- proprieta.fase.2.5.2
+== attendi
+~ stato: "Dati da verificare: fy: inserire un numero finito maggiore di 0."
+== campo materiali fy «265»
+~ dati.fy: "265"
+~ modificato: 9
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ avviso: -
+~ materiali: "C45/55   fck = 45 MPa\nEcm = 36283,188 MPa\n\nS275   fy = 265 MPa\nEa = 210000 MPa\n\nB450C   fyk = 450 MPa\nEs = 200000 MPa"
+~ form.materiali.fy: campo "fy assegnato" = "265"
+~ form.omogeneizzazione.1.n: campo "Fattore di calcolo n" = "18.520974395786197"
+~ scheda.1.omogeneizzazione: "n₀ = 5,788   ·   φeff = ψL · φ = 2,2"
+~ form.omogeneizzazione.2.n: campo "Fattore di calcolo n" = "5.787804498683187"
+~ scheda.2.omogeneizzazione: "n₀ = 5,788   ·   φeff = ψL · φ = 0"
+~ proprieta: "Acciaio|Soletta|01 · G1 · getto e carpenteria|02 · G2 · permanenti portati|03 · Q · variabili" · scelta 0 · nota "Proprietà geometriche, indipendenti dai carichi. Le riduzioni efficaci dipendono dalle sollecitazioni e sono nella scheda Fasi e tensioni."
+~ proprieta.soletta: 7 blocchi
+~ proprieta.soletta.0: testo "Solo calcestruzzo · lordo"
++ proprieta.soletta.1: tabella "Proprietà|Valore|Unità" · righe 10 CB8D04D1398005A7
++ proprieta.soletta.1.0: "A" | "7500" | "cm²"
++ proprieta.soletta.1.1: "xG" | "1500" | "mm"
++ proprieta.soletta.1.2: "yG" | "125" | "mm"
++ proprieta.soletta.2: testo "Armature"
++ proprieta.soletta.3: tabella "Fila|As [cm²]|y [mm]" · righe 2 9693FC7C39ABC757
++ proprieta.soletta.3.0: "20 barre" | "40,212" | "205"
++ proprieta.soletta.3.1: "20 barre" | "40,212" | "45"
++ proprieta.soletta.4: testo "Soletta omogeneizzata al CLS"
++ proprieta.soletta.5: testo "n barre = 5,512 · Ec,eff = 36283,188 MPa"
++ proprieta.soletta.6: tabella "Proprietà|Valore|Unità" · righe 10 9B47CC1619D56F55
++ proprieta.soletta.6.0: "A" | "7862,892" | "cm²"
++ proprieta.soletta.6.1: "xG" | "1500" | "mm"
++ proprieta.soletta.6.2: "yG" | "125" | "mm"
+~ proprieta.fase.0: 5 blocchi
+~ proprieta.fase.0.0: testo "G1 · getto e carpenteria"
++ proprieta.fase.0.1: testo "Solo acciaio · attiva"
++ proprieta.fase.0.2: testo "Solo acciaio"
++ proprieta.fase.0.3: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
++ proprieta.fase.0.4: tabella "Proprietà|Valore|Unità" · righe 10 9F114007A9EE5944
++ proprieta.fase.0.4.0: "A" | "587" | "cm²"
++ proprieta.fase.0.4.1: "xG" | "1500" | "mm"
++ proprieta.fase.0.4.2: "yG" | "-1058,028" | "mm"
+~ proprieta.fase.1: 6 blocchi
+~ proprieta.fase.1.0: testo "G2 · permanenti portati"
++ proprieta.fase.1.1: testo "Composta · attiva"
++ proprieta.fase.1.2: testo "φ = 2 · ψL = 1,1 · n = 18,521"
++ proprieta.fase.1.3: testo "Sezione omogeneizzata all’acciaio"
++ proprieta.fase.1.4: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
++ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 D9889C6DC6B83717
++ proprieta.fase.1.5.0: "A" | "1064,199" | "cm²"
++ proprieta.fase.1.5.1: "xG" | "1500" | "mm"
++ proprieta.fase.1.5.2: "yG" | "-527,545" | "mm"
+~ proprieta.fase.2: 6 blocchi
+~ proprieta.fase.2.0: testo "Q · variabili"
++ proprieta.fase.2.1: testo "Composta · attiva"
++ proprieta.fase.2.2: testo "φ = 0 · ψL = 1 · n = 5,788"
++ proprieta.fase.2.3: testo "Sezione omogeneizzata all’acciaio"
++ proprieta.fase.2.4: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
++ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 C65840024E94B28F
++ proprieta.fase.2.5.0: "A" | "1945,528" | "cm²"
++ proprieta.fase.2.5.1: "xG" | "1500" | "mm"
++ proprieta.fase.2.5.2: "yG" | "-231,94" | "mm"
+== attendi
+~ calcolo: occupato no · risultato 4A73F22CFD506E6A · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+== campo soletta h_cls «260»
+~ dati.h_cls: "260"
+~ modificato: 10
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ form.soletta.h_cls: campo "Spessore totale soletta" = "260"
+~ proprieta.soletta.1: tabella "Proprietà|Valore|Unità" · righe 10 BF71278233967ECF
+~ proprieta.soletta.1.0: "A" | "7800" | "cm²"
+~ proprieta.soletta.1.2: "yG" | "130" | "mm"
+~ proprieta.soletta.3: tabella "Fila|As [cm²]|y [mm]" · righe 2 B102DE0DE53C1630
+~ proprieta.soletta.3.0: "20 barre" | "40,212" | "215"
+~ proprieta.soletta.6: tabella "Proprietà|Valore|Unità" · righe 10 E3209F35BDB69A78
+~ proprieta.soletta.6.0: "A" | "8162,892" | "cm²"
+~ proprieta.soletta.6.2: "yG" | "130" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 9C3CA8D081E6A42A
+~ proprieta.fase.1.5.0: "A" | "1080,397" | "cm²"
+~ proprieta.fase.1.5.2: "yG" | "-515,478" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 1769A2A22F3D4A1F
+~ proprieta.fase.2.5.0: "A" | "1997,361" | "cm²"
+~ proprieta.fase.2.5.2: "yG" | "-219,147" | "mm"
+~ disegno.geometria: anteprima C752A309DAAF2314
+~ disegno.ingresso: anteprima 1BAC1EF872FDECAF
+== attendi
+~ calcolo: occupato no · risultato D660313FD5D1544A · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ panoramica: "|σa|max = 125,419 MPa\nσc,min = -3,834 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,47\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,12\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,08\nGoverna: Armatura · y=215\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,46\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 1,272E-015 · limite 1E−5."
+~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 A75EBDDEAD4881C1
+~ pannello.tensioni.0.0: "Soletta · estradosso" | "260" | "0" | "-1,165" | "-2,669" | "-3,834"
+~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,774" | "-1,221" | "-1,995"
+~ pannello.tensioni.0.2: "Armatura · y=215" | "215" | "0" | "-19,357" | "-13,329" | "-32,686"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 6834D3F48E638CB5
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,834" | "32,143" | "0,119" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-1,995" | "32,143" | "0,062" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.2: "Armatura · y=215" | "SLU" | "-32,686" | "391,304" | "0,084" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 3B79F6181788896C
+~ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "108039,681" | "-515,478" | "7,18829E+10" | "1,39449E+8" | "5,36631E+7" | "-515,478" | "1,32495E-4"
+~ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "199736,074" | "-219,147" | "9,30632E+10" | "4,24661E+8" | "5,68897E+7" | "-219,147" | "1,53509E-4"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 C80CF66F5CDC3B0F
+~ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-515,478" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "7,18805E+10" | "8,34465E-16"
+~ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-219,147" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "9,30609E+10" | "1,27157E-15"
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 83F1A04841E9EE70
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1800" | "14" | "-65,808" | "122,284" | "-1,858" | "48,852" | "0,688" | "1" | "629,769" | "251,907" | "1548,093"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "243" | "25" | "-68,42" | "-68,42" | "1" | "0,43" | "0,554" | "1" | "243" | "243" | "0"
+~ pannello.classe4.0.2: "Sbalzo inferiore" | "343" | "30" | "122,284" | "122,284" | "1" | "0,43" | "0,652" | "1" | "0" | "343" | "0"
+~ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 6468910DA9472B05
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 3F5C44FF880CBB17
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "3,18477E+7" | "7,18829E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "4,92423E+7" | "9,30632E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+== opzione predalle predalle
+~ dati.predalle: true
+~ modificato: 11
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ soletta: "Predalle: y = 0…60 mm; getto sovrastante: 200 mm.\nFerri inferiori: Estradosso predalle + 45 mm → y = 105 mm."
+~ form.predalle.predalle: opzione "Predalle presente · solo geometria" = "sì"
+~ form.predalle.h_predalle: campo "Spessore predalle" = "60"
+~ form.predalle.rif_ferri_inf: scelta "Riferimento ferri inferiori" = "Estradosso predalle" voci "Estradosso predalle|Intradosso soletta"
+~ proprieta.soletta: 10 blocchi
+~ proprieta.soletta.0: testo "Quote predalle · solo geometria"
+~ proprieta.soletta.1: testo "La predalle è un riferimento geometrico compreso nello spessore totale della soletta. Il calcolo mantiene un'unica soletta omogenea: nessun materiale, armatura propria, peso, fase o verifica aggiuntivi della predalle."
+~ proprieta.soletta.2: tabella "Riferimento|y [mm]" · righe 3 B4FED39AFB43B3BB
++ proprieta.soletta.2.0: "Intradosso soletta" | "0"
++ proprieta.soletta.2.1: "Estradosso predalle" | "60"
++ proprieta.soletta.2.2: "Estradosso soletta" | "260"
+~ proprieta.soletta.3: testo "Solo calcestruzzo · lordo"
+~ proprieta.soletta.4: tabella "Proprietà|Valore|Unità" · righe 10 BF71278233967ECF
++ proprieta.soletta.4.0: "A" | "7800" | "cm²"
++ proprieta.soletta.4.1: "xG" | "1500" | "mm"
++ proprieta.soletta.4.2: "yG" | "130" | "mm"
+~ proprieta.soletta.5: testo "Armature"
+~ proprieta.soletta.6: tabella "Fila|As [cm²]|y [mm]" · righe 2 E5D0F5F4CAF4F12A
+~ proprieta.soletta.6.0: "20 barre" | "40,212" | "215"
+~ proprieta.soletta.6.1: "20 barre" | "40,212" | "105"
++ proprieta.soletta.7: testo "Soletta omogeneizzata al CLS"
++ proprieta.soletta.8: testo "n barre = 5,512 · Ec,eff = 36283,188 MPa"
++ proprieta.soletta.9: tabella "Proprietà|Valore|Unità" · righe 10 908396D202AA911F
++ proprieta.soletta.9.0: "A" | "8162,892" | "cm²"
++ proprieta.soletta.9.1: "xG" | "1500" | "mm"
++ proprieta.soletta.9.2: "yG" | "131,334" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 EA39F14AF3F22866
+~ proprieta.fase.1.5.2: "yG" | "-513,472" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 BDC87069F6279E20
+~ proprieta.fase.2.5.2: "yG" | "-218,205" | "mm"
+~ disegno.geometria: anteprima AAB7085916D558AE
+~ disegno.ingresso: anteprima 947A594BDA6E2F6C
+- proprieta.soletta.1.0
+- proprieta.soletta.1.1
+- proprieta.soletta.1.2
+- proprieta.soletta.3.0
+- proprieta.soletta.3.1
+- proprieta.soletta.6.2
+== campo predalle h_predalle «55»
+~ dati.h_predalle: "55"
+~ modificato: 12
+~ soletta: "Predalle: y = 0…55 mm; getto sovrastante: 205 mm.\nFerri inferiori: Estradosso predalle + 45 mm → y = 100 mm."
+~ form.predalle.h_predalle: campo "Spessore predalle" = "55"
+~ proprieta.soletta.2: tabella "Riferimento|y [mm]" · righe 3 B414D1C2AFB36B1F
+~ proprieta.soletta.2.1: "Estradosso predalle" | "55"
+~ proprieta.soletta.6: tabella "Fila|As [cm²]|y [mm]" · righe 2 F7ECCE251C0872C5
+~ proprieta.soletta.6.1: "20 barre" | "40,212" | "100"
+~ proprieta.soletta.9: tabella "Proprietà|Valore|Unità" · righe 10 0C6C48445BEBC654
+~ proprieta.soletta.9.2: "yG" | "131,223" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 03E3855CEA0F2026
+~ proprieta.fase.1.5.2: "yG" | "-513,639" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 8DD002F2B02AC023
+~ proprieta.fase.2.5.2: "yG" | "-218,284" | "mm"
+~ disegno.geometria: anteprima B0DD0DD134EF0752
+~ disegno.ingresso: anteprima 388008DA7EDDFDA2
+== attendi
+~ calcolo: occupato no · risultato 70A5EC9EF3EC671A · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ panoramica: "|σa|max = 125,32 MPa\nσc,min = -3,82 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 7,004E-015 · limite 1E−5."
+~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 39F5BD25F871F7A4
+~ pannello.tensioni.0.0: "Soletta · estradosso" | "260" | "0" | "-1,158" | "-2,661" | "-3,82"
+~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,769" | "-1,214" | "-1,984"
+~ pannello.tensioni.0.2: "Armatura · y=215" | "215" | "0" | "-19,246" | "-13,288" | "-32,534"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 2CA1D7E0DF3C82CD
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,82" | "32,143" | "0,119" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-1,984" | "32,143" | "0,062" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.2: "Armatura · y=215" | "SLU" | "-32,534" | "391,304" | "0,083" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 75553CD55117027C
+~ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "108039,681" | "-513,639" | "7,21162E+10" | "1,40402E+8" | "5,37634E+7" | "-513,639" | "1,32066E-4"
+~ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "199736,074" | "-218,284" | "9,31636E+10" | "4,26801E+8" | "5,69211E+7" | "-218,284" | "1,53344E-4"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 0EAA083B188131EC
+~ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-513,639" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "7,21138E+10" | "6,49447E-15"
+~ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-218,284" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "9,31613E+10" | "7,0038E-15"
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 4867A839AE34237C
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1800" | "14" | "-65,678" | "122,189" | "-1,86" | "48,928" | "0,687" | "1" | "629,279" | "251,712" | "1548,288"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "243" | "25" | "-68,288" | "-68,288" | "1" | "0,43" | "0,554" | "1" | "243" | "243" | "0"
+~ pannello.classe4.0.2: "Sbalzo inferiore" | "343" | "30" | "122,189" | "122,189" | "1" | "0,43" | "0,652" | "1" | "0" | "343" | "0"
+~ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 4E58AF6FB9799D83
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 1AD545CE8755F294
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "3,19556E+7" | "7,21162E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "4,9293E+7" | "9,31636E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+== scelta predalle rif_ferri_inf «Intradosso soletta»
+~ dati.rif_ferri_inf: "Intradosso soletta"
+~ modificato: 13
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ soletta: "Predalle: y = 0…55 mm; getto sovrastante: 205 mm.\nFerri inferiori: Intradosso soletta + 45 mm → y = 45 mm."
+~ form.predalle.rif_ferri_inf: scelta "Riferimento ferri inferiori" = "Intradosso soletta" voci "Estradosso predalle|Intradosso soletta"
+~ proprieta.soletta.6: tabella "Fila|As [cm²]|y [mm]" · righe 2 B102DE0DE53C1630
+~ proprieta.soletta.6.1: "20 barre" | "40,212" | "45"
+~ proprieta.soletta.9: tabella "Proprietà|Valore|Unità" · righe 10 E3209F35BDB69A78
+~ proprieta.soletta.9.2: "yG" | "130" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 9C3CA8D081E6A42A
+~ proprieta.fase.1.5.2: "yG" | "-515,478" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 1769A2A22F3D4A1F
+~ proprieta.fase.2.5.2: "yG" | "-219,147" | "mm"
+~ disegno.geometria: anteprima C752A309DAAF2314
+~ disegno.ingresso: anteprima 44D697B3BA00CAB2
+== attendi
+~ calcolo: occupato no · risultato EBF18284B3853395 · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ panoramica: "|σa|max = 125,419 MPa\nσc,min = -3,834 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 1,272E-015 · limite 1E−5."
+~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 A75EBDDEAD4881C1
+~ pannello.tensioni.0.0: "Soletta · estradosso" | "260" | "0" | "-1,165" | "-2,669" | "-3,834"
+~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,774" | "-1,221" | "-1,995"
+~ pannello.tensioni.0.2: "Armatura · y=215" | "215" | "0" | "-19,357" | "-13,329" | "-32,686"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 6834D3F48E638CB5
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,834" | "32,143" | "0,119" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-1,995" | "32,143" | "0,062" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.2: "Armatura · y=215" | "SLU" | "-32,686" | "391,304" | "0,084" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 3B79F6181788896C
+~ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "108039,681" | "-515,478" | "7,18829E+10" | "1,39449E+8" | "5,36631E+7" | "-515,478" | "1,32495E-4"
+~ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "199736,074" | "-219,147" | "9,30632E+10" | "4,24661E+8" | "5,68897E+7" | "-219,147" | "1,53509E-4"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 C80CF66F5CDC3B0F
+~ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-515,478" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "7,18805E+10" | "8,34465E-16"
+~ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-219,147" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "9,30609E+10" | "1,27157E-15"
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 83F1A04841E9EE70
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1800" | "14" | "-65,808" | "122,284" | "-1,858" | "48,852" | "0,688" | "1" | "629,769" | "251,907" | "1548,093"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "243" | "25" | "-68,42" | "-68,42" | "1" | "0,43" | "0,554" | "1" | "243" | "243" | "0"
+~ pannello.classe4.0.2: "Sbalzo inferiore" | "343" | "30" | "122,284" | "122,284" | "1" | "0,43" | "0,652" | "1" | "0" | "343" | "0"
+~ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 6468910DA9472B05
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 3F5C44FF880CBB17
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "3,18477E+7" | "7,18829E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "4,92423E+7" | "9,30632E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+== opzione armatura-inf rebars_bottom
+~ dati.rebars_bottom: false
+~ modificato: 14
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ soletta: "Predalle: y = 0…55 mm; getto sovrastante: 205 mm.\nFerri inferiori assenti."
+~ form.predalle.rif_ferri_inf: scelta "Riferimento ferri inferiori" = "Intradosso soletta" voci "Estradosso predalle|Intradosso soletta" · nascosto
+~ form.armatura-inf.rebars_bottom: opzione "Fila presente" = "no"
+~ form.armatura-inf.d_bottom: campo "Diametro barre" = "16" · nascosto
+~ form.armatura-inf.pitch_bottom: campo "Passo" = "150" · nascosto
+~ form.armatura-inf.cover_bottom: campo "Riferimento → asse barra" = "45" · nascosto
+~ proprieta.soletta.6: tabella "Fila|As [cm²]|y [mm]" · righe 1 A99CAA89F1AF6D01
+~ proprieta.soletta.9: tabella "Proprietà|Valore|Unità" · righe 10 25634A7CEA6EF2D5
+~ proprieta.soletta.9.0: "A" | "7981,446" | "cm²"
+~ proprieta.soletta.9.2: "yG" | "131,932" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 C3679D3902AB2AA6
+~ proprieta.fase.1.5.0: "A" | "1044,27" | "cm²"
+~ proprieta.fase.1.5.2: "yG" | "-534,868" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 AB8F40DE8B70B138
+~ proprieta.fase.2.5.0: "A" | "1966,011" | "cm²"
+~ proprieta.fase.2.5.2: "yG" | "-223,359" | "mm"
+~ disegno.geometria: anteprima 128AC75F71D620BE
+~ disegno.ingresso: anteprima 9C08683B0C555F24
+- proprieta.soletta.6.1
+== attendi
+~ calcolo: occupato no · risultato D4054D5A5C5ED7D9 · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ panoramica: "|σa|max = 125,48 MPa\nσc,min = -3,913 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,47\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,12\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=215\n1/1 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,46\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 1,263E-016 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 3,939E-015 · limite 1E−5."
+~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 7 B78C7AFFADF9F79D
+~ pannello.tensioni.0.0: "Soletta · estradosso" | "260" | "0" | "-1,214" | "-2,699" | "-3,913"
+~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,817" | "-1,247" | "-2,064"
+~ pannello.tensioni.0.2: "Armatura · y=215" | "215" | "0" | "-20,201" | "-13,491" | "-33,691"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 9 7690CDD0546B40AF
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,913" | "32,143" | "0,122" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-2,064" | "32,143" | "0,064" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.2: "Armatura · y=215" | "SLU" | "-33,691" | "391,304" | "0,086" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 81852996D3284FF1
+~ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "104427,048" | "-534,868" | "7,07087E+10" | "1,32198E+8" | "5,35618E+7" | "-534,868" | "1,34695E-4"
+~ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "196601,101" | "-223,359" | "9,28409E+10" | "4,15658E+8" | "5,69003E+7" | "-223,359" | "1,53877E-4"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 FB314BABBB0F8415
+~ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-534,868" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "4021,239" | "7,07064E+10" | "8,34465E-16"
+~ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-223,359" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "4021,239" | "9,28387E+10" | "3,93936E-15"
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 5F1498D98104CF57
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1800" | "14" | "-66,734" | "122,328" | "-1,833" | "47,997" | "0,694" | "1" | "635,353" | "254,141" | "1545,859"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "243" | "25" | "-69,36" | "-69,36" | "1" | "0,43" | "0,554" | "1" | "243" | "243" | "0"
+~ pannello.classe4.0.2: "Sbalzo inferiore" | "343" | "30" | "122,328" | "122,328" | "1" | "0,43" | "0,652" | "1" | "0" | "343" | "0"
+~ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 26 A02FE562C35F6889
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 3D87F64A4217EB7C
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "3,07095E+7" | "7,07087E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "4,89951E+7" | "9,28409E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+== opzione armatura-inf rebars_bottom
+~ dati.rebars_bottom: true
+~ modificato: 15
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ soletta: "Predalle: y = 0…55 mm; getto sovrastante: 205 mm.\nFerri inferiori: Intradosso soletta + 45 mm → y = 45 mm."
+~ form.predalle.rif_ferri_inf: scelta "Riferimento ferri inferiori" = "Intradosso soletta" voci "Estradosso predalle|Intradosso soletta"
+~ form.armatura-inf.rebars_bottom: opzione "Fila presente" = "sì"
+~ form.armatura-inf.d_bottom: campo "Diametro barre" = "16"
+~ form.armatura-inf.pitch_bottom: campo "Passo" = "150"
+~ form.armatura-inf.cover_bottom: campo "Riferimento → asse barra" = "45"
+~ proprieta.soletta.6: tabella "Fila|As [cm²]|y [mm]" · righe 2 B102DE0DE53C1630
++ proprieta.soletta.6.1: "20 barre" | "40,212" | "45"
+~ proprieta.soletta.9: tabella "Proprietà|Valore|Unità" · righe 10 E3209F35BDB69A78
+~ proprieta.soletta.9.0: "A" | "8162,892" | "cm²"
+~ proprieta.soletta.9.2: "yG" | "130" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 9C3CA8D081E6A42A
+~ proprieta.fase.1.5.0: "A" | "1080,397" | "cm²"
+~ proprieta.fase.1.5.2: "yG" | "-515,478" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 1769A2A22F3D4A1F
+~ proprieta.fase.2.5.0: "A" | "1997,361" | "cm²"
+~ proprieta.fase.2.5.2: "yG" | "-219,147" | "mm"
+~ disegno.geometria: anteprima C752A309DAAF2314
+~ disegno.ingresso: anteprima 44D697B3BA00CAB2
+== campo armatura-inf cover_bottom «50»
+~ dati.cover_bottom: "50"
+~ modificato: 16
+~ soletta: "Predalle: y = 0…55 mm; getto sovrastante: 205 mm.\nFerri inferiori: Intradosso soletta + 50 mm → y = 50 mm."
+~ form.armatura-inf.cover_bottom: campo "Riferimento → asse barra" = "50"
+~ proprieta.soletta.6: tabella "Fila|As [cm²]|y [mm]" · righe 2 5942154449A7919E
+~ proprieta.soletta.6.1: "20 barre" | "40,212" | "50"
+~ proprieta.soletta.9: tabella "Proprietà|Valore|Unità" · righe 10 8795B8D36B0C3242
+~ proprieta.soletta.9.2: "yG" | "130,111" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 FC2D88071D4D9D1F
+~ proprieta.fase.1.5.2: "yG" | "-515,311" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 E1A7045B67FB2D86
+~ proprieta.fase.2.5.2: "yG" | "-219,069" | "mm"
+~ disegno.geometria: anteprima 3210A510B1A83A0D
+~ disegno.ingresso: anteprima 36CD1B65B9EB9F7D
+== attendi
+~ calcolo: occupato no · risultato 37ED608322E65890 · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ panoramica: "|σa|max = 125,411 MPa\nσc,min = -3,832 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,47\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,12\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,08\nGoverna: Armatura · y=215\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,46\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 3,002E-015 · limite 1E−5."
+~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 65FAE622C468C057
+~ pannello.tensioni.0.0: "Soletta · estradosso" | "260" | "0" | "-1,164" | "-2,668" | "-3,832"
+~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,774" | "-1,22" | "-1,994"
+~ pannello.tensioni.0.2: "Armatura · y=215" | "215" | "0" | "-19,347" | "-13,326" | "-32,673"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 66C24C98BA8A2334
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,832" | "32,143" | "0,119" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-1,994" | "32,143" | "0,062" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.2: "Armatura · y=215" | "SLU" | "-32,673" | "391,304" | "0,083" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 2DAC02EA7F22FD0A
+~ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "108039,681" | "-515,311" | "7,19032E+10" | "1,39534E+8" | "5,36716E+7" | "-515,311" | "1,32457E-4"
+~ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "199736,074" | "-219,069" | "9,30716E+10" | "4,24851E+8" | "5,68921E+7" | "-219,069" | "1,53496E-4"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 84ED7ACDE633A6E9
+~ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-515,311" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "7,19009E+10" | "2,74181E-15"
+~ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-219,069" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "9,30692E+10" | "3,00163E-15"
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 F88D990D442CE328
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1800" | "14" | "-65,796" | "122,276" | "-1,858" | "48,859" | "0,688" | "1" | "629,722" | "251,889" | "1548,111"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "243" | "25" | "-68,409" | "-68,409" | "1" | "0,43" | "0,554" | "1" | "243" | "243" | "0"
+~ pannello.classe4.0.2: "Sbalzo inferiore" | "343" | "30" | "122,276" | "122,276" | "1" | "0,43" | "0,652" | "1" | "0" | "343" | "0"
+~ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 164F26FDE404770E
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 1308F76CBDF48781
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "3,18575E+7" | "7,19032E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "4,92469E+7" | "9,30716E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+== opzione piastra plate2
+~ dati.h_web: "1780"
+~ dati.plate2: true
+~ modificato: 17
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ altezza: "H = 1855 mm · h anima = H − t sup − t inf − t inf.2 = 1780 mm."
+~ form.piastra.plate2: opzione "Seconda piattabanda inferiore" = "sì"
+~ form.piastra.b_bottom2: campo "Larghezza inferiore 2" = "500"
+~ form.piastra.t_bottom2: campo "Spessore inferiore 2" = "20"
+~ proprieta.acciaio: 7 blocchi
+~ proprieta.acciaio.1: tabella "Proprietà|Valore|Unità" · righe 10 EC4E8B1914C68902
+~ proprieta.acciaio.1.0: "A" | "684,2" | "cm²"
+~ proprieta.acciaio.1.2: "yG" | "-1163,812" | "mm"
+~ proprieta.acciaio.3.0: tabella "Proprietà|Valore|Unità" · righe 10 04AFF901545BC392
+~ proprieta.acciaio.3.0.0: "A" | "249,2" | "cm²"
+~ proprieta.acciaio.3.0.2: "yG" | "-915" | "mm"
+~ proprieta.acciaio.4.0: tabella "Proprietà|Valore|Unità" · righe 10 9822F53541B6B313
+~ proprieta.acciaio.4.0.2: "yG" | "-1820" | "mm"
+~ proprieta.acciaio.5: gruppo "Piattabanda inferiore 2"
+~ proprieta.acciaio.5.0: tabella "Proprietà|Valore|Unità" · righe 10 98EBF734C480B40F
+~ proprieta.acciaio.5.0.0: "A" | "100" | "cm²"
+~ proprieta.acciaio.5.0.2: "yG" | "-1845" | "mm"
++ proprieta.acciaio.6: gruppo "Carpenteria equivalente di calcolo"
++ proprieta.acciaio.6.0: tabella "Proprietà|Valore|Unità" · righe 10 C400DAB6EDA864F0
++ proprieta.acciaio.6.0.0: "A" | "684,2" | "cm²"
++ proprieta.acciaio.6.0.1: "xG" | "1500" | "mm"
++ proprieta.acciaio.6.0.2: "yG" | "-1164,689" | "mm"
+~ proprieta.fase.0.4: tabella "Proprietà|Valore|Unità" · righe 10 EC4E8B1914C68902
+~ proprieta.fase.0.4.0: "A" | "684,2" | "cm²"
+~ proprieta.fase.0.4.2: "yG" | "-1163,812" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 6A84DFA59354ED30
+~ proprieta.fase.1.5.0: "A" | "1177,597" | "cm²"
+~ proprieta.fase.1.5.2: "yG" | "-621,57" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 1614AB383EF2DD40
+~ proprieta.fase.2.5.0: "A" | "2094,561" | "cm²"
+~ proprieta.fase.2.5.2: "yG" | "-292,556" | "mm"
+~ disegno.geometria: anteprima 88AD28F00532EE5F
+~ disegno.ingresso: anteprima 28391312F53F2CEB
+== campo piastra t_bottom2 «22»
+~ dati.h_web: "1778"
+~ dati.t_bottom2: "22"
+~ modificato: 18
+~ altezza: "H = 1855 mm · h anima = H − t sup − t inf − t inf.2 = 1778 mm."
+~ form.piastra.t_bottom2: campo "Spessore inferiore 2" = "22"
+~ proprieta.acciaio.1: tabella "Proprietà|Valore|Unità" · righe 10 A49C50D60EC92243
+~ proprieta.acciaio.1.0: "A" | "693,92" | "cm²"
+~ proprieta.acciaio.1.2: "yG" | "-1172,607" | "mm"
+~ proprieta.acciaio.3.0: tabella "Proprietà|Valore|Unità" · righe 10 6BA03E068A31DD6A
+~ proprieta.acciaio.3.0.0: "A" | "248,92" | "cm²"
+~ proprieta.acciaio.3.0.2: "yG" | "-914" | "mm"
+~ proprieta.acciaio.4.0: tabella "Proprietà|Valore|Unità" · righe 10 D449FD0FF57A3B8D
+~ proprieta.acciaio.4.0.2: "yG" | "-1818" | "mm"
+~ proprieta.acciaio.5.0: tabella "Proprietà|Valore|Unità" · righe 10 5E10B601A2ABFBB8
+~ proprieta.acciaio.5.0.0: "A" | "110" | "cm²"
+~ proprieta.acciaio.5.0.2: "yG" | "-1844" | "mm"
+~ proprieta.acciaio.6.0: tabella "Proprietà|Valore|Unità" · righe 10 D8D583259EF3382D
+~ proprieta.acciaio.6.0.0: "A" | "693,92" | "cm²"
+~ proprieta.acciaio.6.0.2: "yG" | "-1173,558" | "mm"
+~ proprieta.fase.0.4: tabella "Proprietà|Valore|Unità" · righe 10 A49C50D60EC92243
+~ proprieta.fase.0.4.0: "A" | "693,92" | "cm²"
+~ proprieta.fase.0.4.2: "yG" | "-1172,607" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 4B9B85D4304376B5
+~ proprieta.fase.1.5.0: "A" | "1187,317" | "cm²"
+~ proprieta.fase.1.5.2: "yG" | "-631,148" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 6D9C1F900EB1B156
+~ proprieta.fase.2.5.0: "A" | "2104,281" | "cm²"
+~ proprieta.fase.2.5.2: "yG" | "-299,481" | "mm"
+~ disegno.geometria: anteprima D0BC171D3F077FE2
+~ disegno.ingresso: anteprima 5C07E2753F33B894
+== attendi
+~ calcolo: occupato no · risultato A94C6B3F612744C2 · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ avvisi: "Due piastre inferiori modellate con la geometria reale. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore, senza il beneficio dell'accoppiamento (a favore di sicurezza).  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
+~ panoramica: "|σa|max = 93,616 MPa\nσc,min = -3,541 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,35\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,11\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,08\nGoverna: Armatura · y=215\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,34\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 1,054E-014 · limite 1E−5."
+~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 7B0EDD835DDC26A3
+~ pannello.tensioni.0.0: "Soletta · estradosso" | "260" | "0" | "-1,094" | "-2,448" | "-3,541"
+~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,775" | "-1,31" | "-2,085"
+~ pannello.tensioni.0.2: "Armatura · y=215" | "215" | "0" | "-18,316" | "-12,406" | "-30,723"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 A0EFA0B0C1356263
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,541" | "32,143" | "0,11" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-2,085" | "32,143" | "0,065" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.2: "Armatura · y=215" | "SLU" | "-30,723" | "391,304" | "0,079" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 7DCB27CD91456040
+~ pannello.omogeneizzazione.0.0: "G1 · getto e carpenteria" | "—" | "—" | "—" | "—" | "—" | "69392" | "-1172,607" | "3,87537E+10" | "3,30492E+7" | "5,67908E+7" | "-1172,607" | "1,84314E-4"
+~ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "118731,681" | "-631,148" | "8,79967E+10" | "1,39423E+8" | "7,19015E+7" | "-631,148" | "1,08233E-4"
+~ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "210428,074" | "-299,481" | "1,18485E+11" | "3,95634E+8" | "7,61705E+7" | "-299,481" | "1,20573E-4"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 0BCB2BEC3A6E25DF
+~ pannello.equilibrio.0.0: "G1 · getto e carpenteria" | "Solo acciaio" | "Baricentro omogeneizzato lordo" | "-1172,607" | "0" | "1500" | "0" | "0" | "1500" | "0" | "—" | "—" | "—" | "—" | "0" | "3,87537E+10" | "1,58946E-16"
+~ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-631,148" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "8,79939E+10" | "6,24504E-15"
+~ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-299,481" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "1,18482E+11" | "1,0541E-14"
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 4 77E593902C1B27E5
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1778" | "14" | "-65,146" | "89,104" | "-1,368" | "33,526" | "0,82" | "1" | "750,921" | "300,368" | "1477,632"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "243" | "25" | "-67,315" | "-67,315" | "1" | "0,43" | "0,554" | "1" | "243" | "243" | "0"
+~ pannello.classe4.0.2: "Sbalzo inferiore · piastra 1" | "343" | "30" | "89,104" | "89,104" | "1" | "0,43" | "0,652" | "1" | "0" | "343" | "0"
+~ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 BF96199DE24B76BB
+~ pannello.geometria.0.0: "Area carpenteria lorda" | "69392" | "mm²"
+~ pannello.geometria.0.1: "Baricentro carpenteria lorda" | "-1172,607" | "mm"
+~ pannello.geometria.0.2: "Ix carpenteria lorda" | "3,87537E+10" | "mm⁴"
+~ pannello.taglio.0: tabella "Parametro|Valore|Unità" · righe 11 9AFB4290DCED8155
+~ pannello.taglio.0.2: "τcr" | "62,839" | "MPa"
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 D01B8C1A9045470D
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "3,75729E+7" | "8,79967E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "6,0588E+7" | "1,18485E+11" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+== campo carpenteria h_trave «1900»
+~ dati.h_trave: "1900"
+~ dati.h_web: "1823"
+~ modificato: 19
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ altezza: "H = 1900 mm · h anima = H − t sup − t inf − t inf.2 = 1823 mm."
+~ form.carpenteria.h_trave: campo "Altezza totale H trave" = "1900"
+~ proprieta.acciaio.1: tabella "Proprietà|Valore|Unità" · righe 10 98D63A782117A834
+~ proprieta.acciaio.1.0: "A" | "700,22" | "cm²"
+~ proprieta.acciaio.1.2: "yG" | "-1199,046" | "mm"
+~ proprieta.acciaio.3.0: tabella "Proprietà|Valore|Unità" · righe 10 B604249AD79B7615
+~ proprieta.acciaio.3.0.0: "A" | "255,22" | "cm²"
+~ proprieta.acciaio.3.0.2: "yG" | "-936,5" | "mm"
+~ proprieta.acciaio.4.0: tabella "Proprietà|Valore|Unità" · righe 10 0B289FA93F91858E
+~ proprieta.acciaio.4.0.2: "yG" | "-1863" | "mm"
+~ proprieta.acciaio.5.0: tabella "Proprietà|Valore|Unità" · righe 10 32F70128C9F68C12
+~ proprieta.acciaio.5.0.2: "yG" | "-1889" | "mm"
+~ proprieta.acciaio.6.0: tabella "Proprietà|Valore|Unità" · righe 10 632C2751D9444EC9
+~ proprieta.acciaio.6.0.0: "A" | "700,22" | "cm²"
+~ proprieta.acciaio.6.0.2: "yG" | "-1199,989" | "mm"
+~ proprieta.fase.0.4: tabella "Proprietà|Valore|Unità" · righe 10 98D63A782117A834
+~ proprieta.fase.0.4.0: "A" | "700,22" | "cm²"
+~ proprieta.fase.0.4.2: "yG" | "-1199,046" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 70FE2D439199F0C8
+~ proprieta.fase.1.5.0: "A" | "1193,617" | "cm²"
+~ proprieta.fase.1.5.2: "yG" | "-649,517" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 76B0B6E4798351CC
+~ proprieta.fase.2.5.0: "A" | "2110,581" | "cm²"
+~ proprieta.fase.2.5.2: "yG" | "-310,859" | "mm"
+~ disegno.geometria: anteprima 8272C72AF1162A71
+~ disegno.ingresso: anteprima 9BFE6D32F728B780
+== campo carpenteria t_web «15»
+~ dati.t_web: "15"
+~ modificato: 20
+~ form.carpenteria.t_web: campo "Spessore anima" = "15"
+~ proprieta.acciaio.1: tabella "Proprietà|Valore|Unità" · righe 10 453874988F2184CD
+~ proprieta.acciaio.1.0: "A" | "718,45" | "cm²"
+~ proprieta.acciaio.1.2: "yG" | "-1192,384" | "mm"
+~ proprieta.acciaio.3.0: tabella "Proprietà|Valore|Unità" · righe 10 F90CD60E40EDEDCF
+~ proprieta.acciaio.3.0.0: "A" | "273,45" | "cm²"
+~ proprieta.acciaio.6.0: tabella "Proprietà|Valore|Unità" · righe 10 8B510FC4E7C0F768
+~ proprieta.acciaio.6.0.0: "A" | "718,45" | "cm²"
+~ proprieta.acciaio.6.0.2: "yG" | "-1193,303" | "mm"
+~ proprieta.fase.0.4: tabella "Proprietà|Valore|Unità" · righe 10 453874988F2184CD
+~ proprieta.fase.0.4.0: "A" | "718,45" | "cm²"
+~ proprieta.fase.0.4.2: "yG" | "-1192,384" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 5F58099ABADE447C
+~ proprieta.fase.1.5.0: "A" | "1211,847" | "cm²"
+~ proprieta.fase.1.5.2: "yG" | "-653,834" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 8C0478F7B9D6CDE4
+~ proprieta.fase.2.5.0: "A" | "2128,811" | "cm²"
+~ proprieta.fase.2.5.2: "yG" | "-316,216" | "mm"
+~ disegno.geometria: anteprima 76680B0A5429E7F2
+~ disegno.ingresso: anteprima 67244D5A7CDE401B
+== attendi
+~ calcolo: occupato no · risultato 577FC6831717B265 · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ panoramica: "|σa|max = 90,171 MPa\nσc,min = -3,439 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,34\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,11\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,08\nGoverna: Armatura · y=215\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,32\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 3,267E-015 · limite 1E−5."
+~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 679B06020E306E99
+~ pannello.tensioni.0.0: "Soletta · estradosso" | "260" | "0" | "-1,061" | "-2,378" | "-3,439"
+~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,759" | "-1,305" | "-2,064"
+~ pannello.tensioni.0.2: "Armatura · y=215" | "215" | "0" | "-17,792" | "-12,084" | "-29,876"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 ACBB7912B2555A2F
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,439" | "32,143" | "0,107" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-2,064" | "32,143" | "0,064" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.2: "Armatura · y=215" | "SLU" | "-29,876" | "391,304" | "0,076" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 808E3F31863D633E
+~ pannello.omogeneizzazione.0.0: "G1 · getto e carpenteria" | "—" | "—" | "—" | "—" | "—" | "71845" | "-1192,384" | "4,155E+10" | "3,48461E+7" | "5,87183E+7" | "-1192,384" | "1,7191E-4"
+~ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "121184,681" | "-653,834" | "9,30166E+10" | "1,42263E+8" | "7,46422E+7" | "-653,834" | "1,02391E-4"
+~ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "212881,074" | "-316,216" | "1,25601E+11" | "3,97199E+8" | "7,93043E+7" | "-316,216" | "1,13742E-4"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 4438C8BCC94F27D0
+~ pannello.equilibrio.0.0: "G1 · getto e carpenteria" | "Solo acciaio" | "Baricentro omogeneizzato lordo" | "-1192,384" | "0" | "1500" | "0" | "0" | "1500" | "0" | "—" | "—" | "—" | "—" | "0" | "4,155E+10" | "0E+0"
+~ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-653,834" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "9,30139E+10" | "2,32489E-15"
+~ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-316,216" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "1,25598E+11" | "3,26724E-15"
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 4 55D62F955CC5EFFB
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1823" | "15" | "-62,621" | "85,933" | "-1,372" | "33,654" | "0,783" | "1" | "768,46" | "307,384" | "1515,616"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "242,5" | "25" | "-64,658" | "-64,658" | "1" | "0,43" | "0,553" | "1" | "242,5" | "242,5" | "0"
+~ pannello.classe4.0.2: "Sbalzo inferiore · piastra 1" | "342,5" | "30" | "85,933" | "85,933" | "1" | "0,43" | "0,651" | "1" | "0" | "342,5" | "0"
+~ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 78426A0758F730FE
+~ pannello.geometria.0.0: "Area carpenteria lorda" | "71845" | "mm²"
+~ pannello.geometria.0.1: "Baricentro carpenteria lorda" | "-1192,384" | "mm"
+~ pannello.geometria.0.2: "Ix carpenteria lorda" | "4,155E+10" | "mm⁴"
+~ pannello.taglio.0: tabella "Parametro|Valore|Unità" · righe 11 9097CD7F2EFC0640
+~ pannello.taglio.0.2: "τcr" | "68,619" | "MPa"
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 677D22C2A5C0F252
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "3,86922E+7" | "9,30166E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "6,29483E+7" | "1,25601E+11" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+== scelta sezione sezione «H con anima inclinata»
+~ dati.sezione: "H con anima inclinata"
+~ dati.h_web: "1845"
+~ modificato: 21
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ altezza: "H = 1900 mm · h anima = H − t sup − t inf = 1845 mm."
+~ contenitori: piastra no · nota piastra no · trasversale no · fatica no · cassoncino no · discretizzazione no · torsione risultati no
+~ form.sezione.sezione: scelta "Tipo di sezione" = "H con anima inclinata" voci "H saldato|H con anima inclinata|Cassoncino"
+~ form.sezione.offset_anima: campo "Scostamento anima al piede" = "0"
+~ proprieta.acciaio: 10 blocchi
+~ proprieta.acciaio.0: testo "Carpenteria · asse orizzontale (calcolo)"
+~ proprieta.acciaio.1: testo "A, yG, Ix e W sono quelli della sezione reale; Iy e iy sono delle anime rese verticali (per la sezione reale vedere sotto)."
+~ proprieta.acciaio.2: tabella "Proprietà|Valore|Unità" · righe 10 DB14806672098B0D
+~ proprieta.acciaio.2.0: "A" | "611,75" | "cm²"
++ proprieta.acciaio.2.1: "xG" | "1500" | "mm"
++ proprieta.acciaio.2.2: "yG" | "-1078,272" | "mm"
+~ proprieta.acciaio.3: testo "Sezione reale nel piano (Model)"
+~ proprieta.acciaio.4: testo "Il calcolo N–Mx è in flessione retta attorno all'asse orizzontale: Ixy e la rotazione degli assi principali della sola carpenteria non sono considerati."
+~ proprieta.acciaio.5: tabella "Proprietà|Valore|Unità" · righe 5 F610F3172464B7B3
+~ proprieta.acciaio.5.0: "A" | "611,75" | "cm²"
++ proprieta.acciaio.5.1: "Ix" | "3619142,345" | "cm⁴"
++ proprieta.acciaio.5.2: "Iy" | "111843,557" | "cm⁴"
+~ proprieta.acciaio.6: gruppo "Piattabanda superiore"
+~ proprieta.acciaio.6.0: tabella "Proprietà|Valore|Unità" · righe 10 3884522D6F50E6FE
+~ proprieta.acciaio.6.0.0: "A" | "125" | "cm²"
+~ proprieta.acciaio.6.0.2: "yG" | "-12,5" | "mm"
++ proprieta.acciaio.7: gruppo "Anima"
++ proprieta.acciaio.7.0: tabella "Proprietà|Valore|Unità" · righe 10 8E64CC41DE7AE8DB
++ proprieta.acciaio.7.0.0: "A" | "276,75" | "cm²"
++ proprieta.acciaio.7.0.1: "xG" | "1500" | "mm"
++ proprieta.acciaio.7.0.2: "yG" | "-947,5" | "mm"
++ proprieta.acciaio.8: gruppo "Piattabanda inferiore 1"
++ proprieta.acciaio.8.0: tabella "Proprietà|Valore|Unità" · righe 10 317FAF7F028F499D
++ proprieta.acciaio.8.0.0: "A" | "210" | "cm²"
++ proprieta.acciaio.8.0.1: "xG" | "1500" | "mm"
++ proprieta.acciaio.8.0.2: "yG" | "-1885" | "mm"
++ proprieta.acciaio.9: gruppo "Carpenteria equivalente di calcolo"
++ proprieta.acciaio.9.0: tabella "Proprietà|Valore|Unità" · righe 10 DB14806672098B0D
++ proprieta.acciaio.9.0.0: "A" | "611,75" | "cm²"
++ proprieta.acciaio.9.0.1: "xG" | "1500" | "mm"
++ proprieta.acciaio.9.0.2: "yG" | "-1078,272" | "mm"
+~ proprieta.fase.0.4: tabella "Proprietà|Valore|Unità" · righe 10 DB14806672098B0D
+~ proprieta.fase.0.4.0: "A" | "611,75" | "cm²"
+~ proprieta.fase.0.4.2: "yG" | "-1078,272" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 F3425C2FEC69BB73
+~ proprieta.fase.1.5.0: "A" | "1105,147" | "cm²"
+~ proprieta.fase.1.5.2: "yG" | "-538,671" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 9E184167951A3FA1
+~ proprieta.fase.2.5.0: "A" | "2022,111" | "cm²"
+~ proprieta.fase.2.5.2: "yG" | "-235,462" | "mm"
+~ disegno.geometria: anteprima D37A8C7FEA28A367
+~ disegno.ingresso: anteprima 28827CCE18292026
+- proprieta.acciaio.1.0
+- proprieta.acciaio.1.1
+- proprieta.acciaio.1.2
+- proprieta.acciaio.2.0.0
+- proprieta.acciaio.2.0.1
+- proprieta.acciaio.2.0.2
+- proprieta.acciaio.3.0
+- proprieta.acciaio.3.0.0
+- proprieta.acciaio.3.0.1
+- proprieta.acciaio.3.0.2
+- proprieta.acciaio.4.0
+- proprieta.acciaio.4.0.0
+- proprieta.acciaio.4.0.1
+- proprieta.acciaio.4.0.2
+- proprieta.acciaio.5.0.0
+- proprieta.acciaio.5.0.1
+- proprieta.acciaio.5.0.2
+== campo sezione offset_anima «250»
+~ dati.offset_anima: "250"
+~ modificato: 22
+~ form.sezione.offset_anima: campo "Scostamento anima al piede" = "250"
+~ proprieta.acciaio.2: tabella "Proprietà|Valore|Unità" · righe 10 D71741C43316B2C6
+~ proprieta.acciaio.2.0: "A" | "614,279" | "cm²"
+~ proprieta.acciaio.2.2: "yG" | "-1077,734" | "mm"
+~ proprieta.acciaio.5: tabella "Proprietà|Valore|Unità" · righe 5 60FB6670FDA5FDBD
+~ proprieta.acciaio.5.0: "A" | "614,279" | "cm²"
+~ proprieta.acciaio.5.1: "Ix" | "3626747,326" | "cm⁴"
+~ proprieta.acciaio.5.2: "Iy" | "176896,755" | "cm⁴"
+~ proprieta.acciaio.7.0: tabella "Proprietà|Valore|Unità" · righe 10 DB111E26640F38BE
+~ proprieta.acciaio.7.0.0: "A" | "279,279" | "cm²"
+~ proprieta.acciaio.9.0: tabella "Proprietà|Valore|Unità" · righe 10 D71741C43316B2C6
+~ proprieta.acciaio.9.0.0: "A" | "614,279" | "cm²"
+~ proprieta.acciaio.9.0.2: "yG" | "-1077,734" | "mm"
+~ proprieta.fase.0.4: tabella "Proprietà|Valore|Unità" · righe 10 D71741C43316B2C6
+~ proprieta.fase.0.4.0: "A" | "614,279" | "cm²"
+~ proprieta.fase.0.4.2: "yG" | "-1077,734" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 6AC0900CFA95144C
+~ proprieta.fase.1.5.0: "A" | "1107,676" | "cm²"
+~ proprieta.fase.1.5.2: "yG" | "-539,605" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 B4942BDEC6FC4AF1
+~ proprieta.fase.2.5.0: "A" | "2024,64" | "cm²"
+~ proprieta.fase.2.5.2: "yG" | "-236,351" | "mm"
+~ disegno.geometria: anteprima 458DAA2101154DDF
+~ disegno.ingresso: anteprima 50CD0317E0427959
+== attendi
+~ calcolo: occupato no · risultato 5617BA2E931AF6AB · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ avvisi: "Anima inclinata di 7.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
+~ panoramica: "|σa|max = 119,744 MPa\nσc,min = -3,715 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 3 iterazioni"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,45\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,12\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,08\nGoverna: Armatura · y=215\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,44\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ convergenza: "Convergenza: 3 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 4,250E-015 · limite 1E−5."
+~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 F364A59BF4746B44
+~ pannello.tensioni.0.0: "Soletta · estradosso" | "260" | "0" | "-1,129" | "-2,586" | "-3,715"
+~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,762" | "-1,231" | "-1,993"
+~ pannello.tensioni.0.2: "Armatura · y=215" | "215" | "0" | "-18,792" | "-12,961" | "-31,753"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 8EDC9ED0CE94EFEB
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,715" | "32,143" | "0,116" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-1,993" | "32,143" | "0,062" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.2: "Armatura · y=215" | "SLU" | "-31,753" | "391,304" | "0,081" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 DB2AB14B29C6CBAB
+~ pannello.omogeneizzazione.0.0: "G1 · getto e carpenteria" | "—" | "—" | "—" | "—" | "—" | "61427,909" | "-1077,734" | "3,62675E+10" | "3,36516E+7" | "4,41067E+7" | "-1077,734" | "1,96949E-4"
+~ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "110767,59" | "-539,605" | "7,64892E+10" | "1,4175E+8" | "5,62257E+7" | "-539,605" | "1,24516E-4"
+~ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "202463,983" | "-236,351" | "9,94962E+10" | "4,20968E+8" | "5,9806E+7" | "-236,351" | "1,43584E-4"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 494FFD6530479731
+~ pannello.equilibrio.0.0: "G1 · getto e carpenteria" | "Solo acciaio" | "Baricentro omogeneizzato lordo" | "-1077,734" | "0" | "1500" | "0" | "0" | "1500" | "0" | "—" | "—" | "—" | "—" | "0" | "3,62675E+10" | "0E+0"
+~ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-539,605" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "7,64868E+10" | "4,25008E-15"
+~ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-236,351" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "9,94939E+10" | "1,03579E-15"
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 A46754B4C2DA652B
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1861,861" | "15" | "-63,369" | "116,814" | "-1,843" | "48,347" | "0,667" | "1" | "654,804" | "261,922" | "1599,939"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "242,431" | "25" | "-65,811" | "-65,811" | "1" | "0,43" | "0,553" | "1" | "242,431" | "242,431" | "0"
+~ pannello.classe4.0.2: "Sbalzo inferiore" | "342,431" | "30" | "116,814" | "116,814" | "1" | "0,43" | "0,651" | "1" | "0" | "342,431" | "0"
+~ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 E80D0F56FAACC3F4
+~ pannello.geometria.0.0: "Area carpenteria lorda" | "61427,909" | "mm²"
+~ pannello.geometria.0.1: "Baricentro carpenteria lorda" | "-1077,734" | "mm"
+~ pannello.geometria.0.2: "Ix carpenteria lorda" | "3,62675E+10" | "mm⁴"
+~ pannello.taglio.0: tabella "Parametro|Valore|Unità" · righe 11 B0ADF7D7BBABFC4E
+~ pannello.taglio.0.2: "τcr" | "65,785" | "MPa"
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 858CDDA586CEB255
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "3,30561E+7" | "7,64892E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "5,16844E+7" | "9,94962E+10" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+== scelta sezione sezione «Cassoncino»
+~ dati.sezione: "Cassoncino"
+~ modificato: 23
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ avviso: "Geometria precedente · Cassoncino: le piattabande superiori non devono sovrapporsi, le anime devono appoggiare sul fondo ed essere separate."
+~ materiali: "Cassoncino: le piattabande superiori non devono sovrapporsi, le anime devono appoggiare sul fondo ed essere separate."
+~ contenitori: piastra no · nota piastra no · trasversale no · fatica no · cassoncino sì · discretizzazione no · torsione risultati no
+~ form.sezione.sezione: scelta "Tipo di sezione" = "Cassoncino" voci "H saldato|H con anima inclinata|Cassoncino"
+~ form.sezione.interasse_anime: campo "Interasse anime in sommità" = "1800"
+~ azioni: righe 3 · selezione -1 · ΔT sì · bloccata no · stessi oggetti sì
+~ proprieta: "Acciaio|Soletta|01 · G1 · getto e carpenteria|02 · G2 · permanenti portati|03 · Q · variabili" · scelta 0 · nota "Proprietà da aggiornare: Cassoncino: le piattabande superiori non devono sovrapporsi, le anime devono appoggiare sul fondo ed essere separate."
+~ proprieta.soletta: 1 blocchi
+~ proprieta.soletta.0: testo "Cassoncino: le piattabande superiori non devono sovrapporsi, le anime devono appoggiare sul fondo ed essere separate."
+~ proprieta.fase.0: 1 blocchi
+~ proprieta.fase.0.0: testo "Cassoncino: le piattabande superiori non devono sovrapporsi, le anime devono appoggiare sul fondo ed essere separate."
+~ proprieta.fase.1: 1 blocchi
+~ proprieta.fase.1.0: testo "Cassoncino: le piattabande superiori non devono sovrapporsi, le anime devono appoggiare sul fondo ed essere separate."
+~ proprieta.fase.2: 1 blocchi
+~ proprieta.fase.2.0: testo "Cassoncino: le piattabande superiori non devono sovrapporsi, le anime devono appoggiare sul fondo ed essere separate."
+- proprieta.soletta.1
+- proprieta.soletta.2
+- proprieta.soletta.2.0
+- proprieta.soletta.2.1
+- proprieta.soletta.2.2
+- proprieta.soletta.3
+- proprieta.soletta.4
+- proprieta.soletta.4.0
+- proprieta.soletta.4.1
+- proprieta.soletta.4.2
+- proprieta.soletta.5
+- proprieta.soletta.6
+- proprieta.soletta.6.0
+- proprieta.soletta.6.1
+- proprieta.soletta.7
+- proprieta.soletta.8
+- proprieta.soletta.9
+- proprieta.soletta.9.0
+- proprieta.soletta.9.1
+- proprieta.soletta.9.2
+- proprieta.fase.0.1
+- proprieta.fase.0.2
+- proprieta.fase.0.3
+- proprieta.fase.0.4
+- proprieta.fase.0.4.0
+- proprieta.fase.0.4.1
+- proprieta.fase.0.4.2
+- proprieta.fase.1.1
+- proprieta.fase.1.2
+- proprieta.fase.1.3
+- proprieta.fase.1.4
+- proprieta.fase.1.5
+- proprieta.fase.1.5.0
+- proprieta.fase.1.5.1
+- proprieta.fase.1.5.2
+- proprieta.fase.2.1
+- proprieta.fase.2.2
+- proprieta.fase.2.3
+- proprieta.fase.2.4
+- proprieta.fase.2.5
+- proprieta.fase.2.5.0
+- proprieta.fase.2.5.1
+- proprieta.fase.2.5.2
+== campo sezione interasse_anime «1700»
+~ dati.interasse_anime: "1700"
+~ modificato: 24
+~ form.sezione.interasse_anime: campo "Interasse anime in sommità" = "1700"
+== campo carpenteria b_bottom «1400»
+~ dati.b_bottom: "1400"
+~ modificato: 25
+~ avviso: -
+~ materiali: "C45/55   fck = 45 MPa\nEcm = 36283,188 MPa\n\nS275   fy = 265 MPa\nEa = 210000 MPa\n\nB450C   fyk = 450 MPa\nEs = 200000 MPa"
+~ form.carpenteria.b_bottom: campo "Larghezza inferiore 1" = "1400"
+~ proprieta: "Acciaio|Soletta|01 · G1 · getto e carpenteria|02 · G2 · permanenti portati|03 · Q · variabili" · scelta 0 · nota "Proprietà geometriche, indipendenti dai carichi. Le riduzioni efficaci dipendono dalle sollecitazioni e sono nella scheda Fasi e tensioni."
+~ proprieta.acciaio.2: tabella "Proprietà|Valore|Unità" · righe 10 3B6F7E4C7316F305
+~ proprieta.acciaio.2.0: "A" | "1228,558" | "cm²"
+~ proprieta.acciaio.5: tabella "Proprietà|Valore|Unità" · righe 5 7903CBE73B6B2977
+~ proprieta.acciaio.5.0: "A" | "1228,558" | "cm²"
+~ proprieta.acciaio.5.1: "Ix" | "7253494,651" | "cm⁴"
+~ proprieta.acciaio.5.2: "Iy" | "5509453,037" | "cm⁴"
+~ proprieta.acciaio.6.0: tabella "Proprietà|Valore|Unità" · righe 10 E1B7DB0F68D26899
+~ proprieta.acciaio.6.0.0: "A" | "250" | "cm²"
+~ proprieta.acciaio.7.0: tabella "Proprietà|Valore|Unità" · righe 10 11327DC4C14D342E
+~ proprieta.acciaio.7.0.0: "A" | "558,558" | "cm²"
+~ proprieta.acciaio.8.0: tabella "Proprietà|Valore|Unità" · righe 10 B7F114E16AB1210B
+~ proprieta.acciaio.8.0.0: "A" | "420" | "cm²"
+~ proprieta.acciaio.9.0: tabella "Proprietà|Valore|Unità" · righe 10 3B6F7E4C7316F305
+~ proprieta.acciaio.9.0.0: "A" | "1228,558" | "cm²"
+~ proprieta.soletta: 10 blocchi
+~ proprieta.soletta.0: testo "Quote predalle · solo geometria"
++ proprieta.soletta.1: testo "La predalle è un riferimento geometrico compreso nello spessore totale della soletta. Il calcolo mantiene un'unica soletta omogenea: nessun materiale, armatura propria, peso, fase o verifica aggiuntivi della predalle."
++ proprieta.soletta.2: tabella "Riferimento|y [mm]" · righe 3 B414D1C2AFB36B1F
++ proprieta.soletta.2.0: "Intradosso soletta" | "0"
++ proprieta.soletta.2.1: "Estradosso predalle" | "55"
++ proprieta.soletta.2.2: "Estradosso soletta" | "260"
++ proprieta.soletta.3: testo "Solo calcestruzzo · lordo"
++ proprieta.soletta.4: tabella "Proprietà|Valore|Unità" · righe 10 BF71278233967ECF
++ proprieta.soletta.4.0: "A" | "7800" | "cm²"
++ proprieta.soletta.4.1: "xG" | "1500" | "mm"
++ proprieta.soletta.4.2: "yG" | "130" | "mm"
++ proprieta.soletta.5: testo "Armature"
++ proprieta.soletta.6: tabella "Fila|As [cm²]|y [mm]" · righe 2 5942154449A7919E
++ proprieta.soletta.6.0: "20 barre" | "40,212" | "215"
++ proprieta.soletta.6.1: "20 barre" | "40,212" | "50"
++ proprieta.soletta.7: testo "Soletta omogeneizzata al CLS"
++ proprieta.soletta.8: testo "n barre = 5,512 · Ec,eff = 36283,188 MPa"
++ proprieta.soletta.9: tabella "Proprietà|Valore|Unità" · righe 10 8795B8D36B0C3242
++ proprieta.soletta.9.0: "A" | "8162,892" | "cm²"
++ proprieta.soletta.9.1: "xG" | "1500" | "mm"
++ proprieta.soletta.9.2: "yG" | "130,111" | "mm"
+~ proprieta.fase.0: 5 blocchi
+~ proprieta.fase.0.0: testo "G1 · getto e carpenteria"
++ proprieta.fase.0.1: testo "Solo acciaio · attiva"
++ proprieta.fase.0.2: testo "Solo acciaio"
++ proprieta.fase.0.3: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
++ proprieta.fase.0.4: tabella "Proprietà|Valore|Unità" · righe 10 3B6F7E4C7316F305
++ proprieta.fase.0.4.0: "A" | "1228,558" | "cm²"
++ proprieta.fase.0.4.1: "xG" | "1500" | "mm"
++ proprieta.fase.0.4.2: "yG" | "-1077,734" | "mm"
+~ proprieta.fase.1: 6 blocchi
+~ proprieta.fase.1.0: testo "G2 · permanenti portati"
++ proprieta.fase.1.1: testo "Composta · attiva"
++ proprieta.fase.1.2: testo "φ = 2 · ψL = 1,1 · n = 18,521"
++ proprieta.fase.1.3: testo "Sezione omogeneizzata all’acciaio"
++ proprieta.fase.1.4: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
++ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 6B464B0CD537F4E5
++ proprieta.fase.1.5.0: "A" | "1721,955" | "cm²"
++ proprieta.fase.1.5.1: "xG" | "1500" | "mm"
++ proprieta.fase.1.5.2: "yG" | "-731,574" | "mm"
+~ proprieta.fase.2: 6 blocchi
+~ proprieta.fase.2.0: testo "Q · variabili"
++ proprieta.fase.2.1: testo "Composta · attiva"
++ proprieta.fase.2.2: testo "φ = 0 · ψL = 1 · n = 5,788"
++ proprieta.fase.2.3: testo "Sezione omogeneizzata all’acciaio"
++ proprieta.fase.2.4: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
++ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 3A4139AE2569B17B
++ proprieta.fase.2.5.0: "A" | "2638,919" | "cm²"
++ proprieta.fase.2.5.1: "xG" | "1500" | "mm"
++ proprieta.fase.2.5.2: "yG" | "-432,205" | "mm"
+~ disegno.geometria: anteprima A710DDC0632E209A
+~ disegno.ingresso: anteprima C629E541270472E8
+== attendi
+~ calcolo: occupato no · risultato 42622E707982EFFF · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ avvisi: "Cassoncino con due anime inclinate di 7.7° e due piattabande superiori: flessione retta, taglio ripartito in parti uguali sulle anime (V/(2 cos α) nel piano di ciascuna), fondo come lamiera interna tra le anime (kσ interno) più gli sbalzi esterni. Torsione e distorsione della cella chiusa dalla soletta, diaframmi, irrigidimenti longitudinali del fondo e instabilità del fondo compresso come piastra irrigidita non sono verificati.  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
+~ panoramica: "|σa|max = 61,857 MPa\nσc,min = -2,984 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,23\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,07\nGoverna: Armatura · y=215\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,23\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 3,081E-017 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 1,589E-015 · limite 1E−5."
+~ contenitori: piastra no · nota piastra no · trasversale no · fatica no · cassoncino sì · discretizzazione no · torsione risultati sì
+~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 A60F075D8A95835A
+~ pannello.tensioni.0.0: "Soletta · estradosso" | "260" | "0" | "-0,862" | "-2,121" | "-2,984"
+~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,636" | "-1,325" | "-1,961"
+~ pannello.tensioni.0.2: "Armatura · y=215" | "215" | "0" | "-14,517" | "-10,934" | "-25,451"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 B610AAA781EF157F
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-2,984" | "32,143" | "0,093" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-1,961" | "32,143" | "0,061" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.2: "Armatura · y=215" | "SLU" | "-25,451" | "391,304" | "0,065" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 8CC993EBB80D2CBF
+~ pannello.omogeneizzazione.0.0: "G1 · getto e carpenteria" | "—" | "—" | "—" | "—" | "—" | "122855,819" | "-1077,734" | "7,25349E+10" | "6,73032E+7" | "8,82135E+7" | "-1077,734" | "9,84747E-5"
+~ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "172195,5" | "-731,574" | "1,24199E+11" | "1,6977E+8" | "1,06296E+8" | "-731,574" | "7,66844E-5"
+~ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "263891,893" | "-432,205" | "1,69127E+11" | "3,91313E+8" | "1,15226E+8" | "-432,205" | "8,44694E-5"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 715BC7EC08D41327
+~ pannello.equilibrio.0.0: "G1 · getto e carpenteria" | "Solo acciaio" | "Baricentro omogeneizzato lordo" | "-1077,734" | "0" | "1500" | "0" | "0" | "1500" | "0" | "—" | "—" | "—" | "—" | "0" | "7,25349E+10" | "0E+0"
+~ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-731,574" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "1,24195E+11" | "1,3214E-15"
+~ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-432,205" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "1,69123E+11" | "1,58946E-15"
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 4 37BE43519CE10EC2
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1861,861" | "15" | "-40,372" | "60,221" | "-1,492" | "37,126" | "0,762" | "1" | "747,237" | "298,895" | "1562,966"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "242,431" | "25" | "-41,735" | "-41,735" | "1" | "0,43" | "0,553" | "1" | "242,431" | "242,431" | "0"
+~ pannello.classe4.0.2: "Fondo · lamiera interna" | "1184,863" | "30" | "60,221" | "60,221" | "0" | "0" | "0" | "1" | "0" | "592,431" | "592,431"
+~ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 D5CFC5753F757379
+~ pannello.geometria.0.0: "Area carpenteria lorda" | "122855,819" | "mm²"
+~ pannello.geometria.0.2: "Ix carpenteria lorda" | "7,25349E+10" | "mm⁴"
+~ pannello.taglio.0: tabella "Parametro|Valore|Unità" · righe 11 CDBBB36DAC933DC2
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 83EB0209944D58DC
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "4,25278E+7" | "1,24199E+11" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "7,93069E+7" | "1,69127E+11" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.torsione.0: testo "Verifiche a torsione del cassoncino non attive: attivarle negli ingressi del cassoncino."
+== opzione cassoncino torsione_cassoncino
+~ dati.torsione_cassoncino: true
+~ modificato: 26
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ form.cassoncino.torsione_cassoncino: opzione "Verifiche a torsione del cassoncino" = "sì"
+~ form.cassoncino.t_controvento: campo "Controvento superiore · spessore equivalente t*" = "0"
+~ form.cassoncino.L_campata: campo "Distorsione · luce della campata (0 = non analizzata)" = "0"
+~ form.cassoncino.T_app: campo "Appoggio · torcente trasferito agli apparecchi" = "0"
+~ form.fase.0.T: campo "Momento torcente T · cassoncino" = "0"
+~ form.fase.1.T: campo "Momento torcente T · cassoncino" = "0"
+~ form.fase.2.T: campo "Momento torcente T · cassoncino" = "0"
+~ azioni.0: spente phi,psi,n,epsilon_cs,q_conn
+~ azioni.1: spente epsilon_cs
+~ azioni.2: spente epsilon_cs
+~ disegno.ingresso: anteprima 7EFF844501B5D206
+== campo cassoncino t_controvento «4»
+~ dati.t_controvento: "4"
+~ modificato: 27
+~ form.cassoncino.t_controvento: campo "Controvento superiore · spessore equivalente t*" = "4"
+~ disegno.ingresso: anteprima 5A0668426F74F0D2
+== campo cassoncino L_campata «36000»
+~ dati.L_campata: "36000"
+~ modificato: 28
+~ form.cassoncino.L_campata: campo "Distorsione · luce della campata (0 = non analizzata)" = "36000"
+~ form.cassoncino.m_t_dist: campo "Distorsione · torcente distribuito m_t" = "0"
+~ form.cassoncino.T_c_dist: campo "Distorsione · torcente concentrato T_c" = "0"
+~ form.cassoncino.passo_diaframmi: campo "Diaframmi intermedi · passo (0 = assenti)" = "0"
+~ disegno.ingresso: anteprima C2873AEA5BC16DB8
+== attendi
+~ calcolo: occupato no · risultato BA6C3DF47EEB54A2 · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ avvisi: "Cassoncino con due anime inclinate di 7.7° e due piattabande superiori: flessione retta, taglio ripartito in parti uguali sulle anime (V/(2 cos α) nel piano di ciascuna), fondo come lamiera interna tra le anime (kσ interno) più gli sbalzi esterni. Torsione della cella chiusa, distorsione e diaframmi verificati con le opzioni del cassoncino; irrigidimenti longitudinali del fondo e instabilità del fondo compresso come piastra irrigidita non sono verificati.  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.  Distorsione: σdw = 0,00% della σ di flessione del fondo; entro il 10% è trascurata nelle verifiche del fondo (EN 1993-2 §6.2.7(3)); i nodi la includono.  Distorsione senza diaframmi intermedi: la sola rigidezza a telaio della sezione trasversale si oppone alla distorsione.  Distorsione: analogia della trave su suolo elastico (Wright et al., 1968) sulla campata semplicemente appoggiata con diaframmi d'estremità rigidi; m_t su tutta la luce e T_c nella posizione più sfavorevole, dello stesso segno, applicati come coppie verticali alla sommità delle anime. Cella composta con la soletta a breve termine; accoppiamento con l'ingobbamento torsionale trascurato; inviluppi lungo la campata, indipendenti dalle fasi.  Torsione del cassoncino: cella chiusa di Bredt, q = T/(2A0) tra i piani medi della soletta (del controvento nelle fasi di solo acciaio) e del fondo, indipendente dalla rigidezza delle pareti; J con la soletta hc/nG, dimezzata se fessurata (EN 1994-2 §§5.4.2.2(11), 5.4.2.3(6)). q si somma al taglio nelle anime (EN 1993-1-1 §6.2.7(9)), nel fondo, nei pioli e nelle superfici a–a/b–b interne alla cella (EN 1994-2 §6.6.2.1). Torsione non uniforme e distorsione della sezione aperta esclusa."
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,23\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,07\nGoverna: Armatura · y=215\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,23\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\nCassoncino · torsione e distorsione\nVERIFICATA\nη = 0,23\nGoverna: Distorsione · nodo anima–fondo (σx, σz, τ)\n5/5 combinazioni\n"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 15 1DC721CE46C52B90
+~ pannello.torsione: 4 blocchi
+~ pannello.torsione.0: testo "q anime e fondo = 0 kN/m · q soletta e connessione = 0 kN/m · q controvento = 0 kN/m"
++ pannello.torsione.1: tabella "Fase|Sezione|ΔT [kNm]|A0 [m²]|J acciaio [m⁴]|q [kN/m]|Cella" · righe 3 182BBA3FB4AE3C2D
++ pannello.torsione.1.0: "G1 · getto e carpenteria" | "Solo acciaio" | "0" | "2,714" | "4,10694E-2" | "0" | "Chiusa"
++ pannello.torsione.1.1: "G2 · permanenti portati" | "Composta" | "0" | "2,96" | "8,23577E-2" | "0" | "Chiusa"
++ pannello.torsione.1.2: "Q · variabili" | "Composta" | "0" | "2,96" | "1,0106E-1" | "0" | "Chiusa"
++ pannello.torsione.2: testo "Distorsione: σdw fondo = 0 MPa (0% della flessione, trascurata nel fondo) · ψ max = 0E+0 rad · diaframmi intermedi 0"
++ pannello.torsione.3: tabella "Parametro|Valore|Unità" · righe 29 F1EAB95268AFED59
++ pannello.torsione.3.0: "Torsione · G1 · getto e carpenteria · T" | "0" | "kNm"
++ pannello.torsione.3.1: "Torsione · G1 · getto e carpenteria · A0" | "2,714" | "m²"
++ pannello.torsione.3.2: "Torsione · G1 · getto e carpenteria · J (acciaio)" | "0,041" | "m⁴"
+== campo cassoncino passo_diaframmi «6000»
+~ dati.passo_diaframmi: "6000"
+~ modificato: 29
+~ calcolo: occupato no · risultato - · mostrato da aggiornare · esportabile no
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ form.cassoncino.passo_diaframmi: campo "Diaframmi intermedi · passo (0 = assenti)" = "6000"
+~ form.cassoncino.tipo_diaframma: scelta "Diaframmi intermedi · tipo" = "Piastra" voci "Piastra|Controvento a X"
+~ form.cassoncino.t_diaframma: campo "Piastra · spessore" = "12"
+~ disegno.ingresso: anteprima ECE1AE2F477C868E
+== scelta cassoncino tipo_diaframma «Controvento a X»
+~ dati.tipo_diaframma: "Controvento a X"
+~ modificato: 30
+~ form.cassoncino.tipo_diaframma: scelta "Diaframmi intermedi · tipo" = "Controvento a X" voci "Piastra|Controvento a X"
+~ form.cassoncino.t_diaframma: campo "Piastra · spessore" = "12" · nascosto
+~ form.cassoncino.A_diagonale: campo "Controvento a X · area di una diagonale" = "3000"
+~ form.cassoncino.i_diagonale: campo "Controvento a X · raggio d'inerzia minimo" = "30"
+~ form.cassoncino.beta_diagonale: campo "Controvento a X · Lcr / L diagonale" = "1"
+~ disegno.ingresso: anteprima 49E9480EC68A7B93
+== campo cassoncino T_app «500»
+~ dati.T_app: "500"
+~ modificato: 31
+~ form.cassoncino.T_app: campo "Appoggio · torcente trasferito agli apparecchi" = "500"
+~ form.cassoncino.e_appoggi: campo "Appoggio · interasse trasversale apparecchi" = ""
+~ form.cassoncino.t_diaframma_app: campo "Diaframma d'appoggio · spessore (0 = non verificato)" = "0"
+~ disegno.ingresso: anteprima 8A1E76782F45374F
+== attendi
+~ stato: "Dati da verificare: e_appoggi: inserire un numero finito maggiore di 0."
+== campo carpenteria t_web «»
+~ dati.t_web: ""
+~ modificato: 32
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ avviso: "Geometria precedente · t_web: inserire un numero finito maggiore di 0."
+~ materiali: "t_web: inserire un numero finito maggiore di 0."
+~ form.carpenteria.t_web: campo "Spessore anima" = ""
+~ proprieta: "Acciaio|Soletta|01 · G1 · getto e carpenteria|02 · G2 · permanenti portati|03 · Q · variabili" · scelta 0 · nota "Proprietà da aggiornare: t_web: inserire un numero finito maggiore di 0."
+~ proprieta.soletta: 1 blocchi
+~ proprieta.soletta.0: testo "t_web: inserire un numero finito maggiore di 0."
+~ proprieta.fase.0: 1 blocchi
+~ proprieta.fase.0.0: testo "t_web: inserire un numero finito maggiore di 0."
+~ proprieta.fase.1: 1 blocchi
+~ proprieta.fase.1.0: testo "t_web: inserire un numero finito maggiore di 0."
+~ proprieta.fase.2: 1 blocchi
+~ proprieta.fase.2.0: testo "t_web: inserire un numero finito maggiore di 0."
+- proprieta.soletta.1
+- proprieta.soletta.2
+- proprieta.soletta.2.0
+- proprieta.soletta.2.1
+- proprieta.soletta.2.2
+- proprieta.soletta.3
+- proprieta.soletta.4
+- proprieta.soletta.4.0
+- proprieta.soletta.4.1
+- proprieta.soletta.4.2
+- proprieta.soletta.5
+- proprieta.soletta.6
+- proprieta.soletta.6.0
+- proprieta.soletta.6.1
+- proprieta.soletta.7
+- proprieta.soletta.8
+- proprieta.soletta.9
+- proprieta.soletta.9.0
+- proprieta.soletta.9.1
+- proprieta.soletta.9.2
+- proprieta.fase.0.1
+- proprieta.fase.0.2
+- proprieta.fase.0.3
+- proprieta.fase.0.4
+- proprieta.fase.0.4.0
+- proprieta.fase.0.4.1
+- proprieta.fase.0.4.2
+- proprieta.fase.1.1
+- proprieta.fase.1.2
+- proprieta.fase.1.3
+- proprieta.fase.1.4
+- proprieta.fase.1.5
+- proprieta.fase.1.5.0
+- proprieta.fase.1.5.1
+- proprieta.fase.1.5.2
+- proprieta.fase.2.1
+- proprieta.fase.2.2
+- proprieta.fase.2.3
+- proprieta.fase.2.4
+- proprieta.fase.2.5
+- proprieta.fase.2.5.0
+- proprieta.fase.2.5.1
+- proprieta.fase.2.5.2
+== attendi
+~ stato: "Dati da verificare: t_web: inserire un numero finito maggiore di 0."
+== campo carpenteria t_web «15»
+~ dati.t_web: "15"
+~ modificato: 33
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ avviso: -
+~ materiali: "C45/55   fck = 45 MPa\nEcm = 36283,188 MPa\n\nS275   fy = 265 MPa\nEa = 210000 MPa\n\nB450C   fyk = 450 MPa\nEs = 200000 MPa"
+~ form.carpenteria.t_web: campo "Spessore anima" = "15"
+~ proprieta: "Acciaio|Soletta|01 · G1 · getto e carpenteria|02 · G2 · permanenti portati|03 · Q · variabili" · scelta 0 · nota "Proprietà geometriche, indipendenti dai carichi. Le riduzioni efficaci dipendono dalle sollecitazioni e sono nella scheda Fasi e tensioni."
+~ proprieta.soletta: 10 blocchi
+~ proprieta.soletta.0: testo "Quote predalle · solo geometria"
++ proprieta.soletta.1: testo "La predalle è un riferimento geometrico compreso nello spessore totale della soletta. Il calcolo mantiene un'unica soletta omogenea: nessun materiale, armatura propria, peso, fase o verifica aggiuntivi della predalle."
++ proprieta.soletta.2: tabella "Riferimento|y [mm]" · righe 3 B414D1C2AFB36B1F
++ proprieta.soletta.2.0: "Intradosso soletta" | "0"
++ proprieta.soletta.2.1: "Estradosso predalle" | "55"
++ proprieta.soletta.2.2: "Estradosso soletta" | "260"
++ proprieta.soletta.3: testo "Solo calcestruzzo · lordo"
++ proprieta.soletta.4: tabella "Proprietà|Valore|Unità" · righe 10 BF71278233967ECF
++ proprieta.soletta.4.0: "A" | "7800" | "cm²"
++ proprieta.soletta.4.1: "xG" | "1500" | "mm"
++ proprieta.soletta.4.2: "yG" | "130" | "mm"
++ proprieta.soletta.5: testo "Armature"
++ proprieta.soletta.6: tabella "Fila|As [cm²]|y [mm]" · righe 2 5942154449A7919E
++ proprieta.soletta.6.0: "20 barre" | "40,212" | "215"
++ proprieta.soletta.6.1: "20 barre" | "40,212" | "50"
++ proprieta.soletta.7: testo "Soletta omogeneizzata al CLS"
++ proprieta.soletta.8: testo "n barre = 5,512 · Ec,eff = 36283,188 MPa"
++ proprieta.soletta.9: tabella "Proprietà|Valore|Unità" · righe 10 8795B8D36B0C3242
++ proprieta.soletta.9.0: "A" | "8162,892" | "cm²"
++ proprieta.soletta.9.1: "xG" | "1500" | "mm"
++ proprieta.soletta.9.2: "yG" | "130,111" | "mm"
+~ proprieta.fase.0: 5 blocchi
+~ proprieta.fase.0.0: testo "G1 · getto e carpenteria"
++ proprieta.fase.0.1: testo "Solo acciaio · attiva"
++ proprieta.fase.0.2: testo "Solo acciaio"
++ proprieta.fase.0.3: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
++ proprieta.fase.0.4: tabella "Proprietà|Valore|Unità" · righe 10 3B6F7E4C7316F305
++ proprieta.fase.0.4.0: "A" | "1228,558" | "cm²"
++ proprieta.fase.0.4.1: "xG" | "1500" | "mm"
++ proprieta.fase.0.4.2: "yG" | "-1077,734" | "mm"
+~ proprieta.fase.1: 6 blocchi
+~ proprieta.fase.1.0: testo "G2 · permanenti portati"
++ proprieta.fase.1.1: testo "Composta · attiva"
++ proprieta.fase.1.2: testo "φ = 2 · ψL = 1,1 · n = 18,521"
++ proprieta.fase.1.3: testo "Sezione omogeneizzata all’acciaio"
++ proprieta.fase.1.4: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
++ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 6B464B0CD537F4E5
++ proprieta.fase.1.5.0: "A" | "1721,955" | "cm²"
++ proprieta.fase.1.5.1: "xG" | "1500" | "mm"
++ proprieta.fase.1.5.2: "yG" | "-731,574" | "mm"
+~ proprieta.fase.2: 6 blocchi
+~ proprieta.fase.2.0: testo "Q · variabili"
++ proprieta.fase.2.1: testo "Composta · attiva"
++ proprieta.fase.2.2: testo "φ = 0 · ψL = 1 · n = 5,788"
++ proprieta.fase.2.3: testo "Sezione omogeneizzata all’acciaio"
++ proprieta.fase.2.4: testo "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."
++ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 3A4139AE2569B17B
++ proprieta.fase.2.5.0: "A" | "2638,919" | "cm²"
++ proprieta.fase.2.5.1: "xG" | "1500" | "mm"
++ proprieta.fase.2.5.2: "yG" | "-432,205" | "mm"
+== attendi
+~ stato: "Dati da verificare: e_appoggi: inserire un numero finito maggiore di 0."
+== scelta sezione sezione «H saldato»
+~ dati.sezione: "H saldato"
+~ dati.h_web: "1823"
+~ modificato: 34
+~ stato: "Dati modificati · aggiornamento automatico in attesa…"
+~ altezza: "H = 1900 mm · h anima = H − t sup − t inf − t inf.2 = 1823 mm."
+~ contenitori: piastra sì · nota piastra sì · trasversale no · fatica no · cassoncino no · discretizzazione no · torsione risultati sì
+~ form.sezione.sezione: scelta "Tipo di sezione" = "H saldato" voci "H saldato|H con anima inclinata|Cassoncino"
+~ form.sezione.offset_anima: campo "Scostamento anima al piede" = "250" · nascosto
+~ form.sezione.interasse_anime: campo "Interasse anime in sommità" = "1700" · nascosto
+~ form.fase.0.T: campo "Momento torcente T · cassoncino" = "0" · nascosto
+~ form.fase.1.T: campo "Momento torcente T · cassoncino" = "0" · nascosto
+~ form.fase.2.T: campo "Momento torcente T · cassoncino" = "0" · nascosto
+~ azioni: righe 3 · selezione -1 · ΔT no · bloccata no · stessi oggetti sì
+~ azioni.0: spente T,phi,psi,n,epsilon_cs,q_conn
+~ azioni.1: spente T,epsilon_cs
+~ azioni.2: spente T,epsilon_cs
+~ proprieta.acciaio: 7 blocchi
+~ proprieta.acciaio.0: testo "Carpenteria reale"
+~ proprieta.acciaio.1: tabella "Proprietà|Valore|Unità" · righe 10 3687C40D8F5EABBC
++ proprieta.acciaio.1.0: "A" | "928,45" | "cm²"
++ proprieta.acciaio.1.1: "xG" | "1500" | "mm"
++ proprieta.acciaio.1.2: "yG" | "-1344,066" | "mm"
+~ proprieta.acciaio.2: gruppo "Piattabanda superiore"
+~ proprieta.acciaio.2.0: tabella "Proprietà|Valore|Unità" · righe 10 3884522D6F50E6FE
++ proprieta.acciaio.2.0.0: "A" | "125" | "cm²"
++ proprieta.acciaio.2.0.1: "xG" | "1500" | "mm"
++ proprieta.acciaio.2.0.2: "yG" | "-12,5" | "mm"
+~ proprieta.acciaio.3: gruppo "Anima"
++ proprieta.acciaio.3.0: tabella "Proprietà|Valore|Unità" · righe 10 F90CD60E40EDEDCF
++ proprieta.acciaio.3.0.0: "A" | "273,45" | "cm²"
++ proprieta.acciaio.3.0.1: "xG" | "1500" | "mm"
++ proprieta.acciaio.3.0.2: "yG" | "-936,5" | "mm"
+~ proprieta.acciaio.4: gruppo "Piattabanda inferiore 1"
++ proprieta.acciaio.4.0: tabella "Proprietà|Valore|Unità" · righe 10 0DE77CFD48413CF3
++ proprieta.acciaio.4.0.0: "A" | "420" | "cm²"
++ proprieta.acciaio.4.0.1: "xG" | "1500" | "mm"
++ proprieta.acciaio.4.0.2: "yG" | "-1863" | "mm"
+~ proprieta.acciaio.5: gruppo "Piattabanda inferiore 2"
+~ proprieta.acciaio.5.0: tabella "Proprietà|Valore|Unità" · righe 10 32F70128C9F68C12
++ proprieta.acciaio.5.0.0: "A" | "110" | "cm²"
++ proprieta.acciaio.5.0.1: "xG" | "1500" | "mm"
++ proprieta.acciaio.5.0.2: "yG" | "-1889" | "mm"
+~ proprieta.acciaio.6: gruppo "Carpenteria equivalente di calcolo"
+~ proprieta.acciaio.6.0: tabella "Proprietà|Valore|Unità" · righe 10 0E839B89A0158C24
+~ proprieta.acciaio.6.0.0: "A" | "928,45" | "cm²"
+~ proprieta.acciaio.6.0.2: "yG" | "-1347,265" | "mm"
+~ proprieta.fase.0.4: tabella "Proprietà|Valore|Unità" · righe 10 3687C40D8F5EABBC
+~ proprieta.fase.0.4.0: "A" | "928,45" | "cm²"
+~ proprieta.fase.0.4.2: "yG" | "-1344,066" | "mm"
+~ proprieta.fase.1.5: tabella "Proprietà|Valore|Unità" · righe 10 8C7935839548EF48
+~ proprieta.fase.1.5.0: "A" | "1421,847" | "cm²"
+~ proprieta.fase.1.5.2: "yG" | "-832,422" | "mm"
+~ proprieta.fase.2.5: tabella "Proprietà|Valore|Unità" · righe 10 17BF979EA913938D
+~ proprieta.fase.2.5.0: "A" | "2338,811" | "cm²"
+~ proprieta.fase.2.5.2: "yG" | "-455,101" | "mm"
+~ disegno.geometria: anteprima EA0BDB6D09CCB1DE
+~ disegno.ingresso: anteprima 28EB2D23345A445F
+- proprieta.acciaio.2.1
+- proprieta.acciaio.2.2
+- proprieta.acciaio.5.1
+- proprieta.acciaio.5.2
+- proprieta.acciaio.7
+- proprieta.acciaio.7.0
+- proprieta.acciaio.7.0.0
+- proprieta.acciaio.7.0.1
+- proprieta.acciaio.7.0.2
+- proprieta.acciaio.8
+- proprieta.acciaio.8.0
+- proprieta.acciaio.8.0.0
+- proprieta.acciaio.8.0.1
+- proprieta.acciaio.8.0.2
+- proprieta.acciaio.9
+- proprieta.acciaio.9.0
+- proprieta.acciaio.9.0.0
+- proprieta.acciaio.9.0.1
+- proprieta.acciaio.9.0.2
+== attendi
+~ calcolo: occupato no · risultato 40C40A1CC0882E2F · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ avvisi: "Due piastre inferiori modellate con la geometria reale. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore, senza il beneficio dell'accoppiamento (a favore di sicurezza).  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
+~ panoramica: "|σa|max = 64,898 MPa\nσc,min = -3,16 MPa\n\nAnima inefficace: 98,681 mm\nAeff / Alorda = 0,984\nConvergenza: 9 iterazioni"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,24\nGoverna: Acciaio · estradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,10\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,07\nGoverna: Armatura · y=215\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,24\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ convergenza: "Convergenza: 9 iterazioni.\nVariazione relativa delle larghezze: 2,715E-008 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 1,070E-014 · limite 1E−5."
+~ contenitori: piastra sì · nota piastra sì · trasversale no · fatica no · cassoncino no · discretizzazione no · torsione risultati no
+~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 2567ACBF3886E1E6
+~ pannello.tensioni.0.0: "Soletta · estradosso" | "260" | "0" | "-0,996" | "-2,164" | "-3,16"
+~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,76" | "-1,378" | "-2,137"
+~ pannello.tensioni.0.2: "Armatura · y=215" | "215" | "0" | "-16,846" | "-11,179" | "-28,024"
+~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 35EBAA3B1C145355
+~ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,16" | "32,143" | "0,098" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-2,137" | "32,143" | "0,066" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.verifiche.0.2: "Armatura · y=215" | "SLU" | "-28,024" | "391,304" | "0,072" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 40BE75954A0E5871
+~ pannello.omogeneizzazione.0.0: "G1 · getto e carpenteria" | "—" | "—" | "—" | "—" | "—" | "91364,783" | "-1359,053" | "4,75714E+10" | "3,50033E+7" | "8,79409E+7" | "-1359,053" | "1,5015E-4"
+~ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "140704,463" | "-836,771" | "1,1893E+11" | "1,4213E+8" | "1,11858E+8" | "-836,771" | "8,00818E-5"
+~ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "232400,856" | "-455,331" | "1,71331E+11" | "3,76279E+8" | "1,18595E+8" | "-455,331" | "8,33828E-5"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 73701A0BDE962F5C
+~ pannello.equilibrio.0.0: "G1 · getto e carpenteria" | "Solo acciaio" | "Baricentro omogeneizzato lordo" | "-1344,066" | "0" | "1500" | "0" | "0" | "1500" | "0" | "—" | "—" | "—" | "—" | "0" | "4,75714E+10" | "1,58946E-16"
+~ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-832,422" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "1,18926E+11" | "3,23924E-15"
+~ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-455,101" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "1,71327E+11" | "1,07005E-14"
+~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 4 B731DBF671C4BF71
+~ pannello.classe4.0.0: "Anima · sup → inf" | "1823" | "15" | "-63,252" | "56,809" | "-0,898" | "21,349" | "0,984" | "0,897" | "960,409" | "344,691" | "1379,628"
+~ pannello.classe4.0.1: "Sbalzo superiore" | "242,5" | "25" | "-64,898" | "-64,898" | "1" | "0,43" | "0,553" | "1" | "242,5" | "242,5" | "0"
+~ pannello.classe4.0.2: "Sbalzo inferiore · piastra 1" | "692,5" | "30" | "56,809" | "56,809" | "1" | "0,43" | "1,316" | "1" | "0" | "692,5" | "0"
+~ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 D74DF28B7C3A2F4D
+~ pannello.geometria.0.0: "Area carpenteria lorda" | "92845" | "mm²"
+~ pannello.geometria.0.1: "Baricentro carpenteria lorda" | "-1344,066" | "mm"
+~ pannello.geometria.0.2: "Ix carpenteria lorda" | "4,88597E+10" | "mm⁴"
+~ pannello.taglio.0: tabella "Parametro|Valore|Unità" · righe 11 9097CD7F2EFC0640
+~ pannello.taglio.0.2: "τcr" | "68,619" | "MPa"
+~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 8A2E6F8DAE30F712
+~ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "4,77182E+7" | "1,1893E+11" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.pioli.2.2: "Q · variabili" | "0" | "8,25684E+7" | "1,71331E+11" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
+~ pannello.torsione: 1 blocchi
+~ pannello.torsione.0: testo "Solo per il cassoncino."
+- pannello.torsione.1
+- pannello.torsione.1.0
+- pannello.torsione.1.1
+- pannello.torsione.1.2
+- pannello.torsione.2
+- pannello.torsione.3
+- pannello.torsione.3.0
+- pannello.torsione.3.1
+- pannello.torsione.3.2
+== proprieta [1]
+~ proprieta: "Acciaio|Soletta|01 · G1 · getto e carpenteria|02 · G2 · permanenti portati|03 · Q · variabili" · scelta 1 · nota "Proprietà geometriche, indipendenti dai carichi. Le riduzioni efficaci dipendono dalle sollecitazioni e sono nella scheda Fasi e tensioni."
+== campo proprieta-soletta n «8»
+~ dati.ui_mista: {"layout_version":4,"soletta_proprieta":{"phi":"0.3822166940538718","psi":"1","n":"8","modo":"Da n"},"dettaglio_sezione":0,"tab":0}
+~ modificato: 35
+~ form.proprieta-soletta.phi: campo "Viscosità φ" = "0.3822166940538718"
+~ form.proprieta-soletta.n: campo "n = Ea / Ec,eff" = "8"
+~ proprieta.soletta.8: testo "n barre = 7,619 · Ec,eff = 26250 MPa"
+~ proprieta.soletta.9: tabella "Proprietà|Valore|Unità" · righe 10 D42FCCCD731D5E33
+~ proprieta.soletta.9.0: "A" | "8332,335" | "cm²"
+~ proprieta.soletta.9.2: "yG" | "130,16" | "mm"
+== campo proprieta-soletta psi «1,1»
+~ dati.ui_mista: {"layout_version":4,"soletta_proprieta":{"phi":"0.3822166940538718","psi":"1,1","n":"8.221219550131682","modo":"Da φ"},"dettaglio_sezione":0,"tab":0}
+~ modificato: 36
+~ form.proprieta-soletta.psi: campo "Moltiplicatore ψL" = "1,1"
+~ form.proprieta-soletta.n: campo "n = Ea / Ec,eff" = "8.221219550131682"
+~ proprieta.soletta.8: testo "n barre = 7,83 · Ec,eff = 25543,656 MPa"
+~ proprieta.soletta.9: tabella "Proprietà|Valore|Unità" · righe 10 F1DFF2F0F1B8E918
+~ proprieta.soletta.9.0: "A" | "8349,28" | "cm²"
+~ proprieta.soletta.9.2: "yG" | "130,164" | "mm"
+== proprieta [3]
+~ proprieta: "Acciaio|Soletta|01 · G1 · getto e carpenteria|02 · G2 · permanenti portati|03 · Q · variabili" · scelta 3 · nota "Proprietà geometriche, indipendenti dai carichi. Le riduzioni efficaci dipendono dalle sollecitazioni e sono nella scheda Fasi e tensioni."
+== proprieta [0]
+~ proprieta: "Acciaio|Soletta|01 · G1 · getto e carpenteria|02 · G2 · permanenti portati|03 · Q · variabili" · scelta 0 · nota "Proprietà geometriche, indipendenti dai carichi. Le riduzioni efficaci dipendono dalle sollecitazioni e sono nella scheda Fasi e tensioni."
+== calcola
+~ dati.ui_mista: {"layout_version":4,"soletta_proprieta":{"phi":"0.3822166940538718","psi":"1,1","n":"8.221219550131682","modo":"Da φ"},"dettaglio_sezione":0,"tab":0,"vista_0":2,"risultato_0":2,"quote_0":true,"armature_0":true,"fase":2,"segui_ultima_fase":true}
+~ calcolo: occupato no · risultato E5CE92DB9FEF7455 · mostrato corrente · esportabile sì
+== conferma
+== riapri
+~ modificato: 0
+~ calcolo: occupato no · risultato - · mostrato - · esportabile no
+~ stato: "Preparazione della sezione…"
+~ avvisi: ""
+~ panoramica: ""
+~ riepilogo: ""
+~ convergenza: ""
+~ situazioni: "" · scelta -1 · visibile no · attiva sì
+~ interruttori: quote sì · armature sì · asse neutro sì(nascosto) "Asse neutro del risultato selezionato." · contorno sezione no · contorno tensioni no · limiti no · menu sì
+~ scala: "1" · auto sì · visibile no · errore no · "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.\nRiferimento attuale: nessuna fase composta · ×1" · modificabile sì
+~ contenitori: piastra sì · nota piastra sì · trasversale no · fatica no · cassoncino no · discretizzazione no · torsione risultati sì
+~ pannello.tensioni: 0 blocchi
+~ pannello.verifiche: 0 blocchi
+~ pannello.omogeneizzazione: 0 blocchi
+~ pannello.equilibrio: 0 blocchi
+~ pannello.classe4: 0 blocchi
+~ pannello.geometria: 0 blocchi
+~ pannello.taglio: 0 blocchi
+~ pannello.pioli: 0 blocchi
+~ pannello.torsione: 0 blocchi
+~ disegno: modo 2 · da aggiornare no · quote sì · armature sì · asse neutro sì · contorni nono · limiti no · CLS × 1 · appoggio no
+~ disegno.ingresso: anteprima C658F23B63BCB9E4
+- pannello.tensioni.0
+- pannello.tensioni.0.0
+- pannello.tensioni.0.1
+- pannello.tensioni.0.2
+- pannello.verifiche.0
+- pannello.verifiche.0.0
+- pannello.verifiche.0.1
+- pannello.verifiche.0.2
+- pannello.omogeneizzazione.0
+- pannello.omogeneizzazione.0.0
+- pannello.omogeneizzazione.0.1
+- pannello.omogeneizzazione.0.2
+- pannello.equilibrio.0
+- pannello.equilibrio.0.0
+- pannello.equilibrio.0.1
+- pannello.equilibrio.0.2
+- pannello.classe4.0
+- pannello.classe4.0.0
+- pannello.classe4.0.1
+- pannello.classe4.0.2
+- pannello.geometria.0
+- pannello.geometria.0.0
+- pannello.geometria.0.1
+- pannello.geometria.0.2
+- pannello.taglio.0
+- pannello.taglio.0.0
+- pannello.taglio.0.1
+- pannello.taglio.0.2
+- pannello.pioli.0
+- pannello.pioli.1
+- pannello.pioli.2
+- pannello.pioli.2.0
+- pannello.pioli.2.1
+- pannello.pioli.2.2
+- pannello.pioli.3
+- pannello.torsione.0
+== conferma
+== attendi
+~ calcolo: occupato no · risultato E5CE92DB9FEF7455 · mostrato corrente · esportabile sì
+~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
+~ avvisi: "Due piastre inferiori modellate con la geometria reale. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore, senza il beneficio dell'accoppiamento (a favore di sicurezza).  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
+~ panoramica: "|σa|max = 64,898 MPa\nσc,min = -3,16 MPa\n\nAnima inefficace: 98,681 mm\nAeff / Alorda = 0,984\nConvergenza: 9 iterazioni"
+~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,24\nGoverna: Acciaio · estradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,10\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,07\nGoverna: Armatura · y=215\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,24\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
+~ convergenza: "Convergenza: 9 iterazioni.\nVariazione relativa delle larghezze: 2,715E-008 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 1,070E-014 · limite 1E−5."
+~ situazioni: "01 · Dopo G1 · getto e carpenteria|02 · Dopo G2 · permanenti portati|03 · Dopo Q · variabili" · scelta 2 · visibile no · attiva sì
+~ interruttori: quote sì · armature sì · asse neutro sì(nascosto) "Zero delle tensioni cumulate nell’acciaio; non è lo zero delle tensioni nella soletta." · contorno sezione no · contorno tensioni no · limiti no · menu sì
+~ scala: "5,788" · auto sì · visibile no · errore no · "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.\nRiferimento attuale: n · Q · variabili · ×5,788" · modificabile sì
+~ contenitori: piastra sì · nota piastra sì · trasversale no · fatica no · cassoncino no · discretizzazione no · torsione risultati no
+~ pannello.tensioni: 1 blocchi
++ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 2567ACBF3886E1E6
++ pannello.tensioni.0.0: "Soletta · estradosso" | "260" | "0" | "-0,996" | "-2,164" | "-3,16"
++ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,76" | "-1,378" | "-2,137"
++ pannello.tensioni.0.2: "Armatura · y=215" | "215" | "0" | "-16,846" | "-11,179" | "-28,024"
+~ pannello.verifiche: 1 blocchi
++ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 10 35EBAA3B1C145355
++ pannello.verifiche.0.0: "Soletta · estradosso" | "SLU" | "-3,16" | "32,143" | "0,098" | "Entro limite locale" | "σ e limite in MPa"
++ pannello.verifiche.0.1: "Soletta · intradosso" | "SLU" | "-2,137" | "32,143" | "0,066" | "Entro limite locale" | "σ e limite in MPa"
++ pannello.verifiche.0.2: "Armatura · y=215" | "SLU" | "-28,024" | "391,304" | "0,072" | "Entro limite locale" | "σ e limite in MPa"
+~ pannello.omogeneizzazione: 1 blocchi
++ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 40BE75954A0E5871
++ pannello.omogeneizzazione.0.0: "G1 · getto e carpenteria" | "—" | "—" | "—" | "—" | "—" | "91364,783" | "-1359,053" | "4,75714E+10" | "3,50033E+7" | "8,79409E+7" | "-1359,053" | "1,5015E-4"
++ pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "5,788" | "18,521" | "2" | "2,2" | "11338,496" | "140704,463" | "-836,771" | "1,1893E+11" | "1,4213E+8" | "1,11858E+8" | "-836,771" | "8,00818E-5"
++ pannello.omogeneizzazione.0.2: "Q · variabili" | "5,788" | "5,788" | "0" | "0" | "36283,188" | "232400,856" | "-455,331" | "1,71331E+11" | "3,76279E+8" | "1,18595E+8" | "-455,331" | "8,33828E-5"
+~ pannello.equilibrio: 1 blocchi
++ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 73701A0BDE962F5C
++ pannello.equilibrio.0.0: "G1 · getto e carpenteria" | "Solo acciaio" | "Baricentro omogeneizzato lordo" | "-1344,066" | "0" | "1500" | "0" | "0" | "1500" | "0" | "—" | "—" | "—" | "—" | "0" | "4,75714E+10" | "1,58946E-16"
++ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-832,422" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "1,18926E+11" | "3,23924E-15"
++ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-455,101" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "1,71327E+11" | "1,07005E-14"
+~ pannello.classe4: 1 blocchi
++ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 4 B731DBF671C4BF71
++ pannello.classe4.0.0: "Anima · sup → inf" | "1823" | "15" | "-63,252" | "56,809" | "-0,898" | "21,349" | "0,984" | "0,897" | "960,409" | "344,691" | "1379,628"
++ pannello.classe4.0.1: "Sbalzo superiore" | "242,5" | "25" | "-64,898" | "-64,898" | "1" | "0,43" | "0,553" | "1" | "242,5" | "242,5" | "0"
++ pannello.classe4.0.2: "Sbalzo inferiore · piastra 1" | "692,5" | "30" | "56,809" | "56,809" | "1" | "0,43" | "1,316" | "1" | "0" | "692,5" | "0"
+~ pannello.geometria: 1 blocchi
++ pannello.geometria.0: tabella "Proprietà|Valore|Unità" · righe 27 D74DF28B7C3A2F4D
++ pannello.geometria.0.0: "Area carpenteria lorda" | "92845" | "mm²"
++ pannello.geometria.0.1: "Baricentro carpenteria lorda" | "-1344,066" | "mm"
++ pannello.geometria.0.2: "Ix carpenteria lorda" | "4,88597E+10" | "mm⁴"
+~ pannello.taglio: 1 blocchi
++ pannello.taglio.0: tabella "Parametro|Valore|Unità" · righe 11 9097CD7F2EFC0640
++ pannello.taglio.0.0: "V cumulato" | "0" | "kN"
++ pannello.taglio.0.1: "kτ" | "5,34" | "—"
++ pannello.taglio.0.2: "τcr" | "68,619" | "MPa"
+~ pannello.pioli: 4 blocchi
++ pannello.pioli.0: testo "Verifica pioli disattivata; flussi riportati per consultazione."
++ pannello.pioli.1: testo ""
++ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 3 8A2E6F8DAE30F712
++ pannello.pioli.2.0: "G1 · getto e carpenteria" | "0" | "0E+0" | "0E+0" | "0" | "0" | "Nessuno scorrimento da V"
++ pannello.pioli.2.1: "G2 · permanenti portati" | "0" | "4,77182E+7" | "1,1893E+11" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
++ pannello.pioli.2.2: "Q · variabili" | "0" | "8,25684E+7" | "1,71331E+11" | "0" | "0" | "EC4: CLS non fessurato, acciaio efficace"
++ pannello.pioli.3: testo ""
+~ pannello.torsione: 1 blocchi
++ pannello.torsione.0: testo "Solo per il cassoncino."
+~ disegno: modo 2 · da aggiornare no · quote sì · armature sì · asse neutro sì · contorni nono · limiti no · CLS × 5.787804498683187 · appoggio no
