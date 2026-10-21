@@ -1446,6 +1446,11 @@
             <summary>Geometry and action adapter to the existing global stability engine. All factors remain explicit in SlopeFactors.
             Continuous vertical wall, horizontal ground, two soil columns. External support systems require their global geometry and are not silently ignored.</summary>
         </member>
+        <member name="T:GPC.Checkers.Geotechnics.EmbeddedWalls.UndrainedBasalHeave">
+            <summary>Homogeneous total-stress basal mechanism, FHWA-IF-99-015 §5.8.2 eq.34-37.
+            Nc is explicitly assigned with a source. Uniform surcharges follow vertical block equilibrium.
+            No resistance from the wall, anchors, struts or a bottom plug is credited. No UPL/HYD check is performed.</summary>
+        </member>
         <member name="P:GPC.Checkers.Geotechnics.EmbeddedWalls.WallStageResult.Elements">
             <summary>Frozen recovered fields for sampling without interpolation of tabulated extrema or a new analysis.</summary>
         </member>

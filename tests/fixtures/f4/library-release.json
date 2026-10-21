@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "phase": "F4",
-  "release": "AB",
+  "release": "AE",
   "previous_manifest_sha256": "64dedf03c1df331cfaca79d044ed04c0975bccec0b53d23eac3f02d55adb14e0",
-  "library_manifest_sha256": "77966d25fe066599215b102b0ddf711c9ad5d3c30608bd189a5a3ef82f9e83d9",
-  "release_set_sha256": "e73823a1db929f58c76d00f41cfce409a716d4023ef9850bbff32eddb06032ff",
-  "note": "Provenance transition only. F3 numerical inputs, expected files and hashes remain frozen. Y (15/10/2026) follows X with Checker 6f15f185 (R1, R2, F2-25 as opt-in crack options). Z (16/10/2026) follows Y with Model bf8563f5 and Checker bce7aaae (bug fixes of 15/10, BUG-* entries; frozen library captures regenerated with user approval). AA (19/10/2026) follows Z with published Model e1e6e107 and Checker dfb808c8: integrated paratie increments 1-13 and spectra. No numerical fixture or transition was changed for AA. AB (20/10/2026) follows AA with published Checker 894892c1: twelve section wizards and Design 0.29.0.0. Every release DLL is identical to the validated candidate; no numerical fixtures changed."
+  "library_manifest_sha256": "a4753d47da76ce5eeff1322bacb7f562ebff8f9e93e2a74a6ae263c7733974d2",
+  "release_set_sha256": "2574c0a675db85fa15e72e4d6d5f4ba61fa68294139ebcce92653450591c2167",
+  "note": "Provenance transition only. F3 numerical inputs, expected files and hashes remain frozen. Y (15/10/2026) follows X with Checker 6f15f185 (R1, R2, F2-25 as opt-in crack options). Z (16/10/2026) follows Y with Model bf8563f5 and Checker bce7aaae (bug fixes of 15/10, BUG-* entries; frozen library captures regenerated with user approval). AA (19/10/2026) follows Z with published Model e1e6e107 and Checker dfb808c8: integrated paratie increments 1-13 and spectra. No numerical fixture or transition was changed for AA. AB (20/10/2026) follows AA with published Checker 894892c1: twelve section wizards and Design 0.29.0.0. Every release DLL is identical to the validated candidate; no numerical fixtures changed. AE (20-21/10/2026) follows AB with Model 553860fa and Checker eddcdb36 (capsule, basal heave, Steel 2.4.0.17)."
 }

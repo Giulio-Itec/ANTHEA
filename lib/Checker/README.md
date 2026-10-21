@@ -1,5 +1,20 @@
 # DLL Checker
 
+**Release AE — capsula, fondo scavo e Steel 2.4.0.17 (20–21 ottobre 2026).** Set ufficiale da Model
+`553860fa` e Checker `eddcdb36`, entrambi pubblicati su master con l'autorizzazione dell'utente («porta le
+modifiche fino ad anthea»); Geometry e Utilities invariati. Model 5.16.0.1 integra il contratto del fondo scavo
+non drenato e la correzione del modulo plastico dei canali; GPCModelData 0.0.2.27, GPC.Model.Persistence
+3.0.0.20 e GPC Converter 2.2.0.16 hanno una versione di fix nuova perché ricompilate contro il nuovo GPCModel.
+Checker: capsula con armature per tratti e dettagli del pilastro (Concrete 0.13.0.0, GPC.Design 0.30.0.0),
+verifiche del fondo scavo (Geotechnics 0.14.0.0) e le correzioni Steel del 20/10 fino a 2.4.0.17.
+Il set completo è in `supporto/artefatti/librerie-ae/gpc-release-ae`; ANTHEA non cambia versione.
+
+Tutte le suite Model e Checker eseguite da `Release-Set.ps1 -Previous` (set AB): Model 19 + 1253, Concrete 795,
+Steel 111 con 11 fallimenti già censiti in `build/known-failures.json` (erano 17), Steel.Members 1253,
+CompositeBridge 284, Geotechnics 191, Calculation 174, ShallowFoundation 28, EmbeddedWalls 74, Design 100,
+ModelChecker 174. Le 13 DLL sono installate con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; DelaunayMesh
+resta identica. Il set candidato AC (capsula) è superato: niente più `-GpcLibDir`.
+
 **Release AB — wizard sezioni (20 ottobre 2026).** Set ufficiale da Checker
 `894892c1`, integrato e pushato su master con l'autorizzazione dell'utente
 per ANTHEA 1.12.0. Model `e1e6e107`, Geometry e Utilities invariati.
