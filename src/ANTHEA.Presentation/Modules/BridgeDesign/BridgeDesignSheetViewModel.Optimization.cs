@@ -167,14 +167,14 @@ public sealed partial class BridgeDesignSheetViewModel
     /// <summary>«Applica soluzione selezionata» can run: not read-only, a solution selected.</summary>
     public bool CanApplySolution => CanEdit && applyEnabled;
 
-    /// <summary>The state of the two buttons for the trace: «Avvia» not running, «Applica» with a selection (without the read-only revision).</summary>
-    internal (bool Run, bool Apply) SearchButtons => (runEnabled, applyEnabled);
+    /// <summary>The state of the two buttons of the search apart from the read-only revision: «Avvia» while no search runs, «Applica» with a selection.</summary>
+    public (bool Run, bool Apply) SearchButtons => (runEnabled, applyEnabled);
 
     /// <summary>The result of the last search completed on the current data, null otherwise.</summary>
     public BridgeDesignModel.OptimizationResult? Optimization => optimization;
 
     /// <summary>The design searched (a copy of the data without the alternative A and the scenery), null after a change of choices or data.</summary>
-    internal JsonObject? OptimizationSource => optimizationSource;
+    public JsonObject? OptimizationSource => optimizationSource;
 
     /// <summary>The rank selected (0 none).</summary>
     public int SelectedRank => selectedSolution + 1;

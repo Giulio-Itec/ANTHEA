@@ -32,6 +32,13 @@ try
         string composite = $"PASS {checks} controlli della sezione mista (F5.11) senza WPF";
         File.WriteAllText(Path.Combine(output, "esito.txt"), composite, new UTF8Encoding(false)); Console.WriteLine(composite); return 0;
     }
+    // F5.12: --bridge-design runs only the checks of Bridge Design and of its price editor, traces and F3 included (to work on the module).
+    if (args.Contains("--bridge-design"))
+    {
+        checks = BridgeDesignSheetChecks.Run(root, output) + BridgePricesChecks.Run() + BridgePriceAnalysesChecks.Run();
+        string bridgeDesign = $"PASS {checks} controlli di Bridge Design (F5.12) senza WPF";
+        File.WriteAllText(Path.Combine(output, "esito.txt"), bridgeDesign, new UTF8Encoding(false)); Console.WriteLine(bridgeDesign); return 0;
+    }
     if (sectionTraces || sectionFast)
     {
         checks += ConcreteSectionSheetChecks.Run(root, output, full: sectionTraces);
@@ -70,6 +77,7 @@ try
     // F5.12 (decision Q17 a): the price editor of Bridge Design moved from ANTHEA.Application with its checks.
     checks += BridgePricesChecks.Run();
     checks += BridgePriceAnalysesChecks.Run();
+    checks += BridgeDesignSheetChecks.Run(root, output);
     string message = $"PASS {checks} controlli di Presentation senza WPF";
     File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
     Console.WriteLine(message);
