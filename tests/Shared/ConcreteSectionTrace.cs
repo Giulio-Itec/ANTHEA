@@ -5,6 +5,10 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
+using Anthea.Application.Concrete;
+using Anthea.Application.Documents;
+using Anthea.Presentation.Forms;
+using Anthea.Presentation.Modules.ConcreteSection;
 
 namespace Anthea.Presentation.Tests;
 
@@ -110,12 +114,39 @@ internal static class ConcreteSectionScenarios
     /// <summary>Folder of the display lists of the 2D drawings and of the plain data of the 3D domain, frozen before the migration.</summary>
     internal static string Drawings(string root) => Path.Combine(root, "tests", "fixtures", "f5-sezione", "disegni");
 
-    /// <summary>The file of a fixture: an F3 fixture of the module, or («muri/…») a section sent by the retaining walls (F5.10 S1, section 5).</summary>
+    /// <summary>The file of a fixture: an F3 fixture of the module, («muri/…») a section sent by the retaining walls (F5.10 S1, section 5), or
+    /// («esempi/…») an example of the distribution (F5.10 S1b).</summary>
     internal static string FixturePath(string root, string id) => id.StartsWith(WallPrefix, StringComparison.Ordinal)
-        ? Path.Combine(WallSections(root), id[WallPrefix.Length..] + ".json") : Path.Combine(root, "tests", "fixtures", "f3", "inputs", Module + "--" + id + ".json");
+        ? Path.Combine(WallSections(root), id[WallPrefix.Length..] + ".json")
+        : id.StartsWith(ExamplePrefix, StringComparison.Ordinal) ? Path.Combine(ExampleSections(root), id[ExamplePrefix.Length..] + ".anthea")
+        : Path.Combine(root, "tests", "fixtures", "f3", "inputs", Module + "--" + id + ".json");
 
-    /// <summary>The data of a fixture, as the F3 capture reads them (the object «data» of the file).</summary>
-    internal static JsonObject FixtureData(string root, string id) => JsonNode.Parse(System.IO.File.ReadAllText(FixturePath(root, id)))!["data"]!.AsObject();
+    /// <summary>
+    /// The data of a fixture, as the F3 capture reads them (the object «data» of the file); for an example, as the window opens it (the
+    /// codec of version 3 through DocumentService.Open, then the data of the sheet, with the native section in input.sezione_gpc).
+    /// </summary>
+    internal static JsonObject FixtureData(string root, string id) => id.StartsWith(ExamplePrefix, StringComparison.Ordinal)
+        ? DocumentService.Open(FixturePath(root, id))["dati"]!.AsObject()
+        : JsonNode.Parse(System.IO.File.ReadAllText(FixturePath(root, id)))!["data"]!.AsObject();
+
+    internal const string ExamplePrefix = "esempi/";
+
+    /// <summary>
+    /// Folder of the examples of the module in the distribution (F5.10 S1b, section 9.5 of docs/refactoring/f5-10-sezione.md): documents of
+    /// version 3 with the native GPC section, twelve of them made by the wizard of the types.
+    /// </summary>
+    internal static string ExampleSections(string root) => Path.Combine(root, "supporto", "esempi", "distribuzione", Module);
+
+    /// <summary>Identifiers («esempi/…») of the examples of the module, in ordinal order.</summary>
+    internal static IReadOnlyList<string> ExampleFixtures(string root) => Directory.Exists(ExampleSections(root))
+        ? Directory.EnumerateFiles(ExampleSections(root), "*.anthea").Select(f => ExamplePrefix + Path.GetFileNameWithoutExtension(f)).Order(StringComparer.Ordinal).ToArray() : [];
+
+    /// <summary>
+    /// The part of the sections made by the wizard (F5.10 S1b), written only by the scenarios that ask for it (the frozen scenarios of S1 do
+    /// not): the command of the wizard, the geometry and the reinforcement hidden with their notes, the fields of the hole, the note of the
+    /// shear parameters.
+    /// </summary>
+    internal const string WizardSection = "wizard";
 
     internal const string WallPrefix = "muri/";
 
@@ -484,6 +515,55 @@ internal static class ConcreteSectionScenarios
             Tab(7), Field("ricerca", "diametri", "16"),
             Open("sollecitazioni", Press("dialogo", "Applica")),
             Tab(0), wait, commit]));
+
+        // ---------------------------------------------------------------- sections made by the wizard (F5.10 S1b, section 9.5)
+        // Added after the frozen scenarios of S1, which do not ask for the part «[wizard]» and keep their traces.
+        string[] withWizard = [.. all, WizardSection];
+        // The examples of the distribution, opened as the window opens an example: the path of «percorso-f3», every part and the wizard.
+        foreach (string id in ExampleFixtures(root))
+            list.Add(new("esempi", id[ExamplePrefix.Length..], id, withWizard, [wait, commit, visit, wait, commit, calculate, commit, reopen, wait, commit]));
+        // The window of the wizard: cancelled, a type with a value refused and then accepted, the controls of the editor that the wizard
+        // locks, «modifica disposizione» on the section applied, a hollow rectangle (double contour), then an ordinary circle again.
+        list.Add(new("ingressi", "wizard-tipologie", "default", ["ingressi", WizardSection], [
+            wait,
+            Cell("barre", 0, "x", "-200"), wait,
+            Open("wizard", Press("dialogo", "Annulla")), wait,
+            Open("wizard", Choice("dialogo", "wizard_type", "A I"), Field("dialogo", "bottom_flange_width_mm", "abc"), Press("dialogo", "Applica sezione"),
+                Field("dialogo", "bottom_flange_width_mm", "700"), Field("dialogo", "web_width_mm", "350"), Field("dialogo", "inner_diameter_mm", "300"),
+                Press("dialogo", "Applica sezione")), wait,
+            Field("geometria", "width_mm", "1200"), Toggle("foro", "Foro centrale"), Press("strati", "top"), Field("armatura", "top_bar_count", "6"),
+            Choice("schema-staffe", "tipo_staffa", "Spirale"), wait,
+            Field("staffe", "transverse_spacing_mm", "150"), wait,
+            Open("wizard", Field("dialogo", "wizard_bar_spacing_mm", "150"), Press("dialogo", "Applica sezione")), wait,
+            Open("wizard", Choice("dialogo", "wizard_type", "Rettangolare cava · due contorni"), Field("dialogo", "inner_width_mm", "350"), Press("dialogo", "Applica sezione")), wait,
+            Field("foro", "inner_width_mm", "300"), Toggle("foro", "Foro centrale"), Press("strati", "bottom"), wait,
+            Open("wizard", Choice("dialogo", "wizard_type", "Circolare · due anelli"), Press("dialogo", "Applica sezione")), wait,
+            Field("geometria", "diameter_mm", "1100"), Field("strato-inner", "second_inner_count", "12"), wait,
+            commit, reopen, wait]));
+        // The capsule of the examples (old name of its type, radial layout): bars by coordinates on a section of the wizard, the two layouts
+        // of the capsule with a count refused and then accepted, links absent and present again.
+        list.Add(new("ingressi", "wizard-capsula", ExamplePrefix + "wizard-capsula", ["ingressi", WizardSection], [
+            wait,
+            Cell("barre", 0, "phi", "24"), wait,
+            Press("armatura", "Ripristina barre da wizard"), wait,
+            Open("wizard", Choice("dialogo", "wizard_stadium_layout", "Curve e rettilinei separati"), Field("dialogo", "wizard_stadium_curve_count", "1"),
+                Press("dialogo", "Applica sezione"), Field("dialogo", "wizard_stadium_curve_count", "11"), Field("dialogo", "wizard_stadium_straight_diameter_mm", "16"),
+                Press("dialogo", "Applica sezione")), wait,
+            Open("wizard", Choice("dialogo", "wizard_stadium_layout", "Radiale dal centro (precedente)"), Field("dialogo", "wizard_radial_count", "28"),
+                Press("dialogo", "Applica sezione")), wait,
+            Choice("staffe", "staffe_presenti", "No"), wait,
+            Choice("staffe", "staffe_presenti", "Sì"), wait,
+            commit, reopen, wait]));
+        // The hollow circle of the examples (double contour): the controls of the hole and of the circular links locked, the wizard applied
+        // again, then the read-only revision.
+        list.Add(new("ingressi", "wizard-sola-lettura", ExamplePrefix + "wizard-circolare-cava", ["ingressi", WizardSection], [
+            wait,
+            Toggle("foro", "Foro centrale"), Field("foro", "inner_diameter_mm", "300"), Choice("schema-staffe", "tipo_staffa", "Spirale"), Field("geometria", "diameter_mm", "900"), wait,
+            Open("wizard", Field("dialogo", "wizard_inner_count", "12"), Press("dialogo", "Applica sezione")), wait,
+            Step(ConcreteSectionStep.ReadOnly),
+            Open("wizard", Press("dialogo", "Annulla")),
+            Cell("barre", 0, "phi", "24"), Field("staffe", "transverse_spacing_mm", "150"),
+            commit]));
         return list;
     }
 }
@@ -603,6 +683,7 @@ internal sealed class ConcreteDataMemory
 
     internal IEnumerable<string> Changes(JsonNode current)
     {
+        current = Shown(current);
         var lines = new List<string>();
         if (previous is null) lines.Add("tutto = " + ConcreteSectionTrace.Compact(current));
         else Compare("", previous, current, lines);
@@ -627,6 +708,21 @@ internal sealed class ConcreteDataMemory
     }
 
     static string Join(string path, string key) => path.Length == 0 ? key : path + "." + key;
+
+    /// <summary>
+    /// The data as the lines of the changes write them. The native section of a document of version 3 (<c>input.sezione_gpc</c>, F5.10 S1b)
+    /// keeps its archive, the XML of ModelArchive of hundreds of kB, which is written as its size and hash; the hash of the data in the line
+    /// «dati» covers every byte. The data of the frozen scenarios of S1 have no native section: their lines do not change.
+    /// </summary>
+    static JsonNode Shown(JsonNode data)
+    {
+        if (data is not JsonObject root || root["input"] is not JsonObject input || input["sezione_gpc"] is not JsonObject native
+            || native["archivio"] is not JsonValue archive || !archive.TryGetValue(out string? text)) return data;
+        var copy = root.DeepClone();
+        copy["input"]!["sezione_gpc"]!["archivio"] = "‹archivio GPC · byte " + Encoding.UTF8.GetByteCount(text).ToString(CultureInfo.InvariantCulture)
+            + " · " + ConcreteSectionTrace.HashText(text) + "›";
+        return copy;
+    }
 }
 
 /// <summary>
@@ -709,4 +805,41 @@ internal static class ConcreteSectionTrace
     internal static string[] Read(string path) => PileGroupTrace.Read(path);
 
     internal static string? FirstDifference(IReadOnlyList<string> expected, IReadOnlyList<string> actual) => PileGroupTrace.FirstDifference(expected, actual);
+
+    // ---------------------------------------------------------------- the window of the wizard (F5.10 S1b)
+
+    /// <summary>The command of the control panel that opens the wizard, and the title of its window.</summary>
+    internal const string WizardCommand = "Wizard tipologie / modifica disposizione…", WizardTitle = "Wizard · Sezione in cemento armato";
+
+    /// <summary>A section of the engine as its plain data: shape, size, areas, outline, holes and bars.</summary>
+    internal static string Section(ConcreteGeometry? section) => section is null ? "-" :
+        section.Shape + " " + Number(section.Width) + "x" + Number(section.Height)
+        + " · Ac " + Number(section.AreaCls) + " · As " + Number(section.AreaSteel)
+        + " · contorno " + section.Outline.Count.ToString(CultureInfo.InvariantCulture) + " " + Hash(section.Outline)
+        + " · fori " + section.Holes.Count.ToString(CultureInfo.InvariantCulture)
+        + " · barre " + section.Bars.Count.ToString(CultureInfo.InvariantCulture) + " " + Hash(section.Bars.Select(b => new[] { b.X, b.Y, b.Diametro }).ToArray());
+
+    /// <summary>
+    /// What the window of the wizard shows, from its ViewModel (the window is a host of ConcreteTemplateWizardViewModel since 20/10, an MVVM
+    /// island as the editor of the actions): type, «Applica sezione» available, error, note, every field (value, hidden, disabled), the
+    /// preview (section and paths of the links) and the hash of the draft.
+    /// </summary>
+    internal static string WizardState(ConcreteTemplateWizardViewModel wizard) =>
+        "tipologia " + Quote(wizard.Form.Get("wizard_type")) + " · applica " + YesNo(wizard.CanApply) + " · errore " + Quote(wizard.Error) + " · nota " + Quote(wizard.Note)
+        + "\n  campi " + string.Join(" ", wizard.Form.Fields.Select(f => f.Key + "=" + Quote(wizard.Form.Get(f.Key)) + (f.IsVisible ? "" : "·nascosto") + (f.IsEnabled ? "" : "·spento")))
+        + "\n  anteprima " + Section(wizard.Geometry) + " · staffe " + (wizard.Geometry is { } g ? g.TemplateLinks.Count.ToString(CultureInfo.InvariantCulture) + " " + Hash(g.TemplateLinks) : "-")
+        + "\n  bozza " + StableHash(wizard.Draft);
+
+    /// <summary>
+    /// A field or a choice of the window of the wizard, as its FieldForm writes it: a hidden or disabled field does nothing. The buttons are
+    /// pressed by each side (the window, or the commands of the ViewModel). False for a step that is not a field.
+    /// </summary>
+    internal static bool WizardStep(ConcreteTemplateWizardViewModel wizard, ConcreteSectionStep step)
+    {
+        if (step.Kind is not (ConcreteSectionStep.Field or ConcreteSectionStep.Choice)) return false;
+        if (!wizard.Form.Contains(step.Key!) || wizard.Form[step.Key!] is not { IsVisible: true, IsEnabled: true } field) return true;
+        if (step.Kind == ConcreteSectionStep.Field && field.Kind == FieldKind.Text && !field.IsInputReadOnly) field.EditText = step.Text!;
+        else if (step.Kind == ConcreteSectionStep.Choice && field.Kind == FieldKind.Choice && field.CanChange) field.SelectedChoice = step.Text;
+        return true;
+    }
 }

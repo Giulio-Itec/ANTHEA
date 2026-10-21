@@ -36,11 +36,21 @@ Le parti dei sottopassi, scritte dagli scenari che le chiedono (gli scenari `per
 | `[dettagli]` | form dei dettagli, del copriferro e degli ancoraggi, riquadri del riepilogo, dei temi e degli ancoraggi, nota della durabilità |
 | `[armature]` | form della ricerca, dei limiti e delle prime alternative, pulsanti, stato e scarti (tempi misurati sostituiti da «‹t› s»), proposta, ambito, riquadri, alternative, anteprima |
 | `[ispezione]` | sezione σ/ε di 3D e 2D (scheda, stato, messaggio, valori, mappa, piano delle deformazioni), form, testo e grafico del momento–curvatura |
+| `[wizard]` | solo negli scenari del sottopasso S1b (sezioni da wizard): comando «Wizard tipologie / modifica disposizione…» (spento in sola lettura), form della geometria e dell'armatura nascosti o spenti con le due note del wizard, campi del foro nel loro insieme, nota dei parametri del taglio (`taglio.nota_wizard`) |
 
 Una parte uguale a quella scritta dopo il passo precedente è scritta come `[parte] invariata`.
 
 Gli identificativi creati dalla scheda (righe delle azioni, materiali) diventano `<nuovo-n>` nell'ordine in cui la traccia li
 incontra; quelli delle fixture restano.
+
+La sezione nativa dei documenti di versione 3 (`input.sezione_gpc`, esempi della distribuzione) conserva l'archivio XML di
+`ModelArchive`, di centinaia di kB: nelle righe dei valori cambiati l'archivio è scritto come «‹archivio GPC · byte n · impronta›»;
+l'impronta della riga `dati` copre comunque tutti i byte. Le tracce precedenti non hanno sezione nativa e non cambiano.
+
+La finestra «Wizard · Sezione in cemento armato» ospita dal 20/10 `ConcreteTemplateWizardViewModel` (isola MVVM, come l'editor delle
+sollecitazioni): il suo stato dopo ogni passo (tipologia, «Applica sezione» disponibile, errore, nota, ogni campo con valore, nascosto
+e spento, anteprima con i percorsi delle staffe, impronta della bozza) e i suoi campi si leggono e si scrivono dal ViewModel, i pulsanti
+si premono nella finestra.
 
 ## Scenari
 
@@ -60,6 +70,8 @@ Organizzati per sottopasso di F5.10, una cartella per sottopasso in `storica/`:
 | `report` | disponibilità del report completo e breve (con calcolo in coda o bloccato) |
 | `calcolo` | ricalcolo con il motore trattenuto (calcolo superato, «Calcola» durante un calcolo, chiusura durante un calcolo), revisione in sola lettura |
 | `muri` | le due sezioni che i muri mandano al modulo c.a. («Apri sezione in c.a.» dello scenario `risultati-sezione` di F5.9), aperte come le apre la richiesta dei muri: lo stesso percorso di `percorso-f3` (aggiunte nel sottopasso S1, 18/10) |
+| `esempi` | i 15 esempi `supporto/esempi/distribuzione/str_palo/*.anthea` (documenti di versione 3, 12 fatti dal wizard), aperti come la finestra apre un esempio (`DocumentService.Open`, poi i dati del foglio): lo stesso percorso di `percorso-f3`, tutte le parti e `[wizard]` (sottopasso S1b, 21/10) |
+| `ingressi` (S1b) | la finestra del wizard: annullata, tipologia con un valore rifiutato e poi accettato, controlli dell'editor bloccati dal wizard, «modifica disposizione», rettangolo cavo a doppio contorno, di nuovo un cerchio ordinario (`wizard-tipologie`); capsula degli esempi con barre per coordinate e le due disposizioni (`wizard-capsula`); cerchio cavo degli esempi con foro e staffe circolari bloccati, wizard riapplicato, sola lettura (`wizard-sola-lettura`) |
 
 Ogni passo è quello che fa l'utente con un controllo: un controllo che l'utente non può usare (spento, nascosto o protetto dalla
 revisione in sola lettura) non fa nulla. Il motore trattenuto è il cancello dei lotti della sessione di analisi
@@ -104,6 +116,10 @@ Gli elenchi dipendono dai font installati (Segoe UI): valgono sulla macchina del
   79826 righe, 120 disegni 2D, 33 righe dei domini 3D.
 - Il 18/10/2026 (sottopasso S1) si aggiungono i due scenari `muri/…`, catturati sul codice di `68668f1b` (vista storica invariata):
   39 scenari, 84832 righe; la seconda cattura, in controllo, è uguale alla prima e ai 37 scenari e ai disegni già congelati.
+- Il 21/10/2026 (sottopasso S1b, sezione 9.5 di `docs/refactoring/f5-10-sezione.md`) si aggiungono i 15 scenari `esempi/…` e i tre
+  `ingressi/wizard-…`, con la parte `[wizard]`, catturati sul codice di `3e1b86de` (vista storica invariata dal 20/10): 57 scenari,
+  118860 righe. Due catture (`supporto/artefatti/refactoring/f5/f5-10-s1b/cattura-a` e `cattura-b`) sono uguali byte per byte; nelle
+  due i 39 scenari e i disegni già congelati sono uguali a questi file.
 - La suite `ui/check-sezione-historic` dello stadio `ui` ricattura la vista storica e la confronta con queste tracce e con gli
   elenchi dei disegni, finché la vista storica esiste.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.

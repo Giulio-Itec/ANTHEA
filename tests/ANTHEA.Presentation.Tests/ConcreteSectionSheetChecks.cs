@@ -79,7 +79,9 @@ internal static partial class ConcreteSectionSheetChecks
     private static async Task TracesAsync(string root, string output, bool full, Expect expect)
     {
         string folder = Path.Combine(output, "sezione-ca");
+        // The scenarios of the sections made by the wizard (part «[wizard]», S1b) are captured first and compared from the ViewModel of S1b.
         var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "percorso-f3" or "calcolo" or "muri")
+            .Where(s => !s.Sections.Contains(ConcreteSectionScenarios.WizardSection))
             .Where(s => full || FastScenarios.Contains(s.File.Replace('\\', '/'))).ToList();
         expect.That(scenarios.Count == (full ? 25 : FastScenarios.Length), "Scenari S1 e S2 della sezione c.a.: " + scenarios.Count);
         var failures = new List<string>();

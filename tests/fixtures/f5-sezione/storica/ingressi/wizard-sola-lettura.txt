@@ -1,0 +1,918 @@
+== apertura
+dati EF581FF9EB9E407E · byte 422130
+  tutto = {"versione_sezione":2,"input":{"shape":"Circolare","diameter_mm":"1000","circular_sides":"96","width_mm":"1000","height_mm":"1200","flange_width_mm":"1000","web_width_mm":"300","flange_thickness_mm":"300","cover_mm":"70","longitudinal_bar_count":"24","longitudinal_bar_diameter_mm":"20","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"4","bottom_bar_diameter_mm":"20","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"-2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gettato_sottile":"No","staffe_presenti":"Sì","inner_diameter_mm":"400","inner_width_mm":"400","inner_height_mm":"500","flange_bottom_count":"0","flange_bottom_diameter_mm":"20","flange_bottom_offset_mm":"90","second_top_count":"4","second_top_diameter":"20","second_top_gap":"40","second_bottom_count":"4","second_bottom_diameter":"20","second_bottom_gap":"40","second_inner_count":"16","second_inner_diameter":"20","second_inner_gap":"60","wizard_type":"Circolare cava · anello interno ed esterno","foro_presente":true,"wizard_layout":"Doppio contorno","second_top_enabled":false,"second_bottom_enabled":false,"second_inner_enabled":false,"bottom_flange_width_mm":"800","bottom_flange_thickness_mm":"250","wizard_bar_diameter_mm":"20","wizard_bar_spacing_mm":"180","wizard_radial_count":"24","wizard_inner_count":"16","wizard_polygon_sides":"8","sezione_gpc":{"versione":1,"stato":"modello","unita":"mm-MPa-N","editor_sha256":"73DB929D9273027CE008D2A2D89528D8574439C7C99941BC76402E9FC032BDD2","archivio_sha256":"FC625F06D29B4E21AD7B0A7433F7C4725A0C7BDD053B87E7FE1B5C752C0F0D6D","archivio":"‹archivio GPC · byte 387722 · FC625F06D29B4E21›"}},"n_automatico":true,"combinazioni":{"SLU":[],"SLV":[],"SLE":[],"SLE_FREQ":[],"SLE_QP":[]},"workspace_ca":{"normativa":"NTC 2018","versione":2,"nota":"","tab":0,"dominio3d":{"stato":"SLU","angoli":"32","criterio":"N costante","filtro":"Tutte","strategia":"Iterativo","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50","modello_resistente":"Plastico"},"dominio2d":{"stato":"SLU","tipo":"Mx–My","theta":"0","N":"-1000","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50","modello_resistente":"Plastico"},"trefoli":[],"sle":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"}},"convenzione":"N negativo a compressione","migrazione_segni":"N convertito dalla precedente convenzione ANTHEA; momenti invariati","sle_precedenti_unificazione":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Lineare","phi":"0","phi_trefoli":"0","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"0.85","AlphaCT":"1","GammaC":"1.50","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.8"},"taglio":{"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Manuali","tipo_staffa":"Staffa chiusa","rami_x":"","rami_y":"","rami_interni":"0","schema_interno":"Bracci paralleli","rotazione_staffa":"0","ancoraggio":"Da verificare","modello":"Con staffe","bw_x":"","d_x":"","asl_x":"","alpha_x":"90","cot_x":"","bw_y":"","d_y":"","asl_y":"","alpha_y":"90","cot_y":"","cot_torsione":"1","as_torsione":"0","chiusura_torsione":"Da confermare","modello_circolare":"Da scegliere","z_d":"0.75","eccentricita_mc_x":"0","eccentricita_mc_y":"0","azioni":[],"nota_wizard":"Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio."},"momento_curvatura":{"N":"0","theta":"0","passi":"60","frazione":"1","campionamento":"Quadratico","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"dettagli_costruttivi":{"vita_durabilita":"50","qualita_copriferro":"No","elemento":"Da scegliere","aggregato":"20","cmin_dur":"","delta_c":"10","zona_sovrapposizione":"No","as_secondaria":"0","passo_secondaria":"0","zona_critica":"No","barre_trattenute":"Da confermare","ancoraggio_appoggi":"Da confermare"},"ancoraggi":{"schema_versione":1,"tipo":"Ancoraggio rettilineo","diametro":"","sigma":"","aderenza":"Buona","lunghezza":"","percentuale":"100","interferro":"0","confinamento":"Da verificare","posizione":"Da verificare","cautele":"Da verificare"},"sollecitazioni_versione":1,"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"materiali_custom":[],"layout":{},"resistenze_rapide":{"N":"0","tipo":"Plastico"},"calcola_armature":{"diametri":"12;16;20;24","n_superiori":"2;4;6","n_inferiori":"2;4;6;8","n_laterali":"0;2;4","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","staffe":"Ottimizza","obiettivo":"Peso","diametri_ortogonali":"8;10;12;16","passi_ortogonali":"100;150;200;250","max_diametri":"3","max_tentativi":"2000","ganci_phi":"20","riserva_torsione":"25","peso_peso":"1","peso_barre":"1","peso_diametri":"1","mostra":"10","simmetrica":false,"ancoraggio_confermato":false,"torsione_confermata":false,"ricerca_completa":true,"parallelismo":"Automatico","slu":"1","slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"}}}
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
+risultato -
+stato "Dati della sezione · selezionare una scheda per iniziare"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Circolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000"
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "96"
+[ingressi]   campo width_mm "Larghezza b" = "1000" · nascosto
+[ingressi]   campo height_mm "Altezza h" = "1200" · nascosto
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1000" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "300" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "300" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro sì · spento
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "400" · spento
+[ingressi]   campo inner_width_mm "Larghezza foro" = "400" · spento · nascosto
+[ingressi]   campo inner_height_mm "Altezza foro" = "500" · spento · nascosto
+[ingressi] armatura spenta · nota "Modificare la disposizione da Wizard tipologie oppure dalla tabella delle coordinate delle barre."
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "24"
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "20"
+[ingressi]   campo top_bar_count "Barre superiori" = "4" · nascosto
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20" · nascosto
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "4" · nascosto
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "20" · nascosto
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2" · nascosto
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16" · nascosto
+[ingressi] strato top · nascosto · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "40"
+[ingressi] strato bottom · nascosto · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "4"
+[ingressi]   campo second_bottom_diameter "Diametro" = "20"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "40"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "20"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "60"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = ""
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = ""
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Calcolo delle quattro direzioni…" · riquadri ""
+[ingressi] anteprima sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12566.370614359173 · contorno 96 269EE5F0312968A2 · fori 1 · barre 40 0BD59A2C0388C8C2 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 40 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"409.951787","y":"0"}
+[ingressi]   {"id":"B02","phi":"20","x":"395.9830176362967","y":"106.10332979208472"}
+[ingressi]   {"id":"B03","phi":"20","x":"355.02866023648534","y":"204.97589255756697"}
+[ingressi]   {"id":"B04","phi":"20","x":"289.87968799999993","y":"289.87968799999993"}
+[ingressi]   {"id":"B05","phi":"20","x":"204.9758928952876","y":"355.0286608214344"}
+[ingressi]   {"id":"B06","phi":"20","x":"106.10332979208472","y":"395.9830176362967"}
+[ingressi]   {"id":"B07","phi":"20","x":"2.5102307187714378E-14","y":"409.951787"}
+[ingressi]   {"id":"B08","phi":"20","x":"-106.1033297920847","y":"395.9830176362968"}
+[ingressi]   {"id":"B09","phi":"20","x":"-204.97589255756694","y":"355.0286602364854"}
+[ingressi]   {"id":"B10","phi":"20","x":"-289.87968799999993","y":"289.879688"}
+[ingressi]   {"id":"B11","phi":"20","x":"-355.02866023648534","y":"204.97589255756697"}
+[ingressi]   {"id":"B12","phi":"20","x":"-395.9830176362968","y":"106.10332979208485"}
+[ingressi]   {"id":"B13","phi":"20","x":"-409.951787","y":"5.0204614375428755E-14"}
+[ingressi]   {"id":"B14","phi":"20","x":"-395.9830176362967","y":"-106.10332979208475"}
+[ingressi]   {"id":"B15","phi":"20","x":"-355.0286602364854","y":"-204.97589255756688"}
+[ingressi]   {"id":"B16","phi":"20","x":"-289.8796880000001","y":"-289.87968799999976"}
+[ingressi]   {"id":"B17","phi":"20","x":"-204.9758928952877","y":"-355.0286608214344"}
+[ingressi]   {"id":"B18","phi":"20","x":"-106.1033297920847","y":"-395.9830176362968"}
+[ingressi]   {"id":"B19","phi":"20","x":"-7.530692156314313E-14","y":"-409.951787"}
+[ingressi]   {"id":"B20","phi":"20","x":"106.10332979208454","y":"-395.9830176362968"}
+[ingressi]   {"id":"B21","phi":"20","x":"204.9758928952876","y":"-355.0286608214344"}
+[ingressi]   {"id":"B22","phi":"20","x":"289.8796879999999","y":"-289.879688"}
+[ingressi]   {"id":"B23","phi":"20","x":"355.02866082143436","y":"-204.9758928952877"}
+[ingressi]   {"id":"B24","phi":"20","x":"395.9830176362967","y":"-106.10332979208508"}
+[ingressi]   {"id":"B25","phi":"20","x":"290.048213","y":"0"}
+[ingressi]   {"id":"B26","phi":"20","x":"267.9696068793935","y":"110.99664547323142"}
+[ingressi]   {"id":"B27","phi":"20","x":"205.095058","y":"205.095058"}
+[ingressi]   {"id":"B28","phi":"20","x":"110.99664547323144","y":"267.9696068793935"}
+[ingressi]   {"id":"B29","phi":"20","x":"1.7760330721210645E-14","y":"290.048212"}
+[ingressi]   {"id":"B30","phi":"20","x":"-110.99664547323141","y":"267.9696068793935"}
+[ingressi]   {"id":"B31","phi":"20","x":"-205.09505799999997","y":"205.095058"}
+[ingressi]   {"id":"B32","phi":"20","x":"-267.9696068793935","y":"110.99664547323145"}
+[ingressi]   {"id":"B33","phi":"20","x":"-290.048213","y":"3.552066156488597E-14"}
+[ingressi]   {"id":"B34","phi":"20","x":"-267.96960687939355","y":"-110.9966454732314"}
+[ingressi]   {"id":"B35","phi":"20","x":"-205.09505800000002","y":"-205.09505799999997"}
+[ingressi]   {"id":"B36","phi":"20","x":"-110.99664547323158","y":"-267.96960687939344"}
+[ingressi]   {"id":"B37","phi":"20","x":"-5.328099234732895E-14","y":"-290.048213"}
+[ingressi]   {"id":"B38","phi":"20","x":"110.99664547323148","y":"-267.96960687939344"}
+[ingressi]   {"id":"B39","phi":"20","x":"205.0950579999999","y":"-205.09505800000002"}
+[ingressi]   {"id":"B40","phi":"20","x":"267.9696068793934","y":"-110.99664547323158"}
+[ingressi] riquadri riepilogo-SLU "3D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[wizard] comando "Wizard tipologie / modifica disposizione…"
+[wizard] geometria · nascosta · spenta · nota "Geometria e copriferro si modificano nel wizard."
+[wizard] armatura · nascosta · nota "Disposizione definita nel wizard. Le singole barre si modificano nella tabella delle coordinate."
+[wizard] foro campi · spenti
+[wizard] nota-taglio "Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio."
+== attendi
+dati EF581FF9EB9E407E · byte 422130
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato E0CC22C341C289EC
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Circolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000"
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "96"
+[ingressi]   campo width_mm "Larghezza b" = "1000" · nascosto
+[ingressi]   campo height_mm "Altezza h" = "1200" · nascosto
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1000" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "300" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "300" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro sì · spento
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "400" · spento
+[ingressi]   campo inner_width_mm "Larghezza foro" = "400" · spento · nascosto
+[ingressi]   campo inner_height_mm "Altezza foro" = "500" · spento · nascosto
+[ingressi] armatura spenta · nota "Modificare la disposizione da Wizard tipologie oppure dalla tabella delle coordinate delle barre."
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "24"
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "20"
+[ingressi]   campo top_bar_count "Barre superiori" = "4" · nascosto
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20" · nascosto
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "4" · nascosto
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "20" · nascosto
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2" · nascosto
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16" · nascosto
+[ingressi] strato top · nascosto · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "40"
+[ingressi] strato bottom · nascosto · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "4"
+[ingressi]   campo second_bottom_diameter "Diametro" = "20"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "40"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "20"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "60"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = ""
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = ""
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Mx+   1671,21 kNm\nMx−   -1671,21 kNm\nMy+   1671,21 kNm\nMy−   -1671,21 kNm" · nascosto · riquadri "Mx+ 1671,21 kNm | Mx− -1671,21 kNm | My+ 1671,21 kNm | My− -1671,21 kNm"
+[ingressi] anteprima sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12566.370614359173 · contorno 96 269EE5F0312968A2 · fori 1 · barre 40 0BD59A2C0388C8C2 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 40 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"409.951787","y":"0"}
+[ingressi]   {"id":"B02","phi":"20","x":"395.9830176362967","y":"106.10332979208472"}
+[ingressi]   {"id":"B03","phi":"20","x":"355.02866023648534","y":"204.97589255756697"}
+[ingressi]   {"id":"B04","phi":"20","x":"289.87968799999993","y":"289.87968799999993"}
+[ingressi]   {"id":"B05","phi":"20","x":"204.9758928952876","y":"355.0286608214344"}
+[ingressi]   {"id":"B06","phi":"20","x":"106.10332979208472","y":"395.9830176362967"}
+[ingressi]   {"id":"B07","phi":"20","x":"2.5102307187714378E-14","y":"409.951787"}
+[ingressi]   {"id":"B08","phi":"20","x":"-106.1033297920847","y":"395.9830176362968"}
+[ingressi]   {"id":"B09","phi":"20","x":"-204.97589255756694","y":"355.0286602364854"}
+[ingressi]   {"id":"B10","phi":"20","x":"-289.87968799999993","y":"289.879688"}
+[ingressi]   {"id":"B11","phi":"20","x":"-355.02866023648534","y":"204.97589255756697"}
+[ingressi]   {"id":"B12","phi":"20","x":"-395.9830176362968","y":"106.10332979208485"}
+[ingressi]   {"id":"B13","phi":"20","x":"-409.951787","y":"5.0204614375428755E-14"}
+[ingressi]   {"id":"B14","phi":"20","x":"-395.9830176362967","y":"-106.10332979208475"}
+[ingressi]   {"id":"B15","phi":"20","x":"-355.0286602364854","y":"-204.97589255756688"}
+[ingressi]   {"id":"B16","phi":"20","x":"-289.8796880000001","y":"-289.87968799999976"}
+[ingressi]   {"id":"B17","phi":"20","x":"-204.9758928952877","y":"-355.0286608214344"}
+[ingressi]   {"id":"B18","phi":"20","x":"-106.1033297920847","y":"-395.9830176362968"}
+[ingressi]   {"id":"B19","phi":"20","x":"-7.530692156314313E-14","y":"-409.951787"}
+[ingressi]   {"id":"B20","phi":"20","x":"106.10332979208454","y":"-395.9830176362968"}
+[ingressi]   {"id":"B21","phi":"20","x":"204.9758928952876","y":"-355.0286608214344"}
+[ingressi]   {"id":"B22","phi":"20","x":"289.8796879999999","y":"-289.879688"}
+[ingressi]   {"id":"B23","phi":"20","x":"355.02866082143436","y":"-204.9758928952877"}
+[ingressi]   {"id":"B24","phi":"20","x":"395.9830176362967","y":"-106.10332979208508"}
+[ingressi]   {"id":"B25","phi":"20","x":"290.048213","y":"0"}
+[ingressi]   {"id":"B26","phi":"20","x":"267.9696068793935","y":"110.99664547323142"}
+[ingressi]   {"id":"B27","phi":"20","x":"205.095058","y":"205.095058"}
+[ingressi]   {"id":"B28","phi":"20","x":"110.99664547323144","y":"267.9696068793935"}
+[ingressi]   {"id":"B29","phi":"20","x":"1.7760330721210645E-14","y":"290.048212"}
+[ingressi]   {"id":"B30","phi":"20","x":"-110.99664547323141","y":"267.9696068793935"}
+[ingressi]   {"id":"B31","phi":"20","x":"-205.09505799999997","y":"205.095058"}
+[ingressi]   {"id":"B32","phi":"20","x":"-267.9696068793935","y":"110.99664547323145"}
+[ingressi]   {"id":"B33","phi":"20","x":"-290.048213","y":"3.552066156488597E-14"}
+[ingressi]   {"id":"B34","phi":"20","x":"-267.96960687939355","y":"-110.9966454732314"}
+[ingressi]   {"id":"B35","phi":"20","x":"-205.09505800000002","y":"-205.09505799999997"}
+[ingressi]   {"id":"B36","phi":"20","x":"-110.99664547323158","y":"-267.96960687939344"}
+[ingressi]   {"id":"B37","phi":"20","x":"-5.328099234732895E-14","y":"-290.048213"}
+[ingressi]   {"id":"B38","phi":"20","x":"110.99664547323148","y":"-267.96960687939344"}
+[ingressi]   {"id":"B39","phi":"20","x":"205.0950579999999","y":"-205.09505800000002"}
+[ingressi]   {"id":"B40","phi":"20","x":"267.9696068793934","y":"-110.99664547323158"}
+[ingressi] riquadri riepilogo-SLU "3D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[wizard] invariata
+== spunta foro Foro centrale
+dati EF581FF9EB9E407E · byte 422130
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato E0CC22C341C289EC
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[wizard] invariata
+== campo foro inner_diameter_mm «300»
+dati EF581FF9EB9E407E · byte 422130
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato E0CC22C341C289EC
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[wizard] invariata
+== scelta schema-staffe tipo_staffa «Spirale»
+dati EF581FF9EB9E407E · byte 422130
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato E0CC22C341C289EC
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[wizard] invariata
+== campo geometria diameter_mm «900»
+dati EF581FF9EB9E407E · byte 422130
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato E0CC22C341C289EC
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[wizard] invariata
+== attendi
+dati EF581FF9EB9E407E · byte 422130
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato E0CC22C341C289EC
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[wizard] invariata
+== apri wizard { campo dialogo wizard_inner_count «12» ; pulsante dialogo Applica sezione }
+dati 0F3CD14F1C26E395 · byte 9139
+  input.wizard_inner_count = "12"
+  input.wizard_stadium_curve_count = "9"
+  input.wizard_stadium_curve_diameter_mm = "20"
+  input.wizard_stadium_straight_count = "4"
+  input.wizard_stadium_straight_diameter_mm = "20"
+  input.sezione_gpc rimosso
+modificato 1 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
+risultato -
+stato "Modifiche acquisite · aggiornamento automatico in attesa…"
+messaggio "aperta · tipologia \"Circolare cava · anello interno ed esterno\" · applica sì · errore \"\" · nota \"Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio.\"\n  campi wizard_type=\"Circolare cava · anello interno ed esterno\" width_mm=\"1000\"·nascosto height_mm=\"1200\"·nascosto diameter_mm=\"1000\" inner_diameter_mm=\"400\" inner_width_mm=\"400\"·nascosto inner_height_mm=\"500\"·nascosto flange_width_mm=\"1000\"·nascosto web_width_mm=\"300\"·nascosto flange_thickness_mm=\"300\"·nascosto bottom_flange_width_mm=\"800\"·nascosto bottom_flange_thickness_mm=\"250\"·nascosto cover_mm=\"70\" wizard_bar_diameter_mm=\"20\" wizard_bar_spacing_mm=\"180\"·nascosto wizard_radial_count=\"24\" wizard_inner_count=\"16\" wizard_stadium_layout=\"\"·nascosto wizard_stadium_curve_count=\"9\"·nascosto wizard_stadium_curve_diameter_mm=\"20\"·nascosto wizard_stadium_straight_count=\"4\"·nascosto wizard_stadium_straight_diameter_mm=\"20\"·nascosto wizard_polygon_sides=\"8\"·nascosto top_bar_count=\"4\"·nascosto top_bar_diameter_mm=\"20\"·nascosto bottom_bar_count=\"4\"·nascosto bottom_bar_diameter_mm=\"20\"·nascosto side_bar_count_per_side=\"2\"·nascosto side_bar_diameter_mm=\"16\"·nascosto second_top_count=\"4\"·nascosto second_top_diameter=\"20\"·nascosto second_top_gap=\"40\"·nascosto second_bottom_count=\"4\"·nascosto second_bottom_diameter=\"20\"·nascosto second_bottom_gap=\"40\"·nascosto longitudinal_bar_count=\"24\"·nascosto longitudinal_bar_diameter_mm=\"20\"·nascosto second_inner_count=\"16\"·nascosto second_inner_diameter=\"20\"·nascosto second_inner_gap=\"60\"·nascosto transverse_bar_diameter_mm=\"10\" transverse_spacing_mm=\"200\"\n  anteprima Circolare 1000x1000 · Ac 659734.4572538566 · As 12566.370614359173 · contorno 96 269EE5F0312968A2 · fori 1 · barre 40 0BD59A2C0388C8C2 · staffe 2 39E3F6B3B13FE673\n  bozza 316A3B5B32F32AB2\ncampo dialogo wizard_inner_count «12» · tipologia \"Circolare cava · anello interno ed esterno\" · applica sì · errore \"\" · nota \"Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio.\"\n  campi wizard_type=\"Circolare cava · anello interno ed esterno\" width_mm=\"1000\"·nascosto height_mm=\"1200\"·nascosto diameter_mm=\"1000\" inner_diameter_mm=\"400\" inner_width_mm=\"400\"·nascosto inner_height_mm=\"500\"·nascosto flange_width_mm=\"1000\"·nascosto web_width_mm=\"300\"·nascosto flange_thickness_mm=\"300\"·nascosto bottom_flange_width_mm=\"800\"·nascosto bottom_flange_thickness_mm=\"250\"·nascosto cover_mm=\"70\" wizard_bar_diameter_mm=\"20\" wizard_bar_spacing_mm=\"180\"·nascosto wizard_radial_count=\"24\" wizard_inner_count=\"12\" wizard_stadium_layout=\"\"·nascosto wizard_stadium_curve_count=\"9\"·nascosto wizard_stadium_curve_diameter_mm=\"20\"·nascosto wizard_stadium_straight_count=\"4\"·nascosto wizard_stadium_straight_diameter_mm=\"20\"·nascosto wizard_polygon_sides=\"8\"·nascosto top_bar_count=\"4\"·nascosto top_bar_diameter_mm=\"20\"·nascosto bottom_bar_count=\"4\"·nascosto bottom_bar_diameter_mm=\"20\"·nascosto side_bar_count_per_side=\"2\"·nascosto side_bar_diameter_mm=\"16\"·nascosto second_top_count=\"4\"·nascosto second_top_diameter=\"20\"·nascosto second_top_gap=\"40\"·nascosto second_bottom_count=\"4\"·nascosto second_bottom_diameter=\"20\"·nascosto second_bottom_gap=\"40\"·nascosto longitudinal_bar_count=\"24\"·nascosto longitudinal_bar_diameter_mm=\"20\"·nascosto second_inner_count=\"16\"·nascosto second_inner_diameter=\"20\"·nascosto second_inner_gap=\"60\"·nascosto transverse_bar_diameter_mm=\"10\" transverse_spacing_mm=\"200\"\n  anteprima Circolare 1000x1000 · Ac 659734.4572538566 · As 11309.733552923255 · contorno 96 269EE5F0312968A2 · fori 1 · barre 36 A5D02CE2E00EF851 · staffe 2 39E3F6B3B13FE673\n  bozza 827FDAA2E2EE6F2D\npulsante dialogo Applica sezione · chiusa"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Circolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000"
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "96"
+[ingressi]   campo width_mm "Larghezza b" = "1000" · nascosto
+[ingressi]   campo height_mm "Altezza h" = "1200" · nascosto
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1000" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "300" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "300" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro sì · spento
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "400" · spento
+[ingressi]   campo inner_width_mm "Larghezza foro" = "400" · spento · nascosto
+[ingressi]   campo inner_height_mm "Altezza foro" = "500" · spento · nascosto
+[ingressi] armatura spenta · nota "Modificare la disposizione da Wizard tipologie oppure dalla tabella delle coordinate delle barre."
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "24"
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "20"
+[ingressi]   campo top_bar_count "Barre superiori" = "4" · nascosto
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20" · nascosto
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "4" · nascosto
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "20" · nascosto
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2" · nascosto
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16" · nascosto
+[ingressi] strato top · nascosto · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "40"
+[ingressi] strato bottom · nascosto · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "4"
+[ingressi]   campo second_bottom_diameter "Diametro" = "20"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "40"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "20"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "60"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = ""
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = ""
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Calcolo delle quattro direzioni…" · riquadri ""
+[ingressi] anteprima sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 11309.733552923255 · contorno 96 269EE5F0312968A2 · fori 1 · barre 36 A5D02CE2E00EF851 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 36 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"409.951787","y":"0"}
+[ingressi]   {"id":"B02","phi":"20","x":"395.9830176362967","y":"106.10332979208472"}
+[ingressi]   {"id":"B03","phi":"20","x":"355.02866023648534","y":"204.97589255756697"}
+[ingressi]   {"id":"B04","phi":"20","x":"289.87968799999993","y":"289.87968799999993"}
+[ingressi]   {"id":"B05","phi":"20","x":"204.9758928952876","y":"355.0286608214344"}
+[ingressi]   {"id":"B06","phi":"20","x":"106.10332979208472","y":"395.9830176362967"}
+[ingressi]   {"id":"B07","phi":"20","x":"2.5102307187714378E-14","y":"409.951787"}
+[ingressi]   {"id":"B08","phi":"20","x":"-106.1033297920847","y":"395.9830176362968"}
+[ingressi]   {"id":"B09","phi":"20","x":"-204.97589255756694","y":"355.0286602364854"}
+[ingressi]   {"id":"B10","phi":"20","x":"-289.87968799999993","y":"289.879688"}
+[ingressi]   {"id":"B11","phi":"20","x":"-355.02866023648534","y":"204.97589255756697"}
+[ingressi]   {"id":"B12","phi":"20","x":"-395.9830176362968","y":"106.10332979208485"}
+[ingressi]   {"id":"B13","phi":"20","x":"-409.951787","y":"5.0204614375428755E-14"}
+[ingressi]   {"id":"B14","phi":"20","x":"-395.9830176362967","y":"-106.10332979208475"}
+[ingressi]   {"id":"B15","phi":"20","x":"-355.0286602364854","y":"-204.97589255756688"}
+[ingressi]   {"id":"B16","phi":"20","x":"-289.8796880000001","y":"-289.87968799999976"}
+[ingressi]   {"id":"B17","phi":"20","x":"-204.9758928952877","y":"-355.0286608214344"}
+[ingressi]   {"id":"B18","phi":"20","x":"-106.1033297920847","y":"-395.9830176362968"}
+[ingressi]   {"id":"B19","phi":"20","x":"-7.530692156314313E-14","y":"-409.951787"}
+[ingressi]   {"id":"B20","phi":"20","x":"106.10332979208454","y":"-395.9830176362968"}
+[ingressi]   {"id":"B21","phi":"20","x":"204.9758928952876","y":"-355.0286608214344"}
+[ingressi]   {"id":"B22","phi":"20","x":"289.8796879999999","y":"-289.879688"}
+[ingressi]   {"id":"B23","phi":"20","x":"355.02866082143436","y":"-204.9758928952877"}
+[ingressi]   {"id":"B24","phi":"20","x":"395.9830176362967","y":"-106.10332979208508"}
+[ingressi]   {"id":"B25","phi":"20","x":"290.048213","y":"0"}
+[ingressi]   {"id":"B26","phi":"20","x":"251.18911962406403","y":"145.02410583245845"}
+[ingressi]   {"id":"B27","phi":"20","x":"145.02410606828315","y":"251.18912003252427"}
+[ingressi]   {"id":"B28","phi":"20","x":"1.7760330721210645E-14","y":"290.048212"}
+[ingressi]   {"id":"B29","phi":"20","x":"-145.02410583245842","y":"251.18911962406403"}
+[ingressi]   {"id":"B30","phi":"20","x":"-251.18911962406403","y":"145.02410583245845"}
+[ingressi]   {"id":"B31","phi":"20","x":"-290.048213","y":"3.552066156488597E-14"}
+[ingressi]   {"id":"B32","phi":"20","x":"-251.1891196240641","y":"-145.0241058324584"}
+[ingressi]   {"id":"B33","phi":"20","x":"-145.02410606828326","y":"-251.18912003252424"}
+[ingressi]   {"id":"B34","phi":"20","x":"-5.328099234732895E-14","y":"-290.048213"}
+[ingressi]   {"id":"B35","phi":"20","x":"145.02410606828315","y":"-251.18912003252427"}
+[ingressi]   {"id":"B36","phi":"20","x":"251.18912003252422","y":"-145.02410606828326"}
+[ingressi] riquadri riepilogo-SLU "3D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[wizard] invariata
+== attendi
+dati 0F3CD14F1C26E395 · byte 9139
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato F68AD9549C2B9D77
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1"
+[ingressi]   campo nota "Nota del foglio" = ""
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85"
+[ingressi]   campo AlphaCT "αct · trazione" = "1"
+[ingressi]   campo GammaC "γc · CLS" = "1.50"
+[ingressi]   campo GammaS "γs · armature" = "1.15"
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1"
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2"
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1"
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5"
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Circolare" voci "Circolare|Rettangolare|A T|Generica (da definire)"
+[ingressi]   campo diameter_mm "Diametro D" = "1000"
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "96"
+[ingressi]   campo width_mm "Larghezza b" = "1000" · nascosto
+[ingressi]   campo height_mm "Altezza h" = "1200" · nascosto
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1000" · nascosto
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "300" · nascosto
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "300" · nascosto
+[ingressi]   campo cover_mm "Copriferro netto" = "70"
+[ingressi] foro sì · spento
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "400" · spento
+[ingressi]   campo inner_width_mm "Larghezza foro" = "400" · spento · nascosto
+[ingressi]   campo inner_height_mm "Altezza foro" = "500" · spento · nascosto
+[ingressi] armatura spenta · nota "Modificare la disposizione da Wizard tipologie oppure dalla tabella delle coordinate delle barre."
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "24"
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "20"
+[ingressi]   campo top_bar_count "Barre superiori" = "4" · nascosto
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20" · nascosto
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "4" · nascosto
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "20" · nascosto
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2" · nascosto
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16" · nascosto
+[ingressi] strato top · nascosto · "+ Attiva · Seconda fila superiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4"
+[ingressi]   campo second_top_diameter "Diametro" = "20"
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "40"
+[ingressi] strato bottom · nascosto · "+ Attiva · Seconda fila inferiore" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "4"
+[ingressi]   campo second_bottom_diameter "Diametro" = "20"
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "40"
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16"
+[ingressi]   campo second_inner_diameter "Diametro" = "20"
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "60"
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No"
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10"
+[ingressi]   campo transverse_spacing_mm "Passo" = "200"
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = ""
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = ""
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1"
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342"
+[ingressi]   campo x "x cavo" = "0"
+[ingressi]   campo y "y cavo" = "0"
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000"
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente"
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0"
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
+[ingressi] rapide "Mx+   1549,25 kNm\nMx−   -1549,25 kNm\nMy+   1549,24 kNm\nMy−   -1549,25 kNm" · nascosto · riquadri "Mx+ 1549,25 kNm | Mx− -1549,25 kNm | My+ 1549,24 kNm | My− -1549,25 kNm"
+[ingressi] anteprima sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 11309.733552923255 · contorno 96 269EE5F0312968A2 · fori 1 · barre 36 A5D02CE2E00EF851 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 36 · selezionata -1
+[ingressi]   {"id":"B01","phi":"20","x":"409.951787","y":"0"}
+[ingressi]   {"id":"B02","phi":"20","x":"395.9830176362967","y":"106.10332979208472"}
+[ingressi]   {"id":"B03","phi":"20","x":"355.02866023648534","y":"204.97589255756697"}
+[ingressi]   {"id":"B04","phi":"20","x":"289.87968799999993","y":"289.87968799999993"}
+[ingressi]   {"id":"B05","phi":"20","x":"204.9758928952876","y":"355.0286608214344"}
+[ingressi]   {"id":"B06","phi":"20","x":"106.10332979208472","y":"395.9830176362967"}
+[ingressi]   {"id":"B07","phi":"20","x":"2.5102307187714378E-14","y":"409.951787"}
+[ingressi]   {"id":"B08","phi":"20","x":"-106.1033297920847","y":"395.9830176362968"}
+[ingressi]   {"id":"B09","phi":"20","x":"-204.97589255756694","y":"355.0286602364854"}
+[ingressi]   {"id":"B10","phi":"20","x":"-289.87968799999993","y":"289.879688"}
+[ingressi]   {"id":"B11","phi":"20","x":"-355.02866023648534","y":"204.97589255756697"}
+[ingressi]   {"id":"B12","phi":"20","x":"-395.9830176362968","y":"106.10332979208485"}
+[ingressi]   {"id":"B13","phi":"20","x":"-409.951787","y":"5.0204614375428755E-14"}
+[ingressi]   {"id":"B14","phi":"20","x":"-395.9830176362967","y":"-106.10332979208475"}
+[ingressi]   {"id":"B15","phi":"20","x":"-355.0286602364854","y":"-204.97589255756688"}
+[ingressi]   {"id":"B16","phi":"20","x":"-289.8796880000001","y":"-289.87968799999976"}
+[ingressi]   {"id":"B17","phi":"20","x":"-204.9758928952877","y":"-355.0286608214344"}
+[ingressi]   {"id":"B18","phi":"20","x":"-106.1033297920847","y":"-395.9830176362968"}
+[ingressi]   {"id":"B19","phi":"20","x":"-7.530692156314313E-14","y":"-409.951787"}
+[ingressi]   {"id":"B20","phi":"20","x":"106.10332979208454","y":"-395.9830176362968"}
+[ingressi]   {"id":"B21","phi":"20","x":"204.9758928952876","y":"-355.0286608214344"}
+[ingressi]   {"id":"B22","phi":"20","x":"289.8796879999999","y":"-289.879688"}
+[ingressi]   {"id":"B23","phi":"20","x":"355.02866082143436","y":"-204.9758928952877"}
+[ingressi]   {"id":"B24","phi":"20","x":"395.9830176362967","y":"-106.10332979208508"}
+[ingressi]   {"id":"B25","phi":"20","x":"290.048213","y":"0"}
+[ingressi]   {"id":"B26","phi":"20","x":"251.18911962406403","y":"145.02410583245845"}
+[ingressi]   {"id":"B27","phi":"20","x":"145.02410606828315","y":"251.18912003252427"}
+[ingressi]   {"id":"B28","phi":"20","x":"1.7760330721210645E-14","y":"290.048212"}
+[ingressi]   {"id":"B29","phi":"20","x":"-145.02410583245842","y":"251.18911962406403"}
+[ingressi]   {"id":"B30","phi":"20","x":"-251.18911962406403","y":"145.02410583245845"}
+[ingressi]   {"id":"B31","phi":"20","x":"-290.048213","y":"3.552066156488597E-14"}
+[ingressi]   {"id":"B32","phi":"20","x":"-251.1891196240641","y":"-145.0241058324584"}
+[ingressi]   {"id":"B33","phi":"20","x":"-145.02410606828326","y":"-251.18912003252424"}
+[ingressi]   {"id":"B34","phi":"20","x":"-5.328099234732895E-14","y":"-290.048213"}
+[ingressi]   {"id":"B35","phi":"20","x":"145.02410606828315","y":"-251.18912003252427"}
+[ingressi]   {"id":"B36","phi":"20","x":"251.18912003252422","y":"-145.02410606828326"}
+[ingressi] riquadri riepilogo-SLU "3D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[wizard] invariata
+== sola-lettura
+dati 0F3CD14F1C26E395 · byte 9139
+modificato 1 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato F68AD9549C2B9D77
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
+[ingressi] valori-integrati ""
+[ingressi] form normativa
+[ingressi]   scelta normativa "Normativa" = "NTC 2018" voci "NTC 2018|Model Code 2010|EN 1992-1-1|UNI EN 1992-1-1|DIN EN 1992-1-1|DS EN 1992-1-1|NS EN 1992-1-1" · spento
+[ingressi]   campo nota "Nota del foglio" = "" · sola lettura
+[ingressi] form coefficienti
+[ingressi]   campo AlphaCC "αcc · compressione" = "0.85" · sola lettura
+[ingressi]   campo AlphaCT "αct · trazione" = "1" · sola lettura
+[ingressi]   campo GammaC "γc · CLS" = "1.50" · sola lettura
+[ingressi]   campo GammaS "γs · armature" = "1.15" · sola lettura
+[ingressi]   campo GammaSPrestress "γp · trefoli" = "1.15" · nascosto · sola lettura
+[ingressi]   campo GammaCAccidental "γc · accidentale" = "1" · sola lettura
+[ingressi]   campo GammaCE "γcE · modulo" = "1.2" · sola lettura
+[ingressi]   campo GammaSAccidental "γs · accidentale" = "1" · sola lettura
+[ingressi]   campo GammaSPrestressAccidental "γp · accidentale" = "1" · nascosto · sola lettura
+[ingressi]   campo GammaF "γF · fibre (predisposizione)" = "1.5" · sola lettura
+[ingressi]   campo SteelCoefficientStrainTension "kε · deformazione acciaio" = "0.9" · sola lettura
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6" · sola lettura
+[ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45" · sola lettura
+[ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8" · sola lettura
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.8" · nascosto · sola lettura
+[ingressi] form materiali
+[ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "C35/45" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato" · spento
+[ingressi]   campo fck_mpa "fck" = "35" · sola lettura
+[ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare" · spento
+[ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì" · spento
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
+[ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato" · spento
+[ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
+[ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
+[ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
+[ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
+[ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente" · spento
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
+[ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
+[ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
+[ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
+[ingressi] form geometria
+[ingressi]   scelta shape "Sezione" = "Circolare" voci "Circolare|Rettangolare|A T|Generica (da definire)" · spento
+[ingressi]   campo diameter_mm "Diametro D" = "1000" · sola lettura
+[ingressi]   campo circular_sides "Lati del contorno (12–720, multipli di 4)" = "96" · sola lettura
+[ingressi]   campo width_mm "Larghezza b" = "1000" · nascosto · sola lettura
+[ingressi]   campo height_mm "Altezza h" = "1200" · nascosto · sola lettura
+[ingressi]   campo flange_width_mm "Larghezza ala bf" = "1000" · nascosto · sola lettura
+[ingressi]   campo web_width_mm "Larghezza anima bw" = "300" · nascosto · sola lettura
+[ingressi]   campo flange_thickness_mm "Spessore ala hf" = "300" · nascosto · sola lettura
+[ingressi]   campo cover_mm "Copriferro netto" = "70" · sola lettura
+[ingressi] foro sì · spento
+[ingressi] form foro
+[ingressi]   campo inner_diameter_mm "Diametro foro" = "400" · spento · sola lettura
+[ingressi]   campo inner_width_mm "Larghezza foro" = "400" · spento · nascosto · sola lettura
+[ingressi]   campo inner_height_mm "Altezza foro" = "500" · spento · nascosto · sola lettura
+[ingressi] armatura spenta · nota "Modificare la disposizione da Wizard tipologie oppure dalla tabella delle coordinate delle barre."
+[ingressi] form armatura
+[ingressi]   campo longitudinal_bar_count "Barre circolari" = "24" · sola lettura
+[ingressi]   campo longitudinal_bar_diameter_mm "Diametro" = "20" · sola lettura
+[ingressi]   campo top_bar_count "Barre superiori" = "4" · nascosto · sola lettura
+[ingressi]   campo top_bar_diameter_mm "Ø superiori" = "20" · nascosto · sola lettura
+[ingressi]   campo flange_bottom_count "Barre intradosso ala (0: assenti)" = "0" · nascosto · sola lettura
+[ingressi]   campo flange_bottom_diameter_mm "Ø intradosso ala" = "20" · nascosto · sola lettura
+[ingressi]   campo flange_bottom_offset_mm "Intradosso ala → asse barra" = "90" · nascosto · sola lettura
+[ingressi]   campo bottom_bar_count "Barre inferiori" = "4" · nascosto · sola lettura
+[ingressi]   campo bottom_bar_diameter_mm "Ø inferiori" = "20" · nascosto · sola lettura
+[ingressi]   campo side_bar_count_per_side "Barre laterali / lato" = "2" · nascosto · sola lettura
+[ingressi]   campo side_bar_diameter_mm "Ø laterali" = "16" · nascosto · sola lettura
+[ingressi] strato top · nascosto · "+ Attiva · Seconda fila superiore" · spento · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-top
+[ingressi]   campo second_top_count "Numero barre" = "4" · sola lettura
+[ingressi]   campo second_top_diameter "Diametro" = "20" · sola lettura
+[ingressi]   campo second_top_gap "Distanza libera dalla prima fila" = "40" · sola lettura
+[ingressi] strato bottom · nascosto · "+ Attiva · Seconda fila inferiore" · spento · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-bottom
+[ingressi]   campo second_bottom_count "Numero barre" = "4" · sola lettura
+[ingressi]   campo second_bottom_diameter "Diametro" = "20" · sola lettura
+[ingressi]   campo second_bottom_gap "Distanza libera dalla prima fila" = "40" · sola lettura
+[ingressi] strato inner · nascosto · "+ Attiva · Secondo anello interno" · spento · nota "Distanza libera tra le superfici delle barre dei due strati." · campi nascosti
+[ingressi] form strato-inner
+[ingressi]   campo second_inner_count "Numero barre" = "16" · sola lettura
+[ingressi]   campo second_inner_diameter "Diametro" = "20" · sola lettura
+[ingressi]   campo second_inner_gap "Distanza libera dalla prima fila" = "60" · sola lettura
+[ingressi] form staffe
+[ingressi]   scelta staffe_presenti "Staffe presenti" = "Sì" voci "Sì|No" · spento
+[ingressi]   campo transverse_bar_diameter_mm "Ø staffe" = "10" · sola lettura
+[ingressi]   campo transverse_spacing_mm "Passo" = "200" · sola lettura
+[ingressi] form schema-staffe
+[ingressi]   scelta tipo_staffa "Circolare" = "Staffa chiusa" voci "Staffa chiusa|Spirale" · spento · nascosto
+[ingressi]   campo rami_x "Braccia resistenti a Vx" = "" · sola lettura
+[ingressi]   campo rami_y "Braccia resistenti a Vy" = "" · sola lettura
+[ingressi]   scelta schema_interno "Schema interno" = "Bracci paralleli" voci "Bracci paralleli|Staffe chiuse sovrapposte" · spento · nascosto
+[ingressi]   campo rami_interni "Bracci aggiunti / staffe interne" = "0" · nascosto · sola lettura
+[ingressi]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
+[ingressi] form cavo
+[ingressi]   campo numero "Numero trefoli nel cavo" = "1" · sola lettura
+[ingressi]   campo diametro "Ø equivalente singolo trefolo" = "13.81976597885342" · sola lettura
+[ingressi]   campo x "x cavo" = "0" · sola lettura
+[ingressi]   campo y "y cavo" = "0" · sola lettura
+[ingressi]   campo sigma0 "Tensione iniziale σp0" = "1000" · sola lettura
+[ingressi] cavo materiale "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360" · messaggio ""
+[ingressi] tabella trefoli · colonne "ID=id|x [mm]=x|y [mm]=y|Øeq cavo [mm]=diametro|Ap totale [mm²]=area|Materiale=materiale|Diagramma=diagramma|σp0 [MPa]=sigma0|Ep [MPa]=Ep|fpyk [MPa]=fpyk|fpk [MPa]=fpk|εpu [‰]=eps_u" · righe 0 · selezionata -1 · sola lettura
+[ingressi] trefoli materiali "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] trefolo standard "Y1860" di "Y1570|Y1620|Y1670|Y1770|Y1860|Y1960|Y2060|Y2160|Y2260|Y2360"
+[ingressi] form trefolo
+[ingressi]   campo Ep "Ep" = "195000" · sola lettura
+[ingressi]   campo fpyk "fpyk" = "1640" · sola lettura
+[ingressi]   campo fpk "fpk" = "1860" · sola lettura
+[ingressi]   campo eps_u "εpu" = "75" · sola lettura
+[ingressi]   scelta diagramma "Diagramma" = "Elastoplastico" voci "Elastoplastico|Incrudente" · spento
+[ingressi] materiali salvati -1 di ""
+[ingressi] form rapide
+[ingressi]   campo N "N (− compressione)" = "0" · sola lettura
+[ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico" · spento
+[ingressi] rapide "Mx+   1549,25 kNm\nMx−   -1549,25 kNm\nMy+   1549,24 kNm\nMy−   -1549,25 kNm" · nascosto · riquadri "Mx+ 1549,25 kNm | Mx− -1549,25 kNm | My+ 1549,24 kNm | My− -1549,25 kNm"
+[ingressi] anteprima sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 11309.733552923255 · contorno 96 269EE5F0312968A2 · fori 1 · barre 36 A5D02CE2E00EF851 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
+[ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 36 · selezionata -1 · sola lettura
+[ingressi]   {"id":"B01","phi":"20","x":"409.951787","y":"0"}
+[ingressi]   {"id":"B02","phi":"20","x":"395.9830176362967","y":"106.10332979208472"}
+[ingressi]   {"id":"B03","phi":"20","x":"355.02866023648534","y":"204.97589255756697"}
+[ingressi]   {"id":"B04","phi":"20","x":"289.87968799999993","y":"289.87968799999993"}
+[ingressi]   {"id":"B05","phi":"20","x":"204.9758928952876","y":"355.0286608214344"}
+[ingressi]   {"id":"B06","phi":"20","x":"106.10332979208472","y":"395.9830176362967"}
+[ingressi]   {"id":"B07","phi":"20","x":"2.5102307187714378E-14","y":"409.951787"}
+[ingressi]   {"id":"B08","phi":"20","x":"-106.1033297920847","y":"395.9830176362968"}
+[ingressi]   {"id":"B09","phi":"20","x":"-204.97589255756694","y":"355.0286602364854"}
+[ingressi]   {"id":"B10","phi":"20","x":"-289.87968799999993","y":"289.879688"}
+[ingressi]   {"id":"B11","phi":"20","x":"-355.02866023648534","y":"204.97589255756697"}
+[ingressi]   {"id":"B12","phi":"20","x":"-395.9830176362968","y":"106.10332979208485"}
+[ingressi]   {"id":"B13","phi":"20","x":"-409.951787","y":"5.0204614375428755E-14"}
+[ingressi]   {"id":"B14","phi":"20","x":"-395.9830176362967","y":"-106.10332979208475"}
+[ingressi]   {"id":"B15","phi":"20","x":"-355.0286602364854","y":"-204.97589255756688"}
+[ingressi]   {"id":"B16","phi":"20","x":"-289.8796880000001","y":"-289.87968799999976"}
+[ingressi]   {"id":"B17","phi":"20","x":"-204.9758928952877","y":"-355.0286608214344"}
+[ingressi]   {"id":"B18","phi":"20","x":"-106.1033297920847","y":"-395.9830176362968"}
+[ingressi]   {"id":"B19","phi":"20","x":"-7.530692156314313E-14","y":"-409.951787"}
+[ingressi]   {"id":"B20","phi":"20","x":"106.10332979208454","y":"-395.9830176362968"}
+[ingressi]   {"id":"B21","phi":"20","x":"204.9758928952876","y":"-355.0286608214344"}
+[ingressi]   {"id":"B22","phi":"20","x":"289.8796879999999","y":"-289.879688"}
+[ingressi]   {"id":"B23","phi":"20","x":"355.02866082143436","y":"-204.9758928952877"}
+[ingressi]   {"id":"B24","phi":"20","x":"395.9830176362967","y":"-106.10332979208508"}
+[ingressi]   {"id":"B25","phi":"20","x":"290.048213","y":"0"}
+[ingressi]   {"id":"B26","phi":"20","x":"251.18911962406403","y":"145.02410583245845"}
+[ingressi]   {"id":"B27","phi":"20","x":"145.02410606828315","y":"251.18912003252427"}
+[ingressi]   {"id":"B28","phi":"20","x":"1.7760330721210645E-14","y":"290.048212"}
+[ingressi]   {"id":"B29","phi":"20","x":"-145.02410583245842","y":"251.18911962406403"}
+[ingressi]   {"id":"B30","phi":"20","x":"-251.18911962406403","y":"145.02410583245845"}
+[ingressi]   {"id":"B31","phi":"20","x":"-290.048213","y":"3.552066156488597E-14"}
+[ingressi]   {"id":"B32","phi":"20","x":"-251.1891196240641","y":"-145.0241058324584"}
+[ingressi]   {"id":"B33","phi":"20","x":"-145.02410606828326","y":"-251.18912003252424"}
+[ingressi]   {"id":"B34","phi":"20","x":"-5.328099234732895E-14","y":"-290.048213"}
+[ingressi]   {"id":"B35","phi":"20","x":"145.02410606828315","y":"-251.18912003252427"}
+[ingressi]   {"id":"B36","phi":"20","x":"251.18912003252422","y":"-145.02410606828326"}
+[ingressi] riquadri riepilogo-SLU "3D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[wizard] comando "Wizard tipologie / modifica disposizione…" · spento
+[wizard] geometria · nascosta · spenta · nota "Geometria e copriferro si modificano nel wizard."
+[wizard] armatura · nascosta · nota "Disposizione definita nel wizard. Le singole barre si modificano nella tabella delle coordinate."
+[wizard] foro campi · spenti
+[wizard] nota-taglio "Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio."
+== apri wizard { pulsante dialogo Annulla }
+dati 0F3CD14F1C26E395 · byte 9139
+modificato 1 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato F68AD9549C2B9D77
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+messaggio "finestra non aperta: comando non disponibile"
+[ingressi] invariata
+[wizard] invariata
+== cella barre phi [riga 0] «24»
+dati 0F3CD14F1C26E395 · byte 9139
+modificato 1 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato F68AD9549C2B9D77
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[wizard] invariata
+== campo staffe transverse_spacing_mm «150»
+dati 0F3CD14F1C26E395 · byte 9139
+modificato 1 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato F68AD9549C2B9D77
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[wizard] invariata
+== conferma
+dati 0F3CD14F1C26E395 · byte 9139
+modificato 1 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+risultato F68AD9549C2B9D77
+stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
+[ingressi] invariata
+[wizard] invariata
