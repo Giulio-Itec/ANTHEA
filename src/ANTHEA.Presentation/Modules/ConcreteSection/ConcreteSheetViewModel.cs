@@ -78,6 +78,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
             tab = value; OnPropertyChanged();
             if (initializing || IsDisposed) return;
             CommitSheet(); RefreshDetailing(); Settings["tab"] = value; RaiseModified();
+            ShowPanel(value);
         }
     }
 
@@ -140,6 +141,8 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
     private void Open()
     {
         initializing = true;
+        // A new opening shows the status of a new historic workspace (also after Reload).
+        Status = OpeningStatus;
         ResetState();
         Settings = ConcreteEditor.PrepareWorkspace(Data);
         PrepareCoefficients();
@@ -155,15 +158,17 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         PrepareStressOptions();
         // 05 · Taglio e torsione.
         PrepareShear();
+        // The tables of the actions of tabs 02–05 (S2): no write.
+        Actions = new ConcreteActionsViewModel(this);
         // 06 · Dettagli costruttivi: from here the detailing is refreshed.
         detailingBuilt = true;
         // 07 · Momento–curvatura: no write. 08 · Calcola armature.
         ConcreteEditor.PrepareDesign(Settings);
         tab = ConcreteSheetPresentation.InitialTab(Settings);
-        OnPropertyChanged(nameof(SelectedTab)); OnPropertyChanged(nameof(Inputs)); OnPropertyChanged(nameof(Calculation));
+        OnPropertyChanged(nameof(SelectedTab)); OnPropertyChanged(nameof(Inputs)); OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(Actions));
         initializing = false; RefreshPreview(); RefreshSummary();
-        // The view loaded: the calculation of the opening (the historic Loaded handler).
-        if (!HasResults) Calculation.Queue();
+        // The view shown and loaded: the panel of the tab and the calculation of the opening (IsVisibleChanged and Loaded of the historic view).
+        ViewLoaded();
     }
 
     private void PrepareCoefficients()
@@ -256,7 +261,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
     protected override void OnCommit() => CommitSheet();
 
     // The Commit of the historic view: the drafts of the forms, then the rows of the actions and of the shear into the data.
-    private void CommitSheet()
+    internal void CommitSheet()
     {
         Inputs.Commit();
         foreach (string key in actions.Keys) SyncActions(key);
@@ -272,7 +277,9 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
 
     private void OnOwnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(IsReadOnly)) Inputs?.RefreshEditable(IsReadOnly);
+        if (e.PropertyName != nameof(IsReadOnly)) return;
+        Inputs?.RefreshEditable(IsReadOnly);
+        Actions?.RefreshEditable();
     }
 
     private void OnCalculationChanged(object? sender, PropertyChangedEventArgs e)

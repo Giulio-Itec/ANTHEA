@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Anthea.Application.Concrete;
 using Anthea.Application.Scheduling;
+using Anthea.Presentation.Modules.ConcreteSection;
 using Anthea.Presentation.Tests;
 using X.Core;
 

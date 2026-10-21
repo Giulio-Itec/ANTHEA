@@ -187,6 +187,9 @@ public sealed class ConcreteTableViewModel : ObservableObject
     /// <summary>The table refuses the edits: by the module, or because the sheet is a read-only revision.</summary>
     public bool IsReadOnly { get => readOnly || sheetReadOnly(); set { readOnly = value; OnPropertyChanged(); } }
 
+    /// <summary>The read-only revision of the sheet changed: <see cref="IsReadOnly"/> is read again (F5.10 S2).</summary>
+    internal void RefreshReadOnly() => OnPropertyChanged(nameof(IsReadOnly));
+
     /// <summary>Raised after every change of the selection (also when a row leaves the table).</summary>
     public event EventHandler? SelectionChanged;
 

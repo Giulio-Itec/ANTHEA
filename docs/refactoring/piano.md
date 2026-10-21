@@ -716,7 +716,9 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       - restano la prova dell'utente e il passaggio dei due moduli insieme (O2/E2).
     - **F5.10 S1, sezione c.a.** (merge eac4773c): guscio, coordinatore del calcolo (C1, C2), ingressi e materiali.
       - 21 scenari uguali alle tracce congelate; 55 file dei dati F3 uguali al riferimento.
-      - S2 non è avviato: il punto di partenza è in [f5-10-sezione.md](f5-10-sezione.md), sezione 8.6.
+      - S2 (ramo `refactoring/f5-10-s2`, 21/10, da unire): riallineamento al codice del 20/10 (sezione 9: tracce congelate
+        ancora valide, lacune del ViewModel sulle sezioni da wizard, sottopasso S1b proposto) e azioni (sezione 10:
+        `SectionActionsViewModel` in Presentation, C3; tabelle dei pannelli e finestra delle sollecitazioni; 25 scenari uguali).
     - **Suite UI indipendenti dall'implementazione** (merge 35bba417, [f5-suite-ui.md](f5-suite-ui.md)):
       - le 11 suite storiche generali, dei materiali e dei muri passano con la Release di oggi e, nelle varianti `-mvvm`, con
         i sette moduli MVVM;

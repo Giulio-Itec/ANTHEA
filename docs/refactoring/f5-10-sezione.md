@@ -25,7 +25,9 @@ dei sottopassi. Contiene:
 - il piano dei sottopassi S1–S9 (sezione 4);
 - l'uso della sezione nuova da parte del palo elastico e dei muri (sezione 5);
 - che cosa resta e le domande per il punto di controllo (sezioni 6 e 7);
-- il sottopasso S1 fatto il 18/10: ViewModel del guscio, del calcolo, degli ingressi e dei materiali, prove ed esiti (sezione 8).
+- il sottopasso S1 fatto il 18/10: ViewModel del guscio, del calcolo, degli ingressi e dei materiali, prove ed esiti (sezione 8);
+- il riallineamento del 21/10 al codice dopo persistenza nativa, wizard e capsula (sezione 9);
+- il sottopasso S2 fatto il 21/10: le azioni, il modello di tabella dei pannelli, prove ed esiti (sezione 10).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -555,6 +557,227 @@ Ogni voce è «da decidere»: la scelta indicata vale per andare avanti.
   tabelle dei pannelli (il modello di tabella di S3–S5), oppure S2 prima con l'arresto controllato su `tabelle-storiche`.
 
 ### 8.7 Come riprendere
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj
+dotnet tests/ANTHEA.Presentation.Tests/bin/Debug/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Debug/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
+```
+
+## 9. Riallineamento 21/10 (S2, parte a)
+
+Ramo `refactoring/f5-10-s2`, da `refactoring/f5` `c7fe03dd` (set ufficiale AE in `lib/Checker`), 21/10/2026. Dopo S1 la sezione c.a.
+è cambiata il 20/10 in tre lavori fuori da F5: persistenza nativa GPC con formato 3 ([sezioni-persistenza.md](sezioni-persistenza.md)),
+dodici wizard delle tipologie ([sezioni-wizard.md](sezioni-wizard.md)), capsula con armature per tratti e dettagli del pilastro
+([capsula-pilastro.md](capsula-pilastro.md)). Prima di S2 si è controllato che le tracce congelate e il ViewModel S1 valgano ancora,
+e il piano dei sottopassi è stato aggiornato.
+
+### 9.1 Esito dei controlli
+
+| Controllo | Esito |
+| --- | --- |
+| `ui/check-sezione-historic`: la vista storica di oggi contro `tests/fixtures/f5-sezione` | PASS: 39 scenari, 84 832 righe, 120 disegni 2D e 33 righe dei domini 3D uguali ai congelati |
+| `Presentation.Tests/sezione-ca`: il ViewModel S1 contro le stesse tracce | PASS, 30 controlli: 21 scenari uguali, `calcolo/sola-lettura` uguale fino all'arresto atteso; file dei dati F3 e sezioni dei muri uguali |
+
+Corsa `supporto/artefatti/ci/20261021-074153-s2a-verifica` su `c7fe03dd`. **Nessuna traccia da ricatturare**: `tests/fixtures/f5-sezione`
+resta com'è.
+
+### 9.2 File e membri cambiati dopo S1
+
+Vista storica (`X.Desktop/Wpf`), commit `cf080886` (wizard), `810b62a6` (campi del foro, F5-REL-112-01) e `2ce55493` (capsula):
+
+| File | Membri | Che cosa |
+| --- | --- | --- |
+| `ConcreteWorkspace.cs` | campi `templateGeometryNote`, `templateReinforcementNote`; `BuildControlPanel` | nel gruppo «Geometria» il pulsante «Wizard tipologie / modifica disposizione…» e la nota; nel gruppo «Armature» la nota della disposizione da wizard |
+| `ConcreteWorkspace.cs` | `refreshHoleControls` | «Foro centrale» spento per le sezioni da wizard; i campi del foro rileggono `input` e sono spenti per le sezioni da wizard |
+| `ConcreteWorkspace.cs` | `OpenTemplateWizard` (nuovo) | `Commit`, finestra modale `ConcreteTemplateWizardWindow`; dopo «Applica sezione»: voce nuova in «Sezione», form della geometria, dell'armatura, degli strati e del taglio riletti, foro, `Invalidate` |
+| `ConcreteWorkspace.cs` | `RefreshPreview` | geometria e armatura nascoste e spente per le sezioni da wizard, note mostrate, suggerimento dell'armatura |
+| `ConcreteLayers.cs` | `RefreshAdditionalLayers` | secondi strati nascosti per le sezioni da wizard |
+| `ConcreteParameters.cs` | `SynchronizeStirrups` | campi della staffa circolare (`tipo_staffa`, `rami_interni`, `schema_interno`, `rotazione_staffa`) nascosti per le sezioni da wizard |
+| `ConcreteShear.cs` | `RefreshAutomaticShear` | con parametri manuali la nota è `taglio.nota_wizard`, se c'è |
+| `ConcreteViewports.cs` | `ConcreteSectionViewport.DrawStirrups` | disegna i percorsi chiusi delle staffe del wizard (`ConcreteGeometry.TemplateLinks`) |
+| `ConcreteTemplateWizardWindow.cs` (nuovo) | | finestra WPF che ospita `ConcreteTemplateWizardViewModel` e disegna l'anteprima |
+
+Tutti i cambiamenti dipendono da `ConcreteTemplateAdapter.Uses(input)` (forma avanzata, oppure foro con `wizard_layout` «Doppio contorno»), da
+`taglio.nota_wizard` o da `TemplateLinks`, tranne la rilettura dei campi del foro.
+
+Sotto la vista, senza effetti sul foglio:
+- **Persistenza nativa** (`37ab4295`): `DocumentService.Load/Save` passano per `ConcreteDocumentPersistence.Unpack/Pack`; `input.sezione_gpc`
+  (contratto, impronta della ricetta, XML di `ModelArchive`) si scrive su una copia al salvataggio; `CheckerSection.PrepareModel` riusa la
+  sezione archiviata se l'impronta della ricetta (`ConcreteSectionArchive.EditorStamp`: `input` senza `sezione_gpc`, più `workspace_ca.trefoli`)
+  è quella di oggi. Il foglio porta `input.sezione_gpc` come dato opaco.
+- **Wizard**: `ConcreteTemplateWizard` (Application: bozza, scelta, anteprima, nota, applicazione transazionale, che azzera i parametri del
+  taglio e scrive `taglio.nota_wizard`), progetto nuovo `ANTHEA.ConcreteWorkspace` (`ConcreteSectionArchive`, `ConcreteTemplateAdapter`),
+  `ConcreteGeometry.TemplateLinks`, `SezioneCA` e adattatori in X.Calculations, campi dei report (`ConcreteTemplateReportFields`).
+- **Capsula**: dettagli del pilastro in `X.Calculations/ConcreteDetailing.cs`, modo «Curve e rettilinei separati» del wizard.
+
+ViewModel di Presentation: `ConcreteTemplateWizardViewModel` è nuovo in `Modules/ConcreteSection` (nato MVVM, ospitato dalla finestra storica),
+ma **non è collegato** a `ConcreteSheetViewModel`. Nessun file del ViewModel S1 è cambiato; `ConcreteSectionSheetChecks` chiama in più
+`StadiumWizardChecks` (capsula, stadio `fast`).
+
+### 9.3 Perché le tracce non cambiano
+
+Le 11 fixture F3 e le 2 sezioni dei muri hanno forme ordinarie senza `wizard_layout`, nessuna `nota_wizard` e nessun percorso di staffe: ogni
+ramo nuovo resta spento. Il pulsante del wizard e le due note sono nel gruppo, fuori dai form: la parte `[ingressi]` scrive form, interruttori e
+tabelle, non i pulsanti dei gruppi né la visibilità di un form intero. La rilettura dei campi del foro dà gli stessi valori già mostrati. Le
+fixture sono documenti di versione 2: nessuna ha `input.sezione_gpc`.
+
+Conseguenza: **le tracce non coprono i wizard né la persistenza nativa**. Un errore del ViewModel su una sezione da wizard non si vedrebbe.
+
+### 9.4 Che cosa manca al ViewModel S1
+
+Differenze dalla vista storica di oggi, tutte sulle sezioni da wizard (nessuna nelle tracce):
+1. il comando «Wizard tipologie / modifica disposizione…» (`ConcreteTemplateWizardViewModel` su `IDialogService`, poi la rilettura dei form e
+   `Invalidate`, come `OpenTemplateWizard`);
+2. geometria e armatura nascoste e spente, le due note, il suggerimento dell'armatura (`RefreshPreview`);
+3. «Foro centrale» e campi del foro spenti; campi del foro riletti da `input` (`refreshHoleControls`);
+4. secondi strati nascosti (`RefreshAdditionalLayers`) e campi della staffa circolare nascosti (`SynchronizeStirrups`);
+5. `ShearAutomaticNote` da `taglio.nota_wizard` con parametri manuali (`RefreshAutomaticShear`);
+6. la voce nuova di «Sezione» dopo il wizard (`FieldViewModel.ReplaceChoices`, come per le classi dei materiali).
+
+I percorsi delle staffe (`TemplateLinks`) arrivano al disegno con `ConcreteGeometry`: il disegno resta WPF (Q3, C8) e li riceve senza
+modifiche al ViewModel.
+
+### 9.5 Wizard e persistenza nei sottopassi
+
+- **S1b · Sezioni da wizard (nuovo sottopasso, dopo S2 e prima di S3).** Chiude le lacune 1–6.
+  - Prima le tracce. Scenari nuovi in `ingressi/` sui 15 esempi `supporto/esempi/distribuzione/str_palo/*.anthea` (12 da wizard), aperti con
+    `DocumentService.Load` (codec di versione 3, `input.sezione_gpc` presente). Prefisso di fixture `esempi/`, come `muri/`.
+  - Parte nuova `[wizard]`, chiesta solo dai nuovi scenari: visibilità e stato dei form della geometria e dell'armatura, note, foro, comando del
+    wizard; finestra «Wizard · Sezione in cemento armato» guidata come le altre finestre modali, con lo stato del suo ViewModel dopo ogni passo
+    (form, nota, errore, `CanApply`, impronta dell'anteprima).
+  - Le 39 tracce congelate non cambiano: non chiedono la parte nuova.
+  - Le tracce nuove si catturano dalla vista storica (due catture uguali) in un commit a sé; poi il ViewModel.
+  - `ConcreteTemplateWizardViewModel` diventa un `IDialogViewModel` (aggiunta); la finestra storica resta fino a S9.
+- **S2 · Azioni.** Piano invariato (sezioni 4 e 8.6); è la parte b di questo ramo (sezione 10). Nessun legame con i wizard. L'editor delle
+  sollecitazioni copia nel foglio solo `combinazioni` e `workspace_ca`: `input.sezione_gpc` e la ricetta non cambiano. `workspace_ca.trefoli`
+  fa parte dell'impronta, ma l'editor non lo tocca.
+- **S3 · Domini, S4 · SLE.** Il calcolo riusa la sezione archiviata (`CheckerSection.PrepareModel`), sotto il ViewModel. Le mappe disegnano
+  i percorsi delle staffe con il disegno WPF. Scenario da aggiungere: una sezione da wizard per `domini` e `sle`.
+- **S5 · Taglio.** `nota_wizard` e i parametri azzerati dal wizard (lacuna 5 se S1b non l'ha già chiusa). Campi della staffa circolare nascosti
+  anche nel form delle staffe in sola lettura del taglio. Scenario da aggiungere: una sezione da wizard con taglio manuale.
+- **S6 · Dettagli.** La capsula come pilastro passa da `ConcreteDetailingPresentation` (calcolo in X.Calculations). Scenario da aggiungere:
+  `dettagli/capsula-pilastro` sull'esempio `wizard-capsula`.
+- **S8 · Progetto delle armature.** I rifiuti per le tipologie avanzate vengono dalla libreria. Scenario da aggiungere: rifiuto su una sezione
+  da wizard.
+- **S9 · Report e passaggio.** I campi del wizard nei report (`ConcreteTemplateReportFields`) sono sotto `ConcreteReportAnalysis`, nessun legame
+  col ViewModel. Prove storiche nuove da riscrivere al passaggio:
+  - `ui/check-concrete-template-wizard` (`tests/Desktop/ConcreteTemplateViewChecks.cs`);
+  - la parte `str_palo` di `ExampleLibraryChecks`;
+  - `HorizontalPileViewChecks.Elastic` e `PileConcreteVerifierView.xaml.cs` (vista XAML del verificatore c.a. del palo elastico, F5.8, unita il
+    18/10), che ospita la `ConcreteWorkspace` storica con `ReloadRequested`.
+
+  Al passaggio `ConcreteTemplateWizardWindow` va in `supporto/SUPERATI` con le altre viste. Il confronto F3 continua a escludere solo
+  `input.sezione_gpc` (`tests/Shared/ConcretePersistenceComparison.cs`).
+
+Ordine aggiornato: S1 → S2 → S1b → (S3, S4, S5) → S6 → S7 → S8 → S9.
+
+### 9.6 Domande «da decidere»
+
+- **S2a-1 · Copertura dei wizard.** Le tracce di S1b sono tracce nuove della vista storica, non una ricattura. Si aggiungono come scenari
+  nuovi con la parte `[wizard]`, lasciando invariate le 39 congelate. Scelta prudente: sì, in S1b. Alternativa: rinviare la copertura a S9,
+  con il rischio che il ViewModel cresca senza prove sulle sezioni da wizard.
+
+## 10. S2 fatto (21/10)
+
+Sottopasso S2 «Azioni» (sezione 4, S2, e 8.6), ramo `refactoring/f5-10-s2`, 21/10/2026, sul riallineamento della sezione 9. Decisioni
+applicate: C3 (`SectionActionsViewModel` in Presentation), C5 (comportamenti storici conservati), C7 (tracce lunghe nello stadio `ui`). La
+Release resta storica; nulla va all'utente prima di S9.
+
+### 10.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `e35b2d98` | sezione 9, riallineamento |
+| `a5567277` | C3: `SectionActionsViewModel` e `SectionActionRow` in `src/ANTHEA.Presentation/Modules/ConcreteSection`, con il loro controllo (da Application.Tests a Presentation.Tests) |
+| `9be9f6c5` | ViewModel delle azioni e modello di tabella dei pannelli, prove in `Presentation.Tests` |
+| (questo commit) | questa sezione, esito della corsa finale |
+
+### 10.2 Che cosa c'è
+
+- **`ConcreteActionsViewModel`** (`ConcreteSheetViewModel.Actions`, creato all'apertura dopo il taglio, senza scritture): le tabelle delle
+  azioni dei pannelli nell'ordine delle schede (`Domain3D`, `Domain2D`, `Stress` per SLE, SLE_FREQ e SLE_QP, `Shear`), il file delle azioni
+  (`ExcelPath`, `file_sollecitazioni`, con Modified come `RememberExcel`) e la finestra «Sollecitazioni della sezione» (`EditCommand`: conferma
+  del foglio, `SectionActionsViewModel` su `IDialogService`, «Applica» che sostituisce `combinazioni` e `workspace_ca`).
+- **`ConcreteActionTableViewModel`**, il modello di tabella che S3–S5 riusano (`ActionTable`, `AttachClipboard` e `WithFilters` della vista
+  storica):
+  - righe, filtro, ordine e selezione su `ConcreteTableViewModel` di S1; colonne della vista storica, anche con le sollecitazioni uniche
+    (sola lettura tranne «Mostra», «Elemento» e, per il taglio, «Stato limite» e tabella in sola lettura);
+  - selezione come la vista di raccolta storica: prima riga inserita alla nascita, riga nuova dopo «+ Riga» e «Duplica», riga al suo posto
+    dopo «− Riga», prima riga del taglio dopo un calcolo se nessuna è selezionata;
+  - comandi «+ Riga», «Duplica», «− Riga» («+ Combinazione» e «−» per il taglio), «Copia» con la selezione estesa della vista
+    (`SetSelectedRows`), «Incolla» e «Aggiungi dagli appunti» (`ConcreteActionPresentation.Plan`, tutto convalidato prima di scrivere, righe
+    scritte senza invalidazioni riga per riga, poi conferma, invalidazione e stato; rifiuto con l'avviso «Incolla sollecitazioni» su
+    `IMessageService`), «Template Excel», «Importa Excel» / «Gestisci sollecitazioni…», «Esporta Excel», «Sfoglia…»;
+  - per i domini: righe dello stato limite del pannello (`State`, `dominio3d.stato` o `dominio2d.stato`), filtro degli esiti
+    (`ConcreteDomainChart.Includes`), di nuovo con la riga selezionata prima quando è fra quelle mostrate (`AttachDomainRows`) a ogni cambio
+    di stato e a ogni pubblicazione del dominio mostrato.
+- **`SectionActionsViewModel`**: spostato senza modifiche (C3), più i membri del servizio dei dialoghi (titolo, «Applica» che chiude solo
+  se riesce, «Annulla») e, con il costruttore che riceve `IFileDialogService`, i quattro comandi Excel della finestra storica.
+- **Foglio**: dopo «Applica» della finestra il foglio si apre di nuovo sui suoi dati (`Reload` al posto di `ReloadRequested`). Come la
+  `ConcreteWorkspace` nuova: lo stato torna quello dell'apertura, le uscite del dominio della scheda si scrivono subito, il calcolo
+  dell'apertura entra in coda un giro dopo (il `Loaded` della vista). A ogni apertura e a ogni cambio di scheda, la tabella del dominio
+  mostrato scrive le uscite delle sue righe se mancano (`IsVisibleChanged` della griglia storica, `RefreshDomainPanel`).
+- **Prove** (`tests/ANTHEA.Presentation.Tests`): `ConcreteSectionSheetChecks.Actions.cs` guida le tabelle e la finestra come la traccia
+  storica e scrive la parte `[azioni]`; `ConcreteSectionSheetChecks.ActionUnits.cs` (stadio `fast`) prova ciò che le tracce non vedono.
+
+### 10.3 Esiti
+
+- **Tracce** (parte comune, `[ingressi]` e `[azioni]`): 25 scenari uguali alle tracce congelate della vista storica. Sono `azioni/*` (4),
+  `ingressi/*` (6), `percorso-f3/*` (11, ora anche con `[azioni]`), `calcolo/ricalcolo-revisione` e `muri/*` (2). `calcolo/sola-lettura` resta
+  uguale fino al passo «scelta 3D filtro «Fuori dominio»» (S3), come in S1.
+- **Prove rapide**: `--sezione-rapide` 192 controlli (158 di S1, più 34 di S2): colonne e comandi delle tabelle storiche e uniche, righe e
+  taglio, prima riga del taglio dopo il calcolo, copia, incolla rifiutato con l'avviso, «Aggiungi dagli appunti» del taglio,
+  «Template Excel» e «Sfoglia…», finestra annullata, «Esporta Excel» delle azioni storiche, comandi Excel della finestra, «Applica» con la
+  nuova apertura e il calcolo un giro dopo, sola lettura, stato del dominio. Scenario `azioni/incolla` aggiunto alle tracce rapide.
+- **Conteggi**: con C3 i 26 controlli di `SectionActionsEditorChecks` passano da Application.Tests (3 057 → 3 031) a Presentation.Tests
+  (3 523 → 3 549); con S2 Presentation.Tests sale a 3 584 (34 controlli nuovi e lo scenario `azioni/incolla` fra le tracce rapide).
+  Corse intermedie: `supporto/artefatti/ci/20261021-080244-s2b-c3` e `20261021-082926-s2b-azioni` (quick più le suite della sezione),
+  PASS 76 ciascuna.
+- **Baseline**: F4 e P3 invariate (nessuna voce per Presentation; il file spostato non ne aveva).
+- **Corsa finale**: `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` su `9be9f6c5`:
+  `supporto/artefatti/ci/20261021-091429-s2-finale`, PASS 147 (build 26, fast 33, wiki 2, ui 86), NEW-FAIL 0; nessun file tracciato
+  modificato durante la corsa.
+  - `ui/check-contrast` è escluso: lo schermo è al 150% (D6). Nessun passo di contrasto aggiunto, perché S2 non ha una vista.
+  - Presentation.Tests 3 584, Application.Tests 3 031, Architecture.Tests 561.
+  - `ui/check-sezione-historic`: 39 scenari, 84 832 righe, 120 disegni e 33 righe 3D uguali ai congelati.
+  - `Presentation.Tests/sezione-ca` 34 controlli; `ui/f3-equivalence`, `ui/smoke-section-actions` e `ui/check-module-host-offscreen` PASS.
+
+### 10.4 Comportamenti storici trovati in S2 (conservati, C5)
+
+1. **«Esporta Excel» in sola lettura.** Il comando resta attivo nella revisione in sola lettura. Con le azioni storiche apre la finestra
+   delle sollecitazioni, dove «Applica» cambia i dati con Modified e riapre il foglio. È della stessa famiglia del comportamento 5 della
+   sezione 2.
+2. **«−» del taglio senza selezione.** Salva le righe e invalida il taglio lo stesso: Modified e ricalcolo.
+3. **«Duplica» non conferma la cella in modifica**, «+ Riga» e «− Riga» sì.
+4. **Righe nuove dell'incolla nel taglio.** Si chiamano «Combo n», non «Taglio n» come quelle di «+ Combinazione».
+5. **Riapertura dopo la finestra.** Subito dopo «Applica» il foglio non ha risultati e il calcolo non è ancora in coda: parte quando la vista
+   nuova è caricata. Il ViewModel lo riproduce con un giro del thread dell'interfaccia.
+
+### 10.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S2-a · Stato del dominio.** Fino al form delle opzioni di S3, `ConcreteActionTableViewModel.State` è l'unico punto che cambia
+  `dominio3d.stato` e `dominio2d.stato`: scrive, mostra le righe dello stato, scrive le uscite, Modified, anche in sola lettura. In S3 il
+  campo «stato» del form passerà da qui, perché la tabella deve seguire lo stato. Alternativa: il form scrive e chiama `Reattach`.
+- **S2-b · Calcolo dopo la finestra.** Il giro di ritardo vale solo per la riapertura dopo la finestra delle azioni. `Reload` per i dati
+  condivisi (S1) resta com'è, con il calcolo subito in coda: nessuna traccia lo copre. Da decidere al passaggio (S9): stessa regola per i due
+  casi o no.
+- **S2-c · Comandi Excel della finestra.** Sono nel `SectionActionsViewModel`, con un costruttore che riceve `IFileDialogService` e il file
+  proposto. Non c'è un ViewModel della finestra separato. La vista storica usa ancora i suoi pulsanti.
+- **S2-d · «Elimina» nella finestra.** `SectionActionsViewModel.Remove` lascia `Selected` sulla riga tolta; la griglia storica lo azzera con
+  il binding. Nelle tracce l'indice è −1 in tutti e due i casi. La vista XAML (S9) deve legare la selezione come la storica.
+
+### 10.6 Che cosa resta e come riprendere
+
+- **S1b** (sezione 9.5): le sezioni da wizard, prima con le tracce nuove.
+- **S3 · Domini.**
+  - Il form delle opzioni scrive `stato` attraverso `Domain3D.State` e `Domain2D.State` (S2-a).
+  - `filtro` richiama `Reattach` come `AttachDomainRows` e scrive anche in sola lettura (comportamento 5).
+  - I passi `filtro` di `domini/filtri-tabelle` usano `Table.Filter`; i pannelli seguono `Table.SelectionChanged` (`UpdateSelection`).
+  - Si toglie l'arresto atteso di `calcolo/sola-lettura`, se S3 copre il filtro.
+- **S4 e S5.** `Stress[...]` e `Shear` sono le tabelle dei pannelli; i dettagli seguono la selezione.
+- **Vista XAML** (S9 o per sottopasso): le note per la vista sono nel commento di `ConcreteActionTableViewModel`.
 
 ```
 dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj

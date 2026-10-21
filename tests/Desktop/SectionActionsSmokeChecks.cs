@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Anthea.Application.Concrete;
 using Anthea.Application.Documents;
+using Anthea.Presentation.Modules.ConcreteSection;
 using X.Core;
 
 namespace X.Desktop;
