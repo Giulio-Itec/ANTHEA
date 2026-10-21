@@ -53,6 +53,19 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
 
     internal Task VerifyNavigationThrough(Action leave, Action resume) => Pile is { } pile ? pile.VerifyNavigationThrough(leave, resume) : Historic.VerifyNavigationThrough(leave, resume);
 
+    // ---------------------------------------------------------------- f5-suite-passaggi: ui/smoke-horizontal (HorizontalSmokeChecks.cs)
+
+    /// <summary>The horizontal pile or micropile with the XAML view, null otherwise.</summary>
+    private HorizontalPileSmoke? HorizontalPile => HorizontalPileSmoke.Handles(editor) ? new((MvvmSheetEditor)editor, services) : null;
+
+    internal Task WaitForHorizontalAutomatic() => HorizontalPile is { } pile ? pile.WaitForAutomatic() : Historic.WaitForHorizontalAutomatic();
+
+    internal Task VerifyHorizontal(string directory) => HorizontalPile is { } pile ? pile.Verify(directory) : Historic.VerifyHorizontal(directory);
+
+    internal Task VerifyHorizontalLayout(string directory, string size) => HorizontalPile is { } pile ? pile.VerifyLayout(directory, size) : Historic.VerifyHorizontalLayout(directory, size);
+
+    internal Task VerifyChs() => HorizontalPile is { } pile ? pile.VerifyChs() : Historic.VerifyChs();
+
     // ---------------------------------------------------------------- materials (ui/smoke-materials, ui/smoke-hierarchy, ui/smoke-sharing, ui/smoke-steel)
 
     /// <summary>The concrete with the XAML view, null otherwise.</summary>

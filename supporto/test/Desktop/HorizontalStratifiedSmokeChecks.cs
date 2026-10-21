@@ -44,42 +44,8 @@ internal sealed partial class HorizontalWorkspace
         File.WriteAllBytes(Path.Combine(directory, "stratificato-riferimenti-ui.png"), Ui.Snapshot(diagnosticsDialog)); diagnosticsDialog.Close();
         File.WriteAllBytes(Path.Combine(directory, "stratificato-relazione.docx"), ReportOrizzontale.Create("Palo stratificato esempio di lettura", Result, true, ReportFigures()));
         foreach (bool soil in new[] { true, false }) File.WriteAllBytes(Path.Combine(directory, soil ? "stratificato-terreno.png" : "stratificato-equilibrio.png"), new HorizontalDiagrams(Result, 0, soil).Png(1320, 880));
-        // Three alternating layers and water above the granular layer: inspect
-        // continuous vertical stress, discontinuous local limit and both closures.
-        var example = (JsonObject)Result["input"]!.DeepClone();
-        example["generali"]!["presenza_falda"] = true; example["generali"]!["profondita_falda"] = 1;
-        example["generali"]!["origine_momento"] = "Manuale"; example["generali"]!["momento_resistente"] = 900;
-        example["generali"]!["provenienza_momento"] = "Esempio illustrativo dei diagrammi";
-        example["generali"]!["passo"] = .25;
-        var c1 = PaloOrizzontale.Layer(); c1["tipologia"] = "Coesivo"; c1["spessore"] = 2; c1["coesione_non_drenata"] = 40;
-        var sand = PaloOrizzontale.Layer(); sand["spessore"] = 3;
-        var c2 = PaloOrizzontale.Layer(); c2["tipologia"] = "Coesivo"; c2["spessore"] = 5; c2["coesione_non_drenata"] = 65;
-        example["generali"]!["lunghezza"] = 10;
-        example["stratigrafie"] = new JsonArray(new JsonArray(c1, sand, c2));
-        var illustrated = PaloOrizzontale.Calculate(example);
-        if (illustrated.S("errore") != "") throw new Exception(illustrated.S("errore"));
-        File.WriteAllText(Path.Combine(directory, "esempio-falda.json"), illustrated.ToJsonString(J.Options));
-        var illustratedFigures = new List<ReportOrizzontale.Figure>();
-        foreach (bool soil in new[] { true, false })
-        {
-            var drawing = new HorizontalDiagrams(illustrated, 0, soil);
-            File.WriteAllBytes(Path.Combine(directory, soil ? "esempio-falda-terreno.png" : "esempio-falda-equilibrio.png"), drawing.Png(1320, 880));
-            illustratedFigures.Add(new(1, soil ? "Tensioni del terreno stratificato con falda" : "Reazioni e sollecitazioni nel palo", drawing.Png(1000, 660), 1000d / 660));
-        }
-        byte[] exampleReport = ReportOrizzontale.Create("Palo in tre strati con falda", illustrated, true, illustratedFigures);
-        File.WriteAllBytes(Path.Combine(directory, "esempio-falda.docx"), exampleReport);
-        using (var zip = new System.IO.Compression.ZipArchive(new MemoryStream(exampleReport)))
-        {
-            if (zip.Entries.Count(e => e.FullName.StartsWith("word/media/")) != 2) throw new Exception("Diagrammi mancanti dalla relazione");
-            using var sr = new StreamReader(zip.GetEntry("word/document.xml")!.Open()); string xml = sr.ReadToEnd();
-            if (!xml.Contains("landscape") || !xml.Contains("nzgs.org") || !xml.Contains("FHWA")) throw new Exception("Riferimenti o impaginazione relazione incompleti");
-        }
-        string path = Path.Combine(directory, "stratificato.programma");
-        var doc = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", PaloOrizzontale.Module), ("dati", Data));
-        DocumentService.Save(path, doc);
-        var reopened = DocumentService.Open(path)["dati"]!.AsObject();
-        if (reopened["generali"].S("metodo_calcolo") != PaloOrizzontale.StratifiedMethod || PaloOrizzontale.Calculate(reopened).S("errore") != "")
-            throw new Exception("Metodo stratificato non conservato nel salvataggio");
+        HorizontalStratifiedExample.Write(directory, Result);
+        HorizontalStratifiedExample.SaveAndReopen(directory, Data);
         Data["stratigrafie"] = backup; RebuildSurveys();
         ((ComboBox)model.Editors["metodo_calcolo"]).SelectedItem = method;
         advanced.IsExpanded = false; Changed(); await WaitForAutomatic();
