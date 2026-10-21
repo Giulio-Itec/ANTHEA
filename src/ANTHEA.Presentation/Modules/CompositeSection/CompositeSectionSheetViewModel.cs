@@ -108,6 +108,9 @@ public sealed partial class CompositeSectionSheetViewModel : SheetViewModelBase
     /// <summary>The values of the result of the current data (BridgeResultView.Json, as the historic view gives them to the window); null without one.</summary>
     public override JsonObject? Result => calculationResult?.Json();
 
+    /// <summary>A result of the current data, without building its values (<see cref="Result"/> serializes the whole result).</summary>
+    public override bool HasResults => calculationResult is not null;
+
     /// <summary>The status line.</summary>
     public string Status { get => status; private set => SetProperty(ref status, value); }
 
@@ -180,7 +183,7 @@ public sealed partial class CompositeSectionSheetViewModel : SheetViewModelBase
         {
             calculationResult = null; if (displayed is null) ClearResults(); UpdateResultNotice(); Status = BridgeInputPresentation.StatusInvalid(error.Message);
         }
-        OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(DisplayedCalculation)); OnPropertyChanged(nameof(Result));
+        OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(DisplayedCalculation)); OnPropertyChanged(nameof(Result)); OnPropertyChanged(nameof(HasResults));
         OnPropertyChanged(nameof(ResultsAreStale)); OnPropertyChanged(nameof(CanExport));
     }
 
@@ -202,7 +205,7 @@ public sealed partial class CompositeSectionSheetViewModel : SheetViewModelBase
         requestedPhases = ActivePhases();
         Changed();
         automaticWork = true;
-        OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(Result)); OnPropertyChanged(nameof(ResultsAreStale)); OnPropertyChanged(nameof(CanExport));
+        OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(Result)); OnPropertyChanged(nameof(HasResults)); OnPropertyChanged(nameof(ResultsAreStale)); OnPropertyChanged(nameof(CanExport));
     }
 
     /// <summary>Runs what the historic view queued on its dispatcher during the change, in order.</summary>
@@ -246,7 +249,7 @@ public sealed partial class CompositeSectionSheetViewModel : SheetViewModelBase
         status = BridgeInputPresentation.StatusPreparing; OnPropertyChanged(nameof(Status));
         ResetInputs(); ResetLayout(); ResetResults(); ResetResponse();
         Open();
-        OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(DisplayedCalculation)); OnPropertyChanged(nameof(Result));
+        OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(DisplayedCalculation)); OnPropertyChanged(nameof(Result)); OnPropertyChanged(nameof(HasResults));
         OnPropertyChanged(nameof(ResultsAreStale)); OnPropertyChanged(nameof(CanExport)); OnPropertyChanged(nameof(IsDetached));
     }
 
