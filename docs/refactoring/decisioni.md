@@ -1726,3 +1726,11 @@ a 2.4.0.17). Il set ufficiale AE sostituisce AB e il candidato AC; ANTHEA
 resta 1.12.1. Collaudo full PASS 169 con due prove intermittenti dipendenti
 dai tempi, ripetute con esito PASS e non ammesse in `known-failures.json`.
 Setup rifatto su AE e verificato. [Verbale](installer-1.12.1.md).
+
+## 21 ottobre (sera) — selettore del metodo del palo orizzontale (P3)
+
+Domanda P3 di `f5-suite-passaggi.md`: la prova storica `ui/smoke-horizontal` chiede che il selettore del metodo
+(«Stratificato») sia largo almeno 180 px; la vista XAML del palo orizzontale lo ha a 120 px come le altre scelte
+compatte (convenzione D10). Decisione dell'utente: «tieni 120 px come le altre scelte». Sulla vista nuova la prova
+controlla che il testo stia intero, che il selettore sia largo come le altre scelte compatte e che resti dentro la
+scheda; la soglia di 180 px resta solo nella parte storica, che si archivia con la vista. La vista non cambia.
