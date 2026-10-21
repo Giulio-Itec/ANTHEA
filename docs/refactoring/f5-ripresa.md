@@ -62,6 +62,9 @@ Versioni di prova consegnate (f5b, f5c, f5d) sul ramo `prova/f5-viste`:
 2. **ANTHEA sul nuovo set.** Profilo full e installer 1.12.1 fatti il 21/10. Resta la pubblicazione: push di `refactoring/f5` e
    tag `v1.12.1` **solo con l'ok esplicito dell'utente**.
    - Correggere la sensibilità ai tempi di `ui/check-field-form-parity` e `ui/check-palo-elastico-historic` (nelle prove).
+   - `ui/check-palo-orizzontale-view` (21/10, macchina carica): «Esporta PNG…» della tavola delle armature diverso in 7 pixel
+     su 7,5 milioni (al massimo 9 livelli, riquadro 10×10) dal riferimento disegnato nello stesso processo; da sola PASS.
+     Il confronto byte per byte delle immagini va reso robusto alla resa grafica (nelle prove).
 3. **Ambiente** (deroghe della 1.11.0 e della 1.12.0, ancora aperte):
    - dopo la verifica dell'amministratore di Trend Micro, ripetere `ui/check-palo-verticale-view` e `ui/check-muri-view`;
    - domanda S6: `DocumentFile.Write` rinomina le immagini;
@@ -153,8 +156,9 @@ Nello stesso commit, come per la palificata ([f5-4-pilota.md](f5-4-pilota.md), p
   powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
   ```
 
-  Con la macchina carica (agenti che compilano) `ui/check-field-form-parity` e `ui/check-palo-elastico-historic` possono
-  fallire per i tempi: ripeterle da sole con `-Stage ui -NoBuild -Only`.
+  Con la macchina carica (agenti che compilano) `ui/check-field-form-parity`, `ui/check-palo-elastico-historic` e
+  `ui/check-palo-orizzontale-view` (PNG della tavola delle armature) possono fallire: ripeterle da sole con
+  `-Stage ui -NoBuild -Only`.
 
 - **Cartella stabile** `C:\Users\g.pacini\Documents\Repository\ANTHEA-f5-ripresa`:
   - `LEGGIMI.md`;
