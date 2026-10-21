@@ -1714,3 +1714,15 @@ Il collaudo del merge ANTHEA usa il precedente set candidato AC,
 con tutte le sette suite selezionate superate. Per il raccordo finale
 serviranno il nuovo set coerente e i controlli previsti dopo il suo
 aggiornamento. [Verbale](merge-f5-sviluppo-20261020.md).
+
+### Set ufficiale AE e installer 1.12.1, 21 ottobre 2026
+
+L'utente chiede di portare Model e Checker aggiornati fino ad ANTHEA senza
+una nuova versione dell'applicazione, poi: «prendi tutti i master [...] poi
+aggiorna tutto fino ad anthea per rifare l'installer». Con il suo ok sono
+pubblicati Model `553860fa` (versioni nuove di GPCModelData, Persistence e
+Converter, ricompilate) e Checker `eddcdb36` (capsula, fondo scavo, Steel fino
+a 2.4.0.17). Il set ufficiale AE sostituisce AB e il candidato AC; ANTHEA
+resta 1.12.1. Collaudo full PASS 169 con due prove intermittenti dipendenti
+dai tempi, ripetute con esito PASS e non ammesse in `known-failures.json`.
+Setup rifatto su AE e verificato. [Verbale](installer-1.12.1.md).

@@ -99,3 +99,43 @@ La ripetizione di build, Architecture, Application e Presentation è
 conclusa con sette suite PASS sul set AC. Non si ricostruisce l'installer:
 il pacchetto sopra indicato conserva il suo commit e la sua impronta.
 [Verbale del merge](merge-f5-sviluppo-20261020.md).
+
+## Installer sul set ufficiale AE (21 ottobre 2026)
+
+L'utente chiede il 21/10: «fai una nuova versione di Model [...] prendi tutti i
+master [...] poi aggiorna tutto fino ad anthea per rifare l'installer». Model
+`553860fa` e Checker `eddcdb36` sono pubblicati su master; il set ufficiale AE
+è installato in `lib/Checker` dal commit `c7fe03dd`, senza cambiare la versione
+di ANTHEA. Il set candidato AC è superato e `-GpcLibDir` non serve più.
+
+Collaudo `ci/20261021-073403-lib-ae-full`, profilo full con le suite
+dell'installer, contrasto escluso (schermo a 144 DPI, D6): PASS 169, KNOWN 0,
+NEW-FAIL 2. I due fallimenti dipendono dai tempi e si sono presentati con la
+macchina carica (due agenti in compilazione in parallelo):
+
+- `ui/check-field-form-parity`: nella traccia `sezione-ca-opzioni-sle` il
+  campo `n_armature` della FieldForm vale «1» invece di «15», con un richiamo
+  dopo il primo carattere. Era già fallita nel collaudo full della 1.12.0 ed
+  era passata alla ripetizione;
+- `ui/check-palo-elastico-historic`: nello scenario `calcolo-sullo-sfondo`
+  la scheda risulta «esportabile no» invece di «sì» (riga 1654), cioè il
+  controllo legge lo stato prima della fine del calcolo.
+
+Ripetute da sole in `ci/20261021-091108-lib-ae-ripeti`, passano entrambe (PASS 2). Non si
+aggiungono a `known-failures.json`. La sensibilità ai tempi resta da
+correggere nelle due prove, non nel codice di produzione.
+
+Setup costruito dal commit pulito `c7fe03dd9be9fe5bcebd857db240eb2a13f0dbaa`:
+`supporto/artefatti/rilascio-1.12.1/installer-ae/ANTHEA-1.12.1-Setup-x64.exe`,
+69.390.179 byte, SHA-256
+`E5B5DF1CFF4C9389D9635C6AAA5A8771E950094BF50CE7DB86D357B40BA9C049`.
+Versione del prodotto `1.12.1+c7fe03dd9be9fe5bcebd857db240eb2a13f0dbaa`.
+
+Audit dell'estrazione (`Audit-Installer-AE.py`, esito in
+`installer-ae/audit-payload.json`): PASS. 382 file distribuiti uguali allo
+stage per SHA-256, 326 file applicativi, 13 DLL GPC uguali al manifest di
+`lib/Checker` (SHA-256 del manifest `A4753D47…74D2`), 52 esempi in 15 moduli,
+guide Rev56, nessun Gmsh né assembly di prova.
+
+Questo setup sostituisce il candidato su AC. Push di `refactoring/f5` e tag
+`v1.12.1` solo con l'ok dell'utente.
