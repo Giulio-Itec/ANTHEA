@@ -48,8 +48,8 @@ Utilities e57b440. Copia del set in `supporto/artefatti/librerie-ae/gpc-release-
 | Stato | Passi |
 | --- | --- |
 | Chiusi | F5.1–F5.4. La palificata è MVVM anche nella Release. |
-| Viste fatte, Release ancora storica | F5.5 materiali, F5.6 palo verticale, F5.6b stratigrafia, F5.9 muri, F5.9b fondazioni, F5.7 + F5.8 palo orizzontale con la scheda elastica. Banco a differenza zero per tutti. |
-| In corso | F5.10 sezione c.a.: fatti la parte A e S1; agente `f5-10-s2` su S2a (riallineamento) e S2 (azioni). F5.11: agente `f5-11-prep` sulla preparazione. |
+| Viste fatte, Release ancora storica | F5.5 materiali, F5.6 palo verticale, F5.6b stratigrafia, F5.9 muri, F5.9b fondazioni, F5.7 + F5.8 palo orizzontale con la scheda elastica; F5.11 sezione composta da ponte (ramo `refactoring/f5-11-vista`, da unire: [nota](f5-11-sezione-mista.md), sezione 5). Banco a differenza zero per tutti. |
+| In corso | F5.10 sezione c.a.: fatti la parte A e S1; agente `f5-10-s2` su S2a (riallineamento) e S2 (azioni). F5.11: preparazione unita, vista fatta (agente `f5-11-vista`). |
 | Non avviati | F5.12, F5.13, F5.14, F5.15. |
 
 Versioni di prova consegnate (f5b, f5c, f5d) sul ramo `prova/f5-viste`:
@@ -70,7 +70,8 @@ Versioni di prova consegnate (f5b, f5c, f5d) sul ramo `prova/f5-viste`:
 4. **Passaggio nella Release dei moduli F5 con la vista pronta.**
    - Le versioni di prova f5b–f5d sono vecchie. Rifare una sola versione di prova dal `refactoring/f5` di oggi, sul nuovo set,
      con tutti e sette i moduli a Mvvm: materiali, palo verticale, stratigrafia, muri, fondazioni, palo orizzontale con la scheda
-     elastica. Va su un ramo `prova/…` nuovo, oppure si aggiorna `prova/f5-viste`.
+     elastica; dopo l'unione di `refactoring/f5-11-vista` anche la sezione composta da ponte (`str_mista_ponte`). Va su un ramo
+     `prova/…` nuovo, oppure si aggiorna `prova/f5-viste`.
    - Dopo l'ok dell'utente, un modulo alla volta, con la procedura qui sotto.
    - Prima di passare palo orizzontale ed elastico va riscritta `F3PileSegmentChecks` (`ui/f3-scheduling`).
 5. **F5.10 sezione c.a., S2–S9.**

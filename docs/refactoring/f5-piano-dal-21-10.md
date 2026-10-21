@@ -19,10 +19,11 @@ Le regole per gli agenti restano in `Documents\Repository\ANTHEA-f5-ripresa\istr
 ## 1. Versione di prova unica dei moduli F5 (blocco A, un agente)
 
 - Ramo `prova/f5-viste-2` dal `refactoring/f5` di oggi. Sette moduli a Mvvm: materiali, palo verticale, stratigrafia, muri,
-  fondazioni, palo orizzontale con la scheda elastica.
+  fondazioni, palo orizzontale con la scheda elastica. Pronta anche la sezione composta da ponte (F5.11, `str_mista_ponte`), da
+  includere dopo l'unione di `refactoring/f5-11-vista`.
 - Versione portatile `1.12.1-prova.f5e` con `strumenti\crea-prova-f5.ps1`.
 - `LEGGIMI` con le prove a mano raccolte dai documenti dei moduli: f5-5 §4.7, f5-6, f5-6b, f5-9, f5-9b §5.6, f5-7 §5.7,
-  f5-8 §6.7.
+  f5-8 §6.7, f5-11 §5.8.
 - Prima di consegnarla:
   - corsa build, fast, wiki e ui sul ramo di prova; i fallimenti attesi sono solo i controlli «la Release resta storica»;
   - ripetere sul codice di oggi i banchi a differenza zero dei sette moduli.
