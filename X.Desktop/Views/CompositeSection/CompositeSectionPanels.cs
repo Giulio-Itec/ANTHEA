@@ -15,18 +15,12 @@ namespace X.Desktop.Views.CompositeSection;
 /// The templates of the views of the composite section (CompositeSectionResources.xaml) found by the selectors: from the element, as WPF finds
 /// them, otherwise from the dictionary itself, for the parts of the view that it keeps out of the tree while they are not shown (the other page of
 /// the inputs, the other side panel, the page not shown) and that are laid out on their own (the checks build them as the historic view builds
-/// every control).
+/// every control). The dictionary is loaded when it is needed, without a static cache (rule P3).
 /// </summary>
 internal static class CompositeSectionTemplates
 {
-    private static ResourceDictionary? shared;
-
-    private static ResourceDictionary Shared => shared ??= new ResourceDictionary
-    {
-        Source = new Uri("pack://application:,,,/ANTHEA;component/Views/CompositeSection/CompositeSectionResources.xaml", UriKind.Absolute)
-    };
-
-    internal static DataTemplate Find(FrameworkElement element, string key) => element.TryFindResource(key) as DataTemplate ?? (DataTemplate)Shared[key];
+    internal static DataTemplate Find(FrameworkElement element, string key) => element.TryFindResource(key) as DataTemplate
+        ?? (DataTemplate)new ResourceDictionary { Source = new Uri("pack://application:,,,/ANTHEA;component/Views/CompositeSection/CompositeSectionResources.xaml", UriKind.Absolute) }[key];
 }
 
 /// <summary>
