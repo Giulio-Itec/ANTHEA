@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-20",
+  "aggiornato": "2026-10-22",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -8214,6 +8214,57 @@
         "301420 valori numerici identici nei 37 esempi; 20 impronte riprodotte con i manifest AB/AC",
         "Guide Rev56: 264 pagine, 387 formule conservate, 18 originali archiviati",
         "docs/refactoring/installer-1.12.1.md"
+      ]
+    },
+    {
+      "id": "PARATIE-19",
+      "data": "2026-10-22",
+      "fase": "Librerie GPC / revisione paratie (set candidato del 22/10)",
+      "titolo": "Taglio dei pali circolari: altezza utile dell'anello continuo",
+      "famiglia": "pali/sezioni circolari/taglio",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "GPCChecker.Concrete 0.18.0.0 (Checker f6916d8e, punto S2 della revisione delle paratie): d = R + 2rs/π con le barre come anello continuo, al posto di un'altezza utile che dipendeva dall'arrotondamento della posizione delle barre; bw = D invariato. Vale anche per i pali orizzontali.",
+      "codice": [
+        "lib/Checker/GPCChecker.Concrete.dll",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/fixtures/f5-elastico/storica",
+        "tests/fixtures/f5-elastico/disegni/elenco.txt"
+      ],
+      "segno": "VRd cresce dallo 0,35 all'1,9 % (palo D 800 con 12φ20: 559,23 → 562,49 kN; atteso indipendente della libreria 562,5 kN). Cambiano solo VRd, i rapporti che ne dipendono e le lunghezze della distinta (spostamento, sviluppo, capacità); la risposta elastica è identica.",
+      "decisione": {
+        "data": "2026-10-22",
+        "utente": "S2: anello continuo R + 2rs/π. «Registra le differenze di S2 e φ = 0: transizioni F4 per il palo orizzontale e nuove tracce storiche per palo elastico e muri, senza toccare altri attesi.»",
+        "esito": "3941 transizioni F4 in tre fixture elastiche del palo orizzontale (report.txt e result.json); nove tracce della vista storica del palo elastico e due righe dell'elenco dei disegni ricatturate fuori schermo. Nessun atteso F3 sostituito."
+      },
+      "test": [
+        "Checker: CircularPileShearUsesTheContinuousRingEffectiveDepth (docs/verifiche/paratie-revisione-2026-10.md)",
+        "Presentation 4790 PASS sul set candidato del 22/10"
+      ]
+    },
+    {
+      "id": "PARATIE-20",
+      "data": "2026-10-22",
+      "fase": "Librerie GPC / revisione paratie (set candidato del 22/10)",
+      "titolo": "Stabilità globale: cerchi di Bishop con φ = 0 non più scartati",
+      "famiglia": "stabilità globale/Bishop",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "GPCChecker.Geotechnics 0.19.0.0 (Checker f6916d8e): un concio con φ = 0 e N' < 0 non lascia più il cerchio senza soluzione; la sua resistenza è c·l e F viene dall'equilibrio dei momenti. Nella fixture dei muri globale-non-drenata-sisma (terreno non drenato) fra 886 e 1215 cerchi per combinazione restavano senza soluzione e tutte e quattro le combinazioni globali finivano con «Discretizzazione non convergente».",
+      "codice": [
+        "lib/Checker/GPCChecker.Geotechnics.dll",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/fixtures/f5-muri/storica/fixture-globale-non-drenata-sisma.txt"
+      ],
+      "segno": "Nessun cerchio senza soluzione. A2–M2–R2 1 e 2 soddisfatte (FS 4,27 e 3,39; rapporti 0,258 e 0,324); SLV kv− 3 e kv+ 4 con il minimo sul bordo della ricerca (FS 3,64 e 3,88). La combinazione governante diventa SLV kv− 3.",
+      "decisione": {
+        "data": "2026-10-22",
+        "utente": "Cerchi con φ = 0: non scartarli. «Registra le differenze di S2 e φ = 0: transizioni F4 per il palo orizzontale e nuove tracce storiche per palo elastico e muri, senza toccare altri attesi.»",
+        "esito": "2898 transizioni F4 nella fixture globale-non-drenata-sisma (result.json e report.txt), stessa decisione D2; una traccia della vista storica dei muri ricatturata fuori schermo. Nessun atteso F3 sostituito."
+      },
+      "test": [
+        "Checker: BishopKeepsTensionOnSlicesWithoutFriction e GeneralGeotechnicsMigrationTests (differenze dichiarate)",
+        "Presentation 4790 PASS sul set candidato del 22/10"
       ]
     }
   ]

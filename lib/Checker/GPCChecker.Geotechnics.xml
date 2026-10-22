@@ -718,7 +718,8 @@
         <member name="M:GPC.Checkers.Geotechnics.Slopes.BishopSolver.Solve(GPC.Checkers.Geotechnics.Slopes.SlipCircle,System.Collections.Generic.IReadOnlyList{GPC.Checkers.Geotechnics.Slopes.SlopeSlice},System.Double,System.Threading.CancellationToken)">
             <summary>
             Factor of safety F of the circle by bisection on the residual Σ R(F) − F·D, above every singularity of mα. Null when the driving moment
-            is not positive, when no root exists, or when a slice would need tension (N' &lt; 0) or mα ≤ 0: no tensile strength and no clipping.
+            is not positive, when no root exists, or when a frictional slice would need tension (N' &lt; 0) or mα ≤ 0: no tensile strength and no
+            clipping. With φ = 0 the resistance c·l does not depend on N', so a negative N' does not reject the circle.
             </summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Slopes.SlopeGeometry">
@@ -1414,6 +1415,13 @@
             Four-point Gauss integration, consistent loads, band Cholesky, Newton with line search and adaptive load increments.
             An entire failed stage is rolled back; only completed stages are returned. No artificial toe restraint.</summary>
         </member>
+        <member name="M:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallAnalysis.SpringEnergy(System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>Antiderivative of clamp(p0 + k s, lower, upper): energy of an elastic-perfectly-plastic spring, convex and C1.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallAnalysis.Step.EnergyChange(System.Double[],System.Double[],System.Double)">
+            <summary>E(u + factor·delta) − E(u) for the committed history of this step, summed term by term against cancellation.
+            Its gradient is the residual of <see cref="M:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallAnalysis.Step.Evaluate(System.Double[])"/>: beam, soil springs with water, loads and supports.</summary>
+        </member>
         <member name="M:GPC.Checkers.Geotechnics.EmbeddedWalls.EmbeddedWallAnalysis.Sample(GPC.Checkers.Geotechnics.EmbeddedWalls.WallStageResult,System.Double,GPC.Checkers.Geotechnics.EmbeddedWalls.WallResultSide)">
             <summary>Sample a committed phase at the requested one-sided limit. No new equilibrium solution and no
             interpolation between table rows. Outside-domain and outward endpoint limits are rejected explicitly.</summary>
@@ -1489,7 +1497,8 @@
         <member name="T:GPC.Checkers.Geotechnics.Seepage.EmbeddedWallSeepageMesh">
             <summary>Structured conforming triangles around a finite impermeable cutoff. Layers, water levels,
             excavation surfaces and wall toe are mesh lines; rectangular cells are split with alternating diagonals.
-            Domain extent and bottom are engineering inputs, not inferred boundaries.</summary>
+            Domain extent and bottom are engineering inputs, not inferred boundaries. Each lateral side is a fixed
+            reservoir head or a no-flow line (symmetry axis), as declared by the domain.</summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Seepage.HydraulicSafety">
             <summary>Local hydraulic UPL/HYD checks, separate from global slope stability and undrained basal failure.

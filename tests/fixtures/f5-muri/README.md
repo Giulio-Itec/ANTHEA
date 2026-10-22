@@ -81,3 +81,8 @@ fa nulla. Il calcolo passa da `HeldModuleService`, che può trattenere il motore
   vista storica esiste.
 - `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con il ViewModel.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.
+- 22/10/2026, voce PARATIE-20 (set candidato del 22/10, Geotechnics 0.19.0.0, cerchi di Bishop con φ = 0 non più scartati),
+  con l'ok dell'utente: ricatturata fuori schermo, con il comando sopra, la sola traccia `fixture-globale-non-drenata-sisma`.
+  Cambiano l'impronta del risultato, lo stato («4 non disponibili» → «2 non disponibili»), la combinazione globale scelta
+  (A2–M2–R2 2 → SLV kv− 3) e l'impronta della tabella delle verifiche; numero di righe invariato. Le altre 23 tracce non
+  cambiano.
