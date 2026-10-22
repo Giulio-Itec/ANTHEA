@@ -346,38 +346,6 @@
       "Fingerprint": "D8A4B5DF39AC58151A9ACB3F0F9411F1511D86202371115A3402D75FB50D2753",
       "Count": 1,
       "Example": "internal static Action < string , JsonNode ? , string , object > ? Observer { get set }"
-    },
-    {
-      "File": "src/ANTHEA.Wiki/WikiCatalog.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "WikiCatalog.Aliases",
-      "Fingerprint": "03E9B590848AE3506D2B306E64BCB98567D5DF0F7CD610DDFB610BA637D00E3D",
-      "Count": 1,
-      "Example": "public static readonly Dictionary < string , string > Aliases"
-    },
-    {
-      "File": "src/ANTHEA.Wiki/WikiCatalog.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "WikiCatalog.Articles",
-      "Fingerprint": "92E6AD62BA64983BA907011D4B9A5F7F36ABC06B76B12DAA773778263D8EF370",
-      "Count": 1,
-      "Example": "public static readonly WikiArticle [ ] Articles"
-    },
-    {
-      "File": "src/ANTHEA.Wiki/WikiCatalog.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "WikiCatalog.Chapters",
-      "Fingerprint": "46E90DBE82F5530A9808793C18634B15580210A2DD3A5DD83BE11D55A84803D6",
-      "Count": 1,
-      "Example": "public static readonly WikiChapter [ ] Chapters"
-    },
-    {
-      "File": "src/ANTHEA.Wiki/WikiCatalog.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "WikiCatalog.References",
-      "Fingerprint": "44AD2E9061DC8CB151A6D325D80CC2D5ABC82DD02FD09AAA05282CF122ABF3C9",
-      "Count": 1,
-      "Example": "public static readonly WikiReference [ ] References"
     }
   ]
 }
