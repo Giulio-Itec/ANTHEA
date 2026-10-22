@@ -384,6 +384,11 @@ disposizione.
 | SH31 | Annulla e ripristina | nella barra del progetto e, con un foglio del progetto, anche nella barra del foglio (oggi nell'una o nell'altra) |
 | SH32 | Archivio aperto | mostra la pagina «Progetti» (come oggi `NewProjects`, `LoadFile` e la copia di un esempio) |
 
+**Approvate dall'utente il 22/10 (sera).** Dopo le dieci immagini della sezione 9.4 l'utente ha scritto: «le 10 immagini vanno bene. dall'albero si
+possono aprire a pagina intera o staccare dalla finestra? se si, ok. altrimenti va implementato». La disposizione è approvata e **SH5–SH32 valgono
+con le opzioni prese nella bozza** (tabella sopra; SH1–SH4, SH7, SH8, SH10–SH14, SH16 come nella sezione 6). Dall'albero un foglio si apriva solo in
+una scheda della principale: l'apertura in una nuova finestra e a pagina intera sono state aggiunte dopo il punto di controllo (sezione 9.5).
+
 ### 9.3 Comando per le immagini (stanotte)
 
 La prova `ui/check-shell-draft` (`tests/Desktop/ShellDraftChecks.cs`, argomento `--check-shell-draft <cartella>`) è nello stadio `ui` di
