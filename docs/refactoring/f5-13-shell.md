@@ -110,6 +110,10 @@ istanza (proposta 3.4), non ViewModel: i ViewModel della parte (b) le osservano.
   revisione.
 - **Domanda di salvataggio** (`ConfirmDiscard`): ora passa da `IConfirmationService.AskSaveChanges`, rinviata dal F5.2 a F5.13;
   `WpfConfirmationService` la riproduce già con lo stesso testo e gli stessi pulsanti.
+- **Errore nell'aggiornamento dei fogli collegati** (rinviato dal F5.2 a F5.13): la sessione del foglio ripristina i dati di tutti i
+  fogli della sezione, non solo del foglio confermato, prima di passare l'errore. La finestra storica resta com'è.
+- **Riapertura di una scheda** quando i suoi dati cambiano fuori (dati condivisi, terreno, annulla, revisioni): il ViewModel si ricrea
+  sui dati del documento, come `LoadSheetEditor` ricrea l'editor, invece di `ISheetViewModel.Reload` (SH17).
 
 ### 2.2 Più schede (proposta 4.1 e 4.4)
 
@@ -160,8 +164,7 @@ codice di `MvvmSheetEditor`. Il codice dei report non cambia (report congelati d
 | a0 | questo documento | commit |
 | a1 | `IDocumentFiles`, `ShellTexts`, `DocumentSession`, `CalculationDocumentSession` | prove senza WPF |
 | a2 | `ProjectSession`: struttura, storia, revisioni, dati condivisi | prove senza WPF, scenari ricavati dal codice storico |
-| a3 | `SheetSession`, `ISheetFactory`, `RegistrySheetFactory` | prove con il modulo di prova |
-| a4 | `WorkspaceSession`: documenti aperti, un progetto, stesso file, fuoco, propagazione, annulla e revisioni con più schede, copia, terreno, chiusura | prove senza WPF |
+| a3 | `SheetSession`, `ISheetFactory`, `RegistrySheetFactory` e `WorkspaceSession`: documenti aperti, un progetto, stesso file, fuoco, propagazione, annulla e revisioni con più schede, copia, terreno, chiusura (a3 e a4 della prima stesura in un solo commit: la sessione del foglio si crea solo dal coordinatore) | prove con il modulo di prova |
 | b1 | navigazione e catalogo dei moduli | prove |
 | b2 | albero del progetto, trascinamento, catalogo delle schede | prove |
 | b3 | barra delle revisioni, dialogo, riepilogo | prove |
@@ -198,6 +201,8 @@ controllo della bozza di F5.13.
 | SH14 | Barra delle revisioni con più schede | segue la scheda attiva del progetto o la sezione selezionata, come oggi il foglio aperto o la selezione |
 | SH15 | Marcatore del foglio non salvato (3.6, livello 2) | (b) espone lo stato, calcolato alla conferma e al salvataggio; la forma («•») al punto di controllo della bozza |
 | SH16 | Annulla/ripeti dei file singoli | nessuno, come oggi (`ProjectHistory` vale solo per i progetti) |
+| SH17 | Scheda i cui dati cambiano fuori da essa | ViewModel ricreato sui dati del documento, come oggi l'editor; `Reload` (proposta 5.1) conserverebbe lo stato della vista ma salterebbe le preparazioni che alcuni moduli fanno all'apertura |
+| SH18 | Avviso delle schede chiuse dall'annulla | un solo messaggio «ANTHEA» con una riga per scheda, testo di SH5 |
 
 ## 7. Stato, verifiche e ripresa
 
