@@ -24,8 +24,9 @@ Senza effetti visibili nella Release, che apre ancora le viste storiche e `MainW
 sezione c.a., F5.11 e F5.12 (viste XAML), F5.13 shell parti a, b, c (fino a c2) e d, P3, suite e prove. Le derivazioni spostate
 in `ANTHEA.Application` sono chiamate anche dalle viste storiche, con le tracce congelate e il banco F3 a differenza zero.
 
-L'elenco dato al coordinatore il 22/10 era corretto. Si aggiunge solo che la 1.13.0 è la prima distribuzione delle guide Rev57
-(la 1.12.1 aveva la Rev56).
+L'elenco dato al coordinatore il 22/10 era corretto, con due precisazioni. P4, P5 e S1 stanno solo nelle librerie: da ANTHEA
+non si raggiungono, e per P5 manca ancora il campo del bordo a flusso nullo. La Rev57 non è mai stata distribuita: la 1.12.1
+aveva la Rev56 e la 1.13.0 distribuisce la Rev58.
 
 ## Librerie: release AF
 

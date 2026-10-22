@@ -42,8 +42,8 @@ differenza nei risultati di prova è stata registrata e approvata dall'utente (P
   prova dei muri in terreno non drenato con sisma le quattro combinazioni globali risultavano «Discretizzazione non
   convergente»; ora sono calcolate. Il risultato precedente poteva essere a sfavore di sicurezza.
 - **Librerie GPC.** Release AF (Model 5.20, Concrete 0.18, Geotechnics 0.19, Steel 2.31, Design 0.35, CompositeBridge 1.12,
-  Masonry 0.6). In ANTHEA la libreria dell'acciaio serve alle verifiche dei tubi delle paratie: nei casi di prova i risultati
-  non cambiano.
+  Masonry 0.6). In ANTHEA la libreria dell'acciaio serve solo alle verifiche dei tubi delle paratie: le prove di ANTHEA non hanno
+  registrato differenze dovute all'aggiornamento.
 
 ## Ambiente
 
