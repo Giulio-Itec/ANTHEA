@@ -1,5 +1,18 @@
 # DLL Checker
 
+**Set candidato del 22 ottobre 2026 — paratie, pali e Steel dai master locali (solo prova).** Set candidato
+da `Release-Set.ps1 -Candidate` sui master locali non ancora pushati: Model `45c3976c` e Checker `f6916d8e`;
+Geometry e Utilities invariati. Contiene la revisione paratie (P1–P5, S1, S2, cerchi di Bishop con φ = 0
+tenuti), il peso specifico nullo del palo e della malta (Geotechnics 0.19.0.0), il bordo a flusso nullo della
+filtrazione (GPCModel 5.20.0.0) e il lavoro Model e Steel unito nei master dal 21/10 (Steel 2.31.0.0). Tutte le
+suite verdi senza fallimenti ammessi: Model 24 + 1332, Concrete 795, Steel 122, CompositeBridge 284,
+Geotechnics 193, Calculation 174, ShallowFoundation 28, EmbeddedWalls 99, Steel.Members 2918, Design 103,
+ModelChecker 388. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -AllowCandidate -Install`, vale solo su
+questo ramo di prova: il controllo F4 della provenienza lo rifiuta finché i due master non sono pushati. Le build
+sono deterministiche: il set ufficiale dagli stessi commit avrà le stesse DLL e cambieranno solo
+`release-set.json`, `manifest.json` e la provenienza F4. Set in
+`supporto/artefatti/librerie-20261022-paratie/gpc-candidate-20261022-paratie`.
+
 **Release AE — capsula, fondo scavo e Steel 2.4.0.17 (20–21 ottobre 2026).** Set ufficiale da Model
 `553860fa` e Checker `eddcdb36`, entrambi pubblicati su master con l'autorizzazione dell'utente («porta le
 modifiche fino ad anthea»); Geometry e Utilities invariati. Model 5.16.0.1 integra il contratto del fondo scavo
