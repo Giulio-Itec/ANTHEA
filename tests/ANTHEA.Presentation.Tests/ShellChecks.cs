@@ -7,6 +7,7 @@ internal static class ShellChecks
     {
         int checks = 0;
         checks += ShellDocumentChecks.Run(output);
+        checks += ProjectSessionChecks.Run();
         return checks;
     }
 }
