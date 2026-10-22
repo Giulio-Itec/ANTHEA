@@ -24,6 +24,46 @@ internal sealed class CollapsedWhenTrueConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }
 
+/// <summary>
+/// The template of a card by its layout (<see cref="ConcreteCard.Kind"/>): the summary, the detail with its reference and the value of the historic
+/// VerificationCards (AddSummary, AddDetail, AddValue).
+/// </summary>
+internal sealed class ConcreteCardTemplateSelector : DataTemplateSelector
+{
+    public DataTemplate? Summary { get; set; }
+
+    public DataTemplate? Detail { get; set; }
+
+    public DataTemplate? Value { get; set; }
+
+    public override DataTemplate? SelectTemplate(object item, DependencyObject container) => item is not ConcreteCard card ? null : card.Kind switch
+    {
+        ConcreteCardKind.Detail => Detail,
+        ConcreteCardKind.Value => Value,
+        _ => Summary
+    };
+}
+
+/// <summary>
+/// The labels of the limit state of a domain panel (<see cref="Common.FieldForm.ChoiceLabelsProperty"/>): with separate actions the choice
+/// «Tipo di dominio precedente» shows SLU and SLV as «Plastico» and «Elastico» (the ItemTemplate with DomainLabelConverter of BuildDomainPanel in
+/// the historic view); with the unified actions («Stato limite») none. Value: <see cref="ConcreteActionTableViewModel.Unified"/>.
+/// </summary>
+internal sealed class DomainStateLabelsConverter : IValueConverter
+{
+    private readonly IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> labels = new Dictionary<string, IReadOnlyDictionary<string, string>>(StringComparer.Ordinal)
+    {
+        ["stato"] = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["SLU"] = Anthea.Application.Concrete.ConcreteEditor.Label("SLU"), ["SLV"] = Anthea.Application.Concrete.ConcreteEditor.Label("SLV")
+        }
+    };
+
+    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is false ? labels : null;
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
 /// <summary>Visible when the value exists.</summary>
 internal sealed class PresentShownConverter : IValueConverter
 {
@@ -79,7 +119,53 @@ public sealed class ConcreteTableGrid : DataGrid
     public static readonly DependencyProperty ActionsProperty = DependencyProperty.Register(nameof(Actions), typeof(ConcreteActionTableViewModel), typeof(ConcreteTableGrid),
         new PropertyMetadata(null, (owner, e) => ((ConcreteTableGrid)owner).AttachActions((ConcreteActionTableViewModel?)e.NewValue)));
 
+    /// <summary>
+    /// The columns share the width of the table (the JsonGrid «stretch» of the historic view: the bars, the actions, the shear, the stresses and their
+    /// details, the alternatives of the search); otherwise 112 wide, 140 a choice (the cables).
+    /// </summary>
+    public static readonly DependencyProperty StretchColumnsProperty = DependencyProperty.Register(nameof(StretchColumns), typeof(bool), typeof(ConcreteTableGrid),
+        new PropertyMetadata(false, (owner, _) => ((ConcreteTableGrid)owner).ApplyWidths()));
+
+    /// <summary>
+    /// The shares of the last columns of a stretched table, separated by spaces, the last one at the end (the historic view: «2» for the outcome of
+    /// the domains, «1.8 1.4» for the stresses and the cracking, «3» for the outcome of the shear); the others take 1. Inherited: set on the host of
+    /// the table of the actions.
+    /// </summary>
+    public static readonly DependencyProperty TrailingWeightsProperty = DependencyProperty.RegisterAttached("TrailingWeights", typeof(string), typeof(ConcreteTableGrid),
+        new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.Inherits, (owner, _) => (owner as ConcreteTableGrid)?.ApplyWidths()));
+
+    public static string GetTrailingWeights(DependencyObject target) => (string)target.GetValue(TrailingWeightsProperty);
+
+    public static void SetTrailingWeights(DependencyObject target, string value) => target.SetValue(TrailingWeightsProperty, value);
+
+    /// <summary>
+    /// Minimum widths of some columns, «key=width» separated by spaces (the shear of the historic view: «nome=120 esito=220»), in place of 60 and 65.
+    /// Inherited: set on the host of the table of the actions.
+    /// </summary>
+    public static readonly DependencyProperty MinimumWidthsProperty = DependencyProperty.RegisterAttached("MinimumWidths", typeof(string), typeof(ConcreteTableGrid),
+        new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.Inherits, (owner, _) => (owner as ConcreteTableGrid)?.ApplyWidths()));
+
+    public static string GetMinimumWidths(DependencyObject target) => (string)target.GetValue(MinimumWidthsProperty);
+
+    public static void SetMinimumWidths(DependencyObject target, string value) => target.SetValue(MinimumWidthsProperty, value);
+
+    /// <summary>
+    /// Text columns whose cells wrap, keys separated by spaces, with rows as high as their text (the outcome of the shear of the historic view: «esito»).
+    /// Inherited: set on the host of the table of the actions.
+    /// </summary>
+    public static readonly DependencyProperty WrappedColumnsProperty = DependencyProperty.RegisterAttached("WrappedColumns", typeof(string), typeof(ConcreteTableGrid),
+        new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.Inherits, (owner, _) => (owner as ConcreteTableGrid)?.ApplyWidths()));
+
+    public static string GetWrappedColumns(DependencyObject target) => (string)target.GetValue(WrappedColumnsProperty);
+
+    public static void SetWrappedColumns(DependencyObject target, string value) => target.SetValue(WrappedColumnsProperty, value);
+
+    /// <summary>The columns of the unified actions, inserted by the historic view with their own minimum and the width of the header.</summary>
+    private static readonly IReadOnlyDictionary<string, double> InsertedColumns = new Dictionary<string, double>(StringComparer.Ordinal) { ["elemento"] = 75, ["stato"] = 80 };
+
     private bool syncing;
+
+    public bool StretchColumns { get => (bool)GetValue(StretchColumnsProperty); set => SetValue(StretchColumnsProperty, value); }
 
     public ConcreteTableGrid()
     {
@@ -141,9 +227,34 @@ public sealed class ConcreteTableGrid : DataGrid
         if (table is null) return;
         table.PropertyChanged += OnTableChanged; table.CommittingEdits += OnCommitting;
         foreach (var column in table.Columns) Columns.Add(Column(column));
+        ApplyWidths();
         IsReadOnly = table.IsReadOnly;
         Fill();
     }
+
+    // The widths of the columns of the historic JsonGrid: minimum 60 for a check box, otherwise 65 (or MinimumWidths); shares or fixed widths
+    // (StretchColumns, TrailingWeights); the columns of the unified actions at the width of their header; the wrapped columns (WrappedColumns).
+    private void ApplyWidths()
+    {
+        string[] weights = GetTrailingWeights(this).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var minimums = GetMinimumWidths(this).Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(p => p.Split('='))
+            .ToDictionary(p => p[0], p => double.Parse(p[1], CultureInfo.InvariantCulture), StringComparer.Ordinal);
+        var wrapped = GetWrappedColumns(this).Split(' ', StringSplitOptions.RemoveEmptyEntries).ToHashSet(StringComparer.Ordinal);
+        var regular = Columns.Where(c => !InsertedColumns.ContainsKey(c.SortMemberPath)).ToList();
+        foreach (var column in Columns)
+        {
+            if (InsertedColumns.TryGetValue(column.SortMemberPath, out double minimum)) { column.MinWidth = minimum; column.ClearValue(DataGridColumn.WidthProperty); continue; }
+            column.MinWidth = minimums.TryGetValue(column.SortMemberPath, out double own) ? own : column is DataGridCheckBoxColumn ? 60 : 65;
+            int fromEnd = regular.Count - regular.IndexOf(column);
+            double share = fromEnd <= weights.Length ? double.Parse(weights[^fromEnd], CultureInfo.InvariantCulture) : 1;
+            column.Width = StretchColumns ? new DataGridLength(share, DataGridLengthUnitType.Star) : new DataGridLength(column is DataGridComboBoxColumn ? 140 : 112);
+            if (wrapped.Contains(column.SortMemberPath) && column is DataGridTextColumn text) text.ElementStyle = wrapStyle;
+        }
+        if (wrapped.Count > 0) RowHeight = double.NaN;
+    }
+
+    // The cells of a wrapped column (the outputStyle of the shear of the historic view).
+    private readonly Style wrapStyle = new(typeof(TextBlock)) { Setters = { new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap) } };
 
     private static DataGridColumn Column(ConcreteColumnViewModel column)
     {
@@ -161,7 +272,8 @@ public sealed class ConcreteTableGrid : DataGrid
                 result = choice;
                 break;
             default:
-                result = new DataGridTextColumn { Binding = binding };
+                // The numbers centred, the texts on the left, and the presentation of the numbers when the host enables it (JsonGrid).
+                result = new NumericDisplayColumn { Key = column.Key, Binding = binding, ElementStyle = Ui.NumericTextStyle(), EditingElementStyle = Ui.NumericTextStyle(true) };
                 break;
         }
         result.Header = column.Header; result.SortMemberPath = column.Key; result.IsReadOnly = column.IsReadOnly;

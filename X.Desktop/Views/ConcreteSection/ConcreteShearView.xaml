@@ -90,7 +90,8 @@
       <TextBlock Style="{StaticResource T14Bold}" Text="Combinazioni e resistenze"/>
      </StackPanel>
      <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource T12}" Text="{Binding Summary}"/>
-     <ContentControl Style="{StaticResource Form}" VerticalContentAlignment="Stretch" Content="{Binding Table}" ContentTemplate="{StaticResource ActionTable}"/>
+     <ContentControl Style="{StaticResource Form}" VerticalContentAlignment="Stretch" Content="{Binding Table}" ContentTemplate="{StaticResource ActionTable}"
+      views:ConcreteTableGrid.TrailingWeights="3" views:ConcreteTableGrid.MinimumWidths="nome=120 esito=220" views:ConcreteTableGrid.WrappedColumns="esito"/>
     </DockPanel>
    </Border>
   </Grid>

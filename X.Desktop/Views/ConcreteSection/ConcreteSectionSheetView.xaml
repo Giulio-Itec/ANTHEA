@@ -168,14 +168,15 @@
            <TextBlock Style="{StaticResource T14Bold}" Text="Sezione geometrica"/>
            <WrapPanel x:Name="PreviewToolbar">
             <Button Style="{StaticResource Command}" Content="Proprietà / report…" Command="{Binding Inputs.OpenPropertiesCommand}"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Assi" IsChecked="{Binding Inputs.ShowAxes}"/>
-            <CheckBox Style="{StaticResource Switch}" Content="ID" IsChecked="{Binding Inputs.ShowLabels}"/>
+            <!-- The five check boxes of the drawing are blocked in a read-only revision, as RevisionInspection blocks them in the historic view. -->
+            <CheckBox Style="{StaticResource Switch}" Content="Assi" IsChecked="{Binding Inputs.ShowAxes}" IsEnabled="{Binding Inputs.CanEditTables}"/>
+            <CheckBox Style="{StaticResource Switch}" Content="ID" IsChecked="{Binding Inputs.ShowLabels}" IsEnabled="{Binding Inputs.CanEditTables}"/>
             <Button Style="{StaticResource Command}" Content="Adatta" Click="FitPreview_Click"/>
             <Button Style="{StaticResource Command}" Content="PNG" Click="SavePreview_Click"/>
             <Button Style="{StaticResource Command}" Content="Espandi" Click="ExpandPreview_Click"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Dimensioni" IsChecked="{Binding Inputs.ShowDimensions}"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Copriferro" IsChecked="{Binding Inputs.ShowCoverDimensions}"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Interferro min." IsChecked="{Binding Inputs.ShowSpacingDimensions}"/>
+            <CheckBox Style="{StaticResource Switch}" Content="Dimensioni" IsChecked="{Binding Inputs.ShowDimensions}" IsEnabled="{Binding Inputs.CanEditTables}"/>
+            <CheckBox Style="{StaticResource Switch}" Content="Copriferro" IsChecked="{Binding Inputs.ShowCoverDimensions}" IsEnabled="{Binding Inputs.CanEditTables}"/>
+            <CheckBox Style="{StaticResource Switch}" Content="Interferro min." IsChecked="{Binding Inputs.ShowSpacingDimensions}" IsEnabled="{Binding Inputs.CanEditTables}"/>
            </WrapPanel>
           </StackPanel>
           <ContentControl x:Name="PreviewHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
@@ -193,7 +194,7 @@
             <DockPanel>
              <WrapPanel DockPanel.Dock="Top"><Button Style="{StaticResource Command}" Content="Ripristina barre da wizard" Command="{Binding Inputs.RestoreBarsCommand}"/></WrapPanel>
              <ContentControl DockPanel.Dock="Top" Focusable="False" Content="{Binding Inputs.Bars.Filter}" ContentTemplate="{StaticResource FilterBar}"/>
-             <views:ConcreteTableGrid x:Name="BarsGrid" Table="{Binding Inputs.Bars}" AutomationProperties.Name="Barre della sezione"/>
+             <views:ConcreteTableGrid x:Name="BarsGrid" Table="{Binding Inputs.Bars}" StretchColumns="True" AutomationProperties.Name="Barre della sezione"/>
             </DockPanel>
            </TabItem>
            <TabItem Header="Trefoli / cavi">

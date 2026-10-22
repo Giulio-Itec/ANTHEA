@@ -90,13 +90,13 @@
        <TabItem Header="Barre e trefoli">
         <DockPanel>
          <ContentControl DockPanel.Dock="Top" Focusable="False" Content="{Binding Bars.Filter}" ContentTemplate="{StaticResource FilterBar}"/>
-         <views:ConcreteTableGrid Table="{Binding Bars}" AutomationProperties.Name="Barre e trefoli"/>
+         <views:ConcreteTableGrid Table="{Binding Bars}" StretchColumns="True" AutomationProperties.Name="Barre e trefoli"/>
         </DockPanel>
        </TabItem>
        <TabItem Header="Calcestruzzo">
         <DockPanel>
          <ContentControl DockPanel.Dock="Top" Focusable="False" Content="{Binding Concrete.Filter}" ContentTemplate="{StaticResource FilterBar}"/>
-         <views:ConcreteTableGrid Table="{Binding Concrete}" AutomationProperties.Name="Vertici del calcestruzzo"/>
+         <views:ConcreteTableGrid Table="{Binding Concrete}" StretchColumns="True" AutomationProperties.Name="Vertici del calcestruzzo"/>
         </DockPanel>
        </TabItem>
        <TabItem Header="Fessurazione · passaggi" Visibility="{Binding CrackTabVisible, Converter={StaticResource Visible}}">
@@ -118,7 +118,8 @@
      <StackPanel Style="{StaticResource PanelHeading}">
       <TextBlock Style="{StaticResource T14Bold}" Text="{Binding TableTitle}"/>
      </StackPanel>
-     <ContentControl Style="{StaticResource Form}" VerticalContentAlignment="Stretch" Content="{Binding Table}" ContentTemplate="{StaticResource ActionTable}"/>
+     <ContentControl Style="{StaticResource Form}" VerticalContentAlignment="Stretch" Content="{Binding Table}" ContentTemplate="{StaticResource ActionTable}"
+      views:ConcreteTableGrid.TrailingWeights="1.8 1.4"/>
     </DockPanel>
    </Border>
   </Grid>

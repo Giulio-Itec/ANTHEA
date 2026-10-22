@@ -19,6 +19,17 @@ public enum ConcreteCardTone
     Information
 }
 
+/// <summary>The layout of a card, one per method of the historic VerificationCards (the view draws each as the historic card).</summary>
+public enum ConcreteCardKind
+{
+    /// <summary>AddSummary: heading with η at its right, the governing combination below.</summary>
+    Summary,
+    /// <summary>AddDetail: heading, values, explanation and reference, one under the other.</summary>
+    Detail,
+    /// <summary>AddValue: heading, value in bold, explanation.</summary>
+    Value
+}
+
 /// <summary>A card of <see cref="ConcreteCardsViewModel"/>: heading, value, explanation, reference and the meaning of its colour.</summary>
 /// <param name="Heading">First line, in bold (title and state, or the title of a value).</param>
 /// <param name="Value">The value, or the governing combination of a summary.</param>
@@ -27,7 +38,9 @@ public enum ConcreteCardTone
 /// <param name="ToolTip">Tooltip of the card, as the historic card.</param>
 /// <param name="Tone">Meaning of the colour.</param>
 /// <param name="Ratio">The ratio of a card coloured by <see cref="ConcreteCardTone.Utilization"/>.</param>
-public sealed record ConcreteCard(string Heading, string Value, string Explanation, string Reference, string ToolTip, ConcreteCardTone Tone, double? Ratio = null);
+/// <param name="Kind">The layout of the card (F5.10, first run of the view: the details showed their values at the right, without reference).</param>
+public sealed record ConcreteCard(string Heading, string Value, string Explanation, string Reference, string ToolTip, ConcreteCardTone Tone, double? Ratio = null,
+    ConcreteCardKind Kind = ConcreteCardKind.Summary);
 
 /// <summary>
 /// The verification cards of the RC section (the historic VerificationCards of X.Desktop, F5.10 S1) without WPF: a message
@@ -76,12 +89,13 @@ public sealed class ConcreteCardsViewModel : ObservableObject
     {
         var detail = new VerificationDetail(title, passed, values, explanation, reference);
         var tone = passed is null ? ConcreteCardTone.Missing : passed.Value ? ConcreteCardTone.Passed : ConcreteCardTone.Failed;
-        Add(new ConcreteCard(title + " · " + detail.State, values, explanation, reference, detail.State + "\n" + explanation + "\n" + reference, tone), detail.Text);
+        Add(new ConcreteCard(title + " · " + detail.State, values, explanation, reference, detail.State + "\n" + explanation + "\n" + reference, tone,
+            Kind: ConcreteCardKind.Detail), detail.Text);
     }
 
     /// <summary>A value without outcome.</summary>
     public void AddValue(string title, string value, string explanation) =>
-        Add(new ConcreteCard(title, value, explanation, "", explanation, ConcreteCardTone.Information), $"{title}\n{value}\n{explanation}\n\n");
+        Add(new ConcreteCard(title, value, explanation, "", explanation, ConcreteCardTone.Information, Kind: ConcreteCardKind.Value), $"{title}\n{value}\n{explanation}\n\n");
 
     /// <summary>The summary of a verification: state, governing ratio and completed combinations.</summary>
     public void AddSummary(VerificationSummary summary)

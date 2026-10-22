@@ -97,7 +97,7 @@
      <TabItem Header="Alternative">
       <DockPanel>
        <ContentControl DockPanel.Dock="Top" Style="{StaticResource Form}" Content="{Binding Shown}"/>
-       <views:ConcreteTableGrid Table="{Binding Ranking}" AutomationProperties.Name="Alternative"/>
+       <views:ConcreteTableGrid Table="{Binding Ranking}" StretchColumns="True" AutomationProperties.Name="Alternative"/>
       </DockPanel>
      </TabItem>
      <TabItem Header="Verifiche della proposta">
