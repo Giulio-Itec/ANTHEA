@@ -97,27 +97,74 @@ internal static partial class BridgeDesignViewChecks
             Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))),
                 name + ": PDF affiancato uguale a quello della vista storica (date normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
             reports++;
-            // «Esporta quantità CSV», «Immagine PNG» (the view of the drawing) and «Esporta sezioni e quote CSV» (tab «Sezioni e quote»).
-            string csv = Path.Combine(folder, name + "-quantita.csv"), png = Path.Combine(folder, name + "-ponte.png"), technical = Path.Combine(folder, name + "-quote.csv");
+            // «Esporta quantità CSV» (the card of the drawing) and «Esporta sezioni e quote CSV» (tab «Sezioni e quote»); «Immagine PNG» in Images.
+            string csv = Path.Combine(folder, name + "-quantita.csv"), technical = Path.Combine(folder, name + "-quote.csv");
             services.Saves.Clear();
             services.SavePath = csv; Idle(() => { Press(Caption(view.DesignScroll, "Esporta quantità CSV")); return 0; });
-            services.SavePath = png; Idle(() => { Press(Caption(view.DesignScroll, "Immagine PNG")); return 0; });
             Idle(() => { view.OutputTabs.SelectedIndex = 5; return 0; }); await mvvm.Settle();
             services.SavePath = technical; Idle(() => { Press(Caption(view.DesignScroll, BridgeDesignPresentation.TechnicalCsvButton)); return 0; });
             services.SavePath = null;
-            Check(services.Saves.Select(s => s.FileName).SequenceEqual(["BridgeDesign_quantita.csv", "BridgeDesign.png", "BridgeDesign_sezioni_quote.csv"])
-                && services.Saves.Select(s => FileFilter.Join(s.Filters)).SequenceEqual(["Quantità CSV|*.csv", "Immagine PNG|*.png", "Sezioni e quote CSV|*.csv"]),
-                name + ": nomi proposti e filtri delle esportazioni della vista storica");
+            Check(services.Saves.Select(s => s.FileName).SequenceEqual(["BridgeDesign_quantita.csv", "BridgeDesign_sezioni_quote.csv"])
+                && services.Saves.Select(s => FileFilter.Join(s.Filters)).SequenceEqual(["Quantità CSV|*.csv", "Sezioni e quote CSV|*.csv"]),
+                name + ": nomi proposti e filtri delle esportazioni CSV della vista storica");
             Check(File.ReadAllBytes(csv).SequenceEqual(bom.Concat(Encoding.UTF8.GetBytes(BridgeDesignModel.Csv(past.Calculation))))
-                && File.ReadAllBytes(technical).SequenceEqual(bom.Concat(Encoding.UTF8.GetBytes(BridgeDesignModel.TechnicalCsv(past.Data, past.Calculation))))
-                && CompositeSectionHistoricTrace.Pixels(File.ReadAllBytes(png)) == CompositeSectionHistoricTrace.Pixels(past.Drawing.Png(false)),
-                name + ": CSV delle quantità e delle quote e PNG del disegno uguali a quelli della vista storica");
+                && File.ReadAllBytes(technical).SequenceEqual(bom.Concat(Encoding.UTF8.GetBytes(BridgeDesignModel.TechnicalCsv(past.Data, past.Calculation)))),
+                name + ": CSV delle quantità e delle quote uguali a quelli della vista storica");
             Check(Same(mvvm, historic) && mvvm.Modified == historic.Modified, name + ": le esportazioni non scrivono nei dati");
         }
         Log.Add($"   esportazioni: {reports} report");
         Check(reports >= 8, $"Report confrontati con la vista storica: {reports}");
+    }
 
-        static bool Same(Hosted a, Hosted b) => Normalized(a.Editor.Data) == Normalized(b.Editor.Data);
+    private static bool Same(Hosted a, Hosted b) => Normalized(a.Editor.Data) == Normalized(b.Editor.Data);
+
+    /// <summary>
+    /// «Immagine PNG» (the card of the drawing) for every F3 fixture with a result, after the same steps as <see cref="FixturesAndExports"/> (the
+    /// calculation of the opening, the visit, the calculation): the proposed name and the filter of the historic view, the PNG equal pixel by
+    /// pixel to the drawing of the historic view, nothing written in the data. Last part of the check (22/10 evening): the PNG goes through
+    /// DocumentFile.Write, which renames its temporary file into the image, and there the behaviour monitoring of Trend Micro ends the unsigned
+    /// ANTHEA.exe of the runner (question S6). The step in progress is written in dettaglio.txt before each image.
+    /// </summary>
+    private static async Task Images(string root, string output)
+    {
+        string folder = Path.Combine(output, "esportazioni");
+        Directory.CreateDirectory(folder);
+        var services = new Services();
+        var editors = Editors(services);
+        int images = 0;
+        foreach (string id in BridgeDesignScenarios.Fixtures(root))
+        {
+            string name = Module + "--" + id;
+            var data = BridgeDesignScenarios.FixtureData(root, id);
+            using var mvvm = Idle(() => new Hosted(editors.Open(Module, data)));
+            using var historic = Idle(() => new Hosted(new SheetEditor(Module, data)));
+            await Idle(() => mvvm.Pending).WaitAsync(TimeSpan.FromSeconds(180)); await Idle(() => historic.Pending).WaitAsync(TimeSpan.FromSeconds(180));
+            await mvvm.Settle(); await historic.Settle();
+            Idle(() => { Visit(mvvm.Root); return 0; }); Idle(() => { Visit(historic.Root); return 0; });
+            await mvvm.Settle(); await historic.Settle();
+            await Idle(() => mvvm.Editor.CalculateAsync()).WaitAsync(TimeSpan.FromSeconds(180));
+            await Idle(() => historic.Editor.CalculateAsync()).WaitAsync(TimeSpan.FromSeconds(180));
+            for (int i = 0; i < 50 && mvvm.Editor.Busy; i++) await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+            await mvvm.Settle(); await historic.Settle();
+            mvvm.Editor.Commit(); historic.Editor.Commit();
+            var past = historic.Historic;
+            // Without a result «Immagine PNG» asks nothing (FixturesAndExports checks it).
+            if (past.Calculation is null) { Log.Add("   " + name + ": senza risultato, nessuna immagine"); continue; }
+            Check(Same(mvvm, historic) && mvvm.Editor.HasResults, name + ": dati e risultato prima dell'immagine uguali a quelli della vista storica");
+            string png = Path.Combine(folder, name + "-ponte.png");
+            int modified = mvvm.Modified;
+            services.Saves.Clear();
+            Log.Add($"   in corso: {name}: «Immagine PNG» → {Path.GetFileName(png)} (DocumentFile.Write rinomina il file temporaneo .x_*.tmp nel PNG; "
+                + "se la prova finisce qui senza esito: antivirus, domanda S6)");
+            services.SavePath = png; Idle(() => { Press(Caption(mvvm.View.DesignScroll, "Immagine PNG")); return 0; }); services.SavePath = null;
+            Check(services.Saves.Select(s => (s.FileName, FileFilter.Join(s.Filters))).SequenceEqual([("BridgeDesign.png", "Immagine PNG|*.png")]),
+                name + ": «Immagine PNG», nome proposto e filtro della vista storica");
+            Check(CompositeSectionHistoricTrace.Pixels(File.ReadAllBytes(png)) == CompositeSectionHistoricTrace.Pixels(past.Drawing.Png(false)),
+                name + ": PNG del disegno uguale pixel per pixel a quello della vista storica");
+            Check(Same(mvvm, historic) && mvvm.Modified == modified, name + ": l'immagine non scrive nei dati");
+            images++;
+        }
+        Check(images >= 8, $"Immagini PNG confrontate con la vista storica: {images}");
     }
 
     /// <summary>The data and the results of the two views beside the exports when they differ, to read the difference.</summary>
@@ -304,11 +351,19 @@ internal static partial class BridgeDesignViewChecks
             File.WriteAllBytes(Path.Combine(folder, $"progetto-{suffix}.png"), host.Png());
             Idle(() => { host.View.OutputTabs.SelectedIndex = 2; return 0; }); await host.Settle();
             File.WriteAllBytes(Path.Combine(folder, $"confronto-{suffix}.png"), host.Png());
-            Idle(() => { host.View.Pages.SelectedIndex = 1; return 0; }); await host.Settle();
-            await Idle(() => host.Sheet.RunOptimizationAsync(new BridgeDesignModel.OptimizationOptions { KeepPier = true, KeepFoundation = true, MinSpans = 3, MaxSpans = 6,
-                DepthPercentMin = 100, DepthPercentMax = 115, DepthPercentStep = 15, PilePercentMin = 100, PilePercentMax = 150, PilePercentStep = 25 })).WaitAsync(TimeSpan.FromSeconds(300));
-            await host.Settle();
-            File.WriteAllBytes(Path.Combine(folder, $"ottimizzazione-{suffix}.png"), host.Png());
+            // The search of the trace «ottimizzazione» (fixture default, pier and foundation kept, 3–6 spans), set through the boxes of the sheet
+            // so that the page shows its limits; on confronto-alternativa-a the same search admits no solution and the page stays empty.
+            using (var search = Idle(() => new Hosted(editors.Open(Module, BridgeDesignScenarios.FixtureData(root, "default")), mode != AppAppearance.Light, 1400, 1000)))
+            {
+                await Idle(() => search.Pending).WaitAsync(TimeSpan.FromSeconds(180)); await search.Settle();
+                Idle(() => { search.View.Pages.SelectedIndex = 1; return 0; }); await search.Settle();
+                var sheet = search.Sheet;
+                sheet.SetLock("pier", true); sheet.SetLock("foundation", true); sheet.SetLimit("campate-min", "3"); sheet.SetLimit("campate-max", "6");
+                await Idle(() => sheet.RunOptimizationAsync()).WaitAsync(TimeSpan.FromSeconds(300));
+                await search.Settle();
+                File.WriteAllBytes(Path.Combine(folder, $"ottimizzazione-{suffix}.png"), search.Png());
+                Log.Add($"   schermate ({suffix}): ottimizzazione «{sheet.SearchStatus}»");
+            }
             written += 3;
         }
         Appearance.Set(AppAppearance.Light, false);

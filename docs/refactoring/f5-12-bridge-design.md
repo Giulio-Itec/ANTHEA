@@ -486,3 +486,130 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stag
 
 Poi, dopo l'ok dell'utente: versione portatile con la vista attiva, riscrittura delle suite della sezione 5.8, punto di controllo, passaggio della
 Release e archiviazione (punto 6 della sezione 3).
+
+## 6. Prima esecuzione della vista (22/10 sera)
+
+Agente f5-12-vista-prova, ramo `refactoring/f5-12-vista-prova` da `refactoring/f5` `c1dd1d1c`. Le prove sono nel `supporto/artefatti` del
+worktree (`ci\…` e `refactoring\f5-12-vista-prova\…`).
+
+### 6.1 Perché `ui/check-bridge-design-view` si fermava
+
+Nella corsa mirata del coordinatore (`ci\20261022-190511-mirate-22-10`, checkout principale) e nella sua ripresa
+(`ci\20261022-200741-mirate-22-10-ripresa`) la suite si chiudeva dopo circa 100 s, sempre nello stesso punto:
+- codice d'uscita 0, nessun `esito.txt`, `dettaglio.txt` o `errore.txt`. Il `finally` e il `catch` della prova non giravano: il processo è
+  stato chiuso da fuori. Un'eccezione non gestita avrebbe dato un codice diverso da 0 e un evento nel registro Application;
+- in `vista\esportazioni` restava un `.x_<guid>.tmp` scritto subito dopo `…cassone-acciaio-prezzario-quantita.csv`. L'esportazione successiva
+  è «Immagine PNG» (`…-ponte.png`): il temporaneo è proprio quel PNG, già completo (40 816 byte, 1200 × 480, gli stessi byte del PNG scritto
+  poi dal worktree). Il processo si chiude fra la scrittura del temporaneo e la sua rinomina in `DocumentFile.Write`. È la terza immagine della
+  sessione;
+- il registro del monitoraggio del comportamento di Trend Micro, leggibile senza diritti di amministratore
+  (`C:\Program Files (x86)\Trend Micro\Client Server Security Agent\Misc\AEGIS_BM.log`, UTF-16), ha un evento per ognuna delle quattro fermate
+  della sera. La regola è `NON_POLICY_JUST_ADC`, il processo `…\ANTHEA\X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe` (SHA1 `43840EBD…`), il
+  file un `.x_*.tmp` nella cartella `vista\esportazioni` della suite:
+
+  | Ora | Suite | Corsa |
+  | --- | --- | --- |
+  | 19:23:28 | `ui/check-palo-verticale-view` | `mirate-22-10` |
+  | 19:40:28 | `ui/check-bridge-design-view` | `mirate-22-10` |
+  | 20:09:06 | `ui/check-palo-verticale-view` | `mirate-22-10-ripresa` |
+  | 20:10:51 | `ui/check-bridge-design-view` | `mirate-22-10-ripresa` |
+
+È la domanda **S6** di [f5-ripresa.md](f5-ripresa.md). Il commento di `src/ANTHEA.Reports/DocumentFile.cs` descrive la stessa chiusura senza errori
+(27/09/2026) per i documenti Office, che per questo si copiano; le immagini invece si rinominano ancora (`File.Move`). Anche la vista storica
+esporta il PNG con `Archivio.ScriviAtomico` (`BridgeDesignWorkspace.ExportPng`): non è un comportamento nuovo della vista XAML.
+
+**La chiusura non dipende dal codice.** Lo stesso eseguibile (stesso SHA1), dal worktree, scrive tutte le esportazioni e arriva in fondo, senza
+eventi di Trend Micro:
+
+| Prova (eseguibile `ANTHEA.exe`, uscite catturate: stdout e stderr vuoti) | Esito |
+| --- | --- |
+| a mano, parte `esportazioni` (codice della base, nove PNG rinominati), `refactoring\f5-12-vista-prova\diagnosi\exe-esportazioni` | PASS 109, codice 0 |
+| a mano, `tracce,disegni,esportazioni` (la sequenza della corsa del coordinatore), `diagnosi\exe-tracce-disegni-esportazioni` | PASS 111, codice 0 |
+| a mano, `esportazioni,immagini` con l'uscita sotto Documenti (`ANTHEA-f5-ripresa\f5-agenti\f5-12-vista-prova\diagnosi\…`) | PASS 146, codice 0 |
+| runner, tutta la suite (dopo `7decf8ce`), `ci\20261022-204130-f512vp-vista` | **PASS 186 controlli**, 108 s |
+| runner, `ui/check-palo-verticale-view` (stessa causa, per confronto), `ci\20261022-205422-f512vp-pv-diagnosi` | PASS, 79 s |
+
+Stasera l'antivirus ha chiuso l'eseguibile del checkout principale, che ha eventi di Trend Micro dal 19/10, e non quello del worktree. Il
+21/10 però aveva chiuso anche eseguibili di worktree (`aw-f5-10-s1b`, `aw-f5-12-prep`). Il criterio dell'antivirus non si legge dal registro:
+la fermata non è riproducibile a comando e non indica un difetto della vista né della prova.
+
+**Palo verticale.** `ui/check-palo-verticale-view` ha la stessa causa: righe delle 19:23:28 e 20:09:06 qui sopra. Il temporaneo rimasto è il PNG
+del grafico della capacità (1200 × 750, «Salva PNG…», `Archivio.ScriviAtomico` → `DocumentFile.Write`), alla terza fixture (`elica-coesivo-avvisi`)
+e cioè ancora alla terza immagine. Dal worktree passa.
+
+### 6.2 Correzioni (solo nella prova)
+
+`7decf8ce` test(f5.12): la prova non nasconde la fermata, ma prima verifica tutto il resto.
+- **Ordine delle parti:** `tracce, disegni, prezzario, stampa, schermate, aiuto, nomi, sola-lettura, banco, esportazioni, immagini`. Una parte
+  sconosciuta nel quarto argomento è rifiutata.
+- **Parte `immagini`, l'ultima:** «Immagine PNG» esce da `esportazioni`. Per ogni fixture con un risultato rifà i passi di prima dell'immagine
+  (calcolo dell'apertura, visita, calcolo) e controlla:
+  - il nome proposto e il filtro della vista storica;
+  - il PNG uguale pixel per pixel al disegno della vista storica;
+  - nessuna scrittura nei dati.
+
+  `esportazioni` controlla JSON, Word, PDF e i due CSV per tutte le fixture.
+- **`dettaglio.txt` scritto riga per riga:**
+  - le righe `== parte <nome>` e `== parte <nome>: PASS, n controlli` aprono e chiudono ogni parte;
+  - prima di ogni PNG una riga `in corso: <fixture>: «Immagine PNG» → <file> (… se la prova finisce qui senza esito: antivirus, domanda S6)`.
+
+  Se il processo è chiuso da fuori, `dettaglio.txt` mostra le parti passate e l'immagine in corso; il runner riporta come prima «attestazione
+  finale assente: esito.txt».
+- **Schermata dell'ottimizzazione:** la ricerca della traccia «ottimizzazione» (fixture `default`, pila e fondazione bloccate, campate 3–6
+  scritte nelle caselle del foglio): «29 calcolate · 10 ammesse». La stessa ricerca su `confronto-alternativa-a` non ammette soluzioni e
+  lasciava la pagina vuota.
+
+Le parti mai eseguite prima (prezzario, stampa, schermate, aiuto, nomi, sola-lettura, banco) sono passate alla prima esecuzione
+(`refactoring\f5-12-vista-prova\prove\dll-parti-nuove-1`, PASS 76): nessuna correzione della vista o del ViewModel. Codice di produzione,
+`DocumentFile.Write`, fixture, tracce congelate, baseline e `transitions-*.json` sono invariati. La suite non va in `build/known-failures.json`:
+un'eccezione d'ambiente non ci va (f5-ripresa.md).
+
+### 6.3 Esiti
+
+| Prova | Cartella (`supporto\artefatti\` del worktree) | Esito |
+| --- | --- | --- |
+| `ui/check-bridge-design-view`, runner | `ci\20261022-204130-f512vp-vista` | PASS 186 controlli: tracce (19 scenari, 15 143 righe uguali alle congelate), disegni (72 righe di `elenco.txt`), prezzario 15, stampa 5, schermate 11 PNG, aiuto 3, nomi 3, sola lettura 4, banco 6, esportazioni 108 (9 report), immagini 37 (9 PNG) |
+| Banco F3, cattura storica | `refactoring\f5-12-vista-prova\banco-1\storica` | PASS 119 fixture, 77 articoli, 30 ricerche (182 s) |
+| Banco F3, cattura con `--module-impl str_bridge_design=mvvm` | `…\banco-1\mvvm` | PASS 119 fixture (199 s) |
+| `f5_confronto_diretto.py` | `…\banco-1\confronto-diretto.json` | **0 differenze**: 1205 file, 1202 uguali byte per byte, 3 JSON uguali in forma canonica; 6 tempi volatili del palo elastico ignorati |
+| `--check-f3-report-chapters --module-impl str_bridge_design=mvvm` | `…\banco-1\capitoli-mvvm` | PASS 120 capitoli autonomi, 288 immagini |
+| Corsa finale ui su `df84474c`: `-Stage build,ui -Only '^ui/(check-bridge-design-view\|f3-scheduling-bridge-design-mvvm)$'` | `ci\20261022-205706-f512vp-finale-ui` | PASS 3: build UiTests, vista 186 controlli, sonda MVVM 47 controlli |
+| Corsa finale `-Profile standard` su `df84474c` | `ci\20261022-205930-f512vp-finale` | PASS 78, KNOWN 0, NEW-FAIL 0 (26 minuti), nessun file tracciato modificato |
+| Corsa del coordinatore, le altre suite della sezione 5.7 | checkout principale, `ci\20261022-190511-mirate-22-10` | PASS: `check-bridge-design-historic`, `f3-scheduling-bridge-design-mvvm`, `f3-scheduling`, `smoke-bridge-design`, `smoke-bridge-prices`, `smoke-bridge-traffic`, `check-module-host-offscreen`, `f3-equivalence`, `f3-report-chapters` |
+
+Nessuna differenza fra la vista storica e la vista XAML nel banco F3: niente da proporre per `transitions-f5.json`.
+
+Schermate (144 DPI) controllate e copiate per l'utente in `ANTHEA-f5-ripresa\f5-agenti\f5-12-vista-prova\schermate\`:
+- `progetto-chiara.png` e, accanto, `storica-progetto-chiara.png` (la vista storica alla stessa misura);
+- `confronto-scuro.png`;
+- `ottimizzazione-molto-scuro.png`;
+- `prezzario.png`.
+
+Negli aspetti scuri i disegni (ponte, grafici, anteprima) restano chiari, come i disegni storici (Q3).
+
+### 6.4 Che cosa resta
+
+- **S6 (domanda all'utente, invariata):** copiare anche le immagini in `DocumentFile.Write` (una riga, nel codice dei report congelato), oppure
+  lanciare le suite `check` con `dotnet ANTHEA.dll` (firmato) invece di `ANTHEA.exe` (`build/ci.ps1`, file condiviso), oppure la verifica di
+  Trend Micro. Finché resta aperta, la suite può fermarsi nella parte `immagini`. Le altre parti però hanno già riportato PASS in
+  `dettaglio.txt`, e la riga «in corso» dice quale immagine si scriveva. Lo stesso vale per `ui/check-palo-verticale-view`, dove l'immagine sta
+  ancora dentro la parte delle esportazioni (prova di F5.6, non toccata qui).
+- **Contrasto a 96 DPI** (BD13), con il passo `mvvm-str_bridge_design`: lo schermo di questa macchina è a 144 DPI.
+- Poi, come nella sezione 5.9:
+  - le domande BD1–BD22 al punto di controllo;
+  - la versione portatile;
+  - la riscrittura delle suite della sezione 5.8;
+  - il passaggio della Release e l'archiviazione (punto 6 della sezione 3).
+
+Per ripetere (`<R>` = radice del worktree; parti: `tracce,disegni,prezzario,stampa,schermate,aiuto,nomi,sola-lettura,banco,esportazioni,immagini`):
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/check-bridge-design-view$' -Tag <tag>"
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-bridge-design-view <R> <cartella vuota> [parti]
+```
+
+Per leggere il registro di Trend Micro dopo una fermata:
+
+```
+iconv -f UTF-16LE -t UTF-8 "/c/Program Files (x86)/Trend Micro/Client Server Security Agent/Misc/AEGIS_BM.log" | tail -5 | cut -f1,5,7,9
+```
