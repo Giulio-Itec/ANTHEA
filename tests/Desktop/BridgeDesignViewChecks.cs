@@ -35,9 +35,6 @@ namespace X.Desktop;
 /// in tests/fixtures/f5-bridge-design/storica.</item>
 /// <item>disegni: the drawing lists of the drawing (elevation and section), of the moment diagram, of the icons of the typologies, of the charts and
 /// of the preview of the search, and the pixels of the figures of the report, for every F3 fixture, equal to disegni/elenco.txt.</item>
-/// <item>esportazioni: for each F3 fixture the visit of the F3 capture writes what the historic visit writes, the three appearances write nothing,
-/// data and result after the calculation are those of the historic view, the exported JSON carries the data (BD7), the Word report and the PDF,
-/// the CSV of the quantities and of the dimensions and the PNG are those of the historic view.</item>
 /// <item>prezzario: the price editor of the dialog service (its DataTemplate) against the historic window: size, texts, tabs and columns; the files
 /// through the file dialog service; «Annulla» and «Applica prezzario».</item>
 /// <item>stampa: the page of «Stampa scheda» equal to the historic page (texts and pixels); the window of the printer only with a result.</item>
@@ -46,15 +43,20 @@ namespace X.Desktop;
 /// <item>nomi: the automation names of the historic view kept.</item>
 /// <item>sola-lettura: the controls that accept the user after InspectRevision are those of the historic view, but «Gestisci prezzario…» (BD4).</item>
 /// <item>banco: with --module-impl the module opens the MVVM view, the Release keeps the historic one; «occupato» until the engine returns (BD3).</item>
+/// <item>esportazioni: for each F3 fixture the visit of the F3 capture writes what the historic visit writes, the three appearances write nothing,
+/// data and result after the calculation are those of the historic view, the exported JSON carries the data (BD7), the Word report and the PDF,
+/// the CSV of the quantities and of the dimensions are those of the historic view.</item>
+/// <item>immagini: for each F3 fixture with a result «Immagine PNG» writes the PNG of the drawing of the historic view (last: see <see cref="Run"/>).</item>
 /// </list>
-/// Written on 22/10 without running it (daytime rule): the first run is in the evening. Writes dettaglio.txt and esito.txt («PASS n controlli …»).
+/// Written on 22/10 without running it (daytime rule): the first run is in the evening. Writes dettaglio.txt (line by line, each part between
+/// «== parte» lines) and esito.txt («PASS n controlli …»).
 /// </summary>
 internal static partial class BridgeDesignViewChecks
 {
     private const string Module = BridgeDesignScenarios.Module;
 
     private static int checks;
-    private static readonly List<string> Log = [];
+    private static readonly DetailLog Log = new();
 
     private static void Check(bool ok, string message)
     {
@@ -63,38 +65,71 @@ internal static partial class BridgeDesignViewChecks
         Log.Add("OK " + message);
     }
 
-    /// <summary>The parts of the check, in order; <paramref name="parts"/> (the fourth argument) runs only some of them, for the work on the view.</summary>
+    /// <summary>
+    /// dettaglio.txt written line by line while the check runs (22/10 evening). A process ended from outside, as the behaviour monitoring of the
+    /// antivirus ends ANTHEA.exe during the exports (question S6), runs no finally: the parts done, their checks and the step in progress stay on
+    /// disk instead of nothing.
+    /// </summary>
+    private sealed class DetailLog
+    {
+        private StreamWriter? file;
+
+        internal void Open(string path) =>
+            file = new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read), new UTF8Encoding(false)) { AutoFlush = true };
+
+        internal void Add(string line) => file?.WriteLine(line);
+
+        internal void Close() { file?.Dispose(); file = null; }
+    }
+
+    /// <summary>The parts of the check, in the order they run (see <see cref="Run"/>).</summary>
+    internal static readonly string[] PartNames = ["tracce", "disegni", "prezzario", "stampa", "schermate", "aiuto", "nomi", "sola-lettura", "banco", "esportazioni", "immagini"];
+
+    /// <summary>
+    /// The parts of the check, in order; <paramref name="parts"/> (the fourth argument) runs only some of them, for the work on the view. The exports
+    /// run last and the PNG of the drawing («immagini») after them (22/10 evening): on this machine the behaviour monitoring of Trend Micro ends the
+    /// unsigned ANTHEA.exe of the runner, without errors and with exit code 0, while DocumentFile.Write renames the temporary file of an exported
+    /// image (rule NON_POLICY_JUST_ADC, question S6 of f5-ripresa.md). Every other part reports first, and dettaglio.txt shows the step in progress.
+    /// </summary>
     internal static async Task Run(string root, string output, IReadOnlyCollection<string>? parts = null)
     {
+        if (parts?.Except(PartNames).ToArray() is { Length: > 0 } unknown) throw new ArgumentException("Parti sconosciute: " + string.Join(", ", unknown) + "; parti: " + string.Join(",", PartNames));
         bool Part(string name) => parts is null || parts.Contains(name);
         if (Directory.Exists(output) && Directory.EnumerateFileSystemEntries(output).Any()) throw new IOException("La cartella della prova deve essere vuota.");
         Directory.CreateDirectory(output);
-        checks = 0; Log.Clear();
+        checks = 0;
         var culture = CultureInfo.GetCultureInfo("it-IT");
         await Dispatcher.CurrentDispatcher.InvokeAsync(() => { CultureInfo.CurrentCulture = culture; CultureInfo.CurrentUICulture = culture; });
         CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = culture;
+        Func<Task>[] steps =
+        [
+            () => Traces(root, output), () => Drawings(root, output), () => PriceEditor(root, output), () => PrintPage(root, output),
+            () => Screenshots(root, Path.Combine(output, "schermate")), () => Help(root), () => AutomationNames(root), () => ReadOnly(root),
+            () => Bench(root, output), () => FixturesAndExports(root, output), () => Images(root, output)
+        ];
+        Log.Open(Path.Combine(output, "dettaglio.txt"));
         try
         {
             Directory.CreateDirectory(Path.Combine(output, "schermate"));
-            if (Part("tracce")) await Traces(root, output);
-            if (Part("disegni")) await Drawings(root, output);
-            if (Part("esportazioni")) await FixturesAndExports(root, output);
-            if (Part("prezzario")) await PriceEditor(root, output);
-            if (Part("stampa")) await PrintPage(root, output);
-            if (Part("schermate")) await Screenshots(root, Path.Combine(output, "schermate"));
-            if (Part("aiuto")) await Help(root);
-            if (Part("nomi")) await AutomationNames(root);
-            if (Part("sola-lettura")) await ReadOnly(root);
-            if (Part("banco")) await Bench(root, output);
+            for (int i = 0; i < PartNames.Length; i++)
+            {
+                if (!Part(PartNames[i])) continue;
+                int before = checks;
+                Log.Add("== parte " + PartNames[i]);
+                await steps[i]();
+                Log.Add($"== parte {PartNames[i]}: PASS, {checks - before} controlli");
+            }
         }
         finally
         {
             Appearance.Set(AppAppearance.Light, false);
-            File.WriteAllLines(Path.Combine(output, "dettaglio.txt"), Log, new UTF8Encoding(false));
+            Log.Close();
         }
-        Check(System.Windows.Application.Current.Windows.Count == 0, "Finestre della prova chiuse");
+        if (System.Windows.Application.Current.Windows.Count != 0) throw new InvalidOperationException("Finestre della prova rimaste aperte: " + System.Windows.Application.Current.Windows.Count);
+        checks++;
+        File.AppendAllText(Path.Combine(output, "dettaglio.txt"), "OK Finestre della prova chiuse" + Environment.NewLine, new UTF8Encoding(false));
         File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli della vista XAML di Bridge Design (MvvmSheetEditor, fuori schermo)"
-            + (parts is null ? "" : " · solo " + string.Join(",", parts)), new UTF8Encoding(false));
+            + (parts is null ? "" : " · solo " + string.Join(",", PartNames.Where(Part))), new UTF8Encoding(false));
     }
 
     // ---------------------------------------------------------------- services and hosting
