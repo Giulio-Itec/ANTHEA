@@ -36,59 +36,17 @@ internal static class WorkspaceChecks
         return expect.Count;
     }
 
-    private static readonly string[] Modules = ["mat_calcestruzzo", "str_palo", "geo_palo_verticale", "geo_stratigrafia"];
-
-    /// <summary>A calculation service that echoes the data, of the module it is asked for (the probe checks the module).</summary>
-    private sealed class EchoService(string module) : IModuleService
-    {
-        public string ModuleId => module;
-        public JsonObject Prepare(JsonObject source) => (JsonObject)source.DeepClone();
-        public ModuleCalculation Calculate(JsonObject source, CancellationToken cancellation = default) => new(module, source, new JsonObject { ["eco"] = true });
-    }
-
-    /// <summary>A workspace on scripted services, the probe sheets and the files of the documents in <paramref name="examples"/>.</summary>
-    private sealed class Bench
-    {
-        internal Bench(ScriptedConfirmations? confirmations = null, ScriptedFileDialogs? dialogs = null, string? examples = null)
-        {
-            Confirmations = confirmations ?? new ScriptedConfirmations();
-            Dialogs = dialogs ?? new ScriptedFileDialogs();
-            var services = Scripted.Services(Messages, Confirmations, Dialogs);
-            var registry = new ModuleRegistry(Modules.Select(m => (ISheetModule)new ProbeSheetModule(ModuleDirectory.Get(m))));
-            Factory = new RegistrySheetFactory(registry, services, new CalculationLimiter(1), m => new EchoService(m));
-            Workspace = new WorkspaceSession(services, Factory, new DocumentFiles(examples ?? Path.Combine(Path.GetTempPath(), "anthea-esempi-assenti")));
-            Workspace.SheetClosed += (_, e) => Closed.Add((e.Sheet, e.Reason));
-            Workspace.SheetsReloaded += (_, e) => Reloads.Add(e);
-        }
-
-        internal ScriptedMessages Messages { get; } = new();
-        internal ScriptedConfirmations Confirmations { get; }
-        internal ScriptedFileDialogs Dialogs { get; }
-        internal RegistrySheetFactory Factory { get; }
-        internal WorkspaceSession Workspace { get; }
-        internal List<(SheetSession Sheet, SheetCloseReason Reason)> Closed { get; } = [];
-        internal List<SheetsReloadedEventArgs> Reloads { get; } = [];
-    }
-
-    private static ProbeSheetViewModel Probe(SheetSession sheet) => (ProbeSheetViewModel)sheet.ViewModel;
+    private static ProbeSheetViewModel Probe(SheetSession sheet) => ShellBench.Probe(sheet);
 
     private static void Factory(Expect expect)
     {
-        var bench = new Bench();
+        var bench = new ShellBench();
         var data = DocumentService.CreateSheet("str_palo");
-        var sheet = bench.Factory.Open("str_palo", data, true, new NullHost());
+        var sheet = bench.Factory.Open("str_palo", data, true, new ShellBench.NullHost());
         expect.That(sheet.ModuleId == "str_palo" && sheet.IsReadOnly && JsonNode.DeepEquals(sheet.Data, data) && !ReferenceEquals(sheet.Data, data), "Foglio della fabbrica");
         sheet.Dispose();
-        expect.Throws<InvalidOperationException>(() => bench.Factory.Open("geo_muri_sostegno", new JsonObject(), false, new NullHost()), "Modulo senza implementazione MVVM aperto");
+        expect.Throws<InvalidOperationException>(() => bench.Factory.Open("geo_muri_sostegno", new JsonObject(), false, new ShellBench.NullHost()), "Modulo senza implementazione MVVM aperto");
         expect.Throws<ArgumentNullException>(() => bench.Factory.Open("str_palo", data, false, null!), "Foglio senza ospite");
-    }
-
-    private sealed class NullHost : ISheetHost
-    {
-        public void OpenModuleCopy(string module, JsonObject data, string name) { }
-        public void ReplaceSoil(JsonObject data) { }
-        public IReadOnlyList<SoilSource> SoilSources() => [];
-        public void RequestReport() { }
     }
 
     private static void SingleFiles(Expect expect, string folder)
@@ -96,7 +54,7 @@ internal static class WorkspaceChecks
         string examples = Path.Combine(folder, "Esempi");
         Directory.CreateDirectory(examples);
         string saved = Path.Combine(folder, "Sezione.programma");
-        var bench = new Bench(dialogs: new ScriptedFileDialogs().Then(saved).Then(null).Then(Path.Combine(examples, "Copia.programma")), examples: examples);
+        var bench = new ShellBench(dialogs: new ScriptedFileDialogs().Then(saved).Then(null).Then(Path.Combine(examples, "Copia.programma")), examples: examples);
         var workspace = bench.Workspace;
         int activations = 0;
         workspace.ActiveChanged += (_, _) => activations++;
@@ -156,7 +114,7 @@ internal static class WorkspaceChecks
 
     private static void Projects(Expect expect, string folder)
     {
-        var bench = new Bench(new ScriptedConfirmations().Then(true).Then(SaveChangesAnswer.Cancel).Then(SaveChangesAnswer.Discard));
+        var bench = new ShellBench(new ScriptedConfirmations().Then(true).Then(SaveChangesAnswer.Cancel).Then(SaveChangesAnswer.Discard));
         var workspace = bench.Workspace;
         var single = workspace.NewCalculation("str_palo");
         int documents = 0;
@@ -208,9 +166,9 @@ internal static class WorkspaceChecks
     }
 
     /// <summary>A project with a section of three linked sheets (as SharedDataCoordinatorChecks) open in the workspace.</summary>
-    private static (Bench Bench, ProjectSession Project, JsonObject Section, JsonObject Material, JsonObject Second, JsonObject Concrete) Linked(ScriptedConfirmations confirmations)
+    private static (ShellBench Bench, ProjectSession Project, JsonObject Section, JsonObject Material, JsonObject Second, JsonObject Concrete) Linked(ScriptedConfirmations confirmations)
     {
-        var bench = new Bench(confirmations);
+        var bench = new ShellBench(confirmations);
         var document = ProjectDocuments.CreateArchive();
         var root = ProjectDocuments.AddProject(document, "Progetto condiviso");
         var section = ProjectDocuments.AddSection(root, "Pila P1");
@@ -347,7 +305,7 @@ internal static class WorkspaceChecks
     private static void Closing(Expect expect)
     {
         // The project first, then the single files; the first «Annulla» keeps everything (SH8).
-        var bench = new Bench(new ScriptedConfirmations().Then(true).Then(SaveChangesAnswer.Discard).Then(SaveChangesAnswer.Cancel)
+        var bench = new ShellBench(new ScriptedConfirmations().Then(true).Then(SaveChangesAnswer.Discard).Then(SaveChangesAnswer.Cancel)
             .Then(true).Then(SaveChangesAnswer.Discard).Then(SaveChangesAnswer.Discard));
         var workspace = bench.Workspace;
         var first = workspace.NewCalculation("str_palo");

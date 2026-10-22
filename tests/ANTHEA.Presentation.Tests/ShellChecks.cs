@@ -9,6 +9,7 @@ internal static class ShellChecks
         checks += ShellDocumentChecks.Run(output);
         checks += ProjectSessionChecks.Run();
         checks += WorkspaceChecks.Run(output);
+        checks += NavigationChecks.Run();
         return checks;
     }
 }
