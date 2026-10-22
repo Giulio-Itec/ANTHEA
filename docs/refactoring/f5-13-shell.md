@@ -1,4 +1,4 @@
-# F5.13 shell: parti (a) e (b), sessioni e ViewModel; parte (c) fino al punto di controllo della bozza
+# F5.13 shell: parti (a) e (b), sessioni e ViewModel; parte (c) fino al punto di controllo della bozza; parte (d), stato statico e calcoli in parallelo
 
 Agente `f5-13-ab`, 22/10/2026, ramo `refactoring/f5-13-ab` da `refactoring/f5` a 5451a8cc. Fonti: [proposta](f5-proposta-architettura.md)
 (sezioni 3.4–3.7, 4 e riga F5.13 della sezione 8), [inventario](f5-inventario-ui.md) (1.5, 1.6), [piano](piano.md) (F5.13, requisito
@@ -441,3 +441,209 @@ dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c
 dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll supporto/artefatti/f5-13-c/presentation --shell
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
 ```
+
+## 11. Parte (d): stato statico e calcoli in parallelo
+
+Agente `f5-13-d`, 22/10/2026, ramo `refactoring/f5-13-d` da `refactoring/f5` a 10110f78. Fonti: decisione E5 del 15/10 ([decisioni](decisioni.md)),
+F2.11c e registro F2-26 ([piano](piano.md)), [proposta](f5-proposta-architettura.md) (riga dello stato statico della sezione 1, sezione 4.6,
+regola P3 della sezione 7.4, rischio R6), baseline P3 `tests/ANTHEA.Architecture.Tests/f5-static-baseline.json` (126 voci a 10110f78). Regola
+diurna del 22/10: nessuna prova WPF eseguita di giorno.
+
+### 11.1 Perimetro
+
+E5 assegna a F5.13 lo stato statico di ponte, muri, pali, fondazioni e Wiki; la regola P3 chiede zero voci per queste aree alla fine di F5.13.
+Le aree sono lette così, su tutto il codice di produzione (`X.*` e `src/*`, come P3):
+
+- **ponte**: Bridge Design (`str_bridge_design`) e sezione composta da ponte (`str_mista_ponte`): `BridgeConcept`, `BridgePricing`,
+  `BridgeSection`, le viste `BridgeDesignModel` e `BridgeResultView`, l'import dei prezzari, i dati ambientali, i disegni del ponte;
+- **muri**: muri di sostegno (`geo_muri_sostegno`), con la stabilità globale (`Slope`, usata solo dai muri) e i disegni dei muri;
+- **pali**: palo e micropalo verticale e orizzontale, risposta elastica, palificata, con le loro presentazioni e l'editor storico degli strati;
+- **fondazioni**: fondazioni superficiali (`ANTHEA.FoundationWorkspace`);
+- **Wiki**: `ANTHEA.Wiki` e la tavolozza della vista della Wiki.
+
+Le paratie non hanno voci. `JsonData.observer` (`JsonFallbackHook.Observer`) è già interno e per contesto da F2.11c (`5a66ff99`, un
+AsyncLocal): resta una voce P3 sintattica (proprietà statica con setter sopra l'AsyncLocal), fuori dalle cinque aree; nessuna correzione.
+
+### 11.2 Inventario e correzioni
+
+«Inizializzatore» è l'inizializzatore statico del tipo: una volta, al primo uso, con la garanzia del runtime sui costruttori statici. Per
+i cataloghi nessuno scrive dopo l'inizializzatore: lo prova la compilazione con i tipi immutabili, perché una scrittura non compilerebbe più.
+Le scelte dei tipi:
+- array → `ImmutableArray<T>` costruito una volta, come A12 (stessi elementi, stesso ordine);
+- dizionari enumerati (liste dei fogli e dei report nell'ordine delle chiavi) → `ReadOnlyDictionary` sullo stesso `Dictionary`, che conserva
+  l'ordine di inserimento; `FrozenDictionary` non lo garantisce e serve solo ai dizionari di sole ricerche;
+- `Array.IndexOf(c, v)` → `c.IndexOf(v)`: stesso confronto, −1 se assente.
+
+| # | Area | File e membro | Chi lo scrive e quando | Correzione | Commit |
+| --- | --- | --- | --- | --- | --- |
+| D1 | ponte | `src/ANTHEA.Application/BridgeDesign/BridgeDesignModel.cs`, `Views` (`ConditionalWeakTable<ModuleCalculation, Result>`) | `Read` alla prima lettura di ogni calcolo: thread del calcolo (`BridgeDesignAnalysis`: progetto, alternativa fissata, candidati dell'ottimizzazione), thread dell'interfaccia (ViewModel, vista storica), figure del report | la vista vive nel calcolo: `ModuleCalculation.View<T>` | a687a871 |
+| D2 | ponte | `src/ANTHEA.Application/Bridge/BridgeResultView.cs`, `Views` (`ConditionalWeakTable<ModuleCalculation, BridgeResultView>`) | `Read` alla prima lettura: ViewModel della sezione composta, vista storica (`BridgeWorkspace` dopo il calcolo di fondo), figure del report | come D1 | a687a871 |
+| D3 | ponte | `X.Calculations/BridgeConcept.cs`, `Families`, `Site`, `Layout`, `Section`, `Substructure`, `Rates`, `Assumptions`, `Obstacles`, `Soils`, `Piers`, `Foundations`; `BridgeConcept.AdvancedSchema.cs`, `DeckTypes`, `AdvancedSection`, `AdvancedAssumptions` (14 array pubblici) | inizializzatore (copie dei cataloghi di sola lettura di GPC.Design); letti dai valori iniziali, dalle facciate di Application (che copiano), dal report di Bridge Design e dalle prove | `ImmutableArray<T>` | d7ff277f |
+| D4 | ponte | `X.Calculations/BridgePricing.cs`, `AnalysisMessages` (array privato di coppie espressione regolare e testo) | inizializzatore; letto nella traduzione dei rifiuti delle analisi prezzi | `ImmutableArray<T>` | d7ff277f |
+| D5 | ponte | `X.Calculations/BridgeSection.cs`, `Standards`, `ConcreteNames`, `SteelNames`, `RebarNames`, `SectionTypes`, `PhaseKinds`, `HomoModes`, `LoadReferences`; `.Analysis.cs`, `CalculationMethods`, `NonlinearCreepModes`, `ConcreteTensionModes`; `.Details.cs`, `StiffenerSides`, `SupportLocations`, `DiaphragmKinds`; `.Response.cs`, `ResponseModes`, `ResponseOrigins`; `.SlabLayout.cs`, `BottomRebarReferences` (17 array pubblici) | inizializzatore; letti dal calcolo (indici degli enum della libreria in `CheckerInput`), dall'editor e dai report | `ImmutableArray<string>`; `Array.IndexOf(c, v)` diventa `c.IndexOf(v)` | d7ff277f |
+| D6 | ponte | `src/ANTHEA.Application/BridgeDesign/PriceCatalogue.cs`, `PriceCatalogueImport.Headers` | inizializzatore; letto dall'import e dal modello del prezzario | `ImmutableArray<string>` | d7ff277f |
+| D7 | ponte | `src/ANTHEA.Serialization/BridgeEnvironmentData.cs`, `Keys` (privato) | inizializzatore; letto alla lettura dei dati ambientali | `ImmutableArray<string>` | d7ff277f |
+| D8 | ponte | `X.Desktop/Wpf/BridgeDrawing.cs`, `Colors`; `BridgeOptimizationPlot.cs`, `Palette`, `FamilyLabels` (array privati) | inizializzatore; letti dai disegni sul thread dell'interfaccia | `ImmutableArray<T>` | e5005cc7 |
+| M1 | muri | `src/ANTHEA.Application/Walls/WallModel.cs`, `Views` (`ConditionalWeakTable<ModuleCalculation, Result>`) | `Read` alla prima lettura: ViewModel dei muri alla pubblicazione, vista storica dopo il calcolo di fondo, figure del report | come D1 | a687a871 |
+| M2 | muri | `X.Calculations/RetainingWall.cs`, `Families`, `GeometryFields`, `FoundationFields`, `LoadFields`, `MaterialFields`, `SeismicFields`; `.Actions.cs`, `ActionTypes`, `ActionCategories`; `.Materials.cs`, `SectionMaterialKeys`; `.Soils.cs`, `FrictionModes`; `.Library.cs`, `MemberNames` (privato) | inizializzatore; letti dal calcolo (indici degli enum della libreria), dalle facciate di Application, dal report dei muri | `ImmutableArray<T>`; `Array.IndexOf` come D5 | 15111ba0 |
+| M3 | muri | `X.Calculations/Geotechnics/SlopeStability.Models.cs`, `Slope.Notes` | inizializzatore; letto da `FromLibrary` nella stabilità globale dei muri (thread del calcolo), che ne fa una copia per ogni risultato | `ImmutableArray<string>` | 15111ba0 |
+| M4 | muri | `X.Desktop/Wpf/RetainingWallDrawing.Inspection.cs`, `LayerColors` | inizializzatore; letto dai disegni e dalla griglia degli strati (vista nuova e storica) sul thread dell'interfaccia | `ImmutableArray<string>` | e5005cc7 |
+| P1 | pali | `X.Calculations/Calcolo.cs`, `Indagate` (privato), `Verticali`, `Tipi` (privato), `Parametri` | inizializzatore; letti dal calcolo del palo verticale e del palo orizzontale e dalle liste del foglio e del report (nell'ordine delle chiavi) | `Indagate` `ImmutableArray<string>`; i dizionari `ReadOnlyDictionary`, che conserva l'ordine di inserimento delle chiavi | 33f61da0 |
+| P2 | pali | `X.Calculations/Micropali.cs`, `BustamanteDoix.Terreni`, `BustamanteDoix.Curve`, `Chs.Taglie` (privato), `Chs.Catalogo` | inizializzatore (dai cataloghi di GPCChecker.Geotechnics e di ModelData); letti dal calcolo, dai grafici e dalle liste del foglio | `ReadOnlyDictionary` con valori `ImmutableArray` (anche gli intervalli α e i punti degli abachi) | 33f61da0 |
+| P3 | pali | `X.Calculations/Nq.cs`, `RapportiMedio`, `RapportiGrande` | inizializzatore (copie della libreria); letti dai grafici del palo verticale | `ImmutableArray<double>` | 33f61da0 |
+| P4 | pali | `X.Calculations/PaloOrizzontale.cs`, `Messages`, `Mechanisms`, `Sides` (privati) | inizializzatore; letti dal calcolo del palo orizzontale | `Messages` `FrozenDictionary` (solo ricerche); gli array `ImmutableArray<string>` | 33f61da0 |
+| P5 | pali | `X.Calculations/ElasticHorizontalPile.cs`, `Laws`; `.Reinforcement.cs`, `ReinforcementKeys`, `InnerRingKeys`, `SegmentKeys`; `.ReinforcementPresentation.cs`, `OrdinaryApprovalKeys` | inizializzatore; letti dal calcolo e dalla presentazione della risposta elastica e delle armature | `ImmutableArray<string>`; `Array.IndexOf` come D5 | 33f61da0 |
+| P6 | pali | `X.Calculations/HorizontalPileGroup.cs`, `MethodNames`, `LayoutNames` | inizializzatore; letti dal calcolo della palificata e dal suo report | `ImmutableArray<string>`; `Array.IndexOf` come D5 | 33f61da0 |
+| P7 | pali | `src/ANTHEA.Application/Presentation/HorizontalPreview.cs`, `ChsKeys`; `HorizontalSheetPresentation.cs`, `ConcreteClasses` (privati) | inizializzatore; letti dall'anteprima e dalla presentazione del palo orizzontale | `ImmutableArray<string>`; `ReadOnlyDictionary` (la ricerca per valore prende la prima classe nell'ordine del catalogo) | 33f61da0 |
+| P8 | pali | `X.Desktop/Wpf/HorizontalSoilEditor.cs`, `Widths` | inizializzatore; letto dall'editor storico degli strati sul thread dell'interfaccia | `ImmutableArray<double>` | e5005cc7 |
+| F1 | fondazioni | `src/ANTHEA.FoundationWorkspace/FoundationDocument.cs`, `Methods`, `Shapes`, `Conditions`, `Profiles`, `Compressions`, `Fields` | inizializzatore; letti dalla convalida del documento, dalla presentazione e dai campi del ViewModel | `ImmutableArray<T>` | 2ea3a885 |
+| F2 | fondazioni | `src/ANTHEA.FoundationWorkspace/FoundationMaterials.cs`, `LegacySoilKeys`, `SoilFields` | inizializzatore; letti dalla convalida e dal report di progetto | `ImmutableArray<T>` | 2ea3a885 |
+| W1 | Wiki | `src/ANTHEA.Wiki/WikiCatalog.cs`, `Articles`, `Chapters`, `References` (array dei file JSON incorporati), `Aliases` (dizionario) | inizializzatore del tipo, al primo uso della Wiki (vista, aiuto contestuale, ricerca, barra del foglio); poi solo letture | `ImmutableArray<T>`; `Aliases` `FrozenDictionary` (solo ricerche) | 0c00660f |
+| W2 | Wiki | `X.Desktop/Wpf/WikiVector.cs`, `WikiPalette.Dark` (proprietà statica con setter) | `WikiView.SetDark` al cambio di aspetto, sul thread dell'interfaccia; è una facciata di `Appearance`, lo stato globale del tema | proprietà di sola lettura; `SetDark` imposta il tema con la stessa chiamata `Appearance.Set(…, false)` | e5005cc7 |
+| R1 | ponte | `src/ANTHEA.Reports/Generators/ReportBridge.cs`, `ReportBridge.Sections` | inizializzatore; letto dal report | **non toccato**: codice dei report congelato dall'8/10 | — |
+| R2 | pali | `src/ANTHEA.Reports/Generators/ReportWord.cs`, `ReportWord.Sezioni` (sezioni del report della palificata) | inizializzatore; letto dal report | **non toccato**: come R1 | — |
+
+Nessun campo statico non readonly è scritto durante un calcolo nelle cinque aree: P3 non ne trova (i soli campi statici non readonly del
+prodotto sono `Appearance.initialized` ed `ErrorLog.attached`, dell'interfaccia). Lo stato statico scritto durante un calcolo erano le tre
+`ConditionalWeakTable` delle viste (D1, D2, M1): sicure fra thread, ma condivise da tutti i fogli; ora ogni vista vive nel suo calcolo.
+
+### 11.3 Stato statico fuori da P3, voci lasciate e seguiti
+
+Fuori da P3, nelle cinque aree, controllati e lasciati come sono:
+- **istanze condivise di tipi mutabili delle librerie**, lette e mai scritte dal calcolo: `Calcolo.Ntc` (usata solo per costruire
+  `Verticali`) e `PaloOrizzontale.Ntc` (`StandardNTC2018Geotechnics`: `PileCorrelationFactors` e `Combinations` leggono dizionari interni),
+  `Chs.Acciaio` (`SteelMaterial`: `MicropileTube.Weight`, `CalculateFyd`, `Density`). I tipi hanno setter pubblici: seguito per le librerie
+  (norme e materiali immutabili, oppure un'istanza per calcolo, attenzione al Guid del materiale);
+- **Wiki**: i `Lazy` dell'indice di ricerca e degli asset (costruiti una volta in modo sicuro fra thread, poi solo letti) e le proprietà array
+  dei record `WikiArticle` (lette dal JSON, mai scritte). Da rivedere con la ristrutturazione della Wiki.
+
+Voci P3 delle cinque aree lasciate:
+- R1 `ReportBridge.Sections` e R2 `ReportWord.Sezioni`: codice dei report congelato dall'8/10. Si correggono con la revisione dei report a fine
+  refactoring (domanda D-1 in 11.6).
+
+Voci P3 fuori dalle cinque aree (37 a fine passo, invariate):
+- **sezione c.a.** (agente `f5-10-s9`, non toccate): `ConcreteWorkspace.CommonCoefficients`, `ConcreteSectionViewport.Contours`,
+  `ConcreteWorkspace.AllCalculations` (X.Desktop); `ConcreteTimeEffectsViewModel.Inputs` (strumenti c.a., `ANTHEA.DesignTools.Presentation`);
+- **report congelati**: R1, R2 e `PdfFonts.Families`, `Files`, `Maps` (cache dei font PDF, ammesse da E5 con il loro lock);
+- **interfaccia globale**: `Appearance` (7 voci), `ErrorLog.attached`, `StratigraphyDrawing.LayerColors`;
+- **stratigrafia, progetti, documenti, modelli**: `StratigraphyDocument` (5), `StratigraphyTransfer.Keys`, `ProjectSharedData` (2),
+  `SoilProfileTransfer` (2), `Archivio.Moduli`, `DocumentService.ModuleIds`, `ModelDisplayCatalog.Palette`, `ModelViewerViewModel.FamilyKeys`,
+  `MidasModelSource` (3), `ModelSnapshot.Components`;
+- **serializzazione**: `JsonFallbackHook.Observer` (11.1).
+
+Seguiti per le librerie GPC (non toccate):
+- GPCChecker.Geotechnics, `BearingCapacityFactors.MediumRatios` e `LargeRatios`: `static readonly IReadOnlyList<double>` su un array,
+  modificabile con un cast; ANTHEA ne tiene una copia immutabile (P3);
+- GPCChecker.Geotechnics, `BustamanteDoix`: dizionari statici privati con array (`Soils`, `Charts`); `Chart` restituisce un `IReadOnlyList`.
+  ANTHEA copia (P2);
+- Model, `StandardNTC2018Geotechnics` e `SteelMaterial` mutabili (sopra).
+
+I cataloghi di GPC.Design (`BridgeConcept`) sono già `Array.AsReadOnly`: nessun seguito.
+
+### 11.4 Prova di uscita (proposta 4.6)
+
+`tests/ANTHEA.Presentation.Tests/ParallelChecks.cs`, interruttore `--paralleli`, suite `Presentation.Tests/paralleli` nello stadio `regression`.
+
+- **Fogli**: le 95 fixture F3 di Bridge Design (10), sezione composta da ponte (9), muri (16), palo e micropalo verticale (7 + 6), palo e
+  micropalo orizzontale (11 + 10), palificata (8), fondazioni superficiali (11) e acciaio d'armatura (7), aperte come file di calcolo singoli
+  in un `WorkspaceSession` con `RegistrySheetFactory`: ogni foglio è una `SheetSession` con il ViewModel esistente del modulo.
+- **Limitatore**: `CalculationLimiter` di istanza dell'applicazione, `DefaultMaximum` = processori − 1 (23 su questa macchina), lo stesso della
+  radice di composizione del desktop. Esisteva già (F5.1, `SheetContext.Limiter`): nessuna aggiunta in Presentation.
+- **Serie**: un foglio alla volta, «Calcola» atteso prima di aprire il successivo; per i pali orizzontali che si aprono sulla risposta
+  elastica anche il suo calcolo; poi i ricalcoli automatici ancora in attesa.
+- **Parallelo** (due giri per esecuzione): ogni fixture in due documenti (stesso modulo in due `SheetSession`) accanto alle fixture degli
+  altri moduli; tutti i calcoli di fondo avviati insieme (138 fogli); intanto il thread dell'interfaccia apre e calcola palificata e
+  fondazioni (Q8 a, calcolo sul thread dell'interfaccia) e l'acciaio (52 fogli). Un cancello nel servizio di calcolo trattiene i primi
+  calcoli di fondo finché non ne girano insieme tanti quanti il limitatore ne ammette: il giro è parallelo a ogni esecuzione, non per caso.
+- **Confronto bit per bit** con la serie, per ogni foglio: stato, messaggio e avvisi del calcolo, risultato, dati dopo il calcolo, risposta
+  elastica, valori e diagramma dell'acciaio. Numeri come double con tutti i bit (`"R"`), chiavi nel loro ordine. Esclusi solo le chiavi
+  volatili di `tests/ANTHEA.Testing/tolerances.json` (`tempi_ms`, come nel confronto F3) e l'istante ISO 8601 che Bridge Design scrive
+  all'apertura nei prezzi fissati (`PriceCatalogueEditing`, `DateTimeOffset.UtcNow`).
+- **Controlli sul limitatore**: picco dei calcoli contemporanei = 1 nella serie, ≤ limite e ≥ 2 nei giri paralleli, cancello raggiunto.
+- **Esito**: PASS 388 controlli, sulla base 10110f78 e a ogni passo; serie circa 23 s, giri paralleli circa 35 s, picco 23. Le impronte della
+  serie sono in `paralleli/serie/`, il riepilogo con l'hash di ogni foglio in `paralleli/riepilogo.txt` della cartella di uscita.
+
+Esecuzioni del 22/10 (cartelle in `supporto/artefatti/f5-13-d/` del worktree, non versionate), tutte PASS 388 con picco 23:
+- `prova2`, sulla base 10110f78 con la sola prova (prima delle correzioni);
+- `ponte/par`, dopo d7ff277f;
+- nella corsa standard `20261022-124535-f5-13-d-codice` su e5005cc7 (82,5 s);
+- `ripetizione-1`, `-2`, `-3`, su e5005cc7: giri paralleli fra 28 e 42 s.
+
+Le impronte della serie (95 file) sono identiche byte per byte fra la base e il codice corretto, e fra le tre ripetizioni: le correzioni non
+cambiano alcun risultato dei 95 fogli e la prova non dipende dall'esecuzione.
+
+### 11.5 Stato, verifiche e ripresa
+
+Fatto il 22/10, parte (d) chiusa:
+
+| Commit | Contenuto | Voci P3 |
+| --- | --- | ---: |
+| 6892cb97 | prova di uscita `ParallelChecks`, `--paralleli`, suite `Presentation.Tests/paralleli` | 126 |
+| a687a871 | viste dei risultati nel calcolo (`ModuleCalculation.View`): D1, D2, M1 | 123 |
+| d7ff277f | cataloghi del ponte: D3–D7 | 89 |
+| 33f61da0 | cataloghi dei pali: P1–P7 | 67 |
+| 15111ba0 | cataloghi dei muri: M2, M3 | 55 |
+| 2ea3a885 | cataloghi delle fondazioni: F1, F2 | 47 |
+| 0c00660f | catalogo della Wiki: W1 | 43 |
+| e5005cc7 | X.Desktop: D8, M4, P8, W2 | 37 |
+| commit di chiusura | questa sezione, riga in piano.md | 37 |
+
+Baseline P3 da 126 a 37 voci: 89 tolte, nessuna aggiunta. Ponte, muri, pali, fondazioni e Wiki a zero, salvo R1 e R2 (report congelati, D-1).
+Nessun risultato numerico cambia: i tipi cambiano, i valori, l'ordine e i confronti no; lo provano la regressione, le tracce dei ViewModel
+contro le viste storiche (stadio fast) e la prova di uscita.
+
+Fuori dal codice di produzione sono cambiate solo righe che usavano gli array come `string[]`: `tests/ANTHEA.Legacy` (tre `Array.IndexOf` e una
+copia nel motore storico di Bridge Design), `BridgePricesChecks`, `EditorContractChecks` e `supporto/test/Desktop/NeutralAxisSmokeChecks`.
+
+### 11.5.1 Verifiche di giorno
+
+- Profilo `quick` sulla base `20261022-115811-f5-13-d-base`: PASS 55, KNOWN 0, NEW-FAIL 0.
+- A ogni commit: build della soluzione, build `UiTests` di X.Desktop (le prove WPF compilate, non eseguite), build dei progetti di prova
+  fuori dalla soluzione, `Architecture.Tests` PASS 574 con la baseline P3 ridotta nello stesso commit, `Application.Tests` PASS 3116; per il
+  ponte `--bridge-design` PASS 189 e `--sezione-mista` PASS 151; per le fondazioni `FoundationWorkspace.Checks` PASS 47; per la Wiki
+  `Wiki.Tests` PASS 340.
+- Profilo `standard` su e5005cc7, `20261022-124535-f5-13-d-codice`: PASS 78, KNOWN 0, NEW-FAIL 0 (build, fast, regression, wiki), con
+  `Presentation.Tests` (tracce dei ViewModel contro le viste storiche e riferimento F3), `verifiche/regressione` e
+  `Presentation.Tests/paralleli`.
+- Profilo `standard` finale sul commit di chiusura, tag `f5-13-d-finale`: esito nel rapporto dell'agente e in
+  `ANTHEA-f5-ripresa\f5-agenti\f5-13-d\avanzamento.md`.
+
+### 11.5.2 Suite `ui` da eseguire stanotte
+
+Il codice WPF toccato è poco (D8, M4, P8, W2 e una riga di `NeutralAxisSmokeChecks`), ma le viste dei risultati (D1, D2, M1) e i cataloghi sono
+letti da tutte le viste di quei moduli. Senza la corsa full, queste:
+
+| Suite | Perché |
+| --- | --- |
+| `ui/f3-equivalence` | tutti i moduli: report e risultati delle viste storiche con le viste nel calcolo e i cataloghi immutabili |
+| `ui/f3-report-chapters`, `ui/f3-figures` | figure dei report di ponte e muri (`BridgeResultView.Read`, `WallModel.Read`, `BridgeDrawing`, `RetainingWallDrawing`) |
+| `ui/check-sezione-mista-view`, `ui/check-sezione-mista-historic`, `ui/f3-scheduling-sezione-mista-mvvm`, `ui/smoke-bridge`, `ui/smoke-bridge-curves`, `ui/smoke-bridge-predalle` | `BridgeDrawing.Colors`, `BridgeResultView.Read`, cataloghi di `BridgeSection` |
+| `ui/smoke-neutral-axis` | come sopra, più la riga cambiata in `NeutralAxisSmokeChecks` (`CalculationMethods.IndexOf`) |
+| `ui/check-bridge-design-view`, `ui/check-bridge-design-historic`, `ui/f3-scheduling-bridge-design-mvvm`, `ui/smoke-bridge-design`, `ui/smoke-bridge-prices`, `ui/smoke-bridge-traffic` | `BridgeOptimizationPlot`, `BridgeDesignModel.Read`, cataloghi di `BridgeConcept`, intestazioni del prezzario |
+| `ui/check-muri-view`, `ui/check-muri-historic`, `ui/f3-scheduling-muri-mvvm`, `ui/smoke-retaining-wall` e `-mvvm`, `ui/smoke-global-stability` e `-mvvm`, `ui/check-wall-advanced-offscreen`, `ui/check-wall-materials-offscreen`, `ui/check-global-guidance-offscreen` | `RetainingWallDrawing.LayerColors`, `WallInputGrid`, `WallModel.Read`, cataloghi dei muri, `Slope.Notes` |
+| `ui/check-palo-orizzontale-view`, `ui/check-palo-orizzontale-historic`, `ui/check-palo-elastico-historic`, `ui/smoke-horizontal`, `ui/check-palo-verticale-view`, `ui/check-palo-verticale-historic`, `ui/f3-scheduling-palo-verticale-mvvm`, `ui/f3-figures-palo-verticale-mvvm`, `ui/check-pile-group-view`, `ui/f3-scheduling` | `HorizontalSoilEditor.Widths` e cataloghi dei pali |
+| `ui/check-fondazioni-view`, `ui/check-fondazioni-historic` | cataloghi delle fondazioni |
+| `ui/check-wiki-offscreen`, `ui/check-examples`, `ui/check-appearance`, `ui/check-appearance-mvvm`, `ui/check-shell-draft` | `WikiCatalog`, `WikiPalette.Dark` e `WikiView.SetDark` (cambio di aspetto della Wiki) |
+
+### 11.5.3 Cosa resta e come riprendere
+
+- D-1…D-4 (11.6), da rivedere in F5.15.
+- Seguiti per le librerie (11.3).
+- Parti (e)–(g) di F5.13 come da piano. La prova di uscita resta nello stadio `regression`: le parti successive la tengono verde.
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-d
+dotnet build ANTHEA.sln -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll supporto/artefatti/f5-13-d/paralleli --paralleli
+dotnet tests/ANTHEA.Architecture.Tests/bin/Release/net8.0/ANTHEA.Architecture.Tests.dll supporto/artefatti/f5-13-d/arch
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
+```
+
+### 11.6 Domande «da decidere»
+
+| # | Domanda | Opzione presa |
+| --- | --- | --- |
+| D-1 | R1 e R2: le liste di sezioni dei report di ponte e palificata sono array statici pubblici, ma nel codice dei report congelato | non toccate; si rendono immutabili con la revisione dei report, a fine refactoring |
+| D-2 | La risposta elastica del palo orizzontale (`ElasticPileViewModel`, `ElasticPileAnalysisSession`) calcola su un thread di fondo senza passare dal limitatore (rischio R6) | lasciata come oggi, come la vista storica; da decidere con (e)–(g) o in F5.15 se farla passare dal limitatore |
+| D-3 | Istanze condivise di tipi mutabili delle librerie, lette e mai scritte (11.3) | lasciate; seguito per le librerie |
+| D-4 | Istante scritto all'apertura di Bridge Design nei prezzi fissati: non è un risultato, ma cambia a ogni esecuzione | escluso dal confronto della prova di uscita, come nella cattura F3 |
