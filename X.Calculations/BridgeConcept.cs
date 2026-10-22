@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
@@ -9,18 +10,18 @@ public static partial class BridgeConcept
     public const string Scope = "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO.";
     public sealed record Parameter(string Key, string Label, string Unit, double Default, double Min, double Max, double Step = .1);
     public sealed record Family(string Id, string Name, double MinSpan, double MaxSpan, double Ratio, double MinDepth, double Slab, double Spacing, bool Steel = false, bool Prestressed = false);
-    public static readonly Family[] Families = GPC.Design.Bridges.BridgeConcept.Families.Select(FromNative).ToArray();
-    public static readonly Parameter[] Site = GPC.Design.Bridges.BridgeConcept.Site.Select(FromNative).ToArray();
+    public static readonly ImmutableArray<Family> Families = [.. GPC.Design.Bridges.BridgeConcept.Families.Select(FromNative)];
+    public static readonly ImmutableArray<Parameter> Site = [.. GPC.Design.Bridges.BridgeConcept.Site.Select(FromNative)];
     // Zero denotes an automatic dimension. It is preserved in the archive, never replaced by a computed value.
-    public static readonly Parameter[] Layout = GPC.Design.Bridges.BridgeConcept.Layout.Select(FromNative).ToArray();
-    public static readonly Parameter[] Section = GPC.Design.Bridges.BridgeConcept.Section.Select(FromNative).ToArray();
-    public static readonly Parameter[] Substructure = GPC.Design.Bridges.BridgeConcept.Substructure.Select(FromNative).ToArray();
-    public static readonly Parameter[] Rates = GPC.Design.Bridges.BridgeConcept.Rates.Select(FromNative).ToArray();
-    public static readonly Parameter[] Assumptions = GPC.Design.Bridges.BridgeConcept.Assumptions.Select(FromNative).ToArray();
-    public static readonly string[] Obstacles = GPC.Design.Bridges.BridgeConcept.Obstacles.ToArray();
-    public static readonly string[] Soils = GPC.Design.Bridges.BridgeConcept.Soils.ToArray();
-    public static readonly string[] Piers = GPC.Design.Bridges.BridgeConcept.Piers.ToArray();
-    public static readonly string[] Foundations = GPC.Design.Bridges.BridgeConcept.Foundations.ToArray();
+    public static readonly ImmutableArray<Parameter> Layout = [.. GPC.Design.Bridges.BridgeConcept.Layout.Select(FromNative)];
+    public static readonly ImmutableArray<Parameter> Section = [.. GPC.Design.Bridges.BridgeConcept.Section.Select(FromNative)];
+    public static readonly ImmutableArray<Parameter> Substructure = [.. GPC.Design.Bridges.BridgeConcept.Substructure.Select(FromNative)];
+    public static readonly ImmutableArray<Parameter> Rates = [.. GPC.Design.Bridges.BridgeConcept.Rates.Select(FromNative)];
+    public static readonly ImmutableArray<Parameter> Assumptions = [.. GPC.Design.Bridges.BridgeConcept.Assumptions.Select(FromNative)];
+    public static readonly ImmutableArray<string> Obstacles = [.. GPC.Design.Bridges.BridgeConcept.Obstacles];
+    public static readonly ImmutableArray<string> Soils = [.. GPC.Design.Bridges.BridgeConcept.Soils];
+    public static readonly ImmutableArray<string> Piers = [.. GPC.Design.Bridges.BridgeConcept.Piers];
+    public static readonly ImmutableArray<string> Foundations = [.. GPC.Design.Bridges.BridgeConcept.Foundations];
     public static JsonObject Defaults()
     {
         JsonObject Numbers(IEnumerable<Parameter> fields) => J.Obj(fields.Select(p => (p.Key, (object?)p.Default)).ToArray());

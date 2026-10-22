@@ -106,7 +106,7 @@ public static partial class LegacyBridgeConcept
         double live = width * a.D("traffic_load"), q = permanent + live;
         var service = LegacyAnalyze(spans, q, ec * 1000 * inertia, i.B("continuous"));
         var factored = LegacyAnalyze(spans, a.D("gamma_g") * permanent + a.D("gamma_q") * live, ec * 1000 * inertia, i.B("continuous"));
-        int soil = Array.IndexOf(Soils, i.S("soil"));
+        int soil = Soils.IndexOf(i.S("soil"));
         double pressure = Auto(a, "soil_pressure", new double[] { 1000, 400, 200, 100 }[soil]);
         double skin = Auto(a, "pile_skin", new double[] { 150, 70, 45, 25 }[soil]);
         double tip = Auto(a, "pile_base", new double[] { 8000, 2500, 1500, 500 }[soil]);

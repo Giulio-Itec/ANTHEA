@@ -63,7 +63,7 @@ public static partial class LegacyBridgeConcept
         var service = upper ? (ExtendedReactions(id, spans, q, structure), Array.Empty<Station>()) : LegacyAnalyze(spans, q, ec * 1000 * deck.Inertia, i.B("continuous"));
         var factored = upper ? (ExtendedReactions(id, spans, qd, structure), Array.Empty<Station>()) : LegacyAnalyze(spans, qd, ec * 1000 * deck.Inertia, i.B("continuous"));
         var reactions = service.Item1;
-        int soil = Array.IndexOf(Soils, i.S("soil"));
+        int soil = Soils.IndexOf(i.S("soil"));
         double pressure = Auto(a, "soil_pressure", new double[] { 1000, 400, 200, 100 }[soil]);
         double skin = Auto(a, "pile_skin", new double[] { 150, 70, 45, 25 }[soil]), tip = Auto(a, "pile_base", new double[] { 8000, 2500, 1500, 500 }[soil]);
         string foundation = i.S("foundation"); if (foundation == "Automatica") foundation = soil <= 1 && height < 25 ? "Plinto diretto" : "Pali Ø 1,5 m";

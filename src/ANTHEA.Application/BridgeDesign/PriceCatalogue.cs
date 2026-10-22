@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using Anthea.Serialization;
 using Anthea.Calculations;
 using Microsoft.VisualBasic.FileIO;
+using System.Collections.Immutable;
 namespace Anthea.Application.BridgeDesign;
 
 public sealed record PriceEntry(string Code, string Description, string Unit, decimal? Price, string[] Includes);
@@ -20,7 +21,7 @@ public sealed record WorkPriceMapping(string WorkCode, string EntryCode, decimal
 /// <summary>Catalogue interchange only. Units are resolved by the calculation adapter.</summary>
 public static class PriceCatalogueImport
 {
-    public static readonly string[] Headers = ["Codice", "Descrizione", "Unita", "Prezzo", "Inclusioni"];
+    public static readonly ImmutableArray<string> Headers = ["Codice", "Descrizione", "Unita", "Prezzo", "Inclusioni"];
     public static PriceCatalogue Csv(byte[] bytes, string name, string edition = "Importato")
     {
         if (bytes.Length > 20_000_000) throw new ArgumentException("Prezzario troppo grande (massimo 20 MB).");

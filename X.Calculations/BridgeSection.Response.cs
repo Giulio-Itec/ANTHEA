@@ -2,13 +2,14 @@ using System.Globalization;
 using System.Text;
 using System.Text.Json.Nodes;
 using GPC.Checkers.CompositeBridge.History;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
 public static partial class BridgeSection
 {
-    public static readonly string[] ResponseModes = ["Momento–curvatura · N costante", "Forza–deformazione · κ costante"];
-    public static readonly string[] ResponseOrigins = ["Sezione composta vergine", "Dopo una fase dello storico"];
+    public static readonly ImmutableArray<string> ResponseModes = ["Momento–curvatura · N costante", "Forza–deformazione · κ costante"];
+    public static readonly ImmutableArray<string> ResponseOrigins = ["Sezione composta vergine", "Dopo una fase dello storico"];
     public static JsonObject ResponseDefaults() => new() { ["tipo"] = ResponseModes[0], ["origine"] = ResponseOrigins[0], ["fase"] = 0,
         ["incremento_k"] = .003, ["incremento_e"] = -2000, ["punti"] = 100, ["sottopassi"] = 4,
         ["n_storico"] = true, ["k_storico"] = true, ["N"] = 0, ["k"] = 0, ["y"] = 0 };

@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using GPC.Design.Costs;
 using NativeBridge = GPC.Design.Bridges.BridgeConcept;
+using System.Collections.Immutable;
 namespace Anthea.Calculations;
 
 public sealed record BridgePriceRate(string WorkCode, string Unit, decimal? Price, string Reference, string[] Includes);
@@ -76,7 +77,7 @@ public static class BridgePricing
         catch (ArgumentException e) { throw new ArgumentException(AnalysisMessage(e.Message), e); }
     }
 
-    static readonly (System.Text.RegularExpressions.Regex Pattern, string Text)[] AnalysisMessages =
+    static readonly ImmutableArray<(System.Text.RegularExpressions.Regex Pattern, string Text)> AnalysisMessages =
     [
         (new(@"^Missing component: (?<c>.*) in (?<a>.*)$"), "Analisi ${a}: componente ${c} assente dal prezzario."),
         (new(@"^Component without price: (?<c>.*) in (?<a>.*)$"), "Analisi ${a}: la voce ${c} non ha prezzo."),

@@ -2,13 +2,14 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
+using System.Collections.Immutable;
 
 namespace Anthea.Serialization;
 
 /// <summary>Versioned document data, independent of price catalogues. No engineering calculations.</summary>
 public static class BridgeEnvironmentData
 {
-    private static readonly string[] Keys = ["co2_concrete", "co2_rebar", "co2_steel", "co2_pt", "co2_site", "co2_cable", "low_carbon_factor", "recycled_factor"];
+    private static readonly ImmutableArray<string> Keys = ["co2_concrete", "co2_rebar", "co2_steel", "co2_pt", "co2_site", "co2_cable", "low_carbon_factor", "recycled_factor"];
     public static JsonObject Factors(JsonObject data)
     {
         var factors = new JsonObject();
