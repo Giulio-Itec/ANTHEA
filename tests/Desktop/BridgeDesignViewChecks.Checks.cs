@@ -154,8 +154,8 @@ internal static partial class BridgeDesignViewChecks
             string png = Path.Combine(folder, name + "-ponte.png");
             int modified = mvvm.Modified;
             services.Saves.Clear();
-            Log.Add($"   in corso: {name}: «Immagine PNG» → {Path.GetFileName(png)} (DocumentFile.Write rinomina il file temporaneo .x_*.tmp nel PNG; "
-                + "se la prova finisce qui senza esito: antivirus, domanda S6)");
+            Log.Add($"   in corso: {name}: «Immagine PNG» → {Path.GetFileName(png)} (dal 22/10, S6, DocumentFile.Write copia il file temporaneo .x_*.tmp "
+                + "nel PNG invece di rinominarlo; se la prova finisce qui senza esito: antivirus)");
             services.SavePath = png; Idle(() => { Press(Caption(mvvm.View.DesignScroll, "Immagine PNG")); return 0; }); services.SavePath = null;
             Check(services.Saves.Select(s => (s.FileName, FileFilter.Join(s.Filters))).SequenceEqual([("BridgeDesign.png", "Immagine PNG|*.png")]),
                 name + ": «Immagine PNG», nome proposto e filtro della vista storica");
