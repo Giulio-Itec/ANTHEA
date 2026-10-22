@@ -108,6 +108,8 @@ public sealed class ProjectNodeViewModel : ViewModelBase
         DeleteCommand = GuardedCommands.Create(tree.Guard, () => tree.Delete(this), () => CanDelete);
         AddSectionCommand = GuardedCommands.Create(tree.Guard, () => tree.AddSectionTo(this), () => CanAddSection);
         ReportCommand = GuardedCommands.Create(tree.Guard, () => tree.RequestReport(this), () => CanReport);
+        // F5.13 c, night of 22-23/10: the coherence badge opens the comparison of the section (ProjectSharing.AddCoherenceBadge).
+        CompareCommand = GuardedCommands.Create(tree.Guard, () => tree.RequestCompare(this), () => Badge is not null);
     }
 
     public ProjectNodeKind Kind { get; }
@@ -187,6 +189,9 @@ public sealed class ProjectNodeViewModel : ViewModelBase
     public IRelayCommand DeleteCommand { get; }
     public IRelayCommand AddSectionCommand { get; }
     public IRelayCommand ReportCommand { get; }
+
+    /// <summary>The coherence badge of a project or section: the comparison of the section in its dialog.</summary>
+    public IRelayCommand CompareCommand { get; }
 
     /// <summary>Ends the rename in place: Enter, focus lost or a click outside save (true), Esc cancels (false).</summary>
     public void EndRename(bool save) => tree.EndRename(this, save);
@@ -280,6 +285,9 @@ public sealed class ProjectTreeViewModel : ViewModelBase
 
     /// <summary>The report of a section is asked (the report button of a section, MainWindow.ExportSectionReport).</summary>
     public event EventHandler<JsonObject>? ReportRequested;
+
+    /// <summary>The comparison of a section is asked (its coherence badge, MainWindow.ShowCoherence).</summary>
+    public event EventHandler<JsonObject>? CompareRequested;
 
     /// <summary>A model of a section is opened (MainWindow.ShowContainerModel).</summary>
     public event EventHandler<(JsonObject Container, string ModelId)>? ModelRequested;
@@ -424,6 +432,8 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     }
 
     internal void RequestReport(ProjectNodeViewModel item) => ReportRequested?.Invoke(this, item.Node!);
+
+    internal void RequestCompare(ProjectNodeViewModel item) => CompareRequested?.Invoke(this, item.Node!);
 
     /// <summary>Starts the rename in place (F2, double click, «Rinomina»): another rename ends first, saving.</summary>
     internal void BeginRename(ProjectNodeViewModel item)

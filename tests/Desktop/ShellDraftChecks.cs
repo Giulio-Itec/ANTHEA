@@ -272,6 +272,9 @@ internal static class ShellDraftChecks
                 SendKey(Item(strataId), Key.Enter);
                 await Idle(main);
                 Check(ReferenceEquals(workspace.Active, strataSheet), "Invio su un foglio dell'albero: la sua scheda");
+
+                // ---- Night of 22-23/10 (section 10.1 of the note): what was left of part (c).
+                await Overview(shell, presentation, services, main, output, bindings, project, abutment.S("id"), Check);
             }
             finally
             {
@@ -291,6 +294,75 @@ internal static class ShellDraftChecks
             File.WriteAllLines(Path.Combine(output, "test.txt"), log, new UTF8Encoding(false));
         }
         File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {log.Count} controlli della bozza della shell (F5.13 c)\n", new UTF8Encoding(false));
+    }
+
+    /// <summary>
+    /// The overview of a section with the content of MainWindow (night of 22-23/10, first item of section 10.1): «Modelli di calcolo», «Controlli»
+    /// with «Confronto e avvisi», «Riepilogo modifiche», «Dettaglio avvisi»; the comparison and the summary of the revisions in their dialogs, drawn as
+    /// WpfDialogService shows them (a window around the ViewModel, its view from the resources of the application), outside the screen.
+    /// </summary>
+    private static async Task Overview(ShellViewModel shell, Anthea.Presentation.Services.PresentationServices presentation, DraftServices services, Window main, string output,
+        BindingErrors bindings, ProjectSession project, string abutmentId, Action<bool, string> Check)
+    {
+        bindings.Step = "riepilogo";
+        project.NewRevision(project.Find(abutmentId)!, "Prima emissione");
+        // A conflict for the comparison: a second concrete of the abutment, in another class than the first one.
+        var material = project.AddSheet("mat_calcestruzzo", project.Find(abutmentId)!)!;
+        Check(project.Rename(material, "Calcestruzzo dei pali") && project.ChangeData(() => { material["dati"]!["classe"] = "C40/50"; return true; }, material),
+            "Secondo calcestruzzo della spalla, in C40/50");
+        shell.ShowOverview(project.Find(abutmentId));
+        await Idle(main);
+        var overview = shell.Overview!;
+        var notices = Descendants<Expander>(main).SingleOrDefault(x => x.Name == "NoticeDetails");
+        Check(notices is not null && notices.IsVisible == overview.HasNotices && !notices.IsExpanded, "Riepilogo: «Dettaglio avvisi» chiuso, visibile con gli avvisi (" + overview.Notices.Count + ")");
+        if (notices is { IsVisible: true }) notices.IsExpanded = true;
+        await Capture(main, output, "13-riepilogo.png", bindings);
+        var compare = Descendants<Button>(main).Where(b => ReferenceEquals(b.Command, shell.CompareCommand)).ToArray();
+        Check(compare.Any(b => b is { Name: "Compare", IsVisible: true, IsEnabled: true } && b.Content as string == "Confronto e avvisi"),
+            "Riepilogo: «Confronto e avvisi» nella scheda «Controlli»");
+        var history = Descendants<Button>(main).SingleOrDefault(b => ReferenceEquals(b.Command, shell.RevisionSummaryCommand));
+        Check(history is { IsVisible: true, IsEnabled: true } && history.Content as string == SectionOverviewViewModel.RevisionSummaryLabel, "Riepilogo: «Riepilogo modifiche» con la revisione archiviata");
+        Check(Descendants<TextBlock>(main).Any(t => t.IsVisible && t.Text == overview.ConflictsStatus) && Descendants<TextBlock>(main).Any(t => t.IsVisible && t.Text == overview.NoticesStatus)
+            && Descendants<Button>(main).Any(b => ReferenceEquals(b.Command, shell.OpenOverviewModelCommand) && b.Content as string == SectionOverviewViewModel.ImportModelLabel),
+            "Riepilogo: stati dei controlli e «+ Importa un modello»");
+
+        // The buttons ask the dialogs of the services (the check answers nothing): the comparison, the summary.
+        int asked = services.Dialogs.Count;
+        await Press(compare.First(b => b.Name == "Compare"));
+        await Press(history!);
+        Check(services.Dialogs.Count == asked + 2 && services.Dialogs[asked] is CoherenceViewModel { Title: "Confronto · Spalla A" } && services.Dialogs[asked + 1] is RevisionSummaryViewModel { Title: "Revisioni · Spalla A" },
+            "«Confronto e avvisi» e «Riepilogo modifiche»: i loro dialoghi");
+
+        // The two dialogs as the dialog service draws them: the comparison of the abutment (the class of the concrete), the summary.
+        bindings.Step = "confronto";
+        using (var coherence = new CoherenceViewModel(project, project.Find(abutmentId)!, presentation))
+        {
+            var window = Offscreen(new Window { Title = coherence.Title, Content = coherence, SizeToContent = SizeToContent.WidthAndHeight });
+            window.Show();
+            try
+            {
+                foreach (var expander in Descendants<Expander>(window)) expander.IsExpanded = true;
+                await Capture(window, output, "14-confronto.png", bindings);
+                Check(Descendants<TextBlock>(window).Any(t => t.Text == CoherenceViewModel.Heading) && Descendants<TextBlock>(window).Any(t => t.Text == CoherenceViewModel.NoticesTitle)
+                    && Descendants<Button>(window).Count(b => b.IsVisible && b.Content as string == "Uniforma a questo") == coherence.Conflicts.Sum(c => c.Sheets.Count) && coherence.Conflicts.Count == 1
+                    && Descendants<Button>(window).Any(b => ReferenceEquals(b.Command, coherence.LinkCommand)) == coherence.CanLink,
+                    "Confronto della spalla: un conflitto con «Uniforma a questo» per foglio, avvisi, collegamento delle stratigrafie (" + coherence.CanLink + ")");
+            }
+            finally { window.Close(); }
+        }
+        bindings.Step = "revisioni";
+        using (var summary = new RevisionSummaryViewModel(project, project.Find(abutmentId)!, presentation.Messages))
+        {
+            var window = Offscreen(new Window { Title = summary.Title, Content = summary, SizeToContent = SizeToContent.WidthAndHeight });
+            window.Show();
+            try
+            {
+                await Capture(window, output, "15-revisioni.png", bindings);
+                Check(Descendants<Button>(window).Count(b => ReferenceEquals(b.Command, summary.ShowCommand) && b.Content as string == summary.ShowLabel) == summary.Entries.Count && summary.Entries.Count == 1,
+                    "Riepilogo delle revisioni: «Mostra questa revisione» per la revisione archiviata");
+            }
+            finally { window.Close(); }
+        }
     }
 
     /// <summary>A window outside the screen, never activated (the checks of the night share the desktop).</summary>
@@ -429,7 +501,11 @@ internal static class ShellDraftChecks
             "SheetTabViewModel", "PageTabViewModel", "WikiTabViewModel", "ShellCommandsViewModel", "ShellMenuItem", "AppearanceMenuViewModel",
             "AppearanceItemViewModel", "ShellWindow", "SheetBarView", "ModelTabView", "WikiTabView", "SelectCommand", "CloseCommand", "MoveToNewWindowCommand",
             "ReattachCommand", "OpenCardCommand", "SelectDisciplineCommand", "OpenModelCommand", "SwitchCommand", "ToggleTreeCommand", "Catalogue", "Commands.",
-            "OverviewLink", "LinkItems", "HasLinks", "OpenLinkCommand", "DuplicateSectionCommand", "ToggleFullPageCommand", "FullPageText", "FullPageToolTipText", "IsFullPage", "OpenInNewWindowCommand", "OpenFullPageCommand", "IsSheet"];
+            "OverviewLink", "LinkItems", "HasLinks", "OpenLinkCommand", "DuplicateSectionCommand", "ToggleFullPageCommand", "FullPageText", "FullPageToolTipText", "IsFullPage", "OpenInNewWindowCommand", "OpenFullPageCommand", "IsSheet",
+            // Night of 22-23/10: the overview, the comparison and the summary of the revisions (ShellDialogs.xaml).
+            "OverviewModel", "ModelButtons", "ConflictsStatus", "NoticesStatus", "NoticeLines", "CompareCommand", "RevisionSummaryCommand", "OpenOverviewModelCommand",
+            "CoherenceViewModel", "ConflictViewModel", "ConflictSheetViewModel", "MissingLayerViewModel", "MissingLayerSourceViewModel", "CoherenceNotice", "SoilLinkSheet",
+            "SoilLinkDialogViewModel", "RevisionSummaryViewModel", "RevisionSummaryEntry", "NewRevisionDialogViewModel", "ReportSectionsDialogViewModel", "ReportSectionChoice"];
 
         private readonly StringBuilder line = new();
         internal List<string> Errors { get; } = [];
@@ -458,7 +534,10 @@ internal static class ShellDraftChecks
         public string? OpenFile(OpenFileRequest request) => null;
         public string? SaveFile(SaveFileRequest request) => null;
         public string? ChooseFolder(string? title = null) => null;
-        public Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog) => Task.FromResult<TResult?>(default);
+        public Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog) { Dialogs.Add(dialog); return Task.FromResult<TResult?>(default); }
+
+        /// <summary>The dialogs asked, answered with nothing (night of 22-23/10: the comparison and the summary of the revisions of the overview).</summary>
+        internal List<object> Dialogs { get; } = [];
         public void SetText(string text) { }
         public string GetText() => "";
         public void Open(Uri target) { }

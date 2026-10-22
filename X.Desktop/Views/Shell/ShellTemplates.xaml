@@ -321,15 +321,42 @@
       <StackPanel Visibility="{Binding Section, Converter={StaticResource WhenPresent}}">
        <TextBlock Style="{StaticResource Shell.Muted}" FontWeight="SemiBold" FontSize="{DynamicResource Font.Small}" Text="{x:Static proj:SectionOverviewViewModel.Caption}"/>
        <TextBlock Style="{StaticResource Shell.Title}" Text="{Binding Name}" Margin="0,0,0,12"/>
-       <WrapPanel Margin="0,0,0,12">
-        <Border x:Name="Conflicts" Background="{DynamicResource Token.Badge.Ok}" CornerRadius="10" Padding="10,3" Margin="0,0,8,0">
-         <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding ConflictsText}"/>
-        </Border>
-        <Border Background="{DynamicResource Token.Badge.Warn}" CornerRadius="10" Padding="10,3" Margin="0,0,8,0" Visibility="{Binding HasNotices, Converter={StaticResource WhenTrue}}">
-         <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding NoticesText}"/>
-        </Border>
-        <Button Style="{StaticResource Shell.Button}" Content="{Binding CompareLabel}" IsEnabled="False" ToolTip="Bozza: il confronto si collega nella parte (c) dopo il punto di controllo"/>
-       </WrapPanel>
+       <!--
+         After the checkpoint of 22/10, in the order of ProjectPresentation.BuildSectionOverview: «Modelli di calcolo» (AddModelsOverview) with the
+         models of the section and «+ Importa un modello» outside read-only; «Controlli» with the two statuses and «Confronto e avvisi» (the dialog
+         of the comparison); then the common data, the revisions with «Riepilogo modifiche», the actions, the links and «Dettaglio avvisi».
+       -->
+       <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
+        <StackPanel>
+         <TextBlock Style="{StaticResource Shell.Heading}" Text="{x:Static proj:SectionOverviewViewModel.ModelsTitle}" Margin="0,0,0,6"/>
+         <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding ModelsText}"/>
+         <ItemsControl ItemsSource="{Binding ModelButtons}">
+          <ItemsControl.ItemTemplate>
+           <DataTemplate DataType="{x:Type proj:OverviewModel}">
+            <Button Style="{StaticResource Shell.Button}" HorizontalAlignment="Left" Content="{Binding Label}" AutomationProperties.Name="{Binding Label}"
+             Command="{Binding DataContext.OpenOverviewModelCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+           </DataTemplate>
+          </ItemsControl.ItemTemplate>
+         </ItemsControl>
+        </StackPanel>
+       </Border>
+       <Border x:Name="Controls" Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
+        <StackPanel>
+         <TextBlock Style="{StaticResource Shell.Heading}" Text="{x:Static proj:SectionOverviewViewModel.ControlsTitle}" Margin="0,0,0,10"/>
+         <WrapPanel>
+          <Border x:Name="Conflicts" Background="{DynamicResource Token.Badge.Ok}" CornerRadius="4" Padding="10,7" Margin="0,0,7,10">
+           <TextBlock x:Name="ConflictsStatus" Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Small}" FontWeight="SemiBold"
+            Foreground="{DynamicResource Token.Status.Coherent}" Text="{Binding ConflictsStatus}"/>
+          </Border>
+          <Border x:Name="Notices" Background="{DynamicResource Token.Badge.Ok}" CornerRadius="4" Padding="10,7" Margin="0,0,7,10">
+           <TextBlock x:Name="NoticesStatus" Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Small}" FontWeight="SemiBold"
+            Foreground="{DynamicResource Token.Status.Coherent}" Text="{Binding NoticesStatus}"/>
+          </Border>
+         </WrapPanel>
+         <Button x:Name="Compare" Style="{StaticResource Shell.Button}" HorizontalAlignment="Stretch" Content="{Binding CompareLabel}" AutomationProperties.Name="{Binding CompareLabel}"
+          Command="{Binding DataContext.CompareCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Section}"/>
+        </StackPanel>
+       </Border>
        <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
         <StackPanel>
          <TextBlock Style="{StaticResource Shell.Heading}" Text="Dati comuni" Margin="0,0,0,6"/>
@@ -350,6 +377,10 @@
          <TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{Binding RevisionTitle}"/>
          <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding RevisionDate}" Visibility="{Binding RevisionDate, Converter={StaticResource WhenPresent}}"/>
          <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding RevisionNote}" Visibility="{Binding RevisionNote, Converter={StaticResource WhenPresent}}"/>
+         <!-- «Riepilogo modifiche» with archived revisions (ShowProjectRevisions): the dialog of the summary of the revisions of the section. -->
+         <Button Style="{StaticResource Shell.Button}" HorizontalAlignment="Left" Margin="0,10,0,6" Content="{x:Static proj:SectionOverviewViewModel.RevisionSummaryLabel}"
+          Visibility="{Binding HasRevisionSummary, Converter={StaticResource WhenTrue}}"
+          Command="{Binding DataContext.RevisionSummaryCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding RevisionScope}"/>
         </StackPanel>
        </Border>
        <!--
@@ -376,21 +407,17 @@
          </ItemsControl>
         </StackPanel>
        </Expander>
-       <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
-        <StackPanel>
-         <TextBlock Style="{StaticResource Shell.Heading}" Text="Modelli di calcolo" Margin="0,0,0,6"/>
-         <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding ModelsText}"/>
-        </StackPanel>
-       </Border>
-       <ItemsControl ItemsSource="{Binding Notices}">
-        <ItemsControl.ItemTemplate>
-         <DataTemplate>
-          <Border Background="{DynamicResource Token.Warning.Background}" Padding="8,4" Margin="0,0,0,4">
-           <TextBlock Style="{StaticResource Shell.Text}" Foreground="{DynamicResource Token.Warning.Foreground}" Text="{Binding}"/>
-          </Border>
-         </DataTemplate>
-        </ItemsControl.ItemTemplate>
-       </ItemsControl>
+       <!-- «Dettaglio avvisi», closed at the start and only with notices: «• avviso», muted (ProjectPresentation.BuildSectionOverview). -->
+       <Expander x:Name="NoticeDetails" Margin="0,0,0,10" IsExpanded="False" Visibility="{Binding HasNotices, Converter={StaticResource WhenTrue}}">
+        <Expander.Header><TextBlock Style="{StaticResource Shell.Heading}" Text="{x:Static proj:SectionOverviewViewModel.NoticesTitle}"/></Expander.Header>
+        <ItemsControl ItemsSource="{Binding NoticeLines}">
+         <ItemsControl.ItemTemplate>
+          <DataTemplate>
+           <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding}" Margin="0,4,0,8"/>
+          </DataTemplate>
+         </ItemsControl.ItemTemplate>
+        </ItemsControl>
+       </Expander>
       </StackPanel>
      </StackPanel>
     </ScrollViewer>
@@ -433,6 +460,11 @@
   <DataTemplate.Triggers>
    <DataTrigger Binding="{Binding HasConflicts}" Value="True">
     <Setter TargetName="Conflicts" Property="Background" Value="{DynamicResource Token.Badge.Warn}"/>
+    <Setter TargetName="ConflictsStatus" Property="Foreground" Value="{DynamicResource Token.Warning.Foreground}"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding HasNotices}" Value="True">
+    <Setter TargetName="Notices" Property="Background" Value="{DynamicResource Token.Badge.Warn}"/>
+    <Setter TargetName="NoticesStatus" Property="Foreground" Value="{DynamicResource Token.Warning.Foreground}"/>
    </DataTrigger>
    <Trigger SourceName="CommonRows" Property="ItemsControl.HasItems" Value="False">
     <Setter TargetName="NoCommonData" Property="Visibility" Value="Visible"/>
@@ -542,10 +574,14 @@
  <!-- ===================================================================================================== tree of the project -->
  <HierarchicalDataTemplate DataType="{x:Type proj:ProjectNodeViewModel}" ItemsSource="{Binding Children}">
   <DockPanel ToolTip="{Binding ToolTip}" MinHeight="32">
-   <Border DockPanel.Dock="Right" CornerRadius="8" Padding="6,1" Margin="6,0,0,0" Background="{DynamicResource Token.Badge.Ok}" ToolTip="{Binding Badge.ToolTip}"
-    Visibility="{Binding Badge, Converter={StaticResource WhenPresent}}">
-    <TextBlock Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Badge.Title}"/>
-   </Border>
+   <!--
+     The coherence badge of a section (ProjectSharing.AddCoherenceBadge, after the checkpoint of 22/10): the number of conflicts and notices, or «✓»,
+     named by its title; it opens the comparison of the section.
+   -->
+   <Button x:Name="Badge" DockPanel.Dock="Right" Style="{StaticResource Shell.Button}" FontSize="{DynamicResource Font.Caption}" MinHeight="24" Padding="7,2" Margin="4,0,5,0"
+    BorderThickness="0" Background="{DynamicResource Token.Badge.Ok}" Foreground="{DynamicResource Token.Status.Ok}" Content="{Binding Badge.Content}"
+    ToolTip="{Binding Badge.ToolTip}" AutomationProperties.Name="{Binding Badge.Title, TargetNullValue=''}" Visibility="{Binding Badge, Converter={StaticResource WhenPresent}}"
+    Command="{Binding CompareCommand}"/>
    <TextBlock Style="{StaticResource Shell.Text}" Text=" •" FontWeight="Bold" Foreground="{DynamicResource Token.Accent}" DockPanel.Dock="Right"
     Visibility="{Binding IsUnsaved, Converter={StaticResource WhenTrue}}" ToolTip="Foglio non salvato"/>
    <!--
@@ -582,5 +618,11 @@
     </ContextMenu>
    </DockPanel.ContextMenu>
   </DockPanel>
+  <HierarchicalDataTemplate.Triggers>
+   <DataTrigger Binding="{Binding Badge.Warning}" Value="True">
+    <Setter TargetName="Badge" Property="Background" Value="{DynamicResource Token.Badge.Warn}"/>
+    <Setter TargetName="Badge" Property="Foreground" Value="{DynamicResource Token.Status.Warn}"/>
+   </DataTrigger>
+  </HierarchicalDataTemplate.Triggers>
  </HierarchicalDataTemplate>
 </ResourceDictionary>

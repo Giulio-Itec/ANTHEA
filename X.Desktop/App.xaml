@@ -23,6 +23,8 @@
    <ResourceDictionary Source="Views/CompositeSection/CompositeSectionTemplates.xaml"/>
    <ResourceDictionary Source="Views/BridgeDesign/BridgeDesignTemplates.xaml"/>
    <ResourceDictionary Source="Views/ConcreteSection/ConcreteSectionTemplates.xaml"/>
+   <!-- F5.13 c: the dialogs of the new shell (comparison, summary of the revisions, new revision, contents of the report); not shown by the Release. -->
+   <ResourceDictionary Source="Views/Shell/ShellDialogs.xaml"/>
   </ResourceDictionary.MergedDictionaries>
   </ResourceDictionary>
  </Application.Resources>

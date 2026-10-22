@@ -88,8 +88,13 @@ public sealed class ShellViewModel : ViewModelBase
         OpenLinkCommand = new RelayCommand<JsonObject>(node => guard.Run(() => OpenLink(node!)), node => node is not null);
         DuplicateSectionCommand = new RelayCommand<JsonObject>(section => guard.Run(() => DuplicateSection(section!)),
             section => section is not null && Workspace.Project is { IsReadOnly: false });
+        CompareCommand = new AsyncRelayCommand<JsonObject>(section => guard.RunAsync(_ => ShowCoherenceAsync(section!)), section => section is not null && Workspace.Project is not null);
+        RevisionSummaryCommand = new AsyncRelayCommand<JsonObject>(scope => guard.RunAsync(_ => ShowRevisionSummaryAsync(scope!)),
+            scope => scope?["revisione"] is JsonObject && Workspace.Project is not null);
+        OpenOverviewModelCommand = new RelayCommand<OverviewModel>(model => guard.Run(() => ShowModel(model!.Container, model.ModelId)), model => model is not null);
         Commands.ExamplesRequested += (_, _) => Navigation.Select(ShellPage.Examples);
         Tree.OverviewRequested += (_, section) => ShowOverview(section);
+        Tree.CompareRequested += (_, section) => _ = CompareCommand.ExecuteAsync(section);
         Tree.ModelRequested += (_, model) => guard.Run(() => ShowModel(model.Container, model.ModelId));
         Tree.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(ProjectTreeViewModel.Selected) && Workspace.Active is null) Revisions?.Show(SelectedSection()); };
         Models.OpenProjectRequested += (_, _) => Commands.Open();
@@ -285,6 +290,49 @@ public sealed class ShellViewModel : ViewModelBase
         Tree.Refresh(copy);
         ShowOverview(copy);
         return copy;
+    }
+
+    // ---- Part (c) after the checkpoint: the comparison, the summary of the revisions and the models of the overview
+
+    /// <summary>
+    /// «Confronto e avvisi» of the overview and the coherence badge of the tree (ProjectSharing.AddCoherenceBadge): the comparison of a section in
+    /// its dialog (<see cref="ShowCoherenceAsync"/>).
+    /// </summary>
+    public IAsyncRelayCommand<JsonObject> CompareCommand { get; }
+
+    /// <summary>«Riepilogo modifiche» of the card «Revisioni» of the overview: the summary of the revisions of a section in its dialog.</summary>
+    public IAsyncRelayCommand<JsonObject> RevisionSummaryCommand { get; }
+
+    /// <summary>A button of the card «Modelli di calcolo» of the overview: the model, or a new one, in its tab (<see cref="ShowModel"/>).</summary>
+    public IRelayCommand<OverviewModel> OpenOverviewModelCommand { get; }
+
+    /// <summary>
+    /// The comparison of <paramref name="section"/> (MainWindow.ShowCoherence): the active sheet is confirmed, then the dialog «Confronto · sezione»;
+    /// its changes go through the project, which reloads the open sheets, the tree and the overview, as MainWindow does after each one. True when
+    /// the document changed.
+    /// </summary>
+    public async Task<bool> ShowCoherenceAsync(JsonObject section)
+    {
+        ArgumentNullException.ThrowIfNull(section);
+        if (Workspace.Project is not { } project) return false;
+        Workspace.CommitActive();
+        using var coherence = new CoherenceViewModel(project, section, services);
+        return await services.Dialogs.ShowDialogAsync(coherence);
+    }
+
+    /// <summary>
+    /// «Riepilogo modifiche» of <paramref name="scope"/> (MainWindow.ShowProjectRevisions): the active sheet is confirmed, then the dialog «Revisioni ·
+    /// sezione»; «Mostra questa revisione» closes it and shows that revision, with the revision bar of the section switched to. True when a revision
+    /// was shown.
+    /// </summary>
+    public async Task<bool> ShowRevisionSummaryAsync(JsonObject scope)
+    {
+        ArgumentNullException.ThrowIfNull(scope);
+        if (Workspace.Project is not { } project) return false;
+        Workspace.CommitActive();
+        using var summary = new RevisionSummaryViewModel(project, scope, services.Messages);
+        summary.Shown += (_, _) => Revisions?.Show(null, afterSwitch: true);
+        return await services.Dialogs.ShowDialogAsync(summary);
     }
 
     /// <summary>The application is closing: the questions to save every document (true closes).</summary>
