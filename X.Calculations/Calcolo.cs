@@ -190,7 +190,9 @@ public static class Calcolo
                 if(g.S("tipo_iniezione") is not ("IGU" or "IRS"))throw new ArgumentException("Scegliere IGU o IRS per Bustamante–Doix.");
             }
             d=g.Required("diametro",strict:true);l=g.Required("lunghezza",strict:true);
-            foreach(var k in new[]{"peso_specifico_palo","sicurezza_laterale_compressione","sicurezza_laterale_trazione","sicurezza_base","peso_palo_sfavorevole","peso_palo_favorevole"})if(g.ContainsKey(k))g.Required(k,strict:true);
+            foreach(var k in new[]{"sicurezza_laterale_compressione","sicurezza_laterale_trazione","sicurezza_base","peso_palo_sfavorevole","peso_palo_favorevole"})if(g.ContainsKey(k))g.Required(k,strict:true);
+            // γ = 0 ammesso (22/10/2026): peso proprio trascurato, con l'avviso della libreria; negativo rifiutato.
+            if(g.ContainsKey("peso_specifico_palo"))g.Required("peso_specifico_palo");
             foreach(var k in new[]{"azione_compressione","azione_trazione"})if(!string.IsNullOrWhiteSpace(g.S(k)))g.Required(k);
             falda=!micro&&g.B("presenza_falda");zf=falda?g.Required("profondita_falda"):0;
             _=Nq.MetodoPrecedente(g);
