@@ -201,7 +201,7 @@ internal static class ProjectTreeInput
         if (tree.GetValue(IndicatorProperty) is DropAdorner current && ReferenceEquals(current.AdornedElement, row) && current.Place == place) return;
         Clear(tree, keepHint: true);
         if (AdornerLayer.GetAdornerLayer(row) is not { } layer) return;
-        var indicator = new DropAdorner(row, place, Brush(row, "Token.Accent"), Brush(row, "Token.Selection"));
+        var indicator = new DropAdorner(row, place, Brush(row, "Token.Accent"));
         layer.Add(indicator);
         tree.SetValue(IndicatorProperty, indicator);
     }
@@ -217,16 +217,16 @@ internal static class ProjectTreeInput
     private static Brush? Brush(FrameworkElement scope, string token) => scope.TryFindResource(token) as Brush;
 
     /// <summary>
-    /// The indicator of SectionDropAdorner: a line of two pixels with a dot at its start, above or below the row; for a drop inside, the row marked
-    /// with the colour of the selection (MainWindow colours the header). Drawn above the row: the row never changes its size under the pointer.
+    /// The indicator of SectionDropAdorner: a line of two pixels with a dot at its start, above or below the row; for a drop inside, the row outlined in
+    /// the same colour (MainWindow colours the header). Drawn above the row: the row never changes its size under the pointer.
     /// </summary>
     private sealed class DropAdorner : Adorner
     {
-        private readonly Brush? line, inside;
+        private readonly Brush? line;
 
-        internal DropAdorner(UIElement row, ProjectDropPlace place, Brush? line, Brush? inside) : base(row)
+        internal DropAdorner(UIElement row, ProjectDropPlace place, Brush? line) : base(row)
         {
-            Place = place; this.line = line; this.inside = inside;
+            Place = place; this.line = line;
             IsHitTestVisible = false;
         }
 
@@ -237,9 +237,8 @@ internal static class ProjectTreeInput
             var size = AdornedElement.RenderSize;
             if (Place == ProjectDropPlace.Inside)
             {
-                context.PushOpacity(.6);
-                context.DrawRoundedRectangle(inside, line is null ? null : new Pen(line, 1), new Rect(size), 4, 4);
-                context.Pop();
+                // The outline of the row in the colour of the line: a fill above the row would cover its name.
+                context.DrawRoundedRectangle(null, new Pen(line, 2), new Rect(1, 1, Math.Max(0, size.Width - 2), Math.Max(0, size.Height - 2)), 4, 4);
                 return;
             }
             double y = Place == ProjectDropPlace.After ? size.Height : 0;

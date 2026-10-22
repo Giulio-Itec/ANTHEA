@@ -263,7 +263,8 @@
               <DataTemplate DataType="{x:Type nav:ModuleCard}">
                <Border Style="{StaticResource Shell.Card}" Height="200" Margin="0,0,0,8" Padding="12">
                 <DockPanel>
-                 <Button x:Name="Open" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Style="{StaticResource Shell.Primary}" Content="Apri"
+                 <!-- «Apri», «Riprendi» for the module of the last sheet, «Dettagli» in preparation (ModuleCard.Button, night of 22-23/10). -->
+                 <Button x:Name="Open" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Style="{StaticResource Shell.Primary}" Content="{Binding Button}"
                   Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" CommandParameter="{Binding}"/>
                  <!-- The icon of the module (Ui.ModuleIcon, as ShowModules today; after the checkpoint of 22/10). -->
                  <Viewbox DockPanel.Dock="Left" Width="80" Height="80" Margin="0,0,12,0" VerticalAlignment="Top" Stretch="Uniform">
@@ -280,7 +281,6 @@
                </Border>
                <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding IsAvailable}" Value="False">
-                 <Setter TargetName="Open" Property="Content" Value="Dettagli"/>
                  <Setter TargetName="Open" Property="Style" Value="{StaticResource Shell.Button}"/>
                  <Setter TargetName="Status" Property="Foreground" Value="{DynamicResource Token.Muted}"/>
                 </DataTrigger>
@@ -439,13 +439,34 @@
          <Expander Header="{Binding Title}" IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}" Margin="0,0,0,6">
           <ItemsControl ItemsSource="{Binding Cards}">
            <ItemsControl.ItemTemplate>
+            <!--
+              A card (BuildProjectCatalog, night of 22-23/10): the icon of the module, title and subtitle, the grip; dragged on a section of the tree
+              (ProjectTreeInput, a copy) or added with the double click to the selected section, opened in its tab.
+            -->
             <DataTemplate DataType="{x:Type proj:ProjectCatalogCard}">
-             <Border Style="{StaticResource Shell.Card}" Padding="10,6" Margin="0,4,0,0" ToolTip="{Binding ToolTip}" Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}">
-              <StackPanel>
-               <TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{Binding Title}"/>
-               <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding Subtitle}"/>
-              </StackPanel>
+             <Border x:Name="Card" Style="{StaticResource Shell.Card}" Padding="10" MinHeight="59" Margin="0,0,0,6" Cursor="Hand" ToolTip="{Binding ToolTip}"
+              Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}" views:ProjectTreeInput.DragRow="True" AutomationProperties.Name="{Binding Title}">
+              <Border.InputBindings>
+               <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.AddCatalogSheetCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+              </Border.InputBindings>
+              <DockPanel>
+               <Viewbox DockPanel.Dock="Left" Width="36" Height="36" Margin="0,0,10,0" Stretch="Uniform">
+                <ContentControl Focusable="False" IsTabStop="False" Content="{Binding Module, Converter={StaticResource ModuleIcon}}"/>
+               </Viewbox>
+               <Path DockPanel.Dock="Right" Width="10" Height="20" Stretch="Uniform" VerticalAlignment="Center" Fill="{DynamicResource Token.Drawing.Axis}"
+                Data="M 5,5 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0 M 5,12 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0 M 5,19 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0 M 15,5 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0 M 15,12 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0 M 15,19 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0"/>
+               <StackPanel VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Subheading}" FontWeight="SemiBold" Text="{Binding Title}"/>
+                <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding Subtitle}"/>
+               </StackPanel>
+              </DockPanel>
              </Border>
+             <DataTemplate.Triggers>
+              <Trigger SourceName="Card" Property="IsMouseOver" Value="True">
+               <Setter TargetName="Card" Property="Background" Value="{DynamicResource Token.Hover.Row}"/>
+               <Setter TargetName="Card" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/>
+              </Trigger>
+             </DataTemplate.Triggers>
             </DataTemplate>
            </ItemsControl.ItemTemplate>
           </ItemsControl>

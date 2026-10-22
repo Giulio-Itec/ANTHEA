@@ -92,6 +92,7 @@ public sealed class ShellViewModel : ViewModelBase
         RevisionSummaryCommand = new AsyncRelayCommand<JsonObject>(scope => guard.RunAsync(_ => ShowRevisionSummaryAsync(scope!)),
             scope => scope?["revisione"] is JsonObject && Workspace.Project is not null);
         OpenOverviewModelCommand = new RelayCommand<OverviewModel>(model => guard.Run(() => ShowModel(model!.Container, model.ModelId)), model => model is not null);
+        AddCatalogSheetCommand = new RelayCommand<ProjectCatalogCard>(card => guard.Run(() => Tree.AddSheet(card!.Module)), card => card is not null && Workspace.Project is { IsReadOnly: false });
         Commands.ExamplesRequested += (_, _) => Navigation.Select(ShellPage.Examples);
         Tree.OverviewRequested += (_, section) => ShowOverview(section);
         Tree.CompareRequested += (_, section) => _ = CompareCommand.ExecuteAsync(section);
@@ -236,7 +237,10 @@ public sealed class ShellViewModel : ViewModelBase
         if (!tab.IsDetached) EnterFullPage();
     }
 
-    /// <summary>The overview of <paramref name="section"/> (the first project when null), with its revision bar (MainWindow.ShowProjectOverview).</summary>
+    /// <summary>
+    /// The overview of <paramref name="section"/> (the first project when null), with its revision bar (MainWindow.ShowProjectOverview). As there, the
+    /// tree selects the section (RefreshTree(section)), so that «+ Sezione» and the double click of «Schede da aggiungere» go into it (night of 22-23/10).
+    /// </summary>
     public void ShowOverview(JsonObject? section)
     {
         if (Workspace.EnsureProject() is not { } project) return;
@@ -244,6 +248,7 @@ public sealed class ShellViewModel : ViewModelBase
         if (section?.ContainsKey("modulo_id") == true) section = section.Parent?.Parent as JsonObject;
         section ??= project.Projects.FirstOrDefault();
         Overview = new SectionOverviewViewModel(project, section);
+        if (section is not null && !ReferenceEquals(Tree.Selected?.Node, section)) Tree.Refresh(section);
         Revisions?.Show(section);
     }
 
@@ -305,6 +310,12 @@ public sealed class ShellViewModel : ViewModelBase
 
     /// <summary>A button of the card «Modelli di calcolo» of the overview: the model, or a new one, in its tab (<see cref="ShowModel"/>).</summary>
     public IRelayCommand<OverviewModel> OpenOverviewModelCommand { get; }
+
+    /// <summary>
+    /// The double click on a card of «Schede da aggiungere» (ProjectPresentation.BuildProjectCatalog, MainWindow.AddSheet): a sheet of the module in the
+    /// selected section, opened in its tab; without a section the note of today. The cards are also dragged on the tree (the view).
+    /// </summary>
+    public IRelayCommand<ProjectCatalogCard> AddCatalogSheetCommand { get; }
 
     /// <summary>
     /// The comparison of <paramref name="section"/> (MainWindow.ShowCoherence): the active sheet is confirmed, then the dialog «Confronto · sezione»;

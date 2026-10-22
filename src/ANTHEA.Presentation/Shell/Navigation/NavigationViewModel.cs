@@ -163,6 +163,12 @@ public sealed class NavigationViewModel : ViewModelBase
 public sealed record ModuleCard(string Id, string Status, string Title, string Subtitle, string Owner, string Icon)
 {
     public bool IsAvailable => Id.Length > 0;
+
+    /// <summary>
+    /// The label of the button of the card (F5.13 c, night of 22-23/10): «Dettagli» in preparation, «Riprendi» for the module of the last sheet, otherwise
+    /// «Apri» (<see cref="ModuleCatalogViewModel.ButtonText"/>, MainWindow.ShowModules).
+    /// </summary>
+    public string Button { get; init; } = "Apri";
 }
 
 /// <summary>A group of cards of the same element, with its header in capitals.</summary>
@@ -193,7 +199,7 @@ public sealed class ModuleCatalogViewModel : ViewModelBase
         this.workspace = workspace; this.messages = messages; this.last = last;
         SelectDisciplineCommand = new RelayCommand<string>(name => guard.Run(() => Discipline = name!), name => name is not null);
         OpenCommand = new RelayCommand<ModuleCard>(card => guard.Run(() => Open(card!)), card => card is not null);
-        Areas = Build("Tutti");
+        Areas = Build("Tutti", null);
     }
 
     /// <summary>The filters, in the order of today.</summary>
@@ -205,7 +211,7 @@ public sealed class ModuleCatalogViewModel : ViewModelBase
         set
         {
             if (!Disciplines.Contains(value)) throw new ArgumentException("Disciplina sconosciuta: " + value, nameof(value));
-            if (SetProperty(ref discipline, value)) { Areas = Build(value); OnPropertyChanged(nameof(Areas)); }
+            if (SetProperty(ref discipline, value)) { Areas = Build(value, last()?.Module); OnPropertyChanged(nameof(Areas)); }
         }
     }
 
@@ -234,24 +240,31 @@ public sealed class ModuleCatalogViewModel : ViewModelBase
         else workspace.NewCalculation(card.Id);
     }
 
-    /// <summary>The labels of the buttons depend on the last sheet.</summary>
-    internal void Refresh() => OnPropertyChanged(nameof(Areas));
+    /// <summary>
+    /// The labels of the buttons depend on the last sheet: the cards are built again with their labels («Riprendi» for the module of the last sheet),
+    /// as MainWindow.ShowModules builds the page every time (F5.13 c, night of 22-23/10; before, the view always wrote «Apri»).
+    /// </summary>
+    internal void Refresh()
+    {
+        Areas = Build(discipline, last()?.Module);
+        OnPropertyChanged(nameof(Areas));
+    }
 
     /// <summary>MainWindow.ShowModules: areas in fixed order, groups by element in the order of the directory, two columns in the view.</summary>
-    private static IReadOnlyList<ModuleArea> Build(string discipline)
+    private static IReadOnlyList<ModuleArea> Build(string discipline, string? resumed)
     {
         var modules = ModuleDirectory.All;
         return new[] { "Geotecnica", "Strutture", "Materiali", "Azioni" }.Where(a => discipline == "Tutti" || a == discipline)
             .Select(area => new ModuleArea(area, modules.Where(m => m.Area == area).GroupBy(m => m.Element)
-                .Select(group => new ModuleGroup(group.Key.ToUpperInvariant(), group.Select(m => Card(area, m)).ToArray())).ToArray()))
+                .Select(group => new ModuleGroup(group.Key.ToUpperInvariant(), group.Select(m => Card(area, m, resumed)).ToArray())).ToArray()))
             .ToArray();
     }
 
-    private static ModuleCard Card(string area, ModuleInfo module)
+    private static ModuleCard Card(string area, ModuleInfo module, string? resumed)
     {
         string id = module.Id, title = module.Element;
         string icon = id != "" ? id : area == "Strutture" ? "str_micropalo" : title == "Palo" ? "geo_palo_orizzontale" : "geo_micropalo_orizzontale";
         return new(id, id == "" ? "In preparazione" : "Disponibile", module.Description, area + " · " + title,
-            "Referente: " + (area == "Strutture" ? "GPC" : "GSC"), icon);
+            "Referente: " + (area == "Strutture" ? "GPC" : "GSC"), icon) { Button = id == "" ? "Dettagli" : id == resumed ? "Riprendi" : "Apri" };
     }
 }

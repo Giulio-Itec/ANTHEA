@@ -276,6 +276,7 @@ internal static class ShellDraftChecks
                 // ---- Night of 22-23/10 (section 10.1 of the note): what was left of part (c).
                 await Overview(shell, presentation, services, main, output, bindings, project, abutment.S("id"), Check);
                 await TreeInput(shell, main, output, bindings, project, abutment.S("id"), pierId, pileSheet, Check);
+                await Catalogues(shell, main, output, bindings, project, pierId, pileSheet, Check);
             }
             finally
             {
@@ -425,6 +426,44 @@ internal static class ShellDraftChecks
             "Clic singolo sulla pila: il suo riepilogo dopo " + timer.Delay.TotalMilliseconds + " ms");
         Up(Label(Item(pileSheet.Id)));
         Check(!timer.IsPending, "Clic sul nome di un foglio: nessun riepilogo");
+    }
+
+    /// <summary>
+    /// The catalogues (night of 22-23/10, third item of section 10.1): «Riprendi» on the card of the module of the last sheet in «Moduli singoli»; the cards
+    /// of «Schede da aggiungere» with icon and grip, dragged on a section of the tree (a copy, «Inserisci in: …») and added with the double click.
+    /// </summary>
+    private static async Task Catalogues(ShellViewModel shell, Window main, string output, BindingErrors bindings, ProjectSession project, string pierId,
+        SheetSession pileSheet, Action<bool, string> Check)
+    {
+        bindings.Step = "cataloghi";
+        var workspace = shell.Workspace;
+        workspace.Activate(pileSheet);
+        shell.Navigation.Select(ShellPage.Modules);
+        await Capture(main, output, "17-moduli-riprendi.png", bindings);
+        var buttons = Descendants<Button>(main).Where(b => b.IsVisible && b.Name == "Open").ToArray();
+        Check(buttons.Count(b => b.Content as string == "Riprendi") == 1 && buttons.Single(b => b.Content as string == "Riprendi").DataContext is ModuleCard { Id: "geo_palo_verticale" }
+            && buttons.Count(b => b.Content as string == "Apri") == buttons.Length - 1 - buttons.Count(b => b.Content as string == "Dettagli"),
+            "Moduli singoli: «Riprendi» sul palo verticale, l'ultimo foglio");
+
+        // «Schede da aggiungere» on the overview of the pier: a card dragged over the pier in the tree, then dropped there.
+        shell.ShowOverview(project.Find(pierId));
+        await Idle(main);
+        var cards = Descendants<Border>(main).Where(b => b.Name == "Card" && b.DataContext is ProjectCatalogCard && b.IsVisible).ToArray();
+        var card = cards.First(b => ((ProjectCatalogCard)b.DataContext).Module == "mat_calcestruzzo");
+        Check(cards.Length > 0 && cards.All(b => Descendants<Viewbox>(b).Any(v => v.Child is ContentControl { Content: FrameworkElement }) && ProjectTreeInput.GetDragRow(b))
+            && ProjectTreeInput.DragData(card) is { Format: ProjectTreeInput.ModuleFormat, Payload: "mat_calcestruzzo" }
+            && card.InputBindings.OfType<MouseBinding>().Any(m => ReferenceEquals(m.Command, shell.AddCatalogSheetCommand) && m.CommandParameter == card.DataContext),
+            "Schede da aggiungere: icona, trascinamento del modulo, doppio clic (" + cards.Length + " schede)");
+        var pierItem = Descendants<TreeViewItem>(main).Single(i => i.DataContext is ProjectNodeViewModel { Id: var id } && id == pierId);
+        var tree = (TreeView)main.FindName("Tree");
+        Check(ProjectTreeInput.Over(pierItem, "mat_calcestruzzo", new Point(8, ProjectTreeInput.Row(pierItem).ActualHeight * .5)) == DragDropEffects.Copy
+            && ProjectTreeInput.Indicator(tree) == Anthea.Presentation.Shell.Projects.ProjectDropPlace.Inside && shell.Tree.DropHint == "Inserisci in: " + project.Find(pierId)!.S("nome"),
+            "Scheda del catalogo sopra la pila: copia, «Inserisci in: …»");
+        await Capture(main, output, "18-schede-da-aggiungere.png", bindings);
+        int sheets = project.Find(pierId)!.Array("fogli").Count;
+        Check(ProjectTreeInput.Drop(pierItem, "mat_calcestruzzo", new Point(8, ProjectTreeInput.Row(pierItem).ActualHeight * .5)) && project.Find(pierId)!.Array("fogli").Count == sheets + 1
+            && shell.Center is SectionOverviewViewModel { Section: var overview } && overview?.S("id") == pierId, "Rilascio della scheda sulla pila: un foglio nuovo, il riepilogo della pila");
+        await Idle(main);
     }
 
     /// <summary>A window outside the screen, never activated (the checks of the night share the desktop).</summary>
