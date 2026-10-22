@@ -14,6 +14,7 @@ internal static class ShellChecks
         checks += RevisionBarChecks.Run();
         checks += CoherenceChecks.Run();
         checks += TabsChecks.Run();
+        checks += CommandsChecks.Run(output);
         return checks;
     }
 }
