@@ -14,8 +14,9 @@ public static class DocumentFile
             using(var stream=new FileStream(temp,FileMode.CreateNew,FileAccess.Write,FileShare.None)){stream.Write(bytes);stream.Flush(true);}
             // Office documents are copied from the temporary file instead of renamed: the ransomware protection of the behaviour monitoring
             // (Trend Micro Security Agent, 27/09/2026) terminates an unsigned program that renames temporary files into documents (the third
-            // report of a session closed ANTHEA without errors). The archives keep the atomic rename
-            bool office=Path.GetExtension(path).ToLowerInvariant() is ".docx" or ".xlsx" or ".pptx" or ".pdf";
+            // report of a session closed ANTHEA without errors). Images too since 22/10/2026 (question S6, user's choice): the same rule
+            // (NON_POLICY_JUST_ADC in AEGIS_BM.log) closed ANTHEA renaming the third PNG of a session. The archives keep the atomic rename
+            bool office=Path.GetExtension(path).ToLowerInvariant() is ".docx" or ".xlsx" or ".pptx" or ".pdf" or ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tif" or ".tiff" or ".svg";
             // A target held for a moment by an antivirus scan, the indexer or another reader is retried before failing (Application.Tests
             // 14/10/2026: UnauthorizedAccessException from File.Move during the standard profile, PASS when repeated alone)
             for(int attempt=1;;attempt++)
