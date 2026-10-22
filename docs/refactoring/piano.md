@@ -731,6 +731,12 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       - S5 (stesso ramo, 21/10, da unire): taglio e torsione (sezione 14 di [f5-10-sezione.md](f5-10-sezione.md)): `ConcreteShearViewModel`
         su `Actions.Shear`, staffe in sola lettura delle schede 05 e 06, taglio sul thread dell'interfaccia (C2), derivazioni in
         `ConcreteShearPresentation` chiamate anche dalla vista storica; 49 scenari uguali.
+      - S6, S7 e S8 (ramo `refactoring/f5-10-s6`, 22/10, da unire; sezioni 15–18 di [f5-10-sezione.md](f5-10-sezione.md)):
+        dettagli e ancoraggi (`ConcreteDetailingViewModel`), sezione σ/ε per pannello e momento–curvatura (`ConcreteSectionInspectionViewModel`,
+        `ConcreteCurvatureViewModel`), progetto delle armature (`ConcreteDesignViewModel`, ricerca asincrona annullabile, «Applica
+        configurazione»); derivazioni in `ConcreteDetailingPresentation`, `ConcreteInspectionPresentation`, `ConcreteCurvaturePresentation` e
+        `ConcreteDesignPresentation` chiamate anche dalla vista storica; 55 scenari uguali, ogni parte della traccia confrontata. Suite `ui/*`
+        della vista storica da eseguire la sera (regola del giorno del 22/10).
     - **Suite UI indipendenti dall'implementazione** (merge 35bba417, [f5-suite-ui.md](f5-suite-ui.md)):
       - le 11 suite storiche generali, dei materiali e dei muri passano con la Release di oggi e, nelle varianti `-mvvm`, con
         i sette moduli MVVM;
