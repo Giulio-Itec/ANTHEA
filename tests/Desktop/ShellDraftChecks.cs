@@ -73,11 +73,11 @@ internal static class ShellDraftChecks
             try
             {
                 var workspace = shell.Workspace;
-                await Capture(main, output, "01-home.png");
+                await Capture(main, output, "01-home.png", bindings);
                 Check(shell.Center is NavigationViewModel && main.ActualWidth > 1000 && main.Title == "ANTHEA", "Home al centro, finestra principale");
 
                 shell.Navigation.Select(ShellPage.Modules);
-                await Capture(main, output, "02-moduli-singoli.png");
+                await Capture(main, output, "02-moduli-singoli.png", bindings);
                 Check(shell.Center is ModuleCatalogViewModel, "Moduli singoli al centro");
 
                 // A sample project: a bridge with an abutment and a pier, four sheets.
@@ -90,7 +90,7 @@ internal static class ShellDraftChecks
                 var group = ProjectDocuments.AddSheet(pier, "geo_efficienza_orizzontale", "Palificata della pila");
                 ProjectDocuments.AddSheet(pier, "geo_stratigrafia", "Stratigrafia S1");
                 workspace.OpenDocument(document, null, false);
-                await Capture(main, output, "03-progetti.png");
+                await Capture(main, output, "03-progetti.png", bindings);
                 Check(shell.HasProject && shell.Center is SectionOverviewViewModel && shell.Tree.Roots.Count == 1 && shell.Navigation.Page == ShellPage.Projects,
                     "Archivio aperto: pagina Progetti con l'albero");
 
@@ -101,38 +101,44 @@ internal static class ShellDraftChecks
                 var groupSheet = workspace.OpenSheet(project.Find(group.S("id"))!);
                 var steel = workspace.NewCalculation("mat_acciaio_armatura");
                 workspace.Activate(pileSheet);
-                await Capture(main, output, "04-schede.png");
+                await Capture(main, output, "04-schede.png", bindings);
                 Check(shell.Windows.Main.Tabs.Count == 4 && shell.Center is SheetTabViewModel { Session: var shown } && ReferenceEquals(shown, pileSheet)
                     && shell.SheetBar.IsVisible && shell.SheetBar.BackLabel == SheetBarViewModel.BackToProject, "Quattro schede, il foglio dei pali con la sua barra");
                 workspace.Activate(steel);
-                await Capture(main, output, "05-file-singolo.png");
+                await Capture(main, output, "05-file-singolo.png", bindings);
                 Check(shell.SheetBar.BackLabel == SheetBarViewModel.BackToHome && !shell.SheetBar.CanConfirm, "File singolo in una scheda");
 
                 shell.Navigation.Select(ShellPage.Models);
-                await Capture(main, output, "06-modelli.png");
+                await Capture(main, output, "06-modelli.png", bindings);
                 Check(shell.Center is ModelsPageViewModel && shell.Models.Cards.Count == 3, "Modelli: le tre sezioni del progetto");
 
                 shell.ShowWiki(Anthea.Wiki.WikiCatalog.ForModule("geo_palo_verticale")?.Id);
-                await Capture(main, output, "07-wiki.png");
+                await Capture(main, output, "07-wiki.png", bindings);
                 Check(shell.Center is PageTabViewModel { Kind: ShellTabKind.Wiki } && shell.Windows.Main.Tabs.Count == 5, "Wiki in una scheda");
 
                 // «Sposta in una nuova finestra»: the pile group in a detached window, the main window beside it.
                 var groupTab = shell.Windows.TabOf(groupSheet)!;
                 var host = shell.Windows.MoveToNewWindow(groupTab);
-                var window = detached.Single();
-                await Capture(window.Window, output, "08-finestra-staccata.png");
+                Check(detached.Count == 1, "Una finestra staccata creata (" + detached.Count + ")");
+                var window = detached[0];
+                await Capture(window.Window, output, "08-finestra-staccata.png", bindings);
                 workspace.Activate(concreteSheet);
-                await Capture(main, output, "09-principale-con-staccata.png");
-                Check(tracker.Hosts.Single() == host && host.Tabs.Single() == groupTab && shell.Windows.Main.Tabs.Count == 4 && window.Activations == 1,
-                    "Scheda staccata in una finestra propria, attivata una volta (qui senza fuoco)");
+                await Capture(main, output, "09-principale-con-staccata.png", bindings);
+                Check(tracker.Hosts.Count == 1 && ReferenceEquals(tracker.Hosts.First(), host) && ReferenceEquals(tracker.WindowOf(host), window),
+                    "Una sola finestra staccata nel tracker, quella della scheda (" + tracker.Hosts.Count + ")");
+                Check(host.Tabs.Count == 1 && ReferenceEquals(host.Tabs[0], groupTab), "La scheda della palificata nella finestra staccata (" + host.Tabs.Count + " schede)");
+                Check(shell.Windows.Main.Tabs.Count == 4 && !shell.Windows.Main.Tabs.Contains(groupTab),
+                    "Quattro schede rimaste nella finestra principale (" + shell.Windows.Main.Tabs.Count + ")");
+                Check(window.Activations == 1 && window.IsActive, "Finestra staccata attivata una volta (" + window.Activations + " richieste), poi attiva");
 
                 // The same tabs in «Scuro», without saving the preference of the user.
                 Appearance.Set(AppAppearance.Dark, persist: false);
-                try { await Capture(main, output, "10-scuro.png"); }
+                try { await Capture(main, output, "10-scuro.png", bindings); }
                 finally { Appearance.Set(AppAppearance.Light, persist: false); }
 
                 // The user closes the detached window: its tab goes back to the main window.
                 window.Window.Close();
+                bindings.Step = "chiusura della finestra staccata";
                 await Idle(main);
                 Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(groupTab) && workspace.Sheets.Contains(groupSheet), "Finestra staccata chiusa: scheda riportata nella principale");
             }
@@ -172,11 +178,16 @@ internal static class ShellDraftChecks
         await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
     }
 
-    /// <summary>The window as rendered, at 96 DPI (logical size).</summary>
-    private static async Task Capture(Window window, string output, string name)
+    /// <summary>
+    /// The client area of the window as rendered, at 96 DPI (logical size). The visual tree of a window draws only its client area: a bitmap as
+    /// large as the whole window (frame and title included) left an empty strip on the right and at the bottom.
+    /// </summary>
+    private static async Task Capture(Window window, string output, string name, BindingErrors bindings)
     {
+        bindings.Step = Path.GetFileNameWithoutExtension(name);
         await Idle(window);
-        var bitmap = new RenderTargetBitmap((int)Math.Ceiling(window.ActualWidth), (int)Math.Ceiling(window.ActualHeight), 96, 96, PixelFormats.Pbgra32);
+        var client = (FrameworkElement)VisualTreeHelper.GetChild(window, 0);
+        var bitmap = new RenderTargetBitmap((int)Math.Ceiling(client.ActualWidth), (int)Math.Ceiling(client.ActualHeight), 96, 96, PixelFormats.Pbgra32);
         bitmap.Render(window);
         var encoder = new PngBitmapEncoder();
         encoder.Frames.Add(BitmapFrame.Create(bitmap));
@@ -184,24 +195,46 @@ internal static class ShellDraftChecks
         encoder.Save(file);
     }
 
-    /// <summary>A detached window that is shown but never activated: the tracker counts the requests (on the desktop of the night).</summary>
-    private sealed class QuietWindow(DetachedShellWindow window) : IShellWindow
+    /// <summary>
+    /// A detached window as the tracker sees it on the desktop, whose WPF window is never activated (the checks of the night share the desktop):
+    /// shown without the focus (ShowActivated false, as Offscreen), it counts the requests to activate it and, like a real window, after
+    /// <see cref="Activate"/> it is active and has reported <see cref="Activated"/> once; a request to an active window changes nothing, as
+    /// Window.Activate on the desktop. It stays active until it closes (nothing else takes the focus of the system in this check).
+    /// </summary>
+    private sealed class QuietWindow : IShellWindow
     {
-        internal DetachedShellWindow Window { get; } = window;
+        public QuietWindow(DetachedShellWindow window)
+        {
+            Window = window;
+            Window.Closed += (_, _) => IsActive = false;
+        }
+
+        internal DetachedShellWindow Window { get; }
         internal int Activations { get; private set; }
-        public bool IsActive => false;
+        public bool IsActive { get; private set; }
         public void Show() => Window.Show();
-        public void Activate() => Activations++;
+
+        public void Activate()
+        {
+            Activations++;
+            if (IsActive) return;
+            IsActive = true;
+            Activated?.Invoke(this, EventArgs.Empty);
+        }
+
         public void Close() => Window.Close();
-        public event EventHandler? Activated { add => Window.Activated += value; remove => Window.Activated -= value; }
+        public event EventHandler? Activated;
         public event EventHandler? Closed { add => Window.Closed += value; remove => Window.Closed -= value; }
     }
 
     /// <summary>The errors of the bindings of WPF (PresentationTraceSources at level Error).</summary>
     private sealed class BindingErrors : TraceListener
     {
-        /// <summary>The types and the paths of the draft: an error that names one of them comes from the templates of the shell.</summary>
-        private static readonly string[] DraftNames = ["ShellViewModel", "NavigationViewModel", "NavigationItemViewModel", "ModuleCatalogViewModel", "HomeCard", "ModuleArea",
+        /// <summary>
+        /// The types and the paths of the draft: an error that names one of them comes from the templates of the shell. «TreeViewItem»: the only
+        /// tree on screen in this check is the tree of the project of the draft (the views of the modules opened here have none).
+        /// </summary>
+        private static readonly string[] DraftNames = ["TreeViewItem", "ShellViewModel", "NavigationViewModel", "NavigationItemViewModel", "ModuleCatalogViewModel", "HomeCard", "ModuleArea",
             "ModuleGroup", "ModuleCard", "SectionOverviewViewModel", "CommonDataRow", "ProjectCatalogViewModel", "ProjectCatalogGroup", "ProjectCatalogCard",
             "ModelsPageViewModel", "ModelContainerCard", "ModelLink", "ModelTabViewModel", "ModelReferenceViewModel", "RevisionBarViewModel", "RevisionTab",
             "SharedStatusViewModel", "ProjectTreeViewModel", "ProjectNodeViewModel", "SheetBarViewModel", "ShellWindowsViewModel", "TabHostViewModel",
@@ -212,9 +245,12 @@ internal static class ShellDraftChecks
         private readonly StringBuilder line = new();
         internal List<string> Errors { get; } = [];
 
+        /// <summary>The step of the check (the image being drawn), written before each error to say where it comes from.</summary>
+        internal string Step { get; set; } = "apertura";
+
         internal static bool OfDraft(string error) => DraftNames.Any(name => error.Contains(name, StringComparison.Ordinal));
         public override void Write(string? message) => line.Append(message);
-        public override void WriteLine(string? message) { line.Append(message); Errors.Add(line.ToString()); line.Clear(); }
+        public override void WriteLine(string? message) { line.Append(message); Errors.Add("[" + Step + "] " + line); line.Clear(); }
     }
 
     /// <summary>Services that never ask: no file, no dialog, «Non salvare» at closing, the messages recorded.</summary>
