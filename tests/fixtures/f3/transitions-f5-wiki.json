@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "voce": "F5-LIB-02",
-  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo.",
+  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo.",
   "voci": [
     {
       "file": "esito.txt",
@@ -2202,6 +2202,174 @@
       "a": null,
       "b": "text: Il modello nativo salvato conserva materiali, geometria e armature discrete. La ricetta editabile e gli input delle verifiche restano separati. Le mesh non sono archiviate come risultati permanenti: vengono ricostruite dal motore. Una bozza incompleta non contiene una precedente sezione valida…",
       "voce": "F5-REL-1121-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.md",
+      "percorso": "riga 5",
+      "classe": "testo",
+      "a": "Impostare tecnologia del palo, diametro, lunghezza, peso del materiale, azioni assiali e coefficienti. Compilare poi le stratigrafie. Ogni nuovo sondaggio parte con una riga da completare, non con un terreno automaticamente valido. Inserire nome, spessore, famiglia del terreno, addensamento dove richiesto, pesi di volume e parametri di resistenza.",
+      "b": "Impostare tecnologia del palo, diametro, lunghezza, peso del materiale, azioni assiali e coefficienti. Il Peso specifico CLS / palo può valere zero: il peso proprio non entra allora nelle azioni e il risultato lo segnala con un avviso; un valore negativo è rifiutato. Compilare poi le stratigrafie. Ogni nuovo sondaggio parte con una riga da completare, non con un terreno automaticamente valido. Inserire nome, spessore, famiglia del terreno, addensamento dove richiesto, pesi di volume e parametri di resistenza.",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.md",
+      "percorso": "riga 12 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.md",
+      "percorso": "riga 13 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Estendi, sulla scheda Stratigrafia, allarga la tabella degli strati e lascia a destra, per tutta l'altezza, la scheda Profilo stratigrafico con il palo: il disegno resta visibile mentre si modificano gli strati. Riduci ripristina la disposizione normale. Se la finestra è troppo stretta per affiancar…",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.txt",
+      "percorso": "riga 2",
+      "classe": "testo",
+      "a": "text: Impostare tecnologia del palo, diametro, lunghezza, peso del materiale, azioni assiali e coefficienti. Compilare poi le stratigrafie. Ogni nuovo sondaggio parte con una riga da completare, non con un terreno automaticamente valido. Inserire nome, spessore, famiglia del terreno, addensamento dove richiesto, pesi di volume e parametri di resistenza.",
+      "b": "text: Impostare tecnologia del palo, diametro, lunghezza, peso del materiale, azioni assiali e coefficienti. Il Peso specifico CLS / palo può valere zero: il peso proprio non entra allora nelle azioni e il risultato lo segnala con un avviso; un valore negativo è rifiutato. Compilare poi le stratigrafie. Ogni nuovo sondaggio parte con una riga da completare, non con un terreno automaticamente valido. Inserire nome, spessore, famiglia del terreno, addensamento dove richiesto, pesi di volume e parametri di resistenza.",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.txt",
+      "percorso": "riga 6 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Estendi, sulla scheda Stratigrafia, allarga la tabella degli strati e lascia a destra, per tutta l'altezza, la scheda Profilo stratigrafico con il palo: il disegno resta visibile mentre si modificano gli strati. Riduci ripristina la disposizione normale. Se la finestra è troppo stretta per aff…",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 52 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 53 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Tab e Maiusc+Tab spostano il cursore sulla casella successiva o precedente e ne selezionano il contenuto: il valore digitato sostituisce quello presente. Con un clic il cursore resta nel punto indicato, per correggere solo una parte del valore. Le caselle di testo su più righe non selezionano il con…",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+      "percorso": "riga 55 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Tab e Maiusc+Tab spostano il cursore sulla casella successiva o precedente e ne selezionano il contenuto: il valore digitato sostituisce quello presente. Con un clic il cursore resta nel punto indicato, per correggere solo una parte del valore. Le caselle di testo su più righe non selezionano …",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.md",
+      "percorso": "riga 33",
+      "classe": "testo",
+      "a": "Bishop semplificato impone l’equilibrio verticale dei conci e quello globale dei momenti, trascurando il taglio interconcio; non impone l’equilibrio orizzontale. Il muro sostituisce il terreno nel proprio volume, così il peso non viene contato due volte. Spinte muro–terreno e reazioni di fondazione sono interne alla massa globale e non si aggiungono come azioni esterne. Il motore geotecnico, le operazioni geometriche e l’adattatore del muro restano componenti separate.",
+      "b": "Bishop semplificato impone l’equilibrio verticale dei conci e quello globale dei momenti, trascurando il taglio interconcio; non impone l’equilibrio orizzontale. Un concio con attrito che richiederebbe N′ < 0 rende la superficie non valida, perché il terreno non ha resistenza a trazione. Con φ = 0, come nell’analisi non drenata, la resistenza del concio è c·l e non dipende da N′: un N′ < 0 su quel concio non esclude la superficie. Il muro sostituisce il terreno nel proprio volume, così il peso non viene contato due volte. Spinte muro–terreno e reazioni di fondazione sono interne alla massa globale e non si aggiungono come azioni esterne. Il motore geotecnico, le operazioni geometriche e l’adattatore del muro restano componenti separate.",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 16",
+      "classe": "testo",
+      "a": "text: Bishop semplificato impone l’equilibrio verticale dei conci e quello globale dei momenti, trascurando il taglio interconcio; non impone l’equilibrio orizzontale. Il muro sostituisce il terreno nel proprio volume, così il peso non viene contato due volte. Spinte muro–terreno e reazioni di fondazione sono interne alla massa globale e non si aggiungono come azioni esterne. Il motore geotecnico, le operazioni geometriche e l’adattatore del muro restano componenti separate.",
+      "b": "text: Bishop semplificato impone l’equilibrio verticale dei conci e quello globale dei momenti, trascurando il taglio interconcio; non impone l’equilibrio orizzontale. Un concio con attrito che richiederebbe N′ < 0 rende la superficie non valida, perché il terreno non ha resistenza a trazione. Con φ = 0, come nell’analisi non drenata, la resistenza del concio è c·l e non dipende da N′: un N′ < 0 su quel concio non esclude la superficie. Il muro sostituisce il terreno nel proprio volume, così il peso non viene contato due volte. Spinte muro–terreno e reazioni di fondazione sono interne alla massa globale e non si aggiungono come azioni esterne. Il motore geotecnico, le operazioni geometriche e l’adattatore del muro restano componenti separate.",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_palo-verticale.md",
+      "percorso": "riga 91",
+      "classe": "testo",
+      "a": "L'azione di compressione comprende il peso proprio sfavorevole e quella di trazione è ridotta dal peso favorevole, con i coefficienti specificati. Il peso del palo nelle azioni dipende dalla condizione e dal verso. A trazione, drenata e non drenata, si usa sempre il peso alleggerito W′ = W − γw A (z − zf) sotto falda, con z profondità della punta e zf della falda. A compressione non drenata con la base lorda Ab (Nc Cu + σv,L totale), cioè con la punta coesiva sotto falda in almeno una verticale, si usa sempre il peso intero W: σv contiene già la pressione dell'acqua alla base. A compressione drenata, e non drenata senza base lorda, si usa W′ con «Considera sottospinta», altrimenti W, a favore di sicurezza. Ogni condizione è confrontata con la propria resistenza. La sottospinta sul peso resta separata dal calcolo delle tensioni del terreno.",
+      "b": "L'azione di compressione comprende il peso proprio sfavorevole e quella di trazione è ridotta dal peso favorevole, con i coefficienti specificati. Il peso del palo nelle azioni dipende dalla condizione e dal verso. A trazione, drenata e non drenata, si usa sempre il peso alleggerito W′ = W − γw A (z − zf) sotto falda, con z profondità della punta e zf della falda. A compressione non drenata con la base lorda Ab (Nc Cu + σv,L totale), cioè con la punta coesiva sotto falda in almeno una verticale, si usa sempre il peso intero W: σv contiene già la pressione dell'acqua alla base. A compressione drenata, e non drenata senza base lorda, si usa W′ con «Considera sottospinta», altrimenti W, a favore di sicurezza. Ogni condizione è confrontata con la propria resistenza. La sottospinta sul peso resta separata dal calcolo delle tensioni del terreno. Con peso specifico del palo nullo W = W′ = 0 a ogni profondità: le azioni di progetto coincidono con quelle assegnate, le resistenze non cambiano e il calcolo segnala che il peso proprio non è considerato. Un peso specifico negativo è rifiutato.",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_palo-verticale.txt",
+      "percorso": "riga 97",
+      "classe": "testo",
+      "a": "text: L'azione di compressione comprende il peso proprio sfavorevole e quella di trazione è ridotta dal peso favorevole, con i coefficienti specificati. Il peso del palo nelle azioni dipende dalla condizione e dal verso. A trazione, drenata e non drenata, si usa sempre il peso alleggerito W′ = W − γw A (z − zf) sotto falda, con z profondità della punta e zf della falda. A compressione non drenata con la base lorda Ab (Nc Cu + σv,L totale), cioè con la punta coesiva sotto falda in almeno una verticale, si usa sempre il peso intero W: σv contiene già la pressione dell'acqua alla base. A compressione drenata, e non drenata senza base lorda, si usa W′ con «Considera sottospinta», altrimenti W, a favore di sicurezza. Ogni condizione è confrontata con la propria resistenza. La sottospinta sul peso resta separata dal calcolo delle tensioni del terreno.",
+      "b": "text: L'azione di compressione comprende il peso proprio sfavorevole e quella di trazione è ridotta dal peso favorevole, con i coefficienti specificati. Il peso del palo nelle azioni dipende dalla condizione e dal verso. A trazione, drenata e non drenata, si usa sempre il peso alleggerito W′ = W − γw A (z − zf) sotto falda, con z profondità della punta e zf della falda. A compressione non drenata con la base lorda Ab (Nc Cu + σv,L totale), cioè con la punta coesiva sotto falda in almeno una verticale, si usa sempre il peso intero W: σv contiene già la pressione dell'acqua alla base. A compressione drenata, e non drenata senza base lorda, si usa W′ con «Considera sottospinta», altrimenti W, a favore di sicurezza. Ogni condizione è confrontata con la propria resistenza. La sottospinta sul peso resta separata dal calcolo delle tensioni del terreno. Con peso specifico del palo nullo W = W′ = 0 a ogni profondità: le azioni di progetto coincidono con quelle assegnate, le resistenze non cambiano e il calcolo segnala che il peso proprio non è considerato. Un peso specifico negativo è rifiutato.",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.md",
+      "percorso": "riga 103",
+      "classe": "testo",
+      "a": "Per il taglio si conserva il verificatore NTC esistente. L'adattamento circolare esplicito usa bw=D e d dal baricentro delle barre del semicerchio teso; si adotta il minore d dei due versi. Staffe chiuse a 90° hanno due bracci; z/d è assegnato e deve essere confermato dall'utente. Non si trasferiscono automaticamente ai pali le riduzioni specifiche delle pile da ponte. Il risultato soddisfatto N–M–V attesta soltanto il perimetro dichiarato; SLE, instabilità, sisma, duttilità e dettagli completi sono separati.",
+      "b": "Per il taglio si conserva il verificatore NTC esistente. L'adattamento circolare esplicito tratta le barre longitudinali come un anello continuo di raggio rs, media dei raggi delle barre pesata sulle aree: l'altezza utile è il baricentro del semianello teso, d = R + 2rs/π, l'armatura longitudinale tesa è As/2 e bw = D. Il risultato non dipende dal numero delle barre né dalla posizione di quelle vicine all'asse neutro. Per D = 800 mm e rs = 330 mm si ottiene d = 400 + 2·330/π = 610,08 mm. Staffe chiuse a 90° hanno due bracci; z/d è assegnato e deve essere confermato dall'utente. Non si trasferiscono automaticamente ai pali le riduzioni specifiche delle pile da ponte. Il risultato soddisfatto N–M–V attesta soltanto il perimetro dichiarato; SLE, instabilità, sisma, duttilità e dettagli completi sono separati.",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.txt",
+      "percorso": "riga 95",
+      "classe": "testo",
+      "a": "text: Per il taglio si conserva il verificatore NTC esistente. L'adattamento circolare esplicito usa bw=D e d dal baricentro delle barre del semicerchio teso; si adotta il minore d dei due versi. Staffe chiuse a 90° hanno due bracci; z/d è assegnato e deve essere confermato dall'utente. Non si trasferiscono automaticamente ai pali le riduzioni specifiche delle pile da ponte. Il risultato soddisfatto N–M–V attesta soltanto il perimetro dichiarato; SLE, instabilità, sisma, duttilità e dettagli completi sono separati.",
+      "b": "text: Per il taglio si conserva il verificatore NTC esistente. L'adattamento circolare esplicito tratta le barre longitudinali come un anello continuo di raggio rs, media dei raggi delle barre pesata sulle aree: l'altezza utile è il baricentro del semianello teso, d = R + 2rs/π, l'armatura longitudinale tesa è As/2 e bw = D. Il risultato non dipende dal numero delle barre né dalla posizione di quelle vicine all'asse neutro. Per D = 800 mm e rs = 330 mm si ottiene d = 400 + 2·330/π = 610,08 mm. Staffe chiuse a 90° hanno due bracci; z/d è assegnato e deve essere confermato dall'utente. Non si trasferiscono automaticamente ai pali le riduzioni specifiche delle pile da ponte. Il risultato soddisfatto N–M–V attesta soltanto il perimetro dichiarato; SLE, instabilità, sisma, duttilità e dettagli completi sono separati.",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.micropalo[4]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente",
+      "b": "/wiki/guide/moduli-singoli/palo-verticale",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.micropalo[5]",
+      "classe": "testo",
+      "a": "/wiki/guide/palo-elastico",
+      "b": "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.micropalo[6]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
+      "b": "/wiki/guide/palo-elastico",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.micropalo[7]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.micropalo[8]",
+      "classe": "testo",
+      "a": "/wiki/manuale/materiali/acciaio-armature",
+      "b": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.micropalo[9]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli/guida-stratigrafia",
+      "b": "/wiki/manuale/materiali/acciaio-armature",
+      "voce": "F5-REL-1130-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.micropalo[10]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli/guida-stratigrafia\"",
+      "voce": "F5-REL-1130-01"
     }
   ]
 }
