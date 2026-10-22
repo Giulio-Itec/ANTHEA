@@ -49,10 +49,16 @@ internal static partial class ConcreteSectionViewChecks
     /// </summary>
     private static readonly string[] ExpectedDeviations = ["ingressi/barre-manuali.txt · passo 7 «campo armatura bottom_bar_count «8»»: editor spento nella vista"];
 
+    /// <summary>The controls laid out that do not show what the ViewModel holds, after a step (<see cref="TraceSide.CheckControls"/>).</summary>
+    private static readonly List<string> TraceMismatches = [];
+
+    /// <summary>The controls compared with the ViewModel after the steps: grids and editors of the forms.</summary>
+    private static int traceControls;
+
     private static async Task Traces(string root, string output)
     {
         Directory.CreateDirectory(output);
-        TraceDeviations.Clear();
+        TraceDeviations.Clear(); TraceMismatches.Clear(); traceControls = 0;
         var scenarios = ConcreteSectionScenarios.All(root);
         var differences = new List<string>(); var report = new List<string>();
         int lines = 0;
@@ -72,11 +78,14 @@ internal static partial class ConcreteSectionViewChecks
         File.WriteAllLines(Path.Combine(output, "confronto.txt"), report, new UTF8Encoding(false));
         if (differences.Count > 0) File.WriteAllLines(Path.Combine(output, "differenze.txt"), differences, new UTF8Encoding(false));
         File.WriteAllLines(Path.Combine(output, "deroghe.txt"), TraceDeviations, new UTF8Encoding(false));
+        File.WriteAllLines(Path.Combine(output, "controlli-diversi.txt"), TraceMismatches, new UTF8Encoding(false));
         Log.Add($"   tracce: {scenarios.Count} scenari, {lines} righe, {differences.Count} diversi, {TraceDeviations.Count} passi guidati sul ViewModel");
         Check(differences.Count == 0 && scenarios.Count == 57, $"Tracce guidate dai controlli della vista XAML uguali a quelle congelate della vista storica: {scenarios.Count} scenari, {lines} righe"
             + (differences.Count == 0 ? "" : " — " + differences.Count + " diversi, il primo " + differences[0]));
         Check(TraceDeviations.SequenceEqual(ExpectedDeviations), $"Passi guidati sul ViewModel solo quelli attesi ({TraceDeviations.Count}): "
             + string.Join(" | ", TraceDeviations));
+        Check(TraceMismatches.Count == 0, $"Dopo ogni passo i controlli disposti della vista mostrano il ViewModel: {traceControls} letture di tabelle e campi"
+            + (TraceMismatches.Count == 0 ? "" : ", " + TraceMismatches.Count + " diverse, la prima " + TraceMismatches[0]));
     }
 
     private static async Task<List<string>> Trace(string root, ConcreteSectionScenario scenario)
@@ -202,7 +211,49 @@ internal static partial class ConcreteSectionViewChecks
             var width = Inputs.Geometry["width_mm"];
             bool editable = FindEditor<TextBox>(Inputs.Geometry, width, Tab(0), realize: false) is { } box ? !box.IsReadOnly : !width.IsInputReadOnly;
             var common = new ConcreteSectionCommonPart(view.StatusText.Text, view.Tabs.SelectedIndex, view.CalculationProgress.Visibility == Visibility.Visible, editable);
+            CheckControls();
             return reader.Read(sections, message, host.Modified, common);
+        }
+
+        /// <summary>
+        /// What the controls laid out show agrees with the ViewModel the state is read from: every grid of the sheet shows the rows of its table in
+        /// their order, its selection and its read-only state; every editor of a FieldForm shows the value of its field (text, choice, check box) and
+        /// a text box refuses the typing when its field does. The differences are listed and fail the check. The texts are compared with the
+        /// decimal separator of either culture: in the culture state of the capture (question V-a) the text of a calculated field is formatted with
+        /// the separator of the operation that published it (the point of this machine outside the flow of the check).
+        /// </summary>
+        private void CheckControls()
+        {
+            static bool SameText(string? a, string? b) => a == b || (a ?? "").Replace(',', '.') == (b ?? "").Replace(',', '.');
+            void Differ(string what) => TraceMismatches.Add(scenario + " · passo " + step.ToString(CultureInfo.InvariantCulture) + ": " + what);
+            foreach (var element in CompositeSectionViewChecks.Walk(Root, popups: false))
+            {
+                switch (element)
+                {
+                    case ConcreteTableGrid { Table: { } table } grid:
+                    {
+                        traceControls++;
+                        string name = AutomationName(grid);
+                        if (!grid.Items.Cast<object>().SequenceEqual(table.Shown)) Differ("tabella «" + name + "»: righe " + grid.Items.Count + " mostrate, " + table.Shown.Count + " nella tabella");
+                        if (grid.SelectedIndex != table.SelectedIndex) Differ("tabella «" + name + "»: selezione " + grid.SelectedIndex + " nella vista, " + table.SelectedIndex + " nella tabella");
+                        if (grid.IsReadOnly != table.IsReadOnly) Differ("tabella «" + name + "»: sola lettura " + grid.IsReadOnly + " nella vista, " + table.IsReadOnly + " nella tabella");
+                        break;
+                    }
+                    case TextBox { DataContext: Anthea.Presentation.Forms.FieldViewModel { Kind: Anthea.Presentation.Forms.FieldKind.Text } field } box when box.TemplatedParent is not ComboBox:
+                        traceControls++;
+                        if (!SameText(box.Text, field.EditText)) Differ("campo «" + field.Label + "» (" + field.Key + "): «" + box.Text + "» nella vista, «" + field.EditText + "» nel campo");
+                        if (box.IsReadOnly != field.IsInputReadOnly) Differ("campo «" + field.Label + "» (" + field.Key + "): sola lettura " + box.IsReadOnly + " nella vista, " + field.IsInputReadOnly + " nel campo");
+                        break;
+                    case ComboBox { DataContext: Anthea.Presentation.Forms.FieldViewModel { Kind: Anthea.Presentation.Forms.FieldKind.Choice } field } combo:
+                        traceControls++;
+                        if (!Equals(combo.SelectedItem, field.SelectedChoice)) Differ("scelta «" + field.Label + "» (" + field.Key + "): «" + combo.SelectedItem + "» nella vista, «" + field.SelectedChoice + "» nel campo");
+                        break;
+                    case CheckBox { DataContext: Anthea.Presentation.Forms.FieldViewModel { Kind: Anthea.Presentation.Forms.FieldKind.Bool } field } check:
+                        traceControls++;
+                        if (check.IsChecked != field.IsChecked) Differ("casella «" + field.Label + "» (" + field.Key + "): " + check.IsChecked + " nella vista, " + field.IsChecked + " nel campo");
+                        break;
+                }
+            }
         }
 
         // ---------------------------------------------------------------- steps

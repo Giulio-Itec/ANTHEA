@@ -44,6 +44,9 @@ namespace X.Desktop;
 /// <item>«sola-lettura»: in the eight tabs the buttons and check boxes that accept the user after InspectRevision are those of the historic view.</item>
 /// <item>«tracce»: the 57 frozen scenarios of tests/Shared/ConcreteSectionTrace.cs driven through the controls of the view, found by their automation names,
 /// with the dialogs shown and driven through their controls, equal to the frozen traces (ConcreteSectionViewChecks.Trace.cs).</item>
+/// <item>«nomi»: the automation names of the historic view kept, every control the user reaches in the eight tabs named
+/// (ConcreteSectionViewChecks.Windows.cs).</item>
+/// <item>«finestre»: «Scala…» of the 3D and 2D domains and «Proprietà / report…» driven through their controls beside the historic windows.</item>
 /// </list>
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
@@ -86,6 +89,8 @@ internal static partial class ConcreteSectionViewChecks
             if (Part("schermate")) await Screenshots(root, Path.Combine(output, "schermate"));
             if (Part("aiuto")) await Help(root);
             if (Part("sola-lettura")) await ReadOnly(root);
+            if (Part("nomi")) await AutomationNames(root);
+            if (Part("finestre")) await Windows(root);
         }
         finally
         {
