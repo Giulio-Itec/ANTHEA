@@ -83,8 +83,21 @@ Le differenze editoriali che la Rev58 produce nella cattura F3 della Wiki sono r
 
 ## Prove della notte (ramo `refactoring/rilascio-1.13.0`)
 
-DA COMPILARE dall'agente al termine delle corse (cartelle in `supporto/artefatti/ci` del worktree
-`Temp\aw-rilascio-1.13.0`).
+Cartelle in `supporto/artefatti/ci` del worktree `Temp\aw-rilascio-1.13.0`, da copiare nel checkout principale prima di
+cancellare il worktree.
+
+- `20261023-004336-rev58-f3`, commit afb80a16 (Rev58 senza transizioni): `ui/f3-equivalence` cattura 119 fixture,
+  77 articoli e 30 ricerche e trova 21 differenze non ammesse, tutte editoriali nella Wiki. Registrate in 51b8c328
+  (F5-REL-1130-01); il confronto della sola Wiki con il registro aggiornato non ha differenze non ammesse.
+- `20261023-005328-rilascio-1.13.0-standard-f3`, commit c3f77daf: profilo standard più `ui/f3-equivalence`
+  (`-Profile full -Only '^(?!ui/)|^ui/f3-equivalence$'`). **PASS 98, KNOWN 0, NEW-FAIL 0.** `ui/f3-equivalence` PASS,
+  Architecture, Application, Presentation (anche `paralleli` e `sezione-ca`), Wiki, Examples e regressione PASS; `wiki/indice` e
+  `wiki/manuale` PASS. Il runner esce con 1 solo perché durante la corsa ho modificato due documenti
+  (`installer-1.13.0.md`, `note-rilascio-1.13.0.md`, poi in 16fdc411): nessun file di codice o di prova.
+- `20261023-012842-rilascio-1.13.0-installer`, commit 16fdc411: `-Stage fast -Only '^installer/' -Installer`, PASS 3.
+  Sicurezza NSIS 26 controlli, guide 30 controlli con Rev58 scelta per entrambe le guide, esempi PASS.
+
+Il collaudo full con lo stadio ui completo resta per il commit finale, dopo le unioni.
 
 ## Passi per il rilascio (23/10)
 
