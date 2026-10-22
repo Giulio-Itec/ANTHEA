@@ -8266,6 +8266,28 @@
         "Checker: BishopKeepsTensionOnSlicesWithoutFriction e GeneralGeotechnicsMigrationTests (differenze dichiarate)",
         "Presentation 4790 PASS sul set candidato del 22/10"
       ]
+    },
+    {
+      "id": "F5-REL-1130-01",
+      "data": "2026-10-23",
+      "fase": "Rilascio F5",
+      "titolo": "Guide Rev58 e transizioni editoriali della Wiki per ANTHEA 1.13.0",
+      "famiglia": "documentazione/collaudo",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Cinque articoli Wiki aggiornati dalle guide globali Rev58: Tab che seleziona il contenuto, stratigrafia estesa e peso specifico nullo del palo verticale, taglio dei pali circolari con l'anello continuo (PARATIE-19), conci con φ = 0 nella stabilità globale dei muri (PARATIE-20). Nella ricerca «micropalo» l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Il registro editoriale passa da 275 a 296 voci.",
+      "codice": [
+        "tests/fixtures/f3/transitions-f5-wiki.json",
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md"
+      ],
+      "segno": "Nessuna modifica agli attesi numerici o alle transizioni F4. Le 30 ricerche restano identiche tranne «micropalo»; gli articoli delle paratie cambiano senza transizioni nuove, perché sono file aggiunti già ammessi (F5-LIB-02).",
+      "test": [
+        "ui/f3-equivalence sul commit della Rev58 (afb80a16): 21 differenze non ammesse, tutte editoriali nella Wiki, ognuna registrata con file, percorso, classe e testo prima e dopo",
+        "Confronto della sola Wiki con il registro aggiornato: 151 file, nessuna differenza non ammessa",
+        "Guide Rev58: pratica 100 pagine, teorica 166 pagine e 391 formule conservate, 18 originali archiviati con SHA-256",
+        "docs/refactoring/installer-1.13.0.md"
+      ]
     }
   ]
 }
