@@ -17,10 +17,10 @@ namespace Anthea.Presentation.Tests;
 
 /// <summary>
 /// The ViewModel of the RC section (F5.10, sub-steps S1: shell, calculation, inputs and materials; S2: actions; S1b: sections made by the
-/// wizard; S3: domains; S4: serviceability; S5: shear and torsion; S6: detailing; S7: section σ/ε and M–χ) against the traces of the historic view frozen in
-/// tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the sub-steps (ingressi/*, azioni/*, domini/*, sle/*, taglio/*, dettagli/*, ispezione/*, percorso-f3/*,
+/// wizard; S3: domains; S4: serviceability; S5: shear and torsion; S6: detailing; S7: section σ/ε and M–χ; S8: reinforcement design) against the traces of the historic view frozen in
+/// tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the sub-steps (ingressi/*, azioni/*, domini/*, sle/*, taglio/*, dettagli/*, ispezione/*, armature/*, percorso-f3/*,
 /// calcolo/*, muri/*, esempi/*) is driven on the ViewModel as the user drives the historic controls; the common part of every state and the parts
-/// «[ingressi]», «[azioni]», «[domini]», «[sle]», «[taglio]», «[dettagli]», «[ispezione]» and «[wizard]» are compared line by
+/// «[ingressi]», «[azioni]», «[domini]», «[sle]», «[taglio]», «[dettagli]», «[ispezione]», «[armature]» and «[wizard]» are compared line by
 /// line, the parts of the sub-steps not migrated yet are left out by their label (section 4.0
 /// of docs/refactoring/f5-10-sezione.md). A step that belongs to a sub-step not migrated (the options of the domains, the stresses, the M–χ…)
 /// does nothing here: when the historic trace shows its effect, the comparison of that scenario stops there, at the place listed in
@@ -29,19 +29,19 @@ namespace Anthea.Presentation.Tests;
 /// </summary>
 internal static partial class ConcreteSectionSheetChecks
 {
-    private static readonly string[] OwnParts = ["ingressi", "azioni", "domini", "sle", "taglio", "dettagli", "ispezione", ConcreteSectionScenarios.WizardSection];
+    private static readonly string[] OwnParts = ["ingressi", "azioni", "domini", "sle", "taglio", "dettagli", "ispezione", "armature", ConcreteSectionScenarios.WizardSection];
     private static readonly string[] OtherParts = ConcreteSectionScenarios.AllSections.Except(OwnParts).ToArray();
 
     /// <summary>
     /// The scenarios whose comparison stops at a step of a sub-step not migrated yet, with that step and its occurrence in the trace (a step such
     /// as «attendi» comes back more times). From S4 to S6 «calcolo/sola-lettura» stopped at its second «attendi» (the M–χ curve calculated in the
-    /// read-only revision); since S7 no scenario stops: the step of S8 left in it (a field of the search, read-only) shows no effect.
+    /// read-only revision); since S7 no scenario stops. Since S8 every part is compared: the scenarios of S9 (report/*) are not driven yet.
     /// </summary>
     private static readonly Dictionary<string, (string Step, int Occurrence)> ExpectedStops = new(StringComparer.Ordinal);
 
     /// <summary>The scenarios of the fast stage (decision C7: the long traces run in the ui stage, with --sezione-tracce).</summary>
     private static readonly string[] FastScenarios = ["calcolo/ricalcolo-revisione.txt", "ingressi/resistenze-rapide.txt", "percorso-f3/default.txt", "azioni/incolla.txt",
-        "ingressi/wizard-tipologie.txt", "sle/fessurazione.txt", "taglio/circolare-senza-staffe.txt", "dettagli/soletta.txt", "ispezione/sezione-sigma-epsilon.txt"];
+        "ingressi/wizard-tipologie.txt", "sle/fessurazione.txt", "taglio/circolare-senza-staffe.txt", "dettagli/soletta.txt", "ispezione/sezione-sigma-epsilon.txt", "armature/opzioni-ricerca.txt"];
 
     internal static int Run(string root, string output, bool full) => SingleThreadContext.Run(_ => RunAsync(root, output, full));
 
@@ -80,6 +80,7 @@ internal static partial class ConcreteSectionSheetChecks
                 await ShearAsync(root, expect);
                 await DetailingAsync(root, expect);
                 await InspectionAsync(root, expect);
+                await DesignAsync(root, expect);
             }
             return expect.Count;
         }
@@ -91,9 +92,9 @@ internal static partial class ConcreteSectionSheetChecks
     private static async Task TracesAsync(string root, string output, bool full, Expect expect)
     {
         string folder = Path.Combine(output, "sezione-ca");
-        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "domini" or "sle" or "taglio" or "dettagli" or "ispezione" or "percorso-f3" or "calcolo" or "muri" or "esempi")
+        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "domini" or "sle" or "taglio" or "dettagli" or "ispezione" or "armature" or "percorso-f3" or "calcolo" or "muri" or "esempi")
             .Where(s => full || FastScenarios.Contains(s.File.Replace('\\', '/'))).ToList();
-        expect.That(scenarios.Count == (full ? 53 : FastScenarios.Length), "Scenari S1, S2, S1b, S3, S4, S5, S6 e S7 della sezione c.a.: " + scenarios.Count);
+        expect.That(scenarios.Count == (full ? 55 : FastScenarios.Length), "Scenari S1, S2, S1b, S3, S4, S5, S6, S7 e S8 della sezione c.a.: " + scenarios.Count);
         var failures = new List<string>();
         var report = new List<string>();
         foreach (var scenario in scenarios)
@@ -274,7 +275,7 @@ internal static partial class ConcreteSectionSheetChecks
                 // The mesh shown alone (S3) runs on a worker thread, as the historic view (its status says so).
                 // The section σ/ε of the panels and the M–χ curve run on worker threads with their own schedulers (S7).
                 quiet = !Sheet.IsBusy && !Sheet.IsCalculationQueued && !Inputs.IsQuickResistanceRunning && !Sheet.Curvature.IsRunning
-                    && !Sheet.Domain3D.Inspection.IsRunning && !Sheet.Domain2D.Inspection.IsRunning
+                    && !Sheet.Domain3D.Inspection.IsRunning && !Sheet.Domain2D.Inspection.IsRunning && !Sheet.Design.IsRunning
                     && !Sheet.Status.StartsWith("Aggiornamento della sola mesh", StringComparison.Ordinal) ? quiet + 1 : 0;
                 if (watch.Elapsed > TimeSpan.FromMinutes(3)) throw new TimeoutException("La sezione c.a. non si ferma: " + Sheet.Status);
             }
@@ -338,6 +339,9 @@ internal static partial class ConcreteSectionSheetChecks
             "taglio" => Sheet.Shear.Form,
             "torsione" => Sheet.Shear.Torsion,
             "curvatura" => Sheet.Curvature.Form,
+            "ricerca" => Sheet.Design.Form,
+            "limiti" => Sheet.Design.Limits,
+            "mostra" => Sheet.Design.Shown,
             "dettagli" => Sheet.Detailing.Forms.Single(f => f.Contains(key!)),
             "ancoraggi" => Sheet.Detailing.Anchorage,
             _ => null
@@ -374,6 +378,7 @@ internal static partial class ConcreteSectionSheetChecks
         private async Task<(string? Message, bool Own)> ApplyControlAsync(ConcreteSectionStep step)
         {
             if (ApplyInspectionStep(step) is { } inspection) return inspection;
+            if (ApplyDesignStep(step) is { } design) return design;
             if (ApplyDomainStep(step) is { } domain) return domain;
             if (ApplyServiceabilityStep(step) is { } serviceability) return serviceability;
             if (IsActionStep(step)) return await ApplyActionAsync(step);
@@ -586,6 +591,7 @@ internal static partial class ConcreteSectionSheetChecks
                 else if (section == "taglio") TraceShear(block);
                 else if (section == "dettagli") TraceDetailing(block);
                 else if (section == "ispezione") TraceInspection(block);
+                else if (section == "armature") TraceDesign(block);
                 else if (section == ConcreteSectionScenarios.WizardSection) TraceWizard(block);
                 else TraceInputs(block);
                 state.Blocks.Add(block);

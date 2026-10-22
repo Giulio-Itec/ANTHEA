@@ -21,8 +21,8 @@ namespace Anthea.Presentation.Modules.ConcreteSection;
 /// <see cref="Result"/>, <see cref="HasResults"/> and «Calcola» (<see cref="CalculateAsync"/>) of its own. The result is the historic export
 /// (ConcreteResultExport), built when read and kept until the next invalidation, as the historic view.</item>
 /// <item>Children: <see cref="Inputs"/> (inputs and materials, with the sections of the wizard: S1, S1b), <see cref="Actions"/> (S2), <see cref="Domain3D"/>
-/// and <see cref="Domain2D"/> (S3), <see cref="StressPanels"/> (S4), <see cref="Shear"/> (S5), <see cref="Detailing"/> (S6), the section σ/ε of the domain panels and <see cref="Curvature"/> (S7); the tabs of the later
-/// sub-steps (S8, S9) keep, until
+/// and <see cref="Domain2D"/> (S3), <see cref="StressPanels"/> (S4), <see cref="Shear"/> (S5), <see cref="Detailing"/> (S6), the section σ/ε of the domain panels and <see cref="Curvature"/> (S7), <see cref="Design"/> (S8); the tab of
+/// the last sub-step (S9) keeps, until
 /// their ViewModels, only the writes into the document and the results that the common part of the traces reads (ConcreteSheetViewModel.Checks.cs).</item>
 /// </list>
 /// Works without a project and without a window (requirement of section 5 for the verifier of the elastic pile): the host is only asked for
@@ -173,6 +173,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         // 07 · Momento–curvatura (S7): no write. 08 · Calcola armature.
         CreateCurvaturePanel();
         ConcreteEditor.PrepareDesign(Settings);
+        CreateDesignPanel();
         tab = ConcreteSheetPresentation.InitialTab(Settings);
         OnPropertyChanged(nameof(SelectedTab)); OnPropertyChanged(nameof(Inputs)); OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(Actions));
         OnPropertyChanged(nameof(Domain3D)); OnPropertyChanged(nameof(Domain2D));
@@ -312,6 +313,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         Shear?.RefreshEditable(IsReadOnly);
         Detailing?.RefreshEditable(IsReadOnly);
         Curvature?.RefreshEditable(IsReadOnly);
+        Design?.RefreshEditable(IsReadOnly);
     }
 
     private void OnCalculationChanged(object? sender, PropertyChangedEventArgs e)
@@ -332,6 +334,8 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         // The section σ/ε of the panels and the curve: what is running is never published (S7).
         foreach (var panel in DomainPanels) panel.Inspection.Close();
         Curvature.Dispose();
+        // The search of the reinforcement design: cancelled, never published (S8).
+        Design.Dispose();
     }
 
     protected override void OnDisposed()
