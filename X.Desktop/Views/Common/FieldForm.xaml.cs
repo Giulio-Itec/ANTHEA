@@ -32,6 +32,19 @@ public partial class FieldForm : UserControl
     public static readonly DependencyProperty EditorToolTipsProperty = DependencyProperty.RegisterAttached("EditorToolTips", typeof(IReadOnlyDictionary<string, string>),
         typeof(FieldForm), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
 
+    /// <summary>
+    /// Labels of the items of a choice given by the host view, by key and then by item (F5.10: «Plastico» and «Elastico» for the SLU and SLV of
+    /// the limit state of a domain panel, the DomainLabelConverter of the historic view); the document keeps the item. A state of the view.
+    /// Inherited: set on the element that hosts the form. Without labels for its key a choice shows its items as they are.
+    /// </summary>
+    public static readonly DependencyProperty ChoiceLabelsProperty = DependencyProperty.RegisterAttached("ChoiceLabels",
+        typeof(IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>), typeof(FieldForm), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
+
+    public static IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>? GetChoiceLabels(DependencyObject target) =>
+        (IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>?)target.GetValue(ChoiceLabelsProperty);
+
+    public static void SetChoiceLabels(DependencyObject target, IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>? value) => target.SetValue(ChoiceLabelsProperty, value);
+
     public static IReadOnlyDictionary<string, string>? GetEditorToolTips(DependencyObject target) => (IReadOnlyDictionary<string, string>?)target.GetValue(EditorToolTipsProperty);
 
     public static void SetEditorToolTips(DependencyObject target, IReadOnlyDictionary<string, string>? value) => target.SetValue(EditorToolTipsProperty, value);

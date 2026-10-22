@@ -194,7 +194,7 @@
             <DockPanel>
              <WrapPanel DockPanel.Dock="Top"><Button Style="{StaticResource Command}" Content="Ripristina barre da wizard" Command="{Binding Inputs.RestoreBarsCommand}"/></WrapPanel>
              <ContentControl DockPanel.Dock="Top" Focusable="False" Content="{Binding Inputs.Bars.Filter}" ContentTemplate="{StaticResource FilterBar}"/>
-             <views:ConcreteTableGrid x:Name="BarsGrid" Table="{Binding Inputs.Bars}" AutomationProperties.Name="Barre della sezione"/>
+             <views:ConcreteTableGrid x:Name="BarsGrid" Table="{Binding Inputs.Bars}" StretchColumns="True" AutomationProperties.Name="Barre della sezione"/>
             </DockPanel>
            </TabItem>
            <TabItem Header="Trefoli / cavi">

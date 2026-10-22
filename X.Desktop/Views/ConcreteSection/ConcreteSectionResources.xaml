@@ -16,6 +16,7 @@
  <views:PresentShownConverter x:Key="PresentShown"/>
  <views:CardBrushConverter x:Key="CardBrush"/>
  <views:CollapsedWhenTrueConverter x:Key="Hidden"/>
+ <views:DomainStateLabelsConverter x:Key="DomainStateLabels"/>
 
  <!-- Texts: Ui.Text of the historic view (wrapping, vertically centred, ink). -->
  <Style x:Key="T13" TargetType="TextBlock">
@@ -138,11 +139,48 @@
   <ContentPresenter ContentSource="SelectedContent"/>
  </ControlTemplate>
 
- <!-- The cards of a summary (VerificationCards of the historic view, one or two columns): the message, or the summaries with the colour of η. -->
+ <!-- The three cards of the historic VerificationCards, by ConcreteCard.Kind: AddSummary (η at the right of the heading, the governing
+      combination below), AddDetail (heading, values, explanation, reference) and AddValue (heading, value in bold, explanation). -->
+ <DataTemplate x:Key="SummaryCard" DataType="{x:Type concrete:ConcreteCard}">
+  <Border BorderBrush="{Binding Converter={StaticResource CardBrush}}" BorderThickness="5,0,0,0" Background="{DynamicResource Token.Paper}"
+   Padding="5,2,4,2" Margin="0,0,0,3" ToolTip="{Binding ToolTip}">
+   <StackPanel>
+    <DockPanel>
+     <TextBlock DockPanel.Dock="Right" Style="{StaticResource T12Bold}" Margin="6,0,0,0" Text="{Binding Value}"/>
+     <TextBlock Style="{StaticResource T11Bold}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="{Binding Heading}"/>
+    </DockPanel>
+    <TextBlock Style="{StaticResource T11}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="{Binding Explanation}"/>
+   </StackPanel>
+  </Border>
+ </DataTemplate>
+ <DataTemplate x:Key="DetailCard" DataType="{x:Type concrete:ConcreteCard}">
+  <Border BorderBrush="{Binding Converter={StaticResource CardBrush}}" BorderThickness="5,0,0,0" Background="{DynamicResource Token.Paper}"
+   Padding="5,2,4,2" Margin="0,0,0,3" ToolTip="{Binding ToolTip}">
+   <StackPanel Margin="0,3,0,5">
+    <TextBlock Style="{StaticResource T11Bold}" Text="{Binding Heading}"/>
+    <TextBlock Style="{StaticResource T12}" Text="{Binding Value}"/>
+    <TextBlock Style="{StaticResource T11}" Text="{Binding Explanation}"/>
+    <TextBlock Style="{StaticResource T11Muted}" Text="{Binding Reference}"/>
+   </StackPanel>
+  </Border>
+ </DataTemplate>
+ <DataTemplate x:Key="ValueCard" DataType="{x:Type concrete:ConcreteCard}">
+  <Border BorderBrush="{Binding Converter={StaticResource CardBrush}}" BorderThickness="5,0,0,0" Background="{DynamicResource Token.Paper}"
+   Padding="5,2,4,2" Margin="0,0,0,3" ToolTip="{Binding ToolTip}">
+   <StackPanel>
+    <TextBlock Style="{StaticResource T11Bold}" Text="{Binding Heading}"/>
+    <TextBlock Style="{StaticResource T13}" FontWeight="SemiBold" Text="{Binding Value}"/>
+    <TextBlock Style="{StaticResource T11}" Text="{Binding Explanation}"/>
+   </StackPanel>
+  </Border>
+ </DataTemplate>
+ <views:ConcreteCardTemplateSelector x:Key="CardTemplates" Summary="{StaticResource SummaryCard}" Detail="{StaticResource DetailCard}" Value="{StaticResource ValueCard}"/>
+
+ <!-- The cards of a summary (VerificationCards of the historic view, one or two columns): the message, or the cards. -->
  <DataTemplate x:Key="SummaryCards" DataType="{x:Type concrete:ConcreteCardsViewModel}">
   <StackPanel>
    <TextBlock Style="{StaticResource T12}" Text="{Binding Message}" Visibility="{Binding Message, Converter={StaticResource TextShown}}"/>
-   <ItemsControl Focusable="False" ItemsSource="{Binding Cards}">
+   <ItemsControl Focusable="False" ItemsSource="{Binding Cards}" ItemTemplateSelector="{StaticResource CardTemplates}">
     <ItemsControl.Style>
      <Style TargetType="ItemsControl">
       <Setter Property="ItemsPanel"><Setter.Value><ItemsPanelTemplate><UniformGrid Columns="{Binding Columns}"/></ItemsPanelTemplate></Setter.Value></Setter>
@@ -153,20 +191,6 @@
       </Style.Triggers>
      </Style>
     </ItemsControl.Style>
-    <ItemsControl.ItemTemplate>
-     <DataTemplate DataType="{x:Type concrete:ConcreteCard}">
-      <Border BorderBrush="{Binding Converter={StaticResource CardBrush}}" BorderThickness="5,0,0,0" Background="{DynamicResource Token.Paper}"
-       Padding="5,2,4,2" Margin="0,0,0,3" ToolTip="{Binding ToolTip}">
-       <StackPanel>
-        <DockPanel>
-         <TextBlock DockPanel.Dock="Right" Style="{StaticResource T12Bold}" Margin="6,0,0,0" Text="{Binding Value}"/>
-         <TextBlock Style="{StaticResource T11Bold}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="{Binding Heading}"/>
-        </DockPanel>
-        <TextBlock Style="{StaticResource T11}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="{Binding Explanation}"/>
-       </StackPanel>
-      </Border>
-     </DataTemplate>
-    </ItemsControl.ItemTemplate>
    </ItemsControl>
   </StackPanel>
  </DataTemplate>
@@ -212,7 +236,7 @@
     <Button Style="{StaticResource Command}" Content="Gestisci sollecitazioni…" Command="{Binding ImportCommand}"/>
    </WrapPanel>
    <ContentControl DockPanel.Dock="Top" Focusable="False" Content="{Binding Table.Filter}" ContentTemplate="{StaticResource FilterBar}"/>
-   <views:ConcreteTableGrid Table="{Binding Table}" Actions="{Binding}" AutomationProperties.Name="Combinazioni"/>
+   <views:ConcreteTableGrid Table="{Binding Table}" Actions="{Binding}" StretchColumns="True" AutomationProperties.Name="Combinazioni"/>
   </DockPanel>
   <DataTemplate.Triggers>
    <DataTrigger Binding="{Binding IsShear}" Value="True">

@@ -22,6 +22,7 @@
   <common:FieldLockConverter x:Key="Lock"/>
   <common:FieldKeyFlagConverter x:Key="KeyFlag"/>
   <common:EditorToolTipConverter x:Key="EditorTip"/>
+  <common:ChoiceLabelSelector x:Key="ChoiceLabel"/>
   <BooleanToVisibilityConverter x:Key="Visible"/>
 
   <!-- Editors: the text box, the choice and the check box of InputForm. Margin and minimum height are also on the host
@@ -72,7 +73,8 @@
    </DataTemplate.Triggers>
   </DataTemplate>
   <DataTemplate x:Key="ChoiceEditor" DataType="{x:Type forms:FieldViewModel}">
-   <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}" IsEnabled="{Binding CanChange, Mode=OneWay}"
+   <!-- ChoiceLabel: the labels the host view gives for the items of its key (FieldForm.ChoiceLabels), otherwise the items as they are. -->
+   <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}" IsEnabled="{Binding CanChange, Mode=OneWay}" ItemTemplateSelector="{StaticResource ChoiceLabel}"
     MinHeight="{Binding Form.Compact, Converter={StaticResource Flag}, ConverterParameter='22|27'}"
     ToolTipService.ShowDuration="20000" AutomationProperties.Name="{Binding Label, Mode=OneWay}"
     KeyDown="Editor_KeyDown" PreviewMouseWheel="Choice_PreviewMouseWheel">
