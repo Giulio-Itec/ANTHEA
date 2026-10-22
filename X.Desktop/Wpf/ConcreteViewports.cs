@@ -1,5 +1,6 @@
 using Anthea.Application.Presentation;
 using Anthea.Application.Concrete;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -47,8 +48,8 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     internal ConcreteGeometry? Section { get; set; }
     internal List<TendonPoint> Tendons { get; set; } = [];
     internal ConcreteResults.StressState? Stress { get; set; }
-    // Copia locale: le prove WPF (ConcreteSmokeChecks, ConcreteExtensionSmokeChecks) la leggono come vettore; il catalogo è immutabile (F2.11c).
-    internal static readonly string[] Contours = [.. Anthea.Application.Concrete.ConcreteSheetPreparation.Contours];
+    // Il catalogo immutabile di Application (F2.11c), stessi elementi e stesso ordine (F5.13 d, P3); Ui.Choice ne copia le voci in un vettore.
+    internal static ImmutableArray<string> Contours => Anthea.Application.Concrete.ConcreteSheetPreparation.Contours;
     internal string Contour { get; set; } = Contours[0];
     internal string ContourLegend { get; private set; } = "";
     internal bool Labels { get; set; } = true;

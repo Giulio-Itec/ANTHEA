@@ -1,4 +1,5 @@
 using Anthea.Application.Concrete;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -11,7 +12,8 @@ internal sealed partial class ConcreteWorkspace
     private InputForm? coefficients;
     private readonly TextBlock standardNote = Ui.Text("", 11, color: Ui.Muted);
     private readonly List<InputForm> stirrupForms = [];
-    private static readonly (string Input, string Standard)[] CommonCoefficients = ConcreteEditor.CommonCoefficients;
+    // Copia immutabile del catalogo (F5.13 d, P3): stesse coppie, stesso ordine.
+    private static readonly ImmutableArray<(string Input, string Standard)> CommonCoefficients = [.. ConcreteEditor.CommonCoefficients];
     private void PrepareCoefficients()
     {
         if (settings["coefficienti"] is not JsonObject) settings["coefficienti"] = ConcreteEditor.StandardDefaults(ConcreteEditor.RequiredStandardName(settings));
