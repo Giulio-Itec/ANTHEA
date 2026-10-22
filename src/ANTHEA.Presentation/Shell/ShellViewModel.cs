@@ -368,6 +368,12 @@ public sealed class ShellViewModel : ViewModelBase
     }
 
     /// <summary>
+    /// An article asked by a view of the window outside the services (the historic views hosted in the shell, R5: F1 and the «?» of SheetEditor through
+    /// WikiContextHelp): the Wiki tab, the errors as messages (the Safe of MainWindow.ShowWiki).
+    /// </summary>
+    public void ShowWikiFromView(string uri) => guard.Run(() => ShowWiki(uri));
+
+    /// <summary>
     /// A module asked by the Wiki (MainWindow.OpenWikiModule): without an example as «Apri» of the catalogue; with an example a new unsaved single
     /// file with the data of the example (WikiExamples), validated before anything opens.
     /// </summary>

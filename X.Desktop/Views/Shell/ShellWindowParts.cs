@@ -8,6 +8,15 @@ using Anthea.Presentation.Shell.Tabs;
 
 namespace X.Desktop.Views.Shell;
 
+/// <summary>
+/// A window of the new shell where the historic views open the Wiki (F5.13 c, night of 22-23/10; R5): WikiContextHelp, used by F1 and the «?» labels of
+/// SheetEditor, looks for MainWindow among the owners of the window and, failing it, for this; in the Release there is no such window.
+/// </summary>
+internal interface IShellWikiHost
+{
+    void ShowWiki(string uri);
+}
+
 /// <summary>The header of a tab in the strip: the template of a sheet («•» not saved) or of a page (the Wiki, a model).</summary>
 internal sealed class TabHeaderTemplateSelector : DataTemplateSelector
 {

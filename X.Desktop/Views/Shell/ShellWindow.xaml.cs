@@ -13,7 +13,7 @@ namespace X.Desktop.Views.Shell;
 /// detached windows (the closing asks the questions of the coordinator first), the requests of the commands that only a window can satisfy
 /// (exit, the rheology tool window).
 /// </summary>
-public partial class ShellWindow : Window
+public partial class ShellWindow : Window, IShellWikiHost
 {
     /// <param name="shell">The shell, built by the composition root (in the draft by the capture of the checkpoint).</param>
     /// <param name="tracker">The detached windows of <paramref name="shell"/>, already attached to it.</param>
@@ -40,6 +40,9 @@ public partial class ShellWindow : Window
 
     /// <summary>The ViewModel of the window.</summary>
     internal ShellViewModel Shell { get; }
+
+    /// <summary>F1 and the «?» of a historic sheet in this window (R5, WikiContextHelp): the Wiki tab of the shell.</summary>
+    void IShellWikiHost.ShowWiki(string uri) => Shell.ShowWikiFromView(uri);
 
     private void OnClosing(object? sender, CancelEventArgs e) => e.Cancel = !Shell.ConfirmClose();
 

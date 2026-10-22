@@ -18,8 +18,10 @@ internal sealed record ShellParts(ShellWindow Window, ShellViewModel Shell, Shel
 /// Release, which still opens MainWindow (App.OnStartup) until the switch of parts (f)–(g): only the UiTests build launches it, by hand with
 /// <c>--interactive-shell</c> and in the check of the draft (ui/check-shell-draft).
 /// <list type="bullet">
-/// <item>the sheets of the modules of the registry through <see cref="RegistrySheetFactory"/>, with the limiter of the calculations;</item>
-/// <item>the files of the documents with the installed examples, the exports of the sheets (<see cref="SheetFileExports"/>), the menu «Aspetto»
+/// <item>the sheets as the Release chooses them (<see cref="ReleaseSheetFactory"/>, night of 22-23/10, R5): the modules MVVM in
+/// <see cref="ModuleImplementations"/> through their ViewModel, with the limiter of the calculations; the modules still historic in the historic
+/// <see cref="SheetEditor"/>, hosted in the tab (<see cref="HistoricSheetViewModel"/>); their files through <see cref="DesktopSheetExports"/>;</item>
+/// <item>the files of the documents with the installed examples, the menu «Aspetto»
 /// (<see cref="WpfAppearanceService"/>) and the page «Esempi»;</item>
 /// <item>the detached windows: a <see cref="DetachedShellWindow"/> for each detached host, through <see cref="DetachedWindowHandle"/> for
 /// <see cref="ShellWindowTracker"/> (the checks wrap them in windows that are never activated);</item>
@@ -44,8 +46,9 @@ internal static class ShellComposition
 
     /// <param name="services">The services of the product (DesktopComposition, through <see cref="WithShellWiki"/>) or of a check.</param>
     /// <param name="detached">The detached window as the tracker sees it; by default the WPF window itself (<see cref="DetachedWindowHandle"/>).</param>
+    /// <param name="implementations">The implementation of each module; by default the choice of the Release (<see cref="ModuleImplementations.Release"/>).</param>
     internal static ShellParts Create(PresentationServices services, ModuleRegistry modules, CalculationLimiter limiter, string examples,
-        Func<DetachedShellWindow, IShellWindow>? detached = null)
+        Func<DetachedShellWindow, IShellWindow>? detached = null, ModuleImplementations? implementations = null)
     {
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(modules);
@@ -54,7 +57,8 @@ internal static class ShellComposition
         detached ??= window => new DetachedWindowHandle(window);
         ShellViewModel? shell = null;
         var tracker = new ShellWindowTracker(host => detached(new DetachedShellWindow(host, shell!.Windows, shell)));
-        shell = new ShellViewModel(services, new RegistrySheetFactory(modules, services, limiter), new DocumentFiles(examples), tracker, new SheetFileExports(),
+        shell = new ShellViewModel(services, new ReleaseSheetFactory(implementations ?? ModuleImplementations.Release, modules, services, limiter), new DocumentFiles(examples), tracker,
+            new DesktopSheetExports(),
             new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples)));
         tracker.Attach(shell.Windows);
         (services.Wiki as ShellWikiNavigator)?.Attach(shell);

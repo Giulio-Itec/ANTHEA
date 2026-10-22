@@ -69,12 +69,15 @@ internal static class ShellDraftChecks
             var presentation = ShellComposition.WithShellWiki(services.Create());
             var modules = DesktopComposition.CreateModules();
             var detached = new List<QuietWindow>();
+            // Since the night of 22-23/10 (R5) the shell opens every module as the Release chooses it; the draft keeps every module on its MVVM view, the
+            // views of the images of the checkpoint (01-20). The modules as the Release chooses them are drawn by HistoricHost (21).
+            var everyMvvm = ModuleImplementations.Declared.Aggregate(ModuleImplementations.Release, (set, entry) => set.With(entry.Module, SheetImplementation.Mvvm));
             var parts = ShellComposition.Create(presentation, modules, new CalculationLimiter(CalculationLimiter.DefaultMaximum), ShellComposition.ExamplesFolder, window =>
             {
                 var quiet = new QuietWindow(Offscreen(window));
                 detached.Add(quiet);
                 return quiet;
-            });
+            }, everyMvvm);
             var shell = parts.Shell;
             var tracker = parts.Tracker;
             var main = Offscreen(parts.Window);
@@ -284,6 +287,8 @@ internal static class ShellDraftChecks
                 main.Close();
                 shell.Dispose();
             }
+            // R5 (night of 22-23/10): a shell with the modules as the Release chooses them, the historic ones in their SheetEditor.
+            await HistoricHost(output, bindings, Check);
             // Only the errors of the draft count: those of the module views and of the historic Wiki and viewer go to a separate file.
             var draft = bindings.Errors.Where(BindingErrors.OfDraft).ToArray();
             File.WriteAllLines(Path.Combine(output, "binding-errors.txt"), draft, new UTF8Encoding(false));
@@ -527,6 +532,104 @@ internal static class ShellDraftChecks
         }
     }
 
+    /// <summary>
+    /// The host of the modules still historic (night of 22-23/10, fifth and sixth items of section 10.1; R5): a shell built by its composition root with
+    /// the choices of the Release (12 modules historic). In a project with the RC section and the vertical piles (historic) and the pile group (MVVM):
+    /// the historic sheets open in their SheetEditor inside the tab (21), are confirmed into the document, move to a detached window and back with
+    /// the same control, reopen read-only for an archived revision, open the Wiki tab with F1; the report short of the RC section goes to the editor
+    /// (the bytes or the refusal of the editor itself), from the command of the shell.
+    /// </summary>
+    private static async Task HistoricHost(string output, BindingErrors bindings, Action<bool, string> Check)
+    {
+        bindings.Step = "ospite-storico";
+        var services = new DraftServices();
+        var presentation = ShellComposition.WithShellWiki(services.Create());
+        var detached = new List<QuietWindow>();
+        var parts = ShellComposition.Create(presentation, DesktopComposition.CreateModules(), new CalculationLimiter(CalculationLimiter.DefaultMaximum), ShellComposition.ExamplesFolder,
+            window => { var quiet = new QuietWindow(Offscreen(window)); detached.Add(quiet); return quiet; });
+        var shell = parts.Shell;
+        var main = Offscreen(parts.Window);
+        main.Show();
+        try
+        {
+            var workspace = shell.Workspace;
+            var document = ProjectDocuments.CreateArchive();
+            var root = ProjectDocuments.AddProject(document, "Galleria artificiale");
+            var section = ProjectDocuments.AddSection(root, "Imbocco nord");
+            string rcId = ProjectDocuments.AddSheet(section, "str_palo", "Sezione del palo").S("id");
+            string pilesId = ProjectDocuments.AddSheet(section, "geo_palo_verticale", "Pali dell'imbocco").S("id");
+            string groupId = ProjectDocuments.AddSheet(section, "geo_efficienza_orizzontale", "Palificata").S("id");
+            workspace.OpenDocument(document, null, false);
+            var project = workspace.Project!;
+            var group = workspace.OpenSheet(project.Find(groupId)!);
+            var piles = workspace.OpenSheet(project.Find(pilesId)!);
+            var rc = workspace.OpenSheet(project.Find(rcId)!);
+            await Capture(main, output, "21-ospite-storico.png", bindings);
+            var historic = rc.ViewModel as HistoricSheetViewModel;
+            var view = historic?.View;
+            Check(historic is { ModuleId: "str_palo", Editor: SheetEditor } && piles.ViewModel is HistoricSheetViewModel && group.ViewModel is not HistoricSheetViewModel
+                && Descendants<SheetEditor>(main).SingleOrDefault() is { } shown && ReferenceEquals(shown, view) && Descendants<HistoricSheetHost>(main).Count() == 1,
+                "Release: sezione c.a. e pali storici nel loro SheetEditor dentro la scheda, palificata MVVM");
+
+            // Confirmation into the document, as MainWindow.Commit.
+            workspace.CommitActive();
+            Check(System.Text.Json.Nodes.JsonNode.DeepEquals(project.Find(rcId)!["dati"], historic!.Data) && ReferenceEquals(workspace.Active, rc), "Conferma del foglio storico nel documento");
+
+            // F1 on the historic sheet: the Wiki tab of the shell (WikiContextHelp through the window of the shell), not the historic window.
+            if (Anthea.Wiki.WikiCatalog.ForModule("str_palo") is { } guide)
+            {
+                view!.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(view), 0, Key.F1) { RoutedEvent = Keyboard.KeyDownEvent });
+                await Idle(main);
+                Check(shell.Center is PageTabViewModel { Kind: ShellTabKind.Wiki, Content: WikiTabViewModel { Uri: var uri } } && uri == guide.Id && services.WikiRequests == 0,
+                    "F1 sul foglio storico: la scheda Wiki della shell");
+                workspace.Activate(rc);
+                await Idle(main);
+            }
+
+            // The short report of the RC section from the command of the shell: the editor writes it, or refuses it with its own text.
+            bindings.Step = "report-short";
+            string title = rc.Heading;
+            string? refusal = null;
+            try { _ = historic.Editor.BuildShortReport(title); } catch (InvalidOperationException error) { refusal = error.Message; }
+            Check(shell.Commands.ShortReportVisible && shell.Commands.ShortReportCommand.CanExecute(null), "«Report short» per la sezione c.a. storica");
+            int failures = services.Failures.Count;
+            await shell.Commands.ShortReportCommand.ExecuteAsync(null);
+            Check(refusal is null ? services.Saves.LastOrDefault() == "Relazione_short.docx" && services.Failures.Count == failures
+                : services.Failures.Count == failures + 1 && services.Failures[^1] == ShellCommandsViewModel.ShortTitle + ": " + refusal,
+                "Report short dal comando della shell: " + (refusal is null ? "costruito dal SheetEditor, richiesto il file" : "rifiutato con il testo del SheetEditor («" + refusal + "»)"));
+            if (refusal is not null) services.Failures.RemoveAt(services.Failures.Count - 1);
+
+            // A detached window takes the same control; closing it brings the tab back with the control.
+            var tab = shell.Windows.TabOf(rc)!;
+            shell.Windows.MoveToNewWindow(tab);
+            var window = detached.Single().Window;
+            await Idle(window);
+            await Idle(main);
+            Check(Descendants<SheetEditor>(window).SingleOrDefault() is { } moved && ReferenceEquals(moved, view) && !Descendants<SheetEditor>(main).Any(),
+                "Finestra staccata: lo stesso SheetEditor");
+            window.Close();
+            await Idle(main);
+            shell.Windows.Select(tab);
+            await Idle(main);
+            Check(Descendants<SheetEditor>(main).SingleOrDefault() is { } back && ReferenceEquals(back, view), "Scheda riportata nella principale: lo stesso SheetEditor");
+
+            // An archived revision: the historic sheet reopens read-only (InspectRevision), then editable again on the current version.
+            project.NewRevision(project.Find(section.S("id"))!, "Prima emissione");
+            project.SwitchRevision(section.S("id"), 0);
+            await Idle(main);
+            Check(rc.ViewModel is HistoricSheetViewModel { IsReadOnly: true } reopened && !ReferenceEquals(reopened, historic), "Revisione archiviata: foglio storico riaperto in sola lettura");
+            project.ExitPreview();
+            await Idle(main);
+            Check(rc.ViewModel is HistoricSheetViewModel { IsReadOnly: false }, "Fine dell'anteprima: foglio storico modificabile");
+        }
+        finally
+        {
+            main.Close();
+            shell.Dispose();
+        }
+        Check(services.Failures.Count == 0, "Ospite storico: nessun errore mostrato: " + string.Join(" | ", services.Failures));
+    }
+
     /// <summary>A window outside the screen, never activated (the checks of the night share the desktop).</summary>
     private static T Offscreen<T>(T window) where T : Window
     {
@@ -688,6 +791,9 @@ internal static class ShellDraftChecks
         public void ReportFailure(string title, Exception error) => Failures.Add(title + ": " + error.Message);
         public void Inform(string title, string message) { }
         public void Warn(string title, string message) => Failures.Add(title + ": " + message);
+
+        /// <summary>The names proposed by the save dialogs, answered with nothing (night of 22-23/10: the short report).</summary>
+        internal List<string> Saves { get; } = [];
         public bool ConfirmSharedUpdate(SharedUpdatePrompt prompt) => UpdateLinkedSheets;
 
         /// <summary>The answer to «Aggiorna tutti i fogli collegati»: «Solo questo foglio» unless a step asks otherwise (SH9, night of 22-23/10).</summary>
@@ -697,7 +803,7 @@ internal static class ShellDraftChecks
         public SaveChangesAnswer AskSaveChanges() => SaveChangesAnswer.Discard;
         public bool ConfirmDelete(string title, string question) => false;
         public string? OpenFile(OpenFileRequest request) => null;
-        public string? SaveFile(SaveFileRequest request) => null;
+        public string? SaveFile(SaveFileRequest request) { Saves.Add(request.FileName); return null; }
         public string? ChooseFolder(string? title = null) => null;
         public Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog) { Dialogs.Add(dialog); return Task.FromResult<TResult?>(default); }
 
