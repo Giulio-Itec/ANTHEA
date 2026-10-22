@@ -10,6 +10,8 @@ public partial class App : Application
         base.OnStartup(e);
         // One font resolver for the PDF of reports and model reports, installed before any of them (PDFsharp fixes it at first use)
         Anthea.Reports.Pdf.PdfFonts.Ensure();
+        // Tab selects the content of the input box reached, in the product and in the WPF checks.
+        TabSelection.Register();
         bool handled = false;
         RunTestHarness(e, ref handled);
         if (handled) return;
