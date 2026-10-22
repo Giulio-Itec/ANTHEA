@@ -522,6 +522,11 @@
    <DockPanel.ContextMenu>
     <ContextMenu>
      <MenuItem Header="Apri" Command="{Binding OpenCommand}"/>
+     <!-- After the checkpoint of 22/10: a sheet also in a new window or at full page (only the sheets, read-only revisions included). -->
+     <MenuItem Header="{x:Static proj:ProjectTreeViewModel.OpenInNewWindowLabel}" Command="{Binding OpenInNewWindowCommand}"
+      Visibility="{Binding IsSheet, Converter={StaticResource WhenTrue}}"/>
+     <MenuItem Header="{x:Static proj:ProjectTreeViewModel.OpenFullPageLabel}" Command="{Binding OpenFullPageCommand}"
+      Visibility="{Binding IsSheet, Converter={StaticResource WhenTrue}}"/>
      <MenuItem Header="Rinomina" Command="{Binding BeginRenameCommand}"/>
      <MenuItem Header="Duplica" Command="{Binding DuplicateCommand}"/>
      <MenuItem Header="Sottosezione" Command="{Binding AddSectionCommand}"/>
