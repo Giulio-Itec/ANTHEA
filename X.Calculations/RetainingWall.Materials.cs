@@ -6,7 +6,7 @@ namespace Anthea.Calculations;
 public static partial class RetainingWall
 {
     // Existing wall paths remain authoritative so older archives and external callers retain their inputs.
-    public static readonly string[] SectionMaterialKeys = ["classe_cls", "materiale_cls_nome", "cls_diagramma",
+    public static readonly ImmutableArray<string> SectionMaterialKeys = ["classe_cls", "materiale_cls_nome", "cls_diagramma",
         "classe_acciaio", "materiale_acciaio_nome", "steel_modulus_mpa", "steel_fu_mpa", "steel_eps_u", "steel_diagramma",
         "alpha_cc", "gamma_c", "gamma_s"];
     public static bool UsesConcrete(JsonObject d) => d.S("family") == "cantilever" || d["gravity_design"].S("type") == "Calcestruzzo non armato";

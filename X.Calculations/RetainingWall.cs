@@ -1,6 +1,7 @@
 using GPC.Model.Checking.Contracts;
 using GPC.Model.Core.Diagnostics;
 ﻿using System.Text.Json.Nodes;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
@@ -23,30 +24,30 @@ public static partial class RetainingWall
     public const string PassiveResistanceText = "Passiva Rankine a valle facoltativa, esclusa nel sisma, con frazione mobilitata ηp ≤ 0,5 (NTC 2018 §6.5.3.1.1): la resistenza di progetto ηp·Pp/γR,e (γR,e = 1,4 nelle SLU, Tab. 6.5.I; 1 negli altri stati) si somma alla resistenza allo scorrimento"
         + (PassiveResistsOverturning ? " e, con il suo momento rispetto al piede, a quella al ribaltamento" : "; nel ribaltamento non è contata") + ", senza ridurre l’azione di progetto Ed.";
     public sealed record Family(string Id, string Name, bool Available);
-    public static readonly Family[] Families = [new("cantilever", "Mensola in c.a.", true), new("gravity", "Gravità", true),
+    public static readonly ImmutableArray<Family> Families = [new("cantilever", "Mensola in c.a.", true), new("gravity", "Gravità", true),
         new("semigravity", "Semigravità", false), new("gabions", "Gabbioni", false), new("counterforts", "Contrafforti", false),
         new("piles", "Su pali", false), new("micropiles", "Su micropali", false), new("anchors", "Con tiranti", false),
         new("key", "Con dente di fondazione", false), new("shelves", "Con mensole intermedie", false), new("basement", "Muro di cantina", false)];
     public sealed record Parameter(string Key, string Label, string Symbol, string Unit, double Default, double Min, double Max);
-    public static readonly Parameter[] GeometryFields = [
+    public static readonly ImmutableArray<Parameter> GeometryFields = [
         new("height", "Altezza sopra fondazione", "H", "m", 3, .2, 15), new("stem_base", "Spessore fusto al piede", "s₀", "m", .4, .15, 8),
         new("stem_top", "Spessore fusto in testa", "s₁", "m", .25, .15, 8), new("slab", "Spessore fondazione", "t", "m", .45, .15, 4),
         new("toe", "Mensola a valle", "a", "m", .8, 0, 12), new("heel", "Mensola a monte", "b", "m", 1.8, 0, 12)];
-    public static readonly Parameter[] FoundationFields = [new("phi", "Attrito terreno di posa", "φ′f", "°", 34, 10, 45),
+    public static readonly ImmutableArray<Parameter> FoundationFields = [new("phi", "Attrito terreno di posa", "φ′f", "°", 34, 10, 45),
         new("gamma", "Peso terreno asciutto", "γf", "kN/m³", 19, 10, 25), new("gamma_sat", "Peso terreno saturo", "γsat,f", "kN/m³", 21, 10, 28),
         new("delta", "Attrito alla base", "δb", "°", 26, 0, 45)];
-    public static readonly Parameter[] LoadFields = [new("surcharge", "Sovraccarico uniforme variabile", "qk", "kPa", 10, 0, 200),
+    public static readonly ImmutableArray<Parameter> LoadFields = [new("surcharge", "Sovraccarico uniforme variabile", "qk", "kPa", 10, 0, 200),
         new("horizontal", "Forza variabile in testa verso valle", "Hk", "kN/m", 0, 0, 1000),
         new("vertical", "Forza variabile in testa (centrata)", "Nk", "kN/m", 0, 0, 2000),
         new("psi1", "Coefficiente frequente del carico", "ψ₁", "−", .5, 0, 1), new("psi2", "Coefficiente quasi permanente", "ψ₂", "−", .3, 0, 1)];
-    public static readonly Parameter[] MaterialFields = [new("gamma", "Peso specifico muro", "γm", "kN/m³", 25, 12, 30),
+    public static readonly ImmutableArray<Parameter> MaterialFields = [new("gamma", "Peso specifico muro", "γm", "kN/m³", 25, 12, 30),
         new("fck", "Resistenza calcestruzzo", "fck", "MPa", 30, 12, 90), new("fyk", "Snervamento armature", "fyk", "MPa", 450, 1, 2000),
         new("cover", "Copriferro netto barre", "c", "mm", 40, 15, 150),
         new("compression_rd", "Resistenza di progetto a compressione", "σRd", "MPa", 5, .1, 30),
         new("shear_rd", "Resistenza di progetto a taglio", "τRd", "MPa", .2, .01, 5),
         new("tension_rd", "Resistenza di progetto a trazione fondazione", "fctd", "MPa", .3, .01, 5),
         new("creep", "Coefficiente viscosità per SLE", "φ", "−", 2, 0, 5)];
-    public static readonly Parameter[] SeismicFields = [new("kh", "Coefficiente orizzontale assegnato", "kh", "−", .1, 0, .4), new("kv", "Coefficiente verticale (entrambi i segni)", "|kv|", "−", .05, 0, .2)];
+    public static readonly ImmutableArray<Parameter> SeismicFields = [new("kh", "Coefficiente orizzontale assegnato", "kh", "−", .1, 0, .4), new("kv", "Coefficiente verticale (entrambi i segni)", "|kv|", "−", .05, 0, .2)];
     private static JsonObject Values(IEnumerable<Parameter> fields) => J.Obj(fields.Select(f => (f.Key, (object?)f.Default)).ToArray());
     public static JsonObject Layer() => J.Obj(("name", "Terreno granulare"), ("thickness", 10), ("gamma", 18), ("gamma_sat", 20), ("phi", 30));
     public static JsonObject LegacyDefaults() => J.Obj(("version", 1), ("family", "cantilever"), ("geometry", Values(GeometryFields)),

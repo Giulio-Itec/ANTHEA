@@ -5,6 +5,7 @@ using GPC.Checkers.Geotechnics.Walls;
 using GPC.Model.Geotechnics;
 using Anthea.Calculations.Geotechnics;
 using GpcSlopes = GPC.Checkers.Geotechnics.Slopes;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
@@ -59,7 +60,7 @@ public static partial class RetainingWall
     }
 
     // ActionTypes and States are in the order of WallActionType and WallLimitState.
-    static WallActionType ActionType(string type) => Array.IndexOf(ActionTypes, type) is int index and >= 0 ? (WallActionType)index : throw new ArgumentException("Tipo o natura dell’azione non supportati.");
+    static WallActionType ActionType(string type) => ActionTypes.IndexOf(type) is int index and >= 0 ? (WallActionType)index : throw new ArgumentException("Tipo o natura dell’azione non supportati.");
     static double ActionUnit(WallActionType type) => type is WallActionType.UniformSurcharge or WallActionType.LateralPressure ? KPa : type == WallActionType.Moment ? Mm : 1;
     static WallLimitState State(string state) => States.IndexOf(state) is int index and >= 0 ? (WallLimitState)index : throw new ArgumentException("Stato limite non valido.");
     static string StateName(WallLimitState state) => States[(int)state];
@@ -213,7 +214,7 @@ public static partial class RetainingWall
         return result;
     }
 
-    static readonly string[] MemberNames = ["Fusto", "Valle", "Monte"];
+    static readonly ImmutableArray<string> MemberNames = ["Fusto", "Valle", "Monte"];
     static PressureSegment Segment(WallPressureSegment p) => new(p.Z0 / Mm, p.Z1 / Mm, p.P0 / KPa, p.P1 / KPa);
     static PressureDetail Detail(WallPressureDetail p) => new(p.Z0 / Mm, p.Z1 / Mm, p.FrictionAngle / Deg, p.DesignFrictionAngle / Deg, p.K, p.Ke, p.Sigma0 / KPa, p.Sigma1 / KPa,
         p.Soil0 / KPa, p.Soil1 / KPa, p.Surcharge / KPa, p.Water0 / KPa, p.Water1 / KPa, p.Dynamic / KPa, p.Total0 / KPa, p.Total1 / KPa);
