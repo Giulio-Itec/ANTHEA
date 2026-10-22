@@ -573,6 +573,8 @@ un'eccezione d'ambiente non ci va (f5-ripresa.md).
 | Banco F3, cattura con `--module-impl str_bridge_design=mvvm` | `…\banco-1\mvvm` | PASS 119 fixture (199 s) |
 | `f5_confronto_diretto.py` | `…\banco-1\confronto-diretto.json` | **0 differenze**: 1205 file, 1202 uguali byte per byte, 3 JSON uguali in forma canonica; 6 tempi volatili del palo elastico ignorati |
 | `--check-f3-report-chapters --module-impl str_bridge_design=mvvm` | `…\banco-1\capitoli-mvvm` | PASS 120 capitoli autonomi, 288 immagini |
+| Corsa finale ui su `df84474c`: `-Stage build,ui -Only '^ui/(check-bridge-design-view\|f3-scheduling-bridge-design-mvvm)$'` | `ci\20261022-205706-f512vp-finale-ui` | PASS 3: build UiTests, vista 186 controlli, sonda MVVM 47 controlli |
+| Corsa finale `-Profile standard` su `df84474c` | `ci\20261022-205930-f512vp-finale` | PASS 78, KNOWN 0, NEW-FAIL 0 (26 minuti), nessun file tracciato modificato |
 | Corsa del coordinatore, le altre suite della sezione 5.7 | checkout principale, `ci\20261022-190511-mirate-22-10` | PASS: `check-bridge-design-historic`, `f3-scheduling-bridge-design-mvvm`, `f3-scheduling`, `smoke-bridge-design`, `smoke-bridge-prices`, `smoke-bridge-traffic`, `check-module-host-offscreen`, `f3-equivalence`, `f3-report-chapters` |
 
 Nessuna differenza fra la vista storica e la vista XAML nel banco F3: niente da proporre per `transitions-f5.json`.
