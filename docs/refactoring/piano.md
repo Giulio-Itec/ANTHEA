@@ -740,8 +740,8 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       - S9, parte ViewModel (ramo `refactoring/f5-10-s9`, 22/10, da unire; sezione 19 di [f5-10-sezione.md](f5-10-sezione.md)): report Word e
         breve con i generatori congelati e le figure WPF alimentate dai dati del foglio (`IConcreteSectionFigureRenderer`), report breve
         nell'ospite (`IModuleShortReport`); 57 scenari uguali (anche `report/*`), percorso F3 completo con i report uguale al riferimento.
-        Vista XAML (stesso ramo, sezione 20): schede 01–03 legate ai ViewModel, 04–08 da fare; suite `ui/check-sezione-view` scritta, da eseguire
-        la sera.
+        Vista XAML (stesso ramo, sezione 20): le otto schede e le finestre legate ai ViewModel; suite `ui/check-sezione-view` scritta, da
+        eseguire la sera; restano le tracce attraverso i controlli della vista.
     - **Suite UI indipendenti dall'implementazione** (merge 35bba417, [f5-suite-ui.md](f5-suite-ui.md)):
       - le 11 suite storiche generali, dei materiali e dei muri passano con la Release di oggi e, nelle varianti `-mvvm`, con
         i sette moduli MVVM;
