@@ -10,6 +10,7 @@ internal static class ShellChecks
         checks += ProjectSessionChecks.Run();
         checks += WorkspaceChecks.Run(output);
         checks += NavigationChecks.Run();
+        checks += ProjectTreeChecks.Run();
         return checks;
     }
 }
