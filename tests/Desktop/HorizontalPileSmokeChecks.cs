@@ -437,6 +437,10 @@ internal sealed class HorizontalPileSmoke
         {
             await Expand(index); scroll.ScrollToTop();
             await Settle(); Check();
+            // The extended stratigraphy keeps the profile at its right when the width allows it (ExtendedStratigraphy, 22/10/2026).
+            if (index == 4 && ExtendedStratigraphy.Split(panel.DesiredSize.Width - 24, 12) is not null
+                && (Cards[5].Visibility != Visibility.Visible || LayoutInformation.GetLayoutSlot(Cards[5]).Left <= LayoutInformation.GetLayoutSlot(Cards[4]).Right))
+                throw new Exception("Profilo stratigrafico non visibile accanto alla stratigrafia estesa");
             Snapshot(directory, $"orizzontale_{size}_esteso_{index}.png", Window);
         }
         await Expand(-1); scroll.ScrollToTop(); await Settle();

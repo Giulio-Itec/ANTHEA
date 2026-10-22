@@ -189,6 +189,13 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
         foreach (var (index, b) in expandButtons) b.Content = expanded == index ? "Riduci" : "Estendi";
         void Place(int i, double x, double y, double width, double height)
         { var c = cards[i]; Canvas.SetLeft(c, x); Canvas.SetTop(c, y); c.Width = Math.Max(100, width); c.Height = Math.Max(100, height); }
+        const double expandedLeft = 16, expandedTop = 12;
+        if (!Section && Geo && expanded == 4 && ExtendedStratigraphy.Split(w - 2 * expandedLeft, gap) is (double table, double side))
+        {
+            for (int i = 0; i < cards.Count; i++) cards[i].Visibility = i is 4 or 5 ? Visibility.Visible : Visibility.Collapsed;
+            Place(4, expandedLeft, expandedTop, table, h - 2 * expandedTop); Place(5, expandedLeft + table + gap, expandedTop, side, h - 2 * expandedTop);
+            canvas.Width = w; canvas.Height = h; UpdateProfile(); return;
+        }
         if (!Section && (expanded == 6 || Geo && expanded == 4 || compactLayout && expanded >= 0))
         {
             for (int i = 0; i < cards.Count; i++) cards[i].Visibility = i == expanded ? Visibility.Visible : Visibility.Collapsed;

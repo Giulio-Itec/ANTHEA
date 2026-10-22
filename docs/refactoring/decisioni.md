@@ -1734,3 +1734,38 @@ Domanda P3 di `f5-suite-passaggi.md`: la prova storica `ui/smoke-horizontal` chi
 compatte (convenzione D10). Decisione dell'utente: «tieni 120 px come le altre scelte». Sulla vista nuova la prova
 controlla che il testo stia intero, che il selettore sia largo come le altre scelte compatte e che resti dentro la
 scheda; la soglia di 180 px resta solo nella parte storica, che si archivia con la vista. La vista non cambia.
+
+## 22 ottobre (pomeriggio) — tre richieste dell'utente sui pali e sugli input
+
+Ramo `refactoring/f5-ux-pali-tab`, da `refactoring/f5` 38a3bed1.
+
+1. **Stratigrafia estesa con il profilo accanto.**
+   - Richiesta: «nei moduli del palo, quando estendi la stratigrafia, voglio che resti lateralmente l'immagine della
+     stratigrafia col palo».
+   - Riguarda il palo e il micropalo verticali e orizzontali, nella vista storica (Release) e nella vista XAML,
+     tramite `X.Desktop/Wpf/ExtendedStratigraphy.cs`.
+   - Con «Estendi» sulla scheda «Stratigrafia», la tabella resta a sinistra e la scheda «Profilo stratigrafico» resta a
+     destra, per tutta l'altezza. La larghezza del profilo è il 24 % della larghezza (fra 300 e 440 px).
+   - Se la tabella resterebbe sotto i 480 px, la stratigrafia si estende da sola come prima.
+   - Lo stesso vale per «Modifica dati e strati» del palo elastico, che apre la stratigrafia estesa.
+   - Le prove di layout `ui/smoke-display`, `ui/smoke-horizontal` e i gemelli XAML controllano che il profilo sia
+     visibile a destra della tabella quando la larghezza lo consente.
+2. **Tab seleziona il contenuto.**
+   - Richiesta: «quando ti muovi tra le caselle di testo degli input col tab devi selezionare il contenuto della
+     cella. questo vale da tutte le parti».
+   - `X.Desktop/Wpf/TabSelection.cs` registra un gestore di classe per tutte le `TextBox` dell'applicazione, in
+     `App.OnStartup` prima delle prove WPF.
+   - Quando il fuoco arriva da tastiera, il contenuto viene selezionato. Con un clic il cursore resta dove cade.
+   - Restano escluse le caselle su più righe e la casella di modifica delle colonne di testo delle `DataGrid`. Le
+     `DataGrid` selezionano già da sole all'inizio della modifica da tastiera e, quando la modifica parte da un
+     carattere digitato, lo inseriscono senza selezionarlo.
+3. **Peso specifico del palo pari a zero.**
+   - Segnalazione: «nel modulo pali se metto zero nel peso specifico del cls non gira».
+   - Ora γ = 0 è ammesso, con il peso proprio trascurato; un valore negativo resta rifiutato.
+   - In ANTHEA la modifica tocca la convalida di `Calcolo.cs` e `Chs.Peso` del micropalo, per i fogli già salvati.
+     Nel micropalo il campo non è modificabile, perché la scheda mostra il peso al metro in sola lettura.
+     L'anteprima del micropalo resta com'era, quindi la baseline F4 non cambia.
+   - Nella libreria la modifica sta nel ramo Checker `claude/pali-peso-nullo` (29b821b7): `AxialPileCapacity`
+     accetta γ = 0 e `MicropileTube.Weight` accetta γ della malta = 0, con i relativi avvisi.
+   - Il calcolo con γ = 0 funziona in ANTHEA solo dopo il set di librerie con quel ramo. Con le librerie attuali la
+     libreria continua a rifiutare il valore.

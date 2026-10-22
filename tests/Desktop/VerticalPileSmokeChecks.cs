@@ -251,6 +251,10 @@ internal sealed class VerticalPileSmoke
         {
             await Expand(index);
             VerifyDisplayLayout();
+            // The extended stratigraphy keeps the profile at its right when the width allows it (ExtendedStratigraphy, 22/10/2026).
+            if (index == 4 && ExtendedStratigraphy.Split(View.Cards.ActualWidth - 32, 12) is not null
+                && (Cards[5].Visibility != Visibility.Visible || LayoutInformation.GetLayoutSlot(Cards[5]).Left <= LayoutInformation.GetLayoutSlot(Cards[4]).Right))
+                throw new Exception("Profilo stratigrafico non visibile accanto alla stratigrafia estesa");
             File.WriteAllBytes(Path.Combine(directory, name + $"_esteso_{index}.png"), Ui.Snapshot(Window.GetWindow(editor.View)));
         }
         await Expand(-1); scroll.ScrollToTop();

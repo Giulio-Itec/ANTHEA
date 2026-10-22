@@ -285,6 +285,10 @@ internal sealed partial class SheetEditor
             expanded = index; LayoutCards();
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             VerifyDisplayLayout();
+            // The extended stratigraphy keeps the profile at its right when the width allows it (ExtendedStratigraphy, 22/10/2026).
+            if (index == 4 && Geo && ExtendedStratigraphy.Split(canvas.Width - 32, 12) is not null
+                && (cards[5].Visibility != Visibility.Visible || Canvas.GetLeft(cards[5]) <= Canvas.GetLeft(cards[4]) + cards[4].Width))
+                throw new Exception("Profilo stratigrafico non visibile accanto alla stratigrafia estesa");
             File.WriteAllBytes(Path.Combine(directory, name + $"_esteso_{index}.png"), Ui.Snapshot(Window.GetWindow(this)));
         }
         expanded = -1; LayoutCards(); scroll.ScrollToTop();

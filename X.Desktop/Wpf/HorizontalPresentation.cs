@@ -44,7 +44,14 @@ internal sealed partial class HorizontalWorkspace
         foreach (var card in cards) card.Visibility = Visibility.Visible;
         void Place(int i, double x, double y, double cw, double ch)
         { Canvas.SetLeft(cards[i], x); Canvas.SetTop(cards[i], y); cards[i].Width = cw; cards[i].Height = ch; }
-        if (expanded >= 0)
+        if (expanded == 4 && ExtendedStratigraphy.Split(w - 2 * margin, gap) is (double table, double side))
+        {
+            for (int i = 0; i < cards.Count; i++) cards[i].Visibility = i is 4 or 5 ? Visibility.Visible : Visibility.Collapsed;
+            double expandedHeight = Math.Max(h - 2 * margin, 350);
+            Place(4, margin, margin, table, expandedHeight); Place(5, margin + table + gap, margin, side, expandedHeight);
+            layout.Width = w; layout.Height = expandedHeight + 2 * margin;
+        }
+        else if (expanded >= 0)
         {
             for (int i = 0; i < cards.Count; i++) cards[i].Visibility = i == expanded ? Visibility.Visible : Visibility.Collapsed;
             double expandedHeight = Math.Max(h - 2 * margin, expanded == 6 ? 540 : 350);
