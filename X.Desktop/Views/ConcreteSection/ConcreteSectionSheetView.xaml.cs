@@ -58,12 +58,12 @@ public partial class ConcreteSectionSheetView : UserControl
         if (ReferenceEquals(sheet, next)) return;
         if (sheet is not null)
         {
-            sheet.PropertyChanged -= OnSheetChanged; sheet.LayoutChanged -= OnLayoutChanged; sheet.RheologyRequested -= OnRheologyRequested;
+            sheet.PropertyChanged -= OnSheetChanged; sheet.LayoutChanged -= OnLayoutChanged; sheet.RheologyRequested -= OnRheologyRequested; sheet.PropertiesRequested -= OnPropertiesRequested;
             AttachInputs(null);
         }
         sheet = next;
         if (sheet is null) return;
-        sheet.PropertyChanged += OnSheetChanged; sheet.LayoutChanged += OnLayoutChanged; sheet.RheologyRequested += OnRheologyRequested;
+        sheet.PropertyChanged += OnSheetChanged; sheet.LayoutChanged += OnLayoutChanged; sheet.RheologyRequested += OnRheologyRequested; sheet.PropertiesRequested += OnPropertiesRequested;
         AttachInputs(sheet.Inputs);
         foreach (string group in Groups) OnLayoutChanged(sheet, group);
     }
@@ -180,6 +180,14 @@ public partial class ConcreteSectionSheetView : UserControl
     // ---------------------------------------------------------------- windows of the view
 
     private void OnRheologyRequested(object? sender, double strength) => ShowModeless(ConcreteTimeEffectsView.CreateWindow(this, strength));
+
+    // «Proprietà / report…» (ShowSectionProperties of the historic view): a non modal window on the ViewModel of the properties, disposed when it closes.
+    private void OnPropertiesRequested(object? sender, ConcreteSectionPropertiesViewModel properties)
+    {
+        var window = Ui.Dialog(this, properties.Title, new ContentControl { Content = properties, Focusable = false, IsTabStop = false }, 720, 780);
+        window.Closed += (_, _) => properties.Dispose();
+        ShowModeless(window);
+    }
 
     private void Model_Click(object sender, RoutedEventArgs e) => CalculationHelpView.Show(this, false);
 }

@@ -51,6 +51,22 @@ internal static class ConcreteSectionDrawings
         target.InvalidateVisual();
     }
 
+    /// <summary>The σ–ε diagram of the window «Nuovo materiale …», as CreateMaterialDialog of the historic view builds it.</summary>
+    internal static Plot MaterialPlot(bool concrete, string note) => new()
+    {
+        Title = "Diagramma σ–ε", XLabel = "ε [‰]", YLabel = "σ [MPa]", InvertY = false, NegateAxisLabels = concrete, VerticalLegend = true, FitPadding = .06, Note = note
+    };
+
+    /// <summary>The curves of the window «Nuovo materiale …»: the characteristic one in blue, the design one dashed in red, as the historic window.</summary>
+    internal static void Apply(Plot target, IReadOnlyList<ConcreteMaterialCurve> curves)
+    {
+        target.Series = [.. curves.Select((curve, index) => new Serie(curve.Name, [.. curve.Points], index == 0 ? Ui.Blue : Ui.Brush("#CE4F44"), curve.Dashed))];
+        target.ResetView();
+    }
+
+    /// <summary>The preview of the wizard of the sections (ConcreteTemplateWizardWindow of the historic view): labels and axes, no links of the shear.</summary>
+    internal static ConcreteSectionViewport WizardPreview() => new() { MinHeight = 280, Stirrups = new System.Text.Json.Nodes.JsonObject(), Labels = true, Axes = true };
+
     /// <summary>The plot of a 2D domain panel, as the historic DomainPanel builds it.</summary>
     internal static Plot DomainPlot() => new() { InvertY = false, CenteredAxes = true, Title = "Sezione del dominio", EmptyMessage = "Dominio in attesa di aggiornamento automatico" };
 

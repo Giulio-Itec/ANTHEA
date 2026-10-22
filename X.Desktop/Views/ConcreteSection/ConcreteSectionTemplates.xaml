@@ -8,6 +8,12 @@
  xmlns:views="clr-namespace:X.Desktop.Views.ConcreteSection"
  xmlns:concrete="clr-namespace:Anthea.Presentation.Modules.ConcreteSection;assembly=ANTHEA.Presentation">
  <DataTemplate DataType="{x:Type concrete:ConcreteSheetViewModel}"><views:ConcreteSectionSheetView/></DataTemplate>
+ <!-- The dialogs of the sheet on the dialog service: «Nuovo materiale · …», the wizard of the sections, «Sollecitazioni della sezione»; the non modal
+      window «Proprietà / report della sezione», opened by the view of the sheet. -->
+ <DataTemplate DataType="{x:Type concrete:ConcreteMaterialDialogViewModel}"><views:ConcreteMaterialDialogView/></DataTemplate>
+ <DataTemplate DataType="{x:Type concrete:ConcreteTemplateWizardViewModel}"><views:ConcreteTemplateWizardView/></DataTemplate>
+ <DataTemplate DataType="{x:Type concrete:SectionActionsViewModel}"><views:SectionActionsDialogView/></DataTemplate>
+ <DataTemplate DataType="{x:Type concrete:ConcreteSectionPropertiesViewModel}"><views:ConcreteSectionPropertiesView/></DataTemplate>
  <!-- «Scala…» of a domain panel (the window of AddDomainScaleControls of the historic view: the form, the message, «Applica»). -->
  <DataTemplate DataType="{x:Type concrete:ConcreteDomainScaleDialogViewModel}">
   <Border Background="{DynamicResource Token.Paper}" Padding="16" Width="470">
