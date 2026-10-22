@@ -13,6 +13,7 @@ internal static class ShellChecks
         checks += ProjectTreeChecks.Run();
         checks += RevisionBarChecks.Run();
         checks += CoherenceChecks.Run();
+        checks += TabsChecks.Run();
         return checks;
     }
 }
