@@ -1794,6 +1794,7 @@ schermo. Punto di partenza: la corsa mirata del coordinatore `ci/20261022-190511
   ottenuto: l'ispezione era già finita, una questione di tempi con la macchina carica; la vista storica non è toccata) e PASS ripetuta da sola
   (`ci/20261022-211604-vista-prova-storica-2`). `Presentation.Tests --sezione-rapide` PASS 552.
 - **Contrasto** `mvvm-str_palo`: non eseguito, schermo a 144 DPI (si esegue a 96 DPI).
+- **Standard** `-Profile standard` su `20326884`: `ci/20261022-212409-vista-prova-standard`, PASS 78, KNOWN 0, NEW-FAIL 0.
 - **Schermate per l'utente**: `ANTHEA-f5-ripresa\f5-agenti\f5-10-vista-prova\schermate` (144 DPI su questa macchina, catture a 96 DPI logici).
 
 ### 21.4 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
