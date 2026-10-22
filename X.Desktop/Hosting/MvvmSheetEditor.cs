@@ -31,7 +31,7 @@ namespace X.Desktop;
 /// <item>Results and reports: the generic path of SheetEditor (JSON of the result, Word document of the sheet, PDF rendered from it),
 /// or the PDF of the generator of the module where the historic sheet writes it so (<see cref="IModuleReportPdf"/>, T8). A material
 /// sheet (<see cref="IMaterialSheetViewModel"/>, F5.5) gives the chapter of the material and writes its report as SheetEditor does,
-/// Word and PDF from the document (<c>MaterialReportChapter.Write</c>, T8); the short report comes with the c.a. section (F5.10).</item>
+/// Word and PDF from the document (<c>MaterialReportChapter.Write</c>, T8); the short report of the c.a. section through <see cref="IModuleShortReport"/> (F5.10 S9).</item>
 /// </list>
 /// </summary>
 internal sealed class MvvmSheetEditor : ISheetEditor
@@ -110,7 +110,7 @@ internal sealed class MvvmSheetEditor : ISheetEditor
 
     public void InspectRevision() => Sheet.IsReadOnly = true;
 
-    /// <summary>The JSON of the result (with the data for Bridge Design, BD7): the code shared with the new shell (F5.13 c, <see cref="SheetFileExports.WriteResult"/>).</summary>
+    /// <summary>The JSON of the result (with the data for Bridge Design, BD7, and the RC section, F5.10 S9): the code shared with the new shell (F5.13 c, <see cref="SheetFileExports.WriteResult"/>).</summary>
     public void ExportResult(string filename) => SheetFileExports.WriteResult(Sheet, filename);
 
     /// <summary>
@@ -124,7 +124,7 @@ internal sealed class MvvmSheetEditor : ISheetEditor
 
     public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => Sheet.Report.BuildReport(title, options, projectReport);
 
-    /// <summary>Refused as before for every hosted sheet (<see cref="SheetFileExports.ShortReport"/>, shared with the new shell).</summary>
+    /// <summary>The short report of a sheet that writes it (<see cref="IModuleShortReport"/>: the RC section, F5.10 S9), refused otherwise: the code shared with the new shell (<see cref="SheetFileExports.ShortReport"/>).</summary>
     public byte[] BuildShortReport(string title) => SheetFileExports.ShortReport(Sheet, title);
 
     public ReportProject.SheetContent MaterialReportContent() => Sheet is IMaterialSheetViewModel material ? material.ReportContent()

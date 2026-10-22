@@ -21,12 +21,13 @@ namespace Anthea.Presentation.Modules.ConcreteSection;
 /// <see cref="Result"/>, <see cref="HasResults"/> and «Calcola» (<see cref="CalculateAsync"/>) of its own. The result is the historic export
 /// (ConcreteResultExport), built when read and kept until the next invalidation, as the historic view.</item>
 /// <item>Children: <see cref="Inputs"/> (inputs and materials, with the sections of the wizard: S1, S1b), <see cref="Actions"/> (S2), <see cref="Domain3D"/>
-/// and <see cref="Domain2D"/> (S3), <see cref="StressPanels"/> (S4), <see cref="Shear"/> (S5), <see cref="Detailing"/> (S6), the section σ/ε of the domain panels and <see cref="Curvature"/> (S7), <see cref="Design"/> (S8); the tab of
-/// the last sub-step (S9) keeps, until
-/// their ViewModels, only the writes into the document and the results that the common part of the traces reads (ConcreteSheetViewModel.Checks.cs).</item>
+/// and <see cref="Domain2D"/> (S3), <see cref="StressPanels"/> (S4), <see cref="Shear"/> (S5), <see cref="Detailing"/> (S6), the section σ/ε of the domain panels and <see cref="Curvature"/> (S7), <see cref="Design"/> (S8); the
+/// summaries of the control panel and the results that the common part of the traces reads stay in the sheet (ConcreteSheetViewModel.Checks.cs).</item>
+/// <item>Reports (S9, ConcreteSheetViewModel.Report.cs): the Word report with the figures drawn by <see cref="IConcreteSectionFigureRenderer"/> and the short
+/// report (<see cref="IModuleShortReport"/>), with the frozen generators.</item>
 /// </list>
-/// Works without a project and without a window (requirement of section 5 for the verifier of the elastic pile): the host is only asked for
-/// the report (not in S1) and the non modal windows are requests the view may ignore.
+/// Works without a project and without a window (requirement of section 5 for the verifier of the elastic pile): the host is never asked for
+/// anything and the non modal windows are requests the view may ignore.
 /// </summary>
 public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcreteCalculationHost
 {
@@ -44,14 +45,20 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
     private string status = OpeningStatus;
 
     /// <param name="context">Data (owned copy), host, services; the calculation service of the context belongs to <c>str_palo</c> and is not used.</param>
-    public ConcreteSheetViewModel(SheetContext context) : this(context, new ConcreteAnalysisSession()) { }
+    /// <param name="figures">Draws the figures of the report.</param>
+    public ConcreteSheetViewModel(SheetContext context, IConcreteSectionFigureRenderer figures)
+        : this(context, new ConcreteAnalysisSession(), figures ?? throw new ArgumentNullException(nameof(figures))) { }
 
     /// <param name="context">Data (owned copy), host, services.</param>
     /// <param name="session">The analysis session of the sheet (the checks hold its batches to fix a calculation in progress).</param>
-    public ConcreteSheetViewModel(SheetContext context, ConcreteAnalysisSession session) : base(ConcreteSectionSheetModule.Id, context, mode: SheetCalculationMode.None)
+    /// <param name="figures">Draws the figures of the report; without it a report with figures is refused.</param>
+    public ConcreteSheetViewModel(SheetContext context, ConcreteAnalysisSession session, IConcreteSectionFigureRenderer? figures = null)
+        : base(ConcreteSectionSheetModule.Id, context, mode: SheetCalculationMode.None)
     {
         ArgumentNullException.ThrowIfNull(session);
         this.session = session;
+        this.figures = figures;
+        Report = new ReportSource(this);
         ui = SynchronizationContext.Current;
         PropertyChanged += OnOwnPropertyChanged;
         Open();
@@ -97,7 +104,8 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
     /// <summary>The engine reference shown above the tabs.</summary>
     public string EngineReference => "Motore di calcolo: GPC Engine";
 
-    public override IModuleReportSource Report { get; } = new PendingReport();
+    /// <summary>The Word report and the short report of the sheet (sub-step S9).</summary>
+    public override IModuleReportSource Report { get; }
 
     /// <summary>The services of the sheet for its children.</summary>
     internal IWikiNavigator Wiki => Context.Services.Wiki;
@@ -346,11 +354,4 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
     }
 
     void IConcreteCalculationHost.ShowStatus(string text) => Status = text;
-
-    // The report of the sheet comes with sub-step S9 (frozen reports, ReportConcrete with the figures of the view).
-    private sealed class PendingReport : IModuleReportSource
-    {
-        public byte[] BuildReport(string title, IReadOnlySet<string> options, bool projectReport = false) =>
-            throw new InvalidOperationException("Report della sezione c.a. non ancora disponibile nel ViewModel (sottopasso S9 di F5.10).");
-    }
 }

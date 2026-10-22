@@ -3,6 +3,7 @@ using Anthea.Application.Documents;
 using Anthea.Calculations;
 using Anthea.Presentation.Modules;
 using Anthea.Presentation.Modules.BridgeDesign;
+using Anthea.Presentation.Modules.ConcreteSection;
 using Anthea.Presentation.Modules.Materials;
 using Anthea.Reports;
 using X.Core;
@@ -15,19 +16,23 @@ namespace Anthea.Presentation.Shell.Commands;
 /// (MvvmSheetEditor.ExportResult, ExportReport and BuildShortReport call the static members). Nothing of the reports changes (frozen on
 /// 8/10): the generators, ReportFiles and the chapter of the materials are called as before.
 /// <list type="bullet">
-/// <item>Results: the JSON of the result, refused without results or during a calculation; for Bridge Design with the data of the sheet,
-/// as SheetEditor (BD7, F5.12).</item>
+/// <item>Results: the JSON of the result, refused without results or during a calculation; for Bridge Design and the RC section with the
+/// data of the sheet, as SheetEditor (BD7, F5.12; F5.10 S9), the RC section refusing with the message of its historic sheet.</item>
 /// <item>Report: a material sheet writes its chapter, Word and PDF from the same document; a module whose historic sheet writes the PDF
 /// with its own generator (<see cref="IModuleReportPdf"/>, T8) writes the DOCX and that PDF beside it; the others the DOCX and the PDF
 /// rendered from it (<see cref="ReportFiles.Write"/>).</item>
-/// <item>Short report: refused for every sheet hosted today, with the text of MvvmSheetEditor (the RC section brings it with F5.10 S9);
-/// the writing, Word and PDF within two pages, away from the UI thread as MainWindow.ExportShortReport.</item>
+/// <item>Short report: from the sheets that write it (<see cref="IModuleShortReport"/>, the RC section since F5.10 S9), refused for the
+/// others with the text of MvvmSheetEditor; the writing, Word and PDF within two pages, away from the UI thread as
+/// MainWindow.ExportShortReport.</item>
 /// </list>
 /// </summary>
 public sealed class SheetFileExports : ISheetExports
 {
     /// <summary>A JSON of the results asked without results or during a calculation (MvvmSheetEditor.ExportResult).</summary>
     public const string CalculateFirst = "Premere Calcola prima di esportare.";
+
+    /// <summary>The same refusal for the RC section, with the text of its historic sheet (F5.10 S9).</summary>
+    public const string ConcreteUpdateFirst = "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare.";
 
     /// <summary>The short report of a sheet that does not write it (MvvmSheetEditor.BuildShortReport).</summary>
     public const string ShortReportUnavailable = "Il report short è disponibile per le sezioni in calcestruzzo armato.";
@@ -64,10 +69,12 @@ public sealed class SheetFileExports : ISheetExports
     {
         ArgumentNullException.ThrowIfNull(sheet);
         ArgumentException.ThrowIfNullOrEmpty(path);
-        if (!sheet.HasResults || sheet.IsBusy) throw new InvalidOperationException(CalculateFirst);
+        // F5.10 S9: as SheetEditor, the RC section refuses with its message and its JSON carries also the data of the sheet.
+        bool concrete = sheet is ConcreteSheetViewModel;
+        if (!sheet.HasResults || sheet.IsBusy) throw new InvalidOperationException(concrete ? ConcreteUpdateFirst : CalculateFirst);
         var exported = sheet.Result!;
         // F5.12 (BD7): as SheetEditor, the JSON of Bridge Design carries also the data of the sheet (the result is a new object at every read).
-        if (sheet is BridgeDesignSheetViewModel) exported["dati"] = sheet.Data.DeepClone();
+        if (sheet is BridgeDesignSheetViewModel || concrete) exported["dati"] = sheet.Data.DeepClone();
         Archivio.ScriviAtomico(path, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
     }
 
@@ -99,11 +106,12 @@ public sealed class SheetFileExports : ISheetExports
         ReportFiles.Write(path, sheet.Report.BuildReport(title, options, projectReport), title);
     }
 
-    /// <summary>The short report of <paramref name="sheet"/> (MvvmSheetEditor.BuildShortReport): no sheet hosted today writes it.</summary>
-    /// <exception cref="InvalidOperationException">Always, with <see cref="ShortReportUnavailable"/>.</exception>
+    /// <summary>The short report of <paramref name="sheet"/> (MvvmSheetEditor.BuildShortReport), from a sheet that writes it (<see cref="IModuleShortReport"/>: the RC section, F5.10 S9).</summary>
+    /// <exception cref="InvalidOperationException">For the other sheets, with <see cref="ShortReportUnavailable"/>.</exception>
     public static byte[] ShortReport(ISheetViewModel sheet, string title)
     {
         ArgumentNullException.ThrowIfNull(sheet);
-        throw new InvalidOperationException(ShortReportUnavailable);
+        return sheet.Report is IModuleShortReport report ? report.BuildShortReport(title)
+            : throw new InvalidOperationException(ShortReportUnavailable);
     }
 }

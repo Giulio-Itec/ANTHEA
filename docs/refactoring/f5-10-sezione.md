@@ -34,7 +34,10 @@ dei sottopassi. Contiene:
 - il sottopasso S5 fatto il 21/10: taglio e torsione nel ViewModel, staffe in sola lettura, prove ed esiti (sezione 14);
 - il sottopasso S6 fatto il 22/10: dettagli costruttivi e ancoraggi nel ViewModel, prove ed esiti (sezione 15);
 - il sottopasso S7 fatto il 22/10: sezione σ/ε e momento–curvatura nel ViewModel, correzione dei pannelli dei domini (sezione 16);
-- il sottopasso S8 fatto il 22/10: progetto delle armature nel ViewModel, prove ed esiti (sezione 17); da dove parte S9 (sezione 18).
+- il sottopasso S8 fatto il 22/10: progetto delle armature nel ViewModel, prove ed esiti (sezione 17); da dove parte S9 (sezione 18);
+- il sottopasso S9 fatto il 22/10, parte ViewModel: report Word e breve con i generatori congelati, scenari `report/*`, percorso F3 completo
+  (sezione 19);
+- la vista XAML, pannello per pannello, con la suite della vista e i comandi della sera (sezione 20).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -1478,3 +1481,242 @@ dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Te
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
 ```
+
+## 19. S9 fatto (22/10)
+
+Sottopasso S9 «Report, riepiloghi» (sezione 4, S9; sezione 18), parte ViewModel, ramo `refactoring/f5-10-s9` da `refactoring/f5` `790b9081`
+(S6–S8 uniti), 22/10/2026, di giorno: niente stadio `ui` né harness WPF (regola del giorno). Decisioni applicate: report congelati dall'8/10
+(nessun generatore, capitolo o testo cambiato), C5 (comportamenti storici conservati), C7 (tracce lunghe nello stadio `ui`), C8 (i disegni
+del report restano WPF, alimentati dai dati del ViewModel). La Release resta storica. Il passaggio della Release (sezione 6, punto 6) è fuori
+da S9 per decisione dell'utente del 22/10 («i test per il passaggio alla release li facciamo a fine refactoring»).
+
+### 19.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `1802538b` | report Word e breve nel ViewModel, disegni del report come dati, report breve e risultati JSON nell'ospite, prove |
+| (commit della documentazione) | questa sezione, riga di `piano.md` |
+
+### 19.2 Che cosa c'è
+
+- **Riepiloghi del pannello di controllo** (`summaries`, `RefreshSummary`, `CollectVerificationSummaries`): erano già nel foglio da S1
+  (`ConcreteSheetViewModel.Checks.cs`, `Summaries` e `ShearDashboard` su `ConcreteCardsViewModel`); S9 non li cambia. Le tracce li confrontano in
+  ogni scenario (riquadri del riepilogo nella parte `[ingressi]`).
+- **Report Word** (`ConcreteSheetViewModel.Report.cs`, da `BuildReportDocument` di `ConcreteReport.cs`), nello stesso ordine della vista storica:
+  conferma del foglio; rifiuto con il messaggio storico se il calcolo è in corso, in coda o senza risultati; le sezioni scelte salvate in
+  `report_sezioni`, in ordine, con Modified (non nel report del progetto); dettagli ricalcolati (`RefreshDetailing`), esportazione letta di nuovo e
+  arricchita dei dati del foglio (`dati`); il pannello del dominio 2D aggiornato anche se nascosto quando la sua figura è chiesta e il dominio
+  esiste (`RefreshPanel(renderHidden: true)`); poi `ReportConcrete.CreateDocument` con le figure. Il capitolo del report del progetto passa ancora
+  per `ModuleReportService` e `ConcreteReportAnalysis` (capitolo autonomo, invariato).
+- **Report breve**: conferma, rifiuto con il messaggio storico, `ReportConcreteShort.Create` sui dati di calcolo e sull'esportazione.
+- **Figure** (Q3, C8): il foglio dà al disegnatore i dati semplici dei suoi disegni nel momento del report (`ConcreteReportDrawings`: dati,
+  esportazione, anteprima del pannello di controllo, i due pannelli dei domini con le righe mostrate in ordine, la selezione, domini e verifiche
+  dello stato limite, il grafico 2D con il suo zoom; le tre famiglie SLE con mappa, esiti e righe; la curva M–χ pubblicata).
+  `IConcreteSectionFigureRenderer` è in Presentation; nel desktop `ConcreteSectionFigureRenderer` (`X.Desktop/Wpf/ConcreteSectionDrawings.cs`)
+  costruisce i disegni WPF della vista storica da quei dati e chiama `ModuleFigureRenderer.ConcreteFigures`, invariato. Le stesse funzioni di
+  `ConcreteSectionDrawings` (sezione disegnata e grafico 2D dai dati) servono alla vista XAML.
+- **Ospite** (`MvvmSheetEditor`): il report breve passa da `IModuleShortReport` (interfaccia nuova, accanto a `IModuleReportPdf`); i
+  risultati JSON della sezione c.a. hanno il messaggio storico e i dati del foglio, come `SheetEditor.ExportResult`.
+- **Modulo**: `ConcreteSectionSheetModule` riceve il disegnatore delle figure, come la sezione composta (F5.11); `PendingReport` è tolto.
+
+### 19.3 Esiti
+
+- **Tracce** (`--sezione-tracce`): **57 scenari uguali alle tracce congelate, ogni parte in ogni scenario**, compresi `report/disponibilita` e
+  `report/dati-incompleti` (report completo e breve con il calcolo in coda, disponibili dopo il calcolo, di nuovo in coda dopo una modifica,
+  rifiutati con i dati non validi; il dominio 2D nascosto disegnato dal report). Nessun arresto atteso. PASS 70
+  (`supporto/artefatti/f5-10-s9/s9-tracce-1`).
+- **Percorso F3 completo** (stesso comando): per le 11 fixture il ViewModel fa quello che fa la cattura F3 (aperto, visitato, calcolato,
+  risultato, report e report breve con testo e struttura, stato, dati esportati, riaperto). 121 file confrontati: 108 uguali byte per byte al
+  riferimento della vista storica nella forma canonica della cattura, compresi `exported-data` e `reopened` interi con `report_sezioni`; 13 con
+  transizioni F4 (le quattro fixture precedenti a F5.10) uguali entro le transizioni ammesse, con il confronto di `ui/f3-equivalence`. Le
+  immagini delle figure non sono confrontate qui (solo le didascalie, nel testo, e le dimensioni, nella struttura): si confrontano stasera con
+  `ui/f3-report-chapters` e con il banco (sezione 20).
+- **Prove rapide** (`--sezione-rapide`): PASS 541 (518 prima di S9); in più `report/disponibilita` fra le tracce rapide e i controlli del report:
+  rifiuti con i messaggi storici, sezioni salvate in ordine con un Modified, report del progetto senza scritture, esportazione con i dati,
+  disegni chiesti una volta (domini 3D e 2D in ordine con righe e selezione della tabella, famiglie SLE, anteprima, curva), dominio 2D nascosto
+  disegnato, report breve uguale al generatore, nessuna richiesta all'ospite, curva pubblicata nei disegni, sola lettura, foglio senza disegnatore,
+  chiusura.
+- **Architecture.Tests** PASS 574 (`s9-arch-2`). Baseline F4 e P3 invariate.
+
+### 19.4 Comportamenti storici trovati in S9 (conservati, C5)
+
+1. **Il report cambia l'esportazione in cache**: aggiunge `dati` all'oggetto dei risultati, che resta così fino all'azzeramento successivo;
+   l'impronta del risultato cambia dopo il report (`report/disponibilita`).
+2. **Il report aggiorna il pannello del dominio 2D nascosto** (dettaglio, grafico, sezione σ/ε) quando la figura del 2D è chiesta
+   (`report/dati-incompleti`).
+3. **Report in sola lettura**: disponibile, e salva `report_sezioni` con Modified (famiglia del comportamento 5 della sezione 2).
+4. **Tre messaggi diversi** per lo stesso rifiuto: quello della finestra («…correggere gli eventuali dati non validi.»), quello del report
+   («…correggere i dati non validi prima di esportare il report.») e quello del report breve («Attendere l’aggiornamento delle verifiche prima di
+   esportare.»).
+5. **Modified anche con le stesse sezioni**: il report salva `report_sezioni` e segnala Modified anche quando le sezioni non cambiano.
+
+### 19.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S9-a · Zoom e spostamento dei disegni nel report.** La vista storica disegna il report dai suoi controlli: lo zoom e lo spostamento fatti col
+  mouse sull'anteprima, sulle mappe SLE e sulla curva M–χ entrano nelle figure. Il ViewModel dà i dati dei disegni, non lo stato della vista:
+  le figure sono disegnate adattate, come nel capitolo autonomo del progetto; il grafico 2D porta lo zoom del pannello (`Zoom`, che la vista
+  XAML aggiorna). Nessuna traccia lo copre. Alternativa: la vista registra i suoi disegni vivi presso il disegnatore.
+- **S9-b · `IModuleShortReport`.** Interfaccia nuova di Presentation per il report breve, accanto a `IModuleReportPdf` (T8). Alternativa: un
+  membro di `IModuleReportSource` con un'implementazione predefinita.
+- **S9-c · Foglio senza disegnatore.** Il costruttore senza disegnatore (usato solo dalle prove) rifiuta i report con «grafici» e scrive gli
+  altri senza figure; il modulo lo richiede sempre.
+
+### 19.6 Che cosa resta e come riprendere
+
+- **Vista XAML** (sezione 20).
+- **Stasera** (regola del giorno): le suite della sezione 18 e quelle della sezione 20.
+- **Passaggio della Release** con l'utente, a fine refactoring: sezione 6, punto 6, e la ricetta di [f5-ripresa.md](f5-ripresa.md).
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
+```
+
+## 20. Vista XAML della sezione c.a. (22/10, otto schede e finestre fatte)
+
+Stesso ramo `refactoring/f5-10-s9`, 22/10/2026, dopo S9, di giorno: la vista è scritta e compilata, le sue prove WPF si eseguono stasera
+(regola del giorno). Modelli: la vista di F5.11 (sezione 5 di [f5-11-sezione-mista.md](f5-11-sezione-mista.md)) e quella di F5.12. La Release
+resta storica; il banco sceglie la vista con `--module-impl str_palo=mvvm`. La vista è fatta **pannello per pannello**, un commit per gruppo di
+schede: alla fine della giornata ogni scheda e ogni finestra del foglio è legata al suo ViewModel; restano le tracce attraverso i controlli (20.5).
+
+### 20.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `e4487034` | guscio della vista e scheda 01 «Pannello di controllo», tabella e barra dei filtri, aggiunte del ViewModel per la vista, prove rapide |
+| `7b1e4aaf` | suite `ui/check-sezione-view` (scritta, non eseguita) e `ui/f3-report-chapters-sezione-mvvm` (capitoli F3 con il foglio MVVM) |
+| `2a5283bb` | passo di contrasto autonomo `mvvm-str_palo` in `ContrastAudit.cs` (non eseguito) |
+| `f9169397` | questa sezione, prima stesura |
+| `80e752d0` | schede 02 e 03 dei domini (`ConcreteDomainPanelView`), tabella delle azioni con i comandi, finestra «Scala…», F1 e sola lettura delle due schede nella suite |
+| `d7c94aeb` | questa sezione, schede 01–03 |
+| `cf493fe0` | schede 04–08 (`ConcreteStressPanelView` per famiglia, `ConcreteShearView`, `ConcreteDetailingView`, `ConcreteCurvatureView`, `ConcreteDesignView`), `ConcreteViewFrames`, suite sulle otto schede con i disegni letti dalla vista |
+| `1c671622` | finestre: «Nuovo materiale · …», wizard, «Sollecitazioni della sezione», «Proprietà / report della sezione» |
+| `3591793d` | questa sezione aggiornata |
+| (commit della documentazione) | esito delle corse finali (20.7) |
+
+### 20.2 Che cosa c'è
+
+- **`X.Desktop/Views/ConcreteSection`**: `ConcreteSectionSheetView` (DataTemplate di `ConcreteSheetViewModel` in `ConcreteSectionTemplates.xaml`,
+  una riga in `App.xaml`), `ConcreteSectionResources.xaml` (stili con i soli token di F5.3, P7; riquadri dei riepiloghi, barra dei filtri, blocchi
+  dei riepiloghi), `ConcreteSectionControls.cs` (convertitori senza stato statico, P3; `ConcreteTableGrid`, la tabella su `ConcreteTableViewModel`:
+  colonne dalla tabella, righe mostrate, selezione nei due sensi, ordine dalle intestazioni, modifiche confermate quando la tabella lo chiede).
+- **Guscio**: riferimento al motore, otto schede legate a `SelectedTab` (con le intestazioni «01 … 08» della vista storica), avanzamento, stato,
+  «Sollecitazioni…» (`Actions.EditCommand`) e «Modello e dati comuni…» (la finestra storica, come la vista storica); pagina di almeno 1120 × 700.
+- **Scheda 01 «Pannello di controllo», intera**: definizione della sezione con i gruppi della vista storica (normativa e nota, valori integrati,
+  coefficienti con l'avviso e il ripristino, materiali con «Reologia…», trefoli da standard, nuovi materiali e materiali salvati, geometria con il
+  wizard, le note del wizard, il foro, armature con le note e i secondi strati, staffe, cavi con l'avviso, il materiale, «+» e «−»), il disegno della
+  sezione con la barra storica («Proprietà / report…», «Assi», «ID», «Adatta», «PNG», «Espandi», quote), le tabelle delle barre (con «Ripristina
+  barre da wizard») e dei cavi con la barra dei filtri, le resistenze a N assegnato, i riepiloghi con «Apri →» e la nota dei colori. I divisori
+  salvano il rapporto in `layout` come `ConcreteLayout.cs`.
+- **Schede 02 «Dominio 3D» e 03 «Dominio 2D», intere** (`ConcreteDomainPanelView` su `ConcreteDomainPanelViewModel`, la disposizione di
+  `BuildDomainPanel`): opzioni di calcolo con «Sezione sull’azione selezionata» (2D), l'avviso, la legenda e le dimensioni dei punti; scheda interna
+  «Dominio» con il disegno e la barra storica (forze, vista e «Mesh» del 3D, «Adatta», «PNG», «Espandi», trasparenza, «Scala…», le cinque caselle,
+  «Legenda η» con i token Utilization) e scheda interna «Sezione σ / ε» (soluzione, mappa con contorno, «Asse neutro», «Proprietà…», «Valori σ/ε
+  sulle barre», piano delle deformazioni, valori, messaggio) legata a `InspectionTab`; «Dettagli combinazione» e «Riepilogo verifiche»; tabella
+  delle azioni dello stato limite con i comandi della vista storica (modello `ActionTable`: «+ Riga», «Duplica», «− Riga», «Copia», «Incolla»,
+  Excel, «Sfoglia…»; con le azioni uniche «Gestisci sollecitazioni…»; Ctrl+C, Ctrl+V e menu sulla tabella). «Adatta» e «Scala…» passano da
+  `FitRequested` e `ZoomRequested`; il reset del grafico 2D richiama `ChartViewReset` (i due Modified storici); lo zoom della rotellina del 2D resta
+  in `Zoom` del pannello (figura del report). DataTemplate della finestra «Scala…».
+- **Scheda 04 «Tensioni e fessurazione», intera**: le tre famiglie in un `TabControl` senza intestazioni legato a `StressFamily` (come `sleTabs`);
+  `ConcreteStressPanelView` per famiglia: opzioni comuni con «Combinazione SLE», «Reologia del calcestruzzo…», avviso dell'analisi non lineare e
+  istruzioni; mappa con contorno, «Adatta», «PNG», «Espandi», zona efficace, «Asse neutro», valori σ/ε su barre, trefoli e vertici; «Dettagli
+  combinazione» (riepilogo, barre e trefoli, calcestruzzo, passaggi della fessurazione, legati a `DetailTab`) e «Riepilogo verifiche» (legati a
+  `VerificationTab`); tabella delle azioni della famiglia.
+- **Scheda 05 «Taglio e torsione», intera** (`ConcreteShearView`): staffe in sola lettura con «Modifica staffe nel pannello di controllo →», form del
+  taglio, torsione e modello circolare con la nota, nota dei parametri automatici, avviso; sezione con i riferimenti geometrici; dettagli e riepilogo;
+  tabella del taglio con i comandi («+ Combinazione», «−») e la sintesi sotto; riga della tabella almeno 280.
+- **Scheda 06 «Dettagli costruttivi», intera** (`ConcreteDetailingView`): le cinque righe della vista storica (elemento e riepilogo; copriferro e
+  durabilità; armatura; staffe e barre trattenute; ancoraggi e appoggi con «Aggiorna verifiche ancoraggi»), ognuna con i suoi divisori.
+- **Schede 07 «Momento–curvatura» e 08 «Calcola armature», intere** (`ConcreteCurvatureView`, `ConcreteDesignView`): percorso di carico con «Calcola
+  curva», «Interrompi», «Esporta CSV…», grafico M–χ e testo; ricerca con i limiti, «Sezione →», «Dettagli →», «SLE / esposizione →», «Calcola
+  armature», «Ferma ricerca», avanzamento, stato, configurazione disegnata, risultato con «Applica configurazione», alternative con «Mostra le prime»,
+  verifiche della proposta, ricerca e scarti.
+- **Finestre** (DataTemplate in `ConcreteSectionTemplates.xaml`, mostrate dal servizio dei dialoghi): «Nuovo materiale · …»
+  (`ConcreteMaterialDialogView`, con il diagramma σ–ε), il wizard (`ConcreteTemplateWizardView`, con l'anteprima), «Sollecitazioni della sezione»
+  (`SectionActionsDialogView`), «Scala…»; la finestra non modale «Proprietà / report della sezione» (`ConcreteSectionPropertiesView`), aperta dalla
+  vista del foglio su `PropertiesRequested` e chiusa con il suo ViewModel. `ConcreteViewFrames` dà «PNG» ed «Espandi» a tutte le schede.
+- **Disegni** (Q3, C8): `ConcreteSectionDrawings` (`X.Desktop/Wpf`, accanto ai disegni) copia i dati di `ConcreteSectionDrawingViewModel` in
+  `ConcreteSectionViewport`, quelli di `ConcreteDomain2DViewModel` in `Plot`, quelli di `ConcreteDomain3DViewModel` in `DomainViewport3D`, la curva
+  M–χ, il diagramma del materiale e l'anteprima del wizard (i colori dei disegni restano lì, P7); serve alla vista e alle figure del report (S9). I divisori di tutte le schede seguono il gruppo scritto nel `Tag` della griglia (`ingressi`, `risultati`,
+  `righe`), come `RegisterWorkspaceSplit`.
+- **ViewModel, aggiunte per la vista**: `LayoutRatio`, `MoveLayout`, `LayoutChanged` (divisori), `OpenSummaryCommand` («Apri →»),
+  `SummaryBlocks`, `Inputs.Group` (gruppi per chiave), `ShowDimensions` / `ShowCoverDimensions` / `ShowSpacingDimensions`, `ClearCommand` della barra
+  dei filtri. Prove in `Presentation.Tests` (`ViewSupportAsync`, `--sezione-rapide` PASS 552).
+- **Suite `ui/check-sezione-view`** (`tests/Desktop/ConcreteSectionViewChecks.cs`, comando `--check-sezione-view <radice> <cartella> [parti]`):
+  - `banco`: con l'opzione del banco la vista MVVM, la Release storica;
+  - `disegni`: per le 11 fixture F3 i disegni letti dai controlli della vista (anteprima, mappe SLE con i contorni della Rara di due fixture,
+    taglio, sezione e piano σ/ε del 3D al punto limite e all'azione, dominio 2D, curva M–χ) uguali agli elenchi congelati di `disegni/elenco.txt`;
+  - `esportazioni`: per le 11 fixture, sulla vista MVVM e su quella storica, dati all'apertura, dopo la visita F3 (i tre aspetti non scrivono) e dopo
+    il calcolo, risultato, report Word con le figure (ogni parte, date normalizzate), PDF, report breve, JSON dei risultati, report della curva M–χ;
+  - `schermate` (scheda 01 nei tre aspetti e la storica), `aiuto` (F1 su ogni campo delle otto schede al navigatore, F1 fuori dai campi alla
+    guida), `sola-lettura` (pulsanti e caselle delle otto schede bloccati e liberi come nella vista storica).
+- **`ui/f3-report-chapters-sezione-mvvm`**: `F3ReportChapterChecks` calcola la curva anche sul foglio MVVM del banco.
+- **Contrasto**: passo autonomo `mvvm-str_palo` in fondo a `ContrastAudit.cs`.
+
+### 20.3 Esiti di giorno
+
+Build Release e UiTests senza errori dopo ogni commit; Architecture.Tests PASS 574 (P1–P7 sulla cartella nuova; i rapporti iniziali dei divisori
+sono letti dalle misure del XAML, senza letterali numerici: R2); `--sezione-rapide` PASS 552. Nessuna prova WPF eseguita (regola del giorno): la
+vista non è ancora stata aperta, la suite della vista la apre stasera per la prima volta. Corsa finale standard nella sezione 20.7.
+
+**Attenzione per stasera**: nessun binding, risorsa o modello di questa vista è stato provato in una finestra. Un errore di XAML trovato solo
+all'esecuzione (una risorsa mancante, un binding sbagliato) fa cadere `ui/check-sezione-view` e il banco con l'opzione `str_palo=mvvm`, non la
+Release: le suite storiche non aprono questa vista.
+
+### 20.4 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **SV-a · Schede della famiglia SLE senza intestazioni.** Come `sleTabs` storico: la famiglia si sceglie con «Combinazione SLE»; le schede
+  hanno comunque l'intestazione con il nome della famiglia per l'accessibilità.
+- **SV-b · «PNG» ed «Espandi».** Nella vista, come la cornice storica (`ViewportFrame`): il percorso del PNG da una finestra del sistema (le prove
+  ne danno uno), «Espandi» con una finestra della vista. Alternativa: un comando del foglio con `IFileDialogService`, come F5.11.
+- **SV-c · «Proprietà / report…».** Finestra non modale aperta dalla vista del foglio (`PropertiesRequested`), come la storica; nessun servizio
+  comune di finestre non modali (S1-a).
+- **SV-d · Gruppi per chiave.** `Inputs.Group` espone i gruppi del pannello per chiave corta, per i binding; l'elenco `Groups` resta.
+- **SV-e · Finestre dei dialoghi.** Viste XAML nuove per «Nuovo materiale …», il wizard e «Sollecitazioni…» (le finestre storiche sono
+  costruite in codice e non si riusano come DataTemplate); le dimensioni sono quelle delle finestre storiche, sulla vista invece che sulla finestra
+  (il servizio dei dialoghi adatta la finestra al contenuto).
+- **SV-f · Ospite.** `MvvmSheetEditor.BuildShortReport` passa da `IModuleShortReport` e `ExportResult` ha il ramo della sezione c.a. (S9). Il
+  coordinatore li sposta in `SheetFileExports` (F5.13 parte c) all'unione.
+
+### 20.5 Che cosa resta della vista
+
+1. **La prima esecuzione della vista** stasera (`ui/check-sezione-view`, banco): correggere quello che cade all'esecuzione.
+2. **Tracce attraverso i controlli della vista** (i 57 scenari di `tests/Shared/ConcreteSectionTrace.cs` guidati sui controlli, come
+   `CompositeSectionViewChecks.Trace`), nomi di automazione e finestre guidate nella suite della vista; oggi la suite confronta disegni, dati,
+   esportazioni, F1 e sola lettura, mentre le tracce sono confrontate sul ViewModel (`Presentation.Tests/sezione-ca`).
+3. Poi, con l'utente, a fine refactoring: versione di prova, passaggio della Release, archiviazione della vista storica e del wizard storico,
+   riscrittura delle suite storiche (sezione 6).
+
+### 20.6 Stasera (regola del giorno)
+
+Con la build UiTests del ramo (`dotnet build X.Desktop/X.Desktop.csproj -c UiTests`), dalla radice del worktree:
+
+1. **Banco F3 con il foglio MVVM e confronto diretto** (sezione 4.0: «a S9 il banco confronta la cattura MVVM con `expected`»):
+
+   ```
+   dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-f3-equivalence <radice> <cartella>\storica
+   dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-f3-equivalence <radice> <cartella>\mvvm --module-impl str_palo=mvvm
+   C:\Users\g.pacini\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe -I tools\qa\f5_confronto_diretto.py --a <cartella>\storica --b <cartella>\mvvm --out <cartella>\confronto-diretto.json
+   ```
+
+   Atteso: le due catture PASS contro `expected` con le sole transizioni F4, confronto diretto a zero differenze.
+2. **Suite nuove**: `ui/check-sezione-view` e `ui/f3-report-chapters-sezione-mvvm`.
+3. **Suite storiche della sezione 18**: `ui/check-sezione-historic`, `ui/smoke-ca-extensions`, `ui/smoke-ca-features`, `ui/smoke-neutral-axis`,
+   `ui/smoke`, `ui/check-concrete-design`, `ui/f3-report-chapters`, `ui/f3-concrete-figures`, `ui/f3-scheduling`, `ui/check-field-form-parity`,
+   `ui/f3-equivalence`, `Presentation.Tests/sezione-ca`, più `ui/check-module-host-offscreen` (la sezione ora ha un DataTemplate).
+4. **`ui/check-contrast` a 96 DPI** (coordinatore), con il passo nuovo `mvvm-str_palo`.
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(ui/check-sezione-(view|historic)|ui/f3-report-chapters(-sezione-mvvm)?|ui/smoke(-ca-extensions|-ca-features|-neutral-axis)?|ui/check-concrete-design|ui/f3-concrete-figures|ui/f3-scheduling|ui/check-field-form-parity|ui/f3-equivalence|ui/check-module-host-offscreen|Presentation.Tests/sezione-ca)$' -Tag s9-sera"
+```
+
+### 20.7 Corse finali di giorno
+
+- **Standard** `-Profile standard -Tag s9-finale2` su `3591793d` (ultimo commit di codice e documenti della giornata):
+  `supporto/artefatti/ci/20261022-120044-s9-finale2`, PASS 77, KNOWN 0, NEW-FAIL 0. Una prima standard su `d7c94aeb` (schede 01–03):
+  `ci/20261022-113222-s9-finale`, PASS 77, NEW-FAIL 0.
+- **Tracce lunghe** sui binari della corsa: `--sezione-tracce` PASS 70, 57 scenari uguali alle tracce congelate
+  (`supporto/artefatti/f5-10-s9/s9-tracce-finale`).
+- **Architecture.Tests** PASS 574 dopo ogni commit della vista. Nessuna prova WPF eseguita (regola del giorno).

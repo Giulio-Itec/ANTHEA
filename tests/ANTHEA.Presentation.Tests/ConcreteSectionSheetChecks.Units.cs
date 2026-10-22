@@ -10,6 +10,7 @@ using Anthea.Presentation.Modules;
 using Anthea.Presentation.Modules.ConcreteSection;
 using Anthea.Presentation.Modules.PileGroup;
 using Anthea.Presentation.Services;
+using Anthea.Testing.Comparison;
 using Anthea.Testing.Normalization;
 
 namespace Anthea.Presentation.Tests;
@@ -17,15 +18,15 @@ namespace Anthea.Presentation.Tests;
 /// <summary>
 /// The RC section (F5.10 S1) beyond the traces: the module and its sheet without a project and without a window (requirement of section 5),
 /// read-only revision, closing during a calculation, the fixed order of the errors of parallel steps (C6), the Wiki of every field, the
-/// requests of the non modal windows, Reload; with --sezione-tracce also the files of the data of the F3 capture (opened, visited,
-/// calculated-data, exported-data, reopened) against the F3 reference and the sections sent by the walls.
+/// requests of the non modal windows, Reload; with --sezione-tracce also the path of the F3 capture (data, result, report and short report,
+/// status, exported data, reopened: S9) against the F3 reference and the sections sent by the walls.
 /// </summary>
 internal static partial class ConcreteSectionSheetChecks
 {
     private static ConcreteSheetViewModel OpenSheet(JsonObject data, ISheetHost? host = null, PresentationServices? services = null, bool readOnly = false,
         ConcreteAnalysisSession? session = null) =>
         new(new SheetContext((JsonObject)data.DeepClone(), readOnly, host ?? new Host(), services ?? Scripted.Services(),
-            ModuleServices.Get(ConcreteSectionSheetModule.Id), new CalculationLimiter(1)), session ?? new ConcreteAnalysisSession());
+            ModuleServices.Get(ConcreteSectionSheetModule.Id), new CalculationLimiter(1)), session ?? new ConcreteAnalysisSession(), Figures);
 
     /// <summary>Waits until the sheet has nothing left to do (calculation, queue, quick resistances).</summary>
     private static async Task IdleAsync(ConcreteSheetViewModel sheet)
@@ -41,14 +42,15 @@ internal static partial class ConcreteSectionSheetChecks
 
     private static void Contract(Expect expect)
     {
-        var module = new ConcreteSectionSheetModule();
+        var module = new ConcreteSectionSheetModule(Figures);
+        expect.Throws<ArgumentNullException>(() => new ConcreteSectionSheetModule(null!), "Modulo senza disegni del report");
         expect.That(module.Info == ModuleDirectory.Get("str_palo") && module.Reports.ShortReport
             && module.Persistence.UiStateKeys.SequenceEqual(["tab", "layout", "quote_dimensioni", "quote_copriferro", "quote_interferro"]), "Modulo della sezione c.a.");
         var registry = new ModuleRegistry([new PileGroupSheetModule(), module]);
         expect.That(registry.SheetModuleIds.SequenceEqual(ModuleDirectory.All.Select(m => m.Id).Where(m => m is "geo_efficienza_orizzontale" or "str_palo")),
             "Registro con la sezione c.a. nell'ordine della directory");
         expect.Throws<ArgumentException>(() => new ConcreteSheetViewModel(new SheetContext(new JsonObject(), false, new Host(), Scripted.Services(),
-            ModuleServices.Get("geo_palo_verticale"), new CalculationLimiter(1))), "Servizio di un altro modulo rifiutato");
+            ModuleServices.Get("geo_palo_verticale"), new CalculationLimiter(1)), Figures), "Servizio di un altro modulo rifiutato");
     }
 
     // Section 5 (C4): the sheet works without a project and without a window; Commit leaves the complete data in the object of the context.
@@ -57,7 +59,7 @@ internal static partial class ConcreteSectionSheetChecks
         var host = new StrictHost();
         var data = (JsonObject)ConcreteSectionScenarios.FixtureData(root, "default").DeepClone();
         var context = new SheetContext(data, false, host, Scripted.Services(), ModuleServices.Get(ConcreteSectionSheetModule.Id), new CalculationLimiter(1));
-        using var sheet = (ConcreteSheetViewModel)new ConcreteSectionSheetModule().CreateSheet(context);
+        using var sheet = (ConcreteSheetViewModel)new ConcreteSectionSheetModule(Figures).CreateSheet(context);
         expect.That(ReferenceEquals(sheet.Data, data) && sheet.CalculationMode == SheetCalculationMode.None && sheet.AutomaticDelay is null && sheet.IsCalculationQueued,
             "Foglio sui dati del contesto, modalità None, calcolo dell'apertura in coda");
         await IdleAsync(sheet);
@@ -68,7 +70,9 @@ internal static partial class ConcreteSectionSheetChecks
         var stored = data["combinazioni"]!["SLU"]![0]!;
         expect.That(stored["visible"] is not null && stored["azioni"] is JsonArray && data["workspace_ca"]!["taglio"]!["azioni"] is JsonArray && host.Calls == 0,
             "Commit: righe delle azioni e del taglio nei dati del contesto");
-        expect.Throws<InvalidOperationException>(() => sheet.Report.BuildReport("Report", new HashSet<string>()), "Report rinviato a S9");
+        // S9: the report and the short report without a project and without a window, no request to the host.
+        expect.That(sheet.Report.BuildReport("Report", ReportSections()).Length > 0 && ((IModuleShortReport)sheet.Report).BuildShortReport("Breve").Length > 0 && host.Calls == 0,
+            "Report e report breve senza finestra e senza richieste all'ospite");
     }
 
     private static async Task ReadOnlyAsync(string root, Expect expect)
@@ -198,51 +202,90 @@ internal static partial class ConcreteSectionSheetChecks
     // ---------------------------------------------------------------- the files of the data of the F3 capture (section 4.0)
 
     /// <summary>
-    /// The files of the data of the F3 capture, made by the ViewModel as F3EquivalenceCapture makes them (opened, visited, calculated-data;
-    /// exported-data and reopened after the report), against the F3 reference of the historic view: byte for byte, except the key
-    /// «report_sezioni» that the export of the report writes (sub-step S9), left out of exported-data and reopened.
+    /// The path of the F3 capture through the ViewModel, as F3EquivalenceCapture makes it (opened, visited, calculated-data, result; the report and
+    /// the short report with their text and structure, status; exported-data and reopened after the report), against the F3 reference of the
+    /// historic view: byte for byte in the canonical form of the capture, except the files with F4 transitions (the four fixtures before F5.10),
+    /// compared as ui/f3-equivalence compares them, with exactly those transitions admitted. Since S9 the report is the ViewModel's (the figures
+    /// planned as the desktop draws them: their captions enter the text, their images only the structure).
     /// </summary>
     private static async Task DataFilesAsync(string root, string output, Expect expect)
     {
         string expected = Path.Combine(root, "tests", "fixtures", "f3", "expected", "sheets", ConcreteSectionSheetModule.Id);
         string capture = Path.Combine(output, "sezione-ca-f3");
         var normalizer = new TextNormalizer([(root, "<RADICE>")]);
+        var transitions = Transition.Load(Path.Combine(root, "tests", "fixtures", "f3", "transitions-f4.json"))
+            .Where(t => t.File.StartsWith("sheets/" + ConcreteSectionSheetModule.Id + "/", StringComparison.Ordinal)).ToList();
+        var withTransitions = transitions.Select(t => t.File).ToHashSet(StringComparer.Ordinal);
+        string[] names = ["opened.json", "visited.json", "calculated-data.json", "result.json", "report.txt", "report-structure.json", "short.txt", "short-structure.json",
+            "status.json", "exported-data.json", "reopened.json"];
         var differences = new List<string>();
-        int files = 0;
+        int files = 0, admitted = 0;
         foreach (string id in ConcreteSectionScenarios.Fixtures(root))
         {
             string folder = Path.Combine(capture, id); Directory.CreateDirectory(folder);
             var guids = new GuidMap(); var data = ConcreteSectionScenarios.FixtureData(root, id);
             CanonicalJson.Register(data, guids);
+            void Write(string name, string text) => File.WriteAllText(Path.Combine(folder, name), text, new UTF8Encoding(false));
             void Save(string name, JsonNode? value)
             {
                 CanonicalJson.Register(value, guids);
-                File.WriteAllText(Path.Combine(folder, name + ".json"), CanonicalJson.Serialize(value, guids, normalizer), new UTF8Encoding(false));
+                Write(name + ".json", CanonicalJson.Serialize(value, guids, normalizer));
+            }
+            void Capture(byte[] docx, string name)
+            {
+                Write(name + ".txt", DocxText.Extract(docx, normalizer, guids));
+                Write(name + "-structure.json", CanonicalJson.Serialize(ReportStructure(docx), guids, normalizer));
             }
             using (var sheet = OpenSheet(data))
             {
                 sheet.Commit(); Save("opened", sheet.Data);
                 Visit(sheet); sheet.Commit(); Save("visited", sheet.Data);
                 await sheet.CalculateAsync(); sheet.Commit(); Save("calculated-data", sheet.Data);
-                Save("exported-data", sheet.Data);
+                Save("result", sheet.Result);
+                var status = new JsonObject { ["hasResults"] = sheet.HasResults };
+                try
+                {
+                    Capture(sheet.Report.BuildReport("Fixture F3 · " + ConcreteSectionSheetModule.Id + " · " + id, ReportSections()), "report");
+                    status["report"] = "available";
+                    Capture(((IModuleShortReport)sheet.Report).BuildShortReport("Fixture F3 breve · " + id), "short");
+                }
+                catch (Exception error) when (error is not IOException && error is not UnauthorizedAccessException)
+                { status["report"] = "unavailable"; status["reason"] = error.GetType().Name + ": " + error.Message; }
+                Save("exported-data", sheet.Data); Save("status", status);
                 using var reopened = OpenSheet(sheet.Data);
                 reopened.Commit(); Save("reopened", reopened.Data);
             }
-            foreach (string name in new[] { "opened", "visited", "calculated-data", "exported-data", "reopened" })
+            foreach (string name in names)
             {
+                string referencePath = Path.Combine(expected, id, name), producedPath = Path.Combine(folder, name);
+                if (!File.Exists(referencePath)) { if (File.Exists(producedPath)) differences.Add(id + "/" + name + " (non nel riferimento)"); continue; }
                 files++;
-                string reference = File.ReadAllText(Path.Combine(expected, id, name + ".json"), Encoding.UTF8).Replace("\r\n", "\n");
-                if (name is "exported-data" or "reopened")
+                string reference = File.ReadAllText(referencePath, Encoding.UTF8).Replace("\r\n", "\n");
+                string produced = File.Exists(producedPath) ? File.ReadAllText(producedPath, Encoding.UTF8).Replace("\r\n", "\n") : "";
+                string file = "sheets/" + ConcreteSectionSheetModule.Id + "/" + id + "/" + name;
+                if (withTransitions.Contains(file))
                 {
-                    var node = JsonNode.Parse(reference)!;
-                    node["workspace_ca"]!.AsObject().Remove("report_sezioni");
-                    reference = CanonicalJson.Serialize(node, new GuidMap(), new TextNormalizer([])).Replace("\r\n", "\n");
+                    // Kept for the comparison with the F4 transitions, as ui/f3-equivalence compares them.
+                    admitted++;
+                    foreach (var (side, text) in new[] { ("f3-riferimento", reference), ("f3-transizioni", produced) })
+                    {
+                        string path = Path.Combine(capture, side, file);
+                        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+                        File.WriteAllText(path, text, new UTF8Encoding(false));
+                    }
                 }
-                string produced = File.ReadAllText(Path.Combine(folder, name + ".json"), Encoding.UTF8).Replace("\r\n", "\n");
-                if (reference != produced) differences.Add(id + "/" + name + ".json");
+                else if (reference != produced) differences.Add(id + "/" + name);
             }
         }
-        expect.That(files == 55 && differences.Count == 0, "File dei dati F3 della sezione c.a. diversi dal riferimento: " + string.Join(", ", differences));
+        expect.That(files == 121 && differences.Count == 0, "File F3 della sezione c.a. diversi dal riferimento (" + files.ToString(CultureInfo.InvariantCulture) + " file): "
+            + string.Join(", ", differences));
+        var comparer = new BaselineComparer(Tolerances.Load(Path.Combine(root, "tests", "ANTHEA.Testing", "tolerances.json")));
+        comparer.Admit(transitions);
+        var report = comparer.Compare(Path.Combine(capture, "f3-riferimento"), Path.Combine(capture, "f3-transizioni"));
+        File.WriteAllText(Path.Combine(capture, "f3-confronto.json"), report.ToJsonString(J.Options));
+        expect.That(admitted == withTransitions.Count && comparer.NotAdmitted == 0, "File F3 della sezione c.a. con transizioni F4: " + admitted.ToString(CultureInfo.InvariantCulture)
+            + " file, " + transitions.Count.ToString(CultureInfo.InvariantCulture) + " transizioni, " + comparer.NotAdmitted.ToString(CultureInfo.InvariantCulture)
+            + " differenze non ammesse o transizioni assenti");
     }
 
     /// <summary>The visit of the F3 capture on the ViewModel: every expander opened, every main tab selected and the first one restored.</summary>

@@ -98,7 +98,7 @@ public sealed partial class ConcreteSheetViewModel
         summaries.Clear();
         foreach (string key in ConcreteEditor.Sets) summaries[key] = new ConcreteCardsViewModel();
         ShearDashboard = new ConcreteCardsViewModel();
-        OnPropertyChanged(nameof(Summaries)); OnPropertyChanged(nameof(ShearDashboard));
+        OnPropertyChanged(nameof(Summaries)); OnPropertyChanged(nameof(ShearDashboard)); OnPropertyChanged(nameof(SummaryBlocks));
     }
 
     /// <summary>The summaries of the verifications (RefreshVerificationSummaries of the historic view, the cards of the control panel).</summary>

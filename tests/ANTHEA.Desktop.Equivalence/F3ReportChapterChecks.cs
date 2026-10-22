@@ -33,8 +33,8 @@ internal static class F3ReportChapterChecks
             await editor.CalculateAsync(); editor.Commit();
             // U5 intentionally adds the curve to project reports. Compare against the existing
             // interactive curve command, not the previous report that never calculated it. The command belongs to the
-            // historic c.a. view (ConcreteWorkspace), outside the ISheetEditor contract until F5.10.
-            if (module == "str_palo" && editor.HasResults) await ((SheetEditor)editor).CalculateCurvatureForReportCheck();
+            // c.a. sheet, outside the ISheetEditor contract: the historic view or, on the bench, the MVVM sheet (F5.10 S9).
+            if (module == "str_palo" && editor.HasResults) await CalculateCurvature(editor);
             ReportProject.SheetContent? chapter = null; Exception? error = null;
             try { chapter = await builder.BuildAsync(sheet, default); } catch (ArgumentException ex) { error = ex; }
             Check(fixture.ToJsonString() == original, "Input originale modificato");
@@ -129,6 +129,19 @@ internal static class F3ReportChapterChecks
         yield return ("wall-global.json", J.Obj(("id", "globale-confermata"), ("module", RetainingWall.Module), ("data", wall)));
     }
     private static void Check(bool valid, string message) { if (!valid) throw new InvalidOperationException(message); }
+
+    /// <summary>
+    /// «Calcola curva» of the c.a. sheet: the historic view, or the MVVM sheet chosen with the option module-impl str_palo=mvvm of the bench (F5.10
+    /// S9), waited until its curve is published.
+    /// </summary>
+    private static async Task CalculateCurvature(ISheetEditor editor)
+    {
+        if (editor is SheetEditor historic) { await historic.CalculateCurvatureForReportCheck(); return; }
+        var sheet = (Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel)((MvvmSheetEditor)editor).Sheet;
+        await sheet.Curvature.CalculateCommand.ExecuteAsync(null);
+        for (int i = 0; i < 400 && sheet.Curvature.IsRunning; i++) await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+        if (sheet.Curvature.Result is null) throw new InvalidOperationException("Curva della fixture non disponibile: " + sheet.Curvature.Text);
+    }
 
     /// <summary>
     /// F5.6b: the report of a stratigraphy as the view exports it (the «Report Word» command: SheetEditor.ExportReport, Word and PDF side by

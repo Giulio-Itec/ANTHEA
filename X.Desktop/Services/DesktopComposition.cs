@@ -69,8 +69,8 @@ internal sealed class DesktopComposition
             // soil transfer dialog on the dialog service (no dialog in the options: SoilTransferDialogService, decision T5).
             new StratigraphySheetModule(new(Anthea.Application.Stratigraphy.StratigraphyImport.OpenAi(), Anthea.Application.Stratigraphy.StratigraphyImport.EnvironmentDefaults)),
             new RetainingWallSheetModule(new RetainingWallFigureRenderer()),
-            // F5.10 S1: the RC section (shell, calculation, inputs); the Release keeps the historic view until S9 (C10).
-            new ConcreteSectionSheetModule(),
+            // F5.10: the RC section, with the WPF figures of its report (S9); the Release keeps the historic view until its switch (C10).
+            new ConcreteSectionSheetModule(new ConcreteSectionFigureRenderer()),
             new Anthea.Presentation.Modules.Spectra.SpectraSheetModule(),
             new Anthea.Presentation.Modules.EmbeddedWalls.EmbeddedWallSheetModule(),
             // F5.11: the composite bridge section, with the WPF figures of its report; the Release keeps the historic view until its checkpoint.

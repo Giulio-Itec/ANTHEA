@@ -1,0 +1,126 @@
+<!--
+  A family of the serviceability of the RC section (tab 04 «Tensioni e fessurazione», F5.10 view after S9) on ConcreteStressPanelViewModel, with the
+  layout of BuildStressTabs of the historic view (AnalysisLayout): the common options with the choice «Combinazione SLE», «Reologia del calcestruzzo…»,
+  the notice of the non-linear analysis and the instructions; the stress map with its bar (contour, «Adatta», «PNG», «Espandi», effective zone, «Asse
+  neutro», the values on the bars, the cables and the vertices); the details of the selected combination (summary, bars and cables, concrete, steps
+  of the cracking) and the summary of the checks; the table of the actions of the family with its commands. The map is the drawing of the historic view,
+  fed by the data of the family in the code-behind (Q3). Theme tokens only (P7).
+-->
+<UserControl x:Class="X.Desktop.Views.ConcreteSection.ConcreteStressPanelView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:views="clr-namespace:X.Desktop.Views.ConcreteSection"
+ xmlns:concrete="clr-namespace:Anthea.Presentation.Modules.ConcreteSection;assembly=ANTHEA.Presentation">
+ <UserControl.Resources>
+  <ResourceDictionary>
+   <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="ConcreteSectionResources.xaml"/></ResourceDictionary.MergedDictionaries>
+  </ResourceDictionary>
+ </UserControl.Resources>
+ <Grid x:Name="Columns" Tag="ingressi" Margin="0,10,0,0">
+  <Grid.ColumnDefinitions><ColumnDefinition Width="3*" MinWidth="285"/><ColumnDefinition Width="8"/><ColumnDefinition Width="7*" MinWidth="650"/></Grid.ColumnDefinitions>
+  <!-- Opzioni SLE comuni. -->
+  <Border Style="{StaticResource Paper}">
+   <DockPanel>
+    <StackPanel Style="{StaticResource PanelHeading}">
+     <TextBlock Style="{StaticResource T14Bold}" Text="Opzioni SLE comuni"/>
+     <TextBlock Style="{StaticResource PanelSubtitle}" Text="{x:Static concrete:ConcreteStressPanelViewModel.OptionsSubtitle}"/>
+    </StackPanel>
+    <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+     <StackPanel>
+      <TextBlock Style="{StaticResource T12Bold}" Text="Combinazione SLE"/>
+      <ComboBox Style="{StaticResource Choice}" HorizontalAlignment="Left" MinWidth="150" AutomationProperties.Name="Combinazione SLE"
+       ItemsSource="{Binding DataContext.StressFamilyLabels, RelativeSource={RelativeSource AncestorType=views:ConcreteSectionSheetView}}"
+       SelectedIndex="{Binding DataContext.StressFamily, RelativeSource={RelativeSource AncestorType=views:ConcreteSectionSheetView}}"/>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding Form}"/>
+      <Button Style="{StaticResource Command}" Content="Reologia del calcestruzzo…" Command="{Binding RheologyCommand}" HorizontalAlignment="Left"/>
+      <Border Style="{StaticResource Notice}" Visibility="{Binding NonLinearNotice, Converter={StaticResource Visible}}" AutomationProperties.Name="Avviso analisi non lineare">
+       <TextBlock Style="{StaticResource NoticeText}" Text="{x:Static concrete:ConcreteStressPanelViewModel.NonLinearWarning}"/>
+      </Border>
+      <Border Style="{StaticResource Notice}">
+       <TextBlock Style="{StaticResource NoticeText}" Text="{x:Static concrete:ConcreteStressPanelViewModel.Instructions}"/>
+      </Border>
+     </StackPanel>
+    </local:ChainedScrollViewer>
+   </DockPanel>
+  </Border>
+  <GridSplitter Style="{StaticResource ColumnSplitter}"/>
+  <Grid x:Name="Rows" Tag="righe" Grid.Column="2">
+   <Grid.RowDefinitions><RowDefinition Height="3.7*" MinHeight="160"/><RowDefinition Height="8"/><RowDefinition Height="2*" MinHeight="155"/></Grid.RowDefinitions>
+   <Grid x:Name="Results" Tag="risultati">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="6*" MinWidth="350"/><ColumnDefinition Width="8"/><ColumnDefinition Width="4*" MinWidth="230"/></Grid.ColumnDefinitions>
+    <!-- Mappa tensionale della sezione. -->
+    <Border Style="{StaticResource Frame}">
+     <DockPanel>
+      <StackPanel DockPanel.Dock="Top" Margin="2,0,2,6">
+       <TextBlock Style="{StaticResource T14Bold}" Text="Mappa tensionale della sezione"/>
+       <WrapPanel>
+        <ComboBox Style="{StaticResource Choice}" Width="205" ItemsSource="{x:Static concrete:ConcreteStressPanelViewModel.Contours}" SelectedItem="{Binding Contour}"
+         AutomationProperties.Name="Contorno della mappa"/>
+        <Button Style="{StaticResource Command}" Content="Adatta" Click="Fit_Click"/>
+        <Button Style="{StaticResource Command}" Content="PNG" Click="Png_Click"/>
+        <Button Style="{StaticResource Command}" Content="Espandi" Click="Expand_Click"/>
+        <ComboBox Style="{StaticResource Choice}" ItemsSource="{Binding Regions}" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedRegion}"
+         ToolTip="Zona efficace per la fessurazione · barre incluse evidenziate in arancione" AutomationProperties.Name="Zona efficace"/>
+        <CheckBox Style="{StaticResource Switch}" Content="Asse neutro" IsChecked="{Binding NeutralAxis}"
+         ToolTip="Linea ε = 0 del piano calcolato. Con deformazione uniforme l’asse non è univoco; non coincide necessariamente con lo zero delle tensioni nei trefoli."/>
+        <ItemsControl Focusable="False" ItemsSource="{Binding ValueOptions}">
+         <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+         <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="{x:Type concrete:ConcreteStressValueOptionViewModel}">
+           <CheckBox Style="{StaticResource Switch}" Content="{Binding Label}" IsChecked="{Binding IsChecked}" IsEnabled="{Binding CanChange}"
+            Visibility="{Binding IsShown, Converter={StaticResource Visible}}"/>
+          </DataTemplate>
+         </ItemsControl.ItemTemplate>
+        </ItemsControl>
+       </WrapPanel>
+      </StackPanel>
+      <ContentControl x:Name="MapHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+     </DockPanel>
+    </Border>
+    <GridSplitter Style="{StaticResource ColumnSplitter}"/>
+    <TabControl Grid.Column="2" SelectedIndex="{Binding VerificationTab}">
+     <TabItem Header="Dettagli combinazione">
+      <TabControl BorderThickness="0" Background="{DynamicResource Token.Paper}" SelectedIndex="{Binding DetailTab}">
+       <TabItem Header="Riepilogo">
+        <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+         <TextBlock Style="{StaticResource T12}" Text="{Binding Detail}"/>
+        </local:ChainedScrollViewer>
+       </TabItem>
+       <TabItem Header="Barre e trefoli">
+        <DockPanel>
+         <ContentControl DockPanel.Dock="Top" Focusable="False" Content="{Binding Bars.Filter}" ContentTemplate="{StaticResource FilterBar}"/>
+         <views:ConcreteTableGrid Table="{Binding Bars}" AutomationProperties.Name="Barre e trefoli"/>
+        </DockPanel>
+       </TabItem>
+       <TabItem Header="Calcestruzzo">
+        <DockPanel>
+         <ContentControl DockPanel.Dock="Top" Focusable="False" Content="{Binding Concrete.Filter}" ContentTemplate="{StaticResource FilterBar}"/>
+         <views:ConcreteTableGrid Table="{Binding Concrete}" AutomationProperties.Name="Vertici del calcestruzzo"/>
+        </DockPanel>
+       </TabItem>
+       <TabItem Header="Fessurazione · passaggi" Visibility="{Binding CrackTabVisible, Converter={StaticResource Visible}}">
+        <TextBox IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" BorderThickness="0" Padding="8"
+         FontSize="{DynamicResource Font.Small}" Text="{Binding CrackDetail, Mode=OneWay}" AutomationProperties.Name="Fessurazione · passaggi"/>
+       </TabItem>
+      </TabControl>
+     </TabItem>
+     <TabItem Header="Riepilogo verifiche">
+      <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+       <ContentControl Style="{StaticResource Form}" Content="{Binding Summary}" ContentTemplate="{StaticResource SummaryCards}"/>
+      </local:ChainedScrollViewer>
+     </TabItem>
+    </TabControl>
+   </Grid>
+   <GridSplitter Style="{StaticResource RowSplitter}"/>
+   <Border Grid.Row="2" Style="{StaticResource Paper}">
+    <DockPanel>
+     <StackPanel Style="{StaticResource PanelHeading}">
+      <TextBlock Style="{StaticResource T14Bold}" Text="{Binding TableTitle}"/>
+     </StackPanel>
+     <ContentControl Style="{StaticResource Form}" VerticalContentAlignment="Stretch" Content="{Binding Table}" ContentTemplate="{StaticResource ActionTable}"/>
+    </DockPanel>
+   </Border>
+  </Grid>
+ </Grid>
+</UserControl>
