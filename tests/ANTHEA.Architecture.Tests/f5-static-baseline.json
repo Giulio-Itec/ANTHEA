@@ -660,28 +660,12 @@
       "Example": "internal static bool Dark { get set }"
     },
     {
-      "File": "src/ANTHEA.Application/BridgeDesign/BridgeDesignModel.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "BridgeDesignModel.Views",
-      "Fingerprint": "37B0BA7B060C3959DECD2CC9461C747ACB2C9EB1AD8C6F3C8E7A777EE290345D",
-      "Count": 1,
-      "Example": "private static readonly ConditionalWeakTable < ModuleCalculation , Result > Views"
-    },
-    {
       "File": "src/ANTHEA.Application/BridgeDesign/PriceCatalogue.cs",
       "Rule": "P3-static-collection",
       "Owner": "PriceCatalogueImport.Headers",
       "Fingerprint": "036D7E76F98B6B6B2EE740D8F63D56369C6FB92536737B266FB524D718D81EDC",
       "Count": 1,
       "Example": "public static readonly string [ ] Headers"
-    },
-    {
-      "File": "src/ANTHEA.Application/Bridge/BridgeResultView.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "BridgeResultView.Views",
-      "Fingerprint": "ED6D51A5F16DED15688C07BCFF9E57652C97F81F30A076F91903C8E0BEB65056",
-      "Count": 1,
-      "Example": "private static readonly ConditionalWeakTable < ModuleCalculation , BridgeResultView > Views"
     },
     {
       "File": "src/ANTHEA.Application/Documents/Archivio.cs",
@@ -794,14 +778,6 @@
       "Fingerprint": "ED1B04D902AFADC9B67752A534F46712090638F2A4B5318B3D9621ED2221FF2A",
       "Count": 1,
       "Example": "private static readonly ( string Document , string Legacy ) [ ] Keys"
-    },
-    {
-      "File": "src/ANTHEA.Application/Walls/WallModel.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "WallModel.Views",
-      "Fingerprint": "F0A7CFBF8E6F46C4B1F9EACC47D820E95FA2F72BBD85BBC1F8C9764E6F32D5B4",
-      "Count": 1,
-      "Example": "private static readonly ConditionalWeakTable < ModuleCalculation , Result > Views"
     },
     {
       "File": "src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs",

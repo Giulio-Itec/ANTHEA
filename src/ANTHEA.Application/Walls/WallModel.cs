@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using Anthea.Application.Modules;
 using Native = Anthea.Calculations.RetainingWall;
@@ -6,8 +5,12 @@ namespace Anthea.Application.Walls;
 
 public static partial class WallModel
 {
-    private static readonly ConditionalWeakTable<ModuleCalculation, Result> Views = new();
-    public static Result Read(ModuleCalculation calculation) => Views.GetValue(calculation, c => new(c.NativeAs<Native.Result>()));
+    /// <summary>The view of the result of <paramref name="calculation"/>, kept by the calculation (F5.13 d): built once, then the same instance.</summary>
+    public static Result Read(ModuleCalculation calculation)
+    {
+        ArgumentNullException.ThrowIfNull(calculation);
+        return calculation.View(c => new Result(c.NativeAs<Native.Result>()));
+    }
     public static string RebarLabel(JsonObject data, string key) => Native.RebarLabel(data, key);
     public const string AmplificationCalculated = Native.AmplificationCalculated;
     public const string ApproachHelp = Native.ApproachHelp;
