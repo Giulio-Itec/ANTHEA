@@ -16,8 +16,10 @@ namespace X.Desktop.Views.VerticalPile;
 /// in the rest; the three lower cards fill the height (at least 440) in the proportions 47/20/33, 16/65/19 with the profile extended;</item>
 /// <item>compact (narrower than 1450 or than the forms): two columns (one under 1000) for the upper cards, then the lower cards on the
 /// whole width, 340–500 high;</item>
-/// <item>an extended card («Estendi»: <see cref="ExpandedCard"/>) alone on the whole viewport, the stratigraphy and the charts always, the
-/// profile in the compact layout.</item>
+/// <item>an extended card («Estendi»: <see cref="ExpandedCard"/>) alone on the whole viewport, the charts always, the profile in the compact
+/// layout;</item>
+/// <item>the extended stratigraphy with the profile at its right (<see cref="ExtendedStratigraphy"/>, 22/10/2026, as the historic view), alone
+/// only when the table would be too narrow.</item>
 /// </list>
 /// Layout only: no data and no write of the document.
 /// </summary>
@@ -105,6 +107,12 @@ public sealed class VerticalPileCardPanel : Panel
         bool compactLayout = w < Math.Max(1450, generalWidth + efficiencyWidth + normativeWidth + VerificationMinimum + 2 * margin + UpperGaps * gap);
         double pileTop = Math.Ceiling(Math.Max(generalSize.Height, Math.Max(unwrapped(2).Height, unwrapped(1).Height + EfficiencyNote))) + CardHeader;
         void Place(int i, double x, double y, double width, double height) => places[i] = new Rect(x, y, Math.Max(100, width), Math.Max(100, height));
+        if (expanded == 4 && ExtendedStratigraphy.Split(w - 2 * ExpandedLeft, gap) is (double table, double side))
+        {
+            for (int i = 0; i < count; i++) visible[i] = i is 4 or 5;
+            Place(4, ExpandedLeft, ExpandedTop, table, h - 2 * ExpandedTop); Place(5, ExpandedLeft + table + gap, ExpandedTop, side, h - 2 * ExpandedTop);
+            return (new Size(w, h), places, visible);
+        }
         if (expanded == 6 || expanded == 4 || compactLayout && expanded >= 0)
         {
             for (int i = 0; i < count; i++) visible[i] = i == expanded;

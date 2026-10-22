@@ -90,7 +90,7 @@ public static class Chs
     {
         if(!Catalogo.TryGetValue(profilo,out var v))throw new ArgumentException("Selezionare il profilo CHS dal catalogo.");
         if(!double.IsFinite(diametro)||diametro<=0)throw new ArgumentException("Diametro di perforazione non valido.");
-        if(!double.IsFinite(gamma)||gamma<=0)throw new ArgumentException("Peso specifico del calcestruzzo non valido.");
+        if(!double.IsFinite(gamma)||gamma<0)throw new ArgumentException("Peso specifico del calcestruzzo non valido.");
         if(v.Diameter>=diametro*1000)throw new ArgumentException("Il diametro esterno CHS deve essere minore del diametro di perforazione.");
         var w=MicropileTube.Weight(Sezione(profilo),Acciaio,diametro*1000,gamma*1e-6);
         // Aree m², massa kg/m dalla densità del materiale di Model (t/mm³), pesi kN/m (= N/mm).

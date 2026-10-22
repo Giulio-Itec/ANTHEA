@@ -208,7 +208,8 @@ L'ordine segue il passo 6 della ricetta di F5.4, dopo il punto di controllo F5.7
 1. **Vista XAML** `X.Desktop/Views/HorizontalPile/HorizontalPileSheetView.xaml` e il suo DataTemplate, solo token di F5.3:
    - sette `FieldForm` (gruppi espandibili, campi nascosti, suggerimenti di `SectionToolTips`);
    - le schede impaginate come `LayoutCards`, con «Estendi»/«Riduci» (stato della vista; `ShowAll` del profilo segue la scheda
-     estesa) e l'espansore «Opzioni avanzate»;
+     estesa) e l'espansore «Opzioni avanzate»; dal 22/10/2026 la stratigrafia estesa tiene il profilo a destra
+     (`ExtendedStratigraphy`, in entrambe le viste; decisioni.md, 22 ottobre pomeriggio);
    - le stratigrafie in un `TabControl` con la barra dei comandi nella striscia delle schede; la tabella con le colonne di
      `StratigraphyTable` più la colonna dell'editor del terreno (larghezze di `HorizontalSoilEditor.Widths`) e il dialogo dei
      dettagli;

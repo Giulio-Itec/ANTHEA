@@ -192,7 +192,8 @@ Stato al 17/10: punti 1 e 2 fatti, con i dialoghi condivisi di V9/T5 (sezione 5)
      la tabella ha le colonne di `StratigraphyTable`, con legami `UpdateSourceTrigger=PropertyChanged`.
    - Il colore dello strato viene dai token `Swatch.Soil1`–`6` per indice.
    - Le schede si impaginano come `LayoutCards`, con «Estendi»/«Riduci». `ShowAll` del profilo dipende dalla scheda
-     estesa: è stato della vista.
+     estesa: è stato della vista. Dal 22/10/2026 la stratigrafia estesa tiene il profilo a destra (`ExtendedStratigraphy`,
+     in entrambe le viste; decisioni.md, 22 ottobre pomeriggio).
    - Il code-behind ammesso è solo il disegno:
      - `Plot` della capacità e del riferimento dai dati semplici, con «Adatta» e «Salva PNG…» (`IFileDialogService`);
      - `StratigraphyDrawing`.

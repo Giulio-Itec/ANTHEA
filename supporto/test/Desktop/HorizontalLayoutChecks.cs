@@ -186,6 +186,10 @@ internal sealed partial class HorizontalWorkspace
         {
             expanded = index; LayoutCards(); scroll.ScrollToTop();
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); Check();
+            // The extended stratigraphy keeps the profile at its right when the width allows it (ExtendedStratigraphy, 22/10/2026).
+            if (index == 4 && ExtendedStratigraphy.Split(layout.Width - 24, 12) is not null
+                && (cards[5].Visibility != Visibility.Visible || Canvas.GetLeft(cards[5]) <= Canvas.GetLeft(cards[4]) + cards[4].Width))
+                throw new Exception("Profilo stratigrafico non visibile accanto alla stratigrafia estesa");
             File.WriteAllBytes(Path.Combine(directory, $"orizzontale_{size}_esteso_{index}.png"), Ui.Snapshot(Window.GetWindow(this)));
         }
         expanded = -1; LayoutCards(); scroll.ScrollToTop(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);

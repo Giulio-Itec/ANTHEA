@@ -12,7 +12,9 @@ namespace X.Desktop.Views.HorizontalPile;
 /// historic order: «Dati generali», «Efficienza», «Coefficienti normativa», «Verifica», «Stratigrafia», «Profilo stratigrafico» and the
 /// section. On the viewport of the scroll viewer that hosts the panel (less 4, at least 320 × 280), margins and gaps of 12:
 /// <list type="bullet">
-/// <item>an extended card («Estendi»: <see cref="ExpandedCard"/>) alone on the whole width, at least 350 high (540 the section);</item>
+/// <item>an extended card («Estendi»: <see cref="ExpandedCard"/>) alone on the whole width, at least 350 high (540 the section); the extended
+/// stratigraphy keeps the profile at its right (<see cref="ExtendedStratigraphy"/>, 22/10/2026, as the historic view), alone only when the
+/// table would be too narrow;</item>
 /// <item>wide (1350 or more): the four upper cards on one row (31/20/18/31 % of the width), as high as the general form plus 80 (at least
 /// 395) and the advanced options when they are open; the three lower cards below (38/16/46 %), at least 360 high;</item>
 /// <item>compact: one or two columns (two from 1050) for the upper cards (heights: the general form plus 96, at least 340, then 340, 270,
@@ -114,6 +116,13 @@ public sealed class HorizontalPileCardPanel : Panel
         double advanced = model?.Height ?? 0;
         double top = Math.Max(CompactTop, general.Height + CompactChrome) + advanced;
         void Place(int i, double x, double y, double width, double height) => places[i] = new Rect(x, y, Math.Max(0, width), Math.Max(0, height));
+        if (expanded == FirstLower && ExtendedStratigraphy.Split(w - 2 * Margin, Gap) is (double table, double side))
+        {
+            for (int i = 0; i < count; i++) visible[i] = i is FirstLower or FirstLower + 1;
+            double height = Math.Max(h - 2 * Margin, ExpandedHeight);
+            Place(FirstLower, Margin, Margin, table, height); Place(FirstLower + 1, Margin + table + Gap, Margin, side, height);
+            return (new Size(w, height + 2 * Margin), places, visible);
+        }
         if (expanded >= 0)
         {
             for (int i = 0; i < count; i++) visible[i] = i == expanded;
