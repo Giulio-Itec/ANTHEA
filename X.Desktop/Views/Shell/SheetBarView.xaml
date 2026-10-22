@@ -13,9 +13,15 @@
    <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="ShellTemplates.xaml"/></ResourceDictionary.MergedDictionaries>
   </ResourceDictionary>
  </UserControl.Resources>
- <DockPanel Background="{DynamicResource Token.CommandBar}" MinHeight="68" LastChildFill="True">
-  <Button DockPanel.Dock="Left" Style="{StaticResource Shell.BarButton}" Width="200" Content="{Binding BackLabel}" Command="{Binding BackCommand}"/>
-  <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center" Margin="0,6">
+ <!--
+  One wrapping row, not a DockPanel: beside the navigation and the tree the commands of a sheet of a project («Conferma modifiche», undo and
+  redo) leave no width for the heading, and a DockPanel gave it none; its subtitle then wrapped at every letter and the bar took the whole height
+  of the window, the sheet below squeezed to its last row (images 04 and 09 of 22/10). Now what does not fit goes to a second row and the bar is
+  as high as its rows; the texts of the heading never wrap.
+ -->
+ <Border Background="{DynamicResource Token.CommandBar}" MinHeight="68">
+  <WrapPanel VerticalAlignment="Center" Margin="0,3">
+   <Button Style="{StaticResource Shell.BarButton}" Width="200" Content="{Binding BackLabel}" Command="{Binding BackCommand}"/>
    <Button Style="{StaticResource Shell.BarButton}" Content="📂" Width="37" Padding="2" ToolTip="Apri" AutomationProperties.Name="Apri"
     Command="{Binding DataContext.Commands.OpenCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
    <Button Style="{StaticResource Shell.BarButton}" Content="Salva" ToolTip="Salva" Command="{Binding DataContext.Commands.SaveCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
@@ -26,21 +32,21 @@
    <Button Style="{StaticResource Shell.BarButton}" Content="Report short" ToolTip="{x:Static cmd:ShellCommandsViewModel.ShortToolTip}"
     Command="{Binding DataContext.Commands.ShortReportCommand, RelativeSource={RelativeSource AncestorType=Window}}"
     Visibility="{Binding DataContext.Commands.ShortReportVisible, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource WhenTrue}}"/>
+   <StackPanel Orientation="Horizontal" Visibility="{Binding CanConfirm, Converter={StaticResource WhenTrue}}">
+    <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static nav:SheetBarViewModel.ConfirmLabel}" Command="{Binding ConfirmCommand}"/>
+    <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.UndoLabel}" ToolTip="{x:Static cmd:ShellCommandsViewModel.UndoToolTip}"
+     Command="{Binding DataContext.Commands.UndoCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+    <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.RedoLabel}" ToolTip="{x:Static cmd:ShellCommandsViewModel.RedoToolTip}"
+     Command="{Binding DataContext.Commands.RedoCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+   </StackPanel>
+   <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static nav:SheetBarViewModel.GuideLabel}" ToolTip="{x:Static nav:SheetBarViewModel.GuideToolTip}"
+    Command="{Binding GuideCommand}" Visibility="{Binding GuideId, Converter={StaticResource WhenPresent}}"/>
+   <Button x:Name="Topics" Style="{StaticResource Shell.BarButton}" Content="{x:Static nav:SheetBarViewModel.TopicsLabel}"
+    ToolTip="{x:Static nav:SheetBarViewModel.TopicsToolTip}" Click="OnTopics"/>
+   <StackPanel Margin="15,4,12,4" VerticalAlignment="Center">
+    <TextBlock Style="{StaticResource Shell.OnBar}" FontSize="{DynamicResource Font.Heading}" FontWeight="SemiBold" Text="{Binding Heading}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+    <TextBlock Style="{StaticResource Shell.OnBarMuted}" Text="{x:Static nav:SheetBarViewModel.Subtitle}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+   </StackPanel>
   </WrapPanel>
-  <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Visibility="{Binding CanConfirm, Converter={StaticResource WhenTrue}}">
-   <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static nav:SheetBarViewModel.ConfirmLabel}" Command="{Binding ConfirmCommand}"/>
-   <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.UndoLabel}" ToolTip="{x:Static cmd:ShellCommandsViewModel.UndoToolTip}"
-    Command="{Binding DataContext.Commands.UndoCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
-   <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.RedoLabel}" ToolTip="{x:Static cmd:ShellCommandsViewModel.RedoToolTip}"
-    Command="{Binding DataContext.Commands.RedoCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
-  </StackPanel>
-  <Button DockPanel.Dock="Left" Style="{StaticResource Shell.BarButton}" Content="{x:Static nav:SheetBarViewModel.GuideLabel}" ToolTip="{x:Static nav:SheetBarViewModel.GuideToolTip}"
-   Command="{Binding GuideCommand}" Visibility="{Binding GuideId, Converter={StaticResource WhenPresent}}"/>
-  <Button x:Name="Topics" DockPanel.Dock="Left" Style="{StaticResource Shell.BarButton}" Content="{x:Static nav:SheetBarViewModel.TopicsLabel}"
-   ToolTip="{x:Static nav:SheetBarViewModel.TopicsToolTip}" Click="OnTopics"/>
-  <StackPanel Margin="15,10,0,0">
-   <TextBlock Style="{StaticResource Shell.OnBar}" FontSize="{DynamicResource Font.Heading}" FontWeight="SemiBold" Text="{Binding Heading}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
-   <TextBlock Style="{StaticResource Shell.OnBarMuted}" Text="{x:Static nav:SheetBarViewModel.Subtitle}"/>
-  </StackPanel>
- </DockPanel>
+ </Border>
 </UserControl>
