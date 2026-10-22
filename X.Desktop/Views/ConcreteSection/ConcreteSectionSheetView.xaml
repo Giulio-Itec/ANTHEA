@@ -41,7 +41,8 @@
   <DockPanel x:Name="Body">
    <TextBlock DockPanel.Dock="Top" Style="{StaticResource T12BoldMuted}" Text="{Binding EngineReference}" Margin="16,8,16,0" HorizontalAlignment="Right"/>
    <StackPanel DockPanel.Dock="Bottom">
-    <ProgressBar Height="3" IsIndeterminate="True" Visibility="{Binding IsProgressVisible, Converter={StaticResource Visible}}"/>
+    <ProgressBar x:Name="CalculationProgress" Height="3" IsIndeterminate="True" Visibility="{Binding IsProgressVisible, Converter={StaticResource Visible}}"
+     AutomationProperties.Name="Avanzamento del calcolo"/>
     <DockPanel Margin="16,4,16,8" LastChildFill="False">
      <TextBlock x:Name="StatusText" Style="{StaticResource T12}" Text="{Binding Status}"/>
      <Button x:Name="ActionsButton" Style="{StaticResource Command}" Content="Sollecitazioni…" Command="{Binding Actions.EditCommand}"/>
@@ -49,9 +50,10 @@
     </DockPanel>
    </StackPanel>
 
+   <!-- The headers are number and title; the automation name of every tab is its title (ConcreteSheetViewModel.TabTitles). -->
    <TabControl x:Name="Tabs" Margin="12,8,12,0" BorderThickness="0" Background="{DynamicResource Token.Surface}" SelectedIndex="{Binding SelectedTab}">
     <!-- ================================================================ 01 · Pannello di controllo -->
-    <TabItem Padding="14,9,14,9">
+    <TabItem Padding="14,9,14,9" AutomationProperties.Name="Pannello di controllo">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="01"/><TextBlock Style="{StaticResource T14Bold}" Text="  Pannello di controllo"/></WrapPanel></TabItem.Header>
      <Grid x:Name="ControlColumns" Tag="ingressi" Margin="0,10,0,0">
       <Grid.ColumnDefinitions><ColumnDefinition Width="3*" MinWidth="285"/><ColumnDefinition Width="8"/><ColumnDefinition Width="7*" MinWidth="650"/></Grid.ColumnDefinitions>
@@ -234,15 +236,15 @@
     </TabItem>
 
     <!-- ================================================================ 02–08: the panels of the tabs, each on its ViewModel -->
-    <TabItem Padding="14,9,14,9">
+    <TabItem Padding="14,9,14,9" AutomationProperties.Name="Dominio 3D">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="02"/><TextBlock Style="{StaticResource T14Bold}" Text="  Dominio 3D"/></WrapPanel></TabItem.Header>
      <views:ConcreteDomainPanelView x:Name="Domain3DView" DataContext="{Binding Domain3D}"/>
     </TabItem>
-    <TabItem Padding="14,9,14,9">
+    <TabItem Padding="14,9,14,9" AutomationProperties.Name="Dominio 2D">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="03"/><TextBlock Style="{StaticResource T14Bold}" Text="  Dominio 2D"/></WrapPanel></TabItem.Header>
      <views:ConcreteDomainPanelView x:Name="Domain2DView" DataContext="{Binding Domain2D}"/>
     </TabItem>
-    <TabItem Padding="14,9,14,9">
+    <TabItem Padding="14,9,14,9" AutomationProperties.Name="Tensioni e fessurazione">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="04"/><TextBlock Style="{StaticResource T14Bold}" Text="  Tensioni e fessurazione"/></WrapPanel></TabItem.Header>
      <!-- The families of the serviceability: a tab control without headers, as the historic sleTabs; the family follows StressFamily. -->
      <TabControl x:Name="StressTabs" Template="{StaticResource ContentOnlyTabs}" SelectedIndex="{Binding StressFamily}">
@@ -251,19 +253,19 @@
       <TabItem Header="{Binding StressPanels[2].Label}"><views:ConcreteStressPanelView DataContext="{Binding StressPanels[2]}"/></TabItem>
      </TabControl>
     </TabItem>
-    <TabItem Padding="14,9,14,9">
+    <TabItem Padding="14,9,14,9" AutomationProperties.Name="Taglio e torsione">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="05"/><TextBlock Style="{StaticResource T14Bold}" Text="  Taglio e torsione"/></WrapPanel></TabItem.Header>
      <views:ConcreteShearView x:Name="ShearView" DataContext="{Binding Shear}"/>
     </TabItem>
-    <TabItem Padding="14,9,14,9">
+    <TabItem Padding="14,9,14,9" AutomationProperties.Name="Dettagli costruttivi">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="06"/><TextBlock Style="{StaticResource T14Bold}" Text="  Dettagli costruttivi"/></WrapPanel></TabItem.Header>
      <views:ConcreteDetailingView x:Name="DetailingView" DataContext="{Binding Detailing}"/>
     </TabItem>
-    <TabItem Padding="14,9,14,9">
+    <TabItem Padding="14,9,14,9" AutomationProperties.Name="Momento–curvatura">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="07"/><TextBlock Style="{StaticResource T14Bold}" Text="  Momento–curvatura"/></WrapPanel></TabItem.Header>
      <views:ConcreteCurvatureView x:Name="CurvatureView" DataContext="{Binding Curvature}"/>
     </TabItem>
-    <TabItem Padding="14,9,14,9">
+    <TabItem Padding="14,9,14,9" AutomationProperties.Name="Calcola armature">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="08"/><TextBlock Style="{StaticResource T14Bold}" Text="  Calcola armature"/></WrapPanel></TabItem.Header>
      <views:ConcreteDesignView x:Name="DesignView" DataContext="{Binding Design}"/>
     </TabItem>

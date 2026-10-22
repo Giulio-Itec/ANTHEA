@@ -193,12 +193,11 @@ internal static partial class ConcreteSectionSheetChecks
         private SemaphoreSlim? held;
         private Task? started;
         private ConcreteAnalysisSession session = null!;
-        // WPF does not pass the disabled state of a form to its fields until the form is laid out once (the historic trace runs off screen):
-        // a form in a closed expander, in a tab not shown or hidden itself keeps its fields enabled. The forms laid out so far: «geometria»
-        // and «foro» (group «Geometria», open), «armatura» and the second layers (group «Armature», closed until the user opens it).
-        private readonly HashSet<string> laidOut = new(StringComparer.Ordinal);
+        // The state in the format of the historic trace, with the model of the layout of the historic window (tests/Shared, shared with the
+        // traces driven through the XAML view in UiTests).
+        private readonly ConcreteSectionSheetReader reader;
 
-        internal Side(JsonObject data) => Open(data);
+        internal Side(JsonObject data) { reader = new(() => Sheet); Open(data); }
 
         internal ConcreteSheetViewModel Sheet { get; private set; } = null!;
         private ConcreteInputViewModel Inputs => Sheet.Inputs;
@@ -213,8 +212,7 @@ internal static partial class ConcreteSectionSheetChecks
             Sheet = new ConcreteSheetViewModel(context, session, Figures);
             modified = 0;
             Sheet.Modified += (_, _) => modified++;
-            laidOut.Clear();
-            Observe();
+            reader.Reset();
         }
 
         private void Close() => Sheet.Dispose();
@@ -227,18 +225,7 @@ internal static partial class ConcreteSectionSheetChecks
         }
 
         // What the layout of the historic window lays out after a step: the forms shown in the open groups of the control panel.
-        private void Observe()
-        {
-            if (Sheet.SelectedTab != 0) return;
-            if (Inputs.Groups.First(g => g.Title == "Geometria").IsExpanded)
-            {
-                if (Inputs.GeometryShown) laidOut.Add("geometria");
-                if (Inputs.HoleFieldsVisible) laidOut.Add("foro");
-            }
-            if (!Inputs.Groups.First(g => g.Title == "Armature").IsExpanded) return;
-            if (Inputs.ReinforcementShown) laidOut.Add("armatura");
-            foreach (var layer in Inputs.Layers) if (layer.IsShown && layer.FormVisible) laidOut.Add("strato-" + layer.Key);
-        }
+        private void Observe() => reader.Observe();
 
         /// <summary>Applies a step; returns the message the view shows and false for a step of a sub-step not migrated (it does nothing).</summary>
         internal async Task<(string? Message, bool Own)> ApplyAsync(ConcreteSectionStep step)
@@ -323,61 +310,9 @@ internal static partial class ConcreteSectionSheetChecks
 
         // ---------------------------------------------------------------- controls of the inputs
 
-        private FormViewModel? Form(string target, string? key = null) => target switch
-        {
-            "normativa" => Inputs.Standard,
-            "coefficienti" => Inputs.Coefficients,
-            "materiali" => Inputs.Materials,
-            "geometria" => Inputs.Geometry,
-            "foro" => Inputs.Hole,
-            "armatura" => Inputs.Reinforcement,
-            "strato-top" or "strato-bottom" or "strato-inner" => Inputs.Layers.Single(l => l.Key == target[7..]).Form,
-            "staffe" => Inputs.Stirrups,
-            "schema-staffe" => Inputs.StirrupScheme,
-            "cavo" => Inputs.Cable,
-            "trefolo" => Inputs.TendonProperties,
-            "rapide" => Inputs.QuickResistance,
-            "3D" => Sheet.Domain3D.Form,
-            "2D" => Sheet.Domain2D.Form,
-            "SLE" or "SLE_FREQ" or "SLE_QP" => Sheet.StressPanel(target).Form,
-            "taglio" => Sheet.Shear.Form,
-            "torsione" => Sheet.Shear.Torsion,
-            "curvatura" => Sheet.Curvature.Form,
-            "ricerca" => Sheet.Design.Form,
-            "limiti" => Sheet.Design.Limits,
-            "mostra" => Sheet.Design.Shown,
-            "dettagli" => Sheet.Detailing.Forms.Single(f => f.Contains(key!)),
-            "ancoraggi" => Sheet.Detailing.Anchorage,
-            _ => null
-        };
+        private FormViewModel? Form(string target, string? key = null) => reader.Form(target, key);
 
-        /// <summary>Whether the form is shown (its own visibility and that of its containers).</summary>
-        private bool FormShown(FormViewModel form)
-        {
-            if (ReferenceEquals(form, Inputs.Hole)) return Inputs.HoleFieldsVisible;
-            if (ReferenceEquals(form, Inputs.Geometry)) return Inputs.GeometryShown;
-            if (ReferenceEquals(form, Inputs.Reinforcement)) return Inputs.ReinforcementShown;
-            var layer = Inputs.Layers.FirstOrDefault(l => ReferenceEquals(l.Form, form));
-            return layer is null || layer.IsShown && layer.FormVisible;
-        }
-
-        /// <summary>
-        /// The fields of a form disabled as a whole, once laid out: the geometry and the hole of a section of the wizard, the reinforcement
-        /// locked by the coordinates of the bars or by the wizard, the locked layers.
-        /// </summary>
-        private bool FormDisabled(FormViewModel form)
-        {
-            if (ReferenceEquals(form, Inputs.Geometry)) return !Inputs.GeometryEnabled && laidOut.Contains("geometria");
-            if (ReferenceEquals(form, Inputs.Hole)) return !Inputs.HoleFormEnabled && laidOut.Contains("foro");
-            if (ReferenceEquals(form, Inputs.Reinforcement)) return !Inputs.ReinforcementEnabled && laidOut.Contains("armatura");
-            var layer = Inputs.Layers.FirstOrDefault(l => ReferenceEquals(l.Form, form));
-            return layer is not null && !layer.FormEnabled && laidOut.Contains("strato-" + layer.Key);
-        }
-
-        /// <summary>A field as the user sees it: enabled (choices and check boxes disabled in a read-only revision), visible.</summary>
-        private bool FieldEnabled(FormViewModel form, FieldViewModel field) => field.IsEnabled && !FormDisabled(form) && (field.Kind == FieldKind.Text || field.CanChange);
-
-        private bool Usable(FormViewModel form, FieldViewModel field) => FieldEnabled(form, field) && field.IsVisible && FormShown(form);
+        private bool Usable(FormViewModel form, FieldViewModel field) => reader.Usable(form, field);
 
         private async Task<(string? Message, bool Own)> ApplyControlAsync(ConcreteSectionStep step)
         {
@@ -491,12 +426,12 @@ internal static partial class ConcreteSectionSheetChecks
                 material.CloseRequested += Closed;
                 try
                 {
-                    log.Add("aperta · " + DialogState(material));
+                    log.Add("aperta · " + ConcreteSectionSheetReader.MaterialState(material));
                     foreach (var inner in step.Dialog ?? [])
                     {
                         if (closed) { log.Add("chiusa: passo " + inner + " non eseguito"); continue; }
                         DialogStep(material, inner);
-                        log.Add(inner + " · " + (closed ? "chiusa" : DialogState(material)));
+                        log.Add(inner + " · " + (closed ? "chiusa" : ConcreteSectionSheetReader.MaterialState(material)));
                     }
                     if (!closed) log.Add("chiusa dalla traccia");
                 }
@@ -567,133 +502,9 @@ internal static partial class ConcreteSectionSheetChecks
             }
         }
 
-        private static string DialogState(ConcreteMaterialDialogViewModel dialog)
-        {
-            var texts = (dialog.Error.Length > 0 ? new[] { dialog.Error } : []).Append(dialog.Derived);
-            return string.Join(" · ", dialog.Form.Fields.Select(f => f.Key + "=" + ConcreteSectionTrace.Quote(dialog.Form.Get(f.Key))))
-                + " · testi " + ConcreteSectionTrace.Quote(string.Join(" ⏎ ", texts))
-                + " · curve " + string.Join(" ", dialog.Curves.Select(c => ConcreteSectionTrace.Quote(c.Name) + " " + c.Points.Count.ToString(CultureInfo.InvariantCulture) + " " + ConcreteSectionTrace.Hash(c.Points)));
-        }
-
         // ---------------------------------------------------------------- state
 
-        internal ConcreteSectionTraceState State(IReadOnlyList<string> sections, string? message)
-        {
-            Observe();
-            var state = new ConcreteSectionTraceState
-            {
-                Data = Sheet.Data, Modified = modified, Busy = Sheet.IsBusy, Queued = Sheet.IsCalculationQueued, HasResults = Sheet.HasResults, Result = Sheet.Result,
-                Status = Sheet.Status, Progress = Sheet.IsProgressVisible, Tab = Sheet.SelectedTab,
-                Editable = !Inputs.Geometry["width_mm"].IsInputReadOnly, Message = message,
-            };
-            foreach (string section in sections.Where(OwnParts.Contains))
-            {
-                var block = new ConcreteSectionBlock(section);
-                if (section == "azioni") TraceActions(block);
-                else if (section == "domini") TraceDomains(block);
-                else if (section == "sle") TraceServiceability(block);
-                else if (section == "taglio") TraceShear(block);
-                else if (section == "dettagli") TraceDetailing(block);
-                else if (section == "ispezione") TraceInspection(block);
-                else if (section == "armature") TraceDesign(block);
-                else if (section == ConcreteSectionScenarios.WizardSection) TraceWizard(block);
-                else TraceInputs(block);
-                state.Blocks.Add(block);
-            }
-            return state;
-        }
-
-        private ConcreteFormState FormState(string name, FormViewModel form)
-        {
-            var fields = form.Fields.Select(field =>
-            {
-                bool enabled = FieldEnabled(form, field);
-                string? note = field.IsNoteVisible ? field.Note : null;
-                return field.Kind switch
-                {
-                    FieldKind.Text => new ConcreteFieldState(field.Key, "campo", field.Label, form.Get(field.Key), null, enabled, field.IsDimmed, field.IsVisible, field.IsInputReadOnly, note),
-                    FieldKind.Choice => new ConcreteFieldState(field.Key, "scelta", field.Label, form.Get(field.Key), field.Choices, enabled, field.IsDimmed, field.IsVisible, false, note),
-                    _ => new ConcreteFieldState(field.Key, "opzione", field.Label, ConcreteSectionTrace.YesNo(field.IsChecked), null, enabled, field.IsDimmed, field.IsVisible, false, note)
-                };
-            }).ToList();
-            var groups = form.Groups.Select(g => (g.Title, (IReadOnlyList<string>)g.Fields.Select(f => f.Key).ToList(), g.IsExpanded)).ToList();
-            return new ConcreteFormState(name, fields, groups);
-        }
-
-        private static ConcreteTableState TableState(string name, ConcreteTableViewModel table) =>
-            new(name, table.Columns.Where(c => c.IsVisible).Select(c => c.Header + "=" + c.Key).ToList(), table.Shown.Select(r => r.Values).ToList(), table.SelectedIndex,
-                !table.IsReadOnly, table.Filter.Description, table.Rows.Count);
-
-        private static string Colour(ConcreteCard card) => "#FF" + (card.Tone switch
-        {
-            ConcreteCardTone.Passed => "#39A879",
-            ConcreteCardTone.Failed => UtilizationColors.Color(2),
-            ConcreteCardTone.Utilization => UtilizationColors.Color(card.Ratio),
-            ConcreteCardTone.Information => "#0B5CAD",
-            _ => UtilizationColors.Color(null)
-        })[1..].ToUpperInvariant();
-
-        private static ConcreteCardsState Cards(string name, ConcreteCardsViewModel cards) => new(name, cards.Text, cards.Cards.Select(Colour).ToList());
-
-        private static string Section(ConcreteGeometry? section) => section is null ? "-" :
-            section.Shape + " " + ConcreteSectionTrace.Number(section.Width) + "x" + ConcreteSectionTrace.Number(section.Height)
-            + " · Ac " + ConcreteSectionTrace.Number(section.AreaCls) + " · As " + ConcreteSectionTrace.Number(section.AreaSteel)
-            + " · contorno " + section.Outline.Count.ToString(CultureInfo.InvariantCulture) + " " + ConcreteSectionTrace.Hash(section.Outline)
-            + " · fori " + section.Holes.Count.ToString(CultureInfo.InvariantCulture)
-            + " · barre " + section.Bars.Count.ToString(CultureInfo.InvariantCulture) + " " + ConcreteSectionTrace.Hash(section.Bars.Select(b => new[] { b.X, b.Y, b.Diametro }).ToArray());
-
-        private static string Viewport(ConcreteSectionDrawingViewModel view) =>
-            "sezione " + Section(view.Section) + " · trefoli " + ConcreteSectionTrace.Hash(view.Tendons.Select(t => new object[] { t.Id, t.X, t.Y, t.Area }).ToArray())
-            + " · messaggio " + ConcreteSectionTrace.Quote(view.Message) + " · tensioni " + StressState(view.Stress) + " · contorno " + ConcreteSectionTrace.Quote(view.Contour)
-            + " · opzioni " + string.Concat(new[] { view.Labels, view.Axes, view.ShowNeutralAxis, view.BarValues, view.TendonValues, view.ConcreteValues, view.Dimensions, view.CoverDimensions,
-                view.SpacingDimensions, view.Stirrups is not null }.Select(b => b ? "1" : "0"))
-            + " · barra " + ConcreteSectionTrace.Quote(view.SelectedBar) + " · zona " + ConcreteSectionTrace.Quote(view.EffectiveRegion?.Name);
-
-        // The part «[wizard]» (S1b): the command, the editor hidden or disabled with the notes of the wizard, the hole, the note of the shear.
-        private void TraceWizard(ConcreteSectionBlock block)
-        {
-            block.Add("comando " + ConcreteSectionTrace.Quote(Inputs.WizardCommandText) + (Inputs.OpenWizardCommand.CanExecute(null) ? "" : " · spento"));
-            block.Add("geometria" + (Inputs.GeometryShown ? "" : " · nascosta") + (Inputs.GeometryEnabled ? "" : " · spenta") + " · nota "
-                + ConcreteSectionTrace.Quote(Inputs.TemplateGeometryNote) + (Inputs.TemplateNotesShown ? "" : " · nascosta"));
-            block.Add("armatura" + (Inputs.ReinforcementShown ? "" : " · nascosta") + " · nota " + ConcreteSectionTrace.Quote(Inputs.TemplateReinforcementNote)
-                + (Inputs.TemplateNotesShown ? "" : " · nascosta"));
-            block.Add("foro campi" + (Inputs.HoleFormEnabled ? "" : " · spenti"));
-            block.Text("nota-taglio", Sheet.ShearAutomaticNote);
-        }
-
-        private void TraceInputs(ConcreteSectionBlock block)
-        {
-            block.Text("nota-normativa", Inputs.StandardNote);
-            block.Text("valori-integrati", Inputs.MigratedInput);
-            foreach (var (name, form) in new[] { ("normativa", Inputs.Standard), ("coefficienti", Inputs.Coefficients), ("materiali", Inputs.Materials), ("geometria", Inputs.Geometry) })
-                block.Form(FormState(name, form));
-            block.Add("foro " + ConcreteSectionTrace.YesNo(Inputs.HoleChecked) + (Inputs.ToggleHoleCommand.CanExecute(null) ? "" : " · spento") + (Inputs.HoleFieldsVisible ? "" : " · campi nascosti"));
-            block.Form(FormState("foro", Inputs.Hole));
-            block.Add("armatura " + (Inputs.ReinforcementEnabled ? "attiva" : "spenta") + " · nota " + ConcreteSectionTrace.Quote(Inputs.ReinforcementToolTip));
-            block.Form(FormState("armatura", Inputs.Reinforcement));
-            foreach (var layer in Inputs.Layers)
-            {
-                block.Add("strato " + layer.Key + (layer.IsShown ? "" : " · nascosto") + " · " + ConcreteSectionTrace.Quote(layer.ToggleText)
-                    + (layer.ToggleCommand.CanExecute(null) ? "" : " · spento") + " · nota " + ConcreteSectionTrace.Quote(layer.ToggleToolTip) + (layer.FormVisible ? "" : " · campi nascosti"));
-                block.Form(FormState("strato-" + layer.Key, layer.Form));
-            }
-            block.Form(FormState("staffe", Inputs.Stirrups)); block.Form(FormState("schema-staffe", Inputs.StirrupScheme));
-            block.Form(FormState("cavo", Inputs.Cable));
-            block.Add("cavo materiale " + ConcreteSectionTrace.Quote(Inputs.CableMaterial.SelectedItem) + " di " + ConcreteSectionTrace.Quote(string.Join("|", Inputs.CableMaterial.Items))
-                + " · messaggio " + ConcreteSectionTrace.Quote(Inputs.CableMessage));
-            foreach (string line in TableState("trefoli", Inputs.Tendons).Lines()) block.Add(line);
-            block.Add("trefoli materiali " + ConcreteSectionTrace.Quote(string.Join("|", Inputs.Tendons.Columns.First(c => c.Key == "materiale").Choices)));
-            block.Add("trefolo standard " + ConcreteSectionTrace.Quote(Inputs.StandardTendon.SelectedItem) + " di " + ConcreteSectionTrace.Quote(string.Join("|", Inputs.StandardTendon.Items)));
-            block.Form(FormState("trefolo", Inputs.TendonProperties));
-            block.Add("materiali salvati " + Inputs.SavedMaterials.SelectedIndex.ToString(CultureInfo.InvariantCulture) + " di " + ConcreteSectionTrace.Quote(string.Join("|", Inputs.SavedMaterials.Items)));
-            block.Form(FormState("rapide", Inputs.QuickResistance));
-            block.Add("rapide " + ConcreteSectionTrace.Quote(Inputs.QuickResistanceText) + (Inputs.QuickResistanceTextVisible ? "" : " · nascosto") + " · riquadri "
-                + ConcreteSectionTrace.Quote(string.Join(" | ", Inputs.QuickResistanceCards.Select(c => c.Direction + " " + c.Value))));
-            block.Add("anteprima " + Viewport(Inputs.Drawing));
-            foreach (string line in TableState("barre", Inputs.Bars).Lines()) block.Add(line);
-            foreach (var (key, cards) in Sheet.Summaries) block.Add(Cards("riepilogo-" + key, cards).Line());
-            block.Add(Cards("riepilogo-taglio", Sheet.ShearDashboard).Line());
-        }
+        internal ConcreteSectionTraceState State(IReadOnlyList<string> sections, string? message) => reader.Read(sections, message, modified);
     }
 
     /// <summary>The dialog service of the traces: the step of the scenario drives the dialog; the result when the dialog closed itself.</summary>

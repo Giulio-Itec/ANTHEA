@@ -745,6 +745,9 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
         Prima esecuzione della vista (ramo `refactoring/f5-10-vista-prova`, 22/10 sera, da unire; sezione 21): suite della vista corretta
         (stato di cultura della cattura storica, ordine C6, identificativi nuovi), sola lettura e aspetto delle otto schede come la storica;
         `ui/check-sezione-view` PASS 131, banco F3 storico e MVVM uguali.
+        Tracce guidate dalla vista (ramo `refactoring/f5-10-tracce-vista`, notte 22–23/10, da unire; sezione 22): i 57 scenari congelati guidati
+        sui controlli della vista per nome di automazione, finestre comprese, uguali riga per riga; nomi di automazione e finestre «Scala…» e
+        «Proprietà / report…» accanto alla storica; quattro correzioni della vista (tabelle in sola lettura, selezione, ordine, nomi).
     - **Suite UI indipendenti dall'implementazione** (merge 35bba417, [f5-suite-ui.md](f5-suite-ui.md)):
       - le 11 suite storiche generali, dei materiali e dei muri passano con la Release di oggi e, nelle varianti `-mvvm`, con
         i sette moduli MVVM;

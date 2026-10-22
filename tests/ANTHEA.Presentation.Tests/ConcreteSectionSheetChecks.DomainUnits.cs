@@ -27,7 +27,7 @@ internal static partial class ConcreteSectionSheetChecks
             foreach (int tab in new[] { 0, 3, 4, 1 }) { sheet.SelectedTab = tab; await IdleAsync(sheet); }
             sheet.Domain3D.InspectionTab = 1; await IdleAsync(sheet);
             foreach (int tab in new[] { 2, 6 }) { sheet.SelectedTab = tab; await IdleAsync(sheet); }
-            lines.AddRange(Side.View3DLines(sheet.Domain3D.View3D!).Select(line => id + " · " + line));
+            lines.AddRange(ConcreteSectionSheetReader.View3DLines(sheet.Domain3D.View3D!).Select(line => id + " · " + line));
         }
         string folder = Path.Combine(output, "sezione-ca");
         ConcreteSectionTrace.Write(Path.Combine(folder, "domini-3d.txt"), lines);

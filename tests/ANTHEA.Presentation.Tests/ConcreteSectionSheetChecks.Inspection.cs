@@ -56,36 +56,6 @@ internal static partial class ConcreteSectionSheetChecks
                 default: throw new InvalidOperationException("Passo della sezione σ/ε sconosciuto: " + step);
             }
         }
-
-        /// <summary>The part «[ispezione]»: for 3D and 2D the tab, the solution, the message, the values, the map and the plane; then the curve.</summary>
-        private void TraceInspection(ConcreteSectionBlock block)
-        {
-            foreach (var panel in new[] { Sheet.Domain3D, Sheet.Domain2D })
-            {
-                var s = panel.Inspection; string name = panel.ThreeD ? "3D" : "2D";
-                block.Add(name + " ispezione scheda " + panel.InspectionTab.ToString(CultureInfo.InvariantCulture) + " · " + ConcreteSectionTrace.Quote(s.StateText)
-                    + " · messaggio " + ConcreteSectionTrace.Quote(s.Message));
-                block.Text(name + " ispezione valori", s.Values);
-                block.Add(name + " ispezione mappa " + Viewport(s.Map));
-                block.Add(name + " ispezione piano " + (s.Plane is not { } plane ? "-" : ConcreteSectionTrace.Hash(new object[] { plane.StrainReferencePoint, plane.ChiX, plane.ChiY,
-                    plane.Outline.Select(v => new[] { v.X, v.Y, v.Strain }).ToArray() })));
-            }
-            var curvature = Sheet.Curvature;
-            block.Form(FormState("curvatura", curvature.Form));
-            block.Text("curvatura testo", curvature.Text);
-            block.Add("curvatura grafico " + CurveLine(curvature.Chart));
-        }
-
-        // The chart of the curve as the historic trace writes its Plot (no segment, no marker, no note).
-        private static string CurveLine(ConcreteCurvatureChartViewModel chart)
-        {
-            var series = chart.Points.Count == 0 ? [] : new[] { (Name: chart.SeriesName, Points: chart.Points) };
-            return ConcreteSectionTrace.Quote(chart.Title) + " · " + ConcreteSectionTrace.Quote(chart.XLabel) + " · " + ConcreteSectionTrace.Quote(chart.YLabel) + " · nota " + ConcreteSectionTrace.Quote("")
-                + " · vuoto " + ConcreteSectionTrace.Quote(chart.EmptyMessage) + " · serie " + string.Join(" ", series.Select(s => ConcreteSectionTrace.Quote(s.Name) + ":" + s.Points.Count.ToString(CultureInfo.InvariantCulture)))
-                + " " + ConcreteSectionTrace.Hash(series.Select(s => s.Points).ToArray())
-                + " · segmenti 0 " + ConcreteSectionTrace.Hash(Array.Empty<object>()) + " · verifiche 0 " + ConcreteSectionTrace.Hash(Array.Empty<object>())
-                + " · punti 0 " + ConcreteSectionTrace.Hash(Array.Empty<object>()) + " · scala 1/1";
-        }
     }
 
     private static async Task InspectionAsync(string root, Expect expect)

@@ -61,6 +61,8 @@
     <Compile Include="../tests/Shared/ElasticPileTrace.cs" Link="Tests/Shared/ElasticPileTrace.cs" />
     <!-- Scenarios and traces of the RC section sheet (F5.10), shared with tests/ANTHEA.Presentation.Tests. -->
     <Compile Include="../tests/Shared/ConcreteSectionTrace.cs" Link="Tests/Shared/ConcreteSectionTrace.cs" />
+    <!-- The state of the RC section sheet read from its ViewModel (F5.10), for the traces driven through the XAML view; shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../tests/Shared/ConcreteSectionSheetReader.cs" Link="Tests/Shared/ConcreteSectionSheetReader.cs" />
     <!-- Scenarios and traces of the composite bridge section sheet (F5.11), shared with tests/ANTHEA.Presentation.Tests. -->
     <Compile Include="../tests/Shared/CompositeSectionTrace.cs" Link="Tests/Shared/CompositeSectionTrace.cs" />
     <Compile Include="../tests/ANTHEA.Desktop.Equivalence/*.cs" Link="Tests/F3/%(Filename)%(Extension)" />

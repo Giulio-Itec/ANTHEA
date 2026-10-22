@@ -91,8 +91,16 @@ internal static partial class ConcreteSectionSheetChecks
         sheet.SelectedTab = 1;
         expect.That(sheet.Data["workspace_ca"]!["tab"]!.ToString() == "1" && modified == 1, "Sola lettura: la scheda scrive ancora tab con Modified (storico, C5)");
         expect.That(sheet.HasResults && await sheet.CalculateAsync() == sheet.HasResults, "Sola lettura: «Calcola» ammesso");
+        // The grids of the bars and of the cables follow the revision (F5.10, traces through the view: they stayed editable).
+        var tables = new List<string>();
+        inputs.Bars.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(ConcreteTableViewModel.IsReadOnly)) tables.Add("barre"); };
+        inputs.Tendons.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(ConcreteTableViewModel.IsReadOnly)) tables.Add("trefoli"); };
         sheet.IsReadOnly = false;
         expect.That(inputs.AllForms.All(f => !f.IsReadOnly) && inputs.AddCableCommand.CanExecute(null), "Revisione modificabile di nuovo");
+        expect.That(tables.SequenceEqual(["barre", "trefoli"]) && !inputs.Bars.IsReadOnly && !inputs.Tendons.IsReadOnly,
+            "Tabelle delle barre e dei cavi: IsReadOnly notificato al cambio della revisione · " + string.Join(",", tables));
+        sheet.IsReadOnly = true;
+        expect.That(tables.Count == 4 && inputs.Bars.IsReadOnly && inputs.Tendons.IsReadOnly, "Tabelle delle barre e dei cavi di nuovo in sola lettura, notificate");
     }
 
     // Closing while a batch waits in the held engine: nothing is published, no error.

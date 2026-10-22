@@ -37,7 +37,8 @@ dei sottopassi. Contiene:
 - il sottopasso S8 fatto il 22/10: progetto delle armature nel ViewModel, prove ed esiti (sezione 17); da dove parte S9 (sezione 18);
 - il sottopasso S9 fatto il 22/10, parte ViewModel: report Word e breve con i generatori congelati, scenari `report/*`, percorso F3 completo
   (sezione 19);
-- la vista XAML, pannello per pannello, con la suite della vista e i comandi della sera (sezione 20).
+- la vista XAML, pannello per pannello, con la suite della vista e i comandi della sera (sezione 20);
+- la prima esecuzione della vista (sezione 21) e le tracce dei 57 scenari guidate attraverso i controlli della vista (sezione 22).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -1686,7 +1687,8 @@ Release: le suite storiche non aprono questa vista.
    sezione 21.
 2. **Tracce attraverso i controlli della vista** (i 57 scenari di `tests/Shared/ConcreteSectionTrace.cs` guidati sui controlli, come
    `CompositeSectionViewChecks.Trace`), nomi di automazione e finestre guidate nella suite della vista; oggi la suite confronta disegni, dati,
-   esportazioni, F1 e sola lettura, mentre le tracce sono confrontate sul ViewModel (`Presentation.Tests/sezione-ca`).
+   esportazioni, F1 e sola lettura, mentre le tracce sono confrontate sul ViewModel (`Presentation.Tests/sezione-ca`). Fatto nella notte del
+   22–23/10, sezione 22.
 3. Poi, con l'utente, a fine refactoring: versione di prova, passaggio della Release, archiviazione della vista storica e del wizard storico,
    riscrittura delle suite storiche (sezione 6).
 
@@ -1822,7 +1824,7 @@ schermo. Punto di partenza: la corsa mirata del coordinatore `ci/20261022-190511
 1. **Tracce attraverso i controlli della vista**: i 57 scenari di `tests/Shared/ConcreteSectionTrace.cs` guidati sui controlli (come
    `CompositeSectionViewChecks.Trace`), con i nomi di automazione e le finestre guidate (materiale, wizard, «Sollecitazioni…», «Scala…»,
    «Proprietà / report…»). Oggi le tracce si confrontano sul ViewModel (`Presentation.Tests/sezione-ca`) e la suite della vista confronta
-   disegni, dati, esportazioni, F1, sola lettura e schermate.
+   disegni, dati, esportazioni, F1, sola lettura e schermate. Fatto nella notte del 22–23/10, sezione 22.
 2. **Contrasto** `mvvm-str_palo` a 96 DPI (coordinatore): non eseguito, schermo a 144 DPI.
 3. Le domande V-a…V-d e quelle delle sezioni 19.5 e 20.4 al punto di controllo.
 4. Poi, con l'utente, a fine refactoring: versione di prova, passaggio della Release, archiviazione, riscrittura delle suite storiche
@@ -1832,4 +1834,156 @@ schermo. Punto di partenza: la corsa mirata del coordinatore `ci/20261022-190511
 dotnet build X.Desktop/X.Desktop.csproj -c UiTests
 dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-sezione-view <radice> <cartella vuota> [banco,disegni,esportazioni,schermate,aiuto,sola-lettura]
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(ui/check-sezione-view|ui/f3-report-chapters-sezione-mvvm|ui/check-sezione-historic|ui/check-module-host-offscreen|ui/check-field-form-parity)$' -Tag <tag>"
+```
+
+## 22. Tracce guidate dalla vista (notte 22–23/10)
+
+Ramo `refactoring/f5-10-tracce-vista` da `refactoring/f5` `78ccba8e`, notte del 22–23/10/2026: stadio `ui` ammesso dall'utente, sempre fuori
+schermo; niente corsa full (l'utente la vuole a fine modulo c.a.). È il punto 1 della sezione 21.5 (e 20.5): i 57 scenari congelati di
+`tests/Shared/ConcreteSectionTrace.cs`, finora confrontati solo sul ViewModel (`Presentation.Tests --sezione-tracce`), guidati attraverso i controlli
+della vista XAML. Nessun riferimento congelato è cambiato (tracce, disegni, fixture F3, baseline, transizioni, attesi indipendenti).
+
+### 22.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `2121b059` | la lettura dello stato nel formato della traccia storica passa da `ConcreteSectionSheetChecks.Side` a `tests/Shared/ConcreteSectionSheetReader.cs`, compilato anche in UiTests (spostamento senza cambi) |
+| `a784d3b4` | vista: tabelle delle barre e dei cavi in sola lettura, selezione delle tabelle al cambio di pannello, righe di nuovo in ordine dopo la modifica, nomi delle schede e dell'avanzamento |
+| `9fd1458a` | parte `tracce` della suite della vista |
+| `20b1946c` | vista: nome di automazione della barra di avanzamento della ricerca |
+| `c5827950` | controlli coerenti col ViewModel dopo ogni passo, parti `nomi` e `finestre` |
+| `c0f4b43c` | prova della vista: nome di una funzione locale (nessun cambio di comportamento) |
+| (commit della documentazione) | questa sezione, l'elenco iniziale della nota, i punti di 20.5 e 21.5 segnati come fatti, riga di `piano.md` |
+
+### 22.2 Che cosa è coperto
+
+**Parte `tracce`** di `--check-sezione-view` (`tests/Desktop/ConcreteSectionViewChecks.Trace.cs`), eseguita dopo i disegni nello stesso stato di
+cultura della cattura storica (`it-IT` solo nel flusso della prova, V-a). Ogni scenario apre la fixture con il banco (`module-impl str_palo=mvvm`) in
+una finestra fuori schermo di 1400 × 1000, come la traccia storica, e ogni passo è fatto sul controllo che l'utente userebbe, trovato per **nome di
+automazione** (il nome che legge un client di UI Automation: `AutomationProperties.Name`, altrimenti quello del peer):
+
+| Passi (971 nelle 57 tracce) | Controllo della vista |
+| --- | --- |
+| `campo` 99, `scelta` 79, `opzione` 3 | editor del `FieldForm` del form (il nome è l'etichetta del campo), nel suo ospite: testo, voce dell'elenco, clic sulla casella |
+| `pulsante` 32, `spunta` 18 | pulsanti e caselle per nome (testo o nome esplicito: «Elimina cavo», il pulsante dello strato, «Forze: …»), con il clic di `ButtonBase.OnClick` |
+| `scheda` 31, `sottoscheda` 8 | schede per nome: le otto del foglio (titolo), le famiglie SLE, i dettagli di una famiglia, «Dominio» e «Sezione σ / ε» |
+| `menu` 10, `cursore` 2 | combo e cursori per nome («Materiali salvati», «Trefoli da standard EN 1992», «Vista del dominio», «Contorno della mappa», «Zona efficace», «Soluzione mostrata», «Punti Ed · dimensione», «Trasparenza») |
+| `cella` 24, `seleziona` 7, `riga` 10 | la tabella per nome («Barre della sezione», «Trefoli e cavi», «Combinazioni», «Alternative»): riga mostrata e colonna della griglia, scrittura come il binding della cella e fine della modifica della riga; selezione della griglia; pulsanti della barra della tabella |
+| `incolla` 6, `filtro` 4 | «Incolla» della barra e «Aggiungi dagli appunti» del menu della tabella; colonna, modo, ordine e testo della barra dei filtri per nome |
+| `apri` 19, con 75 passi interni | «Sollecitazioni…», «Nuovo materiale CLS», «Nuovo materiale acciaio», wizard: la finestra mostrata dal servizio dei dialoghi dal suo DataTemplate (fuori schermo, mai attivata) e guidata sui suoi controlli mentre è aperta: campi e scelte per nome, pulsanti, tabella «Sollecitazioni» |
+| `visita` 28 | la visita della cattura F3 sulla vista: ogni espansore aperto, ogni scheda di ogni controllo a schede scelta e ripristinata |
+| `conferma`, `calcola`, `avvia-calcolo`, `report`, `riapri`, `sola-lettura`, motore trattenuto | i comandi dell'ospite (`MvvmSheetEditor`), come la finestra |
+
+Un controllo che l'utente non può usare (spento, nascosto, protetto dalla revisione) non fa nulla. Il contenuto che WPF non ha ancora disposto (un
+gruppo chiuso, una scheda non mostrata, il modello di una tabella) si dispone fuori dall'albero visuale, solo nell'ambito del controllo cercato,
+come la vista storica costruiva ogni controllo in codice. Il dispatcher gira solo dove gira nella traccia storica («attendi», «calcola»,
+«attendi-motore»): un passo e lo stato dopo il passo si leggono nella stessa operazione.
+
+Lo **stato** dopo ogni passo è quello della traccia congelata: la parte comune letta dai controlli (riga di stato, scheda del foglio, barra di
+avanzamento, campo della larghezza); form, tabelle e pannelli dal ViewModel con `ConcreteSectionSheetReader` (MU19), lo stesso codice di
+`Presentation.Tests`, compreso il modello dei form disposti della finestra storica. Il **confronto** è quello del ViewModel: ogni riga di ogni
+parte, nessun filtro. La riga transitoria dell'ispezione 2D (V-e) si confronta così com'è, perché il dispatcher non gira fra la visita e lo
+stato. Inoltre, dopo ogni passo, ogni tabella e ogni editor disposti nella vista devono mostrare il ViewModel: righe in ordine, selezione e sola
+lettura; testo, voce, casella e testo rifiutato, con il separatore decimale di una delle due culture (V-a).
+
+| Cartella | Scenari | Parti confrontate oltre alla comune |
+| --- | --- | --- |
+| `percorso-f3` | 11 | tutte e otto |
+| `muri` | 2 | tutte e otto |
+| `esempi` | 15 | tutte e otto e `[wizard]` |
+| `ingressi` | 9 | `[ingressi]`; anche `[taglio]` (forme), `[sle]` (materiali), `[sle]` e `[taglio]` (staffe e trefoli), `[wizard]` (i tre scenari del wizard) |
+| `azioni` | 4 | `[azioni]`, con `[domini]`, `[sle]` e `[taglio]` secondo lo scenario |
+| `domini`, `sle`, `taglio`, `dettagli`, `ispezione` | 2 ciascuna | la propria parte (`opzioni-sle` anche `[dettagli]`) |
+| `armature` | 2 | `[armature]` (`ricerca-armature` anche `[ingressi]`) |
+| `report` | 2 | `[ingressi]` (`dati-incompleti` anche `[domini]`) |
+| `calcolo` | 2 | solo la comune (`ricalcolo-revisione`); tutte e otto (`sola-lettura`) |
+
+**Parte `nomi`**: su quattro fixture (`default`, `circolare-cava`, `sle-fessurazione-assi`, `soletta-dettagli-ricerca`), nelle otto schede con ogni
+gruppo aperto, i nomi di automazione della vista storica (gli editor dei form, le etichette «Wiki: …», gli avvisi) sono nella vista XAML (223–235
+nomi) e ogni controllo raggiungibile della vista (pulsanti, caselle, combo, campi di testo, cursori, schede, tabelle, gruppi, avanzamento) ha un
+nome (553–574 letture per fixture).
+
+**Parte `finestre`**: le due finestre che le tracce non aprono, su `default` e `circolare-cava`, guidate sui loro controlli accanto alle finestre
+storiche sugli stessi dati. Le finestre storiche restano fuori schermo e non attivate con gli agganci della traccia storica; quella modale è guidata
+dentro il suo ciclo.
+- «Scala…» del dominio 3D e del 2D: un valore rifiutato (stesso messaggio, nessuna scrittura) e valori accettati (stessi dati, stessi Modified,
+  stesso zoom e stessi fattori del disegno).
+- «Proprietà / report…»: lo stesso testo delle proprietà per φ e poi per n («Omogeneizzazione» scelta nella finestra), stessi dati e stessi Modified.
+
+### 22.3 Correzioni della vista
+
+Trovate guidando le tracce attraverso i controlli. Nessuna cambia una traccia, un disegno o un'esportazione della vista storica.
+1. **Tabelle delle barre e dei cavi modificabili in sola lettura.** `ConcreteInputViewModel.RefreshEditable` non notificava `IsReadOnly` delle due
+   tabelle, quindi la griglia restava modificabile in una revisione (`ingressi/wizard-sola-lettura`: la cella delle barre si scriveva). Ora le
+   notifica; prova in `--sezione-rapide` (552 → 554 controlli).
+2. **Selezione persa al cambio di pannello.** Dopo «Applica» di «Sollecitazioni…» il pannello del dominio è nuovo. `ConcreteTableGrid`, svuotando la
+   griglia, scriveva la selezione −1 nella tabella nuova: dettaglio «Nessuna combinazione selezionata», esiti del 3D non scritti
+   (`azioni/editor-sollecitazioni`, `azioni/sollecitazioni-uniche`). Ora la griglia si svuota senza scrivere la selezione.
+3. **Righe di nuovo in ordine dopo la modifica.** La `JsonGrid` storica rimetteva al suo posto una riga modificata (vista della collezione), la
+   griglia XAML no. Ora, alla fine della modifica di una riga, la tabella mostra di nuovo le righe nel suo ordine e filtro, in coda.
+4. **Nomi di automazione**: le otto schede del foglio (le intestazioni sono numero e titolo; il nome è il titolo), la barra di avanzamento del calcolo
+   («Avanzamento del calcolo») e quella della ricerca («Avanzamento della ricerca», l'unico controllo senza nome trovato dalla parte `nomi`).
+
+Scelte della prova (nessun riferimento cambiato):
+- **«Aggiungi dagli appunti»**: `MenuItem.OnClick` mette il clic in coda (priorità Render, dopo la chiusura del menu); la prova esegue subito
+  `InvokeClickAfterRender`, come la traccia storica eseguiva subito l'incolla.
+- **Visita**: per un controllo a schede non mostrato (le famiglie SLE con un'altra scheda del foglio) la visita dispone fuori dall'albero solo i form
+  della scheda, così raggiunge i gruppi dei campi come la visita storica raggiungeva i form costruiti in codice. Non dispone i controlli a schede
+  interni: disposti, sceglierebbero la prima scheda, mentre la storica, mai disposta, restava a −1 («SLE schede −1»).
+- **«Calcola»**: senza commit (domanda V-f).
+- **Un passo guidato sul ViewModel**, atteso ed elencato in `deroghe.txt` (ogni altro fa fallire la prova): `ingressi/barre-manuali`, passo 7,
+  «campo armatura bottom_bar_count «8»» con le barre per coordinate (domanda V-g).
+
+### 22.4 Esiti
+
+- **`ui/check-sezione-view`**, tutte le parti (banco, disegni, tracce, esportazioni, schermate, aiuto, sola lettura, nomi, finestre): PASS 176
+  controlli in 514 s (prima 131 controlli in 137 s).
+  - Parte `tracce`: 57 scenari, 118 860 righe uguali alle tracce congelate; un solo passo guidato sul ViewModel, quello atteso; 73 356 letture di
+    tabelle e campi della vista uguali al ViewModel. Da sola dura circa 5–6 minuti. Nella cartella `tracce` della suite: le tracce scritte,
+    `confronto.txt`, `deroghe.txt` e `controlli-diversi.txt` (vuoto).
+  - Parte `nomi`: 4 fixture, 223–235 nomi storici presenti, 553–574 controlli tutti con un nome.
+  - Parte `finestre`: 2 fixture, «Scala…» 3D e 2D (rifiuto e accettazione) e «Proprietà / report…» (φ e n), tutto uguale alla storica.
+- **Corsa mirata** `-Stage build,ui` su `c5827950`, `supporto/artefatti/ci/20261023-000249-tracce-vista-1` del worktree: PASS 8, KNOWN 0,
+  NEW-FAIL 0. `ui/check-sezione-view` PASS (514,5 s); `ui/check-sezione-historic` PASS al primo colpo (380,6 s); `ui/check-module-host-offscreen`,
+  `ui/check-field-form-parity` e `ui/f3-report-chapters-sezione-mvvm` PASS; `Presentation.Tests/sezione-ca` PASS 70 (57 scenari uguali, con la
+  lettura spostata in `tests/Shared`). Uscita 1 solo per i documenti modificati durante la corsa.
+- **`Presentation.Tests --sezione-rapide`** PASS 554 (prima 552: due controlli delle tabelle in sola lettura). **Architecture.Tests** PASS 574;
+  baseline F4 e P3 invariate.
+- **Standard** finale: `-Profile standard` su `c0f4b43c`, `supporto/artefatti/ci/20261023-002713-tracce-vista-standard` del worktree: PASS 78, KNOWN 0,
+  NEW-FAIL 0 (uscita 0; `Presentation.Tests` e `Architecture.Tests` PASS).
+- Prove intermedie della notte (scratchpad dell'agente): la prima esecuzione delle tracce dalla vista dava 26 scenari uguali su 57. Le differenze
+  hanno portato alle correzioni 1–3 e alle scelte della prova descritte sopra.
+
+### 22.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **V-f · «Calcola» e commit nell'ospite.** La traccia storica calcolava la sezione c.a. senza commit (`SheetEditor.CalculateAsync` →
+  `ConcreteWorkspace.CalculateAllAsync`). `MvvmSheetEditor.CalculateAsync()` invece fa prima `Commit`, che scrive `visible` nelle righe delle azioni:
+  in `calcolo/ricalcolo-revisione` i dati di «avvia-calcolo» cambiavano. Nessuno dei due ospiti mostra un pulsante «Calcola» per la sezione c.a.: il
+  comando è della finestra e delle prove. Scelta: la prova chiama `CalculateAsync(commitEdits: false)`, cioè `Sheet.CalculateAsync()` come il
+  confronto del ViewModel; l'ospite non cambia. Alternativa: `MvvmSheetEditor` senza commit per la sezione c.a. (file condiviso dell'ospite).
+- **V-g · Campo di un form spento ma non disposto.** Con le barre per coordinate il form dell'armatura è spento. Nella traccia storica fuori schermo
+  il gruppo «Armature» era chiuso, il form non era mai stato disposto e WPF non aveva passato lo stato spento ai campi: la traccia ha scritto
+  `bottom_bar_count`. Nella vista XAML l'editor segue il form anche non disposto, come la storica una volta aperto il gruppo, e l'utente non può
+  scrivere. Scelta: il passo si fa sul campo del ViewModel ed è elencato; la traccia congelata non cambia. Alternativa: ricatturare la traccia
+  storica con i form disposti (decisione dell'utente, perché tocca un riferimento congelato).
+- **V-h · Disposizione fuori dall'albero nella prova.** Per guidare un controllo di una scheda non mostrata o di un gruppo chiuso la prova lo
+  dispone fuori dall'albero visuale, come le prove di F5.11 e dei muri; nella visita solo i form (sopra). Scelta: tenuta, limitata all'ambito del
+  controllo cercato.
+
+### 22.6 Che cosa resta di F5.10
+
+F5.10 è **pronto per la corsa full** che l'utente vuole a fine modulo c.a.: il punto 1 delle sezioni 20.5 e 21.5 è fatto, ogni suite della sezione
+c.a. è verde nella corsa mirata e la suite della vista contiene ora tracce, nomi e finestre. Nella corsa full `ui/check-sezione-view` dura circa 9
+minuti (timeout di 2400 s invariato).
+
+Resta:
+1. **Contrasto** `mvvm-str_palo` a 96 DPI (coordinatore): non eseguito, schermo a 144 DPI.
+2. Le domande V-a…V-h e quelle delle sezioni 19.5 e 20.4, al punto di controllo F5.15.
+3. Poi, con l'utente, a fine refactoring: versione di prova, passaggio della Release, archiviazione della vista storica e del wizard storico,
+   riscrittura delle suite storiche (sezione 6).
+
+```
+dotnet build X.Desktop/X.Desktop.csproj -c UiTests
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-sezione-view <radice> <cartella vuota> [banco,disegni,tracce,esportazioni,schermate,aiuto,sola-lettura,nomi,finestre]
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(ui/check-sezione-view|ui/check-sezione-historic|ui/check-module-host-offscreen|ui/check-field-form-parity|ui/f3-report-chapters-sezione-mvvm|Presentation.Tests/sezione-ca)$' -Tag <tag>"
 ```

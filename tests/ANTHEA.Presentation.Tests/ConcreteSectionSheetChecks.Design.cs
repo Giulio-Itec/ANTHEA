@@ -38,24 +38,6 @@ internal static partial class ConcreteSectionSheetChecks
             }
             return null;
         }
-
-        /// <summary>The part «[armature]»: the three forms, the commands, the texts, the cards, the alternatives and the section of the proposal.</summary>
-        private void TraceDesign(ConcreteSectionBlock block)
-        {
-            var design = Sheet.Design;
-            block.Form(FormState("ricerca", design.Form)); block.Form(FormState("limiti", design.Limits)); block.Form(FormState("mostra", design.Shown));
-            static string Button(string text, bool enabled) => text + (enabled ? "" : "(spento)");
-            block.Add("ricerca comandi " + string.Join(" ", Button("Calcola armature", design.RunCommand.CanExecute(null)), Button("Ferma ricerca", design.StopCommand.CanExecute(null)),
-                Button("Applica configurazione", design.ApplyCommand.CanExecute(null))));
-            block.Text("ricerca stato", ConcreteSectionTrace.WithoutTimes(design.Status));
-            block.Text("ricerca proposta", design.Description);
-            block.Text("ricerca ambito", design.Scope);
-            block.Add(Cards("ricerca-metriche", design.Metrics).Line());
-            block.Add(Cards("ricerca-verifiche", design.Checks).Line());
-            block.Text("ricerca scarti", ConcreteSectionTrace.WithoutTimes(design.Diagnostics));
-            foreach (string line in TableState("alternative", design.Ranking).Lines()) block.Add(line);
-            block.Add("ricerca anteprima " + Viewport(design.Preview));
-        }
     }
 
     private static async Task DesignAsync(string root, Expect expect)

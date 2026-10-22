@@ -223,7 +223,11 @@ public sealed class ConcreteTableGrid : DataGrid
     private void Attach(ConcreteTableViewModel? old, ConcreteTableViewModel? table)
     {
         if (old is not null) { old.PropertyChanged -= OnTableChanged; old.CommittingEdits -= OnCommitting; }
-        Columns.Clear(); ItemsSource = null;
+        // The rows of the previous table leave the grid without writing an empty selection into the new table (a new panel after Reload of the
+        // sheet, «Applica» of «Sollecitazioni…»: the table keeps the selection it was created with).
+        syncing = true;
+        try { Columns.Clear(); ItemsSource = null; }
+        finally { syncing = false; }
         if (table is null) return;
         table.PropertyChanged += OnTableChanged; table.CommittingEdits += OnCommitting;
         foreach (var column in table.Columns) Columns.Add(Column(column));
@@ -327,4 +331,20 @@ public sealed class ConcreteTableGrid : DataGrid
     }
 
     private void OnCommitting(object? sender, EventArgs e) => CommitEdit(DataGridEditingUnit.Row, true);
+
+    // The edit of a row committed: the rows shown again in the order and with the filter of the table.
+    protected override void OnRowEditEnding(DataGridRowEditEndingEventArgs e)
+    {
+        base.OnRowEditEnding(e);
+        if (!e.Cancel && e.EditAction == DataGridEditAction.Commit) RowCommitted();
+    }
+
+    /// <summary>
+    /// The end of the edit of a row: the table shows its rows again (filter and order), queued after the edit, as the collection view of the historic
+    /// JsonGrid moves an edited row to its place; not while another row is being edited.
+    /// </summary>
+    internal void RowCommitted() => Dispatcher.BeginInvoke(new Action(() =>
+    {
+        if (Table is { } table && !((System.ComponentModel.IEditableCollectionView)Items).IsEditingItem) table.Refresh();
+    }));
 }

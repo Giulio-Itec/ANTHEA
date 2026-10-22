@@ -344,7 +344,7 @@ internal static class ConcreteSectionHistoricTrace
     /// WM_WINDOWPOSCHANGING), and activation is refused (HCBT_ACTIVATE). The dialogs of the view keep working: they are driven by
     /// operations of the dispatcher inside their modal loop.
     /// </summary>
-    private sealed class OffscreenWindows : IDisposable
+    internal sealed class OffscreenWindows : IDisposable
     {
         private const int WH_CBT = 5, WH_CALLWNDPROC = 4, HCBT_CREATEWND = 3, HCBT_ACTIVATE = 5, WS_CHILD = 0x40000000, Position = -20000;
         private const uint WM_WINDOWPOSCHANGING = 0x0046, SWP_NOMOVE = 0x0002;

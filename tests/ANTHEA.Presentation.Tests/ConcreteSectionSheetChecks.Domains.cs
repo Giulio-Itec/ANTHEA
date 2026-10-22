@@ -77,54 +77,5 @@ internal static partial class ConcreteSectionSheetChecks
             if (form.Contains(step.Key!) && form[step.Key!] is { Kind: FieldKind.Choice } field && Usable(form, field)) field.SelectedChoice = step.Text;
             return null;
         }
-
-        /// <summary>The part «[domini]»: for 3D and 2D the form, the table, the detail, the summary, the bar, the drawing.</summary>
-        private void TraceDomains(ConcreteSectionBlock block)
-        {
-            foreach (var panel in new[] { Sheet.Domain3D, Sheet.Domain2D })
-            {
-                string name = panel.ThreeD ? "3D" : "2D";
-                block.Form(FormState(name, panel.Form));
-                foreach (string line in TableState(name, panel.Table.Table).Lines()) block.Add(line);
-                block.Text(name + " dettaglio", panel.Detail);
-                block.Add(Cards(name + "-riepilogo", panel.Summary).Line());
-                static string Box(string label, bool value, bool enabled) => label + "=" + ConcreteSectionTrace.YesNo(value) + (enabled ? "" : "(spento)");
-                var boxes = panel.DisplayOptions.Select(o => Box(o.Label, o.IsChecked, true))
-                    .Concat([Box("Asse neutro", panel.NeutralAxis, true), Box("Valori σ/ε sulle barre", panel.BarValues, Sheet.CanEdit)]);
-                string Slider(double value, bool enabled) => ConcreteSectionTrace.Number(value) + (enabled ? "" : "(spento)");
-                var sliders = new List<string> { Slider(panel.ActionPointSize, Sheet.CanEdit), Slider(panel.ResistancePointSize, Sheet.CanEdit) };
-                if (panel.ThreeD) sliders.Add(Slider(panel.Transparency, true));
-                block.Add(name + " comandi " + ConcreteSectionTrace.Quote(panel.ForceText) + " · " + string.Join(" ", boxes) + " · cursori " + string.Join(" ", sliders));
-                if (panel.ThreeD) foreach (string line in View3DLines(panel.View3D!)) block.Add("3D vista " + line);
-                else block.Add("2D grafico " + ChartLine(panel.Chart!));
-            }
-        }
-
-        // The 3D domain as the historic trace writes its viewport (DomainViewport3D.TraceDataForChecks).
-        internal static IEnumerable<string> View3DLines(ConcreteDomain3DViewModel view)
-        {
-            var mesh = view.Mesh;
-            yield return "mesh " + (mesh is null ? "-" : mesh.Mode + " vertici " + mesh.Vertices.Count.ToString(CultureInfo.InvariantCulture) + " " + ConcreteSectionTrace.Hash(mesh.Vertices.Select(v => new[] { v.N, v.Mx, v.My }).ToArray())
-                + " triangoli " + view.TriangleCount.ToString(CultureInfo.InvariantCulture) + " " + ConcreteSectionTrace.Hash(mesh.Triangles) + " scala " + ConcreteSectionTrace.Hash(new[] { mesh.Scale.N, mesh.Scale.Mx, mesh.Scale.My }));
-            var points = view.Actions;
-            int selected = view.SelectedId is null ? -1 : points.ToList().FindIndex(p => p.Id == view.SelectedId);
-            yield return "azioni " + points.Count.ToString(CultureInfo.InvariantCulture) + " " + ConcreteSectionTrace.Hash(points.Select(p => new object[] { p.Force.N, p.Force.Mx, p.Force.My, p.Pass }).ToArray())
-                + " · selezionata " + (view.SelectedId is null ? "-" : selected.ToString(CultureInfo.InvariantCulture))
-                + " · Ed " + (view.SelectedAction is { } a ? ConcreteSectionTrace.Hash(new[] { a.N, a.Mx, a.My }) : "-") + " · Rd " + (view.SelectedResistance is { } r ? ConcreteSectionTrace.Hash(new[] { r.N, r.Mx, r.My }) : "-");
-            yield return "opzioni " + string.Concat(new[] { view.ShowActions, view.OnlySelectedActions, view.ShowResistance, view.ShowVerificationLines, view.ColorByRatio, view.Wireframe, view.FitIncludesActions }.Select(b => b ? "1" : "0"))
-                + " · criterio " + ConcreteSectionTrace.Quote(view.VerificationCriterion) + " · punti " + ConcreteSectionTrace.Number(view.ActionPointSize) + "/" + ConcreteSectionTrace.Number(view.ResistancePointSize)
-                + " · opacità " + ConcreteSectionTrace.Number(view.SurfaceOpacity) + " · scale " + ConcreteSectionTrace.Number(view.Scale.Mx) + "/" + ConcreteSectionTrace.Number(view.Scale.N) + "/" + ConcreteSectionTrace.Number(view.Scale.My)
-                + " · tassi " + (view.Ratios is null ? "-" : view.Ratios.Count.ToString(CultureInfo.InvariantCulture)) + " · resistenze " + (view.Resistances is null ? "-" : view.Resistances.Count.ToString(CultureInfo.InvariantCulture))
-                + " · nota " + ConcreteSectionTrace.Quote(view.Note);
-        }
-
-        // The chart of the 2D domain as the historic trace writes its Plot (the colours as the brushes of the markers write them).
-        private static string ChartLine(ConcreteDomain2DViewModel chart) =>
-            ConcreteSectionTrace.Quote(chart.Title) + " · " + ConcreteSectionTrace.Quote(chart.XLabel) + " · " + ConcreteSectionTrace.Quote(chart.YLabel) + " · nota " + ConcreteSectionTrace.Quote(chart.Note)
-            + " · vuoto " + ConcreteSectionTrace.Quote(chart.EmptyMessage) + " · serie  " + ConcreteSectionTrace.Hash(Array.Empty<object>())
-            + " · segmenti " + chart.Segments.Count.ToString(CultureInfo.InvariantCulture) + " " + ConcreteSectionTrace.Hash(chart.Segments.Select(s => new[] { s.A, s.B }).ToArray())
-            + " · verifiche " + chart.VerificationSegments.Count.ToString(CultureInfo.InvariantCulture) + " " + ConcreteSectionTrace.Hash(chart.VerificationSegments.Select(s => new[] { s.A, s.B }).ToArray())
-            + " · punti " + chart.Markers.Count.ToString(CultureInfo.InvariantCulture) + " " + ConcreteSectionTrace.Hash(chart.Markers.Select(m => new object?[] { m.X, m.Y, m.Label, "#FF" + m.Color[1..].ToUpperInvariant(), m.Radius }).ToArray())
-            + " · scala " + ConcreteSectionTrace.Number(chart.ScaleX) + "/" + ConcreteSectionTrace.Number(chart.ScaleY);
     }
 }
