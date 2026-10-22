@@ -445,6 +445,14 @@ Add-Suite @{ Name = 'ui/f3-scheduling-sezione-mista-mvvm'; Stage = 'ui'; Kind = 
 # calcolo/*, muri/* and esempi/*) and the 3D domains as data (disegni/domini-3d.txt), the files of the data of the F3 capture, the sections
 # sent by the walls and the native GPC section of the examples; the fast stage keeps five scenarios in Presentation.Tests.
 Add-Suite @{ Name = 'Presentation.Tests/sezione-ca'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--sezione-tracce'); Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+# F5.10 (view after S9): the XAML view of the RC section hosted by MvvmSheetEditor off screen (bench --module-impl str_palo=mvvm, Release still
+# historic): bench and Release, the drawings fed by the ViewModel equal to tests/fixtures/f5-sezione/disegni/elenco.txt, the 11 F3 fixtures with the
+# exports (Word with the figures, PDF, short report, JSON, M-chi report) equal to those of the historic view, screenshots, F1, read-only of the tab 01.
+Add-Suite @{ Name = 'ui/check-sezione-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-view', '{root}', '{out}\vista'); Timeout = 2400; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
+# F5.10 S9: ui/f3-report-chapters with the MVVM sheet of the RC section (bench --module-impl str_palo=mvvm): the chapters of the project report
+# against the reports of the ViewModel, figures included. At the switch of the Release this duplicate goes away.
+$MvvmConcreteSection = @('--module-impl', 'str_palo=mvvm')
+Add-Suite @{ Name = 'ui/f3-report-chapters-sezione-mvvm'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-report-chapters', '{root}', '{out}') + $MvvmConcreteSection; Timeout = 600; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # FieldForm (XAML + FormViewModel, F5.2) against the historic InputForm: same edit sequences on fields of real modules, same bytes of the document, same layout; windows outside the screen.
 Add-Suite @{ Name = 'ui/check-field-form-parity'; Stage = 'ui'; Kind = 'check'; Args = @('--check-field-form-parity', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # Theme tokens (F5.3): catalogue, colour equality with the palette in the three appearances, dictionaries of X.Desktop/Themes, light scope of the documents; off screen.
