@@ -37,6 +37,10 @@ namespace X.Desktop;
 /// <item>after the user's checkpoint of 22/10, from the tree of the project: a sheet at full page (11, then Esc and the toggle of the sheet bar)
 /// and a sheet opened in a new window, with the main window beside it in one image (12); the icons of the modules, the links and the groups of
 /// the overview, Ctrl+Z and Ctrl+Y of the project, the Wiki of the services on the tab, the rename in place and the keys of the tree;</item>
+/// <item>the night of 22-23/10 (section 10.1 of the note), what was left of part (c): the overview with the comparison and the summary of the
+/// revisions in their dialogs (13-15), the drag on the tree and the single click (16), «Riprendi» and the cards of «Schede da aggiungere» (17, 18),
+/// the notice of a reloaded tab (19), small screens (20), the short report of the RC section, and a second shell with the modules as the Release
+/// chooses them, the historic ones in their SheetEditor (21). The first shell keeps every module on its MVVM view, the views of the checkpoint;</item>
 /// <item>no binding error of WPF in all the captures (binding-errors.txt), the structure of the window at every step.</item>
 /// </list>
 /// Writes the PNG, binding-errors.txt, test.txt and esito.txt («PASS n controlli»). The draft is not the window of the application: the Release
@@ -281,6 +285,7 @@ internal static class ShellDraftChecks
                 await TreeInput(shell, main, output, bindings, project, abutment.S("id"), pierId, pileSheet, Check);
                 await Catalogues(shell, main, output, bindings, project, pierId, pileSheet, Check);
                 await SmallScreens(shell, services, main, output, bindings, project, abutment.S("id"), pileSheet, strataSheet, Check);
+                await ShortReport(shell, services, main, bindings, Check);
             }
             finally
             {
@@ -530,6 +535,33 @@ internal static class ShellDraftChecks
             shell.IsTreeOpen = true;
             await Idle(main);
         }
+    }
+
+    /// <summary>
+    /// The short report of the RC section in the shell (night of 22-23/10, sixth item of section 10.1), with the MVVM view of the draft: «Report short» in
+    /// the sheet bar and «Report short CLS…» in the menu «File» run the command of the shell, which asks the sheet (ISheetExports through
+    /// SheetFileExports.ShortReport and the report of ConcreteSheetViewModel, F5.10 S9): after the calculation, the bytes and the name of the file, or the
+    /// refusal of the sheet with its own text. The historic sheet of the Release is in HistoricHost.
+    /// </summary>
+    private static async Task ShortReport(ShellViewModel shell, DraftServices services, Window main, BindingErrors bindings, Action<bool, string> Check)
+    {
+        bindings.Step = "report-short-mvvm";
+        var sheet = shell.Workspace.NewCalculation("str_palo");
+        await sheet.ViewModel.CalculateAsync();
+        await Idle(main);
+        Check(sheet.ViewModel is Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel && shell.Commands.ShortReportVisible
+            && Descendants<Button>(main).Any(b => b.IsVisible && ReferenceEquals(b.Command, shell.Commands.ShortReportCommand) && b.Content as string == ShellCommandsViewModel.ShortTitle)
+            && shell.Commands.File.Any(i => i.Title == "Report short CLS…" && ReferenceEquals(i.Command, shell.Commands.ShortReportCommand)), "Sezione c.a. MVVM: «Report short» nella barra e nel menu File");
+        string? refusal = null;
+        try { _ = SheetFileExports.ShortReport(sheet.ViewModel, sheet.Heading); } catch (InvalidOperationException error) { refusal = error.Message; }
+        int failures = services.Failures.Count, saves = services.Saves.Count;
+        await shell.Commands.ShortReportCommand.ExecuteAsync(null);
+        Check(refusal is null ? services.Saves.Count == saves + 1 && services.Saves[^1] == "Relazione_short.docx" && services.Failures.Count == failures
+            : services.Failures.Count == failures + 1 && services.Failures[^1] == ShellCommandsViewModel.ShortTitle + ": " + refusal,
+            "Report short della sezione c.a. MVVM dal comando della shell: " + (refusal is null ? "costruito, richiesto il file" : "rifiutato con il testo del foglio («" + refusal + "»)"));
+        if (refusal is not null) services.Failures.RemoveAt(services.Failures.Count - 1);
+        shell.Workspace.CloseSheet(sheet);
+        await Idle(main);
     }
 
     /// <summary>
