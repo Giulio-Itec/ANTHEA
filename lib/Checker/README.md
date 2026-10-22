@@ -1,16 +1,31 @@
 # DLL Checker
 
-**Set candidato del 22 ottobre 2026 — paratie, pali e Steel dai master locali (solo prova).** Set candidato
-da `Release-Set.ps1 -Candidate` sui master locali non ancora pushati: Model `45c3976c` e Checker `f6916d8e`;
-Geometry e Utilities invariati. Contiene la revisione paratie (P1–P5, S1, S2, cerchi di Bishop con φ = 0
-tenuti), il peso specifico nullo del palo e della malta (Geotechnics 0.19.0.0), il bordo a flusso nullo della
-filtrazione (GPCModel 5.20.0.0) e il lavoro Model e Steel unito nei master dal 21/10 (Steel 2.31.0.0). Tutte le
-suite verdi senza fallimenti ammessi: Model 24 + 1332, Concrete 795, Steel 122, CompositeBridge 284,
-Geotechnics 193, Calculation 174, ShallowFoundation 28, EmbeddedWalls 99, Steel.Members 2918, Design 103,
-ModelChecker 388. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -AllowCandidate -Install`, vale solo su
-questo ramo di prova: il controllo F4 della provenienza lo rifiuta finché i due master non sono pushati. Le build
-sono deterministiche: il set ufficiale dagli stessi commit avrà le stesse DLL e cambieranno solo
-`release-set.json`, `manifest.json` e la provenienza F4. Set in
+**Release AF — paratie, pali e Steel 2.31 (22 ottobre 2026).** Set ufficiale da Model `45c3976c` e Checker
+`f6916d8e`, gli stessi commit del set candidato installato il 22/10 dalla sessione paratie, entrambi su
+origin/master; Geometry e Utilities invariati. Contiene:
+- la revisione paratie: P1–P5, S1, S2, cerchi di Bishop con φ = 0 tenuti;
+- il peso specifico nullo del palo e della malta (Geotechnics 0.19.0.0);
+- il bordo a flusso nullo della filtrazione (GPCModel 5.20.0.0);
+- il lavoro Model e Steel unito nei master dal 21/10 (Steel 2.31.0.0).
+
+Il lavoro Codex sul ramo `codex/steel-autonomy-class4` (Steel 2.32) non è incluso.
+
+Le 13 DLL sono identiche per SHA-256 a quelle del candidato. Cambiano solo `release-set.json`, `manifest.json` e
+la provenienza F4 (`tests/fixtures/f4/library-release.json`, release AF), quindi restano valide le differenze
+PARATIE-19 e PARATIE-20 registrate con l'ok dell'utente.
+
+Nessun commit di versione è servito. Tutte le DLL cambiate rispetto ad AE hanno versione più alta, controllata
+da `-Previous`. GPCModel 5.20.0.0 e Geotechnics 0.19.0.0 hanno un cambio di sorgente dopo il commit di
+versione, dichiarato «same unreleased version» e mai distribuito con un contenuto diverso. Il loro bump
+avrebbe cambiato 10 DLL senza differenze numeriche.
+
+Suite di `Release-Set.ps1 -Previous` (set AE), tutte verdi senza fallimenti ammessi: Model 24 + 1332,
+Concrete 795 con il contratto K0, Steel 122, CompositeBridge 284, Geotechnics 193, Calculation 174,
+ShallowFoundation 28, EmbeddedWalls 99, Steel.Members 2918, Design 103, ModelChecker 388; API compatibili.
+Nessun Gmsh.
+
+Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`. Set in
+`supporto/artefatti/librerie-20261022-sera/gpc-release-20261022`; il candidato è in
 `supporto/artefatti/librerie-20261022-paratie/gpc-candidate-20261022-paratie`.
 
 **Release AE — capsula, fondo scavo e Steel 2.4.0.17 (20–21 ottobre 2026).** Set ufficiale da Model

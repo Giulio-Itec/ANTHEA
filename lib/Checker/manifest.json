@@ -1,9 +1,9 @@
 {
     "snapshotDate":  "2026-10-22",
     "generator":  "tools/libs/Update-Snapshot.ps1 -ReleaseSet",
-    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\ANTHEA\\supporto\\artefatti\\librerie-20261022-paratie\\gpc-candidate-20261022-paratie",
-    "releaseSetCreated":  "2026-10-22T16:52:18",
-    "candidate":  true,
+    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\ANTHEA\\supporto\\artefatti\\librerie-20261022-sera\\gpc-release-20261022",
+    "releaseSetCreated":  "2026-10-22T23:38:12",
+    "candidate":  false,
     "targetFramework":  "netstandard2.0;net8.0",
     "nuget":  [
                   {
@@ -18,7 +18,7 @@
                            "assemblyVersion":  "3.0.0.0",
                            "sha256":  "92031B381F9AA426A5F88B48762C72DB89724F784670FFDA8802203FC52A05E5",
                            "repository":  "Utilities",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "e57b440b16a0a311a7bf0af2f9cf4d2681b83491",
                            "pushed":  true,
                            "sdk":  "9.0.319"
@@ -29,7 +29,7 @@
                            "assemblyVersion":  "2.3.0.0",
                            "sha256":  "7EF76EDFB4C3736AAE7B6F66B2F3CE30A8BB8DE031C492B03BD52289D6E9D29E",
                            "repository":  "Geometry",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
                            "pushed":  true,
                            "sdk":  "9.0.319"
@@ -40,7 +40,7 @@
                            "assemblyVersion":  "2.0.0.14",
                            "sha256":  "D18BB08255D23239271C197130515758767291F75CE1A9996F1A92DB55F114BB",
                            "repository":  "Geometry",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
                            "pushed":  true,
                            "sdk":  "9.0.319"
@@ -51,9 +51,9 @@
                            "assemblyVersion":  "5.20.0.0",
                            "sha256":  "E708359D42F3A412B132FB5D4357C3210C56EE20F1298637F0142A0B79377233",
                            "repository":  "Model",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "45c3976c88af06a970abcf1281e71fa294402a12",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -62,9 +62,9 @@
                            "assemblyVersion":  "0.3.0.0",
                            "sha256":  "0D8E8AA9802841678B527A8E680EAD35AE69C475E9219F8130FB4477928B85FC",
                            "repository":  "Model",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "45c3976c88af06a970abcf1281e71fa294402a12",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -73,9 +73,9 @@
                            "assemblyVersion":  "2.6.0.0",
                            "sha256":  "97BF67D757AFAFB243EFE8E491B02EA1420D4D9604BF87FFE84BBD9A3FDC3734",
                            "repository":  "Model",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "45c3976c88af06a970abcf1281e71fa294402a12",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -84,9 +84,9 @@
                            "assemblyVersion":  "3.3.0.0",
                            "sha256":  "074292F615F37CA4CA60ED8E1B850D5B53104F1A437BC287B3F87D8D0FA5DD37",
                            "repository":  "Model",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "45c3976c88af06a970abcf1281e71fa294402a12",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -95,9 +95,9 @@
                            "assemblyVersion":  "0.18.0.0",
                            "sha256":  "172EF872A912899AA1C6C0B80B480663D4B92384B7E9C0B2B91E3A9A5EC28B54",
                            "repository":  "Checker",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "f6916d8ebe80852be865f85ae4b2fde50dddd744",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -106,9 +106,9 @@
                            "assemblyVersion":  "2.31.0.0",
                            "sha256":  "590A9C4BE10B95D3539C9BBA1930B0CF654822A9B90EE3D8CB270F79052613CF",
                            "repository":  "Checker",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "f6916d8ebe80852be865f85ae4b2fde50dddd744",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -117,9 +117,9 @@
                            "assemblyVersion":  "0.19.0.0",
                            "sha256":  "A47A0272B098C11F3D2FD4DCC4B6D637DF1B08A36A436E63315BD86FE136C368",
                            "repository":  "Checker",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "f6916d8ebe80852be865f85ae4b2fde50dddd744",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -128,9 +128,9 @@
                            "assemblyVersion":  "0.6.0.0",
                            "sha256":  "12AE398CD01F4B100F207D770B3F7C4C1BA096FB99ACF5D6136D42C349436C4A",
                            "repository":  "Checker",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "f6916d8ebe80852be865f85ae4b2fde50dddd744",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -139,9 +139,9 @@
                            "assemblyVersion":  "0.35.0.0",
                            "sha256":  "CEB3096DA2B13F5FDE34B17778416B9C561B542453522AB8761372CF71B390A1",
                            "repository":  "Checker",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "f6916d8ebe80852be865f85ae4b2fde50dddd744",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -150,9 +150,9 @@
                            "assemblyVersion":  "1.12.0.0",
                            "sha256":  "F3045C4D3859B59A4853FEB89504A2FC652A4B49F04FD36F58793DA23A7B7E54",
                            "repository":  "Checker",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "f6916d8ebe80852be865f85ae4b2fde50dddd744",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        }
                    ]
