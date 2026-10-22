@@ -122,6 +122,19 @@ internal static partial class BridgeDesignViewChecks
         /// <summary>The windows of the price editor shown.</summary>
         internal int PriceWindows { get; private set; }
 
+        /// <summary>
+        /// A failure inside <see cref="PriceScript"/>: the asynchronous command of the sheet would keep it in its task, so it is kept here and
+        /// thrown again by <see cref="ThrowScriptError"/> after the click.
+        /// </summary>
+        private Exception? scriptError;
+
+        internal void ThrowScriptError()
+        {
+            if (scriptError is not { } error) return;
+            scriptError = null;
+            System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(error).Throw();
+        }
+
         internal PresentationServices Create()
         {
             var bench = ModuleHostBench.Services();
@@ -156,6 +169,7 @@ internal static partial class BridgeDesignViewChecks
                 window.Show(); window.UpdateLayout();
                 script(editor, window);
             }
+            catch (Exception error) { scriptError = error; }
             finally
             {
                 dialog.CloseRequested -= Close;
@@ -209,7 +223,10 @@ internal static partial class BridgeDesignViewChecks
 
         internal BridgeDesignSheetViewModel Sheet => (BridgeDesignSheetViewModel)((MvvmSheetEditor)Editor).Sheet;
 
-        internal BridgeDesignSheetView View => Walk(Root).OfType<BridgeDesignSheetView>().Single();
+        private BridgeDesignSheetView? view;
+
+        /// <summary>The view of the DataTemplate (the same for the life of the editor).</summary>
+        internal BridgeDesignSheetView View => view ??= Walk(Root).OfType<BridgeDesignSheetView>().Single();
 
         internal BridgeDesignWorkspace Historic => ((SheetEditor)Editor).bridgeDesign ?? throw new InvalidOperationException("Foglio storico senza la vista di Bridge Design.");
 

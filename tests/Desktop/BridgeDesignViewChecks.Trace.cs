@@ -234,6 +234,7 @@ internal static partial class BridgeDesignViewChecks
             string before = Sheet.Status;
             try { Press(open); }
             finally { services.PriceScript = null; }
+            services.ThrowScriptError();
             return described ?? "prezzario non aperto · stato " + BridgeDesignTrace.Quote(Sheet.Status == before ? "" : Sheet.Status);
         }
 

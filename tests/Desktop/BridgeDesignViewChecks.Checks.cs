@@ -227,7 +227,7 @@ internal static partial class BridgeDesignViewChecks
             Check(!window.IsVisible && editor.Result is null, "«Annulla» chiude la finestra senza applicare");
         };
         Idle(() => { Press(open); return 0; }); await host.Settle();
-        services.PriceScript = null;
+        services.PriceScript = null; services.ThrowScriptError();
         Check(services.PriceWindows == 1 && Normalized(sheet.Data) == before && host.Modified == modified, "«Annulla»: nessuna modifica del foglio");
         // «Applica prezzario» after a price typed in a cell of the window.
         services.PriceScript = (editor, window) =>
@@ -241,7 +241,7 @@ internal static partial class BridgeDesignViewChecks
             Check(!window.IsVisible && editor.Result is not null, "«Applica prezzario» applica e chiude la finestra");
         };
         Idle(() => { Press(open); return 0; }); await host.Settle();
-        services.PriceScript = null;
+        services.PriceScript = null; services.ThrowScriptError();
         Check(services.PriceWindows == 2 && sheet.Data["pricing"] is JsonObject && host.Modified == modified + 1
             && sheet.Prices.OfType<BridgeDesignText>().Any(t => t.Role == BridgeDesignTextRole.Title), "«Applica prezzario»: il documento dei prezzi nei dati, una modifica, il pannello ricostruito");
         // Read-only (BD4): the editor is refused, its button locked.
