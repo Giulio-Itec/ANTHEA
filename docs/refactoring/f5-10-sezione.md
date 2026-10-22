@@ -1682,7 +1682,8 @@ Release: le suite storiche non aprono questa vista.
 
 ### 20.5 Che cosa resta della vista
 
-1. **La prima esecuzione della vista** stasera (`ui/check-sezione-view`, banco): correggere quello che cade all'esecuzione.
+1. **La prima esecuzione della vista** stasera (`ui/check-sezione-view`, banco): correggere quello che cade all'esecuzione. Fatta il 22/10 sera,
+   sezione 21.
 2. **Tracce attraverso i controlli della vista** (i 57 scenari di `tests/Shared/ConcreteSectionTrace.cs` guidati sui controlli, come
    `CompositeSectionViewChecks.Trace`), nomi di automazione e finestre guidate nella suite della vista; oggi la suite confronta disegni, dati,
    esportazioni, F1 e sola lettura, mentre le tracce sono confrontate sul ViewModel (`Presentation.Tests/sezione-ca`).
@@ -1720,3 +1721,114 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stag
 - **Tracce lunghe** sui binari della corsa: `--sezione-tracce` PASS 70, 57 scenari uguali alle tracce congelate
   (`supporto/artefatti/f5-10-s9/s9-tracce-finale`).
 - **Architecture.Tests** PASS 574 dopo ogni commit della vista. Nessuna prova WPF eseguita (regola del giorno).
+
+## 21. Prima esecuzione della vista (22/10 sera)
+
+Ramo `refactoring/f5-10-vista-prova` da `refactoring/f5` `c1dd1d1c`, sera del 22/10/2026: stadio `ui` ammesso dall'utente, sempre fuori
+schermo. Punto di partenza: la corsa mirata del coordinatore `ci/20261022-190511-mirate-22-10` (checkout principale), dove
+`ui/check-sezione-view` si fermava alla riga 10 dei 120 disegni. La Release resta storica; nessun riferimento congelato è cambiato
+(tracce, disegni, fixture F3, transizioni).
+
+### 21.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `e250b93f` | suite della vista: disegni nello stato di cultura della cattura storica; risultati con l'ordine fisso C6; identificativi creati all'apertura numerati; dati scritti quando differiscono; schermate delle otto schede delle due viste |
+| `b5fc2103` | vista: le cinque caselle del disegno della scheda 01 bloccate in sola lettura |
+| `2918323f` | vista come la storica nelle otto schede: «Plastico»/«Elastico» nel tipo di dominio, schede dei dettagli e dei valori, colonne delle tabelle |
+| (questo commit) | questa sezione, riga di `piano.md` |
+
+### 21.2 Cause e correzioni
+
+1. **Disegni, riga 10 (`circolare-cava dominio 2D 900x700`).** Stessi 124 primitivi; l'unica riga diversa è il titolo del grafico:
+   `θ = 30.00°` nella lista congelata, `θ = 30,00°` nella vista. Causa: lo stato di cultura della cattura, non la vista.
+   - `--check-sezione-historic` (che ha congelato `disegni/elenco.txt`) imposta `it-IT` solo nel flusso asincrono della prova. Le operazioni
+     che il dispatcher esegue fuori da quel flusso usano la cultura dell'utente, che su questa macchina ha il **punto** come separatore
+     decimale (osservazione di F5.4, sezione 4 di [f5-4-pilota.md](f5-4-pilota.md)).
+   - `circolare-cava` si apre sul dominio 2D: il titolo N–M è scritto dal calcolo che `Loaded` accoda, fuori dal flusso, quindi con il punto.
+     Le altre fixture si aprono su un'altra scheda e il titolo Mx–My si scrive quando la prova mostra la scheda, nel flusso, con la virgola
+     (`N = 1000,00 kN`). Lo stesso `θ = 30.00°` è nelle tracce congelate della vista storica e del ViewModel (`Presentation.Tests`, dove
+     `SingleThreadContext.Post` esegue fuori dal flusso).
+   - La suite della vista impostava `it-IT` anche sul thread con un'operazione del dispatcher (lezione di F5.4) prima dei disegni: tutto con
+     la virgola. Correzione nella prova (`e250b93f`): i disegni girano nello stato della cattura storica (`it-IT` solo nel flusso), `it-IT` sul
+     thread vale dalle esportazioni in poi (le due viste vi si confrontano fra loro). Con questo i 120 disegni sono uguali alla lista congelata.
+   - Il riferimento congelato non è sbagliato per il codice, ma **dipende dalle impostazioni internazionali dell'utente** di questa macchina:
+     domanda V-a.
+2. **Risultato e JSON dei risultati (esportazioni).** La vista storica scrive `domini`, `tensioni` ed `errori_calcolo` nell'ordine in cui
+   finiscono i thread del calcolo: in `circolare-cava` `3D:SLV` cadeva prima di `3D:SLU` in una corsa e dopo nella successiva. Il ViewModel
+   segue l'ordine fisso della decisione C6. La suite confrontava il testo grezzo; ora confronta con quelle tre parti nell'ordine fisso
+   (`FixedOrder`), tutte le altre chiavi e tutti i valori come scritti. La cattura F3 non ne risente (JSON canonico).
+3. **Identificativi creati all'apertura (esportazioni).** Le righe senza `id` nella fixture (`corpus-sezione-ca-taglio-din-rettangolare`) ricevono
+   un `Guid.NewGuid` in tutte e due le viste: dati diversi a ogni apertura. Ora si numerano nell'ordine in cui compaiono, come nelle tracce
+   (`ConcreteGuids`), un elenco per vista; i dati e i risultati diversi si scrivono anche dopo l'apertura e dopo la visita.
+4. **Sola lettura (vista, `b5fc2103`).** Nella scheda 01 «Assi», «ID», «Dimensioni», «Copriferro» e «Interferro min.» restavano liberi in una
+   revisione; nella storica `RevisionInspection` li blocca. Ora seguono `CanEditTables` (il ViewModel rifiutava già la scrittura): 172
+   controlli comuni uguali.
+5. **Aspetto (vista, `2918323f`), dalle schermate delle otto schede** (la suite ora le scrive per le due viste, `schermate/schede`):
+   - schede 02 e 03, azioni separate: «Tipo di dominio precedente» mostrava `SLU`/`SLV`; la storica mostra «Plastico»/«Elastico»
+     (`DomainLabelConverter`). `FieldForm` riceve dall'ospite le etichette delle voci per chiave (`FieldForm.ChoiceLabels`, proprietà
+     ereditata aggiunta; `ChoiceLabelSelector` agisce solo su quelle chiavi, le altre scelte di tutte le viste restano come prima); il
+     documento conserva la voce;
+   - schede dei dettagli (`AddDetail`): erano disegnate come i riepiloghi, con il valore a destra e **senza il riferimento normativo**
+     («NTC capitolo 4 / EC2» nella scheda 06). `ConcreteCard` ha ora il tipo (`ConcreteCardKind`: riepilogo, dettaglio, valore; parametro
+     opzionale in coda) e la vista disegna ognuno come `VerificationCards`;
+   - tabelle: le colonne prendevano la larghezza del contenuto, con un'area vuota a destra. Ora come `JsonGrid`: quote uguali (barre, azioni,
+     taglio, tensioni e loro dettagli, alternative), 112/140 per i cavi, minimi 60/65, quote finali 2 (esito dei domini), 1,8 e 1,4 (tensioni,
+     fessurazione), 3 per il taglio con i minimi 120 e 220 e l'esito a capo; numeri centrati e presentazione dei numeri dell'ospite
+     (`NumericDisplayColumn`, come la sezione mista di F5.11).
+
+### 21.3 Esiti
+
+- **`ui/check-sezione-view`** (sei parti, prima del commit dell'aspetto e dopo): PASS 131 controlli. 120 disegni uguali alla lista congelata;
+  11 fixture con dati, visita, tre aspetti, calcolo, risultato, report Word con le figure (ogni parte), PDF, report breve, JSON e report della
+  curva M–χ uguali alla vista storica (11 report); F1 su 181 campi di 29 form al navigatore; sola lettura 172 controlli comuni uguali.
+- **Banco F3** (sezione 20.6), sui binari di `2918323f`: cattura storica e cattura con `--module-impl str_palo=mvvm` PASS 119 fixture,
+  1201 file uguali a `expected` entro le tolleranze, 0 differenze non ammesse con le transizioni F4; confronto diretto
+  (`tools/qa/f5_confronto_diretto.py`) «identiche»: 1205 file, 1202 uguali byte per byte, 3 JSON uguali in forma canonica, 6 tempi volatili
+  del palo elastico. Nessuna differenza da proporre per `transitions-f5.json`. Cartella `supporto/artefatti/f5-10-vista-prova/banco-finale`
+  del worktree (la stessa coppia prima delle correzioni dell'aspetto in `banco`, uguale).
+- **Suite** `-Stage build,ui` su `2918323f`, `ci/20261022-210535-vista-prova-1`: `ui/check-sezione-view` PASS (131 controlli),
+  `ui/f3-report-chapters-sezione-mvvm` PASS, `ui/check-module-host-offscreen` PASS, `ui/check-field-form-parity` PASS (il file condiviso
+  `FieldForm` è cambiato); `ui/check-sezione-historic` NEW-FAIL nella corsa con le altre prove (riga 1120 di `percorso-f3/sle-fessurazione-assi`,
+  il messaggio dell'ispezione 2D alla visita: «Lettura del piano già calcolato al limite…» atteso, «Piano nativo del punto resistente…»
+  ottenuto: l'ispezione era già finita, una questione di tempi con la macchina carica; la vista storica non è toccata) e PASS ripetuta da sola
+  (`ci/20261022-211604-vista-prova-storica-2`). `Presentation.Tests --sezione-rapide` PASS 552.
+- **Contrasto** `mvvm-str_palo`: non eseguito, schermo a 144 DPI (si esegue a 96 DPI).
+- **Schermate per l'utente**: `ANTHEA-f5-ripresa\f5-agenti\f5-10-vista-prova\schermate` (144 DPI su questa macchina, catture a 96 DPI logici).
+
+### 21.4 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **V-a · Riferimenti congelati e separatore decimale dell'utente.** La lista dei disegni e le tracce congelate contengono `θ = 30.00°`
+  perché la cattura storica imposta `it-IT` solo nel flusso e questa macchina usa il punto. Su una macchina con il separatore italiano la
+  cattura storica, le tracce del ViewModel e i disegni darebbero `θ = 30,00°` e cadrebbero. Scelta: nessun riferimento cambiato; la suite
+  riproduce lo stato della cattura. Alternativa: catture e prove con `it-IT` anche sul thread e riferimenti ricatturati (decisione
+  dell'utente, perché tocca riferimenti congelati).
+- **V-b · Pulsanti a tutta larghezza.** Nella storica alcuni pulsanti e scelte occupano tutta la colonna («Reologia del calcestruzzo…»,
+  «Sezione sull’azione selezionata», «SLE / esposizione →», «Applica configurazione», «Modifica … nel pannello di controllo →», «Modello e
+  dati comuni…», «Combinazione SLE»); nella vista restano alla loro larghezza. Anche il messaggio «In attesa dei dati dell’elemento.» nella
+  storica è centrato in altezza. Scelta: lasciati così (solo aspetto). Alternativa: allargarli come la storica.
+- **V-c · Intestazioni tagliate del taglio.** Con le quote e i minimi della storica, a 1600 px le intestazioni «Mx [kNm]», «VRd,x [kN]»… della
+  tabella del taglio sono tagliate nelle due viste. Scelta: come la storica. Alternativa: larghezze dal contenuto.
+- **V-d · `FieldForm.ChoiceLabels`.** Proprietà aggiunta al file condiviso `FieldForm` (additiva). Alternativa: le etichette nel ViewModel
+  (`FieldSpec` con le etichette delle voci).
+- **V-e · Traccia storica dipendente dai tempi.** La riga 1120 di `percorso-f3/sle-fessurazione-assi` (congelata) contiene il messaggio
+  transitorio dell'ispezione 2D («Lettura del piano già calcolato al limite…»); con la macchina carica l'ispezione può finire prima della
+  riga e `ui/check-sezione-historic` cade (22/10 sera, una volta su tre corse). Scelta: nessun cambiamento (regola della sera: si ripete da
+  sola). Alternativa: la cattura storica aspetta l'ispezione prima di scrivere lo stato (traccia da ricatturare, decisione dell'utente).
+
+### 21.5 Che cosa resta prima della corsa full a fine modulo c.a.
+
+1. **Tracce attraverso i controlli della vista**: i 57 scenari di `tests/Shared/ConcreteSectionTrace.cs` guidati sui controlli (come
+   `CompositeSectionViewChecks.Trace`), con i nomi di automazione e le finestre guidate (materiale, wizard, «Sollecitazioni…», «Scala…»,
+   «Proprietà / report…»). Oggi le tracce si confrontano sul ViewModel (`Presentation.Tests/sezione-ca`) e la suite della vista confronta
+   disegni, dati, esportazioni, F1, sola lettura e schermate.
+2. **Contrasto** `mvvm-str_palo` a 96 DPI (coordinatore): non eseguito, schermo a 144 DPI.
+3. Le domande V-a…V-d e quelle delle sezioni 19.5 e 20.4 al punto di controllo.
+4. Poi, con l'utente, a fine refactoring: versione di prova, passaggio della Release, archiviazione, riscrittura delle suite storiche
+   (sezione 6).
+
+```
+dotnet build X.Desktop/X.Desktop.csproj -c UiTests
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-sezione-view <radice> <cartella vuota> [banco,disegni,esportazioni,schermate,aiuto,sola-lettura]
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(ui/check-sezione-view|ui/f3-report-chapters-sezione-mvvm|ui/check-sezione-historic|ui/check-module-host-offscreen|ui/check-field-form-parity)$' -Tag <tag>"
+```
