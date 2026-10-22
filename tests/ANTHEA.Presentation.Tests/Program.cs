@@ -46,6 +46,13 @@ try
         string shell = $"PASS {checks} controlli della shell (F5.13) senza WPF";
         File.WriteAllText(Path.Combine(output, "esito.txt"), shell, new UTF8Encoding(false)); Console.WriteLine(shell); return 0;
     }
+    // F5.13 (d): --paralleli runs only the exit test of the parallel calculations (proposal 4.6): the same sheets in series and in parallel.
+    if (args.Contains("--paralleli"))
+    {
+        checks = ParallelChecks.Run(root, output);
+        string parallel = $"PASS {checks} controlli dei calcoli in parallelo (F5.13 d) senza WPF";
+        File.WriteAllText(Path.Combine(output, "esito.txt"), parallel, new UTF8Encoding(false)); Console.WriteLine(parallel); return 0;
+    }
     if (sectionTraces || sectionFast)
     {
         checks += ConcreteSectionSheetChecks.Run(root, output, full: sectionTraces);
