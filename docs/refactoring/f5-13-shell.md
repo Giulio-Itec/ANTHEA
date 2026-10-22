@@ -149,6 +149,10 @@ Cartella `src/ANTHEA.Presentation/Shell` (sottocartelle `Navigation`, `Projects`
 La scrittura dei file dei report resta del desktop: `ISheetExports` (Presentation) la astrae, con l'implementazione in (c) sul
 codice di `MvvmSheetEditor`. Il codice dei report non cambia (report congelati dall'8/10).
 
+`ShellViewModel` compone le parti come le compone `MainWindow`: titolo della finestra dal documento del foglio con il fuoco, riepilogo
+della sezione chiesto dall'albero con la sua barra delle revisioni, barra e riga di stato del foglio con il fuoco aggiornate a ogni
+modifica, report chiesto da un foglio. Le viste e le finestre vengono in (c).
+
 ## 4. Vincoli tecnici
 
 - P1–P7 di `ANTHEA.Architecture.Tests`: niente WPF, niente tipi di `ANTHEA.Calculations`/GPC nei metadati, niente stato statico
@@ -171,6 +175,7 @@ codice di `MvvmSheetEditor`. Il codice dei report non cambia (report congelati d
 | b4 | confronto, stato dei dati condivisi, panoramica | prove |
 | b5 | schede e finestre | prove |
 | b6 | comandi | prove |
+| b7 | `ShellViewModel`, composizione delle parti | prove |
 | chiusura | stato in questo documento, piano, corsa `standard` | |
 
 Ogni commit compila e tiene verde il profilo `quick`. La shell storica non cambia; se resta tempo, `MainWindow` chiamerà le
@@ -203,10 +208,77 @@ controllo della bozza di F5.13.
 | SH16 | Annulla/ripeti dei file singoli | nessuno, come oggi (`ProjectHistory` vale solo per i progetti) |
 | SH17 | Scheda i cui dati cambiano fuori da essa | ViewModel ricreato sui dati del documento, come oggi l'editor; `Reload` (proposta 5.1) conserverebbe lo stato della vista ma salterebbe le preparazioni che alcuni moduli fanno all'apertura |
 | SH18 | Avviso delle schede chiuse dall'annulla | un solo messaggio «ANTHEA» con una riga per scheda, testo di SH5 |
+| SH19 | Finestra in cui si apre una scheda nuova | quella con il fuoco (la principale o una staccata) |
+| SH20 | Finestra secondaria rimasta senza schede | si chiude; chiudere una finestra secondaria con schede le riporta nella principale (proposta 4.1) |
+| SH21 | Destinatario dei comandi Salva, report, risultati, esporta foglio | il foglio con il fuoco e il suo documento; senza fogli, Salva agisce sul progetto; senza documenti non fa nulla |
+| SH22 | Pagina «Progetti» senza progetto | apre un archivio nuovo senza domande, perché i file singoli restano aperti (oggi `NewProjects` chiede di salvare il documento sostituito) |
 
 ## 7. Stato, verifiche e ripresa
 
-Aggiornata a ogni sottopasso chiuso.
+Stato al 22/10/2026: parti (a) e (b) fatte, ferme a un punto chiuso. Nessun file di `X.Desktop` è cambiato: la shell storica e la
+Release sono quelle di 5451a8cc.
 
-- Fatto: a0.
-- Suite `ui` da eseguire stanotte: nessuna finché la shell storica non cambia.
+### 7.1 Fatto
+
+| Sottopasso | Commit | Contenuto | Controlli |
+| --- | --- | --- | ---: |
+| a0 | 27aae8c5 | questo documento | — |
+| a1 | 5a8457d6 | `Shell/DocumentFiles.cs`, `ShellTexts.cs`, `DocumentSession.cs` | 28 |
+| a2 | f5817c37 | `Shell/ProjectSession.cs` | 57 |
+| a3 | 67ed545a | `Shell/SheetSession.cs`, `SheetFactory.cs`, `WorkspaceSession.cs` | 63 |
+| b1 | 72e69733 | `Shell/Navigation/NavigationViewModel.cs`: navigazione, catalogo dei moduli | 25 |
+| b2 | 0b533b2d | `Shell/Projects/ProjectTreeViewModel.cs`: albero, trascinamento, catalogo delle schede | 39 |
+| b3 | 0e863196 | `Shell/Projects/RevisionBarViewModel.cs`: barra, dialogo e riepilogo delle revisioni | 16 |
+| b4 | ff503152 | `Shell/Projects/CoherenceViewModel.cs`: riga di stato, confronto, collegamento, riepilogo della sezione | 20 |
+| b5 | 3f837763 | `Shell/Tabs/TabsViewModel.cs`: schede, finestre staccabili, `IWindowService` | 18 |
+| b6 | 45e8689d | `Shell/Commands/ShellCommandsViewModel.cs`: menu, file, report, `ISheetExports` | 37 |
+| b7 | commit di chiusura | `Shell/ShellViewModel.cs`: composizione; questa sezione | 11 |
+
+In tutto circa 3 700 righe in `src/ANTHEA.Presentation/Shell` e 1 600 righe di prove in `tests/ANTHEA.Presentation.Tests`
+(`ShellChecks`, `ShellBench`, `ShellDocumentChecks`, `ProjectSessionChecks`, `WorkspaceChecks`, `NavigationChecks`,
+`ProjectTreeChecks`, `RevisionBarChecks`, `CoherenceChecks`, `TabsChecks`, `CommandsChecks`, `ShellViewModelChecks`): 314 controlli
+nello stadio `fast` con le altre prove di Presentation, e da soli con `--shell`. Le attese vengono dal codice storico e dalle prove WPF
+della shell (sezione 1.2), lette e riportate a mano; nessuna è presa dall'esecuzione della shell nuova.
+
+### 7.2 Verifiche
+
+- A ogni commit: build di `tests/ANTHEA.Presentation.Tests`, prove della shell, `Architecture.Tests` (P1–P7 e R1–R7 senza voci nuove;
+  baseline invariate).
+- Profilo `quick`: `20261022-090358-f5-13-a1` PASS 55 e `20261022-093550-f5-13-a3` PASS 55, 0 NEW-FAIL.
+- Profilo `standard` sul commit di chiusura: esito nel rapporto finale dell'agente e in
+  `ANTHEA-f5-ripresa\f5-agenti\f5-13-ab\avanzamento.md`.
+
+### 7.3 Suite `ui` da eseguire stanotte
+
+Nessuna è necessaria per questo lavoro: `X.Desktop`, le prove WPF e la Release non cambiano. Le suite che toccano la shell
+(sezione 1.2) restano quelle di oggi e girano con il profilo full come ogni notte.
+
+### 7.4 Cosa resta e come riprendere
+
+- **Chiamate della shell storica alle funzioni nuove.** Non fatte, per prudenza: con la regola diurna il confronto con le prove WPF
+  non si può fare oggi. Candidate, tutte funzioni pure:
+  - `ShellTexts.WindowTitle` in `MainWindow.UpdateTitle` e `ShellTexts.SheetHeading` in `SheetHeading`;
+  - `ProjectSession.Snapshot` in `SwitchProjectRevision`;
+  - le regole `CanReorderSection`, `CanNestSection` e l'indice di `MoveSheet` in `ProjectHierarchy` e `ProjectSectionReorder`;
+  - i testi di `RevisionBarViewModel` in `UpdateProjectRevisionBar`;
+  - la riga di `SharedStatusViewModel` in `RefreshSharedStatus`.
+
+  Se si fanno, in un commit a parte, con le suite `ui/smoke-projects`, `ui/smoke-project-workspace`, `ui/smoke-hierarchy`,
+  `ui/smoke-sharing` (e le varianti `-mvvm`), `ui/smoke-project-report` e `ui/f3-equivalence`.
+- **Parte (c)**, dopo il punto di controllo della bozza:
+  - viste XAML della shell e finestre;
+  - implementazioni desktop di `ISheetExports` (sul codice di `MvvmSheetEditor`), di `IWindowService` e del menu «Aspetto»;
+  - ospite dei moduli ancora storici nella shell nuova, se servirà (proposta 5.2, rischio R5);
+  - pagina Modelli e scheda del modello; esempi della Wiki che aprono un modulo (`MainWindow.WikiExamples`);
+  - adattamento ai piccoli schermi; argomenti di avvio (`--wiki`, `--models`, percorso).
+- **Parti (d)–(g)** come da piano. Il report di sezione (`ProjectReport.cs`) passa con (e), insieme alla cattura del progetto.
+- **Domande:** SH1–SH22 nella sezione 6, da rivedere al punto di controllo della bozza e in F5.15.
+
+Per riprendere:
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-ab
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll supporto/artefatti/f5-13/presentation --shell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile quick -Tag <tag>"
+```
