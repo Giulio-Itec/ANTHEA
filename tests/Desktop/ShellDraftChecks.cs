@@ -60,22 +60,21 @@ internal static class ShellDraftChecks
             }
 
             // The shell with the modules of the product and services that never ask the user.
+            // Since the checkpoint the shell comes from its composition root (ShellComposition), with these services, the Wiki of the services on the
+            // tab of the shell, and detached windows wrapped so that they are never activated.
             var services = new DraftServices();
-            var presentation = services.Create();
+            var presentation = ShellComposition.WithShellWiki(services.Create());
             var modules = DesktopComposition.CreateModules();
-            string examples = Path.Combine(AppContext.BaseDirectory, "Esempi");
-            ShellViewModel? shell = null;
             var detached = new List<QuietWindow>();
-            var tracker = new ShellWindowTracker(host =>
+            var parts = ShellComposition.Create(presentation, modules, new CalculationLimiter(CalculationLimiter.DefaultMaximum), ShellComposition.ExamplesFolder, window =>
             {
-                var window = new QuietWindow(Offscreen(new DetachedShellWindow(host, shell!.Windows)));
-                detached.Add(window);
-                return window;
+                var quiet = new QuietWindow(Offscreen(window));
+                detached.Add(quiet);
+                return quiet;
             });
-            shell = new ShellViewModel(presentation, new RegistrySheetFactory(modules, presentation, new CalculationLimiter(CalculationLimiter.DefaultMaximum)),
-                new DocumentFiles(examples), tracker, new SheetFileExports(), new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples)));
-            tracker.Attach(shell.Windows);
-            var main = Offscreen(new ShellWindow(shell, tracker));
+            var shell = parts.Shell;
+            var tracker = parts.Tracker;
+            var main = Offscreen(parts.Window);
             main.Show();
             try
             {
@@ -100,6 +99,18 @@ internal static class ShellDraftChecks
                 await Capture(main, output, "03-progetti.png", bindings);
                 Check(shell.HasProject && shell.Center is SectionOverviewViewModel && shell.Tree.Roots.Count == 1 && shell.Navigation.Page == ShellPage.Projects,
                     "Archivio aperto: pagina Progetti con l'albero");
+
+                // After the checkpoint: the links of «Fogli e sottosezioni» of the overview (a group closed at the start, as today); the abutment
+                // opens its overview. Five common data on the card, the others in «Tutti i dati comuni».
+                Check(shell.Overview is { FirstCommonData.Count: 5, HasMoreCommonData: true } && Descendants<Expander>(main).Count(x => x.Name is "MoreCommonData" or "Links" && x.IsVisible && !x.IsExpanded) == 2,
+                    "Riepilogo: cinque dati comuni, gli altri e i link in due gruppi chiusi");
+                Descendants<Expander>(main).Single(x => x.Name == "Links").IsExpanded = true;
+                await Idle(main);
+                var links = Descendants<Button>(main).Where(b => ReferenceEquals(b.Command, shell.OpenLinkCommand)).ToArray();
+                Check(links.Select(b => b.Content as string).SequenceEqual(["Spalla A", "Pila 1"]) && Descendants<Button>(main).Any(b => ReferenceEquals(b.Command, shell.DuplicateSectionCommand) && b.IsVisible),
+                    "Riepilogo del progetto: «Duplica sezione» e i link delle sezioni (" + links.Length + ")");
+                await Press(links[0]);
+                Check(shell.Overview?.Section?.S("nome") == "Spalla A" && shell.Center is SectionOverviewViewModel, "Link «Spalla A»: il suo riepilogo");
 
                 // Four tabs: three sheets of the project and a single file; the focus on the piles.
                 var project = workspace.Project!;
@@ -206,6 +217,25 @@ internal static class ShellDraftChecks
                 bindings.Step = "chiusura della finestra dall'albero";
                 await Idle(main);
                 Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(strataTab), "Finestra dall'albero chiusa: scheda riportata nella principale");
+
+                // Ctrl+Z and Ctrl+Y of the project on a sheet of the project (the modifiers given: the check has no keyboard), not in a text box.
+                bindings.Step = "ctrl-z";
+                string strataId = strata.S("id");
+                project.Rename(project.Find(strataId)!, "Stratigrafia S1 bis");
+                Check(!ProjectHistoryKeys.Handle(shell, shell.Center, Key.Z, ModifierKeys.Control, new TextBox()) && !ProjectHistoryKeys.Handle(shell, shell.Center, Key.Z, ModifierKeys.Control | ModifierKeys.Shift, null)
+                    && project.Find(strataId)!.S("nome") == "Stratigrafia S1 bis", "Ctrl+Z in una casella di testo o con Maiusc: non per il progetto");
+                Check(shell.Center is SheetTabViewModel && ProjectHistoryKeys.Handle(shell, shell.Center, Key.Z, ModifierKeys.Control, null) && project.Find(strataId)!.S("nome") == "Stratigrafia S1",
+                    "Ctrl+Z sul foglio del progetto: rinomina annullata");
+                Check(ProjectHistoryKeys.Handle(shell, shell.Center, Key.Y, ModifierKeys.Control, null) && project.Find(strataId)!.S("nome") == "Stratigrafia S1 bis", "Ctrl+Y: rinomina ripristinata");
+                await Idle(main);
+
+                // F1 and the guides of the sheets (the Wiki of the services) open the Wiki tab of the shell.
+                bindings.Step = "wiki dei servizi";
+                string? guide = Anthea.Wiki.WikiCatalog.ForModule("geo_stratigrafia")?.Id ?? Anthea.Wiki.WikiCatalog.ForModule("geo_palo_verticale")?.Id;
+                presentation.Wiki.Show(guide);
+                await Idle(main);
+                Check(shell.Center is PageTabViewModel { Kind: ShellTabKind.Wiki, Content: WikiTabViewModel wikiShown } && wikiShown.Uri == guide && services.WikiRequests == 0,
+                    "Wiki dei servizi: la scheda della shell, non la finestra storica");
             }
             finally
             {
@@ -363,7 +393,7 @@ internal static class ShellDraftChecks
             "SheetTabViewModel", "PageTabViewModel", "WikiTabViewModel", "ShellCommandsViewModel", "ShellMenuItem", "AppearanceMenuViewModel",
             "AppearanceItemViewModel", "ShellWindow", "SheetBarView", "ModelTabView", "WikiTabView", "SelectCommand", "CloseCommand", "MoveToNewWindowCommand",
             "ReattachCommand", "OpenCardCommand", "SelectDisciplineCommand", "OpenModelCommand", "SwitchCommand", "ToggleTreeCommand", "Catalogue", "Commands.",
-            "ToggleFullPageCommand", "FullPageText", "FullPageToolTipText", "IsFullPage", "OpenInNewWindowCommand", "OpenFullPageCommand", "IsSheet"];
+            "OverviewLink", "LinkItems", "HasLinks", "OpenLinkCommand", "DuplicateSectionCommand", "ToggleFullPageCommand", "FullPageText", "FullPageToolTipText", "IsFullPage", "OpenInNewWindowCommand", "OpenFullPageCommand", "IsSheet"];
 
         private readonly StringBuilder line = new();
         internal List<string> Errors { get; } = [];
@@ -396,6 +426,9 @@ internal static class ShellDraftChecks
         public void SetText(string text) { }
         public string GetText() => "";
         public void Open(Uri target) { }
-        public void Show(string? uri = null) { }
+        public void Show(string? uri = null) => WikiRequests++;
+
+        /// <summary>Requests to the historic Wiki window (the fallback of ShellWikiNavigator): none once the shell exists.</summary>
+        internal int WikiRequests { get; private set; }
     }
 }

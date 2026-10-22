@@ -296,6 +296,13 @@
  </DataTemplate>
 
  <!-- ===================================================================================================== «Progetti»: overview and catalogue (ProjectPresentation) -->
+ <!-- A row of the common data: label and the values of the sheets. -->
+ <DataTemplate x:Key="Shell.CommonDataRow" DataType="{x:Type proj:CommonDataRow}">
+  <DockPanel Margin="0,2">
+   <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding Label}" Width="220"/>
+   <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Value}"/>
+  </DockPanel>
+ </DataTemplate>
  <DataTemplate DataType="{x:Type proj:SectionOverviewViewModel}">
   <Grid Margin="14,12,14,14">
    <Grid.ColumnDefinitions><ColumnDefinition Width="47*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="30*"/></Grid.ColumnDefinitions>
@@ -322,16 +329,14 @@
         <StackPanel>
          <TextBlock Style="{StaticResource Shell.Heading}" Text="Dati comuni" Margin="0,0,0,6"/>
          <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding CommonDataEmpty}" x:Name="NoCommonData" Visibility="Collapsed"/>
-         <ItemsControl x:Name="CommonRows" ItemsSource="{Binding CommonData}">
-          <ItemsControl.ItemTemplate>
-           <DataTemplate DataType="{x:Type proj:CommonDataRow}">
-            <DockPanel Margin="0,2">
-             <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding Label}" Width="220"/>
-             <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Value}"/>
-            </DockPanel>
-           </DataTemplate>
-          </ItemsControl.ItemTemplate>
-         </ItemsControl>
+         <!-- The first five common data, the others in «Tutti i dati comuni», closed (after the checkpoint, ProjectPresentation as today). -->
+         <ItemsControl x:Name="CommonRows" ItemsSource="{Binding FirstCommonData}" ItemTemplate="{StaticResource Shell.CommonDataRow}"/>
+         <Expander x:Name="MoreCommonData" Margin="0,6,0,0" IsExpanded="False" Visibility="{Binding HasMoreCommonData, Converter={StaticResource WhenTrue}}">
+          <Expander.Header><TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{x:Static proj:SectionOverviewViewModel.MoreCommonDataTitle}"/></Expander.Header>
+          <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+           <ItemsControl ItemsSource="{Binding MoreCommonData}" ItemTemplate="{StaticResource Shell.CommonDataRow}"/>
+          </ScrollViewer>
+         </Expander>
         </StackPanel>
        </Border>
        <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
@@ -342,6 +347,30 @@
          <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding RevisionNote}" Visibility="{Binding RevisionNote, Converter={StaticResource WhenPresent}}"/>
         </StackPanel>
        </Border>
+       <!--
+         Actions and links of the section (after the checkpoint of 22/10, ProjectPresentation.BuildSectionOverview): «Duplica sezione» outside
+         read-only; «Genera report» still a placeholder (the report of the section comes with part e); the sheets open in their tab, the
+         subsections show their overview. The commands are those of the shell (the DataContext of the window).
+       -->
+       <WrapPanel Margin="0,0,0,10">
+        <Button Style="{StaticResource Shell.Button}" Content="{x:Static proj:SectionOverviewViewModel.DuplicateLabel}" Visibility="{Binding CanDuplicate, Converter={StaticResource WhenTrue}}"
+         Command="{Binding DataContext.DuplicateSectionCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Section}"/>
+        <Button Style="{StaticResource Shell.Primary}" Content="{x:Static proj:SectionOverviewViewModel.ReportLabel}" IsEnabled="False"
+         ToolTip="Bozza: il report della sezione si collega con la parte (e)"/>
+       </WrapPanel>
+       <Expander x:Name="Links" Margin="0,0,0,10" IsExpanded="False" Visibility="{Binding HasLinks, Converter={StaticResource WhenTrue}}">
+        <Expander.Header><TextBlock Style="{StaticResource Shell.Heading}" Text="{x:Static proj:SectionOverviewViewModel.LinksTitle}"/></Expander.Header>
+        <StackPanel Margin="0,6,0,0">
+         <ItemsControl ItemsSource="{Binding LinkItems}">
+          <ItemsControl.ItemTemplate>
+           <DataTemplate DataType="{x:Type proj:OverviewLink}">
+            <Button Style="{StaticResource Shell.Button}" Content="{Binding Name}" HorizontalContentAlignment="Left" Margin="0,0,0,5" AutomationProperties.Name="{Binding Name}"
+             Command="{Binding DataContext.OpenLinkCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Node}"/>
+           </DataTemplate>
+          </ItemsControl.ItemTemplate>
+         </ItemsControl>
+        </StackPanel>
+       </Expander>
        <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
         <StackPanel>
          <TextBlock Style="{StaticResource Shell.Heading}" Text="Modelli di calcolo" Margin="0,0,0,6"/>

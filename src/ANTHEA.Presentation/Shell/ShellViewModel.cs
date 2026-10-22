@@ -85,6 +85,9 @@ public sealed class ShellViewModel : ViewModelBase
         ExitFullPageCommand = new RelayCommand(ExitFullPage, () => IsFullPage);
         ToggleFullPageCommand = new RelayCommand(() => { if (IsFullPage) ExitFullPage(); else EnterFullPage(); }, () => IsFullPage || CanEnterFullPage);
         Tree.PlacementRequested += (_, e) => guard.Run(() => Place(e.Sheet, e.Placement));
+        OpenLinkCommand = new RelayCommand<JsonObject>(node => guard.Run(() => OpenLink(node!)), node => node is not null);
+        DuplicateSectionCommand = new RelayCommand<JsonObject>(section => guard.Run(() => DuplicateSection(section!)),
+            section => section is not null && Workspace.Project is { IsReadOnly: false });
         Commands.ExamplesRequested += (_, _) => Navigation.Select(ShellPage.Examples);
         Tree.OverviewRequested += (_, section) => ShowOverview(section);
         Tree.ModelRequested += (_, model) => guard.Run(() => ShowModel(model.Container, model.ModelId));
@@ -237,6 +240,51 @@ public sealed class ShellViewModel : ViewModelBase
         section ??= project.Projects.FirstOrDefault();
         Overview = new SectionOverviewViewModel(project, section);
         Revisions?.Show(section);
+    }
+
+    // ---- Part (c) after the checkpoint: Ctrl+Z / Ctrl+Y, the commands of the overview
+
+    /// <summary>
+    /// Ctrl+Z and Ctrl+Y of the project (ProjectWorkspace.PreviewKeyDown) apply where MainWindow showed the project workspace: with an editable
+    /// project, on the page «Progetti» (the overview) or on a sheet of the project. <paramref name="shown"/> is what the window shows: the centre
+    /// of the main window or the tab of a detached window. Not on a single file, on the other pages, on a model, in the preview of a revision.
+    /// </summary>
+    public bool HistoryKeysApply(object? shown) =>
+        Workspace.Project is { IsReadOnly: false } && (shown is SectionOverviewViewModel || shown is SheetTabViewModel { Session.Project: not null });
+
+    /// <summary>Ctrl+Z (<paramref name="redo"/> false) or Ctrl+Y: «↶ Annulla» or «↷ Ripristina» of the project bar, when it can run.</summary>
+    public void RestoreHistory(bool redo)
+    {
+        var command = redo ? Commands.RedoCommand : Commands.UndoCommand;
+        if (command.CanExecute(null)) command.Execute(null);
+    }
+
+    /// <summary>
+    /// A link of «Fogli e sottosezioni» of the overview (ProjectPresentation.BuildSectionOverview): the active sheet is confirmed; a sheet opens in
+    /// its tab, a subsection shows its overview.
+    /// </summary>
+    public IRelayCommand<JsonObject> OpenLinkCommand { get; }
+
+    /// <summary>«Duplica sezione» of the overview (ProjectWorkspace.DuplicateProjectSection): the copy after the section, then its overview.</summary>
+    public IRelayCommand<JsonObject> DuplicateSectionCommand { get; }
+
+    /// <summary>The link of the overview (see <see cref="OpenLinkCommand"/>).</summary>
+    public void OpenLink(JsonObject node)
+    {
+        ArgumentNullException.ThrowIfNull(node);
+        Workspace.CommitActive();
+        if (node.ContainsKey("modulo_id")) Workspace.OpenSheet(node);
+        else ShowOverview(node);
+    }
+
+    /// <summary>«Duplica sezione» (see <see cref="DuplicateSectionCommand"/>): nothing while read-only; the tree selects the copy.</summary>
+    public JsonObject? DuplicateSection(JsonObject section)
+    {
+        ArgumentNullException.ThrowIfNull(section);
+        if (Workspace.Project is not { IsReadOnly: false } project || project.Duplicate(section) is not { } copy) return null;
+        Tree.Refresh(copy);
+        ShowOverview(copy);
+        return copy;
     }
 
     /// <summary>The application is closing: the questions to save every document (true closes).</summary>

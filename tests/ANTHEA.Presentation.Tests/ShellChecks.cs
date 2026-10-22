@@ -22,6 +22,7 @@ internal static class ShellChecks
         checks += ShellPartCChecks.Run(output);
         // F5.13 c, after the checkpoint of 22/10: a sheet of the tree in a new window or at full page.
         checks += ShellPlacementChecks.Run();
+        checks += ShellFinalViewsChecks.Run();
         return checks;
     }
 }
