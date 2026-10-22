@@ -437,6 +437,69 @@ Da sapere guardando le immagini, prima di decidere SH5–SH32 (nessuna cambiata 
   `ProjectTreeItem` con le sue frecce.
 - **Pagina Progetti (03).** I dati comuni booleani si leggono «false» (testo del ViewModel, non della disposizione).
 
+### 9.5 Dopo il punto di controllo: dall'albero in una nuova finestra o a pagina intera
+
+Agente `f5-13-c2`, sera del 22/10, ramo `refactoring/f5-13-c2` da `refactoring/f5` 87181e61. Richiesta dell'utente al punto di controllo (9.2).
+Prima l'albero apriva un foglio solo in una scheda della principale; «Sposta in una nuova finestra» c'era solo nel menu delle schede e «▸»
+chiudeva soltanto l'albero.
+
+**Come ci si arriva.**
+- **Menu del nodo di un foglio** (clic destro nell'albero), dopo «Apri»:
+  - «Apri in una nuova finestra»;
+  - «Apri a pagina intera».
+
+  Le due voci sono nascoste per progetti, sezioni e modelli. Ci sono anche nell'anteprima di una revisione: il foglio si apre in sola lettura.
+- **Barra del foglio**, dopo «← Torna…»: l'interruttore «Pagina intera», che a pagina intera diventa «Esci da pagina intera».
+- **Esc** nella finestra principale esce dalla pagina intera. Fuori dalla pagina intera il tasto passa oltre, quindi le viste e la rinomina
+  tengono il loro Esc.
+
+**Regole** (ViewModel, prove senza WPF in `ShellPlacementChecks`, `--shell`):
+- **Apertura.** Il foglio si apre come con «Apri»: il foglio con il fuoco viene confermato prima; un foglio già aperto non si riapre e si usa
+  la sua scheda, con lo stesso ViewModel.
+- **Nuova finestra.** Una scheda della principale va in una finestra staccata nuova, con `ShellWindowsViewModel.ShowInNewWindow` →
+  `MoveToNewWindow` e il tracker. Se la scheda è già in una finestra staccata, quella finestra va in primo piano, una volta sola, senza
+  crearne un'altra.
+- **Pagina intera** (`ShellViewModel.IsFullPage`):
+  - la scheda è selezionata nella principale; navigazione e albero si nascondono e il foglio prende tutta la larghezza;
+  - lo stato dell'albero è ricordato e l'uscita lo ripristina;
+  - intanto «▸» riapre l'albero; un altro foglio aperto a pagina intera dall'albero lo richiude.
+- **Fine della pagina intera.** Vale solo finché al centro c'è la scheda di un foglio e un foglio ha il fuoco, cioè finché a schermo c'è la
+  barra con «Esci». Escono dalla pagina intera:
+  - le pagine della navigazione (Home, Progetti, Modelli, Moduli singoli, Esempi, Wiki);
+  - «← Torna al progetto»;
+  - una scheda senza foglio (Wiki, modello);
+  - la chiusura del foglio senza un altro foglio con il fuoco.
+
+  Il fuoco che passa a una finestra staccata non la fa uscire.
+- **Finestra staccata.** Mostra già solo il foglio: la pagina intera non vale. «Apri a pagina intera» di un foglio staccato porta in primo
+  piano la sua finestra, e la principale non cambia. Con il fuoco su un foglio staccato, l'interruttore della barra della principale è
+  disabilitato.
+
+**Immagini** (`ui/check-shell-draft`, nuove dopo le dieci della sezione 9.4):
+- `11-pagina-intera.png`: i pali della spalla a pagina intera, aperti dall'albero.
+- `12-staccata-dall-albero.png`: la stratigrafia della pila aperta dall'albero in una nuova finestra; l'utente è tornato sui pali nella
+  principale. La principale è a sinistra e la finestra staccata a destra, in un'unica immagine.
+
+La prova controlla anche:
+- il menu del nodo;
+- navigazione e albero nascosti, con il foglio largo quanto la finestra;
+- Esc inviato alla finestra;
+- l'interruttore premuto due volte (peer di automazione);
+- un'attivazione sola della nuova finestra;
+- la chiusura della finestra, che riporta la scheda nella principale.
+
+Le dodici immagini sono in `C:\Users\g.pacini\Documents\Repository\ANTHEA-f5-ripresa\f5-agenti\f5-13-c2\immagini\`.
+
+**Scelte provvisorie** (criterio prudente, da rivedere in F5.15):
+
+| # | Domanda | Opzione presa |
+| --- | --- | --- |
+| SH33 | Cosa nasconde la pagina intera | solo navigazione e albero, come chiesto; restano menu, schede, barra del progetto, barra delle revisioni (dice se il foglio è in sola lettura), barra del foglio, riga di stato e «▸» per riaprire l'albero |
+| SH34 | «Apri a pagina intera» di un foglio in una finestra staccata | quella finestra in primo piano, senza riagganciare né cambiare la principale |
+| SH35 | Quando la pagina intera finisce da sola | quando sparirebbe la barra con «Esci»: una pagina della navigazione, «← Torna…», una scheda senza foglio, nessun foglio con il fuoco. Il fuoco su una finestra staccata non la fa finire |
+| SH36 | Pagina intera e cambio di scheda | è uno stato della finestra, non del foglio: passare a un'altra scheda di un foglio la mantiene; non si ricorda fra le sessioni |
+| SH37 | Voci nuove nel menu dei nodi che non sono fogli | nascoste (le altre voci del menu restano disabilitate come nella bozza) |
+
 ## 10. Parte (c): stato, verifiche e cosa resta
 
 Fatto il 22/10, fino al punto di controllo:
