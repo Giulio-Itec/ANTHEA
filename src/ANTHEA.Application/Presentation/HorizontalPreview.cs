@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using Anthea.Application.Concrete;
+using System.Collections.Immutable;
 namespace Anthea.Application.Presentation;
 
 public sealed record HorizontalModelPreview(string Label, string Hint, IReadOnlyDictionary<string, string> Factors, string Efficiency);
@@ -19,7 +20,7 @@ public static class HorizontalPreview
         }
         catch (ArgumentException ex) { return "EJ da completare nei dati iniziali: " + ex.Message; }
     }
-    private static readonly string[] ChsKeys = ["diametro_mm", "spessore_mm", "area_mm2", "inerzia_mm4", "wel_mm3", "wpl_mm3", "massa_kg_m", "classe", "npl_kn", "mpl_knm"];
+    private static readonly ImmutableArray<string> ChsKeys = ["diametro_mm", "spessore_mm", "area_mm2", "inerzia_mm4", "wel_mm3", "wpl_mm3", "massa_kg_m", "classe", "npl_kn", "mpl_knm"];
     public static HorizontalModelPreview ReadModel(JsonObject data)
     {
         string label, hint, efficiency;

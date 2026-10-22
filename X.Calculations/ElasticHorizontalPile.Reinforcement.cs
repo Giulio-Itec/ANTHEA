@@ -6,17 +6,18 @@ using System.Text.Json.Nodes;
 using GPC.Checkers.Geotechnics.Piles;
 using GPC.Checkers.Concrete.Piles;
 using GPC.Checkers.Concrete.Durability;
+using System.Collections.Immutable;
 namespace Anthea.Calculations;
 public sealed record PileCalculationProgress(string Phase,int Completed=0,int Total=0);
 public static partial class ElasticHorizontalPile
 {
     public const string SeismicSourceUrl=PileReinforcement.SeismicUrl;
-    public static readonly string[] ReinforcementKeys=["longitudinal_bar_count","longitudinal_bar_diameter_mm","transverse_bar_diameter_mm","transverse_spacing_mm"];
+    public static readonly ImmutableArray<string> ReinforcementKeys=["longitudinal_bar_count","longitudinal_bar_diameter_mm","transverse_bar_diameter_mm","transverse_spacing_mm"];
     /// <summary>Second ring of bars inside the first, with the keys of the c.a. section («Secondo anello interno»). A segment without
     /// them takes those of the main section.</summary>
-    public static readonly string[] InnerRingKeys=["second_inner_enabled","second_inner_count","second_inner_diameter","second_inner_gap"];
+    public static readonly ImmutableArray<string> InnerRingKeys=["second_inner_enabled","second_inner_count","second_inner_diameter","second_inner_gap"];
     /// <summary>Keys that a segment with its own reinforcement can assign instead of the main section.</summary>
-    public static readonly string[] SegmentKeys=[..ReinforcementKeys,..InnerRingKeys];
+    public static readonly ImmutableArray<string> SegmentKeys=[..ReinforcementKeys,..InnerRingKeys];
     public static void PrepareReinforcement(JsonObject root)
     {
         var e=root["elastico"]!.AsObject();

@@ -4,172 +4,12 @@
   "Note": "P3 (F5.1, proposal 7.4): mutable static state in production code before F5 (static fields not readonly, static properties with a setter, static events, static readonly mutable collections or arrays), fingerprinted per file, owner and declaration without initializer. Debt ratchet: entries may only be removed, in the same commit as the code; zero in ANTHEA.Presentation; bridge, walls, piles, foundations and Wiki to zero in F5.13 (E5).",
   "Findings": [
     {
-      "File": "X.Calculations/Calcolo.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "Calcolo.Indagate",
-      "Fingerprint": "65CA672A75F24E7309B39F3D0AE395752706757D343804A0A3AD0E054F3CCCC1",
-      "Count": 1,
-      "Example": "static readonly string [ ] Indagate"
-    },
-    {
-      "File": "X.Calculations/Calcolo.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "Calcolo.Parametri",
-      "Fingerprint": "865BD5431DE2CCC4423496CFE99E7BE60FC105D602F0E923E402D2F3C029B31A",
-      "Count": 1,
-      "Example": "public static readonly Dictionary < string , ( double Sciolto , double Denso , string Mu ) > Parametri"
-    },
-    {
-      "File": "X.Calculations/Calcolo.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "Calcolo.Tipi",
-      "Fingerprint": "B6EE3BA7744E39145B098027952314F6F4BA47E5C893857EC010D14E0AE38027",
-      "Count": 1,
-      "Example": "static readonly Dictionary < string , PileInstallation > Tipi"
-    },
-    {
-      "File": "X.Calculations/Calcolo.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "Calcolo.Verticali",
-      "Fingerprint": "6978362E49CA67E6DA4E0CEE9EB272581C7440CCD6E3EE317535FC881B03945A",
-      "Count": 1,
-      "Example": "public static readonly Dictionary < string , ( double Xi3 , double Xi4 ) > Verticali"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "ElasticHorizontalPile.InnerRingKeys",
-      "Fingerprint": "6271F77EA96E08997AC4B040444BE05D788619B7DDFC3ED3C2E9BC4FD748097E",
-      "Count": 1,
-      "Example": "public static readonly string [ ] InnerRingKeys"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "ElasticHorizontalPile.ReinforcementKeys",
-      "Fingerprint": "7F06F3F5D8CC03CD9F8C702151D303CCC797110B35A98C2D2653E5CD8EF67567",
-      "Count": 1,
-      "Example": "public static readonly string [ ] ReinforcementKeys"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "ElasticHorizontalPile.SegmentKeys",
-      "Fingerprint": "54BF2A04FBECD0D6A01A7FC713D95EFC4A335601E67DC1ADC484CD39CC774C28",
-      "Count": 1,
-      "Example": "public static readonly string [ ] SegmentKeys"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.ReinforcementPresentation.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "ElasticHorizontalPile.OrdinaryApprovalKeys",
-      "Fingerprint": "DF54C1E6913B46FCB18BDEF44FFB95CBF136228F031B938B2A6EFA794DFC864B",
-      "Count": 1,
-      "Example": "public static readonly string [ ] OrdinaryApprovalKeys"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "ElasticHorizontalPile.Laws",
-      "Fingerprint": "445F6970F8F98826A3FC4F886CD14EC71D89A0171248A7E0F1EC8E78BC2B5906",
-      "Count": 1,
-      "Example": "public static readonly string [ ] Laws"
-    },
-    {
       "File": "X.Calculations/Geotechnics/SlopeStability.Models.cs",
       "Rule": "P3-static-collection",
       "Owner": "Slope.Notes",
       "Fingerprint": "2AD2FA1B7A20D2B39C63C4AA42AD2ECDC62270B2C3F8F195A2CB34BBC389B0CB",
       "Count": 1,
       "Example": "public static readonly string [ ] Notes"
-    },
-    {
-      "File": "X.Calculations/HorizontalPileGroup.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "HorizontalPileGroup.LayoutNames",
-      "Fingerprint": "A2B01E9A24C2A669D203AB8D5621C6567C2E07924E063258B24B6091F606C884",
-      "Count": 1,
-      "Example": "public static readonly string [ ] LayoutNames"
-    },
-    {
-      "File": "X.Calculations/HorizontalPileGroup.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "HorizontalPileGroup.MethodNames",
-      "Fingerprint": "30F2E4379471DFFF8C6F49C0D898811E76A96DE2662629A8C78E1549D9BCFC6D",
-      "Count": 1,
-      "Example": "public static readonly string [ ] MethodNames"
-    },
-    {
-      "File": "X.Calculations/Micropali.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "BustamanteDoix.Curve",
-      "Fingerprint": "BF6462426736FD67D2D2027B330FF02FB7BA924269B0F354D6A464B7234BBC19",
-      "Count": 1,
-      "Example": "public static readonly Dictionary < string , ( double X , double Y ) [ ] > Curve"
-    },
-    {
-      "File": "X.Calculations/Micropali.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "BustamanteDoix.Terreni",
-      "Fingerprint": "A5FD694AC3CC4968F776740BD6EDBBD1AB4E4EFA329EAE159320070B47DFBBFF",
-      "Count": 1,
-      "Example": "public static readonly Dictionary < string , ( string Family , double [ ] IRS , double [ ] IGU ) > Terreni"
-    },
-    {
-      "File": "X.Calculations/Micropali.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "Chs.Catalogo",
-      "Fingerprint": "3FB0029FCCADE8C6945AB0299E1BE774CACC842BC9691B30BBFDE4C87F4E466A",
-      "Count": 1,
-      "Example": "public static readonly Dictionary < string , ( double Diameter , double Thickness ) > Catalogo"
-    },
-    {
-      "File": "X.Calculations/Micropali.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "Chs.Taglie",
-      "Fingerprint": "537E444171360BA82DE2A1495C46194DB098AC29AFCC00A5C8C54AC6FEC80B83",
-      "Count": 1,
-      "Example": "static readonly Dictionary < double , double [ ] > Taglie"
-    },
-    {
-      "File": "X.Calculations/Nq.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "Nq.RapportiGrande",
-      "Fingerprint": "99CD6A7A76943CFFA369BAEB3C1E01E61CF8E7366208119A6AA07B119F3423B6",
-      "Count": 1,
-      "Example": "public static readonly double [ ] RapportiGrande"
-    },
-    {
-      "File": "X.Calculations/Nq.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "Nq.RapportiMedio",
-      "Fingerprint": "5EC8B34B8D29E90251B4C39CC97CE5D314CF171EA3319371F54EDDCD1BE576F4",
-      "Count": 1,
-      "Example": "public static readonly double [ ] RapportiMedio"
-    },
-    {
-      "File": "X.Calculations/PaloOrizzontale.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "PaloOrizzontale.Mechanisms",
-      "Fingerprint": "8D250BB87FAA81FBEBEEACFFED66F7E8510F8FC0995FA537AE0BF6D4F79B4E0D",
-      "Count": 1,
-      "Example": "static readonly string [ ] Mechanisms"
-    },
-    {
-      "File": "X.Calculations/PaloOrizzontale.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "PaloOrizzontale.Messages",
-      "Fingerprint": "34C83C4C0731919FB3046B5022E40A375C83CEEC695868845E087FE83FEEB4C4",
-      "Count": 1,
-      "Example": "static readonly Dictionary < string , string > Messages"
-    },
-    {
-      "File": "X.Calculations/PaloOrizzontale.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "PaloOrizzontale.Sides",
-      "Fingerprint": "708BDC21F13C6C19C0CBE97840E5DC1D7FA6BFC154141771EFE9CFB4A95257CC",
-      "Count": 1,
-      "Example": "static readonly string [ ] Sides"
     },
     {
       "File": "X.Calculations/RetainingWall.Actions.cs",
@@ -418,22 +258,6 @@
       "Fingerprint": "38FFFFA14689497DE6179DB49720AF7FE7F17060F6EB7E01115A50363A4FC2CA",
       "Count": 1,
       "Example": "public static readonly string [ ] ModuleIds"
-    },
-    {
-      "File": "src/ANTHEA.Application/Presentation/HorizontalPreview.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "HorizontalPreview.ChsKeys",
-      "Fingerprint": "4BC3D64EB4462227A1529D9B73B2272A4000E70797FA955468A04074FE14DD43",
-      "Count": 1,
-      "Example": "private static readonly string [ ] ChsKeys"
-    },
-    {
-      "File": "src/ANTHEA.Application/Presentation/HorizontalSheetPresentation.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "HorizontalSheetPresentation.ConcreteClasses",
-      "Fingerprint": "9273D8611C1F0104679A23871D9F71D8F691F135A9A1CD34162F7254949E8165",
-      "Count": 1,
-      "Example": "private static readonly Dictionary < string , double > ConcreteClasses"
     },
     {
       "File": "src/ANTHEA.Application/Projects/ProjectSharedData.cs",

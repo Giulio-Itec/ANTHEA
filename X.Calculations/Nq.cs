@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using GPC.Checkers.Geotechnics.Piles;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
@@ -11,8 +12,8 @@ public static class Nq
 {
     public const string Versione = BearingCapacityFactors.Version;
     public const string Descrizione = BearingCapacityFactors.Description;
-    public static readonly double[] RapportiMedio = BearingCapacityFactors.MediumRatios.ToArray();
-    public static readonly double[] RapportiGrande = BearingCapacityFactors.LargeRatios.ToArray();
+    public static readonly ImmutableArray<double> RapportiMedio = [.. BearingCapacityFactors.MediumRatios];
+    public static readonly ImmutableArray<double> RapportiGrande = [.. BearingCapacityFactors.LargeRatios];
     public static double Curva(double phi, int index, bool grande) => BearingCapacityFactors.Curve(phi, index, grande);
     public static JsonObject Dettaglio(double phi, double rapporto, bool grande)
     {

@@ -2,11 +2,12 @@ using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using GPC.Checkers.Geotechnics.Piles;
+using System.Collections.Immutable;
 namespace Anthea.Calculations;
 /// <summary>JSON/unit/presentation adapter. Engineering calculations are exclusively in Checker.</summary>
 public static partial class ElasticHorizontalPile
 {
-    public static readonly string[] Laws=["kh costante assegnato", "Reese–Matlock · nh assegnato", "k distribuito costante assegnato", "nh da tabella 14.5 · sabbie", "nh da tabella 14.6 · coesivi", "nh = A·γ/1,35 · incoerenti"];
+    public static readonly ImmutableArray<string> Laws=["kh costante assegnato", "Reese–Matlock · nh assegnato", "k distribuito costante assegnato", "nh da tabella 14.5 · sabbie", "nh da tabella 14.6 · coesivi", "nh = A·γ/1,35 · incoerenti"];
     public static string MethodLabel(string method)=>method switch {"ManualKh"=>Laws[0],"ManualNh"=>Laws[1],"ManualDistributed"=>Laws[2],"SandTable145"=>Laws[3],"CohesiveTable146"=>Laws[4],"SandCorrelation"=>Laws[5],_=>method};
     public static string ParameterLabel(string law)=>law switch {"ConstantKh"=>"kh","LinearKhReference"=>"nh","ConstantDistributed"=>"k",_=>law};
     public const string Signs="x dalla testa verso la punta; z=x−Llibero dal piano campagna. H e y positivi verso destra; θ=dy/dx; C positivo con θ; M=EI y″; V=dM/dx; q=−k y; dV/dx=q. Mtesta=−C−Rθ. N positivo a compressione; N=Ntesta+w x. Le reazioni laterali sono azioni sul palo.";
@@ -30,7 +31,7 @@ public static partial class ElasticHorizontalPile
         double? Optional(JsonNode n,string key){if(n[key] is null||string.IsNullOrWhiteSpace(n[key]!.ToString()))return null;return J.Number(n[key])??throw new ArgumentException(key+": numero finito richiesto.");}
         var assignments=d.Array("strati").Select(s=>
         {
-            int index=Array.IndexOf(Laws,s.S("legge"));if(s.S("legge")=="kh = kh,rif · z/D assegnato")index=1;
+            int index=Laws.IndexOf(s.S("legge"));if(s.S("legge")=="kh = kh,rif · z/D assegnato")index=1;
             if(index<0)throw new ArgumentException("Legge del terreno non valida.");
             var mode=new[]{HorizontalSoilMode.ManualKh,HorizontalSoilMode.ManualNh,HorizontalSoilMode.ManualDistributed,HorizontalSoilMode.SandTable145,HorizontalSoilMode.CohesiveTable146,HorizontalSoilMode.SandCorrelation}[index];
             var row=ViggianiHorizontalSoil.CohesiveTable.FirstOrDefault(r=>r.Label==s.S("riga_146")||r.Id==s.S("riga_146"));

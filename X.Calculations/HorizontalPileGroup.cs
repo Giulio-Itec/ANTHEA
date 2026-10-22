@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using GPC.Checkers.Geotechnics.Piles;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
@@ -8,8 +9,8 @@ namespace Anthea.Calculations;
 public static class HorizontalPileGroup
 {
     public const string Module = "geo_efficienza_orizzontale";
-    public static readonly string[] MethodNames = ["Davisson (1970) · kh/nh", "AASHTO (2014) · p-multiplier", "FHWA (2018) · p-multiplier", "Rollins / FEMA · p-multiplier", "Reese / Van Impe · interazione palo-palo", "Caltrans (2025) · p-multiplier modificato"];
-    public static readonly string[] LayoutNames = ["Rettangolare", "Quinconce", "Triangolare", "Pentagonale", "Esagonale", "Generica"];
+    public static readonly ImmutableArray<string> MethodNames = ["Davisson (1970) · kh/nh", "AASHTO (2014) · p-multiplier", "FHWA (2018) · p-multiplier", "Rollins / FEMA · p-multiplier", "Reese / Van Impe · interazione palo-palo", "Caltrans (2025) · p-multiplier modificato"];
+    public static readonly ImmutableArray<string> LayoutNames = ["Rettangolare", "Quinconce", "Triangolare", "Pentagonale", "Esagonale", "Generica"];
     public static JsonObject GeneratorDefaults() => J.Obj(("tipo", "Rettangolare"), ("nx", 3), ("ny", 3), ("lato", 3), ("anelli", 1), ("suddivisioni", 1), ("centro", true), ("sx_d", 3d), ("sy_d", 3d), ("rotazione", 0d));
     public static JsonObject Defaults()
     {
@@ -35,7 +36,7 @@ public static class HorizontalPileGroup
     public static void Regenerate(JsonObject data)
     {
         if (data["generatore"] is not JsonObject g || g.S("tipo") == "Generica") return;
-        int kind = Array.IndexOf(LayoutNames, g.S("tipo")); if (kind < 0 || kind > 4) throw new ArgumentException("Disposizione della palificata non riconosciuta.");
+        int kind = LayoutNames.IndexOf(g.S("tipo")); if (kind < 0 || kind > 4) throw new ArgumentException("Disposizione della palificata non riconosciuta.");
         int Count(string key) { double n = Required(g[key], key); if (n < 1 || n > 500 || n != Math.Truncate(n)) throw new ArgumentException(key + ": richiesto un intero positivo."); return (int)n; }
         var options = new PileLayoutOptions { Kind = (PileLayoutKind)kind, Diameter = Required(data["diametro"], "D"), RotationDegrees = Required(g["rotazione"], "rotazione"), SpacingXDiameters = Required(g["sx_d"], "S/D") };
         if (kind <= 1) { options.Columns = Count("nx"); options.Rows = Count("ny"); options.SpacingYDiameters = Required(g["sy_d"], "Sy/D"); }
