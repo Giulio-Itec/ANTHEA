@@ -39,6 +39,13 @@ try
         string bridgeDesign = $"PASS {checks} controlli di Bridge Design (F5.12) senza WPF";
         File.WriteAllText(Path.Combine(output, "esito.txt"), bridgeDesign, new UTF8Encoding(false)); Console.WriteLine(bridgeDesign); return 0;
     }
+    // F5.13: --shell runs only the checks of the sessions and ViewModels of the new shell (to work on the step).
+    if (args.Contains("--shell"))
+    {
+        checks = ShellChecks.Run(output);
+        string shell = $"PASS {checks} controlli della shell (F5.13) senza WPF";
+        File.WriteAllText(Path.Combine(output, "esito.txt"), shell, new UTF8Encoding(false)); Console.WriteLine(shell); return 0;
+    }
     if (sectionTraces || sectionFast)
     {
         checks += ConcreteSectionSheetChecks.Run(root, output, full: sectionTraces);
@@ -62,6 +69,8 @@ try
     checks += FormViewModelChecks.Run();
     checks += SharedDataCoordinatorChecks.Run();
     checks += ProjectHistoryChecks.Run();
+    // F5.13 (a, b): sessions and ViewModels of the new shell.
+    checks += ShellChecks.Run(output);
     checks += ModuleHostChecks.Run();
     checks += PileGroupSheetChecks.Run(root, output);
     checks += MaterialSheetChecks.Run(root, output);
