@@ -128,10 +128,10 @@ internal static partial class ConcreteSectionViewChecks
     /// count: the user opens them).</summary>
     private static bool Shown(DependencyObject element)
     {
-        for (DependencyObject? node = element; node is not null; node = LogicalTreeHelper.GetParent(node) ?? VisualTreeHelper(node))
+        for (DependencyObject? node = element; node is not null; node = LogicalTreeHelper.GetParent(node) ?? VisualParent(node))
             if (node is UIElement { Visibility: not Visibility.Visible }) return false;
         return true;
-        static DependencyObject? VisualTreeHelper(DependencyObject node) => node is System.Windows.Media.Visual or System.Windows.Media.Media3D.Visual3D ? System.Windows.Media.VisualTreeHelper.GetParent(node) : null;
+        static DependencyObject? VisualParent(DependencyObject node) => node is System.Windows.Media.Visual or System.Windows.Media.Media3D.Visual3D ? System.Windows.Media.VisualTreeHelper.GetParent(node) : null;
     }
 
     /// <summary>A control the user can use: enabled and shown.</summary>
