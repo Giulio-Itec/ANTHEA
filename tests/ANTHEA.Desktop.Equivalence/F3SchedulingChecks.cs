@@ -48,7 +48,8 @@ internal sealed partial class SheetEditor
         if (F3WallMvvmSchedulingChecks.Active) { checks += await F3WallMvvmSchedulingChecks.CheckF3Scheduling(); checks += await F3WallMvvmSchedulingChecks.CheckParameterRevision(); }
         else { checks += await RetainingWallWorkspace.CheckF3Scheduling(); checks += await RetainingWallWorkspace.CheckParameterRevision(); }
         checks += await PileReinforcementEditor.CheckSegmentProposals(root);
-        checks += await BridgeDesignWorkspace.CheckF3Scheduling();
+        // F5.12: with --module-impl str_bridge_design=mvvm Bridge Design runs the same probes on the MVVM sheet.
+        checks += F3BridgeDesignMvvmSchedulingChecks.Active ? await F3BridgeDesignMvvmSchedulingChecks.CheckF3Scheduling() : await BridgeDesignWorkspace.CheckF3Scheduling();
         checks += await ConcreteWorkspace.CheckF3Scheduling();
         File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF ricalcolo e chiusura");
     }

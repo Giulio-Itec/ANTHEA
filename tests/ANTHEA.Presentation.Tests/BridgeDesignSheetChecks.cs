@@ -331,27 +331,8 @@ internal static class BridgeDesignSheetChecks
         }
     }
 
-    /// <summary>The items of a panel as the blocks of the trace (null: no panel).</summary>
-    internal static List<BridgeDesignBlock>? Blocks(IReadOnlyList<BridgeDesignItem>? items) => items?.Select(Block).ToList();
-
-    private static BridgeDesignBlock Block(BridgeDesignItem item) => item switch
-    {
-        BridgeDesignText text => new(BridgeDesignBlock.TextKind, text.Text, text.Role switch
-        {
-            BridgeDesignTextRole.Title => "titolo", BridgeDesignTextRole.Highlight => "evidenza", BridgeDesignTextRole.Note => "nota",
-            BridgeDesignTextRole.Warning => "avviso", BridgeDesignTextRole.Error => "errore", _ => ""
-        }),
-        BridgeDesignTable table => new(BridgeDesignBlock.TableKind, Columns: table.Columns, Rows: table.Rows, Selected: table.SelectedIndex),
-        BridgeDesignButton button => new(BridgeDesignBlock.ButtonKind, button.Caption),
-        BridgeDesignGroup group => new(BridgeDesignBlock.GroupKind, group.Header, Children: group.Items.Select(Block).ToList()),
-        BridgeDesignMomentChart chart => new(BridgeDesignBlock.ChartKind, "momenti " + BridgeDesignTrace.Hash(chart.Result.Json())),
-        BridgeDesignParameter p => new(BridgeDesignBlock.FieldKind, p.Text, Key: p.Group + "/" + p.Key, Label: p.Label, Unit: p.Unit, Invalid: p.Invalid,
-            Slider: p.HasSlider ? p.SliderValue : null),
-        BridgeDesignChoice c => new(BridgeDesignBlock.ChoiceKind, c.Selected ?? "-", Key: c.Key, Label: c.Label, Choices: c.Choices),
-        BridgeDesignOption o => new(BridgeDesignBlock.OptionKind, BridgeDesignTrace.YesNo(o.IsChecked), Key: o.Key, Label: o.Label),
-        BridgeDesignFamilies f => new(BridgeDesignBlock.FamiliesKind, string.Join("|", f.Families.Select(x => x.Name + (x.IsSelected ? "*" : "")))),
-        _ => throw new InvalidOperationException("Elemento non previsto: " + item.GetType().Name)
-    };
+    /// <summary>The items of a panel as the blocks of the trace (null: no panel), shared with the checks of the XAML view.</summary>
+    internal static List<BridgeDesignBlock>? Blocks(IReadOnlyList<BridgeDesignItem>? items) => BridgeDesignItemBlocks.Blocks(items);
 
     // ---------------------------------------------------------------- F3
 
