@@ -42,11 +42,12 @@ namespace X.Desktop;
 /// <item>«aiuto»: every F1 on a field of every form of the eight tabs reaches the IWikiNavigator of the services (lesson 1 of 17/10), F1 elsewhere
 /// the guide of the module.</item>
 /// <item>«sola-lettura»: in the eight tabs the buttons and check boxes that accept the user after InspectRevision are those of the historic view.</item>
+/// <item>«tracce»: the 57 frozen scenarios of tests/Shared/ConcreteSectionTrace.cs driven through the controls of the view, found by their automation names,
+/// with the dialogs shown and driven through their controls, equal to the frozen traces (ConcreteSectionViewChecks.Trace.cs).</item>
 /// </list>
-/// The traces through the controls of the view (tests/Shared/ConcreteSectionTrace.cs) are still to write (section 20 of
-/// docs/refactoring/f5-10-sezione.md). Writes dettaglio.txt and esito.txt («PASS n controlli …»).
+/// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
-internal static class ConcreteSectionViewChecks
+internal static partial class ConcreteSectionViewChecks
 {
     private const string Module = ConcreteSectionScenarios.Module;
 
@@ -76,6 +77,8 @@ internal static class ConcreteSectionViewChecks
         {
             if (Part("banco")) Bench(root);
             if (Part("disegni")) await Drawings(root, Path.Combine(output, "disegni"));
+            // The traces in the same culture state: the frozen traces were written by the same capture (θ = 30.00°, question V-a).
+            if (Part("tracce")) await Traces(root, Path.Combine(output, "tracce"));
             // Then it-IT also for the later operations of the thread (lesson of F5.4): the exports compare the two views in the same culture.
             await Dispatcher.CurrentDispatcher.InvokeAsync(() => { System.Globalization.CultureInfo.CurrentCulture = culture; System.Globalization.CultureInfo.CurrentUICulture = culture; });
             System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.CurrentUICulture = culture;
