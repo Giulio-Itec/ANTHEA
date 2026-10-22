@@ -28,6 +28,23 @@ public enum ProjectDropPlace
     After
 }
 
+/// <summary>Where a sheet asked from the tree is shown besides its tab (F5.13 c, after the checkpoint of 22/10).</summary>
+public enum SheetPlacement
+{
+    /// <summary>«Apri in una nuova finestra»: its tab in a new detached window.</summary>
+    NewWindow,
+
+    /// <summary>«Apri a pagina intera»: the main window without the navigation and the tree.</summary>
+    FullPage
+}
+
+/// <summary>A sheet of the tree opened (or taken, if already open) to be shown in a new window or at full page.</summary>
+public sealed class SheetPlacementEventArgs(SheetSession sheet, SheetPlacement placement) : EventArgs
+{
+    public SheetSession Sheet { get; } = sheet;
+    public SheetPlacement Placement { get; } = placement;
+}
+
 /// <summary>Outcome of a drag over a node: the place and the hint of the tree header («Inserisci in: …», «Dopo …»).</summary>
 public sealed record ProjectDrop(ProjectDropPlace Place, string Hint)
 {
@@ -81,7 +98,12 @@ public sealed class ProjectNodeViewModel : ViewModelBase
         }
         else ToolTip = "Apri mesh, volumi e risultati";
         OpenCommand = GuardedCommands.Create(tree.Guard, () => tree.Open(this));
+        // F5.13 c, after the checkpoint of 22/10: a sheet opens also in a new window or at full page, read-only revisions included.
+        OpenInNewWindowCommand = GuardedCommands.Create(tree.Guard, () => tree.OpenElsewhere(this, SheetPlacement.NewWindow), () => IsSheet);
+        OpenFullPageCommand = GuardedCommands.Create(tree.Guard, () => tree.OpenElsewhere(this, SheetPlacement.FullPage), () => IsSheet);
         BeginRenameCommand = GuardedCommands.Create(tree.Guard, () => tree.BeginRename(this), () => CanRename);
+        // The double click on the name (ProjectHierarchy): the rename in place, nothing while read-only; a model opens (it has no name to edit).
+        DoubleClickCommand = GuardedCommands.Create(tree.Guard, () => { if (kind == ProjectNodeKind.Model) tree.Open(this); else tree.BeginRename(this); });
         DuplicateCommand = GuardedCommands.Create(tree.Guard, () => tree.Duplicate(this), () => CanDuplicate);
         DeleteCommand = GuardedCommands.Create(tree.Guard, () => tree.Delete(this), () => CanDelete);
         AddSectionCommand = GuardedCommands.Create(tree.Guard, () => tree.AddSectionTo(this), () => CanAddSection);
@@ -108,6 +130,9 @@ public sealed class ProjectNodeViewModel : ViewModelBase
 
     /// <summary>Module of a sheet (its icon).</summary>
     public string? Module { get; }
+
+    /// <summary>The node is a sheet: «Apri in una nuova finestra» and «Apri a pagina intera» are offered.</summary>
+    public bool IsSheet => Kind == ProjectNodeKind.Sheet;
 
     public ObservableCollection<ProjectNodeViewModel> Children { get; } = [];
 
@@ -147,7 +172,17 @@ public sealed class ProjectNodeViewModel : ViewModelBase
     public string RenameText { get => renameText; set => SetProperty(ref renameText, value ?? ""); }
 
     public IRelayCommand OpenCommand { get; }
+
+    /// <summary>«Apri in una nuova finestra» of a sheet: its tab (opened or taken) in a new detached window.</summary>
+    public IRelayCommand OpenInNewWindowCommand { get; }
+
+    /// <summary>«Apri a pagina intera» of a sheet: its tab (opened or activated) with the navigation and the tree hidden.</summary>
+    public IRelayCommand OpenFullPageCommand { get; }
+
     public IRelayCommand BeginRenameCommand { get; }
+
+    /// <summary>Double click on the name: «Doppio clic per rinominare» (sheets, sections, projects), «Apri» for a model.</summary>
+    public IRelayCommand DoubleClickCommand { get; }
     public IRelayCommand DuplicateCommand { get; }
     public IRelayCommand DeleteCommand { get; }
     public IRelayCommand AddSectionCommand { get; }
@@ -176,6 +211,10 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     public const string AddSectionToolTip = "Aggiungi sottosezione";
     /// <summary>Message of a sheet added without a section (MainWindow.AddSheetTo).</summary>
     public const string SelectSection = "Selezionare una sezione nell'albero dei progetti.";
+    /// <summary>Items of the menu of a sheet (F5.13 c, after the checkpoint of 22/10).</summary>
+    public const string OpenInNewWindowLabel = "Apri in una nuova finestra";
+    /// <inheritdoc cref="OpenInNewWindowLabel"/>
+    public const string OpenFullPageLabel = "Apri a pagina intera";
 
     private readonly WorkspaceSession workspace;
     private readonly IMessageService messages;
@@ -244,6 +283,12 @@ public sealed class ProjectTreeViewModel : ViewModelBase
 
     /// <summary>A model of a section is opened (MainWindow.ShowContainerModel).</summary>
     public event EventHandler<(JsonObject Container, string ModelId)>? ModelRequested;
+
+    /// <summary>
+    /// A sheet was opened, or taken if already open, by «Apri in una nuova finestra» or «Apri a pagina intera»: the shell moves its tab or hides
+    /// the navigation and the tree. Without a shell the sheet stays in its tab.
+    /// </summary>
+    public event EventHandler<SheetPlacementEventArgs>? PlacementRequested;
 
     /// <summary>
     /// Rebuilds the tree from the document on screen (MainWindow.RefreshTree): an open rename ends saving; the expansion is remembered by
@@ -342,6 +387,17 @@ public sealed class ProjectTreeViewModel : ViewModelBase
             case ProjectNodeKind.Model: workspace.CommitActive(); ModelRequested?.Invoke(this, (item.Container!, item.ModelId!)); break;
             default: workspace.Activate(null); Selected = item; OverviewRequested?.Invoke(this, item.Node); break;
         }
+    }
+
+    /// <summary>
+    /// «Apri in una nuova finestra», «Apri a pagina intera»: the sheet opens as with «Apri» (an open sheet is only activated, the active one
+    /// confirmed first; during the preview of a revision read-only), then the shell places it.
+    /// </summary>
+    internal void OpenElsewhere(ProjectNodeViewModel item, SheetPlacement placement)
+    {
+        if (!item.IsSheet) return;
+        var sheet = workspace.OpenSheet(item.Node!);
+        PlacementRequested?.Invoke(this, new SheetPlacementEventArgs(sheet, placement));
     }
 
     internal void AddSectionTo(ProjectNodeViewModel item) => AddSectionTo(item.Node!);

@@ -9,7 +9,7 @@ namespace X.Desktop.Views.Shell;
 /// <summary>
 /// DRAFT of the main window of the new shell (F5.13 c, for the checkpoint on the layout): NOT the window of the application, which stays
 /// MainWindow. The code-behind only wires what XAML cannot express: the shortcuts of the menu «File» (KeyBinding on the commands of the
-/// ViewModel), the reading of the appearance when its menu opens, the activation and the closing of the window towards the tracker of the
+/// ViewModel; Esc on the exit from the full page; Ctrl+Z and Ctrl+Y of the project), the reading of the appearance when its menu opens, the activation and the closing of the window towards the tracker of the
 /// detached windows (the closing asks the questions of the coordinator first), the requests of the commands that only a window can satisfy
 /// (exit, the rheology tool window).
 /// </summary>
@@ -26,6 +26,9 @@ public partial class ShellWindow : Window
         DataContext = shell;
         foreach (var item in shell.Commands.File)
             if (item is { Command: { } command, Shortcut: { } shortcut }) InputBindings.Add(new KeyBinding(command, ShortcutTextConverter.Gesture(shortcut)));
+        // Esc leaves the full page; outside it the command cannot run and the key goes on unhandled (the views and the rename keep their Esc).
+        InputBindings.Add(new KeyBinding(shell.ExitFullPageCommand, Key.Escape, ModifierKeys.None));
+        ProjectHistoryKeys.Attach(this, shell, () => shell.Center);
         DisplayAdaptation.Attach(this);
         Appearance.Watch(this);
         Activated += (_, _) => tracker.MainActivated();

@@ -6,7 +6,9 @@
   - on the left the navigation bar (Home, Progetti, Modelli, Moduli singoli, Esempi, Wiki) with the file commands, always visible;
   - beside it, with a project open, the tree of the project, which closes with «▸»;
   - in the centre the strip of the tabs, the project bar (undo and redo) with its revision bar, the bar of the sheet with the focus, the status
-    line of the shared data, the notice of the linked model, then the page or the tab on screen (ShellViewModel.Center).
+    line of the shared data, the notice of the linked model, then the page or the tab on screen (ShellViewModel.Center);
+  - at full page (after the checkpoint of 22/10: «Apri a pagina intera» of the tree, «Pagina intera» of the sheet bar) navigation and tree are
+    hidden; «Esci da pagina intera» and Esc bring them back.
   Colours and font sizes are theme tokens only (P7); no state of its own (P3).
 -->
 <Window x:Class="X.Desktop.Views.Shell.ShellWindow"
@@ -58,13 +60,16 @@
 
   <Grid>
    <Grid.ColumnDefinitions>
-    <ColumnDefinition Width="230"/>
+    <ColumnDefinition Width="Auto"/>
     <ColumnDefinition Width="Auto"/>
     <ColumnDefinition Width="*"/>
    </Grid.ColumnDefinitions>
 
-   <!-- Navigation bar (BuildShell): logo, subtitle, pages, file commands, footer. -->
-   <DockPanel Background="{DynamicResource Token.Paper}">
+   <!--
+     Navigation bar (BuildShell): logo, subtitle, pages, file commands, footer. Hidden at full page (ShellViewModel.IsFullPage, after the
+     checkpoint of 22/10): its column is as wide as the bar, so the sheet takes the whole width; the tree closes by IsTreeOpen.
+   -->
+   <DockPanel x:Name="NavigationBar" Width="230" Background="{DynamicResource Token.Paper}" Visibility="{Binding IsFullPage, Converter={StaticResource WhenFalse}}">
     <Border DockPanel.Dock="Right" Width="1" Background="{DynamicResource Token.Border}"/>
     <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource Shell.Muted}" Text="{Binding Navigation.Footer}" Margin="20"/>
     <StackPanel Margin="20,22,20,22">
@@ -86,7 +91,7 @@
    </DockPanel>
 
    <!-- Tree of the project (ProjectWorkspace, sheetProjectTree): with a project open, closed by «▸». -->
-   <Border Grid.Column="1" Width="330" Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="0,0,1,0" Padding="14,12">
+   <Border x:Name="ProjectTree" Grid.Column="1" Width="330" Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="0,0,1,0" Padding="14,12">
     <Border.Visibility>
      <MultiBinding Converter="{StaticResource AllTrue}">
       <Binding Path="HasProject"/>
@@ -118,6 +123,8 @@
        <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+        <!-- F2 renames in place, Enter opens the node (after the checkpoint of 22/10). -->
+        <Setter Property="views:ProjectTreeKeys.NodeKeys" Value="True"/>
        </Style>
       </TreeView.ItemContainerStyle>
      </TreeView>
@@ -152,7 +159,7 @@
     <ContentControl DockPanel.Dock="Top" Content="{Binding SharedStatus}" Focusable="False"/>
     <ContentControl DockPanel.Dock="Top" Content="{Binding ModelReference}" Focusable="False"/>
 
-    <ContentControl Content="{Binding Center}" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+    <ContentControl x:Name="CenterContent" Content="{Binding Center}" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
    </DockPanel>
   </Grid>
  </DockPanel>

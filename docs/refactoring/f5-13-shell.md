@@ -355,7 +355,7 @@ Parti della bozza ancora segnaposto: il riepilogo della sezione non ha i comandi
 cliccabili); il catalogo dei moduli non ha le icone e il «Riprendi» per modulo; l'albero non ha trascinamento né rinomina in linea; mancano
 l'adattamento ai piccoli schermi e le scorciatoie Ctrl+Z/Ctrl+Y. Nella shell nuova si aprono solo i moduli con il ViewModel MVVM (rischio R5);
 la sezione c.a. mostra la sua vista quando F5.10 S9 aggiunge i suoi template. Si completano dopo il punto di controllo, sulla disposizione
-scelta.
+scelta. Aggiornamento del 22/10 sera: quel che è stato completato dopo il punto di controllo è nella sezione 10.1.
 
 ### 9.2 Scelte per l'utente
 
@@ -383,6 +383,11 @@ disposizione.
 | SH30 | «← Torna…» nella barra del foglio | resta come oggi, anche se la navigazione è sempre visibile |
 | SH31 | Annulla e ripristina | nella barra del progetto e, con un foglio del progetto, anche nella barra del foglio (oggi nell'una o nell'altra) |
 | SH32 | Archivio aperto | mostra la pagina «Progetti» (come oggi `NewProjects`, `LoadFile` e la copia di un esempio) |
+
+**Approvate dall'utente il 22/10 (sera).** Dopo le dieci immagini della sezione 9.4 l'utente ha scritto: «le 10 immagini vanno bene. dall'albero si
+possono aprire a pagina intera o staccare dalla finestra? se si, ok. altrimenti va implementato». La disposizione è approvata e **SH5–SH32 valgono
+con le opzioni prese nella bozza** (tabella sopra; SH1–SH4, SH7, SH8, SH10–SH14, SH16 come nella sezione 6). Dall'albero un foglio si apriva solo in
+una scheda della principale: l'apertura in una nuova finestra e a pagina intera sono state aggiunte dopo il punto di controllo (sezione 9.5).
 
 ### 9.3 Comando per le immagini (stanotte)
 
@@ -432,6 +437,69 @@ Da sapere guardando le immagini, prima di decidere SH5–SH32 (nessuna cambiata 
   `ProjectTreeItem` con le sue frecce.
 - **Pagina Progetti (03).** I dati comuni booleani si leggono «false» (testo del ViewModel, non della disposizione).
 
+### 9.5 Dopo il punto di controllo: dall'albero in una nuova finestra o a pagina intera
+
+Agente `f5-13-c2`, sera del 22/10, ramo `refactoring/f5-13-c2` da `refactoring/f5` 87181e61. Richiesta dell'utente al punto di controllo (9.2).
+Prima l'albero apriva un foglio solo in una scheda della principale; «Sposta in una nuova finestra» c'era solo nel menu delle schede e «▸»
+chiudeva soltanto l'albero.
+
+**Come ci si arriva.**
+- **Menu del nodo di un foglio** (clic destro nell'albero), dopo «Apri»:
+  - «Apri in una nuova finestra»;
+  - «Apri a pagina intera».
+
+  Le due voci sono nascoste per progetti, sezioni e modelli. Ci sono anche nell'anteprima di una revisione: il foglio si apre in sola lettura.
+- **Barra del foglio**, dopo «← Torna…»: l'interruttore «Pagina intera», che a pagina intera diventa «Esci da pagina intera».
+- **Esc** nella finestra principale esce dalla pagina intera. Fuori dalla pagina intera il tasto passa oltre, quindi le viste e la rinomina
+  tengono il loro Esc.
+
+**Regole** (ViewModel, prove senza WPF in `ShellPlacementChecks`, `--shell`):
+- **Apertura.** Il foglio si apre come con «Apri»: il foglio con il fuoco viene confermato prima; un foglio già aperto non si riapre e si usa
+  la sua scheda, con lo stesso ViewModel.
+- **Nuova finestra.** Una scheda della principale va in una finestra staccata nuova, con `ShellWindowsViewModel.ShowInNewWindow` →
+  `MoveToNewWindow` e il tracker. Se la scheda è già in una finestra staccata, quella finestra va in primo piano, una volta sola, senza
+  crearne un'altra.
+- **Pagina intera** (`ShellViewModel.IsFullPage`):
+  - la scheda è selezionata nella principale; navigazione e albero si nascondono e il foglio prende tutta la larghezza;
+  - lo stato dell'albero è ricordato e l'uscita lo ripristina;
+  - intanto «▸» riapre l'albero; un altro foglio aperto a pagina intera dall'albero lo richiude.
+- **Fine della pagina intera.** Vale solo finché al centro c'è la scheda di un foglio e un foglio ha il fuoco, cioè finché a schermo c'è la
+  barra con «Esci». Escono dalla pagina intera:
+  - le pagine della navigazione (Home, Progetti, Modelli, Moduli singoli, Esempi, Wiki);
+  - «← Torna al progetto»;
+  - una scheda senza foglio (Wiki, modello);
+  - la chiusura del foglio senza un altro foglio con il fuoco.
+
+  Il fuoco che passa a una finestra staccata non la fa uscire.
+- **Finestra staccata.** Mostra già solo il foglio: la pagina intera non vale. «Apri a pagina intera» di un foglio staccato porta in primo
+  piano la sua finestra, e la principale non cambia. Con il fuoco su un foglio staccato, l'interruttore della barra della principale è
+  disabilitato.
+
+**Immagini** (`ui/check-shell-draft`, nuove dopo le dieci della sezione 9.4):
+- `11-pagina-intera.png`: i pali della spalla a pagina intera, aperti dall'albero.
+- `12-staccata-dall-albero.png`: la stratigrafia della pila aperta dall'albero in una nuova finestra; l'utente è tornato sui pali nella
+  principale. La principale è a sinistra e la finestra staccata a destra, in un'unica immagine.
+
+La prova controlla anche:
+- il menu del nodo;
+- navigazione e albero nascosti, con il foglio largo quanto la finestra;
+- Esc inviato alla finestra;
+- l'interruttore premuto due volte (peer di automazione);
+- un'attivazione sola della nuova finestra;
+- la chiusura della finestra, che riporta la scheda nella principale.
+
+Le dodici immagini sono in `C:\Users\g.pacini\Documents\Repository\ANTHEA-f5-ripresa\f5-agenti\f5-13-c2\immagini\`.
+
+**Scelte provvisorie** (criterio prudente, da rivedere in F5.15):
+
+| # | Domanda | Opzione presa |
+| --- | --- | --- |
+| SH33 | Cosa nasconde la pagina intera | solo navigazione e albero, come chiesto; restano menu, schede, barra del progetto, barra delle revisioni (dice se il foglio è in sola lettura), barra del foglio, riga di stato e «▸» per riaprire l'albero |
+| SH34 | «Apri a pagina intera» di un foglio in una finestra staccata | quella finestra in primo piano, senza riagganciare né cambiare la principale |
+| SH35 | Quando la pagina intera finisce da sola | quando sparirebbe la barra con «Esci»: una pagina della navigazione, «← Torna…», una scheda senza foglio, nessun foglio con il fuoco. Il fuoco su una finestra staccata non la fa finire |
+| SH36 | Pagina intera e cambio di scheda | è uno stato della finestra, non del foglio: passare a un'altra scheda di un foglio la mantiene; non si ricorda fra le sessioni |
+| SH37 | Voci nuove nel menu dei nodi che non sono fogli | nascoste (le altre voci del menu restano disabilitate come nella bozza) |
+
 ## 10. Parte (c): stato, verifiche e cosa resta
 
 Fatto il 22/10, fino al punto di controllo:
@@ -471,6 +539,86 @@ Per riprendere:
 cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-c
 dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
 dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll supporto/artefatti/f5-13-c/presentation --shell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
+```
+
+### 10.1 Dopo il punto di controllo (sera del 22/10)
+
+Agente `f5-13-c2`, ramo `refactoring/f5-13-c2` da `refactoring/f5` 87181e61. Disposizione approvata (9.2). Per prima cosa l'apertura dall'albero
+chiesta dall'utente (9.5); poi una parte di quel che restava della parte (c), in commit piccoli.
+
+| Commit | Contenuto |
+| --- | --- |
+| bfe1f875 | 9.2: disposizione approvata, SH5–SH32 con le opzioni della bozza |
+| 81230f06 | ViewModel: «Apri in una nuova finestra», «Apri a pagina intera», `IsFullPage`; `ShellPlacementChecks` |
+| c1dc8689 | viste: menu del nodo, «Pagina intera»/«Esci da pagina intera», Esc; immagini 11 e 12 |
+| 62ead12e | sezione 9.5 |
+| 8b204715 | Ctrl+Z/Ctrl+Y del progetto; riepilogo della sezione («Duplica sezione», «Fogli e sottosezioni», «Tutti i dati comuni»); `ShellWikiNavigator`; radice di composizione `ShellComposition` e `--interactive-shell` |
+| 0c2db08f | albero: pulsante con l'icona del modulo, rinomina in linea (doppio clic, F2, Invio, Esc), Invio che apre; icone nel catalogo dei moduli |
+| commit di chiusura | questa sezione |
+
+**Cosa c'è adesso**, oltre alla 9.5. Le regole vengono dal codice storico citato:
+
+- **Ctrl+Z / Ctrl+Y** (`ProjectWorkspace.PreviewKeyDown`):
+  - valgono dove `MainWindow` mostrava l'area progetti, cioè sulla pagina Progetti o su un foglio del progetto, con un progetto modificabile;
+  - non nei file singoli, nelle altre pagine, nei modelli o nell'anteprima di una revisione;
+  - servono il solo Ctrl, fuori da caselle di testo e combo;
+  - il tasto è gestito anche quando non c'è nulla da annullare;
+  - funzionano nella principale e nelle finestre staccate (`ShellViewModel.HistoryKeysApply`, `RestoreHistory`; vista `ProjectHistoryKeys`).
+- **Riepilogo della sezione** (`BuildSectionOverview`):
+  - cinque dati comuni; gli altri nel gruppo chiuso «Tutti i dati comuni»;
+  - «Duplica sezione», fuori dalla sola lettura;
+  - il gruppo chiuso «Fogli e sottosezioni»: un foglio si apre nella sua scheda, una sottosezione mostra il suo riepilogo;
+  - «Genera report» e «Confronto e avvisi» restano segnaposto.
+- **Albero** (`ConfigureProjectNode`, `BeginProjectRename`):
+  - il pulsante con l'icona del modulo apre il foglio;
+  - il doppio clic sul nome, F2 e «Rinomina» avviano la rinomina in linea; Invio o la perdita del fuoco salvano, Esc annulla;
+  - Invio sul nodo lo apre;
+  - un modello si apre con il doppio clic.
+- **Catalogo dei moduli**: icona del modulo nelle schede (`Ui.ModuleIcon`, disegnata in codice come oggi).
+- **Radice di composizione** `X.Desktop/Services/ShellComposition.cs`:
+  - fabbrica dei fogli dal registro dei moduli, con il limitatore;
+  - file ed esempi installati, esportazioni, menu «Aspetto»;
+  - finestre staccate con `DetachedWindowHandle` e Ctrl+Z;
+  - `ShellWikiNavigator`: F1 e le guide dei fogli aprono la scheda Wiki. Prima che la shell esista e dopo che si chiude, la richiesta va alla Wiki dei
+    servizi di partenza.
+
+  La prova della bozza costruisce la shell da questa radice.
+- **Avvio a mano, solo nella build UiTests**: `X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe --interactive-shell [archivio [--models] | --wiki
+  articolo]`.
+  - Usa i servizi del prodotto (`DesktopComposition`), l'aspetto dell'utente e il registro degli errori.
+  - **La Release apre ancora `MainWindow`**: `App.OnStartup` non è cambiato. La radice è compilata anche nella Release ma nessuno la chiama.
+
+**Verifiche**:
+- `--shell` di Presentation.Tests PASS 467 (64 controlli nuovi: `ShellPlacementChecks`, `ShellFinalViewsChecks`).
+- Profilo `quick` `20261022-230600-f5-13-c2-quick` su 62ead12e: PASS 55, NEW-FAIL 0.
+- `ui/check-shell-draft` `20261022-233437-f5-13-c2-bozza5` su 0c2db08f: PASS 41 controlli, dodici PNG, nessun errore di binding della bozza. In
+  `binding-errors-altre-viste.txt` restano errori `TabItem`/`TabStripPlacement` delle viste dei moduli (materiali, stratigrafia), non della bozza.
+- Corsa finale (standard più `ui/check-shell-draft` e `ui/check-module-host-offscreen`): esito nel rapporto dell'agente e in
+  `ANTHEA-f5-ripresa\f5-agenti\f5-13-c2\avanzamento.md`.
+
+**Cosa resta della parte (c)**:
+- riepilogo: «Confronto e avvisi» (vista del dialogo di `CoherenceViewModel`), «Riepilogo modifiche» (`RevisionSummaryViewModel`), «Dettaglio
+  avvisi» come gruppo chiuso, «Genera report» con la parte (e);
+- albero:
+  - trascinamento: i ViewModel `PreviewDrop`/`Drop` ci sono, manca la vista con l'indicatore di inserimento;
+  - clic singolo su una sezione che ne apre il riepilogo dopo il tempo del doppio clic (`ScheduleProjectSectionClick`);
+  - grandezza del testo per profondità;
+  - triangoli in «Scuro»;
+- catalogo:
+  - «Riprendi» per modulo nel pulsante della scheda (`ModuleCatalogViewModel.ButtonText`);
+  - schede di «Schede da aggiungere» trascinabili, o con il doppio clic che aggiunge;
+- adattamento ai piccoli schermi (proposta 4.3); avviso nella scheda ricaricata (SH9);
+- ospite dei moduli storici nella shell nuova (R5); report short della sezione c.a. in `SheetFileExports`;
+- prove WPF della shell con finestre reali e fuoco; poi le parti (d)–(g).
+
+Per riprendere:
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-c2
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll supporto/artefatti/f5-13-c2/presentation --shell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(ui/check-shell-draft|ui/check-module-host-offscreen)$' -Tag <tag>"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
 ```
 

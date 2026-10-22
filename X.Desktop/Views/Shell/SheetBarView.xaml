@@ -1,5 +1,6 @@
 <!--
-  DRAFT (F5.13 c): the Navy bar above the sheet with the focus (MainWindow.BuildShell, UpdateBackButton), on SheetBarViewModel: «← Torna…», the file commands with «Report Word» and «Report short» (concrete section only), «Conferma modifiche» and undo/redo in an
+  DRAFT (F5.13 c): the Navy bar above the sheet with the focus (MainWindow.BuildShell, UpdateBackButton), on SheetBarViewModel: «← Torna…», «Pagina
+  intera» / «Esci da pagina intera» (ShellViewModel, after the checkpoint of 22/10), the file commands with «Report Word» and «Report short» (concrete section only), «Conferma modifiche» and undo/redo in an
   editable project, «Wiki del modulo», «Approfondimenti ▾» (its menu built from SheetBarViewModel.Topics when pressed, as today), heading and
   subtitle. The commands of the files come from the window (ShellViewModel); «▸» of the tree is beside the tabs, for every page.
 -->
@@ -22,6 +23,10 @@
  <Border Background="{DynamicResource Token.CommandBar}" MinHeight="68">
   <WrapPanel VerticalAlignment="Center" Margin="0,3">
    <Button Style="{StaticResource Shell.BarButton}" Width="200" Content="{Binding BackLabel}" Command="{Binding BackCommand}"/>
+   <!-- «Pagina intera» / «Esci da pagina intera» (after the checkpoint of 22/10): the full page of the main window, ShellViewModel. -->
+   <Button x:Name="FullPage" Style="{StaticResource Shell.BarButton}" Content="{Binding DataContext.FullPageText, RelativeSource={RelativeSource AncestorType=Window}}"
+    ToolTip="{Binding DataContext.FullPageToolTipText, RelativeSource={RelativeSource AncestorType=Window}}"
+    Command="{Binding DataContext.ToggleFullPageCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
    <Button Style="{StaticResource Shell.BarButton}" Content="📂" Width="37" Padding="2" ToolTip="Apri" AutomationProperties.Name="Apri"
     Command="{Binding DataContext.Commands.OpenCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
    <Button Style="{StaticResource Shell.BarButton}" Content="Salva" ToolTip="Salva" Command="{Binding DataContext.Commands.SaveCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>

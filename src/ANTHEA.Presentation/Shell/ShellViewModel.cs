@@ -40,6 +40,15 @@ public sealed record ShellOptions(IAppearanceService? Appearance = null, Func<Ex
 /// </summary>
 public sealed class ShellViewModel : ViewModelBase
 {
+    /// <summary>The toggle of the sheet bar (F5.13 c, after the checkpoint of 22/10): label and tooltip outside and inside the full page.</summary>
+    public const string FullPageLabel = "Pagina intera";
+    /// <inheritdoc cref="FullPageLabel"/>
+    public const string ExitFullPageLabel = "Esci da pagina intera";
+    /// <inheritdoc cref="FullPageLabel"/>
+    public const string FullPageToolTip = "Nasconde la navigazione e l'albero del progetto: il foglio prende tutta la finestra";
+    /// <inheritdoc cref="FullPageLabel"/>
+    public const string ExitFullPageToolTip = "Torna alla navigazione e all'albero del progetto (Esc)";
+
     private readonly PresentationServices services;
     private readonly ShellOptions options;
     private readonly CommandGuard guard;
@@ -51,6 +60,7 @@ public sealed class ShellViewModel : ViewModelBase
     private WikiTabViewModel? wiki;
     private object? center;
     private bool isTreeOpen = true;
+    private bool isFullPage, treeBeforeFullPage;
     private bool showingWiki;
     private string title = "ANTHEA";
 
@@ -71,6 +81,13 @@ public sealed class ShellViewModel : ViewModelBase
         SheetBar = new SheetBarViewModel(Workspace, services.Messages, Back, uri => ShowWiki(uri));
         Appearance = this.options.Appearance is { } appearance ? new AppearanceMenuViewModel(appearance, services.Messages) : null;
         ToggleTreeCommand = new RelayCommand(() => IsTreeOpen = !IsTreeOpen);
+        EnterFullPageCommand = new RelayCommand(() => EnterFullPage(), () => !IsFullPage && CanEnterFullPage);
+        ExitFullPageCommand = new RelayCommand(ExitFullPage, () => IsFullPage);
+        ToggleFullPageCommand = new RelayCommand(() => { if (IsFullPage) ExitFullPage(); else EnterFullPage(); }, () => IsFullPage || CanEnterFullPage);
+        Tree.PlacementRequested += (_, e) => guard.Run(() => Place(e.Sheet, e.Placement));
+        OpenLinkCommand = new RelayCommand<JsonObject>(node => guard.Run(() => OpenLink(node!)), node => node is not null);
+        DuplicateSectionCommand = new RelayCommand<JsonObject>(section => guard.Run(() => DuplicateSection(section!)),
+            section => section is not null && Workspace.Project is { IsReadOnly: false });
         Commands.ExamplesRequested += (_, _) => Navigation.Select(ShellPage.Examples);
         Tree.OverviewRequested += (_, section) => ShowOverview(section);
         Tree.ModelRequested += (_, model) => guard.Run(() => ShowModel(model.Container, model.ModelId));
@@ -139,6 +156,81 @@ public sealed class ShellViewModel : ViewModelBase
 
     public IRelayCommand ToggleTreeCommand { get; }
 
+    // ---- Full page (F5.13 c, after the checkpoint of 22/10)
+
+    /// <summary>
+    /// The main window shows its sheet at full page: the navigation and the tree of the project are hidden («Apri a pagina intera» of the tree,
+    /// «Pagina intera» of the sheet bar). It holds only while the centre is a sheet tab and a sheet has the focus, so that the sheet bar with
+    /// «Esci da pagina intera» is on screen: a page of the navigation, a page tab or the loss of every sheet end it. A detached window shows its
+    /// sheet alone already: the full page does not apply to it.
+    /// </summary>
+    public bool IsFullPage
+    {
+        get => isFullPage;
+        private set
+        {
+            if (!SetProperty(ref isFullPage, value)) return;
+            OnPropertyChanged(nameof(FullPageText)); OnPropertyChanged(nameof(FullPageToolTipText));
+            RefreshFullPageCommands();
+        }
+    }
+
+    /// <summary>Label of the toggle of the sheet bar: «Pagina intera», or «Esci da pagina intera» at full page.</summary>
+    public string FullPageText => IsFullPage ? ExitFullPageLabel : FullPageLabel;
+
+    /// <inheritdoc cref="FullPageText"/>
+    public string FullPageToolTipText => IsFullPage ? ExitFullPageToolTip : FullPageToolTip;
+
+    /// <summary>The sheet with the focus is the tab on screen in the main window: it can go to full page.</summary>
+    public bool CanEnterFullPage => Workspace.Active is { } active && Windows.TabOf(active) is { Host.IsMain: true } tab && ReferenceEquals(Center, tab);
+
+    /// <summary>Enters the full page (no effect at full page or without a sheet of the main window on screen).</summary>
+    public IRelayCommand EnterFullPageCommand { get; }
+
+    /// <summary>«Esci da pagina intera» and Esc: back to the navigation, with the tree as it was before.</summary>
+    public IRelayCommand ExitFullPageCommand { get; }
+
+    /// <summary>The toggle «Pagina intera» / «Esci da pagina intera» of the sheet bar.</summary>
+    public IRelayCommand ToggleFullPageCommand { get; }
+
+    /// <summary>
+    /// Enters the full page on the sheet on screen: the state of the tree is kept and the tree closes (it can be opened again with «▸» meanwhile);
+    /// at full page already, the tree closes again. False when no sheet of the main window is on screen with the focus.
+    /// </summary>
+    public bool EnterFullPage()
+    {
+        if (!CanEnterFullPage) return false;
+        if (!IsFullPage) treeBeforeFullPage = IsTreeOpen;
+        IsTreeOpen = false;
+        IsFullPage = true;
+        return true;
+    }
+
+    /// <summary>Leaves the full page: the navigation comes back and the tree is open or closed as before the full page.</summary>
+    public void ExitFullPage()
+    {
+        if (!IsFullPage) return;
+        IsFullPage = false;
+        IsTreeOpen = treeBeforeFullPage;
+    }
+
+    /// <summary>
+    /// A sheet asked from the tree, already open in its tab (<see cref="ProjectTreeViewModel.PlacementRequested"/>):
+    /// <list type="bullet">
+    /// <item>«Apri in una nuova finestra»: a tab of the main window moves to a new window; in a detached window already, that window is activated;</item>
+    /// <item>«Apri a pagina intera»: the tab is selected in the main window and the full page starts; in a detached window, that window is activated
+    /// (it shows the sheet alone) and the main window does not change.</item>
+    /// </list>
+    /// </summary>
+    public void Place(SheetSession sheet, SheetPlacement placement)
+    {
+        ArgumentNullException.ThrowIfNull(sheet);
+        var tab = Windows.TabOf(sheet) ?? throw new ArgumentException("Foglio non aperto nella shell.", nameof(sheet));
+        if (placement == SheetPlacement.NewWindow) { Windows.ShowInNewWindow(tab); return; }
+        Windows.Select(tab);
+        if (!tab.IsDetached) EnterFullPage();
+    }
+
     /// <summary>The overview of <paramref name="section"/> (the first project when null), with its revision bar (MainWindow.ShowProjectOverview).</summary>
     public void ShowOverview(JsonObject? section)
     {
@@ -148,6 +240,51 @@ public sealed class ShellViewModel : ViewModelBase
         section ??= project.Projects.FirstOrDefault();
         Overview = new SectionOverviewViewModel(project, section);
         Revisions?.Show(section);
+    }
+
+    // ---- Part (c) after the checkpoint: Ctrl+Z / Ctrl+Y, the commands of the overview
+
+    /// <summary>
+    /// Ctrl+Z and Ctrl+Y of the project (ProjectWorkspace.PreviewKeyDown) apply where MainWindow showed the project workspace: with an editable
+    /// project, on the page «Progetti» (the overview) or on a sheet of the project. <paramref name="shown"/> is what the window shows: the centre
+    /// of the main window or the tab of a detached window. Not on a single file, on the other pages, on a model, in the preview of a revision.
+    /// </summary>
+    public bool HistoryKeysApply(object? shown) =>
+        Workspace.Project is { IsReadOnly: false } && (shown is SectionOverviewViewModel || shown is SheetTabViewModel { Session.Project: not null });
+
+    /// <summary>Ctrl+Z (<paramref name="redo"/> false) or Ctrl+Y: «↶ Annulla» or «↷ Ripristina» of the project bar, when it can run.</summary>
+    public void RestoreHistory(bool redo)
+    {
+        var command = redo ? Commands.RedoCommand : Commands.UndoCommand;
+        if (command.CanExecute(null)) command.Execute(null);
+    }
+
+    /// <summary>
+    /// A link of «Fogli e sottosezioni» of the overview (ProjectPresentation.BuildSectionOverview): the active sheet is confirmed; a sheet opens in
+    /// its tab, a subsection shows its overview.
+    /// </summary>
+    public IRelayCommand<JsonObject> OpenLinkCommand { get; }
+
+    /// <summary>«Duplica sezione» of the overview (ProjectWorkspace.DuplicateProjectSection): the copy after the section, then its overview.</summary>
+    public IRelayCommand<JsonObject> DuplicateSectionCommand { get; }
+
+    /// <summary>The link of the overview (see <see cref="OpenLinkCommand"/>).</summary>
+    public void OpenLink(JsonObject node)
+    {
+        ArgumentNullException.ThrowIfNull(node);
+        Workspace.CommitActive();
+        if (node.ContainsKey("modulo_id")) Workspace.OpenSheet(node);
+        else ShowOverview(node);
+    }
+
+    /// <summary>«Duplica sezione» (see <see cref="DuplicateSectionCommand"/>): nothing while read-only; the tree selects the copy.</summary>
+    public JsonObject? DuplicateSection(JsonObject section)
+    {
+        ArgumentNullException.ThrowIfNull(section);
+        if (Workspace.Project is not { IsReadOnly: false } project || project.Duplicate(section) is not { } copy) return null;
+        Tree.Refresh(copy);
+        ShowOverview(copy);
+        return copy;
     }
 
     /// <summary>The application is closing: the questions to save every document (true closes).</summary>
@@ -272,6 +409,8 @@ public sealed class ShellViewModel : ViewModelBase
     private void OnNavigationChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName != nameof(NavigationViewModel.Page)) return;
+        // A page of the navigation (Home, Progetti, Wiki…) ends the full page: the navigation is on screen again.
+        if (Navigation.Page is not null) ExitFullPage();
         switch (Navigation.Page)
         {
             case ShellPage.Wiki:
@@ -291,15 +430,32 @@ public sealed class ShellViewModel : ViewModelBase
         UpdateCenter();
     }
 
-    private void UpdateCenter() => Center = Navigation.Page switch
+    private void UpdateCenter()
     {
-        ShellPage.Home => Navigation,
-        ShellPage.Modules => Navigation.Modules,
-        ShellPage.Projects => Overview,
-        ShellPage.Models => Models,
-        ShellPage.Examples => (object?)examples ?? Navigation,
-        _ => Windows.Main.Selected ?? (object)Navigation
-    };
+        Center = Navigation.Page switch
+        {
+            ShellPage.Home => Navigation,
+            ShellPage.Modules => Navigation.Modules,
+            ShellPage.Projects => Overview,
+            ShellPage.Models => Models,
+            ShellPage.Examples => (object?)examples ?? Navigation,
+            _ => Windows.Main.Selected ?? (object)Navigation
+        };
+        KeepFullPageReachable();
+    }
+
+    /// <summary>The full page ends when its sheet bar would leave the screen: no sheet tab in the centre or no sheet with the focus (no hidden state).</summary>
+    private void KeepFullPageReachable()
+    {
+        if (IsFullPage && !(Center is SheetTabViewModel && Workspace.Active is not null)) ExitFullPage();
+        RefreshFullPageCommands();
+    }
+
+    private void RefreshFullPageCommands()
+    {
+        OnPropertyChanged(nameof(CanEnterFullPage));
+        EnterFullPageCommand.NotifyCanExecuteChanged(); ExitFullPageCommand.NotifyCanExecuteChanged(); ToggleFullPageCommand.NotifyCanExecuteChanged();
+    }
 
     private void OnDocumentsChanged()
     {

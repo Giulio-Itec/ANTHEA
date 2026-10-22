@@ -3,6 +3,12 @@ using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Windows;
+using System.Windows.Automation;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -24,9 +30,13 @@ namespace X.Desktop;
 /// (docs/refactoring/f5-13-shell.md, «Bozza della disposizione per il punto di controllo»), off screen, never activated, without questions:
 /// <list type="bullet">
 /// <item>the examples of the Wiki give the same data through the shell (WikiExamples) and through MainWindow.WikiExamples;</item>
-/// <item>ShellWindow on ShellViewModel with the modules of the product (DesktopComposition.CreateModules) and a sample project (a bridge with an
+/// <item>ShellWindow on ShellViewModel, built by the composition root of the shell (ShellComposition), with the modules of the product
+/// (DesktopComposition.CreateModules) and a sample project (a bridge with an
 /// abutment and a pier, four sheets), PNG of the home, of «Moduli singoli», of «Progetti», of four tabs open (three sheets of the project and a
 /// single file), of «Modelli», of the Wiki tab, of a detached window with the main window beside it, of the tabs in «Scuro»;</item>
+/// <item>after the user's checkpoint of 22/10, from the tree of the project: a sheet at full page (11, then Esc and the toggle of the sheet bar)
+/// and a sheet opened in a new window, with the main window beside it in one image (12); the icons of the modules, the links and the groups of
+/// the overview, Ctrl+Z and Ctrl+Y of the project, the Wiki of the services on the tab, the rename in place and the keys of the tree;</item>
 /// <item>no binding error of WPF in all the captures (binding-errors.txt), the structure of the window at every step.</item>
 /// </list>
 /// Writes the PNG, binding-errors.txt, test.txt and esito.txt («PASS n controlli»). The draft is not the window of the application: the Release
@@ -53,22 +63,21 @@ internal static class ShellDraftChecks
             }
 
             // The shell with the modules of the product and services that never ask the user.
+            // Since the checkpoint the shell comes from its composition root (ShellComposition), with these services, the Wiki of the services on the
+            // tab of the shell, and detached windows wrapped so that they are never activated.
             var services = new DraftServices();
-            var presentation = services.Create();
+            var presentation = ShellComposition.WithShellWiki(services.Create());
             var modules = DesktopComposition.CreateModules();
-            string examples = Path.Combine(AppContext.BaseDirectory, "Esempi");
-            ShellViewModel? shell = null;
             var detached = new List<QuietWindow>();
-            var tracker = new ShellWindowTracker(host =>
+            var parts = ShellComposition.Create(presentation, modules, new CalculationLimiter(CalculationLimiter.DefaultMaximum), ShellComposition.ExamplesFolder, window =>
             {
-                var window = new QuietWindow(Offscreen(new DetachedShellWindow(host, shell!.Windows)));
-                detached.Add(window);
-                return window;
+                var quiet = new QuietWindow(Offscreen(window));
+                detached.Add(quiet);
+                return quiet;
             });
-            shell = new ShellViewModel(presentation, new RegistrySheetFactory(modules, presentation, new CalculationLimiter(CalculationLimiter.DefaultMaximum)),
-                new DocumentFiles(examples), tracker, new SheetFileExports(), new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples)));
-            tracker.Attach(shell.Windows);
-            var main = Offscreen(new ShellWindow(shell, tracker));
+            var shell = parts.Shell;
+            var tracker = parts.Tracker;
+            var main = Offscreen(parts.Window);
             main.Show();
             try
             {
@@ -79,6 +88,8 @@ internal static class ShellDraftChecks
                 shell.Navigation.Select(ShellPage.Modules);
                 await Capture(main, output, "02-moduli-singoli.png", bindings);
                 Check(shell.Center is ModuleCatalogViewModel, "Moduli singoli al centro");
+                int icons = Descendants<Viewbox>(main).Count(v => v is { IsVisible: true, Child: ContentControl { Content: FrameworkElement } });
+                Check(icons > 0 && icons == shell.Navigation.Modules.Areas.Sum(a => a.Groups.Sum(g => g.Cards.Count)), "Icone dei moduli nelle schede del catalogo (" + icons + ")");
 
                 // A sample project: a bridge with an abutment and a pier, four sheets.
                 var document = ProjectDocuments.CreateArchive();
@@ -88,11 +99,23 @@ internal static class ShellDraftChecks
                 var concrete = ProjectDocuments.AddSheet(abutment, "mat_calcestruzzo", "Calcestruzzo delle fondazioni");
                 var piles = ProjectDocuments.AddSheet(abutment, "geo_palo_verticale", "Pali della spalla");
                 var group = ProjectDocuments.AddSheet(pier, "geo_efficienza_orizzontale", "Palificata della pila");
-                ProjectDocuments.AddSheet(pier, "geo_stratigrafia", "Stratigrafia S1");
+                var strata = ProjectDocuments.AddSheet(pier, "geo_stratigrafia", "Stratigrafia S1");
                 workspace.OpenDocument(document, null, false);
                 await Capture(main, output, "03-progetti.png", bindings);
                 Check(shell.HasProject && shell.Center is SectionOverviewViewModel && shell.Tree.Roots.Count == 1 && shell.Navigation.Page == ShellPage.Projects,
                     "Archivio aperto: pagina Progetti con l'albero");
+
+                // After the checkpoint: the links of «Fogli e sottosezioni» of the overview (a group closed at the start, as today); the abutment
+                // opens its overview. Five common data on the card, the others in «Tutti i dati comuni».
+                Check(shell.Overview is { FirstCommonData.Count: 5, HasMoreCommonData: true } && Descendants<Expander>(main).Count(x => x.Name is "MoreCommonData" or "Links" && x.IsVisible && !x.IsExpanded) == 2,
+                    "Riepilogo: cinque dati comuni, gli altri e i link in due gruppi chiusi");
+                Descendants<Expander>(main).Single(x => x.Name == "Links").IsExpanded = true;
+                await Idle(main);
+                var links = Descendants<Button>(main).Where(b => ReferenceEquals(b.Command, shell.OpenLinkCommand)).ToArray();
+                Check(links.Select(b => b.Content as string).SequenceEqual(["Spalla A", "Pila 1"]) && Descendants<Button>(main).Any(b => ReferenceEquals(b.Command, shell.DuplicateSectionCommand) && b.IsVisible),
+                    "Riepilogo del progetto: «Duplica sezione» e i link delle sezioni (" + links.Length + ")");
+                await Press(links[0]);
+                Check(shell.Overview?.Section?.S("nome") == "Spalla A" && shell.Center is SectionOverviewViewModel, "Link «Spalla A»: il suo riepilogo");
 
                 // Four tabs: three sheets of the project and a single file; the focus on the piles.
                 var project = workspace.Project!;
@@ -141,6 +164,114 @@ internal static class ShellDraftChecks
                 bindings.Step = "chiusura della finestra staccata";
                 await Idle(main);
                 Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(groupTab) && workspace.Sheets.Contains(groupSheet), "Finestra staccata chiusa: scheda riportata nella principale");
+
+                // After the checkpoint of 22/10: the menu of a sheet of the tree offers the new window and the full page.
+                var node = (DataTemplate)main.FindResource(new DataTemplateKey(typeof(ProjectNodeViewModel)));
+                var menu = ((FrameworkElement)node.LoadContent()).ContextMenu!;
+                var commands = menu.Items.OfType<MenuItem>().ToDictionary(i => i.Header as string ?? "", i => BindingOperations.GetBinding(i, MenuItem.CommandProperty)?.Path.Path);
+                Check(commands.GetValueOrDefault(ProjectTreeViewModel.OpenInNewWindowLabel) == nameof(ProjectNodeViewModel.OpenInNewWindowCommand)
+                    && commands.GetValueOrDefault(ProjectTreeViewModel.OpenFullPageLabel) == nameof(ProjectNodeViewModel.OpenFullPageCommand),
+                    "Menu di un foglio dell'albero: «Apri in una nuova finestra» e «Apri a pagina intera»");
+
+                // «Apri a pagina intera» from the tree: the piles take the whole window, «Esci da pagina intera» on the sheet bar.
+                var navigationBar = (FrameworkElement)main.FindName("NavigationBar");
+                var projectTree = (FrameworkElement)main.FindName("ProjectTree");
+                var center = (FrameworkElement)main.FindName("CenterContent");
+                shell.Tree.Find(project.Find(piles.S("id"))!)!.OpenFullPageCommand.Execute(null);
+                await Capture(main, output, "11-pagina-intera.png", bindings);
+                var client = (FrameworkElement)VisualTreeHelper.GetChild(main, 0);
+                Check(shell.IsFullPage && !shell.IsTreeOpen && shell.Center is SheetTabViewModel { Session: var full } && ReferenceEquals(full, pileSheet),
+                    "Pagina intera dall'albero: i pali al centro");
+                Check(!navigationBar.IsVisible && !projectTree.IsVisible && Math.Abs(center.ActualWidth - client.ActualWidth) < 1,
+                    "Pagina intera: navigazione e albero nascosti, il foglio largo quanto la finestra (" + center.ActualWidth + " di " + client.ActualWidth + ")");
+                var toggle = Descendants<Button>(main).Single(b => b.Name == "FullPage");
+                Check(toggle is { IsVisible: true, IsEnabled: true } && toggle.Content as string == ShellViewModel.ExitFullPageLabel && ReferenceEquals(toggle.Command, shell.ToggleFullPageCommand),
+                    "«Esci da pagina intera» nella barra del foglio");
+
+                // Esc on the window: back, with the tree as it was.
+                bindings.Step = "esc";
+                main.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(main), 0, Key.Escape) { RoutedEvent = Keyboard.KeyDownEvent });
+                await Idle(main);
+                Check(!shell.IsFullPage && shell.IsTreeOpen && navigationBar.IsVisible && projectTree.IsVisible && toggle.Content as string == ShellViewModel.FullPageLabel,
+                    "Esc: navigazione e albero di nuovo, «Pagina intera» nella barra");
+
+                // The toggle of the sheet bar, pressed twice.
+                bindings.Step = "barra";
+                await Press(toggle);
+                Check(shell.IsFullPage && !navigationBar.IsVisible && !projectTree.IsVisible && toggle.Content as string == ShellViewModel.ExitFullPageLabel, "«Pagina intera» della barra del foglio");
+                await Press(toggle);
+                Check(!shell.IsFullPage && navigationBar.IsVisible && projectTree.IsVisible, "«Esci da pagina intera» della barra del foglio");
+
+                // «Apri in una nuova finestra» from the tree: the stratigraphy, not open yet, in a new window; then the user goes back to the piles
+                // in the main window. One image with the main window on the left and the new window on the right.
+                shell.Tree.Find(project.Find(strata.S("id"))!)!.OpenInNewWindowCommand.Execute(null);
+                var strataSheet = workspace.SheetOf(project.Find(strata.S("id"))!)!;
+                var strataTab = shell.Windows.TabOf(strataSheet)!;
+                Check(detached.Count == 2 && tracker.Hosts.Count == 1, "Una nuova finestra staccata creata dall'albero (" + detached.Count + " in tutto, " + tracker.Hosts.Count + " aperte)");
+                var fromTree = detached[1];
+                var treeHost = tracker.Hosts.Single();
+                Check(treeHost.Tabs.Count == 1 && ReferenceEquals(treeHost.Tabs[0], strataTab) && !shell.Windows.Main.Tabs.Contains(strataTab)
+                    && ReferenceEquals(tracker.WindowOf(treeHost), fromTree) && fromTree.Activations == 1 && fromTree.IsActive && ReferenceEquals(workspace.Active, strataSheet),
+                    "La stratigrafia nella nuova finestra, attivata una volta (" + fromTree.Activations + " richieste)");
+                fromTree.Deactivate();
+                shell.Windows.Select(shell.Windows.TabOf(pileSheet)!);
+                await CaptureSideBySide(main, fromTree.Window, output, "12-staccata-dall-albero.png", bindings);
+                Check(ReferenceEquals(workspace.Active, pileSheet) && shell.Center is SheetTabViewModel { Session: var beside } && ReferenceEquals(beside, pileSheet)
+                    && fromTree.Activations == 1 && tracker.Hosts.Count == 1, "Principale sui pali accanto alla finestra della stratigrafia");
+                fromTree.Window.Close();
+                bindings.Step = "chiusura della finestra dall'albero";
+                await Idle(main);
+                Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(strataTab), "Finestra dall'albero chiusa: scheda riportata nella principale");
+
+                // Ctrl+Z and Ctrl+Y of the project on a sheet of the project (the modifiers given: the check has no keyboard), not in a text box.
+                bindings.Step = "ctrl-z";
+                string strataId = strata.S("id");
+                project.Rename(project.Find(strataId)!, "Stratigrafia S1 bis");
+                Check(!ProjectHistoryKeys.Handle(shell, shell.Center, Key.Z, ModifierKeys.Control, new TextBox()) && !ProjectHistoryKeys.Handle(shell, shell.Center, Key.Z, ModifierKeys.Control | ModifierKeys.Shift, null)
+                    && project.Find(strataId)!.S("nome") == "Stratigrafia S1 bis", "Ctrl+Z in una casella di testo o con Maiusc: non per il progetto");
+                Check(shell.Center is SheetTabViewModel && ProjectHistoryKeys.Handle(shell, shell.Center, Key.Z, ModifierKeys.Control, null) && project.Find(strataId)!.S("nome") == "Stratigrafia S1",
+                    "Ctrl+Z sul foglio del progetto: rinomina annullata");
+                Check(ProjectHistoryKeys.Handle(shell, shell.Center, Key.Y, ModifierKeys.Control, null) && project.Find(strataId)!.S("nome") == "Stratigrafia S1 bis", "Ctrl+Y: rinomina ripristinata");
+                await Idle(main);
+
+                // F1 and the guides of the sheets (the Wiki of the services) open the Wiki tab of the shell.
+                bindings.Step = "wiki dei servizi";
+                string? guide = Anthea.Wiki.WikiCatalog.ForModule("geo_stratigrafia")?.Id ?? Anthea.Wiki.WikiCatalog.ForModule("geo_palo_verticale")?.Id;
+                presentation.Wiki.Show(guide);
+                await Idle(main);
+                Check(shell.Center is PageTabViewModel { Kind: ShellTabKind.Wiki, Content: WikiTabViewModel wikiShown } && wikiShown.Uri == guide && services.WikiRequests == 0,
+                    "Wiki dei servizi: la scheda della shell, non la finestra storica");
+
+                // The tree after the checkpoint: the button with the icon of a sheet opens it; F2 renames in place, Enter saves and Esc cancels; Enter
+                // on a node opens it (keys sent to the node, the check has no keyboard).
+                bindings.Step = "albero";
+                var source = PresentationSource.FromVisual(main);
+                void SendKey(UIElement target, Key key) => target.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, source, 0, key) { RoutedEvent = Keyboard.KeyDownEvent });
+                var openConcrete = Descendants<Button>(main).Single(b => AutomationProperties.GetName(b) == "Apri scheda Calcestruzzo delle fondazioni");
+                Check(openConcrete is { IsVisible: true, Content: Viewbox { Child: ContentControl { Content: FrameworkElement } } } && openConcrete.ToolTip as string == "Apri scheda · Calcestruzzo delle fondazioni",
+                    "Foglio dell'albero: il pulsante con l'icona del modulo");
+                await Press(openConcrete);
+                Check(ReferenceEquals(workspace.Active, concreteSheet) && shell.Center is SheetTabViewModel { Session: var opened } && ReferenceEquals(opened, concreteSheet), "Icona: il foglio nella sua scheda");
+                string pierId = pier.S("id");
+                TreeViewItem Item(string id) => Descendants<TreeViewItem>(main).Single(i => i.DataContext is ProjectNodeViewModel { Id: var node } && node == id);
+                TextBox Box(TreeViewItem item) => Descendants<TextBox>(item).Single(b => b.Name == "Rename" && ReferenceEquals(b.DataContext, item.DataContext));
+                SendKey(Item(pierId), Key.F2);
+                await Idle(main);
+                var renaming = Item(pierId);
+                Check(renaming.DataContext is ProjectNodeViewModel { IsRenaming: true } && Box(renaming) is { IsVisible: true, Text: "Pila 1" }, "F2: rinomina in linea con il nome attuale");
+                Box(renaming).Text = "Pila 1 nord";
+                SendKey(Box(renaming), Key.Enter);
+                await Idle(main);
+                Check(project.Find(pierId)!.S("nome") == "Pila 1 nord" && Item(pierId).DataContext is ProjectNodeViewModel { IsRenaming: false, Name: "Pila 1 nord" }, "Invio: nome salvato");
+                SendKey(Item(pierId), Key.F2);
+                await Idle(main);
+                Box(Item(pierId)).Text = "da scartare";
+                SendKey(Box(Item(pierId)), Key.Escape);
+                await Idle(main);
+                Check(project.Find(pierId)!.S("nome") == "Pila 1 nord" && Item(pierId).DataContext is ProjectNodeViewModel { IsRenaming: false }, "Esc: rinomina annullata");
+                SendKey(Item(strataId), Key.Enter);
+                await Idle(main);
+                Check(ReferenceEquals(workspace.Active, strataSheet), "Invio su un foglio dell'albero: la sua scheda");
             }
             finally
             {
@@ -186,13 +317,66 @@ internal static class ShellDraftChecks
     {
         bindings.Step = Path.GetFileNameWithoutExtension(name);
         await Idle(window);
+        Save(Render(window), output, name);
+    }
+
+    /// <summary>
+    /// Two windows in one image (12, after the checkpoint of 22/10): <paramref name="left"/> (the main window) and <paramref name="right"/> (a detached
+    /// one) side by side on a grey ground, as they would sit on two monitors; each one is its client area at 96 DPI, as in <see cref="Capture"/>.
+    /// </summary>
+    private static async Task CaptureSideBySide(Window left, Window right, string output, string name, BindingErrors bindings)
+    {
+        const int Gap = 24;
+        bindings.Step = Path.GetFileNameWithoutExtension(name);
+        await Idle(left);
+        await Idle(right);
+        var first = Render(left);
+        var second = Render(right);
+        int width = first.PixelWidth + Gap + second.PixelWidth, height = Math.Max(first.PixelHeight, second.PixelHeight);
+        var visual = new DrawingVisual();
+        using (var context = visual.RenderOpen())
+        {
+            context.DrawRectangle(Brushes.Gray, null, new Rect(0, 0, width, height));
+            context.DrawImage(first, new Rect(0, 0, first.PixelWidth, first.PixelHeight));
+            context.DrawImage(second, new Rect(first.PixelWidth + Gap, 0, second.PixelWidth, second.PixelHeight));
+        }
+        var bitmap = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
+        bitmap.Render(visual);
+        Save(bitmap, output, name);
+    }
+
+    private static RenderTargetBitmap Render(Window window)
+    {
         var client = (FrameworkElement)VisualTreeHelper.GetChild(window, 0);
         var bitmap = new RenderTargetBitmap((int)Math.Ceiling(client.ActualWidth), (int)Math.Ceiling(client.ActualHeight), 96, 96, PixelFormats.Pbgra32);
         bitmap.Render(window);
+        return bitmap;
+    }
+
+    private static void Save(BitmapSource bitmap, string output, string name)
+    {
         var encoder = new PngBitmapEncoder();
         encoder.Frames.Add(BitmapFrame.Create(bitmap));
         using var file = File.Create(Path.Combine(output, name));
         encoder.Save(file);
+    }
+
+    /// <summary>A click of <paramref name="button"/> through its automation peer (no mouse, no focus), then the dispatcher idle.</summary>
+    private static async Task Press(Button button)
+    {
+        ((IInvokeProvider)new ButtonAutomationPeer(button).GetPattern(PatternInterface.Invoke)).Invoke();
+        await Idle(Window.GetWindow(button)!);
+    }
+
+    /// <summary>The elements of type <typeparamref name="T"/> in the visual tree under <paramref name="root"/>.</summary>
+    private static IEnumerable<T> Descendants<T>(DependencyObject root) where T : DependencyObject
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+        {
+            var child = VisualTreeHelper.GetChild(root, i);
+            if (child is T match) yield return match;
+            foreach (var inner in Descendants<T>(child)) yield return inner;
+        }
     }
 
     /// <summary>
@@ -223,6 +407,10 @@ internal static class ShellDraftChecks
         }
 
         public void Close() => Window.Close();
+
+        /// <summary>The focus of the system goes to another window (the user clicks the main window).</summary>
+        internal void Deactivate() => IsActive = false;
+
         public event EventHandler? Activated;
         public event EventHandler? Closed { add => Window.Closed += value; remove => Window.Closed -= value; }
     }
@@ -240,7 +428,8 @@ internal static class ShellDraftChecks
             "SharedStatusViewModel", "ProjectTreeViewModel", "ProjectNodeViewModel", "SheetBarViewModel", "ShellWindowsViewModel", "TabHostViewModel",
             "SheetTabViewModel", "PageTabViewModel", "WikiTabViewModel", "ShellCommandsViewModel", "ShellMenuItem", "AppearanceMenuViewModel",
             "AppearanceItemViewModel", "ShellWindow", "SheetBarView", "ModelTabView", "WikiTabView", "SelectCommand", "CloseCommand", "MoveToNewWindowCommand",
-            "ReattachCommand", "OpenCardCommand", "SelectDisciplineCommand", "OpenModelCommand", "SwitchCommand", "ToggleTreeCommand", "Catalogue", "Commands."];
+            "ReattachCommand", "OpenCardCommand", "SelectDisciplineCommand", "OpenModelCommand", "SwitchCommand", "ToggleTreeCommand", "Catalogue", "Commands.",
+            "OverviewLink", "LinkItems", "HasLinks", "OpenLinkCommand", "DuplicateSectionCommand", "ToggleFullPageCommand", "FullPageText", "FullPageToolTipText", "IsFullPage", "OpenInNewWindowCommand", "OpenFullPageCommand", "IsSheet"];
 
         private readonly StringBuilder line = new();
         internal List<string> Errors { get; } = [];
@@ -273,6 +462,9 @@ internal static class ShellDraftChecks
         public void SetText(string text) { }
         public string GetText() => "";
         public void Open(Uri target) { }
-        public void Show(string? uri = null) { }
+        public void Show(string? uri = null) => WikiRequests++;
+
+        /// <summary>Requests to the historic Wiki window (the fallback of ShellWikiNavigator): none once the shell exists.</summary>
+        internal int WikiRequests { get; private set; }
     }
 }

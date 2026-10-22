@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using Anthea.Presentation.Shell;
 using Anthea.Presentation.Shell.Tabs;
 
 namespace X.Desktop.Views.Shell;
@@ -13,12 +14,14 @@ public partial class DetachedShellWindow : Window
 {
     private readonly TabHostViewModel host;
 
-    internal DetachedShellWindow(TabHostViewModel host, ShellWindowsViewModel windows)
+    /// <param name="shell">The shell, for Ctrl+Z and Ctrl+Y of the project on the tab on screen (after the checkpoint of 22/10); null without them.</param>
+    internal DetachedShellWindow(TabHostViewModel host, ShellWindowsViewModel windows, ShellViewModel? shell = null)
     {
         this.host = host ?? throw new ArgumentNullException(nameof(host));
         Windows = windows ?? throw new ArgumentNullException(nameof(windows));
         InitializeComponent();
         DataContext = host;
+        if (shell is not null) ProjectHistoryKeys.Attach(this, shell, () => host.Selected);
         DisplayAdaptation.Attach(this);
         Appearance.Watch(this);
         host.PropertyChanged += OnHostChanged;

@@ -263,6 +263,19 @@ public sealed class ShellWindowsViewModel : ViewModelBase
         return host;
     }
 
+    /// <summary>
+    /// «Apri in una nuova finestra» of the tree (F5.13 c, after the checkpoint of 22/10): a tab of the main window moves to a new window
+    /// (<see cref="MoveToNewWindow"/>); a tab already in a detached window is selected there and its window comes to the front, without a new one.
+    /// </summary>
+    public TabHostViewModel ShowInNewWindow(ShellTabViewModel tab)
+    {
+        ArgumentNullException.ThrowIfNull(tab);
+        var host = tab.Host ?? throw new ArgumentException("Scheda non aperta.", nameof(tab));
+        if (host.IsMain) return MoveToNewWindow(tab);
+        Select(tab);
+        return host;
+    }
+
     /// <summary>«Riaggancia»: the tab back in the main window, selected.</summary>
     public void Reattach(ShellTabViewModel tab)
     {

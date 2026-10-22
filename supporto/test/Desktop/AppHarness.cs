@@ -21,6 +21,8 @@ public partial class App
     {
         // F5.4: the application as in the product, with the sheets of --module-impl (ModuleHostBench), to try a migrated module by hand.
         if (e.Args.FirstOrDefault() == ModuleHostBench.Interactive) { handled = true; StartInteractive(e); return; }
+        // F5.13 c: the new shell by hand, through its composition root (ShellComposition); never in Release, which opens MainWindow.
+        if (e.Args.FirstOrDefault() == InteractiveShell) { handled = true; StartInteractiveShell(e); return; }
         if (!e.Args.Any(a => a.StartsWith("--check") || a.StartsWith("--smoke") || a == "--capture-validation")) return;
         // Every check runs with the light theme; the later production call is ignored (Initialize is idempotent).
         Appearance.Initialize(false);
@@ -532,6 +534,35 @@ public partial class App
         if (ModuleHostBench.WithoutBench(e.Args).Skip(1).FirstOrDefault(a => !a.StartsWith("--")) is string path)
             window.Loaded += (_, _) => window.Safe(() => window.LoadFile(path));
         window.Show();
+    }
+
+    /// <summary>The flag of <see cref="StartInteractiveShell"/>.</summary>
+    internal const string InteractiveShell = "--interactive-shell";
+
+    /// <summary>
+    /// ANTHEA.exe --interactive-shell [--wiki articolo | archivio [--models]] (UiTests only, F5.13 c): the new shell by hand, with the startup of
+    /// App.OnStartup (appearance of the user, error log, the services of the product from DesktopComposition) and the composition root of the shell
+    /// (<see cref="ShellComposition"/>): the modules with an MVVM view open in tabs, F1 and the guides open the Wiki tab, the rest of the command line
+    /// as App.OnStartup reads it (StartupRequest). Never in Release, which opens MainWindow.
+    /// </summary>
+    private void StartInteractiveShell(StartupEventArgs e)
+    {
+        Appearance.Initialize(true);
+        ErrorLog.Attach();
+        DispatcherUnhandledException += (_, error) =>
+        {
+            ErrorLog.Write("Errore non gestito nell'interfaccia", error.Exception);
+            MessageBox.Show(error.Exception.Message, "ANTHEA — errore", MessageBoxButton.OK, MessageBoxImage.Error);
+            error.Handled = true;
+        };
+        Composition = new DesktopComposition(ActiveWindow);
+        var services = ShellComposition.WithShellWiki(Composition.Services);
+        var parts = ShellComposition.Create(services, Composition.Modules, Composition.Limiter, ShellComposition.ExamplesFolder);
+        MainWindow = parts.Window;
+        var request = Anthea.Presentation.Shell.StartupRequest.Parse(e.Args.Skip(1).ToArray());
+        parts.Window.Loaded += (_, _) => parts.Shell.Start(request);
+        parts.Window.Closed += (_, _) => parts.Shell.Dispose();
+        parts.Window.Show();
     }
 
     private void StartSmoke(StartupEventArgs e)

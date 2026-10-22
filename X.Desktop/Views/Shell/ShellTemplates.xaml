@@ -22,6 +22,7 @@
  <views:AllVisibleConverter x:Key="AllTrue"/>
  <views:TypeVisibilityConverter x:Key="OfType"/>
  <views:ShortcutTextConverter x:Key="Shortcut"/>
+ <views:ModuleIconConverter x:Key="ModuleIcon"/>
 
  <!-- Texts (Ui.Text of the historic shell): body, muted, headings, titles of the pages. -->
  <Style x:Key="Shell.Text" TargetType="TextBlock">
@@ -264,6 +265,10 @@
                 <DockPanel>
                  <Button x:Name="Open" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Style="{StaticResource Shell.Primary}" Content="Apri"
                   Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" CommandParameter="{Binding}"/>
+                 <!-- The icon of the module (Ui.ModuleIcon, as ShowModules today; after the checkpoint of 22/10). -->
+                 <Viewbox DockPanel.Dock="Left" Width="80" Height="80" Margin="0,0,12,0" VerticalAlignment="Top" Stretch="Uniform">
+                  <ContentControl Focusable="False" IsTabStop="False" Content="{Binding Icon, Converter={StaticResource ModuleIcon}}"/>
+                 </Viewbox>
                  <StackPanel>
                   <TextBlock x:Name="Status" Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Caption}" FontWeight="SemiBold"
                    Foreground="{DynamicResource Token.Status.Ok}" Text="{Binding Status}"/>
@@ -296,6 +301,13 @@
  </DataTemplate>
 
  <!-- ===================================================================================================== «Progetti»: overview and catalogue (ProjectPresentation) -->
+ <!-- A row of the common data: label and the values of the sheets. -->
+ <DataTemplate x:Key="Shell.CommonDataRow" DataType="{x:Type proj:CommonDataRow}">
+  <DockPanel Margin="0,2">
+   <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding Label}" Width="220"/>
+   <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Value}"/>
+  </DockPanel>
+ </DataTemplate>
  <DataTemplate DataType="{x:Type proj:SectionOverviewViewModel}">
   <Grid Margin="14,12,14,14">
    <Grid.ColumnDefinitions><ColumnDefinition Width="47*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="30*"/></Grid.ColumnDefinitions>
@@ -322,16 +334,14 @@
         <StackPanel>
          <TextBlock Style="{StaticResource Shell.Heading}" Text="Dati comuni" Margin="0,0,0,6"/>
          <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding CommonDataEmpty}" x:Name="NoCommonData" Visibility="Collapsed"/>
-         <ItemsControl x:Name="CommonRows" ItemsSource="{Binding CommonData}">
-          <ItemsControl.ItemTemplate>
-           <DataTemplate DataType="{x:Type proj:CommonDataRow}">
-            <DockPanel Margin="0,2">
-             <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding Label}" Width="220"/>
-             <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Value}"/>
-            </DockPanel>
-           </DataTemplate>
-          </ItemsControl.ItemTemplate>
-         </ItemsControl>
+         <!-- The first five common data, the others in «Tutti i dati comuni», closed (after the checkpoint, ProjectPresentation as today). -->
+         <ItemsControl x:Name="CommonRows" ItemsSource="{Binding FirstCommonData}" ItemTemplate="{StaticResource Shell.CommonDataRow}"/>
+         <Expander x:Name="MoreCommonData" Margin="0,6,0,0" IsExpanded="False" Visibility="{Binding HasMoreCommonData, Converter={StaticResource WhenTrue}}">
+          <Expander.Header><TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{x:Static proj:SectionOverviewViewModel.MoreCommonDataTitle}"/></Expander.Header>
+          <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+           <ItemsControl ItemsSource="{Binding MoreCommonData}" ItemTemplate="{StaticResource Shell.CommonDataRow}"/>
+          </ScrollViewer>
+         </Expander>
         </StackPanel>
        </Border>
        <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
@@ -342,6 +352,30 @@
          <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding RevisionNote}" Visibility="{Binding RevisionNote, Converter={StaticResource WhenPresent}}"/>
         </StackPanel>
        </Border>
+       <!--
+         Actions and links of the section (after the checkpoint of 22/10, ProjectPresentation.BuildSectionOverview): «Duplica sezione» outside
+         read-only; «Genera report» still a placeholder (the report of the section comes with part e); the sheets open in their tab, the
+         subsections show their overview. The commands are those of the shell (the DataContext of the window).
+       -->
+       <WrapPanel Margin="0,0,0,10">
+        <Button Style="{StaticResource Shell.Button}" Content="{x:Static proj:SectionOverviewViewModel.DuplicateLabel}" Visibility="{Binding CanDuplicate, Converter={StaticResource WhenTrue}}"
+         Command="{Binding DataContext.DuplicateSectionCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Section}"/>
+        <Button Style="{StaticResource Shell.Primary}" Content="{x:Static proj:SectionOverviewViewModel.ReportLabel}" IsEnabled="False"
+         ToolTip="Bozza: il report della sezione si collega con la parte (e)"/>
+       </WrapPanel>
+       <Expander x:Name="Links" Margin="0,0,0,10" IsExpanded="False" Visibility="{Binding HasLinks, Converter={StaticResource WhenTrue}}">
+        <Expander.Header><TextBlock Style="{StaticResource Shell.Heading}" Text="{x:Static proj:SectionOverviewViewModel.LinksTitle}"/></Expander.Header>
+        <StackPanel Margin="0,6,0,0">
+         <ItemsControl ItemsSource="{Binding LinkItems}">
+          <ItemsControl.ItemTemplate>
+           <DataTemplate DataType="{x:Type proj:OverviewLink}">
+            <Button Style="{StaticResource Shell.Button}" Content="{Binding Name}" HorizontalContentAlignment="Left" Margin="0,0,0,5" AutomationProperties.Name="{Binding Name}"
+             Command="{Binding DataContext.OpenLinkCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Node}"/>
+           </DataTemplate>
+          </ItemsControl.ItemTemplate>
+         </ItemsControl>
+        </StackPanel>
+       </Expander>
        <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
         <StackPanel>
          <TextBlock Style="{StaticResource Shell.Heading}" Text="Modelli di calcolo" Margin="0,0,0,6"/>
@@ -514,14 +548,32 @@
    </Border>
    <TextBlock Style="{StaticResource Shell.Text}" Text=" •" FontWeight="Bold" Foreground="{DynamicResource Token.Accent}" DockPanel.Dock="Right"
     Visibility="{Binding IsUnsaved, Converter={StaticResource WhenTrue}}" ToolTip="Foglio non salvato"/>
-   <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Name}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis">
-    <TextBlock.InputBindings>
-     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenCommand}"/>
-    </TextBlock.InputBindings>
-   </TextBlock>
+   <!--
+     After the checkpoint of 22/10 (ProjectHierarchy.ConfigureProjectNode): a sheet has the button with the icon of its module, which opens it; the
+     double click on the name renames in place (F2 and «Rinomina» too; ProjectTreeKeys), a model opens; Enter on the node opens it.
+   -->
+   <Button DockPanel.Dock="Left" Style="{StaticResource Shell.Button}" Width="36" Height="36" Padding="3" Margin="0,0,10,0" Command="{Binding OpenCommand}"
+    ToolTip="{Binding OpenToolTip}" AutomationProperties.Name="{Binding OpenAutomationName, TargetNullValue=''}" Visibility="{Binding IsSheet, Converter={StaticResource WhenTrue}}">
+    <Viewbox Stretch="Uniform"><ContentControl Focusable="False" IsTabStop="False" Content="{Binding Module, Converter={StaticResource ModuleIcon}}"/></Viewbox>
+   </Button>
+   <Grid>
+    <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Name}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+     Visibility="{Binding IsRenaming, Converter={StaticResource WhenFalse}}">
+     <TextBlock.InputBindings>
+      <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DoubleClickCommand}"/>
+     </TextBlock.InputBindings>
+    </TextBlock>
+    <TextBox x:Name="Rename" MinWidth="180" Text="{Binding RenameText, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Nuovo nome"
+     Visibility="{Binding IsRenaming, Converter={StaticResource WhenTrue}}" views:ProjectTreeKeys.RenameBox="True"/>
+   </Grid>
    <DockPanel.ContextMenu>
     <ContextMenu>
      <MenuItem Header="Apri" Command="{Binding OpenCommand}"/>
+     <!-- After the checkpoint of 22/10: a sheet also in a new window or at full page (only the sheets, read-only revisions included). -->
+     <MenuItem Header="{x:Static proj:ProjectTreeViewModel.OpenInNewWindowLabel}" Command="{Binding OpenInNewWindowCommand}"
+      Visibility="{Binding IsSheet, Converter={StaticResource WhenTrue}}"/>
+     <MenuItem Header="{x:Static proj:ProjectTreeViewModel.OpenFullPageLabel}" Command="{Binding OpenFullPageCommand}"
+      Visibility="{Binding IsSheet, Converter={StaticResource WhenTrue}}"/>
      <MenuItem Header="Rinomina" Command="{Binding BeginRenameCommand}"/>
      <MenuItem Header="Duplica" Command="{Binding DuplicateCommand}"/>
      <MenuItem Header="Sottosezione" Command="{Binding AddSectionCommand}"/>

@@ -310,6 +310,13 @@ public sealed class SoilLinkDialogViewModel : DialogViewModel<bool>
 /// <summary>A row of the common data of the overview: label and the values of the sheets, joined by « / ».</summary>
 public sealed record CommonDataRow(string Key, string Label, string Value);
 
+/// <summary>A link of «Fogli e sottosezioni» of the overview: the sheet or subsection and its name, the text of the button of today.</summary>
+public sealed record OverviewLink(JsonObject Node, string Name)
+{
+    /// <summary>A sheet opens in its tab; a subsection shows its overview.</summary>
+    public bool IsSheet => Node.ContainsKey("modulo_id");
+}
+
 /// <summary>
 /// The overview of a section (F5.13 b; MainWindow.BuildSectionOverview and AddModelsOverview): controls (conflicts and notices),
 /// common data with the priority of today (five, then «Tutti i dati comuni»), revisions, actions, sheets and subsections, details of the
@@ -340,6 +347,8 @@ public sealed class SectionOverviewViewModel : ViewModelBase
             .Where(f => f.Group is "Materiali" or "Geometria" or "Armatura" or "Normativa" or "Coefficienti").GroupBy(f => f.Key)
             .Select(g => new CommonDataRow(g.Key, ProjectReportPlan.Label(g.Key), string.Join(" / ", g.Select(f => ProjectSharedData.Text(f.Value)).Distinct()))).ToArray();
         CommonData = fields.OrderBy(f => PriorityOf(f.Key)).ToArray();
+        FirstCommonData = CommonData.Take(FirstRows).ToArray();
+        MoreCommonData = CommonData.Skip(FirstRows).ToArray();
         var scope = project.RevisionScope(section) ?? section;
         var revision = project.DisplayedRevision is int number
             ? scope.Array("revisioni").OfType<JsonObject>().FirstOrDefault(r => ShellTexts.RevisionNumber(r) == number)
@@ -352,6 +361,7 @@ public sealed class SectionOverviewViewModel : ViewModelBase
         CanDuplicate = !project.IsReadOnly;
         CanReport = ProjectSharedData.SubtreeSheets(section).Any();
         Links = section.Array("fogli").Concat(section.Array("strutture")).OfType<JsonObject>().ToArray();
+        LinkItems = Links.Select(node => new OverviewLink(node, node.S("nome"))).ToArray();
         var models = ProjectModelStore.Models(section).ToArray();
         ModelsText = $"{models.Length} modelli in questa sezione. I fogli possono riferirsi a una revisione del modello.";
         Models = models.Select(m => (m.S("id"), "▧  " + m.S("nome"))).ToArray();
@@ -376,8 +386,25 @@ public sealed class SectionOverviewViewModel : ViewModelBase
     public bool HasNotices => Notices.Count > 0;
     public string CompareLabel => "Confronto e avvisi";
 
+    /// <summary>The actions of the overview (ProjectPresentation.BuildSectionOverview) and the title of the group of the links.</summary>
+    public const string DuplicateLabel = "Duplica sezione";
+    /// <inheritdoc cref="DuplicateLabel"/>
+    public const string ReportLabel = "Genera report";
+    /// <inheritdoc cref="DuplicateLabel"/>
+    public const string LinksTitle = "Fogli e sottosezioni";
+
     /// <summary>All the common data in the order of today; the view shows the first <see cref="FirstRows"/>, the rest in a group.</summary>
     public IReadOnlyList<CommonDataRow> CommonData { get; } = [];
+
+    /// <summary>The first <see cref="FirstRows"/> common data, on the card.</summary>
+    public IReadOnlyList<CommonDataRow> FirstCommonData { get; } = [];
+
+    /// <summary>The other common data, in the group «Tutti i dati comuni» (closed at the start, as today).</summary>
+    public IReadOnlyList<CommonDataRow> MoreCommonData { get; } = [];
+
+    public bool HasMoreCommonData => MoreCommonData.Count > 0;
+
+    public const string MoreCommonDataTitle = "Tutti i dati comuni";
 
     public string CommonDataEmpty => "Aggiungi le schede per visualizzare materiali, geometria e armature.";
 
@@ -396,6 +423,11 @@ public sealed class SectionOverviewViewModel : ViewModelBase
 
     /// <summary>The sheets and the subsections of the group «Fogli e sottosezioni», in this order.</summary>
     public IReadOnlyList<JsonObject> Links { get; } = [];
+
+    /// <summary><see cref="Links"/> with the names of their buttons; the group shows when there is one.</summary>
+    public IReadOnlyList<OverviewLink> LinkItems { get; } = [];
+
+    public bool HasLinks => LinkItems.Count > 0;
 
     public string ModelsText { get; } = "";
     public IReadOnlyList<(string Id, string Label)> Models { get; } = [];
