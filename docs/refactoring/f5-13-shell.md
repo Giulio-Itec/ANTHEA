@@ -1,4 +1,4 @@
-# F5.13 shell: parti (a) e (b), sessioni e ViewModel
+# F5.13 shell: parti (a) e (b), sessioni e ViewModel; parte (c) fino al punto di controllo della bozza
 
 Agente `f5-13-ab`, 22/10/2026, ramo `refactoring/f5-13-ab` da `refactoring/f5` a 5451a8cc. Fonti: [proposta](f5-proposta-architettura.md)
 (sezioni 3.4–3.7, 4 e riga F5.13 della sezione 8), [inventario](f5-inventario-ui.md) (1.5, 1.6), [piano](piano.md) (F5.13, requisito
@@ -271,6 +271,9 @@ Nessuna è necessaria per questo lavoro: `X.Desktop`, le prove WPF e la Release 
   - ospite dei moduli ancora storici nella shell nuova, se servirà (proposta 5.2, rischio R5);
   - pagina Modelli e scheda del modello; esempi della Wiki che aprono un modulo (`MainWindow.WikiExamples`);
   - adattamento ai piccoli schermi; argomenti di avvio (`--wiki`, `--models`, percorso).
+
+  Aggiornamento del 22/10 (agente `f5-13-c`): i pezzi che non dipendono dalla disposizione e la bozza per il punto di controllo sono fatti,
+  sezioni 8–10; quel che resta della parte (c) è nella sezione 10.
 - **Parti (d)–(g)** come da piano. Il report di sezione (`ProjectReport.cs`) passa con (e), insieme alla cattura del progetto.
 - **Domande:** SH1–SH22 nella sezione 6, da rivedere al punto di controllo della bozza e in F5.15.
 
@@ -281,4 +284,160 @@ cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-ab
 dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
 dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll supporto/artefatti/f5-13/presentation --shell
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile quick -Tag <tag>"
+```
+
+## 8. Parte (c): pezzi che non dipendono dalla disposizione
+
+Agente `f5-13-c`, 22/10/2026, ramo `refactoring/f5-13-c` da `refactoring/f5` a 790b9081. Regola diurna: nessuna prova WPF eseguita di giorno.
+
+Tutti in `src/ANTHEA.Presentation/Shell`, con prove senza WPF in `tests/ANTHEA.Presentation.Tests` (`--shell`).
+
+| Pezzo | Dove | Da dove viene | Prove |
+| --- | --- | --- | --- |
+| `ISheetExports` | `Commands/SheetFileExports.cs` | il codice di `MvvmSheetEditor` (JSON del risultato con `dati` per Bridge Design, BD7; report nei tre modi di T8; report short rifiutato con lo stesso testo e scritto entro due pagine fuori dal thread dell'interfaccia). `MvvmSheetEditor.ExportResult`, `ExportReport` e `BuildShortReport` chiamano ora questi membri: stesso codice, nessuna copia | `SheetExportsChecks` |
+| `IWindowService` | `Tabs/ShellWindowTracker.cs` (`IShellWindow`) | nuovo (proposta 4.1, Q10 a): attivazione, chiusura dall'utente o dalla shell, chiusura con la principale | `WindowTrackerChecks` |
+| Menu «Aspetto» | `Commands/AppearanceMenuViewModel.cs`, `IAppearanceService`; `X.Desktop/Services/WpfAppearanceService.cs` | `MainWindow.BuildMenu` (voci, segno, rilettura all'apertura) | `ShellPartCChecks` |
+| Argomenti di avvio | `StartupRequest.cs`, `ShellViewModel.Start` | `App.OnStartup` (`--wiki`, percorso, `--models`) | `ShellPartCChecks` |
+| Esempi della Wiki che aprono un modulo | `Navigation/WikiViewModels.cs` (`WikiExamples`, `WikiTabViewModel`), `ShellViewModel.ShowWiki`, `OpenWikiModule`, `OpenModule`, `ReturnToWork` | `MainWindow.Wiki.cs` | `ShellPartCChecks`; confronto con `MainWindow.WikiExamples` nella prova WPF della bozza |
+| Pagina Modelli e scheda del modello | `Projects/ModelsViewModels.cs` (`ModelsPageViewModel`, `ModelTabViewModel`, `ModelReferenceViewModel`), `ShellViewModel.ShowModel` | `ProjectModels.cs` | `ShellPartCChecks` |
+| Barra del foglio | `Navigation/SheetBarViewModel.cs` (`WikiMenu` per «Approfondimenti») | `BuildShell`, `UpdateBackButton`, `ShowModuleWikiTopics` | `ShellPartCChecks` |
+| Centro della finestra | `ShellViewModel.Center`, `ShellWindowsViewModel.ShowPage`, `NavigationViewModel.ShowTab` | `SelectNavigation`, `ShowSheet` | `ShellPartCChecks` |
+
+`MainWindow.WikiExamples` resta nella finestra storica fino al suo ritiro (g): la prova della bozza confronta le due copie su ogni esempio.
+La shell storica non cambia; l'unico file della Release toccato è `MvvmSheetEditor` (riuso del codice, nessun cambiamento di
+comportamento), che va provato stanotte con le suite delle viste MVVM (sezione 10).
+
+## 9. Bozza della disposizione per il punto di controllo
+
+### 9.1 Cosa mostra la bozza
+
+**Non è la finestra dell'applicazione**: la Release apre `MainWindow`. I file sono in `X.Desktop/Views/Shell` (regole P6 e P7 delle viste
+nuove, soli token):
+
+- `ShellWindow.xaml(.cs)`: la finestra principale su `ShellViewModel`;
+- `ShellTemplates.xaml`: i DataTemplate per tipo di ViewModel (pagine, schede, barre, albero) e gli stili, uniti da `ShellWindow` e non da
+  `App.xaml`;
+- `SheetBarView`, `WikiTabView`, `ModelTabView`, `DetachedShellWindow`, `ShellConverters.cs`, `ShellWindowParts.cs`
+  (`DetachedWindowHandle` per `ShellWindowTracker`, scelta dell'intestazione della scheda).
+
+Disposizione, sul modello di `MainWindow` con i fogli in schede (proposta 4.2):
+
+```
+┌ File · Strumenti · Aspetto ──────────────────────────────────────────────────────────────────────────────┐
+│ Navigazione   │ Albero del progetto │ ▸ [Scheda 1 •] [Scheda 2] [Wiki] [Modello] …                       │
+│ (logo,        │ (con un progetto,   ├─────────────────────────────────────────────────────────────────────┤
+│ Home,         │ «+ Progetto»,       │ ANTHEA | Progetti                              ↶ Annulla ↷ Ripristina│
+│ Progetti,     │ «+ Sezione»,        │ Barra delle revisioni della sezione o del foglio                    │
+│ Modelli,      │ albero, riepilogo)  │ Barra del foglio: ← Torna · file · Conferma · Wiki · Approfondimenti│
+│ Moduli,       │                     │ Riga di stato dei dati condivisi · avviso del modello collegato     │
+│ Esempi, Wiki; │                     │                                                                     │
+│ Apri, Salva…; │                     │ Pagina (Home, Moduli singoli, Progetti, Modelli, Esempi)            │
+│ piè di pagina)│                     │ oppure la scheda selezionata                                        │
+└───────────────┴─────────────────────┴─────────────────────────────────────────────────────────────────────┘
+```
+
+- **Navigazione** sempre visibile (230 px), con i pulsanti dei file; la pagina scelta è evidenziata.
+- **Albero del progetto** in una colonna della shell (330 px), visibile con un archivio aperto, chiuso e riaperto da «▸» accanto alle
+  schede; menu del nodo (Apri, Rinomina, Duplica, Sottosezione, Report Word della sezione, Elimina), «•» dei fogli non salvati, badge di
+  coerenza.
+- **Schede** della finestra in una barra sopra il contenuto: titolo, «•» del foglio non salvato, «×»; menu della scheda con «Sposta in una
+  nuova finestra», «Riaggancia», «Chiudi». Le pagine della navigazione si mostrano al posto della scheda, che resta nella barra senza fuoco;
+  la Home è la pagina iniziale quando non c'è nessuna scheda.
+- **Barra del progetto** «ANTHEA | Progetti» con annulla e ripristina e, sotto, la **barra delle revisioni**, con un archivio aperto.
+- **Barra del foglio** con il fuoco (Navy): «← Torna al progetto» o «← Torna ad ANTHEA», Apri, Salva, Salva con nome, Report Word, Report
+  short (solo sezione c.a.), «Conferma modifiche» con annulla e ripristina in un progetto modificabile, «Wiki del modulo», «Approfondimenti ▾»,
+  intestazione del foglio.
+- **Riga di stato** dei dati condivisi e **avviso del modello collegato** sopra il foglio, come oggi.
+- **Pagina Progetti**: riepilogo della sezione (dati comuni, revisioni, modelli, avvisi) e catalogo «Schede da aggiungere» con la ricerca.
+- **Finestra staccata**: barra delle sue schede, «Riaggancia», la scheda selezionata; titolo «scheda — ANTHEA».
+
+Parti della bozza ancora segnaposto: il riepilogo della sezione non ha i comandi (Confronto, Duplica, Report, fogli e sottosezioni
+cliccabili); il catalogo dei moduli non ha le icone e il «Riprendi» per modulo; l'albero non ha trascinamento né rinomina in linea; mancano
+l'adattamento ai piccoli schermi e le scorciatoie Ctrl+Z/Ctrl+Y. Nella shell nuova si aprono solo i moduli con il ViewModel MVVM (rischio R5);
+la sezione c.a. mostra la sua vista quando F5.10 S9 aggiunge i suoi template. Si completano dopo il punto di controllo, sulla disposizione
+scelta.
+
+### 9.2 Scelte per l'utente
+
+Per ognuna, l'opzione presa nella bozza. Le SH1–SH22 sono nella sezione 6; qui quelle che la bozza rende visibili, più quelle nuove della
+disposizione.
+
+| # | Domanda | Opzione nella bozza |
+| --- | --- | --- |
+| SH5, SH18 | Avviso delle schede chiuse dall'annulla | un messaggio «ANTHEA» con una riga per scheda: «Il foglio «nome» non esiste più nel progetto: la scheda è stata chiusa.» |
+| SH6 | Anteprima di una revisione con più schede | di tutto il progetto; le schede passano in sola lettura, quelle senza foglio si chiudono senza avviso |
+| SH9 | Avviso nella scheda ricaricata per i dati condivisi | nessun avviso nella bozza (il ViewModel espone foglio di origine e fogli ricaricati); proposta: una riga sotto la barra del foglio «Aggiornato da «foglio»: …» |
+| SH15 | Marcatore del foglio non salvato | «•» dopo il titolo, nella scheda e nell'albero, colore `Token.Accent` |
+| SH17 | Scheda i cui dati cambiano fuori | ViewModel ricreato sui dati del documento |
+| SH19 | Finestra in cui si apre una scheda nuova | quella con il fuoco |
+| SH20 | Finestra secondaria senza schede | si chiude; chiuderla riporta le schede nella principale |
+| SH21 | Destinatario di Salva, report, risultati | il foglio con il fuoco e il suo documento; senza fogli il progetto |
+| SH22 | Pagina «Progetti» senza progetto | apre un archivio nuovo senza domande |
+| SH23 | Barra di navigazione | sempre visibile (oggi solo nelle pagine; nel foglio e nel progetto c'è «← Torna…») |
+| SH24 | Albero del progetto | colonna della shell, visibile con un archivio aperto anche sulle pagine, «▸» per chiuderla (oggi a sinistra nell'area progetti e ripiegabile nel foglio) |
+| SH25 | Pagine e schede | la pagina scelta prende il centro, le schede restano nella barra senza fuoco; nessuna scheda «Home» |
+| SH26 | Wiki | scheda (Q18 a): «Wiki» della navigazione apre o seleziona la scheda; mentre è mostrata nessuna voce della navigazione è evidenziata |
+| SH27 | Modelli | una scheda per modello; «+ Modello» una scheda «Nuovo modello» per sezione (oggi una pagina che sostituisce la precedente) |
+| SH28 | Esempio della Wiki che apre un modulo | scheda nuova non salvata, senza domanda (oggi sostituisce il documento dopo la domanda), come SH12 |
+| SH29 | Finestre staccate | non possedute dalla principale (restano su un altro monitor anche quando la principale è ridotta a icona), si chiudono con la principale |
+| SH30 | «← Torna…» nella barra del foglio | resta come oggi, anche se la navigazione è sempre visibile |
+| SH31 | Annulla e ripristina | nella barra del progetto e, con un foglio del progetto, anche nella barra del foglio (oggi nell'una o nell'altra) |
+| SH32 | Archivio aperto | mostra la pagina «Progetti» (come oggi `NewProjects`, `LoadFile` e la copia di un esempio) |
+
+### 9.3 Comando per le immagini (stanotte)
+
+La prova `ui/check-shell-draft` (`tests/Desktop/ShellDraftChecks.cs`, argomento `--check-shell-draft <cartella>`) è nello stadio `ui` di
+`build/ci.ps1`. Apre la bozza fuori dallo schermo, mai attivata, con i moduli del prodotto e un progetto di esempio (un viadotto con una spalla
+e una pila, quattro fogli), e scrive dieci PNG: Home, Moduli singoli, Progetti, quattro schede, file singolo, Modelli, Wiki, finestra staccata,
+principale con la staccata, schede in «Scuro» (senza salvare la preferenza dell'utente). Controlla anche la struttura a ogni passo, che non
+ci siano errori di binding della bozza (quelli delle viste dei moduli e delle viste storiche ospitate vanno in un file a parte) e che gli
+esempi della Wiki diano gli stessi dati con `WikiExamples` e con `MainWindow.WikiExamples`. Le immagini sono a 96 DPI (dimensioni logiche).
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/check-shell-draft$' -Tag f5-13-c-bozza"
+```
+
+Le immagini sono nella cartella della suite dentro `supporto/artefatti/ci/<data>-f5-13-c-bozza/`, con `binding-errors.txt`,
+`binding-errors-altre-viste.txt`, `test.txt` ed `esito.txt`.
+
+## 10. Parte (c): stato, verifiche e cosa resta
+
+Fatto il 22/10, fino al punto di controllo:
+
+| Commit | Contenuto |
+| --- | --- |
+| a98b7207 | `SheetFileExports` sul codice di `MvvmSheetEditor` |
+| 1d6a2383 | `ShellWindowTracker` (`IWindowService`) |
+| 6128fdfe | menu «Aspetto», avvio, Wiki, Modelli, barra del foglio, centro della finestra |
+| cd9a337c | bozza XAML in `X.Desktop/Views/Shell` |
+| 71706664 | `ui/check-shell-draft` (`--check-shell-draft`), compilata e non eseguita |
+| commit di chiusura | questa sezione, riga in piano.md |
+
+Verifiche di giorno: `--shell` PASS 403 (89 controlli nuovi); `Architecture.Tests` PASS 574 con P6 e P7 sulle viste nuove, baseline invariate;
+`qa/no-test-code` PASS; profilo `quick` `20261022-110519-f5-13-c-vm` PASS 55, 0 NEW-FAIL; profilo `standard` finale nel rapporto
+dell'agente e in `ANTHEA-f5-ripresa\f5-agenti\f5-13-c\avanzamento.md`.
+
+Suite `ui` da eseguire stanotte per questo lavoro:
+- `ui/check-shell-draft`: la bozza e le immagini per il punto di controllo;
+- le suite che passano da `MvvmSheetEditor` (esportazioni ora in `SheetFileExports`): le 11 `ui/check-*-view` (in particolare
+  `ui/check-pile-group-view`, palificata MVVM nella Release; `ui/check-materials-view`, capitolo dei materiali; `ui/check-fondazioni-view`, PDF
+  del generatore; `ui/check-bridge-design-view`, BD7), `ui/check-module-host-offscreen`, `ui/f3-equivalence` e `ui/f3-report-chapters`.
+  Girano tutte nel profilo full.
+
+Dopo il punto di controllo, sulla disposizione scelta:
+- viste definitive al posto della bozza, con i comandi ancora segnaposto (sezione 9.1), il trascinamento e la rinomina nell'albero,
+  l'adattamento ai piccoli schermi (con l'elenco dei moduli non scalati come dato del modulo, proposta 4.3), Ctrl+Z/Ctrl+Y;
+- radice di composizione della shell (servizi, `ShellWindowTracker` con `DetachedWindowHandle`, `IWikiNavigator` che apre la scheda della
+  Wiki, avvio con `StartupRequest`), avviabile nella build di prova con un argomento; la Release resta `MainWindow` fino a (f)–(g);
+- ospite dei moduli ancora storici nella shell nuova, se servirà (proposta 5.2, rischio R5): oggi la shell nuova apre solo i moduli MVVM;
+- report short della sezione c.a. MVVM in `SheetFileExports` quando F5.10 S9 lo porta in `MvvmSheetEditor`;
+- prove WPF della shell (finestre staccate reali, schede, fuoco), poi le parti (d)–(g).
+
+Per riprendere:
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-c
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll supporto/artefatti/f5-13-c/presentation --shell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
 ```
