@@ -15,6 +15,7 @@
  <views:TextShownConverter x:Key="TextShown"/>
  <views:PresentShownConverter x:Key="PresentShown"/>
  <views:CardBrushConverter x:Key="CardBrush"/>
+ <views:CollapsedWhenTrueConverter x:Key="Hidden"/>
 
  <!-- Texts: Ui.Text of the historic view (wrapping, vertically centred, ink). -->
  <Style x:Key="T13" TargetType="TextBlock">
@@ -169,6 +170,46 @@
     AutomationProperties.Name="Ordine della tabella"/>
    <Button Style="{StaticResource Command}" Content="×" Command="{Binding ClearCommand}" AutomationProperties.Name="Azzera il filtro"/>
   </WrapPanel>
+ </DataTemplate>
+
+ <!--
+   A table of the actions (ActionTable and AttachClipboard of the historic view): the bar of the filters, the grid and, under it, «+ Riga», «Duplica»,
+   «− Riga» («+ Combinazione» and «−» for the shear), «Copia», «Incolla», «Template Excel», «Importa Excel», «Esporta Excel», the Excel file and
+   «Sfoglia…»; with the unified actions only «Gestisci sollecitazioni…».
+ -->
+ <DataTemplate x:Key="ActionTable" DataType="{x:Type concrete:ConcreteActionTableViewModel}">
+  <DockPanel>
+   <WrapPanel x:Name="Bar" DockPanel.Dock="Bottom">
+    <Button x:Name="AddButton" Style="{StaticResource Command}" Content="+ Riga" Command="{Binding AddCommand}"/>
+    <Button x:Name="DuplicateButton" Style="{StaticResource Command}" Content="Duplica" Command="{Binding DuplicateCommand}"/>
+    <Button x:Name="RemoveButton" Style="{StaticResource Command}" Content="− Riga" Command="{Binding RemoveCommand}"/>
+    <Button Style="{StaticResource Command}" Content="Copia" Command="{Binding CopyCommand}"/>
+    <Button Style="{StaticResource Command}" Content="Incolla" Command="{Binding PasteCommand}"
+     ToolTip="Ctrl+V: 4 colonne per N–M (nome,N,Mx,My); 7 per taglio (nome,N,Mx,My,Vx,Vy,T), 6 senza nome. Taglio storico: 4/5 colonne nome,N,Vx,Vy[,T]; 3 colonne N,Vx,Vy. Le righe eccedenti vengono aggiunte."/>
+    <Button Style="{StaticResource Command}" Content="Template Excel" Command="{Binding TemplateCommand}"/>
+    <Button Style="{StaticResource Command}" Content="Importa Excel" Command="{Binding ImportCommand}"/>
+    <Button Style="{StaticResource Command}" Content="Esporta Excel" Command="{Binding ExportCommand}"/>
+    <TextBox Width="210" Margin="2" IsReadOnly="True" Text="{Binding ExcelPath, Mode=OneWay}" AutomationProperties.Name="File Excel delle sollecitazioni"
+     ToolTip="Percorso proposto nella finestra Sollecitazioni quando si importa Excel. Sfoglia permette di scegliere un altro file."/>
+    <Button Style="{StaticResource Command}" Content="Sfoglia…" Command="{Binding BrowseCommand}"/>
+   </WrapPanel>
+   <WrapPanel x:Name="UnifiedBar" DockPanel.Dock="Bottom" Visibility="Collapsed">
+    <Button Style="{StaticResource Command}" Content="Gestisci sollecitazioni…" Command="{Binding ImportCommand}"/>
+   </WrapPanel>
+   <ContentControl DockPanel.Dock="Top" Focusable="False" Content="{Binding Table.Filter}" ContentTemplate="{StaticResource FilterBar}"/>
+   <views:ConcreteTableGrid Table="{Binding Table}" Actions="{Binding}" AutomationProperties.Name="Combinazioni"/>
+  </DockPanel>
+  <DataTemplate.Triggers>
+   <DataTrigger Binding="{Binding IsShear}" Value="True">
+    <Setter TargetName="AddButton" Property="Content" Value="+ Combinazione"/>
+    <Setter TargetName="RemoveButton" Property="Content" Value="−"/>
+    <Setter TargetName="DuplicateButton" Property="Visibility" Value="Collapsed"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding Unified}" Value="True">
+    <Setter TargetName="Bar" Property="Visibility" Value="Collapsed"/>
+    <Setter TargetName="UnifiedBar" Property="Visibility" Value="Visible"/>
+   </DataTrigger>
+  </DataTemplate.Triggers>
  </DataTemplate>
 
  <!-- A block of the summaries of the control panel (SummaryBlock of the historic view): title, «Apri →», the cards. -->

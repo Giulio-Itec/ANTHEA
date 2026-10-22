@@ -432,14 +432,19 @@ internal static class ConcreteSectionViewChecks
         var services = new Services();
         using var host = new Hosted(Editors(services).Open(Module, ConcreteSectionScenarios.FixtureData(root, "default")));
         await host.Settle();
-        for (int pass = 0; pass < 3; pass++) { foreach (var e in CompositeSectionViewChecks.Walk(host.Root).OfType<Expander>().ToArray()) e.IsExpanded = true; await host.Settle(); }
         services.Wiki.Clear();
         int presses = 0; var forms = new HashSet<FormViewModel>();
-        var editors = CompositeSectionViewChecks.Walk(host.Root).OfType<Control>()
-            .Where(e => e.IsVisible && e.DataContext is FieldViewModel { HelpUri: not null } && e is TextBox or ComboBox or CheckBox && e.TemplatedParent is not ComboBox).ToArray();
-        foreach (var editor in editors) { F1(editor); presses++; forms.Add(((FieldViewModel)editor.DataContext).Form); }
+        // The tabs bound so far: 01 «Pannello di controllo», 02 and 03, the domains (section 20 of the note).
+        foreach (int tab in BoundTabs)
+        {
+            host.Sheet.SelectedTab = tab; await host.Settle();
+            for (int pass = 0; pass < 3; pass++) { foreach (var e in CompositeSectionViewChecks.Walk(host.Root).OfType<Expander>().ToArray()) e.IsExpanded = true; await host.Settle(); }
+            var editors = CompositeSectionViewChecks.Walk(host.Root).OfType<Control>()
+                .Where(e => e.IsVisible && e.DataContext is FieldViewModel { HelpUri: not null } && e is TextBox or ComboBox or CheckBox && e.TemplatedParent is not ComboBox).ToArray();
+            foreach (var editor in editors) { F1(editor); presses++; forms.Add(((FieldViewModel)editor.DataContext).Form); }
+        }
         Check(presses > 40 && services.Wiki.Count == presses && services.Wiki.All(u => u is not null),
-            $"F1 su {presses} campi di {forms.Count} form del pannello di controllo: ogni pressione arriva al navigatore della Wiki dei servizi ({services.Wiki.Count}/{presses})");
+            $"F1 su {presses} campi di {forms.Count} form delle schede legate: ogni pressione arriva al navigatore della Wiki dei servizi ({services.Wiki.Count}/{presses})");
         string guide = Anthea.Wiki.WikiCatalog.ForModule(Module)?.Id ?? throw new InvalidOperationException("Guida assente nella Wiki: " + Module);
         services.Wiki.Clear();
         F1(CompositeSectionViewChecks.Walk(host.Root).OfType<TabControl>().First());
@@ -447,6 +452,9 @@ internal static class ConcreteSectionViewChecks
     }
 
     // ---------------------------------------------------------------- 6. read-only
+
+    /// <summary>The main tabs bound to their ViewModels so far (section 20 of docs/refactoring/f5-10-sezione.md): 01, 02 and 03.</summary>
+    private static readonly int[] BoundTabs = [0, 1, 2];
 
     /// <summary>The controls of the tab 01 that accept the user after InspectRevision, in the new view and in the historic view on the same data.</summary>
     private static async Task ReadOnly(string root)
@@ -460,14 +468,18 @@ internal static class ConcreteSectionViewChecks
         var maps = new List<Dictionary<string, string>>();
         foreach (var hosted in new[] { historic, host })
         {
-            for (int pass = 0; pass < 3; pass++) { foreach (var e in CompositeSectionViewChecks.Walk(hosted.Root).OfType<Expander>().ToArray()) e.IsExpanded = true; await hosted.Settle(); }
             var map = new Dictionary<string, string>(StringComparer.Ordinal);
-            var tab = CompositeSectionViewChecks.Walk(hosted.Root).OfType<TabControl>().First();
-            foreach (var element in CompositeSectionViewChecks.Walk((DependencyObject)tab.SelectedContent).OfType<ButtonBase>().Where(e => e.IsVisible && e.Content is string { Length: > 0 }))
+            var tabs = CompositeSectionViewChecks.Walk(hosted.Root).OfType<TabControl>().First();
+            foreach (int index in BoundTabs)
             {
-                string key = element.GetType().Name + ":" + element.Content;
-                string value = element.IsEnabled ? "libero" : "bloccato";
-                map[key] = map.TryGetValue(key, out var previous) && previous != value ? "misto" : value;
+                tabs.SelectedIndex = index; await hosted.Settle();
+                for (int pass = 0; pass < 3; pass++) { foreach (var e in CompositeSectionViewChecks.Walk(hosted.Root).OfType<Expander>().ToArray()) e.IsExpanded = true; await hosted.Settle(); }
+                foreach (var element in CompositeSectionViewChecks.Walk((DependencyObject)tabs.SelectedContent).OfType<ButtonBase>().Where(e => e.IsVisible && e.Content is string { Length: > 0 }))
+                {
+                    string key = index.ToString(System.Globalization.CultureInfo.InvariantCulture) + ":" + element.GetType().Name + ":" + element.Content;
+                    string value = element.IsEnabled ? "libero" : "bloccato";
+                    map[key] = map.TryGetValue(key, out var previous) && previous != value ? "misto" : value;
+                }
             }
             maps.Add(map);
         }
@@ -476,7 +488,7 @@ internal static class ConcreteSectionViewChecks
         var different = common.Where(k => before[k] != after[k]).Select(k => k + ": storica " + before[k] + ", nuova " + after[k]).ToArray();
         Log.Add("   sola lettura, solo nella storica: " + string.Join(", ", before.Keys.Except(after.Keys).Order(StringComparer.Ordinal)));
         Log.Add("   sola lettura, solo nella nuova: " + string.Join(", ", after.Keys.Except(before.Keys).Order(StringComparer.Ordinal)));
-        Check(different.Length == 0 && common.Length >= 15, $"Sola lettura nel pannello di controllo: stessi pulsanti e caselle bloccati e liberi della vista storica ({common.Length} comuni)"
+        Check(different.Length == 0 && common.Length >= 30, $"Sola lettura nelle schede legate: stessi pulsanti e caselle bloccati e liberi della vista storica ({common.Length} comuni)"
             + (different.Length == 0 ? "" : ": " + string.Join("; ", different)));
         Check(host.Editor.HasResults, "Sola lettura: il risultato resta");
     }

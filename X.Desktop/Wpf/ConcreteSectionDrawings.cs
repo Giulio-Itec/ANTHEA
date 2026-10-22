@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using Anthea.Application.Reporting;
 using Anthea.Presentation.Modules.ConcreteSection;
 
@@ -25,6 +26,22 @@ internal static class ConcreteSectionDrawings
         target.Stress = source.Stress;
         target.EffectiveRegion = source.EffectiveRegion;
         target.InvalidateVisual();
+    }
+
+    /// <summary>
+    /// The 3D domain from its data (UpdateSelection and RefreshDomainPanel of the historic view): the display options, the ratios and the resistances,
+    /// the mesh when it changed, the factors of the axes, the edges of the mesh, then the points of the actions with the selection.
+    /// </summary>
+    internal static void Apply(DomainViewport3D target, ConcreteDomain3DViewModel source, ref ConcreteResults.Mesh? shownMesh)
+    {
+        target.ShowActions = source.ShowActions; target.OnlySelectedActions = source.OnlySelectedActions; target.ShowResistance = source.ShowResistance;
+        target.ShowVerificationLines = source.ShowVerificationLines; target.ColorByRatio = source.ColorByRatio; target.VerificationCriterion = source.VerificationCriterion;
+        target.ActionPointSize = source.ActionPointSize; target.ResistancePointSize = source.ResistancePointSize; target.SurfaceOpacity = source.SurfaceOpacity;
+        target.Ratios = source.Ratios; target.Resistances = source.Resistances; target.FitIncludesActions = source.FitIncludesActions;
+        target.SetAxisScale(source.Scale.Mx, source.Scale.N, source.Scale.My);
+        if (!ReferenceEquals(shownMesh, source.Mesh) || source.Mesh is null) { target.SetMesh(source.Mesh, true); shownMesh = source.Mesh; }
+        if (target.Wireframe != source.Wireframe) target.ToggleWireframe();
+        target.SetActions(source.Actions, source.SelectedId, source.SelectedResistance);
     }
 
     /// <summary>The plot of a 2D domain panel, as the historic DomainPanel builds it.</summary>

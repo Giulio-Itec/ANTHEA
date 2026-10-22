@@ -53,7 +53,7 @@
     <!-- ================================================================ 01 · Pannello di controllo -->
     <TabItem Padding="14,9,14,9">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="01"/><TextBlock Style="{StaticResource T14Bold}" Text="  Pannello di controllo"/></WrapPanel></TabItem.Header>
-     <Grid x:Name="ControlColumns" Margin="0,10,0,0">
+     <Grid x:Name="ControlColumns" Tag="ingressi" Margin="0,10,0,0">
       <Grid.ColumnDefinitions><ColumnDefinition Width="3*" MinWidth="285"/><ColumnDefinition Width="8"/><ColumnDefinition Width="7*" MinWidth="650"/></Grid.ColumnDefinitions>
       <!-- Definizione della sezione. -->
       <Border Style="{StaticResource Paper}">
@@ -158,9 +158,9 @@
       </Border>
       <GridSplitter Style="{StaticResource ColumnSplitter}"/>
       <!-- The drawing with the tables, and the summaries. -->
-      <Grid x:Name="ControlResults" Grid.Column="2">
+      <Grid x:Name="ControlResults" Tag="risultati" Grid.Column="2">
        <Grid.ColumnDefinitions><ColumnDefinition Width="6*" MinWidth="350"/><ColumnDefinition Width="8"/><ColumnDefinition Width="4*" MinWidth="230"/></Grid.ColumnDefinitions>
-       <Grid x:Name="PreviewRows">
+       <Grid x:Name="PreviewRows" Tag="righe">
         <Grid.RowDefinitions><RowDefinition Height="3.7*" MinHeight="160"/><RowDefinition Height="8"/><RowDefinition Height="2*" MinHeight="155"/></Grid.RowDefinitions>
         <Border Style="{StaticResource Frame}">
          <DockPanel>
@@ -232,14 +232,14 @@
      </Grid>
     </TabItem>
 
-    <!-- ================================================================ 02–08: bound panel by panel (section 20 of the note) -->
+    <!-- ================================================================ 02, 03 · Domini 3D e 2D; 04–08 bound panel by panel (section 20 of the note) -->
     <TabItem Padding="14,9,14,9">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="02"/><TextBlock Style="{StaticResource T14Bold}" Text="  Dominio 3D"/></WrapPanel></TabItem.Header>
-     <TextBlock Style="{StaticResource T12}" Margin="16" Text="Scheda non ancora nella vista XAML (F5.10, sezione 20 della nota)."/>
+     <views:ConcreteDomainPanelView x:Name="Domain3DView" DataContext="{Binding Domain3D}"/>
     </TabItem>
     <TabItem Padding="14,9,14,9">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="03"/><TextBlock Style="{StaticResource T14Bold}" Text="  Dominio 2D"/></WrapPanel></TabItem.Header>
-     <TextBlock Style="{StaticResource T12}" Margin="16" Text="Scheda non ancora nella vista XAML (F5.10, sezione 20 della nota)."/>
+     <views:ConcreteDomainPanelView x:Name="Domain2DView" DataContext="{Binding Domain2D}"/>
     </TabItem>
     <TabItem Padding="14,9,14,9">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="04"/><TextBlock Style="{StaticResource T14Bold}" Text="  Tensioni e fessurazione"/></WrapPanel></TabItem.Header>

@@ -45,10 +45,8 @@ public partial class ConcreteSectionSheetView : UserControl
         // As the historic view: the numbers of the forms and of the tables with the numeric presentation, the forms committed on focus loss.
         SetValue(NumericPresentation.EnabledProperty, true);
         PreviewHost.Content = Preview;
-        ReadInitialSizes();
+        ReadDividers();
         Preview.BarSelected += index => inputs?.Drawing.ClickBar(index);
-        foreach (var splitter in new[] { ControlColumns, ControlResults, PreviewRows }.SelectMany(g => g.Children.OfType<GridSplitter>()))
-            splitter.DragCompleted += Splitter_DragCompleted;
         Scroll.SizeChanged += (_, _) => Resize();
         Scroll.ScrollChanged += (_, e) => { if (ReferenceEquals(e.Source, Scroll) && (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)) Resize(); };
         DataContextChanged += (_, _) => Attach(DataContext as ConcreteSheetViewModel);
@@ -95,46 +93,56 @@ public partial class ConcreteSectionSheetView : UserControl
 
     // ---------------------------------------------------------------- splitters (ConcreteLayout.cs of the historic view)
 
-    /// <summary>The groups of dividers of the control panel.</summary>
+    /// <summary>The groups of dividers of the sheet (RegisterWorkspaceSplit of the historic view).</summary>
     private static readonly ImmutableArray<string> Groups = ["ingressi", "risultati", "righe"];
 
     /// <summary>
-    /// The grid of a group of dividers, its direction and its initial ratio: the star sizes written in the XAML, those of the historic view (3 and 7
-    /// for the inputs, 6 and 4 for the results, 3.7 and 2 for the drawing and the tables).
+    /// Every grid of the tabs with a divider: its group (the Tag of the grid in the XAML: «ingressi», «risultati», «righe»), its direction and its
+    /// initial ratio, from the star sizes written in the XAML, those of the historic view (3 and 7 for the inputs, 6 and 4 for the results, 3.7 and 2
+    /// for the drawing and the tables). Read once, before any ratio of the sheet replaces them.
     /// </summary>
-    private (Grid Grid, bool Rows, double Initial) Divider(string group)
+    private readonly List<(Grid Grid, string Group, bool Rows, double Initial)> dividers = [];
+
+    private void ReadDividers()
     {
-        var (grid, rows) = group switch { "ingressi" => (ControlColumns, false), "risultati" => (ControlResults, false), _ => (PreviewRows, true) };
-        var (first, last) = initialSizes[grid];
-        return (grid, rows, first / (first + last));
+        foreach (var grid in Logical<Grid>(Tabs).Where(g => g.Tag is string tag && Groups.Contains(tag)))
+        {
+            string group = (string)grid.Tag;
+            bool rows = group == "righe";
+            double first = rows ? grid.RowDefinitions[0].Height.Value : grid.ColumnDefinitions[0].Width.Value;
+            double last = rows ? grid.RowDefinitions[2].Height.Value : grid.ColumnDefinitions[2].Width.Value;
+            dividers.Add((grid, group, rows, first / (first + last)));
+            foreach (var splitter in grid.Children.OfType<GridSplitter>()) splitter.DragCompleted += Splitter_DragCompleted;
+        }
     }
 
-    // The star sizes of the XAML, read once before any ratio of the sheet replaces them.
-    private readonly Dictionary<Grid, (double First, double Last)> initialSizes = new();
-
-    private void ReadInitialSizes()
+    /// <summary>The elements of type <typeparamref name="T"/> in the logical tree under <paramref name="root"/> (also in the tabs not shown).</summary>
+    internal static IEnumerable<T> Logical<T>(DependencyObject root) where T : DependencyObject
     {
-        foreach (var grid in new[] { ControlColumns, ControlResults }) initialSizes[grid] = (grid.ColumnDefinitions[0].Width.Value, grid.ColumnDefinitions[2].Width.Value);
-        initialSizes[PreviewRows] = (PreviewRows.RowDefinitions[0].Height.Value, PreviewRows.RowDefinitions[2].Height.Value);
+        if (root is T found) yield return found;
+        foreach (var child in LogicalTreeHelper.GetChildren(root).OfType<DependencyObject>())
+            foreach (var item in Logical<T>(child)) yield return item;
     }
 
     private void OnLayoutChanged(object? sender, string group)
     {
         if (sheet is null || !Groups.Contains(group)) return;
-        var (grid, rows, initial) = Divider(group);
-        double ratio = sheet.LayoutRatio(group, initial);
-        if (rows) { grid.RowDefinitions[0].Height = new(ratio, GridUnitType.Star); grid.RowDefinitions[2].Height = new(1 - ratio, GridUnitType.Star); }
-        else { grid.ColumnDefinitions[0].Width = new(ratio, GridUnitType.Star); grid.ColumnDefinitions[2].Width = new(1 - ratio, GridUnitType.Star); }
+        foreach (var (grid, _, rows, initial) in dividers.Where(d => d.Group == group))
+        {
+            double ratio = sheet.LayoutRatio(group, initial);
+            if (rows) { grid.RowDefinitions[0].Height = new(ratio, GridUnitType.Star); grid.RowDefinitions[2].Height = new(1 - ratio, GridUnitType.Star); }
+            else { grid.ColumnDefinitions[0].Width = new(ratio, GridUnitType.Star); grid.ColumnDefinitions[2].Width = new(1 - ratio, GridUnitType.Star); }
+        }
     }
 
     private void Splitter_DragCompleted(object sender, DragCompletedEventArgs e)
     {
         if (sheet is null || sender is not GridSplitter splitter || splitter.Parent is not Grid grid) return;
-        string group = ReferenceEquals(grid, ControlColumns) ? "ingressi" : ReferenceEquals(grid, ControlResults) ? "risultati" : "righe";
-        bool rows = group == "righe";
-        double first = rows ? grid.RowDefinitions[0].ActualHeight : grid.ColumnDefinitions[0].ActualWidth;
-        double last = rows ? grid.RowDefinitions[2].ActualHeight : grid.ColumnDefinitions[2].ActualWidth;
-        if (first + last > 0) sheet.MoveLayout(group, first / (first + last));
+        var divider = dividers.FirstOrDefault(d => ReferenceEquals(d.Grid, grid));
+        if (divider.Grid is null) return;
+        double first = divider.Rows ? grid.RowDefinitions[0].ActualHeight : grid.ColumnDefinitions[0].ActualWidth;
+        double last = divider.Rows ? grid.RowDefinitions[2].ActualHeight : grid.ColumnDefinitions[2].ActualWidth;
+        if (first + last > 0) sheet.MoveLayout(divider.Group, first / (first + last));
     }
 
     // The page at least 1120 × 700, with the scroll bars of the sheet below (ResizeWorkspace of the historic view).
@@ -155,7 +163,7 @@ public partial class ConcreteSectionSheetView : UserControl
         catch (Exception error) when (error is IOException or UnauthorizedAccessException) { MessageBox.Show(Window.GetWindow(this), error.Message, "Esportazione immagine"); }
     }
 
-    private static string? ChooseImage(string name)
+    internal static string? ChooseImage(string name)
     {
         var dialog = new Microsoft.Win32.SaveFileDialog { Filter = "Immagine PNG|*.png", FileName = name };
         return dialog.ShowDialog() == true ? dialog.FileName : null;

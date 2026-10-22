@@ -1,0 +1,180 @@
+<!--
+  A domain panel of the RC section (tabs 02 «Dominio 3D» and 03 «Dominio 2D», F5.10 view after S9) on ConcreteDomainPanelViewModel, with the layout of
+  BuildDomainPanel of the historic view (AnalysisLayout): the options of the calculation with the plane through the selected action (2D), the notice,
+  the legend and the sizes of the points; the inner tabs «Dominio» (the drawing with its bar: forces, view and mesh for the 3D, «Adatta», «PNG»,
+  «Espandi», transparency, «Scala…», the five check boxes, the legend η) and «Sezione σ / ε» (solution, map, strain plane, values, message); the details
+  of the selected combination and the summary of the checks; the table of the actions of the limit state with its commands. The drawings are those
+  of the historic view, fed by the data of the panel in the code-behind (Q3). Theme tokens only (P7).
+-->
+<UserControl x:Class="X.Desktop.Views.ConcreteSection.ConcreteDomainPanelView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:views="clr-namespace:X.Desktop.Views.ConcreteSection"
+ xmlns:concrete="clr-namespace:Anthea.Presentation.Modules.ConcreteSection;assembly=ANTHEA.Presentation"
+ xmlns:presentation="clr-namespace:Anthea.Application.Presentation;assembly=ANTHEA.Application">
+ <UserControl.Resources>
+  <ResourceDictionary>
+   <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="ConcreteSectionResources.xaml"/></ResourceDictionary.MergedDictionaries>
+  </ResourceDictionary>
+ </UserControl.Resources>
+ <Grid x:Name="Columns" Tag="ingressi" Margin="0,10,0,0">
+  <Grid.ColumnDefinitions><ColumnDefinition Width="3*" MinWidth="285"/><ColumnDefinition Width="8"/><ColumnDefinition Width="7*" MinWidth="650"/></Grid.ColumnDefinitions>
+  <!-- Opzioni di calcolo. -->
+  <Border Style="{StaticResource Paper}">
+   <DockPanel>
+    <StackPanel Style="{StaticResource PanelHeading}">
+     <TextBlock Style="{StaticResource T14Bold}" Text="Opzioni di calcolo"/>
+     <TextBlock Style="{StaticResource PanelSubtitle}" Text="N negativo a compressione · grafici negli assi locali di GPC Engine"/>
+    </StackPanel>
+    <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+     <StackPanel>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding Form}"/>
+      <Button Style="{StaticResource Command}" Content="Sezione sull’azione selezionata" Command="{Binding SectionOnActionCommand}" HorizontalAlignment="Left"
+       Visibility="{Binding ThreeD, Converter={StaticResource Hidden}}"/>
+      <Border Style="{StaticResource Notice}">
+       <TextBlock x:Name="NoticeText" Style="{StaticResource NoticeText}"/>
+      </Border>
+      <TextBlock Style="{StaticResource T11Muted}" Text="{x:Static views:ConcreteDomainPanelView.LegendNote}"/>
+      <WrapPanel>
+       <TextBlock Style="{StaticResource T12}" Text="Punti Ed · dimensione" Margin="0,0,6,0"/>
+       <Slider Minimum="2" Maximum="14" Width="70" Value="{Binding ActionPointSize}" ToolTip="Punti Ed · raggio grafico" AutomationProperties.Name="Punti Ed · dimensione"/>
+      </WrapPanel>
+      <WrapPanel>
+       <TextBlock Style="{StaticResource T12}" Text="Punti Rd · dimensione" Margin="0,0,6,0"/>
+       <Slider Minimum="2" Maximum="14" Width="70" Value="{Binding ResistancePointSize}" ToolTip="Punti Rd · raggio grafico" AutomationProperties.Name="Punti Rd · dimensione"/>
+      </WrapPanel>
+     </StackPanel>
+    </local:ChainedScrollViewer>
+   </DockPanel>
+  </Border>
+  <GridSplitter Style="{StaticResource ColumnSplitter}"/>
+  <Grid x:Name="Rows" Tag="righe" Grid.Column="2">
+   <Grid.RowDefinitions><RowDefinition Height="3.7*" MinHeight="160"/><RowDefinition Height="8"/><RowDefinition Height="2*" MinHeight="155"/></Grid.RowDefinitions>
+   <Grid x:Name="Results" Tag="risultati">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="6*" MinWidth="350"/><ColumnDefinition Width="8"/><ColumnDefinition Width="4*" MinWidth="230"/></Grid.ColumnDefinitions>
+    <!-- «Dominio» and «Sezione σ / ε». -->
+    <TabControl x:Name="InnerTabs" SelectedIndex="{Binding InspectionTab}">
+     <TabItem Header="Dominio">
+      <Border Style="{StaticResource Frame}">
+       <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="2,0,2,6">
+         <TextBlock x:Name="FrameTitle" Style="{StaticResource T14Bold}"/>
+         <WrapPanel x:Name="Toolbar">
+          <Button Style="{StaticResource Command}" Content="{Binding ForceText}" Command="{Binding ForceCommand}"
+           ToolTip="Alterna tutte le azioni visibili e la sola combinazione selezionata; i filtri della tabella restano attivi."/>
+          <ComboBox x:Name="ViewChoice" Style="{StaticResource Choice}" Width="100" SelectedIndex="0" SelectionChanged="ViewChoice_SelectionChanged"
+           Visibility="{Binding ThreeD, Converter={StaticResource Visible}}" AutomationProperties.Name="Vista del dominio">
+           <ComboBoxItem Content="Isometrica"/><ComboBoxItem Content="N–Mx"/><ComboBoxItem Content="N–My"/><ComboBoxItem Content="Mx–My"/>
+          </ComboBox>
+          <Button Style="{StaticResource Command}" Content="Mesh" Command="{Binding MeshCommand}" Visibility="{Binding ThreeD, Converter={StaticResource Visible}}"/>
+          <Button Style="{StaticResource Command}" Content="Adatta" Command="{Binding FitCommand}"/>
+          <Button Style="{StaticResource Command}" Content="PNG" Click="Png_Click"/>
+          <Button Style="{StaticResource Command}" Content="Espandi" Click="Expand_Click"/>
+          <WrapPanel Visibility="{Binding ThreeD, Converter={StaticResource Visible}}">
+           <TextBlock Style="{StaticResource T11}" Text="Trasparenza"/>
+           <Slider Minimum="0" Maximum="100" Width="95" VerticalAlignment="Center" SmallChange="5" LargeChange="10" Value="{Binding Transparency}"
+            ToolTip="Trasparenza del dominio: 0% opaco, 100% trasparente" AutomationProperties.Name="Trasparenza"/>
+           <TextBlock Style="{StaticResource T11}" MinWidth="32" Text="{Binding Transparency, StringFormat={}{0:0}%}"/>
+          </WrapPanel>
+          <Button Style="{StaticResource Command}" Content="Scala…" Command="{Binding ScaleCommand}"/>
+          <ItemsControl Focusable="False" ItemsSource="{Binding DisplayOptions}">
+           <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+           <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type concrete:ConcreteDomainOptionViewModel}">
+             <CheckBox Style="{StaticResource Switch}" Content="{Binding Label}" IsChecked="{Binding IsChecked}"/>
+            </DataTemplate>
+           </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <Expander Header="Legenda η" Margin="5" Foreground="{DynamicResource Token.Ink}">
+           <StackPanel>
+            <TextBlock Style="{StaticResource T11}" Foreground="{DynamicResource Token.Utilization.Low}" Text="■  0 ≤ η ≤ 0,50"/>
+            <TextBlock Style="{StaticResource T11}" Foreground="{DynamicResource Token.Utilization.Fair}" Text="■  0,50 &lt; η ≤ 0,70"/>
+            <TextBlock Style="{StaticResource T11}" Foreground="{DynamicResource Token.Utilization.High}" Text="■  0,70 &lt; η ≤ 0,90"/>
+            <TextBlock Style="{StaticResource T11}" Foreground="{DynamicResource Token.Utilization.Critical}" Text="■  0,90 &lt; η ≤ 1,00"/>
+            <TextBlock Style="{StaticResource T11}" Foreground="{DynamicResource Token.Utilization.Exceeded}" Text="■  η &gt; 1,00"/>
+           </StackPanel>
+          </Expander>
+         </WrapPanel>
+        </StackPanel>
+        <ContentControl x:Name="DrawingHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+       </DockPanel>
+      </Border>
+     </TabItem>
+     <TabItem Header="Sezione σ / ε">
+      <DockPanel DataContext="{Binding Inspection}">
+       <WrapPanel DockPanel.Dock="Top">
+        <ComboBox Style="{StaticResource Choice}" ItemsSource="{Binding States}" SelectedIndex="{Binding State}" AutomationProperties.Name="Soluzione mostrata"/>
+       </WrapPanel>
+       <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource T11}" Text="{Binding Message}"/>
+       <TabControl>
+        <TabItem Header="Mappa σ / ε">
+         <Border Style="{StaticResource Frame}">
+          <DockPanel>
+           <StackPanel DockPanel.Dock="Top" Margin="2,0,2,6">
+            <TextBlock Style="{StaticResource T14Bold}" Text="Sezione · tensioni e deformazioni"/>
+            <WrapPanel>
+             <ComboBox Style="{StaticResource Choice}" ItemsSource="{Binding Contours}" SelectedItem="{Binding Contour}" AutomationProperties.Name="Contorno della mappa"/>
+             <Button Style="{StaticResource Command}" Content="Adatta" Click="FitMap_Click"/>
+             <Button Style="{StaticResource Command}" Content="PNG" Click="MapPng_Click"/>
+             <Button Style="{StaticResource Command}" Content="Espandi" Click="MapExpand_Click"/>
+             <CheckBox Style="{StaticResource Switch}" Content="Asse neutro" IsChecked="{Binding DataContext.NeutralAxis, ElementName=InnerTabs}"
+              ToolTip="Linea ε = 0 del piano calcolato. Con deformazione uniforme l’asse non è univoco; non coincide necessariamente con lo zero delle tensioni nei trefoli."/>
+             <Button Style="{StaticResource Command}" Content="Proprietà…" Command="{Binding PropertiesCommand}"/>
+             <CheckBox Style="{StaticResource Switch}" Content="Valori σ/ε sulle barre" IsChecked="{Binding DataContext.BarValues, ElementName=InnerTabs}"/>
+            </WrapPanel>
+           </StackPanel>
+           <ContentControl x:Name="MapHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+          </DockPanel>
+         </Border>
+        </TabItem>
+        <TabItem Header="Piano ε">
+         <Border Style="{StaticResource Frame}">
+          <DockPanel>
+           <StackPanel DockPanel.Dock="Top" Margin="2,0,2,6">
+            <TextBlock Style="{StaticResource T14Bold}" Text="Piano delle deformazioni"/>
+            <WrapPanel>
+             <Button Style="{StaticResource Command}" Content="Adatta" Click="FitPlane_Click"/>
+             <Button Style="{StaticResource Command}" Content="PNG" Click="PlanePng_Click"/>
+             <Button Style="{StaticResource Command}" Content="Espandi" Click="PlaneExpand_Click"/>
+            </WrapPanel>
+           </StackPanel>
+           <ContentControl x:Name="PlaneHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+          </DockPanel>
+         </Border>
+        </TabItem>
+        <TabItem Header="Valori">
+         <TextBox IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Text="{Binding Values, Mode=OneWay}" AutomationProperties.Name="Valori della soluzione"/>
+        </TabItem>
+       </TabControl>
+      </DockPanel>
+     </TabItem>
+    </TabControl>
+    <GridSplitter Style="{StaticResource ColumnSplitter}"/>
+    <TabControl Grid.Column="2" SelectedIndex="1">
+     <TabItem Header="Dettagli combinazione">
+      <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+       <TextBlock Style="{StaticResource T12}" Text="{Binding Detail}"/>
+      </local:ChainedScrollViewer>
+     </TabItem>
+     <TabItem Header="Riepilogo verifiche">
+      <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+       <ContentControl Style="{StaticResource Form}" Content="{Binding Summary}" ContentTemplate="{StaticResource SummaryCards}"/>
+      </local:ChainedScrollViewer>
+     </TabItem>
+    </TabControl>
+   </Grid>
+   <GridSplitter Style="{StaticResource RowSplitter}"/>
+   <!-- Combinazioni N–Mx–My. -->
+   <Border Grid.Row="2" Style="{StaticResource Paper}">
+    <DockPanel>
+     <StackPanel Style="{StaticResource PanelHeading}">
+      <TextBlock Style="{StaticResource T14Bold}" Text="Combinazioni N–Mx–My"/>
+      <TextBlock x:Name="TableSubtitle" Style="{StaticResource PanelSubtitle}"/>
+     </StackPanel>
+     <ContentControl Style="{StaticResource Form}" VerticalContentAlignment="Stretch" Content="{Binding Table}" ContentTemplate="{StaticResource ActionTable}"/>
+    </DockPanel>
+   </Border>
+  </Grid>
+ </Grid>
+</UserControl>

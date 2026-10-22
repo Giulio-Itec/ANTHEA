@@ -16,6 +16,14 @@ internal sealed class TextShownConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }
 
+/// <summary>Collapsed when true (the plane through the selected action, only for the 2D domain).</summary>
+internal sealed class CollapsedWhenTrueConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is true ? Visibility.Collapsed : Visibility.Visible;
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
 /// <summary>Visible when the value exists.</summary>
 internal sealed class PresentShownConverter : IValueConverter
 {
@@ -63,6 +71,14 @@ public sealed class ConcreteTableGrid : DataGrid
     public static readonly DependencyProperty TableProperty = DependencyProperty.Register(nameof(Table), typeof(ConcreteTableViewModel), typeof(ConcreteTableGrid),
         new PropertyMetadata(null, (owner, e) => ((ConcreteTableGrid)owner).Attach((ConcreteTableViewModel?)e.OldValue, (ConcreteTableViewModel?)e.NewValue)));
 
+    /// <summary>
+    /// The table of the actions that owns <see cref="Table"/> (AttachClipboard of the historic view): the extended selection goes to it, the column of
+    /// the current cell is where the paste starts, Ctrl+C and Ctrl+V copy and paste, the menu «Copia righe · Ctrl+C», «Incolla dalla cella · Ctrl+V»,
+    /// «Aggiungi dagli appunti».
+    /// </summary>
+    public static readonly DependencyProperty ActionsProperty = DependencyProperty.Register(nameof(Actions), typeof(ConcreteActionTableViewModel), typeof(ConcreteTableGrid),
+        new PropertyMetadata(null, (owner, e) => ((ConcreteTableGrid)owner).AttachActions((ConcreteActionTableViewModel?)e.NewValue)));
+
     private bool syncing;
 
     public ConcreteTableGrid()
@@ -75,6 +91,48 @@ public sealed class ConcreteTableGrid : DataGrid
     }
 
     public ConcreteTableViewModel? Table { get => (ConcreteTableViewModel?)GetValue(TableProperty); set => SetValue(TableProperty, value); }
+
+    public ConcreteActionTableViewModel? Actions { get => (ConcreteActionTableViewModel?)GetValue(ActionsProperty); set => SetValue(ActionsProperty, value); }
+
+    private void AttachActions(ConcreteActionTableViewModel? actions)
+    {
+        ContextMenu = null;
+        if (actions is null) return;
+        var menu = new ContextMenu();
+        foreach (var (label, command) in new (string, System.Windows.Input.ICommand)[] { ("Copia righe · Ctrl+C", actions.CopyCommand),
+            ("Incolla dalla cella · Ctrl+V", actions.PasteCommand), ("Aggiungi dagli appunti", actions.AppendCommand) })
+            menu.Items.Add(new MenuItem { Header = label, Command = command });
+        ContextMenu = menu;
+    }
+
+    // Ctrl+C and Ctrl+V of the historic grid: the copy outside a cell being edited, the paste unless a single value is typed in a cell.
+    protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e)
+    {
+        if (Actions is { } actions && System.Windows.Input.Keyboard.Modifiers == System.Windows.Input.ModifierKeys.Control)
+        {
+            if (e.Key == System.Windows.Input.Key.C && e.OriginalSource is not TextBox)
+            {
+                if (actions.CopyCommand.CanExecute(null)) actions.CopyCommand.Execute(null);
+                e.Handled = true; return;
+            }
+            if (e.Key == System.Windows.Input.Key.V)
+            {
+                string text = Clipboard.ContainsText() ? Clipboard.GetText() : "";
+                if (!(e.OriginalSource is TextBox && !text.Contains('\t') && !text.Contains('\n')))
+                {
+                    if (actions.PasteCommand.CanExecute(null)) actions.PasteCommand.Execute(null);
+                    e.Handled = true; return;
+                }
+            }
+        }
+        base.OnPreviewKeyDown(e);
+    }
+
+    protected override void OnCurrentCellChanged(EventArgs e)
+    {
+        base.OnCurrentCellChanged(e);
+        if (Actions is { } actions) actions.CurrentColumn = CurrentColumn?.SortMemberPath ?? "";
+    }
 
     private void Attach(ConcreteTableViewModel? old, ConcreteTableViewModel? table)
     {
@@ -144,6 +202,7 @@ public sealed class ConcreteTableGrid : DataGrid
     {
         if (syncing || Table is not { } table || !ReferenceEquals(e.OriginalSource, this)) return;
         table.SelectedIndex = SelectedIndex;
+        Actions?.SetSelectedRows(SelectedItems.OfType<Anthea.Presentation.Forms.JsonRowViewModel>());
     }
 
     private void OnSorting(object? sender, DataGridSortingEventArgs e)
