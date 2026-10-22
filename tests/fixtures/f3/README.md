@@ -49,6 +49,16 @@ Il 16/10/2026 l'elenco è stato rigenerato per le correzioni dei bug del 15-16/1
 
 Comando: `build/ci.ps1 -Stage build,ui -Only '^ui/f3-equivalence$' -Tag f3-equivalence`.
 
+Il 22/10/2026, con il set candidato del 22/10 (Model 45c3976c, Checker f6916d8e) e con l'ok dell'utente, l'elenco è stato
+esteso senza toccare le voci esistenti (28977 voci):
+- 3941 voci PARATIE-19 (taglio dei pali circolari, anello continuo): VRd, rapporti e lunghezze della distinta di
+  `elastico-sisma-testa-impedita`, `elastico-tratti-anello-spirale` e `single-soil-elastic` del palo orizzontale;
+- 2898 voci PARATIE-20 (cerchi di Bishop con φ = 0): la stabilità globale di `globale-non-drenata-sisma` dei muri.
+
+«a» e «b» vengono dal confronto del ViewModel con il riferimento in `Presentation.Tests`, uguale alla vista storica (tracce
+F5). Le aggiunte sono descritte nelle chiavi `aggiornamento_paratie_s2` e `aggiornamento_paratie_phi0` dell'elenco. La prova
+`ui/f3-equivalence` sulla vista storica con questo set non è ancora stata eseguita.
+
 ## Fixture aggiunte in F5.4 (palificata orizzontale)
 
 Proposta F5, sezione 7.2: prima di migrare un modulo con poche fixture se ne aggiungono altre, catturate con la vista

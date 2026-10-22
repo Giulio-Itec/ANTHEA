@@ -91,3 +91,10 @@ sulla macchina del banco, come quelli di F5.7. La cattura con `ANTHEA.exe` e con
   l'elenco dei disegni, finché la vista storica esiste.
 - `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con il ViewModel.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.
+- 22/10/2026, voce PARATIE-19 (set candidato del 22/10, Concrete 0.18.0.0, taglio dei pali circolari con d = R + 2rs/π), con
+  l'ok dell'utente: ricatturate fuori schermo, con il comando sopra, le nove tracce che cambiano (`armature-dialoghi`,
+  `armature-tratti`, `calcolo-sullo-sfondo`, `modifiche-risposta`, `palo-elastico-sisma-testa-impedita`,
+  `palo-elastico-tratti-anello-spirale`, `palo-single-soil-elastic`, `scelta-stratigrafia`, `sola-lettura`) e le due righe
+  delle tavole delle armature in `disegni/elenco.txt` (stesso numero di primitive). Nelle tracce la risposta elastica è
+  identica in tutti i 117 passi in cui compare; cambiano solo l'impronta del risultato e VRd nelle righe delle verifiche
+  (dallo 0,36 all'1,86 % in più). Le altre undici tracce e gli altri 47 disegni non cambiano.

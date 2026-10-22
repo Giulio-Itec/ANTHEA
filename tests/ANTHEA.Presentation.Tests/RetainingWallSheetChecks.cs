@@ -423,7 +423,7 @@ internal static class RetainingWallSheetChecks
     /// <summary>
     /// The path of ui/f3-equivalence through the ViewModel (opened, visited, calculated, result, report, exported, reopened), compared with
     /// the F3 reference of the historic view in the canonical form of the capture: byte for byte, except the files with F4 transitions
-    /// (the four old fixtures), kept for <see cref="CompareTransitions"/>.
+    /// (the four old fixtures, and result and report of globale-non-drenata-sisma since PARATIE-20), kept for <see cref="CompareTransitions"/>.
     /// </summary>
     private static async Task F3Async(string root, string output, string id, IReadOnlySet<string> withTransitions, Expect expect)
     {
@@ -481,7 +481,10 @@ internal static class RetainingWallSheetChecks
         comparer.Admit(transitions);
         var report = comparer.Compare(Path.Combine(output, "f3-riferimento"), Path.Combine(output, "f3-transizioni"));
         File.WriteAllText(Path.Combine(output, "f3-confronto.json"), report.ToJsonString(J.Options));
-        expect.That(transitions.Count == 14441 && comparer.NotAdmitted == 0, "File con transizioni F4: " + transitions.Count + " transizioni, "
+        // PARATIE-20 (22/10/2026): the Bishop circles with φ = 0 are no longer rejected, so the global stability of the fixture
+        // globale-non-drenata-sisma changes; the other transitions are those of the four old fixtures.
+        int undrained = transitions.Count(t => t.Entry == "PARATIE-20");
+        expect.That(undrained == 2898 && transitions.Count - undrained == 14441 && comparer.NotAdmitted == 0, "File con transizioni F4: " + transitions.Count + " transizioni, "
             + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
     }
 

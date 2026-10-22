@@ -389,8 +389,12 @@ internal static class HorizontalPileSheetChecks
         var report = comparer.Compare(reference, candidate);
         File.WriteAllText(Path.Combine(capture, "..", "palo-orizzontale-f3-elastico-confronto.json"), report.ToJsonString(J.Options));
         expect.That(comparer.NotAdmitted == 0, "Fixture F3 della risposta elastica: " + comparer.NotAdmitted + " differenze non ammesse o transizioni F4 assenti");
-        expect.That(elastic == 11 && transitions.Count == 1117 && transitions.All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal)),
-            "Transizioni F4 dei pali orizzontali: " + transitions.Count + " (attese le 1117 della risposta elastica di single-soil-elastic)");
+        // PARATIE-19 (22/10/2026): the shear depth of the circular piles with a continuous ring (S2 of the paratie review) changes VRd and
+        // what depends on it in three elastic fixtures; the other transitions stay those of the elastic response of single-soil-elastic.
+        var shear = transitions.Where(t => t.Entry == "PARATIE-19").ToList();
+        expect.That(elastic == 11 && shear.Count == 3941 && transitions.Count - shear.Count == 1117
+            && transitions.Except(shear).All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal)),
+            "Transizioni F4 dei pali orizzontali: " + transitions.Count + " (attese le 1117 della risposta elastica di single-soil-elastic e le 3941 di PARATIE-19)");
         expect.That(compared > 0, "Nessun file F3 confrontato");
     }
 
