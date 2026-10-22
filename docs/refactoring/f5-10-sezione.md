@@ -36,7 +36,8 @@ dei sottopassi. Contiene:
 - il sottopasso S7 fatto il 22/10: sezione σ/ε e momento–curvatura nel ViewModel, correzione dei pannelli dei domini (sezione 16);
 - il sottopasso S8 fatto il 22/10: progetto delle armature nel ViewModel, prove ed esiti (sezione 17); da dove parte S9 (sezione 18);
 - il sottopasso S9 fatto il 22/10, parte ViewModel: report Word e breve con i generatori congelati, scenari `report/*`, percorso F3 completo
-  (sezione 19).
+  (sezione 19);
+- la vista XAML, pannello per pannello, con la suite della vista e i comandi della sera (sezione 20).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -1571,4 +1572,102 @@ dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c
 dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
 dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
+```
+
+## 20. Vista XAML della sezione c.a. (22/10, in corso)
+
+Stesso ramo `refactoring/f5-10-s9`, 22/10/2026, dopo S9, di giorno: la vista è scritta e compilata, le sue prove WPF si eseguono stasera
+(regola del giorno). Modelli: la vista di F5.11 (sezione 5 di [f5-11-sezione-mista.md](f5-11-sezione-mista.md)) e quella di F5.12. La Release
+resta storica; il banco sceglie la vista con `--module-impl str_palo=mvvm`. La vista è fatta **pannello per pannello**: questa sezione dice quali
+pannelli sono legati al ViewModel e quali restano.
+
+### 20.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `e4487034` | guscio della vista e scheda 01 «Pannello di controllo», tabella e barra dei filtri, aggiunte del ViewModel per la vista, prove rapide |
+| `7b1e4aaf` | suite `ui/check-sezione-view` (scritta, non eseguita) e `ui/f3-report-chapters-sezione-mvvm` (capitoli F3 con il foglio MVVM) |
+| `2a5283bb` | passo di contrasto autonomo `mvvm-str_palo` in `ContrastAudit.cs` (non eseguito) |
+| (commit della documentazione) | questa sezione |
+
+### 20.2 Che cosa c'è
+
+- **`X.Desktop/Views/ConcreteSection`**: `ConcreteSectionSheetView` (DataTemplate di `ConcreteSheetViewModel` in `ConcreteSectionTemplates.xaml`,
+  una riga in `App.xaml`), `ConcreteSectionResources.xaml` (stili con i soli token di F5.3, P7; riquadri dei riepiloghi, barra dei filtri, blocchi
+  dei riepiloghi), `ConcreteSectionControls.cs` (convertitori senza stato statico, P3; `ConcreteTableGrid`, la tabella su `ConcreteTableViewModel`:
+  colonne dalla tabella, righe mostrate, selezione nei due sensi, ordine dalle intestazioni, modifiche confermate quando la tabella lo chiede).
+- **Guscio**: riferimento al motore, otto schede legate a `SelectedTab` (con le intestazioni «01 … 08» della vista storica), avanzamento, stato,
+  «Sollecitazioni…» (`Actions.EditCommand`) e «Modello e dati comuni…» (la finestra storica, come la vista storica); pagina di almeno 1120 × 700.
+- **Scheda 01 «Pannello di controllo», intera**: definizione della sezione con i gruppi della vista storica (normativa e nota, valori integrati,
+  coefficienti con l'avviso e il ripristino, materiali con «Reologia…», trefoli da standard, nuovi materiali e materiali salvati, geometria con il
+  wizard, le note del wizard, il foro, armature con le note e i secondi strati, staffe, cavi con l'avviso, il materiale, «+» e «−»), il disegno della
+  sezione con la barra storica («Proprietà / report…», «Assi», «ID», «Adatta», «PNG», «Espandi», quote), le tabelle delle barre (con «Ripristina
+  barre da wizard») e dei cavi con la barra dei filtri, le resistenze a N assegnato, i riepiloghi con «Apri →» e la nota dei colori. I divisori
+  salvano il rapporto in `layout` come `ConcreteLayout.cs`.
+- **Disegni** (Q3, C8): `ConcreteSectionDrawings` (`X.Desktop/Wpf`, accanto ai disegni) copia i dati di `ConcreteSectionDrawingViewModel` in
+  `ConcreteSectionViewport` e quelli di `ConcreteDomain2DViewModel` in `Plot`; serve alla vista e alle figure del report (S9).
+- **ViewModel, aggiunte per la vista**: `LayoutRatio`, `MoveLayout`, `LayoutChanged` (divisori), `OpenSummaryCommand` («Apri →»),
+  `SummaryBlocks`, `Inputs.Group` (gruppi per chiave), `ShowDimensions` / `ShowCoverDimensions` / `ShowSpacingDimensions`, `ClearCommand` della barra
+  dei filtri. Prove in `Presentation.Tests` (`ViewSupportAsync`, `--sezione-rapide` PASS 552).
+- **Suite `ui/check-sezione-view`** (`tests/Desktop/ConcreteSectionViewChecks.cs`, comando `--check-sezione-view <radice> <cartella> [parti]`):
+  - `banco`: con l'opzione del banco la vista MVVM, la Release storica;
+  - `disegni`: per le 11 fixture F3 i disegni dai dati del ViewModel (anteprima della vista, mappe SLE con i contorni della Rara di due fixture,
+    taglio, sezione e piano σ/ε del 3D al punto limite e all'azione, dominio 2D, curva M–χ) uguali agli elenchi congelati di `disegni/elenco.txt`;
+  - `esportazioni`: per le 11 fixture, sulla vista MVVM e su quella storica, dati all'apertura, dopo la visita F3 (i tre aspetti non scrivono) e dopo
+    il calcolo, risultato, report Word con le figure (ogni parte, date normalizzate), PDF, report breve, JSON dei risultati, report della curva M–χ;
+  - `schermate` (scheda 01 nei tre aspetti e la storica), `aiuto` (F1 su ogni campo della scheda 01 al navigatore, F1 fuori dai campi alla guida),
+    `sola-lettura` (pulsanti e caselle della scheda 01 bloccati e liberi come nella vista storica).
+- **`ui/f3-report-chapters-sezione-mvvm`**: `F3ReportChapterChecks` calcola la curva anche sul foglio MVVM del banco.
+- **Contrasto**: passo autonomo `mvvm-str_palo` in fondo a `ContrastAudit.cs`.
+
+### 20.3 Esiti di giorno
+
+Build Release e UiTests senza errori; Architecture.Tests PASS 574 (P1–P7 sulla cartella nuova; i rapporti iniziali dei divisori sono letti dalle
+misure del XAML, senza letterali numerici: R2); `--sezione-rapide` PASS 552. Nessuna prova WPF eseguita (regola del giorno).
+
+### 20.4 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **SV-a · Schede 02–08.** Finché non sono legate mostrano un testo «Scheda non ancora nella vista XAML». La Release resta storica, quindi solo il
+  banco le vede.
+- **SV-b · «PNG» ed «Espandi».** Nella vista, come la cornice storica (`ViewportFrame`): il percorso del PNG da una finestra del sistema (le prove
+  ne danno uno), «Espandi» con una finestra della vista. Alternativa: un comando del foglio con `IFileDialogService`, come F5.11.
+- **SV-c · «Proprietà / report…».** Il comando chiede la finestra con `PropertiesRequested`; la vista non la apre ancora (manca la vista XAML di
+  `ConcreteSectionPropertiesViewModel`): nel banco il pulsante non apre nulla.
+- **SV-d · Gruppi per chiave.** `Inputs.Group` espone i gruppi del pannello per chiave corta, per i binding; l'elenco `Groups` resta.
+
+### 20.5 Che cosa resta della vista
+
+1. **Schede 02–08**, ognuna sul suo ViewModel: domini 3D e 2D (`ConcreteDomainPanelViewModel`: form, tabella delle azioni con i comandi e il menu
+   della vista storica, viewport 3D da `ConcreteDomain3DViewModel`, grafico 2D, barra con forze, caselle, punti, trasparenza, «Scala…», legenda,
+   scheda interna «Sezione σ / ε» da `ConcreteSectionInspectionViewModel`), tensioni e fessurazione (`ConcreteStressPanelViewModel` per famiglia),
+   taglio e torsione (`ConcreteShearViewModel`), dettagli (`ConcreteDetailingViewModel`), momento–curvatura (`ConcreteCurvatureViewModel`), progetto
+   delle armature (`ConcreteDesignViewModel`).
+2. **Finestre come DataTemplate** dei ViewModel di dialogo: `ConcreteMaterialDialogViewModel`, `ConcreteTemplateWizardViewModel`,
+   `ConcreteDomainScaleDialogViewModel`, `SectionActionsViewModel`; la finestra non modale di `ConcreteSectionPropertiesViewModel`.
+3. **Tracce attraverso i controlli della vista** (gli scenari di `tests/Shared/ConcreteSectionTrace.cs`), nomi di automazione e sola lettura di tutte
+   le schede nella suite della vista.
+4. Poi, con l'utente, a fine refactoring: versione di prova, passaggio della Release, archiviazione della vista storica e riscrittura delle suite
+   storiche (sezione 6).
+
+### 20.6 Stasera (regola del giorno)
+
+Con la build UiTests del ramo (`dotnet build X.Desktop/X.Desktop.csproj -c UiTests`), dalla radice del worktree:
+
+1. **Banco F3 con il foglio MVVM e confronto diretto** (sezione 4.0: «a S9 il banco confronta la cattura MVVM con `expected`»):
+
+   ```
+   dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-f3-equivalence <radice> <cartella>\storica
+   dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-f3-equivalence <radice> <cartella>\mvvm --module-impl str_palo=mvvm
+   C:\Users\g.pacini\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe -I tools\qa\f5_confronto_diretto.py --a <cartella>\storica --b <cartella>\mvvm --out <cartella>\confronto-diretto.json
+   ```
+
+   Atteso: le due catture PASS contro `expected` con le sole transizioni F4, confronto diretto a zero differenze.
+2. **Suite nuove**: `ui/check-sezione-view` e `ui/f3-report-chapters-sezione-mvvm`.
+3. **Suite storiche della sezione 18**: `ui/check-sezione-historic`, `ui/smoke-ca-extensions`, `ui/smoke-ca-features`, `ui/smoke-neutral-axis`,
+   `ui/smoke`, `ui/check-concrete-design`, `ui/f3-report-chapters`, `ui/f3-concrete-figures`, `ui/f3-scheduling`, `ui/check-field-form-parity`,
+   `ui/f3-equivalence`, `Presentation.Tests/sezione-ca`, più `ui/check-module-host-offscreen` (la sezione ora ha un DataTemplate).
+4. **`ui/check-contrast` a 96 DPI** (coordinatore), con il passo nuovo `mvvm-str_palo`.
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(ui/check-sezione-(view|historic)|ui/f3-report-chapters(-sezione-mvvm)?|ui/smoke(-ca-extensions|-ca-features|-neutral-axis)?|ui/check-concrete-design|ui/f3-concrete-figures|ui/f3-scheduling|ui/check-field-form-parity|ui/f3-equivalence|ui/check-module-host-offscreen|Presentation.Tests/sezione-ca)$' -Tag s9-sera"
 ```
