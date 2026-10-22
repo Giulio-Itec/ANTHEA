@@ -9,7 +9,7 @@ internal static class DocumentFileChecks
         void Check(bool ok, string message) { if (!ok) throw new InvalidOperationException(message); checks++; }
         string folder = Path.Combine(output, "document-file");
         Directory.CreateDirectory(folder);
-        foreach (string name in new[] { "archivio.anth", "relazione.docx" })
+        foreach (string name in new[] { "archivio.anth", "relazione.docx", "figura.png" })
         {
             string path = Path.Combine(folder, name);
             File.WriteAllBytes(path, [1, 2, 3]);
