@@ -16,6 +16,8 @@ internal static class ShellChecks
         checks += TabsChecks.Run();
         checks += CommandsChecks.Run(output);
         checks += ShellViewModelChecks.Run();
+        // F5.13 c: the pieces of the shell that do not depend on the layout.
+        checks += SheetExportsChecks.Run(output);
         return checks;
     }
 }
